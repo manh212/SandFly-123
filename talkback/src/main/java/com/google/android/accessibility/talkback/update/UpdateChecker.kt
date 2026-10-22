@@ -57,7 +57,7 @@ data class UpdateInfo(
  */
 object UpdateChecker {
   private const val TAG = "UpdateChecker"
-  private const val RELEASES_URL = "https://api.github.com/repos/aaron-gh/SandFly/releases/"
+  private const val RELEASES_URL = "https://api.github.com/repos/manh212/SandFly-123/releases/"
 
   /** The latest stable release. */
   private const val STABLE_RELEASE_URL = RELEASES_URL + "latest"
