@@ -126,9 +126,11 @@ import com.google.android.accessibility.utils.output.VoiceProfiles;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.base.Ascii;
 import com.google.common.collect.ImmutableList;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -587,6 +589,7 @@ public class SelectorController implements UserInputEventListener {
   private final Context context;
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
   private final Pipeline.FeedbackReturner pipeline;
+  private final VerticalNavigator verticalNavigator;
   private final ActorState actorState;
   private final NodeMenuRuleCreator nodeMenuCreator;
   private final TalkBackAnalytics analytics;
@@ -733,6 +736,7 @@ public class SelectorController implements UserInputEventListener {
     this.pipeline = pipeline;
     this.actorState = actorState;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
+    verticalNavigator = new VerticalNavigator(pipeline, accessibilityFocusMonitor);
     this.nodeMenuCreator = nodeMenuCreator;
     this.analytics = analytics;
     this.gestureMapping = gestureMapping;
@@ -1321,6 +1325,9 @@ public class SelectorController implements UserInputEventListener {
   @Override
   public void touchInteractionState(boolean active) {
     touchActive = active;
+    if (active) {
+      verticalNavigator.cancel();
+    }
     if (!touchActive) {
       if (lastFocusedNode != null) {
         switchCurrentSetting(lastFocusedNode);
@@ -1388,6 +1395,56 @@ public class SelectorController implements UserInputEventListener {
           eventId, controls.get(index - settings.size()), announceType, showOverlay);
     }
     return true;
+  }
+
+  /**
+   * Selects the next reading control after the current one whose name starts with {@code letter},
+   * in the order of the reading controls, as a letter written by hand does. Writing the same letter
+   * again moves on to the next one. Returns the name of the reading control, or null if no
+   * available reading control starts with the letter.
+   */
+  public @Nullable String selectSettingStartingWith(EventId eventId, String letter) {
+    String wanted = foldForLetter(letter);
+    if (wanted.isEmpty()) {
+      return null;
+    }
+    List<Setting> settings = getFilteredSettings();
+    List<ScriptReadingControl> controls = Scripts.readingControls();
+    int size = settings.size() + controls.size();
+    @Nullable ScriptReadingControl currentControl = currentScriptControl(controls);
+    int current =
+        currentControl != null
+            ? settings.size() + controls.indexOf(currentControl)
+            : settings.indexOf(getCurrentSetting(context, prefs));
+    for (int step = 1; step <= size; step++) {
+      int index = Math.floorMod(current + step, size);
+      String name =
+          index < settings.size()
+              ? getSettingActionDescriptionAndHint(settings.get(index), EVENT_ID_UNTRACKED)
+                  .description
+              : controls.get(index - settings.size()).getTitle().toString();
+      if (name == null || !foldForLetter(name).startsWith(wanted)) {
+        continue;
+      }
+      pipeline.returnFeedback(eventId, Feedback.sound(R.id.next_reading_control));
+      if (index < settings.size()) {
+        setCurrentSetting(eventId, settings.get(index), AnnounceType.DESCRIPTION_AND_HINT, false);
+      } else {
+        selectScriptControl(
+            eventId,
+            controls.get(index - settings.size()),
+            AnnounceType.DESCRIPTION_AND_HINT,
+            /* showOverlay= */ false);
+      }
+      return name;
+    }
+    return null;
+  }
+
+  /** Text in lower case without accents, so that a written "e" finds "É". */
+  private static String foldForLetter(CharSequence text) {
+    String decomposed = Normalizer.normalize(text.toString().trim(), Normalizer.Form.NFD);
+    return decomposed.replaceAll("\\p{M}+", "").toLowerCase(Locale.getDefault());
   }
 
   private @Nullable ScriptReadingControl currentScriptControl(
@@ -2106,35 +2163,11 @@ public class SelectorController implements UserInputEventListener {
   }
 
   /**
-   * Moves to the item below or above the focused one, past the other items of its row. With no such
-   * item on screen, moves to the next or previous item as a swipe does, which scrolls.
+   * Moves to the item below or above the focused one, past the other items of its row, and scrolls
+   * the list when there is none on screen.
    */
   private void moveVertically(EventId eventId, boolean isNext) {
-    @Nullable AccessibilityNodeInfoCompat focus =
-        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-    @Nullable AccessibilityNodeInfoCompat target =
-        (focus == null) ? null : VerticalNavigation.target(focus, isNext);
-    if (target != null) {
-      pipeline.returnFeedback(
-          eventId,
-          Feedback.focus(
-              target,
-              FocusActionInfo.builder()
-                  .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
-                  .build()));
-      return;
-    }
-    boolean moved =
-        pipeline.returnFeedback(
-            eventId,
-            Feedback.focusDirection(isNext ? SEARCH_FOCUS_FORWARD : SEARCH_FOCUS_BACKWARD)
-                .setGranularity(CursorGranularity.DEFAULT)
-                .setInputMode(INPUT_MODE_TOUCH)
-                .setDefaultToInputFocus(true)
-                .setScroll(true));
-    if (!moved) {
-      pipeline.returnFeedback(eventId, Feedback.sound(R.raw.complete));
-    }
+    verticalNavigator.move(eventId, isNext);
   }
 
   /** Changes the volume speech and sounds play at to the next or previous of the four. */

@@ -65,7 +65,7 @@ import com.google.android.accessibility.talkback.preference.TalkBackPreferencesA
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Feedback.FocusDirection;
-import com.google.android.accessibility.talkback.HelpAndFeedbackUtils;
+import com.google.android.accessibility.talkback.report.ReportsFragment;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -79,6 +79,7 @@ import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.gesture.PullToRefresh;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
@@ -135,6 +136,7 @@ public class KeyComboMapper {
   private final CollectionState collectionState;
   private final AccessibilityService accessibilityService;
   private final GestureShortcutMapping gestureShortcutMapping;
+  private final PullToRefresh pullToRefresh;
 
   public KeyComboMapper(
       AccessibilityService accessibilityService,
@@ -161,6 +163,7 @@ public class KeyComboMapper {
     this.batteryMonitor = batteryMonitor;
     this.screenState = screenState;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
+    pullToRefresh = new PullToRefresh(accessibilityService, pipeline, accessibilityFocusMonitor);
     this.processorPhoneticLetters = processorPhoneticLetters;
     this.collectionState = collectionState;
     this.accessibilityService = accessibilityService;
@@ -619,6 +622,7 @@ public class KeyComboMapper {
       case PREVIOUS_VOICE_PROFILE ->
           selectorController.changeVoiceProfile(eventId, /* isNext= */ false);
       case NEXT_VOICE_PROFILE -> selectorController.changeVoiceProfile(eventId, /* isNext= */ true);
+      case REFRESH -> result = pullToRefresh.refresh(eventId);
       case OPEN_MANAGE_KEYBOARD_SHORTCUTS -> {
         if (SettingsUtils.allowLinksOutOfSettings(accessibilityService.getApplicationContext())) {
           openManageKeyboardShortcuts();
@@ -909,7 +913,13 @@ public class KeyComboMapper {
 
   @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
   public void reportIssue() {
-    HelpAndFeedbackUtils.launchFeedbackViaKeyboard(accessibilityService);
+    if (!SettingsUtils.allowLinksOutOfSettings(accessibilityService.getApplicationContext())) {
+      return;
+    }
+    Intent intent = new Intent(accessibilityService, TalkBackPreferencesActivity.class);
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+    intent.putExtra(FRAGMENT_NAME, ReportsFragment.class.getName());
+    accessibilityService.startActivity(intent);
   }
 
   private void resetSpeechSettings() {

@@ -345,6 +345,14 @@ public class TalkbackMenuProcessor {
       menu.removeItem(R.id.talkback_settings);
     }
 
+    if (ScreenMonitor.isDeviceLocked(service)
+        || !SettingsUtils.allowLinksOutOfSettings(service)
+        || !showMenuItem(
+            R.string.pref_show_context_menu_send_feedback_setting_key,
+            R.bool.pref_show_context_menu_send_feedback_default)) {
+      menu.removeItem(R.id.send_feedback);
+    }
+
     if (!FeatureFlagReader.enableShowKeyboardShortcutsDialog(service)
         || !showMenuItem(
             R.string.pref_show_context_menu_show_keyboard_shortcuts_setting_key,
