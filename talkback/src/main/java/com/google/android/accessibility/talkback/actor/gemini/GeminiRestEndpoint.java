@@ -122,6 +122,11 @@ public class GeminiRestEndpoint implements GeminiEndpoint {
     return !TextUtils.isEmpty(apiKey()) || requestPerformer.isKeylessInitialized();
   }
 
+  /** Whether the model on the phone will answer, in which case no network is needed. */
+  private boolean onDeviceAnswersRequests() {
+    return LocalModelManager.Companion.get(context).answersRequests();
+  }
+
   @Override
   public boolean createRequestGeminiCommand(
       String command,
@@ -230,7 +235,7 @@ public class GeminiRestEndpoint implements GeminiEndpoint {
       listener.onError(ErrorReason.UNSUPPORTED);
       return false;
     }
-    if (!NetworkUtils.isNetworkConnected(context)) {
+    if (!onDeviceAnswersRequests() && !NetworkUtils.isNetworkConnected(context)) {
       listener.onError(ErrorReason.NETWORK_ERROR);
       return false;
     }
@@ -271,7 +276,7 @@ public class GeminiRestEndpoint implements GeminiEndpoint {
       return false;
     }
 
-    if (!NetworkUtils.isNetworkConnected(context)) {
+    if (!onDeviceAnswersRequests() && !NetworkUtils.isNetworkConnected(context)) {
       LogUtils.d(TAG, "Internet is not connected");
       geminiResponseListener.onError(ErrorReason.NETWORK_ERROR);
       return false;
