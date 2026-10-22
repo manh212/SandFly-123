@@ -122,7 +122,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo 'Lint failed. Relevant part of the log:'; echo; echo '```'; grep -E "Error:|error:|FAILED|What went wrong" -B2 -A6 /tmp/gradle-lint.log | tail -n 150; echo '```'; } > /tmp/comment.md
+          { echo 'Lint errors summary:'; echo; echo '```'; grep -oE 'Error: "[^"]+" is not translated' /tmp/gradle-lint.log | sort -u; echo '--- other errors:'; grep -E 'Error:' /tmp/gradle-lint.log | grep -v 'is not translated' | sort -u | head -n 60; echo '```'; } > /tmp/comment.md
           gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
 
       - uses: actions/upload-artifact@v7
