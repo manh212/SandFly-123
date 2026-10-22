@@ -235,6 +235,7 @@
   <string name="keycombo_menu_other_custom_actions">Hiển thị thao tác</string>
   <string name="keycombo_menu_other_language_options">Hiển thị ngôn ngữ được cài đặt</string>
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Sao chép cụm từ được nói gần đây nhất</string>
+  <string name="keycombo_menu_other_translate_last_spoken_phrase">Dịch cụm từ được nói gần đây nhất</string>
   <string name="keycombo_menu_other_open_tts_settings">Mở phần cài đặt chuyển văn bản sang lời nói</string>
   <string name="keycombo_menu_other_open_talkback_settings">Mở phần cài đặt SandFly</string>
   <string name="keycombo_menu_other_report_issue">Gửi ý kiến phản hồi</string>
@@ -370,6 +371,18 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="toast_pref_talkback_gesture_detection">Tắt SandFly rồi bật lại để kích hoạt cài đặt.</string>
   <string name="title_pref_auto_image_captioning">Tự động mô tả</string>
   <string name="title_pref_gemini_settings">Cài đặt Gemini</string>
+  <string name="title_pref_offline_translation_settings">Dịch ngoại tuyến</string>
+  <string name="title_pref_offline_translation_source_language">Ngôn ngữ nguồn</string>
+  <string name="title_pref_offline_translation_target_language">Ngôn ngữ đích</string>
+  <string name="title_pref_offline_translation_pack_status">Gói ngôn ngữ</string>
+  <string name="title_pref_offline_translation_download_pack">Tải gói ngôn ngữ</string>
+  <string name="offline_translation_pack_ready">Sẵn sàng</string>
+  <string name="offline_translation_pack_not_downloaded">Chưa tải</string>
+  <string name="offline_translation_pack_downloading">Đang tải…</string>
+  <string name="offline_translation_pack_download_failed">Tải thất bại</string>
+  <string name="offline_translation_nothing_to_translate">Không có gì để dịch</string>
+  <string name="offline_translation_pack_not_downloaded_announcement">Chưa tải gói ngôn ngữ</string>
+  <string name="offline_translation_failed">Dịch thất bại</string>
   <string name="title_pref_gemini_enabled">Lệnh thoại Gemini</string>
   <string name="title_pref_category_automatic_description_summary">Nhận nội dung mô tả do AI tạo về hình ảnh khi bạn chọn \“Mô tả hình ảnh\” trong trình đơn SandFly.\n\nBạn cũng có thể nhận được nội dung mô tả tự động khi đặt tiêu điểm vào một hình ảnh hoặc biểu tượng. Tính năng tự động mô tả hoạt động được mà không cần kết nối Internet.</string>
   <string name="title_pref_icon_detection">Tự động mô tả biểu tượng</string>
@@ -532,6 +545,7 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="title_copy_last_spoken_phrase">Sao chép cụm từ được nói gần đây nhất</string>
   <string name="title_spell_last_spoken_phrase">Đánh vần cụm từ được nói gần đây nhất</string>
   <string name="title_repeat_last_spoken_phrase">Nhắc lại cụm từ được nói gần đây nhất</string>
+  <string name="title_translate_last_spoken_phrase">Dịch câu vừa nói cuối cùng</string>
   <string name="title_custom_action">Thao tác</string>
   <string name="title_show_hide_screen">Ẩn hoặc hiện màn hình</string>
   <string name="title_control_speak_time">Đọc to thời gian</string>
@@ -560,6 +574,7 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="summary_copy_last_spoken_phrase">Sao chép cụm từ gần đây nhất mà SandFly nói vào bảng nhớ tạm để bạn có thể dán văn bản</string>
   <string name="summary_spell_last_spoken_phrase">Đánh vần từng chữ cái trong cụm từ gần đây nhất mà SandFly nói</string>
   <string name="summary_repeat_last_spoken_phrase">Nghe lại cụm từ gần đây nhất mà SandFly nói</string>
+  <string name="summary_translate_last_spoken_phrase">Dịch cụm từ gần đây nhất mà SandFly nói</string>
   <string name="summary_perform_screen_search">Nhập một cụm từ tìm kiếm để tìm văn bản đó trên màn hình</string>
   <string name="summary_voice_commands">Điều khiển SandFly bằng giọng nói</string>
   <string name="summary_show_hide_screen">Ẩn màn hình để người khác không nhìn thấy màn hình của bạn ở nơi công cộng. Sau khi ẩn, hãy đưa màn hình về trạng thái bình thường.</string>

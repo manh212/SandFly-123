@@ -16,6 +16,7 @@ dependencies {
     phoneRuntimeOnly "party.iroiro.luajava:android:${libs.versions.luajava.get()}:lua54@aar"
     testPhoneRuntimeOnly "party.iroiro.luajava:lua54-platform:${libs.versions.luajava.get()}:natives-desktop"
     implementation libs.litertlm
+    implementation libs.mlkit.translate
     // Grants the permissions that settings need through Shizuku, when it is installed and running.
     implementation libs.shizuku.api
     implementation libs.shizuku.provider
