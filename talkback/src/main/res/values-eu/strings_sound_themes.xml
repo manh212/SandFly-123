@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">Soinurik ez. Fokuaren soinua erreproduzitzen da.</string>
     <string name="theme_sound_summary_android_keyboard">Android-en teklatuaren soinua</string>
     <string name="theme_sound_use_android_keyboard">Erabili Android-en teklatuaren soinua</string>
-    <string name="theme_sound_braille_character">Braille-teklatua: karaktere bat idaztea</string>
-    <string name="theme_sound_braille_space">Braille-teklatua: zuriunea</string>
-    <string name="theme_sound_braille_delete">Braille-teklatua: ezabatzea</string>
-    <string name="theme_sound_braille_new_line">Braille-teklatua: lerro berria</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Aukeratu soinu-fitxategi bat</string>
     <string name="theme_sound_preview">Aurrebista</string>

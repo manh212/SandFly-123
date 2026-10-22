@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Shenja \"më e vogël\" me gjerësi të plotë</string>
   <string name="symbol_full_width_greater_than_sign">Shenja \"më e madhe\" me gjerësi të plotë</string>
   <string name="symbol_left_single_quotation_mark">Shenjë e vetme citimi majtas</string>
-  <string name="symbol_braille">%s breil</string>
-  <plurals name="dots">
-    <item quantity="one">pika %s</item>
-    <item quantity="other">pikat %s</item>
-  </plurals>
 </resources>

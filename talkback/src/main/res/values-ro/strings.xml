@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explorează prin atingere</string>
   <string name="title_pref_category_visual">Vizuale</string>
   <string name="title_pref_category_controls">Comenzi</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">General</string>
   <string name="title_pref_category_advanced">Avansat</string>
   <string name="title_pref_category_others">Altele</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Redu decalajul</string>
   <string name="talkback_latency_reduction_summary">Setări pentru reducerea decalajului dinaintea anunțurilor TalkBack</string>
   <string name="summary_pref_intonation">Rostește literele șterse pe un ton mai înalt</string>
-  <string name="title_pref_brailledisplay">Afișaj Braille</string>
-  <string name="title_pref_brailleime">Tastatura Braille</string>
-  <string name="summary_pref_brailleime_disabled">Dispozitivul tău nu acceptă tastatura Braille</string>
   <string name="title_pref_speech_footer">Poți ajusta rapid unele setări de sunet TalkBack de pe orice ecran.\n\nVolumul de accesibilitate: ține un deget pe ecran și apasă butonul de creștere sau butonul de reducere a volumului\nViteza vorbirii TalkBack: glisează în sus sau în jos cu trei degete Când auzi „viteza vorbirii”, glisează în sus sau în jos cu un deget.</string>
   <string name="title_pref_vibration">Feedback prin vibrații</string>
   <string name="title_pref_soundback">Feedback prin sunet</string>
@@ -486,8 +482,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="shortcut_increase_volume">Mărește volumul</string>
   <string name="shortcut_decrease_volume">Micșorează volumul</string>
   <string name="shortcut_all_apps">Toate aplicațiile</string>
-  <string name="shortcut_braille_keyboard">Treci la tastatura Braille</string>
-  <string name="shortcut_braille_display_settings">Navighează la setările afișajului Braille</string>
   <string name="shortcut_tutorial">Deschide tutorialul</string>
   <string name="shortcut_control_speak_time">Rostirea orei sau fără rostirea orei</string>
   <string name="shortcut_enable_speak_time">Rostirea orei</string>
@@ -496,7 +490,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="speak_time_off">Rostirea orei este dezactivată</string>
   <string name="shortcut_practice_gestures">Exersarea gesturilor</string>
   <string name="shortcut_report_gesture">Raportează o problemă cu gesturile</string>
-  <string name="shortcut_toggle_braille_display">Activează sau dezactivează afișajul Braille</string>
   <string name="shortcut_announce_current_time_and_date">Rostește data și ora actuale</string>
   <string name="shortcut_announce_battery_state">Rostește procentajul bateriei</string>
   <string name="shortcut_announce_current_title">Rostește titlul ferestrei</string>
@@ -506,8 +499,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="shortcut_speech_rate_decrease">Micșorează viteza vorbirii</string>
   <string name="shortcut_toggle_selection">Pornește sau închide modul de selectare</string>
   <string name="shortcut_show_tutorial">Deschide tutorialul</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Comută între contractat (gr 2) și necontractat (gr 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Afișează sau ascunde Braille pe ecran pentru afișajele Braille conectate</string>
   <string name="shortcut_toggle_sound_feedback">Activează sau dezactivează feedbackul privind sunetul</string>
   <string name="shortcut_show_learn_mode_page">Exersează comenzi rapide de la tastatură</string>
   <string name="shortcut_announce_phonetic_pronunciation">Rostește literele cu pronunția fonetică pentru elementul focalizat</string>
@@ -548,7 +539,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="title_show_voice_commands">Comenzi vocale</string>
   <string name="title_show_keyboard_shortcuts">Comenzi rapide de la tastatură</string>
   <string name="talkback_show_talkback_settings">Setări TalkBack</string>
-  <string name="title_show_braille_display_settings">Setări pentru afișajul Braille</string>
   <string name="title_granularity_default">Navigare prestabilită</string>
   <string name="title_action_dismiss">Închide</string>
   <string name="title_action_expand">Extinde</string>
@@ -576,7 +566,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="summary_control_speak_time">Schimbă opțiunea de rostire a orei cu voce tare când activezi ecranul</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Deschide lista de comenzi rapide de la tastatură</string>
   <string name="summary_talkback_preferences">Deschide setările TalkBack</string>
-  <string name="summary_braile_display_preferences">Deschide setările afișajului Braille</string>
   <string name="summary_system_actions">Accesează Toate aplicațiile &gt; Setări rapide</string>
   <string name="summary_tts_settings">Deschide setările redării vocale a textului</string>
   <string name="not_editable">Nu se poate edita</string>
@@ -917,7 +906,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="screen_search_keyword_hint">cuvântul cheie este %1$s</string>
   <string name="screen_search_no_keyword_hint">Încă nu există cuvinte cheie. Pentru a începe o nouă căutare, atinge lung cu trei degete sau deschide căutarea pe ecran din meniul TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Încă nu există cuvinte cheie. Pentru a începe o nouă căutare, glisează spre stânga, apoi în jos sau deschide căutarea pe ecran din meniul TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastatura Braille nu e activată. Configurează tastatura Braille în setările TalkBack și încearcă din nou.</string>
   <string name="suggestions_window_available">Sunt disponibile sugestii</string>
   <string name="suggestions_window_available_with_gesture">Sunt disponibile sugestii. Pentru a le accesa, %1$s</string>
   <string name="heads_up_window_available">Notificare disponibilă</string>
@@ -967,9 +955,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="new_gesture_notification_content">Atinge ca să afli cum să folosești TalkBack mai repede cu noile gesturi.</string>
   <string name="dump_node_tree_description">Arborele a fost înregistrat în jurnale.</string>
   <string name="report_gesture_description">Acestea sunt gesturile făcute recent. Raportează gesturile incorecte și ce se așteaptă.</string>
-  <string name="update_welcome_text_content">Acum te poți conecta la afișaje Braille folosind HID, o modalitate de conectare la dispozitive Bluetooth. Asigură-te că ai cele mai recente drivere și firmware de la producător, apoi activează Bluetooth pe afișajul Braille. Accesează Setări TalkBack &gt; Afișaj Braille și activează opțiunea Folosește afișajul Braille. Găsește-ți dispozitivul în lista de dispozitive și conectează-te la el.</string>
-  <string name="update_welcome_text_content_tts">Acum te poți conecta la afișaje Braille folosind HID, o modalitate de conectare la dispozitive Bluetooth. Asigură-te că ai cele mai recente drivere și firmware de la producător, apoi activează Bluetooth pe afișajul Braille. Accesează Setări TalkBack, apoi Afișaj Braille și activează opțiunea Folosește afișajul Braille. Găsește-ți dispozitivul în lista de dispozitive și conectează-te la el.</string>
-  <string name="update_welcome_text_content_with_link">Află cum să folosești afișajul Braille cu TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Această actualizare pentru TalkBack introduce compatibilitatea cu funcția Descrie ecranul în mai multe limbi și alte îmbunătățiri ale calității care facilitează folosirea funcției TalkBack.\n\nVei afla mai multe despre aceste modificări în următoarele ecrane.\n\nPoți să consulți mai târziu aceste informații în Setări TalkBack &gt; Funcții noi în TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Această actualizare pentru TalkBack introduce compatibilitatea cu funcția Descrie ecranul în mai multe limbi și alte îmbunătățiri ale calității care facilitează folosirea funcției TalkBack.\n\nVei afla mai multe despre aceste modificări în următoarele ecrane.\n\nPoți să consulți mai târziu aceste informații în Setări TalkBack, apoi Funcții noi în TalkBack.</string>
   <string name="describe_screen_and_qna_title">Limbi noi pentru funcțiile Descrie ecranul și Întreabă Gemini</string>
@@ -985,10 +970,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="reduce_delay_title">Redu decalajul</string>
   <string name="reduce_delay_content">Acum poți să reduci decalajele anunțurilor TalkBack pentru explorarea prin atingere și tastare. Pentru a vedea aceste setări, accesează Setări TalkBack &gt; Setări avansate &gt; Redu decalajul.</string>
   <string name="reduce_delay_content_tts">Acum poți să reduci decalajele anunțurilor TalkBack pentru explorarea prin atingere și tastare. Pentru a vedea aceste setări, accesează Setări TalkBack, apoi Setări avansate, apoi Redu decalajul.</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalizează gesturile pentru tastatura Braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Acum poți personaliza gesturile pentru tastatura Braille virtuală de pe ecran. Pentru a le personaliza, accesează Setări TalkBack &gt; Tastatură Braille &gt; Gesturi.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Acum poți personaliza gesturile pentru tastatura Braille virtuală de pe ecran. Pentru a le personaliza, accesează Setări TalkBack, apoi Tastatură Braille, apoi Gesturi.</string>
-  <string name="learn_more_about_braille_keyboard">Află mai multe despre tastatura Braille</string>
   <string name="other_changes_title">Alte modificări</string>
   <string name="other_changes_content">Un mesaj pe ecran te ajută acum să dezactivezi rapid TalkBack dacă se activează din greșeală. Poți dezactiva funcția în setările TalkBack &gt; Afișează instrucțiunile pentru dezactivarea TalkBack.</string>
   <string name="other_changes_content_tts">Un mesaj pe ecran te ajută acum să dezactivezi rapid TalkBack dacă se activează din greșeală. Poți dezactiva funcția în setările TalkBack, apoi Afișează instrucțiunile pentru dezactivarea TalkBack.</string>
@@ -1021,7 +1002,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="keyboard_enhanced_keymap_text">TalkBack are acum o configurare de taste îmbunătățită pentru tastaturile fizice, cu diverse comenzi și comenzi rapide noi. Această îmbunătățire include un mod de navigare pentru navigare mai eficientă pe web, simplificând navigarea și interacțiunea pentru utilizatorii TalkBack care se bazează pe tastaturi fizice. Poți trece la configurarea de taste îmbunătățită în %1$s.\n\nDacă folosești un afișaj Braille, poți folosi și noile comenzi rapide pentru modul de navigare pentru a parcurge conținutul direct de pe afișajul Braille. Unele comenzi rapide pentru afișajul Braille au fost modificate pentru a se adapta acestei schimbări. Poți vedea o listă cu toate comenzile rapide pentru afișajul Braille în %2$s.</string>
   <string name="keyboard_shortcuts_link">Setări TalkBack &gt; Comenzi rapide de la tastatură</string>
   <string name="keyboard_shortcuts_link_tts">Setări TalkBack, apoi Comenzi rapide de la tastatură</string>
-  <string name="braille_display_settings_link">Setări pentru afișajul Braille</string>
   <string name="keyboard_smart_browse_mode_title">Tastatură: modul de navigare inteligentă</string>
   <string name="keyboard_smart_browse_mode_text">Modul de navigare inteligentă TalkBack dezactivează modul de navigare într-un câmp de editare pentru a te ajuta să scrii cu o tastatură fizică atunci când navighezi pe web. Apoi îl reactivează când treci la un câmp care nu este de editare pe web, astfel încât să poți continua să navighezi eficient. Poți să activezi sau să dezactivezi Modul de navigare inteligentă în %1$s.</string>
   <string name="advanced_settings_link">Setări TalkBack &gt; Setări avansate</string>
@@ -1094,7 +1074,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="typing_text_title">Introducerea textului</string>
   <string name="basic_typing_text_text">Când ești într-o casetă text, în partea de jos a ecranului se va deschide o tastatură.</string>
   <string name="typing_text_text">Deplasează degetul pe tastatură. Când auzi litera pe care vrei să o introduci, ridică degetul.\n\nÎncearcă să activezi caseta text de mai jos și să-ți scrii numele.</string>
-  <string name="typing_text_with_braille_keyboard_text">Poți introduce text și de la tastatura Braille. O găsești în setările TalkBack.</string>
   <string name="other_ways_to_type_title">Alte moduri de a scrie</string>
   <string name="other_ways_to_type_text">Există și alte moduri de a scrie în TalkBack. De exemplu, poți să atingi de două ori pentru a introduce o literă.</string>
   <string name="basic_other_ways_to_type_text">Există și alte moduri de a scrie în TalkBack. De exemplu, poți să atingi de două ori pentru a introduce o literă. Poți modifica mai târziu opțiunea în Setări TalkBack &gt; Tastatură pe ecran &gt; Preferință pentru introducerea textului.</string>

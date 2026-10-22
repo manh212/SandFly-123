@@ -40,7 +40,6 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity;
 import com.google.android.accessibility.talkback.Feedback.AdjustValue;
 import com.google.android.accessibility.talkback.Feedback.AdjustVolume;
-import com.google.android.accessibility.talkback.Feedback.BrailleDisplay;
 import com.google.android.accessibility.talkback.Feedback.ContinuousRead;
 import com.google.android.accessibility.talkback.Feedback.DeviceInfo;
 import com.google.android.accessibility.talkback.Feedback.DimScreen;
@@ -78,7 +77,6 @@ import com.google.android.accessibility.talkback.Feedback.VoiceRecognition;
 import com.google.android.accessibility.talkback.Feedback.WebAction;
 import com.google.android.accessibility.talkback.TalkBackService.ServiceFlagRequester;
 import com.google.android.accessibility.talkback.actor.AutoScrollActor;
-import com.google.android.accessibility.talkback.actor.BrailleDisplayActor;
 import com.google.android.accessibility.talkback.actor.DimScreenActor;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FocusActor;
@@ -115,8 +113,6 @@ import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
 import com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.utils.AccessibilityNode;
-import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
-import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
@@ -138,7 +134,7 @@ class Actors {
 
   //////////////////////////////////////////////////////////////////////////
   // Member data
-  // TODO: Add more actors for braille, UI-actions.
+  // TODO: Add more actors for UI-actions.
 
   private final Context context;
   private final TalkBackAnalytics analytics;
@@ -172,7 +168,6 @@ class Actors {
   private final GeminiActor geminiActor;
   private final TouchLatencyAdjustor touchLatencyAdjustor;
   private final ServiceFlagRequester serviceFlagRequester;
-  private final BrailleDisplayActor brailleDisplayActor;
   private final InputDeviceMonitor inputDeviceMonitor;
 
   //////////////////////////////////////////////////////////////////////////
@@ -210,7 +205,6 @@ class Actors {
       GeminiActor geminiActor,
       TouchLatencyAdjustor touchLatencyAdjustor,
       ServiceFlagRequester serviceFlagRequester,
-      BrailleDisplayActor brailleDisplayActor,
       InputDeviceMonitor inputDeviceMonitor) {
     this.context = context;
     this.analytics = analytics;
@@ -243,7 +237,6 @@ class Actors {
     this.geminiActor = geminiActor;
     this.serviceFlagRequester = serviceFlagRequester;
     this.touchLatencyAdjustor = touchLatencyAdjustor;
-    this.brailleDisplayActor = brailleDisplayActor;
     this.inputDeviceMonitor = inputDeviceMonitor;
 
     actorState =
@@ -442,12 +435,6 @@ class Actors {
           intent =
               new Intent(FormFactorUtils.isAndroidWear() ? ACTION_ASSIST : ACTION_VOICE_COMMAND);
           intent.setFlags(FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_CLEAR_TOP);
-        }
-        case TRIGGER_BRAILLE_DISPLAY_SETTINGS -> {
-          if (FeatureSupport.supportBrailleDisplay(context)) {
-            intent = new Intent().setComponent(Constants.BRAILLE_DISPLAY_SETTINGS);
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-          }
         }
         case TRIGGER_IMAGE_DESCRIPTIONS_SETTINGS -> {
           intent = new Intent(context, TalkBackPreferencesActivity.class);
@@ -974,17 +961,6 @@ class Actors {
             serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ true);
         case DISABLE_FLAG ->
             serviceFlagRequester.requestFlag(serviceFlag.flag(), /* requestedState= */ false);
-      }
-    }
-
-    // Perform braille display actions
-    BrailleDisplay brailleDisplay = part.brailleDisplay();
-    if (brailleDisplay != null) {
-      switch (brailleDisplay.action()) {
-        case TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF -> brailleDisplayActor.switchBrailleDisplayOnOrOff();
-        case TOGGLE_BRAILLE_CONTRACTED_MODE -> brailleDisplayActor.toggleBrailleContractedMode();
-        case TOGGLE_BRAILLE_ON_SCREEN_OVERLAY -> brailleDisplayActor.toggleBrailleOnScreenOverlay();
-        default -> {}
       }
     }
 

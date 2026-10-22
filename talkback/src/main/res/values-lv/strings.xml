@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Pārlūkot pieskaroties</string>
   <string name="title_pref_category_visual">Vizuālie iestatījumi</string>
   <string name="title_pref_category_controls">Vadīklas</string>
-  <string name="title_pref_category_braille">Braila raksts</string>
   <string name="title_pref_category_general">Vispārīgi</string>
   <string name="title_pref_category_advanced">Papildu</string>
   <string name="title_pref_category_others">Citas funkcijas</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Samazināt aizkavi</string>
   <string name="talkback_latency_reduction_summary">Iestatījumi aizkaves samazināšanai pirms TalkBack paziņojumiem</string>
   <string name="summary_pref_intonation">Izrunāt dzēstos burtus paaugstinātā balss tonī</string>
-  <string name="title_pref_brailledisplay">Braila displejs</string>
-  <string name="title_pref_brailleime">Braila tastatūra</string>
-  <string name="summary_pref_brailleime_disabled">Jūsu ierīcē netiek atbalstīta Braila tastatūra.</string>
   <string name="title_pref_speech_footer">Varat jebkurā ekrānā ātri pielāgot dažus TalkBack skaņas iestatījumus.\n\nPieejamības paziņojumu skaļums: turiet vienu pirkstu uz ekrāna un nospiediet skaļuma palielināšanas vai samazināšanas pogu.\nTalkBack runas ātrums: velciet augšup vai lejup ar trim pirkstiem. Kad dzirdat frāzi “runas ātrums”, velciet augšup vai lejup ar vienu pirkstu.</string>
   <string name="title_pref_vibration">Vibrācija</string>
   <string name="title_pref_soundback">Skaņas signāls</string>
@@ -485,8 +481,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="shortcut_increase_volume">Palielināt skaļumu</string>
   <string name="shortcut_decrease_volume">Samazināt skaļumu</string>
   <string name="shortcut_all_apps">Visas lietotnes</string>
-  <string name="shortcut_braille_keyboard">Ieslēgt Braila tastatūru</string>
-  <string name="shortcut_braille_display_settings">Pāriet uz Braila displeja iestatījumiem</string>
   <string name="shortcut_tutorial">Atvērt pamācību</string>
   <string name="shortcut_control_speak_time">Pateikt laiku vai neteikt laiku</string>
   <string name="shortcut_enable_speak_time">Pateikt laiku</string>
@@ -495,7 +489,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="speak_time_off">Laika pateikšana ir izslēgta</string>
   <string name="shortcut_practice_gestures">Izmēģināt žestus</string>
   <string name="shortcut_report_gesture">Ziņot par problēmu ar žestiem</string>
-  <string name="shortcut_toggle_braille_display">Ieslēgt vai izslēgt Braila displeju</string>
   <string name="shortcut_announce_current_time_and_date">Izrunāt pašreizējo datumu un laiku</string>
   <string name="shortcut_announce_battery_state">Izrunāt akumulatora uzlādes līmeni procentos</string>
   <string name="shortcut_announce_current_title">Izrunāt loga nosaukumu</string>
@@ -505,8 +498,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="shortcut_speech_rate_decrease">Samazināt runas ātrumu</string>
   <string name="shortcut_toggle_selection">Sākt vai beigt atlases režīmu</string>
   <string name="shortcut_show_tutorial">Atvērt pamācību</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Pārslēgt saīsināto (2. pak.) un nesaīsināto (1. pak.) režīmu</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Rādīt vai slēpt Braila tastatūru ekrānā pievienotajiem Braila displejiem</string>
   <string name="shortcut_toggle_sound_feedback">Ieslēgt vai izslēgt skaņas signālus (audio ikonas)</string>
   <string name="shortcut_show_learn_mode_page">Trenēties izmantot īsinājumtaustiņus</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izrunāt izceltā vienuma burtus ar fonētisko izrunu</string>
@@ -547,7 +538,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="title_show_voice_commands">Balss komandas</string>
   <string name="title_show_keyboard_shortcuts">Īsinājumtaustiņi</string>
   <string name="talkback_show_talkback_settings">TalkBack iestatījumi</string>
-  <string name="title_show_braille_display_settings">Braila displeja iestatījumi</string>
   <string name="title_granularity_default">Noklusējuma navigācija</string>
   <string name="title_action_dismiss">Nerādīt</string>
   <string name="title_action_expand">Izvērst</string>
@@ -575,7 +565,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="summary_control_speak_time">Mainiet to, vai tiek skaļi pateikts laiks, kad ieslēdzat ekrānu.</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Atvērt īsinājumtaustiņu sarakstu</string>
   <string name="summary_talkback_preferences">Atvērt TalkBack iestatījumus</string>
-  <string name="summary_braile_display_preferences">Atvērt Braila displeja iestatījumus</string>
   <string name="summary_system_actions">Pāriet uz sadaļu “Visas lietotnes” un izvēlni “Ātrie iestatījumi”</string>
   <string name="summary_tts_settings">Atvērt iestatījumus teksta pārvēršanai runā</string>
   <string name="not_editable">Nevar rediģēt</string>
@@ -916,7 +905,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="screen_search_keyword_hint">atslēgvārds ir %1$s</string>
   <string name="screen_search_no_keyword_hint">Vēl nav neviena atslēgvārda. Lai sāktu jaunu meklēšanu, pieskarieties un turiet ar trim pirkstiem vai TalkBack izvēlnē atveriet meklēšanu ekrānā.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Vēl nav neviena atslēgvārda. Lai sāktu jaunu meklēšanu, velciet pa kreisi un pēc tam lejup vai TalkBack izvēlnē atveriet meklēšanu ekrānā.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braila tastatūra nav ieslēgta. Iestatiet Braila tastatūru TalkBack iestatījumos un mēģiniet vēlreiz.</string>
   <string name="suggestions_window_available">Ir pieejami ieteikumi</string>
   <string name="suggestions_window_available_with_gesture">Ir pieejami ieteikumi. Lai tiem piekļūtu: %1$s.</string>
   <string name="heads_up_window_available">Pieejams paziņojums</string>
@@ -966,9 +954,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="new_gesture_notification_content">Pieskarieties, lai uzzinātu, kā izmantot funkciju TalkBack ātrāk ar jauniem žestiem.</string>
   <string name="dump_node_tree_description">Mezglu koks ir reģistrēts žurnālos.</string>
   <string name="report_gesture_description">Šeit tiek rādīti nesen izmantotie žesti. Lūdzu, ziņojiet par nepareizo žestu un norādiet pareizo žestu.</string>
-  <string name="update_welcome_text_content">Tagad varat izveidot savienojumu ar Braila displejiem, izmantojot HID, kas ir viens no Bluetooth ierīču savienošanas veidiem. Pārliecinieties, ka jūsu ierīcē ir ražotāja jaunākie aparātprogrammatūras draiveri, un pēc tam ieslēdziet Bluetooth savienojumu Braila displejā. Pārejiet uz sadaļu TalkBack iestatījumi &gt; Braila displejs un ieslēdziet opciju “Izmantot Braila displeju”. Ierīču sarakstā atrodiet savu ierīci un izveidojiet savienojumu ar to.</string>
-  <string name="update_welcome_text_content_tts">Tagad varat izveidot savienojumu ar Braila displejiem, izmantojot HID, kas ir viens no Bluetooth ierīču savienošanas veidiem. Pārliecinieties, ka jūsu ierīcē ir ražotāja jaunākie aparātprogrammatūras draiveri, un pēc tam ieslēdziet Bluetooth savienojumu Braila displejā. Pārejiet uz sadaļu “TalkBack iestatījumi”, pēc tam — uz sadaļu “Braila displejs” un ieslēdziet opciju “Izmantot Braila displeju”. Ierīču sarakstā atrodiet savu ierīci un izveidojiet savienojumu ar to.</string>
-  <string name="update_welcome_text_content_with_link">Uzziniet, kā izmantot Braila displeju kopā ar TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Šajā TalkBack atjauninājumā ir ieviests atbalsts funkcijai “Aprakstīt ekrānā redzamo saturu” papildu valodās un citi kvalitātes uzlabojumi, kas atvieglo TalkBack lietošanu.\n\nNākamajos ekrānos uzzināsiet vairāk par šīm izmaiņām.\n\nVēlāk varēsiet pārskatīt šo informāciju funkcijas TalkBack sadaļā TalkBack iestatījumi &gt; Jaunas funkcijas.</string>
   <string name="update_welcome_talkback_16.1_tts">Šajā TalkBack atjauninājumā ir ieviests atbalsts funkcijai “Aprakstīt ekrānā redzamo saturu” papildu valodās un citi kvalitātes uzlabojumi, kas atvieglo TalkBack lietošanu.\n\nNākamajos ekrānos uzzināsiet vairāk par šīm izmaiņām.\n\nVēlāk varēsiet pārskatīt šo informāciju, funkcijā TalkBack pārejot uz sadaļu “TalkBack iestatījumi” un pēc tam — uz sadaļu “Jaunas funkcijas”.</string>
   <string name="describe_screen_and_qna_title">Jaunas valodas funkcijām “Aprakstīt ekrānā redzamo saturu” un “Jautāt Gemini”</string>
@@ -984,10 +969,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="reduce_delay_title">Aizkaves samazināšana</string>
   <string name="reduce_delay_content">Tagad varat samazināt TalkBack paziņojumu aizkavi pārlūkošanai ar pieskārienu un rakstīšanai. Lai skatītu šos iestatījumus, pārejiet uz sadaļu TalkBack iestatījumi &gt; Papildu iestatījumi &gt; Samazināt aizkavi.</string>
   <string name="reduce_delay_content_tts">Tagad varat samazināt TalkBack paziņojumu aizkavi pārlūkošanai ar pieskārienu un rakstīšanai. Lai skatītu šos iestatījumus, TalkBack iestatījumos pārejiet uz sadaļu “Papildu iestatījumi” un pēc tam — uz sadaļu “Samazināt aizkavi”.</string>
-  <string name="customize_braille_keyboard_improvements_title">Braila tastatūras žestu pielāgošana</string>
-  <string name="customize_braille_keyboard_improvements_content">Tagad varat pielāgot žestus virtuālajai Braila tastatūrai ekrānā. Lai tos pielāgotu, pārejiet uz sadaļu TalkBack iestatījumi &gt; Braila tastatūra &gt; Žesti.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Tagad varat pielāgot žestus virtuālajai Braila tastatūrai ekrānā. Lai tos pielāgotu, TalkBack iestatījumos pārejiet uz sadaļu “Braila tastatūra” un pēc tam — uz sadaļu “Žesti”.</string>
-  <string name="learn_more_about_braille_keyboard">Uzzināt vairāk par Braila tastatūru</string>
   <string name="other_changes_title">Citas izmaiņas</string>
   <string name="other_changes_content">Ekrānā tagad tiek rādīts ziņojums, kas palīdz ātri izslēgt funkciju TalkBack, ja tā nejauši tiek ieslēgta. Varat to izslēgt sadaļā TalkBack iestatījumi &gt; Rādīt norādījumus par TalkBack izslēgšanu.</string>
   <string name="other_changes_content_tts">Ekrānā tagad tiek rādīts ziņojums, kas palīdz ātri izslēgt funkciju TalkBack, ja tā nejauši tiek ieslēgta. Varat to izslēgt, TalkBack iestatījumos atlasot opciju “Rādīt norādījumus par TalkBack izslēgšanu”.</string>
@@ -1021,7 +1002,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="keyboard_enhanced_keymap_text">Tagad funkcijas TalkBack fiziskajām tastatūrām ir pieejama uzlabota taustiņu piesaiste ar dažādām jaunām komandām un īsinājumtaustiņiem. Šis uzlabojums ietver pārlūkošanas režīmu efektīvākai tīmekļa navigācijai, navigācijas atvieglošanai un mijiedarbībai TalkBack lietotājiem, kuri izmanto fiziskas tastatūras. Uz uzlaboto taustiņu piesaisti varat pārslēgties sadaļā %1$s.\n\nJa izmantojat Braila displeju, varat arī izmantot jaunus pārlūkošanas režīma īsinājumtaustiņus, lai pārvietotos pa saturu tieši no Braila displeja. Lai nodrošinātu šīs izmaiņas, tika mainīti daži Braila displeja īsinājumtaustiņi. Visu Braila displeja īsinājumtaustiņu sarakstu varat skatīt sadaļā %2$s.</string>
   <string name="keyboard_shortcuts_link">TalkBack iestatījumi &gt; Īsinājumtaustiņi</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack iestatījumi un pēc tam — Īsinājumtaustiņi</string>
-  <string name="braille_display_settings_link">Braila displeja iestatījumi</string>
   <string name="keyboard_smart_browse_mode_title">Tastatūra: viedais pārlūkošanas režīms</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack viedajā pārlūkošanas režīmā rediģēšanas laukā tiek izslēgts pārlūkošanas režīms, lai palīdzētu jums rakstīt, izmantojot fizisku tastatūru, kad pārlūkojat tīmekli. Pēc tam, kad tīmeklī pārejat uz lauku, kas nav rediģēšanas lauks, šis režīms tiek atkal ieslēgts, lai jūs varētu efektīvi turpināt pārlūkošanu. Iestatījumu “Viedais pārlūkošanas režīms” var ieslēgt vai izslēgt sadaļā %1$s.</string>
   <string name="advanced_settings_link">TalkBack iestatījumi &gt; Papildu iestatījumi</string>
@@ -1094,7 +1074,6 @@ Kontrolē, cik drīz pēc fokusa pārvietošanas tiek atskaņots TalkBack paziņ
   <string name="typing_text_title">Teksta rakstīšana</string>
   <string name="basic_typing_text_text">Kad pāriesiet uz tekstlodziņu, ekrāna apakšdaļā tiks parādīta tastatūra.</string>
   <string name="typing_text_text">Velciet pirkstu pāri tastatūrai. Kad dzirdat burtu, ko vēlaties rakstīt, atlaidiet pirkstu.\n\nIzmēģiniet tālāk redzamā tekstlodziņa aktivizēšanu un uzrakstiet savu vārdu.</string>
-  <string name="typing_text_with_braille_keyboard_text">Varat arī rakstīt, izmantojot Braila tastatūru. Tā ir atrodama TalkBack iestatījumos.</string>
   <string name="other_ways_to_type_title">Citi rakstīšanas veidi</string>
   <string name="other_ways_to_type_text">Ir arī citi veidi, kā rakstīt funkcijā TalkBack. Piemēram, varat veikt dubultskārienu, lai ievadītu burtu.</string>
   <string name="basic_other_ways_to_type_text">Ir arī citi veidi, kā rakstīt funkcijā TalkBack. Piemēram, varat veikt dubultskārienu, lai ievadītu burtu. Vēlāk varat to mainīt sadaļā TalkBack iestatījumi &gt; Ekrāna tastatūra &gt; Rakstīšanas preferences.</string>

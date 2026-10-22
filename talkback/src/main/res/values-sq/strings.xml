@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Eksploro me prekje</string>
   <string name="title_pref_category_visual">Vizuale</string>
   <string name="title_pref_category_controls">Kontrollet</string>
-  <string name="title_pref_category_braille">Breil</string>
   <string name="title_pref_category_general">Të përgjithshme</string>
   <string name="title_pref_category_advanced">I përparuar</string>
   <string name="title_pref_category_others">Të tjera</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Redukto vonesën</string>
   <string name="talkback_latency_reduction_summary">Cilësimet për të reduktuar vonesën para njoftimeve të TalkBack</string>
   <string name="summary_pref_intonation">Lexo shkronjat e fshira me zë me ton më të lartë</string>
-  <string name="title_pref_brailledisplay">Ekrani breil</string>
-  <string name="title_pref_brailleime">Tastiera breil</string>
-  <string name="summary_pref_brailleime_disabled">Pajisja jote nuk e mbështet tastierën breil</string>
   <string name="title_pref_speech_footer">Mund të rregullosh me shpejtësi disa nga cilësimet e tingujve të TalkBack nga çdo ekran.\n\nVolumi për qasshmërinë: Mbaj 1 gisht në ekran dhe shtyp butonin e ngritjes së volumit ose butonin e uljes së volumit.\nShpejtësia e të folurit për TalkBack: Rrëshqit shpejt lart ose poshtë me 3 gishta. Kur të dëgjosh \"shpejtësia e të folurit\", rrëshqit shpejt lart ose poshtë me 1 gisht.</string>
   <string name="title_pref_vibration">Reagimi me dridhje</string>
   <string name="title_pref_soundback">Reagimi me tinguj</string>
@@ -486,8 +482,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="shortcut_increase_volume">Rrit volumin</string>
   <string name="shortcut_decrease_volume">Ul volumin</string>
   <string name="shortcut_all_apps">Të gjitha aplikacionet</string>
-  <string name="shortcut_braille_keyboard">Kalo te tastiera breil</string>
-  <string name="shortcut_braille_display_settings">Navigo për te cilësimet e ekranit breil</string>
   <string name="shortcut_tutorial">Hap udhëzuesin</string>
   <string name="shortcut_control_speak_time">Lexo ose mos lexo me zë orën</string>
   <string name="shortcut_enable_speak_time">Lexo me zë orën</string>
@@ -496,7 +490,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="speak_time_off">Leximi me zë i orës është joaktiv</string>
   <string name="shortcut_practice_gestures">Praktiko gjestet</string>
   <string name="shortcut_report_gesture">Raporto problemin me gjestin</string>
-  <string name="shortcut_toggle_braille_display">Aktivizo ose çaktivizo ekranin breil</string>
   <string name="shortcut_announce_current_time_and_date">Lexo me zë datën dhe orën</string>
   <string name="shortcut_announce_battery_state">Lexo me zë përqindjen e baterisë</string>
   <string name="shortcut_announce_current_title">Lexo me zë titullin e dritares</string>
@@ -506,8 +499,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="shortcut_speech_rate_decrease">Ul shpejtësinë e të folurit</string>
   <string name="shortcut_toggle_selection">Nis ose përfundo modalitetin e zgjedhjes</string>
   <string name="shortcut_show_tutorial">Hap udhëzuesin</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Ndërro mes formës së shkurtuar (shkalla 2) dhe të pashkurtuar (shkalla 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Shfaq ose fshih breil në ekran për ekranet e lidhura breil</string>
   <string name="shortcut_toggle_sound_feedback">Aktivizo ose çaktivizo reagimin zanor (tingujt e shkurtër)</string>
   <string name="shortcut_show_learn_mode_page">Praktiko shkurtoret e tastierës</string>
   <string name="shortcut_announce_phonetic_pronunciation">Lexo shkronjat me shqiptim fonetik për artikullin e fokusuar</string>
@@ -548,7 +539,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="title_show_voice_commands">Komandat zanore</string>
   <string name="title_show_keyboard_shortcuts">Shkurtoret e tastierës</string>
   <string name="talkback_show_talkback_settings">Cilësimet e TalkBack</string>
-  <string name="title_show_braille_display_settings">Cilësimet e ekranit breil</string>
   <string name="title_granularity_default">Orientimi i parazgjedhur</string>
   <string name="title_action_dismiss">Hiqe</string>
   <string name="title_action_expand">Zgjero</string>
@@ -576,7 +566,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="summary_control_speak_time">Ndrysho nëse ora lexohet me zë kur aktivizon ekranin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Hap listën e shkurtoreve të tastierës</string>
   <string name="summary_talkback_preferences">Hap cilësimet e TalkBack</string>
-  <string name="summary_braile_display_preferences">Hap cilësimet e ekranit breil</string>
   <string name="summary_system_actions">Shko te \"Të gjitha aplikacionet\" dhe \"Cilësimet e shpejta\"</string>
   <string name="summary_tts_settings">Hap cilësimet e \"tekstit në ligjërim\"</string>
   <string name="not_editable">Nuk mund të modifikohet</string>
@@ -917,7 +906,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="screen_search_keyword_hint">fjala kyçe është %1$s</string>
   <string name="screen_search_no_keyword_hint">Nuk ka ende asnjë fjalë kyçe. Për të nisur një kërkim të ri, prek dhe mbaj shtypur me 3 gishta ose hap kërkimin e ekranit nga menyja e TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Nuk ka ende asnjë fjalë kyçe. Për të nisur një kërkim të ri, rrëshqit majtas dhe më pas poshtë ose hap kërkimin e ekranit nga menyja e TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastiera breil nuk është e aktivizuar. Shko te cilësimet e TalkBack, konfiguro tastierën breil dhe provo përsëri.</string>
   <string name="suggestions_window_available">Ofrohen sugjerime</string>
   <string name="suggestions_window_available_with_gesture">Ofrohen sugjerime. Për të pasur qasje te to, %1$s</string>
   <string name="heads_up_window_available">Njoftimi është i disponueshëm</string>
@@ -967,9 +955,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="new_gesture_notification_content">Trokit për të mësuar se si ta përdorësh TalkBack më shpejt me gjestet e reja.</string>
   <string name="dump_node_tree_description">Pema e nyjave është printuar tek evidencat.</string>
   <string name="report_gesture_description">Këtu janë gjestet e kryera së fundi. Raporto se cili gjest është gabim dhe çfarë pritet.</string>
-  <string name="update_welcome_text_content">Tani mund të lidhesh me ekranet breil nëpërmjet HID, një mënyrë për t\'u lidhur me pajisjet me Bluetooth. Sigurohu që ke drejtuesit më të fundit të firmuerit nga prodhuesi yt dhe më pas aktivizo Bluetooth-in në ekranin tënd breil. Shko te cilësimet e TalkBack &gt; Ekrani breil dhe aktivizo \"Përdor ekranin breil\". Gjej pajisjen tënde në listën e pajisjeve dhe lidhu me të.</string>
-  <string name="update_welcome_text_content_tts">Tani mund të lidhesh me ekranet breil nëpërmjet HID, një mënyrë për t\'u lidhur me pajisjet me Bluetooth. Sigurohu që ke drejtuesit më të fundit të firmuerit nga prodhuesi yt dhe më pas aktivizo Bluetooth-in në ekranin tënd breil. Shko te cilësimet e TalkBack dhe më pas tek ekrani breil dhe aktivizo \"Përdor ekranin breil\". Gjej pajisjen tënde në listën e pajisjeve dhe lidhu me të.</string>
-  <string name="update_welcome_text_content_with_link">Mëso se si të përdorësh ekranin breil me TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Ky përditësim i TalkBack prezanton mbështetjen për \"Përshkruaj ekranin\" në më shumë gjuhë dhe përmirësime të tjera të cilësisë që e bëjnë më të lehtë përdorimin e TalkBack.\n\nDo të mësosh më shumë për këto ndryshime në ekranet në vijim.\n\nMund t\'i rishikosh këto informacione më vonë te cilësimet e TalkBack &gt; Veçoritë e reja në TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Ky përditësim i TalkBack prezanton mbështetjen për \"Përshkruaj ekranin\" në më shumë gjuhë dhe përmirësime të tjera të cilësisë që e bëjnë më të lehtë përdorimin e TalkBack.\n\nDo të mësosh më shumë për këto ndryshime në ekranet në vijim.\n\nMund t\'i rishikosh këto informacione më vonë te cilësimet e TalkBack dhe më pas te \"Veçoritë e reja në TalkBack\".</string>
   <string name="describe_screen_and_qna_title">Gjuhë të reja për \"Përshkruaj ekranin\" dhe \"Pyet Gemini\"</string>
@@ -985,10 +970,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="reduce_delay_title">Redukto vonesën</string>
   <string name="reduce_delay_content">Tani mund të reduktosh vonesat e njoftimeve të TalkBack për eksplorimin dhe shkrimin me prekje. Për t\'i parë këto cilësime, shko te cilësimet e TalkBack &gt; Cilësimet e përparuara &gt; Redukto vonesën.</string>
   <string name="reduce_delay_content_tts">Tani mund të reduktosh vonesat e njoftimeve të TalkBack për eksplorimin dhe shkrimin me prekje. Për t\'i parë këto cilësime, shko te cilësimet e TalkBack, më pas te \"Cilësimet e përparuara\" dhe më pas te \"Redukto vonesën\".</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalizo gjestet për tastierën breil</string>
-  <string name="customize_braille_keyboard_improvements_content">Tani është e mundur të personalizosh gjestet për tastierën virtuale breil në ekran. Për t\'i personalizuar, shko te cilësimet e TalkBack &gt; Tastiera breil &gt; Gjestet.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Tani është e mundur të personalizosh gjestet për tastierën virtuale breil në ekran. Për t\'i personalizuar, shko te cilësimet e TalkBack, më pas te \"Tastiera breil\" dhe më pas te \"Gjestet\".</string>
-  <string name="learn_more_about_braille_keyboard">Mëso më shumë rreth tastierës breil</string>
   <string name="other_changes_title">Ndryshime të tjera</string>
   <string name="other_changes_content">Një mesazh në ekran tani të ndihmon të çaktivizosh me shpejtësi TalkBack nëse aktivizohet aksidentalisht. Mund ta çaktivizosh këtë te cilësimet e TalkBack &gt; Shfaq udhëzimet për çaktivizimin e TalkBack.</string>
   <string name="other_changes_content_tts">Një mesazh në ekran tani të ndihmon të çaktivizosh me shpejtësi TalkBack nëse aktivizohet aksidentalisht. Mund ta çaktivizosh këtë te cilësimet e TalkBack dhe më pas te \"Shfaq udhëzimet për çaktivizimin e TalkBack\".</string>
@@ -1021,7 +1002,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="keyboard_enhanced_keymap_text">TalkBack tani ka një \"Hartë të përmirësuar të tasteve\" për tastierat fizike, me një sërë komandash dhe shkurtoresh të reja. Ky përmirësim përfshin një \"modalitet shfletimi\" për navigim më efikas në ueb, duke thjeshtuar navigimin dhe ndërveprimin për përdoruesit e TalkBack që mbështeten te tastierat fizike. Mund të kalosh te \"Harta e përmirësuar e tasteve\" te %1$s.\n\nNëse përdor një ekran breil, mund të përdorësh gjithashtu shkurtoret e reja të modalitetit të shfletimit për të lëvizur nëpër përmbajtje drejtpërdrejt nga ekrani breil. Disa shkurtore të ekranit breil janë ndryshuar për t\'iu përshtatur këtij ndryshimi. Mund të shikosh një listë të të gjitha shkurtoreve të ekranit breil te %2$s.</string>
   <string name="keyboard_shortcuts_link">Cilësimet e TalkBack &gt; Shkurtoret e tastierës</string>
   <string name="keyboard_shortcuts_link_tts">\"Cilësimet e TalkBack\" dhe më pas \"Shkurtoret e tastierës\"</string>
-  <string name="braille_display_settings_link">Cilësimet e ekranit breil</string>
   <string name="keyboard_smart_browse_mode_title">Tastiera: Modaliteti i shfletimit inteligjent</string>
   <string name="keyboard_smart_browse_mode_text">Modaliteti i shfletimit inteligjent i TalkBack çaktivizon modalitetin e shfletimit në një fushë modifikimi për të të ndihmuar të shkruash me një tastierë fizike kur shfleton në ueb. Më pas ai e aktivizon përsëri kur kalon te një fushë jomodifikimi në ueb në mënyrë që të mund të vazhdosh të shfletosh me efikasitet. Mund ta aktivizosh ose çaktivizosh \"Modalitetin e shfletimit inteligjent\" te %1$s.</string>
   <string name="advanced_settings_link">Cilësimet e TalkBack &gt; Cilësimet e përparuara</string>
@@ -1094,7 +1074,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="typing_text_title">Shkrimi i tekstit</string>
   <string name="basic_typing_text_text">Kur je në një kuti teksti, në fund të ekranit do të hapet një tastierë.</string>
   <string name="typing_text_text">Lëvize gishtin tënd nëpër tastierë. Kur të dëgjosh shkronjën që dëshiron të shkruash, ngrije gishtin.\n\nProvo ta aktivizosh kutinë e tekstit më poshtë dhe shkruaj emrin tënd.</string>
-  <string name="typing_text_with_braille_keyboard_text">Mund të shkruash edhe me tastierën breil. Gjeje te cilësimet e TalkBack.</string>
   <string name="other_ways_to_type_title">Mënyra të tjera për të shkruar</string>
   <string name="other_ways_to_type_text">Ka mënyra të tjera për të shkruar në TalkBack. Për shembull, mund të përdorësh trokitjen dy herë për të futur një shkronjë.</string>
   <string name="basic_other_ways_to_type_text">Ka mënyra të tjera për të shkruar në TalkBack. Për shembull, mund të përdorësh trokitjen dy herë për të futur një shkronjë. Këtë mund ta ndryshosh më vonë te cilësimet e TalkBack &gt; Tastiera në ekran &gt; Preferenca e të shkruarit.</string>

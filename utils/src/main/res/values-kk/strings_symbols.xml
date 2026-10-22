@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Толық енді кем белгісі</string>
   <string name="symbol_full_width_greater_than_sign">Толық енді артық белгісі</string>
   <string name="symbol_left_single_quotation_mark">Ашатын жалғыз тырнақша</string>
-  <string name="symbol_braille">Брайль таңбасы: %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s нүктесін</item>
-    <item quantity="other">%s нүктелерін</item>
-  </plurals>
 </resources>

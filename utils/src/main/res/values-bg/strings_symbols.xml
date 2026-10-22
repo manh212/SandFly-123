@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Знак за по-малко с пълна ширина</string>
   <string name="symbol_full_width_greater_than_sign">Знак за по-голямо с пълна ширина</string>
   <string name="symbol_left_single_quotation_mark">Лява единична кавичка</string>
-  <string name="symbol_braille">%s за брайлово писмо:</string>
-  <plurals name="dots">
-    <item quantity="one">точка %s</item>
-    <item quantity="other">точки %s</item>
-  </plurals>
 </resources>

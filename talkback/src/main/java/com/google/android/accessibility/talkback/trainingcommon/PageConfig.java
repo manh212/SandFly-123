@@ -162,12 +162,11 @@ public abstract class PageConfig {
   }
 
   /** Link type. */
-  @IntDef({TYPE_TALKBACK_SETTINGS, TYPE_BRAILLE_DISPLAY_SETTINGS, TYPE_TALKBACK_TUTORIAL})
+  @IntDef({TYPE_TALKBACK_SETTINGS, TYPE_TALKBACK_TUTORIAL})
   @Retention(RetentionPolicy.SOURCE)
   public @interface LinkType {}
 
   public static final int TYPE_TALKBACK_SETTINGS = 1;
-  public static final int TYPE_BRAILLE_DISPLAY_SETTINGS = 2;
   public static final int TYPE_TALKBACK_TUTORIAL = 3;
 
   /** Defines link information that are created intents to link to the specific settings page. */
@@ -175,16 +174,13 @@ public abstract class PageConfig {
     TEXT_FORMATTING_OPTIONS(TextFormattingDetailFragment.class.getName(), TYPE_TALKBACK_SETTINGS),
     KEYBOARD_SHORTCUT(
         TalkBackKeyboardShortcutPreferenceFragment.class.getName(), TYPE_TALKBACK_SETTINGS),
-    BRAILLE_DISPLAY(
-        "com.google.android.accessibility.braille.brailledisplay.settings.BrailleDisplaySettingsFragment",
-        TYPE_BRAILLE_DISPLAY_SETTINGS),
     ADVANCED_SETTING(AdvancedSettingFragment.class.getName(), TYPE_TALKBACK_SETTINGS),
     TUTORIAL();
 
     private final String fragmentName;
     @LinkType private final int type;
 
-    /** Creates an intent to link to the TalkBack or Braille display settings. */
+    /** Creates an intent to link to the TalkBack settings. */
     LinkInfo(String fragmentName, @LinkType int type) {
       this.fragmentName = fragmentName;
       this.type = type;
@@ -204,10 +200,6 @@ public abstract class PageConfig {
           intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
           intent.putExtra(FRAGMENT_NAME, fragmentName);
           return intent;
-        }
-        case TYPE_BRAILLE_DISPLAY_SETTINGS -> {
-          // TODO: b/450199420 - supports link to braille display settings.
-          return null;
         }
         case TYPE_TALKBACK_TUTORIAL -> {
           return TutorialInitiator.createTutorialIntent(context);

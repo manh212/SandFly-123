@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Göz atma modu açık</string>
   <string name="individual_sound_browse_mode_off">Göz atma modu kapalı</string>
   <string name="individual_sound_radial_menu">Daire menü</string>
-  <string name="individual_sound_display_connected">Braille ekranı bağlandı</string>
-  <string name="individual_sound_display_disconnected">Braille ekranının bağlantısı kesildi</string>
-  <string name="individual_sound_double_beep">Braille komutu başarısız oldu</string>
-  <string name="individual_sound_turn_on">Otomatik Braille kaydırma açık</string>
-  <string name="individual_sound_turn_off">Otomatik Braille kaydırma kapalı</string>
-  <string name="individual_sound_calibration_done">Braille klavye kalibre edildi</string>
   <string name="individual_vibration_focus">Bir öğeye odaklanma</string>
   <string name="individual_vibration_focus_actionable">İşlem yapılabilir bir öğeye odaklanma</string>
   <string name="individual_vibration_clicked">Tıklama</string>

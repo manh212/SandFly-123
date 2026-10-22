@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">حالت مرور روشن</string>
   <string name="individual_sound_browse_mode_off">حالت مرور خاموش</string>
   <string name="individual_sound_radial_menu">منوی دایره‌ای</string>
-  <string name="individual_sound_display_connected">نمایشگر بریل متصل شد</string>
-  <string name="individual_sound_display_disconnected">اتصال نمایشگر بریل قطع شد</string>
-  <string name="individual_sound_double_beep">فرمان بریل ناموفق بود</string>
-  <string name="individual_sound_turn_on">پیمایش خودکار بریل روشن</string>
-  <string name="individual_sound_turn_off">پیمایش خودکار بریل خاموش</string>
-  <string name="individual_sound_calibration_done">صفحه‌کلید بریل تنظیم شد</string>
   <string name="individual_vibration_focus">تمرکز روی مورد</string>
   <string name="individual_vibration_focus_actionable">تمرکز روی مورد قابل اجرا</string>
   <string name="individual_vibration_clicked">کلیک</string>
@@ -37,10 +31,4 @@
   <string name="individual_vibration_typo">غلط املایی</string>
   <string name="individual_vibration_notification">اعلان</string>
     <string name="individual_sound_screen_on">صفحه روشن است</string>
-    <string name="individual_vibration_braille_character">صفحه‌کلید بریل: تایپ نویسه</string>
-    <string name="individual_vibration_braille_space">صفحه‌کلید بریل: فاصله یا حذف</string>
-    <string name="individual_vibration_braille_new_line">صفحه‌کلید بریل: خط جدید یا حذف کلمه</string>
-    <string name="individual_vibration_braille_hold">صفحه‌کلید بریل: نگه داشتن انگشتان</string>
-    <string name="individual_vibration_braille_gesture">صفحه‌کلید بریل: اشاره‌های دیگر</string>
-    <string name="individual_vibration_braille_nothing_to_delete">صفحه‌کلید بریل: چیزی برای حذف نیست</string>
 </resources>

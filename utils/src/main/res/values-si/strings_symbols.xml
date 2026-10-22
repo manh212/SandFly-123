@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">පූර්ණ පළල වඩා කුඩා ලකුණ</string>
   <string name="symbol_full_width_greater_than_sign">පූර්ණ පළල වඩා විශාල ලකුණ</string>
   <string name="symbol_left_single_quotation_mark">වම් තනි උද්ධෘත ලකුණ</string>
-  <string name="symbol_braille">බ්‍රේල් %s</string>
-  <plurals name="dots">
-    <item quantity="one">තිත් %s</item>
-    <item quantity="other">තිත් %s</item>
-  </plurals>
 </resources>

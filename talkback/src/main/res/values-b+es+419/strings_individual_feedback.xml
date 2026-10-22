@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Modo de exploración activado</string>
   <string name="individual_sound_browse_mode_off">Modo de exploración desactivado</string>
   <string name="individual_sound_radial_menu">Menú circular</string>
-  <string name="individual_sound_display_connected">Pantalla braille conectada</string>
-  <string name="individual_sound_display_disconnected">Pantalla braille desconectada</string>
-  <string name="individual_sound_double_beep">Error en el comando braille</string>
-  <string name="individual_sound_turn_on">Desplazamiento braille automático activado</string>
-  <string name="individual_sound_turn_off">Desplazamiento braille automático desactivado</string>
-  <string name="individual_sound_calibration_done">Teclado braille calibrado</string>
   <string name="individual_vibration_focus">Enfoque en un elemento</string>
   <string name="individual_vibration_focus_actionable">Enfoque en un elemento accionable</string>
   <string name="individual_vibration_clicked">Clic</string>
@@ -37,10 +31,4 @@
   <string name="individual_vibration_typo">Error de ortografía</string>
   <string name="individual_vibration_notification">Anuncio</string>
     <string name="individual_sound_screen_on">Pantalla encendida</string>
-    <string name="individual_vibration_braille_character">Teclado braille: escribir un carácter</string>
-    <string name="individual_vibration_braille_space">Teclado braille: espacio o borrar</string>
-    <string name="individual_vibration_braille_new_line">Teclado braille: nueva línea o borrar una palabra</string>
-    <string name="individual_vibration_braille_hold">Teclado braille: mantener los dedos presionados</string>
-    <string name="individual_vibration_braille_gesture">Teclado braille: otros gestos</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Teclado braille: nada para borrar</string>
 </resources>

@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Шолу режимі қосулы</string>
   <string name="individual_sound_browse_mode_off">Шолу режимі өшірулі</string>
   <string name="individual_sound_radial_menu">Дөңгелек мәзір</string>
-  <string name="individual_sound_display_connected">Брайль дисплейі қосылды</string>
-  <string name="individual_sound_display_disconnected">Брайль дисплейі ажыратылды</string>
-  <string name="individual_sound_double_beep">Брайль пәрмені орындалмады</string>
-  <string name="individual_sound_turn_on">Брайльді автоматты айналдыру қосулы</string>
-  <string name="individual_sound_turn_off">Брайльді автоматты айналдыру өшірулі</string>
-  <string name="individual_sound_calibration_done">Брайль пернетақтасы реттелді</string>
   <string name="individual_vibration_focus">Элементке назар аудару</string>
   <string name="individual_vibration_focus_actionable">Әрекет жасалатын элементке назар аудару</string>
   <string name="individual_vibration_clicked">Басу</string>

@@ -25,17 +25,8 @@ import com.google.android.accessibility.talkback.controlsounds.ControlSounds
  * vibration_backtalk.xml.
  */
 object SoundVibrations {
-  /** Sounds that play without a vibration: the braille display's sounds, and screen on. */
-  val WITHOUT_VIBRATION: Set<String> =
-    setOf(
-      "display_connected",
-      "display_disconnected",
-      "double_beep",
-      "turn_on",
-      "turn_off",
-      "calibration_done",
-      "screen_on",
-    )
+  /** Sounds that play without a vibration: screen on. */
+  val WITHOUT_VIBRATION: Set<String> = setOf("screen_on")
 
   /**
    * The switches of vibrations that only sound themes give, by sound resource name: each kind of
@@ -57,34 +48,14 @@ object SoundVibrations {
 
   /**
    * Vibrations without a sound that a sound theme can replace, by their names in theme.json, with
-   * the names they play under. Announcements play a vibration of their own, and the braille
-   * keyboard and direct touch vibrate outside the feedback controller.
+   * the names they play under. Announcements play a vibration of their own, and
+   * direct touch vibrates outside the feedback controller.
    */
   val VIBRATION_ONLY: Map<String, String> =
     mapOf(
       "announcement" to "notification_pattern",
-      "braille_keyboard_character" to "braille_keyboard_character",
-      "braille_keyboard_space" to "braille_keyboard_space",
-      "braille_keyboard_new_line" to "braille_keyboard_new_line",
-      "braille_keyboard_hold" to "braille_keyboard_hold",
-      "braille_keyboard_gesture" to "braille_keyboard_gesture",
-      "braille_keyboard_nothing_to_delete" to "braille_keyboard_nothing_to_delete",
       "direct_touch_on" to "direct_touch_on",
       "direct_touch_off" to "direct_touch_off",
-    )
-
-  /**
-   * The braille keyboard's vibrations, which it plays itself. Each plays under its own name, which
-   * is also the name of its switch.
-   */
-  val BRAILLE_KEYBOARD: Set<String> =
-    setOf(
-      "braille_keyboard_character",
-      "braille_keyboard_space",
-      "braille_keyboard_new_line",
-      "braille_keyboard_hold",
-      "braille_keyboard_gesture",
-      "braille_keyboard_nothing_to_delete",
     )
 
   /** Patterns that play a sound's vibration without its sound: selection, by the sound's name. */
@@ -129,7 +100,6 @@ object SoundVibrations {
     switchOf(name)
       ?: when (name) {
         in PATTERNS.values,
-        in BRAILLE_KEYBOARD,
         "notification_pattern" -> name
         "view_focused_or_selected_pattern" -> "view_actionable_pattern"
         else -> null
@@ -163,7 +133,7 @@ object SoundVibrations {
 
   /**
    * Vibration pattern resource IDs, by sound resource names, for the feedback controller. By name,
-   * because the braille sounds are in a module whose R class talkback cannot see.
+   * because some sounds are looked up by name rather than by ID.
    */
   @JvmStatic
   fun patternIds(context: Context): Map<String, Int> =

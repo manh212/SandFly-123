@@ -927,28 +927,6 @@ public class NewKeyComboModel implements KeyComboModel {
       }
     }
 
-    if (FeatureFlagReader.enableToggleBrailleOnScreenOverlay(context)) {
-      if (key.equals(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_on_screen_overlay))) {
-        return new KeyCombo(
-            KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
-            NO_PREFIX_KEY_CODE,
-            KeyEvent.KEYCODE_O,
-            /* triggerModifierUsed= */ true);
-      }
-    }
-
-    if (FeatureFlagReader.enableToggleBrailleContractedMode(context)) {
-      if (key.equals(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_contracted_mode))) {
-        return new KeyCombo(
-            KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
-            NO_PREFIX_KEY_CODE,
-            KeyEvent.KEYCODE_G,
-            /* triggerModifierUsed= */ true);
-      }
-    }
-
     if (FeatureFlagReader.enableToggleSelection(context)) {
       if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_selection))) {
         return new KeyCombo(
@@ -1435,58 +1413,6 @@ public class NewKeyComboModel implements KeyComboModel {
     if (FeatureFlagReader.enableToggleVoiceFeedback(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_global_toggle_voice_feedback));
     }
-    if (FeatureFlagReader.enableToggleBrailleContractedMode(context)) {
-      addKeyCombo(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_contracted_mode));
-    }
-    if (FeatureFlagReader.enableToggleBrailleOnScreenOverlay(context)) {
-      addKeyCombo(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_on_screen_overlay));
-    }
-    if (FeatureFlagReader.enableReportIssueKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_report_issue));
-    }
-    if (FeatureFlagReader.enableCyclePunctuationVerbosityKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_global_cycle_punctuation_verbosity));
-    }
-    if (FeatureFlagReader.enableShowVariousListOnScreenSearch(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_show_table_list));
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_show_heading_list));
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_show_landmark_list));
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_show_link_list));
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_show_control_list));
-    }
-    if (FeatureFlagReader.enableReadCurrentUrl(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_read_current_url));
-    }
-    if (FeatureFlagReader.enableReadLinkUrl(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_read_link_url));
-    }
-    if (FeatureFlagReader.enableToggleKeyComboPassThroughOnce(context)) {
-      addKeyCombo(
-          context.getString(R.string.keycombo_shortcut_global_toggle_key_combo_pass_through_once));
-    }
-    if (FeatureFlagReader.enableDoubleClickKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_perform_double_click));
-    }
-    if (FeatureFlagReader.enableCycleTypingEchoKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_cycle_typing_echo));
-    }
-    if (FeatureFlagReader.enableRefocusCurrentNodeKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_global_refocus_current_node));
-    }
-    if (FeatureFlagReader.enableOpenVoiceCommands(context)
-        && TalkbackFeatureSupport.supportSpeechRecognize()) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_open_voice_commands));
-    }
-  }
-
-  private void addKeyCombo(String key) {
-    if (!persister.contains(key)) {
-      KeyCombo defaultKeyCombo = getDefaultKeyCombo(key);
-      persister.saveKeyCombo(key, defaultKeyCombo);
-    }
-
     KeyCombo keyCombo = persister.getKeyCombo(key);
     keyComboMap.put(key, keyCombo);
   }

@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.individualfeedback
 import android.content.Context
 import android.content.SharedPreferences
 import android.media.AudioAttributes
-import android.media.AudioManager
 import android.media.MediaPlayer
 import com.google.android.accessibility.talkback.soundthemes.SoundThemes
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech
@@ -46,13 +45,6 @@ class SoundPreview {
         .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
         .build()
     val custom = SoundThemes.soundFile(context, prefs, item)
-    if (custom == null) {
-      // The braille keyboard's typing sounds are Android's keyboard sounds unless a theme has them.
-      SoundThemes.BRAILLE_TYPING_EFFECTS[item.key]?.let { effect ->
-        context.getSystemService(AudioManager::class.java)?.playSoundEffect(effect, PREVIEW_VOLUME)
-        return
-      }
-    }
     player =
       if (custom != null) {
         try {
@@ -67,7 +59,7 @@ class SoundPreview {
           null
         }
       } else {
-        // By name, because the braille sounds are in a module whose R class talkback cannot see.
+        // By name, because some sounds are looked up by name rather than by ID.
         val resId =
           context.resources.getIdentifier(item.resourceNames.first(), "raw", context.packageName)
         if (resId == 0) null else MediaPlayer.create(context, resId, attributes, 0)
@@ -81,11 +73,6 @@ class SoundPreview {
       }
       start()
     }
-  }
-
-  private companion object {
-    // As loud as the braille keyboard plays them.
-    const val PREVIEW_VOLUME = 0.5f
   }
 
   fun stop() {

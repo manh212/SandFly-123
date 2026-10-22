@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ಪೂರ್ಣ ಅಗಲದ ಕಡಿಮೆ ಮೌಲ್ಯವನ್ನು ಸೂಚಿಸುವ ಚಿಹ್ನೆ</string>
   <string name="symbol_full_width_greater_than_sign">ಪೂರ್ಣ ಅಗಲದ ಹೆಚ್ಚು ಮೌಲ್ಯವನ್ನು ಸೂಚಿಸುವ ಚಿಹ್ನೆ</string>
   <string name="symbol_left_single_quotation_mark">ಎಡಭಾಗದ ಏಕ ಉದ್ಧರಣ ಚಿಹ್ನೆ</string>
-  <string name="symbol_braille">ಬ್ರೈಲ್‌ %s</string>
-  <plurals name="dots">
-    <item quantity="one">ಡಾಟ್‌ಗಳು %s</item>
-    <item quantity="other">ಡಾಟ್‌ಗಳು %s</item>
-  </plurals>
 </resources>

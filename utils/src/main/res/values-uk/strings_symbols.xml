@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Знак \"менше\" повної ширини</string>
   <string name="symbol_full_width_greater_than_sign">Знак \"більше\" повної ширини</string>
   <string name="symbol_left_single_quotation_mark">Ліві одинарні лапки</string>
-  <string name="symbol_braille">символ шрифту Брайля %s</string>
-  <plurals name="dots">
-    <item quantity="one">крапка %s</item>
-    <item quantity="few">крапки %s</item>
-    <item quantity="many">крапки %s</item>
-    <item quantity="other">крапки %s</item>
-  </plurals>
 </resources>

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Толук жазылыктагы салыштырмалуу кичине белгиси</string>
   <string name="symbol_full_width_greater_than_sign">Толук жазылыктагы салыштырмалуу чоң белгиси</string>
   <string name="symbol_left_single_quotation_mark">Солду карап турган жалгыз тырмакча</string>
-  <string name="symbol_braille">брайль %s</string>
-  <plurals name="dots">
-    <item quantity="one">чекит %s</item>
-    <item quantity="other">чекиттер %s</item>
-  </plurals>
 </resources>

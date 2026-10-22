@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">पूरी चौड़ाई वाला \'कम\' का निशान</string>
   <string name="symbol_full_width_greater_than_sign">पूरी चौड़ाई वाला \'ज़्यादा\' का निशान</string>
   <string name="symbol_left_single_quotation_mark">बाईं तरफ़ का सिंगल कोटेशन का निशान</string>
-  <string name="symbol_braille">ब्रेल %s</string>
-  <plurals name="dots">
-    <item quantity="one">बिंदु %s</item>
-    <item quantity="other">बिंदु %s</item>
-  </plurals>
 </resources>

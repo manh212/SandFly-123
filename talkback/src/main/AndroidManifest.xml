@@ -52,8 +52,7 @@
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <!-- Used by the status readout for the Wi-Fi state, signal, and network name. Android shows
-    the network name only with location permission. The braille display declares location only
-    up to API 30 for Bluetooth scans, so remove that limit. -->
+    the network name only with location permission. -->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission
         android:name="android.permission.ACCESS_COARSE_LOCATION"
@@ -110,22 +109,8 @@
         android:description="@string/permission_speak_description"
         android:protectionLevel="normal" />
 
-    <!-- Held by an app that can provide a braille display, so that it can ask to be one. Backtalk
-         uses it only once the user allows it in Backtalk. See docs/braille-display-api.md. Named
-         after the app ID, as SPEAK is. -->
-    <permission
-        android:name="${applicationId}.permission.BRAILLE_DISPLAY"
-        android:label="@string/permission_braille_display_label"
-        android:description="@string/permission_braille_display_description"
-        android:protectionLevel="normal" />
-    <!-- Required by a braille display app's service, so that only Backtalk can bind it. -->
-    <permission
-        android:name="${applicationId}.permission.BIND_BRAILLE_DISPLAY"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="${applicationId}.permission.BIND_BRAILLE_DISPLAY" />
-
-    <!-- Granted by the user with adb, to move the accessibility shortcut and the braille keyboard
-         from the old app ID and turn the old screen reader off. -->
+    <!-- Granted by the user with adb, to move the accessibility shortcut from the old app ID
+         and turn the old screen reader off. -->
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />

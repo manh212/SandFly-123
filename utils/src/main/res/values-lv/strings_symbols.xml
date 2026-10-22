@@ -141,10 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Pilna platuma zīme “mazāks nekā”</string>
   <string name="symbol_full_width_greater_than_sign">Pilna platuma zīme “lielāks nekā”</string>
   <string name="symbol_left_single_quotation_mark">Viena kreisās puses pēdiņa</string>
-  <string name="symbol_braille">Braila raksts: %s</string>
-  <plurals name="dots">
-    <item quantity="zero">%s punkti</item>
-    <item quantity="one">%s punkts</item>
-    <item quantity="other">%s punkti</item>
-  </plurals>
 </resources>

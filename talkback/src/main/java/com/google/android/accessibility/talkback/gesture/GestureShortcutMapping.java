@@ -590,7 +590,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     PASTE(R.string.shortcut_value_paste, android.R.string.paste),
     COPY_LAST_SPOKEN_UTTERANCE(
         R.string.shortcut_value_copy_last_spoken_phrase, R.string.title_copy_last_spoken_phrase),
-    BRAILLE_KEYBOARD(R.string.shortcut_value_braille_keyboard, R.string.shortcut_braille_keyboard),
 
     // Special features.
     MEDIA_CONTROL(R.string.shortcut_value_media_control, R.string.shortcut_media_control),
@@ -624,17 +623,12 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         R.string.shortcut_value_print_performance_stats, R.string.shortcut_print_performance_stats),
     SHOW_CUSTOM_ACTIONS(
         R.string.shortcut_value_show_custom_actions, R.string.shortcut_show_custom_actions),
-    NAVIGATE_BRAILLE_SETTINGS(
-        R.string.shortcut_value_braille_display_settings,
-        R.string.shortcut_braille_display_settings),
     TUTORIAL(R.string.shortcut_value_tutorial, R.string.shortcut_tutorial),
     CONTROL_TELLING_TIME(
         R.string.shortcut_value_control_telling_time, R.string.shortcut_control_speak_time),
     PRACTICE_GESTURE(
         R.string.shortcut_value_practice_gestures, R.string.shortcut_practice_gestures),
     REPORT_GESTURE(R.string.shortcut_value_report_gesture, R.string.shortcut_report_gesture),
-    TOGGLE_BRAILLE_DISPLAY_ON_OFF(
-        R.string.shortcut_value_toggle_braille_display, R.string.shortcut_toggle_braille_display),
     SCREEN_OVERVIEW(R.string.shortcut_value_screen_overview, R.string.title_summarize_view),
     DESCRIBE_IMAGE(R.string.shortcut_value_describe_image, R.string.title_image_caption),
     ANNOUNCE_CURRENT_TIME_AND_DATE(

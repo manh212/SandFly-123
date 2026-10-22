@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">แตะเพื่อสำรวจ</string>
   <string name="title_pref_category_visual">ภาพ</string>
   <string name="title_pref_category_controls">การควบคุม</string>
-  <string name="title_pref_category_braille">อักษรเบรลล์</string>
   <string name="title_pref_category_general">ทั่วไป</string>
   <string name="title_pref_category_advanced">ขั้นสูง</string>
   <string name="title_pref_category_others">อื่นๆ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ลดความล่าช้า</string>
   <string name="talkback_latency_reduction_summary">การตั้งค่าเพื่อลดความล่าช้าก่อนประกาศของ TalkBack</string>
   <string name="summary_pref_intonation">พูดตัวอักษรที่ลบด้วยโทนเสียงที่สูงขึ้น</string>
-  <string name="title_pref_brailledisplay">จอแสดงผลอักษรเบรลล์</string>
-  <string name="title_pref_brailleime">แป้นพิมพ์อักษรเบรลล์</string>
-  <string name="summary_pref_brailleime_disabled">อุปกรณ์ของคุณไม่รองรับแป้นพิมพ์อักษรเบรลล์</string>
   <string name="title_pref_speech_footer">คุณสามารถปรับการตั้งค่าเสียงบางรายการของ TalkBack อย่างรวดเร็วจากหน้าจอใดก็ได้\n\nระดับเสียงการช่วยเหลือพิเศษ: ใช้ 1 นิ้วกดหน้าจอค้างไว้ แล้วกดปุ่มเพิ่มหรือลดระดับเสียง\nความเร็วในการพูดของ TalkBack: ใช้ 3 นิ้วปัดขึ้นหรือลง เมื่อได้ยินคำว่า \"ความเร็วในการพูด\" ให้ใช้ 1 นิ้วปัดขึ้นหรือลง</string>
   <string name="title_pref_vibration">การสั่นเตือน</string>
   <string name="title_pref_soundback">เสียงเตือน</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">เพิ่มระดับเสียง</string>
   <string name="shortcut_decrease_volume">ลดระดับเสียง</string>
   <string name="shortcut_all_apps">แอปทั้งหมด</string>
-  <string name="shortcut_braille_keyboard">เปลี่ยนเป็นแป้นพิมพ์อักษรเบรลล์</string>
-  <string name="shortcut_braille_display_settings">ไปยังการตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="shortcut_tutorial">เปิดบทแนะนำ</string>
   <string name="shortcut_control_speak_time">พูดหรือไม่พูดบอกเวลา</string>
   <string name="shortcut_enable_speak_time">พูดบอกเวลา</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">ปิด \"พูดบอกเวลา\"</string>
   <string name="shortcut_practice_gestures">ใช้ท่าทางสัมผัส</string>
   <string name="shortcut_report_gesture">รายงานปัญหาเกี่ยวกับท่าทางสัมผัส</string>
-  <string name="shortcut_toggle_braille_display">เปิดหรือปิดจอแสดงผลอักษรเบรลล์</string>
   <string name="shortcut_announce_current_time_and_date">พูดวันที่และเวลาปัจจุบัน</string>
   <string name="shortcut_announce_battery_state">พูดเปอร์เซ็นต์แบตเตอรี่</string>
   <string name="shortcut_announce_current_title">พูดชื่อหน้าต่าง</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">ลดความเร็วในการพูด</string>
   <string name="shortcut_toggle_selection">เริ่มหรือสิ้นสุดโหมดการเลือก</string>
   <string name="shortcut_show_tutorial">เปิดบทแนะนำ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">สลับรูปย่อ (เกรด 2) กับรูปเต็ม (เกรด 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">แสดง/ซ่อนอักษรเบรลล์บนหน้าจอสำหรับจออักษรเบรลล์ที่เชื่อมต่อ</string>
   <string name="shortcut_toggle_sound_feedback">เปิดหรือปิดเสียงเตือน (เอียร์คอน)</string>
   <string name="shortcut_show_learn_mode_page">ฝึกใช้แป้นพิมพ์ลัด</string>
   <string name="shortcut_announce_phonetic_pronunciation">พูดตัวอักษรพร้อมการออกเสียงสำหรับรายการที่โฟกัส</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">คำสั่งเสียง</string>
   <string name="title_show_keyboard_shortcuts">แป้นพิมพ์ลัด</string>
   <string name="talkback_show_talkback_settings">การตั้งค่า TalkBack</string>
-  <string name="title_show_braille_display_settings">การตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="title_granularity_default">ค่าเริ่มต้นของการไปยังส่วนต่างๆ</string>
   <string name="title_action_dismiss">ปิด</string>
   <string name="title_action_expand">ขยาย</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">เปลี่ยนว่าจะให้ระบบพูดบอกเวลาหรือไม่เมื่อเปิดหน้าจอ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">เปิดรายการแป้นพิมพ์ลัด</string>
   <string name="summary_talkback_preferences">เปิดการตั้งค่า TalkBack</string>
-  <string name="summary_braile_display_preferences">เปิดการตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="summary_system_actions">ไปที่แอปทั้งหมดและการตั้งค่าด่วน</string>
   <string name="summary_tts_settings">เปิดการตั้งค่าการอ่านออกเสียงข้อความ</string>
   <string name="not_editable">แก้ไขไม่ได้</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">คีย์เวิร์ดคือ %1$s</string>
   <string name="screen_search_no_keyword_hint">ยังไม่มีคีย์เวิร์ด หากต้องการเริ่มการค้นหาใหม่ ให้ใช้ 3 นิ้วแตะค้างไว้หรือเปิดการค้นหาในหน้าจอจากเมนู TalkBack</string>
   <string name="screen_search_no_keyword_hint_pre_r">ยังไม่มีคีย์เวิร์ด หากต้องการเริ่มการค้นหาใหม่ ให้ปัดไปทางซ้ายแล้วปัดลง หรือเปิดการค้นหาในหน้าจอจากเมนู TalkBack</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ไม่ได้เปิดแป้นพิมพ์อักษรเบรลล์ ไปที่การตั้งค่า TalkBack, ตั้งค่าแป้นพิมพ์อักษรเบรลล์ และลองอีกครั้ง</string>
   <string name="suggestions_window_available">มีคำแนะนำ</string>
   <string name="suggestions_window_available_with_gesture">มีคำแนะนำ หากต้องการเข้าถึง ให้%1$s</string>
   <string name="heads_up_window_available">มีการแจ้งเตือน</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">แตะเพื่อดูวิธีใช้ TalkBack ได้เร็วขึ้นด้วยท่าทางสัมผัสใหม่ๆ</string>
   <string name="dump_node_tree_description">พิมพ์โหนดที่สามลงในบันทึกแล้ว</string>
   <string name="report_gesture_description">ท่าทางสัมผัสที่ทำล่าสุดมีดังต่อไปนี้ โปรดรายงานท่าทางสัมผัสที่ไม่ถูกต้องและท่าทางสัมผัสที่ต้องการ</string>
-  <string name="update_welcome_text_content">ตอนนี้คุณสามารถเชื่อมต่อกับจอแสดงผลอักษรเบรลล์ผ่าน HID ซึ่งเป็นวิธีเชื่อมต่อกับอุปกรณ์บลูทูธ ตรวจสอบว่าคุณมีไดรเวอร์เฟิร์มแวร์เวอร์ชันล่าสุดจากผู้ผลิต จากนั้นเปิดบลูทูธในจอแสดงผลอักษรเบรลล์ ไปที่การตั้งค่า TalkBack &gt; จอแสดงผลอักษรเบรลล์ แล้วเปิด \"ใช้จอแสดงผลอักษรเบรลล์\" ค้นหาอุปกรณ์ในรายการแล้วเชื่อมต่อ</string>
-  <string name="update_welcome_text_content_tts">ตอนนี้คุณสามารถเชื่อมต่อกับจอแสดงผลอักษรเบรลล์ผ่าน HID ซึ่งเป็นวิธีเชื่อมต่อกับอุปกรณ์บลูทูธ ตรวจสอบว่าคุณมีไดรเวอร์เฟิร์มแวร์เวอร์ชันล่าสุดจากผู้ผลิต จากนั้นเปิดบลูทูธในจอแสดงผลอักษรเบรลล์ ไปที่การตั้งค่า TalkBack จากนั้นไปที่จอแสดงผลอักษรเบรลล์แล้วเปิด \"ใช้จอแสดงผลอักษรเบรลล์\" ค้นหาอุปกรณ์ในรายการแล้วเชื่อมต่อ</string>
-  <string name="update_welcome_text_content_with_link">ดูวิธีใช้จอแสดงผลอักษรเบรลล์กับ TalkBack</string>
   <string name="update_welcome_talkback_16.1">การอัปเดต TalkBack นี้มีการรองรับฟีเจอร์อธิบายหน้าจอในภาษาต่างๆ เพิ่มเติมและการปรับปรุงคุณภาพอื่นๆ ที่ทำให้ TalkBack ใช้งานได้ง่ายขึ้น\n\nคุณจะดูข้อมูลเพิ่มเติมเกี่ยวกับการเปลี่ยนแปลงเหล่านี้ได้ในอีกไม่กี่หน้าจอถัดไป\n\nคุณดูข้อมูลนี้ในภายหลังได้ที่การตั้งค่า TalkBack &gt; ฟีเจอร์ใหม่ใน TalkBack</string>
   <string name="update_welcome_talkback_16.1_tts">การอัปเดต TalkBack นี้มีการรองรับฟีเจอร์อธิบายหน้าจอในภาษาต่างๆ เพิ่มเติมและการปรับปรุงคุณภาพอื่นๆ ที่ทำให้ TalkBack ใช้งานได้ง่ายขึ้น\n\nคุณจะดูข้อมูลเพิ่มเติมเกี่ยวกับการเปลี่ยนแปลงเหล่านี้ได้ในอีกไม่กี่หน้าจอถัดไป\n\nคุณดูข้อมูลนี้ในภายหลังได้ที่ \"การตั้งค่า TalkBack\" จากนั้นไปที่ \"ฟีเจอร์ใหม่ใน TalkBack\"</string>
   <string name="describe_screen_and_qna_title">ภาษาใหม่สำหรับฟีเจอร์อธิบายหน้าจอและขอความช่วยเหลือจาก Gemini</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">ลดความล่าช้า</string>
   <string name="reduce_delay_content">ตอนนี้คุณสามารถลดความล่าช้าในการประกาศของ TalkBack สำหรับการสำรวจด้วยการแตะและการพิมพ์ได้แล้ว หากต้องการดูการตั้งค่าเหล่านี้ ให้ไปที่การตั้งค่า TalkBack &gt; การตั้งค่าขั้นสูง &gt; ลดความล่าช้า</string>
   <string name="reduce_delay_content_tts">ตอนนี้คุณสามารถลดความล่าช้าในการประกาศของ TalkBack สำหรับการสำรวจด้วยการแตะและการพิมพ์ได้แล้ว หากต้องการดูการตั้งค่าเหล่านี้ ให้ไปที่การตั้งค่า TalkBack จากนั้นไปที่การตั้งค่าขั้นสูง แล้วเลือก \"ลดความล่าช้า\"</string>
-  <string name="customize_braille_keyboard_improvements_title">ปรับแต่งท่าทางสัมผัสของแป้นพิมพ์อักษรเบรลล์</string>
-  <string name="customize_braille_keyboard_improvements_content">ตอนนี้คุณสามารถปรับแต่งท่าทางสัมผัสสำหรับแป้นพิมพ์อักษรเบรลล์เสมือนบนหน้าจอได้แล้ว หากต้องการปรับแต่ง ให้ไปที่การตั้งค่า TalkBack &gt; แป้นพิมพ์อักษรเบรลล์ &gt; ท่าทางสัมผัส</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">ตอนนี้คุณสามารถปรับแต่งท่าทางสัมผัสสำหรับแป้นพิมพ์อักษรเบรลล์เสมือนบนหน้าจอได้แล้ว หากต้องการปรับแต่ง ให้ไปที่การตั้งค่า TalkBack จากนั้นไปที่ \"แป้นพิมพ์อักษรเบรลล์\" แล้วไปที่ \"ท่าทางสัมผัส\"</string>
-  <string name="learn_more_about_braille_keyboard">ดูข้อมูลเพิ่มเติมเกี่ยวกับแป้นพิมพ์อักษรเบรลล์</string>
   <string name="other_changes_title">การเปลี่ยนแปลงอื่นๆ</string>
   <string name="other_changes_content">ตอนนี้ข้อความบนหน้าจอจะช่วยให้คุณปิด TalkBack ได้อย่างรวดเร็วหากเปิดใช้โดยไม่ตั้งใจ คุณสามารถปิดฟีเจอร์นี้ได้ในการตั้งค่า TalkBack &gt; แสดงวิธีการปิด TalkBack</string>
   <string name="other_changes_content_tts">ตอนนี้ข้อความบนหน้าจอจะช่วยให้คุณปิด TalkBack ได้อย่างรวดเร็วหากเปิดใช้โดยไม่ตั้งใจ คุณสามารถปิดฟีเจอร์นี้ได้ในการตั้งค่า TalkBack จากนั้นเลือก \"แสดงวิธีการปิด TalkBack\"</string>
@@ -1022,7 +1003,6 @@
   <string name="keyboard_enhanced_keymap_text">ตอนนี้ TalkBack มี \"คีย์แมปที่ปรับปรุงแล้ว\" สำหรับแป้นพิมพ์จริง ซึ่งมาพร้อมคำสั่งและแป้นพิมพ์ลัดใหม่ๆ มากมาย การปรับปรุงนี้รวมถึง \"โหมดอ่าน\" เพื่อการไปยังส่วนต่างๆ ในเว็บอย่างมีประสิทธิภาพมากขึ้น ซึ่งจะช่วยปรับปรุงการไปยังส่วนต่างๆ และการโต้ตอบสำหรับผู้ใช้ TalkBack ที่ต้องใช้แป้นพิมพ์จริง คุณเปลี่ยนไปใช้ \"คีย์แมปที่ปรับปรุงแล้ว\" ได้ใน%1$s\n\nหากใช้จอแสดงผลอักษรเบรลล์ คุณสามารถใช้แป้นพิมพ์ลัดของโหมดอ่านใหม่เพื่อเลื่อนดูเนื้อหาโดยตรงจากจอแสดงผลอักษรเบรลล์ได้ด้วย แป้นพิมพ์ลัดบางรายการของจอแสดงผลอักษรเบรลล์มีการเปลี่ยนแปลงเพื่อให้รองรับการอัปเดตนี้ คุณดูรายการแป้นพิมพ์ลัดทั้งหมดของจอแสดงผลอักษรเบรลล์ได้ใน%2$s</string>
   <string name="keyboard_shortcuts_link">การตั้งค่า TalkBack &gt; แป้นพิมพ์ลัด</string>
   <string name="keyboard_shortcuts_link_tts">การตั้งค่า TalkBack จากนั้นไปที่ \"แป้นพิมพ์ลัด\"</string>
-  <string name="braille_display_settings_link">การตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="keyboard_smart_browse_mode_title">แป้นพิมพ์: โหมดอ่านอัจฉริยะ</string>
   <string name="keyboard_smart_browse_mode_text">โหมดอ่านอัจฉริยะของ TalkBack จะปิดโหมดอ่านในช่องแก้ไขเพื่อช่วยให้คุณพิมพ์ด้วยแป้นพิมพ์จริงได้เมื่อท่องเว็บ จากนั้นโหมดนี้จะเปิดอีกครั้งเมื่อคุณข้ามไปยังช่องที่ไม่ใช่ช่องแก้ไขบนเว็บเพื่อให้คุณสามารถเรียกดูได้อย่างมีประสิทธิภาพต่อไป คุณเปิดหรือปิด \"โหมดอ่านอัจฉริยะ\" ได้ใน%1$s</string>
   <string name="advanced_settings_link">การตั้งค่า TalkBack &gt; การตั้งค่าขั้นสูง</string>
@@ -1095,7 +1075,6 @@
   <string name="typing_text_title">การพิมพ์ข้อความ</string>
   <string name="basic_typing_text_text">เมื่ออยู่ในกล่องข้อความ แป้นพิมพ์จะเปิดขึ้นที่ด้านล่างของหน้าจอ</string>
   <string name="typing_text_text">เลื่อนนิ้วไปมาบนแป้นพิมพ์ เมื่อได้ยินตัวอักษรที่คุณต้องการพิมพ์แล้วให้ยกนิ้วขึ้น\n\nลองเปิดใช้งานกล่องข้อความด้านล่างแล้วพิมพ์ชื่อของคุณ</string>
-  <string name="typing_text_with_braille_keyboard_text">คุณพิมพ์โดยใช้แป้นพิมพ์อักษรเบรลล์ได้ด้วย ซึ่งจะค้นหาแป้นพิมพ์นี้ได้ในการตั้งค่า TalkBack</string>
   <string name="other_ways_to_type_title">วิธีอื่นๆ ในการพิมพ์</string>
   <string name="other_ways_to_type_text">TalkBack มีวิธีอื่นๆ ในการพิมพ์ เช่น คุณแตะสองครั้งเพื่อป้อนตัวอักษรได้</string>
   <string name="basic_other_ways_to_type_text">TalkBack มีวิธีอื่นๆ ในการพิมพ์ เช่น คุณแตะสองครั้งเพื่อป้อนตัวอักษรได้ คุณทำการเปลี่ยนแปลงนี้ภายหลังได้ในการตั้งค่า TalkBack &gt; แป้นพิมพ์บนหน้าจอ &gt; ค่ากำหนดการพิมพ์</string>

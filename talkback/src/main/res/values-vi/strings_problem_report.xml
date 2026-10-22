@@ -29,14 +29,11 @@
         <item>Chậm hoặc không phản hồi</item>
         <item>Đề xuất</item>
     </string-array>
-    <string-array name="problem_report_area_entries">
-        <item>Lời nói</item>
+    <string-array name="problem_report_area_entries">        <item>Lời nói</item>
         <item>Cử chỉ</item>
         <item>Khám phá bằng cách chạm</item>
         <item>Chế độ điều khiển chức năng đọc và trình đơn</item>
         <item>Nhập và bàn phím</item>
-        <item>Bàn phím chữ nổi</item>
-        <item>Màn hình chữ nổi</item>
         <item>Âm thanh và rung</item>
         <item>Thông báo</item>
         <item>Nội dung web</item>
@@ -44,5 +41,5 @@
         <item>Cài đặt</item>
         <item>Bản cập nhật</item>
         <item>Khác</item>
-    </string-array>
+</string-array>
 </resources>

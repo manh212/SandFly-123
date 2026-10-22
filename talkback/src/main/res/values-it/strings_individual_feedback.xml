@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Modalità di navigazione attiva</string>
   <string name="individual_sound_browse_mode_off">Modalità di navigazione disattivata</string>
   <string name="individual_sound_radial_menu">Menu circolare</string>
-  <string name="individual_sound_display_connected">Display braille connesso</string>
-  <string name="individual_sound_display_disconnected">Display braille disconnesso</string>
-  <string name="individual_sound_double_beep">Comando braille non riuscito</string>
-  <string name="individual_sound_turn_on">Scorrimento braille automatico attivo</string>
-  <string name="individual_sound_turn_off">Scorrimento braille automatico disattivato</string>
-  <string name="individual_sound_calibration_done">Tastiera braille calibrata</string>
   <string name="individual_vibration_focus">Elemento attivo</string>
   <string name="individual_vibration_focus_actionable">Elemento attivabile attivo</string>
   <string name="individual_vibration_clicked">Clic</string>

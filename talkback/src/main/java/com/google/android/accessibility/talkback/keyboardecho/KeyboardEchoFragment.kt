@@ -23,8 +23,7 @@ import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFra
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 /**
- * Keyboard echo for each way of typing: the on-screen and physical keyboards, the braille keyboard
- * and braille displays.
+ * Keyboard echo for each way of typing: the on-screen and physical keyboards.
  */
 class KeyboardEchoFragment : TalkbackBaseFragment(R.xml.keyboard_echo_preferences) {
   private lateinit var prefs: SharedPreferences

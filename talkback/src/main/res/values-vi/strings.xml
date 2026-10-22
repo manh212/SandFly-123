@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Khám phá bằng cách chạm</string>
   <string name="title_pref_category_visual">Hình ảnh</string>
   <string name="title_pref_category_controls">Các thành phần điều khiển</string>
-  <string name="title_pref_category_braille">Chữ nổi</string>
   <string name="title_pref_category_general">Chung</string>
   <string name="title_pref_category_advanced">Nâng cao</string>
   <string name="title_pref_category_others">Tính năng khác</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Giảm độ trễ</string>
   <string name="talkback_latency_reduction_summary">Giúp SandFly phản hồi nhanh hơn sau khi bạn chạm vào màn hình</string>
   <string name="summary_pref_intonation">Đọc các chữ cái đã xoá bằng giọng có âm vực cao hơn</string>
-  <string name="title_pref_brailledisplay">Màn hình chữ nổi</string>
-  <string name="title_pref_brailleime">Bàn phím chữ nổi</string>
-  <string name="summary_pref_brailleime_disabled">Thiết bị của bạn không hỗ trợ bàn phím chữ nổi</string>
   <string name="title_pref_speech_footer">Để thay đổi âm lượng hỗ trợ tiếp cận trên màn hình bất kỳ, hãy giữ 1 ngón tay trên màn hình và nhấn phím tăng hoặc giảm âm lượng.</string>
   <string name="title_pref_vibration">Phản hồi bằng cách rung</string>
   <string name="title_pref_soundback">Phản hồi bằng âm thanh</string>
@@ -486,8 +482,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="shortcut_increase_volume">Tăng âm lượng</string>
   <string name="shortcut_decrease_volume">Giảm âm lượng</string>
   <string name="shortcut_all_apps">Tất cả ứng dụng</string>
-  <string name="shortcut_braille_keyboard">Chuyển sang bàn phím chữ nổi</string>
-  <string name="shortcut_braille_display_settings">Chuyển đến phần cài đặt màn hình chữ nổi</string>
   <string name="shortcut_tutorial">Mở hướng dẫn</string>
   <string name="shortcut_control_speak_time">Bật hoặc tắt tính năng đọc to thời gian</string>
   <string name="shortcut_enable_speak_time">Đọc to thời gian</string>
@@ -496,7 +490,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="speak_time_off">Tính năng đọc to thời gian đang tắt</string>
   <string name="shortcut_practice_gestures">Thực hành cử chỉ</string>
   <string name="shortcut_report_gesture">Báo cáo vấn đề về cử chỉ</string>
-  <string name="shortcut_toggle_braille_display">Bật hoặc tắt màn hình chữ nổi</string>
   <string name="shortcut_announce_current_time_and_date">Đọc ngày và giờ hiện tại</string>
   <string name="shortcut_announce_battery_state">Nói phần trăm pin</string>
   <string name="shortcut_announce_current_title">Đọc tiêu đề cửa sổ</string>
@@ -506,8 +499,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="shortcut_speech_rate_decrease">Giảm tốc độ lời nói</string>
   <string name="shortcut_toggle_selection">Bắt đầu hoặc kết thúc chế độ lựa chọn</string>
   <string name="shortcut_show_tutorial">Mở phần hướng dẫn</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Chuyển đổi giữa chế độ rút gọn (cấp 2) và không rút gọn (cấp 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Hiện/ẩn chữ nổi trên màn hình cho màn hình chữ nổi đã kết nối</string>
   <string name="shortcut_toggle_sound_feedback">Bật hoặc tắt tính năng phản hồi bằng âm thanh (âm báo)</string>
   <string name="shortcut_show_learn_mode_page">Thực hành sử dụng các phím tắt</string>
   <string name="shortcut_announce_phonetic_pronunciation">Đọc các chữ cái kèm cách phát âm theo phiên âm cho mục được chọn</string>
@@ -548,7 +539,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="title_show_voice_commands">Lệnh thoại</string>
   <string name="title_show_keyboard_shortcuts">Phím tắt</string>
   <string name="talkback_show_talkback_settings">Cài đặt SandFly</string>
-  <string name="title_show_braille_display_settings">Cài đặt màn hình chữ nổi</string>
   <string name="title_granularity_default">Cách di chuyển mặc định</string>
   <string name="title_action_dismiss">Loại bỏ</string>
   <string name="title_action_expand">Mở rộng</string>
@@ -576,7 +566,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="summary_control_speak_time">Thay đổi việc có đọc to thời gian khi bạn bật màn hình hay không</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Mở danh sách phím tắt</string>
   <string name="summary_talkback_preferences">Mở phần cài đặt SandFly</string>
-  <string name="summary_braile_display_preferences">Mở phần cài đặt màn hình chữ nổi</string>
   <string name="summary_system_actions">Chuyển đến phần tất cả ứng dụng và Cài đặt nhanh</string>
   <string name="summary_tts_settings">Mở phần cài đặt chuyển văn bản sang lời nói</string>
   <string name="not_editable">Không thể chỉnh sửa</string>
@@ -917,7 +906,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="screen_search_keyword_hint">từ khoá là %1$s</string>
   <string name="screen_search_no_keyword_hint">Chưa có từ khoá nào. Để bắt đầu một lượt tìm kiếm mới, hãy nhấn và giữ bằng 3 ngón tay hoặc mở tính năng tìm kiếm trên màn hình từ trình đơn SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Chưa có từ khoá nào. Để bắt đầu một lượt tìm kiếm mới, hãy vuốt sang trái rồi vuốt xuống hoặc mở tính năng tìm kiếm trên màn hình từ trình đơn SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Bàn phím chữ nổi chưa được bật. Hãy chuyển đến mục cài đặt SandFly, thiết lập bàn phím chữ nổi rồi thử lại.</string>
   <string name="suggestions_window_available">Đề xuất có sẵn</string>
   <string name="suggestions_window_available_with_gesture">Đề xuất có sẵn. Để sử dụng đề xuất này, hãy %1$s</string>
   <string name="heads_up_window_available">Có thông báo</string>
@@ -967,9 +955,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="new_gesture_notification_content">Nhấn để tìm hiểu cách sử dụng SandFly nhanh hơn bằng các cử chỉ mới.</string>
   <string name="dump_node_tree_description">Đã in cây nút vào nhật ký.</string>
   <string name="report_gesture_description">Đây là các cử chỉ được thực hiện gần đây, vui lòng báo cáo cử chỉ sai và mô tả cử chỉ đúng.</string>
-  <string name="update_welcome_text_content">Bạn hiện có thể kết nối với màn hình chữ nổi qua HID, đây là một cách để kết nối với thiết bị Bluetooth. Đảm bảo bạn đang dùng trình điều khiển chương trình cơ sở mới nhất của nhà sản xuất, sau đó bật Bluetooth trên màn hình chữ nổi. Chuyển đến phần Cài đặt SandFly &gt; Màn hình chữ nổi rồi bật tuỳ chọn \"Dùng màn hình chữ nổi\". Tìm thiết bị của bạn trong danh sách thiết bị rồi kết nối với thiết bị đó.</string>
-  <string name="update_welcome_text_content_tts">Bạn hiện có thể kết nối với màn hình chữ nổi qua HID, đây là một cách để kết nối với thiết bị Bluetooth. Đảm bảo bạn đang dùng trình điều khiển chương trình cơ sở mới nhất của nhà sản xuất, sau đó bật Bluetooth trên màn hình chữ nổi. Chuyển đến phần Cài đặt SandFly &gt; Màn hình chữ nổi rồi bật tuỳ chọn \"Dùng màn hình chữ nổi\". Tìm thiết bị của bạn trong danh sách thiết bị rồi kết nối với thiết bị đó.</string>
-  <string name="update_welcome_text_content_with_link">Tìm hiểu cách dùng màn hình chữ nổi với SandFly.</string>
   <string name="update_welcome_talkback_16.1">Bản cập nhật SandFly này hỗ trợ tính năng Mô tả nội dung trên màn hình bằng nhiều ngôn ngữ hơn và các cải tiến khác về chất lượng giúp bạn dễ sử dụng SandFly hơn.\n\nBạn sẽ tìm hiểu thêm về những thay đổi này ở các màn hình tiếp theo.\n\nBạn có thể vào phần Cài đặt SandFly &gt; Tính năng mới trong SandFly để xem thông tin này sau.</string>
   <string name="update_welcome_talkback_16.1_tts">Bản cập nhật SandFly này hỗ trợ tính năng Mô tả nội dung trên màn hình bằng nhiều ngôn ngữ hơn và các cải tiến khác về chất lượng giúp bạn dễ sử dụng SandFly hơn.\n\nBạn sẽ tìm hiểu thêm về những thay đổi này ở các màn hình tiếp theo.\n\nBạn có thể vào phần Cài đặt SandFly rồi chọn Tính năng mới trong SandFly để xem lại thông tin này sau.</string>
   <string name="describe_screen_and_qna_title">Ngôn ngữ mới cho tính năng Mô tả nội dung trên màn hình và Hỏi Gemini</string>
@@ -985,10 +970,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="reduce_delay_title">Giảm độ trễ</string>
   <string name="reduce_delay_content">Giờ đây, bạn có thể giảm độ trễ của thông báo SandFly khi nhập và khám phá bằng cách chạm. Để xem các chế độ cài đặt này, hãy chuyển đến phần Cài đặt SandFly &gt; Cài đặt nâng cao &gt; Giảm độ trễ.</string>
   <string name="reduce_delay_content_tts">Giờ đây, bạn có thể giảm độ trễ của thông báo SandFly khi nhập và khám phá bằng cách chạm. Để xem các chế độ cài đặt này, hãy chuyển đến phần Cài đặt SandFly, chọn Cài đặt nâng cao rồi chọn Giảm độ trễ.</string>
-  <string name="customize_braille_keyboard_improvements_title">Tuỳ chỉnh cử chỉ trên bàn phím chữ nổi</string>
-  <string name="customize_braille_keyboard_improvements_content">Giờ đây, bạn có thể tuỳ chỉnh cử chỉ cho bàn phím chữ nổi ảo trên màn hình. Để tuỳ chỉnh, hãy chuyển đến phần Cài đặt SandFly &gt; Bàn phím chữ nổi &gt; Cử chỉ.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Giờ đây, bạn có thể tuỳ chỉnh cử chỉ cho bàn phím chữ nổi ảo trên màn hình. Để tuỳ chỉnh, hãy chuyển đến phần Cài đặt SandFly, chọn Bàn phím chữ nổi rồi chọn Cử chỉ.</string>
-  <string name="learn_more_about_braille_keyboard">Tìm hiểu thêm về bàn phím chữ nổi</string>
   <string name="other_changes_title">Các thay đổi khác</string>
   <string name="other_changes_content">Giờ đây, nếu vô tình bật SandFly, bạn sẽ thấy một thông báo trên màn hình để nhanh chóng tắt SandFly. Bạn có thể tắt tính năng này trong phần Cài đặt SandFly &gt; Hiện hướng dẫn cách tắt SandFly.</string>
   <string name="other_changes_content_tts">Giờ đây, nếu vô tình bật SandFly, bạn sẽ thấy một thông báo trên màn hình để nhanh chóng tắt SandFly. Bạn có thể tắt tính năng này trong phần Cài đặt SandFly rồi chọn Hiện hướng dẫn cách tắt SandFly.</string>
@@ -1018,10 +999,9 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="split_tap_everywhere_title">Nhấn bằng 2 ngón tay ở vị trí bất kỳ</string>
   <string name="split_tap_everywhere_text">Giờ đây, bạn có thể dùng tính năng nhấn bằng 2 ngón tay ở vị trí bất kỳ để kích hoạt các mục, ngay cả các mục không ở trên bàn phím. Để sử dụng tính năng này, hãy di một ngón tay trên màn hình, sau đó, giữ nguyên ngón tay đó rồi dùng ngón tay khác nhấn vào màn hình để kích hoạt mục hiện được đặt tiêu điểm.</string>
   <string name="keyboard_enhanced_keymap_title">Bàn phím: Sơ đồ bàn phím nâng cao</string>
-  <string name="keyboard_enhanced_keymap_text">Hiện SandFly đã có \"Sơ đồ bàn phím nâng cao\" cho bàn phím vật lý cùng nhiều lệnh và phím tắt mới. Điểm cải tiến này bao gồm \"chế độ duyệt web\" để di chuyển hiệu quả hơn trên web, đồng thời giúp những người dùng SandFly bằng bàn phím vật lý dễ di chuyển và tương tác hơn. Bạn có thể chuyển sang \"Sơ đồ bàn phím nâng cao\" trong <xliff:g id="settings_path">%1$s</xliff:g>.\n\nNếu sử dụng màn hình chữ nổi, bạn cũng có thể dùng các phím tắt mới của chế độ duyệt web để di chuyển qua nội dung ngay từ màn hình chữ nổi. Một số phím tắt trên màn hình chữ nổi đã được điều chỉnh để phù hợp với thay đổi này. Bạn có thể xem danh sách tất cả các phím tắt trên màn hình chữ nổi ở <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
+  <string name="keyboard_enhanced_keymap_text">Hiện SandFly đã có \"Sơ đồ bàn phím nâng cao\" cho bàn phím vật lý cùng nhiều lệnh và phím tắt mới. Điểm cải tiến này bao gồm \"chế độ duyệt web\" để di chuyển hiệu quả hơn trên web, đồng thời giúp những người dùng SandFly bằng bàn phím vật lý dễ di chuyển và tương tác hơn. Bạn có thể chuyển sang \"Sơ đồ bàn phím nâng cao\" trong <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Cài đặt SandFly &gt; Phím tắt</string>
   <string name="keyboard_shortcuts_link_tts">Cài đặt SandFly rồi vào phần Phím tắt</string>
-  <string name="braille_display_settings_link">Cài đặt màn hình chữ nổi</string>
   <string name="keyboard_smart_browse_mode_title">Bàn phím: Chế độ duyệt web thông minh</string>
   <string name="keyboard_smart_browse_mode_text">Khi bạn duyệt web, chế độ duyệt web thông minh của SandFly sẽ tắt chế độ duyệt web trong trường chỉnh sửa để bạn có thể nhập bằng bàn phím vật lý. Sau đó, chế độ này sẽ bật lại khi bạn chuyển sang một trường không phải trường chỉnh sửa trên web để bạn có thể tiếp tục duyệt web một cách hiệu quả. Bạn có thể bật hoặc tắt \"Chế độ duyệt web thông minh\" ở <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Cài đặt SandFly &gt; Cài đặt nâng cao</string>
@@ -1094,7 +1074,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="typing_text_title">Nhập văn bản</string>
   <string name="basic_typing_text_text">Khi bạn ở trong hộp văn bản, một bàn phím sẽ xuất hiện ở cuối màn hình.</string>
   <string name="typing_text_text">Di chuyển ngón tay trên bàn phím. Khi bạn nghe thấy chữ cái mình muốn nhập, hãy nhấc ngón tay lên.\n\nHãy thử kích hoạt hộp văn bản bên dưới và nhập tên của bạn.</string>
-  <string name="typing_text_with_braille_keyboard_text">Bạn cũng có thể nhập bằng bàn phím chữ nổi. Hãy tìm bàn phím này trong phần Cài đặt SandFly.</string>
   <string name="other_ways_to_type_title">Những cách nhập khác</string>
   <string name="other_ways_to_type_text">Bạn có thể nhập bằng nhiều cách khác trong SandFly. Ví dụ: bạn có thể nhấn đúp để nhập một chữ cái.</string>
   <string name="basic_other_ways_to_type_text">Bạn có thể nhập bằng nhiều cách khác trong SandFly. Ví dụ: bạn có thể nhấn đúp để nhập một chữ cái. Bạn có thể thay đổi chế độ cài đặt này sau trong phần Cài đặt SandFly &gt; Bàn phím ảo &gt; Phương thức nhập.</string>
@@ -1520,7 +1499,6 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="title_pref_announce_ringer_mode">Chế độ chuông</string>
     <string name="summary_pref_announce_ringer_mode">Đọc khi chuông được đặt ở chế độ rung hoặc im lặng</string>
     <string name="title_pref_category_feedback">Phản hồi</string>
-    <string name="title_pref_category_typing_and_braille">Nhập và chữ nổi</string>
     <string name="title_pref_category_apps">Ứng dụng</string>
     <string name="title_pref_touch_activation">Chạm và kích hoạt</string>
     <string name="title_pref_navigation">Điều hướng</string>
@@ -1544,8 +1522,6 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="speech_control_deny">Không cho phép</string>
     <string name="permission_speak_label">đọc thông qua SandFly</string>
     <string name="permission_speak_description">Cho phép ứng dụng yêu cầu đọc văn bản bằng giọng nói SandFly của bạn. SandFly sẽ hỏi bạn trước khi ứng dụng có thể đọc.</string>
-    <string name="permission_braille_display_label">yêu cầu làm màn hình chữ nổi cho SandFly</string>
-    <string name="permission_braille_display_description">Cho phép ứng dụng yêu cầu làm màn hình chữ nổi cho SandFly. Nếu bạn cho phép trong SandFly, ứng dụng có thể đọc mọi nội dung trên màn hình và điều khiển thiết bị của bạn. SandFly sẽ hỏi bạn trước.</string>
     <string name="title_pref_phonetic_letters_mode">Đọc chữ cái theo phiên âm</string>
     <string name="phonetic_letters_mode_off">Tắt</string>
     <string name="phonetic_letters_mode_after_letter_delay">Sau chữ cái, có ngắt quãng, như “b, bò”</string>
@@ -1778,14 +1754,8 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="summary_support_wrap_around">Bật hoặc tắt chế độ quay vòng từ mục cuối cùng về mục đầu tiên</string>
     <string name="wrap_around_on">Đã bật quay vòng</string>
     <string name="wrap_around_off">Đã tắt quay vòng</string>
-    <string name="title_selector_tablet_held_up_faces_away">Máy tính bảng giơ lên quay ra ngoài</string>
-    <string name="summary_support_tablet_held_up_faces_away">Dành cho bàn phím chữ nổi trên máy tính bảng hoặc điện thoại đang mở</string>
-    <string name="tablet_held_up_faces_away_on">Đã bật máy tính bảng giơ lên quay ra ngoài</string>
-    <string name="tablet_held_up_faces_away_off">Đã tắt máy tính bảng giơ lên quay ra ngoài</string>
     <string name="title_keyboard_echo_on_screen">Đọc phím trên bàn phím ảo</string>
     <string name="title_keyboard_echo_physical">Đọc phím trên bàn phím vật lý</string>
-    <string name="title_keyboard_echo_braille_keyboard">Đọc phím trên bàn phím chữ nổi</string>
-    <string name="title_keyboard_echo_braille_display">Đọc phím trên màn hình chữ nổi</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Ngắt lời nói khi nhập</string>
     <string name="pref_interrupt_typing_entry_always">Luôn luôn</string>

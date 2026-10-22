@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Режимът на сърфиране е включен</string>
   <string name="individual_sound_browse_mode_off">Режимът на сърфиране е изключен</string>
   <string name="individual_sound_radial_menu">Кръгово меню</string>
-  <string name="individual_sound_display_connected">Брайловият дисплей е свързан</string>
-  <string name="individual_sound_display_disconnected">Брайловият дисплей е изключен</string>
-  <string name="individual_sound_double_beep">Брайловата команда не бе успешна</string>
-  <string name="individual_sound_turn_on">Автоматичното превъртане на брайл е включено</string>
-  <string name="individual_sound_turn_off">Автоматичното превъртане на брайл е изключено</string>
-  <string name="individual_sound_calibration_done">Брайловата клавиатура е калибрирана</string>
   <string name="individual_vibration_focus">Фокус върху елемент</string>
   <string name="individual_vibration_focus_actionable">Фокус върху елемент, който може да се активира</string>
   <string name="individual_vibration_clicked">Кликване</string>
@@ -37,10 +31,4 @@
   <string name="individual_vibration_typo">Правописна грешка</string>
   <string name="individual_vibration_notification">Съобщение</string>
     <string name="individual_sound_screen_on">Екранът е включен</string>
-    <string name="individual_vibration_braille_character">Брайлова клавиатура: въвеждане на знак</string>
-    <string name="individual_vibration_braille_space">Брайлова клавиатура: интервал или изтриване</string>
-    <string name="individual_vibration_braille_new_line">Брайлова клавиатура: нов ред или изтриване на дума</string>
-    <string name="individual_vibration_braille_hold">Брайлова клавиатура: задържане на пръсти</string>
-    <string name="individual_vibration_braille_gesture">Брайлова клавиатура: други жестове</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Брайлова клавиатура: няма какво да се изтрие</string>
 </resources>

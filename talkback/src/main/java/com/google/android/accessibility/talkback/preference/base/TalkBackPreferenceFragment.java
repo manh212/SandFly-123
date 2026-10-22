@@ -109,25 +109,6 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
 
     updatePhysicalKeyboardPreference();
 
-    // Remove braille settings if none of braille feature supported.
-    if (!FeatureSupport.supportBrailleDisplay(context)
-        && !FeatureSupport.supportBrailleKeyboard(context)) {
-      removePreference(R.string.pref_category_typing_key, R.string.pref_brailleime_key);
-      removePreference(R.string.pref_category_typing_key, R.string.pref_brailledisplay_key);
-    } else {
-      boolean isMultiTouchSupported =
-          context
-              .getPackageManager()
-              .hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN_MULTITOUCH_JAZZHAND);
-      if (!isMultiTouchSupported) {
-        final Preference brailleKeyboardCategory =
-            findPreferenceByResId(R.string.pref_brailleime_key);
-        if (brailleKeyboardCategory != null) {
-          brailleKeyboardCategory.setEnabled(false);
-          brailleKeyboardCategory.setSummary(R.string.summary_pref_brailleime_disabled);
-        }
-      }
-    }
 
     if (FormFactorUtils.isAndroidTv()) {
       Preference preference = findPreferenceByResId(R.string.pref_tutorial_and_help_key);

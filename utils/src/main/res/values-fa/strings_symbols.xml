@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">علامت کوچک‌تر از با پهنای کامل</string>
   <string name="symbol_full_width_greater_than_sign">علامت بزرگ‌تر از با پهنای کامل</string>
   <string name="symbol_left_single_quotation_mark">علامت نقل‌قول تکی سمت چپ</string>
-  <string name="symbol_braille">بریل %s</string>
-  <plurals name="dots">
-    <item quantity="one">نقطه %s</item>
-    <item quantity="other">نقاط %s</item>
-  </plurals>
 </resources>

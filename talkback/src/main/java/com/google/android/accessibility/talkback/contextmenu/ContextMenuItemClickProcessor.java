@@ -104,7 +104,6 @@ public class ContextMenuItemClickProcessor {
         || (itemId == R.id.disable_telling_time)
         || (itemId == R.id.screen_search)
         || (itemId == R.id.voice_commands)
-        || (itemId == R.id.braille_display_settings)
         || (itemId == R.id.show_keyboard_shortcuts);
   }
 
@@ -169,9 +168,6 @@ public class ContextMenuItemClickProcessor {
     } else if (itemId == R.id.voice_commands) {
       pipeline.returnFeedback(
           eventId, Feedback.voiceRecognition(START_LISTENING, /* checkDialog= */ true));
-    } else if (itemId == R.id.braille_display_settings) {
-      pipeline.returnFeedback(
-          eventId, Feedback.triggerIntent(Action.TRIGGER_BRAILLE_DISPLAY_SETTINGS));
     } else if (itemId == R.id.enable_telling_time) {
       onManuallyChangeSetting(R.string.pref_speak_time_key);
       SharedPreferencesUtils.putBooleanPref(

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Chunguza kwa kugusa</string>
   <string name="title_pref_category_visual">Video</string>
   <string name="title_pref_category_controls">Vidhibiti</string>
-  <string name="title_pref_category_braille">Nukta nundu</string>
   <string name="title_pref_category_general">Jumla</string>
   <string name="title_pref_category_advanced">Mipangilio ya kina</string>
   <string name="title_pref_category_others">Vingine</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Punguza muda wa kusubiri</string>
   <string name="talkback_latency_reduction_summary">Mipangilio ya kupunguza muda wa kusubiri kabla ya tamko la TalkBack</string>
   <string name="summary_pref_intonation">Tamka herufi zilizofutwa kwa sauti kali zaidi</string>
-  <string name="title_pref_brailledisplay">Skrini ya nukta nundu</string>
-  <string name="title_pref_brailleime">Kibodi ya nukta nundu</string>
-  <string name="summary_pref_brailleime_disabled">Kifaa chako hakitumii kibodi ya nukta nundu</string>
   <string name="title_pref_speech_footer">Unaweza kurekebisha haraka baadhi ya mipangilio ya sauti ya TalkBack kwenye skrini yoyote.\n\nKiwango cha sauti ya zana za ufikivu: Bofya na ushikilie skrini ukitumia kidole 1 kisha ubonyeze kitufe cha kuongeza au kupunguza sauti.\nKasi ya kutamka ya TalkBack: Telezesha vidole 3 juu au chini. Ukisikia \"kasi ya kutamka\", telezesha kidole 1 juu au chini.</string>
   <string name="title_pref_vibration">Majibu kwa mtetemo</string>
   <string name="title_pref_soundback">Majibu yanayotamkwa</string>
@@ -486,8 +482,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="shortcut_increase_volume">Ongeza sauti</string>
   <string name="shortcut_decrease_volume">Punguza sauti</string>
   <string name="shortcut_all_apps">Programu zote</string>
-  <string name="shortcut_braille_keyboard">Tumia kibodi ya nukta nundu</string>
-  <string name="shortcut_braille_display_settings">Sogeza kwenye mipangilio ya onyesho la braille</string>
   <string name="shortcut_tutorial">Anzisha mafunzo</string>
   <string name="shortcut_control_speak_time">Tamka au usitamke wakati</string>
   <string name="shortcut_enable_speak_time">Tamka wakati</string>
@@ -496,7 +490,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="speak_time_off">Kipengele cha kutamka wakati kimezimwa</string>
   <string name="shortcut_practice_gestures">Jaribu kutumia ishara</string>
   <string name="shortcut_report_gesture">Ripoti hitilafu ya ishara</string>
-  <string name="shortcut_toggle_braille_display">Washa au uzima skrini ya nukta nundu</string>
   <string name="shortcut_announce_current_time_and_date">Tamka tarehe na saa ya sasa</string>
   <string name="shortcut_announce_battery_state">Tamka asilimia ya chaji ya betri</string>
   <string name="shortcut_announce_current_title">Jina la dirisha la kuandika kwa kutamka</string>
@@ -506,8 +499,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="shortcut_speech_rate_decrease">Punguza kasi ya kutamka</string>
   <string name="shortcut_toggle_selection">Anzisha au ukomeshe hali ya kuchagua</string>
   <string name="shortcut_show_tutorial">Fungua mafunzo</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Badili kati ya nukta nundu iliyofupishwa (daraja la pili) na nukta nundu kwa urefu (daraja la kwanza)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Onyesha au ufiche maandishi ya nukta nundu katika skrini za nukta nundu zilizounganishwa</string>
   <string name="shortcut_toggle_sound_feedback">Kuwasha au kuzima arifa za kutamkwa (viashiria vya sauti)</string>
   <string name="shortcut_show_learn_mode_page">Mazoezi ya mikato ya kibodi</string>
   <string name="shortcut_announce_phonetic_pronunciation">Tamka herufi za kipengee kilichoangaziwa kwa matamshi ya kifonetiki</string>
@@ -548,7 +539,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="title_show_voice_commands">Amri za sauti</string>
   <string name="title_show_keyboard_shortcuts">Mikato ya kibodi</string>
   <string name="talkback_show_talkback_settings">Mipangilio ya TalkBack</string>
-  <string name="title_show_braille_display_settings">Mipangilio ya skrini ya nukta nundu</string>
   <string name="title_granularity_default">Usogezaji chaguomsingi</string>
   <string name="title_action_dismiss">Ondoa</string>
   <string name="title_action_expand">Panua</string>
@@ -576,7 +566,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="summary_control_speak_time">Badilisha iwapo ungependa wakati utamkwe kwa sauti unapowasha skrini</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Fungua orodha ya mikato ya kibodi</string>
   <string name="summary_talkback_preferences">Fungua mipangilio ya TalkBack</string>
-  <string name="summary_braile_display_preferences">Fungua mipangilio ya skrini ya nukta nundu</string>
   <string name="summary_system_actions">Nenda kwenye Mipangilio ya Haraka na programu zote</string>
   <string name="summary_tts_settings">Fungua mipangilio ya kusoma maandishi kwa sauti</string>
   <string name="not_editable">Huwezi kubadilisha</string>
@@ -917,7 +906,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="screen_search_keyword_hint">neno muhimu ni %1$s</string>
   <string name="screen_search_no_keyword_hint">Bado hakuna neno muhimu. Ili utafute hoja mpya, gusa na ushikilie kwa vidole vitatu au ufungue kipengele cha utafutaji kwenye skrini katika menyu ya TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Bado hakuna neno muhimu. Ili utafute hoja mpya, telezesha kidole kushoto kisha chini au ufungue kipengele cha utafutaji kwenye skrini katika menyu ya TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Hujawasha kibodi ya Nukta nundu. Nenda kwenye mipangilio ya TalkBack, weka mipangilio ya kibodi ya Nukta nundu na ujaribu tena.</string>
   <string name="suggestions_window_available">Mapendekezo yanapatikana</string>
   <string name="suggestions_window_available_with_gesture">Mapendekezo yanapatikana Ili ufikie, %1$s</string>
   <string name="heads_up_window_available">Umepokea arifa</string>
@@ -967,9 +955,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="new_gesture_notification_content">Gusa ili upate maelezo kuhusu jinsi ya kutumia TalkBack haraka ukitumia ishara mpya.</string>
   <string name="dump_node_tree_description">Mfumo wa data wa ngazi umechapishwa kwenye kumbukumbu.</string>
   <string name="report_gesture_description">Hizi ni ishara zilizotekelezwa hivi majuzi, tafadhali ripoti ishara isiyo sahihi na ishara inayotarajiwa.</string>
-  <string name="update_welcome_text_content">Sasa unaweza kuunganisha skrini za nukta nundu kupitia HID, mbinu ya kuunganisha vifaa vyenye bluetooth. Hakikisha kuwa una viendeshaji vipya kabisa vya programu dhibiti kutoka kwa mtengenezaji wa kifaa chako, kisha uwashe Bluetooth kwenye skrini yako ya nukta nundu. Nenda kwenye mipangilio ya TalkBack &gt; Skrini ya nukta nundu kisha uwashe \"Tumia skrini ya nukta nundu\". Tafuta kifaa chako kwenye orodha ya vifaa kisha ukiunganishe.</string>
-  <string name="update_welcome_text_content_tts">Sasa unaweza kuunganisha skrini za nukta nundu kupitia HID, mbinu ya kuunganisha vifaa vyenye bluetooth. Hakikisha kuwa una viendeshaji vipya kabisa vya programu dhibiti kutoka kwa mtengenezaji wa kifaa chako, kisha uwashe Bluetooth kwenye skrini yako ya nukta nundu. Nenda kwenye mipangilio ya TalkBack kisha Skrini ya nukta nundu na uwashe \"Tumia skrini ya nukta nundu\". Tafuta kifaa chako kwenye orodha ya vifaa kisha ukiunganishe.</string>
-  <string name="update_welcome_text_content_with_link">Pata maelezo kuhusu jinsi ya kutumia skrini yako ya nukta nundu ukitumia TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Sasisho hili la TalkBack linakuwezesha utumie kipengele cha Kufafanua maudhui yaliyo kwenye skrini katika lugha zaidi pamoja na maboresho mengine yanayofanya TalkBack iwe rahisi kuitumia.\n\nUtapata maelezo zaidi kuhusu mabadiliko haya katika skrini chache zinazofuata.\n\nUnaweza kusoma maelezo haya baadaye katika mipangilio ya TalkBack &gt; Vipengele vipya kwenye TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Sasisho hili la TalkBack linakuwezesha utumie kipengele cha Kufafanua maudhui yaliyo kwenye skrini katika lugha zaidi pamoja na maboresho mengine yanayofanya TalkBack iwe rahisi kuitumia.\n\nUtapata maelezo zaidi kuhusu mabadiliko haya katika skrini chache zinazofuata.\n\nUnaweza kusoma maelezo haya baadaye katika mipangilio ya TalkBack kisha Vipengele vipya kwenye TalkBack.</string>
   <string name="describe_screen_and_qna_title">Lugha mpya kwenye kipengele cha Ask Gemini na cha Kufafanua maudhui yaliyo kwenye skrini</string>
@@ -985,10 +970,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="reduce_delay_title">Kupunguza muda wa kusubiri</string>
   <string name="reduce_delay_content">Sasa unaweza kupunguza muda wa kusubiri tangazo la TalkBack kwenye hali ya kugusa na kuandika. Ili uangalie mipangilio hii, nenda kwenye mipangilio ya TalkBack &gt; Mipangilio ya kina &gt; Punguza muda wa kusubiri.</string>
   <string name="reduce_delay_content_tts">Sasa unaweza kupunguza muda wa kusubiri tangazo la TalkBack kwenye hali ya kugusa na kuandika. Ili uangalie mipangilio hii, nenda kwenye mipangilio ya TalkBack kisha Mipangilio ya kina kisha Punguza muda wa kusubiri.</string>
-  <string name="customize_braille_keyboard_improvements_title">Kubadilisha upendavyo miguso ya kibodi ya nukta nundu</string>
-  <string name="customize_braille_keyboard_improvements_content">Sasa unaweza kubadilisha upendavyo miguso ya kibodi pepe ya nukta nundu iliyo kwenye skrini. Ili ubadilishe upendavyo, nenda kwenye mipangilio ya TalkBack &gt; Kibodi ya nukta nundu &gt; Miguso.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Sasa unaweza kubadilisha upendavyo miguso ya kibodi pepe ya nukta nundu iliyo kwenye skrini. Ili ubadilishe upendavyo, nenda kwenye mipangilio ya TalkBack kisha Kibodi ya nukta nundu kisha Miguso.</string>
-  <string name="learn_more_about_braille_keyboard">Pata maelezo zaidi kuhusu kibodi ya nukta nundu</string>
   <string name="other_changes_title">Mabadiliko mengine</string>
   <string name="other_changes_content">Ujumbe ulio kwenye skrini sasa unakusaidia kuzima TalkBack kwa haraka ikiwa umeiwasha bila kukusudia. Unaweza kuzima ujumbe huu katika mipangilio ya TalkBack &gt; Onyesha maagizo ya kuzima TalkBack.</string>
   <string name="other_changes_content_tts">Ujumbe ulio kwenye skrini sasa unakusaidia kuzima TalkBack kwa haraka ikiwa umeiwasha bila kukusudia. Unaweza kuzima ujumbe huu katika mipangilio ya TalkBack kisha Onyesha maagizo ya kuzima TalkBack.</string>
@@ -1021,7 +1002,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="keyboard_enhanced_keymap_text">Sasa TalkBack ina \"Ramani ya vitufe iliyoboreshwa\" kwenye kibodi halisi, iliyo na aina mbalimbali za njia za mkato na amri mpya. Uboreshaji huu unajumuisha \"hali ya kuvinjari\" inayokuwezesha kusogeza kwenye wavuti kwa urahisi zaidi, huboresha usogezaji na utumiaji kwa watumiaji wa TalkBack wanaotegemea kibodi halisi. Unaweza kubadilisha utumie \"Ramani ya vitufe iliyoboreshwa\" katika %1$s.\n\nIkiwa unatumia skrini ya Nukta nundu, unaweza pia kutumia njia mpya za mkato za hali ya kuvinjari ili uvinjari kwenye maudhui moja kwa moja katika skrini yako ya Nukta nundu. Baadhi ya njia za mkato za skrini ya Nukta nundu zimebadilishwa ili ziendane na mabadiliko haya. Unaweza kuona orodha ya njia zote za mkato za Skrini ya nukta nundu katika %2$s.</string>
   <string name="keyboard_shortcuts_link">Mipangilio ya TalkBack &gt; Mikato ya kibodi</string>
   <string name="keyboard_shortcuts_link_tts">Mipangilio ya TalkBack kisha Mikato ya kibodi</string>
-  <string name="braille_display_settings_link">Mipangilio ya skrini ya nukta nundu</string>
   <string name="keyboard_smart_browse_mode_title">Kibodi: Hali mahiri ya kuvinjari</string>
   <string name="keyboard_smart_browse_mode_text">Hali mahiri ya kuvinjari ya TalkBack huzima hali ya kuvinjari kwenye sehemu ya kubadilisha ili ikusaidie kuandika ukitumia kibodi halisi unapovinjari katika wavuti. Kisha huwasha tena unapobadilisha hadi kwenye sehemu isiyoweza kubadilishwa katika wavuti ili uweze kuendelea kuvinjari kwa urahisi. Unaweza kuwasha au kuzima \"Hali mahiri ya kuvinjari\" katika %1$s.</string>
   <string name="advanced_settings_link">Mipangilio ya TalkBack &gt; Mipangilio ya kina</string>
@@ -1094,7 +1074,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="typing_text_title">Kuandika maandishi</string>
   <string name="basic_typing_text_text">Ukiwa kwenye kisanduku cha maandishi, kibodi itafunguka kwenye sehemu ya chini ya skrini yako.</string>
   <string name="typing_text_text">Sogeza kidole chako kwenye kibodi. Ukisikia herufi unayotaka kuandika, inua kidole chako.\n\nJaribu kuanza kutumia kisanduku cha maandishi kilicho hapa chini na uandike jina lako.</string>
-  <string name="typing_text_with_braille_keyboard_text">Unaweza pia kuandika ukitumia kibodi ya nukta nundu. Ipate katika mipangilio ya TalkBack.</string>
   <string name="other_ways_to_type_title">Njia nyingine za kuandika</string>
   <string name="other_ways_to_type_text">Kuna njia nyingine za kuandika katika TalkBack. Kwa mfano, unaweza kugusa mara mbili ili kuweka herufi.</string>
   <string name="basic_other_ways_to_type_text">Kuna njia nyingine za kuandika katika TalkBack. Kwa mfano, unaweza kugusa mara mbili ili kuweka herufi. Unaweza kubadilisha mipangilio hii baadaye katika mipangilio ya TalkBack &gt; Kibodi ya skrini &gt; Mapendeleo ya kuandika.</string>

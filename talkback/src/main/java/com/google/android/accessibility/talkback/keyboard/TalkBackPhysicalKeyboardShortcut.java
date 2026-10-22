@@ -478,14 +478,6 @@ public enum TalkBackPhysicalKeyboardShortcut {
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_PREVIOUS_LINE */ 111,
       R.string.keycombo_shortcut_navigate_previous_line,
       R.string.keycombo_menu_navigate_previous_line),
-  TOGGLE_BRAILLE_CONTRACTED_MODE(
-      /* KeyboardShortcut.KEYBOARD_SHORTCUT_TOGGLE_BRAILLE_CONTRACTED_MODE */ 112,
-      R.string.keycombo_shortcut_other_toggle_braille_contracted_mode,
-      R.string.shortcut_toggle_braille_contracted_mode),
-  TOGGLE_BRAILLE_ON_SCREEN_OVERLAY(
-      /* KeyboardShortcut.KEYBOARD_SHORTCUT_TOGGLE_BRAILLE_ON_SCREEN_OVERLAY */ 113,
-      R.string.keycombo_shortcut_other_toggle_braille_on_screen_overlay,
-      R.string.shortcut_toggle_braille_on_screen_overlay),
   NAVIGATE_NEXT_UNVISITED_LINK(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_NEXT_UNVISITED_LINK */ 114,
       R.string.keycombo_shortcut_navigate_next_unvisited_link,

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Mindre än-tecken, full bredd</string>
   <string name="symbol_full_width_greater_than_sign">Större än-tecken, full bredd</string>
   <string name="symbol_left_single_quotation_mark">Enkelt citattecken, vänster</string>
-  <string name="symbol_braille">punktskrift %s</string>
-  <plurals name="dots">
-    <item quantity="one">punkt %s</item>
-    <item quantity="other">punkterna %s</item>
-  </plurals>
 </resources>

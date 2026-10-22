@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Símbol de menor que d\'amplada completa</string>
   <string name="symbol_full_width_greater_than_sign">Símbol de major que d\'amplada completa</string>
   <string name="symbol_left_single_quotation_mark">Cometa simple d\'obertura</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">el punt %s</item>
-    <item quantity="other">els punts %s</item>
-  </plurals>
 </resources>

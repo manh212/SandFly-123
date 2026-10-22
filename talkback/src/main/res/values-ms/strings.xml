@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Teroka melalui sentuhan</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Kawalan</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Umum</string>
   <string name="title_pref_category_advanced">Lanjutan</string>
   <string name="title_pref_category_others">Lain-lain</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Kurangkan penangguhan</string>
   <string name="talkback_latency_reduction_summary">Tetapan untuk mengurangkan penangguhan sebelum pengumuman TalkBack</string>
   <string name="summary_pref_intonation">Sebut huruf yang dipadamkan dengan nada suara yang lebih tinggi</string>
-  <string name="title_pref_brailledisplay">Paparan braille</string>
-  <string name="title_pref_brailleime">Papan kekunci braille</string>
-  <string name="summary_pref_brailleime_disabled">Peranti anda tidak menyokong papan kekunci braille</string>
   <string name="title_pref_speech_footer">Anda boleh melaraskan sesetengah tetapan bunyi TalkBack dengan pantas daripada sebarang skrin.\n\nKelantangan kebolehaksesan: Tahan 1 jari pada skrin dan tekan kekunci naikkan kelantangan atau kurangkan kelantangan.\nKadar pertuturan Talkback: Leret ke atas atau ke bawah dengan 3 jari. Apabila anda mendengar \"kadar pertuturan\", leret ke atas atau ke bawah dengan 1 jari.</string>
   <string name="title_pref_vibration">Maklum balas getaran</string>
   <string name="title_pref_soundback">Maklum balas bunyi</string>
@@ -486,8 +482,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="shortcut_increase_volume">Tingkatkan kelantangan</string>
   <string name="shortcut_decrease_volume">Kurangkan kelantangan</string>
   <string name="shortcut_all_apps">Semua apl</string>
-  <string name="shortcut_braille_keyboard">Tukar kepada papan kekunci braille</string>
-  <string name="shortcut_braille_display_settings">Navigasi ke tetapan paparan braille</string>
   <string name="shortcut_tutorial">Buka tutorial</string>
   <string name="shortcut_control_speak_time">Maklumkan masa atau jangan maklumkan masa</string>
   <string name="shortcut_enable_speak_time">Maklumkan masa</string>
@@ -496,7 +490,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="speak_time_off">Maklumkan masa dimatikan</string>
   <string name="shortcut_practice_gestures">Berlatih gerak isyarat</string>
   <string name="shortcut_report_gesture">Laporkan isu gerak isyarat</string>
-  <string name="shortcut_toggle_braille_display">Hidupkan atau matikan paparan braille</string>
   <string name="shortcut_announce_current_time_and_date">Sebut tarikh dan masa semasa</string>
   <string name="shortcut_announce_battery_state">Peratusan bateri pertuturan</string>
   <string name="shortcut_announce_current_title">Sebut tajuk tetingkap</string>
@@ -506,8 +499,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="shortcut_speech_rate_decrease">Kurangkan kadar pertuturan</string>
   <string name="shortcut_toggle_selection">Mulakan atau tamatkan mod pilihan</string>
   <string name="shortcut_show_tutorial">Open tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Bertukar antara mod disingkatkan (gred 2) dengan tidak disingkatkan (gred 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Paparkan atau sembunyikan braille pada skrin untuk paparan braille tersambung</string>
   <string name="shortcut_toggle_sound_feedback">Hidupkan atau matikan maklum balas bunyi (earkon)</string>
   <string name="shortcut_show_learn_mode_page">Pintasan papan kekunci latihan</string>
   <string name="shortcut_announce_phonetic_pronunciation">Tuturkan huruf dengan sebutan fonetik untuk item yang difokuskan</string>
@@ -548,7 +539,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="title_show_voice_commands">Perintah suara</string>
   <string name="title_show_keyboard_shortcuts">Pintasan papan kekunci</string>
   <string name="talkback_show_talkback_settings">Tetapan TalkBack</string>
-  <string name="title_show_braille_display_settings">Tetapan paparan braille</string>
   <string name="title_granularity_default">Navigasi lalai</string>
   <string name="title_action_dismiss">Ketepikan</string>
   <string name="title_action_expand">Kembangkan</string>
@@ -576,7 +566,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="summary_control_speak_time">Tukar tetapan sama ada masa dimaklumkan dengan kuat atau tidak apabila anda menghidupkan skrin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Buka senarai pintasan papan kekunci</string>
   <string name="summary_talkback_preferences">Buka tetapan TalkBack</string>
-  <string name="summary_braile_display_preferences">Buka tetapan paparan braille</string>
   <string name="summary_system_actions">Pergi ke semua apl dan Tetapan Pantas</string>
   <string name="summary_tts_settings">Buka tetapan teks kepada pertuturan</string>
   <string name="not_editable">Tidak boleh diedit</string>
@@ -917,7 +906,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="screen_search_keyword_hint">kata kunci ialah %1$s</string>
   <string name="screen_search_no_keyword_hint">Tiada kata kunci lagi. Untuk memulakan carian baharu, ketik dan tahan dengan 3 jari atau buka carian skrin daripada menu TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Tiada kata kunci lagi. Untuk memulakan carian baharu, leret ke kiri kemudian ke bawah atau buka carian skrin daripada menu TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Papan kekunci Braille tidak dihidupkan. Pergi ke tetapan TalkBack, sediakan papan kekunci Braille dan cuba lagi.</string>
   <string name="suggestions_window_available">Cadangan tersedia</string>
   <string name="suggestions_window_available_with_gesture">Cadangan tersedia. Untuk mengakses, %1$s</string>
   <string name="heads_up_window_available">Pemberitahuan tersedia</string>
@@ -967,9 +955,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="new_gesture_notification_content">Ketik untuk mengetahui cara menggunakan TalkBack dengan lebih pantas dengan gerak isyarat baharu.</string>
   <string name="dump_node_tree_description">Pokok nod telah dicetak pada log.</string>
   <string name="report_gesture_description">Berikut ialah gerak isyarat yang dilakukan baru-baru ini. Sila laporkan gerak isyarat yang salah dan perkara yang dijangkakan.</string>
-  <string name="update_welcome_text_content">Kini anda boleh bersambung kepada paparan braille melalui HID, cara bersambung kepada peranti Bluetooth. Pastikan anda mempunyai pemacu perisian tegar terkini daripada pengeluar anda, kemudian hidupkan Bluetooth pada paparan braille. Akses Tetapan TalkBack &gt; Paparan braille dan hidupkan \"Gunakan paparan braille\". Cari peranti anda dalam senarai peranti dan sambungkan peranti anda kepada paparan braille.</string>
-  <string name="update_welcome_text_content_tts">Kini anda boleh bersambung kepada paparan braille melalui HID, cara bersambung kepada peranti Bluetooth. Pastikan anda mempunyai pemacu perisian tegar terkini daripada pengeluar anda, kemudian hidupkan Bluetooth pada paparan braille. Akses Tetapan TalkBack, kemudian Paparan braille dan hidupkan \"Gunakan paparan braille\". Cari peranti anda dalam senarai peranti dan sambungkan peranti anda kepada paparan braille.</string>
-  <string name="update_welcome_text_content_with_link">Ketahui cara menggunakan paparan braille anda dengan TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Kemaskinian TalkBack ini memperkenalkan sokongan untuk Perihalkan skrin dalam lebih banyak bahasa dan peningkatan kualiti lain yang lebih memudahkan penggunaan TalkBack.\n\nAnda akan mengetahui perubahan ini dengan lebih lanjut dalam beberapa skrin yang seterusnya.\n\nAnda boleh menyemak maklumat ini kemudian dalam tetapan TalkBack &gt; Ciri baharu dalam TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Kemaskinian TalkBack ini memperkenalkan sokongan untuk Perihalkan skrin dalam lebih banyak bahasa dan peningkatan kualiti lain yang lebih memudahkan penggunaan TalkBack.\n\nAnda akan mengetahui perubahan ini dengan lebih lanjut dalam beberapa skrin seterusnya.\n\nAnda boleh menyemak maklumat ini kemudian dalam tetapan TalkBack, kemudian Ciri baharu dalam TalkBack.</string>
   <string name="describe_screen_and_qna_title">Bahasa baharu untuk skrin Perihalkan dan Minta Gemini</string>
@@ -985,10 +970,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="reduce_delay_title">Kurangkan penangguhan</string>
   <string name="reduce_delay_content">Kini anda boleh mengurangkan penangguhan pengumuman TalkBack untuk penerokaan sentuhan dan penaipan. Untuk melihat tetapan ini, akses tetapan TalkBack &gt; Tetapan lanjutan &gt; Kurangkan penangguhan.</string>
   <string name="reduce_delay_content_tts">Kini anda boleh mengurangkan penangguhan pengumuman TalkBack untuk penerokaan sentuhan dan penaipan. Untuk melihat tetapan ini, akses tetapan TalkBack kemudian Tetapan lanjutan kemudian Kurangkan penangguhan.</string>
-  <string name="customize_braille_keyboard_improvements_title">Sesuaikan gerak isyarat papan kekunci braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Kini anda boleh menyesuaikan gerak isyarat untuk papan kekunci braille pada skrin maya. Untuk menyesuaikan gerak isyarat, akses tetapan TalkBack &gt; Papan kekunci Braille &gt; Gerak isyarat.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Kini anda boleh menyesuaikan gerak isyarat untuk papan kekunci braille pada skrin maya. Untuk menyesuaikan gerak isyarat, akses tetapan TalkBack, kemudian Papan kekunci Braille, kemudian Gerak isyarat.</string>
-  <string name="learn_more_about_braille_keyboard">Ketahui papan kekunci braille dengan lebih lanjut</string>
   <string name="other_changes_title">Perubahan lain</string>
   <string name="other_changes_content">Kini mesej pada skrin boleh membantu anda mematikan TalkBack dengan pantas jika TalkBack dihidupkan secara tidak sengaja. Anda boleh mematikan ciri ini dalam tetapan TalkBack &gt; Tunjukkan arahan untuk mematikan TalkBack.</string>
   <string name="other_changes_content_tts">Kini mesej pada skrin boleh membantu anda mematikan TalkBack dengan pantas jika TalkBack dihidupkan secara tidak sengaja. Anda boleh mematikan ciri ini dalam tetapan TalkBack, kemudian Tunjukkan arahan untuk mematikan TalkBack.</string>
@@ -1021,7 +1002,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="keyboard_enhanced_keymap_text">Kini TalkBack mengandungi \"Peta kekunci dipertingkatkan\" untuk papan kekunci fizikal, yang menampilkan pelbagai perintah dan pintasan baharu. Peningkatan ini termasuk \"mod semak imbas\" untuk navigasi web yang lebih cekap, memperkemas navigasi dan interaksi untuk pengguna TalkBack yang bergantung pada papan kekunci fizikal. Anda boleh beralih kepada \"Peta kekunci dipertingkatkan\" dalam %1$s.\n\nJika anda menggunakan Paparan braille, anda juga boleh menggunakan pintasan mod semak imbas baharu untuk menerokai kandungan secara terus daripada Paparan braille anda. Beberapa pintasan Paparan braille telah ditukar untuk disesuaikan dengan perubahan ini. Anda boleh melihat senarai semua pintasan Paparan braille dalam %2$s.</string>
   <string name="keyboard_shortcuts_link">Tetapan TalkBack &gt; Pintasan papan kekunci</string>
   <string name="keyboard_shortcuts_link_tts">Tetapan TalkBack, kemudian Pintasan papan kekunci</string>
-  <string name="braille_display_settings_link">Tetapan paparan braille</string>
   <string name="keyboard_smart_browse_mode_title">Papan kekunci: Mod semak imbas pintar</string>
   <string name="keyboard_smart_browse_mode_text">Mod semak imbas pintar TalkBack mematikan mod semak imbas pada medan edit untuk membantu anda menaip dengan papan kekunci fizikal apabila anda menyemak imbas web. Kemudian, ciri ini akan dihidupkan semula apabila anda melangkau kepada medan bukan edit pada web supaya anda boleh meneruskan penyemakan imbas dengan cekap. Anda boleh menghidupkan atau mematikan \"Mod semak imbas pintar\" dalam %1$s.</string>
   <string name="advanced_settings_link">Tetapan TalkBack &gt; Tetapan lanjutan</string>
@@ -1094,7 +1074,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="typing_text_title">Menaip teks</string>
   <string name="basic_typing_text_text">Semasa anda menggunakan kotak teks, papan kekunci akan dibuka pada bahagian bawah skrin anda.</string>
   <string name="typing_text_text">Gerakkan jari anda merentasi papan kekunci. Apabila anda mendengar huruf yang ingin anda taip, angkat jari anda.\n\nCuba aktifkan kotak teks di bawah dan taipkan nama anda.</string>
-  <string name="typing_text_with_braille_keyboard_text">Anda juga boleh menaip dengan papan kekunci braille. Cari papan kekunci braille dalam tetapan TalkBack.</string>
   <string name="other_ways_to_type_title">Cara lain untuk menaip</string>
   <string name="other_ways_to_type_text">Terdapat cara lain untuk menaip dalam TalkBack. Sebagai contoh, anda boleh menggunakan dwiketik untuk memasukkan huruf.</string>
   <string name="basic_other_ways_to_type_text">Terdapat cara lain untuk menaip dalam TalkBack. Sebagai contoh, anda boleh menggunakan dwiketik untuk memasukkan huruf. Anda boleh menukar tetapan ini kemudian dalam Tetapan TalkBack &gt; Papan kekunci pada skrin &gt; Keutamaan menaip.</string>

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">សញ្ញាតូចជាង​ទទឹងពេញ</string>
   <string name="symbol_full_width_greater_than_sign">សញ្ញាធំជាង​ទទឹងពេញ</string>
   <string name="symbol_left_single_quotation_mark">សញ្ញា​សម្រង់សម្ដីទោល​ខាងឆ្វេង</string>
-  <string name="symbol_braille">អក្សរស្ទាប %s</string>
-  <plurals name="dots">
-    <item quantity="one">ចំណុច %s</item>
-    <item quantity="other">ចំណុច %s</item>
-  </plurals>
 </resources>

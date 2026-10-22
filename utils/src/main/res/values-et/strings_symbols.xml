@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Märk Väiksem kui täislaiuses</string>
   <string name="symbol_full_width_greater_than_sign">Märk Suurem kui täislaiuses</string>
   <string name="symbol_left_single_quotation_mark">Vasak ülakoma</string>
-  <string name="symbol_braille">Braille’ kiri %s</string>
-  <plurals name="dots">
-    <item quantity="one">punkti %s</item>
-    <item quantity="other">punkte %s</item>
-  </plurals>
 </resources>

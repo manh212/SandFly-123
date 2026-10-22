@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Mindre-enn-tegn – full bredde</string>
   <string name="symbol_full_width_greater_than_sign">Større-enn-tegn – full bredde</string>
   <string name="symbol_left_single_quotation_mark">Enkelt anførselstegn, venstre</string>
-  <string name="symbol_braille">punktskrift %s</string>
-  <plurals name="dots">
-    <item quantity="one">punkt %s</item>
-    <item quantity="other">punkter %s</item>
-  </plurals>
 </resources>

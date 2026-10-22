@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Истражувајте со допир</string>
   <string name="title_pref_category_visual">Визуелно</string>
   <string name="title_pref_category_controls">Контроли</string>
-  <string name="title_pref_category_braille">Брајово писмо</string>
   <string name="title_pref_category_general">Општо</string>
   <string name="title_pref_category_advanced">Напредни</string>
   <string name="title_pref_category_others">Други</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Намали го доцнењето</string>
   <string name="talkback_latency_reduction_summary">Поставки за намалување на доцнењето пред соопштенијата на TalkBack</string>
   <string name="summary_pref_intonation">Ги изговара избришаните букви со повисок тон</string>
-  <string name="title_pref_brailledisplay">Уред за приказ на брајово писмо</string>
-  <string name="title_pref_brailleime">Тастатура со брајово писмо</string>
-  <string name="summary_pref_brailleime_disabled">Уредот не поддржува тастатура со брајово писмо</string>
   <string name="title_pref_speech_footer">Може брзо да приспособите некои од поставките за звук на TalkBack од кој било екран.\n\nЈачина на звук за пристапност: држете 1 прст на екранот и притиснете го копчето за зголемување на звукот или копчето за намалување на звукот.\nБрзина на говор на TalkBack: повлечете нагоре или надолу со 3 прста. Кога ќе слушнете „брзина на говор“, повлечете нагоре или надолу со 1 прст.</string>
   <string name="title_pref_vibration">Повратни информации со вибрирање</string>
   <string name="title_pref_soundback">Звучни повратни информации</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Зголеми ја јачината на звукот</string>
   <string name="shortcut_decrease_volume">Намали ја јачината на звукот</string>
   <string name="shortcut_all_apps">Сите апликации</string>
-  <string name="shortcut_braille_keyboard">Префрли на тастатура со брајово писмо</string>
-  <string name="shortcut_braille_display_settings">Навигација до поставките за приказ на брајово писмо</string>
   <string name="shortcut_tutorial">Го отвора упатството</string>
   <string name="shortcut_control_speak_time">Изговарај го точното време или не изговарај го точното време</string>
   <string name="shortcut_enable_speak_time">Изговарај го точното време</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">„Не изговарај го точното време“ е исклучено</string>
   <string name="shortcut_practice_gestures">Вежбајте ги движењата</string>
   <string name="shortcut_report_gesture">Пријавете проблем со движењето</string>
-  <string name="shortcut_toggle_braille_display">Вклучете или исклучете го уредот за приказ на брајово писмо</string>
   <string name="shortcut_announce_current_time_and_date">Изговори ги тековниот датум и време</string>
   <string name="shortcut_announce_battery_state">Изговори го процентот на батеријата</string>
   <string name="shortcut_announce_current_title">Изговарање на насловот на прозорецот</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Намалување на брзината на говорот</string>
   <string name="shortcut_toggle_selection">Стартувај или заврши го режимот на избор</string>
   <string name="shortcut_show_tutorial">Отвори го упатството</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Префрлај меѓу скратено (2. ниво) и нескратено (1. ниво)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Прикажи или скриј брајово писмо на екран за поврзаните уреди за приказ на брајово писмо</string>
   <string name="shortcut_toggle_sound_feedback">Вклуч./исклуч. звучни повратни информации (звучни сигнали)</string>
   <string name="shortcut_show_learn_mode_page">Вежбајте кратенки од тастатурата</string>
   <string name="shortcut_announce_phonetic_pronunciation">Изговарај букви со фонетски изговор за фокусирана ставка</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Гласовни наредби</string>
   <string name="title_show_keyboard_shortcuts">Кратенки од тастатурата</string>
   <string name="talkback_show_talkback_settings">Поставки за TalkBack</string>
-  <string name="title_show_braille_display_settings">Поставки за уредот за приказ на брајово писмо</string>
   <string name="title_granularity_default">Стандардна навигација</string>
   <string name="title_action_dismiss">Отфрли</string>
   <string name="title_action_expand">Прошири</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Променете дали да се изговара точното време кога ќе го вклучите екранот</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Отворете го списокот со кратенки од тастатурата</string>
   <string name="summary_talkback_preferences">Отворете ги поставките за TalkBack</string>
-  <string name="summary_braile_display_preferences">Отворете ги поставките за уред за приказ на брајово писмо</string>
   <string name="summary_system_actions">Одете во сите апликации и „Брзи поставки“</string>
   <string name="summary_tts_settings">Отворете ги поставките за „Од текст во говор“</string>
   <string name="not_editable">Не може да се изменува</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">клучниот збор е %1$s</string>
   <string name="screen_search_no_keyword_hint">Сè уште нема клучен збор. За да започнете ново пребарување, допрете и задржете со 3 прста или отворете „Пребарување на екранот“ од менито на TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Сè уште нема клучен збор. За да започнете ново пребарување, повлечете налево, па надолу или отворете „Пребарување на екранот“ од менито на TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Тастатурата со брајово писмо не е вклучена. Одете во „Поставки за TalkBack“, поставете тастатура со брајово и пробајте повторно.</string>
   <string name="suggestions_window_available">Достапни се предлози</string>
   <string name="suggestions_window_available_with_gesture">Достапни се предлози. За да пристапите, %1$s</string>
   <string name="heads_up_window_available">Достапно е известување</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Допрете за да дознаете како побрзо да ја користите TalkBack со новите движења.</string>
   <string name="dump_node_tree_description">Дрвото со јазли е отпечатено во дневниците.</string>
   <string name="report_gesture_description">Ова се движења што биле извршени неодамна. Пријавете кое од нив е погрешно и што треба да извршува.</string>
-  <string name="update_welcome_text_content">Отсега може да се поврзувате со уреди за приказ на брајово писмо преку HID, начин на поврзување со уреди со Bluetooth. Проверете дали ги имате најновите драјвери за фирмверот од вашиот производител, па вклучете Bluetooth на вашиот уред за приказ на брајово писмо. Одете во „Поставки за TalkBack &gt; Уред за приказ на брајово писмо“ и вклучете „Користете уред за приказ на брајово писмо“. Најдете го вашиот уред во списокот со уреди и поврзете се со него.</string>
-  <string name="update_welcome_text_content_tts">Отсега може да се поврзувате со уреди за приказ на брајово писмо преку HID, начин на поврзување со уреди со Bluetooth. Проверете дали ги имате најновите драјвери за фирмверот од вашиот производител, па вклучете Bluetooth на вашиот уред за приказ на брајово писмо. Одете во поставките за TalkBack, потоа на уред за приказ на брајово писмо и вклучете „Користете уред за приказ на брајово писмо“. Најдете го вашиот уред во списокот со уреди и поврзете се со него.</string>
-  <string name="update_welcome_text_content_with_link">Дознајте како да го користите вашиот уред за приказ на брајово писмо со TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Ова ажурирање на TalkBack воведува поддршка за „Опиши го екранот“ на повеќе јазици и други подобрувања на квалитетот што го олеснуваат користењето.\n\nЌе дознаете повеќе за промениве на следните неколку екрани.\n\nМоже да ги прегледате информацииве подоцна во „Поставки за TalkBack &gt; Нови функции во TalkBack“.</string>
   <string name="update_welcome_talkback_16.1_tts">Ова ажурирање на TalkBack воведува поддршка за „Опиши го екранот“ на повеќе јазици и други подобрувања на квалитетот што го олеснуваат користењето.\n\nЌе дознаете повеќе за промениве на следните неколку екрани.\n\nМоже да ги прегледате информацииве подоцна во „Поставки за TalkBack“, па „Нови функции во TalkBack“.</string>
   <string name="describe_screen_and_qna_title">Нови јазици за „Опиши го екранот“ и „Побарајте помош од Gemini“</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Намалете го доцнењето</string>
   <string name="reduce_delay_content">Отсега може да ги намалите доцнењата при објавувањето соопштенија на TalkBack за истражување на допир и пишување. За да ги видите поставкиве, одете во „Поставки за TalkBack &gt; Напредни поставки &gt; Намали го доцнењето“.</string>
   <string name="reduce_delay_content_tts">Отсега може да ги намалите доцнењата при објавувањето соопштенија на TalkBack за истражување на допир и пишување. За да ги видите поставкиве, одете во „Поставки за TalkBack“, потоа во „Напредни поставки“, па во „Намали го доцнењето“.</string>
-  <string name="customize_braille_keyboard_improvements_title">Приспособете ги движењата на тастатурата со брајово писмо</string>
-  <string name="customize_braille_keyboard_improvements_content">Отсега може да ги приспособувате движењата за виртуелната тастатура со брајово писмо на екранот. За приспособување, одете во „Поставки за TalkBack &gt; Тастатура со брајово писмо &gt; Движења“.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Отсега може да ги приспособувате движењата за виртуелната тастатура со брајово писмо на екранот. За приспособување, одете во „Поставки за TalkBack“, потоа во „Тастатура со брајово писмо“, па во „Движења“.</string>
-  <string name="learn_more_about_braille_keyboard">Дознајте повеќе за тастатурата со брајово писмо</string>
   <string name="other_changes_title">Други промени</string>
   <string name="other_changes_content">Пораката на екранот отсега ви помага брзо да ја исклучите TalkBack ако се вклучила случајно. Ова може да го исклучите во „Поставки за TalkBack &gt; Прикажи инструкции за исклучување на TalkBack“.</string>
   <string name="other_changes_content_tts">Пораката на екранот отсега ви помага брзо да ја исклучите TalkBack ако се вклучила случајно. Ова може да го исклучите во „Поставки за TalkBack“, па во „Прикажи инструкции за исклучување на TalkBack“.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">Отсега TalkBack има „Подобрен распоред на копчиња“ за физичките тастатури, со различни нови наредби и кратенки. Ова подобрување опфаќа и „Режим на прелистување“ за поефикасна навигација на интернет, со што се поедноставуваат навигацијата и интеракцијата за корисниците на TalkBack коишто користат физички тастатури. Може да се префрлите на „Подобрен распоред на копчиња“ во %1$s.\n\nАко користите уред за приказ на брајово писмо, може да користите и нови кратенки за „Режим на прелистување“ за да се движите низ содржините директно од вашиот уред за приказ на брајово писмо. Некои кратенки на уредот за приказ на брајово писмо се променети за да се приспособат на променава. Може да видите список со сите кратенки за уредот за приказ на брајово писмо во %2$s.</string>
   <string name="keyboard_shortcuts_link">Поставки за TalkBack &gt; Кратенки од тастатура</string>
   <string name="keyboard_shortcuts_link_tts">„Поставки за TalkBack“, па „Кратенки од тастатура“</string>
-  <string name="braille_display_settings_link">Поставки за уредот за приказ на брајово писмо</string>
   <string name="keyboard_smart_browse_mode_title">Тастатура: „Паметен режим на прелистување“</string>
   <string name="keyboard_smart_browse_mode_text">„Паметниот режим на прелистување“ на TalkBack го исклучува „Режимот на прелистување“ на полето за изменување за да ви помогне да пишувате со физичка тастатура кога прелистувате на интернет. Потоа повторно го вклучува кога ќе скокнете на поле што не е за изменување на интернет за да може да продолжите да прелистувате ефикасно. Може да го вклучите или исклучите „Паметниот режим на прелистување“ во %1$s.</string>
   <string name="advanced_settings_link">Поставки за TalkBack &gt; Напредни поставки</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Пишување текст</string>
   <string name="basic_typing_text_text">Кога сте во поле за текст, на дното од екранот ќе се отвори тастатура.</string>
   <string name="typing_text_text">Повлечете со прстот преку тастатурата. Кога ќе ја слушнете буквата што сакате да ја напишете, подигнете го прстот.\n\nПробајте да го активирате полето за текст подолу и напишете го вашето име.</string>
-  <string name="typing_text_with_braille_keyboard_text">Може да пишувате и со тастатурата со брајово писмо. Најдете ја во поставките за TalkBack.</string>
   <string name="other_ways_to_type_title">Други начини за пишување</string>
   <string name="other_ways_to_type_text">Има и други начини за пишување во TalkBack. На пример, може да користите двоен допир за да внесете буква.</string>
   <string name="basic_other_ways_to_type_text">Постојат други начини на пишување во TalkBack. На пример, може да користите двоен допир за да внесете буква. Ова може да го промените подоцна во „Поставки за TalkBack &gt; Тастатура на екран &gt; Поставка за пишување“.</string>

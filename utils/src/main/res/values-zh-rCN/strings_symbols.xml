@@ -141,11 +141,6 @@
   <string name="symbol_full_width_less_than_sign">全角小于号</string>
   <string name="symbol_full_width_greater_than_sign">全角大于号</string>
   <string name="symbol_left_single_quotation_mark">左单引号</string>
-  <string name="symbol_braille">盲文 %s</string>
-  <plurals name="dots">
-    <item quantity="one">点 %s</item>
-    <item quantity="other">点 %s</item>
-  </plurals>
 
 
     <!-- Spoken description for the Arabic diacritic fatha keyboard key. [CHAR_LIMIT=30] -->

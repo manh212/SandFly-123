@@ -24,12 +24,6 @@
   <string name="individual_sound_browse_mode_on">Režim procházení zapnut</string>
   <string name="individual_sound_browse_mode_off">Režim procházení vypnut</string>
   <string name="individual_sound_radial_menu">Kruhová nabídka</string>
-  <string name="individual_sound_display_connected">Braillský řádek připojen</string>
-  <string name="individual_sound_display_disconnected">Braillský řádek odpojen</string>
-  <string name="individual_sound_double_beep">Braillský příkaz selhal</string>
-  <string name="individual_sound_turn_on">Automatické posouvání Braillova písma zapnuto</string>
-  <string name="individual_sound_turn_off">Automatické posouvání Braillova písma vypnuto</string>
-  <string name="individual_sound_calibration_done">Braillská klávesnice zkalibrována</string>
   <string name="individual_vibration_focus">Zaměření položky</string>
   <string name="individual_vibration_focus_actionable">Zaměření aktivovatelné položky</string>
   <string name="individual_vibration_clicked">Kliknutí</string>

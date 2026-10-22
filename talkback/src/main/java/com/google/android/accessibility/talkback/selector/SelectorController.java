@@ -51,7 +51,6 @@ import static com.google.android.accessibility.talkback.selector.SelectorControl
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.GRANULARITY_SEARCH;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.GRANULARITY_TYPO;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.GRANULARITY_WINDOWS;
-import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.TABLET_HELD_UP_FACES_AWAY;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_TOUCH;
 import static com.google.android.accessibility.utils.traversal.TraversalStrategy.SEARCH_FOCUS_BACKWARD;
@@ -193,14 +192,6 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_keyboard_echo_physical_key,
         R.string.selector_keyboard_echo_physical,
         R.bool.pref_selector_keyboard_echo_default),
-    KEYBOARD_ECHO_BRAILLE_KEYBOARD(
-        R.string.pref_selector_keyboard_echo_braille_keyboard_key,
-        R.string.selector_keyboard_echo_braille_keyboard,
-        R.bool.pref_selector_keyboard_echo_default),
-    KEYBOARD_ECHO_BRAILLE_DISPLAY(
-        R.string.pref_selector_keyboard_echo_braille_display_key,
-        R.string.selector_keyboard_echo_braille_display,
-        R.bool.pref_selector_keyboard_echo_default),
     GRANULARITY(
         R.string.pref_selector_granularity_key,
         R.string.selector_granularity,
@@ -241,10 +232,6 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_wrap_around_key,
         R.string.selector_wrap_around,
         R.bool.pref_selector_wrap_around_default),
-    TABLET_HELD_UP_FACES_AWAY(
-        R.string.pref_selector_tablet_held_up_faces_away_key,
-        R.string.selector_tablet_held_up_faces_away,
-        R.bool.pref_selector_tablet_held_up_faces_away_default),
     ACTIONS(
         R.string.pref_selector_actions_key,
         R.string.selector_actions,
@@ -652,8 +639,6 @@ public class SelectorController implements UserInputEventListener {
           Setting.EMOJI,
           Setting.KEYBOARD_ECHO_ON_SCREEN,
           Setting.KEYBOARD_ECHO_PHYSICAL,
-          Setting.KEYBOARD_ECHO_BRAILLE_KEYBOARD,
-          Setting.KEYBOARD_ECHO_BRAILLE_DISPLAY,
           Setting.FORMATTING,
           Setting.LANGUAGE,
           // TODO Supports sound feedback and vibration feedback.
@@ -666,7 +651,6 @@ public class SelectorController implements UserInputEventListener {
           Setting.CHANGE_TYPING_FOCUS_LATENCY,
           Setting.CHANGE_LIFT_TO_ACTIVATE,
           Setting.WRAP_AROUND,
-          Setting.TABLET_HELD_UP_FACES_AWAY,
           Setting.ADJUSTABLE_WIDGET,
           Setting.CONTROL_TELLING_TIME,
           Setting.SWITCH_TTS_ENGINE,
@@ -750,10 +734,7 @@ public class SelectorController implements UserInputEventListener {
     ImmutableList.Builder<Setting> hiddenSettingsBuilder = ImmutableList.builder();
     if (FormFactorUtils.isAndroidWear()) {
       hiddenSettingsBuilder.add(GRANULARITY_TYPO);
-      hiddenSettingsBuilder.add(TABLET_HELD_UP_FACES_AWAY);
       hiddenSettingsBuilder.add(Setting.KEYBOARD_ECHO_PHYSICAL);
-      hiddenSettingsBuilder.add(Setting.KEYBOARD_ECHO_BRAILLE_KEYBOARD);
-      hiddenSettingsBuilder.add(Setting.KEYBOARD_ECHO_BRAILLE_DISPLAY);
     } else if (!FeatureSupport.doesServiceHandleDoubleTap()) {
       hiddenSettingsBuilder.add(ACTIONS);
     }
@@ -956,9 +937,7 @@ public class SelectorController implements UserInputEventListener {
         hint = getAdjustSelectedSettingGestures();
       }
       case KEYBOARD_ECHO_ON_SCREEN,
-          KEYBOARD_ECHO_PHYSICAL,
-          KEYBOARD_ECHO_BRAILLE_KEYBOARD,
-          KEYBOARD_ECHO_BRAILLE_DISPLAY -> {
+          KEYBOARD_ECHO_PHYSICAL -> {
         actionDescription =
             KeyboardEchoSettings.title(context.getResources(), keyboardEchoInput(setting));
         hint = getAdjustSelectedSettingGestures();
@@ -1001,10 +980,6 @@ public class SelectorController implements UserInputEventListener {
       }
       case WRAP_AROUND -> {
         actionDescription = context.getString(R.string.title_pref_wrap_around);
-        hint = getAdjustSelectedSettingGestures();
-      }
-      case TABLET_HELD_UP_FACES_AWAY -> {
-        actionDescription = context.getString(R.string.title_selector_tablet_held_up_faces_away);
         hint = getAdjustSelectedSettingGestures();
       }
       case CONTROL_TELLING_TIME -> {
@@ -1510,9 +1485,7 @@ public class SelectorController implements UserInputEventListener {
       }
       case EMOJI,
           KEYBOARD_ECHO_ON_SCREEN,
-          KEYBOARD_ECHO_PHYSICAL,
-          KEYBOARD_ECHO_BRAILLE_KEYBOARD,
-          KEYBOARD_ECHO_BRAILLE_DISPLAY -> {
+          KEYBOARD_ECHO_PHYSICAL -> {
         return true;
       }
       case CHANGE_ACCESSIBILITY_VOLUME -> {
@@ -1531,9 +1504,6 @@ public class SelectorController implements UserInputEventListener {
         return true;
       }
       case WRAP_AROUND -> {
-        return true;
-      }
-      case TABLET_HELD_UP_FACES_AWAY -> {
         return true;
       }
       case ACTIONS -> {
@@ -1819,9 +1789,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case KEYBOARD_ECHO_ON_SCREEN,
-          KEYBOARD_ECHO_PHYSICAL,
-          KEYBOARD_ECHO_BRAILLE_KEYBOARD,
-          KEYBOARD_ECHO_BRAILLE_DISPLAY -> {
+          KEYBOARD_ECHO_PHYSICAL -> {
         cycleKeyboardEcho(eventId, keyboardEchoInput(currentSetting), isNext);
         return;
       }
@@ -1863,10 +1831,6 @@ public class SelectorController implements UserInputEventListener {
       }
       case WRAP_AROUND -> {
         switchWrapAroundOnOrOff(eventId);
-        return;
-      }
-      case TABLET_HELD_UP_FACES_AWAY -> {
-        switchTabletHeldUpFacesAwayOnOrOff(eventId);
         return;
       }
       case CONTROL_TELLING_TIME -> {
@@ -2247,8 +2211,6 @@ public class SelectorController implements UserInputEventListener {
   private static TypingInput keyboardEchoInput(Setting setting) {
     return switch (setting) {
       case KEYBOARD_ECHO_PHYSICAL -> TypingInput.PHYSICAL_KEYBOARD;
-      case KEYBOARD_ECHO_BRAILLE_KEYBOARD -> TypingInput.BRAILLE_KEYBOARD;
-      case KEYBOARD_ECHO_BRAILLE_DISPLAY -> TypingInput.BRAILLE_DISPLAY;
       default -> TypingInput.ON_SCREEN_KEYBOARD;
     };
   }
@@ -2638,20 +2600,6 @@ public class SelectorController implements UserInputEventListener {
     announceSetting(
         eventId,
         context.getString(switchedValue ? R.string.wrap_around_on : R.string.wrap_around_off),
-        getAdjustSelectedSettingGestures());
-    showQuickMenuActionOverlay(
-        eventId, context.getString(switchedValue ? R.string.value_on : R.string.value_off));
-  }
-
-  /** Turns the braille keyboard's "Tablet held up faces away" setting on or off. */
-  private void switchTabletHeldUpFacesAwayOnOrOff(EventId eventId) {
-    boolean switchedValue = BrailleKeyboardSettings.toggleTabletHeldUpFacesAway(context);
-    announceSetting(
-        eventId,
-        context.getString(
-            switchedValue
-                ? R.string.tablet_held_up_faces_away_on
-                : R.string.tablet_held_up_faces_away_off),
         getAdjustSelectedSettingGestures());
     showQuickMenuActionOverlay(
         eventId, context.getString(switchedValue ? R.string.value_on : R.string.value_off));

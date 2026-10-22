@@ -44,14 +44,11 @@
         <item>Suggestion</item>
     </string-array>
     <!-- English names written into the GitHub issue. Must match problem_report_area_entries. -->
-    <string-array name="problem_report_area_values" translatable="false">
-        <item>Speech</item>
+    <string-array name="problem_report_area_values" translatable="false">        <item>Speech</item>
         <item>Gestures</item>
         <item>Touch exploration</item>
         <item>Reading controls and menus</item>
         <item>Typing and keyboards</item>
-        <item>Braille keyboard</item>
-        <item>Braille display</item>
         <item>Sounds and vibration</item>
         <item>Notifications</item>
         <item>Web content</item>
@@ -59,7 +56,7 @@
         <item>Settings</item>
         <item>Updates</item>
         <item>Other</item>
-    </string-array>
+</string-array>
     <string name="pref_show_exit_watermark_key">pref_show_exit_watermark</string>
     <string name="pref_notification_list_key">pref_notification_list</string>
     <string name="pref_notification_parts_key">pref_notification_parts</string>
@@ -70,8 +67,6 @@
     <string name="pref_speech_rate_seekbar_key_int">pref_speech_rate_seekbar_key_int</string>
     <string name="pref_speech_pitch_key">pref_pitch_volume</string>
     <string name="pref_speech_volume_key">pref_speech_volume</string>
-    <string name="pref_brailleime_key">pref_brailleime</string>
-    <string name="pref_brailledisplay_key">pref_brailledisplay</string>
     <string name="pref_a11y_volume_key">pref_a11y_volume</string>
     <string name="pref_speech_footer_key">pref_speech_footer</string>
     <string name="pref_vibration_key">pref_vibration</string>
@@ -106,28 +101,18 @@
     <string name="pref_keyboard_echo_screen_key" translatable="false">pref_keyboard_echo_screen</string>
     <string name="pref_echo_on_screen_keyboard_key" translatable="false">pref_echo_on_screen_keyboard</string>
     <string name="pref_echo_physical_keyboard_key" translatable="false">pref_echo_physical_keyboard</string>
-    <string name="pref_echo_braille_keyboard_key" translatable="false">pref_echo_braille_keyboard</string>
-    <string name="pref_echo_braille_display_key" translatable="false">pref_echo_braille_display</string>
     <!-- Reading controls and SandFly menu items for each keyboard echo setting, off by default. -->
     <string name="pref_selector_keyboard_echo_on_screen_key" translatable="false">pref_selector_keyboard_echo_on_screen_key</string>
     <string name="pref_selector_keyboard_echo_physical_key" translatable="false">pref_selector_keyboard_echo_physical_key</string>
-    <string name="pref_selector_keyboard_echo_braille_keyboard_key" translatable="false">pref_selector_keyboard_echo_braille_keyboard_key</string>
-    <string name="pref_selector_keyboard_echo_braille_display_key" translatable="false">pref_selector_keyboard_echo_braille_display_key</string>
     <string name="selector_keyboard_echo_on_screen" translatable="false">KEYBOARD_ECHO_ON_SCREEN</string>
     <string name="selector_keyboard_echo_physical" translatable="false">KEYBOARD_ECHO_PHYSICAL</string>
-    <string name="selector_keyboard_echo_braille_keyboard" translatable="false">KEYBOARD_ECHO_BRAILLE_KEYBOARD</string>
-    <string name="selector_keyboard_echo_braille_display" translatable="false">KEYBOARD_ECHO_BRAILLE_DISPLAY</string>
     <bool name="pref_selector_keyboard_echo_default">false</bool>
     <string name="pref_show_context_menu_keyboard_echo_on_screen_setting_key" translatable="false">pref_keyboard_echo_on_screen_menu_setting_key</string>
     <string name="pref_show_context_menu_keyboard_echo_physical_setting_key" translatable="false">pref_keyboard_echo_physical_menu_setting_key</string>
-    <string name="pref_show_context_menu_keyboard_echo_braille_keyboard_setting_key" translatable="false">pref_keyboard_echo_braille_keyboard_menu_setting_key</string>
-    <string name="pref_show_context_menu_keyboard_echo_braille_display_setting_key" translatable="false">pref_keyboard_echo_braille_display_menu_setting_key</string>
     <bool name="pref_show_context_menu_keyboard_echo_default">false</bool>
     <item type="id" name="group_keyboard_echo" />
     <item type="id" name="keyboard_echo_on_screen_menu" />
     <item type="id" name="keyboard_echo_physical_menu" />
-    <item type="id" name="keyboard_echo_braille_keyboard_menu" />
-    <item type="id" name="keyboard_echo_braille_display_menu" />
     <string name="pref_interrupt_typing_key" translatable="false">pref_interrupt_typing</string>
     <string name="pref_interrupt_enter_key" translatable="false">pref_interrupt_enter</string>
     <string name="pref_node_desc_order_key">pref_node_desc_order_key</string>
@@ -201,7 +186,6 @@
     <string name="pref_policy_key">pref_policy</string>
     <string name="pref_category_visual_key" translatable="false">pref_category_visual_key</string>
     <string name="pref_category_controls_key" translatable="false">pref_category_controls_key</string>
-    <string name="pref_category_braille_key" translatable="false">pref_category_braille_key</string>
     <string name="pref_category_general_key" translatable="false">pref_category_general_key</string>
     <string name="pref_category_others_key" translatable="false">pref_category_others_key</string>
     <string name="pref_category_tutorial_and_help_key" translatable="false">pref_category_tutorial_and_help_key</string>
@@ -330,7 +314,6 @@
         <item>window_opens</item>
         <item>never</item>
     </string-array>
-    <string name="pref_selector_tablet_held_up_faces_away_key" translatable="false">pref_selector_tablet_held_up_faces_away_key</string>
     <string name="pref_lift_to_activate_default" translatable="false">0</string>
     <string-array name="pref_lift_to_activate_entries">
       <item>@string/value_lift_to_activate_disabled</item>
@@ -695,8 +678,6 @@
   <string name="keycombo_shortcut_global_reset_speech_settings">keycombo_shortcut_global_reset_speech_settings</string>
   <string name="keycombo_shortcut_other_show_tutorial">keycombo_shortcut_other_show_tutorial</string>
   <string name="keycombo_shortcut_global_toggle_voice_feedback">keycombo_shortcut_global_toggle_voice_feedback</string>
-  <string name="keycombo_shortcut_other_toggle_braille_contracted_mode">keycombo_shortcut_other_toggle_braille_contracted_mode</string>
-  <string name="keycombo_shortcut_other_toggle_braille_on_screen_overlay">keycombo_shortcut_other_toggle_braille_on_screen_overlay</string>
   <string name="keycombo_shortcut_global_announce_current_title">keycombo_shortcut_global_announce_current_title</string>
   <string name="keycombo_shortcut_global_announce_phonetic_pronunciation">keycombo_shortcut_global_announce_phonetic_pronunciation</string>
   <string name="keycombo_shortcut_global_cycle_punctuation_verbosity">keycombo_shortcut_global_cycle_punctuation_verbosity</string>
@@ -1372,8 +1353,6 @@
   <string name="shortcut_value_copy_last_spoken_phrase" translatable="false">COPY_LAST_SPOKEN_UTTERANCE</string>
   <string name="shortcut_value_pause_or_resume_feedback">PAUSE_FEEDBACK</string>
   <string name="shortcut_value_all_apps" translatable="false">ALL_APPS</string>
-  <string name="shortcut_value_braille_keyboard" translatable="false">BRAILLE_KEYBOARD</string>
-  <string name="shortcut_value_braille_display_settings" translatable="false">BRAILLE_DISPLAY_SETTINGS</string>
   <string name="shortcut_value_tutorial" translatable="false">TUTORIAL</string>
   <string name="shortcut_value_row_up" translatable="false">ROW_UP</string>
   <string name="shortcut_value_row_down" translatable="false">ROW_DOWN</string>
@@ -1383,7 +1362,6 @@
   <string name="shortcut_value_report_gesture" translatable="false">GESTURE_DEBUG</string>
   <string name="shortcut_value_practice_gestures" translatable="false">PRACTICE_GESTURES</string>
   <string name="shortcut_value_split_typing" translatable="false">SPLIT_TYPE</string>
-  <string name="shortcut_value_toggle_braille_display" translatable="false">TOGGLE_BRAILLE_DISPLAY</string>
   <string name="shortcut_value_screen_overview" translatable="false">SCREEN_OVERVIEW</string>
   <string name="shortcut_value_describe_image" translatable="false">DESCRIBE_IMAGE</string>
   <string name="shortcut_value_increase_touch_explore_latency" translatable="false">INCREASE_TOUCH_EXPLORE_LATENCY</string>
@@ -1409,8 +1387,6 @@
   <string name="shortcut_value_show_learn_mode_page" translatable="false">SHOW_LEARN_MODE_PAGE</string>
   <string name="shortcut_value_navigate_next_line" translatable="false">NAVIGATE_NEXT_LINE</string>
   <string name="shortcut_value_navigate_previous_line" translatable="false">NAVIGATE_PREVIOUS_LINE</string>
-  <string name="shortcut_value_toggle_braille_contracted_mode" translatable="false">TOGGLE_BRAILLE_CONTRACTED_MODE</string>
-  <string name="shortcut_value_toggle_braille_on_screen_overlay" translatable="false">TOGGLE_BRAILLE_ON_SCREEN_OVERLAY</string>
   <string name="shortcut_value_announce_phonetic_pronunciation" translatable="false">ANNOUNCE_PHONETIC_PRONUNCIATION</string>
   <string name="shortcut_value_cycle_punctuation_verbosity" translatable="false">CYCLE_PUNCTUATION_VERBOSITY</string>
   <string name="shortcut_value_control_text_formatting">CONTROL_TEXT_FORMATTING</string>
@@ -1701,7 +1677,6 @@
     <bool name="pref_selector_lift_to_activate_default">false</bool>
     <bool name="pref_selector_wrap_around_default">false</bool>
     <bool name="pref_selector_links_controls_web_only_default">false</bool>
-    <bool name="pref_selector_tablet_held_up_faces_away_default">false</bool>
     <bool name="pref_selector_switch_tts_engine_default">false</bool>
     <bool name="pref_selector_voice_profile_default">false</bool>
     <bool name="pref_selector_touch_focus_latency_default">false</bool>
@@ -1771,7 +1746,6 @@
     <bool name="pref_show_context_menu_image_caption_default">true</bool>
     <bool name="pref_show_context_menu_summarize_view_default">true</bool>
     <bool name="pref_show_context_menu_typo_suggestions_default">true</bool>
-    <bool name="pref_show_context_menu_braille_display_settings_default">false</bool>
     <bool name="pref_show_context_menu_text_formatting_default">false</bool>
 
     <bool name="pref_show_navigation_menu_characters_default">true</bool>
@@ -1862,7 +1836,7 @@
     <string name="pref_shortcut_4finger_3tap_default">@string/shortcut_value_overview</string>
     <string name="pref_shortcut_2finger_1tap_hold_default">@string/shortcut_long_press_talkback_exit</string>
     <string name="pref_shortcut_3finger_1tap_hold_default">@string/shortcut_value_pass_through_next_gesture</string>
-    <string name="pref_shortcut_2finger_2tap_hold_default">@string/shortcut_value_braille_keyboard</string>
+    <string name="pref_shortcut_2finger_2tap_hold_default">@string/shortcut_value_unassigned</string>
     <string name="pref_shortcut_3finger_2tap_hold_default">@string/shortcut_value_cut</string>
     <string name="pref_shortcut_4finger_2tap_hold_default">@string/shortcut_value_notifications</string>
     <string name="pref_shortcut_2finger_3tap_hold_default">@string/shortcut_value_unassigned</string>
@@ -1981,7 +1955,6 @@
     <string name="pref_show_context_menu_image_caption_setting_key" translatable="false">pref_image_caption_menu_setting_key</string>
     <string name="pref_show_context_menu_summarize_view_setting_key" translatable="false">pref_summarize_view_menu_setting_key</string>
     <string name="pref_show_context_menu_typo_suggestions_setting_key" translatable="false">pref_show_context_menu_typo_suggestions_setting_key</string>
-    <string name="pref_show_context_menu_braille_display_settings_setting_key" translatable="false">pref_braille_dispaly_settings_menu_setting_key</string>
     <string name="pref_show_context_menu_text_formatting_setting_key" translatable="false">pref_text_formatting_menu_setting_key</string>
 
     <!-- Navigation options Menu preferences -->
@@ -2033,7 +2006,6 @@
     <string name="selector_typing_focus_latency_change" translatable="false">SELECTOR_TYPING_FOCUS_LATENCY_CHANGE</string>
     <string name="selector_lift_to_activate_change" translatable="false">SELECTOR_LIFT_TO_ACTIVATE_CHANGE</string>
     <string name="selector_wrap_around" translatable="false">SELECTOR_WRAP_AROUND</string>
-    <string name="selector_tablet_held_up_faces_away" translatable="false">SELECTOR_TABLET_HELD_UP_FACES_AWAY</string>
     <string name="selector_switch_tts_engine" translatable="false">SELECTOR_SWITCH_TTS_ENGINE</string>
     <string name="selector_voice_profile" translatable="false">SELECTOR_VOICE_PROFILE</string>
     <string name="selector_touch_focus_latency_change" translatable="false">SELECTOR_TOUCH_FOCUS_LATENCY_CHANGE</string>

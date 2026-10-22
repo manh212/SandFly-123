@@ -141,10 +141,4 @@
   <string name="symbol_full_width_less_than_sign">סימן \'קטן מ-\' ברוחב מלא</string>
   <string name="symbol_full_width_greater_than_sign">סימן \'גדול מ-\' ברוחב מלא</string>
   <string name="symbol_left_single_quotation_mark">סימן גרש שמאלי יחיד</string>
-  <string name="symbol_braille">ברייל %s</string>
-  <plurals name="dots">
-    <item quantity="one">נקודות %s </item>
-    <item quantity="two">נקודות %s</item>
-    <item quantity="other">נקודות %s</item>
-  </plurals>
 </resources>

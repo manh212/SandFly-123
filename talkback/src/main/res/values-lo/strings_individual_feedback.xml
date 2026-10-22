@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ເປີດໂໝດທ່ອງເບິ່ງ</string>
   <string name="individual_sound_browse_mode_off">ປິດໂໝດທ່ອງເບິ່ງ</string>
   <string name="individual_sound_radial_menu">ເມນູວົງມົນ</string>
-  <string name="individual_sound_display_connected">ເຊື່ອມຕໍ່ຈໍສະແດງຜົນອັກສອນເບລແລ້ວ</string>
-  <string name="individual_sound_display_disconnected">ຕັດການເຊື່ອມຕໍ່ຈໍສະແດງຜົນອັກສອນເບລແລ້ວ</string>
-  <string name="individual_sound_double_beep">ຄຳສັ່ງອັກສອນເບລລົ້ມເຫຼວ</string>
-  <string name="individual_sound_turn_on">ເປີດການເລື່ອນອັກສອນເບລອັດຕະໂນມັດ</string>
-  <string name="individual_sound_turn_off">ປິດການເລື່ອນອັກສອນເບລອັດຕະໂນມັດ</string>
-  <string name="individual_sound_calibration_done">ປັບທຽບແປ້ນພິມອັກສອນເບລແລ້ວ</string>
   <string name="individual_vibration_focus">ໂຟກັສໃສ່ລາຍການ</string>
   <string name="individual_vibration_focus_actionable">ໂຟກັສໃສ່ລາຍການທີ່ດຳເນີນການໄດ້</string>
   <string name="individual_vibration_clicked">ຄລິກ</string>

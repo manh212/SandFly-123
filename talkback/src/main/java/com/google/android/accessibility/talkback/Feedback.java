@@ -876,10 +876,6 @@ public abstract class Feedback {
     return Part.builder().setServiceFlag(ServiceFlag.create(action, flag));
   }
 
-  public static Part.Builder performBrailleDisplayAction(BrailleDisplay.Action action) {
-    return Part.builder().setBrailleDisplay(BrailleDisplay.create(action));
-  }
-
   //////////////////////////////////////////////////////////////////////////////////
   // Data access methods
 
@@ -986,8 +982,6 @@ public abstract class Feedback {
     public abstract @Nullable GeminiResultDialog geminiResultDialog();
 
     public abstract @Nullable ServiceFlag serviceFlag();
-
-    public abstract @Nullable BrailleDisplay brailleDisplay();
 
     public static Builder builder() {
       return new AutoValue_Feedback_Part.Builder()
@@ -1123,8 +1117,6 @@ public abstract class Feedback {
 
       public abstract Builder setServiceFlag(ServiceFlag serviceFlag);
 
-      public abstract Builder setBrailleDisplay(BrailleDisplay brailleDisplay);
-
       public abstract Part build();
     }
 
@@ -1175,7 +1167,6 @@ public abstract class Feedback {
               StringBuilderUtils.optionalSubObj("geminiRequest", geminiRequest()),
               StringBuilderUtils.optionalSubObj("geminiResultDialog", geminiResultDialog()),
               StringBuilderUtils.optionalSubObj("serviceFlag", serviceFlag()),
-              StringBuilderUtils.optionalSubObj("brailleDisplay", brailleDisplay()),
               StringBuilderUtils.optionalSubObj(
                   "updateSpeechOverlayLayout", updateSpeechOverlayLayout()));
     }
@@ -1452,7 +1443,6 @@ public abstract class Feedback {
       TRIGGER_TUTORIAL,
       TRIGGER_PRACTICE_GESTURE,
       TRIGGER_ASSISTANT,
-      TRIGGER_BRAILLE_DISPLAY_SETTINGS,
       TRIGGER_IMAGE_DESCRIPTIONS_SETTINGS,
     }
 
@@ -2575,24 +2565,6 @@ public abstract class Feedback {
 
     public static ServiceFlag create(ServiceFlag.Action action, int flag) {
       return new AutoValue_Feedback_ServiceFlag(action, flag);
-    }
-  }
-
-  /** Inner data-structure for performing braille display action. */
-  @AutoValue
-  public abstract static class BrailleDisplay {
-
-    /** Types of action to performed by braille display. */
-    public enum Action {
-      TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF,
-      TOGGLE_BRAILLE_CONTRACTED_MODE,
-      TOGGLE_BRAILLE_ON_SCREEN_OVERLAY,
-    }
-
-    public abstract BrailleDisplay.Action action();
-
-    public static BrailleDisplay create(BrailleDisplay.Action action) {
-      return new AutoValue_Feedback_BrailleDisplay(action);
     }
   }
 

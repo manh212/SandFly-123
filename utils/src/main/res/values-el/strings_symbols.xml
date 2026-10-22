@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Σύμβολο \"μικρότερο από\" πλήρους πλάτους</string>
   <string name="symbol_full_width_greater_than_sign">Σύμβολο \"μεγαλύτερο από\" πλήρους πλάτους</string>
   <string name="symbol_left_single_quotation_mark">Αριστερά μονά εισαγωγικά</string>
-  <string name="symbol_braille">μπράιγ %s</string>
-  <plurals name="dots">
-    <item quantity="one">κουκκίδα %s</item>
-    <item quantity="other">κουκκίδες %s</item>
-  </plurals>
 </resources>

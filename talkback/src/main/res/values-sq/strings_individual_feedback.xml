@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Modaliteti i shfletimit aktiv</string>
   <string name="individual_sound_browse_mode_off">Modaliteti i shfletimit joaktiv</string>
   <string name="individual_sound_radial_menu">Menyja rrethore</string>
-  <string name="individual_sound_display_connected">Ekrani i Brajës u lidh</string>
-  <string name="individual_sound_display_disconnected">Ekrani i Brajës u shkëput</string>
-  <string name="individual_sound_double_beep">Komanda e Brajës dështoi</string>
-  <string name="individual_sound_turn_on">Lëvizja automatike e Brajës aktive</string>
-  <string name="individual_sound_turn_off">Lëvizja automatike e Brajës joaktive</string>
-  <string name="individual_sound_calibration_done">Tastiera e Brajës u kalibrua</string>
   <string name="individual_vibration_focus">Fokusi te një artikull</string>
   <string name="individual_vibration_focus_actionable">Fokusi te një artikull që mund të aktivizohet</string>
   <string name="individual_vibration_clicked">Klikim</string>

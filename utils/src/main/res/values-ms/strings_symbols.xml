@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Tanda kurang daripada lebar penuh</string>
   <string name="symbol_full_width_greater_than_sign">Tanda lebih besar daripada lebar penuh</string>
   <string name="symbol_left_single_quotation_mark">Tanda petikan tunggal kiri</string>
-  <string name="symbol_braille">%s braille</string>
-  <plurals name="dots">
-    <item quantity="one">titik %s</item>
-    <item quantity="other">titik %s</item>
-  </plurals>
 </resources>

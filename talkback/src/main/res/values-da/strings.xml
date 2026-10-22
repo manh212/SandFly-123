@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Tryk for at høre</string>
   <string name="title_pref_category_visual">Visuel</string>
   <string name="title_pref_category_controls">Styring</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Generelt</string>
   <string name="title_pref_category_advanced">Avanceret</string>
   <string name="title_pref_category_others">Andre</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Reducer forsinkelse</string>
   <string name="talkback_latency_reduction_summary">Få SandFly til at reagere hurtigere, når du rører ved skærmen</string>
   <string name="summary_pref_intonation">Læs bogstaver, der slettes, op i et højere toneleje</string>
-  <string name="title_pref_brailledisplay">Brailleskærm</string>
-  <string name="title_pref_brailleime">Brailletastatur</string>
-  <string name="summary_pref_brailleime_disabled">Din enhed understøtter ikke brailletastatur</string>
   <string name="title_pref_speech_footer">Hvis du vil ændre lydstyrken for hjælpefunktioner fra en hvilken som helst skærm, skal du holde 1 finger på skærmen og trykke på tasten til lydstyrke op eller lydstyrke ned.</string>
   <string name="title_pref_vibration">Vibration</string>
   <string name="title_pref_soundback">Lydfeedback</string>
@@ -486,8 +482,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="shortcut_increase_volume">Skru op for lyden</string>
   <string name="shortcut_decrease_volume">Skru ned for lyden</string>
   <string name="shortcut_all_apps">Alle apps</string>
-  <string name="shortcut_braille_keyboard">Skift til brailletastatur</string>
-  <string name="shortcut_braille_display_settings">Gå til indstillingerne for brailleskærm</string>
   <string name="shortcut_tutorial">Åbn vejledning</string>
   <string name="shortcut_control_speak_time">Sig eller sig ikke, hvad klokken er</string>
   <string name="shortcut_enable_speak_time">Sig, hvad klokken er</string>
@@ -496,7 +490,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="speak_time_off">\"Sig, hvad klokken er\" er deaktiveret</string>
   <string name="shortcut_practice_gestures">Afprøv bevægelser</string>
   <string name="shortcut_report_gesture">Rapportér et problem med bevægelser</string>
-  <string name="shortcut_toggle_braille_display">Aktivér eller deaktiver brailleskærm</string>
   <string name="shortcut_announce_current_time_and_date">Sig den aktuelle dato og det aktuelle klokkeslæt</string>
   <string name="shortcut_announce_battery_state">Læs batteriniveauet højt</string>
   <string name="shortcut_announce_current_title">Læs vinduets titel op</string>
@@ -506,8 +499,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="shortcut_speech_rate_decrease">Sænk talehastigheden</string>
   <string name="shortcut_toggle_selection">Start eller afslut markeringstilstand</string>
   <string name="shortcut_show_tutorial">Åbn vejledning</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Skift mellem forkortet (grade 2) og uforkortet (grade 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Vis eller skjul braille på skærmen for tilknyttede brailleskærme</string>
   <string name="shortcut_toggle_sound_feedback">Slå lydfeedback (lydikoner) til eller fra</string>
   <string name="shortcut_show_learn_mode_page">Øv dig på tastaturgenveje</string>
   <string name="shortcut_announce_phonetic_pronunciation">Oplæs bogstaver med fonetisk udtale for det element, der fokuseres på</string>
@@ -548,7 +539,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="title_show_voice_commands">Stemmekommandoer</string>
   <string name="title_show_keyboard_shortcuts">Tastaturgenveje</string>
   <string name="talkback_show_talkback_settings">SandFly-indstillinger</string>
-  <string name="title_show_braille_display_settings">Indstillinger for brailleskærm</string>
   <string name="title_granularity_default">Standardnavigation</string>
   <string name="title_action_dismiss">Luk</string>
   <string name="title_action_expand">Udvid</string>
@@ -576,7 +566,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="summary_control_speak_time">Vælg, om du vil have oplyst, hvad klokken er, når du tænder skærmen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Åbn en liste over tastaturgenveje</string>
   <string name="summary_talkback_preferences">Åbn SandFly-indstillinger</string>
-  <string name="summary_braile_display_preferences">Åbn indstillingerne for brailleskærmen</string>
   <string name="summary_system_actions">Gå til alle apps og Kvikmenu</string>
   <string name="summary_tts_settings">Åbn indstillinger for oplæsning</string>
   <string name="not_editable">Kan ikke redigeres</string>
@@ -917,7 +906,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="screen_search_keyword_hint">søgeordet er %1$s</string>
   <string name="screen_search_no_keyword_hint">Intet søgeord endnu. Du kan starte en ny søgning ved at holde 3 fingre nede på skærmen eller ved at åbne skærmsøgning via SandFly-menuen.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Intet søgeord endnu. Du kan starte en ny søgning ved at stryge til venstre og så ned eller ved at åbne skærmsøgning via SandFly-menuen.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brailletastaturet er ikke aktiveret. Gå til SandFly-indstillinger, og konfigurer brailletastatur.</string>
   <string name="suggestions_window_available">Der er tilgængelige forslag</string>
   <string name="suggestions_window_available_with_gesture">Der er tilgængelige forslag. Få adgang ved at %1$s</string>
   <string name="heads_up_window_available">Der er en tilgængelig notifikation</string>
@@ -967,9 +955,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="new_gesture_notification_content">Tryk for at få flere oplysninger om, hvordan du kan bruge SandFly hurtigere med nye bevægelser.</string>
   <string name="dump_node_tree_description">Træstrukturen er blevet gemt i de pågældende logs.</string>
   <string name="report_gesture_description">Her er de bevægelser, du har brugt for nylig. Rapportér, hvilken af bevægelserne der ikke fungerer, og hvad du forventer af den.</string>
-  <string name="update_welcome_text_content">Du kan nu oprette forbindelse til brailleskærme via HID, som er en måde at oprette forbindelse til Bluetooth-enheder på. Sørg for, at du har de seneste firmwaredrivere fra producenten, og aktivér derefter Bluetooth på din brailleskærm. Gå til indstillingerne for SandFly &gt; Brailleskærm, og aktivér \"Brug brailleskærm\". Find din enhed på listen over enheder, og opret forbindelse til den.</string>
-  <string name="update_welcome_text_content_tts">Du kan nu oprette forbindelse til brailleskærme via HID, som er en måde at oprette forbindelse til Bluetooth-enheder på. Sørg for, at du har de seneste firmwaredrivere fra producenten, og aktivér derefter Bluetooth på din brailleskærm. Gå til indstillingerne for SandFly, gå derefter til Brailleskærm, og aktivér \"Brug brailleskærm\". Find din enhed på listen over enheder, og opret forbindelse til den.</string>
-  <string name="update_welcome_text_content_with_link">Se, hvordan du bruger din brailleskærm med SandFly.</string>
   <string name="update_welcome_talkback_16.1">Denne SandFly-opdatering introducerer understøttelse af Beskriv skærmen på flere sprog og andre kvalitetsforbedringer, der gør SandFly nemmere at bruge.\n\nDu får flere oplysninger om disse ændringer på de følgende skærme.\n\nDu kan gennemgå disse oplysninger senere ved at gå til SandFly-indstillinger &gt; Nye funktioner i SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Denne SandFly-opdatering introducerer understøttelse af Beskriv skærmen på flere sprog og andre kvalitetsforbedringer, der gør SandFly nemmere at bruge.\n\nDu får flere oplysninger om disse ændringer på de følgende skærme.\n\nDu kan gennemgå disse oplysninger senere ved at gå til SandFly-indstillinger efterfulgt af Nye funktioner i SandFly.</string>
   <string name="describe_screen_and_qna_title">Nye sprog til Beskriv skærmen og Spørg Gemini</string>
@@ -985,10 +970,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="reduce_delay_title">Reducer forsinkelse</string>
   <string name="reduce_delay_content">Du kan nu reducere forsinkelserne for SandFly-meddelelser, når du trykker for at høre, og når du taster. Du kan se disse indstillinger ved at gå til SandFly-indstillinger &gt; Avancerede indstillinger &gt; Reducer forsinkelse.</string>
   <string name="reduce_delay_content_tts">Du kan nu reducere forsinkelserne for SandFly-meddelelser, når du trykker for at høre, og når du taster. Du kan se disse indstillinger ved at gå til SandFly-indstillinger efterfulgt af Avancerede indstillinger og derefter Reducer forsinkelse.</string>
-  <string name="customize_braille_keyboard_improvements_title">Tilpas bevægelser for brailletastatur</string>
-  <string name="customize_braille_keyboard_improvements_content">Det er nu muligt at tilpasse bevægelser for det virtuelle brailletastatur på skærmen. Du kan tilpasse bevægelser ved at gå til SandFly-indstillinger &gt; Brailletastatur &gt; Bevægelser.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Det er nu muligt at tilpasse bevægelser for det virtuelle brailletastatur på skærmen. Du kan tilpasse bevægelser ved at gå til SandFly-indstillinger efterfulgt af Brailletastatur og derefter Bevægelser.</string>
-  <string name="learn_more_about_braille_keyboard">Få flere oplysninger om brailletastaturet</string>
   <string name="other_changes_title">Andre ændringer</string>
   <string name="other_changes_content">En meddelelse på skærmen hjælper dig nu med hurtigt at deaktivere SandFly, hvis funktionen aktiveres ved en fejl. Du kan deaktivere denne funktion under SandFly-indstillinger &gt; Vis vejledning i, hvordan du deaktiverer SandFly.</string>
   <string name="other_changes_content_tts">En meddelelse på skærmen hjælper dig nu med hurtigt at deaktivere SandFly, hvis funktionen aktiveres ved en fejl. Du kan deaktivere meddelelsen ved at gå til SandFly-indstillinger efterfulgt af Vis vejledning i, hvordan du deaktiverer SandFly.</string>
@@ -1021,7 +1002,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="keyboard_enhanced_keymap_text">SandFly har nu en \"Forbedret tastaturoversigt\" til fysiske tastaturer med en række nye kommandoer og genveje. Denne forbedring omfatter \"browsertilstand\" til mere effektiv webnavigation, så navigation og interaktion strømlines for SandFly-brugere, der bruger fysiske tastaturer. Du kan skifte til \"Forbedret tastaturoversigt\" i <xliff:g id="settings_path">%1$s</xliff:g>.\n\nHvis du bruger en brailleskærm, kan du også bruge nye genveje i browsertilstand til at navigere gennem indhold direkte fra din brailleskærm. Nogle genveje på brailleskærme er blevet ændret, så de passer til denne ændring. Du kan se en liste over alle genveje på brailleskærme i <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly-indstillinger &gt; Tastaturgenveje</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-indstillinger efterfulgt af Tastaturgenveje</string>
-  <string name="braille_display_settings_link">Indstillinger for brailleskærm</string>
   <string name="keyboard_smart_browse_mode_title">Tastatur: Smart browsertilstand</string>
   <string name="keyboard_smart_browse_mode_text">Smart browsertilstand i SandFly deaktiverer browsertilstand i et redigeringsfelt, så du nemmere kan skrive med et fysisk tastatur, når du browser på nettet. Derefter aktiveres den igen, når du går til et felt på nettet, der ikke kan redigeres, så du effektivt kan browse videre. Du kan aktivere eller deaktivere \"Smart browsertilstand\" i <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFly-indstillinger &gt; Avancerede indstillinger</string>
@@ -1094,7 +1074,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="typing_text_title">Indtastning af tekst</string>
   <string name="basic_typing_text_text">Når du er i et tekstfelt, åbnes et tastatur nederst på skærmen.</string>
   <string name="typing_text_text">Flyt din finger over tastaturet. Løft fingeren, når du hører det bogstav, du vil skrive.\n\nPrøv at aktivere tekstfeltet nedenfor og skrive dit navn.</string>
-  <string name="typing_text_with_braille_keyboard_text">Du kan også skrive med brailletastatur. Find det i indstillingerne til SandFly.</string>
   <string name="other_ways_to_type_title">Andre måder at skrive på</string>
   <string name="other_ways_to_type_text">Der er andre måder at skrive på i SandFly. Du kan f.eks. trykke to gange for at angive et bogstav.</string>
   <string name="basic_other_ways_to_type_text">Der er andre måder at skrive på i SandFly. Du kan f.eks. trykke to gange for at angive et bogstav. Du kan ændre dette senere under SandFly-indstillinger &gt; Skærmtastatur &gt; Indtastningsmetode.</string>
@@ -1520,7 +1499,6 @@ Brug ikke markdown i dit svar.</string>
     <string name="title_pref_announce_ringer_mode">Ringetilstand</string>
     <string name="summary_pref_announce_ringer_mode">Sig, når ringetilstanden er indstillet til vibration eller lydløs</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Indtastning og braille</string>
     <string name="title_pref_category_apps">Apps</string>
     <string name="title_pref_touch_activation">Berøring og aktivering</string>
     <string name="title_pref_navigation">Navigation</string>
@@ -1544,8 +1522,6 @@ Brug ikke markdown i dit svar.</string>
     <string name="speech_control_deny">Tillad ikke</string>
     <string name="permission_speak_label">tale via SandFly</string>
     <string name="permission_speak_description">Tillader, at appen anmoder om at sige tekst med din SandFly-stemme. SandFly spørger dig, før appen kan tale.</string>
-    <string name="permission_braille_display_label">anmode om at være brailleskærm for SandFly</string>
-    <string name="permission_braille_display_description">Tillader, at appen anmoder om at være brailleskærm for SandFly. Hvis du tillader det i SandFly, kan appen læse alt på skærmen og styre din enhed. SandFly spørger dig først.</string>
     <string name="title_pref_phonetic_letters_mode">Oplæs bogstaver fonetisk</string>
     <string name="phonetic_letters_mode_off">Fra</string>
     <string name="phonetic_letters_mode_after_letter_delay">Efter bogstavet, forsinket, f.eks. \"h, Hotel\"</string>
@@ -1683,14 +1659,8 @@ Brug ikke markdown i dit svar.</string>
     <string name="summary_support_wrap_around">Slå fortsættelse fra det sidste element til det første til eller fra</string>
     <string name="wrap_around_on">Fortsæt fra start er aktiveret</string>
     <string name="wrap_around_off">Fortsæt fra start er deaktiveret</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet holdt oprejst vender væk</string>
-    <string name="summary_support_tablet_held_up_faces_away">Til brailletastaturet på en tablet eller udfoldet telefon</string>
-    <string name="tablet_held_up_faces_away_on">Tablet holdt oprejst vender væk er aktiveret</string>
-    <string name="tablet_held_up_faces_away_off">Tablet holdt oprejst vender væk er deaktiveret</string>
     <string name="title_keyboard_echo_on_screen">Tastaturekko for skærmtastatur</string>
     <string name="title_keyboard_echo_physical">Tastaturekko for fysisk tastatur</string>
-    <string name="title_keyboard_echo_braille_keyboard">Tastaturekko for brailletastatur</string>
-    <string name="title_keyboard_echo_braille_display">Tastaturekko for brailleskærm</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Afbryd tale ved indtastning</string>
     <string name="pref_interrupt_typing_entry_always">Altid</string>

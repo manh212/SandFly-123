@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Preskúmanie dotykom</string>
   <string name="title_pref_category_visual">Vizuálny obsah</string>
   <string name="title_pref_category_controls">Ovládacie prvky</string>
-  <string name="title_pref_category_braille">Braillovo písmo</string>
   <string name="title_pref_category_general">Všeobecné</string>
   <string name="title_pref_category_advanced">Rozšírené</string>
   <string name="title_pref_category_others">Iné</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Zníženie oneskorenia</string>
   <string name="talkback_latency_reduction_summary">Nastavenia zníženia oneskorenia pred oznamami aplikácie TalkBack</string>
   <string name="summary_pref_intonation">Vyslovovať odstránené písmená vyšším hlasom</string>
-  <string name="title_pref_brailledisplay">Braillovský displej</string>
-  <string name="title_pref_brailleime">Braillovská klávesnica</string>
-  <string name="summary_pref_brailleime_disabled">Vaše zariadenie nepodporuje braillovskú klávesnicu</string>
   <string name="title_pref_speech_footer">Niektoré nastavenia zvuku v aplikácii TalkBack môžete rýchlo upraviť na ľubovoľnej obrazovke.\n\nHlasitosť dostupnosti: pridržte jeden prst na obrazovke a stlačte tlačidlo zvýšenia alebo zníženia hlasitosti.\nRýchlosť reči v aplikácii TalkBack: potiahnite troma prstami nahor alebo nadol. Keď začujete „rýchlosť reči“, potiahnite jedným prstom nahor alebo nadol.</string>
   <string name="title_pref_vibration">Vibračná odozva</string>
   <string name="title_pref_soundback">Zvuková odozva</string>
@@ -486,8 +482,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="shortcut_increase_volume">Zvýšiť hlasitosť</string>
   <string name="shortcut_decrease_volume">Znížiť hlasitosť</string>
   <string name="shortcut_all_apps">Všetky aplikácie</string>
-  <string name="shortcut_braille_keyboard">Braillova klávesnica</string>
-  <string name="shortcut_braille_display_settings">Prejsť do nastavení Braillovho displeja</string>
   <string name="shortcut_tutorial">Otvoriť návod</string>
   <string name="shortcut_control_speak_time">Hlásiť alebo nehlásiť čas</string>
   <string name="shortcut_enable_speak_time">Hlásiť čas</string>
@@ -496,7 +490,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="speak_time_off">Hlásenie času je vypnuté</string>
   <string name="shortcut_practice_gestures">Precvičovanie gest</string>
   <string name="shortcut_report_gesture">Nahlásiť problém s gestom</string>
-  <string name="shortcut_toggle_braille_display">Vypnutie alebo zapnutie Braillovho displeja</string>
   <string name="shortcut_announce_current_time_and_date">Prečítať aktuálny dátum a čas</string>
   <string name="shortcut_announce_battery_state">Prečítať percentá batérie</string>
   <string name="shortcut_announce_current_title">Vyslovovanie názvu okna</string>
@@ -506,8 +499,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="shortcut_speech_rate_decrease">Zníženie rýchlosti reči</string>
   <string name="shortcut_toggle_selection">Spustenie alebo ukončenie režimu výberu</string>
   <string name="shortcut_show_tutorial">Otvoriť návod</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Prepnúť medzi skráteným (2. stupeň) a neskráteným (1. stupeň)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Zobraziť či skryť Braillovo písmo na pripojených displejoch</string>
   <string name="shortcut_toggle_sound_feedback">Zapnutie alebo vypnutie zvukovej odozvy (zvukových signálov)</string>
   <string name="shortcut_show_learn_mode_page">Precvičte si klávesové skratky</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fonetické predčítavanie písmen označenej položky</string>
@@ -548,7 +539,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="title_show_voice_commands">Hlasové príkazy</string>
   <string name="title_show_keyboard_shortcuts">Klávesové skratky</string>
   <string name="talkback_show_talkback_settings">Nastavenia aplikácie TalkBack</string>
-  <string name="title_show_braille_display_settings">Nastavenia braillovského displeja</string>
   <string name="title_granularity_default">Predvolená navigácia</string>
   <string name="title_action_dismiss">Odmietnuť</string>
   <string name="title_action_expand">Rozbaliť</string>
@@ -576,7 +566,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="summary_control_speak_time">Vyberte, či sa bude hlásiť čas, keď zapnete obrazovku</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otvoriť zoznam klávesových skratiek</string>
   <string name="summary_talkback_preferences">Otvorenie nastavení aplikácie TalkBack</string>
-  <string name="summary_braile_display_preferences">Otvoriť nastavenia Braillovho displeja</string>
   <string name="summary_system_actions">Prejsť do všetkých aplikácií a rýchlych nastavení</string>
   <string name="summary_tts_settings">Otvorenie nastavení prevodu textu na reč</string>
   <string name="not_editable">Nedá sa upraviť</string>
@@ -917,7 +906,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="screen_search_keyword_hint">kľúčové slovo je %1$s</string>
   <string name="screen_search_no_keyword_hint">Zatiaľ nemáte žiadne kľúčové slovo. Ak chcete začať nové vyhľadávanie, klepnite troma prstami a pridržte ich alebo otvorte priame vyhľadávanie v ponuke aplikácie TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Zatiaľ nemáte žiadne kľúčové slovo. Ak chcete začať nové vyhľadávanie, potiahnite doľava a nadol alebo otvorte priame vyhľadávanie v ponuke aplikácie TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braillova klávesnica nie je zapnutá. Nakonfigurujte ju v nastaveniach TalkBack a skúste to znova.</string>
   <string name="suggestions_window_available">K dispozícii sú návrhy</string>
   <string name="suggestions_window_available_with_gesture">K dispozícii sú návrhy. Ak ich chcete zobraziť, %1$s</string>
   <string name="heads_up_window_available">K dispozícii je upozornenie</string>
@@ -967,9 +955,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="new_gesture_notification_content">Klepnutím zistíte, ako vám nové gestá urýchlia používanie aplikácie TalkBack.</string>
   <string name="dump_node_tree_description">Strom uzlov bol vytlačený do denníkov.</string>
   <string name="report_gesture_description">Tu sú nedávno vykonané gestá. Nahláste, ktoré je nesprávne, a čo ste očakávali.</string>
-  <string name="update_welcome_text_content">Teraz sa môžete pripojiť k braillovským displejom prostredníctvom zariadenia s ľudským rozhraním, čo je spôsob pripojenia k zariadeniam s rozhraním Bluetooth. Skontrolujte, či máte najnovšie ovládače firmvéru od výrobcu, a potom zapnite v braillovskom displeji rozhranie Bluetooth. Prejdite do sekcie Nastavenia aplikácie TalkBack &gt; Braillovský displej a zapnite Používať braillovský displej. Nájdite svoje zariadenie v zozname a pripojte sa k nemu.</string>
-  <string name="update_welcome_text_content_tts">Teraz sa môžete pripojiť k braillovským displejom prostredníctvom zariadenia s ľudským rozhraním, čo je spôsob pripojenia k zariadeniam s rozhraním Bluetooth. Skontrolujte, či máte najnovšie ovládače firmvéru od výrobcu, a potom zapnite v braillovskom displeji rozhranie Bluetooth. Prejdite do nastavení aplikácie TalkBack, potom na Braillovský displej a zapnite Používať braillovský displej. Nájdite svoje zariadenie v zozname a pripojte sa k nemu.</string>
-  <string name="update_welcome_text_content_with_link">Ako používať braillovský displej s aplikáciou TalkBack</string>
   <string name="update_welcome_talkback_16.1">V rámci tejto aktualizácie aplikácie TalkBack je teraz k dispozícii podpora funkcie Opísať obrazovku vo viacerých jazykoch a ďalšie zlepšenia kvality uľahčujúce používanie aplikácie TalkBack.\n\nViac o týchto zmenách sa dozviete na nasledujúcich obrazovkách.\n\nTieto informácie si môžete neskôr pozrieť v sekcii Nastavenia aplikácie TalkBack &gt; Nové funkcie v aplikácii TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">V rámci tejto aktualizácie aplikácie TalkBack je teraz k dispozícii podpora funkcie Opísať obrazovku vo viacerých jazykoch a ďalšie zlepšenia kvality uľahčujúce používanie aplikácie TalkBack.\n\nViac o týchto zmenách sa dozviete na nasledujúcich obrazovkách.\n\nAk si budete chcieť tieto informácie pozrieť neskôr, prejdite do sekcie Nastavenia aplikácie TalkBack a vyberte Nové funkcie v aplikácii TalkBack.</string>
   <string name="describe_screen_and_qna_title">Nové jazyky pre funkcie Opísať obrazovku a Opýtať sa Gemini</string>
@@ -985,10 +970,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="reduce_delay_title">Zníženie oneskorenia</string>
   <string name="reduce_delay_content">Teraz môžete znížiť oneskorenie oznamov aplikácie TalkBack pri prieskume dotykom a písaní. Ak si chcete zobraziť tieto nastavenia, prejdite do sekcie Nastavenia aplikácie TalkBack &gt; Rozšírené nastavenia &gt; Zníženie oneskorenia.</string>
   <string name="reduce_delay_content_tts">Teraz môžete znížiť oneskorenie oznamov aplikácie TalkBack pri prieskume dotykom a písaní. Ak si chcete zobraziť tieto nastavenia, prejdite do Nastavení aplikácie TalkBack, vyberte Rozšírené nastavenia a potom Zníženie oneskorenia.</string>
-  <string name="customize_braille_keyboard_improvements_title">Prispôsobenie gest braillovskej klávesnice</string>
-  <string name="customize_braille_keyboard_improvements_content">Teraz môžete prispôsobiť gestá pre virtuálnu braillovskú klávesnicu na obrazovke. Ak ich chcete prispôsobiť, prejdite do sekcie Nastavenia aplikácie TalkBack &gt; Braillovská klávesnica &gt; Gestá.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Teraz môžete prispôsobiť gestá pre virtuálnu braillovskú klávesnicu na obrazovke. Ak ich chcete prispôsobiť, prejdite do sekcie Nastavenia aplikácie TalkBack, vyberte položku Braillovská klávesnica a potom Gestá.</string>
-  <string name="learn_more_about_braille_keyboard">Ďalšie informácie o braillovskej klávesnici</string>
   <string name="other_changes_title">Iné zmeny</string>
   <string name="other_changes_content">Správa na obrazovke vám teraz pomôže rýchlo vypnúť aplikáciu TalkBack, keď sa omylom zapne. Túto možnosť môžete vypnúť v sekcii Nastavenia aplikácie TalkBack &gt; Zobrazovať pokyny, ako vypnúť TalkBack.</string>
   <string name="other_changes_content_tts">Správa na obrazovke vám teraz pomôže rýchlo vypnúť aplikáciu TalkBack, keď sa omylom zapne. Túto možnosť môžete vypnúť tak, že v Nastaveniach aplikácie TalkBack vyberiete Zobrazovať pokyny, ako vypnúť TalkBack.</string>
@@ -1021,7 +1002,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="keyboard_enhanced_keymap_text">TalkBack má teraz pre fyzické klávesnice zlepšenú mapu klávesov s rôznymi novými príkazmi a skratkami. Toto zlepšenie zahŕňa režim prehliadania na efektívnejší pohyb na internete, čím zjednodušuje navigáciu a interakciu pre používateľov aplikácie TalkBack, ktorí využívajú fyzické klávesnice. Na zlepšenú mapu klávesov môžete prepnúť v sekcii %1$s.\n\nAk používate braillovský displej, môžete navyše pomocou nových skratiek režimu prehliadania prechádzať obsahom priamo na ňom. Niektoré skratky braillovského displeja boli zmenené tak, aby zodpovedali tejto zmene. Zoznam všetkých skratiek braillovského displeja nájdete v sekcii %2$s.</string>
   <string name="keyboard_shortcuts_link">Nastavenia aplikácie TalkBack &gt; Klávesové skratky</string>
   <string name="keyboard_shortcuts_link_tts">Nastavenia aplikácie TalkBack, potom Klávesové skratky</string>
-  <string name="braille_display_settings_link">Nastavenia braillovského displeja</string>
   <string name="keyboard_smart_browse_mode_title">Klávesnica: inteligentný režim prehliadania</string>
   <string name="keyboard_smart_browse_mode_text">Inteligentný režim prehliadania aplikácie TalkBack vypne režim prehliadania v poli úprav, aby ste mohli pri prehliadaní internetu písať pomocou fyzickej klávesnice. Potom ho znova zapne, keď prejdete na internete na pole, v ktorom nie je možné vykonávať úpravy, aby ste mohli efektívne pokračovať v prehliadaní. Inteligentný režim prehliadania môžete zapnúť alebo vypnúť v sekcii %1$s.</string>
   <string name="advanced_settings_link">Nastavenia aplikácie TalkBack &gt; Rozšírené nastavenia</string>
@@ -1094,7 +1074,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="typing_text_title">Písanie textu</string>
   <string name="basic_typing_text_text">Keď sa nachádzate v textovom poli, dole na obrazovke sa otvorí klávesnica.</string>
   <string name="typing_text_text">Presúvajte prst po klávesnici. Keď začujete písmeno, ktoré chcete zadať, zdvihnite prst.\n\nSkúste aktivovať textové pole nižšie a zadať svoje meno.</string>
-  <string name="typing_text_with_braille_keyboard_text">Písať môžete aj pomocou braillovskej klávesnice. Nájdete ju v nastaveniach aplikácie TalkBack.</string>
   <string name="other_ways_to_type_title">Ďalšie spôsoby písania</string>
   <string name="other_ways_to_type_text">V aplikácii TalkBack môžete písať aj inými spôsobmi. Napríklad môžete zadať písmeno dvojitým klepnutím.</string>
   <string name="basic_other_ways_to_type_text">V aplikácii TalkBack môžete písať aj inými spôsobmi. Napríklad môžete zadať písmeno dvojitým klepnutím. Neskôr to môžete zmeniť v nastaveniach aplikácie TalkBack &gt; Klávesnica na obrazovke &gt; Predvoľba písania.</string>

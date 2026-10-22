@@ -75,10 +75,6 @@
     <string name="theme_sound_summary_none">بدون صوت. يتم تشغيل صوت التركيز.</string>
     <string name="theme_sound_summary_android_keyboard">صوت لوحة مفاتيح Android</string>
     <string name="theme_sound_use_android_keyboard">استخدام صوت لوحة مفاتيح Android</string>
-    <string name="theme_sound_braille_character">لوحة مفاتيح برايل: كتابة حرف</string>
-    <string name="theme_sound_braille_space">لوحة مفاتيح برايل: مسافة</string>
-    <string name="theme_sound_braille_delete">لوحة مفاتيح برايل: حذف</string>
-    <string name="theme_sound_braille_new_line">لوحة مفاتيح برايل: سطر جديد</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">اختيار ملف صوتي</string>
     <string name="theme_sound_preview">معاينة</string>

@@ -33,7 +33,7 @@ import org.robolectric.annotation.Config
 class SettingsBackupTest {
   private val context: Context = RuntimeEnvironment.getApplication()
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-  private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
+  private val extra = SharedPreferencesUtils.getSharedPreferences(context, "extra_settings")
 
   @Test
   fun settingsComeBackAsTheyWere() {
@@ -46,11 +46,11 @@ class SettingsBackupTest {
       .putString("a_string", "x")
       .putStringSet("a_set", setOf("1", "2"))
       .commit()
-    braille.edit().putString("code", "EN_UEB").commit()
+    extra.edit().putString("code", "some_value").commit()
     val json = SettingsBackup.export(context)
 
     prefs.edit().clear().putBoolean("added_later", true).commit()
-    braille.edit().clear().commit()
+    extra.edit().clear().commit()
     assertTrue(SettingsBackup.import(context, json))
 
     assertEquals(true, prefs.getBoolean("a_switch", false))
@@ -60,7 +60,7 @@ class SettingsBackupTest {
     assertEquals("x", prefs.getString("a_string", null))
     assertEquals(setOf("1", "2"), prefs.getStringSet("a_set", null))
     assertFalse(prefs.contains("added_later"))
-    assertEquals("EN_UEB", braille.getString("code", null))
+    assertEquals("some_value", extra.getString("code", null))
   }
 
   @Test

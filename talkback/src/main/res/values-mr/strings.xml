@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">स्‍पर्श करून एक्‍सप्‍लोर करा</string>
   <string name="title_pref_category_visual">व्हिज्युअल</string>
   <string name="title_pref_category_controls">नियंत्रणे</string>
-  <string name="title_pref_category_braille">ब्रेल</string>
   <string name="title_pref_category_general">साधारण</string>
   <string name="title_pref_category_advanced">प्रगत</string>
   <string name="title_pref_category_others">इतर</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">विलंब कमी करा</string>
   <string name="talkback_latency_reduction_summary">TalkBack घोषणा करण्यात होणारा विलंब कमी करण्यासाठी सेटिंग्ज</string>
   <string name="summary_pref_intonation">हटवलेली अक्षरे मोठ्या आवाजात बोलून सांगा</string>
-  <string name="title_pref_brailledisplay">ब्रेल डिस्प्ले</string>
-  <string name="title_pref_brailleime">ब्रेल कीबोर्ड</string>
-  <string name="summary_pref_brailleime_disabled">तुमचे डिव्हाइस ब्रेल कीबोर्डला सपोर्ट करत नाही</string>
   <string name="title_pref_speech_footer">तुम्ही कोणत्याही स्क्रीनवरून TalkBack ची काही साउंड सेटिंग्ज झटपट ॲडजस्ट करू शकता.\n\nअ‍ॅक्सेसिबिलिटी व्हॉल्यूम: स्क्रीनवर १ बोट धरून व्हॉल्यूम जास्त किंवा व्‍हॉल्‍यूम कमीची की प्रेस करा\nTalkBack स्पीच रेट: ३ बोटांनी वर किंवा खाली स्वाइप करा. तुम्ही \"स्पीच रेट\" ऐकता, तेव्हा १ बोटाने वर किंवा खाली स्वाइप करा.</string>
   <string name="title_pref_vibration">व्हायब्रेशन फीडबॅक</string>
   <string name="title_pref_soundback">आवाज फीडबॅक</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">आवाज वाढवा</string>
   <string name="shortcut_decrease_volume">आवाज कमी करा</string>
   <string name="shortcut_all_apps">सर्व अ‍ॅप्स</string>
-  <string name="shortcut_braille_keyboard">ब्रेल कीबोर्डवर स्विच करा</string>
-  <string name="shortcut_braille_display_settings">ब्रेल प्रदर्शन सेटिंग्जवर नेव्हिगेट करा</string>
   <string name="shortcut_tutorial">ट्यूटोरियल उघडा</string>
   <string name="shortcut_control_speak_time">बोलून वेळ सांगा किंवा सांगू नका</string>
   <string name="shortcut_enable_speak_time">बोलून वेळ सांगा</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">बोलून वेळ सांगा बंद आहे</string>
   <string name="shortcut_practice_gestures">जेश्चर वापरण्याचा सराव करा</string>
   <string name="shortcut_report_gesture">जेश्चर समस्या नोंदवा</string>
-  <string name="shortcut_toggle_braille_display">ब्रेल डिस्प्ले सुरू किंवा बंद करा</string>
   <string name="shortcut_announce_current_time_and_date">सद्य तारीख आणि वेळ बोलून सांगा</string>
   <string name="shortcut_announce_battery_state">बॅटरीची टक्केवारी बोलून सांगा</string>
   <string name="shortcut_announce_current_title">विंडोशी संबंधित शीर्षक बोला</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">स्पीच रेट कमी करा</string>
   <string name="shortcut_toggle_selection">निवड मोड सुरू किंवा बंद करा</string>
   <string name="shortcut_show_tutorial">ट्यूटोरियल उघडा</string>
-  <string name="shortcut_toggle_braille_contracted_mode">काँट्रॅक्टेड (ग्रेड २) व अनकाँट्रॅक्टेड (ग्रेड १) दरम्यान स्विच करा</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">कनेक्ट केलेल्या ब्रेल डिस्प्लेसाठी स्क्रीनवरील ब्रेल दाखवा किंवा लपवा</string>
   <string name="shortcut_toggle_sound_feedback">साउंड फीडबॅक (इयरकॉन) सुरू किंवा बंद करा</string>
   <string name="shortcut_show_learn_mode_page">कीबोर्ड शॉर्टकटचा सराव करा</string>
   <string name="shortcut_announce_phonetic_pronunciation">फोकस केलेल्या आयटमसाठी फोनेटिक उच्चारांची अक्षरे बोला</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">व्हॉइस कमांड</string>
   <string name="title_show_keyboard_shortcuts">कीबोर्ड शॉर्टकट</string>
   <string name="talkback_show_talkback_settings">TalkBack सेटिंग्ज</string>
-  <string name="title_show_braille_display_settings">ब्रेल डिस्प्ले सेटिंग्ज</string>
   <string name="title_granularity_default">डीफॉल्ट नेव्हिगेशन</string>
   <string name="title_action_dismiss">डिसमिस करा</string>
   <string name="title_action_expand">विस्तृत करा</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">तुम्ही स्क्रीन सुरू करता, तेव्हा वेळ मोठ्याने बोलून सांगितली जाते की नाही ते बदला</string>
   <string name="summary_show_keyboard_shortcuts_preferences">कीबोर्ड शॉर्टकटची सूची उघडा</string>
   <string name="summary_talkback_preferences">TalkBack सेटिंग्ज उघडा</string>
-  <string name="summary_braile_display_preferences">ब्रेल डिस्प्ले सेटिंग्ज उघडा</string>
   <string name="summary_system_actions">सर्व ॲप्स आणि क्विक सेटिंग्ज वर जा</string>
   <string name="summary_tts_settings">टेक्‍स्‍ट टू स्‍पीच सेटिंग्ज उघडा</string>
   <string name="not_editable">संपादित न करता येण्यासारखे</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">%1$s हा कीवर्ड आहे</string>
   <string name="screen_search_no_keyword_hint">अद्याप कोणतेही कीवर्ड नाहीत. नवीन शोध सुरू करण्यासाठी, ३ बोटांनी टॅप करून धरून ठेवा किंवा TalkBack मेनूमधून स्क्रीनवर शोधा उघडा.</string>
   <string name="screen_search_no_keyword_hint_pre_r">अद्याप कोणतेही कीवर्ड नाहीत. नवीन शोध सुरू करण्यासाठी, डावीकडे, त्यांनतर खाली स्वाइप करा किंवा TalkBack मेनूमधून स्क्रीनवर शोधा उघडा.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ब्रेल कीबोर्ड सुरू केलेला नाही. TalkBack सेटिंग्जवर जा, ब्रेल कीबोर्ड सेट करा व पुन्हा प्रयत्न करा.</string>
   <string name="suggestions_window_available">सूचना उपलब्ध आहेत</string>
   <string name="suggestions_window_available_with_gesture">सूचना उपलब्ध आहेत. अ‍ॅक्सेस करण्यासाठी, %1$s</string>
   <string name="heads_up_window_available">सूचना उपलब्ध आहे</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">नवीन जेश्चरसह TalkBack झटपट कसे वापरायचे ते जाणून घेण्यासाठी टॅप करा.</string>
   <string name="dump_node_tree_description">नोड ट्रीला लॉगमध्ये प्रिंट केले गेले आहे.</string>
   <string name="report_gesture_description">ही अलीकडे केलेली जेश्चर आहेत, कृपया कोणते जेश्चर चुकीचे आहे आणि काय अपेक्षित आहे हे कळवा.</string>
-  <string name="update_welcome_text_content">तुम्ही आता HID द्वारे ब्रेल डिस्प्लेशी कनेक्ट करू शकता, जो ब्लूटूथ डिव्‍हाइसशी कनेक्ट करण्याचा मार्ग आहे. तुमच्याकडे तुमच्या उत्पादकाकडून नवीनतम फर्मवेअर ड्रायव्हर असल्याची खात्री करा, त्यानंतर तुमच्या ब्रेल डिस्प्लेवर ब्लूटूथ सुरू करा. TalkBack सेटिंग्ज &gt; ब्रेल डिस्प्ले वर जा आणि \"ब्रेल डिस्प्ले वापरा\" सुरू करा. डिव्हाइसच्या सूचीमध्ये तुमचे डिव्हाइस शोधा आणि ते कनेक्ट करा.</string>
-  <string name="update_welcome_text_content_tts">तुम्ही आता HID द्वारे ब्रेल डिस्प्लेशी कनेक्ट करू शकता, जो ब्लूटूथ डिव्‍हाइसशी कनेक्ट करण्याचा मार्ग आहे. तुमच्याकडे तुमच्या उत्पादकाकडून नवीनतम फर्मवेअर ड्रायव्हर असल्याची खात्री करा, त्यानंतर तुमच्या ब्रेल डिस्प्लेवर ब्लूटूथ सुरू करा. TalkBack सेटिंग्ज &gt; नंतर ब्रेल डिस्प्ले वर जा आणि \"ब्रेल डिस्प्ले वापरा\" सुरू करा. डिव्हाइसच्या सूचीमध्ये तुमचे डिव्हाइस शोधा आणि ते कनेक्ट करा.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack सह तुमचा ब्रेल डिस्प्ले कसे वापरावे हे जाणून घ्या.</string>
   <string name="update_welcome_talkback_16.1">या TalkBack अपडेटमध्ये, वर्णन करा या स्क्रीनवर आणखी भाषांना सपोर्ट आहे आणि TalkBack वापरण्यासाठी सोपे करण्यासाठीच्या इतर गुणवत्तेसंबंधित सुधारणांचा समावेश आहे.\n\nतुम्ही पुढील काही स्क्रीनवर या बदलांबद्दल अधिक जाणून घ्याल.\n\nनंतर तुम्ही TalkBack सेटिंग्ज &gt; TalkBack मधील नवीन वैशिष्‍ट्ये यामध्ये या माहितीचे पुनरावलोकन करू शकता.</string>
   <string name="update_welcome_talkback_16.1_tts">या TalkBack अपडेटमध्ये, वर्णन करा या स्क्रीनवर आणखी भाषांना सपोर्ट आहे आणि TalkBack वापरण्यासाठी सोपे करण्यासाठीच्या इतर गुणवत्तेसंबंधित सुधारणांचा समावेश आहे.\n\nपुढील काही स्क्रीनवर तुम्ही या बदलांबद्दल अधिक जाणून घ्याल.\n\nनंतर तुम्ही TalkBack सेटिंग्ज, त्यानंतर TalkBack मधील नवीन वैशिष्‍ट्ये यामध्ये या माहितीचे पुनरावलोकन करू शकता.</string>
   <string name="describe_screen_and_qna_title">वर्णन स्क्रीन आणि Gemini ला विचारा यासाठी नवीन भाषा</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">विलंब कमी करा</string>
   <string name="reduce_delay_content">तुम्ही आता टच एक्सप्लोरेशन आणि टायपिंग यांसाठी TalkBack घोषणा करण्यात होणारे विलंब कमी करू शकता. ही सेटिंग्ज पाहण्यासाठी, TalkBack सेटिंग्ज &gt; प्रगत सेटिंग्ज &gt; विलंब कमी करा यावर जा.</string>
   <string name="reduce_delay_content_tts">तुम्ही आता टच एक्सप्लोरेशन आणि टायपिंग यांसाठी TalkBack घोषणा करण्यात होणारे विलंब कमी करू शकता. ही सेटिंग्ज पाहण्यासाठी, TalkBack सेटिंग्ज, त्यानंतर प्रगत सेटिंग्ज, नंतर विलंब कमी करा यावर जा.</string>
-  <string name="customize_braille_keyboard_improvements_title">ब्रेल कीबोर्ड जेश्चर कस्टमाइझ करा</string>
-  <string name="customize_braille_keyboard_improvements_content">आता स्क्रीनवरील व्हर्चुअल ब्रेल कीबोर्डसाठी जेश्चर कस्टमाइझ करणे शक्य झाले आहे. कस्टमाइझ करण्यासाठी, TalkBack सेटिंग्ज &gt; ब्रेल कीबोर्ड &gt; जेश्चर यावर जा.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">आता स्क्रीनवरील व्हर्चुअल ब्रेल कीबोर्डसाठी जेश्चर कस्टमाइझ करणे शक्य झाले आहे. कस्टमाइझ करण्यासाठी, TalkBack सेटिंग्ज, त्यानंतर ब्रेल कीबोर्ड, नंतर जेश्चर यावर जा.</string>
-  <string name="learn_more_about_braille_keyboard">ब्रेल कीबोर्डबद्दल अधिक जाणून घ्या</string>
   <string name="other_changes_title">इतर बदल</string>
   <string name="other_changes_content">TalkBack चुकून सुरू झाले असल्यास, आता स्क्रीनवरील मेसेजमुळे तुम्हाला ते झटपट बंद करण्यात मदत होईल. तुम्ही TalkBack सेटिंग्ज &gt; TalkBack बंद करण्यासाठी सूचना दाखवा यामध्ये हे बंद करू शकता.</string>
   <string name="other_changes_content_tts">TalkBack चुकून सुरू झाले असल्यास, आता स्क्रीनवरील मेसेजमुळे तुम्हाला ते झटपट बंद करण्यात मदत होईल. तुम्ही TalkBack सेटिंग्ज, त्यानंतर TalkBack बंद करण्यासाठी सूचना दाखवा यामध्ये हे बंद करू शकता.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack मध्ये आता वास्तविक कीबोर्डसाठी \"वर्धित कीमॅप\" असून, त्यामध्ये विविध नवीन कमांड आणि शॉर्टकट आहेत. अधिक कार्यक्षम वेब नेव्हिगेशनसाठी \"ब्राउझ मोड\" चा समावेश असलेल्या या एन्हान्समेंटमुळे, वास्तविक कीबोर्डवर अवलंबून असणाऱ्या TalkBack वापरकर्त्यांकरिता नेव्हिगेशन आणि संवाद या गोष्टी सुलभ होतात. तुम्ही %1$s मध्ये \"वर्धित कीमॅप\" वर स्विच करू शकता.\n\nतुम्ही ब्रेल डिस्प्ले वापरत असल्यास, थेट तुमच्या ब्रेल डिस्प्लेवरून आशय ब्राऊझ करण्यासाठी नवीन ब्राउझ मोड शॉर्टकटदेखील वापरू शकता. हा बदल समाविष्ट करण्यासाठी काही ब्रेल डिस्प्ले शॉर्टकट बदलले आहेत. तुम्ही %2$s मध्ये सर्व ब्रेल डिस्प्ले शॉर्टकटची सूची पाहू शकता.</string>
   <string name="keyboard_shortcuts_link">TalkBack सेटिंग्ज &gt; कीबोर्ड शॉर्टकट</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack सेटिंग्ज, त्यानंतर कीबोर्ड शॉर्टकट</string>
-  <string name="braille_display_settings_link">ब्रेल डिस्प्ले सेटिंग्ज</string>
   <string name="keyboard_smart_browse_mode_title">कीबोर्ड: स्मार्ट ब्राउझ मोड</string>
   <string name="keyboard_smart_browse_mode_text">तुम्ही वेब ब्राउझ करता, तेव्हा तुम्हाला प्रत्यक्ष कीबोर्ड वापरून टाइप करण्यात मदत करण्यासाठी TalkBack स्मार्ट ब्राउझ मोड संपादन फील्डवरील ब्राउझ मोड बंद करतो. त्यानंतर तुम्ही वेबवरील संपादन न करता येणाऱ्या फील्डवर जाता, तेव्हा ते पुन्हा सुरू करते, जेणेकरून तुम्ही कार्यक्षमतेने ब्राउझ करणे सुरू ठेवू शकता. तुम्ही %1$s मध्ये \"स्मार्ट ब्राउझ मोड\" सुरू किंवा बंद करू शकता.</string>
   <string name="advanced_settings_link">TalkBack सेटिंग्ज &gt; प्रगत सेटिंग्ज</string>
@@ -1097,7 +1077,6 @@ TalkBack सेटिंग्जमध्ये TalkBack मेनू आणि
   <string name="typing_text_title">मजकूर टाइप करणे</string>
   <string name="basic_typing_text_text">तुम्ही टेक्स्ट बॉक्समध्ये असाल, तेव्हा तुमच्या स्क्रीनच्या तळाशी कीबोर्ड उघडेल.</string>
   <string name="typing_text_text">तुमचे बोट कीबोर्डवर फिरवा. तुम्हाला टाइप करायचे असलेले अक्षर ऐकू आल्यावर, तुमचे बोट उचला.\n\nखालील टेक्स्ट बॉक्स अ‍ॅक्टिव्हेट करून आणि तुमचे नाव टाइप करून पहा.</string>
-  <string name="typing_text_with_braille_keyboard_text">तुम्ही ब्रेल कीबोर्ड वापरूनदेखील टाइप करू शकता. तो TalkBack सेटिंग्ज मध्ये शोधा.</string>
   <string name="other_ways_to_type_title">टाइप करण्याच्या इतर पद्धती</string>
   <string name="other_ways_to_type_text">TalkBack मध्ये टाइप करण्याच्या इतर पद्धती आहेत. उदाहरणार्थ, तुम्ही अक्षर एंटर करण्यासाठी दोनदा टॅप करू शकता.</string>
   <string name="basic_other_ways_to_type_text">TalkBack मध्ये टाइप करण्याच्या इतर पद्धती आहेत. उदाहरणार्थ, तुम्ही अक्षर एंटर करण्यासाठी दोनदा टॅप करू शकता. तुम्ही हे नंतर TalkBack सेटिंग्ज &gt; ऑन-स्क्रीन कीबोर्ड &gt; टायपिंग प्राधान्य यामध्ये बदलू शकता.</string>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Berøringsutforskning</string>
   <string name="title_pref_category_visual">Visuelt</string>
   <string name="title_pref_category_controls">Kontroller</string>
-  <string name="title_pref_category_braille">Punktskrift</string>
   <string name="title_pref_category_general">Generelt</string>
   <string name="title_pref_category_advanced">Avansert</string>
   <string name="title_pref_category_others">Annet</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Reduser forsinkelsen</string>
   <string name="talkback_latency_reduction_summary">Innstillinger for å redusere forsinkelsen før TalkBack-kunngjøringer</string>
   <string name="summary_pref_intonation">Les opp bokstaver som er slettet, med lysere stemme</string>
-  <string name="title_pref_brailledisplay">Leselist</string>
-  <string name="title_pref_brailleime">Punktskrifttastatur</string>
-  <string name="summary_pref_brailleime_disabled">Enheten støtter ikke punktskrifttastatur</string>
   <string name="title_pref_speech_footer">Du kan raskt justere noen av lydinnstillingene for TalkBack fra en hvilken som helst skjerm.\n\nTilgjengelighetsvolum: Hold 1 finger på skjermen, og trykk på volum opp- eller volum ned-tasten.\nTalehastighet for TalkBack: Sveip opp eller ned med 3 fingre. Når du hører «talehastighet», sveiper du opp eller ned med én finger.</string>
   <string name="title_pref_vibration">Vibrasjonstilbakemelding</string>
   <string name="title_pref_soundback">Tilbakemelding med lyd</string>
@@ -486,8 +482,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="shortcut_increase_volume">Øk volumet</string>
   <string name="shortcut_decrease_volume">Reduser volumet</string>
   <string name="shortcut_all_apps">Alle apper</string>
-  <string name="shortcut_braille_keyboard">Bruk punktskrifttastatur</string>
-  <string name="shortcut_braille_display_settings">Gå til innstillingene for leselist</string>
   <string name="shortcut_tutorial">Åpne veiledningen</string>
   <string name="shortcut_control_speak_time">Les opp klokkeslettet eller ikke</string>
   <string name="shortcut_enable_speak_time">Les opp klokkeslettet</string>
@@ -496,7 +490,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="speak_time_off">Opplesing av klokkeslettet er av</string>
   <string name="shortcut_practice_gestures">Øv på bevegelser</string>
   <string name="shortcut_report_gesture">Rapportér bevegelsesproblemer</string>
-  <string name="shortcut_toggle_braille_display">Slå leselisten på eller av</string>
   <string name="shortcut_announce_current_time_and_date">Les opp gjeldende dato og klokkeslett</string>
   <string name="shortcut_announce_battery_state">Les opp batteriprosenten</string>
   <string name="shortcut_announce_current_title">Les opp vindustittelen</string>
@@ -506,8 +499,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="shortcut_speech_rate_decrease">Reduser talehastigheten</string>
   <string name="shortcut_toggle_selection">Start eller avslutt markeringsmodus</string>
   <string name="shortcut_show_tutorial">Åpne veiledningen</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Bytt mellom forkortet (grad 2) og uforkortet (grad 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Vis/skjul punktskrift på skjermen for tilkoblede leselister</string>
   <string name="shortcut_toggle_sound_feedback">Slå lydtilbakemelding (lydsignaler) av eller på</string>
   <string name="shortcut_show_learn_mode_page">Øv på hurtigtaster</string>
   <string name="shortcut_announce_phonetic_pronunciation">Les opp bokstaver med fonetisk uttale for elementet i fokus</string>
@@ -548,7 +539,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="title_show_voice_commands">Talekommandoer</string>
   <string name="title_show_keyboard_shortcuts">Hurtigtaster</string>
   <string name="talkback_show_talkback_settings">TalkBack-innstillinger</string>
-  <string name="title_show_braille_display_settings">Innstillinger for leselister</string>
   <string name="title_granularity_default">Standardnavigasjon</string>
   <string name="title_action_dismiss">Avvis</string>
   <string name="title_action_expand">Vis</string>
@@ -576,7 +566,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="summary_control_speak_time">Endre om klokkeslettet skal leses opp når du slår på skjermen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Åpne listen over hurtigtaster</string>
   <string name="summary_talkback_preferences">Åpne TalkBack-innstillingene</string>
-  <string name="summary_braile_display_preferences">Åpne innstillingene for leselister</string>
   <string name="summary_system_actions">Gå til Alle apper og Hurtiginnstillinger</string>
   <string name="summary_tts_settings">Åpne innstillinger for tekst til tale</string>
   <string name="not_editable">Ikke redigerbar</string>
@@ -917,7 +906,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="screen_search_keyword_hint">søkeordet er %1$s</string>
   <string name="screen_search_no_keyword_hint">Ingen søkeord ennå. For å starte et nytt søk, trykk og hold med tre fingre, eller åpne skjermsøk fra TalkBack-menyen.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ingen søkeord ennå. For å starte et nytt søk, sveip til venstre og så ned, eller åpne skjermsøk fra TalkBack-menyen.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Punktskrifttastatur er ikke på. Gå til TalkBack-innstillingene, konfigurer tastaturet og prøv igjen.</string>
   <string name="suggestions_window_available">Forslag er tilgjengelige</string>
   <string name="suggestions_window_available_with_gesture">Forslag er tilgjengelige. For å åpne, %1$s</string>
   <string name="heads_up_window_available">Varsel er tilgjengelig</string>
@@ -967,9 +955,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="new_gesture_notification_content">Trykk for å finne ut hvordan du bruker TalkBack raskere med nye bevegelser.</string>
   <string name="dump_node_tree_description">Nodetreet er blitt skrevet ut til logger.</string>
   <string name="report_gesture_description">Dette er bevegelsene som er blitt utført nylig. Rapportér hvilken bevegelse som er feil, og hva du forventet.</string>
-  <string name="update_welcome_text_content">Nå kan du koble til leselister via HID – en måte å koble til Bluetooth-enheter på. Sørg for at du har de nyeste fastvaredriverne fra produsenten, og slå på Bluetooth på leselisten. Gå til TalkBack-innstillingene &gt; Leselist og slå på «Bruk leselist». Finn enheten din i enhetslisten, og koble den til.</string>
-  <string name="update_welcome_text_content_tts">Nå kan du koble til leselister via HID – en måte å koble til Bluetooth-enheter på. Sørg for at du har de nyeste fastvaredriverne fra produsenten, og slå på Bluetooth på leselisten. Gå til TalkBack-innstillingene og deretter til Leselist, og slå på «Bruk leselist». Finn enheten din i enhetslisten, og koble den til.</string>
-  <string name="update_welcome_text_content_with_link">Finn ut hvordan du bruker leselisten med TalkBack.</string>
   <string name="update_welcome_talkback_16.1">I denne TalkBack-oppdateringen introduseres støtte for Beskriv skjermen på flere språk og andre kvalitetsforbedringer som gjør det enklere å bruke TalkBack.\n\nDu finner ut mer om disse endringene på de neste skjermene.\n\nDu kan lese gjennom denne informasjonen senere i TalkBack-innstillinger &gt; Nye funksjoner i TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">I denne TalkBack-oppdateringen introduseres støtte for Beskriv skjermen på flere språk og andre kvalitetsforbedringer som gjør det enklere å bruke TalkBack.\n\nDu finner ut mer om disse endringene på de neste skjermene.\n\nDu kan lese gjennom denne informasjonen senere i TalkBack-innstillinger og så Nye funksjoner i TalkBack.</string>
   <string name="describe_screen_and_qna_title">Nye språk for Beskriv skjermen og Spør Gemini</string>
@@ -985,10 +970,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="reduce_delay_title">Reduser forsinkelsen</string>
   <string name="reduce_delay_content">Nå kan du redusere forsinkelsene for TalkBack-kunngjøringer for berøring og skriving. For å se disse innstillingene, gå til TalkBack-innstillinger &gt; Avanserte innstillinger &gt; Reduser forsinkelsen.</string>
   <string name="reduce_delay_content_tts">Nå kan du redusere forsinkelsene for TalkBack-kunngjøringer for berøring og skriving. For å se disse innstillingene, gå til TalkBack-innstillinger, så til Avanserte innstillinger og så til Reduser forsinkelsen.</string>
-  <string name="customize_braille_keyboard_improvements_title">Tilpass bevegelser for punktskrifttastatur</string>
-  <string name="customize_braille_keyboard_improvements_content">Nå er det mulig å tilpasse bevegelser for det virtuelle punktskrifttastaturet på skjermen. For å tilpasse, gå til TalkBack-innstillinger &gt; Punktskrifttastatur &gt; Bevegelser.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Nå er det mulig å tilpasse bevegelser for det virtuelle punktskrifttastaturet på skjermen. For å tilpasse, gå til TalkBack-innstillinger, så til Punktskrifttastatur og så til Bevegelser.</string>
-  <string name="learn_more_about_braille_keyboard">Finn ut mer om punktskrifttastaturet</string>
   <string name="other_changes_title">Andre endringer</string>
   <string name="other_changes_content">Nå kan du bruke en melding på skjermen til å slå av TalkBack raskt hvis det er slått på ved et uhell. Du kan slå dette av i TalkBack-innstillinger &gt; Vis veiledning om hvordan du slår av TalkBack.</string>
   <string name="other_changes_content_tts">Nå kan du bruke en melding på skjermen til å slå av TalkBack raskt hvis det er slått på ved et uhell. Du kan slå dette av i TalkBack-innstillinger og så Vis veiledning om hvordan du slår av TalkBack.</string>
@@ -1021,7 +1002,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="keyboard_enhanced_keymap_text">Nå har TalkBack et «utvidet tastaturoppsett» for fysiske tastaturer, med en rekke nye kommandoer og snarveier. Denne forbedringen inkluderer en «surfemodus» for mer effektiv navigering på nettet, noe som gjør navigering og interaksjon enklere for TalkBack-brukere som bruker fysiske tastaturer. Du kan bytte til «utvidet tastaturoppsett» i %1$s.\n\nHvis du bruker leselist, kan du også bruke nye hurtigtaster for surfemodus for å navigere gjennom innhold direkte fra leselisten. Noen snarveier for leselisten er endret for å legge til rette for denne endringen. Du kan se en liste over alle snarveiene for leselister i %2$s.</string>
   <string name="keyboard_shortcuts_link">TalkBack-innstillinger &gt; Hurtigtaster</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack-innstillinger og så Hurtigtaster</string>
-  <string name="braille_display_settings_link">Innstillinger for leselister</string>
   <string name="keyboard_smart_browse_mode_title">Tastatur: smart surfemodus</string>
   <string name="keyboard_smart_browse_mode_text">Med smart surfemodus i TalkBack slås surfemodus av i redigeringsfelter, slik at du kan skrive med et fysisk tastatur når du surfer på nettet. Deretter slås det på igjen når du hopper til et felt på nettet som ikke kan redigeres, slik at du kan fortsette å surfe effektivt. Du kan slå «smart surfemodus» av eller på i %1$s.</string>
   <string name="advanced_settings_link">TalkBack-innstillinger &gt; Avanserte innstillinger</string>
@@ -1094,7 +1074,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="typing_text_title">Tekstskriving</string>
   <string name="basic_typing_text_text">Når du er i et tekstfelt, åpnes et tastatur nederst på skjermen.</string>
   <string name="typing_text_text">Dra fingeren over tastaturet. Når du hører bokstaven du vil skrive inn, løfter du fingeren.\n\nPrøv å aktivere tekstfeltet nedenfor og skrive inn navnet ditt.</string>
-  <string name="typing_text_with_braille_keyboard_text">Du kan også skrive med punktskrifttastaturet. Du finner det i TalkBack-innstillingene.</string>
   <string name="other_ways_to_type_title">Andre måter å skrive på</string>
   <string name="other_ways_to_type_text">Det finnes andre måter å skrive på med TalkBack. Du kan for eksempel bruke dobbelttrykk for å skrive inn en bokstav.</string>
   <string name="basic_other_ways_to_type_text">Det finnes andre måter å skrive på med TalkBack. Du kan for eksempel bruke dobbelttrykk for å skrive inn en bokstav. Du kan endre dette senere i TalkBack-innstillinger &gt; Skjermtastatur &gt; Skriveinnstillinger.</string>

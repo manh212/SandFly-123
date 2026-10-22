@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Mod semak imbas hidup</string>
   <string name="individual_sound_browse_mode_off">Mod semak imbas mati</string>
   <string name="individual_sound_radial_menu">Menu bulatan</string>
-  <string name="individual_sound_display_connected">Paparan braille disambungkan</string>
-  <string name="individual_sound_display_disconnected">Paparan braille diputuskan</string>
-  <string name="individual_sound_double_beep">Perintah braille gagal</string>
-  <string name="individual_sound_turn_on">Tatal automatik braille hidup</string>
-  <string name="individual_sound_turn_off">Tatal automatik braille mati</string>
-  <string name="individual_sound_calibration_done">Papan kekunci braille ditentukur</string>
   <string name="individual_vibration_focus">Fokus pada item</string>
   <string name="individual_vibration_focus_actionable">Fokus pada item yang boleh diambil tindakan</string>
   <string name="individual_vibration_clicked">Klik</string>

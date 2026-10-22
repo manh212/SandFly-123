@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Imodi yokuphequlula ivuliwe</string>
   <string name="individual_sound_browse_mode_off">Imodi yokuphequlula ivaliwe</string>
   <string name="individual_sound_radial_menu">Imenyu eyindilinga</string>
-  <string name="individual_sound_display_connected">Isibonisi se-braille sixhunyiwe</string>
-  <string name="individual_sound_display_disconnected">Isibonisi se-braille sinqanyuliwe</string>
-  <string name="individual_sound_double_beep">Umyalo we-braille wehlulekile</string>
-  <string name="individual_sound_turn_on">Ukuskrola okuzenzakalelayo kwe-braille kuvuliwe</string>
-  <string name="individual_sound_turn_off">Ukuskrola okuzenzakalelayo kwe-braille kuvaliwe</string>
-  <string name="individual_sound_calibration_done">Ikhibhodi ye-braille ilinganisiwe</string>
   <string name="individual_vibration_focus">Ukugxila entweni</string>
   <string name="individual_vibration_focus_actionable">Ukugxila entweni engenziwa isenzo</string>
   <string name="individual_vibration_clicked">Chofoza</string>

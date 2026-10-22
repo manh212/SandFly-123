@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">Kein Ton. Der Fokuston wird wiedergegeben.</string>
     <string name="theme_sound_summary_android_keyboard">Tastaturton von Android</string>
     <string name="theme_sound_use_android_keyboard">Tastaturton von Android verwenden</string>
-    <string name="theme_sound_braille_character">Brailletastatur: Zeichen eingeben</string>
-    <string name="theme_sound_braille_space">Brailletastatur: Leerzeichen</string>
-    <string name="theme_sound_braille_delete">Brailletastatur: Löschen</string>
-    <string name="theme_sound_braille_new_line">Brailletastatur: neue Zeile</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Audiodatei auswählen</string>
     <string name="theme_sound_preview">Vorschau</string>

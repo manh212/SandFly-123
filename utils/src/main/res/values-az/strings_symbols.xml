@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Qalın kiçikdir işarəsi</string>
   <string name="symbol_full_width_greater_than_sign">Qalın böyükdür işarəsi</string>
   <string name="symbol_left_single_quotation_mark">Sol tək dırnaq işarəsi</string>
-  <string name="symbol_braille">brayl %s</string>
-  <plurals name="dots">
-    <item quantity="one">nöqtə %s</item>
-    <item quantity="other">nöqtələr %s</item>
-  </plurals>
 </resources>

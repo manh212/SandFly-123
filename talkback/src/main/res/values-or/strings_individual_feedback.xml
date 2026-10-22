@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ବ୍ରାଉଜ ମୋଡ ଚାଲୁ</string>
   <string name="individual_sound_browse_mode_off">ବ୍ରାଉଜ ମୋଡ ବନ୍ଦ</string>
   <string name="individual_sound_radial_menu">ବୃତ୍ତାକାର ମେନୁ</string>
-  <string name="individual_sound_display_connected">ବ୍ରେଲ ଡିସପ୍ଲେ ସଂଯୁକ୍ତ ହେଲା</string>
-  <string name="individual_sound_display_disconnected">ବ୍ରେଲ ଡିସପ୍ଲେ ବିଚ୍ଛିନ୍ନ ହେଲା</string>
-  <string name="individual_sound_double_beep">ବ୍ରେଲ କମାଣ୍ଡ ବିଫଳ ହେଲା</string>
-  <string name="individual_sound_turn_on">ବ୍ରେଲ ସ୍ୱତଃ ସ୍କ୍ରୋଲ ଚାଲୁ</string>
-  <string name="individual_sound_turn_off">ବ୍ରେଲ ସ୍ୱତଃ ସ୍କ୍ରୋଲ ବନ୍ଦ</string>
-  <string name="individual_sound_calibration_done">ବ୍ରେଲ କୀବୋର୍ଡ କାଲିବ୍ରେଟ ହେଲା</string>
   <string name="individual_vibration_focus">ଆଇଟମରେ ଫୋକସ</string>
   <string name="individual_vibration_focus_actionable">କାର୍ଯ୍ୟଯୋଗ୍ୟ ଆଇଟମରେ ଫୋକସ</string>
   <string name="individual_vibration_clicked">କ୍ଲିକ</string>

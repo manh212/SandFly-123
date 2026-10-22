@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Alama ya \'chini ya\' ya upana kamili</string>
   <string name="symbol_full_width_greater_than_sign">Alama ya \'zaidi ya\' ya upana kamili</string>
   <string name="symbol_left_single_quotation_mark">Alama moja ya kunukuu ya kushoto</string>
-  <string name="symbol_braille">nukta nundu %s</string>
-  <plurals name="dots">
-    <item quantity="one">nukta %s</item>
-    <item quantity="other">nukta %s</item>
-  </plurals>
 </resources>

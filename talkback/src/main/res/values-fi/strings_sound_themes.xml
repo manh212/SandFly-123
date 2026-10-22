@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">Ei ääntä. Valinnan ääni toistetaan.</string>
     <string name="theme_sound_summary_android_keyboard">Androidin näppäimistön ääni</string>
     <string name="theme_sound_use_android_keyboard">Käytä Androidin näppäimistön ääntä</string>
-    <string name="theme_sound_braille_character">Pistekirjoitusnäppäimistö: merkin kirjoittaminen</string>
-    <string name="theme_sound_braille_space">Pistekirjoitusnäppäimistö: välilyönti</string>
-    <string name="theme_sound_braille_delete">Pistekirjoitusnäppäimistö: poisto</string>
-    <string name="theme_sound_braille_new_line">Pistekirjoitusnäppäimistö: rivinvaihto</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Valitse äänitiedosto</string>
     <string name="theme_sound_preview">Esikuuntele</string>

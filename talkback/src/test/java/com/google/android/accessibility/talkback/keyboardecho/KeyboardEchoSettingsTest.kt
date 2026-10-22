@@ -83,10 +83,6 @@ class KeyboardEchoSettingsTest {
 
     assertEquals(PREF_ECHO_WORDS, read(TypingInput.ON_SCREEN_KEYBOARD))
     assertEquals(PREF_ECHO_NONE, read(TypingInput.PHYSICAL_KEYBOARD))
-    // The braille keyboard started from the on-screen keyboard's echo, and a braille display spoke
-    // characters as the physical keyboard echo said.
-    assertEquals(PREF_ECHO_WORDS, read(TypingInput.BRAILLE_KEYBOARD))
-    assertEquals(PREF_ECHO_NONE, read(TypingInput.BRAILLE_DISPLAY))
   }
 
   @Test
@@ -98,18 +94,6 @@ class KeyboardEchoSettingsTest {
     for (input in TypingInput.values()) {
       assertEquals(PREF_ECHO_NONE, read(input))
     }
-  }
-
-  @Test
-  fun migrateMovesTheBrailleKeyboardsOwnEcho() {
-    SharedPreferencesUtils.getSharedPreferences(app, "braille_keyboard")
-      .edit()
-      .putString("pref_brailleime_keyboard_echo", PREF_ECHO_CHARACTERS.toString())
-      .commit()
-
-    KeyboardEchoSettings.migrate(app, prefs)
-
-    assertEquals(PREF_ECHO_CHARACTERS, read(TypingInput.BRAILLE_KEYBOARD))
   }
 
   @Test
@@ -134,22 +118,21 @@ class KeyboardEchoSettingsTest {
     // The choices are None, Characters, Words, Characters and words.
     assertEquals(
       PREF_ECHO_NONE,
-      KeyboardEchoSettings.cycle(prefs, res, TypingInput.BRAILLE_DISPLAY, /* next= */ true),
+      KeyboardEchoSettings.cycle(prefs, res, TypingInput.PHYSICAL_KEYBOARD, /* next= */ true),
     )
     assertEquals(
       PREF_ECHO_CHARACTERS,
-      KeyboardEchoSettings.cycle(prefs, res, TypingInput.BRAILLE_DISPLAY, /* next= */ true),
+      KeyboardEchoSettings.cycle(prefs, res, TypingInput.PHYSICAL_KEYBOARD, /* next= */ true),
     )
     assertEquals(
       PREF_ECHO_NONE,
-      KeyboardEchoSettings.cycle(prefs, res, TypingInput.BRAILLE_DISPLAY, /* next= */ false),
+      KeyboardEchoSettings.cycle(prefs, res, TypingInput.PHYSICAL_KEYBOARD, /* next= */ false),
     )
     assertEquals(
       PREF_ECHO_CHARACTERS_AND_WORDS,
-      KeyboardEchoSettings.cycle(prefs, res, TypingInput.BRAILLE_DISPLAY, /* next= */ false),
+      KeyboardEchoSettings.cycle(prefs, res, TypingInput.PHYSICAL_KEYBOARD, /* next= */ false),
     )
-    assertEquals(PREF_ECHO_CHARACTERS_AND_WORDS, read(TypingInput.BRAILLE_DISPLAY))
-    assertEquals(PREF_ECHO_CHARACTERS_AND_WORDS, read(TypingInput.ON_SCREEN_KEYBOARD))
+    assertEquals(PREF_ECHO_CHARACTERS_AND_WORDS, read(TypingInput.PHYSICAL_KEYBOARD))
   }
 
   @Test

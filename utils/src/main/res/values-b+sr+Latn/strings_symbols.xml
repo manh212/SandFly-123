@@ -141,10 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Znak za manje pune širine</string>
   <string name="symbol_full_width_greater_than_sign">Znak za više pune širine</string>
   <string name="symbol_left_single_quotation_mark">Otvoreni polunavodnik</string>
-  <string name="symbol_braille">Brajeva azbuka %s</string>
-  <plurals name="dots">
-    <item quantity="one">tačke %s</item>
-    <item quantity="few">tačke %s</item>
-    <item quantity="other">tačke %s</item>
-  </plurals>
 </resources>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ٹچ کرکے دریافت کریں</string>
   <string name="title_pref_category_visual">ویژوئل</string>
   <string name="title_pref_category_controls">کنٹرولز</string>
-  <string name="title_pref_category_braille">بریل</string>
   <string name="title_pref_category_general">عام</string>
   <string name="title_pref_category_advanced">جدید ترین</string>
   <string name="title_pref_category_others">دیگر</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">تاخیر کم کریں</string>
   <string name="talkback_latency_reduction_summary">‏‫TalkBack کے اعلانات سے پہلے تاخیر کو کم کرنے کی ترتیبات</string>
   <string name="summary_pref_intonation">حذف شدہ حروف کو بلند آواز سے پڑھیں</string>
-  <string name="title_pref_brailledisplay">بریل ڈسپلے</string>
-  <string name="title_pref_brailleime">بریل کی بورڈ</string>
-  <string name="summary_pref_brailleime_disabled">آپ کا آلہ بریل کی بورڈ کو سپورٹ نہیں کرتا ہے</string>
   <string name="title_pref_speech_footer">‏آپ کسی بھی اسکرین سے TalkBack کی آواز کی کچھ ترتیبات کو فوری طور پر ایڈجسٹ کر سکتے ہیں۔\n\nایکسیسبیلٹی والیوم: 1 انگلی کو اسکرین پر رکھیں اور والیوم بڑھانے کا بٹن یا والیوم کم کرنے کا بٹن کی کلید دبائیں\n‏TalkBack پڑھنے کی رفتار: 3 انگلیوں سے اوپر یا نیچے سوائپ کریں۔ \"پڑھنے کی رفتار\" سنائی دینے پر، 1 انگلی کی مدد سے اوپر یا نیچے سوائپ کریں۔</string>
   <string name="title_pref_vibration">وائبریشن تاثرات</string>
   <string name="title_pref_soundback">صوتی تاثرات</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">آواز بڑھائیں</string>
   <string name="shortcut_decrease_volume">آواز کم کریں</string>
   <string name="shortcut_all_apps">سبھی ایپس</string>
-  <string name="shortcut_braille_keyboard">بریل کی بورڈ پر سوئچ کریں</string>
-  <string name="shortcut_braille_display_settings">بریل ڈسپلے کی ترتیبات پر نیویگیٹ کریں</string>
   <string name="shortcut_tutorial">ٹیوٹوریل کھولیں</string>
   <string name="shortcut_control_speak_time">بول کر وقت بتائیں یا بول کر وقت نہ بتائیں</string>
   <string name="shortcut_enable_speak_time">بول کر وقت بتانے کی سہولت</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">بول کر وقت بتائیں آف ہے</string>
   <string name="shortcut_practice_gestures">اشاروں کی مشق کریں</string>
   <string name="shortcut_report_gesture">اشارے کے مسئلے کی اطلاع دیں</string>
-  <string name="shortcut_toggle_braille_display">بریل ڈسپلے کو آن یا آف کریں</string>
   <string name="shortcut_announce_current_time_and_date">موجودہ تاریخ اور وقت بولیں</string>
   <string name="shortcut_announce_battery_state">بیٹری کا فیصد بتائیں</string>
   <string name="shortcut_announce_current_title">ونڈو کا عنوان بولیں</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">پڑھنے کی رفتار کم کریں</string>
   <string name="shortcut_toggle_selection">انتخاب موڈ شروع یا ختم کریں</string>
   <string name="shortcut_show_tutorial">ٹیوٹوریل کھولیں</string>
-  <string name="shortcut_toggle_braille_contracted_mode">معاہدہ کردہ (گریڈ 2) اور غیر معاہدہ کردہ (گریڈ 1) کے درمیان سوئچ کریں</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">منسلک کردہ بریل ڈسپلیز کے لیے آن اسکرین بریل دکھائیں یا چھپائیں</string>
   <string name="shortcut_toggle_sound_feedback">صوتی تاثرات (ایئرکونز) کو آن یا آف کریں</string>
   <string name="shortcut_show_learn_mode_page">کی بورڈ شارٹ کٹس کی مشق کریں</string>
   <string name="shortcut_announce_phonetic_pronunciation">فوکسڈ آئٹم کے لیے صوتیاتی تلفظ کے ساتھ حروف بولیں</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">صوتی کمانڈز</string>
   <string name="title_show_keyboard_shortcuts">کی بورڈ شارٹ کٹس</string>
   <string name="talkback_show_talkback_settings">‏TalkBack کی ترتیبات</string>
-  <string name="title_show_braille_display_settings">بریل ڈسپلے کی ترتیبات</string>
   <string name="title_granularity_default">ڈیفالٹ نیویگیشن</string>
   <string name="title_action_dismiss">برخاست کریں</string>
   <string name="title_action_expand">پھیلائیں</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">تبدیل کریں کہ آیا اسکرین آن کرتے وقت اونچی آواز میں بولنا ہے</string>
   <string name="summary_show_keyboard_shortcuts_preferences">کی بورڈ شارٹ کٹس کی فہرست کھولیں</string>
   <string name="summary_talkback_preferences">‏TalkBack کی ترتیبات کھولیں</string>
-  <string name="summary_braile_display_preferences">بریل ڈسپلے کی ترتیبات کھولیں</string>
   <string name="summary_system_actions">تمام ایپس اور فوری ترتیبات پر جائیں</string>
   <string name="summary_tts_settings">ٹیکسٹ ٹو اسپیچ ترتیبات کھولیں</string>
   <string name="not_editable">قابل ترمیم نہیں ہے</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">کلیدی لفظ %1$s ہے</string>
   <string name="screen_search_no_keyword_hint">‏ابھی تک کوئی کلیدی لفظ نہیں۔ نئی تلاش شروع کرنے کے لیے، 3 انگلیوں سے تھپتھپائیں اور دبائے رکھیں یا TalkBack مینیو سے سکرین پر تلاش کھولیں۔</string>
   <string name="screen_search_no_keyword_hint_pre_r">‏ابھی تک کوئی کلیدی لفظ نہیں۔ نئی تلاش شروع کرنے کے لیے، بائیں پھر نیچے سوائپ کریں یا TalkBack مینیو سے سکرین پر تلاش کھولیں۔</string>
-  <string name="switch_to_braille_keyboard_failure_msg">‏بریل کی بورڈ آن نہیں ہے۔ TalkBack ترتیبات پر جائیں، بریل کی بورڈ سیٹ اپ کریں اور دوبارہ کوشش کریں۔</string>
   <string name="suggestions_window_available">تجاویز دستیاب ہیں</string>
   <string name="suggestions_window_available_with_gesture">تجاویز دستیاب ہیں۔ رسائی حاصل کرنے کیلئے، %1$s</string>
   <string name="heads_up_window_available">اطلاع دستیاب ہے</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">‏TalkBack کو نئے اشاروں کے ساتھ تیزی سے استعمال کرنے کا طریقہ سیکھنے کیلئے تھپتھپائیں۔</string>
   <string name="dump_node_tree_description">نوڈ ٹری کو لاگز پر پرنٹ کر دیا گیا ہے۔</string>
   <string name="report_gesture_description">یہاں پر حال ہی میں کیے گئے اشارے ہیں براہ کرم اطلاع دیں کہ کون سا اشارہ غلط ہے اور کس کی توقع ہے۔</string>
-  <string name="update_welcome_text_content">‏اب آپ HID کے ذریعے بریل ڈسپلیز سے منسلک ہو سکتے ہیں، یہ بلوٹوتھ آلات سے منسلک ہونے کا ایک طریقہ ہے۔ یقینی بنائیں کہ آپ کے پاس اپنے مینوفیکچرر کے تازہ ترین فرم ویئر ڈرائیورز ہیں، پھر اپنے بریل ڈسپلے پر بلوٹوتھ آن کریں۔ ‫TalkBack کی ترتیبات &gt; بریل ڈسپلے پر جائیں اور \"بریل ڈسپلے استعمال کریں\" کو آن کریں۔ آلات کی فہرست میں اپنا آلہ تلاش کریں اور اس سے منسلک ہوں۔</string>
-  <string name="update_welcome_text_content_tts">‏اب آپ HID کے ذریعے بریل ڈسپلیز سے منسلک ہو سکتے ہیں، یہ بلوٹوتھ آلات سے منسلک ہونے کا ایک طریقہ ہے۔ یقینی بنائیں کہ آپ کے پاس اپنے مینوفیکچرر کے تازہ ترین فرم ویئر ڈرائیورز ہیں، پھر اپنے بریل ڈسپلے پر بلوٹوتھ آن کریں۔ ‫TalkBack کی ترتیبات پھر بریل ڈسپلے پر جائیں اور \"بریل ڈسپلے استعمال کریں\" کو آن کریں۔ آلات کی فہرست میں اپنا آلہ تلاش کریں اور اس سے منسلک ہوں۔</string>
-  <string name="update_welcome_text_content_with_link">‏‫TalkBack کے ساتھ اپنے بریل ڈسپلے کو استعمال کرنے کا طریقہ جانیں۔</string>
   <string name="update_welcome_talkback_16.1">‏اس TalkBack اپ ڈیٹ میں اسکرین کی وضاحت کرنے کی سہولت مزید زبانوں میں دستیاب ہے اور کوالٹی سے متعلق دیگر بہتریاں بھی کی گئی ہیں جو TalkBack کو استعمال میں آسان بناتی ہیں۔‎\n\nآپ اگلی چند اسکرینز میں ان تبدیلیوں کے بارے میں مزید جانیں گے۔‎\n\n‎آپ بعد میں TalkBack کی ترتیبات &gt; TalkBack میں نئی خصوصیات میں ان معلومات کا جائزہ لے سکتے ہیں۔</string>
   <string name="update_welcome_talkback_16.1_tts">‏اس TalkBack اپ ڈیٹ میں اسکرین کی وضاحت کرنے کی سہولت مزید زبانوں میں دستیاب ہے اور کوالٹی سے متعلق دیگر بہتریاں بھی کی گئی ہیں جو TalkBack کو استعمال میں آسان بناتی ہیں۔‎\n\nآپ اگلی چند اسکرینز میں ان تبدیلیوں کے بارے میں مزید جانیں گے۔‎\n\nآپ بعد میں TalkBack کی ترتیبات، پھر TalkBack میں نئی خصوصیات میں اس معلومات کا جائزہ لے سکتے ہیں۔</string>
   <string name="describe_screen_and_qna_title">‏‫Describe اسکرین اور Gemini سے پوچھیں کے لیے نئی زبانیں</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">تاخیر کم کریں</string>
   <string name="reduce_delay_content">‏اب آپ ٹچ ایکسپلوریشن اور ٹائپنگ کے لیے TalkBack کے اعلان میں تاخیر کو کم کر سکتے ہیں۔ ان ترتیبات کو دیکھنے کے لیے، TalkBack کی ترتیبات &gt; اعلیٰ ترتیبات &gt; تاخیر کو کم کریں پر جائیں۔</string>
   <string name="reduce_delay_content_tts">‏اب آپ ٹچ ایکسپلوریشن اور ٹائپنگ کے لیے TalkBack کے اعلان میں تاخیر کو کم کر سکتے ہیں۔ ان ترتیبات کو دیکھنے کے لیے، TalkBack کی ترتیبات، پھر اعلیٰ ترتیبات پر جائیں پھر تاخیر کو کم کریں۔</string>
-  <string name="customize_braille_keyboard_improvements_title">بریل کی بورڈ کے اشاروں کو حسب ضرورت بنائیں</string>
-  <string name="customize_braille_keyboard_improvements_content">‏اب ورچوئل آن اسکرین بریل کی بورڈ کے لیے اشاروں کو حسب ضرورت بنایا جا سکتا ہے۔ حسب ضرورت بنانے کے لیے، TalkBack کی ترتیبات &gt; بریل کی بورڈ &gt; اشاروں پر جائیں۔</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">‏اب ورچوئل آن اسکرین بریل کی بورڈ کے لیے اشاروں کو حسب ضرورت بنایا جا سکتا ہے۔ حسب ضرورت بنانے کے لیے، TalkBack کی ترتیبات پھر بریل کی بورڈ پھر اشاروں پر جائیں۔</string>
-  <string name="learn_more_about_braille_keyboard">بریل کی بورڈ کے بارے میں مزید جانیں</string>
   <string name="other_changes_title">دیگر تبدیلیاں</string>
   <string name="other_changes_content">‏آن اسکرین پیغام اب TalkBack کو فوری طور پر بند کرنے میں آپ کی مدد کرتا ہے اگر یہ غلطی سے آن ہو جاتا ہے۔ آپ اسے TalkBack کی ترتیبات &gt; TalkBack کو آف کرنے کے لیے ہدایات دکھائیں میں بند کر سکتے ہیں۔</string>
   <string name="other_changes_content_tts">‏آن اسکرین پیغام اب TalkBack کو فوری طور پر بند کرنے میں آپ کی مدد کرتا ہے اگر یہ غلطی سے آن ہو جاتا ہے۔ آپ اسے TalkBack کی ترتیبات پھر TalkBack کو آف کرنے کے لیے ہدایات دکھائیں میں بند کر سکتے ہیں۔</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">‏‫TalkBack میں اب فزیکل کی بورڈز کے لیے ایک \"بہتر کردہ کی میپ\" دستیاب ہے، جس میں مختلف قسم کی نئی کمانڈز اور شارٹ کٹس ہیں۔ اس بہتری میں زیادہ مؤثر ویب نیویگیشن کے لیے \"براؤز وضع\" شامل ہے، جو فزیکل کی بورڈز پر انحصار کرنے والے TalkBack صارفین کے لیے نیویگیشن اور تعامل کو ہموار کرتی ہے۔ آپ %1$s میں \"بہتر کردہ کی میپ\" پر سوئچ کر سکتے ہیں۔‎\n\nاگر آپ بریل ڈسپلے استعمال کرتے ہیں تو آپ براؤز وضع کے نئے شارٹ کٹس کا بھی استعمال کر سکتے ہیں تاکہ براہ راست اپنے بریل ڈسپلے سے مواد کے ذریعے نیویگیٹ کر سکیں۔ اس تبدیلی کو ایڈجسٹ کرنے کے لیے کچھ بریل ڈسپلے شارٹ کٹس کو تبدیل کیا گیا۔ آپ %2$s میں بریل ڈسپلے کے تمام شارٹ کٹس کی فہرست دیکھ سکتے ہیں۔</string>
   <string name="keyboard_shortcuts_link">‏‫TalkBack کی ترتیبات &gt; کی بورڈ شارٹ کٹس</string>
   <string name="keyboard_shortcuts_link_tts">‏‫TalkBack کی ترتیبات پھر کی بورڈ شارٹ کٹس</string>
-  <string name="braille_display_settings_link">بریل ڈسپلے کی ترتیبات</string>
   <string name="keyboard_smart_browse_mode_title">کی بورڈ: اسمارٹ براؤز وضع</string>
   <string name="keyboard_smart_browse_mode_text">‏‫TalkBack کی اسمارٹ براؤز وضع آپ کے ویب پر براؤز کرتے وقت فزیکل کی بورڈ کے ساتھ ٹائپ کرنے میں آپ کی مدد کرنے کے لیے ترمیمی فیلڈ پر موجود براؤز وضع کو آف کر دیتی ہے۔ پھر جب آپ ویب پر کسی غیر ترمیمی فیلڈ پر جاتے ہیں تو یہ اسے دوبارہ آن کر دیتی ہے تاکہ آپ مؤثر طریقے سے براؤز کرنا جاری رکھ سکیں۔ آپ %1$s میں \"اسمارٹ براؤز وضع\" کو آن یا آف کر سکتے ہیں۔</string>
   <string name="advanced_settings_link">‏‫TalkBack کی ترتیبات &gt; جدید ترین ترتیبات</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ٹیکسٹ ٹائپ کرنا</string>
   <string name="basic_typing_text_text">جب آپ ٹیکسٹ باکس میں ہوں گے تو آپ کی سکرین کے نیچے ایک کی بورڈ کھل جائے گا۔</string>
   <string name="typing_text_text">‏اپنی انگلی کو پورے کی بورڈ پر گھمائیں۔ جب آپ جو حرف ٹائپ کرنا چاہتے ہیں اسے سن لیں تو اپنی انگلی ہٹا لیں۔‎\n\nذیل میں موجود ٹیکسٹ باکس کو فعال کر کے اور اپنا نام ٹائپ کر کے دیکھیں۔</string>
-  <string name="typing_text_with_braille_keyboard_text">‏آپ بریل کی بورڈ سے بھی ٹائپ کر سکتے ہیں۔ اسے TalkBack کی ترتیبات میں تلاش کریں۔</string>
   <string name="other_ways_to_type_title">ٹائپ کرنے کے دوسرے طریقے</string>
   <string name="other_ways_to_type_text">‏‫TalkBack میں ٹائپ کرنے کے دوسرے طریقے ہیں۔ مثال کے طور پر، آپ لفظ درج کرنے کے لیے دوبار تھپتھپائیں استعمال کر سکتے ہیں۔</string>
   <string name="basic_other_ways_to_type_text">‏‫TalkBack میں ٹائپ کرنے کے دوسرے طریقے ہیں۔ مثال کے طور پر، آپ لفظ درج کرنے کے لیے دو بار تھپتھپائیں استعمال کر سکتے ہیں۔ آپ اسے بعد میں TalkBack کی ترتیبات &gt; اسکرین پر موجود کی بورڈ &gt; ٹائپنگ کی ترجیح میں تبدیل کر سکتے ہیں۔</string>

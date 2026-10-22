@@ -21,8 +21,8 @@ import com.google.android.accessibility.talkback.R
 
 /**
  * One sound or vibration the user can turn off on its own. [resourceNames] are resource entry names
- * rather than IDs, because IDs change between builds and the braille sounds live in a module
- * talkback cannot see. An item can cover more than one resource, like the eight radial menu notes.
+ * rather than IDs, because IDs change between builds. An item can cover more than one
+ * resource, like the eight radial menu notes.
  */
 data class FeedbackItem(val key: String, val title: Int, val resourceNames: List<String>) {
   constructor(key: String, title: Int) : this(key, title, listOf(key))
@@ -72,12 +72,6 @@ object IndividualFeedbackSettings {
         R.string.individual_sound_radial_menu,
         (1..8).map { "radial_menu_$it" },
       ),
-      FeedbackItem("display_connected", R.string.individual_sound_display_connected),
-      FeedbackItem("display_disconnected", R.string.individual_sound_display_disconnected),
-      FeedbackItem("double_beep", R.string.individual_sound_double_beep),
-      FeedbackItem("turn_on", R.string.individual_sound_turn_on),
-      FeedbackItem("turn_off", R.string.individual_sound_turn_off),
-      FeedbackItem("calibration_done", R.string.individual_sound_calibration_done),
       FeedbackItem("control_button", R.string.individual_sound_control_button),
       FeedbackItem("control_checkbox", R.string.individual_sound_control_checkbox),
       FeedbackItem("control_radio_button", R.string.individual_sound_control_radio_button),
@@ -91,23 +85,6 @@ object IndividualFeedbackSettings {
       FeedbackItem("control_menu_item", R.string.individual_sound_control_menu_item),
       FeedbackItem("control_list_item", R.string.individual_sound_control_list_item),
       FeedbackItem("control_tree_item", R.string.individual_sound_control_tree_item),
-    )
-
-  /**
-   * The braille keyboard's vibrations, which play without a sound. Their switches are named after
-   * the vibrations, as sound themes name them.
-   */
-  val BRAILLE_KEYBOARD_VIBRATIONS =
-    listOf(
-      FeedbackItem("braille_keyboard_character", R.string.individual_vibration_braille_character),
-      FeedbackItem("braille_keyboard_space", R.string.individual_vibration_braille_space),
-      FeedbackItem("braille_keyboard_new_line", R.string.individual_vibration_braille_new_line),
-      FeedbackItem("braille_keyboard_hold", R.string.individual_vibration_braille_hold),
-      FeedbackItem("braille_keyboard_gesture", R.string.individual_vibration_braille_gesture),
-      FeedbackItem(
-        "braille_keyboard_nothing_to_delete",
-        R.string.individual_vibration_braille_nothing_to_delete,
-      ),
     )
 
   /**
@@ -131,8 +108,7 @@ object IndividualFeedbackSettings {
 
   /**
    * One switch for each sound's vibration, in the same order and with the same titles as the
-   * sounds, one for announcements and one for each of the braille keyboard's vibrations, which
-   * vibrate without a sound.
+   * sounds, and one for announcements.
    */
   val VIBRATIONS =
     listOf(
@@ -181,7 +157,6 @@ object IndividualFeedbackSettings {
       ),
       FeedbackItem("notification_pattern", R.string.individual_vibration_notification),
       EDGE_GESTURE_VIBRATIONS,
-      *BRAILLE_KEYBOARD_VIBRATIONS.toTypedArray(),
       // Control vibrations come only from sound themes.
       FeedbackItem("control_button_pattern", R.string.individual_sound_control_button),
       FeedbackItem("control_checkbox_pattern", R.string.individual_sound_control_checkbox),

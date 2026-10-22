@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">બ્રાઉઝ મોડ ચાલુ</string>
   <string name="individual_sound_browse_mode_off">બ્રાઉઝ મોડ બંધ</string>
   <string name="individual_sound_radial_menu">ગોળાકાર મેનૂ</string>
-  <string name="individual_sound_display_connected">બ્રેઇલ ડિસ્પ્લે કનેક્ટ થયું</string>
-  <string name="individual_sound_display_disconnected">બ્રેઇલ ડિસ્પ્લે ડિસ્કનેક્ટ થયું</string>
-  <string name="individual_sound_double_beep">બ્રેઇલ આદેશ નિષ્ફળ ગયો</string>
-  <string name="individual_sound_turn_on">બ્રેઇલ ઑટો સ્ક્રોલ ચાલુ</string>
-  <string name="individual_sound_turn_off">બ્રેઇલ ઑટો સ્ક્રોલ બંધ</string>
-  <string name="individual_sound_calibration_done">બ્રેઇલ કીબોર્ડ કેલિબ્રેટ થયું</string>
   <string name="individual_vibration_focus">આઇટમ પર ફોકસ</string>
   <string name="individual_vibration_focus_actionable">ક્રિયા કરી શકાય તેવી આઇટમ પર ફોકસ</string>
   <string name="individual_vibration_clicked">ક્લિક</string>

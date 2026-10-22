@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Naršyti paliečiant</string>
   <string name="title_pref_category_visual">Vaizdo medžiaga</string>
   <string name="title_pref_category_controls">Valdikliai</string>
-  <string name="title_pref_category_braille">Brailio raštas</string>
   <string name="title_pref_category_general">Bendrieji</string>
   <string name="title_pref_category_advanced">Išplėstiniai</string>
   <string name="title_pref_category_others">Kita</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Sumažinti delsą</string>
   <string name="talkback_latency_reduction_summary">Nustatymai, skirti delsai sumažinti prieš „TalkBack“ pranešimus</string>
   <string name="summary_pref_intonation">Ištrintas raides tarti aukštesniu balso tonu</string>
-  <string name="title_pref_brailledisplay">Brailio rašmenų ekranas</string>
-  <string name="title_pref_brailleime">Brailio rašmenų klaviatūra</string>
-  <string name="summary_pref_brailleime_disabled">Įrenginyje nepalaikoma Brailio rašto klaviatūra</string>
   <string name="title_pref_speech_footer">Galite greitai pakoreguoti kai kuriuos „TalkBack“ garso nustatymus bet kuriame ekrane.\n\nPritaikomumo garsumas: laikykite vieną pirštą ant ekrano ir paspauskite garsumo padidinimo arba sumažinimo mygtuką.\n„TalkBack“ kalbėjimo greitis: perbraukite aukštyn arba žemyn trim pirštais. Kai išgirsite „kalbėjimo greitis“, perbraukite aukštyn arba žemyn vienu pirštu.</string>
   <string name="title_pref_vibration">Atsakas vibruojant</string>
   <string name="title_pref_soundback">Garso atsakas</string>
@@ -486,8 +482,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="shortcut_increase_volume">Padidinti garsumą</string>
   <string name="shortcut_decrease_volume">Sumažinti garsumą</string>
   <string name="shortcut_all_apps">Visos programos</string>
-  <string name="shortcut_braille_keyboard">Perjungti į Brailio klav.</string>
-  <string name="shortcut_braille_display_settings">Naršyti į Brailio r. ekrano nustatymus</string>
   <string name="shortcut_tutorial">Atidaryti mokymo programą</string>
   <string name="shortcut_control_speak_time">Sakyti laiką arba nesakyti laiko</string>
   <string name="shortcut_enable_speak_time">Sakyti laiką</string>
@@ -496,7 +490,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="speak_time_off">Parinktis „Sakyti laiką“ išjungta</string>
   <string name="shortcut_practice_gestures">Gestų mokymasis</string>
   <string name="shortcut_report_gesture">Pranešti apie gesto problemą</string>
-  <string name="shortcut_toggle_braille_display">Brailio rašmenų ekrano įjungimas arba išjungimas</string>
   <string name="shortcut_announce_current_time_and_date">Pasakyti dabartinę datą ir laiką</string>
   <string name="shortcut_announce_battery_state">Sakyti akumuliatoriaus energiją procentais</string>
   <string name="shortcut_announce_current_title">Lango pavadinimo ištarimas</string>
@@ -506,8 +499,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="shortcut_speech_rate_decrease">Sumažinti kalbėjimo greitį</string>
   <string name="shortcut_toggle_selection">Pradėti arba baigti pasirinkimo režimą</string>
   <string name="shortcut_show_tutorial">Atidaryti mokomąją medžiagą</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Perj. iš sutr. (2 l.) į nesutr. (1 l.)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Rodyti arba slėpti Brailio raštą ekrane prijungtuose Brailio rašmenų ekranuose</string>
   <string name="shortcut_toggle_sound_feedback">Įjungti arba išjungti garsinę inform. (garsinius ženklelius)</string>
   <string name="shortcut_show_learn_mode_page">Sparčiųjų klavišų naudojimo praktika</string>
   <string name="shortcut_announce_phonetic_pronunciation">Pasakyti raides su fonetiniu paryškinto elemento tarimu</string>
@@ -548,7 +539,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="title_show_voice_commands">Komandos balsu</string>
   <string name="title_show_keyboard_shortcuts">Spartieji klavišai</string>
   <string name="talkback_show_talkback_settings">„TalkBack“ nustatymai</string>
-  <string name="title_show_braille_display_settings">Brailio rašmenų ekrano nustatymai</string>
   <string name="title_granularity_default">Numatytasis naršymas</string>
   <string name="title_action_dismiss">Atsisakyti</string>
   <string name="title_action_expand">Išskleisti</string>
@@ -576,7 +566,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="summary_control_speak_time">Pakeiskite, ar laikas bus sakomas garsiai, kai įjungsite ekraną</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Atidaryti sparčiųjų klavišų sąrašą</string>
   <string name="summary_talkback_preferences">Atidarykite „TalkBack“ nustatymus</string>
-  <string name="summary_braile_display_preferences">Atidaryti Brailio rašmenų ekrano nustatymus</string>
   <string name="summary_system_actions">Eiti į skiltis „Visos programos“ ir „Spartieji nustatymai“</string>
   <string name="summary_tts_settings">Atidarykite teksto į kalbą nustatymus</string>
   <string name="not_editable">Neredaguotina</string>
@@ -917,7 +906,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="screen_search_keyword_hint">raktinis žodis yra „%1$s“</string>
   <string name="screen_search_no_keyword_hint">Dar nėra raktinių žodžių. Jei norite pradėti naują paiešką, palieskite ir palaikykite trimis pirštais arba eikite į „TalkBack“ meniu ir atidarykite paiešką ekrane.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Dar nėra raktinių žodžių. Jei norite pradėti naują paiešką, perbraukite kairėn, tada žemyn arba eikite į „TalkBack“ meniu ir atidarykite paiešką ekrane.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brailio r. klav. neįjungta. Eikite į „TalkBack“ nust., nustatykite Brailio r. klav. ir band. dar k.</string>
   <string name="suggestions_window_available">Pasiekiami pasiūlymai</string>
   <string name="suggestions_window_available_with_gesture">Pasiekiami pasiūlymai. Jei norite pasiekti, %1$s</string>
   <string name="heads_up_window_available">Pasiekiamas pranešimas</string>
@@ -967,9 +955,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="new_gesture_notification_content">Palieskite, kad sužinotumėte, kaip sparčiau naudoti „TalkBack“ naudojant naujus gestus.</string>
   <string name="dump_node_tree_description">Mazgų medis pateiktas žurnaluose.</string>
   <string name="report_gesture_description">Čia pateikti neseniai atlikti gestai. Praneškite, kuris gestas netinkamas ir koks buvo numatytas.</string>
-  <string name="update_welcome_text_content">Dabar galite prisijungti prie Brailio rašmenų ekranų naudodami HID – būdą, kaip prisijungti prie „Bluetooth“ įrenginių. Įsitikinkite, kad turite naujausias gamintojo programinės aparatinės įrangos tvarkykles, tada įjunkite „Bluetooth“ Brailio rašmenų ekrane. Eikite į skiltį „TalkBack“ nustatymai“ &gt; „Brailio rašmenų ekranas“ ir įjunkite parinktį „Brailio rašmenų ekrano naudojimas“. Raskite įrenginį įrenginių sąraše ir prisijunkite prie jo.</string>
-  <string name="update_welcome_text_content_tts">Dabar galite prisijungti prie Brailio rašmenų ekranų naudodami HID – būdą, kaip prisijungti prie „Bluetooth“ įrenginių. Įsitikinkite, kad turite naujausias gamintojo programinės aparatinės įrangos tvarkykles, tada įjunkite „Bluetooth“ Brailio rašmenų ekrane. Eikite į „TalkBack“ nustatymus, tada į Brailio rašmenų ekraną ir įjunkite „Brailio rašmenų ekrano naudojimas“. Raskite įrenginį įrenginių sąraše ir prisijunkite prie jo.</string>
-  <string name="update_welcome_text_content_with_link">Sužinokite, kaip naudoti Brailio rašmenų ekraną su „TalkBack“.</string>
   <string name="update_welcome_talkback_16.1">Šiame „TalkBack“ atnaujinime pristatomas ekrano aprašymo palaikymas daugiau kalbų ir kiti kokybės patobulinimai, palengvinantys „TalkBack“ naudojimą.\n\nDaugiau apie šiuos pakeitimus sužinosite keliuose kituose ekranuose.\n\nVėliau šią informaciją galėsite peržiūrėti skiltyje „TalkBack“ nustatymai“ &gt; „Naujos „TalkBack“ funkcijos“.</string>
   <string name="update_welcome_talkback_16.1_tts">Šiame „TalkBack“ atnaujinime pristatomas ekrano aprašymo palaikymas daugiau kalbų ir kiti kokybės patobulinimai, palengvinantys „TalkBack“ naudojimą.\n\nDaugiau apie šiuos pakeitimus sužinosite keliuose kituose ekranuose.\n\nVėliau šią informaciją galėsite peržiūrėti skiltyje „TalkBack“ nustatymai“, tada – „Naujos „TalkBack“ funkcijos“.</string>
   <string name="describe_screen_and_qna_title">Naujos ekrano aprašymo ir funkcijos „Paklausti „Gemini“ kalbos</string>
@@ -985,10 +970,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="reduce_delay_title">Sumažinkite delsą</string>
   <string name="reduce_delay_content">Dabar galite sumažinti „TalkBack“ pranešimų delsą, kai naršote liesdami ir rašote. Jei norite peržiūrėti šiuos nustatymus, eikite į skiltį „TalkBack“ nustatymai“ &gt; „Išplėstiniai nustatymai“ &gt; „Sumažinti delsą“.</string>
   <string name="reduce_delay_content_tts">Dabar galite sumažinti „TalkBack“ pranešimų delsą, kai naršote liesdami ir rašote. Jei norite peržiūrėti šiuos nustatymus, eikite į skiltį „TalkBack“ nustatymai“, pasirinkite „Išplėstiniai nustatymai“ ir „Sumažinti delsą“.</string>
-  <string name="customize_braille_keyboard_improvements_title">Brailio rašto klaviatūros gestų tinkinimas</string>
-  <string name="customize_braille_keyboard_improvements_content">Dabar galima tinkinti virtualiosios Brailio rašto klaviatūros ekrane gestus. Jei norite tinkinti, eikite į skiltį „TalkBack“ nustatymai“ &gt; „Brailio rašto klaviatūra“ &gt; „Gestai“.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Dabar galima tinkinti virtualiosios Brailio rašto klaviatūros ekrane gestus. Jei norite tinkinti, eikite į skiltį „TalkBack“ nustatymai“, tada pasirinkite „Brailio rašto klaviatūra“ ir „Gestai“.</string>
-  <string name="learn_more_about_braille_keyboard">Sužinokite daugiau apie Brailio rašto klaviatūrą</string>
   <string name="other_changes_title">Kiti pakeitimai</string>
   <string name="other_changes_content">Dabar ekrane rodomas pranešimas padeda greitai išjungti „TalkBack“, jei ji įjungiama netyčia. Galite tai išjungti skiltyje „TalkBack“ nustatymai“ &gt; „Rodyti „TalkBack“ išjungimo instrukcijas“.</string>
   <string name="other_changes_content_tts">Dabar ekrane rodomas pranešimas padeda greitai išjungti „TalkBack“, jei ji įjungiama netyčia. Galite tai išjungti skiltyje „TalkBack“ nustatymai“ &gt; „Rodyti „TalkBack“ išjungimo instrukcijas“.</string>
@@ -1021,7 +1002,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="keyboard_enhanced_keymap_text">Dabar „TalkBack“ fizinėse klaviatūrose yra „Patobulinta klavišų schema“ su įvairiomis naujomis komandomis ir sparčiaisiais klavišais. Šis patobulinimas apima naršymo režimą, kad būtų galima efektyviau naršyti žiniatinklį, supaprastinant naršymą ir sąveiką „TalkBack“ naudotojams, kurie naudoja fizines klaviatūras. Galite perjungti į „Patobulintą klavišų schemą“ skiltyje „%1$s“.\n\nJei naudojate Brailio rašmenų ekraną, taip pat galite naudoti naujus naršymo režimo sparčiuosius klavišus, kad galėtumėte naršyti turinį tiesiai iš Brailio rašmenų ekrano. Kai kurie Brailio rašmenų ekrano spartieji klavišai buvo pakeisti, kad būtų galima pritaikyti šį pakeitimą. Visų Brailio rašmenų ekrano sparčiųjų klavišų sąrašą galite peržiūrėti %2$s.</string>
   <string name="keyboard_shortcuts_link">„TalkBack“ nustatymai“ &gt; „Spartieji klavišai“</string>
   <string name="keyboard_shortcuts_link_tts">„TalkBack“ nustatymai, tada – „Spartieji klavišai“</string>
-  <string name="braille_display_settings_link">Brailio rašmenų ekrano nustatymai</string>
   <string name="keyboard_smart_browse_mode_title">Klaviatūra: išmanusis naršymo režimas</string>
   <string name="keyboard_smart_browse_mode_text">„TalkBack“ išmanusis naršymo režimas išjungia naršymo režimą redagavimo lauke, kad būtų galima įvesti tekstą fizine klaviatūra naršant žiniatinklį. Tada jis vėl įjungiamas, kai pereinate į neredaguojamą lauką žiniatinklyje, kad galėtumėte toliau efektyviai naršyti. „Išmanųjį naršymo režimą“ galite įjungti arba išjungti skiltyje „%1$s“.</string>
   <string name="advanced_settings_link">„TalkBack“ nustatymai“ &gt; „Išplėstiniai nustatymai“</string>
@@ -1094,7 +1074,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="typing_text_title">Teksto įvedimas</string>
   <string name="basic_typing_text_text">Kai būsite teksto laukelyje, klaviatūra bus atidaryta ekrano apačioje.</string>
   <string name="typing_text_text">Veskite pirštu per klaviatūrą. Kai išgirsite norimą įvesti raidę, pakelkite pirštą.\n\nPabandykite suaktyvinti toliau pateiktą teksto laukelį ir įvesti savo vardą.</string>
-  <string name="typing_text_with_braille_keyboard_text">Be to, tekstą galite vesti naudodami Brailio rašto klaviatūrą. Ją rasite „TalkBack“ nustatymų skiltyje.</string>
   <string name="other_ways_to_type_title">Kiti rašymo būdai</string>
   <string name="other_ways_to_type_text">Yra ir kitų būdų, kaip rašyti naudojant „TalkBack“. Pavyzdžiui, galite dukart palietę įvesti raidę.</string>
   <string name="basic_other_ways_to_type_text">Yra ir kitų būdų, kaip rašyti naudojant „TalkBack“. Pavyzdžiui, galite dukart palietę įvesti raidę. Tai vėliau galėsite pakeisti skiltyje „TalkBack“ nustatymai“ &gt; „Ekrano klaviatūra“ &gt; „Rašymo nuostata“.</string>

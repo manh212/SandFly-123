@@ -197,14 +197,6 @@ public final class FeatureFlagReader {
     return false;
   }
 
-  public static boolean enableToggleBrailleOnScreenOverlay(Context context) {
-    return true;
-  }
-
-  public static boolean enableToggleBrailleContractedMode(Context context) {
-    return true;
-  }
-
   public static boolean enableToggleVoiceFeedback(Context context) {
     return true;
   }
@@ -307,10 +299,6 @@ public final class FeatureFlagReader {
 
   public static boolean supportShowExitBanner(Context context) {
     return true;
-  }
-
-  public static boolean useGestureBrailleDisplayOnOff(Context context) {
-    return false;
   }
 
   public static boolean useMultipleGestureSet(Context context) {

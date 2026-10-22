@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explore by Touch</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Controls</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">General</string>
   <string name="title_pref_category_advanced">Advanced</string>
   <string name="title_pref_category_others">Others</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Reduce delay</string>
   <string name="talkback_latency_reduction_summary">Settings to reduce the delay before SandFly announcements</string>
   <string name="summary_pref_intonation">Speak deleted letters in a higher-pitched voice</string>
-  <string name="title_pref_brailledisplay">Braille display</string>
-  <string name="title_pref_brailleime">Braille keyboard</string>
-  <string name="summary_pref_brailleime_disabled">Your device doesn\'t support braille keyboard</string>
   <string name="title_pref_speech_footer">You can quickly adjust some of SandFly\'s sound settings from any screen.\n\nAccessibility volume: Hold 1 finger on the screen and press the volume up or volume down key.\nSandFly speech rate: Swipe up or down with 3 fingers. When you hear \'speech rate\', swipe up or down with 1 finger.</string>
   <string name="title_pref_vibration">Vibration feedback</string>
   <string name="title_pref_soundback">Sound feedback</string>
@@ -486,8 +482,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="shortcut_increase_volume">Increase volume</string>
   <string name="shortcut_decrease_volume">Decrease volume</string>
   <string name="shortcut_all_apps">All apps</string>
-  <string name="shortcut_braille_keyboard">Switch to braille keyboard</string>
-  <string name="shortcut_braille_display_settings">Navigate to braille display settings</string>
   <string name="shortcut_tutorial">Open tutorial</string>
   <string name="shortcut_control_speak_time">Speak time or don\'t speak time</string>
   <string name="shortcut_enable_speak_time">Speak time</string>
@@ -496,7 +490,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="speak_time_off">Speak time off</string>
   <string name="shortcut_practice_gestures">Practise gestures</string>
   <string name="shortcut_report_gesture">Report gesture issue</string>
-  <string name="shortcut_toggle_braille_display">Turn braille display on or off</string>
   <string name="shortcut_announce_current_time_and_date">Speak current date and time</string>
   <string name="shortcut_announce_battery_state">Speak battery percentage</string>
   <string name="shortcut_announce_current_title">Speak window title</string>
@@ -506,8 +499,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="shortcut_speech_rate_decrease">Decrease speech rate</string>
   <string name="shortcut_toggle_selection">Start or end selection mode</string>
   <string name="shortcut_show_tutorial">Open tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Switch between contracted (grade 2) and uncontracted (grade 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Show or hide on-screen braille for connected braille displays</string>
   <string name="shortcut_toggle_sound_feedback">Turn sound feedback (earcons) on or off</string>
   <string name="shortcut_show_learn_mode_page">Practice keyboard shortcuts</string>
   <string name="shortcut_announce_phonetic_pronunciation">Speak letters with phonetic pronunciation for focused item</string>
@@ -548,7 +539,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="title_show_voice_commands">Voice commands</string>
   <string name="title_show_keyboard_shortcuts">Keyboard shortcuts</string>
   <string name="talkback_show_talkback_settings">SandFly settings</string>
-  <string name="title_show_braille_display_settings">Braille display settings</string>
   <string name="title_granularity_default">Default navigation</string>
   <string name="title_action_dismiss">Dismiss</string>
   <string name="title_action_expand">Expand</string>
@@ -576,7 +566,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="summary_control_speak_time">Change whether the time is spoken aloud when you turn on the screen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Open list of keyboard shortcuts</string>
   <string name="summary_talkback_preferences">Open SandFly settings</string>
-  <string name="summary_braile_display_preferences">Open braille display settings</string>
   <string name="summary_system_actions">Go to all apps and Quick Settings</string>
   <string name="summary_tts_settings">Open text-to-speech settings</string>
   <string name="not_editable">Not editable</string>
@@ -917,7 +906,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="screen_search_keyword_hint">keyword is %1$s</string>
   <string name="screen_search_no_keyword_hint">No keyword yet. To start a new search, tap and hold with 3 fingers or open screen search from the SandFly menu.</string>
   <string name="screen_search_no_keyword_hint_pre_r">No keyword yet. To start a new search, swipe left then down or open screen search from the SandFly menu.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille keyboard isn\'t turned on. Go to SandFly settings, set up Braille keyboard, then try again.</string>
   <string name="suggestions_window_available">Suggestions available</string>
   <string name="suggestions_window_available_with_gesture">Suggestions available. To access, %1$s</string>
   <string name="heads_up_window_available">Notification available</string>
@@ -967,9 +955,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="new_gesture_notification_content">Tap to learn how to use SandFly faster with new gestures.</string>
   <string name="dump_node_tree_description">Node tree has been printed to logs.</string>
   <string name="report_gesture_description">Here are gestures performed recently. Please report which gesture is wrong and what is expected.</string>
-  <string name="update_welcome_text_content">You can now connect to braille displays via HID, a way to connect to Bluetooth devices. Make sure that you have the latest firmware drivers from your manufacturer, then turn on Bluetooth on your braille display. Go to SandFly settings &gt; Braille display and turn on \'Use braille display\'. Find your device in the devices list and connect to it.</string>
-  <string name="update_welcome_text_content_tts">You can now connect to braille displays via HID, a way to connect to Bluetooth devices. Make sure that you have the latest firmware drivers from your manufacturer, then turn on Bluetooth on your braille display. Go to SandFly settings then Braille display and turn on \'Use braille display\'. Find your device in the devices list and connect to it.</string>
-  <string name="update_welcome_text_content_with_link">Learn how to use your braille display with SandFly.</string>
   <string name="update_welcome_talkback_16.1">This SandFly update introduces support for Describe screen in more languages and other quality improvements that make SandFly easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings &gt; New features in SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">This SandFly update introduces support for Describe screen in more languages and other quality improvements that make SandFly easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings, then New features in SandFly.</string>
   <string name="describe_screen_and_qna_title">New languages for Describe screen and Ask Gemini</string>
@@ -985,10 +970,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="reduce_delay_title">Reduce delay</string>
   <string name="reduce_delay_content">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings &gt; Advanced settings &gt; Reduce delay.</string>
   <string name="reduce_delay_content_tts">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings, then Advanced settings, then Reduce delay.</string>
-  <string name="customize_braille_keyboard_improvements_title">Customise braille keyboard gestures</string>
-  <string name="customize_braille_keyboard_improvements_content">It\'s now possible to customise gestures for the virtual on-screen braille keyboard. To customise, go to SandFly settings &gt; Braille keyboard &gt; Gestures.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">It\'s now possible to customise gestures for the virtual on-screen braille keyboard. To customise, go to SandFly settings, then Braille keyboard, then Gestures.</string>
-  <string name="learn_more_about_braille_keyboard">Learn more about braille keyboard</string>
   <string name="other_changes_title">Other changes</string>
   <string name="other_changes_content">An on-screen message now helps you quickly turn off SandFly if it\'s accidentally turned on. You can turn this off in SandFly settings &gt; Show instructions for turning off SandFly.</string>
   <string name="other_changes_content_tts">An on-screen message now helps you quickly turn off SandFly if it\'s accidentally turned on. You can turn this off in SandFly settings, then Show instructions for turning off SandFly.</string>
@@ -1021,7 +1002,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="keyboard_enhanced_keymap_text">SandFly now has an \'Enhanced keymap\' for physical keyboards, featuring a variety of new commands and shortcuts. This enhancement includes a \'browse mode\' for more efficient web navigation, streamlining navigation and interaction for SandFly users who rely on physical keyboards. You can switch to the \'Enhanced keymap\' in %1$s.\n\nIf you use a braille display, you can also use new browse mode shortcuts to traverse through content directly from your braille display. Some braille display shortcuts were changed to accommodate this change. You can see a list of all braille display shortcuts in %2$s.</string>
   <string name="keyboard_shortcuts_link">SandFly settings &gt; Keyboard shortcuts</string>
   <string name="keyboard_shortcuts_link_tts">SandFly settings then Keyboard shortcuts</string>
-  <string name="braille_display_settings_link">Braille display settings</string>
   <string name="keyboard_smart_browse_mode_title">Keyboard: Smart browse mode</string>
   <string name="keyboard_smart_browse_mode_text">SandFly smart browse mode turns off browse mode on an edit field to help you type with a physical keyboard when you browse the web. It then turns it back on when you jump to a non-edit field on the web so that you can continue browsing efficiently. You can turn \'Smart browse mode\' on or off in %1$s.</string>
   <string name="advanced_settings_link">SandFly settings &gt; Advanced settings</string>
@@ -1094,7 +1074,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="typing_text_title">Typing text</string>
   <string name="basic_typing_text_text">When you\'re in a text box, a keyboard will open up at the bottom of your screen.</string>
   <string name="typing_text_text">Move your finger across the keyboard. When you hear the letter that you want to type, lift your finger.\n\nTry activating the text box below and type your name.</string>
-  <string name="typing_text_with_braille_keyboard_text">You can also type with the braille keyboard. Find it in SandFly settings.</string>
   <string name="other_ways_to_type_title">Other ways to type</string>
   <string name="other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double-tap to enter a letter.</string>
   <string name="basic_other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double-tap to enter a letter. You can change this later in SandFly settings &gt; On-screen keyboard &gt; Typing preference.</string>
@@ -1520,7 +1499,6 @@ Do not use any markdown in your response.</string>
     <string name="title_pref_announce_ringer_mode">Ringer mode</string>
     <string name="summary_pref_announce_ringer_mode">Say when the ringer is set to vibrate or silent</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Typing and braille</string>
     <string name="title_pref_category_apps">Apps</string>
     <string name="title_pref_touch_activation">Touch and activation</string>
     <string name="title_pref_navigation">Navigation</string>
@@ -1544,8 +1522,6 @@ Do not use any markdown in your response.</string>
     <string name="speech_control_deny">Don\'t allow</string>
     <string name="permission_speak_label">speak through SandFly</string>
     <string name="permission_speak_description">Lets the app ask to say text in your SandFly voice. SandFly asks you before the app can speak.</string>
-    <string name="permission_braille_display_label">ask to be a braille display for SandFly</string>
-    <string name="permission_braille_display_description">Lets the app ask to be a braille display for SandFly. If you allow it in SandFly, it can read everything on the screen and control your device. SandFly asks you first.</string>
     <string name="title_pref_phonetic_letters_mode">Speak letters phonetically</string>
     <string name="phonetic_letters_mode_off">Off</string>
     <string name="phonetic_letters_mode_after_letter_delay">After the letter, delayed, like \'h, hotel\'</string>
@@ -1683,14 +1659,8 @@ Do not use any markdown in your response.</string>
     <string name="summary_support_wrap_around">Turn wrapping from the last item to the first on or off</string>
     <string name="wrap_around_on">Wrap around on</string>
     <string name="wrap_around_off">Wrap around off</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet held up faces away</string>
-    <string name="summary_support_tablet_held_up_faces_away">For the braille keyboard on a tablet or unfolded phone</string>
-    <string name="tablet_held_up_faces_away_on">Tablet held up faces away on</string>
-    <string name="tablet_held_up_faces_away_off">Tablet held up faces away off</string>
     <string name="title_keyboard_echo_on_screen">On-screen keyboard echo</string>
     <string name="title_keyboard_echo_physical">Physical keyboard echo</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille keyboard echo</string>
-    <string name="title_keyboard_echo_braille_display">Braille display echo</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Interrupt speech when typing</string>
     <string name="pref_interrupt_typing_entry_always">Always</string>

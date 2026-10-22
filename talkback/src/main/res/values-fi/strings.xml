@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Kosketuksella tutkiminen</string>
   <string name="title_pref_category_visual">Visuaalinen</string>
   <string name="title_pref_category_controls">Ohjaimet</string>
-  <string name="title_pref_category_braille">Pistekirjoitus</string>
   <string name="title_pref_category_general">Yleiset</string>
   <string name="title_pref_category_advanced">Lisäasetukset</string>
   <string name="title_pref_category_others">Muut</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Lyhennä viivettä</string>
   <string name="talkback_latency_reduction_summary">Nopeuta SandFlyn reagointia, kun kosketat näyttöä</string>
   <string name="summary_pref_intonation">Sano poistetut kirjaimet korkeammalla äänellä</string>
-  <string name="title_pref_brailledisplay">Pistekirjoitusnäyttö</string>
-  <string name="title_pref_brailleime">Pistekirjoitusnäppäimistö</string>
-  <string name="summary_pref_brailleime_disabled">Laite ei tue pistekirjoitusnäppäimistöä.</string>
   <string name="title_pref_speech_footer">Voit muuttaa saavutettavuuden äänenvoimakkuutta millä tahansa näytöllä pitämällä sormea näytöllä ja painamalla äänenvoimakkuuden lisäys- tai vähennyspainiketta.</string>
   <string name="title_pref_vibration">Värinäpalaute</string>
   <string name="title_pref_soundback">Äänipalaute</string>
@@ -486,8 +482,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="shortcut_increase_volume">Lisää äänenvoimakkuutta</string>
   <string name="shortcut_decrease_volume">Pienennä äänenvoimakkuutta</string>
   <string name="shortcut_all_apps">Kaikki sovellukset</string>
-  <string name="shortcut_braille_keyboard">Vaihda pistekirjoitukseen</string>
-  <string name="shortcut_braille_display_settings">Siirry pistekirjoitusnäytön asetuksiin</string>
   <string name="shortcut_tutorial">Avaa ohje</string>
   <string name="shortcut_control_speak_time">Aika puhuttuna tai aikaa ei puhuta</string>
   <string name="shortcut_enable_speak_time">Sano aika ääneen</string>
@@ -496,7 +490,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="speak_time_off">Sano aika ääneen pois päältä</string>
   <string name="shortcut_practice_gestures">Eleiden harjoittelu</string>
   <string name="shortcut_report_gesture">Ilmoita eleongelmasta</string>
-  <string name="shortcut_toggle_braille_display">Käynnistä tai sammuta pistekirjoitusnäyttö</string>
   <string name="shortcut_announce_current_time_and_date">Lue nykyinen päivämäärä ja aika ääneen</string>
   <string name="shortcut_announce_battery_state">Sano akun varaustaso</string>
   <string name="shortcut_announce_current_title">Sano ikkunan nimi</string>
@@ -506,8 +499,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="shortcut_speech_rate_decrease">Vähennä puhenopeutta</string>
   <string name="shortcut_toggle_selection">Avaa tai sulje valintatila</string>
   <string name="shortcut_show_tutorial">Avaa ohje</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Vaihda lyhennetyn (taso 2) ja lyhentämättömän (taso 1) välillä</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Näytä/piilota yhdistettyjen pistekirjoitusnäyttöjen kirjoitus</string>
   <string name="shortcut_toggle_sound_feedback">Ota äänipalaute (earcon-äänimerkit) käyttöön / pois käytöstä</string>
   <string name="shortcut_show_learn_mode_page">Harjoittele pikanäppäinten käyttöä</string>
   <string name="shortcut_announce_phonetic_pronunciation">Sano korostetun kohteen kirjaimet foneettisella ääntämyksellä</string>
@@ -548,7 +539,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="title_show_voice_commands">Äänikomennot</string>
   <string name="title_show_keyboard_shortcuts">Pikanäppäimet</string>
   <string name="talkback_show_talkback_settings">SandFly-asetukset</string>
-  <string name="title_show_braille_display_settings">Pistekirjoitusnäytön asetukset</string>
   <string name="title_granularity_default">Oletusnavigointi</string>
   <string name="title_action_dismiss">Ohita</string>
   <string name="title_action_expand">Laajenna</string>
@@ -576,7 +566,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="summary_control_speak_time">Valitse, sanotaanko aika ääneen, kun laitat näytön päälle</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Avaa pikanäppäinlista</string>
   <string name="summary_talkback_preferences">Avaa SandFly-asetukset</string>
-  <string name="summary_braile_display_preferences">Avaa pistekirjoitusnäytön asetukset</string>
   <string name="summary_system_actions">Avaa \"Kaikki sovellukset\" ja \"Pika-asetukset\"</string>
   <string name="summary_tts_settings">Avaa Tekstistä puheeksi ‑asetukset</string>
   <string name="not_editable">Ei muokattavissa</string>
@@ -917,7 +906,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="screen_search_keyword_hint">avainsana on %1$s</string>
   <string name="screen_search_no_keyword_hint">Ei vielä avainsanaa. Aloita uusi haku koskettamalla pitkään kolmella sormella tai avaamalla näyttöhaku SandFly-valikosta.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ei vielä avainsanaa. Aloita uusi haku pyyhkäisemällä vasemmalle ja sitten alas tai avaamalla näyttöhaku SandFly-valikosta.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Pistekirjoitusnäppäimistö ei ole päällä. Ota se käyttöön SandFly-asetuksista ja yritä uudelleen.</string>
   <string name="suggestions_window_available">Ehdotuksia saatavilla</string>
   <string name="suggestions_window_available_with_gesture">Ehdotuksia saatavilla. Jos haluat nähdä ne, %1$s</string>
   <string name="heads_up_window_available">Ilmoitus saatavilla</string>
@@ -967,9 +955,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="new_gesture_notification_content">Napauta, niin näet ohjeet SandFlyin nopeampaan käyttöön uusilla eleillä.</string>
   <string name="dump_node_tree_description">Solmupuu on lisätty lokeihin.</string>
   <string name="report_gesture_description">Tässä on viime aikoina tehdyt eleet. Ilmoita, mikä ele on väärä ja mitä odotit sen sijaan.</string>
-  <string name="update_welcome_text_content">Voit nyt yhdistää pistekirjoitusnäyttöihin HID:llä, jonka avulla voi yhdistää Bluetooth-laitteisiin. Varmista, että sinulla on valmistajan uusimmat laiteohjelmistoajurit, ja laita sitten Bluetooth päälle pistekirjoitusnäytöllä. Siirry SandFly-asetuksiin &gt; Pistekirjoitusnäyttö ja laita \"Käytä pistekirjoitusnäyttöä\" päälle. Etsi laite laiteluettelosta ja yhdistä se.</string>
-  <string name="update_welcome_text_content_tts">Voit nyt yhdistää pistekirjoitusnäyttöihin HID:llä, jonka avulla voi yhdistää Bluetooth-laitteisiin. Varmista, että sinulla on valmistajan uusimmat laiteohjelmistoajurit, ja laita sitten Bluetooth päälle pistekirjoitusnäytöllä. Avaa SandFlyin asetukset, valitse Pistekirjoitusnäyttö ja laita \"Käytä pistekirjoitusnäyttöä\" päälle. Etsi laite laiteluettelosta ja yhdistä se.</string>
-  <string name="update_welcome_text_content_with_link">Katso, miten voit käyttää pistekirjoitusnäyttöä SandFlyin kanssa.</string>
   <string name="update_welcome_talkback_16.1">Tämä SandFly-päivitys tuo tuen Kuvaile näyttöä ‑ominaisuudelle useammilla kielillä sekä muita laadunparannuksia, jotka helpottavat SandFlyin käyttöä.\n\nSaat lisätietoa muutoksista seuraavilla näytöillä.\n\nVoit tarkistaa tiedot myöhemmin siirtymällä SandFly-asetuksiin &gt; SandFlyin uudet ominaisuudet.</string>
   <string name="update_welcome_talkback_16.1_tts">Tämä SandFly-päivitys tuo tukea Kuvaile näyttöä ‑ominaisuudelle useammilla kielillä sekä muita laadunparannuksia, jotka helpottavat SandFlyin käyttöä.\n\nSaat lisätietoa muutoksista seuraavilla näytöillä.\n\nVoit tarkistaa tiedot myöhemmin siirtymällä SandFly-asetuksiin ja valitsemalla SandFlyin uudet ominaisuudet.</string>
   <string name="describe_screen_and_qna_title">Uusia kieliä Kuvaile näyttöä- ja Kysy Geminiltä ‑ominaisuuksiin</string>
@@ -985,10 +970,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="reduce_delay_title">Viiveen lyhentäminen</string>
   <string name="reduce_delay_content">Voit nyt vähentää SandFlyin ilmoitusviivettä kosketuksella tutkimisessa ja kirjoittamisessa. Voit tarkistaa asetukset siirtymällä SandFly-asetuksiin &gt; Lisäasetukset &gt; Lyhennä viivettä.</string>
   <string name="reduce_delay_content_tts">Voit nyt vähentää SandFlyin ilmoitusviivettä kosketuksella tutkimisessa ja kirjoittamisessa. Voit tarkistaa asetukset siirtymällä SandFly-asetuksiin, valitsemalla Lisäasetukset ja sitten Lyhennä viivettä.</string>
-  <string name="customize_braille_keyboard_improvements_title">Muokkaa pistekirjoitusnäppäimistön eleitä</string>
-  <string name="customize_braille_keyboard_improvements_content">Näytöllä näkyvän virtuaalisen pistekirjoitusnäppäimistön eleitä voi nyt muokata. Voit tarkistaa asetukset siirtymällä SandFly-asetuksiin &gt; Pistekirjoitusnäppäimistö &gt; Eleet.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Näytöllä näkyvän virtuaalisen pistekirjoitusnäppäimistön eleitä voi nyt muokata. Voit tarkistaa asetukset siirtymällä SandFly-asetuksiin, valitsemalla Pistekirjoitusnäppäimistö ja sitten Eleet.</string>
-  <string name="learn_more_about_braille_keyboard">Lue lisää pistekirjoitusnäppäimistöstä</string>
   <string name="other_changes_title">Muut muutokset</string>
   <string name="other_changes_content">Näytöllä näkyvä viesti auttaa nyt laittamaan SandFlyin nopeasti pois päältä, jos se laitetaan vahingossa päälle. Voit laittaa tämän pois päältä siirtymällä SandFly-asetuksiin &gt; Näytä ohjeet SandFlyin laittamiseen pois päältä.</string>
   <string name="other_changes_content_tts">Näytöllä näkyvä viesti auttaa nyt laittamaan SandFlyin nopeasti pois päältä, jos se laitetaan vahingossa päälle. Voit laittaa tämän pois päältä siirtymällä SandFly-asetuksiin ja valitsemalla Näytä ohjeet SandFlyin laittamiseen pois päältä.</string>
@@ -1021,7 +1002,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="keyboard_enhanced_keymap_text">SandFlyssa on nyt fyysisille näppäimistöille \"Parannettu näppäinkartta\", jossa on monia uusia komentoja ja pikanäppäimiä. Parannus sisältää \"selaustilan\" tehokkaampaa verkossa siirtymistä varten, mikä sujuvoittaa siirtymistä ja käyttöä SandFlyn käyttäjille, jotka käyttävät fyysisiä näppäimistöjä. Voit vaihtaa \"Parannettu näppäinkartta\" ‑asetukseen kohdassa <xliff:g id="settings_path">%1$s</xliff:g>.\n\nJos käytät pistekirjoitusnäyttöä, voit myös käyttää uusia selaustilan pikanäppäimiä, joiden avulla voit siirtyä sisällössä suoraan pistekirjoitusnäytöltä. Osa pistekirjoitusnäytön pikanäppäimistä on muutettu tämän muutoksen vuoksi. Näet kaikki pistekirjoitusnäytön pikanäppäimet kohdassa <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly-asetukset &gt; Pikanäppäimet</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-asetukset &gt; Pikanäppäimet</string>
-  <string name="braille_display_settings_link">Pistekirjoitusnäytön asetukset</string>
   <string name="keyboard_smart_browse_mode_title">Näppäimistö: Älykäs selaustila</string>
   <string name="keyboard_smart_browse_mode_text">SandFlyn älykäs selaustila laittaa selaustilan pois päältä muokkauskentässä, jotta voit kirjoittaa fyysisellä näppäimistöllä selatessasi verkkoa. Se laittaa selaustilan takaisin päälle, kun siirryt verkossa muuhun kuin muokkauskenttään, jotta voit jatkaa selaamista tehokkaasti. Voit laittaa älykkään selaustilan päälle tai pois päältä täällä: <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFly-asetukset &gt; Lisäasetukset</string>
@@ -1094,7 +1074,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="typing_text_title">Tekstin kirjoitus</string>
   <string name="basic_typing_text_text">Kun olet tekstikentässä, näytön alareunaan avautuu näppäimistö.</string>
   <string name="typing_text_text">Siirrä sormea näppäimistöllä, kunnes kuulet haluamasi kirjaimen, ja nosta sitten sormesi.\n\nKokeile aktivoida alla oleva tekstikenttä ja kirjoittaa nimesi.</string>
-  <string name="typing_text_with_braille_keyboard_text">Voit kirjoittaa myös pistekirjoitusnäppäimistöllä. Löydät sen SandFly-asetuksista.</string>
   <string name="other_ways_to_type_title">Muita kirjoitustapoja</string>
   <string name="other_ways_to_type_text">SandFlyissa voi kirjoittaa myös muilla tavoilla. Voit esimerkiksi kirjoittaa kirjaimen kaksoisnapauttamalla.</string>
   <string name="basic_other_ways_to_type_text">SandFlyssa voi kirjoittaa myös muilla tavoilla. Voit esimerkiksi kirjoittaa kirjaimen kaksoisnapauttamalla. Voit muuttaa tätä myöhemmin valitsemalla SandFly-asetukset &gt; Näyttönäppäimistö &gt; Kirjoitustapa.</string>
@@ -1520,7 +1499,6 @@ Tämän jälkeen vastauksessa voi kuvailla navigointipalkkien ja näkyvien paini
     <string name="title_pref_announce_ringer_mode">Soittoäänitila</string>
     <string name="summary_pref_announce_ringer_mode">Sano, kun soittoääni on asetettu värinälle tai äänettömäksi</string>
     <string name="title_pref_category_feedback">Palaute</string>
-    <string name="title_pref_category_typing_and_braille">Kirjoittaminen ja pistekirjoitus</string>
     <string name="title_pref_category_apps">Sovellukset</string>
     <string name="title_pref_touch_activation">Kosketus ja aktivointi</string>
     <string name="title_pref_navigation">Navigointi</string>
@@ -1544,8 +1522,6 @@ Tämän jälkeen vastauksessa voi kuvailla navigointipalkkien ja näkyvien paini
     <string name="speech_control_deny">Älä salli</string>
     <string name="permission_speak_label">puhua SandFlyn kautta</string>
     <string name="permission_speak_description">Sallii sovelluksen pyytää lupaa sanoa tekstiä SandFlyn äänellä. SandFly kysyy sinulta ennen kuin sovellus voi puhua.</string>
-    <string name="permission_braille_display_label">pyytää lupaa toimia SandFlyn pistekirjoitusnäyttönä</string>
-    <string name="permission_braille_display_description">Sallii sovelluksen pyytää lupaa toimia SandFlyn pistekirjoitusnäyttönä. Jos sallit sen SandFlyssa, se voi lukea kaiken näytöllä olevan ja ohjata laitettasi. SandFly kysyy sinulta ensin.</string>
     <string name="title_pref_phonetic_letters_mode">Sano kirjaimet foneettisesti</string>
     <string name="phonetic_letters_mode_off">Pois päältä</string>
     <string name="phonetic_letters_mode_after_letter_delay">Kirjaimen jälkeen viiveellä, esimerkiksi \"h, heikki\"</string>
@@ -1683,14 +1659,8 @@ Tämän jälkeen vastauksessa voi kuvailla navigointipalkkien ja näkyvien paini
     <string name="summary_support_wrap_around">Ota viimeisestä kohteesta ensimmäiseen kiertäminen käyttöön tai pois käytöstä</string>
     <string name="wrap_around_on">Kierrä alkuun päällä</string>
     <string name="wrap_around_off">Kierrä alkuun pois päältä</string>
-    <string name="title_selector_tablet_held_up_faces_away">Pystyssä pidetty tabletti osoittaa poispäin</string>
-    <string name="summary_support_tablet_held_up_faces_away">Pistekirjoitusnäppäimistölle tabletilla tai avatulla taittopuhelimella</string>
-    <string name="tablet_held_up_faces_away_on">Pystyssä pidetty tabletti osoittaa poispäin, päällä</string>
-    <string name="tablet_held_up_faces_away_off">Pystyssä pidetty tabletti osoittaa poispäin, pois päältä</string>
     <string name="title_keyboard_echo_on_screen">Näyttönäppäimistön kaiku</string>
     <string name="title_keyboard_echo_physical">Fyysisen näppäimistön kaiku</string>
-    <string name="title_keyboard_echo_braille_keyboard">Pistekirjoitusnäppäimistön kaiku</string>
-    <string name="title_keyboard_echo_braille_display">Pistekirjoitusnäytön kaiku</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Keskeytä puhe kirjoitettaessa</string>
     <string name="pref_interrupt_typing_entry_always">Aina</string>

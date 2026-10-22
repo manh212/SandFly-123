@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ເຄື່ອງໝາຍໜ້ອຍກວ່າເຕັມຄວາມກວ້າງ</string>
   <string name="symbol_full_width_greater_than_sign">ເຄື່ອງໝາຍຫຼາຍກວ່າເຕັມຄວາມກວ້າງ</string>
   <string name="symbol_left_single_quotation_mark">ເຄື່ອງໝາຍວົງຢືມດ່ຽວຊ້າຍ</string>
-  <string name="symbol_braille">ອັກສອນນູນ %s</string>
-  <plurals name="dots">
-    <item quantity="one">ຈຸດ %s</item>
-    <item quantity="other">ຈຸດ %s</item>
-  </plurals>
 </resources>

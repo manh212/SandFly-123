@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">પૂર્ણ પહોળાઈનું આનાથી ઓછાનું ચિહ્ન</string>
   <string name="symbol_full_width_greater_than_sign">પૂર્ણ પહોળાઈનું આનાથી વધુનું ચિહ્ન</string>
   <string name="symbol_left_single_quotation_mark">ડાબું એકલ અવતરણ ચિહ્ન</string>
-  <string name="symbol_braille">બ્રેઇલ %s</string>
-  <plurals name="dots">
-    <item quantity="one">ડૉટ %s</item>
-    <item quantity="other">ડૉટ %s</item>
-  </plurals>
 </resources>

@@ -37,14 +37,13 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils
  * Takes over from Backtalk Aaron when SandFly turns on.
  *
  * The old app is told to turn itself off. If the user granted WRITE_SECURE_SETTINGS with adb, the
- * old screen reader also leaves the enabled services, and the accessibility shortcuts and the
- * braille keyboard move to this app. Then a notification offers to uninstall the old app, once.
+ * old screen reader also leaves the enabled services, and the accessibility shortcuts move to
+ * this app. Then a notification offers to uninstall the old app, once.
  */
 object AppIdHandOver {
   private const val TAG = "AppIdHandOver"
   private const val NOTIFICATION_ID = 0x0BAC7A1D
   private const val KEY_UNINSTALL_OFFERED = "uninstall_offered"
-  private const val BRAILLE_IME_CLASS = "com.google.android.accessibility.brailleime.BrailleIme"
 
   /** How long after the old service leaves the enabled services to set up gestures again. */
   private const val REREGISTER_DELAY_MS = 500L
@@ -109,10 +108,6 @@ object AppIdHandOver {
       for (key in SHORTCUT_TARGET_SETTINGS) {
         swap(context, key, oldService, newService)
       }
-      val oldIme = "${AppIdMove.OLD_PACKAGE}/$BRAILLE_IME_CLASS"
-      val newIme = "${context.packageName}/$BRAILLE_IME_CLASS"
-      swap(context, Settings.Secure.ENABLED_INPUT_METHODS, oldIme, newIme)
-      swap(context, Settings.Secure.DEFAULT_INPUT_METHOD, oldIme, newIme)
     }
 
     offerUninstall(context)

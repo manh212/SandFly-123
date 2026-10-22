@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">पूर्ण चौडाइको \'भन्दा कम\' चिन्ह</string>
   <string name="symbol_full_width_greater_than_sign">पूर्ण चौडाइको \'भन्दा बढी\' चिन्ह</string>
   <string name="symbol_left_single_quotation_mark">बायाँतिरको एकल उद्धरण चिन्ह</string>
-  <string name="symbol_braille">ब्रेल %s</string>
-  <plurals name="dots">
-    <item quantity="one">डट %s</item>
-    <item quantity="other">डटहरू %s</item>
-  </plurals>
 </resources>

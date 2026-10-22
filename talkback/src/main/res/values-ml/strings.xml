@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ടച്ച് വഴി അടുത്തറിയൽ</string>
   <string name="title_pref_category_visual">വിഷ്വൽ</string>
   <string name="title_pref_category_controls">നിയന്ത്രണങ്ങൾ</string>
-  <string name="title_pref_category_braille">ബ്രെയിലി</string>
   <string name="title_pref_category_general">പൊതുവായത്</string>
   <string name="title_pref_category_advanced">വിപുലമായത്</string>
   <string name="title_pref_category_others">മറ്റുള്ളവ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ഡിലേ കുറയ്ക്കുക</string>
   <string name="talkback_latency_reduction_summary">TalkBack പ്രഖ്യാപനങ്ങൾക്ക് മുമ്പുള്ള ഡിലേ കുറയ്ക്കുന്നതിനുള്ള ക്രമീകരണം</string>
   <string name="summary_pref_intonation">കീബോർഡ് ഉപയോഗിച്ച് ഇല്ലാതാക്കിയ അക്ഷരങ്ങൾ ഉയർന്ന പിച്ചിൽ പറയുക</string>
-  <string name="title_pref_brailledisplay">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ</string>
-  <string name="title_pref_brailleime">ബ്രെയ്‌ലി കീബോർഡ്</string>
-  <string name="summary_pref_brailleime_disabled">ഉപകരണം ബ്രെയ്‍ലി കീബോർഡിനെ പിന്തുണയ്ക്കുന്നില്ല</string>
   <string name="title_pref_speech_footer">ഏത് സ്ക്രീനിൽ നിന്നും TalkBack-ന്റെ ചില ശബ്‌ദ ക്രമീകരണം നിങ്ങൾക്ക് വേഗത്തിൽ ക്രമീകരിക്കാം.\n\nഅറിയിപ്പ് വോളിയം: സ്‌ക്രീനിൽ ഒരു വിരൽ വച്ച ശേഷം \'ശബ്ദം കൂട്ടുക\' കീയോ \'ശബ്ദം കുറയ്‌ക്കുക\' കീയോ അമർത്തുക.\nവായനയുടെ വേഗത: 3 വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്കോ താഴേക്കോ സ്വൈപ്പ് ചെയ്യുക. \"വായനയുടെ വേഗത\" എന്ന് കേൾക്കുമ്പോൾ, ഒരു വിരൽ ഉപയോഗിച്ച് മുകളിലേക്കോ താഴേക്കോ സ്വൈപ്പ് ചെയ്യുക.</string>
   <string name="title_pref_vibration">വൈബ്രേഷൻ ഫീഡ്ബാക്ക്</string>
   <string name="title_pref_soundback">ശബ്ദ ഫീഡ്ബാക്ക്</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">വോളിയം കൂട്ടുക</string>
   <string name="shortcut_decrease_volume">വോളിയം കുറയ്ക്കുക</string>
   <string name="shortcut_all_apps">എല്ലാ ആപ്പുകളും</string>
-  <string name="shortcut_braille_keyboard">ബ്രെയ്‌ലി കീബോർഡിലേക്ക് മാറുക</string>
-  <string name="shortcut_braille_display_settings">ബ്രെയ്‌ലി ഡിസ്പ്ലേ ക്രമീകരണത്തിൽ പോകൂ</string>
   <string name="shortcut_tutorial">ട്യൂട്ടോറിയൽ തുറക്കുക</string>
   <string name="shortcut_control_speak_time">സമയം പറയുക അല്ലെങ്കിൽ സമയം പറയരുത്</string>
   <string name="shortcut_enable_speak_time">സമയം പറയുക</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">\'സമയം പറയുക\' ഓഫാണ്</string>
   <string name="shortcut_practice_gestures">ജെസ്ച്ചറുകൾ പരിശീലിക്കുക</string>
   <string name="shortcut_report_gesture">വിരൽചലന പ്രശ്‌നം റിപ്പോർട്ട് ചെയ്യുക</string>
-  <string name="shortcut_toggle_braille_display">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യുക</string>
   <string name="shortcut_announce_current_time_and_date">നിലവിലെ തീയതിയും സമയവും പറയുക</string>
   <string name="shortcut_announce_battery_state">ബാറ്ററി ശതമാനം പറയുക</string>
   <string name="shortcut_announce_current_title">സംസാരിക്കാനുള്ള വിൻഡോയുടെ പേര്</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">വായനയുടെ വേഗത കുറയ്ക്കുക</string>
   <string name="shortcut_toggle_selection">തിരഞ്ഞെടുക്കൽ മോഡ് തുടങ്ങുക/നിർത്തുക</string>
   <string name="shortcut_show_tutorial">ട്യൂട്ടോറിയൽ തുറക്കുക</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ചുരുക്കിയതും (ഗ്രേഡ് 2) ചുരുക്കാത്തതും (ഗ്രേഡ് 1) പരസ്പരം മാറുക</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">കണക്റ്റ് ചെയ്‌ത ബ്രെയ്‌ലി ഡിസ്‌പ്ലേകൾക്കായി സ്‌ക്രീനിലെ ബ്രെയ്‌ലി കാണിക്കുക അല്ലെങ്കിൽ മറയ്ക്കുക</string>
   <string name="shortcut_toggle_sound_feedback">ശബ്‌ദ ഫീഡ്‌ബാക്ക് (ഇയർകോണുകൾ) ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യുക</string>
   <string name="shortcut_show_learn_mode_page">കീബോർഡ് കുറുക്കുവഴികൾ പരിശീലിക്കുക</string>
   <string name="shortcut_announce_phonetic_pronunciation">ഫോക്കസ് ചെയ്ത ഇനത്തിനായി വാക്കിന്റെ ഉച്ചാരണത്തോടെ അക്ഷരങ്ങൾ പറയുക</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ശബ്‌ദ കമാൻഡുകൾ</string>
   <string name="title_show_keyboard_shortcuts">കീബോർഡ് കുറുക്കുവഴികൾ</string>
   <string name="talkback_show_talkback_settings">TalkBack ക്രമീകരണം</string>
-  <string name="title_show_braille_display_settings">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം</string>
   <string name="title_granularity_default">ഡിഫോൾട്ട് നാവിഗേഷൻ</string>
   <string name="title_action_dismiss">നിരസിക്കുക</string>
   <string name="title_action_expand">വികസിപ്പിക്കുക</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">സ്ക്രീൻ ഓണാക്കുമ്പോൾ സമയം ഉറക്കെ പറയണോ എന്നത് മാറ്റുക</string>
   <string name="summary_show_keyboard_shortcuts_preferences">കീബോഡ് കുറുക്കുവഴികളുടെ ലിസ്റ്റ് തുറക്കുക</string>
   <string name="summary_talkback_preferences">TalkBack ക്രമീകരണം തുറക്കുക</string>
-  <string name="summary_braile_display_preferences">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം തുറക്കുക</string>
   <string name="summary_system_actions">എല്ലാ ആപ്പുകളിലേക്കും ദ്രുത ക്രമീകരണത്തിലേക്കും പോകുക</string>
   <string name="summary_tts_settings">ടെക്‌സ്റ്റ് ടു സ്‌പീച്ച് ക്രമീകരണം തുറക്കുക</string>
   <string name="not_editable">എഡിറ്റ് ചെയ്യാനാകില്ല</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">%1$s ആണ് കീവേഡ്</string>
   <string name="screen_search_no_keyword_hint">ഇതുവരെ കീവേഡ് ഒന്നും ഇല്ല. പുതിയ തിരയൽ ആരംഭിക്കാൻ, 3 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്ത് പിടിക്കുക അല്ലെങ്കിൽ TalkBack മെനുവിൽ നിന്ന് സ്ക്രീനിലെ വിവരങ്ങൾ തുറക്കുക.</string>
   <string name="screen_search_no_keyword_hint_pre_r">ഇതുവരെ കീവേഡ് ഒന്നും ഇല്ല. പുതിയ തിരയൽ ആരംഭിക്കാൻ, ഇടത്തേക്കും തുടർന്ന് താഴേക്കും സ്വൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ TalkBack മെനുവിൽ നിന്ന് സ്ക്രീനിലെ വിവരങ്ങൾ തുറക്കുക.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ബ്രെയ്‌ലി കീബോർഡ് ഓണല്ല. TalkBack ക്രമീകരണത്തിൽ പോയി ബ്രെയ്‌ലി കീബോർഡ് ക്രമീകരിച്ച ശേഷം ശ്രമിക്കൂ.</string>
   <string name="suggestions_window_available">നിർദ്ദേശങ്ങൾ ലഭ്യമാണ്</string>
   <string name="suggestions_window_available_with_gesture">നിർദ്ദേശങ്ങൾ ലഭ്യമാണ്. ആക്‌സസ് ചെയ്യാൻ, %1$s</string>
   <string name="heads_up_window_available">അറിയിപ്പ് ലഭ്യമാണ്</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">പുതിയ വിരൽചലനങ്ങൾ ഉപയോഗിച്ച് TalkBack വേഗത്തിൽ എങ്ങനെ ഉപയോഗിക്കാമെന്ന് മനസ്സിലാക്കാൻ ടാപ്പ് ചെയ്യുക.</string>
   <string name="dump_node_tree_description">നോട് ട്രീ, ലോഗുകളിൽ അച്ചടിച്ചു.</string>
   <string name="report_gesture_description">അടുത്തിടെ നിറവേറ്റിയ ജെസ്‌റ്ററുകൾ ഇത്, ഏത് ജെസ്‌റ്ററാണ് തെറ്റ്, എന്താണ് പ്രതീക്ഷിച്ചത് എന്ന് റിപ്പോർട്ട് ചെയ്യുക.</string>
-  <string name="update_welcome_text_content">ബ്ലൂടൂത്ത് ഉപകരണങ്ങൾ കണക്റ്റ് ചെയ്യാനുള്ള മാർഗ്ഗമായ HID വഴി നിങ്ങൾക്ക് ഇപ്പോൾ ബ്രെയ്‌ലി ഡിസ്പ്ലേകളിലേക്ക് കണക്റ്റ് ചെയ്യാം. നിങ്ങളുടെ നിർമ്മാതാവിൽ നിന്ന് ഏറ്റവും പുതിയ ഫേംവെയർ നേടിയെന്ന് ഉറപ്പാക്കിയ ശേഷം നിങ്ങളുടെ ബ്രെയ്‌ലി ഡിസ്പ്ലേയിൽ ബ്ലൂടൂത്ത് ഓണാക്കുക. TalkBack ക്രമീകരണം &gt; ബ്രെയ്‌ലി ഡിസ്പ്ലേ എന്ന ക്രമത്തിൽ പോയി \"ബ്രെയ്‌ലി ഡിസ്പ്ലേ\" ഓണാക്കുക. ഉപകരണങ്ങളുടെ ലിസ്റ്റിൽ നിങ്ങളുടെ ഉപകരണം കണ്ടെത്തുക, തുടർന്ന് അതിലേക്ക് കണക്റ്റ് ചെയ്യുക.</string>
-  <string name="update_welcome_text_content_tts">ബ്ലൂടൂത്ത് ഉപകരണങ്ങൾ കണക്റ്റ് ചെയ്യാനുള്ള മാർഗ്ഗമായ HID വഴി നിങ്ങൾക്ക് ഇപ്പോൾ ബ്രെയ്‌ലി ഡിസ്പ്ലേകളിലേക്ക് കണക്റ്റ് ചെയ്യാം. നിങ്ങളുടെ നിർമ്മാതാവിൽ നിന്ന് ഏറ്റവും പുതിയ ഫേംവെയർ നേടിയെന്ന് ഉറപ്പാക്കിയ ശേഷം നിങ്ങളുടെ ബ്രെയ്‌ലി ഡിസ്പ്ലേയിൽ ബ്ലൂടൂത്ത് ഓണാക്കുക. TalkBack ക്രമീകരണത്തിൽ ബ്രെയ്‌ലി ഡിസ്പ്ലേ സന്ദർശിക്കുക, തുടർന്ന് \"ബ്രെയ്‌ലി ഡിസ്പ്ലേ ഉപയോഗിക്കുക\" ഓണാക്കുക. ഉപകരണങ്ങളുടെ ലിസ്റ്റിൽ നിങ്ങളുടെ ഉപകരണം കണ്ടെത്തുക, തുടർന്ന് അതിലേക്ക് കണക്റ്റ് ചെയ്യുക.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack-ന്റെ സഹായത്തോടെ, നിങ്ങളുടെ ബ്രെയ്‌ലി ഡിസ്പ്ലേ ഉപയോഗിക്കുന്നത് എങ്ങനെയെന്ന് അറിയുക.</string>
   <string name="update_welcome_talkback_16.1">ഈ TalkBack അപ്‌ഡേറ്റ്, കൂടുതൽ ഭാഷകളിൽ \'സ്‌ക്രീൻ വിവരിക്കുക\' എന്നതിനുള്ള പിന്തുണയും TalkBack ഉപയോഗിക്കാൻ എളുപ്പമാക്കുന്ന മറ്റ് നിലവാര മെച്ചപ്പെടുത്തലുകളും അവതരിപ്പിക്കുന്നു.\n\nഅടുത്ത ഏതാനും സ്‌ക്രീനുകളിൽ നിങ്ങൾക്ക് ഈ മാറ്റങ്ങളെ കുറിച്ച് കൂടുതൽ അറിയാനാകും.\n\nTalkBack ക്രമീകരണം &gt; TalkBack-ലെ പുതിയ ഫീച്ചറുകൾ എന്നതിൽ നിങ്ങൾക്ക് ഈ വിവരങ്ങൾ പിന്നീട് അവലോകനം ചെയ്യാം.</string>
   <string name="update_welcome_talkback_16.1_tts">ഈ TalkBack അപ്‌ഡേറ്റ്, കൂടുതൽ ഭാഷകളിൽ \'സ്‌ക്രീൻ വിവരിക്കുക\' എന്നതിനുള്ള പിന്തുണയും TalkBack ഉപയോഗിക്കാൻ എളുപ്പമാക്കുന്ന മറ്റ് നിലവാര മെച്ചപ്പെടുത്തലുകളും അവതരിപ്പിക്കുന്നു.\n\nഅടുത്ത ഏതാനും സ്‌ക്രീനുകളിൽ നിങ്ങൾക്ക് ഈ മാറ്റങ്ങളെ കുറിച്ച് കൂടുതൽ അറിയാനാകും.\n\nTalkBack ക്രമീകരണം, തുടർന്ന് TalkBack-ലെ പുതിയ ഫീച്ചറുകൾ എന്നതിൽ നിങ്ങൾക്ക് ഈ വിവരങ്ങൾ പിന്നീട് അവലോകനം ചെയ്യാം.</string>
   <string name="describe_screen_and_qna_title">സ്‌‌ക്രീൻ വിവരിക്കുക, Gemini-യോട് ചോദിക്കുക എന്നിവയ്ക്കുള്ള പുതിയ ഭാഷകൾ</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">കാലതാമസം കുറയ്ക്കുക</string>
   <string name="reduce_delay_content">സ്‌പർശനത്തിലൂടെ അടുത്തറിയുന്നതിനും ടൈപ്പിംഗിനുമുള്ള TalkBack അറിയിപ്പുകളിലെ കാലതാമസങ്ങൾ നിങ്ങൾക്കിപ്പോൾ കുറയ്ക്കാം. ഈ ക്രമീകരണം കാണാൻ, TalkBack ക്രമീകരണം &gt; വിപുലമായ ക്രമീകരണം &gt; കാലതാമസം കുറയ്ക്കുക എന്നിങ്ങനെ പോകുക.</string>
   <string name="reduce_delay_content_tts">സ്‌പർശനത്തിലൂടെ അടുത്തറിയുന്നതിനും ടൈപ്പിംഗിനുമുള്ള TalkBack അറിയിപ്പുകളിലെ കാലതാമസങ്ങൾ നിങ്ങൾക്കിപ്പോൾ കുറയ്ക്കാം. ഈ ക്രമീകരണം കാണാൻ, TalkBack ക്രമീകരണം, വിപുലമായ ക്രമീകരണം, കാലതാമസം കുറയ്ക്കുക എന്നിങ്ങനെ പോകുക.</string>
-  <string name="customize_braille_keyboard_improvements_title">ബ്രെയ്‌ലി കീബോർഡ് ജെസ്ച്ചറുകൾ ഇഷ്ടാനുസൃതമാക്കുക</string>
-  <string name="customize_braille_keyboard_improvements_content">സ്ക്രീനിലുള്ള വെർച്വൽ ബ്രെയ്‌ലി കീബോർഡിനായി ഇപ്പോൾ ജെസ്ച്ചറുകൾ ഇഷ്ടാനുസൃതമാക്കാവുന്നതാണ്. ഇഷ്ടാനുസൃതമാക്കാൻ, TalkBack ക്രമീകരണം &gt; ബ്രെയ്‌ലി കീബോർഡ് &gt; ജെസ്ച്ചറുകൾ എന്നിങ്ങനെ പോകുക.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">സ്ക്രീനിലുള്ള വെർച്വൽ ബ്രെയ്‌ലി കീബോർഡിനായി ഇപ്പോൾ ജെസ്ച്ചറുകൾ ഇഷ്ടാനുസൃതമാക്കാവുന്നതാണ്. ഇഷ്ടാനുസൃതമാക്കാൻ, TalkBack ക്രമീകരണം, ബ്രെയ്‌ലി കീബോർഡ്, ജെസ്ച്ചറുകൾ എന്നിങ്ങനെ പോകുക.</string>
-  <string name="learn_more_about_braille_keyboard">ബ്രെയ്‌ലി കീബോർഡിനെ കുറിച്ച് കൂടുതലറിയുക</string>
   <string name="other_changes_title">മറ്റ് മാറ്റങ്ങൾ</string>
   <string name="other_changes_content">ഇപ്പോൾ TalkBack അബദ്ധത്തിൽ ഓണായാൽ അത് വേഗത്തിൽ ഓഫാക്കാൻ, സ്ക്രീനിൽ കാണിക്കുന്ന സന്ദേശം സഹായിക്കുന്നു. TalkBack ക്രമീകരണം &gt; TalkBack ഓഫാക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ കാണിക്കുക എന്നിങ്ങനെ പോയി നിങ്ങൾക്കിത് ഓഫാക്കാം.</string>
   <string name="other_changes_content_tts">ഇപ്പോൾ TalkBack അബദ്ധത്തിൽ ഓണായാൽ അത് വേഗത്തിൽ ഓഫാക്കാൻ, സ്ക്രീനിൽ കാണിക്കുന്ന സന്ദേശം സഹായിക്കുന്നു. TalkBack ക്രമീകരണം, TalkBack ഓഫാക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ കാണിക്കുക എന്നിങ്ങനെ പോയി നിങ്ങൾക്കിത് ഓഫാക്കാം.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack-ൽ ഇപ്പോൾ ഫിസിക്കൽ കീബോർഡുകൾക്കായി, വൈവിധ്യമാർന്ന പുതിയ കമാൻഡുകളും കുറുക്കുവഴികളും ഫീച്ചർ ചെയ്യുന്ന \"മെച്ചപ്പെടുത്തിയ കീമാപ്പ്\" ലഭ്യമാണ്. കൂടുതൽ ഫലപ്രദമായ വെബ് നാവിഗേഷനായുള്ള \"ബ്രൗസ് മോഡ്\" ഉൾപ്പെടുന്ന ഈ മെച്ചപ്പെടുത്തൽ, ഫിസിക്കൽ കീബോർഡിനെ ആശ്രയിക്കുന്ന TalkBack ഉപയോക്താക്കൾക്കായി നാവിഗേഷനും ഇടപഴകലും ലളിതമാക്കുന്നു. %1$s എന്നതിൽ നിങ്ങൾക്ക് \"മെച്ചപ്പെടുത്തിയ കീമാപ്പിലേക്ക്\" മാറാം.\n\nനിങ്ങൾ ഒരു ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ഉപയോഗിക്കുകയാണെങ്കിൽ, നിങ്ങളുടെ ബ്രെയ്‌ലി ഡിസ്‌പ്ലേയിൽ നിന്ന് നേരിട്ട് ഉള്ളടക്കത്തിലൂടെ സഞ്ചരിക്കാൻ പുതിയ ബ്രൗസ് മോഡ് കുറുക്കുവഴികളും ഉപയോഗിക്കാം. ഈ മാറ്റം ഉൾക്കൊള്ളിക്കുന്നതിന് ചില ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ കുറുക്കുവഴികൾ മാറ്റി. %2$s എന്നതിൽ നിങ്ങൾക്ക് എല്ലാ ബ്രെയിലി ഡിസ്പ്ലേ കുറുക്കുവഴികളുടെയും ഒരു ലിസ്റ്റ് കാണാം.</string>
   <string name="keyboard_shortcuts_link">TalkBack ക്രമീകരണം &gt; കീബോർഡ് കുറുക്കുവഴികൾ</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ക്രമീകരണം, തുടർന്ന് കീബോർഡ് കുറുക്കുവഴികൾ</string>
-  <string name="braille_display_settings_link">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം</string>
   <string name="keyboard_smart_browse_mode_title">കീബോർഡ്: സ്‌മാർട്ട് ബ്രൗസ് മോഡ്</string>
   <string name="keyboard_smart_browse_mode_text">നിങ്ങൾ വെബ് ബ്രൗസ് ചെയ്യുമ്പോൾ ഫിസിക്കൽ കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യാൻ നിങ്ങളെ സഹായിക്കുന്നതിന് TalkBack സ്‌മാർട്ട് ബ്രൗസ് മോഡ്, എഡിറ്റ് ഫീൽഡിലെ ബ്രൗസ് മോഡ് ഓഫാക്കുന്നു. തുടർന്ന് നിങ്ങൾ വെബിലെ എഡിറ്റ് ചെയ്യാത്ത ഫീൽഡിലേക്ക് പോകുമ്പോൾ അത് വീണ്ടും ഓണാക്കുന്നു, അതുവഴി നിങ്ങൾക്ക് കാര്യക്ഷമമായി ബ്രൗസ് ചെയ്യുന്നത് തുടരാനാകും. %1$s എന്നതിൽ നിങ്ങൾക്ക് \"സ്‌മാർട്ട് ബ്രൗസ് മോഡ്\" ഓണാക്കാനോ ഓഫാക്കാനോ കഴിയും.</string>
   <string name="advanced_settings_link">TalkBack ക്രമീകരണം &gt; വിപുലമായ ക്രമീകരണം</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ടെക്സ്റ്റ് ടൈപ്പ് ചെയ്യൽ</string>
   <string name="basic_typing_text_text">നിങ്ങൾ ഒരു ടെക്സ്റ്റ് ബോക്‌സ് ഉപയോഗിക്കുമ്പോൾ, നിങ്ങളുടെ സ്ക്രീനിന്റെ അടിയിൽ ഒരു കീബോർഡ് തുറക്കും.</string>
   <string name="typing_text_text">കീബോർഡിലുടനീളം നിങ്ങളുടെ വിരൽ നീക്കുക. നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യേണ്ട അക്ഷരം കേൾക്കുമ്പോൾ കീബോർഡിൽ നിന്ന് വിരലെടുക്കുക.\n\nചുവടെയുള്ള ടെക്സ്റ്റ് ബോക്സ് സജീവമാക്കി നിങ്ങളുടെ പേര് ടൈപ്പ് ചെയ്ത് നോക്കുക.</string>
-  <string name="typing_text_with_braille_keyboard_text">ബ്രെയ്‌ലി കീബോർഡ് ഉപയോഗിച്ചും നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യാം. ഇത് TalkBack ക്രമീകരണത്തിൽ കണ്ടെത്തുക.</string>
   <string name="other_ways_to_type_title">ടൈപ്പ് ചെയ്യാനുള്ള മറ്റ് മാർഗ്ഗങ്ങൾ</string>
   <string name="other_ways_to_type_text">TalkBack-ൽ ടൈപ്പ് ചെയ്യാൻ മറ്റ് മാർഗ്ഗങ്ങളുണ്ട്. ഉദാഹരണത്തിന്, ഒരു അക്ഷരം നൽകാൻ നിങ്ങൾക്ക് \'ഡബിൾ ടാപ്പ് ചെയ്യുക\' ഉപയോഗിക്കാം.</string>
   <string name="basic_other_ways_to_type_text">TalkBack-ൽ ടൈപ്പ് ചെയ്യാൻ മറ്റ് മാർഗ്ഗങ്ങളുണ്ട്. ഉദാഹരണത്തിന്, ഒരു അക്ഷരം നൽകാൻ നിങ്ങൾക്ക് \'ഡബിൾ ടാപ്പ് ചെയ്യുക\' ഉപയോഗിക്കാം. TalkBack ക്രമീകരണം &gt; ഓൺ-സ്ക്രീൻ കീബോർഡ് &gt; ടൈപ്പിംഗ് മുൻഗണന എന്നിങ്ങനെ പോയി നിങ്ങൾക്ക് ഇത് പിന്നീട് മാറ്റാം.</string>

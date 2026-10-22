@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ස්පර්ශය මගින් ගවේෂණය කරන්න</string>
   <string name="title_pref_category_visual">දෘශ්‍ය</string>
   <string name="title_pref_category_controls">පාලන</string>
-  <string name="title_pref_category_braille">බ්‍රේල්</string>
   <string name="title_pref_category_general">පොදු</string>
   <string name="title_pref_category_advanced">උසස්</string>
   <string name="title_pref_category_others">වෙනත්</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ප්‍රමාදය අඩු කරන්න</string>
   <string name="talkback_latency_reduction_summary">TalkBack නිවේදනවලට පෙර ප්‍රමාදය අඩු කිරීමට සැකසීම්</string>
   <string name="summary_pref_intonation">මකන ලද අකුරු ඉහළ තාරතාවක කටහඬකින් කියන්න</string>
-  <string name="title_pref_brailledisplay">බ්‍රේල් සංදර්ශකය</string>
-  <string name="title_pref_brailleime">බ්රේල් යතුරු පුවරුව</string>
-  <string name="summary_pref_brailleime_disabled">ඔබේ උපාංගය බ්රේල් යතුරු පුවරුවට සහාය නොදක්වයි</string>
   <string name="title_pref_speech_footer">ඔබට ඕනෑම තිරයකින් TalkBack හි සමහර ශබ්ද සැකසීම් ඉක්මනින් සීරුමාරු කළ හැක.\n\nප්‍රවේශ්‍යතා හඬ පරිමාව: තිරය මත 1 ඇඟිල්ලක් ඔබාගෙන හඬ පරිමාව වැඩි හෝ හඬ පරිමාව අඩු යතුර ඔබන්න.\nTalkBack කථන වේගය: ඇඟිලි 3කින් ඉහළට හෝ පහළට ස්වයිප් කරන්න. ඔබට \"කථන අනුපාතය\" ඇසෙන විට, ඇඟිලි 1කින් ඉහළට හෝ පහළට ස්වයිප් කරන්න.</string>
   <string name="title_pref_vibration">කම්පන ප්‍රතිපෝෂණ</string>
   <string name="title_pref_soundback">හඬ ප්‍රතිපෝෂණ</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ශබ්දය වැඩි කරන්න</string>
   <string name="shortcut_decrease_volume">ශබ්දය අඩු කරන්න</string>
   <string name="shortcut_all_apps">සියලු යෙදුම්</string>
-  <string name="shortcut_braille_keyboard">බ්‍රේල් යතුරු පුවරුවට ය.</string>
-  <string name="shortcut_braille_display_settings">බ්රේල් සංදර්ශක සැකසීම් වෙත සංචාලනය කරන්න</string>
   <string name="shortcut_tutorial">නිබන්ධනය විවෘත කරන්න</string>
   <string name="shortcut_control_speak_time">වේලාව කථා කරන්න නැත්නම් වේලාව කථා නොකරන්න</string>
   <string name="shortcut_enable_speak_time">වේලාව කථා කරන්න</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">වේලාව කථා කරන්න ක්‍රියාවිරහිතයි</string>
   <string name="shortcut_practice_gestures">ඉංගිත පුහුණු වන්න</string>
   <string name="shortcut_report_gesture">ඉංගිත ගැටලුව වාර්තා කරන්න</string>
-  <string name="shortcut_toggle_braille_display">බ්‍රේල් සංදර්ශකය ක්‍රියාත්මක හෝ ක්‍රියාවිරහිත කරන්න</string>
   <string name="shortcut_announce_current_time_and_date">වත්මන් දිනය සහ වේලාව කථා කරන්න</string>
   <string name="shortcut_announce_battery_state">බැටරි ප්‍රතිශතය කථා කරන්න</string>
   <string name="shortcut_announce_current_title">කවුළු මාතෘකාව කථනය කරන්න</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">කථන ශීඝ්‍රතාව අඩු කරන්න</string>
   <string name="shortcut_toggle_selection">තේරීම් ප්‍රකාරය අරඹන්න හෝ අවසන් කරන්න</string>
   <string name="shortcut_show_tutorial">නිබන්ධනය විවෘත කරන්න</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ගිවිසුම්ගත (2 ශ්‍රේණිය) සහ ගිවිසුම්ගත නොකළ (1 ශ්‍රේණිය) අතර මාරු වන්න</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">සම්බන්ධිත බ්‍රේල් සංදර්ශක සඳහා තිරය මත බ්‍රේල් පෙන්වන්න හෝ සඟවන්න</string>
   <string name="shortcut_toggle_sound_feedback">ශබ්ද ප්‍රතිපෝෂණ (ඉයර්කොන්ස්) ක්‍රියාත්මක හෝ ක්‍රියා විරහිත කරන්න.</string>
   <string name="shortcut_show_learn_mode_page">යතුරුපුවරු කෙටිමං පුහුණු වන්න</string>
   <string name="shortcut_announce_phonetic_pronunciation">අවධානය යොමු කළ අයිතමය සඳහා ශබ්ද උච්චාරණය සමග අකුරු කථා කරන්න</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">හඬ විධාන</string>
   <string name="title_show_keyboard_shortcuts">යතුරු පුවරු කෙටිමං</string>
   <string name="talkback_show_talkback_settings">TalkBack සැකසීම්</string>
-  <string name="title_show_braille_display_settings">බ්‍රේල් සංදර්ශක සැකසීම්</string>
   <string name="title_granularity_default">පෙරනිමි සංචාලනය</string>
   <string name="title_action_dismiss">ඉවත ලන්න</string>
   <string name="title_action_expand">දිග හරින්න</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ඔබ තිරය ක්‍රියාත්මක කරන විට වේලාව ශබ්ද නඟා කථා කරන්නේ ද යන්න වෙනස් කරන්න</string>
   <string name="summary_show_keyboard_shortcuts_preferences">යතුරුපුවරු කෙටිමං ලැයිස්තුව විවෘත කරන්න</string>
   <string name="summary_talkback_preferences">TalkBack සැකසීම් විවෘත කරන්න</string>
-  <string name="summary_braile_display_preferences">බ්‍රේල් සංදර්ශක සැකසීම් විවෘත කරන්න</string>
   <string name="summary_system_actions">සියලු යෙදුම් සහ ඉක්මන් සැකසීම් වෙත යන්න</string>
   <string name="summary_tts_settings">පෙළ-සිට-කථනයට සැකසීම් විවෘත කරන්න</string>
   <string name="not_editable">සංස්කරණය කළ නොහැකිය</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">මූලික පදය වන්නේ %1$s</string>
   <string name="screen_search_no_keyword_hint">තවමත් මූලික පදයක් නැත. නව සෙවීමක් ආරම්භ කිරීමට, ඇඟිලි 3කින් තට්ටු කර සිටින්න හෝ TalkBack මෙනුවෙන් තිර සෙවීම විවෘත කරන්න.</string>
   <string name="screen_search_no_keyword_hint_pre_r">තවමත් මූලික පදයක් නැත. නව සෙවීමක් ආරම්භ කිරීමට, වමට ස්වයිප් කර පසුව පහළට ස්වයිප් කරන්න හෝ TalkBack මෙනුවෙන් තිර සෙවීම විවෘත කරන්න.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">බ්රේල් යතුරුපුවරුව සක්‍රිය කර නැත. TalkBack සැකසීම් වෙත ගොස්, බ්රේල් යතුරුපුවරුව සකසා යළි උත්සාහ කර.</string>
   <string name="suggestions_window_available">යෝජනා ලබා ගත හැකිය</string>
   <string name="suggestions_window_available_with_gesture">යෝජනා ලබා ගත හැකිය. ප්‍රවේශ වීමට, %1$s</string>
   <string name="heads_up_window_available">දැනුම්දීම ලබා ගත හැක</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">නව ඉංගිත සමඟ TalkBack වඩා වේගයෙන් භාවිතා කරන්නේ කෙසේදැයි දැන ගැනීමට තට්ටු කරන්න.</string>
   <string name="dump_node_tree_description">නෝඩ රුක ලොග සඳහා මුද්‍රණය කර ඇත.</string>
   <string name="report_gesture_description">මේ මෑතකදී සිදු කරන ලද ඉංගිත වේ, කරුණාකර කුමන ඉංගිතය වැරදිද යන්න සහ අපේක්ෂා කරන්නේ කුමක්ද යන්න වාර්තා කරන්න.</string>
-  <string name="update_welcome_text_content">දැන් ඔබට HID හරහා බ්‍රේල් සංදර්ශක වෙත සම්බන්ධ විය හැකි අතර, එය බ්ලූටූත් උපාංග වෙත සම්බන්ධ වීමට ක්‍රමයකි. ඔබේ නිෂ්පාදකයාගෙන් නවතම නිත්‍ය මෘදුකාංග ධාවක ඇති බවට වග බලා ගන්න, ඉන්පසු ඔබේ බ්‍රේල් සංදර්ශකයේ බ්ලූටූත් ක්‍රියාත්මක කරන්න. TalkBack සැකසීම් &gt; බ්‍රේල් සංදර්ශකය වෙත ගොස් \"බ්‍රේල් සංදර්ශකය භාවිතා කරන්න\" ක්‍රියාත්මක කරන්න. උපාංග ලැයිස්තුවේ ඔබේ උපාංගය සොයා ගෙන, එයට සම්බන්ධ කරන්න.</string>
-  <string name="update_welcome_text_content_tts">දැන් ඔබට HID හරහා බ්‍රේල් සංදර්ශක වෙත සම්බන්ධ විය හැකි අතර, එය බ්ලූටූත් උපාංග වෙත සම්බන්ධ වීමට ක්‍රමයකි. ඔබේ නිෂ්පාදකයාගෙන් නවතම නිත්‍ය මෘදුකාංග ධාවක ඇති බවට වග බලා ගන්න, ඉන්පසු ඔබේ බ්‍රේල් සංදර්ශකයේ බ්ලූටූත් ක්‍රියාත්මක කරන්න. TalkBack සැකසීම් වෙත ගොස් පසුව බ්‍රේල් සංදර්ශකය වෙත ගොස් \"බ්‍රේල් සංදර්ශකය භාවිතා කරන්න\" ක්‍රියාත්මක කරන්න. උපාංග ලැයිස්තුවේ ඔබේ උපාංගය සොයා ගෙන, එයට සම්බන්ධ කරන්න.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack සමඟින් ඔබේ බ්‍රේල් සංදර්ශකය භාවිතා කරන ආකාරය ඉගෙන ගන්න.</string>
   <string name="update_welcome_talkback_16.1">මෙම TalkBack යාවත්කාලීනය මඟින් තවත් භාෂාවලින් තිරය විස්තර කිරීම සඳහා සහය සහ TalkBack භාවිතය පහසු කරන අනෙකුත් ගුණාත්මක වැඩි දියුණු කිරීම් හඳුන්වා දෙයි.\n\nඔබට මෙම වෙනස්කම් පිළිබඳව ඉදිරි තිර කිහිපය තුළ වැඩිදුර දැන ගත හැක.\n\nඔබට මෙම තොරතුරු පසුව TalkBack සැකසීම් &gt; TalkBack හි නව විශේෂාංග තුළ සමාලෝචනය කළ හැක.</string>
   <string name="update_welcome_talkback_16.1_tts">මෙම TalkBack යාවත්කාලීනය මඟින් තවත් භාෂාවලින් තිරය විස්තර කිරීම සඳහා සහය සහ TalkBack භාවිතය පහසු කරන අනෙකුත් ගුණාත්මක වැඩි දියුණු කිරීම් හඳුන්වා දෙයි.\n\nඔබට මෙම වෙනස්කම් පිළිබඳව ඉදිරි තිර කිහිපය තුළ වැඩිදුර දැන ගත හැක.\n\nඔබට මෙම තොරතුරු පසුව TalkBack සැකසීම් තුළ සමාලෝචනය කළ හැකි අතර පසුව TalkBack හි නව විශේෂාංග තුළ සමාලෝචනය කළ හැක.</string>
   <string name="describe_screen_and_qna_title">විස්තර කිරීමේ තිරය සහ Gemini අහන්න සඳහා නව භාෂා</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">ප්‍රමාදය අඩු කරන්න</string>
   <string name="reduce_delay_content">දැන් ඔබට ස්පර්ශ ගවේෂණය සහ ටයිප් කිරීම සඳහා TalkBack නිවේදන ප්‍රමාදයන් අඩු කළ හැක. මෙම සැකසීම් බැලීමට, TalkBack සැකසීම් &gt; උසස් සැකසීම් &gt; ප්‍රමාදය අඩු කරන්න වෙත යන්න.</string>
   <string name="reduce_delay_content_tts">දැන් ඔබට ස්පර්ශ ගවේෂණය සහ ටයිප් කිරීම සඳහා TalkBack නිවේදන ප්‍රමාදයන් අඩු කළ හැක. මෙම සැකසීම් බැලීමට, TalkBack සැකසීම් වෙත ගොස් පසුව උසස් සැකසීම් වෙත ගොස් පසුව ප්‍රමාදය අඩු කරන්න.</string>
-  <string name="customize_braille_keyboard_improvements_title">බ්‍රේල් යතුරු පුවරු ඉංගිත අභිරුචි කරන්න</string>
-  <string name="customize_braille_keyboard_improvements_content">දැන් අතථ්‍ය තිරයේ බ්‍රේල් යතුරු පුවරුව සඳහා ඉංගිත අභිරුචි කළ හැක. අභිරුචි කිරීමට, TalkBack සැකසීම් &gt; බ්‍රේල් යතුරු පුවරුව &gt; ඉංගිත වෙත යන්න.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">දැන් අතථ්‍ය තිරයේ බ්‍රේල් යතුරු පුවරුව සඳහා ඉංගිත අභිරුචි කළ හැක. අභිරුචි කිරීමට, TalkBack සැකසීම් වෙත ගොස් පසුව බ්‍රේල් යතුරු පුවරුව වෙත ගොස් පසුව ඉංගිත වෙත යන්න.</string>
-  <string name="learn_more_about_braille_keyboard">බ්‍රේල් යතුරු පුවරුව ගැන තව දැන ගන්න</string>
   <string name="other_changes_title">වෙනත් වෙනස්කම්</string>
   <string name="other_changes_content">TalkBack අහම්බෙන් ක්‍රියාත්මක වුවහොත් එය ඉක්මනින් ක්‍රියාවිරහිත කිරීමට දැන් තිරයේ පණිවිඩයක් ඔබට උපකාරී වේ. ඔබට මෙය TalkBack සැකසීම් &gt; TalkBack ක්‍රියාවිරහිත කිරීම සඳහා උපදෙස් පෙන්වන්න තුළ ක්‍රියාවිරහිත කළ හැක.</string>
   <string name="other_changes_content_tts">TalkBack අහම්බෙන් ක්‍රියාත්මක වුවහොත් එය ඉක්මනින් ක්‍රියාවිරහිත කිරීමට දැන් තිරයේ පණිවිඩයක් ඔබට උපකාරී වේ. ඔබට මෙය TalkBack සැකසීම් තුළ ක්‍රියාවිරහිත කළ හැකි අතර පසුව TalkBack ක්‍රියාවිරහිත කිරීම සඳහා උපදෙස් පෙන්වන්න.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack හි දැන් භෞතික යතුරුපුවරු සඳහා \"වැඩිදියුණු කළ යතුරු සිතියමක්\" ඇත, විවිධ නව විධාන සහ කෙටිමං ඇතුළත් වේ. වඩාත් කාර්යක්ෂම වෙබ් සංචාලනය සඳහා \"බ්‍රව්සරය මාදිලිය\" ඇතුළත් මෙම වැඩිදියුණු කිරීම, භෞතික යතුරුපුවරු මත විශ්වාසය තබන TalkBack පරිශීලකයින් සඳහා සංචාලනය සහ අන්තර්ක්‍රියාකාරිත්වය විධිමත් කරයි. ඔබට %1$s තුළ \"වැඩි දියුණු කළ යතුරු සිතියම\" වෙත මාරු විය හැක.\n\nඔබ බ්‍රේල් සංදර්ශකයක් භාවිතා කරන්නේ නම්, ඔබට ඔබේ බ්‍රේල් සංදර්ශකයෙන් සෘජුවම අන්තර්ගතය හරහා ගමන් කිරීමට නව බ්‍රවුස් මාදිලි කෙටිමං භාවිතා කළ හැක. මෙම වෙනසට ඉඩ දීම සඳහා සමහර බ්‍රේල් සංදර්ශක කෙටිමං වෙනස් කරන ලදි. ඔබට %2$s තුළ සියලු බ්‍රේල් සංදර්ශක කෙටිමං ලැයිස්තුවක් දැකිය හැක.</string>
   <string name="keyboard_shortcuts_link">TalkBack සැකසීම් &gt; යතුරුපුවරු කෙටිමං</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack සැකසීම් පසුව යතුරුපුවරු කෙටිමං</string>
-  <string name="braille_display_settings_link">බ්‍රේල් සංදර්ශක සැකසීම්</string>
   <string name="keyboard_smart_browse_mode_title">යතුරු පුවරුව: ස්මාර්ට් බ්‍රවුස් කිරීමේ ප්‍රකාරය</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack ස්මාර්ට් බ්‍රවුස් මාදිලිය ඔබ වෙබය බ්‍රවුස් කරන විට භෞතික යතුරු පුවරුවක් සමග ටයිප් කිරීමට ඔබට උදවු කිරීමට සංස්කරණ ක්ෂේත්‍රයක බ්‍රවුස් මාදිලිය ක්‍රියා විරහිත කරයි. එවිට ඔබ වෙබයේ සංස්කරණය නොවන ක්ෂේත්‍රයකට පැනීමෙන් පසු එය නැවත ක්‍රියාත්මක වන අතර එමඟින් ඔබට කාර්යක්ෂමව බ්‍රවුස් කිරීම දිගටම කරගෙන යාමට හැකි වේ. ඔබට %1$s තුළ \"ස්මාර්ට් බ්‍රවුස් මාදිලිය\" ක්‍රියාත්මක හෝ ක්‍රියා විරහිත කළ හැක.</string>
   <string name="advanced_settings_link">TalkBack සැකසීම් &gt; උසස් සැකසීම්</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">පෙළ ටයිප් කිරීම</string>
   <string name="basic_typing_text_text">ඔබ පෙළ කොටුවක සිටින විට, ඔබේ තිරයේ පහළින් යතුරු පුවරුවක් විවෘත වේ.</string>
   <string name="typing_text_text">යතුරු පුවරුව හරහා ඔබගේ ඇඟිල්ල ගෙන යන්න ඔබට ටයිප් කිරීමට අවශ්‍ය අකුර ඇසෙන විට ඔබගේ ඇඟිල්ල ඔසවන්න.\n\nපහත පෙළ කොටුව සක්‍රිය කිරීමට උත්සාහ කර ඔබගේ නම ටයිප් කරන්න.</string>
-  <string name="typing_text_with_braille_keyboard_text">ඔබට බ්‍රේල් යතුරු පුවරුව සමඟද ටයිප් කළ හැකිය. TalkBack සැකසීම් තුළ එය සොයා ගන්න</string>
   <string name="other_ways_to_type_title">ටයිප් කිරීමට වෙනත් ක්‍රම</string>
   <string name="other_ways_to_type_text">TalkBack ටයිප් කිරීමට වෙනත් ක්‍රම තිබේ. උදාහරණයක් ලෙස, ඔබට අකුරක් ඇතුළත් කිරීමට දෙවරක් තට්ටු කළ හැක.</string>
   <string name="basic_other_ways_to_type_text">TalkBack ටයිප් කිරීමට වෙනත් ක්‍රම තිබේ. උදාහරණයක් ලෙස, ඔබට අකුරක් ඇතුළත් කිරීමට දෙවරක් තට්ටු කළ හැක. ඔබට මෙය පසුව TalkBack සැකසීම් &gt; තිරය මත යතුරුපුවරුව &gt; ටයිප් කිරීමේ මනාපය තුළ වෙනස් කළ හැක.</string>

@@ -142,9 +142,4 @@
   <string name="symbol_full_width_less_than_sign">Full-width less than sign</string>
   <string name="symbol_full_width_greater_than_sign">Full-width greater than sign</string>
   <string name="symbol_left_single_quotation_mark">Left single quotation mark</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">dot %s</item>
-    <item quantity="other">dots %s</item>
-  </plurals>
 </resources>

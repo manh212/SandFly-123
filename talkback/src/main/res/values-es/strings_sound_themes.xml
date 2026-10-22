@@ -66,10 +66,6 @@
     <string name="theme_sound_summary_none">Sin sonido. Se reproduce el sonido de enfoque.</string>
     <string name="theme_sound_summary_android_keyboard">Sonido del teclado de Android</string>
     <string name="theme_sound_use_android_keyboard">Usar el sonido del teclado de Android</string>
-    <string name="theme_sound_braille_character">Teclado braille: escribir un carácter</string>
-    <string name="theme_sound_braille_space">Teclado braille: espacio</string>
-    <string name="theme_sound_braille_delete">Teclado braille: eliminar</string>
-    <string name="theme_sound_braille_new_line">Teclado braille: nueva línea</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Elegir un archivo de sonido</string>
     <string name="theme_sound_preview">Vista previa</string>

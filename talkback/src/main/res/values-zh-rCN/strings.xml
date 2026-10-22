@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">触摸浏览</string>
   <string name="title_pref_category_visual">视觉</string>
   <string name="title_pref_category_controls">控制</string>
-  <string name="title_pref_category_braille">盲文</string>
   <string name="title_pref_category_general">常规</string>
   <string name="title_pref_category_advanced">高级</string>
   <string name="title_pref_category_others">其他</string>
@@ -339,9 +338,6 @@
   <string name="title_pref_latency_reduction">缩短延迟时间</string>
   <string name="talkback_latency_reduction_summary">这项设置可缩短 TalkBack 播报前的延迟时间</string>
   <string name="summary_pref_intonation">以较高的音调读出删除的字母</string>
-  <string name="title_pref_brailledisplay">盲文显示屏</string>
-  <string name="title_pref_brailleime">盲文键盘</string>
-  <string name="summary_pref_brailleime_disabled">您的设备不支持盲文键盘</string>
   <string name="title_pref_speech_footer">您可以通过任何界面快速调节 TalkBack 的某些声音设置。\n\n无障碍功能音量：用 1 根手指按住屏幕，并按音量调高按钮或音量调低按钮。\nTalkBack 语速：用 3 根手指向上或向下滑动。当您听到“语速”时，请用 1 根手指向上或向下滑动。</string>
   <string name="title_pref_vibration">振动反馈</string>
   <string name="title_pref_soundback">声音反馈</string>
@@ -484,8 +480,6 @@
   <string name="shortcut_increase_volume">调高音量</string>
   <string name="shortcut_decrease_volume">调低音量</string>
   <string name="shortcut_all_apps">所有应用</string>
-  <string name="shortcut_braille_keyboard">切换到盲文键盘</string>
-  <string name="shortcut_braille_display_settings">转到盲文显示屏设置</string>
   <string name="shortcut_tutorial">打开教程</string>
   <string name="shortcut_control_speak_time">播报时间或不播报时间</string>
   <string name="shortcut_enable_speak_time">播报时间</string>
@@ -494,7 +488,6 @@
   <string name="speak_time_off">播报时间功能已关闭</string>
   <string name="shortcut_practice_gestures">练习手势</string>
   <string name="shortcut_report_gesture">报告手势问题</string>
-  <string name="shortcut_toggle_braille_display">开启或关闭盲文显示屏</string>
   <string name="shortcut_announce_current_time_and_date">读出当前的日期和时间</string>
   <string name="shortcut_announce_battery_state">朗读电池电量百分比</string>
   <string name="shortcut_announce_current_title">朗读窗口标题</string>
@@ -504,8 +497,6 @@
   <string name="shortcut_speech_rate_decrease">放慢语速</string>
   <string name="shortcut_toggle_selection">启动或结束选择模式</string>
   <string name="shortcut_show_tutorial">打开教程</string>
-  <string name="shortcut_toggle_braille_contracted_mode">在简写（2 级）和非简写（1 级）之间切换</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">在连接盲文显示屏后，显示或隐藏屏幕上的盲文</string>
   <string name="shortcut_toggle_sound_feedback">开启或关闭声音反馈（耳标）</string>
   <string name="shortcut_show_learn_mode_page">练习使用键盘快捷键</string>
   <string name="shortcut_announce_phonetic_pronunciation">朗读焦点所在项的字母和拼音</string>
@@ -546,7 +537,6 @@
   <string name="title_show_voice_commands">语音指令</string>
   <string name="title_show_keyboard_shortcuts">键盘快捷键</string>
   <string name="talkback_show_talkback_settings">TalkBack 设置</string>
-  <string name="title_show_braille_display_settings">盲文显示屏设置</string>
   <string name="title_granularity_default">默认导航</string>
   <string name="title_action_dismiss">关闭</string>
   <string name="title_action_expand">展开</string>
@@ -574,7 +564,6 @@
   <string name="summary_control_speak_time">更改是否在您开启屏幕时播报时间</string>
   <string name="summary_show_keyboard_shortcuts_preferences">打开键盘快捷键列表</string>
   <string name="summary_talkback_preferences">打开 TalkBack 设置</string>
-  <string name="summary_braile_display_preferences">打开盲文显示屏设置</string>
   <string name="summary_system_actions">依次转到“所有应用”和“快捷设置”部分</string>
   <string name="summary_tts_settings">打开文字转语音设置</string>
   <string name="not_editable">无法修改</string>
@@ -915,7 +904,6 @@
   <string name="screen_search_keyword_hint">关键字为“%1$s”</string>
   <string name="screen_search_no_keyword_hint">尚无关键字。如需开始新的搜索，请用 3 根手指按住，或从 TalkBack 菜单中打开屏幕搜索功能。</string>
   <string name="screen_search_no_keyword_hint_pre_r">尚无关键字。如需开始新的搜索，请先向左再向下滑动，或从 TalkBack 菜单中打开屏幕搜索功能。</string>
-  <string name="switch_to_braille_keyboard_failure_msg">未开启盲文键盘。请转到 TalkBack 设置，设置盲文键盘，然后重试。</string>
   <string name="suggestions_window_available">有可用的建议</string>
   <string name="suggestions_window_available_with_gesture">有可用的建议。若要查看，请%1$s</string>
   <string name="heads_up_window_available">收到了通知</string>
@@ -965,9 +953,6 @@
   <string name="new_gesture_notification_content">点按即可了解如何通过新手势更快速地使用 TalkBack。</string>
   <string name="dump_node_tree_description">系统已将节点树打印到日志中。</string>
   <string name="report_gesture_description">这些是您最近做过的手势，请报告出错的手势以及该手势应执行的操作。</string>
-  <string name="update_welcome_text_content">您现在可以通过 HID 连接到盲文显示屏，HID 是一种连接蓝牙设备的方式。请确保您已安装制造商提供的最新固件驱动程序，然后在盲文显示屏上开启蓝牙。依次前往“TalkBack 设置”&gt;“盲文显示屏”，然后开启“使用盲文显示屏”。在设备列表中找到您的设备，然后连接到该设备。</string>
-  <string name="update_welcome_text_content_tts">您现在可以通过 HID 连接到盲文显示屏，HID 是一种连接蓝牙设备的方式。请确保您已安装制造商提供的最新固件驱动程序，然后在盲文显示屏上开启蓝牙。依次前往“TalkBack 设置”和“盲文显示屏”，然后开启“使用盲文显示屏”。在设备列表中找到您的设备，然后连接到该设备。</string>
-  <string name="update_welcome_text_content_with_link">了解如何将盲文显示屏与 TalkBack 搭配使用。</string>
   <string name="update_welcome_talkback_16.1">此 TalkBack 更新引入了以下改进：将“描述屏幕内容”功能扩展到更多语言；进行了其他质量优化，让 TalkBack 用起来更简单。\n\n接下来的几个界面将为您详细介绍这些更改。\n\n之后，您可以在 TalkBack 中依次前往“TalkBack 设置”&gt;“新功能”，查看这些信息。</string>
   <string name="update_welcome_talkback_16.1_tts">此 TalkBack 更新引入了以下改进：将“描述屏幕内容”功能扩展到更多语言；进行了其他质量优化，让 TalkBack 用起来更简单。\n\n接下来的几个界面将为您详细介绍这些更改。\n\n之后，您可以在 TalkBack 中依次前往“TalkBack 设置”和“新功能”，查看这些信息。</string>
   <string name="describe_screen_and_qna_title">“描述屏幕内容”和“问问 Gemini”功能支持新的语言</string>
@@ -983,10 +968,6 @@
   <string name="reduce_delay_title">缩短延迟时间</string>
   <string name="reduce_delay_content">现在，您可以缩短 TalkBack 在用户触摸浏览和输入内容时的播报延迟了。如需查看这些设置，请前往“TalkBack 设置”&gt;“高级设置”&gt;“缩短延迟时间”。</string>
   <string name="reduce_delay_content_tts">现在，您可以缩短 TalkBack 在用户触摸浏览和输入内容时的播报延迟了。如需查看这些设置，请前往“TalkBack 设置”所含“高级设置”下的“缩短延迟时间”部分。</string>
-  <string name="customize_braille_keyboard_improvements_title">自定义盲文键盘手势</string>
-  <string name="customize_braille_keyboard_improvements_content">现在，您可为屏幕上的虚拟盲文键盘自定义手势了。若要自定义，请依次前往“TalkBack 设置”&gt;“盲文键盘”&gt;“手势”。</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">现在，您可为屏幕上的虚拟盲文键盘自定义手势了。若要自定义，请前往“TalkBack 设置”中“盲文键盘”下的“手势”部分。</string>
-  <string name="learn_more_about_braille_keyboard">详细了解盲文键盘</string>
   <string name="other_changes_title">其他变化</string>
   <string name="other_changes_content">现在，如果 TalkBack 意外开启，屏幕上会弹出一条消息来帮助您快速关闭 TalkBack。您可在“TalkBack 设置”&gt;“显示 TalkBack 关闭说明”下关闭此功能。</string>
   <string name="other_changes_content_tts">现在，如果 TalkBack 意外开启，屏幕上会弹出一条消息来帮助您快速关闭 TalkBack。您可前往“TalkBack 设置”中的“显示 TalkBack 关闭说明”部分内关闭此功能。</string>
@@ -1018,7 +999,6 @@
   <string name="keyboard_enhanced_keymap_title">键盘：增强型按键映射</string>
   <string name="keyboard_shortcuts_link">“TalkBack 设置”&gt;“键盘快捷键”</string>
   <string name="keyboard_shortcuts_link_tts">“TalkBack 设置”和“键盘快捷键”</string>
-  <string name="braille_display_settings_link">盲文显示屏设置</string>
   <string name="keyboard_smart_browse_mode_title">键盘：智能浏览模式</string>
   <string name="keyboard_smart_browse_mode_text">在您浏览网页时，TalkBack 智能浏览模式会在编辑字段中关闭浏览模式，以便您使用实体键盘输入内容。然后，当您跳转到网页上的非编辑字段时，浏览模式会重新开启，以便您继续顺畅浏览网页。您可以依次前往%1$s，开启或关闭“智能浏览模式”。</string>
   <string name="advanced_settings_link">“TalkBack 设置”&gt;“高级设置”</string>
@@ -1091,7 +1071,6 @@
   <string name="typing_text_title">输入文字</string>
   <string name="basic_typing_text_text">当光标位于文本框中时，屏幕底部会打开一个键盘。</string>
   <string name="typing_text_text">在键盘上移动手指。当听到想要输入的字母时，松开手指。\n\n请尝试激活下方的文本框，然后输入您的姓名。</string>
-  <string name="typing_text_with_braille_keyboard_text">您还可以使用盲文键盘输入文字。盲文键盘可在 TalkBack 设置中找到。</string>
   <string name="other_ways_to_type_title">其他输入方式</string>
   <string name="other_ways_to_type_text">您还可以通过其他方式在 TalkBack 中输入内容。例如，您可以通过点按两次输入字母。</string>
   <string name="basic_other_ways_to_type_text">您还可以通过其他方式在 TalkBack 中输入内容。例如，您可以通过点按两次输入字母。您以后可以在 TalkBack 设置 &gt;“屏幕键盘”&gt;“输入偏好设置”中更改此设置。</string>
@@ -1699,7 +1678,6 @@
     <string name="title_pref_category_feedback">反馈</string>
 
     <!-- Settings category for keyboards and braille. [CHAR LIMIT=40] -->
-    <string name="title_pref_category_typing_and_braille">输入与盲文</string>
 
     <!-- Settings category for scripts, custom labels and other apps that speak through SandFly, which change how other apps work with SandFly. [CHAR LIMIT=40] -->
     <string name="title_pref_category_apps">应用</string>
@@ -1771,10 +1749,8 @@
     <string name="permission_speak_description">允许应用请求用你的 SandFly 声音朗读文本。应用朗读前 SandFly 会先询问你。</string>
 
     <!-- Name of the permission that an app needs to ask to be a braille display for SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
-    <string name="permission_braille_display_label">请求成为 SandFly 的盲文显示器</string>
 
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
-    <string name="permission_braille_display_description">允许应用请求成为 SandFly 的盲文显示器。如果你在 SandFly 中允许，它就能读取屏幕上的全部内容并控制你的设备。SandFly 会先询问你。</string>
 
     <!-- Title of the setting for saying a word from a spelling alphabet, such as "hotel" for h, for letters such as keyboard keys and letters moved over by character. [CHAR LIMIT=40] -->
     <string name="title_pref_phonetic_letters_mode">用音标朗读字母</string>
@@ -2121,16 +2097,12 @@
     <string name="wrap_around_off">循环已关闭</string>
 
     <!-- Title of the reading control for the braille keyboard setting that takes a tablet or unfolded phone held up to be held with the screen facing away from the user. When off, it is taken to face the user and uses the tabletop layout. [CHAR LIMIT=NONE]-->
-    <string name="title_selector_tablet_held_up_faces_away">平板举起时背离用户</string>
 
     <!-- Summary of the tablet held up faces away setting in the reading controls list. [CHAR LIMIT=NONE]-->
-    <string name="summary_support_tablet_held_up_faces_away">适用于平板或展开的折叠屏上的盲文键盘</string>
 
     <!-- Spoken when the tablet held up faces away setting is turned on. [CHAR LIMIT=NONE]-->
-    <string name="tablet_held_up_faces_away_on">平板举起时背离用户：开</string>
 
     <!-- Spoken when the tablet held up faces away setting is turned off. [CHAR LIMIT=NONE]-->
-    <string name="tablet_held_up_faces_away_off">平板举起时背离用户：关</string>
 
     <!-- Title of the setting for whether typing a character on a physical keyboard stops speech. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_interrupt_typing">打字时打断语音</string>

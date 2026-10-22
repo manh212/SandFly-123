@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">ድምፅ የለም። የትኩረት ድምፁ ይጫወታል።</string>
     <string name="theme_sound_summary_android_keyboard">የAndroid የቁልፍ ሰሌዳ ድምፅ</string>
     <string name="theme_sound_use_android_keyboard">የAndroid የቁልፍ ሰሌዳ ድምፅን ተጠቀም</string>
-    <string name="theme_sound_braille_character">የብሬይል ቁልፍ ሰሌዳ፦ ቁምፊ መተየብ</string>
-    <string name="theme_sound_braille_space">የብሬይል ቁልፍ ሰሌዳ፦ ክፍተት</string>
-    <string name="theme_sound_braille_delete">የብሬይል ቁልፍ ሰሌዳ፦ ሰርዝ</string>
-    <string name="theme_sound_braille_new_line">የብሬይል ቁልፍ ሰሌዳ፦ አዲስ መስመር</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">የድምፅ ፋይል ይምረጡ</string>
     <string name="theme_sound_preview">ቅድመ ዕይታ</string>

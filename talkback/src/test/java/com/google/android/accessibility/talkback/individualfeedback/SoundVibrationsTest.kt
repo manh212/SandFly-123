@@ -29,12 +29,9 @@ class SoundVibrationsTest {
   private val patterns: Map<String, Pattern> = loadPatterns()
   private val vibrationNames = IndividualFeedbackSettings.VIBRATIONS.flatMap { it.resourceNames }
 
-  // Switches of vibrations that only themes give, which Backtalk has no pattern for, and of the
-  // braille keyboard's, which the keyboard defines itself.
+  // Switches of vibrations that only themes give, which Backtalk has no pattern for.
   private val patternNames =
-    vibrationNames -
-      (SoundVibrations.THEME_ONLY_SWITCHES.values - SoundVibrations.PATTERNS.values) -
-      SoundVibrations.BRAILLE_KEYBOARD
+    vibrationNames - (SoundVibrations.THEME_ONLY_SWITCHES.values - SoundVibrations.PATTERNS.values)
 
   @Test
   fun everySoundHasAVibrationUnlessItShouldNot() {
@@ -47,13 +44,6 @@ class SoundVibrationsTest {
     )
     assertTrue(SoundVibrations.PATTERNS.keys.none { it in SoundVibrations.WITHOUT_VIBRATION })
     assertTrue(SoundVibrations.PATTERNS.keys.none { it in SoundVibrations.THEME_ONLY_SWITCHES })
-  }
-
-  @Test
-  fun brailleSoundsDoNotVibrate() {
-    for (sound in listOf("display_connected", "double_beep", "calibration_done")) {
-      assertTrue(sound, sound !in SoundVibrations.PATTERNS)
-    }
   }
 
   @Test
@@ -98,7 +88,6 @@ class SoundVibrationsTest {
           "focus_actionable" to focus,
           "radial_menu" to intArrayOf(0, 5),
           "announcement" to intArrayOf(0, 30),
-          "braille_keyboard_character" to intArrayOf(0, 10),
         ),
         IndividualFeedbackSettings.SOUNDS.associate { it.key to it.resourceNames },
       )
@@ -112,7 +101,6 @@ class SoundVibrationsTest {
       assertEquals(5, played.getValue("radial_menu_${note}_pattern")[1])
     }
     assertEquals(30, played.getValue("notification_pattern")[1])
-    assertEquals(10, played.getValue("braille_keyboard_character")[1])
   }
 
   @Test
@@ -124,11 +112,6 @@ class SoundVibrationsTest {
       SoundVibrations.switchOfPlayed("view_focused_or_selected_pattern"),
     )
     assertEquals("notification_pattern", SoundVibrations.switchOfPlayed("notification_pattern"))
-    // Each braille keyboard vibration has a switch of its own name.
-    assertEquals(
-      "braille_keyboard_character",
-      SoundVibrations.switchOfPlayed("braille_keyboard_character"),
-    )
     // Direct touch has a setting of its own.
     assertEquals(null, SoundVibrations.switchOfPlayed("direct_touch_on"))
     SoundVibrations.PATTERNS.values.forEach {
@@ -137,7 +120,7 @@ class SoundVibrationsTest {
   }
 
   @Test
-  fun themesCanReplaceEveryVibrationButNotBrailleDisplaySounds() {
+  fun themesCanReplaceEveryVibrationButNotSoundlessOnes() {
     val names = SoundVibrations.themeNames(IndividualFeedbackSettings.SOUNDS.map { it.key })
     assertTrue("focus" in names)
     assertTrue("control_button" in names)

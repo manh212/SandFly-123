@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Način pregledavanja uključen</string>
   <string name="individual_sound_browse_mode_off">Način pregledavanja isključen</string>
   <string name="individual_sound_radial_menu">Kružni izbornik</string>
-  <string name="individual_sound_display_connected">Brajični redak povezan</string>
-  <string name="individual_sound_display_disconnected">Brajični redak odspojen</string>
-  <string name="individual_sound_double_beep">Brajična naredba nije uspjela</string>
-  <string name="individual_sound_turn_on">Automatsko pomicanje brajice uključeno</string>
-  <string name="individual_sound_turn_off">Automatsko pomicanje brajice isključeno</string>
-  <string name="individual_sound_calibration_done">Brajična tipkovnica kalibrirana</string>
   <string name="individual_vibration_focus">Fokus na stavci</string>
   <string name="individual_vibration_focus_actionable">Fokus na stavci koja se može aktivirati</string>
   <string name="individual_vibration_clicked">Klik</string>

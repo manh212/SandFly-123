@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Znak mniejszości o pełnej szerokości</string>
   <string name="symbol_full_width_greater_than_sign">Znak większości o pełnej szerokości</string>
   <string name="symbol_left_single_quotation_mark">Pojedynczy cudzysłów otwierający</string>
-  <string name="symbol_braille">punkt brajlowski %s</string>
-  <plurals name="dots">
-    <item quantity="one">punkt %s</item>
-    <item quantity="few">punkt %s</item>
-    <item quantity="many">punkt %s</item>
-    <item quantity="other">punkt %s</item>
-  </plurals>
 </resources>

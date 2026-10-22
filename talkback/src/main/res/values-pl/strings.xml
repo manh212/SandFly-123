@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Czytanie dotykiem</string>
   <string name="title_pref_category_visual">Wizualne</string>
   <string name="title_pref_category_controls">Elementy sterujące</string>
-  <string name="title_pref_category_braille">Brajl</string>
   <string name="title_pref_category_general">Ogólne</string>
   <string name="title_pref_category_advanced">Zaawansowane</string>
   <string name="title_pref_category_others">Inne</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Zmniejsz opóźnienie</string>
   <string name="talkback_latency_reduction_summary">Ustawienia pozwalające zmniejszyć opóźnienie przed odtwarzaniem komunikatów SandFly</string>
   <string name="summary_pref_intonation">Wypowiadaj wyższym głosem litery usuwane za pomocą klawiatury</string>
-  <string name="title_pref_brailledisplay">Monitor brajlowski</string>
-  <string name="title_pref_brailleime">Klawiatura brajlowska</string>
-  <string name="summary_pref_brailleime_disabled">Klawiatura brajlowska nieobsługiwana</string>
   <string name="title_pref_speech_footer">Możesz szybko dostosować niektóre ustawienia dźwięku SandFly na dowolnym ekranie.\n\nGłośność dostępności: przytrzymaj 1 palec na ekranie i naciśnij przycisk zwiększania lub zmniejszania głośności.\nSzybkość mowy SandFly: przesuń 3 palcami w górę lub w dół. Gdy usłyszysz „szybkość mowy”, przesuń 1 palcem w górę lub w dół.</string>
   <string name="title_pref_vibration">Sygnał wibracyjny</string>
   <string name="title_pref_soundback">Sygnał dźwiękowy</string>
@@ -486,8 +482,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="shortcut_increase_volume">Zwiększ głośność</string>
   <string name="shortcut_decrease_volume">Zmniejsz głośność</string>
   <string name="shortcut_all_apps">Wszystkie aplikacje</string>
-  <string name="shortcut_braille_keyboard">Włącz klawiaturę brajlowską</string>
-  <string name="shortcut_braille_display_settings">Przejdź do ustawień monitora brajlowskiego</string>
   <string name="shortcut_tutorial">Otwórz samouczek</string>
   <string name="shortcut_control_speak_time">Wypowiadanie lub niewypowiadanie godziny</string>
   <string name="shortcut_enable_speak_time">Wypowiadaj godzinę</string>
@@ -496,7 +490,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="speak_time_off">Wypowiadanie godziny jest wyłączone</string>
   <string name="shortcut_practice_gestures">Ćwiczenie gestów</string>
   <string name="shortcut_report_gesture">Zgłoś problem z gestem</string>
-  <string name="shortcut_toggle_braille_display">Włącz lub wyłącz monitor brajlowski</string>
   <string name="shortcut_announce_current_time_and_date">Powiedz bieżącą datę i godzinę</string>
   <string name="shortcut_announce_battery_state">Odczytaj stan naładowania baterii</string>
   <string name="shortcut_announce_current_title">Wypowiadaj tytuł okna</string>
@@ -506,8 +499,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="shortcut_speech_rate_decrease">Zmniejsz szybkość mowy</string>
   <string name="shortcut_toggle_selection">Włączenie lub wyłączenie trybu wyboru</string>
   <string name="shortcut_show_tutorial">Otwórz samouczek</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Przełączaj między trybem skrótowym (stopień 2) a integralnym (stopień 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Pokaż lub ukryj klawiaturę na monitorach brajlowskich</string>
   <string name="shortcut_toggle_sound_feedback">Włącz lub wyłącz sygnał dźwiękowy (ikony audio)</string>
   <string name="shortcut_show_learn_mode_page">Opanuj skróty klawiszowe</string>
   <string name="shortcut_announce_phonetic_pronunciation">Czytaj litery w zaznaczonym elemencie z wymową fonetyczną</string>
@@ -548,7 +539,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="title_show_voice_commands">Polecenia głosowe</string>
   <string name="title_show_keyboard_shortcuts">Skróty klawiszowe</string>
   <string name="talkback_show_talkback_settings">Ustawienia SandFly</string>
-  <string name="title_show_braille_display_settings">Ustawienia monitora brajlowskiego</string>
   <string name="title_granularity_default">Domyślna nawigacja</string>
   <string name="title_action_dismiss">Zamknij</string>
   <string name="title_action_expand">Rozwiń</string>
@@ -576,7 +566,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="summary_control_speak_time">Określ, czy godzina ma być wypowiadana na głos po włączeniu ekranu</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otwórz listę skrótów klawiszowych</string>
   <string name="summary_talkback_preferences">Otwórz ustawienia SandFly</string>
-  <string name="summary_braile_display_preferences">Otwórz ustawienia monitora brajlowskiego</string>
   <string name="summary_system_actions">Przejdź do wszystkich aplikacji i otwórz Szybkie ustawienia</string>
   <string name="summary_tts_settings">Otwórz ustawienia zamiany tekstu na mowę</string>
   <string name="not_editable">Nie można edytować</string>
@@ -917,7 +906,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="screen_search_keyword_hint">słowo kluczowe to %1$s</string>
   <string name="screen_search_no_keyword_hint">Brak słów kluczowych. Aby rozpocząć nowe wyszukiwanie, naciśnij i przytrzymaj 3 palcami lub otwórz wyszukiwanie zawartości ekranu w menu SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Brak słów kluczowych. Aby rozpocząć nowe wyszukiwanie, przesuń palcem w lewo, a potem w dół, lub otwórz wyszukiwanie zawartości ekranu w menu SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Nie włączono klawiatury brajlowskiej. Otwórz ustawienia SandFly, skonfiguruj klawiaturę brajlowską i spróbuj ponownie.</string>
   <string name="suggestions_window_available">Dostępne sugestie</string>
   <string name="suggestions_window_available_with_gesture">Dostępne sugestie. Aby uzyskać dostęp, %1$s</string>
   <string name="heads_up_window_available">Dostępne jest powiadomienie</string>
@@ -967,9 +955,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="new_gesture_notification_content">Kliknij, by dowiedzieć się, jak szybciej posługiwać się SandFly przy użyciu nowych gestów.</string>
   <string name="dump_node_tree_description">Zrzut drzewa węzłów został utworzony w dzienniku.</string>
   <string name="report_gesture_description">Tutaj znajdują się niedawno używane gesty, zgłoś, który jest niepoprawny, a jaki powinien być poprawny.</string>
-  <string name="update_welcome_text_content">Teraz możesz łączyć się z monitorami brajlowskimi przy użyciu technologii HID pozwalającej na obsługę urządzeń Bluetooth. Upewnij się, że zainstalowane są najnowsze sterowniki oprogramowania układowego od producenta, a potem włącz Bluetooth na monitorze brajlowskim. Otwórz ustawienia SandFly &gt; Monitor brajlowski i włącz „Używaj monitora brajlowskiego”. Znajdź swoje urządzenie na liście i połącz się z nim.</string>
-  <string name="update_welcome_text_content_tts">Teraz możesz łączyć się z monitorami brajlowskimi przy użyciu technologii HID pozwalającej na obsługę urządzeń Bluetooth. Upewnij się, że zainstalowane są najnowsze sterowniki oprogramowania układowego od producenta, a potem włącz Bluetooth na monitorze brajlowskim. Otwórz ustawienia SandFly, wybierz opcję „Monitor brajlowski” i włącz „Używaj monitora brajlowskiego”. Znajdź swoje urządzenie na liście i połącz się z nim.</string>
-  <string name="update_welcome_text_content_with_link">Dowiedz się, jak używać monitora brajlowskiego z funkcją SandFly.</string>
   <string name="update_welcome_talkback_16.1">Ta aktualizacja wprowadza obsługę większej liczby języków przez funkcję Opisz ekran i inne ulepszenia ułatwiające korzystanie z funkcji SandFly.\n\nWięcej o tym, co się zmieniło, dowiesz się na kolejnych ekranach.\n\nMożesz zapoznać się z tymi informacjami później. W tym celu otwórz Ustawienia SandFly i wybierz Nowe funkcje w SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Ta aktualizacja wprowadza obsługę większej liczby języków przez funkcję Opisz ekran i inne ulepszenia ułatwiające korzystanie z funkcji SandFly.\n\nWięcej o tym, co się zmieniło, dowiesz się na kolejnych ekranach.\n\nMożesz zapoznać się z tymi informacjami później. W tym celu otwórz Ustawienia SandFly i wybierz Nowe funkcje w SandFly.</string>
   <string name="describe_screen_and_qna_title">Nowe języki w funkcjach Opisz ekran i Zapytaj Gemini</string>
@@ -985,10 +970,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="reduce_delay_title">Zmniejsz opóźnienie</string>
   <string name="reduce_delay_content">Możesz teraz zmniejszyć opóźnienie odtwarzania komunikatów SandFly podczas czytania dotykiem i pisania. Aby zobaczyć te opcje, wybierz Ustawienia SandFly &gt; Ustawienia zaawansowane &gt; Zmniejsz opóźnienie.</string>
   <string name="reduce_delay_content_tts">Możesz teraz zmniejszyć opóźnienie odtwarzania komunikatów SandFly podczas czytania dotykiem i pisania. Aby zobaczyć te opcje, otwórz Ustawienia SandFly, a następnie wybierz kolejno Ustawienia zaawansowane i Zmniejsz opóźnienie.</string>
-  <string name="customize_braille_keyboard_improvements_title">Dostosowywanie gestów klawiatury brajlowskiej</string>
-  <string name="customize_braille_keyboard_improvements_content">Teraz możesz dostosowywać gesty wirtualnej klawiatury brajlowskiej wyświetlanej na ekranie. Aby to zrobić, wybierz Ustawienia SandFly &gt; Klawiatura brajlowska &gt; Gesty.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Teraz możesz dostosowywać gesty wirtualnej klawiatury brajlowskiej wyświetlanej na ekranie. Aby to zrobić, otwórz Ustawienia SandFly, a następnie wybierz kolejno Klawiatura brajlowska i Gesty.</string>
-  <string name="learn_more_about_braille_keyboard">Więcej informacji o klawiaturze brajlowskiej</string>
   <string name="other_changes_title">Inne zmiany</string>
   <string name="other_changes_content">Komunikat na ekranie pomaga szybko wyłączyć funkcję SandFly, gdy została włączona przypadkowo. Możesz to wyłączyć, wybierając Ustawienia SandFly &gt; Wyświetlaj instrukcje wyłączania SandFly.</string>
   <string name="other_changes_content_tts">Komunikat na ekranie pomaga szybko wyłączyć funkcję SandFly, gdy została włączona przypadkowo. Możesz to wyłączyć, otwierając Ustawienia SandFly i wybierając Wyświetlaj instrukcje wyłączania SandFly.</string>
@@ -1021,7 +1002,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="keyboard_enhanced_keymap_text">SandFly ma teraz ulepszoną mapę klawiszy do klawiatur fizycznych z wieloma nowymi poleceniami i skrótami. Obejmuje to tryb przeglądania ułatwiający użytkownikom funkcji SandFly korzystającym z klawiatur fizycznych przeglądanie internetu oraz nawigację i interakcje. Możesz przełączyć się na ulepszoną mapę klawiszy w sekcji %1$s.\n\nJeśli używasz monitora brajlowskiego, możesz też korzystać z nowych skrótów trybu przeglądania, aby przeglądać treści bezpośrednio na monitorze brajlowskim. W związku z tą zmianą niektóre skróty monitora brajlowskiego zostały zaktualizowane. Listę wszystkich skrótów monitora brajlowskiego znajdziesz w sekcji %2$s.</string>
   <string name="keyboard_shortcuts_link">Ustawienia SandFly &gt; Skróty klawiszowe</string>
   <string name="keyboard_shortcuts_link_tts">Ustawienia SandFly, a następnie Skróty klawiszowe</string>
-  <string name="braille_display_settings_link">Ustawienia monitora brajlowskiego</string>
   <string name="keyboard_smart_browse_mode_title">Klawiatura: inteligentny tryb przeglądania</string>
   <string name="keyboard_smart_browse_mode_text">Inteligentny tryb przeglądania w ramach funkcji SandFly wyłącza tryb przeglądania w polu edycji, aby ułatwić pisanie na klawiaturze fizycznej podczas poruszania się po internecie. Następnie włącza go ponownie, gdy przejdziesz do pola innego niż pole edycji w przeglądarce internetowej, aby umożliwić Ci dalsze efektywne przeglądanie. Tryb ten możesz włączyć lub wyłączyć w sekcji %1$s.</string>
   <string name="advanced_settings_link">Ustawienia SandFly &gt; Ustawienia zaawansowane</string>
@@ -1094,7 +1074,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="typing_text_title">Wpisywanie tekstu</string>
   <string name="basic_typing_text_text">Po aktywowaniu pola tekstowego u dołu ekranu pojawi się klawiatura.</string>
   <string name="typing_text_text">Przesuwaj palcem po klawiaturze. Gdy usłyszysz odpowiednią literę, podnieś palec.\n\nSpróbuj aktywować pole tekstowe znajdujące się poniżej i wpisać swoje imię.</string>
-  <string name="typing_text_with_braille_keyboard_text">Możesz też pisać przy użyciu klawiatury brajlowskiej. Znajdź ją w ustawieniach SandFly.</string>
   <string name="other_ways_to_type_title">Inne sposoby pisania</string>
   <string name="other_ways_to_type_text">Funkcja SandFly zapewnia inne sposoby pisania. Możesz na przykład kliknąć dwukrotnie, aby wpisać literę.</string>
   <string name="basic_other_ways_to_type_text">SandFly zapewnia inne sposoby pisania. Możesz na przykład kliknąć dwukrotnie, aby wpisać literę. Później możesz to zmienić. W tym celu wybierz Ustawienia funkcji SandFly &gt; Klawiatura ekranowa &gt; Ustawienia pisania.</string>

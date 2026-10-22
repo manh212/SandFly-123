@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">រក​មើល​ដោយ​ការ​ប៉ះ</string>
   <string name="title_pref_category_visual">រូបភាព</string>
   <string name="title_pref_category_controls">ការបញ្ជា</string>
-  <string name="title_pref_category_braille">អក្សរស្ទាប</string>
   <string name="title_pref_category_general">ទូទៅ</string>
   <string name="title_pref_category_advanced">កម្រិតខ្ពស់</string>
   <string name="title_pref_category_others">ផ្សេងទៀត</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">កាត់បន្ថយការពន្យារពេល</string>
   <string name="talkback_latency_reduction_summary">ការកំណត់ ដើម្បីកាត់បន្ថយការពន្យារពេល មុនការប្រកាសរបស់ TalkBack</string>
   <string name="summary_pref_intonation">អានអក្សរដែលបានលុបនៅក្នុងកម្រិតសំឡេងខ្ពស់</string>
-  <string name="title_pref_brailledisplay">ឧបករណ៍បង្ហាញអក្សរស្ទាប</string>
-  <string name="title_pref_brailleime">ក្ដារចុច​អក្សរស្ទាប</string>
-  <string name="summary_pref_brailleime_disabled">ឧបករណ៍​របស់អ្នក​មិនស្គាល់​ក្ដារចុច​អក្សរស្ទាបទេ</string>
   <string name="title_pref_speech_footer">អ្នកអាចកែតម្រូវការកំណត់សំឡេងមួយចំនួនរបស់ TalkBack បានយ៉ាងរហ័សពីអេក្រង់ណាក៏បាន។\n\nកម្រិតសំឡេងភាពងាយស្រួល៖ ប្រើម្រាមដៃ 1 សង្កត់ឱ្យជាប់លើអេក្រង់ រួចចុចលើគ្រាប់ចុចដំឡើង​កម្រិត​សំឡេង ឬ​បន្ថយ​កម្រិត​សំឡេង។\nល្បឿននិយាយ TalkBack៖ អូសឡើងលើ ឬចុះក្រោមដោយប្រើម្រាមដៃ 3។ នៅពេលអ្នកឮ \"ល្បឿននិយាយ សូមអូសឡើងលើ ឬចុះក្រោមដោយប្រើម្រាមដៃ 1។</string>
   <string name="title_pref_vibration">ប្រតិកម្ម​ញ័រ</string>
   <string name="title_pref_soundback">ប្រតិកម្មជាសំឡេង</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">បង្កើន​កម្រិតសំឡេង</string>
   <string name="shortcut_decrease_volume">បន្ថយកម្រិតសំឡេង</string>
   <string name="shortcut_all_apps">កម្មវិធីទាំងអស់</string>
-  <string name="shortcut_braille_keyboard">ប្ដូរទៅក្ដារចុចអក្សរស្ទាប</string>
-  <string name="shortcut_braille_display_settings">រុករកទៅកាន់ការកំណត់អក្សរប្រៃយ៍</string>
   <string name="shortcut_tutorial">បើក​មេរៀន</string>
   <string name="shortcut_control_speak_time">ប្រាប់ពេលវេលា ឬកុំប្រាប់ពេលវេលា</string>
   <string name="shortcut_enable_speak_time">ប្រាប់ពេលវេលា</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">បិទការប្រាប់ពេលវេលា</string>
   <string name="shortcut_practice_gestures">អនុវត្តចលនា</string>
   <string name="shortcut_report_gesture">រាយការណ៍​អំពី​បញ្ហាចលនា</string>
-  <string name="shortcut_toggle_braille_display">បើក ឬបិទឧបករណ៍បង្ហាញអក្សរស្ទាប</string>
   <string name="shortcut_announce_current_time_and_date">អានកាលបរិច្ឆេទ និងពេលវេលាបច្ចុប្បន្ន</string>
   <string name="shortcut_announce_battery_state">និយាយភាគរយថ្ម</string>
   <string name="shortcut_announce_current_title">អានចំណងជើងវិនដូ</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">បន្ថយល្បឿននិយាយ</string>
   <string name="shortcut_toggle_selection">ចាប់ផ្ដើម ឬបញ្ចប់​មុខងារ​ជ្រើសរើស</string>
   <string name="shortcut_show_tutorial">បើក​មេរៀន</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ប្ដូររវាងទម្រង់កាត់ (ថ្នាក់ទី 2) និងមិនកាត់ (ថ្នាក់ទី 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">បង្ហាញ ឬលាក់អក្សរស្ទាបលើអេក្រង់សម្រាប់ឧបករណ៍បង្ហាញអក្សរស្ទាបដែលបានភ្ជាប់</string>
   <string name="shortcut_toggle_sound_feedback">បើក ឬបិទការឆ្លើយតបជាសំឡេង (សំឡេងសម្គាល់)</string>
   <string name="shortcut_show_learn_mode_page">អនុវត្ដផ្លូវកាត់​ក្ដារ​ចុច</string>
   <string name="shortcut_announce_phonetic_pronunciation">និយាយអក្សរដែលមានការបញ្ចេញសូរសព្ទសម្រាប់ធាតុដែលបានផ្ដោត</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ការបញ្ជាដោយសំឡេង</string>
   <string name="title_show_keyboard_shortcuts">ផ្លូវកាត់​ក្ដារ​ចុច</string>
   <string name="talkback_show_talkback_settings">ការកំណត់ TalkBack</string>
-  <string name="title_show_braille_display_settings">ការកំណត់ឧបករណ៍បង្ហាញអក្សរស្ទាប</string>
   <string name="title_granularity_default">ការរុករក​លំនាំដើម</string>
   <string name="title_action_dismiss">ច្រានចោល</string>
   <string name="title_action_expand">ពង្រីក</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ប្ដូរថាតើប្រាប់ពេលវេលាឮៗឬអត់ ពេលអ្នកបើកអេក្រង់</string>
   <string name="summary_show_keyboard_shortcuts_preferences">បើកបញ្ជីផ្លូវកាត់​ក្ដារ​ចុច</string>
   <string name="summary_talkback_preferences">បើកការកំណត់ TalkBack</string>
-  <string name="summary_braile_display_preferences">បើកការកំណត់​ឧបករណ៍បង្ហាញអក្សរស្ទាប</string>
   <string name="summary_system_actions">ចូលទៅកាន់​ការកំណត់រហ័ស និងកម្មវិធីទាំងអស់</string>
   <string name="summary_tts_settings">បើកការកំណត់​ការបំប្លែងអត្ថបទទៅជាការនិយាយ</string>
   <string name="not_editable">មិន​អាច​កែ​បានទេ</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ពាក្យគន្លឹះគឺ %1$s</string>
   <string name="screen_search_no_keyword_hint">មិនទាន់មានពាក្យគន្លឹះទេ។ ដើម្បីចាប់ផ្ដើមការស្វែងរកថ្មី សូមចុចឱ្យជាប់ដោយប្រើម្រាមដៃ 3 ឬបើកការស្វែងរក​លើ​អេក្រង់ពីម៉ឺនុយ TalkBack។</string>
   <string name="screen_search_no_keyword_hint_pre_r">មិនទាន់មានពាក្យគន្លឹះទេ។ ដើម្បីចាប់ផ្ដើមការស្វែងរកថ្មី សូមអូសទៅឆ្វេង បន្ទាប់មកចុះក្រោម ឬបើកការស្វែងរក​លើ​អេក្រង់ពីម៉ឺនុយ TalkBack។</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ក្ដារចុចអក្សរស្ទាបមិនត្រូវបានបើកទេ។ សូមចូលទៅកាន់ការកំណត់មុខងារតបវិញ រៀបចំក្ដារចុចអក្សរស្ទាប រួចព្យាយាមម្ដងទៀត។</string>
   <string name="suggestions_window_available">មាន​ការណែនាំ</string>
   <string name="suggestions_window_available_with_gesture">មាន​ការណែនាំ។ %1$s ដើម្បី​ចូលប្រើ</string>
   <string name="heads_up_window_available">មានការជូនដំណឹង</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">ចុចដើម្បីស្វែងយល់​អំពីរបៀបប្រើប្រាស់​មុខងារតបវិញរហ័សជាងមុន​ដោយប្រើមុខងារថ្មីៗ។</string>
   <string name="dump_node_tree_description">មែកធាងណូត​ត្រូវបានបោះពុម្ព​ទៅកំណត់ហេតុ។</string>
   <string name="report_gesture_description">ទាំងនេះគឺជាចលនា​ដែលបានធ្វើឡើងថ្មីៗនេះ សូមរាយការណ៍ថា​ចលនាណាមិនត្រឹមត្រូវ ហើយគួរធ្វើចលនាដូចម្ដេច​ទើបត្រឹមត្រូវ។</string>
-  <string name="update_welcome_text_content">ឥឡូវនេះ អ្នកអាចភ្ជាប់ទៅឧបករណ៍បង្ហាញអក្សរស្ទាបតាមរយៈ HID ដែលជាវិធីភ្ជាប់ទៅឧបករណ៍​ប៊្លូធូស។ សូមប្រាកដថា អ្នកមានដ្រាយវើ​កម្មវិធី​បង្កប់​ចុងក្រោយបំផុតពីក្រុមហ៊ុនផលិតរបស់អ្នក រួចបើកប៊្លូធូសនៅលើឧបករណ៍បង្ហាញអក្សរស្ទាបរបស់អ្នក។ ចូលទៅកាន់ ការកំណត់ TalkBack &gt; ឧបករណ៍បង្ហាញអក្សរស្ទាប ហើយបើក \"ប្រើឧបករណ៍បង្ហាញអក្សរស្ទាប\"។ ស្វែងរកឧបករណ៍របស់អ្នកនៅក្នុងបញ្ជីឧបករណ៍ ហើយភ្ជាប់ទៅឧបករណ៍នោះ។</string>
-  <string name="update_welcome_text_content_tts">ឥឡូវនេះ អ្នកអាចភ្ជាប់ទៅឧបករណ៍បង្ហាញអក្សរស្ទាបតាមរយៈ HID ដែលជាវិធីភ្ជាប់ទៅឧបករណ៍​ប៊្លូធូស។ សូមប្រាកដថា អ្នកមានដ្រាយវើ​កម្មវិធី​បង្កប់​ចុងក្រោយបំផុតពីក្រុមហ៊ុនផលិតរបស់អ្នក រួចបើកប៊្លូធូសនៅលើឧបករណ៍បង្ហាញអក្សរស្ទាបរបស់អ្នក។ ចូលទៅកាន់ \"ការកំណត់ TalkBack\" បន្ទាប់មក \"ឧបករណ៍បង្ហាញអក្សរស្ទាប\" ហើយបើក \"ប្រើឧបករណ៍បង្ហាញអក្សរស្ទាប\"។ ស្វែងរកឧបករណ៍របស់អ្នកនៅក្នុងបញ្ជីឧបករណ៍ ហើយភ្ជាប់ទៅឧបករណ៍នោះ។</string>
-  <string name="update_welcome_text_content_with_link">ស្វែងយល់អំពីរបៀបប្រើប្រាស់ឧបករណ៍បង្ហាញអក្សរស្ទាបរបស់អ្នកជាមួយ TalkBack។</string>
   <string name="update_welcome_talkback_16.1">កំណែ TalkBack ថ្មីនេះដាក់ចេញលទ្ធភាពប្រើប្រាស់ \"ពណ៌នាអេក្រង់\" ជាភាសាកាន់តែច្រើន និងការកែលម្អគុណភាពផ្សេងទៀតដែលធ្វើឱ្យ TalkBack កាន់តែងាយស្រួលប្រើ។\n\nអ្នកនឹងស្វែងយល់បន្ថែមអំពីការផ្លាស់ប្ដូរទាំងនេះនៅក្នុងអេក្រង់ពីរបីបន្ទាប់ទៀត។\n\nអ្នកអាច​ពិនិត្យមើល​ព័ត៌មាននេះ​នៅពេលក្រោយ​នៅក្នុង ការកំណត់ TalkBack &gt; មុខងារ​ថ្មីៗនៅក្នុង TalkBack។</string>
   <string name="update_welcome_talkback_16.1_tts">កំណែ TalkBack ថ្មីនេះដាក់ចេញលទ្ធភាពប្រើប្រាស់ \"ពណ៌នាអេក្រង់\" ជាភាសាកាន់តែច្រើន និងការកែលម្អគុណភាពផ្សេងទៀតដែលធ្វើឱ្យ TalkBack កាន់តែងាយស្រួលប្រើ។\n\nអ្នកនឹងស្វែងយល់បន្ថែមអំពីការផ្លាស់ប្ដូរទាំងនេះនៅក្នុងអេក្រង់ពីរបីបន្ទាប់ទៀត។\n\nអ្នកអាច​ពិនិត្យមើល​ព័ត៌មាននេះ​នៅពេលក្រោយ​នៅក្នុង \"ការកំណត់ TalkBack\" បន្ទាប់មក \"មុខងារ​ថ្មីៗនៅក្នុង TalkBack\"។</string>
   <string name="describe_screen_and_qna_title">ភាសាថ្មីៗសម្រាប់មុខងារ \"ពណ៌នាអំពីអេក្រង់\" និង \"សួរ Gemini\"</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">កាត់បន្ថយការពន្យារពេល</string>
   <string name="reduce_delay_content">ឥឡូវនេះ អ្នកអាចកាត់បន្ថយការពន្យារពេលនៃការប្រកាស TalkBack សម្រាប់ការរុករកដោយប៉ះ និងការវាយបញ្ចូល។ ដើម្បីមើលការ​កំណត់ទាំងនេះ សូមចូលទៅកាន់ការ​កំណត់ TalkBack &gt; ការកំណត់កម្រិតខ្ពស់ &gt; កាត់បន្ថយការពន្យារពេល។</string>
   <string name="reduce_delay_content_tts">ឥឡូវនេះ អ្នកអាចកាត់បន្ថយការពន្យារពេលនៃការប្រកាស TalkBack សម្រាប់ការរុករកដោយប៉ះ និងការវាយបញ្ចូល។ ដើម្បីមើលការ​កំណត់ទាំងនេះ សូមចូលទៅកាន់ \"ការ​កំណត់ TalkBack\" បន្ទាប់មក \"ការកំណត់កម្រិតខ្ពស់\" រួចចូលទៅកាន់ \"កាត់បន្ថយការពន្យារពេល\"។</string>
-  <string name="customize_braille_keyboard_improvements_title">ប្ដូរចលនាក្ដារចុចអក្សរស្ទាបតាមបំណង</string>
-  <string name="customize_braille_keyboard_improvements_content">ឥឡូវនេះ អ្នកអាចប្ដូរចលនាតាមបំណងសម្រាប់ក្ដារចុចអក្សរស្ទាបនៅលើអេក្រង់និម្មិត។ ដើម្បីប្ដូរតាមបំណង សូមចូលទៅកាន់ការកំណត់ TalkBack &gt; ក្ដារចុចអក្សរស្ទាប &gt; ចលនា។</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">ឥឡូវនេះ អ្នកអាចប្ដូរចលនាតាមបំណងសម្រាប់ក្ដារចុចអក្សរស្ទាបនៅលើអេក្រង់និម្មិត។ ដើម្បីប្ដូរតាមបំណង សូមចូលទៅកាន់ \"ការកំណត់ TalkBack\" បន្ទាប់មក \"ក្ដារចុចអក្សរស្ទាប\" រួចចូលទៅកាន់ \"ចលនា\"។</string>
-  <string name="learn_more_about_braille_keyboard">ស្វែងយល់​បន្ថែម​អំពីក្ដារចុចអក្សរស្ទាប</string>
   <string name="other_changes_title">ការផ្លាស់ប្ដូរផ្សេងទៀត</string>
   <string name="other_changes_content">ឥឡូវនេះ សារនៅលើអេក្រង់ជួយអ្នកបិទ TalkBack យ៉ាងរហ័ស ប្រសិនបើវាត្រូវបានបើកដោយ​ចៃដន្យ។ អ្នកអាចបិទមុខងារនេះនៅក្នុងការ​កំណត់ TalkBack &gt; បង្ហាញការណែនាំសម្រាប់ការបិទ TalkBack។</string>
   <string name="other_changes_content_tts">ឥឡូវនេះ សារនៅលើអេក្រង់ជួយអ្នកបិទ TalkBack យ៉ាងរហ័ស ប្រសិនបើវាត្រូវបានបើកដោយ​ចៃដន្យ។ អ្នកអាចបិទមុខងារនេះនៅក្នុងការ​កំណត់ TalkBack បន្ទាប់មកបង្ហាញការណែនាំសម្រាប់ការបិទ TalkBack។</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">ឥឡូវនេះ TalkBack មាន \"ផែនទីគ្រាប់ចុចប្រសើរជាងមុន\" សម្រាប់ក្ដារចុចរូបវន្ត ដែលមានឃ្លាបញ្ជា និងផ្លូវ​កាត់ថ្មីៗជាច្រើន។ ការធ្វើឱ្យប្រសើរឡើងនេះរួមមាន \"មុខងាររុករក\" សម្រាប់ការរុករកលើវេបកាន់តែមានប្រសិទ្ធភាព ដែលសម្រួលដល់ការរុករក និងអន្តរកម្មសម្រាប់អ្នកប្រើប្រាស់ TalkBack ដែលពឹងផ្អែកលើក្ដារចុចរូបវន្ត។ អ្នកអាចប្ដូរទៅ \"ផែនទីគ្រាប់ចុចប្រសើរជាងមុន\" នៅក្នុង %1$s។\n\nប្រសិនបើអ្នកប្រើឧបករណ៍បង្ហាញអក្សរស្ទាប អ្នកក៏អាចប្រើផ្លូវកាត់មុខងាររុករកថ្មីៗ ដើម្បីរុករកខ្លឹមសារដោយផ្ទាល់ពីឧបករណ៍បង្ហាញអក្សរស្ទាបរបស់អ្នកបានផងដែរ។ ផ្លូវកាត់ឧបករណ៍បង្ហាញអក្សរស្ទាបមួយចំនួនត្រូវបានផ្លាស់ប្ដូរ ដើម្បីសម្របតាមការផ្លាស់ប្ដូរនេះ។ អ្នកអាចមើលបញ្ជីផ្លូវកាត់ឧបករណ៍បង្ហាញអក្សរស្ទាបទាំងអស់នៅក្នុង %2$s។</string>
   <string name="keyboard_shortcuts_link">ការកំណត់ TalkBack &gt; ផ្លូវកាត់​ក្ដារ​ចុច</string>
   <string name="keyboard_shortcuts_link_tts">\"ការកំណត់ TalkBack\" បន្ទាប់មក \"ផ្លូវកាត់​ក្ដារ​ចុច\"</string>
-  <string name="braille_display_settings_link">ការកំណត់ឧបករណ៍បង្ហាញអក្សរស្ទាប</string>
   <string name="keyboard_smart_browse_mode_title">ក្ដារចុច៖ មុខងាររុករកឆ្លាតវៃ</string>
   <string name="keyboard_smart_browse_mode_text">មុខងាររុករកឆ្លាតវៃរបស់ TalkBack បិទមុខងាររុករកនៅលើកន្លែងកែ ដើម្បីជួយអ្នកវាយបញ្ចូលដោយប្រើក្ដារចុចរូបវន្ត នៅពេលអ្នករុករកលើវេប។ បន្ទាប់មក វាបើកមុខងារនេះវិញ នៅពេលអ្នកផ្លោះទៅកន្លែងបញ្ចូលដែលមិនមែនជាកន្លែងកែនៅលើវេប ដើម្បីឱ្យអ្នកអាចបន្តរុករកប្រកបដោយប្រសិទ្ធភាព។ អ្នកអាចបើក ឬបិទ \"មុខងាររុករកឆ្លាតវៃ\" នៅក្នុង %1$s។</string>
   <string name="advanced_settings_link">ការកំណត់ TalkBack &gt; ការកំណត់កម្រិតខ្ពស់</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ការវាយបញ្ចូលអត្ថបទ</string>
   <string name="basic_typing_text_text">នៅពេលអ្នកនៅក្នុងប្រអប់​អក្សរ ក្ដារចុចនឹងបើកឡើងនៅផ្នែកខាងក្រោមនៃអេក្រង់របស់អ្នក។</string>
   <string name="typing_text_text">រំកិល​ម្រាមដៃ​របស់អ្នក​លើក្ដារចុច​។ នៅពេល​អ្នក​ស្ដាប់ឮ​អក្សរដែល​អ្នកចង់​វាយបញ្ចូល សូម​ដកម្រាមដៃ​របស់អ្នក​ចេញ។\n\nសាកល្បង​បើកដំណើរការ​ប្រអប់អត្ថបទ​ខាងក្រោម រួចវាយបញ្ចូល​ឈ្មោះរបស់អ្នក​។</string>
-  <string name="typing_text_with_braille_keyboard_text">អ្នកក៏អាចវាយបញ្ចូល​ដោយប្រើក្ដារចុចអក្សរស្ទាបបានផងដែរ។ សូមស្វែងរក​ក្ដារចុចនេះ​នៅក្នុង​ការកំណត់​មុខងារតបវិញ​។</string>
   <string name="other_ways_to_type_title">វិធីផ្សេងៗទៀតក្នុងការវាយបញ្ចូល</string>
   <string name="other_ways_to_type_text">មានវិធីផ្សេងៗទៀត ដើម្បីវាយបញ្ចូលនៅក្នុង TalkBack។ ឧទាហរណ៍ អ្នកអាចប្រើការចុចពីរដង ដើម្បីបញ្ចូលអក្សរ។</string>
   <string name="basic_other_ways_to_type_text">មានវិធីផ្សេងៗទៀត ដើម្បីវាយបញ្ចូលនៅក្នុង TalkBack។ ឧទាហរណ៍ អ្នកអាចប្រើការចុចពីរដង ដើម្បីបញ្ចូលអក្សរ។ អ្នកអាចផ្លាស់ប្ដូរការកំណត់នេះនៅពេលក្រោយនៅក្នុងការកំណត់ TalkBack &gt; ក្ដារ​ចុច​លើ​អេក្រង់ &gt; ចំណូលចិត្តវាយបញ្ចូល។</string>

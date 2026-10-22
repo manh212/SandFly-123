@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Dấu nhỏ hơn có độ rộng đầy đủ</string>
   <string name="symbol_full_width_greater_than_sign">Dấu lớn hơn có độ rộng đầy đủ</string>
   <string name="symbol_left_single_quotation_mark">Dấu ngoặc đơn trái</string>
-  <string name="symbol_braille">chữ nổi %s</string>
-  <plurals name="dots">
-    <item quantity="one">dấu chấm %s</item>
-    <item quantity="other">dấu chấm %s</item>
-  </plurals>
 </resources>

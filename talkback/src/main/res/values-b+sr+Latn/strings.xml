@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Istraživanje dodirom</string>
   <string name="title_pref_category_visual">Vizuelno</string>
   <string name="title_pref_category_controls">Kontrole</string>
-  <string name="title_pref_category_braille">Brajeva azbuka</string>
   <string name="title_pref_category_general">Opšte</string>
   <string name="title_pref_category_advanced">Napredno</string>
   <string name="title_pref_category_others">Drugo</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Smanji kašnjenje</string>
   <string name="talkback_latency_reduction_summary">Podešavanja za smanjenje kašnjenja pre TalkBack obaveštenja</string>
   <string name="summary_pref_intonation">Izbrisana slova će se izgovarati višim glasom</string>
-  <string name="title_pref_brailledisplay">Brajev ekran</string>
-  <string name="title_pref_brailleime">Tastatura sa Brajevom azbukom</string>
-  <string name="summary_pref_brailleime_disabled">Uređaj ne podržava Brajevu tastaturu</string>
   <string name="title_pref_speech_footer">Možete brzo da prilagodite neka TalkBack podešavanja zvuka sa bilo kog ekrana.\n\nJačina zvuka za pristupačnost: držite 1 prst na ekranu i pritisnite dugme za pojačavanje ili smanjivanje zvuka.\nBrzina govora TalkBack-a: prevucite nagore ili nadole pomoću 3 prsta. Kada čujete „brzina govora“, prevucite nagore ili nadole jednim prstom.</string>
   <string name="title_pref_vibration">Obaveštenje vibracijom</string>
   <string name="title_pref_soundback">Obaveštenje zvukom</string>
@@ -486,8 +482,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="shortcut_increase_volume">Povećaj jačinu zvuka</string>
   <string name="shortcut_decrease_volume">Smanji jačinu zvuka</string>
   <string name="shortcut_all_apps">Sve aplikacije</string>
-  <string name="shortcut_braille_keyboard">Prebacuje na Brajevu azbuku</string>
-  <string name="shortcut_braille_display_settings">Ide na podešavanja Brajevog ekrana</string>
   <string name="shortcut_tutorial">Otvara vodič</string>
   <string name="shortcut_control_speak_time">Izgovori vreme ili ne izgovaraj vreme</string>
   <string name="shortcut_enable_speak_time">Izgovori vreme</string>
@@ -496,7 +490,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="speak_time_off">Izgovori vreme je isključeno</string>
   <string name="shortcut_practice_gestures">Vežbanje pokreta</string>
   <string name="shortcut_report_gesture">Prijavite problem sa pokretom</string>
-  <string name="shortcut_toggle_braille_display">Uključite ili isključite Brajev ekran</string>
   <string name="shortcut_announce_current_time_and_date">Izgovaraj aktuelni datum i vreme</string>
   <string name="shortcut_announce_battery_state">Izgovori procenat baterije</string>
   <string name="shortcut_announce_current_title">Izgovori naslov prozora</string>
@@ -506,8 +499,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="shortcut_speech_rate_decrease">Smanji brzinu govora</string>
   <string name="shortcut_toggle_selection">Početak ili završetak režima izbora</string>
   <string name="shortcut_show_tutorial">Otvori vodič</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Prelazi sa skraćenog (2. nivo) na neskraćeni režim (1. nivo)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Prikaži/sakrij Brajevu azbuku za povezane Brajeve ekrane</string>
   <string name="shortcut_toggle_sound_feedback">Uključi/isključi povratne informacije o zvuku (audio ikone)</string>
   <string name="shortcut_show_learn_mode_page">Vežbajte tasterske prečice</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fonetski izgovaraj slova fokusirane stavke</string>
@@ -548,7 +539,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="title_show_voice_commands">Glasovne komande</string>
   <string name="title_show_keyboard_shortcuts">Tasterske prečice</string>
   <string name="talkback_show_talkback_settings">Podešavanja TalkBack-a</string>
-  <string name="title_show_braille_display_settings">Podešavanja za Brajev ekran</string>
   <string name="title_granularity_default">Podrazumevana navigacija</string>
   <string name="title_action_dismiss">Odbaci</string>
   <string name="title_action_expand">Proširi</string>
@@ -576,7 +566,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="summary_control_speak_time">Promenite da li se vreme izgovara naglas kada uključite ekran</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otvara listu tasterskih prečica</string>
   <string name="summary_talkback_preferences">Otvara podešavanja TalkBack-a</string>
-  <string name="summary_braile_display_preferences">Otvara podešavanja Brajevog ekrana</string>
   <string name="summary_system_actions">Otvaranje svih aplikacija i Brzih podešavanja</string>
   <string name="summary_tts_settings">Otvara podešavanja pretvaranja teksta u govor</string>
   <string name="not_editable">Ne može da se izmeni</string>
@@ -917,7 +906,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="screen_search_keyword_hint">ključna reč je %1$s</string>
   <string name="screen_search_no_keyword_hint">Još nema ključne reči. Da biste započeli novu pretragu, dodirnite i zadržite pomoću 3 prsta ili otvorite pretragu ekrana u TalkBack meniju.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Još nema ključne reči. Da biste započeli novu pretragu, prevucite nalevo, pa nadole, ili otvorite pretragu ekrana u TalkBack meniju.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastatura sa Brajevom azbukom nije uključ. Idite u TalkBack podešavanja, podesite je i probajte opet.</string>
   <string name="suggestions_window_available">Dostupni su predlozi</string>
   <string name="suggestions_window_available_with_gesture">Dostupni su predlozi. Da biste pristupili, %1$s</string>
   <string name="heads_up_window_available">Obaveštenje je dostupno</string>
@@ -967,9 +955,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="new_gesture_notification_content">Dodirnite da biste saznali kako da brže koristite TalkBack pomoću novih pokreta.</string>
   <string name="dump_node_tree_description">Stablo sa čvorovima je odštampano u evidenciju.</string>
   <string name="report_gesture_description">Evo nekih pokreta koje ste nedavno obavili. Prijavite pokret koji je netačan i šta se očekuje.</string>
-  <string name="update_welcome_text_content">Sada možete da povežete Brajeve ekrane preko uređaja za ljudski interfejs, što je način za povezivanje sa Bluetooth uređajima. Uverite se da koristite najnovije upravljačke programe za firmver koje pruža proizvođač, pa uključite Bluetooth na Brajevom ekranu. Otvorite Podešavanja TalkBack-a &gt; Brajev ekran i uključite Koristi Brajev ekran. Pronađite uređaj na listi uređaja i povežite ga.</string>
-  <string name="update_welcome_text_content_tts">Sada možete da povežete Brajeve ekrane preko uređaja za ljudski interfejs, što je način za povezivanje sa Bluetooth uređajima. Uverite se da koristite najnovije upravljačke programe za firmver koje pruža proizvođač, pa uključite Bluetooth na Brajevom ekranu. Otvorite Podešavanja TalkBack-a, pa Brajev ekran i uključite Koristi Brajev ekran. Pronađite uređaj na listi uređaja i povežite ga.</string>
-  <string name="update_welcome_text_content_with_link">Saznajte kako da koristite Brajev ekran sa TalkBack-om.</string>
   <string name="update_welcome_talkback_16.1">Ovo ažuriranje TalkBack-a donosi podršku na više jezika za Opis ekrana i druga poboljšanja kvaliteta koja olakšavaju korišćenje TalkBack-a.\n\nViše o ovim promenama možete da saznate na sledećih nekoliko ekrana.\n\nOve informacije možete kasnije da pregledate ako otvorite Podešavanja TalkBack-a &gt; Nove funkcije u TalkBack-u.</string>
   <string name="update_welcome_talkback_16.1_tts">Ovo ažuriranje TalkBack-a donosi podršku na više jezika za Opis ekrana i druga poboljšanja kvaliteta koja olakšavaju korišćenje TalkBack-a.\n\nViše o ovim promenama možete da saznate na sledećih nekoliko ekrana.\n\nOve informacije možete kasnije da pregledate ako otvorite Podešavanja TalkBack-a, pa Nove funkcije u TalkBack-u.</string>
   <string name="describe_screen_and_qna_title">Novi jezici za Opis ekrana i Upitajte Gemini</string>
@@ -985,10 +970,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="reduce_delay_title">Smanjite kašnjenje</string>
   <string name="reduce_delay_content">Sada možete da smanjite kašnjenja TalkBack obaveštenja za istraživanje dodirom i kucanje. Da biste videli ta podešavanja, idite u Podešavanja TalkBack-a &gt; Napredna podešavanja &gt; Smanji kašnjenje.</string>
   <string name="reduce_delay_content_tts">Sada možete da smanjite kašnjenja TalkBack obaveštenja za istraživanje dodirom i kucanje. Da biste videli ta podešavanja, idite u Podešavanja TalkBack-a, pa Napredna podešavanja, pa Smanji kašnjenje.</string>
-  <string name="customize_braille_keyboard_improvements_title">Prilagodite pokrete za Brajevu tastaturu</string>
-  <string name="customize_braille_keyboard_improvements_content">Sada možete da prilagodite pokrete za virtuelnu Brajevu tastaturu na ekranu. Da biste ih prilagodili, idite u Podešavanja TalkBack-a &gt; Brajeva tastatura &gt; Pokreti.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Sada možete da prilagodite pokrete za virtuelnu Brajevu tastaturu na ekranu. Da biste ih prilagodili, otvorite Podešavanja TalkBack-a, pa Brajeva tastatura, pa Pokreti.</string>
-  <string name="learn_more_about_braille_keyboard">Saznajte više o Brajevoj tastaturi</string>
   <string name="other_changes_title">Druge promene</string>
   <string name="other_changes_content">Poruka na ekranu vam sada pomaže da brzo isključite TalkBack ako ga slučajno uključite. To možete da isključite u delu Podešavanja TalkBack-a &gt; Prikaži uputstva za isključivanje TalkBack-a.</string>
   <string name="other_changes_content_tts">Poruka na ekranu vam sada pomaže da brzo isključite TalkBack ako ga slučajno uključite. To možete da isključite ako otvorite Podešavanja TalkBack-a, pa Prikaži uputstva za isključivanje TalkBack-a.</string>
@@ -1021,7 +1002,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="keyboard_enhanced_keymap_text">TalkBack sada ima poboljšani raspored tastera za fizičke tastature, sa različitim novim komandama i prečicama. Ovo poboljšanje obuhvata režim pregledanja za efikasnije kretanje po vebu, pojednostavljujući navigaciju i interakciju za korisnike TalkBack-a koji se oslanjaju na fizičke tastature. Možete da pređete na poboljšani raspored tastera u delu %1$s.\n\nAko koristite Brajev ekran, možete da koristite i nove prečice za režim pregledanja kako biste se kretali kroz sadržaj direktno sa Brajevog ekrana. Neke prečice za Brajev ekran su promenjene da bi se prilagodile ovoj promeni. Listu svih prečica za Brajev ekran možete da vidite u delu %2$s.</string>
   <string name="keyboard_shortcuts_link">Podešavanja TalkBack-a &gt; Tasterske prečice</string>
   <string name="keyboard_shortcuts_link_tts">Podešavanja TalkBack-a, pa Tasterske prečice</string>
-  <string name="braille_display_settings_link">Podešavanja Brajevog ekrana</string>
   <string name="keyboard_smart_browse_mode_title">Tastatura: pametan režim pregledanja</string>
   <string name="keyboard_smart_browse_mode_text">Pametan režim pregledanja TalkBack-a isključuje režim pregledanja u polju za izmenu da biste lakše kucali pomoću fizičke tastature kada pregledate veb. Zatim ga ponovo uključuje kada na vebu pređete na polje koje nije za izmenu da biste mogli efikasno da nastavite sa pregledanjem. Pametan režim pregledanja možete da uključite ili isključite u delu %1$s.</string>
   <string name="advanced_settings_link">Podešavanja TalkBack-a &gt; Napredna podešavanja</string>
@@ -1094,7 +1074,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="typing_text_title">Unošenje teksta</string>
   <string name="basic_typing_text_text">Kada otvorite okvir za tekst, tastatura se otvara u dnu ekrana.</string>
   <string name="typing_text_text">Pomerajte prst po tastaturi. Kada čujete slovo koje želite da unesete, podignite prst.\n\nProbajte da aktivirate okvir za tekst u nastavku i unesite ime.</string>
-  <string name="typing_text_with_braille_keyboard_text">Možete da unosite tekst i pomoću tastature sa Brajevom azbukom. Pronađite to u TalkBack podešavanjima.</string>
   <string name="other_ways_to_type_title">Drugi načini unosa teksta</string>
   <string name="other_ways_to_type_text">Postoje i drugi načini za unos teksta u TalkBack-u. Na primer, možete da koristite dvostruki dodir da biste uneli slovo.</string>
   <string name="basic_other_ways_to_type_text">Postoje i drugi načini za unos teksta u TalkBack-u. Na primer, možete dvaput da dodirnete da biste uneli slovo. To možete da promenite kasnije u delu Podešavanja TalkBack-a &gt; Tastatura na ekranu &gt; Podešavanja kucanja.</string>

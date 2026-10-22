@@ -69,10 +69,6 @@
   <string name="theme_sound_summary_none">Звук не задан. Воспроизводится звук фокуса.</string>
   <string name="theme_sound_summary_android_keyboard">Звук клавиатуры Android</string>
   <string name="theme_sound_use_android_keyboard">Использовать звук клавиатуры Android</string>
-  <string name="theme_sound_braille_character">Клавиатура Брайля: ввод символа</string>
-  <string name="theme_sound_braille_space">Клавиатура Брайля: пробел</string>
-  <string name="theme_sound_braille_delete">Клавиатура Брайля: удаление</string>
-  <string name="theme_sound_braille_new_line">Клавиатура Брайля: новая строка</string>
   <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
   <string name="theme_sound_choose">Выбрать звуковой файл</string>
   <string name="theme_sound_preview">Предпросмотр</string>

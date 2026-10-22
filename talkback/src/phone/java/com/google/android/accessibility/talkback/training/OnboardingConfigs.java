@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.training;
 import static com.google.android.accessibility.talkback.trainingcommon.NavigationButtonBar.BUTTON_TYPE_EXIT;
 import static com.google.android.accessibility.talkback.trainingcommon.NavigationButtonBar.DEFAULT_BUTTONS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.LinkInfo.ADVANCED_SETTING;
-import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.LinkInfo.BRAILLE_DISPLAY;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.LinkInfo.KEYBOARD_SHORTCUT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.LinkInfo.TEXT_FORMATTING_OPTIONS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.LinkInfo.TUTORIAL;
@@ -145,11 +144,9 @@ final class OnboardingConfigs {
           .setShowingPredicate(SUPPORT_KEYBOARD_ENHANCED_KEYMAP)
           .addTextWithSettingsLinks(
               R.string.keyboard_enhanced_keymap_text,
-              ImmutableList.of(
-                  R.string.keyboard_shortcuts_link, R.string.braille_display_settings_link),
-              ImmutableList.of(
-                  R.string.keyboard_shortcuts_link_tts, R.string.braille_display_settings_link),
-              ImmutableList.of(KEYBOARD_SHORTCUT, BRAILLE_DISPLAY));
+              ImmutableList.of(R.string.keyboard_shortcuts_link),
+              ImmutableList.of(R.string.keyboard_shortcuts_link_tts),
+              ImmutableList.of(KEYBOARD_SHORTCUT));
 
   static final PageConfig.Builder smartBrowseMode =
       PageConfig.builder(

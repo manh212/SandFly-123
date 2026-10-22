@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">በመንካት አስስ</string>
   <string name="title_pref_category_visual">ምስል</string>
   <string name="title_pref_category_controls">መቆጣጠሪያዎች</string>
-  <string name="title_pref_category_braille">ብሬይል</string>
   <string name="title_pref_category_general">ጠቅላላ</string>
   <string name="title_pref_category_advanced">የላቀ</string>
   <string name="title_pref_category_others">ሌሎች</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">መዘግየትን ቀንስ</string>
   <string name="talkback_latency_reduction_summary">ማያ ገፁን ከነኩ በኋላ SandFly በፍጥነት ምላሽ እንዲሰጥ ያድርጉ</string>
   <string name="summary_pref_intonation">ቀጠን ባለ ድምፅ የተሰረዙ ፊደላትን ተናገር</string>
-  <string name="title_pref_brailledisplay">የብሬይል ማሳያ ምርጫዎች</string>
-  <string name="title_pref_brailleime">የብሬይል ቁልፍ ሰሌዳ</string>
-  <string name="summary_pref_brailleime_disabled">መሣሪያዎ የብሬይል ቁልፍ ሰሌዳን አይደግፍም</string>
   <string name="title_pref_speech_footer">ከማንኛውም ማያ ገፅ የተደራሽነት ድምፅ መጠንን ለመቀየር በማያ ገፁ ላይ 1 ጣት ይያዙ እና ድምፅ ጨምር ወይም ድምፅ ቀንስ ቁልፍ ይጫኑ።</string>
   <string name="title_pref_vibration">የንዝረት ግብረመልስ</string>
   <string name="title_pref_soundback">የድምፅ ግብረመል</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ድምፅ ጨምር</string>
   <string name="shortcut_decrease_volume">ድምፅ ቀንስ</string>
   <string name="shortcut_all_apps">ሁሉም መተግበሪያዎች</string>
-  <string name="shortcut_braille_keyboard">ወደ የብሬይል ቁልፍ ሰሌዳ ቀይር</string>
-  <string name="shortcut_braille_display_settings">ወደ የብሬይል ማሳያ ቅንብሮች ዳስስ</string>
   <string name="shortcut_tutorial">አጋዥ ስልጠናን ክፈት</string>
   <string name="shortcut_control_speak_time">መናገሪ ወይም አለመናገሪያ ጊዜ</string>
   <string name="shortcut_enable_speak_time">መናገሪያ ጊዜ</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">መናገሪያ ጊዜ ጠፍቷል</string>
   <string name="shortcut_practice_gestures">የልምምድ እጅ ምልክቶች</string>
   <string name="shortcut_report_gesture">የምልክት ችግርን ሪፖርት ያድርጉ</string>
-  <string name="shortcut_toggle_braille_display">የብሬይል ማሳያን አብራ ወይም አጥፋ</string>
   <string name="shortcut_announce_current_time_and_date">የአሁን ቀን እና ሰዓትን ተናገር</string>
   <string name="shortcut_announce_battery_state">የባትሪ መቶኛን ተናገር</string>
   <string name="shortcut_announce_current_title">የመስኮት ርዕስን ተናገር</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">የንግግር መጠንን ይቀንሱ</string>
   <string name="shortcut_toggle_selection">የምርጫ ሁነታን ይጀምሩ ወይም ያጠናቅቁ</string>
   <string name="shortcut_show_tutorial">አጋዥ ስልጠናን ክፈት</string>
-  <string name="shortcut_toggle_braille_contracted_mode">መደበኛ (ደረጃ 2) እና መደበኛ ባልሆነ (ደረጃ 1) መካከል ቀይር</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ለተገናኙ የብሬይል ማሳያዎች የማያ ገጽ ላይ ብሬይል አሳይ ወይም ደብቅ</string>
   <string name="shortcut_toggle_sound_feedback">የድምፅ ግብረመልስን (የጆሮ አዶዎች) አብራ ወይም አጥፋ</string>
   <string name="shortcut_show_learn_mode_page">የቁልፍ ሰሌዳ አቋራጮችን ይለማመዱ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ትኩረት ለተደረገበት ንጥል በድምፅ አወጣጥ አነባበብ ቃላቶቸን ይናገሩ</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">የድምፅ ትዕዛዞች</string>
   <string name="title_show_keyboard_shortcuts">የቁልፍ ሰሌዳ አቋራጮች</string>
   <string name="talkback_show_talkback_settings">የSandFly ቅንብሮች</string>
-  <string name="title_show_braille_display_settings">የብሬይል ማሳያ ቅንብሮች</string>
   <string name="title_granularity_default">ነባሪ ዳሰሳ</string>
   <string name="title_action_dismiss">አስወግድ</string>
   <string name="title_action_expand">ዘርጋ</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ማያ ገፁን ሲያበሩ ጊዜው ጮክ ተብሎ ይነገር እንደሆነ ይለውጡ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">የቁልፍ ሰሌዳ አቋራጭ ዝርዝርን ክፈት</string>
   <string name="summary_talkback_preferences">የSandFly ቅንብሮችን ይክፈቱ</string>
-  <string name="summary_braile_display_preferences">የብሬይል ማሳያ ቅንብሮችን ክፈት</string>
   <string name="summary_system_actions">ወደ ሁሉም መተግበሪያዎች እና ፈጣን ቅንብሮች ይሂዱ</string>
   <string name="summary_tts_settings">የጽሑፍ-ወደ-ንግግር ቅንብሮችን ይክፈቱ</string>
   <string name="not_editable">አርትዖት ሊደረግበት አይችልም</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ቁልፍ ቃል %1$s ነው</string>
   <string name="screen_search_no_keyword_hint">እስካሁን ምንም ቁልፍ ቃል የለም። አዲስ ፍለጋ ለመጀመር በ3 ጣቶች መታ አድርገው ይያዙ ወይም ከSandFly ምናሌ የቀጥታ ፍለጋ ይክፈቱ።</string>
   <string name="screen_search_no_keyword_hint_pre_r">እስካሁን ምንም ቁልፍ ቃል የለም። አዲስ ፍለጋ ለመጀመር ወደ ግራ ያንሸራትቱ ከዚያ ወደታች ወይም ከSandFly ምናሌ የቀጥታ ፍለጋ ይክፈቱ።</string>
-  <string name="switch_to_braille_keyboard_failure_msg">የብሬይል ቁልፍ ሰሌዳ አልበራም። ወደ የSandFly ቅንብሮች ይሂዱ፣ የብሬይል ቁልፍ ሰሌዳን ያዋቅሩ እና እንደገና ይሞክሩ።</string>
   <string name="suggestions_window_available">የአስተያየት ጥቆማዎች ይገኛሉ</string>
   <string name="suggestions_window_available_with_gesture">የአስተያየት ጥቆማዎች ይገኛሉ። %1$s ዘንድ ለመድረስ</string>
   <string name="heads_up_window_available">ማሳወቂያ ይገኛል</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">በአዲስ የእጅ ምልክቶች አማካኝነት SandFlyን እንዴት በበለጠ ፍጥነት መጠቀም እንደሚችሉ ለማወቅ መታ ያድርጉ።</string>
   <string name="dump_node_tree_description">የዛፍ አንጓ ዛፍ በምዝግብ ማስታወሻዎች ላይ ታትሟል።</string>
   <string name="report_gesture_description">በቅርብ ጊዜ የተከናወኑ ምልክቶች እነሆ፣ እባክዎ የትኛው ምልክት የተሳሳተ እንደሆነ እና ምን እንደሚጠበቅ ሪፖርት ያድርጉ።</string>
-  <string name="update_welcome_text_content">አሁን ከብሉቱዝ መሣሪያዎች ጋር የመገናኛ መንገድ በሆነ ኤችአይዲ በኩል ከብሬይል ማሳያዎች ጋር መገናኘት ይችላሉ። ከአምራችዎ ላይ የቅርብ ጊዜዎቹ ፊርምዌር ነጂዎች እንዳሉዎት ያረጋግጡ፣ ከዚያም በእርስዎ የብሬይል ማሳያ ላይ ብሉቱዝ ያብሩ። ወደ SandFly ቅንብሮች &gt; የብሬይል ማሳያ ይሂዱ እና «የብሬይል ማሳያ ተጠቀም» የሚለውን ያብሩ። በመሣሪያዎች ዝርዝሩ ውስጥ የእርስዎን መሣሪያ ያግኙ እና ከእሱ ጋር ያገናኙ።</string>
-  <string name="update_welcome_text_content_tts">አሁን ከብሉቱዝ መሣሪያዎች ጋር የመገናኛ መንገድ በሆነ ኤችአይዲ በኩል ከብሬይል ማሳያዎች ጋር መገናኘት ይችላሉ። ከአምራችዎ ላይ የቅርብ ጊዜዎቹ ፊርምዌር ነጂዎች እንዳሉዎት ያረጋግጡ፣ ከዚያም በእርስዎ የብሬይል ማሳያ ላይ ብሉቱዝ ያብሩ። ወደ SandFly ቅንብሮች ከዚያም የብሬይል ማሳያ ይሂዱ እና «የብሬይል ማሳያ ተጠቀም» የሚለውን ያብሩ። በመሣሪያዎች ዝርዝሩ ውስጥ የእርስዎን መሣሪያ ያግኙ እና ከእሱ ጋር ያገናኙ።</string>
-  <string name="update_welcome_text_content_with_link">እንዴት በSandFly የእርስዎን የብሬይል ማሳያ መጠቀም እንደሚቻል ይወቁ።</string>
   <string name="update_welcome_talkback_16.1">ይህ የSandFly ዝማኔ ለመግለጫ ማያ ገፅ በተጨማሪ ቋንቋዎች እና SandFlyን ለአጠቃቀም ቀላል ለሚያደርጉት ሌሎች የጥራት ማሻሻያዎች ድጋፍን ያስተዋውቃል።\n\nበቀጣዮቹ ጥቂት ማያ ገፆች ስለእነዚህ ለውጦች የበለጠ ያውቃሉ።\n\nይህን መረጃ በኋላ ላይ SandFly ቅንብሮች &gt; SandFly ውስጥ አዳዲስ ባህሪያት ውስጥ ሊገመግሟቸው ይችላሉ።</string>
   <string name="update_welcome_talkback_16.1_tts">ይህ የSandFly ዝማኔ ለመግለጫ ማያ ገፅ በተጨማሪ ቋንቋዎች እና SandFlyን ለአጠቃቀም ቀላል ለሚያደርጉት ሌሎች የጥራት ማሻሻያዎች ድጋፍን ያስተዋውቃል።\n\nበቀጣዮቹ ጥቂት ማያ ገፆች ስለነዚህ ለውጦች የበለጠ ያውቃሉ።\n\nይህን መረጃ በኋላ ላይ SandFly ቅንብሮች ከዚያም SandFly ውስጥ አዳዲስ ባህሪያት ውስጥ ሊገመግሟቸው ይችላሉ።</string>
   <string name="describe_screen_and_qna_title">ለመግለጫ ማያ ገጽ እና Gemini ጠይቅ አዳዲስ ቋንቋዎች</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">መዘግየትን ይቀንሱ</string>
   <string name="reduce_delay_content">አሁን በንክኪ ለሚደረግ አሰሳ እና ለመተየብ የSandFly ማስታወቂያ መዘግየቶችን መቀነስ ይችላሉ። እነዚህን ቅንብሮች ለማየት ወደ የSandFly ቅንብሮች &gt; የላቁ ቅንብሮች &gt; መዘግየትን ቀንስ ይሂዱ።</string>
   <string name="reduce_delay_content_tts">አሁን በንክኪ ለሚደረግ አሰሳ እና ለመተየብ የSandFly ማስታወቂያ መዘግየቶችን መቀነስ ይችላሉ። እነዚህን ቅንብሮች ለማየት ወደ የSandFly ቅንብሮች ከዚያም የላቁ ቅንብሮች ከዚያም መዘግየትን ቀንስ ይሂዱ።</string>
-  <string name="customize_braille_keyboard_improvements_title">የብሬይል ቁልፍ ሰሌዳ ምልክቶችን ያብጁ</string>
-  <string name="customize_braille_keyboard_improvements_content">አሁን ለምናባዊ የማያ ገጽ ላይ የብሬይል ቁልፍ ሰሌዳ ምልክቶችን ማበጀት ይቻላል። ለማበጀት ወደ የSandFly ቅንብሮች &gt; የብሬይል ቁልፍ ሰሌዳ &gt; ምልክቶች ይሂዱ።</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">አሁን ለምናባዊ የማያ ገጽ ላይ የብሬይል ቁልፍ ሰሌዳ ምልክቶችን ማበጀት ይቻላል። ለማበጀት ወደ የSandFly ቅንብሮች ከዚያም የብሬይል ቁልፍ ሰሌዳ ከዚያም ምልክቶች ይሂዱ።</string>
-  <string name="learn_more_about_braille_keyboard">ስለ የብሬይል ቁልፍ ሰሌዳ የበለጠ ይወቁ</string>
   <string name="other_changes_title">ሌሎች ለውጦች</string>
   <string name="other_changes_content">አሁን በማያ ገፅ ላይ ያለ መልዕክት SandFly በድንገት ከበራ በፍጥነት እንዲያጠፉት ያግዝዎታል። ይህን የSandFly ቅንብሮች &gt; SandFlyን ለማጥፋት መመሪያዎችን አሳይ የሚለው ውስጥ ማጥፋት ይችላሉ።</string>
   <string name="other_changes_content_tts">አሁን በማያ ገፅ ላይ ያለ መልዕክት SandFly በድንገት ከበራ በፍጥነት እንዲያጠፉት ያግዝዎታል። ይህን የSandFly ቅንብሮች ከዚያም SandFlyን ለማጥፋት መመሪያዎችን አሳይ የሚለው ውስጥ ማጥፋት ይችላሉ።</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly አሁን ለአካላዊ የቁልፍ ሰሌዳዎች ከተለያዩ አዳዲስ ትዕዛዞች እና አቋራጮች ጋር «የተሻሻለ የቁልፍ ካርታ» አለው፣ ይህ ማሻሻያ በአካላዊ የቁልፍ ሰሌዳዎች ላይ ለሚተማመኑ የSandFly ተጠቃሚዎች አሰሳ እና መስተጋብርን ምቹ በማድረግ ለበለጠ ቀልጣፋ የድር አሰሳ «የአሰሳ ሁነታን» ያካትታል። <xliff:g id="settings_path">%1$s</xliff:g> ውስጥ ወደ «የተሻሻለ የቁልፍ ካርታ» መቀየር ይችላሉ።\n\nእንዲሁም የብሬይል ማሳያ የሚጠቀሙ ከሆነ ከብሬይል ማሳያዎ በቀጥታ በይዘት ውስጥ ለመጓዝ አዳዲስ የአሰሳ ሁነታ አቋራጮችን መጠቀም ይችላሉ። ይህን ለውጥ ለማስተናገድ አንዳንድ የብሬይል ማሳያ አቋራጮች ተለውጠዋል። <xliff:g id="braille_display_settings_path">%2$s</xliff:g> ውስጥ የሁሉም የብሬይል ማሳያ አቋራጮች ዝርዝር ማየት ይችላሉ።</string>
   <string name="keyboard_shortcuts_link">የSandFly ቅንብሮች &gt; የቁልፍ ሰሌዳ አቋራጮች</string>
   <string name="keyboard_shortcuts_link_tts">የSandFly ቅንብሮች ከዚያም የቁልፍ ሰሌዳ አቋራጮች</string>
-  <string name="braille_display_settings_link">የብሬይል ማሳያ ቅንብሮች</string>
   <string name="keyboard_smart_browse_mode_title">የቁልፍ ሰሌዳ፦ ዘመናዊ የአሰሳ ሁነታ</string>
   <string name="keyboard_smart_browse_mode_text">የSandFly ዘመናዊ የአሰሳ ሁነታ ድሩን ሲያስሱ በአካላዊ የቁልፍ ሰሌዳ እንዲተይቡ ለማገዝ በአርትዖት መስክ ላይ የአሰሳ ሁነታን ያጠፋል። ከዚያም በድር ላይ ወደ አርትዖት ያልሆነ መስክ ሲዘሉ በብቃት ማሰስዎን መቀጠል እንዲችሉ መልሶ ያበራዋል። <xliff:g id="settings_path">%1$s</xliff:g> ውስጥ «ዘመናዊ የአሰሳ ሁነታ»ን ማብራት ወይም ማጥፋት ይችላሉ።</string>
   <string name="advanced_settings_link">የSandFly ቅንብሮች &gt; የላቁ ቅንብሮች</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ጽሑፍን መተየብ</string>
   <string name="basic_typing_text_text">የጽሑፍ ሣጥን ውስጥ ሲሆኑ ከማያ ገጽዎ ታች ላይ የቁልፍ ሰሌዳ ይከፈታል።</string>
   <string name="typing_text_text">የእርስዎን ጣት በቁልፍ ሰሌዳው ዙሪያ ያንቀሳቅሱት። መተየብ የሚፈልጉትን ፊደል ሲሰሙ ጣትዎን ያንሱ።\n\nከታች የጽሑፍ ሣጥኑን ለማግበር ይሞክሩና ስምዎን ይተይቡ።</string>
-  <string name="typing_text_with_braille_keyboard_text">እንዲሁም በብሬይል ቁልፍ ሰሌዳውን መተየብም ይችላሉ። በSandFly ቅንብሮች ውስጥ ያግኙት።</string>
   <string name="other_ways_to_type_title">ለመተየብ ሌሎች መንገዶች</string>
   <string name="other_ways_to_type_text">SandFly ውስጥ ለመተየብ ሌሎች መንገዶች አሉ። ለምሳሌ፣ ፊደል ለማስገባት ሁለቴ መታ ማድረግን መጠቀም ይችላሉ።</string>
   <string name="basic_other_ways_to_type_text">SandFly ውስጥ ለመተየብ ሌሎች መንገዶች አሉ። ለምሳሌ፣ ፊደል ለማስገባት ሁለቴ መታ ማድረግን መጠቀም ይችላሉ። ይህን በኋላ ላይ SandFly ቅንብሮች &gt; ታይታ የቁልፍ ሰሌዳ &gt; የመተየብ ዘዴ ውስጥ መለወጥ ይችላሉ።</string>
@@ -1520,7 +1499,6 @@
     <string name="title_pref_announce_ringer_mode">የመጥሪያ ሁነታ</string>
     <string name="summary_pref_announce_ringer_mode">መጥሪያው ወደ ንዝረት ወይም ፀጥ ሲቀናበር ተናገር</string>
     <string name="title_pref_category_feedback">ግብረመልስ</string>
-    <string name="title_pref_category_typing_and_braille">መተየብ እና ብሬይል</string>
     <string name="title_pref_category_apps">መተግበሪያዎች</string>
     <string name="title_pref_touch_activation">ንክኪ እና ማግበር</string>
     <string name="title_pref_navigation">አሰሳ</string>
@@ -1544,8 +1522,6 @@
     <string name="speech_control_deny">አትፍቀድ</string>
     <string name="permission_speak_label">በSandFly በኩል መናገር</string>
     <string name="permission_speak_description">መተግበሪያው ጽሑፍን በSandFly ድምፅዎ ለመናገር እንዲጠይቅ ያስችለዋል። መተግበሪያው መናገር ከመቻሉ በፊት SandFly ይጠይቅዎታል።</string>
-    <string name="permission_braille_display_label">ለSandFly የብሬይል ማሳያ ለመሆን መጠየቅ</string>
-    <string name="permission_braille_display_description">መተግበሪያው ለSandFly የብሬይል ማሳያ ለመሆን እንዲጠይቅ ያስችለዋል። በSandFly ውስጥ ከፈቀዱለት በማያ ገፁ ላይ ያለውን ሁሉ ማንበብ እና መሣሪያዎን መቆጣጠር ይችላል። SandFly መጀመሪያ ይጠይቅዎታል።</string>
     <string name="title_pref_phonetic_letters_mode">ፊደላትን በድምፅ ምሳሌ ተናገር</string>
     <string name="phonetic_letters_mode_off">ጠፍቷል</string>
     <string name="phonetic_letters_mode_after_letter_delay">ከፊደሉ በኋላ፣ በመዘግየት፣ እንደ «h, hotel»</string>
@@ -1683,14 +1659,8 @@
     <string name="summary_support_wrap_around">ከመጨረሻው ንጥል ወደ መጀመሪያው መጠቅለልን አብራ ወይም አጥፋ</string>
     <string name="wrap_around_on">ዙሪያ መጠቅለል በርቷል</string>
     <string name="wrap_around_off">ዙሪያ መጠቅለል ጠፍቷል</string>
-    <string name="title_selector_tablet_held_up_faces_away">ወደ ላይ የተያዘ ጡባዊ ወደ ውጭ ይመለከታል</string>
-    <string name="summary_support_tablet_held_up_faces_away">በጡባዊ ወይም በተዘረጋ ስልክ ላይ ላለው የብሬይል ቁልፍ ሰሌዳ</string>
-    <string name="tablet_held_up_faces_away_on">ወደ ላይ የተያዘ ጡባዊ ወደ ውጭ ይመለከታል በርቷል</string>
-    <string name="tablet_held_up_faces_away_off">ወደ ላይ የተያዘ ጡባዊ ወደ ውጭ ይመለከታል ጠፍቷል</string>
     <string name="title_keyboard_echo_on_screen">የታይታ የቁልፍ ሰሌዳ ማሚቶ</string>
     <string name="title_keyboard_echo_physical">አካላዊ የቁልፍ ሰሌዳ ማሚቶ</string>
-    <string name="title_keyboard_echo_braille_keyboard">የብሬይል ቁልፍ ሰሌዳ ማሚቶ</string>
-    <string name="title_keyboard_echo_braille_display">የብሬይል ማሳያ ማሚቶ</string>
     <string name="template_keyboard_echo_state"><xliff:g id="setting" example="Physical keyboard echo">%1$s</xliff:g>፦ <xliff:g id="value" example="Words">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">በመተየብ ጊዜ ንግግርን አቋርጥ</string>
     <string name="pref_interrupt_typing_entry_always">ሁልጊዜ</string>

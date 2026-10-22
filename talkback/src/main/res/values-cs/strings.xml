@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Prozkoumání dotykem</string>
   <string name="title_pref_category_visual">Vizuální</string>
   <string name="title_pref_category_controls">Ovládací prvky</string>
-  <string name="title_pref_category_braille">Braillovo písmo</string>
   <string name="title_pref_category_general">Obecné</string>
   <string name="title_pref_category_advanced">Pokročilá</string>
   <string name="title_pref_category_others">Jiné</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Zkrátit prodlevu</string>
   <string name="talkback_latency_reduction_summary">Zrychlit reakce SandFly po dotyku obrazovky</string>
   <string name="summary_pref_intonation">Smazaná písmena vyslovovat vyšším hlasem</string>
-  <string name="title_pref_brailledisplay">Hmatový displej</string>
-  <string name="title_pref_brailleime">Braillská klávesnice</string>
-  <string name="summary_pref_brailleime_disabled">Zařízení braillskou klávesnici nepodporuje</string>
   <string name="title_pref_speech_footer">Pokud chcete hlasitost zvuků pro usnadnění přístupu změnit z kterékoliv obrazovky, podržte jeden prst na obrazovce a stiskněte tlačítko pro zvýšení nebo snížení hlasitosti.</string>
   <string name="title_pref_vibration">Vibrační zpětná vazba</string>
   <string name="title_pref_soundback">Zvuková zpětná vazba</string>
@@ -486,8 +482,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="shortcut_increase_volume">Zvýšit hlasitost</string>
   <string name="shortcut_decrease_volume">Snížit hlasitost</string>
   <string name="shortcut_all_apps">Všechny aplikace</string>
-  <string name="shortcut_braille_keyboard">Přepnout na braillskou klávesnici</string>
-  <string name="shortcut_braille_display_settings">Přejít do nastavení hmatového displeje</string>
   <string name="shortcut_tutorial">Otevřít výukový program</string>
   <string name="shortcut_control_speak_time">Říkat nebo neříkat čas nahlas</string>
   <string name="shortcut_enable_speak_time">Říkat čas nahlas</string>
@@ -496,7 +490,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="speak_time_off">Říkání času nahlas je vypnuté</string>
   <string name="shortcut_practice_gestures">Procvičování gest</string>
   <string name="shortcut_report_gesture">Nahlásit problém s gestem</string>
-  <string name="shortcut_toggle_braille_display">Zapnout nebo vypnout hmatový displej</string>
   <string name="shortcut_announce_current_time_and_date">Vyslovovat aktuální datum a čas</string>
   <string name="shortcut_announce_battery_state">Hlasově oznamovat stav baterie</string>
   <string name="shortcut_announce_current_title">Vyslovit název okna</string>
@@ -506,8 +499,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="shortcut_speech_rate_decrease">Snížit rychlost řeči</string>
   <string name="shortcut_toggle_selection">Zahájit nebo ukončit režim výběru</string>
   <string name="shortcut_show_tutorial">Otevřít výukový program</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Přepnout zkrácené (grade 2) / nezkrácené (grade 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Zobrazit/skrýt braillský prvek na obrazovce pro připojené hmatové displeje</string>
   <string name="shortcut_toggle_sound_feedback">Zapnout nebo vypnout zvukové signály</string>
   <string name="shortcut_show_learn_mode_page">Procvičte si klávesové zkratky</string>
   <string name="shortcut_announce_phonetic_pronunciation">Přečíst vybranou položku s fonetickou výslovností písmen</string>
@@ -548,7 +539,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="title_show_voice_commands">Hlasové příkazy</string>
   <string name="title_show_keyboard_shortcuts">Klávesové zkratky</string>
   <string name="talkback_show_talkback_settings">Nastavení funkce SandFly</string>
-  <string name="title_show_braille_display_settings">Nastavení hmatového displeje</string>
   <string name="title_granularity_default">Výchozí navigace</string>
   <string name="title_action_dismiss">Zavřít</string>
   <string name="title_action_expand">Rozbalit</string>
@@ -576,7 +566,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="summary_control_speak_time">Určete, jestli se bude říkat čas nahlas, když zapnete obrazovku</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otevřít seznam klávesových zkratek</string>
   <string name="summary_talkback_preferences">Otevření nastavení SandFly</string>
-  <string name="summary_braile_display_preferences">Otevřít nastavení hmatového displeje</string>
   <string name="summary_system_actions">Přejít na všechny aplikace a rychlé nastavení</string>
   <string name="summary_tts_settings">Otevřít nastavení převodu textu na řeč</string>
   <string name="not_editable">Nelze upravit</string>
@@ -917,7 +906,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="screen_search_keyword_hint">klíčové slovo je %1$s</string>
   <string name="screen_search_no_keyword_hint">Zatím nemáte žádná klíčová slova. Pokud chcete zahájit nové vyhledávání, klepněte třemi prsty a podržte je nebo v nabídce SandFly otevřete přímé vyhledávání.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Zatím nemáte žádná klíčová slova. Pokud chcete zahájit nové vyhledávání, přejeďte doleva a pak dolů nebo v nabídce SandFly otevřete přímé vyhledávání.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braillská klávesnice není zapnuta. Nakonfigurujte ji v nastavení SandFly a zkuste to znovu.</string>
   <string name="suggestions_window_available">Jsou k dispozici návrhy</string>
   <string name="suggestions_window_available_with_gesture">Jsou k dispozici návrhy Otevřete je tímto gestem: %1$s</string>
   <string name="heads_up_window_available">Je k dispozici oznámení</string>
@@ -967,9 +955,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="new_gesture_notification_content">Klepnutím zobrazíte návod, jak čtečku SandFly používat rychleji pomocí nových gest.</string>
   <string name="dump_node_tree_description">Strom uzlů byl uložen do protokolů.</string>
   <string name="report_gesture_description">Zde jsou naposledy provedená gesta. Nahlaste, které gesto je špatně a co je očekáváno.</string>
-  <string name="update_welcome_text_content">K hmatovým displejům se teď můžete připojit přes HID, což je způsob připojení k zařízením Bluetooth. Zkontrolujte, zda máte nejnovější ovladače firmwaru od výrobce, a pak na hmatovém displeji zapněte Bluetooth. Přejděte na Nastavení funkce SandFly &gt; Hmatový displej a zapněte možnost Používat hmatový displej. Najděte v seznamu své zařízení a připojte se k němu.</string>
-  <string name="update_welcome_text_content_tts">K hmatovým displejům se teď můžete připojit přes HID, což je způsob připojení k zařízením Bluetooth. Zkontrolujte, zda máte nejnovější ovladače firmwaru od výrobce, a pak na hmatovém displeji zapněte Bluetooth. Přejděte na Nastavení funkce SandFly a pak Hmatový displej a zapněte možnost Používat hmatový displej. Najděte v seznamu své zařízení a připojte se k němu.</string>
-  <string name="update_welcome_text_content_with_link">Přečtěte si, jak s funkcí SandFly používat hmatový displej.</string>
   <string name="update_welcome_talkback_16.1">Tato aktualizace aplikace SandFly přináší podporu funkce Popis obrazovky ve více jazycích a další vylepšení kvality, která usnadňují používání.\n\nVíce se o těchto změnách dozvíte na několika dalších obrazovkách.\n\nTyto informace si můžete kdykoli později přečíst v nastavení aplikace SandFly &gt; Nové funkce aplikace SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Tato aktualizace aplikace SandFly přináší podporu funkce Popis obrazovky ve více jazycích a další vylepšení kvality, která usnadňují používání.\n\nVíce se o těchto změnách dozvíte na několika dalších obrazovkách.\n\nTyto informace si můžete kdykoli přečíst v nastavení aplikace SandFly v sekci Nové funkce aplikace SandFly.</string>
   <string name="describe_screen_and_qna_title">Podpora funkcí Popis obrazovky a Zeptat se Gemini v dalších jazycích</string>
@@ -985,10 +970,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="reduce_delay_title">Zkrácení prodlevy</string>
   <string name="reduce_delay_content">Prodlevu oznámení aplikace SandFly při prohlížení a psaní dotykem teď můžete zkrátit. Příslušná nastavení si můžete zobrazit tak, že přejdete na nastavení aplikace SandFly &gt; Rozšířená nastavení &gt; Zkrátit prodlevu.</string>
   <string name="reduce_delay_content_tts">Prodlevu oznámení aplikace SandFly při prohlížení a psaní dotykem teď můžete zkrátit. Příslušná nastavení si můžete zobrazit tak, že přejdete na nastavení aplikace SandFly, pak na Rozšířená nastavení a pak na Zkrátit prodlevu.</string>
-  <string name="customize_braille_keyboard_improvements_title">Přizpůsobení gest braillské klávesnice</string>
-  <string name="customize_braille_keyboard_improvements_content">Nově je možné přizpůsobit si gesta pro virtuální braillskou klávesnici na obrazovce. Pokud si je chcete přizpůsobit, přejděte do nastavení aplikace SandFly &gt; Braillská klávesnice &gt; Gesta.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Nově je možné přizpůsobit si gesta pro virtuální braillskou klávesnici na obrazovce. Pokud si je chcete přizpůsobit, přejděte do nastavení aplikace SandFly, pak na Braillská klávesnice a pak na Gesta.</string>
-  <string name="learn_more_about_braille_keyboard">Další informace o braillské klávesnici</string>
   <string name="other_changes_title">Další změny</string>
   <string name="other_changes_content">Pokud čtečku SandFly zapnete omylem, můžete ji teď prostřednictvím zprávy na obrazovce rychle vypnout. Tuto funkci můžete vypnout v nastavení aplikace SandFly &gt; Zobrazit pokyny k vypnutí čtečky SandFly.</string>
   <string name="other_changes_content_tts">Pokud čtečku SandFly zapnete omylem, můžete ji teď prostřednictvím zprávy na obrazovce rychle vypnout. Tuto funkci můžete vypnout v nastavení aplikace SandFly v části Zobrazit pokyny k vypnutí čtečky SandFly.</string>
@@ -1021,7 +1002,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="keyboard_enhanced_keymap_text">SandFly teď má pro fyzické klávesnice vylepšenou mapu kláves s řadou nových příkazů a zkratek. Toto vylepšení zahrnuje „režim procházení“ pro efektivnější procházení webu a usnadňuje tak procházení a interakce uživatelům funkce SandFly, kteří používají fyzické klávesnice. Na vylepšenou mapu kláves můžete přepnout v sekci %1$s.\n\nPokud používáte hmatový displej, můžete také pomocí nových zkratek režimu procházení procházet obsah přímo z něj. Kvůli této změně byly upraveny některé zkratky pro hmatové displeje. Seznam všech zkratek pro hmatové displeje najdete v sekci %2$s.</string>
   <string name="keyboard_shortcuts_link">Nastavení funkce SandFly &gt; Klávesové zkratky</string>
   <string name="keyboard_shortcuts_link_tts">Nastavení funkce SandFly a pak Klávesové zkratky</string>
-  <string name="braille_display_settings_link">Nastavení hmatového displeje</string>
   <string name="keyboard_smart_browse_mode_title">Klávesnice: Chytrý režim procházení</string>
   <string name="keyboard_smart_browse_mode_text">Chytrý režim procházení funkce SandFly vypne v upravitelných polích režim procházení, abyste na webech mohli snáz psát pomocí fyzické klávesnice. Když na webu přejdete na pole, které nelze upravovat, režim procházení se zase zapne, abyste mohli efektivně pokračovat v prohlížení. Chytrý režim procházení můžete zapnout nebo vypnout v sekci %1$s.</string>
   <string name="advanced_settings_link">Nastavení funkce SandFly &gt; Rozšířená nastavení</string>
@@ -1094,7 +1074,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="typing_text_title">Psaní textu</string>
   <string name="basic_typing_text_text">Když přejdete do textového pole, v dolní části obrazovky se otevře klávesnice.</string>
   <string name="typing_text_text">Pohybujte prstem po klávesnici. Až uslyšíte písmeno, které chcete napsat, prst zvedněte.\n\nZkuste aktivovat textové pole níže a napsat svoje jméno.</string>
-  <string name="typing_text_with_braille_keyboard_text">Můžete psát také pomocí braillské klávesnice. Najdete ji v nastavení SandFly.</string>
   <string name="other_ways_to_type_title">Jiné způsoby psaní</string>
   <string name="other_ways_to_type_text">V aplikaci SandFly se dá psát i jinak. Můžete například zadávat písmena dvojitým klepnutím.</string>
   <string name="basic_other_ways_to_type_text">V aplikaci SandFly se dá psát i jinak. Můžete například zadávat písmena dvojitým klepnutím. Můžete to později změnit v nastavení aplikace SandFly &gt; Klávesnice na obrazovce &gt; Předvolba psaní.</string>
@@ -1524,7 +1503,5 @@ V odpovědi nepoužívej žádné formátování, například Markdown.</string
     <string name="title_pref_focus_new_windows">Přesouvat zaměření do nových oken</string>
     <string name="title_keyboard_echo_on_screen">Hlasový doprovod softwarové klávesnice</string>
     <string name="title_keyboard_echo_physical">Hlasový doprovod fyzické klávesnice</string>
-    <string name="title_keyboard_echo_braille_keyboard">Hlasový doprovod braillské klávesnice</string>
-    <string name="title_keyboard_echo_braille_display">Hlasový doprovod hmatového displeje</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
 </resources>

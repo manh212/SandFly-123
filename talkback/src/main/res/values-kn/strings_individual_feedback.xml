@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ಬ್ರೌಸ್ ಮೋಡ್ ಆನ್</string>
   <string name="individual_sound_browse_mode_off">ಬ್ರೌಸ್ ಮೋಡ್ ಆಫ್</string>
   <string name="individual_sound_radial_menu">ವೃತ್ತಾಕಾರದ ಮೆನು</string>
-  <string name="individual_sound_display_connected">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಕನೆಕ್ಟ್ ಆಗಿದೆ</string>
-  <string name="individual_sound_display_disconnected">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಡಿಸ್‌ಕನೆಕ್ಟ್ ಆಗಿದೆ</string>
-  <string name="individual_sound_double_beep">ಬ್ರೈಲ್ ಆದೇಶ ವಿಫಲವಾಗಿದೆ</string>
-  <string name="individual_sound_turn_on">ಬ್ರೈಲ್ ಸ್ವಯಂ ಸ್ಕ್ರಾಲ್ ಆನ್</string>
-  <string name="individual_sound_turn_off">ಬ್ರೈಲ್ ಸ್ವಯಂ ಸ್ಕ್ರಾಲ್ ಆಫ್</string>
-  <string name="individual_sound_calibration_done">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಕ್ಯಾಲಿಬ್ರೇಟ್ ಆಗಿದೆ</string>
   <string name="individual_vibration_focus">ಐಟಂ ಮೇಲೆ ಫೋಕಸ್</string>
   <string name="individual_vibration_focus_actionable">ಕ್ರಿಯೆ ಮಾಡಬಹುದಾದ ಐಟಂ ಮೇಲೆ ಫೋಕಸ್</string>
   <string name="individual_vibration_clicked">ಕ್ಲಿಕ್</string>

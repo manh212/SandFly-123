@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Знак меньше в полную ширину</string>
   <string name="symbol_full_width_greater_than_sign">Знак больше в полную ширину</string>
   <string name="symbol_left_single_quotation_mark">Открывающая одинарная кавычка</string>
-  <string name="symbol_braille">Символ шрифта Брайля: %s</string>
-  <plurals name="dots">
-    <item quantity="one">точка %s</item>
-    <item quantity="few">точки %s</item>
-    <item quantity="many">точки %s</item>
-    <item quantity="other">точки %s</item>
-  </plurals>
 </resources>

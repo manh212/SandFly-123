@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explorer au toucher</string>
   <string name="title_pref_category_visual">Visuel</string>
   <string name="title_pref_category_controls">Commandes</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Général</string>
   <string name="title_pref_category_advanced">Paramètres avancés</string>
   <string name="title_pref_category_others">Autres</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Réduire le délai</string>
   <string name="talkback_latency_reduction_summary">Accélérer la réponse de SandFly lorsque vous touchez l\'écran</string>
   <string name="summary_pref_intonation">Énoncer les lettres supprimées dans une tonalité plus haute</string>
-  <string name="title_pref_brailledisplay">Plage braille</string>
-  <string name="title_pref_brailleime">Clavier braille</string>
-  <string name="summary_pref_brailleime_disabled">Votre appareil n\'est pas compatible avec le clavier braille</string>
   <string name="title_pref_speech_footer">Pour modifier le volume d\'accessibilité depuis n\'importe quel écran, maintenez un doigt sur l\'écran tout en appuyant sur la touche volume+ ou volume-.</string>
   <string name="title_pref_vibration">Vibration</string>
   <string name="title_pref_soundback">Retour sonore</string>
@@ -486,8 +482,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="shortcut_increase_volume">Augmenter le volume</string>
   <string name="shortcut_decrease_volume">Baisser le volume</string>
   <string name="shortcut_all_apps">Toutes les applications</string>
-  <string name="shortcut_braille_keyboard">Passer au clavier braille</string>
-  <string name="shortcut_braille_display_settings">Accéder aux paramètres de plage braille</string>
   <string name="shortcut_tutorial">Ouvrir le tutoriel</string>
   <string name="shortcut_control_speak_time">Dire l\'heure ou ne pas dire l\'heure</string>
   <string name="shortcut_enable_speak_time">Dire l\'heure</string>
@@ -496,7 +490,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="speak_time_off">Dire l\'heure désactivé</string>
   <string name="shortcut_practice_gestures">Essayer les gestes</string>
   <string name="shortcut_report_gesture">Signaler un problème avec un geste</string>
-  <string name="shortcut_toggle_braille_display">Activer ou désactiver la plage braille</string>
   <string name="shortcut_announce_current_time_and_date">Énoncer la date et l\'heure actuelles</string>
   <string name="shortcut_announce_battery_state">Dire le pourcentage de batterie</string>
   <string name="shortcut_announce_current_title">Énoncer le titre de la fenêtre</string>
@@ -506,8 +499,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="shortcut_speech_rate_decrease">Réduire la vitesse d\'élocution</string>
   <string name="shortcut_toggle_selection">Démarrer ou terminer le mode Sélection</string>
   <string name="shortcut_show_tutorial">Ouvrir le tutoriel</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Basculer entre le braille abrégé (niveau 2) et le braille non abrégé (niveau 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Afficher ou masquer le braille à l\'écran pour les plages braille connectées</string>
   <string name="shortcut_toggle_sound_feedback">Activer ou désactiver le retour sonore (icônes sonores)</string>
   <string name="shortcut_show_learn_mode_page">Utiliser les raccourcis clavier</string>
   <string name="shortcut_announce_phonetic_pronunciation">Énoncer les lettres avec la prononciation phonétique pour l\'élément sélectionné</string>
@@ -548,7 +539,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="title_show_voice_commands">Commandes vocales</string>
   <string name="title_show_keyboard_shortcuts">Raccourcis clavier</string>
   <string name="talkback_show_talkback_settings">Paramètres SandFly</string>
-  <string name="title_show_braille_display_settings">Paramètres de la plage braille</string>
   <string name="title_granularity_default">Navigation par défaut</string>
   <string name="title_action_dismiss">Ignorer</string>
   <string name="title_action_expand">Développer</string>
@@ -576,7 +566,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="summary_control_speak_time">Définir si l\'heure est énoncée ou non lorsque vous allumez l\'écran</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Ouvrir la liste des raccourcis clavier</string>
   <string name="summary_talkback_preferences">Accéder aux paramètres de SandFly</string>
-  <string name="summary_braile_display_preferences">Ouvrir les paramètres de la plage braille</string>
   <string name="summary_system_actions">Sélectionnez \"Toutes les applis\", puis \"Réglages rapides\"</string>
   <string name="summary_tts_settings">Accéder aux paramètres de synthèse vocale</string>
   <string name="not_editable">Non modifiable</string>
@@ -917,7 +906,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="screen_search_keyword_hint">le mot clé est %1$s</string>
   <string name="screen_search_no_keyword_hint">Aucun mot clé pour le moment. Pour lancer une nouvelle recherche, appuyez de manière prolongée avec trois doigts ou ouvrez la recherche sur l\'écran à partir du menu SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Aucun mot clé pour le moment. Pour lancer une nouvelle recherche, balayez l\'écran vers la gauche, puis vers le bas, ou ouvrez la recherche sur l\'écran à partir du menu SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Clavier braille non activé. Accédez aux paramètres SandFly, configurez ce clavier, puis réessayez.</string>
   <string name="suggestions_window_available">Suggestions disponibles</string>
   <string name="suggestions_window_available_with_gesture">Suggestions disponibles Pour y accéder, %1$s</string>
   <string name="heads_up_window_available">Notification disponible</string>
@@ -967,9 +955,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="new_gesture_notification_content">Appuyez pour apprendre à utiliser SandFly plus rapidement avec les nouveaux gestes.</string>
   <string name="dump_node_tree_description">L\'arborescence des nœuds a été imprimée dans les journaux.</string>
   <string name="report_gesture_description">Voici les gestes effectués récemment. Merci d\'indiquer celui qui pose problème et ce que vous attendiez.</string>
-  <string name="update_welcome_text_content">Vous pouvez désormais vous connecter à des plages braille via HID, une méthode de connexion aux appareils Bluetooth. Assurez-vous d\'avoir installé les derniers pilotes du micrologiciel de votre fabricant, puis activez le Bluetooth sur votre plage braille. Accédez à Paramètres SandFly &gt; Plage braille, puis activez l\'option \"Utiliser une plage braille\". Dans la liste des appareils, recherchez le vôtre et connectez-vous à celui-ci.</string>
-  <string name="update_welcome_text_content_tts">Vous pouvez désormais vous connecter à des plages braille via HID, une méthode de connexion aux appareils Bluetooth. Assurez-vous d\'avoir installé les derniers pilotes du micrologiciel de votre fabricant, puis activez le Bluetooth sur votre plage braille. Accédez à \"Paramètres SandFly\", puis \"Plage braille\" et activez l\'option \"Utiliser une plage braille\". Dans la liste des appareils, recherchez le vôtre et connectez-vous à celui-ci.</string>
-  <string name="update_welcome_text_content_with_link">Découvrez comment utiliser votre plage braille avec SandFly.</string>
   <string name="update_welcome_talkback_16.1">Cette mise à jour de SandFly introduit la prise en charge de \"Décrire l\'écran\" dans un plus grand nombre de langues et d\'autres améliorations de la qualité qui facilitent son utilisation.\n\nVous en apprendrez davantage sur ces modifications sur les écrans suivants.\n\nVous pourrez consulter ces informations ultérieurement en accédant à Paramètres SandFly &gt; Nouvelles fonctionnalités de SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Cette mise à jour de SandFly introduit la prise en charge de \"Décrire l\'écran\" dans un plus grand nombre de langues et d\'autres améliorations de la qualité qui facilitent son utilisation.\n\nVous en apprendrez davantage sur ces modifications sur les écrans suivants.\n\nVous pourrez consulter ces informations ultérieurement dans \"Paramètres SandFly\", en sélectionnant \"Nouvelles fonctionnalités de SandFly\".</string>
   <string name="describe_screen_and_qna_title">Nouvelles langues pour les fonctionnalités Décrire l\'écran et Demander à Gemini</string>
@@ -985,10 +970,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="reduce_delay_title">Réduire le délai</string>
   <string name="reduce_delay_content">Vous pouvez désormais réduire les délais d\'annonce de SandFly pour l\'exploration tactile et la saisie. Pour afficher ces paramètres, accédez à Paramètres SandFly &gt; Paramètres avancés &gt; Réduire le délai.</string>
   <string name="reduce_delay_content_tts">Vous pouvez désormais réduire les délais d\'annonce de SandFly pour l\'exploration tactile et la saisie. Pour afficher ces paramètres, accédez aux \"Paramètres SandFly\", puis aux \"Paramètres avancés\" et enfin à \"Réduire le délai\".</string>
-  <string name="customize_braille_keyboard_improvements_title">Personnaliser les gestes du clavier braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Vous pouvez désormais personnaliser les gestes du clavier braille virtuel à l\'écran. Pour personnaliser, accédez à Paramètres SandFly &gt; Clavier braille &gt; Gestes.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Vous pouvez désormais personnaliser les gestes du clavier braille virtuel à l\'écran. Pour personnaliser, accédez à \"Paramètres SandFly\", puis à \"Clavier braille\", puis à \"Gestes\".</string>
-  <string name="learn_more_about_braille_keyboard">En savoir plus sur le clavier braille</string>
   <string name="other_changes_title">Autres modifications</string>
   <string name="other_changes_content">Un message à l\'écran vous aide désormais à désactiver rapidement SandFly s\'il est activé par accident. Vous pouvez désactiver cette option dans Paramètres SandFly &gt; Afficher les instructions pour désactiver SandFly.</string>
   <string name="other_changes_content_tts">Un message à l\'écran vous aide désormais à désactiver rapidement SandFly s\'il est activé par accident. Vous pouvez désactiver cette option en accédant à \"Paramètres SandFly\", puis à \"Afficher les instructions pour désactiver SandFly\".</string>
@@ -1021,7 +1002,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="keyboard_enhanced_keymap_text">SandFly propose désormais un \"jeu de raccourcis clavier amélioré\" pour les claviers physiques, avec de nouvelles commandes et de nouveaux raccourcis. Cette amélioration inclut le \"mode navigation\" pour une navigation plus efficace sur le Web. Cela simplifie la navigation et l\'interaction pour les personnes qui utilisent des claviers physiques sur SandFly. Vous pouvez passer au \"jeu de raccourcis clavier amélioré\" en accédant à <xliff:g id="settings_path">%1$s</xliff:g>.\n\nSi vous utilisez une plage braille, vous pouvez également utiliser les nouveaux raccourcis du mode navigation pour parcourir le contenu directement depuis votre plage braille. Certains raccourcis de la plage braille ont été modifiés pour s\'adapter à ce changement. Vous pouvez consulter la liste de tous les raccourcis de la plage braille dans <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Paramètres SandFly &gt; Raccourcis clavier</string>
   <string name="keyboard_shortcuts_link_tts">\"Paramètres SandFly\", puis \"Raccourcis clavier\"</string>
-  <string name="braille_display_settings_link">Paramètres de la plage braille</string>
   <string name="keyboard_smart_browse_mode_title">Clavier : mode navigation intelligente</string>
   <string name="keyboard_smart_browse_mode_text">Le mode navigation intelligente de SandFly désactive le mode navigation dans un champ de saisie pour vous aider à saisir du texte à l\'aide d\'un clavier physique lorsque vous naviguez sur le Web. Il le réactive ensuite lorsque vous passez à un champ qui n\'est pas un champ de saisie sur le Web afin que vous puissiez continuer à naviguer efficacement. Vous pouvez activer ou désactiver le mode de navigation intelligente en accédant à <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Paramètres SandFly &gt; Paramètres avancés</string>
@@ -1094,7 +1074,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="typing_text_title">Saisir du texte</string>
   <string name="basic_typing_text_text">Lorsque vous êtes dans une zone de texte, un clavier s\'ouvre en bas de l\'écran.</string>
   <string name="typing_text_text">Déplacez votre doigt sur le clavier. Lorsque vous entendez la lettre à saisir, relevez le doigt.\n\nEssayez d\'activer la zone de texte ci-dessous et saisissez votre nom.</string>
-  <string name="typing_text_with_braille_keyboard_text">Vous pouvez aussi saisir du texte à l\'aide du clavier braille. Pour utiliser ce clavier, accédez aux paramètres SandFly.</string>
   <string name="other_ways_to_type_title">Autres façons d\'écrire</string>
   <string name="other_ways_to_type_text">Il existe d\'autres façons de saisir du texte dans SandFly. Par exemple, vous pouvez appuyer deux fois pour saisir une lettre.</string>
   <string name="basic_other_ways_to_type_text">Il existe d\'autres façons de saisir du texte dans SandFly. Par exemple, vous pouvez appuyer deux fois pour saisir une lettre. Vous pourrez modifier cette option plus tard dans Paramètres SandFly &gt; Clavier à l\'écran &gt; Méthode de saisie.</string>
@@ -1520,7 +1499,6 @@ N\'utilisez aucune notation dans votre réponse.</string>
     <string name="title_pref_announce_ringer_mode">Mode de sonnerie</string>
     <string name="summary_pref_announce_ringer_mode">Énoncer si la sonnerie est en mode vibreur ou silencieux</string>
     <string name="title_pref_category_feedback">Retours</string>
-    <string name="title_pref_category_typing_and_braille">Saisie et braille</string>
     <string name="title_pref_category_apps">Applications</string>
     <string name="title_pref_touch_activation">Toucher et activation</string>
     <string name="title_pref_navigation">Navigation</string>
@@ -1544,8 +1522,6 @@ N\'utilisez aucune notation dans votre réponse.</string>
     <string name="speech_control_deny">Ne pas autoriser</string>
     <string name="permission_speak_label">parler via SandFly</string>
     <string name="permission_speak_description">Permet à l\'application de demander à énoncer du texte avec votre voix SandFly. SandFly vous demande votre accord avant que l\'application puisse parler.</string>
-    <string name="permission_braille_display_label">demander à servir de plage braille pour SandFly</string>
-    <string name="permission_braille_display_description">Permet à l\'application de demander à servir de plage braille pour SandFly. Si vous l\'autorisez dans SandFly, elle peut lire tout le contenu de l\'écran et contrôler votre appareil. SandFly vous demande d\'abord votre accord.</string>
     <string name="title_pref_phonetic_letters_mode">Lettres phonétiques</string>
     <string name="phonetic_letters_mode_off">Désactivé</string>
     <string name="phonetic_letters_mode_after_letter_delay">Après la lettre, avec un délai, par exemple \"h, Hotel\"</string>
@@ -1684,14 +1660,8 @@ N\'utilisez aucune notation dans votre réponse.</string>
     <string name="summary_support_wrap_around">Activer ou désactiver le passage du dernier élément au premier</string>
     <string name="wrap_around_on">Navigation en boucle activée</string>
     <string name="wrap_around_off">Navigation en boucle désactivée</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablette tenue droite, écran vers l\'extérieur</string>
-    <string name="summary_support_tablet_held_up_faces_away">Pour le clavier braille sur une tablette ou un téléphone déplié</string>
-    <string name="tablet_held_up_faces_away_on">Tablette tenue droite, écran vers l\'extérieur activé</string>
-    <string name="tablet_held_up_faces_away_off">Tablette tenue droite, écran vers l\'extérieur désactivé</string>
     <string name="title_keyboard_echo_on_screen">Écho du clavier à l\'écran</string>
     <string name="title_keyboard_echo_physical">Écho du clavier physique</string>
-    <string name="title_keyboard_echo_braille_keyboard">Écho du clavier braille</string>
-    <string name="title_keyboard_echo_braille_display">Écho de la plage braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g> : <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Interrompre la synthèse vocale lors de la saisie</string>
     <string name="pref_interrupt_typing_entry_always">Toujours</string>

@@ -75,7 +75,6 @@ public class TalkbackMenuProcessor {
    * ORDER_VOICE_COMMANDS = 21;
    * ORDER_TALKBACK_SETTINGS = 22;
    * ORDER_TTS_SETTINGS = 23;
-   * ORDER_BRAILLE_DISPLAY_SETTINGS = 25;
    */
   private static final int ORDER_TYPO_SUGGESTIONS = 1;
   private static final int ORDER_ACTIONS = 2;
@@ -177,16 +176,6 @@ public class TalkbackMenuProcessor {
         TypingInput.PHYSICAL_KEYBOARD,
         R.id.keyboard_echo_physical_menu,
         R.string.pref_show_context_menu_keyboard_echo_physical_setting_key);
-    addKeyboardEchoMenuIfValid(
-        menu,
-        TypingInput.BRAILLE_KEYBOARD,
-        R.id.keyboard_echo_braille_keyboard_menu,
-        R.string.pref_show_context_menu_keyboard_echo_braille_keyboard_setting_key);
-    addKeyboardEchoMenuIfValid(
-        menu,
-        TypingInput.BRAILLE_DISPLAY,
-        R.id.keyboard_echo_braille_display_menu,
-        R.string.pref_show_context_menu_keyboard_echo_braille_display_setting_key);
     // Read From & Last Phrase Spoken & screen search at context_menu.xml
     addContextMenuXmlMenu(menu);
 
@@ -346,18 +335,6 @@ public class TalkbackMenuProcessor {
             R.string.pref_show_context_menu_talkback_settings_setting_key,
             R.bool.pref_show_context_menu_talkback_settings_default)) {
       menu.removeItem(R.id.talkback_settings);
-    }
-
-    // Removes braille display settings if braille display isn't supported, phone is locked, Setup
-    // Wizard isn't completed or the preference of showing item is unchecked.
-    if (!FeatureSupport.supportBrailleDisplay(service)
-        || ScreenMonitor.isDeviceLocked(service)
-        || !SettingsUtils.allowLinksOutOfSettings(service)
-        || FormFactorUtils.isAndroidXr()
-        || !showMenuItem(
-            R.string.pref_show_context_menu_braille_display_settings_setting_key,
-            R.bool.pref_show_context_menu_braille_display_settings_default)) {
-      menu.removeItem(R.id.braille_display_settings);
     }
 
     if (!FeatureFlagReader.enableShowKeyboardShortcutsDialog(service)

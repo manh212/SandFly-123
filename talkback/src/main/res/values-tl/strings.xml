@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explore by touch</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Mga Kontrol</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Pangkalahatan</string>
   <string name="title_pref_category_advanced">Advanced</string>
   <string name="title_pref_category_others">Iba pa</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Bawasan ang pagkaantala</string>
   <string name="talkback_latency_reduction_summary">Pabilisin ang pagtugon ng SandFly pagkatapos mong pindutin ang screen</string>
   <string name="summary_pref_intonation">Bigkasin ang mga na-delete na titik sa boses na may mas mataas na pitch</string>
-  <string name="title_pref_brailledisplay">Braille display</string>
-  <string name="title_pref_brailleime">Braille keyboard</string>
-  <string name="summary_pref_brailleime_disabled">Walang braille keyboard sa device</string>
   <string name="title_pref_speech_footer">Para baguhin ang volume ng accessibility mula sa anumang screen, pindutin nang matagal ang screen gamit ang 1 daliri at pindutin ang pataas na volume o pababang volume key.</string>
   <string name="title_pref_vibration">Feedback ng pag-vibrate</string>
   <string name="title_pref_soundback">Feedback ng tunog</string>
@@ -486,8 +482,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="shortcut_increase_volume">Lakasan</string>
   <string name="shortcut_decrease_volume">Hinaan</string>
   <string name="shortcut_all_apps">Lahat ng app</string>
-  <string name="shortcut_braille_keyboard">Mag-braille keyboard</string>
-  <string name="shortcut_braille_display_settings">Pumunta sa setting ng braille display</string>
   <string name="shortcut_tutorial">Buksan ang tutorial</string>
   <string name="shortcut_control_speak_time">Sabihin ang oras o huwag sabihin ang oras</string>
   <string name="shortcut_enable_speak_time">Sabihin ang oras</string>
@@ -496,7 +490,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="speak_time_off">Naka-off ang sabihin ang oras</string>
   <string name="shortcut_practice_gestures">Mag-ensayo ng mga galaw</string>
   <string name="shortcut_report_gesture">Iulat ang isyu sa galaw</string>
-  <string name="shortcut_toggle_braille_display">I-on o i-off ang braille display</string>
   <string name="shortcut_announce_current_time_and_date">Sabihin ang kasalukuyang petsa at oras</string>
   <string name="shortcut_announce_battery_state">Sabihin ang porsyento ng baterya</string>
   <string name="shortcut_announce_current_title">Sabihin ang pamagat ng window</string>
@@ -506,8 +499,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="shortcut_speech_rate_decrease">Pabagalin ang pagsasalita</string>
   <string name="shortcut_toggle_selection">Simulan o tapusin ang selection mode</string>
   <string name="shortcut_show_tutorial">Buksan ang tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Lumipat sa contracted (grade 2) at uncontracted (grade 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Ipakita o itago ang braille para sa braille display</string>
   <string name="shortcut_toggle_sound_feedback">I-on o i-off ang feedback na tunog (mga earcon)</string>
   <string name="shortcut_show_learn_mode_page">Magsanay sa mga keyboard shortcut</string>
   <string name="shortcut_announce_phonetic_pronunciation">Sabihin ang mga titik na may phonetic na pagbigkas para sa naka-focus na item</string>
@@ -548,7 +539,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="title_show_voice_commands">Mga command gamit ang boses</string>
   <string name="title_show_keyboard_shortcuts">Mga keyboard shortcut</string>
   <string name="talkback_show_talkback_settings">Mga setting ng SandFly</string>
-  <string name="title_show_braille_display_settings">Mga setting ng braille display</string>
   <string name="title_granularity_default">Default na pag-navigate</string>
   <string name="title_action_dismiss">I-dismiss</string>
   <string name="title_action_expand">Palawakin</string>
@@ -576,7 +566,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="summary_control_speak_time">Baguhin kung sasabihin nang malakas ang oras kapag na-on mo ang screen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Buksan ang listahan ng mga keyboard shortcut</string>
   <string name="summary_talkback_preferences">Buksan ang mga setting ng SandFly</string>
-  <string name="summary_braile_display_preferences">Buksan ang mga setting ng braille display</string>
   <string name="summary_system_actions">Pumunta sa lahat ng app at Mga Mabilisang Setting</string>
   <string name="summary_tts_settings">Buksan ang mga setting ng text-to-speech</string>
   <string name="not_editable">Hindi nae-edit</string>
@@ -917,7 +906,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="screen_search_keyword_hint">ang keyword ay %1$s</string>
   <string name="screen_search_no_keyword_hint">Wala pang keyword. Para magsimula ng bagong paghahanap, mag-tap at mag-hold gamit ang 3 daliri o buksan ang paghahanap sa screen sa menu ng SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Wala pang keyword. Para magsimula ng bagong paghahanap, mag-swipe pakaliwa at pagkatapos ay pababa o buksan ang paghahanap sa screen sa menu ng SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Hindi naka-on ang Braille keyboard. Pumunta sa setting ng SandFly at i-set up ang Braille keyboard.</string>
   <string name="suggestions_window_available">May mga available na suhestyon</string>
   <string name="suggestions_window_available_with_gesture">May mga available na suhestyon. Para i-access ang mga ito, %1$s</string>
   <string name="heads_up_window_available">May notification</string>
@@ -967,9 +955,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="new_gesture_notification_content">Mag-tap para malaman kung paano mas mabilis na magamit ang SandFly gamit ang mga bagong galaw.</string>
   <string name="dump_node_tree_description">Na-print ang node tree sa mga log.</string>
   <string name="report_gesture_description">Narito ang mga galaw na isinagawa kamakailan, pakiulat kung anong galaw ang mali at kung ano ang inaasahan.</string>
-  <string name="update_welcome_text_content">Puwede ka na ngayong kumonekta sa mga braille display sa pamamagitan ng HID, na isang paraan para kumonekta sa mga bluetooth device. Siguraduhing mayroon kang mga pinakabagong driver ng firmware mula sa iyong manufacturer, pagkatapos ay i-on ang Bluetooth sa braille display mo. Pumunta sa Mga setting ng SandFly &gt; Braille display at i-on ang \"Gumamit ng braille display\". Hanapin ang iyong device sa listahan ng mga device, at kumonekta rito.</string>
-  <string name="update_welcome_text_content_tts">Puwede ka na ngayong kumonekta sa mga braille display sa pamamagitan ng HID, na isang paraan para kumonekta sa mga bluetooth device. Siguraduhing mayroon kang mga pinakabagong driver ng firmware mula sa iyong manufacturer, pagkatapos ay i-on ang Bluetooth sa braille display mo. Pumunta sa mga setting ng SandFly pagkatapos ay Braille display at i-on ang \"Gumamit ng braille display.\" Hanapin ang iyong device sa listahan ng mga device, at kumonekta rito.</string>
-  <string name="update_welcome_text_content_with_link">Alamin kung paano gamitin ang iyong braille display sa SandFly.</string>
   <string name="update_welcome_talkback_16.1">Nagpapakilala ang update na ito sa SandFly ng suporta para sa Ilarawan ang screen sa mas maraming wika at iba pang pagpapahusay sa kalidad na nagpapadali sa paggamit ng SandFly.\n\nMatututo ka pa tungkol sa mga pagbabagong ito sa mga susunod na screen.\n\nPuwede mong suriin ang impormasyong ito sa ibang pagkakataon sa Mga setting ng SandFly &gt; Mga bagong feature sa SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Nagpapakilala ang update na ito sa SandFly ng suporta para sa Ilarawan ang screen sa mas maraming wika at iba pang pagpapahusay sa kalidad na nagpapadali sa paggamit ng SandFly.\n\nMatututo ka pa tungkol sa mga pagbabagong ito sa mga susunod na screen.\n\nPuwede mong suriin ang impormasyong ito sa ibang pagkakataon sa Mga setting ng SandFly, pagkatapos ay Mga bagong feature sa SandFly.</string>
   <string name="describe_screen_and_qna_title">Mga bagong wika para sa Ilarawan ang screen at Mag-ask sa Gemini</string>
@@ -985,10 +970,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="reduce_delay_title">Bawasan ang pagkaantala</string>
   <string name="reduce_delay_content">Puwede mo na ngayong bawasan ang mga pagkaantala sa anunsyo ng SandFly para sa pag-explore ng pagpindot at pag-type. Para tingnan ang mga setting na ito, pumunta sa mga setting ng SandFly &gt; Mga advanced na setting &gt; Bawasan ang pagkaantala.</string>
   <string name="reduce_delay_content_tts">Puwede mo na ngayong bawasan ang mga pagkaantala sa anunsyo ng SandFly para sa pag-explore ng pagpindot at pag-type. Para tingnan ang mga setting na ito, pumunta sa mga setting ng SandFly, pagkatapos ay Mga advanced na setting, pagkatapos ay Bawasan ang pagkaantala.</string>
-  <string name="customize_braille_keyboard_improvements_title">I-customize ang mga galaw sa braille keyboard</string>
-  <string name="customize_braille_keyboard_improvements_content">Posible na ngayong i-customize ang mga galaw para sa virtual na braille keyboard sa screen. Para i-customize, pumunta sa Mga setting ng SandFly &gt; Braille keyboard &gt; Mga Galaw.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Posible na ngayong i-customize ang mga galaw para sa virtual na braille keyboard sa screen. Para i-customize, pumunta sa Mga setting ng SandFly, pagkatapos ay Braille keyboard, pagkatapos ay Mga Galaw.</string>
-  <string name="learn_more_about_braille_keyboard">Matuto pa tungkol sa braille keyboard</string>
   <string name="other_changes_title">Iba pang pagbabago</string>
   <string name="other_changes_content">Tumutulong na ngayon sa iyo ang isang mensahe sa screen na i-off ang SandFly kung hindi sinasadyang na-on ito. Puwede mong i-off ito sa mga setting ng SandFly &gt; Ipakita ang mga tagubilin para sa pag-off ng SandFly.</string>
   <string name="other_changes_content_tts">Tumutulong na ngayon sa iyo ang isang mensahe sa screen na i-off ang SandFly kung hindi sinasadyang na-on ito. Puwede mong i-off ito sa mga setting ng SandFly, pagkatapos ay Ipakita ang mga tagubilin para sa pag-off ng SandFly.</string>
@@ -1021,7 +1002,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="keyboard_enhanced_keymap_text">Mayroon na ngayong \"Pinahusay na keymap\" ang SandFly para sa mga pisikal na keyboard, na may iba\'t ibang bagong command at shortcut. Kasama sa pagpapahusay na ito ang \"browse mode\" para sa mas mahusay na pag-navigate sa web, na nagpapasimple sa pag-navigate at pakikipag-interact para sa mga user ng SandFly na umaasa sa mga pisikal na keyboard. Puwede kang lumipat sa \"Pinahusay na keymap\" sa <xliff:g id="settings_path">%1$s</xliff:g>.\n\nKung gumagamit ka ng Braille display, puwede ka ring gumamit ng mga bagong shortcut sa browse mode para direktang mag-navigate sa content mula sa iyong Braille display. Binago ang ilang shortcut ng Braille display para magbigay-daan sa pagbabagong ito. Makakakita ka ng listahan ng lahat ng shortcut ng Braille display sa <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Mga setting ng SandFly &gt; Mga keyboard shortcut</string>
   <string name="keyboard_shortcuts_link_tts">Mga setting ng SandFly pagkatapos ay Mga keyboard shortcut</string>
-  <string name="braille_display_settings_link">Mga setting ng braille display</string>
   <string name="keyboard_smart_browse_mode_title">Keyboard: Smart browse mode</string>
   <string name="keyboard_smart_browse_mode_text">Ino-off ng smart browse mode ng SandFly ang browse mode sa isang field ng pag-edit para tulungan kang mag-type gamit ang isang pisikal na keyboard kapag nagba-browse ka sa web. Pagkatapos, io-on ulit nito ito kapag lumipat ka sa isang field sa web na hindi pang-edit para patuloy kang makapag-browse nang efficient. Puwede mong i-on o i-off ang \"Smart browse mode\" sa <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Mga setting ng SandFly &gt; Mga advanced na setting</string>
@@ -1094,7 +1074,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="typing_text_title">Pagta-type ng text</string>
   <string name="basic_typing_text_text">Kapag nasa text box ka, may magbubukas na keyboard sa ibaba ng iyong screen.</string>
   <string name="typing_text_text">Igalaw ang iyong daliri sa keyboard. Kapag narinig mo ang titik na gusto mong i-type, iangat ang iyong daliri.\n\nSubukang i-activate ang text box sa ibaba at i-type ang pangalan mo.</string>
-  <string name="typing_text_with_braille_keyboard_text">Puwede ka ring mag-type gamit ang braille keyboard. Hanapin ito sa mga setting ng SandFly.</string>
   <string name="other_ways_to_type_title">Iba pang paraan ng pag-type</string>
   <string name="other_ways_to_type_text">May iba pang paraan ng pag-type sa SandFly. Halimbawa, puwede kang mag-double tap para maglagay ng titik.</string>
   <string name="basic_other_ways_to_type_text">May iba pang paraan ng pag-type sa SandFly. Halimbawa, puwede kang mag-double tap para maglagay ng titik. Puwede mo itong baguhin sa ibang pagkakataon sa mga setting ng SandFly &gt; On-screen na keyboard &gt; Paraan ng pag-type.</string>
@@ -1520,7 +1499,6 @@ Huwag gumamit ng anumang markdown sa iyong sagot.</string>
     <string name="title_pref_announce_ringer_mode">Mode ng ringer</string>
     <string name="summary_pref_announce_ringer_mode">Sabihin kapag nakatakda ang ringer sa vibrate o silent</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Pagta-type at braille</string>
     <string name="title_pref_category_apps">Mga app</string>
     <string name="title_pref_touch_activation">Pagpindot at pag-activate</string>
     <string name="title_pref_navigation">Navigation</string>
@@ -1544,8 +1522,6 @@ Huwag gumamit ng anumang markdown sa iyong sagot.</string>
     <string name="speech_control_deny">Huwag payagan</string>
     <string name="permission_speak_label">magsalita sa pamamagitan ng SandFly</string>
     <string name="permission_speak_description">Pinapayagan ang app na humiling na magsabi ng text gamit ang iyong boses ng SandFly. Magtatanong muna sa iyo ang SandFly bago makapagsalita ang app.</string>
-    <string name="permission_braille_display_label">humiling na maging braille display para sa SandFly</string>
-    <string name="permission_braille_display_description">Pinapayagan ang app na humiling na maging braille display para sa SandFly. Kung papayagan mo ito sa SandFly, mababasa nito ang lahat ng nasa screen at makokontrol nito ang iyong device. Magtatanong muna sa iyo ang SandFly.</string>
     <string name="title_pref_phonetic_letters_mode">Bigkasin ang letra nang phonetic</string>
     <string name="phonetic_letters_mode_off">Naka-off</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pagkatapos ng letra, may pagkaantala, gaya ng \"h, hotel\"</string>
@@ -1683,14 +1659,8 @@ Huwag gumamit ng anumang markdown sa iyong sagot.</string>
     <string name="summary_support_wrap_around">I-on o i-off ang pagbalik mula sa huling item papunta sa una</string>
     <string name="wrap_around_on">Naka-on ang bumalik sa simula</string>
     <string name="wrap_around_off">Naka-off ang bumalik sa simula</string>
-    <string name="title_selector_tablet_held_up_faces_away">Nakaharap palayo ang nakataas na tablet</string>
-    <string name="summary_support_tablet_held_up_faces_away">Para sa braille keyboard sa tablet o nakabukas na foldable na telepono</string>
-    <string name="tablet_held_up_faces_away_on">Naka-on ang nakaharap palayo ang nakataas na tablet</string>
-    <string name="tablet_held_up_faces_away_off">Naka-off ang nakaharap palayo ang nakataas na tablet</string>
     <string name="title_keyboard_echo_on_screen">Echo ng on-screen na keyboard</string>
     <string name="title_keyboard_echo_physical">Echo ng pisikal na keyboard</string>
-    <string name="title_keyboard_echo_braille_keyboard">Echo ng braille keyboard</string>
-    <string name="title_keyboard_echo_braille_display">Echo ng braille display</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Ihinto ang pagsasalita kapag nagta-type</string>
     <string name="pref_interrupt_typing_entry_always">Palagi</string>

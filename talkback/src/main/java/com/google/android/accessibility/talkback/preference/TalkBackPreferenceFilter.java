@@ -49,8 +49,6 @@ public class TalkBackPreferenceFilter {
     HIDDEN_SETUP,
     HIDE_NO_PROXIMITY_SENSOR,
     HIDE_HAS_VOLUME_KEY,
-    HIDE_NO_BRAILLE_KEYBOARD,
-    HIDE_NO_BRAILLE_DISPLAY,
     HIDE_IF_NO_USER_DISABLING_OF_GLOBAL_ANIMATIONS,
     SHOW_IF_MULTI_FINGER,
     SHOW_IF_FINGER_PRINT,
@@ -92,8 +90,6 @@ public class TalkBackPreferenceFilter {
   private static final int HIDE_NO_PROXIMITY_SENSOR = 0x100;
   /** Flag to hide volume settings if system supports volume keys. */
   private static final int HIDE_HAS_VOLUME_KEY = 0x200;
-  /** Flag to hide Braille keyboard if system doesn't support it. */
-  private static final int HIDE_NO_BRAILLE_KEYBOARD = 0x400;
   /** Flag to hide if system doesn't support multi-finger gesture. */
   private static final int SHOW_IF_MULTI_FINGER = 0x800;
   /** Flag to hide finger print gesture when finger print is not supported. */
@@ -108,8 +104,6 @@ public class TalkBackPreferenceFilter {
   private static final int SHOW_FOCUS_INDICATOR = 0x8000;
   /** Flag to hide if the runtime is a release build. */
   private static final int HIDDEN_ON_RELEASE_BUILD = 0x10000;
-  /** Flag to hide Braille display if system doesn't support it. */
-  private static final int HIDE_NO_BRAILLE_DISPLAY = 0x20000;
 
   private static final int HIDE_NO_ACCESSIBILITY_AUDIO_STREAM = 0x40000;
   /** Flag to hide media control (play/pause) if system doesn't support it. */
@@ -196,12 +190,6 @@ public class TalkBackPreferenceFilter {
     NOTIFICATION_LIST(R.string.pref_notification_list_key, HIDDEN_ON_TV),
     NOTIFICATION_PARTS(R.string.pref_notification_parts_key, HIDDEN_ON_TV),
     SPEECH_VOLUME(R.string.pref_speech_volume_key, HIDE_HAS_VOLUME_KEY),
-    BRAILLE_KEYBOARD(
-        R.string.pref_brailleime_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_KEYBOARD | HIDDEN_ON_XR),
-    BRAILLE_DISPLAY(
-        R.string.pref_brailledisplay_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_DISPLAY | HIDDEN_ON_XR),
     CUSTOMIZE_CONTEXT_MENU(R.string.pref_category_manage_context_menu_key, HIDDEN_ON_TV),
     CUSTOMIZE_SELECTOR_MENU(R.string.pref_category_manage_selector_menu_key, HIDDEN_ON_TV),
     // TalkBack/Reading Menu
@@ -220,8 +208,6 @@ public class TalkBackPreferenceFilter {
         R.string.pref_show_context_menu_image_caption_setting_key, HIDDEN_ON_XR),
     CUSTOMIZE_TALKBACK_MENU_DIM_OR_BRIGHTEN(
         R.string.pref_show_context_menu_dim_or_brighten_setting_key, HIDDEN_ON_XR),
-    CUSTOMIZE_TALKBACK_MENU_BRAILLE_DISPLAY(
-        R.string.pref_show_context_menu_braille_display_settings_setting_key, HIDDEN_ON_XR),
 
     CUSTOMIZE_TALKBACK_SERVER_SIDE_GEMINI(
         R.string.pref_detailed_image_description_key,
@@ -241,28 +227,10 @@ public class TalkBackPreferenceFilter {
     EXPLORE_BY_TOUCH(R.string.pref_explore_by_touch_reflect_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
     // Gesture/Verbosity Settings.
     CONFIG_PHYSICAL_KEYBOARD_ECHO(R.string.pref_echo_physical_keyboard_key, HIDDEN_ON_WATCH),
-    BRAILLE_KEYBOARD_ECHO(
-        R.string.pref_echo_braille_keyboard_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_KEYBOARD | HIDDEN_ON_XR),
-    BRAILLE_DISPLAY_ECHO(
-        R.string.pref_echo_braille_display_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_DISPLAY | HIDDEN_ON_XR),
     SELECTOR_PHYSICAL_KEYBOARD_ECHO(
         R.string.pref_selector_keyboard_echo_physical_key, HIDDEN_ON_WATCH),
-    SELECTOR_BRAILLE_KEYBOARD_ECHO(
-        R.string.pref_selector_keyboard_echo_braille_keyboard_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_KEYBOARD | HIDDEN_ON_XR),
-    SELECTOR_BRAILLE_DISPLAY_ECHO(
-        R.string.pref_selector_keyboard_echo_braille_display_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_DISPLAY | HIDDEN_ON_XR),
     MENU_PHYSICAL_KEYBOARD_ECHO(
         R.string.pref_show_context_menu_keyboard_echo_physical_setting_key, HIDDEN_ON_WATCH),
-    MENU_BRAILLE_KEYBOARD_ECHO(
-        R.string.pref_show_context_menu_keyboard_echo_braille_keyboard_setting_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_KEYBOARD | HIDDEN_ON_XR),
-    MENU_BRAILLE_DISPLAY_ECHO(
-        R.string.pref_show_context_menu_keyboard_echo_braille_display_setting_key,
-        HIDDEN_ON_TV | HIDDEN_ON_WATCH | HIDE_NO_BRAILLE_DISPLAY | HIDDEN_ON_XR),
     INTERRUPT_TYPING(R.string.pref_interrupt_typing_key, HIDDEN_ON_WATCH),
     INTERRUPT_ENTER(R.string.pref_interrupt_enter_key, HIDDEN_ON_WATCH),
     LIMIT_FREQUENT_CONTENT_CHANGE_ANNOUNCEMENT(
@@ -441,16 +409,6 @@ public class TalkBackPreferenceFilter {
 
     if (hasFlag(pref.get(), HIDE_HAS_VOLUME_KEY)
         && FeatureSupport.hasAccessibilityAudioStream(context)) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), HIDE_NO_BRAILLE_KEYBOARD)
-        && !FeatureSupport.supportBrailleKeyboard(context)) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), HIDE_NO_BRAILLE_DISPLAY)
-        && !FeatureSupport.supportBrailleDisplay(context)) {
       return true;
     }
 

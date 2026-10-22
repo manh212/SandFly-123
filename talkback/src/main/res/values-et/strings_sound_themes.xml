@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">Heli puudub. Esitatakse fookuse heli.</string>
     <string name="theme_sound_summary_android_keyboard">Androidi klaviatuuri heli</string>
     <string name="theme_sound_use_android_keyboard">Kasuta Androidi klaviatuuri heli</string>
-    <string name="theme_sound_braille_character">Braille klaviatuur: tähemärgi sisestamine</string>
-    <string name="theme_sound_braille_space">Braille klaviatuur: tühik</string>
-    <string name="theme_sound_braille_delete">Braille klaviatuur: kustutamine</string>
-    <string name="theme_sound_braille_new_line">Braille klaviatuur: uus rida</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Vali helifail</string>
     <string name="theme_sound_preview">Eelvaade</string>

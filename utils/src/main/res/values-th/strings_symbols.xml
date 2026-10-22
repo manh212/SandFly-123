@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">เครื่องหมายน้อยกว่าความกว้างเต็ม</string>
   <string name="symbol_full_width_greater_than_sign">เครื่องหมายมากกว่าความกว้างเต็ม</string>
   <string name="symbol_left_single_quotation_mark">เครื่องหมายคำพูดเปิดเดี่ยว</string>
-  <string name="symbol_braille">อักษรเบรลล์ %s</string>
-  <plurals name="dots">
-    <item quantity="one">จุด %s</item>
-    <item quantity="other">จุด %s</item>
-  </plurals>
 </resources>

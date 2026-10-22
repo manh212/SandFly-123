@@ -155,10 +155,6 @@ public final class FeatureSupport {
     return BuildVersionUtils.isAtLeastN();
   }
 
-  public static boolean supportSwitchToInputMethod() {
-    return BuildVersionUtils.isAtLeastR();
-  }
-
   public static boolean supportContentDescriptionInReplacementSpan() {
     return BuildVersionUtils.isAtLeastR();
   }

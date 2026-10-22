@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">తాకడం ద్వారా పరిశీలించడం</string>
   <string name="title_pref_category_visual">విజువల్</string>
   <string name="title_pref_category_controls">కంట్రోల్స్</string>
-  <string name="title_pref_category_braille">బ్రెయిలీ</string>
   <string name="title_pref_category_general">సాధారణం</string>
   <string name="title_pref_category_advanced">అధునాతన సెట్టింగ్‌లు</string>
   <string name="title_pref_category_others">ఇతర ఆప్షన్‌లు</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">డిలేను తగ్గించండి</string>
   <string name="talkback_latency_reduction_summary">TalkBack అనౌన్స్‌మెంట్‌లలో డిలేను తగ్గించడానికి సెట్టింగ్‌లు</string>
   <string name="summary_pref_intonation">తొలగించబడిన అక్షరాలను పిచ్ ఎక్కువగా ఉన్న వాయిస్‌తో చదివి వినిపిస్తుంది</string>
-  <string name="title_pref_brailledisplay">బ్రెయిలీ డిస్‌ప్లే</string>
-  <string name="title_pref_brailleime">బ్రెయిలీ కీబోర్డ్</string>
-  <string name="summary_pref_brailleime_disabled">మీ డివైజ్ బ్రెయిలీ కీబోర్డ్‌కు సపోర్ట్ చేయదు</string>
   <string name="title_pref_speech_footer">మీరు ఏ స్క్రీన్ నుండి అయినా TalkBack సౌండ్ సెట్టింగ్‌లలో కొన్నింటిని త్వరగా సర్దుబాటు చేయవచ్చు.\n\nయాక్సెసిబిలిటీ వాల్యూమ్: స్క్రీన్‌పై 1 వేలును పట్టుకుని, వాల్యూమ్ పెంపు లేదా వాల్యూమ్ తగ్గింపు కీని నొక్కండి.\nTalkBack స్పీచ్ రేట్: 3 వేళ్లతో పైకి లేదా కిందికి స్వైప్ చేయండి. మీకు \"స్పీచ్ రేట్\" వినిపించినప్పుడు, 1 వేలితో పైకి లేదా కిందకు స్వైప్ చేయండి.</string>
   <string name="title_pref_vibration">వైబ్రేషన్ ప్రతిస్పందన</string>
   <string name="title_pref_soundback">సౌండ్ ప్రతిస్పందన</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">వాల్యూమ్‌ను పెంచండి</string>
   <string name="shortcut_decrease_volume">వాల్యూమ్‌ను తగ్గించండి</string>
   <string name="shortcut_all_apps">అన్ని యాప్‌లు</string>
-  <string name="shortcut_braille_keyboard">బ్రెయిలీ కీబోర్డుకు మార్చు</string>
-  <string name="shortcut_braille_display_settings">బ్రెయిలీ డిస్‌ప్లే సెట్టింగ్‌లకు నావిగేట్ చేయండి</string>
   <string name="shortcut_tutorial">ట్యుటోరియల్‌ను తెరువు</string>
   <string name="shortcut_control_speak_time">సమయాన్ని చెప్పడం లేదా సమయాన్ని చెప్పకపోవడం</string>
   <string name="shortcut_enable_speak_time">సమయాన్ని చెప్పడం</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">\'సమయాన్ని చెప్పడం\' ఆఫ్‌లో ఉంది</string>
   <string name="shortcut_practice_gestures">సంజ్ఞలను ప్రాక్టీస్ చేయడం</string>
   <string name="shortcut_report_gesture">సంజ్ఞ సమస్యను రిపోర్ట్ చేయండి</string>
-  <string name="shortcut_toggle_braille_display">బ్రెయిలీ డిస్‌ప్లేని ఆన్ లేదా ఆఫ్ చేయండి</string>
   <string name="shortcut_announce_current_time_and_date">ప్రస్తుత తేదీ, సమయాన్ని చదివి వినిపించు</string>
   <string name="shortcut_announce_battery_state">స్పీక్ బ్యాటరీ శాతం</string>
   <string name="shortcut_announce_current_title">విండో టైటిల్ ఏంటో చెప్పండి</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">స్పీచ్ రేట్‌ను తగ్గించండి</string>
   <string name="shortcut_toggle_selection">ఎంపిక మోడ్‌ను ప్రారంభించు లేదా ముగించు</string>
   <string name="shortcut_show_tutorial">ట్యుటోరియల్‌ను తెరవండి</string>
-  <string name="shortcut_toggle_braille_contracted_mode">కాంట్రాక్ట్ అయిన మోడ్ (గ్రేడ్ 2), కాంట్రాక్ట్ కాని మోడ్ (గ్రేడ్ 1) మధ్య మారండి</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">కనెక్టెడ్ బ్రెయిలీడిస్‌ప్లేలకై స్క్రీన్‌పై బ్రెయిలీ చూపు/దాచు</string>
   <string name="shortcut_toggle_sound_feedback">సౌండ్ ఫీడ్‌బ్యాక్ (ఇయర్‌కాన్‌లు)ను ఆన్ లేదా ఆఫ్ చేయండి</string>
   <string name="shortcut_show_learn_mode_page">కీబోర్డ్ షార్ట్‌కట్‌లు ప్రాక్టీస్ చేయండి</string>
   <string name="shortcut_announce_phonetic_pronunciation">ఫోకస్ చేసిన ఐటెమ్ కోసం ఫొనెటిక్ ఉచ్చారణతో అక్షరాలను మాట్లాడండి</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">వాయిస్ కమాండ్‌లు</string>
   <string name="title_show_keyboard_shortcuts">కీబోర్డ్ షార్ట్‌కట్‌లు</string>
   <string name="talkback_show_talkback_settings">TalkBack సెట్టింగ్‌లు</string>
-  <string name="title_show_braille_display_settings">బ్రెయిలీ డిస్‌ప్లే సెట్టింగ్‌లు</string>
   <string name="title_granularity_default">ఆటోమేటిక్ నావిగేషన్</string>
   <string name="title_action_dismiss">తీసివేయండి</string>
   <string name="title_action_expand">విస్తరించు</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">మీరు స్క్రీన్ ఆన్ చేసినప్పుడు సమయాన్ని బిగ్గరగా చెప్పాలా, వద్దా అనేది మార్చండి</string>
   <string name="summary_show_keyboard_shortcuts_preferences">కీబోర్డ్ షార్ట్‌కట్‌ల లిస్ట్‌ను తెరవండి</string>
   <string name="summary_talkback_preferences">TalkBack సెట్టింగ్‌లను తెరవండి</string>
-  <string name="summary_braile_display_preferences">బ్రెయిలీ డిస్‌ప్లే సెట్టింగ్‌లను తెరవండి</string>
   <string name="summary_system_actions">అన్ని యాప్‌లు, త్వరిత సెట్టింగ్‌లకు వెళ్లండి</string>
   <string name="summary_tts_settings">టెక్ట్స్-టు-స్పీచ్ సెట్టింగ్‌లను తెరవండి</string>
   <string name="not_editable">ఎడిట్ చేయడం సాధ్యం కాదు</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">కీవర్డ్, %1$s</string>
   <string name="screen_search_no_keyword_hint">ఇంకా కీవర్డ్స్ ఏవీ అందుబాటులో లేవు. కొత్త సెర్చ్‌ను ప్రారంభించడానికి, 3 వేళ్లతో ట్యాప్ చేసి ఉంచండి, లేదా TalkBack మెనూ నుండి \'స్క్రీన్ కంటెంట్ సెర్చ్‌\'ను తెరవండి.</string>
   <string name="screen_search_no_keyword_hint_pre_r">ఇంకా కీవర్డ్స్ ఏవీ అందుబాటులో లేవు. కొత్త సెర్చ్‌ను ప్రారంభించడానికి, ఎడమ వైపునకు, ఆ తర్వాత కిందికి స్వైప్ చేయండి, లేదా TalkBack మెనూ నుండి \'స్క్రీన్ కంటెంట్ సెర్చ్‌\'ను తెరవండి.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">బ్రెయిలీ కీబోర్డ్ ఆన్ చేయబడలేదు. TalkBack సెట్టింగ్‌లలో బ్రెయిలీ కీబోర్డ్ సెటప్ చేసి ప్రయత్నించండి.</string>
   <string name="suggestions_window_available">సూచనలు అందుబాటులో ఉన్నాయి</string>
   <string name="suggestions_window_available_with_gesture">సూచనలు అందుబాటులో ఉన్నాయి. %1$s యాక్సెస్ చేయడానికి,</string>
   <string name="heads_up_window_available">నోటిఫికేషన్ అందుబాటులో ఉంది</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">TalkBackను కొత్త సంజ్ఞలతో వేగవంతంగా ఉపయోగించడం ఎలాగో తెలుసుకోవడానికి ట్యాప్ చేయండి.</string>
   <string name="dump_node_tree_description">బిందుసూచిత వృక్షం లాగ్‌లకు ముద్రించబడింది.</string>
   <string name="report_gesture_description">ఇటీవల అమలు చేసిన సంజ్ఞలు ఇక్కడ ఉన్నాయి, ఏ సంజ్ఞ తప్పో, ఆశించనది ఏమిటో దయచేసి రిపోర్ట్ చేయండి.</string>
-  <string name="update_welcome_text_content">ఇప్పుడు మీరు బ్రెయిలీ డిస్‌ప్లేలను HID సహాయంతో కనెక్ట్ చేయవచ్చు, బ్లూటూత్ పరికరాలను కనెక్ట్ చేయడానికి ఇది ఒక మార్గం. మీ తయారీదారు నుండి తాజా ఫర్మ్‌వేర్ డ్రైవర్‌లను ఇన్‌స్టాల్ చేశారని నిర్ధారించుకుని, ఆపై మీ బ్రెయిలీ డిస్‌ప్లేలో బ్లూటూత్‌ను ఆన్ చేయండి. TalkBack సెట్టింగ్‌లు &gt; బ్రెయిలీ డిస్‌ప్లేకు వెళ్లి \"బ్రెయిలీ డిస్‌ప్లేను ఉపయోగించండి\"ని ఆన్ చేయండి. పరికరాల లిస్ట్‌లో మీ పరికరాన్ని కనుగొని, దానికి కనెక్ట్ చేయండి.</string>
-  <string name="update_welcome_text_content_tts">ఇప్పుడు మీరు బ్రెయిలీ డిస్‌ప్లేలను HID సహాయంతో కనెక్ట్ చేయవచ్చు, బ్లూటూత్ పరికరాలను కనెక్ట్ చేయడానికి ఇది ఒక మార్గం. మీ తయారీదారు నుండి తాజా ఫర్మ్‌వేర్ డ్రైవర్‌లను ఇన్‌స్టాల్ చేశారని నిర్ధారించుకుని, ఆపై మీ బ్రెయిలీ డిస్‌ప్లేలో బ్లూటూత్‌ను ఆన్ చేయండి. TalkBack సెట్టింగ్‌లకు వెళ్లి, ఆపై బ్రెయిలీ డిస్‌ప్లేకు వెళ్లి, \"బ్రెయిలీ డిస్‌ప్లేను ఉపయోగించండి\"ని ఆన్ చేయండి. పరికరాల లిస్ట్‌లో మీ పరికరాన్ని కనుగొని, దానికి కనెక్ట్ చేయండి.</string>
-  <string name="update_welcome_text_content_with_link">TalkBackతో మీ బ్రెయిలీ డిస్‌ప్లేను ఎలా ఉపయోగించాలో తెలుసుకోండి.</string>
   <string name="update_welcome_talkback_16.1">ఈ TalkBack అప్‌డేట్, \'స్క్రీన్‌ను వివరించే\' ఫీచర్‌ను మరిన్ని భాషల్లో అందిస్తుంది. అలాగే TalkBack వినియోగాన్ని సులభతరం చేసే ఇతర క్వాలిటీ ఇంప్రూవ్‌మెంట్స్‌ను కూడా తీసుకువస్తుంది.\n\nమీరు ఈ మార్పుల గురించి మరిన్ని వివరాలను తదుపరి స్క్రీన్‌లలో తెలుసుకుంటారు.\n\nమీరు ఈ సమాచారాన్ని తర్వాత TalkBackలోని TalkBack సెట్టింగ్స్ &gt; కొత్త ఫీచర్లు అనే ఆప్షన్‌కు వెళ్లి రివ్యూ చేయవచ్చు.</string>
   <string name="update_welcome_talkback_16.1_tts">ఈ TalkBack అప్‌డేట్, \'స్క్రీన్‌ను వివరించే\' ఫీచర్‌ను మరిన్ని భాషల్లో అందిస్తుంది. అలాగే TalkBack వినియోగాన్ని సులభతరం చేసే ఇతర క్వాలిటీ ఇంప్రూవ్‌మెంట్స్‌ను కూడా తీసుకువస్తుంది.\n\nమీరు ఈ మార్పుల గురించి మరిన్ని వివరాలను తదుపరి స్క్రీన్‌లలో తెలుసుకుంటారు.\n\nమీరు ఈ సమాచారాన్ని తర్వాత TalkBackలోని TalkBack సెట్టింగ్స్‌కు, ఆపై కొత్త ఫీచర్లు అనే ఆప్షన్‌కు వెళ్లి రివ్యూ చేయవచ్చు.</string>
   <string name="describe_screen_and_qna_title">కొత్త భాషల్లో \'స్క్రీన్ గురించి వివరించే\' ఫీచర్, \'Geminiని అడగండి\'</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">డిలేను తగ్గించండి</string>
   <string name="reduce_delay_content">ఇప్పుడు మీరు టచ్ అన్వేషణ, టైపింగ్ కోసం TalkBack అనౌన్స్‌మెంట్ డిలేను తగ్గించవచ్చు. ఈ సెట్టింగ్‌లను చూడడానికి, TalkBack సెట్టింగ్‌లు &gt; అడ్వాన్స్‌డ్ సెట్టింగ్‌లు &gt; డిలేను తగ్గించండికి వెళ్లండి.</string>
   <string name="reduce_delay_content_tts">ఇప్పుడు మీరు టచ్ అన్వేషణ, టైపింగ్ కోసం TalkBack అనౌన్స్‌మెంట్ డిలేను తగ్గించవచ్చు. ఈ సెట్టింగ్‌లను చూడడానికి, TalkBack సెట్టింగ్‌లకు, ఆపై అడ్వాన్స్‌డ్ సెట్టింగ్‌లకు, తర్వాత తగ్గించండికి వెళ్లండి.</string>
-  <string name="customize_braille_keyboard_improvements_title">బ్రెయిలీ కీబోర్డ్ సంజ్ఞలను అనుకూలంగా మార్చండి</string>
-  <string name="customize_braille_keyboard_improvements_content">వర్చువల్ ఆన్-స్క్రీన్ బ్రెయిలీ కీబోర్డ్ కోసం సంజ్ఞలను అనుకూలంగా మార్చుకోవడం ఇప్పుడు సాధ్యమే. అనుకూలంగా మార్చుకోవడం కోసం, TalkBack సెట్టింగ్‌లు &gt; బ్రెయిలీ కీబోర్డ్ &gt; సంజ్ఞలకు వెళ్లండి.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">వర్చువల్ ఆన్-స్క్రీన్ బ్రెయిలీ కీబోర్డ్ కోసం సంజ్ఞలను అనుకూలంగా మార్చుకోవడం ఇప్పుడు సాధ్యమే. అనుకూలంగా మార్చుకోవడం కోసం, TalkBack సెట్టింగ్‌లకు, తర్వాత బ్రెయిలీ కీబోర్డ్‌కు, ఆపై సంజ్ఞలకు వెళ్లండి.</string>
-  <string name="learn_more_about_braille_keyboard">బ్రెయిలీ కీబోర్డ్ గురించి మరింత తెలుసుకోండి</string>
   <string name="other_changes_title">ఇతర మార్పులు</string>
   <string name="other_changes_content">TalkBack అనుకోకుండా ఆన్ చేయబడితే, దాన్ని త్వరగా ఆఫ్ చేయడంలో స్క్రీన్‌పై మెసేజ్ ఇప్పుడు మీకు సహాయపడుతుంది. మీరు దీన్ని TalkBack సెట్టింగ్‌లు &gt; TalkBackను ఆఫ్ చేయడానికి సూచనలను చూపించులో ఆఫ్ చేయవచ్చు.</string>
   <string name="other_changes_content_tts">TalkBack అనుకోకుండా ఆన్ చేయబడితే, దాన్ని త్వరగా ఆఫ్ చేయడంలో స్క్రీన్‌పై మెసేజ్ ఇప్పుడు మీకు సహాయపడుతుంది. మీరు దీన్ని TalkBack సెట్టింగ్‌లలో, ఆపై TalkBackను ఆఫ్ చేయడానికి సూచనలను చూపించులో ఆఫ్ చేయవచ్చు.</string>
@@ -1012,7 +993,6 @@
   <string name="keyboard_enhanced_keymap_text">ఫిజికల్ కీబోర్డ్‌ల విషయంలో \"మెరుగైన కీ-మ్యాప్\" ఇప్పుడు TalkBack సొంతం, ఇందులో వివిధ రకాల కొత్త కమాండ్‌లు, షార్ట్‌కట్‌లు ఉన్నాయి. ఈ మెరుగుదలలో మరింత సమర్థవంతమైన వెబ్ నావిగేషన్‌కు వీలు కల్పించే \"బ్రౌజింగ్ మోడ్\" ఉంటుంది, ఇది ఫిజికల్ కీబోర్డ్‌లపై ఆధారపడే TalkBack యూజర్‌లకు నావిగేషన్‌ను, ఇంటరాక్షన్‌ను స్ట్రీమ్‌లైన్ చేస్తుంది. మీరు %1$s‌లో \"మెరుగైన కీ-మ్యాప్\"నకు మారవచ్చు.\n\nమీరు బ్రెయిలీ డిస్‌ప్లేను ఉపయోగిస్తుంటే, నేరుగా మీ బ్రెయిలీ డిస్‌ప్లే నుండి కంటెంట్‌ను బ్రౌజ్ చేయడానికి కొత్త బ్రౌజింగ్ మోడ్ షార్ట్‌కట్‌లను కూడా ఉపయోగించవచ్చు. ఈ మార్పునకు అనుగుణంగా అడ్జస్ట్ చేయడానికి, కొన్ని బ్రెయిలీ డిస్‌ప్లే షార్ట్‌కట్‌లను మార్చాము. మీరు %2$s‌లో బ్రెయిలీ డిస్‌ప్లే షార్ట్‌కట్‌లన్నీ ఉన్న లిస్ట్‌ను చూడవచ్చు.</string>
   <string name="keyboard_shortcuts_link">TalkBack సెట్టింగ్‌లు &gt; కీబోర్డ్ షార్ట్‌కట్‌లు</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack సెట్టింగ్‌లు, ఆపై కీబోర్డ్ షార్ట్‌కట్‌లు</string>
-  <string name="braille_display_settings_link">బ్రెయిలీ డిస్‌ప్లే సెట్టింగ్‌లు</string>
   <string name="keyboard_smart_browse_mode_title">కీబోర్డ్: స్మార్ట్ బ్రౌజింగ్ మోడ్</string>
   <string name="keyboard_smart_browse_mode_text">మీరు వెబ్‌ను బ్రౌజ్ చేస్తున్నప్పుడు ఫిజికల్ కీబోర్డ్‌తో టైప్ చేయడంలో మీకు సహాయపడటానికి, ఎడిట్ ఫీల్డ్‌లో ఉన్నప్పుడు, TalkBack స్మార్ట్ బ్రౌజింగ్ మోడ్, బ్రౌజింగ్ మోడ్‌ను ఆఫ్ చేస్తుంది. ఆపై మీరు వెబ్‌లో నాన్-ఎడిట్ ఫీల్డ్‌కు వెళ్లినప్పుడు, అది తిరిగి బ్రౌజింగ్ మోడ్‌ను ఆన్ చేస్తుంది, తద్వారా మీరు సమర్థవంతంగా బ్రౌజ్ చేయడం కొనసాగించగలుగుతారు. మీరు %1$s‌లో \"స్మార్ట్ బ్రౌజింగ్ మోడ్\"ను ఆన్ లేదా ఆఫ్ చేయవచ్చు.</string>
   <string name="advanced_settings_link">TalkBack సెట్టింగ్‌లు &gt; అడ్వాన్స్‌డ్ సెట్టింగ్‌లు</string>
@@ -1085,7 +1065,6 @@
   <string name="typing_text_title">టెక్స్ట్‌ను టైప్ చేయడం</string>
   <string name="basic_typing_text_text">మీరు టెక్స్ట్ బాక్స్‌లో కర్సర్ ఉంచినప్పుడు, మీ స్క్రీన్ దిగువున కీబోర్డ్ తెరవబడుతుంది.</string>
   <string name="typing_text_text">కీబోర్డ్ మీదుగా మీ వేలిని కదిలించండి. మీరు టైప్ చేయాలనుకున్న అక్షరం వినిపించగానే, మీ వేలిని పైకి లేపండి.\n\nకింద ఉన్న టెక్స్ట్ బాక్స్‌ను యాక్టివేట్ చేయడానికి ట్రై చేసి, మీ పేరును టైప్ చేయండి.</string>
-  <string name="typing_text_with_braille_keyboard_text">బ్రెయిలీ కీబోర్డ్‌తో కూడా మీరు టైప్ చేయవచ్చు. దానిని TalkBack సెట్టింగ్‌లలో కనుగొనండి.</string>
   <string name="other_ways_to_type_title">టైప్ చేసే ఇతర మార్గాలు</string>
   <string name="other_ways_to_type_text">TalkBackలో టైప్ చేయడానికి ఇతర మార్గాలు ఉన్నాయి. ఉదాహరణకు, మీరు డబుల్ ట్యాప్‌ను ఉపయోగించి అక్షరాన్ని ఎంటర్ చేయవచ్చు.</string>
   <string name="basic_other_ways_to_type_text">TalkBackలో టైప్ చేయడానికి ఇతర మార్గాలు ఉన్నాయి. ఉదాహరణకు, మీరు డబుల్ ట్యాప్‌ను ఉపయోగించి అక్షరాన్ని ఎంటర్ చేయవచ్చు. మీరు దీన్ని తర్వాత TalkBack సెట్టింగ్‌లు &gt; ఆన్-స్క్రీన్ కీబోర్డ్ &gt; \'టైపింగ్ ప్రాధాన్యత\'లో మార్చవచ్చు.</string>

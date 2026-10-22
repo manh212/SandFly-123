@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Bladermodus aan</string>
   <string name="individual_sound_browse_mode_off">Bladermodus uit</string>
   <string name="individual_sound_radial_menu">Cirkelmenu</string>
-  <string name="individual_sound_display_connected">Brailleleesregel verbonden</string>
-  <string name="individual_sound_display_disconnected">Brailleleesregel losgekoppeld</string>
-  <string name="individual_sound_double_beep">Braille-opdracht mislukt</string>
-  <string name="individual_sound_turn_on">Automatisch braille scrollen aan</string>
-  <string name="individual_sound_turn_off">Automatisch braille scrollen uit</string>
-  <string name="individual_sound_calibration_done">Braille-toetsenbord gekalibreerd</string>
   <string name="individual_vibration_focus">Focus op een item</string>
   <string name="individual_vibration_focus_actionable">Focus op een activeerbaar item</string>
   <string name="individual_vibration_clicked">Klik</string>

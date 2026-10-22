@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Esplora al tocco</string>
   <string name="title_pref_category_visual">Immagini</string>
   <string name="title_pref_category_controls">Controlli</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Generali</string>
   <string name="title_pref_category_advanced">Avanzate</string>
   <string name="title_pref_category_others">Altre</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Riduci il ritardo</string>
   <string name="talkback_latency_reduction_summary">Impostazioni per ridurre il ritardo prima degli annunci di TalkBack</string>
   <string name="summary_pref_intonation">Le lettere eliminate vengono lette con una voce dal tono più alto</string>
-  <string name="title_pref_brailledisplay">Display braille</string>
-  <string name="title_pref_brailleime">Tastiera braille</string>
-  <string name="summary_pref_brailleime_disabled">Il tuo dispositivo non supporta la tastiera braille</string>
   <string name="title_pref_speech_footer">Puoi regolare rapidamente alcune impostazioni audio di TalkBack da qualsiasi schermata.\n\nVolume accessibilità: tieni un dito sullo schermo e premi il tasto Alza il volume o Abbassa il volume\nVelocità del parlato TalkBack: scorri verso l\'alto o verso il basso con 3 dita. Quando senti \"velocità del parlato\", scorri verso l\'alto o verso il basso con un dito.</string>
   <string name="title_pref_vibration">Feedback con vibrazione</string>
   <string name="title_pref_soundback">Feedback audio</string>
@@ -486,8 +482,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="shortcut_increase_volume">Alza il volume</string>
   <string name="shortcut_decrease_volume">Abbassa il volume</string>
   <string name="shortcut_all_apps">Tutte le app</string>
-  <string name="shortcut_braille_keyboard">Passa a tastiera braille</string>
-  <string name="shortcut_braille_display_settings">Vai alle impostazioni display braille</string>
   <string name="shortcut_tutorial">Apri tutorial</string>
   <string name="shortcut_control_speak_time">Leggere o non leggere l\'ora</string>
   <string name="shortcut_enable_speak_time">Leggi l\'ora</string>
@@ -496,7 +490,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="speak_time_off">Funzionalità Leggi l\'ora non attiva</string>
   <string name="shortcut_practice_gestures">Esercitati con i gesti</string>
   <string name="shortcut_report_gesture">Segnala problema con i gesti</string>
-  <string name="shortcut_toggle_braille_display">Attiva o disattiva il display braille</string>
   <string name="shortcut_announce_current_time_and_date">Leggi data e ora correnti</string>
   <string name="shortcut_announce_battery_state">Leggi percentuale batteria</string>
   <string name="shortcut_announce_current_title">Leggi il titolo della finestra</string>
@@ -506,8 +499,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="shortcut_speech_rate_decrease">Diminuisci la velocità del parlato</string>
   <string name="shortcut_toggle_selection">Attiva o disattiva modalità di selezione</string>
   <string name="shortcut_show_tutorial">Aprire il tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Passa da contratta (grado 2) a estesa (grado 1) e viceversa</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Mostra/Nasc. braille su schermo per display braille connessi</string>
   <string name="shortcut_toggle_sound_feedback">Attiva o disattiva feedback audio (earcon)</string>
   <string name="shortcut_show_learn_mode_page">Prova le scorciatoie da tastiera</string>
   <string name="shortcut_announce_phonetic_pronunciation">Leggi le lettere con la pronuncia fonetica per l\'elemento selezionato</string>
@@ -548,7 +539,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="title_show_voice_commands">Comandi vocali</string>
   <string name="title_show_keyboard_shortcuts">Scorciatoie da tastiera</string>
   <string name="talkback_show_talkback_settings">Impostazioni di TalkBack</string>
-  <string name="title_show_braille_display_settings">Impostazioni display braille</string>
   <string name="title_granularity_default">Navigazione predefinita</string>
   <string name="title_action_dismiss">Ignora</string>
   <string name="title_action_expand">Espandi</string>
@@ -576,7 +566,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="summary_control_speak_time">Scegli se l\'ora deve essere letta ad alta voce quando attivi lo schermo</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Apri elenco di scorciatoie da tastiera</string>
   <string name="summary_talkback_preferences">Apri le impostazioni di TalkBack</string>
-  <string name="summary_braile_display_preferences">Apri le impostazioni del display braille</string>
   <string name="summary_system_actions">Vai a tutte le app e alle Impostazioni rapide</string>
   <string name="summary_tts_settings">Apri le impostazioni di sintesi vocale</string>
   <string name="not_editable">Non modificabile</string>
@@ -917,7 +906,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="screen_search_keyword_hint">la parola chiave è %1$s</string>
   <string name="screen_search_no_keyword_hint">Ancora nessuna parola chiave. Per avviare una nuova ricerca, tocca e tieni premuto con 3 dita o apri la Ricerca dallo schermo dal menu di TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ancora nessuna parola chiave. Per avviare una nuova ricerca, scorri verso sinistra e poi verso il basso o apri la Ricerca dallo schermo dal menu di TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastiera braille non attiva. Vai alle impostazioni di TalkBack, configura la tastiera braille e riprova.</string>
   <string name="suggestions_window_available">Suggerimenti disponibili</string>
   <string name="suggestions_window_available_with_gesture">Suggerimenti disponibili. Per accedere, %1$s</string>
   <string name="heads_up_window_available">Notifica disponibile</string>
@@ -967,9 +955,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="new_gesture_notification_content">Tocca per scoprire come usare TalkBack più rapidamente con i nuovi gesti.</string>
   <string name="dump_node_tree_description">La struttura ad albero dei nodi è stata stampata nei log.</string>
   <string name="report_gesture_description">Ecco i gesti eseguiti di recente. Segnala il gesto sbagliato e come dovrebbe essere.</string>
-  <string name="update_welcome_text_content">Ora puoi collegarti ai display braille tramite HID, un modo per connetterti ai dispositivi Bluetooth. Assicurati di avere i driver del firmware più recenti del produttore, poi attiva il Bluetooth sul tuo display braille. Vai alle impostazioni di TalkBack &gt; Display braille e attiva \"Usa display braille\". Trova il tuo dispositivo nell\'elenco dei dispositivi e connettiti.</string>
-  <string name="update_welcome_text_content_tts">Ora puoi collegarti ai display braille tramite HID, un modo per connetterti ai dispositivi Bluetooth. Assicurati di avere i driver del firmware più recenti del produttore, poi attiva il Bluetooth sul tuo display braille. Vai alle impostazioni di TalkBack, poi a Display braille e attiva \"Usa display braille\". Trova il tuo dispositivo nell\'elenco dei dispositivi e connettiti.</string>
-  <string name="update_welcome_text_content_with_link">Scopri come utilizzare il display braille con TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Questo aggiornamento di TalkBack introduce il supporto per Descrivi schermo in più lingue e altri miglioramenti della qualità che rendono TalkBack più facile da usare.\n\nScoprirai di più su queste modifiche nelle prossime schermate.\n\nPuoi rivedere queste informazioni in un secondo momento nelle impostazioni di TalkBack &gt; Nuove funzionalità in TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Questo aggiornamento di TalkBack introduce il supporto per Descrivi schermo in più lingue e altri miglioramenti della qualità che rendono TalkBack più facile da usare.\n\nScoprirai di più su queste modifiche nelle prossime schermate.\n\nPuoi rivedere queste informazioni in un secondo momento nelle impostazioni di TalkBack e poi in Nuove funzionalità in TalkBack.</string>
   <string name="describe_screen_and_qna_title">Nuove lingue per Descrivi la schermata e Chiedi a Gemini</string>
@@ -985,10 +970,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="reduce_delay_title">Riduci il ritardo</string>
   <string name="reduce_delay_content">Ora puoi ridurre i ritardi degli annunci di TalkBack per l\'esplorazione al tocco e la digitazione. Per visualizzare queste impostazioni, vai alle impostazioni di TalkBack &gt; Impostazioni avanzate &gt; Riduci il ritardo.</string>
   <string name="reduce_delay_content_tts">Ora puoi ridurre i ritardi degli annunci di TalkBack per l\'esplorazione al tocco e la digitazione. Per visualizzare queste impostazioni, vai alle impostazioni di TalkBack, poi a Impostazioni avanzate e infine a Riduci il ritardo.</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalizza i gesti della tastiera braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Ora è possibile personalizzare i gesti per la tastiera braille virtuale sullo schermo. Per personalizzare, vai alle impostazioni di TalkBack &gt; Tastiera braille &gt; Gesti.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Ora è possibile personalizzare i gesti per la tastiera braille virtuale sullo schermo. Per personalizzare, vai alle impostazioni di TalkBack, poi a Tastiera braille e Gesti.</string>
-  <string name="learn_more_about_braille_keyboard">Scopri di più sulla tastiera braille</string>
   <string name="other_changes_title">Altre modifiche</string>
   <string name="other_changes_content">Se attivi TalkBack per errore, sullo schermo compare un messaggio che ti aiuta a disattivarlo rapidamente. Puoi disattivare questa opzione nelle impostazioni di TalkBack &gt; Mostra istruzioni per disattivare TalkBack.</string>
   <string name="other_changes_content_tts">Se attivi TalkBack per errore, sullo schermo compare un messaggio che ti aiuta a disattivarlo rapidamente. Puoi disattivare questa opzione andando alle impostazioni di TalkBack e scegliendo Mostra istruzioni per disattivare TalkBack.</string>
@@ -1021,7 +1002,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="keyboard_enhanced_keymap_text">TalkBack ora ha una \"Mappa dei tasti avanzata\" per le tastiere fisiche, con una serie di nuovi comandi e scorciatoie. Questo miglioramento include una \"modalità navigazione\" per una navigazione web più efficiente, semplificando la navigazione e l\'interazione per gli utenti di TalkBack che utilizzano tastiere fisiche. Puoi passare alla \"Mappa dei tasti avanzata\" in %1$s.\n\nSe usi un display braille, puoi anche usare le nuove scorciatoie della modalità navigazione per spostarti tra i contenuti direttamente dal display braille. Alcune scorciatoie del display braille sono state modificate per adattarsi a questa modifica. Puoi visualizzare un elenco di tutte le scorciatoie del display braille in %2$s.</string>
   <string name="keyboard_shortcuts_link">Impostazioni di TalkBack &gt; Scorciatoie da tastiera</string>
   <string name="keyboard_shortcuts_link_tts">Impostazioni di TalkBack, poi Scorciatoie da tastiera</string>
-  <string name="braille_display_settings_link">Impostazioni display braille</string>
   <string name="keyboard_smart_browse_mode_title">Tastiera: modalità navigazione intelligente</string>
   <string name="keyboard_smart_browse_mode_text">La modalità navigazione intelligente di TalkBack disattiva la modalità navigazione in un campo di modifica per aiutarti a digitare con una tastiera fisica quando navighi sul web. Lo riattiva quando passi a un campo non modificabile sul web, in modo che tu possa continuare a navigare in modo efficiente. Puoi attivare o disattivare la \"Modalità navigazione intelligente\" in %1$s.</string>
   <string name="advanced_settings_link">Impostazioni di TalkBack &gt; Impostazioni avanzate</string>
@@ -1094,7 +1074,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="typing_text_title">Digitazione di testo</string>
   <string name="basic_typing_text_text">Quando è attiva una casella di testo, viene visualizzata una tastiera nella parte inferiore dello schermo.</string>
   <string name="typing_text_text">Sposta il dito sulla tastiera. Quando senti il nome della lettera che vuoi digitare, solleva il dito.\n\nFai una prova attivando la casella di testo seguente e digitando il tuo nome.</string>
-  <string name="typing_text_with_braille_keyboard_text">Puoi anche digitare con la tastiera braille. La trovi nelle impostazioni di TalkBack.</string>
   <string name="other_ways_to_type_title">Altri modi per digitare</string>
   <string name="other_ways_to_type_text">Esistono altri modi per digitare in TalkBack. Ad esempio, puoi toccare due volte per inserire una lettera.</string>
   <string name="basic_other_ways_to_type_text">Esistono altri modi per digitare in TalkBack. Ad esempio, puoi toccare due volte per inserire una lettera. Puoi modificare questa scelta in un secondo momento in Impostazioni di TalkBack &gt; Tastiera sullo schermo &gt; Preferenze di digitazione.</string>

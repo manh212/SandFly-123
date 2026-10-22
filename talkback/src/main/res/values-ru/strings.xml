@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Изучение касанием</string>
   <string name="title_pref_category_visual">Визуальные</string>
   <string name="title_pref_category_controls">Управление</string>
-  <string name="title_pref_category_braille">Шрифт Брайля</string>
   <string name="title_pref_category_general">Общие</string>
   <string name="title_pref_category_advanced">Дополнительно</string>
   <string name="title_pref_category_others">Ещё</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Уменьшить задержку</string>
   <string name="talkback_latency_reduction_summary">Ускорить отклик SandFly после касания экрана</string>
   <string name="summary_pref_intonation">Повышать тон, когда озвучивается удаление букв</string>
-  <string name="title_pref_brailledisplay">Дисплей Брайля</string>
-  <string name="title_pref_brailleime">Клавиатура Брайля</string>
-  <string name="summary_pref_brailleime_disabled">Устройство не поддерживает клавиатуру Брайля</string>
   <string name="title_pref_speech_footer">Чтобы изменить громкость подсказок на любом экране, удерживайте один палец на экране и нажимайте кнопку увеличения или уменьшения громкости.</string>
   <string name="title_pref_vibration">Виброотклик</string>
   <string name="title_pref_soundback">Звуковой отклик</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Увеличить громкость</string>
   <string name="shortcut_decrease_volume">Уменьшить громкость</string>
   <string name="shortcut_all_apps">Все приложения</string>
-  <string name="shortcut_braille_keyboard">Открыть клавиатуру Брайля</string>
-  <string name="shortcut_braille_display_settings">Открыть настройки дисплея Брайля</string>
   <string name="shortcut_tutorial">Открыть руководство</string>
   <string name="shortcut_control_speak_time">Озвучивать или не озвучивать время</string>
   <string name="shortcut_enable_speak_time">Озвучивать время</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Время не озвучивается</string>
   <string name="shortcut_practice_gestures">Практика использования жестов</string>
   <string name="shortcut_report_gesture">Сообщить о проблеме с жестами</string>
-  <string name="shortcut_toggle_braille_display">Включение или отключение дисплея Брайля</string>
   <string name="shortcut_announce_current_time_and_date">Произнести текущую дату и время</string>
   <string name="shortcut_announce_battery_state">Произнести уровень заряда батареи (в процентах)</string>
   <string name="shortcut_announce_current_title">Произнести название окна</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Снизить скорость речи</string>
   <string name="shortcut_toggle_selection">Включить или отключить режим выделения</string>
   <string name="shortcut_show_tutorial">Открыть руководство</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Переход между полной и сокращённой версией</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Клавиатура Брайля для подключённых дисплеев Брайля</string>
   <string name="shortcut_toggle_sound_feedback">Включить или отключить звуковой отклик (звуковые сигналы)</string>
   <string name="shortcut_show_learn_mode_page">Обучение сочетаниям клавиш</string>
   <string name="shortcut_announce_phonetic_pronunciation">Использовать фонетическое произношение для выделенного элемента</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Голосовые команды</string>
   <string name="title_show_keyboard_shortcuts">Быстрые клавиши</string>
   <string name="talkback_show_talkback_settings">Настройки SandFly</string>
-  <string name="title_show_braille_display_settings">Настройки дисплея Брайля</string>
   <string name="title_granularity_default">Навигация по умолчанию</string>
   <string name="title_action_dismiss">Закрыть</string>
   <string name="title_action_expand">Развернуть</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Выберите, хотите ли вы слышать время, когда включаете экран</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Открыть список быстрых клавиш</string>
   <string name="summary_talkback_preferences">Открыть настройки SandFly</string>
-  <string name="summary_braile_display_preferences">Открыть настройки дисплея Брайля</string>
   <string name="summary_system_actions">Переход ко всем приложениям и быстрым настройкам</string>
   <string name="summary_tts_settings">Переход к настройкам озвучивания текста</string>
   <string name="not_editable">Недоступно для редактирования</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ключевое слово – %1$s</string>
   <string name="screen_search_no_keyword_hint">Нет ключевого слова. Чтобы запустить новый поиск, нажмите на экран тремя пальцами и удерживайте или включите поиск по экрану в меню SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Нет ключевого слова. Чтобы запустить новый поиск, проведите по экрану влево, а затем вниз или включите поиск по экрану в меню SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Клавиатура Брайля не включена. Настройте её в настройках SandFly и повторите попытку.</string>
   <string name="suggestions_window_available">Доступны подсказки</string>
   <string name="suggestions_window_available_with_gesture">Доступны подсказки. Чтобы открыть их, %1$s.</string>
   <string name="heads_up_window_available">Доступно уведомление</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Коснитесь экрана, чтобы узнать о новых жестах в SandFly.</string>
   <string name="dump_node_tree_description">Дерево узлов записано в журналы.</string>
   <string name="report_gesture_description">Вот жесты, которые использовались недавно. Сообщите нам, с каким из них возникла проблема и какую команду он должен обозначать.</string>
-  <string name="update_welcome_text_content">Теперь вы можете подключаться к дисплеям Брайля с помощью HID-устройств так же, как и к другим устройствам Bluetooth. Убедитесь, что на вашем устройстве установлены последние версии драйверов для встроенного ПО от производителя. Затем включите Bluetooth на дисплее Брайля. В настройках SandFly выберите \"Дисплей Брайля\" и включите параметр \"Использовать дисплей Брайля\". Найдите ваше устройство и подключитесь к нему.</string>
-  <string name="update_welcome_text_content_tts">Теперь вы можете подключаться к дисплеям Брайля с помощью HID-устройств так же, как и к другим устройствам Bluetooth. Убедитесь, что на вашем устройстве установлены последние версии драйверов для встроенного ПО от производителя. Затем включите Bluetooth на дисплее Брайля. В настройках SandFly выберите \"Дисплей Брайля\" и включите параметр \"Использовать дисплей Брайля\". Найдите ваше устройство и подключитесь к нему.</string>
-  <string name="update_welcome_text_content_with_link">Узнайте, как пользоваться дисплеем Брайля в SandFly.</string>
   <string name="update_welcome_talkback_16.1">В этом обновлении SandFly: функция описания экрана стала поддерживать больше языков и введены другие улучшения, благодаря которым пользоваться SandFly теперь удобнее.\n\nВы узнаете об изменениях больше на следующих экранах.\n\nЭту информацию также можно найти в настройках SandFly (раздел \"Новые функции в SandFly\").</string>
   <string name="update_welcome_talkback_16.1_tts">В этом обновлении SandFly: функция описания экрана стала поддерживать больше языков и введены другие улучшения, благодаря которым пользоваться SandFly теперь удобнее.\n\nВы узнаете об изменениях больше на следующих экранах.\n\nЭту информацию также можно найти в настройках SandFly (раздел \"Новые функции в SandFly\").</string>
   <string name="describe_screen_and_qna_title">Новые языки для функции описания экрана и функции \"Спросить Gemini\"</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Уменьшить задержку</string>
   <string name="reduce_delay_content">Теперь можно уменьшить задержку озвучивания при сенсорном управлении и вводе текста. Для этого выберите \"Настройки SandFly &gt; Расширенные настройки &gt; Уменьшить задержку\".</string>
   <string name="reduce_delay_content_tts">Теперь можно уменьшить задержку озвучивания при сенсорном управлении и вводе текста. Для этого в настройках SandFly откройте раздел \"Расширенные настройки\" и нажмите \"Уменьшить задержку\".</string>
-  <string name="customize_braille_keyboard_improvements_title">Настройка жестов для клавиатуры Брайля</string>
-  <string name="customize_braille_keyboard_improvements_content">Теперь вы можете менять жесты для клавиатуры Брайля. Для этого выберите \"Настройки SandFly &gt; Клавиатура Брайля &gt; Жесты\".</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Теперь вы можете менять жесты для клавиатуры Брайля. Для этого в настройках SandFly откройте раздел \"Клавиатура Брайля\" и нажмите \"Жесты\".</string>
-  <string name="learn_more_about_braille_keyboard">Подробнее о клавиатуре Брайля…</string>
   <string name="other_changes_title">Другие изменения</string>
   <string name="other_changes_content">Если вы случайно включили SandFly, на экране появится сообщение с инструкцией, как быстро выключить функцию. Чтобы не видеть это сообщение, выберите \"Настройки SandFly &gt; Показывать инструкцию по выключению SandFly\".</string>
   <string name="other_changes_content_tts">Если вы случайно включили SandFly, на экране появится сообщение с инструкцией, как быстро выключить функцию. Чтобы не видеть это сообщение, в настройках SandFly отключите параметр \"Показывать инструкцию по выключению SandFly\".</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">В SandFly появилась улучшенная раскладка для физических клавиатур со множеством новых команд и сочетаний клавиш. Также добавлен режим обзора, который упрощает навигацию по веб-контенту и помогает людям с физическими клавиатурами пользоваться SandFly. Чтобы переключиться на улучшенную раскладку, нажмите %1$s.\n\nЕсли вы используете дисплей Брайля, то можете перемещаться между элементами прямо с его помощью. Для удобства некоторые сочетания клавиш для дисплея Брайля были изменены. Чтобы посмотреть список всех сочетаний, нажмите %2$s.</string>
   <string name="keyboard_shortcuts_link">\"Настройки SandFly &gt; Быстрые клавиши\"</string>
   <string name="keyboard_shortcuts_link_tts">\"Настройки SandFly\", а затем \"Быстрые клавиши\"</string>
-  <string name="braille_display_settings_link">настройках дисплея Брайля</string>
   <string name="keyboard_smart_browse_mode_title">Клавиатура: умный режим обзора</string>
   <string name="keyboard_smart_browse_mode_text">Если в браузере выбрано поле редактирования, режим обзора отключится, чтобы вы могли ввести текст на физической клавиатуре. Когда вы перейдёте к полю, которое нельзя редактировать, режим обзора снова будет включён. Чтобы включить или отключить умный режим обзора, нажмите %1$s.</string>
   <string name="advanced_settings_link">\"Настройки SandFly &gt; Расширенные настройки\"</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Ввод текста</string>
   <string name="basic_typing_text_text">Когда вы выбираете текстовое поле, внизу экрана появляется клавиатура.</string>
   <string name="typing_text_text">Двигайте пальцем по клавиатуре, пока не услышите нужную букву. Чтобы ввести её, отпустите палец.\n\nПопробуйте активировать текстовое поле внизу и напечатать своё имя.</string>
-  <string name="typing_text_with_braille_keyboard_text">Вы также можете вводить текст с помощью клавиатуры Брайля. Чтобы включить её, перейдите в настройки SandFly.</string>
   <string name="other_ways_to_type_title">Другие способы ввода</string>
   <string name="other_ways_to_type_text">В SandFly есть и другие способы ввода текста. Например, вводить буквы можно двойным нажатием.</string>
   <string name="basic_other_ways_to_type_text">В SandFly есть и другие способы набора текста. Например, вводить буквы можно двойным нажатием. Изменить параметры можно в разделе \"Настройки SandFly &gt; Экранная клавиатура &gt; Способ ввода\".</string>
@@ -1513,7 +1492,6 @@
   <string name="title_pref_announce_ringer_mode">Режим звонка</string>
   <string name="summary_pref_announce_ringer_mode">Сообщать о включении вибровызова или беззвучного режима</string>
   <string name="title_pref_category_feedback">Отклик</string>
-  <string name="title_pref_category_typing_and_braille">Ввод текста и шрифт Брайля</string>
   <string name="title_pref_category_more">Ещё</string>
   <string name="title_pref_reserve_vibration_watch_gestures">Зарезервировать жесты для Vibration Watch</string>
   <string name="summary_pref_reserve_vibration_watch_gestures">SandFly не будет обрабатывать одиночные и двойные нажатия двумя пальцами, чтобы их могла использовать функция Samsung Vibration Watch для определения времени вибрацией. Включите её в настройках специальных возможностей часов.</string>
@@ -1609,10 +1587,6 @@
   <string name="summary_support_wrap_around">Включить или отключить циклический переход от последнего элемента к первому</string>
   <string name="wrap_around_on">Циклическая навигация включена</string>
   <string name="wrap_around_off">Циклическая навигация отключена</string>
-  <string name="title_selector_tablet_held_up_faces_away">Поднятый планшет экраном от себя</string>
-  <string name="summary_support_tablet_held_up_faces_away">Для клавиатуры Брайля на планшете или раскрытом складном телефоне</string>
-  <string name="tablet_held_up_faces_away_on">Режим поднятого планшета экраном от себя включён</string>
-  <string name="tablet_held_up_faces_away_off">Режим поднятого планшета экраном от себя отключён</string>
   <string name="title_pref_interrupt_typing">Прерывать речь при вводе текста</string>
   <string name="pref_interrupt_typing_entry_always">Всегда</string>
   <string name="pref_interrupt_typing_entry_edit_fields">В полях редактирования</string>
@@ -1644,7 +1618,5 @@
   <string name="speech_engine_unavailable_with_profile">При использовании голосового профиля переключение синтезатора речи недоступно</string>
   <string name="battery_optimization_notification_title">Оптимизация расхода заряда батареи может остановить SandFly</string>
   <string name="battery_optimization_notification_text">На этом телефоне режим энергосбережения может остановить SandFly после выключения экрана. Озвучивание возобновится только после перезапуска SandFly. Нажмите, чтобы открыть настройки оптимизации расхода заряда батареи. Выберите «Все приложения», найдите SandFly и выберите «Не экономить».</string>
-  <string name="permission_braille_display_label">запрашивать разрешение на работу в качестве дисплея Брайля для SandFly</string>
-  <string name="permission_braille_display_description">Позволяет приложению запрашивать разрешение на работу в качестве дисплея Брайля для SandFly. Если вы предоставите разрешение в SandFly, приложение сможет читать всё содержимое экрана и управлять устройством. SandFly сначала запросит ваше согласие.</string>
   <string name="title_clear_selection">Снять выделение</string>
 </resources>

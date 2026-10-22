@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">බ්‍රවුස් ප්‍රකාරය ක්‍රියාත්මකයි</string>
   <string name="individual_sound_browse_mode_off">බ්‍රවුස් ප්‍රකාරය ක්‍රියාවිරහිතයි</string>
   <string name="individual_sound_radial_menu">රවුම් මෙනුව</string>
-  <string name="individual_sound_display_connected">බ්‍රේල් සංදර්ශකය සම්බන්ධ විය</string>
-  <string name="individual_sound_display_disconnected">බ්‍රේල් සංදර්ශකය විසන්ධි විය</string>
-  <string name="individual_sound_double_beep">බ්‍රේල් විධානය අසාර්ථක විය</string>
-  <string name="individual_sound_turn_on">බ්‍රේල් ස්වයං අනුචලනය ක්‍රියාත්මකයි</string>
-  <string name="individual_sound_turn_off">බ්‍රේල් ස්වයං අනුචලනය ක්‍රියාවිරහිතයි</string>
-  <string name="individual_sound_calibration_done">බ්‍රේල් යතුරු පුවරුව ක්‍රමාංකනය කළා</string>
   <string name="individual_vibration_focus">අයිතමයක් මත අවධානය</string>
   <string name="individual_vibration_focus_actionable">ක්‍රියා කළ හැකි අයිතමයක් මත අවධානය</string>
   <string name="individual_vibration_clicked">ක්ලික් කිරීම</string>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">タッチガイド</string>
   <string name="title_pref_category_visual">映像</string>
   <string name="title_pref_category_controls">コントロール</string>
-  <string name="title_pref_category_braille">点字</string>
   <string name="title_pref_category_general">全般</string>
   <string name="title_pref_category_advanced">詳細設定</string>
   <string name="title_pref_category_others">その他</string>
@@ -339,9 +338,6 @@
   <string name="title_pref_latency_reduction">遅延を短縮する</string>
   <string name="talkback_latency_reduction_summary">TalkBack が読み上げるまでの遅延を短縮する設定</string>
   <string name="summary_pref_intonation">削除した文字を高い声で読み上げます</string>
-  <string name="title_pref_brailledisplay">点字ディスプレイ</string>
-  <string name="title_pref_brailleime">点字キーボード</string>
-  <string name="summary_pref_brailleime_disabled">お使いのデバイスは点字キーボードに対応していません</string>
   <string name="title_pref_speech_footer">TalkBack の音声設定の一部は、どの画面からでもすぐに調整できます。\n\nユーザー補助の音量: 1 本の指で画面を長押しして、音量大ボタンまたは音量小ボタンを押します。\nTalkBack の読み上げ速度: 3 本の指で上または下にスワイプします。「読み上げ速度」と聞こえたら、1 本の指で上または下にスワイプします。</string>
   <string name="title_pref_vibration">バイブ フィードバック</string>
   <string name="title_pref_soundback">音によるフィードバック</string>
@@ -485,8 +481,6 @@
   <string name="shortcut_increase_volume">音量を上げる</string>
   <string name="shortcut_decrease_volume">音量を下げる</string>
   <string name="shortcut_all_apps">すべてのアプリ</string>
-  <string name="shortcut_braille_keyboard">点字キーボードに切り替え</string>
-  <string name="shortcut_braille_display_settings">点字ディスプレイの設定に移動</string>
   <string name="shortcut_tutorial">チュートリアルを開く</string>
   <string name="shortcut_control_speak_time">時刻を読み上げる / 時刻を読み上げない</string>
   <string name="shortcut_enable_speak_time">時刻を読み上げる</string>
@@ -495,7 +489,6 @@
   <string name="speak_time_off">時刻を読み上げる OFF</string>
   <string name="shortcut_practice_gestures">ジェスチャーの練習</string>
   <string name="shortcut_report_gesture">操作の問題を報告</string>
-  <string name="shortcut_toggle_braille_display">点字ディスプレイを ON または OFF にする</string>
   <string name="shortcut_announce_current_time_and_date">現在の日時を読み上げる</string>
   <string name="shortcut_announce_battery_state">バッテリー残量の読み上げ</string>
   <string name="shortcut_announce_current_title">ウィンドウのタイトルを読み上げる</string>
@@ -505,8 +498,6 @@
   <string name="shortcut_speech_rate_decrease">読み上げ速度を下げる</string>
   <string name="shortcut_toggle_selection">選択モードを開始または終了</string>
   <string name="shortcut_show_tutorial">チュートリアルを開く</string>
-  <string name="shortcut_toggle_braille_contracted_mode">縮約形（グレード 2）と非縮約形（グレード 1）を切り替える</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">接続された点字ディスプレイの画面上の点字を表示 / 非表示にする</string>
   <string name="shortcut_toggle_sound_feedback">音声フィードバック（イアコン）をオンまたはオフにします</string>
   <string name="shortcut_show_learn_mode_page">キーボード ショートカットの練習</string>
   <string name="shortcut_announce_phonetic_pronunciation">フォーカスした項目のフリガナを読み上げる</string>
@@ -547,7 +538,6 @@
   <string name="title_show_voice_commands">音声コマンド</string>
   <string name="title_show_keyboard_shortcuts">キーボード ショートカット</string>
   <string name="talkback_show_talkback_settings">TalkBack の設定</string>
-  <string name="title_show_braille_display_settings">点字ディスプレイの設定</string>
   <string name="title_granularity_default">デフォルトのナビゲーション</string>
   <string name="title_action_dismiss">表示しない</string>
   <string name="title_action_expand">展開</string>
@@ -575,7 +565,6 @@
   <string name="summary_control_speak_time">画面を ON にしたときに時刻を読み上げるかどうかを変更します</string>
   <string name="summary_show_keyboard_shortcuts_preferences">キーボード ショートカットのリストを開く</string>
   <string name="summary_talkback_preferences">TalkBack の設定を開く</string>
-  <string name="summary_braile_display_preferences">点字ディスプレイの設定を開く</string>
   <string name="summary_system_actions">[すべてのアプリ] &gt; [クイック設定] に移動</string>
   <string name="summary_tts_settings">テキスト読み上げの設定を表示</string>
   <string name="not_editable">編集できません</string>
@@ -916,7 +905,6 @@
   <string name="screen_search_keyword_hint">キーワードは「%1$s」です</string>
   <string name="screen_search_no_keyword_hint">まだキーワードはありません。新しい検索を開始するには、3 本の指で長押しするか、TalkBack メニューから画面検索を開きます。</string>
   <string name="screen_search_no_keyword_hint_pre_r">まだキーワードはありません。新しい検索を開始するには、左にスワイプしてから下にスワイプするか、TalkBack メニューから画面検索を開きます。</string>
-  <string name="switch_to_braille_keyboard_failure_msg">点字キーボードを ON にできません。TalkBack の設定で点字キーボードを設定してから、お試しください。</string>
   <string name="suggestions_window_available">候補があります</string>
   <string name="suggestions_window_available_with_gesture">候補があります。アクセスするには、%1$s</string>
   <string name="heads_up_window_available">通知があります</string>
@@ -966,9 +954,6 @@
   <string name="new_gesture_notification_content">タップして、新しいジェスチャーで TalkBack をすばやく使用する方法を確認しましょう。</string>
   <string name="dump_node_tree_description">ノードツリーをログにダンプしました。</string>
   <string name="report_gesture_description">最近行われた操作は次のとおりです。正しくない操作と本来の操作をお知らせください。</string>
-  <string name="update_welcome_text_content">Bluetooth デバイスに接続する方法である HID を介して、点字ディスプレイに接続できるようになりました。メーカーから提供された最新のファームウェア ドライバがインストールされていることを確認してから、点字ディスプレイで Bluetooth を ON にしてください。[TalkBack の設定] &gt; [点字ディスプレイ] に移動して、[点字ディスプレイを使用する] を ON にします。デバイスリストでデバイスを見つけて接続します。</string>
-  <string name="update_welcome_text_content_tts">Bluetooth デバイスに接続する方法である HID を介して、点字ディスプレイに接続できるようになりました。メーカーから提供された最新のファームウェア ドライバがインストールされていることを確認してから、点字ディスプレイで Bluetooth を ON にしてください。TalkBack の設定で [点字ディスプレイ] に移動し、[点字ディスプレイを使用する] を ON にします。デバイスリストでデバイスを見つけて接続します。</string>
-  <string name="update_welcome_text_content_with_link">TalkBack で点字ディスプレイを使用する方法をご確認ください。</string>
   <string name="update_welcome_talkback_16.1">この TalkBack の更新では、「画面の説明」機能がより多くの言語に対応しました。また、TalkBack の利便性を高めるさまざまな品質改善も加えられています。\n\n以降の画面では、これらの変更点について説明します。\n\nこの情報は、後から [TalkBack の設定] &gt; [TalkBack の新機能] で確認できます。</string>
   <string name="update_welcome_talkback_16.1_tts">この TalkBack の更新では、「画面の説明」機能がより多くの言語に対応しました。また、TalkBack の利便性を高めるさまざまな品質改善も加えられています。\n\n以降の画面では、これらの変更点について説明します。\n\nこの情報は、後から [TalkBack の設定] &gt; [TalkBack の新機能] で確認できます。</string>
   <string name="describe_screen_and_qna_title">「画面の説明」と「Gemini に相談」の対応言語を追加</string>
@@ -984,10 +969,6 @@
   <string name="reduce_delay_title">遅延を短縮する</string>
   <string name="reduce_delay_content">タッチガイドや入力時の TalkBack の読み上げで生じる遅延を短縮できるようになりました。[TalkBack の設定] &gt; [詳細設定] &gt; [遅延を短縮する] に移動すると、これらの設定が表示されます。</string>
   <string name="reduce_delay_content_tts">タッチガイドや入力時の TalkBack の読み上げで生じる遅延を短縮できるようになりました。[TalkBack の設定]、[詳細設定]、[遅延を短縮する] の順に移動すると、これらの設定が表示されます。</string>
-  <string name="customize_braille_keyboard_improvements_title">点字キーボードの操作をカスタマイズする</string>
-  <string name="customize_braille_keyboard_improvements_content">画面上の仮想点字キーボードの操作をカスタマイズできるようになりました。カスタマイズするには、[TalkBack の設定] &gt; [点字キーボード] &gt; [ジェスチャー] に移動します。</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">画面上の仮想点字キーボードの操作をカスタマイズできるようになりました。カスタマイズするには、[TalkBack の設定]、[点字キーボード]、[ジェスチャー] の順に移動します。</string>
-  <string name="learn_more_about_braille_keyboard">点字キーボードの詳細</string>
   <string name="other_changes_title">その他の変更点</string>
   <string name="other_changes_content">TalkBack が誤って有効になった場合にすばやく無効にできるメッセージを画面に表示できるようになりました。この設定は、[TalkBack の設定] &gt; [TalkBack を OFF にする手順を表示] で OFF にできます。</string>
   <string name="other_changes_content_tts">TalkBack が誤って有効になった場合にすばやく無効にできるメッセージを画面に表示できるようになりました。この設定は、[TalkBack の設定] に移動し、[TalkBack を OFF にする手順を表示] で OFF にできます。</string>
@@ -1020,7 +1001,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack に物理キーボード用の「拡張キーマップ」が追加され、さまざまな新しいコマンドやショートカットを利用できるようになりました。たとえば、効率よくウェブをナビゲーションできる「ブラウズモード」など、この機能強化により、TalkBack で物理キーボードを使用する場合のナビゲーションや操作が行いやすくなりました。「拡張キーマップ」には、%1$s切り替えることができます。\n\n点字ディスプレイを使用している場合は、新しいブラウズモードのショートカットを使用して、点字ディスプレイから直接コンテンツ内を移動することもできます。この変更に対応するため、点字ディスプレイの一部のショートカットが変更されました。点字ディスプレイのすべてのショートカットの一覧は、%2$s確認できます。</string>
   <string name="keyboard_shortcuts_link">[TalkBack の設定] &gt; [キーボード ショートカット] で</string>
   <string name="keyboard_shortcuts_link_tts">[TalkBack の設定]、[キーボード ショートカット] の順に選択して</string>
-  <string name="braille_display_settings_link">点字ディスプレイの設定</string>
   <string name="keyboard_smart_browse_mode_title">キーボード: スマート ブラウズモード</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack のスマート ブラウズモードを使用すると、編集項目ではブラウズモードがオフになるため、ウェブ ブラウジング中も物理キーボードで入力できます。ウェブ上の編集以外の項目に移動すると、ブラウズモードが再びオンになり、効率よくブラウジングを続けられます。[スマート ブラウズモード] は、%1$s ON / OFF を切り替えられます。</string>
   <string name="advanced_settings_link">[TalkBack の設定] &gt; [詳細設定] で</string>
@@ -1093,7 +1073,6 @@
   <string name="typing_text_title">テキスト入力</string>
   <string name="basic_typing_text_text">テキスト ボックスを選択すると、画面の下部にキーボードが表示されます。</string>
   <string name="typing_text_text">キーボード上で指を動かします。入力したい文字が読み上げられたら、指を離します。\n\n下のテキスト ボックスを有効にして名前を入力してみましょう。</string>
-  <string name="typing_text_with_braille_keyboard_text">点字キーボードを使って入力することもできます。点字キーボードは TalkBack の設定にあります。</string>
   <string name="other_ways_to_type_title">その他の入力方法</string>
   <string name="other_ways_to_type_text">TalkBack で入力する方法は他にもあります。たとえば、ダブルタップして文字を入力することもできます。</string>
   <string name="basic_other_ways_to_type_text">TalkBack で入力する方法は他にもあります。たとえば、ダブルタップして文字を入力することもできます。この設定は、[TalkBack の設定] &gt; [画面キーボード] &gt; [入力の設定] で後から変更できます。</string>

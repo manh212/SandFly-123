@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Ububanzi obugcwele bophawu lokuncane</string>
   <string name="symbol_full_width_greater_than_sign">Ububanzi obugcwele bophawu lokukhulu</string>
   <string name="symbol_left_single_quotation_mark">Uphawu olungakwesokunxele lwezicaphuni olulodwa</string>
-  <string name="symbol_braille">i-%s ye-braille</string>
-  <plurals name="dots">
-    <item quantity="one">amachashazi %s</item>
-    <item quantity="other">amachashazi %s</item>
-  </plurals>
 </resources>

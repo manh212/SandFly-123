@@ -78,12 +78,6 @@ class IndividualFeedbackFragment : TalkbackBaseFragment() {
       screen.addPreference(vibrations)
       for (item in IndividualFeedbackSettings.VIBRATIONS) {
         if (
-          !BrailleKeyboardVibrations.isAvailable() &&
-            item in IndividualFeedbackSettings.BRAILLE_KEYBOARD_VIBRATIONS
-        ) {
-          continue
-        }
-        if (
           isWatch &&
             (item == IndividualFeedbackSettings.EDGE_GESTURE_VIBRATIONS ||
               item in IndividualFeedbackSettings.EDGE_GESTURE_SOUND_VIBRATIONS)
@@ -163,13 +157,6 @@ class IndividualFeedbackFragment : TalkbackBaseFragment() {
     val themePattern =
       themeVibrations[switch]
         ?: themeVibrations.entries.firstOrNull { SoundVibrations.switchOf(it.key) == switch }?.value
-    if (themePattern == null && switch in SoundVibrations.BRAILLE_KEYBOARD) {
-      // The braille keyboard plays its own vibrations, which aren't pattern resources.
-      if (BrailleKeyboardVibrations.preview(context, switch)) {
-        previewVibrator = vibrator
-      }
-      return
-    }
     val pattern =
       themePattern
         ?: resourceId(context, switch, "array").takeIf { it != 0 }?.let {
@@ -182,7 +169,7 @@ class IndividualFeedbackFragment : TalkbackBaseFragment() {
     previewVibrator = vibrator
   }
 
-  // By name, because the braille sounds are in a module whose R class talkback cannot see.
+  // By name, because some sounds are looked up by name rather than by ID.
   private fun resourceId(context: Context, name: String, type: String): Int =
     context.resources.getIdentifier(name, type, context.packageName)
 

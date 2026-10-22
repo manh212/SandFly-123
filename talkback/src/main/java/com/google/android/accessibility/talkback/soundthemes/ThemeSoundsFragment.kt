@@ -405,7 +405,6 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
             row.item.key in custom -> R.string.theme_sound_summary_custom
             isControlSound(row.item) -> R.string.theme_sound_summary_none
             SoundThemes.hasNoOwnSound(row.item.key) -> R.string.theme_sound_summary_no_sound
-            isBrailleTypingSound(row.item) -> R.string.theme_sound_summary_android_keyboard
             else -> R.string.theme_sound_summary_default
           }
         )
@@ -443,7 +442,6 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
       val label =
         when {
           isControlSound(item) || SoundThemes.hasNoOwnSound(item.key) -> R.string.theme_sound_remove
-          isBrailleTypingSound(item) -> R.string.theme_sound_use_android_keyboard
           else -> R.string.theme_sound_use_default
         }
       choices +=
@@ -600,8 +598,7 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
           context.getString(
             when {
               isControlSound(item) || SoundThemes.hasNoOwnSound(item.key) -> R.string.theme_sound_remove
-              isBrailleTypingSound(item) -> R.string.theme_sound_use_android_keyboard
-              else -> R.string.theme_sound_use_default
+                  else -> R.string.theme_sound_use_default
             }
           )
         ViewCompat.replaceAccessibilityAction(
@@ -642,7 +639,5 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
 
     fun isControlSound(item: FeedbackItem): Boolean = item.key in ControlSounds.SOUNDS
 
-    fun isBrailleTypingSound(item: FeedbackItem): Boolean =
-      item.key in SoundThemes.BRAILLE_TYPING_EFFECTS
   }
 }

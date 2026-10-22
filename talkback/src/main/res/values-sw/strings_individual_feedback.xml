@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Hali ya kuvinjari imewashwa</string>
   <string name="individual_sound_browse_mode_off">Hali ya kuvinjari imezimwa</string>
   <string name="individual_sound_radial_menu">Menyu ya duara</string>
-  <string name="individual_sound_display_connected">Skrini ya nukta nundu imeunganishwa</string>
-  <string name="individual_sound_display_disconnected">Skrini ya nukta nundu imetenganishwa</string>
-  <string name="individual_sound_double_beep">Amri ya nukta nundu imeshindikana</string>
-  <string name="individual_sound_turn_on">Kusogeza nukta nundu kiotomatiki kumewashwa</string>
-  <string name="individual_sound_turn_off">Kusogeza nukta nundu kiotomatiki kumezimwa</string>
-  <string name="individual_sound_calibration_done">Kibodi ya nukta nundu imesawazishwa</string>
   <string name="individual_vibration_focus">Kuangazia kipengee</string>
   <string name="individual_vibration_focus_actionable">Kuangazia kipengee kinachoweza kutekelezwa</string>
   <string name="individual_vibration_clicked">Kubofya</string>

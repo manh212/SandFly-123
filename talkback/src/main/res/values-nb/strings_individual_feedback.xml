@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Lesemodus på</string>
   <string name="individual_sound_browse_mode_off">Lesemodus av</string>
   <string name="individual_sound_radial_menu">Sirkelmeny</string>
-  <string name="individual_sound_display_connected">Leselist tilkoblet</string>
-  <string name="individual_sound_display_disconnected">Leselist frakoblet</string>
-  <string name="individual_sound_double_beep">Punktskriftkommandoen mislyktes</string>
-  <string name="individual_sound_turn_on">Automatisk rulling av punktskrift på</string>
-  <string name="individual_sound_turn_off">Automatisk rulling av punktskrift av</string>
-  <string name="individual_sound_calibration_done">Punktskrifttastaturet er kalibrert</string>
   <string name="individual_vibration_focus">Fokus på et element</string>
   <string name="individual_vibration_focus_actionable">Fokus på et element som kan aktiveres</string>
   <string name="individual_vibration_clicked">Klikk</string>

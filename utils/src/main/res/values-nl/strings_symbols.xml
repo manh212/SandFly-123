@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Kleiner dan-teken op volledige breedte</string>
   <string name="symbol_full_width_greater_than_sign">Groter dan-teken op volledige breedte</string>
   <string name="symbol_left_single_quotation_mark">Enkel aanhalingsteken links</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">punt %s</item>
-    <item quantity="other">punten %s</item>
-  </plurals>
 </resources>

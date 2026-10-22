@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explorar Através do Toque</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Controlos</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Geral</string>
   <string name="title_pref_category_advanced">Avançadas</string>
   <string name="title_pref_category_others">Outras</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Reduzir atraso</string>
   <string name="talkback_latency_reduction_summary">Definições para reduzir o atraso antes dos anúncios do TalkBack</string>
   <string name="summary_pref_intonation">Leia as letras eliminadas numa voz com tom mais agudo</string>
-  <string name="title_pref_brailledisplay">Ecrã em braille</string>
-  <string name="title_pref_brailleime">Teclado de braille</string>
-  <string name="summary_pref_brailleime_disabled">Dispositivo incompatível com teclado de braille</string>
   <string name="title_pref_speech_footer">Pode ajustar rapidamente algumas definições de som do TalkBack em qualquer ecrã.\n\nVolume da acessibilidade: mantenha 1 dedo no ecrã e prima a tecla de aumentar ou diminuir volume.\nVelocidade de voz do TalkBack: deslize rapidamente para cima ou para baixo com 3 dedos. Quando ouvir \"velocidade de voz\", deslize rapidamente para cima ou para baixo com 1 dedo.</string>
   <string name="title_pref_vibration">Feedback por vibração</string>
   <string name="title_pref_soundback">Feedback sonoro</string>
@@ -486,8 +482,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="shortcut_increase_volume">Aumentar volume</string>
   <string name="shortcut_decrease_volume">Diminuir volume</string>
   <string name="shortcut_all_apps">Todas as apps</string>
-  <string name="shortcut_braille_keyboard">Mudar para teclado braille</string>
-  <string name="shortcut_braille_display_settings">Navegar p/ definições do ecrã em braille</string>
   <string name="shortcut_tutorial">Abrir tutorial</string>
   <string name="shortcut_control_speak_time">Dizer ou não as horas</string>
   <string name="shortcut_enable_speak_time">Dizer as horas</string>
@@ -496,7 +490,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="speak_time_off">Opção Dizer as horas desativada</string>
   <string name="shortcut_practice_gestures">Praticar gestos</string>
   <string name="shortcut_report_gesture">Comunicar problema com gesto</string>
-  <string name="shortcut_toggle_braille_display">Ativar ou desativar o ecrã em braille</string>
   <string name="shortcut_announce_current_time_and_date">Dizer a data e a hora atuais</string>
   <string name="shortcut_announce_battery_state">Dizer percentagem da bateria</string>
   <string name="shortcut_announce_current_title">Dizer o título da janela</string>
@@ -506,8 +499,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="shortcut_speech_rate_decrease">Diminuir velocidade de voz</string>
   <string name="shortcut_toggle_selection">Iniciar ou terminar o modo de seleção</string>
   <string name="shortcut_show_tutorial">Abrir tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Alternar entre contraído (grau 2) e não contraído (grau 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Mostrar ou ocultar braille no ecrã para ecrãs em braille ligados</string>
   <string name="shortcut_toggle_sound_feedback">Ativar ou desativar feedback sonoro (ícones sonoros)</string>
   <string name="shortcut_show_learn_mode_page">Pratique os atalhos de teclado</string>
   <string name="shortcut_announce_phonetic_pronunciation">Ler letras com pronúncia fonética para o item focado</string>
@@ -548,7 +539,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="title_show_voice_commands">Comandos de voz</string>
   <string name="title_show_keyboard_shortcuts">Atalhos de teclado</string>
   <string name="talkback_show_talkback_settings">Definições do TalkBack</string>
-  <string name="title_show_braille_display_settings">Definições do ecrã em braille</string>
   <string name="title_granularity_default">Navegação predefinida</string>
   <string name="title_action_dismiss">Ignorar</string>
   <string name="title_action_expand">Expandir</string>
@@ -576,7 +566,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="summary_control_speak_time">Altere se as horas são ditas em voz alta quando ativa o ecrã</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Abra a lista de atalhos de teclado</string>
   <string name="summary_talkback_preferences">Abra as definições do TalkBack</string>
-  <string name="summary_braile_display_preferences">Abra as definições do ecrã em braille</string>
   <string name="summary_system_actions">Aceda a todas as apps e Definições rápidas</string>
   <string name="summary_tts_settings">Abra as definições de conversão de texto em voz.</string>
   <string name="not_editable">Não editável</string>
@@ -917,7 +906,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="screen_search_keyword_hint">a palavra-chave é %1$s</string>
   <string name="screen_search_no_keyword_hint">Ainda não tem nenhuma palavra-chave. Para iniciar uma nova pesquisa, toque sem soltar com 3 dedos ou abra a Pesquisa direta no menu do TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ainda não tem nenhuma palavra-chave. Para iniciar uma nova pesquisa, deslize rapidamente para a esquerda e, em seguida, para baixo, ou abra a Pesquisa direta do menu do TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Teclado de braille desativado. Aceda às definições do TalkBack, configure este teclado e repita.</string>
   <string name="suggestions_window_available">Sugestões disponíveis</string>
   <string name="suggestions_window_available_with_gesture">Sugestões disponíveis. Como aceder, %1$s</string>
   <string name="heads_up_window_available">Notificação disponível</string>
@@ -967,9 +955,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="new_gesture_notification_content">Toque para saber como utilizar o TalkBack mais rapidamente com novos gestos.</string>
   <string name="dump_node_tree_description">A árvore de nós foi impressa em registos.</string>
   <string name="report_gesture_description">Veja os gestos executados recentemente. Indique que gesto está incorreto e o que se espera.</string>
-  <string name="update_welcome_text_content">Agora, pode estabelecer ligação a ecrãs em braille através de HID, uma forma de se ligar a dispositivos Bluetooth. Certifique-se de que tem os controladores de firmware mais recentes do fabricante e, em seguida, ative o Bluetooth no ecrã em braille. Aceda às definições do TalkBack &gt; Ecrã em braille e ative a opção \"Usar ecrã em braille\". Encontre o seu dispositivo na lista de dispositivos e estabeleça ligação a este.</string>
-  <string name="update_welcome_text_content_tts">Agora, pode estabelecer ligação a ecrãs em braille através de HID, uma forma de se ligar a dispositivos Bluetooth. Certifique-se de que tem os controladores de firmware mais recentes do fabricante e, em seguida, ative o Bluetooth no ecrã em braille. Aceda às definições do TalkBack, em seguida, a Ecrã em braille e ative a opção \"Usar ecrã em braille\". Encontre o seu dispositivo na lista de dispositivos e estabeleça ligação a este.</string>
-  <string name="update_welcome_text_content_with_link">Saiba como usar o ecrã em braille com o TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Esta atualização do TalkBack introduz a compatibilidade com a funcionalidade Descrever ecrã em mais idiomas e outras melhorias de qualidade que tornam a utilização do TalkBack mais fácil.\n\nVai saber mais acerca destas alterações nos próximos ecrãs.\n\nPode rever estas informações mais tarde em Definições do TalkBack &gt; Novas funcionalidades no TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Esta atualização do TalkBack introduz a compatibilidade com a funcionalidade Descrever ecrã em mais idiomas e outras melhorias de qualidade que tornam a utilização do TalkBack mais fácil.\n\nVai saber mais acerca destas alterações nos próximos ecrãs.\n\nPode rever estas informações mais tarde em Definições do TalkBack e, em seguida, Novas funcionalidades no TalkBack.</string>
   <string name="describe_screen_and_qna_title">Novos idiomas para as funcionalidades Descrever ecrã e Pedir ao Gemini</string>
@@ -985,10 +970,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="reduce_delay_title">Reduza o atraso</string>
   <string name="reduce_delay_content">Já pode reduzir os atrasos nos anúncios do TalkBack para a exploração por toque e a escrita. Para ver estas definições, aceda a Definições do TalkBack &gt; Definições avançadas &gt; Reduzir atraso.</string>
   <string name="reduce_delay_content_tts">Já pode reduzir os atrasos nos anúncios do TalkBack para a exploração por toque e a escrita. Para ver estas definições, aceda às Definições do TalkBack &gt; Definições avançadas &gt; Reduzir atraso.</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalize os gestos do teclado de braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Já é possível personalizar os gestos do teclado de braille virtual no ecrã. Para personalizar, aceda a Definições do TalkBack &gt; Teclado de braille &gt; Gestos.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Já é possível personalizar os gestos do teclado de braille virtual no ecrã. Para personalizar, aceda a Definições do TalkBack, selecione Teclado de braille e Gestos.</string>
-  <string name="learn_more_about_braille_keyboard">Saiba mais sobre o teclado de braille</string>
   <string name="other_changes_title">Outras alterações</string>
   <string name="other_changes_content">Agora, uma mensagem no ecrã ajuda a desativar rapidamente o TalkBack se este for ativado acidentalmente. Pode desativar esta opção em Definições do TalkBack &gt; Mostrar instruções para desativar o TalkBack.</string>
   <string name="other_changes_content_tts">Agora, uma mensagem no ecrã ajuda a desativar rapidamente o TalkBack se este for ativado acidentalmente. Pode desativar esta opção em Definições do TalkBack e Mostrar instruções para desativar o TalkBack.</string>
@@ -1021,7 +1002,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="keyboard_enhanced_keymap_text">Agora, o TalkBack tem um \"Mapa de teclas melhorado\" para teclados físicos, com uma variedade de novos comandos e atalhos. Esta melhoria inclui um \"modo de navegação\" para uma navegação na Web mais eficiente, simplificando a navegação e a interação para os utilizadores do TalkBack que dependem de teclados físicos. Pode mudar para o \"Mapa de teclas melhorado\" em %1$s.\n\nSe usar um ecrã em braille, também pode usar novos atalhos do modo de navegação para percorrer o conteúdo a partir do ecrã em braille. Alguns atalhos do ecrã em braille foram alterados para adotar esta alteração. Pode ver uma lista de todos os atalhos do ecrã em braille em %2$s.</string>
   <string name="keyboard_shortcuts_link">Definições do TalkBack &gt; Atalhos de teclado</string>
   <string name="keyboard_shortcuts_link_tts">Definições do TalkBack e, de seguida, Atalhos de teclado</string>
-  <string name="braille_display_settings_link">Definições do ecrã em braille</string>
   <string name="keyboard_smart_browse_mode_title">Teclado: modo de navegação inteligente</string>
   <string name="keyboard_smart_browse_mode_text">O modo de navegação inteligente do TalkBack desativa o modo de navegação num campo de edição para ajudar a escrever com um teclado físico quando navega na Web. De seguida, volta a ativá-lo quando salta para um campo não editável na Web para que possa continuar a navegar de forma eficiente. Pode ativar ou desativar o \"Modo de navegação inteligente\" em %1$s.</string>
   <string name="advanced_settings_link">Definições do TalkBack &gt; Definições avançadas</string>
@@ -1094,7 +1074,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="typing_text_title">Escrever texto</string>
   <string name="basic_typing_text_text">Quando estiver numa caixa de texto, é apresentado um teclado na parte inferior do ecrã.</string>
   <string name="typing_text_text">Mova o dedo pelo teclado. Quando ouvir a letra que quer escrever, levante o dedo.\n\nExperimente ativar a caixa de texto abaixo e escrever o seu nome.</string>
-  <string name="typing_text_with_braille_keyboard_text">Também pode escrever com o teclado de braille. Pode encontrá-lo nas definições do TalkBack.</string>
   <string name="other_ways_to_type_title">Outras formas de escrever</string>
   <string name="other_ways_to_type_text">Existem outras formas de escrever no TalkBack. Por exemplo, pode tocar duas vezes para introduzir uma letra.</string>
   <string name="basic_other_ways_to_type_text">Existem outras formas de escrever no TalkBack. Por exemplo, pode tocar duas vezes para introduzir uma letra. Pode alterar esta opção mais tarde em Definições do TalkBack &gt; Teclado no ecrã &gt; Preferência de introdução.</string>

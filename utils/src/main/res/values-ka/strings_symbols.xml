@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">სრული სიგანის ნაკლებობის ნიშანი</string>
   <string name="symbol_full_width_greater_than_sign">სრული სიგანის მეტობის ნიშანი</string>
   <string name="symbol_left_single_quotation_mark">მარცხენა ერთმაგი ბრჭყალი</string>
-  <string name="symbol_braille">ბრაილი — %s</string>
-  <plurals name="dots">
-    <item quantity="one">წერტილი %s</item>
-    <item quantity="other">წერტილები %s</item>
-  </plurals>
 </resources>

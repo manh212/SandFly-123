@@ -141,13 +141,4 @@
   <string name="symbol_full_width_less_than_sign">علامة أقل من بالعرض الكامل</string>
   <string name="symbol_full_width_greater_than_sign">علامة أكبر من بالعرض الكامل</string>
   <string name="symbol_left_single_quotation_mark">علامة اقتباس مفردة يسرى</string>
-  <string name="symbol_braille">لغة برايل %s</string>
-  <plurals name="dots">
-    <item quantity="zero">%s نقطة</item>
-    <item quantity="one">نقطة واحدة (%s)</item>
-    <item quantity="two">نقطتان (%s)</item>
-    <item quantity="few">%s نقاط</item>
-    <item quantity="many">%s نقطة</item>
-    <item quantity="other">%s نقطة</item>
-  </plurals>
 </resources>
