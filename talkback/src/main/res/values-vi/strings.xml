@@ -1806,4 +1806,6 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="title_pref_shortcut_edge_right_bottom_left">Vuốt sang trái từ cạnh phải, nửa dưới</string>
     <string name="title_pref_shortcut_edge_right_bottom_long_left">Vuốt dài sang trái từ cạnh phải, nửa dưới</string>
     <string name="title_pref_selector_auto_switch">Tự động thay đổi chế độ điều khiển chức năng đọc</string>
+    <string name="title_pref_selection_mode_reading_control">Thay đổi chế độ điều khiển chức năng đọc trong chế độ chọn</string>
+    <string name="summary_pref_selection_mode_reading_control">Khi tắt, chế độ điều khiển chức năng đọc hiện tại, ví dụ như Tiêu đề, được giữ nguyên khi chế độ chọn bắt đầu trong nội dung web</string>
 </resources>

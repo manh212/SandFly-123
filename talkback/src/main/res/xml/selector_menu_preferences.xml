@@ -8,6 +8,11 @@
             android:defaultValue="@bool/pref_selector_auto_switch_default"
             android:key="@string/pref_selector_auto_switch_key"
             android:title="@string/title_pref_selector_auto_switch"/>
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+            android:defaultValue="@bool/pref_selection_mode_reading_control_default"
+            android:key="@string/pref_selection_mode_reading_control_key"
+            android:summary="@string/summary_pref_selection_mode_reading_control"
+            android:title="@string/title_pref_selection_mode_reading_control"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_selector_actions_default"
