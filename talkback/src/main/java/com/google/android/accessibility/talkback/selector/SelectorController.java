@@ -1181,11 +1181,20 @@ public class SelectorController implements UserInputEventListener {
    * by the characters, words, lines or paragraphs the user was reading by. Any other reading control
    * changes to GRANULARITY_CHARACTERS. Users still can change setting by themselves. If users did
    * not change the setting during the selection mode life time, system will change the setting back
-   * to its original value when the selection mode stops.
+   * to its original value when the selection mode stops. The change of reading control can be
+   * turned off in the reading control settings, keeping the current reading control instead.
    */
   @Override
   public void editTextOrSelectableTextSelected(boolean isSelected) {
     if (isSelected) {
+      if (!prefs.getBoolean(
+          context.getString(R.string.pref_selection_mode_reading_control_key),
+          context.getResources()
+              .getBoolean(R.bool.pref_selection_mode_reading_control_default))) {
+        // The user keeps their reading control: selection mode does not replace it, so there
+        // is also nothing to restore when selection mode ends.
+        return;
+      }
       Setting current = getCurrentSetting(context, prefs);
       if (selectionGranularityOf(current) != null) {
         settingToRestore = null;
