@@ -7,10 +7,6 @@ apply from: "../shared.gradle"
 dependencies {
     implementation project(':proguard')
     implementation project(':utils')
-    implementation project(':brailleime')
-    phoneImplementation project(':braillecommon')
-    implementation project(':brailleinterfaces')
-    implementation project(':brailledisplay')
     implementation project(':materialflags')
     implementation project(':materialpreference')
     // TODO: Define different dependencies for different product flavors
