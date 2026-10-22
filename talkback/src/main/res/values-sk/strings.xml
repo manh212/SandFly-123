@@ -1188,26 +1188,6 @@ Ak budú oneskorenia kratšie ako 0,3 sekundy, dvojité klepnutie spúšťajúc
   <string name="talkback_inactive_message_practice_gestures">Ak chcete precvičovať gestá, najprv zapnite TalkBack</string>
   <string name="talkback_inactive_message_image_description">Ak chcete získať opisy obrázkov, zapnite TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Zavrieť návod</string>
-  <string name="wear_training_welcome_paragraph">Keď je aplikácia TalkBack zapnutá, nahlas vysloví zameranú položku na obrazovke.\n\nPotiahnutím doprava prejdete na nasledujúcu položku. Potiahnutím doľava prejdete na predchádzajúcu položku.\n\nTeraz potiahnite doprava, kým nenájdete ďalšie tlačidlo.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Potiahnite %1$d prstami nahor alebo nadol</string>
-  <string name="wear_training_go_back_title">Prejdenie späť</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Keď chcete prejsť späť, potiahnite %1$d prstami doprava z okraja obrazovky</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Podarilo sa</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bolo vykonané gesto na prechod späť</string>
-  <string name="wear_training_volume_up_title">Zvýšenie hlasitosti</string>
-  <string name="wear_training_volume_up_text">Potiahnite doprava a potom nahor</string>
-  <string name="wear_training_volume_down_title">Zníženie hlasitosti</string>
-  <string name="wear_training_volume_down_text">Potiahnite doprava a potom nadol</string>
-  <string name="wear_training_open_talkback_menu_title">Otvorenie ponuky aplikácie TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Ak chcete otvoriť nastavenia a ovládacie prvky, ktoré často používate, potiahnite nadol a doprava</string>
-  <string name="wear_training_typing_title">Písanie</string>
-  <string name="wear_training_typing_text1">Ak chcete písať pomocou klávesnice, pohybujte po nej prstom. Keď začujete písmeno, ktoré chcete napísať, zdvihnite prst.</string>
-  <string name="wear_training_typing_text2">Ak chcete skryť klávesnicu a skontrolovať vstup, potiahnite dvoma prstami zhora obrazovky nadol.</string>
-  <string name="wear_training_typing_text3">Ak sa chcete vrátiť na klávesnicu, potiahnite dvoma prstami zdola obrazovky nahor.</string>
-  <string name="wear_training_typing_text4">Ak chcete klávesnicu zavrieť a zrušiť písanie, potiahnite dvoma prstami z ľavého okraja obrazovky doprava.</string>
-  <string name="wear_training_typing_text5">Vyskúšajte to nižšie.</string>
-  <string name="wear_training_typing_practice_button_content_description">Písanie pomocou klávesnice</string>
-  <string name="wear_training_end_tutorial_title">Môžete začať používať TalkBack</string>
   <string name="talkback_updated_notification_title">Aplikácia TalkBack bola aktualizovaná</string>
   <string name="talkback_updated_notification_content">Klepnutím získate ďalšie informácie</string>
   <string name="wear_new_feature_page_title">Vitajte v aktualizovanej aplikácii TalkBack</string>

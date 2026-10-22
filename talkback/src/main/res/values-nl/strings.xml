@@ -1188,26 +1188,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="talkback_inactive_message_practice_gestures">Als je gebaren wilt oefenen, zet je eerst TalkBack aan</string>
   <string name="talkback_inactive_message_image_description">Als je beschrijvingen van afbeeldingen wilt krijgen, moet je TalkBack eerst aanzetten</string>
   <string name="talkback_inactive_close_tutorial_button">Tutorial sluiten</string>
-  <string name="wear_training_welcome_paragraph">Als TalkBack aanstaat, wordt het gefocuste item op het scherm voorgelezen.\n\nSwipe naar rechts om naar het volgende item te gaan. Swipe naar links om naar het vorige item te gaan.\n\nSwipe nu naar rechts om de knop Volgende te vinden.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe omhoog of omlaag met %1$d vingers</string>
-  <string name="wear_training_go_back_title">Terug</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Als je terug wilt gaan, swipe je met %1$d vingers vanaf de rand van het scherm naar rechts.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Geslaagd</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gebaar voor terugnavigatie uitgevoerd</string>
-  <string name="wear_training_volume_up_title">Volume verhogen</string>
-  <string name="wear_training_volume_up_text">Swipe naar rechts en dan omhoog</string>
-  <string name="wear_training_volume_down_title">Volume verlagen</string>
-  <string name="wear_training_volume_down_text">Swipe naar rechts en dan omlaag</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-menu openen</string>
-  <string name="wear_training_open_talkback_menu_text">Swipe omlaag en dan naar rechts om instellingen en bedieningselementen te openen die je vaak nodig kunt hebben</string>
-  <string name="wear_training_typing_title">Typen</string>
-  <string name="wear_training_typing_text1">Als je wilt typen met het toetsenbord, beweeg je je vinger over het toetsenbord. Wanneer je de letter hoort die je wilt typen, til je je vinger op.</string>
-  <string name="wear_training_typing_text2">Als je het toetsenbord wilt verbergen en je invoer wilt checken, swipe je met 2 vingers omlaag vanaf de bovenkant van het scherm.</string>
-  <string name="wear_training_typing_text3">Als je wilt teruggaan naar het toetsenbord, swipe je met 2 vingers omhoog vanaf de onderkant van het scherm.</string>
-  <string name="wear_training_typing_text4">Als je het toetsenbord wilt sluiten en typen wilt annuleren, swipe je met 2 vingers naar rechts vanaf de linkerrand van je scherm.</string>
-  <string name="wear_training_typing_text5">Probeer het hieronder.</string>
-  <string name="wear_training_typing_practice_button_content_description">Typen met toetsenbord</string>
-  <string name="wear_training_end_tutorial_title">Je bent klaar om TalkBack te gebruiken</string>
   <string name="talkback_updated_notification_title">TalkBack is geüpdatet</string>
   <string name="talkback_updated_notification_content">Tik voor meer informatie</string>
   <string name="wear_new_feature_page_title">Welkom bij het geüpdatete TalkBack</string>

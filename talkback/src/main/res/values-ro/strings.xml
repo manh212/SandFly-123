@@ -1188,26 +1188,6 @@ Decalajele sub 0,3 secunde vor schimba atingerea dublă pentru activare în atin
   <string name="talkback_inactive_message_practice_gestures">Ca să exersezi gesturile, activează întâi TalkBack</string>
   <string name="talkback_inactive_message_image_description">Ca să încerci să obții descrieri ale imaginilor, activează mai întâi TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Închide tutorialul</string>
-  <string name="wear_training_welcome_paragraph">Când TalkBack este activat, elementul focalizat de pe ecran este rostit cu voce tare.\n\nDacă glisezi spre dreapta vei trece la următorul element. Dacă glisezi spre stânga vei trece la elementul anterior.\n\nGlisează acum spre dreapta pentru a trece la butonul Înainte.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Glisează în sus sau în jos cu %1$d degete.</string>
-  <string name="wear_training_go_back_title">Înapoi</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Atunci când vrei să revii, folosește %1$d degete pentru a glisa spre dreapta dinspre marginea ecranului.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Succes</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">A fost făcut gestul înapoi</string>
-  <string name="wear_training_volume_up_title">Mărește volumul</string>
-  <string name="wear_training_volume_up_text">Glisează spre dreapta, apoi în sus</string>
-  <string name="wear_training_volume_down_title">Micșorează volumul</string>
-  <string name="wear_training_volume_down_text">Glisează spre dreapta, apoi în jos</string>
-  <string name="wear_training_open_talkback_menu_title">Deschide meniul TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Pentru a deschide setările și comenzile de care ai nevoie frecvent, glisează în jos, apoi la dreapta</string>
-  <string name="wear_training_typing_title">Cum să introduci text</string>
-  <string name="wear_training_typing_text1">Pentru a introduce text de la tastatură, deplasează degetul deasupra tastaturii. Când auzi litera pe care vrei să o introduci, ridică degetul.</string>
-  <string name="wear_training_typing_text2">Ca să ascunzi tastatura și să verifici textul introdus, glisează în jos cu două degete din partea de sus a ecranului.</string>
-  <string name="wear_training_typing_text3">Pentru a reveni la tastatură, glisează în sus cu două degete din partea de jos a ecranului.</string>
-  <string name="wear_training_typing_text4">Ca să închizi tastatura și să anulezi introducerea textului, glisează spre dreapta dinspre marginea stângă a ecranului cu două degete.</string>
-  <string name="wear_training_typing_text5">Încearcă mai jos.</string>
-  <string name="wear_training_typing_practice_button_content_description">Introducerea textului de la tastatură</string>
-  <string name="wear_training_end_tutorial_title">Ești gata să folosești TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack s-a actualizat</string>
   <string name="talkback_updated_notification_content">Atinge pentru a afla mai multe</string>
   <string name="wear_new_feature_page_title">Bun venit la versiunea TalkBack actualizată</string>

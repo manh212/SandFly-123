@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ജെസ്ച്ചറുകൾ പരിശീലിക്കാൻ, ആദ്യം TalkBack ഓണാക്കുക</string>
   <string name="talkback_inactive_message_image_description">ചിത്രത്തിന്റെ വിവരണങ്ങൾ നേടാൻ ശ്രമിക്കുന്നതിന്, ആദ്യം TalkBack ഓണാക്കുക</string>
   <string name="talkback_inactive_close_tutorial_button">ട്യൂട്ടോറിയൽ അടയ്ക്കുക</string>
-  <string name="wear_training_welcome_paragraph">TalkBack ഓണായിരിക്കുമ്പോൾ, സ്‌ക്രീനിലെ ഫോക്കസ് ചെയ്‌ത ഇനം ഉറക്കെ വായിക്കപ്പെടും.\n\nവലത്തേക്ക് സ്വൈപ്പ് ചെയ്‌താൽ അടുത്ത ഇനത്തിലേക്ക് നീങ്ങും. ഇടത്തേക്ക് സ്വൈപ്പ് ചെയ്‌താൽ മുമ്പത്തെ ഇനത്തിലേക്ക് നീങ്ങും.\n\nഅടുത്ത ബട്ടൺ കണ്ടെത്താൻ ഇപ്പോൾ വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യൂ.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്കോ താഴേക്കോ സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_go_back_title">മടങ്ങുക</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">തിരികെ പോകാൻ, %1$d വിരലുകൾ ഉപയോഗിച്ച് സ്ക്രീനിന്റെ അറ്റത്തുനിന്ന് വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">വിജയകരം</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ബാക്ക് ജെസ്ച്ചർ ചെയ്തു</string>
-  <string name="wear_training_volume_up_title">വോളിയം കൂട്ടുക</string>
-  <string name="wear_training_volume_up_text">വലത്തേക്കും തുടർന്ന് മുകളിലേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_volume_down_title">വോളിയം കുറയ്ക്കുക</string>
-  <string name="wear_training_volume_down_text">വലത്തേക്കും തുടർന്ന് താഴേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack മെനു തുറക്കുക</string>
-  <string name="wear_training_open_talkback_menu_text">ക്രമീകരണവും നിങ്ങൾക്ക് ഇടയ്ക്കിടെ ആവശ്യം വന്നേക്കാവുന്ന നിയന്ത്രണങ്ങളും തുറക്കാൻ, ആദ്യം താഴേക്കും തുടർന്ന് വലത്തേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_typing_title">ടൈപ്പ് ചെയ്യൽ</string>
-  <string name="wear_training_typing_text1">കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യാൻ, കീബോർഡിലുടനീളം നിങ്ങളുടെ വിരൽ നീക്കുക. നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യേണ്ട അക്ഷരം കേൾക്കുമ്പോൾ വിരലെടുക്കുക.</string>
-  <string name="wear_training_typing_text2">കീബോർഡ് മറയ്ക്കാനും ഇൻപുട്ട് പരിശോധിക്കാനും, സ്ക്രീനിന്റെ മുകളിൽ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text3">കീബോർഡിലേക്ക് മടങ്ങിയെത്താൻ, സ്ക്രീനിന്റെ താഴെ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text4">കീബോർഡ് അടയ്ക്കാനും ടൈപ്പിംഗ് റദ്ദാക്കാനും, സ്ക്രീനിന്റെ ഇടതുവശത്തെ അരികിൽ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് വലതുവശത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text5">ചുവടെ ഇത് പരീക്ഷിക്കുക.</string>
-  <string name="wear_training_typing_practice_button_content_description">കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_end_tutorial_title">TalkBack ഉപയോഗിച്ച് തുടങ്ങാൻ നിങ്ങൾ തയ്യാറാണ്</string>
   <string name="talkback_updated_notification_title">TalkBack അപ്‌ഡേറ്റ് ചെയ്‌തു</string>
   <string name="talkback_updated_notification_content">കൂടുതൽ കണ്ടെത്താൻ ടാപ്പ് ചെയ്യുക</string>
   <string name="wear_new_feature_page_title">അപ്ഡേറ്റ് ചെയ്‌ത TalkBack-ലേക്ക് സ്വാഗതം</string>

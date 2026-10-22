@@ -1188,26 +1188,6 @@ Delays below 0.3 seconds will change double-tap to activate to two-finger tap to
   <string name="talkback_inactive_message_practice_gestures">To practice gestures, first turn on SandFly</string>
   <string name="talkback_inactive_message_image_description">To try getting image descriptions, first turn on SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Close tutorial</string>
-  <string name="wear_training_welcome_paragraph">When SandFly is on, the focused item on the screen is spoken out loud.\n\nSwiping right moves to the next item. Swiping left moves to the previous item.\n\nSwipe right now until you find the Next button.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe up or down with %1$d fingers.</string>
-  <string name="wear_training_go_back_title">Go back</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">When you want to go back, use %1$d fingers to swipe right from the edge of the screen.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Success</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Back gesture performed</string>
-  <string name="wear_training_volume_up_title">Turn up volume</string>
-  <string name="wear_training_volume_up_text">Swipe right and then up</string>
-  <string name="wear_training_volume_down_title">Turn down volume</string>
-  <string name="wear_training_volume_down_text">Swipe right and then down</string>
-  <string name="wear_training_open_talkback_menu_title">Open SandFly menu</string>
-  <string name="wear_training_open_talkback_menu_text">To open settings and controls that you may need often, swipe down and then right</string>
-  <string name="wear_training_typing_title">Typing</string>
-  <string name="wear_training_typing_text1">To type with keyboard, move your finger across the keyboard. When you hear the letter that you want to type, lift your finger.</string>
-  <string name="wear_training_typing_text2">To hide the keyboard and check your input, swipe down from the top of your screen with 2 fingers.</string>
-  <string name="wear_training_typing_text3">To return to the keyboard, swipe up from the bottom of your screen with 2 fingers.</string>
-  <string name="wear_training_typing_text4">To close the keyboard and cancel typing, swipe right from the left edge of your screen with 2 fingers.</string>
-  <string name="wear_training_typing_text5">Try it below.</string>
-  <string name="wear_training_typing_practice_button_content_description">Typing with keyboard</string>
-  <string name="wear_training_end_tutorial_title">You\'re ready to start using SandFly</string>
   <string name="talkback_updated_notification_title">SandFly has been updated</string>
   <string name="talkback_updated_notification_content">Tap to find out more</string>
   <string name="wear_new_feature_page_title">Welcome to the updated SandFly</string>

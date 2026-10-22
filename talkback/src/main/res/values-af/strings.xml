@@ -1188,26 +1188,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="talkback_inactive_message_practice_gestures">Skakel eers SandFly aan om gebare te oefen</string>
   <string name="talkback_inactive_message_image_description">Skakel eers SandFly aan om prentbeskrywings te probeer kry</string>
   <string name="talkback_inactive_close_tutorial_button">Maak tutoriaal toe</string>
-  <string name="wear_training_welcome_paragraph">Wanneer SandFly aan is, word die fokusitem op die skerm hardop gesê.\n\nAs jy regs swiep, gaan jy na die volgende item toe. As jy links swiep, gaan jy na die vorige item toe.\n\nSwiep nou regs om die volgende knoppie te kry.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swiep op of af met %1$d vingers.</string>
-  <string name="wear_training_go_back_title">Gaan terug</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Gebruik %1$d vingers om van die kant van die skerm af regs te swiep as jy wil teruggaan.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sukses</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Teruggebaar is uitgevoer</string>
-  <string name="wear_training_volume_up_title">Stel volume harder</string>
-  <string name="wear_training_volume_up_text">Swiep regs en dan op</string>
-  <string name="wear_training_volume_down_title">Stel volume sagter</string>
-  <string name="wear_training_volume_down_text">Swiep regs en dan af</string>
-  <string name="wear_training_open_talkback_menu_title">Maak SandFly-kieslys oop</string>
-  <string name="wear_training_open_talkback_menu_text">Swiep af en dan regs om instellings en kontroles wat jy gereeld nodig het, oop te maak</string>
-  <string name="wear_training_typing_title">Tik tans …</string>
-  <string name="wear_training_typing_text1">Beweeg jou vinger oor die sleutelbord om met sleutelbord te tik. Lig jou vinger op wanneer jy die letter hoor wat jy wil tik.</string>
-  <string name="wear_training_typing_text2">Swiep met 2 vingers af vanaf die bokant van jou skerm om die sleutelbord te versteek en jou invoer na te gaan.</string>
-  <string name="wear_training_typing_text3">Swiep met 2 vingers op vanaf die onderkant van jou skerm om na die sleutelbord terug te keer.</string>
-  <string name="wear_training_typing_text4">Swiep met 2 vingers regs vanaf die linkerkant van jou skerm om die sleutelbord toe te maak en tikwerk te kanselleer.</string>
-  <string name="wear_training_typing_text5">Probeer dit hier onder</string>
-  <string name="wear_training_typing_practice_button_content_description">Tik met sleutelbord</string>
-  <string name="wear_training_end_tutorial_title">Jy is gereed om SandFly te begin gebruik</string>
   <string name="talkback_updated_notification_title">SandFly is opgedateer</string>
   <string name="talkback_updated_notification_content">Tik om meer te wete te kom</string>
   <string name="wear_new_feature_page_title">Welkom by die opgedateerde SandFly</string>

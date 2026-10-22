@@ -1185,26 +1185,6 @@
   <string name="talkback_inactive_message_practice_gestures">জেসচার অনুশীলন করতে, প্রথমে SandFly চালু করুন</string>
   <string name="talkback_inactive_message_image_description">ছবির বিবরণ পাওয়ার চেষ্টা করতে, প্রথমে SandFly চালু করুন</string>
   <string name="talkback_inactive_close_tutorial_button">টিউটোরিয়াল বন্ধ করুন</string>
-  <string name="wear_training_welcome_paragraph">SandFly চালু থাকলে, স্ক্রিনে ফোকাস করা আইটেম জোরে পড়ে শোনানো হয়।\n\nপরবর্তী আইটেমে যেতে ডানদিকে সোয়াইপ করুন। আগের আইটেমে যেতে বাঁদিকে সোয়াইপ করুন।\n\nএখন, পরবর্তী বোতামটি খুঁজে না পাওয়া পর্যন্ত ডানদিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$dটি আঙুল দিয়ে উপরে বা নিচের দিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_go_back_title">ফিরে যান</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ফিরে যেতে চাইলে, %1$dটি আঙুল দিয়ে স্ক্রিনের প্রান্ত থেকে ডানদিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">সফল হয়েছে</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ব্যাক জেসচার পারফর্ম করা হয়েছে</string>
-  <string name="wear_training_volume_up_title">ভলিউম বাড়ান</string>
-  <string name="wear_training_volume_up_text">ডানদিকে সোয়াইপ করে তারপর উপরের দিকে সোয়াইপ করুন</string>
-  <string name="wear_training_volume_down_title">ভলিউম কমান</string>
-  <string name="wear_training_volume_down_text">ডানদিকে সোয়াইপ করে তারপর নিচের দিকে সোয়াইপ করুন</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly মেনু খুলুন</string>
-  <string name="wear_training_open_talkback_menu_text">সেটিংস ও কন্ট্রোল খুলতে, আপনাকে প্রায়শই নিচের দিকে ও তারপরে ডানদিকে সোয়াইপ করতে হতে পারে</string>
-  <string name="wear_training_typing_title">টাইপ করা হচ্ছে</string>
-  <string name="wear_training_typing_text1">কীবোর্ডের সাহায্যে টাইপ করতে, আপনার আঙুল দিয়ে কীবোর্ড ব্যবহার করুন। আপনি যে অক্ষর টাইপ করতে চাইছেন সেটি শুনতে পেলেই আঙুল তুলে নিন।</string>
-  <string name="wear_training_typing_text2">কীবোর্ড লুকাতে এবং আপনার ইনপুট চেক করতে, স্ক্রিনের একেবারে উপর থেকে ২টি আঙুলের মাধ্যমে নিচের দিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_typing_text3">কীবোর্ডে ফিরে যেতে, আপনার ২টি আঙুল দিয়ে স্ক্রিনের নিচ থেকে উপরের দিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_typing_text4">কীবোর্ড বন্ধ করতে ও টাইপ করা বাতিল করতে, আপনার স্ক্রিনের বাঁদিকের প্রান্ত থেকে ২টি আঙুল দিয়ে ডানদিকে সোয়াইপ করুন।</string>
-  <string name="wear_training_typing_text5">নিচে এটি ব্যবহার করে দেখুন।</string>
-  <string name="wear_training_typing_practice_button_content_description">কীবোর্ডের সাহায্যে টাইপ করা</string>
-  <string name="wear_training_end_tutorial_title">আপনি SandFly ব্যবহার শুরু করার জন্য রেডি</string>
   <string name="talkback_updated_notification_title">SandFly আপডেট করা হয়েছে</string>
   <string name="talkback_updated_notification_content">আরও জানতে ট্যাপ করুন</string>
   <string name="wear_new_feature_page_title">আপডেট করা SandFly-এ স্বাগতম</string>

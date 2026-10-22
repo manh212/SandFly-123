@@ -1188,26 +1188,6 @@ Penangguhan di bawah 0.3 saat akan menukar ketik dua kali untuk mengaktifkan kep
   <string name="talkback_inactive_message_practice_gestures">Untuk berlatih gerak isyarat, hidupkan TalkBack dahulu</string>
   <string name="talkback_inactive_message_image_description">Untuk mendapatkan perihalan imej, hidupkan TalkBack dahulu</string>
   <string name="talkback_inactive_close_tutorial_button">Tutup tutorial</string>
-  <string name="wear_training_welcome_paragraph">Apabila TalkBack dihidupkan, item yang difokuskan pada skrin akan disebut dengan kuat.\n\nLeret ke kanan untuk beralih kepada item seterusnya. Leret ke kiri untuk beralih kepada item sebelumnya.\n\nLeret ke kanan sekarang sehingga anda menemukan butang seterusnya.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Leret ke atas atau ke bawah dengan %1$d jari.</string>
-  <string name="wear_training_go_back_title">Kembali</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Apabila anda mahu kembali, gunakan %1$d jari untuk meleret ke kanan dari bahagian tepi skrin.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Berjaya</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gerak isyarat kembali dilakukan</string>
-  <string name="wear_training_volume_up_title">Tinggikan kelantangan</string>
-  <string name="wear_training_volume_up_text">Leret ke kanan, kemudian ke atas</string>
-  <string name="wear_training_volume_down_title">Rendahkan kelantangan</string>
-  <string name="wear_training_volume_down_text">Leret ke kanan, kemudian ke bawah</string>
-  <string name="wear_training_open_talkback_menu_title">Buka menu TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Untuk membuka tetapan dan kawalan yang mungkin anda perlukan dengan kerap, leret ke bawah dan kemudian ke kanan</string>
-  <string name="wear_training_typing_title">Menaip</string>
-  <string name="wear_training_typing_text1">Untuk menaip dengan papan kekunci, gerakkan jari anda merentas papan kekunci. Apabila anda mendengar huruf yang mahu anda taip, angkat jari anda.</string>
-  <string name="wear_training_typing_text2">Untuk menyembunyikan papan kekunci dan menyemak input anda, leret skrin dari atas ke bawah dengan 2 jari.</string>
-  <string name="wear_training_typing_text3">Untuk kembali kepada papan kekunci, leret skrin dari bawah ke atas dengan 2 jari.</string>
-  <string name="wear_training_typing_text4">Untuk menutup papan kekunci dan membatalkan penaipan, leret skrin dari sisi kiri ke kanan dengan 2 jari.</string>
-  <string name="wear_training_typing_text5">Cuba di bawah.</string>
-  <string name="wear_training_typing_practice_button_content_description">Menaip menggunakan papan kekunci</string>
-  <string name="wear_training_end_tutorial_title">Anda sudah bersedia untuk mula menggunakan TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack telah dikemas kini</string>
   <string name="talkback_updated_notification_content">Ketik untuk ketahui lebih lanjut</string>
   <string name="wear_new_feature_page_title">Selamat datang ke TalkBack yang telah dikemaskinikan</string>

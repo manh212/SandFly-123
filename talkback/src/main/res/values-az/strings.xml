@@ -1188,26 +1188,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="talkback_inactive_message_practice_gestures">Jestləri məşq etmək üçün əvvəlcə SandFly-i aktiv edin</string>
   <string name="talkback_inactive_message_image_description">Şəkil təsvirlərini əldə etməyə çalışmaq üçün əvvəlcə SandFly-i aktiv edin</string>
   <string name="talkback_inactive_close_tutorial_button">Təlimatı bağlayın</string>
-  <string name="wear_training_welcome_paragraph">SandFly aktiv olduqda ekranda fokuslanmış element ucadan səsləndirilir.\n\nSağa sürüşdürməklə növbəti elementə keçilir. Sola sürüşdürməklə əvvəlki elementə keçilir.\n\nNövbəti düyməsini tapana qədər sağa sürüşdürün.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d barmağınızla yuxarı və ya aşağı sürüşdürün.</string>
-  <string name="wear_training_go_back_title">Geri qayıdın</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Geri qayıtmaq istədiyiniz zaman ekranın kənarından %1$d barmağınızla sağa sürüşdürün.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uğurlu oldu</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geri jesti edildi</string>
-  <string name="wear_training_volume_up_title">Səsi artırın</string>
-  <string name="wear_training_volume_up_text">Sağa, sonra yuxarı sürüşdürün</string>
-  <string name="wear_training_volume_down_title">Səsi azaldın</string>
-  <string name="wear_training_volume_down_text">Sağa, sonra aşağı sürüşdürün</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly menyusunu açın</string>
-  <string name="wear_training_open_talkback_menu_text">Tez-tez lazım ola biləcək ayarları və nizamlayıcıları açmaq üçün aşağı və sonra sağa sürüşdürün</string>
-  <string name="wear_training_typing_title">Yazmaq</string>
-  <string name="wear_training_typing_text1">Klaviatura ilə yazmaq üçün barmağınızı klaviatura üzərində hərəkət etdirin. Yazmaq istədiyiniz hərfi eşitdikdə barmağınızı götürün.</string>
-  <string name="wear_training_typing_text2">Klaviaturanı gizlətmək və daxiletməni yoxlamaq üçün 2 barmağınızla ekranın yuxarısından aşağı sürüşdürün.</string>
-  <string name="wear_training_typing_text3">Klaviaturaya qayıtmaq üçün 2 barmağınızla ekranın aşağısından yuxarı sürüşdürün.</string>
-  <string name="wear_training_typing_text4">Klaviaturanı bağlamaq və yazını ləğv etmək üçün 2 barmağınızla ekranın sol kənarından sağa sürüşdürün.</string>
-  <string name="wear_training_typing_text5">Aşağıda cəhd edin.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klaviatura ilə yazmaq</string>
-  <string name="wear_training_end_tutorial_title">SandFly istifadə edə bilərsiniz</string>
   <string name="talkback_updated_notification_title">SandFly güncəllənib</string>
   <string name="talkback_updated_notification_content">Daha çoxunu tapmaq üçün toxunun</string>
   <string name="wear_new_feature_page_title">Güncəllənmiş SandFly-ə xoş gəlmisiniz</string>

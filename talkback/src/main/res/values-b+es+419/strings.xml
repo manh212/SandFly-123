@@ -1188,26 +1188,6 @@ Los retrasos inferiores a 0.3 segundos cambiarán la acción de presionar dos ve
   <string name="talkback_inactive_message_practice_gestures">Para practicar los gestos, activa SandFly</string>
   <string name="talkback_inactive_message_image_description">Para obtener descripciones de imágenes, activa SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Cerrar el instructivo</string>
-  <string name="wear_training_welcome_paragraph">Cuando SandFly está activado, el elemento enfocado en la pantalla se describe en voz alta.\n\nPuedes deslizar el dedo hacia la derecha para ir al siguiente elemento. También puedes deslizar el dedo hacia la izquierda para ir al elemento anterior.\n\nDesliza hacia la derecha ahora hasta encontrar el próximo botón.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Desliza arriba o abajo con %1$d dedos</string>
-  <string name="wear_training_go_back_title">Atrás</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Cuando quieras volver atrás, usa %1$d dedos y desliza a la derecha desde el borde de la pantalla</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Listo</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Se realizó un gesto atrás</string>
-  <string name="wear_training_volume_up_title">Subir el volumen</string>
-  <string name="wear_training_volume_up_text">Desliza a la derecha y hacia arriba</string>
-  <string name="wear_training_volume_down_title">Bajar el volumen</string>
-  <string name="wear_training_volume_down_text">Desliza a la derecha y hacia abajo</string>
-  <string name="wear_training_open_talkback_menu_title">Abrir el menú de SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Para abrir la configuración y los controles que podrías necesitar a menudo, desliza hacia abajo y, luego, hacia la derecha</string>
-  <string name="wear_training_typing_title">Escritura</string>
-  <string name="wear_training_typing_text1">Para escribir con el teclado, desliza el dedo sobre él. Cuando escuches la letra que quieres escribir, levanta el dedo.</string>
-  <string name="wear_training_typing_text2">Para ocultar el teclado y revisar lo que ingresaste, desliza 2 dedos hacia abajo desde la parte superior de la pantalla.</string>
-  <string name="wear_training_typing_text3">Para volver al teclado, desliza 2 dedos hacia arriba desde la parte inferior de la pantalla.</string>
-  <string name="wear_training_typing_text4">Para cerrar el teclado y cancelar la escritura, desliza 2 dedos hacia la derecha desde el borde izquierdo de la pantalla.</string>
-  <string name="wear_training_typing_text5">Pruébalo a continuación.</string>
-  <string name="wear_training_typing_practice_button_content_description">Escribir con el teclado</string>
-  <string name="wear_training_end_tutorial_title">Ya tienes todo listo para comenzar a usar SandFly</string>
   <string name="talkback_updated_notification_title">Se actualizó SandFly</string>
   <string name="talkback_updated_notification_content">Presiona para obtener más información</string>
   <string name="wear_new_feature_page_title">Te damos la bienvenida a la nueva versión de SandFly</string>

@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ჟესტების გამოყენებაში სავარჯიშოდ ჩართეთ TalkBack ფუნქცია</string>
   <string name="talkback_inactive_message_image_description">სურათის აღწერების მისაღებად ჩართეთ TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">სახელმძღვანელოს დახურვა</string>
-  <string name="wear_training_welcome_paragraph">როდესაც TalkBack ჩართულია, ეკრანზე ფოკუსში მოქცეული ერთეული ხმამაღლა წარმოითქმება.\n\nმარჯვნივ გადაფურცვლით გადახვალთ მომდევნო ერთეულზე. მარცხნივ გადაფურცვლით გადახვალთ წინა ერთეულზე.\n\nახლა გადაფურცლეთ მარჯვნივ, სანამ მომდევნო ღილაკს არ იპოვით.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">გადაფურცლეთ ზემოთ ან ქვემოთ %1$d თითით.</string>
-  <string name="wear_training_go_back_title">უკან დაბრუნება</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">როდესაც გსურთ უკან დაბრუნება, %1$d თითით გადაფურცლეთ ეკრანის კიდიდან მარჯვნივ.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">წარმატებულია</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">შესრულდა უკან გადასვლის ჟესტი</string>
-  <string name="wear_training_volume_up_title">ხმის აწევა</string>
-  <string name="wear_training_volume_up_text">გადაფურცლეთ მარჯვნივ და შემდეგ ზემოთ</string>
-  <string name="wear_training_volume_down_title">ხმის დაწევა</string>
-  <string name="wear_training_volume_down_text">გადაფურცლეთ მარჯვნივ და შემდეგ ქვემოთ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-ის მენიუს გახსნა</string>
-  <string name="wear_training_open_talkback_menu_text">იმ პარამეტრებისა და მართვის საშუალებების გასახსნელად, რომლებიც ხშირად შეიძლება დაგჭირდეთ, გადაფურცლეთ ქვემოთ და შემდეგ მარჯვნივ</string>
-  <string name="wear_training_typing_title">მიმდინარეობს აკრეფა</string>
-  <string name="wear_training_typing_text1">კლავიატურით ასაკრეფად, კლავიატურაზე გადაატარეთ თითი. როდესაც გაიგონებთ ასოს, რომლის აკრეფაც გსურთ, აწიეთ თითი.</string>
-  <string name="wear_training_typing_text2">კლავიატურის დასამალად და შეყვანილი ტექსტის შესამოწმებლად, ეკრანის ზედა ნაწილიდან ორი თითით გადაფურცლეთ ქვემოთ.</string>
-  <string name="wear_training_typing_text3">კლავიატურაზე დასაბრუნებლად, ეკრანის ქვედა კიდიდან ორი თითით გადაფურცლეთ ზემოთ.</string>
-  <string name="wear_training_typing_text4">კლავიატურის დასახურად და აკრეფის გასაუქმებლად, ეკრანის მარცხენა კიდიდან ორი თითით გადაფურცლეთ მარჯვნივ.</string>
-  <string name="wear_training_typing_text5">ცადეთ ქვემოთ.</string>
-  <string name="wear_training_typing_practice_button_content_description">კლავიატურით აკრეფა</string>
-  <string name="wear_training_end_tutorial_title">თქვენ მზად ხართ, რომ დაიწყოთ TalkBack-ის გამოყენება</string>
   <string name="talkback_updated_notification_title">TalkBack განახლდა</string>
   <string name="talkback_updated_notification_content">შეეხეთ მეტი ინფორმაციისთვის</string>
   <string name="wear_new_feature_page_title">წარმოგიდგენთ განახლებულ TalkBack-ს</string>

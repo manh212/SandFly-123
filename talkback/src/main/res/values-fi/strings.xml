@@ -1188,26 +1188,6 @@ Jos viive on alle 0,3 sekuntia, aktivoiminen kaksoisnapauttamalla muuttuu aktivo
   <string name="talkback_inactive_message_practice_gestures">Jos haluat harjoitella eleitä, laita SandFly päälle</string>
   <string name="talkback_inactive_message_image_description">Laita SandFly päälle, niin voit kokeilla kuvien kuvauksia</string>
   <string name="talkback_inactive_close_tutorial_button">Sulje ohje</string>
-  <string name="wear_training_welcome_paragraph">Kun SandFly on päällä, näytöllä korostettu kohde sanotaan ääneen.\n\nVoit siirtyä seuraavaan kohteeseen pyyhkäisemällä oikealle. Pääset takaisin edelliseen kohteeseen pyyhkäisemällä vasemmalle.\n\nSiirry nyt seuraavaan painikkeeseen pyyhkäisemällä oikealle.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Pyyhkäise ylös tai alas %1$d sormella.</string>
-  <string name="wear_training_go_back_title">Takaisin palaaminen</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Pyyhkäise %1$d sormella oikealle näytön reunasta, kun haluat palata takaisin</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Onnistui</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Takaisin-ele tehty</string>
-  <string name="wear_training_volume_up_title">Äänenvoimakkuuden lisääminen</string>
-  <string name="wear_training_volume_up_text">Pyyhkäise oikealle ja ylös</string>
-  <string name="wear_training_volume_down_title">Äänenvoimakkuuden vähentäminen</string>
-  <string name="wear_training_volume_down_text">Pyyhkäise oikealle ja alas</string>
-  <string name="wear_training_open_talkback_menu_title">Avaa SandFly-valikko</string>
-  <string name="wear_training_open_talkback_menu_text">Voit avata usein tarvitsemasi asetukset ja ohjaimet pyyhkäisemällä alas ja sitten oikealle</string>
-  <string name="wear_training_typing_title">Kirjoittaminen</string>
-  <string name="wear_training_typing_text1">Jos haluat kirjoittaa näppäimistöllä, siirrä sormeasi näppäimistöllä. Kun kuulet haluamasi kirjaimen, nosta sormesi.</string>
-  <string name="wear_training_typing_text2">Jos haluat piilottaa näppäimistön ja tarkistaa syötteen, pyyhkäise näytön yläreunasta alas kahdella sormella.</string>
-  <string name="wear_training_typing_text3">Voit palata näppäimistöön pyyhkäisemällä näytön alareunasta ylös kahdella sormella.</string>
-  <string name="wear_training_typing_text4">Sulje näppäimistö ja peru kirjoittaminen pyyhkäisemällä oikealle näytön vasemmasta reunasta kahdella sormella.</string>
-  <string name="wear_training_typing_text5">Kokeile alla.</string>
-  <string name="wear_training_typing_practice_button_content_description">Näppäimistöllä kirjoittaminen</string>
-  <string name="wear_training_end_tutorial_title">Voit aloittaa SandFlyin käytön</string>
   <string name="talkback_updated_notification_title">SandFly on päivitetty</string>
   <string name="talkback_updated_notification_content">Tutustu tarkemmin napauttamalla</string>
   <string name="wear_new_feature_page_title">Tervetuloa uuteen SandFlyiin</string>

@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">சைகைகளைப் பயிற்சி செய்ய முதலில் TalkBackகை இயக்கவும்</string>
   <string name="talkback_inactive_message_image_description">பட விளக்கங்களைப் பெற முயல, முதலில் TalkBackகை இயக்கவும்</string>
   <string name="talkback_inactive_close_tutorial_button">பயிற்சியை மூடு</string>
-  <string name="wear_training_welcome_paragraph">TalkBack அம்சம் ஆனில் இருக்கும்போது திரையில் மையப்படுத்துவது சத்தமாக வாசிக்கப்படும்.\n\nவலதுபுறம் ஸ்வைப் செய்தால் அடுத்ததற்குச் செல்லும். இடதுபுறம் ஸ்வைப் செய்தால் முந்தையதற்குச் செல்லும்.\n\n\'அடுத்து\' பட்டனைக் கண்டறியும் வரை இப்போது வலதுபுறம் ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">மேல் அல்லது கீழ்நோக்கி %1$d விரல்களால் ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_go_back_title">பின்செல்லுதல்</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">திரும்பிச் செல்ல %1$d விரல்களையும் திரையின் விளிம்பிலிருந்து வலதுபுறமாக ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">முடிந்தது</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">பின்செல்வதற்கான சைகையைச் செய்தீர்கள்</string>
-  <string name="wear_training_volume_up_title">ஒலியளவை அதிகரித்தல்</string>
-  <string name="wear_training_volume_up_text">வலதுபுறமாகவும் பிறகு மேல்நோக்கியும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_volume_down_title">ஒலியளவைக் குறைத்தல்</string>
-  <string name="wear_training_volume_down_text">வலதுபுறமாகவும் பிறகு கீழ்நோக்கியும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack மெனுவைத் திறத்தல்</string>
-  <string name="wear_training_open_talkback_menu_text">அமைப்புகளையும் உங்களுக்கு அடிக்கடி தேவைப்படக்கூடிய கட்டுப்பாடுகளையும் திறக்க, கீழ்நோக்கியும் பிறகு வலதுபுறமாகவும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_typing_title">டைப் செய்தல்</string>
-  <string name="wear_training_typing_text1">கீபோர்டு மூலம் டைப் செய்ய, கீபோர்டில் உங்கள் விரலை நகர்த்துங்கள். நீங்கள் டைப் செய்ய விரும்பும் எழுத்தைக் கேட்டவுடன் விரலை எடுங்கள்.</string>
-  <string name="wear_training_typing_text2">கீபோர்டை மறைத்து, நீங்கள் டைப் செய்ததைச் சரிபார்க்க, 2 விரல்களால் திரையில் மேலிருந்து கீழ்நோக்கி ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text3">மீண்டும் கீபோர்டைப் பயன்படுத்த, 2 விரல்களால் திரையில் கீழிருந்து மேல்நோக்கி ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text4">கீபோர்டை மூடி, டைப் செய்வதை ரத்துசெய்ய, 2 விரல்களால் திரையின் இடது ஓரத்திலிருந்து வலதுபுறமாக ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text5">கீழே முயன்று பாருங்கள்.</string>
-  <string name="wear_training_typing_practice_button_content_description">கீபோர்டு மூலம் டைப் செய்யலாம்</string>
-  <string name="wear_training_end_tutorial_title">TalkBackகைப் பயன்படுத்தத் தயாராகிவிட்டீர்கள்</string>
   <string name="talkback_updated_notification_title">TalkBack புதுப்பிக்கப்பட்டது</string>
   <string name="talkback_updated_notification_content">மேலும் கண்டறிய தட்டவும்</string>
   <string name="wear_new_feature_page_title">புதுப்பிக்கப்பட்ட TalkBack அம்சத்திற்கு வரவேற்கிறோம்</string>

@@ -1188,26 +1188,6 @@ Vonesat nën 0,3 sekonda do ta kalojnë trokitjen dy herë për të aktivizuar t
   <string name="talkback_inactive_message_practice_gestures">Për të praktikuar gjestet, në fillim aktivizo TalkBack</string>
   <string name="talkback_inactive_message_image_description">Për të provuar të marrësh përshkrimet e imazheve, në fillim aktivizo TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Mbyll udhëzuesin</string>
-  <string name="wear_training_welcome_paragraph">Kur TalkBack është aktiv, artikulli i fokusuar në ekran shqiptohet me zë.\n\nRrëshqitja shpejt djathtas të çon tek artikulli i ardhshëm. Rrëshqitja shpejt majtas të çon tek artikulli i mëparshëm.\n\nRrëshqit shpejt djathtas tani derisa të gjesh butonin tjetër.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Rrëshqit shpejt lart ose poshtë me %1$d gishta.</string>
-  <string name="wear_training_go_back_title">Kthehu prapa</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kur dëshiron të kthehesh prapa, përdor %1$d gishta për të rrëshqitur shpejt djathtas nga skaji i ekranit.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Me sukses</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">U krye gjesti i kthimit prapa</string>
-  <string name="wear_training_volume_up_title">Ngri volumin</string>
-  <string name="wear_training_volume_up_text">Rrëshqit shpejt djathtas dhe më pas lart</string>
-  <string name="wear_training_volume_down_title">Ul volumin</string>
-  <string name="wear_training_volume_down_text">Rrëshqit shpejt djathtas dhe më pas poshtë</string>
-  <string name="wear_training_open_talkback_menu_title">Hap menynë e TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Për të hapur cilësimet dhe kontrollet që mund të të duhen shpesh, rrëshqit poshtë dhe më pas djathtas</string>
-  <string name="wear_training_typing_title">Të shkruarit</string>
-  <string name="wear_training_typing_text1">Për të shkruar me anë të tastierës, lëvize gishtin nëpër tastierë. Kur të dëgjosh shkronjën që dëshiron të shkruash, ngrije gishtin.</string>
-  <string name="wear_training_typing_text2">Për ta fshehur tastierën dhe për të kontrolluar hyrjen, rrëshqit shpejt poshtë nga kreu i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text3">Për t\'u kthyer te tastiera, rrëshqit shpejt lart nga fundi i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text4">Për të mbyllur tastierën dhe për të anuluar të shkruarit, rrëshqit shpejt djathtas nga skaji i majtë i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text5">Provoje më poshtë.</string>
-  <string name="wear_training_typing_practice_button_content_description">Të shkruarit me tastierë</string>
-  <string name="wear_training_end_tutorial_title">Je gati të fillosh përdorimin e TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack është përditësuar</string>
   <string name="talkback_updated_notification_content">Trokit për të zbuluar më shumë</string>
   <string name="wear_new_feature_page_title">Mirë se vjen në versionin e përditësuar të TalkBack</string>

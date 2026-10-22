@@ -1191,26 +1191,6 @@ TalkBack सेटिंग्जमध्ये TalkBack मेनू आणि
   <string name="talkback_inactive_message_practice_gestures">जेश्चरचा सराव करण्यासाठी, सर्वप्रथम TalkBack सुरू करा</string>
   <string name="talkback_inactive_message_image_description">इमेजची वर्णने मिळवण्याचा प्रयत्न करण्यासाठी, सर्वप्रथम TalkBack सुरू करा</string>
   <string name="talkback_inactive_close_tutorial_button">ट्यूटोरियल बंद करा</string>
-  <string name="wear_training_welcome_paragraph">TalkBack सुरू असते, तेव्हा स्क्रीनवरील फोकस केलेला आयटम मोठ्याने बोलला जातो.\n\nउजवीकडे स्वाइप केल्यास, पुढील आयटमवर जाता येते. डावीकडे स्वाइप केल्यास, मागील आयटमवर जाता येते.\n\nतुम्हाला पुढील हे बटण दिसेपर्यंत आता उजवीकडे स्वाइप करा.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d बोटांनी वर किंवा खाली स्वाइप करा.</string>
-  <string name="wear_training_go_back_title">मागे जा</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">तुम्हाला मागे जायचे असल्यास, स्क्रीनच्या कडेने %1$d बोटांनी उजवीकडे स्वाइप करा.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">यशस्वी झाले आहे</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">मागे जा जेश्चर परफॉर्म केले आहे</string>
-  <string name="wear_training_volume_up_title">व्हॉल्यूम वाढवा</string>
-  <string name="wear_training_volume_up_text">उजवीकडे आणि त्यानंतर वर स्वाइप करा</string>
-  <string name="wear_training_volume_down_title">व्हॉल्यूम कमी करा</string>
-  <string name="wear_training_volume_down_text">उजवीकडे आणि त्यानंतर खाली स्वाइप करा</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack मेनू उघडा</string>
-  <string name="wear_training_open_talkback_menu_text">तुम्हाला वारंवार आवश्यक असलेली सेटिंग्ज आणि नियंत्रणे उघडण्यासाठी, खाली व त्यानंतर उजवीकडे स्वाइप करा</string>
-  <string name="wear_training_typing_title">टाइप करत आहे</string>
-  <string name="wear_training_typing_text1">कीबोर्डसह टाइप करण्यासाठी, तुमचे बोट कीबोर्डवर हलवा. तुम्हाला टाइप करायचे असलेले अक्षर ऐकू आल्यावर, तुमचे बोट उचला.</string>
-  <string name="wear_training_typing_text2">कीबोर्ड लपवण्यासाठी आणि तुमचे इनपुट तपासण्यासाठी, तुमच्या स्क्रीनच्या वरच्या बाजूने दोन बोटांनी खाली स्वाइप करा.</string>
-  <string name="wear_training_typing_text3">कीबोर्डवर परत जाण्यासाठी, तुमच्या स्क्रीनच्या तळापासून दोन बोटांनी वर स्वाइप करा.</string>
-  <string name="wear_training_typing_text4">कीबोर्ड बंद करण्यासाठी आणि टायपिंग रद्द करण्याकरिता, तुमच्या स्क्रीनच्या डाव्या कडेपासून दोन बोटांनी उजवीकडे स्वाइप करा.</string>
-  <string name="wear_training_typing_text5">खाली वापरून पहा.</string>
-  <string name="wear_training_typing_practice_button_content_description">कीबोर्ड वापरून टाइप करणे</string>
-  <string name="wear_training_end_tutorial_title">तुम्ही TalkBack वापरण्यासाठी तयार आहात</string>
   <string name="talkback_updated_notification_title">TalkBack अपडेट करण्यात आले आहे</string>
   <string name="talkback_updated_notification_content">अधिक माहिती मिळवण्यासाठी टॅप करा</string>
   <string name="wear_new_feature_page_title">अपडेट केलेल्या TalkBack मध्ये तुमचे स्वागत आहे</string>

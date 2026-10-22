@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ເພື່ອຝຶກທ່າທາງ, ໃຫ້ເປີດ TalkBack ກ່ອນ</string>
   <string name="talkback_inactive_message_image_description">ເພື່ອລອງຮັບຄຳອະທິບາຍຮູບ, ໃຫ້ເປີດ TalkBack ກ່ອນ</string>
   <string name="talkback_inactive_close_tutorial_button">ປິດການສອນການນຳໃຊ້</string>
-  <string name="wear_training_welcome_paragraph">ເມື່ອ TalkBack ເປີດຢູ່, ລະບົບຈະອ່ານອອກສຽງລາຍການທີ່ໂຟກັສຢູ່ເທິງໜ້າຈໍ.\n\nການປັດຂວາຈະຍ້າຍໄປຫາລາຍການຕໍ່ໄປ. ການປັດຊ້າຍຈະຍ້າຍໄປຫາລາຍການກ່ອນໜ້າ.\n\nປັດຂວາຕອນນີ້ຈົນກວ່າທ່ານຈະພົບປຸ່ມຕໍ່ໄປ.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">ປັດຂຶ້ນ ຫຼື ລົງດ້ວຍ %1$d ນິ້ວ.</string>
-  <string name="wear_training_go_back_title">ກັບຄືນ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ເມື່ອທ່ານຕ້ອງການກັບຄືນ, ໃຫ້ໃຊ້ %1$d ນິ້ວເພື່ອປັດຂວາຈາກຂອບຂອງໜ້າຈໍ.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ສໍາເລັດແລ້ວ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ດຳເນີນການທ່າທາງກັບຄືນແລ້ວ</string>
-  <string name="wear_training_volume_up_title">ເປີດສຽງຂຶ້ນ</string>
-  <string name="wear_training_volume_up_text">ປັດຂວາແລ້ວປັດຂຶ້ນ</string>
-  <string name="wear_training_volume_down_title">ຫຼຸດສຽງລົງ</string>
-  <string name="wear_training_volume_down_text">ປັດຂວາແລ້ວປັດລົງ</string>
-  <string name="wear_training_open_talkback_menu_title">ເປີດເມນູ TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">ເພື່ອເປີດການຕັ້ງຄ່າ ແລະ ການຄວບຄຸມທີ່ທ່ານອາດຕ້ອງໃຊ້ເລື້ອຍໆ, ໃຫ້ປັດລົງ ແລ້ວປັດຂວາ</string>
-  <string name="wear_training_typing_title">ການພິມ</string>
-  <string name="wear_training_typing_text1">ເພື່ອພິມດ້ວຍແປ້ນພິມ, ໃຫ້ເລື່ອນນິ້ວຂອງທ່ານໄປມາຢູ່ແປ້ນພິມ. ເມື່ອທ່ານໄດ້ຍິນຕົວອັກສອນທີ່ທ່ານຕ້ອງການພິມແລ້ວ, ໃຫ້ຍົກນິ້ວຂອງທ່ານຂຶ້ນ.</string>
-  <string name="wear_training_typing_text2">ເພື່ອເຊື່ອງແປ້ນພິມ ແລະ ກວດສອບຂໍ້ມູນທີ່ທ່ານປ້ອນ, ໃຫ້ໃຊ້ 2 ນິ້ວປັດລົງຈາກເທິງສຸດຂອງໜ້າຈໍຂອງທ່ານ.</string>
-  <string name="wear_training_typing_text3">ເພື່ອກັບຄືນໄປຫາແປ້ນພິມ, ໃຫ້ໃຊ້ 2 ນິ້ວປັດຂຶ້ນຈາກລຸ່ມສຸດຂອງໜ້າຈໍຂອງທ່ານ.</string>
-  <string name="wear_training_typing_text4">ເພື່ອປິດແປ້ນພິມ ແລະ ຍົກເລີກການພິມ, ໃຫ້ໃຊ້ 2 ນິ້ວປັດໄປທາງຂວາຈາກຂອບຊ້າຍຂອງໜ້າຈໍຂອງທ່ານ.</string>
-  <string name="wear_training_typing_text5">ລອງໃຊ້ຂ້າງລຸ່ມ.</string>
-  <string name="wear_training_typing_practice_button_content_description">ການພິມດ້ວຍແປ້ນພິມ</string>
-  <string name="wear_training_end_tutorial_title">ທ່ານພ້ອມທີ່ຈະເລີ່ມໃຊ້ TalkBack ແລ້ວ</string>
   <string name="talkback_updated_notification_title">ອັບເດດ TalkBack ແລ້ວ</string>
   <string name="talkback_updated_notification_content">ແຕະເພື່ອເບິ່ງຂໍ້ມູນເພີ່ມເຕີມ</string>
   <string name="wear_new_feature_page_title">ຍິນດີຕ້ອນຮັບສູ່ TalkBack ທີ່ອັບເດດໃໝ່ແລ້ວ</string>

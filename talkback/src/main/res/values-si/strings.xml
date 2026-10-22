@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">අභිනයන් පුහුණු කිරීමට, පළමුව TalkBack ක්‍රියාත්මක කරන්න</string>
   <string name="talkback_inactive_message_image_description">රූප විස්තර ලබා ගැනීමට උත්සාහ කිරීමට, පළමුව TalkBack ක්‍රියාත්මක කරන්න</string>
   <string name="talkback_inactive_close_tutorial_button">නිබන්ධනය වසන්න</string>
-  <string name="wear_training_welcome_paragraph">TalkBack සක්‍රීය වූ විට, තිරය මත නාභිගත කළ අයිතමය ශබ්ද නඟා කථා කරනු ලැබේ.\n\nදකුණට ස්වයිප් කිරීමෙන් මීළඟ අයිතමයට යයි.\nවමට ස්වයිප් කිරීමෙන් පෙර අයිතමයට යයි.\n\nමීළඟ බොත්තම හමු වන තෙක් දැන් දකුණට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">ඇඟිලි %1$dකින් ඉහළට හෝ පහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_go_back_title">ආපසු යන්න</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ඔබට ආපසු යාමට අවශ්‍ය වූ විට, තිරයේ කෙළවරේ සිට දකුණට ස්වයිප් කිරීමට ඇඟිලි %1$dක් භාවිතා කරන්න.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">සාර්ථකයි</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">පසුපස ඉංගිතය සිදු කරන ලදි</string>
-  <string name="wear_training_volume_up_title">හඬ පරිමාව වැඩි කරන්න</string>
-  <string name="wear_training_volume_up_text">දකුණට සහ පසුව ඉහළට ස්වයිප් කරන්න</string>
-  <string name="wear_training_volume_down_title">ශබ්දය අඩු කරන්න</string>
-  <string name="wear_training_volume_down_text">දකුණට සහ පසුව පහළට ස්වයිප් කරන්න</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack මෙනුව විවෘත කරන්න</string>
-  <string name="wear_training_open_talkback_menu_text">ඔබට නිතර අවශ්‍ය විය හැකි සැකසීම් සහ පාලන විවෘත කිරීමට, පහළට සහ පසුව දකුණට ස්වයිප් කරන්න</string>
-  <string name="wear_training_typing_title">ටයිප් කරමින්</string>
-  <string name="wear_training_typing_text1">යතුරු පුවරුව භාවිතයෙන් ටයිප් කිරීමට, යතුරු පුවරුව හරහා ඔබේ ඇඟිල්ල ගෙන යන්න. ඔබට ටයිප් කිරීමට අවශ්‍ය අකුර ඇසෙන විට, ඔබේ ඇඟිල්ල ඔසවන්න.</string>
-  <string name="wear_training_typing_text2">යතුරු පුවරුව සැඟවීමට සහ ඔබේ ආදානය පරීක්ෂා කිරීමට, ඇඟිලි 2කින් ඔබේ තිරයේ ඉහළ සිට පහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text3">යතුරු පුවරුව වෙත ආපසු යාමට, ඇඟිලි 2කින් ඔබේ තිරයේ පහළ සිට ඉහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text4">යතුරු පුවරුව වසා ටයිප් කිරීම අවලංගු කිරීමට, ඇඟිලි 2කින් ඔබේ තිරයේ වම් කෙළවරේ සිට දකුණට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text5">පහතින් එය උත්සාහ කරන්න.</string>
-  <string name="wear_training_typing_practice_button_content_description">යතුරු පුවරුව භාවිතයෙන් ටයිප් කිරීම</string>
-  <string name="wear_training_end_tutorial_title">ඔබ TalkBack භාවිතා කිරීම ආරම්භ කිරීමට සූදානම් වේ</string>
   <string name="talkback_updated_notification_title">TalkBack යාවත්කාලීන කර ඇත</string>
   <string name="talkback_updated_notification_content">තව සොයා ගැනීමට තට්ටු කරන්න</string>
   <string name="wear_new_feature_page_title">යාවත්කාලීන කළ TalkBack වෙත සාදරයෙන් පිළිගනිමු</string>

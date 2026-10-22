@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ժեստերը փորձելու համար միացրեք TalkBack-ը</string>
   <string name="talkback_inactive_message_image_description">Պատկերների նկարագրություններ ստանալու համար նախ միացրեք TalkBack-ը</string>
   <string name="talkback_inactive_close_tutorial_button">Փակել ուղեցույցը</string>
-  <string name="wear_training_welcome_paragraph">Երբ TalkBack-ը միացված է, այն հնչեցնում է միջերեսի ձեր ընտրած տարրերը։\n\nԹերթեք աջ՝ հաջորդ տարրին անցնելու համար։ Նախորդ տարրին վերադառնալու համար թերթեք ձախ։\n\nԹերթեք աջ հիմա՝ մինչև կգտնեք «Առաջ» կոճակը։</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Սահեցրեք %1$d մատը վերև կամ ներքև։</string>
-  <string name="wear_training_go_back_title">Հետ գնալ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Հետ վերադառնալու համար էկրանի եզրից %1$d մատը սահեցրեք աջ։</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Հաջողվեց</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Կատարվել է «Հետ» ժեստը</string>
-  <string name="wear_training_volume_up_title">Ձայնի բարձրացում</string>
-  <string name="wear_training_volume_up_text">Մատը սահեցրեք աջ, ապա վերև</string>
-  <string name="wear_training_volume_down_title">Ձայնի իջեցում</string>
-  <string name="wear_training_volume_down_text">Մատը սահեցրեք աջ, ապա ներքև</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-ի ընտրացանկի բացում</string>
-  <string name="wear_training_open_talkback_menu_text">Ձեր հաճախ օգտագործվող կարգավորումներն ու կառավարման տարրերը բացելու համար սահեցրեք ներքև, ապա աջ</string>
-  <string name="wear_training_typing_title">Մուտքագրում</string>
-  <string name="wear_training_typing_text1">Մուտքագրելու համար մատները սահեցրեք ստեղնաշարի վրայով։ Երբ լսեք այն տառը, որն ուզում եք մուտքագրել, բարձրացրեք մատը։</string>
-  <string name="wear_training_typing_text2">Ստեղնաշարը թաքցնելու և ձեր ներածումը ստուգելու համար 2 մատը սահեցրեք էկրանի վերևից։</string>
-  <string name="wear_training_typing_text3">Ստեղնաշարին վերադառնալու համար էկրանի ներքևից 2 մատը սահեցրեք վերև։</string>
-  <string name="wear_training_typing_text4">Ստեղնաշարը փակելու և մուտքագրումն ավարտելու համար էկրանի ձախ եզրից 2 մատը սահեցրեք աջ։</string>
-  <string name="wear_training_typing_text5">Փորձեք այստեղ։</string>
-  <string name="wear_training_typing_practice_button_content_description">Ստեղնաշարով մուտքագրում</string>
-  <string name="wear_training_end_tutorial_title">Այժմ դուք գիտեք, թե ինչպես օգտվել TalkBack-ից</string>
   <string name="talkback_updated_notification_title">TalkBack-ը թարմացվել է</string>
   <string name="talkback_updated_notification_content">Հպեք՝ ավելին իմանալու համար</string>
   <string name="wear_new_feature_page_title">Ներկայացնում ենք թարմացված TalkBack-ը</string>

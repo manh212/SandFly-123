@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Зангааг давтахын тулд эхлээд TalkBack-г асаана уу</string>
   <string name="talkback_inactive_message_image_description">Зургийн тайлбарыг авахаар оролдохын тулд эхлээд TalkBack-г асаана уу</string>
   <string name="talkback_inactive_close_tutorial_button">Зааврыг хаах</string>
-  <string name="wear_training_welcome_paragraph">TalkBack асаалттай үед дэлгэц дээрх сонгосон зүйлийг чанга уншина.\n\nБаруун тийш шударснаар дараагийн зүйл рүү шилжинэ. Зүүн тийш шударснаар өмнөх зүйл рүү шилжинэ.\n\nДараах товчлуурыг олох хүртлээ одоо баруун тийш шударна уу.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d хуруугаараа дээш эсвэл доош шударна уу.</string>
-  <string name="wear_training_go_back_title">Буцах</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Та буцахыг хүссэн үедээ дэлгэцийн ирмэгээс %1$d хуруугаараа баруун тийш шударна уу.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Амжилттай</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Буцах зангаа үйлдсэн</string>
-  <string name="wear_training_volume_up_title">Дууны түвшнийг нэмэх</string>
-  <string name="wear_training_volume_up_text">Баруун, дараа нь дээш шударна уу</string>
-  <string name="wear_training_volume_down_title">Дууны түвшнийг багасгах</string>
-  <string name="wear_training_volume_down_text">Баруун, дараа нь доош шударна уу</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-н цэсийг нээх</string>
-  <string name="wear_training_open_talkback_menu_text">Тохиргоо болон тохируулгын сонголт нээхийн тулд та ихэнхдээ доош, дараа нь баруун тийш шудрах шаардлагатай байж магадгүй</string>
-  <string name="wear_training_typing_title">Бичиж байна</string>
-  <string name="wear_training_typing_text1">Гар ашиглаж бичихийн тулд хуруугаа гар дээгүүр хөдөлгөнө үү. Бичихийг хүссэн үсгийг сонсох үедээ хуруугаа өргөнө үү.</string>
-  <string name="wear_training_typing_text2">Гарыг нууж, оруулсан мэдээллээ шалгахын тулд 2 хуруугаараа дэлгэцийнхээ дээд талаас доош шударна уу.</string>
-  <string name="wear_training_typing_text3">Гар луу буцахын тулд 2 хуруугаараа дэлгэцийнхээ доод талаас дээш шударна уу.</string>
-  <string name="wear_training_typing_text4">Гарыг хааж, бичихийг цуцлахын тулд 2 хуруугаараа дэлгэцийнхээ зүүн талын захаас баруун тийш шударна уу.</string>
-  <string name="wear_training_typing_text5">Үүнийг доор туршина уу.</string>
-  <string name="wear_training_typing_practice_button_content_description">Гар ашиглаж бичих</string>
-  <string name="wear_training_end_tutorial_title">Та TalkBack-г ашиглаж эхлэхдээ бэлэн байна</string>
   <string name="talkback_updated_notification_title">TalkBack-г шинэчиллээ</string>
   <string name="talkback_updated_notification_content">Илүү ихийг олж мэдэхийн тулд товшино уу</string>
   <string name="wear_new_feature_page_title">Шинэчилсэн TalkBack-д тавтай морилно уу</string>

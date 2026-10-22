@@ -1188,26 +1188,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="talkback_inactive_message_practice_gestures">Byrjaðu á því að kveikja á TalkBack til að æfa bendingar</string>
   <string name="talkback_inactive_message_image_description">Byrjaðu á því að kveikja á TalkBack til að prófa að fá myndlýsingar</string>
   <string name="talkback_inactive_close_tutorial_button">Loka leiðsögn</string>
-  <string name="wear_training_welcome_paragraph">Þegar kveikt er á TalkBack er atriðið sem er merkt á skjánum lesið upphátt.\n\nStroka til hægri fer í næsta atriði. Stroka til vinstri fer í fyrra atriði.\n\nStrjúktu til hægri núna til að finna næsta hnapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Strjúktu upp eða niður með %1$d fingrum.</string>
-  <string name="wear_training_go_back_title">Til baka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Þegar þú vilt fara til baka skaltu nota %1$d fingur og strjúka til hægri frá brún skjásins.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Tókst</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bendingin „til baka“ framkvæmd</string>
-  <string name="wear_training_volume_up_title">Hækka hljóðstyrk</string>
-  <string name="wear_training_volume_up_text">Strjúktu til hægri og svo upp</string>
-  <string name="wear_training_volume_down_title">Lækka hljóðstyrk</string>
-  <string name="wear_training_volume_down_text">Strjúktu til hægri og svo niður</string>
-  <string name="wear_training_open_talkback_menu_title">Opna valmynd TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Til að opna stillingar og stýringar sem þú þarft e.t.v. að nota oft skaltu strjúka niður og síðan til hægri</string>
-  <string name="wear_training_typing_title">Skrifar</string>
-  <string name="wear_training_typing_text1">Renndu fingrinum yfir lyklaborðið til að hefja innslátt. Lyftu fingrinum þegar þú heyrir stafinn sem þú vilt slá inn.</string>
-  <string name="wear_training_typing_text2">Strjúktu niður frá efsta hluta skjásins með tveimur fingrum til að fela lyklaborðið og sjá textann sem þú hefur slegið inn.</string>
-  <string name="wear_training_typing_text3">Strjúktu niður frá neðsta hluta skjásins með tveimur fingrum til að opna lyklaborðið aftur.</string>
-  <string name="wear_training_typing_text4">Strjúktu til hægri frá vinstri brún skjásins með tveimur fingrum til að loka lyklaborðinu og hætta innslætti.</string>
-  <string name="wear_training_typing_text5">Prófaðu þetta hér fyrir neðan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Innsláttur af lyklaborði</string>
-  <string name="wear_training_end_tutorial_title">Þú getur byrjað að nota TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack var uppfært</string>
   <string name="talkback_updated_notification_content">Ýttu til að fá frekari upplýsingar</string>
   <string name="wear_new_feature_page_title">Velkomin(n) í uppfært TalkBack</string>

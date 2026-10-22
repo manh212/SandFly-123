@@ -1188,26 +1188,6 @@ Hvis forsinkelsen er under 0,3 sekunder, endres dobbelttrykk for å aktivere ti
   <string name="talkback_inactive_message_practice_gestures">For å øve på bevegelser, slå på TalkBack først</string>
   <string name="talkback_inactive_message_image_description">For å prøve å få bildebeskrivelser, slå på TalkBack først</string>
   <string name="talkback_inactive_close_tutorial_button">Lukk veiledningen</string>
-  <string name="wear_training_welcome_paragraph">Når TalkBack er slått på, blir elementet som er i fokus på skjermen, lest opp.\n\nDu kan gå til neste element ved å sveipe mot høyre. Du kan gå til forrige element ved å sveipe mot venstre.\n\nSveip mot høyre nå for å gå til den neste knappen.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Sveip opp eller ned med %1$d fingre</string>
-  <string name="wear_training_go_back_title">Gå tilbake</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Når du vil gå tilbake, sveiper du til høyre fra kanten av skjermen med %1$d fingre.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Fullført</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">En tilbakebevegelse er utført</string>
-  <string name="wear_training_volume_up_title">Skru opp volumet</string>
-  <string name="wear_training_volume_up_text">Sveip til høyre og så opp</string>
-  <string name="wear_training_volume_down_title">Skru ned volumet</string>
-  <string name="wear_training_volume_down_text">Sveip til høyre og så ned</string>
-  <string name="wear_training_open_talkback_menu_title">Åpne TalkBack-menyen</string>
-  <string name="wear_training_open_talkback_menu_text">For å åpne innstillinger og kontroller du kanskje trenger ofte, sveip ned og så mot høyre</string>
-  <string name="wear_training_typing_title">Skriver</string>
-  <string name="wear_training_typing_text1">For å skrive med tastaturet, dra fingeren over det. Når du hører bokstaven du vil skrive inn, løfter du fingeren.</string>
-  <string name="wear_training_typing_text2">For å skjule tastaturet og sjekke inndataene, sveip ned fra toppen av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text3">For å gå tilbake til tastaturet, sveip opp fra bunnen av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text4">For å lukke tastaturet og avbryte skrivingen, sveip til høyre fra venstre kant av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text5">Prøv det nedenfor.</string>
-  <string name="wear_training_typing_practice_button_content_description">Skriver med tastaturet</string>
-  <string name="wear_training_end_tutorial_title">Nå kan du bruke TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack er oppdatert</string>
   <string name="talkback_updated_notification_content">Trykk for å finne ut mer</string>
   <string name="wear_new_feature_page_title">Velkommen til oppdaterte TalkBack</string>

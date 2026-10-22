@@ -1188,26 +1188,6 @@ Bei Verzögerungen unter 0,3 Sekunden wird die Aktivierung durch Doppeltippen z
   <string name="talkback_inactive_message_practice_gestures">Wenn du Touch-Gesten ausprobieren möchtest, musst du zuerst SandFly aktivieren</string>
   <string name="talkback_inactive_message_image_description">Wenn du Bildbeschreibungen ausprobieren möchtest, musst du zuerst SandFly aktivieren</string>
   <string name="talkback_inactive_close_tutorial_button">Anleitung schließen</string>
-  <string name="wear_training_welcome_paragraph">Wenn SandFly aktiviert ist, wird das Bildschirmelement im Fokus vorgelesen.\n\nWenn du nach rechts wischst, wird der Fokus auf das nächste Element verschoben. Wenn du nach links wischst, wird er auf das vorherige Element verschoben.\n\nWische jetzt nach rechts, um zum nächsten Button zu wechseln.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Wische mit %1$d Fingern nach oben oder unten.</string>
-  <string name="wear_training_go_back_title">Zurück</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Wenn du zurückgehen möchtest, wische mit %1$d Fingern vom Displayrand nach rechts.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Fertig</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Touchgeste „Zurück“ wurde ausgeführt</string>
-  <string name="wear_training_volume_up_title">Lauter machen</string>
-  <string name="wear_training_volume_up_text">Wische nach rechts und dann nach oben</string>
-  <string name="wear_training_volume_down_title">Leiser machen</string>
-  <string name="wear_training_volume_down_text">Wische nach rechts und dann nach unten</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-Menü öffnen</string>
-  <string name="wear_training_open_talkback_menu_text">Wenn du Einstellungen und Optionen öffnen möchtest, die du eventuell häufiger benötigst, wische nach unten und dann nach rechts</string>
-  <string name="wear_training_typing_title">Tippen</string>
-  <string name="wear_training_typing_text1">Wenn du Text eintippen möchtest, bewege deinen Finger über die Tastatur. Sobald du den gewünschten Buchstaben hörst, hebe den Finger an.</string>
-  <string name="wear_training_typing_text2">Wenn du die Tastatur ausblenden und deine Eingabe überprüfen möchtest, wische vom oberen Bildschirmrand mit zwei Fingern nach unten.</string>
-  <string name="wear_training_typing_text3">Wenn du zur Tastatur zurückkehren möchtest, wische vom unteren Bildschirmrand mit zwei Fingern nach oben.</string>
-  <string name="wear_training_typing_text4">Wenn du die Tastatur schließen und die Eingabe abbrechen möchtest, wische vom linken Bildschirmrand mit zwei Fingern nach rechts.</string>
-  <string name="wear_training_typing_text5">Probiere es unten aus.</string>
-  <string name="wear_training_typing_practice_button_content_description">Eingabe über Tastatur</string>
-  <string name="wear_training_end_tutorial_title">Du kannst jetzt mit SandFly loslegen</string>
   <string name="talkback_updated_notification_title">SandFly wurde aktualisiert</string>
   <string name="talkback_updated_notification_content">Tippe hier, um mehr zu erfahren</string>
   <string name="wear_new_feature_page_title">Willkommen beim aktualisierten SandFly</string>

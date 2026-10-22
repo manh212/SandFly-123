@@ -1188,26 +1188,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="talkback_inactive_message_practice_gestures">Ukuze uphrakthize ukunyakazisa umzimba, qala uvule iTalkBack</string>
   <string name="talkback_inactive_message_image_description">Ukuzama ukuthola izincazelo zesithombe, qala ngokuvula iTalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Vala okokufundisa</string>
-  <string name="wear_training_welcome_paragraph">Uma i-TalkBack ivuliwe, into egxilile kusikrini iyakhulunywa ngokuzwakalayo.\n\nUkuswayipha kwesokudla kuya entweni elandelayo.\nUkuswayipha kwesokunxele kuya entweni edlule.\n\nSwayiphela kwesokudla manje uze uthole inkinobho elandelayo.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swayiphela phezulu noma phansi ngeminwe engu-%1$d.</string>
-  <string name="wear_training_go_back_title">Iya emuva</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Uma ufuna ukubuyela emuva, sebenzisa iminwe engu-%1$d ukuze uswayiphele kwesokudla ukusuka ekugcineni kwesikrini.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Impumelelo</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Ukunyakazisa umzimba kwasemuva kwenziwe</string>
-  <string name="wear_training_volume_up_title">Khuphula ivolumu</string>
-  <string name="wear_training_volume_up_text">Swayiphela kwesokudla bese phezulu</string>
-  <string name="wear_training_volume_down_title">Nciphisa ivolumu</string>
-  <string name="wear_training_volume_down_text">Swayiphela kwesokudla bese uya phansi</string>
-  <string name="wear_training_open_talkback_menu_title">Vula imenyu ye-TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Ukuze uvule amasethingi nezilawuli ongase uzidinge kaningi, swayiphela phansi bese kwesokudla</string>
-  <string name="wear_training_typing_title">Ukuthayipha</string>
-  <string name="wear_training_typing_text1">Ukuze uthayiphe ngekhibhodi, hambisa umunwe wakho phezu kwekhibhodi. Uma uzwa uhlamvu ofuna ukulithayipha, phakamisa umunwe wakho</string>
-  <string name="wear_training_typing_text2">Ukuze ufihle ikhibhodi futhi uhlole okufakiwe, swayipha ngeminwe emibili uye phansi usuka phezulu esikrinini sakho.</string>
-  <string name="wear_training_typing_text3">Ukuze ubuyele kukhibhodi, swayipha ngeminwe emibili uye phezulu usuka phansi esikrinini sakho.</string>
-  <string name="wear_training_typing_text4">Ukuze uvale ikhibhodi futhi ukhansele ukuthayipha, swayipha ngeminwe emibili uye kwesokudla usuka kwesobunxele samaphethelo esikrini sakho.</string>
-  <string name="wear_training_typing_text5">Kuzame ngezansi.</string>
-  <string name="wear_training_typing_practice_button_content_description">Ukuthayipha ngekhibhodi</string>
-  <string name="wear_training_end_tutorial_title">Usukulungele ukuqala ukusebenzisa i-TalkBack</string>
   <string name="talkback_updated_notification_title">I-TalkBack ibuyekeziwe</string>
   <string name="talkback_updated_notification_content">Thepha ukuze uthole okwengeziwe</string>
   <string name="wear_new_feature_page_title">Siyakwamukela ku-TalkBack ebuyekeziwe</string>

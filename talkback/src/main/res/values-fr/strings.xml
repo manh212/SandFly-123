@@ -1188,26 +1188,6 @@ Avec un délai inférieur à 0,3 seconde, l\'appui double d\'activation sera re
   <string name="talkback_inactive_message_practice_gestures">Pour vous entraîner à effectuer les gestes, activez d\'abord SandFly</string>
   <string name="talkback_inactive_message_image_description">Pour essayer d\'obtenir des descriptions d\'images, activez d\'abord SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Fermer le tutoriel</string>
-  <string name="wear_training_welcome_paragraph">Lorsque SandFly est activé, l\'élément sélectionné à l\'écran est énoncé à haute voix.\n\nBalayer vers la droite passe à l\'élément suivant. Balayer vers la gauche passe à l\'élément précédent.\n\nBalayez vers la droite maintenant jusqu\'à trouver le prochain bouton.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Balayez l\'écran vers le haut ou le bas avec %1$d doigts.</string>
-  <string name="wear_training_go_back_title">Revenir en arrière</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Lorsque vous voulez revenir en arrière, balayez l\'écran vers la droite avec %1$d doigts en partant du bord de l\'écran.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Opération réussie</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geste Retour exécuté</string>
-  <string name="wear_training_volume_up_title">Augmenter le volume</string>
-  <string name="wear_training_volume_up_text">Balayez l\'écran vers la droite, puis vers le haut</string>
-  <string name="wear_training_volume_down_title">Baisser le volume</string>
-  <string name="wear_training_volume_down_text">Balayez l\'écran vers la droite, puis vers le bas</string>
-  <string name="wear_training_open_talkback_menu_title">Ouvrir le menu SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Pour ouvrir les paramètres et commandes dont vous pourriez souvent avoir besoin, balayez vers le bas, puis vers la droite</string>
-  <string name="wear_training_typing_title">Saisie</string>
-  <string name="wear_training_typing_text1">Pour saisir du texte avec le clavier, déplacez votre doigt sur le clavier. Lorsque vous entendez la lettre que vous voulez insérer, relevez le doigt.</string>
-  <string name="wear_training_typing_text2">Pour masquer le clavier et vérifier votre saisie, balayez l\'écran de haut en bas avec deux doigts.</string>
-  <string name="wear_training_typing_text3">Pour revenir au clavier, balayez l\'écran de bas en haut avec deux doigts.</string>
-  <string name="wear_training_typing_text4">Pour fermer le clavier et annuler la saisie, balayez l\'écran de gauche à droite avec deux doigts.</string>
-  <string name="wear_training_typing_text5">Essayez ci-dessous.</string>
-  <string name="wear_training_typing_practice_button_content_description">Saisie au clavier</string>
-  <string name="wear_training_end_tutorial_title">Vous pouvez commencer à utiliser SandFly</string>
   <string name="talkback_updated_notification_title">SandFly a été mis à jour</string>
   <string name="talkback_updated_notification_content">Appuyez pour en savoir plus</string>
   <string name="wear_new_feature_page_title">Bienvenue dans la nouvelle version de SandFly</string>

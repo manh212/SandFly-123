@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">За да вежбате движења, прво вклучете TalkBack</string>
   <string name="talkback_inactive_message_image_description">За да се обидете да добиете описи на сликите, прво вклучете ја TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Затвори го упатството</string>
-  <string name="wear_training_welcome_paragraph">Кога функцијата TalkBack е вклучена, нагласената ставка на екранот се изговара наглас.\n\nПовлекувањето надесно ќе ве одведе на следната ставка. Повлекувањето налево ќе ве одведе на претходната.\n\nСега повлечете надесно додека не го најдете копчето „Следно“.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Повлечете нагоре или надолу со %1$d прста.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ако сакате да се вратите, користете %1$d прста за да повлечете надесно од работ на екранот.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Успешно</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Извршено е движење за назад</string>
-  <string name="wear_training_volume_up_title">Зголемете ја јачината на звукот</string>
-  <string name="wear_training_volume_up_text">Повлечете надесно, па нагоре</string>
-  <string name="wear_training_volume_down_title">Намалете ја јачината на звукот</string>
-  <string name="wear_training_volume_down_text">Повлечете надесно, па надолу</string>
-  <string name="wear_training_open_talkback_menu_title">Отворете го менито на TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">За да ги отворите поставките и контролите што ви се често потребни, повлечете надолу, а потоа надесно</string>
-  <string name="wear_training_typing_title">Пишување</string>
-  <string name="wear_training_typing_text1">За да пишувате со тастатурата, движете го прстот преку тастатурата. Кога ќе ја слушнете буквата што сакате да ја напишете, подигнете го прстот.</string>
-  <string name="wear_training_typing_text2">За да ја скриете тастатурата и да го проверите она што сте го внесле, повлечете надолу од горниот дел на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text3">За да се вратите на тастатурата, повлечете нагоре од долниот дел на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text4">За да ја затворите тастатурата и да го откажете пишувањето, повлечете надесно од левиот раб на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text5">Испробајте подолу.</string>
-  <string name="wear_training_typing_practice_button_content_description">Пишување со тастатура</string>
-  <string name="wear_training_end_tutorial_title">Подготвени сте да почнете да користите TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack е ажуриран</string>
   <string name="talkback_updated_notification_content">Допрете за да дознаете повеќе</string>
   <string name="wear_new_feature_page_title">Добре дојдовте во ажурираната TalkBack</string>

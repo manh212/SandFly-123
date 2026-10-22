@@ -4024,47 +4024,27 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <string name="talkback_inactive_close_tutorial_button">Close tutorial</string>
 
   <!-- Welcome page items for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_welcome_paragraph">When SandFly is on, the focused item on the screen is spoken out loud.\n\nSwiping right moves to the next item. Swiping left moves to the previous item.\n\nSwipe right now until you find the next button.</string>
 
   <!-- Training page for wear-->
   <!-- The content of Scroll page for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe up or down with <xliff:g id="two" example="2">%1$d</xliff:g> fingers.</string>
   <!-- The title of Back to previous page page for Wear. [CHAR_LIMIT=60] -->
-  <string name="wear_training_go_back_title">Go back</string>
   <!-- The content of Back to previous page page for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">When you want to go back, use <xliff:g id="two" example="2">%1$d</xliff:g> fingers to swipe right from the edge of the screen.</string>
   <!-- The curved text for ConfirmationDialog when a user perform go back gesture successfully in the tutorial. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_success_confirmation_curved_text">Success</string>
   <!-- The feedback of ConfirmationDialog when a user perform go back gesture successfully in the tutorial. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Back gesture performed</string>
   <!-- The title of Volume up page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_volume_up_title">Turn up volume</string>
   <!-- The content of Volume up page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_volume_up_text">Swipe right and then up</string>
   <!-- The title of Volume down page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_volume_down_title">Turn down volume</string>
   <!-- The content of Volume down page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_volume_down_text">Swipe right and then down</string>
     <!-- The title of End of tutorial page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_open_talkback_menu_title">Open SandFly menu</string>
   <!-- The content of End of tutorial page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_open_talkback_menu_text">To open settings and controls you may need often, swipe down and then right</string>
   <!-- The title of teaching how to use IME when TalkBack is on for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_typing_title">Typing</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 1st paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text1">To type with keyboard, move your finger across the keyboard. When you hear the letter you want to type, lift your finger.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 2nd paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text2">To hide the keyboard and check your input, swipe down from the top of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 3rd paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text3">To return to keyboard, swipe up from the bottom of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 4th paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text4">To close the keyboard and cancel typing, swipe right from the left edge of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 5th paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text5">Try it below.</string>
   <!-- The content description of the button to practice typing for Wear. [CHAR_LIMIT=60] -->
-  <string name="wear_training_typing_practice_button_content_description">Typing with keyboard</string>
   <!-- The title of End of tutorial page for Wear. [CHAR_LIMIT=180] -->
-  <string name="wear_training_end_tutorial_title">You\'re ready to start using SandFly</string>
 
   <!-- TalkBack updated notification -->
   <!-- The title of notification to notify users TalkBack has been updated. [CHAR_LIMIT=120]-->

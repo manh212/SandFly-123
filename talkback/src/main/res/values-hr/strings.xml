@@ -1188,26 +1188,6 @@ Odgode kraće od 0,3 sekunde promijenit će dvostruki dodir za aktivaciju u dod
   <string name="talkback_inactive_message_practice_gestures">Da biste vježbali pokrete, najprije uključite TalkBack</string>
   <string name="talkback_inactive_message_image_description">Da biste pokušali dohvatiti opise slika, najprije uključite TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Zatvorite vodič</string>
-  <string name="wear_training_welcome_paragraph">Kad je TalkBack uključen, fokusirana stavka na zaslonu izgovara se naglas.\n\nPrijeđete li prstom udesno, prijeći ćete na sljedeću stavku.\n\nPrijeđete li prstom ulijevo, vratit ćete se na prethodnu stavku.\n\nSad prelazite prstom udesno dok ne pronađete sljedeći gumb.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Povucite %1$d prsta prema gore ili dolje.</string>
-  <string name="wear_training_go_back_title">Natrag</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kad se želite vratiti, %1$d prstima prijeđite udesno od ruba zaslona.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uspjeh</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Izvršen je pokret za povratak</string>
-  <string name="wear_training_volume_up_title">Pojačajte zvuk</string>
-  <string name="wear_training_volume_up_text">Prijeđite prstom udesno pa prema gore</string>
-  <string name="wear_training_volume_down_title">Stišajte zvuk</string>
-  <string name="wear_training_volume_down_text">Prijeđite prstom udesno pa prema dolje</string>
-  <string name="wear_training_open_talkback_menu_title">Otvorite izbornik TalkBacka</string>
-  <string name="wear_training_open_talkback_menu_text">Da biste otvorili postavke i kontrole koje vam često trebaju, prijeđite prstom prema dolje pa udesno</string>
-  <string name="wear_training_typing_title">Upisivanje</string>
-  <string name="wear_training_typing_text1">Za unos teksta pomoću tipkovnice, pomičite prst po tipkovnici. Kad začujete slovo koje želite unijeti, podignite prst.</string>
-  <string name="wear_training_typing_text2">Da biste sakrili tipkovnicu i provjerili unos, dvama prstima prijeđite od vrha zaslona prema dolje.</string>
-  <string name="wear_training_typing_text3">Da biste se vratili na tipkovnicu, dvama prstima prijeđite od dna zaslona prema gore.</string>
-  <string name="wear_training_typing_text4">Da biste zatvorili tipkovnicu i otkazali unos, dvama prstima prijeđite od lijevog ruba zaslona udesno.</string>
-  <string name="wear_training_typing_text5">Isprobajte u nastavku.</string>
-  <string name="wear_training_typing_practice_button_content_description">Unos teksta pomoću tipkovnice</string>
-  <string name="wear_training_end_tutorial_title">Spremni ste za početak upotrebe TalkBacka</string>
   <string name="talkback_updated_notification_title">TalkBack je ažuriran</string>
   <string name="talkback_updated_notification_content">Dodirnite da biste saznali više</string>
   <string name="wear_new_feature_page_title">Dobro došli u ažurirani TalkBack</string>

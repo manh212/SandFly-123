@@ -1188,26 +1188,6 @@ Ako je kašnjenje kraće od 0,3 sekunde, dvostruki dodir radi aktiviranja se me
   <string name="talkback_inactive_message_practice_gestures">Da biste vežbali pokrete, prvo uključite TalkBack</string>
   <string name="talkback_inactive_message_image_description">Da biste pokušali da dobijete opise slika, prvo uključite TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Zatvori vodič</string>
-  <string name="wear_training_welcome_paragraph">Kada je TalkBack uključen, fokusurana stavka na ekranu se izgovara naglas.\n\nPrevlačenjem udesno prelazite na sledeću stavku.\nPrevlačenjem ulevo prelazite na prethodnu stavku.\n\nPrevlačite udesno dok ne pronađete sledeće dugme.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Prevlačite nagore ili nadole pomoću %1$d prsta.</string>
-  <string name="wear_training_go_back_title">Idite nazad</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kada želite da se vratite, koristite %1$d prsta da biste prevlačili udesno sa ivice ekrana.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uspešno</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Obavljen je pokret za nazad</string>
-  <string name="wear_training_volume_up_title">Pojačajte zvuk</string>
-  <string name="wear_training_volume_up_text">Prevucite udesno, pa nagore</string>
-  <string name="wear_training_volume_down_title">Smanjite zvuk</string>
-  <string name="wear_training_volume_down_text">Prevucite udesno, pa nadole</string>
-  <string name="wear_training_open_talkback_menu_title">Otvorite TalkBack meni</string>
-  <string name="wear_training_open_talkback_menu_text">Da biste otvorili podešavanja i kontrole koji su vam često potrebni, prevucite nadole, pa udesno</string>
-  <string name="wear_training_typing_title">Unos teksta</string>
-  <string name="wear_training_typing_text1">Da biste kucali pomoću tastature, pomerajte prst po njoj. Kada čujete slovo koje želite da unesete, podignite prst.</string>
-  <string name="wear_training_typing_text2">Da biste sakrili tastaturu i proverili unos, prevucite nadole od vrha ekrana pomoću 2 prsta.</string>
-  <string name="wear_training_typing_text3">Da biste se vratili na tastaturu, prevucite nagore od dna ekrana pomoću 2 prsta.</string>
-  <string name="wear_training_typing_text4">Da biste zatvorili tastaturu i otkazali unos teksta, prevucite nadesno od leve ivice ekrana pomoću 2 prsta.</string>
-  <string name="wear_training_typing_text5">Isprobajte ispod.</string>
-  <string name="wear_training_typing_practice_button_content_description">Unos teksta pomoću tastature</string>
-  <string name="wear_training_end_tutorial_title">Spremni ste da počnete da koristite TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack je ažuriran</string>
   <string name="talkback_updated_notification_content">Dodirnite da biste saznali više</string>
   <string name="wear_new_feature_page_title">Dobro došli u ažurirani TalkBack</string>

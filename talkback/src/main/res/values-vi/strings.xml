@@ -1188,26 +1188,6 @@ Nếu độ trễ ở mức dưới 0,3 giây, thao tác nhấn đúp để kíc
   <string name="talkback_inactive_message_practice_gestures">Để thực hành các cử chỉ, trước tiên hãy bật SandFly</string>
   <string name="talkback_inactive_message_image_description">Để thử nghe nội dung mô tả hình ảnh, trước tiên hãy bật SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Đóng hướng dẫn</string>
-  <string name="wear_training_welcome_paragraph">Khi được bật, SandFly sẽ nói mục mà bạn lấy làm tiêu điểm trên màn hình.\n\nVuốt sang phải để chuyển sang mục tiếp theo. Vuốt sang trái để chuyển sang mục trước.\n\nBây giờ, hãy vuốt sang phải cho đến khi bạn tìm được nút tiếp theo.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Vuốt lên hoặc xuống bằng %1$d ngón tay.</string>
-  <string name="wear_training_go_back_title">Quay lại</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Khi bạn muốn quay lại, hãy vuốt sang phải từ cạnh màn hình bằng %1$d ngón tay.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Thành công</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Đã thực hiện cử chỉ quay lại</string>
-  <string name="wear_training_volume_up_title">Tăng âm lượng</string>
-  <string name="wear_training_volume_up_text">Vuốt sang phải rồi vuốt lên</string>
-  <string name="wear_training_volume_down_title">Giảm âm lượng</string>
-  <string name="wear_training_volume_down_text">Vuốt sang phải rồi vuốt xuống</string>
-  <string name="wear_training_open_talkback_menu_title">Mở trình đơn SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Để mở phần cài đặt và các chế độ điều khiển mà bạn có thể thường xuyên cần đến, hãy vuốt xuống rồi vuốt sang phải</string>
-  <string name="wear_training_typing_title">Nhập</string>
-  <string name="wear_training_typing_text1">Để nhập bằng bàn phím, hãy di chuyển ngón tay trên bàn phím. Khi bạn nghe thấy chữ cái mình muốn nhập, hãy nhấc ngón tay lên.</string>
-  <string name="wear_training_typing_text2">Để ẩn bàn phím và xem nội dung bạn đã nhập, hãy dùng 2 ngón tay vuốt xuống từ đầu màn hình.</string>
-  <string name="wear_training_typing_text3">Để quay lại bàn phím, hãy dùng 2 ngón tay vuốt lên từ cuối màn hình.</string>
-  <string name="wear_training_typing_text4">Để đóng bàn phím và huỷ thao tác nhập, hãy dùng 2 ngón tay vuốt sang phải từ cạnh trái của màn hình.</string>
-  <string name="wear_training_typing_text5">Hãy thử ngay nào.</string>
-  <string name="wear_training_typing_practice_button_content_description">Nhập bằng bàn phím</string>
-  <string name="wear_training_end_tutorial_title">Giờ thì bạn có thể bắt đầu dùng SandFly</string>
   <string name="talkback_updated_notification_title">SandFly đã được cập nhật</string>
   <string name="talkback_updated_notification_content">Nhấn để tìm hiểu thêm</string>
   <string name="wear_new_feature_page_title">Chào mừng bạn đến với SandFly phiên bản mới</string>

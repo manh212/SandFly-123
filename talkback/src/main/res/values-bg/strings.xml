@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">За да упражнявате жестовете, първо включете SandFly</string>
   <string name="talkback_inactive_message_image_description">За да получите описания на изображенията, първо включете SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Затваряне на урока</string>
-  <string name="wear_training_welcome_paragraph">Когато услугата SandFly е включена, елементът на екрана, върху който е фокусът, се прочита на глас.\n\nПлъзнете пръст надясно, за да се придвижите до следващия елемент. Плъзнете пръст наляво, за да се върнете към предишния елемент.\n\nСега плъзнете пръст надясно, докато намерите бутона „Напред“.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Прекарайте %1$d пръста нагоре или надолу.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Когато искате да се върнете назад, прекарайте %1$d пръста надясно от края на екрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Успех</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Изпълнихте жеста за връщане назад</string>
-  <string name="wear_training_volume_up_title">Увеличаване на силата на звука</string>
-  <string name="wear_training_volume_up_text">Плъзнете пръст надясно и след това нагоре</string>
-  <string name="wear_training_volume_down_title">Намаляване на силата на звука</string>
-  <string name="wear_training_volume_down_text">Плъзнете пръст надясно и след това надолу</string>
-  <string name="wear_training_open_talkback_menu_title">Отваряне на менюто на SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">За да отворите често използвани настройки и контроли, плъзнете пръст надолу и след това надясно</string>
-  <string name="wear_training_typing_title">Въвеждане</string>
-  <string name="wear_training_typing_text1">За да въвеждате с клавиатурата, плъзнете пръст през нея. Вдигнете го, когато чуете буквата, която искате да въведете.</string>
-  <string name="wear_training_typing_text2">За да скриете клавиатурата и да проверите въведеното от вас, плъзнете два пръста надолу от горната част на екрана.</string>
-  <string name="wear_training_typing_text3">За да се върнете към клавиатурата, плъзнете два пръста нагоре от долната част на екрана.</string>
-  <string name="wear_training_typing_text4">За да затворите клавиатурата и да анулирате въвеждането, плъзнете два пръста надясно от левия край на екрана.</string>
-  <string name="wear_training_typing_text5">Изпробвайте това по-долу.</string>
-  <string name="wear_training_typing_practice_button_content_description">Въвеждане с клавиатурата</string>
-  <string name="wear_training_end_tutorial_title">Можете да започнете да използвате SandFly</string>
   <string name="talkback_updated_notification_title">Услугата SandFly е актуализирана</string>
   <string name="talkback_updated_notification_content">Докоснете, за да научите повече</string>
   <string name="wear_new_feature_page_title">Добре дошли в новата версия на SandFly</string>

@@ -1188,26 +1188,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="talkback_inactive_message_practice_gestures">Liigutuste harjutamiseks lülitage esmalt SandFly sisse</string>
   <string name="talkback_inactive_message_image_description">Pildikirjelduste hankimise proovimiseks lülitage esmalt SandFly sisse</string>
   <string name="talkback_inactive_close_tutorial_button">Sule õpetus</string>
-  <string name="wear_training_welcome_paragraph">Kui SandFly on sisse lülitatud, öeldakse ekraanil esile tõstetud üksus kuuldavalt.\n\nParemale pühkimisega liigutakse järgmise üksuse juurde. Vasakule pühkimisega liigutakse eelmise üksuse juurde.\n\nJärgmise nupu leidmiseks pühkige nüüd paremale.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Pühkige %1$d sõrmega üles või alla.</string>
-  <string name="wear_training_go_back_title">Tagasiliikumine</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kui soovite tagasi liikuda, pühkige %1$d sõrmega ekraanikuva servast paremale.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Õnnestus</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Tehti tagasiliigutus</string>
-  <string name="wear_training_volume_up_title">Helitugevuse suurendamine</string>
-  <string name="wear_training_volume_up_text">Pühkige paremale ja siis üles</string>
-  <string name="wear_training_volume_down_title">Helitugevuse vähendamine</string>
-  <string name="wear_training_volume_down_text">Pühkige paremale ja siis alla</string>
-  <string name="wear_training_open_talkback_menu_title">SandFlyi menüü avamine</string>
-  <string name="wear_training_open_talkback_menu_text">Sageli kasutatavate seadete ja juhtelementide avamiseks pühkige alla ja siis paremale</string>
-  <string name="wear_training_typing_title">Sisestamine</string>
-  <string name="wear_training_typing_text1">Klaviatuuril sisestamiseks liigutage sõrme klaviatuuril. Kui kuulete tähte, mille soovite sisestada, tõstke sõrm ekraanilt.</string>
-  <string name="wear_training_typing_text2">Klaviatuuri peitmiseks ja sisestatu kontrollimiseks pühkige kahe sõrmega ekraani ülaosast alla.</string>
-  <string name="wear_training_typing_text3">Klaviatuurile naasmiseks pühkige kahe sõrmega ekraani allosast üles.</string>
-  <string name="wear_training_typing_text4">Klaviatuuri sulgemiseks ja sisestamise tühistamiseks pühkige kahe sõrmega ekraani vasakust servast paremale.</string>
-  <string name="wear_training_typing_text5">Proovige seda allpool.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klaviatuuril sisestamine</string>
-  <string name="wear_training_end_tutorial_title">Olete valmis SandFlyi kasutama</string>
   <string name="talkback_updated_notification_title">SandFly on värskendatud</string>
   <string name="talkback_updated_notification_content">Lisateabe saamiseks puudutage</string>
   <string name="wear_new_feature_page_title">Tere tulemast värskendatud SandFlyi!</string>

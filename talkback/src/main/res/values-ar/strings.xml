@@ -1352,26 +1352,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏للتمرّن على استخدام الإيماءات، يجب أولاً تفعيل ميزة SandFly</string>
   <string name="talkback_inactive_message_image_description">‏لتجربة الحصول على أوصاف الصور، يجب أولاً تفعيل ميزة SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">إغلاق الدليل التوجيهي</string>
-  <string name="wear_training_welcome_paragraph">‏عندما تكون ميزة SandFly مفعَّلة، يتم قول العنصر الذي يتم التركيز عليه على الشاشة بصوت عالٍ.\n\nيؤدي التمرير سريعًا لليسار إلى الانتقال إلى العنصر التالي. يؤدي التمرير سريعًا لليمين إلى الانتقال إلى العنصر السابق.\n\nمرِّر سريعًا لليسار الآن إلى أن تعثر على زر \"التالي\".</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">يمكنك التمرير سريعًا للأعلى أو للأسفل بإصبعين (%1$d).</string>
-  <string name="wear_training_go_back_title">الرجوع</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">إذا أردت الرجوع، يمكنك استخدام إصبعين (%1$d) للتمرير سريعًا لليسار من حافة الشاشة.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">نجح الإجراء</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">تم تنفيذ إيماءة الرجوع بنجاح.</string>
-  <string name="wear_training_volume_up_title">رفع مستوى الصوت</string>
-  <string name="wear_training_volume_up_text">مرِّر سريعًا لليسار ثم للأعلى.</string>
-  <string name="wear_training_volume_down_title">خفض مستوى الصوت</string>
-  <string name="wear_training_volume_down_text">مرِّر سريعًا لليسار ثم للأسفل.</string>
-  <string name="wear_training_open_talkback_menu_title">‏فتح قائمة SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">لفتح الإعدادات وعناصر التحكّم التي قد تحتاجها كثيرًا، مرِّر سريعًا للأسفل ثم لليسار.</string>
-  <string name="wear_training_typing_title">الكتابة</string>
-  <string name="wear_training_typing_text1">للكتابة باستخدام لوحة المفاتيح، يُرجى تحريك الإصبع عليها إلى أن يصدر صوت من مفتاح الحرف المُراد كتابته، ثم رفع الإصبع.</string>
-  <string name="wear_training_typing_text2">لإخفاء لوحة المفاتيح والتحقّق من الإدخال، يُرجى التمرير سريعًا من أعلى الشاشة إلى أسفلها باستخدام إصبعين.</string>
-  <string name="wear_training_typing_text3">للعودة إلى لوحة المفاتيح، يُرجى التمرير سريعًا من أسفل الشاشة إلى أعلاها بإصبعين.</string>
-  <string name="wear_training_typing_text4">لإغلاق لوحة المفاتيح وإلغاء الكتابة، يُرجى التمرير سريعًا إلى اليسار من الحافة اليمنى للشاشة بإصبعين.</string>
-  <string name="wear_training_typing_text5">يمكن تجربة الميزة أدناه.</string>
-  <string name="wear_training_typing_practice_button_content_description">الكتابة باستخدام لوحة المفاتيح</string>
-  <string name="wear_training_end_tutorial_title">‏يمكنك الآن البدء باستخدام ميزة SandFly</string>
   <string name="talkback_updated_notification_title">‏تم تحديث SandFly</string>
   <string name="talkback_updated_notification_content">انقر للاطّلاع على مزيد من المعلومات.</string>
   <string name="wear_new_feature_page_title">‏مرحبًا بك في الإصدار المحدَّث من SandFly</string>

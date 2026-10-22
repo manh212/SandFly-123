@@ -1188,26 +1188,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="talkback_inactive_message_practice_gestures">Hareketlerle ilgili alıştırma yapmak için önce TalkBack\'i etkinleştirin.</string>
   <string name="talkback_inactive_message_image_description">Resim açıklamalarını almayı denemek için önce TalkBack\'i açın</string>
   <string name="talkback_inactive_close_tutorial_button">Eğitimi kapat</string>
-  <string name="wear_training_welcome_paragraph">TalkBack etkinken ekranda odaklanılan öğe sesli olarak söylenir.\n\nSağa kaydırma sonraki öğeye, sola kaydırmak önceki öğeye götürür.\n\nSonraki düğmesini bulana kadar sağa kaydırın.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d parmağınızla yukarı veya aşağı kaydırın.</string>
-  <string name="wear_training_go_back_title">Geri dön</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Geri dönmek istediğinizde %1$d parmağınızı kullanarak ekranın kenarından sağa kaydırın</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Başarılı</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geri gitme hareketi yapıldı</string>
-  <string name="wear_training_volume_up_title">Sesi artır</string>
-  <string name="wear_training_volume_up_text">Sağa ve ardından yukarı kaydırın</string>
-  <string name="wear_training_volume_down_title">Sesi azalt</string>
-  <string name="wear_training_volume_down_text">Sağa ve ardından aşağı kaydırın</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack menüsünü aç</string>
-  <string name="wear_training_open_talkback_menu_text">Sık kullanabileceğiniz ayarları ve kontrolleri açmak için aşağıya, ardından sağa kaydırın</string>
-  <string name="wear_training_typing_title">Yazın</string>
-  <string name="wear_training_typing_text1">Klavyeyle yazmak için parmağınızı klavye üzerinde hareket ettirin. Yazmak istediğiniz harfi duyduğunuzda parmağınızı kaldırın.</string>
-  <string name="wear_training_typing_text2">Klavyeyi gizlemek ve girişinizi kontrol etmek için 2 parmağınızla ekranın üst kısmından aşağı doğru kaydırın.</string>
-  <string name="wear_training_typing_text3">Klavyeye dönmek için 2 parmağınızla ekranın alt kısmından yukarı doğru kaydırın.</string>
-  <string name="wear_training_typing_text4">Klavyeyi kapatmak ve yazma işlemini iptal etmek için 2 parmağınızla ekranın sol kenarından sağa kaydırın.</string>
-  <string name="wear_training_typing_text5">Aşağıdan deneyebilirsiniz.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klavyeyle yazma</string>
-  <string name="wear_training_end_tutorial_title">TalkBack\'i kullanmaya hazırsınız</string>
   <string name="talkback_updated_notification_title">TalkBack güncellendi</string>
   <string name="talkback_updated_notification_content">Daha fazla bilgi edinmek için dokunun</string>
   <string name="wear_new_feature_page_title">Güncellenen TalkBack\'e hoş geldiniz</string>

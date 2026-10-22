@@ -1188,26 +1188,6 @@ Os atrasos inferiores a 0,3 segundos alteram a ativação com o gesto de tocar d
   <string name="talkback_inactive_message_practice_gestures">Para praticar gestos, ative primeiro o TalkBack</string>
   <string name="talkback_inactive_message_image_description">Para experimentar receber descrições de imagens, ative primeiro o TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Fechar tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quando o TalkBack está ativado, o item focado no ecrã é dito em voz alta.\n\nDeslizar rapidamente para a direita passa para o item seguinte. Deslizar rapidamente para a esquerda passa para o item anterior.\n\nDeslize rapidamente para a direita agora até encontrar o botão seguinte.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Deslize rapidamente para cima ou para baixo com %1$d dedos.</string>
-  <string name="wear_training_go_back_title">Retroceda</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Quando quiser retroceder, use %1$d dedos para deslizar rapidamente para a direita a partir da extremidade do ecrã.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Concluído</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gesto para voltar realizado</string>
-  <string name="wear_training_volume_up_title">Aumente o volume</string>
-  <string name="wear_training_volume_up_text">Deslize para a direita e, depois, para cima</string>
-  <string name="wear_training_volume_down_title">Diminua o volume</string>
-  <string name="wear_training_volume_down_text">Deslize para a direita e, depois, para baixo</string>
-  <string name="wear_training_open_talkback_menu_title">Abra o menu do TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Para abrir as definições e os controlos de que pode precisar frequentemente, deslize rapidamente para baixo e, de seguida, para a direita</string>
-  <string name="wear_training_typing_title">Escrita</string>
-  <string name="wear_training_typing_text1">Para escrever com o teclado, mova o dedo pelo teclado. Quando ouvir a letra que quer escrever, levante o dedo.</string>
-  <string name="wear_training_typing_text2">Para ocultar o teclado e verificar a sua entrada, deslize rapidamente para baixo a partir da parte superior do ecrã com 2 dedos.</string>
-  <string name="wear_training_typing_text3">Para voltar ao teclado, deslize rapidamente para cima a partir da parte inferior do ecrã com 2 dedos.</string>
-  <string name="wear_training_typing_text4">Para fechar o teclado e cancelar a escrita, deslize rapidamente para a direita a partir da extremidade esquerda do ecrã com 2 dedos.</string>
-  <string name="wear_training_typing_text5">Experimente abaixo.</string>
-  <string name="wear_training_typing_practice_button_content_description">Escrita com o teclado</string>
-  <string name="wear_training_end_tutorial_title">Tem tudo pronto para começar a usar o TalkBack</string>
   <string name="talkback_updated_notification_title">O TalkBack foi atualizado</string>
   <string name="talkback_updated_notification_content">Toque para saber mais</string>
   <string name="wear_new_feature_page_title">Damos-lhe as boas-vindas ao TalkBack atualizado</string>

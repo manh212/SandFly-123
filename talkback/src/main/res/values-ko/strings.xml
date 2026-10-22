@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">동작을 연습하려면 먼저 TalkBack을 사용 설정하세요</string>
   <string name="talkback_inactive_message_image_description">이미지 설명을 사용해 보려면 먼저 TalkBack을 사용 설정하세요.</string>
   <string name="talkback_inactive_close_tutorial_button">튜토리얼 닫기</string>
-  <string name="wear_training_welcome_paragraph">TalkBack이 켜져 있으면 화면에서 포커스가 설정된 항목을 음성으로 들을 수 있습니다.\n\n오른쪽으로 스와이프하면 다음 항목으로 이동합니다. 왼쪽으로 스와이프하면 이전 항목으로 이동합니다.\n\n지금 스와이프하여 다음 버튼을 찾아보세요.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d 손가락을 사용해 위 또는 아래로 스와이프합니다.</string>
-  <string name="wear_training_go_back_title">뒤로</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">뒤로 이동하려면 %1$d 손가락을 사용해 화면 가장자리에서 오른쪽으로 스와이프합니다.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">완료</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">뒤로 동작을 수행했습니다.</string>
-  <string name="wear_training_volume_up_title">볼륨 높이기</string>
-  <string name="wear_training_volume_up_text">오른쪽으로 스와이프한 다음 위로 스와이프합니다.</string>
-  <string name="wear_training_volume_down_title">볼륨 낮추기</string>
-  <string name="wear_training_volume_down_text">오른쪽으로 스와이프한 다음 아래로 스와이프합니다.</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack 메뉴 열기</string>
-  <string name="wear_training_open_talkback_menu_text">자주 사용하는 설정 및 컨트롤을 열려면 아래로 스와이프한 다음 오른쪽으로 스와이프하세요.</string>
-  <string name="wear_training_typing_title">입력</string>
-  <string name="wear_training_typing_text1">키보드로 입력하려면 키보드 위에서 손가락을 움직이세요. 입력하려는 글자가 들리면 손가락을 떼세요.</string>
-  <string name="wear_training_typing_text2">키보드를 숨기고 입력을 확인하려면 화면 상단에서 두 손가락을 사용하여 아래로 스와이프합니다.</string>
-  <string name="wear_training_typing_text3">키보드로 돌아가려면 두 손가락을 사용해 화면 하단에서 위로 스와이프합니다.</string>
-  <string name="wear_training_typing_text4">키보드를 닫고 입력을 취소하려면 두 손가락을 사용하여 화면 왼쪽 가장자리에서 오른쪽으로 스와이프하세요.</string>
-  <string name="wear_training_typing_text5">아래에서 사용해 보세요.</string>
-  <string name="wear_training_typing_practice_button_content_description">키보드로 입력</string>
-  <string name="wear_training_end_tutorial_title">TalkBack을 사용할 준비됨</string>
   <string name="talkback_updated_notification_title">TalkBack 업데이트됨</string>
   <string name="talkback_updated_notification_content">탭하여 자세한 내용을 확인하세요.</string>
   <string name="wear_new_feature_page_title">업데이트된 TalkBack을 소개합니다</string>

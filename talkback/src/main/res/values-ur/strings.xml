@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏اشاروں کی مشق کرنے کے لیے، پہلے TalkBack آن کریں</string>
   <string name="talkback_inactive_message_image_description">‏تصویر کی تفصیلات حاصل کرنے کی کوشش کرنے کے لیے، پہلے TalkBack آن کریں</string>
   <string name="talkback_inactive_close_tutorial_button">ٹیوٹوریل بند کریں</string>
-  <string name="wear_training_welcome_paragraph">‏جب TalkBack آن ہوتا ہے تو اسکرین پر فوکس کردہ آئٹم کو بلند آواز میں پڑھا جاتا ہے۔‎\n\nدائیں سوائپ کرنے سے اگلے آئٹم پر منتقل ہوتا ہے۔ بائیں سوائپ کرنے سے پچھلے آئٹم پر منتقل ہوتا ہے۔‎\n\nاگلا بٹن تلاش کرنے تک ابھی دائیں طرف سوائپ کریں۔</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">‫%1$d انگلیوں سے اوپر یا نیچے سوائپ کریں۔</string>
-  <string name="wear_training_go_back_title">واپس جائیں</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">اگر آپ واپس جانا چاہتے ہیں تو اسکرین کے کنارے سے بائیں سوائپ کرنے کے لیے %1$d انگلیوں کا استعمال کریں۔</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">کامیاب</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">پیچھے جانے کا اشارہ کیا گیا</string>
-  <string name="wear_training_volume_up_title">والیوم بڑھائیں</string>
-  <string name="wear_training_volume_up_text">بائیں اور پھر اوپر سوائپ کریں</string>
-  <string name="wear_training_volume_down_title">والیوم کم کریں</string>
-  <string name="wear_training_volume_down_text">بائیں اور پھر نیچے سوائپ کریں</string>
-  <string name="wear_training_open_talkback_menu_title">‏TalkBack مینیو کھولیں</string>
-  <string name="wear_training_open_talkback_menu_text">ترتیبات اور کنٹرولز کو کھولنے کے لیے آپ کو اکثر ضرورت پڑ سکتی ہے، نیچے اور پھر بائیں سوائپ کریں</string>
-  <string name="wear_training_typing_title">ٹائپنگ</string>
-  <string name="wear_training_typing_text1">کی بورڈ سے ٹائپ کرنے کے لیے، اپنی انگلی کو کی بورڈ پر منتقل کریں۔ جب آپ وہ حرف سنیں جسے آپ ٹائپ کرنا چاہتے ہیں تو اپنی انگلی اٹھا لیں۔</string>
-  <string name="wear_training_typing_text2">کی بورڈ کو چھپانے اور اپنا ان پٹ چیک کرنے کے لیے، 2 انگلیوں سے اپنی اسکرین کے اوپری حصے سے نیچے کی طرف سوائپ کریں۔</string>
-  <string name="wear_training_typing_text3">کی بورڈ پر واپس جانے کے لیے، 2 انگلیوں سے اپنی اسکرین کے نچلے حصے سے اوپر کی طرف سوائپ کریں۔</string>
-  <string name="wear_training_typing_text4">کی بورڈ کو بند کرنے اور ٹائپنگ کو منسوخ کرنے کے لیے، 2 انگلیوں سے اپنی اسکرین کے دائیں کنارے سے بائیں طرف سوائپ کریں۔</string>
-  <string name="wear_training_typing_text5">اسے نیچے آزمائیں۔</string>
-  <string name="wear_training_typing_practice_button_content_description">کی بورڈ سے ٹائپ کرنا</string>
-  <string name="wear_training_end_tutorial_title">‏آپ TalkBack کا استعمال شروع کرنے کے لیے تیار ہیں</string>
   <string name="talkback_updated_notification_title">‏TalkBack کو اپ ڈیٹ کر دیا گیا ہے</string>
   <string name="talkback_updated_notification_content">مزید تلاش کرنے کیلئے تھپتھپائیں</string>
   <string name="wear_new_feature_page_title">‏اپ ڈیٹ کئے گئے TalkBack میں خوش آمدید</string>

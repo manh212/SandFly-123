@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Щоб попрактикуватися з жестами, спершу ввімкніть TalkBack</string>
   <string name="talkback_inactive_message_image_description">Щоб спробувати отримати описи зображень, спершу ввімкніть TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Закрити навчальний посібник</string>
-  <string name="wear_training_welcome_paragraph">Коли TalkBack увімкнено, виділений на екрані об’єкт озвучується.\n\nЩоб перейти до наступного об’єкта, проведіть пальцем по екрану вправо.\n\nЩоб перейти до попереднього об’єкта, проведіть пальцем уліво.\n\nПроводьте пальцем по екрану вправо зараз, доки не перейдете до наступної кнопки.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Проведіть %1$d пальцями вгору або вниз.</string>
-  <string name="wear_training_go_back_title">Повернення</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Щоб повернутися, проведіть %1$d пальцями вправо від краю екрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Готово</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Жест \"Назад\" виконано</string>
-  <string name="wear_training_volume_up_title">Збільшення гучності</string>
-  <string name="wear_training_volume_up_text">Проведіть пальцем управо, а потім угору</string>
-  <string name="wear_training_volume_down_title">Зменшення гучності</string>
-  <string name="wear_training_volume_down_text">Проведіть пальцем управо, а потім униз</string>
-  <string name="wear_training_open_talkback_menu_title">Відкриття меню TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Щоб відкрити налаштування й елементи керування, якими ви часто користуєтеся, проведіть пальцем униз, а тоді вправо</string>
-  <string name="wear_training_typing_title">Введення тексту</string>
-  <string name="wear_training_typing_text1">Щоб вводити текст за допомогою клавіатури, проводьте по ній пальцем. Коли почуєте потрібну літеру, заберіть палець з екрана.</string>
-  <string name="wear_training_typing_text2">Щоб сховати клавіатуру й перевірити введений текст, проведіть двома пальцями вниз від верхнього краю екрана.</string>
-  <string name="wear_training_typing_text3">Щоб повернутися до клавіатури, проведіть двома пальцями вгору від низу екрана.</string>
-  <string name="wear_training_typing_text4">Щоб закрити клавіатуру й скасувати введення тексту, проведіть двома пальцями від лівого краю екрана вправо.</string>
-  <string name="wear_training_typing_text5">Спробуйте нижче.</string>
-  <string name="wear_training_typing_practice_button_content_description">Введення тексту за допомогою клавіатури</string>
-  <string name="wear_training_end_tutorial_title">Тепер ви можете використовувати TalkBack</string>
   <string name="talkback_updated_notification_title">Функцію TalkBack оновлено</string>
   <string name="talkback_updated_notification_content">Натисніть, щоб дізнатися більше</string>
   <string name="wear_new_feature_page_title">Вітаємо в новій версії TalkBack</string>

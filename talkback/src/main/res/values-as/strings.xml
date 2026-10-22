@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">আঙুলিৰ স্পৰ্শৰে নিৰ্দেশসমূহ ব্যৱহাৰ কৰি চাবলৈ, প্ৰথমে SandFly অন কৰক</string>
   <string name="talkback_inactive_message_image_description">প্ৰতিচ্ছবিৰ বিৱৰণ পাবলৈ চেষ্টা কৰাটো আৰম্ভ কৰিবলৈ, প্ৰথমে SandFly অন কৰক</string>
   <string name="talkback_inactive_close_tutorial_button">টিউট’ৰিয়েল বন্ধ কৰক</string>
-  <string name="wear_training_welcome_paragraph">SandFly অন হৈ থাকিলে, স্ক্ৰীনত ফ’কাছ কৰা বস্তুটো ডাঙৰকৈ কোৱা হয়।\n\nসোঁফালে ছোৱাইপ কৰিলে পৰৱৰ্তী বস্তুটোলৈ যায়। বাওঁফালে ছোৱাইপ কৰিলে পূৰ্বৱৰ্তী বস্তুটোলৈ যায়।\n\nপৰৱৰ্তী বুটামটো বিচাৰি নোপোৱা পৰ্যন্ত এতিয়াই সোঁফালে ছোৱাইপ কৰক।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d টা আঙুলিৰে ওপৰলৈ বা তললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_go_back_title">উভতি যাওক</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">আপুনি উভতি যাব বিচাৰিলে স্ক্ৰীনখনৰ কাষৰ পৰা সোঁফালে ছোৱাইপ কৰিবলৈ %1$d টা আঙুলি ব্যৱহাৰ কৰক।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">সফল হৈছে</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">উভতি যাওক নিৰ্দেশটো কাৰ্যকৰী কৰা হ’ল</string>
-  <string name="wear_training_volume_up_title">ভলিউম বঢ়াওক</string>
-  <string name="wear_training_volume_up_text">প্ৰথমে সোঁফালে তাৰ পাছত ওপৰলৈ ছোৱাইপ কৰক</string>
-  <string name="wear_training_volume_down_title">ভলিউম কমাওক</string>
-  <string name="wear_training_volume_down_text">প্ৰথমে সোঁফালে তাৰ পাছত তললৈ ছোৱাইপ কৰক</string>
-  <string name="wear_training_open_talkback_menu_title">SandFlyৰ মেনুখন খোলক</string>
-  <string name="wear_training_open_talkback_menu_text">আপোনাক সঘনাই প্ৰয়োজন হ’ব পৰা ছেটিং আৰু নিয়ন্ত্ৰণসমূহ খুলিবলৈ, প্ৰথমে তললৈ আৰু তাৰ পাছত সোঁফালে ছোৱাইপ কৰক</string>
-  <string name="wear_training_typing_title">টাইপ কৰি আছে</string>
-  <string name="wear_training_typing_text1">কীব’ৰ্ডৰ জৰিয়তে টাইপ কৰিবলৈ, কীব’ৰ্ডৰ ওপৰত আপোনাৰ আঙুলি পিছলাই নিয়ক। আপুনি টাইপ কৰিবলৈ বিচৰা আখৰটো শুনিলে আপোনাৰ আঙুলি উঠাওক।</string>
-  <string name="wear_training_typing_text2">কীব’ৰ্ডখন লুকুৱাবলৈ আৰু আপোনাৰ ইনপুটটো পৰীক্ষাৰ কৰিবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ একেবাৰে ওপৰৰ পৰা তললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text3">কীব’ৰ্ডখনলৈ উভতি যাবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ একেবাৰে তলৰ পৰা ওপৰলৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text4">কীব’ৰ্ডখন বন্ধ কৰিবলৈ আৰু টাইপিং বাতিল কৰিবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ বাওঁফালৰ পৰা সোঁফাললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text5">এইটো তলত কৰি চাওক।</string>
-  <string name="wear_training_typing_practice_button_content_description">কীব’ৰ্ডৰ জৰিয়তে টাইপ কৰা</string>
-  <string name="wear_training_end_tutorial_title">আপুনি SandFly ব্যৱহাৰ কৰা আৰম্ভ কৰিবলৈ সাজু</string>
   <string name="talkback_updated_notification_title">SandFly আপডে’ট কৰা হ’ল</string>
   <string name="talkback_updated_notification_content">অধিক জানিবৰ বাবে টিপক</string>
   <string name="wear_new_feature_page_title">আপডে’ট কৰা SandFlyলৈ স্বাগতম</string>

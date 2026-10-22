@@ -1188,26 +1188,6 @@ Gagawing pag-tap gamit ang dalawang daliri para i-activate ng mga pagkaantalang 
   <string name="talkback_inactive_message_practice_gestures">Para magsanay sa mga galaw, i-on muna ang SandFly</string>
   <string name="talkback_inactive_message_image_description">Para subukang makakuha ng mga paglalarawan ng larawan, i-on muna ang SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Isara ang tutorial</string>
-  <string name="wear_training_welcome_paragraph">Kapag naka-on ang SandFly, babasahin nang malakas ang naka-focus na item sa screen.\n\nKapag nag-swipe ka pakanan, lilipat ka sa susunod na item. Kapag nag-swipe ka pakaliwa, lilipat ka sa nakaraang item.\n\nMag-swipe na para mahanap ang button na susunod.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Mag-swipe pataas o pababa gamit ang %1$d daliri</string>
-  <string name="wear_training_go_back_title">Bumalik</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kapag gusto mong bumalik, gumamit ng %1$d daliri para mag-swipe pakanan mula sa gilid ng screen.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Matagumpay</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Nagsagawa ng galaw na bumalik</string>
-  <string name="wear_training_volume_up_title">Lakasan ang volume</string>
-  <string name="wear_training_volume_up_text">Mag-swipe pakanan at pagkatapos at pataas</string>
-  <string name="wear_training_volume_down_title">Hinaan ang volume</string>
-  <string name="wear_training_volume_down_text">Mag-swipe pakanan at pagkatapos ay pababa</string>
-  <string name="wear_training_open_talkback_menu_title">Buksan ang menu ng SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Para buksan ang mga setting at kontrol na posibleng madalas mong kailanganin, mag-swipe pababa at pagkatapos ay pakanan</string>
-  <string name="wear_training_typing_title">Pagta-type</string>
-  <string name="wear_training_typing_text1">Para mag-type gamit ang keyboard, igalaw ang iyong daliri sa keyboard. Kapag narinig mo ang titik na gusto mong i-type, iangat ang daliri mo.</string>
-  <string name="wear_training_typing_text2">Para itago ang keyboard at masuri ang iyong input, mag-swipe pababa mula sa itaas ng screen mo gamit ang 2 daliri.</string>
-  <string name="wear_training_typing_text3">Para bumalik sa keyboard, mag-swipe pataas mula sa ibaba ng iyong screen gamit ang 2 daliri.</string>
-  <string name="wear_training_typing_text4">Para isara ang keyboard at ikansela ang pag-type, mag-swipe pakanan mula sa gilid ng iyong screen gamit ang 2 daliri.</string>
-  <string name="wear_training_typing_text5">Subukan ito sa ibaba.</string>
-  <string name="wear_training_typing_practice_button_content_description">Pagta-type gamit ang keyboard</string>
-  <string name="wear_training_end_tutorial_title">Handa ka nang gamitin ang SandFly</string>
   <string name="talkback_updated_notification_title">Na-update ang SandFly</string>
   <string name="talkback_updated_notification_content">I-tap para matuto pa</string>
   <string name="wear_new_feature_page_title">Welcome sa na-update na SandFly</string>

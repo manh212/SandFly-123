@@ -1188,26 +1188,6 @@ I ritardi inferiori a 0,3 secondi cambieranno il doppio tocco per attivare in to
   <string name="talkback_inactive_message_practice_gestures">Per esercitarti con i gesti, attiva prima TalkBack</string>
   <string name="talkback_inactive_message_image_description">Per provare a chiedere le descrizioni delle immagini, attiva prima TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Chiudi il tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quando la funzionalità TalkBack è attiva, l\'elemento con lo stato attivo sullo schermo viene pronunciato ad alta voce.\n\nSe scorri verso destra, passi all\'elemento successivo.\nSe scorri verso sinistra, passi all\'elemento precedente.\n\nOra scorri verso destra finché non trovi il pulsante Avanti.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Scorri verso l\'alto o verso il basso con %1$d dita</string>
-  <string name="wear_training_go_back_title">Indietro</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Se vuoi tornare indietro, usa %1$d dita per scorrere a destra dal bordo dello schermo</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Operazione riuscita</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gesto Indietro eseguito</string>
-  <string name="wear_training_volume_up_title">Alza il volume</string>
-  <string name="wear_training_volume_up_text">Scorri a destra e poi verso l\'alto</string>
-  <string name="wear_training_volume_down_title">Abbassa il volume</string>
-  <string name="wear_training_volume_down_text">Scorri a destra e poi verso il basso</string>
-  <string name="wear_training_open_talkback_menu_title">Apri il menu TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Per aprire le impostazioni e i controlli che potrebbero servirti spesso, scorri verso il basso e poi verso destra</string>
-  <string name="wear_training_typing_title">Digitazione</string>
-  <string name="wear_training_typing_text1">Per digitare con la tastiera, sposta il dito sulla tastiera. Quando senti il nome della lettera che vuoi digitare, solleva il dito.</string>
-  <string name="wear_training_typing_text2">Per nascondere la tastiera e controllare l\'input, scorri verso il basso con 2 dita dalla parte superiore dello schermo.</string>
-  <string name="wear_training_typing_text3">Per tornare alla tastiera, scorri verso l\'alto con 2 dita dalla parte inferiore dello schermo.</string>
-  <string name="wear_training_typing_text4">Per chiudere la tastiera e annullare la digitazione, scorri verso destra con 2 dita dal bordo sinistro dello schermo.</string>
-  <string name="wear_training_typing_text5">Prova qui sotto.</string>
-  <string name="wear_training_typing_practice_button_content_description">Digitazione con la tastiera</string>
-  <string name="wear_training_end_tutorial_title">Puoi iniziare a usare TalkBack</string>
   <string name="talkback_updated_notification_title">La funzionalità TalkBack è stata aggiornata</string>
   <string name="talkback_updated_notification_content">Tocca per saperne di più</string>
   <string name="wear_new_feature_page_title">Ti diamo il benvenuto nella versione aggiornata di TalkBack</string>

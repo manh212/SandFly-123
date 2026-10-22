@@ -1187,26 +1187,6 @@
   <string name="talkback_inactive_message_practice_gestures">如要練習使用手勢，請先開啟 TalkBack</string>
   <string name="talkback_inactive_message_image_description">如要嘗試取得圖片描述，請先開啟 TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">關閉教學課程</string>
-  <string name="wear_training_welcome_paragraph">啟用 TalkBack 後，系統會朗讀螢幕上的焦點項目。\n\n向右滑動即可將焦點移至下一個項目。\n向左滑動即可將焦點移至上一個項目。\n\n現在，請向右滑動並找出下一個按鈕。</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">用 %1$d 隻手指向上或向下滑動。</string>
-  <string name="wear_training_go_back_title">返回</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">如要返回，請用%1$d隻手指從螢幕邊緣向右滑動</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">成功</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">已作出返回手勢</string>
-  <string name="wear_training_volume_up_title">調高音量</string>
-  <string name="wear_training_volume_up_text">向右再向上滑動</string>
-  <string name="wear_training_volume_down_title">調低音量</string>
-  <string name="wear_training_volume_down_text">向右再向下滑動</string>
-  <string name="wear_training_open_talkback_menu_title">開啟 TalkBack 選單</string>
-  <string name="wear_training_open_talkback_menu_text">如要開啟可能時常使用的設定和控制項，請先向下再向右滑動</string>
-  <string name="wear_training_typing_title">輸入</string>
-  <string name="wear_training_typing_text1">如要使用鍵盤輸入，請在鍵盤上移動手指。聽到要輸入的字母後，請提起手指。</string>
-  <string name="wear_training_typing_text2">如要隱藏鍵盤和檢查輸入內容，請用 2 隻手指從螢幕頂部向下滑動。</string>
-  <string name="wear_training_typing_text3">如要返回鍵盤，請用 2 隻手指從螢幕底部向上滑動。</string>
-  <string name="wear_training_typing_text4">如要關閉鍵盤和取消輸入，請用 2 隻手指從螢幕左側邊緣向右滑動。</string>
-  <string name="wear_training_typing_text5">請在下方試用。</string>
-  <string name="wear_training_typing_practice_button_content_description">使用鍵盤輸入</string>
-  <string name="wear_training_end_tutorial_title">現可開始使用 TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack 已更新</string>
   <string name="talkback_updated_notification_content">輕按以瞭解詳情</string>
   <string name="wear_new_feature_page_title">歡迎使用更新版 TalkBack</string>

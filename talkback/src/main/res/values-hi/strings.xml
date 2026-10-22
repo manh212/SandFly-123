@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">हाथ के जेस्चर का इस्तेमाल करने के लिए, पहले SandFly को चालू करें</string>
   <string name="talkback_inactive_message_image_description">इमेज के बारे में जानकारी पाने के लिए, पहले SandFly की सुविधा को चालू करें</string>
   <string name="talkback_inactive_close_tutorial_button">ट्यूटोरियल बंद करें</string>
-  <string name="wear_training_welcome_paragraph">SandFly की सुविधा चालू होने पर स्क्रीन रीडर, डिवाइस की स्क्रीन पर फ़ोकस किए गए आइटम को ज़ोर से पढ़कर सुनाता है.\n\nदाईं ओर स्वाइप करने पर, फ़ोकस अगले आइटम पर चला जाता है. बाईं ओर स्वाइप करने पर, फ़ोकस पिछले आइटम पर चला जाता है.\n\n अभी दाईं ओर स्वाइप करें और तब तक जारी रखें, जब तक \'आगे बढ़ें\' बटन न सुनाई दे दे.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d उंगलियों से, ऊपर या नीचे की ओर स्वाइप करें.</string>
-  <string name="wear_training_go_back_title">वापस जाएं</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">पिछले पेज पर वापस जाने के लिए, %1$d उंगलियों का इस्तेमाल करके स्क्रीन के किनारे से दाईं ओर स्वाइप करें.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">कार्रवाई पूरी हुई</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">पिछले पेज पर वापस जाने के लिए, हाथ का जेस्चर इस्तेमाल किया गया</string>
-  <string name="wear_training_volume_up_title">आवाज़ बढ़ाएं</string>
-  <string name="wear_training_volume_up_text">पहले दाईं और फिर ऊपर की ओर स्वाइप करें</string>
-  <string name="wear_training_volume_down_title">आवाज़ कम करें</string>
-  <string name="wear_training_volume_down_text">पहले दाईं और फिर नीचे की ओर स्वाइप करें</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly मेन्यू खोलें</string>
-  <string name="wear_training_open_talkback_menu_text">आपको जिन सेटिंग और कंट्रोल की अक्सर ज़रूरत पड़ सकती है उन्हें खोलने के लिए, पहले नीचे और फिर दाईं ओर स्वाइप करें</string>
-  <string name="wear_training_typing_title">टाइपिंग</string>
-  <string name="wear_training_typing_text1">कीबोर्ड से टाइप करने के लिए, अपनी उंगली को कीबोर्ड पर एक से दूसरी जगह घुमाएं. आपको जो अक्षर टाइप करना है, उसे सुनते ही कीबोर्ड से उंगली हटा लें.</string>
-  <string name="wear_training_typing_text2">कीबोर्ड छिपाने और अपने इनपुट की जांच करने के लिए, स्क्रीन पर सबसे ऊपर से नीचे की ओर दो उंगलियों से स्वाइप करें.</string>
-  <string name="wear_training_typing_text3">कीबोर्ड पर वापस जाने के लिए, स्क्रीन पर दो उंगलियों से नीचे से ऊपर की ओर स्वाइप करें.</string>
-  <string name="wear_training_typing_text4">कीबोर्ड बंद करने और टाइपिंग रद्द करने के लिए, स्क्रीन के बाएं किनारे से दाईं ओर दो उंगलियों से स्वाइप करें.</string>
-  <string name="wear_training_typing_text5">इसे यहां आज़माएं.</string>
-  <string name="wear_training_typing_practice_button_content_description">कीबोर्ड से टाइप करना</string>
-  <string name="wear_training_end_tutorial_title">आप SandFly को इस्तेमाल करने के लिए तैयार हैं</string>
   <string name="talkback_updated_notification_title">SandFly अपडेट हो गया है</string>
   <string name="talkback_updated_notification_content">ज़्यादा जानने के लिए टैप करें</string>
   <string name="wear_new_feature_page_title">SandFly के नए वर्शन में आपका स्वागत है</string>

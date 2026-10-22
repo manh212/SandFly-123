@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ដើម្បីអនុវត្តចលនា សូមបើកមុខងារ TalkBack ជាមុនសិន</string>
   <string name="talkback_inactive_message_image_description">ដើម្បី​សាកល្បង​យក​ការពណ៌នា​រូបភាព សូមបើក TalkBack ជាមុនសិន</string>
   <string name="talkback_inactive_close_tutorial_button">បិទមេរៀន</string>
-  <string name="wear_training_welcome_paragraph">នៅពេលបើក TalkBack ធាតុដែលបានផ្ដោត​នៅលើអេក្រង់ត្រូវបានអានឮៗ។\n\nការអូសទៅស្តាំផ្លាស់ទីទៅធាតុបន្ទាប់។ ការអូសទៅឆ្វេងផ្លាស់ទីទៅធាតុមុន។\n\nអូសទៅស្ដាំឥឡូវនេះ រហូតទាល់តែអ្នករកឃើញប៊ូតុងបន្ទាប់។</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">អូសឡើងលើ ឬចុះក្រោមដោយប្រើម្រាមដៃ %1$d។</string>
-  <string name="wear_training_go_back_title">ថយ​ក្រោយ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">នៅពេលអ្នកចង់ថយក្រោយ សូមប្រើម្រាមដៃ %1$d ដើម្បីអូសទៅស្ដាំពីគែមអេក្រង់។</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ជោគជ័យ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">បានធ្វើចលនាថយក្រោយ</string>
-  <string name="wear_training_volume_up_title">បង្កើន​សំឡេង</string>
-  <string name="wear_training_volume_up_text">អូសទៅស្តាំ រួចឡើងលើ</string>
-  <string name="wear_training_volume_down_title">បន្ថយកម្រិតសំឡេង</string>
-  <string name="wear_training_volume_down_text">អូសទៅស្តាំ រួចចុះក្រោម</string>
-  <string name="wear_training_open_talkback_menu_title">បើកម៉ឺនុយ TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">ដើម្បីបើក​ការកំណត់ និងការគ្រប់គ្រងដែលអ្នក​អាចនឹងត្រូវការជាញឹកញាប់ សូមអូសចុះក្រោម រួចទៅស្ដាំ</string>
-  <string name="wear_training_typing_title">វាយបញ្ចូល</string>
-  <string name="wear_training_typing_text1">ដើម្បីវាយបញ្ចូលតាមក្ដារចុច សូមរំកិលម្រាមដៃរបស់អ្នកលើក្ដារចុច។ ពេលអ្នកឮអក្សរដែលអ្នកចង់វាយបញ្ចូល សូមដកម្រាមដៃរបស់អ្នកចេញ។</string>
-  <string name="wear_training_typing_text2">ដើម្បីលាក់ក្ដារចុច និងពិនិត្យមើលការបញ្ចូលរបស់អ្នក សូមអូសពីផ្នែកខាងលើនៃអេក្រង់របស់អ្នកចុះក្រោមដោយប្រើម្រាមដៃ 2។</string>
-  <string name="wear_training_typing_text3">ដើម្បីត្រឡប់ទៅក្ដារចុច សូមអូសពីផ្នែកខាងក្រោមនៃអេក្រង់របស់អ្នកឡើងលើដោយប្រើម្រាមដៃ 2។</string>
-  <string name="wear_training_typing_text4">ដើម្បីបិទក្ដារចុច និងបោះបង់ការវាយបញ្ចូល សូមអូសពីគែមខាងឆ្វេងនៃអេក្រង់របស់អ្នកទៅស្ដាំដោយប្រើម្រាមដៃ 2។</string>
-  <string name="wear_training_typing_text5">សាកល្បងនៅខាងក្រោម។</string>
-  <string name="wear_training_typing_practice_button_content_description">ការវាយបញ្ចូលដោយប្រើក្ដារចុច</string>
-  <string name="wear_training_end_tutorial_title">អ្នកអាចចាប់ផ្ដើមប្រើ TalkBack បានហើយ</string>
   <string name="talkback_updated_notification_title">TalkBack ត្រូវបាន​ដំឡើងកំណែ</string>
   <string name="talkback_updated_notification_content">ចុចដើម្បីស្វែងយល់បន្ថែម</string>
   <string name="wear_new_feature_page_title">សូមស្វាគមន៍មកកាន់ TalkBack ដែលបានដំឡើងកំណែ</string>

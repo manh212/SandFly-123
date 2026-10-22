@@ -1189,26 +1189,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏برای تمرین کردن اشاره‌ها، ابتدا SandFly را روشن کنید</string>
   <string name="talkback_inactive_message_image_description">‏برای دریافت شرح تصاویر، ابتدا SandFly را روشن کنید</string>
   <string name="talkback_inactive_close_tutorial_button">بستن آموزش گام‌به‌گام</string>
-  <string name="wear_training_welcome_paragraph">‏وقتی SandFly روشن باشد، موردی که در صفحه روی آن تمرکز شده است بلند خوانده می‌شود.\n\nبا تند کشیدن به‌راست به مورد بعدی می‌روید. با تند کشیدن به‌چپ به مورد قبلی می‌روید.\n\nاکنون چندبار تند به‌راست بکشید تا دکمه بعدی را ببینید.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">با %1$d انگشت تند به بالا یا پایین بکشید</string>
-  <string name="wear_training_go_back_title">برگشتن</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">وقتی می‌خواهید به عقب برگردید، با %1$d انگشت از لبه صفحه تند به راست بکشید.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">انجام شد</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">اشاره برگشت اجرا شد</string>
-  <string name="wear_training_volume_up_title">زیاد کردن صدا</string>
-  <string name="wear_training_volume_up_text">تند به راست سپس به بالا بکشید</string>
-  <string name="wear_training_volume_down_title">کاهش صدا</string>
-  <string name="wear_training_volume_down_text">تند به راست سپس به پایین بکشید</string>
-  <string name="wear_training_open_talkback_menu_title">‏باز کردن منو SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">برای باز کردن تنظیمات و کنترل‌هایی که اغلب به آن‌ها نیاز پیدا می‌کنید، تند به‌پایین و سپس به‌راست بکشید.</string>
-  <string name="wear_training_typing_title">درحال تایپ کردن</string>
-  <string name="wear_training_typing_text1">برای تایپ با صفحه‌ کلید، انگشت تان را روی صفحه‌کلید حرکت دهید. وقتی حرفی را شنیدید که می خواهید آن را تایپ کنید، انگشت خود را بردارید.</string>
-  <string name="wear_training_typing_text2">برای پنهان کردن صفحه‌کلید و بررسی ورودی‌ شما، از بالای صفحه‌نمایش با ۲ انگشت به پایین بکشید.</string>
-  <string name="wear_training_typing_text3">برای بازگشت به صفحه‌کلید، از پایین صفحه‌نمایش با ۲ انگشت به بالا بکشید.</string>
-  <string name="wear_training_typing_text4">برای بستن صفحه‌کلید و لغو تایپ کردن، از لبه چپ صفحه‌نمایش با ۲ انگشت به‌سمت راست بکشید.</string>
-  <string name="wear_training_typing_text5">در زیر آن را امتحان کنید</string>
-  <string name="wear_training_typing_practice_button_content_description">تایپ کردن با صفحه کلید</string>
-  <string name="wear_training_end_tutorial_title">‏حالا می‌توانید از SandFly استفاده کنید</string>
   <string name="talkback_updated_notification_title">‏SandFly به‌روزرسانی شده است</string>
   <string name="talkback_updated_notification_content">برای اطلاعات بیشتر، تک‌ضرب بزنید</string>
   <string name="wear_new_feature_page_title">‏به نسخه به‌روزشده SandFly خوش آمدید</string>

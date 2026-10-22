@@ -1188,26 +1188,6 @@ Wybranie opóźnienia poniżej 0,3 sekundy spowoduje zmianę sposobu aktywowani
   <string name="talkback_inactive_message_practice_gestures">Aby przećwiczyć gesty, najpierw włącz SandFly</string>
   <string name="talkback_inactive_message_image_description">Aby spróbować uzyskać opisy obrazów, włącz SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Zamknij samouczek</string>
-  <string name="wear_training_welcome_paragraph">Kiedy SandFly jest włączony, zaznaczony element na ekranie jest odczytywany na głos.\n\nPrzesunięcie palcem w prawo powoduje przejście do kolejnego elementu. Przesunięcie w lewo powoduje przejście do poprzedniego elementu.\n\nPrzesuń teraz palcem w prawo do przycisku Dalej.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Przesuń %1$d palcami w górę lub w dół.</string>
-  <string name="wear_training_go_back_title">Wróć</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Aby przejść wstecz, przesuń %1$d palcami w prawo od krawędzi ekranu.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Udało się</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Wykonano gest wstecz</string>
-  <string name="wear_training_volume_up_title">Zwiększanie głośności</string>
-  <string name="wear_training_volume_up_text">Przesuń w prawo, a potem w górę</string>
-  <string name="wear_training_volume_down_title">Zmniejszanie głośności</string>
-  <string name="wear_training_volume_down_text">Przesuń w prawo, a potem w dół</string>
-  <string name="wear_training_open_talkback_menu_title">Otwieranie menu SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Aby otworzyć ustawienia i elementy sterujące, których często używasz, przesuń palcem w dół, a potem w prawo</string>
-  <string name="wear_training_typing_title">Pisanie</string>
-  <string name="wear_training_typing_text1">Aby pisać za pomocą klawiatury, przesuwaj po niej palcem. Gdy usłyszysz literę, którą chcesz wpisać, podnieś palec.</string>
-  <string name="wear_training_typing_text2">Aby ukryć klawiaturę i sprawdzić wpisany tekst, przesuń 2 palcami z góry ekranu w dół.</string>
-  <string name="wear_training_typing_text3">Aby wrócić do klawiatury, przesuń 2 palcami z dołu ekranu w górę.</string>
-  <string name="wear_training_typing_text4">Aby zamknąć klawiaturę i anulować pisanie, przesuń 2 palcami od lewej krawędzi ekranu w prawo.</string>
-  <string name="wear_training_typing_text5">Spróbuj to zrobić poniżej.</string>
-  <string name="wear_training_typing_practice_button_content_description">Pisanie za pomocą klawiatury</string>
-  <string name="wear_training_end_tutorial_title">Możesz już zacząć korzystać z SandFly</string>
   <string name="talkback_updated_notification_title">SandFly został zaktualizowany</string>
   <string name="talkback_updated_notification_content">Dotknij, by dowiedzieć się więcej</string>
   <string name="wear_new_feature_page_title">Witamy w nowej wersji SandFly</string>

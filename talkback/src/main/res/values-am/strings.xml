@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ምልክቶችን ለመለማመድ በመጀመሪያ SandFly ያብሩ</string>
   <string name="talkback_inactive_message_image_description">የምስል መግለጫዎችን ለማግኘት ለመሞከር መጀመሪያ SandFly ያብሩ</string>
   <string name="talkback_inactive_close_tutorial_button">አጋዥ ሥልጠናን ዝጋ</string>
-  <string name="wear_training_welcome_paragraph">SandFly በሚበራበት ጊዜ በማያ ገጹ ላይ ትኩረት የተደረገበት ንጥል ጮክ ብሎ ይነገራል።\n\nወደ ቀኝ ማንሸራተት ወደ ቀጣዩ ንጥል ይወስዳል። ወደ ግራ ማንሸራተት ወደ ቀዳሚው ንጥል ይወስዳል።\n\nአሁን ቀጣዩን አዝራር እስኪያገኙ ድረስ ወደ ቀኝ ያንሸራትቱ።</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">በ%1$d ጣቶች ወደ ላይ ወይም ወደ ታች ያንሸራትቱ።</string>
-  <string name="wear_training_go_back_title">ወደ ኋላ መመለስ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ወደ ኋላ መመለስ ሲፈልጉ ከማያ ገፁ ጠርዝ ወደ ቀኝ ለማንሸራተት %1$d ጣቶችን ይጠቀሙ።</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ተሳክቷል</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">የመመለሻ ምልክት ተከናውኗል</string>
-  <string name="wear_training_volume_up_title">ድምፅ ከፍ ማድረግ</string>
-  <string name="wear_training_volume_up_text">ወደ ቀኝ እና ከዚያ ወደ ላይ ያንሸራትቱ</string>
-  <string name="wear_training_volume_down_title">ድምፅ ዝቅ ማድረግ</string>
-  <string name="wear_training_volume_down_text">ወደ ቀኝ እና ከዚያ ወደ ታች ያንሸራትቱ</string>
-  <string name="wear_training_open_talkback_menu_title">የSandFly ምናሌን መክፈት</string>
-  <string name="wear_training_open_talkback_menu_text">ቅንብሮች እና መቆጣጠሪያዎችን ለመክፈት አብዛኛውን ጊዜ ወደታች እና በመቀጠል ወደ ቀኝ ማሸብለል ይኖርብዎታል</string>
-  <string name="wear_training_typing_title">በመተየብ ላይ</string>
-  <string name="wear_training_typing_text1">በቁልፍ ሰሌዳ ለመተየብ ጣትዎን በቁልፍ ሰሌዳው ላይ ያንቀሳቅሱ። መተየብ የሚፈልጉትን ፊደል ሲሰሙ ጣትዎን ያንሱ።</string>
-  <string name="wear_training_typing_text2">ቁልፍ ሰሌዳውን ለመደበቅ እና ግቤትዎን ለመፈተሽ በ2 ጣቶች ከማያ ገጽዎ አናት ወደ ታች ያንሸራትቱ።</string>
-  <string name="wear_training_typing_text3">ወደ የቁልፍ ሰሌዳ ለመመለስ በ2 ጣቶች ከማያ ገጽዎ ስር ወደ ላይ ያንሸራትቱ።</string>
-  <string name="wear_training_typing_text4">ቁልፍ ሰሌዳውን ለመዝጋት እና ትየባን ለመሰረዝ በ2 ጣቶች ከማያ ገጽዎ ግራ ጥግ ላይ ወደ ቀኝ ያንሸራትቱ።</string>
-  <string name="wear_training_typing_text5">ከታች ይሞክሩት።</string>
-  <string name="wear_training_typing_practice_button_content_description">በቁልፍ ሰሌዳ መተየብ</string>
-  <string name="wear_training_end_tutorial_title">SandFlyን መጠቀም ለመጀምር ዝግጁ ነዎት</string>
   <string name="talkback_updated_notification_title">SandFly ተዘምኗል</string>
   <string name="talkback_updated_notification_content">ተጨማሪ ለማወቅ መታ ያድርጉ</string>
   <string name="wear_new_feature_page_title">እንኳን ወደ የተሻሻለው SandFly በደህና መጡ</string>

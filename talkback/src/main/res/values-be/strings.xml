@@ -1186,26 +1186,6 @@
   <string name="talkback_inactive_message_practice_gestures">Каб папрактыкавацца ў жэстах, спачатку ўключыце SandFly</string>
   <string name="talkback_inactive_message_image_description">Каб паспрабаваць функцыю апісання відарысаў, неабходна ўключыць SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Закрыць дапаможнік</string>
-  <string name="wear_training_welcome_paragraph">Калі функцыя SandFly уключана, выбраны на экране элемент агучваецца.\n\nКаб перайсці да наступнага элемента, правядзіце пальцам управа. Каб вярнуцца да папярэдняга элемента, правядзіце пальцам улева.\n\nЦяпер правядзіце пальцам управа, пакуль не пяройдзеце да наступнай кнопкі.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Правядзіце %1$d пальцамі ўверх ці ўніз.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Калі вы хочаце вярнуцца назад, правядзіце %1$d пальцамі ўправа ад краю экрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Гатова</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Выкананы жэст \"Назад\"</string>
-  <string name="wear_training_volume_up_title">Павелічэнне гучнасці</string>
-  <string name="wear_training_volume_up_text">Правядзіце пальцам управа, а потым – уверх.</string>
-  <string name="wear_training_volume_down_title">Памяншэнне гучнасці</string>
-  <string name="wear_training_volume_down_text">Правядзіце пальцам управа, а потым – уніз.</string>
-  <string name="wear_training_open_talkback_menu_title">Як адкрыць меню SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Каб адкрыць асноўныя налады і элементы кіравання, правядзіце ўніз, а потым управа</string>
-  <string name="wear_training_typing_title">Увод тэксту</string>
-  <string name="wear_training_typing_text1">Каб увесці тэкст з клавіятуры, правядзіце па ёй пальцам. Калі вы пачуеце літару, якую трэба ўвесці, падніміце палец.</string>
-  <string name="wear_training_typing_text2">Каб схаваць клавіятуру і праверыць уведзены тэкст, правядзіце двума пальцамі па экране зверху ўніз.</string>
-  <string name="wear_training_typing_text3">Каб зноў адкрыць клавіятуру, правядзіце двума пальцамі па экране знізу ўверх.</string>
-  <string name="wear_training_typing_text4">Каб закрыць клавіятуру і скасаваць увод, правядзіце двума пальцамі па экране злева направа.</string>
-  <string name="wear_training_typing_text5">Паспрабуйце ніжэй.</string>
-  <string name="wear_training_typing_practice_button_content_description">Увод тэксту з дапамогай клавіятуры</string>
-  <string name="wear_training_end_tutorial_title">Цяпер вы можаце выкарыстоўваць SandFly</string>
   <string name="talkback_updated_notification_title">Функцыя SandFly абноўлена</string>
   <string name="talkback_updated_notification_content">Націсніце, каб даведацца больш</string>
   <string name="wear_new_feature_page_title">Прадстаўляем абноўленую функцыю SandFly</string>

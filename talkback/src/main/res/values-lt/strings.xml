@@ -1188,26 +1188,6 @@ Jei delsa bus mažesnė nei 0,3 sek., dvigubas suaktyvinimo palietimas bus pakei
   <string name="talkback_inactive_message_practice_gestures">Jei norite pasipraktikuoti naudoti gestus, pirmiausia įjunkite „TalkBack“</string>
   <string name="talkback_inactive_message_image_description">Jei norite pabandyti gauti vaizdų aprašus, pirmiausia įjunkite „TalkBack“</string>
   <string name="talkback_inactive_close_tutorial_button">Uždaryti mokomąją medžiagą</string>
-  <string name="wear_training_welcome_paragraph">Kai „TalkBack“ įjungta, paryškintas elementas ekrane ištariamas garsiai.\n\nPerbraukę dešinėn pereisite prie kito elemento. Perbraukę kairėn pereisite prie ankstesnio elemento.\n\nPerbraukite dešinėn dabar, kad surastumėte kitą mygtuką.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Perbraukite aukštyn arba žemyn %1$d pirštais.</string>
-  <string name="wear_training_go_back_title">Grįžimas</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kai norėsite grįžti atgal, %1$d pirštais perbraukite dešinėn iš ekrano krašto.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Pavyko</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Atliktas geriausias gestas</string>
-  <string name="wear_training_volume_up_title">Garsumo padidinimas</string>
-  <string name="wear_training_volume_up_text">Perbraukite dešinėn, tada aukštyn</string>
-  <string name="wear_training_volume_down_title">Garsumo sumažinimas</string>
-  <string name="wear_training_volume_down_text">Perbraukite dešinėn, tada žemyn</string>
-  <string name="wear_training_open_talkback_menu_title">„TalkBack“ meniu atidarymas</string>
-  <string name="wear_training_open_talkback_menu_text">Kad atidarytumėte nustatymus ir valdiklius, kurių gali dažnai prireikti, slinkite žemyn ir į dešinę</string>
-  <string name="wear_training_typing_title">Vedamas tekstas</string>
-  <string name="wear_training_typing_text1">Jei norite vesti tekstą klaviatūra, veskite pirštu per klaviatūrą. Kai išgirsite norimą įvesti raidę, pakelkite pirštą.</string>
-  <string name="wear_training_typing_text2">Jei norite paslėpti klaviatūrą ir patikrinti įvestį, perbraukite žemyn nuo ekrano viršaus dviem pirštais.</string>
-  <string name="wear_training_typing_text3">Jei norite grįžti į klaviatūrą, dviem pirštais perbraukite aukštyn iš ekrano apačios.</string>
-  <string name="wear_training_typing_text4">Jei norite uždaryti klaviatūrą ir atšaukti teksto vedimą, dviem pirštais perbraukite dešinėn nuo kairiojo ekrano krašto.</string>
-  <string name="wear_training_typing_text5">Išbandykite toliau.</string>
-  <string name="wear_training_typing_practice_button_content_description">Teksto vedimas klaviatūra</string>
-  <string name="wear_training_end_tutorial_title">Esate pasirengę pradėti naudoti „TalkBack“</string>
   <string name="talkback_updated_notification_title">„TalkBack“ buvo atnaujinta</string>
   <string name="talkback_updated_notification_content">Palieskite, kad sužinotumėte daugiau</string>
   <string name="wear_new_feature_page_title">Sveiki! Tai – atnaujinta „TalkBack“</string>

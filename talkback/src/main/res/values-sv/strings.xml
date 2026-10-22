@@ -1188,26 +1188,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="talkback_inactive_message_practice_gestures">Aktivera TalkBack om du vill öva på rörelser</string>
   <string name="talkback_inactive_message_image_description">Aktivera TalkBack om du vill testa att få bildbeskrivningar</string>
   <string name="talkback_inactive_close_tutorial_button">Avsluta guide</string>
-  <string name="wear_training_welcome_paragraph">När TalkBack är aktiverat blir det som är i fokus på skärmen uppläst.\n\nGå vidare till nästa objekt genom att svepa åt höger. Svep åt vänster och du går du tillbaka till föregående objekt.\n\nSvep åt höger nu för att hitta nästa knapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Svep uppåt eller nedåt med %1$d fingrar.</string>
-  <string name="wear_training_go_back_title">Tillbaka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Svep åt höger från kanten av skärmen med %1$d fingrar när du vill gå tillbaka.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Klart</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bakåtrörelsen utfördes</string>
-  <string name="wear_training_volume_up_title">Höj volymen</string>
-  <string name="wear_training_volume_up_text">Svep höger och sedan uppåt</string>
-  <string name="wear_training_volume_down_title">Sänk volymen</string>
-  <string name="wear_training_volume_down_text">Svep vänster och sedan nedåt</string>
-  <string name="wear_training_open_talkback_menu_title">Öppna TalkBack-menyn</string>
-  <string name="wear_training_open_talkback_menu_text">Svep nedåt och sedan åt höger för att öppna inställningar och kontroller som du använder ofta.</string>
-  <string name="wear_training_typing_title">Skriver</string>
-  <string name="wear_training_typing_text1">Dra med fingret på tangentbordet för att skriva på det. Lyft på fingret när du hör den bokstav som du vill skriva.</string>
-  <string name="wear_training_typing_text2">Svep nedåt från skärmens överkant med två fingrar för att dölja tangentbordet och kontrollera det du har matat in.</string>
-  <string name="wear_training_typing_text3">Svep uppåt från skärmens nederkant med två fingrar för att återgå till tangentbordet.</string>
-  <string name="wear_training_typing_text4">Svep åt höger från skärmens vänstra kant med två fingrar för att stänga tangentbordet och avbryta inmatningen.</string>
-  <string name="wear_training_typing_text5">Testa nedan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Skriva med tangentbordet</string>
-  <string name="wear_training_end_tutorial_title">Du kan börja använda TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack har uppdaterats</string>
   <string name="talkback_updated_notification_content">Tryck här för mer information</string>
   <string name="wear_new_feature_page_title">Välkommen till den nya versionen av TalkBack</string>

@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Чтобы попробовать жесты, включите SandFly.</string>
   <string name="talkback_inactive_message_image_description">Чтобы попробовать автоматическое озвучивание изображений, включите SandFly.</string>
   <string name="talkback_inactive_close_tutorial_button">Закрыть руководство</string>
-  <string name="wear_training_welcome_paragraph">Если функция SandFly включена, она озвучивает выделенный элемент интерфейса.\n\nЧтобы перейти к следующему элементу, проведите по экрану вправо. Чтобы вернуться к предыдущему – влево.\n\nСейчас проводите вправо, пока не найдёте кнопку \"Далее\".</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Проведите по экрану %1$d пальцами вверх или вниз.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Чтобы вернуться, проведите %1$d пальцами вправо от края экрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Готово</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Использован жест \"Назад\".</string>
-  <string name="wear_training_volume_up_title">Увеличение громкости</string>
-  <string name="wear_training_volume_up_text">Проведите вправо, затем вверх.</string>
-  <string name="wear_training_volume_down_title">Уменьшение громкости</string>
-  <string name="wear_training_volume_down_text">Проведите вправо, затем вниз.</string>
-  <string name="wear_training_open_talkback_menu_title">Открыть меню SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Чтобы открыть часто используемые настройки и элементы управления, проведите вниз, а затем вправо.</string>
-  <string name="wear_training_typing_title">Ввод текста</string>
-  <string name="wear_training_typing_text1">Чтобы ввести текст с помощью клавиатуры, перемещайте палец по ней. Когда вы услышите нужную букву, отпустите палец.</string>
-  <string name="wear_training_typing_text2">Чтобы скрыть клавиатуру и проверить ввод, проведите двумя пальцами вниз от верхнего края экрана.</string>
-  <string name="wear_training_typing_text3">Чтобы вернуться к клавиатуре, проведите двумя пальцами вверх от нижнего края экрана.</string>
-  <string name="wear_training_typing_text4">Чтобы закрыть клавиатуру и отменить ввод, проведите двумя пальцами вправо от левого края экрана.</string>
-  <string name="wear_training_typing_text5">Попробуйте ниже.</string>
-  <string name="wear_training_typing_practice_button_content_description">Ввод текста с помощью клавиатуры</string>
-  <string name="wear_training_end_tutorial_title">Вы готовы начать пользоваться SandFly</string>
   <string name="talkback_updated_notification_title">Программа SandFly обновлена</string>
   <string name="talkback_updated_notification_content">Нажмите, чтобы узнать больше.</string>
   <string name="wear_new_feature_page_title">Функция SandFly обновлена</string>

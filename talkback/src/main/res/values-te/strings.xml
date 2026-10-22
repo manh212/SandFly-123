@@ -1179,26 +1179,6 @@
   <string name="talkback_inactive_message_practice_gestures">సంజ్ఞలను ప్రాక్టీస్ చేయడానికి, ముందుగా TalkBackను ఆన్ చేయండి</string>
   <string name="talkback_inactive_message_image_description">ఇమేజ్ వివరణలను పొందేందుకు ట్రై చేయడానికి, ముందుగా TalkBackను ఆన్ చేయండి</string>
   <string name="talkback_inactive_close_tutorial_button">ట్యుటోరియల్‌ను మూసివేయండి</string>
-  <string name="wear_training_welcome_paragraph">TalkBack ఆన్‌లో ఉన్నప్పుడు, స్క్రీన్ మీద ఉన్న ఫోకస్ చేసిన ఐటెమ్‌ను బయటకు చదివి వినిపిస్తుంది.\n\nకుడి వైపునకు స్వైప్ చేస్తే తర్వాతి ఐటెమ్‌కు వెళ్తుంది. ఎడమ వైపునకు స్వైప్ చేస్తే మునుపటి ఐటెమ్‌కు వెళ్తుంది.\n\nతర్వాతి బటన్‌ను కనుగొనడానికి కుడి వైపునకు స్వైప్ చేయండి.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d వేళ్లతో పైకి లేదా కిందికి స్వైప్ చేయండి.</string>
-  <string name="wear_training_go_back_title">వెనుకకు వెళ్లండి</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">మీరు వెనుకకు వెళ్లాలనుకున్నప్పుడు, %1$d వేళ్లను ఉపయోగించి స్క్రీన్ అంచు నుండి కుడి వైపునకు స్వైప్ చేయండి.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">విజయవంతమైంది</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">మునుపటి పేజీకి తిరిగి వెళ్లడానికి సంజ్ఞ ఉపయోగించబడింది</string>
-  <string name="wear_training_volume_up_title">వాల్యూమ్‌ను పెంచండి</string>
-  <string name="wear_training_volume_up_text">కుడి వైపునకు ఆపై, పైకి స్వైప్ చేయండి</string>
-  <string name="wear_training_volume_down_title">వాల్యూమ్‌ను తగ్గించండి</string>
-  <string name="wear_training_volume_down_text">కుడి వైపునకు ఆపై, కిందికి స్వైప్ చేయండి</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack మెనూను తెరవండి</string>
-  <string name="wear_training_open_talkback_menu_text">మీకు తరచుగా అవసరమయ్యే సెట్టింగ్‌లను, కంట్రోల్స్‌ను తెరవడానికి, కిందికి ఆపై కుడి వైపునకు స్వైప్ చేయండి</string>
-  <string name="wear_training_typing_title">టైపింగ్</string>
-  <string name="wear_training_typing_text1">కీబోర్డ్‌తో టైప్ చేయడానికి, మీ వేలిని కీబోర్డ్ మీద ఉంచండి. మీరు టైప్ చేయాలనుకున్న అక్షరం వినిపించగానే, మీ వేలిని పైకి లేపండి.</string>
-  <string name="wear_training_typing_text2">కీబోర్డ్‌ను దాచడానికి, మీ ఇన్‌పుట్‌ను చెక్ చేయడానికి, మీ స్క్రీన్ పై నుండి 2 వేళ్లతో కిందికి స్వైప్ చేయండి.</string>
-  <string name="wear_training_typing_text3">కీబోర్డ్‌కు తిరిగి రావడానికి, మీ స్క్రీన్ కింది నుండి 2 వేళ్లతో పైకి స్వైప్ చేయండి.</string>
-  <string name="wear_training_typing_text4">కీబోర్డ్‌ను మూసివేసి టైప్ చేయడాన్ని రద్దు చేయడానికి, మీ స్క్రీన్ ఎడమ అంచు నుండి 2 వేళ్లతో కుడి వైపునకు స్వైప్ చేయండి.</string>
-  <string name="wear_training_typing_text5">కింది విధంగా ట్రై చేయండి.</string>
-  <string name="wear_training_typing_practice_button_content_description">కీబోర్డ్‌తో టైపింగ్</string>
-  <string name="wear_training_end_tutorial_title">మీరు TalkBackను ఉపయోగించడం ప్రారంభించడానికి సిద్ధంగా ఉన్నారు</string>
   <string name="talkback_updated_notification_title">TalkBack అప్‌డేట్ చేయబడింది</string>
   <string name="talkback_updated_notification_content">మరిన్ని కనుగొనడానికి ట్యాప్ చేయండి</string>
   <string name="wear_new_feature_page_title">అప్‌డేట్ అయిన TalkBackకు స్వాగతం</string>

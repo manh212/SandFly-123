@@ -1188,26 +1188,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="talkback_inactive_message_practice_gestures">Keinuak praktikatzeko, aktibatu SandFly</string>
   <string name="talkback_inactive_message_image_description">Irudien azalpenak eskuratzen saiatzeko, aktibatu SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Itxi tutoriala</string>
-  <string name="wear_training_welcome_paragraph">SandFly aktibatuta dagoenean, pantailan fokuratutako elementua ozen irakurtzen da.\n\nHatza eskuinera pasatuz gero, hurrengo elementura joango zara. Hatza ezkerrera pasatuz gero, berriz, aurreko elementura joango zara.\n\nPasatu hatza eskuinera hurrengo botoia aurkitu arte.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Pasatu %1$d hatz gora edo behera.</string>
-  <string name="wear_training_go_back_title">Atzera egin</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Atzera egin nahi duzunean, pasatu %1$d hatz eskuinera pantailaren ertzetik.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sinatu duzu</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gauzatu duzu atzera egiteko keinua</string>
-  <string name="wear_training_volume_up_title">Bolumena igo</string>
-  <string name="wear_training_volume_up_text">Pasatu hatza eskuinera eta, gero, gora</string>
-  <string name="wear_training_volume_down_title">Bolumena jaitsi</string>
-  <string name="wear_training_volume_down_text">Pasatu hatza eskuinera eta, gero, behera</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-en menua ireki</string>
-  <string name="wear_training_open_talkback_menu_text">Agian maiz beharko dituzun ezarpenak eta kontrolatzeko aukerak irekitzeko, pasatu hatza behera eta, gero, eskuinera</string>
-  <string name="wear_training_typing_title">Idaztea</string>
-  <string name="wear_training_typing_text1">Teklatuarekin idazteko, mugitu hatza teklatuan. Idatzi nahi duzun hizkia entzuten duzunean, jaso hatza.</string>
-  <string name="wear_training_typing_text2">Teklatua ezkutatu eta idatzitakoa egiaztatzeko, pasatu 2 hatz beherantz pantailaren goialdetik.</string>
-  <string name="wear_training_typing_text3">Teklatura itzultzeko, pasatu 2 hatz gorantz pantailaren behealdetik.</string>
-  <string name="wear_training_typing_text4">Teklatua itxi eta idazteari uzteko, pasatu 2 hatz eskuinerantz pantailaren ezkerreko ertzetik.</string>
-  <string name="wear_training_typing_text5">Probatu behean.</string>
-  <string name="wear_training_typing_practice_button_content_description">Teklatuarekin idaztea</string>
-  <string name="wear_training_end_tutorial_title">SandFly erabiltzen hasteko prest zaude</string>
   <string name="talkback_updated_notification_title">Eguneratu egin da SandFly</string>
   <string name="talkback_updated_notification_content">Sakatu hau informazio gehiago lortzeko</string>
   <string name="wear_new_feature_page_title">Ongi etorri SandFly-en bertsio eguneratura</string>

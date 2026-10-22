@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Қимылдарды үйрену үшін алдымен TalkBack-ті қосыңыз.</string>
   <string name="talkback_inactive_message_image_description">Сурет сипаттамаларын алып көру үшін алдымен TalkBack-ті қосыңыз.</string>
   <string name="talkback_inactive_close_tutorial_button">Оқулықты жабу</string>
-  <string name="wear_training_welcome_paragraph">TalkBack қосулы болғанда, экрандағы ерекшеленген элемент дауыстап айтылады.\n\nКелесі элементке өту үшін оңға сырғытыңыз. Алдыңғы элементке өту үшін солға сырғытыңыз.\n\nКелесі түймені табу үшін оңға сырғытыңыз.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d саусақпен жоғары немесе төмен сырғытыңыз.</string>
-  <string name="wear_training_go_back_title">Артқа</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Артқа өткіңіз келсе, экранның жиегінен %1$d екі саусақпен оңға сырғытыңыз.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Орындалды</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Артқа қайту қимылы жасалды.</string>
-  <string name="wear_training_volume_up_title">Дыбыс деңгейін көтеру</string>
-  <string name="wear_training_volume_up_text">Оңға, содан кейін жоғары сырғытыңыз.</string>
-  <string name="wear_training_volume_down_title">Дыбыс деңгейін төмендету</string>
-  <string name="wear_training_volume_down_text">Оңға, содан кейін төмен сырғытыңыз.</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack мәзірін ашу</string>
-  <string name="wear_training_open_talkback_menu_text">Сізге көбірек керек болуы мүмкін параметрлер мен басқару элементтерін ашу үшін алдымен төменге, сосын оңға сырғытыңыз.</string>
-  <string name="wear_training_typing_title">Теру</string>
-  <string name="wear_training_typing_text1">Пернетақтамен теру үшін саусағыңызды пернетақта бойымен жүргізіңіз. Тергіңіз келген әріпті естіген кезде, саусағыңызды көтеріңіз.</string>
-  <string name="wear_training_typing_text2">Пернетақтаны жасырып, енгізілген нәрсені тексеру үшін экранның жоғарғы жағынан 2 саусақпен төмен сырғытыңыз.</string>
-  <string name="wear_training_typing_text3">Пернетақтаға оралу үшін экранның төменгі жағынан 2 саусақпен жоғары сырғытыңыз.</string>
-  <string name="wear_training_typing_text4">Пернетақтаны жауып, теруден бас тарту үшін экранның сол жақ шетінен 2 саусақпен оңға қарай сырғытыңыз.</string>
-  <string name="wear_training_typing_text5">Төменде пайдаланып көріңіз.</string>
-  <string name="wear_training_typing_practice_button_content_description">Пернетақтамен теру</string>
-  <string name="wear_training_end_tutorial_title">Сіз TalkBack функциясын пайдалануға дайынсыз</string>
   <string name="talkback_updated_notification_title">TalkBack жаңартылды</string>
   <string name="talkback_updated_notification_content">Толық ақпарат алу үшін түртіңіз.</string>
   <string name="wear_new_feature_page_title">TalkBack функциясының жаңа нұсқасына қош келдіңіз</string>

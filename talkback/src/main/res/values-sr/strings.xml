@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Да бисте вежбали покрете, прво укључите TalkBack</string>
   <string name="talkback_inactive_message_image_description">Да бисте покушали да добијете описе слика, прво укључите TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Затвори водич</string>
-  <string name="wear_training_welcome_paragraph">Када је TalkBack укључен, фокусурана ставка на екрану се изговара наглас.\n\nПревлачењем удесно прелазите на следећу ставку.\nПревлачењем улево прелазите на претходну ставку.\n\nПревлачите удесно док не пронађете следеће дугме.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Превлачите нагоре или надоле помоћу %1$d прста.</string>
-  <string name="wear_training_go_back_title">Идите назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Када желите да се вратите, користите %1$d прста да бисте превлачили удесно са ивице екрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Успешно</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Обављен је покрет за назад</string>
-  <string name="wear_training_volume_up_title">Појачајте звук</string>
-  <string name="wear_training_volume_up_text">Превуците удесно, па нагоре</string>
-  <string name="wear_training_volume_down_title">Смањите звук</string>
-  <string name="wear_training_volume_down_text">Превуците удесно, па надоле</string>
-  <string name="wear_training_open_talkback_menu_title">Отворите TalkBack мени</string>
-  <string name="wear_training_open_talkback_menu_text">Да бисте отворили подешавања и контроле који су вам често потребни, превуците надоле, па удесно</string>
-  <string name="wear_training_typing_title">Унос текста</string>
-  <string name="wear_training_typing_text1">Да бисте куцали помоћу тастатуре, померајте прст по њој. Када чујете слово које желите да унесете, подигните прст.</string>
-  <string name="wear_training_typing_text2">Да бисте сакрили тастатуру и проверили унос, превуците надоле од врха екрана помоћу 2 прста.</string>
-  <string name="wear_training_typing_text3">Да бисте се вратили на тастатуру, превуците нагоре од дна екрана помоћу 2 прста.</string>
-  <string name="wear_training_typing_text4">Да бисте затворили тастатуру и отказали унос текста, превуците надесно од леве ивице екрана помоћу 2 прста.</string>
-  <string name="wear_training_typing_text5">Испробајте испод.</string>
-  <string name="wear_training_typing_practice_button_content_description">Унос текста помоћу тастатуре</string>
-  <string name="wear_training_end_tutorial_title">Спремни сте да почнете да користите TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack је ажуриран</string>
   <string name="talkback_updated_notification_content">Додирните да бисте сазнали више</string>
   <string name="wear_new_feature_page_title">Добро дошли у ажурирани TalkBack</string>

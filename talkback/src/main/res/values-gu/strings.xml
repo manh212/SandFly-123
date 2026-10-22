@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">સંકેતોનો અભ્યાસ કરવા માટે, પહેલા TalkBack ચાલુ કરો</string>
   <string name="talkback_inactive_message_image_description">છબીના વર્ણનો મેળવવાનો પ્રયાસ કરવા માટે, પહેલા TalkBack ચાલુ કરો</string>
   <string name="talkback_inactive_close_tutorial_button">ટ્યૂટૉરિઅલ બંધ કરો</string>
-  <string name="wear_training_welcome_paragraph">જ્યારે TalkBack ચાલુ હોય, ત્યારે સ્ક્રીન પરની ફોકસ કરેલી આઇટમ મોટેથી બોલવામાં આવે છે.\n\nજમણે સ્વાઇપ કરવાથી આગલી આઇટમ પર જઈ શકાય છે. ડાબે સ્વાઇપ કરવાથી પાછલી આઇટમ પર જઈ શકાય છે.\n\nહવે \'આગળ\' બટન ન દેખાય ત્યાં સુધી જમણે સ્વાઇપ કરો.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d આંગળી વડે ઉપર કે નીચેની તરફ સ્વાઇપ કરો.</string>
-  <string name="wear_training_go_back_title">પાછા જાઓ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">જ્યારે તમે પાછા જવા માગતા હો, ત્યારે સ્ક્રીનની કિનારી પરથી જમણે સ્વાઇપ કરવા માટે %1$d આંગળીઓનો ઉપયોગ કરો.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">સફળ થયા</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">પાછળ જવાના સંકેતનો ઉપયોગ કરવામાં આવ્યો</string>
-  <string name="wear_training_volume_up_title">વૉલ્યૂમ વધારો</string>
-  <string name="wear_training_volume_up_text">જમણે અને પછી ઉપર સ્વાઇપ કરો</string>
-  <string name="wear_training_volume_down_title">વૉલ્યૂમ ઘટાડો</string>
-  <string name="wear_training_volume_down_text">જમણે અને પછી નીચે સ્વાઇપ કરો</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack મેનૂ ખોલો</string>
-  <string name="wear_training_open_talkback_menu_text">તમને વારંવાર જરૂરી હોઈ શકે તેવા સેટિંગ અને નિયંત્રણો ખોલવા માટે, પહેલાં નીચેની તરફ અને પછી જમણે સ્વાઇપ કરો</string>
-  <string name="wear_training_typing_title">ટાઇપિંગ</string>
-  <string name="wear_training_typing_text1">કીબોર્ડ વડે ટાઇપ કરવા માટે, તમારી આંગળીને સમગ્ર કીબોર્ડ પર ફેરવો. તમે ટાઇપ કરવા માગતા હો તે અક્ષર તમને સંભળાય, ત્યારે તમારી આંગળી ઉઠાવી લો.</string>
-  <string name="wear_training_typing_text2">કીબોર્ડ છુપાવવા અને તમારા ઇનપુટ ચેક કરવા માટે, 2 આંગળી વડે તમારી સ્ક્રીનની સૌથી ઉપરથી નીચે તરફ સ્વાઇપ કરો.</string>
-  <string name="wear_training_typing_text3">કીબોર્ડ પર પાછા ફરવા માટે, 2 આંગળી વડે તમારી સ્ક્રીનની સૌથી નીચેથી ઉપર તરફ સ્વાઇપ કરો.</string>
-  <string name="wear_training_typing_text4">કીબોર્ડ બંધ કરવા અને ટાઇપ કરવાનું રદ કરવા માટે, 2 આંગળી વડે તમારી સ્ક્રીનની ડાબી બાજુની કિનારીથી જમણી તરફ સ્વાઇપ કરો.</string>
-  <string name="wear_training_typing_text5">તેને નીચે અજમાવી જુઓ.</string>
-  <string name="wear_training_typing_practice_button_content_description">કીબોર્ડ વડે ટાઇપિંગ</string>
-  <string name="wear_training_end_tutorial_title">તમે તમારી TalkBack સુવિધાનો ઉપયોગ કરવા માટે તૈયાર છો</string>
   <string name="talkback_updated_notification_title">TalkBackની સુવિધા અપડેટ કરવામાં આવી છે</string>
   <string name="talkback_updated_notification_content">વધુ જાણવા માટે ટૅપ કરો</string>
   <string name="wear_new_feature_page_title">અપડેટ થયેલા TalkBackમાં આપનું સ્વાગત છે</string>

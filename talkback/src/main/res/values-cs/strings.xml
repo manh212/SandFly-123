@@ -1188,26 +1188,6 @@ Při nastavení prodlevy kratší než 0,3 sekundy se aktivace dvojitým klepnu
   <string name="talkback_inactive_message_practice_gestures">Pokud si chcete procvičit gesta, nejdřív zapněte funkci SandFly</string>
   <string name="talkback_inactive_message_image_description">Pokud chcete zkusit získat popisy obrázků, nejdříve zapněte funkci SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Zavřít výukový program</string>
-  <string name="wear_training_welcome_paragraph">Když je zapnuta funkce SandFly, hlasově oznamuje položku vybranou na obrazovce.\n\nPřejetím doprava přejdete na další položku. Přejetím doleva přejdete na předchozí položku.\n\nTeď přejíždějte vpravo, dokud nenarazíte na další tlačítko.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Přejeďte %1$d prsty nahoru nebo dolů</string>
-  <string name="wear_training_go_back_title">Návrat zpět</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Když se budete chtít vrátit zpět, přejeďte %1$d prsty doprava od okraje obrazovky.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Hotovo</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bylo provedeno gesto pro přechod zpět</string>
-  <string name="wear_training_volume_up_title">Zvýšení hlasitosti</string>
-  <string name="wear_training_volume_up_text">Přejeďte prstem doprava a pak nahoru</string>
-  <string name="wear_training_volume_down_title">Snížení hlasitosti</string>
-  <string name="wear_training_volume_down_text">Přejeďte prstem doprava a pak dolů</string>
-  <string name="wear_training_open_talkback_menu_title">Otevření nabídky SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Pokud chcete otevřít nastavení a ovládací prvky, které se často používají, přejeďte dolů a doprava</string>
-  <string name="wear_training_typing_title">Psaní</string>
-  <string name="wear_training_typing_text1">Pokud chcete psát, pohybujte prstem po klávesnici. Až uslyšíte písmeno, které chcete napsat, prst zvedněte.</string>
-  <string name="wear_training_typing_text2">Pokud chcete klávesnici skrýt a zkontrolovat, co jste zadali, přejeďte dvěma prsty z horní části obrazovky dolů.</string>
-  <string name="wear_training_typing_text3">Pokud se chcete vrátit na klávesnici, přejeďte dvěma prsty z dolní části obrazovky.</string>
-  <string name="wear_training_typing_text4">Pokud se chcete klávesnici zavřít a přestat psát, přejeďte dvěma prsty z levého okraje obrazovky.</string>
-  <string name="wear_training_typing_text5">Vyzkoušejte si to níže.</string>
-  <string name="wear_training_typing_practice_button_content_description">Psaní na klávesnici</string>
-  <string name="wear_training_end_tutorial_title">Jste připraveni začít používat SandFly</string>
   <string name="talkback_updated_notification_title">Aplikace SandFly byla aktualizována</string>
   <string name="talkback_updated_notification_content">Klepnutím zobrazíte další informace</string>
   <string name="wear_new_feature_page_title">Vítá vás aktualizovaná aplikace SandFly</string>

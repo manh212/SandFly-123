@@ -1188,26 +1188,6 @@ Muda wa kusubiri wa chini ya sekunde 0.3 utabadilisha kitendo cha kugusa mara mb
   <string name="talkback_inactive_message_practice_gestures">Ili ujifunze kutumia miguso, washa TalkBack kwanza</string>
   <string name="talkback_inactive_message_image_description">Ili ujaribu kupata maelezo kuhusu picha, washa TalkBack kwanza</string>
   <string name="talkback_inactive_close_tutorial_button">Funga mafunzo</string>
-  <string name="wear_training_welcome_paragraph">Ukiwasha TalkBack, kipengee unachoangazia kwenye skrini kitatamkwa kwa sauti.\n\nUkitelezesha kidole kulia, utakwenda kwenye kipengee kinachofuata. Ukitelezesha kidole kushoto, utakwenda kwenye kipengee kilichotangulia.\n\nTelezesha kidole kulia sasa hadi upate kitufe kinachofuata.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Telezesha vidole %1$d juu au chini.</string>
-  <string name="wear_training_go_back_title">Rudi nyuma</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Tumia vidole %1$d kutelezesha kulia kutoka kwenye ukingo wa skrini iwapo ungependa kurudi nyuma.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Imemaliza</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Ishara ya kurudi nyuma imetekelezwa</string>
-  <string name="wear_training_volume_up_title">Ongeza sauti</string>
-  <string name="wear_training_volume_up_text">Telezesha kidole kulia kisha juu</string>
-  <string name="wear_training_volume_down_title">Punguza sauti</string>
-  <string name="wear_training_volume_down_text">Telezesha kidole kulia kisha chini</string>
-  <string name="wear_training_open_talkback_menu_title">Fungua menyu ya TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Ili ufungue mipangilio na vidhibiti unavyoweza kuhitaji mara kwa mara, telezesha chini kisha kulia</string>
-  <string name="wear_training_typing_title">Kuandika</string>
-  <string name="wear_training_typing_text1">Ili uandike ukitumia kibodi, sogeza kidole chako kwenye kibodi. Ukisikia herufi unayotaka kuandika, inua kidole chako.</string>
-  <string name="wear_training_typing_text2">Ili ufiche kibodi na ukague kitu ulichoandika, telezesha vidole 2 chini kuanzia sehemu ya juu ya skrini yako.</string>
-  <string name="wear_training_typing_text3">Ili urejee kwenye kibodi, telezesha vidole 2 juu kuanzia sehemu ya chini ya skrini yako.</string>
-  <string name="wear_training_typing_text4">Ili ufunge kibodi na ukatishe kuandika, telezesha vidole 2 kulia kuanzia ukingo wa kushoto wa skrini yako.</string>
-  <string name="wear_training_typing_text5">Ijaribu hapa chini.</string>
-  <string name="wear_training_typing_practice_button_content_description">Kuandika ukitumia kibodi</string>
-  <string name="wear_training_end_tutorial_title">Uko tayari kuanza kutumia TalkBack</string>
   <string name="talkback_updated_notification_title">Kipengele cha TalkBack kimesasishwa</string>
   <string name="talkback_updated_notification_content">Gusa ili upate maelezo zaidi</string>
   <string name="wear_new_feature_page_title">Karibu kwenye toleo jipya la TalkBack</string>

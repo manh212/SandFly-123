@@ -1188,26 +1188,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="talkback_inactive_message_practice_gestures">Untuk melatih gestur, aktifkan TalkBack terlebih dahulu</string>
   <string name="talkback_inactive_message_image_description">Untuk mencoba mendapatkan deskripsi gambar, aktifkan TalkBack terlebih dahulu</string>
   <string name="talkback_inactive_close_tutorial_button">Tutup tutorial</string>
-  <string name="wear_training_welcome_paragraph">Jika TalkBack diaktifkan, item yang difokuskan di layar akan diucapkan secara lisan.\n\nMenggeser ke kanan akan memindahkan fokus ke item berikutnya. Menggeser ke kiri akan memindahkan fokus ke item sebelumnya.\n\nGeser ke kanan sekarang hingga Anda menemukan tombol berikutnya.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Geser ke atas atau bawah dengan %1$d jari.</string>
-  <string name="wear_training_go_back_title">Kembali</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Jika ingin kembali, gunakan %1$d jari untuk menggeser ke kanan dari tepi layar.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Berhasil</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gestur kembali dilakukan</string>
-  <string name="wear_training_volume_up_title">Menaikkan volume</string>
-  <string name="wear_training_volume_up_text">Geser ke kanan, lalu ke atas</string>
-  <string name="wear_training_volume_down_title">Menurunkan volume</string>
-  <string name="wear_training_volume_down_text">Geser ke kanan, lalu ke bawah</string>
-  <string name="wear_training_open_talkback_menu_title">Membuka menu TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Untuk membuka setelan dan kontrol yang mungkin sering digunakan, geser ke bawah lalu ke kanan</string>
-  <string name="wear_training_typing_title">Mengetik</string>
-  <string name="wear_training_typing_text1">Untuk mengetik dengan keyboard, gerakkan jari Anda di keyboard. Jika mendengar huruf yang ingin diketik, angkat jari Anda.</string>
-  <string name="wear_training_typing_text2">Untuk menyembunyikan keyboard dan memeriksa input Anda, geser layar dari atas ke bawah dengan 2 jari.</string>
-  <string name="wear_training_typing_text3">Untuk kembali ke keyboard, geser layar dari bawah ke atas dengan 2 jari.</string>
-  <string name="wear_training_typing_text4">Untuk menutup keyboard dan membatalkan pengetikan, geser layar dari tepi kiri ke kanan dengan 2 jari.</string>
-  <string name="wear_training_typing_text5">Coba di bawah.</string>
-  <string name="wear_training_typing_practice_button_content_description">Mengetik dengan keyboard</string>
-  <string name="wear_training_end_tutorial_title">Anda siap untuk mulai menggunakan TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack telah diupdate</string>
   <string name="talkback_updated_notification_content">Ketuk untuk mengetahui selengkapnya</string>
   <string name="wear_new_feature_page_title">Selamat datang di TalkBack yang telah diupdate</string>

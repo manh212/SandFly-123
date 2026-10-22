@@ -1188,26 +1188,6 @@ Forsinkelser på under 0,3 sekunder ændrer tryk to gange for at aktivere til tr
   <string name="talkback_inactive_message_practice_gestures">Aktivér SandFly for at øve bevægelser</string>
   <string name="talkback_inactive_message_image_description">Aktivér SandFly for at prøve at hente billedbeskrivelser</string>
   <string name="talkback_inactive_close_tutorial_button">Luk vejledning</string>
-  <string name="wear_training_welcome_paragraph">Når SandFly er aktiveret, oplæses det element på skærmen, der fokuseres på.\n\nStryg til højre for at gå til næste element. Stryg til venstre for at gå til forrige element.\n\nStryg til højre nu, indtil du finder knappen Næste.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Stryg op eller ned med %1$d fingre.</string>
-  <string name="wear_training_go_back_title">Gå tilbage</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Hvis du vil gå tilbage, skal du stryge til højre fra kanten af skærmen med %1$d fingre.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Korrekt</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bevægelsen til at gå tilbage blev udført</string>
-  <string name="wear_training_volume_up_title">Skru op for lyden</string>
-  <string name="wear_training_volume_up_text">Stryg til højre og derefter opad</string>
-  <string name="wear_training_volume_down_title">Skru ned for lyden</string>
-  <string name="wear_training_volume_down_text">Stryg til højre og derefter nedad</string>
-  <string name="wear_training_open_talkback_menu_title">Åbn SandFly-menuen</string>
-  <string name="wear_training_open_talkback_menu_text">Stryg til højre og derefter til venstre for at åbne de indstillinger og styringselementer, du ofte kan få brug for</string>
-  <string name="wear_training_typing_title">Skrivning</string>
-  <string name="wear_training_typing_text1">Hvis du vil skrive med tastaturet, skal du flytte din finger hen over tastaturet. Løft fingeren, når du hører det bogstav, du vil skrive.</string>
-  <string name="wear_training_typing_text2">Hvis du vil skjule tastaturet og tjekke din indtastning, skal du stryge nedad fra toppen af skærmen med 2 fingre.</string>
-  <string name="wear_training_typing_text3">Hvis du vil vende tilbage til tastaturet, skal du stryge opad fra bunden af skærmen med 2 fingre.</string>
-  <string name="wear_training_typing_text4">Hvis du vil lukke tastaturet og annullere indtastningen, skal du stryge til højre fra venstre kant af skærmen med 2 fingre.</string>
-  <string name="wear_training_typing_text5">Prøv det nedenfor.</string>
-  <string name="wear_training_typing_practice_button_content_description">Indtastning med tastatur</string>
-  <string name="wear_training_end_tutorial_title">Du er klar til at bruge SandFly</string>
   <string name="talkback_updated_notification_title">SandFly er blevet opdateret</string>
   <string name="talkback_updated_notification_content">Tryk for at få flere oplysninger</string>
   <string name="wear_new_feature_page_title">Velkommen til det opdaterede SandFly</string>

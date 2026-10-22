@@ -1188,26 +1188,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="talkback_inactive_message_practice_gestures">Per practicar gestos, primer activa SandFly</string>
   <string name="talkback_inactive_message_image_description">Per provar d\'obtenir descripcions d\'imatges, primer activa SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Tanca el tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quan SandFly està activat, l\'element enfocat en pantalla s\'enuncia en veu alta.\n\nSi llisques cap a la dreta, vas a l\'element següent.\nSi llisques cap a l\'esquerra, vas a l\'element anterior.\n\nLlisca cap a la dreta ara fins que trobis el botó següent.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Fes lliscar %1$d dits cap amunt o cap avall</string>
-  <string name="wear_training_go_back_title">Torna</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Quan vulguis tornar, fes lliscar %1$d dits cap a la dreta des de l\'extrem de la pantalla.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Correcte</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Has dut a terme el gest per tornar</string>
-  <string name="wear_training_volume_up_title">Apuja el volum</string>
-  <string name="wear_training_volume_up_text">Llisca cap a la dreta i després cap amunt</string>
-  <string name="wear_training_volume_down_title">Abaixa el volum</string>
-  <string name="wear_training_volume_down_text">Llisca cap a la dreta i després cap avall</string>
-  <string name="wear_training_open_talkback_menu_title">Obre el menú de SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Per obrir la configuració i els controls que pots necessitar sovint, llisca cap avall i, a continuació, cap a la dreta</string>
-  <string name="wear_training_typing_title">Escriure</string>
-  <string name="wear_training_typing_text1">Per escriure amb el teclat, mou el dit pel teclat. Quan sentis la lletra que vols escriure, aixeca el dit.</string>
-  <string name="wear_training_typing_text2">Per amagar el teclat i comprovar el que has escrit, llisca cap avall amb dos dits des de la part superior de la pantalla.</string>
-  <string name="wear_training_typing_text3">Per tornar al teclat, llisca cap amunt amb dos dits des de la part inferior de la pantalla.</string>
-  <string name="wear_training_typing_text4">Per tancar el teclat i cancel·lar l\'escriptura, fes lliscar dos dits cap a la dreta des de l\'extrem esquerre de la pantalla.</string>
-  <string name="wear_training_typing_text5">Prova-ho a continuació.</string>
-  <string name="wear_training_typing_practice_button_content_description">Escriure amb el teclat</string>
-  <string name="wear_training_end_tutorial_title">Ja pots començar a utilitzar SandFly</string>
   <string name="talkback_updated_notification_title">SandFly s\'ha actualitzat</string>
   <string name="talkback_updated_notification_content">Toca per obtenir més informació</string>
   <string name="wear_new_feature_page_title">Et donem la benvinguda a la versió actualitzada de SandFly</string>

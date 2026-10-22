@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">လက်ဟန်များ လေ့ကျင့်ရန်အတွက် TalkBack ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_message_image_description">ပုံရှင်းလင်းချက်များ ရယူကြည့်ရန် TalkBack ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_close_tutorial_button">ရှင်းလင်းပို့ချချက် ပိတ်ရန်</string>
-  <string name="wear_training_welcome_paragraph">Talkback ဖွင့်ထားပါက ဖန်သားပြင်ရှိ ဗဟိုပြုထားသည့် အကြောင်းအရာကို အသံထွက် ဖတ်ပြသည်။\n\nညာဘက်သို့ပွတ်ဆွဲပါက နောက်အကြောင်းအရာသို့ သွားသည်။ဘယ်ဘက်သို့ ပွတ်ဆွဲပါက ယခင်အကြောင်းအရာသို့ သွားသည်။\n\nရှေ့သို့ခလုတ်ကိုရှာရန် ညာဘက်သို့ ယခုပွတ်ဆွဲလိုက်ပါ။</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">လက် %1$d ချောင်းဖြင့် အပေါ် (သို့) အောက်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_title">နောက်သို့</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">နောက်သို့ ပြန်သွားလိုသောအခါ လက် %1$d ချောင်းသုံး၍ စခရင်၏အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">အောင်မြင်ပါသည်</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">နောက်သို့ လက်ဟန်ပြထားသည်</string>
-  <string name="wear_training_volume_up_title">အသံချဲ့ခြင်း</string>
-  <string name="wear_training_volume_up_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အပေါ်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_volume_down_title">အသံတိုးခြင်း</string>
-  <string name="wear_training_volume_down_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အောက်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack မီနူး ဖွင့်ခြင်း</string>
-  <string name="wear_training_open_talkback_menu_text">အသုံးများသော ဆက်တင်နှင့် ထိန်းချုပ်မှုများကို ဖွင့်ရန် အောက်သို့ပွတ်ဆွဲပြီးနောက် ညာသို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_typing_title">စာရိုက်ခြင်း</string>
-  <string name="wear_training_typing_text1">ကီးဘုတ်ဖြင့် စာရိုက်ရန် လက်ချောင်းကို ကီးဘုတ်တစ်လျှောက် ရွှေ့ပါ။ သင်ရိုက်လိုသည့် စာလုံးကို ကြားရသည့်အခါ လက်ချောင်းကို လွှတ်လိုက်ပါ။</string>
-  <string name="wear_training_typing_text2">ကီးဘုတ်ဖျောက်ပြီး ရိုက်ထားသည့်စာကို ကြည့်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ထိပ်မှ အောက်သို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text3">ကီးဘုတ်သို့ ပြန်သွားရန် လက် ၂ ချောင်းဖြင့် စခရင်အောက်ခြေမှ အပေါ်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text4">ကီးဘုတ်ပိတ်ပြီး စာရိုက်ခြင်း ပယ်ဖျက်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ဘယ်အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text5">အောက်တွင် စမ်းကြည့်ပါ။</string>
-  <string name="wear_training_typing_practice_button_content_description">ကီးဘုတ်ဖြင့် စာရိုက်ခြင်း</string>
-  <string name="wear_training_end_tutorial_title">TalkBack ကို စသုံးရန် အသင့်ဖြစ်ပါပြီ</string>
   <string name="talkback_updated_notification_title">TalkBack ကို အပ်ဒိတ်လုပ်ပြီးပြီ</string>
   <string name="talkback_updated_notification_content">ပိုမိုသိရှိရန် တို့ပါ</string>
   <string name="wear_new_feature_page_title">အပ်ဒိတ်လုပ်ထားသော TalkBack က ကြိုဆိုပါသည်</string>

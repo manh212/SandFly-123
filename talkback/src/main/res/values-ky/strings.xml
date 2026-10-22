@@ -1188,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Жаңсоолорду колдонуп көрүү үчүн адегенде TalkBack функциясын күйгүзүңүз</string>
   <string name="talkback_inactive_message_image_description">Сүрөттөрдүн түшүндүрмөлөрүн угуу үчүн адегенде TalkBack функциясын күйгүзүңүз</string>
   <string name="talkback_inactive_close_tutorial_button">Үйрөткүчтү жабуу</string>
-  <string name="wear_training_welcome_paragraph">TalkBack күйгүзүлсө, экранда тандалган нерсени үн чыгарып окуп берет.\n\nЭкранды оңго сүрсөңүз, кийинки нерсеге өтөт. Солго сүрсөңүз, мурунку нерсеге өтөт.\n\nКийинки баскыч табылмайынча, экранды оңго сүрүңүз.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d манжаңыз менен экранды жогору же ылдый сүрүңүз</string>
-  <string name="wear_training_go_back_title">Артка кайтуу</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Артка кайтуу үчүн %1$d манжаңыз менен экрандын четинен оңго сүрүңүз</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Ийгилик</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Артка кайтуу жаңсоосу көрсөтүлдү</string>
-  <string name="wear_training_volume_up_title">Үнүн катуулатуу</string>
-  <string name="wear_training_volume_up_text">Экранды оңго, анан жогору сүрүңүз</string>
-  <string name="wear_training_volume_down_title">Үнүн акырындатуу</string>
-  <string name="wear_training_volume_down_text">Экранды оңго, анан ылдый сүрүңүз</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack менюсун ачуу</string>
-  <string name="wear_training_open_talkback_menu_text">Көп колдонулуучу параметрлерди жана башкаруу элементтерин ачуу үчүн экранды ылдый, анан оңго сүрүңүз</string>
-  <string name="wear_training_typing_title">Терүү</string>
-  <string name="wear_training_typing_text1">Баскычтопто терүү үчүн баскычтопту манжаңыз менен сүрүңүз. Керектүү тамга угулганда манжаңызды алыңыз.</string>
-  <string name="wear_training_typing_text2">Баскычтопту жашырып, терилген нерсени текшерүү үчүн экранды 2 манжаңыз менен өйдөдөн ылдый карай сүрүңүз.</string>
-  <string name="wear_training_typing_text3">Баскычтопко кайтуу үчүн 2 манжаңыз менен ылдыйдан өйдө карап сүрүңүз.</string>
-  <string name="wear_training_typing_text4">Баскычтопту жаап, терүүнү жокко чыгаруу үчүн экранды 2 манжаңыз менен солдон оңго карай сүрүңүз.</string>
-  <string name="wear_training_typing_text5">Азыр жасап көрүңүз.</string>
-  <string name="wear_training_typing_practice_button_content_description">Баскычтоп менен терүү</string>
-  <string name="wear_training_end_tutorial_title">TalkBack функциясын колдоно берсеңиз болот</string>
   <string name="talkback_updated_notification_title">TalkBack жаңырды</string>
   <string name="talkback_updated_notification_content">Кененирээк маалымат алуу үчүн таптап коюңуз</string>
   <string name="wear_new_feature_page_title">Жаңырган TalkBack\'ке кош келиңиз</string>

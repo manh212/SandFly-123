@@ -1187,26 +1187,6 @@
   <string name="talkback_inactive_message_practice_gestures">ジェスチャーの練習をするには、まず TalkBack を ON にしてください</string>
   <string name="talkback_inactive_message_image_description">画像の説明を聞いてみるには、まず TalkBack を ON にしてください</string>
   <string name="talkback_inactive_close_tutorial_button">チュートリアルを終了</string>
-  <string name="wear_training_welcome_paragraph">TalkBack を ON にすると、画面上のフォーカスされている項目が読み上げられます。\n\n右にスワイプすると次の項目に移動します。左にスワイプすると前の項目に移動します。\n\nでは、右にスワイプして次のボタンに移動しましょう。</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d 本の指で上または下にスワイプします</string>
-  <string name="wear_training_go_back_title">戻る</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">戻る場合は、%1$d 本の指で画面の端から右にスワイプします</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">成功</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">戻るジェスチャーが行われました</string>
-  <string name="wear_training_volume_up_title">音量を上げる</string>
-  <string name="wear_training_volume_up_text">右にスワイプしてから上にスワイプします</string>
-  <string name="wear_training_volume_down_title">音量を下げる</string>
-  <string name="wear_training_volume_down_text">右にスワイプしてから下にスワイプします</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack メニューを開く</string>
-  <string name="wear_training_open_talkback_menu_text">設定やコントロールを開くには、下にスワイプしてから右にスワイプします</string>
-  <string name="wear_training_typing_title">文字入力</string>
-  <string name="wear_training_typing_text1">キーボードで入力するには、キーボードのキーをなぞるように指を動かします。入力したい文字が読み上げられたら、指を離します。</string>
-  <string name="wear_training_typing_text2">キーボードを非表示にして入力内容を確認するには、2 本の指で画面の上部から下にスワイプします。</string>
-  <string name="wear_training_typing_text3">キーボードに戻るには、2 本の指で画面の下部から上にスワイプします。</string>
-  <string name="wear_training_typing_text4">キーボードを閉じて入力をキャンセルするには、2 本の指で画面の左端から右にスワイプします。</string>
-  <string name="wear_training_typing_text5">以下でお試しください。</string>
-  <string name="wear_training_typing_practice_button_content_description">キーボードで入力する</string>
-  <string name="wear_training_end_tutorial_title">TalkBack を使用できるようになりました</string>
   <string name="talkback_updated_notification_title">TalkBack が更新されました</string>
   <string name="talkback_updated_notification_content">タップすると、詳細を確認できます</string>
   <string name="wear_new_feature_page_title">新しくなった TalkBack へようこそ</string>
