@@ -18,6 +18,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       # The full history gives the build number (commits since buildNumberBase in version.gradle) and the release notes.
       - uses: actions/checkout@v7
@@ -63,8 +65,18 @@ jobs:
       # AGP downloads the SDK platform and NDK it needs if the runner lacks them.
       - name: Build debug APKs
         env:
-          SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
-        run: ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain
+          SANDFLY_KEY_PASSWORD: <redacted>
+        run: |
+          set -o pipefail
+          ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee /tmp/gradle-build.log
+
+      - name: Report build failure
+        if: failure() && github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          { echo 'Gradle build failed. Last part of the log:'; echo; echo '```'; tail -n 150 /tmp/gradle-build.log; echo '```'; } > /tmp/comment.md
+          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
 
       - name: Check the signing key
         if: github.event_name == 'push'
