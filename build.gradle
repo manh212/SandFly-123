@@ -78,6 +78,13 @@ android {
             excludes += ['lib/x86_64/liblitertlm_jni.so']
         }
     }
+    androidResources {
+        // Only the English and Vietnamese emoji names are packaged, with the index.
+        // Emoji names are the app's only .gz assets and are named by language code,
+        // so ignore every .gz asset except those three.
+        ignoreAssetsPatterns += ['*.gz', '!emoji.gz', '!en.gz', '!vi.gz',
+                                 '!*/emoji.gz', '!*/en.gz', '!*/vi.gz']
+    }
     lint {
         checkReleaseBuilds = false
         // Lint the library modules too, where most of the code is, in one report.
@@ -92,4 +99,47 @@ android {
             dimension = "target"
         }
     }
+}
+
+// The packaged APK must match the slimming rules: arm64-v8a libraries only, only
+// the English and Vietnamese emoji names, and no phonetic letters table. Checking
+// the built APK itself keeps a green build meaning the exclusions really applied.
+def verifyPackagedApk = tasks.register("verifyPackagedApk") {
+    doLast {
+        def apkDir = project.layout.buildDirectory.dir("outputs/apk").get().asFile
+        def apkFiles = project.fileTree(apkDir).include("**/*.apk").files
+        if (apkFiles.isEmpty()) {
+            throw new GradleException("verifyPackagedApk: no APK found under ${apkDir}")
+        }
+        // Entry names in the APK: aapt strips the .gz suffix from asset names.
+        def keptEmojiNames = ["assets/emoji_names/emoji", "assets/emoji_names/en",
+                              "assets/emoji_names/vi", "assets/emoji_names/LICENSE"] as Set
+        apkFiles.each { apkFile ->
+            def zip = new java.util.zip.ZipFile(apkFile)
+            try {
+                def entries = zip.entries().collect { it.name }
+                def emojiNames = entries.findAll { it.startsWith("assets/emoji_names/") }
+                if (emojiNames.size() > 5 || !emojiNames.containsAll(keptEmojiNames)) {
+                    throw new GradleException("verifyPackagedApk: ${apkFile.name} should " +
+                            "package only ${keptEmojiNames}, but has ${emojiNames}")
+                }
+                def abis = entries.findAll { it.startsWith("lib/") }
+                        .collect { it.substring(4, it.indexOf('/', 4)) }.unique()
+                if (abis != ["arm64-v8a"]) {
+                    throw new GradleException("verifyPackagedApk: ${apkFile.name} should " +
+                            "package only arm64-v8a libraries, but has ${abis}")
+                }
+                if (entries.any { it.contains("phonetic_letters") }) {
+                    throw new GradleException("verifyPackagedApk: ${apkFile.name} still " +
+                            "packages the phonetic letters table")
+                }
+            } finally {
+                zip.close()
+            }
+        }
+    }
+}
+
+tasks.named("assembleDebug") {
+    finalizedBy(verifyPackagedApk)
 }

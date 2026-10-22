@@ -18,24 +18,6 @@ android {
         buildConfigField("String", "TALKBACK_APPLICATION_ID", '"' + talkbackApplicationId + '"')
         buildConfigField("String", "IS_SYSTEM_PRELOAD", "\"False\"")
     }
-    sourceSets {
-        main {
-            assets {
-                // Only the English and Vietnamese emoji names are packaged, with the index
-                // and licence. The sources keep every language; the exclusions are
-                // generated from the folder so files added upstream are excluded too.
-                def keptEmojiNames = ['emoji.gz', 'en.gz', 'vi.gz', 'LICENSE'] as Set
-                def emojiNamesDir = file('src/main/assets/emoji_names')
-                if (emojiNamesDir.isDirectory()) {
-                    emojiNamesDir.eachFile { emojiFile ->
-                        if (!keptEmojiNames.contains(emojiFile.name)) {
-                            exclude "emoji_names/${emojiFile.name}"
-                        }
-                    }
-                }
-            }
-        }
-    }
     // Robolectric tests read the module's assets, such as the emoji names.
     testOptions.unitTests.includeAndroidResources = true
 }
