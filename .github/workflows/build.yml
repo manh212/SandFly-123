@@ -65,7 +65,7 @@ jobs:
       # AGP downloads the SDK platform and NDK it needs if the runner lacks them.
       - name: Build debug APKs
         env:
-          SANDFLY_KEY_PASSWORD: <redacted>
+          SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: |
           set -o pipefail
           ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee /tmp/gradle-build.log
