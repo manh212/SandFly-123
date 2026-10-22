@@ -14,9 +14,6 @@
     <string name="summary_pref_problem_report_log">Có thể chứa văn bản trên màn hình</string>
     <string name="title_pref_problem_report_send">Gửi báo cáo</string>
     <string name="summary_pref_problem_report_sending">Đang gửi</string>
-    <string name="title_pref_problem_report_clear">Xoá biểu mẫu</string>
-    <string name="dialog_title_problem_report_clear">Xoá biểu mẫu?</string>
-    <string name="button_problem_report_clear">Xoá</string>
     <string name="problem_report_missing_fields">Hãy nhập tiêu đề và nội dung mô tả.</string>
     <string name="problem_report_invalid_email">Hãy nhập địa chỉ email hợp lệ.</string>
     <string name="problem_report_sent">Đã gửi báo cáo.</string>
@@ -42,4 +39,42 @@
         <item>Bản cập nhật</item>
         <item>Khác</item>
 </string-array>
+    <string name="title_report_new">Báo cáo mới</string>
+    <string name="title_report_inbox">Hộp thư đến</string>
+    <string name="title_report_drafts">Bản nháp</string>
+    <string name="report_inbox_empty">Chưa gửi báo cáo nào</string>
+    <string name="report_drafts_empty">Không có bản nháp nào</string>
+    <string name="report_just_now">vừa xong</string>
+    <string name="report_untitled">Chưa có tiêu đề</string>
+    <string name="report_draft_summary">Đã thay đổi <xliff:g id="when" example="5 minutes ago">%1$s</xliff:g></string>
+    <string name="report_sent_at">đã gửi <xliff:g id="when" example="2 days ago">%1$s</xliff:g></string>
+    <plurals name="report_new_replies">
+        <item quantity="other"><xliff:g id="count" example="2">%1$d</xliff:g> phản hồi mới</item>
+    </plurals>
+    <string name="report_status_changed">trạng thái đã thay đổi</string>
+    <string name="report_status_open">Đang mở</string>
+    <string name="report_status_completed">Đã đóng, hoàn thành</string>
+    <string name="report_status_not_planned">Đã đóng, không có kế hoạch thực hiện</string>
+    <string name="report_status_duplicate">Đã đóng, trùng lặp</string>
+    <string name="report_status_unknown">Đã xóa</string>
+    <string name="title_report_status">Trạng thái</string>
+    <string name="title_report_your_report">Báo cáo của bạn</string>
+    <string name="title_report_messages">Tin nhắn</string>
+    <string name="report_message_from_developer">Nhà phát triển, <xliff:g id="when" example="2 hours ago">%1$s</xliff:g></string>
+    <string name="report_message_from_you">Bạn, <xliff:g id="when" example="2 hours ago">%1$s</xliff:g></string>
+    <string name="title_report_reply">Phản hồi</string>
+    <string name="title_report_reply_text">Nội dung phản hồi của bạn</string>
+    <string name="title_report_send_reply">Gửi phản hồi</string>
+    <string name="report_reply_sent">Đã gửi phản hồi.</string>
+    <string name="report_reply_not_sent">Chưa gửi được phản hồi. Hãy thử lại sau.</string>
+    <string name="title_report_remove">Xóa khỏi hộp thư đến</string>
+    <string name="dialog_title_report_remove">Xóa báo cáo này khỏi hộp thư đến?</string>
+    <string name="dialog_message_report_remove">Các phản hồi về báo cáo này sẽ không còn được gửi đến điện thoại này nữa.</string>
+    <string name="title_report_delete_draft">Xóa bản nháp</string>
+    <string name="dialog_title_report_delete_draft">Xóa bản nháp này?</string>
+    <string name="button_report_delete">Xóa</string>
+    <string name="report_missing">Báo cáo này không còn trong hộp thư đến.</string>
+    <string name="notification_channel_problem_reports">Phản hồi về báo cáo sự cố</string>
+    <string name="report_notification_reply">Phản hồi về <xliff:g id="title" example="Focus skips a row">%1$s</xliff:g></string>
+    <string name="report_notification_status"><xliff:g id="title" example="Focus skips a row">%1$s</xliff:g>: <xliff:g id="status" example="Closed, completed">%2$s</xliff:g></string>
 </resources>

@@ -376,4 +376,5 @@
         <item>@string/notification_shake_2</item>
         <item>@string/notification_shake_3</item>
     </string-array>
+    <string name="notification_outcome_call">Đã đọc dưới dạng cuộc gọi</string>
 </resources>

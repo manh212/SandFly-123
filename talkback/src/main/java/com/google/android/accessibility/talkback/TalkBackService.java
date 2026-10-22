@@ -237,6 +237,7 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
+import com.google.android.accessibility.talkback.report.ReportInbox;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
@@ -1010,6 +1011,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     Updater.stopAutomaticChecks();
+    ReportInbox.stopFollowing();
     ShizukuGrants.onServiceDestroyed();
     instance = null;
     // Shutdown and unregister all components.
@@ -1249,6 +1251,30 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Whether Ctrl is held on a physical keyboard with no other key pressed since it went down. */
   private boolean ctrlTapPending = false;
+
+  /** Whether the press of Ctrl now held was kept from apps, so its release is kept from them too. */
+  private boolean ctrlKeptFromApps = false;
+
+  /**
+   * Returns whether a press or release of Ctrl on a physical keyboard is kept from apps, so that an
+   * app such as YouTube doesn't act on Ctrl alone, which pauses speech. Ctrl shortcuts still reach
+   * apps, since the other key's event says that Ctrl is held.
+   */
+  private boolean keepCtrlFromApps(KeyEvent keyEvent) {
+    int keyCode = keyEvent.getKeyCode();
+    if (keyCode != KeyEvent.KEYCODE_CTRL_LEFT && keyCode != KeyEvent.KEYCODE_CTRL_RIGHT) {
+      return false;
+    }
+    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+      if (keyEvent.getRepeatCount() == 0) {
+        ctrlKeptFromApps = isServiceActive() && isFromPhysicalKeyboard(keyEvent);
+      }
+      return ctrlKeptFromApps;
+    }
+    boolean kept = ctrlKeptFromApps;
+    ctrlKeptFromApps = false;
+    return kept;
+  }
 
   /**
    * Pauses or resumes speech when Ctrl on a physical keyboard is pressed and released with no other
@@ -1498,7 +1524,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       textEventInterpreter.setLastKeyDown(keyCode, keyEvent.getModifiers());
     }
 
-    return false;
+    return keepCtrlFromApps(keyEvent);
   }
 
   /**
@@ -1946,6 +1972,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Handle any update actions.
     new TalkBackUpdateHelper(this).checkUpdate();
     Updater.startAutomaticChecks(this);
+    ReportInbox.startFollowing(this);
     ShizukuGrants.onServiceConnected(this);
     // Turns Backtalk under its old app ID off, before this one says it is on.
     AppIdHandOver.onServiceConnected(this, this::refreshGestureDetection);
@@ -3595,8 +3622,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(R.string.pref_soundback_key, R.bool.pref_soundback_default);
     feedbackController.setAuditoryEnabled(auditoryEnabled);
     // Before the theme's sounds are loaded below, so that they load with the new volume.
-    feedbackController.setUseAccessibilityStream(
-        FailoverTextToSpeech.shouldUseAccessibilityStream(this));
+    feedbackController.setSpeechUsage(FailoverTextToSpeech.speechUsage(this));
     feedbackController.setLowLatencyAudio(
         prefs.getBoolean(
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,

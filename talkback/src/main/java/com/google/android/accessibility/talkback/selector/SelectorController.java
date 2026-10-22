@@ -388,6 +388,14 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_switch_tts_engine_key,
         R.string.selector_switch_tts_engine,
         R.bool.pref_selector_switch_tts_engine_default),
+    VERTICAL_NAVIGATION(
+        R.string.pref_selector_vertical_navigation_key,
+        R.string.selector_vertical_navigation,
+        R.bool.pref_selector_vertical_navigation_default),
+    SPEECH_STREAM(
+        R.string.pref_selector_speech_stream_key,
+        R.string.selector_speech_stream,
+        R.bool.pref_selector_speech_stream_default),
     SWITCH_VOICE_PROFILE(
         R.string.pref_selector_voice_profile_key,
         R.string.selector_voice_profile,
@@ -632,6 +640,7 @@ public class SelectorController implements UserInputEventListener {
           Setting.GRANULARITY_CONTAINERS,
           Setting.GRANULARITY_SEARCH,
           Setting.GRANULARITY_DEFAULT,
+          Setting.VERTICAL_NAVIGATION,
           // TODO Supports special content.
           Setting.SPEECH_RATE,
           Setting.VERBOSITY,
@@ -654,6 +663,7 @@ public class SelectorController implements UserInputEventListener {
           Setting.ADJUSTABLE_WIDGET,
           Setting.CONTROL_TELLING_TIME,
           Setting.SWITCH_TTS_ENGINE,
+          Setting.SPEECH_STREAM,
           Setting.SWITCH_VOICE_PROFILE);
 
   /** Lists all {@link Setting} that should be hidden for users. */
@@ -990,6 +1000,14 @@ public class SelectorController implements UserInputEventListener {
         actionDescription = context.getString(R.string.title_selector_switch_tts_engine);
         hint = getAdjustSelectedSettingGestures();
       }
+      case SPEECH_STREAM -> {
+        actionDescription = context.getString(R.string.title_pref_speech_stream);
+        hint = getAdjustSelectedSettingGestures();
+      }
+      case VERTICAL_NAVIGATION -> {
+        actionDescription = context.getString(R.string.title_selector_vertical_navigation);
+        hint = getAdjustSelectedSettingGestures();
+      }
       case SWITCH_VOICE_PROFILE -> {
         actionDescription = context.getString(R.string.title_selector_voice_profile);
         hint = getAdjustSelectedSettingGestures();
@@ -1260,9 +1278,15 @@ public class SelectorController implements UserInputEventListener {
       return;
     }
     lastFocusedNode = null;
+    boolean autoSwitch =
+        prefs.getBoolean(
+            context.getString(R.string.pref_selector_auto_switch_key),
+            context.getResources().getBoolean(R.bool.pref_selector_auto_switch_default));
     Optional<ContextualSetting> contextualMenu =
-        getMatchedContextualSettingForActivation(
-            context, AccessibilityNodeInfoCompat.wrap(nodeInfo), hiddenSettings);
+        autoSwitch
+            ? getMatchedContextualSettingForActivation(
+                context, AccessibilityNodeInfoCompat.wrap(nodeInfo), hiddenSettings)
+            : Optional.empty();
     if (contextualMenu.isPresent()) {
       // If a matched contextual setting is available, switch to that setting automatically.
       Setting newSetting = contextualMenu.get().getSetting();
@@ -1841,6 +1865,14 @@ public class SelectorController implements UserInputEventListener {
         changeTtsEngine(eventId, isNext);
         return;
       }
+      case SPEECH_STREAM -> {
+        changeSpeechStream(eventId, isNext);
+        return;
+      }
+      case VERTICAL_NAVIGATION -> {
+        moveVertically(eventId, isNext);
+        return;
+      }
       case SWITCH_VOICE_PROFILE -> {
         changeVoiceProfile(eventId, isNext, getAdjustSelectedSettingGestures());
         return;
@@ -2061,6 +2093,50 @@ public class SelectorController implements UserInputEventListener {
             R.string.template_speech_rate_change,
             actorState.getSpeechRateState().getSpeechRatePercentage());
     announceSetting(eventId, displayText, getAdjustSelectedSettingGestures());
+    showQuickMenuActionOverlay(eventId, displayText);
+  }
+
+  /**
+   * Moves to the item below or above the focused one, past the other items of its row. With no such
+   * item on screen, moves to the next or previous item as a swipe does, which scrolls.
+   */
+  private void moveVertically(EventId eventId, boolean isNext) {
+    @Nullable AccessibilityNodeInfoCompat focus =
+        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+    @Nullable AccessibilityNodeInfoCompat target =
+        (focus == null) ? null : VerticalNavigation.target(focus, isNext);
+    if (target != null) {
+      pipeline.returnFeedback(
+          eventId,
+          Feedback.focus(
+              target,
+              FocusActionInfo.builder()
+                  .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
+                  .build()));
+      return;
+    }
+    boolean moved =
+        pipeline.returnFeedback(
+            eventId,
+            Feedback.focusDirection(isNext ? SEARCH_FOCUS_FORWARD : SEARCH_FOCUS_BACKWARD)
+                .setGranularity(CursorGranularity.DEFAULT)
+                .setInputMode(INPUT_MODE_TOUCH)
+                .setDefaultToInputFocus(true)
+                .setScroll(true));
+    if (!moved) {
+      pipeline.returnFeedback(eventId, Feedback.sound(R.raw.complete));
+    }
+  }
+
+  /** Changes the volume speech and sounds play at to the next or previous of the four. */
+  private void changeSpeechStream(EventId eventId, boolean isNext) {
+    List<String> streams = FailoverTextToSpeech.STREAM_VALUES;
+    int index = streams.indexOf(FailoverTextToSpeech.chosenSpeechStream(prefs));
+    String stream = streams.get(Math.floorMod(index + (isNext ? 1 : -1), streams.size()));
+    prefs.edit().putString(FailoverTextToSpeech.PREF_SPEECH_STREAM_KEY, stream).apply();
+    String[] names = context.getResources().getStringArray(R.array.pref_speech_stream_entries);
+    String displayText = names[streams.indexOf(stream)];
+    announceSetting(eventId, displayText, getSelectSettingGestures());
     showQuickMenuActionOverlay(eventId, displayText);
   }
 

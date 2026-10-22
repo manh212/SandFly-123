@@ -124,9 +124,16 @@ The reading control goes through the profiles in the order of the **Voice profil
 
 **SandFly default** is always there, and uses the rest of the text-to-speech settings. While a profile is in use, changing the speech rate or pitch with gestures or the reading controls changes that profile only. All speech uses the profile's engine and voice, so SandFly doesn't switch language or dialect, and the **Spoken language** reading control and menu item are hidden.
 
-### Accessibility volume or media volume
+### Speech volume
 
-TalkBack always plays speech at the accessibility volume. In SandFly, you can turn off **Text-to-speech** > **Use accessibility volume**, so that speech and SandFly's sounds use the media volume instead. The setting is on by default.
+TalkBack always plays speech at the accessibility volume. In SandFly, **Text-to-speech** > **Speech volume** chooses the volume that speech and SandFly's sounds play at:
+
+- **Accessibility volume**, the default.
+- **Media volume**.
+- **Ring volume**: speech plays as a ringtone does, so it stays on the phone when media is cast to another device. Like a ringtone, it can also play on the phone's speaker while headphones are connected, and it is silent when the ringer is.
+- **Call volume, earpiece**: speech plays as a call does, on the earpiece when no headset is connected.
+
+The **Speech volume** reading control, which you can turn on in **Reading controls**, switches between them. While **Audio output device** sends speech to a device other than the system default, speech uses the accessibility volume.
 
 ### Automatic language and dialect changes
 
@@ -205,6 +212,10 @@ On Samsung watches, SandFly reads the app and title, then the message content, t
 
 To stop SandFly from reading new notifications when they arrive, turn off **Verbosity** > **Speak notifications**. SandFly still reads incoming calls, and you can still read notifications in the notification shade. The setting is on by default.
 
+### Notifications that Android doesn't announce
+
+Android tells screen readers about a new notification only when it alerts. A notification that Do Not Disturb holds back, or an update that an app posts without alerting again, such as a doorbell app replacing its last motion alert, never reaches TalkBack. When SandFly has notification access, it also receives these from its notification listener, and reads them as its notification settings say, so **Do Not Disturb** in the notification settings applies to them too. Progress and ongoing notifications are left out. Incoming calls are listed in the notification history as announced.
+
 ### Toasts in Do Not Disturb
 
 While Do Not Disturb was on, TalkBack didn't speak toasts, the short messages that apps show at the bottom of the screen. SandFly speaks toasts, and stays silent only for notifications.
@@ -270,13 +281,13 @@ To keep hearing the kind of control as well, turn on **Still say the kind of con
 TalkBack plays a sound and vibration when a gesture starts and another when it ends. SandFly plays neither. In their place, a sound theme can give a sound and a vibration to each of these:
 
 - **Next reading control** and **Previous reading control**: selecting another reading control, with a gesture, the rotor, a keyboard shortcut or the braille keyboard.
-- **Edge gesture bottom**, **Edge gesture middle** and **Edge gesture top**: a finger touching an edge where an edge gesture starts, the gesture reaching its first click, and a swipe up from the bottom edge reaching its second click. Top edge gestures have one click, so they use only the bottom and middle sounds. Sliding back plays the sound of the place the finger is back at. Lifting plays nothing.
+- **Edge gesture bottom**, **Edge gesture middle** and **Edge gesture top**: a finger touching an edge where an edge gesture starts, the gesture reaching its first click, and the gesture reaching its second click. Sliding back plays the sound of the place the finger is back at. Lifting plays nothing.
 - **Insertion point moved**: moving by character, word, line or paragraph moves the cursor in a text field you are editing.
-- **Column wrap** and **Column wrap back**: swiping forward from the end of a row of a grid or table to the start of the next row, and back from the start of a row to the end of the row before, such as between rows of icons on a home screen. The sound plays with the focus sound, and its vibration plays in place of the focus vibration.
+- **Column wrap** and **Column wrap back**: swiping forward to an item below the row you are in, and back to an item above it. Each item of a list is a row of its own; items side by side, such as icons on a home screen, cells of a table, or a title with buttons beside it, share a row. The sound plays with the focus sound, and its vibration plays in place of the focus vibration.
 
 SandFly has no sounds of its own for these. The edge gesture middle and top have SandFly's edge gesture vibrations; the others vibrate only with a theme's vibration. Each has its own sound and vibration switch in **Individual sounds and vibrations**.
 
-Tables and grids that report their rows and columns, such as web tables and grid lists, wrap by row number. Grids that don't, such as home screens and keypads, wrap when focus moves to an item of the same size, in the same container, on the next row and back towards the start of the row. Column wrap doesn't play for grids whose items differ in size, or for swipes that move from one window to another.
+Rows are found by where items are on the screen: an item is on another row when its middle is below the bottom of the focused item, or above its top. Column wrap doesn't play for swipes that move from one window to another.
 
 ### 3D audio
 
@@ -336,10 +347,13 @@ The rotor requires Android 13 or later and **Handle gestures in SandFly** turned
 
 ### Edge gestures and scrub
 
-As in VoiceOver on iOS, you can slide one finger in from the top or bottom edge of the screen. Start at the very edge, on the gesture navigation bar or the status bar, and slide in:
+As in VoiceOver on iOS, you can slide one finger in from an edge of the screen. Start at the very edge, such as on the gesture navigation bar or the status bar, and slide in:
 
 - Up from the bottom edge: you feel a click like a home button after about a centimeter. Lift there to go home. Keep sliding for about four more centimeters to feel a second click, and lift there for Overview (recent apps).
-- Down from the left half of the top edge for notifications, or from the right half for quick settings, after the same click.
+- Down from the left half of the top edge for notifications, or from the right half for quick settings, after the same click. A long swipe down from either half, to a second click, does nothing by default.
+- Right from the left edge, or left from the right edge. The top half and bottom half of each side edge are separate gestures, each with a first and second click. They do nothing by default.
+
+Only gestures that have an action click. A swipe that does nothing has no first click, and the slide stays an ordinary swipe until the second click. A long swipe that does nothing has no second click, so sliding further is still the swipe. Lifting before the first click there is an ordinary swipe. In a corner, the top or bottom edge comes first, unless its gestures do nothing.
 
 Sliding back from the second click to the first plays one short tap; sliding back to the edge plays two, and lifting there cancels the gesture. To turn off the clicks, turn off **Edge gesture middle** and **Edge gesture top** under vibrations in **Individual sounds and vibrations**; to turn off the taps, turn off **Edge gesture slide back**. A sound theme can give each stage a sound; see [Navigation sounds](#navigation-sounds). A slide that starts away from the edge, or that takes longer than about half a second to reach the first click, is an ordinary swipe or touch exploration. A finger resting at the edge for 0.2 seconds is touch exploration.
 
@@ -406,6 +420,14 @@ On Android 11, when you picked an action with the **Actions** reading control, a
 ### Sliders that report themselves as unfocusable
 
 realme UI reports some volume sliders as not focusable and unlabeled, so TalkBack skipped them. SandFly can focus them.
+
+### Vertical navigation
+
+The **Vertical navigation** reading control, which you can turn on in **Reading controls**, moves to the item below when you swipe down and to the item above when you swipe up. It skips the other items of the same row, such as the channel and options buttons beside a video in YouTube, or the buttons beside a file's name. Going up lands on the first item of the row above. When there is no item below or above on screen, it moves to the next or previous item as a swipe right or left does, scrolling if needed.
+
+### Reading control kept when focus moves
+
+When focus moves onto an item with actions, a slider, a table or a spelling mistake, TalkBack changes the reading control to the one for that item, such as Actions, Adjust slider or Proofread, and changes it back afterwards. On web pages, where many items have actions, this replaces a reading control you chose, such as Headings. To keep the reading control you chose, turn off **Reading controls** > **Change reading control automatically**.
 
 ### Volume keys that adjust sliders
 
@@ -647,6 +669,20 @@ On Android 12 and later, SandFly's settings follow the system dark mode.
 ### Slider titles
 
 SandFly doesn't stop on a slider's title as a separate item when you swipe through settings.
+
+### Problem reports
+
+**Report a problem** sends a bug report or suggestion to SandFly's developer without a GitHub account. It has three parts:
+
+- **New report**: the form. What you type is kept as a draft until you send the report or choose **Delete draft**.
+- **Inbox**: the reports you sent, each with its status (Open, or Closed: completed, not planned or duplicate) and how many replies you haven't read. Open a report to read the replies and send your own, with **Your reply** and **Send reply**.
+- **Drafts**: reports you started and haven't sent.
+
+While SandFly is on, it checks for replies and status changes every hour, and when you open **Report a problem**. A reply or a new status posts a notification, with sound, that opens the report. A closed report is still checked for 30 days. **Remove from inbox** stops the checks and deletes the report from the phone; the report stays with the developer.
+
+### Export and import settings
+
+**Export settings** saves SandFly's settings to a file, and **Import settings** replaces them with a file's, such as one from another phone. API keys stay on the phone. Import settings also reads a settings file exported from Backtalk: the settings in it replace SandFly's, and SandFly's own settings that Backtalk doesn't have are kept.
 
 ### App icon that opens the settings
 

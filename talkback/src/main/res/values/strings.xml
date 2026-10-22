@@ -54,6 +54,10 @@
       Description: Distinguishes the system settings from TalkBack's own speech settings. [CHAR LIMIT=NONE]
     -->
     <string name="title_pref_system_tts_settings">System text-to-speech settings</string>
+    <!-- Title of the reading control that moves to the item below or above, leaving out the other items of the same row. [CHAR LIMIT=40] -->
+    <string name="title_selector_vertical_navigation">Vertical navigation</string>
+    <!-- Summary of the Vertical navigation reading control in the reading controls settings. [CHAR LIMIT=NONE] -->
+    <string name="summary_selector_vertical_navigation">Move to the item below or above, past the other items of the row</string>
     <!-- Title for the "switch TTS engine" reading control selector item. [CHAR LIMIT=NONE] -->
     <string name="title_selector_switch_tts_engine">Speech engine</string>
     <!-- Summary for the "switch TTS engine" reading control selector item. [CHAR LIMIT=NONE] -->
@@ -152,17 +156,24 @@
       Description: Controls how high or low TalkBack's voice sounds. [CHAR LIMIT=NONE]
     -->
     <string name="title_pref_speech_pitch">Speech pitch</string>
-    <!--
-      Source: Title for the "use accessibility audio stream" toggle.
-      Description: When on, TalkBack speech uses the dedicated accessibility audio stream. [CHAR LIMIT=NONE]
-    -->
-    <string name="title_pref_use_accessibility_stream">Use accessibility volume</string>
-    <!--
-      Source: Summary for the "use accessibility audio stream" toggle.
-      Description: Explains that enabling this routes TalkBack speech through the accessibility stream,
-      allowing independent volume control. [CHAR LIMIT=NONE]
-    -->
-    <string name="summary_pref_use_accessibility_stream">Speech and sounds use the accessibility volume, so you can set them apart from media. When off, they use the media volume.</string>
+    <!-- Title of the setting, and of the reading control, that chooses which volume speech and sounds play at: accessibility, media, ring or call. [CHAR LIMIT=40] -->
+    <string name="title_pref_speech_stream">Speech volume</string>
+    <!-- Summary of the Speech volume reading control in the reading controls settings. [CHAR LIMIT=NONE] -->
+    <string name="summary_selector_speech_stream">Switch between the accessibility, media, ring and call volumes</string>
+    <!-- Choice of Speech volume: speech plays at the accessibility volume. [CHAR LIMIT=40] -->
+    <string name="speech_stream_accessibility">Accessibility volume</string>
+    <!-- Choice of Speech volume: speech plays at the media volume. [CHAR LIMIT=40] -->
+    <string name="speech_stream_media">Media volume</string>
+    <!-- Choice of Speech volume: speech plays at the ring volume, as a ringtone does. [CHAR LIMIT=40] -->
+    <string name="speech_stream_ring">Ring volume</string>
+    <!-- Choice of Speech volume: speech plays at the call volume, on the earpiece when no headset is connected. [CHAR LIMIT=60] -->
+    <string name="speech_stream_call">Call volume, earpiece</string>
+    <string-array name="pref_speech_stream_entries">
+        <item>@string/speech_stream_accessibility</item>
+        <item>@string/speech_stream_media</item>
+        <item>@string/speech_stream_ring</item>
+        <item>@string/speech_stream_call</item>
+    </string-array>
     <!--
       Source: Title for the "speak long text in phrases" toggle.
       Description: When on, SandFly sends long text to the speech engine as separate phrases. [CHAR LIMIT=NONE]
@@ -2618,6 +2629,26 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="title_pref_shortcut_edge_top_left_down">Swipe down from the top left</string>
     <!-- Label for the preference that assigns an action to sliding one finger down from the right half of the top edge of the screen. [CHAR_LIMIT=75] -->
     <string name="title_pref_shortcut_edge_top_right_down">Swipe down from the top right</string>
+    <!-- Label for the preference that assigns an action to sliding one finger down from the left half of the top edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_top_left_long_down">Long swipe down from the top left</string>
+    <!-- Label for the preference that assigns an action to sliding one finger down from the right half of the top edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_top_right_long_down">Long swipe down from the top right</string>
+    <!-- Label for the preference that assigns an action to sliding one finger right from the top half of the left edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_left_top_right">Swipe right from the left edge, top half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger right from the top half of the left edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_left_top_long_right">Long swipe right from the left edge, top half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger right from the bottom half of the left edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_left_bottom_right">Swipe right from the left edge, bottom half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger right from the bottom half of the left edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_left_bottom_long_right">Long swipe right from the left edge, bottom half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger left from the top half of the right edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_right_top_left">Swipe left from the right edge, top half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger left from the top half of the right edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_right_top_long_left">Long swipe left from the right edge, top half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger left from the bottom half of the right edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_right_bottom_left">Swipe left from the right edge, bottom half</string>
+    <!-- Label for the preference that assigns an action to sliding one finger left from the bottom half of the right edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
+    <string name="title_pref_shortcut_edge_right_bottom_long_left">Long swipe left from the right edge, bottom half</string>
 
     <!-- Label for the preference that assigns an action to the "three-finger triple-tap and hold" gesture. [CHAR_LIMIT=90] -->
     <string name="title_pref_shortcut_3finger_3tap_hold">Triple-tap and hold with 3 fingers</string>
@@ -2771,6 +2802,8 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="window_names_never">Never</string>
     <!-- Title of the switch that removes Links and Controls from the reading controls when the focused item is not in web content. [CHAR LIMIT=NONE] -->
     <string name="title_pref_selector_links_controls_web_only">Links and Controls only in web content</string>
+    <!-- Title of the switch that lets focus moving onto an item with actions, a slider, a table or a spelling mistake change the reading control to the one for that item, such as Actions or Adjust slider. [CHAR_LIMIT=60] -->
+    <string name="title_pref_selector_auto_switch">Change reading control automatically</string>
     <!-- Title of the switch that makes touching the screen stop speech. When off, speech goes on until touch focuses an item. [CHAR LIMIT=NONE] -->
     <string name="title_pref_touch_stops_speech">Stop speech when touching the screen</string>
     <!-- Title of the switch that moves accessibility focus into a window when it opens or comes back, such as when an app opens or you go back. [CHAR LIMIT=NONE] -->
@@ -4618,5 +4651,5 @@ Do not use any markdown in your response."</string>
     <!-- Message after SandFly's settings were replaced with those in a file. [CHAR_LIMIT=NONE] -->
     <string name="settings_import_done">Settings imported</string>
     <!-- Message when a file could not be read as SandFly settings. [CHAR_LIMIT=NONE] -->
-    <string name="settings_import_failed">This file is not a SandFly settings file, or could not be read</string>
+    <string name="settings_import_failed">This file is not a SandFly or Backtalk settings file, or could not be read</string>
 </resources>

@@ -1465,8 +1465,6 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="voice_profile_delete">Xoá</string>
     <string name="summary_pref_tts_engine_default">Mặc định của hệ thống</string>
     <string name="title_pref_speech_pitch">Cao độ giọng nói</string>
-    <string name="title_pref_use_accessibility_stream">Dùng âm lượng hỗ trợ tiếp cận</string>
-    <string name="summary_pref_use_accessibility_stream">Lời nói và âm thanh dùng âm lượng hỗ trợ tiếp cận, để bạn có thể đặt riêng so với âm lượng nội dung nghe nhìn. Khi tắt, chúng dùng âm lượng nội dung nghe nhìn.</string>
     <string name="title_pref_speak_in_phrases">Gửi văn bản dài theo từng câu</string>
     <string name="summary_pref_speak_in_phrases">Dành cho những công cụ lời nói dừng chậm, chẳng hạn như Gryphon, để khi vuốt đi thì văn bản dài dừng ngay. Nhiều công cụ ngắt quãng lâu hơn giữa các câu được gửi riêng, vì vậy hãy tắt tuỳ chọn này nếu công cụ của bạn dừng nhanh.</string>
     <string name="battery_optimization_notification_title">Tính năng tối ưu hoá pin có thể dừng SandFly</string>
@@ -1782,5 +1780,30 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="settings_export_done">Đã xuất chế độ cài đặt. Không bao gồm khoá API</string>
     <string name="settings_export_failed">Không xuất được chế độ cài đặt</string>
     <string name="settings_import_done">Đã nhập chế độ cài đặt</string>
-    <string name="settings_import_failed">Tệp này không phải là tệp cài đặt SandFly hoặc không đọc được</string>
+    <string name="settings_import_failed">Tệp này không phải là tệp cài đặt SandFly hoặc Backtalk, hoặc không đọc được</string>
+    <string name="title_selector_vertical_navigation">Điều hướng dọc</string>
+    <string name="summary_selector_vertical_navigation">Di chuyển đến mục ở dưới hoặc ở trên, bỏ qua các mục khác trong hàng</string>
+    <string name="title_pref_speech_stream">Âm lượng lời nói</string>
+    <string name="summary_selector_speech_stream">Chuyển đổi giữa âm lượng trợ năng, đa phương tiện, chuông và cuộc gọi</string>
+    <string name="speech_stream_accessibility">Âm lượng trợ năng</string>
+    <string name="speech_stream_media">Âm lượng đa phương tiện</string>
+    <string name="speech_stream_ring">Âm lượng chuông</string>
+    <string name="speech_stream_call">Âm lượng cuộc gọi, loa thoại</string>
+    <string-array name="pref_speech_stream_entries">
+        <item>@string/speech_stream_accessibility</item>
+        <item>@string/speech_stream_media</item>
+        <item>@string/speech_stream_ring</item>
+        <item>@string/speech_stream_call</item>
+    </string-array>
+    <string name="title_pref_shortcut_edge_top_left_long_down">Vuốt dài xuống từ phía trên bên trái</string>
+    <string name="title_pref_shortcut_edge_top_right_long_down">Vuốt dài xuống từ phía trên bên phải</string>
+    <string name="title_pref_shortcut_edge_left_top_right">Vuốt sang phải từ cạnh trái, nửa trên</string>
+    <string name="title_pref_shortcut_edge_left_top_long_right">Vuốt dài sang phải từ cạnh trái, nửa trên</string>
+    <string name="title_pref_shortcut_edge_left_bottom_right">Vuốt sang phải từ cạnh trái, nửa dưới</string>
+    <string name="title_pref_shortcut_edge_left_bottom_long_right">Vuốt dài sang phải từ cạnh trái, nửa dưới</string>
+    <string name="title_pref_shortcut_edge_right_top_left">Vuốt sang trái từ cạnh phải, nửa trên</string>
+    <string name="title_pref_shortcut_edge_right_top_long_left">Vuốt dài sang trái từ cạnh phải, nửa trên</string>
+    <string name="title_pref_shortcut_edge_right_bottom_left">Vuốt sang trái từ cạnh phải, nửa dưới</string>
+    <string name="title_pref_shortcut_edge_right_bottom_long_left">Vuốt dài sang trái từ cạnh phải, nửa dưới</string>
+    <string name="title_pref_selector_auto_switch">Tự động thay đổi chế độ điều khiển chức năng đọc</string>
 </resources>
