@@ -96,15 +96,14 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
 
             String[] delayValues =
                 context.getResources().getStringArray(R.array.pref_touch_explore_time_out_values);
-            int position = Integer.parseInt(delayValues[delayValues.length - 1]);
             for (int index = 0; index < delayValues.length; index++) {
               if (delay == Integer.parseInt(delayValues[index])) {
-                position = index;
-                break;
+                return context.getResources()
+                    .getStringArray(R.array.pref_touch_explore_time_out_entries)[index];
               }
             }
-            return context.getResources()
-                .getStringArray(R.array.pref_touch_explore_time_out_entries)[position];
+            // The typing focus delay slider allows any value, not just the preset values.
+            return context.getString(R.string.template_milliseconds, delay);
           });
     }
 

@@ -31,6 +31,7 @@
   <string name="template_replaced_characters">Các ký tự %1$s được thay thế bằng các ký tự %2$s</string>
   <string name="template_labeled_item">%1$s cho %2$s</string>
   <string name="tb_template_percent">%1$s phần trăm</string>
+  <string name="template_milliseconds">%1$d mili giây</string>
   <string name="template_value">%1$s</string>
   <plurals name="template_containers">
     <item quantity="other">%1$s cho thấy %2$d mục</item>
