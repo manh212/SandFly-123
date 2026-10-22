@@ -38,9 +38,6 @@
     <string name="notification_category_voice">Giọng nói</string>
     <string name="notification_voice_title">Giọng nói</string>
     <string name="notification_voice_sandfly">Giọng của SandFly</string>
-    <string name="notification_rate_title">Tốc độ đọc</string>
-    <string name="notification_pitch_title">Cao độ</string>
-    <string name="notification_volume_title">Âm lượng</string>
     <string name="notification_detect_language_title">Phát hiện ngôn ngữ</string>
     <string name="notification_detect_language_summary">Đọc mỗi thông báo bằng ngôn ngữ của thông báo đó. Cần bật Tự động chuyển ngôn ngữ trong cài đặt Chuyển văn bản thành giọng nói.</string>
     <string name="notification_sound_before_title">Âm thanh trước thông báo</string>
