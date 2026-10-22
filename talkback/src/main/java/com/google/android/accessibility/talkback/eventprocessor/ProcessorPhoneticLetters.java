@@ -398,7 +398,17 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
       map = new HashMap<String, String>();
       this.phoneticLetters.put(locale, map);
 
-      InputStream stream = service.getResources().openRawResource(R.raw.phonetic_letters);
+      // This fork does not ship the phonetic letters table, so the map stays empty and
+      // letters are spoken as themselves. Resolve the table by name so that a build which
+      // includes it again needs no change here.
+      int phoneticLettersId =
+          service
+              .getResources()
+              .getIdentifier("phonetic_letters", "raw", service.getPackageName());
+      if (phoneticLettersId == 0) {
+        return map;
+      }
+      InputStream stream = service.getResources().openRawResource(phoneticLettersId);
       BufferedReader reader = null;
       try {
         reader = new BufferedReader(new InputStreamReader(stream, UTF_8));
