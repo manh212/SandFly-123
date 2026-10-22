@@ -50,6 +50,7 @@ import static com.google.android.accessibility.talkback.Feedback.PassThroughMode
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_LAST;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.REPEAT_LAST;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SPELL_LAST;
+import static com.google.android.accessibility.talkback.Feedback.Speech.Action.TRANSLATE_LAST;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.TOGGLE_VOICE_FEEDBACK;
 import static com.google.android.accessibility.talkback.Feedback.UniversalSearch.Action.CANCEL_SEARCH;
 import static com.google.android.accessibility.talkback.Feedback.UniversalSearch.Action.TOGGLE_SEARCH;
@@ -766,6 +767,11 @@ public class GestureController {
       result =
           pipeline.returnFeedback(
               eventId, Feedback.part().setSpeech(Feedback.Speech.create(SPELL_LAST)));
+    } else if (action.equals(
+        service.getString(R.string.shortcut_value_translate_last_spoken_phrase))) {
+      result =
+          pipeline.returnFeedback(
+              eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_LAST)));
     } else if (FeatureFlagReader.enableSpeechPitchKeyboard(service)
         && action.equals(service.getString(R.string.shortcut_value_speech_pitch_decrease))) {
       result = speechRateAndPitchActor.changeSpeechPitch(false);

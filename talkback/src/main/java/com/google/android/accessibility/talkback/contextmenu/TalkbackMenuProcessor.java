@@ -67,6 +67,7 @@ public class TalkbackMenuProcessor {
    * ORDER_COPY_LAST_SPOKEN_PHRASE = 10;
    * ORDER_SPELL_LAST_SPOKEN_PHRASE = 11;
    * ORDER_REPEAT_LAST_SPOKEN_PHRASE = 12;
+   * ORDER_TRANSLATE_LAST_SPOKEN_PHRASE = 13;
    * ORDER_VERBOSITY = 13;
    * ORDER_AUDIO_DUCKING = 16;
    * ORDER_SOUND_FEEDBACK = 17;
@@ -247,6 +248,7 @@ public class TalkbackMenuProcessor {
 
     setSkipRefocusAndWindowAnnounce(menu, R.id.spell_last_utterance, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.repeat_last_utterance, true);
+    setSkipRefocusAndWindowAnnounce(menu, R.id.translate_last_utterance, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.copy_last_utterance_to_clipboard, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.audio_ducking, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.sound_feedback, true);
@@ -305,6 +307,12 @@ public class TalkbackMenuProcessor {
         R.string.pref_show_context_menu_repeat_last_spoken_phrase_setting_key,
         R.bool.pref_show_context_menu_repeat_last_spoken_phrase_default)) {
       menu.removeItem(R.id.repeat_last_utterance);
+    }
+
+    if (!showMenuItem(
+        R.string.pref_show_context_menu_translate_last_spoken_phrase_setting_key,
+        R.bool.pref_show_context_menu_translate_last_spoken_phrase_default)) {
+      menu.removeItem(R.id.translate_last_utterance);
     }
 
     // Removes screen search if this is watch or uncheck show item.

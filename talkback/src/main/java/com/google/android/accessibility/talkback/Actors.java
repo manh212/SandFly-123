@@ -112,6 +112,7 @@ import com.google.android.accessibility.talkback.focusmanagement.action.Navigati
 import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
 import com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
+import com.google.android.accessibility.talkback.translation.LastUtteranceTranslator;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -140,6 +141,7 @@ class Actors {
   private final TalkBackAnalytics analytics;
   private final DimScreenActor dimmer;
   private final SpeechControllerImpl speaker;
+  private final LastUtteranceTranslator lastUtteranceTranslator;
   private final FullScreenReadActor continuousReader;
   private final FeedbackController soundAndVibration;
   private final AutoScrollActor scroller;
@@ -211,6 +213,7 @@ class Actors {
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.dimmer = dimmer;
     this.speaker = speaker;
+    this.lastUtteranceTranslator = new LastUtteranceTranslator(context, speaker);
     this.continuousReader = continuousReader;
     this.soundAndVibration = soundAndVibration;
     this.scroller = scroller;
@@ -369,6 +372,8 @@ class Actors {
         case REPEAT_LAST -> unused = speaker.repeatLastUtterance();
         case SPELL_SAVED -> speaker.spellSavedUtterance();
         case SPELL_LAST -> unused = speaker.spellLastUtterance();
+        case TRANSLATE_SAVED -> lastUtteranceTranslator.translateSavedUtterance(eventId);
+        case TRANSLATE_LAST -> lastUtteranceTranslator.translateLastUtterance(eventId);
         case PAUSE_OR_RESUME -> {
           boolean doPause = speaker.readyToPause();
           continuousReader.pauseOrResumeContinuousReadingState(doPause);

@@ -129,6 +129,14 @@
             android:summary="@string/summary_repeat_last_spoken_phrase"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
+            android:defaultValue="@bool/pref_show_context_menu_translate_last_spoken_phrase_default"
+            android:key="@string/pref_show_context_menu_translate_last_spoken_phrase_setting_key"
+            android:order="13"
+            android:title="@string/title_translate_last_spoken_phrase"
+            app:singleLineTitle="false"
+            android:summary="@string/summary_translate_last_spoken_phrase"/>
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+            android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_show_context_menu_verbosity_default"
             android:key="@string/pref_show_context_menu_verbosity_setting_key"
             android:order="13"

@@ -808,6 +808,8 @@ public class SpeechControllerImpl implements SpeechController {
   /** Saves most recent talkback speech. */
   public void saveLastUtterance() {
     savedUtterance = getLastUtterance();
+    LastSpokenTextHolder.setSavedSpokenText(
+        (savedUtterance == null) ? null : savedUtterance.getAggregateText());
   }
 
   /** Returns {@code true} if SpeechControllerImpl should interrupt speech */
@@ -1992,6 +1994,7 @@ public class SpeechControllerImpl implements SpeechController {
         mFeedbackHistory.remove(mFeedbackHistory.peek());
       }
       mFeedbackHistory.addLast(item);
+      LastSpokenTextHolder.setLastSpokenText(item.getAggregateText());
     }
 
     if (speechListener != null) {
