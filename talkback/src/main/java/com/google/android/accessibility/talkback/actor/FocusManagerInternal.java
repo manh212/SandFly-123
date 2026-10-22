@@ -41,6 +41,7 @@ import com.google.android.accessibility.talkback.focusmanagement.record.Accessib
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionRecord;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -88,6 +89,12 @@ public class FocusManagerInternal {
   // the new flag to determine the validity of source action; suppose when user touch the screen,
   // the ensure focus would need perform again.
   private boolean skipRefocus = false;
+
+  // Whether the last requestA11yFocusFromLastFocusRecord() call was stopped by skipRefocus
+  // rather than by failing to find a node. The failovers in ensureAccessibilityFocusOnScreen must
+  // not run in that case: they record a different source action, which re-arms the request and
+  // repeats the focus announcement after every subtree change.
+  private boolean ensureRequestBlockedBySkipRefocus = false;
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Construction methods
@@ -255,6 +262,15 @@ public class FocusManagerInternal {
       return true;
     }
 
+    if (isLastFocusInImeWindowSinceScreenChange(state)) {
+      // The keyboard redraws itself while typing, which can drop accessibility focus from the
+      // key without any window change. Placing focus back here would re-announce the key after
+      // every burst of subtree changes, so leave it to the next touch or swipe instead.
+      LogUtils.d(
+          TAG, String.format("%s: Return, last focus is in the input method window.", subTag));
+      return false;
+    }
+
     if (!FocusProcessorForScreenStateChange.focusesNewWindows()) {
       // Only replace focus that was lost on this screen, such as when the focused item is removed.
       return focusedSinceScreenChange(state) && requestA11yFocusFromLastFocusRecord(eventId);
@@ -273,6 +289,13 @@ public class FocusManagerInternal {
     // jumping to another window after a node tree changed. (Especially on IME windows.)
     if (requestA11yFocusFromLastFocusRecord(eventId)) {
       return true;
+    }
+
+    if (ensureRequestBlockedBySkipRefocus) {
+      // Ensure-focus already placed the last focus and nothing has touched the screen since.
+      // Running the failovers would place it again under a different source action, which
+      // re-arms the request above and repeats the announcement on the next subtree change.
+      return false;
     }
 
     ArrayList<Feedback.Part> feedbackFailovers = new ArrayList<>();
@@ -295,6 +318,23 @@ public class FocusManagerInternal {
   }
 
   /**
+   * Returns whether the last accessibility focus was placed in the input method window after
+   * the current screen state began. The windows have not changed since then, so losing that
+   * focus is churn within the same screen, such as the keyboard redrawing while typing, and not
+   * a move to a new window.
+   */
+  private boolean isLastFocusInImeWindowSinceScreenChange(ScreenState state) {
+    if (!focusedSinceScreenChange(state)) {
+      return false;
+    }
+    @Nullable FocusActionRecord record = history.getLastFocusActionRecord();
+    AccessibilityNodeInfoCompat lastFocus = (record == null) ? null : record.getFocusedNode();
+    return lastFocus != null
+        && AccessibilityWindowInfoUtils.isImeWindow(
+            AccessibilityNodeInfoUtils.getWindow(lastFocus));
+  }
+
+  /**
    * Finds a focusable node from the last {@link FocusActionRecord} for accessibility focus. At
    * first it will try to restore the accessibility focus from the record. If restoring fail, then
    * try to report the input focus node. Finally, reports the node with {@link
@@ -304,6 +344,7 @@ public class FocusManagerInternal {
    * @return true if accessibility focus is successfully found and assigned
    */
   private boolean requestA11yFocusFromLastFocusRecord(EventId eventId) {
+    ensureRequestBlockedBySkipRefocus = false;
     @Nullable FocusActionRecord record = history.getLastFocusActionRecord();
     if (record == null) {
       return false;
@@ -316,6 +357,7 @@ public class FocusManagerInternal {
 
     final String subTag = "EnsureOnScreen";
     if (skipRefocus && record.getExtraInfo().isSourceEnsureOnScreen()) {
+      ensureRequestBlockedBySkipRefocus = true;
       // If the last focus record is also from the source ENSURE_ON_SCREEN, doesn't request to
       // ensure the focus repeatedly.
       LogUtils.w(
