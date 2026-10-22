@@ -6,17 +6,9 @@
       android:summary="@string/message_pref_touch_explore_latency"
       android:selectable="false" />
 
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
-      android:key="@string/pref_typing_focus_time_out_key">
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
-        android:title="@string/value_touch_explore_time_out_150ms" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
-        android:title="@string/value_touch_explore_time_out_200ms" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
-        android:title="@string/value_touch_explore_time_out_250ms" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
-        android:title="@string/value_touch_explore_time_out_300ms" />
-  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
-
+  <com.google.android.accessibility.talkback.preference.base.TypingFocusDelaySliderPreference
+      android:key="@string/pref_typing_focus_time_out_seekbar_key"
+      android:persistent="false"
+      android:title="@string/title_pref_touch_explore_timeout" />
 
 </PreferenceScreen>

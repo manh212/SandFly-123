@@ -2613,7 +2613,8 @@ public class SelectorController implements UserInputEventListener {
         return context.getString(source.getTitleId());
       }
     }
-    return "";
+    // The settings slider allows any value, not just the preset values above.
+    return context.getString(R.string.template_milliseconds, timeout);
   }
 
   private void updateFocusDelayPreference(EventId eventId) {
@@ -2635,30 +2636,23 @@ public class SelectorController implements UserInputEventListener {
   }
 
   private void updateTypingFocusDelayPreference(EventId eventId) {
-    int timeout =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_typing_focus_time_out_key,
-            R.string.pref_touch_explore_time_out_default);
-    for (TypingFocusDelayPrefFragment.TypingFocusDelayPref source :
-        TypingFocusDelayPrefFragment.TypingFocusDelayPref.values()) {
-      if (timeout == source.getDelay()) {
-        announcement(source.getTitleId());
-        showQuickMenuActionOverlay(eventId, context.getString(source.getTitleId()));
-        break;
-      }
-    }
+    String displayText = typingFocusDelayText();
+    announcement(displayText);
+    showQuickMenuActionOverlay(eventId, displayText);
   }
 
   private void announcement(int resourceId) {
+    announcement(context.getString(resourceId));
+  }
+
+  private void announcement(CharSequence text) {
     if (pipeline == null) {
       return;
     }
     pipeline.returnFeedback(
         EVENT_ID_UNTRACKED,
         Feedback.speech(
-            context.getString(resourceId),
+            text.toString(),
             SpeakOptions.create()
                 .setQueueMode(SpeechController.QUEUE_MODE_INTERRUPT)
                 .setFlags(

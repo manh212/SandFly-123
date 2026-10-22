@@ -69,6 +69,11 @@ public class TouchLatencyAdjustor {
     }
     LatencyAction action = touchLatency.action();
     boolean upward = touchLatency.increaseLatency();
+    // The typing focus delay is set with a slider over a wider range than the preset values the
+    // touch focus delay still uses.
+    boolean isTyping = action == TYPING_FOCUS_LATENCY_ACTION;
+    int minLatency = isTyping ? TypingFocusDelayPrefFragment.MIN_DELAY_MS : MIN_LATENCY;
+    int maxLatency = isTyping ? TypingFocusDelayPrefFragment.MAX_DELAY_MS : MAX_LATENCY;
     int imeUserIntentTimeout =
         SharedPreferencesUtils.getIntFromStringPref(
             prefs,
@@ -81,15 +86,15 @@ public class TouchLatencyAdjustor {
                 : R.string.pref_touch_explore_time_out_default);
     LogUtils.d(TAG, "Adjust latency value:%s", touchLatency);
 
-    if ((upward && imeUserIntentTimeout >= MAX_LATENCY)
-        || (!upward && imeUserIntentTimeout <= MIN_LATENCY)) {
+    if ((upward && imeUserIntentTimeout >= maxLatency)
+        || (!upward && imeUserIntentTimeout <= minLatency)) {
       return false;
     }
     imeUserIntentTimeout += upward ? 50 : -50;
-    if (imeUserIntentTimeout > MAX_LATENCY) {
-      imeUserIntentTimeout = MAX_LATENCY;
-    } else if (imeUserIntentTimeout < MIN_LATENCY) {
-      imeUserIntentTimeout = MIN_LATENCY;
+    if (imeUserIntentTimeout > maxLatency) {
+      imeUserIntentTimeout = maxLatency;
+    } else if (imeUserIntentTimeout < minLatency) {
+      imeUserIntentTimeout = minLatency;
     }
     if (action == TOUCH_FOCUS_LATENCY_ACTION) {
       updateFocusDelayPreference(imeUserIntentTimeout);
@@ -115,16 +120,12 @@ public class TouchLatencyAdjustor {
   }
 
   private void updateTypingFocusDelayPreference(int timeout) {
-    for (TypingFocusDelayPrefFragment.TypingFocusDelayPref source :
-        TypingFocusDelayPrefFragment.TypingFocusDelayPref.values()) {
-      if (timeout == source.getDelay()) {
-        SharedPreferencesUtils.putStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_typing_focus_time_out_key,
-            Integer.toString(timeout));
-        break;
-      }
-    }
+    // The slider allows any value in its range, so store the adjusted value directly instead of
+    // matching it against the preset values.
+    SharedPreferencesUtils.putStringPref(
+        prefs,
+        context.getResources(),
+        R.string.pref_typing_focus_time_out_key,
+        Integer.toString(timeout));
   }
 }

@@ -171,6 +171,12 @@
   -->
   <string name="tb_template_percent"><xliff:g id="percentage">%1$s</xliff:g> percent</string>
   <!--
+    Source: An utterance template for announcing the progress of a seek-bar (slider) whose value is
+    a number of milliseconds.
+    Description: This is spoken to the user. [CHAR LIMIT=NONE]
+  -->
+  <string name="template_milliseconds"><xliff:g id="milliseconds">%1$d</xliff:g> milliseconds</string>
+  <!--
     Source: An utterance template for announcing the progress of a seek-bar (slider) which has the int/float range type.
     Description: This is spoken to the user. [CHAR LIMIT=NONE]
   -->
