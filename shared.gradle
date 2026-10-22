@@ -34,9 +34,6 @@ android {
         phone {
             dimension = "target"
         }
-        wear {
-            dimension = "target"
-        }
     }
     buildFeatures {
         buildConfig = true
@@ -76,8 +73,6 @@ dependencies {
     annotationProcessor libs.auto.value
     implementation libs.javax.annotation.api
 
-    // Wear
-    implementation libs.androidx.wear
     implementation libs.androidx.wear.remote.interactions
     implementation libs.wearable.support
     implementation libs.zxing.core

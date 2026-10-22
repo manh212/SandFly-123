@@ -9,9 +9,6 @@ dependencies {
     implementation project(':utils')
     implementation project(':materialflags')
     implementation project(':materialpreference')
-    // TODO: Define different dependencies for different product flavors
-    wearImplementation project(':materialpreferencecompose')
-    wearImplementation project(':materialtheme')
     // Scripts run in Lua 5.4 through LuaJava.
     phoneImplementation libs.luajava
     phoneImplementation libs.luajava.lua54
