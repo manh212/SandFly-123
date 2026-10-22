@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ブラウズモード ON</string>
   <string name="individual_sound_browse_mode_off">ブラウズモード OFF</string>
   <string name="individual_sound_radial_menu">円形メニュー</string>
-  <string name="individual_sound_display_connected">点字ディスプレイ接続</string>
-  <string name="individual_sound_display_disconnected">点字ディスプレイ切断</string>
-  <string name="individual_sound_double_beep">点字コマンドの失敗</string>
-  <string name="individual_sound_turn_on">点字自動スクロール ON</string>
-  <string name="individual_sound_turn_off">点字自動スクロール OFF</string>
-  <string name="individual_sound_calibration_done">点字キーボードの調整完了</string>
   <string name="individual_vibration_focus">項目にフォーカス</string>
   <string name="individual_vibration_focus_actionable">操作可能な項目にフォーカス</string>
   <string name="individual_vibration_clicked">クリック</string>

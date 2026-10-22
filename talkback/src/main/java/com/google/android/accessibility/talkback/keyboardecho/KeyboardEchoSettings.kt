@@ -21,7 +21,6 @@ import android.content.SharedPreferences
 import android.content.res.Resources
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences
-import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.input.TextEventFilter
 import com.google.android.accessibility.utils.input.TextEventFilter.TypingInput
 
@@ -30,10 +29,6 @@ import com.google.android.accessibility.utils.input.TextEventFilter.TypingInput
  * [TextEventFilter.KeyboardEchoType] as a string.
  */
 object KeyboardEchoSettings {
-  // Where the braille keyboard kept its own echo setting, in its own settings file.
-  private const val OLD_BRAILLE_PREFS_FILE = "braille_keyboard"
-  private const val OLD_BRAILLE_KEYBOARD_ECHO_KEY = "pref_brailleime_keyboard_echo"
-
   /** Returns the key of the echo setting for [input]. */
   @JvmStatic
   fun key(res: Resources, input: TypingInput): String =
@@ -41,8 +36,6 @@ object KeyboardEchoSettings {
       when (input) {
         TypingInput.ON_SCREEN_KEYBOARD -> R.string.pref_echo_on_screen_keyboard_key
         TypingInput.PHYSICAL_KEYBOARD -> R.string.pref_echo_physical_keyboard_key
-        TypingInput.BRAILLE_KEYBOARD -> R.string.pref_echo_braille_keyboard_key
-        TypingInput.BRAILLE_DISPLAY -> R.string.pref_echo_braille_display_key
       }
     )
 
@@ -60,8 +53,6 @@ object KeyboardEchoSettings {
       when (input) {
         TypingInput.ON_SCREEN_KEYBOARD -> R.string.title_keyboard_echo_on_screen
         TypingInput.PHYSICAL_KEYBOARD -> R.string.title_keyboard_echo_physical
-        TypingInput.BRAILLE_KEYBOARD -> R.string.title_keyboard_echo_braille_keyboard
-        TypingInput.BRAILLE_DISPLAY -> R.string.title_keyboard_echo_braille_display
       }
     )
 
@@ -119,9 +110,7 @@ object KeyboardEchoSettings {
 
   /**
    * Gives each echo setting that has no value the echo the user had before: the on-screen and
-   * physical keyboard echo were verbosity preset settings, the braille keyboard had its own, which
-   * started as the on-screen keyboard's, and a braille display spoke characters as the physical
-   * keyboard echo said.
+   * physical keyboard echo were verbosity preset settings.
    */
   @JvmStatic
   fun migrate(context: Context, prefs: SharedPreferences) {
@@ -143,11 +132,6 @@ object KeyboardEchoSettings {
     val physical = { presetValue(R.string.pref_keyboard_echo_physical_key) }
     moveIfUnset(TypingInput.ON_SCREEN_KEYBOARD, onScreen)
     moveIfUnset(TypingInput.PHYSICAL_KEYBOARD, physical)
-    moveIfUnset(TypingInput.BRAILLE_KEYBOARD) {
-      SharedPreferencesUtils.getSharedPreferences(context, OLD_BRAILLE_PREFS_FILE)
-        .getString(OLD_BRAILLE_KEYBOARD_ECHO_KEY, null) ?: onScreen()
-    }
-    moveIfUnset(TypingInput.BRAILLE_DISPLAY, physical)
     if (changed) {
       editor.apply()
     }

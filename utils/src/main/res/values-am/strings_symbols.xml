@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ከምልክት ያነሰ ባለሙሉ ወርድ</string>
   <string name="symbol_full_width_greater_than_sign">ከምልክት የበለጠ ባለሙሉ ወርድ</string>
   <string name="symbol_left_single_quotation_mark">የግራ ነጠላ ትዕምርተ ጥቅስ</string>
-  <string name="symbol_braille">ብሬይል %s</string>
-  <plurals name="dots">
-    <item quantity="one">ነጥብ %s</item>
-    <item quantity="other">ነጥቦች %s</item>
-  </plurals>
 </resources>

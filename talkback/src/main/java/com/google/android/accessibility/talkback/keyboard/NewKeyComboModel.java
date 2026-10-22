@@ -927,28 +927,6 @@ public class NewKeyComboModel implements KeyComboModel {
       }
     }
 
-    if (FeatureFlagReader.enableToggleBrailleOnScreenOverlay(context)) {
-      if (key.equals(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_on_screen_overlay))) {
-        return new KeyCombo(
-            KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
-            NO_PREFIX_KEY_CODE,
-            KeyEvent.KEYCODE_O,
-            /* triggerModifierUsed= */ true);
-      }
-    }
-
-    if (FeatureFlagReader.enableToggleBrailleContractedMode(context)) {
-      if (key.equals(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_contracted_mode))) {
-        return new KeyCombo(
-            KeyEvent.META_CTRL_ON | KeyEvent.META_SHIFT_ON,
-            NO_PREFIX_KEY_CODE,
-            KeyEvent.KEYCODE_G,
-            /* triggerModifierUsed= */ true);
-      }
-    }
-
     if (FeatureFlagReader.enableToggleSelection(context)) {
       if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_selection))) {
         return new KeyCombo(
@@ -1434,14 +1412,6 @@ public class NewKeyComboModel implements KeyComboModel {
     }
     if (FeatureFlagReader.enableToggleVoiceFeedback(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_global_toggle_voice_feedback));
-    }
-    if (FeatureFlagReader.enableToggleBrailleContractedMode(context)) {
-      addKeyCombo(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_contracted_mode));
-    }
-    if (FeatureFlagReader.enableToggleBrailleOnScreenOverlay(context)) {
-      addKeyCombo(
-          context.getString(R.string.keycombo_shortcut_other_toggle_braille_on_screen_overlay));
     }
     if (FeatureFlagReader.enableReportIssueKeyboard(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_other_report_issue));

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Hlola ngokuthinta</string>
   <string name="title_pref_category_visual">Okubukwayo</string>
   <string name="title_pref_category_controls">Izilawuli</string>
-  <string name="title_pref_category_braille">I-Braille</string>
   <string name="title_pref_category_general">Okuvamile</string>
   <string name="title_pref_category_advanced">Okuthuthukisiwe</string>
   <string name="title_pref_category_others">Abanye</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Nciphisa ukubambezeleka</string>
   <string name="talkback_latency_reduction_summary">Amasethingi okunciphisa ukubambezeleka ngaphambi kwezimemezelo zeTalkBack</string>
   <string name="summary_pref_intonation">Khuluma izinhlamvu ezisuliwe ngezwi lokuphakama okuphezulu</string>
-  <string name="title_pref_brailledisplay">Isibonisi se-braille</string>
-  <string name="title_pref_brailleime">Ikhibhodi ye-Braille</string>
-  <string name="summary_pref_brailleime_disabled">Idivayisi yakho ayisekeli ikhibhodi ye-braille</string>
   <string name="title_pref_speech_footer">Ungakwazi ukulungisa ngokushesha amanye amasethingi omsindo weTalkBack kunoma yisiphi isikrini.\n\nIvolumu yokufinyeleleka: Beka umunwe ongu-1 esikrinini bese ucindezela inkinobho yokunyusa noma yokwehlisa ivolumu.\nIzinga lokukhuluma leTalkBack: Swayipha uye phezulu noma ezansi ngeminwe emi-3. Uma uzwa \"izinga lenkulumo\", swayiphela phezulu noma phansi ngomunwe o-1.</string>
   <string name="title_pref_vibration">Impendulo yokudlidliza</string>
   <string name="title_pref_soundback">Impendulo yomsindo</string>
@@ -486,8 +482,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="shortcut_increase_volume">Khuphula ivolumu</string>
   <string name="shortcut_decrease_volume">Nciphisa ivolumu</string>
   <string name="shortcut_all_apps">Zonke izinhlelo zokusebenza</string>
-  <string name="shortcut_braille_keyboard">Shintshela kwikhibhodi ye-braille</string>
-  <string name="shortcut_braille_display_settings">Zulazulela kumasethingi esibonisi se-braille</string>
   <string name="shortcut_tutorial">Vula okokufundisa</string>
   <string name="shortcut_control_speak_time">Khuluma isikhathi noma ungasikhulumi isikhathi</string>
   <string name="shortcut_enable_speak_time">Khuluma isikhathi</string>
@@ -496,7 +490,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="speak_time_off">Ukukhuluma isikhathi kuvaliwe</string>
   <string name="shortcut_practice_gestures">Phinda phinda ukuthinta</string>
   <string name="shortcut_report_gesture">Bika inkinga yokuthinta</string>
-  <string name="shortcut_toggle_braille_display">Vula noma vala isibonisi se-braille</string>
   <string name="shortcut_announce_current_time_and_date">Khuluma usuku nesikhathi samanje</string>
   <string name="shortcut_announce_battery_state">Memezela iphesenti lebhethri</string>
   <string name="shortcut_announce_current_title">Khuluma isihloko sewindi</string>
@@ -506,8 +499,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="shortcut_speech_rate_decrease">Nciphisa izinga lenkulumo</string>
   <string name="shortcut_toggle_selection">Qala noma qeda imodi yokukhetha</string>
   <string name="shortcut_show_tutorial">Vula okokufundisa</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Shintsha phakathi kokunenkontileka (ibanga 2) nokungenankontileka (ibanga 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Veza noma ufihle i-braille kusikrini se-braille ezixhunyiwe</string>
   <string name="shortcut_toggle_sound_feedback">Vula noma uvale impendulo yomsindo (ama-earcon)</string>
   <string name="shortcut_show_learn_mode_page">Phrakthiza izinqamuleli zekhibhodi</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izincwadi zeSpeak zemisindo yokuphimisela zento okugxilwe kuyo</string>
@@ -548,7 +539,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="title_show_voice_commands">Imiyalo yezwi</string>
   <string name="title_show_keyboard_shortcuts">Izinqamuleli zekhibhodi</string>
   <string name="talkback_show_talkback_settings">Amasethingi weTalkBack</string>
-  <string name="title_show_braille_display_settings">Amasethingi okubonisa e-Braille</string>
   <string name="title_granularity_default">Ukuzulazula okuzenzakalelayo</string>
   <string name="title_action_dismiss">Susa</string>
   <string name="title_action_expand">Nweba</string>
@@ -576,7 +566,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="summary_control_speak_time">Shintsha ukuthi isikhathi sikhulunyelwa phezulu yini lapho uvula isikrini</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Vula uhlu lwesinqamuleli sekhibhodi</string>
   <string name="summary_talkback_preferences">Vula amasethingi e-TalkBack</string>
-  <string name="summary_braile_display_preferences">Vula amasethingi esibonisi se-Braille</string>
   <string name="summary_system_actions">Iya kuwo wonke ama-app Namasethingi Asheshayo</string>
   <string name="summary_tts_settings">Vula amasethingi okuguqula-umbhalo-ube-inkulumo</string>
   <string name="not_editable">Ayihleleki</string>
@@ -917,7 +906,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="screen_search_keyword_hint">igama elisemqoka ngu-%1$s</string>
   <string name="screen_search_no_keyword_hint">Alikho igama elisemqoka okwamanje. Ukuze uqale usesho olusha, thepha futhi ubambe ngeminwe engu-3 noma vula isikrinikufuna kumenyu yeTalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Alikho igama elisemqoka okwamanje. Ukuze uqale usesho olusha, swayiphela kwesokunxele bese phansi noma vula isikrinikufuna kumenyu yeTalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Ikhibhodi ye-Braille ayivuliwe. Iya kumasethingi e-TalkBack, setha ikhibhodi ye-Braille, bese uyazama futhi.</string>
   <string name="suggestions_window_available">Iziphakamiso ziyatholakala</string>
   <string name="suggestions_window_available_with_gesture">Iziphakamiso ziyatholakala. Ukuze ufinyelele, %1$s</string>
   <string name="heads_up_window_available">Isaziso siyatholakala</string>
@@ -967,9 +955,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="new_gesture_notification_content">Thepha ukuze ufunde ukuthi uyisebenzisa kanjani i-TalkBack ngokushesha ngokuthinta okusha.</string>
   <string name="dump_node_tree_description">Isihlahla se-node siphrintwe kumalogu.</string>
   <string name="report_gesture_description">Nakhu ukuthinta okwenziwe kamuva, sicela ubike ukuthi yikuphi ukuthinta okungalungile nokuthi yini elindelekile.</string>
-  <string name="update_welcome_text_content">Manje usungakwazi ukuxhuma kuzibonisi zebraille nge-HID, indlela yokuxhuma kumadivayisi ebluetooth. Qiniseka ukuthi unamashayeli efirmware akamuva avela kumkhiqizi wakho, bese uvula iBluetooth kusibonisi sakho sebraille. Iya kumasethingi eTalkBack &gt; Isibonisi seBraille bese uvula okuthi \"Sebenzisa isibonisi sebraille\". Thola idivayisi yakho ohlwini lwamadivayisi, bese uxhuma kuyo.</string>
-  <string name="update_welcome_text_content_tts">Manje usungakwazi ukuxhuma kuzibonisi zebraille nge-HID, indlela yokuxhuma kumadivayisi ebluetooth. Qiniseka ukuthi unamashayeli efirmware akamuva avela kumkhiqizi wakho, bese uvula iBluetooth kusibonisi sakho sebraille. Iya kumasethingi eTalkBack bese Isibonisi sebraille bese uvula okuthi \"Sebenzisa isibonisi sebraille\". Thola idivayisi yakho ohlwini lwamadivayisi, bese uxhuma kuyo.</string>
-  <string name="update_welcome_text_content_with_link">Funda ukusebenzisa isibonisi sakho sebraille ngeTalkBack.</string>
   <string name="update_welcome_talkback_16.1">Lesi sibuyekezo seTalkBack sethula usekelo lwesikrini esithi Chaza ngezilimi ezengeziwe nokunye ukuthuthukiswa kwekhwalithi okwenza kube lula nakakhulu ukusebenzisa iTalkBack.\n\nUzofunda kabanzi ngalolu shintsho ezikrinini ezimbalwa ezilandelayo.\n\nUngabuyekeza lolu lwazi ngesinye isikhathi kumaSethingi eTalkBack &gt; Izakhi ezintsha kuTalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Lesi sibuyekezo seTalkBack sethula usekelo lwesikrini esithi Chaza ngezilimi ezengeziwe nokunye ukuthuthukiswa kwekhwalithi okwenza kube lula nakakhulu ukusebenzisa iTalkBack.\n\nUzofunda kabanzi ngalolu shintsho ezikrinini ezimbalwa ezilandelayo.\n\nUngabuyekeza lolu lwazi ngesinye isikhathi kumasethingi eTalkBack bese uya kokuthi Izakhi ezintsha kuTalkBack.</string>
   <string name="describe_screen_and_qna_title">Izilimi ezintsha zokuchaza isikrini kanye nokuthi Buza iGemini</string>
@@ -985,10 +970,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="reduce_delay_title">Nciphisa ukubambezeleka</string>
   <string name="reduce_delay_content">Manje usunganciphisa ukubambezeleka kwezimemezelo zeTalkBack zokuhlola ngokuthinta nokuthayipha. Ukubuka lamasethingi, iya kumasethingi weTalkBack &gt; Amasethingi athuthukisiwe &gt; Nciphisa ukubambezeleka.</string>
   <string name="reduce_delay_content_tts">Manje usunganciphisa ukubambezeleka kwezimemezelo zeTalkBack zokuhlola ngokuthinta nokuthayipha. Ukubuka lamasethingi, iya kumasethingi weTalkback bese okuthi Amasethingi athuthukisiwe nokuthi Nciphisa ukubambezeleka.</string>
-  <string name="customize_braille_keyboard_improvements_title">Qamba ngokwabahlinzekelwayo ukuthinta kwekhibhodi yebhrayli</string>
-  <string name="customize_braille_keyboard_improvements_content">Manje usungakwazi ukuqamba ngokwabahlinzekelwayo ukunyakazisa umzimba kwekhibhodi yebhrayli esesikrinini esibonakalayo. Ukuqamba ngokwabahlinzekelwayo, iya kumasethingi weTalkBack &gt; Ikhibhodi yebhrayli &gt; Ukunyakazisa umzimba.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Manje usungakwazi ukuqamba ngokwabahlinzekelwayo ukunyakazisa umzimba kwekhibhodi yebhrayli esesikrinini esibonakalayo. Ukuqamba ngokwabahlinzekelwayo, iya kumasethingi weTalkBack bese kokuthi Ikhibhodi yebhrayli bese Ukunyakazisa omzimba.</string>
-  <string name="learn_more_about_braille_keyboard">Funda kabanzi mayelana nekhibhodi yebhrayli</string>
   <string name="other_changes_title">Ezinye izinguquko</string>
   <string name="other_changes_content">Manje umyalezo osesikrinini ukusiza ukuthi uvale ngokushesha iTalkback uma ivulwe ngephutha. Ungayivala kumasethingi weTalkBack &gt; Bonisa iziqondiso zokuvala iTalkBack.</string>
   <string name="other_changes_content_tts">Manje umyalezo osesikrinini ukusiza ukuthi uvale ngokushesha iTalkback uma ivulwe ngephutha. Ungayivala kumasethingi weTalkBack bese okuthi Bonisa iziqondiso zokuvala iTalkBack.</string>
@@ -1021,7 +1002,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="keyboard_enhanced_keymap_text">ITalkBack manje \"Inemephu esemqoka ethuthukisiwe\" yamakhibhodi angokoqobo, enezinhlobo zemiyalo emisha nezinqamuleli. Lokhu kuthuthukiswa kuhlanganisa \"imodi yokubhrawuza\" yokufuna kuwebhu ngokuphumelela nakakhulu, ukufuna kalula kanye nokuxhumana kwabasebenzisi beTalkBack abancike kumakhibhodi angokoqobo. Ungashintshela kokuthi \"Imephu esemqoka egqanyisiwe\" ku-%1$s.\n\nUma usebenzisa isibonisi seBraille, ungasebenzisa futhi izinqamuleli zemodi yokubhrawuza entsha ukuze uhambe kukhontenti ngokuqondile kusukela kusibonisi sakho seBraille. Ezinye izinqamuleli zesibonisi seBraille zishintshiwe ukuze zihambisane nalolu shintsho. Ungabona uhlu lwazo zonke izinqamuleli zesibonisi seBraille ku-%2$s.</string>
   <string name="keyboard_shortcuts_link">Amasethingi eTalkBack &gt; Izinqamuleli zekhibhodi</string>
   <string name="keyboard_shortcuts_link_tts">Amasethingi eTalkBack bese kuba Izinqamuleli zekhibhodi</string>
-  <string name="braille_display_settings_link">Amasethingi okubonisa eBraille</string>
   <string name="keyboard_smart_browse_mode_title">Ikhibhodi: Imodi yokubhrawuza esmathi</string>
   <string name="keyboard_smart_browse_mode_text">Imodi yokubhrawuza esmathi yeTalkBack ivala imodi yokubhrawuza endaweni yokuhlela ukuze ikusize uthayiphe ngekhibhodi engokoqobo uma ubhrawuza iwebhu. Ibe isiyivula futhi uma ugxumela endaweni yokungahleli kuwebhu ukuze uqhubeke ubhrawuza ngendlela ephumelelayo. Ungavula noma uvale \"Imodi yokubhrawuza esmathi\" ku-%1$s.</string>
   <string name="advanced_settings_link">Amasethingi eTalkBack &gt; Amasethingi athuthukisiwe</string>
@@ -1094,7 +1074,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="typing_text_title">Ithayipha umbhalo</string>
   <string name="basic_typing_text_text">Uma usebhokisini lombhalo, kuzovuleka ikhibhodi ezansi kwesikrini sakho</string>
   <string name="typing_text_text">Hambisa umunwe wakho kukhibhodi Uma uzwa uhlamvu ofuna ukulithayipha, phakamisa umunwe wakho.\n\nZama ukwenza kusebenze ibhokisi lombhalo bese uthayiphe igama lakho.</string>
-  <string name="typing_text_with_braille_keyboard_text">Ungaphinda uthayiphe ngekhibhodi ye-braille. Ithole kumasethingi we-TalkBack.</string>
   <string name="other_ways_to_type_title">Ezinye izindlela zokuthayipha</string>
   <string name="other_ways_to_type_text">Kunezinye izindlela zokuthayipha kuTalkBack. Ngokwesibonelo, ungathepha kabili ukuze ufake uhlamvu.</string>
   <string name="basic_other_ways_to_type_text">Kunezinye izindlela zokuthayipha kuTalkBack. Ngokwesibonelo, ungathepha kabili ukuze ufake uhlamvu. Ungakushintsha lokhu kamuva kumasethingi eTalkBack &gt; Ikhibhodi esesikrinini &gt; Othanda ukukuthayipha.</string>
@@ -1209,26 +1188,6 @@ Ukubambezeleka okungaphansi kwemizuzwana engu-0.3 kuzoshintsha ukuthepha kabili 
   <string name="talkback_inactive_message_practice_gestures">Ukuze uphrakthize ukunyakazisa umzimba, qala uvule iTalkBack</string>
   <string name="talkback_inactive_message_image_description">Ukuzama ukuthola izincazelo zesithombe, qala ngokuvula iTalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Vala okokufundisa</string>
-  <string name="wear_training_welcome_paragraph">Uma i-TalkBack ivuliwe, into egxilile kusikrini iyakhulunywa ngokuzwakalayo.\n\nUkuswayipha kwesokudla kuya entweni elandelayo.\nUkuswayipha kwesokunxele kuya entweni edlule.\n\nSwayiphela kwesokudla manje uze uthole inkinobho elandelayo.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swayiphela phezulu noma phansi ngeminwe engu-%1$d.</string>
-  <string name="wear_training_go_back_title">Iya emuva</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Uma ufuna ukubuyela emuva, sebenzisa iminwe engu-%1$d ukuze uswayiphele kwesokudla ukusuka ekugcineni kwesikrini.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Impumelelo</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Ukunyakazisa umzimba kwasemuva kwenziwe</string>
-  <string name="wear_training_volume_up_title">Khuphula ivolumu</string>
-  <string name="wear_training_volume_up_text">Swayiphela kwesokudla bese phezulu</string>
-  <string name="wear_training_volume_down_title">Nciphisa ivolumu</string>
-  <string name="wear_training_volume_down_text">Swayiphela kwesokudla bese uya phansi</string>
-  <string name="wear_training_open_talkback_menu_title">Vula imenyu ye-TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Ukuze uvule amasethingi nezilawuli ongase uzidinge kaningi, swayiphela phansi bese kwesokudla</string>
-  <string name="wear_training_typing_title">Ukuthayipha</string>
-  <string name="wear_training_typing_text1">Ukuze uthayiphe ngekhibhodi, hambisa umunwe wakho phezu kwekhibhodi. Uma uzwa uhlamvu ofuna ukulithayipha, phakamisa umunwe wakho</string>
-  <string name="wear_training_typing_text2">Ukuze ufihle ikhibhodi futhi uhlole okufakiwe, swayipha ngeminwe emibili uye phansi usuka phezulu esikrinini sakho.</string>
-  <string name="wear_training_typing_text3">Ukuze ubuyele kukhibhodi, swayipha ngeminwe emibili uye phezulu usuka phansi esikrinini sakho.</string>
-  <string name="wear_training_typing_text4">Ukuze uvale ikhibhodi futhi ukhansele ukuthayipha, swayipha ngeminwe emibili uye kwesokudla usuka kwesobunxele samaphethelo esikrini sakho.</string>
-  <string name="wear_training_typing_text5">Kuzame ngezansi.</string>
-  <string name="wear_training_typing_practice_button_content_description">Ukuthayipha ngekhibhodi</string>
-  <string name="wear_training_end_tutorial_title">Usukulungele ukuqala ukusebenzisa i-TalkBack</string>
   <string name="talkback_updated_notification_title">I-TalkBack ibuyekeziwe</string>
   <string name="talkback_updated_notification_content">Thepha ukuze uthole okwengeziwe</string>
   <string name="wear_new_feature_page_title">Siyakwamukela ku-TalkBack ebuyekeziwe</string>

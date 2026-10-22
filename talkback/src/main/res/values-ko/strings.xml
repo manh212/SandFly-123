@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">터치하여 탐색</string>
   <string name="title_pref_category_visual">시각 요소</string>
   <string name="title_pref_category_controls">컨트롤</string>
-  <string name="title_pref_category_braille">점자</string>
   <string name="title_pref_category_general">일반</string>
   <string name="title_pref_category_advanced">고급</string>
   <string name="title_pref_category_others">기타</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">지연 시간 줄이기</string>
   <string name="talkback_latency_reduction_summary">TalkBack 안내 전 지연 시간을 줄이는 설정</string>
   <string name="summary_pref_intonation">삭제한 글자를 더 높은 음으로 소리 내어 읽습니다.</string>
-  <string name="title_pref_brailledisplay">점자 디스플레이</string>
-  <string name="title_pref_brailleime">점자 키보드</string>
-  <string name="summary_pref_brailleime_disabled">기기에서 점자 키보드 지원되지 않음</string>
   <string name="title_pref_speech_footer">일부 TalkBack 사운드 설정은 어떤 화면에서나 빠르게 조정할 수 있습니다.\n\n접근성 볼륨: 화면에 손가락 1개를 댄 상태에서 볼륨 업 또는 볼륨 다운 키를 누릅니다.\nTalkBack 말하기 속도: 손가락 3개로 위 또는 아래로 스와이프합니다. \'말하기 속도\'라는 음성이 들리면 한 손가락을 사용해 위 또는 아래로 스와이프하세요.</string>
   <string name="title_pref_vibration">진동 확인</string>
   <string name="title_pref_soundback">음향 피드백</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">볼륨 높이기</string>
   <string name="shortcut_decrease_volume">볼륨 낮추기</string>
   <string name="shortcut_all_apps">모든 앱</string>
-  <string name="shortcut_braille_keyboard">점자 키보드로 전환</string>
-  <string name="shortcut_braille_display_settings">점자 디스플레이 설정으로 이동</string>
   <string name="shortcut_tutorial">튜토리얼 열기</string>
   <string name="shortcut_control_speak_time">음성 시간 알림 켜기 또는 끄기</string>
   <string name="shortcut_enable_speak_time">음성 시간 알림 켜기</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">음성 시간 알림 꺼짐</string>
   <string name="shortcut_practice_gestures">동작 연습</string>
   <string name="shortcut_report_gesture">동작 문제 신고</string>
-  <string name="shortcut_toggle_braille_display">점자 디스플레이 사용 또는 사용 중지</string>
   <string name="shortcut_announce_current_time_and_date">현재 날짜 및 시간 말하기</string>
   <string name="shortcut_announce_battery_state">배터리 잔량 읽기</string>
   <string name="shortcut_announce_current_title">창 제목을 음성으로 듣기</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">말하기 속도 낮추기</string>
   <string name="shortcut_toggle_selection">선택 모드 시작 또는 종료</string>
   <string name="shortcut_show_tutorial">튜토리얼 열기</string>
-  <string name="shortcut_toggle_braille_contracted_mode">약자(2급)와 정자(1급) 간 전환</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">연결된 점자 디스플레이의 화면 점자 표시 또는 숨기기</string>
   <string name="shortcut_toggle_sound_feedback">음향 피드백(이어콘) 사용 설정 또는 중지</string>
   <string name="shortcut_show_learn_mode_page">단축키 연습</string>
   <string name="shortcut_announce_phonetic_pronunciation">포커스된 항목의 문자를 소리 나는 대로 읽기</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">음성 명령</string>
   <string name="title_show_keyboard_shortcuts">단축키</string>
   <string name="talkback_show_talkback_settings">TalkBack 설정</string>
-  <string name="title_show_braille_display_settings">점자 디스플레이 설정</string>
   <string name="title_granularity_default">기본 탐색</string>
   <string name="title_action_dismiss">닫기</string>
   <string name="title_action_expand">펼치기</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">화면을 켤 때 음성 시간 알림을 받을지 설정합니다.</string>
   <string name="summary_show_keyboard_shortcuts_preferences">단축키 목록을 엽니다.</string>
   <string name="summary_talkback_preferences">TalkBack 설정을 엽니다.</string>
-  <string name="summary_braile_display_preferences">점자 디스플레이 설정을 엽니다.</string>
   <string name="summary_system_actions">모든 앱 및 빠른 설정으로 이동합니다.</string>
   <string name="summary_tts_settings">텍스트 음성 변환 설정을 엽니다.</string>
   <string name="not_editable">수정할 수 없음</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">키워드는 %1$s입니다</string>
   <string name="screen_search_no_keyword_hint">아직 키워드가 없습니다. 새 검색을 시작하려면 세 손가락으로 길게 탭하거나 TalkBack 메뉴에서 화면검색을 여세요.</string>
   <string name="screen_search_no_keyword_hint_pre_r">아직 키워드가 없습니다. 새 검색을 시작하려면 왼쪽으로 스와이프한 후 아래로 스와이프하거나, TalkBack 메뉴에서 화면검색을 여세요.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">점자 키보드가 사용 설정되어 있지 않습니다. TalkBack 설정으로 이동하여 점자 키보드를 설정한 다음 다시 시도해 보세요.</string>
   <string name="suggestions_window_available">확인 가능한 추천이 있습니다</string>
   <string name="suggestions_window_available_with_gesture">확인 가능한 추천이 있습니다. 액세스하려면 %1$s</string>
   <string name="heads_up_window_available">알림이 있습니다</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">탭하여 새로운 동작으로 TalkBack을 빠르게 사용하는 방법을 알아보세요.</string>
   <string name="dump_node_tree_description">노드 트리가 로그에 인쇄되었습니다.</string>
   <string name="report_gesture_description">다음은 최근 사용한 동작입니다. 어떤 동작에 문제가 있었으며 정상적인 동작은 무엇인지 알려 주세요.</string>
-  <string name="update_welcome_text_content">이제 블루투스 기기를 연결하는 방법인 HID를 통해 점자 디스플레이에 연결할 수 있습니다. 제조업체에서 제공하는 최신 펌웨어 드라이버를 설치한 후 점자 디스플레이에서 블루투스를 사용 설정하세요. TalkBack 설정 &gt; 점자 디스플레이로 이동하여 \'점자 디스플레이 사용\'을 사용 설정합니다. 그런 다음 기기 목록에서 기기를 찾아 연결합니다.</string>
-  <string name="update_welcome_text_content_tts">이제 블루투스 기기를 연결하는 방법인 HID를 통해 점자 디스플레이에 연결할 수 있습니다. 제조업체에서 제공하는 최신 펌웨어 드라이버를 설치한 후 점자 디스플레이에서 블루투스를 사용 설정하세요. TalkBack 설정의 점자 디스플레이로 이동한 후 \'점자 디스플레이 사용\'을 사용 설정합니다. 그런 다음 기기 목록에서 기기를 찾아 연결합니다.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack으로 점자 디스플레이를 사용하는 방법을 알아보세요.</string>
   <string name="update_welcome_talkback_16.1">이번 TalkBack 업데이트에서는 화면 설명을 지원하는 언어가 추가되었으며 더욱 간편하게 TalkBack을 사용할 수 있도록 품질이 개선되었습니다.\n\n다음 화면에서는 이러한 변경사항에 관해 자세히 알아봅니다.\n\n이 정보는 나중에 TalkBack 설정 &gt; TalkBack의 새로운 기능에서 다시 확인할 수 있습니다.</string>
   <string name="update_welcome_talkback_16.1_tts">이번 TalkBack 업데이트에서는 화면 설명을 지원하는 언어가 추가되었으며 더욱 간편하게 TalkBack을 사용할 수 있도록 품질이 개선되었습니다.\n\n다음 화면에서는 이러한 변경사항에 관해 자세히 알아봅니다.\n\n이 정보는 나중에 TalkBack 설정에 있는 TalkBack의 새로운 기능에서 다시 확인할 수 있습니다.</string>
   <string name="describe_screen_and_qna_title">\'화면 설명\' 및 \'Gemini에게 물어보기\'에 지원되는 새로운 언어</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">지연 시간 줄이기</string>
   <string name="reduce_delay_content">이제 터치 탐색 및 입력 시 TalkBack 안내 지연 시간을 줄일 수 있습니다. 이 설정을 보려면 TalkBack 설정 &gt; 고급 설정 &gt; 지연 시간 줄이기로 이동하세요.</string>
   <string name="reduce_delay_content_tts">이제 터치 탐색 및 입력 시 TalkBack 안내 지연 시간을 줄일 수 있습니다. 이 설정을 보려면 TalkBack 설정의 고급 설정에서 지연 시간 줄이기로 이동하세요.</string>
-  <string name="customize_braille_keyboard_improvements_title">점자 키보드 동작 맞춤설정</string>
-  <string name="customize_braille_keyboard_improvements_content">이제 가상 점자 키보드의 동작을 맞춤설정할 수 있습니다. 맞춤설정하려면 TalkBack 설정 &gt; 점자 키보드 &gt; 동작으로 이동하세요.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">이제 가상 점자 키보드의 동작을 맞춤설정할 수 있습니다. 맞춤설정하려면 TalkBack 설정의 점자 키보드에서 동작으로 이동하세요.</string>
-  <string name="learn_more_about_braille_keyboard">점자 키보드에 대해 자세히 알아보기</string>
   <string name="other_changes_title">기타 변경사항</string>
   <string name="other_changes_content">실수로 TalkBack이 사용 설정된 경우, 화면에 표시되는 메시지를 통해 TalkBack을 빠르게 사용 중지할 수 있습니다. TalkBack 설정 &gt; TalkBack 사용 중지 안내 표시에서 이 기능을 사용 중지할 수 있습니다.</string>
   <string name="other_changes_content_tts">실수로 TalkBack이 사용 설정된 경우, 화면에 표시되는 메시지를 통해 TalkBack을 빠르게 사용 중지할 수 있습니다. TalkBack 설정에서 TalkBack 사용 중지 안내 표시로 이동하여 이 기능을 사용 중지할 수 있습니다.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">이제 TalkBack의 물리적 키보드에서 다양하고 새로운 명령어와 단축키가 포함된 \'향상된 키맵\'이 지원됩니다. 이번 개선사항에는 더 효율적인 웹 탐색을 위한 \'탐색 모드\'가 포함되어 물리적 키보드에 의존하는 TalkBack 사용자의 탐색 및 상호작용이 간소화됩니다. %1$s에서 \'향상된 키맵\'으로 전환할 수 있습니다.\n\n점자 디스플레이를 사용하는 경우 새로운 탐색 모드 단축키를 사용하여 점자 디스플레이에서 바로 콘텐츠를 탐색할 수도 있습니다. 이 변경사항 적용을 위해 일부 점자 디스플레이 단축키가 변경되었습니다. %2$s에서 모든 점자 디스플레이 단축키 목록을 확인할 수 있습니다.</string>
   <string name="keyboard_shortcuts_link">TalkBack 설정 &gt; 키보드 단축키</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack 설정, 키보드 단축키</string>
-  <string name="braille_display_settings_link">점자 디스플레이 설정</string>
   <string name="keyboard_smart_browse_mode_title">키보드: 스마트 탐색 모드</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack 스마트 탐색 모드는 웹을 탐색할 때 물리적 키보드로 입력할 수 있도록 수정 필드에서 탐색 모드를 사용 중지합니다. 웹에서 수정 필드가 아닌 다른 필드로 이동하면 탐색 모드가 다시 사용 설정되어 효율적으로 탐색할 수 있습니다. %1$s에서 \'스마트 탐색 모드\'를 사용 설정하거나 사용 중지할 수 있습니다.</string>
   <string name="advanced_settings_link">TalkBack 설정 &gt; 고급 설정</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">텍스트 입력하기</string>
   <string name="basic_typing_text_text">텍스트 상자를 활성화하면 화면 하단에 키보드가 열립니다.</string>
   <string name="typing_text_text">키보드 위에서 손가락을 움직이세요. 입력하려는 글자가 들리면 손가락을 떼세요.\n\n아래의 텍스트 상자를 활성화한 다음 이름을 입력해 보세요.</string>
-  <string name="typing_text_with_braille_keyboard_text">점자 키보드를 사용해 입력할 수도 있습니다. TalkBack 설정에서 찾아보세요.</string>
   <string name="other_ways_to_type_title">다른 입력 방법</string>
   <string name="other_ways_to_type_text">TalkBack에서 입력하는 다른 방법이 있습니다. 예를 들어 두 번 탭하여 글자를 입력할 수 있습니다.</string>
   <string name="basic_other_ways_to_type_text">TalkBack에서 입력하는 다른 방법이 있습니다. 예를 들어 두 번 탭하여 글자를 입력할 수 있습니다. 나중에 TalkBack 설정 &gt; 터치 키보드 &gt; 입력 환경설정에서 변경할 수 있습니다.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">동작을 연습하려면 먼저 TalkBack을 사용 설정하세요</string>
   <string name="talkback_inactive_message_image_description">이미지 설명을 사용해 보려면 먼저 TalkBack을 사용 설정하세요.</string>
   <string name="talkback_inactive_close_tutorial_button">튜토리얼 닫기</string>
-  <string name="wear_training_welcome_paragraph">TalkBack이 켜져 있으면 화면에서 포커스가 설정된 항목을 음성으로 들을 수 있습니다.\n\n오른쪽으로 스와이프하면 다음 항목으로 이동합니다. 왼쪽으로 스와이프하면 이전 항목으로 이동합니다.\n\n지금 스와이프하여 다음 버튼을 찾아보세요.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d 손가락을 사용해 위 또는 아래로 스와이프합니다.</string>
-  <string name="wear_training_go_back_title">뒤로</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">뒤로 이동하려면 %1$d 손가락을 사용해 화면 가장자리에서 오른쪽으로 스와이프합니다.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">완료</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">뒤로 동작을 수행했습니다.</string>
-  <string name="wear_training_volume_up_title">볼륨 높이기</string>
-  <string name="wear_training_volume_up_text">오른쪽으로 스와이프한 다음 위로 스와이프합니다.</string>
-  <string name="wear_training_volume_down_title">볼륨 낮추기</string>
-  <string name="wear_training_volume_down_text">오른쪽으로 스와이프한 다음 아래로 스와이프합니다.</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack 메뉴 열기</string>
-  <string name="wear_training_open_talkback_menu_text">자주 사용하는 설정 및 컨트롤을 열려면 아래로 스와이프한 다음 오른쪽으로 스와이프하세요.</string>
-  <string name="wear_training_typing_title">입력</string>
-  <string name="wear_training_typing_text1">키보드로 입력하려면 키보드 위에서 손가락을 움직이세요. 입력하려는 글자가 들리면 손가락을 떼세요.</string>
-  <string name="wear_training_typing_text2">키보드를 숨기고 입력을 확인하려면 화면 상단에서 두 손가락을 사용하여 아래로 스와이프합니다.</string>
-  <string name="wear_training_typing_text3">키보드로 돌아가려면 두 손가락을 사용해 화면 하단에서 위로 스와이프합니다.</string>
-  <string name="wear_training_typing_text4">키보드를 닫고 입력을 취소하려면 두 손가락을 사용하여 화면 왼쪽 가장자리에서 오른쪽으로 스와이프하세요.</string>
-  <string name="wear_training_typing_text5">아래에서 사용해 보세요.</string>
-  <string name="wear_training_typing_practice_button_content_description">키보드로 입력</string>
-  <string name="wear_training_end_tutorial_title">TalkBack을 사용할 준비됨</string>
   <string name="talkback_updated_notification_title">TalkBack 업데이트됨</string>
   <string name="talkback_updated_notification_content">탭하여 자세한 내용을 확인하세요.</string>
   <string name="wear_new_feature_page_title">업데이트된 TalkBack을 소개합니다</string>

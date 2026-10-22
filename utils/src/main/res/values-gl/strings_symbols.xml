@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Signo menor que de ancho completo</string>
   <string name="symbol_full_width_greater_than_sign">Signo maior que de ancho completo</string>
   <string name="symbol_left_single_quotation_mark">Comiña simple de apertura</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">o punto %s</item>
-    <item quantity="other">os puntos %s</item>
-  </plurals>
 </resources>

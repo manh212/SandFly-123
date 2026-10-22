@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">גילוי באמצעות מגע</string>
   <string name="title_pref_category_visual">תצוגה</string>
   <string name="title_pref_category_controls">אפשרויות</string>
-  <string name="title_pref_category_braille">ברייל</string>
   <string name="title_pref_category_general">כללי</string>
   <string name="title_pref_category_advanced">הגדרות מתקדמות</string>
   <string name="title_pref_category_others">אפשרויות נוספות</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">הפחתת ההשהיה</string>
   <string name="talkback_latency_reduction_summary">‏הגדרות להפחתת ההשהיה לפני ההכרזות של TalkBack</string>
   <string name="summary_pref_intonation">הקראת אותיות שנמחקו בקול גבוה יותר</string>
-  <string name="title_pref_brailledisplay">צג ברייל</string>
-  <string name="title_pref_brailleime">מקלדת ברייל</string>
-  <string name="summary_pref_brailleime_disabled">המכשיר לא תומך במקלדת ברייל</string>
   <string name="title_pref_speech_footer">‏אפשר לשנות במהירות חלק מהגדרות הצליל של TalkBack מכל מסך.\n\nעוצמת הקול לנגישות: מחזיקים אצבע אחת על המסך ולוחצים על המקש להגברה או להחלשה של עוצמת הקול\nקצב הדיבור ב-TalkBack: מחליקים למעלה או למטה עם 3 אצבעות. כששומעים את ההודעה \'קצב הדיבור\', מחליקים למעלה או למטה באצבע אחת.</string>
   <string name="title_pref_vibration">משוב ברטט</string>
   <string name="title_pref_soundback">משוב קולי</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">הגברת עוצמת הקול</string>
   <string name="shortcut_decrease_volume">החלשת עוצמת הקול</string>
   <string name="shortcut_all_apps">כל האפליקציות</string>
-  <string name="shortcut_braille_keyboard">מעבר למקלדת ברייל</string>
-  <string name="shortcut_braille_display_settings">ניווט להגדרות של צג הברייל</string>
   <string name="shortcut_tutorial">פתיחת המדריך</string>
   <string name="shortcut_control_speak_time">הפעלה או השבתה של \'הקראת השעה\'</string>
   <string name="shortcut_enable_speak_time">הפעלת \'הקראת השעה\'</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">התכונה \'הקראת השעה\' מושבתת</string>
   <string name="shortcut_practice_gestures">תרגול תנועות</string>
   <string name="shortcut_report_gesture">דיווח על בעיה בתנועה</string>
-  <string name="shortcut_toggle_braille_display">הפעלה או כיבוי של צג הברייל</string>
   <string name="shortcut_announce_current_time_and_date">אמירת התאריך והשעה הנוכחיים</string>
   <string name="shortcut_announce_battery_state">השמעת אחוז הטעינה של הסוללה</string>
   <string name="shortcut_announce_current_title">הקראה של כותרת החלון</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">האטת קצב הדיבור</string>
   <string name="shortcut_toggle_selection">התחלה או סיום של מצב בחירה</string>
   <string name="shortcut_show_tutorial">פתיחת המדריך</string>
-  <string name="shortcut_toggle_braille_contracted_mode">מעבר בין מצב מכווץ (2) למצב לא מכווץ (1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">הצגה או הסתרה של ברייל במסך בצגי ברייל מחוברים</string>
   <string name="shortcut_toggle_sound_feedback">הפעלה או השבתה של המשוב בצליל (צלילי חיווי)</string>
   <string name="shortcut_show_learn_mode_page">תרגול השימוש במקשי הקיצור</string>
   <string name="shortcut_announce_phonetic_pronunciation">הקראת אותיות עם הגייה פונטית של הפריט המודגש</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">פקודות קוליות</string>
   <string name="title_show_keyboard_shortcuts">מקשי קיצור</string>
   <string name="talkback_show_talkback_settings">‏ההגדרות של TalkBack</string>
-  <string name="title_show_braille_display_settings">ההגדרות של צג הברייל</string>
   <string name="title_granularity_default">ניווט ברירת המחדל</string>
   <string name="title_action_dismiss">ביטול</string>
   <string name="title_action_expand">הרחב</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">הפעלה או השבתה של הקראת השעה בקול רם כשמפעילים את המסך</string>
   <string name="summary_show_keyboard_shortcuts_preferences">פתיחת רשימה של מקשי קיצור</string>
   <string name="summary_talkback_preferences">‏פתיחה של הגדרות TalkBack</string>
-  <string name="summary_braile_display_preferences">פתיחת ההגדרות של צג הברייל</string>
   <string name="summary_system_actions">הצגת כל האפליקציות וההגדרות המהירות</string>
   <string name="summary_tts_settings">‏פתיחת ההגדרות של המרת טקסט לדיבור (TTS)</string>
   <string name="not_editable">אין אפשרות עריכה</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">מילת המפתח היא %1$s</string>
   <string name="screen_search_no_keyword_hint">‏עדיין אין מילת מפתח. כדי להתחיל חיפוש חדש, לוחצים לחיצה ארוכה עם 3 אצבעות או פותחים את החיפוש מהמסך מתפריט TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">‏עדיין אין מילת מפתח. כדי להתחיל חיפוש חדש, מחליקים ימינה ואז למטה או פותחים את החיפוש מהמסך מתפריט TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">‏מקלדת ברייל לא מופעלת. יש לעבור להגדרות של TalkBack כדי להגדיר את מקלדת הברייל ולאחר מכן לנסות שוב.</string>
   <string name="suggestions_window_available">יש הצעות לטקסט</string>
   <string name="suggestions_window_available_with_gesture">יש הצעות לטקסט. כדי לגשת לחלון ההצעות, צריך לבצע %1$s</string>
   <string name="heads_up_window_available">יש התראה זמינה</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">‏כדי לברר איך להשתמש ב-TalkBack באופן מהיר יותר באמצעות מחוות חדשות, יש ללחוץ.</string>
   <string name="dump_node_tree_description">עץ צמתים הודפס ביומנים.</string>
   <string name="report_gesture_description">כאן מפורטות התנועות שבוצעו לאחרונה. אפשר לדווח על תנועות לא נכונות ולהוסיף את התנועות שצריכות היו להופיע.</string>
-  <string name="update_welcome_text_content">‏עכשיו אפשר להתחבר לצגי ברייל באמצעות מכשיר ממשק אנושי (HID) – שיטה להתחבר למכשירי Bluetooth. צריך לוודא שמותקנים הדרייברים העדכניים של הקושחה מהיצרן, ואז להפעיל Bluetooth בצג הברייל. עוברים להגדרות של TalkBack ואז לאפשרות \"צג ברייל\", ומפעילים את האפשרות \"שימוש בצג הברייל\". מחפשים את המכשיר הרצוי ברשימת המכשירים ומתחברים אליו.</string>
-  <string name="update_welcome_text_content_tts">‏עכשיו אפשר להתחבר לצגי ברייל באמצעות מכשיר ממשק אנושי (HID) – שיטה להתחבר למכשירי Bluetooth. צריך לוודא שמותקנים הדרייברים העדכניים של הקושחה מהיצרן, ואז להפעיל Bluetooth בצג הברייל. עוברים להגדרות של TalkBack ואז לאפשרות \"צג ברייל\", ומפעילים את האפשרות \"שימוש בצג הברייל\". מחפשים את המכשיר הרצוי ברשימת המכשירים ומתחברים אליו.</string>
-  <string name="update_welcome_text_content_with_link">‏אפשר לקרוא הוראות לשימוש בצג הברייל עם TalkBack.</string>
   <string name="update_welcome_talkback_16.1">‏בעדכון הזה של TalkBack הוספנו תמיכה בתכונה \"תיאור המסך\" בעוד שפות וביצענו שיפורים נוספים באיכות שהופכים את השימוש בתכונה לקל יותר.\n\nבמסכים הבאים יש מידע נוסף על השינויים האלו.\n\nרוצה לקרוא את זה אחר כך? אפשר לקרוא את המידע ב-\"הגדרות TalkBack\" &gt; \"תכונות חדשות ב-TalkBack\".</string>
   <string name="update_welcome_talkback_16.1_tts">‏בעדכון הזה של TalkBack הוספנו תמיכה בתכונה \"תיאור המסך\" בעוד שפות וביצענו שיפורים נוספים באיכות שהופכים את השימוש בתכונה לקל יותר.\n\nבמסכים הבאים יש מידע נוסף על השינויים האלו.\n\nרוצה לקרוא את זה אחר כך? אפשר לקרוא את המידע ב-\"הגדרות TalkBack\" ולאחר מכן \"תכונות חדשות ב-TalkBack\".</string>
   <string name="describe_screen_and_qna_title">‏שפות חדשות לתכונות \"תיאור המסך\" ו\"יש לך שאלה ל-Gemini?\"</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">קיצור ההשהיה</string>
   <string name="reduce_delay_content">‏אפשר לקצר את ההשהיה בהודעות של TalkBack בזמן ההקלדה והשימוש ב\"גילוי באמצעות מגע\". כדי לראות את ההגדרות האלה, אפשר לעבור אל ההגדרות של TalkBack &gt; הגדרות מתקדמות &gt; קיצור ההשהיה.</string>
   <string name="reduce_delay_content_tts">‏אפשר לקצר את ההשהיה בהודעות של TalkBack בזמן ההקלדה והשימוש ב\"גילוי באמצעות מגע\". כדי לראות את ההגדרות האלה, אפשר להיכנס להגדרות של TalkBack, אחר כך ל\"הגדרות מתקדמות\" ואז ל\"קיצור ההשהיה\".</string>
-  <string name="customize_braille_keyboard_improvements_title">התאמה אישית של תנועות במקלדת הברייל</string>
-  <string name="customize_braille_keyboard_improvements_content">‏עכשיו אפשר להתאים אישית את התנועות במקלדת הברייל הווירטואלית במסך. כדי לעשות את זה, צריך לעבור אל \"הגדרות TalkBack\" &gt; \"מקלדת ברייל\" &gt; \"תנועות\".</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">‏עכשיו אפשר להתאים אישית את התנועות במקלדת הברייל הווירטואלית במסך. כדי לעשות את זה, צריך לעבור אל \"הגדרות TalkBack\", אחר כך \"מקלדת ברייל\" ואז \"תנועות\".</string>
-  <string name="learn_more_about_braille_keyboard">למידע נוסף על מקלדת הברייל</string>
   <string name="other_changes_title">שינויים אחרים</string>
   <string name="other_changes_content">‏אם התכונה TalkBack מופעלת בטעות, מופיעה הודעה חדשה במסך שדרכה קל להשבית אותה במהירות. לא רוצה לראות את ההודעה הזאת? אפשר להשבית אותה דרך \"הגדרות TalkBack\" &gt; \"הצגת הוראות להשבתת TalkBack\".</string>
   <string name="other_changes_content_tts">‏אם התכונה TalkBack מופעלת בטעות, מופיעה הודעה חדשה במסך שדרכה קל להשבית אותה במהירות. לא רוצה לראות את ההודעה הזאת? אפשר להשבית אותה דרך \"הגדרות TalkBack\" ואז \"הצגת הוראות להשבתת TalkBack\".</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">‏ב-TalkBack יש מפת מקשים משופרת למקלדות פיזיות עם הרבה פקודות ומקשי קיצור חדשים. השיפור הזה כולל \"מצב סמן\" לניווט יעיל יותר באינטרנט, ומפשט את האינטראקציה למשתמשי TalkBack שמסתמכים על מקלדות פיזיות. אפשר לעבור ל\"מפת מקשים משופרת\" ב%1$s.\n\nאם משתמשים בצג ברייל, אפשר גם להשתמש במקשי קיצור חדשים למצב סמן כדי לעבור בין פריטי תוכן ישירות מצג הברייל. חלק ממקשי הקיצור של צג הברייל השתנו כדי להתאים לשינוי הזה. אפשר לראות רשימה של כל מקשי הקיצור בצג הברייל ב%2$s.</string>
   <string name="keyboard_shortcuts_link">‏הגדרות TalkBack &gt; מקשי קיצור</string>
   <string name="keyboard_shortcuts_link_tts">‏הגדרות TalkBack ואז מקשי קיצור</string>
-  <string name="braille_display_settings_link">הגדרות צג הברייל</string>
   <string name="keyboard_smart_browse_mode_title">מקלדת: מצב הסמן החכם</string>
   <string name="keyboard_smart_browse_mode_text">‏מצב הסמן החכם של TalkBack משבית את מצב הסמן בשדה עריכה כדי לעזור להקליד באמצעות מקלדת פיזית כשגולשים באינטרנט. אחר כך הוא מפעיל אותו מחדש כשעוברים לשדה שלא מיועד לעריכה באינטרנט, כדי שאפשר יהיה להמשיך לגלוש ביעילות. אפשר להפעיל או להשבית את ההגדרה \"מצב הסמן החכם\" ב%1$s.</string>
   <string name="advanced_settings_link">‏הגדרות TalkBack &gt; הגדרות מתקדמות</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">הקלדת טקסט</string>
   <string name="basic_typing_text_text">כשהסמן נמצא בתיבת טקסט, נפתחת מקלדת בתחתית המסך.</string>
   <string name="typing_text_text">‏מעבירים את האצבע לאורך המקלדת. כששומעים את שם האות שרוצים להקליד, מרימים את האצבע.\n\nכדאי לנסות להפעיל את תיבת הטקסט למטה ולהקליד את השם.</string>
-  <string name="typing_text_with_braille_keyboard_text">‏אפשר להקליד גם בעזרת מקלדת ברייל. את המקלדת הזו ניתן למצוא בהגדרות של TalkBack.</string>
   <string name="other_ways_to_type_title">דרכים נוספות להקליד</string>
   <string name="other_ways_to_type_text">‏יש עוד דרכים להקליד ב-TalkBack. לדוגמה, אפשר ללחוץ לחיצה כפולה כדי להקליד אות.</string>
   <string name="basic_other_ways_to_type_text">‏יש עוד דרכים להקליד ב-TalkBack. לדוגמה, אפשר ללחוץ לחיצה כפולה כדי לכתוב אות. אפשר לשנות את ההגדרה הזו אחר כך דרך \"הגדרות TalkBack\" &gt; \"מקלדת וירטואלית\" &gt; \"העדפות הקלדה\".</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏כדי לתרגל תנועות, צריך להפעיל את TalkBack</string>
   <string name="talkback_inactive_message_image_description">‏כדי לנסות להשמיע תיאורי תמונות, צריך להפעיל את TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">סגירת המדריך</string>
-  <string name="wear_training_welcome_paragraph">‏כשמפעילים את TalkBack, הוא מקריא בקול את הפריט שמסומן במסך.\n\nמחליקים ימינה כדי לעבור לפריט הבא.\nמחליקים שמאלה כדי לעבור לפריט הקודם.\n\nאפשר להחליק ימינה עכשיו עד שמגיעים לכפתור הבא.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">מחליקים כלפי מעלה או כלפי מטה עם %1$d אצבעות.</string>
-  <string name="wear_training_go_back_title">חזרה אחורה</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">כדי לחזור אחורה, מחליקים ימינה עם %1$d אצבעות מקצה המסך.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">כן, בדיוק ככה</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">תנועת החזרה בוצעה</string>
-  <string name="wear_training_volume_up_title">הגברת עוצמת הקול</string>
-  <string name="wear_training_volume_up_text">החלקה ימינה ואז למעלה</string>
-  <string name="wear_training_volume_down_title">החלשת עוצמת הקול</string>
-  <string name="wear_training_volume_down_text">החלקה ימינה ואז למטה</string>
-  <string name="wear_training_open_talkback_menu_title">‏פתיחה של תפריט TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">כדי לפתוח את ההגדרות ואמצעי הבקרה שבשימוש לעתים קרובות, מחליקים כלפי מטה ואז ימינה</string>
-  <string name="wear_training_typing_title">הקלדה</string>
-  <string name="wear_training_typing_text1">כדי להקליד באמצעות המקלדת, צריך להעביר את האצבע לאורכה. כששומעים את האות שרוצים להקליד, מרימים את האצבע.</string>
-  <string name="wear_training_typing_text2">כדי להסתיר את המקלדת ולבדוק את הקלט, מחליקים למטה עם 2 אצבעות מהחלק העליון של המסך.</string>
-  <string name="wear_training_typing_text3">כדי לחזור למקלדת, מחליקים למעלה מהחלק התחתון של המסך עם 2 אצבעות.</string>
-  <string name="wear_training_typing_text4">כדי לסגור את המקלדת ולבטל את ההקלדה, מחליקים ימינה מהקצה השמאלי של המסך עם 2 אצבעות.</string>
-  <string name="wear_training_typing_text5">אפשר לנסות כאן למטה.</string>
-  <string name="wear_training_typing_practice_button_content_description">הקלדה באמצעות המקלדת</string>
-  <string name="wear_training_end_tutorial_title">‏הכול מוכן, אפשר להתחיל להשתמש ב-TalkBack</string>
   <string name="talkback_updated_notification_title">‏התכונה TalkBack עודכנה</string>
   <string name="talkback_updated_notification_content">אפשר ללחוץ כדי לקרוא מידע נוסף</string>
   <string name="wear_new_feature_page_title">‏ברוך בואך אל TalkBack המעודכן</string>

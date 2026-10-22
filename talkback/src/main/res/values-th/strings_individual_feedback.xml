@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">เปิดโหมดเรียกดู</string>
   <string name="individual_sound_browse_mode_off">ปิดโหมดเรียกดู</string>
   <string name="individual_sound_radial_menu">เมนูวงกลม</string>
-  <string name="individual_sound_display_connected">เชื่อมต่อจอแสดงผลอักษรเบรลล์แล้ว</string>
-  <string name="individual_sound_display_disconnected">ยกเลิกการเชื่อมต่อจอแสดงผลอักษรเบรลล์แล้ว</string>
-  <string name="individual_sound_double_beep">คำสั่งอักษรเบรลล์ล้มเหลว</string>
-  <string name="individual_sound_turn_on">เปิดการเลื่อนอักษรเบรลล์อัตโนมัติ</string>
-  <string name="individual_sound_turn_off">ปิดการเลื่อนอักษรเบรลล์อัตโนมัติ</string>
-  <string name="individual_sound_calibration_done">ปรับเทียบแป้นพิมพ์อักษรเบรลล์แล้ว</string>
   <string name="individual_vibration_focus">โฟกัสที่รายการ</string>
   <string name="individual_vibration_focus_actionable">โฟกัสที่รายการที่ดำเนินการได้</string>
   <string name="individual_vibration_clicked">คลิก</string>

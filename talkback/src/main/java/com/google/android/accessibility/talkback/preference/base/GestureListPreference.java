@@ -354,13 +354,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             R.array.shortcut_text_editing,
             R.array.shortcut_value_text_editing);
     Resources resources = getContext().getResources();
-    if (FeatureSupport.supportSwitchToInputMethod() && !FormFactorUtils.isAndroidWear()) {
-      builder.add(
-          new ActionItem(
-              resources.getString(R.string.shortcut_braille_keyboard),
-              resources.getString(R.string.shortcut_value_braille_keyboard),
-              TYPE_ACTION_ITEM));
-    }
     return builder.build();
   }
 
@@ -505,14 +498,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_show_custom_actions),
             TYPE_ACTION_ITEM));
 
-    if (FeatureSupport.supportBrailleDisplay(getContext())) {
-      builder.add(
-          new ActionItem(
-              resources.getString(R.string.shortcut_braille_display_settings),
-              resources.getString(R.string.shortcut_value_braille_display_settings),
-              TYPE_ACTION_ITEM));
-    }
-
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_tutorial),
@@ -627,15 +612,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
           new ActionItem(
               resources.getString(R.string.shortcut_report_gesture),
               resources.getString(R.string.shortcut_value_report_gesture),
-              TYPE_ACTION_ITEM));
-    }
-
-    if (FeatureSupport.supportBrailleDisplay(getContext())
-        && FeatureFlagReader.useGestureBrailleDisplayOnOff(getContext())) {
-      builder.add(
-          new ActionItem(
-              resources.getString(R.string.shortcut_toggle_braille_display),
-              resources.getString(R.string.shortcut_value_toggle_braille_display),
               TYPE_ACTION_ITEM));
     }
 

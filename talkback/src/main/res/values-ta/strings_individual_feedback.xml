@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">உலாவல் பயன்முறை இயக்கத்தில்</string>
   <string name="individual_sound_browse_mode_off">உலாவல் பயன்முறை முடக்கத்தில்</string>
   <string name="individual_sound_radial_menu">வட்ட மெனு</string>
-  <string name="individual_sound_display_connected">பிரெயில் டிஸ்ப்ளே இணைக்கப்பட்டது</string>
-  <string name="individual_sound_display_disconnected">பிரெயில் டிஸ்ப்ளே துண்டிக்கப்பட்டது</string>
-  <string name="individual_sound_double_beep">பிரெயில் கட்டளை தோல்வியடைந்தது</string>
-  <string name="individual_sound_turn_on">பிரெயில் தானியங்கு ஸ்க்ரோல் இயக்கத்தில்</string>
-  <string name="individual_sound_turn_off">பிரெயில் தானியங்கு ஸ்க்ரோல் முடக்கத்தில்</string>
-  <string name="individual_sound_calibration_done">பிரெயில் கீபோர்டு அளவீடு செய்யப்பட்டது</string>
   <string name="individual_vibration_focus">ஒரு உருப்படியில் ஃபோகஸ்</string>
   <string name="individual_vibration_focus_actionable">செயல்படுத்தக்கூடிய உருப்படியில் ஃபோகஸ்</string>
   <string name="individual_vibration_clicked">கிளிக்</string>

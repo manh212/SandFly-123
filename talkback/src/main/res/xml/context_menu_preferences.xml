@@ -165,20 +165,6 @@
             app:singleLineTitle="false"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
-            android:defaultValue="@bool/pref_show_context_menu_keyboard_echo_default"
-            android:key="@string/pref_show_context_menu_keyboard_echo_braille_keyboard_setting_key"
-            android:order="13"
-            android:title="@string/title_keyboard_echo_braille_keyboard"
-            app:singleLineTitle="false"/>
-        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
-            android:layout="@layout/listitem_2texts"
-            android:defaultValue="@bool/pref_show_context_menu_keyboard_echo_default"
-            android:key="@string/pref_show_context_menu_keyboard_echo_braille_display_setting_key"
-            android:order="13"
-            android:title="@string/title_keyboard_echo_braille_display"
-            app:singleLineTitle="false"/>
-        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
-            android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_show_context_menu_voice_profile_default"
             android:key="@string/pref_show_context_menu_voice_profile_setting_key"
             android:order="15"
@@ -293,13 +279,5 @@
             android:title="@string/system_actions"
             app:singleLineTitle="false"
             android:summary="@string/summary_system_actions"/>
-        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
-            android:layout="@layout/listitem_2texts"
-            android:defaultValue="@bool/pref_show_context_menu_braille_display_settings_default"
-            android:key="@string/pref_show_context_menu_braille_display_settings_setting_key"
-            android:order="26"
-            android:title="@string/title_show_braille_display_settings"
-            app:singleLineTitle="false"
-            android:summary="@string/summary_braile_display_preferences"/>
     </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

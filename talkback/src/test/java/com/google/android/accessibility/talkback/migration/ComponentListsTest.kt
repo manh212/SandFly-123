@@ -63,8 +63,8 @@ class ComponentListsTest {
 
   @Test
   fun replaceKeepsInputMethodSubtypes() {
-    val oldIme = "com.android.talkback/com.google.android.accessibility.brailleime.BrailleIme"
-    val newIme = "fyi.quin.backtalk/com.google.android.accessibility.brailleime.BrailleIme"
+    val oldIme = "com.android.talkback/com.google.android.accessibility.someime.SomeIme"
+    val newIme = "fyi.quin.backtalk/com.google.android.accessibility.someime.SomeIme"
     val latin = "com.android.inputmethod.latin/.LatinIME;123;456"
     assertEquals(
       "$latin:$newIme;-789",

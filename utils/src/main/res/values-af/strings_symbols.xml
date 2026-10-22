@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Volbreedte-kleiner-as-teken</string>
   <string name="symbol_full_width_greater_than_sign">Volbreedte-groter-as-teken</string>
   <string name="symbol_left_single_quotation_mark">Beginenkelaanhalingsteken</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">knoppie %s</item>
-    <item quantity="other">knoppies %s</item>
-  </plurals>
 </resources>

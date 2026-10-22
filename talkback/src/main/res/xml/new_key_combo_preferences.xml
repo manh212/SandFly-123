@@ -248,12 +248,6 @@
             android:key="@string/keycombo_shortcut_other_show_tutorial"
             android:title="@string/keycombo_menu_other_show_tutorial"/>
         <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference
-            android:key="@string/keycombo_shortcut_other_toggle_braille_contracted_mode"
-            android:title="@string/keycombo_menu_other_toggle_braille_contracted_mode"/>
-        <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference
-            android:key="@string/keycombo_shortcut_other_toggle_braille_on_screen_overlay"
-            android:title="@string/keycombo_menu_other_toggle_braille_on_screen_overlay"/>
-        <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference
             android:key="@string/keycombo_shortcut_other_report_issue"
             android:title="@string/keycombo_menu_other_report_issue" />
         <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Snertikönnun</string>
   <string name="title_pref_category_visual">Myndefni</string>
   <string name="title_pref_category_controls">Stýringar</string>
-  <string name="title_pref_category_braille">Blindraletur</string>
   <string name="title_pref_category_general">Almennt</string>
   <string name="title_pref_category_advanced">Ítarlegt</string>
   <string name="title_pref_category_others">Annað</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Stytta töf</string>
   <string name="talkback_latency_reduction_summary">Stillingar til að stytta töfina áður en tilkynningar TalkBack heyrast</string>
   <string name="summary_pref_intonation">Lesa upp stafi sem er eytt með rödd í hærri tón</string>
-  <string name="title_pref_brailledisplay">Blindraletursskjár</string>
-  <string name="title_pref_brailleime">Blindraleturslyklaborð</string>
-  <string name="summary_pref_brailleime_disabled">Tækið þitt styður ekki braille-lyklaborð</string>
   <string name="title_pref_speech_footer">Þú getur breytt tilteknum hljóðstillingum TalkBack á hvaða skjá sem er.\n\nHljóðstyrkur aðgengis: Haltu einum fingri á skjánum og ýttu á takkann til að hækka eða lækka hljóðstyrk\nTalhraði TalkBack: Strjúktu upp eða niður með þremur fingrum. Strjúktu upp eða niður með einum fingri þegar þú heyrir „Speech rate“</string>
   <string name="title_pref_vibration">Svörun með titringi</string>
   <string name="title_pref_soundback">Hljóðsvörun</string>
@@ -486,8 +482,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="shortcut_increase_volume">Auka hljóðstyrk</string>
   <string name="shortcut_decrease_volume">Minnka hljóðstyrk</string>
   <string name="shortcut_all_apps">Öll forrit</string>
-  <string name="shortcut_braille_keyboard">Nota blindraletursborð</string>
-  <string name="shortcut_braille_display_settings">Fara í stillingar blindraletursskjás</string>
   <string name="shortcut_tutorial">Opna leiðsögn</string>
   <string name="shortcut_control_speak_time">Segja hvað klukkan er eða ekki segja hvað klukkan er</string>
   <string name="shortcut_enable_speak_time">Segja hvað klukkan er</string>
@@ -496,7 +490,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="speak_time_off">Slökkt á „Segja hvað klukkan er“</string>
   <string name="shortcut_practice_gestures">Æfingabendingar</string>
   <string name="shortcut_report_gesture">Tilkynna vandamál með bendingu</string>
-  <string name="shortcut_toggle_braille_display">Kveikja eða slökkva á blindraletursskjá</string>
   <string name="shortcut_announce_current_time_and_date">Segja núverandi dagsetningu og tíma upphátt</string>
   <string name="shortcut_announce_battery_state">Segja stöðu rafhlöðu upphátt</string>
   <string name="shortcut_announce_current_title">Segja heiti glugga upphátt</string>
@@ -506,8 +499,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="shortcut_speech_rate_decrease">Minnka talhraða</string>
   <string name="shortcut_toggle_selection">Kveikja eða slökkva á valstillingu</string>
   <string name="shortcut_show_tutorial">Opna sýnikennslu</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Skiptu á milli þess að nota stytt (2. stig) og óstytt (1. stig)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Sýna eða fela blindraletur á skjánum þegar blindraletursskjáir eru tengdir</string>
   <string name="shortcut_toggle_sound_feedback">Kveikja eða slökkva á hljóðsvörun (hljóðmerkjum)</string>
   <string name="shortcut_show_learn_mode_page">Flýtilyklar æfingalyklaborðs</string>
   <string name="shortcut_announce_phonetic_pronunciation">Lesa upp stafi með hljóðfræðilegum framburði fyrir valið atriði</string>
@@ -548,7 +539,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="title_show_voice_commands">Raddskipanir</string>
   <string name="title_show_keyboard_shortcuts">Flýtilyklar</string>
   <string name="talkback_show_talkback_settings">TalkBack-stillingar</string>
-  <string name="title_show_braille_display_settings">Stillingar blindraletursskjás</string>
   <string name="title_granularity_default">Sjálfgefin fletting</string>
   <string name="title_action_dismiss">Hunsa</string>
   <string name="title_action_expand">Stækka</string>
@@ -576,7 +566,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="summary_control_speak_time">Breyttu því hvort þú heyrir hvað klukkan er þegar þú kveikir á skjánum</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Opna lista yfir flýtilykla</string>
   <string name="summary_talkback_preferences">Opna stillingar TalkBack</string>
-  <string name="summary_braile_display_preferences">Opna stillingar blindraletursskjás</string>
   <string name="summary_system_actions">Opna „Öll forrit“ og „Flýtistillingar“</string>
   <string name="summary_tts_settings">Opna stillingar talgervils</string>
   <string name="not_editable">Ekki hægt að breyta</string>
@@ -917,7 +906,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="screen_search_keyword_hint">leitarorðið er: %1$s</string>
   <string name="screen_search_no_keyword_hint">Ekkert leitarorð ennþá. Til að hefja nýja leit skaltu halda inni með þremur fingrum eða opna skjáleit í TalkBack-valmyndinni.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ekkert leitarorð ennþá. Til að hefja nýja leit skaltu strjúka til vinstri og síðan niður eða opna skjáleit í TalkBack-valmyndinni.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Ekki kveikt á blindraleturslyklaborði. Opnaðu stillingar TalkBack, settu upp blindraleturslyklaborð og reyndu aftur.</string>
   <string name="suggestions_window_available">Tillögur í boði</string>
   <string name="suggestions_window_available_with_gesture">Tillögur í boði. Til að fá aðgang skaltu %1$s</string>
   <string name="heads_up_window_available">Tiltæk tilkynning</string>
@@ -967,9 +955,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="new_gesture_notification_content">Ýttu til að kynna þér hvernig þú getur gert TalkBack hraðvirkara með nýjum bendingum.</string>
   <string name="dump_node_tree_description">Hnútatré hefur verið prentað í annála.</string>
   <string name="report_gesture_description">Hér eru nýlega notaðar bendingar. Segðu okkur hver þeirra er röng og hvernig hún hefði átt að virka.</string>
-  <string name="update_welcome_text_content">Nú geturðu tengt blindraletursskjái með HID, nýrri leið til að tengjast Bluetooth-tækjum. Gakktu úr skugga um að þú sért með nýjustu fastbúnaðarrekla frá framleiðandanum þínum og kveiktu síðan á Bluetooth á blindraletursskjánum. Farðu í „Stillingar TalkBack &gt; Blindraletursskjár“ og kveiktu á „Nota blindraletursskjá“. Finndu tækið þitt á tækjalistanum og tengstu því.</string>
-  <string name="update_welcome_text_content_tts">Nú geturðu tengt blindraletursskjái með HID, nýrri leið til að tengjast Bluetooth-tækjum. Gakktu úr skugga um að þú sért með nýjustu fastbúnaðarrekla frá framleiðandanum þínum og kveiktu síðan á Bluetooth á blindraletursskjánum. Farðu í stillingar TalkBack, síðan í „Blindraletursskjár“ og kveiktu á „Nota blindraletursskjá“. Finndu tækið þitt á tækjalistanum og tengstu því.</string>
-  <string name="update_welcome_text_content_with_link">Kynntu þér hvernig þú notar blindraletursskjáinn þinn með TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Þessi TalkBack-uppfærsla kynnir til sögunnar stuðning við „Lýstu skjánum“ á fleiri tungumálum og aðrar gæðaumbætur sem auðvelda notkun eiginleikans.\n\nÁ næstu síðum er að finna frekari upplýsingar um þessar breytingar.\n\nÞú getur nálgast þessar upplýsingar síðar með því að fara í „Stillingar TalkBack &gt; Nýir eiginleikar í TalkBack“.</string>
   <string name="update_welcome_talkback_16.1_tts">Þessi TalkBack-uppfærsla kynnir til sögunnar stuðning við „Lýstu skjánum“ á fleiri tungumálum og aðrar gæðaumbætur sem auðvelda notkun TalkBack.\n\nÁ næstu síðum er að finna frekari upplýsingar um þessar breytingar.\n\nÞú getur nálgast þessar upplýsingar síðar með því að fara í „Nýir eiginleikar í TalkBack“ í stillingum TalkBack.</string>
   <string name="describe_screen_and_qna_title">Ný tungumál í „Lýstu skjánum“ og „Spyrðu Gemini“</string>
@@ -985,10 +970,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="reduce_delay_title">Að stytta töf</string>
   <string name="reduce_delay_content">Nú geturðu stytt tafir sem verða á tilkynningum TalkBack þegar þú notar snertikönnunn og slærð inn texta. Farðu í „Stillingar TalkBack &gt; Ítarlegar stillingar &gt; Stytta töf“ til að fara yfir viðeigandi stillingar.</string>
   <string name="reduce_delay_content_tts">Nú geturðu stytt tafir sem verða á tilkynningum TalkBack þegar þú notar snertikönnunn og slærð inn texta. Farðu í stillingar TalkBack, ítarlegar stillingar og síðan í „Stytta töf“ til að fara yfir viðeigandi stillingar.</string>
-  <string name="customize_braille_keyboard_improvements_title">Sérsniðnar bendingar á braille-lyklaborði</string>
-  <string name="customize_braille_keyboard_improvements_content">Nú geturðu sérsniðið bendingar á braille-sýndarlyklaborðinu á skjánum. Farðu í „Stillingar TalkBack &gt; Braille-lyklaborð &gt; Bendingar“ til að sérsníða bendingar.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Nú geturðu sérsniðið bendingar á braille-sýndarlyklaborðinu á skjánum. Farðu í stillingar TalkBack, síðan í „Braille-lyklaborð“ og þaðan í „Bendingar“ til að sérsníða bendingar.</string>
-  <string name="learn_more_about_braille_keyboard">Nánar um braille-lyklaborð</string>
   <string name="other_changes_title">Aðrar breytingar</string>
   <string name="other_changes_content">Skilaboð sem birtast á skjánum gera þér nú kleift að slökkva snögglega á TalkBack ef það kviknar á eiginleikanum fyrir slysni. Þú getur slökkt á þessu með því að fara í „Stillingar TalkBack &gt; Sýna leiðbeiningar um hvernig slökkt er á TalkBack“.</string>
   <string name="other_changes_content_tts">Skilaboð sem birtast á skjánum gera þér nú kleift að slökkva snögglega á TalkBack ef það kviknar á eiginleikanum fyrir slysni. Þú getur slökkt á þessu með því að fara í stillingar TalkBack og síðan „Sýna leiðbeiningar um hvernig slökkt er á TalkBack“.</string>
@@ -1021,7 +1002,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="keyboard_enhanced_keymap_text">TalkBack er nú með endurbætt flýtilyklakort fyrir vélbúnaðarlyklaborð þar sem má finna ýmsar nýjar skipanir og flýtilykla. Þessi viðbót býður upp á flettiham, sem gerir flettingu á netinu enn skilvirkari og auðveldar notendum TalkBack sem reiða sig á vélbúnaðarlyklaborð að fletta og framkvæma aðgerðir. Þú getur skipt yfir í endurbætta flýtilyklakortið í %1$s.\n\nEf þú notar blindraletursskjá geturðu einnig notað nýja flýtilykla fyrir flettiham til að skoða efni beint á blindraletursskjánum. Sumum flýtilyklum blindraletursskjásins var breytt til að koma til móts við þessa breytingu. Þú getur séð lista yfir alla flýtilykla blindraletursskjásins í %2$s.</string>
   <string name="keyboard_shortcuts_link">Stillingar TalkBack &gt; Flýtilyklar</string>
   <string name="keyboard_shortcuts_link_tts">Stillingar TalkBack og síðan „Flýtilyklar“</string>
-  <string name="braille_display_settings_link">Stillingar blindraletursskjás</string>
   <string name="keyboard_smart_browse_mode_title">Lyklaborð: Snjallflettihamur</string>
   <string name="keyboard_smart_browse_mode_text">Snjallflettihamur TalkBack slekkur á flettiham í breytingareit til að hjálpa þér að slá inn texta með vélbúnaðarlyklaborði þegar þú flettir á vefnum. Hann kveikir síðan aftur á honum þegar þú ferð yfir í reit sem er ekki breytingareitur á vefnum svo að þú getir haldið áfram að skoða á skilvirkan hátt. Þú getur kveikt eða slökkt á snjallflettiham í %1$s.</string>
   <string name="advanced_settings_link">Stillingar TalkBack &gt; Ítarlegar stillingar</string>
@@ -1094,7 +1074,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="typing_text_title">Textainnsláttur</string>
   <string name="basic_typing_text_text">Þegar þú ert í textareit birtist lyklaborð neðst á skjánum.</string>
   <string name="typing_text_text">Renndu fingrinum yfir lyklaborðið. Þegar þú heyrir stafinn sem þú vilt slá inn skaltu lyfta fingrinum.\n\nPrófaðu að opna textareitinn hér fyrir neðan og slá inn nafnið þitt.</string>
-  <string name="typing_text_with_braille_keyboard_text">Þú getur líka slegið inn með blindraleturslyklaborðinu. Það má finna í stillingum TalkBack.</string>
   <string name="other_ways_to_type_title">Aðrar innsláttarleiðir</string>
   <string name="other_ways_to_type_text">Aðrar innsláttarleiðir eru í boði í TalkBack. Þú getur t.d. ýtt tvisvar til að færa inn staf.</string>
   <string name="basic_other_ways_to_type_text">Aðrar innsláttaraðferðir eru í boði í TalkBack. Þú getur t.d. ýtt tvisvar til að færa inn staf. Þú getur breytt þessu síðar í „Stillingar TalkBack &gt; Skjályklaborð &gt; Innsláttaraðferð“.</string>
@@ -1209,26 +1188,6 @@ Tafir undir 0,3 sekúndum munu breyta „Ýta tvisvar til að virkja“ í „Ý
   <string name="talkback_inactive_message_practice_gestures">Byrjaðu á því að kveikja á TalkBack til að æfa bendingar</string>
   <string name="talkback_inactive_message_image_description">Byrjaðu á því að kveikja á TalkBack til að prófa að fá myndlýsingar</string>
   <string name="talkback_inactive_close_tutorial_button">Loka leiðsögn</string>
-  <string name="wear_training_welcome_paragraph">Þegar kveikt er á TalkBack er atriðið sem er merkt á skjánum lesið upphátt.\n\nStroka til hægri fer í næsta atriði. Stroka til vinstri fer í fyrra atriði.\n\nStrjúktu til hægri núna til að finna næsta hnapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Strjúktu upp eða niður með %1$d fingrum.</string>
-  <string name="wear_training_go_back_title">Til baka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Þegar þú vilt fara til baka skaltu nota %1$d fingur og strjúka til hægri frá brún skjásins.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Tókst</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bendingin „til baka“ framkvæmd</string>
-  <string name="wear_training_volume_up_title">Hækka hljóðstyrk</string>
-  <string name="wear_training_volume_up_text">Strjúktu til hægri og svo upp</string>
-  <string name="wear_training_volume_down_title">Lækka hljóðstyrk</string>
-  <string name="wear_training_volume_down_text">Strjúktu til hægri og svo niður</string>
-  <string name="wear_training_open_talkback_menu_title">Opna valmynd TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Til að opna stillingar og stýringar sem þú þarft e.t.v. að nota oft skaltu strjúka niður og síðan til hægri</string>
-  <string name="wear_training_typing_title">Skrifar</string>
-  <string name="wear_training_typing_text1">Renndu fingrinum yfir lyklaborðið til að hefja innslátt. Lyftu fingrinum þegar þú heyrir stafinn sem þú vilt slá inn.</string>
-  <string name="wear_training_typing_text2">Strjúktu niður frá efsta hluta skjásins með tveimur fingrum til að fela lyklaborðið og sjá textann sem þú hefur slegið inn.</string>
-  <string name="wear_training_typing_text3">Strjúktu niður frá neðsta hluta skjásins með tveimur fingrum til að opna lyklaborðið aftur.</string>
-  <string name="wear_training_typing_text4">Strjúktu til hægri frá vinstri brún skjásins með tveimur fingrum til að loka lyklaborðinu og hætta innslætti.</string>
-  <string name="wear_training_typing_text5">Prófaðu þetta hér fyrir neðan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Innsláttur af lyklaborði</string>
-  <string name="wear_training_end_tutorial_title">Þú getur byrjað að nota TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack var uppfært</string>
   <string name="talkback_updated_notification_content">Ýttu til að fá frekari upplýsingar</string>
   <string name="wear_new_feature_page_title">Velkomin(n) í uppfært TalkBack</string>

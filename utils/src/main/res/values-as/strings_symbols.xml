@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">সম্পূৰ্ণ-প্ৰস্থৰ লেছ দেন চিহ্ন</string>
   <string name="symbol_full_width_greater_than_sign">সম্পূৰ্ণ-প্ৰস্থৰ গ্ৰেটাৰ দেন চিহ্ন</string>
   <string name="symbol_left_single_quotation_mark">বাওঁফালৰ একক ঊৰ্ধ্বকমা</string>
-  <string name="symbol_braille">ব্ৰেইল %s</string>
-  <plurals name="dots">
-    <item quantity="one">বিন্দু %s</item>
-    <item quantity="other">বিন্দু %s</item>
-  </plurals>
 </resources>

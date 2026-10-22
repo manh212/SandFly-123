@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ପୂର୍ଣ୍ଣ-ଚଉଡ଼ା ଥିବା ଲେସ୍ ଦାନ୍ ଚିହ୍ନ</string>
   <string name="symbol_full_width_greater_than_sign">ପୂର୍ଣ୍ଣ-ଚଉଡ଼ା ଥିବା ଗ୍ରେଟର୍ ଦାନ୍ ଚିହ୍ନ</string>
   <string name="symbol_left_single_quotation_mark">ବାମପଟର ଏକ ଉଦ୍ଧୃତ ଚିହ୍ନ</string>
-  <string name="symbol_braille">ବ୍ରେଲି %s</string>
-  <plurals name="dots">
-    <item quantity="one">%sଟି ଡଟ</item>
-    <item quantity="other">%sଟି ଡଟ</item>
-  </plurals>
 </resources>

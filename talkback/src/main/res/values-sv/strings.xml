@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Upptäck genom beröring</string>
   <string name="title_pref_category_visual">Visuellt</string>
   <string name="title_pref_category_controls">Kontroller</string>
-  <string name="title_pref_category_braille">Punktskrift</string>
   <string name="title_pref_category_general">Allmänt</string>
   <string name="title_pref_category_advanced">Avancerat</string>
   <string name="title_pref_category_others">Annat</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Minska fördröjningen</string>
   <string name="talkback_latency_reduction_summary">Inställningar för att minska fördröjningen innan TalkBack-meddelanden läses upp</string>
   <string name="summary_pref_intonation">Läs upp texten som raderats med en röst med högre tonhöjd</string>
-  <string name="title_pref_brailledisplay">Punktskriftsskärm</string>
-  <string name="title_pref_brailleime">Punktskriftstangentbord</string>
-  <string name="summary_pref_brailleime_disabled">Ej stöd för punktskriftstangentbord</string>
   <string name="title_pref_speech_footer">Du kan snabbt justera några av ljudinställningarna för TalkBack från vilken skärm som helst.\n\nVolym på tillgänglighetsfunktionerna: Håll ett finger på skärmen och tryck på knappen för att höja eller sänka volymen.\nTalhastighet för TalkBack: Svep uppåt eller nedåt med tre fingrar. När du hör ”talhastighet” sveper du uppåt eller nedåt med ett finger.</string>
   <string name="title_pref_vibration">Vibrationsåterkoppling</string>
   <string name="title_pref_soundback">Ljudsignal</string>
@@ -486,8 +482,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="shortcut_increase_volume">Höj volymen</string>
   <string name="shortcut_decrease_volume">Sänk volymen</string>
   <string name="shortcut_all_apps">Alla appar</string>
-  <string name="shortcut_braille_keyboard">Byt till punktskrift</string>
-  <string name="shortcut_braille_display_settings">Öppna inställningarna för punktskriftsskärm</string>
   <string name="shortcut_tutorial">Öppna vägledning</string>
   <string name="shortcut_control_speak_time">Läs upp eller läs inte upp tiden</string>
   <string name="shortcut_enable_speak_time">Läs upp tiden</string>
@@ -496,7 +490,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="speak_time_off">Läs upp tiden är inaktiverat</string>
   <string name="shortcut_practice_gestures">Öva på rörelser</string>
   <string name="shortcut_report_gesture">Rapportera problem med rörelse</string>
-  <string name="shortcut_toggle_braille_display">Aktivera eller inaktivera punktskriftsskärmen</string>
   <string name="shortcut_announce_current_time_and_date">Läs upp aktuellt datum och aktuell tid</string>
   <string name="shortcut_announce_battery_state">Läs upp batteriprocent</string>
   <string name="shortcut_announce_current_title">Läs upp fönstrets namn</string>
@@ -506,8 +499,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="shortcut_speech_rate_decrease">Minska talhastigheten</string>
   <string name="shortcut_toggle_selection">Aktivera eller avsluta markeringsläget</string>
   <string name="shortcut_show_tutorial">Öppna guiden</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Byt mellan sammandragen (2) och icke-sammandragen (1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Visa eller dölj punktskrift för anslutna punktskriftsskärmar</string>
   <string name="shortcut_toggle_sound_feedback">Aktivera eller inaktivera ljudsignaler (ljudikoner)</string>
   <string name="shortcut_show_learn_mode_page">Öva på kortkommandon</string>
   <string name="shortcut_announce_phonetic_pronunciation">Läs upp bokstäver med fonetiskt uttal för objekt i fokus</string>
@@ -548,7 +539,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="title_show_voice_commands">Röstkommandon</string>
   <string name="title_show_keyboard_shortcuts">Kortkommandon</string>
   <string name="talkback_show_talkback_settings">Inställningar för TalkBack</string>
-  <string name="title_show_braille_display_settings">Inställningar för punktskriftsskärmen</string>
   <string name="title_granularity_default">Standard­navigering</string>
   <string name="title_action_dismiss">Ignorera</string>
   <string name="title_action_expand">Utöka</string>
@@ -576,7 +566,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="summary_control_speak_time">Ändra om tiden ska läsas upp när du slår på skärmen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Öppna lista över kortkommandon</string>
   <string name="summary_talkback_preferences">Öppna inställningarna för TalkBack</string>
-  <string name="summary_braile_display_preferences">Öppna inställningarna för punktskriftsskärmen</string>
   <string name="summary_system_actions">Öppna alla appar och snabbinställningar</string>
   <string name="summary_tts_settings">Öppna inställningarna för text till tal</string>
   <string name="not_editable">Kan inte redigeras</string>
@@ -917,7 +906,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="screen_search_keyword_hint">sökordet är %1$s</string>
   <string name="screen_search_no_keyword_hint">Inga sökord ännu. Om du vill starta en ny sökning kan du trycka länge med tre fingrar eller öppna skärmsökning via TalkBack-menyn.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Inga sökord ännu. Om du vill starta en ny sökning kan du svepa åt vänster och sedan nedåt eller öppna skärmsökning via TalkBack-menyn.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Punktskriftstangentbordet är av. Konfigurera det i TalkBack-inställningarna och försök igen.</string>
   <string name="suggestions_window_available">Förslag är tillgängliga</string>
   <string name="suggestions_window_available_with_gesture">Förslag är tillgängliga Så här får du åtkomst: %1$s</string>
   <string name="heads_up_window_available">Avisering tillgänglig</string>
@@ -967,9 +955,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="new_gesture_notification_content">Tryck här för mer information om hur du kan använda TalkBack snabbare med nya rörelser.</string>
   <string name="dump_node_tree_description">Nodträdet har skrivits ut i loggar.</string>
   <string name="report_gesture_description">Här är rörelser som gjorts nyligen. Rapportera vilken rörelse som är fel och hur det borde vara.</string>
-  <string name="update_welcome_text_content">Nu kan du ansluta till punktskriftsskärmar via styrdon för att ansluta till Bluetooth-enheter. Se till att du har de senaste firmwaredrivrutinerna från tillverkaren och aktivera sedan Bluetooth på punktskriftsskärmen. Öppna inställningarna för TalkBack &gt; Punktskriftsskärm och aktivera Använd punktskriftsskärm. Leta upp enheten i enhetslistan och anslut till den.</string>
-  <string name="update_welcome_text_content_tts">Nu kan du ansluta till punktskriftsskärmar via styrdon för att ansluta till Bluetooth-enheter. Se till att du har de senaste firmwaredrivrutinerna från tillverkaren och aktivera sedan Bluetooth på punktskriftsskärmen. Öppna inställningarna för TalkBack och sedan Punktskriftsskärm och aktivera Använd punktskriftsskärm. Leta upp enheten i enhetslistan och anslut till den.</string>
-  <string name="update_welcome_text_content_with_link">Läs mer om hur du använder punktskriftsskärmen med TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Den här TalkBack-uppdateringen introducerar stöd för Beskriv skärmen på fler språk och andra kvalitetsförbättringar som förenklar användningen av TalkBack.\n\nDu får mer information om dessa ändringar på skärmarna som följer.\n\nDu kan granska den här informationen senare i TalkBack-inställningarna &gt; Nya funktioner i TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Den här TalkBack-uppdateringen introducerar stöd för Beskriv skärmen på fler språk och andra kvalitetsförbättringar som förenklar användningen av TalkBack.\n\nDu får mer information om dessa ändringar på skärmarna som följer.\n\nDu kan granska den här informationen senare i TalkBack-inställningarna följt av Nya funktioner i TalkBack.</string>
   <string name="describe_screen_and_qna_title">Nya språk för Beskriv skärmen och Fråga Gemini</string>
@@ -985,10 +970,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="reduce_delay_title">Minska fördröjningen</string>
   <string name="reduce_delay_content">Nu kan du minska fördröjningen för TalkBack-meddelanden när du skriver eller använder Explore by touch. Du kommer åt dessa inställningar i TalkBack-inställningarna &gt; Avancerade inställningar &gt; Minska fördröjning.</string>
   <string name="reduce_delay_content_tts">Nu kan du minska fördröjningen för TalkBack-meddelanden när du skriver eller använder Explore by touch. Du kommer åt dessa inställningar i TalkBack-inställningarna följt av Avancerade inställningar och sedan Minska fördröjning.</string>
-  <string name="customize_braille_keyboard_improvements_title">Anpassa rörelser för punktskriftstangentbordet</string>
-  <string name="customize_braille_keyboard_improvements_content">Nu kan du anpassa rörelser för det virtuella punktskriftstangentbordet på skärmen. Du kan anpassa rörelserna genom att öppna TalkBack-inställningarna &gt; Punktskriftstangentbord &gt; Rörelser.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Nu kan du anpassa rörelser för det virtuella punktskriftstangentbordet på skärmen. Du kan anpassa rörelserna genom att öppna TalkBack-inställningarna följt av Punktskriftstangentbord och sedan Rörelser.</string>
-  <string name="learn_more_about_braille_keyboard">Läs mer om punktskriftstangentbordet</string>
   <string name="other_changes_title">Övriga ändringar</string>
   <string name="other_changes_content">Ett meddelande på skärmen hjälper dig nu att snabbt inaktivera TalkBack om du aktiverade det av misstag. Du kan inaktivera detta i TalkBack-inställningarna &gt; Visa anvisningar för att inaktivera TalkBack.</string>
   <string name="other_changes_content_tts">Ett meddelande på skärmen hjälper dig nu att snabbt inaktivera TalkBack om du aktiverade det av misstag. Du kan inaktivera detta i TalkBack-inställningarna följt av Visa anvisningar för att inaktivera TalkBack.</string>
@@ -1021,7 +1002,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="keyboard_enhanced_keymap_text">Nu finns det en förbättrad lista över kortkommandon för fysiska tangentbord i TalkBack med en mängd nya kommandon och kortkommandon. Den här förbättringen, som inkluderar ett läsläge för effektivare webbnavigering, gör att navigering och interaktion blir effektivare för TalkBack-användare som använder fysiska tangentbord. Du kan byta till den förbättrade listan över kortkommandon i %1$s.\n\nOm du använder en punktskriftsskärm kan du även använda nya kortkommandon för läsläget för att navigera genom innehåll direkt från punktskriftsskärmen. Vissa kortkommandon för punktskriftsskärmen har ändrats för att anpassas till denna ändring. Du kan se en lista över alla kortkommandon för punktskriftsskärmar i %2$s.</string>
   <string name="keyboard_shortcuts_link">TalkBack-inställningar &gt; Kortkommandon</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack-inställningar och sedan Kortkommandon</string>
-  <string name="braille_display_settings_link">Inställningar för punktskriftsskärmen</string>
   <string name="keyboard_smart_browse_mode_title">Tangentbord: Smart läsläge</string>
   <string name="keyboard_smart_browse_mode_text">TalkBacks smarta läsläge inaktiverar läsläget i ett redigeringsfält så att du kan skriva med ett fysiskt tangentbord när du surfar på webben. Sedan aktiveras den igen när du hoppar till ett fält som inte är ett redigeringsfält på webben så att du kan fortsätta surfa effektivt. Du kan aktivera eller inaktivera Smart läsläge i %1$s.</string>
   <string name="advanced_settings_link">TalkBack-inställningar &gt; Avancerade inställningar</string>
@@ -1094,7 +1074,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="typing_text_title">Skriva text</string>
   <string name="basic_typing_text_text">När du är i en textruta öppnas ett tangentbord längst ned på skärmen.</string>
   <string name="typing_text_text">Dra med fingret på tangentbordet. Lyft på fingret när du hör den bokstav som du vill skriva.\n\nTesta att aktivera textrutan nedan och skriva ditt namn.</string>
-  <string name="typing_text_with_braille_keyboard_text">Du kan även skriva med tangentbordet för punktskrift. Det finns i TalkBack-inställningarna.</string>
   <string name="other_ways_to_type_title">Andra sätt att skriva</string>
   <string name="other_ways_to_type_text">Det finns andra sätt att skriva på i TalkBack. Du kan till exempel dubbeltrycka för att skriva en bokstav.</string>
   <string name="basic_other_ways_to_type_text">Det finns andra sätt att skriva på i TalkBack. Du kan till exempel dubbeltrycka för att skriva en bokstav. Du kan ändra detta senare i TalkBack-inställningarna &gt; Skärmtangentbord &gt; Skrivinställning.</string>
@@ -1209,26 +1188,6 @@ Om fördröjningen är kortare än 0,3 sekunder ändras Aktivera genom att dubbe
   <string name="talkback_inactive_message_practice_gestures">Aktivera TalkBack om du vill öva på rörelser</string>
   <string name="talkback_inactive_message_image_description">Aktivera TalkBack om du vill testa att få bildbeskrivningar</string>
   <string name="talkback_inactive_close_tutorial_button">Avsluta guide</string>
-  <string name="wear_training_welcome_paragraph">När TalkBack är aktiverat blir det som är i fokus på skärmen uppläst.\n\nGå vidare till nästa objekt genom att svepa åt höger. Svep åt vänster och du går du tillbaka till föregående objekt.\n\nSvep åt höger nu för att hitta nästa knapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Svep uppåt eller nedåt med %1$d fingrar.</string>
-  <string name="wear_training_go_back_title">Tillbaka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Svep åt höger från kanten av skärmen med %1$d fingrar när du vill gå tillbaka.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Klart</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bakåtrörelsen utfördes</string>
-  <string name="wear_training_volume_up_title">Höj volymen</string>
-  <string name="wear_training_volume_up_text">Svep höger och sedan uppåt</string>
-  <string name="wear_training_volume_down_title">Sänk volymen</string>
-  <string name="wear_training_volume_down_text">Svep vänster och sedan nedåt</string>
-  <string name="wear_training_open_talkback_menu_title">Öppna TalkBack-menyn</string>
-  <string name="wear_training_open_talkback_menu_text">Svep nedåt och sedan åt höger för att öppna inställningar och kontroller som du använder ofta.</string>
-  <string name="wear_training_typing_title">Skriver</string>
-  <string name="wear_training_typing_text1">Dra med fingret på tangentbordet för att skriva på det. Lyft på fingret när du hör den bokstav som du vill skriva.</string>
-  <string name="wear_training_typing_text2">Svep nedåt från skärmens överkant med två fingrar för att dölja tangentbordet och kontrollera det du har matat in.</string>
-  <string name="wear_training_typing_text3">Svep uppåt från skärmens nederkant med två fingrar för att återgå till tangentbordet.</string>
-  <string name="wear_training_typing_text4">Svep åt höger från skärmens vänstra kant med två fingrar för att stänga tangentbordet och avbryta inmatningen.</string>
-  <string name="wear_training_typing_text5">Testa nedan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Skriva med tangentbordet</string>
-  <string name="wear_training_end_tutorial_title">Du kan börja använda TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack har uppdaterats</string>
   <string name="talkback_updated_notification_content">Tryck här för mer information</string>
   <string name="wear_new_feature_page_title">Välkommen till den nya versionen av TalkBack</string>

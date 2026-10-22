@@ -193,11 +193,6 @@ public final class TutorialGestureUses {
           .put(R.string.container_item_exit_subtext_pre_r, ImmutableList.of(ADJUST_DOWN))
           .put(R.string.welcome_to_talkback_page_idle_announcement, ImmutableList.of(NEXT))
           .put(R.string.image_description_sample_image_content_description, ImmutableList.of(MENU_3F))
-          // Watch tutorial.
-          .put(R.string.wear_training_welcome_paragraph, ImmutableList.of(NEXT, PREVIOUS))
-          .put(R.string.wear_training_volume_up_text, ImmutableList.of(VOLUME_UP_WATCH))
-          .put(R.string.wear_training_volume_down_text, ImmutableList.of(VOLUME_DOWN_WATCH))
-          .put(R.string.wear_training_open_talkback_menu_text, ImmutableList.of(MENU_PRE_R))
           .buildOrThrow();
 
   /** The action that each onboarding announcement says its gesture did. */

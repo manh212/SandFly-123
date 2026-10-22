@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Viso pločio ženklas „mažiau nei“</string>
   <string name="symbol_full_width_greater_than_sign">Viso pločio ženklas „daugiau nei“</string>
   <string name="symbol_left_single_quotation_mark">Kairiosios viengubos kabutės</string>
-  <string name="symbol_braille">Brailio rašmuo %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s tašk.</item>
-    <item quantity="few">%s tašk.</item>
-    <item quantity="many">%s tašk.</item>
-    <item quantity="other">%s tašk.</item>
-  </plurals>
 </resources>

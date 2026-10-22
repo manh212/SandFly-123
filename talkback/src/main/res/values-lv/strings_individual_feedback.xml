@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Pārlūkošanas režīms ieslēgts</string>
   <string name="individual_sound_browse_mode_off">Pārlūkošanas režīms izslēgts</string>
   <string name="individual_sound_radial_menu">Apļa izvēlne</string>
-  <string name="individual_sound_display_connected">Braila displejs pievienots</string>
-  <string name="individual_sound_display_disconnected">Braila displejs atvienots</string>
-  <string name="individual_sound_double_beep">Braila komanda neizdevās</string>
-  <string name="individual_sound_turn_on">Braila automātiskā ritināšana ieslēgta</string>
-  <string name="individual_sound_turn_off">Braila automātiskā ritināšana izslēgta</string>
-  <string name="individual_sound_calibration_done">Braila tastatūra kalibrēta</string>
   <string name="individual_vibration_focus">Fokuss uz vienumu</string>
   <string name="individual_vibration_focus_actionable">Fokuss uz aktivizējamu vienumu</string>
   <string name="individual_vibration_clicked">Klikšķis</string>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">တို့ထိလျက် စူးစမ်းပါ</string>
   <string name="title_pref_category_visual">ရုပ်ပုံ</string>
   <string name="title_pref_category_controls">ထိန်းချုပ်မှုများ</string>
-  <string name="title_pref_category_braille">မျက်မမြင်စာရေးစနစ်</string>
   <string name="title_pref_category_general">အထွေထွေ</string>
   <string name="title_pref_category_advanced">အဆင့်မြင့်</string>
   <string name="title_pref_category_others">အခြား</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">စောင့်ရချိန် လျှော့ရန်</string>
   <string name="talkback_latency_reduction_summary">TalkBack ကြေညာချက်များ မတိုင်မီ စောင့်ရချိန် လျှော့ရန် ဆက်တင်များ</string>
   <string name="summary_pref_intonation">ဖျက်လိုက်သည့်စာကို အသံစူးစူးဖြင့် ပြောပေးသည်</string>
-  <string name="title_pref_brailledisplay">မျက်မမြင်စာဖတ်ကိရိယာ</string>
-  <string name="title_pref_brailleime">မျက်မမြင်စာရေးစနစ် လက်ကွက်</string>
-  <string name="summary_pref_brailleime_disabled">စက်က မျက်မမြင်စာရေးစနစ်ကီးဘုတ်ကို မပံ့ပိုးပါ</string>
   <string name="title_pref_speech_footer">TalkBack အသံဆက်တင်အချို့ကို မည်သည့်စခရင်မှမဆို အမြန်ချိန်ညှိနိုင်သည်။\n\nအများသုံးနိုင်မှု အသံအတိုးအကျယ်- စခရင်ပေါ်တွင် လက် ၁ ချောင်းထောက်ပြီး အသံချဲ့/အသံတိုး ခလုတ်နှိပ်ပါ။\nTalkBack စကားပြောနှုန်း- လက် ၃ ချောင်းဖြင့် အပေါ်/အောက် ပွတ်ဆွဲပါ။ “စကားပြောနှုန်း” ကို ကြားချိန်တွင် လက် ၁ ချောင်းဖြင့် အပေါ်/အောက်သို့ ပွတ်ဆွဲပါ။</string>
   <string name="title_pref_vibration">တုန်ခါ တုံ့ပြန်ချက်</string>
   <string name="title_pref_soundback">အသံတုံ့ပြန်ချက်</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">အသံချဲ့ရန်</string>
   <string name="shortcut_decrease_volume">အသံတိုးရန်</string>
   <string name="shortcut_all_apps">အက်ပ်အားလုံး</string>
-  <string name="shortcut_braille_keyboard">မျက်မမြင်စာကီးဘုတ်သို့ ပြောင်းရန်</string>
-  <string name="shortcut_braille_display_settings">မျက်မမြင်စာဖတ်ကိရိယာဆက်တင်သို့ သွားရန်</string>
   <string name="shortcut_tutorial">ရှင်းလင်းပို့ချချက်ကို ဖွင့်ရန်</string>
   <string name="shortcut_control_speak_time">အချိန်ပြောရန် (သို့) အချိန်မပြောပါနှင့်</string>
   <string name="shortcut_enable_speak_time">အချိန်ပြောရန်</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">အချိန်ပြောရန် ပိတ်ထားသည်</string>
   <string name="shortcut_practice_gestures">လက်ဟန်များကို လေ့ကျင့်ရန်</string>
   <string name="shortcut_report_gesture">လက်ဟန်ပြဿနာများကို အစီရင်ခံရန်</string>
-  <string name="shortcut_toggle_braille_display">မျက်မမြင်စာဖတ်ကိရိယာ ဖွင့်ရန် (သို့) ပိတ်ရန်</string>
   <string name="shortcut_announce_current_time_and_date">လက်ရှိ ရက်စွဲနှင့်အချိန်ကို ပြောရန်</string>
   <string name="shortcut_announce_battery_state">ဘက်ထရီရာခိုင်နှုန်းကို ပြောရန်</string>
   <string name="shortcut_announce_current_title">ဝင်းဒိုးခေါင်းစဉ်ကို ပြောရန်</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">စကားပြောနှုန်း လျှော့ပါ</string>
   <string name="shortcut_toggle_selection">ရွေးချယ်မုဒ်ကို စတင်ရန် (သို့) ရပ်ရန်</string>
   <string name="shortcut_show_tutorial">ရှင်းလင်းပို့ချချက်ကို ဖွင့်ရန်</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ချုံ့ထားသောမုဒ် (အဆင့် ၂) နှင့် ချုံ့မထားသောမုဒ် (အဆင့် ၁) အကြား ပြောင်းပါ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ချိတ်ဆက်ထားသော မျက်မမြင်စာဖတ်ကိရိယာအတွက် စခရင်ရှိ မျက်မမြင်စာရေးစနစ် ပြ/ဖျောက်ပါ</string>
   <string name="shortcut_toggle_sound_feedback">အသံဖြင့်တုံ့ပြန်ချက် (အသံသင်္ကေတများ) ဖွင့်/ပိတ်ရန်</string>
   <string name="shortcut_show_learn_mode_page">လေ့ကျင့်မှု လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="shortcut_announce_phonetic_pronunciation">အထူးပြထားသော အရာအတွက် အသံထွက်ပါသော စာလုံးများကို ပြောရန်</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">အသံကွန်မန်းများ</string>
   <string name="title_show_keyboard_shortcuts">လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="talkback_show_talkback_settings">TalkBack ဆက်တင်များ</string>
-  <string name="title_show_braille_display_settings">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ</string>
   <string name="title_granularity_default">မူရင်း လမ်းညွှန်မှု</string>
   <string name="title_action_dismiss">ပယ်ရန်</string>
   <string name="title_action_expand">ချဲ့ကြည့်ရန်</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ဖန်သားပြင်ဖွင့်သောအခါ အချိန်ကို အသံထွက်ပြောခြင်း ရှိ၊ မရှိ ပြောင်းနိုင်သည်</string>
   <string name="summary_show_keyboard_shortcuts_preferences">လက်ကွက်ဖြတ်လမ်းစာရင်းကို ဖွင့်သည်</string>
   <string name="summary_talkback_preferences">TalkBack ဆက်တင်များကို ဖွင့်သည်</string>
-  <string name="summary_braile_display_preferences">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ ဖွင့်သည်</string>
   <string name="summary_system_actions">အက်ပ်အားလုံးနှင့် ‘အမြန် ဆက်တင်များ’ သို့ သွားသည်</string>
   <string name="summary_tts_settings">စာ-မှ-စကား ဆက်တင်များကို ဖွင့်သည်</string>
   <string name="not_editable">တည်းဖြတ်၍မရပါ</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">အဓိကစကားလုံးမှာ %1$s ဖြစ်သည်</string>
   <string name="screen_search_no_keyword_hint">အဓိကစကားလုံး မရှိသေးပါ။ ရှာဖွေမှုအသစ် စတင်ရန်အတွက် လက် ၃ ချောင်းဖြင့် တို့ပြီး ဖိထားပါ (သို့) TalkBack မီနူးတွင် မြင်လွှာတွင်ရှာဖွေခြင်းကို ဖွင့်ပါ။</string>
   <string name="screen_search_no_keyword_hint_pre_r">အဓိကစကားလုံး မရှိသေးပါ။ ရှာဖွေမှုအသစ် စတင်ရန်အတွက် ဘယ်ဘက်သို့ ပွတ်ဆွဲပြီးနောက် အောက်သို့ ပွတ်ဆွဲပါ (သို့) TalkBack မီနူးတွင် မြင်လွှာတွင်ရှာဖွေခြင်းကို ဖွင့်ပါ။</string>
-  <string name="switch_to_braille_keyboard_failure_msg">မျက်မမြင်စာကီးဘုတ်ကို ဖွင့်မထားပါ။ TalkBack ဆက်တင်များသို့သွား၍ မျက်မမြင်စာကီးဘုတ်ကို စနစ်ထည့်သွင်းကာ ထပ်စမ်းကြည့်ပါ။</string>
   <string name="suggestions_window_available">အကြံပြုချက် ရယူနိုင်သည်</string>
   <string name="suggestions_window_available_with_gesture">အကြံပြုချက် ရယူနိုင်သည်။ သုံးခွင့်ရယူရန် %1$s</string>
   <string name="heads_up_window_available">အကြောင်းကြားချက် ရှိသည်</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">လက်ဟန်အသစ်များဖြင့် TalkBack အမြန်သုံးနည်းကို လေ့လာရန် တို့ပါ။</string>
   <string name="dump_node_tree_description">Node tree ကို မှတ်တမ်းများသို့ ပုံနှိပ်ထုတ်ယူလိုက်သည်။</string>
   <string name="report_gesture_description">၎င်းတို့သည် မကြာသေးမီက ပြုလုပ်ခဲ့သောလက်ဟန်များ ဖြစ်သည်။ မည်သည့်လက်ဟန်က မှားကြောင်းနှင့် မည်သည့်က မှန်ကြောင်းတို့ကို အစီရင်ခံပါ။</string>
-  <string name="update_welcome_text_content">ဘလူးတုသ်သုံးစက်များနှင့် ချိတ်ဆက်ရန် နည်းလမ်းအဖြစ် HID မှတစ်ဆင့် မျက်မမြင်စာဖတ်ကိရိယာများနှင့် ချိတ်ဆက်နိုင်ပါပြီ။ သင့်တွင် ထုတ်လုပ်သူထံမှ နောက်ဆုံးဖာမ်းဝဲ ဒရိုင်ဗာများရှိကြောင်း သေချာအောင်လုပ်ပါ။ ထို့နောက် မျက်မမြင်စာဖတ်ကိရိယာတွင် ဘလူးတုသ်ဖွင့်ပါ။ TalkBack ဆက်တင်များ &gt; မျက်မမြင်စာဖတ်ကိရိယာ သို့သွားပြီး “မျက်မမြင်စာဖတ်ကိရိယာ သုံးရန်” ကိုဖွင့်ပါ။ စက်များစာရင်းတွင် သင့်စက်ကိုရှာပြီး ချိတ်ဆက်ပါ။</string>
-  <string name="update_welcome_text_content_tts">ဘလူးတုသ်သုံးစက်များနှင့် ချိတ်ဆက်ရန် နည်းလမ်းအဖြစ် HID မှတစ်ဆင့် မျက်မမြင်စာဖတ်ကိရိယာများနှင့် ချိတ်ဆက်နိုင်ပါပြီ။ သင့်တွင် ထုတ်လုပ်သူထံမှ နောက်ဆုံးဖာမ်းဝဲ ဒရိုင်ဗာများရှိကြောင်း သေချာအောင်လုပ်ပါ။ ထို့နောက် မျက်မမြင်စာဖတ်ကိရိယာတွင် ဘလူးတုသ်ဖွင့်ပါ။ TalkBack ဆက်တင်များမှ မျက်မမြင်စာဖတ်ကိရိယာ သို့သွားပြီး “မျက်မမြင်စာဖတ်ကိရိယာ သုံးရန်” ကိုဖွင့်ပါ။ စက်များစာရင်းတွင် သင့်စက်ကိုရှာပြီး ချိတ်ဆက်ပါ။</string>
-  <string name="update_welcome_text_content_with_link">TalkBack ဖြင့် မျက်မမြင်စာဖတ်ကိရိယာ သုံးနည်းကို လေ့လာနိုင်သည်။</string>
   <string name="update_welcome_talkback_16.1">ဤ TalkBack အပ်ဒိတ်တွင် Describe စခရင်အတွက် အကူအညီကို ဘာသာစကားများစွာဖြင့် မိတ်ဆက်ထားပြီး Talkback အသုံးပြုရ ပိုလွယ်ကူစေရန် အခြားသော အရည်အသွေးမွမ်းမံမှုများလည်း ပါဝင်သည်။\n\nဤအပြောင်းအလဲများအကြောင်းကို နောက်စခရင်အချို့တွင် ပိုမိုလေ့လာနိုင်မည်။\n\nဤအချက်အလက်ကို နောင်တွင် TalkBack ဆက်တင်များ &gt; TalkBack ရှိ တူးလ်အသစ်များ၌ ကြည့်နိုင်သည်။</string>
   <string name="update_welcome_talkback_16.1_tts">ဤ TalkBack အပ်ဒိတ်တွင် Describe စခရင်အတွက် အကူအညီကို ဘာသာစကားများစွာဖြင့် မိတ်ဆက်ထားပြီး Talkback အသုံးပြုရ ပိုလွယ်ကူစေရန် အခြားသော အရည်အသွေးမွမ်းမံမှုများလည်း ပါဝင်သည်။\n\nဤအပြောင်းအလဲများအကြောင်းကို နောက်စခရင်အချို့တွင် ပိုမိုလေ့လာနိုင်မည်။\n\nဤအချက်အလက်ကို နောင်တွင် TalkBack ဆက်တင်များ၊ ထို့နောက် TalkBack ရှိ တူးလ်အသစ်များ၌ ကြည့်နိုင်သည်။</string>
   <string name="describe_screen_and_qna_title">Describe စခရင်နှင့် ‘Gemini ကို မေးပါ’ အတွက် ဘာသာစကားအသစ်များ</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">စောင့်ရချိန် လျှော့ရန်</string>
   <string name="reduce_delay_content">ထိပြီး ရှာဖွေစူးစမ်းခြင်းနှင့် စာရိုက်ခြင်းတို့အတွက် TalkBack ကြေညာချက် စောင့်ရချိန်များကို လျှော့နိုင်ပါပြီ။ ဤဆက်တင်များကို ကြည့်ရန် TalkBack ဆက်တင်များ &gt; အဆင့်မြင့်ဆက်တင်များ &gt; စောင့်ရချိန် လျှော့ရန်သို့ သွားပါ။</string>
   <string name="reduce_delay_content_tts">ထိပြီး ရှာဖွေစူးစမ်းခြင်းနှင့် စာရိုက်ခြင်းတို့အတွက် TalkBack ကြေညာချက် စောင့်ရချိန်များကို လျှော့နိုင်ပါပြီ။ ဤဆက်တင်များကို ကြည့်ရန် TalkBack ဆက်တင်များ၊ ထို့နောက် အဆင့်မြင့်ဆက်တင်များ၊ ပြီးနောက် စောင့်ရချိန် လျှော့ရန်သို့ သွားပါ။</string>
-  <string name="customize_braille_keyboard_improvements_title">မျက်မမြင်စာရေးစနစ် ကီးဘုတ်လက်ဟန်များကို စိတ်ကြိုက်ပြင်ဆင်ခြင်း</string>
-  <string name="customize_braille_keyboard_improvements_content">စခရင်ပေါ်ရှိ ပကတိအသွင် မျက်မမြင်စာရေးစနစ် ကီးဘုတ်အတွက် လက်ဟန်များကို စိတ်ကြိုက်ပြင်ဆင်နိုင်ပါပြီ။ စိတ်ကြိုက်ပြင်ဆင်ရန် TalkBack ဆက်တင်များ &gt; မျက်မမြင်စာရေးစနစ် ကီးဘုတ် &gt; လက်ဟန်များသို့ သွားပါ။</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">စခရင်ပေါ်ရှိ ပကတိအသွင် မျက်မမြင်စာရေးစနစ် ကီးဘုတ်အတွက် လက်ဟန်များကို စိတ်ကြိုက်ပြင်ဆင်နိုင်ပါပြီ။ စိတ်ကြိုက်ပြင်ဆင်ရန် TalkBack ဆက်တင်များ၊ ထို့နောက် မျက်မမြင်စာရေးစနစ် ကီးဘုတ်၊ ပြီးနောက် လက်ဟန်များသို့ သွားပါ။</string>
-  <string name="learn_more_about_braille_keyboard">မျက်မမြင်စာရေးစနစ် ကီးဘုတ်အကြောင်း ပိုလေ့လာရန်</string>
   <string name="other_changes_title">အခြားပြောင်းလဲမှုများ</string>
   <string name="other_changes_content">စခရင်ပေါ်ရှိ မက်ဆေ့ဂျ်သည် TalkBack ကို မတော်တဆ ဖွင့်မိပါက အမြန်ပိတ်နိုင်ရန် ကူညီပေးသည်။ TalkBack ဆက်တင်များ &gt; TalkBack ပိတ်ခြင်းအတွက် ညွှန်ကြားချက်များကို ပြပါတွင် ၎င်းကို ပိတ်နိုင်သည်။</string>
   <string name="other_changes_content_tts">စခရင်ပေါ်ရှိ မက်ဆေ့ဂျ်သည် TalkBack ကို မတော်တဆ ဖွင့်မိပါက အမြန်ပိတ်နိုင်ရန် ကူညီပေးသည်။ TalkBack ဆက်တင်များ၊ ထို့နောက် TalkBack ပိတ်ခြင်းအတွက် ညွှန်ကြားချက်များကို ပြပါတွင် ၎င်းကို ပိတ်နိုင်သည်။</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack တွင် ပကတိကီးဘုတ်များအတွက် ကွန်မန်းနှင့် ဖြတ်လမ်းအသစ်အမျိုးမျိုးဖြင့် “အရည်အသွေးမြှင့်တင်ထားသော ကီးမြေပုံ” ကို ရနိုင်ပါပြီ။ ဤအရည်အသွေးမြှင့်တင်ချက်၌ ပိုမိုထိရောက်သည့် ဝဘ်တွင်ရွှေ့ကြည့်မှုအတွက် “ဘရောက်စ်မုဒ်” ပါဝင်ပြီး ပကတိကီးဘုတ်များပေါ် မှီခိုသည့် TalkBack အသုံးပြုသူများအတွက် ရွှေ့ကြည့်မှုနှင့် ပြန်လှန်တုံ့ပြန်မှုတို့ကို ချောမွေ့စေသည်။ %1$s တွင် “အရည်အသွေးမြှင့်တင်ထားသော ကီးမြေပုံ” သို့ ပြောင်းနိုင်သည်။\n\n‘မျက်မမြင်စာဖတ်ကိရိယာ’ သုံးပါက ၎င်းမှ အကြောင်းအရာကို တိုက်ရိုက်ရွှေ့ကြည့်ရန် ဘရောက်စ်မုဒ် ဖြတ်လမ်းအသစ်များကိုလည်း သုံးနိုင်သည်။ ဤပြောင်းလဲမှု သက်ရောက်ရန် ‘မျက်မမြင်စာဖတ်ကိရိယာ’ ဖြတ်လမ်းအချို့ကို ပြောင်းထားသည်။ ‘မျက်မမြင်စာဖတ်ကိရိယာ’ ဖြတ်လမ်းလင့်ခ်အားလုံး၏ စာရင်းကို %2$s တွင် ကြည့်နိုင်သည်။</string>
   <string name="keyboard_shortcuts_link">TalkBack ဆက်တင်များ &gt; လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ဆက်တင်များ ထို့နောက် လက်ကွက်ဖြတ်လမ်းများ</string>
-  <string name="braille_display_settings_link">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ</string>
   <string name="keyboard_smart_browse_mode_title">ကီးဘုတ်- အဆင့်မြင့်ဘရောက်စ်မုဒ်</string>
   <string name="keyboard_smart_browse_mode_text">ဝဘ်ကို ဘရောက်စ်လုပ်သည့်အခါ ပကတိကီးဘုတ်ဖြင့် စာရိုက်နိုင်ရန် TalkBack အဆင့်မြင့်ဘရောက်စ်မုဒ်က တည်းဖြတ်အကွက်တွင် ဘရောက်စ်မုဒ်ကို ပိတ်ပေးသည်။ ထို့နောက် ဝဘ်ပေါ်ရှိ တည်းဖြတ်၍မရသော အကွက်သို့ သင်ရောက်သွားသောအခါ ၎င်းကို ပြန်ဖွင့်ပေးသဖြင့် ဘရောက်စ်လုပ်ခြင်းကို ထိရောက်စွာ ဆက်လုပ်နိုင်သည်။ “အဆင့်မြင့်ဘရောက်စ်မုဒ်” ကို %1$s တွင် ဖွင့်နိုင်၊ ပိတ်နိုင်သည်။</string>
   <string name="advanced_settings_link">TalkBack ဆက်တင်များ &gt; အဆင့်မြင့် ဆက်တင်များ</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">စာရိုက်ခြင်း</string>
   <string name="basic_typing_text_text">စာသားအကွက်ထဲတွင် ရှိသည့်အခါ သင့်စခရင်အောက်ခြေ၌ ကီးဘုတ်ပွင့်လာမည်။</string>
   <string name="typing_text_text">သင့်လက်ချောင်းကို လက်ကွက်တစ်လျှောက် ရွှေ့ပါ။ သင်ရိုက်လိုသည့် စာလုံးကို ကြားရသည့်အခါ လက်ချောင်းကို လွှတ်လိုက်ပါ။\n\nအောက်ပါ စာသားအကွက်ကို စသုံးကြည့်ပြီး သင့်အမည်ကို ရိုက်ထည့်ပါ။</string>
-  <string name="typing_text_with_braille_keyboard_text">မျက်မမြင်စာရေးစနစ် လက်ကွက်ဖြင့်လည်း စာရိုက်နိုင်သည်။ ၎င်းကို TalkBack ဆက်တင်များတွင် ရှာပါ။</string>
   <string name="other_ways_to_type_title">စာရိုက်ရန် အခြားနည်းလမ်းများ</string>
   <string name="other_ways_to_type_text">TalkBack တွင် စာရိုက်ရန် အခြားနည်းလမ်းများရှိသည်။ ဥပမာ- စာလုံး ရိုက်ထည့်ရန် နှစ်ချက်တို့ခြင်းကို သုံးနိုင်သည်။</string>
   <string name="basic_other_ways_to_type_text">TalkBack တွင် စာရိုက်ရန် အခြားနည်းလမ်းများရှိသည်။ ဥပမာ- စာလုံး ရိုက်ထည့်ရန် နှစ်ချက်တို့ခြင်းကို သုံးနိုင်သည်။ ၎င်းကို TalkBack ဆက်တင်များ &gt; မျက်နှာပြင် လက်ကွက် &gt; စာရိုက်ခြင်းသတ်မှတ်ချက်တွင် နောက်မှ ပြောင်းနိုင်သည်။</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">လက်ဟန်များ လေ့ကျင့်ရန်အတွက် TalkBack ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_message_image_description">ပုံရှင်းလင်းချက်များ ရယူကြည့်ရန် TalkBack ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_close_tutorial_button">ရှင်းလင်းပို့ချချက် ပိတ်ရန်</string>
-  <string name="wear_training_welcome_paragraph">Talkback ဖွင့်ထားပါက ဖန်သားပြင်ရှိ ဗဟိုပြုထားသည့် အကြောင်းအရာကို အသံထွက် ဖတ်ပြသည်။\n\nညာဘက်သို့ပွတ်ဆွဲပါက နောက်အကြောင်းအရာသို့ သွားသည်။ဘယ်ဘက်သို့ ပွတ်ဆွဲပါက ယခင်အကြောင်းအရာသို့ သွားသည်။\n\nရှေ့သို့ခလုတ်ကိုရှာရန် ညာဘက်သို့ ယခုပွတ်ဆွဲလိုက်ပါ။</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">လက် %1$d ချောင်းဖြင့် အပေါ် (သို့) အောက်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_title">နောက်သို့</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">နောက်သို့ ပြန်သွားလိုသောအခါ လက် %1$d ချောင်းသုံး၍ စခရင်၏အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">အောင်မြင်ပါသည်</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">နောက်သို့ လက်ဟန်ပြထားသည်</string>
-  <string name="wear_training_volume_up_title">အသံချဲ့ခြင်း</string>
-  <string name="wear_training_volume_up_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အပေါ်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_volume_down_title">အသံတိုးခြင်း</string>
-  <string name="wear_training_volume_down_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အောက်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack မီနူး ဖွင့်ခြင်း</string>
-  <string name="wear_training_open_talkback_menu_text">အသုံးများသော ဆက်တင်နှင့် ထိန်းချုပ်မှုများကို ဖွင့်ရန် အောက်သို့ပွတ်ဆွဲပြီးနောက် ညာသို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_typing_title">စာရိုက်ခြင်း</string>
-  <string name="wear_training_typing_text1">ကီးဘုတ်ဖြင့် စာရိုက်ရန် လက်ချောင်းကို ကီးဘုတ်တစ်လျှောက် ရွှေ့ပါ။ သင်ရိုက်လိုသည့် စာလုံးကို ကြားရသည့်အခါ လက်ချောင်းကို လွှတ်လိုက်ပါ။</string>
-  <string name="wear_training_typing_text2">ကီးဘုတ်ဖျောက်ပြီး ရိုက်ထားသည့်စာကို ကြည့်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ထိပ်မှ အောက်သို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text3">ကီးဘုတ်သို့ ပြန်သွားရန် လက် ၂ ချောင်းဖြင့် စခရင်အောက်ခြေမှ အပေါ်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text4">ကီးဘုတ်ပိတ်ပြီး စာရိုက်ခြင်း ပယ်ဖျက်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ဘယ်အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text5">အောက်တွင် စမ်းကြည့်ပါ။</string>
-  <string name="wear_training_typing_practice_button_content_description">ကီးဘုတ်ဖြင့် စာရိုက်ခြင်း</string>
-  <string name="wear_training_end_tutorial_title">TalkBack ကို စသုံးရန် အသင့်ဖြစ်ပါပြီ</string>
   <string name="talkback_updated_notification_title">TalkBack ကို အပ်ဒိတ်လုပ်ပြီးပြီ</string>
   <string name="talkback_updated_notification_content">ပိုမိုသိရှိရန် တို့ပါ</string>
   <string name="wear_new_feature_page_title">အပ်ဒိတ်လုပ်ထားသော TalkBack က ကြိုဆိုပါသည်</string>

@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ब्राउझ मोड सुरू</string>
   <string name="individual_sound_browse_mode_off">ब्राउझ मोड बंद</string>
   <string name="individual_sound_radial_menu">वर्तुळाकार मेनू</string>
-  <string name="individual_sound_display_connected">ब्रेल डिस्प्ले कनेक्ट झाला</string>
-  <string name="individual_sound_display_disconnected">ब्रेल डिस्प्ले डिस्कनेक्ट झाला</string>
-  <string name="individual_sound_double_beep">ब्रेल कमांड अयशस्वी झाली</string>
-  <string name="individual_sound_turn_on">ब्रेल ऑटो स्क्रोल सुरू</string>
-  <string name="individual_sound_turn_off">ब्रेल ऑटो स्क्रोल बंद</string>
-  <string name="individual_sound_calibration_done">ब्रेल कीबोर्ड कॅलिब्रेट झाला</string>
   <string name="individual_vibration_focus">आयटमवर फोकस</string>
   <string name="individual_vibration_focus_actionable">कृती करता येणाऱ्या आयटमवर फोकस</string>
   <string name="individual_vibration_clicked">क्लिक</string>

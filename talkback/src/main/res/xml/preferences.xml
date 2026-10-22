@@ -141,7 +141,7 @@
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_typing_key"
-      android:title="@string/title_pref_category_typing_and_braille"
+      android:title="@string/title_pref_category_typing"
       app:allowDividerAbove="true" >
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoFragment"
@@ -154,20 +154,6 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_physical_keyboard_key"
         android:title="@string/title_pref_physical_keyboard" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:key="@string/pref_brailleime_key"
-        android:title="@string/title_pref_brailleime">
-      <intent
-          android:targetPackage="@string/app_id"
-          android:targetClass="com.google.android.accessibility.brailleime.settings.BrailleImePreferencesActivity" />
-    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:key="@string/pref_brailledisplay_key"
-        android:title="@string/title_pref_brailledisplay">
-      <intent
-          android:targetPackage="@string/app_id"
-          android:targetClass="com.google.android.accessibility.braille.brailledisplay.settings.BrailleDisplaySettingsActivity" />
-    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_apps_key"

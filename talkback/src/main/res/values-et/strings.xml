@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Puudutusega uurimine</string>
   <string name="title_pref_category_visual">Visuaal</string>
   <string name="title_pref_category_controls">Juhtelemendid</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Üldine</string>
   <string name="title_pref_category_advanced">Täpsemad</string>
   <string name="title_pref_category_others">Muud</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Viivituse vähendamine</string>
   <string name="talkback_latency_reduction_summary">SandFly reageerimise kiirendamine pärast ekraani puudutamist</string>
   <string name="summary_pref_intonation">Kustutatud tähed loetakse ette kõrgema tooniga</string>
-  <string name="title_pref_brailledisplay">Braille ekraan</string>
-  <string name="title_pref_brailleime">Braille klaviatuur</string>
-  <string name="summary_pref_brailleime_disabled">Teie seade ei toeta Braille klaviatuuri</string>
   <string name="title_pref_speech_footer">Juurdepääsufunktsioonide helitugevuse muutmiseks mis tahes ekraanil hoidke ühte sõrme ekraanil ja vajutage helitugevuse suurendamise või vähendamise nuppu.</string>
   <string name="title_pref_vibration">Vibreerimisega tagasiside</string>
   <string name="title_pref_soundback">Helitagasiside</string>
@@ -486,8 +482,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="shortcut_increase_volume">Helitugevuse suurendamine</string>
   <string name="shortcut_decrease_volume">Helitugevuse vähendamine</string>
   <string name="shortcut_all_apps">Kõik rakendused</string>
-  <string name="shortcut_braille_keyboard">Braillei aktiveerimine</string>
-  <string name="shortcut_braille_display_settings">Braille ekraani seadetele navigeerimine</string>
   <string name="shortcut_tutorial">Õpetuse avamine</string>
   <string name="shortcut_control_speak_time">Ütle aeg või ära ütle aega</string>
   <string name="shortcut_enable_speak_time">Ütle aeg</string>
@@ -496,7 +490,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="speak_time_off">Aja ütlemine on välja lülitatud</string>
   <string name="shortcut_practice_gestures">Liigutuste harjutamine</string>
   <string name="shortcut_report_gesture">Liigutuse probleemist teavitamine</string>
-  <string name="shortcut_toggle_braille_display">Braille ekraani sisse- või väljalülitamine</string>
   <string name="shortcut_announce_current_time_and_date">Loe ette praegune kuupäev ja kellaaeg</string>
   <string name="shortcut_announce_battery_state">Loe ette aku laetuse protsent</string>
   <string name="shortcut_announce_current_title">Loe akna pealkiri ette</string>
@@ -506,8 +499,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="shortcut_speech_rate_decrease">Vähenda rääkimiskiirust</string>
   <string name="shortcut_toggle_selection">Valikurežiimi käivitamine või sulgemine</string>
   <string name="shortcut_show_tutorial">Õpetuse avamine</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Lülituge lühendatud (2. klass) ja lühendamata režiimi (1. klass) vahel</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Braille kuvamine või peitmine ühendatud Braille-ekraanide jaoks</string>
   <string name="shortcut_toggle_sound_feedback">Helitagasiside (helisignaalide) sisse- või väljalülitamine</string>
   <string name="shortcut_show_learn_mode_page">Klaviatuuri otseteede harjutamine</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fokuseeritud üksuse puhul tähtede ettelugemine foneetilise hääldusega</string>
@@ -548,7 +539,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="title_show_voice_commands">Häälkäsklused</string>
   <string name="title_show_keyboard_shortcuts">Klaviatuuri otseteed</string>
   <string name="talkback_show_talkback_settings">SandFlyi seaded</string>
-  <string name="title_show_braille_display_settings">Braille ekraani seaded</string>
   <string name="title_granularity_default">Vaikenavigeerimine</string>
   <string name="title_action_dismiss">Loobu</string>
   <string name="title_action_expand">Laienda</string>
@@ -576,7 +566,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="summary_control_speak_time">Muutke, kas ekraani sisselülitamisel öeldakse aeg</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Klaviatuuri otseteede loendi avamine</string>
   <string name="summary_talkback_preferences">SandFlyi seadete avamine</string>
-  <string name="summary_braile_display_preferences">Ava Braille ekraani seaded</string>
   <string name="summary_system_actions">Tehke valikud Kõik rakendused &gt; Kiirseaded</string>
   <string name="summary_tts_settings">Kõnesünteesi seadete avamine</string>
   <string name="not_editable">Pole muudetav</string>
@@ -917,7 +906,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="screen_search_keyword_hint">märksõna on %1$s</string>
   <string name="screen_search_no_keyword_hint">Märksõna pole veel. Uue otsingu alustamiseks puudutage pikalt kolme sõrmega või avage SandFlyi menüüst ekraaniotsing.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Märksõna pole veel. Uue otsingu alustamiseks tõmmake sõrmega vasakule ja siis alla või avage SandFlyi menüüst ekraaniotsing.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille klaviatuur pole sisse lülitatud. Avage SandFlyi seaded, seadistage Braille klaviatuur ja proovige uuesti.</string>
   <string name="suggestions_window_available">Soovitused on saadaval</string>
   <string name="suggestions_window_available_with_gesture">Soovitused on saadaval. Juurdepääsu saamiseks tehke järgmist: %1$s.</string>
   <string name="heads_up_window_available">Märguanne on saadaval</string>
@@ -967,9 +955,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="new_gesture_notification_content">Puudutage, et vaadata, kuidas SandFlyi uute liigutuste abil kiiremini kasutada.</string>
   <string name="dump_node_tree_description">Sõlmepuu on logidesse prinditud.</string>
   <string name="report_gesture_description">Siin on hiljuti tehtud liigutused. Teavitage, milline liigutus on vale ja mida liigutuselt ootate.</string>
-  <string name="update_welcome_text_content">Nüüd saate HID (Bluetooth-seadmete ühendamise võimalus) kaudu luua ühenduse Braille ekraanidega. Veenduge, et teil oleks oma tootjalt pärit uusimad püsivaradraiverid, ja siis lülitage Bluetooth oma Braille ekraanil sisse. Avage jaotis SandFlyi seaded &gt; Braille ekraan ja lülitage sisse valik „Kasuta Braille ekraani“. Otsige seadmete loendist oma seade ja looge sellega ühendus.</string>
-  <string name="update_welcome_text_content_tts">Nüüd saate HID (Bluetooth-seadmete ühendamise võimalus) kaudu luua ühenduse Braille ekraanidega. Veenduge, et teil oleks oma tootjalt pärit uusimad püsivaradraiverid, ja siis lülitage Bluetooth oma Braille ekraanil sisse. Avage SandFlyi seaded ja siis Braille ekraan ning „Kasuta Braille ekraani“. Otsige seadmete loendist oma seade ja looge sellega ühendus.</string>
-  <string name="update_welcome_text_content_with_link">Lugege, kuidas kasutada oma Braille ekraani SandFlyiga.</string>
   <string name="update_welcome_talkback_16.1">See SandFlyi värskendus hõlmab rohkemates keeltes ekraani kirjeldamise tuge ja muid kvaliteeditäiustusi, mis hõlbustavad SandFlyi kasutamist.\n\nJärgmistel kuvadel saate nende muudatuste kohta lisateavet.\n\nKui soovite selle teabe hiljem üle vaadata, leiate selle menüüst SandFlyi seaded &gt; SandFlyi uued funktsioonid.</string>
   <string name="update_welcome_talkback_16.1_tts">See SandFlyi värskendus hõlmab rohkemates keeltes ekraani kirjeldamise tuge ja muid kvaliteeditäiustusi, mis hõlbustavad SandFlyi kasutamist.\n\nJärgmistel kuvadel saate nende muudatuste kohta lisateavet.\n\nKui soovite selle teabe hiljem üle vaadata, avage menüü SandFlyi seaded ja tehke valik SandFlyi uued funktsioonid.</string>
   <string name="describe_screen_and_qna_title">Ekraani kirjeldamise ja Geminilt küsimise uued keeled</string>
@@ -985,10 +970,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="reduce_delay_title">Viivituse vähendamine</string>
   <string name="reduce_delay_content">Nüüd saate vähendada SandFlyi teadaannete viivitusi puudutusega uurimise ja teksti sisestamise jaoks. Nende seadete vaatamiseks avage SandFlyi seaded &gt; Täpsemad seaded &gt; Viivituse vähendamine.</string>
   <string name="reduce_delay_content_tts">Nüüd saate vähendada SandFlyi teadaannete viivitusi puudutusega uurimise ja teksti sisestamise jaoks. Nende seadete vaatamiseks tehke valikud SandFlyi seaded, siis Täpsemad seaded ja seejärel Viivituse vähendamine.</string>
-  <string name="customize_braille_keyboard_improvements_title">Braille klaviatuuri liigutuste kohandamine</string>
-  <string name="customize_braille_keyboard_improvements_content">Nüüd on võimalik ekraanil kuvatava virtuaalse Braille klaviatuuri jaoks liigutusi kohandada. Kohandamiseks avage SandFlyi seaded &gt; Braille klaviatuur &gt; Liigutused.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Nüüd on võimalik ekraanil kuvatava virtuaalse Braille klaviatuuri jaoks liigutusi kohandada. Kohandamiseks tehke valikud SandFlyi seaded, siis Braille klaviatuur ja seejärel Liigutused.</string>
-  <string name="learn_more_about_braille_keyboard">Lisateave Braille klaviatuuri kohta</string>
   <string name="other_changes_title">Muud muudatused</string>
   <string name="other_changes_content">Ekraanil kuvatav teade aitab teil nüüd SandFlyi kiiresti välja lülitada, kui see on kogemata sisse lülitatud. Saate selle välja lülitada jaotises SandFlyi seaded &gt; Kuva juhised SandFlyi väljalülitamiseks.</string>
   <string name="other_changes_content_tts">Ekraanil kuvatav teade aitab teil nüüd SandFlyi kiiresti välja lülitada, kui see on kogemata sisse lülitatud. Saate väljalülitamiseks tehke valikud SandFlyi seaded ja siis Kuva juhised SandFlyi väljalülitamiseks.</string>
@@ -1021,7 +1002,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="keyboard_enhanced_keymap_text">SandFlyil on nüüd füüsiliste klaviatuuride jaoks mitmesuguste uute käskude ja otseteedega täiustatud klahvitabel. See täiustus hõlmab tõhusamaks veebis navigeerimiseks sirvimisrežiimi, mis kiirendab navigeerimist ja interaktsioone SandFlyi kasutajate jaoks, kes kasutavad füüsilisi klaviatuure. Täiustatud klahvitabeli saate aktiveerida menüüs <xliff:g id="settings_path">%1$s</xliff:g>.\n\nKui kasutate Braille ekraani, võite kasutada ka uusi sirvimisrežiimi otseteid, et navigeerida sisus otse Braille ekraanilt. Selle muudatuse tõttu muudeti mõnda Braille ekraani otseteed. Braille ekraani kõigi otseteede loendi leiate menüüst <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFlyi seaded &gt; Klaviatuuri otseteed</string>
   <string name="keyboard_shortcuts_link_tts">SandFlyi seaded, seejärel Klaviatuuri otseteed</string>
-  <string name="braille_display_settings_link">Braille ekraani seaded</string>
   <string name="keyboard_smart_browse_mode_title">Klaviatuur: nutikas sirvimisrežiim</string>
   <string name="keyboard_smart_browse_mode_text">SandFlyi nutikas sirvimisrežiim lülitab muudetaval väljal sirvimisrežiimi välja, et aidata teil veebi sirvimise ajal füüsilise klaviatuuri abil teksti sisestada. Kui liigute veebis mittemuudetavale väljale, lülitab see sirvimisrežiimi uuesti sisse, et saaksite hõlpsasti edasi sirvida. Funktsiooni „Nutikas sirvimisrežiim“ saate sisse või välja lülitada menüüs <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFlyi seaded &gt; Täpsemad seaded</string>
@@ -1094,7 +1074,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="typing_text_title">Teksti sisestamine</string>
   <string name="basic_typing_text_text">Kui olete tekstikastis, avaneb ekraani allservas klaviatuur.</string>
   <string name="typing_text_text">Liigutage sõrme klaviatuuril. Kui kuulete tähte, mille soovite sisestada, tõstke sõrm ekraanilt.\n\nProovige aktiveerida allolev tekstikast ja sisestada oma nimi.</string>
-  <string name="typing_text_with_braille_keyboard_text">Saate teksti sisestada ka Braille klaviatuuriga. See on saadaval SandFlyi seadetes.</string>
   <string name="other_ways_to_type_title">Muud sisestusviisid</string>
   <string name="other_ways_to_type_text">SandFlyis saab kasutada muid sisestusviise. Näiteks saate tähe sisestada topeltpuudutusega.</string>
   <string name="basic_other_ways_to_type_text">SandFlyis saab kasutada muid sisestusviise. Näiteks saate tähe sisestada topeltpuudutusega. Saate seda hiljem muuta, kui teete valikud SandFlyi seaded &gt; Ekraanil kuvatav klaviatuur &gt; Sisestusviis.</string>
@@ -1209,26 +1188,6 @@ Alla 0,3-sekundiliste viivituste korral muutub aktiveerimiseks määratud topelt
   <string name="talkback_inactive_message_practice_gestures">Liigutuste harjutamiseks lülitage esmalt SandFly sisse</string>
   <string name="talkback_inactive_message_image_description">Pildikirjelduste hankimise proovimiseks lülitage esmalt SandFly sisse</string>
   <string name="talkback_inactive_close_tutorial_button">Sule õpetus</string>
-  <string name="wear_training_welcome_paragraph">Kui SandFly on sisse lülitatud, öeldakse ekraanil esile tõstetud üksus kuuldavalt.\n\nParemale pühkimisega liigutakse järgmise üksuse juurde. Vasakule pühkimisega liigutakse eelmise üksuse juurde.\n\nJärgmise nupu leidmiseks pühkige nüüd paremale.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Pühkige %1$d sõrmega üles või alla.</string>
-  <string name="wear_training_go_back_title">Tagasiliikumine</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kui soovite tagasi liikuda, pühkige %1$d sõrmega ekraanikuva servast paremale.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Õnnestus</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Tehti tagasiliigutus</string>
-  <string name="wear_training_volume_up_title">Helitugevuse suurendamine</string>
-  <string name="wear_training_volume_up_text">Pühkige paremale ja siis üles</string>
-  <string name="wear_training_volume_down_title">Helitugevuse vähendamine</string>
-  <string name="wear_training_volume_down_text">Pühkige paremale ja siis alla</string>
-  <string name="wear_training_open_talkback_menu_title">SandFlyi menüü avamine</string>
-  <string name="wear_training_open_talkback_menu_text">Sageli kasutatavate seadete ja juhtelementide avamiseks pühkige alla ja siis paremale</string>
-  <string name="wear_training_typing_title">Sisestamine</string>
-  <string name="wear_training_typing_text1">Klaviatuuril sisestamiseks liigutage sõrme klaviatuuril. Kui kuulete tähte, mille soovite sisestada, tõstke sõrm ekraanilt.</string>
-  <string name="wear_training_typing_text2">Klaviatuuri peitmiseks ja sisestatu kontrollimiseks pühkige kahe sõrmega ekraani ülaosast alla.</string>
-  <string name="wear_training_typing_text3">Klaviatuurile naasmiseks pühkige kahe sõrmega ekraani allosast üles.</string>
-  <string name="wear_training_typing_text4">Klaviatuuri sulgemiseks ja sisestamise tühistamiseks pühkige kahe sõrmega ekraani vasakust servast paremale.</string>
-  <string name="wear_training_typing_text5">Proovige seda allpool.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klaviatuuril sisestamine</string>
-  <string name="wear_training_end_tutorial_title">Olete valmis SandFlyi kasutama</string>
   <string name="talkback_updated_notification_title">SandFly on värskendatud</string>
   <string name="talkback_updated_notification_content">Lisateabe saamiseks puudutage</string>
   <string name="wear_new_feature_page_title">Tere tulemast värskendatud SandFlyi!</string>
@@ -1520,7 +1479,6 @@ Pärast seda saab vastuses kirjeldada navigeerimisribade ja silmapaistvate nuppu
     <string name="title_pref_announce_ringer_mode">Helinarežiim</string>
     <string name="summary_pref_announce_ringer_mode">Öeldakse, kui helin on seatud vibreerima või hääletuks</string>
     <string name="title_pref_category_feedback">Tagasiside</string>
-    <string name="title_pref_category_typing_and_braille">Sisestamine ja punktkiri</string>
     <string name="title_pref_category_apps">Rakendused</string>
     <string name="title_pref_touch_activation">Puudutus ja aktiveerimine</string>
     <string name="title_pref_navigation">Navigeerimine</string>
@@ -1544,8 +1502,6 @@ Pärast seda saab vastuses kirjeldada navigeerimisribade ja silmapaistvate nuppu
     <string name="speech_control_deny">Ära luba</string>
     <string name="permission_speak_label">kõne esitamine SandFly kaudu</string>
     <string name="permission_speak_description">Lubab rakendusel küsida luba teksti esitamiseks teie SandFlyi häälega. SandFly küsib teie kinnitust, enne kui rakendus saab kõnet esitada.</string>
-    <string name="permission_braille_display_label">SandFlyi Braille ekraaniks olemise taotlemine</string>
-    <string name="permission_braille_display_description">Lubab rakendusel taotleda SandFlyi Braille ekraaniks olemist. Kui lubate selle SandFlyis, saab rakendus lugeda kõike ekraanil olevat ja juhtida teie seadet. SandFly küsib esmalt teie kinnitust.</string>
     <string name="title_pref_phonetic_letters_mode">Loe tähed ette foneetiliselt</string>
     <string name="phonetic_letters_mode_off">Väljas</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pärast tähte, viivitusega, nt „h, hotell“</string>
@@ -1683,14 +1639,8 @@ Pärast seda saab vastuses kirjeldada navigeerimisribade ja silmapaistvate nuppu
     <string name="summary_support_wrap_around">Viimaselt üksuselt esimesele liikumise sisse- või väljalülitamine</string>
     <string name="wrap_around_on">Ringiga liikumine on sees</string>
     <string name="wrap_around_off">Ringiga liikumine on väljas</string>
-    <string name="title_selector_tablet_held_up_faces_away">Püsti hoitud tahvelarvuti ekraan on eemale suunatud</string>
-    <string name="summary_support_tablet_held_up_faces_away">Braille klaviatuurile tahvelarvutis või lahtivolditud telefonis</string>
-    <string name="tablet_held_up_faces_away_on">Püsti hoitud tahvelarvuti ekraan on eemale suunatud: sees</string>
-    <string name="tablet_held_up_faces_away_off">Püsti hoitud tahvelarvuti ekraan on eemale suunatud: väljas</string>
     <string name="title_keyboard_echo_on_screen">Ekraanil kuvatava klaviatuuri kaja</string>
     <string name="title_keyboard_echo_physical">Füüsilise klaviatuuri kaja</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille klaviatuuri kaja</string>
-    <string name="title_keyboard_echo_braille_display">Braille ekraani kaja</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Katkesta kõne sisestamisel</string>
     <string name="pref_interrupt_typing_entry_always">Alati</string>

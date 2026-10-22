@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Buong lapad na simbolo ng less than</string>
   <string name="symbol_full_width_greater_than_sign">Buong lapad na simbolo ng greater than</string>
   <string name="symbol_left_single_quotation_mark">Iisang kaliwang panipi</string>
-  <string name="symbol_braille">braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">dot %s</item>
-    <item quantity="other">dot %s</item>
-  </plurals>
 </resources>

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Sinal menor que com largura total</string>
   <string name="symbol_full_width_greater_than_sign">Sinal maior que com largura total</string>
   <string name="symbol_left_single_quotation_mark">Aspa simples esquerda</string>
-  <string name="symbol_braille">%s braille</string>
-  <plurals name="dots">
-    <item quantity="one">o ponto %s</item>
-    <item quantity="other">os pontos %s</item>
-  </plurals>
 </resources>

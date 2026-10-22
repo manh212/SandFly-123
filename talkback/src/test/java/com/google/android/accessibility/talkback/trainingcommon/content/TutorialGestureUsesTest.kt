@@ -78,9 +78,6 @@ class TutorialGestureUsesTest {
         GestureShortcutMapping(context).getActionKeyFromGestureId(GESTURE_SWIPE_RIGHT))
     assertNull(
         TutorialGestureUses.gestureLinesIfChanged(context, R.string.welcome_to_talkback_text, data))
-    assertNull(
-        TutorialGestureUses.gestureLinesIfChanged(
-            context, R.string.wear_training_welcome_paragraph, data))
   }
 
   @Test

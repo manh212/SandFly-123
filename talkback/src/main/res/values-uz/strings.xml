@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Teginib o‘rganish</string>
   <string name="title_pref_category_visual">Vizual</string>
   <string name="title_pref_category_controls">Boshqaruv</string>
-  <string name="title_pref_category_braille">Brayl</string>
   <string name="title_pref_category_general">Umumiy</string>
   <string name="title_pref_category_advanced">Kengaytirilgan</string>
   <string name="title_pref_category_others">Boshqalar</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Kechikishni kamaytirish</string>
   <string name="talkback_latency_reduction_summary">TalkBack eʼlonlaridan oldingi kechikishni kamaytirish sozlamalari</string>
   <string name="summary_pref_intonation">Oʻchirib tashlangan harflarni baland ovozda aytish</string>
-  <string name="title_pref_brailledisplay">Brayl ekrani</string>
-  <string name="title_pref_brailleime">Brayl klaviaturasi</string>
-  <string name="summary_pref_brailleime_disabled">Qurilmada brayl klaviaturasi ishlamaydi</string>
   <string name="title_pref_speech_footer">Ayrim TalkBack tovushlarini istalgan ekranda tezkor moslash mumkin.\n\nQulayliklar tovushi balandligi: Ekranga 1 ta barmoqni bosib turing va tovushni balandlatish yoki tovushni pasaytirish tugmalaridan foydalaning.\nTalkBack nutq tezligi: 3 ta barmoq bilan tepaga yoki pastga suring. “Nutq tezligi” eshitilganda, 1 barmoq bilan tepaga yoki pastga suring.</string>
   <string name="title_pref_vibration">Tebranishli signal</string>
   <string name="title_pref_soundback">Ovozli signal</string>
@@ -486,8 +482,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="shortcut_increase_volume">Tovushni balandlatish</string>
   <string name="shortcut_decrease_volume">Tovushini pasaytirish</string>
   <string name="shortcut_all_apps">Barcha ilovalar</string>
-  <string name="shortcut_braille_keyboard">Brayl klaviaturasiga oʻtish</string>
-  <string name="shortcut_braille_display_settings">Brayl ekrani sozlamalarini ochish</string>
   <string name="shortcut_tutorial">Saboqlarni ochish</string>
   <string name="shortcut_control_speak_time">Vaqtni aytish yoki vaqtni aytmaslik</string>
   <string name="shortcut_enable_speak_time">Vaqtni aytish</string>
@@ -496,7 +490,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="speak_time_off">Vaqtni aytish oʻchiq</string>
   <string name="shortcut_practice_gestures">Ishoralardan foydalanish amaliyoti</string>
   <string name="shortcut_report_gesture">Ishora muammosini xabar qilish</string>
-  <string name="shortcut_toggle_braille_display">Brayl ekranini yoqish yoki oʻchirish</string>
   <string name="shortcut_announce_current_time_and_date">Joriy sana va vaqtni gapirish</string>
   <string name="shortcut_announce_battery_state">Batareya foizini aytish</string>
   <string name="shortcut_announce_current_title">Oyna nomini aytish</string>
@@ -506,8 +499,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="shortcut_speech_rate_decrease">Nutq tezligini sekinlatish</string>
   <string name="shortcut_toggle_selection">Tanlash rejimini boshlash yoki yakunlash</string>
   <string name="shortcut_show_tutorial">Qoʻllanmalarni ochish</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Qisqartirilgan (2-daraja) va qisqartirilmagan (1-daraja) oʻrtasidagi kalit tugma</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Ulangan brayl yozuvli displeylar uchun ekrandagi brayl yozuvini koʻrsatish yoki berkitish</string>
   <string name="shortcut_toggle_sound_feedback">Ovoz signalni (qisqa signallar) yoqish yoki faolsizlantirish</string>
   <string name="shortcut_show_learn_mode_page">Tezkor tugmalarni mashq qilish</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fokusdagi obyekt uchun harflarni fonetik talaffuz bilan aytish</string>
@@ -548,7 +539,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="title_show_voice_commands">Ovozli buyruqlar</string>
   <string name="title_show_keyboard_shortcuts">Tezkor tugmalar</string>
   <string name="talkback_show_talkback_settings">TalkBack sozlamalari</string>
-  <string name="title_show_braille_display_settings">Brayl ekrani sozlamalari</string>
   <string name="title_granularity_default">Standart navigatsiya</string>
   <string name="title_action_dismiss">Yopish</string>
   <string name="title_action_expand">Yoyish</string>
@@ -576,7 +566,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="summary_control_speak_time">Ekran yoqilganda vaqt baland ovozda aytilishini sozlash</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Tezkor tugmalar roʻyxatini ochish</string>
   <string name="summary_talkback_preferences">TalkBack sozlamalarini ochish</string>
-  <string name="summary_braile_display_preferences">Brayl ekrani sozlamalarini ochish</string>
   <string name="summary_system_actions">Barcha ilovalar va tezkor solzamalarga oʻtish</string>
   <string name="summary_tts_settings">Nutq sintezatori sozlamalarini ochish</string>
   <string name="not_editable">Tahrirlash imkonsiz</string>
@@ -917,7 +906,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="screen_search_keyword_hint">kalit soʻz: %1$s</string>
   <string name="screen_search_no_keyword_hint">Hozircha kalit soʻz berilmagan. Yangi qidiruvni boshlash uchun 3 barmoq bilan bosib turing yoki TalkBack menyusida ekrandan qidirishni oching.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Hozircha kalit soʻz berilmagan. Yangi qidiruvni boshlash uchun chapga, keyin pastga suring yoki TalkBack menyusida ekrandan qidirishni oching.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brayl klaviaturasi yoqilmagan. TalkBack sozlamalarini ochib, uni yoqing va qayta urining.</string>
   <string name="suggestions_window_available">Tavsiyalar mavjud</string>
   <string name="suggestions_window_available_with_gesture">Tavsiyalar mavjud. Kirish uchun %1$s</string>
   <string name="heads_up_window_available">Bildirishnoma bor</string>
@@ -967,9 +955,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="new_gesture_notification_content">Yangi ishoralar bilan TalkBackni tezroq ishlatish haqida batafsil axborot olish uchun bosing.</string>
   <string name="dump_node_tree_description">Tugunlar daraxti jurnalga chop etildi.</string>
   <string name="report_gesture_description">Quyida oxirgi bajarilgan ishoralar keltirilgan, qaysi biri xato va yaxshi ishlamagani haqida xabar qiling.</string>
-  <string name="update_welcome_text_content">Endi Bluetooth qurilmalarga ulanish usuli sanalgan HID orqali brayl displeylariga ulanish mumkin. Ishlab chiqaruvchingizda eng oxirgi mikrodastur drayverlari borligini tekshiring, keyin brayl displeyingizda Bluetooth yoqing. TalkBack sozlamalari &gt; Brayl displeyini oching va “Brayl displeyini ishlatish” funksiyasini yoqing. Qurilmalar roʻyxatida qurilmangizni toping va uni ulang.</string>
-  <string name="update_welcome_text_content_tts">Endi Bluetooth qurilmalarga ulanish usuli sanalgan HID orqali brayl displeylariga ulanish mumkin. Ishlab chiqaruvchingizda eng oxirgi mikrodastur drayverlari borligini tekshiring, keyin brayl displeyingizda Bluetooth yoqing. TalkBack sozlamalarini, keyin Brayl displeyini oching va “Brayl displeyini ishlatish” funksiyasini yoqing. Qurilmalar roʻyxatida qurilmangizni toping va uni ulang.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack yordamida brayl displeyini qanday ishlatish haqida bilib oling.</string>
   <string name="update_welcome_talkback_16.1">Bu TalkBack yangilanishida qoʻshimcha tillarda Ekranni tavsiflash, shuningdek, TalkBack funksiyasidan foydalanishni oson qiladigan boshqa tuzatishlar kiritildi.\n\nBu oʻzgarishlar haqida keyingi ekranlarda batafsil bilib olasiz.\n\nBu axborotni keyinroq TalkBack sozlamalari &gt; TalkBack yangi funksiyalari ruknida tekshirish mumkin.</string>
   <string name="update_welcome_talkback_16.1_tts">Bu TalkBack yangilanishida qoʻshimcha tillarda Ekranni tavsiflash, shuningdek, TalkBack funksiyasidan foydalanishni oson qiladigan boshqa tuzatishlar kiritildi.\n\nBu oʻzgarishlar haqida keyingi ekranlarda batafsil bilib olasiz.\n\nBu axborotni keyinroq TalkBack sozlamalari &gt; TalkBack yangi funksiyalari ruknida tekshirish mumkin.</string>
   <string name="describe_screen_and_qna_title">Ekranni tavsiflash va Ask Gemini uchun yangi tillar</string>
@@ -985,10 +970,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="reduce_delay_title">Kechikishni kamaytirish</string>
   <string name="reduce_delay_content">Endi sensorli boshqaruv va matn kiritish paytida TalkBack eʼlonlarining kechikishini kamaytirishingiz mumkin. Buning uchun TalkBack sozlamalari &gt; Kengaytirilgan sozlamalar &gt; Kechikishni kamaytirish bandini tanlang.</string>
   <string name="reduce_delay_content_tts">Endi sensorli boshqaruv va matn kiritish paytida TalkBack eʼlonlarining kechikishini kamaytirishingiz mumkin. Buning uchun TalkBack sozlamalari keyin Kengaytirilgan sozlamalar keyin Kechikishni kamaytirish bandini tanlang.</string>
-  <string name="customize_braille_keyboard_improvements_title">Brayl klaviaturasi ishoralarini sozlash</string>
-  <string name="customize_braille_keyboard_improvements_content">Endi ekrandagi virtual Brayl klaviaturasi uchun ishoralarni sozlash mumkin. Sozlash uchun TalkBack sozlamalari &gt; Brayl klaviaturasi &gt; Ishoralar rukniga kiring.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Endi ekrandagi virtual Brayl klaviaturasi uchun ishoralarni sozlash mumkin. Sozlash uchun TalkBack sozlamalari keyin Brayl klaviaturasi keyin Ishoralar rukniga kiring.</string>
-  <string name="learn_more_about_braille_keyboard">Brayl klaviaturasi haqida batafsil</string>
   <string name="other_changes_title">Boshqa oʻzgarishlar</string>
   <string name="other_changes_content">Ekrandagi xabar endi TalkBack tasodifan yoqilganida uni tezda faolsizlantirishga yordam beradi. Buni TalkBack sozlamalari &gt; TalkBack funksiyasini faolsizlantirish uchun koʻrsatmalarni chiqarish ruknida faolsizlantirishingiz mumkin.</string>
   <string name="other_changes_content_tts">Ekrandagi xabar endi TalkBack tasodifan yoqilganida uni tezda faolsizlantirishga yordam beradi. Buni TalkBack sozlamalari keyin TalkBack funksiyasini faolsizlantirish uchun koʻrsatmalarni chiqarish ruknida faolsizlantirishingiz mumkin.</string>
@@ -1021,7 +1002,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="keyboard_enhanced_keymap_text">TalkBack funksiyasida endi jismoniy klaviaturalar uchun “Kengaytirilgan terilma” mavjud boʻlib, turli xil yangi buyruqlar va tezkor tugmalardan iborat. Ushbu takomillashtirish, jumladan veb-saytda yanada samaraliroq harakatlanish uchun “kezish rejimi”, jismoniy klaviaturalardan foydalanadigan TalkBack foydalanuvchilari uchun navigatsiya va oʻzaro taʼsirni soddalashtiradi. %1$s orqali “Yaxshilangan terilma” sozlamasiga almashtirishingiz mumkin.\n\nBrayl ekranidan foydalansangiz, kontentni bevosita Brayl ekranidan kezish uchun yangi brauzer rejimidagi buyruqlardan ham foydalanishingiz mumkin. Bu oʻzgarishga moslash uchun ayrim Brayl buyruqlari oʻzgartirildi. Brayl buyruqlarining toʻliq roʻyxatini %2$s orqali koʻrishingiz mumkin.</string>
   <string name="keyboard_shortcuts_link">TalkBack sozlamalari &gt; Tezkor tugmalar</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack sozlamalari, Tezkor tugmalar</string>
-  <string name="braille_display_settings_link">Brayl ekrani sozlamalari</string>
   <string name="keyboard_smart_browse_mode_title">Klaviatura: Smart kezish rejimi</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack smart kezish rejimi veb-saytlarni kezishda jismoniy klaviatura bilan yozishga yordam berish uchun tahrirlash maydonida kezish rejimini faolsizlantiradi. Keyin internetdagi tahrirlanmagan maydon ochilganda uni qayta yoqadi va samarali kezishda davom etish imkonini beradi. “Smart kezish rejimi” %1$s orqali yoqilishi yoki faolsizlantirilishi mumkin.</string>
   <string name="advanced_settings_link">TalkBack sozlamalari &gt; Kengaytirilgan sozlamalar</string>
@@ -1094,7 +1074,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="typing_text_title">Matn yozish</string>
   <string name="basic_typing_text_text">Matn maydoniga bossangiz, ekranning pastki qismida klaviatura ochiladi.</string>
   <string name="typing_text_text">Barmogʻingizni klaviatura boʻylab harakatlantiring. Kerakli harfni eshitganda barmoqni oling.\n\nQuyida matn maydonini chiqaring va ismingizni yozing.</string>
-  <string name="typing_text_with_braille_keyboard_text">Shuningdek, breyl klaviaturasida ham yozish mumkin. Uni TalkBack sozlamalaridan toping.</string>
   <string name="other_ways_to_type_title">Yozishning boshqa usullari</string>
   <string name="other_ways_to_type_text">TalkBack ichida yozishning boshqa usullari ham mavjud. Masalan, harfni kiritish uchun ikki marta teginishdan foydalanish mumkin.</string>
   <string name="basic_other_ways_to_type_text">TalkBack ichida yozishning boshqa usullari ham mavjud. Masalan, harfni kiritish uchun ikki marta teginishdan foydalanish mumkin. Buni keyinroq TalkBack sozlamalari &gt; Ekrandagi klaviatura &gt; Matn kiritish sozlamasi orqali oʻzgartirish mumkin.</string>
@@ -1209,26 +1188,6 @@ Fokus koʻchganidan keyin TalkBack qanchalik tez gapirishini boshqaradi. Qisqaro
   <string name="talkback_inactive_message_practice_gestures">Ishoralarni mashq qilish uchun TalkBack qulayligini yoqing</string>
   <string name="talkback_inactive_message_image_description">Rasm tavsiflarini olishga urinishdan oldin TalkBack funksiyasini yoqing</string>
   <string name="talkback_inactive_close_tutorial_button">Qoʻllanmani yopish</string>
-  <string name="wear_training_welcome_paragraph">TalkBack yoniqligida ekranda fokusdagi obyekt baland ovozda oʻqib eshittiriladi.\n\nOʻngga surilganda keyingi elementga oʻtiladi.\nChapga surilganda avvalgi elementga oʻtiladi.\n\nKeyingi tugmani topish uchun oʻngga suring.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d barmoq bilan yuqoriga yoki pastga suring.</string>
-  <string name="wear_training_go_back_title">Orqaga</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Orqaga qaytishni istasangiz, %1$d barmoq bilan ekranning qirrasidan oʻngga suring.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Tayyor</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Orqaga ishorasi bajarildi</string>
-  <string name="wear_training_volume_up_title">Tovushni balandlatish</string>
-  <string name="wear_training_volume_up_text">Oʻngga, keyin yuqoriga suring</string>
-  <string name="wear_training_volume_down_title">Tovushni pastlatish</string>
-  <string name="wear_training_volume_down_text">Oʻngga, keyin pastga suring</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack menyusini ochish</string>
-  <string name="wear_training_open_talkback_menu_text">Tez-tez ishlatiladigan sozlamalar va boshqaruv elementlarini ochish uchun avval pastga, keyin esa oʻngga suring.</string>
-  <string name="wear_training_typing_title">Yozish</string>
-  <string name="wear_training_typing_text1">Klaviatura bilan yozish uchun barmogʻingizni klaviatura boʻylab harakatlantiring. Kerakli harfni eshitganda barmoqni oling.</string>
-  <string name="wear_training_typing_text2">Klaviaturani berkitish va kiritilgan maʼlumotlarni tekshirish uchun ekraningiz yuqori qismidan 2 ta barmoq bilan pastga suring.</string>
-  <string name="wear_training_typing_text3">Klaviaturaga qaytish uchun 2 ta barmoq bilan ekranning pastki qismidan tepaga suring.</string>
-  <string name="wear_training_typing_text4">Klaviaturani yopish va yozishni bekor qilish uchun 2 ta barmoq bilan ekraningiz chap yonidan oʻngga suring.</string>
-  <string name="wear_training_typing_text5">Uni quyida sinang.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klaviatura bilan yozish</string>
-  <string name="wear_training_end_tutorial_title">TalkBack ishlatish uchun tayyorsiz</string>
   <string name="talkback_updated_notification_title">TalkBack yangilandi</string>
   <string name="talkback_updated_notification_content">Batafsil axborot olish uchun bosing</string>
   <string name="wear_new_feature_page_title">Yangilangan TalkBack xizmatiga xush kelibsiz</string>

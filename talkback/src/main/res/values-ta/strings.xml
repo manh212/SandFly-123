@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">தொடுவதன் மூலம் அறிக</string>
   <string name="title_pref_category_visual">விஷுவல்</string>
   <string name="title_pref_category_controls">கட்டுப்பாடுகள்</string>
-  <string name="title_pref_category_braille">பிரெய்ல்</string>
   <string name="title_pref_category_general">பொது</string>
   <string name="title_pref_category_advanced">மேம்பட்டவை</string>
   <string name="title_pref_category_others">மற்றவை</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">தாமத நேரத்தைக் குறைத்தல்</string>
   <string name="talkback_latency_reduction_summary">TalkBack அறிவிப்புகள் வருவதற்கு முன் ஏற்படும் தாமதத்தைக் குறைப்பதற்கான அமைப்புகள்</string>
   <string name="summary_pref_intonation">நீக்கிய எழுத்துகளை உரத்த குரலில் சொல்லும்</string>
-  <string name="title_pref_brailledisplay">பிரெய்ல் காட்சி</string>
-  <string name="title_pref_brailleime">பிரெய்ல் கீபோர்டு</string>
-  <string name="summary_pref_brailleime_disabled">சாதனம் பிரெய்ல் கீபோர்டை ஆதரிக்கவில்லை</string>
   <string name="title_pref_speech_footer">TalkBackகின் ஒலி அமைப்புகளில் சிலவற்றை எந்தத் திரையில் இருந்தும் விரைவாக மாற்றலாம்.\n\nஅணுகல்தன்மை ஒலியளவு: 1 விரலைத் திரையில் அழுத்திப் பிடித்துக்கொண்டு ஒலியளவை அதிகரிக்கும்/குறைக்கும் பட்டனை அழுத்துங்கள்.\nTalkBack பேச்சு வேகம்: மேல் அல்லது கீழ்நோக்கி 3 விரல்களால் ஸ்வைப் செய்யுங்கள் உங்களுக்கு \"பேச்சு வேகம்\" எனக் கேட்கும்போது மேல் அல்லது கீழ்நோக்கி 1 விரலால் ஸ்வைப் செய்யுங்கள்.</string>
   <string name="title_pref_vibration">அதிர்வு அறிவிப்பு</string>
   <string name="title_pref_soundback">ஒலி அறிவிப்பு</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ஒலியளவை அதிகரி</string>
   <string name="shortcut_decrease_volume">ஒலியளவைக் குறை</string>
   <string name="shortcut_all_apps">அனைத்து ஆப்ஸும்</string>
-  <string name="shortcut_braille_keyboard">பிரெய்ல் கீபோர்டுக்கு மாறு</string>
-  <string name="shortcut_braille_display_settings">பிரெய்ல் காட்சி அமைப்புகளுக்குச் செல்</string>
   <string name="shortcut_tutorial">பயிற்சியைத் திற</string>
   <string name="shortcut_control_speak_time">நேரத்தை வாசித்தல் அல்லது நேரத்தை வாசிக்காமல் இருத்தல்</string>
   <string name="shortcut_enable_speak_time">நேரத்தை வாசி</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">நேரத்தை வாசித்தல் முடக்கப்பட்டுள்ளது</string>
   <string name="shortcut_practice_gestures">சைகைகள் பயிற்சி</string>
   <string name="shortcut_report_gesture">சைகை தொடர்பான சிக்கலைப் புகாரளி</string>
-  <string name="shortcut_toggle_braille_display">பிரெய்ல் காட்சியை இயக்குதல் அல்லது முடக்குதல்</string>
   <string name="shortcut_announce_current_time_and_date">தற்போதைய தேதியையும் நேரத்தையும் வாசி</string>
   <string name="shortcut_announce_battery_state">பேட்டரி சதவீதத்தைச் சொல்</string>
   <string name="shortcut_announce_current_title">சாளரத்தின் தலைப்பைச் சொல்லுதல்</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">பேச்சு வேகத்தைக் குறைத்தல்</string>
   <string name="shortcut_toggle_selection">தேர்ந்தெடுத்தலைத் தொடங்குதல்/முடித்தல்</string>
   <string name="shortcut_show_tutorial">பயிற்சியைத் திறத்தல்</string>
-  <string name="shortcut_toggle_braille_contracted_mode">சுருக்க வடிவம் (நிலை 2) மற்றும் வழக்கமான வடிவம் (நிலை 1) இடையே மாறுதல்</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">பிரெய்ல் காட்சிக்கு ஸ்கிரீன் பிரெய்லைக் காட்டுதல்/மறைத்தல்</string>
   <string name="shortcut_toggle_sound_feedback">ஒலி மூலம் உறுதிப்படுத்தலை (இயர்கான்கள்) இயக்குதல்/முடக்குதல்</string>
   <string name="shortcut_show_learn_mode_page">பயிற்சிக் கீபோர்டு ஷார்ட்கட்கள்</string>
   <string name="shortcut_announce_phonetic_pronunciation">மையப்படுத்திய வார்த்தையின் ஒலிப்புமுறை உச்சரிப்புடன் எழுத்துகளை வாசி</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">குரல் கட்டளைகள்</string>
   <string name="title_show_keyboard_shortcuts">கீபோர்டு ஷார்ட்கட்கள்</string>
   <string name="talkback_show_talkback_settings">TalkBack அமைப்புகள்</string>
-  <string name="title_show_braille_display_settings">பிரெய்ல் காட்சி அமைப்புகள்</string>
   <string name="title_granularity_default">இயல்புநிலை வழிசெலுத்தல்</string>
   <string name="title_action_dismiss">நிராகரி</string>
   <string name="title_action_expand">விரி</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">நீங்கள் திரையை இயக்கும்போது நேரத்தைச் சத்தமாக வாசிக்க வேண்டுமா வேண்டாமா என்பதை மாற்றலாம்</string>
   <string name="summary_show_keyboard_shortcuts_preferences">கீபோர்டு ஷார்ட்கட்களின் பட்டியலைத் திறக்கும்</string>
   <string name="summary_talkback_preferences">TalkBack அமைப்புகளைத் திறக்கும்</string>
-  <string name="summary_braile_display_preferences">பிரெய்ல் காட்சி அமைப்புகளைத் திறக்கும்</string>
   <string name="summary_system_actions">அனைத்து ஆப்ஸுக்கும் விரைவு அமைப்புகளுக்கும் செல்லலாம்</string>
   <string name="summary_tts_settings">\'உரையிலிருந்து பேச்சு\' அமைப்புகளைத் திறக்கும்</string>
   <string name="not_editable">இதை மாற்ற முடியாது</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">தேடல் குறிப்பு: %1$s</string>
   <string name="screen_search_no_keyword_hint">தேடல் குறிப்பு எதுவுமில்லை. புதிய தேடலைத் தொடங்க, 3 விரல்களால் தட்டிப் பிடித்திருங்கள் அல்லது TalkBack மெனுவிலிருந்து திரைத் தேடலைத் திறங்கள்.</string>
   <string name="screen_search_no_keyword_hint_pre_r">தேடல் குறிப்பு எதுவுமில்லை. புதிய தேடலைத் தொடங்க, இடதுபுறமாக ஸ்வைப் செய்து கீழ்நோக்கி ஸ்வைப் செய்யுங்கள் அல்லது TalkBack மெனுவிலிருந்து திரைத் தேடலைத் திறங்கள்.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">பிரெய்ல் கீபோர்டு ஆன் செய்யப்படவில்லை. TalkBack அமைப்புகளில் அதை அமைத்த பிறகு முயலவும்.</string>
   <string name="suggestions_window_available">பரிந்துரைகள் உள்ளன</string>
   <string name="suggestions_window_available_with_gesture">பரிந்துரைகள் உள்ளன. அவற்றைப் பார்க்க, %1$s</string>
   <string name="heads_up_window_available">அறிவிப்பு உள்ளது</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">புதிய சைகைகளுடன் TalkBackகை எப்படி விரைவாகப் பயன்படுத்துவது என்பதை அறிய தட்டுங்கள்.</string>
   <string name="dump_node_tree_description">பதிவுகளில் நோடு ட்ரீ அச்சிடப்பட்டுள்ளது.</string>
   <string name="report_gesture_description">சமீபத்தில் பயன்படுத்திய சில சைகைகள் இங்கே உள்ளன, எந்தச் சைகை தவறானது, எது சரியாக இருக்கும் போன்றவற்றைக் குறித்துப் புகாரளியுங்கள்.</string>
-  <string name="update_welcome_text_content">நீங்கள் இப்போது HID மூலம் பிரெய்ல் காட்சிகளுடன் இணைக்கலாம். இது புளூடூத் சாதனங்களுடன் இணைப்பதற்கான ஒரு வழியாகும். உங்கள் உற்பத்தியாளரிடமிருந்து நீங்கள் சமீபத்திய நிலைபொருள் டிரைவர்களைப் பெற்றிருப்பதை உறுதிசெய்துகொள்ளவும், பிறகு உங்கள் பிரெய்ல் காட்சியில் புளூடூத்தை இயக்கவும். TalkBack அமைப்புகள் &gt; பிரெய்ல் காட்சி என்பதற்குச் சென்று \"பிரெய்ல் காட்சியைப் பயன்படுத்து\" என்பதை இயக்கவும். சாதனங்களின் பட்டியலில் உங்கள் சாதனத்தைக் கண்டறிந்து அதனுடன் இணைக்கவும்.</string>
-  <string name="update_welcome_text_content_tts">நீங்கள் இப்போது HID மூலம் பிரெய்ல் காட்சிகளுடன் இணைக்கலாம். இது புளூடூத் சாதனங்களுடன் இணைப்பதற்கான ஒரு வழியாகும். உங்கள் உற்பத்தியாளரிடமிருந்து நீங்கள் சமீபத்திய நிலைபொருள் டிரைவர்களைப் பெற்றிருப்பதை உறுதிசெய்துகொள்ளவும், பிறகு உங்கள் பிரெய்ல் காட்சியில் புளூடூத்தை இயக்கவும். TalkBack அமைப்புகள் &gt; பிரெய்ல் காட்சி என்பதற்குச் சென்று \"பிரெய்ல் காட்சியைப் பயன்படுத்து\" என்பதை இயக்கவும். சாதனங்களின் பட்டியலில் உங்கள் சாதனத்தைக் கண்டறிந்து அதனுடன் இணைக்கவும்.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack உடன் உங்கள் பிரெய்ல் காட்சியை எப்படிப் பயன்படுத்துவது என்பதைத் தெரிந்துகொள்ளுங்கள்.</string>
   <string name="update_welcome_talkback_16.1">இந்த TalkBack புதுப்பிப்பு, கூடுதல் மொழிகளில் திரையில் உள்ளவற்றை விளக்குவதற்கான ஆதரவையும் TalkBack பயன்படுத்துவதை எளிதாக்கும் பிற தர மேம்பாடுகளையும் வழங்குகிறது.\n\nஇந்த மாற்றங்களைப் பற்றி அடுத்த சில திரைகளில் மேலும் தெரிந்துகொள்வீர்கள்.\n\nஇந்தத் தகவல்களை \'TalkBack அமைப்புகள் &gt; TalkBackகில் உள்ள புதிய அம்சங்கள்\' என்பதில் பின்னர் மீண்டும் பார்க்கலாம்.</string>
   <string name="update_welcome_talkback_16.1_tts">இந்த TalkBack புதுப்பிப்பு, கூடுதல் மொழிகளில் திரையில் உள்ளவற்றை விளக்குவதற்கான ஆதரவையும் TalkBack பயன்படுத்துவதை எளிதாக்கும் பிற தர மேம்பாடுகளையும் வழங்குகிறது.\n\nஇந்த மாற்றங்களைப் பற்றி அடுத்த சில திரைகளில் மேலும் தெரிந்துகொள்வீர்கள்.\n\nஇந்தத் தகவல்களை TalkBack அமைப்புகளுக்குச் சென்று \'TalkBackகில் உள்ள புதிய அம்சங்கள்\' என்பதில் பின்னர் மீண்டும் பார்க்கலாம்.</string>
   <string name="describe_screen_and_qna_title">திரையில் உள்ளவற்றை விளக்குதல், Geminiயைக் கேளுங்கள் ஆகியவற்றுக்கான புதிய மொழிகள்</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">தாமதத்தைக் குறைத்தல்</string>
   <string name="reduce_delay_content">தொட்டுக் கண்டறிதலுக்கும் டைப் செய்வதற்குமான TalkBack அறிவிப்புத் தாமதங்களை இப்போது நீங்கள் குறைக்கலாம். இந்த அமைப்புகளைப் பார்க்க, TalkBack அமைப்புகள் &gt; மேம்பட்ட அமைப்புகள் &gt; தாமதத்தைக் குறைத்தல் என்பதற்குச் செல்லவும்.</string>
   <string name="reduce_delay_content_tts">தொட்டுக் கண்டறிதலுக்கும் டைப் செய்வதற்குமான TalkBack அறிவிப்புத் தாமதங்களை இப்போது நீங்கள் குறைக்கலாம். இந்த அமைப்புகளைப் பார்க்க, TalkBack அமைப்புகளுக்குச் சென்று மேம்பட்ட அமைப்புகளுக்கும் தாமதத்தைக் குறைத்தல் என்பதற்கும் செல்லவும்.</string>
-  <string name="customize_braille_keyboard_improvements_title">பிரெய்ல் கீபோர்டு சைகைகளைப் பிரத்தியேகமாக்குதல்</string>
-  <string name="customize_braille_keyboard_improvements_content">இப்போது திரையில் காட்டப்படும் விர்ச்சுவல் பிரெய்ல் கீபோர்டுக்கான சைகைகளைப் பிரத்தியேகமாக்க முடியும். பிரத்தியேகமாக்க, TalkBack அமைப்புகள் &gt; பிரெய்ல் கீபோர்டு &gt; சைகைகள் என்பதற்குச் செல்லவும்.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">இப்போது திரையில் காட்டப்படும் விர்ச்சுவல் பிரெய்ல் கீபோர்டுக்கான சைகைகளைப் பிரத்தியேகமாக்க முடியும். பிரத்தியேகமாக்க, TalkBack அமைப்புகளுக்குச் சென்று பிரெய்ல் கீபோர்டு என்பதற்கும் அதன்பிறகு சைகைகள் என்பதற்கும் செல்லவும்.</string>
-  <string name="learn_more_about_braille_keyboard">பிரெய்ல் கீபோர்டு குறித்து மேலும் அறிக</string>
   <string name="other_changes_title">பிற மாற்றங்கள்</string>
   <string name="other_changes_content">TalkBack தற்செயலாக ஆன் செய்யப்பட்டால், இப்போது திரையில் தோன்றும் ஒரு மெசேஜ் அதை விரைவாக ஆஃப் செய்ய உங்களுக்கு உதவுகிறது. TalkBack அமைப்புகள் &gt; TalkBackகை ஆஃப் செய்வதற்கான வழிமுறைகளைக் காட்டு என்பதற்குச் சென்று இதை ஆஃப் செய்யலாம்.</string>
   <string name="other_changes_content_tts">TalkBack தற்செயலாக ஆன் செய்யப்பட்டால், இப்போது திரையில் தோன்றும் ஒரு மெசேஜ் அதை விரைவாக ஆஃப் செய்ய உங்களுக்கு உதவுகிறது. TalkBack அமைப்புகளுக்குச் சென்று TalkBackகை ஆஃப் செய்வதற்கான வழிமுறைகளைக் காட்டு என்பதற்குச் சென்று இதை ஆஃப் செய்யலாம்.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack இப்போது பல்வேறு புதிய கட்டளைகள் மற்றும் ஷார்ட்கட்களுடன் அதன் கீபோர்டுகளுக்கு ‘மேம்படுத்தப்பட்ட கீ-மேப்பை’ கொண்டுள்ளது. திறன்மிக்க இணைய வழிசெலுத்தலுக்கான \"பிரவுசிங் மோட்\" சேர்க்கப்பட்டுள்ள இந்த மேம்பாடு நேரடியான கீபோர்டைச் சார்ந்திருக்கும் TalkBack பயனர்களுக்கு வழிசெலுத்தல் மற்றும் பங்கேற்றலை ஒழுங்கமைக்கும். %1$s என்பதில் \'மேம்பட்ட கீ-மேப்பிற்கு\' மாறலாம்.\n\nபிரெய்ல் காட்சியைப் பயன்படுத்தினால், பிரெய்ல் காட்சியில் இருந்து நேரடியாக உள்ளடக்கத்திற்குச் செல்ல புதிய பிரவுசிங் மோட் ஷார்ட்கட்களையும் பயன்படுத்தலாம். இந்த மாற்றத்திற்கேற்ப சில பிரெய்ல் காட்சி ஷார்ட்கட்கள் மாற்றப்பட்டுள்ளன. %2$s என்பதில் பிரெய்ல் காட்சி ஷார்ட்கட்களின் பட்டியலைப் பார்க்கலாம்.</string>
   <string name="keyboard_shortcuts_link">TalkBack அமைப்புகள் &gt; கீபோர்டு ஷார்ட்கட்கள்</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack அமைப்புகள் பிறகு கீபோர்டு ஷார்ட்கட்கள்</string>
-  <string name="braille_display_settings_link">பிரெய்ல் காட்சி அமைப்புகள்</string>
   <string name="keyboard_smart_browse_mode_title">கீபோர்டு: ஸ்மார்ட் பிரவுசிங் மோட்</string>
   <string name="keyboard_smart_browse_mode_text">இணையத்தில் பிரவுசிங் செய்யும்போது கீபோர்டு மூலம் டைப் செய்ய உங்களுக்கு உதவ, திருத்துதல் புலத்தில் TalkBack ஸ்மார்ட் பிரவுசிங் மோட் பிரவுசிங் மோடை ஆஃப் செய்யும். இணையத்தில் திருத்த முடியாத புலத்திற்கு நீங்கள் செல்லும்போது அது மீண்டும் ஆன் செய்யப்படும். இதனால் நீங்கள் திறம்பட பிரவுசிங் செய்யலாம். %1$s என்பதில் \"ஸ்மார்ட் பிரவுசிங் மோடை\" ஆன் அல்லது ஆஃப் செய்யலாம்.</string>
   <string name="advanced_settings_link">TalkBack அமைப்புகள் &gt; மேம்பட்ட அமைப்புகள்</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">வார்த்தையை உள்ளிடுதல்</string>
   <string name="basic_typing_text_text">நீங்கள் வாக்கியப் பெட்டியில் இருக்கும்போது, உங்கள் திரையின் கீழ்ப்பகுதியில் ஒரு கீபோர்டு திறக்கும்.</string>
   <string name="typing_text_text">கீபோர்டில் உங்கள் விரலை நகர்த்துங்கள். நீங்கள் உள்ளிட விரும்பும் எழுத்தைக் கேட்டவுடன் விரலை எடுங்கள்.\n\nகீழுள்ள வாக்கியப் பெட்டியை இயக்கி உங்கள் பெயரை உள்ளிட்டுப் பாருங்கள்.</string>
-  <string name="typing_text_with_braille_keyboard_text">பிரெய்ல் கீபோர்டைப் பயன்படுத்தியும் உள்ளிடலாம். இதை TalkBack அமைப்புகளில் கண்டறியலாம்.</string>
   <string name="other_ways_to_type_title">டைப் செய்வதற்கான வேறு வழிகள்</string>
   <string name="other_ways_to_type_text">TalkBackகில் டைப் செய்வதற்கு வேறு வழிகள் உள்ளன. உதாரணமாக, ஒரு எழுத்தை டைப் செய்ய இருமுறை தட்டுதலைப் பயன்படுத்தலாம்.</string>
   <string name="basic_other_ways_to_type_text">TalkBackகில் டைப் செய்வதற்கு வேறு வழிகள் உள்ளன. உதாரணமாக, ஓர் எழுத்தை டைப் செய்ய இருமுறை தட்டுதலைப் பயன்படுத்தலாம். TalkBack அமைப்புகள் &gt; ஸ்கிரீன் கீபோர்டு &gt; டைப்பிங் விருப்பத்தேர்வு என்பதில் இதை நீங்கள் பிறகு மாற்றிக்கொள்ளலாம்.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">சைகைகளைப் பயிற்சி செய்ய முதலில் TalkBackகை இயக்கவும்</string>
   <string name="talkback_inactive_message_image_description">பட விளக்கங்களைப் பெற முயல, முதலில் TalkBackகை இயக்கவும்</string>
   <string name="talkback_inactive_close_tutorial_button">பயிற்சியை மூடு</string>
-  <string name="wear_training_welcome_paragraph">TalkBack அம்சம் ஆனில் இருக்கும்போது திரையில் மையப்படுத்துவது சத்தமாக வாசிக்கப்படும்.\n\nவலதுபுறம் ஸ்வைப் செய்தால் அடுத்ததற்குச் செல்லும். இடதுபுறம் ஸ்வைப் செய்தால் முந்தையதற்குச் செல்லும்.\n\n\'அடுத்து\' பட்டனைக் கண்டறியும் வரை இப்போது வலதுபுறம் ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">மேல் அல்லது கீழ்நோக்கி %1$d விரல்களால் ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_go_back_title">பின்செல்லுதல்</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">திரும்பிச் செல்ல %1$d விரல்களையும் திரையின் விளிம்பிலிருந்து வலதுபுறமாக ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">முடிந்தது</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">பின்செல்வதற்கான சைகையைச் செய்தீர்கள்</string>
-  <string name="wear_training_volume_up_title">ஒலியளவை அதிகரித்தல்</string>
-  <string name="wear_training_volume_up_text">வலதுபுறமாகவும் பிறகு மேல்நோக்கியும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_volume_down_title">ஒலியளவைக் குறைத்தல்</string>
-  <string name="wear_training_volume_down_text">வலதுபுறமாகவும் பிறகு கீழ்நோக்கியும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack மெனுவைத் திறத்தல்</string>
-  <string name="wear_training_open_talkback_menu_text">அமைப்புகளையும் உங்களுக்கு அடிக்கடி தேவைப்படக்கூடிய கட்டுப்பாடுகளையும் திறக்க, கீழ்நோக்கியும் பிறகு வலதுபுறமாகவும் ஸ்வைப் செய்யவும்</string>
-  <string name="wear_training_typing_title">டைப் செய்தல்</string>
-  <string name="wear_training_typing_text1">கீபோர்டு மூலம் டைப் செய்ய, கீபோர்டில் உங்கள் விரலை நகர்த்துங்கள். நீங்கள் டைப் செய்ய விரும்பும் எழுத்தைக் கேட்டவுடன் விரலை எடுங்கள்.</string>
-  <string name="wear_training_typing_text2">கீபோர்டை மறைத்து, நீங்கள் டைப் செய்ததைச் சரிபார்க்க, 2 விரல்களால் திரையில் மேலிருந்து கீழ்நோக்கி ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text3">மீண்டும் கீபோர்டைப் பயன்படுத்த, 2 விரல்களால் திரையில் கீழிருந்து மேல்நோக்கி ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text4">கீபோர்டை மூடி, டைப் செய்வதை ரத்துசெய்ய, 2 விரல்களால் திரையின் இடது ஓரத்திலிருந்து வலதுபுறமாக ஸ்வைப் செய்யுங்கள்.</string>
-  <string name="wear_training_typing_text5">கீழே முயன்று பாருங்கள்.</string>
-  <string name="wear_training_typing_practice_button_content_description">கீபோர்டு மூலம் டைப் செய்யலாம்</string>
-  <string name="wear_training_end_tutorial_title">TalkBackகைப் பயன்படுத்தத் தயாராகிவிட்டீர்கள்</string>
   <string name="talkback_updated_notification_title">TalkBack புதுப்பிக்கப்பட்டது</string>
   <string name="talkback_updated_notification_content">மேலும் கண்டறிய தட்டவும்</string>
   <string name="wear_new_feature_page_title">புதுப்பிக்கப்பட்ட TalkBack அம்சத்திற்கு வரவேற்கிறோம்</string>

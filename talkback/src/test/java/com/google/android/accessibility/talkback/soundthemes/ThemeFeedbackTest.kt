@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.talkback.soundthemes
 
-import com.google.android.accessibility.talkback.individualfeedback.IndividualFeedbackSettings
 import com.google.android.accessibility.talkback.individualfeedback.SoundVibrations
 import org.junit.Assert.assertArrayEquals
 import org.junit.Assert.assertEquals
@@ -51,33 +50,23 @@ class ThemeFeedbackTest {
   }
 
   @Test
-  fun brailleKeyboardVibrationsTurnedOffPlayNothingWithoutATheme() {
-    val playing = feedback.vibrationsPlaying(setOf("braille_keyboard_space"))
-    assertEquals(0, playing.getValue("braille_keyboard_space").size)
-    assertEquals(null, playing["braille_keyboard_character"])
-  }
-
-  @Test
-  fun brailleKeyboardVibrationsTurnedOffPlayNothingWithATheme() {
-    val themed =
-      ThemeFeedback(emptyMap(), mapOf("braille_keyboard_space" to intArrayOf(0, 20)))
-    val playing = themed.vibrationsPlaying(setOf("braille_keyboard_space"))
-    assertEquals(0, playing.getValue("braille_keyboard_space").size)
+  fun vibrationOnlyPatternsTurnedOffPlayNothing() {
+    val themed = ThemeFeedback(emptyMap(), mapOf("notification_pattern" to intArrayOf(0, 20)))
+    val playing = themed.vibrationsPlaying(setOf("notification_pattern"))
+    assertEquals(0, playing.getValue("notification_pattern").size)
     assertArrayEquals(
       intArrayOf(0, 20),
-      themed.vibrationsPlaying(emptySet())["braille_keyboard_space"],
+      themed.vibrationsPlaying(emptySet())["notification_pattern"],
     )
   }
 
   @Test
-  fun everyBrailleKeyboardVibrationHasASwitch() {
+  fun theAnnouncementPlaysUnderTheNotificationPattern() {
     assertEquals(
-      SoundVibrations.BRAILLE_KEYBOARD,
-      IndividualFeedbackSettings.BRAILLE_KEYBOARD_VIBRATIONS.map { it.key }.toSet(),
+      "notification_pattern",
+      SoundVibrations.switchOfPlayed("notification_pattern"),
     )
-    assertTrue(
-      SoundVibrations.BRAILLE_KEYBOARD.all { it in SoundVibrations.VIBRATION_ONLY.keys }
-    )
+    assertTrue("announcement" in SoundVibrations.VIBRATION_ONLY.keys)
   }
 
   @Test

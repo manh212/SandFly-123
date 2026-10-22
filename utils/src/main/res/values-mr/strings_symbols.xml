@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">पूर्ण रुंदीचे लघुतर चिन्ह</string>
   <string name="symbol_full_width_greater_than_sign">पूर्ण रुंदीचे गुरुतर चिन्ह</string>
   <string name="symbol_left_single_quotation_mark">डावे एकेरी अवतरणचिन्ह</string>
-  <string name="symbol_braille">ब्रेल %s</string>
-  <plurals name="dots">
-    <item quantity="one">बिंदू %s</item>
-    <item quantity="other">बिंदू %s</item>
-  </plurals>
 </resources>

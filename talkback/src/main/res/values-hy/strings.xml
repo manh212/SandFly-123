@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Հպումով ուսումնասիրում</string>
   <string name="title_pref_category_visual">Տեսողական</string>
   <string name="title_pref_category_controls">Կառավարման տարրեր</string>
-  <string name="title_pref_category_braille">Բրայլյան գրեր</string>
   <string name="title_pref_category_general">Ընդհանուր</string>
   <string name="title_pref_category_advanced">Ընդլայնված</string>
   <string name="title_pref_category_others">Այլ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Նվազեցնել հապաղումը</string>
   <string name="talkback_latency_reduction_summary">Այս կարգավորումները սահմանում են, թե որքան պետք է լինի հապաղումը TalkBack-ի արձագանքից առաջ</string>
   <string name="summary_pref_intonation">Բարձր ձայնով հնչեցնել տառերի ջնջումը</string>
-  <string name="title_pref_brailledisplay">Բրայլյան էկրան</string>
-  <string name="title_pref_brailleime">Բրայլյան ստեղնաշար</string>
-  <string name="summary_pref_brailleime_disabled">Բրայլյան ստեղնաշարը չի աջակցվում</string>
   <string name="title_pref_speech_footer">Դուք կարող եք ցանկացած էկրանից արագ փոխել TalkBack-ի ձայնի կարգավորումները։\n\nՀատուկ գործառույթների ձայնի ուժգնություն․ մեկ մատը պահեք էկրանին և սեղմեք ձայնի բարձրացման կամ իջեցման կոճակը\nnTalkBack-ի խոսքի արագություն․ 3 մատը սահեցրեք վերև կամ ներքև: Երբ լսեք «խոսքի արագություն», մատը սահեցրեք վերև կամ ներքև։</string>
   <string name="title_pref_vibration">Թրթռոցով արձագանք</string>
   <string name="title_pref_soundback">Ձայնային արձագանք</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Բարձրացնել ձայնը</string>
   <string name="shortcut_decrease_volume">Իջեցնել ձայնը</string>
   <string name="shortcut_all_apps">Բոլոր հավելվածները</string>
-  <string name="shortcut_braille_keyboard">Անցնել բրայլյան ստեղնաշարին</string>
-  <string name="shortcut_braille_display_settings">Անցնել բրայլյան էկրանի կարգավորումներ</string>
   <string name="shortcut_tutorial">Բացել ուղեցույցը</string>
   <string name="shortcut_control_speak_time">Հնչեցնել կամ չհնչեցնել ժամանակը</string>
   <string name="shortcut_enable_speak_time">Հնչեցնել ժամանակը</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Ժամանակը չի հնչեցվում</string>
   <string name="shortcut_practice_gestures">Ժեստերի օգտագործման վարժություններ</string>
   <string name="shortcut_report_gesture">Հաղորդել ժեստի հետ կապված խնդրի մասին</string>
-  <string name="shortcut_toggle_braille_display">Միացնել/անջատել բրայլյան էկրանը</string>
   <string name="shortcut_announce_current_time_and_date">Հնչեցնել ընթացիկ ամսաթիվը և ժամը</string>
   <string name="shortcut_announce_battery_state">Հնչեցնել մարտկոցի լիցքի մակարդակը</string>
   <string name="shortcut_announce_current_title">Հնչեցնել պատուհանի անվանումը</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Նվազեցնել խոսքի արագությունը</string>
   <string name="shortcut_toggle_selection">Միացնել կամ անջատել տեքստի նշման ռեժիմը</string>
   <string name="shortcut_show_tutorial">Բացել ուղեցույցը</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Միացնել/անջատել կրճատված ռեժիմը</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Ցույց տալ/թաքցնել բրայլյան գրերը կապակցված բրայլյան էկրանին</string>
   <string name="shortcut_toggle_sound_feedback">Միացնել կամ անջատել ձայնային արձագանքը (ազդանշանները)</string>
   <string name="shortcut_show_learn_mode_page">Սովորել ստեղնային դյուրանցումները</string>
   <string name="shortcut_announce_phonetic_pronunciation">Ընտրված տարրի համար հնչեցնել տառերը հնչյունային արտասանությամբ</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Ձայնային կառավարում</string>
   <string name="title_show_keyboard_shortcuts">Ստեղնային դյուրանցումներ</string>
   <string name="talkback_show_talkback_settings">TalkBack-ի կարգավորումներ</string>
-  <string name="title_show_braille_display_settings">Բրայլյան էկրանի կարգավորումներ</string>
   <string name="title_granularity_default">Կանխադրված նավիգացիա</string>
   <string name="title_action_dismiss">Փակել</string>
   <string name="title_action_expand">Ընդարձակել</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Ընտրեք՝ արդյոք ուզում եք լսել ժամանակը, երբ միացնում եք էկրանը</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Բացել ստեղնային դյուրանցումների ցանկը</string>
   <string name="summary_talkback_preferences">Բացել TalkBack-ի կարգավորումները</string>
-  <string name="summary_braile_display_preferences">Բացել բրայլյան էկրանի կարգավորումները</string>
   <string name="summary_system_actions">Անցնել բոլոր հավելվածներին և արագ կարգավորումներին</string>
   <string name="summary_tts_settings">Բացեք տեքստի հնչեցման կարգավորումները</string>
   <string name="not_editable">Հնարավոր չէ փոփոխել</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">հիմնաբառը՝ %1$s</string>
   <string name="screen_search_no_keyword_hint">Հիմնաբառ դեռ չկա։ Նոր որոնում սկսելու համար երեք մատով հպեք էկրանին և պահեք կամ TalkBack-ի ընտրացանկից բացեք էկրանին որոնումը։</string>
   <string name="screen_search_no_keyword_hint_pre_r">Հիմնաբառ դեռ չկա։ Նոր որոնում սկսելու համար սահեցրեք ձախ, ապա՝ ներքև կամ TalkBack-ի ընտրացանկից բացեք էկրանին որոնումը։</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Բրայլյան ստեղնաշարը միացված չէ։ Միացրեք այն TalkBack-ի կարգավորումներում և նորից փորձեք։</string>
   <string name="suggestions_window_available">Հասանելի են առաջարկներ</string>
   <string name="suggestions_window_available_with_gesture">Հասանելի են առաջարկներ։ Բացելու համար %1$s։</string>
   <string name="heads_up_window_available">Հասանելի է ծանուցում</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Հպեք՝ իմանալու, թե ինչպես ավելի արագ օգտագործել TalkBack-ը նոր ժեստերի օգնությամբ։</string>
   <string name="dump_node_tree_description">Հանգույցի ծառը տպվել է մատյանում։</string>
   <string name="report_gesture_description">Սրանք վերջերս արված ժեստերն են։ Խնդրում ենք հայտնել, թե որ ժեստն է սխալ և ինչ գործողություն էիք ակնկալում։</string>
-  <string name="update_welcome_text_content">Այժմ դուք կարող եք HID սարքերի միջոցով միանալ բրայլյան էկրաններին նույն կերպով, ինչ Bluetooth սարքերին։ Համոզվեք, որ ձեր սարքում տեղադրված են ներկառուցված ծրագրակազմի վերջին դրայվերները ձեր արտադրողից, այնուհետև միացրեք Bluetooth-ը բրայլյան էկրանին։ Անցեք TalkBack-ի կարգավորումներ &gt; «Բրայլյան էկրան» և միացրեք «Օգտագործել բրայլյան էկրանը» պարամետրը։ Սարքերի ցանկում գտեք ձեր սարքը և միացեք դրան։</string>
-  <string name="update_welcome_text_content_tts">Այժմ դուք կարող եք HID սարքերի միջոցով միանալ բրայլյան էկրաններին նույն կերպով, ինչ Bluetooth սարքերին։ Համոզվեք, որ ձեր սարքում տեղադրված են ներկառուցված ծրագրակազմի վերջին դրայվերները ձեր արտադրողից, այնուհետև միացրեք Bluetooth-ը բրայլյան էկրանին։ Անցեք TalkBack-ի կարգավորումներ, ապա «Բրայլյան էկրան» և միացրեք «Օգտագործել բրայլյան էկրանը» պարամետրը։ Սարքերի ցանկում գտեք ձեր սարքը և միացեք դրան։</string>
-  <string name="update_welcome_text_content_with_link">Իմացեք, թե ինչպես օգտագործել բրայլյան էկրանը TalkBack-ով։</string>
   <string name="update_welcome_talkback_16.1">TalkBack-ի այս թարմացման մեջ էկրանի նկարագրության գործառույթն աջակցում է ավելի շատ լեզուներ։ Բացի այդ՝ կատարվել են որակի այլ բարելավումներ, որոնց շնորհիվ TalkBack-ից օգտվելն ավելի հեշտ է դարձել։\n\nՓոփոխությունների մասին ավելի մանրամասն կիմանաք հաջորդ մի քանի էկրաններից։\n\nԱյս տեղեկություններին կարող եք ավելի ուշ ծանոթանալ՝ անցնելով TalkBack-ի կարգավորումներ &gt; Նոր գործառույթներ TalkBack-ում։</string>
   <string name="update_welcome_talkback_16.1_tts">TalkBack-ի այս թարմացման մեջ էկրանի նկարագրության գործառույթն աջակցում է ավելի շատ լեզուներ։ Բացի այդ՝ կատարվել են որակի այլ բարելավումներ, որոնց շնորհիվ TalkBack-ից օգտվելն ավելի հեշտ է դարձել։\n\nՓոփոխությունների մասին ավելի մանրամասն կիմանաք հաջորդ մի քանի էկրաններից։\n\nԱյս տեղեկություններին կարող եք ավելի ուշ ծանոթանալ՝ անցնելով TalkBack-ի կարգավորումներ, ապա՝ Նոր գործառույթներ TalkBack-ում։</string>
   <string name="describe_screen_and_qna_title">Նոր լեզուներ էկրանի նկարագրության և «Հարցնել Gemini-ին» գործառույթների համար</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Նվազեցնել հապաղումը</string>
   <string name="reduce_delay_content">Այժմ հնարավոր է նվազեցնել TalkBack-ի արձագանքի հապաղումը սենսորային կառավարման և տեքստի մուտքագրման ժամանակ։ Այս կարգավորումները փոփոխելու համար անցեք TalkBack-ի կարգավորումներ &gt; Ընդլայնված կարգավորումներ &gt; Նվազեցնել հապաղումը։</string>
   <string name="reduce_delay_content_tts">Այժմ հնարավոր է նվազեցնել TalkBack-ի արձագանքի հապաղումը սենսորային կառավարման և տեքստի մուտքագրման ժամանակ։ Այս կարգավորումները փոփոխելու համար անցեք TalkBack-ի կարգավորումներ, բացեք «Ընդլայնված կարգավորումներ» բաժինը, ապա՝ «Նվազեցնել հապաղումը»։</string>
-  <string name="customize_braille_keyboard_improvements_title">Անհատականացրեք բրայլյան ստեղնաշարի ժեստերը</string>
-  <string name="customize_braille_keyboard_improvements_content">Այժմ դուք կարող եք անհատականացնել բրայլյան ստեղնաշարի ժեստերը։ Անհատականացնելու համար անցեք TalkBack-ի կարգավորումներ &gt; Բրայլյան ստեղնաշար &gt; Ժեստեր։</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Այժմ դուք կարող եք անհատականացնել բրայլյան ստեղնաշարի ժեստերը։ Անհատականացնելու համար անցեք TalkBack-ի կարգավորումներ, բացեք «Բրայլյան ստեղնաշար» բաժինը, ապա՝ Ժեստեր։</string>
-  <string name="learn_more_about_braille_keyboard">Իմանալ ավելին բրայլյան ստեղնաշարի մասին</string>
   <string name="other_changes_title">Այլ փոփոխություններ</string>
   <string name="other_changes_content">Եթե պատահաբար միացրել եք TalkBack-ը, էկրանին կհայտնվի ցուցումներով հաղորդագրություն այն մասին, թե ինչպես արագ անջատել գործառույթը։ Սա կարող եք անջատել՝ անցնելով TalkBack-ի կարգավորումներ &gt; Ցույց տալ TalkBack-ն անջատելու ցուցումները։</string>
   <string name="other_changes_content_tts">Եթե պատահաբար միացրել եք TalkBack-ը, էկրանին կհայտնվի ցուցումներով հաղորդագրություն այն մասին, թե ինչպես արագ անջատել գործառույթը։ Սա կարող եք անջատել՝ անցնելով TalkBack-ի կարգավորումներ և սեղմելով «Ցույց տալ TalkBack-ն անջատելու ցուցումները»։</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack-ում հայտնվել է ֆիզիկական ստեղնաշարերի համար «Ստեղների ընդլայնված շարվածք», որը ներառում է բազմաթիվ նոր հրահանգներ և դյուրանցումներ։ Ավելացվել է նաև դիտարկման ռեժիմը, որը հեշտացնում է նավիգացիան վեբ բովանդակության մեջ և ֆիզիկական ստեղնաշար ունեցող մարդկանց օգնում է օգտագործել TalkBack-ը։ «Ստեղների ընդլայնված շարվածքին» կարող եք անցնել այստեղ՝ %1$s։\n\nԵթե օգտագործում եք բրայլյան էկրան, կարող եք նաև օգտագործել դիտարկման ռեժիմի նոր դյուրանցումները՝ անմիջապես ձեր բրայլյան էկրանից բովանդակություն ուսումնասիրելու համար։ Բրայլյան էկրանի որոշ դյուրանցումներ փոփոխվել են՝ այս փոփոխությանը համապատասխանելու համար։ Բրայլյան էկրանի բոլոր դյուրանցումների ցանկը կարող եք տեսնել այստեղ՝ %2$s։</string>
   <string name="keyboard_shortcuts_link">TalkBack-ի կարգավորումներ &gt; Ստեղնային դյուրանցումներ</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack-ի կարգավորումներ, ապա Ստեղնային դյուրանցումներ</string>
-  <string name="braille_display_settings_link">Բրայլյան էկրանի կարգավորումներ</string>
   <string name="keyboard_smart_browse_mode_title">Ստեղնաշար․ խելացի դիտարկման ռեժիմ</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack-ի խելացի դիտարկման ռեժիմն անջատում է խմբագրման դաշտում դիտարկման ռեժիմը, որպեսզի վեբ բովանդակություն դիտարկելիս կարողանաք տեքստ մուտքագրել ֆիզիկական ստեղնաշարի միջոցով։ Դիտարկման ռեժիմը նորից միանում է, երբ դուրս եք գալիս վեբ էջի խմբագրման դաշտից, որպեսզի կարողանաք արդյունավետորեն շարունակել դիտարկումը։ Դուք կարող եք միացնել կամ անջատել «Խելացի դիտարկման ռեժիմը»՝ անցնելով %1$s։</string>
   <string name="advanced_settings_link">TalkBack-ի կարգավորումներ &gt; Լրացուցիչ կարգավորումներ</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Տեքստի մուտքագրում</string>
   <string name="basic_typing_text_text">Երբ տեքստային դաշտ եք ընտրում, էկրանի ներքևում բացվում է ստեղնաշար։</string>
   <string name="typing_text_text">Մատը տեղաշարժեք ստեղնաշարի վրայով։ Երբ լսեք այն տառը, որն ուզում եք մուտքագրել, բարձրացրեք մատը։\n\nՓորձեք ակտիվացնել ներքևի տեքստային դաշտը և մուտքագրել ձեր անունը։</string>
-  <string name="typing_text_with_braille_keyboard_text">Կարող եք նաև տեքստ մուտքագրել բրայլյան ստեղնաշարի օգնությամբ։ Գտեք այն TalkBack-ի կարգավորումներում։</string>
   <string name="other_ways_to_type_title">Մուտքագրման այլ եղանակներ</string>
   <string name="other_ways_to_type_text">TalkBack-ում տեքստ մուտքագրելու այլ եղանակներ կան։ Օրինակ՝ տառ մուտքագրելու համար կրկնակի հպեք։</string>
   <string name="basic_other_ways_to_type_text">TalkBack-ում տեքստ մուտքագրելու այլ եղանակներ կան։ Օրինակ՝ տառ մուտքագրելու համար կրկնակի հպեք։ Այս գործառույթը կարող եք փոխել ավելի ուշ՝ անցնելով TalkBack-ի կարգավորումներ &gt; Էկրանային ստեղնաշար &gt; Մուտքագրման կարգավորումներ։</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ժեստերը փորձելու համար միացրեք TalkBack-ը</string>
   <string name="talkback_inactive_message_image_description">Պատկերների նկարագրություններ ստանալու համար նախ միացրեք TalkBack-ը</string>
   <string name="talkback_inactive_close_tutorial_button">Փակել ուղեցույցը</string>
-  <string name="wear_training_welcome_paragraph">Երբ TalkBack-ը միացված է, այն հնչեցնում է միջերեսի ձեր ընտրած տարրերը։\n\nԹերթեք աջ՝ հաջորդ տարրին անցնելու համար։ Նախորդ տարրին վերադառնալու համար թերթեք ձախ։\n\nԹերթեք աջ հիմա՝ մինչև կգտնեք «Առաջ» կոճակը։</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Սահեցրեք %1$d մատը վերև կամ ներքև։</string>
-  <string name="wear_training_go_back_title">Հետ գնալ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Հետ վերադառնալու համար էկրանի եզրից %1$d մատը սահեցրեք աջ։</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Հաջողվեց</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Կատարվել է «Հետ» ժեստը</string>
-  <string name="wear_training_volume_up_title">Ձայնի բարձրացում</string>
-  <string name="wear_training_volume_up_text">Մատը սահեցրեք աջ, ապա վերև</string>
-  <string name="wear_training_volume_down_title">Ձայնի իջեցում</string>
-  <string name="wear_training_volume_down_text">Մատը սահեցրեք աջ, ապա ներքև</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-ի ընտրացանկի բացում</string>
-  <string name="wear_training_open_talkback_menu_text">Ձեր հաճախ օգտագործվող կարգավորումներն ու կառավարման տարրերը բացելու համար սահեցրեք ներքև, ապա աջ</string>
-  <string name="wear_training_typing_title">Մուտքագրում</string>
-  <string name="wear_training_typing_text1">Մուտքագրելու համար մատները սահեցրեք ստեղնաշարի վրայով։ Երբ լսեք այն տառը, որն ուզում եք մուտքագրել, բարձրացրեք մատը։</string>
-  <string name="wear_training_typing_text2">Ստեղնաշարը թաքցնելու և ձեր ներածումը ստուգելու համար 2 մատը սահեցրեք էկրանի վերևից։</string>
-  <string name="wear_training_typing_text3">Ստեղնաշարին վերադառնալու համար էկրանի ներքևից 2 մատը սահեցրեք վերև։</string>
-  <string name="wear_training_typing_text4">Ստեղնաշարը փակելու և մուտքագրումն ավարտելու համար էկրանի ձախ եզրից 2 մատը սահեցրեք աջ։</string>
-  <string name="wear_training_typing_text5">Փորձեք այստեղ։</string>
-  <string name="wear_training_typing_practice_button_content_description">Ստեղնաշարով մուտքագրում</string>
-  <string name="wear_training_end_tutorial_title">Այժմ դուք գիտեք, թե ինչպես օգտվել TalkBack-ից</string>
   <string name="talkback_updated_notification_title">TalkBack-ը թարմացվել է</string>
   <string name="talkback_updated_notification_content">Հպեք՝ ավելին իմանալու համար</string>
   <string name="wear_new_feature_page_title">Ներկայացնում ենք թարմացված TalkBack-ը</string>

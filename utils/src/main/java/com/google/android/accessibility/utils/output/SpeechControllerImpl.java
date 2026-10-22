@@ -60,7 +60,6 @@ import com.google.android.accessibility.utils.R;
 import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.SpannableUtils.SourceTextSpan;
 import com.google.android.accessibility.utils.StringBuilderUtils;
-import com.google.android.accessibility.utils.braille.BrailleUnicode;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.FailoverTtsListener;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.UtteranceInfoCombo;
@@ -1194,7 +1193,6 @@ public class SpeechControllerImpl implements SpeechController {
     }
 
     text = replaceSpanByContentDescription(text);
-    text = replaceBrailleSymbolByDescription(mContext, text);
     text = EmojiSpeech.process(mContext, text);
     final FeedbackItem pendingItem =
         FeedbackProcessingUtils.generateFeedbackItemFromInput(
@@ -1343,30 +1341,6 @@ public class SpeechControllerImpl implements SpeechController {
           spanToReplaceStart,
           spanToReplaceEnd,
           spanToReplaceFlags);
-    }
-    return spannable;
-  }
-
-  private static CharSequence replaceBrailleSymbolByDescription(
-      Context context, CharSequence text) {
-    SpannableStringBuilder spannable = new SpannableStringBuilder(text);
-    for (int index = 0; index < spannable.length(); index++) {
-      char ch = spannable.charAt(index);
-      if (BrailleUnicode.isBraille(ch)) {
-        String dots = BrailleUnicode.toDotNumbersString(ch);
-        String dotsPattern =
-            context.getResources().getQuantityString(R.plurals.dots, dots.length(), dots);
-        SpannableStringBuilder sb = new SpannableStringBuilder();
-        String braillePattern = context.getString(R.string.symbol_braille, dotsPattern);
-        sb.append(braillePattern);
-        sb.append(" ");
-        sb.setSpan(
-            new TtsSpan.VerbatimBuilder().setVerbatim(dots).build(),
-            braillePattern.indexOf(dots),
-            braillePattern.indexOf(dots) + dots.length(),
-            SPAN_INCLUSIVE_EXCLUSIVE);
-        spannable.replace(index, index + 1, sb);
-      }
     }
     return spannable;
   }

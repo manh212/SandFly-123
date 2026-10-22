@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Istraži dodirom</string>
   <string name="title_pref_category_visual">Vizuelni sadržaj</string>
   <string name="title_pref_category_controls">Kontrole</string>
-  <string name="title_pref_category_braille">Braillevo pismo</string>
   <string name="title_pref_category_general">Opće</string>
   <string name="title_pref_category_advanced">Napredno</string>
   <string name="title_pref_category_others">Drugo</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Smanji kašnjenje</string>
   <string name="talkback_latency_reduction_summary">Brža reakcija SandFlya nakon dodira ekrana</string>
   <string name="summary_pref_intonation">Izgovaranje izbrisanih slova u višem tonalitetu</string>
-  <string name="title_pref_brailledisplay">Brailleov ekran</string>
-  <string name="title_pref_brailleime">Tastatura s Braillevim pismom</string>
-  <string name="summary_pref_brailleime_disabled">Vaš uređaj ne podržava tastaturu s Braillevim pismom</string>
   <string name="title_pref_speech_footer">Da promijenite jačinu zvuka za pristupačnost s bilo kojeg ekrana, držite 1 prst na ekranu i pritisnite dugme za pojačavanje ili stišavanje zvuka.</string>
   <string name="title_pref_vibration">Obavještenje vibracijom</string>
   <string name="title_pref_soundback">Obavještenje zvukom</string>
@@ -486,8 +482,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="shortcut_increase_volume">Pojačavanje</string>
   <string name="shortcut_decrease_volume">Stišavanje</string>
   <string name="shortcut_all_apps">Sve aplikacije</string>
-  <string name="shortcut_braille_keyboard">Prebacivanje na Braillevu tastaturu</string>
-  <string name="shortcut_braille_display_settings">Idite na postavke za Brailleov ekran</string>
   <string name="shortcut_tutorial">Otvaranje vodiča</string>
   <string name="shortcut_control_speak_time">Izgovaranje vremena ili izostanak izgovaranja vremena</string>
   <string name="shortcut_enable_speak_time">Izgovaranje vremena</string>
@@ -496,7 +490,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="speak_time_off">Izgovaranje vremena je isključeno</string>
   <string name="shortcut_practice_gestures">Vježbanje pokreta</string>
   <string name="shortcut_report_gesture">Prijavite problem s pokretom</string>
-  <string name="shortcut_toggle_braille_display">Uključivanje ili isključivanje Brailleovog ekrana</string>
   <string name="shortcut_announce_current_time_and_date">Reci trenutni datum i vrijeme</string>
   <string name="shortcut_announce_battery_state">Izgovor postotka baterije</string>
   <string name="shortcut_announce_current_title">Izgovaranje naslova prozora</string>
@@ -506,8 +499,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="shortcut_speech_rate_decrease">Smanjenje brzine govora</string>
   <string name="shortcut_toggle_selection">Pokretanje/prekidanje načina rada za odabir</string>
   <string name="shortcut_show_tutorial">Otvaranje vodiča</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Prebacivanje između skraćenog (2. forma) i proširenog (1. forma)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Prikaz ili sakrivanje Braillevog pisma na ekranu za povezane Brailleove ekrane</string>
   <string name="shortcut_toggle_sound_feedback">Uključivanje ili isključivanje zvučnih povratnih informacija (zvučni signali)</string>
   <string name="shortcut_show_learn_mode_page">Vježbanje prečica na tastaturi</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izgovaranje slova s fonetskim izgovorom za fokusiranu stavku</string>
@@ -548,7 +539,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="title_show_voice_commands">Glasovne komande</string>
   <string name="title_show_keyboard_shortcuts">Prečice na tastaturi</string>
   <string name="talkback_show_talkback_settings">Postavke SandFlya</string>
-  <string name="title_show_braille_display_settings">Postavke Brailleovog ekrana</string>
   <string name="title_granularity_default">Zadana navigacija</string>
   <string name="title_action_dismiss">Odbaci</string>
   <string name="title_action_expand">Proširi</string>
@@ -576,7 +566,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="summary_control_speak_time">Promijenite hoće li se vrijeme govoriti naglas kada uključite ekran</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otvaranje liste prečica na tastaturi</string>
   <string name="summary_talkback_preferences">Otvaranje postavki SandFlya</string>
-  <string name="summary_braile_display_preferences">Otvaranje postavki Brailleovog ekrana</string>
   <string name="summary_system_actions">Idite u sve aplikacije i Brze postavke</string>
   <string name="summary_tts_settings">Otvaranje postavki za pretvaranje teksta u govor</string>
   <string name="not_editable">Nije moguće urediti</string>
@@ -917,7 +906,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="screen_search_keyword_hint">ključna riječ je %1$s</string>
   <string name="screen_search_no_keyword_hint">Još nema ključne riječi. Da započnete novo pretraživanje, dodirnite i zadržite s 3 prsta ili otvorite pregled glavnog ekrana putem menija SandFlya.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Još nema ključne riječi. Da započnete novo pretraživanje, prevucite ulijevo, a zatim nadolje ili otvorite pregled glavnog ekrana putem menija SandFlya.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brailleva tastatura nije uključena. Idite u postavke SandFlya, postavite je i pokušajte ponovo.</string>
   <string name="suggestions_window_available">Prijedlozi su dostupni</string>
   <string name="suggestions_window_available_with_gesture">Prijedlozi su dostupni. Da pristupite, %1$s</string>
   <string name="heads_up_window_available">Dostupno je obavještenje</string>
@@ -967,9 +955,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="new_gesture_notification_content">Dodirnite da saznate kako brže koristiti SandFly pomoću novih pokreta.</string>
   <string name="dump_node_tree_description">Stablo s čvorovima je odštampano u zapisnike.</string>
   <string name="report_gesture_description">Ovo su nedavno izvršeni pokreti. Prijavite koji je pokret pogrešan i šta se očekuje.</string>
-  <string name="update_welcome_text_content">Sada se možete povezati s Brailleovim ekranima putem uređaja s korisničkim interfejsom, koji je način povezivanja s Bluetooth uređajima. Provjerite imate li najnovije drajvere firmvera proizvođača, a zatim uključite Bluetooth na Brailleovom ekranu. Idite u Postavke SandFlya &gt; Brailleov ekran i uključite \"Koristi Brailleov ekran\". Pronađite uređaj na listi i povežite se s njim.</string>
-  <string name="update_welcome_text_content_tts">Sada se možete povezati s Brailleovim ekranima putem uređaja s korisničkim interfejsom, koji je način povezivanja s Bluetooth uređajima. Provjerite imate li najnovije drajvere firmvera proizvođača, a zatim uključite Bluetooth na Brailleovom ekranu. Idite u Postavke SandFlya, a zatim Brailleov ekran i uključite \"Koristi Brailleov ekran\". Pronađite uređaj na listi i povežite se s njim.</string>
-  <string name="update_welcome_text_content_with_link">Saznajte kako koristiti Brailleov ekran uz SandFly.</string>
   <string name="update_welcome_talkback_16.1">Ovo ažuriranje SandFlya uvodi podršku za Opisivanje ekrana na više jezika i druga poboljšanja kvaliteta koja olakšavaju korištenje SandFlya.\n\nSaznat ćete više o ovim promjenama na nekoliko sljedećih ekrana.\n\nDa kasnije pregledate ove informacije, idite u Postavke SandFlya &gt; Nove funkcije u SandFlyu.</string>
   <string name="update_welcome_talkback_16.1_tts">Ovo ažuriranje SandFlya uvodi podršku za Opisivanje ekrana na više jezika i druga poboljšanja kvaliteta koja olakšavaju korištenje SandFlya.\n\nSaznat ćete više o ovim promjenama na nekoliko sljedećih ekrana.\n\nDa kasnije pregledate ove informacije, idite u Postavke SandFlya, a zatim Nove funkcije u SandFlyu.</string>
   <string name="describe_screen_and_qna_title">Novi jezici za Opisivanje ekrana i Pitajte Gemini</string>
@@ -985,10 +970,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="reduce_delay_title">Smanjite kašnjenje</string>
   <string name="reduce_delay_content">Sada možete smanjiti kašnjenja obavještenja iz SandFlya za istraživanje i pisanje dodirom. Da pregledate ove postavke, idite u Postavke SandFlya &gt; Napredne postavke &gt; Smanji kašnjenje.</string>
   <string name="reduce_delay_content_tts">Sada možete smanjiti kašnjenja obavještenja iz SandFlya za istraživanje i pisanje dodirom. Da pregledate ove postavke, idite u Postavke SandFlya pa Napredne postavke, a zatim Smanji kašnjenje.</string>
-  <string name="customize_braille_keyboard_improvements_title">Prilagodite pokrete za tastaturu s Braillevim pismom</string>
-  <string name="customize_braille_keyboard_improvements_content">Sada je moguće prilagoditi pokrete za virtuelnu tastaturu s Braillevim pismom na ekranu. Da ih prilagodite, idite u Postavke SandFlya &gt; Tastatura s Braillevim pismom &gt; Pokreti.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Sada je moguće prilagoditi pokrete za virtuelnu tastaturu s Braillevim pismom na ekranu. Da ih prilagodite, idite u Postavke SandFlya pa Tastatura s Braillevim pismom, a zatim Pokreti.</string>
-  <string name="learn_more_about_braille_keyboard">Saznajte više o tastaturi s Braillevim pismom</string>
   <string name="other_changes_title">Ostale promjene</string>
   <string name="other_changes_content">Poruka na ekranu vam sada pomaže da brzo isključite SandFly ako ga slučajno uključite. Da isključite ovo, idite u Postavke SandFlya &gt; Prikaži uputstva za isključivanje SandFlya.</string>
   <string name="other_changes_content_tts">Poruka na ekranu vam sada pomaže da brzo isključite SandFly ako ga slučajno uključite. Da isključite ovo, idite u Postavke SandFlya, a zatim Prikaži uputstva za isključivanje SandFlya.</string>
@@ -1021,7 +1002,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="keyboard_enhanced_keymap_text">SandFly sada ima \"Poboljšani raspored tipki\" za fizičke tastature, koji sadržava razne nove komande i prečice. Ovo poboljšanje uključuje \"način rada za pregledanje\" za efikasnije kretanje webom i pojednostavljuje kretanje i interakciju za korisnike SandFlya koji se oslanjaju na fizičku tastaturu. Možete preći na \"Poboljšani raspored tipki\" odlaskom u <xliff:g id="settings_path">%1$s</xliff:g>.\n\nAko koristite Brailleov ekran, možete koristiti i nove prečice načina rada za pregledanje da prolazite kroz sadržaj direktno s Brailleovog ekrana. Određene prečice Brailleovog ekrana su promijenjene da se prilagode ovoj promjeni. Možete vidjeti listu svih prečica Brailleovog ekrana odlaskom u <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Postavke SandFlya &gt; Prečice na tastaturi</string>
   <string name="keyboard_shortcuts_link_tts">Postavke SandFlya, a zatim Prečice na tastaturi</string>
-  <string name="braille_display_settings_link">Postavke Brailleovog ekrana</string>
   <string name="keyboard_smart_browse_mode_title">Tastatura: pametni način rada za pregledanje</string>
   <string name="keyboard_smart_browse_mode_text">SandFlyov pametni način rada za pregledanje isključuje način rada za pregledanje u polju za uređivanje da vam pomogne da pišete pomoću fizičke tastature kada pregledate web. Zatim ga ponovo uključuje kada na webu pređete na polje koje se ne uređuje da možete nastaviti efikasno pregledati. Možete uključiti ili isključiti \"Pametni način rada za pregledanje\" odlaskom u <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Postavke SandFlya &gt; Napredne postavke</string>
@@ -1094,7 +1074,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="typing_text_title">Pisanje teksta</string>
   <string name="basic_typing_text_text">Kada otvorite okvir za tekst, tastatura će se otvoriti u donjem dijelu ekrana.</string>
   <string name="typing_text_text">Pređite prstom preko tastature. Kada čujete slovo koje želite upisati, podignite prst.\n\nProbajte aktivirati okvir za tekst u nastavku i upisati svoje ime.</string>
-  <string name="typing_text_with_braille_keyboard_text">Također možete pisati tastaturom s Braillevim pismom koju ćete pronaći u postavkama SandFlya.</string>
   <string name="other_ways_to_type_title">Drugi načini pisanja</string>
   <string name="other_ways_to_type_text">Postoje drugi načini pisanja u SandFlyu. Naprimjer, slovo možete unijeti dvostrukim dodirom.</string>
   <string name="basic_other_ways_to_type_text">Postoje drugi načini pisanja u SandFlyu. Naprimjer, slovo možete unijeti dvostrukim dodirom. Ovo možete promijeniti kasnije u Postavkama SandFlya &gt; Tastatura na ekranu &gt; Način pisanja.</string>
@@ -1209,26 +1188,6 @@ Kašnjenja ispod 0,3 s će promijeniti aktiviranje dvostrukim dodirom u aktivir
   <string name="talkback_inactive_message_practice_gestures">Da vježbate pokrete, prvo uključite SandFly</string>
   <string name="talkback_inactive_message_image_description">Da pokušate preuzeti opise slika, prvo uključite SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Zatvori vodič</string>
-  <string name="wear_training_welcome_paragraph">Kada je SandFly uključen, fokusirana stavka na ekranu se čita naglas.\n\nPrevlačenjem udesno prelazite na sljedeću stavku. Prevlačenjem ulijevo prelazite na prethodnu stavku.\n\nPrevucite udesno sada da pronađete sljedeće dugme.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Prevucite nagore ili nadolje s %1$d prsta.</string>
-  <string name="wear_training_go_back_title">Vratite se</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kada se želite vratiti, s %1$d prsta prevucite udesno od ivice ekrana.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uspješno</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Izvršili ste pokret unazad</string>
-  <string name="wear_training_volume_up_title">Povećajte jačinu zvuka</string>
-  <string name="wear_training_volume_up_text">Prevucite udesno pa nagore</string>
-  <string name="wear_training_volume_down_title">Smanjite jačinu zvuka</string>
-  <string name="wear_training_volume_down_text">Prevucite udesno pa nadolje</string>
-  <string name="wear_training_open_talkback_menu_title">Otvorite meni SandFlya</string>
-  <string name="wear_training_open_talkback_menu_text">Da otvorite postavke i kontrole koje vam često mogu biti potrebne, prevucite nadolje, a zatim udesno</string>
-  <string name="wear_training_typing_title">Pisanje</string>
-  <string name="wear_training_typing_text1">Da pišete tastaturom, pređite prstom preko tastature. Kada čujete slovo koje želite napisati, podignite prst.</string>
-  <string name="wear_training_typing_text2">Da sakrijete tastaturu i provjerite unos, prevucite nadolje s vrha ekrana s 2 prsta.</string>
-  <string name="wear_training_typing_text3">Da se vratite na tastaturu, prevucite nagore s dna ekrana s 2 prsta.</string>
-  <string name="wear_training_typing_text4">Da zatvorite tastaturu i otkažete pisanje, prevucite udesno s lijevog ruba ekrana s 2 prsta.</string>
-  <string name="wear_training_typing_text5">Isprobajte ispod.</string>
-  <string name="wear_training_typing_practice_button_content_description">Pisanje tastaturom</string>
-  <string name="wear_training_end_tutorial_title">Spremni ste za korištenje SandFlya</string>
   <string name="talkback_updated_notification_title">SandFly je ažuriran</string>
   <string name="talkback_updated_notification_content">Dodirnite da saznate više</string>
   <string name="wear_new_feature_page_title">Dobro došli u ažurirani SandFly</string>
@@ -1520,7 +1479,6 @@ Nemojte koristiti formatiranje u odgovoru.</string>
     <string name="title_pref_announce_ringer_mode">Način zvona</string>
     <string name="summary_pref_announce_ringer_mode">Izgovaranje kada je zvono postavljeno na vibraciju ili bez zvuka</string>
     <string name="title_pref_category_feedback">Povratne informacije</string>
-    <string name="title_pref_category_typing_and_braille">Pisanje i Brailleovo pismo</string>
     <string name="title_pref_category_apps">Aplikacije</string>
     <string name="title_pref_touch_activation">Dodir i aktiviranje</string>
     <string name="title_pref_navigation">Navigacija</string>
@@ -1544,8 +1502,6 @@ Nemojte koristiti formatiranje u odgovoru.</string>
     <string name="speech_control_deny">Nemoj dozvoliti</string>
     <string name="permission_speak_label">govor putem SandFlya</string>
     <string name="permission_speak_description">Omogućava aplikaciji da zatraži izgovaranje teksta vašim glasom SandFlya. SandFly traži vašu potvrdu prije nego što aplikacija može govoriti.</string>
-    <string name="permission_braille_display_label">zahtjev da bude Brailleov ekran za SandFly</string>
-    <string name="permission_braille_display_description">Omogućava aplikaciji da zatraži da bude Brailleov ekran za SandFly. Ako to dozvolite u SandFlyu, može čitati sve na ekranu i upravljati uređajem. SandFly prvo traži vašu potvrdu.</string>
     <string name="title_pref_phonetic_letters_mode">Fonetsko izgovaranje slova</string>
     <string name="phonetic_letters_mode_off">Isključeno</string>
     <string name="phonetic_letters_mode_after_letter_delay">Nakon slova, s pauzom, npr. \"h, hotel\"</string>
@@ -1684,14 +1640,8 @@ Nemojte koristiti formatiranje u odgovoru.</string>
     <string name="summary_support_wrap_around">Uključivanje ili isključivanje prelaska s posljednje stavke na prvu</string>
     <string name="wrap_around_on">Kružno kretanje je uključeno</string>
     <string name="wrap_around_off">Kružno kretanje je isključeno</string>
-    <string name="title_selector_tablet_held_up_faces_away">Uspravan tablet okrenut od vas</string>
-    <string name="summary_support_tablet_held_up_faces_away">Za Braillevu tastaturu na tabletu ili rasklopljenom telefonu</string>
-    <string name="tablet_held_up_faces_away_on">Uspravan tablet okrenut od vas je uključeno</string>
-    <string name="tablet_held_up_faces_away_off">Uspravan tablet okrenut od vas je isključeno</string>
     <string name="title_keyboard_echo_on_screen">Eho tastature na ekranu</string>
     <string name="title_keyboard_echo_physical">Eho fizičke tastature</string>
-    <string name="title_keyboard_echo_braille_keyboard">Eho Brailleve tastature</string>
-    <string name="title_keyboard_echo_braille_display">Eho Brailleovog ekrana</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Prekidanje govora pri pisanju</string>
     <string name="pref_interrupt_typing_entry_always">Uvijek</string>

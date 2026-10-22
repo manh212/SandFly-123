@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Baxış rejimi aktivdir</string>
   <string name="individual_sound_browse_mode_off">Baxış rejimi deaktivdir</string>
   <string name="individual_sound_radial_menu">Dairəvi menyu</string>
-  <string name="individual_sound_display_connected">Brayl displeyi qoşuldu</string>
-  <string name="individual_sound_display_disconnected">Brayl displeyi ayrıldı</string>
-  <string name="individual_sound_double_beep">Brayl əmri uğursuz oldu</string>
-  <string name="individual_sound_turn_on">Brayl avtomatik sürüşdürmə aktivdir</string>
-  <string name="individual_sound_turn_off">Brayl avtomatik sürüşdürmə deaktivdir</string>
-  <string name="individual_sound_calibration_done">Brayl klaviaturası kalibrləndi</string>
   <string name="individual_vibration_focus">Elementə fokus</string>
   <string name="individual_vibration_focus_actionable">Əməliyyat edilə bilən elementə fokus</string>
   <string name="individual_vibration_clicked">Klikləmə</string>
@@ -37,10 +31,4 @@
   <string name="individual_vibration_typo">Orfoqrafiya xətası</string>
   <string name="individual_vibration_notification">Elan</string>
     <string name="individual_sound_screen_on">Ekran aktiv</string>
-    <string name="individual_vibration_braille_character">Brayl klaviaturası: simvol yazmaq</string>
-    <string name="individual_vibration_braille_space">Brayl klaviaturası: boşluq və ya silmə</string>
-    <string name="individual_vibration_braille_new_line">Brayl klaviaturası: yeni sətir və ya söz silmə</string>
-    <string name="individual_vibration_braille_hold">Brayl klaviaturası: barmaqları basılı saxlamaq</string>
-    <string name="individual_vibration_braille_gesture">Brayl klaviaturası: digər jestlər</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Brayl klaviaturası: silmək üçün heç nə yoxdur</string>
 </resources>

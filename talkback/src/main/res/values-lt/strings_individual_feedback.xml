@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Naršymo režimas įjungtas</string>
   <string name="individual_sound_browse_mode_off">Naršymo režimas išjungtas</string>
   <string name="individual_sound_radial_menu">Apskritas meniu</string>
-  <string name="individual_sound_display_connected">Brailio ekranas prijungtas</string>
-  <string name="individual_sound_display_disconnected">Brailio ekranas atjungtas</string>
-  <string name="individual_sound_double_beep">Brailio komanda nepavyko</string>
-  <string name="individual_sound_turn_on">Automatinis Brailio slinkimas įjungtas</string>
-  <string name="individual_sound_turn_off">Automatinis Brailio slinkimas išjungtas</string>
-  <string name="individual_sound_calibration_done">Brailio klaviatūra sukalibruota</string>
   <string name="individual_vibration_focus">Fokusas elemente</string>
   <string name="individual_vibration_focus_actionable">Fokusas suaktyvinamame elemente</string>
   <string name="individual_vibration_clicked">Spustelėjimas</string>

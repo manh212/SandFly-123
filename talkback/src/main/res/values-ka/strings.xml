@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">შეხებით დათვალიერება</string>
   <string name="title_pref_category_visual">ვიზუალი</string>
   <string name="title_pref_category_controls">მართვის საშუალებები</string>
-  <string name="title_pref_category_braille">ბრაილი</string>
   <string name="title_pref_category_general">ზოგადი</string>
   <string name="title_pref_category_advanced">გაფართოებული</string>
   <string name="title_pref_category_others">სხვა</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">დაყოვნების შემცირება</string>
   <string name="talkback_latency_reduction_summary">TalkBack-ის განცხადებებამდე დაყოვნების შესამცირებელი პარამეტრები</string>
   <string name="summary_pref_intonation">ამოშლილი ასობგერები უფრო მაღალი რეგისტრის ხმით</string>
-  <string name="title_pref_brailledisplay">ბრაილის ეკრანი</string>
-  <string name="title_pref_brailleime">ბრაილის კლავიატურა</string>
-  <string name="summary_pref_brailleime_disabled">თქვენს მოწყობილობას არ აქვს ბრაილის კლავიატურის მხარდაჭერა</string>
   <string name="title_pref_speech_footer">TalkBack-ის ხმის ზოგიერთი პარამეტრის სწრაფად კორექტირება ნებისმიერი ეკრანიდან შეგიძლიათ.\n\nმისაწვდომობის ხმის სიმძლავრე: შეახეთ 1 თითი ეკრანს და დააჭირეთ ხმის აწევის ან დაწევის ღილაკს.\nTalkBack-ის მეტყველების ტემპი: გადაფურცლეთ ზემოთ ან ქვემოთ 3 თითით. „მეტყველების ტემპის“ გაგონებისას 1 თითით გადაფურცლეთ ზევით ან ქვევით.</string>
   <string name="title_pref_vibration">უკუკავშირი ვიბრაციით</string>
   <string name="title_pref_soundback">ხმოვანი უკუკავშირი</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ხმის აწევა</string>
   <string name="shortcut_decrease_volume">ხმის დაწევა</string>
   <string name="shortcut_all_apps">ყველა აპი</string>
-  <string name="shortcut_braille_keyboard">ბრაილის კლავიატ. გადართვა</string>
-  <string name="shortcut_braille_display_settings">ნავიგაცია ბრაილის ეკრანის პარამეტრებზე</string>
   <string name="shortcut_tutorial">სახელმძღვანელოს გახსნა</string>
   <string name="shortcut_control_speak_time">დროის წარმოთქმის ჩართვა ან გამორთვა</string>
   <string name="shortcut_enable_speak_time">დროის წარმოთქმა</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">დროის წარმოთქმა გამორთულია</string>
   <string name="shortcut_practice_gestures">ჟესტების პრაქტიკა</string>
   <string name="shortcut_report_gesture">მოხსენება ჟესტის პრობლემის შესახებ</string>
-  <string name="shortcut_toggle_braille_display">ბრაილის ეკრანის ჩართვა და გამორთვა</string>
   <string name="shortcut_announce_current_time_and_date">მიმდინარე თარიღის და დროის წარმოთქმა</string>
   <string name="shortcut_announce_battery_state">ბატარეის პროცენტულობის წარმოთქმა</string>
   <string name="shortcut_announce_current_title">ფანჯრის სათაურის წარმოთქმა</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">მეტყველების ტემპის შემცირება</string>
   <string name="shortcut_toggle_selection">შერჩევის რეჟიმის დაწყება ან დასრულება</string>
   <string name="shortcut_show_tutorial">სახელმძღვანელოს გახსნა</string>
-  <string name="shortcut_toggle_braille_contracted_mode">გადართვა კონტრაქტულ (კლასი 2) და არაკონტრაქტულს (კლასი 1) შორის</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ეკრანზე ბრაილის ჩვენება/დამალვა დაკავშ. ბრაილ. ეკრანებისთვის</string>
   <string name="shortcut_toggle_sound_feedback">ხმოვანი გამოხმაურების (აუდიოხატულების) ჩართვა ან გამორთვა</string>
   <string name="shortcut_show_learn_mode_page">კლავიატურის მალსახმობების გამოცდა</string>
   <string name="shortcut_announce_phonetic_pronunciation">ფოკუსში მოქცეული ერთეულისთვის ასოების ფონეტიკური გამოთქმით წარმოთქმა</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ხმოვანი ბრძანებები</string>
   <string name="title_show_keyboard_shortcuts">კლავიატურის მალსახმობები</string>
   <string name="talkback_show_talkback_settings">TalkBack პარამეტრები</string>
-  <string name="title_show_braille_display_settings">ბრაილის ეკრანის პარამეტრები</string>
   <string name="title_granularity_default">ნაგულისხმევი ნავიგაცია</string>
   <string name="title_action_dismiss">დახურვა</string>
   <string name="title_action_expand">გაშლა</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ეკრანის ჩართვისას დროის ხმამაღლა წარმოთქმის პარამეტრის შეცვლა</string>
   <string name="summary_show_keyboard_shortcuts_preferences">კლავიატურის მალსახმობების სიის გახსნა</string>
   <string name="summary_talkback_preferences">TalkBack-ის პარამეტრების გახსნა</string>
-  <string name="summary_braile_display_preferences">ბრაილის ეკრანის პარამეტრების გახსნა</string>
   <string name="summary_system_actions">ყველა აპზე და სწრაფ პარამეტრებზე გადასვლა</string>
   <string name="summary_tts_settings">ტექსტის გახმოვანების პარამეტრების გახსნა</string>
   <string name="not_editable">არარედაქტირებადია</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">საკვანძო სიტყვა არის %1$s</string>
   <string name="screen_search_no_keyword_hint">ჯერჯერობით, საკვანძო სიტყვა არ არის. ახალი ძიების დასაწყებად 3 თითის გამოყენებით ხანგრძლივად შეეხეთ ეკრანს ან TalkBack-ის მენიუდან გახსენით ეკრანზე ძიება.</string>
   <string name="screen_search_no_keyword_hint_pre_r">ჯერჯერობით, საკვანძო სიტყვა არ არის. ახალი ძიების დასაწყებად გადაფურცლეთ მარცხნივ და შემდეგ ქვემოთ ან TalkBack-ის მენიუდან გახსენით ეკრანზე ძიება.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ბრაილის კლავიატურა არ არის ჩართული. გადადით TalkBack-ის პარამეტრებზე, დააყენეთ ბრაილის კლავიატურა და ცადეთ ხელახლა.</string>
   <string name="suggestions_window_available">ხელმისაწვდომია შეთავაზებები</string>
   <string name="suggestions_window_available_with_gesture">ხელმისაწვდომია შეთავაზებები. წვდომისთვის %1$s</string>
   <string name="heads_up_window_available">შეტყობინება ხელმისაწვდომია</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">შეეხეთ და შეიყტყვეთ მეტი TalkBack-ის ახალი ჟესტების გამოყენების შესახებ.</string>
   <string name="dump_node_tree_description">კვანძების იერარქია დაიბეჭდა ჟურნალებში.</string>
   <string name="report_gesture_description">აქ ნაჩვენებია ახლახან შესრულებული ჟესტები. გთხოვთ, მოხსენებაში მიუთითოთ, თუ რომელი ჟესტია არასწორი და რა უნდა იყოს მის ნაცვლად.</string>
-  <string name="update_welcome_text_content">ახლა შეგიძლიათ, რომ დაუკავშირდეთ ბრაილის ეკრანებს HID-ს საშუალებით, რაც Bluetooth მოწყობილობებთან დაკავშირების გზაა. დარწმუნდით, რომ ფლობთ ჩაშენებული პროგრამული უზრუნველყოფის უახლეს დრაივერებს თქვენი მწარმოებლისგან და შემდეგ ჩართეთ Bluetooth თქვენს ბრაილის ეკრანზე. გადადით: TalkBack-ის პარამეტრები &gt; ბრაილის ეკრანი და შემდეგ ჩართეთ „ბრაილის ეკრანის გამოყენება“. მოწყობილობების სიაში იპოვეთ თქვენი მოწყობილობა და დაუკავშირდით მას.</string>
-  <string name="update_welcome_text_content_tts">ახლა შეგიძლიათ, რომ დაუკავშირდეთ ბრაილის ეკრანებს HID-ს საშუალებით, რაც Bluetooth მოწყობილობებთან დაკავშირების გზაა. დარწმუნდით, რომ ფლობთ ჩაშენებული პროგრამული უზრუნველყოფის უახლეს დრაივერებს თქვენი მწარმოებლისგან და შემდეგ ჩართეთ Bluetooth თქვენს ბრაილის ეკრანზე. გადადით TalkBack-ის პარამეტრებზე, შემდეგ ბრაილის ეკრანზე და ჩართეთ „ბრაილის ეკრანის გამოყენება“. მოწყობილობების სიაში იპოვეთ თქვენი მოწყობილობა და დაუკავშირდით მას.</string>
-  <string name="update_welcome_text_content_with_link">შეიტყვეთ, როგორ გამოიყენოთ თქვენი ბრაილის ეკრანი TalkBack-ის საშუალებით.</string>
   <string name="update_welcome_talkback_16.1">TalkBack-ის ამ განახლებაში წარმოგიდგენთ ეკრანის აღწერის მხარდაჭერას კიდევ უფრო მეტ ენაზე და ხარისხის სხვა გაუმჯობესებებს, რომლებიც მის გამოყენებას ამარტივებს.\n\nამ ცვლილებების შესახებ მეტს შეიტყობთ შემდეგ ეკრანებზე.\n\nმ ინფორმაციის მოგვიანებით მიმოხილვისთვის გადადით TalkBack-ის პარამეტრებში &gt; TalkBack-ის ახალ ფუნქციებში.</string>
   <string name="update_welcome_talkback_16.1_tts">TalkBack-ის ამ განახლებაში წარმოგიდგენთ ეკრანის აღწერის მხარდაჭერას კიდევ უფრო მეტ ენაზე და ხარისხის სხვა გაუმჯობესებებს, რომლებიც TalkBack-ის გამოყენებას ამარტივებს.\n\nამ ცვლილებების შესახებ მეტს შეიტყობთ შემდეგ ეკრანებზე.\n\nამ ინფორმაციის მოგვიანებით მიმოხილვისთვის გადადით TalkBack-ის პარამეტრებში და შემდეგ TalkBack-ის ახალ ფუნქციებში.</string>
   <string name="describe_screen_and_qna_title">ახალი ენები შემდეგი ფუნქციებისთვის: ეკრანის აღწერა და ჰკითხეთ Gemini-ს</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">დაყოვნების შემცირება</string>
   <string name="reduce_delay_content">ახლა შეგიძლიათ, შეამციროთ TalkBack-ის განცხადებების დაყოვნება შეხებით გამოკვლევისა და აკრეფისთვის. ამ პარამეტრების სანხავად გადადით აქ: TalkBack-ის პარამეტრები &gt; დამატებითი პარამეტრები &gt; დაყოვნების შემცირება.</string>
   <string name="reduce_delay_content_tts">ახლა შეგიძლიათ, შეამციროთ TalkBack-ის განცხადებების დაყოვნება შეხებით გამოკვლევისა და აკრეფისთვის. ამ პარამეტრების სანხავად გადადით TalkBack-ის პარამეტრებზე, შემდეგ დამატებით პარამეტრებზე და შემდეგ დაყოვნების შემცირებაზე.</string>
-  <string name="customize_braille_keyboard_improvements_title">ბრაილის კლავიატურის ჟესტების მორგება</string>
-  <string name="customize_braille_keyboard_improvements_content">უკვე შესაძლებელია ჟესტების მორგება ვირტუალური ეკრანული ბრაილის კლავიატურისთვის. მოსარგებად გადადით აქ : TalkBack-ის პარამეტრები &gt; ბრაილის კლავიატურა &gt; ჟესტები.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">უკვე შესაძლებელია ჟესტების მორგება ვირტუალური ეკრანული ბრაილის კლავიატურისთვის. მოსარგებად გადადით TalkBack-ის პარამეტრებზე, შემდეგ ბრაილის კლავიატურაზე და — ჟესტებზე.</string>
-  <string name="learn_more_about_braille_keyboard">შეიტყვეთ მეტი ბრაილის კლავიატურის შესახებ</string>
   <string name="other_changes_title">სხვა ცვლილებები</string>
   <string name="other_changes_content">ეკრანული შეტყობინება ახლა გეხმარებათ TalkBack-ის სწრაფად გამორთვაში, თუ ის შემთხვევით ჩაირთვება. ამის გამორთვა შეგიძლიათ აქ: TalkBack-ის პარამეტრები &gt; ინსტრუქციების ჩვენება TalkBack-ის გამოსართავად.</string>
   <string name="other_changes_content_tts">ეკრანული შეტყობინება ახლა გეხმარებათ TalkBack-ის სწრაფად გამორთვაში, თუ ის შემთხვევით ჩაირთვება. ამის გამორთვა შეგიძლიათ TalkBack-ის პარამეტრებში აქ გადასვლით: ინსტრუქციების ჩვენება TalkBack-ის გამოსართავად.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack-ს ახლა აქვს ფიზიკური კლავიატურების „გაუმჯობესებული კლავიშთა განლაგება“, რომელიც მრავალ ახალ ბრძანებასა და მალსახმობს მოიცავს. ეს გაუმჯობესება, რომელიც ვებში უფრო ეფექტური ნავიგაციისთვის განკუთვნილ „დათვალიერების რეჟიმს“ მოიცავს, ამარტივებს ნავიგაციასა და ინტერაქციას TalkBack-ის იმ მომხმარებლებისთვის, რომლებიც ფიზიკურ კლავიატურას იყენებენ. შეგიძლიათ გადახვიდეთ „გაუმჯობესებულ კლავიშთა განლაგებაზე“ %1$s-ში.\n\nთუ ბრაილის ეკრანს იყენებთ, შეგიძლიათ გამოიყენოთ დათვალიერების რეჟიმის ახალი მალსახმობები, რათა კონტენტში ნავიგაცია პირდაპირ ბრაილის ეკრანიდან შეძლოთ. ბრაილის ეკრანის ზოგიერთი მალსახმობი შეიცვალა ამ ცვლილების შესაბამისად. ბრაილის ეკრანის ყველა მალსახმობის ნახვა შეგიძლიათ %2$s-ში.</string>
   <string name="keyboard_shortcuts_link">TalkBack-ის პარამეტრები &gt; კლავიატურის მალსახმობები</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack-ის პარამეტრები, შემდეგ კლავიატურის მალსახმობები</string>
-  <string name="braille_display_settings_link">ბრაილის ეკრანის პარამეტრები</string>
   <string name="keyboard_smart_browse_mode_title">კლავიატურა: დათვალიერების გონიერი რეჟიმი</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack-ის დათვალიერების გონიერი რეჟიმი გამორთავს დათვალიერების რეჟიმს რედაქტირების ველში, რათა დაგეხმაროთ ფიზიკური კლავიატურით აკრეფაში ვების დათვალიერებისას. შემდეგ ისევ ჩაირთვება, როცა ვებში გადახვალთ არადასარედაქტირებელ ველზე, რათა ეფექტურად განაგრძოთ დათვალიერება. „დათვალიერების გონიერი რეჟიმის“ ჩართვა ან გამორთვა შეგიძლიათ %1$s-ში.</string>
   <string name="advanced_settings_link">TalkBack-ის პარამეტრები &gt; გაფართოებული პარამეტრები</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ტექსტის შეყვანა</string>
   <string name="basic_typing_text_text">როდესაც ტექსტის ველზე იქნებით, თქვენი ეკრანის ქვედა ნაწილში კლავიატურა გაიხსნება.</string>
   <string name="typing_text_text">გადაადგილდით თითით კლავიატურაზე. აუშვით თითი, როცა სასურველ ასობგერას გაიგონებთ.\n\nცადეთ ტექსტის ველის გააქტიურება და აკრიფეთ თქვენი სახელი.</string>
-  <string name="typing_text_with_braille_keyboard_text">ასევე, შეგიძლიათ ბრაილის კლავიატურის მეშვეობით აკრეფა. მოძებნეთ ის TalkBack-ის პარამეტრებში.</string>
   <string name="other_ways_to_type_title">აკრეფის სხვა გზები</string>
   <string name="other_ways_to_type_text">TalkBack-ში აკრეფის სხვა გზებიც არსებობს. მაგალითად, ასოს შესაყვანად შეგიძლიათ ორმაგი შეხება გამოიყენოთ.</string>
   <string name="basic_other_ways_to_type_text">TalkBack-ში აკრეფის სხვა გზებიც არსებობს. მაგალითად, ასოს შესაყვანად შეგიძლიათ ორმაგი შეხება გამოიყენოთ. ამის შეცვლა მოგვიანებით შეგიძლიათ TalkBack-ის პარამეტრებიდან &gt; ეკრანული კლავიატურა &gt; აკრეფის პარამეტრები.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ჟესტების გამოყენებაში სავარჯიშოდ ჩართეთ TalkBack ფუნქცია</string>
   <string name="talkback_inactive_message_image_description">სურათის აღწერების მისაღებად ჩართეთ TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">სახელმძღვანელოს დახურვა</string>
-  <string name="wear_training_welcome_paragraph">როდესაც TalkBack ჩართულია, ეკრანზე ფოკუსში მოქცეული ერთეული ხმამაღლა წარმოითქმება.\n\nმარჯვნივ გადაფურცვლით გადახვალთ მომდევნო ერთეულზე. მარცხნივ გადაფურცვლით გადახვალთ წინა ერთეულზე.\n\nახლა გადაფურცლეთ მარჯვნივ, სანამ მომდევნო ღილაკს არ იპოვით.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">გადაფურცლეთ ზემოთ ან ქვემოთ %1$d თითით.</string>
-  <string name="wear_training_go_back_title">უკან დაბრუნება</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">როდესაც გსურთ უკან დაბრუნება, %1$d თითით გადაფურცლეთ ეკრანის კიდიდან მარჯვნივ.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">წარმატებულია</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">შესრულდა უკან გადასვლის ჟესტი</string>
-  <string name="wear_training_volume_up_title">ხმის აწევა</string>
-  <string name="wear_training_volume_up_text">გადაფურცლეთ მარჯვნივ და შემდეგ ზემოთ</string>
-  <string name="wear_training_volume_down_title">ხმის დაწევა</string>
-  <string name="wear_training_volume_down_text">გადაფურცლეთ მარჯვნივ და შემდეგ ქვემოთ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-ის მენიუს გახსნა</string>
-  <string name="wear_training_open_talkback_menu_text">იმ პარამეტრებისა და მართვის საშუალებების გასახსნელად, რომლებიც ხშირად შეიძლება დაგჭირდეთ, გადაფურცლეთ ქვემოთ და შემდეგ მარჯვნივ</string>
-  <string name="wear_training_typing_title">მიმდინარეობს აკრეფა</string>
-  <string name="wear_training_typing_text1">კლავიატურით ასაკრეფად, კლავიატურაზე გადაატარეთ თითი. როდესაც გაიგონებთ ასოს, რომლის აკრეფაც გსურთ, აწიეთ თითი.</string>
-  <string name="wear_training_typing_text2">კლავიატურის დასამალად და შეყვანილი ტექსტის შესამოწმებლად, ეკრანის ზედა ნაწილიდან ორი თითით გადაფურცლეთ ქვემოთ.</string>
-  <string name="wear_training_typing_text3">კლავიატურაზე დასაბრუნებლად, ეკრანის ქვედა კიდიდან ორი თითით გადაფურცლეთ ზემოთ.</string>
-  <string name="wear_training_typing_text4">კლავიატურის დასახურად და აკრეფის გასაუქმებლად, ეკრანის მარცხენა კიდიდან ორი თითით გადაფურცლეთ მარჯვნივ.</string>
-  <string name="wear_training_typing_text5">ცადეთ ქვემოთ.</string>
-  <string name="wear_training_typing_practice_button_content_description">კლავიატურით აკრეფა</string>
-  <string name="wear_training_end_tutorial_title">თქვენ მზად ხართ, რომ დაიწყოთ TalkBack-ის გამოყენება</string>
   <string name="talkback_updated_notification_title">TalkBack განახლდა</string>
   <string name="talkback_updated_notification_content">შეეხეთ მეტი ინფორმაციისთვის</string>
   <string name="wear_new_feature_page_title">წარმოგიდგენთ განახლებულ TalkBack-ს</string>

@@ -90,7 +90,6 @@
   <string name="summary_pref_announce_ringer_mode">الإشارة عند ضبط الرنين على الاهتزاز أو الصامت</string>
   <string name="title_pref_category_audio">الصوت</string>
   <string name="title_pref_category_feedback">التعليقات</string>
-  <string name="title_pref_category_typing_and_braille">الكتابة وبرايل</string>
   <string name="title_pref_category_more">المزيد</string>
   <string name="title_pref_speech_volume">مستوى صوت الكلام</string>
   <string name="title_pref_speech_rate">سرعة الكلام</string>
@@ -186,7 +185,6 @@
   <string name="title_pref_explore_by_touch">الاستكشاف باللمس</string>
   <string name="title_pref_category_visual">إعدادات المرئيات</string>
   <string name="title_pref_category_controls">عناصر التحكّم</string>
-  <string name="title_pref_category_braille">لغة برايل</string>
   <string name="title_pref_category_general">ميزات عامة</string>
   <string name="title_pref_category_advanced">الإعدادات المتقدّمة</string>
   <string name="title_pref_category_others">غير ذلك</string>
@@ -440,9 +438,6 @@
   <string name="title_pref_latency_reduction">تقليل وقت الاستجابة</string>
   <string name="talkback_latency_reduction_summary">جعل SandFly يستجيب بشكل أسرع بعد لمس الشاشة</string>
   <string name="summary_pref_intonation">قول الأحرف التي يتم حذفها بطبقة صوت أعلى</string>
-  <string name="title_pref_brailledisplay">جهاز عرض بلغة برايل</string>
-  <string name="title_pref_brailleime">لوحة مفاتيح برايل</string>
-  <string name="summary_pref_brailleime_disabled">الجهاز غير متوافق مع لوحة مفاتيح برايل</string>
   <string name="title_pref_speech_footer">لتغيير مستوى صوت \"تسهيل الاستخدام\" من أي شاشة، انقر مع الاستمرار بإصبع واحد على الشاشة، ثم اضغط على مفتاح رفع الصوت أو خفضه.</string>
   <string name="title_pref_vibration">التجاوب بالاهتزاز</string>
   <string name="title_pref_soundback">التجاوب بالصوت</string>
@@ -601,8 +596,6 @@
   <string name="shortcut_increase_volume">رفع مستوى الصوت</string>
   <string name="shortcut_decrease_volume">خفض مستوى الصوت</string>
   <string name="shortcut_all_apps">جميع التطبيقات</string>
-  <string name="shortcut_braille_keyboard">التبديل إلى لوحة مفاتيح برايل</string>
-  <string name="shortcut_braille_display_settings">انتقال إلى إعدادات جهاز العرض بلغة برايل</string>
   <string name="shortcut_tutorial">فتح الدليل التوجيهي</string>
   <string name="shortcut_control_speak_time">قول الوقت بصوت عالٍ أو عدم قول الوقت بصوت عالٍ</string>
   <string name="shortcut_enable_speak_time">قول الوقت بصوت عالٍ</string>
@@ -611,7 +604,6 @@
   <string name="speak_time_off">تم إلغاء تفعيل \"عدم قول الوقت بصوت عالٍ\"</string>
   <string name="shortcut_practice_gestures">التدريب على استخدام الإيماءات</string>
   <string name="shortcut_report_gesture">الإبلاغ عن مشكلة في الإيماءة</string>
-  <string name="shortcut_toggle_braille_display">تفعيل جهاز العرض بلغة برايل أو إيقافه</string>
   <string name="shortcut_announce_current_time_and_date">قول التاريخ والوقت الحاليَين</string>
   <string name="shortcut_announce_battery_state">قراءة النسبة المئوية لمستوى شحن البطارية</string>
   <string name="shortcut_announce_current_title">قراءة عنوان النافذة</string>
@@ -621,8 +613,6 @@
   <string name="shortcut_speech_rate_decrease">خفض سرعة الكلام</string>
   <string name="shortcut_toggle_selection">بدء وضع الاختيار أو الخروج منه</string>
   <string name="shortcut_show_tutorial">فتح الدليل التوجيهي</string>
-  <string name="shortcut_toggle_braille_contracted_mode">التبديل بين اللغة المختصرة (المستوى 2) واللغة غير المختصرة (المستوى 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">عرض أو إخفاء حروف برايل على أجهزة عرض برايل المتصلة</string>
   <string name="shortcut_toggle_sound_feedback">تفعيل الملاحظات الصوتية (الرموز الصوتية) أو إيقافها</string>
   <string name="shortcut_show_learn_mode_page">التدرّب على اختصارات لوحة المفاتيح</string>
   <string name="shortcut_announce_phonetic_pronunciation">قول الحروف مع اللفظ الصوتي للعنصر الذي تم تحديده</string>
@@ -663,7 +653,6 @@
   <string name="title_show_voice_commands">الطلبات الصوتية</string>
   <string name="title_show_keyboard_shortcuts">اختصارات لوحة المفاتيح</string>
   <string name="talkback_show_talkback_settings">‏إعدادات SandFly</string>
-  <string name="title_show_braille_display_settings">إعدادات جهاز العرض بلغة برايل</string>
   <string name="title_granularity_default">قائمة التنقّل التلقائية</string>
   <string name="title_action_dismiss">تجاهل</string>
   <string name="title_action_expand">توسيع</string>
@@ -691,7 +680,6 @@
   <string name="summary_control_speak_time">يمكنك تغيير ما إذا كان سيتم قول الوقت بصوت عالٍ عند تشغيل الشاشة</string>
   <string name="summary_show_keyboard_shortcuts_preferences">فتح قائمة اختصارات لوحة المفاتيح</string>
   <string name="summary_talkback_preferences">‏فتح إعدادات SandFly</string>
-  <string name="summary_braile_display_preferences">فتح إعدادات جهاز العرض بلغة برايل</string>
   <string name="summary_system_actions">الانتقال إلى كل التطبيقات و\"الإعدادات السريعة\"</string>
   <string name="summary_tts_settings">فتح إعدادات تحويل النص إلى كلام</string>
   <string name="not_editable">غير قابل للتعديل</string>
@@ -867,10 +855,6 @@
   <string name="summary_support_wrap_around">تفعيل الالتفاف من العنصر الأخير إلى الأول أو إيقافه</string>
   <string name="wrap_around_on">تم تفعيل الالتفاف</string>
   <string name="wrap_around_off">تم إيقاف الالتفاف</string>
-  <string name="title_selector_tablet_held_up_faces_away">الجهاز اللوحي المرفوع يتّجه بعيدًا</string>
-  <string name="summary_support_tablet_held_up_faces_away">للوحة مفاتيح برايل على جهاز لوحي أو هاتف غير مطوي</string>
-  <string name="tablet_held_up_faces_away_on">تم تفعيل اتّجاه الجهاز اللوحي المرفوع بعيدًا</string>
-  <string name="tablet_held_up_faces_away_off">تم إيقاف اتّجاه الجهاز اللوحي المرفوع بعيدًا</string>
   <string name="value_shake_to_read_disabled">غير مفعّلة</string>
   <string name="value_shake_to_read_threshold_very_light">خفيف جدًا</string>
   <string name="value_shake_to_read_threshold_light">خفيف</string>
@@ -1086,7 +1070,6 @@
   <string name="screen_search_keyword_hint">الكلمة الرئيسية هي %1$s</string>
   <string name="screen_search_no_keyword_hint">‏لم يتم إدخال أي كلمات رئيسية حتى الآن. لإجراء بحث جديد، انقر مع الاستمرار باستخدام 3 أصابع أو افتح ميزة \"بحث مباشر\" من قائمة SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">‏لم يتم إدخال أي كلمات رئيسية حتى الآن. لإجراء بحث جديد، مرِّر سريعًا لليمين ثم للأسفل أو افتح ميزة \"بحث مباشر\" من قائمة SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">‏لوحة مفاتيح برايل غير مفعّلة. يمكنك الانتقال إلى إعدادات SandFly وإعداد لوحة مفاتيح برايل ثم إعادة المحاولة.</string>
   <string name="suggestions_window_available">تتوفّر اقتراحات</string>
   <string name="suggestions_window_available_with_gesture">تتوفّر اقتراحات. للوصول إليها، يُرجى %1$s.</string>
   <string name="heads_up_window_available">وصَلك إشعارٌ.</string>
@@ -1136,9 +1119,6 @@
   <string name="new_gesture_notification_content">‏انقر لمعرفة كيفية استخدام SandFly بشكلٍ أسرع باستخدام الميزات الجديدة.</string>
   <string name="dump_node_tree_description">تمت طباعة شجرة العُقَد إلى السجلات.</string>
   <string name="report_gesture_description">إليك الإيماءات التي تم تنفيذها مؤخرًا، يُرجى الإبلاغ عن الإيماءة الخاطئة وعما هو متوقع.</string>
-  <string name="update_welcome_text_content">‏يمكنك الآن الاتصال بأجهزة العرض بلغة برايل عبر جهاز واجهة بشرية (HID)، وهي طريقة للاتصال بالأجهزة التي تتضمّن بلوتوث. يُرجى التأكّد من تثبيت أحدث برامج تشغيل البرامج الثابتة من الشركة المصنّعة، ثم تفعيل البلوتوث على جهاز العرض بلغة برايل. ويمكنك الانتقال إلى \"إعدادات SandFly\" &gt; \"جهاز عرض بلغة برايل\" وتفعيل خيار \"استخدام جهاز عرض بلغة برايل\". بعد ذلك، عليك البحث عن جهازك في قائمة الأجهزة، والتوصيل بين الجهازين.</string>
-  <string name="update_welcome_text_content_tts">‏يمكنك الآن الاتصال بأجهزة العرض بلغة برايل عبر جهاز واجهة بشرية (HID)، وهي طريقة للاتصال بالأجهزة التي تتضمّن بلوتوث. يُرجى التأكّد من تثبيت أحدث برامج تشغيل البرامج الثابتة من الشركة المصنّعة، ثم تفعيل البلوتوث على جهاز العرض بلغة برايل. ويمكنك الانتقال إلى \"إعدادات SandFly\" &gt; \"جهاز عرض بلغة برايل\" وتفعيل خيار \"استخدام جهاز عرض بلغة برايل\". بعد ذلك، عليك البحث عن جهازك في قائمة الأجهزة، والتوصيل بين الجهازين.</string>
-  <string name="update_welcome_text_content_with_link">‏إليك كيفية استخدام جهاز العرض بلغة برايل مع SandFly.</string>
   <string name="update_welcome_talkback_16.1">‏يتضمّن تحديث SandFly الأخير إضافة لغات جديدة إلى ميزة \"وصف محتوى الشاشة\"، وتحسينات أخرى على الجودة لتسهيل استخدامه.\n\nتعرض الصفحات القليلة التالية المزيد من التفاصيل حول هذه التغييرات.\n\nلمراجعة هذه المعلومات لاحقًا، يُرجى الانتقال إلى \"إعدادات SandFly\" &gt; \"الميزات الجديدة في SandFly\".</string>
   <string name="update_welcome_talkback_16.1_tts">‏يتضمّن تحديث SandFly الأخير إضافة لغات جديدة إلى ميزة \"وصف محتوى الشاشة\"، وتحسينات أخرى على الجودة لتسهيل الاستخدام.\n\nتعرض الصفحات القليلة التالية المزيد من التفاصيل حول هذه التغييرات.\n\nلمراجعة هذه المعلومات لاحقًا، يُرجى الانتقال إلى \"إعدادات SandFly\" ثم \"الميزات الجديدة في SandFly\".</string>
   <string name="describe_screen_and_qna_title">‏لغات جديدة لميزتَي \"وصف محتوى الشاشة\" و\"اسأل Gemini\"</string>
@@ -1154,10 +1134,6 @@
   <string name="reduce_delay_title">تقليل وقت الاستجابة</string>
   <string name="reduce_delay_content">‏يمكن الآن تقليل وقت الاستجابة لإشعارات SandFly عند استخدام الاستكشاف باللمس والكتابة. للاطِّلاع على هذه الإعدادات، يُرجى الانتقال إلى \"إعدادات SandFly\" &gt; \"الإعدادات المتقدّمة\" &gt; \"تقليل وقت الاستجابة\".</string>
   <string name="reduce_delay_content_tts">‏يمكن الآن تقليل وقت الاستجابة لإشعارات SandFly عند استخدام الاستكشاف باللمس والكتابة. للاطِّلاع على هذه الإعدادات، يُرجى الانتقال إلى \"إعدادات SandFly\" ثم \"الإعدادات المتقدّمة\" ثم \"تقليل وقت الاستجابة\".</string>
-  <string name="customize_braille_keyboard_improvements_title">تخصيص إيماءات لوحة مفاتيح برايل</string>
-  <string name="customize_braille_keyboard_improvements_content">‏يمكنك الآن تخصيص إيماءات لوحة مفاتيح برايل الافتراضية على الشاشة. لتخصيص الإيماءات، يُرجى الانتقال إلى \"إعدادات SandFly\" &gt; \"لوحة مفاتيح برايل\" &gt; \"الإيماءات\".</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">‏يمكن الآن تخصيص إيماءات لوحة مفاتيح برايل الافتراضية على الشاشة. لتخصيص الإيماءات، يُرجى الانتقال إلى \"إعدادات SandFly\" ثم \"لوحة مفاتيح برايل\" ثم \"الإيماءات\".</string>
-  <string name="learn_more_about_braille_keyboard">مزيد من المعلومات عن لوحة مفاتيح برايل</string>
   <string name="other_changes_title">تغييرات أخرى</string>
   <string name="other_changes_content">‏تظهر الآن رسالة على الشاشة لمساعدتك في إيقاف ميزة SandFly بسرعة إذا تم تفعيلها بدون قصد. بإمكانك إيقاف هذه الميزة من خلال الانتقال إلى \"إعدادات SandFly\" &gt; \"عرض تعليمات لإيقاف SandFly\".</string>
   <string name="other_changes_content_tts">‏تظهر الآن رسالة على الشاشة للمساعدة في إيقاف ميزة SandFly بسرعة إذا تم تفعيلها بدون قصد. ويمكن إيقاف هذه الميزة من خلال الانتقال إلى \"إعدادات SandFly\" ثم \"عرض تعليمات لإيقاف SandFly\".</string>
@@ -1190,7 +1166,6 @@
   <string name="keyboard_enhanced_keymap_text">‏يتضمّن SandFly الآن \"خريطة مفاتيح محسّنة\" للوحات المفاتيح الخارجية، مع مجموعة متنوعة من الأوامر والاختصارات الجديدة. يتضمّن هذا التحسين \"وضع التصفّح\" لتصفّح الويب بكفاءة أعلى، ما يُسهّل تنقّل وتفاعل مستخدمي SandFly الذين يعتمدون على لوحات المفاتيح الخارجية. يمكنك التبديل إلى \"خريطة مفاتيح محسّنة\" من خلال \"<xliff:g id="settings_path">%1$s</xliff:g>\".\n\nفي حال استخدام جهاز عرض بلغة برايل، يمكنك أيضًا استخدام اختصارات \"وضع التصفّح\" الجديدة للتنقّل في المحتوى مباشرةً من الجهاز. تم تغيير بعض اختصارات جهاز العرض بلغة برايل لتتماشى مع هذا التغيير. يمكنك الاطّلاع على قائمة بجميع اختصارات أجهزة العرض بلغة برايل في \"<xliff:g id="braille_display_settings_path">%2$s</xliff:g>\".</string>
   <string name="keyboard_shortcuts_link">‏إعدادات SandFly &gt; اختصارات لوحة المفاتيح</string>
   <string name="keyboard_shortcuts_link_tts">‏\"إعدادات SandFly\" ثم \"اختصارات لوحة المفاتيح\"</string>
-  <string name="braille_display_settings_link">إعدادات جهاز العرض بلغة برايل</string>
   <string name="keyboard_smart_browse_mode_title">لوحة المفاتيح: وضع التصفّح الذكي</string>
   <string name="keyboard_smart_browse_mode_text">‏يوقف \"وضع التصفّح الذكي\" في SandFly \"وضع التصفّح\" عند الانتقال إلى حقل تعديل لمساعدتك في الكتابة باستخدام لوحة مفاتيح خارجية عند تصفّح الويب. ثم يعيد تفعيله عند الانتقال إلى حقل غير مخصّص للتعديل على الويب حتى يمكنك مواصلة التصفّح بكفاءة. يمكنك تفعيل \"وضع التصفّح الذكي\" أو إيقافه في \"<xliff:g id="settings_path">%1$s</xliff:g>\".</string>
   <string name="advanced_settings_link">‏إعدادات SandFly &gt; الإعدادات المتقدّمة</string>
@@ -1263,7 +1238,6 @@
   <string name="typing_text_title">كتابة نص</string>
   <string name="basic_typing_text_text">عند الانتقال إلى مربّع نص، ستظهر لوحة مفاتيح في أسفل الشاشة.</string>
   <string name="typing_text_text">‏حرِّك إصبعك على لوحة المفاتيح. عندما تسمع الحرف الذي تريد كتابته، ارفع إصبعك.\n\nجرِّب تفعيل مربّع النص أدناه وكتابة اسمك.</string>
-  <string name="typing_text_with_braille_keyboard_text">‏يمكنك أيضًا الكتابة باستخدام لوحة مفاتيح برايل المتوفّرة في إعدادات SandFly.</string>
   <string name="other_ways_to_type_title">طرق أخرى للكتابة</string>
   <string name="other_ways_to_type_text">‏تتوفّر طرق أخرى للكتابة في SandFly، مثل النقر مرّتين لإدخال حرف.</string>
   <string name="basic_other_ways_to_type_text">‏تتوفّر طرق أخرى للكتابة في SandFly، مثل النقر مرّتين لإدخال حرف. يمكنك تغيير هذا الإعداد لاحقًا من خلال \"إعدادات SandFly\" &gt; \"لوحة المفاتيح على الشاشة\" &gt; \"طريقة الكتابة\".</string>
@@ -1378,26 +1352,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏للتمرّن على استخدام الإيماءات، يجب أولاً تفعيل ميزة SandFly</string>
   <string name="talkback_inactive_message_image_description">‏لتجربة الحصول على أوصاف الصور، يجب أولاً تفعيل ميزة SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">إغلاق الدليل التوجيهي</string>
-  <string name="wear_training_welcome_paragraph">‏عندما تكون ميزة SandFly مفعَّلة، يتم قول العنصر الذي يتم التركيز عليه على الشاشة بصوت عالٍ.\n\nيؤدي التمرير سريعًا لليسار إلى الانتقال إلى العنصر التالي. يؤدي التمرير سريعًا لليمين إلى الانتقال إلى العنصر السابق.\n\nمرِّر سريعًا لليسار الآن إلى أن تعثر على زر \"التالي\".</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">يمكنك التمرير سريعًا للأعلى أو للأسفل بإصبعين (%1$d).</string>
-  <string name="wear_training_go_back_title">الرجوع</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">إذا أردت الرجوع، يمكنك استخدام إصبعين (%1$d) للتمرير سريعًا لليسار من حافة الشاشة.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">نجح الإجراء</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">تم تنفيذ إيماءة الرجوع بنجاح.</string>
-  <string name="wear_training_volume_up_title">رفع مستوى الصوت</string>
-  <string name="wear_training_volume_up_text">مرِّر سريعًا لليسار ثم للأعلى.</string>
-  <string name="wear_training_volume_down_title">خفض مستوى الصوت</string>
-  <string name="wear_training_volume_down_text">مرِّر سريعًا لليسار ثم للأسفل.</string>
-  <string name="wear_training_open_talkback_menu_title">‏فتح قائمة SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">لفتح الإعدادات وعناصر التحكّم التي قد تحتاجها كثيرًا، مرِّر سريعًا للأسفل ثم لليسار.</string>
-  <string name="wear_training_typing_title">الكتابة</string>
-  <string name="wear_training_typing_text1">للكتابة باستخدام لوحة المفاتيح، يُرجى تحريك الإصبع عليها إلى أن يصدر صوت من مفتاح الحرف المُراد كتابته، ثم رفع الإصبع.</string>
-  <string name="wear_training_typing_text2">لإخفاء لوحة المفاتيح والتحقّق من الإدخال، يُرجى التمرير سريعًا من أعلى الشاشة إلى أسفلها باستخدام إصبعين.</string>
-  <string name="wear_training_typing_text3">للعودة إلى لوحة المفاتيح، يُرجى التمرير سريعًا من أسفل الشاشة إلى أعلاها بإصبعين.</string>
-  <string name="wear_training_typing_text4">لإغلاق لوحة المفاتيح وإلغاء الكتابة، يُرجى التمرير سريعًا إلى اليسار من الحافة اليمنى للشاشة بإصبعين.</string>
-  <string name="wear_training_typing_text5">يمكن تجربة الميزة أدناه.</string>
-  <string name="wear_training_typing_practice_button_content_description">الكتابة باستخدام لوحة المفاتيح</string>
-  <string name="wear_training_end_tutorial_title">‏يمكنك الآن البدء باستخدام ميزة SandFly</string>
   <string name="talkback_updated_notification_title">‏تم تحديث SandFly</string>
   <string name="talkback_updated_notification_content">انقر للاطّلاع على مزيد من المعلومات.</string>
   <string name="wear_new_feature_page_title">‏مرحبًا بك في الإصدار المحدَّث من SandFly</string>
@@ -1644,8 +1598,6 @@
     <string name="action_copy_command">نسخ الأمر</string>
     <string name="command_copied">تم نسخ الأمر</string>
     <string name="title_pref_speech_control_sound">تشغيل صوت قبل نطق التطبيقات الأخرى</string>
-    <string name="permission_braille_display_label">طلب العمل كشاشة برايل لـ SandFly</string>
-    <string name="permission_braille_display_description">يسمح للتطبيق بطلب العمل كشاشة برايل لـ SandFly. إذا سمحت بذلك في SandFly، يمكن للتطبيق قراءة كل ما يظهر على الشاشة والتحكّم في جهازك. يطلب SandFly موافقتك أولاً.</string>
     <string name="title_pref_phonetic_letters_mode">قول الحروف بالأبجدية الصوتية</string>
     <string name="phonetic_letters_mode_off">غير مفعَّل</string>
     <string name="phonetic_letters_mode_after_letter_delay">بعد الحرف مع تأخير، مثل \"ه، هرم\"</string>
@@ -1717,7 +1669,5 @@
     <string name="summary_pref_volume_keys_adjust_sliders">عندما يكون شريط التمرير محلّ التركيز، يغيّر مفتاحا رفع الصوت وخفضه قيمته بدلاً من مستوى الصوت</string>
     <string name="title_keyboard_echo_on_screen">صدى لوحة المفاتيح على الشاشة</string>
     <string name="title_keyboard_echo_physical">صدى لوحة المفاتيح الخارجية</string>
-    <string name="title_keyboard_echo_braille_keyboard">صدى لوحة مفاتيح برايل</string>
-    <string name="title_keyboard_echo_braille_display">صدى شاشة برايل</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
 </resources>

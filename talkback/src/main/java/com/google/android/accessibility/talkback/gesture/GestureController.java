@@ -21,7 +21,6 @@ import static android.accessibilityservice.AccessibilityService.GLOBAL_ACTION_AC
 import static com.google.android.accessibility.talkback.Feedback.AdjustVolume.Action.DECREASE_VOLUME;
 import static com.google.android.accessibility.talkback.Feedback.AdjustVolume.Action.INCREASE_VOLUME;
 import static com.google.android.accessibility.talkback.Feedback.AdjustVolume.StreamType.STREAM_TYPE_ACCESSIBILITY;
-import static com.google.android.accessibility.talkback.Feedback.BrailleDisplay.Action.TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_CURSOR;
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_TOP;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.BRIGHTEN;
@@ -619,30 +618,12 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_last_spoken_phrase))) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(COPY_LAST)));
-    } else if (action.equals(service.getString(R.string.shortcut_value_braille_keyboard))) {
-      String inputMethodInfoId = KeyboardUtils.getEnabledImeId(service, service.getPackageName());
-      if (!TextUtils.isEmpty(inputMethodInfoId)) {
-        result = service.getSoftKeyboardController().switchToInputMethod(inputMethodInfoId);
-      } else {
-        result =
-            pipeline.returnFeedback(
-                eventId,
-                Feedback.speech(
-                    service.getString(R.string.switch_to_braille_keyboard_failure_msg)));
-      }
-    } else if (action.equals(service.getString(R.string.shortcut_value_braille_display_settings))) {
-      pipeline.returnFeedback(
-          eventId, Feedback.triggerIntent(Action.TRIGGER_BRAILLE_DISPLAY_SETTINGS));
     } else if (action.equals(service.getString(R.string.shortcut_value_tutorial))) {
       pipeline.returnFeedback(eventId, Feedback.triggerIntent(Action.TRIGGER_TUTORIAL));
     } else if (action.equals(service.getString(R.string.shortcut_value_practice_gestures))) {
       pipeline.returnFeedback(eventId, Feedback.triggerIntent(Action.TRIGGER_PRACTICE_GESTURE));
     } else if (action.equals(service.getString(R.string.shortcut_value_report_gesture))) {
       result = pipeline.returnFeedback(eventId, Feedback.reportGesture());
-    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_braille_display))) {
-      result =
-          pipeline.returnFeedback(
-              eventId, Feedback.performBrailleDisplayAction(TOGGLE_BRAILLE_DISPLAY_ON_OR_OFF));
     } else if (action.equals(service.getString(R.string.shortcut_value_screen_overview))) {
       result =
           pipeline.returnFeedback(

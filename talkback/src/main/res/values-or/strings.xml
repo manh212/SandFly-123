@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ସ୍ପର୍ଶ ଦ୍ୱାରା ଅନ୍ୱେଷଣ କରନ୍ତୁ</string>
   <string name="title_pref_category_visual">ଭିଜୁଆଲ</string>
   <string name="title_pref_category_controls">ନିୟନ୍ତ୍ରଣ</string>
-  <string name="title_pref_category_braille">ବ୍ରେଲି</string>
   <string name="title_pref_category_general">ସାଧାରଣ</string>
   <string name="title_pref_category_advanced">ଉନ୍ନତ</string>
   <string name="title_pref_category_others">ଅନ୍ୟ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ବିଳମ୍ଵ ହ୍ରାସ କରନ୍ତୁ</string>
   <string name="talkback_latency_reduction_summary">TalkBack ଘୋଷଣା ପୂର୍ବରୁ ବିଳମ୍ବକୁ ହ୍ରାସ କରିବା ପାଇଁ ସେଟିଂସ</string>
   <string name="summary_pref_intonation">ଡିଲିଟ କରାଯାଇଥିବା ଲେଟରଗୁଡ଼ିକୁ ଏକ ହାଇ-ପିଚ ଭଏସରେ କୁହନ୍ତୁ</string>
-  <string name="title_pref_brailledisplay">ବ୍ରେଲି ଡିସପ୍ଲେ</string>
-  <string name="title_pref_brailleime">ବ୍ରେଲି କୀବୋର୍ଡ</string>
-  <string name="summary_pref_brailleime_disabled">ଆପଣଙ୍କ ଡିଭାଇସ ବ୍ରେଲି କୀବୋର୍ଡକୁ ସପୋର୍ଟ କରେ ନାହିଁ</string>
   <string name="title_pref_speech_footer">ଆପଣ ଯେ କୌଣସି ସ୍କ୍ରିନରୁ TalkBackର କିଛି ସାଉଣ୍ଡ ସେଟିଂସକୁ ଶୀଘ୍ର ଆଡଜଷ୍ଟ କରିପାରିବେ।\n\nଆକ୍ସେସିବିଲିଟୀ ଭଲ୍ୟୁମ: ସ୍କ୍ରିନ ଉପରେ 1 ଆଙ୍ଗୁଠି ଧରି ରଖି ଭଲ୍ୟୁମ ଅପ କିମ୍ବା ଭଲ୍ୟୁମ ଡାଉନ କୀ ଦବାନ୍ତୁ।\nTalkBack ସ୍ପିଚ ରେଟ: 3 ଆଙ୍ଗୁଠିରେ ଉପରକୁ କିମ୍ବା ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ। ଆପଣ \"ସ୍ପିଚ ରେଟ\" ଶୁଣିଲେ, 1 ଆଙ୍ଗୁଠିରେ ଉପର କିମ୍ବା ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
   <string name="title_pref_vibration">ଭାଇବ୍ରେସନ ମତାମତ</string>
   <string name="title_pref_soundback">ସାଉଣ୍ଡ ମତାମତ</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ଭଲ୍ୟୁମ ବଢ଼ାନ୍ତୁ</string>
   <string name="shortcut_decrease_volume">ଭଲ୍ୟୁମ କମାନ୍ତୁ</string>
   <string name="shortcut_all_apps">ସମସ୍ତ ଆପ୍</string>
-  <string name="shortcut_braille_keyboard">ବ୍ରେଲି କୀବୋର୍ଡକୁ ସ୍ୱିଚ୍ କରନ୍ତୁ</string>
-  <string name="shortcut_braille_display_settings">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସକୁ ନାଭିଗେଟ କରନ୍ତୁ</string>
   <string name="shortcut_tutorial">ଟ୍ୟୁଟୋରିଆଲ୍ ଖୋଲନ୍ତୁ</string>
   <string name="shortcut_control_speak_time">ସମୟ କୁହ କିମ୍ବା ସମୟ କୁହ ନାହିଁ</string>
   <string name="shortcut_enable_speak_time">ସମୟ କୁହ</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">\'ସମୟ କୁହ\' ବନ୍ଦ ଅଛି</string>
   <string name="shortcut_practice_gestures">ଜେଶ୍ଚରଗୁଡ଼ିକର ଅଭ୍ୟାସ କରନ୍ତୁ</string>
   <string name="shortcut_report_gesture">ଜେଶ୍ଚର୍ ସମସ୍ୟାର ରିପୋର୍ଟ କରନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_display">ବ୍ରେଲି ଡିସପ୍ଲେ ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରନ୍ତୁ</string>
   <string name="shortcut_announce_current_time_and_date">ବର୍ତ୍ତମାନର ତାରିଖ ଏବଂ ସମୟ କୁହନ୍ତୁ</string>
   <string name="shortcut_announce_battery_state">ବେଟେରୀ ଶତକଡ଼ା କୁହନ୍ତୁ</string>
   <string name="shortcut_announce_current_title">ୱିଣ୍ଡୋର ଟାଇଟେଲ କୁହନ୍ତୁ</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">ସ୍ପିଚ ରେଟ କମାନ୍ତୁ</string>
   <string name="shortcut_toggle_selection">ଚୟନ ମୋଡ ଆରମ୍ଭ କିମ୍ବା ସମାପ୍ତ କରନ୍ତୁ</string>
   <string name="shortcut_show_tutorial">ଟ୍ୟୁଟୋରିଆଲ ଖୋଲନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">କଣ୍ଟ୍ରାକ୍ଟେଡ (ଗ୍ରେଡ 2) ଏବଂ ଅନକଣ୍ଟ୍ରାକ୍ଟେଡ (ଗ୍ରେଡ 1) ମଧ୍ୟରେ ସୁଇଚ କରନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">କନେକ୍ଟେଡ ବ୍ରେଲି ଡିସପ୍ଲେର ଅନ-ସ୍କ୍ରିନ ବ୍ରେଲି ଦେଖାଅ ବା ଲୁଚାଅ</string>
   <string name="shortcut_toggle_sound_feedback">ସାଉଣ୍ଡ ମତାମତ (ଇଅରକନ୍ସ) ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରନ୍ତୁ</string>
   <string name="shortcut_show_learn_mode_page">କୀବୋର୍ଡ ସର୍ଟକଟ ପ୍ରାକ୍ଟିସ କରନ୍ତୁ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ଫୋକସ କରାଯାଇଥିବା ଆଇଟମ ପାଇଁ ଫୋନେଟିକ ଉଚ୍ଚାରଣ ସହିତ ଅକ୍ଷରଗୁଡ଼ିକ କୁହନ୍ତୁ</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ଭଏସ କମାଣ୍ଡଗୁଡ଼ିକ</string>
   <string name="title_show_keyboard_shortcuts">କୀବୋର୍ଡ ସର୍ଟକଟ</string>
   <string name="talkback_show_talkback_settings">TalkBack ସେଟିଂସ</string>
-  <string name="title_show_braille_display_settings">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ</string>
   <string name="title_granularity_default">ଡିଫଲ୍ଟ ନାଭିଗେସନ</string>
   <string name="title_action_dismiss">ଖାରଜ କରନ୍ତୁ</string>
   <string name="title_action_expand">ବଢ଼ାନ୍ତୁ</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ଆପଣ ସ୍କ୍ରିନ ଚାଲୁ କରିବା ସମୟରେ ସମୟ ଉଚ୍ଚ ସ୍ୱରରେ କୁହାଯିବ ନା ନାହିଁ ତାହା ପରିବର୍ତ୍ତନ କରନ୍ତୁ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">କୀବୋର୍ଡ ସର୍ଟକଟଗୁଡ଼ିକର ତାଲିକା ଖୋଲନ୍ତୁ</string>
   <string name="summary_talkback_preferences">TalkBack ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
-  <string name="summary_braile_display_preferences">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
   <string name="summary_system_actions">ସମସ୍ତ ଆପ ଏବଂ କ୍ୱିକ ସେଟିଂସକୁ ଯାଆନ୍ତୁ</string>
   <string name="summary_tts_settings">ଟେକ୍ସଟ-ଟୁ-ସ୍ପିଚ ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
   <string name="not_editable">ଏଡିଟ୍ କରିପାରିବେ ନାହିଁ</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">%1$s ହେଉଛି କୀୱାର୍ଡ</string>
   <string name="screen_search_no_keyword_hint">ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କୀୱାର୍ଡ ନାହିଁ। ଏକ ନୂଆ ସର୍ଚ୍ଚ ଆରମ୍ଭ କରିବା ପାଇଁ 3 ଆଙ୍ଗୁଠିରେ ଟାପ କରି ଧରି ରଖିନ୍ତୁ କିମ୍ବା TalkBack ମେନୁରୁ \'ସ୍କ୍ରିନରେ ସର୍ଚ୍ଚ କରନ୍ତୁ\'କୁ ଖୋଲନ୍ତୁ।</string>
   <string name="screen_search_no_keyword_hint_pre_r">ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କୀୱାର୍ଡ ନାହିଁ। ଏକ ନୂଆ ସର୍ଚ୍ଚ ଆରମ୍ଭ କରିବା ପାଇଁ ପ୍ରଥମେ ବାମପଟକୁ ତା\'ପରେ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ କିମ୍ବା TalkBack ମେନୁରୁ \'ସ୍କ୍ରିନରେ ସର୍ଚ୍ଚ କରନ୍ତୁ\'କୁ ଖୋଲନ୍ତୁ।</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ବ୍ରେଲି କୀବୋର୍ଡ ଚାଲୁ କରାଯାଇନାହିଁ। TalkBack ସେଟିଂସକୁ ଯାଅ, ବ୍ରେଲି କୀବୋର୍ଡ ସେଟ୍ ଅପ୍ କରି ପୁଣି ଚେଷ୍ଟା କର।</string>
   <string name="suggestions_window_available">ପରାମର୍ଶ ଉପଲବ୍ଧ ଅଛି</string>
   <string name="suggestions_window_available_with_gesture">ପରାମର୍ଶ ଉପଲବ୍ଧ ଅଛି। ଆକ୍ସେସ କରିବାକୁ, %1$s</string>
   <string name="heads_up_window_available">ବିଜ୍ଞପ୍ତି ଉପଲବ୍ଧ ଅଛି</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">ନୂଆ ଜେଶ୍ଚରଗୁଡ଼ିକ ସହିତ TalkBackର ବ୍ୟବହାରକୁ କିପରି ଦ୍ରୁତ କରିବେ ତାହା ଜାଣିବାକୁ ଟାପ୍ କରନ୍ତୁ।</string>
   <string name="dump_node_tree_description">ଲଗଗୁଡ଼ିକରେ ନୋଡ୍ ଟ୍ରି ପ୍ରିଣ୍ଟ କରାଯାଇଛି।</string>
   <string name="report_gesture_description">ଏଠାରେ ବର୍ତ୍ତମାନ କରାଯାଇଥିବା ଜେଶ୍ଚରଗୁଡ଼ିକ ଅଛି, ଦୟାକରି କେଉଁ ଜେଶ୍ଚରଟି ଭୁଲ୍ ଏବଂ କଣ ଆଶା କରାଯାଉଛି ତାହା ରିପୋର୍ଟ କରନ୍ତୁ।</string>
-  <string name="update_welcome_text_content">ଆପଣ ବର୍ତ୍ତମାନ ବ୍ଲୁଟୁଥ ଡିଭାଇସକୁ କନେକ୍ଟ କରିବାର ଏକ ଉପାୟ HID ମାଧ୍ୟମରେ ବ୍ରେଲି ଡିସପ୍ଲେଗୁଡ଼ିକୁ କନେକ୍ଟ କରିପାରିବେ। ଆପଣଙ୍କ ପାଖରେ ଆପଣଙ୍କର ନିର୍ମାତାଙ୍କଠାରୁ ନବୀନତମ ଫାର୍ମୱେର ଡ୍ରାଇଭରଗୁଡ଼ିକ ଥିବା ସୁନିଶ୍ଚିତ କରି, ତା\'ପରେ ଆପଣଙ୍କର ବ୍ରେଲି ଡିସପ୍ଲେରେ ବ୍ଲୁଟୁଥ ଚାଲୁ କରନ୍ତୁ। TalkBack ସେଟିଂସ &gt; ବ୍ରେଲି ଡିସପ୍ଲେକୁ ଯାଇ \"ବ୍ରେଲି ଡିସପ୍ଲେ ବ୍ୟବହାର କରନ୍ତୁ\"କୁ ଚାଲୁ କରନ୍ତୁ। ଡିଭାଇସ ତାଲିକାରେ ଆପଣଙ୍କର ଡିଭାଇସକୁ ଖୋଜି ଏହା ସହ କନେକ୍ଟ କରନ୍ତୁ।</string>
-  <string name="update_welcome_text_content_tts">ଆପଣ ବର୍ତ୍ତମାନ ବ୍ଲୁଟୁଥ ଡିଭାଇସକୁ କନେକ୍ଟ କରିବାର ଏକ ଉପାୟ HID ମାଧ୍ୟମରେ ବ୍ରେଲି ଡିସପ୍ଲେଗୁଡ଼ିକୁ କନେକ୍ଟ କରିପାରିବେ। ଆପଣଙ୍କ ପାଖରେ ଆପଣଙ୍କର ନିର୍ମାତାଙ୍କଠାରୁ ନବୀନତମ ଫାର୍ମୱେର ଡ୍ରାଇଭରଗୁଡ଼ିକ ଥିବା ସୁନିଶ୍ଚିତ କରି, ତା\'ପରେ ଆପଣଙ୍କର ବ୍ରେଲି ଡିସପ୍ଲେରେ ବ୍ଲୁଟୁଥ ଚାଲୁ କରନ୍ତୁ। TalkBack ସେଟିଂସ ତା\'ପରେ ବ୍ରେଲି ଡିସପ୍ଲେକୁ ଯାଇ \"ବ୍ରେଲି ଡିସପ୍ଲେ ବ୍ୟବହାର କରନ୍ତୁ\"କୁ ଚାଲୁ କରନ୍ତୁ। ଡିଭାଇସ ତାଲିକାରେ ଆପଣଙ୍କର ଡିଭାଇସକୁ ଖୋଜି ଏହା ସହ କନେକ୍ଟ କରନ୍ତୁ।</string>
-  <string name="update_welcome_text_content_with_link">TalkBack ସହ ଆପଣଙ୍କ ବ୍ରେଲି ଡିସପ୍ଲେକୁ କିପରି ବ୍ୟବହାର କରିବେ ତାହା ଜାଣନ୍ତୁ।</string>
   <string name="update_welcome_talkback_16.1">ଏହି TalkBack ଅପଡେଟ ଅଧିକ ଭାଷାରେ \'ସ୍କ୍ରିନର ବର୍ଣ୍ଣନା କରନ୍ତୁ\' ପାଇଁ ସପୋର୍ଟ ଏବଂ ଅନ୍ୟ ଗୁଣବତ୍ତା ଉନ୍ନତି ଆଣିଥାଏ ଯାହା TalkBackକୁ ବ୍ୟବହାର କରିବା ସହଜ କରିଥାଏ।\n\nଆପଣ ପରବର୍ତ୍ତୀ କିଛି ସ୍କ୍ରିନରେ ଏହି ପରିବର୍ତ୍ତନଗୁଡ଼ିକ ବିଷୟରେ ଅଧିକ ଜାଣିବେ।\n\nଆପଣ ପରେ TalkBack ସେଟିଂସ &gt; TalkBackରେ ନୂଆ ଫିଚରରେ ଏହି ସୂଚନାର ରିଭ୍ୟୁ କରିପାରିବେ।</string>
   <string name="update_welcome_talkback_16.1_tts">ଏହି TalkBack ଅପଡେଟ ଅଧିକ ଭାଷାରେ \'ସ୍କ୍ରିନର ବର୍ଣ୍ଣନା କରନ୍ତୁ\' ପାଇଁ ସପୋର୍ଟ ଏବଂ ଅନ୍ୟ ଗୁଣବତ୍ତା ଉନ୍ନତି ଆଣିଥାଏ ଯାହା TalkBackକୁ ବ୍ୟବହାର କରିବା ସହଜ କରିଥାଏ।\n\nଆପଣ ପରବର୍ତ୍ତୀ କିଛି ସ୍କ୍ରିନରେ ଏହି ପରିବର୍ତ୍ତନଗୁଡ଼ିକ ବିଷୟରେ ଅଧିକ ଜାଣିବେ।\n\nଆପଣ ପରେ TalkBack ସେଟିଂସ ତା\'ପରେ TalkBackରେ ନୂଆ ଫିଚରରେ ଏହି ସୂଚନାର ରିଭ୍ୟୁ କରିପାରିବେ।</string>
   <string name="describe_screen_and_qna_title">ସ୍କ୍ରିନର ବର୍ଣ୍ଣନା କରନ୍ତୁ ଏବଂ Geminiକୁ ପଚାରନ୍ତୁ ପାଇଁ ନୂଆ ଭାଷା</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">ବିଳମ୍ଵ ହ୍ରାସ କରନ୍ତୁ</string>
   <string name="reduce_delay_content">ଟଚ ଏକ୍ସପ୍ଲୋରେସନ ଏବଂ ଟାଇପିଂ ପାଇଁ ଆପଣ ବର୍ତ୍ତମାନ TalkBack ଘୋଷଣା ବିଳମ୍ବକୁ ହ୍ରାସ କରିପାରିବେ। ଏହି ସେଟିଂସକୁ ଭ୍ୟୁ କରିବା ପାଇଁ, TalkBack ସେଟିଂସ &gt; ଉନ୍ନତ ସେଟିଂସ &gt; ବିଳମ୍ବ ହ୍ରାସ କରନ୍ତୁକୁ ଯାଆନ୍ତୁ।</string>
   <string name="reduce_delay_content_tts">ଟଚ ଏକ୍ସପ୍ଲୋରେସନ ଏବଂ ଟାଇପିଂ ପାଇଁ ଆପଣ ବର୍ତ୍ତମାନ TalkBack ଘୋଷଣା ବିଳମ୍ବକୁ ହ୍ରାସ କରିପାରିବେ। ଏହି ସେଟିଂସକୁ ଭ୍ୟୁ କରିବା ପାଇଁ, TalkBack ସେଟିଂସ ତା\'ପରେ ଉନ୍ନତ ସେଟିଂସ ତା\'ପରେ ବିଳମ୍ବ ହ୍ରାସ କରନ୍ତୁକୁ ଯାଆନ୍ତୁ।</string>
-  <string name="customize_braille_keyboard_improvements_title">ବ୍ରେଲି କୀବୋର୍ଡ ଜେଶ୍ଚରଗୁଡ଼ିକୁ କଷ୍ଟମାଇଜ କରନ୍ତୁ</string>
-  <string name="customize_braille_keyboard_improvements_content">ଭର୍ଚୁଆଲ ଅନ-ସ୍କ୍ରିନ ବ୍ରେଲି କୀବୋର୍ଡ ପାଇଁ ଜେଶ୍ଚରଗୁଡ଼ିକୁ କଷ୍ଟମାଇଜ କରିବା ବର୍ତ୍ତମାନ ସମ୍ଭବ। କଷ୍ଟମାଇଜ କରିବାକୁ, TalkBack ସେଟିଂସ &gt; ବ୍ରେଲି କୀବୋର୍ଡ &gt; ଜେଶ୍ଚରକୁ ଯାଆନ୍ତୁ।</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">ଭର୍ଚୁଆଲ ଅନ-ସ୍କ୍ରିନ ବ୍ରେଲି କୀବୋର୍ଡ ପାଇଁ ଜେଶ୍ଚରଗୁଡ଼ିକୁ କଷ୍ଟମାଇଜ କରିବା ବର୍ତ୍ତମାନ ସମ୍ଭବ। କଷ୍ଟମାଇଜ କରିବାକୁ, TalkBack ସେଟିଂସ ତା\'ପରେ ବ୍ରେଲି କୀବୋର୍ଡ ତା\'ପରେ ଜେଶ୍ଚରକୁ ଯାଆନ୍ତୁ।</string>
-  <string name="learn_more_about_braille_keyboard">ବ୍ରେଲି କୀବୋର୍ଡ ବିଷୟରେ ଅଧିକ ଜାଣନ୍ତୁ</string>
   <string name="other_changes_title">ଅନ୍ୟ ପରିବର୍ତ୍ତନ</string>
   <string name="other_changes_content">ଯଦି ଭୁଲବଶତଃ TalkBack ଚାଲୁ ହୋଇଯାଏ, ତେବେ ଏକ ଅନ-ସ୍କ୍ରିନ ମେସେଜ ବର୍ତ୍ତମାନ ଏହାକୁ ଶୀଘ୍ର ବନ୍ଦ କରିବାରେ ଆପଣଙ୍କୁ ସାହାଯ୍ୟ କରୁଛି। ଆପଣ ଏହାକୁ TalkBack ସେଟିଂସ &gt; TalkBack ବନ୍ଦ କରିବା ପାଇଁ ନିର୍ଦ୍ଦେଶାବଳୀ ଦେଖାନ୍ତୁରେ ବନ୍ଦ କରିପାରିବେ।</string>
   <string name="other_changes_content_tts">ଯଦି ଭୁଲବଶତଃ TalkBack ଚାଲୁ ହୋଇଯାଏ, ତେବେ ଏକ ଅନ-ସ୍କ୍ରିନ ମେସେଜ ବର୍ତ୍ତମାନ ଏହାକୁ ଶୀଘ୍ର ବନ୍ଦ କରିବାରେ ଆପଣଙ୍କୁ ସାହାଯ୍ୟ କରୁଛି। ଆପଣ ଏହାକୁ TalkBack ସେଟିଂସ ତା\'ପରେ TalkBack ବନ୍ଦ କରିବା ପାଇଁ ନିର୍ଦ୍ଦେଶାବଳୀ ଦେଖାନ୍ତୁରେ ବନ୍ଦ କରିପାରିବେ।</string>
@@ -1020,7 +1001,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBackରେ ବର୍ତ୍ତମାନ ଫିଜିକାଲ କୀବୋର୍ଡ ପାଇଁ ଏକ \"ଉନ୍ନତ କୀମେପ\" ଅଛି, ଯେଉଁଥିରେ ବିଭିନ୍ନ ନୂଆ କମାଣ୍ଡ ଏବଂ ସର୍ଟକଟ ଅଛି। ଏହି ଉନ୍ନତିରେ ଅଧିକ ଦକ୍ଷ ୱେବ ନାଭିଗେସନ ପାଇଁ ଏକ \"ବ୍ରାଉଜ ମୋଡ\" ଅନ୍ତର୍ଭୁକ୍ତ, ଯାହା ଫିଜିକାଲ କୀବୋର୍ଡଗୁଡ଼ିକ ଉପରେ ନିର୍ଭର କରୁଥିବା TalkBack ୟୁଜରମାନଙ୍କ ପାଇଁ ନାଭିଗେସନ ଏବଂ ଇଣ୍ଟରାକ୍ସନକୁ ଷ୍ଟ୍ରିମଲାଇନ କରେ। ଆପଣ %1$sରେ \"ଉନ୍ନତ କୀମେପ\"କୁ ସ୍ୱିଚ କରିପାରିବେ।\n\nଯଦି ଆପଣ ଏକ ବ୍ରେଲି ଡିସପ୍ଲେ ବ୍ୟବହାର କରନ୍ତି, ତେବେ ଆପଣ ଆପଣଙ୍କ ବ୍ରେଲି ଡିସପ୍ଲେରୁ ସିଧାସଳଖ ବିଷୟବସ୍ତୁକୁ ଯିବା ପାଇଁ ନୂଆ ବ୍ରାଉଜ ମୋଡ ସର୍ଟକଟଗୁଡ଼ିକୁ ମଧ୍ୟ ବ୍ୟବହାର କରିପାରିବେ। ଏହି ପରିବର୍ତ୍ତନକୁ ସ୍ଥାନ ଦେବା ପାଇଁ କିଛି ବ୍ରେଲି ଡିସପ୍ଲେ ସର୍ଟକଟକୁ ପରିବର୍ତ୍ତନ କରାଯାଇଛି। ଆପଣ %2$sରେ ବ୍ରେଲି ଡିସପ୍ଲେର ସମସ୍ତ ସର୍ଟକଟର ଏକ ତାଲିକା ଦେଖିପାରିବେ।</string>
   <string name="keyboard_shortcuts_link">TalkBack ସେଟିଂସ &gt; କୀବୋର୍ଡ ସର୍ଟକଟ</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ସେଟିଂସ ତା\'ପରେ କୀବୋର୍ଡ ସର୍ଟକଟ</string>
-  <string name="braille_display_settings_link">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ</string>
   <string name="keyboard_smart_browse_mode_title">କୀବୋର୍ଡ: ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ</string>
   <string name="keyboard_smart_browse_mode_text">ଆପଣ ୱେବ ବ୍ରାଉଜ କରିବା ସମୟରେ ଏକ ଫିଜିକାଲ କୀବୋର୍ଡ ମାଧ୍ୟମରେ ଟାଇପ କରିବାରେ ଆପଣଙ୍କୁ ସହାୟତା କରିବା ପାଇଁ TalkBack ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ ଏକ ଏଡିଟ ଫିଲ୍ଡରେ ବ୍ରାଉଜ ମୋଡକୁ ବନ୍ଦ କରିଦିଏ। ତା\'ପରେ ଆପଣ ୱେବରେ ଏକ ଏଡିଟ କରାଯାଇପାରୁନଥିବା ଫିଲ୍ଡକୁ ଯିବା ସମୟରେ ଏହାକୁ ପୁଣି ଚାଲୁ କରେ ଯାହା ଫଳରେ ଆପଣ ଦକ୍ଷତାର ସହ ବ୍ରାଉଜ କରିବା ଜାରି ରଖିପାରିବେ। ଆପଣ %1$sରେ \"ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ\"କୁ ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରିପାରିବେ।</string>
   <string name="advanced_settings_link">TalkBack ସେଟିଂସ &gt; ଉନ୍ନତ ସେଟିଂସ</string>
@@ -1093,7 +1073,6 @@
   <string name="typing_text_title">ଟେକ୍ସଟକୁ ଟାଇପ କରିବା</string>
   <string name="basic_typing_text_text">ଆପଣ ଏକ ଟେକ୍ସଟ ବକ୍ସରେ ଥିବା ସମୟରେ, ଆପଣଙ୍କ ସ୍କ୍ରିନର ନିମ୍ନରେ ଏକ କୀବୋର୍ଡ ଖୋଲିବ।</string>
   <string name="typing_text_text">କୀବୋର୍ଡ ଉପରେ ଆପଣଙ୍କ ଆଙ୍ଗୁଠି ମୁଭ କରନ୍ତୁ। ଆପଣ ଟାଇପ କରିବାକୁ ଚାହୁଁଥିବା ଅକ୍ଷର ଶୁଣିବା ସମୟରେ ଆପଣଙ୍କ ଆଙ୍ଗୁଠିକୁ ଉଠାନ୍ତୁ।\n\nନିମ୍ନରେ ଥିବା ଟେକ୍ସଟ ବକ୍ସକୁ ସକ୍ରିୟ କରି ଆପଣଙ୍କ ନାମ ଟାଇପ କରନ୍ତୁ।</string>
-  <string name="typing_text_with_braille_keyboard_text">ଆପଣ ବ୍ରେଲି କୀବୋର୍ଡ ମାଧ୍ୟମରେ ମଧ୍ୟ ଟାଇପ କରିପାରିବେ। ଏହାକୁ TalkBack ସେଟିଂସରେ ଖୋଜନ୍ତୁ।</string>
   <string name="other_ways_to_type_title">ଟାଇପ କରିବାର ଅନ୍ୟ ଉପାୟ</string>
   <string name="other_ways_to_type_text">TalkBackରେ ଟାଇପ କରିବାର ଅନ୍ୟ ଉପାୟ ଅଛି। ଉଦାହରଣ ସ୍ୱରୂପ, ଆପଣ ଏକ ଅକ୍ଷର ଲେଖିବା ପାଇଁ ଦୁଇଥର ଟାପ ବ୍ୟବହାର କରିପାରିବେ।</string>
   <string name="basic_other_ways_to_type_text">TalkBackରେ ଟାଇପ କରିବାର ଅନ୍ୟ ଉପାୟ ଅଛି। ଉଦାହରଣ ସ୍ୱରୂପ, ଆପଣ ଏକ ଅକ୍ଷର ଲେଖିବା ପାଇଁ ଦୁଇଥର ଟାପ ବ୍ୟବହାର କରିପାରିବେ। ଆପଣ ଏହାକୁ ପରେ TalkBack ସେଟିଂସ &gt; ଅନ-ସ୍କ୍ରିନ କୀବୋର୍ଡ &gt; ଟାଇପିଂ ପସନ୍ଦରେ ପରିବର୍ତ୍ତନ କରିପାରିବେ।</string>
@@ -1208,26 +1187,6 @@
   <string name="talkback_inactive_message_practice_gestures">ଜେଶ୍ଚରଗୁଡ଼ିକୁ ପ୍ରାକ୍ଟିସ କରିବା ପାଇଁ ପ୍ରଥମେ TalkBackକୁ ଚାଲୁ କରନ୍ତୁ</string>
   <string name="talkback_inactive_message_image_description">ଇମେଜର ବର୍ଣ୍ଣନା ପାଇବା ପାଇଁ ଚେଷ୍ଟା କରିବାକୁ ପ୍ରଥମେ TalkBackକୁ ଚାଲୁ କରନ୍ତୁ</string>
   <string name="talkback_inactive_close_tutorial_button">ଟ୍ୟୁଟୋରିଆଲ ବନ୍ଦ କରନ୍ତୁ</string>
-  <string name="wear_training_welcome_paragraph">TalkBack ଚାଲୁ ଥିବା ବେଳେ, ସ୍କ୍ରିନ ଉପରେ ଫୋକସ କରାଯାଇଥିବା ଆଇଟମକୁ ଉଚ୍ଚ ସ୍ୱରରେ ପଢ଼ିଥାଏ।\n\nଡାହାଣକୁ ସ୍ୱାଇପ କରିବା ଫଳରେ ପରବର୍ତ୍ତୀ ଆଇଟମକୁ ମୁଭ ହୋଇଥାଏ। ବାମକୁ ସ୍ୱାଇପ କରିବା ଫଳରେ ପୂର୍ବବର୍ତ୍ତୀ ଆଇଟମକୁ ମୁଭ ହୋଇଥାଏ।\n\nପରବର୍ତ୍ତୀ ବଟନ ନପାଇବା ପର୍ଯ୍ୟନ୍ତ ବର୍ତ୍ତମାନ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d ଆଙ୍ଗୁଠିରେ ଉପରକୁ କିମ୍ବା ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_go_back_title">ପଛକୁ ଫେରନ୍ତୁ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ଆପଣ ପଛକୁ ଯିବାକୁ ଚାହିଁଲେ, ସ୍କ୍ରିନର ଧାରରୁ ଡାହାଣକୁ ସ୍ୱାଇପ କରିବା ପାଇଁ %1$d ଆଙ୍ଗୁଠି ବ୍ୟବହାର କରନ୍ତୁ।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ସଫଳ ହୋଇଛି</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">\'ପଛକୁ ଫେରନ୍ତୁ\' ଜେଶ୍ଚର ପରଫର୍ମ କରାଯାଇଛି</string>
-  <string name="wear_training_volume_up_title">ଭଲ୍ୟୁମ ବଢ଼ାନ୍ତୁ</string>
-  <string name="wear_training_volume_up_text">ଡାହାଣକୁ ସ୍ୱାଇପ କରି ତା\'ପରେ ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_volume_down_title">ଭଲ୍ୟୁମ କମ କରନ୍ତୁ</string>
-  <string name="wear_training_volume_down_text">ଡାହାଣକୁ ସ୍ୱାଇପ କରି ତା\'ପରେ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack ମେନୁ ଖୋଲନ୍ତୁ</string>
-  <string name="wear_training_open_talkback_menu_text">ଆପଣ ପ୍ରାୟତଃ ଆବଶ୍ୟକ କରୁଥିବା ସେଟିଂସ ଏବଂ ନିୟନ୍ତ୍ରଣଗୁଡ଼ିକୁ ଖୋଲିବା ପାଇଁ ତଳକୁ ଏବଂ ତା\'ପରେ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_typing_title">ଟାଇପ କରାଯାଉଛି</string>
-  <string name="wear_training_typing_text1">କୀବୋର୍ଡରେ ଟାଇପ କରିବା ପାଇଁ, ଆପଣଙ୍କ ଆଙ୍ଗୁଠିକୁ କୀବୋର୍ଡ ଉପରେ ମୁଭ କରନ୍ତୁ। ଆପଣ ଟାଇପ କରିବାକୁ ଚାହୁଁଥିବା ଅକ୍ଷର ଶୁଣିଲେ, ଆଙ୍ଗୁଠି ଉଠାନ୍ତୁ।</string>
-  <string name="wear_training_typing_text2">କୀବୋର୍ଡକୁ ଲୁଚାଇବା ଏବଂ ଆପଣଙ୍କ ଇନପୁଟକୁ ଯାଞ୍ଚ କରିବା ପାଇଁ 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ଉପରୁ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text3">କୀବୋର୍ଡକୁ ଫେରିବା ପାଇଁ, 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ତଳୁ ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text4">କୀବୋର୍ଡ ବନ୍ଦ କରିବା ଏବଂ ଟାଇପିଂକୁ ବାତିଲ କରିବା ପାଇଁ 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ବାମ ଧାରରୁ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text5">ତଳେ ଏହାକୁ ବ୍ୟବହାର କରି ଦେଖନ୍ତୁ।</string>
-  <string name="wear_training_typing_practice_button_content_description">କୀବୋର୍ଡରେ ଟାଇପ କରାଯାଉଛି</string>
-  <string name="wear_training_end_tutorial_title">ଆପଣ TalkBack ବ୍ୟବହାର କରିବା ଆରମ୍ଭ କରିବା ପାଇଁ ପ୍ରସ୍ତୁତ ଅଟନ୍ତି</string>
   <string name="talkback_updated_notification_title">TalkBackକୁ ଅପଡେଟ କରାଯାଇଛି</string>
   <string name="talkback_updated_notification_content">ଅଧିକ ଜାଣିବାକୁ ଟାପ କରନ୍ତୁ</string>
   <string name="wear_new_feature_page_title">ଅପଡେଟ୍ ହୋଇଥିବା TalkBackକୁ ସ୍ୱାଗତ</string>

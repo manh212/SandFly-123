@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Εξερεύνηση μέσω αφής</string>
   <string name="title_pref_category_visual">Οπτικές</string>
   <string name="title_pref_category_controls">Στοιχεία ελέγχου</string>
-  <string name="title_pref_category_braille">Μπράιγ</string>
   <string name="title_pref_category_general">Γενικά</string>
   <string name="title_pref_category_advanced">Σύνθετες</string>
   <string name="title_pref_category_others">Άλλες</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Μείωση καθυστέρησης</string>
   <string name="talkback_latency_reduction_summary">Πιο γρήγορη απόκριση του SandFly μετά το άγγιγμα της οθόνης</string>
   <string name="summary_pref_intonation">Εκφώνηση γραμμάτων που έχουν διαγραφεί σε υψηλότερο τόνο φωνής</string>
-  <string name="title_pref_brailledisplay">Συσκευή μπράιγ</string>
-  <string name="title_pref_brailleime">Πληκτρολόγιο μπράιγ</string>
-  <string name="summary_pref_brailleime_disabled">Δεν υποστηρίζει πληκτρολόγιο μπράιγ</string>
   <string name="title_pref_speech_footer">Για να αλλάξετε την ένταση ήχου προσβασιμότητας από οποιαδήποτε οθόνη, ακουμπήστε παρατεταμένα την οθόνη με ένα δάχτυλο και πατήστε το κουμπί αύξησης ή μείωσης έντασης ήχου.</string>
   <string name="title_pref_vibration">Ανάδραση δόνησης</string>
   <string name="title_pref_soundback">Ανάδραση ήχου</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Αύξηση έντασης ήχου</string>
   <string name="shortcut_decrease_volume">Μείωση έντασης ήχου</string>
   <string name="shortcut_all_apps">Όλες οι εφαρμογές</string>
-  <string name="shortcut_braille_keyboard">Εναλλαγή σε πληκτρολόγιο μπράιγ</string>
-  <string name="shortcut_braille_display_settings">Πλοήγηση στις ρυθμ. της συσκευής μπράιγ</string>
   <string name="shortcut_tutorial">Άνοιγμα οδηγού</string>
   <string name="shortcut_control_speak_time">Να γίνεται ή να μην γίνεται εκφώνηση ώρας</string>
   <string name="shortcut_enable_speak_time">Εκφώνηση ώρας</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Η εκφώνηση ώρας είναι απενεργοποιημένη</string>
   <string name="shortcut_practice_gestures">Εξάσκηση κινήσεων</string>
   <string name="shortcut_report_gesture">Αναφορά προβλήματος κίνησης</string>
-  <string name="shortcut_toggle_braille_display">Ενεργοποίηση ή απενεργοποίηση συσκευής μπράιγ</string>
   <string name="shortcut_announce_current_time_and_date">Εκφώνηση τρέχουσας ημερομηνίας και ώρας</string>
   <string name="shortcut_announce_battery_state">Εκφώνηση ποσοστού μπαταρίας</string>
   <string name="shortcut_announce_current_title">Εκφώνηση τίτλου παραθύρου</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Μείωση ταχύτητας ομιλίας</string>
   <string name="shortcut_toggle_selection">Έναρξη και λήξη λειτουργίας επιλογής</string>
   <string name="shortcut_show_tutorial">Άνοιγμα οδηγού</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Συμπτ. (βαθμ. 2)/ Μη συμπτ. (βαθμ. 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Εμφάνιση/απόκρυψη μπράιγ στην οθόνη για συνδεδ. συσκ. μπράιγ</string>
   <string name="shortcut_toggle_sound_feedback">Ενεργοποίηση ή απενεργ. ηχητικών σχολίων (ηχητικά μηνύματα).</string>
   <string name="shortcut_show_learn_mode_page">Δοκιμή συντομεύσεων πληκτρολογίου</string>
   <string name="shortcut_announce_phonetic_pronunciation">Εκφώνηση γραμμάτων με φωνητική προφορά για το εστιασμένο στοιχείο</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Φωνητικές εντολές</string>
   <string name="title_show_keyboard_shortcuts">Συντομεύσεις πληκτρολογίου</string>
   <string name="talkback_show_talkback_settings">Ρυθμίσεις SandFly</string>
-  <string name="title_show_braille_display_settings">Ρυθμίσεις συσκευής μπράιγ</string>
   <string name="title_granularity_default">Προεπιλεγμένη πλοήγηση</string>
   <string name="title_action_dismiss">Παράβλεψη</string>
   <string name="title_action_expand">Ανάπτυξη</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Επιλέξτε αν θα εκφωνείται η ώρα, όταν ενεργοποιείτε την οθόνη</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Άνοιγμα λίστας συντομεύσεων πληκτρολογίου</string>
   <string name="summary_talkback_preferences">Άνοιγμα ρυθμίσεων SandFly</string>
-  <string name="summary_braile_display_preferences">Άνοιγμα ρυθμίσεων συσκευής μπράιγ</string>
   <string name="summary_system_actions">Μετάβαση σε όλες τις εφαρμογές και στις Γρήγορες ρυθμίσεις</string>
   <string name="summary_tts_settings">Άνοιγμα ρυθμίσεων μετατροπής κειμένου σε ομιλία</string>
   <string name="not_editable">Χωρίς δυνατότητα επεξεργασίας</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">η λέξη-κλειδί είναι %1$s</string>
   <string name="screen_search_no_keyword_hint">Δεν υπάρχει ακόμη λέξη-κλειδί. Για να ξεκινήσετε μια νέα αναζήτηση, πατήστε παρατεταμένα με τρία δάχτυλα ή ανοίξτε την αναζήτηση στην οθόνη από το μενού του SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Δεν υπάρχει ακόμη λέξη-κλειδί. Για να ξεκινήσετε μια νέα αναζήτηση, σύρετε προς τα αριστερά και έπειτα προς τα κάτω ή ανοίξτε την αναζήτηση στην οθόνη από το μενού του SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Πληκτρολόγιο μπράιγ ανενεργό. Ανοίξτε τις ρυθμίσεις SandFly για να το ρυθμίσετε και δοκιμάστε ξανά.</string>
   <string name="suggestions_window_available">Υπάρχουν διαθέσιμες προτάσεις</string>
   <string name="suggestions_window_available_with_gesture">Υπάρχουν διαθέσιμες προτάσεις. Για πρόσβαση, %1$s</string>
   <string name="heads_up_window_available">Διατίθεται ειδοποίηση</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Πατήστε για να μάθετε πώς μπορείτε να χρησιμοποιείτε το SandFly γρηγορότερα με τις νέες κινήσεις.</string>
   <string name="dump_node_tree_description">Το δέντρο κόμβου εκτυπώθηκε σε αρχεία καταγραφής.</string>
   <string name="report_gesture_description">Αυτές είναι κινήσεις που εκτελέστηκαν πρόσφατα. Αναφέρετε ποια κίνηση είναι εσφαλμένη και ποια είναι η αναμενόμενη λειτουργία.</string>
-  <string name="update_welcome_text_content">Μπορείτε πλέον να συνδέεστε σε συσκευές μπράιγ μέσω HID, έναν τρόπο σύνδεσης σε συσκευές Bluetooth. Βεβαιωθείτε ότι έχετε τα νεότερα προγράμματα οδήγησης υλικολογισμικού από τον κατασκευαστή και, στη συνέχεια, ενεργοποιήστε το Bluetooth στη συσκευή μπράιγ. Μεταβείτε στο μενού Ρυθμίσεις SandFly &gt; Συσκευή μπράιγ και ενεργοποιήστε την επιλογή Χρήση συσκευής μπράιγ. Βρείτε τη συσκευή σας στη λίστα συσκευών και συνδεθείτε σε αυτήν.</string>
-  <string name="update_welcome_text_content_tts">Μπορείτε πλέον να συνδέεστε σε συσκευές μπράιγ μέσω HID, έναν τρόπο σύνδεσης σε συσκευές Bluetooth. Βεβαιωθείτε ότι έχετε τα νεότερα προγράμματα οδήγησης υλικολογισμικού από τον κατασκευαστή και, στη συνέχεια, ενεργοποιήστε το Bluetooth στη συσκευή μπράιγ. Μεταβείτε στις Ρυθμίσεις SandFly και έπειτα στη Συσκευή μπράιγ και ενεργοποιήστε την επιλογή Χρήση συσκευής μπράιγ. Βρείτε τη συσκευή σας στη λίστα συσκευών και συνδεθείτε σε αυτήν.</string>
-  <string name="update_welcome_text_content_with_link">Μάθετε πώς μπορείτε να χρησιμοποιήσετε τη συσκευή μπράιγ με το SandFly.</string>
   <string name="update_welcome_talkback_16.1">Αυτή η ενημέρωση του SandFly εισάγει υποστήριξη για τη λειτουργία Περιγραφή οθόνης σε περισσότερες γλώσσες και άλλες βελτιώσεις ποιότητας που κάνουν το SandFly πιο εύχρηστο.\n\nΣτις επόμενες οθόνες, θα μάθετε περισσότερα για αυτές τις αλλαγές.\n\nΜπορείτε να ελέγξετε αυτές τις πληροφορίες αργότερα, επιλέγοντας Ρυθμίσεις SandFly &gt; Νέες λειτουργίες στο SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Αυτή η ενημέρωση του SandFly εισάγει υποστήριξη για την Περιγραφή οθόνης σε περισσότερες γλώσσες και άλλες βελτιώσεις ποιότητας που κάνουν το SandFly πιο εύχρηστο.\n\nΣτις επόμενες οθόνες, θα μάθετε περισσότερα σχετικά με αυτές τις αλλαγές.\n\nΜπορείτε να ελέγξετε αυτές τις πληροφορίες αργότερα, επιλέγοντας Ρυθμίσεις SandFly και έπειτα Νέες λειτουργίες στο SandFly.</string>
   <string name="describe_screen_and_qna_title">Νέες γλώσσες για τις λειτουργίες Περιγραφή οθόνης και Ρωτήστε το Gemini</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Μείωση καθυστέρησης</string>
   <string name="reduce_delay_content">Μπορείτε πλέον να μειώσετε τις καθυστερήσεις ανακοινώσεων του SandFly για την εξερεύνηση μέσω αφής και την πληκτρολόγηση. Για να δείτε αυτές τις ρυθμίσεις, μεταβείτε στο μενού Ρυθμίσεις SandFly &gt; Σύνθετες ρυθμίσεις &gt; Μείωση καθυστέρησης.</string>
   <string name="reduce_delay_content_tts">Μπορείτε πλέον να μειώσετε τις καθυστερήσεις ανακοινώσεων του SandFly για την εξερεύνηση μέσω αφής και την πληκτρολόγηση. Για να δείτε αυτές τις ρυθμίσεις, μεταβείτε στο μενού Ρυθμίσεις SandFly, επιλέξτε Σύνθετες ρυθμίσεις και, στη συνέχεια, Μείωση καθυστέρησης.</string>
-  <string name="customize_braille_keyboard_improvements_title">Προσαρμογή κινήσεων πληκτρολογίου μπράιγ</string>
-  <string name="customize_braille_keyboard_improvements_content">Είναι πλέον δυνατή η προσαρμογή των κινήσεων για το εικονικό πληκτρολόγιο μπράιγ που εμφανίζεται στην οθόνη. Για να τις προσαρμόσετε, μεταβείτε στο μενού Ρυθμίσεις SandFly &gt; Πληκτρολόγιο μπράιγ &gt; Κινήσεις.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Είναι πλέον δυνατή η προσαρμογή των κινήσεων για το εικονικό πληκτρολόγιο μπράιγ που εμφανίζεται στην οθόνη. Για να τις προσαρμόσετε, μεταβείτε στο μενού Ρυθμίσεις SandFly, επιλέξτε Πληκτρολόγιο μπράιγ και, στη συνέχεια Κινήσεις.</string>
-  <string name="learn_more_about_braille_keyboard">Μάθετε περισσότερα σχετικά με το πληκτρολόγιο μπράιγ</string>
   <string name="other_changes_title">Άλλες αλλαγές</string>
   <string name="other_changes_content">Ένα μήνυμα στην οθόνη σάς βοηθά πλέον να απενεργοποιείτε γρήγορα το SandFly σε περίπτωση που ενεργοποιηθεί κατά λάθος. Μπορείτε να απενεργοποιήσετε αυτή τη λειτουργία από το μενού Ρυθμίσεις SandFly &gt; Εμφάνιση οδηγιών για την απενεργοποίηση του SandFly.</string>
   <string name="other_changes_content_tts">Ένα μήνυμα στην οθόνη σάς βοηθά πλέον να απενεργοποιείτε γρήγορα το SandFly σε περίπτωση που ενεργοποιηθεί κατά λάθος. Μπορείτε να απενεργοποιήσετε αυτή τη λειτουργία, αν μεταβείτε στο μενού Ρυθμίσεις SandFly και επιλέξετε Εμφάνιση οδηγιών για την απενεργοποίηση του SandFly.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">Το SandFly διαθέτει πλέον τη λειτουργία «Βελτιωμένη αντιστοίχιση πλήκτρων» για φυσικά πληκτρολόγια, με μια ποικιλία νέων εντολών και συντομεύσεων. Αυτή η βελτίωση περιλαμβάνει μια «λειτουργία περιήγησης» για πιο αποτελεσματική πλοήγηση στον ιστό, κάτι που βελτιστοποιεί την πλοήγηση και την αλληλεπίδραση για χρήστες του SandFly που βασίζονται σε φυσικά πληκτρολόγια. Μπορείτε να κάνετε εναλλαγή στη «Βελτιωμένη αντιστοίχιση πλήκτρων» από την ενότητα <xliff:g id="settings_path">%1$s</xliff:g>.\n\nΑν χρησιμοποιείτε συσκευή μπράιγ, μπορείτε επίσης να χρησιμοποιήσετε νέες συντομεύσεις της λειτουργίας περιήγησης για να μετακινείστε στο περιεχόμενο απευθείας από τη συσκευή μπράιγ. Ορισμένες συντομεύσεις της συσκευής μπράιγ άλλαξαν, για να προσαρμοστούν σε αυτή την αλλαγή. Μπορείτε να δείτε μια λίστα με όλες τις συντομεύσεις της συσκευής μπράιγ στην ενότητα <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Ρυθμίσεις SandFly &gt; Συντομεύσεις πληκτρολογίου</string>
   <string name="keyboard_shortcuts_link_tts">Ρυθμίσεις SandFly και έπειτα Συντομεύσεις πληκτρολογίου</string>
-  <string name="braille_display_settings_link">Ρυθμίσεις συσκευής μπράιγ</string>
   <string name="keyboard_smart_browse_mode_title">Πληκτρολόγιο: Έξυπνη λειτουργία περιήγησης</string>
   <string name="keyboard_smart_browse_mode_text">Η έξυπνη λειτουργία περιήγησης του SandFly απενεργοποιεί τη λειτουργία περιήγησης σε ένα πεδίο επεξεργασίας, για να διευκολύνει την πληκτρολόγηση με φυσικό πληκτρολόγιο όταν περιηγείστε στον ιστό. Στη συνέχεια, την ενεργοποιεί ξανά όταν μεταβαίνετε σε ένα πεδίο που δεν είναι πεδίο επεξεργασίας στον ιστό, ώστε να μπορείτε να συνεχίσετε την αποτελεσματική περιήγηση. Μπορείτε να ενεργοποιήσετε ή να απενεργοποιήσετε την Έξυπνη λειτουργία περιήγησης από την ενότητα <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Ρυθμίσεις SandFly &gt; Σύνθετες ρυθμίσεις</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Πληκτρολόγηση κειμένου</string>
   <string name="basic_typing_text_text">Όταν είστε σε ένα πλαίσιο κειμένου, θα ανοίξει ένα πληκτρολόγιο στο κάτω μέρος της οθόνης.</string>
   <string name="typing_text_text">Μετακινήστε το δάχτυλό σας κατά μήκος του πληκτρολογίου. Όταν ακούσετε το γράμμα που θέλετε να πληκτρολογήσετε, σηκώστε το δάχτυλό σας.\n\nΔοκιμάστε να ενεργοποιήσετε το παρακάτω πλαίσιο κειμένου και να πληκτρολογήσετε το όνομά σας.</string>
-  <string name="typing_text_with_braille_keyboard_text">Μπορείτε επίσης να πληκτρολογήσετε με το πληκτρολόγιο μπράιγ. Μπορείτε να το βρείτε στις ρυθμίσεις του SandFly.</string>
   <string name="other_ways_to_type_title">Άλλοι τρόποι πληκτρολόγησης</string>
   <string name="other_ways_to_type_text">Υπάρχουν και άλλοι τρόποι πληκτρολόγησης στο SandFly. Για παράδειγμα, μπορείτε να χρησιμοποιήσετε το διπλό πάτημα για να εισαγάγετε ένα γράμμα.</string>
   <string name="basic_other_ways_to_type_text">Υπάρχουν και άλλοι τρόποι πληκτρολόγησης στο SandFly. Για παράδειγμα, μπορείτε να χρησιμοποιήσετε το διπλό πάτημα για να εισαγάγετε ένα γράμμα. Μπορείτε να αλλάξετε αυτή τη ρύθμιση αργότερα, μεταβαίνοντας στις Ρυθμίσεις SandFly &gt; Πληκτρολόγιο οθόνης &gt; Μέθοδος πληκτρολόγησης.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Για να εξασκηθείτε στις κινήσεις, ενεργοποιήστε πρώτα το SandFly</string>
   <string name="talkback_inactive_message_image_description">Για να δοκιμάσετε να λάβετε περιγραφές εικόνων, ενεργοποιήστε πρώτα το SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Κλείσιμο οδηγού</string>
-  <string name="wear_training_welcome_paragraph">Όταν το SandFly είναι ενεργό, εκφωνείται το στοιχείο στο οποίο έχετε εστιάσει στην οθόνη.\n\nΣύρετε δεξιά για να μεταβείτε στο επόμενο στοιχείο. Σύρετε αριστερά για να μεταβείτε στο προηγούμενο στοιχείο.\n\nΣύρετε τώρα δεξιά μέχρι να βρείτε το επόμενο κουμπί.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Σύρετε προς τα επάνω ή προς τα κάτω με %1$d δάχτυλα.</string>
-  <string name="wear_training_go_back_title">Επιστροφή</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Όταν θέλετε να επιστρέψετε σε προηγούμενη σελίδα, χρησιμοποιήστε %1$d δάχτυλα και σύρετε προς τα δεξιά από την άκρη της οθόνης.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Επιτυχία</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Εκτελέστηκε η κίνηση επιστροφής</string>
-  <string name="wear_training_volume_up_title">Αύξηση έντασης ήχου</string>
-  <string name="wear_training_volume_up_text">Σύρετε προς τα δεξιά και μετά προς τα επάνω</string>
-  <string name="wear_training_volume_down_title">Μείωση έντασης ήχου</string>
-  <string name="wear_training_volume_down_text">Σύρετε προς τα δεξιά και μετά προς τα κάτω</string>
-  <string name="wear_training_open_talkback_menu_title">Άνοιγμα μενού SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Για να ανοίξετε ρυθμίσεις και στοιχεία ελέγχου που ίσως χρειάζεστε συχνά, σύρετε προς τα κάτω και έπειτα δεξιά</string>
-  <string name="wear_training_typing_title">Πληκτρολόγηση</string>
-  <string name="wear_training_typing_text1">Για εισαγωγή κειμένου με πληκτρολόγιο, μετακινήστε το δάχτυλό σας κατά μήκος των πλήκτρων. Όταν ακούσετε το επιθυμητό γράμμα, σηκώστε το δάχτυλο.</string>
-  <string name="wear_training_typing_text2">Για να αποκρύψετε το πληκτρολόγιο και να ελέγξετε τα στοιχεία που έχετε εισαγάγει, σύρετε προς τα κάτω από το επάνω μέρος της οθόνης με 2 δάχτυλα.</string>
-  <string name="wear_training_typing_text3">Για να επιστρέψετε στο πληκτρολόγιο, σύρετε προς τα επάνω από το κάτω μέρος της οθόνης με δύο δάχτυλα.</string>
-  <string name="wear_training_typing_text4">Για να κλείσετε το πληκτρολόγιο και να ακυρώσετε την πληκτρολόγηση, σύρετε προς τα δεξιά από το αριστερό άκρο της οθόνης με 2 δάχτυλα.</string>
-  <string name="wear_training_typing_text5">Δοκιμάστε το παρακάτω.</string>
-  <string name="wear_training_typing_practice_button_content_description">Πληκτρολόγηση με πληκτρολόγιο</string>
-  <string name="wear_training_end_tutorial_title">Είστε έτοιμοι να ξεκινήσετε τη χρήση του SandFly</string>
   <string name="talkback_updated_notification_title">Το SandFly ενημερώθηκε</string>
   <string name="talkback_updated_notification_content">Πατήστε για να μάθετε περισσότερα</string>
   <string name="wear_new_feature_page_title">Καλώς ορίσατε στο ενημερωμένο SandFly</string>
@@ -1520,7 +1479,6 @@
     <string name="title_pref_announce_ringer_mode">Λειτουργία κουδουνίσματος</string>
     <string name="summary_pref_announce_ringer_mode">Εκφώνηση όταν το κουδούνισμα έχει οριστεί σε δόνηση ή αθόρυβο</string>
     <string name="title_pref_category_feedback">Ανάδραση</string>
-    <string name="title_pref_category_typing_and_braille">Πληκτρολόγηση και μπράιγ</string>
     <string name="title_pref_category_apps">Εφαρμογές</string>
     <string name="title_pref_touch_activation">Αφή και ενεργοποίηση</string>
     <string name="title_pref_navigation">Πλοήγηση</string>
@@ -1544,8 +1502,6 @@
     <string name="speech_control_deny">Να μην επιτρέπεται</string>
     <string name="permission_speak_label">εκφώνηση μέσω του SandFly</string>
     <string name="permission_speak_description">Επιτρέπει στην εφαρμογή να ζητά να εκφωνεί κείμενο με τη φωνή του SandFly. Το SandFly ζητά την έγκρισή σας πριν από την εκφώνηση.</string>
-    <string name="permission_braille_display_label">αίτημα για λειτουργία ως συσκευή μπράιγ για το SandFly</string>
-    <string name="permission_braille_display_description">Επιτρέπει στην εφαρμογή να ζητά να λειτουργεί ως συσκευή μπράιγ για το SandFly. Αν το επιτρέψετε στο SandFly, μπορεί να διαβάζει όλο το περιεχόμενο της οθόνης και να ελέγχει τη συσκευή σας. Το SandFly ζητά πρώτα την έγκρισή σας.</string>
     <string name="title_pref_phonetic_letters_mode">Φωνητική εκφώνηση γραμμάτων</string>
     <string name="phonetic_letters_mode_off">Ανενεργό</string>
     <string name="phonetic_letters_mode_after_letter_delay">Μετά το γράμμα, με καθυστέρηση, όπως «ξ, ξενοδοχείο»</string>
@@ -1683,14 +1639,8 @@
     <string name="summary_support_wrap_around">Ενεργοποίηση ή απενεργοποίηση αναδίπλωσης από το τελευταίο στοιχείο στο πρώτο</string>
     <string name="wrap_around_on">Αναδίπλωση ενεργή</string>
     <string name="wrap_around_off">Αναδίπλωση ανενεργή</string>
-    <string name="title_selector_tablet_held_up_faces_away">Όρθιο tablet με την οθόνη προς τα έξω</string>
-    <string name="summary_support_tablet_held_up_faces_away">Για το πληκτρολόγιο μπράιγ σε tablet ή ανοιγμένο αναδιπλούμενο τηλέφωνο</string>
-    <string name="tablet_held_up_faces_away_on">Όρθιο tablet με την οθόνη προς τα έξω ενεργό</string>
-    <string name="tablet_held_up_faces_away_off">Όρθιο tablet με την οθόνη προς τα έξω ανενεργό</string>
     <string name="title_keyboard_echo_on_screen">Ηχώ πληκτρολογίου οθόνης</string>
     <string name="title_keyboard_echo_physical">Ηχώ φυσικού πληκτρολογίου</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ηχώ πληκτρολογίου μπράιγ</string>
-    <string name="title_keyboard_echo_braille_display">Ηχώ συσκευής μπράιγ</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Διακοπή ομιλίας κατά την πληκτρολόγηση</string>
     <string name="pref_interrupt_typing_entry_always">Πάντα</string>

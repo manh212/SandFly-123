@@ -772,18 +772,6 @@ public class KeyComboMapper {
       case SHOW_LEARN_MODE_PAGE -> openLearnModePage();
       case TOGGLE_VOICE_FEEDBACK ->
           result = pipeline.returnFeedback(eventId, Feedback.speech(TOGGLE_VOICE_FEEDBACK));
-      case TOGGLE_BRAILLE_CONTRACTED_MODE ->
-          result =
-              pipeline.returnFeedback(
-                  eventId,
-                  Feedback.performBrailleDisplayAction(
-                      Feedback.BrailleDisplay.Action.TOGGLE_BRAILLE_CONTRACTED_MODE));
-      case TOGGLE_BRAILLE_ON_SCREEN_OVERLAY ->
-          result =
-              pipeline.returnFeedback(
-                  eventId,
-                  Feedback.performBrailleDisplayAction(
-                      Feedback.BrailleDisplay.Action.TOGGLE_BRAILLE_ON_SCREEN_OVERLAY));
       case REPORT_ISSUE -> reportIssue();
       case CYCLE_PUNCTUATION_VERBOSITY ->
           selectorController.cycleSpeakPunctuationVerbosity(

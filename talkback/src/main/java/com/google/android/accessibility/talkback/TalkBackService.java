@@ -98,19 +98,11 @@ import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 import androidx.core.os.UserManagerCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.braille.brailledisplay.BrailleDisplay;
-import com.google.android.accessibility.braille.interfaces.BrailleImeForTalkBack;
-import com.google.android.accessibility.braille.interfaces.ScreenReaderActionPerformer;
-import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleCommon;
-import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme;
-import com.google.android.accessibility.braille.interfaces.TalkBackForBrailleIme.BrailleImeForTalkBackProvider;
-import com.google.android.accessibility.brailleime.BrailleIme;
 import com.google.android.accessibility.material.flags.MaterialFlags;
 import com.google.android.accessibility.talkback.Feedback.DeviceInfo.Action;
 import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.TalkBackExitController.TrainingState;
 import com.google.android.accessibility.talkback.actor.AutoScrollActor;
-import com.google.android.accessibility.talkback.actor.BrailleDisplayActor;
 import com.google.android.accessibility.talkback.actor.DimScreenActor;
 import com.google.android.accessibility.talkback.actor.DimScreenActor.DimScreenNotifier;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
@@ -145,11 +137,6 @@ import com.google.android.accessibility.talkback.actor.voicecommands.VoiceComman
 import com.google.android.accessibility.talkback.actor.voicecommands.VoiceCommandProcessor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.PeriodicDataProvider;
 import com.google.android.accessibility.talkback.audio.AudioDeviceRouter;
-import com.google.android.accessibility.talkback.braille.BrailleHelper;
-import com.google.android.accessibility.talkback.braille.TalkBackForBrailleCommonImpl;
-import com.google.android.accessibility.talkback.braille.TalkBackForBrailleDisplayImpl;
-import com.google.android.accessibility.talkback.braille.TalkBackForBrailleImeImpl;
-import com.google.android.accessibility.talkback.braille.TalkBackForBrailleImeImpl.TalkBackPrivateMethodProvider;
 import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EarlyFocusSpeech;
@@ -318,7 +305,6 @@ import com.google.android.accessibility.utils.output.SpeechController.UtteranceC
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl.CapitalLetterHandlingMethod;
 import com.google.android.accessibility.utils.output.TextFormattingUtils;
-import com.google.android.accessibility.utils.output.ThemeSounds;
 import com.google.android.accessibility.utils.output.ThemeVibrations;
 import com.google.android.accessibility.utils.output.VoiceProfiles;
 import com.google.android.accessibility.utils.output.VoiceProfiles.VoiceProfile;
@@ -797,9 +783,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   private ProcessorEventQueue processorEventQueue;
   private ProcessorPhoneticLetters processorPhoneticLetters;
 
-  private BrailleDisplay brailleDisplay;
-  private BrailleImeForTalkBackProvider brailleImeForTalkBackProvider;
-
   private GestureShortcutMapping gestureShortcutMapping;
   private NodeMenuRuleProcessor nodeMenuRuleProcessor;
   private PrimesController primesController;
@@ -1199,10 +1182,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     accessibilityEventProcessor.onAccessibilityEvent(event, eventId);
     perf.onHandlerDone(eventId);
 
-    if (brailleDisplay != null) {
-      brailleDisplay.onAccessibilityEvent(event);
-    }
-
     // Re-apply diagnosis-mode logging, in case other accessibility-services changed the shared
     // log-level preference.
     enforceDiagnosisModeLogging();
@@ -1409,10 +1388,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       }
     }
 
-    if (brailleDisplay.onKeyEvent(keyEvent)) {
-      return true;
-    }
-
     int keyCode = keyEvent.getKeyCode();
     int keyAction = keyEvent.getAction();
 
@@ -1437,7 +1412,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       boolean handleVolumeKeyInTalkBack =
           isTouchInteracting
               || triggerModifierPressed
-              || isBrailleImeTouchInteracting()
               || pipeline.getActorState().getContinuousRead().isActive();
       switch (keyCode) {
         case KeyEvent.KEYCODE_VOLUME_DOWN -> {
@@ -1507,7 +1481,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       }
 
       if (!isTouchInteracting
-          && !isBrailleImeTouchInteracting()
           && triggerModifierPressed
           && listener instanceof ProcessorVolumeStream) {
         // If either volume key is pressed with the modifier specified in the current keymap, we
@@ -1559,8 +1532,7 @@ public class TalkBackService extends AccessibilityServiceCompat
               && isServiceActive()
               && !isTouchInteracting
               && !triggerModifierPressed
-              && !isBrailleImeTouchInteracting()
-              && !pipeline.getActorState().getContinuousRead().isActive()
+                  && !pipeline.getActorState().getContinuousRead().isActive()
               && ringerModeAndScreenMonitor != null
               && ringerModeAndScreenMonitor.isInteractive();
       if (canUse
@@ -1606,10 +1578,6 @@ public class TalkBackService extends AccessibilityServiceCompat
                 isUp ? Feedback.AdjustValue.Action.INCREASE_VALUE
                     : Feedback.AdjustValue.Action.DECREASE_VALUE));
     return true;
-  }
-
-  private boolean isBrailleImeTouchInteracting() {
-    return getBrailleImeForTalkBack() != null && getBrailleImeForTalkBack().isTouchInteracting();
   }
 
   @Override
@@ -2435,7 +2403,6 @@ public class TalkBackService extends AccessibilityServiceCompat
                 geminiActor,
                 new TouchLatencyAdjustor(this),
                 this::requestServiceFlag,
-                new BrailleDisplayActor(() -> brailleDisplay),
                 inputDeviceMonitor),
             proximitySensorMonitor,
             speechController,
@@ -2672,18 +2639,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     final TextEventHistory textEventHistory = new TextEventHistory();
     final TextEventFilter textEventFilter =
         new TextEventFilter(this, textCursorTracker, textEventHistory);
-    textEventFilter.setBrailleInputReader(
-        () -> {
-          BrailleImeForTalkBack brailleIme = getBrailleImeForTalkBack();
-          if (brailleIme == null) {
-            return null;
-          }
-          return switch (brailleIme.getBrailleTyping()) {
-            case ON_SCREEN -> TypingInput.BRAILLE_KEYBOARD;
-            case BRAILLE_DISPLAY -> TypingInput.BRAILLE_DISPLAY;
-            case NONE -> null;
-          };
-        });
     textEventInterpreter =
         new TextEventInterpreter(
             this,
@@ -2799,65 +2754,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       onTelevisionNavigationControllerInitialized(televisionNavigationController);
     }
 
-    ScreenReaderActionPerformer screenReaderActionPerformer =
-        new BrailleHelper(
-            this,
-            pipeline.getFeedbackReturner(),
-            pipeline.getActorState(),
-            menuManager,
-            selectorController,
-            focusFinder);
-
-    TalkBackForBrailleCommon talkBackForBrailleCommon =
-        new TalkBackForBrailleCommonImpl(this, pipeline.getFeedbackReturner());
-
-    brailleDisplay =
-        new BrailleDisplay(
-            this,
-            new TalkBackForBrailleDisplayImpl(
-                this,
-                pipeline.getFeedbackReturner(),
-                screenReaderActionPerformer,
-                speechController),
-            talkBackForBrailleCommon,
-            () ->
-                getBrailleImeForTalkBack() == null
-                    ? null
-                    : getBrailleImeForTalkBack().getBrailleImeForBrailleDisplay());
-
-    TalkBackForBrailleIme talkBackForBrailleIme =
-        new TalkBackForBrailleImeImpl(
-            this,
-            pipeline.getFeedbackReturner(),
-            dimScreenController,
-            proximitySensorMonitor,
-            new TalkBackPrivateMethodProvider() {
-              @Override
-              public void requestTouchExploration(boolean enabled) {
-                // TouchInteractionMonitor implements a callback from Android 13, so it cannot even
-                // be loaded before then. Getting it before the check crashed the braille keyboard
-                // on older Android, as it turns off touch exploration when it opens.
-                if (FeatureSupport.supportGestureDetection()) {
-                  TouchInteractionMonitor touchInteractionMonitor =
-                      displayIdToTouchInteractionMonitors.get(Display.DEFAULT_DISPLAY);
-                  if (touchInteractionMonitor != null) {
-                    touchInteractionMonitor.requestA11yTouchExploreState(enabled);
-                    return;
-                  }
-                }
-                getInstance().requestTouchExploration(enabled);
-              }
-
-              @Override
-              public GlobalVariables getGlobalVariables() {
-                return globalVariables;
-              }
-            },
-            screenReaderActionPerformer,
-            selectorController);
-    brailleImeForTalkBackProvider = talkBackForBrailleIme.getBrailleImeForTalkBackProvider();
-
-    BrailleIme.initialize(this, talkBackForBrailleIme, talkBackForBrailleCommon, brailleDisplay);
     speechController.getFailoverTts().addListener(ttsLogger);
     analytics.onTalkBackServiceStarted();
     if (FeatureFlagReader.logEventBasedLatency(getBaseContext())) {
@@ -2884,53 +2780,27 @@ public class TalkBackService extends AccessibilityServiceCompat
       new TouchInteractingIndicator() {
         @Override
         public boolean isTouchInteracting() {
-          return isBrailleImeTouchInteracting();
+          return false;
         }
       };
 
   private final SelectorController.SelectorEventNotifier selectorEventNotifier =
       new SelectorEventNotifier() {
         @Override
-        public void onSelectorSettingAnnounced(CharSequence message) {
-          if (brailleDisplay != null) {
-            brailleDisplay.onReadingControlSettingsChanged(message);
-          }
-        }
+        public void onSelectorSettingAnnounced(CharSequence message) {}
 
         @Override
-        public void onSelectorGranularityAdjusted() {
-          if (brailleDisplay != null) {
-            brailleDisplay.onReadingControlValueChanged();
-          }
-        }
+        public void onSelectorGranularityAdjusted() {}
       };
 
   private final DimScreenNotifier dimScreenNotifier =
       new DimScreenNotifier() {
         @Override
-        public void onScreenDim() {
-          if (getBrailleImeForTalkBack() != null) {
-            getBrailleImeForTalkBack().onScreenDim();
-          }
-        }
+        public void onScreenDim() {}
 
         @Override
-        public void onScreenBright() {
-          if (getBrailleImeForTalkBack() != null) {
-            getBrailleImeForTalkBack().onScreenBright();
-          }
-        }
+        public void onScreenBright() {}
       };
-
-  private BrailleImeForTalkBack getBrailleImeForTalkBack() {
-    return brailleImeForTalkBackProvider.getBrailleImeForTalkBack();
-  }
-
-  private boolean isBrailleKeyboardActivated() {
-    return getBrailleImeForTalkBack() == null
-        ? false
-        : getBrailleImeForTalkBack().isBrailleKeyboardActivated();
-  }
 
   @Compositor.Flavor
   public int getCompositorFlavor() {
@@ -3138,7 +3008,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Gives a name of its own to any voice profile that a damaged setting left without one, before
     // anything says it.
     VoiceProfileNames.saveNames(this, prefs);
-    // Moves the keyboard echo out of the verbosity presets and the braille keyboard's settings.
+    // Moves the keyboard echo out of the verbosity presets.
     KeyboardEchoSettings.migrate(this, prefs);
     // Combines the two window name switches into the Window names setting.
     WindowNamesSetting.migrate(prefs, getResources());
@@ -3163,11 +3033,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     inputFocusInterpreter.initLastEditableFocusForGlobalVariables();
 
     gestureDetectionFeatureFlag = FeatureFlagReader.useTalkbackGestureDetection(this);
-
-    if (getBrailleImeForTalkBack() != null) {
-      getBrailleImeForTalkBack().onTalkBackResumed();
-    }
-    brailleDisplay.start();
 
     if (eventLatencyLogger != null) {
       Performance.getInstance().addLatencyTracker(eventLatencyLogger);
@@ -3293,10 +3158,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     TalkbackServiceStateNotifier.getInstance().notifyTalkBackServiceStateChanged(false);
 
-    if (getBrailleImeForTalkBack() != null) {
-      getBrailleImeForTalkBack().onTalkBackSuspended();
-    }
-    brailleDisplay.stop();
     if (eventLatencyLogger != null) {
       Performance.getInstance().removeLatencyTracker(eventLatencyLogger);
       speechController.getFailoverTts().removeListener(eventLatencyLogger);
@@ -3358,7 +3219,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (analytics != null) {
       analytics.onTalkBackServiceStopped();
     }
-    BrailleIme.shutdown();
   }
 
   /** Called on any thread when a two-finger drag is passed to the app. */
@@ -3752,9 +3612,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     feedbackController.setCustomSounds(customSounds);
     Map<String, int[]> themeVibrations = soundTheme.vibrationsPlaying(mutedVibrations);
     feedbackController.setThemeVibrations(themeVibrations);
-    // For the braille keyboard and direct touch, which play their own sounds and vibrations.
+    // For direct touch, which plays its own sounds and vibrations.
     ThemeVibrations.set(themeVibrations);
-    ThemeSounds.set(SoundThemes.brailleTypingSounds(customSounds));
     feedbackController.setSpatialMode(ControlSoundsSettings.spatialMode(prefs));
     // A control's sound is asked for if it can be heard or felt, so with sound feedback off its
     // vibration still tells what kind of control it is.
@@ -4034,7 +3893,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Turns explore by touch on or off as the preference says. */
   private void applyTouchExplorationPreference() {
-    if (supportsTouchScreen && !isBrailleKeyboardActivated()) {
+    if (supportsTouchScreen) {
       // Touch exploration *must* be enabled on TVs for TalkBack to function.
       final boolean touchExploration =
           (FormFactorUtils.isAndroidTv()
@@ -4058,15 +3917,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     if (scriptHost != null) {
       scriptHost.onPausedChanged(paused);
-    }
-    BrailleImeForTalkBack brailleIme = getBrailleImeForTalkBack();
-    if (brailleIme != null) {
-      // The braille keyboard closes while paused, as it did while TalkBack was suspended.
-      if (paused) {
-        brailleIme.onTalkBackSuspended();
-      } else {
-        brailleIme.onTalkBackResumed();
-      }
     }
   }
 
@@ -4470,9 +4320,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   private void resetTouchExplorePassThrough() {
     if (FeatureSupport.supportPassthrough()) {
-      if (isBrailleKeyboardActivated()) {
-        return;
-      }
       pipeline
           .getFeedbackReturner()
           .returnFeedback(

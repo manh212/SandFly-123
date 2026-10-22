@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Bläddringsläge på</string>
   <string name="individual_sound_browse_mode_off">Bläddringsläge av</string>
   <string name="individual_sound_radial_menu">Cirkelmeny</string>
-  <string name="individual_sound_display_connected">Punktskriftsdisplay ansluten</string>
-  <string name="individual_sound_display_disconnected">Punktskriftsdisplay frånkopplad</string>
-  <string name="individual_sound_double_beep">Punktskriftskommandot misslyckades</string>
-  <string name="individual_sound_turn_on">Automatisk rullning av punktskrift på</string>
-  <string name="individual_sound_turn_off">Automatisk rullning av punktskrift av</string>
-  <string name="individual_sound_calibration_done">Punktskriftstangentbordet är kalibrerat</string>
   <string name="individual_vibration_focus">Fokus på ett objekt</string>
   <string name="individual_vibration_focus_actionable">Fokus på ett aktiverbart objekt</string>
   <string name="individual_vibration_clicked">Klick</string>

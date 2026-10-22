@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ਪੂਰੀ ਚੌੜਾਈ ਵਾਲਾ ਮੁਕਾਬਲਤਨ ਘੱਟ ਚਿੰਨ੍ਹ</string>
   <string name="symbol_full_width_greater_than_sign">ਪੂਰੀ ਚੌੜਾਈ ਵਾਲਾ ਮੁਕਾਬਲਤਨ ਵੱਧ ਚਿੰਨ੍ਹ</string>
   <string name="symbol_left_single_quotation_mark">ਖੱਬੇ ਪਾਸੇ ਦਾ ਇਕਹਿਰਾ ਉਕਤੀ ਚਿੰਨ੍ਹ</string>
-  <string name="symbol_braille">ਬਰੇਲ ਲਿਪੀ %s</string>
-  <plurals name="dots">
-    <item quantity="one">ਬਿੰਦੂ %s</item>
-    <item quantity="other">ਬਿੰਦੂ %s</item>
-  </plurals>
 </resources>

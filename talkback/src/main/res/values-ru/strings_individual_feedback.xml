@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Режим обзора включён</string>
   <string name="individual_sound_browse_mode_off">Режим обзора отключён</string>
   <string name="individual_sound_radial_menu">Круговое меню</string>
-  <string name="individual_sound_display_connected">Дисплей Брайля подключён</string>
-  <string name="individual_sound_display_disconnected">Дисплей Брайля отключён</string>
-  <string name="individual_sound_double_beep">Ошибка команды Брайля</string>
-  <string name="individual_sound_turn_on">Автопрокрутка Брайля включена</string>
-  <string name="individual_sound_turn_off">Автопрокрутка Брайля выключена</string>
-  <string name="individual_sound_calibration_done">Клавиатура Брайля откалибрована</string>
   <string name="individual_vibration_focus">Фокус на элементе</string>
   <string name="individual_vibration_focus_actionable">Фокус на элементе, который можно активировать</string>
   <string name="individual_vibration_clicked">Нажатие</string>
@@ -36,10 +30,4 @@
   <string name="individual_vibration_window_state">Смена окна</string>
   <string name="individual_vibration_typo">Орфографическая ошибка</string>
   <string name="individual_vibration_notification">Оповещение</string>
-  <string name="individual_vibration_braille_character">Клавиатура Брайля: ввод символа</string>
-  <string name="individual_vibration_braille_space">Клавиатура Брайля: пробел или удаление</string>
-  <string name="individual_vibration_braille_new_line">Клавиатура Брайля: новая строка или удаление слова</string>
-  <string name="individual_vibration_braille_hold">Клавиатура Брайля: удержание пальцев на экране</string>
-  <string name="individual_vibration_braille_gesture">Клавиатура Брайля: другие жесты</string>
-  <string name="individual_vibration_braille_nothing_to_delete">Клавиатура Брайля: нечего удалять</string>
 </resources>

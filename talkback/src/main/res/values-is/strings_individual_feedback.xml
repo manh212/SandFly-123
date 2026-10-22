@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Vafrastilling á</string>
   <string name="individual_sound_browse_mode_off">Vafrastilling af</string>
   <string name="individual_sound_radial_menu">Hringvalmynd</string>
-  <string name="individual_sound_display_connected">Blindraletursskjár tengdur</string>
-  <string name="individual_sound_display_disconnected">Blindraletursskjár aftengdur</string>
-  <string name="individual_sound_double_beep">Blindraletursskipun mistókst</string>
-  <string name="individual_sound_turn_on">Sjálfvirk fletting blindraleturs á</string>
-  <string name="individual_sound_turn_off">Sjálfvirk fletting blindraleturs af</string>
-  <string name="individual_sound_calibration_done">Blindraleturslyklaborð kvarðað</string>
   <string name="individual_vibration_focus">Fókus á atriði</string>
   <string name="individual_vibration_focus_actionable">Fókus á virkjanlegt atriði</string>
   <string name="individual_vibration_clicked">Smellur</string>

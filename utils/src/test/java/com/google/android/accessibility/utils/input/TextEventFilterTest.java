@@ -34,7 +34,7 @@ public class TextEventFilterTest {
       new TextEventFilter(/* context= */ null, /* textCursorTracker= */ null, new TextEventHistory());
 
   @Test
-  public void onScreenKeyboardEchoAppliesWithoutBrailleInput() {
+  public void onScreenKeyboardEchoApplies() {
     filter.setKeyboardEcho(TypingInput.ON_SCREEN_KEYBOARD, PREF_ECHO_WORDS);
 
     assertEquals(TypingInput.ON_SCREEN_KEYBOARD, filter.getTypingInput(EVENT_TIME));
@@ -43,43 +43,23 @@ public class TextEventFilterTest {
   }
 
   @Test
-  public void onScreenKeyboardEchoAppliesWhenNoBrailleInputIsTyping() {
-    filter.setKeyboardEcho(TypingInput.ON_SCREEN_KEYBOARD, PREF_ECHO_CHARACTERS);
-    filter.setBrailleInputReader(() -> null);
-
-    assertTrue(filter.shouldEchoAddedText(EVENT_TIME));
-    assertFalse(filter.shouldEchoInitialWords(EVENT_TIME));
-  }
-
-  @Test
-  public void brailleKeyboardHasItsOwnEcho() {
-    filter.setKeyboardEcho(TypingInput.ON_SCREEN_KEYBOARD, PREF_ECHO_NONE);
-    filter.setKeyboardEcho(TypingInput.BRAILLE_KEYBOARD, PREF_ECHO_WORDS);
-    filter.setBrailleInputReader(() -> TypingInput.BRAILLE_KEYBOARD);
-
-    assertFalse(filter.shouldEchoAddedText(EVENT_TIME));
-    assertTrue(filter.shouldEchoInitialWords(EVENT_TIME));
-  }
-
-  @Test
-  public void brailleDisplayHasItsOwnEcho() {
-    filter.setKeyboardEcho(TypingInput.BRAILLE_KEYBOARD, PREF_ECHO_NONE);
-    filter.setKeyboardEcho(TypingInput.BRAILLE_DISPLAY, PREF_ECHO_CHARACTERS_AND_WORDS);
-    filter.setBrailleInputReader(() -> TypingInput.BRAILLE_DISPLAY);
-
-    assertTrue(filter.shouldEchoAddedText(EVENT_TIME));
-    assertTrue(filter.shouldEchoInitialWords(EVENT_TIME));
-  }
-
-  @Test
   public void physicalKeyboardEchoAppliesToKeyPresses() {
     filter.setKeyboardEcho(TypingInput.PHYSICAL_KEYBOARD, PREF_ECHO_NONE);
-    filter.setKeyboardEcho(TypingInput.BRAILLE_KEYBOARD, PREF_ECHO_CHARACTERS_AND_WORDS);
-    filter.setBrailleInputReader(() -> TypingInput.BRAILLE_KEYBOARD);
+    filter.setKeyboardEcho(TypingInput.ON_SCREEN_KEYBOARD, PREF_ECHO_CHARACTERS_AND_WORDS);
     filter.setLastKeyEventTime(EVENT_TIME - 10);
 
     assertEquals(TypingInput.PHYSICAL_KEYBOARD, filter.getTypingInput(EVENT_TIME));
     assertFalse(filter.shouldEchoAddedText(EVENT_TIME));
     assertFalse(filter.shouldEchoInitialWords(EVENT_TIME));
+  }
+
+  @Test
+  public void physicalKeyboardHasItsOwnEcho() {
+    filter.setKeyboardEcho(TypingInput.ON_SCREEN_KEYBOARD, PREF_ECHO_NONE);
+    filter.setKeyboardEcho(TypingInput.PHYSICAL_KEYBOARD, PREF_ECHO_WORDS);
+    filter.setLastKeyEventTime(EVENT_TIME - 10);
+
+    assertFalse(filter.shouldEchoAddedText(EVENT_TIME));
+    assertTrue(filter.shouldEchoInitialWords(EVENT_TIME));
   }
 }

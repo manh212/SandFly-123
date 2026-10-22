@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Qalin kichik belgisi</string>
   <string name="symbol_full_width_greater_than_sign">Qalin katta belgisi</string>
   <string name="symbol_left_single_quotation_mark">Chap bir tirnoq belgisi</string>
-  <string name="symbol_braille">Brayl: %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s-nuqta</item>
-    <item quantity="other">%s-nuqta</item>
-  </plurals>
 </resources>

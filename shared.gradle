@@ -34,9 +34,6 @@ android {
         phone {
             dimension = "target"
         }
-        wear {
-            dimension = "target"
-        }
     }
     buildFeatures {
         buildConfig = true
@@ -76,10 +73,6 @@ dependencies {
     annotationProcessor libs.auto.value
     implementation libs.javax.annotation.api
 
-    // Wear
-    implementation libs.androidx.wear
-    implementation libs.androidx.wear.remote.interactions
-    implementation libs.wearable.support
     implementation libs.zxing.core
 
     // Cloud services
@@ -91,8 +84,6 @@ dependencies {
     implementation libs.compose.runtime
     implementation libs.compose.runtime.livedata
     implementation libs.compose.ui
-    implementation libs.wear.compose.foundation
-    implementation libs.wear.compose.material3
     implementation libs.compose.material.icons.core
 
     // Gemineye

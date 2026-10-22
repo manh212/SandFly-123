@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Modul de navigare activat</string>
   <string name="individual_sound_browse_mode_off">Modul de navigare dezactivat</string>
   <string name="individual_sound_radial_menu">Meniu circular</string>
-  <string name="individual_sound_display_connected">Afișaj braille conectat</string>
-  <string name="individual_sound_display_disconnected">Afișaj braille deconectat</string>
-  <string name="individual_sound_double_beep">Comanda braille a eșuat</string>
-  <string name="individual_sound_turn_on">Derularea automată braille activată</string>
-  <string name="individual_sound_turn_off">Derularea automată braille dezactivată</string>
-  <string name="individual_sound_calibration_done">Tastatura braille a fost calibrată</string>
   <string name="individual_vibration_focus">Focalizare pe un element</string>
   <string name="individual_vibration_focus_actionable">Focalizare pe un element acționabil</string>
   <string name="individual_vibration_clicked">Clic</string>

@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">មុខងាររុករកបានបើក</string>
   <string name="individual_sound_browse_mode_off">មុខងាររុករកបានបិទ</string>
   <string name="individual_sound_radial_menu">ម៉ឺនុយរង្វង់</string>
-  <string name="individual_sound_display_connected">អេក្រង់អក្សរស្ទាបបានភ្ជាប់</string>
-  <string name="individual_sound_display_disconnected">អេក្រង់អក្សរស្ទាបបានផ្ដាច់</string>
-  <string name="individual_sound_double_beep">ពាក្យបញ្ជាអក្សរស្ទាបមិនដំណើរការ</string>
-  <string name="individual_sound_turn_on">ការរំកិលអក្សរស្ទាបស្វ័យប្រវត្តិបានបើក</string>
-  <string name="individual_sound_turn_off">ការរំកិលអក្សរស្ទាបស្វ័យប្រវត្តិបានបិទ</string>
-  <string name="individual_sound_calibration_done">ក្ដារចុចអក្សរស្ទាបត្រូវបានតម្រឹម</string>
   <string name="individual_vibration_focus">ផ្ដោតលើធាតុ</string>
   <string name="individual_vibration_focus_actionable">ផ្ដោតលើធាតុដែលអាចធ្វើសកម្មភាពបាន</string>
   <string name="individual_vibration_clicked">ចុច</string>

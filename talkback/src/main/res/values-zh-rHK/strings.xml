@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">輕觸探索</string>
   <string name="title_pref_category_visual">影像內容</string>
   <string name="title_pref_category_controls">控制項</string>
-  <string name="title_pref_category_braille">點字</string>
   <string name="title_pref_category_general">一般</string>
   <string name="title_pref_category_advanced">進階</string>
   <string name="title_pref_category_others">其他</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">縮短延遲時間</string>
   <string name="talkback_latency_reduction_summary">縮短 TalkBack 朗讀內容前延遲時間的設定</string>
   <string name="summary_pref_intonation">以較高音調朗讀刪除的字母</string>
-  <string name="title_pref_brailledisplay">點字顯示器</string>
-  <string name="title_pref_brailleime">點字鍵盤</string>
-  <string name="summary_pref_brailleime_disabled">你的裝置不支援點字鍵盤</string>
   <string name="title_pref_speech_footer">你可在任何畫面上快速調整部分 TalkBack 音效設定。\n\n無障礙功能音量：用 1 隻手指按住螢幕，然後按下調高或調低音量鍵。\nTalkBack 語音速度：用 3 隻手指向上或向下滑動系統朗讀「語音速度」後，請用 1 隻手指向上或向下滑動。</string>
   <string name="title_pref_vibration">震動回應</string>
   <string name="title_pref_soundback">聲音回應</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">調高音量</string>
   <string name="shortcut_decrease_volume">調低音量</string>
   <string name="shortcut_all_apps">所有應用程式</string>
-  <string name="shortcut_braille_keyboard">切換至點字鍵盤</string>
-  <string name="shortcut_braille_display_settings">前往點字顯示器設定</string>
   <string name="shortcut_tutorial">開啟教學課程</string>
   <string name="shortcut_control_speak_time">朗讀時間或不朗讀時間</string>
   <string name="shortcut_enable_speak_time">朗讀時間</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">「朗讀時間」已關閉</string>
   <string name="shortcut_practice_gestures">練習手勢</string>
   <string name="shortcut_report_gesture">報告手勢問題</string>
-  <string name="shortcut_toggle_braille_display">開啟或關閉點字顯示器</string>
   <string name="shortcut_announce_current_time_and_date">朗讀目前的日期和時間</string>
   <string name="shortcut_announce_battery_state">朗讀電量百分比</string>
   <string name="shortcut_announce_current_title">讀出視窗標題</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">減慢語音速度</string>
   <string name="shortcut_toggle_selection">啟動或結束選取模式</string>
   <string name="shortcut_show_tutorial">開啟教學課程</string>
-  <string name="shortcut_toggle_braille_contracted_mode">切換縮寫 (2 級) 和無縮寫 (1 級) 點字</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">顯示或隱藏已連接的點字顯示器螢幕上的點字</string>
   <string name="shortcut_toggle_sound_feedback">開啟或關閉聲音回應 (提示音)</string>
   <string name="shortcut_show_learn_mode_page">練習使用鍵盤快速鍵</string>
   <string name="shortcut_announce_phonetic_pronunciation">以拼音發音朗讀焦點項目的字母</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">語音指令</string>
   <string name="title_show_keyboard_shortcuts">鍵盤快速鍵</string>
   <string name="talkback_show_talkback_settings">TalkBack 設定</string>
-  <string name="title_show_braille_display_settings">點字顯示器設定</string>
   <string name="title_granularity_default">預設瀏覽</string>
   <string name="title_action_dismiss">拒絕</string>
   <string name="title_action_expand">展開</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">變更是否在開啟螢幕時朗讀時間</string>
   <string name="summary_show_keyboard_shortcuts_preferences">開啟鍵盤快速鍵清單</string>
   <string name="summary_talkback_preferences">開啟 TalkBack 設定</string>
-  <string name="summary_braile_display_preferences">開啟點字顯示器設定</string>
   <string name="summary_system_actions">前往「所有應用程式」和「快速設定」</string>
   <string name="summary_tts_settings">開啟文字轉語音設定</string>
   <string name="not_editable">無法編輯</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">關鍵字為「%1$s」</string>
   <string name="screen_search_no_keyword_hint">沒有關鍵字。如要開始新的搜尋，請用 3 隻手指按住螢幕，或透過 TalkBack 選單開啟螢幕搜尋功能。</string>
   <string name="screen_search_no_keyword_hint_pre_r">沒有關鍵字。如要開始新的搜尋，請先向左再向下滑動，或透過 TalkBack 選單開啟螢幕搜尋功能。</string>
-  <string name="switch_to_braille_keyboard_failure_msg">開唔到點字鍵盤。請去 TalkBack 設定度設定點字鍵盤，然後再試。</string>
   <string name="suggestions_window_available">有可用嘅建議</string>
   <string name="suggestions_window_available_with_gesture">有可用嘅建議。如果要存取，%1$s</string>
   <string name="heads_up_window_available">收到通知</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">輕按即可瞭解新手勢如何讓 TalkBack 更方便使用。</string>
   <string name="dump_node_tree_description">已經將節點樹狀結構印咗喺記錄度。</string>
   <string name="report_gesture_description">以下是你最近執行過的手勢，請報告錯誤的手勢，以及該手勢預期執行的功能。</string>
-  <string name="update_welcome_text_content">現在可以透過人體學介面裝置 (HID) (連結藍牙裝置的方式) 連結點字顯示器。請確認已安裝製造商提供的最新韌體驅動程式，然後開啟點字顯示器的藍牙。然後前往「TalkBack 設定」&gt; [點字顯示器]，並開啟「使用點字顯示器」，再從裝置清單中找出裝置並連線。</string>
-  <string name="update_welcome_text_content_tts">宜家可以透過人體學介面裝置 (HID) (連結藍牙裝置嘅方式) 連結點字顯示器。確認安裝咗製造商提供嘅最新韌體驅動程式，然後打開點字顯示器嘅藍牙。然後去「TalkBack 設定」同 [點字顯示器]，同埋打開「使用點字顯示器」，再喺裝置清單度搵裝置同連線。</string>
-  <string name="update_welcome_text_content_with_link">瞭解如何配搭 TalkBack 使用點字顯示器。</string>
   <string name="update_welcome_talkback_16.1">這次 TalkBack 更新帶來支援更多語言的描述畫面功能，以及其他令 TalkBack 更容易使用的品質改善項目。\n\n在接下來的幾個畫面中，我們將說明有關變更。\n\n你可稍後前往 TalkBack 設定 &gt; [TalkBack 新功能] 查看這些資料。</string>
   <string name="update_welcome_talkback_16.1_tts">今次 TalkBack 更新帶嚟支援更多語言嘅描述畫面功能，同埋其他令 TalkBack 更易用嘅品質改善項目。\n\n喺跟住落嚟幾個畫面入面，我哋將會說明變動內容。\n\n你可以之後去 TalkBack 設定㩒 TalkBack 新功能重溫呢啲資料。</string>
   <string name="describe_screen_and_qna_title">描述畫面和問 Gemini 功能支援新語言</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">縮短延遲時間</string>
   <string name="reduce_delay_content">你現可縮短觸控探索和輸入內容的 TalkBack 通知延遲時間。如要查看這些設定，請前往 TalkBack 設定 &gt; [進階設定] &gt; [縮短延遲時間]。</string>
   <string name="reduce_delay_content_tts">你宜家可以縮短觸控探索同埋輸入內容嘅 TalkBack 通知延遲時間。如果想睇番呢啲設定，請你去 TalkBack 設定㩒進階設定，再㩒縮短延遲時間。</string>
-  <string name="customize_braille_keyboard_improvements_title">自訂點字鍵盤手勢</string>
-  <string name="customize_braille_keyboard_improvements_content">你現可為虛擬螢幕點字鍵盤自訂手勢。如要自訂手勢，請前往 TalkBack 設定 &gt; [點字鍵盤] &gt; [手勢]。</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">你宜家可以為虛擬螢幕點字鍵盤自訂手勢。如果要自訂手勢，請你去 TalkBack 設定㩒點字鍵盤，再㩒手勢。</string>
-  <string name="learn_more_about_braille_keyboard">進一步瞭解點字鍵盤</string>
   <string name="other_changes_title">其他變更</string>
   <string name="other_changes_content">現在當你意外開啟 TalkBack 時，可透過螢幕上的訊息快速關閉 TalkBack。你可前往 TalkBack 設定 &gt; [顯示關閉 Talkback 的指示] 關閉此功能。</string>
   <string name="other_changes_content_tts">宜家當你唔小心開咗 TalkBack 嘅時候，可以透過螢幕上面嘅訊息快速閂番 TalkBack。你可以去 TalkBack 設定㩒顯示關閉 Talkback 的指示閂咗呢個功能。</string>
@@ -1020,7 +1001,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack 現為實體鍵盤配備「強化按鍵配置」功能，提供各種新指令和快速鍵。此強化項目 (包括提升網頁導覽效率的「瀏覽模式」) 為依賴實體鍵盤的 TalkBack 使用者簡化導覽和互動體驗。你可以前往 %1$s 切換至「強化按鍵配置」。\n\n如果你使用點字顯示器，亦可使用新的瀏覽模式快速鍵，直接透過點字顯示器瀏覽內容。為配合此變更，部分點字顯示器快速鍵已變更。你可前往 %2$s 查看所有點字顯示器快速鍵的清單。</string>
   <string name="keyboard_shortcuts_link">TalkBack 設定 &gt; [鍵盤快速鍵]</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack 設定，然後㩒鍵盤快速鍵</string>
-  <string name="braille_display_settings_link">點字顯示器設定</string>
   <string name="keyboard_smart_browse_mode_title">鍵盤：智能瀏覽模式</string>
   <string name="keyboard_smart_browse_mode_text">當你瀏覽網絡時，TalkBack 智能瀏覽模式會關閉編輯欄位的瀏覽模式，以便你使用實體鍵盤輸入。當你跳至網頁上的非編輯欄位時，瀏覽模式會重新開啟，讓你繼續流暢地瀏覽網頁。你可以前往 %1$s 開啟或關閉「智能瀏覽模式」。</string>
   <string name="advanced_settings_link">TalkBack 設定 &gt; [進階設定]</string>
@@ -1093,7 +1073,6 @@
   <string name="typing_text_title">輸入文字</string>
   <string name="basic_typing_text_text">進入文字框後，鍵盤會在螢幕底部打開。</string>
   <string name="typing_text_text">在鍵盤上移動手指，當聽到想輸入的字母時提起手指。\n\n現在試試啟用下方的文字框，然後輸入你的姓名。</string>
-  <string name="typing_text_with_braille_keyboard_text">你亦可以使用點字鍵盤輸入文字。請在 TalkBack 設定頁面尋找此設定。</string>
   <string name="other_ways_to_type_title">其他輸入方式</string>
   <string name="other_ways_to_type_text">使用 TalkBack 時，還有其他輸入方式。例如，輕按兩下字母即可輸入。</string>
   <string name="basic_other_ways_to_type_text">使用 TalkBack 時，還有其他輸入方式。例如，輕按兩下字母即可輸入。你可稍後前往 TalkBack 設定 &gt; [屏幕鍵盤] &gt; [輸入偏好設定] 變更此設定。</string>
@@ -1208,26 +1187,6 @@
   <string name="talkback_inactive_message_practice_gestures">如要練習使用手勢，請先開啟 TalkBack</string>
   <string name="talkback_inactive_message_image_description">如要嘗試取得圖片描述，請先開啟 TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">關閉教學課程</string>
-  <string name="wear_training_welcome_paragraph">啟用 TalkBack 後，系統會朗讀螢幕上的焦點項目。\n\n向右滑動即可將焦點移至下一個項目。\n向左滑動即可將焦點移至上一個項目。\n\n現在，請向右滑動並找出下一個按鈕。</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">用 %1$d 隻手指向上或向下滑動。</string>
-  <string name="wear_training_go_back_title">返回</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">如要返回，請用%1$d隻手指從螢幕邊緣向右滑動</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">成功</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">已作出返回手勢</string>
-  <string name="wear_training_volume_up_title">調高音量</string>
-  <string name="wear_training_volume_up_text">向右再向上滑動</string>
-  <string name="wear_training_volume_down_title">調低音量</string>
-  <string name="wear_training_volume_down_text">向右再向下滑動</string>
-  <string name="wear_training_open_talkback_menu_title">開啟 TalkBack 選單</string>
-  <string name="wear_training_open_talkback_menu_text">如要開啟可能時常使用的設定和控制項，請先向下再向右滑動</string>
-  <string name="wear_training_typing_title">輸入</string>
-  <string name="wear_training_typing_text1">如要使用鍵盤輸入，請在鍵盤上移動手指。聽到要輸入的字母後，請提起手指。</string>
-  <string name="wear_training_typing_text2">如要隱藏鍵盤和檢查輸入內容，請用 2 隻手指從螢幕頂部向下滑動。</string>
-  <string name="wear_training_typing_text3">如要返回鍵盤，請用 2 隻手指從螢幕底部向上滑動。</string>
-  <string name="wear_training_typing_text4">如要關閉鍵盤和取消輸入，請用 2 隻手指從螢幕左側邊緣向右滑動。</string>
-  <string name="wear_training_typing_text5">請在下方試用。</string>
-  <string name="wear_training_typing_practice_button_content_description">使用鍵盤輸入</string>
-  <string name="wear_training_end_tutorial_title">現可開始使用 TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack 已更新</string>
   <string name="talkback_updated_notification_content">輕按以瞭解詳情</string>
   <string name="wear_new_feature_page_title">歡迎使用更新版 TalkBack</string>

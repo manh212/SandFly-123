@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Raziskovanje z dotikom</string>
   <string name="title_pref_category_visual">Vizualno</string>
   <string name="title_pref_category_controls">Kontrolniki</string>
-  <string name="title_pref_category_braille">Braillova pisava</string>
   <string name="title_pref_category_general">Splošno</string>
   <string name="title_pref_category_advanced">Dodatno</string>
   <string name="title_pref_category_others">Drugo</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Skrajšanje zakasnitve</string>
   <string name="talkback_latency_reduction_summary">Nastavitve za skrajšanje zakasnitve pred obvestili funkcije TalkBack</string>
   <string name="summary_pref_intonation">Izgovarjanje izbrisanih črk z višjim glasom</string>
-  <string name="title_pref_brailledisplay">Zaslon braille</string>
-  <string name="title_pref_brailleime">Braillova tipkovnica</string>
-  <string name="summary_pref_brailleime_disabled">Naprava ne podpira braillove tipkovnice</string>
   <string name="title_pref_speech_footer">Na poljubnem zaslonu lahko hitro prilagodite nekatere nastavitve zvoka funkcije TalkBack.\n\nGlasnost dostopnosti: En prst pridržite na zaslonu in pritisnite gumb za povečanje ali zmanjšanje glasnosti.\nHitrost govora funkcije TalkBack: S tremi prsti povlecite navzgor ali navzdol. Ko slišite »speech rate« (hitrost govora), z enim prstom povlecite navzgor ali navzdol.</string>
   <string name="title_pref_vibration">Odziv z vibriranjem</string>
   <string name="title_pref_soundback">Zvočni odziv</string>
@@ -486,8 +482,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="shortcut_increase_volume">Povečanje glasnosti</string>
   <string name="shortcut_decrease_volume">Zmanjšanje glasnosti</string>
   <string name="shortcut_all_apps">Vse aplikacije</string>
-  <string name="shortcut_braille_keyboard">Preklop v braillovo tipkovnico</string>
-  <string name="shortcut_braille_display_settings">Pomik v nastavitve zaslona braille</string>
   <string name="shortcut_tutorial">Odpri vadnico</string>
   <string name="shortcut_control_speak_time">Vklop ali izklop izgovora ure</string>
   <string name="shortcut_enable_speak_time">Izgovori uro</string>
@@ -496,7 +490,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="speak_time_off">Izgovor ure je izklopljen</string>
   <string name="shortcut_practice_gestures">Vadba uporabe potez</string>
   <string name="shortcut_report_gesture">Prijava težave s potezo</string>
-  <string name="shortcut_toggle_braille_display">Vklop ali izklop zaslona braille</string>
   <string name="shortcut_announce_current_time_and_date">Izgovorjava trenutnega datuma in ure</string>
   <string name="shortcut_announce_battery_state">Izgovarjanje odstotka napolnjenosti baterije</string>
   <string name="shortcut_announce_current_title">Izgovarjanje naslova okna</string>
@@ -506,8 +499,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="shortcut_speech_rate_decrease">Zmanjšanje hitrosti govora</string>
   <string name="shortcut_toggle_selection">Začetek ali končanje načina za izbiro</string>
   <string name="shortcut_show_tutorial">Odpiranje vadnice</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Preklop med skrčeno (2. stopnja) in neskrčeno braillovo pisavo (1. stopnja)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Prikaz ali skrivanje braillove tipkovnice na zaslonu pri povezanih zaslonih braille</string>
   <string name="shortcut_toggle_sound_feedback">Vklop/izklop zvočnih povratnih informacij (zvočnih ikon)</string>
   <string name="shortcut_show_learn_mode_page">Vaja uporabe bližnjičnih tipk</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izgovarjanje črk s fonetično izgovorjavo za element v fokusu</string>
@@ -548,7 +539,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="title_show_voice_commands">Glasovni ukazi</string>
   <string name="title_show_keyboard_shortcuts">Bližnjične tipke</string>
   <string name="talkback_show_talkback_settings">Nastavitve funkcije TalkBack</string>
-  <string name="title_show_braille_display_settings">Nastavitve zaslona braille</string>
   <string name="title_granularity_default">Privzeto pomikanje</string>
   <string name="title_action_dismiss">Opusti</string>
   <string name="title_action_expand">Razširi</string>
@@ -576,7 +566,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="summary_control_speak_time">Nastavite, ali naj bo ura izgovorjena, ko vklopite zaslon, ali ne.</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Odpiranje seznama bližnjičnih tipk</string>
   <string name="summary_talkback_preferences">Odpiranje nastavitev funkcije TalkBack</string>
-  <string name="summary_braile_display_preferences">Odpiranje nastavitev zaslona braille</string>
   <string name="summary_system_actions">Prikaz vseh aplikacij in hitrih nastavitev</string>
   <string name="summary_tts_settings">Odpiranje nastavitev pretvorbe besedila v govor</string>
   <string name="not_editable">Ni mogoče urejati</string>
@@ -917,7 +906,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="screen_search_keyword_hint">ključna beseda je %1$s</string>
   <string name="screen_search_no_keyword_hint">Še nobene ključne besede ni. Če želite začeti novo iskanje, se s tremi prsti dotaknite in pridržite zaslon ali pa v meniju funkcije TalkBack odprite pregled zaslona.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Še nobene ključne besede ni. Če želite začeti novo iskanje, povlecite levo in nato navzdol ali pa v meniju funkcije TalkBack odprite pregled zaslona.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braillova tipkovnica ni vklopljena. Pojdite v nastavitve za TalkBack, nastavite braillovo tipkovnico in poskusite znova.</string>
   <string name="suggestions_window_available">Na voljo so predlogi.</string>
   <string name="suggestions_window_available_with_gesture">Na voljo so predlogi. Do tega dostopate tako: %1$s</string>
   <string name="heads_up_window_available">Na voljo je obvestilo</string>
@@ -967,9 +955,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="new_gesture_notification_content">Če želite izvedeti, kako z novimi potezami hitreje uporabljati funkcijo TalkBack, se dotaknite.</string>
   <string name="dump_node_tree_description">Drevo vozlišč je bilo zabeleženo v dnevnike.</string>
   <string name="report_gesture_description">Tukaj so navedene nedavno izvedene poteze. Sporočite, katera poteza je napačna in kaj je bilo pričakovano.</string>
-  <string name="update_welcome_text_content">Zdaj se lahko povežete z zasloni braille prek vnosne naprave, kar je eden od načinov povezovanja z napravami Bluetooth. Poskrbite, da imate najnovejše proizvajalčeve gonilnike za vdelano programsko opremo, nato vklopite Bluetooth na zaslonu braille. Odprite nastavitve funkcije TalkBack &gt; »Zaslon braille« in vklopite »Uporaba zaslona braille«. Poiščite napravo na seznamu naprav in vzpostavite povezavo z njo.</string>
-  <string name="update_welcome_text_content_tts">Zdaj se lahko povežete z zasloni braille prek vnosne naprave, kar je eden od načinov povezovanja z napravami Bluetooth. Poskrbite, da imate najnovejše proizvajalčeve gonilnike za vdelano programsko opremo, nato vklopite Bluetooth na zaslonu braille. Odprite nastavitve funkcije TalkBack, nato »Zaslon braille« in vklopite »Uporaba zaslona braille«. Poiščite napravo na seznamu naprav in vzpostavite povezavo z njo.</string>
-  <string name="update_welcome_text_content_with_link">Preberite, kako uporabljate zaslon braille s funkcijo TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Ta posodobitev funkcije TalkBack prinaša podporo za funkcijo Opis vsebine zaslona v več jezikih in druge izboljšave kakovosti, ki olajšajo uporabo.\n\nNa naslednjih nekaj zaslonih boste izvedeli več o teh spremembah.\n\nTe informacije si lahko ogledate tudi pozneje v meniju »Nastavitve funkcije TalkBack« &gt; »Novosti funkcije TalkBack«.</string>
   <string name="update_welcome_talkback_16.1_tts">Ta posodobitev funkcije TalkBack prinaša podporo za funkcijo Opis vsebine zaslona v več jezikih in druge izboljšave kakovosti, ki olajšajo uporabo.\n\nNa naslednjih nekaj zaslonih boste izvedeli več o teh spremembah.\n\nTe informacije si lahko ogledate tudi pozneje v meniju »Nastavitve funkcije TalkBack« in nato »Novosti funkcije TalkBack«.</string>
   <string name="describe_screen_and_qna_title">Novi jeziki za funkciji Opis vsebine zaslona in Vprašajte Geminija</string>
@@ -985,10 +970,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="reduce_delay_title">Skrajšanje zakasnitve</string>
   <string name="reduce_delay_content">Zdaj lahko skrajšate zakasnitve obvestil funkcije TalkBack pri raziskovanju z dotikom in tipkanju. Če si želite ogledati te nastavitve, odprite meni »Nastavitve funkcije TalkBack« &gt; »Dodatne nastavitve« &gt; »Skrajšanje zakasnitve«.</string>
   <string name="reduce_delay_content_tts">Zdaj lahko skrajšate zakasnitve obvestil funkcije TalkBack pri raziskovanju z dotikom in tipkanju. Če si želite ogledati te nastavitve, odprite meni »Nastavitve funkcije TalkBack«, nato »Dodatne nastavitve« in nato »Skrajšanje zakasnitve«.</string>
-  <string name="customize_braille_keyboard_improvements_title">Prilagajanje potez za braillovo tipkovnico</string>
-  <string name="customize_braille_keyboard_improvements_content">Zdaj je mogoče prilagoditi poteze za navidezno zaslonsko braillovo tipkovnico. Če jih želite prilagoditi, odprite meni »Nastavitve funkcije TalkBack« &gt; »Braillova tipkovnica« &gt; »Poteze«.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Zdaj je mogoče prilagoditi poteze za navidezno zaslonsko braillovo tipkovnico. Če jih želite prilagoditi, odprite meni »Nastavitve funkcije TalkBack«, nato »Braillova tipkovnica« in nato »Poteze«.</string>
-  <string name="learn_more_about_braille_keyboard">Preberite več o braillovi tipkovnici</string>
   <string name="other_changes_title">Druge spremembe</string>
   <string name="other_changes_content">Sporočilo na zaslonu vam zdaj pomaga hitro izklopiti funkcijo TalkBack, če jo pomotoma vklopite. To sporočilo lahko izklopite v meniju »Nastavitve funkcije TalkBack« &gt; »Prikaz navodil za izklop funkcije TalkBack«.</string>
   <string name="other_changes_content_tts">Sporočilo na zaslonu vam zdaj pomaga hitro izklopiti funkcijo TalkBack, če jo pomotoma vklopite. To sporočilo lahko izklopite v meniju »Nastavitve funkcije TalkBack« in nato »Prikaz navodil za izklop funkcije TalkBack«.</string>
@@ -1021,7 +1002,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="keyboard_enhanced_keymap_text">V funkciji TalkBack je zdaj na voljo možnost »Izboljšana razporeditev tipk« za fizične tipkovnice, ki prinaša različne nove ukaze in bližnjice. Ta izboljšava vključuje »brskalni način« za učinkovitejše spletno krmarjenje, ki poenostavlja krmarjenje in interakcijo za uporabnike funkcije TalkBack, ki se zanašajo na fizične tipkovnice. Na možnost »Izboljšana razporeditev tipk« lahko preklopite v meniju %1$s.\n\nČe uporabljate zaslon braille, lahko uporabite tudi nove bližnjice brskalnega načina za premikanje po vsebini neposredno z zaslona braille. Nekatere bližnjice za zaslon braille so bile spremenjene za prilagoditev tej spremembi. Seznam vseh bližnjic za zaslon braille si lahko ogledate v meniju %2$s.</string>
   <string name="keyboard_shortcuts_link">»Nastavitve funkcije TalkBack« &gt; »Bližnjične tipke«</string>
   <string name="keyboard_shortcuts_link_tts">»Nastavitve funkcije TalkBack« in nato »Bližnjične tipke«</string>
-  <string name="braille_display_settings_link">Nastavitve zaslona braille</string>
   <string name="keyboard_smart_browse_mode_title">Tipkovnica: Pametni brskalni način</string>
   <string name="keyboard_smart_browse_mode_text">Pametni brskalni način funkcije TalkBack izklopi brskalni način v polju za urejanje, da vam pomaga tipkati s fizično tipkovnico med brskanjem po spletu. Ko v spletu preklopite na polje, ki ne omogoča urejanja, se nato znova vklopi brskalni način, da lahko učinkovito nadaljujete brskanje. »Pametni brskalni način« lahko vklopite ali izklopite v meniju %1$s.</string>
   <string name="advanced_settings_link">»Nastavitve funkcije TalkBack« &gt; »Dodatne nastavitve«</string>
@@ -1094,7 +1074,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="typing_text_title">Vnašanje besedila</string>
   <string name="basic_typing_text_text">Ko ste v besedilnem polju, se na dnu zaslona odpre tipkovnica.</string>
   <string name="typing_text_text">Prst premaknite po tipkovnici. Ko zaslišite črko, ki jo želite vnesti, dvignite prst.\n\nPoskusite aktivirati spodnje besedilno polje in vnesti svoje ime.</string>
-  <string name="typing_text_with_braille_keyboard_text">Besedilo lahko vnašate tudi z braillovo tipkovnico. Najdete jo v nastavitvah funkcije TalkBack.</string>
   <string name="other_ways_to_type_title">Drugi načini tipkanja</string>
   <string name="other_ways_to_type_text">V funkciji TalkBack lahko tipkate tudi na druge načine. Črko lahko na primer vnesete z dvakratnim dotikom.</string>
   <string name="basic_other_ways_to_type_text">V funkciji TalkBack lahko tipkate na druge načine. Črko lahko na primer vnesete z dvakratnim dotikom. To lahko pozneje spremenite v meniju »Nastavitve funkcije TalkBack« &gt; »Zaslonska tipkovnica« &gt; »Nastavitev tipkanja«.</string>
@@ -1209,26 +1188,6 @@ Nadzoruje, kako hitro funkcija TalkBack govori po premiku fokusa. S krajšo zaka
   <string name="talkback_inactive_message_practice_gestures">Če želite vaditi poteze, najprej vklopite funkcijo TalkBack</string>
   <string name="talkback_inactive_message_image_description">Če želite poskusiti pridobiti opise slik, najprej vklopite funkcijo TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Zapri vadnico</string>
-  <string name="wear_training_welcome_paragraph">Ko je funkcija TalkBack vklopljena, je element v fokusu na zaslonu izgovorjen na glas.\n\nČe povlečete desno, se pomaknete na naslednji element. Če povlečete levo, se pomaknete na prejšnji element.\n\nVlecite desno zdaj, dokler ne najdete gumba za naprej.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Z %1$d prstoma povlecite navzgor ali navzdol.</string>
-  <string name="wear_training_go_back_title">Pomik nazaj</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ko se želite pomakniti nazaj, z %1$d prstoma povlecite desno z roba zaslona.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uspešno</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Izvedli ste potezo za pomik nazaj</string>
-  <string name="wear_training_volume_up_title">Povečanje glasnosti</string>
-  <string name="wear_training_volume_up_text">Povlecite desno in nato navzgor.</string>
-  <string name="wear_training_volume_down_title">Zmanjšanje glasnosti</string>
-  <string name="wear_training_volume_down_text">Povlecite desno in nato navzdol.</string>
-  <string name="wear_training_open_talkback_menu_title">Odpiranje menija funkcije TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Če želite odpreti pogosto uporabne nastavitve in kontrolnike, povlecite navzdol in nato desno.</string>
-  <string name="wear_training_typing_title">Tipkanje</string>
-  <string name="wear_training_typing_text1">Če želite tipkati s tipkovnico, premaknite prst po tipkovnici. Ko zaslišite črko, ki jo želite vnesti, dvignite prst.</string>
-  <string name="wear_training_typing_text2">Če želite skriti tipkovnico in preveriti vnos, z dvema prstoma povlecite z vrha zaslona navzdol.</string>
-  <string name="wear_training_typing_text3">Če se želite vrniti na tipkovnico, z dvema prstoma povlecite z dna zaslona navzgor.</string>
-  <string name="wear_training_typing_text4">Če želite zapreti tipkovnico in preklicati tipkanje, z dvema prstoma povlecite desno z levega roba zaslona.</string>
-  <string name="wear_training_typing_text5">Preizkusite spodaj.</string>
-  <string name="wear_training_typing_practice_button_content_description">Tipkanje s tipkovnico</string>
-  <string name="wear_training_end_tutorial_title">Pripravljeni ste na začetek uporabe funkcije TalkBack</string>
   <string name="talkback_updated_notification_title">Funkcija TalkBack je bila posodobljena</string>
   <string name="talkback_updated_notification_content">Dotaknite se za več informacij.</string>
   <string name="wear_new_feature_page_title">Pozdravljeni v posodobljeni funkciji TalkBack</string>

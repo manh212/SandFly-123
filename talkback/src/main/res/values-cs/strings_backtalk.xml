@@ -57,10 +57,6 @@
     <string name="wrap_around_off">Přecházení přes okraj vypnuto</string>
 
     <!-- Braille keyboard tablet orientation. -->
-    <string name="title_selector_tablet_held_up_faces_away">Tablet držený svisle je otočen obrazovkou od vás</string>
-    <string name="summary_support_tablet_held_up_faces_away">Pro braillskou klávesnici na tabletu nebo rozloženém telefonu</string>
-    <string name="tablet_held_up_faces_away_on">Tablet držený svisle je otočen obrazovkou od vás: zapnuto</string>
-    <string name="tablet_held_up_faces_away_off">Tablet držený svisle je otočen obrazovkou od vás: vypnuto</string>
 
     <!-- Rotor gestures and step size. -->
     <string name="title_pref_shortcut_2finger_rotate_clockwise">Otočit 2 prsty po směru hodinových ručiček</string>
@@ -96,12 +92,6 @@
     <string name="value_audio_output_device_usb_device">USB zvukové zařízení</string>
 
     <!-- Individual braille keyboard vibrations. -->
-    <string name="individual_vibration_braille_character">Braillská klávesnice: napsání znaku</string>
-    <string name="individual_vibration_braille_space">Braillská klávesnice: mezera nebo mazání</string>
-    <string name="individual_vibration_braille_new_line">Braillská klávesnice: nový řádek nebo smazání slova</string>
-    <string name="individual_vibration_braille_hold">Braillská klávesnice: podržení prstů</string>
-    <string name="individual_vibration_braille_gesture">Braillská klávesnice: ostatní gesta</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Braillská klávesnice: není co smazat</string>
     <string name="pref_node_desc_order_entry_name_state_role_pos">Název, stav, typ</string>
     <string name="pref_node_desc_order_entry_role_state_name_pos">Typ, stav, název</string>
     <string name="pref_node_desc_order_entry_state_role_name_pos">Stav, typ, název</string>

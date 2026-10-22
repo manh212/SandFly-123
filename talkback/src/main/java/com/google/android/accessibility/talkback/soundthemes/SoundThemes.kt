@@ -18,7 +18,6 @@ package com.google.android.accessibility.talkback.soundthemes
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.media.AudioManager
 import android.media.MediaExtractor
 import android.media.MediaFormat
 import androidx.core.content.ContextCompat
@@ -70,20 +69,12 @@ class ThemeFeedback(
 ) {
   /**
    * The vibrations, with the ones whose switch is in [mutedVibrations] made empty, so that they
-   * play nothing rather than the vibration they replace. The braille keyboard's vibrations that
-   * are turned off are empty too, theme or not, as the keyboard plays its own vibrations only
-   * when the theme leaves them alone.
+   * play nothing rather than the vibration they replace.
    */
-  fun vibrationsPlaying(mutedVibrations: Set<String>): Map<String, IntArray> {
-    val playing =
-      vibrations.mapValues { (name, pattern) ->
-        if (SoundVibrations.switchOfPlayed(name) in mutedVibrations) IntArray(0) else pattern
-      }
-    val mutedKeyboard =
-      SoundVibrations.BRAILLE_KEYBOARD.filter { it in mutedVibrations && it !in playing }
-    return if (mutedKeyboard.isEmpty()) playing
-    else playing + mutedKeyboard.associateWith { IntArray(0) }
-  }
+  fun vibrationsPlaying(mutedVibrations: Set<String>): Map<String, IntArray> =
+    vibrations.mapValues { (name, pattern) ->
+      if (SoundVibrations.switchOfPlayed(name) in mutedVibrations) IntArray(0) else pattern
+    }
 
   /** The sound names whose sound can actually be heard (excluding "none"). */
   fun audibleSoundNames(): Set<String> =
@@ -144,37 +135,10 @@ object SoundThemes {
   /** Thrown when a file is not a sound theme, with a message for the person installing it. */
   class NotAThemeException(message: String) : Exception(message)
 
-  /**
-   * The braille keyboard's typing sounds, which are Android's keyboard sounds unless the theme
-   * replaces them, with the Android sound effect each replaces. They play only with the braille
-   * keyboard's typing sounds setting on.
-   */
-  @JvmField
-  val BRAILLE_TYPING_EFFECTS: Map<String, Int> =
-    linkedMapOf(
-      "braille_keyboard_character" to AudioManager.FX_KEYPRESS_STANDARD,
-      "braille_keyboard_space" to AudioManager.FX_KEYPRESS_SPACEBAR,
-      "braille_keyboard_delete" to AudioManager.FX_KEYPRESS_DELETE,
-      "braille_keyboard_new_line" to AudioManager.FX_KEYPRESS_RETURN,
-    )
-
-  private val BRAILLE_TYPING_SOUNDS =
-    listOf(
-      FeedbackItem("braille_keyboard_character", R.string.theme_sound_braille_character),
-      FeedbackItem("braille_keyboard_space", R.string.theme_sound_braille_space),
-      FeedbackItem("braille_keyboard_delete", R.string.theme_sound_braille_delete),
-      FeedbackItem("braille_keyboard_new_line", R.string.theme_sound_braille_new_line),
-    )
-
-  /** The braille keyboard's typing sounds among the theme's sound files by name. */
-  @JvmStatic
-  fun brailleTypingSounds(soundPaths: Map<String, String>): Map<String, String> =
-    soundPaths.filterKeys { it in BRAILLE_TYPING_EFFECTS }
-
   /** Every sound a theme can replace, in the order the settings show them. */
   @JvmStatic
   val SOUNDS: List<FeedbackItem>
-    get() = IndividualFeedbackSettings.SOUNDS + BRAILLE_TYPING_SOUNDS
+    get() = IndividualFeedbackSettings.SOUNDS
 
   val SOUND_KEYS: Set<String>
     get() = SOUNDS.map { it.key }.toSet()

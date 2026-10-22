@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Jelajahi dengan sentuhan</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Kontrol</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Umum</string>
   <string name="title_pref_category_advanced">Lanjutan</string>
   <string name="title_pref_category_others">Lainnya</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Kurangi penundaan</string>
   <string name="talkback_latency_reduction_summary">Setelan untuk mengurangi penundaan sebelum pengumuman TalkBack</string>
   <string name="summary_pref_intonation">Ucapkan huruf yang dihapus dengan suara bernada lebih tinggi</string>
-  <string name="title_pref_brailledisplay">Penampil braille</string>
-  <string name="title_pref_brailleime">Keyboard braille</string>
-  <string name="summary_pref_brailleime_disabled">Perangkat Anda tidak mendukung keyboard braille</string>
   <string name="title_pref_speech_footer">Anda dapat menyesuaikan beberapa setelan suara TalkBack dengan cepat dari layar mana pun.\n\nVolume aksesibilitas: Tahan 1 jari di layar dan tekan tombol naikkan volume atau turunkan volume.\nKecepatan bicara TalkBack: Geser ke atas atau bawah dengan 3 jari. Saat Anda mendengar \"kecepatan bicara\", geser ke atas atau bawah dengan 1 jari.</string>
   <string name="title_pref_vibration">Respons getar</string>
   <string name="title_pref_soundback">Respons suara</string>
@@ -486,8 +482,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="shortcut_increase_volume">Naikkan volume</string>
   <string name="shortcut_decrease_volume">Turunkan volume</string>
   <string name="shortcut_all_apps">Semua aplikasi</string>
-  <string name="shortcut_braille_keyboard">Ganti ke keyboard braille</string>
-  <string name="shortcut_braille_display_settings">Buka setelan penampil braille</string>
   <string name="shortcut_tutorial">Buka tutorial</string>
   <string name="shortcut_control_speak_time">Ucapkan waktu dan jangan ucapkan waktu</string>
   <string name="shortcut_enable_speak_time">Ucapkan waktu</string>
@@ -496,7 +490,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="speak_time_off">Ucapkan waktu nonaktif</string>
   <string name="shortcut_practice_gestures">Berlatih gestur</string>
   <string name="shortcut_report_gesture">Laporkan masalah gestur</string>
-  <string name="shortcut_toggle_braille_display">Aktifkan atau nonaktifkan penampil braille</string>
   <string name="shortcut_announce_current_time_and_date">Ucapkan tanggal dan waktu saat ini</string>
   <string name="shortcut_announce_battery_state">Ucapkan persentase baterai</string>
   <string name="shortcut_announce_current_title">Ucapkan judul jendela</string>
@@ -506,8 +499,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="shortcut_speech_rate_decrease">Kurangi kecepatan bicara</string>
   <string name="shortcut_toggle_selection">Memulai atau mengakhiri mode pemilihan</string>
   <string name="shortcut_show_tutorial">Buka tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Beralih antara singkat (tingkat 2) dan tidak singkat (tingkat 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Tampilkan atau sembunyikan braille di layar untuk penampil braille yang terhubung</string>
   <string name="shortcut_toggle_sound_feedback">Mengaktifkan atau menonaktifkan respons suara (earcon)</string>
   <string name="shortcut_show_learn_mode_page">Berlatih pintasan keyboard</string>
   <string name="shortcut_announce_phonetic_pronunciation">Ucapkan huruf dengan pengucapan fonetik untuk item yang difokuskan</string>
@@ -548,7 +539,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="title_show_voice_commands">Perintah suara</string>
   <string name="title_show_keyboard_shortcuts">Pintasan keyboard</string>
   <string name="talkback_show_talkback_settings">Setelan TalkBack</string>
-  <string name="title_show_braille_display_settings">Setelan penampil braille</string>
   <string name="title_granularity_default">Navigasi default</string>
   <string name="title_action_dismiss">Tutup</string>
   <string name="title_action_expand">Luaskan</string>
@@ -576,7 +566,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="summary_control_speak_time">Mengubah apakah waktu akan diucapkan secara lisan saat Anda mengaktifkan layar</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Buka daftar pintasan keyboard</string>
   <string name="summary_talkback_preferences">Buka setelan TalkBack</string>
-  <string name="summary_braile_display_preferences">Buka setelan penampil braille</string>
   <string name="summary_system_actions">Buka semua aplikasi dan Setelan Cepat</string>
   <string name="summary_tts_settings">Buka setelan text-to-speech</string>
   <string name="not_editable">Tidak dapat diedit</string>
@@ -917,7 +906,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="screen_search_keyword_hint">kata kuncinya adalah %1$s</string>
   <string name="screen_search_no_keyword_hint">Belum ada kata kunci. Untuk memulai penelusuran baru, sentuh lama dengan 3 jari atau buka fitur cari cepat dari menu TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Belum ada kata kunci. Untuk memulai penelusuran baru, geser ke kiri lalu ke bawah atau buka fitur cari cepat dari menu TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Keyboard Braille tidak diaktifkan. Buka setelan TalkBack, siapkan keyboard Braille, lalu coba lagi.</string>
   <string name="suggestions_window_available">Saran tersedia</string>
   <string name="suggestions_window_available_with_gesture">Saran tersedia. Untuk mengaksesnya, %1$s</string>
   <string name="heads_up_window_available">Notifikasi tersedia</string>
@@ -967,9 +955,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="new_gesture_notification_content">Ketuk untuk mempelajari cara menggunakan TalkBack lebih cepat dengan gestur baru.</string>
   <string name="dump_node_tree_description">Pohon node telah dicetak ke log.</string>
   <string name="report_gesture_description">Berikut adalah gestur yang baru-baru ini dilakukan. Laporkan mana gestur yang salah dan mana yang benar.</string>
-  <string name="update_welcome_text_content">Anda kini dapat terhubung ke penampil braille melalui HID, yaitu cara untuk terhubung ke perangkat Bluetooth. Pastikan Anda memiliki driver firmware terbaru dari produsen, lalu aktifkan Bluetooth di penampil braille. Buka setelan TalkBack &gt; Penampil braille, lalu aktifkan \"Gunakan penampil braille\". Temukan perangkat Anda di daftar perangkat, lalu hubungkan.</string>
-  <string name="update_welcome_text_content_tts">Anda kini dapat terhubung ke penampil braille melalui HID, yaitu cara untuk terhubung ke perangkat Bluetooth. Pastikan Anda memiliki driver firmware terbaru dari produsen, lalu aktifkan Bluetooth di penampil braille. Buka setelan TalkBack, lalu Penampil braille dan aktifkan \"Gunakan penampil braille\". Temukan perangkat Anda di daftar perangkat, lalu hubungkan.</string>
-  <string name="update_welcome_text_content_with_link">Pelajari cara menggunakan penampil braille dengan TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Update TalkBack ini memperkenalkan dukungan untuk fitur Deskripsikan layar dalam lebih banyak bahasa dan peningkatan kualitas lainnya yang mempermudah penggunaan TalkBack.\n\nAnda akan mempelajari lebih lanjut perubahan ini di beberapa layar berikutnya.\n\nAnda dapat meninjau informasi ini nanti di setelan TalkBack &gt; Fitur baru di TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Update TalkBack ini memperkenalkan dukungan untuk fitur Deskripsikan layar dalam lebih banyak bahasa dan peningkatan kualitas lainnya yang mempermudah penggunaan TalkBack.\n\nAnda akan mempelajari lebih lanjut perubahan ini di beberapa layar berikutnya.\n\nAnda dapat meninjau informasi ini nanti di setelan TalkBack, lalu Fitur baru di TalkBack.</string>
   <string name="describe_screen_and_qna_title">Bahasa baru untuk fitur Deskripsikan layar dan Minta Gemini</string>
@@ -985,10 +970,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="reduce_delay_title">Kurangi penundaan</string>
   <string name="reduce_delay_content">Anda kini dapat mengurangi penundaan pengumuman TalkBack untuk penjelajahan sentuh dan pengetikan. Untuk melihat setelan ini, buka setelan TalkBack &gt; Setelan lanjutan &gt; Kurangi penundaan.</string>
   <string name="reduce_delay_content_tts">Anda kini dapat mengurangi penundaan pengumuman TalkBack untuk penjelajahan sentuh dan pengetikan. Untuk melihat setelan ini, buka setelan TalkBack, lalu Setelan lanjutan, lalu Kurangi penundaan.</string>
-  <string name="customize_braille_keyboard_improvements_title">Sesuaikan gestur keyboard braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Anda kini dapat menyesuaikan gestur untuk keyboard braille virtual di layar. Untuk menyesuaikan, buka setelan TalkBack &gt; Keyboard Braille &gt; Gestur.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Anda kini dapat menyesuaikan gestur untuk keyboard braille virtual di layar. Untuk menyesuaikan, buka setelan TalkBack, lalu Keyboard Braille, lalu Gestur.</string>
-  <string name="learn_more_about_braille_keyboard">Pelajari lebih lanjut keyboard braille</string>
   <string name="other_changes_title">Perubahan lainnya</string>
   <string name="other_changes_content">Pesan di layar kini membantu Anda menonaktifkan TalkBack dengan cepat jika fitur ini tidak sengaja diaktifkan. Anda dapat menonaktifkannya di setelan TalkBack &gt; Tampilkan petunjuk untuk menonaktifkan TalkBack.</string>
   <string name="other_changes_content_tts">Pesan di layar kini membantu Anda menonaktifkan TalkBack dengan cepat jika fitur ini tidak sengaja diaktifkan. Anda dapat menonaktifkannya di setelan TalkBack, lalu Tampilkan petunjuk untuk menonaktifkan TalkBack.</string>
@@ -1021,7 +1002,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="keyboard_enhanced_keymap_text">TalkBack kini memiliki \"Peta tombol yang ditingkatkan\" untuk keyboard fisik, yang menampilkan berbagai perintah dan pintasan baru. Peningkatan ini mencakup \"mode penjelajahan\" untuk navigasi web yang lebih efisien, penyederhanaan navigasi dan interaksi bagi pengguna TalkBack yang mengandalkan keyboard fisik. Anda dapat beralih ke \"Peta tombol yang ditingkatkan\" di %1$s.\n\nJika Anda menggunakan penampil Braille, Anda juga dapat menggunakan pintasan mode penjelajahan baru untuk berpindah-pindah konten langsung dari penampil Braille. Beberapa pintasan penampil Braille diubah untuk mengakomodasi perubahan ini. Anda dapat melihat daftar semua pintasan penampil Braille di %2$s.</string>
   <string name="keyboard_shortcuts_link">Setelan TalkBack &gt; Pintasan keyboard</string>
   <string name="keyboard_shortcuts_link_tts">Setelan TalkBack, lalu Pintasan keyboard</string>
-  <string name="braille_display_settings_link">Setelan penampil braille</string>
   <string name="keyboard_smart_browse_mode_title">Keyboard: Mode penjelajahan cerdas</string>
   <string name="keyboard_smart_browse_mode_text">Mode penjelajahan cerdas TalkBack menonaktifkan mode penjelajahan di kolom edit untuk membantu Anda mengetik dengan keyboard fisik saat menjelajahi web. Kemudian, fitur ini akan diaktifkan kembali saat Anda beralih ke kolom non-edit di web sehingga Anda dapat terus menjelajah dengan efisien. Anda dapat mengaktifkan atau menonaktifkan \"Mode penjelajahan cerdas\" di %1$s.</string>
   <string name="advanced_settings_link">Setelan TalkBack &gt; Setelan lanjutan</string>
@@ -1094,7 +1074,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="typing_text_title">Mengetik teks</string>
   <string name="basic_typing_text_text">Saat Anda berada di kotak teks, keyboard akan terbuka di bagian bawah layar.</string>
   <string name="typing_text_text">Gerakkan jari Anda di keyboard. Jika mendengar huruf yang ingin diketik, angkat jari Anda.\n\nCoba aktifkan kotak teks di bawah ini, lalu ketik nama Anda.</string>
-  <string name="typing_text_with_braille_keyboard_text">Anda juga dapat mengetik dengan keyboard braille. Temukan di setelan TalkBack.</string>
   <string name="other_ways_to_type_title">Cara lain untuk mengetik</string>
   <string name="other_ways_to_type_text">Ada cara lain untuk mengetik di TalkBack. Misalnya, Anda dapat menggunakan ketuk dua kali untuk memasukkan huruf.</string>
   <string name="basic_other_ways_to_type_text">Ada cara lain untuk mengetik di TalkBack. Misalnya, Anda dapat menggunakan ketuk dua kali untuk memasukkan huruf. Anda dapat mengubahnya nanti di setelan TalkBack &gt; Keyboard virtual &gt; Preferensi pengetikan.</string>
@@ -1209,26 +1188,6 @@ Penundaan di bawah 0,3 detik akan mengubah gestur ketuk dua kali untuk mengaktif
   <string name="talkback_inactive_message_practice_gestures">Untuk melatih gestur, aktifkan TalkBack terlebih dahulu</string>
   <string name="talkback_inactive_message_image_description">Untuk mencoba mendapatkan deskripsi gambar, aktifkan TalkBack terlebih dahulu</string>
   <string name="talkback_inactive_close_tutorial_button">Tutup tutorial</string>
-  <string name="wear_training_welcome_paragraph">Jika TalkBack diaktifkan, item yang difokuskan di layar akan diucapkan secara lisan.\n\nMenggeser ke kanan akan memindahkan fokus ke item berikutnya. Menggeser ke kiri akan memindahkan fokus ke item sebelumnya.\n\nGeser ke kanan sekarang hingga Anda menemukan tombol berikutnya.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Geser ke atas atau bawah dengan %1$d jari.</string>
-  <string name="wear_training_go_back_title">Kembali</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Jika ingin kembali, gunakan %1$d jari untuk menggeser ke kanan dari tepi layar.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Berhasil</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gestur kembali dilakukan</string>
-  <string name="wear_training_volume_up_title">Menaikkan volume</string>
-  <string name="wear_training_volume_up_text">Geser ke kanan, lalu ke atas</string>
-  <string name="wear_training_volume_down_title">Menurunkan volume</string>
-  <string name="wear_training_volume_down_text">Geser ke kanan, lalu ke bawah</string>
-  <string name="wear_training_open_talkback_menu_title">Membuka menu TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Untuk membuka setelan dan kontrol yang mungkin sering digunakan, geser ke bawah lalu ke kanan</string>
-  <string name="wear_training_typing_title">Mengetik</string>
-  <string name="wear_training_typing_text1">Untuk mengetik dengan keyboard, gerakkan jari Anda di keyboard. Jika mendengar huruf yang ingin diketik, angkat jari Anda.</string>
-  <string name="wear_training_typing_text2">Untuk menyembunyikan keyboard dan memeriksa input Anda, geser layar dari atas ke bawah dengan 2 jari.</string>
-  <string name="wear_training_typing_text3">Untuk kembali ke keyboard, geser layar dari bawah ke atas dengan 2 jari.</string>
-  <string name="wear_training_typing_text4">Untuk menutup keyboard dan membatalkan pengetikan, geser layar dari tepi kiri ke kanan dengan 2 jari.</string>
-  <string name="wear_training_typing_text5">Coba di bawah.</string>
-  <string name="wear_training_typing_practice_button_content_description">Mengetik dengan keyboard</string>
-  <string name="wear_training_end_tutorial_title">Anda siap untuk mulai menggunakan TalkBack</string>
   <string name="talkback_updated_notification_title">TalkBack telah diupdate</string>
   <string name="talkback_updated_notification_content">Ketuk untuk mengetahui selengkapnya</string>
   <string name="wear_new_feature_page_title">Selamat datang di TalkBack yang telah diupdate</string>

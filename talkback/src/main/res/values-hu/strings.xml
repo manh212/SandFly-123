@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Felfedezés érintéssel</string>
   <string name="title_pref_category_visual">Vizuális</string>
   <string name="title_pref_category_controls">Vezérlők</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Általános</string>
   <string name="title_pref_category_advanced">Speciális</string>
   <string name="title_pref_category_others">Egyéb</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Késleltetés csökkentése</string>
   <string name="talkback_latency_reduction_summary">A TalkBack-közlemények előtti késleltetés csökkentésére szolgáló beállítások</string>
   <string name="summary_pref_intonation">A törölt betűk magasabb hangszínben történő kimondása</string>
-  <string name="title_pref_brailledisplay">Braille-kijelző</string>
-  <string name="title_pref_brailleime">Braille-billentyűzet</string>
-  <string name="summary_pref_brailleime_disabled">Eszköze nem támogatja a Braille-billentyűzetet</string>
   <string name="title_pref_speech_footer">Bármely képernyőn gyorsan módosíthatja a TalkBack néhány hangbeállítását.\n\nKisegítő lehetőségek hangereje: Tartsa lenyomva egy ujját a képernyőn, és nyomja meg a hangerő növelése vagy a hangerő csökkentése gombot.\nA TalkBack beszédsebessége: Csúsztasson gyorsan felfelé vagy lefelé három ujjal. Amikor meghallja a „beszédsebesség” kifejezést, csúsztasson gyorsan egy ujjal felfelé vagy lefelé.</string>
   <string name="title_pref_vibration">Visszajelzés rezgéssel</string>
   <string name="title_pref_soundback">Visszajelzés hanggal</string>
@@ -486,8 +482,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="shortcut_increase_volume">Hangerő növelése</string>
   <string name="shortcut_decrease_volume">Hangerő csökkentése</string>
   <string name="shortcut_all_apps">Az összes alkalmazás</string>
-  <string name="shortcut_braille_keyboard">Váltás Braille-billentyűzetre</string>
-  <string name="shortcut_braille_display_settings">Ugrás a Braille-kijelző beállításaihoz</string>
   <string name="shortcut_tutorial">Útmutató megnyitása</string>
   <string name="shortcut_control_speak_time">Az idő kimondásának be-/kikapcsolása</string>
   <string name="shortcut_enable_speak_time">Az idő kimondása</string>
@@ -496,7 +490,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="speak_time_off">Az idő kimondása ki van kapcsolva</string>
   <string name="shortcut_practice_gestures">Kézmozdulatok gyakorlása</string>
   <string name="shortcut_report_gesture">Kézmozdulatok – probléma bejelentése</string>
-  <string name="shortcut_toggle_braille_display">A Braille-kijelző be- vagy kikapcsolása</string>
   <string name="shortcut_announce_current_time_and_date">Az aktuális dátum és idő kimondása</string>
   <string name="shortcut_announce_battery_state">Az akkumulátor töltöttségi szintjének felolvasása</string>
   <string name="shortcut_announce_current_title">Ablakcím felolvasása</string>
@@ -506,8 +499,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="shortcut_speech_rate_decrease">Beszédsebesség csökkentése</string>
   <string name="shortcut_toggle_selection">Kijelölési mód elindítása vagy bezárása</string>
   <string name="shortcut_show_tutorial">Útmutató megnyitása</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Váltás a rövidített (2. fokozat) és a rövidítés nélküli írásmód (1. fokozat) között</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Képernyő-Braille mutatása vagy elrejtése csatlakoztatott Braille-kijelzőn</string>
   <string name="shortcut_toggle_sound_feedback">Hallható visszajelzések (hangjelzések) be- és kikapcsolása</string>
   <string name="shortcut_show_learn_mode_page">Billentyűparancsok gyakorlása</string>
   <string name="shortcut_announce_phonetic_pronunciation">Betűk kimondása a fókuszban lévő elem fonetikus kiejtésével</string>
@@ -548,7 +539,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="title_show_voice_commands">Hangalapú utasítások</string>
   <string name="title_show_keyboard_shortcuts">Billentyűparancsok</string>
   <string name="talkback_show_talkback_settings">A TalkBack beállításai</string>
-  <string name="title_show_braille_display_settings">A Braille-kijelző beállításai</string>
   <string name="title_granularity_default">Alapértelmezett navigáció</string>
   <string name="title_action_dismiss">Elvetés</string>
   <string name="title_action_expand">Kibontás</string>
@@ -576,7 +566,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="summary_control_speak_time">Módosíthatja, hogy a képernyő bekapcsolásakor hangosan kimondja-e a rendszer az időt</string>
   <string name="summary_show_keyboard_shortcuts_preferences">A billentyűparancsok listájának megnyitása</string>
   <string name="summary_talkback_preferences">A TalkBack beállításainak megnyitása</string>
-  <string name="summary_braile_display_preferences">A Braille-kijelző beállításainak megnyitása</string>
   <string name="summary_system_actions">Ugrás az összes alkalmazáshoz és a Gyorsbeállításokba</string>
   <string name="summary_tts_settings">Megnyitja a szövegfelolvasáshoz tartozó beállításokat</string>
   <string name="not_editable">Nem szerkeszthető</string>
@@ -917,7 +906,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="screen_search_keyword_hint">a kulcsszó: %1$s</string>
   <string name="screen_search_no_keyword_hint">Még nincs kulcsszó. Új keresés indításához koppintson három ujjal, és tartsa ujjait lenyomva, vagy nyissa meg a közvetlen keresést a TalkBack-menüből.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Még nincs kulcsszó. Új keresés indításához csúsztasson balra, majd lefelé, vagy nyissa meg a közvetlen keresést a TalkBack-menüből.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">A Braille-billentyűzet nincs bekapcsolva. A TalkBack beállításaiban állítsa be, majd próbálja újra.</string>
   <string name="suggestions_window_available">Javaslatok állnak rendelkezésre</string>
   <string name="suggestions_window_available_with_gesture">Javaslatok állnak rendelkezésre. A megtekintéshez: %1$s.</string>
   <string name="heads_up_window_available">Értesítés érkezett</string>
@@ -967,9 +955,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="new_gesture_notification_content">Koppintással további információhoz juthat arról, hogyan használhatja a TalkBacket gyorsabban az új kézmozdulatokkal.</string>
   <string name="dump_node_tree_description">A csomópont-hierarchia naplókba történő nyomtatása megtörtént.</string>
   <string name="report_gesture_description">Itt láthatja a nemrég végzett kézmozdulatokat. Kérjük, jelentse a problémás kézmozdulatokat, és számoljon be arról, mit várt tőlük.</string>
-  <string name="update_welcome_text_content">Mostantól csatlakozhat Braille-kijelzőkhöz HID-eszközön keresztül, amely a Bluetooth-eszközökhöz való csatlakozás egyik módja. Győződjön meg arról, hogy a gyártótól származó legújabb firmware-illesztőprogramot használja, majd kapcsolja be a Bluetootht a Braille-kijelzőn. Lépjen a TalkBack beállításai &gt; Braille-kijelző szakaszhoz, és kapcsolja be a „Braille-kijelző használata” beállítást. Keresse meg az eszközt az eszközök listájában, és csatlakozzon hozzá.</string>
-  <string name="update_welcome_text_content_tts">Mostantól csatlakozhat Braille-kijelzőkhöz HID-eszközön keresztül, amely a Bluetooth-eszközökhöz való csatlakozás egyik módja. Győződjön meg arról, hogy a gyártótól származó legújabb firmware-illesztőprogramot használja, majd kapcsolja be a Bluetootht a Braille-kijelzőn. Lépjen a TalkBack beállításaihoz, majd a Braille-kijelzőhöz, és kapcsolja be a „Braille-kijelző használata” beállítást. Keresse meg az eszközt az eszközök listájában, és csatlakozzon hozzá.</string>
-  <string name="update_welcome_text_content_with_link">További információ a Braille-kijelzőnek a TalkBack szolgáltatással való használatáról.</string>
   <string name="update_welcome_talkback_16.1">Ez a TalkBack-frissítés több nyelven támogatja a Képernyő leírása funkciót, valamint egyéb olyan minőségbeli javításokat tartalmaz, amelyek megkönnyítik a TalkBack használatát.\n\nA következő néhány képernyőn további információkat talál ezekről az újdonságokról.\n\nAz információkat később A TalkBack beállításai &gt; A TalkBack új funkciói pontban tekintheti át.</string>
   <string name="update_welcome_talkback_16.1_tts">Ez a TalkBack-frissítés több nyelven is támogatja a Képernyő leírása funkciót, valamint egyéb olyan minőségbeli javításokat tartalmaz, amelyek megkönnyítik a TalkBack használatát.\n\nA következő néhány képernyőn további információkat talál ezekről az újdonságokról.\n\nAz információkat később A TalkBack beállításai &gt; A TalkBack új funkciói pontban tekintheti át.</string>
   <string name="describe_screen_and_qna_title">Új nyelvek a Képernyő leírása és a Kérdezés a Geminitől funkciókhoz</string>
@@ -985,10 +970,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="reduce_delay_title">Késleltetés csökkentése</string>
   <string name="reduce_delay_content">Mostantól csökkentheti a TalkBack által az érintéses felfedezés és a gépelés során megjelenített közlemények késleltetését. Ezeket a beállításokat A TalkBack beállításai &gt; Speciális beállítások &gt; Késleltetés csökkentése pontban tekintheti meg.</string>
   <string name="reduce_delay_content_tts">Mostantól csökkentheti a TalkBack által az érintéses felfedezés és a gépelés során megjelenített közlemények késleltetését. Ezeket a beállításokat A TalkBack beállításai, majd a Speciális beállítások, majd a Késleltetés csökkentése pont megnyitásával tekintheti meg.</string>
-  <string name="customize_braille_keyboard_improvements_title">A Braille-billentyűzet kézmozdulatainak személyre szabása</string>
-  <string name="customize_braille_keyboard_improvements_content">Mostantól személyre szabhatja a virtuális, képernyőn megjelenő Braille-billentyűzet kézmozdulatait. A személyre szabáshoz lépjen A TalkBack beállításai &gt; Braille-billentyűzet &gt; Kézmozdulatok ponthoz.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Mostantól személyre szabhatja a virtuális, képernyőn megjelenő Braille-billentyűzet kézmozdulatait. A személyre szabáshoz lépjen A TalkBack beállításai, majd a Braille-billentyűzet, végül a Kézmozdulatok ponthoz.</string>
-  <string name="learn_more_about_braille_keyboard">További információ a Braille-billentyűzetről</string>
   <string name="other_changes_title">Egyéb változások</string>
   <string name="other_changes_content">A képernyőn megjelenő üzenet segít gyorsan kikapcsolni a véletlenül bekapcsolt TalkBack funkciót. A funkciót A TalkBack beállításai &gt; „Show instructions for turning off TalkBack” (Utasítások megjelenítése a TalkBack kikapcsolásához) pontban kapcsolhatja ki.</string>
   <string name="other_changes_content_tts">A képernyőn megjelenő üzenet segít gyorsan kikapcsolni a véletlenül bekapcsolt TalkBack funkciót. A funkciót A TalkBack beállításai, majd a „Show instructions for turning off TalkBack” (Utasítások megjelenítése a TalkBack kikapcsolásához) pontban kapcsolhatja ki.</string>
@@ -1021,7 +1002,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="keyboard_enhanced_keymap_text">A TalkBack mostantól „Továbbfejlesztett billentyűzetkiosztás” funkcióval rendelkezik a fizikai billentyűzetekhez, amely számos új parancsot és billentyűparancsot tartalmaz. Ez a fejlesztés tartalmazza a hatékonyabb webes navigációt szolgáló „böngészés módot”, egyszerűsítve a navigációt és az interakciókat a fizikai billentyűzetre támaszkodó TalkBack-felhasználók számára. A „Továbbfejlesztett billentyűzetkiosztás” itt kapcsolható be: %1$s.\n\nHa Braille-kijelzőt használ, a böngészés mód új billentyűparancsaival közvetlenül a Braille-kijelzőn navigálhat a tartalmak között. A módosítás miatt egyes Braille-kijelző-billentyűparancsok módosultak. A Braille-kijelző összes billentyűparancsának listáját itt találja: %2$s.</string>
   <string name="keyboard_shortcuts_link">A TalkBack beállításai &gt; Billentyűparancsok</string>
   <string name="keyboard_shortcuts_link_tts">A TalkBack beállításai, majd Billentyűparancsok</string>
-  <string name="braille_display_settings_link">A Braille-kijelző beállításai</string>
   <string name="keyboard_smart_browse_mode_title">Billentyűzet: Intelligens böngészés mód</string>
   <string name="keyboard_smart_browse_mode_text">A TalkBack intelligens böngészés módja kikapcsolja a böngészés módot a szerkesztőmezőkben, hogy segítsen a fizikai billentyűzettel való gépelésben az interneten való böngészéskor. Ezután újra bekapcsolja, amikor egy nem szerkeszthető mezőre ugrik, hogy hatékonyan folytathassa a böngészést. Az „Intelligens böngészés mód” a következő helyen kapcsolható be és ki: %1$s.</string>
   <string name="advanced_settings_link">A TalkBack beállításai &gt; Speciális beállítások</string>
@@ -1094,7 +1074,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="typing_text_title">Szöveg beírása</string>
   <string name="basic_typing_text_text">Szövegmezőben billentyűzet nyílik meg a képernyő alsó felén.</string>
   <string name="typing_text_text">Húzza az ujját a billentyűzeten. Amikor meghallja a beírni kívánt betűt, emelje fel az ujját.\n\nAktiválja az alábbi szövegmezőt, és írja be a nevét.</string>
-  <string name="typing_text_with_braille_keyboard_text">Braille-billentyűzetet is használhat a gépeléshez. Bekapcsolása a TalkBack beállításaiban lehetséges.</string>
   <string name="other_ways_to_type_title">A gépelés egyéb módjai</string>
   <string name="other_ways_to_type_text">A TalkBack funkcióban más módon is lehet gépelni. Például dupla koppintással adhat meg betűket.</string>
   <string name="basic_other_ways_to_type_text">A TalkBack funkcióban más módon is lehet gépelni. Például dupla koppintással adhat meg betűket. Ezt később a TalkBack beállításai &gt; Képernyő-billentyűzet &gt; Gépelési beállítások pontban módosíthatja.</string>
@@ -1209,26 +1188,6 @@ Beállíthatja, hogy a TalkBack meddig várjon a felolvasással a fókusz áthel
   <string name="talkback_inactive_message_practice_gestures">A kézmozdulatok gyakorlásához kapcsolja be a TalkBack funkciót</string>
   <string name="talkback_inactive_message_image_description">A képleírások kérésének kipróbálásához előbb kapcsolja be a TalkBack funkciót</string>
   <string name="talkback_inactive_close_tutorial_button">Útmutató bezárása</string>
-  <string name="wear_training_welcome_paragraph">Ha a TalkBack funkció be van kapcsolva, a rendszer hangosan felolvassa a képernyőn fókuszban lévő elemet.\n\nUjját gyorsan jobbra csúsztatva a következő elemre lép. Ujját gyorsan balra csúsztatva az előzőre ugrik.\n\nCsúsztassa ujját gyorsan jobbra, amíg meg nem találja a Tovább gombot.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Csúsztasson gyorsan %1$d ujjal felfelé vagy lefelé.</string>
-  <string name="wear_training_go_back_title">Vissza</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ha vissza szeretne lépni, csúsztasson %1$d ujjal jobbra a képernyő szélétől.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sikerült</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Visszalépés kézmozdulat végrehajtva</string>
-  <string name="wear_training_volume_up_title">Hangerő növelése</string>
-  <string name="wear_training_volume_up_text">Csúsztasson jobbra, majd fel.</string>
-  <string name="wear_training_volume_down_title">Hangerő csökkentése</string>
-  <string name="wear_training_volume_down_text">Csúsztasson jobbra, majd le.</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-menü megnyitása</string>
-  <string name="wear_training_open_talkback_menu_text">A gyakran használt beállítások és vezérlők megnyitásához csúsztassa ujját gyorsan lefelé, majd jobbra</string>
-  <string name="wear_training_typing_title">Gépelés</string>
-  <string name="wear_training_typing_text1">A billentyűzettel való gépeléshez húzza az ujját a billentyűzeten. Amikor meghallja a beírni kívánt betűt, emelje fel az ujját.</string>
-  <string name="wear_training_typing_text2">A billentyűzet elrejtéséhez és a bevitt szöveg ellenőrzéséhez csúsztasson lefelé két ujjal a képernyő tetejéről.</string>
-  <string name="wear_training_typing_text3">A billentyűzethez való visszatéréshez csúsztasson felfelé két ujjal a képernyő aljáról.</string>
-  <string name="wear_training_typing_text4">A billentyűzet bezárásához és a gépelés megszakításához csúsztasson jobbra két ujjal a képernyő bal széléről.</string>
-  <string name="wear_training_typing_text5">Próbálja ki alább.</string>
-  <string name="wear_training_typing_practice_button_content_description">Gépelés billentyűzettel</string>
-  <string name="wear_training_end_tutorial_title">Készen áll a TalkBack használatára</string>
   <string name="talkback_updated_notification_title">A TalkBack frissítve lett</string>
   <string name="talkback_updated_notification_content">Koppintson további információért</string>
   <string name="wear_new_feature_page_title">Üdvözli a frissített TalkBack!</string>

@@ -66,10 +66,6 @@
     <string name="theme_sound_summary_none">Cap so. Es reprodueix el so del focus.</string>
     <string name="theme_sound_summary_android_keyboard">So del teclat d\'Android</string>
     <string name="theme_sound_use_android_keyboard">Utilitza el so del teclat d\'Android</string>
-    <string name="theme_sound_braille_character">Teclat braille: escriure un caràcter</string>
-    <string name="theme_sound_braille_space">Teclat braille: espai</string>
-    <string name="theme_sound_braille_delete">Teclat braille: suprimir</string>
-    <string name="theme_sound_braille_new_line">Teclat braille: línia nova</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Tria un fitxer de so</string>
     <string name="theme_sound_preview">Previsualitza</string>

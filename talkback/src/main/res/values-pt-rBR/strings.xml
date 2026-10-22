@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Explorar por toque</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Controles</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Geral</string>
   <string name="title_pref_category_advanced">Avançado</string>
   <string name="title_pref_category_others">Outros</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Reduzir o atraso</string>
   <string name="talkback_latency_reduction_summary">Configurações para reduzir o atraso antes dos avisos do TalkBack</string>
   <string name="summary_pref_intonation">Fala letras excluídas em um tom de voz mais agudo</string>
-  <string name="title_pref_brailledisplay">Linha braille</string>
-  <string name="title_pref_brailleime">Teclado em braille</string>
-  <string name="summary_pref_brailleime_disabled">Incompatível com teclado em braille</string>
   <string name="title_pref_speech_footer">Você pode ajustar algumas configurações de som do TalkBack com rapidez em qualquer tela.\n\nVolume da acessibilidade: mantenha 1 dedo na tela e pressione a tecla de aumentar ou diminuir volume.\nVelocidade da fala do TalkBack: deslize para cima ou para baixo com 3 dedos. Quando ouvir \"velocidade da fala\", deslize para cima ou para baixo com 1 dedo.</string>
   <string name="title_pref_vibration">Feedback de vibração</string>
   <string name="title_pref_soundback">Feedback de som</string>
@@ -486,8 +482,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="shortcut_increase_volume">Aumentar volume</string>
   <string name="shortcut_decrease_volume">Diminuir volume</string>
   <string name="shortcut_all_apps">Todos os apps</string>
-  <string name="shortcut_braille_keyboard">Usar teclado em braille</string>
-  <string name="shortcut_braille_display_settings">Acessar configurações da linha braille</string>
   <string name="shortcut_tutorial">Abrir o tutorial</string>
   <string name="shortcut_control_speak_time">Falar o horário ou não</string>
   <string name="shortcut_enable_speak_time">Falar o horário</string>
@@ -496,7 +490,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="speak_time_off">\"Falar o horário\" desativado</string>
   <string name="shortcut_practice_gestures">Praticar gestos</string>
   <string name="shortcut_report_gesture">Informar um problema com os gestos</string>
-  <string name="shortcut_toggle_braille_display">Ativar ou desativar a linha braille</string>
   <string name="shortcut_announce_current_time_and_date">Falar a data e a hora atuais</string>
   <string name="shortcut_announce_battery_state">Falar a porcentagem da bateria</string>
   <string name="shortcut_announce_current_title">Ler o título da janela em voz alta</string>
@@ -506,8 +499,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="shortcut_speech_rate_decrease">Diminuir velocidade da fala</string>
   <string name="shortcut_toggle_selection">Iniciar ou encerrar o modo de seleção</string>
   <string name="shortcut_show_tutorial">Abrir tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Trocar entre braille abreviado (grau 2) e integral (grau 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Mostrar ou ocultar braille na tela para as linhas conectadas</string>
   <string name="shortcut_toggle_sound_feedback">Ativar ou desativar o feedback falado (ícones auditivos)</string>
   <string name="shortcut_show_learn_mode_page">Praticar atalhos do teclado</string>
   <string name="shortcut_announce_phonetic_pronunciation">Falar letras com pronúncia fonética para o item em foco</string>
@@ -548,7 +539,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="title_show_voice_commands">Comandos de voz</string>
   <string name="title_show_keyboard_shortcuts">Atalhos do teclado</string>
   <string name="talkback_show_talkback_settings">Configurações do TalkBack</string>
-  <string name="title_show_braille_display_settings">Configurações da linha braille</string>
   <string name="title_granularity_default">Navegação padrão</string>
   <string name="title_action_dismiss">Dispensar</string>
   <string name="title_action_expand">Expandir</string>
@@ -576,7 +566,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="summary_control_speak_time">Muda se o horário é falado em voz alta ao ligar a tela</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Abrir a lista de atalhos do teclado</string>
   <string name="summary_talkback_preferences">Abrir as configurações do TalkBack</string>
-  <string name="summary_braile_display_preferences">Abrir as configurações da linha braille</string>
   <string name="summary_system_actions">Acessar todos os apps e as Configurações Rápidas</string>
   <string name="summary_tts_settings">Abrir configurações de conversão de texto em voz</string>
   <string name="not_editable">Não editável</string>
@@ -917,7 +906,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="screen_search_keyword_hint">a palavra-chave é %1$s</string>
   <string name="screen_search_no_keyword_hint">Ainda não há palavra-chave. Para iniciar uma nova pesquisa, toque na tela e mantenha pressionada com 3 dedos ou abra a Pesquisa direta no menu do TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ainda não há palavra-chave. Para iniciar uma nova pesquisa, deslize da esquerda para a direita e depois para baixo ou abra a Pesquisa direta no menu do TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Teclado em braille desativado. Acesse as config. do TalkBack, configure o teclado e tente novamente.</string>
   <string name="suggestions_window_available">Sugestões disponíveis</string>
   <string name="suggestions_window_available_with_gesture">Sugestões disponíveis. Para acessar, %1$s</string>
   <string name="heads_up_window_available">Notificação disponível</string>
@@ -967,9 +955,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="new_gesture_notification_content">Toque para saber mais sobre como usar o TalkBack com mais velocidade usando novos gestos.</string>
   <string name="dump_node_tree_description">A árvore de nós foi impressa nos registros.</string>
   <string name="report_gesture_description">Veja os gestos realizados recentemente. Informe quais estão errados e qual é a ação esperada.</string>
-  <string name="update_welcome_text_content">Agora é possível se conectar a linhas braille via HID, um método de conexão com dispositivos Bluetooth. Instale os drivers de firmware mais recentes do fabricante e ative o Bluetooth na linha braille. Acesse as configurações do TalkBack &gt; Linha braille e ative a opção \"Usar linha braille\". Encontre seu dispositivo na lista e se conecte a ele.</string>
-  <string name="update_welcome_text_content_tts">Agora é possível se conectar a linhas braille via HID, um método de conexão com dispositivos Bluetooth. Instale os drivers de firmware mais recentes do fabricante e ative o Bluetooth na linha braille. Acesse as configurações do TalkBack, toque em \"Linha braille\" e ative a opção \"Usar linha braille\". Encontre seu dispositivo na lista e se conecte a ele.</string>
-  <string name="update_welcome_text_content_with_link">Aprenda a usar a linha braille com o TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Esta atualização do TalkBack permite usar o recurso Descrever a Tela em mais idiomas, além de ter outras melhorias de qualidade que facilitam o uso.\n\nSaiba mais sobre essas mudanças nas próximas telas.\n\nSe preferir, confira essas informações mais tarde acessando Configurações do TalkBack &gt; Novos recursos no TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Esta atualização do TalkBack permite usar o recurso Descrever a Tela em mais idiomas, além de ter outras melhorias de qualidade que facilitam o uso.\n\nSaiba mais sobre essas mudanças nas próximas telas.\n\nSe preferir, confira essas informações mais tarde acessando \"Configurações do TalkBack\" e, depois, \"Novos recursos no TalkBack\".</string>
   <string name="describe_screen_and_qna_title">Novos idiomas para os recursos Descrever a Tela e Peça ao Gemini</string>
@@ -985,10 +970,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="reduce_delay_title">Reduzir o atraso</string>
   <string name="reduce_delay_content">Agora é possível reduzir os atrasos nos avisos do TalkBack para exploração por toque e digitação. Para fazer isso, acesse Configurações do TalkBack &gt; Configurações avançadas &gt; Reduzir o atraso.</string>
   <string name="reduce_delay_content_tts">Agora é possível reduzir os atrasos nos avisos do TalkBack para exploração por toque e digitação. Para fazer isso, acesse as configurações do TalkBack. Depois, selecione \"Configurações avançadas\" e \"Reduzir o atraso\".</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalizar gestos do teclado em braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Agora é possível personalizar gestos para o teclado em braille virtual na tela. Para fazer isso, acesse Configurações do TalkBack &gt; Teclado em braille &gt; Gestos.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Agora é possível personalizar gestos para o teclado em braille virtual na tela. Para fazer isso, acesse as configurações do TalkBack. Depois, selecione \"Teclado em braille\" e \"Gestos\".</string>
-  <string name="learn_more_about_braille_keyboard">Saiba mais sobre o teclado em braille</string>
   <string name="other_changes_title">Outras mudanças</string>
   <string name="other_changes_content">Uma mensagem na tela agora ajuda você a desativar o TalkBack rapidamente caso ele seja ativado por engano. É possível fazer isso em Configurações do TalkBack &gt; Mostrar instruções para desativar o TalkBack.</string>
   <string name="other_changes_content_tts">Uma mensagem na tela agora ajuda você a desativar o TalkBack rapidamente caso ele seja ativado por engano. Para fazer isso, nas configurações do TalkBack, selecione \"Mostrar instruções para desativar o TalkBack\".</string>
@@ -1021,7 +1002,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="keyboard_enhanced_keymap_text">O TalkBack agora tem um Mapa de Teclado Avançado para teclados físicos, com vários comandos e atalhos novos. Essa melhoria inclui um modo de navegação para facilitar a experiência na web e a interação de usuários do TalkBack que usam teclados físicos. Você pode mudar para o Mapa de Teclado Avançado em %1$s.\n\nSe você usa uma linha braille, também pode usar novos atalhos do modo de navegação para acessar o conteúdo direto pela linha braille. Alguns atalhos da linha braille foram alterados para acomodar essa mudança. Você pode ver uma lista de todos os atalhos da linha braille em %2$s.</string>
   <string name="keyboard_shortcuts_link">Configurações do TalkBack &gt; Atalhos do teclado</string>
   <string name="keyboard_shortcuts_link_tts">Configurações do TalkBack e, depois, Atalhos do teclado</string>
-  <string name="braille_display_settings_link">Configurações da linha braille</string>
   <string name="keyboard_smart_browse_mode_title">Teclado: Modo de Navegação Inteligente</string>
   <string name="keyboard_smart_browse_mode_text">Esse recurso do TalkBack desativa o modo de navegação em campos de edição para que você possa digitar com mais facilidade usando um teclado físico ao navegar na web. Ele é reativado quando você pula para um campo na web que não é de edição para uma navegação mais eficiente. Você pode ativar ou desativar o Modo de Navegação Inteligente em %1$s.</string>
   <string name="advanced_settings_link">Configurações do TalkBack &gt; Configurações avançadas</string>
@@ -1094,7 +1074,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="typing_text_title">Como digitar texto</string>
   <string name="basic_typing_text_text">Quando você selecionar uma caixa de texto, um teclado vai aparecer na parte de baixo da tela.</string>
   <string name="typing_text_text">Mova o dedo pelo teclado. Quando ouvir a letra que você quer digitar, levante o dedo.\n\nTente ativar a caixa de texto abaixo e digitar seu nome.</string>
-  <string name="typing_text_with_braille_keyboard_text">Também é possível digitar com o teclado em braille. Ele pode ser encontrado nas configurações do TalkBack.</string>
   <string name="other_ways_to_type_title">Outras maneiras de digitar</string>
   <string name="other_ways_to_type_text">Há outras maneiras de digitar no TalkBack. Por exemplo, tocando duas vezes para inserir uma letra.</string>
   <string name="basic_other_ways_to_type_text">Há outras maneiras de digitar no TalkBack. Por exemplo, tocando duas vezes para inserir uma letra. Você pode mudar isso mais tarde em Configurações do TalkBack &gt; Teclado na tela &gt; Preferência de digitação.</string>
@@ -1209,26 +1188,6 @@ Atrasos de menos de 0,3 segundos vão mudar de dois toques para toque com dois d
   <string name="talkback_inactive_message_practice_gestures">Para praticar gestos, ative o TalkBack</string>
   <string name="talkback_inactive_message_image_description">Para ouvir descrições de imagens, ative o TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Fechar tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quando o TalkBack está ativado, o item em foco na tela é lido em voz alta.\n\nO gesto de deslizar para a direita leva ao item seguinte. O gesto de deslizar para esquerda leva ao item anterior.\n\nDeslize para a direita até encontrar o próximo botão.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Deslize para cima ou para baixo com %1$d dedos.</string>
-  <string name="wear_training_go_back_title">Voltar</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Se quiser voltar, deslize com %1$d dedos da borda da tela para a direita.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Concluído</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gesto \"Voltar\" realizado</string>
-  <string name="wear_training_volume_up_title">Aumentar o volume</string>
-  <string name="wear_training_volume_up_text">Deslize para a direita e depois para cima</string>
-  <string name="wear_training_volume_down_title">Diminuir o volume</string>
-  <string name="wear_training_volume_down_text">Deslize para a direita e depois para baixo</string>
-  <string name="wear_training_open_talkback_menu_title">Abrir o menu do TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Para abrir as configurações e os controles mais usados, deslize para baixo e depois para a direita</string>
-  <string name="wear_training_typing_title">Digitar</string>
-  <string name="wear_training_typing_text1">Para digitar com o teclado, mova o dedo pela tela. Quando ouvir a letra que você quer digitar, levante o dedo.</string>
-  <string name="wear_training_typing_text2">Para ocultar o teclado e conferir a entrada, deslize de cima para baixo na tela com 2 dedos.</string>
-  <string name="wear_training_typing_text3">Para voltar ao teclado, deslize de baixo para cima com 2 dedos.</string>
-  <string name="wear_training_typing_text4">Para fechar o teclado e cancelar a digitação, deslize da borda esquerda da tela para a direita com 2 dedos.</string>
-  <string name="wear_training_typing_text5">Teste abaixo.</string>
-  <string name="wear_training_typing_practice_button_content_description">Digitar com o teclado</string>
-  <string name="wear_training_end_tutorial_title">Você já pode começar a usar o TalkBack</string>
   <string name="talkback_updated_notification_title">O TalkBack foi atualizado</string>
   <string name="talkback_updated_notification_content">Toque para saber mais</string>
   <string name="wear_new_feature_page_title">Conheça as atualizações do TalkBack</string>

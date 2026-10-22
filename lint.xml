@@ -9,7 +9,6 @@
         <ignore regexp="title_pref_mute_speech_while_recording" />
         <ignore regexp="summary_pref_mute_speech_while_recording" />
         <ignore regexp="title_pref_category_feedback" />
-        <ignore regexp="title_pref_category_typing_and_braille" />
         <ignore regexp="title_pref_category_more" />
         <ignore regexp="title_pref_emoji_speech" />
         <ignore regexp="emoji_speech_engine" />

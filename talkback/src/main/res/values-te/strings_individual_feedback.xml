@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">బ్రౌజ్ మోడ్ ఆన్</string>
   <string name="individual_sound_browse_mode_off">బ్రౌజ్ మోడ్ ఆఫ్</string>
   <string name="individual_sound_radial_menu">వృత్తాకార మెనూ</string>
-  <string name="individual_sound_display_connected">బ్రెయిలీ డిస్‌ప్లే కనెక్ట్ అయింది</string>
-  <string name="individual_sound_display_disconnected">బ్రెయిలీ డిస్‌ప్లే డిస్‌కనెక్ట్ అయింది</string>
-  <string name="individual_sound_double_beep">బ్రెయిలీ కమాండ్ విఫలమైంది</string>
-  <string name="individual_sound_turn_on">బ్రెయిలీ ఆటో స్క్రోల్ ఆన్</string>
-  <string name="individual_sound_turn_off">బ్రెయిలీ ఆటో స్క్రోల్ ఆఫ్</string>
-  <string name="individual_sound_calibration_done">బ్రెయిలీ కీబోర్డ్ కాలిబ్రేట్ చేయబడింది</string>
   <string name="individual_vibration_focus">ఐటెమ్‌పై ఫోకస్</string>
   <string name="individual_vibration_focus_actionable">చర్య తీసుకోగల ఐటెమ్‌పై ఫోకస్</string>
   <string name="individual_vibration_clicked">క్లిక్</string>

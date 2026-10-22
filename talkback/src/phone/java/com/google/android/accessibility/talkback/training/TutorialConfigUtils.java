@@ -518,8 +518,7 @@ final class TutorialConfigUtils {
               .addEditTextWithHint(R.string.enter_text_here)
               .addHeading(R.string.other_ways_to_type_title)
               .addText(R.string.other_ways_to_type_text)
-              .addButton(R.string.change_typing_preference_text, OPEN_TYPING_PREFERENCE_PAGE)
-              .addText(R.string.typing_text_with_braille_keyboard_text);
+              .addButton(R.string.change_typing_preference_text, OPEN_TYPING_PREFERENCE_PAGE);
       case PAGE_ID_BASIC_TYPING_TEXT ->
           PageConfig.builder(PAGE_ID_BASIC_TYPING_TEXT, R.string.typing_text_title)
               .addText(R.string.basic_typing_text_text)

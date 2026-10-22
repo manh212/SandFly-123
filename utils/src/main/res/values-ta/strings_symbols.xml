@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">முழு அகல \'இதைவிடக் குறைவானது\' குறி</string>
   <string name="symbol_full_width_greater_than_sign">முழு அகல \'இதைவிட அதிகமானது\' குறி</string>
   <string name="symbol_left_single_quotation_mark">இடது ஒற்றை மேற்கோள் குறி</string>
-  <string name="symbol_braille">பிரெய்ல் %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s புள்ளி</item>
-    <item quantity="other">%s புள்ளிகள்</item>
-  </plurals>
 </resources>

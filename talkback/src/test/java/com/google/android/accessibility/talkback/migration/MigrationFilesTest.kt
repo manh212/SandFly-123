@@ -30,8 +30,8 @@ class MigrationFilesTest {
       MigrationFiles.parse("shared_prefs/com.android.talkback_preferences.xml"),
     )
     assertEquals(
-      "shared_prefs" to "braille_keyboard.xml",
-      MigrationFiles.parse("shared_prefs/braille_keyboard.xml"),
+      "shared_prefs" to "extra_settings.xml",
+      MigrationFiles.parse("shared_prefs/extra_settings.xml"),
     )
   }
 
@@ -85,8 +85,8 @@ class MigrationFilesTest {
   @Test
   fun otherPreferenceFilesKeepTheirNames() {
     assertEquals(
-      "braille_keyboard.xml",
-      MigrationFiles.importedPrefsName("braille_keyboard.xml", "old", "new"),
+      "extra_settings.xml",
+      MigrationFiles.importedPrefsName("extra_settings.xml", "old", "new"),
     )
   }
 

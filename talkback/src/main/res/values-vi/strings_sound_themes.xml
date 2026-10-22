@@ -66,10 +66,6 @@
     <string name="theme_sound_summary_none">Không có âm thanh. Âm thanh tiêu điểm sẽ phát.</string>
     <string name="theme_sound_summary_android_keyboard">Âm thanh bàn phím của Android</string>
     <string name="theme_sound_use_android_keyboard">Dùng âm thanh bàn phím của Android</string>
-    <string name="theme_sound_braille_character">Bàn phím chữ nổi: nhập một ký tự</string>
-    <string name="theme_sound_braille_space">Bàn phím chữ nổi: dấu cách</string>
-    <string name="theme_sound_braille_delete">Bàn phím chữ nổi: xoá</string>
-    <string name="theme_sound_braille_new_line">Bàn phím chữ nổi: dòng mới</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Chọn một tệp âm thanh</string>
     <string name="theme_sound_preview">Nghe thử</string>

@@ -113,13 +113,9 @@
     <!-- Theme sounds: choice that goes back to Android's keyboard sound for a braille keyboard typing sound. [CHAR LIMIT=50] -->
     <string name="theme_sound_use_android_keyboard">使用 Android 的键盘音</string>
     <!-- Theme sounds: typing sound of the braille keyboard when a character is typed. [CHAR LIMIT=60] -->
-    <string name="theme_sound_braille_character">盲文键盘：输入字符</string>
     <!-- Theme sounds: typing sound of the braille keyboard when a space is typed. [CHAR LIMIT=60] -->
-    <string name="theme_sound_braille_space">盲文键盘：空格</string>
     <!-- Theme sounds: typing sound of the braille keyboard when deleting. [CHAR LIMIT=60] -->
-    <string name="theme_sound_braille_delete">盲文键盘：删除</string>
     <!-- Theme sounds: typing sound of the braille keyboard when a new line is typed. [CHAR LIMIT=60] -->
-    <string name="theme_sound_braille_new_line">盲文键盘：换行</string>
     <!-- Theme sounds: title of the choices for one sound, with the name its file has in a theme, such as "Click (tick)". [CHAR LIMIT=NONE] -->
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g>（<xliff:g id="name" example="tick">%2$s</xliff:g>）</string>
     <!-- Theme sounds: choice that opens the file picker to choose a sound file. [CHAR LIMIT=50] -->

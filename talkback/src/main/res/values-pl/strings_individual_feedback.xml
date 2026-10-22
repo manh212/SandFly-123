@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Tryb przeglądania włączony</string>
   <string name="individual_sound_browse_mode_off">Tryb przeglądania wyłączony</string>
   <string name="individual_sound_radial_menu">Menu kołowe</string>
-  <string name="individual_sound_display_connected">Monitor brajlowski połączony</string>
-  <string name="individual_sound_display_disconnected">Monitor brajlowski odłączony</string>
-  <string name="individual_sound_double_beep">Polecenie brajlowskie nie powiodło się</string>
-  <string name="individual_sound_turn_on">Automatyczne przewijanie brajla włączone</string>
-  <string name="individual_sound_turn_off">Automatyczne przewijanie brajla wyłączone</string>
-  <string name="individual_sound_calibration_done">Klawiatura brajlowska skalibrowana</string>
   <string name="individual_vibration_focus">Zaznaczenie elementu</string>
   <string name="individual_vibration_focus_actionable">Zaznaczenie elementu z dostępną czynnością</string>
   <string name="individual_vibration_clicked">Kliknięcie</string>

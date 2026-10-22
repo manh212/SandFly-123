@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Режимот за прелистување е вклучен</string>
   <string name="individual_sound_browse_mode_off">Режимот за прелистување е исклучен</string>
   <string name="individual_sound_radial_menu">Кружно мени</string>
-  <string name="individual_sound_display_connected">Брајовиот екран е поврзан</string>
-  <string name="individual_sound_display_disconnected">Брајовиот екран е исклучен</string>
-  <string name="individual_sound_double_beep">Брајовата команда не успеа</string>
-  <string name="individual_sound_turn_on">Автоматското лизгање на Брајово писмо е вклучено</string>
-  <string name="individual_sound_turn_off">Автоматското лизгање на Брајово писмо е исклучено</string>
-  <string name="individual_sound_calibration_done">Брајовата тастатура е калибрирана</string>
   <string name="individual_vibration_focus">Фокус на ставка</string>
   <string name="individual_vibration_focus_actionable">Фокус на ставка што може да се активира</string>
   <string name="individual_vibration_clicked">Клик</string>

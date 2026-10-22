@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">No sound. The focus sound plays.</string>
     <string name="theme_sound_summary_android_keyboard">Android\'s keyboard sound</string>
     <string name="theme_sound_use_android_keyboard">Use Android\'s keyboard sound</string>
-    <string name="theme_sound_braille_character">Braille keyboard: typing a character</string>
-    <string name="theme_sound_braille_space">Braille keyboard: space</string>
-    <string name="theme_sound_braille_delete">Braille keyboard: delete</string>
-    <string name="theme_sound_braille_new_line">Braille keyboard: new line</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Choose a sound file</string>
     <string name="theme_sound_preview">Preview</string>

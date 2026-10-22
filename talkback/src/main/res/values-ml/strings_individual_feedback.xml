@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ബ്രൗസ് മോഡ് ഓൺ</string>
   <string name="individual_sound_browse_mode_off">ബ്രൗസ് മോഡ് ഓഫ്</string>
   <string name="individual_sound_radial_menu">വൃത്താകൃതിയിലുള്ള മെനു</string>
-  <string name="individual_sound_display_connected">ബ്രെയിൽ ഡിസ്‌പ്ലേ കണക്റ്റ് ചെയ്തു</string>
-  <string name="individual_sound_display_disconnected">ബ്രെയിൽ ഡിസ്‌പ്ലേ വിച്ഛേദിച്ചു</string>
-  <string name="individual_sound_double_beep">ബ്രെയിൽ കമാൻഡ് പരാജയപ്പെട്ടു</string>
-  <string name="individual_sound_turn_on">ബ്രെയിൽ സ്വയമേവ സ്ക്രോൾ ഓൺ</string>
-  <string name="individual_sound_turn_off">ബ്രെയിൽ സ്വയമേവ സ്ക്രോൾ ഓഫ്</string>
-  <string name="individual_sound_calibration_done">ബ്രെയിൽ കീബോർഡ് കാലിബ്രേറ്റ് ചെയ്തു</string>
   <string name="individual_vibration_focus">ഇനത്തിൽ ഫോക്കസ്</string>
   <string name="individual_vibration_focus_actionable">പ്രവർത്തിപ്പിക്കാവുന്ന ഇനത്തിൽ ഫോക്കസ്</string>
   <string name="individual_vibration_clicked">ക്ലിക്ക്</string>

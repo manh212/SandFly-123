@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Arakatu sakatuta</string>
   <string name="title_pref_category_visual">Ikusizkoak</string>
   <string name="title_pref_category_controls">Kontrolatzeko aukerak</string>
-  <string name="title_pref_category_braille">Braillea</string>
   <string name="title_pref_category_general">Orokorrak</string>
   <string name="title_pref_category_advanced">Aurreratua</string>
   <string name="title_pref_category_others">Beste batzuk</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Murriztu atzerapena</string>
   <string name="talkback_latency_reduction_summary">Egin SandFly-ek bizkorrago erantzutea pantaila ukitu ondoren</string>
   <string name="summary_pref_intonation">Irakurri ozen ezabatutako hizkiak ahots-tonu altuago bat erabilita</string>
-  <string name="title_pref_brailledisplay">Braille-pantaila</string>
-  <string name="title_pref_brailleime">Braille-teklatua</string>
-  <string name="summary_pref_brailleime_disabled">Ez da onartzen braille-teklatua</string>
   <string name="title_pref_speech_footer">Erabilerraztasun-eginbideen bolumena edozein pantailatatik aldatzeko, eduki hatz bat pantailan sakatuta eta sakatu bolumena igotzeko edo jaisteko botoia.</string>
   <string name="title_pref_vibration">Dardara bidezko erantzunak</string>
   <string name="title_pref_soundback">Soinu bidezko erantzunak</string>
@@ -486,8 +482,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="shortcut_increase_volume">Igo bolumena</string>
   <string name="shortcut_decrease_volume">Jaitsi bolumena</string>
   <string name="shortcut_all_apps">Aplikazio guztiak</string>
-  <string name="shortcut_braille_keyboard">Erabili braille-teklatua</string>
-  <string name="shortcut_braille_display_settings">Joan braille-pantailaren ezarpenetara</string>
   <string name="shortcut_tutorial">Ireki tutoriala</string>
   <string name="shortcut_control_speak_time">Irakurri ordua ozen edo ez irakurri ordua ozen</string>
   <string name="shortcut_enable_speak_time">Irakurri ordua ozen</string>
@@ -496,7 +490,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="speak_time_off">Ordua ozen irakurtzeko aukera desaktibatuta dago</string>
   <string name="shortcut_practice_gestures">Praktikatu keinuak</string>
   <string name="shortcut_report_gesture">Eman keinuei buruzko arazo baten berri</string>
-  <string name="shortcut_toggle_braille_display">Aktibatu edo desaktibatu braille-pantaila</string>
   <string name="shortcut_announce_current_time_and_date">Esan oraingo data eta ordua ozen</string>
   <string name="shortcut_announce_battery_state">Irakurri bateriaren ehunekoa ozen</string>
   <string name="shortcut_announce_current_title">Irakurri leihoaren izena ozen</string>
@@ -506,8 +499,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="shortcut_speech_rate_decrease">Moteldu hizketa</string>
   <string name="shortcut_toggle_selection">Hasi edo amaitu hautapen-modua</string>
   <string name="shortcut_show_tutorial">Ireki tutoriala</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Aldatu modu laburtutik (2. maila) laburtu gabeko modura (1. maila)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Erakutsi edo ezkutatu braille-teklatua konektatutako braille-pantailetan</string>
   <string name="shortcut_toggle_sound_feedback">Aktibatu/Desaktibatu soinu bidezko erantzunak (soinu adierazgarriak)</string>
   <string name="shortcut_show_learn_mode_page">Praktikatu lasterbideak</string>
   <string name="shortcut_announce_phonetic_pronunciation">Irakurri ozen fokuratutako elementuaren hizkiak ahoskera fonetikoarekin</string>
@@ -548,7 +539,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="title_show_voice_commands">Ahozko aginduak</string>
   <string name="title_show_keyboard_shortcuts">Lasterbideak</string>
   <string name="talkback_show_talkback_settings">SandFly-en ezarpenak</string>
-  <string name="title_show_braille_display_settings">Braille-pantailaren ezarpenak</string>
   <string name="title_granularity_default">Nabigazio lehenetsia</string>
   <string name="title_action_dismiss">Baztertu</string>
   <string name="title_action_expand">Zabaldu</string>
@@ -576,7 +566,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="summary_control_speak_time">Aldatu ordua ozen irakurriko den ala ez pantaila pizten duzunean</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Ireki lasterbideen zerrenda</string>
   <string name="summary_talkback_preferences">Ireki SandFly-en ezarpenak</string>
-  <string name="summary_braile_display_preferences">Ireki braille-pantailaren ezarpenak</string>
   <string name="summary_system_actions">Joan aplikazio guztien aukerara, eta, ondoren, Ezarpen bizkorretara</string>
   <string name="summary_tts_settings">Ireki testua ahots bihurtzeko eginbidearen ezarpenak</string>
   <string name="not_editable">Ezin da editatu</string>
@@ -917,7 +906,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="screen_search_keyword_hint">gako-hitza %1$s da</string>
   <string name="screen_search_no_keyword_hint">Ez dago gako-hitzik oraindik. Beste bilaketa bat egiteko, eduki 3 hatz sakatuta edo ireki bilaketa zuzena SandFly-en menutik.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ez dago gako-hitzik oraindik. Beste bilaketa bat egiteko, pasatu hatza ezkerrera eta, jarraian, behera, edo ireki bilaketa zuzena SandFly-en menutik.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille-teklatua ez dago aktibatuta. Joan SandFly eginbidearen ezarpenetara, konfiguratu Braille-teklatua eta saiatu berriro.</string>
   <string name="suggestions_window_available">Iradokizunak daude</string>
   <string name="suggestions_window_available_with_gesture">Iradokizunak daude. Haiek atzitzeko, %1$s</string>
   <string name="heads_up_window_available">Jakinarazpen bat daukazu</string>
@@ -967,9 +955,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="new_gesture_notification_content">Sakatu hau SandFly keinu berriekin azkarrago erabiltzeko argibideak lortzeko.</string>
   <string name="dump_node_tree_description">Nodo-zuhaitza erregistrotan antolatuta inprimatu da.</string>
   <string name="report_gesture_description">Hona hemen berriki egindako keinuak. Adierazi zein dagoen oker eta zein izan beharko litzateke zuzena.</string>
-  <string name="update_welcome_text_content">Orain, giza interfazeko gailuen bidez konekta ditzakezu braille-pantailak. Bluetooth bidezko gailuak konektatzeko modu bat da hori. Ziurtatu fabrikatzailearen firmwarearen azken kontrolatzaileak dauzkazula eta aktibatu Bluetootha braille-pantailan. Joan SandFly-en ezarpenak &gt; Braille-pantaila atalera eta aktibatu \"Erabili braille-pantaila\". Bilatu zure gailua gailuen zerrendan eta konekta zaitez harekin.</string>
-  <string name="update_welcome_text_content_tts">Orain, giza interfazeko gailuen bidez konekta ditzakezu braille-pantailak. Bluetooth bidezko gailuak konektatzeko modu bat da hori. Ziurtatu fabrikatzailearen firmwarearen azken kontrolatzaileak dauzkazula eta aktibatu Bluetootha braille-pantailan. Joan SandFly-en ezarpenetako Braille-pantaila atalera eta aktibatu \"Erabili braille-pantaila\". Bilatu zure gailua gailuen zerrendan eta konekta zaitez harekin.</string>
-  <string name="update_welcome_text_content_with_link">Lortu SandFly-ekin braille-pantaila erabiltzeko argibideak.</string>
   <string name="update_welcome_talkback_16.1">SandFly-en eguneratze honekin, pantaila azaltzeko eginbiderako hizkuntza gehiago gehitu dira, baita SandFly-en erabilera errazten duten beste kalitate-hobekuntza batzuk ere.\n\nHurrengo pantailetan lortuko duzu aldaketa horiei buruzko informazio gehiago.\n\nOndoren informazioa berrikusi nahi baduzu, joan SandFly-en ezarpenak &gt; SandFly-en eginbide berriak atalera.</string>
   <string name="update_welcome_talkback_16.1_tts">SandFly-en eguneratze honekin, pantaila azaltzeko eginbiderako hizkuntza gehiago gehitu dira, baita SandFly-en erabilera errazten duten beste kalitate-hobekuntza batzuk ere.\n\nHurrengo pantailetan lortuko duzu aldaketa horiei buruzko informazio gehiago.\n\nOndoren informazioa berrikusi nahi baduzu, joan SandFly-en ezarpenetako SandFly-en eginbide berriak atalera.</string>
   <string name="describe_screen_and_qna_title">Pantaila azaltzeko eta Gemini-rekin hitz egiteko eginbideetarako hizkuntza berriak</string>
@@ -985,10 +970,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="reduce_delay_title">Murriztu atzerapena</string>
   <string name="reduce_delay_content">Orain, sakatuta arakatzean eta idaztean SandFly-en iragarpenen atzerapenak murrizteko aukera duzu. Ezarpen horiek ikusteko, joan SandFly-en ezarpenak &gt; Ezarpen aurreratuak &gt; Murriztu atzerapena atalera.</string>
   <string name="reduce_delay_content_tts">Orain, sakatuta arakatzean eta idaztean SandFly-en iragarpenen atzerapenak murrizteko aukera duzu. Ezarpen horiek ikusteko, joan SandFly-en ezarpenetako ezarpen aurreratuen Murriztu atzerapena atalera.</string>
-  <string name="customize_braille_keyboard_improvements_title">Pertsonalizatu braille-teklatuaren keinuak</string>
-  <string name="customize_braille_keyboard_improvements_content">Orain, pantailako braille-teklatu birtualaren keinuak pertsonalizatzeko aukera duzu. Horretarako, joan SandFly-en ezarpenak &gt; Braille-teklatua &gt; Keinuak atalera.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Orain, pantailako braille-teklatu birtualaren keinuak pertsonalizatzeko aukera duzu. Horretarako, joan SandFly-en ezarpenetako Braille-teklatua ataleko Keinuak atalera.</string>
-  <string name="learn_more_about_braille_keyboard">Lortu braille-teklatuari buruzko informazio gehiago</string>
   <string name="other_changes_title">Beste aldaketa batzuk</string>
   <string name="other_changes_content">Orain, pantailako mezu batek SandFly bizkor desaktibatzen laguntzen dizu, nahi gabe aktibatzen bada. Eginbide hori desaktibatzeko, joan SandFly-en ezarpenak &gt; Erakutsi SandFly desaktibatzeko argibideak atalera.</string>
   <string name="other_changes_content_tts">Orain, pantailako mezu batek SandFly bizkor desaktibatzen laguntzen dizu, nahi gabe aktibatzen bada. Eginbide hori desaktibatzeko, joan SandFly-en ezarpenetako Erakutsi SandFly desaktibatzeko argibideak atalera.</string>
@@ -1021,7 +1002,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="keyboard_enhanced_keymap_text">Orain, SandFly-ek \"teklen mapa hobetu\" bat dauka teklatu fisikoetarako, askotariko agindu eta lasterbide berriekin. Hobekuntza horrek sarean modu efizienteagoan nabigatzeko \"arakatze modua\" dakar, eta, horri esker, nabigatzea eta interakzioan jardutea errazagoa da teklatu fisikoak erabili behar dituzten SandFly-en erabiltzaileentzat. \"Teklen mapa hobetua\" erabiltzeko, joan <xliff:g id="settings_path">%1$s</xliff:g> atalera.\n\nBraille-pantaila bat erabiltzen baduzu, arakatze moduko lasterbide berriak ere erabil ditzakezu zuzenean braille-pantailatik nabigatzeko edukian zehar. Braille-pantailaren lasterbide batzuk aldatu egin dira, aldaketa horretara egokitzeko. Braille-pantailaren lasterbide guztien zerrenda ikusteko, joan hona: <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly-en ezarpenak &gt; Lasterbideak</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-en ezarpenak, Lasterbideak</string>
-  <string name="braille_display_settings_link">Braille-pantailaren ezarpenak</string>
   <string name="keyboard_smart_browse_mode_title">Teklatua: arakatze modu adimenduna</string>
   <string name="keyboard_smart_browse_mode_text">SandFly-en arakatze modu adimendunak arakatze modua desaktibatzen du editatzeko eremuetan, sarean nabigatzean errazagoa izan dadin teklatu fisikoarekin idaztea. Webguneko eremu editaezin batera joaten zarenean, berriro aktibatzen du, eraginkortasunez arakatzen jarraitu ahal izan dezazun. \"Arakatze modu adimenduna\" aktibatu edo desaktibatzeko, joan <xliff:g id="settings_path">%1$s</xliff:g> atalera.</string>
   <string name="advanced_settings_link">SandFly-en ezarpenak &gt; Ezarpen aurreratuak</string>
@@ -1094,7 +1074,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="typing_text_title">Testua idaztea</string>
   <string name="basic_typing_text_text">Testu-koadro batean zaudenean, teklatu bat irekiko da pantailaren behealdean.</string>
   <string name="typing_text_text">Mugitu hatza teklatuan. Idatzi nahi duzun hizkia entzuten duzunean, jaso hatza.\n\nProbatzeko, aktibatu beheko testu-koadroa eta idatzi zure izena.</string>
-  <string name="typing_text_with_braille_keyboard_text">Braille-teklatua ere erabil dezakezu idazteko. SandFly-en ezarpenetan daukazu.</string>
   <string name="other_ways_to_type_title">Idazteko beste modu batzuk</string>
   <string name="other_ways_to_type_text">SandFly-en idazteko beste modu batzuk daude. Adibidez, birritan saka dezakezu letra bat idazteko.</string>
   <string name="basic_other_ways_to_type_text">SandFly-en idazteko beste modu batzuk daude. Adibidez, birritan saka dezakezu letra bat idazteko. Aukera hori geroago aldatzeko, joan SandFly-en ezarpenak &gt; Pantailako teklatua &gt; Idazteko aukera hobetsia atalera.</string>
@@ -1209,26 +1188,6 @@ Atzerapena 0,3 segundokoa baino gutxiagokoa bada, elementuak 2 hatzekin aktibat
   <string name="talkback_inactive_message_practice_gestures">Keinuak praktikatzeko, aktibatu SandFly</string>
   <string name="talkback_inactive_message_image_description">Irudien azalpenak eskuratzen saiatzeko, aktibatu SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Itxi tutoriala</string>
-  <string name="wear_training_welcome_paragraph">SandFly aktibatuta dagoenean, pantailan fokuratutako elementua ozen irakurtzen da.\n\nHatza eskuinera pasatuz gero, hurrengo elementura joango zara. Hatza ezkerrera pasatuz gero, berriz, aurreko elementura joango zara.\n\nPasatu hatza eskuinera hurrengo botoia aurkitu arte.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Pasatu %1$d hatz gora edo behera.</string>
-  <string name="wear_training_go_back_title">Atzera egin</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Atzera egin nahi duzunean, pasatu %1$d hatz eskuinera pantailaren ertzetik.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sinatu duzu</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gauzatu duzu atzera egiteko keinua</string>
-  <string name="wear_training_volume_up_title">Bolumena igo</string>
-  <string name="wear_training_volume_up_text">Pasatu hatza eskuinera eta, gero, gora</string>
-  <string name="wear_training_volume_down_title">Bolumena jaitsi</string>
-  <string name="wear_training_volume_down_text">Pasatu hatza eskuinera eta, gero, behera</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-en menua ireki</string>
-  <string name="wear_training_open_talkback_menu_text">Agian maiz beharko dituzun ezarpenak eta kontrolatzeko aukerak irekitzeko, pasatu hatza behera eta, gero, eskuinera</string>
-  <string name="wear_training_typing_title">Idaztea</string>
-  <string name="wear_training_typing_text1">Teklatuarekin idazteko, mugitu hatza teklatuan. Idatzi nahi duzun hizkia entzuten duzunean, jaso hatza.</string>
-  <string name="wear_training_typing_text2">Teklatua ezkutatu eta idatzitakoa egiaztatzeko, pasatu 2 hatz beherantz pantailaren goialdetik.</string>
-  <string name="wear_training_typing_text3">Teklatura itzultzeko, pasatu 2 hatz gorantz pantailaren behealdetik.</string>
-  <string name="wear_training_typing_text4">Teklatua itxi eta idazteari uzteko, pasatu 2 hatz eskuinerantz pantailaren ezkerreko ertzetik.</string>
-  <string name="wear_training_typing_text5">Probatu behean.</string>
-  <string name="wear_training_typing_practice_button_content_description">Teklatuarekin idaztea</string>
-  <string name="wear_training_end_tutorial_title">SandFly erabiltzen hasteko prest zaude</string>
   <string name="talkback_updated_notification_title">Eguneratu egin da SandFly</string>
   <string name="talkback_updated_notification_content">Sakatu hau informazio gehiago lortzeko</string>
   <string name="wear_new_feature_page_title">Ongi etorri SandFly-en bertsio eguneratura</string>
@@ -1520,7 +1479,6 @@ Ez erabili markatzerik erantzunean.</string>
     <string name="title_pref_announce_ringer_mode">Tonu-jotzailearen modua</string>
     <string name="summary_pref_announce_ringer_mode">Esan tonu-jotzailea dardara moduan edo isilik dagoenean</string>
     <string name="title_pref_category_feedback">Erantzunak</string>
-    <string name="title_pref_category_typing_and_braille">Idaztea eta braillea</string>
     <string name="title_pref_category_apps">Aplikazioak</string>
     <string name="title_pref_touch_activation">Ukitzea eta aktibatzea</string>
     <string name="title_pref_navigation">Nabigazioa</string>
@@ -1544,8 +1502,6 @@ Ez erabili markatzerik erantzunean.</string>
     <string name="speech_control_deny">Ez eman baimenik</string>
     <string name="permission_speak_label">hitz egin SandFly-en bidez</string>
     <string name="permission_speak_description">Aplikazioak testua SandFly-en ahotsarekin esateko baimena eska dezake. Aplikazioak hitz egin aurretik, SandFly-ek baimena eskatuko dizu.</string>
-    <string name="permission_braille_display_label">eskatu SandFly-en braille-pantaila izatea</string>
-    <string name="permission_braille_display_description">Aplikazioak SandFly-en braille-pantaila izatea eska dezake. SandFly-en baimena ematen badiozu, pantailako guztia irakur dezake eta gailua kontrola dezake. SandFly-ek baimena eskatuko dizu lehenik.</string>
     <string name="title_pref_phonetic_letters_mode">Irakurri hizkiak fonetikoki</string>
     <string name="phonetic_letters_mode_off">Desaktibatuta</string>
     <string name="phonetic_letters_mode_after_letter_delay">Hizkiaren ondoren, atzerapenarekin; adibidez, \"h, hotel\"</string>
@@ -1683,14 +1639,8 @@ Ez erabili markatzerik erantzunean.</string>
     <string name="summary_support_wrap_around">Aktibatu edo desaktibatu azken elementutik lehenengora joatea</string>
     <string name="wrap_around_on">Nabigazio ziklikoa aktibatuta</string>
     <string name="wrap_around_off">Nabigazio ziklikoa desaktibatuta</string>
-    <string name="title_selector_tablet_held_up_faces_away">Zutik dagoen tabletaren pantaila kanpora begira</string>
-    <string name="summary_support_tablet_held_up_faces_away">Tabletetako edo telefono zabaldutako braille-teklaturako</string>
-    <string name="tablet_held_up_faces_away_on">Zutik dagoen tabletaren pantaila kanpora begira: aktibatuta</string>
-    <string name="tablet_held_up_faces_away_off">Zutik dagoen tabletaren pantaila kanpora begira: desaktibatuta</string>
     <string name="title_keyboard_echo_on_screen">Pantailako teklatuaren oihartzuna</string>
     <string name="title_keyboard_echo_physical">Teklatu fisikoaren oihartzuna</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille-teklatuaren oihartzuna</string>
-    <string name="title_keyboard_echo_braille_display">Braille-pantailaren oihartzuna</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Eten hizketa idaztean</string>
     <string name="pref_interrupt_typing_entry_always">Beti</string>

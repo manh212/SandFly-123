@@ -358,8 +358,6 @@
     <string name="title_pref_category_audio">Audio</string>
     <!-- Settings category for speech, sound, vibration, and the focus indicator. [CHAR LIMIT=40] -->
     <string name="title_pref_category_feedback">Feedback</string>
-    <!-- Settings category for keyboards and braille. [CHAR LIMIT=40] -->
-    <string name="title_pref_category_typing_and_braille">Typing and braille</string>
     <!-- Settings category for scripts, custom labels and other apps that speak through SandFly, which change how other apps work with SandFly. [CHAR LIMIT=40] -->
     <string name="title_pref_category_apps">Apps</string>
     <!-- Title of the settings screen for how touches focus and activate items: focus delay, lift to activate, single tap and the like. [CHAR LIMIT=40] -->
@@ -427,10 +425,7 @@
     <string name="permission_speak_label">speak through SandFly</string>
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
     <string name="permission_speak_description">Lets the app ask to say text in your SandFly voice. SandFly asks you before the app can speak.</string>
-    <!-- Name of the permission that an app needs to ask to be a braille display for SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
-    <string name="permission_braille_display_label">ask to be a braille display for SandFly</string>
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
-    <string name="permission_braille_display_description">Lets the app ask to be a braille display for SandFly. If you allow it in SandFly, it can read everything on the screen and control your device. SandFly asks you first.</string>
 
     <!--
       Source: Preference for speaking phonetic letter for letters.
@@ -693,8 +688,6 @@
     <string name="title_pref_category_visual">Visual</string>
     <!-- Category for gestures, menus or other controls. [CHAR LIMIT=40] -->
     <string name="title_pref_category_controls">Controls</string>
-    <!-- Category for braille features. [CHAR LIMIT=40] -->
-    <string name="title_pref_category_braille">Braille</string>
     <!-- Category for general features. [CHAR LIMIT=40] -->
     <string name="title_pref_category_general">General</string>
     <!-- Category for advanced features. [CHAR LIMIT=40] -->
@@ -1282,10 +1275,6 @@
     <string name="keycombo_menu_other_open_talkback_settings">Open SandFly settings</string>
     <!-- Keyboard key combination assignment for opening the Tutorial page. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_show_tutorial" translatable="false">@string/shortcut_show_tutorial</string>
-    <!-- Keyboard key combination assignment for toggle braille contracted mode. [CHAR LIMIT=60] -->
-    <string name="keycombo_menu_other_toggle_braille_contracted_mode" translatable="false">@string/shortcut_toggle_braille_contracted_mode</string>
-    <!-- Keyboard key combination assignment for toggle braille on screen overlay. [CHAR LIMIT=60] -->
-    <string name="keycombo_menu_other_toggle_braille_on_screen_overlay" translatable="false">@string/shortcut_toggle_braille_on_screen_overlay</string>
     <!-- Keyboard key combination assignment for reporting an issue. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_report_issue" >Send feedback</string>
     <!-- Keyboard key combination assignment for cycling among the available character/word echo levels when typing. [CHAR LIMIT=60] -->
@@ -1505,21 +1494,6 @@
       Description: Explains that feedback from the keyboard, e.g. when a user deletes an "A" and the phone speaks "A deleted", will be spoken in a higer pitched voice. [CHAR LIMIT=NONE]
     -->
     <string name="summary_pref_intonation">Speak deleted letters in a higher-pitched voice</string>
-    <!--
-      Source: Preference category for braille display feature.
-      Description: Contains preferences of braille display related settings. [CHAR LIMIT=35]
-    -->
-    <string name="title_pref_brailledisplay">Braille display</string>
-    <!--
-      Source: Preference category for braille IME feature.
-      Description: Contains preferences of braille IME related settings. [CHAR LIMIT=35]
-    -->
-    <string name="title_pref_brailleime">Braille keyboard</string>
-    <!--
-      Source: Preference category for braille IME feature.
-      Description: Explains why the braille keyboard preference is disabled. [CHAR LIMIT=NONE]
-    -->
-    <string name="summary_pref_brailleime_disabled">Your device doesn’t support braille keyboard</string>
     <!--
      Source: Preference for showing user how to control talkback speech settings.
      Description: This is used as a footer. [CHAR LIMIT=500]
@@ -2151,10 +2125,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="shortcut_decrease_media_volume">Decrease media volume</string>
     <!-- Label for the shortcut that perform all apps action. [CHAR_LIMIT=25]-->
     <string name="shortcut_all_apps">All apps</string>
-    <!-- Label for the shortcut that perform switch to braille keyboard action. [CHAR_LIMIT=40]-->
-    <string name="shortcut_braille_keyboard">Switch to braille keyboard</string>
-    <!-- Label for the shortcut that perform navigate to braille display settings action. [CHAR_LIMIT=40]-->
-    <string name="shortcut_braille_display_settings">Navigate to braille display settings</string>
     <!-- Label for the shortcut that launch TalkBack tutorial action. [CHAR_LIMIT=40]-->
     <string name="shortcut_tutorial">Open tutorial</string>
     <!-- Label for the shortcut of turning speaking time on or off. [CHAR_LIMIT=120]-->
@@ -2171,8 +2141,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="shortcut_practice_gestures">Practice gestures</string>
     <!-- Label for the shortcut that report gesture issue. [CHAR_LIMIT=60]-->
     <string name="shortcut_report_gesture">Report gesture issue</string>
-    <!-- Label for the shortcut that turn braille display on/off. [CHAR_LIMIT=60]-->
-    <string name="shortcut_toggle_braille_display">Turn braille display on or off</string>
     <!-- Label for the shortcut of announcing current time and date [CHAR LIMIT=60]-->
     <string name="shortcut_announce_current_time_and_date">Speak current date and time</string>
     <!-- Label for the shortcut of announcing battery status [CHAR LIMIT=80]-->
@@ -2193,10 +2161,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="shortcut_reset_speech_settings" translatable="false">@string/reset_speech_rate_and_pitch</string>
     <!-- Keyboard key combination assignment for show tutorial [CHAR LIMIT=40]-->
     <string name="shortcut_show_tutorial">Open tutorial</string>
-    <!-- Keyboard key combination assignment for toggle braille contracted mode [CHAR LIMIT=110]-->
-    <string name="shortcut_toggle_braille_contracted_mode">Switch between contracted (grade 2) and uncontracted (grade 1)</string>
-    <!-- Keyboard key combination assignment for toggle braille on screen overlay shown when braille display is connected [CHAR LIMIT=60]-->
-    <string name="shortcut_toggle_braille_on_screen_overlay">Show or hide on-screen braille for connected braille displays</string>
     <!-- Keyboard key combination assignment for turning sound feedback (earcons) on or off [CHAR LIMIT=60]-->
     <string name="shortcut_toggle_sound_feedback">Turn sound feedback (earcons) on or off</string>
     <!-- Keyboard key combination assignment for showing the Practice keyboard shortcuts page [CHAR LIMIT=40]-->
@@ -2285,8 +2249,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="title_show_keyboard_shortcuts">Keyboard shortcuts</string>
     <!-- Label for the context menu containing TalkBack settings. [CHAR_LIMIT=70] -->
     <string name="talkback_show_talkback_settings">SandFly settings</string>
-    <!-- Label for the context menu containing braille display settings. [CHAR_LIMIT=70] -->
-    <string name="title_show_braille_display_settings">Braille display settings</string>
 
     <!-- Label for the navigation menu containing default granularity. [CHAR_LIMIT=100] -->
     <string name="title_granularity_default">Default navigation</string>
@@ -2354,8 +2316,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="summary_show_keyboard_shortcuts_preferences">Open list of keyboard shortcuts</string>
     <!-- Summary for the activity that manages TalkBack settings. [CHAR_LIMIT=NONE] -->
     <string name="summary_talkback_preferences">Open SandFly settings</string>
-  <!-- Summary for the activity that manages braille display settings. [CHAR_LIMIT=NONE] -->
-  <string name="summary_braile_display_preferences">Open braille display settings</string>
     <!-- Summary for the menu item that opens the dialog with system actions available on device from R. [CHAR_LIMIT=NONE] -->
     <string name="summary_system_actions">Go to all apps and Quick Settings</string>
     <!-- Summary for user to adjust Text to Speech settings. [CHAR_LIMIT=NONE] -->
@@ -2801,14 +2761,9 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <!-- Spoken when wrap around is turned off. [CHAR LIMIT=NONE]-->
     <string name="wrap_around_off">Wrap around off</string>
 
-    <!-- Title of the reading control for the braille keyboard setting that takes a tablet or unfolded phone held up to be held with the screen facing away from the user. When off, it is taken to face the user and uses the tabletop layout. [CHAR LIMIT=NONE]-->
-    <string name="title_selector_tablet_held_up_faces_away">Tablet held up faces away</string>
     <!-- Summary of the tablet held up faces away setting in the reading controls list. [CHAR LIMIT=NONE]-->
-    <string name="summary_support_tablet_held_up_faces_away">For the braille keyboard on a tablet or unfolded phone</string>
     <!-- Spoken when the tablet held up faces away setting is turned on. [CHAR LIMIT=NONE]-->
-    <string name="tablet_held_up_faces_away_on">Tablet held up faces away on</string>
     <!-- Spoken when the tablet held up faces away setting is turned off. [CHAR LIMIT=NONE]-->
-    <string name="tablet_held_up_faces_away_off">Tablet held up faces away off</string>
 
     <!-- Label for the preference specifying that the shake to read feature is disabled. -->
     <string name="value_shake_to_read_disabled">Disabled</string>
@@ -2831,10 +2786,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
     <string name="title_keyboard_echo_on_screen">On-screen keyboard echo</string>
     <!-- Name of the physical keyboard's keyboard echo setting, in the reading controls and the SandFly menu. [CHAR_LIMIT=NONE] -->
     <string name="title_keyboard_echo_physical">Physical keyboard echo</string>
-    <!-- Name of the braille keyboard's keyboard echo setting, in the reading controls and the SandFly menu. [CHAR_LIMIT=NONE] -->
-    <string name="title_keyboard_echo_braille_keyboard">Braille keyboard echo</string>
-    <!-- Name of the braille display's keyboard echo setting, in the reading controls and the SandFly menu. [CHAR_LIMIT=NONE] -->
-    <string name="title_keyboard_echo_braille_display">Braille display echo</string>
     <!-- A keyboard echo setting and its value, spoken when it changes and shown in the SandFly menu, such as "Physical keyboard echo: Words". [CHAR_LIMIT=NONE] -->
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <!-- Title of the setting for whether typing a character on a physical keyboard stops speech. [CHAR_LIMIT=NONE] -->
@@ -3425,8 +3376,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <!-- Usage hint for no screen-search keyword. [CHAR_LIMIT=NONE] -->
   <string name="screen_search_no_keyword_hint_pre_r">No keyword yet. To start a new search, swipe left then down or open screen search from the SandFly menu.</string>
 
-  <!-- Announced when can't switching to braille keyboard . [CHAR_LIMIT=150] -->
-  <string name="switch_to_braille_keyboard_failure_msg">Braille keyboard isn\'t turned on. Go to SandFly settings, set up Braille keyboard, and try again.</string>
   <!-- Announced when the popup window is shown. [CHAR_LIMIT=50]-->
   <string name="suggestions_window_available">Suggestions available</string>
   <!-- Announced when the popup window is shown. The user can performs a quick gesture to navigate to the suggestions window. [CHAR_LIMIT=150]-->
@@ -3549,11 +3498,8 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <string name="report_gesture_description">Here are gestures performed recently, please report which gesture is wrong and what is expected.</string>
   <!-- For TalkBack 16.0 onboarding. -->
   <!-- The first item of the welcome to the updated TalkBack page. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_text_content">You can now connect to braille displays via HID, a way to connect to bluetooth devices. Make sure you have the latest firmware drivers from your manufacturer, then turn on Bluetooth on your braille display. Go to SandFly settings > Braille display and turn on \"Use braille display\". Find your device in the devices list, and connect to it. </string>
   <!-- The first item of the welcome to the updated TalkBack page for TTS. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_text_content_tts">You can now connect to braille displays via HID, a way to connect to bluetooth devices. Make sure you have the latest firmware drivers from your manufacturer, then turn on Bluetooth on your braille display. Go to SandFly settings then Braille display and turn on \"Use braille display\". Find your device in the devices list, and connect to it. </string>
   <!-- The first item of the welcome to the updated TalkBack page. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_text_content_with_link">Learn how to use your braille display with SandFly.</string>
 
   <!-- The text about what's new in TalkBack 16.1. [CHAR_LIMIT=NONE]-->
   <string name="update_welcome_talkback_16.1">This SandFly update introduces support for Describe screen in more languages and other quality improvements that make SandFly easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings > New features in SandFly.</string>
@@ -3583,14 +3529,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <string name="reduce_delay_content">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings > Advanced settings > Reduce delay.</string>
   <!-- The speech of the text about the Reduce delay page. [CHAR_LIMIT=NONE]-->
   <string name="reduce_delay_content_tts">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings then Advanced settings then Reduce delay.</string>
-  <!-- The title of the Customize braille keyboard improvements page. [CHAR_LIMIT=NONE]-->
-  <string name="customize_braille_keyboard_improvements_title">Customize braille keyboard gestures</string>
-  <!-- The content of the Customize braille keyboard improvements page. [CHAR_LIMIT=NONE]-->
-  <string name="customize_braille_keyboard_improvements_content">It\'s now possible to customize gestures for the virtual on-screen braille keyboard. To customize, go to SandFly settings > Braille keyboard > Gestures.</string>
-  <!-- The speech of the text about the Customize braille keyboard improvements page. [CHAR_LIMIT=NONE]-->
-  <string name="customize_braille_keyboard_improvements_content_tts">It\'s now possible to customize gestures for the virtual on-screen braille keyboard. To customize, go to SandFly settings then Braille keyboard then Gestures.</string>
-  <!-- Click link to get more information about braille keyboard. [CHAR_LIMIT=NONE]-->
-  <string name="learn_more_about_braille_keyboard">Learn more about braille keyboard</string>
   <!-- The title of the Other changes page. [CHAR_LIMIT=NONE]-->
   <string name="other_changes_title">Other changes</string>
   <!-- The content of the Other changes page. [CHAR_LIMIT=NONE]-->
@@ -3641,13 +3579,11 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <!-- The title about enhanced keymap for keyboard page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_enhanced_keymap_title">Keyboard: Enhanced keymap</string>
   <!-- The text about enhanced keymap for keyboard page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_enhanced_keymap_text">SandFly now has an \"Enhanced keymap\" for physical keyboards, featuring a variety of new commands and shortcuts. This enhancement includes a \"browse mode\" for more efficient web navigation, streamlining navigation and interaction for SandFly users who rely on physical keyboards. You can switch to the \"Enhanced keymap\" in <xliff:g id="settings_path">%1$s</xliff:g>.\n\nIf you use a Braille display, you can also use new browse mode shortcuts to traverse through content directly from your Braille display. Some Braille display shortcuts were changed to accommodate this change. You can see a list of all Braille display shortcuts in <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
+  <string name="keyboard_enhanced_keymap_text">SandFly now has an \"Enhanced keymap\" for physical keyboards, featuring a variety of new commands and shortcuts. This enhancement includes a \"browse mode\" for more efficient web navigation, streamlining navigation and interaction for SandFly users who rely on physical keyboards. You can switch to the \"Enhanced keymap\" in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <!-- The path of keyboard shortcuts in TalkBack Settings. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_shortcuts_link">SandFly settings > Keyboard shortcuts</string>
   <!-- The speech of the path of keyboard shortcuts in TalkBack Settings. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_shortcuts_link_tts">SandFly settings then Keyboard shortcuts</string>
-  <!-- The text of braille display settings. [CHAR_LIMIT=NONE]-->
-  <string name="braille_display_settings_link">Braille display settings</string>
   <!-- The title about smart browse mode for keyboard page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_smart_browse_mode_title">Keyboard: Smart browse mode</string>
   <!-- The text about smart browse mode for keyboard page. [CHAR_LIMIT=NONE]-->
@@ -3817,8 +3753,6 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <string name="basic_typing_text_text">When you\'re in a text box, a keyboard will open up at the bottom of your screen.</string>
   <!-- The description about how to type text. [CHAR_LIMIT=NONE]-->
   <string name="typing_text_text">Move your finger across the keyboard. When you hear the letter you want to type, lift your finger.\n\nTry activating the text box below and type your name.</string>
-  <!-- The description about how to type with braille keyboard. [CHAR_LIMIT=NONE]-->
-  <string name="typing_text_with_braille_keyboard_text">You can also type with the braille keyboard. Find it in SandFly settings.</string>
   <!-- The sub title of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
   <string name="other_ways_to_type_title">Other ways to type</string>
   <!-- The description of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
@@ -4090,47 +4024,27 @@ Description: Explain that the feature is enabled for all images. [CHAR_LIMIT=NON
   <string name="talkback_inactive_close_tutorial_button">Close tutorial</string>
 
   <!-- Welcome page items for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_welcome_paragraph">When SandFly is on, the focused item on the screen is spoken out loud.\n\nSwiping right moves to the next item. Swiping left moves to the previous item.\n\nSwipe right now until you find the next button.</string>
 
   <!-- Training page for wear-->
   <!-- The content of Scroll page for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe up or down with <xliff:g id="two" example="2">%1$d</xliff:g> fingers.</string>
   <!-- The title of Back to previous page page for Wear. [CHAR_LIMIT=60] -->
-  <string name="wear_training_go_back_title">Go back</string>
   <!-- The content of Back to previous page page for Wear. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">When you want to go back, use <xliff:g id="two" example="2">%1$d</xliff:g> fingers to swipe right from the edge of the screen.</string>
   <!-- The curved text for ConfirmationDialog when a user perform go back gesture successfully in the tutorial. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_success_confirmation_curved_text">Success</string>
   <!-- The feedback of ConfirmationDialog when a user perform go back gesture successfully in the tutorial. [CHAR_LIMIT=NONE] -->
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Back gesture performed</string>
   <!-- The title of Volume up page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_volume_up_title">Turn up volume</string>
   <!-- The content of Volume up page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_volume_up_text">Swipe right and then up</string>
   <!-- The title of Volume down page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_volume_down_title">Turn down volume</string>
   <!-- The content of Volume down page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_volume_down_text">Swipe right and then down</string>
     <!-- The title of End of tutorial page for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_open_talkback_menu_title">Open SandFly menu</string>
   <!-- The content of End of tutorial page for Wear. [CHAR_LIMIT=150] -->
-  <string name="wear_training_open_talkback_menu_text">To open settings and controls you may need often, swipe down and then right</string>
   <!-- The title of teaching how to use IME when TalkBack is on for Wear. [CHAR_LIMIT=90] -->
-  <string name="wear_training_typing_title">Typing</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 1st paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text1">To type with keyboard, move your finger across the keyboard. When you hear the letter you want to type, lift your finger.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 2nd paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text2">To hide the keyboard and check your input, swipe down from the top of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 3rd paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text3">To return to keyboard, swipe up from the bottom of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 4th paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text4">To close the keyboard and cancel typing, swipe right from the left edge of your screen with 2 fingers.</string>
   <!-- The content of teaching how to use IME when TalkBack is on for Wear. (the 5th paragraph) [CHAR_LIMIT=150] -->
-  <string name="wear_training_typing_text5">Try it below.</string>
   <!-- The content description of the button to practice typing for Wear. [CHAR_LIMIT=60] -->
-  <string name="wear_training_typing_practice_button_content_description">Typing with keyboard</string>
   <!-- The title of End of tutorial page for Wear. [CHAR_LIMIT=180] -->
-  <string name="wear_training_end_tutorial_title">You\'re ready to start using SandFly</string>
 
   <!-- TalkBack updated notification -->
   <!-- The title of notification to notify users TalkBack has been updated. [CHAR_LIMIT=120]-->

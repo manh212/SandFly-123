@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ಸ್ಪರ್ಶದ ಮೂಲಕ ಎಕ್ಸ್‌ಪ್ಲೋರ್ ಮಾಡಿ</string>
   <string name="title_pref_category_visual">ವಿಷುವಲ್</string>
   <string name="title_pref_category_controls">ನಿಯಂತ್ರಣಗಳು</string>
-  <string name="title_pref_category_braille">ಬ್ರೇಲ್</string>
   <string name="title_pref_category_general">ಸಾಮಾನ್ಯ</string>
   <string name="title_pref_category_advanced">ಸುಧಾರಿತ</string>
   <string name="title_pref_category_others">ಇತರೆ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="talkback_latency_reduction_summary">TalkBack ಘೋಷಣೆಗಳಿಗೆ ಮುನ್ನ ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡುವುದಕ್ಕೆ ಸಂಬಂಧಿಸಿದ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
   <string name="summary_pref_intonation">ಅಳಿಸಿದ ಪದಗಳನ್ನು ಗಟ್ಟಿಯಾದ ಧ್ವನಿಯಲ್ಲಿ ಹೇಳಿ</string>
-  <string name="title_pref_brailledisplay">ಬ್ರೇಲ್ ಡಿಸ್‌ಪ್ಲೇ</string>
-  <string name="title_pref_brailleime">ಬ್ರೇಲ್ ಕೀಬೋರ್ಡ್</string>
-  <string name="summary_pref_brailleime_disabled">ಸಾಧನ ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಬೆಂಬಲಿಸಲ್ಲ</string>
   <string name="title_pref_speech_footer">ನೀವು ಯಾವುದೇ ಸ್ಕ್ರೀನ್‌ನಿಂದ TalkBack ನ ಕೆಲವು ಧ್ವನಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತ್ವರಿತವಾಗಿ ಅಡ್ಜಸ್ಟ್ ಮಾಡಬಹುದು.\n\nಆ್ಯಕ್ಸೆಸಿಬಿಲಿಟಿ ವಾಲ್ಯೂಮ್: ಸ್ಕ್ರೀನ್‌ನ ಮೇಲೆ 1 ಬೆರಳನ್ನು ಹೋಲ್ಡ್ ಮಾಡಿ ಮತ್ತು ವಾಲ್ಯೂಮ್ ಹೆಚ್ಚು ಮಾಡಿ ಅಥವಾ ವಾಲ್ಯೂಮ್ ಕಡಿಮೆ ಮಾಡಿ ಕೀಯನ್ನು ಒತ್ತಿರಿ.\nTalkBack ಸ್ಫೀಚ್ ರೇಟ್: 3 ಬೆರಳುಗಳಿಂದ ಮೇಲಕ್ಕೆ ಅಥವಾ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ ನಿಮಗೆ \"ಸ್ಫೀಚ್ ರೇಟ್\" ಕೇಳಿದಾಗ, 1 ಬೆರಳಿನಿಂದ ಮೇಲಕ್ಕೆ ಅಥವಾ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
   <string name="title_pref_vibration">ವೈಬ್ರೇಷನ್‌ ಫೀಡ್‌ಬ್ಯಾಕ್</string>
   <string name="title_pref_soundback">ಸೌಂಡ್ ಫೀಡ್‌ಬ್ಯಾಕ್</string>
@@ -487,8 +483,6 @@
   <string name="shortcut_increase_volume">ವಾಲ್ಯೂಮ್ ಅನ್ನು ಹೆಚ್ಚಿಸಿ</string>
   <string name="shortcut_decrease_volume">ವಾಲ್ಯೂಮ್ ಅನ್ನು ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="shortcut_all_apps">ಎಲ್ಲಾ ಆ್ಯಪ್‌ಗಳು</string>
-  <string name="shortcut_braille_keyboard">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್‌ಗೆ ಬದಲಿಸಿ</string>
-  <string name="shortcut_braille_display_settings">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಸೆಟ್ಟಿಂಗ್ಸ್‌ಗೆ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಿ</string>
   <string name="shortcut_tutorial">ಟುಟೋರಿಯಲ್ ಅನ್ನು ತೆರೆಯಿರಿ</string>
   <string name="shortcut_control_speak_time">ಮಾತನಾಡುವ ಸಮಯ ಆನ್ ಮಾಡಿ ಅಥವಾ ಆಫ್ ಮಾಡಿ</string>
   <string name="shortcut_enable_speak_time">ಮಾತನಾಡುವ ಸಮಯ</string>
@@ -497,7 +491,6 @@
   <string name="speak_time_off">ಮಾತನಾಡುವ ಸಮಯ ಆಫ್</string>
   <string name="shortcut_practice_gestures">ಪ್ರಾಕ್ಟೀಸ್ ಜೆಸ್ಚರ್‌ಗಳು</string>
   <string name="shortcut_report_gesture">ಜೆಸ್ಚರ್ ಸಮಸ್ಯೆಯನ್ನು ವರದಿ ಮಾಡಿ</string>
-  <string name="shortcut_toggle_braille_display">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಅನ್ನು ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡಿ</string>
   <string name="shortcut_announce_current_time_and_date">ಪ್ರಸ್ತುತ ದಿನಾಂಕ ಮತ್ತು ಸಮಯವನ್ನು ಹೇಳಿ</string>
   <string name="shortcut_announce_battery_state">ಬ್ಯಾಟರಿಯ ಶೇಕಡಾ ಪ್ರಮಾಣವನ್ನು ಹೇಳಿ</string>
   <string name="shortcut_announce_current_title">ಮಾತನಾಡುವ ವಿಂಡೋ ಶೀರ್ಷಿಕೆ</string>
@@ -507,8 +500,6 @@
   <string name="shortcut_speech_rate_decrease">ಸ್ಫೀಚ್ ರೇಟ್ ಅನ್ನು ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="shortcut_toggle_selection">ಆಯ್ಕೆ ಮೋಡ್ ಪ್ರಾರಂಭಿಸಿ ಅಥವಾ ಕೊನೆಗೊಳಿಸಿ</string>
   <string name="shortcut_show_tutorial">ಟುಟೋರಿಯಲ್ ಅನ್ನು ತೆರೆಯಿರಿ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ಕಾಂಟ್ರ್ಯಾಕ್ಟೆಡ್ (ಗ್ರೇಡ್ 2) ಮತ್ತು ಅನ್‌ಕಾಂಟ್ರ್ಯಾಕ್ಟೆಡ್ (ಗ್ರೇಡ್ 1) ನಡುವೆ ಬದಲಿಸಿ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ಕನೆಕ್ಟ್ ಮಾಡಲಾದ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇಗಳಿಗಾಗಿ ಆನ್-ಸ್ಕ್ರೀನ್ ಬ್ರೈಲ್ ಅನ್ನು ತೋರಿಸಿ ಅಥವಾ ಮರೆಮಾಡಿ</string>
   <string name="shortcut_toggle_sound_feedback">ಧ್ವನಿ ಫೀಡ್‌ಬ್ಯಾಕ್ (ಇಯರ್‌ಕಾನ್‌‌ಗಳು) ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡಿ</string>
   <string name="shortcut_show_learn_mode_page">ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಅಭ್ಯಾಸ ಮಾಡಿ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ಫೋಕಸ್ ಮಾಡಲಾದ ಐಟಂಗಾಗಿ ಫೋನೆಟಿಕ್ ಉಚ್ಚಾರಣೆಯೊಂದಿಗೆ ಅಕ್ಷರಗಳನ್ನು ಉಚ್ಛರಿಸಿ</string>
@@ -549,7 +540,6 @@
   <string name="title_show_voice_commands">ಧ್ವನಿ ಆದೇಶಗಳು</string>
   <string name="title_show_keyboard_shortcuts">ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
   <string name="talkback_show_talkback_settings">TalkBack ಸೆಟ್ಟಿಂಗ್‍ಗಳು</string>
-  <string name="title_show_braille_display_settings">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
   <string name="title_granularity_default">ಡೀಫಾಲ್ಟ್ ನ್ಯಾವಿಗೇಷನ್</string>
   <string name="title_action_dismiss">ವಜಾಗೊಳಿಸಿ</string>
   <string name="title_action_expand">ವಿಸ್ತೃತಗೊಳಿಸಿ</string>
@@ -577,7 +567,6 @@
   <string name="summary_control_speak_time">ಸ್ಕ್ರೀನ್ ಆನ್ ಮಾಡಿದಾಗ ಮಾತನಾಡುವ ಸಮಯವನ್ನು ಗಟ್ಟಿಯಾಗಿ ಹೇಳಬೇಕೆ ಬೇಡವೇ ಎಂದು ಬದಲಾಯಿಸಿ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳ ಪಟ್ಟಿಯನ್ನು ತೆರೆಯಿರಿ</string>
   <string name="summary_talkback_preferences">TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
-  <string name="summary_braile_display_preferences">ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
   <string name="summary_system_actions">ಎಲ್ಲಾ ಆ್ಯಪ್‌ಗಳು ಮತ್ತು ತ್ವರಿತ ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ</string>
   <string name="summary_tts_settings">ಪಠ್ಯದಿಂದ ಧ್ವನಿ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ತೆರೆಯಿರಿ</string>
   <string name="not_editable">ಎಡಿಟ್ ಮಾಡಲು ಸಾಧ್ಯವಿಲ್ಲ</string>
@@ -918,7 +907,6 @@
   <string name="screen_search_keyword_hint">ಕೀವರ್ಡ್ %1$s ಆಗಿದೆ</string>
   <string name="screen_search_no_keyword_hint">ಇನ್ನೂ ಯಾವುದೇ ಕೀವರ್ಡ್ ಇಲ್ಲ. ಹೊಸ ಹುಡುಕಾಟವನ್ನು ಪ್ರಾರಂಭಿಸಲು, 3 ಬೆರಳುಗಳಿಂದ ಟ್ಯಾಪ್ ಅಂಡ್ ಹೋಲ್ಡ್ ಮಾಡಿ ಅಥವಾ TalkBack ಮೆನುವಿನಿಂದ ಸ್ಕ್ರೀನ್ ಹುಡುಕಾಟವನ್ನು ತೆರೆಯಿರಿ.</string>
   <string name="screen_search_no_keyword_hint_pre_r">ಇನ್ನೂ ಯಾವುದೇ ಕೀವರ್ಡ್ ಇಲ್ಲ. ಹೊಸ ಹುಡುಕಾಟವನ್ನು ಪ್ರಾರಂಭಿಸಲು, ಎಡಕ್ಕೆ ನಂತರ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ ಅಥವಾ TalkBack ಮೆನುವಿನಿಂದ ಸ್ಕ್ರೀನ್ ಹುಡುಕಾಟವನ್ನು ತೆರೆಯಿರಿ.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಅನ್ನು ಆನ್ ಮಾಡಲಾಗಿಲ್ಲ. TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ, ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಅನ್ನು ಸೆಟಪ್ ಮಾಡಿ ಮತ್ತು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.</string>
   <string name="suggestions_window_available">ಸಲಹೆಗಳು ಲಭ್ಯವಿವೆ</string>
   <string name="suggestions_window_available_with_gesture">ಸಲಹೆಗಳು ಲಭ್ಯವಿವೆ. %1$s ಪ್ರವೇಶಿಸಲು</string>
   <string name="heads_up_window_available">ನೋಟಿಫಿಕೇಶನ್‌ ಲಭ್ಯವಿದೆ</string>
@@ -968,9 +956,6 @@
   <string name="new_gesture_notification_content">ಹೊಸ ಗೆಸ್ಚರ್‌ಗಳೊಂದಿಗೆ TalkBack ಅನ್ನು ವೇಗವಾಗಿ ಬಳಸುವುದು ಹೇಗೆ ಎಂದು ತಿಳಿಯಲು ಟ್ಯಾಪ್ ಮಾಡಿ.</string>
   <string name="dump_node_tree_description">ನೋಡ್ ಮರವನ್ನು ಲಾಗ್‌ಗಳಿಗೆ ಪ್ರಿಂಟ್ ಮಾಡಲಾಗಿದೆ.</string>
   <string name="report_gesture_description">ಇತ್ತೀಚೆಗೆ ಮಾಡಿದ ಜೆಸ್ಚರ್‌ಗಳು ಇಲ್ಲಿವೆ, ಯಾವ ಜೆಸ್ಚರ್ ತಪ್ಪಾಗಿದೆ ಮತ್ತು ಏನನ್ನು ನಿರೀಕ್ಷಿಸಲಾಗಿದೆ ಎಂದು ವರದಿ ಮಾಡಿ.</string>
-  <string name="update_welcome_text_content">ಬ್ಲೂಟೂತ್ ಸಾಧನಗಳಿಗೆ ಕನೆಕ್ಟ್‌ ಮಾಡಲು ಒಂದು ಮಾರ್ಗವಾದ HID ಮೂಲಕ ನೀವು ಈಗ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇಗಳಿಗೆ ಕನೆಕ್ಟ್‌ ಮಾಡಬಹುದು. ನಿಮ್ಮ ತಯಾರಕರಿಂದ ನೀವು ಇತ್ತೀಚಿನ ಫರ್ಮ್‌ವೇರ್ ಡ್ರೈವರ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ, ನಂತರ ನಿಮ್ಮ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇಯಲ್ಲಿ ಬ್ಲೂಟೂತ್ ಅನ್ನು ಆನ್ ಮಾಡಿ. TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಎಂಬಲ್ಲಿಗೆ ಹೋಗಿ ಮತ್ತು \"ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಬಳಸಿ\" ಎಂಬುದನ್ನು ಆನ್ ಮಾಡಿ. ಸಾಧನಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ನಿಮ್ಮ ಸಾಧನವನ್ನು ಹುಡುಕಿ ಮತ್ತು ಅದಕ್ಕೆ ಕನೆಕ್ಟ್‌ ಮಾಡಿ.</string>
-  <string name="update_welcome_text_content_tts">ಬ್ಲೂಟೂತ್ ಸಾಧನಗಳಿಗೆ ಕನೆಕ್ಟ್‌ ಮಾಡಲು ಒಂದು ಮಾರ್ಗವಾದ HID ಮೂಲಕ ನೀವು ಈಗ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇಗಳಿಗೆ ಕನೆಕ್ಟ್‌ ಮಾಡಬಹುದು. ನಿಮ್ಮ ತಯಾರಕರಿಂದ ನೀವು ಇತ್ತೀಚಿನ ಫರ್ಮ್‌ವೇರ್ ಡ್ರೈವರ್‌ಗಳನ್ನು ಹೊಂದಿದ್ದೀರಿ ಎಂಬುದನ್ನು ಖಚಿತಪಡಿಸಿಕೊಳ್ಳಿ, ನಂತರ ನಿಮ್ಮ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇಯಲ್ಲಿ ಬ್ಲೂಟೂತ್ ಅನ್ನು ಆನ್ ಮಾಡಿ. TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಂತರ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಎಂಬಲ್ಲಿಗೆ ಹೋಗಿ ಮತ್ತು \"ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಬಳಸಿ\" ಎಂಬುದನ್ನು ಆನ್ ಮಾಡಿ. ಸಾಧನಗಳ ಪಟ್ಟಿಯಲ್ಲಿ ನಿಮ್ಮ ಸಾಧನವನ್ನು ಹುಡುಕಿ ಮತ್ತು ಅದಕ್ಕೆ ಕನೆಕ್ಟ್‌ ಮಾಡಿ.</string>
-  <string name="update_welcome_text_content_with_link">TalkBack ಮೂಲಕ ನಿಮ್ಮ ಬ್ರೈಲ್‌ ಡಿಸ್‌ಪ್ಲೇ ಅನ್ನು ಬಳಸುವುದು ಹೇಗೆ ಎಂದು ತಿಳಿಯಿರಿ.</string>
   <string name="update_welcome_talkback_16.1">ಈ TalkBack ಅಪ್‌ಡೇಟ್, ಇನ್ನಷ್ಟು ಭಾಷೆಗಳಲ್ಲಿ ಸ್ಕ್ರೀನ್ ಮೇಲಿನ ಕಂಟೆಂಟ್ ಕುರಿತು ವಿವರಿಸುವ ಬೆಂಬಲವನ್ನು ಮತ್ತು ಬಳಸಲು ಸುಲಭವಾಗುವ ಹಾಗೆ ಮಾಡುವ ಇತರ ಗುಣಮಟ್ಟದ ಸುಧಾರಣೆಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ.\n\nಮುಂದಿನ ಕೆಲವು ಸ್ಕ್ರೀನ್‌ಗಳಲ್ಲಿ ಈ ಬದಲಾವಣೆಗಳ ಕುರಿತು ನಿಮಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯುತ್ತದೆ.\n\nನೀವು ಈ ಮಾಹಿತಿಯನ್ನು ನಂತರ TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; TalkBack ನಲ್ಲಿನ ಹೊಸ ಫೀಚರ್‌ಗಳು ಎಂಬಲ್ಲಿ ಪರಿಶೀಲಿಸಬಹುದು.</string>
   <string name="update_welcome_talkback_16.1_tts">ಈ TalkBack ಅಪ್‌ಡೇಟ್, ಇನ್ನಷ್ಟು ಭಾಷೆಗಳಲ್ಲಿ ಸ್ಕ್ರೀನ್ ಮೇಲಿನ ಕಂಟೆಂಟ್ ಕುರಿತು ವಿವರಿಸುವ ಬೆಂಬಲವನ್ನು ಮತ್ತು ಬಳಸಲು ಸುಲಭವಾಗುವ ಹಾಗೆ ಮಾಡುವ ಇತರ ಗುಣಮಟ್ಟದ ಸುಧಾರಣೆಗಳನ್ನು ಪರಿಚಯಿಸುತ್ತದೆ.\n\nಮುಂದಿನ ಕೆಲವು ಸ್ಕ್ರೀನ್‌ಗಳಲ್ಲಿ ಈ ಬದಲಾವಣೆಗಳ ಕುರಿತು ನಿಮಗೆ ಇನ್ನಷ್ಟು ತಿಳಿಯುತ್ತದೆ.\n\nನೀವು ಈ ಮಾಹಿತಿಯನ್ನು ನಂತರ TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು, ಬಳಿಕ TalkBack ನಲ್ಲಿನ ಹೊಸ ಫೀಚರ್‌ಗಳು ಎಂಬಲ್ಲಿಗೆ ಹೋಗುವ ಮೂಲಕ ಪರಿಶೀಲಿಸಬಹುದು.</string>
   <string name="describe_screen_and_qna_title">ವಿವರಣೆ ಸ್ಕ್ರೀನ್ ಮತ್ತು Gemini ಅನ್ನು ಕೇಳಿ ಫೀಚರ್‌ಗಾಗಿ ಹೊಸ ಭಾಷೆಗಳು</string>
@@ -986,10 +971,6 @@
   <string name="reduce_delay_title">ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="reduce_delay_content">ಸ್ಪರ್ಶ ಅನ್ವೇಷಣೆ ಮತ್ತು ಟೈಪಿಂಗ್‌ಗಾಗಿ ನೀವು ಈಗ TalkBack ಪ್ರಕಟಣೆ ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಬಹುದು. ಈ ಸೆಟ್ಟಿಂಗ್ ನೋಡಲು, TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಸುಧಾರಿತ ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಿ ಎಂಬಲ್ಲಿಗೆ ಹೋಗಿ.</string>
   <string name="reduce_delay_content_tts">ಸ್ಪರ್ಶ ಅನ್ವೇಷಣೆ ಮತ್ತು ಟೈಪಿಂಗ್‌ಗಾಗಿ ನೀವು ಈಗ TalkBack ಪ್ರಕಟಣೆ ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಬಹುದು. ಈ ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ವೀಕ್ಷಿಸಲು, TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ ನಂತರ ಸುಧಾರಿತ ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ ನಂತರ ವಿಳಂಬವನ್ನು ಕಡಿಮೆ ಮಾಡಿ.</string>
-  <string name="customize_braille_keyboard_improvements_title">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಜೆಸ್ಚರ್‌ಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಿ</string>
-  <string name="customize_braille_keyboard_improvements_content">ವರ್ಚುವಲ್ ಆನ್-ಸ್ಕ್ರೀನ್ ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್‌ಗಾಗಿ ಜೆಸ್ಚರ್‌ಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಲು ಈಗ ಸಾಧ್ಯವಿದೆ. ಕಸ್ಟಮೈಸ್ ಮಾಡಲು, TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ &gt; ಜೆಸ್ಚರ್‌ಗಳಿಗೆ ಹೋಗಿ.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">ವರ್ಚುವಲ್ ಆನ್-ಸ್ಕ್ರೀನ್ ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್‌ಗಾಗಿ ಜೆಸ್ಚರ್‌ಗಳನ್ನು ಕಸ್ಟಮೈಸ್ ಮಾಡಲು ಈಗ ಸಾಧ್ಯವಿದೆ. ಕಸ್ಟಮೈಸ್ ಮಾಡಲು, TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳಿಗೆ ಹೋಗಿ ನಂತರ ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್‌ಗೆ ಹೋಗಿ ನಂತರ ಜೆಸ್ಚರ್‌ಗಳಿಗೆ ಹೋಗಿ.</string>
-  <string name="learn_more_about_braille_keyboard">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್ ಕುರಿತು ಇನ್ನಷ್ಟು ತಿಳಿಯಿರಿ</string>
   <string name="other_changes_title">ಇತರ ಬದಲಾವಣೆಗಳು</string>
   <string name="other_changes_content">TalkBack ಆಕಸ್ಮಿಕವಾಗಿ ಆನ್ ಆಗಿದ್ದರೆ, ಅದನ್ನು ತ್ವರಿತವಾಗಿ ಆಫ್ ಮಾಡಲು ಈಗ ಆನ್‌-ಸ್ಕ್ರೀನ್ ಸಂದೇಶವು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನೀವು ಇದನ್ನು TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; TalkBack ಅನ್ನು ಆಫ್ ಮಾಡಲು ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ ಎಂಬಲ್ಲಿ ಆಫ್ ಮಾಡಬಹುದು.</string>
   <string name="other_changes_content_tts">TalkBack ಆಕಸ್ಮಿಕವಾಗಿ ಆನ್ ಆಗಿದ್ದರೆ, ಅದನ್ನು ತ್ವರಿತವಾಗಿ ಆಫ್ ಮಾಡಲು ಈಗ ಆನ್‌-ಸ್ಕ್ರೀನ್ ಸಂದೇಶವು ನಿಮಗೆ ಸಹಾಯ ಮಾಡುತ್ತದೆ. ನೀವು ಇದನ್ನು TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಆಫ್ ಮಾಡಬಹುದು ನಂತರ TalkBack ಅನ್ನು ಆಫ್ ಮಾಡಲು ಸೂಚನೆಗಳನ್ನು ತೋರಿಸಿ.</string>
@@ -1022,7 +1003,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack ಈಗ ಭೌತಿಕ ಕೀಬೋರ್ಡ್‌ಗಳಿಗಾಗಿ \"ವರ್ಧಿತ ಕೀಮ್ಯಾಪ್\" ಅನ್ನು ಹೊಂದಿದ್ದು, ವಿವಿಧ ಹೊಸ ಕಮಾಂಡ್‌ಗಳು ಮತ್ತು ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಹೊಂದಿದೆ. ಈ ವರ್ಧನೆಯು ಹೆಚ್ಚು ಪರಿಣಾಮಕಾರಿ ವೆಬ್ ನ್ಯಾವಿಗೇಷನ್‌ಗಾಗಿ \"ಬ್ರೌಸ್ ಮೋಡ್\" ಅನ್ನು ಒಳಗೊಂಡಿದೆ, ಭೌತಿಕ ಕೀಬೋರ್ಡ್‌ಗಳನ್ನು ಅವಲಂಬಿಸಿರುವ TalkBack ಬಳಕೆದಾರರಿಗೆ ನ್ಯಾವಿಗೇಷನ್ ಮತ್ತು ಸಂವಹನವನ್ನು ಸುಗಮಗೊಳಿಸುತ್ತದೆ. ನೀವು %1$s ನಲ್ಲಿ \"ವರ್ಧಿತ ಕೀಮ್ಯಾಪ್\" ಗೆ ಬದಲಾಯಿಸಬಹುದು.\n\nನೀವು ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇಯನ್ನು ಬಳಸಿದರೆ, ನಿಮ್ಮ ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇಯಿಂದ ನೇರವಾಗಿ ಕಂಟೆಂಟ್ ಮೂಲಕ ನ್ಯಾವಿಗೇಟ್ ಮಾಡಲು ನೀವು ಹೊಸ ಬ್ರೌಸ್ ಮೋಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಸಹ ಬಳಸಬಹುದು. ಈ ಬದಲಾವಣೆಯನ್ನು ಅಳವಡಿಸಿಕೊಳ್ಳಲು ಕೆಲವು ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳನ್ನು ಬದಲಾಯಿಸಲಾಗಿದೆ. %2$s ನಲ್ಲಿ ನೀವು ಎಲ್ಲಾ ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳ ಪಟ್ಟಿಯನ್ನು ನೋಡಬಹುದು.</string>
   <string name="keyboard_shortcuts_link">TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು ನಂತರ ಕೀಬೋರ್ಡ್ ಶಾರ್ಟ್‌ಕಟ್‌ಗಳು</string>
-  <string name="braille_display_settings_link">ಬ್ರೈಲ್ ಡಿಸ್‌ಪ್ಲೇ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
   <string name="keyboard_smart_browse_mode_title">ಕೀಬೋರ್ಡ್: ಸ್ಮಾರ್ಟ್ ಬ್ರೌಸ್ ಮೋಡ್</string>
   <string name="keyboard_smart_browse_mode_text">ನೀವು ವೆಬ್ ಅನ್ನು ಬ್ರೌಸ್ ಮಾಡುವಾಗ ಭೌತಿಕ ಕೀಬೋರ್ಡ್‌ನೊಂದಿಗೆ ಟೈಪ್ ಮಾಡಲು ನಿಮಗೆ ಸಹಾಯ ಮಾಡಲು TalkBack ಸ್ಮಾರ್ಟ್ ಬ್ರೌಸ್ ಮೋಡ್ ಎಡಿಟ್ ಫೀಲ್ಡ್‌ನಲ್ಲಿ ಬ್ರೌಸ್ ಮೋಡ್ ಅನ್ನು ಆಫ್ ಮಾಡುತ್ತದೆ. ನಂತರ ನೀವು ವೆಬ್‌ನಲ್ಲಿ ಎಡಿಟ್ ಮಾಡಲಾಗದ ಫೀಲ್ಡ್‌ಗೆ ಹೋದಾಗ ಅದು ಮತ್ತೆ ಆನ್ ಆಗುತ್ತದೆ, ಇದರಿಂದ ನೀವು ಪರಿಣಾಮಕಾರಿಯಾಗಿ ಬ್ರೌಸ್ ಮಾಡುವುದನ್ನು ಮುಂದುವರಿಸಬಹುದು. ನೀವು %1$s ನಲ್ಲಿ \"ಸ್ಮಾರ್ಟ್ ಬ್ರೌಸ್ ಮೋಡ್\" ಅನ್ನು ಆನ್ ಅಥವಾ ಆಫ್ ಮಾಡಬಹುದು.</string>
   <string name="advanced_settings_link">TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಸುಧಾರಿತ ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
@@ -1096,7 +1076,6 @@
   <string name="typing_text_title">ಪಠ್ಯವನ್ನು ಟೈಪ್ ಮಾಡುವುದು</string>
   <string name="basic_typing_text_text">ನೀವು ಟೆಕ್ಸ್ಟ್ ಬಾಕ್ಸ್ ಅನ್ನು ಬಳಸುವಾಗ, ನಿಮ್ಮ ಸ್ಕ್ರೀನ್‌ನ ಕೆಳಭಾಗದಲ್ಲಿ ಕೀಬೋರ್ಡ್ ತೆರೆಯುತ್ತದೆ.</string>
   <string name="typing_text_text">ಕೀಬೋರ್ಡ್‌ನಾದ್ಯಂತ ನಿಮ್ಮ ಬೆರಳನ್ನು ಸರಿಸಿ. ನೀವು ಟೈಪ್ ಮಾಡಲು ಬಯಸುವ ಅಕ್ಷರ ನಿಮಗೆ ಕೇಳಿಸಿದಾಗ, ನಿಮ್ಮ ಬೆರಳನ್ನು ಎತ್ತಿ.\n\nಕೆಳಗಿನ ಪಠ್ಯ ಬಾಕ್ಸ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು ಪ್ರಯತ್ನಿಸಿ ಮತ್ತು ನಿಮ್ಮ ಹೆಸರನ್ನು ಟೈಪ್ ಮಾಡಿ.</string>
-  <string name="typing_text_with_braille_keyboard_text">ನೀವು ಬ್ರೈಲ್‌ ಕೀಬೋರ್ಡ್ ಬಳಸಿಯೂ ಸಹ ಟೈಪ್ ಮಾಡಬಹುದು. TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳಲ್ಲಿ ಅದನ್ನು ಹುಡುಕಿ.</string>
   <string name="other_ways_to_type_title">ಟೈಪ್ ಮಾಡಲು ಇತರ ಮಾರ್ಗಗಳು</string>
   <string name="other_ways_to_type_text">TalkBack ಬಳಸಿ ಟೈಪ್ ಮಾಡಲು ಇತರ ಮಾರ್ಗಗಳಿವೆ. ಉದಾಹರಣೆಗೆ, ನೀವು ಅಕ್ಷರವನ್ನು ನಮೂದಿಸಲು \'ಡಬಲ್ ಟ್ಯಾಪ್\' ಅನ್ನು ಬಳಸಬಹುದು.</string>
   <string name="basic_other_ways_to_type_text">TalkBack ಬಳಸಿ ಟೈಪ್ ಮಾಡಲು ಇತರ ಮಾರ್ಗಗಳಿವೆ. ಉದಾಹರಣೆಗೆ, ನೀವು ಅಕ್ಷರವನ್ನು ನಮೂದಿಸಲು \'ಡಬಲ್ ಟ್ಯಾಪ್\' ಅನ್ನು ಬಳಸಬಹುದು. ನೀವು ಇದನ್ನು ನಂತರ TalkBack ಸೆಟ್ಟಿಂಗ್‌ಗಳು &gt; ಆನ್-ಸ್ಕ್ರೀನ್ ಕೀಬೋರ್ಡ್ &gt; ಟೈಪಿಂಗ್ ಆದ್ಯತೆ ಎಂಬಲ್ಲಿ ಬದಲಾಯಿಸಬಹುದು.</string>
@@ -1211,26 +1190,6 @@
   <string name="talkback_inactive_message_practice_gestures">ಗೆಸ್ಚರ್‌ಗಳನ್ನು ಅಭ್ಯಾಸ ಮಾಡಲು, ಮೊದಲು TalkBack ಆನ್ ಮಾಡಿ</string>
   <string name="talkback_inactive_message_image_description">ಚಿತ್ರದ ವಿವರಣೆಗಳನ್ನು ಪಡೆಯಲು, ಮೊದಲು TalkBack ಅನ್ನು ಆನ್ ಮಾಡಿ</string>
   <string name="talkback_inactive_close_tutorial_button">ಟುಟೋರಿಯಲ್ ಅನ್ನು ಮುಚ್ಚಿರಿ</string>
-  <string name="wear_training_welcome_paragraph">TalkBack ಆನ್ ಆಗಿರುವಾಗ, ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಫೋಕಸ್ ಮಾಡಲಾದ ಐಟಂ ಅನ್ನು ಗಟ್ಟಿ ಧ್ವನಿಯಲ್ಲಿ ಓದಲಾಗುತ್ತದೆ.\n\nಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿದರೆ ಮುಂದಿನ ಐಟಂಗೆ ಚಲಿಸುತ್ತದೆ. ಎಡಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿದರೆ ಮುಂದಿನ ಐಟಂಗೆ ಚಲಿಸುತ್ತದೆ.\n\nಮುಂದಿನ ಬಟನ್ ಅನ್ನು ಹುಡುಕುವವರೆಗೆ ಈಗ ಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d ಬೆರಳುಗಳಿಂದ ಮೇಲಕ್ಕೆ ಅಥವಾ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
-  <string name="wear_training_go_back_title">ಹಿಂದಿರುಗಿ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ನೀವು ಹಿಂತಿರುಗಲು ಬಯಸಿದಾಗ, ಸ್ಕ್ರೀನ್ ಅಂಚಿನಿಂದ ಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಲು %1$d ಬೆರಳುಗಳನ್ನು ಬಳಸಿ.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ಯಶಸ್ವಿಯಾಗಿದೆ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ಹಿಂದಕ್ಕೆ ಜೆಸ್ಚರ್ ಅನ್ನು ಕಾರ್ಯಗತಗೊಳಿಸಲಾಗಿದೆ</string>
-  <string name="wear_training_volume_up_title">ವಾಲ್ಯೂಮ್ ಹೆಚ್ಚು ಮಾಡಿ</string>
-  <string name="wear_training_volume_up_text">ಬಲಕ್ಕೆ ಮತ್ತು ನಂತರ ಮೇಲೆ ಸ್ವೈಪ್ ಮಾಡಿ</string>
-  <string name="wear_training_volume_down_title">ವಾಲ್ಯೂಮ್ ಕಡಿಮೆ ಮಾಡಿ</string>
-  <string name="wear_training_volume_down_text">ಬಲಕ್ಕೆ ಮತ್ತು ನಂತರ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack ಮೆನುವನ್ನು ತೆರೆಯಿರಿ</string>
-  <string name="wear_training_open_talkback_menu_text">ನಿಮಗೆ ಆಗಾಗ್ಗೆ ಬೇಕಾಗಿರುವ ಸೆಟ್ಟಿಂಗ್‌ಗಳು ಮತ್ತು ನಿಯಂತ್ರಣಗಳನ್ನು ತೆರೆಯಲು, ಮೊದಲು ಕೆಳಕ್ಕೆ ಮತ್ತು ನಂತರ ಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ</string>
-  <string name="wear_training_typing_title">ಟೈಪ್ ಮಾಡಲಾಗುತ್ತಿದೆ</string>
-  <string name="wear_training_typing_text1">ಕೀಬೋರ್ಡ್ ಮೂಲಕ ಟೈಪ್ ಮಾಡಲು, ಕೀಬೋರ್ಡ್‌ನಾದ್ಯಂತ ನಿಮ್ಮ ಬೆರಳನ್ನು ಮೂವ್ ಮಾಡಿ. ನೀವು ಟೈಪ್ ಮಾಡಲು ಬಯಸುವ ಅಕ್ಷರ ನಿಮಗೆ ಕೇಳಿಸಿದಾಗ, ನಿಮ್ಮ ಬೆರಳನ್ನು ತೆಗೆಯಿರಿ.</string>
-  <string name="wear_training_typing_text2">ಕೀಬೋರ್ಡ್ ಮರೆಮಾಡಿ ನಿಮ್ಮ ಇನ್‌ಪುಟ್ ಅನ್ನು ಪರಿಶೀಲಿಸಲು, 2 ಬೆರಳುಗಳಿಂದ ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಮೇಲಿನಿಂದ ಕೆಳಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
-  <string name="wear_training_typing_text3">ಕೀಬೋರ್ಡ್‌ಗೆ ಹಿಂತಿರುಗಲು, ನಿಮ್ಮ ಸ್ಕ್ರೀನ್ ಕೆಳಗಿನಿಂದ 2 ಬೆರಳುಗಳಿಂದ ಮೇಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
-  <string name="wear_training_typing_text4">ಕೀಬೋರ್ಡ್ ಮುಚ್ಚಿ ಟೈಪ್ ಮಾಡುವುದನ್ನು ರದ್ದುಮಾಡಲು, ನಿಮ್ಮ ಸ್ಕ್ರೀನ್‌ನ ಎಡ ಅಂಚಿನಿಂದ 2 ಬೆರಳುಗಳಿಂದ ಬಲಕ್ಕೆ ಸ್ವೈಪ್ ಮಾಡಿ.</string>
-  <string name="wear_training_typing_text5">ಅದನ್ನು ಕೆಳಗೆ ಪ್ರಯತ್ನಿಸಿ.</string>
-  <string name="wear_training_typing_practice_button_content_description">ಕೀಬೋರ್ಡ್ ಮೂಲಕ ಟೈಪ್ ಮಾಡುವುದು</string>
-  <string name="wear_training_end_tutorial_title">TalkBack ಅನ್ನು ಬಳಸಲು ನೀವು ಸಿದ್ಧರಾಗಿದ್ದೀರಿ</string>
   <string name="talkback_updated_notification_title">TalkBack ಅನ್ನು ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾಗಿದೆ</string>
   <string name="talkback_updated_notification_content">ಇನ್ನಷ್ಟು ತಿಳಿಯಲು ಟ್ಯಾಪ್ ಮಾಡಿ</string>
   <string name="wear_new_feature_page_title">ಅಪ್‌ಡೇಟ್ ಮಾಡಲಾದ TalkBack ಗೆ ಸುಸ್ವಾಗತ</string>

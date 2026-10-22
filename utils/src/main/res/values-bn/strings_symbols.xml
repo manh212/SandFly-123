@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">সম্পূর্ণ প্রস্থে লেখা \'কম\'-এর চিহ্ন</string>
   <string name="symbol_full_width_greater_than_sign">সম্পূর্ণ প্রস্থে লেখা \'বেশি\'-এর চিহ্ন</string>
   <string name="symbol_left_single_quotation_mark">বাঁদিকের একক উদ্ধৃতি চিহ্ন</string>
-  <string name="symbol_braille">ব্রেইল %s</string>
-  <plurals name="dots">
-    <item quantity="one">ডট %s</item>
-    <item quantity="other">ডট %s</item>
-  </plurals>
 </resources>

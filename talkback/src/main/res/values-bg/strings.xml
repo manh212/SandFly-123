@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Изследване чрез докосване</string>
   <string name="title_pref_category_visual">Визуални</string>
   <string name="title_pref_category_controls">Контроли</string>
-  <string name="title_pref_category_braille">Брайлово писмо</string>
   <string name="title_pref_category_general">Общи</string>
   <string name="title_pref_category_advanced">Разширени</string>
   <string name="title_pref_category_others">Други</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Намаляване на забавянето</string>
   <string name="talkback_latency_reduction_summary">SandFly реагира по-бързо, след като докоснете екрана</string>
   <string name="summary_pref_intonation">Произнасяне на изтритите букви с по-голяма височина на гласа</string>
-  <string name="title_pref_brailledisplay">Екран за брайлово писмо</string>
-  <string name="title_pref_brailleime">Брайлова клавиатура</string>
-  <string name="summary_pref_brailleime_disabled">Устройството ви не поддържа брайлова клавиатура</string>
   <string name="title_pref_speech_footer">За да промените силата на звука за услугите за достъпност от всеки екран, задръжте 1 пръст на екрана и натиснете бутона за увеличаване или намаляване на силата на звука.</string>
   <string name="title_pref_vibration">Обр. връзка с вибриране</string>
   <string name="title_pref_soundback">Звукова обратна връзка</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Увеличаване на силата на звука</string>
   <string name="shortcut_decrease_volume">Намаляване на силата на звука</string>
   <string name="shortcut_all_apps">Всички приложения</string>
-  <string name="shortcut_braille_keyboard">Към брайлова клавиатура</string>
-  <string name="shortcut_braille_display_settings">Към настройките за екрана за брайлово писмо</string>
   <string name="shortcut_tutorial">Отваряне на обучението</string>
   <string name="shortcut_control_speak_time">Изговаряне или неизговаряне на часа</string>
   <string name="shortcut_enable_speak_time">Изговаряне на часа</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Изговарянето на часа е изключено</string>
   <string name="shortcut_practice_gestures">Упражняване на жестовете</string>
   <string name="shortcut_report_gesture">Подаване на сигнал за проблем с жест</string>
-  <string name="shortcut_toggle_braille_display">Включване или изключване на екрана за брайлово писмо</string>
   <string name="shortcut_announce_current_time_and_date">Изговаряне на текущите дата и час</string>
   <string name="shortcut_announce_battery_state">Изговаряне на процента на батерията</string>
   <string name="shortcut_announce_current_title">Изговаряне на заглавието на прозореца</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Намаляване на скоростта на говора</string>
   <string name="shortcut_toggle_selection">Начало или край на режима за избиране</string>
   <string name="shortcut_show_tutorial">Отваряне на урока</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Превкл. м/у брайл. писмо със (клас 2) и без съкращения (клас 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Показв./скрив. на брайловата клав. за екрани за брайл. писмо</string>
   <string name="shortcut_toggle_sound_feedback">Вкл./изкл. на обратната връзка със звук (звукови сигнали)</string>
   <string name="shortcut_show_learn_mode_page">Упражняване на клавишните комбинации</string>
   <string name="shortcut_announce_phonetic_pronunciation">Изговаряне на буквите с фонетично произношение за елемента, върху който е поставен фокусът</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Гласови команди</string>
   <string name="title_show_keyboard_shortcuts">Клавишни комбинации</string>
   <string name="talkback_show_talkback_settings">Настройки на SandFly</string>
-  <string name="title_show_braille_display_settings">Настройки за екрана за брайлово писмо</string>
   <string name="title_granularity_default">Навигиране по подразбиране</string>
   <string name="title_action_dismiss">Отхвърляне</string>
   <string name="title_action_expand">Разгъване</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Промяна на това, дали часът да се изговаря на глас, когато включите екрана</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Отваряне на списъка с клавишни комбинации</string>
   <string name="summary_talkback_preferences">Отваряне на настройките на SandFly</string>
-  <string name="summary_braile_display_preferences">Отваряне на настройките за екрана за брайлово писмо</string>
   <string name="summary_system_actions">Отваряне на изгледа с всички приложения и бързите настройки</string>
   <string name="summary_tts_settings">Отваряне на настройките за синтезиран говор</string>
   <string name="not_editable">Не може да се редактира</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ключовата дума е %1$s</string>
   <string name="screen_search_no_keyword_hint">Все още няма ключова дума. За да стартирате ново търсене, докоснете и задръжте с 3 пръста или отворете функцията за търсене в екрана от менюто на SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Все още няма ключова дума. За да стартирате ново търсене, плъзнете наляво и след това надолу или отворете функцията за търсене в екрана от менюто на SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Брайловата клавиатура не е включена. Отворете настройките на SandFly, настройте я и опитайте пак.</string>
   <string name="suggestions_window_available">Налице са предложения</string>
   <string name="suggestions_window_available_with_gesture">Налице са предложения. За достъп %1$s.</string>
   <string name="heads_up_window_available">Налице е известие</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Докоснете, за да научите как да използвате SandFly по-бързо с помощта на новите жестове.</string>
   <string name="dump_node_tree_description">Дървото с възли е отпечатано в регистрационните файлове.</string>
   <string name="report_gesture_description">Ето наскоро използваните жестове. Моля, изберете грешния и посочете какъв очаквате да бъде.</string>
-  <string name="update_welcome_text_content">Вече можете да се свързвате с екрани за брайлово писмо чрез HID – начин за осъществяване на връзка с устройства с Bluetooth. Уверете се, че имате най-новите драйвери за фърмуера от производителя, след което включете Bluetooth на екрана си за брайлово писмо. Отворете „Настройки на SandFly &gt; Екран за брайлово писмо“ и включете „Използване на екрана за брайлово писмо“. Намерете устройството си в списъка с устройства и се свържете с него.</string>
-  <string name="update_welcome_text_content_tts">Вече можете да се свързвате с екрани за брайлово писмо чрез HID – начин за осъществяване на връзка с устройства с Bluetooth. Уверете се, че имате най-новите драйвери за фърмуера от производителя, след което включете Bluetooth на екрана си за брайлово писмо. Отворете настройките на SandFly, изберете „Екран за брайлово писмо“ и включете „Използване на екрана за брайлово писмо“. Намерете устройството си в списъка с устройства и се свържете с него.</string>
-  <string name="update_welcome_text_content_with_link">Научете как да използвате екрана си за брайлово писмо с SandFly.</string>
   <string name="update_welcome_talkback_16.1">Тази актуализация на SandFly въвежда поддръжка на „Описание на екрана“ на повече езици и други подобрения на качеството, които улесняват използването на услугата.\n\nЩе научите повече за тези промени на следващите няколко екрана.\n\nМожете да прегледате тази информация по-късно от „Настройки на SandFly &gt; Нови функции в SandFly“.</string>
   <string name="update_welcome_talkback_16.1_tts">Тази актуализация на SandFly въвежда поддръжка на „Описание на екрана“ на повече езици и други подобрения на качеството, които улесняват използването на услугата.\n\nЩе научите повече за тези промени на следващите няколко екрана.\n\nМожете да прегледате тази информация по-късно, като отворите „Настройки на SandFly“ и след това „Нови функции в SandFly“.</string>
   <string name="describe_screen_and_qna_title">Нови езици за „Описание на екрана“ и „Попитайте Gemini“</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Намаляване на забавянето</string>
   <string name="reduce_delay_content">Вече можете да намалите забавянето на съобщенията на SandFly при разглеждане чрез докосване и при въвеждане. За да прегледате тези настройки, отворете „Настройки на SandFly &gt; Разширени настройки &gt; Намаляване на забавянето“.</string>
   <string name="reduce_delay_content_tts">Вече можете да намалите забавянето на съобщенията на SandFly при разглеждане чрез докосване и при въвеждане. За да прегледате тези настройки, отворете „Настройки на SandFly“, след което „Разширени настройки“ и след това „Намаляване на забавянето“.</string>
-  <string name="customize_braille_keyboard_improvements_title">Персонализиране на жестовете за брайловата клавиатура</string>
-  <string name="customize_braille_keyboard_improvements_content">Вече можете да персонализирате жестовете за виртуалната брайлова клавиатура на екрана. За целта отворете „Настройки на SandFly &gt; Брайлова клавиатура &gt; Жестове“.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Вече можете да персонализирате жестовете за виртуалната брайлова клавиатура на екрана. За целта отворете „Настройки на SandFly“, след което „Брайлова клавиатура“ и след това „Жестове“.</string>
-  <string name="learn_more_about_braille_keyboard">Научете повече за брайловата клавиатура</string>
   <string name="other_changes_title">Други промени</string>
   <string name="other_changes_content">Вече има съобщение на екрана, което ви помага бързо да изключите SandFly при случайно активиране на екранния четец. Можете да изключите тази функция от „Настройки на SandFly“ &gt; опцията за показване на инструкции за изключване на SandFly.</string>
   <string name="other_changes_content_tts">Вече има съобщение на екрана, което ви помага бързо да изключите SandFly при случайно активиране на екранния четец. Можете да изключите тази функция, като отворите „Настройки на SandFly“ и след това опцията за показване на инструкции за изключване на SandFly.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly вече разполага с „Подобрена клавиатурна подредба“ за физически клавиатури с разнообразие от нови команди и клавишни комбинации. Това подобрение включва режим за четене с цел по-ефективна навигация в мрежата и улеснява навигирането и взаимодействието за потребителите на SandFly, които разчитат на физически клавиатури. Можете да превключите към „Подобрена клавиатурна подредба“ от <xliff:g id="settings_path">%1$s</xliff:g>.\n\nАко използвате екран за брайлово писмо, имате възможност да ползвате и нови клавишни комбинации за режима за четене, за да разглеждате съдържание директно от екрана за брайлово писмо. Някои клавишни комбинации за екрана за брайлово писмо бяха променени, за да се приложи тази промяна. Можете да видите списък с всички клавишни комбинации за екрана за брайлово писмо, като отворите <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">„Настройки на SandFly &gt; Клавишни комбинации“</string>
   <string name="keyboard_shortcuts_link_tts">„Настройки на SandFly“ и след това „Клавишни комбинации“</string>
-  <string name="braille_display_settings_link">Настройки за екрана за брайлово писмо</string>
   <string name="keyboard_smart_browse_mode_title">Клавиатура: „Интелигентен режим за четене“</string>
   <string name="keyboard_smart_browse_mode_text">Интелигентният режим за четене на SandFly изключва режима за четене в поле за редактиране, за да ви помага да пишете с физическа клавиатура, когато сърфирате в мрежата. След това го включва отново, когато преминете към поле в мрежата, което не може да се редактира, за да продължите да сърфирате ефективно. Имате възможност да включите или изключите „Интелигентен режим за четене“ от <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">„Настройки на SandFly &gt; Разширени настройки“</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Въвеждане на текст</string>
   <string name="basic_typing_text_text">Когато сте в текстово поле, в долната част на екрана се отваря клавиатура.</string>
   <string name="typing_text_text">Плъзнете пръст през клавиатурата. Вдигнете го, когато чуете буквата, която искате да въведете.\n\nОпитайте да изберете текстовото поле по-долу и да въведете името си.</string>
-  <string name="typing_text_with_braille_keyboard_text">Можете също да въвеждате текст чрез брайловата клавиатура. Ще намерите опцията за това в настройките на SandFly.</string>
   <string name="other_ways_to_type_title">Други начини за въвеждане</string>
   <string name="other_ways_to_type_text">Има и други начини за въвеждане в SandFly. Можете например да използвате двукратно докосване, за да въведете буква.</string>
   <string name="basic_other_ways_to_type_text">Има и други начини за въвеждане в SandFly. Можете например да използвате двукратно докосване, за да въведете буква. Можете да промените това по-късно от „Настройки на SandFly &gt; Екранна клавиатура &gt; Метод на въвеждане“.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">За да упражнявате жестовете, първо включете SandFly</string>
   <string name="talkback_inactive_message_image_description">За да получите описания на изображенията, първо включете SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Затваряне на урока</string>
-  <string name="wear_training_welcome_paragraph">Когато услугата SandFly е включена, елементът на екрана, върху който е фокусът, се прочита на глас.\n\nПлъзнете пръст надясно, за да се придвижите до следващия елемент. Плъзнете пръст наляво, за да се върнете към предишния елемент.\n\nСега плъзнете пръст надясно, докато намерите бутона „Напред“.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Прекарайте %1$d пръста нагоре или надолу.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Когато искате да се върнете назад, прекарайте %1$d пръста надясно от края на екрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Успех</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Изпълнихте жеста за връщане назад</string>
-  <string name="wear_training_volume_up_title">Увеличаване на силата на звука</string>
-  <string name="wear_training_volume_up_text">Плъзнете пръст надясно и след това нагоре</string>
-  <string name="wear_training_volume_down_title">Намаляване на силата на звука</string>
-  <string name="wear_training_volume_down_text">Плъзнете пръст надясно и след това надолу</string>
-  <string name="wear_training_open_talkback_menu_title">Отваряне на менюто на SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">За да отворите често използвани настройки и контроли, плъзнете пръст надолу и след това надясно</string>
-  <string name="wear_training_typing_title">Въвеждане</string>
-  <string name="wear_training_typing_text1">За да въвеждате с клавиатурата, плъзнете пръст през нея. Вдигнете го, когато чуете буквата, която искате да въведете.</string>
-  <string name="wear_training_typing_text2">За да скриете клавиатурата и да проверите въведеното от вас, плъзнете два пръста надолу от горната част на екрана.</string>
-  <string name="wear_training_typing_text3">За да се върнете към клавиатурата, плъзнете два пръста нагоре от долната част на екрана.</string>
-  <string name="wear_training_typing_text4">За да затворите клавиатурата и да анулирате въвеждането, плъзнете два пръста надясно от левия край на екрана.</string>
-  <string name="wear_training_typing_text5">Изпробвайте това по-долу.</string>
-  <string name="wear_training_typing_practice_button_content_description">Въвеждане с клавиатурата</string>
-  <string name="wear_training_end_tutorial_title">Можете да започнете да използвате SandFly</string>
   <string name="talkback_updated_notification_title">Услугата SandFly е актуализирана</string>
   <string name="talkback_updated_notification_content">Докоснете, за да научите повече</string>
   <string name="wear_new_feature_page_title">Добре дошли в новата версия на SandFly</string>
@@ -1520,7 +1479,6 @@
     <string name="title_pref_announce_ringer_mode">Режим на звънене</string>
     <string name="summary_pref_announce_ringer_mode">Изговаряне, когато звъненето е настроено на вибриране или тих режим</string>
     <string name="title_pref_category_feedback">Обратна връзка</string>
-    <string name="title_pref_category_typing_and_braille">Въвеждане и брайл</string>
     <string name="title_pref_category_apps">Приложения</string>
     <string name="title_pref_touch_activation">Докосване и активиране</string>
     <string name="title_pref_navigation">Навигиране</string>
@@ -1544,8 +1502,6 @@
     <string name="speech_control_deny">Без разрешаване</string>
     <string name="permission_speak_label">изговаряне чрез SandFly</string>
     <string name="permission_speak_description">Позволява на приложението да иска да изговаря текст с гласа на SandFly. SandFly иска потвърждение от вас, преди приложението да може да изговаря.</string>
-    <string name="permission_braille_display_label">заявка за работа като екран за брайлово писмо за SandFly</string>
-    <string name="permission_braille_display_description">Позволява на приложението да иска да работи като екран за брайлово писмо за SandFly. Ако го разрешите в SandFly, то може да чете всичко на екрана и да управлява устройството ви. SandFly иска потвърждение от вас преди това.</string>
     <string name="title_pref_phonetic_letters_mode">Фонетично изговаряне на буквите</string>
     <string name="phonetic_letters_mode_off">Изкл.</string>
     <string name="phonetic_letters_mode_after_letter_delay">След буквата, със закъснение, например „х, Христо“</string>
@@ -1683,14 +1639,8 @@
     <string name="summary_support_wrap_around">Включване или изключване на прехода от последния към първия елемент</string>
     <string name="wrap_around_on">Цикличното придвижване е включено</string>
     <string name="wrap_around_off">Цикличното придвижване е изключено</string>
-    <string name="title_selector_tablet_held_up_faces_away">Вдигнат таблет, обърнат навън</string>
-    <string name="summary_support_tablet_held_up_faces_away">За брайловата клавиатура на таблет или разгънат телефон</string>
-    <string name="tablet_held_up_faces_away_on">Вдигнат таблет, обърнат навън: вкл.</string>
-    <string name="tablet_held_up_faces_away_off">Вдигнат таблет, обърнат навън: изкл.</string>
     <string name="title_keyboard_echo_on_screen">Ехо от екранната клавиатура</string>
     <string name="title_keyboard_echo_physical">Ехо от физическата клавиатура</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ехо от брайловата клавиатура</string>
-    <string name="title_keyboard_echo_braille_display">Ехо от екрана за брайлово писмо</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Прекъсване на говора при въвеждане</string>
     <string name="pref_interrupt_typing_entry_always">Винаги</string>

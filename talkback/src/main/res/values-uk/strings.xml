@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Дослідження дотиком</string>
   <string name="title_pref_category_visual">Відображення</string>
   <string name="title_pref_category_controls">Елементи керування</string>
-  <string name="title_pref_category_braille">Шрифт Брайля</string>
   <string name="title_pref_category_general">Загальні</string>
   <string name="title_pref_category_advanced">Додатково</string>
   <string name="title_pref_category_others">Інші</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Зменшити затримку</string>
   <string name="talkback_latency_reduction_summary">Налаштування, які зменшують затримку перед сповіщеннями TalkBack</string>
   <string name="summary_pref_intonation">Відтворювати видалені літери голосом із вищим тоном</string>
-  <string name="title_pref_brailledisplay">Брайлівський дисплей</string>
-  <string name="title_pref_brailleime">Брайлівська клавіатура</string>
-  <string name="summary_pref_brailleime_disabled">Ваш пристрій не підтримує клавіатуру Брайля</string>
   <string name="title_pref_speech_footer">Ви можете швидко змінити деякі налаштування звуку TalkBack на будь-якому екрані.\n\nГучність для функцій доступності: притисніть один палець до екрана й натискайте клавішу збільшення або зменшення гучності.\nШвидкість мовлення TalkBack: проведіть трьома пальцями вгору або вниз по екрану. Коли ви почуєте \"швидкість мовлення\", проведіть одним пальцем угору або вниз по екрану.</string>
   <string name="title_pref_vibration">Вібровідгук</string>
   <string name="title_pref_soundback">Звуковий відгук</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Збільшити гучність</string>
   <string name="shortcut_decrease_volume">Зменшити гучність</string>
   <string name="shortcut_all_apps">Усі додатки</string>
-  <string name="shortcut_braille_keyboard">Увімкнути брайлівську клавіатуру</string>
-  <string name="shortcut_braille_display_settings">До налаштувань брайлівського дисплея</string>
   <string name="shortcut_tutorial">Відкрити навчальний посібник</string>
   <string name="shortcut_control_speak_time">Озвучувати або не озвучувати час</string>
   <string name="shortcut_enable_speak_time">Озвучувати час</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Озвучення часу вимкнено</string>
   <string name="shortcut_practice_gestures">Практика жестів</string>
   <string name="shortcut_report_gesture">Повідомити про проблему з жестом</string>
-  <string name="shortcut_toggle_braille_display">Увімкнути або вимкнути брайлівський дисплей</string>
   <string name="shortcut_announce_current_time_and_date">Озвучити поточну дату й час</string>
   <string name="shortcut_announce_battery_state">Озвучувати заряд акумулятора у відсотках</string>
   <string name="shortcut_announce_current_title">Озвучувати назву вікна</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Знизити швидкість мовлення</string>
   <string name="shortcut_toggle_selection">Увімкнути або вимкнути режим виділення</string>
   <string name="shortcut_show_tutorial">Відкрити навчальний посібник</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Перемикатися між скороченою (2-й рівень) і розширеною (1-й рівень) розкладкою</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Показати або сховати шрифт Брайля на екрані для підключених брайлівських дисплеїв</string>
   <string name="shortcut_toggle_sound_feedback">Увімкнути або вимкнути звуковий відгук (сигнали)</string>
   <string name="shortcut_show_learn_mode_page">Спробувати комбінації клавіш</string>
   <string name="shortcut_announce_phonetic_pronunciation">Озвучувати літери з фонетичною вимовою для виділеного об’єкта</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Голосові команди</string>
   <string name="title_show_keyboard_shortcuts">Комбінації клавіш</string>
   <string name="talkback_show_talkback_settings">Налаштування TalkBack</string>
-  <string name="title_show_braille_display_settings">Налаштування брайлівського дисплея</string>
   <string name="title_granularity_default">Навігація за умовчанням</string>
   <string name="title_action_dismiss">Закрити</string>
   <string name="title_action_expand">Розгорнути</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Укажіть, чи потрібно озвучувати час, коли ви вмикаєте екран</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Відкрити список комбінацій клавіш</string>
   <string name="summary_talkback_preferences">Відкрити налаштування TalkBack</string>
-  <string name="summary_braile_display_preferences">Відкрити налаштування брайлівського дисплея</string>
   <string name="summary_system_actions">Перейти до всіх додатків і швидких налаштувань</string>
   <string name="summary_tts_settings">Відкрити налаштування синтезу мовлення</string>
   <string name="not_editable">Неможливо редагувати</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ключове слово: %1$s</string>
   <string name="screen_search_no_keyword_hint">Ключового слова ще немає. Щоб почати новий пошук, натисніть і втримуйте екран трьома пальцями або відкрийте пошук на екрані в меню TalkBack.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ключового слова ще немає. Щоб почати новий пошук, проведіть пальцем уліво, а потім униз, або відкрийте пошук на екрані в меню TalkBack.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Брайлівську клавіатуру не ввімкнено. Налаштуйте її в параметрах TalkBack і повторіть спробу.</string>
   <string name="suggestions_window_available">Є пропозиції</string>
   <string name="suggestions_window_available_with_gesture">Є пропозиції. Щоб перейти до них, %1$s</string>
   <string name="heads_up_window_available">Доступне сповіщення</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">Натисніть, щоб дізнатися про нові жести, якими можна ефективніше працювати з TalkBack.</string>
   <string name="dump_node_tree_description">Дерево вузлів записано в журнали.</string>
   <string name="report_gesture_description">Виберіть зі списку нещодавно використаних неправильні жести та їх очікуваний результат.</string>
-  <string name="update_welcome_text_content">Тепер ви можете підключатися до брайлівських дисплеїв через HID, як до пристроїв із Bluetooth. Переконайтеся, що на вашому пристрої встановлено найновіші драйвери мікропрограми від виробника, а потім увімкніть Bluetooth на брайлівському дисплеї. Виберіть \"Налаштування TalkBack\" &gt; \"Брайлівський дисплей\" і ввімкніть опцію \"Використовувати брайлівський дисплей\". Знайдіть у списку свій пристрій і підключіться до нього.</string>
-  <string name="update_welcome_text_content_tts">Тепер ви можете підключатися до брайлівських дисплеїв через HID, як до пристроїв із Bluetooth. Переконайтеся, що на вашому пристрої встановлено найновіші драйвери мікропрограми від виробника, а потім увімкніть Bluetooth на брайлівському дисплеї. Перейдіть у налаштування TalkBack, а потім у розділ \"Брайлівський дисплей\" і ввімкніть опцію \"Використовувати брайлівський дисплей\". Знайдіть у списку свій пристрій і підключіться до нього.</string>
-  <string name="update_welcome_text_content_with_link">Дізнайтесь, як використовувати брайлівський дисплей із функцією TalkBack.</string>
   <string name="update_welcome_talkback_16.1">У цьому оновленні TalkBack додано підтримку функції \"Опис екрана\" іншими мовами й інші покращення якості, щоб користуватися TalkBack було зручніше.\n\nДокладніше про ці зміни ви дізнаєтеся на кількох наступних екранах.\n\nЦю інформацію можна переглянути згодом, вибравши \"Налаштування TalkBack\" &gt; \"Нові функції в TalkBack\".</string>
   <string name="update_welcome_talkback_16.1_tts">У цьому оновленні TalkBack додано підтримку функції \"Опис екрана\" іншими мовами й інші покращення якості, щоб користуватися TalkBack було зручніше.\n\nДокладніше про ці зміни ви дізнаєтеся на кількох наступних екранах.\n\nЦю інформацію можна переглянути згодом, вибравши \"Налаштування TalkBack\", а потім – \"Нові функції в TalkBack\".</string>
   <string name="describe_screen_and_qna_title">Нові мови для функцій \"Опис екрана\" й \"Запитати Gemini\"</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Зменшення затримки</string>
   <string name="reduce_delay_content">Тепер ви можете зменшити затримку озвучування TalkBack під час дослідження дотиком і введення тексту. Щоб переглянути ці налаштування, виберіть \"Налаштування TalkBack\" &gt; \"Розширені налаштування\" &gt; \"Зменшити затримку\".</string>
   <string name="reduce_delay_content_tts">Тепер ви можете зменшити затримку озвучування TalkBack під час дослідження дотиком і введення тексту. Щоб переглянути ці налаштування, виберіть \"Налаштування TalkBack\", потім – \"Розширені налаштування\", а тоді – \"Зменшити затримку\".</string>
-  <string name="customize_braille_keyboard_improvements_title">Налаштуйте жести для клавіатури Брайля</string>
-  <string name="customize_braille_keyboard_improvements_content">Тепер можна налаштовувати жести для віртуальної екранної клавіатури Брайля. Для цього виберіть \"Налаштування TalkBack\" &gt; \"Клавіатура Брайля\" &gt; \"Жести\".</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Тепер можна налаштовувати жести для віртуальної екранної клавіатури Брайля. Для цього виберіть \"Налаштування TalkBack\", потім – \"Клавіатура Брайля\", а тоді – \"Жести\".</string>
-  <string name="learn_more_about_braille_keyboard">Докладніше про клавіатуру Брайля</string>
   <string name="other_changes_title">Інші зміни</string>
   <string name="other_changes_content">Якщо функцію TalkBack ввімкнено помилково, на екрані з’явиться повідомлення, щоб ви могли швидко вимкнути її. Цю функцію можна вимкнути, вибравши \"Налаштування TalkBack\" &gt; \"Показувати вказівки з вимкнення TalkBack\".</string>
   <string name="other_changes_content_tts">Якщо функцію TalkBack ввімкнено помилково, на екрані з’явиться повідомлення, щоб ви могли швидко вимкнути її. Цю функцію можна вимкнути, вибравши \"Налаштування TalkBack, а потім – \"Показувати вказівки з вимкнення TalkBack\".</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">Тепер у TalkBack є розширена розкладка фізичних клавіатур із багатьма новими командами й комбінаціями клавіш. Це покращення включає \"режим перегляду\" для вебсторінок. Він спрощує навігацію і взаємодію для користувачів TalkBack, які застосовують фізичну клавіатуру. Щоб перейти на розширену розкладку клавіатури, виберіть %1$s.\n\nЯкщо ви використовуєте брайлівський дисплей, то можете також здійснювати навігацію безпосередньо за його допомогою, застосовуючи нові комбінації клавіш для режиму перегляду. З огляду на це деякі комбінації клавіш для брайлівського дисплея було змінено. Список усіх комбінацій можна переглянути, вибравши %2$s.</string>
   <string name="keyboard_shortcuts_link">\"Налаштування TalkBack\" &gt; \"Комбінації клавіш\"</string>
   <string name="keyboard_shortcuts_link_tts">\"Налаштування TalkBack\", а потім – \"Комбінації клавіш\"</string>
-  <string name="braille_display_settings_link">Налаштування брайлівського дисплея</string>
   <string name="keyboard_smart_browse_mode_title">Клавіатура: розумний режим перегляду</string>
   <string name="keyboard_smart_browse_mode_text">Коли ви переглядаєте вебсторінки, розумний режим перегляду TalkBack вимикає режим перегляду в полі редагування, щоб ви могли вводити текст за допомогою фізичної клавіатури. Потім, коли ви на вебсайті переходите в поле, яке не можна редагувати, режим перегляду знову вмикається, щоб ви могли ефективно переглядати сторінки. Розумний режим перегляду можна ввімкнути або вимкнути, вибравши %1$s.</string>
   <string name="advanced_settings_link">\"Налаштування TalkBack\" &gt; \"Розширені налаштування\"</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Введення тексту</string>
   <string name="basic_typing_text_text">Коли курсор переводиться в текстове поле, унизу екрана з’являється клавіатура.</string>
   <string name="typing_text_text">Проводьте пальцем по клавіатурі. Коли почуєте потрібну літеру, заберіть палець з екрана.\n\nСпробуйте активувати текстове поле нижче й ввести своє ім’я.</string>
-  <string name="typing_text_with_braille_keyboard_text">Текст можна також вводити за допомогою брайлівської клавіатури. Ви знайдете її в налаштуваннях TalkBack.</string>
   <string name="other_ways_to_type_title">Інші способи введення тексту</string>
   <string name="other_ways_to_type_text">У TalkBack є також інші способи введення тексту. Наприклад, щоб ввести літеру, можна двічі торкнутися її.</string>
   <string name="basic_other_ways_to_type_text">У TalkBack є також інші способи введення тексту. Наприклад, щоб ввести літеру, можна двічі торкнутися її. Цей параметр можна змінити згодом, вибравши \"Налаштування TalkBack\" &gt; \"Екранна клавіатура\" &gt; \"Налаштування введення тексту\".</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Щоб попрактикуватися з жестами, спершу ввімкніть TalkBack</string>
   <string name="talkback_inactive_message_image_description">Щоб спробувати отримати описи зображень, спершу ввімкніть TalkBack</string>
   <string name="talkback_inactive_close_tutorial_button">Закрити навчальний посібник</string>
-  <string name="wear_training_welcome_paragraph">Коли TalkBack увімкнено, виділений на екрані об’єкт озвучується.\n\nЩоб перейти до наступного об’єкта, проведіть пальцем по екрану вправо.\n\nЩоб перейти до попереднього об’єкта, проведіть пальцем уліво.\n\nПроводьте пальцем по екрану вправо зараз, доки не перейдете до наступної кнопки.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Проведіть %1$d пальцями вгору або вниз.</string>
-  <string name="wear_training_go_back_title">Повернення</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Щоб повернутися, проведіть %1$d пальцями вправо від краю екрана.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Готово</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Жест \"Назад\" виконано</string>
-  <string name="wear_training_volume_up_title">Збільшення гучності</string>
-  <string name="wear_training_volume_up_text">Проведіть пальцем управо, а потім угору</string>
-  <string name="wear_training_volume_down_title">Зменшення гучності</string>
-  <string name="wear_training_volume_down_text">Проведіть пальцем управо, а потім униз</string>
-  <string name="wear_training_open_talkback_menu_title">Відкриття меню TalkBack</string>
-  <string name="wear_training_open_talkback_menu_text">Щоб відкрити налаштування й елементи керування, якими ви часто користуєтеся, проведіть пальцем униз, а тоді вправо</string>
-  <string name="wear_training_typing_title">Введення тексту</string>
-  <string name="wear_training_typing_text1">Щоб вводити текст за допомогою клавіатури, проводьте по ній пальцем. Коли почуєте потрібну літеру, заберіть палець з екрана.</string>
-  <string name="wear_training_typing_text2">Щоб сховати клавіатуру й перевірити введений текст, проведіть двома пальцями вниз від верхнього краю екрана.</string>
-  <string name="wear_training_typing_text3">Щоб повернутися до клавіатури, проведіть двома пальцями вгору від низу екрана.</string>
-  <string name="wear_training_typing_text4">Щоб закрити клавіатуру й скасувати введення тексту, проведіть двома пальцями від лівого краю екрана вправо.</string>
-  <string name="wear_training_typing_text5">Спробуйте нижче.</string>
-  <string name="wear_training_typing_practice_button_content_description">Введення тексту за допомогою клавіатури</string>
-  <string name="wear_training_end_tutorial_title">Тепер ви можете використовувати TalkBack</string>
   <string name="talkback_updated_notification_title">Функцію TalkBack оновлено</string>
   <string name="talkback_updated_notification_content">Натисніть, щоб дізнатися більше</string>
   <string name="wear_new_feature_page_title">Вітаємо в новій версії TalkBack</string>

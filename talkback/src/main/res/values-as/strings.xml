@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">স্পৰ্শৰ দ্বাৰা অন্বেষণ কৰক</string>
   <string name="title_pref_category_visual">ভিজুৱেল</string>
   <string name="title_pref_category_controls">নিয়ন্ত্ৰণসমূহ</string>
-  <string name="title_pref_category_braille">ব্ৰেইল</string>
   <string name="title_pref_category_general">সাধাৰণ</string>
   <string name="title_pref_category_advanced">উচ্চখাপৰ</string>
   <string name="title_pref_category_others">অন্য</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">বিলম্বতা হ্ৰাস কৰক</string>
   <string name="talkback_latency_reduction_summary">আপুনি স্ক্ৰীন স্পৰ্শ কৰাৰ পাছত SandFlyক দ্ৰুত সঁহাৰি দিয়াওক</string>
   <string name="summary_pref_intonation">মচা বৰ্ণসমূহ অধিক উচ্চ ভইচত কওক</string>
-  <string name="title_pref_brailledisplay">ব্ৰেইল ডিছপ্লে’</string>
-  <string name="title_pref_brailleime">ব্ৰেইল কীব\'র্ড</string>
-  <string name="summary_pref_brailleime_disabled">আপোনাৰ ডিভাইচটোৱে ব্ৰেইল কীব’ৰ্ড সমৰ্থন নকৰে</string>
   <string name="title_pref_speech_footer">যিকোনো স্ক্ৰীনৰ পৰা সাধ্য সুবিধাৰ ভলিউম সলনি কৰিবলৈ, ১ টা আঙুলিৰে স্ক্ৰীনখনত টিপি ধৰি ৰাখি ভলিউম বঢ়োৱা বা কমোৱা কীটো টিপক।</string>
   <string name="title_pref_vibration">কম্পনৰ প্ৰতিক্ৰিয়া</string>
   <string name="title_pref_soundback">ধ্বনিৰ প্ৰতিক্ৰিয়া</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ভলিউম বঢ়াওক</string>
   <string name="shortcut_decrease_volume">ভলিউম কমাওক</string>
   <string name="shortcut_all_apps">আটাইবোৰ এপ্‌</string>
-  <string name="shortcut_braille_keyboard">ব্ৰেইল কীব’র্ডলৈ সলনি কৰক</string>
-  <string name="shortcut_braille_display_settings">ব্ৰেইল ডিছপ্লে\'ৰ ছেটিঙলৈ নেভিগে’ট কৰক</string>
   <string name="shortcut_tutorial">টিউট’ৰিয়েল খোলক</string>
   <string name="shortcut_control_speak_time">সময় কৈ শুনাওক বা নুশুনাব</string>
   <string name="shortcut_enable_speak_time">সময় কৈ শুনোৱাৰ সুবিধা</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">সময় কৈ শুনোৱাৰ সুবিধাটো অফ আছে</string>
   <string name="shortcut_practice_gestures">অনুশীলনৰ নিৰ্দেশ</string>
   <string name="shortcut_report_gesture">নিৰ্দেশ বিষয়ক সমস্যাৰ অভিযোগ দিয়ক</string>
-  <string name="shortcut_toggle_braille_display">ব্ৰেইল ডিছপ্লে’ অন অথবা অফ কৰক</string>
   <string name="shortcut_announce_current_time_and_date">বৰ্তমান তাৰিখ আৰু সময় কওক</string>
   <string name="shortcut_announce_battery_state">বেটাৰীৰ স্থিতি ঘোষণা কৰক</string>
   <string name="shortcut_announce_current_title">ৱিণ্ড’ৰ শিৰোনাম কওক</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">কথা কোৱাৰ হাৰ হ্ৰাস কৰক</string>
   <string name="shortcut_toggle_selection">বাছনি কৰা ম’ড আৰম্ভ বা সমাপ্ত কৰক</string>
   <string name="shortcut_show_tutorial">টিউট’ৰিয়েল খোলক</string>
-  <string name="shortcut_toggle_braille_contracted_mode">সংক্ষিপ্ত (গ্ৰে’ড ১) আৰু অসংক্ষিপ্ত (গ্ৰে’ড ২) ম’ডৰ মাজত সলনাসলনি কৰক</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">সংযুক্ত হৈ থকা ব্ৰেইল ডিছপ্লে’ৰ বাবে অন-স্ক্ৰীন ব্ৰেইলি দেখুৱাওক বা লুকুৱাওক</string>
   <string name="shortcut_toggle_sound_feedback">ধ্বনিৰ ফীডবেক (ইয়েৰক’ন) অন বা অফ কৰক</string>
   <string name="shortcut_show_learn_mode_page">কীব’ৰ্ডৰ শ্বৰ্টকাটৰ অনুশীলন কৰক</string>
   <string name="shortcut_announce_phonetic_pronunciation">ফ’কাছ কৰা বস্তুৰ বাবে আখৰসমূহ ধ্বনিগত উচ্চাৰণৰ জৰিয়তে কওক</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ভইচ কামাণ্ড</string>
   <string name="title_show_keyboard_shortcuts">কীব’ৰ্ডৰ শ্বৰ্টকাট</string>
   <string name="talkback_show_talkback_settings">SandFlyৰ ছেটিং</string>
-  <string name="title_show_braille_display_settings">ব্ৰেইল ডিছপ্লে’ৰ ছেটিং</string>
   <string name="title_granularity_default">ডিফ’ল্ট নেভিগেশ্বন</string>
   <string name="title_action_dismiss">অগ্ৰাহ্য কৰক</string>
   <string name="title_action_expand">সম্প্ৰসাৰণ কৰক</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">আপুনি স্ক্ৰীনখন অন কৰাৰ সময়ত সময়টো ডাঙৰকৈ কোৱা হয় নে নহয় সেইটো সলনি কৰক</string>
   <string name="summary_show_keyboard_shortcuts_preferences">কীব’ৰ্ডৰ শ্বৰ্টকাটৰ সূচী খোলক</string>
   <string name="summary_talkback_preferences">SandFlyৰ ছেটিং খোলক</string>
-  <string name="summary_braile_display_preferences">ব্ৰেইল ডিছপ্লে’ৰ ছেটিং খোলক</string>
   <string name="summary_system_actions">আটাইবোৰ এপ্‌ আৰু ক্ষিপ্ৰ ছেটিঙলৈ যাওক</string>
   <string name="summary_tts_settings">পাঠৰ পৰা কথনৰ ছেটিং খোলক</string>
   <string name="not_editable">সম্পাদনা কৰিব নোৱৰা</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">কীৱৰ্ড হৈছে %1$s</string>
   <string name="screen_search_no_keyword_hint">এতিয়ালৈকে কোনো কীৱৰ্ড নাই। নতুনকৈ কিবা সন্ধান কৰিবলৈ, ৩ টা আঙুলিৰে টিপি কিছু সময় ধৰি থাকক বা SandFlyৰ মেনুখনৰ পৰা স্ক্ৰীনত সন্ধান কৰাটো খোলক।</string>
   <string name="screen_search_no_keyword_hint_pre_r">এতিয়ালৈকে কোনো কীৱৰ্ড নাই। নতুনকৈ কিবা সন্ধান কৰিবলৈ, প্ৰথমে বাওঁফালে ছোৱাইপ কৰি তাৰ পাছত তললৈ ছোৱাইপ কৰক বা SandFlyৰ মেনুখনৰ পৰা স্ক্ৰীনত সন্ধান কৰাটো খোলক।</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ব্ৰেইল কীব’র্ড অন কৰা হোৱা নাই। SandFlyৰ ছেটিঙলৈ যাওক, ব্ৰেইল কীব’র্ড ছেট আপ কৰক আৰু পুনৰ চেষ্টা কৰক।</string>
   <string name="suggestions_window_available">পৰামৰ্শ উপলব্ধ</string>
   <string name="suggestions_window_available_with_gesture">পৰামৰ্শ উপলব্ধ। %1$s এক্সেছ কৰিবলৈ</string>
   <string name="heads_up_window_available">জাননী উপলব্ধ</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">নতুন নিৰ্দেশসমূহৰ সৈতে SandFly কেনেকৈ দ্ৰুততাৰে ব্যৱহাৰ কৰিব পাৰি জানিবলৈ টিপক।</string>
   <string name="dump_node_tree_description">লগত ন’ড ট্ৰী প্ৰিণ্ট কৰা হৈছে।</string>
   <string name="report_gesture_description">শেহতীয়াকৈ এইসমূহ নিৰ্দেশ ব্যৱহাৰ কৰা হৈছে, অনুগ্ৰহ কৰি কোনটো নিৰ্দেশ ভুল সেই বিষয়ে অভিযোগ দিয়ক আৰু সঠিক নিৰ্দেশ কি হোৱা উচিত সেয়া আমাক জনাওক।</string>
-  <string name="update_welcome_text_content">আপুনি এতিয়া HIDৰ জৰিয়তে ব্ৰেইল ডিছপ্লে’ৰ সৈতে সংযোগ কৰিব পাৰে, ব্লুটুথ ডিভাইচসমূহৰ সৈতে সংযোগ কৰাৰ এটা উপায়। আপোনাৰ ওচৰত আপোনাৰ নিৰ্মাতাৰ শেহতীয়া ফাৰ্মৱেৰ ড্ৰাইভাৰ থকাটো নিশ্চিত কৰক, তাৰ পাছত আপোনাৰ ব্ৰেইল ডিছপ্লে’ত ব্লুটুথ অন কৰক। SandFlyৰ ছেটিং &gt; ব্ৰেইল ডিছপ্লে’লৈ যাওক আৰু \"ব্ৰেইল ডিছপ্লে’ ব্যৱহাৰ কৰক\" অন কৰক। ডিভাইচৰ সূচীত আপোনাৰ ডিভাইচ বিচাৰি উলিয়াওক আৰু সেইটোৰ সৈতে সংযোগ কৰক।</string>
-  <string name="update_welcome_text_content_tts">আপুনি এতিয়া HIDৰ জৰিয়তে ব্ৰেইল ডিছপ্লে’ৰ সৈতে সংযোগ কৰিব পাৰে, ব্লুটুথ ডিভাইচসমূহৰ সৈতে সংযোগ কৰাৰ এটা উপায়। আপোনাৰ ওচৰত আপোনাৰ নিৰ্মাতাৰ শেহতীয়া ফাৰ্মৱেৰ ড্ৰাইভাৰ থকাটো নিশ্চিত কৰক, তাৰ পাছত আপোনাৰ ব্ৰেইল ডিছপ্লে’ত ব্লুটুথ অন কৰক। SandFlyৰ ছেটিং তাৰ পাছত ব্ৰেইল ডিছপ্লে’লৈ যাওক আৰু \"ব্ৰেইল ডিছপ্লে’ ব্যৱহাৰ কৰক\" অন কৰক। ডিভাইচৰ সূচীত আপোনাৰ ডিভাইচ বিচাৰি উলিয়াওক আৰু সেইটোৰ সৈতে সংযোগ কৰক।</string>
-  <string name="update_welcome_text_content_with_link">SandFlyৰ সৈতে ব্ৰেইল ডিছপ্লে’ কেনেকৈ ব্যৱহাৰ কৰিব লাগে জানক।</string>
   <string name="update_welcome_talkback_16.1">SandFlyৰ এই আপডে’টটোৱে অধিক ভাষাত স্ক্ৰীনৰ বৰ্ণনা দিয়া সুবিধাৰ সমৰ্থন আৰু ইয়াক ব্যৱহাৰ কৰিবলৈ সহজ কৰি তোলা আন গুণগত মানৰ উন্নীতকৰণ আগবঢ়ায়।\n\nএই সালসলনিসমূহৰ বিষয়ে আপুনি পৰৱৰ্তী কেইখনমান স্ক্ৰীনত অধিক জানিবলৈ পাব।\n\nআপুনি পাছত SandFlyৰ ছেটিং &gt; SandFlyৰ নতুন সুবিধালৈ গৈ এই তথ্য পৰ্যালোচনা কৰিব পাৰে।</string>
   <string name="update_welcome_talkback_16.1_tts">SandFlyৰ এই আপডে’টটোৱে অধিক ভাষাত স্ক্ৰীনৰ বৰ্ণনা দিয়া সুবিধাৰ সমৰ্থন আৰু ইয়াক ব্যৱহাৰ কৰিবলৈ সহজ কৰি তোলা আন গুণগত মানৰ উন্নীতকৰণ আগবঢ়ায়।\n\nএই সালসলনিসমূহৰ বিষয়ে আপুনি পৰৱৰ্তী কেইখনমান স্ক্ৰীনত অধিক জানিবলৈ পাব।\n\nআপুনি পাছত SandFlyৰ ছেটিং আৰু তাৰ পাছত SandFlyৰ নতুন সুবিধালৈ গৈ এই তথ্য পৰ্যালোচনা কৰিব পাৰে।</string>
   <string name="describe_screen_and_qna_title">স্ক্ৰীন বৰ্ণনা কৰাৰ আৰু Geminiক সোধক সুবিধাৰ বাবে নতুন ভাষাসমূহ</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">বিলম্বতা হ্ৰাস কৰক</string>
   <string name="reduce_delay_content">আপুনি এতিয়া স্পৰ্শৰ অন্বেষণ আৰু টাইপিঙৰ বাবে SandFlyৰ ঘোষণা হ্ৰাস কৰিব পাৰে। এই ছেটিংসমূহ চাবলৈ SandFlyৰ ছেটিং &gt; উচ্চখাপৰ ছেটিং &gt; বিলম্বতা হ্ৰাস কৰকলৈ যাওক।</string>
   <string name="reduce_delay_content_tts">আপুনি এতিয়া স্পৰ্শৰ অন্বেষণ আৰু টাইপিঙৰ বাবে SandFlyৰ ঘোষণা হ্ৰাস কৰিব পাৰে। এই ছেটিংসমূহ চাবলৈ SandFlyৰ ছেটিং আৰু তাৰ পাছত উচ্চখাপৰ ছেটিং আৰু তাৰ পাছত বিলম্বতা হ্ৰাস কৰকলৈ যাওক।</string>
-  <string name="customize_braille_keyboard_improvements_title">ব্ৰেইল কীব’ৰ্ডৰ নিৰ্দেশসমূহ কাষ্টমাইজ কৰক</string>
-  <string name="customize_braille_keyboard_improvements_content">এতিয়া ভাৰ্চুৱেল অন-স্ক্ৰীন ব্ৰেইল কীব’ৰ্ডৰ বাবে নিৰ্দেশ কাষ্টমাইজ কৰাটো সম্ভৱ। কাষ্টমাইজ কৰিবলৈ SandFlyৰ ছেটিং &gt; ব্ৰেইল কীব’ৰ্ড &gt; নিৰ্দেশলৈ যাওক।</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">এতিয়া ভাৰ্চুৱেল অন-স্ক্ৰীন ব্ৰেইল কীব’ৰ্ডৰ বাবে নিৰ্দেশ কাষ্টমাইজ কৰাটো সম্ভৱ। কাষ্টমাইজ কৰিবলৈ SandFlyৰ ছেটিং আৰু তাৰ পাছত ব্ৰেইল কীব’ৰ্ড আৰু তাৰ পাছত নিৰ্দেশলৈ যাওক।</string>
-  <string name="learn_more_about_braille_keyboard">ব্ৰেইল কীব’ৰ্ডৰ বিষয়ে অধিক জানক</string>
   <string name="other_changes_title">আন সালসলনি</string>
   <string name="other_changes_content">SandFly যদি দুৰ্ঘটনাক্ৰমে অন হয়, এটা অন-স্ক্ৰীন বাৰ্তাই এতিয়া সেয়া দ্ৰুতভাৱে অফ কৰাত আপোনাক সহায় কৰে। আপুনি সেইটো SandFlyৰ ছেটিং &gt; SandFly অফ কৰাৰ নিৰ্দেশনা দেখুৱাওকত অফ কৰিব পাৰে।</string>
   <string name="other_changes_content_tts">SandFly যদি দুৰ্ঘটনাক্ৰমে অন হয়, এটা অন-স্ক্ৰীন বাৰ্তাই এতিয়া সেয়া দ্ৰুতভাৱে অফ কৰাত আপোনাক সহায় কৰে। আপুনি সেইটো SandFlyৰ ছেটিং আৰু তাৰ পাছত SandFly অফ কৰাৰ নিৰ্দেশনা দেখুৱাওকত অফ কৰিব পাৰে।</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFlyৰ এতিয়া কায়িক কীব’ৰ্ডৰ বাবে এক \"বৰ্ধিত কীমেপ\" আছে, য’ত বিভিন্ন ধৰণৰ নতুন কামাণ্ড আৰু শ্বৰ্টকাটৰ সুবিধা আছে। এই উন্নীতকৰণটোত ৱেবত আগতকৈ ভালকৈ নেভিগে’ট কৰিবলৈ এটা \"ব্ৰাউজ ম’ড\"ৰ সুবিধা, কায়িক কীব’ৰ্ডৰ ওপৰত নিৰ্ভৰশীল SandFly ব্যৱহাৰকাৰীৰ বাবে নেভিগেশ্বন আৰু ভাব-বিনিময় সুশৃংখলিত কৰা আদি অন্তৰ্ভুক্ত। আপুনি <xliff:g id="settings_path">%1$s</xliff:g>ত \"বৰ্ধিত কীমেপ\"লৈ সলনি কৰিব পাৰে।\n\nযদি আপুনি কোনো ব্ৰেইল ডিছপ্লে’ ব্যৱহাৰ কৰে, আপুনি নিজৰ ব্ৰেইল ডিছপ্লে’ৰ পৰা পোনপটীয়াকৈ সমল লাভ কৰিবলৈ নতুন ব্ৰাউজ ম’ডৰ শ্বৰ্টকাটসমূহো ব্যৱহাৰ কৰিব পাৰে। এই সালসলনিটোৰ সৈতে খাপ খুৱাবলৈ কিছুমান ব্ৰেইল ডিছপ্লে’ৰ শ্বৰ্টকাট সলনি কৰা হৈছে। আপুনি <xliff:g id="braille_display_settings_path">%2$s</xliff:g>ত ব্ৰেইল ডিছপ্লে’ৰ আটাইবোৰ শ্বৰ্টকাটৰ এখন সূচী চাব পাৰে।</string>
   <string name="keyboard_shortcuts_link">SandFlyৰ ছেটিং &gt; কীব’ৰ্ডৰ শ্বৰ্টকাট</string>
   <string name="keyboard_shortcuts_link_tts">SandFlyৰ ছেটিং, তাৰ পাছত কীব’ৰ্ডৰ শ্বৰ্টকাট</string>
-  <string name="braille_display_settings_link">ব্ৰেইলি ডিছপ্লে’ৰ ছেটিং</string>
   <string name="keyboard_smart_browse_mode_title">কীব’ৰ্ড: স্মাৰ্ট ব্ৰাউজ ম’ড</string>
   <string name="keyboard_smart_browse_mode_text">SandFlyৰ স্মাৰ্ট ব্ৰাউজ ম’ডে আপুনি ৱেব ব্ৰাউজ কৰাৰ সময়ত কায়িক কীব’ৰ্ডৰ জৰিয়তে টাইপ কৰাত সহায় কৰিবলৈ এটা সম্পাদনা ক্ষেত্ৰত ব্ৰাউজ ম’ড অফ কৰে। তাৰ পাছত আপুনি ৱেবত সম্পাদনা নকৰা ক্ষেত্ৰলৈ পোনপটীয়াকৈ যাওঁতে ই সেইটো পুনৰ অন কৰে যাতে আপুনি দক্ষতাৰে ব্ৰাউজ কৰি থাকিব পাৰে। আপুনি <xliff:g id="settings_path">%1$s</xliff:g>ত \"স্মাৰ্ট ব্ৰাউজ ম’ড\" অন বা অফ কৰিব পাৰে।</string>
   <string name="advanced_settings_link">SandFlyৰ ছেটিং &gt; উচ্চখাপৰ ছেটিং</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">পাঠ টাইপ কৰা</string>
   <string name="basic_typing_text_text">আপুনি কোনো পাঠ বাকচত থাকিলে আপোনাৰ স্ক্ৰীনখনৰ একেবাৰে তলত এখন কীব’ৰ্ড খোল খাব।</string>
   <string name="typing_text_text">কীব’ৰ্ডখনৰ ওপৰত আপোনাৰ আঙুলি বুলাওক। আপুনি টাইপ কৰিবলৈ বিচৰা আখৰটো শুনিলে আপোনাৰ আঙুলি উঠাওক।\n\nতলৰ পাঠ বাকচটো সক্ৰিয় কৰি চাওক আৰু আপোনাৰ নামটো টাইপ কৰক।</string>
-  <string name="typing_text_with_braille_keyboard_text">আপুনি ব্ৰেইল কীব’ৰ্ডখনৰ জৰিয়তেও টাইপ কৰিব পাৰে। এইটো SandFlyৰ ছেটিঙত পাওক।</string>
   <string name="other_ways_to_type_title">টাইপ কৰাৰ অন্য উপায়</string>
   <string name="other_ways_to_type_text">SandFlyত টাইপ কৰাৰ অন্য উপায়ো আছে। উদাহৰণস্বৰূপে, কোনো আখৰ ভৰাবলৈ আপুনি দুবাৰ টিপিব পাৰে।</string>
   <string name="basic_other_ways_to_type_text">SandFlyত টাইপ কৰাৰ অন্য উপায়ো আছে। উদাহৰণস্বৰূপে, কোনো আখৰ ভৰাবলৈ আপুনি দুবাৰ টিপিব পাৰে। আপুনি পাছত SandFlyৰ ছেটিং &gt; অন-স্ক্ৰীন কীব’ৰ্ড &gt; টাইপিঙৰ পদ্ধতিত এইটো সলনি কৰিব পাৰে।</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">আঙুলিৰ স্পৰ্শৰে নিৰ্দেশসমূহ ব্যৱহাৰ কৰি চাবলৈ, প্ৰথমে SandFly অন কৰক</string>
   <string name="talkback_inactive_message_image_description">প্ৰতিচ্ছবিৰ বিৱৰণ পাবলৈ চেষ্টা কৰাটো আৰম্ভ কৰিবলৈ, প্ৰথমে SandFly অন কৰক</string>
   <string name="talkback_inactive_close_tutorial_button">টিউট’ৰিয়েল বন্ধ কৰক</string>
-  <string name="wear_training_welcome_paragraph">SandFly অন হৈ থাকিলে, স্ক্ৰীনত ফ’কাছ কৰা বস্তুটো ডাঙৰকৈ কোৱা হয়।\n\nসোঁফালে ছোৱাইপ কৰিলে পৰৱৰ্তী বস্তুটোলৈ যায়। বাওঁফালে ছোৱাইপ কৰিলে পূৰ্বৱৰ্তী বস্তুটোলৈ যায়।\n\nপৰৱৰ্তী বুটামটো বিচাৰি নোপোৱা পৰ্যন্ত এতিয়াই সোঁফালে ছোৱাইপ কৰক।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d টা আঙুলিৰে ওপৰলৈ বা তললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_go_back_title">উভতি যাওক</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">আপুনি উভতি যাব বিচাৰিলে স্ক্ৰীনখনৰ কাষৰ পৰা সোঁফালে ছোৱাইপ কৰিবলৈ %1$d টা আঙুলি ব্যৱহাৰ কৰক।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">সফল হৈছে</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">উভতি যাওক নিৰ্দেশটো কাৰ্যকৰী কৰা হ’ল</string>
-  <string name="wear_training_volume_up_title">ভলিউম বঢ়াওক</string>
-  <string name="wear_training_volume_up_text">প্ৰথমে সোঁফালে তাৰ পাছত ওপৰলৈ ছোৱাইপ কৰক</string>
-  <string name="wear_training_volume_down_title">ভলিউম কমাওক</string>
-  <string name="wear_training_volume_down_text">প্ৰথমে সোঁফালে তাৰ পাছত তললৈ ছোৱাইপ কৰক</string>
-  <string name="wear_training_open_talkback_menu_title">SandFlyৰ মেনুখন খোলক</string>
-  <string name="wear_training_open_talkback_menu_text">আপোনাক সঘনাই প্ৰয়োজন হ’ব পৰা ছেটিং আৰু নিয়ন্ত্ৰণসমূহ খুলিবলৈ, প্ৰথমে তললৈ আৰু তাৰ পাছত সোঁফালে ছোৱাইপ কৰক</string>
-  <string name="wear_training_typing_title">টাইপ কৰি আছে</string>
-  <string name="wear_training_typing_text1">কীব’ৰ্ডৰ জৰিয়তে টাইপ কৰিবলৈ, কীব’ৰ্ডৰ ওপৰত আপোনাৰ আঙুলি পিছলাই নিয়ক। আপুনি টাইপ কৰিবলৈ বিচৰা আখৰটো শুনিলে আপোনাৰ আঙুলি উঠাওক।</string>
-  <string name="wear_training_typing_text2">কীব’ৰ্ডখন লুকুৱাবলৈ আৰু আপোনাৰ ইনপুটটো পৰীক্ষাৰ কৰিবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ একেবাৰে ওপৰৰ পৰা তললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text3">কীব’ৰ্ডখনলৈ উভতি যাবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ একেবাৰে তলৰ পৰা ওপৰলৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text4">কীব’ৰ্ডখন বন্ধ কৰিবলৈ আৰু টাইপিং বাতিল কৰিবলৈ, ২ টা আঙুলিৰে আপোনাৰ স্ক্ৰীনখনৰ বাওঁফালৰ পৰা সোঁফাললৈ ছোৱাইপ কৰক।</string>
-  <string name="wear_training_typing_text5">এইটো তলত কৰি চাওক।</string>
-  <string name="wear_training_typing_practice_button_content_description">কীব’ৰ্ডৰ জৰিয়তে টাইপ কৰা</string>
-  <string name="wear_training_end_tutorial_title">আপুনি SandFly ব্যৱহাৰ কৰা আৰম্ভ কৰিবলৈ সাজু</string>
   <string name="talkback_updated_notification_title">SandFly আপডে’ট কৰা হ’ল</string>
   <string name="talkback_updated_notification_content">অধিক জানিবৰ বাবে টিপক</string>
   <string name="wear_new_feature_page_title">আপডে’ট কৰা SandFlyলৈ স্বাগতম</string>
@@ -1520,7 +1479,6 @@
     <string name="title_pref_announce_ringer_mode">ৰিংগাৰ ম’ড</string>
     <string name="summary_pref_announce_ringer_mode">ৰিংগাৰ কম্পন বা নীৰৱলৈ ছেট কৰা থাকিলে কওক</string>
     <string name="title_pref_category_feedback">প্ৰতিক্ৰিয়া</string>
-    <string name="title_pref_category_typing_and_braille">টাইপিং আৰু ব্ৰেইল</string>
     <string name="title_pref_category_apps">এপ</string>
     <string name="title_pref_touch_activation">স্পৰ্শ আৰু সক্ৰিয়কৰণ</string>
     <string name="title_pref_navigation">নেভিগেশ্বন</string>
@@ -1544,8 +1502,6 @@
     <string name="speech_control_deny">অনুমতি নিদিব</string>
     <string name="permission_speak_label">SandFlyৰ জৰিয়তে কথা কোৱা</string>
     <string name="permission_speak_description">এপটোক আপোনাৰ SandFly কণ্ঠত পাঠ ক’বলৈ অনুৰোধ কৰিবলৈ দিয়ে। এপটোৱে কথা কোৱাৰ আগতে SandFlyএ আপোনাৰ অনুমতি বিচাৰে।</string>
-    <string name="permission_braille_display_label">SandFlyৰ বাবে ব্ৰেইল ডিছপ্লে’ হ’বলৈ অনুৰোধ কৰা</string>
-    <string name="permission_braille_display_description">এপটোক SandFlyৰ বাবে ব্ৰেইল ডিছপ্লে’ হ’বলৈ অনুৰোধ কৰিবলৈ দিয়ে। আপুনি SandFlyত অনুমতি দিলে, ই স্ক্ৰীনৰ সকলো পঢ়িব আৰু আপোনাৰ ডিভাইচ নিয়ন্ত্ৰণ কৰিব পাৰে। SandFlyএ প্ৰথমে আপোনাৰ অনুমতি বিচাৰে।</string>
     <string name="title_pref_phonetic_letters_mode">ধ্বনিগতভাৱে বৰ্ণ কওক</string>
     <string name="phonetic_letters_mode_off">অফ</string>
     <string name="phonetic_letters_mode_after_letter_delay">বৰ্ণৰ পাছত, বিলম্বৰ সৈতে, যেনে “হ, হাতী”</string>
@@ -1683,14 +1639,8 @@
     <string name="summary_support_wrap_around">শেষৰ বস্তুৰ পৰা প্ৰথমটোলৈ ঘূৰি যোৱা অন বা অফ কৰক</string>
     <string name="wrap_around_on">ঘূৰি আৰম্ভলৈ যাওক অন</string>
     <string name="wrap_around_off">ঘূৰি আৰম্ভলৈ যাওক অফ</string>
-    <string name="title_selector_tablet_held_up_faces_away">ধৰি ৰখা টেবলেট বিপৰীত দিশে মুখ কৰে</string>
-    <string name="summary_support_tablet_held_up_faces_away">টেবলেট বা খোলা ফ’নত ব্ৰেইল কীব’ৰ্ডৰ বাবে</string>
-    <string name="tablet_held_up_faces_away_on">ধৰি ৰখা টেবলেট বিপৰীত দিশে মুখ কৰে অন</string>
-    <string name="tablet_held_up_faces_away_off">ধৰি ৰখা টেবলেট বিপৰীত দিশে মুখ কৰে অফ</string>
     <string name="title_keyboard_echo_on_screen">অন-স্ক্ৰীন কীব’ৰ্ডৰ প্ৰতিধ্বনি</string>
     <string name="title_keyboard_echo_physical">কায়িক কীব’ৰ্ডৰ প্ৰতিধ্বনি</string>
-    <string name="title_keyboard_echo_braille_keyboard">ব্ৰেইল কীব’ৰ্ডৰ প্ৰতিধ্বনি</string>
-    <string name="title_keyboard_echo_braille_display">ব্ৰেইল ডিছপ্লে’ৰ প্ৰতিধ্বনি</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">টাইপ কৰোঁতে কথন বাধা দিয়ক</string>
     <string name="pref_interrupt_typing_entry_always">সদায়</string>

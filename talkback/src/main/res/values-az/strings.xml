@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Toxunuşla kəşf</string>
   <string name="title_pref_category_visual">Vizual</string>
   <string name="title_pref_category_controls">Nizamlayıcılar</string>
-  <string name="title_pref_category_braille">Brayl</string>
   <string name="title_pref_category_general">Ümumi</string>
   <string name="title_pref_category_advanced">Qabaqcıl</string>
   <string name="title_pref_category_others">Digərləri</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Gecikməni azaldın</string>
   <string name="talkback_latency_reduction_summary">Ekrana toxunduqdan sonra SandFly-ın daha tez reaksiya verməsini təmin edin</string>
   <string name="summary_pref_intonation">Silinmiş hərfləri daha yüksək səslə deyin</string>
-  <string name="title_pref_brailledisplay">Brayl displeyi</string>
-  <string name="title_pref_brailleime">Brayl klaviaturası</string>
-  <string name="summary_pref_brailleime_disabled">Cihazınız brayl klaviaturasını dəstəkləmir</string>
   <string name="title_pref_speech_footer">İstənilən ekranda xüsusi imkanlar səs səviyyəsini dəyişmək üçün 1 barmağı ekranda saxlayın və səs artırma və ya azaltma düyməsini basın.</string>
   <string name="title_pref_vibration">Vibrasiya haqqında geri əlaqə</string>
   <string name="title_pref_soundback">Səs haqqında geri əlaqə</string>
@@ -486,8 +482,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="shortcut_increase_volume">Səsi artırın</string>
   <string name="shortcut_decrease_volume">Səsi azaldın</string>
   <string name="shortcut_all_apps">Bütün tətbiqlər</string>
-  <string name="shortcut_braille_keyboard">Brayl klaviaturaya keçin</string>
-  <string name="shortcut_braille_display_settings">Brayl displey ayarlarına keçin</string>
   <string name="shortcut_tutorial">Təlimi açın</string>
   <string name="shortcut_control_speak_time">Saatı de və ya saatı demə</string>
   <string name="shortcut_enable_speak_time">Saatı de</string>
@@ -496,7 +490,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="speak_time_off">\"Saatı de\" deaktivdir</string>
   <string name="shortcut_practice_gestures">Jestlər üzərində məşq edin</string>
   <string name="shortcut_report_gesture">Jest problemi barədə bildirin</string>
-  <string name="shortcut_toggle_braille_display">Brayl displeyini aktiv və ya deaktiv edin</string>
   <string name="shortcut_announce_current_time_and_date">Cari tarix və vaxtı bildir</string>
   <string name="shortcut_announce_battery_state">Batareya səviyyəsi faizini söyləyin</string>
   <string name="shortcut_announce_current_title">Pəncərə başlığını səsləndirin</string>
@@ -506,8 +499,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="shortcut_speech_rate_decrease">Nitq sürətini azaldın</string>
   <string name="shortcut_toggle_selection">Seçim rejimini başladın və dayandırın</string>
   <string name="shortcut_show_tutorial">Təlimi açın</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Qısa (dərəcə 2)–tam (dərəcə 1) keçidi</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Əlaqələndirilmiş brayl displeyləri üçün ekrandakı brayl şriftini göstərin və ya gizlədin</string>
   <string name="shortcut_toggle_sound_feedback">Səsli rəyi (siqnalları) aktiv və ya deaktiv edin</string>
   <string name="shortcut_show_learn_mode_page">Klaviatura qısayollarını məşq edin</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fokuslanmış elementin hərflərini fonetik tələffüzlə səsləndirin</string>
@@ -548,7 +539,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="title_show_voice_commands">Səs əmrləri</string>
   <string name="title_show_keyboard_shortcuts">Klaviatura qısayolları</string>
   <string name="talkback_show_talkback_settings">SandFly ayarları</string>
-  <string name="title_show_braille_display_settings">Brayl displeyi ayarları</string>
   <string name="title_granularity_default">Defolt naviqasiya</string>
   <string name="title_action_dismiss">Rədd edin</string>
   <string name="title_action_expand">Genişləndirin</string>
@@ -576,7 +566,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="summary_control_speak_time">Ekranı yandıranda saatın ucadan deyilib-deyilməməsini seçin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Klaviatura qısayolları siyahısını açın</string>
   <string name="summary_talkback_preferences">SandFly ayarlarını açın</string>
-  <string name="summary_braile_display_preferences">Brayl displeyi ayarlarını açın</string>
   <string name="summary_system_actions">Bütün tətbiqlər və Sürətli Ayarlara keçin</string>
   <string name="summary_tts_settings">Mətndən-nitqə ayarlarını açın</string>
   <string name="not_editable">Redaktə etmək mümkün deyil</string>
@@ -917,7 +906,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="screen_search_keyword_hint">açar söz %1$s</string>
   <string name="screen_search_no_keyword_hint">Hələ açar söz yoxdur. Yeni axtarış başlatmaq üçün 3 barmağınızla basıb saxlayın və ya SandFly menyusundan ekranda axtarışı açın.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Hələ açar söz yoxdur. Yeni axtarış başlatmaq üçün sola, sonra aşağı sürüşdürün və ya SandFly menyusundan ekranda axtarışı açın.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brayl klaviaturası aktiv deyil. SandFly ayarlarına keçin, Brayl klaviaturasını ayarlayın və yenidən sınayın.</string>
   <string name="suggestions_window_available">Təkliflər əlçatandır</string>
   <string name="suggestions_window_available_with_gesture">Təkliflər əlçatandır. Giriş üçün %1$s</string>
   <string name="heads_up_window_available">Bildiriş var</string>
@@ -967,9 +955,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="new_gesture_notification_content">SandFly funksiyasını yeni jestlərlə daha sürətli istifadə etmək qaydasını öyrənmək üçün toxunun.</string>
   <string name="dump_node_tree_description">Qovşaq strukturu girişlərə çap edilib.</string>
   <string name="report_gesture_description">Bu yaxınlarda icra edilmiş jestləri təqdim edirik, hansı jestin yanlış olduğunu və nə gözlədiyinizi bildirin.</string>
-  <string name="update_welcome_text_content">Artıq bluetooth cihazlarına qoşulmağın yolu olan HID vasitəsilə brayl displeylərinə qoşula bilərsiniz. İstehsalçının təqdim etdiyi ən son mikroproqram drayvlarına sahib olun, daha sonra brayl displeyində Bluetooth-u yandırın. SandFly ayarları &gt; Brayl displeyinə keçin və \"Brayl displeyindən istifadə edin\" seçimini aktiv edin. Cihazınızı cihazlar siyahısında tapın və ona qoşulun.</string>
-  <string name="update_welcome_text_content_tts">Artıq bluetooth cihazlarına qoşulmağın yolu olan HID vasitəsilə brayl displeylərinə qoşula bilərsiniz. İstehsalçının təqdim etdiyi ən son mikroproqram drayvlarına sahib olun, daha sonra brayl displeyində Bluetooth-u yandırın. SandFly ayarları, daha sonra Brayl displeyinə keçin və \"Brayl displeyindən istifadə edin\" seçimini aktiv edin. Cihazınızı cihazlar siyahısında tapın və ona qoşulun.</string>
-  <string name="update_welcome_text_content_with_link">SandFly ilə brayl displeyindən necə istifadə edəcəyinizi öyrənin.</string>
   <string name="update_welcome_talkback_16.1">Bu SandFly güncəllənməsi daha çox dildə \"Ekranı təsvir et\" funksiyasına dəstək verən və SandFly-dən istifadəni asanlaşdıran digər keyfiyyət təkmilləşdirmələrini təqdim edir.\n\nBu dəyişikliklər haqqında növbəti ekranlarda daha ətraflı məlumat alacaqsınız.\n\nSonra bu məlumatı SandFly ayarları &gt; SandFly-də yeni funksiyalar bölməsində yenidən nəzərdən keçirə bilərsiniz.</string>
   <string name="update_welcome_talkback_16.1_tts">Bu SandFly güncəllənməsi daha çox dildə \"Ekranı təsvir et\" funksiyasına dəstək verən və SandFly-dən istifadəni asanlaşdıran digər keyfiyyət təkmilləşdirmələrini təqdim edir.\n\nBu dəyişikliklər haqqında növbəti ekranlarda daha ətraflı məlumat alacaqsınız.\n\nSonra bu məlumatı SandFly ayarları, SandFly-də yeni funksiyalar bölməsində yenidən nəzərdən keçirə bilərsiniz.</string>
   <string name="describe_screen_and_qna_title">\"Ekranı təsvir et\" və \"Gemini-dan soruşun\" funksiyaları üçün yeni dillər</string>
@@ -985,10 +970,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="reduce_delay_title">Gecikməni azaldın</string>
   <string name="reduce_delay_content">Artıq SandFly-də toxunaraq araşdırma və yazı zamanı elan gecikmələrini azalda bilərsiniz. Bu ayarları görmək üçün SandFly ayarları &gt; Təkmil ayarlar &gt; Gecikməni azaldın bölməsinə daxil olun.</string>
   <string name="reduce_delay_content_tts">Artıq SandFly-də toxunaraq araşdırma və yazı zamanı elan gecikmələrini azalda bilərsiniz. Bu ayarları görmək üçün SandFly ayarları, Təkmil ayarlar, daha sonra Gecikməni azaldın bölməsinə daxil olun.</string>
-  <string name="customize_braille_keyboard_improvements_title">Brayl klaviaturası jestlərini fərdiləşdirin</string>
-  <string name="customize_braille_keyboard_improvements_content">Artıq virtual ekran brayl klaviaturası üçün jestləri fərdiləşdirmək mümkündür. Fərdiləşdirmək üçün SandFly ayarları &gt; Brayl klaviaturası &gt; Jestlər bölməsinə keçin.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Artıq virtual ekran brayl klaviaturası üçün jestləri fərdiləşdirmək mümkündür. Fərdiləşdirmək üçün SandFly ayarları, Brayl klaviaturası, daha sonra Jestlər bölməsinə keçin.</string>
-  <string name="learn_more_about_braille_keyboard">Brayl klaviaturası haqqında ətraflı məlumat</string>
   <string name="other_changes_title">Digər dəyişikliklər</string>
   <string name="other_changes_content">SandFly səhvən yandırıldıqda ekrandakı mesaj onu tez söndürməyə kömək edir. Bunu SandFly ayarları &gt; SandFly-i söndürmək üçün təlimatları göstər bölməsində söndürə bilərsiniz.</string>
   <string name="other_changes_content_tts">SandFly səhvən yandırıldıqda ekrandakı mesaj onu tez söndürməyə kömək edir. Bunu SandFly ayarları, SandFly-i söndürmək üçün təlimatları göstər bölməsində söndürə bilərsiniz.</string>
@@ -1021,7 +1002,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="keyboard_enhanced_keymap_text">SandFly artıq fiziki klaviaturalar üçün \"Təkmilləşdirilmiş klaviatura düzülüşü\" ilə təchiz olunub. Bu da bir sıra yeni əmrlər və qısayollar təqdim edir. Bu təkmilləşdirmə vebdə daha səmərəli naviqasiya üçün nəzərdə tutulmuş \"axtarış rejimi\" də daxil olmaqla fiziki klaviaturadan istifadə edən SandFly istifadəçiləri üçün naviqasiyanı və interaksiyanı daha da sadələşdirir. <xliff:g id="settings_path">%1$s</xliff:g> bölməsində \"Təkmil klaviatura düzülüşünə\" keçə bilərsiniz.\n\nBrayl displeyindən istifadə edirsinizsə, yeni axtarış rejimi qısayolları vasitəsilə kontentlər arasında birbaşa Brayl displeyi vasitəsilə hərəkət edə bilərsiniz. Bu dəyişikliyə uyğunlaşmaq üçün bəzi Brayl displeyi qısayolları dəyişdirildi. <xliff:g id="braille_display_settings_path">%2$s</xliff:g> bölməsində bütün Brayl displeyi qısayollarının siyahısına baxa bilərsiniz.</string>
   <string name="keyboard_shortcuts_link">SandFly ayarları &gt; Klaviatura qısayolları</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ayarları, sonra Klaviatura qısayolları</string>
-  <string name="braille_display_settings_link">Brayl displeyi ayarları</string>
   <string name="keyboard_smart_browse_mode_title">Klaviatura: Smart axtarış rejimi</string>
   <string name="keyboard_smart_browse_mode_text">SandFly smart axtarış rejimi vebdə axtarış edərkən fiziki klaviaturadan istifadə edərək yazmağınıza kömək etmək üçün redaktə sahəsində axtarış rejimini söndürür. Daha sonra vebdə redaktə edilməyən sahəyə keçdiyiniz zaman onu yenidən yandırır ki, səmərəli şəkildə baxmağa davam edə biləsiniz. <xliff:g id="settings_path">%1$s</xliff:g> bölməsində \"Smart axtarış rejimini\" aktiv və ya deaktiv edə bilərsiniz.</string>
   <string name="advanced_settings_link">SandFly ayarları &gt; Təkmil ayarlar</string>
@@ -1094,7 +1074,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="typing_text_title">Mətnin yazılması</string>
   <string name="basic_typing_text_text">Mətn qutusunda olduğunuz zaman ekranın aşağı hissəsində klaviatura açılacaq.</string>
   <string name="typing_text_text">Barmağınızı klaviatura boyunca hərəkət etdirin. Yazmaq istədiyiniz hərfi eşitdikdə barmağınızı götürün.\n\nAşağıda mətn qutusunu aktivləşdirməyi yoxlayın və adınızı yazın.</string>
-  <string name="typing_text_with_braille_keyboard_text">Brayl klaviaturası ilə də yaza bilərsiniz. Onu SandFly ayarlarında tapın.</string>
   <string name="other_ways_to_type_title">Yazmağın digər yolları</string>
   <string name="other_ways_to_type_text">SandFly-də yazmağın başqa yolları da var. Məsələn, hərf daxil etmək üçün iki dəfə toxunma funksiyasından istifadə edə bilərsiniz.</string>
   <string name="basic_other_ways_to_type_text">SandFly-da yazmağın başqa yolları da var. Məsələn, hərf daxil etmək üçün iki dəfə toxunma funksiyasından istifadə edə bilərsiniz. Bunu daha sonra SandFly ayarları &gt; Ekran klaviaturası &gt; Yazma metodu bölməsində dəyişə bilərsiniz.</string>
@@ -1209,26 +1188,6 @@ Fokus dəyişdikdən sonra SandFly-in danışma sürətini tənzimləyir. Qısa 
   <string name="talkback_inactive_message_practice_gestures">Jestləri məşq etmək üçün əvvəlcə SandFly-i aktiv edin</string>
   <string name="talkback_inactive_message_image_description">Şəkil təsvirlərini əldə etməyə çalışmaq üçün əvvəlcə SandFly-i aktiv edin</string>
   <string name="talkback_inactive_close_tutorial_button">Təlimatı bağlayın</string>
-  <string name="wear_training_welcome_paragraph">SandFly aktiv olduqda ekranda fokuslanmış element ucadan səsləndirilir.\n\nSağa sürüşdürməklə növbəti elementə keçilir. Sola sürüşdürməklə əvvəlki elementə keçilir.\n\nNövbəti düyməsini tapana qədər sağa sürüşdürün.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d barmağınızla yuxarı və ya aşağı sürüşdürün.</string>
-  <string name="wear_training_go_back_title">Geri qayıdın</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Geri qayıtmaq istədiyiniz zaman ekranın kənarından %1$d barmağınızla sağa sürüşdürün.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uğurlu oldu</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geri jesti edildi</string>
-  <string name="wear_training_volume_up_title">Səsi artırın</string>
-  <string name="wear_training_volume_up_text">Sağa, sonra yuxarı sürüşdürün</string>
-  <string name="wear_training_volume_down_title">Səsi azaldın</string>
-  <string name="wear_training_volume_down_text">Sağa, sonra aşağı sürüşdürün</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly menyusunu açın</string>
-  <string name="wear_training_open_talkback_menu_text">Tez-tez lazım ola biləcək ayarları və nizamlayıcıları açmaq üçün aşağı və sonra sağa sürüşdürün</string>
-  <string name="wear_training_typing_title">Yazmaq</string>
-  <string name="wear_training_typing_text1">Klaviatura ilə yazmaq üçün barmağınızı klaviatura üzərində hərəkət etdirin. Yazmaq istədiyiniz hərfi eşitdikdə barmağınızı götürün.</string>
-  <string name="wear_training_typing_text2">Klaviaturanı gizlətmək və daxiletməni yoxlamaq üçün 2 barmağınızla ekranın yuxarısından aşağı sürüşdürün.</string>
-  <string name="wear_training_typing_text3">Klaviaturaya qayıtmaq üçün 2 barmağınızla ekranın aşağısından yuxarı sürüşdürün.</string>
-  <string name="wear_training_typing_text4">Klaviaturanı bağlamaq və yazını ləğv etmək üçün 2 barmağınızla ekranın sol kənarından sağa sürüşdürün.</string>
-  <string name="wear_training_typing_text5">Aşağıda cəhd edin.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klaviatura ilə yazmaq</string>
-  <string name="wear_training_end_tutorial_title">SandFly istifadə edə bilərsiniz</string>
   <string name="talkback_updated_notification_title">SandFly güncəllənib</string>
   <string name="talkback_updated_notification_content">Daha çoxunu tapmaq üçün toxunun</string>
   <string name="wear_new_feature_page_title">Güncəllənmiş SandFly-ə xoş gəlmisiniz</string>
@@ -1520,7 +1479,6 @@ Cavabınızda heç bir işarələmədən istifadə etməyin.</string>
     <string name="title_pref_announce_ringer_mode">Zəng rejimi</string>
     <string name="summary_pref_announce_ringer_mode">Zəng rejimi vibrasiya və ya səssiz olduqda səsləndirin</string>
     <string name="title_pref_category_feedback">Rəy</string>
-    <string name="title_pref_category_typing_and_braille">Yazı və brayl</string>
     <string name="title_pref_category_apps">Tətbiqlər</string>
     <string name="title_pref_touch_activation">Toxunuş və aktivləşdirmə</string>
     <string name="title_pref_navigation">Naviqasiya</string>
@@ -1544,8 +1502,6 @@ Cavabınızda heç bir işarələmədən istifadə etməyin.</string>
     <string name="speech_control_deny">İcazə verməyin</string>
     <string name="permission_speak_label">SandFly vasitəsilə danışmaq</string>
     <string name="permission_speak_description">Tətbiqə mətni SandFly səsinizlə səsləndirmək üçün icazə istəməyə imkan verir. Tətbiq danışmazdan əvvəl SandFly sizdən icazə istəyir.</string>
-    <string name="permission_braille_display_label">SandFly üçün brayl displeyi olmağa icazə istəmək</string>
-    <string name="permission_braille_display_description">Tətbiqə SandFly üçün brayl displeyi olmağa icazə istəməyə imkan verir. SandFly-da icazə versəniz, tətbiq ekrandakı hər şeyi oxuya və cihazınızı idarə edə bilər. SandFly əvvəlcə sizdən icazə istəyir.</string>
     <string name="title_pref_phonetic_letters_mode">Hərfləri fonetik səsləndirin</string>
     <string name="phonetic_letters_mode_off">Deaktiv</string>
     <string name="phonetic_letters_mode_after_letter_delay">Hərfdən sonra, gecikmə ilə, məsələn, \"h, hotel\"</string>
@@ -1683,14 +1639,8 @@ Cavabınızda heç bir işarələmədən istifadə etməyin.</string>
     <string name="summary_support_wrap_around">Son elementdən birinciyə dövri keçidi aktiv və ya deaktiv edin</string>
     <string name="wrap_around_on">Dövri keçid aktivdir</string>
     <string name="wrap_around_off">Dövri keçid deaktivdir</string>
-    <string name="title_selector_tablet_held_up_faces_away">Qaldırılmış planşet əks tərəfə baxır</string>
-    <string name="summary_support_tablet_held_up_faces_away">Planşetdə və ya açılmış telefonda brayl klaviaturası üçün</string>
-    <string name="tablet_held_up_faces_away_on">Qaldırılmış planşet əks tərəfə baxır: aktiv</string>
-    <string name="tablet_held_up_faces_away_off">Qaldırılmış planşet əks tərəfə baxır: deaktiv</string>
     <string name="title_keyboard_echo_on_screen">Ekran klaviaturası exosu</string>
     <string name="title_keyboard_echo_physical">Fiziki klaviatura exosu</string>
-    <string name="title_keyboard_echo_braille_keyboard">Brayl klaviaturası exosu</string>
-    <string name="title_keyboard_echo_braille_display">Brayl displeyi exosu</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Yazarkən nitqi kəsin</string>
     <string name="pref_interrupt_typing_entry_always">Həmişə</string>

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">పూర్తి-వెడల్పు ఉన్న లెస్ దెన్ సంకేతం</string>
   <string name="symbol_full_width_greater_than_sign">పూర్తి-వెడల్పు ఉన్న గ్రేటర్ దెన్ సంకేతం</string>
   <string name="symbol_left_single_quotation_mark">ఎడమవైపు సింగిల్ కొటేషన్ గుర్తు</string>
-  <string name="symbol_braille">బ్రెయిలీ %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s డాట్</item>
-    <item quantity="other">%s డాట్‌లు</item>
-  </plurals>
 </resources>

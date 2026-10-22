@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">कॉन्टेंट को छूकर, उसे सुनने की सुविधा</string>
   <string name="title_pref_category_visual">विज़ुअल</string>
   <string name="title_pref_category_controls">कंट्रोल</string>
-  <string name="title_pref_category_braille">ब्रेल</string>
   <string name="title_pref_category_general">सामान्य</string>
   <string name="title_pref_category_advanced">बेहतर</string>
   <string name="title_pref_category_others">अन्य सुविधाएं</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">इंतज़ार का समय कम करें</string>
   <string name="talkback_latency_reduction_summary">स्क्रीन छूने के बाद SandFly को ज़्यादा तेज़ी से जवाब देने दें</string>
   <string name="summary_pref_intonation">मिटाए गए टेक्स्ट को हाई पिच वाली आवाज़ में सुनें</string>
-  <string name="title_pref_brailledisplay">ब्रेल डिसप्ले</string>
-  <string name="title_pref_brailleime">ब्रेल कीबोर्ड</string>
-  <string name="summary_pref_brailleime_disabled">आपके डिवाइस पर ब्रेल कीबोर्ड काम नहीं करता</string>
   <string name="title_pref_speech_footer">किसी भी स्क्रीन से सुलभता सुविधाओं की आवाज़ अडजस्ट करने के लिए, स्क्रीन को एक उंगली से दबाकर रखें और आवाज़ तेज़ या कम करने वाला बटन दबाएं.</string>
   <string name="title_pref_vibration">वाइब्रेशन फ़ीडबैक</string>
   <string name="title_pref_soundback">साउंड फ़ीडबैक</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">आवाज़ बढ़ाएं</string>
   <string name="shortcut_decrease_volume">आवाज़ कम करें</string>
   <string name="shortcut_all_apps">सभी ऐप्लिकेशन</string>
-  <string name="shortcut_braille_keyboard">ब्रेल कीबोर्ड का इस्तेमाल करें</string>
-  <string name="shortcut_braille_display_settings">ब्रेल डिसप्ले की सेटिंग पर जाएं</string>
   <string name="shortcut_tutorial">ट्यूटोरियल खोलें</string>
   <string name="shortcut_control_speak_time">बोलकर समय बताएं या न बताएं</string>
   <string name="shortcut_enable_speak_time">बोलकर समय बताने की सुविधा</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">बोलकर समय बताने की सुविधा बंद है</string>
   <string name="shortcut_practice_gestures">हाथ के जेस्चर (हाव-भाव) इस्तेमाल करने का अभ्यास करें</string>
   <string name="shortcut_report_gesture">हाथ के जेस्चर से जुड़ी समस्या की शिकायत करें</string>
-  <string name="shortcut_toggle_braille_display">ब्रेल डिसप्ले को चालू या बंद करें</string>
   <string name="shortcut_announce_current_time_and_date">मौजूदा तारीख और समय बोलें</string>
   <string name="shortcut_announce_battery_state">बैटरी का प्रतिशत बताएं</string>
   <string name="shortcut_announce_current_title">विंडो का टाइटल बोलकर सुनाएं</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">बोलने की स्पीड कम करें</string>
   <string name="shortcut_toggle_selection">चुनने वाला मोड चालू या बंद करें</string>
   <string name="shortcut_show_tutorial">ट्यूटोरियल खोलें</string>
-  <string name="shortcut_toggle_braille_contracted_mode">कॉन्ट्रैक्टेड (ग्रेड 2) और अनकॉन्ट्रैक्टेड (ग्रेड 1) मोड के बीच स्विच करें</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">कनेक्ट किए गए ब्रेल डिसप्ले के लिए, ऑन-स्क्रीन ब्रेल कीबोर्ड को दिखाएं या छिपाएं</string>
   <string name="shortcut_toggle_sound_feedback">साउंड फ़ीडबैक का वॉल्यूम (ईयरकॉन) चालू या बंद करें</string>
   <string name="shortcut_show_learn_mode_page">कीबोर्ड शॉर्टकट के इस्तेमाल से जुड़ा पेज</string>
   <string name="shortcut_announce_phonetic_pronunciation">स्क्रीन पर फ़ोकस किए गए आइटम के अक्षरों का फ़ोनेटिक वाला उच्चारण सुनाएं</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">बोले गए निर्देश</string>
   <string name="title_show_keyboard_shortcuts">कीबोर्ड के शॉर्टकट</string>
   <string name="talkback_show_talkback_settings">SandFly की सेटिंग</string>
-  <string name="title_show_braille_display_settings">ब्रेल डिसप्ले की सेटिंग</string>
   <string name="title_granularity_default">डिफ़ॉल्ट नेविगेशन</string>
   <string name="title_action_dismiss">खारिज करें</string>
   <string name="title_action_expand">विस्तार करें</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">तय करें कि स्क्रीन चालू होने पर, समय बोलकर बताया जाए या नहीं</string>
   <string name="summary_show_keyboard_shortcuts_preferences">कीबोर्ड शॉर्टकट की सूची खोलें</string>
   <string name="summary_talkback_preferences">SandFly की सेटिंग खोलें</string>
-  <string name="summary_braile_display_preferences">ब्रेल डिसप्ले की सेटिंग खोलें</string>
   <string name="summary_system_actions">\'सभी ऐप्लिकेशन\' में, \'फटाफट सेटिंग\' पर जाएं</string>
   <string name="summary_tts_settings">लिखाई को बोली में बदलने की सेटिंग खोलें</string>
   <string name="not_editable">इसमें बदलाव नहीं किया जा सकता</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">%1$s कीवर्ड है</string>
   <string name="screen_search_no_keyword_hint">फ़िलहाल, कोई कीवर्ड मौजूद नहीं है. कोई नई खोज शुरू करने के लिए, तीन उंगलियों से टैप करके रखें या SandFly मेन्यू में जाकर, \'स्क्रीन पर खोजें\' सुविधा को चालू करें.</string>
   <string name="screen_search_no_keyword_hint_pre_r">फ़िलहाल, कोई कीवर्ड मौजूद नहीं है. कोई नई खोज शुरू करने के लिए पहले बाईं ओर, फिर नीचे की ओर स्वाइप करें या SandFly मेन्यू में जाकर, \'स्क्रीन पर खोजें\' सुविधा को चालू करें.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ब्रेल कीबोर्ड चालू नहीं है. SandFly की सेटिंग में जाकर, ब्रेल कीबोर्ड सेट अप करें और फिर से कोशिश करें.</string>
   <string name="suggestions_window_available">सुझाव उपलब्ध हैं</string>
   <string name="suggestions_window_available_with_gesture">सुझाव उपलब्ध हैं. ऐक्सेस करने के लिए, %1$s</string>
   <string name="heads_up_window_available">सूचना उपलब्ध है</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">हाथ के नए जेस्चर (हाव-भाव) की मदद से, SandFly को तेज़ी से इस्तेमाल करना सीखने के लिए टैप करें.</string>
   <string name="dump_node_tree_description">नोड ट्री को लॉग में प्रिंट कर दिया गया है</string>
   <string name="report_gesture_description">यहां पर हाल ही में इस्तेमाल किए गए हाथ के जेस्चर दिए गए हैं. अगर इनमें से कुछ जेस्चर सही नहीं हैं, तो कृपया उनके बारे में शिकायत करें. साथ ही, हमें बताएं कि इन जेस्चर को बेहतर कैसे बनाया जा सकता है.</string>
-  <string name="update_welcome_text_content">अब ब्रेल डिसप्ले को एचआईडी की मदद से कनेक्ट किया जा सकता है. यह ब्लूटूथ डिवाइसों को कनेक्ट करने का एक तरीका है. पक्का करें कि आपके पास मैन्युफ़ैक्चरर की ओर से दिए गए नए फ़र्मवेयर ड्राइवर इंस्टॉल हों. इसके बाद, अपने ब्रेल डिसप्ले के ब्लूटूथ को चालू करें. SandFly की सेटिंग &gt; ब्रेल डिसप्ले पर जाएं. इसके बाद, \"ब्रेल डिसप्ले का इस्तेमाल करें\" को चालू करें. डिवाइसों की सूची में अपना डिवाइस ढूंढें और उससे कनेक्ट करें.</string>
-  <string name="update_welcome_text_content_tts">अब ब्रेल डिसप्ले को एचआईडी की मदद से कनेक्ट किया जा सकता है. यह ब्लूटूथ डिवाइसों को कनेक्ट करने का एक तरीका है. पक्का करें कि आपके पास मैन्युफ़ैक्चरर की ओर से दिए गए नए फ़र्मवेयर ड्राइवर इंस्टॉल हों. इसके बाद, अपने ब्रेल डिसप्ले के ब्लूटूथ को चालू करें. SandFly की सेटिंग में जाकर, ब्रेल डिसप्ले पर जाएं. इसके बाद, \"ब्रेल डिसप्ले का इस्तेमाल करें\" को चालू करें. डिवाइसों की सूची में अपना डिवाइस ढूंढें और उससे कनेक्ट करें.</string>
-  <string name="update_welcome_text_content_with_link">SandFly की मदद से, ब्रेल डिसप्ले का इस्तेमाल करने का तरीका जानें.</string>
   <string name="update_welcome_talkback_16.1">SandFly के इस अपडेट में, स्क्रीन पर मौजूद जानकारी पाने की सुविधा को ज़्यादा भाषाओं में उपलब्ध कराया गया है. साथ ही, क्वालिटी से जुड़े अन्य सुधार किए गए हैं. इन सुधारों की वजह से, SandFly को इस्तेमाल करना और भी आसान हो गया है.\n\nअगली कुछ स्क्रीन पर, आपको इन बदलावों के बारे में ज़्यादा जानकारी मिलेगी.\n\nइस जानकारी को बाद में, SandFly की सेटिंग &gt; SandFly में जोड़ी गई नई सुविधाएं पर जाकर देखा जा सकता है.</string>
   <string name="update_welcome_talkback_16.1_tts">SandFly के इस अपडेट में, स्क्रीन पर मौजूद जानकारी पाने की सुविधा को ज़्यादा भाषाओं में उपलब्ध कराया गया है. साथ ही, क्वालिटी से जुड़े अन्य सुधार किए गए हैं. इन सुधारों की वजह से, SandFly को इस्तेमाल करना और भी आसान हो गया है.\n\nअगली कुछ स्क्रीन पर, आपको इन बदलावों के बारे में ज़्यादा जानकारी मिलेगी.\n\nइस जानकारी को बाद में, SandFly की सेटिंग और फिर \'SandFly में जोड़ी गई नई सुविधाएं\' पर जाकर देखा जा सकता है.</string>
   <string name="describe_screen_and_qna_title">स्क्रीन पर मौजूद जानकारी पाने की सुविधा और \'Gemini से कहें\' सुविधा, अब नई भाषाओं में उपलब्ध है</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">जानकारी मिलने में लगने वाला समय कम करें</string>
   <string name="reduce_delay_content">अब टच एक्सप्लोरेशन और टाइपिंग के लिए, SandFly की सूचना मिलने में लगने वाले समय को कम किया जा सकता है. इन सेटिंग को देखने के लिए, SandFly की सेटिंग &gt; ऐडवांस सेटिंग &gt; देरी कम करें पर जाएं.</string>
   <string name="reduce_delay_content_tts">अब टच एक्सप्लोरेशन और टाइपिंग के लिए, SandFly की सूचना मिलने में लगने वाले समय को कम किया जा सकता है. इन सेटिंग को देखने के लिए, SandFly की सेटिंग में जाएं. इसके बाद, \'ऐडवांस सेटिंग\' और फिर \'देरी कम करें\' पर जाएं.</string>
-  <string name="customize_braille_keyboard_improvements_title">ब्रेल कीबोर्ड के जेस्चर को पसंद के मुताबिक बनाएं</string>
-  <string name="customize_braille_keyboard_improvements_content">अब स्क्रीन पर मौजूद वर्चुअल ब्रेल कीबोर्ड के लिए, हाथ के जेस्चर अपनी पसंद के मुताबिक बनाए जा सकते हैं. इसके लिए, SandFly की सेटिंग &gt; ब्रेल कीबोर्ड &gt; हाथ के जेस्चर पर जाएं.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">अब स्क्रीन पर मौजूद वर्चुअल ब्रेल कीबोर्ड के लिए, हाथ के जेस्चर अपनी पसंद के मुताबिक बनाए जा सकते हैं. इसके लिए, SandFly की सेटिंग में जाकर, ब्रेल कीबोर्ड पर जाएं. इसके बाद, \'हाथ के जेस्चर\' पर जाएं.</string>
-  <string name="learn_more_about_braille_keyboard">ब्रेल कीबोर्ड के बारे में ज़्यादा जानें</string>
   <string name="other_changes_title">अन्य बदलाव</string>
   <string name="other_changes_content">SandFly सुविधा के गलती से चालू हो जाने पर, अब इसे स्क्रीन पर दिखने वाले मैसेज की मदद से तुरंत बंद किया जा सकता है. SandFly की सेटिंग &gt; SandFly की सुविधा बंद करने के निर्देश दिखाएं में जाकर, इस सुविधा को बंद किया जा सकता है.</string>
   <string name="other_changes_content_tts">SandFly सुविधा के गलती से चालू हो जाने पर, अब इसे स्क्रीन पर दिखने वाले मैसेज की मदद से तुरंत बंद किया जा सकता है. \'SandFly की सेटिंग\' और फिर \'SandFly को बंद करने के निर्देश दिखाएं\' पर जाकर, इस सुविधा को बंद किया जा सकता है.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">अब SandFly में फ़िज़िकल कीबोर्ड के लिए \"बेहतर कीमैप\" सुविधा उपलब्ध है. इसमें कई नए निर्देश और शॉर्टकट शामिल हैं. वेब पर और बेहतर तरीके से नेविगेट करने के लिए, \"ब्राउज़ करें मोड\" भी जोड़ा गया है. इससे SandFly का इस्तेमाल करने वाले उन उपयोगकर्ताओं को नेविगेट करने और इंटरैक्ट करने में आसानी होगी जो फ़िज़िकल कीबोर्ड पर निर्भर रहते हैं. <xliff:g id="settings_path">%1$s</xliff:g> में जाकर \"बेहतर कीमैप\" सुविधा पर स्विच किया जा सकता है.\n\nब्रेल डिसप्ले का इस्तेमाल करने पर, \'ब्राउज़ करें\' मोड के नए शॉर्टकट का इस्तेमाल करके सीधे ब्रेल डिसप्ले से कॉन्टेंट पर नेविगेट किया जा सकता है. इस बदलाव को लागू करने के लिए, ब्रेल डिसप्ले के कुछ शॉर्टकट में बदलाव किया गया है. <xliff:g id="braille_display_settings_path">%2$s</xliff:g> में जाकर ब्रेल डिसप्ले के सभी शॉर्टकट की सूची देखी जा सकती है.</string>
   <string name="keyboard_shortcuts_link">SandFly की सेटिंग &gt; कीबोर्ड शॉर्टकट</string>
   <string name="keyboard_shortcuts_link_tts">SandFly की सेटिंग में जाकर कीबोर्ड शॉर्टकट पर जाएं</string>
-  <string name="braille_display_settings_link">ब्रेल डिसप्ले की सेटिंग</string>
   <string name="keyboard_smart_browse_mode_title">कीबोर्ड: स्मार्ट तरीके से काम करने वाला \'ब्राउज़ करें\' मोड</string>
   <string name="keyboard_smart_browse_mode_text">SandFly का स्मार्ट तरीके से काम करने वाला \'ब्राउज़ करें\' मोड, बदलाव करने वाले फ़ील्ड पर इस मोड को बंद कर देता है. इससे वेब पर ब्राउज़ करते समय फ़िज़िकल कीबोर्ड से टाइप करने में मदद मिलती है. इसके बाद, जब वेब पर किसी ऐसे फ़ील्ड पर नेविगेट किया जाता है जिसमें बदलाव नहीं किया जा सकता, तो यह मोड फिर से चालू हो जाता है. इससे आपको लगातार आसानी से ब्राउज़ करने में मदद मिलती है. <xliff:g id="settings_path">%1$s</xliff:g> में जाकर \"स्मार्ट तरीके से काम करने वाला \'ब्राउज़ करें\' मोड\" चालू या बंद किया जा सकता है.</string>
   <string name="advanced_settings_link">SandFly की सेटिंग &gt; ऐडवांस सेटिंग</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">टेक्स्ट टाइप करना</string>
   <string name="basic_typing_text_text">टेक्स्ट बॉक्स में जाने पर, डिवाइस की स्क्रीन के सबसे नीचे एक कीबोर्ड खुलेगा.</string>
   <string name="typing_text_text">अपनी उंगली को कीबोर्ड पर एक जगह से दूसरी जगह ले जाएं. जब आपको वह अक्षर सुनाई दे जिसे टाइप करना है, तब कीबोर्ड से उंगली हटा लें.\n\nनीचे दिए गए टेक्स्ट बॉक्स में जाएं और अपना नाम टाइप करें.</string>
-  <string name="typing_text_with_braille_keyboard_text">टाइप करने के लिए, ब्रेल कीबोर्ड का भी इस्तेमाल किया जा सकता है. यह SandFly की सेटिंग में मिलेगा.</string>
   <string name="other_ways_to_type_title">टाइप करने के अन्य तरीके</string>
   <string name="other_ways_to_type_text">SandFly का इस्तेमाल करते समय, अन्य तरीकों से भी टाइप किया जा सकता है. जैसे, किसी अक्षर को टाइप करने के लिए, उस पर दो बार टैप करें.</string>
   <string name="basic_other_ways_to_type_text">SandFly का इस्तेमाल करते समय, अन्य तरीकों से भी टाइप किया जा सकता है. जैसे, किसी अक्षर को टाइप करने के लिए, उस पर दो बार टैप किया जा सकता है. इसे बाद में बदला जा सकता है. इसके लिए, SandFly की सेटिंग &gt; ऑन-स्क्रीन कीबोर्ड &gt; टाइप करने का तरीका पर जाएं.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">हाथ के जेस्चर का इस्तेमाल करने के लिए, पहले SandFly को चालू करें</string>
   <string name="talkback_inactive_message_image_description">इमेज के बारे में जानकारी पाने के लिए, पहले SandFly की सुविधा को चालू करें</string>
   <string name="talkback_inactive_close_tutorial_button">ट्यूटोरियल बंद करें</string>
-  <string name="wear_training_welcome_paragraph">SandFly की सुविधा चालू होने पर स्क्रीन रीडर, डिवाइस की स्क्रीन पर फ़ोकस किए गए आइटम को ज़ोर से पढ़कर सुनाता है.\n\nदाईं ओर स्वाइप करने पर, फ़ोकस अगले आइटम पर चला जाता है. बाईं ओर स्वाइप करने पर, फ़ोकस पिछले आइटम पर चला जाता है.\n\n अभी दाईं ओर स्वाइप करें और तब तक जारी रखें, जब तक \'आगे बढ़ें\' बटन न सुनाई दे दे.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d उंगलियों से, ऊपर या नीचे की ओर स्वाइप करें.</string>
-  <string name="wear_training_go_back_title">वापस जाएं</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">पिछले पेज पर वापस जाने के लिए, %1$d उंगलियों का इस्तेमाल करके स्क्रीन के किनारे से दाईं ओर स्वाइप करें.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">कार्रवाई पूरी हुई</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">पिछले पेज पर वापस जाने के लिए, हाथ का जेस्चर इस्तेमाल किया गया</string>
-  <string name="wear_training_volume_up_title">आवाज़ बढ़ाएं</string>
-  <string name="wear_training_volume_up_text">पहले दाईं और फिर ऊपर की ओर स्वाइप करें</string>
-  <string name="wear_training_volume_down_title">आवाज़ कम करें</string>
-  <string name="wear_training_volume_down_text">पहले दाईं और फिर नीचे की ओर स्वाइप करें</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly मेन्यू खोलें</string>
-  <string name="wear_training_open_talkback_menu_text">आपको जिन सेटिंग और कंट्रोल की अक्सर ज़रूरत पड़ सकती है उन्हें खोलने के लिए, पहले नीचे और फिर दाईं ओर स्वाइप करें</string>
-  <string name="wear_training_typing_title">टाइपिंग</string>
-  <string name="wear_training_typing_text1">कीबोर्ड से टाइप करने के लिए, अपनी उंगली को कीबोर्ड पर एक से दूसरी जगह घुमाएं. आपको जो अक्षर टाइप करना है, उसे सुनते ही कीबोर्ड से उंगली हटा लें.</string>
-  <string name="wear_training_typing_text2">कीबोर्ड छिपाने और अपने इनपुट की जांच करने के लिए, स्क्रीन पर सबसे ऊपर से नीचे की ओर दो उंगलियों से स्वाइप करें.</string>
-  <string name="wear_training_typing_text3">कीबोर्ड पर वापस जाने के लिए, स्क्रीन पर दो उंगलियों से नीचे से ऊपर की ओर स्वाइप करें.</string>
-  <string name="wear_training_typing_text4">कीबोर्ड बंद करने और टाइपिंग रद्द करने के लिए, स्क्रीन के बाएं किनारे से दाईं ओर दो उंगलियों से स्वाइप करें.</string>
-  <string name="wear_training_typing_text5">इसे यहां आज़माएं.</string>
-  <string name="wear_training_typing_practice_button_content_description">कीबोर्ड से टाइप करना</string>
-  <string name="wear_training_end_tutorial_title">आप SandFly को इस्तेमाल करने के लिए तैयार हैं</string>
   <string name="talkback_updated_notification_title">SandFly अपडेट हो गया है</string>
   <string name="talkback_updated_notification_content">ज़्यादा जानने के लिए टैप करें</string>
   <string name="wear_new_feature_page_title">SandFly के नए वर्शन में आपका स्वागत है</string>
@@ -1520,7 +1479,6 @@
     <string name="title_pref_announce_ringer_mode">रिंगर मोड</string>
     <string name="summary_pref_announce_ringer_mode">रिंगर के वाइब्रेट या साइलेंट पर सेट होने पर बोलें</string>
     <string name="title_pref_category_feedback">फ़ीडबैक</string>
-    <string name="title_pref_category_typing_and_braille">टाइपिंग और ब्रेल</string>
     <string name="title_pref_category_apps">ऐप्लिकेशन</string>
     <string name="title_pref_touch_activation">छूना और चालू करना</string>
     <string name="title_pref_navigation">नेविगेशन</string>
@@ -1544,8 +1502,6 @@
     <string name="speech_control_deny">अनुमति न दें</string>
     <string name="permission_speak_label">SandFly के ज़रिए बोलना</string>
     <string name="permission_speak_description">ऐप्लिकेशन को आपकी SandFly वॉइस में टेक्स्ट बोलने का अनुरोध करने देता है. ऐप्लिकेशन के बोलने से पहले SandFly आपसे अनुमति लेता है.</string>
-    <string name="permission_braille_display_label">SandFly के लिए ब्रेल डिसप्ले बनने का अनुरोध करना</string>
-    <string name="permission_braille_display_description">ऐप्लिकेशन को SandFly के लिए ब्रेल डिसप्ले बनने का अनुरोध करने देता है. SandFly में अनुमति देने पर, यह स्क्रीन पर मौजूद सब कुछ पढ़ सकता है और आपके डिवाइस को कंट्रोल कर सकता है. SandFly पहले आपसे अनुमति लेता है.</string>
     <string name="title_pref_phonetic_letters_mode">अक्षरों का फ़ोनेटिक उच्चारण बोलें</string>
     <string name="phonetic_letters_mode_off">बंद</string>
     <string name="phonetic_letters_mode_after_letter_delay">अक्षर के बाद, रुककर, जैसे \"h, hotel\"</string>
@@ -1683,14 +1639,8 @@
     <string name="summary_support_wrap_around">आखिरी आइटम से पहले आइटम पर जाने की सुविधा चालू या बंद करें</string>
     <string name="wrap_around_on">शुरुआत पर वापस जाना चालू</string>
     <string name="wrap_around_off">शुरुआत पर वापस जाना बंद</string>
-    <string name="title_selector_tablet_held_up_faces_away">टैबलेट उठाने पर स्क्रीन दूसरी तरफ़</string>
-    <string name="summary_support_tablet_held_up_faces_away">टैबलेट या खुले हुए फ़ोल्ड होने वाले फ़ोन पर ब्रेल कीबोर्ड के लिए</string>
-    <string name="tablet_held_up_faces_away_on">टैबलेट उठाने पर स्क्रीन दूसरी तरफ़: चालू</string>
-    <string name="tablet_held_up_faces_away_off">टैबलेट उठाने पर स्क्रीन दूसरी तरफ़: बंद</string>
     <string name="title_keyboard_echo_on_screen">ऑन-स्क्रीन कीबोर्ड इको</string>
     <string name="title_keyboard_echo_physical">फ़िज़िकल कीबोर्ड इको</string>
-    <string name="title_keyboard_echo_braille_keyboard">ब्रेल कीबोर्ड इको</string>
-    <string name="title_keyboard_echo_braille_display">ब्रेल डिसप्ले इको</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">टाइप करते समय बोलना रोकें</string>
     <string name="pref_interrupt_typing_entry_always">हमेशा</string>

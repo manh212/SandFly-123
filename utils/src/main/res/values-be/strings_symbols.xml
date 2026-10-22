@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Знак \"Менш чым\" у поўную шырыню</string>
   <string name="symbol_full_width_greater_than_sign">Знак \"Больш чым\" у поўную шырыню</string>
   <string name="symbol_left_single_quotation_mark">Левае адзінарнае двукоссе \"лапка\"</string>
-  <string name="symbol_braille">Шрыфт Брайля %s</string>
-  <plurals name="dots">
-    <item quantity="one">кропкі %s</item>
-    <item quantity="few">кропкі %s</item>
-    <item quantity="many">кропкі %s</item>
-    <item quantity="other">кропкі %s</item>
-  </plurals>
 </resources>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Тийип изилдөө</string>
   <string name="title_pref_category_visual">Визуалдык</string>
   <string name="title_pref_category_controls">Башкаруу элементтери</string>
-  <string name="title_pref_category_braille">Брайль</string>
   <string name="title_pref_category_general">Жалпы</string>
   <string name="title_pref_category_advanced">Өркүндөтүлгөн</string>
   <string name="title_pref_category_others">Башкалар</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Кечигүүнү азайтуу</string>
   <string name="talkback_latency_reduction_summary">TalkBack жарыяларына чейинки кечигүүнү азайтуу параметрлери</string>
   <string name="summary_pref_intonation">Өчүрүлгөн тамгаларды бийик үн менен айтуу</string>
-  <string name="title_pref_brailledisplay">Брайль дисплейи</string>
-  <string name="title_pref_brailleime">Брайль баскычтобу</string>
-  <string name="summary_pref_brailleime_disabled">Түзмөгүңүздө Брайль баскычтобу жок</string>
   <string name="title_pref_speech_footer">TalkBack\'тин айрым үн параметрлерин каалаган экрандан ыкчам тууралай аласыз.\n\nЖеткиликтүүлүктүн үнүнүн катуулугу: 1 манжаңыз менен экранды басып туруп, үнүн катуулатуу же акырындатуу баскычын басыңыз.\nTalkBack кебинин ылдамдыгы: 3 манжаңыз менен өйдө же ылдый сүрүңүз. \"Кептин ылдамдыгын\" укканда экранды 1 манжаңыз менен өйдө же ылдый сүрсөңүз болот.</string>
   <string name="title_pref_vibration">Дирилдөө</string>
   <string name="title_pref_soundback">Үн сигналы</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">Үнүн чоңойтуу</string>
   <string name="shortcut_decrease_volume">Үнүн кичирейтүү</string>
   <string name="shortcut_all_apps">Бардык колдонмолор</string>
-  <string name="shortcut_braille_keyboard">Брайль баскычтобуна которулуу</string>
-  <string name="shortcut_braille_display_settings">Брайль дисплейинин параметрлерине өтүү</string>
   <string name="shortcut_tutorial">Үйрөткүчтү ачуу</string>
   <string name="shortcut_control_speak_time">Убакытты айтуу же айтпоо</string>
   <string name="shortcut_enable_speak_time">Убакытты айтуу</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">Убакытты айтуу өчүк</string>
   <string name="shortcut_practice_gestures">Жаңсоолорду үйрөнүү</string>
   <string name="shortcut_report_gesture">Жаңсоо көйгөйү жөнүндө кабарлоо</string>
-  <string name="shortcut_toggle_braille_display">Брайль дисплейин күйгүзүү же өчүрүү</string>
   <string name="shortcut_announce_current_time_and_date">Учурдагы күндү жана убакытты айтуу</string>
   <string name="shortcut_announce_battery_state">Батареянын деңгээлин айтуу</string>
   <string name="shortcut_announce_current_title">Терезенин аталышын айтыңыз</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">Кептин ылдамдыгын төмөндөтүү</string>
   <string name="shortcut_toggle_selection">Текст тандоо режимин иштетүү же өчүрүү</string>
   <string name="shortcut_show_tutorial">Үйрөткүчтү ачуу</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Толук (1-даража) жана кыскартылган (2-даража) версияларынын арасында которулуу</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Туташкан брайль дисплейлери үчүн экрандагы брайлды көрсөтүү же жашыруу</string>
   <string name="shortcut_toggle_sound_feedback">Үн менен билдирүүнү (добуштар) иштетүү же өчүрүү</string>
   <string name="shortcut_show_learn_mode_page">Ыкчам баскычтарды колдонууда машыгуу</string>
   <string name="shortcut_announce_phonetic_pronunciation">Тандалган элементтин тамгаларынын фонетикалык айтылышын сүйлөп бер</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">Үн буйруктары</string>
   <string name="title_show_keyboard_shortcuts">Ыкчам баскычтар</string>
   <string name="talkback_show_talkback_settings">TalkBack параметрлери</string>
-  <string name="title_show_braille_display_settings">Брайль дисплейинин параметрлери</string>
   <string name="title_granularity_default">Демейки чабыттоо</string>
   <string name="title_action_dismiss">Этибарга албоо</string>
   <string name="title_action_expand">Жайып көрсөтүү</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">Экранды күйгүзгөнүңүздө убакыт айтылып же айтылбай турганын өзгөртүңүз</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Ыкчам баскычтардын тизмесин ач</string>
   <string name="summary_talkback_preferences">TalkBack параметрлерин ачасыз</string>
-  <string name="summary_braile_display_preferences">Брайль дисплейинин параметрлерин ачуу</string>
   <string name="summary_system_actions">Бардык колдонмолорго жана ыкчам параметрлерге өтүү</string>
   <string name="summary_tts_settings">Кеп синтезаторунун параметрлерин ачасыз</string>
   <string name="not_editable">Түзөтүүгө болбойт</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ачкыч сөз: %1$s</string>
   <string name="screen_search_no_keyword_hint">Азырынча ачкыч сөз жок. Жаңыдан издөө үчүн 3 манжаңыз менен коё бербей басып туруп же TalkBack менюсунан экранда издөөнү ачыңыз.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Азырынча ачкыч сөз жок. Жаңыдан издөө үчүн солго, анан ылдый сүрүп же TalkBack менюсунан экранда издөөнү ачыңыз.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Брайль баскычтобу күйгөн жок. TalkBack параметрлеринен Брайль баскычтобун жөндөп, кайталап көрүңүз.</string>
   <string name="suggestions_window_available">Сунуштар жеткиликтүү</string>
   <string name="suggestions_window_available_with_gesture">Сунуштар жеткиликтүү. Мүмкүнчүлүк алуу үчүн %1$s</string>
   <string name="heads_up_window_available">Билдирме жеткиликтүү</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">TalkBack\'ти жаңы жаңсоолор менен кантип тезирээк колдонуу керектигин билип алуу үчүн таптаңыз.</string>
   <string name="dump_node_tree_description">Түйүн дарагы таржымалдарда көрсөтүлдү.</string>
   <string name="report_gesture_description">Бул жерде акыркы жаңсоолор көрсөтүлгөн. Туура эмес жаңсоолорду белгилеп, кайсы вариант туура болорун кабарлап коюңуз.</string>
-  <string name="update_welcome_text_content">Bluetooth түзмөктөрүнө кантип туташсаңыз, эми HID аркылуу брайль дисплейлерине ошондой жол менен туташа аласыз. Түзмөгүңүздө өндүрүүчүнүн орнотулган программага арналган драйверлеринин акыркы версиялары орнотулганын текшерип, брайль дисплейиңизде Bluetooth\'ду күйгүзүңүз. TalkBack параметрлери &gt; Брайль дисплейине өтүп, \"Брайль дисплейин колдонуу\" параметрин күйгүзүңүз. Түзмөктөрдүн тизмесинен түзмөгүңүздү таап, ага туташтырыңыз.</string>
-  <string name="update_welcome_text_content_tts">Bluetooth түзмөктөрүнө кантип туташсаңыз, эми HID аркылуу брайль дисплейлерине ошондой жол менен туташа аласыз. Түзмөгүңүздө өндүрүүчүнүн орнотулган программага арналган драйверлеринин акыркы версиялары орнотулганын текшерип, брайль дисплейиңизде Bluetooth\'ду күйгүзүңүз. TalkBack параметрлери, андан соң Брайль дисплейине өтүп, \"Брайль дисплейин колдонуу\" параметрин күйгүзүңүз. Түзмөктөрдүн тизмесинен түзмөгүңүздү таап, ага туташтырыңыз.</string>
-  <string name="update_welcome_text_content_with_link">Брайль дисплейиңизди TalkBack менен кантип колдонууну билип алыңыз.</string>
   <string name="update_welcome_talkback_16.1">TalkBack\'тин бул жаңыртуусунда \"Экранды сүрөттөп берүү\" функциясы көбүрөөк тилде иштейт жана кызматты ыңгайлуу колдонуу үчүн анын сапаты жакшырды.\n\nБул өзгөртүүлөр тууралуу кийинки бир нече экранда көбүрөөк маалымат аласыз.\n\nБул маалыматты кийинчерээк TalkBack параметрлери &gt; TalkBack\'теги жаңы функциялардан көрсөңүз болот.</string>
   <string name="update_welcome_talkback_16.1_tts">TalkBack\'тин бул жаңыртуусунда \"Экранды сүрөттөп берүү\" функциясы көбүрөөк тилде иштейт жана кызматты ыңгайлуу колдонуу үчүн анын сапаты жакшырды.\n\nБул өзгөртүүлөр тууралуу кийинки бир нече экранда көбүрөөк маалымат аласыз.\n\nБул маалыматты кийинчерээк TalkBack параметрлерине, андан соң TalkBack\'теги жаңы функцияларга өтүп, көрсөңүз болот.</string>
   <string name="describe_screen_and_qna_title">\"Экранды сүрөттөп берүү\" жана \"Gemini\'дан суроо\" функциялары дагы башка тилдерде жеткиликтүү</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">Кечигүүнү азайтуу</string>
   <string name="reduce_delay_content">Эми тийип изилдөөдө жана текст тергенде билдирмелердин кечигишин азайта аласыз. Бул жөндөөлөрдү көрүү үчүн TalkBack жөндөөлөрү &gt; Өркүндөтүлгөн жөндөөлөр &gt; Кечигүүнү азайтуу аркылуу өтүңүз.</string>
   <string name="reduce_delay_content_tts">Эми тийип изилдөөдө жана текст тергенде билдирмелердин кечигишин азайта аласыз. Бул жөндөөлөрдү көрүү үчүн TalkBack жөндөөлөрүнө, Өркүндөтүлгөн жөндөөлөргө, андан соң Кечигүүнү азайтуу бөлүмүнө өтүңүз.</string>
-  <string name="customize_braille_keyboard_improvements_title">Брайль баскычтобунун жаңсоолорун жекелештириңиз</string>
-  <string name="customize_braille_keyboard_improvements_content">Эми экрандагы виртуалдык Брайль баскычтоптун жаңсоолорун жекелештирүүгө болот. Жекелештирүү үчүн TalkBack параметрлери &gt; Брайль баскычтобу &gt; Жаңсоолор бөлүмүнө өтүңүз.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Эми экрандагы виртуалдык Брайль баскычтоптун жаңсоолорун жекелештирүүгө болот. Жекелештирүү үчүн TalkBack параметрлерине, Брайль баскычтобуна, андан соң Жаңсоолор бөлүмүнө өтүңүз.</string>
-  <string name="learn_more_about_braille_keyboard">Брайль баскычтобу жөнүндө кеңири маалымат</string>
   <string name="other_changes_title">Башка өзгөрүүлөр</string>
   <string name="other_changes_content">Эгер TalkBack кокустан өчүрүлсө, экрандагы билдирүү аркылуу ыкчам өчүрө аласыз. Муну өчүрүү үчүн TalkBack жөндөөлөрү &gt; TalkBack\'ти өчүрүү үчүн нускамаларды көрсөтүү аркылуу өтүңүз.</string>
   <string name="other_changes_content_tts">Эгер TalkBack кокустан өчүрүлсө, экрандагы билдирүү аркылуу ыкчам өчүрө аласыз. Муну өчүрүү үчүн TalkBack жөндөөлөрүнө, андан соң TalkBack\'ти өчүрүү үчүн нускамаларды көрсөтүү бөлүмүнө өтүңүз.</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack\'тин физикалык баскычтобуна жаңы буйруктар жана ыкчам баскычтарды сунуштаган \"Жакшыртылган баскычтардын айкалыш конфигурациясы\" киргизилди. TalkBack\'теги физикалык баскычтоптордун колдонуучулары мындан ары вебди майнаптуу серептөөгө арналган \"кароо режими\" аркылуу Интернетти түйшүксүз колдоно алышат. %1$s бөлүмүндө \"Жакшыртылган баскычтардын айкалыш конфигурациясына\" которулсаңыз болот.\n\nЭгер брайль дисплейин колдонсоңуз, контентти түздөн-түз брайль дисплейи аркылуу карап чыгуу үчүн жаңы кароо режиминин ыкчам баскычтарын да колдонсоңуз болот. Бул өзгөртүүнү колдоо үчүн брайль дисплейинин айрым ыкчам баскычтары өзгөртүлдү. Брайль дисплейинин бардык ыкчам баскычтарынын тизмесин %2$s бөлүмүнөн көрө аласыз.</string>
   <string name="keyboard_shortcuts_link">TalkBack параметрлери &gt; Ыкчам баскычтар</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack параметрлери, андан соң Ыкчам баскычтар</string>
-  <string name="braille_display_settings_link">Брайль дисплейинин параметрлери</string>
   <string name="keyboard_smart_browse_mode_title">Баскычтоп: Акылдуу кароо режими</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack\'тин акылдуу кароо режими Интернетти карап жатканда физикалык баскычтоп менен терүүгө жардам берүү үчүн түзөтүү талаасындагы кароо режимин өчүрөт. Андан кийин Интернетте түзөтүлбөгөн талаага өткөндө, ал кайра күйөт, ошондо үзгүлтүксүз серептей берсеңиз болот. \"Акылдуу кароо режимин\" %1$s бөлүмүнөн күйгүзүп же өчүрө аласыз.</string>
   <string name="advanced_settings_link">TalkBack параметрлери &gt; Өркүндөтүлгөн параметрлер</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">Текст терүү</string>
   <string name="basic_typing_text_text">Текст жазылуучу жерге өткөндө баскычтоп экрандын ылдый жагында ачылат.</string>
   <string name="typing_text_text">Баскычтопту манжаңыз менен сүрүп, керектүү тамга угулганда манжаңызды алыңыз.\n\nТөмөнкү текст кутучасын иштетип, аты-жөнүңүздү жазып көрүңүз.</string>
-  <string name="typing_text_with_braille_keyboard_text">Брайль баскычтобу менен да терсеңиз болот. TalkBack\'тин параметрлеринен издеңиз.</string>
   <string name="other_ways_to_type_title">Терүүнүн башка жолдору</string>
   <string name="other_ways_to_type_text">TalkBack\'те терүүнүн башка жолдору да бар. Мисалы, тамганы терүү үчүн аны эки жолу бассаңыз болот.</string>
   <string name="basic_other_ways_to_type_text">TalkBack\'те терүүнүн башка жолдору да бар. Мисалы, тамганы терүү үчүн аны эки жолу бассаңыз болот. Муну кийинчерээк TalkBack параметрлери &gt; Экрандагы баскычтоп &gt; Терүү параметринен өзгөртө аласыз.</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">Жаңсоолорду колдонуп көрүү үчүн адегенде TalkBack функциясын күйгүзүңүз</string>
   <string name="talkback_inactive_message_image_description">Сүрөттөрдүн түшүндүрмөлөрүн угуу үчүн адегенде TalkBack функциясын күйгүзүңүз</string>
   <string name="talkback_inactive_close_tutorial_button">Үйрөткүчтү жабуу</string>
-  <string name="wear_training_welcome_paragraph">TalkBack күйгүзүлсө, экранда тандалган нерсени үн чыгарып окуп берет.\n\nЭкранды оңго сүрсөңүз, кийинки нерсеге өтөт. Солго сүрсөңүз, мурунку нерсеге өтөт.\n\nКийинки баскыч табылмайынча, экранды оңго сүрүңүз.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d манжаңыз менен экранды жогору же ылдый сүрүңүз</string>
-  <string name="wear_training_go_back_title">Артка кайтуу</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Артка кайтуу үчүн %1$d манжаңыз менен экрандын четинен оңго сүрүңүз</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Ийгилик</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Артка кайтуу жаңсоосу көрсөтүлдү</string>
-  <string name="wear_training_volume_up_title">Үнүн катуулатуу</string>
-  <string name="wear_training_volume_up_text">Экранды оңго, анан жогору сүрүңүз</string>
-  <string name="wear_training_volume_down_title">Үнүн акырындатуу</string>
-  <string name="wear_training_volume_down_text">Экранды оңго, анан ылдый сүрүңүз</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack менюсун ачуу</string>
-  <string name="wear_training_open_talkback_menu_text">Көп колдонулуучу параметрлерди жана башкаруу элементтерин ачуу үчүн экранды ылдый, анан оңго сүрүңүз</string>
-  <string name="wear_training_typing_title">Терүү</string>
-  <string name="wear_training_typing_text1">Баскычтопто терүү үчүн баскычтопту манжаңыз менен сүрүңүз. Керектүү тамга угулганда манжаңызды алыңыз.</string>
-  <string name="wear_training_typing_text2">Баскычтопту жашырып, терилген нерсени текшерүү үчүн экранды 2 манжаңыз менен өйдөдөн ылдый карай сүрүңүз.</string>
-  <string name="wear_training_typing_text3">Баскычтопко кайтуу үчүн 2 манжаңыз менен ылдыйдан өйдө карап сүрүңүз.</string>
-  <string name="wear_training_typing_text4">Баскычтопту жаап, терүүнү жокко чыгаруу үчүн экранды 2 манжаңыз менен солдон оңго карай сүрүңүз.</string>
-  <string name="wear_training_typing_text5">Азыр жасап көрүңүз.</string>
-  <string name="wear_training_typing_practice_button_content_description">Баскычтоп менен терүү</string>
-  <string name="wear_training_end_tutorial_title">TalkBack функциясын колдоно берсеңиз болот</string>
   <string name="talkback_updated_notification_title">TalkBack жаңырды</string>
   <string name="talkback_updated_notification_content">Кененирээк маалымат алуу үчүн таптап коюңуз</string>
   <string name="wear_new_feature_page_title">Жаңырган TalkBack\'ке кош келиңиз</string>

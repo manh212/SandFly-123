@@ -30,7 +30,6 @@
     <!-- Main settings categories and controls. -->
     <string name="title_pref_category_feedback">Zpětná vazba</string>
     <string name="title_pref_category_more">Další</string>
-    <string name="title_pref_category_typing_and_braille">Psaní a Braillovo písmo</string>
     <string name="title_pref_brightness">Jas</string>
     <string name="summary_support_change_brightness">Zvýšit nebo snížit jas obrazovky, i když je obrazovka skrytá</string>
 

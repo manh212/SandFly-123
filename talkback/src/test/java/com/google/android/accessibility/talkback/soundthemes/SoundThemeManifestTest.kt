@@ -155,20 +155,16 @@ class SoundThemeManifestTest {
   }
 
   @Test
-  fun vibrationsWithoutASoundCanBeReplacedButNotBrailleDisplaySounds() {
+  fun vibrationsWithoutASoundCanBeReplacedButNotSoundlessOnes() {
     val manifest =
       parse(
         """
         {"vibrations": {"announcement": {"pattern": [0, 20]},
-                        "braille_keyboard_character": {"pattern": [0, 10]},
                         "direct_touch_on": "none",
-                        "display_connected": {"pattern": [0, 20]}}}
+                        "screen_on": {"pattern": [0, 20]}}}
         """
       )
-    assertEquals(
-      setOf("announcement", "braille_keyboard_character", "direct_touch_on"),
-      manifest.vibrations.keys,
-    )
+    assertEquals(setOf("announcement", "direct_touch_on"), manifest.vibrations.keys)
     assertEquals(1, manifest.warnings.size)
   }
 

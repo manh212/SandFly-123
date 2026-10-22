@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ကြည့်ရှုမုဒ် ဖွင့်</string>
   <string name="individual_sound_browse_mode_off">ကြည့်ရှုမုဒ် ပိတ်</string>
   <string name="individual_sound_radial_menu">စက်ဝိုင်း မီနူး</string>
-  <string name="individual_sound_display_connected">ဘရေးလ် ဖန်သားပြင် ချိတ်ဆက်ပြီး</string>
-  <string name="individual_sound_display_disconnected">ဘရေးလ် ဖန်သားပြင် ချိတ်ဆက်မှု ဖြုတ်ပြီး</string>
-  <string name="individual_sound_double_beep">ဘရေးလ် ညွှန်ကြားချက် မအောင်မြင်ပါ</string>
-  <string name="individual_sound_turn_on">ဘရေးလ် အလိုအလျောက် လှိမ့်ခြင်း ဖွင့်</string>
-  <string name="individual_sound_turn_off">ဘရေးလ် အလိုအလျောက် လှိမ့်ခြင်း ပိတ်</string>
-  <string name="individual_sound_calibration_done">ဘရေးလ် ကီးဘုတ် ချိန်ညှိပြီး</string>
   <string name="individual_vibration_focus">အကြောင်းအရာကို ချိန်ထားခြင်း</string>
   <string name="individual_vibration_focus_actionable">လုပ်ဆောင်နိုင်သော အကြောင်းအရာကို ချိန်ထားခြင်း</string>
   <string name="individual_vibration_clicked">နှိပ်ခြင်း</string>

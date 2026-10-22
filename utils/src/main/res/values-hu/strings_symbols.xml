@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Teljes szélességű „kisebb, mint” jel</string>
   <string name="symbol_full_width_greater_than_sign">Teljes szélességű „nagyobb, mint” jel</string>
   <string name="symbol_left_single_quotation_mark">Bal oldali félidézőjel</string>
-  <string name="symbol_braille">Braille %s</string>
-  <plurals name="dots">
-    <item quantity="one">%s. pont</item>
-    <item quantity="other">%s. pont</item>
-  </plurals>
 </resources>

@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Režim pregledanja je uključen</string>
   <string name="individual_sound_browse_mode_off">Režim pregledanja je isključen</string>
   <string name="individual_sound_radial_menu">Kružni meni</string>
-  <string name="individual_sound_display_connected">Brajev ekran je povezan</string>
-  <string name="individual_sound_display_disconnected">Brajev ekran je prekinut</string>
-  <string name="individual_sound_double_beep">Brajeva komanda nije uspela</string>
-  <string name="individual_sound_turn_on">Automatsko skrolovanje Brajevog pisma je uključeno</string>
-  <string name="individual_sound_turn_off">Automatsko skrolovanje Brajevog pisma je isključeno</string>
-  <string name="individual_sound_calibration_done">Brajeva tastatura je kalibrisana</string>
   <string name="individual_vibration_focus">Fokus na stavci</string>
   <string name="individual_vibration_focus_actionable">Fokus na stavci koja može da se aktivira</string>
   <string name="individual_vibration_clicked">Klik</string>

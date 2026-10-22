@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">ਸਪੱਰਸ਼ ਰਾਹੀਂ ਪੜਚੋਲ ਕਰੋ</string>
   <string name="title_pref_category_visual">ਦ੍ਰਿਸ਼</string>
   <string name="title_pref_category_controls">ਕੰਟਰੋਲ</string>
-  <string name="title_pref_category_braille">ਬਰੇਲ ਲਿਪੀ</string>
   <string name="title_pref_category_general">ਸਧਾਰਨ</string>
   <string name="title_pref_category_advanced">ਅਡਵਾਂਸ</string>
   <string name="title_pref_category_others">ਹੋਰ</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">ਦੇਰੀ ਘਟਾਓ</string>
   <string name="talkback_latency_reduction_summary">TalkBack ਘੋਸ਼ਣਾਵਾਂ ਤੋਂ ਪਹਿਲਾਂ ਦੇਰੀ ਨੂੰ ਘਟਾਉਣ ਵਾਲੀਆਂ ਸੈਟਿੰਗਾਂ</string>
   <string name="summary_pref_intonation">ਮਿਟਾਏ ਗਏ ਅੱਖਰਾਂ ਨੂੰ ਉੱਚੀ ਸੁਰ ਵਾਲੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲੋ</string>
-  <string name="title_pref_brailledisplay">ਬਰੇਲ ਡਿਸਪਲੇ</string>
-  <string name="title_pref_brailleime">ਬਰੇਲ ਕੀ-ਬੋਰਡ</string>
-  <string name="summary_pref_brailleime_disabled">ਤੁਹਾਡਾ ਡੀਵਾਈਸ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ</string>
   <string name="title_pref_speech_footer">ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਸਕ੍ਰੀਨ ਤੋਂ TalkBack ਦੀਆਂ ਕੁਝ ਧੁਨੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਤੁਰੰਤ ਵਿਵਸਥਿਤ ਕਰ ਸਕਦੇ ਹੋ।\n\nਪਹੁੰਚਯੋਗਤਾ ਦੀ ਅਵਾਜ਼: ਸਕ੍ਰੀਨ \'ਤੇ 1 ਉਂਗਲ ਨੂੰ ਦਬਾ ਕੇ ਰੱਖੋ ਅਤੇ \'ਅਵਾਜ਼ ਵਧਾਓ\' ਜਾਂ \'ਅਵਾਜ਼ ਘਟਾਓ\' ਕੁੰਜੀ ਨੂੰ ਦਬਾਓ।\nTalkBack ਸਪੀਚ ਰੇਟ: 3 ਉਂਗਲਾਂ ਨਾਲ ਉੱਪਰ ਜਾਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ। \"ਸਪੀਚ ਰੇਟ\" ਸੁਣਾਈ ਦੇਣ \'ਤੇ, 1 ਉਂਗਲ ਨਾਲ ਉੱਪਰ ਜਾਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
   <string name="title_pref_vibration">ਥਰਥਰਾਹਟ ਸੰਬੰਧੀ ਵਿਚਾਰ</string>
   <string name="title_pref_soundback">ਧੁਨੀ ਸੰਬੰਧੀ ਵਿਚਾਰ</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">ਅਵਾਜ਼ ਵਧਾਓ</string>
   <string name="shortcut_decrease_volume">ਅਵਾਜ਼ ਘਟਾਓ</string>
   <string name="shortcut_all_apps">ਸਾਰੀਆਂ ਐਪਾਂ</string>
-  <string name="shortcut_braille_keyboard">ਬਰੇਲ ਲਿਪੀ ਕੀ-ਬੋਰਡ \'ਤੇ ਜਾਓ</string>
-  <string name="shortcut_braille_display_settings">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ ਵੱਲ ਨੈਵੀਗੇਟ ਕਰੋ</string>
   <string name="shortcut_tutorial">ਟਿਊਟੋਰੀਅਲ ਖੋਲ੍ਹੋ</string>
   <string name="shortcut_control_speak_time">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸੋ ਜਾਂ ਬੋਲ ਕੇ ਸਮਾਂ ਨਾ ਦੱਸੋ</string>
   <string name="shortcut_enable_speak_time">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸੋ</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸਣ ਦੀ ਸੁਵਿਧਾ ਬੰਦ ਹੈ</string>
   <string name="shortcut_practice_gestures">ਇਸ਼ਾਰਿਆਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
   <string name="shortcut_report_gesture">ਇਸ਼ਾਰੇ ਸੰਬੰਧੀ ਸਮੱਸਿਆ ਨੂੰ ਰਿਪੋਰਟ ਕਰੋ</string>
-  <string name="shortcut_toggle_braille_display">ਬਰੇਲ ਡਿਸਪਲੇ ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_announce_current_time_and_date">ਮੌਜੂਦਾ ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਬੋਲੋ</string>
   <string name="shortcut_announce_battery_state">ਬੈਟਰੀ ਦੀ ਫ਼ੀਸਦ ਦੱਸੋ</string>
   <string name="shortcut_announce_current_title">ਵਿੰਡੋ ਦਾ ਸਿਰਲੇਖ ਬੋਲ ਕੇ ਸੁਣਾਓ</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">ਸਪੀਚ ਰੇਟ ਘਟਾਓ</string>
   <string name="shortcut_toggle_selection">ਚੋਣ ਮੋਡ ਨੂੰ ਸ਼ੁਰੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_show_tutorial">ਟਿਊਟੋਰੀਅਲ ਖੋਲ੍ਹੋ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ਸੰਕੁਚਿਤ (ਗ੍ਰੇਡ 2) ਅਤੇ ਗੈਰ-ਸੰਕੁਚਿਤ (ਗ੍ਰੇਡ 1) ਵਿਚਾਲੇ ਸਵਿੱਚ ਕਰੋ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ਕਨੈਕਟ ਕੀਤੀਆਂ ਬਰੇਲ ਡਿਸਪਲੇਆਂ ਲਈ ਆਨ-ਸਕ੍ਰੀਨ ਬਰੇਲ ਲਿਪੀ ਦਿਖਾਓ ਜਾਂ ਲੁਕਾਓ</string>
   <string name="shortcut_toggle_sound_feedback">ਧੁਨੀ ਵਿਚਾਰ (ਝੁਣਕਾਰ) ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_show_learn_mode_page">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ਫੋਕਸ ਹੋਈ ਆਈਟਮ ਲਈ ਧੁਨੀਆਤਮਿਕ ਉਚਾਰਨ ਨਾਲ ਅੱਖਰ ਬੋਲੋ</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">ਅਵਾਜ਼ੀ ਆਦੇਸ਼</string>
   <string name="title_show_keyboard_shortcuts">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
   <string name="talkback_show_talkback_settings">TalkBack ਸੈਟਿੰਗਾਂ</string>
-  <string name="title_show_braille_display_settings">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ</string>
   <string name="title_granularity_default">ਪੂਰਵ-ਨਿਰਧਾਰਿਤ ਨੈਵੀਗੇਸ਼ਨ</string>
   <string name="title_action_dismiss">ਖਾਰਜ ਕਰੋ</string>
   <string name="title_action_expand">ਵਿਸਤਾਰ ਕਰੋ</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">ਇਸ ਬਾਰੇ ਚੁਣੋ ਕਿ ਤੁਹਾਡੇ ਵੱਲੋਂ ਸਕ੍ਰੀਨ ਚਾਲੂ ਕਰਨ \'ਤੇ ਸਮਾਂ ਉੱਚੀ ਬੋਲ ਕੇ ਦੱਸਿਆ ਜਾਵੇ ਜਾਂ ਨਹੀਂ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦੀ ਸੂਚੀ ਖੋਲ੍ਹੋ</string>
   <string name="summary_talkback_preferences">TalkBack ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
-  <string name="summary_braile_display_preferences">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ ਨੂੰ ਖੋਲ੍ਹੋ</string>
   <string name="summary_system_actions">ਸਾਰੀਆਂ ਐਪਾਂ ਦੀਆਂ ਤਤਕਾਲ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾਓ</string>
   <string name="summary_tts_settings">ਲਿਖਤ-ਤੋਂ-ਬੋਲੀ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
   <string name="not_editable">ਸੰਪਾਦਨਯੋਗ ਨਹੀਂ</string>
@@ -917,7 +906,6 @@
   <string name="screen_search_keyword_hint">ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ %1$s ਹੈ</string>
   <string name="screen_search_no_keyword_hint">ਫ਼ਿਲਹਾਲ ਕੋਈ ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਨਵੀਂ ਖੋਜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ, 3 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ ਜਾਂ TalkBack ਮੀਨੂ \'ਤੇ ਜਾ ਕੇ ਸਕ੍ਰੀਨ ਖੋਜ ਨੂੰ ਖੋਲ੍ਹੋ।</string>
   <string name="screen_search_no_keyword_hint_pre_r">ਫ਼ਿਲਹਾਲ ਕੋਈ ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਨਵੀਂ ਖੋਜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ ਖੱਬੇ ਪਾਸੇ ਅਤੇ ਫਿਰ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ ਜਾਂ TalkBack ਮੀਨੂ \'ਤੇ ਜਾ ਕੇ ਸਕ੍ਰੀਨ ਖੋਜ ਨੂੰ ਖੋਲ੍ਹੋ।</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ਬਰੇਲ ਲਿਪੀ ਵਾਲਾ ਕੀ-ਬੋਰਡ ਚਾਲੂ ਨਹੀਂ ਹੈ। TalkBack ਸੈਟਿੰਗਾਂ \'ਤੇ ਜਾਓ, ਬਰੇਲ ਲਿਪੀ ਵਾਲੇ ਕੀ-ਬੋਰਡ ਦਾ ਸੈੱਟਅੱਪ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
   <string name="suggestions_window_available">ਸੁਝਾਅ ਉਪਲਬਧ ਹਨ</string>
   <string name="suggestions_window_available_with_gesture">ਸੁਝਾਅ ਉਪਲਬਧ ਹਨ। ਪਹੁੰਚ ਕਰਨ ਲਈ ਇਹ ਕਰੋ, %1$s</string>
   <string name="heads_up_window_available">ਸੂਚਨਾ ਉਪਲਬਧ ਹੈ</string>
@@ -967,9 +955,6 @@
   <string name="new_gesture_notification_content">ਨਵੇਂ ਇਸ਼ਾਰਿਆਂ ਨਾਲ TalkBack ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਵਰਤਣ ਦਾ ਤਰੀਕਾ ਸਿੱਖਣ ਲਈ ਟੈਪ ਕਰੋ।</string>
   <string name="dump_node_tree_description">ਨੋਡ ਟ੍ਰੀ ਨੂੰ ਲੌਗਾਂ \'ਤੇ ਪ੍ਰਿੰਟ ਕੀਤਾ ਗਿਆ।</string>
   <string name="report_gesture_description">ਇਹ ਰਹੇ ਹਾਲ ਹੀ ਵਿੱਚ ਪੇਸ਼ ਕੀਤੇ ਇਸ਼ਾਰੇ, ਕਿਰਪਾ ਕਰਕੇ ਰਿਪੋਰਟ ਕਰੋ ਕਿ ਕਿਹੜਾ ਇਸ਼ਾਰਾ ਗਲਤ ਹੈ ਅਤੇ ਕੀ ਉਮੀਦ ਕੀਤੀ ਜਾਂਦੀ ਹੈ।</string>
-  <string name="update_welcome_text_content">ਹੁਣ ਤੁਸੀਂ HID ਰਾਹੀਂ ਬਰੇਲ ਡਿਸਪਲੇ ਨਾਲ ਕਨੈਕਟ ਕਰ ਸਕਦੇ ਹੋ, ਜੋ ਕਿ ਇੱਕ ਅਜਿਹਾ ਤਰੀਕਾ ਹੈ ਜਿਸ ਨਾਲ ਤੁਸੀਂ ਬਲੂਟੁੱਥ ਡੀਵਾਈਸਾਂ ਨਾਲ ਕਨੈਕਟ ਕਰ ਸਕਦੇ ਹੋ। ਪੱਕਾ ਕਰੋ ਕਿ ਤੁਹਾਡੇ ਕੋਲ ਤੁਹਾਡੇ ਨਿਰਮਾਤਾ ਦੇ ਨਵੀਨਤਮ ਫ਼ਰਮਵੇਅਰ ਡਰਾਈਵਰ ਹਨ, ਫਿਰ ਆਪਣੀ ਬਰੇਲ ਡਿਸਪਲੇ \'ਤੇ ਬਲੂਟੁੱਥ ਚਾਲੂ ਕਰੋ। TalkBack ਸੈਟਿੰਗਾਂ &gt; ਬਰੇਲ ਡਿਸਪਲੇ \'ਤੇ ਜਾਓ ਅਤੇ \"ਬਰੇਲ ਡਿਸਪਲੇ ਵਰਤੋ\" ਨੂੰ ਚਾਲੂ ਕਰੋ। ਆਪਣੇ ਡੀਵਾਈਸ ਨੂੰ ਡੀਵਾਈਸ ਸੂਚੀ ਵਿੱਚ ਲੱਭੋ ਅਤੇ ਇਸ ਨਾਲ ਕਨੈਕਟ ਕਰੋ।</string>
-  <string name="update_welcome_text_content_tts">ਹੁਣ ਤੁਸੀਂ HID ਰਾਹੀਂ ਬਰੇਲ ਡਿਸਪਲੇ ਨਾਲ ਕਨੈਕਟ ਕਰ ਸਕਦੇ ਹੋ, ਜੋ ਕਿ ਇੱਕ ਅਜਿਹਾ ਤਰੀਕਾ ਹੈ ਜਿਸ ਨਾਲ ਤੁਸੀਂ ਬਲੂਟੁੱਥ ਡੀਵਾਈਸਾਂ ਨਾਲ ਕਨੈਕਟ ਕਰ ਸਕਦੇ ਹੋ। ਪੱਕਾ ਕਰੋ ਕਿ ਤੁਹਾਡੇ ਕੋਲ ਤੁਹਾਡੇ ਨਿਰਮਾਤਾ ਦੇ ਨਵੀਨਤਮ ਫ਼ਰਮਵੇਅਰ ਡਰਾਈਵਰ ਹਨ, ਫਿਰ ਆਪਣੀ ਬਰੇਲ ਡਿਸਪਲੇ \'ਤੇ ਬਲੂਟੁੱਥ ਚਾਲੂ ਕਰੋ। TalkBack ਸੈਟਿੰਗਾਂ ਫਿਰ ਬਰੇਲ ਡਿਸਪਲੇ \'ਤੇ ਜਾਓ ਅਤੇ \"ਬਰੇਲ ਡਿਸਪਲੇ ਵਰਤੋ\" ਨੂੰ ਚਾਲੂ ਕਰੋ। ਆਪਣੇ ਡੀਵਾਈਸ ਨੂੰ ਡੀਵਾਈਸ ਸੂਚੀ ਵਿੱਚ ਲੱਭੋ ਅਤੇ ਇਸ ਨਾਲ ਕਨੈਕਟ ਕਰੋ।</string>
-  <string name="update_welcome_text_content_with_link">TalkBack ਨਾਲ ਆਪਣੀ ਬਰੇਲ ਡਿਸਪਲੇ ਨੂੰ ਵਰਤਣ ਦੇ ਤਰੀਕੇ ਬਾਰੇ ਜਾਣੋ।</string>
   <string name="update_welcome_talkback_16.1">TalkBack ਦੇ ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ, ਸਕ੍ਰੀਨ ਦਾ ਵਰਣਨ ਕਰਨ ਸੰਬੰਧੀ ਸੁਵਿਧਾ ਨੂੰ ਜ਼ਿਆਦਾ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ ਪੇਸ਼ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ ਕੁਆਲਿਟੀ ਸੰਬੰਧੀ ਹੋਰ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ, ਜਿਨ੍ਹਾਂ ਨਾਲ TalkBack ਨੂੰ ਵਰਤਣਾ ਜ਼ਿਆਦਾ ਆਸਾਨ ਹੋ ਜਾਂਦਾ ਹੈ।\n\nਤੁਸੀਂ ਅਗਲੀਆਂ ਕੁਝ ਸਕ੍ਰੀਨਾਂ ਵਿੱਚ ਇਨ੍ਹਾਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਹੋਰ ਜਾਣੋਗੇ।\n\nਤੁਸੀਂ ਬਾਅਦ ਵਿੱਚ TalkBack ਸੈਟਿੰਗਾਂ &gt; TalkBack ਵਿੱਚ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ \'ਤੇ ਜਾ ਕੇ ਇਸ ਜਾਣਕਾਰੀ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="update_welcome_talkback_16.1_tts">TalkBack ਦੇ ਇਸ ਅੱਪਡੇਟ ਵਿੱਚ, ਸਕ੍ਰੀਨ ਦਾ ਵਰਣਨ ਕਰਨ ਸੰਬੰਧੀ ਸੁਵਿਧਾ ਨੂੰ ਜ਼ਿਆਦਾ ਭਾਸ਼ਾਵਾਂ ਵਿੱਚ ਪੇਸ਼ ਕੀਤਾ ਗਿਆ ਹੈ ਅਤੇ ਕੁਆਲਿਟੀ ਸੰਬੰਧੀ ਹੋਰ ਸੁਧਾਰ ਕੀਤੇ ਗਏ ਹਨ, ਜਿਨ੍ਹਾਂ ਨਾਲ TalkBack ਨੂੰ ਵਰਤਣਾ ਜ਼ਿਆਦਾ ਆਸਾਨ ਹੋ ਜਾਂਦਾ ਹੈ।\n\nਤੁਸੀਂ ਅਗਲੀਆਂ ਕੁਝ ਸਕ੍ਰੀਨਾਂ ਵਿੱਚ ਇਨ੍ਹਾਂ ਤਬਦੀਲੀਆਂ ਬਾਰੇ ਹੋਰ ਜਾਣੋਗੇ।\n\nਤੁਸੀਂ ਬਾਅਦ ਵਿੱਚ TalkBack ਸੈਟਿੰਗਾਂ, ਫਿਰ TalkBack ਵਿੱਚ ਨਵੀਆਂ ਵਿਸ਼ੇਸ਼ਤਾਵਾਂ \'ਤੇ ਜਾ ਕੇ ਇਸ ਜਾਣਕਾਰੀ ਦੀ ਸਮੀਖਿਆ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="describe_screen_and_qna_title">ਸਕ੍ਰੀਨ ਦਾ ਵਰਣਨ ਕਰਨ ਸੰਬੰਧੀ ਸੁਵਿਧਾ ਅਤੇ \'Gemini ਤੋਂ ਪੁੱਛੋ\' ਲਈ ਨਵੀਆਂ ਭਾਸ਼ਾਵਾਂ</string>
@@ -985,10 +970,6 @@
   <string name="reduce_delay_title">ਦੇਰੀ ਘਟਾਓ</string>
   <string name="reduce_delay_content">ਹੁਣ ਤੁਸੀਂ ਸਪਰਸ਼ ਕਰ ਕੇ ਪੜਚੋਲ ਕਰਨ ਅਤੇ ਟਾਈਪਿੰਗ ਕਰਨ ਲਈ TalkBack ਘੋਸ਼ਣਾ ਸੰਬੰਧੀ ਦੇਰੀਆਂ ਨੂੰ ਘਟਾ ਸਕਦੇ ਹੋ। ਇਨ੍ਹਾਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਦੇਖਣ ਲਈ, TalkBack ਸੈਟਿੰਗਾਂ &gt; ਅਡਵਾਂਸ ਸੈਟਿੰਗਾਂ &gt; ਦੇਰੀ ਘਟਾਓ ਵਿੱਚ ਜਾਓ।</string>
   <string name="reduce_delay_content_tts">ਹੁਣ ਤੁਸੀਂ ਸਪਰਸ਼ ਕਰ ਕੇ ਪੜਚੋਲ ਕਰਨ ਅਤੇ ਟਾਈਪਿੰਗ ਕਰਨ ਲਈ TalkBack ਘੋਸ਼ਣਾ ਸੰਬੰਧੀ ਦੇਰੀਆਂ ਨੂੰ ਘਟਾ ਸਕਦੇ ਹੋ। ਇਨ੍ਹਾਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਦੇਖਣ ਲਈ, TalkBack ਸੈਟਿੰਗਾਂ, ਫਿਰ ਅਡਵਾਂਸ ਸੈਟਿੰਗਾਂ, ਫਿਰ ਦੇਰੀ ਘਟਾਓ ਵਿੱਚ ਜਾਓ।</string>
-  <string name="customize_braille_keyboard_improvements_title">ਬਰੇਲ ਕੀ-ਬੋਰਡ ਸੰਬੰਧੀ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਵਿਉਂਤਬੱਧ ਕਰੋ</string>
-  <string name="customize_braille_keyboard_improvements_content">ਸਕ੍ਰੀਨ ਉਤਲੇ ਆਭਾਸੀ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਲਈ, ਹੁਣ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਵਿਉਂਤਬੱਧ ਕਰਨਾ ਸੰਭਵ ਹੈ। ਵਿਉਂਤਬੱਧ ਕਰਨ ਲਈ, TalkBack ਸੈਟਿੰਗਾਂ &gt; ਬਰੇਲ ਕੀ-ਬੋਰਡ &gt; ਇਸ਼ਾਰੇ ਵਿੱਚ ਜਾਓ।</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">ਸਕ੍ਰੀਨ ਉਤਲੇ ਆਭਾਸੀ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਲਈ, ਹੁਣ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਵਿਉਂਤਬੱਧ ਕਰਨਾ ਸੰਭਵ ਹੈ। ਵਿਉਂਤਬੱਧ ਕਰਨ ਲਈ, TalkBack ਸੈਟਿੰਗਾਂ, ਫਿਰ ਬਰੇਲ ਕੀ-ਬੋਰਡ, ਫਿਰ ਇਸ਼ਾਰੇ ਵਿੱਚ ਜਾਓ।</string>
-  <string name="learn_more_about_braille_keyboard">ਬਰੇਲ ਕੀ-ਬੋਰਡ ਬਾਰੇ ਹੋਰ ਜਾਣੋ</string>
   <string name="other_changes_title">ਹੋਰ ਤਬਦੀਲੀਆਂ</string>
   <string name="other_changes_content">ਜੇ TalkBack ਗਲਤੀ ਨਾਲ ਚਾਲੂ ਹੋ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਹੁਣ ਸਕ੍ਰੀਨ ਉਤਲਾ ਸੁਨੇਹਾ ਉਸਨੂੰ ਤੁਰੰਤ ਬੰਦ ਕਰਨ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦਾ ਹੈ। ਤੁਸੀਂ TalkBack ਸੈਟਿੰਗਾਂ &gt; TalkBack ਨੂੰ ਬੰਦ ਕਰਨ ਦੀਆਂ ਹਿਦਾਇਤਾਂ ਦਿਖਾਓ ਵਿੱਚ ਜਾ ਕੇ ਇਸਨੂੰ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="other_changes_content_tts">ਜੇ TalkBack ਗਲਤੀ ਨਾਲ ਚਾਲੂ ਹੋ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਹੁਣ ਸਕ੍ਰੀਨ ਉਤਲਾ ਸੁਨੇਹਾ ਉਸਨੂੰ ਤੁਰੰਤ ਬੰਦ ਕਰਨ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕਰਦਾ ਹੈ। ਤੁਸੀਂ TalkBack ਸੈਟਿੰਗਾਂ, ਫਿਰ TalkBack ਨੂੰ ਬੰਦ ਕਰਨ ਦੀਆਂ ਹਿਦਾਇਤਾਂ ਦਿਖਾਓ ਵਿੱਚ ਜਾ ਕੇ ਇਸਨੂੰ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।</string>
@@ -1021,7 +1002,6 @@
   <string name="keyboard_enhanced_keymap_text">TalkBack ਵਿੱਚ ਹੁਣ ਭੌਤਿਕ ਕੀ-ਬੋਰਡਾਂ ਲਈ \"ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਕੀਮੈਪ\" ਹੈ, ਜਿਸ ਵਿੱਚ ਕਈ ਤਰ੍ਹਾਂ ਦੇ ਨਵੇਂ ਆਦੇਸ਼ ਅਤੇ ਸ਼ਾਰਟਕੱਟ ਹਨ। ਇਸ ਬਿਹਤਰੀ ਵਿੱਚ ਜ਼ਿਆਦਾ ਅਨੁਕੂਲ ਵੈੱਬ ਨੈਵੀਗੇਸ਼ਨ ਲਈ \"ਬ੍ਰਾਊਜ਼ ਮੋਡ\" ਸ਼ਾਮਲ ਹੈ, ਇਹ TalkBack ਦੇ ਉਨ੍ਹਾਂ ਵਰਤੋਂਕਾਰਾਂ ਲਈ ਨੈਵੀਗੇਸ਼ਨ ਅਤੇ ਅੰਤਰਕਿਰਿਆ ਨੂੰ ਸਹਿਜ ਬਣਾਉਂਦੀ ਹੈ, ਜੋ ਭੌਤਿਕ ਕੀ-ਬੋਰਡ \'ਤੇ ਨਿਰਭਰ ਕਰਦੇ ਹਨ। ਤੁਸੀਂ %1$s ਵਿੱਚ ਜਾ ਕੇ \"ਬਿਹਤਰ ਬਣਾਇਆ ਗਿਆ ਕੀਮੈਪ\" \'ਤੇ ਸਵਿੱਚ ਕਰ ਸਕਦੇ ਹੋ।\n\nਜੇ ਤੁਸੀਂ ਬਰੇਲ ਡਿਸਪਲੇ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੀ ਬਰੇਲ ਡਿਸਪਲੇ ਤੋਂ ਸਿੱਧਾ ਸਮੱਗਰੀ ਵਿੱਚ ਜਾਣ ਲਈ ਨਵੇਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦੀ ਵਰਤੋਂ ਵੀ ਕਰ ਸਕਦੇ ਹੋ। ਇਸ ਤਬਦੀਲੀ ਨੂੰ ਸ਼ਾਮਲ ਕਰਨ ਲਈ ਕੁਝ ਬਰੇਲ ਡਿਸਪਲੇ ਸ਼ਾਰਟਕੱਟਾਂ ਨੂੰ ਬਦਲ ਦਿੱਤਾ ਗਿਆ ਸੀ। ਤੁਸੀਂ %2$s ਵਿੱਚ ਸਾਰੇ ਬਰੇਲ ਡਿਸਪਲੇ ਸ਼ਾਰਟਕੱਟਾਂ ਦੀ ਸੂਚੀ ਦੇਖ ਸਕਦੇ ਹੋ।</string>
   <string name="keyboard_shortcuts_link">TalkBack ਸੈਟਿੰਗਾਂ &gt; ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ਸੈਟਿੰਗਾਂ, ਫਿਰ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
-  <string name="braille_display_settings_link">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ</string>
   <string name="keyboard_smart_browse_mode_title">ਕੀ-ਬੋਰਡ: ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ</string>
   <string name="keyboard_smart_browse_mode_text">ਜਦੋਂ ਤੁਸੀਂ ਵੈੱਬ ਬ੍ਰਾਊਜ਼ ਕਰਦੇ ਹੋ, ਤਾਂ TalkBack ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਸੰਪਾਦਨ ਖੇਤਰ \'ਤੇ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਨੂੰ ਬੰਦ ਕਰ ਦਿੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਭੌਤਿਕ ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕੀਤੀ ਜਾ ਸਕੇ। ਫਿਰ ਜਦੋਂ ਤੁਸੀਂ ਵੈੱਬ \'ਤੇ ਕਿਸੇ ਗੈਰ-ਸੰਪਾਦਨ ਖੇਤਰ \'ਤੇ ਜਾਂਦੇ ਹੋ, ਤਾਂ ਇਹ ਇਸਨੂੰ ਵਾਪਸ ਚਾਲੂ ਕਰ ਦਿੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਕੁਸ਼ਲਤਾ ਨਾਲ ਬ੍ਰਾਊਜ਼ ਕਰਨਾ ਜਾਰੀ ਰੱਖ ਸਕੋ। ਤੁਸੀਂ %1$s ਵਿੱਚ \"ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ\" ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="advanced_settings_link">TalkBack ਸੈਟਿੰਗਾਂ &gt; ਅਡਵਾਂਸ ਸੈਟਿੰਗਾਂ</string>
@@ -1094,7 +1074,6 @@
   <string name="typing_text_title">ਲਿਖਤ ਟਾਈਪ ਕਰਨਾ</string>
   <string name="basic_typing_text_text">ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਲਿਖਤ ਬਾਕਸ ਵਿੱਚ ਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਡੀ ਸਕ੍ਰੀਨ ਦੇ ਹੇਠਾਂ ਇੱਕ ਕੀ-ਬੋਰਡ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ।</string>
   <string name="typing_text_text">ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਕੀ-ਬੋਰਡ \'ਤੇ ਘੁਮਾਓ। ਜਦੋਂ ਤੁਸੀਂ ਉਹ ਅੱਖਰ ਸੁਣ ਲਵੋ ਜਿਸਨੂੰ ਤੁਸੀਂ ਟਾਈਪ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਚੁੱਕੋ।\n\nਹੇਠਾਂ ਦਿੱਤੇ ਲਿਖਤ ਬਾਕਸ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰ ਕੇ ਆਪਣਾ ਨਾਮ ਟਾਈਪ ਕਰ ਕੇ ਦੇਖੋ।</string>
-  <string name="typing_text_with_braille_keyboard_text">ਤੁਸੀਂ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਨਾਲ ਵੀ ਟਾਈਪ ਕਰ ਸਕਦੇ ਹੋ। ਇਹ TalkBack ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਮਿਲੇਗਾ।</string>
   <string name="other_ways_to_type_title">ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਤਰੀਕੇ</string>
   <string name="other_ways_to_type_text">TalkBack ਵਿੱਚ ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਵੀ ਤਰੀਕੇ ਹਨ। ਉਦਾਹਰਨ ਲਈ, ਤੁਸੀਂ ਕਿਸੇ ਅੱਖਰ ਨੂੰ ਦਾਖਲ ਕਰਨ ਲਈ ਡਬਲ ਟੈਪ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="basic_other_ways_to_type_text">TalkBack ਵਿੱਚ ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਵੀ ਤਰੀਕੇ ਹਨ। ਉਦਾਹਰਨ ਲਈ, ਤੁਸੀਂ ਕਿਸੇ ਅੱਖਰ ਨੂੰ ਦਾਖਲ ਕਰਨ ਲਈ ਡਬਲ ਟੈਪ ਕਰ ਸਕਦੇ ਹੋ। ਤੁਸੀਂ ਇਸਨੂੰ ਬਾਅਦ ਵਿੱਚ TalkBack ਸੈਟਿੰਗਾਂ &gt; ਆਨ-ਸਕ੍ਰੀਨ ਕੀ-ਬੋਰਡ &gt; ਟਾਈਪਿੰਗ ਸੰਬੰਧੀ ਤਰਜੀਹ ਵਿੱਚ ਬਦਲ ਸਕਦੇ ਹੋ।</string>
@@ -1209,26 +1188,6 @@
   <string name="talkback_inactive_message_practice_gestures">ਇਸ਼ਾਰਿਆਂ ਦਾ ਅਭਿਆਸ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ TalkBack ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="talkback_inactive_message_image_description">ਚਿੱਤਰ ਵਰਣਨਾਂ ਦੀ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ TalkBack ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="talkback_inactive_close_tutorial_button">ਟਿਊਟੋਰੀਅਲ ਨੂੰ ਬੰਦ ਕਰੋ</string>
-  <string name="wear_training_welcome_paragraph">TalkBack ਚਾਲੂ ਹੋਣ ਨਾਲ, ਸਕ੍ਰੀਨ \'ਤੇ ਫੋਕਸ ਹੋਈ ਆਈਟਮ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲਿਆ ਜਾਂਦਾ ਹੈ।\n\nਸੱਜੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰਨਾ ਅਗਲੀ ਆਈਟਮ \'ਤੇ ਲੈ ਜਾਂਦਾ ਹੈ। ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰਨਾ ਪਿਛਲੀ ਆਈਟਮ \'ਤੇ ਲੈ ਜਾਂਦਾ ਹੈ।\n\n\'ਅਗਲਾ\' ਬਟਨ ਲੱਭਣ ਤੱਕ ਹੁਣ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d ਉਂਗਲਾਂ ਨਾਲ ਉੱਪਰ ਜਾਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_go_back_title">ਵਾਪਸ ਜਾਓ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ਜਦੋਂ ਤੁਸੀਂ ਵਾਪਸ ਜਾਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਸਕ੍ਰੀਨ ਦੇ ਕੋਨੇ ਤੋਂ %1$d ਉਂਗਲਾਂ ਨਾਲ ਸੱਜੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ਸਫਲਤਾ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ਪਿੱਛੇ ਜਾਣ ਵਾਲਾ ਇਸ਼ਾਰਾ ਵਰਤਿਆ ਗਿਆ</string>
-  <string name="wear_training_volume_up_title">ਅਵਾਜ਼ ਵਧਾਓ</string>
-  <string name="wear_training_volume_up_text">ਸੱਜੇ ਅਤੇ ਫਿਰ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_volume_down_title">ਅਵਾਜ਼ ਘਟਾਓ</string>
-  <string name="wear_training_volume_down_text">ਸੱਜੇ ਅਤੇ ਫਿਰ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack ਮੀਨੂ ਖੋਲ੍ਹੋ</string>
-  <string name="wear_training_open_talkback_menu_text">ਜਿਨ੍ਹਾਂ ਸੈਟਿੰਗਾਂ ਅਤੇ ਕੰਟਰੋਲਾਂ ਦੀ ਤੁਹਾਨੂੰ ਅਕਸਰ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ, ਉਨ੍ਹਾਂ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਹੇਠਾਂ ਅਤੇ ਫਿਰ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_typing_title">ਟਾਈਪਿੰਗ</string>
-  <string name="wear_training_typing_text1">ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨ ਲਈ, ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਕੀ-ਬੋਰਡ \'ਤੇ ਘੁੰਮਾਓ। ਜਦੋਂ ਤੁਸੀਂ ਉਹ ਅੱਖਰ ਸੁਣ ਲਵੋ ਜਿਸਨੂੰ ਤੁਸੀਂ ਟਾਈਪ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਆਪਣੀ ਉਂਗਲ ਚੁੱਕੋ।</string>
-  <string name="wear_training_typing_text2">ਕੀ-ਬੋਰਡ ਨੂੰ ਲੁਕਾਉਣ ਅਤੇ ਆਪਣੇ ਇਨਪੁੱਟ ਨੂੰ ਦੇਖਣ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ \'ਤੇ ਉੱਪਰ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text3">ਕੀ-ਬੋਰਡ \'ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ \'ਤੇ ਹੇਠਾਂ ਤੋਂ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text4">ਕੀ-ਬੋਰਡ ਨੂੰ ਬੰਦ ਕਰਨ ਅਤੇ ਟਾਈਪਿੰਗ ਨੂੰ ਰੱਦ ਕਰਨ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ ਦੇ ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text5">ਇਸਨੂੰ ਇੱਥੇ ਅਜ਼ਮਾਓ।</string>
-  <string name="wear_training_typing_practice_button_content_description">ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨਾ</string>
-  <string name="wear_training_end_tutorial_title">ਤੁਸੀਂ TalkBack ਦੀ ਵਰਤੋਂ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ</string>
   <string name="talkback_updated_notification_title">TalkBack ਨੂੰ ਅੱਪਡੇਟ ਕਰ ਦਿੱਤਾ ਗਿਆ ਹੈ</string>
   <string name="talkback_updated_notification_content">ਹੋਰ ਜਾਣਨ ਲਈ ਟੈਪ ਕਰੋ</string>
   <string name="wear_new_feature_page_title">ਅੱਪਡੇਟ ਕੀਤੇ TalkBack ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ</string>

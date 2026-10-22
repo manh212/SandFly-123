@@ -21,8 +21,8 @@ import android.media.SoundPool
 
 /**
  * The sounds of the sound theme in use, by name, for the sounds that are played outside
- * [FeedbackController], such as the braille keyboard's typing sounds. They are loaded as soon as
- * the theme is set, so that the first key typed plays at once.
+ * [FeedbackController]. They are loaded as soon as the theme is set, so that the first one
+ * played plays at once.
  */
 object ThemeSounds {
   /** The path of a sound that plays nothing, as in a theme's "none". */

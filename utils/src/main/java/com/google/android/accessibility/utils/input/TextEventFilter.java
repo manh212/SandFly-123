@@ -80,18 +80,7 @@ public class TextEventFilter {
   /** The ways of typing that each have their own keyboard echo. */
   public enum TypingInput {
     ON_SCREEN_KEYBOARD,
-    PHYSICAL_KEYBOARD,
-    BRAILLE_KEYBOARD,
-    BRAILLE_DISPLAY
-  }
-
-  /** Tells whether the user is typing in braille. */
-  public interface BrailleInputReader {
-    /**
-     * Returns {@link TypingInput#BRAILLE_KEYBOARD} or {@link TypingInput#BRAILLE_DISPLAY} while the
-     * user types with it, or null.
-     */
-    @Nullable TypingInput readBrailleInput();
+    PHYSICAL_KEYBOARD
   }
 
   private static final int PHYSICAL_KEY_TIMEOUT = 100;
@@ -102,7 +91,6 @@ public class TextEventFilter {
   private final Context context;
   private @Nullable VoiceActionDelegate voiceActionDelegate;
   private @Nullable VoiceDictationDelegate voiceDictationDelegate;
-  private @Nullable BrailleInputReader brailleInputReader;
   private final EnumMap<TypingInput, Integer> keyboardEcho = new EnumMap<>(TypingInput.class);
 
   private final TextEventHistory textEventHistory;
@@ -138,10 +126,6 @@ public class TextEventFilter {
 
   public void setKeyboardEcho(TypingInput input, @KeyboardEchoType int value) {
     keyboardEcho.put(input, value);
-  }
-
-  public void setBrailleInputReader(@Nullable BrailleInputReader reader) {
-    brailleInputReader = reader;
   }
 
   public void setLastKeyEventTime(long time) {
@@ -326,12 +310,6 @@ public class TextEventFilter {
   TypingInput getTypingInput(long textEventTime) {
     if (textEventTime - lastKeyEventTime < PHYSICAL_KEY_TIMEOUT) {
       return TypingInput.PHYSICAL_KEYBOARD;
-    }
-    if (brailleInputReader != null) {
-      @Nullable TypingInput brailleInput = brailleInputReader.readBrailleInput();
-      if (brailleInput != null) {
-        return brailleInput;
-      }
     }
     return TypingInput.ON_SCREEN_KEYBOARD;
   }

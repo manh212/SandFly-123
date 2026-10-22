@@ -141,11 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Symbol menší než v plné šířce</string>
   <string name="symbol_full_width_greater_than_sign">Symbol větší než v plné šířce</string>
   <string name="symbol_left_single_quotation_mark">Levé jednoduché uvozovky</string>
-  <string name="symbol_braille">braillský %s</string>
-  <plurals name="dots">
-    <item quantity="one">bod %s</item>
-    <item quantity="few">body %s</item>
-    <item quantity="many">body %s</item>
-    <item quantity="other">body %s</item>
-  </plurals>
 </resources>

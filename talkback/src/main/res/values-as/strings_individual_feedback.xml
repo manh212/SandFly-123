@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ব্ৰাউজ ম\'ড অন</string>
   <string name="individual_sound_browse_mode_off">ব্ৰাউজ ম\'ড অফ</string>
   <string name="individual_sound_radial_menu">বৃত্তাকাৰ মেনু</string>
-  <string name="individual_sound_display_connected">ব্ৰেইল ডিছপ্লে সংযোগ হ\'ল</string>
-  <string name="individual_sound_display_disconnected">ব্ৰেইল ডিছপ্লে সংযোগ বিচ্ছিন্ন হ\'ল</string>
-  <string name="individual_sound_double_beep">ব্ৰেইল আদেশ বিফল হ\'ল</string>
-  <string name="individual_sound_turn_on">ব্ৰেইল স্বয়ংক্ৰিয় স্ক্ৰ\'ল অন</string>
-  <string name="individual_sound_turn_off">ব্ৰেইল স্বয়ংক্ৰিয় স্ক্ৰ\'ল অফ</string>
-  <string name="individual_sound_calibration_done">ব্ৰেইল কীবৰ্ড কেলিব্ৰেট কৰা হ\'ল</string>
   <string name="individual_vibration_focus">কোনো বস্তুত ফ\'কাছ</string>
   <string name="individual_vibration_focus_actionable">কাৰ্য কৰিব পৰা বস্তুত ফ\'কাছ</string>
   <string name="individual_vibration_clicked">ক্লিক</string>
@@ -37,10 +31,4 @@
   <string name="individual_vibration_typo">বানান ভুল</string>
   <string name="individual_vibration_notification">ঘোষণা</string>
     <string name="individual_sound_screen_on">স্ক্ৰীন অন আছে</string>
-    <string name="individual_vibration_braille_character">ব্ৰেইল কীব’ৰ্ড: এটা বৰ্ণ টাইপ কৰা</string>
-    <string name="individual_vibration_braille_space">ব্ৰেইল কীব’ৰ্ড: স্পেচ বা মচা</string>
-    <string name="individual_vibration_braille_new_line">ব্ৰেইল কীব’ৰ্ড: নতুন শাৰী বা এটা শব্দ মচা</string>
-    <string name="individual_vibration_braille_hold">ব্ৰেইল কীব’ৰ্ড: আঙুলি টিপি ধৰি ৰখা</string>
-    <string name="individual_vibration_braille_gesture">ব্ৰেইল কীব’ৰ্ড: অন্য নিৰ্দেশ</string>
-    <string name="individual_vibration_braille_nothing_to_delete">ব্ৰেইল কীব’ৰ্ড: মচিবলৈ একো নাই</string>
 </resources>

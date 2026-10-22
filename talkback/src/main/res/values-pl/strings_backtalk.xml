@@ -57,7 +57,6 @@
   <string name="title_pref_announce_ringer_mode">Tryb dzwonka</string>
   <string name="summary_pref_announce_ringer_mode">Informuj, gdy dzwonek jest ustawiony na wibracje lub wyciszony</string>
   <string name="title_pref_category_feedback">Informacje zwrotne</string>
-  <string name="title_pref_category_typing_and_braille">Pisanie i brajl</string>
   <string name="title_pref_category_more">Więcej</string>
   <string name="title_pref_reserve_vibration_watch_gestures">Zarezerwuj gesty dla zegara wibracyjnego</string>
   <string name="summary_pref_reserve_vibration_watch_gestures">SandFly nie obsługuje pojedynczego ani dwukrotnego kliknięcia dwoma palcami, aby mogła ich używać funkcja „Zegar wibracyjny” firmy Samsung. Włącz ją w ustawieniach ułatwień dostępu zegarka.</string>
@@ -148,10 +147,6 @@
   <string name="summary_support_wrap_around">Włącz lub wyłącz przechodzenie z ostatniego elementu do pierwszego</string>
   <string name="wrap_around_on">Zawijanie włączone</string>
   <string name="wrap_around_off">Zawijanie wyłączone</string>
-  <string name="title_selector_tablet_held_up_faces_away">Uniesiony tablet ekranem od siebie</string>
-  <string name="summary_support_tablet_held_up_faces_away">Dla klawiatury brajlowskiej na tablecie lub rozłożonym telefonie</string>
-  <string name="tablet_held_up_faces_away_on">Uniesiony tablet ekranem od siebie: włączone</string>
-  <string name="tablet_held_up_faces_away_off">Uniesiony tablet ekranem od siebie: wyłączone</string>
   <string name="title_pref_interrupt_typing">Przerywaj mowę podczas pisania</string>
   <string name="pref_interrupt_typing_entry_always">Zawsze</string>
   <string name="pref_interrupt_typing_entry_edit_fields">W polach edycji</string>
@@ -225,12 +220,6 @@
   <string name="gemini_api_key_save">Zapisz</string>
   <string name="gemini_api_key_get">Uzyskaj klucz</string>
   <string name="gemini_api_terms_link">Dodatkowe warunki korzystania z interfejsu API Gemini</string>
-  <string name="individual_vibration_braille_character">Klawiatura brajlowska: wpisywanie znaku</string>
-  <string name="individual_vibration_braille_space">Klawiatura brajlowska: spacja lub usuwanie</string>
-  <string name="individual_vibration_braille_new_line">Klawiatura brajlowska: nowy wiersz lub usuwanie słowa</string>
-  <string name="individual_vibration_braille_hold">Klawiatura brajlowska: przytrzymywanie palców na ekranie</string>
-  <string name="individual_vibration_braille_gesture">Klawiatura brajlowska: inne gesty</string>
-  <string name="individual_vibration_braille_nothing_to_delete">Klawiatura brajlowska: brak tekstu do usunięcia</string>
   <string name="title_pref_on_device_ai">AI na urządzeniu</string>
   <string name="summary_pref_on_device_ai">Opisy obrazów i ekranu za pomocą modelu działającego na telefonie, bez klucza API</string>
   <string name="pref_on_device_ai_enable">Używaj AI na urządzeniu</string>
@@ -531,10 +520,6 @@
   <string name="theme_sound_summary_none">Brak dźwięku. Odtwarzany jest dźwięk zaznaczenia.</string>
   <string name="theme_sound_summary_android_keyboard">Dźwięk klawiatury Androida</string>
   <string name="theme_sound_use_android_keyboard">Użyj dźwięku klawiatury Androida</string>
-  <string name="theme_sound_braille_character">Klawiatura brajlowska: wpisywanie znaku</string>
-  <string name="theme_sound_braille_space">Klawiatura brajlowska: spacja</string>
-  <string name="theme_sound_braille_delete">Klawiatura brajlowska: usuwanie</string>
-  <string name="theme_sound_braille_new_line">Klawiatura brajlowska: nowy wiersz</string>
   <string xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
   <string name="theme_sound_choose">Wybierz plik dźwiękowy</string>
   <string name="theme_sound_preview">Odsłuchaj</string>

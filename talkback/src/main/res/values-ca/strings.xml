@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Exploració tàctil</string>
   <string name="title_pref_category_visual">Visual</string>
   <string name="title_pref_category_controls">Controls</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">General</string>
   <string name="title_pref_category_advanced">Configuració avançada</string>
   <string name="title_pref_category_others">Altres</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Redueix el retard</string>
   <string name="talkback_latency_reduction_summary">Fes que SandFly respongui més ràpid després de tocar la pantalla</string>
   <string name="summary_pref_intonation">Enuncia les lletres suprimides amb una veu més aguda</string>
-  <string name="title_pref_brailledisplay">Pantalla braille</string>
-  <string name="title_pref_brailleime">Teclat braille</string>
-  <string name="summary_pref_brailleime_disabled">El dispositiu no és compatible amb el teclat braille</string>
   <string name="title_pref_speech_footer">Per canviar el volum d\'accessibilitat des de qualsevol pantalla, mantén premut 1 dit a la pantalla i prem la tecla d\'apujar o abaixar el volum.</string>
   <string name="title_pref_vibration">Avisos amb vibració</string>
   <string name="title_pref_soundback">Avisos sonors</string>
@@ -486,8 +482,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="shortcut_increase_volume">Apuja el volum</string>
   <string name="shortcut_decrease_volume">Abaixa el volum</string>
   <string name="shortcut_all_apps">Totes les aplicacions</string>
-  <string name="shortcut_braille_keyboard">Canvia al teclat braille</string>
-  <string name="shortcut_braille_display_settings">Navega fins a config. de pantalla braille</string>
   <string name="shortcut_tutorial">Obre el tutorial</string>
   <string name="shortcut_control_speak_time">Digues l\'hora o no diguis l\'hora</string>
   <string name="shortcut_enable_speak_time">Digues l\'hora</string>
@@ -496,7 +490,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="speak_time_off">Digues l\'hora està desactivat</string>
   <string name="shortcut_practice_gestures">Practica els gestos</string>
   <string name="shortcut_report_gesture">Informa d\'un problema amb els gestos</string>
-  <string name="shortcut_toggle_braille_display">Activa o desactiva la pantalla braille</string>
   <string name="shortcut_announce_current_time_and_date">Enuncia la data i l\'hora actuals</string>
   <string name="shortcut_announce_battery_state">Enuncia el percentatge de la bateria</string>
   <string name="shortcut_announce_current_title">Enuncia el títol de la finestra</string>
@@ -506,8 +499,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="shortcut_speech_rate_decrease">Redueix la velocitat de parla</string>
   <string name="shortcut_toggle_selection">Inicia o finalitza el mode de selecció</string>
   <string name="shortcut_show_tutorial">Obre el tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Canvia entre abreviat (nivell 2) i no abreviat (nivell 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Mostra o amaga el braille en pantalla per a les pantalles braille connectades</string>
   <string name="shortcut_toggle_sound_feedback">Activa o desactiva els avisos sonors (icones sonores)</string>
   <string name="shortcut_show_learn_mode_page">Practica les tecles de drecera</string>
   <string name="shortcut_announce_phonetic_pronunciation">Enuncia les lletres amb la pronunciació fonètica per a l\'element enfocat</string>
@@ -548,7 +539,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="title_show_voice_commands">Ordres de veu</string>
   <string name="title_show_keyboard_shortcuts">Tecles de drecera</string>
   <string name="talkback_show_talkback_settings">Configuració de SandFly</string>
-  <string name="title_show_braille_display_settings">Configuració de la pantalla braille</string>
   <string name="title_granularity_default">Navegació predeterminada</string>
   <string name="title_action_dismiss">Ignora</string>
   <string name="title_action_expand">Desplega</string>
@@ -576,7 +566,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="summary_control_speak_time">Canvia si vols que l\'hora es digui en veu alta quan activis la pantalla</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Obre la llista de tecles de drecera</string>
   <string name="summary_talkback_preferences">Obre la configuració de SandFly</string>
-  <string name="summary_braile_display_preferences">Obre la configuració de la pantalla braille</string>
   <string name="summary_system_actions">Ves a totes les aplicacions i a la configuració ràpida</string>
   <string name="summary_tts_settings">Obre la configuració de text a parla</string>
   <string name="not_editable">No es pot editar</string>
@@ -917,7 +906,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="screen_search_keyword_hint">la paraula clau és %1$s</string>
   <string name="screen_search_no_keyword_hint">Encara no hi ha cap paraula clau. Per iniciar una cerca nova, mantén premut amb tres dits o obre la cerca en pantalla al menú de SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Encara no hi ha cap paraula clau. Per iniciar una cerca nova, llisca cap a l\'esquerra i després cap avall o obre la cerca en pantalla  al menú de SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">El teclat braille no està activat. Ves a la configuració de SandFly, configura el teclat i torna-hi.</string>
   <string name="suggestions_window_available">Hi ha suggeriments disponibles</string>
   <string name="suggestions_window_available_with_gesture">Hi ha suggeriments disponibles. Per accedir-hi, %1$s.</string>
   <string name="heads_up_window_available">Hi ha una notificació disponible</string>
@@ -967,9 +955,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="new_gesture_notification_content">Toca per obtenir informació sobre com pots utilitzar SandFly més ràpidament amb els gestos nous.</string>
   <string name="dump_node_tree_description">L\'arbre de nodes s\'ha imprès als registres.</string>
   <string name="report_gesture_description">Aquí s\'indiquen els gestos que has dut a terme recentment; informa del gest que no és correcte i explica què n\'esperaves.</string>
-  <string name="update_welcome_text_content">Ara pots connectar-te a les pantalles braille mitjançant HID, una manera de connectar-te als dispositius Bluetooth. Assegura\'t que tens els controladors de microprogramari més recents del fabricant i, a continuació, activa el Bluetooth a la pantalla braille. Ves a la configuració de SandFly &gt; Pantalla braille i activa l\'opció \"Utilitza la pantalla braille\". Cerca el dispositiu a la llista de dispositius i connecta-t\'hi.</string>
-  <string name="update_welcome_text_content_tts">Ara pots connectar-te a les pantalles braille mitjançant HID, una manera de connectar-te als dispositius Bluetooth. Assegura\'t que tens els controladors de microprogramari més recents del fabricant i, a continuació, activa el Bluetooth a la pantalla braille. Ves a la configuració de SandFly, selecciona Pantalla braille i activa l\'opció \"Utilitza la pantalla braille\". Cerca el dispositiu a la llista de dispositius i connecta-t\'hi.</string>
-  <string name="update_welcome_text_content_with_link">Obtén informació sobre com pots utilitzar la pantalla braille amb SandFly.</string>
   <string name="update_welcome_talkback_16.1">Aquesta actualització de SandFly introdueix la compatibilitat amb Descriu la pantalla en més idiomes i altres millores de qualitat que fan que sigui més fàcil d\'utilitzar.\n\nA les pantalles següents, obtindràs més informació sobre aquests canvis.\n\nPots revisar aquesta informació més tard a Configuració de SandFly &gt; Funcions noves a SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Aquesta actualització de SandFly introdueix la compatibilitat amb Descriu la pantalla en més idiomes i altres millores de qualitat que fan que sigui més fàcil d\'utilitzar.\n\nA les pantalles següents, obtindràs més informació sobre aquests canvis.\n\nPots revisar aquesta informació més tard a Configuració de SandFly i, a continuació, Funcions noves a SandFly.</string>
   <string name="describe_screen_and_qna_title">Nous idiomes per a Descriu la pantalla i Demana a Gemini</string>
@@ -985,10 +970,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="reduce_delay_title">Redueix el retard</string>
   <string name="reduce_delay_content">Ara pots reduir els retards dels anuncis de SandFly per a l\'exploració tàctil i l\'escriptura. Per veure aquestes opcions de configuració, ves a Configuració de SandFly &gt; Configuració avançada &gt; Redueix el retard.</string>
   <string name="reduce_delay_content_tts">Ara pots reduir els retards dels anuncis de SandFly per a l\'exploració tàctil i l\'escriptura. Per veure aquestes opcions de configuració, ves a Configuració de SandFly, Configuració avançada i, a continuació, Redueix el retard.</string>
-  <string name="customize_braille_keyboard_improvements_title">Personalitza els gestos del teclat braille</string>
-  <string name="customize_braille_keyboard_improvements_content">Ara és possible personalitzar els gestos per al teclat braille virtual en pantalla. Per personalitzar-los, ves a Configuració de SandFly &gt; Teclat braille &gt; Gestos.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Ara és possible personalitzar els gestos per al teclat braille virtual en pantalla. Per personalitzar-los, ves a Configuració de SandFly, Teclat braille i, a continuació, Gestos.</string>
-  <string name="learn_more_about_braille_keyboard">Més informació sobre el teclat braille</string>
   <string name="other_changes_title">Altres canvis</string>
   <string name="other_changes_content">Ara, un missatge en pantalla t\'ajuda a desactivar SandFly ràpidament si s\'activa per error. Per desactivar aquesta funció, ves a Configuració de SandFly &gt; Mostra les instruccions per desactivar SandFly.</string>
   <string name="other_changes_content_tts">Ara, un missatge en pantalla t\'ajuda a desactivar SandFly ràpidament si s\'activa per error. Per desactivar aquesta funció, ves a Configuració de SandFly i, a continuació, Mostra les instruccions per desactivar SandFly.</string>
@@ -1021,7 +1002,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="keyboard_enhanced_keymap_text">Ara SandFly té un mapa de teclat millorat per als teclats físics, amb diverses ordres i dreceres noves. Aquesta millora inclou un mode de navegació que permet una navegació web més senzilla i eficient, i simplifica la interacció per als usuaris de SandFly que utilitzen teclats físics. Pots canviar al mapa de teclat millorat a <xliff:g id="settings_path">%1$s</xliff:g>.\n\nSi utilitzes una pantalla braille, també pots utilitzar les dreceres del mode de navegació nou per desplaçar-te pel contingut directament des de la pantalla braille. Algunes dreceres de la pantalla braille s\'han canviat per adaptar-se a aquest canvi. Pots veure una llista de totes les dreceres de la pantalla braille a <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Configuració de SandFly &gt; Tecles de drecera</string>
   <string name="keyboard_shortcuts_link_tts">Configuració de SandFly i, a continuació, Tecles de drecera</string>
-  <string name="braille_display_settings_link">Configuració de la pantalla braille</string>
   <string name="keyboard_smart_browse_mode_title">Teclat: mode de navegació intel·ligent</string>
   <string name="keyboard_smart_browse_mode_text">El mode de navegació intel·ligent de SandFly desactiva el mode de navegació en un camp d\'edició per ajudar-te a escriure amb un teclat físic quan navegues pel web. Després, torna a activar-lo quan et mous a un camp que no és d\'edició al web perquè puguis continuar navegant de manera eficient. Pots activar o desactivar el mode de navegació intel·ligent a <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Configuració de SandFly &gt; Configuració avançada</string>
@@ -1094,7 +1074,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="typing_text_title">Escriu text</string>
   <string name="basic_typing_text_text">Quan siguis en un quadre de text, s\'obrirà un teclat a la part inferior de la pantalla.</string>
   <string name="typing_text_text">Mou el dit pel teclat. Quan sentis la lletra que vols escriure, aixeca el dit.\n\nProva d\'activar el quadre de text següent i escriu el teu nom.</string>
-  <string name="typing_text_with_braille_keyboard_text">També pots escriure amb el teclat braille. El trobaràs a la configuració de SandFly.</string>
   <string name="other_ways_to_type_title">Altres maneres d\'escriure</string>
   <string name="other_ways_to_type_text">Hi ha altres maneres d\'escriure a SandFly. Per exemple, pots fer doble toc per introduir una lletra.</string>
   <string name="basic_other_ways_to_type_text">Hi ha altres maneres d\'escriure a SandFly. Per exemple, pots fer doble toc per introduir una lletra. Pots canviar aquesta opció més tard a Configuració de SandFly &gt; Teclat en pantalla &gt; Preferència d\'escriptura.</string>
@@ -1209,26 +1188,6 @@ Si els retards són inferiors a 0,3 segons, el doble toc per activar es canviar�
   <string name="talkback_inactive_message_practice_gestures">Per practicar gestos, primer activa SandFly</string>
   <string name="talkback_inactive_message_image_description">Per provar d\'obtenir descripcions d\'imatges, primer activa SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Tanca el tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quan SandFly està activat, l\'element enfocat en pantalla s\'enuncia en veu alta.\n\nSi llisques cap a la dreta, vas a l\'element següent.\nSi llisques cap a l\'esquerra, vas a l\'element anterior.\n\nLlisca cap a la dreta ara fins que trobis el botó següent.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Fes lliscar %1$d dits cap amunt o cap avall</string>
-  <string name="wear_training_go_back_title">Torna</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Quan vulguis tornar, fes lliscar %1$d dits cap a la dreta des de l\'extrem de la pantalla.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Correcte</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Has dut a terme el gest per tornar</string>
-  <string name="wear_training_volume_up_title">Apuja el volum</string>
-  <string name="wear_training_volume_up_text">Llisca cap a la dreta i després cap amunt</string>
-  <string name="wear_training_volume_down_title">Abaixa el volum</string>
-  <string name="wear_training_volume_down_text">Llisca cap a la dreta i després cap avall</string>
-  <string name="wear_training_open_talkback_menu_title">Obre el menú de SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Per obrir la configuració i els controls que pots necessitar sovint, llisca cap avall i, a continuació, cap a la dreta</string>
-  <string name="wear_training_typing_title">Escriure</string>
-  <string name="wear_training_typing_text1">Per escriure amb el teclat, mou el dit pel teclat. Quan sentis la lletra que vols escriure, aixeca el dit.</string>
-  <string name="wear_training_typing_text2">Per amagar el teclat i comprovar el que has escrit, llisca cap avall amb dos dits des de la part superior de la pantalla.</string>
-  <string name="wear_training_typing_text3">Per tornar al teclat, llisca cap amunt amb dos dits des de la part inferior de la pantalla.</string>
-  <string name="wear_training_typing_text4">Per tancar el teclat i cancel·lar l\'escriptura, fes lliscar dos dits cap a la dreta des de l\'extrem esquerre de la pantalla.</string>
-  <string name="wear_training_typing_text5">Prova-ho a continuació.</string>
-  <string name="wear_training_typing_practice_button_content_description">Escriure amb el teclat</string>
-  <string name="wear_training_end_tutorial_title">Ja pots començar a utilitzar SandFly</string>
   <string name="talkback_updated_notification_title">SandFly s\'ha actualitzat</string>
   <string name="talkback_updated_notification_content">Toca per obtenir més informació</string>
   <string name="wear_new_feature_page_title">Et donem la benvinguda a la versió actualitzada de SandFly</string>
@@ -1520,7 +1479,6 @@ No utilitzis Markdown a la resposta.</string>
     <string name="title_pref_announce_ringer_mode">Mode de so</string>
     <string name="summary_pref_announce_ringer_mode">Enuncia quan el so de trucada està configurat en vibració o silenci</string>
     <string name="title_pref_category_feedback">Avisos</string>
-    <string name="title_pref_category_typing_and_braille">Escriptura i braille</string>
     <string name="title_pref_category_apps">Aplicacions</string>
     <string name="title_pref_touch_activation">Tacte i activació</string>
     <string name="title_pref_navigation">Navegació</string>
@@ -1544,8 +1502,6 @@ No utilitzis Markdown a la resposta.</string>
     <string name="speech_control_deny">No permetis</string>
     <string name="permission_speak_label">parlar mitjançant SandFly</string>
     <string name="permission_speak_description">Permet que l\'aplicació sol·liciti enunciar text amb la veu de SandFly. SandFly et demana confirmació abans que l\'aplicació pugui parlar.</string>
-    <string name="permission_braille_display_label">sol·licitar ser una pantalla braille per a SandFly</string>
-    <string name="permission_braille_display_description">Permet que l\'aplicació sol·liciti ser una pantalla braille per a SandFly. Si ho permets a SandFly, pot llegir tot el que hi ha a la pantalla i controlar el dispositiu. SandFly et demana confirmació primer.</string>
     <string name="title_pref_phonetic_letters_mode">Enuncia les lletres fonèticament</string>
     <string name="phonetic_letters_mode_off">Desactivat</string>
     <string name="phonetic_letters_mode_after_letter_delay">Després de la lletra, amb pausa, com ara \"h, Helena\"</string>
@@ -1684,14 +1640,8 @@ No utilitzis Markdown a la resposta.</string>
     <string name="summary_support_wrap_around">Activa o desactiva el pas del darrer element al primer</string>
     <string name="wrap_around_on">Navegació circular activada</string>
     <string name="wrap_around_off">Navegació circular desactivada</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tauleta aixecada orientada cap enfora</string>
-    <string name="summary_support_tablet_held_up_faces_away">Per al teclat braille en una tauleta o un telèfon desplegat</string>
-    <string name="tablet_held_up_faces_away_on">Tauleta aixecada orientada cap enfora activat</string>
-    <string name="tablet_held_up_faces_away_off">Tauleta aixecada orientada cap enfora desactivat</string>
     <string name="title_keyboard_echo_on_screen">Eco del teclat en pantalla</string>
     <string name="title_keyboard_echo_physical">Eco del teclat físic</string>
-    <string name="title_keyboard_echo_braille_keyboard">Eco del teclat braille</string>
-    <string name="title_keyboard_echo_braille_display">Eco de la pantalla braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Interromp la veu en escriure</string>
     <string name="pref_interrupt_typing_entry_always">Sempre</string>

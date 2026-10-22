@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Simbolo minore di spessore pieno</string>
   <string name="symbol_full_width_greater_than_sign">Simbolo maggiore di spessore pieno</string>
   <string name="symbol_left_single_quotation_mark">Virgoletta singola aperta</string>
-  <string name="symbol_braille">%s braille</string>
-  <plurals name="dots">
-    <item quantity="one">il punto %s</item>
-    <item quantity="other">i punti %s</item>
-  </plurals>
 </resources>

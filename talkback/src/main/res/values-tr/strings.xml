@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Dokunarak keşfet</string>
   <string name="title_pref_category_visual">Görsel</string>
   <string name="title_pref_category_controls">Kontroller</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Genel</string>
   <string name="title_pref_category_advanced">Gelişmiş</string>
   <string name="title_pref_category_others">Diğer</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Gecikmeyi azalt</string>
   <string name="talkback_latency_reduction_summary">TalkBack duyurularından önceki gecikmeyi azaltmaya yönelik ayarlar</string>
   <string name="summary_pref_intonation">Silinen harfleri daha ince bir sesle oku</string>
-  <string name="title_pref_brailledisplay">Braille ekran</string>
-  <string name="title_pref_brailleime">Braille klavye</string>
-  <string name="summary_pref_brailleime_disabled">Cihazınız braille klavyeyi desteklemiyor</string>
   <string name="title_pref_speech_footer">Bazı TalkBack ses ayarlarını herhangi bir ekrandan hızlıca ayarlayabilirsiniz.\n\nErişilebilirlik ses seviyesi: Bir parmağınızı ekranda tutup sesi artırma veya azaltma tuşuna basın\nTalkBack konuşma hızı: Üç parmağınızla yukarı veya aşağı kaydırın \"Konuşma hızı\" ifadesini duyduğunuzda 1 parmağınızla yukarı veya aşağı kaydırın.</string>
   <string name="title_pref_vibration">Titreşimli geri bildirim</string>
   <string name="title_pref_soundback">Sesli geri bildirim</string>
@@ -486,8 +482,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="shortcut_increase_volume">Sesi aç</string>
   <string name="shortcut_decrease_volume">Sesi kıs</string>
   <string name="shortcut_all_apps">Tüm uygulamalar</string>
-  <string name="shortcut_braille_keyboard">Braille klavyesine geç</string>
-  <string name="shortcut_braille_display_settings">Braille ekran ayarlarına git</string>
   <string name="shortcut_tutorial">Eğitimi aç</string>
   <string name="shortcut_control_speak_time">Saati söyle veya söyleme</string>
   <string name="shortcut_enable_speak_time">Saati söyle</string>
@@ -496,7 +490,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="speak_time_off">Saati söylemeyi kapat</string>
   <string name="shortcut_practice_gestures">Hareketler için alıştırma yap</string>
   <string name="shortcut_report_gesture">Hareket sorunu bildir</string>
-  <string name="shortcut_toggle_braille_display">Braille ekranı açın veya kapatın</string>
   <string name="shortcut_announce_current_time_and_date">Mevcut tarih ve saati söyle</string>
   <string name="shortcut_announce_battery_state">Pil yüzdesini söyle</string>
   <string name="shortcut_announce_current_title">Pencere başlığını sesli olarak söyle</string>
@@ -506,8 +499,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="shortcut_speech_rate_decrease">Konuşma hızını düşür</string>
   <string name="shortcut_toggle_selection">Seçim modunu başlatma veya sonlandırma</string>
   <string name="shortcut_show_tutorial">Eğitimi aç</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Kısaltılmış (2. derece) ve kısaltılmamış (1. derece) arasında geçiş yap</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Bağlı Braille varsa ekranda göster veya gizle</string>
   <string name="shortcut_toggle_sound_feedback">Sesli geri bildirimi (ses sinyalleri) aç veya kapat</string>
   <string name="shortcut_show_learn_mode_page">Klavye kısayollarını deneyin</string>
   <string name="shortcut_announce_phonetic_pronunciation">Harfleri, odaklanılan öğenin fonetik okunuşuyla söyle</string>
@@ -548,7 +539,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="title_show_voice_commands">Sesli komutlar</string>
   <string name="title_show_keyboard_shortcuts">Klavye kısayolları</string>
   <string name="talkback_show_talkback_settings">TalkBack ayarları</string>
-  <string name="title_show_braille_display_settings">Braille ekran ayarları</string>
   <string name="title_granularity_default">Varsayılan gezinme</string>
   <string name="title_action_dismiss">Kapat</string>
   <string name="title_action_expand">Genişlet</string>
@@ -576,7 +566,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="summary_control_speak_time">Ekranı açtığınızda saatin söylenip söylenmeyeceği ayarını değiştirin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Klavye kısayolları listesini açar</string>
   <string name="summary_talkback_preferences">TalkBack ayarlarını açar</string>
-  <string name="summary_braile_display_preferences">Braille ekran ayarlarını açar</string>
   <string name="summary_system_actions">Tüm uygulamalara ve Hızlı Ayarlar\'a gidin</string>
   <string name="summary_tts_settings">Metin okuma ayarlarını açar</string>
   <string name="not_editable">Düzenlenemez</string>
@@ -917,7 +906,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="screen_search_keyword_hint">anahtar kelime %1$s</string>
   <string name="screen_search_no_keyword_hint">Henüz anahtar kelime yok. Yeni bir arama başlatmak için 3 parmağınızla dokunup basılı tutun veya TalkBack menüsünden ekranda ara özelliğini açın.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Henüz anahtar kelime yok. Yeni bir arama başlatmak için sola, ardından aşağı kaydırın veya TalkBack menüsünden ekranda ara özelliğini açın.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille klavyesi açık değil. TalkBack ayarlarına gidin, Braille klavyesini kurup tekrar deneyin.</string>
   <string name="suggestions_window_available">Öneri mevcut</string>
   <string name="suggestions_window_available_with_gesture">Öneri mevcut. Erişmek için %1$s</string>
   <string name="heads_up_window_available">Bildirim mevcut</string>
@@ -967,9 +955,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="new_gesture_notification_content">Yeni hareketlerle TalkBack\'i nasıl daha hızlı kullanabileceğinizi öğrenmek için .dokununun</string>
   <string name="dump_node_tree_description">Düğüm ağacı günlüklere yazdırıldı.</string>
   <string name="report_gesture_description">Son gerçekleştirilen hareketler aşağıda verilmiştir. Lütfen hangi hareketin yanlış olduğunu ve hareketten ne beklendiğini bildirin.</string>
-  <string name="update_welcome_text_content">Artık Bluetooth cihazlara bağlanmanın bir yolu olan HID üzerinden Braille ekranlara bağlanabilirsiniz. Üreticinizin donanım yazılımına ait en son sürücülere sahip olduğunuzdan emin olun, ardından Braille ekranınızda Bluetooth\'u etkinleştirin. TalkBack ayarları &gt; Braille ekran bölümüne gidin ve \"Braille ekranı kullan\" seçeneğini etkinleştirin. Cihaz listesinden cihazınızı bulun ve bağlanın.</string>
-  <string name="update_welcome_text_content_tts">Artık Bluetooth cihazlara bağlanmanın bir yolu olan HID üzerinden Braille ekranlara bağlanabilirsiniz. Üreticinizin donanım yazılımına ait en son sürücülere sahip olduğunuzdan emin olun, ardından Braille ekranınızda Bluetooth\'u etkinleştirin. TalkBack ayarlarına, ardından Braille ekran bölümüne gidin ve \"Braille ekranı kullan\"ı etkinleştirin. Cihaz listesinden cihazınızı bulun ve bağlanın.</string>
-  <string name="update_welcome_text_content_with_link">Braille ekranınızı TalkBack ile nasıl kullanacağınızı öğrenin.</string>
   <string name="update_welcome_talkback_16.1">Bu TalkBack güncellemesiyle birlikte, \"Ekranı açıklama\" özelliği artık daha fazla dilde destekleniyor, ayrıca TalkBack\'in kullanımını kolaylaştıran diğer kalite iyileştirmeleri de sunuluyor.\n\nSonraki birkaç ekranda bu değişiklikler hakkında daha fazla bilgi bulabilirsiniz.\n\nBu bilgileri daha sonra TalkBack ayarları &gt; TalkBack\'teki yeni özellikler bölümüne giderek tekrar inceleyebilirsiniz.</string>
   <string name="update_welcome_talkback_16.1_tts">Bu TalkBack güncellemesiyle birlikte, \"Ekranı açıklama\" özelliği artık daha fazla dilde destekleniyor, ayrıca TalkBack\'in kullanımını kolaylaştıran diğer kalite iyileştirmeleri de sunuluyor.\n\nSonraki birkaç ekranda bu değişiklikler hakkında daha fazla bilgi bulabilirsiniz.\n\nBu bilgileri daha sonra TalkBack ayarlarından TalkBack\'teki yeni özellikler bölümüne giderek tekrar inceleyebilirsiniz.</string>
   <string name="describe_screen_and_qna_title">Ekranı açıklama ve Gemini\'a sorun özellikleri için yeni diller</string>
@@ -985,10 +970,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="reduce_delay_title">Gecikmeyi azalt</string>
   <string name="reduce_delay_content">Artık dokunarak keşfetme ve yazma için TalkBack duyurularındaki gecikmeleri azaltabilirsiniz. Bu ayarları görüntülemek için TalkBack ayarları &gt; Gelişmiş ayarlar &gt; Gecikmeyi azalt bölümüne gidin.</string>
   <string name="reduce_delay_content_tts">Artık dokunarak keşfetme ve yazma için TalkBack duyurularındaki gecikmeleri azaltabilirsiniz. Bu ayarları görüntülemek için sırasıyla TalkBack ayarları, Gelişmiş ayarlar, Gecikmeyi azalt bölümüne gidin.</string>
-  <string name="customize_braille_keyboard_improvements_title">Braille klavye hareketlerini özelleştirin</string>
-  <string name="customize_braille_keyboard_improvements_content">Artık sanal dokunmatik Braille klavyenin hareketlerini özelleştirebilirsiniz. Özelleştirmek için TalkBack ayarları &gt; Braille klavye &gt; Hareketler bölümüne gidin.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Artık sanal dokunmatik Braille klavyenin hareketlerini özelleştirebilirsiniz. Özelleştirmek için sırasıyla TalkBack ayarları, Braille klavye, Hareketler bölümüne gidin.</string>
-  <string name="learn_more_about_braille_keyboard">Braille klavye hakkında daha fazla bilgi</string>
   <string name="other_changes_title">Diğer değişiklikler</string>
   <string name="other_changes_content">Artık ekranda gösterilen bir mesaj, yanlışlıkla etkinleştirilen TalkBack\'i hızlıca kapatmanıza yardımcı oluyor. Bunu devre dışı bırakmak için TalkBack ayarları &gt; TalkBack\'i kapatma talimatlarını göster bölümüne gidebilirsiniz.</string>
   <string name="other_changes_content_tts">Artık ekranda gösterilen bir mesaj, yanlışlıkla etkinleştirilen TalkBack\'i hızlıca kapatmanıza yardımcı oluyor. Bunu devre dışı bırakmak için TalkBack ayarlarındaki TalkBack\'i kapatma talimatlarını göster bölümüne gidebilirsiniz.</string>
@@ -1021,7 +1002,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="keyboard_enhanced_keymap_text">TalkBack\'te artık çeşitli yeni komut ve kısayollar içeren, fiziksel klavyeler için \"Gelişmiş tuş eşleme\" özelliği bulunuyor. Web\'de daha verimli gezinmek için \"tarayıcı modu\" da içeren bu geliştirme, fiziksel klavye kullanan TalkBack kullanıcıları için gezinme ve etkileşimi kolaylaştırıyor. %1$s bölümünden \"Gelişmiş tuş eşleme\"ye geçiş yapabilirsiniz.\n\nBraille ekran kullanıyorsanız yeni tarayıcı modu kısayollarını kullanarak doğrudan Braille ekranınızdan içeriklerde gezinebilirsiniz. Bu değişikliğe uyum sağlamak için bazı Braille ekran kısayolları değiştirildi. Tüm Braille ekran kısayollarının listesini %2$s bölümünde görebilirsiniz.</string>
   <string name="keyboard_shortcuts_link">TalkBack ayarları &gt; Klavye kısayolları</string>
   <string name="keyboard_shortcuts_link_tts">TalkBack ayarlarındaki Klavye kısayolları</string>
-  <string name="braille_display_settings_link">Braille ekran ayarları</string>
   <string name="keyboard_smart_browse_mode_title">Klavye: Akıllı tarayıcı modu</string>
   <string name="keyboard_smart_browse_mode_text">TalkBack akıllı tarayıcı modu, web\'de gezinirken fiziksel klavye ile yazmanıza yardımcı olmak için düzenleme alanında tarayıcı modunu devre dışı bırakır. Ardından, web\'de düzenleme yapılmayan bir alana geçtiğinizde verimli şekilde göz atmaya devam edebilmeniz için tekrar etkinleştirilir. \"Akıllı tarayıcı modu\"nu etkinleştirmek veya devre dışı bırakmak için %1$s bölümüne gidebilirsiniz.</string>
   <string name="advanced_settings_link">TalkBack ayarları &gt; Gelişmiş ayarlar</string>
@@ -1094,7 +1074,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="typing_text_title">Metin yazma</string>
   <string name="basic_typing_text_text">Metin kutusundayken ekranınızın alt kısmında bir klavye açılır.</string>
   <string name="typing_text_text">Parmağınızı klavye üzerinde hareket ettirin. Yazmak istediğiniz harfi duyduğunuzda parmağınızı kaldırın.\n\nAşağıdaki metin kutusunu etkinleştirip adınızı yazmayı deneyin.</string>
-  <string name="typing_text_with_braille_keyboard_text">Braille klavyeyle de yazabilirsiniz. Braille klavyeyi TalkBack ayarlarında bulabilirsiniz.</string>
   <string name="other_ways_to_type_title">Diğer yazma yöntemleri</string>
   <string name="other_ways_to_type_text">TalkBack\'te yazmanın başka yolları da vardır. Örneğin, bir harf girmek için iki kez dokunabilirsiniz.</string>
   <string name="basic_other_ways_to_type_text">TalkBack\'te yazmanın başka yolları da vardır. Örneğin, bir harf girmek için iki kez dokunabilirsiniz. Bunu daha sonra TalkBack ayarları &gt; Dokunmatik klavye &gt; Yazma tercihi bölümünden değiştirebilirsiniz.</string>
@@ -1209,26 +1188,6 @@ Odak noktası taşındıktan sonra TalkBack\'in konuşma hızını belirler. Dah
   <string name="talkback_inactive_message_practice_gestures">Hareketlerle ilgili alıştırma yapmak için önce TalkBack\'i etkinleştirin.</string>
   <string name="talkback_inactive_message_image_description">Resim açıklamalarını almayı denemek için önce TalkBack\'i açın</string>
   <string name="talkback_inactive_close_tutorial_button">Eğitimi kapat</string>
-  <string name="wear_training_welcome_paragraph">TalkBack etkinken ekranda odaklanılan öğe sesli olarak söylenir.\n\nSağa kaydırma sonraki öğeye, sola kaydırmak önceki öğeye götürür.\n\nSonraki düğmesini bulana kadar sağa kaydırın.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d parmağınızla yukarı veya aşağı kaydırın.</string>
-  <string name="wear_training_go_back_title">Geri dön</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Geri dönmek istediğinizde %1$d parmağınızı kullanarak ekranın kenarından sağa kaydırın</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Başarılı</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geri gitme hareketi yapıldı</string>
-  <string name="wear_training_volume_up_title">Sesi artır</string>
-  <string name="wear_training_volume_up_text">Sağa ve ardından yukarı kaydırın</string>
-  <string name="wear_training_volume_down_title">Sesi azalt</string>
-  <string name="wear_training_volume_down_text">Sağa ve ardından aşağı kaydırın</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack menüsünü aç</string>
-  <string name="wear_training_open_talkback_menu_text">Sık kullanabileceğiniz ayarları ve kontrolleri açmak için aşağıya, ardından sağa kaydırın</string>
-  <string name="wear_training_typing_title">Yazın</string>
-  <string name="wear_training_typing_text1">Klavyeyle yazmak için parmağınızı klavye üzerinde hareket ettirin. Yazmak istediğiniz harfi duyduğunuzda parmağınızı kaldırın.</string>
-  <string name="wear_training_typing_text2">Klavyeyi gizlemek ve girişinizi kontrol etmek için 2 parmağınızla ekranın üst kısmından aşağı doğru kaydırın.</string>
-  <string name="wear_training_typing_text3">Klavyeye dönmek için 2 parmağınızla ekranın alt kısmından yukarı doğru kaydırın.</string>
-  <string name="wear_training_typing_text4">Klavyeyi kapatmak ve yazma işlemini iptal etmek için 2 parmağınızla ekranın sol kenarından sağa kaydırın.</string>
-  <string name="wear_training_typing_text5">Aşağıdan deneyebilirsiniz.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klavyeyle yazma</string>
-  <string name="wear_training_end_tutorial_title">TalkBack\'i kullanmaya hazırsınız</string>
   <string name="talkback_updated_notification_title">TalkBack güncellendi</string>
   <string name="talkback_updated_notification_content">Daha fazla bilgi edinmek için dokunun</string>
   <string name="wear_new_feature_page_title">Güncellenen TalkBack\'e hoş geldiniz</string>

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">ဗြက်အပြည့် ပိုနည်းသည့်သင်္ကေတ</string>
   <string name="symbol_full_width_greater_than_sign">ဗြက်အပြည့် ပိုများသည့်သင်္ကေတ</string>
   <string name="symbol_left_single_quotation_mark">တစ်ခုတည်း မျက်တောင်အဖွင့် အမှတ်အသား</string>
-  <string name="symbol_braille">မျက်မမြင်စာရေးစနစ် %s</string>
-  <plurals name="dots">
-    <item quantity="one">အစက် %s</item>
-    <item quantity="other">အစက်များ %s</item>
-  </plurals>
 </resources>

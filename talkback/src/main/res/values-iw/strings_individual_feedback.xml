@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">מצב עיון מופעל</string>
   <string name="individual_sound_browse_mode_off">מצב עיון מושבת</string>
   <string name="individual_sound_radial_menu">תפריט עגול</string>
-  <string name="individual_sound_display_connected">צג ברייל מחובר</string>
-  <string name="individual_sound_display_disconnected">צג ברייל מנותק</string>
-  <string name="individual_sound_double_beep">פקודת ברייל נכשלה</string>
-  <string name="individual_sound_turn_on">גלילת ברייל אוטומטית מופעלת</string>
-  <string name="individual_sound_turn_off">גלילת ברייל אוטומטית מושבתת</string>
-  <string name="individual_sound_calibration_done">מקלדת ברייל כוילה</string>
   <string name="individual_vibration_focus">מיקוד בפריט</string>
   <string name="individual_vibration_focus_actionable">מיקוד בפריט שאפשר להפעיל</string>
   <string name="individual_vibration_clicked">לחיצה</string>

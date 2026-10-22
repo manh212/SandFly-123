@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Zabalera osoko baino gutxiago ikurra</string>
   <string name="symbol_full_width_greater_than_sign">Zabalera osoko baino handiago ikurra</string>
   <string name="symbol_left_single_quotation_mark">Ezkerreko komatxo bakarra</string>
-  <string name="symbol_braille">%s puntuko braille-karakterea</string>
-  <plurals name="dots">
-    <item quantity="one">%s puntu</item>
-    <item quantity="other">%s puntu</item>
-  </plurals>
 </resources>

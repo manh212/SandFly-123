@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Хөтлөх горим асаалттай</string>
   <string name="individual_sound_browse_mode_off">Хөтлөх горим унтраалттай</string>
   <string name="individual_sound_radial_menu">Дугуй цэс</string>
-  <string name="individual_sound_display_connected">Брайль дэлгэц холбогдсон</string>
-  <string name="individual_sound_display_disconnected">Брайль дэлгэц салсан</string>
-  <string name="individual_sound_double_beep">Брайль тушаал амжилтгүй болсон</string>
-  <string name="individual_sound_turn_on">Брайлийн автомат гүйлгэлт асаалттай</string>
-  <string name="individual_sound_turn_off">Брайлийн автомат гүйлгэлт унтраалттай</string>
-  <string name="individual_sound_calibration_done">Брайль гар тохируулагдсан</string>
   <string name="individual_vibration_focus">Зүйл дээр фокуслах</string>
   <string name="individual_vibration_focus_actionable">Үйлдэл хийх боломжтой зүйл дээр фокуслах</string>
   <string name="individual_vibration_clicked">Товших</string>

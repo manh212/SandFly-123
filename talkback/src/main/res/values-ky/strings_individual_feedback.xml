@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Карап чыгуу режими күйүк</string>
   <string name="individual_sound_browse_mode_off">Карап чыгуу режими өчүк</string>
   <string name="individual_sound_radial_menu">Тегерек меню</string>
-  <string name="individual_sound_display_connected">Брайль дисплейи туташты</string>
-  <string name="individual_sound_display_disconnected">Брайль дисплейи ажыратылды</string>
-  <string name="individual_sound_double_beep">Брайль буйругу аткарылган жок</string>
-  <string name="individual_sound_turn_on">Брайлди автоматтык сыдыруу күйүк</string>
-  <string name="individual_sound_turn_off">Брайлди автоматтык сыдыруу өчүк</string>
-  <string name="individual_sound_calibration_done">Брайль баскычтобу ыңгайлаштырылды</string>
   <string name="individual_vibration_focus">Элементке фокус</string>
   <string name="individual_vibration_focus_actionable">Аракет жасала турган элементке фокус</string>
   <string name="individual_vibration_clicked">Чыкылдатуу</string>

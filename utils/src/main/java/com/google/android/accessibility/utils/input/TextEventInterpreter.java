@@ -18,7 +18,6 @@ package com.google.android.accessibility.utils.input;
 
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.input.TextEventHistory.NO_INDEX;
-import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_BRAILLE_KEYBOARD;
 import static com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_KEYBOARD;
 
 import android.annotation.SuppressLint;
@@ -512,8 +511,6 @@ public class TextEventInterpreter {
     int eventTypeInt = eventType;
     long eventTime = event.getEventTime();
     boolean hasKeyboardAction = (inputModeTracker.getInputMode() == INPUT_MODE_KEYBOARD);
-    boolean hasBrailleKeyboardAction =
-        (inputModeTracker.getInputMode() == INPUT_MODE_BRAILLE_KEYBOARD);
     if (eventTypeInt == AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED) {
       if (!sourceEqualsLastNode(event)) {
         interpretation.setEvent(TextEventInterpretation.SELECTION_FOCUS_EDIT_TEXT);
@@ -617,7 +614,7 @@ public class TextEventInterpreter {
         interpretation.setEvent(TextEventInterpretation.SELECTION_SELECT_ALL_WITH_KEYBOARD);
         interpretation.setReason("from==0 to==textLength and hasKeyboardAction");
         return interpretation;
-      } else if ((isSelectionModeActive || hasKeyboardAction || hasBrailleKeyboardAction)
+      } else if ((isSelectionModeActive || hasKeyboardAction)
           && mHistory.getLastFromIndex() == fromIndex
           && mHistory.getLastToIndex() == previousCursorPos
           && toIndex == currentCursorPos) {

@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Լիալայնք փոքրի նշան</string>
   <string name="symbol_full_width_greater_than_sign">Լիալայնք մեծի նշան</string>
   <string name="symbol_left_single_quotation_mark">Ձախ վերին եզակի չակերտ</string>
-  <string name="symbol_braille">բրայլյան %s</string>
-  <plurals name="dots">
-    <item quantity="one">կետ %s</item>
-    <item quantity="other">կետեր %s</item>
-  </plurals>
 </resources>

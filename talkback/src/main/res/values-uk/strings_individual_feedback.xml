@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Режим перегляду ввімкнено</string>
   <string name="individual_sound_browse_mode_off">Режим перегляду вимкнено</string>
   <string name="individual_sound_radial_menu">Кругове меню</string>
-  <string name="individual_sound_display_connected">Брайлівський дисплей підключено</string>
-  <string name="individual_sound_display_disconnected">Брайлівський дисплей відключено</string>
-  <string name="individual_sound_double_beep">Помилка команди Брайля</string>
-  <string name="individual_sound_turn_on">Автопрокручування Брайля ввімкнено</string>
-  <string name="individual_sound_turn_off">Автопрокручування Брайля вимкнено</string>
-  <string name="individual_sound_calibration_done">Брайлівську клавіатуру відкалібровано</string>
   <string name="individual_vibration_focus">Фокус на елементі</string>
   <string name="individual_vibration_focus_actionable">Фокус на активному елементі</string>
   <string name="individual_vibration_clicked">Натискання</string>

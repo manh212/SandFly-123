@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Verken-met-aanraking</string>
   <string name="title_pref_category_visual">Visueel</string>
   <string name="title_pref_category_controls">Kontroles</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Algemeen</string>
   <string name="title_pref_category_advanced">Gevorderd</string>
   <string name="title_pref_category_others">Ander</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Verminder vertraging</string>
   <string name="talkback_latency_reduction_summary">Laat SandFly vinniger reageer nadat jy aan die skerm raak</string>
   <string name="summary_pref_intonation">Sê letters wat uitgevee word in \'n hoër stemtoon</string>
-  <string name="title_pref_brailledisplay">Brailleskerm</string>
-  <string name="title_pref_brailleime">Braille-sleutelbord</string>
-  <string name="summary_pref_brailleime_disabled">Jou toestel steun nie braille-sleutelbord nie</string>
   <string name="title_pref_speech_footer">Hou 1 vinger op die skerm en druk die Volume Harder- of Volume Sagter-sleutel om die toeganklikheidsvolume van enige skerm af te verander.</string>
   <string name="title_pref_vibration">Vibrasieterugvoer</string>
   <string name="title_pref_soundback">Klankterugvoer</string>
@@ -486,8 +482,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="shortcut_increase_volume">Verhoog volume</string>
   <string name="shortcut_decrease_volume">Verlaag volume</string>
   <string name="shortcut_all_apps">Alle apps</string>
-  <string name="shortcut_braille_keyboard">Braillesleutelbord</string>
-  <string name="shortcut_braille_display_settings">Navigeer na brailleskerminstellings</string>
   <string name="shortcut_tutorial">Maak tutoriaal oop</string>
   <string name="shortcut_control_speak_time">Lees Tyd Hardop of Moenie Tyd Hardop Lees Nie</string>
   <string name="shortcut_enable_speak_time">Lees Tyd Hardop</string>
@@ -496,7 +490,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="speak_time_off">Lees Tyd Hardop is af</string>
   <string name="shortcut_practice_gestures">Oefengebare</string>
   <string name="shortcut_report_gesture">Gee gebaarkwessie aan</string>
-  <string name="shortcut_toggle_braille_display">Skakel brailleskerm aan of af</string>
   <string name="shortcut_announce_current_time_and_date">Lees huidige datum en tyd hardop</string>
   <string name="shortcut_announce_battery_state">Lees batterypersentasie hardop</string>
   <string name="shortcut_announce_current_title">Lees venstertitel hardop</string>
@@ -506,8 +499,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="shortcut_speech_rate_decrease">Verlaag praattempo</string>
   <string name="shortcut_toggle_selection">Begin of eindig keusemodus</string>
   <string name="shortcut_show_tutorial">Maak tutoriaal oop</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Wissel tussen verkort (graad 2) en nieverkort (graad 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Wys of versteek braille op die skerm vir gekoppelde brailleskerms</string>
   <string name="shortcut_toggle_sound_feedback">Skakel klankterugvoer (oorkone) aan of af</string>
   <string name="shortcut_show_learn_mode_page">Oefen kortpadsleutels</string>
   <string name="shortcut_announce_phonetic_pronunciation">Sê letters met fonetiese uitspraak vir gefokusde item</string>
@@ -548,7 +539,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="title_show_voice_commands">Stemopdragte</string>
   <string name="title_show_keyboard_shortcuts">Kortpadsleutels</string>
   <string name="talkback_show_talkback_settings">SandFly-instellings</string>
-  <string name="title_show_braille_display_settings">Brailleskerm-instellings</string>
   <string name="title_granularity_default">Versteknavigasie</string>
   <string name="title_action_dismiss">Maak toe</string>
   <string name="title_action_expand">Vou uit</string>
@@ -576,7 +566,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="summary_control_speak_time">Verander of die tyd hardop gelees word wanneer jy die skerm aanskakel</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Maak lys kortpadsleutels oop</string>
   <string name="summary_talkback_preferences">Maak SandFly-instellings oop</string>
-  <string name="summary_braile_display_preferences">Maak brailleskerminstellings oop</string>
   <string name="summary_system_actions">Gaan na alle programme en Kitsinstellings</string>
   <string name="summary_tts_settings">Maak teks-na-spraak-instellings oop</string>
   <string name="not_editable">Nie wysigbaar nie</string>
@@ -917,7 +906,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="screen_search_keyword_hint">sleutelwoord is %1$s</string>
   <string name="screen_search_no_keyword_hint">Nog geen sleutelwoord nie. Tik en hou met 3 vingers of maak kitsskermsoek uit die SandFly-kieslys oop om ’n nuwe soektog te begin.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Nog geen sleutelwoord nie. Swiep links en dan af of maak kitsskermsoek uit die SandFly-kieslys oop om ’n nuwe soektog te begin.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille-sleutelbord is nie aan nie. Gaan na SandFly-instellings, stel Braille-sleutelbord op en probeer weer.</string>
   <string name="suggestions_window_available">Voorstelle beskikbaar</string>
   <string name="suggestions_window_available_with_gesture">Voorstelle beskikbaar. Om in te gaan, %1$s</string>
   <string name="heads_up_window_available">Kennisgewing is beskikbaar</string>
@@ -967,9 +955,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="new_gesture_notification_content">Tik om uit te vind hoe om SandFly vinniger met nuwe gebare te gebruik.</string>
   <string name="dump_node_tree_description">Nodusboom is na loglêers gedruk.`</string>
   <string name="report_gesture_description">Hier is gebare wat onlangs uitgevoer is. Meld asseblief aan watter gebaar verkeerd is en wat verwag word.</string>
-  <string name="update_welcome_text_content">Jy kan nou via MKT aan brailleskerms koppel – ’n manier om aan Bluetooth-toestelle te koppel. Maak seker dat jy die jongste fermwaredrywers van jou vervaardiger af het en skakel dan Bluetooth op jou brailleskerm aan. Gaan na SandFly-instellings &gt; Brailleskerm en skakel \"Gebruik brailleskerm\" aan. Soek jou toestel in die toestellys en koppel daaraan.</string>
-  <string name="update_welcome_text_content_tts">Jy kan nou via MKT aan brailleskerms koppel – ’n manier om aan Bluetooth-toestelle te koppel. Maak seker dat jy die jongste fermwaredrywers van jou vervaardiger af het en skakel dan Bluetooth op jou brailleskerm aan. Gaan na SandFly-instellings en dan brailleskerm en skakel \"Gebruik brailleskerm\" aan. Soek jou toestel in die toestellys en koppel daaraan.</string>
-  <string name="update_welcome_text_content_with_link">Vind uit hoe om jou brailleskerm met SandFly te gebruik.</string>
   <string name="update_welcome_talkback_16.1">Hierdie SandFly-opdatering stel ondersteuning vir Beskryf Skerm in meer tale en ander gehalteverbeterings bekend wat dit makliker maak om SandFly te gebruik.\n\nJy sal op die volgende paar skerms meer oor hierdie veranderinge uitvind.\n\nJy kan hierdie inligting later hersien in SandFly-instellings &gt; Nuwe kenmerke in SandFly.</string>
   <string name="update_welcome_talkback_16.1_tts">Hierdie SandFly-opdatering stel ondersteuning vir Beskryf Skerm in meer tale en ander gehalteverbeterings bekend wat SandFly makliker maak om te gebruik.\n\nJy sal op die volgende paar skerms meer oor hierdie veranderinge uitvind.\n\nJy kan hierdie inligting later hersien in SandFly-instellings en dan Nuwe kenmerke in SandFly.</string>
   <string name="describe_screen_and_qna_title">Nuwe tale vir Beskryf Skerm en Vra Gemini</string>
@@ -985,10 +970,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="reduce_delay_title">Verminder vertraging</string>
   <string name="reduce_delay_content">Jy kan nou SandFly-aankondigingvertragings vir raakverkenning en tik verminder. Gaan na SandFly-instellings &gt; Gevorderde instellings &gt; Verminder vertraging om hierdie instellings te bekyk.</string>
   <string name="reduce_delay_content_tts">Jy kan nou SandFly-aankondigingvertragings vir raakverkenning en tik verminder. Gaan na SandFly-instellings, dan Gevorderde instellings en dan Verminder vertraging om hierdie instellings te bekyk.</string>
-  <string name="customize_braille_keyboard_improvements_title">Pasmaak braillesleutelbord se gebare</string>
-  <string name="customize_braille_keyboard_improvements_content">Dis nou moontlik om gebare vir die virtuele braillesleutelbord op die skerm te pasmaak. Gaan na SandFly-instellings &gt; Braillesleutelbord &gt; Gebare om te pasmaak.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Dis nou moontlik om gebare vir die virtuele braillesleutelbord op die skerm te pasmaak. Gaan na SandFly-instellings, dan Braillesleutelbord en dan Gebare om te pasmaak.</string>
-  <string name="learn_more_about_braille_keyboard">Kry meer inligting oor braillesleutelbord</string>
   <string name="other_changes_title">Ander veranderinge</string>
   <string name="other_changes_content">’n Boodskap op die skerm help jou om SandFly vinnig af te skakel as dit per ongeluk aangeskakel word. Jy kan dit afskakel in SandFly-instellings &gt; Wys instruksies vir die afskakeling van SandFly.</string>
   <string name="other_changes_content_tts">’n Boodskap op die skerm help jou om SandFly vinnig af te skakel as dit per ongeluk aangeskakel word. Jy kan dit afskakel in SandFly-instellings, dan Wys instruksies vir die afskakeling van SandFly.</string>
@@ -1021,7 +1002,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="keyboard_enhanced_keymap_text">SandFly het nou ’n “verbeterde sleutelkaart” vir fisiese sleutelborde, wat ’n verskeidenheid nuwe opdragte en kortpaaie bevat. Hierdie verbetering sluit ’n “blaaimodus” in vir meer doeltreffende webnavigasie, wat navigasie en interaksie vereenvoudig vir SandFly-gebruikers wat op fisiese sleutelborde staatmaak. Jy kan oorskakel na die “verbeterde sleutelkaart” in <xliff:g id="settings_path">%1$s</xliff:g>.\n\nAs jy ’n brailleskerm gebruik, kan jy ook nuwe blaaimoduskortpaaie gebruik om direk deur inhoud te navigeer vanaf jou brailleskerm. Sommige brailleskermkortpaaie is verander om voorsiening vir hierdie verandering te maak. Jy kan ’n lys van alle brailleskermkortpaaie in <xliff:g id="braille_display_settings_path">%2$s</xliff:g> sien.</string>
   <string name="keyboard_shortcuts_link">SandFly-instellings &gt; Kortpadsleutels</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-instellings en dan Kortpadsleutels</string>
-  <string name="braille_display_settings_link">Brailleskerm-instellings</string>
   <string name="keyboard_smart_browse_mode_title">Sleutelbord: Slimblaaimodus</string>
   <string name="keyboard_smart_browse_mode_text">SandFly se slimblaaimodus skakel blaaimodus in ’n redigeerveld af om jou te help om met ’n fisiese sleutelbord te tik wanneer jy deur die web blaai. Dit skakel dit dan weer aan wanneer jy na ’n nieredigeerveld op die web gaan sodat jy doeltreffend kan aanhou blaai. Jy kan “Slimblaaimodus” in <xliff:g id="settings_path">%1$s</xliff:g> aan- of afskakel.</string>
   <string name="advanced_settings_link">SandFly-instellings &gt; Gevorderde instellings</string>
@@ -1094,7 +1074,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="typing_text_title">Tik van teks</string>
   <string name="basic_typing_text_text">As jy in ’n tekskassie is, sal ’n sleutelbord aan die onderkant van jou skerm oopmaak.</string>
   <string name="typing_text_text">Beweeg jou vinger oor die sleutelbord. Wanneer jy die letter hoor wat jy wil tik, moet jy jou vinger oplig.\n\nProbeer die tekskassie hieronder aktiveer en tik jou naam in.</string>
-  <string name="typing_text_with_braille_keyboard_text">Jy kan ook met \'n braillesleutelbord tik. Kry dit in SandFly-instellings.</string>
   <string name="other_ways_to_type_title">Ander maniere om te tik</string>
   <string name="other_ways_to_type_text">Daar is ander maniere om in SandFly te tik. Jy kan byvoorbeeld dubbeltik gebruik om ’n letter in te voer.</string>
   <string name="basic_other_ways_to_type_text">Daar is ander maniere om in SandFly te tik. Jy kan byvoorbeeld dubbeltik gebruik om ’n letter in te voer. Jy kan dit later verander in SandFly-instellings &gt; Skermsleutelbord &gt; Tikmetode.</string>
@@ -1209,26 +1188,6 @@ Vertragings onder 0,3 sekondes sal Dubbeltik om te Aktiveer verander na Tweeving
   <string name="talkback_inactive_message_practice_gestures">Skakel eers SandFly aan om gebare te oefen</string>
   <string name="talkback_inactive_message_image_description">Skakel eers SandFly aan om prentbeskrywings te probeer kry</string>
   <string name="talkback_inactive_close_tutorial_button">Maak tutoriaal toe</string>
-  <string name="wear_training_welcome_paragraph">Wanneer SandFly aan is, word die fokusitem op die skerm hardop gesê.\n\nAs jy regs swiep, gaan jy na die volgende item toe. As jy links swiep, gaan jy na die vorige item toe.\n\nSwiep nou regs om die volgende knoppie te kry.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swiep op of af met %1$d vingers.</string>
-  <string name="wear_training_go_back_title">Gaan terug</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Gebruik %1$d vingers om van die kant van die skerm af regs te swiep as jy wil teruggaan.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sukses</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Teruggebaar is uitgevoer</string>
-  <string name="wear_training_volume_up_title">Stel volume harder</string>
-  <string name="wear_training_volume_up_text">Swiep regs en dan op</string>
-  <string name="wear_training_volume_down_title">Stel volume sagter</string>
-  <string name="wear_training_volume_down_text">Swiep regs en dan af</string>
-  <string name="wear_training_open_talkback_menu_title">Maak SandFly-kieslys oop</string>
-  <string name="wear_training_open_talkback_menu_text">Swiep af en dan regs om instellings en kontroles wat jy gereeld nodig het, oop te maak</string>
-  <string name="wear_training_typing_title">Tik tans …</string>
-  <string name="wear_training_typing_text1">Beweeg jou vinger oor die sleutelbord om met sleutelbord te tik. Lig jou vinger op wanneer jy die letter hoor wat jy wil tik.</string>
-  <string name="wear_training_typing_text2">Swiep met 2 vingers af vanaf die bokant van jou skerm om die sleutelbord te versteek en jou invoer na te gaan.</string>
-  <string name="wear_training_typing_text3">Swiep met 2 vingers op vanaf die onderkant van jou skerm om na die sleutelbord terug te keer.</string>
-  <string name="wear_training_typing_text4">Swiep met 2 vingers regs vanaf die linkerkant van jou skerm om die sleutelbord toe te maak en tikwerk te kanselleer.</string>
-  <string name="wear_training_typing_text5">Probeer dit hier onder</string>
-  <string name="wear_training_typing_practice_button_content_description">Tik met sleutelbord</string>
-  <string name="wear_training_end_tutorial_title">Jy is gereed om SandFly te begin gebruik</string>
   <string name="talkback_updated_notification_title">SandFly is opgedateer</string>
   <string name="talkback_updated_notification_content">Tik om meer te wete te kom</string>
   <string name="wear_new_feature_page_title">Welkom by die opgedateerde SandFly</string>
@@ -1520,7 +1479,6 @@ Moenie enige Markdown in jou antwoord gebruik nie.</string>
     <string name="title_pref_announce_ringer_mode">Luimodus</string>
     <string name="summary_pref_announce_ringer_mode">Sê wanneer die luitoestel op vibreer of stil gestel is</string>
     <string name="title_pref_category_feedback">Terugvoer</string>
-    <string name="title_pref_category_typing_and_braille">Tik en braille</string>
     <string name="title_pref_category_apps">Apps</string>
     <string name="title_pref_touch_activation">Aanraking en aktivering</string>
     <string name="title_pref_navigation">Navigasie</string>
@@ -1544,8 +1502,6 @@ Moenie enige Markdown in jou antwoord gebruik nie.</string>
     <string name="speech_control_deny">Moenie toelaat nie</string>
     <string name="permission_speak_label">praat deur SandFly</string>
     <string name="permission_speak_description">Laat die app toe om te vra om teks in jou SandFly-stem te sê. SandFly vra jou voordat die app kan praat.</string>
-    <string name="permission_braille_display_label">vra om ’n brailleskerm vir SandFly te wees</string>
-    <string name="permission_braille_display_description">Laat die app toe om te vra om ’n brailleskerm vir SandFly te wees. As jy dit in SandFly toelaat, kan dit alles op die skerm lees en jou toestel beheer. SandFly vra jou eers.</string>
     <string name="title_pref_phonetic_letters_mode">Sê letters foneties</string>
     <string name="phonetic_letters_mode_off">Af</string>
     <string name="phonetic_letters_mode_after_letter_delay">Ná die letter, met vertraging, soos “h, hotel”</string>
@@ -1683,14 +1639,8 @@ Moenie enige Markdown in jou antwoord gebruik nie.</string>
     <string name="summary_support_wrap_around">Skakel omloop van die laaste item na die eerste aan of af</string>
     <string name="wrap_around_on">Omloop aan</string>
     <string name="wrap_around_off">Omloop af</string>
-    <string name="title_selector_tablet_held_up_faces_away">Opgehoue tablet wys weg</string>
-    <string name="summary_support_tablet_held_up_faces_away">Vir die braille-sleutelbord op ’n tablet of oopgevoude foon</string>
-    <string name="tablet_held_up_faces_away_on">Opgehoue tablet wys weg aan</string>
-    <string name="tablet_held_up_faces_away_off">Opgehoue tablet wys weg af</string>
     <string name="title_keyboard_echo_on_screen">Skermsleutelbord-eggo</string>
     <string name="title_keyboard_echo_physical">Fisieke sleutelbord-eggo</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille-sleutelbord-eggo</string>
-    <string name="title_keyboard_echo_braille_display">Brailleskerm-eggo</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Onderbreek spraak wanneer jy tik</string>
     <string name="pref_interrupt_typing_entry_always">Altyd</string>

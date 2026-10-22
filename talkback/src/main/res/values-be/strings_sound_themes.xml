@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Няма гуку. Прайграецца гук фокуса.</string>
     <string name="theme_sound_summary_android_keyboard">Гук клавіятуры Android</string>
     <string name="theme_sound_use_android_keyboard">Выкарыстоўваць гук клавіятуры Android</string>
-    <string name="theme_sound_braille_character">Клавіятура Брайля: увод сімвала</string>
-    <string name="theme_sound_braille_space">Клавіятура Брайля: прабел</string>
-    <string name="theme_sound_braille_delete">Клавіятура Брайля: выдаленне</string>
-    <string name="theme_sound_braille_new_line">Клавіятура Брайля: новы радок</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Выбраць гукавы файл</string>
     <string name="theme_sound_preview">Праслухаць</string>

@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">کاوش با لمس</string>
   <string name="title_pref_category_visual">تصویری</string>
   <string name="title_pref_category_controls">کنترل‌ها</string>
-  <string name="title_pref_category_braille">بریل</string>
   <string name="title_pref_category_general">عمومی</string>
   <string name="title_pref_category_advanced">پیشرفته</string>
   <string name="title_pref_category_others">سایر موارد</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">کاهش دادن تأخیر</string>
   <string name="talkback_latency_reduction_summary">‏SandFly پس‌از لمس صفحه سریع‌تر پاسخ می‌دهد</string>
   <string name="summary_pref_intonation">حروف حذف‌شده با صدای زیرتری خوانده می‌شود</string>
-  <string name="title_pref_brailledisplay">نمایشگر بریل</string>
-  <string name="title_pref_brailleime">صفحه‌کلید بریل</string>
-  <string name="summary_pref_brailleime_disabled">دستگاه تان از صفحه‌کلید بریل پشتیبانی نمی‌کند</string>
   <string name="title_pref_speech_footer">برای تغییر میزان صدای دسترس‌پذیری در هر صفحه‌ای، ۱ انگشت را روی صفحه نگه دارید و کلید افزایش صدا یا کاهش صدا را فشار دهید.</string>
   <string name="title_pref_vibration">بازخورد لرزشی</string>
   <string name="title_pref_soundback">بازخورد صوتی</string>
@@ -486,8 +482,6 @@
   <string name="shortcut_increase_volume">افزایش صدا</string>
   <string name="shortcut_decrease_volume">کاهش صدا</string>
   <string name="shortcut_all_apps">همه برنامه‌ها</string>
-  <string name="shortcut_braille_keyboard">رفتن به صفحه‌کلید بریل</string>
-  <string name="shortcut_braille_display_settings">پیمایش به تنظیمات نمایشگر بریل</string>
   <string name="shortcut_tutorial">باز کردن آموزش گام‌به‌گام</string>
   <string name="shortcut_control_speak_time">اعلام کردن یا اعلام نکردن زمان</string>
   <string name="shortcut_enable_speak_time">اعلام کردن زمان</string>
@@ -496,7 +490,6 @@
   <string name="speak_time_off">اعلام کردن خاموش است</string>
   <string name="shortcut_practice_gestures">تمرین اشاره‌ها</string>
   <string name="shortcut_report_gesture">گزارش مشکل اشاره</string>
-  <string name="shortcut_toggle_braille_display">روشن یا خاموش کردن نمایشگر بریل</string>
   <string name="shortcut_announce_current_time_and_date">اعلام کردن تاریخ و زمان فعلی</string>
   <string name="shortcut_announce_battery_state">بلند گفتن درصد باتری</string>
   <string name="shortcut_announce_current_title">اعلام عنوان پنجره</string>
@@ -506,8 +499,6 @@
   <string name="shortcut_speech_rate_decrease">کاهش دادن سرعت گفتار</string>
   <string name="shortcut_toggle_selection">شروع یا پایان حالت انتخاب</string>
   <string name="shortcut_show_tutorial">باز کردن آموزش گام‌به‌گام</string>
-  <string name="shortcut_toggle_braille_contracted_mode">جابه‌جایی بین اختصاری (درجه ۲) و غیراختصاری (درجه ۱)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">نشان دادن یا پنهان کردن بریل روی صفحه برای نمایشگر بریل متصل</string>
   <string name="shortcut_toggle_sound_feedback">روشن یا خاموش کردن بازخورد صوتی (نمادهای شنیداری)</string>
   <string name="shortcut_show_learn_mode_page">تمرین میان‌برهای صفحه‌کلید</string>
   <string name="shortcut_announce_phonetic_pronunciation">خوانده شدن حروف با تلفظ آوایی برای مورد کانونی‌شده</string>
@@ -548,7 +539,6 @@
   <string name="title_show_voice_commands">فرمان‌های صوتی</string>
   <string name="title_show_keyboard_shortcuts">میان‌برهای صفحه‌کلید</string>
   <string name="talkback_show_talkback_settings">‏تنظیمات SandFly</string>
-  <string name="title_show_braille_display_settings">تنظیمات نمایشگر بریل</string>
   <string name="title_granularity_default">پیمایش پیش‌فرض</string>
   <string name="title_action_dismiss">بستن</string>
   <string name="title_action_expand">بزرگ کردن</string>
@@ -576,7 +566,6 @@
   <string name="summary_control_speak_time">تغییر دادن اینکه هنگام روشن شدن صفحه‌نمایش، زمان با صدای بلند اعلام شود یا نه</string>
   <string name="summary_show_keyboard_shortcuts_preferences">باز کردن فهرست میان‌برهای صفحه‌کلید</string>
   <string name="summary_talkback_preferences">‏باز کردن تنظیمات SandFly‏</string>
-  <string name="summary_braile_display_preferences">باز کردن تنظیمات نمایشگر بریل</string>
   <string name="summary_system_actions">رفتن به همه برنامه‌ها و «تنظیمات فوری»</string>
   <string name="summary_tts_settings">باز کردن تنظیمات نوشتار به گفتار</string>
   <string name="not_editable">قابل‌ویرایش نیست</string>
@@ -918,7 +907,6 @@
   <string name="screen_search_keyword_hint">کلیدواژه %1$s است</string>
   <string name="screen_search_no_keyword_hint">‏هنوز کلیدواژه‌ای وجود ندارد. برای شروع کردن جستجوی جدید، با ۳ انگشت تک‌ضرب بزنید و نگه دارید یا جستجوی صفحه را از منو SandFly باز کنید.</string>
   <string name="screen_search_no_keyword_hint_pre_r">‏هنوز کلیدواژه‌ای وجود ندارد. برای شروع کردن جستجوی جدید، تند به‌چپ و سپس پایین بکشید یا جستجوی صفحه را از منو SandFly باز کنید.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">‏صفحه‌کلید «بریل» روشن نمی‌شود. به تنظیمات SandFly بروید، صفحه‌کلید «بریل» را راه‌اندازی کنید، و دوباره امتحان کنید.</string>
   <string name="suggestions_window_available">پیشنهادهایی دردسترس است</string>
   <string name="suggestions_window_available_with_gesture">پیشنهادهایی دردسترس است. برای دسترسی، %1$s</string>
   <string name="heads_up_window_available">اعلان دردسترس است</string>
@@ -968,9 +956,6 @@
   <string name="new_gesture_notification_content">‏برای آشنایی با نحوه استفاده سریع‌تر از SandFly با اشاره‌های جدید تک‌ضرب بزنید.</string>
   <string name="dump_node_tree_description">ساختار درختی گره‌ها در گزارش‌ها چاپ شد.</string>
   <string name="report_gesture_description">این‌ها اشاره‌هایی هستند که اخیراً اجرا شده‌اند، لطفاً گزارش دهید که کدام اشتباه است و چه کنشی انتظار می‌رود.</string>
-  <string name="update_welcome_text_content">‏اکنون می‌توانید ازطریق «دستگاه میانای انسانی» به نمایشگرهای بریل وصل شوید، این روشی است برای اتصال به دستگاه‌های بلوتوث. مطمئن شوید که جدیدترین درایورهای سفت‌افزار تولیدکننده را نصب کرده‌اید، سپس بلوتوث را روی نمایشگر بریل خود روشن کنید. به تنظیمات SandFly &gt; نمایشگر «بریل» بروید و «استفاده از نمایشگر بریل» را روشن کنید. دستگاه خود را در فهرست دستگاه‌ها پیدا کنید و به آن وصل شوید.</string>
-  <string name="update_welcome_text_content_tts">‏اکنون می‌توانید ازطریق «دستگاه میانای انسانی» به نمایشگرهای بریل وصل شوید، این روشی است برای اتصال به دستگاه‌های بلوتوث. مطمئن شوید که جدیدترین درایورهای سفت‌افزار تولیدکننده را نصب کرده‌اید، سپس بلوتوث را روی نمایشگر بریل خود روشن کنید. به تنظیمات SandFly &gt; نمایشگر «بریل» بروید و «استفاده از نمایشگر بریل» را روشن کنید. دستگاه خود را در فهرست دستگاه‌ها پیدا کنید و به آن وصل شوید.</string>
-  <string name="update_welcome_text_content_with_link">‏با نحوه استفاده از نمایشگر بریل با SandFly آشنا شوید.</string>
   <string name="update_welcome_talkback_16.1">‏این به‌روزرسانی SandFly پشتیبانی از ویژگی توصیف صفحه را در زبان‌های بیشتر و همچنین بهبودهای دیگری اضافه می‌کند که استفاده از SandFly را آسان‌تر می‌سازد.\n\n در چند صفحه بعدی با این تغییرات بیشتر آشنا می‌شوید. \n\n بعداً می‌توانید این اطلاعات را در تنظیمات SandFly &gt; ویژگی‌های جدید در SandFly مرور کنید.</string>
   <string name="update_welcome_talkback_16.1_tts">‏این به‌روزرسانی SandFly پشتیبانی از ویژگی توضیح صفحه را در زبان‌های بیشتر اضافه می‌کند و همچنین بهبودهایی دارد که استفاده از SandFly را آسان‌تر می‌سازد.\n\nدر چند صفحه بعدی، درباره این تغییرات بیشتر خواهید آموخت.\n\nبعداً می‌توانید این اطلاعات را در تنظیمات SandFly، سپس در بخش ویژگی‌های جدید در SandFly مرور کنید.</string>
   <string name="describe_screen_and_qna_title">‏زبان‌های جدید برای صفحه «شرح دادن» و «پرسیدن از Gemini»</string>
@@ -986,10 +971,6 @@
   <string name="reduce_delay_title">کاهش دادن تأخیر</string>
   <string name="reduce_delay_content">‏اکنون می‌توانید تأخیر در اعلام‌های SandFly را هنگام تایپ و داده‌کاوی لمسی کاهش دهید. برای مشاهده این تنظیمات، به «تنظیمات SandFly &gt; تنظیمات پیشرفته &gt; کاهش دادن تأخیر» بروید.</string>
   <string name="reduce_delay_content_tts">‏اکنون می‌توانید تأخیر در اعلام‌های SandFly را هنگام تایپ و داده‌کاوی لمسی کاهش دهید. برای مشاهده این تنظیمات، به «تنظیمات SandFly»، «تنظیمات پیشرفته»، و سپس «کاهش دادن تأخیر» بروید.</string>
-  <string name="customize_braille_keyboard_improvements_title">ژست‌های صفحه‌کلید بریل را سفارشی کنید</string>
-  <string name="customize_braille_keyboard_improvements_content">‏اکنون میتوانید اشاره‌های «صفحه‌کلید بریل مجازی را سفارشی‌سازی کنید. برای سفارشی‌سازی کردن، به «تنظیمات SandFly &gt; صفحه‌کلید بریل &gt; اشاره‌ها» بروید.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">‏اکنون میتوانید اشاره‌های «صفحه‌کلید بریل مجازی را سفارشی‌سازی کنید. برای سفارشی‌سازی کردن، به «تنظیمات SandFly»، «صفحه‌کلید بریل»، و سپس «اشاره‌ها» بروید.</string>
-  <string name="learn_more_about_braille_keyboard">درباره صفحه‌کلید بریل بیشتر بیاموزید</string>
   <string name="other_changes_title">تغییرات دیگر</string>
   <string name="other_changes_content">‏اکنون پیامی روی صفحه نشان داده می‌شود که به شما کمک می‌کند درصورت روشن شدن تصادفی SandFly، آن را سریعاً خاموش کنید. می‌توانید این پیام را در «تنظیمات SandFly &gt; نشان دادن دستورالعمل‌های خاموش کردن SandFly» خاموش کنید.</string>
   <string name="other_changes_content_tts">‏اکنون پیامی روی صفحه نشان داده می‌شود که به شما کمک می‌کند درصورت روشن شدن تصادفی SandFly، آن را سریعاً خاموش کنید. می‌توانید این پیام را در «تنظیمات SandFly» و سپس «نشان دادن دستورالعمل‌های خاموش کردن SandFly» خاموش کنید.</string>
@@ -1022,7 +1003,6 @@
   <string name="keyboard_enhanced_keymap_text">‏‫SandFly اکنون «نقشه‌کلید بهبودیافته‌ای» برای صفحه‌کلیدهای فیزیکی دارد که فرمان‌ها و میان‌برهای جدید و متنوعی ارائه می‌دهد. این بهبود شامل «حالت مرور» برای پیمایش کارآمدتر در وب است که پیمایش و تعامل را برای کاربران SandFly که به صفحه‌کلیدهای فیزیکی متکی هستند آسان‌تر می‌کند. می‌توانید در <xliff:g id="settings_path">%1$s</xliff:g> به «نقشه‌کلید بهبودیافته» بروید.\n\nاگر از «نمایشگر بریل» استفاده می‌کنید، بااستفاده از میان‌برهای جدید «حالت مرور» نیز می‌توانید مستقیماً از «نمایشگر بریل» در محتوا پیمایش کنید. برخی‌از میان‌برهای «نمایشگر بریل» عوض شده‌اند تا با این تغییر سازگار شوند. می‌توانید فهرست همه میان‌برهای «نمایشگر بریل» را در <xliff:g id="braille_display_settings_path">%2$s</xliff:g> ببینید.</string>
   <string name="keyboard_shortcuts_link">‏«تنظیمات SandFly &gt; میان‌برهای صفحه‌کلید»</string>
   <string name="keyboard_shortcuts_link_tts">‏«تنظیمات SandFly» سپس «میان‌برهای صفحه‌کلید»</string>
-  <string name="braille_display_settings_link">تنظیمات نمایشگر بریل</string>
   <string name="keyboard_smart_browse_mode_title">صفحه‌کلید: «حالت مرور هوشمند»</string>
   <string name="keyboard_smart_browse_mode_text">‏«حالت مرور هوشمند» در SandFly، با خاموش کردن «حالت مرور» در فیلدهای ویرایش، به شما کمک می‌کند هنگام مرور وب با صفحه‌کلید فیزیکی تایپ کنید. سپس وقتی‌که به فیلدهای غیرویرایشی در وب می‌روید، «حالت مرور» را دوباره روشن می‌کند تا بتوانید به مرور کارآمد ادامه دهید. می‌توانید «حالت مرور هوشمند» را در <xliff:g id="settings_path">%1$s</xliff:g> روشن یا خاموش کنید.</string>
   <string name="advanced_settings_link">‏«تنظیمات SandFly &gt; تنظیمات پیشرفته»</string>
@@ -1095,7 +1075,6 @@
   <string name="typing_text_title">تایپ کردن نوشتار</string>
   <string name="basic_typing_text_text">وقتی در یک چارگوش نوشتاری باشید، صفحه‌کلید در پایین صفحه شما باز می‌شود.</string>
   <string name="typing_text_text">‏انگشتتان را روی صفحه‌کلید حرکت دهید. وقتی حرفی را که می‌خواهید تایپ کنید شنیدید، انگشتتان را بردارید.\n\nچارگوش نوشتاری زیر را فعال کنید و نامتان را تایپ کنید.</string>
-  <string name="typing_text_with_braille_keyboard_text">‏می‌توانید با صفحه‌کلید بریل نیز تایپ کنید. آن را در تنظیمات SandFly پیدا کنید.</string>
   <string name="other_ways_to_type_title">راه‌های دیگر برای تایپ کردن</string>
   <string name="other_ways_to_type_text">‏روش‌های دیگری هم برای تایپ کردن در SandFly وجود دارد. به‌عنوان مثال، می‌توانید برای وارد کردن یک حرف دو تک‌ضرب بزنید.</string>
   <string name="basic_other_ways_to_type_text">‏روش‌های دیگری هم برای تایپ کردن در SandFly وجود دارد. برای مثال، می‌توانید برای وارد کردن یک حرف دو تک‌ضرب بزنید. می‌توانید آن را بعداً در «تنظیمات SandFly &gt; صفحه‌کلید مجازی &gt; روش تایپ کردن» تغییر دهید.</string>
@@ -1210,26 +1189,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏برای تمرین کردن اشاره‌ها، ابتدا SandFly را روشن کنید</string>
   <string name="talkback_inactive_message_image_description">‏برای دریافت شرح تصاویر، ابتدا SandFly را روشن کنید</string>
   <string name="talkback_inactive_close_tutorial_button">بستن آموزش گام‌به‌گام</string>
-  <string name="wear_training_welcome_paragraph">‏وقتی SandFly روشن باشد، موردی که در صفحه روی آن تمرکز شده است بلند خوانده می‌شود.\n\nبا تند کشیدن به‌راست به مورد بعدی می‌روید. با تند کشیدن به‌چپ به مورد قبلی می‌روید.\n\nاکنون چندبار تند به‌راست بکشید تا دکمه بعدی را ببینید.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">با %1$d انگشت تند به بالا یا پایین بکشید</string>
-  <string name="wear_training_go_back_title">برگشتن</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">وقتی می‌خواهید به عقب برگردید، با %1$d انگشت از لبه صفحه تند به راست بکشید.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">انجام شد</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">اشاره برگشت اجرا شد</string>
-  <string name="wear_training_volume_up_title">زیاد کردن صدا</string>
-  <string name="wear_training_volume_up_text">تند به راست سپس به بالا بکشید</string>
-  <string name="wear_training_volume_down_title">کاهش صدا</string>
-  <string name="wear_training_volume_down_text">تند به راست سپس به پایین بکشید</string>
-  <string name="wear_training_open_talkback_menu_title">‏باز کردن منو SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">برای باز کردن تنظیمات و کنترل‌هایی که اغلب به آن‌ها نیاز پیدا می‌کنید، تند به‌پایین و سپس به‌راست بکشید.</string>
-  <string name="wear_training_typing_title">درحال تایپ کردن</string>
-  <string name="wear_training_typing_text1">برای تایپ با صفحه‌ کلید، انگشت تان را روی صفحه‌کلید حرکت دهید. وقتی حرفی را شنیدید که می خواهید آن را تایپ کنید، انگشت خود را بردارید.</string>
-  <string name="wear_training_typing_text2">برای پنهان کردن صفحه‌کلید و بررسی ورودی‌ شما، از بالای صفحه‌نمایش با ۲ انگشت به پایین بکشید.</string>
-  <string name="wear_training_typing_text3">برای بازگشت به صفحه‌کلید، از پایین صفحه‌نمایش با ۲ انگشت به بالا بکشید.</string>
-  <string name="wear_training_typing_text4">برای بستن صفحه‌کلید و لغو تایپ کردن، از لبه چپ صفحه‌نمایش با ۲ انگشت به‌سمت راست بکشید.</string>
-  <string name="wear_training_typing_text5">در زیر آن را امتحان کنید</string>
-  <string name="wear_training_typing_practice_button_content_description">تایپ کردن با صفحه کلید</string>
-  <string name="wear_training_end_tutorial_title">‏حالا می‌توانید از SandFly استفاده کنید</string>
   <string name="talkback_updated_notification_title">‏SandFly به‌روزرسانی شده است</string>
   <string name="talkback_updated_notification_content">برای اطلاعات بیشتر، تک‌ضرب بزنید</string>
   <string name="wear_new_feature_page_title">‏به نسخه به‌روزشده SandFly خوش آمدید</string>
@@ -1521,7 +1480,6 @@
     <string name="title_pref_announce_ringer_mode">حالت زنگ</string>
     <string name="summary_pref_announce_ringer_mode">گفتن اینکه زنگ روی لرزش یا بی‌صدا تنظیم شده است</string>
     <string name="title_pref_category_feedback">بازخورد</string>
-    <string name="title_pref_category_typing_and_braille">تایپ و بریل</string>
     <string name="title_pref_category_apps">برنامه‌ها</string>
     <string name="title_pref_touch_activation">لمس و فعال‌سازی</string>
     <string name="title_pref_navigation">پیمایش</string>
@@ -1545,8 +1503,6 @@
     <string name="speech_control_deny">اجازه ندادن</string>
     <string name="permission_speak_label">‏گفتار ازطریق SandFly</string>
     <string name="permission_speak_description">‏به برنامه امکان می‌دهد درخواست کند نوشتار را با صدای SandFly شما بگوید. SandFly پیش‌از اینکه برنامه بتواند گفتار پخش کند، از شما اجازه می‌گیرد.</string>
-    <string name="permission_braille_display_label">‏درخواست برای نمایشگر بریل بودن برای SandFly</string>
-    <string name="permission_braille_display_description">‏به برنامه امکان می‌دهد درخواست کند نمایشگر بریل SandFly باشد. اگر در SandFly اجازه دهید، می‌تواند همه‌چیز را روی صفحه بخواند و دستگاهتان را کنترل کند. SandFly ابتدا از شما اجازه می‌گیرد.</string>
     <string name="title_pref_phonetic_letters_mode">خواندن حروف به‌همراه مثال</string>
     <string name="phonetic_letters_mode_off">خاموش</string>
     <string name="phonetic_letters_mode_after_letter_delay">پس‌از حرف، با تأخیر، مانند «ه، هوا»</string>
@@ -1684,14 +1640,8 @@
     <string name="summary_support_wrap_around">روشن یا خاموش کردن رفتن از آخرین مورد به اولین مورد</string>
     <string name="wrap_around_on">چرخش از انتها به ابتدا روشن</string>
     <string name="wrap_around_off">چرخش از انتها به ابتدا خاموش</string>
-    <string name="title_selector_tablet_held_up_faces_away">رو به بیرون بودن رایانه لوحی بالانگه‌داشته</string>
-    <string name="summary_support_tablet_held_up_faces_away">برای صفحه‌کلید بریل در رایانه لوحی یا تلفن تاشوی باز</string>
-    <string name="tablet_held_up_faces_away_on">رو به بیرون بودن رایانه لوحی بالانگه‌داشته روشن</string>
-    <string name="tablet_held_up_faces_away_off">رو به بیرون بودن رایانه لوحی بالانگه‌داشته خاموش</string>
     <string name="title_keyboard_echo_on_screen">بازگویی صفحه‌کلید مجازی</string>
     <string name="title_keyboard_echo_physical">بازگویی صفحه‌کلید فیزیکی</string>
-    <string name="title_keyboard_echo_braille_keyboard">بازگویی صفحه‌کلید بریل</string>
-    <string name="title_keyboard_echo_braille_display">بازگویی نمایشگر بریل</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">قطع گفتار هنگام تایپ</string>
     <string name="pref_interrupt_typing_entry_always">همیشه</string>

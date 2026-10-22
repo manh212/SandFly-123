@@ -87,7 +87,6 @@
   <string name="title_pref_explore_by_touch">Verkennen via aanraking</string>
   <string name="title_pref_category_visual">Visueel</string>
   <string name="title_pref_category_controls">Bedieningselementen</string>
-  <string name="title_pref_category_braille">Braille</string>
   <string name="title_pref_category_general">Algemeen</string>
   <string name="title_pref_category_advanced">Geavanceerd</string>
   <string name="title_pref_category_others">Overig</string>
@@ -340,9 +339,6 @@
   <string name="title_pref_latency_reduction">Vertraging verkorten</string>
   <string name="talkback_latency_reduction_summary">Instellingen om de vertraging vóór TalkBack-aankondigingen te verkorten</string>
   <string name="summary_pref_intonation">Verwijderde letters uitspreken op een hogere toonhoogte</string>
-  <string name="title_pref_brailledisplay">Brailleleesregel</string>
-  <string name="title_pref_brailleime">Brailletoetsenbord</string>
-  <string name="summary_pref_brailleime_disabled">Je apparaat ondersteunt geen brailletoetsenbord</string>
   <string name="title_pref_speech_footer">Je kunt sommige TalkBack-geluidsinstellingen snel aanpassen vanaf elk scherm.\n\nToegankelijkheidsvolume: houd 1 vinger op het scherm en druk op de knop Volume omhoog of Volume omlaag.\nSpreeksnelheid van TalkBack: swipe met 3 vingers omhoog of omlaag. Als je \'spreeksnelheid\' hoort, swipe je met 1 vinger omhoog of omlaag.</string>
   <string name="title_pref_vibration">Trilfeedback</string>
   <string name="title_pref_soundback">Geluids­feedback</string>
@@ -486,8 +482,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="shortcut_increase_volume">Volume verhogen</string>
   <string name="shortcut_decrease_volume">Volume verlagen</string>
   <string name="shortcut_all_apps">Alle apps</string>
-  <string name="shortcut_braille_keyboard">Overschakelen naar brailletoetsenbord</string>
-  <string name="shortcut_braille_display_settings">Naar instellingen voor brailleleesregel</string>
   <string name="shortcut_tutorial">Tutorial openen</string>
   <string name="shortcut_control_speak_time">Tijd uitspreken of tijd niet uitspreken</string>
   <string name="shortcut_enable_speak_time">Tijd uitspreken</string>
@@ -496,7 +490,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="speak_time_off">Tijd uitspreken uit</string>
   <string name="shortcut_practice_gestures">Gebaren oefenen</string>
   <string name="shortcut_report_gesture">Probleem met gebaar melden</string>
-  <string name="shortcut_toggle_braille_display">Brailleleesregel aan- of uitzetten</string>
   <string name="shortcut_announce_current_time_and_date">Huidige datum en tijd voorlezen</string>
   <string name="shortcut_announce_battery_state">Batterijpercentage voorlezen</string>
   <string name="shortcut_announce_current_title">Venstertitel voorlezen</string>
@@ -506,8 +499,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="shortcut_speech_rate_decrease">Spreeksnelheid verlagen</string>
   <string name="shortcut_toggle_selection">Selectiemodus starten of beëindigen</string>
   <string name="shortcut_show_tutorial">Tutorial openen</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Schakelen tussen braille (graad 2) en braille (graad 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Braille op scherm tonen of verbergen voor verbonden brailleleesregels</string>
   <string name="shortcut_toggle_sound_feedback">Geluidsfeedback (earcons) aan- of uitzetten</string>
   <string name="shortcut_show_learn_mode_page">Sneltoetsen oefenen</string>
   <string name="shortcut_announce_phonetic_pronunciation">Letters met fonetische uitspraak uitspreken voor gefocust item</string>
@@ -548,7 +539,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="title_show_voice_commands">Spraakopdrachten</string>
   <string name="title_show_keyboard_shortcuts">Sneltoetsen</string>
   <string name="talkback_show_talkback_settings">Instellingen voor TalkBack</string>
-  <string name="title_show_braille_display_settings">Instellingen voor brailleleesregel</string>
   <string name="title_granularity_default">Standaardnavigatie</string>
   <string name="title_action_dismiss">Sluiten</string>
   <string name="title_action_expand">Uitvouwen</string>
@@ -576,7 +566,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="summary_control_speak_time">Wijzig of de tijd wordt uitgesproken als je het scherm aanzet</string>
   <string name="summary_show_keyboard_shortcuts_preferences">De lijst met sneltoetsen openen</string>
   <string name="summary_talkback_preferences">TalkBack-instellingen openen</string>
-  <string name="summary_braile_display_preferences">Instellingen voor brailleleesregel openen</string>
   <string name="summary_system_actions">Ga naar Alle apps en Snelle instellingen</string>
   <string name="summary_tts_settings">Tekst-naar-­spraak-instellingen openen</string>
   <string name="not_editable">Niet bewerkbaar</string>
@@ -917,7 +906,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="screen_search_keyword_hint">zoekwoord is %1$s</string>
   <string name="screen_search_no_keyword_hint">Nog geen zoekwoord. Als je een nieuwe zoekopdracht wilt starten, tik je met 3 vingers en houd je vast of open je schermzoeken via het TalkBack-menu.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Nog geen zoekwoord. Als je een nieuwe zoekopdracht wilt starten swipe je naar links en dan omlaag of open je schermzoeken via het TalkBack-menu.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brailletoetsenbord staat niet aan. Stel het brailletoetsenbord in via de Talkback-instellingen en probeer opnieuw.</string>
   <string name="suggestions_window_available">Suggesties beschikbaar</string>
   <string name="suggestions_window_available_with_gesture">Suggesties beschikbaar. Zo open je ze: %1$s</string>
   <string name="heads_up_window_available">Melding beschikbaar</string>
@@ -967,9 +955,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="new_gesture_notification_content">Tik voor meer informatie over hoe je TalkBack sneller gebruikt met nieuwe gebaren.</string>
   <string name="dump_node_tree_description">Nodestructuur is afgedrukt naar logboeken.</string>
   <string name="report_gesture_description">Hier zijn recent uitgevoerde gebaren. Laat ons weten welk gebaar niet klopt en wat je had verwacht.</string>
-  <string name="update_welcome_text_content">Je kunt nu verbinding maken met brailleleesregels via HID, een manier om verbinding te maken met bluetooth-apparaten. Zorg dat je de nieuwste firmwarestuurprogramma\'s van je fabrikant hebt en zet bluetooth aan op je brailleleesregel. Ga naar TalkBack-instellingen &gt; Brailleleesregel en zet Brailleleesregel gebruiken aan. Zoek je apparaat in de lijst met apparaten en maak er verbinding mee.</string>
-  <string name="update_welcome_text_content_tts">Je kunt nu verbinding maken met brailleleesregels via HID, een manier om verbinding te maken met bluetooth-apparaten. Zorg dat je de nieuwste firmwarestuurprogramma\'s van je fabrikant hebt en zet bluetooth aan op je brailleleesregel. Ga naar de TalkBack-instellingen, daarna naar Brailleleesregel en zet Brailleleesregel gebruiken aan. Zoek je apparaat in de lijst met apparaten en maak er verbinding mee.</string>
-  <string name="update_welcome_text_content_with_link">Ontdek hoe je je brailleleesregel gebruikt met TalkBack.</string>
   <string name="update_welcome_talkback_16.1">Deze TalkBack-update introduceert ondersteuning voor Scherm beschrijven in meer talen en andere kwaliteitsverbeteringen die TalkBack gebruiksvriendelijker maken.\n\nJe krijgt meer informatie over deze wijzigingen in de volgende schermen.\n\nJe kunt deze informatie later doornemen via Instellingen voor TalkBack &gt; Nieuwe functies in TalkBack.</string>
   <string name="update_welcome_talkback_16.1_tts">Deze TalkBack-update introduceert ondersteuning voor Scherm beschrijven in meer talen en andere kwaliteitsverbeteringen die TalkBack gebruiksvriendelijker maken.\n\nJe krijgt meer informatie over deze wijzigingen in de volgende schermen.\n\nJe kunt deze informatie later doornemen via Instellingen voor TalkBack en dan Nieuwe functies in TalkBack.</string>
   <string name="describe_screen_and_qna_title">Nieuwe talen voor Scherm beschrijven en Vraag het Gemini</string>
@@ -985,10 +970,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="reduce_delay_title">Vertraging verkorten</string>
   <string name="reduce_delay_content">Je kunt nu vertragingen in TalkBack-aankondigingen verkorten voor verkenning via aanraking en typen. Ga naar Instellingen voor TalkBack &gt; Geavanceerde instellingen &gt; Vertraging verkorten om deze instellingen te bekijken.</string>
   <string name="reduce_delay_content_tts">Je kunt nu vertragingen in TalkBack-aankondigingen verkorten voor verkenning via aanraking en typen. Als je deze instellingen wilt bekijken, ga je naar de TalkBack-instellingen, dan naar Geavanceerde instellingen en dan naar Vertraging verkorten.</string>
-  <string name="customize_braille_keyboard_improvements_title">Gebaren voor brailletoetsenbord aanpassen</string>
-  <string name="customize_braille_keyboard_improvements_content">Je kunt nu gebaren aanpassen voor het virtuele brailletoetsenbord op het scherm. Als je dit wilt aanpassen, ga je naar Instellingen voor TalkBack &gt; Brailletoetsenbord &gt; Gebaren.</string>
-  <string name="customize_braille_keyboard_improvements_content_tts">Je kunt nu gebaren aanpassen voor het virtuele brailletoetsenbord op het scherm. Als je dit wilt aanpassen, ga je naar Instellingen voor TalkBack, dan naar Brailletoetsenbord en dan naar Gebaren.</string>
-  <string name="learn_more_about_braille_keyboard">Meer informatie over het brailletoetsenbord</string>
   <string name="other_changes_title">Andere wijzigingen</string>
   <string name="other_changes_content">Een bericht op het scherm helpt je nu om snel TalkBack uit te zetten als de functie per ongeluk is aangezet. Je kunt dit uitzetten in Instellingen voor TalkBack &gt; Instructies tonen om TalkBack uit te zetten.</string>
   <string name="other_changes_content_tts">Een bericht op het scherm helpt je nu om snel TalkBack uit te zetten als de functie per ongeluk is aangezet. Je kunt dit uitzetten in Instellingen voor TalkBack en dan Instructies tonen om TalkBack uit te zetten.</string>
@@ -1021,7 +1002,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="keyboard_enhanced_keymap_text">TalkBack heeft nu een verbeterde keymap voor fysieke toetsenborden met allerlei nieuwe opdrachten en sneltoetsen. Deze verbetering omvat een browsemodus voor efficiëntere webnavigatie, met een meer gestroomlijnde navigatie en interactie voor TalkBack-gebruikers die afhankelijk zijn van fysieke toetsenborden. Je kunt overschakelen naar de uitgebreide keymap in %1$s.\n\nAls je een brailleleesregel gebruikt, kun je ook nieuwe sneltoetsen voor de browsemodus gebruiken om rechtstreeks vanaf je brailleleesregel door content te navigeren. Sommige snelkoppelingen voor de brailleleesregel zijn gewijzigd om deze wijziging mogelijk te maken. Je kunt een lijst met alle sneltoetsen voor de brailleleesregel bekijken in %2$s.</string>
   <string name="keyboard_shortcuts_link">Instellingen voor TalkBack &gt; Sneltoetsen</string>
   <string name="keyboard_shortcuts_link_tts">Instellingen voor TalkBack en dan Sneltoetsen</string>
-  <string name="braille_display_settings_link">Instellingen voor brailleleesregel</string>
   <string name="keyboard_smart_browse_mode_title">Toetsenbord: slimme browsemodus</string>
   <string name="keyboard_smart_browse_mode_text">De slimme browsemodus van TalkBack zet de browsemodus uit in een bewerkingsveld, zodat je met een fysiek toetsenbord kunt typen als je op het web browst. Daarna wordt de functie weer aangezet als je naar een niet-bewerkingsveld op het web gaat, zodat je efficiënt kunt blijven browsen. Je kunt de slimme browsemodus aan- of uitzetten in %1$s.</string>
   <string name="advanced_settings_link">Instellingen voor TalkBack &gt; Geavanceerde instellingen</string>
@@ -1094,7 +1074,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="typing_text_title">Tekst typen</string>
   <string name="basic_typing_text_text">Wanneer je in een tekstvak staat, wordt er onderaan je scherm een toetsenbord geopend.</string>
   <string name="typing_text_text">Beweeg je vinger over het toetsenbord. Als je de letter hoort die je wilt typen, til je je vinger op.\n\nProbeer het onderstaande tekstvak te activeren en je naam te typen.</string>
-  <string name="typing_text_with_braille_keyboard_text">Je kunt ook typen met het brailletoetsenbord. Je vindt dit toetsenbord in de TalkBack-instellingen.</string>
   <string name="other_ways_to_type_title">Andere manieren om te typen</string>
   <string name="other_ways_to_type_text">Er zijn andere manieren om te typen in TalkBack. Je kunt bijvoorbeeld dubbeltikken om een letter in te voeren.</string>
   <string name="basic_other_ways_to_type_text">Er zijn andere manieren om te typen in TalkBack. Je kunt bijvoorbeeld dubbeltikken om een letter in te voeren. Je kunt dit later wijzigen via Instellingen voor TalkBack &gt; Schermtoetsenbord &gt; Voorkeur voor typen.</string>
@@ -1209,26 +1188,6 @@ Vertragingen van minder dan 0,3 seconden veranderen dubbeltikken om te activeren
   <string name="talkback_inactive_message_practice_gestures">Als je gebaren wilt oefenen, zet je eerst TalkBack aan</string>
   <string name="talkback_inactive_message_image_description">Als je beschrijvingen van afbeeldingen wilt krijgen, moet je TalkBack eerst aanzetten</string>
   <string name="talkback_inactive_close_tutorial_button">Tutorial sluiten</string>
-  <string name="wear_training_welcome_paragraph">Als TalkBack aanstaat, wordt het gefocuste item op het scherm voorgelezen.\n\nSwipe naar rechts om naar het volgende item te gaan. Swipe naar links om naar het vorige item te gaan.\n\nSwipe nu naar rechts om de knop Volgende te vinden.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe omhoog of omlaag met %1$d vingers</string>
-  <string name="wear_training_go_back_title">Terug</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Als je terug wilt gaan, swipe je met %1$d vingers vanaf de rand van het scherm naar rechts.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Geslaagd</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gebaar voor terugnavigatie uitgevoerd</string>
-  <string name="wear_training_volume_up_title">Volume verhogen</string>
-  <string name="wear_training_volume_up_text">Swipe naar rechts en dan omhoog</string>
-  <string name="wear_training_volume_down_title">Volume verlagen</string>
-  <string name="wear_training_volume_down_text">Swipe naar rechts en dan omlaag</string>
-  <string name="wear_training_open_talkback_menu_title">TalkBack-menu openen</string>
-  <string name="wear_training_open_talkback_menu_text">Swipe omlaag en dan naar rechts om instellingen en bedieningselementen te openen die je vaak nodig kunt hebben</string>
-  <string name="wear_training_typing_title">Typen</string>
-  <string name="wear_training_typing_text1">Als je wilt typen met het toetsenbord, beweeg je je vinger over het toetsenbord. Wanneer je de letter hoort die je wilt typen, til je je vinger op.</string>
-  <string name="wear_training_typing_text2">Als je het toetsenbord wilt verbergen en je invoer wilt checken, swipe je met 2 vingers omlaag vanaf de bovenkant van het scherm.</string>
-  <string name="wear_training_typing_text3">Als je wilt teruggaan naar het toetsenbord, swipe je met 2 vingers omhoog vanaf de onderkant van het scherm.</string>
-  <string name="wear_training_typing_text4">Als je het toetsenbord wilt sluiten en typen wilt annuleren, swipe je met 2 vingers naar rechts vanaf de linkerrand van je scherm.</string>
-  <string name="wear_training_typing_text5">Probeer het hieronder.</string>
-  <string name="wear_training_typing_practice_button_content_description">Typen met toetsenbord</string>
-  <string name="wear_training_end_tutorial_title">Je bent klaar om TalkBack te gebruiken</string>
   <string name="talkback_updated_notification_title">TalkBack is geüpdatet</string>
   <string name="talkback_updated_notification_content">Tik voor meer informatie</string>
   <string name="wear_new_feature_page_title">Welkom bij het geüpdatete TalkBack</string>

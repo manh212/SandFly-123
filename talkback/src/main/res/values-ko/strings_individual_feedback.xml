@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">탐색 모드 사용</string>
   <string name="individual_sound_browse_mode_off">탐색 모드 사용 안함</string>
   <string name="individual_sound_radial_menu">원형 메뉴</string>
-  <string name="individual_sound_display_connected">점자 디스플레이 연결됨</string>
-  <string name="individual_sound_display_disconnected">점자 디스플레이 연결 끊김</string>
-  <string name="individual_sound_double_beep">점자 명령 실패</string>
-  <string name="individual_sound_turn_on">점자 자동 스크롤 사용</string>
-  <string name="individual_sound_turn_off">점자 자동 스크롤 사용 안함</string>
-  <string name="individual_sound_calibration_done">점자 키보드 보정 완료</string>
   <string name="individual_vibration_focus">항목에 포커스</string>
   <string name="individual_vibration_focus_actionable">실행 가능한 항목에 포커스</string>
   <string name="individual_vibration_clicked">클릭</string>

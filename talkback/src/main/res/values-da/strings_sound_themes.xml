@@ -63,10 +63,6 @@
     <string name="theme_sound_summary_none">Ingen lyd. Fokuslyden afspilles.</string>
     <string name="theme_sound_summary_android_keyboard">Androids tastaturlyd</string>
     <string name="theme_sound_use_android_keyboard">Brug Androids tastaturlyd</string>
-    <string name="theme_sound_braille_character">Brailletastatur: indtastning af et tegn</string>
-    <string name="theme_sound_braille_space">Brailletastatur: mellemrum</string>
-    <string name="theme_sound_braille_delete">Brailletastatur: slet</string>
-    <string name="theme_sound_braille_new_line">Brailletastatur: ny linje</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Vælg en lydfil</string>
     <string name="theme_sound_preview">Afspil</string>

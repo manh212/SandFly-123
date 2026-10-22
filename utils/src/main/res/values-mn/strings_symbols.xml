@@ -141,9 +141,4 @@
   <string name="symbol_full_width_less_than_sign">Бүтэн өргөнтэй багын тэмдэг</string>
   <string name="symbol_full_width_greater_than_sign">Бүтэн өргөнтэй ихийн тэмдэг</string>
   <string name="symbol_left_single_quotation_mark">Зүүн талын дан хашилт</string>
-  <string name="symbol_braille">брайл %s</string>
-  <plurals name="dots">
-    <item quantity="one">цэг %s</item>
-    <item quantity="other">цэгүүд %s</item>
-  </plurals>
 </resources>
