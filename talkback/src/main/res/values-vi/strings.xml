@@ -641,10 +641,6 @@
   <string name="title_pref_shortcut_fingerprint_left">Vuốt sang trái trên cảm biến vân tay</string>
   <string name="title_pref_shortcut_fingerprint_right">Vuốt sang phải trên cảm biến vân tay</string>
   <string name="title_pref_version_code">Mã phiên bản</string>
-  <string formatted="false" name="value_volume_100_percent">Phù hợp với âm lượng giọng nói</string>
-  <string formatted="false" name="value_volume_75_percent">75% âm lượng giọng nói</string>
-  <string formatted="false" name="value_volume_50_percent">50% âm lượng giọng nói</string>
-  <string formatted="false" name="value_volume_25_percent">25% âm lượng giọng nói</string>
   <string name="value_type_confirmation_double_tap">Giữ ngón tay để chọn phím bất kỳ rồi nhấn đúp</string>
   <string name="value_type_confirmation_lift_to_type">Giữ ngón tay để chọn phím chữ cái rồi nhấc tay lên. Nhấn đúp đối với các phím khác.</string>
   <string name="value_type_confirmation_lift_to_type_for_any_key">Giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay lên</string>
