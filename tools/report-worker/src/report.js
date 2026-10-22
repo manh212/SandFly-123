@@ -7,8 +7,6 @@ export const AREAS = [
   'Touch exploration',
   'Reading controls and menus',
   'Typing and keyboards',
-  'Braille keyboard',
-  'Braille display',
   'Sounds and vibration',
   'Notifications',
   'Web content',

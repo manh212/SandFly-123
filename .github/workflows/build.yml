@@ -83,8 +83,7 @@ jobs:
             fi
           done
 
-      # Only the phone flavor: the watch's braille keyboard is a stub, so the braille keyboard's
-      # tests don't compile for it, and the rest of the code is shared.
+      # Only the phone flavor exists, so only its unit tests run.
       - name: Run unit tests
         run: ./gradlew testPhoneDebugUnitTest --console=plain
 
