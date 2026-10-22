@@ -1788,8 +1788,4 @@ Không dùng bất kỳ định dạng đánh dấu nào trong câu trả lời.
     <string name="settings_export_failed">Không xuất được chế độ cài đặt</string>
     <string name="settings_import_done">Đã nhập chế độ cài đặt</string>
     <string name="settings_import_failed">Tệp này không phải là tệp cài đặt SandFly hoặc không đọc được</string>
-    <string name="value_volume_100_percent" formatted="false">Bằng âm lượng giọng nói</string>
-    <string name="value_volume_75_percent" formatted="false">75% âm lượng giọng nói</string>
-    <string name="value_volume_50_percent" formatted="false">50% âm lượng giọng nói</string>
-    <string name="value_volume_25_percent" formatted="false">25% âm lượng giọng nói</string>
 </resources>
