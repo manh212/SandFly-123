@@ -1239,6 +1239,8 @@ public abstract class Feedback {
       REPEAT_LAST,
       SPELL_SAVED,
       SPELL_LAST,
+      TRANSLATE_SAVED,
+      TRANSLATE_LAST,
       PAUSE_OR_RESUME,
       TOGGLE_VOICE_FEEDBACK,
       /**

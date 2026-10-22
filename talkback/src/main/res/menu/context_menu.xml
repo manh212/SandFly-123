@@ -22,6 +22,10 @@
       android:orderInCategory="12"
       android:title="@string/title_repeat_last_spoken_phrase" />
   <item
+      android:id="@+id/translate_last_utterance"
+      android:orderInCategory="13"
+      android:title="@string/title_translate_last_spoken_phrase" />
+  <item
       android:id="@+id/verbosity"
       android:orderInCategory="13"
       android:title="@string/title_pref_selector_verbosity" />

@@ -333,6 +333,11 @@ public enum TalkBackPhysicalKeyboardShortcut {
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_COPY_LAST_SPOKEN_PHRASE */ 76,
       R.string.keycombo_shortcut_other_copy_last_spoken_phrase,
       R.string.keycombo_menu_other_copy_last_spoken_phrase),
+  // SandFly: an ordinal well past Google's, which only analytics and performance logs use.
+  TRANSLATE_LAST_SPOKEN_PHRASE(
+      /* KEYBOARD_SHORTCUT_TRANSLATE_LAST_SPOKEN_PHRASE */ 1002,
+      R.string.keycombo_shortcut_other_translate_last_spoken_phrase,
+      R.string.keycombo_menu_other_translate_last_spoken_phrase),
   HIDE_OR_SHOW_SCREEN(
       /* KEYBOARD_SHORTCUT_HIDE_OR_SHOW_SCREEN */ 77,
       R.string.keycombo_shortcut_global_hide_or_show_screen,

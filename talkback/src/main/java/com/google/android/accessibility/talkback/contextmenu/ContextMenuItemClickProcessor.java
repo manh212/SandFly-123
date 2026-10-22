@@ -24,6 +24,7 @@ import static com.google.android.accessibility.talkback.Feedback.Keyboard.Action
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.REPEAT_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SPELL_SAVED;
+import static com.google.android.accessibility.talkback.Feedback.Speech.Action.TRANSLATE_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.UniversalSearch.Action.TOGGLE_SEARCH;
 import static com.google.android.accessibility.talkback.Feedback.VoiceRecognition.Action.START_LISTENING;
 import static com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.TYPE_CONTEXT_MENU;
@@ -90,6 +91,7 @@ public class ContextMenuItemClickProcessor {
         || (itemId == R.id.read_from_current)
         || (itemId == R.id.repeat_last_utterance)
         || (itemId == R.id.spell_last_utterance)
+        || (itemId == R.id.translate_last_utterance)
         || (itemId == R.id.copy_last_utterance_to_clipboard)
         || (itemId == R.id.verbosity)
         || (itemId == R.id.audio_ducking)
@@ -129,6 +131,9 @@ public class ContextMenuItemClickProcessor {
     } else if (itemId == R.id.copy_last_utterance_to_clipboard) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(COPY_SAVED)));
+    } else if (itemId == R.id.translate_last_utterance) {
+      pipeline.returnFeedback(
+          eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_SAVED)));
     } else if (itemId == R.id.verbosity) {
       Intent intent = createSettingsIntent();
       intent.putExtra(FRAGMENT_NAME, VerbosityPrefFragment.class.getName());
