@@ -18,6 +18,8 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       # The full history gives the build number (commits since buildNumberBase in version.gradle) and the release notes.
       - uses: actions/checkout@v7
