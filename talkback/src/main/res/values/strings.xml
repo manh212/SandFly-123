@@ -4334,4 +4334,6 @@
     <string name="settings_import_done">Settings imported</string>
     <!-- Message when a file could not be read as SandFly settings. [CHAR_LIMIT=NONE] -->
     <string name="settings_import_failed">This file is not a SandFly or Backtalk settings file, or could not be read</string>
+    <!-- Category for typing features. [CHAR LIMIT=40] -->
+    <string name="title_pref_category_typing">Typing</string>
 </resources>
