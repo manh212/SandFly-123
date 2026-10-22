@@ -122,8 +122,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          { echo 'Lint errors summary:'; echo; echo '```'; grep -oE 'Error: "[^"]+" is not translated' /tmp/gradle-lint.log | sort -u; echo '--- other errors:'; grep -E 'Error:' /tmp/gradle-lint.log | grep -v 'is not translated' | sort -u | head -n 60; echo '```'; } > /tmp/comment.md
-          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
+          report=$(find build -name 'lint-results-phoneDebug.txt' | head -n 1)
+          grep -A2 'Error:' "$report" > /tmp/lint-errors.txt || true
+          split -C 55000 -d /tmp/lint-errors.txt /tmp/lint-part-
+          for f in /tmp/lint-part-*; do
+            { echo 'Lint report part:'; echo; echo '```'; cat "$f"; echo '```'; } > /tmp/comment.md
+            gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
+          done
 
       - uses: actions/upload-artifact@v7
         if: failure()
