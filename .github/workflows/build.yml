@@ -138,16 +138,13 @@ jobs:
           count=$(git rev-list --count "$base..HEAD")
           hash=$(git rev-parse HEAD)
           short=${hash:0:7}
-          # The phone build is sandfly.apk, which the updater on phones looks for, and the watch
-          # build is sandfly-wear.apk, which the updater on watches looks for.
-          for build in phone:sandfly.apk wear:sandfly-wear.apk; do
-            apk=$(find apks -name "sandfly-${build%%:*}-debug.apk" | head -n 1)
-            if [ -z "$apk" ]; then
-              echo "The ${build%%:*} APK was not found." >&2
-              exit 1
-            fi
-            cp "$apk" "${build#*:}"
-          done
+          # The phone build is sandfly.apk, which the updater on phones looks for.
+          apk=$(find apks -name "sandfly-phone-debug.apk" | head -n 1)
+          if [ -z "$apk" ]; then
+            echo "The phone APK was not found." >&2
+            exit 1
+          fi
+          cp "$apk" sandfly.apk
 
           # %H cut to 7 characters, since %h can be longer when a short hash is ambiguous.
           changes() {
@@ -177,7 +174,7 @@ jobs:
                 changes -n 50 HEAD
               fi
             } > release-notes.md
-            gh release create "$tag" sandfly.apk sandfly-wear.apk --verify-tag --latest \
+            gh release create "$tag" sandfly.apk --verify-tag --latest \
               --title "SandFly ${tag#v}" --notes-file release-notes.md
             exit 0
           fi
@@ -194,8 +191,8 @@ jobs:
             # which notifies everyone watching the repository.
             git tag -f "$tag" "$GITHUB_SHA"
             git push -f origin "refs/tags/$tag"
-            gh release upload "$tag" sandfly.apk sandfly-wear.apk --clobber
+            gh release upload "$tag" sandfly.apk --clobber
             gh release edit "$tag" --title "$title" --notes-file release-notes.md --prerelease --latest=false
           else
-            gh release create "$tag" sandfly.apk sandfly-wear.apk --prerelease --latest=false --target "$GITHUB_SHA" --title "$title" --notes-file release-notes.md
+            gh release create "$tag" sandfly.apk --prerelease --latest=false --target "$GITHUB_SHA" --title "$title" --notes-file release-notes.md
           fi
