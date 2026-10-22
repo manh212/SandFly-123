@@ -18,8 +18,6 @@ env:
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      pull-requests: write
     steps:
       # The full history gives the build number (commits since buildNumberBase in version.gradle) and the release notes.
       - uses: actions/checkout@v7
@@ -66,17 +64,7 @@ jobs:
       - name: Build debug APKs
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
-        run: |
-          set -o pipefail
-          ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee /tmp/gradle-build.log
-
-      - name: Report build failure
-        if: failure() && github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          { echo 'Gradle build failed. Last part of the log:'; echo; echo '```'; tail -n 150 /tmp/gradle-build.log; echo '```'; } > /tmp/comment.md
-          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
+        run: ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain
 
       - name: Check the signing key
         if: github.event_name == 'push'
@@ -97,38 +85,13 @@ jobs:
 
       # Only the phone flavor exists, so only its unit tests run.
       - name: Run unit tests
-        run: |
-          set -o pipefail
-          ./gradlew testPhoneDebugUnitTest --console=plain 2>&1 | tee /tmp/gradle-test.log
-
-      - name: Report test failure
-        if: failure() && github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          { echo 'Unit tests failed. Last part of the log:'; echo; echo '```'; grep -E "FAILED|error:|> Task|What went wrong" -A2 /tmp/gradle-test.log | tail -n 120; echo '```'; } > /tmp/comment.md
-          gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
+        run: ./gradlew testPhoneDebugUnitTest --console=plain
 
       # The app's lint also checks the library modules. Issues already in lint-baseline.xml are
       # allowed, so this fails only on new errors, such as a call that needs a newer Android than
       # minSdk without a version check.
       - name: Run lint
-        run: |
-          set -o pipefail
-          ./gradlew :lintPhoneDebug --console=plain 2>&1 | tee /tmp/gradle-lint.log
-
-      - name: Report lint failure
-        if: failure() && github.event_name == 'pull_request'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          report=$(find build -name 'lint-results-phoneDebug.txt' | head -n 1)
-          grep -A2 'Error:' "$report" > /tmp/lint-errors.txt || true
-          split -C 55000 -d /tmp/lint-errors.txt /tmp/lint-part-
-          for f in /tmp/lint-part-*; do
-            { echo 'Lint report part:'; echo; echo '```'; cat "$f"; echo '```'; } > /tmp/comment.md
-            gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/comment.md
-          done
+        run: ./gradlew :lintPhoneDebug --console=plain
 
       - uses: actions/upload-artifact@v7
         if: failure()
