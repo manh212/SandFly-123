@@ -4,6 +4,10 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
         android:key="@string/pref_show_selector_menu_reading_control_category_key"
         android:title="@string/menu_category_reading_controls">
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+            android:defaultValue="@bool/pref_selector_auto_switch_default"
+            android:key="@string/pref_selector_auto_switch_key"
+            android:title="@string/title_pref_selector_auto_switch"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_selector_actions_default"
@@ -74,6 +78,12 @@
             android:key="@string/pref_selector_granularity_containers_key"
             android:title="@string/granularity_container"
             android:summary="@string/summary_containers"/>
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+            android:layout="@layout/listitem_2texts"
+            android:defaultValue="@bool/pref_selector_vertical_navigation_default"
+            android:key="@string/pref_selector_vertical_navigation_key"
+            android:title="@string/title_selector_vertical_navigation"
+            android:summary="@string/summary_selector_vertical_navigation"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_selector_granularity_row_column_default"
@@ -156,6 +166,12 @@
             android:key="@string/pref_selector_switch_tts_engine_key"
             android:title="@string/title_selector_switch_tts_engine"
             android:summary="@string/summary_selector_switch_tts_engine"/>
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+            android:layout="@layout/listitem_2texts"
+            android:defaultValue="@bool/pref_selector_speech_stream_default"
+            android:key="@string/pref_selector_speech_stream_key"
+            android:title="@string/title_pref_speech_stream"
+            android:summary="@string/summary_selector_speech_stream"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_selector_voice_profile_default"
