@@ -22,6 +22,15 @@ exceptions.
 6. **Interface work.** Any change that adds or alters user interface must also
    follow [docs/ux-guidelines.md](docs/ux-guidelines.md).
 
+## Working agreements
+
+- Split large work into several small, consecutive pull requests instead of one
+  giant pull request.
+- Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
+  it reports.
+- When a pull request build fails, read the automatic failure summary comment
+  on the pull request before diagnosing further.
+
 ## Syncing with upstream
 
 - Sync upstream regularly, in small steps rather than one large jump.
