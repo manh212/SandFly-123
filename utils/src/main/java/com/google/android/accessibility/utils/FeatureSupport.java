@@ -45,8 +45,6 @@ public final class FeatureSupport {
 
   private static final String TAG = "FeatureSupport";
 
-  @Nullable private static Boolean brailleDisplaySettingsActivityPresent = null;
-  @Nullable private static Boolean brailleKeyboardSettingsActivityPresent = null;
   @Nullable private static Boolean isWatch = null;
 
   private static final int SDK_INT_MULTIPLIER = 100000; // Copied from android.os.Build.java
@@ -401,26 +399,6 @@ public final class FeatureSupport {
         != null;
   }
 
-  /** Returns {@code true} if the device has braille keyboard supported. */
-  public static boolean supportBrailleKeyboard(Context context) {
-    if (brailleKeyboardSettingsActivityPresent == null) {
-      Intent activityIntent = new Intent().setComponent(Constants.BRAILLE_KEYBOARD_SETTINGS);
-      brailleKeyboardSettingsActivityPresent =
-          activityIntent.resolveActivityInfo(context.getPackageManager(), 0) != null;
-    }
-    return brailleKeyboardSettingsActivityPresent;
-  }
-
-  /** Returns {@code true} if the device has braille display supported. */
-  public static boolean supportBrailleDisplay(Context context) {
-    if (brailleDisplaySettingsActivityPresent == null) {
-      Intent activityIntent = new Intent().setComponent(Constants.BRAILLE_DISPLAY_SETTINGS);
-      brailleDisplaySettingsActivityPresent =
-          activityIntent.resolveActivityInfo(context.getPackageManager(), 0) != null;
-    }
-    return brailleDisplaySettingsActivityPresent;
-  }
-
   /**
    * Returns {@code true} if the order of receiving touch interaction event and hover event is NOT
    * guaranteed.
@@ -601,8 +579,6 @@ public final class FeatureSupport {
   /** Resets the cached static state for testing purposes. */
   @VisibleForTesting
   public static void testing_reset() {
-    brailleDisplaySettingsActivityPresent = null;
-    brailleKeyboardSettingsActivityPresent = null;
     isWatch = null;
   }
 }

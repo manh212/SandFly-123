@@ -41,7 +41,7 @@ public class AccessibilityServiceCompatUtils {
 
   private static final String TAG = "A11yServiceCompatUtils";
 
-  /** Holds constants in support of BrailleIme and TalkBack-on-TV. */
+  /** Holds constants in support of TalkBack-on-TV. */
   public static class Constants {
 
     private Constants() {}
@@ -84,24 +84,6 @@ public class AccessibilityServiceCompatUtils {
     public static final ComponentName TALKBACK_SERVICE_FOR_INSTRUMENT_TEST =
         new ComponentName(
             "com.google.android.accessibility.talkback", PackageManagerUtils.TALKBACK_SERVICE_NAME);
-
-    /** The name of the Braille Ime. */
-    public static final ComponentName BRAILLE_KEYBOARD =
-        new ComponentName(
-            ACCESSIBILITY_SUITE_PACKAGE_NAME,
-            "com.google.android.accessibility.brailleime.BrailleIme");
-
-    /** The name of the Braille keyboard settings activity. */
-    public static final ComponentName BRAILLE_KEYBOARD_SETTINGS =
-        new ComponentName(
-            ACCESSIBILITY_SUITE_PACKAGE_NAME,
-            "com.google.android.accessibility.brailleime.settings.BrailleImePreferencesActivity");
-
-    /** The name of the Braille display settings activity. */
-    public static final ComponentName BRAILLE_DISPLAY_SETTINGS =
-        new ComponentName(
-            ACCESSIBILITY_SUITE_PACKAGE_NAME,
-            "com.google.android.accessibility.braille.brailledisplay.settings.BrailleDisplaySettingsActivity");
 
     /** The name of the TalkBack Training Activity. */
     public static final ComponentName TRAINING_ACTIVITY =
