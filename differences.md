@@ -389,7 +389,6 @@ SandFly adds these actions, which you can assign to gestures in gesture settings
 *   **Scroll to top** and **Scroll to bottom**, in **Basic navigation**, scroll the list that focus is in to its start or end a page at a time, then focus its first or last item. In a list that doesn't scroll, such as a short settings screen, they focus its first or last item. Outside a list, they use the first list on screen, or the first or last item on screen when there is none. A touch, gesture or key while it scrolls stops it. These aren't on watches.
 *   **Refresh**, in **Basic navigation** and as a keyboard shortcut, scrolls the list that focus is in to its top and pulls it down, which refreshes it in most apps. **Scroll back** and **Scroll up** pull a list down too when it is already at its top, as scrolling with two fingers does. SandFly sends the pull as a swipe, so it needs Android 11 or later.
 *   **System quick settings** and **System notification shade** open the system's own quick settings and notification shade, when **Use SandFly's quick settings** or **Use SandFly's notification list** is on.
-*   **Write the letter of a reading control**, in **Menu and controls**, opens a writing surface on the whole screen. Write a letter with one finger, and SandFly chooses the next reading control whose name starts with it: H for Headings, L for Lines, and L again for Links. A tap closes the surface, and so do 10 seconds without writing. Handwriting is recognized on the phone by Google's ML Kit, in the phone's language. The first time, SandFly asks whether to download its model for the language, about 20 MB, from Google, and a message shows when it has downloaded. Not on watches.
 
 When you choose an action for a gesture, the categories of actions are collapsed, except the one with the gesture's current action. The categories in gesture settings, **Reading controls** and **SandFly menu** are collapsed too, and expand when you activate them.
 
@@ -640,29 +639,6 @@ In **On-screen keyboard** > **Typing method**, **Hold finger to select any key, 
 ### Typing by tapping
 
 On Android 13 and later, **On-screen keyboard** > **Typing method** has **Tap any key to type it, or hold finger to select any key, then lift**. A quick tap on a key types it at once, as when typing directly in VoiceOver, so quick double letters type twice. Holding a finger on the keyboard explores the keys, and lifting types the key under the finger.
-
-### Handwriting keyboard
-
-**SandFly handwriting** is a keyboard that types what you write on the screen with one finger, on phones and tablets with Android 11 or later. To turn it on, choose **Typing and braille** > **Handwriting keyboard**, which opens Android's keyboard settings, and then choose it as the keyboard in a text field. It fills the screen, and while SandFly is on, touches on it go straight to it instead of through touch exploration.
-
-Write a letter, several letters or a whole word anywhere on the screen. Strokes that follow each other within 0.6 seconds are one piece of writing; it is then typed and spoken. **Typing and braille** > **Wait after writing** sets this wait, from 0.2 to 1 second, for the keyboard and for **Write the letter of a reading control**. A shorter wait answers sooner, but a letter with several strokes, such as H, needs each stroke to start within it. Dots, such as on an i, count. Two- and three-finger gestures do the rest:
-
-| Gesture | Action |
-|---|---|
-| Swipe right with two fingers | Space |
-| Swipe left with two fingers | Delete the character before the cursor |
-| Swipe down with two fingers | New line, or the field's action, such as Send, Search or Done |
-| Swipe up with two fingers | Replace the last writing with its next reading of the same length, such as "h" for "H", saying which of how many it is |
-| Tap with two fingers | Read the text before the cursor |
-| Swipe down with three fingers | Hide the keyboard |
-| Swipe right or left with three fingers | Switch to the next or previous keyboard |
-| Tap with three fingers | Open the tutorial |
-
-The first time the keyboard opens, a tutorial goes through writing a letter and a word and each gesture, says each step, and waits for you to do it. Nothing is typed in the field during the tutorial. To end it early, swipe down with three fingers.
-
-**Keyboard echo** > **Handwriting keyboard** sets what the keyboard says as you type: each piece of writing, each word when a space or new line ends it, both, or nothing. It is also a reading control and a SandFly menu item, **Handwriting keyboard echo**. The keyboard says deleted characters and the readings that replace the last writing whatever the echo. The app's field is behind the keyboard, so the keyboard does this itself, as the braille keyboard does.
-
-Handwriting is recognized on the phone by Google's ML Kit, in the phone's language, as in [Write the letter of a reading control](#more-gesture-actions). The first time, the keyboard hides and SandFly asks whether to download the model, about 20 MB, from Google; a message shows when it has downloaded. In SandFly's own text fields, the text before the cursor isn't read, and a deletion is said only as "Deleted".
 
 ## Braille keyboard
 

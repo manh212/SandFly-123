@@ -177,7 +177,6 @@ import com.google.android.accessibility.talkback.gesture.GestureHistory;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.TwoFingerRotationTracker;
 import com.google.android.accessibility.talkback.gesture.VibrationWatchGestureSettings;
-import com.google.android.accessibility.talkback.handwriting.HandwritingKeyboardHost;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionStorage;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType;
 import com.google.android.accessibility.talkback.imagecaption.ImageContents;
@@ -1021,7 +1020,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     Updater.stopAutomaticChecks();
     ReportInbox.stopFollowing();
     ShizukuGrants.onServiceDestroyed();
-    HandwritingKeyboardHost.setFeedback(null);
     instance = null;
     // Shutdown and unregister all components.
     shutdownInfrastructure();

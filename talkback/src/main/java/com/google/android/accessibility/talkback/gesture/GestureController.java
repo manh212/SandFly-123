@@ -112,7 +112,6 @@ import com.google.android.accessibility.talkback.notifications.NotificationReade
 import com.google.android.accessibility.talkback.scripting.ItemInspector;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
-import com.google.android.accessibility.talkback.handwriting.HandwritingCommand;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting;
@@ -177,7 +176,6 @@ public class GestureController {
   private final ProcessorPhoneticLetters processorPhoneticLetters;
   private final ListEdgeScroller listEdgeScroller;
   private final PullToRefresh pullToRefresh;
-  private final HandwritingCommand handwritingCommand;
 
   private final @NonNull Map<Integer, Integer> captureGestureIdToAnnouncements = new HashMap<>();
   private final @NonNull Map<Integer, Integer> captureFingerprintGestureIdToAnnouncements =
@@ -231,14 +229,12 @@ public class GestureController {
     this.processorPhoneticLetters = processorPhoneticLetters;
     listEdgeScroller = new ListEdgeScroller(service, pipeline, accessibilityFocusMonitor);
     pullToRefresh = new PullToRefresh(service, pipeline, accessibilityFocusMonitor);
-    handwritingCommand = new HandwritingCommand(service, pipeline, actorState, selectorController);
   }
 
   /** Stops what gestures started that is still going on. */
   public void shutdown() {
     listEdgeScroller.cancel();
     pullToRefresh.cancel();
-    handwritingCommand.shutdown();
   }
 
   /** Stops scrolling to the top or bottom when the user touches the screen or presses a key. */
@@ -353,9 +349,6 @@ public class GestureController {
       result = pipeline.returnFeedback(eventId, Feedback.focusTop(INPUT_MODE_TOUCH));
     } else if (action.equals(service.getString(R.string.shortcut_value_last_in_screen))) {
       result = pipeline.returnFeedback(eventId, Feedback.focusBottom(INPUT_MODE_TOUCH));
-    } else if (action.equals(service.getString(R.string.shortcut_value_write_reading_control))) {
-      handwritingCommand.show();
-      result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_scroll_to_top))) {
       result = listEdgeScroller.scroll(/* toStart= */ true, eventId);
     } else if (action.equals(service.getString(R.string.shortcut_value_scroll_to_bottom))) {
