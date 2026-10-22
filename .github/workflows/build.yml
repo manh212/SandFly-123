@@ -185,27 +185,6 @@ jobs:
           } > "$summary"
           gh pr comment "$PR_NUMBER" --body-file "$summary"
 
-      # TEMP-DIAGNOSTIC: post the lint report error lines as PR comments so the
-      # failure can be read without Actions log access. Remove before merging.
-      - name: TEMP dump lint errors
-        if: failure() && github.event_name == 'pull_request'
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          set +e
-          mkdir -p /tmp/lintdump
-          find . -path '*build/reports/lint-results-*.txt' -type f -exec grep -h -E ': Error:' {} + > /tmp/lintdump/all.txt
-          wc -l /tmp/lintdump/all.txt
-          split -C 40000 -d /tmp/lintdump/all.txt /tmp/lintdump/part-
-          n=0
-          for f in /tmp/lintdump/part-*; do
-            n=$((n+1))
-            if [ "$n" -gt 8 ]; then break; fi
-            { echo "TEMP lint dump part $n:"; echo; echo '```'; cat "$f"; echo '```'; } > /tmp/lintdump/comment.md
-            gh pr comment ${{ github.event.pull_request.number }} --body-file /tmp/lintdump/comment.md
-          done
-
   # Publishes the build. A push to master replaces the rolling "dev" pre-release, and a tag
   # v<version> creates the stable release, which becomes the latest release. The in-app updater
   # reads both. The first line of the notes is "build: <build number>", and each "- <short hash>
