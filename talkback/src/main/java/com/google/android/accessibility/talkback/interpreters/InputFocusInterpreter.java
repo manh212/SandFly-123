@@ -30,6 +30,7 @@ import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.Role.RoleName;
@@ -188,8 +189,9 @@ public class InputFocusInterpreter
 
     // Some on-screen keyboard keys take input focus when tapped, while text still goes to the edit
     // field.
-    if (!AccessibilityWindowInfoUtils.isImeWindow(
-        AccessibilityNodeInfoUtils.getWindow(sourceNode))) {
+    boolean inImeWindow =
+        AccessibilityWindowInfoUtils.isImeWindow(AccessibilityNodeInfoUtils.getWindow(sourceNode));
+    if (!inImeWindow) {
       inputFocusIsEditable = isEditField(sourceNode);
     }
     updateInputFocusedNodeInGlobalVariables(sourceNode);
@@ -212,7 +214,12 @@ public class InputFocusInterpreter
 
       AccessibilityNodeInfoCompat a11yFocusableNode =
           getA11yFocusableNodeFromInputFocusedNode(sourceNode);
-      if (a11yFocusableNode != null && followsInputFocus(event)) {
+      // Input focus moving inside the keyboard window, such as between keys while typing, must
+      // not drag accessibility focus along; the keys are not where the text goes. On TVs input
+      // focus is the main navigation mechanism, so it is still followed there.
+      if (a11yFocusableNode != null
+          && (!inImeWindow || FormFactorUtils.isAndroidTv())
+          && followsInputFocus(event)) {
         targetViewChangeListener.onViewTargeted(eventId, event, a11yFocusableNode);
       }
     }
@@ -306,6 +313,9 @@ public class InputFocusInterpreter
     AccessibilityNodeInfoCompat selectedNode = getSelectedItemFromAdapterView(event);
     if (selectedNode != null
         && AccessibilityNodeInfoUtils.shouldFocusNode(selectedNode)
+        && (!AccessibilityWindowInfoUtils.isImeWindow(
+                AccessibilityNodeInfoUtils.getWindow(selectedNode))
+            || FormFactorUtils.isAndroidTv())
         && followsInputFocus(event)) {
       targetViewChangeListener.onViewTargeted(eventId, event, selectedNode);
     }
