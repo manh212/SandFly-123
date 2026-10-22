@@ -34,6 +34,7 @@ class SettingsBackupTest {
   private val context: Context = RuntimeEnvironment.getApplication()
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val extra = SharedPreferencesUtils.getSharedPreferences(context, "extra_settings")
+  private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
 
   @Test
   fun settingsComeBackAsTheyWere() {
