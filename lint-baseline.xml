@@ -42585,4 +42585,169 @@
             column="13"/>
     </issue>
 
+
+    <issue
+        id="MissingTranslation"
+        message='"title_pref_offline_translation_settings" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_pref_offline_translation_settings"&gt;Offline translation&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1709"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"title_pref_offline_translation_source_language" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_pref_offline_translation_source_language"&gt;Source language&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1711"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"title_pref_offline_translation_target_language" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_pref_offline_translation_target_language"&gt;Target language&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1713"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"title_pref_offline_translation_pack_status" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_pref_offline_translation_pack_status"&gt;Language pack&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1715"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"title_pref_offline_translation_download_pack" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_pref_offline_translation_download_pack"&gt;Download language pack&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1717"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_pack_ready" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_pack_ready"&gt;Ready&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1719"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_pack_not_downloaded" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_pack_not_downloaded"&gt;Not downloaded&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1721"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_pack_downloading" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_pack_downloading"&gt;Downloading…&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1723"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_pack_download_failed" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_pack_download_failed"&gt;Download failed&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1725"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_nothing_to_translate" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_nothing_to_translate"&gt;Nothing to translate&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1727"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_pack_not_downloaded_announcement" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_pack_not_downloaded_announcement"&gt;Language pack not downloaded&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1729"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"offline_translation_failed" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="offline_translation_failed"&gt;Translation failed&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1731"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"title_translate_last_spoken_phrase" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="title_translate_last_spoken_phrase"&gt;Translate last spoken utterance&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="2260"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"summary_translate_last_spoken_phrase" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="summary_translate_last_spoken_phrase"&gt;Translate the last phrase that SandFly said&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="2335"
+            column="13"/>
+    </issue>
+
+    <issue
+        id="MissingTranslation"
+        message='"keycombo_menu_other_translate_last_spoken_phrase" is not translated in "de" (German), "hi" (Hindi), "lo" (Lao), "pt" (Portuguese), "fil" (Filipino; Pilipino), "lt" (Lithuanian), "hr" (Croatian), "lv" (Latvian), "hu" (Hungarian), "hy" (Armenian), "uk" (Ukrainian), "id" (Indonesian), "ur" (Urdu), "mk" (Macedonian), "ml" (Malayalam), "mn" (Mongolian), "af" (Afrikaans), "in" (Indonesian), "mr" (Marathi), "uz" (Uzbek), "ms" (Malay), "el" (Greek), "en" (English), "is" (Icelandic), "it" (Italian), "am" (Amharic), "my" (Burmese), "es" (Spanish), "iw" (Hebrew), "zh" (Chinese), "et" (Estonian), "eu" (Basque), "ar" (Arabic), "as" (Assamese), "nb" (Norwegian Bokmål), "ja" (Japanese), "ne" (Nepali), "az" (Azerbaijani), "fa" (Persian), "zu" (Zulu), "ro" (Romanian), "nl" (Dutch), "no" (Norwegian), "be" (Belarusian), "fi" (Finnish), "ru" (Russian), "bg" (Bulgarian), "bn" (Bangla), "fr" (French), "bs" (Bosnian), "ka" (Georgian), "si" (Sinhala), "sk" (Slovak), "sl" (Slovenian), "ca" (Catalan), "sq" (Albanian), "sr" (Serbian), "kk" (Kazakh), "km" (Khmer), "kn" (Kannada), "or" (Odia), "sv" (Swedish), "ko" (Korean), "sw" (Swahili), "gl" (Galician), "ta" (Tamil), "gu" (Gujarati), "ky" (Kyrgyz), "cs" (Czech), "pa" (Punjabi), "te" (Telugu), "th" (Thai), "tl" (Tagalog), "pl" (Polish), "da" (Danish), "tr" (Turkish)'
+        errorLine1='    &lt;string name="keycombo_menu_other_translate_last_spoken_phrase"&gt;Translate last spoken phrase&lt;/string&gt;'
+        errorLine2="            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location
+            file="src/main/res/values/strings.xml"
+            line="1270"
+            column="13"/>
+    </issue>
 </issues>
