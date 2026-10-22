@@ -107,6 +107,82 @@ jobs:
           path: build/outputs/apk/**/*.apk
           if-no-files-found: error
 
+      # On a failed pull request build, posts one comment on the pull request summarizing
+      # the failure (failed steps, lint errors, failing unit tests) from the report files
+      # on the runner, so the cause can be read without opening the full Actions log. It
+      # never prints environment values or file dumps, drops any line that mentions a
+      # credential, and can never fail the build itself.
+      - name: Comment on the pull request with the failure summary
+        if: failure() && github.event_name == 'pull_request'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          set +e
+          blocked='password|secret|keystore'
+          lint_out="$RUNNER_TEMP/lint-errors.txt"
+          : > "$lint_out"
+          lint_file=$(find . -path '*build/reports/lint-results-*.txt' -type f 2>/dev/null | head -n 1)
+          if [ -n "$lint_file" ]; then
+            grep -E ': Error:' "$lint_file" 2>/dev/null | grep -Evi "$blocked" | head -n 40 > "$lint_out"
+          fi
+          head -c 6000 "$lint_out" > "$lint_out.tmp" && mv "$lint_out.tmp" "$lint_out"
+          tests_out="$RUNNER_TEMP/test-failures.txt"
+          python3 - > "$tests_out" <<'PYEOF'
+          import glob, re, sys
+          import xml.etree.ElementTree as ET
+          blocked = re.compile(r'password|secret|keystore', re.I)
+          shown = 0
+          for path in sorted(glob.glob('**/build/test-results/**/*.xml', recursive=True)):
+              try:
+                  root = ET.parse(path).getroot()
+              except Exception:
+                  continue
+              for case in root.iter('testcase'):
+                  node = case.find('failure')
+                  if node is None:
+                      node = case.find('error')
+                  if node is None:
+                      continue
+                  name = (case.get('classname') or '') + '.' + (case.get('name') or '')
+                  message = (node.get('message') or '').strip().splitlines()
+                  line = '- ' + name + ((': ' + message[0]) if message else '')
+                  if blocked.search(line):
+                      continue
+                  print(line[:300])
+                  shown += 1
+                  if shown >= 20:
+                      sys.exit(0)
+          PYEOF
+          head -c 6000 "$tests_out" > "$tests_out.tmp" && mv "$tests_out.tmp" "$tests_out"
+          summary="$RUNNER_TEMP/failure-summary.md"
+          {
+            echo "## Build failed"
+            echo
+            echo "Run: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+            failed_steps=$(gh api "repos/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID/jobs" --jq '[.jobs[] | select(.name == "build") | .steps[] | select(.conclusion == "failure") | .name] | join(", ")' 2>/dev/null)
+            if [ -n "$failed_steps" ]; then
+              echo
+              echo "**Failed steps:** $failed_steps"
+            fi
+            if [ -s "$lint_out" ]; then
+              echo
+              echo "### Lint errors"
+              echo
+              echo '```'
+              cat "$lint_out"
+              echo '```'
+            fi
+            if [ -s "$tests_out" ]; then
+              echo
+              echo "### Failing unit tests"
+              echo
+              cat "$tests_out"
+            fi
+          } > "$summary"
+          gh pr comment "$PR_NUMBER" --body-file "$summary"
+
   # Publishes the build. A push to master replaces the rolling "dev" pre-release, and a tag
   # v<version> creates the stable release, which becomes the latest release. The in-app updater
   # reads both. The first line of the notes is "build: <build number>", and each "- <short hash>
