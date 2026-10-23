@@ -37,6 +37,8 @@ Examples:
 - New gestures may be added freely.
 - Every added gesture must be recorded in the registry below, with a plain
   description of what it does, in the same change that adds it.
+- Removed gestures are recorded in [differences.md](../differences.md), in the
+  same change that removes them.
 
 ### Gesture registry
 

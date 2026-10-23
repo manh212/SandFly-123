@@ -55,5 +55,7 @@ exceptions.
 
 - Pushing to `master` builds the app in GitHub Actions and updates the rolling
   `dev` pre-release. Tagging `v<version>` creates a stable release.
+- The dev build number is a cumulative counter and can jump between releases;
+  a jump is normal, not a missing build.
 - Builds are signed with this fork's own signing key (stored as Actions secrets),
   so published builds update in place on a device.
