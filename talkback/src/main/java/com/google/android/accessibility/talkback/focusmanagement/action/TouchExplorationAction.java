@@ -25,13 +25,14 @@ import java.lang.annotation.RetentionPolicy;
 /** A class defining user actions during touch exploration. */
 public class TouchExplorationAction {
   /** touch exploration action types. */
-  @IntDef({TOUCH_INTERACTION_START, HOVER_ENTER, TOUCH_INTERACTION_END})
+  @IntDef({TOUCH_INTERACTION_START, HOVER_ENTER, TOUCH_INTERACTION_END, HOVER_EXIT})
   @Retention(RetentionPolicy.SOURCE)
   public @interface ActionType {}
 
   public static final int TOUCH_INTERACTION_START = 0;
   public static final int HOVER_ENTER = 1;
   public static final int TOUCH_INTERACTION_END = 2;
+  public static final int HOVER_EXIT = 3;
 
   @ActionType public final int type;
   /**
@@ -63,6 +64,7 @@ public class TouchExplorationAction {
       case TOUCH_INTERACTION_START -> "TOUCH_INTERACTION_START";
       case TOUCH_INTERACTION_END -> "TOUCH_INTERACTION_END";
       case HOVER_ENTER -> "HOVER_ENTER";
+      case HOVER_EXIT -> "HOVER_EXIT";
       default -> "(unhandled)";
     };
   }

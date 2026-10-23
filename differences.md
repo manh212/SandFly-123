@@ -430,7 +430,7 @@ SandFly used to be able to recognize gestures itself, with a **Handle gestures i
 
 The gestures that only SandFly's own recognition could produce are gone too, along with their entries in gesture settings: the quadruple-tap with three fingers, tap and hold with two fingers, the two-finger rotation, scrub, pinch and spread, and the edge gestures. So are the settings that only SandFly's own recognition used: the focus and typing delay sliders, **Time between one-finger taps**, **Reduce swipe start delay**, and **Recognize swipes early** in **Reduce delay**, and the focus latency reading controls. Split typing by holding one finger on a key and tapping with another no longer happens by itself; the **Split typing** action still works when you assign it to a gesture Android recognizes.
 
-Tap to type, which typed a key as soon as you touched it, also needed SandFly's own recognition, and is gone. [Single tap to type](#single-tap-to-type) replaces it.
+Tap to type, which typed a key as soon as you touched it, also needed SandFly's own recognition, and is gone. [Direct key input](#direct-key-input) replaces it.
 ## Navigation
 
 ### Reading place kept when an item disappears
@@ -599,9 +599,9 @@ Text that isn't in a text field, such as a message, can be edited and copied but
 
 In **On-screen keyboard** > **Typing method**, **Hold finger to select any key, then lift. Double-tap for Enter, Done, or Send.** types every key when you lift your finger, like **Hold finger to select any key, then lift**, but the key that sends or submits, such as Enter, Done, Send, Search, or Go, still needs a double-tap. This keeps you from sending a message by lifting your finger on the wrong key. SandFly recognizes this key in Gboard. In other keyboards, every key types when you lift your finger.
 
-### Single tap to type
+### Direct key input
 
-**On-screen keyboard** > **Typing method** also has **Single tap to type**. While it is selected, the keyboard window is in Android's gesture-detection passthrough region, so touches on the keyboard are not held while Android works out whether they are a gesture, and exploring the keys answers sooner. You hold your finger to select a key, and the key is typed when you lift, as with lift to type, including the key that sends or submits. Holding a key past the typing long-press time long-presses it instead. The trade-off: double-tap does not work in the keyboard area while this method is on.
+**On-screen keyboard** > **Typing method** also has **Direct key input**. While it is selected, the keyboard window is in Android's gesture-detection passthrough region, so touches on the keyboard are not held while Android works out whether they are a gesture, and exploring the keys answers sooner. You hold your finger to select a key, and the key is typed when you lift, as with lift to type, including the key that sends or submits. SandFly types the key as soon as your finger leaves it, instead of waiting for Android's touch interaction end, which only arrives after Android's double-tap timeout. Holding a key past the typing long-press time long-presses it instead. The trade-off: double-tap does not work in the keyboard area while this method is on.
 
 This needs Android 11 or later; on older versions the method types like lift to type for every key. If the keyboard is also turned on in **Direct touch**, touches there go straight to the keyboard, so this method has no key to type.
 ## Braille keyboard

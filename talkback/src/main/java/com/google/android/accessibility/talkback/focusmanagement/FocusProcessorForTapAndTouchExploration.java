@@ -118,6 +118,14 @@ public class FocusProcessorForTapAndTouchExploration {
   /** The timeout after which an event is no longer considered a tap. */
   private static final long TAP_TIMEOUT_MS = ViewConfiguration.getJumpTapTimeout();
 
+  /**
+   * In {@link #SINGLE_TAP_TO_TYPE} the framework sends the touch interaction end only after its
+   * double-tap timeout, but the hover exit arrives as the finger lifts. The interaction is ended
+   * this long after the finger leaves the key: sliding onto the next key sends its hover enter
+   * right away, which cancels the early end, so only a real lift lets it fire.
+   */
+  private static final long SINGLE_TAP_EARLY_END_DELAY_MS = 100;
+
   // It is copied from  Gboard's code.
   private static final long LIFT_TO_TYPE_LONG_PRESS_DELAY_MS = 3000;
 
@@ -186,6 +194,10 @@ public class FocusProcessorForTapAndTouchExploration {
   // input phenomenon, until the touch interaction end.
   private boolean isSplitTap = false;
 
+  // Whether the current touch interaction was already ended early, from its hover exit, so the
+  // framework's own touch interaction end, which arrives later, must not type the key again.
+  private boolean touchEndConsumed = false;
+
   private long touchInteractionStartTime;
   private final Context context;
   private final TalkBackAnalytics analytics;
@@ -232,6 +244,8 @@ public class FocusProcessorForTapAndTouchExploration {
       case TouchExplorationAction.TOUCH_INTERACTION_START -> handleTouchInteractionStart(eventId);
       case TouchExplorationAction.HOVER_ENTER ->
           handleHoverEnterNode(touchExplorationAction.touchedFocusableNode, eventId);
+      case TouchExplorationAction.HOVER_EXIT ->
+          handleHoverExitNode(touchExplorationAction.touchedFocusableNode);
       case TouchExplorationAction.TOUCH_INTERACTION_END -> handleTouchInteractionEnd(eventId);
       default ->
           // Do nothing.
@@ -267,6 +281,7 @@ public class FocusProcessorForTapAndTouchExploration {
     lastFocusableNodeBeingTouched = null;
 
     hasHoveredEnterNode = false;
+    touchEndConsumed = false;
 
     // Everything is possible at the beginning.
     mayBeRefocusAction = true;
@@ -284,6 +299,7 @@ public class FocusProcessorForTapAndTouchExploration {
       @Nullable AccessibilityNodeInfoCompat touchedFocusableNode, EventId eventId) {
     postDelayHandler.cancelLongPress();
     postDelayHandler.cancelRefocusTimeout();
+    postDelayHandler.cancelEarlyTouchEnd();
     if (touchedFocusableNode != null && !touchedFocusableNode.isAccessibilityFocused()) {
       // TalkBack do not enter the focused view with Split-typing & Lift-to-type the same time. When
       // focused moved into a new node, by default, TalkBack assumes the lift-to-type until a
@@ -412,6 +428,20 @@ public class FocusProcessorForTapAndTouchExploration {
   }
 
   /**
+   * In {@link #SINGLE_TAP_TO_TYPE}, leaving the key being touched starts the early end of the
+   * touch interaction, so the key is typed as the finger lifts instead of one framework
+   * double-tap timeout later.
+   */
+  private boolean handleHoverExitNode(@Nullable AccessibilityNodeInfoCompat touchedFocusableNode) {
+    if (typingMethod == SINGLE_TAP_TO_TYPE
+        && touchedFocusableNode != null
+        && touchedFocusableNode.equals(lastFocusableNodeBeingTouched)) {
+      postDelayHandler.earlyTouchEndAfterTimeout();
+    }
+    return false;
+  }
+
+  /**
    * Handles the end of an ongoing touch interaction event. Tries to perform click action in
    * single-tap mode or lift-to-type mode.
    *
@@ -422,6 +452,14 @@ public class FocusProcessorForTapAndTouchExploration {
     // TODO: Shall we also cancel empty touch feedback?
     postDelayHandler.cancelRefocusTimeout();
     postDelayHandler.cancelLongPress();
+    postDelayHandler.cancelEarlyTouchEnd();
+
+    if (touchEndConsumed) {
+      // The interaction already ended early, from its hover exit.
+      touchEndConsumed = false;
+      reset();
+      return false;
+    }
 
     long currentTime = SystemClock.uptimeMillis();
 
@@ -507,6 +545,7 @@ public class FocusProcessorForTapAndTouchExploration {
       extends WeakReferenceHandler<FocusProcessorForTapAndTouchExploration> {
     private static final int MSG_REFOCUS = 1;
     private static final int MSG_LONG_CLICK_LAST_NODE = 2;
+    private static final int MSG_EARLY_TOUCH_END = 3;
 
     private long longPressDelayMs;
 
@@ -532,6 +571,15 @@ public class FocusProcessorForTapAndTouchExploration {
                 /* event= */ null,
                 Interpretation.Touch.create(LONG_PRESS, parent.lastFocusableNodeBeingTouched));
             parent.mayBeLiftToType = false;
+          }
+        }
+        case MSG_EARLY_TOUCH_END -> {
+          // No hover enter arrived after the hover exit, so the finger has lifted: run the touch
+          // interaction end now and let the framework's own end, when it arrives, be a no-op.
+          if (parent.typingMethod == SINGLE_TAP_TO_TYPE
+              && parent.lastFocusableNodeBeingTouched != null) {
+            parent.handleTouchInteractionEnd(/* eventId= */ null);
+            parent.touchEndConsumed = true;
           }
         }
         default -> {}
@@ -560,6 +608,15 @@ public class FocusProcessorForTapAndTouchExploration {
 
     private void cancelRefocusTimeout() {
       removeMessages(MSG_REFOCUS);
+    }
+
+    private void earlyTouchEndAfterTimeout() {
+      removeMessages(MSG_EARLY_TOUCH_END);
+      sendEmptyMessageDelayed(MSG_EARLY_TOUCH_END, SINGLE_TAP_EARLY_END_DELAY_MS);
+    }
+
+    private void cancelEarlyTouchEnd() {
+      removeMessages(MSG_EARLY_TOUCH_END);
     }
   }
 

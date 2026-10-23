@@ -69,7 +69,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
   private static final int EVENT_MASK =
       AccessibilityEvent.TYPE_TOUCH_INTERACTION_START
           | AccessibilityEvent.TYPE_TOUCH_INTERACTION_END
-          | AccessibilityEvent.TYPE_VIEW_HOVER_ENTER;
+          | AccessibilityEvent.TYPE_VIEW_HOVER_ENTER
+          | AccessibilityEvent.TYPE_VIEW_HOVER_EXIT;
 
   private final InputModeTracker inputModeTracker;
   private final Context context;
@@ -137,6 +138,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
           result = handleTouchInteractionEndEvent(eventId);
         }
       }
+      case AccessibilityEvent.TYPE_VIEW_HOVER_EXIT ->
+          result = handleHoverExitEvent(event, eventId);
       default -> {
         if (SystemClock.uptimeMillis() - event.getEventTime() > LATE_HOVER_MS) {
           setHoverAside(event, eventId);
@@ -251,6 +254,23 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
           eventId);
     }
     return false;
+  }
+
+  /** @return {@code true} if any accessibility action is successfully performed. */
+  private boolean handleHoverExitEvent(AccessibilityEvent event, EventId eventId) {
+    final AccessibilityNodeInfoCompat touchedNode =
+        AccessibilityNodeInfoUtils.toCompat(event.getSource());
+    if (touchedNode == null) {
+      // Invalid event.
+      return false;
+    }
+    // Unlike hover enter, the exit is never set aside: it is the only signal that arrives as the
+    // finger lifts, instead of one double-tap timeout later like the touch interaction end.
+    return dispatchTouchExplorationAction(
+        new TouchExplorationAction(
+            TouchExplorationAction.HOVER_EXIT,
+            AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode)),
+        eventId);
   }
 
   /** @return {@code true} if any accessibility action is successfully performed. */
