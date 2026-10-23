@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">მეტყველების ტემპი %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">მარტივი წვდომის ხმის აწევა %1$d პროცენტზე.</string>
   <string name="template_accessibility_volume_change_decrease">მარტივი წვდომის ხმის დაწევა %1$d პროცენტზე.</string>
-  <string name="template_touch_latency_reach_maximum">მაქსიმუმი</string>
-  <string name="template_touch_latency_reach_minimum">მინიმუმი</string>
   <string name="template_volume_change_maximum">მაქსიმუმი</string>
   <string name="template_volume_change_minimum">მინიმუმი</string>
   <string name="template_volume_change_volume_up_curved_text">გაზრდა</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Beszédsebesség %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">A kisegítő lehetőségek hangerejének növelése %1$d százalékra.</string>
   <string name="template_accessibility_volume_change_decrease">A kisegítő lehetőségek hangerejének csökkentése %1$d százalékra.</string>
-  <string name="template_touch_latency_reach_maximum">Maximum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maximum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Növelés</string>

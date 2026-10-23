@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Omogoči polprosojen prikaz dnevnikov odpravljanja napak</string>
   <string name="title_pref_typing_confirmation">Nastavitev tipkanja</string>
   <string name="title_pref_typing_long_tap_duration">Zakasnitev dotika in pridržanja pri tipkanju</string>
-  <string name="title_pref_touch_explore_timeout">Zakasnitev fokusa za tipkanje</string>
   <string name="message_pref_touch_explore_latency">Krajša zakasnitev fokusa za tipkanje pomeni, da funkcija TalkBack izgovori obvestila hitreje po dotiku tipkovnice.\n\nIzberite zakasnitev</string>
-  <string name="title_pref_touch_focus_timeout">Zakasnitev fokusa</string>
-  <string name="title_pref_talkback_gesture_detection">Zaznava potez v funkciji TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Nastavitev aktivirate tako, da funkcijo TalkBack izklopite in jo znova vklopite.</string>
   <string name="title_pref_auto_image_captioning">Samodejni opisi</string>
   <string name="title_pref_gemini_settings">Nastavitve Geminija</string>
   <string name="title_pref_gemini_enabled">Glasovni ukaz za Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Zmanjšanje glasnosti drugega zvoka, ki se predvaja med govorom funkcije TalkBack</string>
   <string name="summary_support_scroll_seq">Pomikanje naprej ali nazaj</string>
   <string name="summary_support_change_a11y_volume">Povečanje ali zmanjšanje glasnosti funkcij dostopnosti</string>
-  <string name="summary_support_change_touch_explore_latency">Podaljšanje ali skrajšanje zakasnitve fokusa za tipkanje</string>
-  <string name="summary_support_change_touch_focus_latency">Podaljšanje ali skrajšanje zakasnitve fokusa</string>
   <string name="summary_screen_overview">Povzetek vsebine zaslona z gumbi za dejanja</string>
   <string name="summary_screen_overview_no_actions">Poslušanje povzetka vsebine zaslona</string>
   <string name="summary_image_caption">Izgovorjeni so besedilo in ikone na izbrani sliki.</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dvakratni primik prstov</string>
   <string name="gesture_name_double_tap_and_hold">Dvakratni dotik in pridržanje</string>
   <string name="gesture_name_double_tap_and_hold_xr">Primik prstov in pridržanje</string>
-  <string name="gesture_name_2finger_tap_hold">Dotik in pridržanje z 2 prstoma</string>
   <string name="gesture_name_3finger_tap_hold">Dotik in pridržanje s 3 prsti</string>
   <string name="gesture_name_2finger_3tap_hold">Trikratni dotik in pridržanje z 2 prstoma</string>
   <string name="gesture_name_3finger_3tap_hold">Trikratni dotik in pridržanje s 3 prsti</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Utišanje drugih zvokov</string>
   <string name="title_pref_support_scroll_seq">Drseče pomikanje</string>
   <string name="title_pref_a11y_volume">Glasnost za dostopnost</string>
-  <string name="title_pref_touch_explore_latency">Zakasnitev fokusa za tipkanje</string>
-  <string name="title_pref_touch_focus_latency">Zakasnitev fokusa</string>
   <string name="message_pref_touch_focus_latency">Krajša zakasnitev fokusa pomeni, da funkcija TalkBack izgovori obvestila hitreje po dotiku zaslona</string>
   <string name="message_pref_typing_method_prefix">Če želite pri tipkanju najmanjšo zakasnitev, izberite »Pridržanje prsta za izbiro poljubne tipke in nato dvig prsta«</string>
-  <string name="message_pref_typing_method_postfix">Za tipkanje lahko kadar koli uporabite tudi deljeni dotik. Če ga želite uporabiti, pridržite en prst, da izberete poljubno tipko, in se z drugim prstom dotaknite zaslona.</string>
   <string name="title_pref_talkback_speech_rate">Hitrost govora funkcije TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Prilagajanje drsnika</string>
   <string name="title_pref_selector_typo_granularity">Lektoriraj</string>

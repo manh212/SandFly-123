@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Hizketaren abiadura: %% %1$d</string>
   <string name="template_accessibility_volume_change_increase">Handitu erabilerraztasunaren bolumena ehuneko %1$d izan dadin.</string>
   <string name="template_accessibility_volume_change_decrease">Txikitu erabilerraztasunaren bolumena ehuneko %1$d izan dadin.</string>
-  <string name="template_touch_latency_reach_maximum">Gehienekoa</string>
-  <string name="template_touch_latency_reach_minimum">Gutxienekoa</string>
   <string name="template_volume_change_maximum">Gehienekoa</string>
   <string name="template_volume_change_minimum">Gutxienekoa</string>
   <string name="template_volume_change_volume_up_curved_text">Igo</string>

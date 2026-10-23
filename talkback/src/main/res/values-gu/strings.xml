@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ડિબગ લૉગ ઓવરલેની સુવિધા ચાલુ કરો</string>
   <string name="title_pref_typing_confirmation">ટાઇપિંગની પસંદગી</string>
   <string name="title_pref_typing_long_tap_duration">ટાઇપ કરતી વખતે આટલો સમય ટચ કરીને થોડીવાર દબાવી રાખો</string>
-  <string name="title_pref_touch_explore_timeout">ટાઇપિંગ ફોકસમાં વિલંબ</string>
   <string name="message_pref_touch_explore_latency">વધુ ટૂંકી અવધિના ટાઇપિંગ ફોકસ વિલંબનો અર્થ થાય છે કે TalkBack ઘોષણાઓ કીબોર્ડને ટચ કર્યા પછી વધુ ઝડપી બને છે.\n\nવિલંબ પસંદ કરો</string>
-  <string name="title_pref_touch_focus_timeout">ફોકસમાં વિલંબ</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBackમાં સંકેતો હૅન્ડલ કરો</string>
-  <string name="toast_pref_talkback_gesture_detection">સેટિંગને સક્રિય કરવા માટે, TalkBackને બંધ કરીને ફરી ચાલુ કરો.</string>
   <string name="title_pref_auto_image_captioning">ઑટોમૅટિક વર્ણનો</string>
   <string name="title_pref_gemini_settings">Geminiના સેટિંગ</string>
   <string name="title_pref_gemini_enabled">Gemini વૉઇસ આદેશ</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack બોલે, ત્યારે ડિવાઇસમાં વાગી રહેલા અન્ય ઑડિયોનું વૉલ્યૂમ ઓછું કરો</string>
   <string name="summary_support_scroll_seq">આગળ અથવા પાછળ સ્ક્રોલ કરો</string>
   <string name="summary_support_change_a11y_volume">ઍક્સેસિબિલિટીનું વૉલ્યૂમ વધારો કે ઘટાડો</string>
-  <string name="summary_support_change_touch_explore_latency">ટાઇપિંગ ફોકસ વિલંબ વધારો કે ઘટાડો</string>
-  <string name="summary_support_change_touch_focus_latency">ફોકસમાં વિલંબ વધારો અથવા ઘટાડો</string>
   <string name="summary_screen_overview">ક્રિયા બટન વડે સ્ક્રીનનો સારાંશ આપો</string>
   <string name="summary_screen_overview_no_actions">સ્ક્રીન પરના કન્ટેન્ટનો સારાંશ સાંભળો</string>
   <string name="summary_image_caption">પસંદ કરેલી છબીમાંની ટેક્સ્ટ અને આઇકન બોલો</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">બે વાર પિન્ચ કરો</string>
   <string name="gesture_name_double_tap_and_hold">ટૅપ કરીને દબાવી રાખો</string>
   <string name="gesture_name_double_tap_and_hold_xr">પિન્ચ કરીને દબાવી રાખો</string>
-  <string name="gesture_name_2finger_tap_hold">2 આંગળી વડે ટૅપ કરીને દબાવી રાખો</string>
   <string name="gesture_name_3finger_tap_hold">3 આંગળી વડે ટૅપ કરીને દબાવી રાખો</string>
   <string name="gesture_name_2finger_3tap_hold">2 આંગળી વડે ત્રણ વાર ટૅપ કરીને દબાવી રાખો</string>
   <string name="gesture_name_3finger_3tap_hold">3 આંગળી વડે ત્રણ વાર ટૅપ કરીને દબાવી રાખો</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ઑડિયો ઘટાડવો</string>
   <string name="title_pref_support_scroll_seq">સ્ક્રોલ કરો</string>
   <string name="title_pref_a11y_volume">ઍક્સેસિબિલિટી વૉલ્યૂમ</string>
-  <string name="title_pref_touch_explore_latency">ટાઇપિંગ ફોકસમાં વિલંબ</string>
-  <string name="title_pref_touch_focus_latency">ફોકસમાં વિલંબ</string>
   <string name="message_pref_touch_focus_latency">વધુ ટૂંકી અવધિના ટાઇપિંગ ફોકસ વિલંબનો અર્થ થાય છે કે TalkBack ઘોષણાઓ સ્ક્રીનને ટચ કર્યા પછી વધુ ઝડપી બને છે</string>
   <string name="message_pref_typing_method_prefix">ટાઇપ કરતી વખતે ઓછામાં ઓછા વિલંબ માટે, \"કોઈપણ કી પસંદ કરવા માટે તેને આંગળીથી દબાવી રાખો, પછી ઉપાડી લો\" પસંદ કરો</string>
-  <string name="message_pref_typing_method_postfix">તમે કોઈપણ સમયે ટાઇપ કરવા માટે સ્પ્લિટ ટૅપનો ઉપયોગ પણ કરી શકો છો. આમ કરવા, કોઈપણ કી પસંદ કરવા માટે એક આંગળી દબાવી રાખો અને સ્ક્રીન પર ટૅપ કરવા માટે બીજી આંગળીનો ઉપયોગ કરો.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack સ્પીચ રેટ</string>
   <string name="title_pref_selector_adjustable_widget_slider">સ્લાઇડરની ગોઠવણી કરો</string>
   <string name="title_pref_selector_typo_granularity">પ્રૂફરીડ કરો</string>

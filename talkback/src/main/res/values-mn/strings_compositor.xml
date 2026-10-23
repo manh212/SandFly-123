@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Ярианы хурд %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Хандалтын дууны түвшнийг %1$d хувь болгож нэмэгдүүлнэ үү.</string>
   <string name="template_accessibility_volume_change_decrease">Хандалтын дууны түвшнийг %1$d хувь болгож багасгана уу.</string>
-  <string name="template_touch_latency_reach_maximum">Хамгийн чанга</string>
-  <string name="template_touch_latency_reach_minimum">Хамгийн сул</string>
   <string name="template_volume_change_maximum">Дээд</string>
   <string name="template_volume_change_minimum">Доод</string>
   <string name="template_volume_change_volume_up_curved_text">Нэмэгдүүлэх</string>

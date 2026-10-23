@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Омогућите евидентирање отклањања грешака преко других елемената</string>
   <string name="title_pref_typing_confirmation">Подешавање уноса текста</string>
   <string name="title_pref_typing_long_tap_duration">Кашњење додира и задржавања док куцате</string>
-  <string name="title_pref_touch_explore_timeout">Кашњење фокуса куцања</string>
   <string name="message_pref_touch_explore_latency">Краће кашњење фокуса при куцању значи да се TalkBack обавештења брже чују пошто додирнете тастатуру.\n\nИзаберите кашњење</string>
-  <string name="title_pref_touch_focus_timeout">Кашњење фокуса</string>
-  <string name="title_pref_talkback_gesture_detection">Управљање покретима у TalkBack-у</string>
-  <string name="toast_pref_talkback_gesture_detection">Искључите, па поново укључите TalkBack да бисте активирали ово подешавање.</string>
   <string name="title_pref_auto_image_captioning">Аутоматски описи</string>
   <string name="title_pref_gemini_settings">Gemini подешавања</string>
   <string name="title_pref_gemini_enabled">Gemini гласовна команда</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Смањује јачину других звукова док TalkBack говори</string>
   <string name="summary_support_scroll_seq">Померајте унапред или уназад</string>
   <string name="summary_support_change_a11y_volume">Повећајте или смањите јачину звука за приступачност</string>
-  <string name="summary_support_change_touch_explore_latency">Повећајте или смањите кашњење фокуса при куцању</string>
-  <string name="summary_support_change_touch_focus_latency">Повећајте или смањите кашњење фокуса</string>
   <string name="summary_screen_overview">Резимирајте екран помоћу дугмади за радње</string>
   <string name="summary_screen_overview_no_actions">Послушајте резиме садржаја на екрану</string>
   <string name="summary_image_caption">Изговарање текста и икона на изабраној слици</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Двапут уштините</string>
   <string name="gesture_name_double_tap_and_hold">Двоструки додир и задржавање</string>
   <string name="gesture_name_double_tap_and_hold_xr">Уштините и задржите</string>
-  <string name="gesture_name_2finger_tap_hold">Додир и задржавање са 2 прста</string>
   <string name="gesture_name_3finger_tap_hold">Додир и задржавање са 3 прста</string>
   <string name="gesture_name_2finger_3tap_hold">Троструки додир и задржавање са 2 прста</string>
   <string name="gesture_name_3finger_3tap_hold">Троструки додир и задржавање са 3 прста</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Утишавање звука у позадини</string>
   <string name="title_pref_support_scroll_seq">Померајте</string>
   <string name="title_pref_a11y_volume">Јачина звука за приступачност</string>
-  <string name="title_pref_touch_explore_latency">Кашњење фокуса куцања</string>
-  <string name="title_pref_touch_focus_latency">Кашњење фокуса</string>
   <string name="message_pref_touch_focus_latency">Краће кашњење фокуса значи да се TalkBack обавештења брже чују пошто додирнете екран</string>
   <string name="message_pref_typing_method_prefix">Да бисте имали најмање кашњење при куцању, одаберите „Задржите прст да бисте изабрали тастер, па подигните“</string>
-  <string name="message_pref_typing_method_postfix">За куцање увек можете да користите и подељени додир. Да бисте то урадили, задржите један прст да бисте изабрали тастер, а другим прстом додирните екран.</string>
   <string name="title_pref_talkback_speech_rate">Брзина говора TalkBack-а</string>
   <string name="title_pref_selector_adjustable_widget_slider">Прилагоди клизач</string>
   <string name="title_pref_selector_typo_granularity">Коректура</string>

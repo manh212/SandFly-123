@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">啟用偵錯記錄重疊顯示</string>
   <string name="title_pref_typing_confirmation">文字輸入偏好設定</string>
   <string name="title_pref_typing_long_tap_duration">輸入時的按住延遲時間</string>
-  <string name="title_pref_touch_explore_timeout">輸入焦點延遲</string>
   <string name="message_pref_touch_explore_latency">輸入焦點延遲時間越短，輕觸鍵盤後 TalkBack 就會越快開始朗讀。\n\n選取延遲時間</string>
-  <string name="title_pref_touch_focus_timeout">焦點延遲</string>
-  <string name="title_pref_talkback_gesture_detection">在 TalkBack 中處理手勢</string>
-  <string name="toast_pref_talkback_gesture_detection">將 TalkBack 關閉再重新開啟，即可啟動設定。</string>
   <string name="title_pref_auto_image_captioning">自動描述</string>
   <string name="title_pref_gemini_settings">Gemini 設定</string>
   <string name="title_pref_gemini_enabled">Gemini 語音指令</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">當 TalkBack 朗讀時，調低正在播放的其他音訊音量</string>
   <string name="summary_support_scroll_seq">向前或向後捲動</string>
   <string name="summary_support_change_a11y_volume">調高或調低無障礙工具音量</string>
-  <string name="summary_support_change_touch_explore_latency">拉長或縮短輸入焦點延遲時間</string>
-  <string name="summary_support_change_touch_focus_latency">拉長或縮短焦點延遲時間</string>
   <string name="summary_screen_overview">按下動作按鈕生成畫面摘要</string>
   <string name="summary_screen_overview_no_actions">聽取畫面內容摘要</string>
   <string name="summary_image_caption">朗讀所選圖片內的文字和圖示</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">雙指捏住兩次</string>
   <string name="gesture_name_double_tap_and_hold">輕觸兩下並按住</string>
   <string name="gesture_name_double_tap_and_hold_xr">雙指捏住不放</string>
-  <string name="gesture_name_2finger_tap_hold">使用 2 指按住</string>
   <string name="gesture_name_3finger_tap_hold">使用 3 指按住</string>
   <string name="gesture_name_2finger_3tap_hold">使用 2 指輕觸三下並按住</string>
   <string name="gesture_name_3finger_3tap_hold">使用 3 指輕觸三下並按住</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">降低其他應用程式音量</string>
   <string name="title_pref_support_scroll_seq">捲動</string>
   <string name="title_pref_a11y_volume">無障礙工具音量</string>
-  <string name="title_pref_touch_explore_latency">輸入焦點延遲</string>
-  <string name="title_pref_touch_focus_latency">焦點延遲</string>
   <string name="message_pref_touch_focus_latency">焦點延遲時間越短，輕觸鍵盤後 TalkBack 就會越快開始朗讀</string>
   <string name="message_pref_typing_method_prefix">如要盡可能縮短輸入延遲時間，請選擇「用手指按住任何要選取的鍵，然後放開」</string>
-  <string name="message_pref_typing_method_postfix">你也可以隨時使用多指輕觸功能輸入文字，方式如下：用一指按住任何鍵，再用另一指輕觸螢幕。</string>
   <string name="title_pref_talkback_speech_rate">TalkBack 語音速率</string>
   <string name="title_pref_selector_adjustable_widget_slider">調整滑桿</string>
   <string name="title_pref_selector_typo_granularity">校對</string>

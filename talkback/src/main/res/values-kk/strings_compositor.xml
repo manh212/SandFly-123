@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Сөйлеу жылдамдығы: %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Арнайы мүмкіндіктер дыбысы %1$d пайызға арттырылды.</string>
   <string name="template_accessibility_volume_change_decrease">Арнайы мүмкіндіктер дыбысы %1$d пайызға азайтылды.</string>
-  <string name="template_touch_latency_reach_maximum">Ең көп</string>
-  <string name="template_touch_latency_reach_minimum">Ең аз</string>
   <string name="template_volume_change_maximum">Максималды деңгей</string>
   <string name="template_volume_change_minimum">Минималды деңгей</string>
   <string name="template_volume_change_volume_up_curved_text">Арттырылды</string>

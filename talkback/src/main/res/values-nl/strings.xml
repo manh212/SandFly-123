@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Overlay met foutopsporingslogboek aanzetten</string>
   <string name="title_pref_typing_confirmation">Voorkeur voor typen</string>
   <string name="title_pref_typing_long_tap_duration">Vertraging voor tikken en vasthouden tijdens het typen</string>
-  <string name="title_pref_touch_explore_timeout">Focusvertraging bij typen</string>
   <string name="message_pref_touch_explore_latency">Een kortere focusvertraging voor typen betekent dat TalkBack-aankondigingen sneller worden gedaan nadat je op het toetsenbord hebt getikt.\n\nSelecteer een vertraging</string>
-  <string name="title_pref_touch_focus_timeout">Focusvertraging</string>
-  <string name="title_pref_talkback_gesture_detection">Gebaren verwerken in TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Zet TalkBack uit en weer aan om de instelling te activeren.</string>
   <string name="title_pref_auto_image_captioning">Automatische beschrijvingen</string>
   <string name="title_pref_gemini_settings">Gemini-instellingen</string>
   <string name="title_pref_gemini_enabled">Gemini-spraakopdracht</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Het volume van andere audio verlagen als TalkBack spreekt</string>
   <string name="summary_support_scroll_seq">Vooruit- of terugscrollen</string>
   <string name="summary_support_change_a11y_volume">Toegankelijkheidsvolume verhogen of verlagen</string>
-  <string name="summary_support_change_touch_explore_latency">Focusvertraging voor typen vergroten of verkleinen</string>
-  <string name="summary_support_change_touch_focus_latency">Focusvertraging vergroten of verkleinen</string>
   <string name="summary_screen_overview">Het scherm samenvatten met actieknoppen</string>
   <string name="summary_screen_overview_no_actions">Luister naar een samenvatting van de content op het scherm</string>
   <string name="summary_image_caption">Tekst en iconen binnen een geselecteerde afbeelding uitspreken</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">2 keer knijpen</string>
   <string name="gesture_name_double_tap_and_hold">Dubbeltikken en vasthouden</string>
   <string name="gesture_name_double_tap_and_hold_xr">Samengeknepen houden</string>
-  <string name="gesture_name_2finger_tap_hold">Tikken en vasthouden met 2 vingers</string>
   <string name="gesture_name_3finger_tap_hold">Tikken en vasthouden met 3 vingers</string>
   <string name="gesture_name_2finger_3tap_hold">3 keer tikken en vasthouden met 2 vingers</string>
   <string name="gesture_name_3finger_3tap_hold">3 keer tikken en vasthouden met 3 vingers</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Audiovolume verlagen</string>
   <string name="title_pref_support_scroll_seq">Scrollen</string>
   <string name="title_pref_a11y_volume">Toegankelijkheidsvolume</string>
-  <string name="title_pref_touch_explore_latency">Focusvertraging bij typen</string>
-  <string name="title_pref_touch_focus_latency">Focusvertraging</string>
   <string name="message_pref_touch_focus_latency">Een kortere focusvertraging betekent dat TalkBack-aankondigingen sneller worden gedaan nadat je op het scherm hebt getikt</string>
   <string name="message_pref_typing_method_prefix">Kies \'Houd je vinger op een toets om te selecteren en haal dan je vinger van het scherm\' voor de minste vertraging bij het typen</string>
-  <string name="message_pref_typing_method_postfix">Je kunt ook op elk moment gesplitst tikken om te typen. Houd hiervoor één vinger op een toets om deze te selecteren en gebruik een andere vinger om op het scherm te tikken.</string>
   <string name="title_pref_talkback_speech_rate">Spreeksnelheid van TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Schuifregelaar aanpassen</string>
   <string name="title_pref_selector_typo_granularity">Proeflezen</string>

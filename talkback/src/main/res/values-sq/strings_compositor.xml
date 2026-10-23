@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Shpejtësia e të folurit %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Rrit volumin e qasshmërisë në %1$d për qind.</string>
   <string name="template_accessibility_volume_change_decrease">Ul volumin e qasshmërisë në %1$d për qind.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimumi</string>
-  <string name="template_touch_latency_reach_minimum">Minimumi</string>
   <string name="template_volume_change_maximum">Maksimumi</string>
   <string name="template_volume_change_minimum">Minimumi</string>
   <string name="template_volume_change_volume_up_curved_text">Rrit</string>

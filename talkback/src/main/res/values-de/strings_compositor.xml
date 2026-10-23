@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Sprechgeschwindigkeit: %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Die Lautstärke der Bedienungshilfen wurde auf %1$d Prozent erhöht.</string>
   <string name="template_accessibility_volume_change_decrease">Die Lautstärke der Bedienungshilfen wurde auf %1$d Prozent verringert.</string>
-  <string name="template_touch_latency_reach_maximum">Maximum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maximal</string>
   <string name="template_volume_change_minimum">Minimal</string>
   <string name="template_volume_change_volume_up_curved_text">Erhöht</string>

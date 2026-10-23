@@ -184,8 +184,6 @@
   <string name="template_speech_rate_change">Темп мовлення: %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Збільшити гучність функцій доступності до %1$d%%.</string>
   <string name="template_accessibility_volume_change_decrease">Зменшити гучність функції доступності до %1$d%%.</string>
-  <string name="template_touch_latency_reach_maximum">Максимум</string>
-  <string name="template_touch_latency_reach_minimum">Мінімум</string>
   <string name="template_volume_change_maximum">Максимум</string>
   <string name="template_volume_change_minimum">Мінімум</string>
   <string name="template_volume_change_volume_up_curved_text">Збільшити</string>

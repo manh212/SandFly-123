@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">બોલવાની ઝડપ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ઍક્સેસિબિલિટી વૉલ્યૂમ વધારીને %1$d ટકા કરો.</string>
   <string name="template_accessibility_volume_change_decrease">ઍક્સેસિબિલિટી વૉલ્યૂમ ઘટાડીને %1$d ટકા કરો.</string>
-  <string name="template_touch_latency_reach_maximum">મહત્તમ</string>
-  <string name="template_touch_latency_reach_minimum">ન્યૂનતમ</string>
   <string name="template_volume_change_maximum">મહત્તમ</string>
   <string name="template_volume_change_minimum">ન્યૂનતમ</string>
   <string name="template_volume_change_volume_up_curved_text">વધારો</string>

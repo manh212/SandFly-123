@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Iespējot atkļūdošanas žurnāla pārklājumu</string>
   <string name="title_pref_typing_confirmation">Ievades preference</string>
   <string name="title_pref_typing_long_tap_duration">Pieskaršanās un turēšanas aizkave rakstīšanas laikā</string>
-  <string name="title_pref_touch_explore_timeout">Rakstīšanas fokusa aizkave</string>
   <string name="message_pref_touch_explore_latency">Ja rakstīšanas fokusa aizkave ir īsāka, pēc pieskaršanās tastatūrai TalkBack paziņojumi tiek atskaņoti ātrāk.\n\nAtlasiet aizkaves periodu.</string>
-  <string name="title_pref_touch_focus_timeout">Fokusa aizkave</string>
-  <string name="title_pref_talkback_gesture_detection">Žestu apstrāde funkcijā TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Izslēdziet un atkal ieslēdziet TalkBack, lai aktivizētu šo iestatījumu.</string>
   <string name="title_pref_auto_image_captioning">Automātiskie apraksti</string>
   <string name="title_pref_gemini_settings">Gemini iestatījumi</string>
   <string name="title_pref_gemini_enabled">Gemini balss komanda</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Samazināt cita atskaņotā audio satura skaļumu, kad tiek lasīts teksts funkcijā TalkBack</string>
   <string name="summary_support_scroll_seq">Ritināšana uz priekšu vai atpakaļ</string>
   <string name="summary_support_change_a11y_volume">Palieliniet vai samaziniet pieejamības paziņojumu skaļumu.</string>
-  <string name="summary_support_change_touch_explore_latency">Palieliniet vai samaziniet rakstīšanas fokusa aizkavi</string>
-  <string name="summary_support_change_touch_focus_latency">Fokusa aizkaves palielināšana vai samazināšana</string>
   <string name="summary_screen_overview">Izveidot ekrāna apkopojumu ar darbību pogām</string>
   <string name="summary_screen_overview_no_actions">Klausieties ekrānā redzamā satura kopsavilkumu</string>
   <string name="summary_image_caption">Nosaukt tekstu un ikonas atlasītajā attēlā</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Divreiz savilkt kopā un atlaist</string>
   <string name="gesture_name_double_tap_and_hold">Veikt dubultskārienu un turēt</string>
   <string name="gesture_name_double_tap_and_hold_xr">Savilkt kopā un turēt</string>
-  <string name="gesture_name_2finger_tap_hold">Pieskarties ar 2 pirkstiem un turēt</string>
   <string name="gesture_name_3finger_tap_hold">Pieskarties ar 3 pirkstiem un turēt</string>
   <string name="gesture_name_2finger_3tap_hold">Trīsreiz pieskarties ar 2 pirkstiem un turēt</string>
   <string name="gesture_name_3finger_3tap_hold">Trīsreiz pieskarties ar 3 pirkstiem un turēt</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Audio klusināšana</string>
   <string name="title_pref_support_scroll_seq">Ritināšana</string>
   <string name="title_pref_a11y_volume">Pieejamības paziņojumu skaļums</string>
-  <string name="title_pref_touch_explore_latency">Rakstīšanas fokusa aizkave</string>
-  <string name="title_pref_touch_focus_latency">Fokusa aizkave</string>
   <string name="message_pref_touch_focus_latency">Ja rakstīšanas fokusa aizkave ir īsāka, pēc pieskaršanās ekrānam TalkBack paziņojumi tiek atskaņoti ātrāk.</string>
   <string name="message_pref_typing_method_prefix">Lai iestatītu visīsāko rakstīšanas aizkavi, izvēlieties opciju “Turiet pirkstu, lai atlasītu jebkuru taustiņu, un pēc tam atlaidiet”.</string>
-  <string name="message_pref_typing_method_postfix">Jebkurā laikā rakstīšanai varat arī izmantot dalīto pieskārienu. Lai to darītu, atlasiet jebkuru taustiņu, turot vienu pirkstu, un ar citu pirkstu pieskarieties ekrānam.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack runas ātrums</string>
   <string name="title_pref_selector_adjustable_widget_slider">Pielāgot slīdni</string>
   <string name="title_pref_selector_typo_granularity">Pārbaudīt pareizrakstību</string>

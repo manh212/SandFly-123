@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ເປີດການນຳໃຊ້ການວາງທັບບັນທຶກດີບັກ</string>
   <string name="title_pref_typing_confirmation">ການຕັ້ງຄ່າການພິມ</string>
   <string name="title_pref_typing_long_tap_duration">ການໜ່ວງເວລາການແຕະຄ້າງໄວ້ເມື່ອພິມ</string>
-  <string name="title_pref_touch_explore_timeout">ຄວາມຫຼ້າຊ້າໂຟກັສການພິມ</string>
   <string name="message_pref_touch_explore_latency">ຄວາມຫຼ້າຊ້າໂຟກັສການພິມທີ່ສັ້ນລົງໝາຍຄວາມວ່າ TalkBack ຈະປະກາດໄວຂຶ້ນຫຼັງຈາກສຳຜັດແປ້ນພິມ.\n\nເລືອກຄວາມຫຼ້າຊ້າ</string>
-  <string name="title_pref_touch_focus_timeout">ຄວາມຫຼ້າຊ້າໂຟກັສ</string>
-  <string name="title_pref_talkback_gesture_detection">ຈັດການທ່າທາງໃນ TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">ປິດ TalkBack ແລ້ວເປີດຄືນໃໝ່ເພື່ອເປີດໃຊ້ການຕັ້ງຄ່າ.</string>
   <string name="title_pref_auto_image_captioning">ຄຳອະທິບາຍອັດຕະໂນມັດ</string>
   <string name="title_pref_gemini_settings">ການຕັ້ງຄ່າ Gemini</string>
   <string name="title_pref_gemini_enabled">ຄຳສັ່ງສຽງ Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">ຫຼຸດລະດັບສຽງອື່ນທີ່ກຳລັງຫຼິ້ນຢູ່ໃນເວລາທີ່ TalkBack ເວົ້າ</string>
   <string name="summary_support_scroll_seq">ເລື່ອນໄປໜ້າ ຫຼື ກັບຫຼັງ</string>
   <string name="summary_support_change_a11y_volume">ເພີ່ມ ຫຼື ຫຼຸດລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງ</string>
-  <string name="summary_support_change_touch_explore_latency">ເພີ່ມ ຫຼື ຫຼຸດຄວາມຫຼ້າຊ້າໂຟກັສການພິມ</string>
-  <string name="summary_support_change_touch_focus_latency">ເພີ່ມ ຫຼື ຫຼຸດຄວາມຫຼ້າຊ້າໂຟກັສ</string>
   <string name="summary_screen_overview">ສະຫຼຸບໜ້າຈໍດ້ວຍປຸ່ມຄຳສັ່ງ</string>
   <string name="summary_screen_overview_no_actions">ຟັງສະຫຼຸບເນື້ອຫາຢູ່ໜ້າຈໍ</string>
   <string name="summary_image_caption">ເວົ້າຂໍ້ຄວາມ ແລະ ໄອຄອນພາຍໃນຮູບທີ່ເລືອກ</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ບີບນິ້ວສອງເທື່ອ</string>
   <string name="gesture_name_double_tap_and_hold">ແຕະສອງເທື່ອຄ້າງໄວ້</string>
   <string name="gesture_name_double_tap_and_hold_xr">ບີບນິ້ວຄ້າງໄວ້</string>
-  <string name="gesture_name_2finger_tap_hold">ແຕະຄ້າງໄວ້ດ້ວຍ 2 ນິ້ວ</string>
   <string name="gesture_name_3finger_tap_hold">ແຕະຄ້າງໄວ້ດ້ວຍ 3 ນິ້ວ</string>
   <string name="gesture_name_2finger_3tap_hold">ແຕະສາມເທື່ອຄ້າງໄວ້ດ້ວຍ 2 ນິ້ວ</string>
   <string name="gesture_name_3finger_3tap_hold">ແຕະສາມເທື່ອຄ້າງໄວ້ດ້ວຍ 3 ນິ້ວ</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ການຫຼຸດຜ່ອນສຽງ</string>
   <string name="title_pref_support_scroll_seq">ເລື່ອນ</string>
   <string name="title_pref_a11y_volume">ລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງ</string>
-  <string name="title_pref_touch_explore_latency">ຄວາມຫຼ້າຊ້າໂຟກັສການພິມ</string>
-  <string name="title_pref_touch_focus_latency">ຄວາມຫຼ້າຊ້າໂຟກັສ</string>
   <string name="message_pref_touch_focus_latency">ຄວາມຫຼ້າຊ້າໂຟກັສທີ່ສັ້ນລົງໝາຍຄວາມວ່າ TalkBack ຈະປະກາດໄວຂຶ້ນຫຼັງຈາກທີ່ສຳຜັດໜ້າຈໍ</string>
   <string name="message_pref_typing_method_prefix">ເພື່ອໃຫ້ເກີດຄວາມຫຼ້າຊ້າໃນເວລາພິມໜ້ອຍທີ່ສຸດ, ໃຫ້ເລືອກ \"ກົດຄ້າງໄວ້ເພື່ອເລືອກປຸ່ມໃດກໍຕາມ, ແລ້ວຈຶ່ງຍົກຂຶ້ນ\"</string>
-  <string name="message_pref_typing_method_postfix">ນອກຈາກນີ້, ທ່ານຍັງສາມາດໃຊ້ການແຍກພິມເພື່ອພິມຕອນໃດກໍໄດ້. ເພື່ອດຳເນີນການນີ້, ໃຫ້ໃຊ້ນິ້ວໜຶ່ງກົດຄ້າງໄວ້ເພື່ອເລືອກປຸ່ມໃດກໍໄດ້, ແລ້ວໃຊ້ອີກນິ້ວໜຶ່ງແຕະໃສ່ໜ້າຈໍ.</string>
   <string name="title_pref_talkback_speech_rate">ຄວາມໄວໃນການເວົ້າຂອງ TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">ປັບແກ້ຕົວເລື່ອນ</string>
   <string name="title_pref_selector_typo_granularity">ພິສູດອັກສອນ</string>

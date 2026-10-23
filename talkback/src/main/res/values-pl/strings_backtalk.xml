@@ -115,16 +115,11 @@
   <string name="dialog_message_screen_overview_promotion">Zrzut ekranu jest wysyłany do interfejsu API Gemini firmy Google w celu uzyskania opisu, co trwa kilka sekund. Po włączeniu AI na urządzeniu jest opisywany na tym telefonie i nie jest wysyłany.\n\nJeśli korzystasz z bezpłatnego klucza API, Google może przechowywać otrzymane dane, używać ich do ulepszania swoich produktów i przekazywać je do oceny ludziom. Generatywna AI ma charakter eksperymentalny, więc będzie popełniać błędy. Obowiązują <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
   <string name="title_pref_brightness">Jasność</string>
   <string name="summary_support_change_brightness">Zwiększanie lub zmniejszanie jasności ekranu, także gdy ekran jest ukryty</string>
-  <string name="title_pref_shortcut_3finger_4tap">Kliknij czterokrotnie 3 palcami</string>
-  <string name="title_pref_shortcut_2finger_rotate_clockwise">Obróć 2 palce zgodnie z ruchem wskazówek zegara</string>
-  <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Obróć 2 palce przeciwnie do ruchu wskazówek zegara</string>
   <string name="value_type_confirmation_lift_to_type_except_action_key">Przytrzymaj palec, aby wybrać przycisk klawiatury, a następnie podnieś palec. Przyciski Enter, Gotowe lub Wyślij wymagają dwukrotnego kliknięcia.</string>
-  <string name="title_pref_multi_tap_timeout">Maksymalny odstęp między kliknięciami jednym palcem</string>
   <string name="value_multi_tap_timeout_100ms">0,1 sekundy</string>
   <string name="value_multi_tap_timeout_150ms">0,15 sekundy</string>
   <string name="value_multi_tap_timeout_200ms">0,2 sekundy</string>
   <string name="value_multi_tap_timeout_250ms">0,25 sekundy (domyślnie)</string>
-  <string name="title_pref_rotor_step_degrees">Kąt obrotu na jeden krok pokrętła</string>
   <string name="value_rotor_step_15">15 stopni</string>
   <string name="value_rotor_step_20">20 stopni</string>
   <string name="value_rotor_step_30">30 stopni (domyślnie)</string>

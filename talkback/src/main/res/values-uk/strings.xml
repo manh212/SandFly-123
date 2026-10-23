@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Увімкнути накладання журналів налагодження</string>
   <string name="title_pref_typing_confirmation">Налаштування введення тексту</string>
   <string name="title_pref_typing_long_tap_duration">Затримка натискання й утримування під час введення тексту</string>
-  <string name="title_pref_touch_explore_timeout">Затримка виділення під час введення тексту</string>
   <string name="message_pref_touch_explore_latency">Що коротша затримка виділення під час введення тексту, то швидше TalkBack озвучуватиме текст після дотику до клавіатури.\n\nВиберіть затримку</string>
-  <string name="title_pref_touch_focus_timeout">Затримка виділення</string>
-  <string name="title_pref_talkback_gesture_detection">Розпізнавати жести в TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Щоб активувати це налаштування, вимкніть і знову ввімкніть TalkBack.</string>
   <string name="title_pref_auto_image_captioning">Автоматичні описи</string>
   <string name="title_pref_gemini_settings">Налаштування Gemini</string>
   <string name="title_pref_gemini_enabled">Голосова команда для Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Зменшити гучність інших звуків під час озвучування за допомогою TalkBack</string>
   <string name="summary_support_scroll_seq">Прокручування вперед або назад</string>
   <string name="summary_support_change_a11y_volume">Збільшення або зменшення гучності для функцій доступності</string>
-  <string name="summary_support_change_touch_explore_latency">Збільшити або зменшити затримку виділення під час введення тексту</string>
-  <string name="summary_support_change_touch_focus_latency">Збільшити або зменшити затримку виділення</string>
   <string name="summary_screen_overview">Описати екран із кнопками дій</string>
   <string name="summary_screen_overview_no_actions">Короткий переказ контенту на екрані</string>
   <string name="summary_image_caption">Опис тексту й значків на вибраному зображенні</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Двічі звести пальці</string>
   <string name="gesture_name_double_tap_and_hold">Два дотики й утримування</string>
   <string name="gesture_name_double_tap_and_hold_xr">Звести пальці й утримувати</string>
-  <string name="gesture_name_2finger_tap_hold">Натискання й утримування 2 пальцями</string>
   <string name="gesture_name_3finger_tap_hold">Натискання й утримування 3 пальцями</string>
   <string name="gesture_name_2finger_3tap_hold">Потрійний дотик і втримування 2 пальцями</string>
   <string name="gesture_name_3finger_3tap_hold">Три дотики й утримування 3 пальцями</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Приглушення звуків додатків</string>
   <string name="title_pref_support_scroll_seq">Прокручувати</string>
   <string name="title_pref_a11y_volume">Спеціальні можливості: гучність</string>
-  <string name="title_pref_touch_explore_latency">Затримка виділення під час введення тексту</string>
-  <string name="title_pref_touch_focus_latency">Затримка виділення</string>
   <string name="message_pref_touch_focus_latency">Що коротша затримка виділення, то швидше TalkBack озвучуватиме об’єкт після дотику до екрана</string>
   <string name="message_pref_typing_method_prefix">Щоб мінімізувати затримку виділення під час введення тексту, виберіть \"Утримувати будь-яку клавішу й відпустити її\"</string>
-  <string name="message_pref_typing_method_postfix">Ви також можете будь-коли почати використовувати роздільне натискання, щоб вводити текст. Для цього утримуйте один палець на будь-якій клавіші, а іншим пальцем торкніться екрана.</string>
   <string name="title_pref_talkback_speech_rate">Швидкість мовлення TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Налаштуйте повзунок</string>
   <string name="title_pref_selector_typo_granularity">Перевірка правопису</string>

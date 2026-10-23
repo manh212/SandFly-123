@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Puheen nopeus: %1$d %%</string>
   <string name="template_accessibility_volume_change_increase">Nosta saavutettavuuden äänenvoimakkuutta %1$d prosenttiin.</string>
   <string name="template_accessibility_volume_change_decrease">Vähennä saavutettavuuden äänenvoimakkuutta %1$d prosenttiin.</string>
-  <string name="template_touch_latency_reach_maximum">Enintään</string>
-  <string name="template_touch_latency_reach_minimum">Vähintään</string>
   <string name="template_volume_change_maximum">Enintään</string>
   <string name="template_volume_change_minimum">Vähintään</string>
   <string name="template_volume_change_volume_up_curved_text">Lisää</string>

@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ਡੀਬੱਗ ਲੌਗ ਓਵਰਲੇ ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="title_pref_typing_confirmation">ਟਾਈਪਿੰਗ ਦੀ ਤਰਜੀਹ</string>
   <string name="title_pref_typing_long_tap_duration">ਟਾਈਪ ਕਰਨ ਵੇਲੇ ਇੰਨੀ ਦੇਰ ਤੱਕ ਸਪਰਸ਼ ਕਰ ਕੇ ਰੱਖੋ</string>
-  <string name="title_pref_touch_explore_timeout">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
   <string name="message_pref_touch_explore_latency">ਫੋਕਸ ਵਾਲੀ ਆਈਟਮ ਦੀ ਜਾਣਕਾਰੀ ਮਿਲਣ ਵਿੱਚ ਦੇਰੀ ਲਈ ਜਿੰਨਾ ਘੱਟ ਸਮਾਂ ਸੈੱਟ ਕੀਤਾ ਜਾਵੇਗਾ, ਕੀ-ਬੋਰਡ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ TalkBack ਘੋਸ਼ਣਾਵਾਂ ਓਨੀ ਹੀ ਛੇਤੀ ਮਿਲਣਗੀਆਂ\n\nਕੋਈ ਦੇਰੀ ਚੁਣੋ</string>
-  <string name="title_pref_touch_focus_timeout">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack ਵਿੱਚ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਸੰਭਾਲੋ</string>
-  <string name="toast_pref_talkback_gesture_detection">ਸੈਟਿੰਗ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ TalkBack ਨੂੰ ਬੰਦ ਕਰ ਕੇ ਦੁਬਾਰਾ ਚਾਲੂ ਕਰੋ।</string>
   <string name="title_pref_auto_image_captioning">ਸਵੈਚਲਿਤ ਵਰਣਨ</string>
   <string name="title_pref_gemini_settings">Gemini ਸੈਟਿੰਗਾਂ</string>
   <string name="title_pref_gemini_enabled">Gemini ਅਵਾਜ਼ੀ ਆਦੇਸ਼</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack ਦੇ ਬੋਲਣ \'ਤੇ, ਚੱਲ ਰਹੀ ਹੋਰ ਆਡੀਓ ਦੀ ਅਵਾਜ਼ ਨੂੰ ਘੱਟ ਕਰੋ</string>
   <string name="summary_support_scroll_seq">ਅੱਗੇ ਜਾਂ ਪਿੱਛੇ ਵੱਲ ਸਕ੍ਰੋਲ ਕਰੋ</string>
   <string name="summary_support_change_a11y_volume">ਪਹੁੰਚਯੋਗਤਾ ਦੀ ਅਵਾਜ਼ ਘਟਾਓ ਜਾਂ ਵਧਾਓ</string>
-  <string name="summary_support_change_touch_explore_latency">ਟਾਈਪਿੰਗ ਫੋਕਸ ਦੇਰੀ ਵਧਾਓ ਜਾਂ ਘਟਾਓ</string>
-  <string name="summary_support_change_touch_focus_latency">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ ਦਾ ਸਮਾਂ ਵਧਾਓ ਜਾਂ ਘਟਾਓ</string>
   <string name="summary_screen_overview">ਕਾਰਵਾਈ ਵਾਲੇ ਬਟਨਾਂ ਨਾਲ ਸਕ੍ਰੀਨ ਦਾ ਸਾਰਾਂਸ਼ ਦਿਓ</string>
   <string name="summary_screen_overview_no_actions">ਸਕ੍ਰੀਨ \'ਤੇ ਦਿੱਤੀ ਸਮੱਗਰੀ ਦਾ ਸਾਰਾਂਸ਼ ਸੁਣੋ</string>
   <string name="summary_image_caption">ਚੁਣੇ ਗਏ ਚਿੱਤਰ ਵਿਚਲੀ ਲਿਖਤ ਅਤੇ ਪ੍ਰਤੀਕਾਂ ਨੂੰ ਬੋਲੋ ਜਾਣ ਦੀ ਸੁਵਿਧਾ</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ਡਬਲ-ਚੂੰਢੀ ਭਰੋ</string>
   <string name="gesture_name_double_tap_and_hold">ਡਬਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_double_tap_and_hold_xr">ਚੂੰਢੀ ਭਰ ਕੇ ਰੱਖੋ</string>
-  <string name="gesture_name_2finger_tap_hold">2 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_3finger_tap_hold">3 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_2finger_3tap_hold">2 ਉਂਗਲਾਂ ਨਾਲ ਟ੍ਰਿਪਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_3finger_3tap_hold">3 ਉਂਗਲਾਂ ਨਾਲ ਟ੍ਰਿਪਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ਆਡੀਓ ਡੱਕਿੰਗ</string>
   <string name="title_pref_support_scroll_seq">ਸਕ੍ਰੋਲ ਕਰੋ</string>
   <string name="title_pref_a11y_volume">ਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼</string>
-  <string name="title_pref_touch_explore_latency">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
-  <string name="title_pref_touch_focus_latency">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
   <string name="message_pref_touch_focus_latency">ਫੋਕਸ ਵਾਲੀ ਆਈਟਮ ਦੀ ਜਾਣਕਾਰੀ ਮਿਲਣ ਵਿੱਚ ਦੇਰੀ ਲਈ ਜਿੰਨਾ ਘੱਟ ਸਮਾਂ ਸੈੱਟ ਕੀਤਾ ਜਾਵੇਗਾ, ਸਕ੍ਰੀਨ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ TalkBack ਘੋਸ਼ਣਾਵਾਂ ਓਨੀ ਹੀ ਛੇਤੀ ਮਿਲਣਗੀਆਂ</string>
   <string name="message_pref_typing_method_prefix">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਦੇਰੀ ਨੂੰ ਘੱਟ ਤੋਂ ਘੱਟ ਰੱਖਣ ਲਈ, \"ਕਿਸੇ ਕੁੰਜੀ ਨੂੰ ਚੁਣਨ ਲਈ ਉਸਨੂੰ ਦਬਾਈ ਰੱਖੋ, ਫਿਰ ਉਂਗਲ ਚੁੱਕੋ\" ਵਿਕਲਪ ਚੁਣੋ</string>
-  <string name="message_pref_typing_method_postfix">ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਸਮੇਂ ਟਾਈਪ ਕਰਨ ਲਈ ਸਪਲਿਟ-ਟੈਪ ਦੀ ਵਰਤੋਂ ਵੀ ਕਰ ਸਕਦੇ ਹੋ। ਅਜਿਹਾ ਕਰਨ ਲਈ, ਕੋਈ ਕੁੰਜੀ ਚੁਣਨ ਵਾਸਤੇ ਇੱਕ ਉਂਗਲ ਨੂੰ ਦਬਾਈ ਰੱਖੋ ਅਤੇ ਦੂਜੀ ਉਂਗਲੀ ਨਾਲ ਸਕ੍ਰੀਨ \'ਤੇ ਟੈਪ ਕਰੋ।</string>
   <string name="title_pref_talkback_speech_rate">TalkBack ਦੀ ਬੋਲਣ ਦੀ ਗਤੀ</string>
   <string name="title_pref_selector_adjustable_widget_slider">ਸਲਾਈਡਰ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
   <string name="title_pref_selector_typo_granularity">ਪਰੂਫਰੀਡ</string>

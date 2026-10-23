@@ -178,8 +178,6 @@
   <string name="template_speech_rate_change">Ritmul vorbirii %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Mărește volumul pentru accesibilitate la %1$d procente.</string>
   <string name="template_accessibility_volume_change_decrease">Micșorează volumul pentru accesibilitate la %1$d procente.</string>
-  <string name="template_touch_latency_reach_maximum">Maxim</string>
-  <string name="template_touch_latency_reach_minimum">Minim</string>
   <string name="template_volume_change_maximum">Maxim</string>
   <string name="template_volume_change_minimum">Minim</string>
   <string name="template_volume_change_volume_up_curved_text">Crește</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">La velocidad de habla es del %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Aumentar el volumen de accesibilidad al %1$d por ciento.</string>
   <string name="template_accessibility_volume_change_decrease">Bajar el volumen de accesibilidad al %1$d por ciento</string>
-  <string name="template_touch_latency_reach_maximum">Máximo</string>
-  <string name="template_touch_latency_reach_minimum">Mínimo</string>
   <string name="template_volume_change_maximum">Máximo</string>
   <string name="template_volume_change_minimum">Mínimo</string>
   <string name="template_volume_change_volume_up_curved_text">Aumentar</string>

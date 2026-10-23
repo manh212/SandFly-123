@@ -423,11 +423,7 @@
   <string name="title_pref_log_overlay">تفعيل تراكب سجلّ تصحيح الأخطاء</string>
   <string name="title_pref_typing_confirmation">طريقة الكتابة</string>
   <string name="title_pref_typing_long_tap_duration">مهلة النقر مع الاستمرار عند الكتابة</string>
-  <string name="title_pref_touch_explore_timeout">مهلة الاستجابة للتركيز على الكتابة</string>
   <string name="message_pref_touch_explore_latency">‏كلّما كانت المهلة أقصر، بدأ SandFly بالقراءة بشكل أسرع بعد لمس لوحة المفاتيح.\n\nيُرجى اختيار المهلة</string>
-  <string name="title_pref_touch_focus_timeout">مهلة الاستجابة للتركيز</string>
-  <string name="title_pref_talkback_gesture_detection">‏التعامل مع الإيماءات في ميزة SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">‏أَلْغِ تفعيل ميزة SandFly، ثم فعّلها مجددًا لتنشيط الإعداد.</string>
   <string name="title_pref_auto_image_captioning">الأوصاف التلقائية</string>
   <string name="title_pref_gemini_settings">‏إعدادات Gemini</string>
   <string name="title_pref_gemini_enabled">‏الطلبات الصوتية في Gemini</string>
@@ -665,8 +661,6 @@
   <string name="summary_support_change_a11y_volume">زيادة أو تقليل مستوى صوت تسهيل الاستخدام</string>
   <string name="title_pref_brightness">السطوع</string>
   <string name="summary_support_change_brightness">زيادة سطوع الشاشة أو خفضه، حتى عند إخفاء الشاشة</string>
-  <string name="summary_support_change_touch_explore_latency">يمكنك زيادة مهلة الاستجابة أثناء الكتابة أو تقليلها</string>
-  <string name="summary_support_change_touch_focus_latency">زيادة وقت الاستجابة للتركيز أو تقليله</string>
   <string name="summary_screen_overview">يمكنك تلخيص محتوى الشاشة باستخدام أزرار الإجراءات</string>
   <string name="summary_screen_overview_no_actions">سماع ملخص للمحتوى المعروض على الشاشة</string>
   <string name="summary_image_caption">يوفّر وصفًا شفهيًا للنص والرموز داخل صورة محدّدة.</string>
@@ -701,7 +695,6 @@
   <string name="title_pref_shortcut_3finger_1tap_xr">توجيه راحة اليد الثانوية للداخل مع التصغير/التكبير بإصبعين</string>
   <string name="title_pref_shortcut_3finger_2tap">النقر مرتين باستخدام 3 أصابع</string>
   <string name="title_pref_shortcut_3finger_3tap">النقر ثلاث مرات باستخدام 3 أصابع</string>
-  <string name="title_pref_shortcut_3finger_4tap">النقر 4 مرّات بثلاثة أصابع</string>
   <string name="title_pref_shortcut_4finger_1tap">النقر باستخدام 4 أصابع</string>
   <string name="title_pref_shortcut_4finger_2tap">النقر مرتين باستخدام 4 أصابع</string>
   <string name="title_pref_shortcut_4finger_3tap">النقر ثلاث مرات باستخدام 4 أصابع</string>
@@ -724,8 +717,6 @@
   <string name="title_pref_shortcut_4finger_2tap_hold">النقر مرتين باستخدام 4 أصابع مع تثبيتها</string>
   <string name="title_pref_shortcut_3finger_1tap_hold">النقر مرتين مع الاستمرار باستخدام 3 أصابع</string>
   <string name="title_pref_shortcut_2finger_3tap_hold">النقر ثلاث مرات بإصبعين مع تثبيتهما</string>
-  <string name="title_pref_shortcut_2finger_rotate_clockwise">التدوير في اتجاه عقارب الساعة بإصبعين</string>
-  <string name="title_pref_shortcut_2finger_rotate_counterclockwise">التدوير عكس اتجاه عقارب الساعة بإصبعين</string>
   <string name="title_pref_shortcut_3finger_3tap_hold">النقر ثلاث مرات مع الاستمرار باستخدام 3 أصابع</string>
   <string name="gesture_name_unknown">إيماءة غير معروفة</string>
   <string name="gesture_name_pass_through">التخطي إلى إيماءة نظام التشغيل</string>
@@ -734,7 +725,6 @@
   <string name="gesture_name_double_tap_xr">ضمّ إصبعين معًا مرّتين</string>
   <string name="gesture_name_double_tap_and_hold">النقر مرتين مع الاستمرار</string>
   <string name="gesture_name_double_tap_and_hold_xr">التصغير/التكبير بإصبعين مع الاستمرار</string>
-  <string name="gesture_name_2finger_tap_hold">النقر مرتين مع الاستمرار باستخدام إصبعين</string>
   <string name="gesture_name_3finger_tap_hold">النقر مرتين مع الاستمرار باستخدام 3 أصابع</string>
   <string name="gesture_name_2finger_3tap_hold">النقر ثلاث مرات بإصبعين مع تثبيتهما</string>
   <string name="gesture_name_3finger_3tap_hold">النقر ثلاث مرات مع الاستمرار باستخدام 3 أصابع</string>
@@ -748,12 +738,10 @@
   <string name="value_type_confirmation_lift_to_type_for_any_key">اضغط بإصبعك مع الاستمرار لاختيار أي مفتاح ثم ارفعه</string>
   <string name="value_type_confirmation_lift_to_type_except_action_key">‏اضغط بإصبعك مع الاستمرار لاختيار أي مفتاح ثم ارفعه، وانقر مرّتين للحصول على Enter أو \"تم\" أو \"إرسال\".</string>
   <string name="value_typing_long_press_500ms">نصف ثانية</string>
-  <string name="title_pref_multi_tap_timeout">الوقت بين النقرات بإصبع واحد</string>
   <string name="value_multi_tap_timeout_100ms">0.1 ثانية</string>
   <string name="value_multi_tap_timeout_150ms">0.15 ثانية</string>
   <string name="value_multi_tap_timeout_200ms">0.2 ثانية</string>
   <string name="value_multi_tap_timeout_250ms">0.25 ثانية (تلقائي)</string>
-  <string name="title_pref_rotor_step_degrees">تدوير القرص الدوّار لكل خطوة</string>
   <string name="value_rotor_step_15">15 درجة</string>
   <string name="value_rotor_step_20">20 درجة</string>
   <string name="value_rotor_step_30">30 درجة (تلقائي)</string>
@@ -904,11 +892,8 @@
   <string name="title_pref_selector_audio_focus">تجنب التداخل مع أصوات أخرى</string>
   <string name="title_pref_support_scroll_seq">التنقّل</string>
   <string name="title_pref_a11y_volume">مستوى صوت \"تسهيل الاستخدام\"</string>
-  <string name="title_pref_touch_explore_latency">وقت الاستجابة للتركيز على الكتابة</string>
-  <string name="title_pref_touch_focus_latency">مهلة الاستجابة للتركيز</string>
   <string name="message_pref_touch_focus_latency">‏كلّما كانت المهلة أقصر، بدأ SandFly بالقراءة بشكل أسرع بعد لمس الشاشة</string>
   <string name="message_pref_typing_method_prefix">لتقليل زمن الاستجابة إلى أدنى حدّ عند اختيار المفاتيح أثناء الكتابة، يمكنك اختيار الإعداد \"اضغط بإصبعك مع الاستمرار لاختيار أي مفتاح ثم ارفعه\"</string>
-  <string name="message_pref_typing_method_postfix">يمكنك أيضًا متى شئت استخدام ميزة \"الكتابة بنقرتين\" عن طريق الضغط مع الاستمرار بإصبعك لاختيار أي مفتاح، ثم استخدام إصبع آخر للنقر على الشاشة.</string>
   <string name="title_pref_talkback_speech_rate">سرعة الكلام</string>
   <string name="title_pref_selector_adjustable_widget_slider">تعديل شريط التمرير</string>
   <string name="title_pref_selector_typo_granularity">التدقيق اللغوي</string>
@@ -1491,18 +1476,6 @@
     <string name="shortcut_open_app">فتح <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_system_notifications">مركز الإشعارات في النظام</string>
     <string name="title_clear_selection">محو التحديد</string>
-    <string name="title_pref_shortcut_2finger_scrub">الفرك بإصبعين</string>
-    <string name="title_pref_shortcut_2finger_pinch">ضمّ إصبعين</string>
-    <string name="title_pref_shortcut_2finger_spread">مباعدة إصبعين</string>
-    <string name="title_pref_shortcut_3finger_pinch">ضمّ 3 أصابع</string>
-    <string name="title_pref_shortcut_3finger_spread">مباعدة 3 أصابع</string>
-    <string name="title_pref_shortcut_4finger_pinch">ضمّ 4 أصابع</string>
-    <string name="title_pref_shortcut_4finger_spread">مباعدة 4 أصابع</string>
-    <string name="title_pref_shortcut_edge_bottom_up">التمرير سريعًا للأعلى من الحافة السفلية</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">التمرير سريعًا لمسافة طويلة للأعلى من الحافة السفلية</string>
-    <string name="title_pref_shortcut_edge_top_left_down">التمرير سريعًا للأسفل من أعلى اليسار</string>
-    <string name="title_pref_shortcut_edge_top_right_down">التمرير سريعًا للأسفل من أعلى اليمين</string>
-    <string name="value_type_confirmation_tap_to_type">انقر على أي مفتاح لكتابته، أو اضغط بإصبعك مع الاستمرار لاختيار أي مفتاح ثم ارفعه</string>
     <string name="title_pref_fix_stuck_touch_exploration">إصلاح توقُّف الاستكشاف باللمس</string>
     <string name="summary_pref_fix_stuck_touch_exploration_no_dump">بدون الإذن DUMP، لا يمكن لـ SandFly إلا الإبلاغ عن احتمال توقُّف الاستكشاف باللمس. للسماح له بإصلاحه، شغِّل: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
     <string name="stuck_touch_exploration_fixing">جارٍ إصلاح الاستكشاف باللمس</string>

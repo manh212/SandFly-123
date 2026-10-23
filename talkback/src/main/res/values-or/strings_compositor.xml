@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ସ୍ପୀଚ୍‌ ରେଟ୍ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ଆକ୍ସେସିବିଲିଟୀ ଭଲ୍ୟୁମକୁ %1$d ଶତକଡ଼ାକୁ ବଢ଼ାନ୍ତୁ।</string>
   <string name="template_accessibility_volume_change_decrease">ଆକ୍ସେସିବିଲିଟୀ ଭଲ୍ୟୁମକୁ %1$d ଶତକଡ଼ାକୁ କମାନ୍ତୁ।</string>
-  <string name="template_touch_latency_reach_maximum">ସର୍ବାଧିକ</string>
-  <string name="template_touch_latency_reach_minimum">ସର୍ବନିମ୍ନ</string>
   <string name="template_volume_change_maximum">ସର୍ବାଧିକ</string>
   <string name="template_volume_change_minimum">ସର୍ବନିମ୍ନ</string>
   <string name="template_volume_change_volume_up_curved_text">ବଢ଼ାନ୍ତୁ</string>

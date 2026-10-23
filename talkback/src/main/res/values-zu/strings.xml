@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Nika amandla imbondela yelogu lokususa iphutha</string>
   <string name="title_pref_typing_confirmation">Okuncanyelwayo kokuthayipha</string>
   <string name="title_pref_typing_long_tap_duration">Thinta uphinde ubambe ukubambezela lapho uthayipha</string>
-  <string name="title_pref_touch_explore_timeout">Ukubambezeleka kokuthayipha</string>
   <string name="message_pref_touch_explore_latency">Ukubambezeleka kokuthayipha okufushane kusho ukuthi izaziso zeTalkBack zenziwe ngokushesha ngemva kokuthinta ikhibhodi.\n\nKhetha ukubambezeleka</string>
-  <string name="title_pref_touch_focus_timeout">Ukubambezeleka kokugxilisa</string>
-  <string name="title_pref_talkback_gesture_detection">Singatha ukunyakazisa umzimba ku-TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Vala i-TalkBack off bese uphinde uyivule ukuze usebenzise isethingi.</string>
   <string name="title_pref_auto_image_captioning">Izincazelo ezizenzekelayo</string>
   <string name="title_pref_gemini_settings">Amasethingi e-Gemini</string>
   <string name="title_pref_gemini_enabled">Umyalo Wezwi we-Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Yehlisa ivolumu yomunye umsindo odlalayo lapho i-TalkBack ikhuluma</string>
   <string name="summary_support_scroll_seq">Skrolela phambili noma emuva</string>
   <string name="summary_support_change_a11y_volume">Khuphula noma nciphisa ivolumu yokufinyeleleka</string>
-  <string name="summary_support_change_touch_explore_latency">Khulisa noma unciphise ukubambezeleka okugxilwe kukho kokuthayipha</string>
-  <string name="summary_support_change_touch_focus_latency">Khulisa noma unciphise ukubambezeleka kokugxilisa</string>
   <string name="summary_screen_overview">Fingqa isikrini ngezinkinobho zesenzo</string>
   <string name="summary_screen_overview_no_actions">Yizwa isifinyezo sekhontenti esikrinini</string>
   <string name="summary_image_caption">Khuluma umbhalo nezithonjana ngaphakathi komfanekiso okhethiwe</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Ukuncinza kabili</string>
   <string name="gesture_name_double_tap_and_hold">Thepha futhi ubambe</string>
   <string name="gesture_name_double_tap_and_hold_xr">Ukuncinza ungadedeli</string>
-  <string name="gesture_name_2finger_tap_hold">Thepha futhi ubambe ngeminwe emi-2</string>
   <string name="gesture_name_3finger_tap_hold">Thepha futhi ubambe ngeminwe emi-3</string>
   <string name="gesture_name_2finger_3tap_hold">Thepha kathathu futhi ubambe ngeminwe emi-2</string>
   <string name="gesture_name_3finger_3tap_hold">Thepha kathathu futhi ubambe ngeminwe emi-3</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Ukudakha komsindo</string>
   <string name="title_pref_support_scroll_seq">Skrola</string>
   <string name="title_pref_a11y_volume">Ivolumu yokufinyeleleka</string>
-  <string name="title_pref_touch_explore_latency">Ukubambezeleka kokuthayipha</string>
-  <string name="title_pref_touch_focus_latency">Ukubambezeleka kokugxilisa</string>
   <string name="message_pref_touch_focus_latency">Ukubambezeleka kokugxila okufushane kusho ukuthi izaziso zeTalkBack zenziwe ngokushesha ngemva kokuthinta isikrini</string>
   <string name="message_pref_typing_method_prefix">Ukuze kube nokubambezeleka okuncane kakhulu lapho ubhala, khetha okuthi \"Cindezela umunwe ukuze ukhethe noma iyiphi inkinobho, bese uyasusa\"</string>
-  <string name="message_pref_typing_method_postfix">Ungasebenzisa nokuthepha kokuhlukanisa noma nini. Ukuze wenze kanjalo, cindezela umunwe owodwa ukuze ukhethe inkinobho, bese usebenzisa omunye umunwe ukuze uthephe esikrinini.</string>
   <string name="title_pref_talkback_speech_rate">I-TalkBack yenani lokukhuluma</string>
   <string name="title_pref_selector_adjustable_widget_slider">Lungisa isilayida</string>
   <string name="title_pref_selector_typo_granularity">Ukulungisa amaphutha okubhala</string>

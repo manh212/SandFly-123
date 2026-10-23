@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Միացնել վրիպազերծման մատյանների վրադրումը</string>
   <string name="title_pref_typing_confirmation">Մուտքագրման կարգավորում</string>
   <string name="title_pref_typing_long_tap_duration">Հպելու և պահելու հապաղում մուտքագրման ժամանակ</string>
-  <string name="title_pref_touch_explore_timeout">Մուտքագրման ընթացքում տարրի ընտրության հապաղում</string>
   <string name="message_pref_touch_explore_latency">Եթե մուտքագրման ընթացքում տարրի ընտրության հապաղումը փոքր է, TalkBack-ն ավելի արագ է արձագանքում, երբ դուք հպում եք ստեղնաշարին։\n\nԸնտրեք հապաղումը։</string>
-  <string name="title_pref_touch_focus_timeout">Տարրի ընտրության հապաղում</string>
-  <string name="title_pref_talkback_gesture_detection">Միացնել ժեստերի հայտնաբերումը TalkBack-ում</string>
-  <string name="toast_pref_talkback_gesture_detection">Կարգավորումն ակտիվացնելու համար անջատեք TalkBack-ը և նորից միացրեք։</string>
   <string name="title_pref_auto_image_captioning">Ավտոմատ նկարագրություններ</string>
   <string name="title_pref_gemini_settings">Gemini-ի կարգավորումներ</string>
   <string name="title_pref_gemini_enabled">Gemini-ի ձայնային հրահանգ</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Նվազեցնում է այլ ձայների ուժգնությունը, երբ TalkBack-ը խոսում է</string>
   <string name="summary_support_scroll_seq">Թերթել առաջ կամ հետ</string>
   <string name="summary_support_change_a11y_volume">Բարձրացրեք կամ ցածրացրեք հատուկ գործառույթների ձայնը</string>
-  <string name="summary_support_change_touch_explore_latency">Մեծացրեք կամ փոքրացրեք մուտքագրման ընթացքում տարրի ընտրության հապաղումը</string>
-  <string name="summary_support_change_touch_focus_latency">Մեծացնել կամ փոքրացնել տարրի ընտրության հապաղումը</string>
   <string name="summary_screen_overview">Ամփոփել էկրանի բովանդակությունը գործողության կոճակների միջոցով</string>
   <string name="summary_screen_overview_no_actions">Լսել էկրանին ցուցադրված բովանդակության ամփոփումը</string>
   <string name="summary_image_caption">Հնչեցնում է ընտրված պատկերների տեքստը և պատկերակների նկարագրությունը</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Երկու անգամ մատներն իրար միացնել</string>
   <string name="gesture_name_double_tap_and_hold">Կրկնակի հպում և պահում</string>
   <string name="gesture_name_double_tap_and_hold_xr">Մատներն իրար միացնել և պահել</string>
-  <string name="gesture_name_2finger_tap_hold">Երկու մատով կրկնակի հպում և պահում</string>
   <string name="gesture_name_3finger_tap_hold">Երեք մատով կրկնակի հպում և պահում</string>
   <string name="gesture_name_2finger_3tap_hold">Երկու մատով եռակի հպում և պահում</string>
   <string name="gesture_name_3finger_3tap_hold">Երեք մատով եռակի հպում և պահում</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Այլ հավելվածների ձայնի իջեցում</string>
   <string name="title_pref_support_scroll_seq">Ոլորել</string>
   <string name="title_pref_a11y_volume">Հատուկ գործառույթների ձայնի ուժգնություն</string>
-  <string name="title_pref_touch_explore_latency">Մուտքագրման ընթացքում տարրի ընտրության հապաղում</string>
-  <string name="title_pref_touch_focus_latency">Տարրի ընտրության հապաղում</string>
   <string name="message_pref_touch_focus_latency">Եթե տարրի ընտրության հապաղումը փոքր է, TalkBack-ն ավելի արագ է արձագանքում, երբ դուք հպում եք էկրանին</string>
   <string name="message_pref_typing_method_prefix">Մուտքագրման ժամանակ հապաղումը նվազագույնի հասցնելու համար ընտրեք «Սեղմած պահել ցանկացած ստեղն, ապա բաց թողնել»</string>
-  <string name="message_pref_typing_method_postfix">Դուք նաև ցանկացած ժամանակ կարող եք օգտագործել տրոհված հպումը՝ տեքստ մուտքագրելու համար։ Մեկ մատը սեղմած պահեք ցանկացած ստեղնի վրա և մյուս մատով հպեք էկրանին։</string>
   <string name="title_pref_talkback_speech_rate">TalkBack-ի ընթերցման արագություն</string>
   <string name="title_pref_selector_adjustable_widget_slider">Սահիչի կարգավորում</string>
   <string name="title_pref_selector_typo_granularity">Սրբագրում</string>

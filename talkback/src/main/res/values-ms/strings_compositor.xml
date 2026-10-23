@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Kadar pertuturan %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Tingkatkan kelantangan kebolehaksesan kepada %1$d peratus.</string>
   <string name="template_accessibility_volume_change_decrease">Kurangkan kelantangan kebolehaksesan kepada %1$d peratus.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maksimum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Tambahkan</string>

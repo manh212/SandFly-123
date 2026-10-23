@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">भाषणाचा रेट %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">अ‍ॅक्सेसिबिलिटी व्हॉल्यूम %1$d टक्क्यांपर्यंत वाढवा.</string>
   <string name="template_accessibility_volume_change_decrease">अ‍ॅक्सेसिबिलिटी व्हॉल्यूम %1$d टक्क्यांपर्यंत कमी करा.</string>
-  <string name="template_touch_latency_reach_maximum">कमाल</string>
-  <string name="template_touch_latency_reach_minimum">किमान</string>
   <string name="template_volume_change_maximum">कमाल</string>
   <string name="template_volume_change_minimum">किमान</string>
   <string name="template_volume_change_volume_up_curved_text">वाढवा</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ល្បឿននិយាយ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">បង្កើនកម្រិតសំឡេងភាពងាយស្រួលទៅ %1$d ភាគរយ។</string>
   <string name="template_accessibility_volume_change_decrease">បន្ថយកម្រិតសំឡេងភាពងាយស្រួលទៅ %1$d ភាគរយ។</string>
-  <string name="template_touch_latency_reach_maximum">អតិបរមា</string>
-  <string name="template_touch_latency_reach_minimum">អប្បបរមា</string>
   <string name="template_volume_change_maximum">អតិបរមា</string>
   <string name="template_volume_change_minimum">អប្បបរមា</string>
   <string name="template_volume_change_volume_up_curved_text">បង្កើន</string>

@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">නිදොස් කිරීමේ ලොග් උඩැතිරිය සබල කරන්න</string>
   <string name="title_pref_typing_confirmation">ටයිප් කිරීමේ මනාපය</string>
   <string name="title_pref_typing_long_tap_duration">ටයිප් කිරීමේදී ස්පර්ශ කර අල්ලාගෙන සිටීමේ ප්‍රමාදය</string>
-  <string name="title_pref_touch_explore_timeout">ටයිප් කිරීම නාභිගත කිරීමේ ප්‍රමාදය</string>
   <string name="message_pref_touch_explore_latency">කෙටි ටයිප් කිරීමේ අවධානය යොමු කිරීමේ ප්‍රමාදය යනු යතුරු පුවරුව ස්පර්ශ කිරීමෙන් පසු TalkBack නිවේදන වේගවත් කරන බවයි.\n\nප්‍රමාදයක් තෝරන්න</string>
-  <string name="title_pref_touch_focus_timeout">නාභිගත කිරීමේ ප්‍රමාදය</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack හි ඉංගිත හසුරුවන්න</string>
-  <string name="toast_pref_talkback_gesture_detection">සැකසීම සක්‍රිය කිරීමට TalkBack ක්‍රියාවිරහිත කර නැවත ක්‍රියාත්මක කරන්න.</string>
   <string name="title_pref_auto_image_captioning">ස්වයංක්‍රීය විස්තර</string>
   <string name="title_pref_gemini_settings">Gemini සැකසීම්</string>
   <string name="title_pref_gemini_enabled">Gemini හඬ විධානය</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack කථා කරන විට වාදනය වන වෙනත් ඕඩියෝවල හඬ පරිමාව අඩු කරන්න</string>
   <string name="summary_support_scroll_seq">ඉදිරියට හෝ ආපස්සට අනුචලනය කරන්න</string>
   <string name="summary_support_change_a11y_volume">ප්‍රවේශ්‍යතා හඬ පරිමාව වැඩි හෝ අඩු කරන්න</string>
-  <string name="summary_support_change_touch_explore_latency">ටයිප් කිරීමේ අවධානය යොමු කිරීමේ ප්‍රමාදය වැඩි කිරීම හෝ අඩු කිරීම</string>
-  <string name="summary_support_change_touch_focus_latency">නාභිගත කිරීමේ ප්‍රමාදය වැඩි කිරීම හෝ අඩු කිරීම</string>
   <string name="summary_screen_overview">ක්‍රියා බොත්තම් සමග තිරය සාරාංශ කරන්න</string>
   <string name="summary_screen_overview_no_actions">අන්තර්ගතයෙහි සාරාංශයක් තිරය මත අසන්න</string>
   <string name="summary_image_caption">තෝරාගත් රූපයක් තුළ පෙළ සහ නිරූපක කථනය</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ද්විත්ව පින්ච් කිරීම</string>
   <string name="gesture_name_double_tap_and_hold">දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_double_tap_and_hold_xr">පින්ච් කරගෙන සිටින්න</string>
-  <string name="gesture_name_2finger_tap_hold">ඇඟිලි 2කින් දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_3finger_tap_hold">ඇඟිලි 3කින් දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_2finger_3tap_hold">ඇඟිලි 2කින් තෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_3finger_3tap_hold">ඇඟිලි 3කින් තෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ශ්‍රව්‍ය මැඩපැවැත්වීම</string>
   <string name="title_pref_support_scroll_seq">අනුචලනය කරන්න</string>
   <string name="title_pref_a11y_volume">ප්‍රවේශ්‍යතා හඬ පරිමාව</string>
-  <string name="title_pref_touch_explore_latency">ටයිප් කිරීම නාභිගත කිරීමේ ප්‍රමාදය</string>
-  <string name="title_pref_touch_focus_latency">නාභිගත කිරීමේ ප්‍රමාදය</string>
   <string name="message_pref_touch_focus_latency">කෙටි අවධානය යොමු කිරීමේ ප්‍රමාදය යනු තිරය ස්පර්ශ කිරීමෙන් පසු TalkBack නිවේදන වේගයෙන් සිදු කරන බවයි</string>
   <string name="message_pref_typing_method_prefix">ටයිප් කිරීමේ දී අවම ප්‍රමාදය සඳහා, \"ඕනෑම යතුරක් තේරීමට ඇඟිල්ල අල්ලාගෙන, පසුව ඔසවන්න\" තෝරා ගන්න</string>
-  <string name="message_pref_typing_method_postfix">ඔබට ඕනෑම වේලාවක ටයිප් කිරීමට තට්ටු කිරීම-බෙදීම භාවිතා කළ හැක. මෙය සිදු කිරීම සඳහා, ඕනෑම යතුරක් තේරීමට එක් ඇඟිල්ලක් අල්ලාගෙන, තිරය මත තට්ටු කිරීමට තවත් ඇඟිල්ලක් භාවිතා කරන්න.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack කථන අනුපාතය</string>
   <string name="title_pref_selector_adjustable_widget_slider">ස්ලයිඩරය සීරුමාරු කරන්න</string>
   <string name="title_pref_selector_typo_granularity">සෝදුපත් බැලීම</string>

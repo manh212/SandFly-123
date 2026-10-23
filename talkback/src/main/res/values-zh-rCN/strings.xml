@@ -314,10 +314,6 @@
   <string name="title_pref_log_overlay">启用调试日志覆盖层效果</string>
   <string name="title_pref_typing_confirmation">偏好的输入方式</string>
   <string name="title_pref_typing_long_tap_duration">输入时“长按”操作的延迟时间</string>
-  <string name="title_pref_touch_explore_timeout">输入焦点延迟</string>
-  <string name="title_pref_touch_focus_timeout">焦点延迟</string>
-  <string name="title_pref_talkback_gesture_detection">在 TalkBack 中处理手势</string>
-  <string name="toast_pref_talkback_gesture_detection">请关闭 TalkBack，然后再次开启，即可激活此设置。</string>
   <string name="title_pref_auto_image_captioning">自动描述</string>
   <string name="title_pref_gemini_settings">Gemini 设置</string>
   <string name="title_pref_gemini_enabled">Gemini 语音指令</string>
@@ -550,8 +546,6 @@
   <string name="summary_audio_ducking">当 TalkBack 朗读内容时，调低正在播放的其他音频的音量</string>
   <string name="summary_support_scroll_seq">向前或向后滚动</string>
   <string name="summary_support_change_a11y_volume">调高或调低无障碍功能音量</string>
-  <string name="summary_support_change_touch_explore_latency">延长或缩短输入焦点延迟时间</string>
-  <string name="summary_support_change_touch_focus_latency">延长或缩短焦点延迟时间</string>
   <string name="summary_screen_overview">使用操作按钮总结屏幕上的内容</string>
   <string name="summary_screen_overview_no_actions">听取屏幕上内容的摘要</string>
   <string name="summary_image_caption">读出所选图片中的文字和图标</string>
@@ -616,7 +610,6 @@
   <string name="gesture_name_double_tap_xr">双指张合两次</string>
   <string name="gesture_name_double_tap_and_hold">点按两次并按住</string>
   <string name="gesture_name_double_tap_and_hold_xr">双指张合并保持该手势</string>
-  <string name="gesture_name_2finger_tap_hold">用两根手指点按并按住</string>
   <string name="gesture_name_3finger_tap_hold">用三根手指点按并按住</string>
   <string name="gesture_name_2finger_3tap_hold">用两根手指点按三次并按住</string>
   <string name="gesture_name_3finger_3tap_hold">用三根手指点按三次并按住</string>
@@ -742,11 +735,8 @@
   <string name="title_pref_selector_audio_focus">降低其他应用音量</string>
   <string name="title_pref_support_scroll_seq">滚动</string>
   <string name="title_pref_a11y_volume">无障碍功能音量</string>
-  <string name="title_pref_touch_explore_latency">输入焦点延迟</string>
-  <string name="title_pref_touch_focus_latency">焦点延迟</string>
   <string name="message_pref_touch_focus_latency">焦点延迟时间越短，TalkBack 在您触摸屏幕后进行播报的速度就越快</string>
   <string name="message_pref_typing_method_prefix">如需尽可能缩短输入延迟时间，请选择“用手指按住要选择的任意键，然后松开手指”</string>
-  <string name="message_pref_typing_method_postfix">您也可以随时使用分开点按功能进行输入。操作方法是：用一根手指按住要选择的任意键，然后用另一根手指点按屏幕。</string>
   <string name="title_pref_talkback_speech_rate">TalkBack 语速</string>
   <string name="title_pref_selector_adjustable_widget_slider">调整滑块</string>
   <string name="title_pref_selector_typo_granularity">校对</string>
@@ -1829,19 +1819,15 @@
     <string name="summary_support_change_brightness">提高或降低屏幕亮度，即使屏幕已隐藏</string>
 
     <!-- Label for the preference that assigns an action to the "three-finger quadruple-tap" gesture. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_3finger_4tap">三指四击</string>
 
     <!-- Label for the preference that assigns an action to turning two fingers clockwise on the screen, like turning a dial. [CHAR_LIMIT=90] -->
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">两指顺时针旋转</string>
 
     <!-- Label for the preference that assigns an action to turning two fingers counterclockwise on the screen, like turning a dial. [CHAR_LIMIT=90] -->
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">两指逆时针旋转</string>
 
     <!-- Typing method where lifting the finger types every key except the key that sends or submits, such as Enter, Done, or Send, which needs a double-tap. [CHAR LIMIT=NONE] -->
     <string name="value_type_confirmation_lift_to_type_except_action_key">按住手指选择任意键，然后抬起。对 Enter、Done 或 Send 双击。</string>
 
     <!-- Title for the maximum time between taps of a one-finger multi-tap gesture. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_multi_tap_timeout">单指点击间隔时间</string>
 
     <!-- Label for multi-tap timeout. [CHAR LIMIT=NONE]-->
     <string name="value_multi_tap_timeout_100ms">0.1 秒</string>
@@ -1856,7 +1842,6 @@
     <string name="value_multi_tap_timeout_250ms">0.25 秒（默认）</string>
 
     <!-- Title for how far 2 fingers must turn on the screen to move the rotor by one reading control. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_rotor_step_degrees">转子每步角度</string>
 
     <!-- Label for rotor turn per step. [CHAR LIMIT=NONE]-->
     <string name="value_rotor_step_15">15 度</string>

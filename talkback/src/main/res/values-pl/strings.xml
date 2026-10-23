@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Włączyć nakładkę rejestrowania debugowania?</string>
   <string name="title_pref_typing_confirmation">Ustawienie pisania</string>
   <string name="title_pref_typing_long_tap_duration">Opóźnienie podczas naciskania i przytrzymywania w czasie pisania</string>
-  <string name="title_pref_touch_explore_timeout">Opóźnienie zaznaczenia podczas pisania</string>
   <string name="message_pref_touch_explore_latency">Przy mniejszym opóźnieniu zaznaczenia podczas pisania SandFly szybciej odtwarza komunikaty po dotknięciu klawiatury.\n\nWybierz opóźnienie</string>
-  <string name="title_pref_touch_focus_timeout">Opóźnienie zaznaczenia</string>
-  <string name="title_pref_talkback_gesture_detection">Używaj gestów w SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Aby uruchomić to ustawienie, wyłącz, a następnie włącz SandFly.</string>
   <string name="title_pref_auto_image_captioning">Automatyczne opisy</string>
   <string name="title_pref_gemini_settings">Ustawienia Gemini</string>
   <string name="title_pref_gemini_enabled">Polecenia głosowe Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Zmniejszanie głośności innych dźwięków odtwarzanych w trakcie wypowiadania treści przez SandFly</string>
   <string name="summary_support_scroll_seq">Przewiń do przodu lub do tyłu</string>
   <string name="summary_support_change_a11y_volume">Zwiększanie lub zmniejszanie głośności dostępności</string>
-  <string name="summary_support_change_touch_explore_latency">Zwiększ lub zmniejsz opóźnienie zaznaczenia podczas pisania</string>
-  <string name="summary_support_change_touch_focus_latency">Zwiększ lub zmniejsz opóźnienie zaznaczenia</string>
   <string name="summary_screen_overview">Podsumuj widok ekranu za pomocą przycisków poleceń</string>
   <string name="summary_screen_overview_no_actions">Posłuchaj podsumowania treści wyświetlanych na ekranie</string>
   <string name="summary_image_caption">Odczytuje tekst i opisuje ikony na wybranym obrazie</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dwukrotnie zetknij palce</string>
   <string name="gesture_name_double_tap_and_hold">Kliknij dwukrotnie i przytrzymaj</string>
   <string name="gesture_name_double_tap_and_hold_xr">Zetknij palce i przytrzymaj</string>
-  <string name="gesture_name_2finger_tap_hold">Kliknij i przytrzymaj 2 palcami</string>
   <string name="gesture_name_3finger_tap_hold">Kliknij i przytrzymaj 3 palcami</string>
   <string name="gesture_name_2finger_3tap_hold">Naciśnij trzykrotnie i przytrzymaj 2 palcami</string>
   <string name="gesture_name_3finger_3tap_hold">Kliknij trzykrotnie i przytrzymaj 3 palcami</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Wyciszanie tła</string>
   <string name="title_pref_support_scroll_seq">Przewijanie</string>
   <string name="title_pref_a11y_volume">Głośność dostępności</string>
-  <string name="title_pref_touch_explore_latency">Opóźnienie zaznaczenia podczas pisania</string>
-  <string name="title_pref_touch_focus_latency">Opóźnienie zaznaczenia</string>
   <string name="message_pref_touch_focus_latency">Przy mniejszym opóźnieniu zaznaczenia podczas pisania SandFly szybciej odtwarza komunikaty po dotknięciu klawiatury</string>
   <string name="message_pref_typing_method_prefix">Aby uzyskać najmniejsze opóźnienie podczas pisania, wybierz opcję „Przytrzymaj palec, aby wybrać przycisk klawiatury, a następnie podnieś palec”</string>
-  <string name="message_pref_typing_method_postfix">W każdej chwili możesz też wpisać tekst przy użyciu funkcji podzielonego kliknięcia. Aby to zrobić, przytrzymaj palcem wybrany przycisk klawiatury i kliknij ekran innym palcem.</string>
   <string name="title_pref_talkback_speech_rate">Tempo mowy w SandFly</string>
   <string name="title_pref_selector_adjustable_widget_slider">Dostosuj suwak</string>
   <string name="title_pref_selector_typo_granularity">Korekta</string>

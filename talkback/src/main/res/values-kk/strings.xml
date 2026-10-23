@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Түзету журналын үстінен көрсету</string>
   <string name="title_pref_typing_confirmation">Мәтін теру параметрі</string>
   <string name="title_pref_typing_long_tap_duration">Теру кезіндегі басып тұру кідірісі</string>
-  <string name="title_pref_touch_explore_timeout">Теруді ерекшелеу кідірісі</string>
   <string name="message_pref_touch_explore_latency">Теруді ерекшелеу кідірісі аз болса, пернетақтаны түрткеннен кейін, TalkBack хабарландырулары тезірек жіберіледі.\n\nКідіріс уақытын таңдау</string>
-  <string name="title_pref_touch_focus_timeout">Ерекшелеу кідірісі</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack функциясында қимылды анықтау параметрін іске қосу</string>
-  <string name="toast_pref_talkback_gesture_detection">Параметрді іске қосу үшін TalkBack функциясын өшіріп қосыңыз.</string>
   <string name="title_pref_auto_image_captioning">Автоматты сипаттамалар</string>
   <string name="title_pref_gemini_settings">Gemini тапсырмалары</string>
   <string name="title_pref_gemini_enabled">Gemini дауыстық пәрмені</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack сөйлегенде ойнатылып жатқан басқа аудиолардың дыбыс деңгейін азайту</string>
   <string name="summary_support_scroll_seq">Алға немесе артқа айналдыру</string>
   <string name="summary_support_change_a11y_volume">Арнайы мүмкіндіктер дыбысын көбейту немесе азайту</string>
-  <string name="summary_support_change_touch_explore_latency">Теруді ерекшелеу кідірісін арттыру немесе азайту</string>
-  <string name="summary_support_change_touch_focus_latency">Ерекшелеу кідірісін арттыру немесе азайту</string>
   <string name="summary_screen_overview">Экранды қысқаша сипаттауға арналған басқару түймелері</string>
   <string name="summary_screen_overview_no_actions">Экрандағы контенттің қысқаша сипаттамасын тыңдау</string>
   <string name="summary_image_caption">Таңдалған суреттегі мәтін мен белгішелерді дауыстап айту</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Екі саусақты екі рет қосып, ажырату</string>
   <string name="gesture_name_double_tap_and_hold">Екі рет түртіп, ұстап тұру</string>
   <string name="gesture_name_double_tap_and_hold_xr">Екі саусақты қосып тұру</string>
-  <string name="gesture_name_2finger_tap_hold">2 саусақпен түртіп, ұстап тұру</string>
   <string name="gesture_name_3finger_tap_hold">3 саусақпен түртіп, ұстап тұру</string>
   <string name="gesture_name_2finger_3tap_hold">Үш рет түртіп, 2 саусақпен ұстап тұру</string>
   <string name="gesture_name_3finger_3tap_hold">3 саусақпен екі рет түртіп, ұстап тұру</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Дыбысты бәсеңдету</string>
   <string name="title_pref_support_scroll_seq">Айналдыру</string>
   <string name="title_pref_a11y_volume">Арнайы мүмкіндіктер дыбыс деңгейі</string>
-  <string name="title_pref_touch_explore_latency">Теруді ерекшелеу кідірісі</string>
-  <string name="title_pref_touch_focus_latency">Ерекшелеу кідірісі</string>
   <string name="message_pref_touch_focus_latency">Теруді ерекшелеу кідірісі аз болса, экранды түрткеннен кейін, TalkBack хабарландырулары тезірек жіберіледі.</string>
   <string name="message_pref_typing_method_prefix">Терген кезде кідіріс уақыты барынша аз болуы үшін, \"Кез келген пернені ұстап тұру және жіберу\" опциясын таңдаңыз.</string>
-  <string name="message_pref_typing_method_postfix">Кез келген уақытта теру үшін екі саусақпен енгізу функциясын пайдалануға да болады. Ол үшін бір саусақпен кез келген пернені басып тұрып, екінші саусақпен экранды түртіңіз.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack сөйлеу жылдамдығы</string>
   <string name="title_pref_selector_adjustable_widget_slider">Жүгірткіні реттеу</string>
   <string name="title_pref_selector_typo_granularity">Корректура</string>

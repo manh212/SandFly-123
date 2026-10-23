@@ -184,8 +184,6 @@
   <string name="template_speech_rate_change">Hitrost govora %1$d %%</string>
   <string name="template_accessibility_volume_change_increase">Glasnost za funkcije dostopnosti je povečana na %1$d %%.</string>
   <string name="template_accessibility_volume_change_decrease">Glasnost za funkcije dostopnosti je zmanjšana na %1$d %%.</string>
-  <string name="template_touch_latency_reach_maximum">Največ</string>
-  <string name="template_touch_latency_reach_minimum">Najmanj</string>
   <string name="template_volume_change_maximum">Največ</string>
   <string name="template_volume_change_minimum">Najmanj</string>
   <string name="template_volume_change_volume_up_curved_text">Povečaj</string>

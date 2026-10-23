@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Ativar sobreposição de registos de depuração</string>
   <string name="title_pref_typing_confirmation">Preferência de introdução</string>
   <string name="title_pref_typing_long_tap_duration">Atraso para tocar sem soltar ao escrever</string>
-  <string name="title_pref_touch_explore_timeout">Atraso do foco de introdução</string>
   <string name="message_pref_touch_explore_latency">Um atraso do foco de introdução mais curto significa que os anúncios do TalkBack são feitos mais rapidamente depois de tocar no teclado.\n\nSelecione um atraso</string>
-  <string name="title_pref_touch_focus_timeout">Atraso do foco</string>
-  <string name="title_pref_talkback_gesture_detection">Processe gestos no TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Desative o TalkBack e volte a ativá-lo para ativar a definição.</string>
   <string name="title_pref_auto_image_captioning">Descrições automáticas</string>
   <string name="title_pref_gemini_settings">Definições do Gemini</string>
   <string name="title_pref_gemini_enabled">Comando de voz do Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Reduza o volume de outro ficheiro de áudio reproduzido quando o TalkBack fala</string>
   <string name="summary_support_scroll_seq">Desloque-se para a frente ou para trás.</string>
   <string name="summary_support_change_a11y_volume">Aumente ou diminua o volume da acessibilidade</string>
-  <string name="summary_support_change_touch_explore_latency">Aumente ou diminua o atraso do foco de introdução</string>
-  <string name="summary_support_change_touch_focus_latency">Aumentar ou diminuir o atraso do foco</string>
   <string name="summary_screen_overview">Resuma o ecrã com botões de ação</string>
   <string name="summary_screen_overview_no_actions">Ouça um resumo do conteúdo no ecrã</string>
   <string name="summary_image_caption">Disponibiliza feedback de voz sobre texto e ícones numa imagem selecionada</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Juntar/afastar os dedos 2 vezes</string>
   <string name="gesture_name_double_tap_and_hold">Tocar duas vezes sem soltar</string>
   <string name="gesture_name_double_tap_and_hold_xr">Juntar/afastar os dedos e manter</string>
-  <string name="gesture_name_2finger_tap_hold">Tocar duas vezes sem soltar com 2 dedos</string>
   <string name="gesture_name_3finger_tap_hold">Tocar sem soltar com 3 dedos</string>
   <string name="gesture_name_2finger_3tap_hold">Tocar três vezes sem soltar com 2 dedos</string>
   <string name="gesture_name_3finger_3tap_hold">Tocar três vezes sem soltar com 3 dedos</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Reduzir volume de áudio</string>
   <string name="title_pref_support_scroll_seq">Deslocar</string>
   <string name="title_pref_a11y_volume">Volume da Acessibilidade</string>
-  <string name="title_pref_touch_explore_latency">Atraso do foco de introdução</string>
-  <string name="title_pref_touch_focus_latency">Atraso do foco</string>
   <string name="message_pref_touch_focus_latency">Um atraso do foco mais curto significa que os anúncios do TalkBack são feitos mais rapidamente depois de tocar no ecrã</string>
   <string name="message_pref_typing_method_prefix">Para ter o atraso mais baixo ao escrever, escolha \"Tocar com o dedo sem soltar para selecionar qualquer tecla e, em seguida, levantá-lo\"</string>
-  <string name="message_pref_typing_method_postfix">Também pode usar o toque dividido para escrever em qualquer altura. Para o fazer, toque com um dedo sem soltar para selecionar qualquer tecla e use outro dedo para tocar no ecrã.</string>
   <string name="title_pref_talkback_speech_rate">Taxa de voz do TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Ajustar o controlo de deslize</string>
   <string name="title_pref_selector_typo_granularity">Revisão</string>

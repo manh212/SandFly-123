@@ -196,8 +196,6 @@
   <string name="template_speech_rate_change">معدل سرعة الكلام %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">تم رفع مستوى صوت ميزة تسهيل الاستخدام إلى %1$d بالمئة.</string>
   <string name="template_accessibility_volume_change_decrease">تم خفض مستوى صوت ميزة تسهيل الاستخدام إلى %1$d بالمائة.</string>
-  <string name="template_touch_latency_reach_maximum">الحد الأقصى</string>
-  <string name="template_touch_latency_reach_minimum">الحد الأدنى</string>
   <string name="template_volume_change_maximum">الحد الأقصى</string>
   <string name="template_volume_change_minimum">الحد الأدنى</string>
   <string name="template_volume_change_volume_up_curved_text">تم رفع مستوى الصوت</string>

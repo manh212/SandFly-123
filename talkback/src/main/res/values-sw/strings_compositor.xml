@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Kasi ya matamshi %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Ongeza kiwango cha sauti ya ufikivu hadi asilimia %1$d.</string>
   <string name="template_accessibility_volume_change_decrease">Punguza kiwango cha sauti ya ufikivu hadi asilimia %1$d.</string>
-  <string name="template_touch_latency_reach_maximum">Kiwango cha juu zaidi</string>
-  <string name="template_touch_latency_reach_minimum">Kiwango cha chini zaidi</string>
   <string name="template_volume_change_maximum">Kiwango cha Juu</string>
   <string name="template_volume_change_minimum">Kiwango cha chini zaidi</string>
   <string name="template_volume_change_volume_up_curved_text">Imeongezwa</string>

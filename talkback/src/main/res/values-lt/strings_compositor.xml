@@ -184,8 +184,6 @@
   <string name="template_speech_rate_change">Kalbėjimo sparta: %1$d %%</string>
   <string name="template_accessibility_volume_change_increase">Padidinkite pritaikomumo garsumą iki %1$d proc.</string>
   <string name="template_accessibility_volume_change_decrease">Sumažinkite pritaikomumo garsumą iki %1$d proc.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimalus</string>
-  <string name="template_touch_latency_reach_minimum">Minimalus</string>
   <string name="template_volume_change_maximum">Maksimalus</string>
   <string name="template_volume_change_minimum">Minimalus</string>
   <string name="template_volume_change_volume_up_curved_text">Padidinti</string>

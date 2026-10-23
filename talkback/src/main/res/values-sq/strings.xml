@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Aktivizo mbivendosjen e regjistrimit të korrigjimit</string>
   <string name="title_pref_typing_confirmation">Preferenca e shkrimit</string>
   <string name="title_pref_typing_long_tap_duration">Vonesa e trokitjes dhe e mbajtjes shtypur kur shkruan</string>
-  <string name="title_pref_touch_explore_timeout">Vonesa e fokusit për të shkruar</string>
   <string name="message_pref_touch_explore_latency">Vonesa më e shkurtër e fokusit për të shkruar do të thotë se njoftimet e TalkBack bëhen më shpejt pas prekjes së tastierës.\n\nZgjidh një vonesë</string>
-  <string name="title_pref_touch_focus_timeout">Vonesa e fokusit</string>
-  <string name="title_pref_talkback_gesture_detection">Menaxho gjestet në TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Çaktivizo TalkBack dhe aktivizoje atë sërish për të aktivizuar këtë cilësim.</string>
   <string name="title_pref_auto_image_captioning">Përshkrimet automatike</string>
   <string name="title_pref_gemini_settings">Cilësimet e Gemini</string>
   <string name="title_pref_gemini_enabled">Komanda zanore e Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Ul volumin e audiove të tjera që luhen kur flet TalkBack</string>
   <string name="summary_support_scroll_seq">Lëviz përpara ose prapa</string>
   <string name="summary_support_change_a11y_volume">Rrit ose ul volumin e qasshmërisë</string>
-  <string name="summary_support_change_touch_explore_latency">Rrit ose redukto vonesën e fokusit për të shkruar</string>
-  <string name="summary_support_change_touch_focus_latency">Rrit ose zvogëlo vonesën e fokusit</string>
   <string name="summary_screen_overview">Përmblidh ekranin me butonat e veprimit</string>
   <string name="summary_screen_overview_no_actions">Dëgjo një përmbledhje të përmbajtjes në ekran</string>
   <string name="summary_image_caption">Shqipto tekstin dhe ikonat brenda një imazhi të zgjedhur</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Kap me dy gishta dy herë</string>
   <string name="gesture_name_double_tap_and_hold">Trokit dy herë dhe mbaj shtypur</string>
   <string name="gesture_name_double_tap_and_hold_xr">Kap me dy gishta dhe mbaje</string>
-  <string name="gesture_name_2finger_tap_hold">Trokit dhe mbaj shtypur me 2 gishta</string>
   <string name="gesture_name_3finger_tap_hold">Trokit dhe mbaj shtypur me 3 gishta</string>
   <string name="gesture_name_2finger_3tap_hold">Trokit tri herë dhe mbaj shtypur me 2 gishta</string>
   <string name="gesture_name_3finger_3tap_hold">Trokit tri herë dhe mbaj shtypur me 3 gishta</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Ulja e zhurmave në sfond</string>
   <string name="title_pref_support_scroll_seq">Lëviz</string>
   <string name="title_pref_a11y_volume">Volumi i qasshmërisë</string>
-  <string name="title_pref_touch_explore_latency">Vonesa e fokusit për të shkruar</string>
-  <string name="title_pref_touch_focus_latency">Vonesa e fokusit</string>
   <string name="message_pref_touch_focus_latency">Vonesa më e shkurtër e fokusit do të thotë se njoftimet e TalkBack bëhen më shpejt pas prekjes së ekranit</string>
   <string name="message_pref_typing_method_prefix">Për vonesën më të ulët kur shkruan, zgjidh \"Mbaj gishtin për të zgjedhur një tast çfarëdo dhe më pas ngrije\"</string>
-  <string name="message_pref_typing_method_postfix">Gjithashtu, mund të përdorësh trokitjen e ndarë për të shkruar në çdo kohë. Për ta bërë këtë, mbaj një gisht për të zgjedhur një tast çfarëdo dhe përdor një gisht tjetër për të trokitur në ekran.</string>
   <string name="title_pref_talkback_speech_rate">Shpejtësia e të folurit e TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Rregullo rrëshqitësin</string>
   <string name="title_pref_selector_typo_granularity">Korrigjo</string>

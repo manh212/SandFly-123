@@ -178,8 +178,6 @@
   <string name="template_speech_rate_change">Runas ātrums: %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Palielināt pieejamības paziņojumu skaļumu procentos līdz šādam: %1$d.</string>
   <string name="template_accessibility_volume_change_decrease">Samazināt pieejamības paziņojumu skaļumu procentos līdz šādam: %1$d.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimālā vērtība</string>
-  <string name="template_touch_latency_reach_minimum">Minimālā vērtība</string>
   <string name="template_volume_change_maximum">Maksimālā vērtība</string>
   <string name="template_volume_change_minimum">Minimālā vērtība</string>
   <string name="template_volume_change_volume_up_curved_text">Palielināt</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">စကားပြောနှုန်း %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">အများသုံးနိုင်မှုအသံကို %1$d ရာခိုင်နှုန်းအထိ ချဲ့လိုက်သည်။</string>
   <string name="template_accessibility_volume_change_decrease">အများသုံးနိုင်မှုအသံကို %1$d ရာခိုင်နှုန်းအထိ တိုးလိုက်သည်။</string>
-  <string name="template_touch_latency_reach_maximum">အများဆုံး</string>
-  <string name="template_touch_latency_reach_minimum">အနည်းဆုံး</string>
   <string name="template_volume_change_maximum">အကျယ်ဆုံး</string>
   <string name="template_volume_change_minimum">အတိုးဆုံး</string>
   <string name="template_volume_change_volume_up_curved_text">အသံချဲ့လိုက်သည်</string>

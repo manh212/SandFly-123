@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">డీబగ్ లాగ్ ఓవర్‌లేని ఎనేబుల్ చేయండి</string>
   <string name="title_pref_typing_confirmation">టైపింగ్ ప్రాధాన్యత</string>
   <string name="title_pref_typing_long_tap_duration">టైప్ చేసేటప్పుడు ఆలస్యం (డిలే) ఆప్షన్‌ను నొక్కి, పట్టుకోండి</string>
-  <string name="title_pref_touch_explore_timeout">టైపింగ్ చేసేటప్పుడు వచ్చే ఫోకస్ డిలే</string>
   <string name="message_pref_touch_explore_latency">\'టైపింగ్ చేసేటప్పుడు వచ్చే ఫోకస్ డిలే\' తక్కువగా ఉంటే కీబోర్డ్‌ను తాకినప్పుడు TalkBack అనౌన్స్‌మెంట్‌లు వేగంగా అవుతాయి.\n\nడిలేను ఎంచుకోండి</string>
-  <string name="title_pref_touch_focus_timeout">ఫోకస్ డిలే</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBackలో సంజ్ఞలను హ్యాండిల్ చేయండి</string>
-  <string name="toast_pref_talkback_gesture_detection">సెట్టింగ్‌ను యాక్టివేట్ చేయడానికి TalkBackను ఆఫ్ చేసి మళ్లీ ఆన్ చేయండి.</string>
   <string name="title_pref_auto_image_captioning">ఆటోమేటిక్ వివరణలు</string>
   <string name="title_pref_gemini_settings">Gemini సెట్టింగ్‌లు</string>
   <string name="title_pref_gemini_enabled">Gemini వాయిస్ కమాండ్</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack మాట్లాడేటప్పుడు, ప్లే అవుతున్న ఇతర ఆడియో శబ్దాల వాల్యూమ్‌ను తగ్గించండి</string>
   <string name="summary_support_scroll_seq">ముందుకు లేదా వెనక్కి స్క్రోల్ చేయండి</string>
   <string name="summary_support_change_a11y_volume">యాక్సెసిబిలిటీ వాల్యూమ్‌ను పెంచండి లేదా తగ్గించండి</string>
-  <string name="summary_support_change_touch_explore_latency">\'టైపింగ్ చేసేటప్పుడు వచ్చే ఫోకస్ డిలే\'ను పెంచండి లేదా తగ్గించండి</string>
-  <string name="summary_support_change_touch_focus_latency">ఫోకస్ డిలేను పెంచండి లేదా తగ్గించండి</string>
   <string name="summary_screen_overview">యాక్షన్ బటన్‌లను ఉపయోగించి స్క్రీన్‌పై ఉన్న కంటెంట్ సారాంశాన్ని పొందండి</string>
   <string name="summary_screen_overview_no_actions">స్క్రీన్‌పై ఉన్న కంటెంట్ సారాంశాన్ని వినండి</string>
   <string name="summary_image_caption">ఎంపిక చేసిన ఇమేజ్‌లోని టెక్స్ట్, ఇంకా చిహ్నాల గురించి మాటల ప్రతిస్పందనను అందిస్తుంది</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">డబుల్-పించ్ చేయండి</string>
   <string name="gesture_name_double_tap_and_hold">రెండుసార్లు నొక్కి, ఉంచండి</string>
   <string name="gesture_name_double_tap_and_hold_xr">పించ్ చేసి హోల్డ్ చేయండి</string>
-  <string name="gesture_name_2finger_tap_hold">2 వేళ్లతో నొక్కి, ఉంచండి</string>
   <string name="gesture_name_3finger_tap_hold">3 వేళ్లతో నొక్కి, ఉంచండి</string>
   <string name="gesture_name_2finger_3tap_hold">2 వేళ్లతో మూడుసార్లు నొక్కి, ఉంచండి</string>
   <string name="gesture_name_3finger_3tap_hold">3 వేళ్లతో మూడుసార్లు నొక్కి, ఉంచండి</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ఆడియోను తగ్గించడం</string>
   <string name="title_pref_support_scroll_seq">స్క్రోల్ చేయండి</string>
   <string name="title_pref_a11y_volume">యాక్సెసిబిలిటీ వాల్యూమ్</string>
-  <string name="title_pref_touch_explore_latency">టైపింగ్ చేసేటప్పుడు వచ్చే ఫోకస్ డిలే</string>
-  <string name="title_pref_touch_focus_latency">ఫోకస్ డిలే</string>
   <string name="message_pref_touch_focus_latency">ఫోకస్ డిలే తక్కువగా ఉంటే కీబోర్డ్‌ను తాకినప్పుడు TalkBack అనౌన్స్‌మెంట్‌లు వేగంగా అవుతాయి</string>
   <string name="message_pref_typing_method_prefix">టైప్ చేస్తున్నప్పుడు ఆలస్యం అత్యల్పంగా ఉండేలా, “ఏదైనా కీని ఎంచుకోవడం కోసం దానిపై వేలును నొక్కి ఉంచి, ఆపై ఎత్తండి” అనే ఆప్షన్‌ను ఎంచుకోండి</string>
-  <string name="message_pref_typing_method_postfix">మీరు ఎప్పుడైనా టైప్ చేయడానికి \'స్ప్లిట్-ట్యాప్\'‌ను కూడా ఉపయోగించవచ్చు. ఇలా చేయడానికి, ఒక వేలితో ఏదైనా కీని ఎంచుకుని పట్టుకుని, స్క్రీన్‌పై ట్యాప్ చేయడానికి మరొక వేలిని ఉపయోగించండి.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack స్పీచ్ రేట్</string>
   <string name="title_pref_selector_adjustable_widget_slider">స్లయిడర్‌ను సర్దుబాటు చేయండి</string>
   <string name="title_pref_selector_typo_granularity">ప్రూఫ్ రీడింగ్</string>

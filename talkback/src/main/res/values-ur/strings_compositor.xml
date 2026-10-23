@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">اسپیچ کی شرح %%%1$d</string>
   <string name="template_accessibility_volume_change_increase">ایکسیسبیلٹی والیوم کو %1$d فیصد تک بڑھائیں۔</string>
   <string name="template_accessibility_volume_change_decrease">ایکسیسبیلٹی والیوم کو %1$d فیصد تک کم کریں۔</string>
-  <string name="template_touch_latency_reach_maximum">زیادہ سے زیادہ</string>
-  <string name="template_touch_latency_reach_minimum">کم از کم</string>
   <string name="template_volume_change_maximum">زیادہ سے زیادہ</string>
   <string name="template_volume_change_minimum">کم از کم</string>
   <string name="template_volume_change_volume_up_curved_text">بڑھائیں</string>

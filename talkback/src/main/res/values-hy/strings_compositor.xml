@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Խոսքի արագությունը՝ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Բարձրացնել հատուկ գործառույթների ձայնը մինչև %1$d տոկոս։</string>
   <string name="template_accessibility_volume_change_decrease">Իջեցնել հատուկ գործառույթների ձայնը մինչև %1$d տոկոս։</string>
-  <string name="template_touch_latency_reach_maximum">Առավելագույնը</string>
-  <string name="template_touch_latency_reach_minimum">Նվազագույնը</string>
   <string name="template_volume_change_maximum">Առավելագույնը</string>
   <string name="template_volume_change_minimum">Նվազագույնը</string>
   <string name="template_volume_change_volume_up_curved_text">Ավելացնել</string>

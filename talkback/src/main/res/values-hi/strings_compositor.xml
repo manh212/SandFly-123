@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">बोलने की दर %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">सुलभता सुविधाओं के लिए, ऑडियो का लेवल %1$d प्रतिशत तक बढ़ाएं.</string>
   <string name="template_accessibility_volume_change_decrease">सुलभता सुविधाओं के लिए, ऑडियो का लेवल %1$d प्रतिशत तक कम करें.</string>
-  <string name="template_touch_latency_reach_maximum">ज़्यादा से ज़्यादा</string>
-  <string name="template_touch_latency_reach_minimum">कम से कम</string>
   <string name="template_volume_change_maximum">ज़्यादा से ज़्यादा</string>
   <string name="template_volume_change_minimum">कम से कम</string>
   <string name="template_volume_change_volume_up_curved_text">आवाज़ बढ़ाई गई है</string>

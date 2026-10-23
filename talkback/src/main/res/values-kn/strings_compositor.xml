@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ಮಾತಿನ ಮೌಲ್ಯ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ಆ್ಯಕ್ಸೆಸಿಬಿಲಿಟಿ ವಾಲ್ಯೂಮ್ ಅನ್ನು ಶೇಕಡಾ %1$d ಗೆ ಹೆಚ್ಚಿಸಿ.</string>
   <string name="template_accessibility_volume_change_decrease">ಆ್ಯಕ್ಸೆಸಿಬಿಲಿಟಿ ವಾಲ್ಯೂಮ್ ಅನ್ನು ಶೇಕಡಾ %1$d ಗೆ ಇಳಿಸಿ.</string>
-  <string name="template_touch_latency_reach_maximum">ಗರಿಷ್ಠ</string>
-  <string name="template_touch_latency_reach_minimum">ಕನಿಷ್ಠ</string>
   <string name="template_volume_change_maximum">ಗರಿಷ್ಠ</string>
   <string name="template_volume_change_minimum">ಕನಿಷ್ಠ</string>
   <string name="template_volume_change_volume_up_curved_text">ಹೆಚ್ಚಿಸಿ</string>
