@@ -76,7 +76,9 @@ public class AccessibilityFocusInterpreter
 
   // Scroll events arrive many times per second, and finding a new focus target queries the app's
   // node tree over IPC on the main thread. Waiting for scrolling to settle keeps touch responsive.
-  private static final long MANUAL_SCROLL_SETTLE_MS = 150;
+  // 100 ms matches the framework's own scroll-event grouping interval, so a shorter wait would
+  // mostly fire between the grouped events of a scroll that is still moving.
+  private static final long MANUAL_SCROLL_SETTLE_MS = 100;
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
   // Member variables

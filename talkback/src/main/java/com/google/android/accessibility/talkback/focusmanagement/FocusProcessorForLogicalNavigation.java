@@ -1206,6 +1206,34 @@ public class FocusProcessorForLogicalNavigation {
         TraversalStrategyUtils.getLogicalDirection(
             searchDirection, WindowUtils.isScreenLayoutRTL(service));
 
+    // A web pivot's next or previous element is chosen by the page itself, through the HTML
+    // action in navigateToHtmlTarget, and web elements are not in the window's traversal order
+    // at all. Trying that action first avoids asking the window for its root and building the
+    // order (with its prefetch wait) on every swipe in web content, where the order would only
+    // be used if the action failed. The one case that must not take this shortcut is the
+    // WebView container itself swiping backwards at default granularity, which looks for the
+    // previous native element in the order instead (see findTargetFromWebElement).
+    if (WebInterfaceUtils.supportsWebActions(pivot)
+        && !(Role.getRole(pivot) == Role.ROLE_WEB_VIEW
+            && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+            && logicalDirection == TraversalStrategy.SEARCH_FOCUS_BACKWARD)
+        && navigateToHtmlTarget(pivot, navigationAction, eventId)) {
+      if (isMoveToNextOrPreviousItem(navigationAction)) {
+        // The page moves the focus, so its focus event shows where it went.
+        boolean rtl = WindowUtils.isScreenLayoutRTL(service);
+        ColumnWrap.expectWebFocus(
+            pivot,
+            TraversalStrategyUtils.getLogicalDirection(navigationAction.searchDirection, rtl)
+                == TraversalStrategy.SEARCH_FOCUS_FORWARD,
+            rtl);
+      }
+      TraversalTreeCache.rememberPivot(pivot);
+      reachEdge = false;
+      LogUtils.d(
+          TAG, "Return and reset reachEdge, web element focus will be handled by the framework.");
+      return true;
+    }
+
     // Asking the window for its root waits for the app on every swipe, so take the root of the
     // saved reading order when that holds the pivot.
     AccessibilityNodeInfoCompat rootNode = TraversalTreeCache.rootFor(pivot);
