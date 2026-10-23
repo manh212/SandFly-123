@@ -34,7 +34,6 @@ object DictationSettings {
   const val PREF_RECOGNITION = "pref_dictation_recognition"
   const val PREF_AI_SERVICE = "pref_dictation_ai_service"
   const val PREF_WHISPER_MODEL = "pref_dictation_whisper_model"
-  const val PREF_WHISPER_GPU = "pref_dictation_whisper_gpu"
   const val PREF_RAMBLER_LIVE = "pref_dictation_rambler_live"
 
   /** The AI service of automatic descriptions corrects dictation too. */
@@ -122,13 +121,6 @@ object DictationSettings {
       else -> Recognition.ANDROID
     }
   }
-
-  /** Whether Whisper runs on the GPU: chosen, on a phone whose GPU it can use. */
-  fun whisperOnGpu(prefs: SharedPreferences): Boolean =
-    WhisperEngines.gpuAvailable() && prefs.getBoolean(PREF_WHISPER_GPU, false)
-
-  fun setWhisperOnGpu(prefs: SharedPreferences, gpu: Boolean) =
-    prefs.edit { putBoolean(PREF_WHISPER_GPU, gpu) }
 
   fun correctsWithAi(context: Context, prefs: SharedPreferences): Boolean =
     prefs.getBoolean(

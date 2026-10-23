@@ -38,9 +38,7 @@ import java.util.concurrent.TimeUnit
 class LiteRtLmLocalLlm(
   context: Context,
   private val modelFile: File,
-  private val processor: OnDeviceAiSettings.Processor,
-  /** The folder of the NPU's library, for [OnDeviceAiSettings.Processor.NPU]. */
-  private val npuLibraryDir: String? = null,
+  private val useGpu: Boolean,
   /** The most tokens for a prompt plus its answer, or null to use what the model file says. */
   private val maxTokens: Int? = null,
   private val idleUnloadMs: Long = DEFAULT_IDLE_UNLOAD_MS,
@@ -127,12 +125,7 @@ class LiteRtLmLocalLlm(
       return it
     }
     beforeLoad()
-    val backend =
-      when (processor) {
-        OnDeviceAiSettings.Processor.CPU -> Backend.CPU()
-        OnDeviceAiSettings.Processor.GPU -> Backend.GPU()
-        OnDeviceAiSettings.Processor.NPU -> Backend.NPU(nativeLibraryDir = npuLibraryDir.orEmpty())
-      }
+    val backend = if (useGpu) Backend.GPU() else Backend.CPU()
     val config =
       EngineConfig(
         modelPath = modelFile.path,

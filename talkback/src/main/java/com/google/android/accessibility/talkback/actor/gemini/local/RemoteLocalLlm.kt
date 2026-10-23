@@ -51,7 +51,7 @@ class RemoteLocalLlm(
   context: Context,
   private val model: LocalModel,
   private val modelFile: File,
-  private val processor: OnDeviceAiSettings.Processor,
+  private val useGpu: Boolean,
 ) : LocalLlm {
   private class Reply(val what: Int, val text: String?)
 
@@ -113,7 +113,7 @@ class RemoteLocalLlm(
       request.replyTo = replies
       request.data.apply {
         putString(LocalModelService.KEY_MODEL_PATH, modelFile.path)
-        putString(LocalModelService.KEY_PROCESSOR, processor.id)
+        putBoolean(LocalModelService.KEY_USE_GPU, useGpu)
         putInt(
           LocalModelService.KEY_MAX_TOKENS,
           model.maxTokens ?: LocalModelService.NO_MAX_TOKENS,
