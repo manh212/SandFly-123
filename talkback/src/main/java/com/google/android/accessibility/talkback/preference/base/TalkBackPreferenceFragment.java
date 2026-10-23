@@ -30,7 +30,6 @@ import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceGroup;
 import androidx.preference.TwoStatePreference;
-import com.google.android.accessibility.talkback.notifications.NotificationSettingsEntries;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity.HatsRequesterViewModel;
 import com.google.android.accessibility.talkback.HatsSurveyRequester;
@@ -46,7 +45,6 @@ import com.google.android.accessibility.talkback.training.OnboardingInitiator;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.tv.TvTutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.tv.VendorConfigReader;
-import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.NetworkUtils;
@@ -132,9 +130,7 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
       removePreference(R.string.pref_category_audio_key, R.string.pref_auto_image_captioning_key);
     }
     updateGeminiPreferenceState();
-    Updater.setUpPreferences(this);
     SettingsBackup.setUpPreferences(this);
-    NotificationSettingsEntries.setUpPreferences(this);
   }
 
   private void updateGeminiPreferenceState() {

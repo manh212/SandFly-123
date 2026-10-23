@@ -128,7 +128,7 @@ object Updater {
     serviceContext = null
   }
 
-  /** Sets up the "Check for updates" preference in the main settings screen. */
+  /** Sets up the "Check for updates" preference in the updates settings screen. */
   @JvmStatic
   fun setUpPreferences(fragment: PreferenceFragmentCompat) {
     val preference =
