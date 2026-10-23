@@ -30,7 +30,6 @@
     <string name="ai_provider_openrouter">OpenRouter</string>
     <string name="ai_provider_ollama">Ollama Cloud</string>
     <string name="ai_provider_none">Không dùng</string>
-    <string name="ai_provider_use_gemini">Dùng Gemini</string>
     <string name="ai_provider_other">Dịch vụ khác</string>
     <string name="title_pref_category_ai_services">Dịch vụ AI</string>
     <string name="title_pref_ai_provider">Dịch vụ AI</string>
@@ -38,7 +37,6 @@
     <string name="ai_provider_chosen_not_ready"><xliff:g id="service" example="Claude">%1$s</xliff:g>, chưa thiết lập</string>
     <string name="ai_provider_in_use">Đang dùng</string>
     <string name="ai_provider_not_set_up">Chưa thiết lập</string>
-    <string name="ai_provider_use">Dùng <xliff:g id="service" example="Claude">%1$s</xliff:g></string>
     <string name="ai_provider_not_ready">Hãy chọn mô hình trước</string>
     <string name="ai_provider_address">Địa chỉ</string>
     <string name="ai_provider_address_message">Địa chỉ của một dịch vụ có API trò chuyện tương thích với OpenAI và nhận hình ảnh đầu vào, chẳng hạn như https://example.com/v1.</string>
@@ -50,7 +48,6 @@
     <string name="ai_provider_key_message">Hãy dán khoá API <xliff:g id="service" example="Claude">%1$s</xliff:g> của bạn. Để xoá khoá, hãy xoá nội dung trong trường rồi lưu. Hình ảnh và màn hình mà bạn yêu cầu mô tả sẽ được gửi đến <xliff:g id="service" example="Claude">%1$s</xliff:g>.</string>
     <string name="ai_provider_needs_key">Hãy đặt khoá API <xliff:g id="service" example="Claude">%1$s</xliff:g> trước</string>
     <string name="ai_provider_needs_address">Hãy đặt địa chỉ trước</string>
-    <string name="ai_provider_set_up_first">Hãy thiết lập <xliff:g id="service" example="Claude">%1$s</xliff:g> trong phần cài đặt <xliff:g id="service" example="Claude">%1$s</xliff:g> trước</string>
     <string name="ai_provider_enter_model">Nhập tên mô hình</string>
     <string name="ai_provider_none_set_up">Chưa thiết lập dịch vụ AI nào. Hãy thiết lập một dịch vụ trong phần cài đặt bên dưới.</string>
     <string name="ai_service_not_set_up">Chưa có dịch vụ AI nào được sử dụng. Hãy thiết lập hoặc chọn một dịch vụ trong phần cài đặt Mô tả tự động.</string>
