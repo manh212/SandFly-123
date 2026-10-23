@@ -108,6 +108,14 @@ public class FocusProcessorForScreenStateChange {
         windowEventInterpreterDelayTimeMs,
         screenState);
     long windowChangeDelayMs = WindowEventInterpreter.getWindowChangeDelayMs();
+    long stableDelayMs =
+        WindowEventInterpreter.getStableTransitionDelayMs(
+            screenState.getScreenTransitionStartTime());
+    if (stableDelayMs >= 0) {
+      // The interpreter already assumed this transition's windows stable, so initial focus
+      // waits only as long as the window announcement did.
+      windowChangeDelayMs = Math.min(windowChangeDelayMs, stableDelayMs);
+    }
     if (windowEventInterpreterDelayTimeMs <= 0
         || windowEventInterpreterDelayTimeMs >= windowChangeDelayMs) {
       FocusResult result = onScreenStateChangedInternal(screenState, eventId);

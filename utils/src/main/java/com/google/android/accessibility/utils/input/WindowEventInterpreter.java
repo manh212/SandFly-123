@@ -316,6 +316,9 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
   // Caches the window roles from last window transition for comparison.
   private WindowRoles windowRoles = new WindowRoles();
   private @Nullable WindowRoles pendingWindowRoles;
+  // The window picture the previous delayed check of the current transition computed, or null
+  // before its first check.
+  private @Nullable WindowRoles previousCheckRoles;
   private int picInPicLastShownId = WINDOW_ID_NONE; // Last pic-in-pic window that was shown.
   private long picInPicDisappearTime = 0; // Last time pic-in-pic was hidden.
   // Announcement from event TYPE_WINDOW_STATE_CHANGED, to be spoken with next event-interpretation.
@@ -644,6 +647,7 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
       // roles. Base new role updates on pending roles, to allow WINDOW_STATE_CHANGED to know that
       // window id changed in preceding WINDOWS_CHANGED.
       pendingWindowRoles = newWindowRoles;
+      previousCheckRoles = null;
       delayInterpret(interpretation, eventId);
     }
 
@@ -789,6 +793,23 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
     return windowChangeDelayMs;
   }
 
+  /** Event-start time of the transition last assumed stable, and the delay it waited. */
+  private static volatile long stableTransitionStartMs;
+
+  private static volatile long stableTransitionDelayMs;
+
+  /**
+   * Returns how long the interpreter actually waited before assuming the windows stable for the
+   * transition that started at {@code transitionStartMs}, or -1 if that transition has not been
+   * assumed stable. Focus waits use it to end with the window announcement instead of the full
+   * delay when the windows settled early.
+   */
+  public static long getStableTransitionDelayMs(long transitionStartMs) {
+    return (transitionStartMs != 0 && transitionStartMs == stableTransitionStartMs)
+        ? stableTransitionDelayMs
+        : -1;
+  }
+
   /** Returns the current window-transition delay in milliseconds. */
   private long getWindowTransitionDelayMs() {
     // Windows appear at once when animations are off, however they were turned off.
@@ -857,6 +878,7 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
   private void clearWindowTransition() {
     announcement = null;
     pendingWindowRoles = null;
+    previousCheckRoles = null;
     screenTransitionStartTime = 0;
   }
 
@@ -892,18 +914,68 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
       return;
     }
 
-    // Assume windows are stable if they all have titles from state-change-events, or if maximum
-    // delay is reached.
+    // Assume windows are stable if they all have titles from state-change-events, if the window
+    // picture stopped changing while every changed window already has a title from the window
+    // list, or if maximum delay is reached.
     if (interpretation.hasTitlesFromStateChange()
+        || windowPictureSettled(interpretation, newWindowRoles)
         || (interpretation.getMaxDelayMs() <= interpretation.getTotalDelayMs())) {
       LogDepth.log(
           TAG, depth, "Assumes windows are stable, delay=%d", interpretation.getTotalDelayMs());
       interpretation.setWindowsStable(true);
+      stableTransitionStartMs = interpretation.getEventStartTime();
+      stableTransitionDelayMs = interpretation.getTotalDelayMs();
       setRoles(newWindowRoles);
       notifyInterpretationListeners(interpretation, eventId);
     } else {
       delayInterpret(interpretation, eventId);
     }
+  }
+
+  /**
+   * Returns whether the window picture is the same as at the previous check of this transition
+   * and every changed window already has a title from the window list. Modern apps put the title
+   * in the window list at once, so nothing more is expected from the state-change events the wait
+   * was started for; a pane title that still arrives later is announced then, as its own change.
+   * Keeps this check's picture for the next check to compare against.
+   */
+  private boolean windowPictureSettled(
+      EventInterpretation interpretation, WindowRoles newWindowRoles) {
+    WindowRoles previous = previousCheckRoles;
+    previousCheckRoles = new WindowRoles(newWindowRoles);
+    if (previous == null || !sameWindowPicture(previous, newWindowRoles)) {
+      return false;
+    }
+    return windowHasWindowTitle(interpretation.getWindowA())
+        && windowHasWindowTitle(interpretation.getWindowB())
+        && windowHasWindowTitle(interpretation.getOtherActiveWindow())
+        && windowHasWindowTitle(interpretation.getPicInPic())
+        && windowHasWindowTitle(interpretation.getInputMethod());
+  }
+
+  /** Whether two checks saw the same windows in the same roles, with the same titles. */
+  private static boolean sameWindowPicture(WindowRoles a, WindowRoles b) {
+    return a.eventSourceWindowId == b.eventSourceWindowId
+        && TextUtils.equals(a.eventSourceWindowTitle, b.eventSourceWindowTitle)
+        && a.windowIdA == b.windowIdA
+        && TextUtils.equals(a.windowTitleA, b.windowTitleA)
+        && a.windowIdB == b.windowIdB
+        && TextUtils.equals(a.windowTitleB, b.windowTitleB)
+        && a.otherActiveWindowId == b.otherActiveWindowId
+        && TextUtils.equals(a.otherActiveWindowTitle, b.otherActiveWindowTitle)
+        && a.picInPicWindowId == b.picInPicWindowId
+        && TextUtils.equals(a.picInPicWindowTitle, b.picInPicWindowTitle)
+        && a.inputMethodWindowId == b.inputMethodWindowId
+        && TextUtils.equals(a.inputMethodWindowTitle, b.inputMethodWindowTitle);
+  }
+
+  /**
+   * Whether a window that changed already has a title in the window list, mirroring {@link
+   * WindowInterpretation#hasTitleFromStateChange()} for the state-change channel.
+   */
+  private boolean windowHasWindowTitle(WindowInterpretation window) {
+    return !window.idOrTitleChanged()
+        || !TextUtils.isEmpty(getWindowTitleFromWindowInfo(window.getId()));
   }
 
   private void delayInterpret(EventInterpretation interpretation, @Nullable EventId eventId) {
