@@ -144,6 +144,9 @@
     <string name="pref_dump_event_key_prefix">pref_dump_event_<xliff:g example="1" id="eventType">%1$d</xliff:g></string>
     <string name="pref_dump_event_mask_key">pref_dump_event_mask</string>
     <string name="pref_dump_a11y_event_key">pref_dump_a11y_event</string>
+    <string name="pref_export_diagnostics_key">pref_export_diagnostics</string>
+    <string name="pref_export_diagnostics_to_downloads_key">pref_export_diagnostics_to_downloads</string>
+    <string name="pref_copy_diagnostics_key">pref_copy_diagnostics</string>
     <!-- Using for showing version information. [CHAR_LIMIT=NONE] -->
     <string name="pref_developer_version_code_key">pref_developer_version_code</string>
     <string name="pref_typing_confirmation_key" translatable="false">pref_typing_confirmation</string>

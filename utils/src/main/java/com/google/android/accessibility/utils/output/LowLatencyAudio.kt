@@ -21,6 +21,7 @@ import android.media.AudioAttributes
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
+import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
@@ -479,6 +480,66 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
       }
     }
   }
+
+  /** The state of one player, read in one go for diagnostics. Buffer sizes are -1 with no track. */
+  data class Snapshot(
+    val usage: Int,
+    val sampleRate: Int,
+    val burstFrames: Int,
+    val broken: Boolean,
+    val released: Boolean,
+    val audioThreadRunning: Boolean,
+    val fastPath: Boolean,
+    val bufferSizeInFrames: Int,
+    val bufferCapacityInFrames: Int,
+    val underrunCount: Int,
+    val playState: Int,
+    val routedDeviceType: Int?,
+    val routedDeviceName: String?,
+  )
+
+  /** This player's state now, for diagnostics. */
+  fun snapshot(): Snapshot =
+    synchronized(lock) {
+      val output = track
+      var bufferSize = -1
+      var bufferCapacity = -1
+      var underrunCount = -1
+      var playState = -1
+      var deviceType: Int? = null
+      var deviceName: String? = null
+      if (output != null) {
+        try {
+          bufferSize = output.bufferSizeInFrames
+          bufferCapacity = output.bufferCapacityInFrames
+          underrunCount = output.underrunCount
+          playState = output.playState
+          if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            output.routedDevice?.let {
+              deviceType = it.type
+              deviceName = it.productName?.toString()
+            }
+          }
+        } catch (e: IllegalStateException) {
+          // Released while being read.
+        }
+      }
+      Snapshot(
+        usage = attributes.usage,
+        sampleRate = sampleRate,
+        burstFrames = burstFrames,
+        broken = broken,
+        released = released,
+        audioThreadRunning = thread != null,
+        fastPath = fastPath,
+        bufferSizeInFrames = bufferSize,
+        bufferCapacityInFrames = bufferCapacity,
+        underrunCount = underrunCount,
+        playState = playState,
+        routedDeviceType = deviceType,
+        routedDeviceName = deviceName,
+      )
+    }
 
   /** Starts the audio thread and its watchdog if they are not running. Called with [lock] held. */
   private fun wake() {

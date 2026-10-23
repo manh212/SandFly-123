@@ -306,6 +306,12 @@
   <string name="pref_reduce_window_delay_title">Tắt hiệu ứng động</string>
   <string name="title_pref_log_level">Mức đầu ra của nhật ký</string>
   <string name="title_pref_diagnosis_mode">Chế độ chẩn đoán</string>
+  <string name="title_pref_export_diagnostics">Xuất chẩn đoán</string>
+  <string name="title_pref_export_diagnostics_to_downloads">Xuất nhật ký vào Tải xuống</string>
+  <string name="title_pref_copy_diagnostics">Sao chép nhật ký</string>
+  <string name="message_diagnostics_saved_to_downloads">Đã lưu chẩn đoán vào Tải xuống</string>
+  <string name="message_diagnostics_save_failed">Không lưu được chẩn đoán</string>
+  <string name="message_diagnostics_copied">Đã sao chép chẩn đoán</string>
   <string name="title_pref_tts_overlay">Hiển thị đầu ra bằng giọng nói</string>
   <string name="title_pref_multiple_gesture_set">Hỗ trợ nhiều tổ hợp cử chỉ</string>
   <string name="title_pref_echo_recognized_text_speech">Vọng lại tiếng nói đã nhận dạng</string>

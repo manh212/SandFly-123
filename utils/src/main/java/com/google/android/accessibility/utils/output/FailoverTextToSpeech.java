@@ -265,12 +265,35 @@ public class FailoverTextToSpeech {
 
   private volatile boolean lowLatencyAudio = false;
 
+  /** Why low-latency playback was last turned off for the current engine, or null. */
+  private volatile @Nullable String lowLatencyOffReason;
+
   /**
    * Returns whether low-latency audio is on when the user hasn't chosen. It's off on watches,
    * whose settings don't have the switch.
    */
   public static boolean lowLatencyAudioDefault(Context context) {
     return !context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_WATCH);
+  }
+
+  /** The package of the engine speaking now, or null before one is running. */
+  public @Nullable String getCurrentTtsEnginePackage() {
+    return ttsEngine;
+  }
+
+  /** Whether the low-latency audio setting is on. */
+  public boolean isLowLatencyAudioOn() {
+    return lowLatencyAudio;
+  }
+
+  /** Whether the current engine speaks the usual way because low-latency playback failed on it. */
+  public boolean isLowLatencyOffForCurrentEngine() {
+    return ttsEngine != null && enginesWithoutFileAudio.contains(ttsEngine);
+  }
+
+  /** Why low-latency playback was turned off for the current engine, or null if it wasn't. */
+  public @Nullable String getLowLatencyOffReason() {
+    return isLowLatencyOffForCurrentEngine() ? lowLatencyOffReason : null;
   }
 
   /** Engines that gave no audio when synthesizing to a file, which speak the usual way. */
@@ -1865,6 +1888,7 @@ public class FailoverTextToSpeech {
 
   /** Speaks the usual way with the current engine from now on. */
   private void stopUsingLowLatencyAudio(String reason) {
+    lowLatencyOffReason = reason;
     if (ttsEngine != null) {
       enginesWithoutFileAudio.add(ttsEngine);
     }
