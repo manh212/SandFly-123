@@ -1531,7 +1531,7 @@
     <string name="title_pref_brightness">Độ sáng</string>
     <string name="summary_support_change_brightness">Tăng hoặc giảm độ sáng màn hình, kể cả khi màn hình bị ẩn</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Giữ ngón tay để chọn phím bất kỳ, sau đó nhấc ngón tay. Nhấn đúp để nhập Enter, Xong hoặc Gửi.</string>
-    <string name="value_type_confirmation_single_tap_to_type">Chạm một lần để nhập: giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay lên. Nhấn đúp không hoạt động trong vùng bàn phím.</string>
+    <string name="value_type_confirmation_single_tap_to_type">Nhập phím trực tiếp: giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay lên. Nhấn đúp không hoạt động trong vùng bàn phím.</string>
     <string name="value_multi_tap_timeout_100ms">0,1 giây</string>
     <string name="value_multi_tap_timeout_150ms">0,15 giây</string>
     <string name="value_multi_tap_timeout_200ms">0,2 giây</string>
