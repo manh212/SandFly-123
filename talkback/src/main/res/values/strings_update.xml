@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <!-- Title of the settings screen that holds the update settings. [CHAR LIMIT=40] -->
+    <string name="title_pref_updates">Updates</string>
     <!-- Title of the setting that checks GitHub for a newer build of SandFly. [CHAR LIMIT=40] -->
     <string name="title_pref_check_for_updates">Check for updates</string>
     <!-- Summary of the check for updates setting, with the version and build number of the running app. [CHAR LIMIT=NONE] -->
