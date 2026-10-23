@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Omogućivanje preklapanja zapisnika o otklanjanju pogrešaka</string>
   <string name="title_pref_typing_confirmation">Preferencija tipkanja</string>
   <string name="title_pref_typing_long_tap_duration">Odgoda za dodir i zadržavanje pritiska tijekom tipkanja</string>
-  <string name="title_pref_touch_explore_timeout">Odgoda fokusa za unos</string>
   <string name="message_pref_touch_explore_latency">Kraća odgoda fokusa za unos znači da se TalkBackove obavijesti izgovaraju brže nakon dodirivanja tipkovnice.\n\nOdaberite odgodu</string>
-  <string name="title_pref_touch_focus_timeout">Odgoda fokusa</string>
-  <string name="title_pref_talkback_gesture_detection">Upravljanje pokretima u TalkBacku</string>
-  <string name="toast_pref_talkback_gesture_detection">Isključite TalkBack, a zatim ga ponovo uključite da biste uključili postavku.</string>
   <string name="title_pref_auto_image_captioning">Automatski opisi</string>
   <string name="title_pref_gemini_settings">Postavke za Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini – glasovna naredba</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Stišajte druge zvukove koji se reproduciraju dok TalkBack govori</string>
   <string name="summary_support_scroll_seq">Pomicanje unaprijed ili unatrag</string>
   <string name="summary_support_change_a11y_volume">Pojačavanje ili stišavanje glasnoće pristupačnosti</string>
-  <string name="summary_support_change_touch_explore_latency">Skratite ili produljite odgodu fokusa za unos</string>
-  <string name="summary_support_change_touch_focus_latency">Povećajte ili smanjite odgodu fokusa</string>
   <string name="summary_screen_overview">Sažimanje zaslona pomoću gumba za radnju</string>
   <string name="summary_screen_overview_no_actions">Poslušajte sažetak sadržaja na zaslonu</string>
   <string name="summary_image_caption">Govorite tekst i ikone unutar odabrane slike</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dvaput spojite prste</string>
   <string name="gesture_name_double_tap_and_hold">Dvostruki dodir i zadržavanje</string>
   <string name="gesture_name_double_tap_and_hold_xr">Spojite prste i zadržite</string>
-  <string name="gesture_name_2finger_tap_hold">Dodir i zadržavanje s dva prsta</string>
   <string name="gesture_name_3finger_tap_hold">Dodir i zadržavanje s tri prsta</string>
   <string name="gesture_name_2finger_3tap_hold">Trostruki dodir i zadržavanje s dva prsta</string>
   <string name="gesture_name_3finger_3tap_hold">Trostruki dodir i zadržavanje s tri prsta</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Automatsko stišavanje zvuka</string>
   <string name="title_pref_support_scroll_seq">Pomicanje</string>
   <string name="title_pref_a11y_volume">Glasnoća pristupačnosti</string>
-  <string name="title_pref_touch_explore_latency">Odgoda fokusa za unos</string>
-  <string name="title_pref_touch_focus_latency">Odgoda fokusa</string>
   <string name="message_pref_touch_focus_latency">Kraća odgoda fokusa znači da se TalkBackove obavijesti izgovaraju brže nakon dodirivanja zaslona</string>
   <string name="message_pref_typing_method_prefix">Za najkraću odgodu pri tipkanju odaberite \"Zadržite prst za odabir bilo koje tipke, a zatim ga podignite\"</string>
-  <string name="message_pref_typing_method_postfix">Uvijek možete koristiti i podijeljeni dodir za tipkanje. U tom slučaju zadržite jedan prst na odabranoj tipki, a drugim prstom dodirnite zaslon.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack – brzina govora</string>
   <string name="title_pref_selector_adjustable_widget_slider">Prilagodi klizač</string>
   <string name="title_pref_selector_typo_granularity">Jezična provjera</string>

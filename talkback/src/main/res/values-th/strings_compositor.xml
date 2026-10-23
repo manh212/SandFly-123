@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ความเร็วในการพูด %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">เพิ่มระดับเสียงการช่วยเหลือพิเศษเป็น %1$d เปอร์เซ็นต์</string>
   <string name="template_accessibility_volume_change_decrease">ลดระดับเสียงการช่วยเหลือพิเศษเป็น %1$d เปอร์เซ็นต์</string>
-  <string name="template_touch_latency_reach_maximum">สูงสุด</string>
-  <string name="template_touch_latency_reach_minimum">ต่ำสุด</string>
   <string name="template_volume_change_maximum">สูงสุด</string>
   <string name="template_volume_change_minimum">ต่ำสุด</string>
   <string name="template_volume_change_volume_up_curved_text">เพิ่ม</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">വായനയുടെ വേഗത %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ഉപയോഗസഹായി വോളിയം %1$d ശതമാനമാക്കി വർദ്ധിപ്പിക്കുക.</string>
   <string name="template_accessibility_volume_change_decrease">ഉപയോഗസഹായി വോളിയം %1$d ശതമാനമാക്കി കുറയ്ക്കുക.</string>
-  <string name="template_touch_latency_reach_maximum">പരമാവധി</string>
-  <string name="template_touch_latency_reach_minimum">കുറഞ്ഞത്</string>
   <string name="template_volume_change_maximum">പരമാവധി</string>
   <string name="template_volume_change_minimum">കുറഞ്ഞത്</string>
   <string name="template_volume_change_volume_up_curved_text">കൂട്ടുക</string>

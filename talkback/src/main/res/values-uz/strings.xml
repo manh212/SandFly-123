@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Ustki tuzatmalar jurnalini yoqish</string>
   <string name="title_pref_typing_confirmation">Yozish parametrlari</string>
   <string name="title_pref_typing_long_tap_duration">Yozayotganda kechikish tugmasini bosib turing</string>
-  <string name="title_pref_touch_explore_timeout">Matn kiritishdagi fokusda kechikish</string>
   <string name="message_pref_touch_explore_latency">Qisqaroq yozish fokusi kechikishi klaviaturani bosgandan keyin TalkBack eʼlonlari tezroq chiqishini anglatadi.\n\nKechikishni tanlang</string>
-  <string name="title_pref_touch_focus_timeout">Fokus kechikishi</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack| funksiyasida imo-ishoralarni aniqlashni yoqish</string>
-  <string name="toast_pref_talkback_gesture_detection">O\'zgarishlar kuchga kirishi uchun TalkBack funksiyasini qayta ishga tushiring.</string>
   <string name="title_pref_auto_image_captioning">Avtomatik tavsiflar</string>
   <string name="title_pref_gemini_settings">Gemini sozlamalari</string>
   <string name="title_pref_gemini_enabled">Gemini ovozli buyruqlari</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack oʻqib beryotganda boshqa tovushlarni pasaytirish</string>
   <string name="summary_support_scroll_seq">Orqaga yoki oldinga varaqlang</string>
   <string name="summary_support_change_a11y_volume">Qulaylik tovushini balandlatish va pasaytirish</string>
-  <string name="summary_support_change_touch_explore_latency">Yozish fokusi kechikishini oshirish yoki kamaytirish</string>
-  <string name="summary_support_change_touch_focus_latency">Fokus kechikishini oshirish yoki kamaytirish</string>
   <string name="summary_screen_overview">Ekranni amal tugmalari bilan xulosalang</string>
   <string name="summary_screen_overview_no_actions">Ekrandagi kontent xulosasini tinglang</string>
   <string name="summary_image_caption">Tanlangan rasm ichidagi matn va belgilarni oʻqib eshittirish</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Juftlab, chimdish</string>
   <string name="gesture_name_double_tap_and_hold">Ikki marta bosish va barmoqni uzmay turish</string>
   <string name="gesture_name_double_tap_and_hold_xr">Chimdish va ushlab turish</string>
-  <string name="gesture_name_2finger_tap_hold">2 barmoq bilan bosish va barmoqni uzmay turish</string>
   <string name="gesture_name_3finger_tap_hold">3 barmoq bilan bosish va barmoqni uzmay turish</string>
   <string name="gesture_name_2finger_3tap_hold">2 barmoq bilan uch marta bosish va barmoqni uzmay turish</string>
   <string name="gesture_name_3finger_3tap_hold">3 barmoq bilan 3 marta bosish va barmoqni uzmay turish</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Ilovalarni ovozsiz qilish</string>
   <string name="title_pref_support_scroll_seq">Varaqlash</string>
   <string name="title_pref_a11y_volume">Maxsus imkoniyatlarda tovush balandligi</string>
-  <string name="title_pref_touch_explore_latency">Matn kiritishdagi fokusda kechikish</string>
-  <string name="title_pref_touch_focus_latency">Fokus kechikishi</string>
   <string name="message_pref_touch_focus_latency">Qisqaroq fokusi kechikishi ekranni bosgandan keyin TalkBack eʼlonlari tezroq chiqishini anglatadi</string>
   <string name="message_pref_typing_method_prefix">Matn yozishda eng kam kechikish uchun “Biror tugmani tanlash uchun barmoq bilan bosib, keyin koʻtarish” bandini tanlang</string>
-  <string name="message_pref_typing_method_postfix">Shuningdek, istalgan payt yozish uchun ajratib bosish imkoniyatini ishlatish mumkin. Buning uchun istalgan tugmani tanlagani bitta barmogʻingizni bosib turib, boshqa barmoq bilan ekranga tegining.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack nutq tezligi</string>
   <string name="title_pref_selector_adjustable_widget_slider">Slayderni sozlash</string>
   <string name="title_pref_selector_typo_granularity">Tuzatish</string>

@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Мүчүлүштүктөрдү оңдоо таржымалын башка терезелердин үстүндө көрсөтүү</string>
   <string name="title_pref_typing_confirmation">Терүү параметри</string>
   <string name="title_pref_typing_long_tap_duration">Терүүдө коё бербей басып туруу узактыгы</string>
-  <string name="title_pref_touch_explore_timeout">Терүүдө фокустун кечигүүсү</string>
   <string name="message_pref_touch_explore_latency">Терүүдө фокустун кечигүүсүн азайтуу менен баскычтопту тийгенден кийин TalkBack жарыялары тезирээк угулат.\n\nКечигүүнү тандаңыз</string>
-  <string name="title_pref_touch_focus_timeout">Фокустун кечигүүсү</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack\'теги жаңсоолорду тууралоо</string>
-  <string name="toast_pref_talkback_gesture_detection">Параметрди иштетүү үчүн TalkBack\'ти өчүрүп, кайра күйгүзүңүз.</string>
   <string name="title_pref_auto_image_captioning">Автоматтык учкай маалыматтар</string>
   <string name="title_pref_gemini_settings">Gemini параметрлери</string>
   <string name="title_pref_gemini_enabled">Gemini үн буйругу</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack сүйлөгөндө башка добуштар акырындайт</string>
   <string name="summary_support_scroll_seq">Алдыга же артка сыдыруу</string>
   <string name="summary_support_change_a11y_volume">Атайын мүмкүнчүлүктөрдүн үнүнүн катуулугун жогорулатуу же төмөндөтүү</string>
-  <string name="summary_support_change_touch_explore_latency">Терүүдө фокустун кечигүүсүн көбөйтүү же азайтуу</string>
-  <string name="summary_support_change_touch_focus_latency">Фокус кечигүүсүн көбөйтүү же азайтуу</string>
   <string name="summary_screen_overview">Экранды аракет баскычтары менен Кыскача маалымат билдириңиз</string>
   <string name="summary_screen_overview_no_actions">Экрандагы контенттин корутундусун угуу</string>
   <string name="summary_image_caption">Тандалган сүрөттөгү текстти жана сүрөтчөлөрдү айтуу</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Эки манжаны эки жолу бириктирүү</string>
   <string name="gesture_name_double_tap_and_hold">Эки жолу басып, коё бербей туруу</string>
   <string name="gesture_name_double_tap_and_hold_xr">Эки манжаны бириктирип, кармап туруу</string>
-  <string name="gesture_name_2finger_tap_hold">2 манжа менен басып, коё бербей туруу</string>
   <string name="gesture_name_3finger_tap_hold">3 манжа менен басып, коё бербей туруу</string>
   <string name="gesture_name_2finger_3tap_hold">2 манжа менен үч жолу басып, коё бербей туруу</string>
   <string name="gesture_name_3finger_3tap_hold">3 манжа менен үч жолу басып, кое бербей туруу</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Колдонмолордун үнүн басаңдатуу</string>
   <string name="title_pref_support_scroll_seq">Сыдыруу</string>
   <string name="title_pref_a11y_volume">Атайын мүмкүнчүлүктөрдүн үнүнүн катуулугу</string>
-  <string name="title_pref_touch_explore_latency">Терүүдө фокустун кечигүүсү</string>
-  <string name="title_pref_touch_focus_latency">Фокустун кечигүүсү</string>
   <string name="message_pref_touch_focus_latency">Терүүдө фокустун кечигүүсүн азайтуу менен баскычтопту тийгенден кийин TalkBack жарыялары тезирээк угулат</string>
   <string name="message_pref_typing_method_prefix">Текстти терип жатканда кечигүүнү азайтуу үчүн \"Баскычты тандоо үчүн манжа менен коё бербей басып, андан кийин алып коюу\" параметрин тандаңыз</string>
-  <string name="message_pref_typing_method_postfix">Ошондой эле каалаган убакта эки манжа менен тере аласыз. Ал үчүн каалаган баскычты бир манжаңыз менен коё бербей басып, экранды башка манжаңыз менен таптап коюңуз.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack\'тин окуу ылдамдыгы</string>
   <string name="title_pref_selector_adjustable_widget_slider">Сыдырманы тууралоо</string>
   <string name="title_pref_selector_typo_granularity">Түзөтүү</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Konuşma  hızı %%%1$d</string>
   <string name="template_accessibility_volume_change_increase">Erişilebilirlik ses düzeyini yüzde %1$d olarak artır.</string>
   <string name="template_accessibility_volume_change_decrease">Erişilebilirlik ses düzeyini yüzde %1$d olarak azalt.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maksimum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Artır</string>

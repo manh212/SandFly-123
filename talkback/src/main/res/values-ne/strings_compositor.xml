@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">बोल्ने गति %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">सर्वसुलभताको भोल्युम बढाएर %1$d प्रतिशत बनाइएको छ।</string>
   <string name="template_accessibility_volume_change_decrease">सर्वसुलभताको भोल्युम घटाएर %1$d प्रतिशत बनाइएको छ।</string>
-  <string name="template_touch_latency_reach_maximum">अधिकतम</string>
-  <string name="template_touch_latency_reach_minimum">न्यूनतम</string>
   <string name="template_volume_change_maximum">अधिकतम</string>
   <string name="template_volume_change_minimum">न्यूनतम</string>
   <string name="template_volume_change_volume_up_curved_text">बढाउनुहोस्</string>

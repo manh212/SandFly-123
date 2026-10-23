@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Activează suprapunerea pentru jurnalul de remediere a erorilor</string>
   <string name="title_pref_typing_confirmation">Preferința tastării</string>
   <string name="title_pref_typing_long_tap_duration">Întârziere la atingerea lungă în timpul introducerii textului</string>
-  <string name="title_pref_touch_explore_timeout">Decalajul focalizării pentru introducerea textului</string>
   <string name="message_pref_touch_explore_latency">Un decalaj mai scurt al focalizării pentru introducerea textului înseamnă că anunțurile TalkBack se fac mai repede după ce atingi tastatura.\n\nSelectează un decalaj</string>
-  <string name="title_pref_touch_focus_timeout">Decalajul focalizării</string>
-  <string name="title_pref_talkback_gesture_detection">Gestionează gesturile în TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Dezactivează, apoi reactivează TalkBack pentru a activa setarea.</string>
   <string name="title_pref_auto_image_captioning">Descrieri automate</string>
   <string name="title_pref_gemini_settings">Setări pentru Gemini</string>
   <string name="title_pref_gemini_enabled">Comandă vocală pentru Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Redu volumul altor sunete redate în timp ce TalkBack vorbește</string>
   <string name="summary_support_scroll_seq">Derulează înainte și înapoi</string>
   <string name="summary_support_change_a11y_volume">Mărește sau micșorează volumul pentru accesibilitate</string>
-  <string name="summary_support_change_touch_explore_latency">Mărește sau redu decalajul focalizării pentru introducerea textului</string>
-  <string name="summary_support_change_touch_focus_latency">Mărește sau redu decalajul focalizării</string>
   <string name="summary_screen_overview">Rezumă ecranul cu butoane pentru acțiuni</string>
   <string name="summary_screen_overview_no_actions">Ascultă un rezumat al conținutului de pe ecran</string>
   <string name="summary_image_caption">Oferă feedback rostit pentru text și pictograme dintr-o imagine selectată</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Ciupește de două ori</string>
   <string name="gesture_name_double_tap_and_hold">Atinge lung</string>
   <string name="gesture_name_double_tap_and_hold_xr">Ciupește lung</string>
-  <string name="gesture_name_2finger_tap_hold">Atingeți lung cu două degete</string>
   <string name="gesture_name_3finger_tap_hold">Atinge lung cu trei degete</string>
   <string name="gesture_name_2finger_3tap_hold">Atinge de trei ori și ține apăsat cu două degete</string>
   <string name="gesture_name_3finger_3tap_hold">Atinge de trei ori și ține apăsat cu trei degete</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Reducerea volumului audio</string>
   <string name="title_pref_support_scroll_seq">Derulează</string>
   <string name="title_pref_a11y_volume">Volumul pentru Accesibilitate</string>
-  <string name="title_pref_touch_explore_latency">Decalajul focalizării pentru introducerea textului</string>
-  <string name="title_pref_touch_focus_latency">Decalajul focalizării</string>
   <string name="message_pref_touch_focus_latency">Un decalaj de focalizare mai scurt înseamnă că anunțurile TalkBack se fac mai repede după ce atingi ecranul</string>
   <string name="message_pref_typing_method_prefix">Pentru cea mai mică întârziere la tastare, alege opțiunea Ține apăsat pentru a selecta orice tastă, apoi ridică degetul</string>
-  <string name="message_pref_typing_method_postfix">Poți folosi oricând atingerea ramificată pentru a tasta. Pentru a face acest lucru, ține apăsat cu un deget pentru a selecta orice tastă și folosește alt deget pentru a atinge ecranul.</string>
   <string name="title_pref_talkback_speech_rate">Viteza vorbirii TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Ajustează glisorul</string>
   <string name="title_pref_selector_typo_granularity">Verificare</string>

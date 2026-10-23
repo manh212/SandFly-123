@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Кеп ылдамдыгы %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Атайын мүмкүнчүлүктөрдүн үнүн %1$d пайызга жогорулатуу.</string>
   <string name="template_accessibility_volume_change_decrease">Атайын мүмкүнчүлүктөрдүн үнүн %1$d пайызга төмөндөтүү.</string>
-  <string name="template_touch_latency_reach_maximum">Эң көп</string>
-  <string name="template_touch_latency_reach_minimum">Кеминде</string>
   <string name="template_volume_change_maximum">Эң көп</string>
   <string name="template_volume_change_minimum">Кеминде</string>
   <string name="template_volume_change_volume_up_curved_text">Жогорулатуу</string>

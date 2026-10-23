@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">音声の速度は %1$d%% です</string>
   <string name="template_accessibility_volume_change_increase">ユーザー補助機能の音量を %1$d パーセントに上げます。</string>
   <string name="template_accessibility_volume_change_decrease">ユーザー補助機能の音量を %1$d パーセントに下げます。</string>
-  <string name="template_touch_latency_reach_maximum">最大</string>
-  <string name="template_touch_latency_reach_minimum">最小</string>
   <string name="template_volume_change_maximum">最大</string>
   <string name="template_volume_change_minimum">最小</string>
   <string name="template_volume_change_volume_up_curved_text">大きくする</string>

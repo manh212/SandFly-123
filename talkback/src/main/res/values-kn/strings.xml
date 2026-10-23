@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ಡೀಬಗ್ ಲಾಗ್ ಓವರ್‌ಲೇ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಿ</string>
   <string name="title_pref_typing_confirmation">ಟೈಪಿಂಗ್ ಆದ್ಯತೆ</string>
   <string name="title_pref_typing_long_tap_duration">ಟೈಪ್ ಮಾಡುವಾಗ ಸ್ಪರ್ಶಿಸಿ ಮತ್ತು ಒತ್ತಿ ಹಿಡಿಯುವಿಕೆಯ ವಿಳಂಬ</string>
-  <string name="title_pref_touch_explore_timeout">ಟೈಪಿಂಗ್ ಫೋಕಸ್ ವಿಳಂಬ</string>
   <string name="message_pref_touch_explore_latency">ಕಡಿಮೆ ಟೈಪಿಂಗ್ ಫೋಕಸ್ ವಿಳಂಬ ಎಂದರೆ ಕೀಬೋರ್ಡ್ ಸ್ಪರ್ಶಿಸಿದ ನಂತರ TalkBack ಘೋಷಣೆಗಳನ್ನು ವೇಗವಾಗಿ ಮಾಡಲಾಗುತ್ತದೆ.\n\nವಿಳಂಬವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="title_pref_touch_focus_timeout">ಫೋಕಸ್ ವಿಳಂಬ</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack ನಲ್ಲಿ ಗೆಸ್ಚರ್‌ಗಳನ್ನು ನಿರ್ವಹಿಸಿ</string>
-  <string name="toast_pref_talkback_gesture_detection">ಸೆಟ್ಟಿಂಗ್ ಅನ್ನು ಸಕ್ರಿಯಗೊಳಿಸಲು TalkBack ಅನ್ನು ಆಫ್ ಮಾಡಿ ಪುನಃ ಆನ್ ಮಾಡಿ.</string>
   <string name="title_pref_auto_image_captioning">ಸ್ವಯಂಚಾಲಿತ ವಿವರಣೆಗಳು</string>
   <string name="title_pref_gemini_settings">Gemini ಸೆಟ್ಟಿಂಗ್‌ಗಳು</string>
   <string name="title_pref_gemini_enabled">Gemini ಧ್ವನಿ ಕಮಾಂಡ್</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack ಮಾತನಾಡುವಾಗ ಪ್ಲೇ ಆಗುತ್ತಿರುವ ಇತರ ಆಡಿಯೋ ವಾಲ್ಯೂಮ್ ಅನ್ನು ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="summary_support_scroll_seq">ಮುಂದಕ್ಕೆ ಅಥವಾ ಹಿಂದಕ್ಕೆ ಸ್ಕ್ರಾಲ್ ಮಾಡಿ</string>
   <string name="summary_support_change_a11y_volume">ಆ್ಯಕ್ಸೆಸಿಬಿಲಿಟಿ ವಾಲ್ಯೂಮ್ ಅನ್ನು ಹೆಚ್ಚಿಸಿ ಅಥವಾ ಕಡಿಮೆ ಮಾಡಿ</string>
-  <string name="summary_support_change_touch_explore_latency">ಟೈಪಿಂಗ್ ಫೋಕಸ್ ವಿಳಂಬವನ್ನು ಹೆಚ್ಚಿಸಿ ಅಥವಾ ಕಡಿಮೆ ಮಾಡಿ</string>
-  <string name="summary_support_change_touch_focus_latency">ಫೋಕಸ್ ವಿಳಂಬವನ್ನು ಹೆಚ್ಚಿಸಿ ಅಥವಾ ಕಡಿಮೆ ಮಾಡಿ</string>
   <string name="summary_screen_overview">ಕ್ರಿಯಾ ಬಟನ್‌ಗಳ ಸಹಾಯದಿಂದ ಸ್ಕ್ರೀನ್ ಅನ್ನು ಸಾರಾಂಶಗೊಳಿಸಿ</string>
   <string name="summary_screen_overview_no_actions">ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಕಂಟೆಂಟ್‌ನ ಸಾರಾಂಶವನ್ನು ಕೇಳಿ</string>
   <string name="summary_image_caption">ಆಯ್ದ ಚಿತ್ರಗಳಿಗೆ ಸಂಬಂಧಿಸಿದ ಪಠ್ಯ ಹಾಗೂ ಐಕಾನ್‌ಗಳ ಕುರಿತ ಮಾತಿನ ಪ್ರತಿಕ್ರಿಯೆಯನ್ನು ಒದಗಿಸುತ್ತದೆ</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ಡಬಲ್-ಪಿಂಚ್ ಮಾಡಿ</string>
   <string name="gesture_name_double_tap_and_hold">ಡಬಲ್-ಟ್ಯಾಪ್ ಮತ್ತು ಹೋಲ್ಡ್</string>
   <string name="gesture_name_double_tap_and_hold_xr">ಪಿಂಚ್ ಮಾಡಿ ಮತ್ತು ಹೋಲ್ಡ್ ಮಾಡಿ</string>
-  <string name="gesture_name_2finger_tap_hold">2 ಬೆರಳುಗಳಿಂದ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ</string>
   <string name="gesture_name_3finger_tap_hold">3 ಬೆರಳುಗಳಿಂದ ಟ್ಯಾಪ್ ಮಾಡಿ ಮತ್ತು ಹಿಡಿದುಕೊಳ್ಳಿ</string>
   <string name="gesture_name_2finger_3tap_hold">2 ಬೆರಳುಗಳಿಂದ ಟ್ರಿಪಲ್-ಟ್ಯಾಪ್ ಮಾಡಿ ಹಾಗೂ ಒತ್ತಿಹಿಡಿಯಿರಿ</string>
   <string name="gesture_name_3finger_3tap_hold">3 ಬೆರಳುಗಳಿಂದ ಡಬಲ್-ಟ್ಯಾಪ್ ಮಾಡಿ ಹಿಡಿದುಕೊಳ್ಳಿ</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ಆಡಿಯೋ ಡಕಿಂಗ್</string>
   <string name="title_pref_support_scroll_seq">ಸ್ಕ್ರಾಲ್</string>
   <string name="title_pref_a11y_volume">ಆ್ಯಕ್ಸೆಸಿಬಿಲಿಟಿ ವಾಲ್ಯೂಮ್‌</string>
-  <string name="title_pref_touch_explore_latency">ಟೈಪಿಂಗ್ ಫೋಕಸ್ ವಿಳಂಬ</string>
-  <string name="title_pref_touch_focus_latency">ಫೋಕಸ್ ವಿಳಂಬ</string>
   <string name="message_pref_touch_focus_latency">ಕಡಿಮೆ ಫೋಕಸ್ ವಿಳಂಬ ಎಂದರೆ ಸ್ಕ್ರೀನ್ ಅನ್ನು ಸ್ಪರ್ಶಿಸಿದ ನಂತರ TalkBack ಘೋಷಣೆಗಳನ್ನು ವೇಗವಾಗಿ ಮಾಡಲಾಗುತ್ತದೆ</string>
   <string name="message_pref_typing_method_prefix">ಟೈಪ್ ಮಾಡುವಾಗ ಕನಿಷ್ಠ ವಿಳಂಬಕ್ಕಾಗಿ, \"ಯಾವುದೇ ಕೀ ಆರಿಸಲು ಬೆರಳನ್ನು ಹಿಡಿದುಕೊಳ್ಳಿ, ನಂತರ ಮೇಲಕ್ಕೆತ್ತಿ\" ಎಂಬುದನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-  <string name="message_pref_typing_method_postfix">ನೀವು ಯಾವುದೇ ಸಮಯದಲ್ಲಿ ಟೈಪ್ ಮಾಡಲು ಸ್ಪ್ಲಿಟ್ ಟ್ಯಾಪ್ ಅನ್ನು ಸಹ ಬಳಸಬಹುದು. ಇದನ್ನು ಮಾಡಲು, ಯಾವುದೇ ಕೀಯನ್ನು ಆರಿಸಲು ಒಂದು ಬೆರಳನ್ನು ಹಿಡಿದುಕೊಳ್ಳಿ ಹಾಗೂ ಸ್ಕ್ರೀನ್ ಮೇಲೆ ಟ್ಯಾಪ್ ಮಾಡಲು ಇನ್ನೊಂದು ಬೆರಳನ್ನು ಬಳಸಿ.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack ಮಾತಿನ ವೇಗ</string>
   <string name="title_pref_selector_adjustable_widget_slider">ಸ್ಲೈಡರ್ ಅನ್ನು ಅಡ್ಜಸ್ಟ್ ಮಾಡಿ</string>
   <string name="title_pref_selector_typo_granularity">ಪ್ರೂಫ್‌ರೀಡ್</string>

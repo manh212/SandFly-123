@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">பேச்சு வீதம் %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">மாற்றுத்திறன் வசதிக்கான ஒலியளவை %1$d சதவீதமாக அதிகரியுங்கள்.</string>
   <string name="template_accessibility_volume_change_decrease">மாற்றுத்திறன் வசதிக்கான ஒலியளவை %1$d சதவீதமாகக் குறையுங்கள்.</string>
-  <string name="template_touch_latency_reach_maximum">அதிகபட்சம்</string>
-  <string name="template_touch_latency_reach_minimum">குறைந்தபட்சம்</string>
   <string name="template_volume_change_maximum">அதிகபட்சம்</string>
   <string name="template_volume_change_minimum">குறைந்தபட்சம்</string>
   <string name="template_volume_change_volume_up_curved_text">அதிகரி</string>

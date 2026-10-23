@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ഡീബഗ് ലോഗ് ഓവർലേ പ്രവർത്തനക്ഷമമാക്കുക</string>
   <string name="title_pref_typing_confirmation">ടൈപ്പിംഗ് മുൻഗണന</string>
   <string name="title_pref_typing_long_tap_duration">ടൈപ്പ് ചെയ്യുമ്പോഴുള്ള സ്‌പർശിച്ച് പിടിക്കൽ താമസം</string>
-  <string name="title_pref_touch_explore_timeout">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ</string>
   <string name="message_pref_touch_explore_latency">കുറഞ്ഞ ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ എന്നതിനർത്ഥം, കീബോർഡ് സ്പർശിച്ചാൽ TalkBack അറിയിപ്പുകൾ കൂടുതൽ വേഗത്തിൽ പ്ലേ ചെയ്യും എന്നാണ്.\n\nഒരു ഡിലേ തിരഞ്ഞെടുക്കുക</string>
-  <string name="title_pref_touch_focus_timeout">ഫോക്കസ് ഡിലേ</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack-ൽ ജെസ്‌ച്ചറുകൾ കെെകാര്യം ചെയ്യുക</string>
-  <string name="toast_pref_talkback_gesture_detection">ക്രമീകരണം സജീവമാക്കാൻ TalkBack ഓഫാക്കി വീണ്ടും ഓണാക്കുക.</string>
   <string name="title_pref_auto_image_captioning">സ്വയമേവയുള്ള വിവരണങ്ങൾ</string>
   <string name="title_pref_gemini_settings">Gemini ക്രമീകരണം</string>
   <string name="title_pref_gemini_enabled">Gemini ശബ്ദ കമാൻഡ്</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack സംസാരിക്കുമ്പോൾ പ്ലേ ചെയ്‌തുകൊണ്ടിരിക്കുന്ന മറ്റ് ഓഡിയോയുടെ ശബ്‌ദം കുറയ്‌ക്കുക</string>
   <string name="summary_support_scroll_seq">മുന്നോട്ടോ പിന്നോട്ടോ സ്‌ക്രോൾ ചെയ്യുക</string>
   <string name="summary_support_change_a11y_volume">ഉപയോഗസഹായി വോളിയം കൂട്ടുക അല്ലെങ്കിൽ കുറയ്ക്കുക</string>
-  <string name="summary_support_change_touch_explore_latency">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ കൂട്ടുകയോ കുറയ്ക്കുകയോ ചെയ്യുക</string>
-  <string name="summary_support_change_touch_focus_latency">ഫോക്കസ് ഡിലേ കൂട്ടുകയോ കുറയ്ക്കുകയോ ചെയ്യുക</string>
   <string name="summary_screen_overview">പ്രവർത്തന ബട്ടണുകൾ ഉപയോഗിച്ച് സ്ക്രീൻ സംഗ്രഹിക്കുക</string>
   <string name="summary_screen_overview_no_actions">സ്ക്രീനിലെ ഉള്ളടക്കത്തിന്റെ സംഗ്രഹം കേൾക്കുക</string>
   <string name="summary_image_caption">തിരഞ്ഞെടുത്ത ഒരു ചിത്രത്തിനകത്തെ ടെക്സ്റ്റും ഐക്കണുകളും പറയുക</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ഡബിൾ പിഞ്ച് ചെയ്യുക</string>
   <string name="gesture_name_double_tap_and_hold">ഡബിൾ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_double_tap_and_hold_xr">പിഞ്ച് ചെയ്ത് പിടിക്കുക</string>
-  <string name="gesture_name_2finger_tap_hold">2 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_3finger_tap_hold">3 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_2finger_3tap_hold">2 വിരലുകൾ ഉപയോഗിച്ച് മൂന്ന് തവണ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_3finger_3tap_hold">3 വിരലുകൾ ഉപയോഗിച്ച് ട്രിപ്പിൾ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ഓഡിയോ ഡക്കിംഗ്</string>
   <string name="title_pref_support_scroll_seq">സ്‌ക്രോൾ ചെയ്യുക</string>
   <string name="title_pref_a11y_volume">ഉപയോഗസഹായി വോളിയം</string>
-  <string name="title_pref_touch_explore_latency">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ</string>
-  <string name="title_pref_touch_focus_latency">ഫോക്കസ് ഡിലേ</string>
   <string name="message_pref_touch_focus_latency">കുറഞ്ഞ ഫോക്കസ് ഡിലേ എന്നതിനർത്ഥം, സ്ക്രീൻ സ്പർശിച്ചാൽ TalkBack അറിയിപ്പുകൾ കൂടുതൽ വേഗത്തിൽ പ്ലേ ചെയ്യും എന്നാണ്</string>
   <string name="message_pref_typing_method_prefix">ടൈപ്പ് ചെയ്യുമ്പോൾ ഏറ്റവും കുറഞ്ഞ താമസത്തിന്, \"ഏത് കീയും തിരഞ്ഞെടുക്കാൻ, വിരൽ അമർത്തിപ്പിടിച്ച ശേഷം ലിഫ്റ്റ് ചെയ്യുക\"</string>
-  <string name="message_pref_typing_method_postfix">എപ്പോൾ വേണമെങ്കിലും, ടൈപ്പ് ചെയ്യാൻ നിങ്ങൾക്ക് സ്പ്ലിറ്റ് ടാപ്പ് ഉപയോഗിക്കുകയും ചെയ്യാം. ഇത് ചെയ്യാൻ, ഏത് കീയും തിരഞ്ഞെടുക്കാൻ ഒരു വിരൽ കൊണ്ട് അമർത്തിപ്പിടിച്ച ശേഷം സ്ക്രീനിൽ ടാപ്പ് ചെയ്യാൻ മറ്റൊരു വിരൽ ഉപയോഗിക്കുക.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack വായനയുടെ വേഗത</string>
   <string name="title_pref_selector_adjustable_widget_slider">സ്ലൈഡർ ക്രമീകരിക്കുക</string>
   <string name="title_pref_selector_typo_granularity">പ്രൂഫ്റീഡ് ചെയ്യുക</string>

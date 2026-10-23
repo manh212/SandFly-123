@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">பிழைதிருத்தப் பதிவின் மேலே அடுக்கை இயக்குதல்</string>
   <string name="title_pref_typing_confirmation">டைப்பிங் விருப்பத்தேர்வு</string>
   <string name="title_pref_typing_long_tap_duration">டைப் செய்யும்போது, தொட்டுப் பிடித்திருக்க வேண்டிய நேரம்</string>
-  <string name="title_pref_touch_explore_timeout">டைப்பிங் ஃபோகஸுக்கான தாமத நேரம்</string>
   <string name="message_pref_touch_explore_latency">டைப்பிங் ஃபோகஸுக்கான தாமத நேரம் குறைவாக இருந்தால் கீபோர்டைத் தொட்ட பிறகு விரைவாக TalkBack அறிவிப்புகள் வரும்.\n\nதாமத நேரத்தைத் தேர்ந்தெடுக்கவும்</string>
-  <string name="title_pref_touch_focus_timeout">ஃபோகஸுக்கான தாமத நேரம்</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBackகில் உள்ள சைகைகளைக் கையாளுதல்</string>
-  <string name="toast_pref_talkback_gesture_detection">அமைப்பை இயக்க, TalkBackகை ஆஃப் செய்துவிட்டு மீண்டும் ஆன் செய்யுங்கள்.</string>
   <string name="title_pref_auto_image_captioning">தானியங்கு விளக்கங்கள்</string>
   <string name="title_pref_gemini_settings">Gemini அமைப்புகள்</string>
   <string name="title_pref_gemini_enabled">Gemini குரல் கட்டளை</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack பேசும்போது பிற ஆடியோ ஒலியைக் குறைக்கும்</string>
   <string name="summary_support_scroll_seq">முன்னோக்கியோ பின்னோக்கியோ நகர்த்தும்</string>
   <string name="summary_support_change_a11y_volume">மாற்றுத்திறன் வசதிக்கான ஒலியளவை அதிகரிக்கலாம் அல்லது குறைக்கலாம்</string>
-  <string name="summary_support_change_touch_explore_latency">டைப்பிங் ஃபோகஸுக்கான தாமத நேரத்தை அதிகரிக்கலாம் அல்லது குறைக்கலாம்</string>
-  <string name="summary_support_change_touch_focus_latency">ஃபோகஸ் தாமத நேரத்தை அதிகரிக்கலாம் குறைக்கலாம்</string>
   <string name="summary_screen_overview">செயல் பட்டன்கள் மூலம் திரையின் சுருக்க விவரத்தை வழங்குதல்</string>
   <string name="summary_screen_overview_no_actions">திரையில் உள்ள உள்ளடக்கத்தின் சுருக்க விவரத்தைக் கேட்கலாம்</string>
   <string name="summary_image_caption">தேர்வுசெய்யப்பட்ட படத்திலுள்ள வார்த்தைகளையும் ஐகான்களையும் வாசிக்கும்</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">இருமுறை பின்ச் செய்தல்</string>
   <string name="gesture_name_double_tap_and_hold">இருமுறை தட்டிப் பிடித்தல்</string>
   <string name="gesture_name_double_tap_and_hold_xr">பின்ச் செய்து பிடித்திருத்தல்</string>
-  <string name="gesture_name_2finger_tap_hold">2 விரல்களால் தட்டிப் பிடித்தல்</string>
   <string name="gesture_name_3finger_tap_hold">3 விரல்களால் தட்டிப் பிடித்தல்</string>
   <string name="gesture_name_2finger_3tap_hold">2 விரல்களால் மும்முறை தட்டிப் பிடித்தல்</string>
   <string name="gesture_name_3finger_3tap_hold">3 விரல்களால் மும்முறை தட்டிப் பிடித்தல்</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">பின்னணி ஒலி குறைப்பு</string>
   <string name="title_pref_support_scroll_seq">நகர்த்து</string>
   <string name="title_pref_a11y_volume">அணுகல்தன்மைக்கான ஒலியளவு</string>
-  <string name="title_pref_touch_explore_latency">டைப்பிங் ஃபோகஸுக்கான தாமத நேரம்</string>
-  <string name="title_pref_touch_focus_latency">ஃபோகஸுக்கான தாமத நேரம்</string>
   <string name="message_pref_touch_focus_latency">ஃபோகஸுக்கான தாமத நேரம் குறைவாக இருந்தால் திரையைத் தொட்ட பிறகு விரைவாக TalkBack அறிவிப்புகள் வரும்</string>
   <string name="message_pref_typing_method_prefix">டைப் செய்யும்போது குறைவான தாமதத்திற்கு, \'ஒரு பட்டனைத் தேர்ந்தெடுக்க, விரலால் அழுத்திப் பிடித்து பின்னர் விரலை எடுக்கவும்\' என்பதைத் தேர்வுசெய்யவும்</string>
-  <string name="message_pref_typing_method_postfix">நீங்கள் டைப் செய்வதற்கு பிரித்துத் தட்டல் அம்சத்தையும் எப்போது வேண்டுமானாலும் பயன்படுத்தலாம். இதைச் செய்ய, ஏதேனும் பட்டனை ஒரு விரலால் அழுத்திப் பிடித்துத் தேர்ந்தெடுத்து, மற்றொரு விரலால் திரையில் தட்டவும்.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack பேச்சு வீதம்</string>
   <string name="title_pref_selector_adjustable_widget_slider">ஸ்லைடரைச் சரிசெய்க</string>
   <string name="title_pref_selector_typo_granularity">மொழிச் சரிபார்ப்பு</string>

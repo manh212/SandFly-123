@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ভাষ্যের হার %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">অ্যাক্সেসিবিলিটি ভলিউম বাড়িয়ে %1$d শতাংশ করা হয়েছে।</string>
   <string name="template_accessibility_volume_change_decrease">অ্যাক্সেসিবিলিটি ভলিউম কমিয়ে %1$d শতাংশ করা হয়েছে।</string>
-  <string name="template_touch_latency_reach_maximum">সর্বাধিক</string>
-  <string name="template_touch_latency_reach_minimum">ন্যূনতম</string>
   <string name="template_volume_change_maximum">সর্বোচ্চ</string>
   <string name="template_volume_change_minimum">ন্যূনতম</string>
   <string name="template_volume_change_volume_up_curved_text">বাড়ান</string>

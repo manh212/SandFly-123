@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Įgalinti derinimo žurnalo perdangą</string>
   <string name="title_pref_typing_confirmation">Rašymo nuostata</string>
   <string name="title_pref_typing_long_tap_duration">Palietimo ir palaikymo funkcijos vėlavimas vedant tekstą</string>
-  <string name="title_pref_touch_explore_timeout">Teksto vedimo fokusavimo delsa</string>
   <string name="message_pref_touch_explore_latency">Trumpesnė teksto vedimo fokusavimo delsa reiškia, kad „TalkBack“ pranešimai pateikiami greičiau palietus klaviatūrą.\n\nPasirinkite delsą</string>
-  <string name="title_pref_touch_focus_timeout">Fokusavimo delsa</string>
-  <string name="title_pref_talkback_gesture_detection">Gestų apdorojimas naudojant „TalkBack“</string>
-  <string name="toast_pref_talkback_gesture_detection">Išjunkite, tada vėl įjunkite „TalkBack“, kad suaktyvintumėte nustatymą.</string>
   <string name="title_pref_auto_image_captioning">Automatiniai aprašai</string>
   <string name="title_pref_gemini_settings">„Gemini“ nustatymai</string>
   <string name="title_pref_gemini_enabled">„Gemini“ komanda balsu</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Sumažinkite kitų leidžiamų garsų garsumą, kai „TalkBack“ kalba</string>
   <string name="summary_support_scroll_seq">Slinkimas pirmyn arba atgal</string>
   <string name="summary_support_change_a11y_volume">Padidinti arba sumažinti pritaikomumo garsumą</string>
-  <string name="summary_support_change_touch_explore_latency">Padidinti arba sumažinti teksto vedimo fokusavimo delsą</string>
-  <string name="summary_support_change_touch_focus_latency">Padidinti arba sumažinti fokusavimo delsą</string>
   <string name="summary_screen_overview">Apibendrinkite ekrano turinį naudodami veiksmų mygtukus</string>
   <string name="summary_screen_overview_no_actions">Klausyti ekrane rodomos informacijos santraukos</string>
   <string name="summary_image_caption">Ištarti pasirinkto vaizdo tekstą ir piktogramas</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dukart suimti pirštus</string>
   <string name="gesture_name_double_tap_and_hold">Dukart paliesti ir palaikyti</string>
   <string name="gesture_name_double_tap_and_hold_xr">Suimti pirštus ir palaikyti</string>
-  <string name="gesture_name_2finger_tap_hold">Paliesti ir palaikyti dviem pirštais</string>
   <string name="gesture_name_3finger_tap_hold">Paliesti ir palaikyti trimis pirštais</string>
   <string name="gesture_name_2finger_3tap_hold">Triskart paliesti ir palaikyti dviem pirštais</string>
   <string name="gesture_name_3finger_3tap_hold">Triskart paliesti ir palaikyti trimis pirštais</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Garso įrašo perdengimas</string>
   <string name="title_pref_support_scroll_seq">Slinkti</string>
   <string name="title_pref_a11y_volume">Pritaikomumo garsumas</string>
-  <string name="title_pref_touch_explore_latency">Teksto vedimo fokusavimo delsa</string>
-  <string name="title_pref_touch_focus_latency">Fokusavimo delsa</string>
   <string name="message_pref_touch_focus_latency">Kuo trumpesnė fokusavimo delsa, tuo greičiau „TalkBack“ pranešimai pateikiami palietus ekraną</string>
   <string name="message_pref_typing_method_prefix">Jei norite, kad vedant tekstą būtų mažiausias vėlavimas, pasirinkite „Laikydami pirštą pasirinkite bet kurį klavišą, tada pakelkite pirštą“</string>
-  <string name="message_pref_typing_method_postfix">Taip pat galite bet kada naudoti dvigubą palietimą, kad galėtumėte rašyti. Kad tai atliktumėte, laikykite vieną pirštą, kad pasirinktumėte bet kurį klavišą, ir palieskite ekraną kitu pirštu.</string>
   <string name="title_pref_talkback_speech_rate">„TalkBack“ kalbėjimo sparta</string>
   <string name="title_pref_selector_adjustable_widget_slider">Koreguoti šliaužiklį</string>
   <string name="title_pref_selector_typo_granularity">Korektūra</string>

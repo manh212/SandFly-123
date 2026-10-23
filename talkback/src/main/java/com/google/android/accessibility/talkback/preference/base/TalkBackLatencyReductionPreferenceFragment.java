@@ -64,9 +64,7 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
           LogUtils.w(TAG, "Fragment is not attached to activity, do not update this setting page.");
           return;
         }
-        if (TextUtils.equals(key, getString(R.string.pref_touch_focus_time_out_key))
-            || TextUtils.equals(key, getString(R.string.pref_typing_focus_time_out_key))
-            || TextUtils.equals(key, getString(R.string.pref_typing_confirmation_key))) {
+        if (TextUtils.equals(key, getString(R.string.pref_typing_confirmation_key))) {
           // For touch latency
           AccessibilitySuitePreference preference = findPreference(key);
 
@@ -81,58 +79,6 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
     super.onResume();
     prefs.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     updatePreference(false);
-
-    AccessibilitySuitePreference typingFocusTimeoutPreference =
-        (AccessibilitySuitePreference)
-            findPreference(getString(R.string.pref_typing_focus_time_out_key));
-    if (typingFocusTimeoutPreference != null) {
-      typingFocusTimeoutPreference.setSummaryProvider(
-          preference -> {
-            int delay =
-                SharedPreferencesUtils.getIntFromStringPref(
-                    prefs,
-                    context.getResources(),
-                    R.string.pref_typing_focus_time_out_key,
-                    R.string.pref_touch_explore_time_out_default);
-
-            String[] delayValues =
-                context.getResources().getStringArray(R.array.pref_touch_explore_time_out_values);
-            for (int index = 0; index < delayValues.length; index++) {
-              if (delay == Integer.parseInt(delayValues[index])) {
-                return context.getResources()
-                    .getStringArray(R.array.pref_touch_explore_time_out_entries)[index];
-              }
-            }
-            // The typing focus delay slider allows any value, not just the preset values.
-            return context.getString(R.string.template_milliseconds, delay);
-          });
-    }
-
-    AccessibilitySuitePreference touchFocusTimeoutPreference =
-        (AccessibilitySuitePreference)
-            findPreference(getString(R.string.pref_touch_focus_time_out_key));
-    if (touchFocusTimeoutPreference != null) {
-      touchFocusTimeoutPreference.setSummaryProvider(
-          preference -> {
-            int delay =
-                SharedPreferencesUtils.getIntFromStringPref(
-                    prefs,
-                    context.getResources(),
-                    R.string.pref_touch_focus_time_out_key,
-                    R.string.pref_touch_focus_time_out_default);
-
-            String[] delayValues =
-                context.getResources().getStringArray(R.array.pref_touch_focus_time_out_values);
-            for (int index = 0; index < delayValues.length; index++) {
-              if (delay == Integer.parseInt(delayValues[index])) {
-                return context.getResources()
-                    .getStringArray(R.array.pref_touch_focus_time_out_entries)[index];
-              }
-            }
-            // The stored value is not one of the presets, so show it as-is.
-            return context.getString(R.string.template_milliseconds, delay);
-          });
-    }
 
     AccessibilitySuitePreference typingMethodPreference =
         (AccessibilitySuitePreference)
@@ -149,7 +95,7 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
 
             String[] typingValues =
                 context.getResources().getStringArray(R.array.pref_typing_types_talkback_values);
-            int position = Integer.parseInt(typingValues[typingValues.length - 1]);
+            int position = typingValues.length - 1;
             for (int index = 0; index < typingValues.length; index++) {
               if (method == Integer.parseInt(typingValues[index])) {
                 position = index;
@@ -201,16 +147,8 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             prefs,
             context.getString(R.string.pref_single_tap_key),
             context.getString(R.string.pref_reduce_window_delay_key),
-            context.getString(R.string.pref_reduce_swipe_start_delay_key),
-            context.getString(R.string.pref_complete_swipe_early_key),
             context.getString(R.string.pref_typing_confirmation_key),
             context.getString(R.string.pref_typing_long_press_duration_key),
-            context.getString(R.string.pref_typing_focus_time_out_key),
-            context.getString(R.string.pref_selector_change_touch_focus_latency_key),
-            context.getString(R.string.pref_selector_change_typing_focus_latency_key),
-            context.getString(R.string.pref_touch_focus_time_out_first_update_key),
-            context.getString(R.string.pref_typing_focus_time_out_first_update_key),
-            context.getString(R.string.pref_touch_focus_time_out_key),
             context.getString(R.string.pref_cache_keyboard_keys),
             context.getString(R.string.pref_speak_items_before_scroll_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY);
@@ -250,12 +188,6 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
     resetTypeLatencyPreferenceScreen.setOnPreferenceClickListener(resetPreferenceClickListener);
 
     if (reset) {
-      ListPreference multiTapTimeoutPreference =
-          findPreference(getString(R.string.pref_multi_tap_timeout_key));
-      if (multiTapTimeoutPreference != null) {
-        multiTapTimeoutPreference.setValue(
-            context.getResources().getString(R.string.pref_multi_tap_timeout_default));
-      }
       TwoStatePreference singleTapPreference =
           findPreference(getString(R.string.pref_single_tap_key));
       if (singleTapPreference != null) {
@@ -268,20 +200,6 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (reduceWindowDelayPreference != null) {
         reduceWindowDelayPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_reduce_window_delay_default));
-      }
-
-      TwoStatePreference reduceSwipeStartDelayPreference =
-          findPreference(getString(R.string.pref_reduce_swipe_start_delay_key));
-      if (reduceSwipeStartDelayPreference != null) {
-        reduceSwipeStartDelayPreference.setChecked(
-            context.getResources().getBoolean(R.bool.pref_reduce_swipe_start_delay_default));
-      }
-
-      TwoStatePreference completeSwipeEarlyPreference =
-          findPreference(getString(R.string.pref_complete_swipe_early_key));
-      if (completeSwipeEarlyPreference != null) {
-        completeSwipeEarlyPreference.setChecked(
-            context.getResources().getBoolean(R.bool.pref_complete_swipe_early_default));
       }
 
       TwoStatePreference speakItemsBeforeScrollPreference =

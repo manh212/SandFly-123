@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">කථන ශීඝ්‍රතාව %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ප්‍රවේශ්‍යතා හඬ පරිමාව සියයට %1$d දක්වා වැඩි කරන්න.</string>
   <string name="template_accessibility_volume_change_decrease">ප්‍රවේශ්‍යතා හඬ පරිමාව සියයට %1$d දක්වා අඩු කරන්න.</string>
-  <string name="template_touch_latency_reach_maximum">උපරිම</string>
-  <string name="template_touch_latency_reach_minimum">අවම</string>
   <string name="template_volume_change_maximum">උපරිම</string>
   <string name="template_volume_change_minimum">අවම</string>
   <string name="template_volume_change_volume_up_curved_text">වැඩි කරන්න</string>

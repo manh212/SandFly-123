@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Kecepatan bicara %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Naikkan volume aksesibilitas ke %1$d persen.</string>
   <string name="template_accessibility_volume_change_decrease">Turunkan volume aksesibilitas ke %1$d persen.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maksimum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Tingkatkan</string>

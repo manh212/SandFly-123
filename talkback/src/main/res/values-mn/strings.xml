@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Дебаг хийх логийг давхарлахыг идэвхжүүлэх</string>
   <string name="title_pref_typing_confirmation">Бичих сонголт</string>
   <string name="title_pref_typing_long_tap_duration">Бичиж байхдаа хүрээд удаан дарах саатал</string>
-  <string name="title_pref_touch_explore_timeout">Шивэх сонголтын саатал</string>
   <string name="message_pref_touch_explore_latency">Шивэх сонголтын богино саатал гэдэг нь гарт хүрсний дараа TalkBack-н мэдэгдлийг илүү хурдан болгосон гэсэн үг юм.\n\nСаатал сонгоно уу</string>
-  <string name="title_pref_touch_focus_timeout">Сонголтын саатал</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack-д зангаануудыг зохицуулах</string>
-  <string name="toast_pref_talkback_gesture_detection">Уг тохиргоог идэвхжүүлэх бол TalkBack-г унтраагаад, дараа нь дахин асаана уу.</string>
   <string name="title_pref_auto_image_captioning">Автомат тайлбарууд</string>
   <string name="title_pref_gemini_settings">Gemini-н тохиргоо</string>
   <string name="title_pref_gemini_enabled">Gemini-н дуут тушаал</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack ярих үед тоглуулж буй бусад аудионы дууны түвшнийг багасгах</string>
   <string name="summary_support_scroll_seq">Урагш эсвэл арагш гүйлгэх</string>
   <string name="summary_support_change_a11y_volume">Хандалтын дууны түвшнийг өсгөх эсвэл бууруулах</string>
-  <string name="summary_support_change_touch_explore_latency">Шивэх сонголтын саатлыг ихэсгэх/багасгах</string>
-  <string name="summary_support_change_touch_focus_latency">Сонголтын саатлыг нэмэгдүүлэх, багасгах</string>
   <string name="summary_screen_overview">Үйлдэл хийх товчоор дэлгэцийг хураангуйлах</string>
   <string name="summary_screen_overview_no_actions">Дэлгэц дээрх контентын хураангуйг сонсоно</string>
   <string name="summary_image_caption">Сонгосон зураг дахь текст болон дүрс тэмдгийг чангаар унших</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Хоёр удаа чимхэх</string>
   <string name="gesture_name_double_tap_and_hold">Хоёр товшоод удаан дарах</string>
   <string name="gesture_name_double_tap_and_hold_xr">Чимхсээр байх</string>
-  <string name="gesture_name_2finger_tap_hold">2 хуруугаараа товшоод удаан дарах</string>
   <string name="gesture_name_3finger_tap_hold">3 хуруугаараа товшоод удаан дарах</string>
   <string name="gesture_name_2finger_3tap_hold">2 хуруугаараа гурав товшоод удаан дарах</string>
   <string name="gesture_name_3finger_3tap_hold">3 хуруугаараа гурав товшоод удаан дарах</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Аудио багасгах (audio ducking)</string>
   <string name="title_pref_support_scroll_seq">Гүйлгэх</string>
   <string name="title_pref_a11y_volume">Хандалтын дууны түвшин</string>
-  <string name="title_pref_touch_explore_latency">Шивэх сонголтын саатал</string>
-  <string name="title_pref_touch_focus_latency">Сонголтын саатал</string>
   <string name="message_pref_touch_focus_latency">Сонголтын богино саатал нь дэлгэцэд хүрсний дараа TalkBack-н мэдэгдлийг илүү хурдан болгосон гэсэн үг юм</string>
   <string name="message_pref_typing_method_prefix">Шивэх үеийн саатлыг багасгахын тулд \"Дурын товчийг сонгохын тулд хуруугаараа дараад, авах\"-ыг сонгоно уу</string>
-  <string name="message_pref_typing_method_postfix">Та мөн хүссэн үедээ шивэхийн тулд тусдаа товшилтыг ашиглах боломжтой. Үүнийг хийхийн тулд нэг хуруугаараа удаан дарж дурын товчийг сонгоод, нөгөө хуруугаараа дэлгэц дээр товшино уу.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack-н ярианы хурд</string>
   <string name="title_pref_selector_adjustable_widget_slider">Гулсуулагчийг тохируулах</string>
   <string name="title_pref_selector_typo_granularity">Хяналтын уншилт</string>

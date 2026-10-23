@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">语速为 %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">将无障碍功能音量调高至百分之 %1$d。</string>
   <string name="template_accessibility_volume_change_decrease">将无障碍功能音量调低至百分之 %1$d。</string>
-  <string name="template_touch_latency_reach_maximum">最大值</string>
-  <string name="template_touch_latency_reach_minimum">最小值</string>
   <string name="template_volume_change_maximum">最大</string>
   <string name="template_volume_change_minimum">最小</string>
   <string name="template_volume_change_volume_up_curved_text">调高</string>

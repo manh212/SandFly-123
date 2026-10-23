@@ -32,14 +32,6 @@ To find the next item in a list, TalkBack also built the reading order of the wh
 
 In a test on a Realme phone, three in four swipes reused the reading order, and the longest pause during swiping went from about 450 ms to about 150 ms.
 
-### Time between one-finger taps
-
-TalkBack always waits 0.25 seconds for another tap before it decides that a tap gesture is finished. In SandFly, you can set this wait for one-finger taps in **Controls** > **Touch and activation** > **Reduce delay** > **Time between one-finger taps**, down to 0.1 seconds. A shorter time makes one-finger multi-tap gestures respond faster, but a slow double tap can then count as two single taps.
-
-Taps with two or more fingers always allow at least 0.25 seconds between taps, as lifting and placing several fingers takes longer.
-
-This setting appears only when SandFly recognizes gestures itself, which requires Android 13 or later and **Handle gestures in SandFly** turned on. For more information, see [Gestures recognized by SandFly](#gestures-recognized-by-sandfly).
-
 ### Low-latency audio
 
 Android's usual audio path adds about 60 to 70 ms before a sound or speech reaches the speaker. When you turn on **Controls** > **Touch and activation** > **Reduce delay** > **Low-latency audio**, SandFly plays its sounds and speech through a single fast audio track at your phone's own sample rate. On a Galaxy Z Fold7, this path takes about 21 ms.
@@ -57,20 +49,6 @@ After each scroll event, TalkBack searched the list for a new item to focus. The
 ### Less stalling in busy apps
 
 In busy apps, a backlog of accessibility events could block gestures for almost 3 seconds. SandFly handles events in slices of about 16 ms, so gestures get through between them. It also skips lookups of view classes that can never succeed, which stalled screens that have many custom views.
-
-### Shorter focus delay
-
-When you touch the screen, SandFly waits to see whether you're starting a gesture before it focuses the item under your finger. **Controls** > **Touch and activation** > **Reduce delay** > **Focus delay** sets this wait. TalkBack waits 300 ms by default, which is most of the time between touching an item and hearing it. SandFly waits 200 ms.
-
-If you used an earlier version of SandFly with the delay at 300 ms, SandFly changes it to 200 ms once when you update. If you chose another delay, SandFly keeps it. If SandFly focuses items when you meant to swipe, choose a longer delay.
-
-### No wait for a swipe to start
-
-While a one-finger swipe is getting started, SandFly holds touch exploration back for the swipe's whole start window, 160 ms, so that a swipe that starts slowly isn't explored. With **Controls** > **Touch and activation** > **Reduce delay** > **Reduce swipe start delay** on, touch exploration starts at the focus delay you set instead. A swipe that starts slowly may then be explored instead of recognized. The setting is off by default, and only appears when SandFly recognizes gestures itself.
-
-### Swipes performed before the finger lifts
-
-TalkBack decides what a one-finger swipe was only when the finger lifts, so the whole rest of the stroke passes before anything answers. With **Controls** > **Touch and activation** > **Reduce delay** > **Recognize swipes early** on, a one-finger swipe is performed as soon as its direction is clear instead. A two-part swipe that starts in the same direction will be performed as the one-part swipe. The setting is off by default, and only appears when SandFly recognizes gestures itself.
 
 ### Faster response on empty space
 
@@ -367,12 +345,11 @@ SandFly changes these default gestures:
 | Double-tap with three fingers | Turn speech on or off | Copy |
 | Triple-tap with three fingers | Copy last spoken phrase | Paste |
 | Triple-tap and hold with three fingers | Paste | None |
-| Quadruple-tap with three fingers | Hide or show screen | None |
 | Double-tap and hold with two fingers | Braille keyboard | Selection mode |
 | Triple-tap with two fingers | Speak status | Read from focused item |
 | Triple-tap and hold with two fingers | None | Turn speech on or off |
 
-SandFly recognizes the quadruple-tap with three fingers itself, so it requires Android 13 or later and **Handle gestures in SandFly** turned on. Wear OS watches have defaults of their own; see [Wear OS watches](#wear-os-watches).
+Wear OS watches have defaults of their own; see [Wear OS watches](#wear-os-watches).
 
 ### Navigation gestures
 
@@ -447,12 +424,13 @@ This needs a phone whose `dumpsys input` lists the touches that Android holds fo
 
 When a window opens, or you go back, TalkBack moves focus into it: back to the item you were on, to the text field with the cursor, or to the first item. To leave focus alone, turn off **Controls** > **Navigation** > **Move focus to new windows**. SandFly then speaks only the window name, and the next swipe moves to the first item. This applies to SandFly's own menus and dialogs too, when they open and when they close. Focus follows input focus only when you move it with a key, such as an arrow key or Tab, not when an app moves it by itself. When the item you focused disappears and the windows haven't changed, focus is placed again. The switch isn't on TVs, which need focus to follow input focus.
 
-### Gestures recognized by SandFly
+### Gestures recognized by Android
 
-By default, SandFly recognizes gestures itself instead of leaving this to Android, which makes the quadruple-tap with three fingers and SandFly's own typing delays possible. TalkBack leaves this off.
+SandFly used to be able to recognize gestures itself, with a **Handle gestures in SandFly** switch in developer settings. In repeated testing that was always slower than letting Android recognize gestures, so SandFly no longer recognizes gestures itself: Android recognizes every gesture, always, and the switch is gone.
 
-To let Android recognize gestures again, turn off **Advanced settings** > **Developer settings** > **Handle gestures in SandFly**, and then turn SandFly off and on again. When this setting is off, the quadruple-tap with three fingers doesn't work, **Time between one-finger taps** is hidden, and Android's own unchangeable delay decides when touch exploration starts, which makes typing slower.
+The gestures that only SandFly's own recognition could produce are gone too, along with their entries in gesture settings: the quadruple-tap with three fingers, tap and hold with two fingers, the two-finger rotation, scrub, pinch and spread, and the edge gestures. So are the settings that only SandFly's own recognition used: the focus and typing delay sliders, **Time between one-finger taps**, **Reduce swipe start delay**, and **Recognize swipes early** in **Reduce delay**, and the focus latency reading controls. Split typing by holding one finger on a key and tapping with another no longer happens by itself; the **Split typing** action still works when you assign it to a gesture Android recognizes.
 
+Tap to type, which typed a key as soon as you touched it, also needed SandFly's own recognition, and is gone. [Single tap to type](#single-tap-to-type) replaces it.
 ## Navigation
 
 ### Reading place kept when an item disappears
@@ -621,10 +599,11 @@ Text that isn't in a text field, such as a message, can be edited and copied but
 
 In **On-screen keyboard** > **Typing method**, **Hold finger to select any key, then lift. Double-tap for Enter, Done, or Send.** types every key when you lift your finger, like **Hold finger to select any key, then lift**, but the key that sends or submits, such as Enter, Done, Send, Search, or Go, still needs a double-tap. This keeps you from sending a message by lifting your finger on the wrong key. SandFly recognizes this key in Gboard. In other keyboards, every key types when you lift your finger.
 
-### Typing by tapping
+### Single tap to type
 
-On Android 13 and later, **On-screen keyboard** > **Typing method** has **Tap any key to type it, or hold finger to select any key, then lift**. A quick tap on a key types it at once, as when typing directly in VoiceOver, so quick double letters type twice. Holding a finger on the keyboard explores the keys, and lifting types the key under the finger.
+**On-screen keyboard** > **Typing method** also has **Single tap to type**. While it is selected, the keyboard window is in Android's gesture-detection passthrough region, so touches on the keyboard are not held while Android works out whether they are a gesture, and exploring the keys answers sooner. You hold your finger to select a key, and the key is typed when you lift, as with lift to type, including the key that sends or submits. Holding a key past the typing long-press time long-presses it instead. The trade-off: double-tap does not work in the keyboard area while this method is on.
 
+This needs Android 11 or later; on older versions the method types like lift to type for every key. If the keyboard is also turned on in **Direct touch**, touches there go straight to the keyboard, so this method has no key to type.
 ## Braille keyboard
 
 ### Keyboard echo for the braille keyboard

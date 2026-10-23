@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Bilis ng pagsasalita %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Pataasin sa %1$d (na) porsyento ang volume ng accessibility.</string>
   <string name="template_accessibility_volume_change_decrease">Pababain sa %1$d (na) porsyento ang volume ng accessibility.</string>
-  <string name="template_touch_latency_reach_maximum">Maximum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maximum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Lakasan</string>

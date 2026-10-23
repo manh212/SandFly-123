@@ -3,7 +3,5 @@
     <!-- None of the strings here should be translated -->
 
     <!-- Default preferences -->
-    <bool name="pref_talkback_gesture_detection_default">true</bool>
-    <bool name="supports_tap_to_type">true</bool>
 
 </resources>

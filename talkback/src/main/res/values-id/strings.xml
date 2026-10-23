@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Aktifkan overlay log debug</string>
   <string name="title_pref_typing_confirmation">Preferensi pengetikan</string>
   <string name="title_pref_typing_long_tap_duration">Penundaan sentuh lama saat mengetik</string>
-  <string name="title_pref_touch_explore_timeout">Penundaan fokus pengetikan</string>
   <string name="message_pref_touch_explore_latency">Penundaan fokus pengetikan yang lebih singkat membuat TalkBack memberi pengumuman lebih cepat setelah keyboard disentuh.\n\nPilih penundaan</string>
-  <string name="title_pref_touch_focus_timeout">Penundaan fokus</string>
-  <string name="title_pref_talkback_gesture_detection">Kelola gestur di TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Nonaktifkan TalkBack lalu aktifkan lagi untuk mengaktifkan setelan.</string>
   <string name="title_pref_auto_image_captioning">Deskripsi otomatis</string>
   <string name="title_pref_gemini_settings">Setelan Gemini</string>
   <string name="title_pref_gemini_enabled">Perintah Suara Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Turunkan volume audio lain yang sedang berbunyi saat TalkBack membaca</string>
   <string name="summary_support_scroll_seq">Scroll maju atau mundur</string>
   <string name="summary_support_change_a11y_volume">Naikkan atau turunkan volume aksesibilitas</string>
-  <string name="summary_support_change_touch_explore_latency">Naikkan atau turunkan penundaan fokus pengetikan</string>
-  <string name="summary_support_change_touch_focus_latency">Naikkan atau turunkan penundaan fokus</string>
   <string name="summary_screen_overview">Meringkas layar dengan tombol tindakan</string>
   <string name="summary_screen_overview_no_actions">Dengarkan ringkasan konten di layar</string>
   <string name="summary_image_caption">Ucapkan teks dan ikon dalam gambar yang dipilih</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Cubit dua kali</string>
   <string name="gesture_name_double_tap_and_hold">Ketuk dua kali dan sentuh lama</string>
   <string name="gesture_name_double_tap_and_hold_xr">Cubit dan tahan</string>
-  <string name="gesture_name_2finger_tap_hold">Sentuh lama dengan 2 jari</string>
   <string name="gesture_name_3finger_tap_hold">Sentuh lama dengan 3 jari</string>
   <string name="gesture_name_2finger_3tap_hold">Ketuk tiga kali dan tahan dengan 2 jari</string>
   <string name="gesture_name_3finger_3tap_hold">Ketuk tiga kali dan sentuh lama dengan 3 jari</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Pengecilan volume audio</string>
   <string name="title_pref_support_scroll_seq">Scroll</string>
   <string name="title_pref_a11y_volume">Volume aksesibilitas</string>
-  <string name="title_pref_touch_explore_latency">Penundaan fokus pengetikan</string>
-  <string name="title_pref_touch_focus_latency">Penundaan fokus</string>
   <string name="message_pref_touch_focus_latency">Penundaan fokus yang lebih singkat membuat TalkBack memberi pengumuman lebih cepat setelah layar disentuh</string>
   <string name="message_pref_typing_method_prefix">Untuk penundaan terendah saat mengetik, pilih \"Tahan jari untuk memilih tombol, lalu angkat\"</string>
-  <string name="message_pref_typing_method_postfix">Anda juga dapat menggunakan ketuk terpisah untuk mengetik kapan saja. Untuk melakukannya, tahan satu jari untuk memilih tombol, lalu gunakan jari lainnya untuk mengetuk layar.</string>
   <string name="title_pref_talkback_speech_rate">Kecepatan bicara TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Sesuaikan penggeser</string>
   <string name="title_pref_selector_typo_granularity">Periksa tata bahasa</string>

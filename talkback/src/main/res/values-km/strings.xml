@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">បើក​ការត្រួតគ្នា​នៃកំណត់ហេតុ​ជួសជុល</string>
   <string name="title_pref_typing_confirmation">ចំណូលចិត្ត​នៃការវាយបញ្ចូល</string>
   <string name="title_pref_typing_long_tap_duration">ការពន្យារពេល​ចុចឱ្យជាប់ នៅពេល​វាយបញ្ចូល</string>
-  <string name="title_pref_touch_explore_timeout">ការពន្យារពេលការផ្ដោតលើការវាយបញ្ចូល</string>
   <string name="message_pref_touch_explore_latency">ការពន្យារពេលការផ្ដោតលើការវាយបញ្ចូលកាន់តែខ្លីមានន័យថា ការប្រកាសរបស់ TalkBack ត្រូវបានធ្វើឡើងកាន់តែលឿន បន្ទាប់ពីការប៉ះក្ដារចុច។\n\nជ្រើសរើសការពន្យារពេល</string>
-  <string name="title_pref_touch_focus_timeout">ការពន្យារពេលការផ្ដោត</string>
-  <string name="title_pref_talkback_gesture_detection">គ្រប់គ្រងចលនានៅក្នុងមុខងារ TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">បិទមុខងារ TalkBack បន្ទាប់មកបើកឡើងវិញ ដើម្បីបើកដំណើរការការកំណត់។</string>
   <string name="title_pref_auto_image_captioning">ការពណ៌នាដោយស្វ័យប្រវត្តិ</string>
   <string name="title_pref_gemini_settings">ការកំណត់ Gemini</string>
   <string name="title_pref_gemini_enabled">ឃ្លាបញ្ជា Gemini ដោយសំឡេង</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">បន្ថយកម្រិតសំឡេងផ្សេងទៀត​ដែលកំពុងលេង នៅពេលមុខងារ TalkBack និយាយ</string>
   <string name="summary_support_scroll_seq">រំកិល​ទៅមុខ ឬ​ទៅក្រោយ</string>
   <string name="summary_support_change_a11y_volume">បង្កើន ឬបន្ថយកម្រិតសំឡេងភាពងាយស្រួល</string>
-  <string name="summary_support_change_touch_explore_latency">បង្កើន ឬបន្ថយការពន្យារពេលការផ្ដោតលើការវាយបញ្ចូល</string>
-  <string name="summary_support_change_touch_focus_latency">បង្កើន ឬបន្ថយការពន្យារពេលការផ្ដោត</string>
   <string name="summary_screen_overview">សង្ខេបអេក្រង់ដែលមានប៊ូតុងសកម្មភាព</string>
   <string name="summary_screen_overview_no_actions">ស្ដាប់ឮការសង្ខេបខ្លឹមសារនៅលើអេក្រង់</string>
   <string name="summary_image_caption">អានអក្សរ និងរូបតំណាងនៅក្នុងរូបភាពដែលបានជ្រើសរើសឱ្យឮ</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ច្បិចពីរដង</string>
   <string name="gesture_name_double_tap_and_hold">ចុចពីរដងឱ្យជាប់</string>
   <string name="gesture_name_double_tap_and_hold_xr">ច្បិចឱ្យជាប់</string>
-  <string name="gesture_name_2finger_tap_hold">ចុចឱ្យជាប់​ដោយប្រើម្រាមដៃ 2</string>
   <string name="gesture_name_3finger_tap_hold">ចុចឱ្យជាប់​ដោយប្រើម្រាមដៃ 3</string>
   <string name="gesture_name_2finger_3tap_hold">ចុចបីដង​ឱ្យជាប់​ដោយប្រើម្រាមដៃ 2</string>
   <string name="gesture_name_3finger_3tap_hold">ចុចបីដង​ឱ្យជាប់​ដោយប្រើម្រាមដៃ 3</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ការធ្វើឱ្យស្ងាត់​សំឡេង</string>
   <string name="title_pref_support_scroll_seq">រំកិល</string>
   <string name="title_pref_a11y_volume">កម្រិតសំឡេងភាពងាយស្រួល</string>
-  <string name="title_pref_touch_explore_latency">ការពន្យារពេលការផ្ដោតលើការវាយបញ្ចូល</string>
-  <string name="title_pref_touch_focus_latency">ការពន្យារពេលការផ្ដោត</string>
   <string name="message_pref_touch_focus_latency">ការពន្យារពេលការផ្ដោតកាន់តែខ្លីមានន័យថា ការប្រកាសរបស់ TalkBack ត្រូវបានធ្វើឡើងកាន់តែលឿន បន្ទាប់ពីប៉ះអេក្រង់</string>
   <string name="message_pref_typing_method_prefix">ដើម្បីទទួលបានការ​ពន្យារ​ពេលទាបបំផុតនៅពេលវាយបញ្ចូល សូមជ្រើសរើស \"សង្កត់ម្រាមដៃឱ្យជាប់ ដើម្បីជ្រើសរើស​គ្រាប់ចុចណាមួយ រួច​ដកម្រាមដៃចេញ\"</string>
-  <string name="message_pref_typing_method_postfix">អ្នកក៏អាចប្រើការចុចផ្ដាច់ ដើម្បីវាយបញ្ចូលនៅពេលណាក៏បានផងដែរ។ ដើម្បីធ្វើដូច្នេះ សូមសង្កត់ម្រាមដៃមួយឱ្យជាប់ ដើម្បីជ្រើសរើសគ្រាប់ចុចណាមួយ រួចប្រើម្រាមដៃមួយទៀតចុចលើអេក្រង់។</string>
   <string name="title_pref_talkback_speech_rate">ល្បឿននិយាយ TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">កែតម្រូវ​របាររំកិល</string>
   <string name="title_pref_selector_typo_granularity">ត្រួតពិនិត្យកំហុស</string>

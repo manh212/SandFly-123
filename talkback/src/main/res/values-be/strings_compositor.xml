@@ -184,8 +184,6 @@
   <string name="template_speech_rate_change">Хуткасць маўлення %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Гучнасць для спецыяльных магчымасцей павялічана да %1$d працэнтаў.</string>
   <string name="template_accessibility_volume_change_decrease">Гучнасць для спецыяльных магчымасцей паменшана да %1$d працэнтаў.</string>
-  <string name="template_touch_latency_reach_maximum">Максімум</string>
-  <string name="template_touch_latency_reach_minimum">Мінімум</string>
   <string name="template_volume_change_maximum">Максімум</string>
   <string name="template_volume_change_minimum">Мінімум</string>
   <string name="template_volume_change_volume_up_curved_text">Павялічана</string>

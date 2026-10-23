@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Kveikja á yfirlögn villuleitarannáls</string>
   <string name="title_pref_typing_confirmation">Kjörstilling fyrir innslátt</string>
   <string name="title_pref_typing_long_tap_duration">Bið þegar haldið er inni við innslátt</string>
-  <string name="title_pref_touch_explore_timeout">Töf innsláttarfókuss</string>
   <string name="message_pref_touch_explore_latency">Styttri fókustöf við innslátt þýðir að TalkBack-tilkynningar eru lesnar fyrr eftir að þú snertir lyklaborðið.\n\nVelja töf</string>
-  <string name="title_pref_touch_focus_timeout">Fókustöf</string>
-  <string name="title_pref_talkback_gesture_detection">Meðhöndla bendingar í TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Slökktu á TalkBack og kveiktu svo aftur til að virkja stillinguna.</string>
   <string name="title_pref_auto_image_captioning">Sjálfvirkar lýsingar</string>
   <string name="title_pref_gemini_settings">Gemini-stillingar</string>
   <string name="title_pref_gemini_enabled">Gemini-raddskipun</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Lækka önnur hljóð sem spilast á meðan TalkBack talar</string>
   <string name="summary_support_scroll_seq">Fletta áfram eða til baka</string>
   <string name="summary_support_change_a11y_volume">Hækkaðu eða lækkaðu hljóðstyrk aðgengis</string>
-  <string name="summary_support_change_touch_explore_latency">Lengja eða stytta fókustöf við innslátt</string>
-  <string name="summary_support_change_touch_focus_latency">Lengja eða stytta fókustöf</string>
   <string name="summary_screen_overview">Taka skjá saman með aðgerðarhnöppum</string>
   <string name="summary_screen_overview_no_actions">Hlustaðu á samantekt á efninu á skjánum</string>
   <string name="summary_image_caption">Lesa texta og tákn á valinni mynd</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Færa fingur saman tvisvar</string>
   <string name="gesture_name_double_tap_and_hold">Ýta tvisvar og halda inni</string>
   <string name="gesture_name_double_tap_and_hold_xr">Færa fingur saman og halda</string>
-  <string name="gesture_name_2finger_tap_hold">Halda inni með 2 fingrum</string>
   <string name="gesture_name_3finger_tap_hold">Halda inni með 3 fingrum</string>
   <string name="gesture_name_2finger_3tap_hold">Ýta þrisvar og halda inni með 2 fingrum</string>
   <string name="gesture_name_3finger_3tap_hold">Ýta þrisvar og halda inni með 3 fingrum</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Hljóðlækkun</string>
   <string name="title_pref_support_scroll_seq">Fletta</string>
   <string name="title_pref_a11y_volume">Hljóðstyrkur aðgengis</string>
-  <string name="title_pref_touch_explore_latency">Töf innsláttarfókuss</string>
-  <string name="title_pref_touch_focus_latency">Fókustöf</string>
   <string name="message_pref_touch_focus_latency">Styttri fókustöf þýðir að TalkBack-tilkynningar eru lesnar fyrr eftir að þú snertir skjáinn</string>
   <string name="message_pref_typing_method_prefix">Veldu „Halda fingri á skjánum til að velja lykil og sleppa síðan“ til að stytta töfina sem mest við innslátt.</string>
-  <string name="message_pref_typing_method_postfix">Þú getur einnig notað tvískiptan innslátt hvenær sem er. Til að gera það skaltu halda einum fingri á skjánum til að velja lykil og nota annan til að ýta á skjáinn.</string>
   <string name="title_pref_talkback_speech_rate">Hraði hljóðs í TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Breyta sleða</string>
   <string name="title_pref_selector_typo_granularity">Yfirlestur</string>

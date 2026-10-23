@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ਬੋਲਣ ਦੀ ਗਤੀ %1$d%% ਹੈ</string>
   <string name="template_accessibility_volume_change_increase">ਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼ ਨੂੰ ਵਧਾ ਕੇ %1$d ਫ਼ੀਸਦ ਕਰੋ।</string>
   <string name="template_accessibility_volume_change_decrease">ਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼ ਨੂੰ ਘਟਾ ਕੇ %1$d ਫ਼ੀਸਦ ਕਰੋ।</string>
-  <string name="template_touch_latency_reach_maximum">ਵੱਧੋ-ਵੱਧ</string>
-  <string name="template_touch_latency_reach_minimum">ਘੱਟੋ-ਘੱਟ</string>
   <string name="template_volume_change_maximum">ਵੱਧੋ-ਵੱਧ</string>
   <string name="template_volume_change_minimum">ਘੱਟੋ-ਘੱਟ</string>
   <string name="template_volume_change_volume_up_curved_text">ਵਧਾਈ ਗਈ</string>

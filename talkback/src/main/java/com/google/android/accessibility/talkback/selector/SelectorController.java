@@ -31,8 +31,6 @@ import static com.google.android.accessibility.talkback.Feedback.Language.Action
 import static com.google.android.accessibility.talkback.Feedback.Language.Action.PREVIOUS_LANGUAGE;
 import static com.google.android.accessibility.talkback.Feedback.ServiceFlag.Action.DISABLE_FLAG;
 import static com.google.android.accessibility.talkback.Feedback.ServiceFlag.Action.ENABLE_FLAG;
-import static com.google.android.accessibility.talkback.Feedback.TouchLatency.LatencyAction.TOUCH_FOCUS_LATENCY_ACTION;
-import static com.google.android.accessibility.talkback.Feedback.TouchLatency.LatencyAction.TYPING_FOCUS_LATENCY_ACTION;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_ITEM_ACTION_OVERLAY;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_MENU_ITEM_OVERLAY_MULTI_FINGER;
 import static com.google.android.accessibility.talkback.actor.TalkBackUIActor.Type.SELECTOR_MENU_ITEM_OVERLAY_SINGLE_FINGER;
@@ -43,8 +41,6 @@ import static com.google.android.accessibility.talkback.menurules.NodeMenuRuleCr
 import static com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType.DESCRIPTION_AND_HINT;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.ACTIONS;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.ADJUSTABLE_WIDGET;
-import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.CHANGE_TOUCH_FOCUS_LATENCY;
-import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.CHANGE_TYPING_FOCUS_LATENCY;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.FORMATTING;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.GRANULARITY_CHARACTERS;
 import static com.google.android.accessibility.talkback.selector.SelectorController.Setting.GRANULARITY_CONTAINERS;
@@ -102,8 +98,6 @@ import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettin
 import com.google.android.accessibility.talkback.menurules.NodeMenuRuleCreator;
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor.VolumeChangedListener;
-import com.google.android.accessibility.talkback.preference.base.FocusDelayPrefFragment;
-import com.google.android.accessibility.talkback.preference.base.TypingFocusDelayPrefFragment;
 import com.google.android.accessibility.talkback.scripting.ScriptReadingControl;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting.DescriptionAndHint;
@@ -216,14 +210,6 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_change_brightness_key,
         R.string.selector_brightness_change,
         R.bool.pref_selector_brightness_default),
-    CHANGE_TOUCH_FOCUS_LATENCY(
-        R.string.pref_selector_change_touch_focus_latency_key,
-        R.string.selector_touch_focus_latency_change,
-        R.bool.pref_selector_touch_focus_latency_default),
-    CHANGE_TYPING_FOCUS_LATENCY(
-        R.string.pref_selector_change_typing_focus_latency_key,
-        R.string.selector_typing_focus_latency_change,
-        R.bool.pref_selector_typing_focus_latency_default),
     CHANGE_LIFT_TO_ACTIVATE(
         R.string.pref_selector_change_lift_to_activate_key,
         R.string.selector_lift_to_activate_change,
@@ -657,8 +643,6 @@ public class SelectorController implements UserInputEventListener {
           Setting.SCROLLING_SEQUENTIAL,
           Setting.CHANGE_ACCESSIBILITY_VOLUME,
           Setting.CHANGE_BRIGHTNESS,
-          Setting.CHANGE_TOUCH_FOCUS_LATENCY,
-          Setting.CHANGE_TYPING_FOCUS_LATENCY,
           Setting.CHANGE_LIFT_TO_ACTIVATE,
           Setting.WRAP_AROUND,
           Setting.ADJUSTABLE_WIDGET,
@@ -757,12 +741,6 @@ public class SelectorController implements UserInputEventListener {
     }
     if (!FeatureFlagReader.enableTextFormattingInline(context)) {
       hiddenSettingsBuilder.add(FORMATTING);
-    }
-    if (!FeatureFlagReader.touchFocusTimeout(context)) {
-      hiddenSettingsBuilder.add(CHANGE_TOUCH_FOCUS_LATENCY);
-    }
-    if (!FeatureFlagReader.typingFocusTimeout(context)) {
-      hiddenSettingsBuilder.add(CHANGE_TYPING_FOCUS_LATENCY);
     }
     hiddenSettings = hiddenSettingsBuilder.build();
 
@@ -976,14 +954,6 @@ public class SelectorController implements UserInputEventListener {
       }
       case CHANGE_BRIGHTNESS -> {
         actionDescription = context.getString(R.string.title_pref_brightness);
-        hint = getAdjustSelectedSettingGestures();
-      }
-      case CHANGE_TOUCH_FOCUS_LATENCY -> {
-        actionDescription = context.getString(R.string.title_pref_touch_focus_latency);
-        hint = getAdjustSelectedSettingGestures();
-      }
-      case CHANGE_TYPING_FOCUS_LATENCY -> {
-        actionDescription = context.getString(R.string.title_pref_touch_explore_latency);
         hint = getAdjustSelectedSettingGestures();
       }
       case CHANGE_LIFT_TO_ACTIVATE -> {
@@ -1532,12 +1502,6 @@ public class SelectorController implements UserInputEventListener {
       case CHANGE_BRIGHTNESS -> {
         return true;
       }
-      case CHANGE_TOUCH_FOCUS_LATENCY -> {
-        return true;
-      }
-      case CHANGE_TYPING_FOCUS_LATENCY -> {
-        return true;
-      }
       case CHANGE_LIFT_TO_ACTIVATE -> {
         return true;
       }
@@ -1853,14 +1817,6 @@ public class SelectorController implements UserInputEventListener {
       }
       case CHANGE_BRIGHTNESS -> {
         changeBrightness(eventId, /* increase= */ !isNext);
-        return;
-      }
-      case CHANGE_TOUCH_FOCUS_LATENCY -> {
-        changeTouchFocusLatency(eventId, isNext);
-        return;
-      }
-      case CHANGE_TYPING_FOCUS_LATENCY -> {
-        changeTypingFocusLatency(eventId, isNext);
         return;
       }
       case CHANGE_LIFT_TO_ACTIVATE -> {
@@ -2486,48 +2442,6 @@ public class SelectorController implements UserInputEventListener {
     showQuickMenuActionOverlay(eventId, displayText);
   }
 
-  private void changeTouchFocusLatency(EventId eventId, boolean decreaseLatency) {
-    boolean result =
-        pipeline.returnFeedback(
-            eventId,
-            Feedback.touchLatency(
-                /* increaseLatency= */ !decreaseLatency, TOUCH_FOCUS_LATENCY_ACTION));
-
-    if (result) {
-      updateFocusDelayPreference(eventId);
-    } else {
-      String displayText =
-          atLimit(
-              decreaseLatency
-                  ? R.string.template_touch_latency_reach_minimum
-                  : R.string.template_touch_latency_reach_maximum,
-              focusDelayText());
-      announceSetting(eventId, displayText, getAdjustSelectedSettingGestures());
-      showQuickMenuActionOverlay(eventId, displayText);
-    }
-  }
-
-  private void changeTypingFocusLatency(EventId eventId, boolean decreaseLatency) {
-    boolean result =
-        pipeline.returnFeedback(
-            eventId,
-            Feedback.touchLatency(
-                /* increaseLatency= */ !decreaseLatency, TYPING_FOCUS_LATENCY_ACTION));
-
-    if (result) {
-      updateTypingFocusDelayPreference(eventId);
-    } else {
-      String displayText =
-          atLimit(
-              decreaseLatency
-                  ? R.string.template_touch_latency_reach_minimum
-                  : R.string.template_touch_latency_reach_maximum,
-              typingFocusDelayText());
-      announceSetting(eventId, displayText, getAdjustSelectedSettingGestures());
-      showQuickMenuActionOverlay(eventId, displayText);
-    }
-  }
-
   private void changeLiftToActivate(EventId eventId, boolean isNext) {
     LiftToActivateMode current =
         LiftToActivateMode.fromPrefValue(
@@ -2563,63 +2477,6 @@ public class SelectorController implements UserInputEventListener {
     int max = audioManager.getStreamMaxVolume(AudioManager.STREAM_ACCESSIBILITY);
     int volume = audioManager.getStreamVolume(AudioManager.STREAM_ACCESSIBILITY);
     return max > min ? Math.round(100f * (volume - min) / (max - min)) : 100;
-  }
-
-  private String focusDelayText() {
-    int timeout =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_touch_focus_time_out_key,
-            R.string.pref_touch_focus_time_out_default);
-    for (FocusDelayPrefFragment.FocusDelayPref source :
-        FocusDelayPrefFragment.FocusDelayPref.values()) {
-      if (timeout == source.getDelay()) {
-        return context.getString(source.getTitleId());
-      }
-    }
-    return "";
-  }
-
-  private String typingFocusDelayText() {
-    int timeout =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_typing_focus_time_out_key,
-            R.string.pref_touch_explore_time_out_default);
-    for (TypingFocusDelayPrefFragment.TypingFocusDelayPref source :
-        TypingFocusDelayPrefFragment.TypingFocusDelayPref.values()) {
-      if (timeout == source.getDelay()) {
-        return context.getString(source.getTitleId());
-      }
-    }
-    // The settings slider allows any value, not just the preset values above.
-    return context.getString(R.string.template_milliseconds, timeout);
-  }
-
-  private void updateFocusDelayPreference(EventId eventId) {
-    int timeout =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_touch_focus_time_out_key,
-            R.string.pref_touch_focus_time_out_default);
-
-    for (FocusDelayPrefFragment.FocusDelayPref source :
-        FocusDelayPrefFragment.FocusDelayPref.values()) {
-      if (timeout == source.getDelay()) {
-        announcement(source.getTitleId());
-        showQuickMenuActionOverlay(eventId, context.getString(source.getTitleId()));
-        break;
-      }
-    }
-  }
-
-  private void updateTypingFocusDelayPreference(EventId eventId) {
-    String displayText = typingFocusDelayText();
-    announcement(displayText);
-    showQuickMenuActionOverlay(eventId, displayText);
   }
 
   private void announcement(int resourceId) {

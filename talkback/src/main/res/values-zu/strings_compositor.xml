@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Ukulinganisela kwenkulumo okungu-%1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Khulisa ivolumu yokufinyeleleka ibe semaphesentini angu-%1$d.</string>
   <string name="template_accessibility_volume_change_decrease">Yehlisa ivolumu yokufinyeleleka ibe semaphesentini angu-%1$d.</string>
-  <string name="template_touch_latency_reach_maximum">Phezulu kakhulu</string>
-  <string name="template_touch_latency_reach_minimum">Phansi kakhulu</string>
   <string name="template_volume_change_maximum">Ubuningi</string>
   <string name="template_volume_change_minimum">Okuncane</string>
   <string name="template_volume_change_volume_up_curved_text">Khulisa</string>

@@ -178,8 +178,6 @@
   <string name="template_speech_rate_change">Брзина говора %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Повећајте јачину звука за приступачност на %1$d посто.</string>
   <string name="template_accessibility_volume_change_decrease">Смањите јачину звука за приступачност на %1$d посто.</string>
-  <string name="template_touch_latency_reach_maximum">Максимум</string>
-  <string name="template_touch_latency_reach_minimum">Минимум</string>
   <string name="template_volume_change_maximum">Максимум</string>
   <string name="template_volume_change_minimum">Минимум</string>
   <string name="template_volume_change_volume_up_curved_text">Повећај</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">%1$d%% nitq sürəti</string>
   <string name="template_accessibility_volume_change_increase">Əlçatanlıq üzrə səs səviyyəsini %1$d faizə artırın.</string>
   <string name="template_accessibility_volume_change_decrease">Əlçatanlıq üzrə səs səviyyəsini %1$d faizə azaldın.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maksimum</string>
   <string name="template_volume_change_minimum">Minimum</string>
   <string name="template_volume_change_volume_up_curved_text">Artırın</string>

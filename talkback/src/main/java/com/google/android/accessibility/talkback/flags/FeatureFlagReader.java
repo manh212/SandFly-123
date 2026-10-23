@@ -17,7 +17,6 @@
 package com.google.android.accessibility.talkback.flags;
 
 import android.content.Context;
-import com.google.android.accessibility.utils.FeatureSupport;
 
 /**
  * Reader class for flags of experimental feature.
@@ -209,10 +208,6 @@ public final class FeatureFlagReader {
     return true;
   }
 
-  public static float gestureDoubleTapSlopMultiplier(Context context) {
-    return (float) 1.0;
-  }
-
   public static Object getGarconLibraryManifestConfig(Context context) {
     return null;
   }
@@ -233,16 +228,8 @@ public final class FeatureFlagReader {
     return false;
   }
 
-  public static boolean invalidSwipeGestureEarlyDetection(Context context) {
-    return false;
-  }
-
   public static boolean splitTapEverywhere(Context context) {
     return true;
-  }
-
-  public static boolean enableSplitTapAndHold(Context context) {
-    return false;
   }
 
   public static boolean logEventBasedLatency(Context context) {
@@ -275,10 +262,6 @@ public final class FeatureFlagReader {
 
   public static boolean showExitWatermark(Context context) {
     return true;
-  }
-
-  public static boolean speedUpTouchExploreState(Context context) {
-    return false;
   }
 
   public static boolean supportActiveSpellCheck(Context context) {
@@ -314,10 +297,6 @@ public final class FeatureFlagReader {
   }
 
   public static boolean enableExpandedEventToReplaceClickEventForExpandedState(Context context) {
-    return true;
-  }
-
-  public static boolean useTalkbackGestureDetection(Context context) {
     return true;
   }
 
@@ -415,14 +394,6 @@ public final class FeatureFlagReader {
 
   public static boolean enableOpenVoiceCommands(Context context) {
     return true;
-  }
-
-  public static boolean typingFocusTimeout(Context context) {
-    return FeatureSupport.supportGestureDetection();
-  }
-
-  public static boolean touchFocusTimeout(Context context) {
-    return FeatureSupport.supportGestureDetection();
   }
 
   public static boolean hasLocalCacheCapability(Context context) {

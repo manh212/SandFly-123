@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">কথা কোৱাৰ হাৰ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">সাধ্য সুবিধাৰ ভলিউম %1$d শতাংশলৈ বৃদ্ধি কৰক।</string>
   <string name="template_accessibility_volume_change_decrease">সাধ্য সুবিধাৰ ভলিউম %1$d শতাংশলৈ কমাওক।</string>
-  <string name="template_touch_latency_reach_maximum">সৰ্বাধিক</string>
-  <string name="template_touch_latency_reach_minimum">ন্যূনতম</string>
   <string name="template_volume_change_maximum">সৰ্বাধিক</string>
   <string name="template_volume_change_minimum">ন্যূনতম</string>
   <string name="template_volume_change_volume_up_curved_text">বঢ়াওক</string>

@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">เปิดใช้การวางซ้อนบันทึกการแก้ไขข้อบกพร่อง</string>
   <string name="title_pref_typing_confirmation">ค่ากำหนดการพิมพ์</string>
   <string name="title_pref_typing_long_tap_duration">การหน่วงเวลาการแตะค้างเมื่อพิมพ์</string>
-  <string name="title_pref_touch_explore_timeout">ความล่าช้าโฟกัสการพิมพ์</string>
   <string name="message_pref_touch_explore_latency">ความล่าช้าโฟกัสการพิมพ์ที่สั้นลงหมายความว่า TalkBack จะประกาศเร็วขึ้นหลังจากแตะแป้นพิมพ์\n\nเลือกความล่าช้า</string>
-  <string name="title_pref_touch_focus_timeout">ความล่าช้าโฟกัส</string>
-  <string name="title_pref_talkback_gesture_detection">จัดการการแตะสัมผัสใน TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">ปิดและเปิด TalkBack ขึ้นมาใหม่เพื่อเปิดใช้การตั้งค่า</string>
   <string name="title_pref_auto_image_captioning">คำอธิบายอัตโนมัติ</string>
   <string name="title_pref_gemini_settings">การตั้งค่า Gemini</string>
   <string name="title_pref_gemini_enabled">คำสั่งเสียง Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">ลดระดับเสียงอื่นๆ ที่กำลังเล่นอยู่เมื่อ TalkBack พูด</string>
   <string name="summary_support_scroll_seq">เลื่อนไปข้างหน้าหรือข้างหลัง</string>
   <string name="summary_support_change_a11y_volume">เพิ่มหรือลดระดับเสียงการช่วยเหลือพิเศษ</string>
-  <string name="summary_support_change_touch_explore_latency">เพิ่มหรือลดความล่าช้าโฟกัสการพิมพ์</string>
-  <string name="summary_support_change_touch_focus_latency">เพิ่มหรือลดความล่าช้าโฟกัส</string>
   <string name="summary_screen_overview">สรุปหน้าจอด้วยปุ่มดำเนินการ</string>
   <string name="summary_screen_overview_no_actions">ฟังสรุปเนื้อหาบนหน้าจอ</string>
   <string name="summary_image_caption">พูดข้อความและไอคอนในรูปภาพที่เลือก</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">บีบนิ้วสองครั้ง</string>
   <string name="gesture_name_double_tap_and_hold">แตะสองครั้งแล้วค้างไว้</string>
   <string name="gesture_name_double_tap_and_hold_xr">บีบนิ้วค้างไว้</string>
-  <string name="gesture_name_2finger_tap_hold">ใช้ 2 นิ้วแตะค้างไว้</string>
   <string name="gesture_name_3finger_tap_hold">ใช้ 3 นิ้วแตะค้างไว้</string>
   <string name="gesture_name_2finger_3tap_hold">ใช้ 2 นิ้วแตะสามครั้งแล้วค้างไว้</string>
   <string name="gesture_name_3finger_3tap_hold">ใช้ 3 นิ้วแตะสามครั้งแล้วค้างไว้</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">การลดเสียง</string>
   <string name="title_pref_support_scroll_seq">เลื่อน</string>
   <string name="title_pref_a11y_volume">ระดับเสียงการช่วยเหลือพิเศษ</string>
-  <string name="title_pref_touch_explore_latency">ความล่าช้าโฟกัสการพิมพ์</string>
-  <string name="title_pref_touch_focus_latency">ความล่าช้าโฟกัส</string>
   <string name="message_pref_touch_focus_latency">ความล่าช้าโฟกัสที่สั้นลงหมายความว่า TalkBack จะประกาศเร็วขึ้นหลังจากแตะหน้าจอ</string>
   <string name="message_pref_typing_method_prefix">หากต้องการให้เกิดความล่าช้าขณะพิมพ์น้อยที่สุด ให้เลือก \"กดค้างไว้เพื่อเลือกแป้น แล้วจึงยกนิ้วขึ้น\"</string>
-  <string name="message_pref_typing_method_postfix">นอกจากนี้ คุณยังใช้การแตะแยกกันเพื่อพิมพ์ได้ทุกเมื่อ หากต้องการทำเช่นนี้ ให้ใช้นิ้วหนึ่งกดค้างไว้เพื่อเลือกแป้น แล้วใช้อีกนิ้วหนึ่งแตะบนหน้าจอ</string>
   <string name="title_pref_talkback_speech_rate">ความเร็วในการพูดของ TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">ปรับแถบเลื่อน</string>
   <string name="title_pref_selector_typo_granularity">การพิสูจน์อักษร</string>

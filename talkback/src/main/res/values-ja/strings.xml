@@ -313,11 +313,7 @@
   <string name="title_pref_log_overlay">デバッグログのオーバーレイを有効にする</string>
   <string name="title_pref_typing_confirmation">入力の設定</string>
   <string name="title_pref_typing_long_tap_duration">入力時に長押しする時間</string>
-  <string name="title_pref_touch_explore_timeout">入力フォーカス遅延</string>
   <string name="message_pref_touch_explore_latency">入力フォーカス遅延を短くすると、キーボードをタップしてから TalkBack が読み上げるまでの時間が短縮されます。\n\n遅延を選択してください</string>
-  <string name="title_pref_touch_focus_timeout">フォーカス遅延</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack でジェスチャーを処理する</string>
-  <string name="toast_pref_talkback_gesture_detection">設定を有効にするには、TalkBack をオフにして再度オンにします。</string>
   <string name="title_pref_auto_image_captioning">説明の自動読み上げ</string>
   <string name="title_pref_gemini_settings">Gemini の設定</string>
   <string name="title_pref_gemini_enabled">Gemini の音声コマンド</string>
@@ -550,8 +546,6 @@
   <string name="summary_audio_ducking">TalkBack で読み上げる際に他の音の音量を下げます</string>
   <string name="summary_support_scroll_seq">前方または後方にスクロール</string>
   <string name="summary_support_change_a11y_volume">ユーザー補助機能の音量を調整する</string>
-  <string name="summary_support_change_touch_explore_latency">入力フォーカス遅延を調整します</string>
-  <string name="summary_support_change_touch_focus_latency">フォーカス遅延を長く / 短くします</string>
   <string name="summary_screen_overview">操作ボタンで画面を要約します</string>
   <string name="summary_screen_overview_no_actions">画面上のコンテンツを要約して読み上げます</string>
   <string name="summary_image_caption">選択した画像内のテキストとアイコンを読み上げます</string>
@@ -616,7 +610,6 @@
   <string name="gesture_name_double_tap_xr">ダブルピンチ</string>
   <string name="gesture_name_double_tap_and_hold">ダブルタップして長押し</string>
   <string name="gesture_name_double_tap_and_hold_xr">ピンチして長押し</string>
-  <string name="gesture_name_2finger_tap_hold">2 本の指で長押し</string>
   <string name="gesture_name_3finger_tap_hold">3 本の指で長押し</string>
   <string name="gesture_name_2finger_3tap_hold">2 本の指でトリプルタップして長押し</string>
   <string name="gesture_name_3finger_3tap_hold">3 本の指でトリプルタップして長押し</string>
@@ -742,11 +735,8 @@
   <string name="title_pref_selector_audio_focus">他の音量を下げる</string>
   <string name="title_pref_support_scroll_seq">スクロール</string>
   <string name="title_pref_a11y_volume">ユーザー補助機能の音量</string>
-  <string name="title_pref_touch_explore_latency">入力フォーカス遅延</string>
-  <string name="title_pref_touch_focus_latency">フォーカス遅延</string>
   <string name="message_pref_touch_focus_latency">フォーカス遅延を短くすると、画面をタップしてから TalkBack が読み上げるまでの時間が短縮されます</string>
   <string name="message_pref_typing_method_prefix">入力時の遅延を最小限に抑えるには、[指でキーを選択してから離す] を選択します</string>
-  <string name="message_pref_typing_method_postfix">また、いつでもスプリット タップを使用して入力できます。これを行うには、1 本の指でキーのいずれかを長押しし、別の指で画面をタップします。</string>
   <string name="title_pref_talkback_speech_rate">TalkBack の読み上げ速度</string>
   <string name="title_pref_selector_adjustable_widget_slider">スライダーを調整</string>
   <string name="title_pref_selector_typo_granularity">校正</string>

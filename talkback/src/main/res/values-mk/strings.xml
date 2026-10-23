@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Овозможи преклопување на евиденцијата за отстранување грешки</string>
   <string name="title_pref_typing_confirmation">Поставка за пишување</string>
   <string name="title_pref_typing_long_tap_duration">Допрете и задржете кога пишувате</string>
-  <string name="title_pref_touch_explore_timeout">Доцнење на фокусот при пишување</string>
   <string name="message_pref_touch_explore_latency">Пократкото доцнење на фокусот при пишување значи дека соопштенијата на TalkBack се појавуваат побрзо по допирањето на тастатурата.\n\nИзберете доцнење</string>
-  <string name="title_pref_touch_focus_timeout">Доцнење на фокусот</string>
-  <string name="title_pref_talkback_gesture_detection">Управувајте со движењата во TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Исклучете го, па вклучете го TalkBack повторно за да ја активирате поставката.</string>
   <string name="title_pref_auto_image_captioning">Автоматски описи</string>
   <string name="title_pref_gemini_settings">Поставки за Gemini</string>
   <string name="title_pref_gemini_enabled">Гласовна наредба за Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Ја намалува јачината на другите звуци што се пуштени кога зборува TalkBack</string>
   <string name="summary_support_scroll_seq">Лизгајте нанапред или наназад</string>
   <string name="summary_support_change_a11y_volume">Зголемете ја или намалете ја јачината на звук на пристапноста</string>
-  <string name="summary_support_change_touch_explore_latency">Зголемување или намалување на доцнењето на фокусот при пишување</string>
-  <string name="summary_support_change_touch_focus_latency">Зголемете или намалете го доцнењето на фокусот</string>
   <string name="summary_screen_overview">Резимирај го екранот со копчињата за дејство</string>
   <string name="summary_screen_overview_no_actions">Слушнете резиме на содржините на екранот</string>
   <string name="summary_image_caption">Изговарај текст и икони во рамките на избрана слика</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Двојно штипнување</string>
   <string name="gesture_name_double_tap_and_hold">Допрете двапати и задржете</string>
   <string name="gesture_name_double_tap_and_hold_xr">Штипнување и задржување</string>
-  <string name="gesture_name_2finger_tap_hold">Допрете и задржете со 2 прста</string>
   <string name="gesture_name_3finger_tap_hold">Допрете и задржете со 3 прста</string>
   <string name="gesture_name_2finger_3tap_hold">Троен допир и задржување со 2 прста</string>
   <string name="gesture_name_3finger_3tap_hold">Допрете трипати и задржете со 3 прста</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Намалување звук на апликации</string>
   <string name="title_pref_support_scroll_seq">Лизгање</string>
   <string name="title_pref_a11y_volume">Јачина на звукот за пристапност</string>
-  <string name="title_pref_touch_explore_latency">Доцнење на фокусот при пишување</string>
-  <string name="title_pref_touch_focus_latency">Доцнење на фокусот</string>
   <string name="message_pref_touch_focus_latency">Пократкото доцнење на фокусот значи дека соопштенијата на TalkBack се појавуваат побрзо по допирањето на екранот</string>
   <string name="message_pref_typing_method_prefix">За најмало доцнење при пишување, изберете „Задржете го прстот за да изберете копче, а потоа подигнете го“</string>
-  <string name="message_pref_typing_method_postfix">Може и да користите поделен допир за пишување во секое време. За да го направите ова, задржете еден прст за да изберете копче и користете друг прст за да допрете на екранот.</string>
   <string name="title_pref_talkback_speech_rate">Брзина на говор на TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Приспособете го лизгачот</string>
   <string name="title_pref_selector_typo_granularity">Лектура</string>

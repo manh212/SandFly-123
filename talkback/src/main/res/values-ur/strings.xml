@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ڈیبگ لاگ اوورلے کو فعال کریں</string>
   <string name="title_pref_typing_confirmation">ٹائپنگ کی ترجیح</string>
   <string name="title_pref_typing_long_tap_duration">ٹائپ کرتے وقت ٹچ کرکے دبائے رکھنے کی تاخیر</string>
-  <string name="title_pref_touch_explore_timeout">ٹائپنگ فوکس میں تاخیر</string>
   <string name="message_pref_touch_explore_latency">‏ٹائپنگ فوکس میں مختصر تاخیر کا مطلب ہے کہ کی بورڈ کو ٹچ کرنے کے بعد TalkBack اعلانات تیز رفتاری سے کیے جاتے ہیں۔\n\nتاخیر منتخب کریں</string>
-  <string name="title_pref_touch_focus_timeout">فوکس میں تاخیر</string>
-  <string name="title_pref_talkback_gesture_detection">‏TalkBack میں اشاروں کو ہینڈل کریں</string>
-  <string name="toast_pref_talkback_gesture_detection">‏ترتیب کو فعال کرنے کے لیے TalkBack کو آف کریں اور پھر دوبارہ آن کریں۔</string>
   <string name="title_pref_auto_image_captioning">خودکار تفصیلات</string>
   <string name="title_pref_gemini_settings">‏‫Gemini کی ترتیبات</string>
   <string name="title_pref_gemini_enabled">‏Gemini صوتی کمانڈ</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">‏TalkBack کے بولنے پر دیگر چل رہے آڈیو کی آواز کو کم کر دیں</string>
   <string name="summary_support_scroll_seq">فارورڈ یا بیک ورڈ اسکرول کریں</string>
   <string name="summary_support_change_a11y_volume">ایکسیسبیلٹی والیوم کو بڑھائیں یا کم کریں</string>
-  <string name="summary_support_change_touch_explore_latency">ٹائپنگ فوکس میں تاخیر کو کم یا زیادہ کریں</string>
-  <string name="summary_support_change_touch_focus_latency">فوکس میں تاخیر کو بڑھائیں یا کم کریں</string>
   <string name="summary_screen_overview">کارروائی کے بٹنز کے ذریعے اسکرین کا خلاصہ کریں</string>
   <string name="summary_screen_overview_no_actions">اسکرین پر موجود مواد کا خلاصہ سنیں</string>
   <string name="summary_image_caption">منتخب تصویر کے اندر ٹیکسٹ اور آئیکنز بولیں</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">دو بار چٹکی بھریں</string>
   <string name="gesture_name_double_tap_and_hold">دو بار تھپتھائیں اور دبائے رکھیں</string>
   <string name="gesture_name_double_tap_and_hold_xr">چٹکی بھریں اور ہولڈ کریں</string>
-  <string name="gesture_name_2finger_tap_hold">2 انگلیوں سے تھپتھائیں اور دبائے رکھیں</string>
   <string name="gesture_name_3finger_tap_hold">3 انگلیوں سے تھپتھائیں اور دبائے رکھیں</string>
   <string name="gesture_name_2finger_3tap_hold">2 انگلیوں سے تین بار تھپتھپائیں اور دبائے رکھیں</string>
   <string name="gesture_name_3finger_3tap_hold">3 انگلیوں سے تین بار تھپتھپائیں اور دبائے رکھیں</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">آڈیو ڈکنگ</string>
   <string name="title_pref_support_scroll_seq">اسکرول کریں</string>
   <string name="title_pref_a11y_volume">ایکسیسبیلٹی والیوم</string>
-  <string name="title_pref_touch_explore_latency">ٹائپنگ فوکس میں تاخیر</string>
-  <string name="title_pref_touch_focus_latency">فوکس میں تاخیر</string>
   <string name="message_pref_touch_focus_latency">‏فوکس میں مختصر تاخیر کا مطلب ہے کہ اسکرین کو ٹچ کرنے کے بعد TalkBack اعلانات تیز رفتاری سے کیے جاتے ہیں</string>
   <string name="message_pref_typing_method_prefix">ٹائپ کرتے وقت سب سے کم تاخیر کے لیے، \"کسی کلید کو منتخب کرنے کیلئے انگلی رکھیں، پھر اٹھائیں\" کا انتخاب کریں</string>
-  <string name="message_pref_typing_method_postfix">آپ کسی بھی وقت ٹائپ کرنے کے لیے اسپلٹ ٹیپ کا استعمال بھی کر سکتے ہیں۔ ایسا کرنے کے لیے، کسی بھی کلید کو منتخب کرنے کے لیے ایک انگلی رکھیں، اور اسکرین پر تھپتھپانے کے لیے دوسری انگلی کا استعمال کریں۔</string>
   <string name="title_pref_talkback_speech_rate">‏TalkBack کی اسپیچ کی شرح</string>
   <string name="title_pref_selector_adjustable_widget_slider">سلائیڈر کو ایڈجسٹ کریں</string>
   <string name="title_pref_selector_typo_granularity">پروف ریڈ</string>

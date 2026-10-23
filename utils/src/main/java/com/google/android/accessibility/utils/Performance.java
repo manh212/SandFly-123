@@ -20,7 +20,6 @@ import static android.content.res.Configuration.ORIENTATION_LANDSCAPE;
 import static android.content.res.Configuration.ORIENTATION_PORTRAIT;
 import static android.content.res.Configuration.ORIENTATION_UNDEFINED;
 import static android.view.accessibility.AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TOUCH_EXPLORE;
 
 import android.annotation.SuppressLint;
 import android.os.SystemClock;
@@ -1493,9 +1492,8 @@ public class Performance {
     GestureEventData gestureEventData = eventData.gestureEventData;
     gestureEventData.gestureId = gestureId;
     gestureEventData.gestureDetectedTime = getUptime();
-    if ((gestureId == GESTURE_TOUCH_EXPLORE)
-        || (gestureEventData.lastMotionEventTime != -1
-            && gestureEventData.gestureDecisionTime != -1)) {
+    if (gestureEventData.lastMotionEventTime != -1
+        && gestureEventData.gestureDecisionTime != -1) {
       notifyLatencyTracker(latencyTracker -> latencyTracker.onGestureRecognized(gestureEventData));
     }
     removeRecentEvent(eventId);

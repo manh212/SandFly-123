@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Hata ayıklama günlüğü yer paylaşımını etkinleştir</string>
   <string name="title_pref_typing_confirmation">Yazma tercihi</string>
   <string name="title_pref_typing_long_tap_duration">Yazı yazarken dokunup basılı tutma gecikmesi</string>
-  <string name="title_pref_touch_explore_timeout">Yazma odağı gecikmesi</string>
   <string name="message_pref_touch_explore_latency">Daha kısa yazma odağı gecikmesi, klavyeye dokunduktan sonra TalkBack duyurularının daha hızlı yapılmasını sağlar.\n\nGecikme süresini seçin</string>
-  <string name="title_pref_touch_focus_timeout">Odaklanma gecikmesi</string>
-  <string name="title_pref_talkback_gesture_detection">TalkBack\'teki hareketleri işleme</string>
-  <string name="toast_pref_talkback_gesture_detection">Ayarı etkinleştirmek için TalkBack\'i kapatıp tekrar açın.</string>
   <string name="title_pref_auto_image_captioning">Otomatik açıklamalar</string>
   <string name="title_pref_gemini_settings">Gemini ayarları</string>
   <string name="title_pref_gemini_enabled">Gemini Sesli Komutu</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">TalkBack konuştuğunda çalan diğer seslerin seviyesini kısar</string>
   <string name="summary_support_scroll_seq">İleri veya geri kaydırır</string>
   <string name="summary_support_change_a11y_volume">Erişilebilirlik ses düzeyini artırın veya azaltın</string>
-  <string name="summary_support_change_touch_explore_latency">Yazma odağı gecikmesini artırın veya azaltın</string>
-  <string name="summary_support_change_touch_focus_latency">Odaklanma gecikmesini artırın veya azaltın</string>
   <string name="summary_screen_overview">İşlem düğmeleriyle ekranı özetle</string>
   <string name="summary_screen_overview_no_actions">Ekrandaki içeriğin özetini dinleyin</string>
   <string name="summary_image_caption">Seçilen resimdeki metin ve simgeler sesli okunur</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">İki kez kıstırma</string>
   <string name="gesture_name_double_tap_and_hold">İki kez dokunma ve basılı tutma</string>
   <string name="gesture_name_double_tap_and_hold_xr">Kıstırıp basılı tutma</string>
-  <string name="gesture_name_2finger_tap_hold">2 parmakla dokunma ve basılı tutma</string>
   <string name="gesture_name_3finger_tap_hold">3 parmakla dokunma ve basılı tutma</string>
   <string name="gesture_name_2finger_3tap_hold">2 parmakla üç kez dokunma ve basılı tutma</string>
   <string name="gesture_name_3finger_3tap_hold">3 parmakla üç kez dokunma ve basılı tutma</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Sesi kısma</string>
   <string name="title_pref_support_scroll_seq">Kaydır</string>
   <string name="title_pref_a11y_volume">Erişilebilirlik ses düzeyi</string>
-  <string name="title_pref_touch_explore_latency">Yazma odağı gecikmesi</string>
-  <string name="title_pref_touch_focus_latency">Odaklanma gecikmesi</string>
   <string name="message_pref_touch_focus_latency">Odaklanma gecikmesi ne kadar kısa olursa ekrana dokunduktan sonra TalkBack duyuruları o kadar hızlı yapılır</string>
   <string name="message_pref_typing_method_prefix">Yazarken gecikmenin en az olmasını sağlamak üzere \"Herhangi bir tuşu seçmek için önce basılı tutup sonra parmağınızı kaldırın\" seçeneğini belirleyin.</string>
-  <string name="message_pref_typing_method_postfix">Dilediğiniz zaman bölünmüş dokunma özelliğini kullanarak da yazabilirsiniz. Bunu yapmak için bir parmağınızla herhangi bir tuşu seçip diğer parmağınızla ekrana dokunun.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack konuşma hızı</string>
   <string name="title_pref_selector_adjustable_widget_slider">Kaydırma çubuğunu ayarla</string>
   <string name="title_pref_selector_typo_granularity">Gözden geçir</string>

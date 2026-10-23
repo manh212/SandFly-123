@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Talhraði %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Hækkaðu hljóðstyrk aðgengis í %1$d prósent.</string>
   <string name="template_accessibility_volume_change_decrease">Lækkaðu hljóðstyrk aðgengis í %1$d prósent.</string>
-  <string name="template_touch_latency_reach_maximum">Hámark</string>
-  <string name="template_touch_latency_reach_minimum">Lágmark</string>
   <string name="template_volume_change_maximum">Hámark</string>
   <string name="template_volume_change_minimum">Lágmark</string>
   <string name="template_volume_change_volume_up_curved_text">Hækka</string>

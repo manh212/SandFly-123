@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Ruhusu uwekeleaji juu wa kumbukumbu ya utatuzi</string>
   <string name="title_pref_typing_confirmation">Mapendeleo ya kuandika</string>
   <string name="title_pref_typing_long_tap_duration">Gusa na ushikilie ili kuchelewesha wakati wa kuandika</string>
-  <string name="title_pref_touch_explore_timeout">Muda wa kusubiri kabla ya kuandika</string>
   <string name="message_pref_touch_explore_latency">Muda mfupi wa kusubiri kabla ya kutekeleza unamaanisha matangazo ya TalkBack yatatekelezwa haraka baada ya kugusa kibodi.\n\nChagua muda wa kusubiri</string>
-  <string name="title_pref_touch_focus_timeout">Muda wa kusubiri kabla ya kutekeleza</string>
-  <string name="title_pref_talkback_gesture_detection">Shughulikia ishara katika TalkBack</string>
-  <string name="toast_pref_talkback_gesture_detection">Zima kisha uwashe tena TalkBack ili kuweka mipangilio.</string>
   <string name="title_pref_auto_image_captioning">Maelezo ya kiotomatiki</string>
   <string name="title_pref_gemini_settings">Mipangilio ya Gemini</string>
   <string name="title_pref_gemini_enabled">Amri ya Sauti ya Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Punguza kiwango cha sauti zingine zinazocheza wakati TalkBack inazungumza</string>
   <string name="summary_support_scroll_seq">Sogeza mbele au nyuma</string>
   <string name="summary_support_change_a11y_volume">Ongeza au upunguze kiwango cha ufikivu</string>
-  <string name="summary_support_change_touch_explore_latency">Ongeza au upunguze muda wa kusubiri kabla ya kutekeleza</string>
-  <string name="summary_support_change_touch_focus_latency">Ongeza au upunguze muda wa kusubiri kabla ya kutekeleza</string>
   <string name="summary_screen_overview">Andaa muhtasari wa skrini ukitumia vitufe vya kutenda</string>
   <string name="summary_screen_overview_no_actions">Sikia muhtasari wa maudhui yaliyo kwenye skrini</string>
   <string name="summary_image_caption">Tamka maandishi na aikoni zilizo ndani ya picha iliyochaguliwa</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Bana mara mbili</string>
   <string name="gesture_name_double_tap_and_hold">Gusa mara mbili na ushikilie</string>
   <string name="gesture_name_double_tap_and_hold_xr">Bana na ushikilie</string>
-  <string name="gesture_name_2finger_tap_hold">Gusa na ushikilie ukitumia vidole viwili</string>
   <string name="gesture_name_3finger_tap_hold">Gusa na ushikilie ukitumia vidole vitatu</string>
   <string name="gesture_name_2finger_3tap_hold">Gusa mara tatu na ushikilie kwa vidole viwili</string>
   <string name="gesture_name_3finger_3tap_hold">Gusa mara tatu na ushikilie ukitumia vidole vitatu</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Upunguzaji wa sauti</string>
   <string name="title_pref_support_scroll_seq">Kusogeza</string>
   <string name="title_pref_a11y_volume">Sauti ya zana za ufikivu</string>
-  <string name="title_pref_touch_explore_latency">Muda wa kusubiri kabla ya kuandika</string>
-  <string name="title_pref_touch_focus_latency">Muda wa kusubiri kabla ya kutekeleza</string>
   <string name="message_pref_touch_focus_latency">Muda mfupi wa kusubiri kabla ya kutekeleza unamaanisha matangazo ya TalkBack yatatekelezwa haraka baada ya kugusa skrini</string>
   <string name="message_pref_typing_method_prefix">Ili utumie ucheleweshaji wa kiwango cha chini zaidi unapoandika, chagua \"Shikilia kwa kidole ili uteue kitufe chochote, kisha uinue\"</string>
-  <string name="message_pref_typing_method_postfix">Unaweza pia kutumia mguso wa kugawa ili uandike wakati wowote. Ili ufanye hivi, shikilia kwa kidole kimoja ili uchague kitufe chochote na utumie kidole kingine kugusa skrini.</string>
   <string name="title_pref_talkback_speech_rate">Kasi ya matamshi kwenye TalkBack</string>
   <string name="title_pref_selector_adjustable_widget_slider">Rekebisha kitelezi</string>
   <string name="title_pref_selector_typo_granularity">Hakiki</string>

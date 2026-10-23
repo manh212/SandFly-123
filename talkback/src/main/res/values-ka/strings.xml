@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">ხარვეზების გამართვის ჟურნალის გადაფარვის ჩართვა</string>
   <string name="title_pref_typing_confirmation">აკრეფის უპირატესი ვარიანტი</string>
   <string name="title_pref_typing_long_tap_duration">ტექსტის აკრეფისას დაყოვნებაზე ხანგრძლივად შეხება</string>
-  <string name="title_pref_touch_explore_timeout">აკრეფის ფოკუსის დაყოვნება</string>
   <string name="message_pref_touch_explore_latency">აკრეფის ფოკუსის ნაკლები დაყოვნება ნიშნავს, რომ TalkBack-ის განცხადებები უფრო სწრაფია კლავიატურის შეხების შემდეგ.\n\nაირჩიეთ დაყოვნება</string>
-  <string name="title_pref_touch_focus_timeout">ფოკუსის დაყოვნება</string>
-  <string name="title_pref_talkback_gesture_detection">ჟესტების გაშიფვრა TalkBack-ში</string>
-  <string name="toast_pref_talkback_gesture_detection">გამორთეთ და შემდეგ ისევ ჩართეთ TalkBack პარამეტრის გასააქტიურებლად.</string>
   <string name="title_pref_auto_image_captioning">ავტომატური აღწერილობები</string>
   <string name="title_pref_gemini_settings">Gemini-ს პარამეტრები</string>
   <string name="title_pref_gemini_enabled">Gemini ხმოვანი ბრძანება</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">ხმის დაწევა სხვა აუდიოსთვის, როცა TalkBack საუბრობს</string>
   <string name="summary_support_scroll_seq">წინ ან უკან გადაადგილება</string>
   <string name="summary_support_change_a11y_volume">მისაწვდომობის ხმის სიმძლავრის გაზრდა ან შემცირება</string>
-  <string name="summary_support_change_touch_explore_latency">აკრეფის ფოკუსის დაყოვნების გაზრდა ან შემცირება</string>
-  <string name="summary_support_change_touch_focus_latency">ფოკუსის დაყოვნების გაზრდა ან შემცირება</string>
   <string name="summary_screen_overview">ეკრანის შეჯამება მოქმედების ღილაკებით</string>
   <string name="summary_screen_overview_no_actions">ეკრანზე ნაჩვენები კონტენტის შეჯამების მოსმენა</string>
   <string name="summary_image_caption">ტექსტის წარმოთქმა და ხატულების ახსნა მონიშნულ სურათში</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ორმაგი თითებით მასშტაბირება</string>
   <string name="gesture_name_double_tap_and_hold">ორმაგი შეხება და დაყოვნება</string>
   <string name="gesture_name_double_tap_and_hold_xr">თითებით მასშტაბირება ხანგრძლივად</string>
-  <string name="gesture_name_2finger_tap_hold">ხანგრძლივად შეხება 2 თითით</string>
   <string name="gesture_name_3finger_tap_hold">ხანგრძლივად შეხება 3 თითით</string>
   <string name="gesture_name_2finger_3tap_hold">სამმაგი შეხება და დაყოვნება 2 თითით</string>
   <string name="gesture_name_3finger_3tap_hold">სამმაგი შეხება და დაყოვნება 3 თითით</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">აუდიო დაკინგი</string>
   <string name="title_pref_support_scroll_seq">გადაადგილება</string>
   <string name="title_pref_a11y_volume">მისაწვდომობის ხმის სიმძლავრე</string>
-  <string name="title_pref_touch_explore_latency">აკრეფის ფოკუსის დაყოვნება</string>
-  <string name="title_pref_touch_focus_latency">ფოკუსის დაყოვნება</string>
   <string name="message_pref_touch_focus_latency">აკრეფის ფოკუსის ნაკლები დაყოვნება ნიშნავს, რომ TalkBack-ის განცხადებები უფრო სწრაფია კლავიატურის შეხების შემდეგ</string>
   <string name="message_pref_typing_method_prefix">აკრეფის დროს მინიმალური დაყოვნებისთვის აირჩიეთ „გეჭიროთ თითი რომელიმე კლავიშის ასარჩევად და შემდეგ აუშვით“</string>
-  <string name="message_pref_typing_method_postfix">ასევე, ტექსტის ნებისმიერ დროს ასაკრეფად შეგიძლიათ გამოიყენოთ გაყოფილი შეხება. საამისოდ გეჭიროთ ერთი თითი ნებისმიერი კლავიშის ასარჩევად და გამოიყენეთ მეორე თითი ეკრანზე შეხებისთვის.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack-ის მეტყველების ტემპი</string>
   <string name="title_pref_selector_adjustable_widget_slider">დაარეგულირეთ სლაიდერი</string>
   <string name="title_pref_selector_typo_granularity">კორექტურა</string>

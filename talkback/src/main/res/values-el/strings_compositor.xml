@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Ρυθμός ομιλίας %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Αύξηση της έντασης ήχου προσβασιμότητας στο %1$d τοις εκατό.</string>
   <string name="template_accessibility_volume_change_decrease">Μείωση της έντασης ήχου προσβασιμότητας στο %1$d τοις εκατό.</string>
-  <string name="template_touch_latency_reach_maximum">Μέγιστη</string>
-  <string name="template_touch_latency_reach_minimum">Ελάχιστη</string>
   <string name="template_volume_change_maximum">Μέγιστη</string>
   <string name="template_volume_change_minimum">Ελάχιστη</string>
   <string name="template_volume_change_volume_up_curved_text">Αύξηση</string>

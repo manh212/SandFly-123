@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Kõne kiirus on %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Juurdepääsufunktsioonide helitugevust suurendatakse %1$d protsendini.</string>
   <string name="template_accessibility_volume_change_decrease">Juurdepääsufunktsioonide helitugevust vähendatakse %1$d protsendini.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimaalne</string>
-  <string name="template_touch_latency_reach_minimum">Minimaalne</string>
   <string name="template_volume_change_maximum">Maksimaalne</string>
   <string name="template_volume_change_minimum">Miinimaalne</string>
   <string name="template_volume_change_volume_up_curved_text">Suurendamine</string>

@@ -178,8 +178,6 @@
   <string name="template_speech_rate_change">קצב דיבור %%%1$d</string>
   <string name="template_accessibility_volume_change_increase">עוצמת הקול לנגישות תוגבר ל-%1$d אחוזים.</string>
   <string name="template_accessibility_volume_change_decrease">עוצמת הקול לנגישות תופחת ל-%1$d אחוזים.</string>
-  <string name="template_touch_latency_reach_maximum">מקסימום</string>
-  <string name="template_touch_latency_reach_minimum">מינימום</string>
   <string name="template_volume_change_maximum">מקסימום</string>
   <string name="template_volume_change_minimum">מינימום</string>
   <string name="template_volume_change_volume_up_curved_text">הגברה</string>

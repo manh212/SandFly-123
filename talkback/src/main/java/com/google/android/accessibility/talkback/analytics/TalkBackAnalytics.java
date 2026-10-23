@@ -22,7 +22,6 @@ import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.PeriodicLogSender;
-import com.google.android.accessibility.talkback.TouchExplorationModeFailureReporter.State;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.TalkbackAction;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
 import com.google.android.accessibility.talkback.keyboard.TalkBackPhysicalKeyboardShortcut;
@@ -334,8 +333,6 @@ public interface TalkBackAnalytics extends OnSharedPreferenceChangeListener {
 
   default void onGesture(int gestureId) {}
 
-  default void onGestureDebug(int debugEvent, int gestureId, int debugExtraValue) {}
-
   default void onMoveWithGranularity(CursorGranularity newGranularity) {}
 
   default void logPendingChanges() {}
@@ -381,8 +378,6 @@ public interface TalkBackAnalytics extends OnSharedPreferenceChangeListener {
       Duration browseModeDuration, @BrowseModeLogTrigger int trigger) {}
 
   default void sendMistriggerAndAliveTimeLog(int recoveryType) {}
-
-  default void sendRequestTouchExplorationFailureLog(@State int failureState) {}
 
   default void sendLog() {}
 

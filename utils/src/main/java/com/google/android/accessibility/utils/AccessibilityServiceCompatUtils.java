@@ -29,7 +29,6 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
-import com.google.android.accessibility.utils.gestures.GestureManifold;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -297,49 +296,6 @@ public class AccessibilityServiceCompatUtils {
           "GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD";
       case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD ->
           "GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD";
-      case GestureManifold.GESTURE_FAKED_SPLIT_TYPING -> "GESTURE_FAKED_SPLIT_TYPING";
-      case GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP ->
-          "GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP";
-      case GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP ->
-          "GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP";
-      case GestureManifold.GESTURE_2_FINGER_ROTATE_CLOCKWISE -> "GESTURE_2_FINGER_ROTATE_CLOCKWISE";
-      case GestureManifold.GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE ->
-          "GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE";
-      case GestureManifold.GESTURE_3_FINGER_QUADRUPLE_TAP -> "GESTURE_3_FINGER_QUADRUPLE_TAP";
-      case GestureManifold.GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM -> "GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM ->
-          "GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM";
-      case GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT ->
-          "GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT";
-      case GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT ->
-          "GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT";
-      case GestureManifold.GESTURE_2_FINGER_SCRUB -> "GESTURE_2_FINGER_SCRUB";
-      case GestureManifold.GESTURE_2_FINGER_PINCH -> "GESTURE_2_FINGER_PINCH";
-      case GestureManifold.GESTURE_2_FINGER_SPREAD -> "GESTURE_2_FINGER_SPREAD";
-      case GestureManifold.GESTURE_3_FINGER_PINCH -> "GESTURE_3_FINGER_PINCH";
-      case GestureManifold.GESTURE_3_FINGER_SPREAD -> "GESTURE_3_FINGER_SPREAD";
-      case GestureManifold.GESTURE_4_FINGER_PINCH -> "GESTURE_4_FINGER_PINCH";
-      case GestureManifold.GESTURE_4_FINGER_SPREAD -> "GESTURE_4_FINGER_SPREAD";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT ->
-          "GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT ->
-          "GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT";
-      case GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP ->
-          "GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP ->
-          "GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP";
-      case GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM ->
-          "GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM ->
-          "GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM";
-      case GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP ->
-          "GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP ->
-          "GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP";
-      case GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM ->
-          "GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM";
-      case GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM ->
-          "GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM";
       default -> "(unhandled " + gestureId + ")";
     };
   }

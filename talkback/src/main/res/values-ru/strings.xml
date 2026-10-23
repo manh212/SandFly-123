@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Показывать журнал отладки поверх других окон</string>
   <string name="title_pref_typing_confirmation">Способ ввода</string>
   <string name="title_pref_typing_long_tap_duration">Задержка при нажатии и удержании во время ввода</string>
-  <string name="title_pref_touch_explore_timeout">Задержка выбора элемента при вводе</string>
   <string name="message_pref_touch_explore_latency">Если задержка выбора элемента при вводе небольшая, озвучивание SandFly начинается быстрее после того, как вы коснётесь клавиатуры\n\nВыберите задержку</string>
-  <string name="title_pref_touch_focus_timeout">Задержка выбора элемента</string>
-  <string name="title_pref_talkback_gesture_detection">Включить распознавание жестов в SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Чтобы изменения вступили в силу, перезагрузите SandFly.</string>
   <string name="title_pref_auto_image_captioning">Автоматические описания</string>
   <string name="title_pref_gemini_settings">Настройки Gemini</string>
   <string name="title_pref_gemini_enabled">Голосовая команда Gemini</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Уменьшение громкости других звуков при озвучивании с помощью SandFly</string>
   <string name="summary_support_scroll_seq">Прокрутка вперёд или назад</string>
   <string name="summary_support_change_a11y_volume">Регулировка громкости подсказок</string>
-  <string name="summary_support_change_touch_explore_latency">Увеличение или уменьшение задержки выбора элемента при вводе</string>
-  <string name="summary_support_change_touch_focus_latency">Увеличить или уменьшить задержку выбора элемента</string>
   <string name="summary_screen_overview">Краткое описание экрана с кнопками действий</string>
   <string name="summary_screen_overview_no_actions">Озвучивает описание содержимого на экране</string>
   <string name="summary_image_caption">Озвучивает описание значков и текст с выбранных изображений.</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Дважды свести вместе два пальца</string>
   <string name="gesture_name_double_tap_and_hold">Нажать дважды и удерживать</string>
   <string name="gesture_name_double_tap_and_hold_xr">Свести два пальца вместе и удерживать</string>
-  <string name="gesture_name_2finger_tap_hold">Нажать и удерживать двумя пальцами</string>
   <string name="gesture_name_3finger_tap_hold">Нажать и удерживать тремя пальцами</string>
   <string name="gesture_name_2finger_3tap_hold">Тройное нажатие и удерживание двумя пальцами</string>
   <string name="gesture_name_3finger_3tap_hold">Нажать трижды и удерживать тремя пальцами</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Приглушение звука приложений</string>
   <string name="title_pref_support_scroll_seq">Прокрутка</string>
   <string name="title_pref_a11y_volume">Громкость подсказок</string>
-  <string name="title_pref_touch_explore_latency">Задержка выбора элемента при вводе</string>
-  <string name="title_pref_touch_focus_latency">Задержка выбора элемента</string>
   <string name="message_pref_touch_focus_latency">Если задержка меньше, озвучивание SandFly начинается быстрее после того, как вы коснётесь экрана</string>
   <string name="message_pref_typing_method_prefix">Для минимальной задержки при вводе выберите «Удерживайте палец на нужной клавише, затем отпустите».</string>
-  <string name="message_pref_typing_method_postfix">Вы также можете использовать для ввода текста раздельное нажатие. Просто удерживайте любую клавишу одним пальцем и нажимайте на экран другим.</string>
   <string name="title_pref_talkback_speech_rate">Скорость речи</string>
   <string name="title_pref_selector_adjustable_widget_slider">Отрегулировать ползунок</string>
   <string name="title_pref_selector_typo_granularity">Проверка правописания</string>
@@ -1387,16 +1377,11 @@
   <string name="dialog_message_screen_overview_promotion">Снимок экрана отправляется в API Gemini от Google для создания описания. Это занимает несколько секунд. Если включён «ИИ на устройстве», описание создаётся на этом телефоне, а снимок никуда не отправляется.\n\nПри использовании бесплатного ключа API Google может сохранять полученные данные, использовать их для улучшения своих продуктов и передавать людям для проверки. Генеративный ИИ — экспериментальная технология, поэтому он допускает ошибки. Применяются <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
   <string name="title_pref_brightness">Яркость</string>
   <string name="summary_support_change_brightness">Увеличить или уменьшить яркость экрана, даже когда экран скрыт</string>
-  <string name="title_pref_shortcut_3finger_4tap">Четырёхкратное нажатие тремя пальцами</string>
-  <string name="title_pref_shortcut_2finger_rotate_clockwise">Вращение двумя пальцами по часовой стрелке</string>
-  <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Вращение двумя пальцами против часовой стрелки</string>
   <string name="value_type_confirmation_lift_to_type_except_action_key">Удерживайте палец на нужной клавише, затем отпустите. Для клавиш «Ввод», «Готово» и «Отправить» нажмите дважды.</string>
-  <string name="title_pref_multi_tap_timeout">Интервал между нажатиями одним пальцем</string>
   <string name="value_multi_tap_timeout_100ms">0,1 секунды</string>
   <string name="value_multi_tap_timeout_150ms">0,15 секунды</string>
   <string name="value_multi_tap_timeout_200ms">0,2 секунды</string>
   <string name="value_multi_tap_timeout_250ms">0,25 секунды (по умолчанию)</string>
-  <string name="title_pref_rotor_step_degrees">Угол поворота ротора на один шаг</string>
   <string name="value_rotor_step_15">15 градусов</string>
   <string name="value_rotor_step_20">20 градусов</string>
   <string name="value_rotor_step_30">30 градусов (по умолчанию)</string>

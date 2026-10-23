@@ -314,11 +314,7 @@
   <string name="title_pref_log_overlay">Hibakeresési naplózás fedvény engedélyezése</string>
   <string name="title_pref_typing_confirmation">Gépeléspreferencia</string>
   <string name="title_pref_typing_long_tap_duration">Lenyomva tartás késleltetése gépelés közben</string>
-  <string name="title_pref_touch_explore_timeout">Gépelési fókusz késleltetése</string>
   <string name="message_pref_touch_explore_latency">A gépelési fókusz rövidebb késleltetése azt jelenti, hogy a TalkBack gyorsabban mondja ki a közleményeket a billentyűzet megérintése után.\n\nVálassza ki a kívánt késleltetést.</string>
-  <string name="title_pref_touch_focus_timeout">Fókusz késleltetése</string>
-  <string name="title_pref_talkback_gesture_detection">Kézmozdulatok kezelése a TalkBackben</string>
-  <string name="toast_pref_talkback_gesture_detection">A beállítás aktiválásához kapcsolja ki, majd újra be a TalkBack funkciót.</string>
   <string name="title_pref_auto_image_captioning">Automatikus leírások</string>
   <string name="title_pref_gemini_settings">Gemini-beállítások</string>
   <string name="title_pref_gemini_enabled">Gemini – hangalapú utasítás</string>
@@ -551,8 +547,6 @@
   <string name="summary_audio_ducking">Csökkentheti az egyéb hangok hangerejét a TalkBack felolvasása közben.</string>
   <string name="summary_support_scroll_seq">Görgetés előre vagy vissza</string>
   <string name="summary_support_change_a11y_volume">Kisegítő lehetőségek hangerejének növelése vagy csökkentése</string>
-  <string name="summary_support_change_touch_explore_latency">Gépelési fókusz késleltetésének növelése vagy csökkentése</string>
-  <string name="summary_support_change_touch_focus_latency">Fókusz késleltetésének növelése vagy csökkentése</string>
   <string name="summary_screen_overview">A képernyő összefoglalása műveletgombokkal</string>
   <string name="summary_screen_overview_no_actions">A képernyőn megjelenő tartalom összefoglalójának meghallgatása</string>
   <string name="summary_image_caption">A kijelölt képen belüli szöveg és ikonok felolvasása</string>
@@ -617,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dupla csippentés</string>
   <string name="gesture_name_double_tap_and_hold">Dupla koppintás és lenyomva tartás</string>
   <string name="gesture_name_double_tap_and_hold_xr">Ujjak összecsippentése és úgy tartása</string>
-  <string name="gesture_name_2finger_tap_hold">Kétujjas koppintás és lenyomva tartás</string>
   <string name="gesture_name_3finger_tap_hold">Háromujjas koppintás és lenyomva tartás</string>
   <string name="gesture_name_2finger_3tap_hold">Kétujjas tripla koppintás és lenyomva tartás</string>
   <string name="gesture_name_3finger_3tap_hold">Háromujjas tripla koppintás és lenyomva tartás</string>
@@ -743,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Hang automatikus halkítása</string>
   <string name="title_pref_support_scroll_seq">Görgetés</string>
   <string name="title_pref_a11y_volume">Kisegítő lehetőségek hangereje</string>
-  <string name="title_pref_touch_explore_latency">Gépelési fókusz késleltetése</string>
-  <string name="title_pref_touch_focus_latency">Fókusz késleltetése</string>
   <string name="message_pref_touch_focus_latency">A fókusz rövidebb késleltetése azt jelenti, hogy a TalkBack gyorsabban mondja ki a közleményeket a képernyő megérintése után.</string>
   <string name="message_pref_typing_method_prefix">Gépelés közben a legkisebb késleltetés érdekében válassza „A kiválasztáshoz tartsa az ujját a kívánt billentyűn, majd emelje fel” lehetőséget.</string>
-  <string name="message_pref_typing_method_postfix">Az osztott koppintás funkciót is bármikor használhatja a gépeléshez. Ehhez tartsa az egyik ujját a kívánt billentyűn, és koppintson valamelyik másik ujjával a képernyőre.</string>
   <string name="title_pref_talkback_speech_rate">TalkBack beszédsebessége</string>
   <string name="title_pref_selector_adjustable_widget_slider">Csúszka módosítása</string>
   <string name="title_pref_selector_typo_granularity">Lektorálás</string>

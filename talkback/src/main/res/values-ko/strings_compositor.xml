@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">말하기 속도 %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">접근성 볼륨을 %1$d퍼센트로 높입니다.</string>
   <string name="template_accessibility_volume_change_decrease">접근성 볼륨을 %1$d퍼센트로 낮춥니다.</string>
-  <string name="template_touch_latency_reach_maximum">최대</string>
-  <string name="template_touch_latency_reach_minimum">최소</string>
   <string name="template_volume_change_maximum">최대</string>
   <string name="template_volume_change_minimum">최소</string>
   <string name="template_volume_change_volume_up_curved_text">높이기</string>

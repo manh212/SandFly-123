@@ -178,8 +178,6 @@
   <string name="template_speech_rate_change">Brzina govora %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Povećanje jačine zvuka za pristupačnost na %1$d posto.</string>
   <string name="template_accessibility_volume_change_decrease">Smanjenje jačine zvuka za pristupačnost na %1$d posto.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimalno</string>
-  <string name="template_touch_latency_reach_minimum">Minimalno</string>
   <string name="template_volume_change_maximum">Maksimalno</string>
   <string name="template_volume_change_minimum">Minimalno</string>
   <string name="template_volume_change_volume_up_curved_text">Povećavanje</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">سرعت گفتار %1$d٪٪</string>
   <string name="template_accessibility_volume_change_increase">میزان صدای دسترس‌پذیری را به %1$d درصد افزایش دهید.</string>
   <string name="template_accessibility_volume_change_decrease">میزان صدای دسترس‌پذیری را به %1$d درصد کاهش دهید.</string>
-  <string name="template_touch_latency_reach_maximum">حداکثر</string>
-  <string name="template_touch_latency_reach_minimum">حداقل</string>
   <string name="template_volume_change_maximum">حداکثر</string>
   <string name="template_volume_change_minimum">حداقل</string>
   <string name="template_volume_change_volume_up_curved_text">افزایش</string>

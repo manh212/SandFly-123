@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ຄວາມໄວການເວົ້າ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">ເພີ່ມລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງເປັນ %1$d ເປີເຊັນ.</string>
   <string name="template_accessibility_volume_change_decrease">ຫຼຸດລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງເປັນ %1$d ເປີເຊັນ.</string>
-  <string name="template_touch_latency_reach_maximum">ສູງສຸດ</string>
-  <string name="template_touch_latency_reach_minimum">ຕ່ຳສຸດ</string>
   <string name="template_volume_change_maximum">​ສູງ​ສຸດ</string>
   <string name="template_volume_change_minimum">ຕໍ່າສຸດ</string>
   <string name="template_volume_change_volume_up_curved_text">ເພີ່ມຂຶ້ນ</string>

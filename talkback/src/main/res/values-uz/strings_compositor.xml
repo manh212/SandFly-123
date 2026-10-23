@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">Nutq tezligi %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Qulayliklar tovushini %1$d foizga balandlating.</string>
   <string name="template_accessibility_volume_change_decrease">Qulayliklar tovushini %1$d foizga pasaytiring.</string>
-  <string name="template_touch_latency_reach_maximum">Maksimum</string>
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <string name="template_volume_change_maximum">Maksimum</string>
   <string name="template_volume_change_minimum">Minimal</string>
   <string name="template_volume_change_volume_up_curved_text">Oshirish</string>

@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">የንግግር ፍጥነት %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">የተደራሽነት ድምፅን ወደ %1$dመቶኛ ይጨምሩ።</string>
   <string name="template_accessibility_volume_change_decrease">የተደራሽነት ድምፅን ወደ %1$d መቶኛ ይቀንሱ።</string>
-  <string name="template_touch_latency_reach_maximum">ከፍተኛ</string>
-  <string name="template_touch_latency_reach_minimum">አነስተኛ</string>
   <string name="template_volume_change_maximum">ከፍተኛ</string>
   <string name="template_volume_change_minimum">አነስተኛ</string>
   <string name="template_volume_change_volume_up_curved_text">ጨምር</string>

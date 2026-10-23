@@ -167,8 +167,6 @@
   <string name="template_speech_rate_change">Tốc độ lời nói %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">Tăng âm lượng hỗ trợ tiếp cận lên %1$d phần trăm.</string>
   <string name="template_accessibility_volume_change_decrease">Giảm âm lượng hỗ trợ tiếp cận xuống %1$d phần trăm.</string>
-  <string name="template_touch_latency_reach_maximum">Tối đa</string>
-  <string name="template_touch_latency_reach_minimum">Tối thiểu</string>
   <string name="template_volume_change_maximum">Tối đa</string>
   <string name="template_volume_change_minimum">Tối thiểu</string>
   <string name="template_volume_change_volume_up_curved_text">Tăng</string>

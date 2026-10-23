@@ -304,7 +304,6 @@
   <string name="title_activity_dump_a11y_event">Chọn sự kiện để ghi</string>
   <string name="title_pref_dump_a11y_event">Lọc ghi sự kiện hỗ trợ tiếp cận</string>
   <string name="pref_reduce_window_delay_title">Tắt hiệu ứng động</string>
-  <string name="pref_reduce_swipe_start_delay_title">Giảm độ trễ bắt đầu vuốt</string>
   <string name="title_pref_log_level">Mức đầu ra của nhật ký</string>
   <string name="title_pref_diagnosis_mode">Chế độ chẩn đoán</string>
   <string name="title_pref_tts_overlay">Hiển thị đầu ra bằng giọng nói</string>
@@ -316,11 +315,7 @@
   <string name="title_pref_log_overlay">Bật lớp phủ nhật ký gỡ lỗi</string>
   <string name="title_pref_typing_confirmation">Phương thức nhập</string>
   <string name="title_pref_typing_long_tap_duration">Độ trễ của thao tác chạm và giữ khi nhập</string>
-  <string name="title_pref_touch_explore_timeout">Độ trễ tiêu điểm khi nhập</string>
   <string name="message_pref_touch_explore_latency">Độ trễ càng ngắn thì SandFly đọc càng sớm sau khi bạn chạm vào bàn phím.\n\nChọn độ trễ</string>
-  <string name="title_pref_touch_focus_timeout">Độ trễ tiêu điểm</string>
-  <string name="title_pref_talkback_gesture_detection">Điều khiển cử chỉ trong SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Tắt SandFly rồi bật lại để kích hoạt cài đặt.</string>
   <string name="title_pref_auto_image_captioning">Tự động mô tả</string>
   <string name="title_pref_gemini_settings">Cài đặt Gemini</string>
   <string name="title_pref_offline_translation_settings">Dịch ngoại tuyến</string>
@@ -569,8 +564,6 @@
   <string name="summary_audio_ducking">Giảm âm lượng của âm thanh khác đang phát khi SandFly nói</string>
   <string name="summary_support_scroll_seq">Di chuyển về phía trước hoặc về phía sau</string>
   <string name="summary_support_change_a11y_volume">Tăng hoặc giảm âm lượng của dịch vụ hỗ trợ tiếp cận</string>
-  <string name="summary_support_change_touch_explore_latency">Tăng hoặc giảm độ trễ tiêu điểm khi nhập</string>
-  <string name="summary_support_change_touch_focus_latency">Tăng hoặc giảm độ trễ tiêu điểm</string>
   <string name="summary_screen_overview">Tóm tắt màn hình bằng các nút hành động</string>
   <string name="summary_screen_overview_no_actions">Nghe bản tóm tắt nội dung trên màn hình</string>
   <string name="summary_image_caption">Nói văn bản và biểu tượng trong một hình ảnh đã chọn</string>
@@ -635,7 +628,6 @@
   <string name="gesture_name_double_tap_xr">Chụm hai ngón tay hai lần</string>
   <string name="gesture_name_double_tap_and_hold">Nhấn đúp và giữ</string>
   <string name="gesture_name_double_tap_and_hold_xr">Chụm hai ngón tay và giữ</string>
-  <string name="gesture_name_2finger_tap_hold">Nhấn và giữ bằng 2 ngón tay</string>
   <string name="gesture_name_3finger_tap_hold">Nhấn và giữ bằng 3 ngón tay</string>
   <string name="gesture_name_2finger_3tap_hold">Nhấn 3 lần và giữ bằng 2 ngón tay</string>
   <string name="gesture_name_3finger_3tap_hold">Nhấn 3 lần và giữ bằng 3 ngón tay</string>
@@ -761,11 +753,8 @@
   <string name="title_pref_selector_audio_focus">Giảm âm thanh</string>
   <string name="title_pref_support_scroll_seq">Di chuyển</string>
   <string name="title_pref_a11y_volume">Âm lượng của dịch vụ Hỗ trợ tiếp cận</string>
-  <string name="title_pref_touch_explore_latency">Độ trễ tiêu điểm khi nhập</string>
-  <string name="title_pref_touch_focus_latency">Độ trễ tiêu điểm</string>
   <string name="message_pref_touch_focus_latency">Độ trễ càng ngắn thì SandFly đọc càng sớm sau khi bạn chạm vào màn hình</string>
   <string name="message_pref_typing_method_prefix">Để giảm độ trễ xuống mức thấp nhất khi nhập, hãy chọn \"Giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay lên\"</string>
-  <string name="message_pref_typing_method_postfix">Bạn cũng có thể dùng tính năng nhấn bằng 2 ngón tay để nhập bất cứ lúc nào. Để thực hiện, hãy giữ một ngón tay để chọn phím bất kỳ rồi dùng một ngón tay khác để nhấn vào màn hình.</string>
   <string name="title_pref_talkback_speech_rate">Tốc độ lời nói</string>
   <string name="title_pref_selector_adjustable_widget_slider">Điều chỉnh thanh trượt</string>
   <string name="title_pref_selector_typo_granularity">Hiệu đính</string>
@@ -1525,7 +1514,6 @@
     <string name="summary_pref_speaker_devices_none">Không có</string>
     <string name="summary_pref_speaker_devices_no_devices">Chưa kết nối thiết bị Bluetooth hoặc có dây nào</string>
     <string name="pref_reduce_window_delay_summary">SandFly đọc màn hình mới nhanh hơn khi tắt hiệu ứng động. Thao tác này tắt hiệu ứng động trên toàn bộ điện thoại.</string>
-    <string name="pref_reduce_swipe_start_delay_summary">Khám phá chạm bắt đầu ngay mà không chờ cử chỉ vuốt bắt đầu, nên thao tác chạm phản hồi sớm hơn. Cử chỉ vuốt bắt đầu chậm có thể bị nhận thành khám phá chạm.</string>
     <string name="dialog_message_detailed_ai_description">Hình ảnh được chọn sẽ được gửi đến Gemini API của Google để mô tả. Khi bật AI trên thiết bị, hình ảnh sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
     <string name="dialog_message_detailed_ai_promotion">Tính năng mô tả hình ảnh chi tiết dùng AI tạo sinh. Hình ảnh được chọn sẽ được gửi đến Gemini API của Google để mô tả. Khi bật AI trên thiết bị, hình ảnh sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. Bạn có thể tắt tính năng mô tả hình ảnh chi tiết bất cứ lúc nào trong phần cài đặt SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
     <string name="dialog_message_screen_overview_promotion">Ảnh chụp màn hình sẽ được gửi đến Gemini API của Google để mô tả, việc này mất vài giây. Khi bật AI trên thiết bị, ảnh chụp màn hình sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
@@ -1542,28 +1530,12 @@
     <string name="title_clear_selection">Xoá lựa chọn</string>
     <string name="title_pref_brightness">Độ sáng</string>
     <string name="summary_support_change_brightness">Tăng hoặc giảm độ sáng màn hình, kể cả khi màn hình bị ẩn</string>
-    <string name="title_pref_shortcut_3finger_4tap">Nhấn 4 lần bằng 3 ngón tay</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Xoay theo chiều kim đồng hồ bằng 2 ngón tay</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Xoay ngược chiều kim đồng hồ bằng 2 ngón tay</string>
-    <string name="title_pref_shortcut_2finger_scrub">Chà bằng 2 ngón tay</string>
-    <string name="title_pref_shortcut_2finger_pinch">Chụm bằng 2 ngón tay</string>
-    <string name="title_pref_shortcut_2finger_spread">Tách bằng 2 ngón tay</string>
-    <string name="title_pref_shortcut_3finger_pinch">Chụm bằng 3 ngón tay</string>
-    <string name="title_pref_shortcut_3finger_spread">Tách bằng 3 ngón tay</string>
-    <string name="title_pref_shortcut_4finger_pinch">Chụm bằng 4 ngón tay</string>
-    <string name="title_pref_shortcut_4finger_spread">Tách bằng 4 ngón tay</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Vuốt lên từ cạnh dưới</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Vuốt dài lên từ cạnh dưới</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Vuốt xuống từ phía trên bên trái</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Vuốt xuống từ phía trên bên phải</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Giữ ngón tay để chọn phím bất kỳ, sau đó nhấc ngón tay. Nhấn đúp để nhập Enter, Xong hoặc Gửi.</string>
-    <string name="value_type_confirmation_tap_to_type">Nhấn vào phím bất kỳ để nhập, hoặc giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay</string>
-    <string name="title_pref_multi_tap_timeout">Thời gian giữa các lần nhấn bằng một ngón tay</string>
+    <string name="value_type_confirmation_single_tap_to_type">Chạm một lần để nhập: giữ ngón tay để chọn phím bất kỳ rồi nhấc ngón tay lên. Nhấn đúp không hoạt động trong vùng bàn phím.</string>
     <string name="value_multi_tap_timeout_100ms">0,1 giây</string>
     <string name="value_multi_tap_timeout_150ms">0,15 giây</string>
     <string name="value_multi_tap_timeout_200ms">0,2 giây</string>
     <string name="value_multi_tap_timeout_250ms">0,25 giây (mặc định)</string>
-    <string name="title_pref_rotor_step_degrees">Góc xoay cho mỗi bước của núm xoay</string>
     <string name="value_rotor_step_15">15 độ</string>
     <string name="value_rotor_step_20">20 độ</string>
     <string name="value_rotor_step_30">30 độ (mặc định)</string>
@@ -1665,16 +1637,6 @@
         <item>@string/speech_stream_ring</item>
         <item>@string/speech_stream_call</item>
     </string-array>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Vuốt dài xuống từ phía trên bên trái</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Vuốt dài xuống từ phía trên bên phải</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Vuốt sang phải từ cạnh trái, nửa trên</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Vuốt dài sang phải từ cạnh trái, nửa trên</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Vuốt sang phải từ cạnh trái, nửa dưới</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Vuốt dài sang phải từ cạnh trái, nửa dưới</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Vuốt sang trái từ cạnh phải, nửa trên</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Vuốt dài sang trái từ cạnh phải, nửa trên</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Vuốt sang trái từ cạnh phải, nửa dưới</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Vuốt dài sang trái từ cạnh phải, nửa dưới</string>
     <string name="title_pref_selector_auto_switch">Tự động thay đổi chế độ điều khiển chức năng đọc</string>
     <string name="title_pref_selection_mode_reading_control">Thay đổi chế độ điều khiển chức năng đọc trong chế độ chọn</string>
     <string name="summary_pref_selection_mode_reading_control">Khi tắt, chế độ điều khiển chức năng đọc hiện tại, ví dụ như Tiêu đề, được giữ nguyên khi chế độ chọn bắt đầu trong nội dung web</string>
@@ -1693,8 +1655,6 @@
     <string name="title_pref_category_others">Tính năng khác</string>
     <string name="title_pref_category_tutorial_and_help">Hướng dẫn và trợ giúp</string>
     <string name="shortcut_refresh">Làm mới</string>
-    <string name="title_pref_edge_first_click_mm">Khoảng cách tới lần nhấn đầu tiên</string>
-    <string name="title_pref_edge_second_click_mm">Khoảng cách từ lần nhấn đầu tiên tới lần nhấn thứ hai</string>
     <string name="title_pref_vibration_strength">Cường độ rung</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
@@ -1704,6 +1664,4 @@
     <string name="value_distance_40mm">4 cm</string>
     <string name="value_distance_50mm">5 cm</string>
     <string name="title_pref_category_typing">Nhập</string>
-    <string name="pref_complete_swipe_early_title">Nhận diện vuốt sớm</string>
-    <string name="pref_complete_swipe_early_summary">Cử chỉ vuốt một ngón được thực hiện ngay khi hướng đã rõ, thay vì chờ nhấc ngón, nên thao tác vuốt phản hồi sớm hơn. Cử chỉ vuốt hai đoạn bắt đầu cùng hướng sẽ được thực hiện thành cử chỉ vuốt một đoạn.</string>
 </resources>

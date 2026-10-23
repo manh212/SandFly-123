@@ -67,7 +67,6 @@ import com.google.android.accessibility.talkback.Feedback.Speech;
 import com.google.android.accessibility.talkback.Feedback.SpeechRate;
 import com.google.android.accessibility.talkback.Feedback.SystemAction;
 import com.google.android.accessibility.talkback.Feedback.TalkBackUI;
-import com.google.android.accessibility.talkback.Feedback.TouchLatency;
 import com.google.android.accessibility.talkback.Feedback.TriggerIntent;
 import com.google.android.accessibility.talkback.Feedback.UiChange;
 import com.google.android.accessibility.talkback.Feedback.UniversalSearch;
@@ -94,7 +93,6 @@ import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.actor.SystemActionPerformer;
 import com.google.android.accessibility.talkback.actor.TalkBackUIActor;
 import com.google.android.accessibility.talkback.actor.TextEditActor;
-import com.google.android.accessibility.talkback.actor.TouchLatencyAdjustor;
 import com.google.android.accessibility.talkback.actor.TypoNavigator;
 import com.google.android.accessibility.talkback.actor.VolumeAdjustor;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiActor;
@@ -168,7 +166,6 @@ class Actors {
   private final ImageCaptioner imageCaptioner;
   private final UniversalSearchActor universalSearchActor;
   private final GeminiActor geminiActor;
-  private final TouchLatencyAdjustor touchLatencyAdjustor;
   private final ServiceFlagRequester serviceFlagRequester;
   private final InputDeviceMonitor inputDeviceMonitor;
 
@@ -205,7 +202,6 @@ class Actors {
       ImageCaptioner imageCaptioner,
       UniversalSearchActor universalSearchActor,
       GeminiActor geminiActor,
-      TouchLatencyAdjustor touchLatencyAdjustor,
       ServiceFlagRequester serviceFlagRequester,
       InputDeviceMonitor inputDeviceMonitor) {
     this.context = context;
@@ -239,7 +235,6 @@ class Actors {
     this.universalSearchActor = universalSearchActor;
     this.geminiActor = geminiActor;
     this.serviceFlagRequester = serviceFlagRequester;
-    this.touchLatencyAdjustor = touchLatencyAdjustor;
     this.inputDeviceMonitor = inputDeviceMonitor;
 
     actorState =
@@ -295,7 +290,6 @@ class Actors {
     imageCaptioner.setPipeline(pipelineFeedbackReturner);
     universalSearchActor.setPipeline(pipelineFeedbackReturner);
     geminiActor.setPipeline(pipelineFeedbackReturner);
-    touchLatencyAdjustor.setPipeline(pipelineFeedbackReturner);
   }
 
   public void setUserInterface(UserInterface userInterface) {
@@ -465,13 +459,6 @@ class Actors {
         case NEXT_LANGUAGE -> languageSwitcher.selectPreviousOrNextLanguage(/* isNext= */ true);
         case SET_LANGUAGE -> languageSwitcher.setLanguage(language.currentLanguage());
       }
-    }
-
-    // Touch latency
-    @Nullable TouchLatency touchLatency = part.touchLatency();
-    if (touchLatency != null) {
-      boolean result = touchLatencyAdjustor.adjustLatency(touchLatency);
-      success &= result;
     }
 
     // System action

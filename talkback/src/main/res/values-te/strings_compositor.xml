@@ -172,8 +172,6 @@
   <string name="template_speech_rate_change">ప్రసంగ రేట్ %1$d%%</string>
   <string name="template_accessibility_volume_change_increase">యాక్సెసిబిలిటీ వాల్యూమ్‌ను %1$d శాతానికి పెంచండి.</string>
   <string name="template_accessibility_volume_change_decrease">యాక్సెసిబిలిటీ వాల్యూమ్‌ను %1$d శాతానికి తగ్గించండి.</string>
-  <string name="template_touch_latency_reach_maximum">గరిష్ఠం</string>
-  <string name="template_touch_latency_reach_minimum">కనిష్ఠం</string>
   <string name="template_volume_change_maximum">గరిష్ఠం</string>
   <string name="template_volume_change_minimum">కనిష్ఠం</string>
   <string name="template_volume_change_volume_up_curved_text">పెంచండి</string>
