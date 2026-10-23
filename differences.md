@@ -363,15 +363,8 @@ SandFly changes these default gestures:
 | Double-tap and hold with two fingers | Braille keyboard | Selection mode |
 | Triple-tap with two fingers | Speak status | Read from focused item |
 | Triple-tap and hold with two fingers | None | Turn speech on or off |
-| Rotate clockwise with two fingers | Next reading control | None |
-| Rotate counterclockwise with two fingers | Previous reading control | None |
-| Scrub with two fingers | Back | None |
-| Swipe up from the bottom edge | Home | None |
-| Long swipe up from the bottom edge | Overview (recent apps) | None |
-| Swipe down from the top left | Notifications | None |
-| Swipe down from the top right | Quick settings | None |
 
-SandFly recognizes the quadruple-tap with three fingers, the rotation gestures, the scrub and the edge gestures itself, so they require Android 13 or later and **Handle gestures in SandFly** turned on. You can assign any of these gestures to another action in gesture settings. Wear OS watches have defaults of their own; see [Wear OS watches](#wear-os-watches).
+SandFly recognizes the quadruple-tap with three fingers itself, so it requires Android 13 or later and **Handle gestures in SandFly** turned on. Wear OS watches have defaults of their own; see [Wear OS watches](#wear-os-watches).
 
 ### Navigation gestures
 
@@ -400,31 +393,15 @@ To choose what the gesture says and in what order, go to **Status readout**. Eac
 
 ### Rotor
 
-Turn two fingers on the screen like a dial to choose a reading control: clockwise for the next one, and counterclockwise for the previous one. Then swipe up or down to change it.
-
-Each step of 30 degrees, a twelfth of a turn, moves one reading control, so you can keep turning to move further. A quick flick moves exactly one step. If you often move past the reading control that you want, choose a larger step, from 15 to 60 degrees, in **Rotor turn per step** in gesture settings. Scrolling with two fingers doesn't turn the rotor.
-
-The rotor requires Android 13 or later and **Handle gestures in SandFly** turned on. You can assign other actions to **Rotate clockwise with 2 fingers** and **Rotate counterclockwise with 2 fingers** in gesture settings.
+The two-finger rotation rotor was removed so that touches reach touch exploration sooner; reading controls are chosen with the reading-control gestures instead.
 
 ### Edge gestures and scrub
 
-As in VoiceOver on iOS, you can slide one finger in from an edge of the screen. Start at the very edge, such as on the gesture navigation bar or the status bar, and slide in:
-
-- Up from the bottom edge: you feel a click like a home button after about a centimeter. Lift there to go home. Keep sliding for about four more centimeters to feel a second click, and lift there for Overview (recent apps).
-- Down from the left half of the top edge for notifications, or from the right half for quick settings, after the same click. A long swipe down from either half, to a second click, does nothing by default.
-- Right from the left edge, or left from the right edge. The top half and bottom half of each side edge are separate gestures, each with a first and second click. They do nothing by default.
-
-Only gestures that have an action click. A swipe that does nothing has no first click, and the slide stays an ordinary swipe until the second click. A long swipe that does nothing has no second click, so sliding further is still the swipe. Lifting before the first click there is an ordinary swipe. In a corner, the top or bottom edge comes first, unless its gestures do nothing.
-
-Sliding back from the second click to the first plays one short tap; sliding back to the edge plays two, and lifting there cancels the gesture. To turn off the clicks, turn off **Edge gesture middle** and **Edge gesture top** under vibrations in **Individual sounds and vibrations**; to turn off the taps, turn off **Edge gesture slide back**. A sound theme can give each stage a sound; see [Navigation sounds](#navigation-sounds). A slide that starts away from the edge, or that takes longer than about half a second to reach the first click, is an ordinary swipe or touch exploration. A finger resting at the edge for 0.2 seconds is touch exploration.
-
-To scrub, move two fingers quickly one way across the screen and back, each stroke about a centimeter long. By default, this goes back. Two fingers moved one way only still scroll.
-
-You can assign other actions to all of these in gesture settings, under **Edges** and **2 fingers**. Under **Edges**, **Distance to first click** sets how far you slide in from the edge to the first click, from 0.5 to 2 cm (1 cm by default), and **Distance from first to second click** how far you slide on to the second, from 1 to 5 cm (4 cm by default).
+The edge gestures and the two-finger scrub were removed so that touches near the edges, such as the bottom row of the keyboard, reach touch exploration sooner.
 
 ### Pinch and spread
 
-You can assign actions to pinching and spreading with two, three or four fingers in gesture settings. They do nothing by default. A pinch or spread counts once the fingers have moved about half a centimeter toward or away from their middle, and by a third of the distance, without moving together or turning much. While a two-finger pinch or spread has an action, a two-finger movement that pinches more than it moves waits before it reaches the app, so apps that zoom with two fingers may not zoom until you set both to nothing. A scrub set to nothing is left to ordinary two-finger movements. While a scrub is still possible, a sideways scroll with two fingers waits for up to about half a second before it starts. Pinches and spreads require Android 13 or later and **Handle gestures in SandFly** turned on, and aren't on watches.
+Pinch and spread gestures were removed so that two-finger movements reach apps without waiting to be told apart from them.
 
 ### Lift to activate
 
@@ -464,9 +441,9 @@ When a window opens, or you go back, TalkBack moves focus into it: back to the i
 
 ### Gestures recognized by SandFly
 
-By default, SandFly recognizes gestures itself instead of leaving this to Android, which makes the rotor, the edge gestures, the scrub and the quadruple-tap with three fingers possible. TalkBack leaves this off.
+By default, SandFly recognizes gestures itself instead of leaving this to Android, which makes the quadruple-tap with three fingers and SandFly's own typing delays possible. TalkBack leaves this off.
 
-To let Android recognize gestures again, turn off **Advanced settings** > **Developer settings** > **Handle gestures in SandFly**, and then turn SandFly off and on again. When this setting is off, the rotor, the edge gestures, the scrub and the quadruple-tap with three fingers don't work, and **Time between one-finger taps** is hidden.
+To let Android recognize gestures again, turn off **Advanced settings** > **Developer settings** > **Handle gestures in SandFly**, and then turn SandFly off and on again. When this setting is off, the quadruple-tap with three fingers doesn't work, **Time between one-finger taps** is hidden, and Android's own unchangeable delay decides when touch exploration starts, which makes typing slower.
 
 ## Navigation
 
