@@ -47,6 +47,7 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeNotificationStateChangedFeedbackRule
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService
 import com.google.android.accessibility.talkback.scripting.Scripts
+import com.google.android.accessibility.talkback.timer.StopwatchEngine
 import com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.FeedbackItem
@@ -109,6 +110,7 @@ object NotificationReader {
   private var sensors: StopSensors? = null
   private var languageIdentifier: LanguageIdentifier? = null
   private var schedules: SpokenSchedules? = null
+  private var stopwatch: StopwatchEngine? = null
   /** The voices of the voice profiles that notifications are read with, by profile ID. */
   private val voices = HashMap<String, NotificationVoice>()
   private var isSandFlySpeaking: () -> Boolean = { false }
@@ -225,6 +227,11 @@ object NotificationReader {
     )
     SharedPreferencesUtils.getSharedPreferences(app).registerOnSharedPreferenceChangeListener(settingsListener)
     schedules = SpokenSchedules(app) { text, interrupt -> announce(text, interrupt) }.also { it.start() }
+    stopwatch =
+      StopwatchEngine(app, { text, interrupt -> announce(text, interrupt) }) { builder ->
+          this.feedback?.returnFeedback(EVENT_ID_UNTRACKED, builder)
+        }
+        .also { it.start() }
     updateVoices(SharedPreferencesUtils.getSharedPreferences(app))
   }
 
@@ -236,6 +243,8 @@ object NotificationReader {
     cancelAll()
     schedules?.stop()
     schedules = null
+    stopwatch?.stop()
+    stopwatch = null
     voices.values.forEach { it.shutdown() }
     voices.clear()
     isSandFlySpeaking = { false }
@@ -251,6 +260,13 @@ object NotificationReader {
     feedback = null
     stopSpeech = null
     context = null
+  }
+
+  /** Starts the stopwatch if it is stopped, and stops it if it is running. */
+  @JvmStatic
+  @MainThread
+  fun toggleStopwatch() {
+    stopwatch?.toggle()
   }
 
   /** Tells which app is in front, for the rules. */

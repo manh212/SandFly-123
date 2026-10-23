@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Timer settings: the time announcements moved from Notifications, and the stopwatch. -->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/notification_category_clock">
+    <ListPreference
+        android:defaultValue="0"
+        android:key="pref_notification_clock_interval"
+        android:summary="%s"
+        android:title="@string/notification_clock_interval_title" />
+    <EditTextPreference
+        android:dialogMessage="@string/notification_clock_format_message"
+        android:key="pref_notification_clock_format"
+        android:title="@string/notification_clock_format_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_notification_clock_exact"
+        android:summary="@string/notification_clock_exact_summary"
+        android:title="@string/notification_clock_exact_title" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.timer.StopwatchFragment"
+      android:key="pref_stopwatch_screen"
+      android:title="@string/stopwatch_title" />
+</PreferenceScreen>

@@ -100,6 +100,14 @@
         android:title="@string/notification_automation_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="pref_category_timer"
+      android:title="@string/timer_settings_title">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.timer.TimerSettingsFragment"
+        android:key="pref_timer_settings_screen"
+        android:title="@string/timer_settings_title" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_controls_key"
       android:title="@string/title_pref_category_controls">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
