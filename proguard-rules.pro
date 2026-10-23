@@ -21,6 +21,24 @@
 # offline translation (ML Kit Translate) and text recognition register theirs this way.
 -keep class * implements com.google.firebase.components.ComponentRegistrar { <init>(); }
 
+# Role.java names these library classes as strings and ClassLoadingCache loads them by
+# name; nothing references them statically, so without these keeps R8 shrinks them and
+# node roles are misread, silently, in other apps. Found by the pre-trial audit of this
+# fork (ClassLoadingCache.java:59, Role.java); only the classes are kept, since loading
+# and isAssignableFrom do not construct them.
+-keep class com.google.android.material.navigation.NavigationView
+-keep class com.google.android.material.navigation.NavigationBarView
+-keep class com.google.android.material.navigationrail.NavigationRailView
+-keep class com.google.android.material.snackbar.BaseTransientBottomBar
+-keep class com.google.android.material.floatingactionbutton.FloatingActionButton
+-keep class androidx.recyclerview.widget.StaggeredGridLayoutManager
+
+# kotlinx-coroutines loads its Android main dispatcher through ServiceLoader
+# (META-INF/services), and the Gemini screens use Dispatchers.Main. Recent
+# coroutines-android versions ship a rule for this; it is kept explicitly so the trial
+# does not depend on that.
+-keep class kotlinx.coroutines.android.AndroidDispatcherFactory { *; }
+
 # LiteRT-LM's native library calls back into its Java classes by name, and it has no
 # rules. The on-device AI (Gemma) runs through it.
 -keep class com.google.ai.edge.litertlm.** { *; }
