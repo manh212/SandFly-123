@@ -31,6 +31,7 @@ import android.media.AudioManager;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.SpannableStringBuilder;
@@ -46,6 +47,7 @@ import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.controller.TelevisionNavigationController;
 import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.status.StatusItem;
+import com.google.android.accessibility.talkback.timer.Stopwatch;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils.TimeFeedbackFormat;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -119,6 +121,14 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
   private final List<DeviceUnlockedListener> deviceUnlockedListeners = new CopyOnWriteArrayList<>();
 
   private boolean monitoring = false;
+
+  /** The {@link SystemClock#uptimeMillis()} of the last screen-on, or 0 while it is off. */
+  private static volatile long lastScreenOnTimeMs = 0;
+
+  /** Returns when the screen last turned on, to time key presses against it. */
+  public static long getLastScreenOnTimeMs() {
+    return lastScreenOnTimeMs;
+  }
 
   private final ExecutorService executor;
   private final Handler mainHandler = new Handler(Looper.getMainLooper());
@@ -208,6 +218,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
               intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE, AudioManager.RINGER_MODE_NORMAL));
       case Intent.ACTION_SCREEN_ON -> {
         isInteractive = true;
+        lastScreenOnTimeMs = SystemClock.uptimeMillis();
         AudioDeviceRouter router = AudioDeviceRouter.getInstance();
         if (router != null) {
           router.ensureRouting();
@@ -217,6 +228,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
       }
       case Intent.ACTION_SCREEN_OFF -> {
         isInteractive = false;
+        lastScreenOnTimeMs = 0;
         AudioDeviceRouter router = AudioDeviceRouter.getInstance();
         if (router != null) {
           router.ensureRouting();
@@ -491,7 +503,14 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
     }
 
     final String currentTime = DateTimeUtils.getCurrentTime(service, timeFormat);
-    StringBuilderUtils.appendWithSeparator(builder, currentTime);
+    // While the stopwatch runs, how long it has run is said in place of the time alone.
+    String elapsed = Stopwatch.elapsedText(service);
+    if (elapsed != null) {
+      StringBuilderUtils.appendWithSeparator(
+          builder, service.getString(R.string.stopwatch_elapsed_now, elapsed, currentTime));
+    } else {
+      StringBuilderUtils.appendWithSeparator(builder, currentTime);
+    }
   }
 
   /**

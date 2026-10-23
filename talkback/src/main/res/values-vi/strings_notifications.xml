@@ -131,6 +131,18 @@
     <string name="notification_clock_format_default">Bây giờ là {time}</string>
     <string name="notification_clock_exact_title">Thời gian chính xác</string>
     <string name="notification_clock_exact_summary">Cần quyền Báo thức và lời nhắc. Nếu không, thời gian có thể được đọc trễ tới một phút.</string>
+    <string name="timer_settings_title">Cài đặt hẹn giờ</string>
+    <string name="stopwatch_title">Đồng hồ bấm giờ</string>
+    <string name="stopwatch_volume_activation_title">Kích hoạt bấm giờ bằng phím âm lượng</string>
+    <string name="stopwatch_sound_title">Âm thanh</string>
+    <string name="stopwatch_vibration_title">Rung</string>
+    <string name="stopwatch_interval_title">Nhắc lại mỗi</string>
+    <string name="stopwatch_history_title">Lịch sử hẹn giờ</string>
+    <string name="stopwatch_history_clear">Xóa lịch sử</string>
+    <string name="stopwatch_history_empty">Chưa có lần bấm giờ nào</string>
+    <string name="stopwatch_started">Đã bắt đầu bấm giờ</string>
+    <string name="stopwatch_stopped">Đã dừng. Tổng <xliff:g id="duration" example="1 giờ 2 phút">%1$s</xliff:g></string>
+    <string name="stopwatch_elapsed_now"><xliff:g id="elapsed" example="1 giờ 2 phút">%1$s</xliff:g> đã trôi qua, bây giờ là <xliff:g id="time" example="7:45">%2$s</xliff:g></string>
     <string name="notification_other_apps_title">Ứng dụng khác</string>
     <string name="notification_apps_category">Ứng dụng</string>
     <string name="notification_apps_loading">Đang tải danh sách ứng dụng</string>

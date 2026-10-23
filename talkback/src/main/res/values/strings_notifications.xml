@@ -263,6 +263,30 @@
     <string name="notification_clock_exact_title">Exact times</string>
     <!-- Summary of the exact times switch. -->
     <string name="notification_clock_exact_summary">Needs Alarms and reminders. Otherwise the time can be said up to a minute late.</string>
+    <!-- Heading of the timer settings, and of the screen they open. -->
+    <string name="timer_settings_title">Timer settings</string>
+    <!-- Setting screen of the stopwatch. -->
+    <string name="stopwatch_title">Stopwatch</string>
+    <!-- Switch: holding volume up just after the screen turns on, while the phone is locked, starts or stops the stopwatch. -->
+    <string name="stopwatch_volume_activation_title">Activate stopwatch with volume key</string>
+    <!-- Switch: a sound is played when the stopwatch starts, stops and reminds. -->
+    <string name="stopwatch_sound_title">Sound</string>
+    <!-- Switch: the phone vibrates when the stopwatch starts, stops and reminds. -->
+    <string name="stopwatch_vibration_title">Vibration</string>
+    <!-- Setting: how often the stopwatch says how long it has run. -->
+    <string name="stopwatch_interval_title">Remind every</string>
+    <!-- Screen: the stopwatch runs that have finished. -->
+    <string name="stopwatch_history_title">Timer history</string>
+    <!-- Action that removes every entry of the timer history. -->
+    <string name="stopwatch_history_clear">Clear history</string>
+    <!-- Shown in the timer history when no stopwatch run has finished. -->
+    <string name="stopwatch_history_empty">No timers yet</string>
+    <!-- Said when the stopwatch starts. -->
+    <string name="stopwatch_started">Stopwatch started</string>
+    <!-- Said when the stopwatch stops, with how long it ran. -->
+    <string name="stopwatch_stopped">Stopped. <xliff:g id="duration" example="1 hour 2 minutes">%1$s</xliff:g></string>
+    <!-- Said when the screen turns on while the stopwatch runs: how long it has run, then the time. -->
+    <string name="stopwatch_elapsed_now"><xliff:g id="elapsed" example="1 hour 2 minutes">%1$s</xliff:g> elapsed, it\'s now <xliff:g id="time" example="7:45">%2$s</xliff:g></string>
     <!-- Setting: how notifications of apps without their own setting are read. -->
     <string name="notification_other_apps_title">Other apps</string>
     <!-- Heading of the list of apps. -->

@@ -215,6 +215,7 @@ import com.google.android.accessibility.talkback.monitor.ProximitySensorMonitor;
 import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
+import com.google.android.accessibility.talkback.timer.StopwatchVolumeKey;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
@@ -1436,6 +1437,9 @@ public class TalkBackService extends AccessibilityServiceCompat
             && (keyEvent.getModifiers() & keyComboManager.getKeyComboModel().getTriggerModifier())
                 != 0;
     if (NotificationReader.onKeyEvent(keyEvent)) {
+      return true;
+    }
+    if (StopwatchVolumeKey.onKeyEvent(this, keyEvent)) {
       return true;
     }
     if (adjustSliderWithVolumeKey(keyEvent, triggerModifierPressed)) {
