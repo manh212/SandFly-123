@@ -32,7 +32,6 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
-import com.google.android.accessibility.utils.FeatureSupport
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech
 import com.google.android.accessibility.utils.output.LowLatencyAudio
@@ -138,7 +137,8 @@ object DiagnosticsExport {
     try {
       val info = context.packageManager.getPackageInfo(context.packageName, 0)
       val code =
-        if (FeatureSupport.supportLongVersionCode()) info.longVersionCode else info.versionCode
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) info.longVersionCode
+        else info.versionCode.toLong()
       out.append("SandFly: ${info.versionName} (version code $code)\n")
     } catch (e: PackageManager.NameNotFoundException) {
       out.append("SandFly: version unknown\n")
