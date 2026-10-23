@@ -587,6 +587,7 @@ public class SelectorController implements UserInputEventListener {
   private final Context context;
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
   private final Pipeline.FeedbackReturner pipeline;
+  private final VerticalNavigator verticalNavigator;
   private final ActorState actorState;
   private final NodeMenuRuleCreator nodeMenuCreator;
   private final TalkBackAnalytics analytics;
@@ -733,6 +734,7 @@ public class SelectorController implements UserInputEventListener {
     this.pipeline = pipeline;
     this.actorState = actorState;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
+    verticalNavigator = new VerticalNavigator(pipeline, accessibilityFocusMonitor);
     this.nodeMenuCreator = nodeMenuCreator;
     this.analytics = analytics;
     this.gestureMapping = gestureMapping;
@@ -1321,6 +1323,9 @@ public class SelectorController implements UserInputEventListener {
   @Override
   public void touchInteractionState(boolean active) {
     touchActive = active;
+    if (active) {
+      verticalNavigator.cancel();
+    }
     if (!touchActive) {
       if (lastFocusedNode != null) {
         switchCurrentSetting(lastFocusedNode);
@@ -2106,35 +2111,11 @@ public class SelectorController implements UserInputEventListener {
   }
 
   /**
-   * Moves to the item below or above the focused one, past the other items of its row. With no such
-   * item on screen, moves to the next or previous item as a swipe does, which scrolls.
+   * Moves to the item below or above the focused one, past the other items of its row, and scrolls
+   * the list when there is none on screen.
    */
   private void moveVertically(EventId eventId, boolean isNext) {
-    @Nullable AccessibilityNodeInfoCompat focus =
-        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-    @Nullable AccessibilityNodeInfoCompat target =
-        (focus == null) ? null : VerticalNavigation.target(focus, isNext);
-    if (target != null) {
-      pipeline.returnFeedback(
-          eventId,
-          Feedback.focus(
-              target,
-              FocusActionInfo.builder()
-                  .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
-                  .build()));
-      return;
-    }
-    boolean moved =
-        pipeline.returnFeedback(
-            eventId,
-            Feedback.focusDirection(isNext ? SEARCH_FOCUS_FORWARD : SEARCH_FOCUS_BACKWARD)
-                .setGranularity(CursorGranularity.DEFAULT)
-                .setInputMode(INPUT_MODE_TOUCH)
-                .setDefaultToInputFocus(true)
-                .setScroll(true));
-    if (!moved) {
-      pipeline.returnFeedback(eventId, Feedback.sound(R.raw.complete));
-    }
+    verticalNavigator.move(eventId, isNext);
   }
 
   /** Changes the volume speech and sounds play at to the next or previous of the four. */

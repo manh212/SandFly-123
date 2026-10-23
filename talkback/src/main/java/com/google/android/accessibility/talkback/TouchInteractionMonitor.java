@@ -96,6 +96,7 @@ import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration;
 import com.google.android.accessibility.talkback.gesture.EdgeSwipeTracker;
 import com.google.android.accessibility.talkback.gesture.EdgeSwipeTracker.Edge;
+import com.google.android.accessibility.talkback.gesture.GestureLog;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.PinchTracker;
 import com.google.android.accessibility.talkback.gesture.TapToTypeTracker;
@@ -121,6 +122,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Queue;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -152,9 +154,6 @@ public class TouchInteractionMonitor
   // How close to the top or bottom edge a one-finger edge gesture must start, about the height of
   // the gesture navigation bar.
   private static final float EDGE_GESTURE_ZONE_CM = 0.5f;
-  // How far an edge gesture slides in to reach its first and second stage.
-  private static final float EDGE_GESTURE_FIRST_STAGE_CM = 1f;
-  private static final float EDGE_GESTURE_SECOND_STAGE_CM = 5f;
   // The length of each stroke of a two-finger scrub.
   private static final float SCRUB_STROKE_CM = 1f;
   // How far the fingers of a pinch or spread move toward or away from their middle, on average.
@@ -222,6 +221,9 @@ public class TouchInteractionMonitor
   // Recognizes one finger sliding in from the top or bottom edge. A recognized slide owns the
   // whole touch.
   private final EdgeSwipeTracker edgeSwipeTracker;
+  private final float pixelsPerCm;
+  // Why the current two-finger touch last waited before going to the app, for the gesture log.
+  @Nullable private String twoFingerWait;
   // The screen size when the current touch started, for the edge gestures.
   private final Point screenSize = new Point();
   // Whether touch exploration was requested while an edge swipe could still start, and waits for
@@ -436,16 +438,15 @@ public class TouchInteractionMonitor
     rotationTracker =
         new TwoFingerRotationTracker(passthroughTotalSlop, touchSlop, this::onRotationStep);
     DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-    float pixelsPerCm = displayMetrics.ydpi / GestureUtils.CM_PER_INCH;
+    pixelsPerCm = displayMetrics.ydpi / GestureUtils.CM_PER_INCH;
     edgeSwipeTracker =
         new EdgeSwipeTracker(
             pixelsPerCm * EDGE_GESTURE_ZONE_CM,
-            new float[] {
-              pixelsPerCm * EDGE_GESTURE_FIRST_STAGE_CM, pixelsPerCm * EDGE_GESTURE_SECOND_STAGE_CM
-            },
+            new float[2],
             touchSlop,
             this::edgeStages,
             edgeSwipeListener);
+    readEdgeClickDistances(prefs);
     scrubTracker = new TwoFingerScrubTracker(pixelsPerCm * SCRUB_STROKE_CM, this::onScrub);
     pinchTracker =
         new PinchTracker(pixelsPerCm * PINCH_CHANGE_CM, this::isPinchCountInUse, this::onPinch);
@@ -542,9 +543,30 @@ public class TouchInteractionMonitor
             R.string.pref_multi_tap_timeout_default));
   }
 
+  /** Reads how far edge gestures slide in to their first click, and on to their second. */
+  private void readEdgeClickDistances(SharedPreferences prefs) {
+    int first =
+        SharedPreferencesUtils.getIntFromStringPref(
+            prefs,
+            context.getResources(),
+            R.string.pref_edge_first_click_mm_key,
+            R.string.pref_edge_first_click_mm_default);
+    int second =
+        SharedPreferencesUtils.getIntFromStringPref(
+            prefs,
+            context.getResources(),
+            R.string.pref_edge_second_click_mm_key,
+            R.string.pref_edge_second_click_mm_default);
+    edgeSwipeTracker.setStageDistances(
+        pixelsPerCm * Math.max(first, 1) / 10f, pixelsPerCm * Math.max(second, 1) / 10f);
+  }
+
   private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
       (prefs, key) -> {
-        if (context.getString(R.string.pref_typing_focus_time_out_key).equals(key)) {
+        if (context.getString(R.string.pref_edge_first_click_mm_key).equals(key)
+            || context.getString(R.string.pref_edge_second_click_mm_key).equals(key)) {
+          readEdgeClickDistances(prefs);
+        } else if (context.getString(R.string.pref_typing_focus_time_out_key).equals(key)) {
           typingFocusUserIntentTimeout =
               SharedPreferencesUtils.getIntFromStringPref(
                       prefs,
@@ -632,7 +654,7 @@ public class TouchInteractionMonitor
         waitFirstMotionEvent = false;
       }
       if (clearGestureDetectorOnNextDown && event.getActionMasked() == ACTION_DOWN) {
-        if (BuildConfig.DEBUG) {
+        if (GestureLog.getEnabled()) {
           Log.d(DEBUG_GESTURE_TAG, "New touch after a dispatched gesture, clearing matchers");
         }
         clearGestureDetectorOnNextDown = false;
@@ -665,6 +687,7 @@ public class TouchInteractionMonitor
           requestTouchExplorationDelayed.cancel();
         }
         requestTouchExplorationDelayed.post();
+        twoFingerWait = null;
       }
       case ACTION_MOVE -> {
         switch (event.getPointerCount()) {
@@ -705,23 +728,38 @@ public class TouchInteractionMonitor
               boolean scrollPastSwipeSlop =
                   rotationTracker.isScroll() && maxMoveDelta >= passthroughTotalSlop;
               if (minMoveDelta < passthroughTotalSlop && !scrollPastSwipeSlop) {
+                logTwoFingerWait(
+                    String.format(
+                        Locale.ROOT,
+                        "slop %d, fingers moved %.0f and %.0f",
+                        passthroughTotalSlop,
+                        minMoveDelta,
+                        maxMoveDelta));
                 return;
               }
             }
             if (rotationTracker.isPossibleRotation()) {
               // The fingers are turning around each other. Wait until it is clear whether this is
               // a rotation before scrolling or passing the touch to the app.
+              logTwoFingerWait("possible rotation");
               return;
             }
             if (pinchTracker.isPossiblePinch()) {
               // The fingers are moving toward or away from each other. Wait until it is clear
               // whether this is a pinch or spread.
+              logTwoFingerWait("possible pinch");
               return;
             }
             if (isDraggingGesture(event)) {
               computeDraggingPointerIdIfNeeded(event);
+              if (GestureLog.getEnabled()) {
+                Log.d(DEBUG_GESTURE_TAG, "Two fingers: dragging pointer " + draggingPointerId);
+              }
               requestDragging(draggingPointerId, "handleMotionEventStateTouchInteracting");
             } else {
+              if (GestureLog.getEnabled()) {
+                Log.d(DEBUG_GESTURE_TAG, "Two fingers: delegating, not a drag");
+              }
               requestDelegating("handleMotionEventStateTouchInteracting-2-points");
             }
             break;
@@ -737,6 +775,19 @@ public class TouchInteractionMonitor
       case ACTION_POINTER_DOWN -> requestTouchExplorationDelayed.cancel();
       default -> {}
     }
+  }
+
+  /** Logs why a two-finger touch waits before it goes to the app, once for each reason. */
+  private void logTwoFingerWait(String reason) {
+    if (!GestureLog.getEnabled()) {
+      return;
+    }
+    String kind = reason.startsWith("slop") ? "slop" : reason;
+    if (kind.equals(twoFingerWait)) {
+      return;
+    }
+    twoFingerWait = kind;
+    Log.d(DEBUG_GESTURE_TAG, "Two fingers wait: " + reason);
   }
 
   public void handleMotionEventStateDragging(MotionEvent event) {
@@ -772,7 +823,7 @@ public class TouchInteractionMonitor
   @SuppressWarnings("Override")
   @Override
   public void onStateChanged(int state) {
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(
           DEBUG_GESTURE_TAG,
           TouchInteractionController.stateToString(this.state)
@@ -1094,7 +1145,7 @@ public class TouchInteractionMonitor
 
   @Override
   public void onGestureCompleted(AccessibilityGestureEvent gestureEvent) {
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(
           DEBUG_GESTURE_TAG,
           "Gesture "
@@ -1245,7 +1296,7 @@ public class TouchInteractionMonitor
         || gestureStarted) {
       return false;
     }
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(DEBUG_GESTURE_TAG, "Tap to type");
     }
     keepMonitorTouchExplore = false;
@@ -1282,7 +1333,7 @@ public class TouchInteractionMonitor
         && (state != STATE_TOUCH_INTERACTING
             || gestureStarted
             || !gestureDetector.isMultiFingerGesturesEnabled())) {
-      if (BuildConfig.DEBUG && event.getActionMasked() == ACTION_POINTER_DOWN) {
+      if (GestureLog.getEnabled() && event.getActionMasked() == ACTION_POINTER_DOWN) {
         Log.d(
             DEBUG_GESTURE_TAG,
             "Rotation not possible: state="
@@ -1298,7 +1349,7 @@ public class TouchInteractionMonitor
     }
     if (!wasRotating) {
       // The rotation starts. No other gesture, touch exploration or passthrough for this touch.
-      if (BuildConfig.DEBUG) {
+      if (GestureLog.getEnabled()) {
         Log.d(DEBUG_GESTURE_TAG, "Two-finger rotation started");
       }
       keepMonitorTouchExplore = false;
@@ -1476,7 +1527,7 @@ public class TouchInteractionMonitor
             return;
           }
           int gestureId = edgeGestureId(edge, stage);
-          if (BuildConfig.DEBUG) {
+          if (GestureLog.getEnabled()) {
             Log.d(
                 DEBUG_GESTURE_TAG,
                 "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));
@@ -1520,7 +1571,7 @@ public class TouchInteractionMonitor
   private void onScrub() {
     takeOverTouch();
     rotationTracker.clear();
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(
           DEBUG_GESTURE_TAG,
           "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(GESTURE_2_FINGER_SCRUB));
@@ -1562,7 +1613,7 @@ public class TouchInteractionMonitor
     rotationTracker.clear();
     scrubTracker.clear();
     int gestureId = pinchGestureId(fingerCount, spread);
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(
           DEBUG_GESTURE_TAG,
           "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));
@@ -1589,7 +1640,7 @@ public class TouchInteractionMonitor
   private void onRotationStep(boolean clockwise) {
     int gestureId =
         clockwise ? GESTURE_2_FINGER_ROTATE_CLOCKWISE : GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE;
-    if (BuildConfig.DEBUG) {
+    if (GestureLog.getEnabled()) {
       Log.d(
           DEBUG_GESTURE_TAG,
           "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));

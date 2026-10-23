@@ -374,4 +374,8 @@
         <item>@string/notification_shake_3</item>
     </string-array>
     <string name="notification_outcome_call">Đã đọc dưới dạng cuộc gọi</string>
+    <string name="notification_action_voice">đọc bằng một hồ sơ giọng nói</string>
+    <string name="notification_action_voice_value">đọc bằng <xliff:g id="profile" example="DECtalk">%1$s</xliff:g></string>
+    <string name="notification_action_voice_sandfly">đọc bằng giọng của SandFly</string>
+    <string name="notification_voice_removed">Đã xóa hồ sơ giọng nói</string>
 </resources>
