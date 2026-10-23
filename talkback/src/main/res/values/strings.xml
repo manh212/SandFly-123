@@ -1525,6 +1525,27 @@
     <string name="title_pref_diagnosis_mode">Diagnosis mode</string>
     <!--
       Source: Preference title.
+      Description: This preference opens the screen that exports SandFly's diagnostics.
+    -->
+    <string name="title_pref_export_diagnostics">Export diagnostics</string>
+    <!--
+      Source: Preference title.
+      Description: This preference saves SandFly's diagnostics as a file in Downloads.
+    -->
+    <string name="title_pref_export_diagnostics_to_downloads">Export log to Downloads</string>
+    <!--
+      Source: Preference title.
+      Description: This preference copies SandFly's diagnostics to the clipboard.
+    -->
+    <string name="title_pref_copy_diagnostics">Copy log</string>
+    <!-- Message shown when the diagnostics file has been saved to Downloads. [CHAR LIMIT=NONE] -->
+    <string name="message_diagnostics_saved_to_downloads">Diagnostics saved to Downloads</string>
+    <!-- Message shown when the diagnostics file could not be saved. [CHAR LIMIT=NONE] -->
+    <string name="message_diagnostics_save_failed">Diagnostics could not be saved</string>
+    <!-- Message shown when the diagnostics have been copied to the clipboard. [CHAR LIMIT=NONE] -->
+    <string name="message_diagnostics_copied">Diagnostics copied</string>
+    <!--
+      Source: Preference title.
       Description: This preference allows the user to show speech output on the screen.
     -->
     <string name="title_pref_tts_overlay">Display speech output</string>

@@ -783,6 +783,10 @@ While SandFly is on, it checks for replies and status changes every hour, and wh
 
 **Export settings** saves SandFly's settings to a file, and **Import settings** replaces them with a file's, such as one from another phone. API keys stay on the phone. Import settings also reads a settings file exported from Backtalk: the settings in it replace SandFly's, and SandFly's own settings that Backtalk doesn't have are kept.
 
+### Export diagnostics
+
+**Export diagnostics**, in **Developer settings**, collects what SandFly itself knows for debugging into one small text file: the phone and the app version, SandFly's state — including its speech engine and the state of the low-latency audio path — the last crash, and SandFly's recent log. **Export log to Downloads** saves the file in Downloads, and **Copy log** copies it instead, to send to whoever is helping. SandFly sends the diagnostics nowhere itself. The file can contain text SandFly has spoken and other personal information, so it is meant to be shared deliberately.
+
 ### App icon that opens the settings
 
 SandFly has an app icon in the launcher, labelled SandFly, that opens its settings. TalkBack's settings open only from the accessibility settings, which need TalkBack to be on. SandFly's settings open from the icon whether SandFly is on or off, so you can set it up, or change a setting, without turning it on first.
