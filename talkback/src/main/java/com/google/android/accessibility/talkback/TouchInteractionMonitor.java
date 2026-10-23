@@ -36,29 +36,6 @@ import static com.google.android.accessibility.talkback.PrimesController.TimerAc
 import static com.google.android.accessibility.talkback.PrimesController.TimerAction.TOUCH_EXPLORE_DELAY_TYPING_200;
 import static com.google.android.accessibility.talkback.PrimesController.TimerAction.TOUCH_EXPLORE_DELAY_TYPING_250;
 import static com.google.android.accessibility.utils.gestures.GestureAnalyticsEvent.EVENT_TAP_TO_TOUCH_EXPLORE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_ROTATE_CLOCKWISE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SCRUB;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_3_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_3_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_4_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_4_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING_AND_HOLD;
 import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_UP_TOUCH_EXPLORE;
@@ -72,12 +49,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.res.Configuration;
-import android.graphics.Point;
 import android.graphics.Region;
 import android.os.Build;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
@@ -94,14 +69,8 @@ import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration;
-import com.google.android.accessibility.talkback.gesture.EdgeSwipeTracker;
-import com.google.android.accessibility.talkback.gesture.EdgeSwipeTracker.Edge;
 import com.google.android.accessibility.talkback.gesture.GestureLog;
-import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
-import com.google.android.accessibility.talkback.gesture.PinchTracker;
 import com.google.android.accessibility.talkback.gesture.TapToTypeTracker;
-import com.google.android.accessibility.talkback.gesture.TwoFingerRotationTracker;
-import com.google.android.accessibility.talkback.gesture.TwoFingerScrubTracker;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
@@ -113,7 +82,6 @@ import com.google.android.accessibility.utils.gestures.GestureManifold;
 import com.google.android.accessibility.utils.gestures.GestureManifold.GestureConfigProvider;
 import com.google.android.accessibility.utils.gestures.GestureMatcher.AnalyticsEventLogger;
 import com.google.android.accessibility.utils.gestures.GestureUtils;
-import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.EvictingQueue;
 import com.google.common.collect.ImmutableList;
@@ -151,13 +119,6 @@ public class TouchInteractionMonitor
   // The height of the top and bottom edges for  edge-swipes.
   // For now this is only used to allow three-finger edge-swipes from the bottom.
   private static final float EDGE_SWIPE_HEIGHT_CM = 0.25f;
-  // How close to the top or bottom edge a one-finger edge gesture must start, about the height of
-  // the gesture navigation bar.
-  private static final float EDGE_GESTURE_ZONE_CM = 0.5f;
-  // The length of each stroke of a two-finger scrub.
-  private static final float SCRUB_STROKE_CM = 1f;
-  // How far the fingers of a pinch or spread move toward or away from their middle, on average.
-  private static final float PINCH_CHANGE_CM = 0.5f;
 
   // Queue size to hold the most recent change requests of controller state.
   private static final int MAX_CHANGE_REQUEST_SIZE = 5;
@@ -216,26 +177,8 @@ public class TouchInteractionMonitor
   // gesture's events cancel the gesture matchers, so a new first finger down in the same
   // interaction must clear them again.
   private boolean clearGestureDetectorOnNextDown = false;
-  // Recognizes two fingers turning around each other. A recognized rotation owns the whole touch.
-  private final TwoFingerRotationTracker rotationTracker;
-  // Recognizes one finger sliding in from the top or bottom edge. A recognized slide owns the
-  // whole touch.
-  private final EdgeSwipeTracker edgeSwipeTracker;
-  private final float pixelsPerCm;
   // Why the current two-finger touch last waited before going to the app, for the gesture log.
   @Nullable private String twoFingerWait;
-  // The screen size when the current touch started, for the edge gestures.
-  private final Point screenSize = new Point();
-  // Whether touch exploration was requested while an edge swipe could still start, and waits for
-  // the edge swipe to be rejected.
-  private boolean touchExplorationHeldForEdgeSwipe;
-  // Ends the wait for an edge swipe when the finger stops moving.
-  private final Runnable edgeSwipeStallCheck = this::checkEdgeSwipeStall;
-  // Recognizes the two-finger scrub. A recognized scrub owns the rest of the touch.
-  private final TwoFingerScrubTracker scrubTracker;
-  // Recognizes pinches and spreads with two to four fingers. A recognized one owns the rest of the
-  // touch.
-  private final PinchTracker pinchTracker;
   private final TapToTypeTracker tapToTypeTracker;
   // Whether double tap and double tap and hold will be dispatched to the service or handled in
   // the framework.
@@ -435,21 +378,6 @@ public class TouchInteractionMonitor
     int passthroughSlopMultiplier =
         context.getResources().getInteger(R.integer.config_passthrough_slop_multiplier);
     passthroughTotalSlop = passthroughSlopMultiplier * touchSlop;
-    rotationTracker =
-        new TwoFingerRotationTracker(passthroughTotalSlop, touchSlop, this::onRotationStep);
-    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-    pixelsPerCm = displayMetrics.ydpi / GestureUtils.CM_PER_INCH;
-    edgeSwipeTracker =
-        new EdgeSwipeTracker(
-            pixelsPerCm * EDGE_GESTURE_ZONE_CM,
-            new float[2],
-            touchSlop,
-            this::edgeStages,
-            edgeSwipeListener);
-    readEdgeClickDistances(prefs);
-    scrubTracker = new TwoFingerScrubTracker(pixelsPerCm * SCRUB_STROKE_CM, this::onScrub);
-    pinchTracker =
-        new PinchTracker(pixelsPerCm * PINCH_CHANGE_CM, this::isPinchCountInUse, this::onPinch);
     tapToTypeTracker = new TapToTypeTracker(touchSlop);
     sharedPreferences = prefs;
     typingFocusTimeout = FeatureFlagReader.typingFocusTimeout(service);
@@ -543,30 +471,9 @@ public class TouchInteractionMonitor
             R.string.pref_multi_tap_timeout_default));
   }
 
-  /** Reads how far edge gestures slide in to their first click, and on to their second. */
-  private void readEdgeClickDistances(SharedPreferences prefs) {
-    int first =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_edge_first_click_mm_key,
-            R.string.pref_edge_first_click_mm_default);
-    int second =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_edge_second_click_mm_key,
-            R.string.pref_edge_second_click_mm_default);
-    edgeSwipeTracker.setStageDistances(
-        pixelsPerCm * Math.max(first, 1) / 10f, pixelsPerCm * Math.max(second, 1) / 10f);
-  }
-
   private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
       (prefs, key) -> {
-        if (context.getString(R.string.pref_edge_first_click_mm_key).equals(key)
-            || context.getString(R.string.pref_edge_second_click_mm_key).equals(key)) {
-          readEdgeClickDistances(prefs);
-        } else if (context.getString(R.string.pref_typing_focus_time_out_key).equals(key)) {
+        if (context.getString(R.string.pref_typing_focus_time_out_key).equals(key)) {
           typingFocusUserIntentTimeout =
               SharedPreferencesUtils.getIntFromStringPref(
                       prefs,
@@ -631,18 +538,6 @@ public class TouchInteractionMonitor
           typingMethod == FocusProcessorForTapAndTouchExploration.TAP_TO_TYPE
               && isOnKeyboard(event.getX(), event.getY());
     }
-    if (handleEdgeSwipe(event)) {
-      return;
-    }
-    if (handleScrub(event)) {
-      return;
-    }
-    if (handlePinch(event)) {
-      return;
-    }
-    if (handleRotation(event)) {
-      return;
-    }
     if (handleTapToType(event)) {
       return;
     }
@@ -703,11 +598,6 @@ public class TouchInteractionMonitor
               // 3-finger tap (MultiFingerMultiTap) likewise allows 3x touchSlop. Dragging stops
               // gesture detection, so passing the touch on any sooner would turn those gestures
               // into scrolls.
-              // A scroll's slower finger can lag well behind, though. So once both fingers have
-              // moved the same way (rotationTracker.isScroll()) and the faster one has moved
-              // passthroughTotalSlop, by which point the 3-finger swipe has already cancelled
-              // itself (the gesture detector saw this event first), the touch is a scroll: pass
-              // it on without waiting for the slower finger.
               double maxMoveDelta = 0;
               double minMoveDelta = Double.MAX_VALUE;
               for (int index = 0; index < event.getPointerCount(); ++index) {
@@ -725,9 +615,7 @@ public class TouchInteractionMonitor
                 maxMoveDelta = Math.max(maxMoveDelta, moveDelta);
                 minMoveDelta = Math.min(minMoveDelta, moveDelta);
               }
-              boolean scrollPastSwipeSlop =
-                  rotationTracker.isScroll() && maxMoveDelta >= passthroughTotalSlop;
-              if (minMoveDelta < passthroughTotalSlop && !scrollPastSwipeSlop) {
+              if (minMoveDelta < passthroughTotalSlop) {
                 logTwoFingerWait(
                     String.format(
                         Locale.ROOT,
@@ -737,18 +625,6 @@ public class TouchInteractionMonitor
                         maxMoveDelta));
                 return;
               }
-            }
-            if (rotationTracker.isPossibleRotation()) {
-              // The fingers are turning around each other. Wait until it is clear whether this is
-              // a rotation before scrolling or passing the touch to the app.
-              logTwoFingerWait("possible rotation");
-              return;
-            }
-            if (pinchTracker.isPossiblePinch()) {
-              // The fingers are moving toward or away from each other. Wait until it is clear
-              // whether this is a pinch or spread.
-              logTwoFingerWait("possible pinch");
-              return;
             }
             if (isDraggingGesture(event)) {
               computeDraggingPointerIdIfNeeded(event);
@@ -881,11 +757,6 @@ public class TouchInteractionMonitor
   private void clear() {
     gestureStarted = false;
     clearGestureDetectorOnNextDown = false;
-    rotationTracker.clear();
-    edgeSwipeTracker.clear();
-    stopHoldingTouchExplorationForEdgeSwipe();
-    scrubTracker.clear();
-    pinchTracker.clear();
     tapToTypeTracker.clear();
     downOnKeyboard = false;
     stateChangeRequested = false;
@@ -1323,332 +1194,6 @@ public class TouchInteractionMonitor
     return false;
   }
 
-  /**
-   * Passes the event to the two-finger rotation tracker. Returns true if the event belongs to a
-   * rotation, so nothing else may handle it.
-   */
-  private boolean handleRotation(MotionEvent event) {
-    boolean wasRotating = rotationTracker.isRotating();
-    if (!wasRotating
-        && (state != STATE_TOUCH_INTERACTING
-            || gestureStarted
-            || !gestureDetector.isMultiFingerGesturesEnabled())) {
-      if (GestureLog.getEnabled() && event.getActionMasked() == ACTION_POINTER_DOWN) {
-        Log.d(
-            DEBUG_GESTURE_TAG,
-            "Rotation not possible: state="
-                + TouchInteractionController.stateToString(state)
-                + " gestureStarted="
-                + gestureStarted);
-      }
-      rotationTracker.clear();
-      return false;
-    }
-    if (!rotationTracker.onMotionEvent(event)) {
-      return false;
-    }
-    if (!wasRotating) {
-      // The rotation starts. No other gesture, touch exploration or passthrough for this touch.
-      if (GestureLog.getEnabled()) {
-        Log.d(DEBUG_GESTURE_TAG, "Two-finger rotation started");
-      }
-      keepMonitorTouchExplore = false;
-      requestTouchExplorationDelayed.cancel();
-      gestureDetector.clear();
-      // The matchers miss the rest of this touch, so a new touch in this interaction starts them
-      // over.
-      clearGestureDetectorOnNextDown = true;
-      service.onGestureDetectionStarted();
-    }
-    return true;
-  }
-
-  /**
-   * Passes the event to the edge swipe tracker. Returns true if the event belongs to an edge
-   * swipe, so nothing else may handle it.
-   */
-  private boolean handleEdgeSwipe(MotionEvent event) {
-    if (!edgeSwipeTracker.isActive() && state != STATE_TOUCH_INTERACTING) {
-      edgeSwipeTracker.clear();
-      stopHoldingTouchExplorationForEdgeSwipe();
-      return false;
-    }
-    if (event.getActionMasked() == ACTION_DOWN) {
-      display.getRealSize(screenSize);
-    }
-    boolean owned = edgeSwipeTracker.onMotionEvent(event, screenSize.x, screenSize.y);
-    int action = event.getActionMasked();
-    if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-      stopHoldingTouchExplorationForEdgeSwipe();
-    } else {
-      releaseTouchExplorationIfEdgeSwipeRejected();
-    }
-    return owned;
-  }
-
-  /**
-   * Returns whether touch exploration must wait because the touch may still become an edge swipe.
-   * Touch exploration starts once the edge swipe is rejected.
-   */
-  private boolean holdTouchExplorationForEdgeSwipe() {
-    if (!edgeSwipeTracker.isPossible()) {
-      return false;
-    }
-    touchExplorationHeldForEdgeSwipe = true;
-    scheduleEdgeSwipeStallCheck();
-    return true;
-  }
-
-  private void scheduleEdgeSwipeStallCheck() {
-    mainHandler.removeCallbacks(edgeSwipeStallCheck);
-    mainHandler.postAtTime(edgeSwipeStallCheck, edgeSwipeTracker.stallTime() + 1);
-  }
-
-  private void checkEdgeSwipeStall() {
-    edgeSwipeTracker.rejectIfStalled(SystemClock.uptimeMillis());
-    if (edgeSwipeTracker.isPossible()) {
-      scheduleEdgeSwipeStallCheck();
-    } else {
-      releaseTouchExplorationIfEdgeSwipeRejected();
-    }
-  }
-
-  private void releaseTouchExplorationIfEdgeSwipeRejected() {
-    if (!touchExplorationHeldForEdgeSwipe || edgeSwipeTracker.isPossible()) {
-      return;
-    }
-    stopHoldingTouchExplorationForEdgeSwipe();
-    if (!edgeSwipeTracker.isActive() && state == STATE_TOUCH_INTERACTING && !gestureStarted) {
-      requestTouchExploration("edgeSwipeRejected");
-    }
-  }
-
-  private void stopHoldingTouchExplorationForEdgeSwipe() {
-    touchExplorationHeldForEdgeSwipe = false;
-    mainHandler.removeCallbacks(edgeSwipeStallCheck);
-  }
-
-  /**
-   * Returns the stages a slide from {@code edge} has: 1 if its swipe has an action, and 2 if its
-   * long swipe has one.
-   */
-  private List<Integer> edgeStages(Edge edge) {
-    List<Integer> stages = new ArrayList<>(2);
-    for (int stage = 1; stage <= 2; stage++) {
-      if (isGestureAssigned(edgeGestureId(edge, stage))) {
-        stages.add(stage);
-      }
-    }
-    return stages;
-  }
-
-  /** Returns the gesture of a slide from {@code edge} that ends at {@code stage}, 1 or 2. */
-  private static int edgeGestureId(Edge edge, int stage) {
-    boolean first = stage == 1;
-    return switch (edge) {
-      case BOTTOM ->
-          first ? GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM : GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM;
-      case TOP_LEFT ->
-          first ? GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT : GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT;
-      case TOP_RIGHT ->
-          first
-              ? GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT
-              : GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT;
-      case LEFT_TOP ->
-          first
-              ? GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP
-              : GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP;
-      case LEFT_BOTTOM ->
-          first
-              ? GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM
-              : GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM;
-      case RIGHT_TOP ->
-          first
-              ? GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP
-              : GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP;
-      case RIGHT_BOTTOM ->
-          first
-              ? GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM
-              : GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM;
-    };
-  }
-
-  private boolean isGestureAssigned(int gestureId) {
-    GestureShortcutMapping mapping = service.getGestureShortcutMapping();
-    return mapping != null
-        && !TextUtils.equals(
-            mapping.getActionKeyFromGestureId(gestureId),
-            context.getString(R.string.shortcut_value_unassigned));
-  }
-
-  private final EdgeSwipeTracker.Listener edgeSwipeListener =
-      new EdgeSwipeTracker.Listener() {
-        @Override
-        public void onEdgeTouched(Edge edge) {
-          @Nullable FeedbackController feedbackController = feedbackController();
-          if (feedbackController != null) {
-            feedbackController.playAuditory(R.id.edge_gesture_bottom, /* eventId= */ null);
-          }
-        }
-
-        @Override
-        public void onEdgeSwipeStarted(Edge edge) {
-          // No other gesture, touch exploration or passthrough for this touch.
-          takeOverTouch();
-        }
-
-        @Override
-        public void onEdgeSwipeStage(Edge edge, int stage, int previousStage) {
-          @Nullable FeedbackController feedbackController = feedbackController();
-          if (feedbackController == null) {
-            return;
-          }
-          // Sliding back plays the sound of the place it is back at, with the slide back's
-          // vibration.
-          if (stage == 0) {
-            feedbackController.playAuditoryWithoutHaptic(
-                R.id.edge_gesture_bottom, /* eventId= */ null);
-            feedbackController.playHaptic(R.array.edge_swipe_cancel_pattern, /* eventId= */ null);
-          } else if (stage < previousStage) {
-            feedbackController.playAuditoryWithoutHaptic(
-                R.id.edge_gesture_middle, /* eventId= */ null);
-            feedbackController.playHaptic(R.array.edge_swipe_back_pattern, /* eventId= */ null);
-          } else if (stage == 1) {
-            feedbackController.playAuditory(R.id.edge_gesture_middle, /* eventId= */ null);
-          } else {
-            feedbackController.playAuditory(R.id.edge_gesture_top, /* eventId= */ null);
-          }
-        }
-
-        @Override
-        public void onEdgeSwipeEnded(Edge edge, int stage) {
-          if (stage == 0) {
-            // Slid back to the edge, or a second finger landed: no gesture.
-            return;
-          }
-          int gestureId = edgeGestureId(edge, stage);
-          if (GestureLog.getEnabled()) {
-            Log.d(
-                DEBUG_GESTURE_TAG,
-                "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));
-          }
-          dispatchGestureToMainThread(
-              new AccessibilityGestureEvent(gestureId, displayId, new ArrayList<MotionEvent>()));
-        }
-      };
-
-  /** The service's feedback controller, or null before it is set up. */
-  private @Nullable FeedbackController feedbackController() {
-    try {
-      return service.getFeedbackController();
-    } catch (IllegalStateException e) {
-      return null;
-    }
-  }
-
-  /**
-   * Passes the event to the two-finger scrub tracker. Returns true if the event belongs to a scrub,
-   * so nothing else may handle it.
-   *
-   * <p>A scrub starts as a sideways two-finger movement, which is also how a horizontal scroll
-   * starts, and the two can't be told apart until the fingers turn back. So the movement goes to the
-   * app as a scroll as usual, and the scrub is still followed while the app scrolls. A scrub that
-   * completes then performs its action, and the app keeps the rest of the drag.
-   */
-  private boolean handleScrub(MotionEvent event) {
-    if (!scrubTracker.isScrubbed()
-        && ((state != STATE_TOUCH_INTERACTING && state != STATE_DRAGGING)
-            || !gestureDetector.isMultiFingerGesturesEnabled()
-            || (event.getActionMasked() == ACTION_POINTER_DOWN
-                && !isGestureAssigned(GESTURE_2_FINGER_SCRUB)))) {
-      scrubTracker.clear();
-      return false;
-    }
-    boolean scrubbed = scrubTracker.onMotionEvent(event);
-    return scrubbed && state != STATE_DRAGGING;
-  }
-
-  private void onScrub() {
-    takeOverTouch();
-    rotationTracker.clear();
-    if (GestureLog.getEnabled()) {
-      Log.d(
-          DEBUG_GESTURE_TAG,
-          "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(GESTURE_2_FINGER_SCRUB));
-    }
-    dispatchGestureToMainThread(
-        new AccessibilityGestureEvent(
-            GESTURE_2_FINGER_SCRUB, displayId, new ArrayList<MotionEvent>()));
-  }
-
-  /**
-   * Passes the event to the pinch tracker. Returns true if the event belongs to a pinch or spread,
-   * so nothing else may handle it.
-   */
-  private boolean handlePinch(MotionEvent event) {
-    if (!pinchTracker.isRecognized()
-        && (state != STATE_TOUCH_INTERACTING || !gestureDetector.isMultiFingerGesturesEnabled())) {
-      pinchTracker.clear();
-      return false;
-    }
-    return pinchTracker.onMotionEvent(event);
-  }
-
-  /** Returns whether a pinch or spread with {@code fingerCount} fingers has an action. */
-  private boolean isPinchCountInUse(int fingerCount) {
-    return isGestureAssigned(pinchGestureId(fingerCount, /* spread= */ false))
-        || isGestureAssigned(pinchGestureId(fingerCount, /* spread= */ true));
-  }
-
-  private static int pinchGestureId(int fingerCount, boolean spread) {
-    return switch (fingerCount) {
-      case 2 -> spread ? GESTURE_2_FINGER_SPREAD : GESTURE_2_FINGER_PINCH;
-      case 3 -> spread ? GESTURE_3_FINGER_SPREAD : GESTURE_3_FINGER_PINCH;
-      default -> spread ? GESTURE_4_FINGER_SPREAD : GESTURE_4_FINGER_PINCH;
-    };
-  }
-
-  private void onPinch(int fingerCount, boolean spread) {
-    takeOverTouch();
-    rotationTracker.clear();
-    scrubTracker.clear();
-    int gestureId = pinchGestureId(fingerCount, spread);
-    if (GestureLog.getEnabled()) {
-      Log.d(
-          DEBUG_GESTURE_TAG,
-          "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));
-    }
-    dispatchGestureToMainThread(
-        new AccessibilityGestureEvent(gestureId, displayId, new ArrayList<MotionEvent>()));
-  }
-
-  /**
-   * Makes the rest of the touch belong to a gesture that Backtalk recognizes while the fingers are
-   * down, so that no gesture matcher, touch exploration or passthrough uses it.
-   */
-  private void takeOverTouch() {
-    stopHoldingTouchExplorationForEdgeSwipe();
-    keepMonitorTouchExplore = false;
-    requestTouchExplorationDelayed.cancel();
-    gestureDetector.clear();
-    // The matchers miss the rest of this touch, so a new touch in this interaction starts them
-    // over.
-    clearGestureDetectorOnNextDown = true;
-    service.onGestureDetectionStarted();
-  }
-
-  private void onRotationStep(boolean clockwise) {
-    int gestureId =
-        clockwise ? GESTURE_2_FINGER_ROTATE_CLOCKWISE : GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE;
-    if (GestureLog.getEnabled()) {
-      Log.d(
-          DEBUG_GESTURE_TAG,
-          "Gesture " + AccessibilityServiceCompatUtils.gestureIdToString(gestureId));
-    }
-    dispatchGestureToMainThread(
-        new AccessibilityGestureEvent(gestureId, displayId, new ArrayList<MotionEvent>()));
-  }
-
   /** Dispatch a gesture event to the main thread of the service, but do not clear state. */
   private void dispatchGestureToMainThread(AccessibilityGestureEvent gestureEvent) {
     mainHandler.post(
@@ -1738,9 +1283,6 @@ public class TouchInteractionMonitor
   }
 
   void requestTouchExploration(String caller) {
-    if (holdTouchExplorationForEdgeSwipe()) {
-      return;
-    }
     try {
       if (isStateTransitionAllowed()) {
         trackStateChangeRequest(STATE_TOUCH_EXPLORING, caller);
