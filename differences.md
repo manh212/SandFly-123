@@ -42,6 +42,10 @@ With low-latency audio on, SandFly also watches for a speech engine that stops r
 
 Low-latency audio is on by default, except on Wear OS watches. If you used an earlier version of SandFly with the setting off, SandFly turns it on once when you update. If speech or sounds break up, turn the setting off. Low-latency speech requires Android 11 or later; on older versions, only SandFly's sounds use the fast path. Speech falls back to the usual path for engines that play their own audio or that report errors. During calls, and for 10 seconds after a call starts or ends, speech also plays the usual way. Each sound plays the usual way the first time that SandFly uses it, and 3D sounds still play through the 3D player.
 
+### Always interrupt speech
+
+Ordinarily, speech is queued: an announcement waits until the ones before it have finished, so a new announcement can be heard seconds after it was made. When you turn on **Controls** > **Touch and activation** > **Reduce delay** > **Always interrupt speech**, every new announcement instead stops the one currently speaking and clears the ones waiting, so you always hear the newest announcement straight away. Announcements that SandFly itself marks as uninterruptible are still left to finish. The setting is off by default; turn it off again if announcements you want to hear in full get cut off.
+
 ### Less lag while scrolling
 
 After each scroll event, TalkBack searched the list for a new item to focus. The search blocked touch exploration and could make gestures fail. SandFly searches once, after scrolling stops.
