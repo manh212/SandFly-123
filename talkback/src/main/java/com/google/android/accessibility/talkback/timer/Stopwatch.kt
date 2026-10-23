@@ -22,7 +22,6 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 /** The stopwatch's state and history, in preferences so they survive SandFly restarting. */
 object Stopwatch {
-  const val KEY_VOLUME_ACTIVATION = "pref_stopwatch_volume_activation"
   const val KEY_SOUND = "pref_stopwatch_sound"
   const val KEY_VIBRATION = "pref_stopwatch_vibration"
   const val KEY_INTERVAL_MINUTES = "pref_stopwatch_interval_minutes"

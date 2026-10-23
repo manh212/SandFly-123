@@ -47,8 +47,8 @@ import com.google.android.accessibility.talkback.controller.TelevisionNavigation
 import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.status.StatusItem;
 import com.google.android.accessibility.talkback.timer.Stopwatch;
-import com.google.android.accessibility.talkback.timer.StopwatchVolumeKey;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
+import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils.TimeFeedbackFormat;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -219,7 +219,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
       }
       case Intent.ACTION_SCREEN_OFF -> {
         isInteractive = false;
-        StopwatchVolumeKey.reset();
+        VolumeKeyManager.reset();
         AudioDeviceRouter router = AudioDeviceRouter.getInstance();
         if (router != null) {
           router.ensureRouting();
