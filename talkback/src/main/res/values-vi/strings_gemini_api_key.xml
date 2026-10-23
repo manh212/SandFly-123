@@ -52,4 +52,6 @@
     <string name="ai_provider_needs_address">Hãy đặt địa chỉ trước</string>
     <string name="ai_provider_set_up_first">Hãy thiết lập <xliff:g id="service" example="Claude">%1$s</xliff:g> trong phần cài đặt <xliff:g id="service" example="Claude">%1$s</xliff:g> trước</string>
     <string name="ai_provider_enter_model">Nhập tên mô hình</string>
+    <string name="ai_provider_none_set_up">Chưa thiết lập dịch vụ AI nào. Hãy thiết lập một dịch vụ trong phần cài đặt bên dưới.</string>
+    <string name="ai_service_not_set_up">Chưa có dịch vụ AI nào được sử dụng. Hãy thiết lập hoặc chọn một dịch vụ trong phần cài đặt Mô tả tự động.</string>
 </resources>
