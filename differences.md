@@ -64,6 +64,10 @@ When you touch the screen, SandFly waits to see whether you're starting a gestur
 
 If you used an earlier version of SandFly with the delay at 300 ms, SandFly changes it to 200 ms once when you update. If you chose another delay, SandFly keeps it. If SandFly focuses items when you meant to swipe, choose a longer delay.
 
+### No wait for a swipe to start
+
+While a one-finger swipe is getting started, SandFly holds touch exploration back for the swipe's whole start window, 160 ms, so that a swipe that starts slowly isn't explored. With **Controls** > **Touch and activation** > **Reduce delay** > **Reduce swipe start delay** on, touch exploration starts at the focus delay you set instead. A swipe that starts slowly may then be explored instead of recognized. The setting is off by default, and only appears when SandFly recognizes gestures itself.
+
 ### Faster response on empty space
 
 When you touched an empty part of the screen, TalkBack waited 100 ms after the focus delay before it played the sound. SandFly waits 40 ms.

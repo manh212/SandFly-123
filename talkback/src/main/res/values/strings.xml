@@ -1508,6 +1508,14 @@
 
     <!--
       Source: Preference title.
+      Description: This preference removes the hold on touch exploration while a swipe is starting.
+    -->
+    <string name="pref_reduce_swipe_start_delay_title">Reduce swipe start delay</string>
+    <!-- Summary of the setting that starts touch exploration without waiting for a swipe to start. [CHAR LIMIT=NONE] -->
+    <string name="pref_reduce_swipe_start_delay_summary">Touch exploration starts without waiting for a swipe to begin, so touches respond sooner. A swipe that starts slowly may be explored instead.</string>
+
+    <!--
+      Source: Preference title.
       Description: Preference for controlling the amount of log output.
     -->
     <string name="title_pref_log_level">Log output level</string>
