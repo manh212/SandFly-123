@@ -4376,4 +4376,8 @@
     <string name="settings_import_failed">This file is not a SandFly or Backtalk settings file, or could not be read</string>
     <!-- Category for typing features. [CHAR LIMIT=40] -->
     <string name="title_pref_category_typing">Typing</string>
+    <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
+    <string name="pref_complete_swipe_early_title">Recognize swipes early</string>
+    <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
+    <string name="pref_complete_swipe_early_summary">A one-finger swipe is performed as soon as its direction is clear, instead of waiting for the finger to lift, so swipes respond sooner. A two-part swipe that starts in the same direction will be performed as the one-part swipe.</string>
 </resources>

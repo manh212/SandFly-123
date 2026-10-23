@@ -68,6 +68,10 @@ If you used an earlier version of SandFly with the delay at 300 ms, SandFly chan
 
 While a one-finger swipe is getting started, SandFly holds touch exploration back for the swipe's whole start window, 160 ms, so that a swipe that starts slowly isn't explored. With **Controls** > **Touch and activation** > **Reduce delay** > **Reduce swipe start delay** on, touch exploration starts at the focus delay you set instead. A swipe that starts slowly may then be explored instead of recognized. The setting is off by default, and only appears when SandFly recognizes gestures itself.
 
+### Swipes performed before the finger lifts
+
+TalkBack decides what a one-finger swipe was only when the finger lifts, so the whole rest of the stroke passes before anything answers. With **Controls** > **Touch and activation** > **Reduce delay** > **Recognize swipes early** on, a one-finger swipe is performed as soon as its direction is clear instead. A two-part swipe that starts in the same direction will be performed as the one-part swipe. The setting is off by default, and only appears when SandFly recognizes gestures itself.
+
 ### Faster response on empty space
 
 When you touched an empty part of the screen, TalkBack waited 100 ms after the focus delay before it played the sound. SandFly waits 40 ms.

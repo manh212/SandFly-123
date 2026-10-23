@@ -196,6 +196,7 @@ public class TouchInteractionMonitor
   private final int swipeStartWindowMs;
   // Whether touch exploration skips the swipe start hold; see setReduceSwipeStartDelay.
   private static volatile boolean reduceSwipeStartDelay = false;
+  private static volatile boolean completeSwipeEarly = false;
   private int typingFocusUserIntentTimeout;
   private int touchFocusUserIntentTimeout;
 
@@ -358,6 +359,11 @@ public class TouchInteractionMonitor
               @Override
               public boolean invalidSwipeGestureEarlyDetection() {
                 return FeatureFlagReader.invalidSwipeGestureEarlyDetection(service);
+              }
+
+              @Override
+              public boolean completeSwipeEarly() {
+                return TouchInteractionMonitor.completeSwipeEarly;
               }
 
               @Override
@@ -1258,6 +1264,15 @@ public class TouchInteractionMonitor
    */
   public static void setReduceSwipeStartDelay(boolean reduce) {
     reduceSwipeStartDelay = reduce;
+  }
+
+  /**
+   * Sets whether a one-finger swipe is performed as soon as its direction is clear, instead of
+   * when the finger lifts, so swipes respond sooner. A two-part swipe that starts in the same
+   * direction is then performed as the one-part swipe.
+   */
+  public static void setCompleteSwipeEarly(boolean complete) {
+    completeSwipeEarly = complete;
   }
 
   public void setMultiFingerGesturesEnabled(boolean mode) {
