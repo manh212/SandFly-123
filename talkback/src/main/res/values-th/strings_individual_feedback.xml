@@ -30,4 +30,14 @@
   <string name="individual_vibration_window_state">เปลี่ยนหน้าต่าง</string>
   <string name="individual_vibration_typo">คำสะกดผิด</string>
   <string name="individual_vibration_notification">ประกาศ</string>
+    <string name="individual_sound_next_reading_control">การควบคุมการอ่านถัดไป</string>
+    <string name="individual_sound_previous_reading_control">การควบคุมการอ่านก่อนหน้า</string>
+    <string name="individual_sound_edge_gesture_bottom">ท่าทางขอบด้านล่าง</string>
+    <string name="individual_sound_edge_gesture_middle">ท่าทางสัมผัสขอบตรงกลาง</string>
+    <string name="individual_sound_edge_gesture_top">ท่าทางสัมผัสขอบด้านบน</string>
+    <string name="individual_sound_insertion_point_moved">ย้ายจุดแทรกแล้ว</string>
+    <string name="individual_sound_column_wrap">ห่อคอลัมน์</string>
+    <string name="individual_sound_column_wrap_back">กลับไปยังแถวก่อนหน้า</string>
+    <string name="individual_sound_screen_on">เปิดหน้าจอ</string>
+    <string name="individual_vibration_edge_gesture_back">ท่าทางสัมผัสขอบเลื่อนกลับ</string>
 </resources>

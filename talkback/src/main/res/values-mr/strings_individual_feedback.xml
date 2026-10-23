@@ -30,4 +30,14 @@
   <string name="individual_vibration_window_state">विंडो बदल</string>
   <string name="individual_vibration_typo">शुद्धलेखनाची चूक</string>
   <string name="individual_vibration_notification">घोषणा</string>
+    <string name="individual_sound_next_reading_control">पुढील वाचन नियंत्रण</string>
+    <string name="individual_sound_previous_reading_control">मागील वाचन नियंत्रण</string>
+    <string name="individual_sound_edge_gesture_bottom">काठ जेश्चर तळाशी</string>
+    <string name="individual_sound_edge_gesture_middle">एज जेश्चर मधला</string>
+    <string name="individual_sound_edge_gesture_top">एज जेश्चर टॉप</string>
+    <string name="individual_sound_insertion_point_moved">इन्सर्शन पॉइंट हलवला</string>
+    <string name="individual_sound_column_wrap">स्तंभ ओघ</string>
+    <string name="individual_sound_column_wrap_back">स्तंभ परत लपेटणे</string>
+    <string name="individual_sound_screen_on">स्क्रीन चालू</string>
+    <string name="individual_vibration_edge_gesture_back">एज जेश्चर मागे सरकवा</string>
 </resources>

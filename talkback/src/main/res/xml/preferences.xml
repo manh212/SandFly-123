@@ -31,14 +31,14 @@
         android:key="@string/pref_sound_and_vibration_key"
         android:title="@string/title_pref_sound_and_vibration" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.notifications.NotificationsFragment"
+        android:key="pref_notifications_screen"
+        android:title="@string/notification_category_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.FocusIndicatorPrefFragment"
         android:key="@string/pref_category_manage_focus_indicator_key"
         android:title="@string/title_pref_category_manage_focus_indicator" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationSettingsFragment"
-      android:key="pref_category_notifications"
-      android:title="@string/notification_category_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.timer.TimerSettingsFragment"
       android:key="pref_timer_settings_screen"
@@ -91,6 +91,10 @@
       android:key="@string/pref_category_typing_key"
       android:title="@string/title_pref_category_typing"
       app:allowDividerAbove="true" >
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.dictation.DictationFragment"
+        android:key="pref_dictation_screen"
+        android:title="@string/title_pref_dictation" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoFragment"
         android:key="@string/pref_keyboard_echo_screen_key"

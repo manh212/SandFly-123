@@ -30,4 +30,14 @@
   <string name="individual_vibration_window_state">Lango pakeitimas</string>
   <string name="individual_vibration_typo">Rašybos klaida</string>
   <string name="individual_vibration_notification">Pranešimas</string>
+    <string name="individual_sound_next_reading_control">Kitas skaitymo valdiklis</string>
+    <string name="individual_sound_previous_reading_control">Ankstesnis skaitymo valdiklis</string>
+    <string name="individual_sound_edge_gesture_bottom">Krašto gestas apačioje</string>
+    <string name="individual_sound_edge_gesture_middle">Krašto gestas viduryje</string>
+    <string name="individual_sound_edge_gesture_top">Krašto gestas viršuje</string>
+    <string name="individual_sound_insertion_point_moved">Įterpimo taškas perkeltas</string>
+    <string name="individual_sound_column_wrap">Stulpelio apvyniojimas</string>
+    <string name="individual_sound_column_wrap_back">Stulpelio apvyniojimas atgal</string>
+    <string name="individual_sound_screen_on">Ekranas įjungtas</string>
+    <string name="individual_vibration_edge_gesture_back">Krašto gestas slyskite atgal</string>
 </resources>

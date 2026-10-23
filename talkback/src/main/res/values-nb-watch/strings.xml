@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="talkback_service_description">SandFly er en skjermleser som er utviklet hovedsakelig for blinde og svaksynte. Med SandFly kan brukeren samhandle med enheten ved hjelp av taletilbakemeldinger.</string>
+  <string name="summary_custom_action">Vises når det finnes tilpassede handlinger for det aktive elementet.</string>
+  <string name="new_feature_in_talkback_title">Nyheter</string>
+  <string name="reset_button_in_reset_gesture_settings_confirm_dialog">OK</string>
+  <string name="turn_off_talkback">Slå av</string>
+</resources>

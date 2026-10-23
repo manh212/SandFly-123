@@ -64,9 +64,9 @@ With [Shizuku](https://shizuku.rikka.app) installed and running, SandFly grants 
 2.  Under **AI services**, open the settings of a service: Gemini, Claude, OpenAI (ChatGPT), Mistral, Groq, OpenRouter, Ollama Cloud, or **Other service** for another service with an OpenAI-compatible API, whose address you enter.
 3.  Choose **Get a key**, where the service has one, to open its website and create a key. Paste the key into the API key field, and choose **Save**.
 4.  Choose a model from the list that the service gives for your key, or enter its name.
-5.  Turn on the service's switch, such as **Use Gemini**. **AI service** in **Automatic descriptions** shows the service in use, and switches between services that are set up. **None** turns AI descriptions off.
+5.  If no other service is in use, SandFly uses this one as soon as it is set up. **AI service** in **Automatic descriptions** shows the service in use and lists the services that are set up, to switch between them. **None** turns AI descriptions off.
 
-A service can't be used until it has an address, a key and a model. When you clear the key of the service in use, SandFly goes back to Gemini if it is set up, or to **None**.
+A service can't be used until it has an address, a key and a model. When you clear the key or model of the service in use, SandFly uses the next service that is set up, or **None**. Questions about an image or screen, spoken or typed, go to the service in use.
 
 Images and screenshots that you describe are sent to the service. On Gemini's free tier, Google can use this data to improve its products. With Gemini, when the chosen model is busy or takes more than 15 seconds, SandFly asks Gemini Flash-Lite instead.
 
@@ -151,3 +151,5 @@ SandFly is under the Apache License 2.0, as TalkBack and Backtalk are. See [LICE
 The emoji names are from the [Unicode CLDR](https://cldr.unicode.org/) and the Unicode emoji data, copyright Unicode, Inc., used under the Unicode License v3, which is in `utils/src/main/assets/emoji_names/LICENSE`.
 
 Scripts run in [Lua 5.4](https://www.lua.org/), copyright Lua.org, PUC-Rio, through [LuaJava](https://github.com/gudzpoz/luajava), copyright gudzpoz, both used under the MIT License. The license texts are in `talkback/src/phone/assets/scripting/LICENSE-luajava`, which is in the APK.
+
+Dictation recognizes speech on the phone with [whisper.cpp](https://github.com/ggml-org/whisper.cpp) 1.9.5, copyright the ggml authors, used under the MIT License, which is in `whisper/src/main/cpp/whisper.cpp/LICENSE`. Its source is in `whisper/src/main/cpp/whisper.cpp`, with only the CPU backend. The Whisper models are downloaded from [Hugging Face](https://huggingface.co/ggerganov/whisper.cpp) when the user chooses one; they are OpenAI's Whisper models, under the MIT License.

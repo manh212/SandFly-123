@@ -365,6 +365,7 @@ SandFly adds these actions, which you can assign to gestures in gesture settings
 *   **Lock screen** and **Power menu**, in **System actions**.
 *   **Increase media volume** and **Decrease media volume**, in **Special features**, change the media volume a step and say the new volume.
 *   **Scroll to top** and **Scroll to bottom**, in **Basic navigation**, scroll the list that focus is in to its start or end a page at a time, then focus its first or last item. In a list that doesn't scroll, such as a short settings screen, they focus its first or last item. Outside a list, they use the first list on screen, or the first or last item on screen when there is none. A touch, gesture or key while it scrolls stops it. These aren't on watches.
+*   **Turn browse mode on or off**, in **Menu and controls**, does what Action pressed twice does on a keyboard. It is also a keyboard shortcut, **Another shortcut to turn browse mode on or off**, unassigned by default, for keyboards that take Action pressed twice for themselves. Both need the default keymap, not the classic one, and aren't on watches.
 *   **Refresh**, in **Basic navigation** and as a keyboard shortcut, scrolls the list that focus is in to its top and pulls it down, which refreshes it in most apps. **Scroll back** and **Scroll up** pull a list down too when it is already at its top, as scrolling with two fingers does. SandFly sends the pull as a swipe, so it needs Android 11 or later.
 *   **System quick settings** and **System notification shade** open the system's own quick settings and notification shade, when **Use SandFly's quick settings** or **Use SandFly's notification list** is on.
 
@@ -464,6 +465,14 @@ With **Reading controls** > **Links and Controls only in web content** on, the *
 When you turn on **Controls** > **Touch and activation** > **Volume keys adjust sliders**, the volume keys change the value of the slider that has focus, and SandFly speaks the new value, as it does when you adjust the slider with the **Adjustable** reading control. Hold a key to keep changing the value. When focus is on anything else, or the screen is off, the volume keys change the volume as usual. They also still change speech volume while a finger is on the screen, during continuous reading, and with the keyboard shortcut modifier. The setting is off by default.
 
 **Controls** > **Touch and activation** > **Volume keys move the cursor**, off by default, makes the volume keys move the cursor while a text field has focus: volume up moves it back a character and volume down moves it on, saying the character.
+
+### Browse mode in each app
+
+**Navigation > Remember browse mode in each app**, off by default, keeps browse mode as you last turned it on or off in each app. In an app where you haven't turned it on or off, browse mode is off, unless Smart browse mode turns it on in web content.
+
+### Container navigation
+
+Next container and Previous container (Action + Control + Alt + Right or Left arrow, or a four-finger swipe right or left) also stop at toolbars, tab bars, navigation bars, search bars and panes, besides lists, grids and scroll views. A bar inside a bar, such as a search bar in a toolbar, is one stop. Previous container moves to the start of the container, as Next container does, not its last item, except in web content.
 
 ### Telegram reply quotes
 
@@ -593,6 +602,25 @@ If you develop a game, add this `<meta-data>` element inside your `<application>
 
 Text that isn't in a text field, such as a message, can be edited and copied but not saved. Password fields can't be opened.
 
+## Dictation
+
+**Dictate**, a gesture action under **Text editing**, types what you say into the focused text field, at the cursor. A chime plays when recording starts; recording goes on, through pauses, until the gesture is performed again, which plays a second chime. Speech is silenced while recording, so that it isn't recorded. Recording stops by itself after 15 minutes.
+
+**Settings > Dictation** has:
+
+- **Speech recognition**: Automatic, Google on-device speech recognition, Rambler (Gemini API), Whisper or Android speech recognition.
+  - Google on-device speech recognition is the recognizer of the Speech Recognition & Synthesis app (`com.google.android.tts`), with that app's offline language packs. Gboard's voice typing runs on it, Rambler mode included, which is why PixelBoard's Rambler needs no API key and is fast. SandFly asks it for offline recognition in the phone's language, with formatting (punctuation and capital letters) on Android 13 and later. Rambler's own cleanup in Gboard (filler words, self-corrections) isn't available to other apps.
+  - When the phone's language has no language pack (Android 13 and later can check), a row **Download (language) for on-device recognition** opens Speech Recognition & Synthesis's download screen for it.
+  - Rambler (Gemini API) is Gemini 3.5 Transcribe, the model behind Rambler's cleanup, asked through the Gemini API with the Gemini API key from Gemini settings, in smart mode: filler words are removed, self-corrections resolved, and punctuation, numbers and lists formatted. With **Rambler live transcription** on (the default, shown when there is a Gemini API key), the recording is streamed while you speak to Gemini 3.5 Transcribe Live (`gemini-3.5-transcribe-live`, Live API over a WebSocket, smart mode), which returns each phrase's cleaned-up text when you pause, so after the second gesture only the last phrase is left to transcribe. If the session can't connect, ends early (the Live API ends sessions after 10 minutes) or the last phrase doesn't come within 5 seconds, the whole recording is sent to the non-live model instead. Off, the whole recording is sent after the second gesture. The recording is sent with `store: false`, so it isn't kept as an interaction to look up later. With a free-tier key, Google may still use the audio and text to improve its products; with a paid-tier key (about $0.005 a minute) it doesn't.
+  - Whisper runs on the phone (whisper.cpp), with a model downloaded under Whisper models.
+  - Android speech recognition uses the service chosen in Android's settings.
+  - Google on-device and Android speech recognition start again after each pause until the gesture stops them.
+  - Automatic uses Google on-device speech recognition when it is installed and has the phone's language, else Rambler when there is a Gemini API key and Rambler knows the phone's language, else Whisper when a model is downloaded, else Android speech recognition. A chosen one that can't be used gives way to the same order. If Google on-device recognition reports a missing language during recording, the next one takes over without stopping. When Rambler doesn't answer, the recording is transcribed with Whisper if a model is downloaded.
+- **Whisper models**: Tiny (32 MB), Base (60 MB), Small (190 MB) and Large v3 Turbo (574 MB), all multilingual and quantized, from Hugging Face, checked against their SHA-256. Tapping a model downloads it (asking first on mobile data), or, once downloaded, offers Use and Delete. The first downloaded model is used. Whisper is told the phone's language when it knows it, else it detects the language.
+- **Correct dictation with AI** (on by default) and **AI service for dictation**: Same as automatic descriptions (the default), any AI service that is set up, or On-device AI when its model is downloaded. So Rambler or Whisper can do the recognition while a different service corrects it, and a different service from the one describing images. The text of Google on-device, Whisper and Android speech recognition goes to that service first, with up to 300 characters of the text before the cursor, for the cleanup that Gboard's Rambler does on Google's servers: filler words, stutters and false starts removed, self-corrections resolved ("two, no, three" becomes "three"), punctuation and capital letters added, misheard words corrected, and numbers, dates and spoken lists formatted. With On-device AI, all of dictation stays on the phone and works with any keyboard. (Rambler itself can't be used by other apps: Gboard sends the audio to Google's speech servers, which accept only Gboard, and runs on-device recognition beside it as a fallback. Gemini Nano, through ML Kit GenAI, only answers the app in the foreground, which SandFly never is while you dictate into another app.) Rambler's text isn't sent again. If the service doesn't answer within 20 seconds (60 for on-device AI), or answers with something much longer than what you said, the text is typed as recognized; Dictate performed while it waits does the same at once. Dictation into a password field isn't sent to the service.
+
+Typing into text fields that only accept plain text, such as in Google Contacts, failed with the voice command "type" too; SandFly now sends plain text.
+
 ## On-screen keyboard
 
 ### Lift to type, except to send
@@ -678,7 +706,7 @@ SandFly only uses a display from an app once you allow it, after a warning that 
 
 ### AI services
 
-Google's source release doesn't include working Gemini support, so **Describe image** only reads text in images and **Describe screen** doesn't work. SandFly adds its own Describe screen with follow-up questions, and sends both to an AI service with your own API key. **Automatic descriptions** > **AI service** chooses Gemini, Claude, OpenAI (ChatGPT), Mistral, Groq, OpenRouter, Ollama Cloud, another service with an OpenAI-compatible API, or **None**. Each service has its own settings screen with its API key and model. For more information, see [AI services](README.md#ai-services).
+Google's source release doesn't include working Gemini support, so **Describe image** only reads text in images and **Describe screen** doesn't work. SandFly adds its own Describe screen with follow-up questions, and sends both to an AI service with your own API key. The services are Gemini, Claude, OpenAI (ChatGPT), Mistral, Groq, OpenRouter, Ollama Cloud and any other service with an OpenAI-compatible API. Each has its own settings screen in **Automatic descriptions**, with its API key and model. **AI service** chooses among the services that are set up, or **None**. A service that has just been set up is used when no other is, and when the service in use loses its key or model, the next one that is set up takes over. Questions about an image or screen, spoken or typed, go to the same service. For more information, see [AI services](README.md#ai-services).
 
 With Gemini, SandFly asks the model to think as little as it can, and asks Gemini Flash-Lite when the chosen model is busy or takes more than 15 seconds.
 

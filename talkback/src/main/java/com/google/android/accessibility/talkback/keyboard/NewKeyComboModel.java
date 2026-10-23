@@ -1335,6 +1335,7 @@ public class NewKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_previous_voice_profile));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_next_voice_profile));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_refresh));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra));
 
     if (FeatureFlagReader.enableBrowseMode(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode));

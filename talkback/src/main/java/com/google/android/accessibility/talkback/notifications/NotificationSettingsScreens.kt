@@ -299,13 +299,3 @@ class NotificationStopFragment :
 class NotificationSchedulesFragment :
   NotificationXmlFragment(R.xml.notification_schedules_preferences, R.string.notification_schedules_title)
 
-/** Notifications: the whole category of the main settings screen, on a screen of its own. */
-class NotificationSettingsFragment : TalkbackBaseFragment(R.xml.notifications_preferences) {
-
-  override fun getTitle(): CharSequence = getText(R.string.notification_category_title)
-
-  override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-    super.onCreatePreferences(savedInstanceState, rootKey)
-    NotificationSettingsEntries.setUpPreferences(this)
-  }
-}

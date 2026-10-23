@@ -83,9 +83,8 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
     return useOnDevice() || AiService.isSetUp(prefs);
   }
 
-  // This must override the List overload: it is the one every caller uses. Overriding only the
-  // String overload left this branching unreachable, because the parent class delegates the
-  // String form to the List form, and both callers in GeminiRestEndpoint pass a List.
+  // The list of models is what every request comes through, the single address included, so this
+  // is the one to override; overriding only the single address let requests go to Gemini.
   @Override
   public void performRequest(
       List<String> urls, String apiKey, JSONObject postData, GeminiRestResponseCallback callback) {

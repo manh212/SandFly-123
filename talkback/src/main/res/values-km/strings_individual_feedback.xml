@@ -30,4 +30,14 @@
   <string name="individual_vibration_window_state">ការប្ដូរវិនដូ</string>
   <string name="individual_vibration_typo">កំហុសអក្ខរាវិរុទ្ធ</string>
   <string name="individual_vibration_notification">សេចក្ដីប្រកាស</string>
+    <string name="individual_sound_next_reading_control">ការគ្រប់គ្រងការអានបន្ទាប់</string>
+    <string name="individual_sound_previous_reading_control">ការគ្រប់គ្រងការអានមុន</string>
+    <string name="individual_sound_edge_gesture_bottom">កាយវិការគែមខាងក្រោម</string>
+    <string name="individual_sound_edge_gesture_middle">កាយវិការគែមកណ្តាល</string>
+    <string name="individual_sound_edge_gesture_top">កាយវិការគែមខាងលើ</string>
+    <string name="individual_sound_insertion_point_moved">បានផ្លាស់ទីចំណុចបញ្ចូល</string>
+    <string name="individual_sound_column_wrap">រុំជួរឈរ</string>
+    <string name="individual_sound_column_wrap_back">រុំជួរឈរត្រឡប់មកវិញ</string>
+    <string name="individual_sound_screen_on">អេក្រង់បើក</string>
+    <string name="individual_vibration_edge_gesture_back">កាយវិការគែមរុញថយក្រោយ</string>
 </resources>
