@@ -429,8 +429,8 @@
   <string name="label_search_result_landmark_search">Tìm kiếm</string>
   <string name="label_search_result_table">Bảng</string>
   <string name="shortcut_media_control">Phát hoặc tạm dừng nhạc/video</string>
-  <string name="shortcut_voice_input">Bắt đầu hoặc kết thúc phương thức nhập bằng giọng nói</string>
-  <string name="shortcut_media_control_or_voice_input">Phát/tạm dừng nội dung nghe nhìn, bắt đầu hoặc kết thúc phương thức nhập bằng giọng nói</string>
+  <string name="shortcut_voice_input">Bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
+  <string name="shortcut_media_control_or_voice_input">Phát/tạm dừng nội dung nghe nhìn, bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
   <string name="shortcut_increase_volume">Tăng âm lượng</string>
   <string name="shortcut_decrease_volume">Giảm âm lượng</string>
   <string name="shortcut_increase_contextual_volume">Tăng âm lượng (phương tiện hoặc trợ năng)</string>

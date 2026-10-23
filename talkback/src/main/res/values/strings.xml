@@ -2006,9 +2006,9 @@
     <!-- Label for the shortcut that plays/pauses media [CHAR_LIMIT=61]-->
     <string name="shortcut_media_control">Play or pause media</string>
     <!-- Label for the shortcut that start/stop voice input [CHAR_LIMIT=60]-->
-    <string name="shortcut_voice_input">Start or end voice input</string>
+    <string name="shortcut_voice_input">Start or end Gboard voice input</string>
     <!-- Label for the shortcut that plays/pauses or start/stop voice input [CHAR_LIMIT=90]-->
-    <string name="shortcut_media_control_or_voice_input">Play or pause media, start or end voice input</string>
+    <string name="shortcut_media_control_or_voice_input">Play or pause media, start or end Gboard voice input</string>
     <!-- Label for the shortcut that turns up the volume. [CHAR_LIMIT=60]-->
     <string name="shortcut_increase_volume">Increase volume</string>
     <!-- Label for the shortcut that turns down the volume. [CHAR_LIMIT=60]-->
