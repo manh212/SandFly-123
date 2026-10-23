@@ -460,6 +460,8 @@ The **Vertical navigation** reading control, which you can turn on in **Reading 
 
 When focus moves onto an item with actions, a slider, a table or a spelling mistake, TalkBack changes the reading control to the one for that item, such as Actions, Adjust slider or Proofread, and changes it back afterwards. On web pages, where many items have actions, this replaces a reading control you chose, such as Headings. To keep the reading control you chose, turn off **Reading controls** > **Change reading control automatically**.
 
+The fork adds **Reading controls** > **Change reading control in selection mode**, on by default, which keeps your reading control when selection mode starts in web content instead of switching it to Characters. It covers focus moves in web content too: with this switch off, focus moving within a web page no longer replaces your reading control with the one for the item under focus, and no longer changes it back afterwards. Outside web content, and whenever the switch is on, reading controls change as described above.
+
 With **Reading controls** > **Links and Controls only in web content** on, the **Links** and **Controls** reading controls are left out of the list outside web content, as the web navigation reading controls are. Gestures and keyboard shortcuts for the next or previous link or control still work everywhere. It's off by default.
 
 ### Volume keys that adjust sliders
