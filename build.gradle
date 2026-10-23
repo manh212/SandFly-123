@@ -66,6 +66,12 @@ android {
             if (signWithSandflyKey) {
                 signingConfig = signingConfigs.sandfly
             }
+            // R8 trial (see the sandfly.r8 switch in gradle.properties): shrink and optimize
+            // the published builds, which are debug builds. The keep rules in
+            // proguard-rules.pro hold SandFly's own code by name, so R8 mainly shrinks the
+            // libraries. Resources are not shrunk; see the lint block below.
+            minifyEnabled = providers.gradleProperty("sandfly.r8").getOrElse("true") == "true"
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     packaging {
@@ -86,6 +92,10 @@ android {
         // build. To accept new ones on purpose, run ./gradlew updateLintBaselinePhoneDebug.
         baseline = file("lint-baseline.xml")
         abortOnError = true
+        // R8 shrinks code only. Shrinking resources could drop ones found by name, such as
+        // sound theme sounds and script strings. The warning's location also crashes lint's
+        // SARIF report writer, as upstream found in their R8 trial (ec687deb).
+        disable 'NotShrinkingResources'
     }
     productFlavors {
         phone {
