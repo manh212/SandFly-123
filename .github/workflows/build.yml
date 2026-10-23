@@ -68,6 +68,17 @@ jobs:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain
 
+      # Record the exact APK sizes in the run summary, so the effect of a change like
+      # the R8 trial can be read off the run page without downloading the artifact.
+      - name: Record APK sizes
+        run: |
+          {
+            echo "### APK sizes"
+            for apk in build/outputs/apk/*/debug/*.apk; do
+              echo "- $apk: $(stat -c%s "$apk") bytes"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
       - name: Check the signing key
         if: github.event_name == 'push'
         run: |
@@ -108,6 +119,16 @@ jobs:
           name: apks
           path: build/outputs/apk/**/*.apk
           if-no-files-found: error
+
+      # R8's mapping for this build. A crash trace from a shrunk build can only be read
+      # with the mapping of the exact build that produced it, so the mapping is kept with
+      # the run, and the publish job attaches it to the release next to the APK. When R8
+      # is off (sandfly.r8=false) there is no mapping, which is not an error.
+      - uses: actions/upload-artifact@v7
+        with:
+          name: mapping
+          path: build/outputs/mapping/**
+          if-no-files-found: warn
 
       # On a failed pull request build, posts one comment on the pull request summarizing
       # the failure (failed steps, lint errors, failing unit tests) from the report files
@@ -206,6 +227,15 @@ jobs:
           name: apks
           path: apks
 
+      # The mapping belongs with the APK of the same build (see the build job). It is
+      # allowed to be missing, e.g. when R8 is off, so a failed download must not stop
+      # the publish.
+      - uses: actions/download-artifact@v8
+        continue-on-error: true
+        with:
+          name: mapping
+          path: mapping
+
       - name: Publish
         env:
           GH_TOKEN: ${{ github.token }}
@@ -222,6 +252,14 @@ jobs:
             exit 1
           fi
           cp "$apk" sandfly.apk
+
+          # The release gets the APK and, when the build ran R8, its mapping next to it.
+          assets=(sandfly.apk)
+          mapping_file=$(find mapping -name mapping.txt 2>/dev/null | head -n 1 || true)
+          if [ -n "$mapping_file" ]; then
+            cp "$mapping_file" mapping.txt
+            assets+=(mapping.txt)
+          fi
 
           # %H cut to 7 characters, since %h can be longer when a short hash is ambiguous.
           changes() {
@@ -251,7 +289,7 @@ jobs:
                 changes -n 50 HEAD
               fi
             } > release-notes.md
-            gh release create "$tag" sandfly.apk --verify-tag --latest \
+            gh release create "$tag" "${assets[@]}" --verify-tag --latest \
               --title "SandFly ${tag#v}" --notes-file release-notes.md
             exit 0
           fi
@@ -268,8 +306,8 @@ jobs:
             # which notifies everyone watching the repository.
             git tag -f "$tag" "$GITHUB_SHA"
             git push -f origin "refs/tags/$tag"
-            gh release upload "$tag" sandfly.apk --clobber
+            gh release upload "$tag" "${assets[@]}" --clobber
             gh release edit "$tag" --title "$title" --notes-file release-notes.md --prerelease --latest=false
           else
-            gh release create "$tag" sandfly.apk --prerelease --latest=false --target "$GITHUB_SHA" --title "$title" --notes-file release-notes.md
+            gh release create "$tag" "${assets[@]}" --prerelease --latest=false --target "$GITHUB_SHA" --title "$title" --notes-file release-notes.md
           fi
