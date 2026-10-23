@@ -109,6 +109,7 @@ import com.google.android.accessibility.talkback.monitor.VolumeMonitor.VolumeCha
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
 import com.google.android.accessibility.talkback.scripting.ItemInspector;
 import com.google.android.accessibility.talkback.scripting.Scripts;
+import com.google.android.accessibility.talkback.dictation.AiDictation;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
@@ -120,6 +121,7 @@ import com.google.android.accessibility.talkback.utils.DateTimeUtils;
 import com.google.android.accessibility.talkback.utils.DebugProperties;
 import com.google.android.accessibility.talkback.utils.FocusIndicatorUtils;
 import com.google.android.accessibility.talkback.utils.GeminiCommandUtils;
+import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.monitor.RecentUserInput;
 import com.google.android.accessibility.utils.Performance;
@@ -172,6 +174,7 @@ public class GestureController {
   private final ProcessorPhoneticLetters processorPhoneticLetters;
   private final ListEdgeScroller listEdgeScroller;
   private final PullToRefresh pullToRefresh;
+  private final AiDictation dictation;
 
   private final @NonNull Map<Integer, Integer> captureGestureIdToAnnouncements = new HashMap<>();
   private final @NonNull Map<Integer, Integer> captureFingerprintGestureIdToAnnouncements =
@@ -225,12 +228,14 @@ public class GestureController {
     this.processorPhoneticLetters = processorPhoneticLetters;
     listEdgeScroller = new ListEdgeScroller(service, pipeline, accessibilityFocusMonitor);
     pullToRefresh = new PullToRefresh(service, pipeline, accessibilityFocusMonitor);
+    dictation = new AiDictation(service, pipeline);
   }
 
   /** Stops what gestures started that is still going on. */
   public void shutdown() {
     listEdgeScroller.cancel();
     pullToRefresh.cancel();
+    dictation.shutdown();
   }
 
   /** Stops scrolling to the top or bottom when the user touches the screen or presses a key. */
@@ -349,6 +354,9 @@ public class GestureController {
       result = listEdgeScroller.scroll(/* toStart= */ true, eventId);
     } else if (action.equals(service.getString(R.string.shortcut_value_scroll_to_bottom))) {
       result = listEdgeScroller.scroll(/* toStart= */ false, eventId);
+    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_browse_mode))) {
+      KeyComboManager keyComboManager = service.getKeyComboManager();
+      result = keyComboManager != null && keyComboManager.toggleBrowseModeByUser();
     } else if (action.equals(service.getString(R.string.shortcut_value_refresh))) {
       result = pullToRefresh.refresh(eventId);
     } else if (action.equals(service.getString(R.string.shortcut_value_media_control))) {
@@ -613,6 +621,12 @@ public class GestureController {
       AccessibilityNodeInfoCompat editing =
           accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
       result = GranularEditing.open(service, editing != null ? editing : focus);
+    } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
+      AccessibilityNodeInfoCompat focus =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      AccessibilityNodeInfoCompat editing =
+          accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
+      result = dictation.start(editing != null ? editing : focus);
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_selection))) {
       AccessibilityNodeInfoCompat node =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);

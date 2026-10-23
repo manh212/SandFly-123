@@ -1193,6 +1193,8 @@
     <string name="keycombo_menu_other_open_voice_commands">Open voice commands</string>
     <!-- Keyboard key combination title for toggling browse mode [CHAR LIMIT=40] -->
     <string name="keycombo_menu_other_toggle_browse_mode">Turn browse mode on or off</string>
+    <!-- Keyboard shortcut, unassigned by default, that turns browse mode on or off besides Action pressed twice, which some keyboards take for their own. [CHAR_LIMIT=NONE] -->
+    <string name="keycombo_menu_other_toggle_browse_mode_extra">Another shortcut to turn browse mode on or off</string>
     <!-- Keyboard key combination for toggling browse mode [CHAR LIMIT=40] -->
     <string name="keycombo_summary_other_toggle_browse_mode">Actions + Action</string>
     <!-- Keyboard key combination assignment for navigating to next button [CHAR LIMIT=40] -->
@@ -4174,14 +4176,16 @@
   <!-- Detailed image description fallback result with a network error. [CHAR_LIMIT=NONE]-->
   <string name="detailed_image_description_fallback_result_network_error"><xliff:g id="fallback_result_network_error" example="Text in image: Hello world!!">%1$s</xliff:g>. Connect to the internet for a more detailed image description.</string>
 
-  <!-- Image Q&A button text. [CHAR_LIMIT=NONE]-->
-  <string name="image_qna_button_text">Ask Gemini</string>
+  <!-- Button that asks the AI service in use a question about the image or screen, spoken. [CHAR_LIMIT=NONE]-->
+  <string name="image_qna_ask_by_voice">Ask by voice</string>
+  <!-- Button that stops listening for a spoken question. [CHAR_LIMIT=NONE]-->
+  <string name="image_qna_stop_listening">Stop listening</string>
   <!-- Image Q&A voice input is listening. [CHAR_LIMIT=NONE]-->
   <string name="image_qna_voice_input_listening">Listening</string>
   <!-- Image Q&A voice input description. [CHAR_LIMIT=NONE]-->
   <string name="image_qna_voice_input_description">Ask about the image</string>
-  <!-- Image Q&A typing button text. [CHAR_LIMIT=NONE]-->
-  <string name="image_qna_typing_button_text">Type question for Gemini</string>
+  <!-- Button and text field for typing a question to the AI service in use about the image or screen. [CHAR_LIMIT=NONE]-->
+  <string name="image_qna_type_question">Type a question</string>
   <!-- Image Q&A button for asking the question. [CHAR_LIMIT=NONE]-->
   <string name="image_qna_send_button_text">Ask</string>
   <!-- Image Q&A button for speaking an question. [CHAR_LIMIT=NONE]-->
@@ -4300,6 +4304,52 @@
   <string name="browse_mode_double_trigger_modifier"><xliff:g example="Action" id="trigger_modifier">%1$s</xliff:g> <xliff:g example="Action" id="trigger_modifier2">%1$s</xliff:g></string>
   <!-- Smart Browse Mode toggle's title in the settings. [CHAR_LIMIT=60] -->
   <string name="title_smart_browse_mode">Smart browse mode</string>
+  <!-- Gesture action that types what the user says into the focused text field. [CHAR_LIMIT=NONE] -->
+  <string name="shortcut_dictate">Dictate</string>
+  <!-- Switch in Dictation settings: an AI service corrects dictated text before it is typed. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_ai_dictation">Correct dictation with AI</string>
+  <!-- Spoken when the AI service didn't correct dictated text, which is typed as recognized. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_not_corrected">Not corrected. Typed as recognized.</string>
+  <!-- Spoken when speech recognition recognized nothing for dictation. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_nothing_recognized">Nothing recognized</string>
+  <!-- Spoken when speech recognition isn't available for dictation. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_unavailable">Speech recognition unavailable</string>
+  <!-- Spoken when the text field for dictation closed before the text was typed. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_field_gone">Text field closed. Nothing typed.</string>
+  <!-- Spoken when recorded speech could not be turned into text for dictation. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_transcription_failed">Speech not transcribed. Nothing typed.</string>
+  <!-- Title of the Dictation settings screen and its entry in SandFly settings. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_dictation">Dictation</string>
+  <!-- Dictation switch: Rambler transcribes while the user speaks, so that the text is typed sooner after recording stops. Rambler is a product name. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_dictation_rambler_live">Rambler live transcription</string>
+  <!-- Dictation setting: how speech is turned into text. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_dictation_recognition">Speech recognition</string>
+  <!-- Speech recognition choice: Rambler for languages it supports, then Whisper, then Android speech recognition. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_recognition_automatic">Automatic</string>
+  <!-- Speech recognition choice: Google's speech recognition that runs on the phone, from the Speech Recognition & Synthesis app. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_recognition_google">Google on-device speech recognition</string>
+  <!-- Summary of Speech recognition when Google on-device speech recognition is chosen but can't be used: the Speech Recognition & Synthesis app is missing or has no language pack for the phone's language. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_google_unavailable">Google on-device speech recognition, not available for this language</string>
+  <!-- Dictation setting that downloads the phone's language for Google on-device speech recognition, such as "Download English for on-device recognition". [CHAR_LIMIT=NONE] -->
+  <string name="dictation_google_download">Download <xliff:g id="language" example="English">%1$s</xliff:g> for on-device recognition</string>
+  <!-- Speech recognition choice: the speech recognition service set in Android's settings. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_recognition_android">Android speech recognition</string>
+  <!-- Summary of Speech recognition when Automatic is chosen, naming the one used now, such as Rambler or Whisper. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_recognition_automatic_using">Automatic: <xliff:g id="recognition" example="Rambler">%1$s</xliff:g></string>
+  <!-- Summary of Speech recognition when Rambler is chosen but no Gemini API key is set. Rambler is a product name. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_rambler_needs_key">Rambler, needs a Gemini API key</string>
+  <!-- Summary of Speech recognition when Whisper is chosen but no Whisper model is downloaded. Whisper is a product name. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_whisper_needs_model">Whisper, needs a downloaded model</string>
+  <!-- Dictation settings category listing the Whisper speech recognition models that can be downloaded. Whisper is a product name. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_whisper_models">Whisper models</string>
+  <!-- Action on a downloaded Whisper model: dictation uses this model. [CHAR_LIMIT=30] -->
+  <string name="dictation_whisper_use">Use</string>
+  <!-- Dictation setting: the AI service that corrects dictated text. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_dictation_ai_service">AI service for dictation</string>
+  <!-- AI service for dictation choice: the AI service chosen in Automatic descriptions settings. [CHAR_LIMIT=NONE] -->
+  <string name="dictation_ai_same">Same as automatic descriptions</string>
+  <!-- Switch that keeps browse mode on or off in each app as the user last left it there. [CHAR_LIMIT=NONE] -->
+  <string name="title_pref_browse_mode_per_app">Remember browse mode in each app</string>
   <!-- Smart Browse Mode toggle's summary in the settings. [CHAR_LIMIT=NONE] -->
   <string name="summary_smart_browse_mode">Automatically turns browse mode on or off based on the item you\'re on. This syncs input focus with SandFly focus.</string>
 

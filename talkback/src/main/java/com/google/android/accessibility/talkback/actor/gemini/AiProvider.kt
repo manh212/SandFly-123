@@ -129,19 +129,47 @@ enum class AiProvider(
 
     fun of(id: String?): AiProvider? = entries.firstOrNull { it.id == id }
 
-    /** The service in use. */
+    /**
+     * The service in use. A chosen service that isn't set up gives way to one that is, such as
+     * Gemini, the first choice, with no key while Claude has one: before the Use switches were
+     * removed, a service could be set up without being used.
+     */
     @JvmStatic
     fun active(prefs: SharedPreferences): AiProvider {
       migrate(prefs)
-      return of(prefs.getString(PREF_ACTIVE, null)) ?: GEMINI
+      val chosen = of(prefs.getString(PREF_ACTIVE, null)) ?: GEMINI
+      if (chosen == NONE || chosen.isReady(prefs)) return chosen
+      val ready = fallback(prefs)
+      if (ready == NONE) return chosen
+      setActive(prefs, ready)
+      return ready
     }
 
     fun setActive(prefs: SharedPreferences, provider: AiProvider) =
       prefs.edit { putString(PREF_ACTIVE, provider.id) }
 
-    /** What is used when a service is turned off: Gemini when it is set up, or else none. */
+    /** What is used when the service in use stops being set up: the first one that is, or none. */
     @JvmStatic
-    fun fallback(prefs: SharedPreferences): AiProvider = if (GEMINI.isReady(prefs)) GEMINI else NONE
+    fun fallback(prefs: SharedPreferences): AiProvider =
+      entries.firstOrNull { it != NONE && it.isReady(prefs) } ?: NONE
+
+    /** The services that can be chosen: those that are set up, and none. */
+    fun choices(prefs: SharedPreferences): List<AiProvider> =
+      entries.filter { it == NONE || it.isReady(prefs) }
+
+    /**
+     * Keeps the service in use set up after [provider]'s settings change: a service that has just
+     * been set up is used when the one in use can't be, and one that no longer is set up stops
+     * being used.
+     */
+    @JvmStatic
+    fun afterSetUpChanged(prefs: SharedPreferences, provider: AiProvider) {
+      val active = active(prefs)
+      when {
+        provider.isReady(prefs) && (active == NONE || !active.isReady(prefs)) -> setActive(prefs, provider)
+        active == provider && !provider.isReady(prefs) -> setActive(prefs, fallback(prefs))
+      }
+    }
 
     fun setOtherAddress(prefs: SharedPreferences, address: String) =
       prefs.putOrRemove(PREF_OTHER_ADDRESS, address)

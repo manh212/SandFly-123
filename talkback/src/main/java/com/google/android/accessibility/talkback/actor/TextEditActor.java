@@ -563,7 +563,7 @@ public class TextEditActor implements VoiceDictationDelegate {
             nodeText.subSequence(0, selectionStart),
             nodeText.subSequence(selectionEnd, nodeText.length()));
     Bundle arguments = new Bundle();
-    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textUpdated);
+    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textUpdated.toString());
     boolean result = PerformActionUtils.performAction(node, ACTION_SET_TEXT, arguments, eventId);
     if (!result) {
       return false;
@@ -623,7 +623,12 @@ public class TextEditActor implements VoiceDictationDelegate {
     CharSequence hintText = node.getHintText();
     // There is a low probability that the content of the input field is totally the same with the
     // hint text. In that case the current input field will be overridden by the inserted text.
-    if (TextUtils.equals(currentText, hintText)) {
+    // Some apps expose the placeholder as text without hintText, and Telegram also omits the
+    // showing-hint flag. Empty EditTexts don't offer text selection. Their placeholders must not
+    // become part of the value passed to ACTION_SET_TEXT.
+    if (node.isShowingHintText()
+        || AccessibilityNodeInfoUtils.isEmptyEditTextRegardlessOfHint(node)
+        || TextUtils.equals(currentText, hintText)) {
       currentText = null;
     }
 
@@ -631,6 +636,8 @@ public class TextEditActor implements VoiceDictationDelegate {
     if (currentText == null) {
       currentText = "";
     }
+    selectionStart = Math.min(selectionStart, currentText.length());
+    selectionEnd = Math.min(selectionEnd, currentText.length());
 
     // Set updated text.
     CharSequence textUpdated =
@@ -639,14 +646,18 @@ public class TextEditActor implements VoiceDictationDelegate {
             textToInsert,
             currentText.subSequence(selectionEnd, currentText.length()));
     Bundle arguments = new Bundle();
-    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textUpdated);
+    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textUpdated.toString());
     boolean result = PerformActionUtils.performAction(node, ACTION_SET_TEXT, arguments, eventId);
     if (!result) {
       return false;
     }
 
-    // Move cursor to end of inserted text.
-    return moveCursor(node, selectionStart + textToInsert.length(), eventId);
+    // Setting text can change the actions offered by an empty field. Refresh before moving the
+    // cursor, but don't report that typing failed when only this cursor move failed.
+    if (node.refresh()) {
+      moveCursor(node, selectionStart + textToInsert.length(), eventId);
+    }
+    return true;
   }
 
   /**
@@ -694,7 +705,7 @@ public class TextEditActor implements VoiceDictationDelegate {
                 currentText.subSequence(end, currentText.length()));
     Bundle arguments = new Bundle();
     // Key ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE expects String.
-    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textReplaced);
+    arguments.putCharSequence(ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, textReplaced.toString());
     editTextActionHistory.beforeSetText();
     boolean result = PerformActionUtils.performAction(node, ACTION_SET_TEXT, arguments, eventId);
     editTextActionHistory.afterSetText();

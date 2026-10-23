@@ -23,6 +23,12 @@
   <string name="individual_sound_browse_mode_on">Arakatze modua aktibatuta</string>
   <string name="individual_sound_browse_mode_off">Arakatze modua desaktibatuta</string>
   <string name="individual_sound_radial_menu">Menu zirkularra</string>
+  <string name="individual_sound_display_connected">Braille-pantaila konektatu da</string>
+  <string name="individual_sound_display_disconnected">Braille-pantaila deskonektatu da</string>
+  <string name="individual_sound_double_beep">Ezin izan da exekutatu braille-komandoa</string>
+  <string name="individual_sound_turn_on">Braillearen korritze automatikoa aktibatuta</string>
+  <string name="individual_sound_turn_off">Braillearen korritze automatikoa desaktibatuta</string>
+  <string name="individual_sound_calibration_done">Braille-teklatua kalibratu da</string>
   <string name="individual_vibration_focus">Elementu bat fokuratzea</string>
   <string name="individual_vibration_focus_actionable">Elementu aktibagarri bat fokuratzea</string>
   <string name="individual_vibration_clicked">Sakatu</string>
@@ -31,4 +37,19 @@
   <string name="individual_vibration_typo">Ortografia-akatsa</string>
   <string name="individual_vibration_notification">Iragarpena</string>
     <string name="individual_sound_screen_on">Pantaila piztuta dago</string>
+    <string name="individual_vibration_braille_character">Braille-teklatua: karaktere bat idaztea</string>
+    <string name="individual_vibration_braille_space">Braille-teklatua: zuriunea edo ezabatzea</string>
+    <string name="individual_vibration_braille_new_line">Braille-teklatua: lerro berria edo hitz bat ezabatzea</string>
+    <string name="individual_vibration_braille_hold">Braille-teklatua: hatzak sakatuta edukitzea</string>
+    <string name="individual_vibration_braille_gesture">Braille-teklatua: beste keinu batzuk</string>
+    <string name="individual_vibration_braille_nothing_to_delete">Braille-teklatua: ez dago ezabatzeko ezer</string>
+    <string name="individual_sound_next_reading_control">Irakurketa kontrolatzeko hurrengo aukera</string>
+    <string name="individual_sound_previous_reading_control">Irakurketa kontrolatzeko aurreko aukera</string>
+    <string name="individual_sound_edge_gesture_bottom">Ertzaren keinua behean</string>
+    <string name="individual_sound_edge_gesture_middle">Ertz keinua erdian</string>
+    <string name="individual_sound_edge_gesture_top">Ertzaren keinuaren goialdea</string>
+    <string name="individual_sound_insertion_point_moved">Txertatzeko puntua mugitu da</string>
+    <string name="individual_sound_column_wrap">Zutabea biltzea</string>
+    <string name="individual_sound_column_wrap_back">Zutabea itzuli</string>
+    <string name="individual_vibration_edge_gesture_back">Ertz keinua atzera lerratu</string>
 </resources>

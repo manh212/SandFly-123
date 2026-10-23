@@ -16,6 +16,8 @@
 
 package com.google.android.accessibility.talkback.actor.gemini.local
 
+import com.google.android.accessibility.talkback.acceleration.Accelerators
+
 /**
  * A vision model that Backtalk can run on the phone. The files come from the LiteRT community on
  * Hugging Face, and Backtalk checks each download against the hash recorded here.
@@ -40,6 +42,8 @@ data class LocalModel(
   val maxTokens: Int? = null,
   val license: String = "Apache-2.0",
   val experimental: Boolean = false,
+  /** The chip whose NPU the model is built for, or null for a model that runs on CPU and GPU. */
+  val npuChip: String? = null,
 ) {
   val localFileName: String
     get() = localName ?: "$id.litertlm"
@@ -325,7 +329,63 @@ data class LocalModel(
       note = "Made for reading text in images, not for describing them.",
       experimental = true,
     ),
+    // Built for the NPU of one chip each. Used, instead of the model chosen, when the processor is
+    // the NPU on a phone with that chip.
+    LocalModel(
+      id = "e2b-tensor-g5",
+      name = "Gemma 4 E2B (Tensor G5 NPU)",
+      repo = "litert-community/gemma-4-E2B-it-litert-lm",
+      fileName = "gemma-4-E2B-it_Google_Tensor_G5.litertlm",
+      sizeBytes = 3_113_545_589L,
+      sha256 = "af1082986639ecde7db95d91be6fe54f8b6b458104734c5bafc204e69d6852dc",
+      minTotalRamGib = 8,
+      note = "Gemma 4 E2B built for the NPU of Google Tensor G5.",
+      experimental = true,
+      npuChip = Accelerators.TENSOR_G5,
+    ),
+    LocalModel(
+      id = "e2b-tensor-g6",
+      name = "Gemma 4 E2B (Tensor G6 NPU)",
+      repo = "litert-community/gemma-4-E2B-it-litert-lm",
+      fileName = "gemma-4-E2B-it_Google_Tensor_G6.litertlm",
+      sizeBytes = 3_313_938_293L,
+      sha256 = "f86c7c19c736e9307267946edef58b0a45494a9127036d54d90dd6b7617c95b7",
+      minTotalRamGib = 8,
+      note = "Gemma 4 E2B built for the NPU of Google Tensor G6.",
+      experimental = true,
+      npuChip = Accelerators.TENSOR_G6,
+    ),
+    LocalModel(
+      id = "fastvlm-0.5b-sm8750",
+      name = "FastVLM 0.5B (Snapdragon 8 Elite NPU)",
+      repo = "litert-community/FastVLM-0.5B",
+      fileName = "FastVLM-0.5B.qualcomm.sm8750.litertlm",
+      sizeBytes = 943_226_880L,
+      sha256 = "bb3625f0d887927b01a6f8a3444580514b6165e09a8eb1af276cc14ed22d783e",
+      minTotalRamGib = 4,
+      note = "FastVLM 0.5B built for the NPU of Snapdragon 8 Elite. Apple research licence.",
+      license = "Apple research licence",
+      experimental = true,
+      npuChip = Accelerators.SNAPDRAGON_8_ELITE,
+    ),
+    LocalModel(
+      id = "fastvlm-0.5b-sm8850",
+      name = "FastVLM 0.5B (Snapdragon 8 Elite Gen 5 NPU)",
+      repo = "litert-community/FastVLM-0.5B",
+      fileName = "FastVLM-0.5B.qualcomm.sm8850.litertlm",
+      sizeBytes = 942_374_912L,
+      sha256 = "0eb6860d5c3800dc02c86515a54387f0d8289e5096db291ff6e4a993e312b482",
+      minTotalRamGib = 4,
+      note = "FastVLM 0.5B built for the NPU of Snapdragon 8 Elite Gen 5. Apple research licence.",
+      license = "Apple research licence",
+      experimental = true,
+      npuChip = Accelerators.SNAPDRAGON_8_ELITE_GEN_5,
+    ),
     )
+
+    /** The models the user can choose: those that run on the CPU and GPU. */
+    val choices: List<LocalModel>
+      get() = entries.filter { it.npuChip == null }
 
     val E2B: LocalModel = entries.first { it.id == "e2b" }
     val E4B: LocalModel = entries.first { it.id == "e4b" }

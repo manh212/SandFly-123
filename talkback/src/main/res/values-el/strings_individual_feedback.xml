@@ -23,6 +23,12 @@
   <string name="individual_sound_browse_mode_on">Λειτουργία περιήγησης ενεργή</string>
   <string name="individual_sound_browse_mode_off">Λειτουργία περιήγησης ανενεργή</string>
   <string name="individual_sound_radial_menu">Κυκλικό μενού</string>
+  <string name="individual_sound_display_connected">Η οθόνη Braille συνδέθηκε</string>
+  <string name="individual_sound_display_disconnected">Η οθόνη Braille αποσυνδέθηκε</string>
+  <string name="individual_sound_double_beep">Η εντολή Braille απέτυχε</string>
+  <string name="individual_sound_turn_on">Αυτόματη κύλιση Braille ενεργή</string>
+  <string name="individual_sound_turn_off">Αυτόματη κύλιση Braille ανενεργή</string>
+  <string name="individual_sound_calibration_done">Το πληκτρολόγιο Braille βαθμονομήθηκε</string>
   <string name="individual_vibration_focus">Εστίαση σε στοιχείο</string>
   <string name="individual_vibration_focus_actionable">Εστίαση σε στοιχείο με ενέργεια</string>
   <string name="individual_vibration_clicked">Κλικ</string>
@@ -31,4 +37,19 @@
   <string name="individual_vibration_typo">Ορθογραφικό λάθος</string>
   <string name="individual_vibration_notification">Ανακοίνωση</string>
     <string name="individual_sound_screen_on">Οθόνη ενεργή</string>
+    <string name="individual_vibration_braille_character">Πληκτρολόγιο μπράιγ: πληκτρολόγηση χαρακτήρα</string>
+    <string name="individual_vibration_braille_space">Πληκτρολόγιο μπράιγ: διάστημα ή διαγραφή</string>
+    <string name="individual_vibration_braille_new_line">Πληκτρολόγιο μπράιγ: νέα γραμμή ή διαγραφή λέξης</string>
+    <string name="individual_vibration_braille_hold">Πληκτρολόγιο μπράιγ: κράτημα δαχτύλων</string>
+    <string name="individual_vibration_braille_gesture">Πληκτρολόγιο μπράιγ: άλλες κινήσεις</string>
+    <string name="individual_vibration_braille_nothing_to_delete">Πληκτρολόγιο μπράιγ: τίποτα για διαγραφή</string>
+    <string name="individual_sound_next_reading_control">Επόμενο στοιχείο ελέγχου ανάγνωσης</string>
+    <string name="individual_sound_previous_reading_control">Προηγούμενο στοιχείο ελέγχου ανάγνωσης</string>
+    <string name="individual_sound_edge_gesture_bottom">Χειρονομία στο κάτω μέρος</string>
+    <string name="individual_sound_edge_gesture_middle">Χειρονομία άκρης στη μέση</string>
+    <string name="individual_sound_edge_gesture_top">Επάνω μέρος με χειρονομίες</string>
+    <string name="individual_sound_insertion_point_moved">Το σημείο εισαγωγής μετακινήθηκε</string>
+    <string name="individual_sound_column_wrap">Περιτύλιγμα στήλης</string>
+    <string name="individual_sound_column_wrap_back">Περιτύλιγμα στήλης πίσω</string>
+    <string name="individual_vibration_edge_gesture_back">Η κίνηση της άκρης σύρεται προς τα πίσω</string>
 </resources>

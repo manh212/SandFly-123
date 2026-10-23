@@ -11,3 +11,7 @@ scripting/quickjs/.cxx/
 scripting/quickjs/build/
 talkback/build/
 utils/build/
+whisper/.cxx/
+whisper/build/
+whisper-opencl/.cxx/
+whisper-opencl/build/

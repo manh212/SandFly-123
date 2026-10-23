@@ -23,6 +23,12 @@
   <string name="individual_sound_browse_mode_on">Mode navigation activé</string>
   <string name="individual_sound_browse_mode_off">Mode navigation désactivé</string>
   <string name="individual_sound_radial_menu">Menu circulaire</string>
+  <string name="individual_sound_display_connected">Afficheur braille connecté</string>
+  <string name="individual_sound_display_disconnected">Afficheur braille déconnecté</string>
+  <string name="individual_sound_double_beep">Échec de la commande braille</string>
+  <string name="individual_sound_turn_on">Défilement braille automatique activé</string>
+  <string name="individual_sound_turn_off">Défilement braille automatique désactivé</string>
+  <string name="individual_sound_calibration_done">Clavier braille calibré</string>
   <string name="individual_vibration_focus">Sélection d\'un élément</string>
   <string name="individual_vibration_focus_actionable">Sélection d\'un élément activable</string>
   <string name="individual_vibration_clicked">Clic</string>
@@ -31,4 +37,19 @@
   <string name="individual_vibration_typo">Faute d\'orthographe</string>
   <string name="individual_vibration_notification">Annonce</string>
     <string name="individual_sound_screen_on">Écran activé</string>
+    <string name="individual_vibration_braille_character">Clavier braille : saisie d\'un caractère</string>
+    <string name="individual_vibration_braille_space">Clavier braille : espace ou suppression</string>
+    <string name="individual_vibration_braille_new_line">Clavier braille : nouvelle ligne ou suppression d\'un mot</string>
+    <string name="individual_vibration_braille_hold">Clavier braille : doigts maintenus</string>
+    <string name="individual_vibration_braille_gesture">Clavier braille : autres gestes</string>
+    <string name="individual_vibration_braille_nothing_to_delete">Clavier braille : rien à supprimer</string>
+    <string name="individual_sound_next_reading_control">Commande de lecture suivante</string>
+    <string name="individual_sound_previous_reading_control">Commande de lecture précédente</string>
+    <string name="individual_sound_edge_gesture_bottom">Geste de bord inférieur</string>
+    <string name="individual_sound_edge_gesture_middle">Geste de bord central</string>
+    <string name="individual_sound_edge_gesture_top">Geste de bord supérieur</string>
+    <string name="individual_sound_insertion_point_moved">Point d\'insertion déplacé</string>
+    <string name="individual_sound_column_wrap">Retour à la ligne de colonne</string>
+    <string name="individual_sound_column_wrap_back">Retour en arrière de la colonne</string>
+    <string name="individual_vibration_edge_gesture_back">Retour du geste de bord</string>
 </resources>

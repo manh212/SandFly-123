@@ -23,6 +23,12 @@
   <string name="individual_sound_browse_mode_on">Рэжым прагляду ўключаны</string>
   <string name="individual_sound_browse_mode_off">Рэжым прагляду выключаны</string>
   <string name="individual_sound_radial_menu">Кругавое меню</string>
+  <string name="individual_sound_display_connected">Дысплэй Брайля падключаны</string>
+  <string name="individual_sound_display_disconnected">Дысплэй Брайля адключаны</string>
+  <string name="individual_sound_double_beep">Памылка каманды Брайля</string>
+  <string name="individual_sound_turn_on">Аўтапракручванне Брайля ўключана</string>
+  <string name="individual_sound_turn_off">Аўтапракручванне Брайля выключана</string>
+  <string name="individual_sound_calibration_done">Клавіятура Брайля адкалібравана</string>
   <string name="individual_vibration_focus">Фокус на элеменце</string>
   <string name="individual_vibration_focus_actionable">Фокус на актыўным элеменце</string>
   <string name="individual_vibration_clicked">Націсканне</string>
@@ -31,4 +37,19 @@
   <string name="individual_vibration_typo">Арфаграфічная памылка</string>
   <string name="individual_vibration_notification">Аб\'ява</string>
     <string name="individual_sound_screen_on">Уключэнне экрана</string>
+    <string name="individual_vibration_braille_character">Клавіятура Брайля: увод сімвала</string>
+    <string name="individual_vibration_braille_space">Клавіятура Брайля: прабел або выдаленне</string>
+    <string name="individual_vibration_braille_new_line">Клавіятура Брайля: новы радок або выдаленне слова</string>
+    <string name="individual_vibration_braille_hold">Клавіятура Брайля: утрыманне пальцаў</string>
+    <string name="individual_vibration_braille_gesture">Клавіятура Брайля: іншыя жэсты</string>
+    <string name="individual_vibration_braille_nothing_to_delete">Клавіятура Брайля: няма чаго выдаляць</string>
+    <string name="individual_sound_next_reading_control">Наступны элемент кіравання чытаннем</string>
+    <string name="individual_sound_previous_reading_control">Папярэдні элемент кіравання чытаннем</string>
+    <string name="individual_sound_edge_gesture_bottom">Жэст краю ўнізе</string>
+    <string name="individual_sound_edge_gesture_middle">Жэст краю пасярэдзіне</string>
+    <string name="individual_sound_edge_gesture_top">Жэст краю зверху</string>
+    <string name="individual_sound_insertion_point_moved">Пункт устаўкі перамешчаны</string>
+    <string name="individual_sound_column_wrap">Абкручванне слупка</string>
+    <string name="individual_sound_column_wrap_back">Слупок абгарнуць спінку</string>
+    <string name="individual_vibration_edge_gesture_back">Краёвы жэст ссуньце назад</string>
 </resources>

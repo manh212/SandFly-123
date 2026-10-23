@@ -23,6 +23,12 @@
   <string name="individual_sound_browse_mode_on">Режим обзора включён</string>
   <string name="individual_sound_browse_mode_off">Режим обзора отключён</string>
   <string name="individual_sound_radial_menu">Круговое меню</string>
+  <string name="individual_sound_display_connected">Дисплей Брайля подключён</string>
+  <string name="individual_sound_display_disconnected">Дисплей Брайля отключён</string>
+  <string name="individual_sound_double_beep">Ошибка команды Брайля</string>
+  <string name="individual_sound_turn_on">Автопрокрутка Брайля включена</string>
+  <string name="individual_sound_turn_off">Автопрокрутка Брайля выключена</string>
+  <string name="individual_sound_calibration_done">Клавиатура Брайля откалибрована</string>
   <string name="individual_vibration_focus">Фокус на элементе</string>
   <string name="individual_vibration_focus_actionable">Фокус на элементе, который можно активировать</string>
   <string name="individual_vibration_clicked">Нажатие</string>
@@ -30,4 +36,20 @@
   <string name="individual_vibration_window_state">Смена окна</string>
   <string name="individual_vibration_typo">Орфографическая ошибка</string>
   <string name="individual_vibration_notification">Оповещение</string>
+  <string name="individual_vibration_braille_character">Клавиатура Брайля: ввод символа</string>
+  <string name="individual_vibration_braille_space">Клавиатура Брайля: пробел или удаление</string>
+  <string name="individual_vibration_braille_new_line">Клавиатура Брайля: новая строка или удаление слова</string>
+  <string name="individual_vibration_braille_hold">Клавиатура Брайля: удержание пальцев на экране</string>
+  <string name="individual_vibration_braille_gesture">Клавиатура Брайля: другие жесты</string>
+  <string name="individual_vibration_braille_nothing_to_delete">Клавиатура Брайля: нечего удалять</string>
+    <string name="individual_sound_next_reading_control">Следующий элемент управления чтением</string>
+    <string name="individual_sound_previous_reading_control">Предыдущий элемент управления чтением</string>
+    <string name="individual_sound_edge_gesture_bottom">Жест края внизу</string>
+    <string name="individual_sound_edge_gesture_middle">Краевой жест посередине</string>
+    <string name="individual_sound_edge_gesture_top">Краевой жест вверху</string>
+    <string name="individual_sound_insertion_point_moved">Точка вставки перемещена</string>
+    <string name="individual_sound_column_wrap">Перенос столбца</string>
+    <string name="individual_sound_column_wrap_back">Колонка обертывается назад</string>
+    <string name="individual_sound_screen_on">Экран включен</string>
+    <string name="individual_vibration_edge_gesture_back">Краевой жест сдвинуть назад</string>
 </resources>
