@@ -194,6 +194,8 @@ public class TouchInteractionMonitor
   private final int determineUserIntentTimeout = GestureConfiguration.DOUBLE_TAP_TIMEOUT_MS;
   /** How long after touch down a one-finger swipe can start: the swipe matchers' start limit. */
   private final int swipeStartWindowMs;
+  // Whether touch exploration skips the swipe start hold; see setReduceSwipeStartDelay.
+  private static volatile boolean reduceSwipeStartDelay = false;
   private int typingFocusUserIntentTimeout;
   private int touchFocusUserIntentTimeout;
 
@@ -1220,7 +1222,10 @@ public class TouchInteractionMonitor
     if (gestureId >= GESTURE_SWIPE_UP && gestureId <= GESTURE_SWIPE_DOWN_AND_RIGHT) {
       // A one-finger swipe moving its way: touch exploration waits until the swipe either starts
       // or runs out of time to, so that a swipe that starts slowly isn't explored.
-      if (requestTouchExplorationDelayed.isPending() && !isLiftToType && !downOnKeyboard) {
+      if (!reduceSwipeStartDelay
+          && requestTouchExplorationDelayed.isPending()
+          && !isLiftToType
+          && !downOnKeyboard) {
         requestTouchExplorationDelayed.extendTo(swipeStartWindowMs);
       }
       return;
@@ -1245,6 +1250,14 @@ public class TouchInteractionMonitor
     // TYPE_GESTURE_DETECTION_END when using TalkBack gesture detection. So the module has to
     // manually notify the service that gesture detection has been started.
     service.onGestureDetectionStarted();
+  }
+
+  /**
+   * Sets whether touch exploration starts without waiting for a starting swipe to be ruled out,
+   * so touches respond sooner but a slowly starting swipe may be explored instead.
+   */
+  public static void setReduceSwipeStartDelay(boolean reduce) {
+    reduceSwipeStartDelay = reduce;
   }
 
   public void setMultiFingerGesturesEnabled(boolean mode) {

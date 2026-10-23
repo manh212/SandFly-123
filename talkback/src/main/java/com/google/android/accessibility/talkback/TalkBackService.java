@@ -3468,6 +3468,12 @@ public class TalkBackService extends AccessibilityServiceCompat
       enableAnimation(!reduceDelayPref);
     }
     WindowEventInterpreter.setReduceWindowDelay(reduceDelayPref);
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+      TouchInteractionMonitor.setReduceSwipeStartDelay(
+          getBooleanPref(
+              R.string.pref_reduce_swipe_start_delay_key,
+              R.bool.pref_reduce_swipe_start_delay_default));
+    }
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);
 

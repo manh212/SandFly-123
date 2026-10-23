@@ -304,6 +304,7 @@
   <string name="title_activity_dump_a11y_event">Chọn sự kiện để ghi</string>
   <string name="title_pref_dump_a11y_event">Lọc ghi sự kiện hỗ trợ tiếp cận</string>
   <string name="pref_reduce_window_delay_title">Tắt hiệu ứng động</string>
+  <string name="pref_reduce_swipe_start_delay_title">Giảm độ trễ bắt đầu vuốt</string>
   <string name="title_pref_log_level">Mức đầu ra của nhật ký</string>
   <string name="title_pref_diagnosis_mode">Chế độ chẩn đoán</string>
   <string name="title_pref_tts_overlay">Hiển thị đầu ra bằng giọng nói</string>
@@ -1524,6 +1525,7 @@
     <string name="summary_pref_speaker_devices_none">Không có</string>
     <string name="summary_pref_speaker_devices_no_devices">Chưa kết nối thiết bị Bluetooth hoặc có dây nào</string>
     <string name="pref_reduce_window_delay_summary">SandFly đọc màn hình mới nhanh hơn khi tắt hiệu ứng động. Thao tác này tắt hiệu ứng động trên toàn bộ điện thoại.</string>
+    <string name="pref_reduce_swipe_start_delay_summary">Khám phá chạm bắt đầu ngay mà không chờ cử chỉ vuốt bắt đầu, nên thao tác chạm phản hồi sớm hơn. Cử chỉ vuốt bắt đầu chậm có thể bị nhận thành khám phá chạm.</string>
     <string name="dialog_message_detailed_ai_description">Hình ảnh được chọn sẽ được gửi đến Gemini API của Google để mô tả. Khi bật AI trên thiết bị, hình ảnh sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
     <string name="dialog_message_detailed_ai_promotion">Tính năng mô tả hình ảnh chi tiết dùng AI tạo sinh. Hình ảnh được chọn sẽ được gửi đến Gemini API của Google để mô tả. Khi bật AI trên thiết bị, hình ảnh sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. Bạn có thể tắt tính năng mô tả hình ảnh chi tiết bất cứ lúc nào trong phần cài đặt SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
     <string name="dialog_message_screen_overview_promotion">Ảnh chụp màn hình sẽ được gửi đến Gemini API của Google để mô tả, việc này mất vài giây. Khi bật AI trên thiết bị, ảnh chụp màn hình sẽ được mô tả trên điện thoại này và không được gửi đi.\n\nVới khoá API miễn phí, Google có thể lưu giữ nội dung nhận được, dùng nội dung đó để cải thiện sản phẩm và cho nhân viên xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ có sai sót. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> được áp dụng.</string>
