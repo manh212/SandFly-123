@@ -267,8 +267,8 @@
     <string name="timer_settings_title">Timer settings</string>
     <!-- Setting screen of the stopwatch. -->
     <string name="stopwatch_title">Stopwatch</string>
-    <!-- Switch: holding volume up just after the screen turns on, while the phone is locked, starts or stops the stopwatch. -->
-    <string name="stopwatch_volume_activation_title">Activate stopwatch with volume key</string>
+    <!-- Action: starts the stopwatch if it is stopped, and stops it if it is running. -->
+    <string name="shortcut_toggle_stopwatch">Toggle stopwatch</string>
     <!-- Switch: a sound is played when the stopwatch starts, stops and reminds. -->
     <string name="stopwatch_sound_title">Sound</string>
     <!-- Switch: the phone vibrates when the stopwatch starts, stops and reminds. -->

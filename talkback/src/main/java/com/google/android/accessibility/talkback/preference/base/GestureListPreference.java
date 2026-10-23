@@ -70,6 +70,8 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   // Every item in the page, contains titles and actions.
   private ImmutableList<ActionItem> items;
   private String initialValue;
+  // Whether the action list is restricted to the actions that make sense on the lock screen.
+  private boolean lockScreenActionsOnly = false;
   // A customized summary which is used when the preference is in disable state
   @Nullable private String summaryWhenDisabled;
 
@@ -120,9 +122,75 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   public ActionItem[] getActionItems() {
     ImmutableList.Builder<ActionItem> builder = ImmutableList.builder();
     builder.addAll(items);
-    addActionItemsToList(builder, createOpenApp());
+    if (!lockScreenActionsOnly) {
+      addActionItemsToList(builder, createOpenApp());
+    }
     ImmutableList<ActionItem> allItems = builder.build();
     return allItems.toArray(new ActionItem[allItems.size()]);
+  }
+
+  /**
+   * Restricts the list to the few actions that make sense while the phone is locked. Called by
+   * the volume key settings for the two "press and hold on the lock screen" rows.
+   */
+  public void setLockScreenActionsOnly() {
+    lockScreenActionsOnly = true;
+    items = createLockScreenActions();
+  }
+
+  private ImmutableList<ActionItem> createLockScreenActions() {
+    ImmutableList.Builder<ActionItem> builder = ImmutableList.builder();
+    Resources resources = getContext().getResources();
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_unassigned),
+            resources.getString(R.string.shortcut_value_unassigned),
+            TYPE_ACTION_ITEM));
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_increase_contextual_volume),
+            resources.getString(R.string.shortcut_value_increase_contextual_volume),
+            TYPE_ACTION_ITEM));
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_decrease_contextual_volume),
+            resources.getString(R.string.shortcut_value_decrease_contextual_volume),
+            TYPE_ACTION_ITEM));
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_toggle_stopwatch),
+            resources.getString(R.string.shortcut_value_toggle_stopwatch),
+            TYPE_ACTION_ITEM));
+    if (FeatureSupport.supportMediaControls()) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_media_control),
+              resources.getString(R.string.shortcut_value_media_control),
+              TYPE_ACTION_ITEM));
+    }
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_read_notifications),
+            resources.getString(R.string.shortcut_value_read_notifications),
+            TYPE_ACTION_ITEM));
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_stop_notification),
+            resources.getString(R.string.shortcut_value_stop_notification),
+            TYPE_ACTION_ITEM));
+    if (FeatureFlagReader.enableAnnounceCurrentTimeAndDate(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_current_time_and_date),
+              resources.getString(R.string.shortcut_value_announce_current_time_and_date),
+              TYPE_ACTION_ITEM));
+    }
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_announce_status),
+            resources.getString(R.string.shortcut_value_announce_status),
+            TYPE_ACTION_ITEM));
+    return builder.build();
   }
 
   /** The setter of the preference value. */
@@ -437,6 +505,24 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
         new ActionItem(
             resources.getString(R.string.shortcut_decrease_media_volume),
             resources.getString(R.string.shortcut_value_decrease_media_volume),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_increase_contextual_volume),
+            resources.getString(R.string.shortcut_value_increase_contextual_volume),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_decrease_contextual_volume),
+            resources.getString(R.string.shortcut_value_decrease_contextual_volume),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_toggle_stopwatch),
+            resources.getString(R.string.shortcut_value_toggle_stopwatch),
             TYPE_ACTION_ITEM));
 
     if (TalkbackFeatureSupport.supportSpeechRecognize()) {

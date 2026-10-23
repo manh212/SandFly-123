@@ -8,6 +8,8 @@
       Description: This is spoken to the user. [CHAR_LIMIT=NONE]
     -->
     <string name="template_stream_volume_set"><xliff:g id="stream_name">%1$s</xliff:g> volume set to <xliff:g id="percent">%2$d</xliff:g> percent.</string>
+    <!-- Said right away when SandFly changes the volume itself: the new volume as a percent. -->
+    <string name="template_volume_percent">Volume <xliff:g id="percent">%1$d</xliff:g> percent.</string>
 
     <!--
       Source: An utterance template for announcing mute for a particular stream (e.g. music, alarm,

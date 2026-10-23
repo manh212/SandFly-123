@@ -404,6 +404,14 @@ public class GestureController {
       changeMediaVolume(eventId, /* decrease= */ false);
     } else if (action.equals(service.getString(R.string.shortcut_value_decrease_media_volume))) {
       changeMediaVolume(eventId, /* decrease= */ true);
+    } else if (action.equals(
+        service.getString(R.string.shortcut_value_increase_contextual_volume))) {
+      service.adjustContextualVolume(/* increase= */ true);
+    } else if (action.equals(
+        service.getString(R.string.shortcut_value_decrease_contextual_volume))) {
+      service.adjustContextualVolume(/* increase= */ false);
+    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_stopwatch))) {
+      NotificationReader.toggleStopwatch();
     } else if (action.equals(service.getString(R.string.shortcut_value_back))) {
       result =
           pipeline.returnFeedback(

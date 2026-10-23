@@ -1298,6 +1298,9 @@
   <string name="shortcut_value_stop_notification">STOP_NOTIFICATION</string>
   <string name="shortcut_value_decrease_media_volume">DECREASE_MEDIA_VOLUME</string>
   <string name="shortcut_value_decrease_volume">DECREASE_VOLUME</string>
+  <string name="shortcut_value_increase_contextual_volume">INCREASE_CONTEXTUAL_VOLUME</string>
+  <string name="shortcut_value_decrease_contextual_volume">DECREASE_CONTEXTUAL_VOLUME</string>
+  <string name="shortcut_value_toggle_stopwatch">TOGGLE_STOPWATCH</string>
   <string name="shortcut_value_pass_through_next_gesture">ENABLE_PASS_THROUGH</string>
   <string name="shortcut_value_a11y_button">ACCESSIBILITY_BUTTON</string>
   <string name="shortcut_value_a11y_button_long_press">ACCESSIBILITY_BUTTON_CHOOSER</string>

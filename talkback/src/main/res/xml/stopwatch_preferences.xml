@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Stopwatch: started and stopped by holding volume up at the lock screen. -->
+<!-- Stopwatch. Holding volume up at the lock screen starts or stops it, as the volume key
+     settings say. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="true"
-      android:key="pref_stopwatch_volume_activation"
-      android:title="@string/stopwatch_volume_activation_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="true"
       android:key="pref_stopwatch_sound"

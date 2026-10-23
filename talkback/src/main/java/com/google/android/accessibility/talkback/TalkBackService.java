@@ -215,7 +215,7 @@ import com.google.android.accessibility.talkback.monitor.ProximitySensorMonitor;
 import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
-import com.google.android.accessibility.talkback.timer.StopwatchVolumeKey;
+import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
@@ -287,6 +287,7 @@ import com.google.android.accessibility.utils.input.TextEventFilter.TypingInput;
 import com.google.android.accessibility.utils.input.TextEventHistory;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
 import com.google.android.accessibility.utils.input.WindowEventInterpreter;
+import com.google.android.accessibility.utils.compat.media.AudioManagerCompatUtils;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.accessibility.utils.monitor.AudioPlaybackMonitor;
 import com.google.android.accessibility.utils.monitor.CollectionState;
@@ -301,10 +302,12 @@ import com.google.android.accessibility.utils.output.EditTextActionHistory;
 import com.google.android.accessibility.utils.output.EmojiSpeech;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech;
 import com.google.android.accessibility.utils.output.FeedbackController;
+import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FeedbackProcessingUtils;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechController;
+import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.accessibility.utils.output.SpeechController.UtteranceCompleteRunnable;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl.CapitalLetterHandlingMethod;
@@ -815,9 +818,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   // Records whether the last keystroke of VolumeDown key occurred in the passthrough window.
   private boolean volumeDownKeyPressedInPassThroughWindow = false;
   // What the last press of VolumeUp or VolumeDown did instead of changing the volume.
-  private static final int VOLUME_KEY_CHANGES_VOLUME = 0;
-  private static final int VOLUME_KEY_ADJUSTS_SLIDER = 1;
-  private static final int VOLUME_KEY_MOVES_CURSOR = 2;
+  public static final int VOLUME_KEY_CHANGES_VOLUME = 0;
+  public static final int VOLUME_KEY_ADJUSTS_SLIDER = 1;
+  public static final int VOLUME_KEY_MOVES_CURSOR = 2;
   private int volumeUpKeyUse = VOLUME_KEY_CHANGES_VOLUME;
   private int volumeDownKeyUse = VOLUME_KEY_CHANGES_VOLUME;
 
@@ -923,7 +926,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       ringerModeAndScreenMonitor.stopMonitoring(this);
       ringerModeAndScreenMonitor.clearListeners();
     }
-    StopwatchVolumeKey.reset();
+    VolumeKeyManager.reset();
     while (true) {
       synchronized (disableTalkBackCompleteAction) {
         try {
@@ -1440,7 +1443,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (NotificationReader.onKeyEvent(keyEvent)) {
       return true;
     }
-    if (StopwatchVolumeKey.onKeyEvent(this, keyEvent)) {
+    if (VolumeKeyManager.onKeyEvent(this, keyEvent, triggerModifierPressed)) {
       return true;
     }
     if (adjustSliderWithVolumeKey(keyEvent, triggerModifierPressed)) {
@@ -1564,27 +1567,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     // Holding the key repeats the adjustment, even if focus leaves the slider meanwhile.
     if (keyEvent.getRepeatCount() == 0) {
-      int use = VOLUME_KEY_CHANGES_VOLUME;
-      boolean canUse =
-          (volumeKeysAdjustSliders || volumeKeysMoveCursor)
-              && isServiceActive()
-              && !isTouchInteracting
-              && !triggerModifierPressed
-                  && !pipeline.getActorState().getContinuousRead().isActive()
-              && ringerModeAndScreenMonitor != null
-              && ringerModeAndScreenMonitor.isInteractive();
-      if (canUse
-          && volumeKeysAdjustSliders
-          && Role.getRole(accessibilityFocusMonitor.getSupportedAdjustableNode())
-              == Role.ROLE_SEEK_CONTROL) {
-        use = VOLUME_KEY_ADJUSTS_SLIDER;
-      } else if (canUse && volumeKeysMoveCursor) {
-        AccessibilityNodeInfoCompat focus =
-            accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-        if (focus != null && focus.isEditable()) {
-          use = VOLUME_KEY_MOVES_CURSOR;
-        }
-      }
+      int use = resolveVolumeKeyUse(triggerModifierPressed);
       if (isUp) {
         volumeUpKeyUse = use;
       } else {
@@ -1595,6 +1578,44 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (use == VOLUME_KEY_CHANGES_VOLUME) {
       return false;
     }
+    performVolumeKeyUse(use, isUp);
+    return true;
+  }
+
+  /**
+   * What a volume key press does with the focused control instead of changing the volume, if
+   * anything: {@link #VOLUME_KEY_ADJUSTS_SLIDER} or {@link #VOLUME_KEY_MOVES_CURSOR} when the
+   * matching setting is on and focus is on a slider or in a text field, and {@link
+   * #VOLUME_KEY_CHANGES_VOLUME} otherwise. The volume key manager asks the same question for a
+   * press it manages.
+   */
+  public int resolveVolumeKeyUse(boolean triggerModifierPressed) {
+    int use = VOLUME_KEY_CHANGES_VOLUME;
+    boolean canUse =
+        (volumeKeysAdjustSliders || volumeKeysMoveCursor)
+            && isServiceActive()
+            && !isTouchInteracting
+            && !triggerModifierPressed
+                && !pipeline.getActorState().getContinuousRead().isActive()
+            && ringerModeAndScreenMonitor != null
+            && ringerModeAndScreenMonitor.isInteractive();
+    if (canUse
+        && volumeKeysAdjustSliders
+        && Role.getRole(accessibilityFocusMonitor.getSupportedAdjustableNode())
+            == Role.ROLE_SEEK_CONTROL) {
+      use = VOLUME_KEY_ADJUSTS_SLIDER;
+    } else if (canUse && volumeKeysMoveCursor) {
+      AccessibilityNodeInfoCompat focus =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+      if (focus != null && focus.isEditable()) {
+        use = VOLUME_KEY_MOVES_CURSOR;
+      }
+    }
+    return use;
+  }
+
+  /** Carries out a use {@link #resolveVolumeKeyUse} decided, for one press or one repeat of it. */
+  public void performVolumeKeyUse(int use, boolean isUp) {
     if (use == VOLUME_KEY_MOVES_CURSOR) {
       pipeline
           .getFeedbackReturner()
@@ -1606,16 +1627,81 @@ public class TalkBackService extends AccessibilityServiceCompat
                           : TraversalStrategy.SEARCH_FOCUS_FORWARD)
                   .setInputMode(InputModeTracker.INPUT_MODE_KEYBOARD)
                   .setGranularity(CursorGranularity.CHARACTER));
-      return true;
+      return;
     }
+    if (use == VOLUME_KEY_ADJUSTS_SLIDER) {
+      pipeline
+          .getFeedbackReturner()
+          .returnFeedback(
+              Performance.EVENT_ID_UNTRACKED,
+              Feedback.adjustValue(
+                  isUp
+                      ? Feedback.AdjustValue.Action.INCREASE_VALUE
+                      : Feedback.AdjustValue.Action.DECREASE_VALUE));
+    }
+  }
+
+  /** Whether a finger is on the screen now, from touch interaction start and end events. */
+  public boolean isTouchInteracting() {
+    return isTouchInteracting;
+  }
+
+  /** Runs an action from the gesture catalog, as if it had been assigned to a gesture. */
+  public void performCatalogAction(String action) {
+    if (gestureController != null) {
+      gestureController.performAction(action, EVENT_ID_UNTRACKED);
+    }
+  }
+
+  /**
+   * Changes the volume a step and says the new volume as a percent, right away: the
+   * accessibility volume while a finger is on the screen, the media volume otherwise. No system
+   * volume panel is shown. Used for the contextual volume actions, from a gesture or from a
+   * volume key SandFly manages.
+   */
+  public void adjustContextualVolume(boolean increase) {
+    adjustContextualVolume(increase, isTouchInteracting);
+  }
+
+  /** As {@link #adjustContextualVolume(boolean)}, with the touch state given by the caller. */
+  public void adjustContextualVolume(boolean increase, boolean touching) {
+    AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+    if (audioManager == null || pipeline == null) {
+      return;
+    }
+    int stream = touching ? AudioManager.STREAM_ACCESSIBILITY : AudioManager.STREAM_MUSIC;
+    ignoreSelfVolumeChange(stream);
+    AudioManagerCompatUtils.adjustStreamVolume(
+        audioManager,
+        stream,
+        increase ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER,
+        /* flags= */ 0,
+        getClass().getName());
+    if (!getBooleanPref(
+        R.string.pref_speak_volume_changes_key, R.bool.pref_speak_volume_changes_default)) {
+      return;
+    }
+    int min =
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.P
+            ? audioManager.getStreamMinVolume(stream)
+            : 0;
+    int max = audioManager.getStreamMaxVolume(stream);
+    if (max <= min) {
+      return;
+    }
+    int percent = Math.round(100f * (audioManager.getStreamVolume(stream) - min) / (max - min));
     pipeline
         .getFeedbackReturner()
         .returnFeedback(
-            Performance.EVENT_ID_UNTRACKED,
-            Feedback.adjustValue(
-                isUp ? Feedback.AdjustValue.Action.INCREASE_VALUE
-                    : Feedback.AdjustValue.Action.DECREASE_VALUE));
-    return true;
+            EVENT_ID_UNTRACKED,
+            Feedback.speech(
+                getString(R.string.template_volume_percent, percent),
+                SpeakOptions.create()
+                    .setQueueMode(SpeechController.QUEUE_MODE_INTERRUPT)
+                    .setFlags(
+                        FeedbackItem.FLAG_NO_HISTORY
+                            | FeedbackItem.FLAG_FORCE_FEEDBACK_ALL
+                            | FeedbackItem.FLAG_SKIP_DUPLICATE)));
   }
 
   @Override
@@ -1951,6 +2037,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     SharedPreferencesUtils.migrateSharedPreferences(this);
     prefs = SharedPreferencesUtils.getSharedPreferences(this);
+    VolumeKeyManager.migrate(this);
 
     if (FeatureFlagReader.usePeriodAsSeparator(getBaseContext())) {
       CompositorUtils.usePeriodAsSeparator();

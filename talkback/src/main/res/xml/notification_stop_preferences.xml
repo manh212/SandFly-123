@@ -29,10 +29,6 @@
       android:title="@string/notification_pocket_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="false"
-      android:key="pref_notification_volume_keys_stop"
-      android:title="@string/notification_volume_keys_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="false"
       android:key="pref_notification_dismiss_stops"
       android:title="@string/notification_dismiss_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference

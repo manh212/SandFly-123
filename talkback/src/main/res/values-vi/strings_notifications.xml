@@ -133,7 +133,7 @@
     <string name="notification_clock_exact_summary">Cần quyền Báo thức và lời nhắc. Nếu không, thời gian có thể được đọc trễ tới một phút.</string>
     <string name="timer_settings_title">Cài đặt hẹn giờ</string>
     <string name="stopwatch_title">Đồng hồ bấm giờ</string>
-    <string name="stopwatch_volume_activation_title">Kích hoạt bấm giờ bằng phím âm lượng</string>
+    <string name="shortcut_toggle_stopwatch">Bật hoặc tắt đồng hồ bấm giờ</string>
     <string name="stopwatch_sound_title">Âm thanh</string>
     <string name="stopwatch_vibration_title">Rung</string>
     <string name="stopwatch_interval_title">Nhắc lại mỗi</string>
