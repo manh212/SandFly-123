@@ -103,6 +103,7 @@ import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting.DescriptionAndHint;
 import com.google.android.accessibility.talkback.speech.VoiceProfileNames;
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
+import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -1253,12 +1254,32 @@ public class SelectorController implements UserInputEventListener {
     return false;
   }
 
+  /**
+   * Returns whether focus moving to {@code nodeInfo} must leave the current reading control
+   * alone: the user turned off changing the reading control in selection mode — whose summary
+   * promises the current reading control is kept in web content — and the node is in web content.
+   */
+  static boolean keepsReadingControlInWebContent(
+      Context context, SharedPreferences prefs, AccessibilityNodeInfo nodeInfo) {
+    return !prefs.getBoolean(
+            context.getString(R.string.pref_selection_mode_reading_control_key),
+            context.getResources()
+                .getBoolean(R.bool.pref_selection_mode_reading_control_default))
+        && AccessibilityNodeInfoUtils.isSelfOrAncestorRoleWebView(
+            AccessibilityNodeInfoCompat.wrap(nodeInfo));
+  }
+
   private void switchCurrentSetting(AccessibilityNodeInfo nodeInfo) {
     Setting currentSetting = getCurrentSetting(context, prefs);
     if (nodeInfo == null) {
       return;
     }
     lastFocusedNode = null;
+    if (keepsReadingControlInWebContent(context, prefs, nodeInfo)) {
+      // The user's reading control is kept in web content: focus changes within a web page
+      // must not replace it with a contextual setting, or restore a cached one, either.
+      return;
+    }
     boolean autoSwitch =
         prefs.getBoolean(
             context.getString(R.string.pref_selector_auto_switch_key),
