@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_export_diagnostics_to_downloads_key"
+      android:title="@string/title_pref_export_diagnostics_to_downloads"/>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_copy_diagnostics_key"
+      android:title="@string/title_pref_copy_diagnostics"/>
+</PreferenceScreen>

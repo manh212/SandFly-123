@@ -54,4 +54,8 @@
       android:key="@string/pref_dump_a11y_event_key"
       android:title="@string/title_pref_dump_a11y_event"
       android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackDumpAccessibilityEventFragment" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_export_diagnostics_key"
+      android:title="@string/title_pref_export_diagnostics"
+      android:fragment="com.google.android.accessibility.talkback.preference.base.DiagnosticsPrefFragment" />
 </PreferenceScreen>
