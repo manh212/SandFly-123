@@ -24,12 +24,24 @@ exceptions.
 
 ## Working agreements
 
-- Split large work into several small, consecutive pull requests instead of one
-  giant pull request.
+- Keep each task in one coherent pull request, sized to the task. Do not split
+  a task into several stacked pull requests unless the owner asks for it.
 - Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
   it reports.
 - When a pull request build fails, read the automatic failure summary comment
   on the pull request before diagnosing further.
+- When removing a string resource, delete it from every locale file (all
+  `values-*` directories), or the `ExtraTranslation` lint fails. New strings
+  only need English and Vietnamese; record the other languages in
+  `lint-baseline.xml`.
+- When counting or auditing settings rows, reconcile the XML with the runtime
+  `TalkBackPreferenceFilter`: some rows are hidden at runtime, so XML alone
+  gives the wrong count.
+- After any scripted bulk edit, inspect the actual diff and confirm it contains
+  only the intended change. If a script misfires, rebuild the file from the
+  original and re-apply the change with exact-match replacements.
+- After a failed or interrupted merge attempt, verify the pull request state
+  and the head of `master` before retrying.
 
 ## Syncing with upstream
 
@@ -43,5 +55,7 @@ exceptions.
 
 - Pushing to `master` builds the app in GitHub Actions and updates the rolling
   `dev` pre-release. Tagging `v<version>` creates a stable release.
+- The dev build number is a cumulative counter and can jump between releases;
+  a jump is normal, not a missing build.
 - Builds are signed with this fork's own signing key (stored as Actions secrets),
   so published builds update in place on a device.
