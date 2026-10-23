@@ -23,31 +23,35 @@ import android.os.Handler
 import android.os.Looper
 import android.view.KeyEvent
 import androidx.annotation.MainThread
-import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor
 import com.google.android.accessibility.talkback.notifications.NotificationReader
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 /**
- * Starts or stops the stopwatch when volume up is held just after the screen turns on, while
- * the phone is locked. The press is taken, so the volume does not change while it is held; a
- * press let go before the hold counts as a tap, and is given back as one volume step.
+ * Starts or stops the stopwatch when volume up is held while the phone is locked. In that
+ * context the service takes the key completely: no volume up event reaches the system, a press
+ * let go before the hold counts as a tap and is given back as one volume step, and a hold past
+ * the threshold toggles the stopwatch instead of raising the volume.
  */
 object StopwatchVolumeKey {
-  /** How soon after the screen turns on the press must start. */
-  private const val WINDOW_MS = 500L
   /** How long the key must be held to start or stop the stopwatch. */
   private const val HOLD_MS = 500L
 
   private val handler = Handler(Looper.getMainLooper())
   private var captured = false
   private var triggered = false
+  private var aborted = false
+  private var captureContext: Context? = null
 
   private val trigger = Runnable {
-    // The screen turning off again in the meantime ends the press without a toggle.
-    if (captured && RingerModeAndScreenMonitor.getLastScreenOnTimeMs() > 0) {
-      triggered = true
-      NotificationReader.toggleStopwatch()
+    val context = captureContext ?: return@Runnable
+    if (!captured || triggered || aborted) return@Runnable
+    if (!conditionsMet(context)) {
+      // The phone was unlocked, or the setting turned off, while the key was held.
+      aborted = true
+      return@Runnable
     }
+    triggered = true
+    NotificationReader.toggleStopwatch()
   }
 
   /** Returns whether [event] was taken for the stopwatch. */
@@ -57,25 +61,30 @@ object StopwatchVolumeKey {
     if (event.keyCode != KeyEvent.KEYCODE_VOLUME_UP) return false
     return when (event.action) {
       KeyEvent.ACTION_DOWN -> {
-        if (captured) {
-          true
-        } else if (event.repeatCount == 0 && conditionsMet(context, event)) {
-          captured = true
-          triggered = false
-          handler.postDelayed(trigger, HOLD_MS)
-          true
+        if (event.repeatCount > 0) {
+          if (captured) noteUnlock(context)
+          captured
         } else {
-          false
+          // A fresh press while a capture is somehow still open ends the old one first.
+          if (captured) reset()
+          if (conditionsMet(context)) {
+            captured = true
+            captureContext = context.applicationContext
+            handler.postDelayed(trigger, HOLD_MS)
+            true
+          } else {
+            false
+          }
         }
       }
       KeyEvent.ACTION_UP -> {
         if (!captured) {
           false
         } else {
-          captured = false
-          handler.removeCallbacks(trigger)
-          if (!triggered) raiseVolume(context)
-          triggered = false
+          val giveBackStep = !triggered && !aborted
+          val appContext = captureContext
+          reset()
+          if (giveBackStep && appContext != null) raiseVolume(appContext)
           true
         }
       }
@@ -83,15 +92,33 @@ object StopwatchVolumeKey {
     }
   }
 
-  private fun conditionsMet(context: Context, event: KeyEvent): Boolean {
+  /** Ends any press in progress, without toggling or giving back a volume step. */
+  @JvmStatic
+  fun reset() {
+    handler.removeCallbacks(trigger)
+    captured = false
+    triggered = false
+    aborted = false
+    captureContext = null
+  }
+
+  /** Notes that the phone left the locked context mid-press; the press then does nothing. */
+  private fun noteUnlock(context: Context) {
+    if (!triggered && !aborted && !isKeyguardLocked(context)) {
+      handler.removeCallbacks(trigger)
+      aborted = true
+    }
+  }
+
+  private fun conditionsMet(context: Context): Boolean {
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
     if (!prefs.getBoolean(Stopwatch.KEY_VOLUME_ACTIVATION, true)) return false
+    return isKeyguardLocked(context)
+  }
+
+  private fun isKeyguardLocked(context: Context): Boolean {
     val keyguard = context.getSystemService(KeyguardManager::class.java) ?: return false
-    if (!keyguard.isKeyguardLocked) return false
-    val screenOnAt = RingerModeAndScreenMonitor.getLastScreenOnTimeMs()
-    if (screenOnAt <= 0) return false
-    val delay = event.eventTime - screenOnAt
-    return delay in 0..WINDOW_MS
+    return keyguard.isKeyguardLocked
   }
 
   /** Gives back the volume step a press that turned out to be a tap would have made. */

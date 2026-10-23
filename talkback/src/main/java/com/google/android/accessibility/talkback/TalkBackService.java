@@ -923,6 +923,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       ringerModeAndScreenMonitor.stopMonitoring(this);
       ringerModeAndScreenMonitor.clearListeners();
     }
+    StopwatchVolumeKey.reset();
     while (true) {
       synchronized (disableTalkBackCompleteAction) {
         try {
