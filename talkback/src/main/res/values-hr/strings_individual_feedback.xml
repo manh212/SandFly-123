@@ -40,10 +40,4 @@
     <string name="individual_sound_column_wrap_back">Stupac omotati natrag</string>
     <string name="individual_sound_screen_on">Zaslon uključen</string>
     <string name="individual_vibration_edge_gesture_back">Rubna gesta klizi natrag</string>
-    <string name="individual_vibration_braille_character">Brajična tipkovnica: unos znaka</string>
-    <string name="individual_vibration_braille_space">Brajična tipkovnica: razmak ili brisanje</string>
-    <string name="individual_vibration_braille_new_line">Brajična tipkovnica: novi redak ili brisanje riječi</string>
-    <string name="individual_vibration_braille_hold">Brajična tipkovnica: zadržavanje prstiju</string>
-    <string name="individual_vibration_braille_gesture">Brajična tipkovnica: ostali pokreti</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Brajična tipkovnica: nema ničeg za brisanje</string>
 </resources>

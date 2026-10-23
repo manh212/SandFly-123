@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">ਕੋਈ ਆਵਾਜ਼ ਨਹੀਂ। ਫੋਕਸ ਧੁਨੀ ਚਲਦੀ ਹੈ।</string>
     <string name="theme_sound_summary_android_keyboard">Android ਦੀ ਕੀਬੋਰਡ ਧੁਨੀ</string>
     <string name="theme_sound_use_android_keyboard">Android ਦੀ ਕੀਬੋਰਡ ਧੁਨੀ ਵਰਤੋ</string>
-    <string name="theme_sound_braille_character">ਬਰੇਲ ਕੀਬੋਰਡ: ਇੱਕ ਅੱਖਰ ਟਾਈਪ ਕਰਨਾ</string>
-    <string name="theme_sound_braille_space">ਬਰੇਲ ਕੀਬੋਰਡ: ਸਪੇਸ</string>
-    <string name="theme_sound_braille_delete">ਬਰੇਲ ਕੀਬੋਰਡ: ਮਿਟਾਓ</string>
-    <string name="theme_sound_braille_new_line">ਬਰੇਲ ਕੀਬੋਰਡ: ਨਵੀਂ ਲਾਈਨ</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ਇੱਕ ਸਾਊਂਡ ਫਾਈਲ ਚੁਣੋ</string>
     <string name="theme_sound_preview">ਪੂਰਵ-ਝਲਕ</string>

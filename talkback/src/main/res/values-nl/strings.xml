@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Vertraging verkorten</string>
   <string name="talkback_latency_reduction_summary">Zorg ervoor dat SandFly sneller reageert nadat u het scherm hebt aangeraakt</string>
   <string name="summary_pref_intonation">Verwijderde letters uitspreken op een hogere toonhoogte</string>
-  <string name="title_pref_brailledisplay">Brailleleesregel</string>
-  <string name="title_pref_brailleime">Brailletoetsenbord</string>
-  <string name="summary_pref_brailleime_disabled">Je apparaat ondersteunt geen brailletoetsenbord</string>
   <string name="title_pref_speech_footer">Om het toegankelijkheidsvolume vanuit elk scherm te wijzigen, houdt u 1 vinger op het scherm en drukt u op de toets Volume omhoog of Volume omlaag.</string>
   <string name="title_pref_vibration">Trilfeedback</string>
   <string name="title_pref_soundback">Geluids­feedback</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Overlay met foutopsporingslogboek aanzetten</string>
   <string name="title_pref_typing_confirmation">Typemethode</string>
   <string name="title_pref_typing_long_tap_duration">Vertraging voor tikken en vasthouden tijdens het typen</string>
-  <string name="title_pref_touch_explore_timeout">Focusvertraging bij typen</string>
   <string name="message_pref_touch_explore_latency">Een kortere vertraging zorgt ervoor dat SandFly eerder spreekt nadat u het toetsenbord hebt aangeraakt.\n\nKies een vertraging</string>
-  <string name="title_pref_touch_focus_timeout">Focusvertraging</string>
-  <string name="title_pref_talkback_gesture_detection">Gebaren verwerken in SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Zet SandFly uit en weer aan om de instelling te activeren.</string>
   <string name="title_pref_auto_image_captioning">Automatische beschrijvingen</string>
   <string name="title_pref_gemini_settings">Gemini-instellingen</string>
   <string name="title_pref_gemini_enabled">Gemini spraakopdrachten</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Volume verhogen</string>
   <string name="shortcut_decrease_volume">Volume verlagen</string>
   <string name="shortcut_all_apps">Alle apps</string>
-  <string name="shortcut_braille_keyboard">Overschakelen naar brailletoetsenbord</string>
-  <string name="shortcut_braille_display_settings">Naar instellingen voor brailleleesregel</string>
   <string name="shortcut_tutorial">Tutorial openen</string>
   <string name="shortcut_control_speak_time">Tijd uitspreken of tijd niet uitspreken</string>
   <string name="shortcut_enable_speak_time">Tijd uitspreken</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Tijd uitspreken uit</string>
   <string name="shortcut_practice_gestures">Gebaren oefenen</string>
   <string name="shortcut_report_gesture">Probleem met gebaar melden</string>
-  <string name="shortcut_toggle_braille_display">Brailleleesregel aan- of uitzetten</string>
   <string name="shortcut_announce_current_time_and_date">Huidige datum en tijd voorlezen</string>
   <string name="shortcut_announce_battery_state">Batterijpercentage voorlezen</string>
   <string name="shortcut_announce_current_title">Venstertitel voorlezen</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Spreeksnelheid verlagen</string>
   <string name="shortcut_toggle_selection">Selectiemodus starten of beëindigen</string>
   <string name="shortcut_show_tutorial">Tutorial openen</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Schakelen tussen braille (graad 2) en braille (graad 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Braille op scherm tonen of verbergen voor verbonden brailleleesregels</string>
   <string name="shortcut_toggle_sound_feedback">Geluidsfeedback (earcons) aan- of uitzetten</string>
   <string name="shortcut_show_learn_mode_page">Sneltoetsen oefenen</string>
   <string name="shortcut_announce_phonetic_pronunciation">Letters met fonetische uitspraak uitspreken voor gefocust item</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Spraakopdrachten</string>
   <string name="title_show_keyboard_shortcuts">Sneltoetsen</string>
   <string name="talkback_show_talkback_settings">Instellingen voor SandFly</string>
-  <string name="title_show_braille_display_settings">Instellingen voor brailleleesregel</string>
   <string name="title_granularity_default">Standaardnavigatie</string>
   <string name="title_action_dismiss">Sluiten</string>
   <string name="title_action_expand">Uitvouwen</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Wijzig of de tijd wordt uitgesproken als je het scherm aanzet</string>
   <string name="summary_show_keyboard_shortcuts_preferences">De lijst met sneltoetsen openen</string>
   <string name="summary_talkback_preferences">SandFly-instellingen openen</string>
-  <string name="summary_braile_display_preferences">Instellingen voor brailleleesregel openen</string>
   <string name="summary_system_actions">Ga naar Alle apps en Snelle instellingen</string>
   <string name="summary_tts_settings">Tekst-naar-­spraak-instellingen openen</string>
   <string name="not_editable">Niet bewerkbaar</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Het volume van andere audio verlagen als SandFly spreekt</string>
   <string name="summary_support_scroll_seq">Vooruit- of terugscrollen</string>
   <string name="summary_support_change_a11y_volume">Toegankelijkheidsvolume verhogen of verlagen</string>
-  <string name="summary_support_change_touch_explore_latency">Focusvertraging voor typen vergroten of verkleinen</string>
-  <string name="summary_support_change_touch_focus_latency">Focusvertraging vergroten of verkleinen</string>
   <string name="summary_screen_overview">Het scherm samenvatten met actieknoppen</string>
   <string name="summary_screen_overview_no_actions">Luister naar een samenvatting van de content op het scherm</string>
   <string name="summary_image_caption">Tekst en iconen binnen een geselecteerde afbeelding uitspreken</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">2 keer knijpen</string>
   <string name="gesture_name_double_tap_and_hold">Dubbeltikken en vasthouden</string>
   <string name="gesture_name_double_tap_and_hold_xr">Samengeknepen houden</string>
-  <string name="gesture_name_2finger_tap_hold">Tikken en vasthouden met 2 vingers</string>
   <string name="gesture_name_3finger_tap_hold">Tikken en vasthouden met 3 vingers</string>
   <string name="gesture_name_2finger_3tap_hold">3 keer tikken en vasthouden met 2 vingers</string>
   <string name="gesture_name_3finger_3tap_hold">3 keer tikken en vasthouden met 3 vingers</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Audiovolume verlagen</string>
   <string name="title_pref_support_scroll_seq">Scrollen</string>
   <string name="title_pref_a11y_volume">Toegankelijkheidsvolume</string>
-  <string name="title_pref_touch_explore_latency">Focusvertraging bij typen</string>
-  <string name="title_pref_touch_focus_latency">Focusvertraging</string>
   <string name="message_pref_touch_focus_latency">Een kortere vertraging zorgt ervoor dat SandFly sneller spreekt nadat u het scherm hebt aangeraakt</string>
   <string name="message_pref_typing_method_prefix">Kies \'Houd je vinger op een toets om te selecteren en haal dan je vinger van het scherm\' voor de minste vertraging bij het typen</string>
-  <string name="message_pref_typing_method_postfix">Je kunt ook op elk moment gesplitst tikken om te typen. Houd hiervoor één vinger op een toets om deze te selecteren en gebruik een andere vinger om op het scherm te tikken.</string>
   <string name="title_pref_talkback_speech_rate">Spreeksnelheid</string>
   <string name="title_pref_selector_adjustable_widget_slider">Schuifregelaar aanpassen</string>
   <string name="title_pref_selector_typo_granularity">Proeflezen</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">zoekwoord is %1$s</string>
   <string name="screen_search_no_keyword_hint">Nog geen zoekwoord. Als je een nieuwe zoekopdracht wilt starten, tik je met 3 vingers en houd je vast of open je schermzoeken via het SandFly-menu.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Nog geen zoekwoord. Als je een nieuwe zoekopdracht wilt starten swipe je naar links en dan omlaag of open je schermzoeken via het SandFly-menu.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Het brailletoetsenbord is niet ingeschakeld. Ga naar SandFly instellingen, stel het brailletoetsenbord in en probeer het opnieuw.</string>
   <string name="suggestions_window_available">Suggesties beschikbaar</string>
   <string name="suggestions_window_available_with_gesture">Suggesties beschikbaar. Zo open je ze: %1$s</string>
   <string name="heads_up_window_available">Melding beschikbaar</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly heeft nu een \"Verbeterde toetsenbordindeling\" voor fysieke toetsenborden, met een verscheidenheid aan nieuwe opdrachten en snelkoppelingen. Deze verbetering omvat een \"browsemodus\" voor efficiëntere webnavigatie, waardoor de navigatie en interactie worden gestroomlijnd voor SandFly gebruikers die afhankelijk zijn van fysieke toetsenborden. U kunt overschakelen naar de \"Verbeterde toetsenbordindeling\" in <xliff:g id="settings_path">%1$s</xliff:g>.\n\nAls u een brailleleesregel gebruikt, kunt u ook nieuwe snelkoppelingen voor de bladermodus gebruiken om rechtstreeks vanuit uw brailleleesregel door de inhoud te bladeren. Sommige brailleleesregelsnelkoppelingen zijn gewijzigd om aan deze wijziging tegemoet te komen. U kunt een lijst met alle sneltoetsen voor de brailleleesregel bekijken in <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Instellingen voor SandFly &gt; Sneltoetsen</string>
   <string name="keyboard_shortcuts_link_tts">Instellingen voor SandFly en dan Sneltoetsen</string>
-  <string name="braille_display_settings_link">Instellingen voor brailleleesregel</string>
   <string name="keyboard_smart_browse_mode_title">Toetsenbord: slimme browsemodus</string>
   <string name="keyboard_smart_browse_mode_text">De slimme browsemodus van SandFly zet de browsemodus uit in een bewerkingsveld, zodat je met een fysiek toetsenbord kunt typen als je op het web browst. Daarna wordt de functie weer aangezet als je naar een niet-bewerkingsveld op het web gaat, zodat je efficiënt kunt blijven browsen. Je kunt de slimme browsemodus aan- of uitzetten in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Instellingen voor SandFly &gt; Geavanceerde instellingen</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Tekst typen</string>
   <string name="basic_typing_text_text">Wanneer je in een tekstvak staat, wordt er onderaan je scherm een toetsenbord geopend.</string>
   <string name="typing_text_text">Beweeg je vinger over het toetsenbord. Als je de letter hoort die je wilt typen, til je je vinger op.\n\nProbeer het onderstaande tekstvak te activeren en je naam te typen.</string>
-  <string name="typing_text_with_braille_keyboard_text">Je kunt ook typen met het brailletoetsenbord. Je vindt dit toetsenbord in de SandFly-instellingen.</string>
   <string name="other_ways_to_type_title">Andere manieren om te typen</string>
   <string name="other_ways_to_type_text">Er zijn andere manieren om te typen in SandFly. Je kunt bijvoorbeeld dubbeltikken om een letter in te voeren.</string>
   <string name="basic_other_ways_to_type_text">Er zijn andere manieren om SandFly in te typen. U kunt bijvoorbeeld dubbeltikken om een ​​letter in te voeren. Je kunt dit later wijzigen in SandFly instellingen &gt; Schermtoetsenbord &gt; Typemethode.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Als je gebaren wilt oefenen, zet je eerst SandFly aan</string>
   <string name="talkback_inactive_message_image_description">Als je beschrijvingen van afbeeldingen wilt krijgen, moet je SandFly eerst aanzetten</string>
   <string name="talkback_inactive_close_tutorial_button">Tutorial sluiten</string>
-  <string name="wear_training_welcome_paragraph">Als SandFly aanstaat, wordt het gefocuste item op het scherm voorgelezen.\n\nSwipe naar rechts om naar het volgende item te gaan. Swipe naar links om naar het vorige item te gaan.\n\nSwipe nu naar rechts om de knop Volgende te vinden.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Swipe omhoog of omlaag met %1$d vingers</string>
-  <string name="wear_training_go_back_title">Terug</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Als je terug wilt gaan, swipe je met %1$d vingers vanaf de rand van het scherm naar rechts.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Geslaagd</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gebaar voor terugnavigatie uitgevoerd</string>
-  <string name="wear_training_volume_up_title">Volume verhogen</string>
-  <string name="wear_training_volume_up_text">Swipe naar rechts en dan omhoog</string>
-  <string name="wear_training_volume_down_title">Volume verlagen</string>
-  <string name="wear_training_volume_down_text">Swipe naar rechts en dan omlaag</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-menu openen</string>
-  <string name="wear_training_open_talkback_menu_text">Swipe omlaag en dan naar rechts om instellingen en bedieningselementen te openen die je vaak nodig kunt hebben</string>
-  <string name="wear_training_typing_title">Typen</string>
-  <string name="wear_training_typing_text1">Als je wilt typen met het toetsenbord, beweeg je je vinger over het toetsenbord. Wanneer je de letter hoort die je wilt typen, til je je vinger op.</string>
-  <string name="wear_training_typing_text2">Als je het toetsenbord wilt verbergen en je invoer wilt checken, swipe je met 2 vingers omlaag vanaf de bovenkant van het scherm.</string>
-  <string name="wear_training_typing_text3">Als je wilt teruggaan naar het toetsenbord, swipe je met 2 vingers omhoog vanaf de onderkant van het scherm.</string>
-  <string name="wear_training_typing_text4">Als je het toetsenbord wilt sluiten en typen wilt annuleren, swipe je met 2 vingers naar rechts vanaf de linkerrand van je scherm.</string>
-  <string name="wear_training_typing_text5">Probeer het hieronder.</string>
-  <string name="wear_training_typing_practice_button_content_description">Typen met toetsenbord</string>
-  <string name="wear_training_end_tutorial_title">Je bent klaar om SandFly te gebruiken</string>
   <string name="wear_new_feature_page_title">Welkom bij het geüpdatete SandFly</string>
   <string name="wear_new_feature_page_content">Er zijn enkele bugfixes en wijzigingen in hoe de focus wordt verplaatst</string>
   <string name="wear_new_feature_page_button_content_description">Afronden</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Belmodus</string>
     <string name="summary_pref_announce_ringer_mode">Zeg wanneer het belsignaal is ingesteld op trillen of stil</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Typen en braille</string>
     <string name="title_pref_category_apps">Apps</string>
     <string name="title_pref_touch_activation">Aanraken en activeren</string>
     <string name="title_pref_navigation">Navigatie</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Niet toestaan</string>
     <string name="permission_speak_label">spreek via SandFly</string>
     <string name="permission_speak_description">Laat de app vragen om tekst in te spreken met uw SandFly-stem. SandFly vraagt ​​je voordat de app kan spreken.</string>
-    <string name="permission_braille_display_label">vraag om een brailleleesregel te zijn voor SandFly</string>
-    <string name="permission_braille_display_description">Laat de app vragen om een brailleleesregel te zijn voor SandFly. Als u hem in SandFly toestaat, kan hij alles op het scherm lezen en uw apparaat bedienen. SandFly vraagt ​​je eerst.</string>
     <string name="title_pref_phonetic_letters_mode">Spreek letters fonetisch uit</string>
     <string name="phonetic_letters_mode_off">Uit</string>
     <string name="phonetic_letters_mode_after_letter_delay">Na de brief, vertraagd, zoals \"h, hotel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Applicatie openen</string>
     <string name="shortcut_open_app">Open <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Scroll naar boven</string>
-    <string name="shortcut_write_reading_control">Schrijf de letter van een leescontrole</string>
-    <string name="title_pref_reading_control_letters">Handgeschreven Alfabetletters</string>
-    <string name="reading_control_letter_none">Geen</string>
-    <string name="handwriting_prompt">Schrijf een alfabetbrief</string>
-    <string name="handwriting_closed">Handschrift gesloten</string>
-    <string name="handwriting_no_match">Geen leescontrole begint met <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Handschrift niet herkend</string>
-    <string name="handwriting_downloading">Handschriftherkenning wordt gedownload</string>
-    <string name="handwriting_download_title">Handschriftherkenning downloaden?</string>
-    <string name="handwriting_download_message">Handschrift wordt herkend op deze telefoon. Het model voor deze taal, ongeveer 20 MB, wordt één keer gedownload van Google. Er wordt een bericht weergegeven wanneer het is gedownload.</string>
-    <string name="handwriting_download_button">Downloaden</string>
-    <string name="handwriting_downloaded">Handschriftherkenning gedownload</string>
-    <string name="handwriting_download_failed">Handschriftherkenning kon niet worden gedownload. Controleer de internetverbinding.</string>
-    <string name="handwriting_unsupported_language">Handschriftherkenning is niet beschikbaar in deze taal</string>
-    <string name="title_pref_handwriting_keyboard">Handschrifttoetsenbord</string>
-    <string name="summary_pref_handwriting_keyboard">Schakel handschrift SandFly in de toetsenbordinstellingen van Android in</string>
-    <string name="title_pref_handwriting_wait">Wacht na het schrijven</string>
-    <string name="value_handwriting_wait_200">0,2 seconden</string>
-    <string name="value_handwriting_wait_300">0,3 seconden</string>
-    <string name="value_handwriting_wait_400">0,4 seconden</string>
-    <string name="value_handwriting_wait_500">0,5 seconden</string>
-    <string name="value_handwriting_wait_600">0,6 seconden</string>
-    <string name="value_handwriting_wait_800">0,8 seconden</string>
-    <string name="value_handwriting_wait_1000">1 seconde</string>
-    <string name="handwriting_keyboard_name">SandFly handschrift</string>
-    <string name="handwriting_space">Spatiebalk</string>
-    <string name="handwriting_new_line">Nieuwe regel</string>
-    <string name="handwriting_tutorial_intro">Handschrifttoetsenbord-tutorial. Schrijf met één vinger waar dan ook op het scherm. Wat je schrijft, wordt getypt als je even stopt. Veeg met drie vingers naar beneden om de tutorial te beëindigen.</string>
-    <string name="handwriting_tutorial_write_letter">Schrijf de alfabetletter a.</string>
-    <string name="handwriting_tutorial_write_word">Schrijf nu het woord hi (h gevolgd door i).</string>
-    <string name="handwriting_tutorial_typed">Getypt <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Veeg met twee vingers naar rechts om een ​​spatie te typen.</string>
-    <string name="handwriting_tutorial_delete">Veeg met twee vingers naar links om het teken vóór de cursor te verwijderen.</string>
-    <string name="handwriting_tutorial_deleted">Verwijderd.</string>
-    <string name="handwriting_tutorial_next_reading">Als handschrift wordt herkend als een ander teken, zoals een hoofdletter, veegt u met twee vingers omhoog om de volgende herkenningssuggestie te kiezen. Probeer het nu.</string>
-    <string name="handwriting_tutorial_read_back">Tik met twee vingers om de tekst vóór de cursor te lezen.</string>
-    <string name="handwriting_tutorial_new_line">Veeg met twee vingers omlaag om een ​​nieuwe regel in te voegen of voer een tekstveldactie uit, zoals Verzenden.</string>
-    <string name="handwriting_tutorial_not_that">Dat was nog een gebaar.</string>
-    <string name="handwriting_tutorial_done">Nieuwe lijn. Les afgerond. Veeg met drie vingers naar beneden om het toetsenbord te verbergen, en met drie vingers naar rechts of links om van toetsenbord te wisselen. Om de tutorial opnieuw te openen, tikt u met drie vingers.</string>
-    <string name="handwriting_tutorial_finished">Les beëindigd. Om het weer te openen, tikt u met drie vingers.</string>
-    <string name="handwriting_no_alternatives">Geen andere suggesties</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> of <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Lege tekst</string>
-    <string name="handwriting_not_available">Handschriftherkenning is niet beschikbaar op dit apparaat</string>
     <string name="shortcut_scroll_to_bottom">Scroll naar beneden</string>
     <string name="shortcut_refresh">Vernieuwen</string>
     <string name="shortcut_system_notifications">Systeemmeldingsschaduw</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Duidelijke selectie</string>
     <string name="title_pref_brightness">Helderheid</string>
     <string name="summary_support_change_brightness">Verhoog of verlaag de helderheid van het scherm, zelfs als het scherm verborgen is</string>
-    <string name="title_pref_shortcut_3finger_4tap">Viervoudig tikken met 3 vingers</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Draai met 2 vingers met de klok mee</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Draai met 2 vingers tegen de klok in</string>
-    <string name="title_pref_shortcut_2finger_scrub">Schrob met 2 vingers</string>
-    <string name="title_pref_shortcut_2finger_pinch">Knijp met 2 vingers</string>
-    <string name="title_pref_shortcut_2finger_spread">Verdeel met 2 vingers</string>
-    <string name="title_pref_shortcut_3finger_pinch">Knijp met 3 vingers</string>
-    <string name="title_pref_shortcut_3finger_spread">Verspreid met 3 vingers</string>
-    <string name="title_pref_shortcut_4finger_pinch">Knijp met 4 vingers</string>
-    <string name="title_pref_shortcut_4finger_spread">Verspreid met 4 vingers</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Veeg omhoog vanaf de onderrand</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Veeg lang omhoog vanaf de onderkant</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Veeg vanaf linksboven naar beneden</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Veeg vanaf de rechterbovenhoek naar beneden</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Veeg lang naar beneden vanaf de linkerbovenhoek</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Veeg lang vanaf de rechterbovenhoek naar beneden</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Veeg naar rechts vanaf de linkerrand, bovenste helft</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Veeg lang naar rechts vanaf de linkerrand, bovenste helft</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Veeg naar rechts vanaf de linkerrand, de onderste helft</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Veeg lang naar rechts vanaf de linkerrand, onderste helft</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Veeg naar links vanaf de rechterrand, bovenste helft</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Veeg lang naar links vanaf de rechterrand, bovenste helft</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Veeg naar links vanaf de rechterrand, onderste helft</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Veeg lang naar links vanaf de rechterrand, onderste helft</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Houd uw vinger vast om een toets te selecteren en til deze vervolgens op. Dubbeltik voor Enter, Klaar of Verzenden.</string>
-    <string name="value_type_confirmation_tap_to_type">Tik op een willekeurige toets om deze te typen, of houd uw vinger vast om een toets te selecteren en til deze vervolgens op</string>
-    <string name="title_pref_multi_tap_timeout">Tijd tussen tikken met één vinger</string>
     <string name="value_multi_tap_timeout_100ms">0,1 seconden</string>
     <string name="value_multi_tap_timeout_150ms">0,15 seconden</string>
     <string name="value_multi_tap_timeout_200ms">0,2 seconden</string>
     <string name="value_multi_tap_timeout_250ms">0,25 seconden (standaard)</string>
-    <string name="title_pref_rotor_step_degrees">Rotoromwenteling per stap</string>
-    <string name="title_pref_edge_first_click_mm">Afstand tot eerste klik</string>
-    <string name="title_pref_edge_second_click_mm">Afstand van de eerste tot de tweede klik</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Schakel de verpakking van het laatste item naar het eerste in of uit</string>
     <string name="wrap_around_on">Wikkel rond</string>
     <string name="wrap_around_off">Wikkel rond af</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet omhoog gehouden, gezichten weg</string>
-    <string name="summary_support_tablet_held_up_faces_away">Voor het brailletoetsenbord op een tablet of uitgeklapte telefoon</string>
-    <string name="tablet_held_up_faces_away_on">Tablet omhoog gehouden, gezichten weg</string>
-    <string name="tablet_held_up_faces_away_off">Tablet omhoog gehouden, gezichten weg</string>
     <string name="title_keyboard_echo_on_screen">Toetsenbordecho op het scherm</string>
     <string name="title_keyboard_echo_physical">Fysieke toetsenbordecho</string>
-    <string name="title_keyboard_echo_braille_keyboard">Echo van brailletoetsenbord</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Echo van handschrifttoetsenbord</string>
-    <string name="title_keyboard_echo_braille_display">Echo van brailleleesregel</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Onderbreek de spraak tijdens het typen</string>
     <string name="pref_interrupt_typing_entry_always">Altijd</string>

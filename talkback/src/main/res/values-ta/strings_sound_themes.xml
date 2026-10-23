@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">ஒலி இல்லை. கவனம் ஒலி விளையாடுகிறது.</string>
     <string name="theme_sound_summary_android_keyboard">Android இன் விசைப்பலகை ஒலி</string>
     <string name="theme_sound_use_android_keyboard">Android இன் விசைப்பலகை ஒலியைப் பயன்படுத்தவும்</string>
-    <string name="theme_sound_braille_character">பிரெய்லி விசைப்பலகை: எழுத்தை தட்டச்சு செய்தல்</string>
-    <string name="theme_sound_braille_space">பிரெய்லி விசைப்பலகை: இடம்</string>
-    <string name="theme_sound_braille_delete">பிரெய்லி விசைப்பலகை: நீக்கு</string>
-    <string name="theme_sound_braille_new_line">பிரெய்லி விசைப்பலகை: புதிய வரி</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ஒலி கோப்பைத் தேர்ந்தெடுக்கவும்</string>
     <string name="theme_sound_preview">மாதிரிக்காட்சி</string>

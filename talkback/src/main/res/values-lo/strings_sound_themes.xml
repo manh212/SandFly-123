@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">ບໍ່ມີສຽງ. ສຽງທີ່ເນັ້ນໃສ່.</string>
     <string name="theme_sound_summary_android_keyboard">ສຽງແປ້ນພິມຂອງ Android</string>
     <string name="theme_sound_use_android_keyboard">ໃຊ້ສຽງແປ້ນພິມຂອງ Android</string>
-    <string name="theme_sound_braille_character">ແປ້ນພິມອັກສອນນູນ: ພິມຕົວອັກສອນ</string>
-    <string name="theme_sound_braille_space">ແປ້ນພິມອັກສອນນູນ: ຊ່ອງ</string>
-    <string name="theme_sound_braille_delete">ແປ້ນພິມອັກສອນນູນ: ລຶບ</string>
-    <string name="theme_sound_braille_new_line">ແປ້ນພິມອັກສອນນູນ: ແຖວໃໝ່</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ເລືອກໄຟລ໌ສຽງ</string>
     <string name="theme_sound_preview">ສະແດງຕົວຢ່າງ</string>

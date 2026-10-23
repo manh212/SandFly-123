@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">ไม่มีเสียง. เสียงโฟกัสจะดังขึ้น</string>
     <string name="theme_sound_summary_android_keyboard">เสียงคีย์บอร์ดของ Android</string>
     <string name="theme_sound_use_android_keyboard">ใช้เสียงแป้นพิมพ์ของ Android</string>
-    <string name="theme_sound_braille_character">แป้นพิมพ์อักษรเบรลล์: การพิมพ์อักขระ</string>
-    <string name="theme_sound_braille_space">แป้นพิมพ์อักษรเบรลล์: ช่องว่าง</string>
-    <string name="theme_sound_braille_delete">แป้นพิมพ์อักษรเบรลล์: ลบ</string>
-    <string name="theme_sound_braille_new_line">แป้นพิมพ์อักษรเบรลล์: บรรทัดใหม่</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">เลือกไฟล์เสียง</string>
     <string name="theme_sound_preview">แสดงตัวอย่าง</string>

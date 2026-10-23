@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">縮短延遲時間</string>
   <string name="talkback_latency_reduction_summary">讓SandFly觸碰螢幕後反應更快</string>
   <string name="summary_pref_intonation">以較高的音調讀出刪除的字母</string>
-  <string name="title_pref_brailledisplay">點字顯示器</string>
-  <string name="title_pref_brailleime">點字鍵盤</string>
-  <string name="summary_pref_brailleime_disabled">你的裝置不支援點字鍵盤</string>
   <string name="title_pref_speech_footer">若要從任何螢幕變更輔助功能音量，請用 1 根手指按住螢幕，然後按音量增大或音量降低鍵。</string>
   <string name="title_pref_vibration">震動回饋</string>
   <string name="title_pref_soundback">音效回饋</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">啟用偵錯記錄重疊顯示</string>
   <string name="title_pref_typing_confirmation">打字方法</string>
   <string name="title_pref_typing_long_tap_duration">輸入時的按住延遲時間</string>
-  <string name="title_pref_touch_explore_timeout">輸入焦點延遲</string>
   <string name="message_pref_touch_explore_latency">較短的延遲使SandFly在您觸摸鍵盤後更快說話。 \n\n選擇延遲</string>
-  <string name="title_pref_touch_focus_timeout">焦點延遲</string>
-  <string name="title_pref_talkback_gesture_detection">在 SandFly 中處理手勢</string>
-  <string name="toast_pref_talkback_gesture_detection">將 SandFly 關閉再重新開啟，即可啟動設定。</string>
   <string name="title_pref_auto_image_captioning">自動描述</string>
   <string name="title_pref_gemini_settings">Gemini 設定</string>
   <string name="title_pref_gemini_enabled">Gemini 語音指令</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">調高音量</string>
   <string name="shortcut_decrease_volume">調低音量</string>
   <string name="shortcut_all_apps">所有應用程式</string>
-  <string name="shortcut_braille_keyboard">切換到點字鍵盤</string>
-  <string name="shortcut_braille_display_settings">前往點字顯示器設定</string>
   <string name="shortcut_tutorial">開啟教學課程</string>
   <string name="shortcut_control_speak_time">是否朗讀時間</string>
   <string name="shortcut_enable_speak_time">朗讀時間</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">「朗讀時間」已關閉</string>
   <string name="shortcut_practice_gestures">練習手勢</string>
   <string name="shortcut_report_gesture">回報手勢問題</string>
-  <string name="shortcut_toggle_braille_display">開啟或關閉點字顯示器</string>
   <string name="shortcut_announce_current_time_and_date">讀出目前的日期和時間</string>
   <string name="shortcut_announce_battery_state">朗讀電量百分比</string>
   <string name="shortcut_announce_current_title">讀出視窗標題</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">降低語音速率</string>
   <string name="shortcut_toggle_selection">啟動或結束選取模式</string>
   <string name="shortcut_show_tutorial">開啟教學課程</string>
-  <string name="shortcut_toggle_braille_contracted_mode">切換縮寫 (2 級) 和無縮寫 (1 級) 點字</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">在螢幕上顯示或隱藏連結點字顯示器的點字</string>
   <string name="shortcut_toggle_sound_feedback">開啟或關閉音效回饋 (指示音效)</string>
   <string name="shortcut_show_learn_mode_page">練習使用鍵盤快速鍵</string>
   <string name="shortcut_announce_phonetic_pronunciation">朗讀焦點項目的字母和拼音</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">語音指令</string>
   <string name="title_show_keyboard_shortcuts">鍵盤快速鍵</string>
   <string name="talkback_show_talkback_settings">SandFly 設定</string>
-  <string name="title_show_braille_display_settings">點字顯示器設定</string>
   <string name="title_granularity_default">預設導覽</string>
   <string name="title_action_dismiss">關閉</string>
   <string name="title_action_expand">展開</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">設定開啟螢幕時是否朗讀時間</string>
   <string name="summary_show_keyboard_shortcuts_preferences">開啟鍵盤快速鍵清單</string>
   <string name="summary_talkback_preferences">開啟 SandFly 設定</string>
-  <string name="summary_braile_display_preferences">開啟點字顯示器設定</string>
   <string name="summary_system_actions">前往 [所有應用程式] 和 [快速設定]</string>
   <string name="summary_tts_settings">開啟文字轉語音設定</string>
   <string name="not_editable">無法編輯</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">當 SandFly 朗讀時，調低正在播放的其他音訊音量</string>
   <string name="summary_support_scroll_seq">向前或向後捲動</string>
   <string name="summary_support_change_a11y_volume">調高或調低無障礙工具音量</string>
-  <string name="summary_support_change_touch_explore_latency">拉長或縮短輸入焦點延遲時間</string>
-  <string name="summary_support_change_touch_focus_latency">拉長或縮短焦點延遲時間</string>
   <string name="summary_screen_overview">按下動作按鈕生成畫面摘要</string>
   <string name="summary_screen_overview_no_actions">聽取畫面內容摘要</string>
   <string name="summary_image_caption">朗讀所選圖片內的文字和圖示</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">雙指捏住兩次</string>
   <string name="gesture_name_double_tap_and_hold">輕觸兩下並按住</string>
   <string name="gesture_name_double_tap_and_hold_xr">雙指捏住不放</string>
-  <string name="gesture_name_2finger_tap_hold">使用 2 指按住</string>
   <string name="gesture_name_3finger_tap_hold">使用 3 指按住</string>
   <string name="gesture_name_2finger_3tap_hold">使用 2 指輕觸三下並按住</string>
   <string name="gesture_name_3finger_3tap_hold">使用 3 指輕觸三下並按住</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">降低其他應用程式音量</string>
   <string name="title_pref_support_scroll_seq">捲動</string>
   <string name="title_pref_a11y_volume">無障礙工具音量</string>
-  <string name="title_pref_touch_explore_latency">輸入焦點延遲</string>
-  <string name="title_pref_touch_focus_latency">焦點延遲</string>
   <string name="message_pref_touch_focus_latency">較短的延遲使SandFly在觸摸螢幕後更快說話</string>
   <string name="message_pref_typing_method_prefix">如要盡可能縮短輸入延遲時間，請選擇「用手指按住任何要選取的鍵，然後放開」</string>
-  <string name="message_pref_typing_method_postfix">你也可以隨時使用多指輕觸功能輸入文字，方式如下：用一指按住任何鍵，再用另一指輕觸螢幕。</string>
   <string name="title_pref_talkback_speech_rate">語音速率</string>
   <string name="title_pref_selector_adjustable_widget_slider">調整滑桿</string>
   <string name="title_pref_selector_typo_granularity">校對</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">關鍵字為%1$s</string>
   <string name="screen_search_no_keyword_hint">目前沒有關鍵字。如要開始新的搜尋，請用 3 指按住螢幕，或透過 SandFly 選單開啟螢幕即時搜尋。</string>
   <string name="screen_search_no_keyword_hint_pre_r">目前沒有關鍵字。如要開始新的搜尋，請先向左再向下滑動，或透過 SandFly 選單開啟螢幕即時搜尋。</string>
-  <string name="switch_to_braille_keyboard_failure_msg">點字鍵盤功能未開啟。請前往 SandFly 設定頁面設定點字鍵盤，然後再試一次。</string>
   <string name="suggestions_window_available">有可用的建議</string>
   <string name="suggestions_window_available_with_gesture">有可用的建議。如要存取，請%1$s</string>
   <string name="heads_up_window_available">收到通知</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly 現在擁有適用於實體鍵盤的“增強型鍵盤映射”，其中包含各種新命令和快捷鍵。此增強功能包括“瀏覽模式”，可實現更有效率的 Web 導航，為依賴實體鍵盤的 SandFly 使用者簡化導航和互動。您可以切換到 <xliff:g id="settings_path">%1$s</xliff:g>.\n\n中的「增強型鍵盤映射」。如果您使用點字顯示器，您也可以使用新的瀏覽模式捷徑直接從點字顯示器瀏覽內容。一些點字顯示快捷方式已更改以適應此更改。您可以在<xliff:g id="braille_display_settings_path">%2$s</xliff:g>中查看所有點字顯示器捷徑的清單。</string>
   <string name="keyboard_shortcuts_link">「SandFly 設定」&gt;「鍵盤快速鍵」</string>
   <string name="keyboard_shortcuts_link_tts">「SandFly 設定」和「鍵盤快速鍵」</string>
-  <string name="braille_display_settings_link">點字顯示器設定</string>
   <string name="keyboard_smart_browse_mode_title">鍵盤：智慧瀏覽模式</string>
   <string name="keyboard_smart_browse_mode_text">焦點移到編輯欄位時，SandFly 智慧瀏覽模式會暫時關閉，方便你在上網時使用實體鍵盤輸入內容。焦點移到網頁上的非編輯欄位時，智慧瀏覽模式就會重新開啟，讓你繼續順暢瀏覽網頁。你可以依序前往<xliff:g id="settings_path">%1$s</xliff:g>開啟或關閉「智慧瀏覽模式」。</string>
   <string name="advanced_settings_link">「SandFly 設定」&gt;「進階設定」</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">輸入文字</string>
   <string name="basic_typing_text_text">進入文字方塊後，鍵盤會開啟在畫面底部。</string>
   <string name="typing_text_text">請在鍵盤上移動手指，當你聽見要輸入的字母時，請放開手指。\n\n請試著在下方啟用文字方塊並輸入你的姓名。</string>
-  <string name="typing_text_with_braille_keyboard_text">你也可以使用點字鍵盤輸入文字。請前往 SandFly 設定頁面尋找這項設定。</string>
   <string name="other_ways_to_type_title">其他輸入方式</string>
   <string name="other_ways_to_type_text">你也可以使用其他方式在 SandFly 中輸入文字。舉例來說，你可以輕觸兩下來輸入字母。</string>
   <string name="basic_other_ways_to_type_text">還有其他方法可以輸入 SandFly。例如，您可以使用雙擊來輸入字母。您可以稍後在 SandFly 設定 &gt; 螢幕鍵盤 &gt; 鍵入方法中變更此設定。</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">如要練習手勢，請先開啟 SandFly</string>
   <string name="talkback_inactive_message_image_description">如要取得圖片描述，請先開啟 SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">關閉教學課程</string>
-  <string name="wear_training_welcome_paragraph">SandFly 開啟時，系統會朗讀畫面焦點所在項目。\n\n向右滑動，焦點會移到下一個項目。向左滑動，焦點會移到上一個項目。\n\n現在請向右滑動，將焦點移到下一個按鈕。</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">用 %1$d 指向上或向下滑動。</string>
-  <string name="wear_training_go_back_title">返回</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">如要返回，請用 %1$d 指從螢幕邊緣向右滑動。</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">成功</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">已做出返回手勢</string>
-  <string name="wear_training_volume_up_title">調高音量</string>
-  <string name="wear_training_volume_up_text">向右再向上滑動</string>
-  <string name="wear_training_volume_down_title">調低音量</string>
-  <string name="wear_training_volume_down_text">向右再向下滑動</string>
-  <string name="wear_training_open_talkback_menu_title">開啟 SandFly 選單</string>
-  <string name="wear_training_open_talkback_menu_text">如要開啟可能時常使用的設定和控制選項，請先向下再向右滑動</string>
-  <string name="wear_training_typing_title">打字</string>
-  <string name="wear_training_typing_text1">如要用鍵盤打字，請用手指在鍵盤上滑動，聽到要輸入的字母時再放開手指。</string>
-  <string name="wear_training_typing_text2">如要隱藏鍵盤並檢查輸入內容，請用 2 指從螢幕頂端向下滑動。</string>
-  <string name="wear_training_typing_text3">如要返回鍵盤，請用 2 指從螢幕底部向上滑動。</string>
-  <string name="wear_training_typing_text4">如要關閉鍵盤並取消輸入，請用 2 指從螢幕左側向右滑動。</string>
-  <string name="wear_training_typing_text5">在下方試試看。</string>
-  <string name="wear_training_typing_practice_button_content_description">使用鍵盤輸入</string>
-  <string name="wear_training_end_tutorial_title">現在可以開始使用 SandFly</string>
   <string name="wear_new_feature_page_title">歡迎使用新版 SandFly</string>
   <string name="wear_new_feature_page_content">如你所見，部分錯誤已修正，焦點移動的方式也已更改</string>
   <string name="wear_new_feature_page_button_content_description">完成</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">振鈴模式</string>
     <string name="summary_pref_announce_ringer_mode">當鈴聲設定為振動或靜音時說出</string>
     <string name="title_pref_category_feedback">回饋意見</string>
-    <string name="title_pref_category_typing_and_braille">打字和點字</string>
     <string name="title_pref_category_apps">應用程式</string>
     <string name="title_pref_touch_activation">觸摸和激活</string>
     <string name="title_pref_navigation">瀏覽方式</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">不允許</string>
     <string name="permission_speak_label">透過SandFly說話</string>
     <string name="permission_speak_description">讓應用程式要求用您的 SandFly 聲音說出文字。 SandFly 在應用程式說話之前詢問您。</string>
-    <string name="permission_braille_display_label">要求成為 SandFly 的點字顯示器</string>
-    <string name="permission_braille_display_description">讓應用程式請求成為 SandFly 的點字顯示器。如果您在 SandFly 中允許它，它可以讀取螢幕上的所有內容並控制您的裝置。 SandFly先問你。</string>
     <string name="title_pref_phonetic_letters_mode">按語音讀出字母</string>
     <string name="phonetic_letters_mode_off">關閉</string>
     <string name="phonetic_letters_mode_after_letter_delay">信後，延遲，如“h，旅館”</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">打開應用程式</string>
     <string name="shortcut_open_app">打開<xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">捲動到頂部</string>
-    <string name="shortcut_write_reading_control">寫一個讀控制項的字母</string>
-    <string name="title_pref_reading_control_letters">手寫字母</string>
-    <string name="reading_control_letter_none">無</string>
-    <string name="handwriting_prompt">寫一個字母</string>
-    <string name="handwriting_closed">手寫關閉</string>
-    <string name="handwriting_no_match">無讀取控制以<xliff:g id="letter" example="Q">%1$s</xliff:g>開頭</string>
-    <string name="handwriting_not_recognized">手寫體無法辨識</string>
-    <string name="handwriting_downloading">手寫辨識正在下載</string>
-    <string name="handwriting_download_title">下載手寫辨識？</string>
-    <string name="handwriting_download_message">這款手機可以辨識手寫內容。語言的模型大約 20 MB，從 Google 下載一次。下載完畢後會顯示一則訊息。</string>
-    <string name="handwriting_download_button">下載</string>
-    <string name="handwriting_downloaded">手寫辨識已下載</string>
-    <string name="handwriting_download_failed">無法下載手寫辨識。檢查網路連線。</string>
-    <string name="handwriting_unsupported_language">該語言不支援手寫識別</string>
-    <string name="title_pref_handwriting_keyboard">手寫鍵盤</string>
-    <string name="summary_pref_handwriting_keyboard">在Android的鍵盤設定中開啟SandFly手寫</string>
-    <string name="title_pref_handwriting_wait">寫完後等待</string>
-    <string name="value_handwriting_wait_200">0.2 秒</string>
-    <string name="value_handwriting_wait_300">0.3秒</string>
-    <string name="value_handwriting_wait_400">0.4秒</string>
-    <string name="value_handwriting_wait_500">0.5 秒</string>
-    <string name="value_handwriting_wait_600">0.6秒</string>
-    <string name="value_handwriting_wait_800">0.8秒</string>
-    <string name="value_handwriting_wait_1000">1 秒</string>
-    <string name="handwriting_keyboard_name">SandFly 手寫</string>
-    <string name="handwriting_space">空格鍵</string>
-    <string name="handwriting_new_line">換行</string>
-    <string name="handwriting_tutorial_intro">手寫鍵盤教學。用一根手指在螢幕上的任何位置書寫。當你停下來片刻時，你所寫的內容就會被輸入。要結束教程，請用三個手指向下滑動。</string>
-    <string name="handwriting_tutorial_write_letter">寫出字母a。</string>
-    <string name="handwriting_tutorial_write_word">現在寫下單字hi（h 後面跟著 i）。</string>
-    <string name="handwriting_tutorial_typed">輸入<xliff:g id="text" example="a">%1$s</xliff:g>。</string>
-    <string name="handwriting_tutorial_space">用兩根手指向右滑動以輸入空格。</string>
-    <string name="handwriting_tutorial_delete">用兩根手指向左滑動可刪除遊標之前的字元。</string>
-    <string name="handwriting_tutorial_deleted">已刪除。</string>
-    <string name="handwriting_tutorial_next_reading">如果手寫體被識別為其他字元（例如大寫字母），請用兩根手指向上滑動以選擇下一個識別建議。現在就試試看。</string>
-    <string name="handwriting_tutorial_read_back">用兩根手指點擊可閱讀遊標之前的文字。</string>
-    <string name="handwriting_tutorial_new_line">用兩根手指向下滑動可插入新行或執行文字欄位操作，例如發送。</string>
-    <string name="handwriting_tutorial_not_that">那是另一個姿態。</string>
-    <string name="handwriting_tutorial_done">新線。教程完成。三指向下滑動可隱藏鍵盤，三指左右滑動可切換鍵盤。要再次打開教程，請用三個手指點擊。</string>
-    <string name="handwriting_tutorial_finished">教程結束。要再次打開它，請用三個手指點擊。</string>
-    <string name="handwriting_no_alternatives">沒有其他建議</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>、<xliff:g id="index" example="2">%2$d</xliff:g> / <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">空文本</string>
-    <string name="handwriting_not_available">此設備不支援手寫識別</string>
     <string name="shortcut_scroll_to_bottom">滾動到底部</string>
     <string name="shortcut_refresh">重新整理</string>
     <string name="shortcut_system_notifications">系統通知欄</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">清除選擇</string>
     <string name="title_pref_brightness">亮度</string>
     <string name="summary_support_change_brightness">即使螢幕隱藏，也可以增加或降低螢幕亮度</string>
-    <string name="title_pref_shortcut_3finger_4tap">用 3 根手指連按四次</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">用2根手指順時針旋轉</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">用2根手指逆時針旋轉</string>
-    <string name="title_pref_shortcut_2finger_scrub">用2個手指擦洗</string>
-    <string name="title_pref_shortcut_2finger_pinch">用2個手指捏住</string>
-    <string name="title_pref_shortcut_2finger_spread">用2根手指展開</string>
-    <string name="title_pref_shortcut_3finger_pinch">用3個手指捏住</string>
-    <string name="title_pref_shortcut_3finger_spread">用3根手指展開</string>
-    <string name="title_pref_shortcut_4finger_pinch">用4個手指捏住</string>
-    <string name="title_pref_shortcut_4finger_spread">用4根手指展開</string>
-    <string name="title_pref_shortcut_edge_bottom_up">從底部邊緣向上滑動</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">從底部邊緣向上長滑動</string>
-    <string name="title_pref_shortcut_edge_top_left_down">從左上角向下滑動</string>
-    <string name="title_pref_shortcut_edge_top_right_down">從右上角向下滑動</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">從左上角向下長滑動</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">從右上角向下長掃</string>
-    <string name="title_pref_shortcut_edge_left_top_right">從左邊緣向右滑動，上半部分</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">從左邊緣向右長滑動，上半部分</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">從左邊緣、下半部向右滑動</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">從左邊緣、下半部向右長滑動</string>
-    <string name="title_pref_shortcut_edge_right_top_left">從上半部右邊緣向左滑動</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">從上半部右邊緣向左長掃</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">從右邊緣、下半部向左滑動</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">從右邊緣、下半部向左長掃</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">按住手指選擇任意鍵，然後抬起。雙擊輸入、完成或發送。</string>
-    <string name="value_type_confirmation_tap_to_type">點擊任何鍵輸入，或按住手指選擇任意鍵，然後抬起</string>
-    <string name="title_pref_multi_tap_timeout">單指點擊之間的時間</string>
     <string name="value_multi_tap_timeout_100ms">0.1秒</string>
     <string name="value_multi_tap_timeout_150ms">0.15 秒</string>
     <string name="value_multi_tap_timeout_200ms">0.2 秒</string>
     <string name="value_multi_tap_timeout_250ms">0.25 秒（預設）</string>
-    <string name="title_pref_rotor_step_degrees">轉子每步轉數</string>
-    <string name="title_pref_edge_first_click_mm">到第一次點擊的距離</string>
-    <string name="title_pref_edge_second_click_mm">第一次點擊到第二次點擊的距離</string>
     <string name="value_distance_5mm">0.5厘米</string>
     <string name="value_distance_10mm">1公分</string>
     <string name="value_distance_15mm">1.5厘米</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">開啟或關閉從最後一個項目到第一個項目的換行</string>
     <string name="wrap_around_on">環繞在</string>
     <string name="wrap_around_off">環繞關閉</string>
-    <string name="title_selector_tablet_held_up_faces_away">平板電腦將臉轉向一邊</string>
-    <string name="summary_support_tablet_held_up_faces_away">適用於平板電腦或展開手機上的點字鍵盤</string>
-    <string name="tablet_held_up_faces_away_on">平板電腦將面朝外</string>
-    <string name="tablet_held_up_faces_away_off">平板電腦正面朝外舉起</string>
     <string name="title_keyboard_echo_on_screen">螢幕鍵盤迴聲</string>
     <string name="title_keyboard_echo_physical">實體鍵盤迴聲</string>
-    <string name="title_keyboard_echo_braille_keyboard">點字鍵盤迴聲</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">手寫鍵盤迴聲</string>
-    <string name="title_keyboard_echo_braille_display">點字顯示迴聲</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">打字時打斷語音</string>
     <string name="pref_interrupt_typing_entry_always">總是</string>

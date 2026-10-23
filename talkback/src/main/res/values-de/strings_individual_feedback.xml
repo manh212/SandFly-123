@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Suchmodus an</string>
   <string name="individual_sound_browse_mode_off">Suchmodus aus</string>
   <string name="individual_sound_radial_menu">Kreismenü</string>
-  <string name="individual_sound_display_connected">Braillezeile verbunden</string>
-  <string name="individual_sound_display_disconnected">Braillezeile getrennt</string>
-  <string name="individual_sound_double_beep">Braille-Befehl fehlgeschlagen</string>
-  <string name="individual_sound_turn_on">Automatisches Braille-Scrollen an</string>
-  <string name="individual_sound_turn_off">Automatisches Braille-Scrollen aus</string>
-  <string name="individual_sound_calibration_done">Braille-Tastatur kalibriert</string>
   <string name="individual_vibration_focus">Fokus auf ein Element</string>
   <string name="individual_vibration_focus_actionable">Fokus auf ein aktivierbares Element</string>
   <string name="individual_vibration_clicked">Klick</string>
@@ -37,12 +31,6 @@
   <string name="individual_vibration_typo">Rechtschreibfehler</string>
   <string name="individual_vibration_notification">Ansage</string>
     <string name="individual_sound_screen_on">Bildschirm an</string>
-    <string name="individual_vibration_braille_character">Brailletastatur: Zeichen eingeben</string>
-    <string name="individual_vibration_braille_space">Brailletastatur: Leerzeichen oder Löschen</string>
-    <string name="individual_vibration_braille_new_line">Brailletastatur: neue Zeile oder Wort löschen</string>
-    <string name="individual_vibration_braille_hold">Brailletastatur: Finger gedrückt halten</string>
-    <string name="individual_vibration_braille_gesture">Brailletastatur: andere Gesten</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Brailletastatur: nichts zu löschen</string>
     <string name="individual_sound_next_reading_control">Nächste Vorleseoption</string>
     <string name="individual_sound_previous_reading_control">Vorherige Vorleseoption</string>
     <string name="individual_sound_edge_gesture_bottom">Randgeste unten</string>

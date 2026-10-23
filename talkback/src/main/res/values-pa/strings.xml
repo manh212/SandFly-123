@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">ਦੇਰੀ ਘਟਾਓ</string>
   <string name="talkback_latency_reduction_summary">ਸਕ੍ਰੀਨ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ SandFly ਤੇਜ਼ੀ ਨਾਲ ਜਵਾਬ ਦਿਓ</string>
   <string name="summary_pref_intonation">ਮਿਟਾਏ ਗਏ ਅੱਖਰਾਂ ਨੂੰ ਉੱਚੀ ਸੁਰ ਵਾਲੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲੋ</string>
-  <string name="title_pref_brailledisplay">ਬਰੇਲ ਡਿਸਪਲੇ</string>
-  <string name="title_pref_brailleime">ਬਰੇਲ ਕੀ-ਬੋਰਡ</string>
-  <string name="summary_pref_brailleime_disabled">ਤੁਹਾਡਾ ਡੀਵਾਈਸ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਦਾ ਸਮਰਥਨ ਨਹੀਂ ਕਰਦਾ</string>
   <string name="title_pref_speech_footer">ਕਿਸੇ ਵੀ ਸਕ੍ਰੀਨ ਤੋਂ ਪਹੁੰਚਯੋਗਤਾ ਵਾਲੀਅਮ ਨੂੰ ਬਦਲਣ ਲਈ, ਸਕ੍ਰੀਨ \'ਤੇ 1 ਉਂਗਲ ਨੂੰ ਫੜੀ ਰੱਖੋ ਅਤੇ ਵਾਲੀਅਮ ਅੱਪ ਜਾਂ ਵਾਲੀਅਮ ਡਾਊਨ ਕੁੰਜੀ ਨੂੰ ਦਬਾਓ।</string>
   <string name="title_pref_vibration">ਥਰਥਰਾਹਟ ਸੰਬੰਧੀ ਵਿਚਾਰ</string>
   <string name="title_pref_soundback">ਧੁਨੀ ਸੰਬੰਧੀ ਵਿਚਾਰ</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">ਡੀਬੱਗ ਲੌਗ ਓਵਰਲੇ ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="title_pref_typing_confirmation">ਟਾਈਪਿੰਗ ਵਿਧੀ</string>
   <string name="title_pref_typing_long_tap_duration">ਟਾਈਪ ਕਰਨ ਵੇਲੇ ਇੰਨੀ ਦੇਰ ਤੱਕ ਸਪਰਸ਼ ਕਰ ਕੇ ਰੱਖੋ</string>
-  <string name="title_pref_touch_explore_timeout">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
   <string name="message_pref_touch_explore_latency">ਇੱਕ ਛੋਟੀ ਦੇਰੀ SandFly ਤੁਹਾਡੇ ਕੀਬੋਰਡ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ ਜਲਦੀ ਬੋਲਦੀ ਹੈ।\n\nਇੱਕ ਦੇਰੀ ਚੁਣੋ</string>
-  <string name="title_pref_touch_focus_timeout">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly ਵਿੱਚ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਸੰਭਾਲੋ</string>
-  <string name="toast_pref_talkback_gesture_detection">ਸੈਟਿੰਗ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ SandFly ਨੂੰ ਬੰਦ ਕਰ ਕੇ ਦੁਬਾਰਾ ਚਾਲੂ ਕਰੋ।</string>
   <string name="title_pref_auto_image_captioning">ਸਵੈਚਲਿਤ ਵਰਣਨ</string>
   <string name="title_pref_gemini_settings">Gemini ਸੈਟਿੰਗਾਂ</string>
   <string name="title_pref_gemini_enabled">Gemini ਵੌਇਸ ਕਮਾਂਡਾਂ</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">ਅਵਾਜ਼ ਵਧਾਓ</string>
   <string name="shortcut_decrease_volume">ਅਵਾਜ਼ ਘਟਾਓ</string>
   <string name="shortcut_all_apps">ਸਾਰੀਆਂ ਐਪਾਂ</string>
-  <string name="shortcut_braille_keyboard">ਬਰੇਲ ਲਿਪੀ ਕੀ-ਬੋਰਡ \'ਤੇ ਜਾਓ</string>
-  <string name="shortcut_braille_display_settings">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ ਵੱਲ ਨੈਵੀਗੇਟ ਕਰੋ</string>
   <string name="shortcut_tutorial">ਟਿਊਟੋਰੀਅਲ ਖੋਲ੍ਹੋ</string>
   <string name="shortcut_control_speak_time">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸੋ ਜਾਂ ਬੋਲ ਕੇ ਸਮਾਂ ਨਾ ਦੱਸੋ</string>
   <string name="shortcut_enable_speak_time">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸੋ</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸਣ ਦੀ ਸੁਵਿਧਾ ਬੰਦ ਹੈ</string>
   <string name="shortcut_practice_gestures">ਇਸ਼ਾਰਿਆਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
   <string name="shortcut_report_gesture">ਇਸ਼ਾਰੇ ਸੰਬੰਧੀ ਸਮੱਸਿਆ ਨੂੰ ਰਿਪੋਰਟ ਕਰੋ</string>
-  <string name="shortcut_toggle_braille_display">ਬਰੇਲ ਡਿਸਪਲੇ ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_announce_current_time_and_date">ਮੌਜੂਦਾ ਤਾਰੀਖ ਅਤੇ ਸਮਾਂ ਬੋਲੋ</string>
   <string name="shortcut_announce_battery_state">ਬੈਟਰੀ ਦੀ ਫ਼ੀਸਦ ਦੱਸੋ</string>
   <string name="shortcut_announce_current_title">ਵਿੰਡੋ ਦਾ ਸਿਰਲੇਖ ਬੋਲ ਕੇ ਸੁਣਾਓ</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">ਸਪੀਚ ਰੇਟ ਘਟਾਓ</string>
   <string name="shortcut_toggle_selection">ਚੋਣ ਮੋਡ ਨੂੰ ਸ਼ੁਰੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_show_tutorial">ਟਿਊਟੋਰੀਅਲ ਖੋਲ੍ਹੋ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ਸੰਕੁਚਿਤ (ਗ੍ਰੇਡ 2) ਅਤੇ ਗੈਰ-ਸੰਕੁਚਿਤ (ਗ੍ਰੇਡ 1) ਵਿਚਾਲੇ ਸਵਿੱਚ ਕਰੋ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ਕਨੈਕਟ ਕੀਤੀਆਂ ਬਰੇਲ ਡਿਸਪਲੇਆਂ ਲਈ ਆਨ-ਸਕ੍ਰੀਨ ਬਰੇਲ ਲਿਪੀ ਦਿਖਾਓ ਜਾਂ ਲੁਕਾਓ</string>
   <string name="shortcut_toggle_sound_feedback">ਧੁਨੀ ਵਿਚਾਰ (ਝੁਣਕਾਰ) ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
   <string name="shortcut_show_learn_mode_page">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦਾ ਅਭਿਆਸ ਕਰੋ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ਫੋਕਸ ਹੋਈ ਆਈਟਮ ਲਈ ਧੁਨੀਆਤਮਿਕ ਉਚਾਰਨ ਨਾਲ ਅੱਖਰ ਬੋਲੋ</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">ਅਵਾਜ਼ੀ ਆਦੇਸ਼</string>
   <string name="title_show_keyboard_shortcuts">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
   <string name="talkback_show_talkback_settings">SandFly ਸੈਟਿੰਗਾਂ</string>
-  <string name="title_show_braille_display_settings">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ</string>
   <string name="title_granularity_default">ਪੂਰਵ-ਨਿਰਧਾਰਿਤ ਨੈਵੀਗੇਸ਼ਨ</string>
   <string name="title_action_dismiss">ਖਾਰਜ ਕਰੋ</string>
   <string name="title_action_expand">ਵਿਸਤਾਰ ਕਰੋ</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">ਇਸ ਬਾਰੇ ਚੁਣੋ ਕਿ ਤੁਹਾਡੇ ਵੱਲੋਂ ਸਕ੍ਰੀਨ ਚਾਲੂ ਕਰਨ \'ਤੇ ਸਮਾਂ ਉੱਚੀ ਬੋਲ ਕੇ ਦੱਸਿਆ ਜਾਵੇ ਜਾਂ ਨਹੀਂ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟਾਂ ਦੀ ਸੂਚੀ ਖੋਲ੍ਹੋ</string>
   <string name="summary_talkback_preferences">SandFly ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
-  <string name="summary_braile_display_preferences">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ ਨੂੰ ਖੋਲ੍ਹੋ</string>
   <string name="summary_system_actions">ਸਾਰੀਆਂ ਐਪਾਂ ਦੀਆਂ ਤਤਕਾਲ ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਜਾਓ</string>
   <string name="summary_tts_settings">ਲਿਖਤ-ਤੋਂ-ਬੋਲੀ ਸੈਟਿੰਗਾਂ ਖੋਲ੍ਹੋ</string>
   <string name="not_editable">ਸੰਪਾਦਨਯੋਗ ਨਹੀਂ</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly ਦੇ ਬੋਲਣ \'ਤੇ, ਚੱਲ ਰਹੀ ਹੋਰ ਆਡੀਓ ਦੀ ਅਵਾਜ਼ ਨੂੰ ਘੱਟ ਕਰੋ</string>
   <string name="summary_support_scroll_seq">ਅੱਗੇ ਜਾਂ ਪਿੱਛੇ ਵੱਲ ਸਕ੍ਰੋਲ ਕਰੋ</string>
   <string name="summary_support_change_a11y_volume">ਪਹੁੰਚਯੋਗਤਾ ਦੀ ਅਵਾਜ਼ ਘਟਾਓ ਜਾਂ ਵਧਾਓ</string>
-  <string name="summary_support_change_touch_explore_latency">ਟਾਈਪਿੰਗ ਫੋਕਸ ਦੇਰੀ ਵਧਾਓ ਜਾਂ ਘਟਾਓ</string>
-  <string name="summary_support_change_touch_focus_latency">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ ਦਾ ਸਮਾਂ ਵਧਾਓ ਜਾਂ ਘਟਾਓ</string>
   <string name="summary_screen_overview">ਕਾਰਵਾਈ ਵਾਲੇ ਬਟਨਾਂ ਨਾਲ ਸਕ੍ਰੀਨ ਦਾ ਸਾਰਾਂਸ਼ ਦਿਓ</string>
   <string name="summary_screen_overview_no_actions">ਸਕ੍ਰੀਨ \'ਤੇ ਦਿੱਤੀ ਸਮੱਗਰੀ ਦਾ ਸਾਰਾਂਸ਼ ਸੁਣੋ</string>
   <string name="summary_image_caption">ਚੁਣੇ ਗਏ ਚਿੱਤਰ ਵਿਚਲੀ ਲਿਖਤ ਅਤੇ ਪ੍ਰਤੀਕਾਂ ਨੂੰ ਬੋਲੋ ਜਾਣ ਦੀ ਸੁਵਿਧਾ</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ਡਬਲ-ਚੂੰਢੀ ਭਰੋ</string>
   <string name="gesture_name_double_tap_and_hold">ਡਬਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_double_tap_and_hold_xr">ਚੂੰਢੀ ਭਰ ਕੇ ਰੱਖੋ</string>
-  <string name="gesture_name_2finger_tap_hold">2 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_3finger_tap_hold">3 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_2finger_3tap_hold">2 ਉਂਗਲਾਂ ਨਾਲ ਟ੍ਰਿਪਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
   <string name="gesture_name_3finger_3tap_hold">3 ਉਂਗਲਾਂ ਨਾਲ ਟ੍ਰਿਪਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ਆਡੀਓ ਡੱਕਿੰਗ</string>
   <string name="title_pref_support_scroll_seq">ਸਕ੍ਰੋਲ ਕਰੋ</string>
   <string name="title_pref_a11y_volume">ਪਹੁੰਚਯੋਗਤਾ ਅਵਾਜ਼</string>
-  <string name="title_pref_touch_explore_latency">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
-  <string name="title_pref_touch_focus_latency">ਫੋਕਸ ਵਿੱਚ ਦੇਰੀ</string>
   <string name="message_pref_touch_focus_latency">ਇੱਕ ਛੋਟੀ ਦੇਰੀ ਤੁਹਾਡੇ ਦੁਆਰਾ ਸਕ੍ਰੀਨ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ SandFly ਜਲਦੀ ਬੋਲਦੀ ਹੈ</string>
   <string name="message_pref_typing_method_prefix">ਟਾਈਪਿੰਗ ਦੌਰਾਨ ਦੇਰੀ ਨੂੰ ਘੱਟ ਤੋਂ ਘੱਟ ਰੱਖਣ ਲਈ, \"ਕਿਸੇ ਕੁੰਜੀ ਨੂੰ ਚੁਣਨ ਲਈ ਉਸਨੂੰ ਦਬਾਈ ਰੱਖੋ, ਫਿਰ ਉਂਗਲ ਚੁੱਕੋ\" ਵਿਕਲਪ ਚੁਣੋ</string>
-  <string name="message_pref_typing_method_postfix">ਤੁਸੀਂ ਕਿਸੇ ਵੀ ਸਮੇਂ ਟਾਈਪ ਕਰਨ ਲਈ ਸਪਲਿਟ-ਟੈਪ ਦੀ ਵਰਤੋਂ ਵੀ ਕਰ ਸਕਦੇ ਹੋ। ਅਜਿਹਾ ਕਰਨ ਲਈ, ਕੋਈ ਕੁੰਜੀ ਚੁਣਨ ਵਾਸਤੇ ਇੱਕ ਉਂਗਲ ਨੂੰ ਦਬਾਈ ਰੱਖੋ ਅਤੇ ਦੂਜੀ ਉਂਗਲੀ ਨਾਲ ਸਕ੍ਰੀਨ \'ਤੇ ਟੈਪ ਕਰੋ।</string>
   <string name="title_pref_talkback_speech_rate">ਬੋਲਣ ਦੀ ਗਤੀ</string>
   <string name="title_pref_selector_adjustable_widget_slider">ਸਲਾਈਡਰ ਨੂੰ ਵਿਵਸਥਿਤ ਕਰੋ</string>
   <string name="title_pref_selector_typo_granularity">ਪਰੂਫਰੀਡ</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ %1$s ਹੈ</string>
   <string name="screen_search_no_keyword_hint">ਫ਼ਿਲਹਾਲ ਕੋਈ ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਨਵੀਂ ਖੋਜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ, 3 ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ ਅਤੇ ਦਬਾਈ ਰੱਖੋ ਜਾਂ SandFly ਮੀਨੂ \'ਤੇ ਜਾ ਕੇ ਸਕ੍ਰੀਨ ਖੋਜ ਨੂੰ ਖੋਲ੍ਹੋ।</string>
   <string name="screen_search_no_keyword_hint_pre_r">ਫ਼ਿਲਹਾਲ ਕੋਈ ਪ੍ਰਮੁੱਖ-ਸ਼ਬਦ ਮੌਜੂਦ ਨਹੀਂ ਹੈ। ਨਵੀਂ ਖੋਜ ਸ਼ੁਰੂ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ ਖੱਬੇ ਪਾਸੇ ਅਤੇ ਫਿਰ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ ਜਾਂ SandFly ਮੀਨੂ \'ਤੇ ਜਾ ਕੇ ਸਕ੍ਰੀਨ ਖੋਜ ਨੂੰ ਖੋਲ੍ਹੋ।</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ਬਰੇਲ ਲਿਪੀ ਵਾਲਾ ਕੀ-ਬੋਰਡ ਚਾਲੂ ਨਹੀਂ ਹੈ। SandFly ਸੈਟਿੰਗਾਂ \'ਤੇ ਜਾਓ, ਬਰੇਲ ਲਿਪੀ ਵਾਲੇ ਕੀ-ਬੋਰਡ ਦਾ ਸੈੱਟਅੱਪ ਕਰਕੇ ਦੁਬਾਰਾ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
   <string name="suggestions_window_available">ਸੁਝਾਅ ਉਪਲਬਧ ਹਨ</string>
   <string name="suggestions_window_available_with_gesture">ਸੁਝਾਅ ਉਪਲਬਧ ਹਨ। ਪਹੁੰਚ ਕਰਨ ਲਈ ਇਹ ਕਰੋ, %1$s</string>
   <string name="heads_up_window_available">ਸੂਚਨਾ ਉਪਲਬਧ ਹੈ</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ਕੋਲ ਹੁਣ ਭੌਤਿਕ ਕੀਬੋਰਡਾਂ ਲਈ ਇੱਕ \"ਇਨਹਾਂਸਡ ਕੀਮੈਪ\" ਹੈ, ਜਿਸ ਵਿੱਚ ਕਈ ਤਰ੍ਹਾਂ ਦੀਆਂ ਨਵੀਆਂ ਕਮਾਂਡਾਂ ਅਤੇ ਸ਼ਾਰਟਕੱਟ ਸ਼ਾਮਲ ਹਨ। ਇਸ ਸੁਧਾਰ ਵਿੱਚ ਵਧੇਰੇ ਕੁਸ਼ਲ ਵੈੱਬ ਨੈਵੀਗੇਸ਼ਨ, ਸੁਚਾਰੂ ਨੈਵੀਗੇਸ਼ਨ ਅਤੇ SandFly ਉਪਭੋਗਤਾਵਾਂ ਲਈ ਇੰਟਰਐਕਸ਼ਨ ਲਈ ਇੱਕ \"ਬ੍ਰਾਊਜ਼ ਮੋਡ\" ਸ਼ਾਮਲ ਹੈ ਜੋ ਭੌਤਿਕ ਕੀਬੋਰਡਾਂ \'ਤੇ ਨਿਰਭਰ ਕਰਦੇ ਹਨ। ਤੁਸੀਂ <xliff:g id="settings_path">%1$s</xliff:g>.\n\n ਵਿੱਚ \"ਇਨਹਾਂਸਡ ਕੀਮੈਪ\" \'ਤੇ ਸਵਿੱਚ ਕਰ ਸਕਦੇ ਹੋ, ਜੇਕਰ ਤੁਸੀਂ ਇੱਕ ਬਰੇਲ ਡਿਸਪਲੇਅ ਦੀ ਵਰਤੋਂ ਕਰਦੇ ਹੋ, ਤਾਂ ਤੁਸੀਂ ਆਪਣੇ ਬ੍ਰੇਲ ਡਿਸਪਲੇ ਤੋਂ ਸਿੱਧੇ ਸਮੱਗਰੀ ਨੂੰ ਪਾਰ ਕਰਨ ਲਈ ਨਵੇਂ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਸ਼ਾਰਟਕੱਟ ਦੀ ਵਰਤੋਂ ਵੀ ਕਰ ਸਕਦੇ ਹੋ। ਇਸ ਤਬਦੀਲੀ ਨੂੰ ਅਨੁਕੂਲ ਕਰਨ ਲਈ ਕੁਝ ਬਰੇਲ ਡਿਸਪਲੇ ਸ਼ਾਰਟਕੱਟ ਬਦਲੇ ਗਏ ਸਨ। ਤੁਸੀਂ <xliff:g id="braille_display_settings_path">%2$s</xliff:g> ਵਿੱਚ ਸਾਰੇ ਬਰੇਲ ਡਿਸਪਲੇ ਸ਼ਾਰਟਕੱਟਾਂ ਦੀ ਸੂਚੀ ਦੇਖ ਸਕਦੇ ਹੋ।</string>
   <string name="keyboard_shortcuts_link">SandFly ਸੈਟਿੰਗਾਂ &gt; ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ਸੈਟਿੰਗਾਂ, ਫਿਰ ਕੀ-ਬੋਰਡ ਸ਼ਾਰਟਕੱਟ</string>
-  <string name="braille_display_settings_link">ਬਰੇਲ ਡਿਸਪਲੇ ਸੈਟਿੰਗਾਂ</string>
   <string name="keyboard_smart_browse_mode_title">ਕੀ-ਬੋਰਡ: ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ</string>
   <string name="keyboard_smart_browse_mode_text">ਜਦੋਂ ਤੁਸੀਂ ਵੈੱਬ ਬ੍ਰਾਊਜ਼ ਕਰਦੇ ਹੋ, ਤਾਂ SandFly ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਸੰਪਾਦਨ ਖੇਤਰ \'ਤੇ ਬ੍ਰਾਊਜ਼ ਮੋਡ ਨੂੰ ਬੰਦ ਕਰ ਦਿੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਭੌਤਿਕ ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨ ਵਿੱਚ ਤੁਹਾਡੀ ਮਦਦ ਕੀਤੀ ਜਾ ਸਕੇ। ਫਿਰ ਜਦੋਂ ਤੁਸੀਂ ਵੈੱਬ \'ਤੇ ਕਿਸੇ ਗੈਰ-ਸੰਪਾਦਨ ਖੇਤਰ \'ਤੇ ਜਾਂਦੇ ਹੋ, ਤਾਂ ਇਹ ਇਸਨੂੰ ਵਾਪਸ ਚਾਲੂ ਕਰ ਦਿੰਦਾ ਹੈ, ਤਾਂ ਜੋ ਤੁਸੀਂ ਕੁਸ਼ਲਤਾ ਨਾਲ ਬ੍ਰਾਊਜ਼ ਕਰਨਾ ਜਾਰੀ ਰੱਖ ਸਕੋ। ਤੁਸੀਂ <xliff:g id="settings_path">%1$s</xliff:g> ਵਿੱਚ \"ਸਮਾਰਟ ਬ੍ਰਾਊਜ਼ ਮੋਡ\" ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="advanced_settings_link">SandFly ਸੈਟਿੰਗਾਂ &gt; ਅਡਵਾਂਸ ਸੈਟਿੰਗਾਂ</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">ਲਿਖਤ ਟਾਈਪ ਕਰਨਾ</string>
   <string name="basic_typing_text_text">ਜਦੋਂ ਤੁਸੀਂ ਕਿਸੇ ਲਿਖਤ ਬਾਕਸ ਵਿੱਚ ਹੁੰਦੇ ਹੋ, ਤਾਂ ਤੁਹਾਡੀ ਸਕ੍ਰੀਨ ਦੇ ਹੇਠਾਂ ਇੱਕ ਕੀ-ਬੋਰਡ ਖੁੱਲ੍ਹ ਜਾਵੇਗਾ।</string>
   <string name="typing_text_text">ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਕੀ-ਬੋਰਡ \'ਤੇ ਘੁਮਾਓ। ਜਦੋਂ ਤੁਸੀਂ ਉਹ ਅੱਖਰ ਸੁਣ ਲਵੋ ਜਿਸਨੂੰ ਤੁਸੀਂ ਟਾਈਪ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਚੁੱਕੋ।\n\nਹੇਠਾਂ ਦਿੱਤੇ ਲਿਖਤ ਬਾਕਸ ਨੂੰ ਕਿਰਿਆਸ਼ੀਲ ਕਰ ਕੇ ਆਪਣਾ ਨਾਮ ਟਾਈਪ ਕਰ ਕੇ ਦੇਖੋ।</string>
-  <string name="typing_text_with_braille_keyboard_text">ਤੁਸੀਂ ਬਰੇਲ ਕੀ-ਬੋਰਡ ਨਾਲ ਵੀ ਟਾਈਪ ਕਰ ਸਕਦੇ ਹੋ। ਇਹ SandFly ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਮਿਲੇਗਾ।</string>
   <string name="other_ways_to_type_title">ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਤਰੀਕੇ</string>
   <string name="other_ways_to_type_text">SandFly ਵਿੱਚ ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਵੀ ਤਰੀਕੇ ਹਨ। ਉਦਾਹਰਨ ਲਈ, ਤੁਸੀਂ ਕਿਸੇ ਅੱਖਰ ਨੂੰ ਦਾਖਲ ਕਰਨ ਲਈ ਡਬਲ ਟੈਪ ਕਰ ਸਕਦੇ ਹੋ।</string>
   <string name="basic_other_ways_to_type_text">SandFly ਵਿੱਚ ਟਾਈਪ ਕਰਨ ਦੇ ਹੋਰ ਤਰੀਕੇ ਹਨ। ਉਦਾਹਰਨ ਲਈ, ਤੁਸੀਂ ਇੱਕ ਅੱਖਰ ਦਾਖਲ ਕਰਨ ਲਈ ਡਬਲ ਟੈਪ ਦੀ ਵਰਤੋਂ ਕਰ ਸਕਦੇ ਹੋ। ਤੁਸੀਂ ਇਸਨੂੰ ਬਾਅਦ ਵਿੱਚ SandFly ਸੈਟਿੰਗਾਂ &gt; ਔਨ-ਸਕ੍ਰੀਨ ਕੀਬੋਰਡ &gt; ਟਾਈਪਿੰਗ ਵਿਧੀ ਵਿੱਚ ਬਦਲ ਸਕਦੇ ਹੋ।</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">ਇਸ਼ਾਰਿਆਂ ਦਾ ਅਭਿਆਸ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ SandFly ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="talkback_inactive_message_image_description">ਚਿੱਤਰ ਵਰਣਨਾਂ ਦੀ ਜਾਣਕਾਰੀ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ, ਪਹਿਲਾਂ SandFly ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
   <string name="talkback_inactive_close_tutorial_button">ਟਿਊਟੋਰੀਅਲ ਨੂੰ ਬੰਦ ਕਰੋ</string>
-  <string name="wear_training_welcome_paragraph">SandFly ਚਾਲੂ ਹੋਣ ਨਾਲ, ਸਕ੍ਰੀਨ \'ਤੇ ਫੋਕਸ ਹੋਈ ਆਈਟਮ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲਿਆ ਜਾਂਦਾ ਹੈ।\n\nਸੱਜੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰਨਾ ਅਗਲੀ ਆਈਟਮ \'ਤੇ ਲੈ ਜਾਂਦਾ ਹੈ। ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰਨਾ ਪਿਛਲੀ ਆਈਟਮ \'ਤੇ ਲੈ ਜਾਂਦਾ ਹੈ।\n\n\'ਅਗਲਾ\' ਬਟਨ ਲੱਭਣ ਤੱਕ ਹੁਣ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d ਉਂਗਲਾਂ ਨਾਲ ਉੱਪਰ ਜਾਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_go_back_title">ਵਾਪਸ ਜਾਓ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ਜਦੋਂ ਤੁਸੀਂ ਵਾਪਸ ਜਾਣਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਸਕ੍ਰੀਨ ਦੇ ਕੋਨੇ ਤੋਂ %1$d ਉਂਗਲਾਂ ਨਾਲ ਸੱਜੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ਸਫਲਤਾ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ਪਿੱਛੇ ਜਾਣ ਵਾਲਾ ਇਸ਼ਾਰਾ ਵਰਤਿਆ ਗਿਆ</string>
-  <string name="wear_training_volume_up_title">ਅਵਾਜ਼ ਵਧਾਓ</string>
-  <string name="wear_training_volume_up_text">ਸੱਜੇ ਅਤੇ ਫਿਰ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_volume_down_title">ਅਵਾਜ਼ ਘਟਾਓ</string>
-  <string name="wear_training_volume_down_text">ਸੱਜੇ ਅਤੇ ਫਿਰ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly ਮੀਨੂ ਖੋਲ੍ਹੋ</string>
-  <string name="wear_training_open_talkback_menu_text">ਜਿਨ੍ਹਾਂ ਸੈਟਿੰਗਾਂ ਅਤੇ ਕੰਟਰੋਲਾਂ ਦੀ ਤੁਹਾਨੂੰ ਅਕਸਰ ਲੋੜ ਪੈ ਸਕਦੀ ਹੈ, ਉਨ੍ਹਾਂ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਹੇਠਾਂ ਅਤੇ ਫਿਰ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-  <string name="wear_training_typing_title">ਟਾਈਪਿੰਗ</string>
-  <string name="wear_training_typing_text1">ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨ ਲਈ, ਆਪਣੀ ਉਂਗਲ ਨੂੰ ਕੀ-ਬੋਰਡ \'ਤੇ ਘੁੰਮਾਓ। ਜਦੋਂ ਤੁਸੀਂ ਉਹ ਅੱਖਰ ਸੁਣ ਲਵੋ ਜਿਸਨੂੰ ਤੁਸੀਂ ਟਾਈਪ ਕਰਨਾ ਚਾਹੁੰਦੇ ਹੋ, ਤਾਂ ਆਪਣੀ ਉਂਗਲ ਚੁੱਕੋ।</string>
-  <string name="wear_training_typing_text2">ਕੀ-ਬੋਰਡ ਨੂੰ ਲੁਕਾਉਣ ਅਤੇ ਆਪਣੇ ਇਨਪੁੱਟ ਨੂੰ ਦੇਖਣ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ \'ਤੇ ਉੱਪਰ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text3">ਕੀ-ਬੋਰਡ \'ਤੇ ਵਾਪਸ ਜਾਣ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ \'ਤੇ ਹੇਠਾਂ ਤੋਂ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text4">ਕੀ-ਬੋਰਡ ਨੂੰ ਬੰਦ ਕਰਨ ਅਤੇ ਟਾਈਪਿੰਗ ਨੂੰ ਰੱਦ ਕਰਨ ਲਈ, 2 ਉਂਗਲਾਂ ਨਾਲ ਆਪਣੀ ਸਕ੍ਰੀਨ ਦੇ ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-  <string name="wear_training_typing_text5">ਇਸਨੂੰ ਇੱਥੇ ਅਜ਼ਮਾਓ।</string>
-  <string name="wear_training_typing_practice_button_content_description">ਕੀ-ਬੋਰਡ ਨਾਲ ਟਾਈਪ ਕਰਨਾ</string>
-  <string name="wear_training_end_tutorial_title">ਤੁਸੀਂ SandFly ਦੀ ਵਰਤੋਂ ਸ਼ੁਰੂ ਕਰਨ ਲਈ ਤਿਆਰ ਹੋ</string>
   <string name="wear_new_feature_page_title">ਅੱਪਡੇਟ ਕੀਤੇ SandFly ਵਿੱਚ ਜੀ ਆਇਆਂ ਨੂੰ</string>
   <string name="wear_new_feature_page_content">ਤੁਸੀਂ ਫੋਕਸ ਦੀ ਹਲਚਲ ਦੇ ਤਰੀਕੇ ਵਿੱਚ ਕੀਤੀਆਂ ਤਬਦੀਲੀਆਂ ਅਤੇ ਕੁਝ ਬੱਗ ਸੁਧਾਈਆਂ ਦੇਖੋਗੇ</string>
   <string name="wear_new_feature_page_button_content_description">ਪੂਰਾ ਕਰੋ</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">ਰਿੰਗਰ ਮੋਡ</string>
     <string name="summary_pref_announce_ringer_mode">ਕਹੋ ਜਦੋਂ ਰਿੰਗਰ ਵਾਈਬ੍ਰੇਟ ਜਾਂ ਸਾਈਲੈਂਟ \'ਤੇ ਸੈੱਟ ਹੋਵੇ</string>
     <string name="title_pref_category_feedback">ਫੀਡਬੈਕ</string>
-    <string name="title_pref_category_typing_and_braille">ਟਾਈਪਿੰਗ ਅਤੇ ਬਰੇਲ</string>
     <string name="title_pref_category_apps">ਐਪਾਂ</string>
     <string name="title_pref_touch_activation">ਛੋਹਵੋ ਅਤੇ ਕਿਰਿਆਸ਼ੀਲਤਾ</string>
     <string name="title_pref_navigation">ਨੈਵੀਗੇਸ਼ਨ</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">ਇਜਾਜ਼ਤ ਨਾ ਦਿਓ</string>
     <string name="permission_speak_label">SandFly ਰਾਹੀਂ ਬੋਲੋ</string>
     <string name="permission_speak_description">ਐਪ ਨੂੰ ਤੁਹਾਡੀ SandFly ਅਵਾਜ਼ ਵਿੱਚ ਟੈਕਸਟ ਕਹਿਣ ਲਈ ਕਹਿਣ ਦਿਓ। SandFly ਐਪ ਦੇ ਬੋਲਣ ਤੋਂ ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਪੁੱਛਦਾ ਹੈ।</string>
-    <string name="permission_braille_display_label">SandFly ਲਈ ਇੱਕ ਬਰੇਲ ਡਿਸਪਲੇ ਹੋਣ ਲਈ ਪੁੱਛੋ</string>
-    <string name="permission_braille_display_description">ਐਪ ਨੂੰ SandFly ਲਈ ਇੱਕ ਬਰੇਲ ਡਿਸਪਲੇ ਹੋਣ ਲਈ ਕਹਿਣ ਦਿਓ। ਜੇਕਰ ਤੁਸੀਂ ਇਸਨੂੰ SandFly ਵਿੱਚ ਇਜਾਜ਼ਤ ਦਿੰਦੇ ਹੋ, ਤਾਂ ਇਹ ਸਕ੍ਰੀਨ \'ਤੇ ਸਭ ਕੁਝ ਪੜ੍ਹ ਸਕਦਾ ਹੈ ਅਤੇ ਤੁਹਾਡੀ ਡੀਵਾਈਸ ਨੂੰ ਕੰਟਰੋਲ ਕਰ ਸਕਦਾ ਹੈ। SandFly ਪਹਿਲਾਂ ਤੁਹਾਨੂੰ ਪੁੱਛਦਾ ਹੈ।</string>
     <string name="title_pref_phonetic_letters_mode">ਅੱਖਰਾਂ ਨੂੰ ਧੁਨੀ ਰੂਪ ਵਿੱਚ ਬੋਲੋ</string>
     <string name="phonetic_letters_mode_off">ਬੰਦ ਹੈ</string>
     <string name="phonetic_letters_mode_after_letter_delay">ਚਿੱਠੀ ਤੋਂ ਬਾਅਦ, ਦੇਰੀ ਨਾਲ, ਜਿਵੇਂ \"ਹ, ਹੋਟਲ\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">ਐਪ ਖੋਲ੍ਹੋ</string>
     <string name="shortcut_open_app"><xliff:g id="app_name" example="Gmail">%1$s</xliff:g> ਖੋਲ੍ਹੋ</string>
     <string name="shortcut_scroll_to_top">ਸਿਖਰ ਤੱਕ ਸਕ੍ਰੋਲ ਕਰੋ</string>
-    <string name="shortcut_write_reading_control">ਰੀਡਿੰਗ ਕੰਟਰੋਲ ਦਾ ਪੱਤਰ ਲਿਖੋ</string>
-    <string name="title_pref_reading_control_letters">ਹੱਥ ਲਿਖਤ ਵਰਣਮਾਲਾ ਦੇ ਅੱਖਰ</string>
-    <string name="reading_control_letter_none">ਕੋਈ ਨਹੀਂ</string>
-    <string name="handwriting_prompt">ਇੱਕ ਵਰਣਮਾਲਾ ਅੱਖਰ ਲਿਖੋ</string>
-    <string name="handwriting_closed">ਹੱਥ ਲਿਖਤ ਬੰਦ</string>
-    <string name="handwriting_no_match">ਕੋਈ ਰੀਡਿੰਗ ਕੰਟਰੋਲ <xliff:g id="letter" example="Q">%1$s</xliff:g> ਨਾਲ ਸ਼ੁਰੂ ਨਹੀਂ ਹੁੰਦਾ</string>
-    <string name="handwriting_not_recognized">ਹੱਥ ਲਿਖਤ ਪਛਾਣਿਆ ਨਹੀਂ ਗਿਆ</string>
-    <string name="handwriting_downloading">ਹੱਥ ਲਿਖਤ ਪਛਾਣ ਡਾਊਨਲੋਡ ਹੋ ਰਹੀ ਹੈ</string>
-    <string name="handwriting_download_title">ਹੈਂਡਰਾਈਟਿੰਗ ਮਾਨਤਾ ਡਾਊਨਲੋਡ ਕਰੋ?</string>
-    <string name="handwriting_download_message">ਇਸ ਫੋਨ \'ਤੇ ਹੈਂਡਰਾਈਟਿੰਗ ਦੀ ਪਛਾਣ ਕੀਤੀ ਜਾਂਦੀ ਹੈ। ਇਸ ਭਾਸ਼ਾ ਲਈ ਇਸਦਾ ਮਾਡਲ, ਲਗਭਗ 20 MB, ਇੱਕ ਵਾਰ Google ਤੋਂ ਡਾਊਨਲੋਡ ਕੀਤਾ ਗਿਆ ਹੈ। ਇੱਕ ਸੁਨੇਹਾ ਦਿਖਾਉਂਦਾ ਹੈ ਕਿ ਇਹ ਕਦੋਂ ਡਾਊਨਲੋਡ ਹੋਇਆ ਹੈ।</string>
-    <string name="handwriting_download_button">ਡਾਊਨਲੋਡ ਕਰੋ</string>
-    <string name="handwriting_downloaded">ਹੈਂਡਰਾਈਟਿੰਗ ਮਾਨਤਾ ਡਾਊਨਲੋਡ ਕੀਤੀ ਗਈ</string>
-    <string name="handwriting_download_failed">ਹੱਥ ਲਿਖਤ ਪਛਾਣ ਨੂੰ ਡਾਊਨਲੋਡ ਨਹੀਂ ਕੀਤਾ ਜਾ ਸਕਿਆ। ਇੰਟਰਨੈਟ ਕਨੈਕਸ਼ਨ ਦੀ ਜਾਂਚ ਕਰੋ।</string>
-    <string name="handwriting_unsupported_language">ਇਸ ਭਾਸ਼ਾ ਵਿੱਚ ਹੱਥ ਲਿਖਤ ਪਛਾਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
-    <string name="title_pref_handwriting_keyboard">ਹੈਂਡਰਾਈਟਿੰਗ ਕੀਬੋਰਡ</string>
-    <string name="summary_pref_handwriting_keyboard">Android ਦੀਆਂ ਕੀਬੋਰਡ ਸੈਟਿੰਗਾਂ ਵਿੱਚ SandFly ਹੱਥ ਲਿਖਤ ਨੂੰ ਚਾਲੂ ਕਰੋ</string>
-    <string name="title_pref_handwriting_wait">ਲਿਖਣ ਤੋਂ ਬਾਅਦ ਉਡੀਕ ਕਰੋ</string>
-    <string name="value_handwriting_wait_200">0.2 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_300">0.3 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_400">0.4 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_500">0.5 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_600">0.6 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_800">0.8 ਸਕਿੰਟ</string>
-    <string name="value_handwriting_wait_1000">1 ਸਕਿੰਟ</string>
-    <string name="handwriting_keyboard_name">SandFly ਹੱਥ ਲਿਖਤ</string>
-    <string name="handwriting_space">ਸਪੇਸ</string>
-    <string name="handwriting_new_line">ਨਵੀਂ ਲਾਈਨ</string>
-    <string name="handwriting_tutorial_intro">ਹੈਂਡਰਾਈਟਿੰਗ ਕੀਬੋਰਡ ਟਿਊਟੋਰਿਅਲ। ਸਕ੍ਰੀਨ \'ਤੇ ਕਿਤੇ ਵੀ ਇੱਕ ਉਂਗਲ ਨਾਲ ਲਿਖੋ। ਤੁਸੀਂ ਜੋ ਲਿਖਦੇ ਹੋ ਉਹ ਟਾਈਪ ਕੀਤਾ ਜਾਂਦਾ ਹੈ ਜਦੋਂ ਤੁਸੀਂ ਇੱਕ ਪਲ ਲਈ ਰੁਕ ਜਾਂਦੇ ਹੋ। ਟਿਊਟੋਰਿਅਲ ਨੂੰ ਖਤਮ ਕਰਨ ਲਈ, ਤਿੰਨ ਉਂਗਲਾਂ ਨਾਲ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_write_letter">ਵਰਣਮਾਲਾ ਅੱਖਰ a ਲਿਖੋ।</string>
-    <string name="handwriting_tutorial_write_word">ਹੁਣ hi (h ਤੋਂ ਬਾਅਦ i) ਸ਼ਬਦ ਲਿਖੋ।</string>
-    <string name="handwriting_tutorial_typed">ਟਾਈਪ ਕੀਤਾ <xliff:g id="text" example="a">%1$s</xliff:g>।</string>
-    <string name="handwriting_tutorial_space">ਸਪੇਸ ਟਾਈਪ ਕਰਨ ਲਈ ਦੋ ਉਂਗਲਾਂ ਨਾਲ ਸੱਜੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_delete">ਕਰਸਰ ਤੋਂ ਪਹਿਲਾਂ ਅੱਖਰ ਨੂੰ ਮਿਟਾਉਣ ਲਈ ਦੋ ਉਂਗਲਾਂ ਨਾਲ ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_deleted">ਮਿਟਾਇਆ ਗਿਆ।</string>
-    <string name="handwriting_tutorial_next_reading">ਜੇਕਰ ਹੱਥ ਲਿਖਤ ਨੂੰ ਕਿਸੇ ਹੋਰ ਅੱਖਰ, ਜਿਵੇਂ ਕਿ ਵੱਡੇ ਅੱਖਰ ਵਜੋਂ ਪਛਾਣਿਆ ਜਾਂਦਾ ਹੈ, ਤਾਂ ਅਗਲਾ ਪਛਾਣ ਸੁਝਾਅ ਚੁਣਨ ਲਈ ਦੋ ਉਂਗਲਾਂ ਨਾਲ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ। ਹੁਣੇ ਕੋਸ਼ਿਸ਼ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_read_back">ਕਰਸਰ ਤੋਂ ਪਹਿਲਾਂ ਟੈਕਸਟ ਨੂੰ ਪੜ੍ਹਨ ਲਈ ਦੋ ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_new_line">ਨਵੀਂ ਲਾਈਨ ਪਾਉਣ ਲਈ ਦੋ ਉਂਗਲਾਂ ਨਾਲ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ ਜਾਂ ਟੈਕਸਟ ਫੀਲਡ ਐਕਸ਼ਨ ਕਰੋ, ਜਿਵੇਂ ਕਿ ਭੇਜੋ।</string>
-    <string name="handwriting_tutorial_not_that">ਇਹ ਇੱਕ ਹੋਰ ਇਸ਼ਾਰਾ ਸੀ।</string>
-    <string name="handwriting_tutorial_done">ਨਵੀਂ ਲਾਈਨ। ਟਿਊਟੋਰਿਅਲ ਪੂਰਾ ਹੋਇਆ। ਕੀਬੋਰਡ ਨੂੰ ਲੁਕਾਉਣ ਲਈ ਤਿੰਨ ਉਂਗਲਾਂ ਨਾਲ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ, ਅਤੇ ਕੀਬੋਰਡ ਬਦਲਣ ਲਈ ਤਿੰਨ ਉਂਗਲਾਂ ਨਾਲ ਸੱਜੇ ਜਾਂ ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ। ਟਿਊਟੋਰਿਅਲ ਨੂੰ ਦੁਬਾਰਾ ਖੋਲ੍ਹਣ ਲਈ, ਤਿੰਨ ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ।</string>
-    <string name="handwriting_tutorial_finished">ਟਿਊਟੋਰਿਅਲ ਸਮਾਪਤ ਹੋਇਆ। ਇਸਨੂੰ ਦੁਬਾਰਾ ਖੋਲ੍ਹਣ ਲਈ, ਤਿੰਨ ਉਂਗਲਾਂ ਨਾਲ ਟੈਪ ਕਰੋ।</string>
-    <string name="handwriting_no_alternatives">ਕੋਈ ਹੋਰ ਸੁਝਾਅ ਨਹੀਂ</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> ਦਾ <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">ਖਾਲੀ ਲਿਖਤ</string>
-    <string name="handwriting_not_available">ਇਸ ਡਿਵਾਈਸ \'ਤੇ ਹੱਥ ਲਿਖਤ ਪਛਾਣ ਉਪਲਬਧ ਨਹੀਂ ਹੈ</string>
     <string name="shortcut_scroll_to_bottom">ਹੇਠਾਂ ਤੱਕ ਸਕ੍ਰੋਲ ਕਰੋ</string>
     <string name="shortcut_refresh">ਤਾਜ਼ਾ ਕਰੋ</string>
     <string name="shortcut_system_notifications">ਸਿਸਟਮ ਸੂਚਨਾ ਸ਼ੇਡ</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">ਚੋਣ ਸਾਫ਼ ਕਰੋ</string>
     <string name="title_pref_brightness">ਚਮਕ</string>
     <string name="summary_support_change_brightness">ਸਕ੍ਰੀਨ ਦੀ ਚਮਕ ਨੂੰ ਵਧਾਓ ਜਾਂ ਘਟਾਓ, ਭਾਵੇਂ ਸਕ੍ਰੀਨ ਲੁਕੀ ਹੋਈ ਹੋਵੇ</string>
-    <string name="title_pref_shortcut_3finger_4tap">3 ਉਂਗਲਾਂ ਨਾਲ ਚੌਗੁਣਾ-ਟੈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">2 ਉਂਗਲਾਂ ਨਾਲ ਘੜੀ ਦੀ ਦਿਸ਼ਾ ਵਿੱਚ ਘੁੰਮਾਓ</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">2 ਉਂਗਲਾਂ ਨਾਲ ਘੜੀ ਦੇ ਉਲਟ ਦਿਸ਼ਾ ਵਿੱਚ ਘੁੰਮਾਓ</string>
-    <string name="title_pref_shortcut_2finger_scrub">2 ਉਂਗਲਾਂ ਨਾਲ ਰਗੜੋ</string>
-    <string name="title_pref_shortcut_2finger_pinch">2 ਉਂਗਲਾਂ ਨਾਲ ਚੂੰਡੀ ਲਗਾਓ</string>
-    <string name="title_pref_shortcut_2finger_spread">2 ਉਂਗਲਾਂ ਨਾਲ ਫੈਲਾਓ</string>
-    <string name="title_pref_shortcut_3finger_pinch">3 ਉਂਗਲਾਂ ਨਾਲ ਚੂੰਡੀ ਲਗਾਓ</string>
-    <string name="title_pref_shortcut_3finger_spread">3 ਉਂਗਲਾਂ ਨਾਲ ਫੈਲਾਓ</string>
-    <string name="title_pref_shortcut_4finger_pinch">4 ਉਂਗਲਾਂ ਨਾਲ ਚੂੰਡੀ ਲਗਾਓ</string>
-    <string name="title_pref_shortcut_4finger_spread">4 ਉਂਗਲਾਂ ਨਾਲ ਫੈਲਾਓ</string>
-    <string name="title_pref_shortcut_edge_bottom_up">ਹੇਠਲੇ ਕਿਨਾਰੇ ਤੋਂ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">ਹੇਠਲੇ ਕਿਨਾਰੇ ਤੋਂ ਉੱਪਰ ਵੱਲ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_top_left_down">ਉੱਪਰ ਖੱਬੇ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_top_right_down">ਉੱਪਰ ਸੱਜੇ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">ਉੱਪਰ ਖੱਬੇ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">ਉੱਪਰ ਸੱਜੇ ਤੋਂ ਹੇਠਾਂ ਵੱਲ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ</string>
-    <string name="title_pref_shortcut_edge_left_top_right">ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਵੱਲ ਸਵਾਈਪ ਕਰੋ, ਉੱਪਰਲਾ ਅੱਧ</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ, ਉੱਪਰਲਾ ਅੱਧ</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ, ਹੇਠਾਂ ਅੱਧਾ</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">ਖੱਬੇ ਕਿਨਾਰੇ ਤੋਂ ਸੱਜੇ ਪਾਸੇ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ, ਹੇਠਾਂ ਅੱਧਾ</string>
-    <string name="title_pref_shortcut_edge_right_top_left">ਸੱਜੇ ਕਿਨਾਰੇ ਤੋਂ ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ, ਉੱਪਰਲਾ ਅੱਧ</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">ਸੱਜੇ ਕਿਨਾਰੇ ਤੋਂ ਖੱਬੇ ਪਾਸੇ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ, ਉੱਪਰਲੇ ਅੱਧ</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">ਸੱਜੇ ਕਿਨਾਰੇ ਤੋਂ ਖੱਬੇ ਪਾਸੇ ਸਵਾਈਪ ਕਰੋ, ਹੇਠਾਂ ਅੱਧਾ</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">ਸੱਜੇ ਕਿਨਾਰੇ ਤੋਂ ਖੱਬੇ ਪਾਸੇ ਲੰਮਾ ਸਵਾਈਪ ਕਰੋ, ਹੇਠਾਂ ਅੱਧਾ</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">ਕੋਈ ਵੀ ਕੁੰਜੀ ਚੁਣਨ ਲਈ ਉਂਗਲ ਨੂੰ ਫੜੋ, ਫਿਰ ਚੁੱਕੋ। Enter, Done, ਜਾਂ Send ਲਈ ਡਬਲ-ਟੈਪ ਕਰੋ।</string>
-    <string name="value_type_confirmation_tap_to_type">ਕਿਸੇ ਵੀ ਕੁੰਜੀ ਨੂੰ ਟਾਈਪ ਕਰਨ ਲਈ ਟੈਪ ਕਰੋ, ਜਾਂ ਕਿਸੇ ਵੀ ਕੁੰਜੀ ਨੂੰ ਚੁਣਨ ਲਈ ਉਂਗਲ ਨੂੰ ਫੜੋ, ਫਿਰ ਚੁੱਕੋ</string>
-    <string name="title_pref_multi_tap_timeout">ਇੱਕ ਉਂਗਲ ਦੇ ਟੈਪ ਦੇ ਵਿਚਕਾਰ ਸਮਾਂ</string>
     <string name="value_multi_tap_timeout_100ms">0.1 ਸਕਿੰਟ</string>
     <string name="value_multi_tap_timeout_150ms">0.15 ਸਕਿੰਟ</string>
     <string name="value_multi_tap_timeout_200ms">0.2 ਸਕਿੰਟ</string>
     <string name="value_multi_tap_timeout_250ms">0.25 ਸਕਿੰਟ (ਪੂਰਵ-ਨਿਰਧਾਰਤ)</string>
-    <string name="title_pref_rotor_step_degrees">ਰੋਟਰ ਮੋੜ ਪ੍ਰਤੀ ਕਦਮ</string>
-    <string name="title_pref_edge_first_click_mm">ਪਹਿਲੇ ਕਲਿੱਕ ਦੀ ਦੂਰੀ</string>
-    <string name="title_pref_edge_second_click_mm">ਪਹਿਲੇ ਤੋਂ ਦੂਜੇ ਕਲਿੱਕ ਦੀ ਦੂਰੀ</string>
     <string name="value_distance_5mm">0.5 ਸੈ.ਮੀ</string>
     <string name="value_distance_10mm">1 ਸੈ.ਮੀ</string>
     <string name="value_distance_15mm">1.5 ਸੈ.ਮੀ</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">ਪਿਛਲੀ ਆਈਟਮ ਤੋਂ ਪਹਿਲੀ ਆਈਟਮ ਨੂੰ ਚਾਲੂ ਜਾਂ ਬੰਦ ਕਰੋ</string>
     <string name="wrap_around_on">\'ਤੇ ਆਲੇ-ਦੁਆਲੇ ਲਪੇਟ</string>
     <string name="wrap_around_off">ਬੰਦ ਦੇ ਆਲੇ-ਦੁਆਲੇ ਸਮੇਟਣਾ</string>
-    <string name="title_selector_tablet_held_up_faces_away">ਟੈਬਲੈੱਟ ਚਿਹਰੇ ਨੂੰ ਦੂਰ ਰੱਖਿਆ</string>
-    <string name="summary_support_tablet_held_up_faces_away">ਇੱਕ ਟੈਬਲੇਟ ਜਾਂ ਅਨਫੋਲਡ ਫ਼ੋਨ \'ਤੇ ਬਰੇਲ ਕੀਬੋਰਡ ਲਈ</string>
-    <string name="tablet_held_up_faces_away_on">ਟੈਬਲੈੱਟ ਉੱਪਰ ਚਿਹਰਿਆਂ ਨੂੰ ਦੂਰ ਰੱਖਿਆ ਗਿਆ</string>
-    <string name="tablet_held_up_faces_away_off">ਟੈਬਲੈੱਟ ਚਿਹਰੇ ਨੂੰ ਦੂਰ ਰੱਖਿਆ</string>
     <string name="title_keyboard_echo_on_screen">ਔਨ-ਸਕ੍ਰੀਨ ਕੀਬੋਰਡ ਈਕੋ</string>
     <string name="title_keyboard_echo_physical">ਭੌਤਿਕ ਕੀਬੋਰਡ ਈਕੋ</string>
-    <string name="title_keyboard_echo_braille_keyboard">ਬਰੇਲ ਕੀਬੋਰਡ ਈਕੋ</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">ਹੈਂਡਰਾਈਟਿੰਗ ਕੀਬੋਰਡ ਈਕੋ</string>
-    <string name="title_keyboard_echo_braille_display">ਬਰੇਲ ਡਿਸਪਲੇ ਈਕੋ</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">ਟਾਈਪ ਕਰਨ ਵੇਲੇ ਬੋਲੀ ਵਿੱਚ ਵਿਘਨ ਪਾਓ</string>
     <string name="pref_interrupt_typing_entry_always">ਹਮੇਸ਼ਾ</string>

@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Үн жок. Фокус үн ойнойт.</string>
     <string name="theme_sound_summary_android_keyboard">Android баскычтоптун үнү</string>
     <string name="theme_sound_use_android_keyboard">Android баскычтоптун үнүн колдонуңуз</string>
-    <string name="theme_sound_braille_character">Брайл клавиатурасы: символ терүү</string>
-    <string name="theme_sound_braille_space">Брайл баскычтобу: боштук</string>
-    <string name="theme_sound_braille_delete">Брайл баскычтобу: жок кылуу</string>
-    <string name="theme_sound_braille_new_line">Брайл баскычтобу: жаңы сап</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Үн файлын тандаңыз</string>
     <string name="theme_sound_preview">Алдын ала көрүү</string>

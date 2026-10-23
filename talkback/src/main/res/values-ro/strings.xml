@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Redu decalajul</string>
   <string name="talkback_latency_reduction_summary">Faceți SandFly să răspundă mai rapid după ce atingeți ecranul</string>
   <string name="summary_pref_intonation">Rostește literele șterse pe un ton mai înalt</string>
-  <string name="title_pref_brailledisplay">Afișaj Braille</string>
-  <string name="title_pref_brailleime">Tastatura Braille</string>
-  <string name="summary_pref_brailleime_disabled">Dispozitivul tău nu acceptă tastatura Braille</string>
   <string name="title_pref_speech_footer">Pentru a modifica volumul de accesibilitate de pe orice ecran, țineți apăsat 1 deget pe ecran și apăsați tasta de creștere sau de reducere a volumului.</string>
   <string name="title_pref_vibration">Feedback prin vibrații</string>
   <string name="title_pref_soundback">Feedback prin sunet</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Activează suprapunerea pentru jurnalul de remediere a erorilor</string>
   <string name="title_pref_typing_confirmation">Metoda de tastare</string>
   <string name="title_pref_typing_long_tap_duration">Întârziere la atingerea lungă în timpul introducerii textului</string>
-  <string name="title_pref_touch_explore_timeout">Decalajul focalizării pentru introducerea textului</string>
   <string name="message_pref_touch_explore_latency">O întârziere mai scurtă face ca SandFly să vorbească mai devreme după ce atingeți tastatura.\n\nAlegeți o întârziere</string>
-  <string name="title_pref_touch_focus_timeout">Decalajul focalizării</string>
-  <string name="title_pref_talkback_gesture_detection">Gestionează gesturile în SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Dezactivează, apoi reactivează SandFly pentru a activa setarea.</string>
   <string name="title_pref_auto_image_captioning">Descrieri automate</string>
   <string name="title_pref_gemini_settings">Setări pentru Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini comenzi vocale</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Mărește volumul</string>
   <string name="shortcut_decrease_volume">Micșorează volumul</string>
   <string name="shortcut_all_apps">Toate aplicațiile</string>
-  <string name="shortcut_braille_keyboard">Treci la tastatura Braille</string>
-  <string name="shortcut_braille_display_settings">Navighează la setările afișajului Braille</string>
   <string name="shortcut_tutorial">Deschide tutorialul</string>
   <string name="shortcut_control_speak_time">Rostirea orei sau fără rostirea orei</string>
   <string name="shortcut_enable_speak_time">Rostirea orei</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Rostirea orei este dezactivată</string>
   <string name="shortcut_practice_gestures">Exersarea gesturilor</string>
   <string name="shortcut_report_gesture">Raportează o problemă cu gesturile</string>
-  <string name="shortcut_toggle_braille_display">Activează sau dezactivează afișajul Braille</string>
   <string name="shortcut_announce_current_time_and_date">Rostește data și ora actuale</string>
   <string name="shortcut_announce_battery_state">Rostește procentajul bateriei</string>
   <string name="shortcut_announce_current_title">Rostește titlul ferestrei</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Micșorează viteza vorbirii</string>
   <string name="shortcut_toggle_selection">Pornește sau închide modul de selectare</string>
   <string name="shortcut_show_tutorial">Deschide tutorialul</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Comută între contractat (gr 2) și necontractat (gr 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Afișează sau ascunde Braille pe ecran pentru afișajele Braille conectate</string>
   <string name="shortcut_toggle_sound_feedback">Activează sau dezactivează feedbackul privind sunetul</string>
   <string name="shortcut_show_learn_mode_page">Exersează comenzi rapide de la tastatură</string>
   <string name="shortcut_announce_phonetic_pronunciation">Rostește literele cu pronunția fonetică pentru elementul focalizat</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Comenzi vocale</string>
   <string name="title_show_keyboard_shortcuts">Comenzi rapide de la tastatură</string>
   <string name="talkback_show_talkback_settings">Setări SandFly</string>
-  <string name="title_show_braille_display_settings">Setări pentru afișajul Braille</string>
   <string name="title_granularity_default">Navigare prestabilită</string>
   <string name="title_action_dismiss">Închide</string>
   <string name="title_action_expand">Extinde</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Schimbă opțiunea de rostire a orei cu voce tare când activezi ecranul</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Deschide lista de comenzi rapide de la tastatură</string>
   <string name="summary_talkback_preferences">Deschide setările SandFly</string>
-  <string name="summary_braile_display_preferences">Deschide setările afișajului Braille</string>
   <string name="summary_system_actions">Accesează Toate aplicațiile &gt; Setări rapide</string>
   <string name="summary_tts_settings">Deschide setările redării vocale a textului</string>
   <string name="not_editable">Nu se poate edita</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Redu volumul altor sunete redate în timp ce SandFly vorbește</string>
   <string name="summary_support_scroll_seq">Derulează înainte și înapoi</string>
   <string name="summary_support_change_a11y_volume">Mărește sau micșorează volumul pentru accesibilitate</string>
-  <string name="summary_support_change_touch_explore_latency">Mărește sau redu decalajul focalizării pentru introducerea textului</string>
-  <string name="summary_support_change_touch_focus_latency">Mărește sau redu decalajul focalizării</string>
   <string name="summary_screen_overview">Rezumă ecranul cu butoane pentru acțiuni</string>
   <string name="summary_screen_overview_no_actions">Ascultă un rezumat al conținutului de pe ecran</string>
   <string name="summary_image_caption">Oferă feedback rostit pentru text și pictograme dintr-o imagine selectată</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Ciupește de două ori</string>
   <string name="gesture_name_double_tap_and_hold">Atinge lung</string>
   <string name="gesture_name_double_tap_and_hold_xr">Ciupește lung</string>
-  <string name="gesture_name_2finger_tap_hold">Atingeți lung cu două degete</string>
   <string name="gesture_name_3finger_tap_hold">Atinge lung cu trei degete</string>
   <string name="gesture_name_2finger_3tap_hold">Atinge de trei ori și ține apăsat cu două degete</string>
   <string name="gesture_name_3finger_3tap_hold">Atinge de trei ori și ține apăsat cu trei degete</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Reducerea volumului audio</string>
   <string name="title_pref_support_scroll_seq">Derulează</string>
   <string name="title_pref_a11y_volume">Volumul pentru Accesibilitate</string>
-  <string name="title_pref_touch_explore_latency">Decalajul focalizării pentru introducerea textului</string>
-  <string name="title_pref_touch_focus_latency">Decalajul focalizării</string>
   <string name="message_pref_touch_focus_latency">O întârziere mai scurtă face ca SandFly să vorbească mai devreme după ce atingeți ecranul</string>
   <string name="message_pref_typing_method_prefix">Pentru cea mai mică întârziere la tastare, alege opțiunea Ține apăsat pentru a selecta orice tastă, apoi ridică degetul</string>
-  <string name="message_pref_typing_method_postfix">Poți folosi oricând atingerea ramificată pentru a tasta. Pentru a face acest lucru, ține apăsat cu un deget pentru a selecta orice tastă și folosește alt deget pentru a atinge ecranul.</string>
   <string name="title_pref_talkback_speech_rate">Viteza vorbirii</string>
   <string name="title_pref_selector_adjustable_widget_slider">Ajustează glisorul</string>
   <string name="title_pref_selector_typo_granularity">Verificare</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">cuvântul cheie este %1$s</string>
   <string name="screen_search_no_keyword_hint">Încă nu există cuvinte cheie. Pentru a începe o nouă căutare, atinge lung cu trei degete sau deschide căutarea pe ecran din meniul SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Încă nu există cuvinte cheie. Pentru a începe o nouă căutare, glisează spre stânga, apoi în jos sau deschide căutarea pe ecran din meniul SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastatura Braille nu e activată. Configurează tastatura Braille în setările SandFly și încearcă din nou.</string>
   <string name="suggestions_window_available">Sunt disponibile sugestii</string>
   <string name="suggestions_window_available_with_gesture">Sunt disponibile sugestii. Pentru a le accesa, %1$s</string>
   <string name="heads_up_window_available">Notificare disponibilă</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly are acum o „Hartă de taste îmbunătățită” pentru tastaturi fizice, cu o varietate de comenzi și comenzi rapide noi. Această îmbunătățire include un „mod de navigare” pentru o navigare web mai eficientă, simplificând navigarea și interacțiunea pentru utilizatorii SandFly care se bazează pe tastaturi fizice. Puteți comuta la „Harta tastelor îmbunătățită” în <xliff:g id="settings_path">%1$s</xliff:g>.\n\nDacă utilizați un afișaj Braille, puteți utiliza, de asemenea, noile comenzi rapide ale modului de navigare pentru a parcurge conținutul direct de pe afișajul Braille. Unele comenzi rapide de afișare Braille au fost modificate pentru a se adapta la această modificare. Puteți vedea o listă cu toate comenzile rapide de afișare Braille în <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Setări SandFly &gt; Comenzi rapide de la tastatură</string>
   <string name="keyboard_shortcuts_link_tts">Setări SandFly, apoi Comenzi rapide de la tastatură</string>
-  <string name="braille_display_settings_link">Setări pentru afișajul Braille</string>
   <string name="keyboard_smart_browse_mode_title">Tastatură: modul de navigare inteligentă</string>
   <string name="keyboard_smart_browse_mode_text">Modul de navigare inteligentă SandFly dezactivează modul de navigare într-un câmp de editare pentru a te ajuta să scrii cu o tastatură fizică atunci când navighezi pe web. Apoi îl reactivează când treci la un câmp care nu este de editare pe web, astfel încât să poți continua să navighezi eficient. Poți să activezi sau să dezactivezi Modul de navigare inteligentă în <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Setări SandFly &gt; Setări avansate</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Introducerea textului</string>
   <string name="basic_typing_text_text">Când ești într-o casetă text, în partea de jos a ecranului se va deschide o tastatură.</string>
   <string name="typing_text_text">Deplasează degetul pe tastatură. Când auzi litera pe care vrei să o introduci, ridică degetul.\n\nÎncearcă să activezi caseta text de mai jos și să-ți scrii numele.</string>
-  <string name="typing_text_with_braille_keyboard_text">Poți introduce text și de la tastatura Braille. O găsești în setările SandFly.</string>
   <string name="other_ways_to_type_title">Alte moduri de a scrie</string>
   <string name="other_ways_to_type_text">Există și alte moduri de a scrie în SandFly. De exemplu, poți să atingi de două ori pentru a introduce o literă.</string>
   <string name="basic_other_ways_to_type_text">Există și alte moduri de a tasta SandFly. De exemplu, puteți folosi dublu atingere pentru a introduce o literă. Puteți modifica acest lucru mai târziu în SandFly setări &gt; Tastatură pe ecran &gt; Metodă de tastare.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ca să exersezi gesturile, activează întâi SandFly</string>
   <string name="talkback_inactive_message_image_description">Ca să încerci să obții descrieri ale imaginilor, activează mai întâi SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Închide tutorialul</string>
-  <string name="wear_training_welcome_paragraph">Când SandFly este activat, elementul focalizat de pe ecran este rostit cu voce tare.\n\nDacă glisezi spre dreapta vei trece la următorul element. Dacă glisezi spre stânga vei trece la elementul anterior.\n\nGlisează acum spre dreapta pentru a trece la butonul Înainte.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Glisează în sus sau în jos cu %1$d degete.</string>
-  <string name="wear_training_go_back_title">Înapoi</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Atunci când vrei să revii, folosește %1$d degete pentru a glisa spre dreapta dinspre marginea ecranului.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Succes</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">A fost făcut gestul înapoi</string>
-  <string name="wear_training_volume_up_title">Mărește volumul</string>
-  <string name="wear_training_volume_up_text">Glisează spre dreapta, apoi în sus</string>
-  <string name="wear_training_volume_down_title">Micșorează volumul</string>
-  <string name="wear_training_volume_down_text">Glisează spre dreapta, apoi în jos</string>
-  <string name="wear_training_open_talkback_menu_title">Deschide meniul SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Pentru a deschide setările și comenzile de care ai nevoie frecvent, glisează în jos, apoi la dreapta</string>
-  <string name="wear_training_typing_title">Cum să introduci text</string>
-  <string name="wear_training_typing_text1">Pentru a introduce text de la tastatură, deplasează degetul deasupra tastaturii. Când auzi litera pe care vrei să o introduci, ridică degetul.</string>
-  <string name="wear_training_typing_text2">Ca să ascunzi tastatura și să verifici textul introdus, glisează în jos cu două degete din partea de sus a ecranului.</string>
-  <string name="wear_training_typing_text3">Pentru a reveni la tastatură, glisează în sus cu două degete din partea de jos a ecranului.</string>
-  <string name="wear_training_typing_text4">Ca să închizi tastatura și să anulezi introducerea textului, glisează spre dreapta dinspre marginea stângă a ecranului cu două degete.</string>
-  <string name="wear_training_typing_text5">Încearcă mai jos.</string>
-  <string name="wear_training_typing_practice_button_content_description">Introducerea textului de la tastatură</string>
-  <string name="wear_training_end_tutorial_title">Ești gata să folosești SandFly</string>
   <string name="wear_new_feature_page_title">Bun venit la versiunea SandFly actualizată</string>
   <string name="wear_new_feature_page_content">Vei observa remedieri de erori și schimbări privind mișcarea focalizării</string>
   <string name="wear_new_feature_page_button_content_description">Finalizează</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Modul sonerie</string>
     <string name="summary_pref_announce_ringer_mode">Spuneți când soneria este setată să vibreze sau să fie silențioasă</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Tastarea și braille</string>
     <string name="title_pref_category_apps">Aplicații</string>
     <string name="title_pref_touch_activation">Atingere și activare</string>
     <string name="title_pref_navigation">Navigare</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Nu permite</string>
     <string name="permission_speak_label">vorbește prin SandFly</string>
     <string name="permission_speak_description">Permite aplicației să solicite rostirea textului cu vocea ta SandFly. SandFly vă întreabă înainte ca aplicația să poată vorbi.</string>
-    <string name="permission_braille_display_label">cereți să fiți un afișaj braille pentru SandFly</string>
-    <string name="permission_braille_display_description">Permite aplicației să solicite un afișaj braille pentru SandFly. Dacă îl permiteți în SandFly, poate citi totul pe ecran și vă poate controla dispozitivul. SandFly te întreabă mai întâi.</string>
     <string name="title_pref_phonetic_letters_mode">Rostiți litere fonetic</string>
     <string name="phonetic_letters_mode_off">Dezactivată</string>
     <string name="phonetic_letters_mode_after_letter_delay">După scrisoare, întârziată, ca „h, hotel”</string>
@@ -1571,50 +1525,6 @@
     <string name="shortcut_title_open_app">Deschideți aplicația</string>
     <string name="shortcut_open_app">Deschide <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Derulați în sus</string>
-    <string name="shortcut_write_reading_control">Scrieți litera unui control de citire</string>
-    <string name="title_pref_reading_control_letters">Litere alfabetului scris de mână</string>
-    <string name="reading_control_letter_none">Fără</string>
-    <string name="handwriting_prompt">Scrieți o literă din alfabet</string>
-    <string name="handwriting_closed">Scrisul de mână închis</string>
-    <string name="handwriting_no_match">Niciun control de citire nu începe cu <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Scrisul de mână nu este recunoscut</string>
-    <string name="handwriting_downloading">Recunoașterea scrisului de mână se descarcă</string>
-    <string name="handwriting_download_title">Descărcați recunoașterea scrisului de mână?</string>
-    <string name="handwriting_download_message">Scrisul de mână este recunoscut pe acest telefon. Modelul său pentru această limbă, aproximativ 20 MB, este descărcat de la Google o dată. Un mesaj afișează când a fost descărcat.</string>
-    <string name="handwriting_download_button">Descarcă</string>
-    <string name="handwriting_downloaded">Recunoașterea scrisului de mână a fost descărcată</string>
-    <string name="handwriting_download_failed">Recunoașterea scrisului de mână nu a putut fi descărcată. Verificați conexiunea la internet.</string>
-    <string name="handwriting_unsupported_language">Recunoașterea scrisului de mână nu este disponibilă în această limbă</string>
-    <string name="title_pref_handwriting_keyboard">Tastatură pentru scris de mână</string>
-    <string name="summary_pref_handwriting_keyboard">Activați scrierea de mână SandFly în setările tastaturii lui Android</string>
-    <string name="title_pref_handwriting_wait">Așteptați după ce ați scris</string>
-    <string name="value_handwriting_wait_200">0,2 secunde</string>
-    <string name="value_handwriting_wait_300">0,3 secunde</string>
-    <string name="value_handwriting_wait_400">0,4 secunde</string>
-    <string name="value_handwriting_wait_500">0,5 secunde</string>
-    <string name="value_handwriting_wait_600">0,6 secunde</string>
-    <string name="value_handwriting_wait_800">0,8 secunde</string>
-    <string name="value_handwriting_wait_1000">O secundă</string>
-    <string name="handwriting_keyboard_name">SandFly scris de mână</string>
-    <string name="handwriting_space">Spațiu</string>
-    <string name="handwriting_new_line">Rând nou</string>
-    <string name="handwriting_tutorial_intro">Tutorial de scriere de mână pentru tastatură. Scrieți cu un deget oriunde pe ecran. Ceea ce scrii este tastat atunci când te oprești pentru o clipă. Pentru a încheia tutorialul, glisați în jos cu trei degete.</string>
-    <string name="handwriting_tutorial_write_letter">Scrieți litera a din alfabet.</string>
-    <string name="handwriting_tutorial_write_word">Acum scrieți cuvântul hi (h urmat de i).</string>
-    <string name="handwriting_tutorial_typed">Tastați <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Glisați spre dreapta cu două degete pentru a introduce un spațiu.</string>
-    <string name="handwriting_tutorial_delete">Glisați spre stânga cu două degete pentru a șterge caracterul dinaintea cursorului.</string>
-    <string name="handwriting_tutorial_deleted">Șters.</string>
-    <string name="handwriting_tutorial_next_reading">Dacă scrierea de mână este recunoscută ca un alt caracter, cum ar fi o majusculă, glisați în sus cu două degete pentru a alege următoarea sugestie de recunoaștere. Încearcă acum.</string>
-    <string name="handwriting_tutorial_read_back">Atingeți cu două degete pentru a citi textul dinaintea cursorului.</string>
-    <string name="handwriting_tutorial_new_line">Glisați în jos cu două degete pentru a insera o nouă linie sau pentru a efectua acțiunea câmpului de text, cum ar fi Trimitere.</string>
-    <string name="handwriting_tutorial_not_that">Acesta a fost un alt gest.</string>
-    <string name="handwriting_tutorial_done">Linie nouă. Tutorial terminat. Glisați în jos cu trei degete pentru a ascunde tastatura și la dreapta sau la stânga cu trei degete pentru a comuta tastatura. Pentru a deschide din nou tutorialul, atingeți cu trei degete.</string>
-    <string name="handwriting_tutorial_finished">Tutorialul s-a încheiat. Pentru a-l deschide din nou, atingeți cu trei degete.</string>
-    <string name="handwriting_no_alternatives">Fara alte sugestii</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> din <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Text gol</string>
-    <string name="handwriting_not_available">Recunoașterea scrisului de mână nu este disponibilă pe acest dispozitiv</string>
     <string name="shortcut_scroll_to_bottom">Derulați în jos</string>
     <string name="shortcut_refresh">Reîmprospătați</string>
     <string name="shortcut_system_notifications">Umbră de notificare de sistem</string>
@@ -1626,40 +1536,11 @@
     <string name="title_clear_selection">Ștergeți selecția</string>
     <string name="title_pref_brightness">Luminozitate</string>
     <string name="summary_support_change_brightness">Măriți sau micșorați luminozitatea ecranului, chiar și atunci când ecranul este ascuns</string>
-    <string name="title_pref_shortcut_3finger_4tap">Atingeți de patru ori cu 3 degete</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Rotiți în sensul acelor de ceasornic cu 2 degete</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Rotiți în sens invers acelor de ceasornic cu 2 degete</string>
-    <string name="title_pref_shortcut_2finger_scrub">Frecați cu 2 degete</string>
-    <string name="title_pref_shortcut_2finger_pinch">Ciupiți cu 2 degete</string>
-    <string name="title_pref_shortcut_2finger_spread">Întindeți cu 2 degete</string>
-    <string name="title_pref_shortcut_3finger_pinch">Ciupiți cu 3 degete</string>
-    <string name="title_pref_shortcut_3finger_spread">Întindeți cu 3 degete</string>
-    <string name="title_pref_shortcut_4finger_pinch">Ciupiți cu 4 degete</string>
-    <string name="title_pref_shortcut_4finger_spread">Întindeți cu 4 degete</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Glisați în sus de la marginea de jos</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Glisați lung în sus de la marginea de jos</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Glisați în jos din stânga sus</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Glisați în jos din dreapta sus</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Glisați lung în jos din stânga sus</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Glisați lung în jos din dreapta sus</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Glisați la dreapta de la marginea din stânga, jumătatea de sus</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Glisați lung la dreapta de la marginea stângă, jumătatea de sus</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Glisați spre dreapta de pe marginea din stânga, jumătatea inferioară</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Glisați lung spre dreapta de la marginea stângă, jumătatea inferioară</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Glisați la stânga dinspre marginea dreaptă, jumătatea de sus</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Glisați lung spre stânga de la marginea dreaptă, jumătatea de sus</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Glisați la stânga dinspre marginea dreaptă, jumătatea inferioară</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Glisați lung spre stânga de la marginea dreaptă, jumătatea inferioară</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Țineți degetul pentru a selecta orice tastă, apoi ridicați. Atingeți de două ori pentru Enter, Done sau Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Atingeți orice tastă pentru a o introduce sau țineți apăsat degetul pentru a selecta orice tastă, apoi ridicați</string>
-    <string name="title_pref_multi_tap_timeout">Timp între atingeri cu un deget</string>
     <string name="value_multi_tap_timeout_100ms">0,1 secunde</string>
     <string name="value_multi_tap_timeout_150ms">0,15 secunde</string>
     <string name="value_multi_tap_timeout_200ms">0,2 secunde</string>
     <string name="value_multi_tap_timeout_250ms">0,25 secunde (implicit)</string>
-    <string name="title_pref_rotor_step_degrees">Rotor pe pas</string>
-    <string name="title_pref_edge_first_click_mm">Distanța până la primul clic</string>
-    <string name="title_pref_edge_second_click_mm">Distanța de la primul la al doilea clic</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1707,15 +1588,8 @@
     <string name="summary_support_wrap_around">Activați sau dezactivați împachetarea de la ultimul articol la primul</string>
     <string name="wrap_around_on">Înfășurați-vă</string>
     <string name="wrap_around_off">Înfășurați</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tableta ținea cu fețele îndepărtate</string>
-    <string name="summary_support_tablet_held_up_faces_away">Pentru tastatura braille de pe o tabletă sau un telefon deschis</string>
-    <string name="tablet_held_up_faces_away_on">Tableta ținea cu fețele în spate</string>
-    <string name="tablet_held_up_faces_away_off">Tableta ținea fețele în sus</string>
     <string name="title_keyboard_echo_on_screen">Ecoul tastaturii de pe ecran</string>
     <string name="title_keyboard_echo_physical">Ecoul fizic al tastaturii</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ecoul tastaturii Braille</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ecou tastatură scris de mână</string>
-    <string name="title_keyboard_echo_braille_display">Ecoul afișajului Braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Întrerupeți vorbirea la tastare</string>
     <string name="pref_interrupt_typing_entry_always">Întotdeauna</string>

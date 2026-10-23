@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">הפחתת ההשהיה</string>
   <string name="talkback_latency_reduction_summary">תגרום ל-SandFly להגיב מהר יותר לאחר שתגע במסך</string>
   <string name="summary_pref_intonation">הקראת אותיות שנמחקו בקול גבוה יותר</string>
-  <string name="title_pref_brailledisplay">צג ברייל</string>
-  <string name="title_pref_brailleime">מקלדת ברייל</string>
-  <string name="summary_pref_brailleime_disabled">המכשיר לא תומך במקלדת ברייל</string>
   <string name="title_pref_speech_footer">כדי לשנות את עוצמת הנגישות מכל מסך, החזק אצבע אחת על המסך ולחץ על מקש הגברת עוצמת הקול או הורדת עוצמת הקול.</string>
   <string name="title_pref_vibration">משוב ברטט</string>
   <string name="title_pref_soundback">משוב קולי</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">הפעלת שכבת-על של יומן לניפוי באגים</string>
   <string name="title_pref_typing_confirmation">שיטת הקלדה</string>
   <string name="title_pref_typing_long_tap_duration">זמן ההשהיה של לחיצה ארוכה בזמן ההקלדה</string>
-  <string name="title_pref_touch_explore_timeout">השהיית המיקוד בהקלדה</string>
   <string name="message_pref_touch_explore_latency">השהיה קצר יותר גורם ל-SandFly לדבר מוקדם יותר לאחר שנגעת במקלדת.\n\nבחר השהיה</string>
-  <string name="title_pref_touch_focus_timeout">השהיית המיקוד</string>
-  <string name="title_pref_talkback_gesture_detection">‏ניהול התנועות ב-SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">‏יש להשבית ולהפעיל מחדש את SandFly כדי להפעיל את ההגדרה.</string>
   <string name="title_pref_auto_image_captioning">תיאורים אוטומטיים</string>
   <string name="title_pref_gemini_settings">‏הגדרות Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini פקודות קוליות</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">הגברת עוצמת הקול</string>
   <string name="shortcut_decrease_volume">החלשת עוצמת הקול</string>
   <string name="shortcut_all_apps">כל האפליקציות</string>
-  <string name="shortcut_braille_keyboard">מעבר למקלדת ברייל</string>
-  <string name="shortcut_braille_display_settings">ניווט להגדרות של צג הברייל</string>
   <string name="shortcut_tutorial">פתיחת המדריך</string>
   <string name="shortcut_control_speak_time">הפעלה או השבתה של \'הקראת השעה\'</string>
   <string name="shortcut_enable_speak_time">הפעלת \'הקראת השעה\'</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">התכונה \'הקראת השעה\' מושבתת</string>
   <string name="shortcut_practice_gestures">תרגול תנועות</string>
   <string name="shortcut_report_gesture">דיווח על בעיה בתנועה</string>
-  <string name="shortcut_toggle_braille_display">הפעלה או כיבוי של צג הברייל</string>
   <string name="shortcut_announce_current_time_and_date">אמירת התאריך והשעה הנוכחיים</string>
   <string name="shortcut_announce_battery_state">השמעת אחוז הטעינה של הסוללה</string>
   <string name="shortcut_announce_current_title">הקראה של כותרת החלון</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">האטת קצב הדיבור</string>
   <string name="shortcut_toggle_selection">התחלה או סיום של מצב בחירה</string>
   <string name="shortcut_show_tutorial">פתיחת המדריך</string>
-  <string name="shortcut_toggle_braille_contracted_mode">מעבר בין מצב מכווץ (2) למצב לא מכווץ (1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">הצגה או הסתרה של ברייל במסך בצגי ברייל מחוברים</string>
   <string name="shortcut_toggle_sound_feedback">הפעלה או השבתה של המשוב בצליל (צלילי חיווי)</string>
   <string name="shortcut_show_learn_mode_page">תרגול השימוש במקשי הקיצור</string>
   <string name="shortcut_announce_phonetic_pronunciation">הקראת אותיות עם הגייה פונטית של הפריט המודגש</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">פקודות קוליות</string>
   <string name="title_show_keyboard_shortcuts">מקשי קיצור</string>
   <string name="talkback_show_talkback_settings">‏ההגדרות של SandFly</string>
-  <string name="title_show_braille_display_settings">ההגדרות של צג הברייל</string>
   <string name="title_granularity_default">ניווט ברירת המחדל</string>
   <string name="title_action_dismiss">ביטול</string>
   <string name="title_action_expand">הרחב</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">הפעלה או השבתה של הקראת השעה בקול רם כשמפעילים את המסך</string>
   <string name="summary_show_keyboard_shortcuts_preferences">פתיחת רשימה של מקשי קיצור</string>
   <string name="summary_talkback_preferences">‏פתיחה של הגדרות SandFly</string>
-  <string name="summary_braile_display_preferences">פתיחת ההגדרות של צג הברייל</string>
   <string name="summary_system_actions">הצגת כל האפליקציות וההגדרות המהירות</string>
   <string name="summary_tts_settings">‏פתיחת ההגדרות של המרת טקסט לדיבור (TTS)</string>
   <string name="not_editable">אין אפשרות עריכה</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">‏הנמכת עוצמת הקול של תוכן אודיו אחר שמושמע בזמן דיבור מ-SandFly</string>
   <string name="summary_support_scroll_seq">גלילה קדימה או אחורה</string>
   <string name="summary_support_change_a11y_volume">הגברה או הפחתה של עוצמת הקול לנגישות</string>
-  <string name="summary_support_change_touch_explore_latency">הארכה או קיצור של השהיית המיקוד בהקלדה</string>
-  <string name="summary_support_change_touch_focus_latency">הגדלה או הקטנה של השהיית המיקוד</string>
   <string name="summary_screen_overview">סיכום התוכן במסך באמצעות כפתורי פעולה</string>
   <string name="summary_screen_overview_no_actions">השמעת סיכום של התוכן שמוצג במסך</string>
   <string name="summary_image_caption">הקראה של הטקסט והסמלים בתוך תמונה שנבחרה</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">תנועת צביטה כפולה</string>
   <string name="gesture_name_double_tap_and_hold">לחיצה פעמיים והמשך לחיצה</string>
   <string name="gesture_name_double_tap_and_hold_xr">תנועת צביטה בלי לשחרר</string>
-  <string name="gesture_name_2finger_tap_hold">לחיצה ארוכה באמצעות שתי אצבעות</string>
   <string name="gesture_name_3finger_tap_hold">לחיצה ארוכה באמצעות שלוש אצבעות</string>
   <string name="gesture_name_2finger_3tap_hold">לחיצה ארוכה שלוש פעמים בשתי אצבעות</string>
   <string name="gesture_name_3finger_3tap_hold">לחיצה שלוש פעמים והמשך לחיצה בעזרת שלוש אצבעות</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">התאמה של עוצמת השמע</string>
   <string name="title_pref_support_scroll_seq">גלילה</string>
   <string name="title_pref_a11y_volume">עוצמת הקול לנגישות</string>
-  <string name="title_pref_touch_explore_latency">השהיית המיקוד בהקלדה</string>
-  <string name="title_pref_touch_focus_latency">השהיית המיקוד</string>
   <string name="message_pref_touch_focus_latency">עיכוב קצר יותר גורם ל-SandFly לדבר מוקדם יותר לאחר שנגעת במסך</string>
   <string name="message_pref_typing_method_prefix">כדי להקליד כמה שיותר מהר, צריך לבחור באפשרות \"בחירת המקש תיעשה בלחיצה ארוכה עליו, ואחריה הרמת האצבע\"</string>
-  <string name="message_pref_typing_method_postfix">אפשר גם להשתמש בלחיצה מפוצלת כדי להקליד. מה זה לחיצה מפוצלת? צריך ללחוץ לחיצה ארוכה עם אצבע אחת כדי לבחור מקש כלשהו, ולהשתמש באצבע אחרת כדי ללחוץ על המסך.</string>
   <string name="title_pref_talkback_speech_rate">קצב דיבור</string>
   <string name="title_pref_selector_adjustable_widget_slider">כוונון פס ההזזה</string>
   <string name="title_pref_selector_typo_granularity">הגהה</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">מילת המפתח היא %1$s</string>
   <string name="screen_search_no_keyword_hint">‏עדיין אין מילת מפתח. כדי להתחיל חיפוש חדש, לוחצים לחיצה ארוכה עם 3 אצבעות או פותחים את החיפוש מהמסך מתפריט SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">‏עדיין אין מילת מפתח. כדי להתחיל חיפוש חדש, מחליקים ימינה ואז למטה או פותחים את החיפוש מהמסך מתפריט SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">‏מקלדת ברייל לא מופעלת. יש לעבור להגדרות של SandFly כדי להגדיר את מקלדת הברייל ולאחר מכן לנסות שוב.</string>
   <string name="suggestions_window_available">יש הצעות לטקסט</string>
   <string name="suggestions_window_available_with_gesture">יש הצעות לטקסט. כדי לגשת לחלון ההצעות, צריך לבצע %1$s</string>
   <string name="heads_up_window_available">יש התראה זמינה</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly יש כעת \"מפת מקשים משופרת\" עבור מקלדות פיזיות, הכוללת מגוון פקודות וקיצורי דרך חדשים. שיפור זה כולל \"מצב גלישה\" לניווט יעיל יותר באינטרנט, ייעול ניווט ואינטראקציה עבור משתמשים SandFly המסתמכים על מקלדות פיזיות. אתה יכול לעבור ל\"מפת המקשים המשופרת\" ב-<xliff:g id="settings_path">%1$s</xliff:g>.\n\nאם אתה משתמש בצג ברייל, אתה יכול גם להשתמש בקיצורי דרך חדשים במצב עיון כדי לעבור בין תוכן ישירות מצג הברייל שלך. כמה קיצורי דרך לתצוגת ברייל שונו כדי להתאים לשינוי זה. אתה יכול לראות רשימה של כל קיצורי הדרך לתצוגת ברייל ב-<xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">‏הגדרות SandFly &gt; מקשי קיצור</string>
   <string name="keyboard_shortcuts_link_tts">‏הגדרות SandFly ואז מקשי קיצור</string>
-  <string name="braille_display_settings_link">הגדרות צג הברייל</string>
   <string name="keyboard_smart_browse_mode_title">מקלדת: מצב הסמן החכם</string>
   <string name="keyboard_smart_browse_mode_text">‏מצב הסמן החכם של SandFly משבית את מצב הסמן בשדה עריכה כדי לעזור להקליד באמצעות מקלדת פיזית כשגולשים באינטרנט. אחר כך הוא מפעיל אותו מחדש כשעוברים לשדה שלא מיועד לעריכה באינטרנט, כדי שאפשר יהיה להמשיך לגלוש ביעילות. אפשר להפעיל או להשבית את ההגדרה \"מצב הסמן החכם\" ב<xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">‏הגדרות SandFly &gt; הגדרות מתקדמות</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">הקלדת טקסט</string>
   <string name="basic_typing_text_text">כשהסמן נמצא בתיבת טקסט, נפתחת מקלדת בתחתית המסך.</string>
   <string name="typing_text_text">‏מעבירים את האצבע לאורך המקלדת. כששומעים את שם האות שרוצים להקליד, מרימים את האצבע.\n\nכדאי לנסות להפעיל את תיבת הטקסט למטה ולהקליד את השם.</string>
-  <string name="typing_text_with_braille_keyboard_text">‏אפשר להקליד גם בעזרת מקלדת ברייל. את המקלדת הזו ניתן למצוא בהגדרות של SandFly.</string>
   <string name="other_ways_to_type_title">דרכים נוספות להקליד</string>
   <string name="other_ways_to_type_text">‏יש עוד דרכים להקליד ב-SandFly. לדוגמה, אפשר ללחוץ לחיצה כפולה כדי להקליד אות.</string>
   <string name="basic_other_ways_to_type_text">ישנן דרכים אחרות להקליד SandFly. לדוגמה, אתה יכול להשתמש בלחיצה כפולה כדי להזין אות. תוכל לשנות זאת מאוחר יותר בהגדרות SandFly &gt; מקלדת על המסך &gt; שיטת הקלדה.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">‏כדי לתרגל תנועות, צריך להפעיל את SandFly</string>
   <string name="talkback_inactive_message_image_description">‏כדי לנסות להשמיע תיאורי תמונות, צריך להפעיל את SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">סגירת המדריך</string>
-  <string name="wear_training_welcome_paragraph">‏כש-SandFly מופעל, הפריט שבמיקוד על המסך מוקרא בקול.\n\nהחלקה ימינה מעבירה לפריט הבא, והחלקה שמאלה לפריט הקודם.\n\nהחליקו עכשיו ימינה עד שתמצאו את הכפתור הבא.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">מחליקים כלפי מעלה או כלפי מטה עם %1$d אצבעות.</string>
-  <string name="wear_training_go_back_title">חזרה אחורה</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">כדי לחזור אחורה, מחליקים ימינה עם %1$d אצבעות מקצה המסך.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">כן, בדיוק ככה</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">תנועת החזרה בוצעה</string>
-  <string name="wear_training_volume_up_title">הגברת עוצמת הקול</string>
-  <string name="wear_training_volume_up_text">החלקה ימינה ואז למעלה</string>
-  <string name="wear_training_volume_down_title">החלשת עוצמת הקול</string>
-  <string name="wear_training_volume_down_text">החלקה ימינה ואז למטה</string>
-  <string name="wear_training_open_talkback_menu_title">‏פתיחה של תפריט SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">כדי לפתוח את ההגדרות ואמצעי הבקרה שבשימוש לעתים קרובות, מחליקים כלפי מטה ואז ימינה</string>
-  <string name="wear_training_typing_title">הקלדה</string>
-  <string name="wear_training_typing_text1">כדי להקליד באמצעות המקלדת, צריך להעביר את האצבע לאורכה. כששומעים את האות שרוצים להקליד, מרימים את האצבע.</string>
-  <string name="wear_training_typing_text2">כדי להסתיר את המקלדת ולבדוק את הקלט, מחליקים למטה עם 2 אצבעות מהחלק העליון של המסך.</string>
-  <string name="wear_training_typing_text3">כדי לחזור למקלדת, מחליקים למעלה מהחלק התחתון של המסך עם 2 אצבעות.</string>
-  <string name="wear_training_typing_text4">כדי לסגור את המקלדת ולבטל את ההקלדה, מחליקים ימינה מהקצה השמאלי של המסך עם 2 אצבעות.</string>
-  <string name="wear_training_typing_text5">אפשר לנסות כאן למטה.</string>
-  <string name="wear_training_typing_practice_button_content_description">הקלדה באמצעות המקלדת</string>
-  <string name="wear_training_end_tutorial_title">‏הכול מוכן, אפשר להתחיל להשתמש ב-SandFly</string>
   <string name="wear_new_feature_page_title">‏ברוך בואך אל SandFly המעודכן</string>
   <string name="wear_new_feature_page_content">בוצעו כמה תיקוני באגים ושינויים באופן שבו הפוקוס זז</string>
   <string name="wear_new_feature_page_button_content_description">סיום</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">מצב צלצול</string>
     <string name="summary_pref_announce_ringer_mode">אמור מתי הצלצול מוגדר לרטוט או שקט</string>
     <string name="title_pref_category_feedback">משוב</string>
-    <string name="title_pref_category_typing_and_braille">הקלדה וברייל</string>
     <string name="title_pref_category_apps">אפליקציות</string>
     <string name="title_pref_touch_activation">מגע והפעלה</string>
     <string name="title_pref_navigation">ניווט</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">אל תאפשר</string>
     <string name="permission_speak_label">דבר דרך SandFly</string>
     <string name="permission_speak_description">מאפשר לאפליקציה לבקש לומר טקסט בקולך SandFly. SandFly שואל אותך לפני שהאפליקציה יכולה לדבר.</string>
-    <string name="permission_braille_display_label">בקש להיות צג ברייל עבור SandFly</string>
-    <string name="permission_braille_display_description">מאפשר לאפליקציה לבקש להיות צג ברייל עבור SandFly. אם תאפשר את זה ב-SandFly, זה יכול לקרוא הכל על המסך ולשלוט במכשיר שלך. SandFly שואל אותך קודם.</string>
     <string name="title_pref_phonetic_letters_mode">דבר אותיות באופן פונטי</string>
     <string name="phonetic_letters_mode_off">מצב מושבת</string>
     <string name="phonetic_letters_mode_after_letter_delay">אחרי המכתב, מתעכב, כמו \"ח, מלון\"</string>
@@ -1571,50 +1525,6 @@
     <string name="shortcut_title_open_app">פתח את האפליקציה</string>
     <string name="shortcut_open_app">פתוח <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">גלול למעלה</string>
-    <string name="shortcut_write_reading_control">כתוב את האות של בקרת קריאה</string>
-    <string name="title_pref_reading_control_letters">אותיות אלפבית בכתב יד</string>
-    <string name="reading_control_letter_none">ללא</string>
-    <string name="handwriting_prompt">כתוב אות אלפבית</string>
-    <string name="handwriting_closed">כתב יד סגור</string>
-    <string name="handwriting_no_match">אין בקרת קריאה מתחילה ב-<xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">כתב היד לא מזוהה</string>
-    <string name="handwriting_downloading">זיהוי כתב יד מוריד</string>
-    <string name="handwriting_download_title">להוריד זיהוי כתב יד?</string>
-    <string name="handwriting_download_message">כתב היד מזוהה בטלפון זה. המודל שלו לשפה זו, כ-20 מגה-בייט, מורידים מ-Google פעם אחת. הודעה מופיעה כאשר הוא הורד.</string>
-    <string name="handwriting_download_button">הורדה</string>
-    <string name="handwriting_downloaded">זיהוי כתב יד הורד</string>
-    <string name="handwriting_download_failed">לא ניתן היה להוריד את זיהוי כתב היד. בדוק את החיבור לאינטרנט.</string>
-    <string name="handwriting_unsupported_language">זיהוי כתב יד אינו זמין בשפה זו</string>
-    <string name="title_pref_handwriting_keyboard">מקלדת בכתב יד</string>
-    <string name="summary_pref_handwriting_keyboard">הפעל את כתב יד SandFly בהגדרות המקלדת של Android</string>
-    <string name="title_pref_handwriting_wait">חכה אחרי הכתיבה</string>
-    <string name="value_handwriting_wait_200">‫0.2 שניות</string>
-    <string name="value_handwriting_wait_300">0.3 שניות</string>
-    <string name="value_handwriting_wait_400">0.4 שניות</string>
-    <string name="value_handwriting_wait_500">0.5 שנייה</string>
-    <string name="value_handwriting_wait_600">0.6 שניות</string>
-    <string name="value_handwriting_wait_800">0.8 שניות</string>
-    <string name="value_handwriting_wait_1000">שנייה אחת</string>
-    <string name="handwriting_keyboard_name">SandFly כתב יד</string>
-    <string name="handwriting_space">רווח</string>
-    <string name="handwriting_new_line">שורה חדשה</string>
-    <string name="handwriting_tutorial_intro">הדרכה למקלדת כתב יד. כתוב באצבע אחת בכל מקום על המסך. מה שאתה כותב מוקלד כשאתה עוצר לרגע. כדי לסיים את המדריך, החלק מטה בשלוש אצבעות.</string>
-    <string name="handwriting_tutorial_write_letter">כתוב את אות האלפבית א.</string>
-    <string name="handwriting_tutorial_write_word">כעת כתוב את המילה hi (h ואחריו i).</string>
-    <string name="handwriting_tutorial_typed">הקלד <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">החלק ימינה בשתי אצבעות כדי להקליד רווח.</string>
-    <string name="handwriting_tutorial_delete">החלק שמאלה בשתי אצבעות כדי למחוק את התו לפני הסמן.</string>
-    <string name="handwriting_tutorial_deleted">נמחק.</string>
-    <string name="handwriting_tutorial_next_reading">אם כתב יד מזוהה כתו אחר, כגון אות גדולה, החלק למעלה בשתי אצבעות כדי לבחור את הצעת הזיהוי הבאה. נסה את זה עכשיו.</string>
-    <string name="handwriting_tutorial_read_back">הקש בשתי אצבעות כדי לקרוא את הטקסט לפני הסמן.</string>
-    <string name="handwriting_tutorial_new_line">החלק מטה בשתי אצבעות כדי להוסיף שורה חדשה או לבצע את פעולת שדה הטקסט, כגון שלח.</string>
-    <string name="handwriting_tutorial_not_that">זו הייתה מחווה אחרת.</string>
-    <string name="handwriting_tutorial_done">קו חדש. ההדרכה הסתיימה. החלק מטה בשלוש אצבעות כדי להסתיר את המקלדת, וימינה או שמאלה בשלוש אצבעות כדי להחליף מקלדת. כדי לפתוח שוב את המדריך, הקש בשלוש אצבעות.</string>
-    <string name="handwriting_tutorial_finished">ההדרכה הסתיימה. כדי לפתוח אותו שוב, הקש בשלוש אצבעות.</string>
-    <string name="handwriting_no_alternatives">אין הצעות אחרות</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> מתוך <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">טקסט ריק</string>
-    <string name="handwriting_not_available">זיהוי כתב יד אינו זמין במכשיר זה</string>
     <string name="shortcut_scroll_to_bottom">גלול למטה</string>
     <string name="shortcut_refresh">רענן</string>
     <string name="shortcut_system_notifications">גוון התראות מערכת</string>
@@ -1626,40 +1536,11 @@
     <string name="title_clear_selection">נקה בחירה</string>
     <string name="title_pref_brightness">בהירות</string>
     <string name="summary_support_change_brightness">הגדל או הקטנת בהירות המסך, גם כשהמסך מוסתר</string>
-    <string name="title_pref_shortcut_3finger_4tap">הקשה מרובעת עם 3 אצבעות</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">סובב בכיוון השעון עם 2 אצבעות</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">סובב נגד כיוון השעון עם 2 אצבעות</string>
-    <string name="title_pref_shortcut_2finger_scrub">לשפשף עם 2 אצבעות</string>
-    <string name="title_pref_shortcut_2finger_pinch">צובטים ב-2 אצבעות</string>
-    <string name="title_pref_shortcut_2finger_spread">מורחים ב-2 אצבעות</string>
-    <string name="title_pref_shortcut_3finger_pinch">צובטים ב-3 אצבעות</string>
-    <string name="title_pref_shortcut_3finger_spread">מורחים ב-3 אצבעות</string>
-    <string name="title_pref_shortcut_4finger_pinch">צובטים ב-4 אצבעות</string>
-    <string name="title_pref_shortcut_4finger_spread">מורחים ב-4 אצבעות</string>
-    <string name="title_pref_shortcut_edge_bottom_up">החלק למעלה מהקצה התחתון</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">החלקה ארוכה למעלה מהקצה התחתון</string>
-    <string name="title_pref_shortcut_edge_top_left_down">החלק למטה משמאל למעלה</string>
-    <string name="title_pref_shortcut_edge_top_right_down">החלק למטה מהפינה השמאלית העליונה</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">החלק מטה משמאל למעלה</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">החלק ארוכות למטה מהפינה השמאלית העליונה</string>
-    <string name="title_pref_shortcut_edge_left_top_right">החלק ימינה מהקצה השמאלי, החצי העליון</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">החלקה ארוכה ימינה מהקצה השמאלי, החצי העליון</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">החלק ימינה מהקצה השמאלי, החצי התחתון</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">החלקה ארוכה ימינה מהקצה השמאלי, החצי התחתון</string>
-    <string name="title_pref_shortcut_edge_right_top_left">החלק שמאלה מהקצה הימני, החצי העליון</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">החלקה ארוכה שמאלה מהקצה הימני, החצי העליון</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">החלק שמאלה מהקצה הימני, החצי התחתון</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">החלקה ארוכה שמאלה מהקצה הימני, החצי התחתון</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">החזק את האצבע כדי לבחור מקש כלשהו, ולאחר מכן הרם. הקש פעמיים עבור Enter, Done או Send.</string>
-    <string name="value_type_confirmation_tap_to_type">הקש על מקש כלשהו כדי להקליד אותו, או החזק את האצבע כדי לבחור מקש כלשהו, ולאחר מכן הרם</string>
-    <string name="title_pref_multi_tap_timeout">זמן בין הקשה באצבע אחת</string>
     <string name="value_multi_tap_timeout_100ms">0.1 שניות</string>
     <string name="value_multi_tap_timeout_150ms">‫0.15 שניות</string>
     <string name="value_multi_tap_timeout_200ms">‫0.2 שניות</string>
     <string name="value_multi_tap_timeout_250ms">0.25 שניות (ברירת מחדל)</string>
-    <string name="title_pref_rotor_step_degrees">סיבוב הרוטור לכל צעד</string>
-    <string name="title_pref_edge_first_click_mm">מרחק לקליק ראשון</string>
-    <string name="title_pref_edge_second_click_mm">מרחק מקליק ראשון לשני</string>
     <string name="value_distance_5mm">0.5 ס\"מ</string>
     <string name="value_distance_10mm">1 ס\"מ</string>
     <string name="value_distance_15mm">1.5 ס\"מ</string>
@@ -1707,15 +1588,8 @@
     <string name="summary_support_wrap_around">הפעל או כבה את העטיפה מהפריט האחרון לפריט הראשון</string>
     <string name="wrap_around_on">לעטוף על</string>
     <string name="wrap_around_off">לעטוף מסביב</string>
-    <string name="title_selector_tablet_held_up_faces_away">הטאבלט הרים את פניו</string>
-    <string name="summary_support_tablet_held_up_faces_away">למקלדת ברייל בטאבלט או בטלפון פתוח</string>
-    <string name="tablet_held_up_faces_away_on">הטאבלט הרים את פניו</string>
-    <string name="tablet_held_up_faces_away_off">הטאבלט הרים את פניו</string>
     <string name="title_keyboard_echo_on_screen">הד מקלדת על המסך</string>
     <string name="title_keyboard_echo_physical">הד מקלדת פיזית</string>
-    <string name="title_keyboard_echo_braille_keyboard">הד מקלדת ברייל</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">הד מקלדת כתב יד</string>
-    <string name="title_keyboard_echo_braille_display">הד של תצוגת ברייל</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">להפריע לדיבור בעת הקלדה</string>
     <string name="pref_interrupt_typing_entry_always">תמיד</string>

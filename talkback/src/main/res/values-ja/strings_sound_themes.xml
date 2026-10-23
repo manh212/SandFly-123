@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">音が出ない。フォーカス音が鳴ります。</string>
     <string name="theme_sound_summary_android_keyboard">Androidのキーボード音</string>
     <string name="theme_sound_use_android_keyboard">Androidのキーボードサウンドを使用する</string>
-    <string name="theme_sound_braille_character">点字キーボード:文字を入力する</string>
-    <string name="theme_sound_braille_space">点字キーボード: スペース</string>
-    <string name="theme_sound_braille_delete">点字キーボード: 削除</string>
-    <string name="theme_sound_braille_new_line">点字キーボード: 新しい行</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">サウンドファイルを選択してください</string>
     <string name="theme_sound_preview">プレビュー</string>

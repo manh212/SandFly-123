@@ -75,10 +75,6 @@
     <string name="theme_sound_summary_none">Nėra garso. Groja fokusavimo garsas.</string>
     <string name="theme_sound_summary_android_keyboard">Android klaviatūros garsas</string>
     <string name="theme_sound_use_android_keyboard">Naudokite Android klaviatūros garsą</string>
-    <string name="theme_sound_braille_character">Brailio rašto klaviatūra: simbolio įvedimas</string>
-    <string name="theme_sound_braille_space">Brailio rašto klaviatūra: tarpas</string>
-    <string name="theme_sound_braille_delete">Brailio rašto klaviatūra: ištrinti</string>
-    <string name="theme_sound_braille_new_line">Brailio rašto klaviatūra: nauja eilutė</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Pasirinkite garso failą</string>
     <string name="theme_sound_preview">Peržiūrėti</string>

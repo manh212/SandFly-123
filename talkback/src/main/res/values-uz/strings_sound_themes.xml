@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Ovoz yo\'q. Fokus ovozi o\'ynaydi.</string>
     <string name="theme_sound_summary_android_keyboard">Android klaviatura tovushi</string>
     <string name="theme_sound_use_android_keyboard">Android klaviatura tovushidan foydalaning</string>
-    <string name="theme_sound_braille_character">Brayl klaviaturasi: belgi yozish</string>
-    <string name="theme_sound_braille_space">Brayl klaviaturasi: bo\'sh joy</string>
-    <string name="theme_sound_braille_delete">Brayl klaviaturasi: o\'chirish</string>
-    <string name="theme_sound_braille_new_line">Brayl klaviaturasi: yangi qator</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Ovoz faylini tanlang</string>
     <string name="theme_sound_preview">Oldindan koʻrish</string>

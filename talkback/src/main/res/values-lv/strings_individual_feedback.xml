@@ -40,10 +40,4 @@
     <string name="individual_sound_column_wrap_back">Kolonnas aptīšana atpakaļ</string>
     <string name="individual_sound_screen_on">Ekrāns ieslēgts</string>
     <string name="individual_vibration_edge_gesture_back">Apmales žests, bīdiet atpakaļ</string>
-    <string name="individual_vibration_braille_character">Braila tastatūra: rakstzīmes rakstīšana</string>
-    <string name="individual_vibration_braille_space">Braila tastatūra: atstarpi vai dzēst</string>
-    <string name="individual_vibration_braille_new_line">Braila tastatūra: jauna rinda vai vārda dzēšana</string>
-    <string name="individual_vibration_braille_hold">Braila tastatūra: turot pirkstus uz leju</string>
-    <string name="individual_vibration_braille_gesture">Braila tastatūra: citi žesti</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Braila tastatūra: nav ko dzēst</string>
 </resources>

@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Awukho umsindo. Umsindo wokugxila uyadlala.</string>
     <string name="theme_sound_summary_android_keyboard">Android umsindo wekhibhodi</string>
     <string name="theme_sound_use_android_keyboard">Sebenzisa umsindo wekhibhodi we-Android</string>
-    <string name="theme_sound_braille_character">Ikhibhodi ye-Braille: ukuthayipha uhlamvu</string>
-    <string name="theme_sound_braille_space">Ikhibhodi ye-Braille: isikhala</string>
-    <string name="theme_sound_braille_delete">Ikhibhodi ye-Braille: susa</string>
-    <string name="theme_sound_braille_new_line">Ikhibhodi ye-Braille: umugqa omusha</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Khetha ifayela lomsindo</string>
     <string name="theme_sound_preview">Buka kuqala</string>

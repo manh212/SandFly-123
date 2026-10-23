@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">စောင့်ရချိန် လျှော့ရန်</string>
   <string name="talkback_latency_reduction_summary">မျက်နှာပြင်ကို ထိပြီးနောက် SandFly တုံ့ပြန်မှုကို ပိုမြန်အောင်လုပ်ပါ။</string>
   <string name="summary_pref_intonation">ဖျက်လိုက်သည့်စာကို အသံစူးစူးဖြင့် ပြောပေးသည်</string>
-  <string name="title_pref_brailledisplay">မျက်မမြင်စာဖတ်ကိရိယာ</string>
-  <string name="title_pref_brailleime">မျက်မမြင်စာရေးစနစ် လက်ကွက်</string>
-  <string name="summary_pref_brailleime_disabled">စက်က မျက်မမြင်စာရေးစနစ်ကီးဘုတ်ကို မပံ့ပိုးပါ</string>
   <string name="title_pref_speech_footer">မည်သည့်စခရင်မှ ဝင်ရောက်နိုင်မှုပမာဏကို ပြောင်းလဲရန် စခရင်ပေါ်တွင် လက်ချောင်း ၁ ချောင်းကို ဖိထားပြီး အသံအတိုးအကျယ် သို့မဟုတ် အသံအတိုးအကျယ်ခလုတ်ကို နှိပ်ပါ။</string>
   <string name="title_pref_vibration">တုန်ခါ တုံ့ပြန်ချက်</string>
   <string name="title_pref_soundback">အသံတုံ့ပြန်ချက်</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">အမှားရှာပြင်သည့်မှတ်တမ်း ထပ်ပိုးလွှာကို ဖွင့်ရန်</string>
   <string name="title_pref_typing_confirmation">စာရိုက်နည်း</string>
   <string name="title_pref_typing_long_tap_duration">စာရိုက်စဉ် တို့ထိ၍ ဖိထားမှု ကြာချိန်</string>
-  <string name="title_pref_touch_explore_timeout">စာရိုက်သွင်းမှု ကြန့်ကြာချိန်</string>
   <string name="message_pref_touch_explore_latency">ကီးဘုတ်ကိုထိပြီးနောက် ပိုတိုသောနှောင့်နှေးခြင်းသည် SandFly စကားပြောဆိုခြင်းကို ပိုမိုမြန်ဆန်စေသည်။\n\n နှောင့်နှေးမှုကို ရွေးပါ</string>
-  <string name="title_pref_touch_focus_timeout">ပြရန်စောင့်ရချိန်</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly ရှိ လက်ဟန်များ စီမံရန်</string>
-  <string name="toast_pref_talkback_gesture_detection">ဆက်တင်စတင်ရန် SandFly ပိတ်၍ ပြန်ဖွင့်နိုင်သည်။</string>
   <string name="title_pref_auto_image_captioning">အလိုအလျောက် ရှင်းလင်းချက်များ</string>
   <string name="title_pref_gemini_settings">Gemini ဆက်တင်</string>
   <string name="title_pref_gemini_enabled">Gemini အသံအမိန့်များ</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">အသံချဲ့ရန်</string>
   <string name="shortcut_decrease_volume">အသံတိုးရန်</string>
   <string name="shortcut_all_apps">အက်ပ်အားလုံး</string>
-  <string name="shortcut_braille_keyboard">မျက်မမြင်စာကီးဘုတ်သို့ ပြောင်းရန်</string>
-  <string name="shortcut_braille_display_settings">မျက်မမြင်စာဖတ်ကိရိယာဆက်တင်သို့ သွားရန်</string>
   <string name="shortcut_tutorial">ရှင်းလင်းပို့ချချက်ကို ဖွင့်ရန်</string>
   <string name="shortcut_control_speak_time">အချိန်ပြောရန် (သို့) အချိန်မပြောပါနှင့်</string>
   <string name="shortcut_enable_speak_time">အချိန်ပြောရန်</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">အချိန်ပြောရန် ပိတ်ထားသည်</string>
   <string name="shortcut_practice_gestures">လက်ဟန်များကို လေ့ကျင့်ရန်</string>
   <string name="shortcut_report_gesture">လက်ဟန်ပြဿနာများကို အစီရင်ခံရန်</string>
-  <string name="shortcut_toggle_braille_display">မျက်မမြင်စာဖတ်ကိရိယာ ဖွင့်ရန် (သို့) ပိတ်ရန်</string>
   <string name="shortcut_announce_current_time_and_date">လက်ရှိ ရက်စွဲနှင့်အချိန်ကို ပြောရန်</string>
   <string name="shortcut_announce_battery_state">ဘက်ထရီရာခိုင်နှုန်းကို ပြောရန်</string>
   <string name="shortcut_announce_current_title">ဝင်းဒိုးခေါင်းစဉ်ကို ပြောရန်</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">စကားပြောနှုန်း လျှော့ပါ</string>
   <string name="shortcut_toggle_selection">ရွေးချယ်မုဒ်ကို စတင်ရန် (သို့) ရပ်ရန်</string>
   <string name="shortcut_show_tutorial">ရှင်းလင်းပို့ချချက်ကို ဖွင့်ရန်</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ချုံ့ထားသောမုဒ် (အဆင့် ၂) နှင့် ချုံ့မထားသောမုဒ် (အဆင့် ၁) အကြား ပြောင်းပါ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ချိတ်ဆက်ထားသော မျက်မမြင်စာဖတ်ကိရိယာအတွက် စခရင်ရှိ မျက်မမြင်စာရေးစနစ် ပြ/ဖျောက်ပါ</string>
   <string name="shortcut_toggle_sound_feedback">အသံဖြင့်တုံ့ပြန်ချက် (အသံသင်္ကေတများ) ဖွင့်/ပိတ်ရန်</string>
   <string name="shortcut_show_learn_mode_page">လေ့ကျင့်မှု လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="shortcut_announce_phonetic_pronunciation">အထူးပြထားသော အရာအတွက် အသံထွက်ပါသော စာလုံးများကို ပြောရန်</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">အသံကွန်မန်းများ</string>
   <string name="title_show_keyboard_shortcuts">လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="talkback_show_talkback_settings">SandFly ဆက်တင်များ</string>
-  <string name="title_show_braille_display_settings">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ</string>
   <string name="title_granularity_default">မူရင်း လမ်းညွှန်မှု</string>
   <string name="title_action_dismiss">ပယ်ရန်</string>
   <string name="title_action_expand">ချဲ့ကြည့်ရန်</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">ဖန်သားပြင်ဖွင့်သောအခါ အချိန်ကို အသံထွက်ပြောခြင်း ရှိ၊ မရှိ ပြောင်းနိုင်သည်</string>
   <string name="summary_show_keyboard_shortcuts_preferences">လက်ကွက်ဖြတ်လမ်းစာရင်းကို ဖွင့်သည်</string>
   <string name="summary_talkback_preferences">SandFly ဆက်တင်များကို ဖွင့်သည်</string>
-  <string name="summary_braile_display_preferences">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ ဖွင့်သည်</string>
   <string name="summary_system_actions">အက်ပ်အားလုံးနှင့် ‘အမြန် ဆက်တင်များ’ သို့ သွားသည်</string>
   <string name="summary_tts_settings">စာ-မှ-စကား ဆက်တင်များကို ဖွင့်သည်</string>
   <string name="not_editable">တည်းဖြတ်၍မရပါ</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly ပြောသောအခါတွင် ဖွင့်ထားသည့် အခြားအသံကို တိုးသည်</string>
   <string name="summary_support_scroll_seq">ရှေ့သို့ (သို့) နောက်သို့ လှိမ့်ပါ</string>
   <string name="summary_support_change_a11y_volume">အများသုံးနိုင်မှုအသံကို ချဲ့သည် (သို့) တိုးသည်</string>
-  <string name="summary_support_change_touch_explore_latency">စာရိုက်သွင်းမှု ကြန့်ကြာချိန်ကို တိုးရန် (သို့) လျှော့ရန်</string>
-  <string name="summary_support_change_touch_focus_latency">ပြရန်စောင့်ရချိန်ကို တိုးရန် (သို့) လျှော့ရန်</string>
   <string name="summary_screen_overview">စခရင်ကို လုပ်ဆောင်ချက်ခလုတ်များဖြင့် အနှစ်ချုပ်ရန်</string>
   <string name="summary_screen_overview_no_actions">စခရင်ပေါ်ရှိ အကြောင်းအရာ၏ အနှစ်ချုပ်ကို နားဆင်နိုင်သည်</string>
   <string name="summary_image_caption">ရွေးထားသောပုံအတွင်း စာသားနှင့် သင်္ကေတများ အသံထွက်ဖတ်ပြရန်</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">လက်နှစ်ချောင်းဖြင့် နှစ်ချက်ချဲ့ချုံ့ပါ</string>
   <string name="gesture_name_double_tap_and_hold">နှစ်ချက်တို့ပြီး ဖိထားရသည့် လက်ဟန်</string>
   <string name="gesture_name_double_tap_and_hold_xr">လက်နှစ်ချောင်းဖြင့် ချဲ့ချုံ့ပြီး ဖိထားပါ</string>
-  <string name="gesture_name_2finger_tap_hold">လက်ချောင်း ၂ ချောင်းဖြင့် တို့ပြီး ဖိထားရသည့် လက်ဟန်</string>
   <string name="gesture_name_3finger_tap_hold">လက်ချောင်း ၃ ချောင်းဖြင့် တို့ပြီး ဖိထားရသည့် လက်ဟန်</string>
   <string name="gesture_name_2finger_3tap_hold">လက်ချောင်း ၂ ချောင်းဖြင့် သုံးချက်တို့ပြီး ဖိထားရသည့် လက်ဟန်</string>
   <string name="gesture_name_3finger_3tap_hold">လက်ချောင်း ၃ ချောင်းဖြင့် သုံးချက်တို့ပြီး ဖိထားရသည့် လက်ဟန်</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">နောက်ခံသံလျှော့ချခြင်း</string>
   <string name="title_pref_support_scroll_seq">လှိမ့်ရန်</string>
   <string name="title_pref_a11y_volume">အများသုံးနိုင်မှု အသံ</string>
-  <string name="title_pref_touch_explore_latency">စာရိုက်သွင်းမှု ကြန့်ကြာချိန်</string>
-  <string name="title_pref_touch_focus_latency">ရွေးချယ်မှုနှောင့်နှေးခြင်း</string>
   <string name="message_pref_touch_focus_latency">ပိုတိုသောနှောင့်နှေးခြင်းသည် SandFly စခရင်ကိုထိပြီးနောက် မြန်စေသည်။</string>
   <string name="message_pref_typing_method_prefix">စာရိုက်ချိန်နှောင့်နှေးမှု အနည်းဆုံးဖြစ်စေရန်အတွက် “ကီးရွေးရန် လက်ချောင်းဖြင့် ဖိထားပြီး လွှတ်လိုက်ပါ” ကို ရွေးပါ</string>
-  <string name="message_pref_typing_method_postfix">အချိန်မရွေး စာရိုက်ရန်အတွက် ဖိရွေးပြီး စာရိုက်ခြင်းကိုလည်း သုံးနိုင်သည်။ လုပ်နည်းမှာ ကီးတစ်ခုခုကိုရွေးရန် လက်တစ်ချောင်းဖြင့် ဖိထားပြီး ဖန်သားပြင်ကို တို့ရန် အခြားလက်တစ်ချောင်းသုံးပါ။</string>
   <string name="title_pref_talkback_speech_rate">စကားပြောနှုန်း</string>
   <string name="title_pref_selector_adjustable_widget_slider">ရွှေ့တုံးကို ချိန်ညှိပါ</string>
   <string name="title_pref_selector_typo_granularity">စာပြင်ရန်</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">အဓိကစကားလုံးမှာ %1$s ဖြစ်သည်</string>
   <string name="screen_search_no_keyword_hint">အဓိကစကားလုံး မရှိသေးပါ။ ရှာဖွေမှုအသစ် စတင်ရန်အတွက် လက် ၃ ချောင်းဖြင့် တို့ပြီး ဖိထားပါ (သို့) SandFly မီနူးတွင် မြင်လွှာတွင်ရှာဖွေခြင်းကို ဖွင့်ပါ။</string>
   <string name="screen_search_no_keyword_hint_pre_r">အဓိကစကားလုံး မရှိသေးပါ။ ရှာဖွေမှုအသစ် စတင်ရန်အတွက် ဘယ်ဘက်သို့ ပွတ်ဆွဲပြီးနောက် အောက်သို့ ပွတ်ဆွဲပါ (သို့) SandFly မီနူးတွင် မြင်လွှာတွင်ရှာဖွေခြင်းကို ဖွင့်ပါ။</string>
-  <string name="switch_to_braille_keyboard_failure_msg">မျက်မမြင်စာကီးဘုတ်ကို ဖွင့်မထားပါ။ SandFly ဆက်တင်များသို့သွား၍ မျက်မမြင်စာကီးဘုတ်ကို စနစ်ထည့်သွင်းကာ ထပ်စမ်းကြည့်ပါ။</string>
   <string name="suggestions_window_available">အကြံပြုချက် ရယူနိုင်သည်</string>
   <string name="suggestions_window_available_with_gesture">အကြံပြုချက် ရယူနိုင်သည်။ သုံးခွင့်ရယူရန် %1$s</string>
   <string name="heads_up_window_available">အကြောင်းကြားချက် ရှိသည်</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ယခုတွင် ညွှန်ကြားချက်အသစ်များနှင့် ဖြတ်လမ်းလင့်ခ်များစွာပါဝင်သည့် ရုပ်ပိုင်းဆိုင်ရာကီးဘုတ်များအတွက် \"အဆင့်မြင့်သောကီးမြေပုံ\" ရှိသည်။ ဤအဆင့်မြှင့်တင်မှုတွင် ရုပ်ပိုင်းဆိုင်ရာကီးဘုတ်များကို အားကိုးသော SandFly အသုံးပြုသူများအတွက် ပိုမိုထိရောက်သော ဝဘ်လမ်းညွှန်ခြင်း၊ လမ်းကြောင်းပြခြင်းနှင့် အပြန်အလှန်အကျိုးသက်ရောက်မှုအတွက် \"browse mode\" ပါဝင်သည်။ သင်သည် <xliff:g id="settings_path">%1$s</xliff:g>တွင် \"အဆင့်မြှင့်ထားသော သော့မြေပုံ\" သို့ ပြောင်းနိုင်သည်။\n\n သင်သည် မျက်မမြင်စာကြည့်မျက်နှာပြင်ကို အသုံးပြုပါက၊ သင်၏ Braille ဖန်သားပြင်မှ အကြောင်းအရာများကို တိုက်ရိုက်ဖြတ်ကျော်ရန် ဘရောက်ဆာမုဒ် ဖြတ်လမ်းအသစ်များကိုလည်း အသုံးပြုနိုင်သည်။ ဤပြောင်းလဲမှုကို လိုက်လျောညီထွေဖြစ်စေရန်အတွက် မျက်မမြင်စာမျက်မမြင်ဖြတ်လမ်းအချို့ကို ပြောင်းလဲခဲ့သည်။ <xliff:g id="braille_display_settings_path">%2$s</xliff:g>တွင် မျက်မမြင်စာမျက်မမြင်ဖြတ်လမ်းများအားလုံးကို ကြည့်ရှုနိုင်ပါသည်။</string>
   <string name="keyboard_shortcuts_link">SandFly ဆက်တင်များ &gt; လက်ကွက်ဖြတ်လမ်းများ</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ဆက်တင်များ ထို့နောက် လက်ကွက်ဖြတ်လမ်းများ</string>
-  <string name="braille_display_settings_link">မျက်မမြင်စာဖတ်ကိရိယာ ဆက်တင်များ</string>
   <string name="keyboard_smart_browse_mode_title">ကီးဘုတ်- အဆင့်မြင့်ဘရောက်စ်မုဒ်</string>
   <string name="keyboard_smart_browse_mode_text">ဝဘ်ကို ဘရောက်စ်လုပ်သည့်အခါ ပကတိကီးဘုတ်ဖြင့် စာရိုက်နိုင်ရန် SandFly အဆင့်မြင့်ဘရောက်စ်မုဒ်က တည်းဖြတ်အကွက်တွင် ဘရောက်စ်မုဒ်ကို ပိတ်ပေးသည်။ ထို့နောက် ဝဘ်ပေါ်ရှိ တည်းဖြတ်၍မရသော အကွက်သို့ သင်ရောက်သွားသောအခါ ၎င်းကို ပြန်ဖွင့်ပေးသဖြင့် ဘရောက်စ်လုပ်ခြင်းကို ထိရောက်စွာ ဆက်လုပ်နိုင်သည်။ “အဆင့်မြင့်ဘရောက်စ်မုဒ်” ကို <xliff:g id="settings_path">%1$s</xliff:g> တွင် ဖွင့်နိုင်၊ ပိတ်နိုင်သည်။</string>
   <string name="advanced_settings_link">SandFly ဆက်တင်များ &gt; အဆင့်မြင့် ဆက်တင်များ</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">စာရိုက်ခြင်း</string>
   <string name="basic_typing_text_text">စာသားအကွက်ထဲတွင် ရှိသည့်အခါ သင့်စခရင်အောက်ခြေ၌ ကီးဘုတ်ပွင့်လာမည်။</string>
   <string name="typing_text_text">သင့်လက်ချောင်းကို လက်ကွက်တစ်လျှောက် ရွှေ့ပါ။ သင်ရိုက်လိုသည့် စာလုံးကို ကြားရသည့်အခါ လက်ချောင်းကို လွှတ်လိုက်ပါ။\n\nအောက်ပါ စာသားအကွက်ကို စသုံးကြည့်ပြီး သင့်အမည်ကို ရိုက်ထည့်ပါ။</string>
-  <string name="typing_text_with_braille_keyboard_text">မျက်မမြင်စာရေးစနစ် လက်ကွက်ဖြင့်လည်း စာရိုက်နိုင်သည်။ ၎င်းကို SandFly ဆက်တင်များတွင် ရှာပါ။</string>
   <string name="other_ways_to_type_title">စာရိုက်ရန် အခြားနည်းလမ်းများ</string>
   <string name="other_ways_to_type_text">SandFly တွင် စာရိုက်ရန် အခြားနည်းလမ်းများရှိသည်။ ဥပမာ- စာလုံး ရိုက်ထည့်ရန် နှစ်ချက်တို့ခြင်းကို သုံးနိုင်သည်။</string>
   <string name="basic_other_ways_to_type_text">SandFly စာရိုက်ရန် အခြားနည်းလမ်းများ ရှိသေးသည်။ ဥပမာအားဖြင့်၊ သင်သည် စာတစ်စောင်ရိုက်ထည့်ရန် နှစ်ချက်နှိပ်နိုင်သည်။ ၎င်းကို နောက်ပိုင်းတွင် SandFly ဆက်တင်များ &gt; မျက်နှာပြင်ပေါ်ရှိ ကီးဘုတ် &gt; စာရိုက်နည်းလမ်းတွင် ပြောင်းလဲနိုင်သည်။</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">လက်ဟန်များ လေ့ကျင့်ရန်အတွက် SandFly ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_message_image_description">ပုံရှင်းလင်းချက်များ ရယူကြည့်ရန် SandFly ကို ဦးစွာဖွင့်ပါ</string>
   <string name="talkback_inactive_close_tutorial_button">ရှင်းလင်းပို့ချချက် ပိတ်ရန်</string>
-  <string name="wear_training_welcome_paragraph">SandFlyကိုဖွင့်ထားသောအခါ၊ စခရင်ပေါ်ရှိ အာရုံစူးစိုက်ထားသည့်အရာအား အသံကျယ်ကျယ်ဖြင့် အသံထွက်နေပါသည်။\n\n ညာဘက်ကိုပွတ်ဆွဲခြင်းဖြင့် နောက်အကြောင်းအရာသို့ ရွှေ့သည်။ ဘယ်ဘက်သို့ ပွတ်ဆွဲခြင်းဖြင့် ယခင်အရာသို့ ရွှေ့သည်။\n\n နောက်ခလုတ်ကို တွေ့သည်အထိ ယခု ချက်ချင်း ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">လက် %1$d ချောင်းဖြင့် အပေါ် (သို့) အောက်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_title">နောက်သို့</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">နောက်သို့ ပြန်သွားလိုသောအခါ လက် %1$d ချောင်းသုံး၍ စခရင်၏အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">အောင်မြင်ပါသည်</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">နောက်သို့ လက်ဟန်ပြထားသည်</string>
-  <string name="wear_training_volume_up_title">အသံချဲ့ခြင်း</string>
-  <string name="wear_training_volume_up_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အပေါ်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_volume_down_title">အသံတိုးခြင်း</string>
-  <string name="wear_training_volume_down_text">ညာသို့ ပွတ်ဆွဲပြီးနောက် အောက်သို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly မီနူး ဖွင့်ခြင်း</string>
-  <string name="wear_training_open_talkback_menu_text">အသုံးများသော ဆက်တင်နှင့် ထိန်းချုပ်မှုများကို ဖွင့်ရန် အောက်သို့ပွတ်ဆွဲပြီးနောက် ညာသို့ ပွတ်ဆွဲပါ</string>
-  <string name="wear_training_typing_title">စာရိုက်ခြင်း</string>
-  <string name="wear_training_typing_text1">ကီးဘုတ်ဖြင့် စာရိုက်ရန် လက်ချောင်းကို ကီးဘုတ်တစ်လျှောက် ရွှေ့ပါ။ သင်ရိုက်လိုသည့် စာလုံးကို ကြားရသည့်အခါ လက်ချောင်းကို လွှတ်လိုက်ပါ။</string>
-  <string name="wear_training_typing_text2">ကီးဘုတ်ဖျောက်ပြီး ရိုက်ထားသည့်စာကို ကြည့်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ထိပ်မှ အောက်သို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text3">ကီးဘုတ်သို့ ပြန်သွားရန် လက် ၂ ချောင်းဖြင့် စခရင်အောက်ခြေမှ အပေါ်သို့ ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text4">ကီးဘုတ်ပိတ်ပြီး စာရိုက်ခြင်း ပယ်ဖျက်ရန် လက် ၂ ချောင်းဖြင့် စခရင်ဘယ်အစွန်းမှ ညာသို့ပွတ်ဆွဲပါ။</string>
-  <string name="wear_training_typing_text5">အောက်တွင် စမ်းကြည့်ပါ။</string>
-  <string name="wear_training_typing_practice_button_content_description">ကီးဘုတ်ဖြင့် စာရိုက်ခြင်း</string>
-  <string name="wear_training_end_tutorial_title">SandFly ကို စသုံးရန် အသင့်ဖြစ်ပါပြီ</string>
   <string name="wear_new_feature_page_title">အပ်ဒိတ်လုပ်ထားသော SandFly က ကြိုဆိုပါသည်</string>
   <string name="wear_new_feature_page_content">ချွတ်ယွင်းချက်ပြင်ဆင်မှုအချို့နှင့် အထူးပြသမှုရွေ့လျားပုံအတွက် အပြောင်းအလဲများကို သင် သတိပြုမိပါမည်</string>
   <string name="wear_new_feature_page_button_content_description">ပြီးပြီ</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">ဖုန်းမြည်သံမုဒ်</string>
     <string name="summary_pref_announce_ringer_mode">ဖုန်းမြည်သံကို တုန်ခါရန် သို့မဟုတ် အသံတိတ်ရန် သတ်မှတ်ထားသည့်အခါ ပြောပါ။</string>
     <string name="title_pref_category_feedback">တုံ့ပြန်ချက်</string>
-    <string name="title_pref_category_typing_and_braille">စာရိုက်ခြင်းနှင့် မျက်မမြင်စာ</string>
     <string name="title_pref_category_apps">အက်ပ်များ</string>
     <string name="title_pref_touch_activation">ထိပြီး အသက်သွင်းပါ။</string>
     <string name="title_pref_navigation">လမ်းညွှန်မှု</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">ခွင့်မပြုပါနှင့်</string>
     <string name="permission_speak_label">SandFly မှတဆင့်ပြောပါ</string>
     <string name="permission_speak_description">အက်ပ်အား သင်၏ SandFly အသံဖြင့် စာသားပြောခိုင်းစေပါ။ SandFly အက်ပ်က စကားမပြောမီ သင့်ကိုမေးသည်။</string>
-    <string name="permission_braille_display_label">SandFly အတွက် မျက်မမြင်စာအဖြစ် ပြသရန် တောင်းဆိုပါ</string>
-    <string name="permission_braille_display_description">အက်ပ်အား SandFlyအတွက် မျက်မမြင်စာအဖြစ် ပြသခွင့်ပြုပါ။ ၎င်းကို SandFly ဖြင့် ခွင့်ပြုပါက၊ ၎င်းသည် မျက်နှာပြင်ပေါ်ရှိ အရာအားလုံးကို ဖတ်နိုင်ပြီး သင့်စက်ပစ္စည်းကို ထိန်းချုပ်နိုင်သည်။ SandFly မင်းကို အရင်မေးတယ်။</string>
     <string name="title_pref_phonetic_letters_mode">စာလုံးတွေကို အသံနဲ့ပြောပါ။</string>
     <string name="phonetic_letters_mode_off">ပိတ်</string>
     <string name="phonetic_letters_mode_after_letter_delay">စာကို နောက်ကျပြီးမှ \"ဇ၊ ဟို\" ၊</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">အက်ပ်ကိုဖွင့်ပါ။</string>
     <string name="shortcut_open_app">ဖွင့်ပါ <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">အပေါ်မှလှိမ့်ပါ။</string>
-    <string name="shortcut_write_reading_control">စာကို ရေးချပြီး စာဖတ်ခြင်းကို ထိန်းချုပ်ပါ။</string>
-    <string name="title_pref_reading_control_letters">လက်ရေး အက္ခရာ စာလုံးများ</string>
-    <string name="reading_control_letter_none">မရှိ</string>
-    <string name="handwriting_prompt">အက္ခရာအက္ခရာတစ်ခုရေးပါ။</string>
-    <string name="handwriting_closed">လက်ရေးပိတ်</string>
-    <string name="handwriting_no_match"><xliff:g id="letter" example="Q">%1$s</xliff:g> ဖြင့် စတင်သော စာဖတ်ခြင်း ထိန်းချုပ်မှု မရှိပါ</string>
-    <string name="handwriting_not_recognized">လက်ရေးမူကို အသိအမှတ်မပြုပါ။</string>
-    <string name="handwriting_downloading">လက်ရေးအသိအမှတ်ပြုမှုကို ဒေါင်းလုဒ်လုပ်နေပါသည်။</string>
-    <string name="handwriting_download_title">လက်ရေးအသိအမှတ်ပြုမှုကို ဒေါင်းလုဒ်လုပ်မလား။</string>
-    <string name="handwriting_download_message">လက်ရေးမူကို ဤဖုန်းတွင် အသိအမှတ်ပြုသည်။ ဤဘာသာစကားအတွက် ၎င်း၏မော်ဒယ်လ် 20 MB ခန့်ကို Google တစ်ကြိမ်မှ ဒေါင်းလုဒ်လုပ်ထားသည်။ ဒေါင်းလုဒ်လုပ်သည့်အခါ မက်ဆေ့ချ်တစ်ခုပြသည်။</string>
-    <string name="handwriting_download_button">ဒေါင်းလုဒ်လုပ်ရန်</string>
-    <string name="handwriting_downloaded">လက်ရေးမှတ်သားမှုကို ဒေါင်းလုဒ်လုပ်ထားသည်။</string>
-    <string name="handwriting_download_failed">လက်ရေးအသိအမှတ်ပြုမှုကို ဒေါင်းလုဒ်လုပ်၍မရပါ။ အင်တာနက်ချိတ်ဆက်မှုကို စစ်ဆေးပါ။</string>
-    <string name="handwriting_unsupported_language">လက်ရေးဖြင့် အသိအမှတ်ပြုခြင်းကို ဤဘာသာစကားဖြင့် မရရှိနိုင်ပါ။</string>
-    <string name="title_pref_handwriting_keyboard">လက်ရေးကီးဘုတ်</string>
-    <string name="summary_pref_handwriting_keyboard">Android ၏ ကီးဘုတ်ဆက်တင်များတွင် SandFly လက်ရေးခြင်းကို ဖွင့်ပါ။</string>
-    <string name="title_pref_handwriting_wait">စာရေးပြီးရင် စောင့်ပါ။</string>
-    <string name="value_handwriting_wait_200">၀.၂ စက္ကန့်</string>
-    <string name="value_handwriting_wait_300">0.3 စက္ကန့်</string>
-    <string name="value_handwriting_wait_400">0.4 စက္ကန့်</string>
-    <string name="value_handwriting_wait_500">၀.၅ စက္ကန့်</string>
-    <string name="value_handwriting_wait_600">0.6 စက္ကန့်</string>
-    <string name="value_handwriting_wait_800">0.8 စက္ကန့်</string>
-    <string name="value_handwriting_wait_1000">၁ စက္ကန့်</string>
-    <string name="handwriting_keyboard_name">SandFly လက်ရေး</string>
-    <string name="handwriting_space">စပေ့စ်ကီး</string>
-    <string name="handwriting_new_line">လိုင်း အသစ်</string>
-    <string name="handwriting_tutorial_intro">လက်ရေးကီးဘုတ်သင်ခန်းစာ။ မျက်နှာပြင်ပေါ်ရှိ မည်သည့်နေရာတွင်မဆို လက်တစ်ချောင်းဖြင့် ရေးပါ။ ခဏရပ်လိုက်တဲ့အခါ မင်းရေးတဲ့စာက စာရိုက်တယ်။ သင်ခန်းစာကိုအဆုံးသတ်ရန် လက်သုံးချောင်းဖြင့် အောက်သို့ပွတ်ဆွဲပါ။</string>
-    <string name="handwriting_tutorial_write_letter">အက္ခရာအက္ခရာ a ကိုရေးပါ။</string>
-    <string name="handwriting_tutorial_write_word">ပြီးရင် hi (h နဲ့ i) ဆိုတဲ့ စကားလုံးကို ရေးပါ။</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g> ဟု ရိုက်ထည့်သည်။</string>
-    <string name="handwriting_tutorial_space">နေရာလွတ်တစ်ခုရိုက်ရန် လက်နှစ်ချောင်းဖြင့် ညာဘက်သို့ ပွတ်ဆွဲပါ။</string>
-    <string name="handwriting_tutorial_delete">ကာဆာရှေ့တွင် ဇာတ်ကောင်ကို ဖျက်ရန် လက်နှစ်ချောင်းဖြင့် ဘယ်ဘက်သို့ ပွတ်ဆွဲပါ။</string>
-    <string name="handwriting_tutorial_deleted">ဖျက်လိုက်။</string>
-    <string name="handwriting_tutorial_next_reading">လက်ရေးမူကို စာလုံးကြီးကဲ့သို့သော အခြားအက္ခရာအဖြစ် အသိအမှတ်ပြုပါက နောက်အသိအမှတ်ပြုမှုအကြံပြုချက်ကို ရွေးချယ်ရန် လက်နှစ်ချောင်းဖြင့် အပေါ်သို့ ပွတ်ဆွဲပါ။ ယခုစမ်းကြည့်ပါ။</string>
-    <string name="handwriting_tutorial_read_back">ကာဆာရှေ့တွင် စာသားကိုဖတ်ရန် လက်နှစ်ချောင်းဖြင့် တို့ပါ။</string>
-    <string name="handwriting_tutorial_new_line">စာကြောင်းအသစ်ထည့်ရန် သို့မဟုတ် Send ကဲ့သို့သော စာသားအကွက်လုပ်ဆောင်ချက်ကို လုပ်ဆောင်ရန် လက်နှစ်ချောင်းဖြင့် အောက်သို့ပွတ်ဆွဲပါ။</string>
-    <string name="handwriting_tutorial_not_that">အဲဒါက နောက်တစ်မျိုး။</string>
-    <string name="handwriting_tutorial_done">လိုင်းအသစ်။ Tutorial ပြီးပါပြီ။ ကီးဘုတ်ကို ဝှက်ရန် လက်သုံးချောင်းဖြင့် အောက်သို့ ပွတ်ဆွဲကာ ကီးဘုတ်ပြောင်းရန် လက်သုံးချောင်းဖြင့် ညာဘက် သို့မဟုတ် ဘယ်ဘက်သို့ ပွတ်ဆွဲပါ။ သင်ခန်းစာကို ထပ်မံဖွင့်ရန် လက်သုံးချောင်းဖြင့် တို့ပါ။</string>
-    <string name="handwriting_tutorial_finished">ကျူတိုရီရယ် ပြီးသွားသည်။ ပြန်ဖွင့်ရန် လက်သုံးချောင်းဖြင့် တို့ပါ။</string>
-    <string name="handwriting_no_alternatives">အခြားအကြံပြုချက်များမရှိပါ။</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>၊ <xliff:g id="index" example="2">%2$d</xliff:g> <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">ဗလာစာသား</string>
-    <string name="handwriting_not_available">ဤစက်ပစ္စည်းတွင် လက်ရေးဖြင့် အသိအမှတ်ပြုခြင်းကို မရရှိနိုင်ပါ။</string>
     <string name="shortcut_scroll_to_bottom">အောက်ခြေသို့ဆင်းပါ။</string>
     <string name="shortcut_refresh">ပြန်လည်စတင်ပါ။</string>
     <string name="shortcut_system_notifications">စနစ်သတိပေးချက်အရိပ်</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">ရွေးချယ်မှုကို ရှင်းလင်းပါ။</string>
     <string name="title_pref_brightness">တောက်ပမှု</string>
     <string name="summary_support_change_brightness">ဖန်သားပြင်ကို ဝှက်ထားသော်လည်း ဖန်သားပြင်တောက်ပမှုကို တိုး သို့မဟုတ် လျှော့ပါ။</string>
-    <string name="title_pref_shortcut_3finger_4tap">လက်ချောင်း ၃ ချောင်းဖြင့် လေးချက်ထိပါ။</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">လက် ၂ ချောင်းဖြင့် နာရီလက်တံအတိုင်း လှည့်ပါ။</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">လက် ၂ ချောင်းဖြင့် နာရီလက်တံပြောင်းပြန်လှည့်ပါ။</string>
-    <string name="title_pref_shortcut_2finger_scrub">လက်၂ချောင်းဖြင့် ပွတ်တိုက်ပေးပါ။</string>
-    <string name="title_pref_shortcut_2finger_pinch">လက် ၂ ချောင်းဖြင့် ဖိပါ။</string>
-    <string name="title_pref_shortcut_2finger_spread">လက်၂ချောင်းဖြင့်ဖြန့်ပါ။</string>
-    <string name="title_pref_shortcut_3finger_pinch">လက် ၃ ချောင်းဖြင့် ဖိပါ။</string>
-    <string name="title_pref_shortcut_3finger_spread">လက် ၃ ချောင်းဖြင့် ဖြန့်ပါ။</string>
-    <string name="title_pref_shortcut_4finger_pinch">လက် ၄ ချောင်းဖြင့် ဖိပါ။</string>
-    <string name="title_pref_shortcut_4finger_spread">လက် ၄ ချောင်းဖြင့် ဖြန့်ပါ။</string>
-    <string name="title_pref_shortcut_edge_bottom_up">အောက်ခြေအစွန်းမှ အပေါ်သို့ ပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">အောက်ခြေအစွန်းမှ အပေါ်သို့ အကြာကြီးပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_top_left_down">ဘယ်ဘက်ထိပ်မှ အောက်သို့ ပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_top_right_down">အပေါ်ညာဘက်မှ အောက်သို့ ပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">ဘယ်ဘက်အပေါ်မှ အောက်ကို အကြာကြီးပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">ညာဘက်အပေါ်မှ အောက်ကို အကြာကြီးပွတ်ဆွဲပါ။</string>
-    <string name="title_pref_shortcut_edge_left_top_right">ဘယ်ဘက်အစွန်းမှ ညာဘက်သို့ ပွတ်ဆွဲပါ၊ အပေါ်တစ်ပိုင်း</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">ဘယ်ဘက်အစွန်းမှ ညာဘက်ကို အကြာကြီးပွတ်ဆွဲပါ၊ အပေါ်ဘက်တစ်ခြမ်း</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">ဘယ်ဘက်အစွန်းမှ ညာဘက်သို့ ပွတ်ဆွဲပါ၊ အောက်ခြေတစ်ဝက်</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">ဘယ်ဘက်အစွန်းမှ ညာဘက်ကို အကြာကြီးပွတ်ဆွဲပါ၊ အောက်ခြေတစ်ခြမ်း</string>
-    <string name="title_pref_shortcut_edge_right_top_left">ညာဘက်အစွန်းမှ ဘယ်ဘက်သို့ ပွတ်ဆွဲပါ၊ အပေါ်တစ်ပိုင်း</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">ညာဘက်အစွန်းမှ ဘယ်ဘက်သို့ အကြာကြီးပွတ်ဆွဲပါ၊ အပေါ်ဘက်တစ်ခြမ်း</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">ညာဘက်အစွန်းမှ ဘယ်ဘက်သို့ ပွတ်ဆွဲပါ၊ အောက်ခြေတစ်ဝက်</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">ညာဘက်အစွန်းမှ ဘယ်ဘက်၊ အောက်ခြေတစ်ဝက်ကို အကြာကြီးပွတ်ဆွဲပါ။</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">မည်သည့်သော့ကိုမဆို ရွေးရန် လက်ချောင်းကို ဖိထားပြီး မြှောက်ပါ။ Enter၊ Done သို့မဟုတ် Send အတွက် နှစ်ချက်တို့ပါ။</string>
-    <string name="value_type_confirmation_tap_to_type">၎င်းကိုရိုက်ရန် သော့တစ်ခုခုကို တို့ပါ၊ သို့မဟုတ် မည်သည့်သော့ကိုမဆို ရွေးချယ်ရန် လက်ချောင်းကို ဖိထားပါ၊ ထို့နောက် တင်လိုက်ပါ။</string>
-    <string name="title_pref_multi_tap_timeout">လက်တစ်ချောင်း နှိပ်လိုက်သည်ကြား အချိန်</string>
     <string name="value_multi_tap_timeout_100ms">0.1 စက္ကန့်</string>
     <string name="value_multi_tap_timeout_150ms">၀.၁၅ စက္ကန့်</string>
     <string name="value_multi_tap_timeout_200ms">၀.၂ စက္ကန့်</string>
     <string name="value_multi_tap_timeout_250ms">0.25 စက္ကန့် (မူလ)</string>
-    <string name="title_pref_rotor_step_degrees">ရဟတ်ကို ခြေလှမ်းအလိုက်လှည့်ပါ။</string>
-    <string name="title_pref_edge_first_click_mm">ပထမဆုံးနှိပ်ရန်အကွာအဝေး</string>
-    <string name="title_pref_edge_second_click_mm">ပထမမှစက္ကန့်အကွာအဝေးကိုနှိပ်ပါ။</string>
     <string name="value_distance_5mm">0.5 စင်တီမီတာ</string>
     <string name="value_distance_10mm">1 စင်တီမီတာ</string>
     <string name="value_distance_15mm">1.5 စင်တီမီတာ</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">နောက်ဆုံးအရာမှ ပထမအဖွင့် သို့မဟုတ် ပိတ်ခြင်းသို့ ထုပ်ပိုးခြင်းသို့ ပြောင်းပါ။</string>
     <string name="wrap_around_on">ပတ်ပတ်လည်တွင် ပတ်ထားသည်။</string>
     <string name="wrap_around_off">ပတ်ပတ်လည်ပိတ်</string>
-    <string name="title_selector_tablet_held_up_faces_away">တက်ဘလက်သည် မျက်နှာများကို ခွာထားသည်။</string>
-    <string name="summary_support_tablet_held_up_faces_away">တက်ဘလက် သို့မဟုတ် ခေါက်ထားသောဖုန်းရှိ မျက်မမြင်စာရေးကွက်ကီးဘုတ်အတွက်</string>
-    <string name="tablet_held_up_faces_away_on">တက်ဘလက်ကို မျက်နှာလွှဲ၍ ကိုင်ထားသည်။</string>
-    <string name="tablet_held_up_faces_away_off">တက်ဘလက်က မျက်နှာကို ခွာထားလိုက်သည်။</string>
     <string name="title_keyboard_echo_on_screen">မျက်နှာပြင်ပေါ်ရှိ ကီးဘုတ် ပဲ့တင်သံ</string>
     <string name="title_keyboard_echo_physical">ရုပ်ပိုင်းဆိုင်ရာကီးဘုတ် ပဲ့တင်သံ</string>
-    <string name="title_keyboard_echo_braille_keyboard">မျက်မမြင် ကီးဘုတ် ပဲ့တင်သံ</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">လက်ရေးကီးဘုတ် ပဲ့တင်သံ</string>
-    <string name="title_keyboard_echo_braille_display">မျက်မမြင်ပြသမှု ပဲ့တင်သံ</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">စာရိုက်သည့်အခါ စကားသံကို အနှောင့်အယှက်ပေးသည်။</string>
     <string name="pref_interrupt_typing_entry_always">အမြဲတမ်း</string>

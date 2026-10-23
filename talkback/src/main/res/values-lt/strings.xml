@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Sumažinti delsą</string>
   <string name="talkback_latency_reduction_summary">Priverskite SandFly greičiau reaguoti palietus ekraną</string>
   <string name="summary_pref_intonation">Ištrintas raides tarti aukštesniu balso tonu</string>
-  <string name="title_pref_brailledisplay">Brailio rašmenų ekranas</string>
-  <string name="title_pref_brailleime">Brailio rašmenų klaviatūra</string>
-  <string name="summary_pref_brailleime_disabled">Įrenginyje nepalaikoma Brailio rašto klaviatūra</string>
   <string name="title_pref_speech_footer">Norėdami pakeisti pritaikymo neįgaliesiems garsumą bet kuriame ekrane, laikykite 1 pirštą ekrane ir paspauskite garsumo didinimo arba mažinimo klavišus.</string>
   <string name="title_pref_vibration">Atsakas vibruojant</string>
   <string name="title_pref_soundback">Garso atsakas</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Įgalinti derinimo žurnalo perdangą</string>
   <string name="title_pref_typing_confirmation">Rašymo būdas</string>
   <string name="title_pref_typing_long_tap_duration">Palietimo ir palaikymo funkcijos vėlavimas vedant tekstą</string>
-  <string name="title_pref_touch_explore_timeout">Teksto vedimo fokusavimo delsa</string>
   <string name="message_pref_touch_explore_latency">Trumpesnė delsa priverčia SandFly kalbėti greičiau, kai paliečiate klaviatūrą.\n\nPasirinkite delsą</string>
-  <string name="title_pref_touch_focus_timeout">Fokusavimo delsa</string>
-  <string name="title_pref_talkback_gesture_detection">Gestų apdorojimas naudojant „SandFly“</string>
-  <string name="toast_pref_talkback_gesture_detection">Išjunkite, tada vėl įjunkite „SandFly“, kad suaktyvintumėte nustatymą.</string>
   <string name="title_pref_auto_image_captioning">Automatiniai aprašai</string>
   <string name="title_pref_gemini_settings">„Gemini“ nustatymai</string>
   <string name="title_pref_gemini_enabled">Gemini balso komandos</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Padidinti garsumą</string>
   <string name="shortcut_decrease_volume">Sumažinti garsumą</string>
   <string name="shortcut_all_apps">Visos programos</string>
-  <string name="shortcut_braille_keyboard">Perjungti į Brailio klav.</string>
-  <string name="shortcut_braille_display_settings">Naršyti į Brailio r. ekrano nustatymus</string>
   <string name="shortcut_tutorial">Atidaryti mokymo programą</string>
   <string name="shortcut_control_speak_time">Sakyti laiką arba nesakyti laiko</string>
   <string name="shortcut_enable_speak_time">Sakyti laiką</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Parinktis „Sakyti laiką“ išjungta</string>
   <string name="shortcut_practice_gestures">Gestų mokymasis</string>
   <string name="shortcut_report_gesture">Pranešti apie gesto problemą</string>
-  <string name="shortcut_toggle_braille_display">Brailio rašmenų ekrano įjungimas arba išjungimas</string>
   <string name="shortcut_announce_current_time_and_date">Pasakyti dabartinę datą ir laiką</string>
   <string name="shortcut_announce_battery_state">Sakyti akumuliatoriaus energiją procentais</string>
   <string name="shortcut_announce_current_title">Lango pavadinimo ištarimas</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Sumažinti kalbėjimo greitį</string>
   <string name="shortcut_toggle_selection">Pradėti arba baigti pasirinkimo režimą</string>
   <string name="shortcut_show_tutorial">Atidaryti mokomąją medžiagą</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Perj. iš sutr. (2 l.) į nesutr. (1 l.)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Rodyti arba slėpti Brailio raštą ekrane prijungtuose Brailio rašmenų ekranuose</string>
   <string name="shortcut_toggle_sound_feedback">Įjungti arba išjungti garsinę inform. (garsinius ženklelius)</string>
   <string name="shortcut_show_learn_mode_page">Sparčiųjų klavišų naudojimo praktika</string>
   <string name="shortcut_announce_phonetic_pronunciation">Pasakyti raides su fonetiniu paryškinto elemento tarimu</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Komandos balsu</string>
   <string name="title_show_keyboard_shortcuts">Spartieji klavišai</string>
   <string name="talkback_show_talkback_settings">„SandFly“ nustatymai</string>
-  <string name="title_show_braille_display_settings">Brailio rašmenų ekrano nustatymai</string>
   <string name="title_granularity_default">Numatytasis naršymas</string>
   <string name="title_action_dismiss">Atsisakyti</string>
   <string name="title_action_expand">Išskleisti</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Pakeiskite, ar laikas bus sakomas garsiai, kai įjungsite ekraną</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Atidaryti sparčiųjų klavišų sąrašą</string>
   <string name="summary_talkback_preferences">Atidarykite „SandFly“ nustatymus</string>
-  <string name="summary_braile_display_preferences">Atidaryti Brailio rašmenų ekrano nustatymus</string>
   <string name="summary_system_actions">Eiti į skiltis „Visos programos“ ir „Spartieji nustatymai“</string>
   <string name="summary_tts_settings">Atidarykite teksto į kalbą nustatymus</string>
   <string name="not_editable">Neredaguotina</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Sumažinkite kitų leidžiamų garsų garsumą, kai „SandFly“ kalba</string>
   <string name="summary_support_scroll_seq">Slinkimas pirmyn arba atgal</string>
   <string name="summary_support_change_a11y_volume">Padidinti arba sumažinti pritaikomumo garsumą</string>
-  <string name="summary_support_change_touch_explore_latency">Padidinti arba sumažinti teksto vedimo fokusavimo delsą</string>
-  <string name="summary_support_change_touch_focus_latency">Padidinti arba sumažinti fokusavimo delsą</string>
   <string name="summary_screen_overview">Apibendrinkite ekrano turinį naudodami veiksmų mygtukus</string>
   <string name="summary_screen_overview_no_actions">Klausyti ekrane rodomos informacijos santraukos</string>
   <string name="summary_image_caption">Ištarti pasirinkto vaizdo tekstą ir piktogramas</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dukart suimti pirštus</string>
   <string name="gesture_name_double_tap_and_hold">Dukart paliesti ir palaikyti</string>
   <string name="gesture_name_double_tap_and_hold_xr">Suimti pirštus ir palaikyti</string>
-  <string name="gesture_name_2finger_tap_hold">Paliesti ir palaikyti dviem pirštais</string>
   <string name="gesture_name_3finger_tap_hold">Paliesti ir palaikyti trimis pirštais</string>
   <string name="gesture_name_2finger_3tap_hold">Triskart paliesti ir palaikyti dviem pirštais</string>
   <string name="gesture_name_3finger_3tap_hold">Triskart paliesti ir palaikyti trimis pirštais</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Garso įrašo perdengimas</string>
   <string name="title_pref_support_scroll_seq">Slinkti</string>
   <string name="title_pref_a11y_volume">Pritaikomumo garsumas</string>
-  <string name="title_pref_touch_explore_latency">Teksto vedimo fokusavimo delsa</string>
-  <string name="title_pref_touch_focus_latency">Fokusavimo delsa</string>
   <string name="message_pref_touch_focus_latency">Trumpesnė delsa priverčia SandFly kalbėti greičiau, kai paliečiate ekraną</string>
   <string name="message_pref_typing_method_prefix">Jei norite, kad vedant tekstą būtų mažiausias vėlavimas, pasirinkite „Laikydami pirštą pasirinkite bet kurį klavišą, tada pakelkite pirštą“</string>
-  <string name="message_pref_typing_method_postfix">Taip pat galite bet kada naudoti dvigubą palietimą, kad galėtumėte rašyti. Kad tai atliktumėte, laikykite vieną pirštą, kad pasirinktumėte bet kurį klavišą, ir palieskite ekraną kitu pirštu.</string>
   <string name="title_pref_talkback_speech_rate">Kalbėjimo sparta</string>
   <string name="title_pref_selector_adjustable_widget_slider">Koreguoti šliaužiklį</string>
   <string name="title_pref_selector_typo_granularity">Korektūra</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">raktinis žodis yra „%1$s“</string>
   <string name="screen_search_no_keyword_hint">Dar nėra raktinių žodžių. Jei norite pradėti naują paiešką, palieskite ir palaikykite trimis pirštais arba eikite į „SandFly“ meniu ir atidarykite paiešką ekrane.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Dar nėra raktinių žodžių. Jei norite pradėti naują paiešką, perbraukite kairėn, tada žemyn arba eikite į „SandFly“ meniu ir atidarykite paiešką ekrane.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Brailio r. klav. neįjungta. Eikite į „SandFly“ nust., nustatykite Brailio r. klav. ir band. dar k.</string>
   <string name="suggestions_window_available">Pasiekiami pasiūlymai</string>
   <string name="suggestions_window_available_with_gesture">Pasiekiami pasiūlymai. Jei norite pasiekti, %1$s</string>
   <string name="heads_up_window_available">Pasiekiamas pranešimas</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly dabar turi fizinių klaviatūrų „patobulintą klaviatūros schemą“, kurioje yra įvairių naujų komandų ir sparčiųjų klavišų. Šis patobulinimas apima „naršymo režimą“, kad būtų galima efektyviau naršyti žiniatinklyje, supaprastinti naršymą ir sąveiką SandFly naudotojams, kurie naudojasi fizine klaviatūra. Galite perjungti į „Patobulintą klavišų schemą“ <xliff:g id="settings_path">%1$s</xliff:g>.\n\nJei naudojate Brailio rašto ekraną, taip pat galite naudoti naujus naršymo režimo sparčiuosius klavišus, kad peržiūrėtumėte turinį tiesiai iš Brailio rašto ekrano. Kai kurie Brailio rašto ekrano spartieji klavišai buvo pakeisti, kad atitiktų šį pakeitimą. Visų Brailio rašto ekrano nuorodų sąrašą galite peržiūrėti <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">„SandFly“ nustatymai“ &gt; „Spartieji klavišai“</string>
   <string name="keyboard_shortcuts_link_tts">„SandFly“ nustatymai, tada – „Spartieji klavišai“</string>
-  <string name="braille_display_settings_link">Brailio rašmenų ekrano nustatymai</string>
   <string name="keyboard_smart_browse_mode_title">Klaviatūra: išmanusis naršymo režimas</string>
   <string name="keyboard_smart_browse_mode_text">„SandFly“ išmanusis naršymo režimas išjungia naršymo režimą redagavimo lauke, kad būtų galima įvesti tekstą fizine klaviatūra naršant žiniatinklį. Tada jis vėl įjungiamas, kai pereinate į neredaguojamą lauką žiniatinklyje, kad galėtumėte toliau efektyviai naršyti. „Išmanųjį naršymo režimą“ galite įjungti arba išjungti skiltyje „<xliff:g id="settings_path">%1$s</xliff:g>“.</string>
   <string name="advanced_settings_link">„SandFly“ nustatymai“ &gt; „Išplėstiniai nustatymai“</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Teksto įvedimas</string>
   <string name="basic_typing_text_text">Kai būsite teksto laukelyje, klaviatūra bus atidaryta ekrano apačioje.</string>
   <string name="typing_text_text">Veskite pirštu per klaviatūrą. Kai išgirsite norimą įvesti raidę, pakelkite pirštą.\n\nPabandykite suaktyvinti toliau pateiktą teksto laukelį ir įvesti savo vardą.</string>
-  <string name="typing_text_with_braille_keyboard_text">Be to, tekstą galite vesti naudodami Brailio rašto klaviatūrą. Ją rasite „SandFly“ nustatymų skiltyje.</string>
   <string name="other_ways_to_type_title">Kiti rašymo būdai</string>
   <string name="other_ways_to_type_text">Yra ir kitų būdų, kaip rašyti naudojant „SandFly“. Pavyzdžiui, galite dukart palietę įvesti raidę.</string>
   <string name="basic_other_ways_to_type_text">Yra ir kitų būdų įvesti SandFly. Pavyzdžiui, norėdami įvesti raidę, galite naudoti dukart bakstelėjimą. Vėliau galėsite tai pakeisti skiltyje SandFly nustatymai &gt; Ekrano klaviatūra &gt; Rašymo metodas.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Jei norite pasipraktikuoti naudoti gestus, pirmiausia įjunkite „SandFly“</string>
   <string name="talkback_inactive_message_image_description">Jei norite pabandyti gauti vaizdų aprašus, pirmiausia įjunkite „SandFly“</string>
   <string name="talkback_inactive_close_tutorial_button">Uždaryti mokomąją medžiagą</string>
-  <string name="wear_training_welcome_paragraph">Kai „SandFly“ įjungta, paryškintas elementas ekrane ištariamas garsiai.\n\nPerbraukę dešinėn pereisite prie kito elemento. Perbraukę kairėn pereisite prie ankstesnio elemento.\n\nPerbraukite dešinėn dabar, kad surastumėte kitą mygtuką.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Perbraukite aukštyn arba žemyn %1$d pirštais.</string>
-  <string name="wear_training_go_back_title">Grįžimas</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kai norėsite grįžti atgal, %1$d pirštais perbraukite dešinėn iš ekrano krašto.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Pavyko</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Atliktas geriausias gestas</string>
-  <string name="wear_training_volume_up_title">Garsumo padidinimas</string>
-  <string name="wear_training_volume_up_text">Perbraukite dešinėn, tada aukštyn</string>
-  <string name="wear_training_volume_down_title">Garsumo sumažinimas</string>
-  <string name="wear_training_volume_down_text">Perbraukite dešinėn, tada žemyn</string>
-  <string name="wear_training_open_talkback_menu_title">„SandFly“ meniu atidarymas</string>
-  <string name="wear_training_open_talkback_menu_text">Kad atidarytumėte nustatymus ir valdiklius, kurių gali dažnai prireikti, slinkite žemyn ir į dešinę</string>
-  <string name="wear_training_typing_title">Vedamas tekstas</string>
-  <string name="wear_training_typing_text1">Jei norite vesti tekstą klaviatūra, veskite pirštu per klaviatūrą. Kai išgirsite norimą įvesti raidę, pakelkite pirštą.</string>
-  <string name="wear_training_typing_text2">Jei norite paslėpti klaviatūrą ir patikrinti įvestį, perbraukite žemyn nuo ekrano viršaus dviem pirštais.</string>
-  <string name="wear_training_typing_text3">Jei norite grįžti į klaviatūrą, dviem pirštais perbraukite aukštyn iš ekrano apačios.</string>
-  <string name="wear_training_typing_text4">Jei norite uždaryti klaviatūrą ir atšaukti teksto vedimą, dviem pirštais perbraukite dešinėn nuo kairiojo ekrano krašto.</string>
-  <string name="wear_training_typing_text5">Išbandykite toliau.</string>
-  <string name="wear_training_typing_practice_button_content_description">Teksto vedimas klaviatūra</string>
-  <string name="wear_training_end_tutorial_title">Esate pasirengę pradėti naudoti „SandFly“</string>
   <string name="wear_new_feature_page_title">Sveiki! Tai – atnaujinta „SandFly“</string>
   <string name="wear_new_feature_page_content">Pastebėsite kelis riktų pataisymus ir paryškinimo perkėlimo pakeitimus</string>
   <string name="wear_new_feature_page_button_content_description">Baigti</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Skambučio režimas</string>
     <string name="summary_pref_announce_ringer_mode">Pasakykite, kai skambutis nustatytas vibruoti arba nutildyti</string>
     <string name="title_pref_category_feedback">Atsiliepimai</string>
-    <string name="title_pref_category_typing_and_braille">Rašymas ir Brailio raštas</string>
     <string name="title_pref_category_apps">Programos</string>
     <string name="title_pref_touch_activation">Palietimas ir aktyvinimas</string>
     <string name="title_pref_navigation">Naršymas</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Neleisti</string>
     <string name="permission_speak_label">kalbėti per SandFly</string>
     <string name="permission_speak_description">Leidžia programai paprašyti pasakyti tekstą jūsų SandFly balsu. SandFly klausia jūsų prieš programai galint kalbėti.</string>
-    <string name="permission_braille_display_label">prašyti rodyti Brailio rašto ekraną SandFly</string>
-    <string name="permission_braille_display_description">Leidžia programai prašyti rodyti Brailio rašto ekraną SandFly. Jei leisite SandFly, jis galės skaityti viską, kas rodoma ekrane, ir valdyti jūsų įrenginį. SandFly pirmiausia klausia jūsų.</string>
     <string name="title_pref_phonetic_letters_mode">Kalbėkite raides fonetiškai</string>
     <string name="phonetic_letters_mode_off">Išjungti</string>
     <string name="phonetic_letters_mode_after_letter_delay">Po laiško, atidėtas, pvz., \"h, viešbutis\"</string>
@@ -1575,50 +1529,6 @@
     <string name="shortcut_title_open_app">Atidarykite programą</string>
     <string name="shortcut_open_app">Atidaryti <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Slinkite į viršų</string>
-    <string name="shortcut_write_reading_control">Parašykite skaitymo valdiklio raidę</string>
-    <string name="title_pref_reading_control_letters">Ranka rašytos abėcėlės raidės</string>
-    <string name="reading_control_letter_none">Nėra</string>
-    <string name="handwriting_prompt">Parašykite abėcėlės raidę</string>
-    <string name="handwriting_closed">Rašysena uždaryta</string>
-    <string name="handwriting_no_match">Joks skaitymo valdiklis neprasideda <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Rašysena neatpažinta</string>
-    <string name="handwriting_downloading">Atsisiunčiamas rašymo ranka atpažinimas</string>
-    <string name="handwriting_download_title">Parsisiųsti rašysenos atpažinimo programą?</string>
-    <string name="handwriting_download_message">Šiame telefone rašysena atpažįstama. Šios kalbos modelis, apie 20 MB, vieną kartą atsisiunčiamas iš Google. Kai jis atsisiunčiamas, rodomas pranešimas.</string>
-    <string name="handwriting_download_button">Atsisiųsti</string>
-    <string name="handwriting_downloaded">Atsisiųstas rašymo ranka atpažinimas</string>
-    <string name="handwriting_download_failed">Nepavyko atsisiųsti rašysenos atpažinimo. Patikrinkite interneto ryšį.</string>
-    <string name="handwriting_unsupported_language">Rašysenos atpažinimo funkcija šia kalba nepasiekiama</string>
-    <string name="title_pref_handwriting_keyboard">Rašymo ranka klaviatūra</string>
-    <string name="summary_pref_handwriting_keyboard">Įjunkite SandFly rašymą ranka Android klaviatūros nustatymuose</string>
-    <string name="title_pref_handwriting_wait">Palauk parašęs</string>
-    <string name="value_handwriting_wait_200">0,2 sek.</string>
-    <string name="value_handwriting_wait_300">0,3 sekundės</string>
-    <string name="value_handwriting_wait_400">0,4 sekundės</string>
-    <string name="value_handwriting_wait_500">0,5 sek.</string>
-    <string name="value_handwriting_wait_600">0,6 sekundės</string>
-    <string name="value_handwriting_wait_800">0,8 sekundės</string>
-    <string name="value_handwriting_wait_1000">1 sek.</string>
-    <string name="handwriting_keyboard_name">SandFly rašysena</string>
-    <string name="handwriting_space">Tarpo klavišas</string>
-    <string name="handwriting_new_line">Nauja eilutė</string>
-    <string name="handwriting_tutorial_intro">Rašymo ranka klaviatūros pamoka. Rašykite vienu pirštu bet kurioje ekrano vietoje. Tai, ką rašai, įvedama, kai trumpam sustoji. Norėdami baigti mokymo programą, trimis pirštais braukite žemyn.</string>
-    <string name="handwriting_tutorial_write_letter">Parašykite abėcėlės raidę a.</string>
-    <string name="handwriting_tutorial_write_word">Dabar parašykite žodį hi (h ir i).</string>
-    <string name="handwriting_tutorial_typed">Įvedė <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Braukite dešinėn dviem pirštais, kad įvestumėte tarpą.</string>
-    <string name="handwriting_tutorial_delete">Dviem pirštais braukite kairėn, kad ištrintumėte prieš žymeklį esantį simbolį.</string>
-    <string name="handwriting_tutorial_deleted">Ištrinta.</string>
-    <string name="handwriting_tutorial_next_reading">Jei rašysena atpažįstama kaip kitas simbolis, pvz., didžioji raidė, braukite aukštyn dviem pirštais, kad pasirinktumėte kitą atpažinimo pasiūlymą. Išbandykite dabar.</string>
-    <string name="handwriting_tutorial_read_back">Bakstelėkite dviem pirštais, kad perskaitytumėte tekstą prieš žymeklį.</string>
-    <string name="handwriting_tutorial_new_line">Braukite žemyn dviem pirštais, kad įterptumėte naują eilutę arba atliktumėte teksto lauko veiksmą, pvz., Siųsti.</string>
-    <string name="handwriting_tutorial_not_that">Tai buvo dar vienas gestas.</string>
-    <string name="handwriting_tutorial_done">Nauja linija. Pamoka baigta. Braukite žemyn trimis pirštais, kad paslėptumėte klaviatūrą, ir dešinėn arba kairėn trimis pirštais, kad perjungtumėte klaviatūras. Norėdami vėl atidaryti mokymo programą, bakstelėkite trimis pirštais.</string>
-    <string name="handwriting_tutorial_finished">Pamoka baigėsi. Norėdami vėl atidaryti, bakstelėkite trimis pirštais.</string>
-    <string name="handwriting_no_alternatives">Jokių kitų pasiūlymų</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> iš <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tuščias tekstas</string>
-    <string name="handwriting_not_available">Rašysenos atpažinimo funkcija šiame įrenginyje nepasiekiama</string>
     <string name="shortcut_scroll_to_bottom">Slinkite į apačią</string>
     <string name="shortcut_refresh">Atnaujinti</string>
     <string name="shortcut_system_notifications">Sistemos pranešimų skydelis</string>
@@ -1630,40 +1540,11 @@
     <string name="title_clear_selection">Išvalyti pasirinkimą</string>
     <string name="title_pref_brightness">Ryškumas</string>
     <string name="summary_support_change_brightness">Padidinkite arba sumažinkite ekrano ryškumą, net kai ekranas paslėptas</string>
-    <string name="title_pref_shortcut_3finger_4tap">Keturis kartus bakstelėkite 3 pirštais</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Pasukite pagal laikrodžio rodyklę 2 pirštais</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Pasukite prieš laikrodžio rodyklę 2 pirštais</string>
-    <string name="title_pref_shortcut_2finger_scrub">Šveiskite 2 pirštais</string>
-    <string name="title_pref_shortcut_2finger_pinch">Suimkite 2 pirštais</string>
-    <string name="title_pref_shortcut_2finger_spread">Paskleiskite 2 pirštais</string>
-    <string name="title_pref_shortcut_3finger_pinch">Suimkite 3 pirštais</string>
-    <string name="title_pref_shortcut_3finger_spread">Paskleiskite 3 pirštais</string>
-    <string name="title_pref_shortcut_4finger_pinch">Suimkite 4 pirštais</string>
-    <string name="title_pref_shortcut_4finger_spread">Paskleiskite 4 pirštais</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Braukite aukštyn nuo apatinio krašto</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Ilgai braukite aukštyn nuo apatinio krašto</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Braukite žemyn iš viršaus į kairę</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Braukite žemyn iš viršaus dešinėje</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Ilgai braukite žemyn iš viršaus į kairę</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Ilgai braukite žemyn iš viršaus dešinėje</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Braukite dešinėn nuo kairiojo krašto, viršutinės pusės</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Ilgai braukite dešinėn nuo kairiojo krašto, viršutinės pusės</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Braukite dešinėn nuo kairiojo krašto, apatinės pusės</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Ilgai braukite dešinėn nuo kairiojo krašto, apatinės pusės</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Braukite kairėn nuo dešiniojo krašto, viršutinės pusės</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Ilgai braukite kairėn nuo dešiniojo krašto, viršutinės pusės</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Braukite kairėn nuo dešiniojo krašto, apatinės pusės</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Ilgai braukite kairėn nuo dešiniojo krašto, apatinės pusės</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Laikydami pirštą pasirinkite bet kurį klavišą, tada pakelkite. Dukart palieskite, kad pasirinktumėte „Enter“, „Done“ arba „Send“.</string>
-    <string name="value_type_confirmation_tap_to_type">Bakstelėkite bet kurį klavišą, kad jį įvestumėte, arba laikykite pirštą, kad pasirinktumėte bet kurį klavišą, tada pakelkite</string>
-    <string name="title_pref_multi_tap_timeout">Laikas tarp paspaudimų vienu pirštu</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekundės</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sek.</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sek.</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekundės (numatytasis)</string>
-    <string name="title_pref_rotor_step_degrees">Rotoriaus apsisukimas per žingsnį</string>
-    <string name="title_pref_edge_first_click_mm">Atstumas iki pirmojo paspaudimo</string>
-    <string name="title_pref_edge_second_click_mm">Atstumas nuo pirmojo iki antrojo paspaudimo</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1711,15 +1592,8 @@
     <string name="summary_support_wrap_around">Įjunkite arba išjunkite vyniojimą nuo paskutinio elemento iki pirmojo</string>
     <string name="wrap_around_on">Apvyniokite</string>
     <string name="wrap_around_off">Apvyniokite</string>
-    <string name="title_selector_tablet_held_up_faces_away">Planšetinis kompiuteris buvo pakeltas veidu</string>
-    <string name="summary_support_tablet_held_up_faces_away">Brailio rašto klaviatūrai planšetiniame kompiuteryje arba išskleistame telefone</string>
-    <string name="tablet_held_up_faces_away_on">Planšetinis kompiuteris buvo pakeltas veidais</string>
-    <string name="tablet_held_up_faces_away_off">Planšetinis kompiuteris buvo pakeltas veidu</string>
     <string name="title_keyboard_echo_on_screen">Ekrano klaviatūros aidas</string>
     <string name="title_keyboard_echo_physical">Fizinis klaviatūros aidas</string>
-    <string name="title_keyboard_echo_braille_keyboard">Brailio rašto klaviatūros aidas</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Rašymo ranka klaviatūros aidas</string>
-    <string name="title_keyboard_echo_braille_display">Brailio rašto ekrano aidas</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Pertraukite kalbą spausdindami</string>
     <string name="pref_interrupt_typing_entry_always">Visada</string>

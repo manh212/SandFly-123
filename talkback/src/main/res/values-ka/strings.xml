@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">დაყოვნების შემცირება</string>
   <string name="talkback_latency_reduction_summary">Დააჩქარეთ SandFly პასუხი ეკრანზე შეხების შემდეგ</string>
   <string name="summary_pref_intonation">ამოშლილი ასობგერები უფრო მაღალი რეგისტრის ხმით</string>
-  <string name="title_pref_brailledisplay">ბრაილის ეკრანი</string>
-  <string name="title_pref_brailleime">ბრაილის კლავიატურა</string>
-  <string name="summary_pref_brailleime_disabled">თქვენს მოწყობილობას არ აქვს ბრაილის კლავიატურის მხარდაჭერა</string>
   <string name="title_pref_speech_footer">Ნებისმიერი ეკრანიდან წვდომის ხმის შესაცვლელად, დააჭირეთ ეკრანზე 1 თითს და დააჭირეთ ხმის ამაღლების ან ხმის შემცირების ღილაკს.</string>
   <string name="title_pref_vibration">უკუკავშირი ვიბრაციით</string>
   <string name="title_pref_soundback">ხმოვანი უკუკავშირი</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">ხარვეზების გამართვის ჟურნალის გადაფარვის ჩართვა</string>
   <string name="title_pref_typing_confirmation">Აკრეფის მეთოდი</string>
   <string name="title_pref_typing_long_tap_duration">ტექსტის აკრეფისას დაყოვნებაზე ხანგრძლივად შეხება</string>
-  <string name="title_pref_touch_explore_timeout">აკრეფის ფოკუსის დაყოვნება</string>
   <string name="message_pref_touch_explore_latency">Ხანმოკლე დაყოვნება კლავს კლავიატურაზე შეხების შემდეგ SandFly მეტყველებს უფრო ადრე.\n\nაირჩიეთ დაყოვნება</string>
-  <string name="title_pref_touch_focus_timeout">ფოკუსის დაყოვნება</string>
-  <string name="title_pref_talkback_gesture_detection">Ჟესტების გაშიფვრა SandFly-ში</string>
-  <string name="toast_pref_talkback_gesture_detection">Გამორთეთ და შემდეგ ისევ ჩართეთ SandFly პარამეტრის გასააქტიურებლად.</string>
   <string name="title_pref_auto_image_captioning">ავტომატური აღწერილობები</string>
   <string name="title_pref_gemini_settings">Gemini-ს პარამეტრები</string>
   <string name="title_pref_gemini_enabled">Gemini ხმოვანი ბრძანებები</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">ხმის აწევა</string>
   <string name="shortcut_decrease_volume">ხმის დაწევა</string>
   <string name="shortcut_all_apps">ყველა აპი</string>
-  <string name="shortcut_braille_keyboard">ბრაილის კლავიატ. გადართვა</string>
-  <string name="shortcut_braille_display_settings">ნავიგაცია ბრაილის ეკრანის პარამეტრებზე</string>
   <string name="shortcut_tutorial">სახელმძღვანელოს გახსნა</string>
   <string name="shortcut_control_speak_time">დროის წარმოთქმის ჩართვა ან გამორთვა</string>
   <string name="shortcut_enable_speak_time">დროის წარმოთქმა</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">დროის წარმოთქმა გამორთულია</string>
   <string name="shortcut_practice_gestures">ჟესტების პრაქტიკა</string>
   <string name="shortcut_report_gesture">მოხსენება ჟესტის პრობლემის შესახებ</string>
-  <string name="shortcut_toggle_braille_display">ბრაილის ეკრანის ჩართვა და გამორთვა</string>
   <string name="shortcut_announce_current_time_and_date">მიმდინარე თარიღის და დროის წარმოთქმა</string>
   <string name="shortcut_announce_battery_state">ბატარეის პროცენტულობის წარმოთქმა</string>
   <string name="shortcut_announce_current_title">ფანჯრის სათაურის წარმოთქმა</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">მეტყველების ტემპის შემცირება</string>
   <string name="shortcut_toggle_selection">შერჩევის რეჟიმის დაწყება ან დასრულება</string>
   <string name="shortcut_show_tutorial">სახელმძღვანელოს გახსნა</string>
-  <string name="shortcut_toggle_braille_contracted_mode">გადართვა კონტრაქტულ (კლასი 2) და არაკონტრაქტულს (კლასი 1) შორის</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">ეკრანზე ბრაილის ჩვენება/დამალვა დაკავშ. ბრაილ. ეკრანებისთვის</string>
   <string name="shortcut_toggle_sound_feedback">ხმოვანი გამოხმაურების (აუდიოხატულების) ჩართვა ან გამორთვა</string>
   <string name="shortcut_show_learn_mode_page">კლავიატურის მალსახმობების გამოცდა</string>
   <string name="shortcut_announce_phonetic_pronunciation">ფოკუსში მოქცეული ერთეულისთვის ასოების ფონეტიკური გამოთქმით წარმოთქმა</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">ხმოვანი ბრძანებები</string>
   <string name="title_show_keyboard_shortcuts">კლავიატურის მალსახმობები</string>
   <string name="talkback_show_talkback_settings">SandFly პარამეტრები</string>
-  <string name="title_show_braille_display_settings">ბრაილის ეკრანის პარამეტრები</string>
   <string name="title_granularity_default">ნაგულისხმევი ნავიგაცია</string>
   <string name="title_action_dismiss">დახურვა</string>
   <string name="title_action_expand">გაშლა</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">ეკრანის ჩართვისას დროის ხმამაღლა წარმოთქმის პარამეტრის შეცვლა</string>
   <string name="summary_show_keyboard_shortcuts_preferences">კლავიატურის მალსახმობების სიის გახსნა</string>
   <string name="summary_talkback_preferences">SandFly-ის პარამეტრების გახსნა</string>
-  <string name="summary_braile_display_preferences">ბრაილის ეკრანის პარამეტრების გახსნა</string>
   <string name="summary_system_actions">ყველა აპზე და სწრაფ პარამეტრებზე გადასვლა</string>
   <string name="summary_tts_settings">ტექსტის გახმოვანების პარამეტრების გახსნა</string>
   <string name="not_editable">არარედაქტირებადია</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Ხმის დაწევა სხვა აუდიოსთვის, როცა SandFly საუბრობს</string>
   <string name="summary_support_scroll_seq">წინ ან უკან გადაადგილება</string>
   <string name="summary_support_change_a11y_volume">მისაწვდომობის ხმის სიმძლავრის გაზრდა ან შემცირება</string>
-  <string name="summary_support_change_touch_explore_latency">აკრეფის ფოკუსის დაყოვნების გაზრდა ან შემცირება</string>
-  <string name="summary_support_change_touch_focus_latency">ფოკუსის დაყოვნების გაზრდა ან შემცირება</string>
   <string name="summary_screen_overview">ეკრანის შეჯამება მოქმედების ღილაკებით</string>
   <string name="summary_screen_overview_no_actions">ეკრანზე ნაჩვენები კონტენტის შეჯამების მოსმენა</string>
   <string name="summary_image_caption">ტექსტის წარმოთქმა და ხატულების ახსნა მონიშნულ სურათში</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ორმაგი თითებით მასშტაბირება</string>
   <string name="gesture_name_double_tap_and_hold">ორმაგი შეხება და დაყოვნება</string>
   <string name="gesture_name_double_tap_and_hold_xr">თითებით მასშტაბირება ხანგრძლივად</string>
-  <string name="gesture_name_2finger_tap_hold">ხანგრძლივად შეხება 2 თითით</string>
   <string name="gesture_name_3finger_tap_hold">ხანგრძლივად შეხება 3 თითით</string>
   <string name="gesture_name_2finger_3tap_hold">სამმაგი შეხება და დაყოვნება 2 თითით</string>
   <string name="gesture_name_3finger_3tap_hold">სამმაგი შეხება და დაყოვნება 3 თითით</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">აუდიო დაკინგი</string>
   <string name="title_pref_support_scroll_seq">გადაადგილება</string>
   <string name="title_pref_a11y_volume">მისაწვდომობის ხმის სიმძლავრე</string>
-  <string name="title_pref_touch_explore_latency">აკრეფის ფოკუსის დაყოვნება</string>
-  <string name="title_pref_touch_focus_latency">ფოკუსის დაყოვნება</string>
   <string name="message_pref_touch_focus_latency">Ხანმოკლე დაყოვნება აიძულებს SandFly ისაუბროს ეკრანზე შეხების შემდეგ</string>
   <string name="message_pref_typing_method_prefix">აკრეფის დროს მინიმალური დაყოვნებისთვის აირჩიეთ „გეჭიროთ თითი რომელიმე კლავიშის ასარჩევად და შემდეგ აუშვით“</string>
-  <string name="message_pref_typing_method_postfix">ასევე, ტექსტის ნებისმიერ დროს ასაკრეფად შეგიძლიათ გამოიყენოთ გაყოფილი შეხება. საამისოდ გეჭიროთ ერთი თითი ნებისმიერი კლავიშის ასარჩევად და გამოიყენეთ მეორე თითი ეკრანზე შეხებისთვის.</string>
   <string name="title_pref_talkback_speech_rate">Მეტყველების ტემპი</string>
   <string name="title_pref_selector_adjustable_widget_slider">დაარეგულირეთ სლაიდერი</string>
   <string name="title_pref_selector_typo_granularity">კორექტურა</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">საკვანძო სიტყვა არის %1$s</string>
   <string name="screen_search_no_keyword_hint">Ჯერჯერობით, საკვანძო სიტყვა არ არის. ახალი ძიების დასაწყებად 3 თითის გამოყენებით ხანგრძლივად შეეხეთ ეკრანს ან SandFly-ის მენიუდან გახსენით ეკრანზე ძიება.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ჯერჯერობით, საკვანძო სიტყვა არ არის. ახალი ძიების დასაწყებად გადაფურცლეთ მარცხნივ და შემდეგ ქვემოთ ან SandFly-ის მენიუდან გახსენით ეკრანზე ძიება.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Ბრაილის კლავიატურა არ არის ჩართული. გადადით SandFly-ის პარამეტრებზე, დააყენეთ ბრაილის კლავიატურა და ცადეთ ხელახლა.</string>
   <string name="suggestions_window_available">ხელმისაწვდომია შეთავაზებები</string>
   <string name="suggestions_window_available_with_gesture">ხელმისაწვდომია შეთავაზებები. წვდომისთვის %1$s</string>
   <string name="heads_up_window_available">შეტყობინება ხელმისაწვდომია</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ახლა აქვს \"გაუმჯობესებული კლავიატურა\" ფიზიკური კლავიატურებისთვის, რომელიც შეიცავს სხვადასხვა ახალ ბრძანებებს და მალსახმობებს. ეს გაუმჯობესება მოიცავს „დათვალიერების რეჟიმს“ უფრო ეფექტური ვებ ნავიგაციისთვის, ნავიგაციის გამარტივებისა და ურთიერთქმედებისთვის SandFly მომხმარებლებისთვის, რომლებიც ეყრდნობიან ფიზიკურ კლავიატურებს. შეგიძლიათ გადახვიდეთ „გაძლიერებულ კლავიშზე“ <xliff:g id="settings_path">%1$s</xliff:g>-ში.\n\nთუ ბრაილის ეკრანს იყენებთ, ასევე შეგიძლიათ გამოიყენოთ დათვალიერების რეჟიმის ახალი მალსახმობები კონტენტის პირდაპირ ბრაილის ეკრანიდან გადასასვლელად. ბრაილის ეკრანის ზოგიერთი მალსახმობი შეიცვალა ამ ცვლილების დასაკმაყოფილებლად. თქვენ შეგიძლიათ იხილოთ ბრაილის ეკრანის მალსახმობების სია <xliff:g id="braille_display_settings_path">%2$s</xliff:g>-ში.</string>
   <string name="keyboard_shortcuts_link">SandFly-ის პარამეტრები &gt; კლავიატურის მალსახმობები</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-ის პარამეტრები, შემდეგ კლავიატურის მალსახმობები</string>
-  <string name="braille_display_settings_link">ბრაილის ეკრანის პარამეტრები</string>
   <string name="keyboard_smart_browse_mode_title">კლავიატურა: დათვალიერების გონიერი რეჟიმი</string>
   <string name="keyboard_smart_browse_mode_text">SandFly-ის დათვალიერების გონიერი რეჟიმი გამორთავს დათვალიერების რეჟიმს რედაქტირების ველში, რათა დაგეხმაროთ ფიზიკური კლავიატურით აკრეფაში ვების დათვალიერებისას. შემდეგ ისევ ჩაირთვება, როცა ვებში გადახვალთ არადასარედაქტირებელ ველზე, რათა ეფექტურად განაგრძოთ დათვალიერება. „დათვალიერების გონიერი რეჟიმის“ ჩართვა ან გამორთვა შეგიძლიათ <xliff:g id="settings_path">%1$s</xliff:g>-ში.</string>
   <string name="advanced_settings_link">SandFly-ის პარამეტრები &gt; გაფართოებული პარამეტრები</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">ტექსტის შეყვანა</string>
   <string name="basic_typing_text_text">როდესაც ტექსტის ველზე იქნებით, თქვენი ეკრანის ქვედა ნაწილში კლავიატურა გაიხსნება.</string>
   <string name="typing_text_text">გადაადგილდით თითით კლავიატურაზე. აუშვით თითი, როცა სასურველ ასობგერას გაიგონებთ.\n\nცადეთ ტექსტის ველის გააქტიურება და აკრიფეთ თქვენი სახელი.</string>
-  <string name="typing_text_with_braille_keyboard_text">Ასევე, შეგიძლიათ ბრაილის კლავიატურის მეშვეობით აკრეფა. მოძებნეთ ის SandFly-ის პარამეტრებში.</string>
   <string name="other_ways_to_type_title">აკრეფის სხვა გზები</string>
   <string name="other_ways_to_type_text">SandFly-ში აკრეფის სხვა გზებიც არსებობს. მაგალითად, ასოს შესაყვანად შეგიძლიათ ორმაგი შეხება გამოიყენოთ.</string>
   <string name="basic_other_ways_to_type_text">Არსებობს SandFly ჩაწერის სხვა გზები. მაგალითად, შეგიძლიათ გამოიყენოთ ორმაგი შეხება ასოს შესაყვანად. ამის მოგვიანებით შეცვლა შეგიძლიათ: SandFly პარამეტრები &gt; ეკრანის კლავიატურა &gt; აკრეფის მეთოდი.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ჟესტების გამოყენებაში სავარჯიშოდ ჩართეთ SandFly ფუნქცია</string>
   <string name="talkback_inactive_message_image_description">Სურათის აღწერების მისაღებად ჩართეთ SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">სახელმძღვანელოს დახურვა</string>
-  <string name="wear_training_welcome_paragraph">Როდესაც SandFly ჩართულია, ეკრანზე ფოკუსში მოქცეული ერთეული ხმამაღლა წარმოითქმება.\n\nმარჯვნივ გადაფურცვლით გადახვალთ მომდევნო ერთეულზე. მარცხნივ გადაფურცვლით გადახვალთ წინა ერთეულზე.\n\nახლა გადაფურცლეთ მარჯვნივ, სანამ მომდევნო ღილაკს არ იპოვით.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">გადაფურცლეთ ზემოთ ან ქვემოთ %1$d თითით.</string>
-  <string name="wear_training_go_back_title">უკან დაბრუნება</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">როდესაც გსურთ უკან დაბრუნება, %1$d თითით გადაფურცლეთ ეკრანის კიდიდან მარჯვნივ.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">წარმატებულია</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">შესრულდა უკან გადასვლის ჟესტი</string>
-  <string name="wear_training_volume_up_title">ხმის აწევა</string>
-  <string name="wear_training_volume_up_text">გადაფურცლეთ მარჯვნივ და შემდეგ ზემოთ</string>
-  <string name="wear_training_volume_down_title">ხმის დაწევა</string>
-  <string name="wear_training_volume_down_text">გადაფურცლეთ მარჯვნივ და შემდეგ ქვემოთ</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-ის მენიუს გახსნა</string>
-  <string name="wear_training_open_talkback_menu_text">იმ პარამეტრებისა და მართვის საშუალებების გასახსნელად, რომლებიც ხშირად შეიძლება დაგჭირდეთ, გადაფურცლეთ ქვემოთ და შემდეგ მარჯვნივ</string>
-  <string name="wear_training_typing_title">მიმდინარეობს აკრეფა</string>
-  <string name="wear_training_typing_text1">კლავიატურით ასაკრეფად, კლავიატურაზე გადაატარეთ თითი. როდესაც გაიგონებთ ასოს, რომლის აკრეფაც გსურთ, აწიეთ თითი.</string>
-  <string name="wear_training_typing_text2">კლავიატურის დასამალად და შეყვანილი ტექსტის შესამოწმებლად, ეკრანის ზედა ნაწილიდან ორი თითით გადაფურცლეთ ქვემოთ.</string>
-  <string name="wear_training_typing_text3">კლავიატურაზე დასაბრუნებლად, ეკრანის ქვედა კიდიდან ორი თითით გადაფურცლეთ ზემოთ.</string>
-  <string name="wear_training_typing_text4">კლავიატურის დასახურად და აკრეფის გასაუქმებლად, ეკრანის მარცხენა კიდიდან ორი თითით გადაფურცლეთ მარჯვნივ.</string>
-  <string name="wear_training_typing_text5">ცადეთ ქვემოთ.</string>
-  <string name="wear_training_typing_practice_button_content_description">კლავიატურით აკრეფა</string>
-  <string name="wear_training_end_tutorial_title">Თქვენ მზად ხართ, რომ დაიწყოთ SandFly-ის გამოყენება</string>
   <string name="wear_new_feature_page_title">Წარმოგიდგენთ განახლებულ SandFly-ს</string>
   <string name="wear_new_feature_page_content">შეცდომების აღმოფხვრებს და ფოკუსში მოქცევის მოძრაობის წესებში გარკვეული ცვლილებები შევიდა</string>
   <string name="wear_new_feature_page_button_content_description">დასრულება</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Ზარის რეჟიმი</string>
     <string name="summary_pref_announce_ringer_mode">Თქვით, როდესაც ზარის ხმა დაყენებულია ვიბრაციაზე ან ჩუმად</string>
     <string name="title_pref_category_feedback">Კავშირი</string>
-    <string name="title_pref_category_typing_and_braille">Აკრეფა და ბრაილი</string>
     <string name="title_pref_category_apps">Აპები</string>
     <string name="title_pref_touch_activation">Შეხება და გააქტიურება</string>
     <string name="title_pref_navigation">Ნავიგაცია</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Არ დაუშვა</string>
     <string name="permission_speak_label">ისაუბრეთ SandFly მეშვეობით</string>
     <string name="permission_speak_description">Აპს აძლევს უფლებას, ითხოვოს ტექსტის თქმა თქვენი SandFly ხმით. SandFly გკითხავთ, სანამ აპი ლაპარაკს შეძლებს.</string>
-    <string name="permission_braille_display_label">მოითხოვეთ იყოს ბრაილის ეკრანი SandFly</string>
-    <string name="permission_braille_display_description">Აპს აძლევს უფლებას მოითხოვოს ბრაილის ეკრანი SandFly-ისთვის. თუ დაუშვებთ SandFly, მას შეუძლია წაიკითხოს ყველაფერი ეკრანზე და გააკონტროლოს თქვენი მოწყობილობა. SandFly ჯერ გეკითხება.</string>
     <string name="title_pref_phonetic_letters_mode">Ისაუბრეთ ასოებით ფონეტიკურად</string>
     <string name="phonetic_letters_mode_off">Გამორთული</string>
     <string name="phonetic_letters_mode_after_letter_delay">Წერილის შემდეგ, დაგვიანებული, როგორიცაა \"h, სასტუმრო\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Გახსენით აპლიკაცია</string>
     <string name="shortcut_open_app">Გახსნა <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Გადაახვიეთ ზევით</string>
-    <string name="shortcut_write_reading_control">Დაწერეთ კითხვის კონტროლის წერილი</string>
-    <string name="title_pref_reading_control_letters">Ხელნაწერი ანბანის ასოები</string>
-    <string name="reading_control_letter_none">Არცერთი</string>
-    <string name="handwriting_prompt">Დაწერეთ ანბანის ასო</string>
-    <string name="handwriting_closed">Ხელწერა დაიხურა</string>
-    <string name="handwriting_no_match">Კითხვის კონტროლი არ იწყება <xliff:g id="letter" example="Q">%1$s</xliff:g>-ით</string>
-    <string name="handwriting_not_recognized">Ხელწერა არ არის აღიარებული</string>
-    <string name="handwriting_downloading">Მიმდინარეობს ხელნაწერის ამოცნობის ჩამოტვირთვა</string>
-    <string name="handwriting_download_title">Ჩამოტვირთეთ ხელნაწერის ამოცნობა?</string>
-    <string name="handwriting_download_message">Ამ ტელეფონზე ხელნაწერი აღიარებულია. მისი მოდელი ამ ენისთვის, დაახლოებით 20 მბ, ჩამოიტვირთება Google-დან ერთხელ. შეტყობინება გამოჩნდება, როდესაც ის ჩამოტვირთულია.</string>
-    <string name="handwriting_download_button">Ჩამოტვირთვა</string>
-    <string name="handwriting_downloaded">Ჩამოტვირთულია ხელნაწერის ამოცნობა</string>
-    <string name="handwriting_download_failed">Ხელნაწერის ამოცნობა ვერ ჩამოიტვირთა. შეამოწმეთ ინტერნეტ კავშირი.</string>
-    <string name="handwriting_unsupported_language">Ამ ენაზე ხელნაწერის ამოცნობა მიუწვდომელია</string>
-    <string name="title_pref_handwriting_keyboard">Ხელნაწერის კლავიატურა</string>
-    <string name="summary_pref_handwriting_keyboard">Ჩართეთ SandFly ხელწერა Android კლავიატურის პარამეტრებში</string>
-    <string name="title_pref_handwriting_wait">Დაელოდეთ დაწერის შემდეგ</string>
-    <string name="value_handwriting_wait_200">0,2 წამი</string>
-    <string name="value_handwriting_wait_300">0.3 წამი</string>
-    <string name="value_handwriting_wait_400">0.4 წამი</string>
-    <string name="value_handwriting_wait_500">0,5 წამი</string>
-    <string name="value_handwriting_wait_600">0.6 წამი</string>
-    <string name="value_handwriting_wait_800">0.8 წამი</string>
-    <string name="value_handwriting_wait_1000">1 წამი</string>
-    <string name="handwriting_keyboard_name">SandFly ხელწერა</string>
-    <string name="handwriting_space">Შორისი</string>
-    <string name="handwriting_new_line">Ახალი ხაზი</string>
-    <string name="handwriting_tutorial_intro">Კლავიატურის ხელნაწერის გაკვეთილი. დაწერეთ ერთი თითით ეკრანის ნებისმიერ ადგილას. რასაც წერ, იწერება, როცა ცოტა ხნით ჩერდები. გაკვეთილის დასასრულებლად გადაფურცლეთ ქვემოთ სამი თითით.</string>
-    <string name="handwriting_tutorial_write_letter">Დაწერეთ ანბანის ასო ა.</string>
-    <string name="handwriting_tutorial_write_word">Ახლა ჩაწერეთ სიტყვა hi (h შემდეგ i).</string>
-    <string name="handwriting_tutorial_typed">Აკრეფილი <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Გადაფურცლეთ მარჯვნივ ორი თითით, რომ აკრიფოთ სივრცე.</string>
-    <string name="handwriting_tutorial_delete">Გადაფურცლეთ მარცხნივ ორი თითით, რათა წაშალოთ სიმბოლო კურსორის წინ.</string>
-    <string name="handwriting_tutorial_deleted">Წაშლილია.</string>
-    <string name="handwriting_tutorial_next_reading">Თუ ხელწერა აღიარებულია, როგორც სხვა სიმბოლო, როგორიცაა დიდი ასო, გადაფურცლეთ ზემოთ ორი თითით, რათა აირჩიოთ შემდეგი ამოცნობის შეთავაზება. სცადე ახლავე.</string>
-    <string name="handwriting_tutorial_read_back">Შეეხეთ ორი თითით კურსორის წინ ტექსტის წასაკითხად.</string>
-    <string name="handwriting_tutorial_new_line">Გადაფურცლეთ ქვემოთ ორი თითით ახალი ხაზის ჩასართავად ან ტექსტის ველის მოქმედების შესასრულებლად, როგორიცაა გაგზავნა.</string>
-    <string name="handwriting_tutorial_not_that">Ეს კიდევ ერთი ჟესტი იყო.</string>
-    <string name="handwriting_tutorial_done">Ახალი ხაზი. გაკვეთილი დასრულდა. გადაფურცლეთ ქვემოთ სამი თითით კლავიატურის დასამალად და სამი თითით მარჯვნივ ან მარცხნივ კლავიატურაზე გადასართავად. სახელმძღვანელოს ხელახლა გასახსნელად, შეეხეთ სამი თითით.</string>
-    <string name="handwriting_tutorial_finished">Გაკვეთილი დასრულდა. ხელახლა გასახსნელად შეეხეთ სამი თითით.</string>
-    <string name="handwriting_no_alternatives">Სხვა წინადადებები არ არის</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> <xliff:g id="count" example="5">%3$d</xliff:g>-დან</string>
-    <string name="handwriting_empty">Ცარიელი ტექსტი</string>
-    <string name="handwriting_not_available">Ამ მოწყობილობაზე ხელნაწერის ამოცნობა მიუწვდომელია</string>
     <string name="shortcut_scroll_to_bottom">Გადაახვიეთ ბოლოში</string>
     <string name="shortcut_refresh">Განაახლეთ</string>
     <string name="shortcut_system_notifications">Სისტემის შეტყობინებების ჩრდილი</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Არჩევანის გასუფთავება</string>
     <string name="title_pref_brightness">Სიკაშკაშე</string>
     <string name="summary_support_change_brightness">Გაზარდეთ ან შეამცირეთ ეკრანის სიკაშკაშე, მაშინაც კი, როდესაც ეკრანი დამალულია</string>
-    <string name="title_pref_shortcut_3finger_4tap">Ოთხჯერ შეეხეთ 3 თითით</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Დაატრიალეთ საათის ისრის მიმართულებით 2 თითით</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Დაატრიალეთ საათის ისრის საწინააღმდეგოდ 2 თითით</string>
-    <string name="title_pref_shortcut_2finger_scrub">Სკრაბი 2 თითით</string>
-    <string name="title_pref_shortcut_2finger_pinch">Დაჭერით 2 თითით</string>
-    <string name="title_pref_shortcut_2finger_spread">Გაანაწილეთ 2 თითით</string>
-    <string name="title_pref_shortcut_3finger_pinch">Დაჭერით 3 თითით</string>
-    <string name="title_pref_shortcut_3finger_spread">Გაანაწილეთ 3 თითით</string>
-    <string name="title_pref_shortcut_4finger_pinch">Დაჭერით 4 თითით</string>
-    <string name="title_pref_shortcut_4finger_spread">Გაანაწილეთ 4 თითით</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Გადაფურცლეთ ზემოთ ქვედა კიდიდან</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Დიდხანს გადაფურცლეთ ზემოთ ქვედა კიდიდან</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Გადაფურცლეთ ზემოდან მარცხნივ</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Გადაფურცლეთ ზემოდან მარჯვნივ</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Დიდხანს გადაფურცლეთ ქვემოთ ზემოდან მარცხნივ</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Დიდხანს გადაფურცლეთ ქვემოთ ზემოდან მარჯვნივ</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Გადაფურცლეთ მარჯვნივ მარცხენა კიდიდან, ზედა ნახევრიდან</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Დიდხანს გადაფურცლეთ მარჯვნივ მარცხენა კიდიდან, ზედა ნახევარი</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Გადაფურცლეთ მარჯვნივ მარცხენა კიდიდან, ქვედა ნახევრიდან</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Დიდხანს გადაფურცლეთ მარჯვნივ მარცხენა კიდიდან, ქვედა ნახევრიდან</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Გადაფურცლეთ მარცხნივ მარჯვენა კიდიდან, ზედა ნახევრიდან</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Დიდხანს გადაფურცლეთ მარცხნივ მარჯვენა კიდიდან, ზედა ნახევარი</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Გადაფურცლეთ მარცხნივ მარჯვენა კიდიდან, ქვედა ნახევრიდან</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Დიდხანს გადაფურცლეთ მარცხნივ მარჯვენა კიდიდან, ქვედა ნახევრიდან</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Დაიჭირეთ თითი რომელიმე კლავიშის ასარჩევად, შემდეგ აწიეთ. ორჯერ შეეხეთ Enter, Done ან Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Შეეხეთ ნებისმიერ კლავიშს, რომ აკრიფოთ, ან ხანგრძლივად დააჭირეთ თითს რომელიმე კლავიშის ასარჩევად, შემდეგ აწიეთ</string>
-    <string name="title_pref_multi_tap_timeout">Დრო ერთი თითის შეხებას შორის</string>
     <string name="value_multi_tap_timeout_100ms">0.1 წამი</string>
     <string name="value_multi_tap_timeout_150ms">0,15 წამი</string>
     <string name="value_multi_tap_timeout_200ms">0,2 წამი</string>
     <string name="value_multi_tap_timeout_250ms">0.25 წამი (ნაგულისხმევი)</string>
-    <string name="title_pref_rotor_step_degrees">Როტორის შემობრუნება ნაბიჯზე</string>
-    <string name="title_pref_edge_first_click_mm">Მანძილი პირველ დაწკაპუნებამდე</string>
-    <string name="title_pref_edge_second_click_mm">Მანძილი პირველიდან მეორე დაწკაპუნებამდე</string>
     <string name="value_distance_5mm">0,5 სმ</string>
     <string name="value_distance_10mm">1 სმ</string>
     <string name="value_distance_15mm">1,5 სმ</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Ჩართეთ ან გამორთეთ შეფუთვა ბოლო ელემენტიდან პირველზე</string>
     <string name="wrap_around_on">Შემოახვიეთ გარშემო</string>
     <string name="wrap_around_off">Შემოიხვიეთ გარშემო</string>
-    <string name="title_selector_tablet_held_up_faces_away">Ტაბლეტმა აწია სახეები მოშორებით</string>
-    <string name="summary_support_tablet_held_up_faces_away">Ბრაილის კლავიატურისთვის ტაბლეტზე ან გაშლილ ტელეფონზე</string>
-    <string name="tablet_held_up_faces_away_on">Ტაბლეტი აწია სახეები მოშორებით</string>
-    <string name="tablet_held_up_faces_away_off">Ტაბლეტმა აწია სახეები მოშორებით</string>
     <string name="title_keyboard_echo_on_screen">Ეკრანის კლავიატურის ექო</string>
     <string name="title_keyboard_echo_physical">Ფიზიკური კლავიატურის ექო</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ბრაილის კლავიატურის ექო</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ხელნაწერი კლავიატურის ექო</string>
-    <string name="title_keyboard_echo_braille_display">Ბრაილის ეკრანის ექო</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Აკრეფისას მეტყველების შეწყვეტა</string>
     <string name="pref_interrupt_typing_entry_always">Ყოველთვის</string>

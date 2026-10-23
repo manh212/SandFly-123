@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Samazināt aizkavi</string>
   <string name="talkback_latency_reduction_summary">Ļaujiet SandFly reaģēt ātrāk pēc pieskaršanās ekrānam</string>
   <string name="summary_pref_intonation">Izrunāt dzēstos burtus paaugstinātā balss tonī</string>
-  <string name="title_pref_brailledisplay">Braila displejs</string>
-  <string name="title_pref_brailleime">Braila tastatūra</string>
-  <string name="summary_pref_brailleime_disabled">Jūsu ierīcē netiek atbalstīta Braila tastatūra.</string>
   <string name="title_pref_speech_footer">Lai mainītu pieejamības skaļumu jebkurā ekrānā, turiet vienu pirkstu uz ekrāna un nospiediet skaļuma palielināšanas vai samazināšanas taustiņu.</string>
   <string name="title_pref_vibration">Vibrācija</string>
   <string name="title_pref_soundback">Skaņas signāls</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Iespējot atkļūdošanas žurnāla pārklājumu</string>
   <string name="title_pref_typing_confirmation">Rakstīšanas metode</string>
   <string name="title_pref_typing_long_tap_duration">Pieskaršanās un turēšanas aizkave rakstīšanas laikā</string>
-  <string name="title_pref_touch_explore_timeout">Rakstīšanas fokusa aizkave</string>
   <string name="message_pref_touch_explore_latency">Īsāka aizkave liek SandFly runāt ātrāk pēc pieskaršanās tastatūrai.\n\nIzvēlieties aizkavi.</string>
-  <string name="title_pref_touch_focus_timeout">Fokusa aizkave</string>
-  <string name="title_pref_talkback_gesture_detection">Žestu apstrāde funkcijā SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Izslēdziet un atkal ieslēdziet SandFly, lai aktivizētu šo iestatījumu.</string>
   <string name="title_pref_auto_image_captioning">Automātiskie apraksti</string>
   <string name="title_pref_gemini_settings">Gemini iestatījumi</string>
   <string name="title_pref_gemini_enabled">Gemini balss komandas</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Palielināt skaļumu</string>
   <string name="shortcut_decrease_volume">Samazināt skaļumu</string>
   <string name="shortcut_all_apps">Visas lietotnes</string>
-  <string name="shortcut_braille_keyboard">Ieslēgt Braila tastatūru</string>
-  <string name="shortcut_braille_display_settings">Pāriet uz Braila displeja iestatījumiem</string>
   <string name="shortcut_tutorial">Atvērt pamācību</string>
   <string name="shortcut_control_speak_time">Pateikt laiku vai neteikt laiku</string>
   <string name="shortcut_enable_speak_time">Pateikt laiku</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Laika pateikšana ir izslēgta</string>
   <string name="shortcut_practice_gestures">Izmēģināt žestus</string>
   <string name="shortcut_report_gesture">Ziņot par problēmu ar žestiem</string>
-  <string name="shortcut_toggle_braille_display">Ieslēgt vai izslēgt Braila displeju</string>
   <string name="shortcut_announce_current_time_and_date">Izrunāt pašreizējo datumu un laiku</string>
   <string name="shortcut_announce_battery_state">Izrunāt akumulatora uzlādes līmeni procentos</string>
   <string name="shortcut_announce_current_title">Izrunāt loga nosaukumu</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Samazināt runas ātrumu</string>
   <string name="shortcut_toggle_selection">Sākt vai beigt atlases režīmu</string>
   <string name="shortcut_show_tutorial">Atvērt pamācību</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Pārslēgt saīsināto (2. pak.) un nesaīsināto (1. pak.) režīmu</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Rādīt vai slēpt Braila tastatūru ekrānā pievienotajiem Braila displejiem</string>
   <string name="shortcut_toggle_sound_feedback">Ieslēgt vai izslēgt skaņas signālus (audio ikonas)</string>
   <string name="shortcut_show_learn_mode_page">Trenēties izmantot īsinājumtaustiņus</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izrunāt izceltā vienuma burtus ar fonētisko izrunu</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Balss komandas</string>
   <string name="title_show_keyboard_shortcuts">Īsinājumtaustiņi</string>
   <string name="talkback_show_talkback_settings">SandFly iestatījumi</string>
-  <string name="title_show_braille_display_settings">Braila displeja iestatījumi</string>
   <string name="title_granularity_default">Noklusējuma navigācija</string>
   <string name="title_action_dismiss">Nerādīt</string>
   <string name="title_action_expand">Izvērst</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Mainiet to, vai tiek skaļi pateikts laiks, kad ieslēdzat ekrānu.</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Atvērt īsinājumtaustiņu sarakstu</string>
   <string name="summary_talkback_preferences">Atvērt SandFly iestatījumus</string>
-  <string name="summary_braile_display_preferences">Atvērt Braila displeja iestatījumus</string>
   <string name="summary_system_actions">Pāriet uz sadaļu “Visas lietotnes” un izvēlni “Ātrie iestatījumi”</string>
   <string name="summary_tts_settings">Atvērt iestatījumus teksta pārvēršanai runā</string>
   <string name="not_editable">Nevar rediģēt</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Samazināt cita atskaņotā audio satura skaļumu, kad tiek lasīts teksts funkcijā SandFly</string>
   <string name="summary_support_scroll_seq">Ritināšana uz priekšu vai atpakaļ</string>
   <string name="summary_support_change_a11y_volume">Palieliniet vai samaziniet pieejamības paziņojumu skaļumu.</string>
-  <string name="summary_support_change_touch_explore_latency">Palieliniet vai samaziniet rakstīšanas fokusa aizkavi</string>
-  <string name="summary_support_change_touch_focus_latency">Fokusa aizkaves palielināšana vai samazināšana</string>
   <string name="summary_screen_overview">Izveidot ekrāna apkopojumu ar darbību pogām</string>
   <string name="summary_screen_overview_no_actions">Klausieties ekrānā redzamā satura kopsavilkumu</string>
   <string name="summary_image_caption">Nosaukt tekstu un ikonas atlasītajā attēlā</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Divreiz savilkt kopā un atlaist</string>
   <string name="gesture_name_double_tap_and_hold">Veikt dubultskārienu un turēt</string>
   <string name="gesture_name_double_tap_and_hold_xr">Savilkt kopā un turēt</string>
-  <string name="gesture_name_2finger_tap_hold">Pieskarties ar 2 pirkstiem un turēt</string>
   <string name="gesture_name_3finger_tap_hold">Pieskarties ar 3 pirkstiem un turēt</string>
   <string name="gesture_name_2finger_3tap_hold">Trīsreiz pieskarties ar 2 pirkstiem un turēt</string>
   <string name="gesture_name_3finger_3tap_hold">Trīsreiz pieskarties ar 3 pirkstiem un turēt</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Audio klusināšana</string>
   <string name="title_pref_support_scroll_seq">Ritināšana</string>
   <string name="title_pref_a11y_volume">Pieejamības paziņojumu skaļums</string>
-  <string name="title_pref_touch_explore_latency">Rakstīšanas fokusa aizkave</string>
-  <string name="title_pref_touch_focus_latency">Fokusa aizkave</string>
   <string name="message_pref_touch_focus_latency">Īsāka aizkave liek SandFly runāt ātrāk pēc pieskaršanās ekrānam</string>
   <string name="message_pref_typing_method_prefix">Lai iestatītu visīsāko rakstīšanas aizkavi, izvēlieties opciju “Turiet pirkstu, lai atlasītu jebkuru taustiņu, un pēc tam atlaidiet”.</string>
-  <string name="message_pref_typing_method_postfix">Jebkurā laikā rakstīšanai varat arī izmantot dalīto pieskārienu. Lai to darītu, atlasiet jebkuru taustiņu, turot vienu pirkstu, un ar citu pirkstu pieskarieties ekrānam.</string>
   <string name="title_pref_talkback_speech_rate">Runas ātrums</string>
   <string name="title_pref_selector_adjustable_widget_slider">Pielāgot slīdni</string>
   <string name="title_pref_selector_typo_granularity">Pārbaudīt pareizrakstību</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">atslēgvārds ir %1$s</string>
   <string name="screen_search_no_keyword_hint">Vēl nav neviena atslēgvārda. Lai sāktu jaunu meklēšanu, pieskarieties un turiet ar trim pirkstiem vai SandFly izvēlnē atveriet meklēšanu ekrānā.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Vēl nav neviena atslēgvārda. Lai sāktu jaunu meklēšanu, velciet pa kreisi un pēc tam lejup vai SandFly izvēlnē atveriet meklēšanu ekrānā.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braila tastatūra nav ieslēgta. Iestatiet Braila tastatūru SandFly iestatījumos un mēģiniet vēlreiz.</string>
   <string name="suggestions_window_available">Ir pieejami ieteikumi</string>
   <string name="suggestions_window_available_with_gesture">Ir pieejami ieteikumi. Lai tiem piekļūtu: %1$s.</string>
   <string name="heads_up_window_available">Pieejams paziņojums</string>
@@ -908,7 +887,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly tagad ir “Uzlabota tastatūras karte” fiziskajām tastatūrām, kas ietver dažādas jaunas komandas un īsinājumtaustiņus. Šis uzlabojums ietver \"pārlūkošanas režīmu\" efektīvākai tīmekļa navigācijai, racionalizētai navigācijai un mijiedarbībai SandFly lietotājiem, kuri paļaujas uz fiziskām tastatūrām. Varat pārslēgties uz “Uzlaboto taustiņu karti” sadaļā <xliff:g id="settings_path">%1$s</xliff:g>.\n\nJa izmantojat Braila displeju, varat arī izmantot jaunus pārlūkošanas režīma īsceļus, lai pārvietotos pa saturu tieši no Braila displeja. Daži Braila displeja īsceļi tika mainīti, lai pielāgotos šīm izmaiņām. Visu Braila displeja īsceļu sarakstu varat skatīt <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly iestatījumi &gt; Īsinājumtaustiņi</string>
   <string name="keyboard_shortcuts_link_tts">SandFly iestatījumi un pēc tam — Īsinājumtaustiņi</string>
-  <string name="braille_display_settings_link">Braila displeja iestatījumi</string>
   <string name="keyboard_smart_browse_mode_title">Tastatūra: viedais pārlūkošanas režīms</string>
   <string name="keyboard_smart_browse_mode_text">SandFly viedajā pārlūkošanas režīmā rediģēšanas laukā tiek izslēgts pārlūkošanas režīms, lai palīdzētu jums rakstīt, izmantojot fizisku tastatūru, kad pārlūkojat tīmekli. Pēc tam, kad tīmeklī pārejat uz lauku, kas nav rediģēšanas lauks, šis režīms tiek atkal ieslēgts, lai jūs varētu efektīvi turpināt pārlūkošanu. Iestatījumu “Viedais pārlūkošanas režīms” var ieslēgt vai izslēgt sadaļā <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFly iestatījumi &gt; Papildu iestatījumi</string>
@@ -980,7 +958,6 @@
   <string name="typing_text_title">Teksta rakstīšana</string>
   <string name="basic_typing_text_text">Kad pāriesiet uz tekstlodziņu, ekrāna apakšdaļā tiks parādīta tastatūra.</string>
   <string name="typing_text_text">Velciet pirkstu pāri tastatūrai. Kad dzirdat burtu, ko vēlaties rakstīt, atlaidiet pirkstu.\n\nIzmēģiniet tālāk redzamā tekstlodziņa aktivizēšanu un uzrakstiet savu vārdu.</string>
-  <string name="typing_text_with_braille_keyboard_text">Varat arī rakstīt, izmantojot Braila tastatūru. Tā ir atrodama SandFly iestatījumos.</string>
   <string name="other_ways_to_type_title">Citi rakstīšanas veidi</string>
   <string name="other_ways_to_type_text">Ir arī citi veidi, kā rakstīt funkcijā SandFly. Piemēram, varat veikt dubultskārienu, lai ievadītu burtu.</string>
   <string name="basic_other_ways_to_type_text">Ir arī citi veidi, kā ievadīt SandFly. Piemēram, varat izmantot dubultskārienu, lai ievadītu burtu. Varat to mainīt vēlāk sadaļā SandFly iestatījumi &gt; Ekrāna tastatūra &gt; Rakstīšanas metode.</string>
@@ -1095,26 +1072,6 @@
   <string name="talkback_inactive_message_practice_gestures">Lai izmēģinātu žestus, vispirms ieslēdziet funkciju SandFly.</string>
   <string name="talkback_inactive_message_image_description">Lai izmēģinātu attēlu aprakstu iegūšanu, vispirms ieslēdziet funkciju SandFly.</string>
   <string name="talkback_inactive_close_tutorial_button">Aizvērt pamācību</string>
-  <string name="wear_training_welcome_paragraph">Ja funkcija SandFly ir ieslēgta, ekrānā izceltais vienums tiek izrunāts.\n\nVelkot pa labi, pāriesiet uz nākamo vienumu. Velkot pa kreisi, pāriesiet uz iepriekšējo vienumu.\n\nTagad velciet pa labi, lai atrastu nākamo pogu.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Ar %1$d pirkstiem velciet augšup vai lejup.</string>
-  <string name="wear_training_go_back_title">Pāriešana atpakaļ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ja vēlaties pāriet atpakaļ, no ekrāna malas ar %1$d pirkstiem velciet pa labi.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Gatavs</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Tika veikts žests pāriešanai atpakaļ.</string>
-  <string name="wear_training_volume_up_title">Skaļuma palielināšana</string>
-  <string name="wear_training_volume_up_text">Velciet pa labi un pēc tam augšup.</string>
-  <string name="wear_training_volume_down_title">Skaļuma samazināšana</string>
-  <string name="wear_training_volume_down_text">Velciet pa labi un pēc tam lejup.</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly izvēlnes atvēršana</string>
-  <string name="wear_training_open_talkback_menu_text">Lai atvērtu iestatījumus un vadīklas, ko bieži izmantojat, velciet lejup un pēc tam — pa labi.</string>
-  <string name="wear_training_typing_title">Rakstīšana</string>
-  <string name="wear_training_typing_text1">Lai rakstītu, izmantojot tastatūru, velciet pirkstu pāri tastatūrai. Kad dzirdat burtu, ko vēlaties rakstīt, atlaidiet pirkstu.</string>
-  <string name="wear_training_typing_text2">Lai paslēptu tastatūru un pārbaudītu ievadīto tekstu, ar diviem pirkstiem velciet lejup no ekrāna augšdaļas.</string>
-  <string name="wear_training_typing_text3">Lai atgrieztos pie tastatūras, ar diviem pirkstiem velciet augšup no ekrāna apakšdaļas.</string>
-  <string name="wear_training_typing_text4">Lai aizvērtu tastatūru un atceltu rakstīšanu, ar diviem pirkstiem velciet pa labi no ekrāna kreisās malas.</string>
-  <string name="wear_training_typing_text5">Izmēģiniet to tālāk.</string>
-  <string name="wear_training_typing_practice_button_content_description">Rakstīšana, izmantojot tastatūru</string>
-  <string name="wear_training_end_tutorial_title">Tagad varat izmantot funkciju SandFly</string>
   <string name="wear_new_feature_page_title">Laipni lūdzam atjauninātajā SandFly versijā!</string>
   <string name="wear_new_feature_page_content">Kā manīsiet, ir izlabotas dažas kļūdas un mainīts fokusa pārvietošanas veids.</string>
   <string name="wear_new_feature_page_button_content_description">Pabeigt</string>
@@ -1375,7 +1332,6 @@
     <string name="title_pref_announce_ringer_mode">Zvana režīms</string>
     <string name="summary_pref_announce_ringer_mode">Sakiet, kad zvana signāls ir iestatīts uz vibrāciju vai klusumu</string>
     <string name="title_pref_category_feedback">Atsauksmes</string>
-    <string name="title_pref_category_typing_and_braille">Rakstīšana un Braila raksts</string>
     <string name="title_pref_category_apps">Lietotnes</string>
     <string name="title_pref_touch_activation">Pieskāriens un aktivizēšana</string>
     <string name="title_pref_navigation">Navigācija</string>
@@ -1399,8 +1355,6 @@
     <string name="speech_control_deny">Neļauj</string>
     <string name="permission_speak_label">runāt caur SandFly</string>
     <string name="permission_speak_description">Ļauj lietotnei lūgt pateikt tekstu jūsu SandFly balsī. SandFly jautā, pirms lietotne var runāt.</string>
-    <string name="permission_braille_display_label">lūgt Braila displeju SandFly</string>
-    <string name="permission_braille_display_description">Ļauj lietotnei pieprasīt Braila displeju SandFly. Ja to atļaujat SandFly, tas var lasīt visu ekrānā un vadīt jūsu ierīci. SandFly vispirms jautā jums.</string>
     <string name="title_pref_phonetic_letters_mode">Runājiet burtus fonētiski</string>
     <string name="phonetic_letters_mode_off">Izslēgt</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pēc vēstules aizkavēta, piemēram, \"h, viesnīca\"</string>
@@ -1572,50 +1526,6 @@
     <string name="shortcut_title_open_app">Atveriet lietotni</string>
     <string name="shortcut_open_app">Atvērt <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Ritiniet uz augšu</string>
-    <string name="shortcut_write_reading_control">Uzrakstiet lasīšanas vadīklas burtu</string>
-    <string name="title_pref_reading_control_letters">Ar roku rakstīti alfabēta burti</string>
-    <string name="reading_control_letter_none">Nav</string>
-    <string name="handwriting_prompt">Uzrakstiet alfabēta burtu</string>
-    <string name="handwriting_closed">Rokraksts aizvērts</string>
-    <string name="handwriting_no_match">Neviena lasīšanas vadīkla nesākas ar <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Rokraksts nav atpazīts</string>
-    <string name="handwriting_downloading">Notiek rokraksta atpazīšanas lejupielāde</string>
-    <string name="handwriting_download_title">Vai lejupielādēt rokraksta atpazīšanu?</string>
-    <string name="handwriting_download_message">Šajā tālrunī tiek atpazīts rokraksts. Tās modelis šai valodai, aptuveni 20 MB, tiek lejupielādēts no Google vienu reizi. Kad tas ir lejupielādēts, tiek parādīts ziņojums.</string>
-    <string name="handwriting_download_button">Lejupielādēt</string>
-    <string name="handwriting_downloaded">Rokraksta atpazīšanas funkcija ir lejupielādēta</string>
-    <string name="handwriting_download_failed">Rokraksta atpazīšanas funkciju nevarēja lejupielādēt. Pārbaudiet interneta savienojumu.</string>
-    <string name="handwriting_unsupported_language">Rokraksta atpazīšana šajā valodā nav pieejama</string>
-    <string name="title_pref_handwriting_keyboard">Rokraksta tastatūra</string>
-    <string name="summary_pref_handwriting_keyboard">Ieslēdziet SandFly rokrakstu Android tastatūras iestatījumos</string>
-    <string name="title_pref_handwriting_wait">Pagaidiet pēc rakstīšanas</string>
-    <string name="value_handwriting_wait_200">0,2 sekundes</string>
-    <string name="value_handwriting_wait_300">0,3 sekundes</string>
-    <string name="value_handwriting_wait_400">0,4 sekundes</string>
-    <string name="value_handwriting_wait_500">0,5 sekundes</string>
-    <string name="value_handwriting_wait_600">0,6 sekundes</string>
-    <string name="value_handwriting_wait_800">0,8 sekundes</string>
-    <string name="value_handwriting_wait_1000">1 sekunde</string>
-    <string name="handwriting_keyboard_name">SandFly rokraksts</string>
-    <string name="handwriting_space">Atstarpe</string>
-    <string name="handwriting_new_line">Jauna rindiņa</string>
-    <string name="handwriting_tutorial_intro">Rokraksta tastatūras apmācība. Rakstiet ar vienu pirkstu jebkurā ekrāna vietā. Jūsu rakstītais tiek ierakstīts, kad uz brīdi apstājaties. Lai beigtu apmācību, velciet uz leju ar trim pirkstiem.</string>
-    <string name="handwriting_tutorial_write_letter">Uzrakstiet alfabēta burtu a.</string>
-    <string name="handwriting_tutorial_write_word">Tagad ierakstiet vārdu hi (h, kam seko i).</string>
-    <string name="handwriting_tutorial_typed">Ievadīja <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Velciet pa labi ar diviem pirkstiem, lai ierakstītu atstarpi.</string>
-    <string name="handwriting_tutorial_delete">Velciet pa kreisi ar diviem pirkstiem, lai dzēstu rakstzīmi pirms kursora.</string>
-    <string name="handwriting_tutorial_deleted">Izdzēsts.</string>
-    <string name="handwriting_tutorial_next_reading">Ja rokraksts tiek atpazīts kā cita rakstzīme, piemēram, lielais burts, velciet uz augšu ar diviem pirkstiem, lai izvēlētos nākamo atpazīšanas ieteikumu. Izmēģiniet to tagad.</string>
-    <string name="handwriting_tutorial_read_back">Pieskarieties ar diviem pirkstiem, lai lasītu tekstu pirms kursora.</string>
-    <string name="handwriting_tutorial_new_line">Velciet uz leju ar diviem pirkstiem, lai ievietotu jaunu rindiņu vai veiktu teksta lauka darbību, piemēram, Sūtīt.</string>
-    <string name="handwriting_tutorial_not_that">Tas bija vēl viens žests.</string>
-    <string name="handwriting_tutorial_done">Jauna līnija. Apmācība pabeigta. Velciet uz leju ar trim pirkstiem, lai paslēptu tastatūru, un pa labi vai pa kreisi ar trim pirkstiem, lai pārslēgtu tastatūru. Lai vēlreiz atvērtu pamācību, pieskarieties ar trim pirkstiem.</string>
-    <string name="handwriting_tutorial_finished">Apmācība beigusies. Lai to atvērtu vēlreiz, pieskarieties ar trim pirkstiem.</string>
-    <string name="handwriting_no_alternatives">Citu ieteikumu nav</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> no <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tukšs teksts</string>
-    <string name="handwriting_not_available">Rokraksta atpazīšana šajā ierīcē nav pieejama</string>
     <string name="shortcut_scroll_to_bottom">Ritiniet uz leju</string>
     <string name="shortcut_refresh">Atsvaidzināt</string>
     <string name="shortcut_system_notifications">Sistēmas paziņojumu panelis</string>
@@ -1627,40 +1537,11 @@
     <string name="title_clear_selection">Notīrīt atlasi</string>
     <string name="title_pref_brightness">Spilgtums</string>
     <string name="summary_support_change_brightness">Palieliniet vai samaziniet ekrāna spilgtumu, pat ja ekrāns ir paslēpts</string>
-    <string name="title_pref_shortcut_3finger_4tap">Četrreiz pieskarieties ar 3 pirkstiem</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Pagrieziet pulksteņrādītāja virzienā ar 2 pirkstiem</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Pagrieziet pretēji pulksteņrādītāja virzienam ar 2 pirkstiem</string>
-    <string name="title_pref_shortcut_2finger_scrub">Skrubis ar 2 pirkstiem</string>
-    <string name="title_pref_shortcut_2finger_pinch">Saspiediet ar 2 pirkstiem</string>
-    <string name="title_pref_shortcut_2finger_spread">Izklāj ar 2 pirkstiem</string>
-    <string name="title_pref_shortcut_3finger_pinch">Saspiediet ar 3 pirkstiem</string>
-    <string name="title_pref_shortcut_3finger_spread">Izklāj ar 3 pirkstiem</string>
-    <string name="title_pref_shortcut_4finger_pinch">Saspiediet ar 4 pirkstiem</string>
-    <string name="title_pref_shortcut_4finger_spread">Izklāj ar 4 pirkstiem</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Velciet uz augšu no apakšējās malas</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Ilgi velciet uz augšu no apakšējās malas</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Velciet uz leju no augšējā kreisās puses</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Velciet uz leju no augšējās labās puses</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Ilgi velciet uz leju no augšējās kreisās puses</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Ilgi velciet uz leju no augšējās labās puses</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Velciet pa labi no kreisās malas, augšējās puses</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Gari velciet pa labi no kreisās malas, augšējās puses</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Velciet pa labi no kreisās malas, apakšējās puses</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Gari velciet pa labi no kreisās malas, apakšējās puses</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Velciet pa kreisi no labās malas, augšējās puses</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Gari velciet pa kreisi no labās malas, augšējās puses</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Velciet pa kreisi no labās malas, apakšējās puses</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Gari velciet pa kreisi no labās malas, apakšējās puses</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Turiet pirkstu, lai atlasītu jebkuru taustiņu, pēc tam paceliet. Veiciet dubultskārienu, lai izvēlētos Ievadīt, Gatavs vai Sūtīt.</string>
-    <string name="value_type_confirmation_tap_to_type">Pieskarieties jebkuram taustiņam, lai to ierakstītu, vai turiet pirkstu, lai atlasītu jebkuru taustiņu, un pēc tam paceliet</string>
-    <string name="title_pref_multi_tap_timeout">Laiks starp pieskārienu ar vienu pirkstu</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekunde</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekundes</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekundes</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekundes (noklusējums)</string>
-    <string name="title_pref_rotor_step_degrees">Rotora pagrieziens katrā solī</string>
-    <string name="title_pref_edge_first_click_mm">Attālums līdz pirmajam klikšķim</string>
-    <string name="title_pref_edge_second_click_mm">Attālums no pirmā līdz otrajam klikšķim</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1708,15 +1589,8 @@
     <string name="summary_support_wrap_around">Ieslēdziet vai izslēdziet iesaiņošanu no pēdējā uz pirmo</string>
     <string name="wrap_around_on">Aptiniet</string>
     <string name="wrap_around_off">Aptiniet nost</string>
-    <string name="title_selector_tablet_held_up_faces_away">Planšetdators pacēla seju prom</string>
-    <string name="summary_support_tablet_held_up_faces_away">Braila tastatūrai planšetdatorā vai nesalocītā tālrunī</string>
-    <string name="tablet_held_up_faces_away_on">Planšetdators tika pacelts ar sejām prom</string>
-    <string name="tablet_held_up_faces_away_off">Planšetdators tika pacelts ar sejām prom</string>
     <string name="title_keyboard_echo_on_screen">Ekrāna tastatūras atbalss</string>
     <string name="title_keyboard_echo_physical">Fiziskā tastatūras atbalss</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braila tastatūras atbalss</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Rokraksta tastatūras atbalss</string>
-    <string name="title_keyboard_echo_braille_display">Braila displeja atbalss</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Pārtrauciet runu rakstīšanas laikā</string>
     <string name="pref_interrupt_typing_entry_always">Vienmēr</string>

@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Нема звук. Фокусниот звук се репродуцира.</string>
     <string name="theme_sound_summary_android_keyboard">Звукот на тастатурата на Android</string>
     <string name="theme_sound_use_android_keyboard">Користете го звукот на тастатурата на Android</string>
-    <string name="theme_sound_braille_character">Брајова тастатура: пишување знак</string>
-    <string name="theme_sound_braille_space">Брајова тастатура: празно место</string>
-    <string name="theme_sound_braille_delete">Брајова тастатура: избришете</string>
-    <string name="theme_sound_braille_new_line">Брајова тастатура: нова линија</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Изберете звучна датотека</string>
     <string name="theme_sound_preview">Преглед</string>

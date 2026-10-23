@@ -40,10 +40,4 @@
     <string name="individual_sound_column_wrap_back">წინა მწკრივზე დაბრუნება</string>
     <string name="individual_sound_screen_on">Ეკრანი ჩართულია</string>
     <string name="individual_vibration_edge_gesture_back">Კიდეზე ჟესტით სრიალი უკან</string>
-    <string name="individual_vibration_braille_character">Ბრაილის კლავიატურა: სიმბოლოს აკრეფა</string>
-    <string name="individual_vibration_braille_space">Ბრაილის კლავიატურა: სივრცე ან წაშლა</string>
-    <string name="individual_vibration_braille_new_line">Ბრაილის კლავიატურა: ახალი ხაზი ან სიტყვის წაშლა</string>
-    <string name="individual_vibration_braille_hold">Ბრაილის კლავიატურა: თითების დაჭერა</string>
-    <string name="individual_vibration_braille_gesture">Ბრაილის კლავიატურა: სხვა ჟესტები</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Ბრაილის კლავიატურა: წასაშლელი არაფერია</string>
 </resources>

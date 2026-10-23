@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">沒有聲音。播放焦點聲音。</string>
     <string name="theme_sound_summary_android_keyboard">Android的鍵盤聲</string>
     <string name="theme_sound_use_android_keyboard">使用Android的鍵盤聲音</string>
-    <string name="theme_sound_braille_character">點字鍵盤：輸入字符</string>
-    <string name="theme_sound_braille_space">點字鍵盤：空格</string>
-    <string name="theme_sound_braille_delete">點字鍵盤：刪除</string>
-    <string name="theme_sound_braille_new_line">點字鍵盤：新系列</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">選擇聲音文件</string>
     <string name="theme_sound_preview">預覽</string>

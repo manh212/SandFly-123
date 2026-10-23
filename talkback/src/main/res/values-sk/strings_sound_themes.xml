@@ -75,10 +75,6 @@
     <string name="theme_sound_summary_none">Žiadny zvuk. Prehrá sa zvuk zaostrenia.</string>
     <string name="theme_sound_summary_android_keyboard">Zvuk klávesnice Android</string>
     <string name="theme_sound_use_android_keyboard">Použite zvuk klávesnice Android</string>
-    <string name="theme_sound_braille_character">Braillova klávesnica: písanie znaku</string>
-    <string name="theme_sound_braille_space">Braillova klávesnica: medzerník</string>
-    <string name="theme_sound_braille_delete">Braillova klávesnica: odstrániť</string>
-    <string name="theme_sound_braille_new_line">Braillova klávesnica: nový riadok</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Vyberte zvukový súbor</string>
     <string name="theme_sound_preview">Ukážka</string>

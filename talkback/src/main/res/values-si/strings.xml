@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">ප්‍රමාදය අඩු කරන්න</string>
   <string name="talkback_latency_reduction_summary">ඔබ තිරය ස්පර්ශ කළ පසු SandFly ප්‍රතිචාර දැක්වීම වේගවත් කරන්න</string>
   <string name="summary_pref_intonation">මකන ලද අකුරු ඉහළ තාරතාවක කටහඬකින් කියන්න</string>
-  <string name="title_pref_brailledisplay">බ්‍රේල් සංදර්ශකය</string>
-  <string name="title_pref_brailleime">බ්රේල් යතුරු පුවරුව</string>
-  <string name="summary_pref_brailleime_disabled">ඔබේ උපාංගය බ්රේල් යතුරු පුවරුවට සහාය නොදක්වයි</string>
   <string name="title_pref_speech_footer">ඕනෑම තිරයකින් ප්‍රවේශ්‍යතා පරිමාව වෙනස් කිරීමට, තිරය මත ඇඟිලි 1ක් අල්ලාගෙන ශබ්දය ඉහළට හෝ ශබ්දය පහළට යතුර ඔබන්න.</string>
   <string name="title_pref_vibration">කම්පන ප්‍රතිපෝෂණ</string>
   <string name="title_pref_soundback">හඬ ප්‍රතිපෝෂණ</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">නිදොස් කිරීමේ ලොග් උඩැතිරිය සබල කරන්න</string>
   <string name="title_pref_typing_confirmation">ටයිප් කිරීමේ ක්රමය</string>
   <string name="title_pref_typing_long_tap_duration">ටයිප් කිරීමේදී ස්පර්ශ කර අල්ලාගෙන සිටීමේ ප්‍රමාදය</string>
-  <string name="title_pref_touch_explore_timeout">ටයිප් කිරීම නාභිගත කිරීමේ ප්‍රමාදය</string>
   <string name="message_pref_touch_explore_latency">කෙටි ප්‍රමාදයක් SandFly ඔබ යතුරුපුවරුව ස්පර්ශ කළ පසු ඉක්මනින් කථා කරයි.\n\nප්රමාදයක් තෝරන්න</string>
-  <string name="title_pref_touch_focus_timeout">නාභිගත කිරීමේ ප්‍රමාදය</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly හි ඉංගිත හසුරුවන්න</string>
-  <string name="toast_pref_talkback_gesture_detection">සැකසීම සක්‍රිය කිරීමට SandFly ක්‍රියාවිරහිත කර නැවත ක්‍රියාත්මක කරන්න.</string>
   <string name="title_pref_auto_image_captioning">ස්වයංක්‍රීය විස්තර</string>
   <string name="title_pref_gemini_settings">Gemini සැකසීම්</string>
   <string name="title_pref_gemini_enabled">Gemini හඬ විධාන</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">ශබ්දය වැඩි කරන්න</string>
   <string name="shortcut_decrease_volume">ශබ්දය අඩු කරන්න</string>
   <string name="shortcut_all_apps">සියලු යෙදුම්</string>
-  <string name="shortcut_braille_keyboard">බ්‍රේල් යතුරු පුවරුවට ය.</string>
-  <string name="shortcut_braille_display_settings">බ්රේල් සංදර්ශක සැකසීම් වෙත සංචාලනය කරන්න</string>
   <string name="shortcut_tutorial">නිබන්ධනය විවෘත කරන්න</string>
   <string name="shortcut_control_speak_time">වේලාව කථා කරන්න නැත්නම් වේලාව කථා නොකරන්න</string>
   <string name="shortcut_enable_speak_time">වේලාව කථා කරන්න</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">වේලාව කථා කරන්න ක්‍රියාවිරහිතයි</string>
   <string name="shortcut_practice_gestures">ඉංගිත පුහුණු වන්න</string>
   <string name="shortcut_report_gesture">ඉංගිත ගැටලුව වාර්තා කරන්න</string>
-  <string name="shortcut_toggle_braille_display">බ්‍රේල් සංදර්ශකය ක්‍රියාත්මක හෝ ක්‍රියාවිරහිත කරන්න</string>
   <string name="shortcut_announce_current_time_and_date">වත්මන් දිනය සහ වේලාව කථා කරන්න</string>
   <string name="shortcut_announce_battery_state">බැටරි ප්‍රතිශතය කථා කරන්න</string>
   <string name="shortcut_announce_current_title">කවුළු මාතෘකාව කථනය කරන්න</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">කථන ශීඝ්‍රතාව අඩු කරන්න</string>
   <string name="shortcut_toggle_selection">තේරීම් ප්‍රකාරය අරඹන්න හෝ අවසන් කරන්න</string>
   <string name="shortcut_show_tutorial">නිබන්ධනය විවෘත කරන්න</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ගිවිසුම්ගත (2 ශ්‍රේණිය) සහ ගිවිසුම්ගත නොකළ (1 ශ්‍රේණිය) අතර මාරු වන්න</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">සම්බන්ධිත බ්‍රේල් සංදර්ශක සඳහා තිරය මත බ්‍රේල් පෙන්වන්න හෝ සඟවන්න</string>
   <string name="shortcut_toggle_sound_feedback">ශබ්ද ප්‍රතිපෝෂණ (ඉයර්කොන්ස්) ක්‍රියාත්මක හෝ ක්‍රියා විරහිත කරන්න.</string>
   <string name="shortcut_show_learn_mode_page">යතුරුපුවරු කෙටිමං පුහුණු වන්න</string>
   <string name="shortcut_announce_phonetic_pronunciation">අවධානය යොමු කළ අයිතමය සඳහා ශබ්ද උච්චාරණය සමග අකුරු කථා කරන්න</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">හඬ විධාන</string>
   <string name="title_show_keyboard_shortcuts">යතුරු පුවරු කෙටිමං</string>
   <string name="talkback_show_talkback_settings">SandFly සැකසීම්</string>
-  <string name="title_show_braille_display_settings">බ්‍රේල් සංදර්ශක සැකසීම්</string>
   <string name="title_granularity_default">පෙරනිමි සංචාලනය</string>
   <string name="title_action_dismiss">ඉවත ලන්න</string>
   <string name="title_action_expand">දිග හරින්න</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">ඔබ තිරය ක්‍රියාත්මක කරන විට වේලාව ශබ්ද නඟා කථා කරන්නේ ද යන්න වෙනස් කරන්න</string>
   <string name="summary_show_keyboard_shortcuts_preferences">යතුරුපුවරු කෙටිමං ලැයිස්තුව විවෘත කරන්න</string>
   <string name="summary_talkback_preferences">SandFly සැකසීම් විවෘත කරන්න</string>
-  <string name="summary_braile_display_preferences">බ්‍රේල් සංදර්ශක සැකසීම් විවෘත කරන්න</string>
   <string name="summary_system_actions">සියලු යෙදුම් සහ ඉක්මන් සැකසීම් වෙත යන්න</string>
   <string name="summary_tts_settings">පෙළ-සිට-කථනයට සැකසීම් විවෘත කරන්න</string>
   <string name="not_editable">සංස්කරණය කළ නොහැකිය</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly කථා කරන විට වාදනය වන වෙනත් ඕඩියෝවල හඬ පරිමාව අඩු කරන්න</string>
   <string name="summary_support_scroll_seq">ඉදිරියට හෝ ආපස්සට අනුචලනය කරන්න</string>
   <string name="summary_support_change_a11y_volume">ප්‍රවේශ්‍යතා හඬ පරිමාව වැඩි හෝ අඩු කරන්න</string>
-  <string name="summary_support_change_touch_explore_latency">ටයිප් කිරීමේ අවධානය යොමු කිරීමේ ප්‍රමාදය වැඩි කිරීම හෝ අඩු කිරීම</string>
-  <string name="summary_support_change_touch_focus_latency">නාභිගත කිරීමේ ප්‍රමාදය වැඩි කිරීම හෝ අඩු කිරීම</string>
   <string name="summary_screen_overview">ක්‍රියා බොත්තම් සමග තිරය සාරාංශ කරන්න</string>
   <string name="summary_screen_overview_no_actions">අන්තර්ගතයෙහි සාරාංශයක් තිරය මත අසන්න</string>
   <string name="summary_image_caption">තෝරාගත් රූපයක් තුළ පෙළ සහ නිරූපක කථනය</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ද්විත්ව පින්ච් කිරීම</string>
   <string name="gesture_name_double_tap_and_hold">දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_double_tap_and_hold_xr">පින්ච් කරගෙන සිටින්න</string>
-  <string name="gesture_name_2finger_tap_hold">ඇඟිලි 2කින් දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_3finger_tap_hold">ඇඟිලි 3කින් දෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_2finger_3tap_hold">ඇඟිලි 2කින් තෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
   <string name="gesture_name_3finger_3tap_hold">ඇඟිලි 3කින් තෙවරක් තට්ටු කර අල්ලා ගෙන සිටින්න</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ශ්‍රව්‍ය මැඩපැවැත්වීම</string>
   <string name="title_pref_support_scroll_seq">අනුචලනය කරන්න</string>
   <string name="title_pref_a11y_volume">ප්‍රවේශ්‍යතා හඬ පරිමාව</string>
-  <string name="title_pref_touch_explore_latency">ටයිප් කිරීම නාභිගත කිරීමේ ප්‍රමාදය</string>
-  <string name="title_pref_touch_focus_latency">නාභිගත කිරීමේ ප්‍රමාදය</string>
   <string name="message_pref_touch_focus_latency">කෙටි ප්‍රමාදයක් SandFly ඔබ තිරය ස්පර්ශ කළ පසු ඉක්මනින් කථා කරයි</string>
   <string name="message_pref_typing_method_prefix">ටයිප් කිරීමේ දී අවම ප්‍රමාදය සඳහා, \"ඕනෑම යතුරක් තේරීමට ඇඟිල්ල අල්ලාගෙන, පසුව ඔසවන්න\" තෝරා ගන්න</string>
-  <string name="message_pref_typing_method_postfix">ඔබට ඕනෑම වේලාවක ටයිප් කිරීමට තට්ටු කිරීම-බෙදීම භාවිතා කළ හැක. මෙය සිදු කිරීම සඳහා, ඕනෑම යතුරක් තේරීමට එක් ඇඟිල්ලක් අල්ලාගෙන, තිරය මත තට්ටු කිරීමට තවත් ඇඟිල්ලක් භාවිතා කරන්න.</string>
   <string name="title_pref_talkback_speech_rate">කථන ශීඝ්‍රතාව</string>
   <string name="title_pref_selector_adjustable_widget_slider">ස්ලයිඩරය සීරුමාරු කරන්න</string>
   <string name="title_pref_selector_typo_granularity">සෝදුපත් බැලීම</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">මූලික පදය වන්නේ %1$s</string>
   <string name="screen_search_no_keyword_hint">තවමත් මූලික පදයක් නැත. නව සෙවීමක් ආරම්භ කිරීමට, ඇඟිලි 3කින් තට්ටු කර සිටින්න හෝ SandFly මෙනුවෙන් තිර සෙවීම විවෘත කරන්න.</string>
   <string name="screen_search_no_keyword_hint_pre_r">තවමත් මූලික පදයක් නැත. නව සෙවීමක් ආරම්භ කිරීමට, වමට ස්වයිප් කර පසුව පහළට ස්වයිප් කරන්න හෝ SandFly මෙනුවෙන් තිර සෙවීම විවෘත කරන්න.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">බ්රේල් යතුරුපුවරුව සක්‍රිය කර නැත. SandFly සැකසීම් වෙත ගොස්, බ්රේල් යතුරුපුවරුව සකසා යළි උත්සාහ කර.</string>
   <string name="suggestions_window_available">යෝජනා ලබා ගත හැකිය</string>
   <string name="suggestions_window_available_with_gesture">යෝජනා ලබා ගත හැකිය. ප්‍රවේශ වීමට, %1$s</string>
   <string name="heads_up_window_available">දැනුම්දීම ලබා ගත හැක</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly දැන් භෞතික යතුරුපුවරු සඳහා \"වැඩිදියුණු කළ යතුරු සිතියමක්\" ඇත, විවිධ නව විධාන සහ කෙටිමං ඇතුළත් වේ. භෞතික යතුරුපුවරු මත යැපෙන SandFly පරිශීලකයින් සඳහා වඩාත් කාර්යක්ෂම වෙබ් සංචාලනය, සංචලනය විධිමත් කිරීම සහ අන්තර්ක්‍රියා සඳහා \"බ්‍රවුස් මාදිලියක්\" මෙම වැඩිදියුණු කිරීමෙහි ඇතුළත් වේ. ඔබට <xliff:g id="settings_path">%1$s</xliff:g> හි \"වැඩිදියුණු කළ යතුරු සිතියම\" වෙත මාරු විය හැක.\n\nඔබ බ්‍රේල් සංදර්ශකයක් භාවිතා කරන්නේ නම්, ඔබට ඔබේ බ්‍රේල් සංදර්ශකයෙන් සෘජුවම අන්තර්ගතය හරහා ගමන් කිරීමට නව බ්‍රවුස් මාදිලි කෙටිමං භාවිතා කළ හැක. මෙම වෙනසට අනුගත වීමට සමහර බ්‍රේල් සංදර්ශක කෙටිමං වෙනස් කරන ලදී. ඔබට <xliff:g id="braille_display_settings_path">%2$s</xliff:g> හි සියලුම බ්‍රේල් සංදර්ශක කෙටිමං ලැයිස්තුවක් දැකිය හැක.</string>
   <string name="keyboard_shortcuts_link">SandFly සැකසීම් &gt; යතුරුපුවරු කෙටිමං</string>
   <string name="keyboard_shortcuts_link_tts">SandFly සැකසීම් පසුව යතුරුපුවරු කෙටිමං</string>
-  <string name="braille_display_settings_link">බ්‍රේල් සංදර්ශක සැකසීම්</string>
   <string name="keyboard_smart_browse_mode_title">යතුරු පුවරුව: ස්මාර්ට් බ්‍රවුස් කිරීමේ ප්‍රකාරය</string>
   <string name="keyboard_smart_browse_mode_text">SandFly ස්මාර්ට් බ්‍රවුස් මාදිලිය ඔබ වෙබය බ්‍රවුස් කරන විට භෞතික යතුරු පුවරුවක් සමග ටයිප් කිරීමට ඔබට උදවු කිරීමට සංස්කරණ ක්ෂේත්‍රයක බ්‍රවුස් මාදිලිය ක්‍රියා විරහිත කරයි. එවිට ඔබ වෙබයේ සංස්කරණය නොවන ක්ෂේත්‍රයකට පැනීමෙන් පසු එය නැවත ක්‍රියාත්මක වන අතර එමඟින් ඔබට කාර්යක්ෂමව බ්‍රවුස් කිරීම දිගටම කරගෙන යාමට හැකි වේ. ඔබට <xliff:g id="settings_path">%1$s</xliff:g> තුළ \"ස්මාර්ට් බ්‍රවුස් මාදිලිය\" ක්‍රියාත්මක හෝ ක්‍රියා විරහිත කළ හැක.</string>
   <string name="advanced_settings_link">SandFly සැකසීම් &gt; උසස් සැකසීම්</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">පෙළ ටයිප් කිරීම</string>
   <string name="basic_typing_text_text">ඔබ පෙළ කොටුවක සිටින විට, ඔබේ තිරයේ පහළින් යතුරු පුවරුවක් විවෘත වේ.</string>
   <string name="typing_text_text">යතුරු පුවරුව හරහා ඔබගේ ඇඟිල්ල ගෙන යන්න ඔබට ටයිප් කිරීමට අවශ්‍ය අකුර ඇසෙන විට ඔබගේ ඇඟිල්ල ඔසවන්න.\n\nපහත පෙළ කොටුව සක්‍රිය කිරීමට උත්සාහ කර ඔබගේ නම ටයිප් කරන්න.</string>
-  <string name="typing_text_with_braille_keyboard_text">ඔබට බ්‍රේල් යතුරු පුවරුව සමඟද ටයිප් කළ හැකිය. SandFly සැකසීම් තුළ එය සොයා ගන්න</string>
   <string name="other_ways_to_type_title">ටයිප් කිරීමට වෙනත් ක්‍රම</string>
   <string name="other_ways_to_type_text">SandFly ටයිප් කිරීමට වෙනත් ක්‍රම තිබේ. උදාහරණයක් ලෙස, ඔබට අකුරක් ඇතුළත් කිරීමට දෙවරක් තට්ටු කළ හැක.</string>
   <string name="basic_other_ways_to_type_text">SandFly ටයිප් කිරීමට වෙනත් ක්‍රම තිබේ. උදාහරණයක් ලෙස, ඔබට ලිපියක් ඇතුළත් කිරීමට දෙවරක් තට්ටු කිරීම භාවිතා කළ හැකිය. ඔබට මෙය පසුව SandFly සැකසීම් &gt; තිරයේ යතුරු පුවරුව &gt; ටයිප් කිරීමේ ක්‍රමය තුළ වෙනස් කළ හැක.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">අභිනයන් පුහුණු කිරීමට, පළමුව SandFly ක්‍රියාත්මක කරන්න</string>
   <string name="talkback_inactive_message_image_description">රූප විස්තර ලබා ගැනීමට උත්සාහ කිරීමට, පළමුව SandFly ක්‍රියාත්මක කරන්න</string>
   <string name="talkback_inactive_close_tutorial_button">නිබන්ධනය වසන්න</string>
-  <string name="wear_training_welcome_paragraph">SandFly සක්‍රීය වූ විට, තිරය මත නාභිගත කළ අයිතමය ශබ්ද නඟා කථා කරනු ලැබේ.\n\nදකුණට ස්වයිප් කිරීමෙන් මීළඟ අයිතමයට යයි. වමට ස්වයිප් කිරීමෙන් පෙර අයිතමයට යයි.\n\nමීළඟ බොත්තම හමු වන තෙක් දැන් දකුණට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">ඇඟිලි %1$dකින් ඉහළට හෝ පහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_go_back_title">ආපසු යන්න</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ඔබට ආපසු යාමට අවශ්‍ය වූ විට, තිරයේ කෙළවරේ සිට දකුණට ස්වයිප් කිරීමට ඇඟිලි %1$dක් භාවිතා කරන්න.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">සාර්ථකයි</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">පසුපස ඉංගිතය සිදු කරන ලදි</string>
-  <string name="wear_training_volume_up_title">හඬ පරිමාව වැඩි කරන්න</string>
-  <string name="wear_training_volume_up_text">දකුණට සහ පසුව ඉහළට ස්වයිප් කරන්න</string>
-  <string name="wear_training_volume_down_title">ශබ්දය අඩු කරන්න</string>
-  <string name="wear_training_volume_down_text">දකුණට සහ පසුව පහළට ස්වයිප් කරන්න</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly මෙනුව විවෘත කරන්න</string>
-  <string name="wear_training_open_talkback_menu_text">ඔබට නිතර අවශ්‍ය විය හැකි සැකසීම් සහ පාලන විවෘත කිරීමට, පහළට සහ පසුව දකුණට ස්වයිප් කරන්න</string>
-  <string name="wear_training_typing_title">ටයිප් කරමින්</string>
-  <string name="wear_training_typing_text1">යතුරු පුවරුව භාවිතයෙන් ටයිප් කිරීමට, යතුරු පුවරුව හරහා ඔබේ ඇඟිල්ල ගෙන යන්න. ඔබට ටයිප් කිරීමට අවශ්‍ය අකුර ඇසෙන විට, ඔබේ ඇඟිල්ල ඔසවන්න.</string>
-  <string name="wear_training_typing_text2">යතුරු පුවරුව සැඟවීමට සහ ඔබේ ආදානය පරීක්ෂා කිරීමට, ඇඟිලි 2කින් ඔබේ තිරයේ ඉහළ සිට පහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text3">යතුරු පුවරුව වෙත ආපසු යාමට, ඇඟිලි 2කින් ඔබේ තිරයේ පහළ සිට ඉහළට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text4">යතුරු පුවරුව වසා ටයිප් කිරීම අවලංගු කිරීමට, ඇඟිලි 2කින් ඔබේ තිරයේ වම් කෙළවරේ සිට දකුණට ස්වයිප් කරන්න.</string>
-  <string name="wear_training_typing_text5">පහතින් එය උත්සාහ කරන්න.</string>
-  <string name="wear_training_typing_practice_button_content_description">යතුරු පුවරුව භාවිතයෙන් ටයිප් කිරීම</string>
-  <string name="wear_training_end_tutorial_title">ඔබ SandFly භාවිතා කිරීම ආරම්භ කිරීමට සූදානම් වේ</string>
   <string name="wear_new_feature_page_title">යාවත්කාලීන කළ SandFly වෙත සාදරයෙන් පිළිගනිමු</string>
   <string name="wear_new_feature_page_content">ඔබ සමහර දෝෂ නිවැරදි කිරීම් සහ අවධානය එහා මෙහා වීම වෙනස් කිරීම් දකියි</string>
   <string name="wear_new_feature_page_button_content_description">අවසානය</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">නාද කිරීමේ මාදිලිය</string>
     <string name="summary_pref_announce_ringer_mode">නාද කිරීම කම්පනය වීමට හෝ නිශ්ශබ්ද වීමට සකසා ඇති විට කියන්න</string>
     <string name="title_pref_category_feedback">ප්රතිපෝෂණ</string>
-    <string name="title_pref_category_typing_and_braille">ටයිප් කිරීම සහ බ්රේල්</string>
     <string name="title_pref_category_apps">යෙදුම්</string>
     <string name="title_pref_touch_activation">ස්පර්ශ කිරීම සහ සක්රිය කිරීම</string>
     <string name="title_pref_navigation">සංචාලනය</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">ඉඩ දෙන්න එපා</string>
     <string name="permission_speak_label">SandFly හරහා කතා කරන්න</string>
     <string name="permission_speak_description">ඔබගේ SandFly කටහඬින් පෙළ කීමට යෙදුමට ඉඩ දෙන්න. යෙදුමට කථා කිරීමට හැකි වීමට පෙර SandFly ඔබෙන් අසයි.</string>
-    <string name="permission_braille_display_label">SandFly සඳහා බ්‍රේල් සංදර්ශකයක් වීමට අසන්න</string>
-    <string name="permission_braille_display_description">SandFly සඳහා බ්‍රේල් සංදර්ශකයක් වීමට යෙදුමට ඉඩ දෙන්න. ඔබ එයට SandFly හි ඉඩ දෙන්නේ නම්, එයට තිරයේ ඇති සියල්ල කියවා ඔබගේ උපාංගය පාලනය කළ හැක. SandFly මුලින්ම ඔබෙන් අසයි.</string>
     <string name="title_pref_phonetic_letters_mode">අක්ෂර උච්චාරණ ලෙස කතා කරන්න</string>
     <string name="phonetic_letters_mode_off">ක්‍රියාවිරහිතයි</string>
     <string name="phonetic_letters_mode_after_letter_delay">ලිපියෙන් පසුව, \"h, hotel\" වැනි ප්‍රමාද විය</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">යෙදුම විවෘත කරන්න</string>
     <string name="shortcut_open_app">විවෘත <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">ඉහළට අනුචලනය කරන්න</string>
-    <string name="shortcut_write_reading_control">කියවීමේ පාලනයක ලිපියක් ලියන්න</string>
-    <string name="title_pref_reading_control_letters">අතින් ලියන ලද හෝඩියේ අකුරු</string>
-    <string name="reading_control_letter_none">කිසිවක් නැත</string>
-    <string name="handwriting_prompt">හෝඩියේ අකුරක් ලියන්න</string>
-    <string name="handwriting_closed">අත් අකුරු වසා ඇත</string>
-    <string name="handwriting_no_match">කියවීම් පාලනයක් <xliff:g id="letter" example="Q">%1$s</xliff:g> සමඟ ආරම්භ නොවේ</string>
-    <string name="handwriting_not_recognized">අත් අකුරු හඳුනාගෙන නොමැත</string>
-    <string name="handwriting_downloading">අත් අකුරු හඳුනාගැනීම බාගත වෙමින් පවතී</string>
-    <string name="handwriting_download_title">අත් අකුරු හඳුනාගැනීම බාගන්නද?</string>
-    <string name="handwriting_download_message">මෙම දුරකථනයේ අත් අකුරු හඳුනාගෙන ඇත. මෙම භාෂාව සඳහා එහි ආකෘතිය, 20 MB පමණ, Google වෙතින් වරක් බාගත කර ඇත. එය බාගත කළ විට පණිවිඩයක් පෙන්වයි.</string>
-    <string name="handwriting_download_button">බාගන්න</string>
-    <string name="handwriting_downloaded">අත් අකුරු හඳුනාගැනීම බාගත කර ඇත</string>
-    <string name="handwriting_download_failed">අත් අකුරු හඳුනාගැනීම බාගැනීමට නොහැකි විය. අන්තර්ජාල සම්බන්ධතාවය පරීක්ෂා කරන්න.</string>
-    <string name="handwriting_unsupported_language">අත් අකුරු හඳුනාගැනීම මෙම භාෂාවෙන් නොමැත</string>
-    <string name="title_pref_handwriting_keyboard">අත් අකුරු යතුරු පුවරුව</string>
-    <string name="summary_pref_handwriting_keyboard">Android හි යතුරුපුවරු සැකසුම් තුළ SandFly අත් අකුරු ක්‍රියාත්මක කරන්න</string>
-    <string name="title_pref_handwriting_wait">ලිව්වට පස්සේ ඉන්න</string>
-    <string name="value_handwriting_wait_200">තත්පර 0.2</string>
-    <string name="value_handwriting_wait_300">තත්පර 0.3 යි</string>
-    <string name="value_handwriting_wait_400">තත්පර 0.4 යි</string>
-    <string name="value_handwriting_wait_500">තත්පර 0.5</string>
-    <string name="value_handwriting_wait_600">තත්පර 0.6 යි</string>
-    <string name="value_handwriting_wait_800">තත්පර 0.8</string>
-    <string name="value_handwriting_wait_1000">තත්පර 1</string>
-    <string name="handwriting_keyboard_name">SandFly අත් අකුරු</string>
-    <string name="handwriting_space">අවකාශය</string>
-    <string name="handwriting_new_line">නව පේළිය</string>
-    <string name="handwriting_tutorial_intro">අත් අකුරු යතුරුපුවරු නිබන්ධනය. තිරයේ ඕනෑම තැනක එක් ඇඟිල්ලකින් ලියන්න. ඔබ ලියන දේ ඔබ මොහොතකට නතර වූ විට ටයිප් වේ. නිබන්ධනය අවසන් කිරීමට, ඇඟිලි තුනකින් පහළට ස්වයිප් කරන්න.</string>
-    <string name="handwriting_tutorial_write_letter">හෝඩියේ අකුර ලියන්න a.</string>
-    <string name="handwriting_tutorial_write_word">දැන් hi (h පසුව i) යන ​​වචනය ලියන්න.</string>
-    <string name="handwriting_tutorial_typed">ටයිප් කළේ <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">ඉඩක් ටයිප් කිරීමට ඇඟිලි දෙකකින් දකුණට ස්වයිප් කරන්න.</string>
-    <string name="handwriting_tutorial_delete">කර්සරයට පෙර අක්ෂරය මැකීමට ඇඟිලි දෙකකින් වමට ස්වයිප් කරන්න.</string>
-    <string name="handwriting_tutorial_deleted">මකා දමන ලදී.</string>
-    <string name="handwriting_tutorial_next_reading">අත් අකුරු ලොකු අකුරක් වැනි තවත් අක්ෂරයක් ලෙස හඳුනාගෙන තිබේ නම්, ඊළඟ හඳුනාගැනීමේ යෝජනාව තේරීමට ඇඟිලි දෙකකින් ඉහළට ස්වයිප් කරන්න. දැන් එය උත්සාහ කරන්න.</string>
-    <string name="handwriting_tutorial_read_back">කර්සරයට පෙර පෙළ කියවීමට ඇඟිලි දෙකකින් තට්ටු කරන්න.</string>
-    <string name="handwriting_tutorial_new_line">නව රේඛාවක් ඇතුළු කිරීමට හෝ යැවීම වැනි පෙළ ක්ෂේත්‍ර ක්‍රියාව සිදු කිරීමට ඇඟිලි දෙකකින් පහළට ස්වයිප් කරන්න.</string>
-    <string name="handwriting_tutorial_not_that">ඒ තවත් ඉරියව්වක්.</string>
-    <string name="handwriting_tutorial_done">නව රේඛාව. නිබන්ධනය අවසන්. යතුරුපුවරුව සැඟවීමට ඇඟිලි තුනකින් පහළට ස්වයිප් කරන්න, යතුරුපුවරුව මාරු කිරීමට ඇඟිලි තුනකින් දකුණට හෝ වමට ස්වයිප් කරන්න. නිබන්ධනය නැවත විවෘත කිරීමට, ඇඟිලි තුනකින් තට්ටු කරන්න.</string>
-    <string name="handwriting_tutorial_finished">නිබන්ධනය අවසන්. එය නැවත විවෘත කිරීමට, ඇඟිලි තුනකින් තට්ටු කරන්න.</string>
-    <string name="handwriting_no_alternatives">වෙනත් යෝජනා නොමැත</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> of <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">හිස් පෙළ</string>
-    <string name="handwriting_not_available">මෙම උපාංගයේ අත් අකුරු හඳුනාගැනීමක් නොමැත</string>
     <string name="shortcut_scroll_to_bottom">පහළට අනුචලනය කරන්න</string>
     <string name="shortcut_refresh">නැවුම් කරන්න</string>
     <string name="shortcut_system_notifications">පද්ධති දැනුම්දීම් සෙවන</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">පැහැදිලි තේරීම</string>
     <string name="title_pref_brightness">දීප්තිය</string>
     <string name="summary_support_change_brightness">තිරය සැඟවී ඇති විට පවා තිරයේ දීප්තිය වැඩි කිරීම හෝ අඩු කිරීම</string>
-    <string name="title_pref_shortcut_3finger_4tap">ඇඟිලි 3කින් හතර වතාවක් තට්ටු කරන්න</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">ඇඟිලි 2කින් දක්ෂිණාවර්තව කරකවන්න</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">ඇඟිලි 2කින් වාමාවර්තව කරකවන්න</string>
-    <string name="title_pref_shortcut_2finger_scrub">ඇඟිලි 2කින් ස්ක්‍රබ් කරන්න</string>
-    <string name="title_pref_shortcut_2finger_pinch">ඇඟිලි 2 කින් ඇණ ගසන්න</string>
-    <string name="title_pref_shortcut_2finger_spread">ඇඟිලි 2 කින් පැතිරෙන්න</string>
-    <string name="title_pref_shortcut_3finger_pinch">ඇඟිලි 3කින් ඇණ ගසන්න</string>
-    <string name="title_pref_shortcut_3finger_spread">ඇඟිලි 3 කින් පැතිරෙන්න</string>
-    <string name="title_pref_shortcut_4finger_pinch">ඇඟිලි 4 කින් ඇණ ගසන්න</string>
-    <string name="title_pref_shortcut_4finger_spread">ඇඟිලි 4 කින් විහිදුවන්න</string>
-    <string name="title_pref_shortcut_edge_bottom_up">පහළ කෙළවරේ සිට ඉහළට ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">පහළ කෙළවරේ සිට ඉහළට දිගු ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_top_left_down">ඉහළ වමේ සිට පහළට ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_top_right_down">ඉහළ දකුණේ සිට පහළට ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">ඉහළ වමේ සිට පහළට දිගු ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">ඉහළ දකුණේ සිට පහළට දිගු ස්වයිප් කරන්න</string>
-    <string name="title_pref_shortcut_edge_left_top_right">වම් කෙළවරේ සිට දකුණට ස්වයිප් කරන්න, ඉහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">වම් කෙළවරේ සිට දකුණට දිගු ස්වයිප් කරන්න, ඉහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">වම් කෙළවරේ සිට දකුණට ස්වයිප් කරන්න, පහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">වම් කෙළවරේ සිට දකුණට දිගු ස්වයිප් කරන්න, පහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_right_top_left">දකුණු කෙළවරේ සිට වමට ස්වයිප් කරන්න, ඉහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">දකුණු කෙළවරේ සිට වමට දිගු ස්වයිප් කරන්න, ඉහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">දකුණු කෙළවරේ සිට වමට ස්වයිප් කරන්න, පහළ භාගය</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">දකුණු කෙළවරේ සිට වමට දිගු ස්වයිප් කරන්න, පහළ භාගය</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">ඕනෑම යතුරක් තේරීමට ඇඟිල්ල අල්ලාගෙන පසුව ඔසවන්න. ඇතුල් කිරීම, අවසන් කිරීම හෝ යැවීම සඳහා දෙවරක් තට්ටු කරන්න.</string>
-    <string name="value_type_confirmation_tap_to_type">එය ටයිප් කිරීමට ඕනෑම යතුරක් තට්ටු කරන්න, නැතහොත් ඕනෑම යතුරක් තේරීමට ඇඟිල්ල අල්ලාගෙන, පසුව ඔසවන්න</string>
-    <string name="title_pref_multi_tap_timeout">එක් ඇඟිල්ලක් තට්ටු කිරීම අතර කාලය</string>
     <string name="value_multi_tap_timeout_100ms">තත්පර 0.1</string>
     <string name="value_multi_tap_timeout_150ms">තත්පර 0.15</string>
     <string name="value_multi_tap_timeout_200ms">තත්පර 0.2</string>
     <string name="value_multi_tap_timeout_250ms">තත්පර 0.25 (පෙරනිමිය)</string>
-    <string name="title_pref_rotor_step_degrees">පියවරකට රොටර් හැරීම</string>
-    <string name="title_pref_edge_first_click_mm">පළමු ක්ලික් කිරීමට ඇති දුර</string>
-    <string name="title_pref_edge_second_click_mm">පළමු ක්ලික් සිට දෙවන ක්ලික් දක්වා දුර</string>
     <string name="value_distance_5mm">0.5 සෙ.මී</string>
     <string name="value_distance_10mm">1 සෙ.මී</string>
     <string name="value_distance_15mm">1.5 සෙ.මී</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">එතීම අවසන් අයිතමයේ සිට පළමු සක්‍රිය හෝ අක්‍රිය කරන්න</string>
     <string name="wrap_around_on">වටා ඔතා</string>
     <string name="wrap_around_off">වටේට ඔතා</string>
-    <string name="title_selector_tablet_held_up_faces_away">ටැබ්ලට් එක මුහුණු ඉවතට තබා ඇත</string>
-    <string name="summary_support_tablet_held_up_faces_away">ටැබ්ලටයක හෝ දිගහැරුණු දුරකථනයක බ්‍රේල් යතුරුපුවරුව සඳහා</string>
-    <string name="tablet_held_up_faces_away_on">ටැබ්ලට් එක මුහුණු ඔසවා තබා ඇත</string>
-    <string name="tablet_held_up_faces_away_off">ටැබ්ලට් එක මුහුණ ඉවතට තබා ඇත</string>
     <string name="title_keyboard_echo_on_screen">තිරයේ යතුරු පුවරුව දෝංකාරය</string>
     <string name="title_keyboard_echo_physical">භෞතික යතුරුපුවරු දෝංකාරය</string>
-    <string name="title_keyboard_echo_braille_keyboard">බ්රේල් යතුරු පුවරුව දෝංකාරය</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">අත් අකුරු යතුරු පුවරුව දෝංකාරය</string>
-    <string name="title_keyboard_echo_braille_display">බ්රේල් සංදර්ශක දෝංකාරය</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">ටයිප් කිරීමේදී කතාවට බාධා කරන්න</string>
     <string name="pref_interrupt_typing_entry_always">සෑම විටම</string>

@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">କ sound ଣସି ଶବ୍ଦ ନାହିଁ | ଫୋକସ୍ ସାଉଣ୍ଡ୍ ବାଜେ |</string>
     <string name="theme_sound_summary_android_keyboard">Android ର କୀବୋର୍ଡ୍ ଧ୍ୱନି |</string>
     <string name="theme_sound_use_android_keyboard">Android ର କୀବୋର୍ଡ୍ ଧ୍ୱନି ବ୍ୟବହାର କରନ୍ତୁ |</string>
-    <string name="theme_sound_braille_character">ବ୍ରେଲି କୀବୋର୍ଡ୍: ଏକ ଅକ୍ଷର ଟାଇପ୍ କରିବା |</string>
-    <string name="theme_sound_braille_space">ବ୍ରେଲି କୀବୋର୍ଡ୍: ସ୍ପେସ୍ |</string>
-    <string name="theme_sound_braille_delete">ବ୍ରେଲି କୀବୋର୍ଡ୍: ଡିଲିଟ୍ କରନ୍ତୁ |</string>
-    <string name="theme_sound_braille_new_line">ବ୍ରେଲି କୀବୋର୍ଡ୍: ନୂତନ ରେଖା |</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ଏକ ଧ୍ୱନି ଫାଇଲ୍ ବାଛନ୍ତୁ |</string>
     <string name="theme_sound_preview">ପ୍ରିଭ୍ୟୁ</string>

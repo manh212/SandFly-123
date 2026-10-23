@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">ବିଳମ୍ଵ ହ୍ରାସ କରନ୍ତୁ</string>
   <string name="talkback_latency_reduction_summary">ଆପଣ ସ୍କ୍ରିନ୍ ଛୁଇଁବା ପରେ SandFly ଶୀଘ୍ର ପ୍ରତିକ୍ରିୟା କରନ୍ତୁ |</string>
   <string name="summary_pref_intonation">ଡିଲିଟ କରାଯାଇଥିବା ଲେଟରଗୁଡ଼ିକୁ ଏକ ହାଇ-ପିଚ ଭଏସରେ କୁହନ୍ତୁ</string>
-  <string name="title_pref_brailledisplay">ବ୍ରେଲି ଡିସପ୍ଲେ</string>
-  <string name="title_pref_brailleime">ବ୍ରେଲି କୀବୋର୍ଡ</string>
-  <string name="summary_pref_brailleime_disabled">ଆପଣଙ୍କ ଡିଭାଇସ ବ୍ରେଲି କୀବୋର୍ଡକୁ ସପୋର୍ଟ କରେ ନାହିଁ</string>
   <string name="title_pref_speech_footer">ଯେକ any ଣସି ପରଦାରୁ ଆକ୍ସେସିବିଲିଟି ଭଲ୍ୟୁମ୍ ପରିବର୍ତ୍ତନ କରିବାକୁ, ସ୍କ୍ରିନରେ 1 ଆଙ୍ଗୁଠି ଧରି ଭଲ୍ୟୁମ୍ ଅପ୍ କିମ୍ବା ଭଲ୍ୟୁମ୍ ଡାଉନ୍ କୀ ଦବାନ୍ତୁ |</string>
   <string name="title_pref_vibration">ଭାଇବ୍ରେସନ ମତାମତ</string>
   <string name="title_pref_soundback">ସାଉଣ୍ଡ ମତାମତ</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">ଡିବଗ୍ ଲଗ୍ ଓଭରଲେକୁ ସକ୍ଷମ କରନ୍ତୁ</string>
   <string name="title_pref_typing_confirmation">ଟାଇପିଂ ପଦ୍ଧତି |</string>
   <string name="title_pref_typing_long_tap_duration">ଟାଇପିଂ ସମୟରେ \"ସ୍ପର୍ଶ କରି ଧରି ରଖିବା\"ରେ ବିଳମ୍ବ</string>
-  <string name="title_pref_touch_explore_timeout">ଟାଇପିଂ ଫୋକସ ବିଳମ୍ବ</string>
   <string name="message_pref_touch_explore_latency">ଆପଣ କୀବୋର୍ଡ୍ ସ୍ପର୍ଶ କରିବା ପରେ ଏକ ଛୋଟ ବିଳମ୍ବ SandFly ଶୀଘ୍ର କହିଥାଏ |\n\nଏକ ବିଳମ୍ବ ବାଛନ୍ତୁ |</string>
-  <string name="title_pref_touch_focus_timeout">ଫୋକସ ବିଳମ୍ବ</string>
-  <string name="title_pref_talkback_gesture_detection">SandFlyରେ ଥିବା ଜେଶ୍ଚରଗୁଡ଼ିକୁ ପରିଚାଳନା କରନ୍ତୁ</string>
-  <string name="toast_pref_talkback_gesture_detection">ସେଟିଂକୁ ସକ୍ରିୟ କରିବା ପାଇଁ SandFlyକୁ ବନ୍ଦ କରି ତା\'ପରେ ପୁଣି ଚାଲୁ କରନ୍ତୁ।</string>
   <string name="title_pref_auto_image_captioning">ସ୍ୱତଃ ବର୍ଣ୍ଣନା</string>
   <string name="title_pref_gemini_settings">Gemini ସେଟିଂସ</string>
   <string name="title_pref_gemini_enabled">Gemini ଭଏସ୍ କମାଣ୍ଡ୍ |</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">ଭଲ୍ୟୁମ ବଢ଼ାନ୍ତୁ</string>
   <string name="shortcut_decrease_volume">ଭଲ୍ୟୁମ କମାନ୍ତୁ</string>
   <string name="shortcut_all_apps">ସମସ୍ତ ଆପ୍</string>
-  <string name="shortcut_braille_keyboard">ବ୍ରେଲି କୀବୋର୍ଡକୁ ସ୍ୱିଚ୍ କରନ୍ତୁ</string>
-  <string name="shortcut_braille_display_settings">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସକୁ ନାଭିଗେଟ କରନ୍ତୁ</string>
   <string name="shortcut_tutorial">ଟ୍ୟୁଟୋରିଆଲ୍ ଖୋଲନ୍ତୁ</string>
   <string name="shortcut_control_speak_time">ସମୟ କୁହ କିମ୍ବା ସମୟ କୁହ ନାହିଁ</string>
   <string name="shortcut_enable_speak_time">ସମୟ କୁହ</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">\'ସମୟ କୁହ\' ବନ୍ଦ ଅଛି</string>
   <string name="shortcut_practice_gestures">ଜେଶ୍ଚରଗୁଡ଼ିକର ଅଭ୍ୟାସ କରନ୍ତୁ</string>
   <string name="shortcut_report_gesture">ଜେଶ୍ଚର୍ ସମସ୍ୟାର ରିପୋର୍ଟ କରନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_display">ବ୍ରେଲି ଡିସପ୍ଲେ ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରନ୍ତୁ</string>
   <string name="shortcut_announce_current_time_and_date">ବର୍ତ୍ତମାନର ତାରିଖ ଏବଂ ସମୟ କୁହନ୍ତୁ</string>
   <string name="shortcut_announce_battery_state">ବେଟେରୀ ଶତକଡ଼ା କୁହନ୍ତୁ</string>
   <string name="shortcut_announce_current_title">ୱିଣ୍ଡୋର ଟାଇଟେଲ କୁହନ୍ତୁ</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">ସ୍ପିଚ ରେଟ କମାନ୍ତୁ</string>
   <string name="shortcut_toggle_selection">ଚୟନ ମୋଡ ଆରମ୍ଭ କିମ୍ବା ସମାପ୍ତ କରନ୍ତୁ</string>
   <string name="shortcut_show_tutorial">ଟ୍ୟୁଟୋରିଆଲ ଖୋଲନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">କଣ୍ଟ୍ରାକ୍ଟେଡ (ଗ୍ରେଡ 2) ଏବଂ ଅନକଣ୍ଟ୍ରାକ୍ଟେଡ (ଗ୍ରେଡ 1) ମଧ୍ୟରେ ସୁଇଚ କରନ୍ତୁ</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">କନେକ୍ଟେଡ ବ୍ରେଲି ଡିସପ୍ଲେର ଅନ-ସ୍କ୍ରିନ ବ୍ରେଲି ଦେଖାଅ ବା ଲୁଚାଅ</string>
   <string name="shortcut_toggle_sound_feedback">ସାଉଣ୍ଡ ମତାମତ (ଇଅରକନ୍ସ) ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରନ୍ତୁ</string>
   <string name="shortcut_show_learn_mode_page">କୀବୋର୍ଡ ସର୍ଟକଟ ପ୍ରାକ୍ଟିସ କରନ୍ତୁ</string>
   <string name="shortcut_announce_phonetic_pronunciation">ଫୋକସ କରାଯାଇଥିବା ଆଇଟମ ପାଇଁ ଫୋନେଟିକ ଉଚ୍ଚାରଣ ସହିତ ଅକ୍ଷରଗୁଡ଼ିକ କୁହନ୍ତୁ</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">ଭଏସ କମାଣ୍ଡଗୁଡ଼ିକ</string>
   <string name="title_show_keyboard_shortcuts">କୀବୋର୍ଡ ସର୍ଟକଟ</string>
   <string name="talkback_show_talkback_settings">SandFly ସେଟିଂସ</string>
-  <string name="title_show_braille_display_settings">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ</string>
   <string name="title_granularity_default">ଡିଫଲ୍ଟ ନାଭିଗେସନ</string>
   <string name="title_action_dismiss">ଖାରଜ କରନ୍ତୁ</string>
   <string name="title_action_expand">ବଢ଼ାନ୍ତୁ</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">ଆପଣ ସ୍କ୍ରିନ ଚାଲୁ କରିବା ସମୟରେ ସମୟ ଉଚ୍ଚ ସ୍ୱରରେ କୁହାଯିବ ନା ନାହିଁ ତାହା ପରିବର୍ତ୍ତନ କରନ୍ତୁ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">କୀବୋର୍ଡ ସର୍ଟକଟଗୁଡ଼ିକର ତାଲିକା ଖୋଲନ୍ତୁ</string>
   <string name="summary_talkback_preferences">SandFly ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
-  <string name="summary_braile_display_preferences">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
   <string name="summary_system_actions">ସମସ୍ତ ଆପ ଏବଂ କ୍ୱିକ ସେଟିଂସକୁ ଯାଆନ୍ତୁ</string>
   <string name="summary_tts_settings">ଟେକ୍ସଟ-ଟୁ-ସ୍ପିଚ ସେଟିଂସ ଖୋଲନ୍ତୁ</string>
   <string name="not_editable">ଏଡିଟ୍ କରିପାରିବେ ନାହିଁ</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly କହୁଥିବା ସମୟରେ ପ୍ଲେ ହେଉଥିବା ଅନ୍ୟ ଅଡିଓର ଭଲ୍ୟୁମକୁ କମ କରନ୍ତୁ</string>
   <string name="summary_support_scroll_seq">ଫରୱାର୍ଡ୍ ବା ବ୍ୟାକୱାର୍ଡକୁ ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ</string>
   <string name="summary_support_change_a11y_volume">ଆକ୍ସେସିବିଲିଟୀ ଭଲ୍ୟୁମ ବଢ଼ାନ୍ତୁ କିମ୍ବା କମାନ୍ତୁ</string>
-  <string name="summary_support_change_touch_explore_latency">ଟାଇପିଂ ଫୋକସ ବିଳମ୍ବ ବଢ଼ାନ୍ତୁ କିମ୍ବା କମାନ୍ତୁ</string>
-  <string name="summary_support_change_touch_focus_latency">ଫୋକସ ବିଳମ୍ବ ବଢ଼ାନ୍ତୁ କିମ୍ବା କମାନ୍ତୁ</string>
   <string name="summary_screen_overview">ଆକ୍ସନ ବଟନଗୁଡ଼ିକ ସହ ସ୍କ୍ରିନର ସାରାଂଶ ତିଆରି କରନ୍ତୁ</string>
   <string name="summary_screen_overview_no_actions">ସ୍କ୍ରିନରେ ବିଷୟବସ୍ତୁର ଏକ ସାରାଂଶ ଶୁଣନ୍ତୁ</string>
   <string name="summary_image_caption">ଏକ ଚୟନିତ ଇମେଜ ମଧ୍ୟରେ ଥିବା ଟେକ୍ସଟ ଏବଂ ଆଇକନଗୁଡ଼ିକୁ କୁହନ୍ତୁ</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ଦୁଇଥର-ପିଞ୍ଚ କରନ୍ତୁ</string>
   <string name="gesture_name_double_tap_and_hold">ଦୁଇଥର-ଟାପ୍ କରି ଧରି ରଖିନ୍ତୁ</string>
   <string name="gesture_name_double_tap_and_hold_xr">ପିଞ୍ଚ କରି ହୋଲ୍ଡ କରନ୍ତୁ</string>
-  <string name="gesture_name_2finger_tap_hold">2ଟି ଆଙ୍ଗୁଠିରେ ଟାପ୍ କରି ଧରି ରଖିନ୍ତୁ</string>
   <string name="gesture_name_3finger_tap_hold">3ଟି ଆଙ୍ଗୁଠିରେ ଟାପ୍ କରି ଧରି ରଖିନ୍ତୁ</string>
   <string name="gesture_name_2finger_3tap_hold">2ଟି ଆଙ୍ଗୁଠିରେ ତିନିଥର-ଟାପ୍ କରି ଧରି ରଖିନ୍ତୁ</string>
   <string name="gesture_name_3finger_3tap_hold">3ଟି ଆଙ୍ଗୁଠିରେ ତିନିଥର-ଟାପ୍ କରି ଧରି ରଖିନ୍ତୁ</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ଅଡିଓ ଡକିଙ୍ଗ</string>
   <string name="title_pref_support_scroll_seq">ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ</string>
   <string name="title_pref_a11y_volume">ଆକ୍ସେସିବିଲିଟୀ ଭଲ୍ୟୁମ</string>
-  <string name="title_pref_touch_explore_latency">ଟାଇପିଂ ଫୋକସ ବିଳମ୍ବ</string>
-  <string name="title_pref_touch_focus_latency">ଫୋକସ ବିଳମ୍ବ</string>
   <string name="message_pref_touch_focus_latency">ଆପଣ ଏକ ପରଦାକୁ ଛୁଇଁବା ପରେ ଏକ ଛୋଟ ବିଳମ୍ବ SandFly ଶୀଘ୍ର କହିଥାଏ |</string>
   <string name="message_pref_typing_method_prefix">ଟାଇପ କରିବା ସମୟରେ ସର୍ବନିମ୍ନ ବିଳମ୍ବ ପାଇଁ, \"ଯେ କୌଣସି କୀ ଚୟନ କରିବାକୁ ଆଙ୍ଗୁଠିକୁ ଦବାଇ ଧରନ୍ତୁ, ତା\'ପରେ ଉଠାନ୍ତୁ\"କୁ ବାଛନ୍ତୁ।</string>
-  <string name="message_pref_typing_method_postfix">ଆପଣ ଯେ କୌଣସି ସମୟରେ ଟାଇପ କରିବାକୁ ସ୍ପ୍ଲିଟ ଟାପକୁ ମଧ୍ୟ ବ୍ୟବହାର କରିପାରିବେ। ଏହା କରିବାକୁ, ଯେ କୌଣସି କୀ ଚୟନ କରିବା ପାଇଁ ଗୋଟିଏ ଆଙ୍ଗୁଠିକୁ ଦବାଇ ଧରନ୍ତୁ ଏବଂ ସ୍କ୍ରିନରେ ଟାପ କରିବା ପାଇଁ ଅନ୍ୟ ଏକ ଆଙ୍ଗୁଠି ବ୍ୟବହାର କରନ୍ତୁ।</string>
   <string name="title_pref_talkback_speech_rate">ସ୍ପିଚ ରେଟ</string>
   <string name="title_pref_selector_adjustable_widget_slider">ସ୍ଲାଇଡରକୁ ଆଡଜଷ୍ଟ କରନ୍ତୁ</string>
   <string name="title_pref_selector_typo_granularity">ପ୍ରୁଫରିଡ</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">%1$s ହେଉଛି କୀୱାର୍ଡ</string>
   <string name="screen_search_no_keyword_hint">ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କୀୱାର୍ଡ ନାହିଁ। ଏକ ନୂଆ ସର୍ଚ୍ଚ ଆରମ୍ଭ କରିବା ପାଇଁ 3 ଆଙ୍ଗୁଠିରେ ଟାପ କରି ଧରି ରଖିନ୍ତୁ କିମ୍ବା SandFly ମେନୁରୁ \'ସ୍କ୍ରିନରେ ସର୍ଚ୍ଚ କରନ୍ତୁ\'କୁ ଖୋଲନ୍ତୁ।</string>
   <string name="screen_search_no_keyword_hint_pre_r">ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି କୀୱାର୍ଡ ନାହିଁ। ଏକ ନୂଆ ସର୍ଚ୍ଚ ଆରମ୍ଭ କରିବା ପାଇଁ ପ୍ରଥମେ ବାମପଟକୁ ତା\'ପରେ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ କିମ୍ବା SandFly ମେନୁରୁ \'ସ୍କ୍ରିନରେ ସର୍ଚ୍ଚ କରନ୍ତୁ\'କୁ ଖୋଲନ୍ତୁ।</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ବ୍ରେଲି କୀବୋର୍ଡ ଚାଲୁ କରାଯାଇନାହିଁ। SandFly ସେଟିଂସକୁ ଯାଅ, ବ୍ରେଲି କୀବୋର୍ଡ ସେଟ୍ ଅପ୍ କରି ପୁଣି ଚେଷ୍ଟା କର।</string>
   <string name="suggestions_window_available">ପରାମର୍ଶ ଉପଲବ୍ଧ ଅଛି</string>
   <string name="suggestions_window_available_with_gesture">ପରାମର୍ଶ ଉପଲବ୍ଧ ଅଛି। ଆକ୍ସେସ କରିବାକୁ, %1$s</string>
   <string name="heads_up_window_available">ବିଜ୍ଞପ୍ତି ଉପଲବ୍ଧ ଅଛି</string>
@@ -906,7 +885,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ରେ ଭ physical ତିକ କୀବୋର୍ଡ୍ ପାଇଁ ଏକ \"ଉନ୍ନତ କିମ୍ୟାପ୍\" ଅଛି, ଏଥିରେ ବିଭିନ୍ନ ନୂତନ ନିର୍ଦ୍ଦେଶ ଏବଂ ସର୍ଟକଟ୍ ଅଛି | ଏହି ବର୍ଦ୍ଧନରେ ଅଧିକ ଦକ୍ଷ ୱେବ୍ ନେଭିଗେସନ୍, ଷ୍ଟ୍ରିମିଂ ନେଭିଗେସନ୍ ଏବଂ SandFly ଉପଭୋକ୍ତାମାନଙ୍କ ପାଇଁ ପାରସ୍ପରିକ କ୍ରିୟା ପାଇଁ ଭ physical ତିକ କିବୋର୍ଡ ଉପରେ ନିର୍ଭର କରୁଥିବା ଏକ ବ୍ରାଉଜ୍ ମୋଡ୍ ଅନ୍ତର୍ଭୁକ୍ତ | ଆପଣ <xliff:g id="settings_path">%1$s</xliff:g> ରେ \"ଉନ୍ନତ କିମ୍ୟାପ୍\" କୁ ଯାଇପାରିବେ |\n\nଯଦି ଆପଣ ଏକ ବ୍ରେଲି ଡିସପ୍ଲେ ବ୍ୟବହାର କରନ୍ତି, ତେବେ ଆପଣ ଆପଣଙ୍କର ବ୍ରେଲି ଡିସପ୍ଲେରୁ ସିଧାସଳଖ ବିଷୟବସ୍ତୁ ମାଧ୍ୟମରେ ଟ୍ରାଭର୍ କରିବାକୁ ନୂତନ ବ୍ରାଉଜ୍ ମୋଡ୍ ସର୍ଟକଟ୍ ବ୍ୟବହାର କରିପାରିବେ | ଏହି ପରିବର୍ତ୍ତନକୁ ସମାଧାନ କରିବା ପାଇଁ କିଛି ବ୍ରେଲି ପ୍ରଦର୍ଶନ ସର୍ଟକଟ୍ ପରିବର୍ତ୍ତନ କରାଯାଇଥିଲା | <xliff:g id="braille_display_settings_path">%2$s</xliff:g> ରେ ଆପଣ ସମସ୍ତ ବ୍ରେଲି ପ୍ରଦର୍ଶନ ସର୍ଟକଟ୍ ର ଏକ ତାଲିକା ଦେଖିପାରିବେ |</string>
   <string name="keyboard_shortcuts_link">SandFly ସେଟିଂସ &gt; କୀବୋର୍ଡ ସର୍ଟକଟ</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ସେଟିଂସ ତା\'ପରେ କୀବୋର୍ଡ ସର୍ଟକଟ</string>
-  <string name="braille_display_settings_link">ବ୍ରେଲି ଡିସପ୍ଲେ ସେଟିଂସ</string>
   <string name="keyboard_smart_browse_mode_title">କୀବୋର୍ଡ: ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ</string>
   <string name="keyboard_smart_browse_mode_text">ଆପଣ ୱେବ ବ୍ରାଉଜ କରିବା ସମୟରେ ଏକ ଫିଜିକାଲ କୀବୋର୍ଡ ମାଧ୍ୟମରେ ଟାଇପ କରିବାରେ ଆପଣଙ୍କୁ ସହାୟତା କରିବା ପାଇଁ SandFly ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ ଏକ ଏଡିଟ ଫିଲ୍ଡରେ ବ୍ରାଉଜ ମୋଡକୁ ବନ୍ଦ କରିଦିଏ। ତା\'ପରେ ଆପଣ ୱେବରେ ଏକ ଏଡିଟ କରାଯାଇପାରୁନଥିବା ଫିଲ୍ଡକୁ ଯିବା ସମୟରେ ଏହାକୁ ପୁଣି ଚାଲୁ କରେ ଯାହା ଫଳରେ ଆପଣ ଦକ୍ଷତାର ସହ ବ୍ରାଉଜ କରିବା ଜାରି ରଖିପାରିବେ। ଆପଣ <xliff:g id="settings_path">%1$s</xliff:g>ରେ \"ସ୍ମାର୍ଟ ବ୍ରାଉଜ ମୋଡ\"କୁ ଚାଲୁ କିମ୍ବା ବନ୍ଦ କରିପାରିବେ।</string>
   <string name="advanced_settings_link">SandFly ସେଟିଂସ &gt; ଉନ୍ନତ ସେଟିଂସ</string>
@@ -978,7 +956,6 @@
   <string name="typing_text_title">ଟେକ୍ସଟକୁ ଟାଇପ କରିବା</string>
   <string name="basic_typing_text_text">ଆପଣ ଏକ ଟେକ୍ସଟ ବକ୍ସରେ ଥିବା ସମୟରେ, ଆପଣଙ୍କ ସ୍କ୍ରିନର ନିମ୍ନରେ ଏକ କୀବୋର୍ଡ ଖୋଲିବ।</string>
   <string name="typing_text_text">କୀବୋର୍ଡ ଉପରେ ଆପଣଙ୍କ ଆଙ୍ଗୁଠି ମୁଭ କରନ୍ତୁ। ଆପଣ ଟାଇପ କରିବାକୁ ଚାହୁଁଥିବା ଅକ୍ଷର ଶୁଣିବା ସମୟରେ ଆପଣଙ୍କ ଆଙ୍ଗୁଠିକୁ ଉଠାନ୍ତୁ।\n\nନିମ୍ନରେ ଥିବା ଟେକ୍ସଟ ବକ୍ସକୁ ସକ୍ରିୟ କରି ଆପଣଙ୍କ ନାମ ଟାଇପ କରନ୍ତୁ।</string>
-  <string name="typing_text_with_braille_keyboard_text">ଆପଣ ବ୍ରେଲି କୀବୋର୍ଡ ମାଧ୍ୟମରେ ମଧ୍ୟ ଟାଇପ କରିପାରିବେ। ଏହାକୁ SandFly ସେଟିଂସରେ ଖୋଜନ୍ତୁ।</string>
   <string name="other_ways_to_type_title">ଟାଇପ କରିବାର ଅନ୍ୟ ଉପାୟ</string>
   <string name="other_ways_to_type_text">SandFlyରେ ଟାଇପ କରିବାର ଅନ୍ୟ ଉପାୟ ଅଛି। ଉଦାହରଣ ସ୍ୱରୂପ, ଆପଣ ଏକ ଅକ୍ଷର ଲେଖିବା ପାଇଁ ଦୁଇଥର ଟାପ ବ୍ୟବହାର କରିପାରିବେ।</string>
   <string name="basic_other_ways_to_type_text">SandFly ଟାଇପ୍ କରିବାର ଅନ୍ୟ ଉପାୟ ଅଛି | ଉଦାହରଣ ସ୍ୱରୂପ, ଆପଣ ଏକ ଅକ୍ଷର ପ୍ରବେଶ କରିବାକୁ ଡବଲ୍ ଟ୍ୟାପ୍ ବ୍ୟବହାର କରିପାରିବେ | ଆପଣ ଏହାକୁ ପରେ SandFly ସେଟିଂସମୂହ&gt; ଅନ୍-ସ୍କ୍ରିନ୍ କୀବୋର୍ଡ୍&gt; ଟାଇପିଂ ପଦ୍ଧତିରେ ପରିବର୍ତ୍ତନ କରିପାରିବେ |</string>
@@ -1093,26 +1070,6 @@
   <string name="talkback_inactive_message_practice_gestures">ଜେଶ୍ଚରଗୁଡ଼ିକୁ ପ୍ରାକ୍ଟିସ କରିବା ପାଇଁ ପ୍ରଥମେ SandFlyକୁ ଚାଲୁ କରନ୍ତୁ</string>
   <string name="talkback_inactive_message_image_description">ଇମେଜର ବର୍ଣ୍ଣନା ପାଇବା ପାଇଁ ଚେଷ୍ଟା କରିବାକୁ ପ୍ରଥମେ SandFlyକୁ ଚାଲୁ କରନ୍ତୁ</string>
   <string name="talkback_inactive_close_tutorial_button">ଟ୍ୟୁଟୋରିଆଲ ବନ୍ଦ କରନ୍ତୁ</string>
-  <string name="wear_training_welcome_paragraph">SandFly ଚାଲୁ ଥିବା ବେଳେ, ସ୍କ୍ରିନ ଉପରେ ଫୋକସ କରାଯାଇଥିବା ଆଇଟମକୁ ଉଚ୍ଚ ସ୍ୱରରେ ପଢ଼ିଥାଏ।\n\nଡାହାଣକୁ ସ୍ୱାଇପ କରିବା ଫଳରେ ପରବର୍ତ୍ତୀ ଆଇଟମକୁ ମୁଭ ହୋଇଥାଏ। ବାମକୁ ସ୍ୱାଇପ କରିବା ଫଳରେ ପୂର୍ବବର୍ତ୍ତୀ ଆଇଟମକୁ ମୁଭ ହୋଇଥାଏ।\n\nପରବର୍ତ୍ତୀ ବଟନ ନପାଇବା ପର୍ଯ୍ୟନ୍ତ ବର୍ତ୍ତମାନ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d ଆଙ୍ଗୁଠିରେ ଉପରକୁ କିମ୍ବା ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_go_back_title">ପଛକୁ ଫେରନ୍ତୁ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">ଆପଣ ପଛକୁ ଯିବାକୁ ଚାହିଁଲେ, ସ୍କ୍ରିନର ଧାରରୁ ଡାହାଣକୁ ସ୍ୱାଇପ କରିବା ପାଇଁ %1$d ଆଙ୍ଗୁଠି ବ୍ୟବହାର କରନ୍ତୁ।</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">ସଫଳ ହୋଇଛି</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">\'ପଛକୁ ଫେରନ୍ତୁ\' ଜେଶ୍ଚର ପରଫର୍ମ କରାଯାଇଛି</string>
-  <string name="wear_training_volume_up_title">ଭଲ୍ୟୁମ ବଢ଼ାନ୍ତୁ</string>
-  <string name="wear_training_volume_up_text">ଡାହାଣକୁ ସ୍ୱାଇପ କରି ତା\'ପରେ ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_volume_down_title">ଭଲ୍ୟୁମ କମ କରନ୍ତୁ</string>
-  <string name="wear_training_volume_down_text">ଡାହାଣକୁ ସ୍ୱାଇପ କରି ତା\'ପରେ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly ମେନୁ ଖୋଲନ୍ତୁ</string>
-  <string name="wear_training_open_talkback_menu_text">ଆପଣ ପ୍ରାୟତଃ ଆବଶ୍ୟକ କରୁଥିବା ସେଟିଂସ ଏବଂ ନିୟନ୍ତ୍ରଣଗୁଡ଼ିକୁ ଖୋଲିବା ପାଇଁ ତଳକୁ ଏବଂ ତା\'ପରେ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
-  <string name="wear_training_typing_title">ଟାଇପ କରାଯାଉଛି</string>
-  <string name="wear_training_typing_text1">କୀବୋର୍ଡରେ ଟାଇପ କରିବା ପାଇଁ, ଆପଣଙ୍କ ଆଙ୍ଗୁଠିକୁ କୀବୋର୍ଡ ଉପରେ ମୁଭ କରନ୍ତୁ। ଆପଣ ଟାଇପ କରିବାକୁ ଚାହୁଁଥିବା ଅକ୍ଷର ଶୁଣିଲେ, ଆଙ୍ଗୁଠି ଉଠାନ୍ତୁ।</string>
-  <string name="wear_training_typing_text2">କୀବୋର୍ଡକୁ ଲୁଚାଇବା ଏବଂ ଆପଣଙ୍କ ଇନପୁଟକୁ ଯାଞ୍ଚ କରିବା ପାଇଁ 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ଉପରୁ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text3">କୀବୋର୍ଡକୁ ଫେରିବା ପାଇଁ, 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ତଳୁ ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text4">କୀବୋର୍ଡ ବନ୍ଦ କରିବା ଏବଂ ଟାଇପିଂକୁ ବାତିଲ କରିବା ପାଇଁ 2 ଆଙ୍ଗୁଠିରେ ଆପଣଙ୍କ ସ୍କ୍ରିନର ବାମ ଧାରରୁ ଡାହାଣକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>
-  <string name="wear_training_typing_text5">ତଳେ ଏହାକୁ ବ୍ୟବହାର କରି ଦେଖନ୍ତୁ।</string>
-  <string name="wear_training_typing_practice_button_content_description">କୀବୋର୍ଡରେ ଟାଇପ କରାଯାଉଛି</string>
-  <string name="wear_training_end_tutorial_title">ଆପଣ SandFly ବ୍ୟବହାର କରିବା ଆରମ୍ଭ କରିବା ପାଇଁ ପ୍ରସ୍ତୁତ ଅଟନ୍ତି</string>
   <string name="wear_new_feature_page_title">ଅପଡେଟ୍ ହୋଇଥିବା SandFlyକୁ ସ୍ୱାଗତ</string>
   <string name="wear_new_feature_page_content">ଆପଣ କିଛି ବଗ ସମାଧାନ ଏବଂ ଫୋକସ କିପରି ମୁଭ ହୁଏ ସେଥିରେ ପରିବର୍ତ୍ତନଗୁଡ଼ିକ ନୋଟିସ କରିବେ</string>
   <string name="wear_new_feature_page_button_content_description">ସମ୍ପୂର୍ଣ୍ଣ କରନ୍ତୁ</string>
@@ -1373,7 +1330,6 @@
     <string name="title_pref_announce_ringer_mode">ରିଙ୍ଗର୍ ମୋଡ୍ |</string>
     <string name="summary_pref_announce_ringer_mode">ଯେତେବେଳେ ରିଙ୍ଗର କମ୍ପିବା କିମ୍ବା ନୀରବ ହେବାକୁ ସେଟ୍ ହୋଇଛି କୁହନ୍ତୁ |</string>
     <string name="title_pref_category_feedback">ମତାମତ</string>
-    <string name="title_pref_category_typing_and_braille">ଟାଇପିଂ ଏବଂ ବ୍ରେଲି |</string>
     <string name="title_pref_category_apps">ଆପଗୁଡ଼ିକ</string>
     <string name="title_pref_touch_activation">ସ୍ପର୍ଶ ଏବଂ ସକ୍ରିୟକରଣ |</string>
     <string name="title_pref_navigation">ନାଭିଗେସନ୍</string>
@@ -1397,8 +1353,6 @@
     <string name="speech_control_deny">ଅନୁମତି ଦିଅନ୍ତୁ ନାହିଁ |</string>
     <string name="permission_speak_label">SandFly ମାଧ୍ୟମରେ କୁହ |</string>
     <string name="permission_speak_description">ଆପ୍କୁ SandFly ସ୍ୱରରେ ଟେକ୍ସଟ୍ କହିବାକୁ କୁହ | ଆପ୍ କହିବା ପୂର୍ବରୁ SandFly ଆପଣଙ୍କୁ ପଚାରିଥାଏ |</string>
-    <string name="permission_braille_display_label">SandFly ପାଇଁ ଏକ ବ୍ରେଲି ପ୍ରଦର୍ଶନ ହେବାକୁ କୁହ |</string>
-    <string name="permission_braille_display_description">ଆପ୍ SandFly ପାଇଁ ଏକ ବ୍ରେଲି ଡିସପ୍ଲେ ହେବାକୁ କହିବାକୁ ଦିଅ | ଯଦି ଆପଣ ଏହାକୁ SandFly ରେ ଅନୁମତି ଦିଅନ୍ତି, ଏହା ପରଦାରେ ସବୁକିଛି ପ read ି ଆପଣଙ୍କ ଡିଭାଇସକୁ ନିୟନ୍ତ୍ରଣ କରିପାରିବ | SandFly ଆପଣଙ୍କୁ ପ୍ରଥମେ ପଚାରିଥାଏ |</string>
     <string name="title_pref_phonetic_letters_mode">ଅକ୍ଷରଗୁଡ଼ିକୁ ଫୋନେଟିକ୍ କୁହନ୍ତୁ |</string>
     <string name="phonetic_letters_mode_off">ବନ୍ଦ ଅଛି</string>
     <string name="phonetic_letters_mode_after_letter_delay">ଚିଠି ପରେ, \"h, ହୋଟେଲ\" ପରି ବିଳମ୍ବ ହେଲା |</string>
@@ -1566,50 +1520,6 @@
     <string name="shortcut_title_open_app">ଆପ୍ ଖୋଲନ୍ତୁ |</string>
     <string name="shortcut_open_app"><xliff:g id="app_name" example="Gmail">%1$s</xliff:g> ଖୋଲନ୍ତୁ |</string>
     <string name="shortcut_scroll_to_top">ଶୀର୍ଷକୁ ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ |</string>
-    <string name="shortcut_write_reading_control">ଏକ ପଠନ ନିୟନ୍ତ୍ରଣର ଅକ୍ଷର ଲେଖ |</string>
-    <string name="title_pref_reading_control_letters">ହସ୍ତଲିଖନ ବର୍ଣ୍ଣମାଳା ଅକ୍ଷର |</string>
-    <string name="reading_control_letter_none">କିଛି ନାହିଁ</string>
-    <string name="handwriting_prompt">ଏକ ବର୍ଣ୍ଣମାଳା ଅକ୍ଷର ଲେଖ |</string>
-    <string name="handwriting_closed">ହସ୍ତଲିଖନ ବନ୍ଦ |</string>
-    <string name="handwriting_no_match">କ reading ଣସି ପଠନ ନିୟନ୍ତ୍ରଣ <xliff:g id="letter" example="Q">%1$s</xliff:g> ରୁ ଆରମ୍ଭ ହୁଏ ନାହିଁ |</string>
-    <string name="handwriting_not_recognized">ହସ୍ତଲିଖନ ଚିହ୍ନିତ ନୁହେଁ |</string>
-    <string name="handwriting_downloading">ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଡାଉନଲୋଡ୍ କରୁଛି |</string>
-    <string name="handwriting_download_title">ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଡାଉନଲୋଡ୍ କରନ୍ତୁ?</string>
-    <string name="handwriting_download_message">ଏହି ଫୋନରେ ହସ୍ତଲିଖନ ସ୍ୱୀକୃତିପ୍ରାପ୍ତ | ଏହି ଭାଷା ପାଇଁ ଏହାର ମଡେଲ୍, ପ୍ରାୟ 20 MB, ଥରେ Google ରୁ ଡାଉନଲୋଡ୍ ହୋଇଛି | ଯେତେବେଳେ ଏହା ଡାଉନଲୋଡ୍ ହୋଇଛି ଏକ ମେସେଜ୍ ଦେଖାଏ |</string>
-    <string name="handwriting_download_button">ଡାଉନଲୋଡ କରନ୍ତୁ</string>
-    <string name="handwriting_downloaded">ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଡାଉନଲୋଡ୍ ହୋଇଛି |</string>
-    <string name="handwriting_download_failed">ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଡାଉନଲୋଡ୍ ହୋଇପାରିଲା ନାହିଁ | ଇଣ୍ଟରନେଟ୍ ସଂଯୋଗ ଯାଞ୍ଚ କରନ୍ତୁ |</string>
-    <string name="handwriting_unsupported_language">ଏହି ଭାଷାରେ ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଉପଲବ୍ଧ ନାହିଁ |</string>
-    <string name="title_pref_handwriting_keyboard">ହସ୍ତଲିଖନ କୀବୋର୍ଡ୍ |</string>
-    <string name="summary_pref_handwriting_keyboard">Android ର କୀବୋର୍ଡ୍ ସେଟିଙ୍ଗରେ SandFly ହସ୍ତଲିଖନ ଟର୍ନ୍ ଅନ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_handwriting_wait">ଲେଖିବା ପରେ ଅପେକ୍ଷା କର |</string>
-    <string name="value_handwriting_wait_200">0.2 ସେକେଣ୍ଡ</string>
-    <string name="value_handwriting_wait_300">0.3। Seconds ସେକେଣ୍ଡ୍ |</string>
-    <string name="value_handwriting_wait_400">0.4 ସେକେଣ୍ଡ୍ |</string>
-    <string name="value_handwriting_wait_500">0.5 ସେକେଣ୍ଡ</string>
-    <string name="value_handwriting_wait_600">0.6 ସେକେଣ୍ଡ୍ |</string>
-    <string name="value_handwriting_wait_800">0.8 ସେକେଣ୍ଡ |</string>
-    <string name="value_handwriting_wait_1000">1 ସେକେଣ୍ଡ</string>
-    <string name="handwriting_keyboard_name">SandFly ହସ୍ତଲିଖନ |</string>
-    <string name="handwriting_space">ସ୍ପେସ୍</string>
-    <string name="handwriting_new_line">ନୂତନ ରେଖା</string>
-    <string name="handwriting_tutorial_intro">ହସ୍ତଲିଖନ କୀବୋର୍ଡ୍ ଟ୍ୟୁଟୋରିଆଲ୍ | ପରଦାରେ ଯେକ anywhere ଣସି ସ୍ଥାନରେ ଗୋଟିଏ ଆଙ୍ଗୁଠି ସହିତ ଲେଖ | ତୁମେ କିଛି ଲେଖିବା ପାଇଁ ଟାଇପ୍ କର | ଟ୍ୟୁଟୋରିଆଲ୍ ଶେଷ କରିବାକୁ, ତିନି ଆଙ୍ଗୁଠି ସହିତ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_write_letter">ବର୍ଣ୍ଣମାଳା ଅକ୍ଷର ଲେଖନ୍ତୁ a।</string>
-    <string name="handwriting_tutorial_write_word">ବର୍ତ୍ତମାନ hi ଶବ୍ଦ ଲେଖନ୍ତୁ (h ପରେ i) |</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g> ଟାଇପ୍ ହୋଇଛି |</string>
-    <string name="handwriting_tutorial_space">ଏକ ସ୍ପେସ୍ ଟାଇପ୍ କରିବାକୁ ଦୁଇ ଆଙ୍ଗୁଠି ସହିତ ଡାହାଣକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_delete">କର୍ସର୍ ପୂର୍ବରୁ ବର୍ଣ୍ଣ ବିଲୋପ କରିବାକୁ ଦୁଇ ଆଙ୍ଗୁଠି ସହିତ ବାମକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_deleted">ବିଲୋପ ହୋଇଛି</string>
-    <string name="handwriting_tutorial_next_reading">ଯଦି ହସ୍ତଲିଖନକୁ ଅନ୍ୟ ଏକ ଚରିତ୍ର ଭାବରେ ସ୍ୱୀକୃତି ଦିଆଯାଏ, ଯେପରିକି କ୍ୟାପିଟାଲ୍ ଅକ୍ଷର, ପରବର୍ତ୍ତୀ ସ୍ୱୀକୃତି ପରାମର୍ଶ ବାଛିବା ପାଇଁ ଦୁଇ ଆଙ୍ଗୁଳି ସହିତ ସ୍ୱାଇପ୍ କରନ୍ତୁ | ବର୍ତ୍ତମାନ ଏହାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_read_back">କର୍ସର୍ ପୂର୍ବରୁ ପାଠ ପ read ିବା ପାଇଁ ଦୁଇ ଆଙ୍ଗୁଠି ସହିତ ଟ୍ୟାପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_new_line">ଏକ ନୂତନ ରେଖା ସନ୍ନିବେଶ କରିବାକୁ କିମ୍ବା ପଠାଇବା ପରି ପାଠ୍ୟ କ୍ଷେତ୍ର କାର୍ଯ୍ୟ କରିବା ପାଇଁ ଦୁଇ ଆଙ୍ଗୁଠି ସହିତ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_not_that">ତାହା ଅନ୍ୟ ଏକ ଅଙ୍ଗଭଙ୍ଗୀ ଥିଲା |</string>
-    <string name="handwriting_tutorial_done">ନୂତନ ରେଖା | ଟ୍ୟୁଟୋରିଆଲ୍ ସମାପ୍ତ କୀବୋର୍ଡ୍ ଲୁଚାଇବା ପାଇଁ ତିନି ଆଙ୍ଗୁଠି ସହିତ ତଳକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ ଏବଂ କୀବୋର୍ଡ୍ ସୁଇଚ୍ କରିବାକୁ ତିନି ଆଙ୍ଗୁଠି ସହିତ ଡାହାଣ କିମ୍ବା ବାମକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ | ପୁନର୍ବାର ଟ୍ୟୁଟୋରିଆଲ୍ ଖୋଲିବାକୁ, ତିନି ଆଙ୍ଗୁଠି ସହିତ ଟ୍ୟାପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_tutorial_finished">ଟ୍ୟୁଟୋରିଆଲ୍ ସମାପ୍ତ ହେଲା | ଏହାକୁ ପୁଣି ଖୋଲିବାକୁ, ତିନି ଆଙ୍ଗୁଠି ସହିତ ଟ୍ୟାପ୍ କରନ୍ତୁ |</string>
-    <string name="handwriting_no_alternatives">ଅନ୍ୟ କ suggestions ଣସି ପରାମର୍ଶ ନାହିଁ |</string>
-    <string name="handwriting_alternative"><xliff:g id="count" example="5">%3$d</xliff:g> ର <xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> |</string>
-    <string name="handwriting_empty">ଖାଲି ପାଠ</string>
-    <string name="handwriting_not_available">ଏହି ଉପକରଣରେ ହସ୍ତଲିଖନ ସ୍ୱୀକୃତି ଉପଲବ୍ଧ ନାହିଁ |</string>
     <string name="shortcut_scroll_to_bottom">ତଳକୁ ସ୍କ୍ରୋଲ୍ କରନ୍ତୁ |</string>
     <string name="shortcut_refresh">ସତେଜ କରନ୍ତୁ |</string>
     <string name="shortcut_system_notifications">ସିଷ୍ଟମ୍ ବିଜ୍ଞପ୍ତି ଛାଇ |</string>
@@ -1621,40 +1531,11 @@
     <string name="title_clear_selection">ଚୟନ ସଫା କରନ୍ତୁ |</string>
     <string name="title_pref_brightness">ଉଜ୍ଜ୍ୱଳତା |</string>
     <string name="summary_support_change_brightness">ସ୍କ୍ରିନ୍ ଲୁକ୍କାୟିତ ହେଲେ ବି ସ୍କ୍ରିନ୍ ଉଜ୍ଜ୍ୱଳତା ବୃଦ୍ଧି କିମ୍ବା ହ୍ରାସ କର |</string>
-    <string name="title_pref_shortcut_3finger_4tap">3 ଆଙ୍ଗୁଠି ସହିତ ଚତୁର୍ଭୁଜ-ଟ୍ୟାପ୍ |</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">2 ଆଙ୍ଗୁଠି ସହିତ ଘଣ୍ଟା ବୁଲାଇ ବୁଲାନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">2 ଆଙ୍ଗୁଠି ସହିତ ଘଣ୍ଟା ଘଣ୍ଟା ବୁଲାନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_2finger_scrub">2 ଟି ଆଙ୍ଗୁଠି ସହିତ ସ୍କ୍ରବ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_2finger_pinch">2 ଟି ଆଙ୍ଗୁଠି ସହିତ ପିଞ୍ଚ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_2finger_spread">2 ଟି ଆଙ୍ଗୁଠି ସହିତ ବିସ୍ତାର କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_3finger_pinch">3 ଟି ଆଙ୍ଗୁଠି ସହିତ ପିଞ୍ଚ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_3finger_spread">3 ଆଙ୍ଗୁଠି ସହିତ ବିସ୍ତାର କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_4finger_pinch">4 ଟି ଆଙ୍ଗୁଠି ସହିତ ପିଞ୍ଚ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_4finger_spread">4 ଟି ଆଙ୍ଗୁଠି ସହିତ ବିସ୍ତାର କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_bottom_up">ତଳ ଧାରରୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">ତଳ ଧାରରୁ ଲମ୍ବା ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_top_left_down">ଉପର ବାମରୁ ତଳକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_top_right_down">ଉପର ଡାହାଣରୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">ଉପର ବାମରୁ ଲମ୍ୱା ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">ଉପର ଡାହାଣରୁ ଲମ୍ୱା ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_left_top_right">ବାମ ପାର୍ଶ୍ୱରୁ, ଉପର ଅର୍ଦ୍ଧରୁ ଡାହାଣକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">ବାମ ଧାରରୁ ଡାହାଣକୁ ଲମ୍ବା ସ୍ୱାଇପ୍ କରନ୍ତୁ, ଉପର ଅଧା |</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">ବାମ ପାର୍ଶ୍ୱରୁ, ତଳ ଅର୍ଦ୍ଧରୁ ଡାହାଣକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">ବାମ ପାର୍ଶ୍ୱରୁ, ତଳ ଅର୍ଦ୍ଧରୁ ଡାହାଣକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_right_top_left">ଡାହାଣ ପାର୍ଶ୍ୱରୁ, ଉପର ଅର୍ଦ୍ଧରୁ ବାମକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">ଡାହାଣ ଧାରରୁ, ଉପର ଅର୍ଦ୍ଧରୁ ଲମ୍ବା ସ୍ୱାଇପ୍ |</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">ଡାହାଣ ପାର୍ଶ୍ୱରୁ, ତଳ ଅର୍ଦ୍ଧରୁ ବାମକୁ ସ୍ୱାଇପ୍ କରନ୍ତୁ |</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">ଡାହାଣ ଧାରରୁ, ତଳ ଅର୍ଦ୍ଧରୁ ଲମ୍ୱା ସ୍ୱାଇପ୍ |</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">ଯେକ key ଣସି ଚାବି ବାଛିବା ପାଇଁ ଆଙ୍ଗୁଠି ଧରି, ତାପରେ ଉଠାନ୍ତୁ | ଏଣ୍ଟର୍, ସମାପ୍ତ, କିମ୍ବା ପଠାଇବା ପାଇଁ ଦୁଇଥର ଟ୍ୟାପ୍ କରନ୍ତୁ |</string>
-    <string name="value_type_confirmation_tap_to_type">ଏହାକୁ ଟାଇପ୍ କରିବାକୁ ଯେକ key ଣସି ଚାବିକୁ ଟ୍ୟାପ୍ କରନ୍ତୁ, କିମ୍ବା କ key ଣସି ଚାବି ବାଛିବା ପାଇଁ ଆଙ୍ଗୁଠି ଧରି ରଖନ୍ତୁ, ତାପରେ ଉଠାନ୍ତୁ |</string>
-    <string name="title_pref_multi_tap_timeout">ଗୋଟିଏ ଆଙ୍ଗୁଠି ଟ୍ୟାପ୍ ମଧ୍ୟରେ ସମୟ |</string>
     <string name="value_multi_tap_timeout_100ms">0.1 ସେକେଣ୍ଡ |</string>
     <string name="value_multi_tap_timeout_150ms">0.15 ସେକେଣ୍ଡ</string>
     <string name="value_multi_tap_timeout_200ms">0.2 ସେକେଣ୍ଡ</string>
     <string name="value_multi_tap_timeout_250ms">0.25 ସେକେଣ୍ଡ (ଡିଫଲ୍ଟ)</string>
-    <string name="title_pref_rotor_step_degrees">ପ୍ରତି ପଦକ୍ଷେପରେ ରୋଟର୍ ଟର୍ନ୍ |</string>
-    <string name="title_pref_edge_first_click_mm">ପ୍ରଥମେ କ୍ଲିକ୍ କରିବାକୁ ଦୂରତା |</string>
-    <string name="title_pref_edge_second_click_mm">ପ୍ରଥମରୁ ଦ୍ୱିତୀୟ କ୍ଲିକ୍ ପର୍ଯ୍ୟନ୍ତ ଦୂରତା |</string>
     <string name="value_distance_5mm">0.5 ସେମି |</string>
     <string name="value_distance_10mm">1 ସେ.ମି.</string>
     <string name="value_distance_15mm">1.5 ସେମି |</string>
@@ -1702,15 +1583,8 @@
     <string name="summary_support_wrap_around">ଶେଷ ଆଇଟମ୍ ରୁ ପ୍ରଥମକୁ ଅନ୍ କିମ୍ବା ଅଫ୍ କୁ ଗୁଡ଼ାଇ ରଖ |</string>
     <string name="wrap_around_on">ଚାରିପାଖରେ ଗୁଡ଼ାଇ ରଖ |</string>
     <string name="wrap_around_off">ଘୋଡ଼େଇ ଦିଅ |</string>
-    <string name="title_selector_tablet_held_up_faces_away">ଟ୍ୟାବଲେଟ୍ ମୁହଁକୁ ଧରି ରଖିଛି |</string>
-    <string name="summary_support_tablet_held_up_faces_away">ଏକ ଟାବଲେଟ୍ କିମ୍ବା ଫୋଲ୍ଡ ଫୋନରେ ବ୍ରେଲି କୀବୋର୍ଡ୍ ପାଇଁ |</string>
-    <string name="tablet_held_up_faces_away_on">ଟାବଲେଟ୍ ମୁହଁକୁ ଧରି ରଖିଛି |</string>
-    <string name="tablet_held_up_faces_away_off">ଟାବଲେଟ୍ ମୁହଁ ବନ୍ଦ କରି ରଖିଛି |</string>
     <string name="title_keyboard_echo_on_screen">ଅନ୍-ସ୍କ୍ରିନ୍ କୀବୋର୍ଡ୍ ଇକୋ |</string>
     <string name="title_keyboard_echo_physical">ଶାରୀରିକ କୀବୋର୍ଡ୍ ଇକୋ |</string>
-    <string name="title_keyboard_echo_braille_keyboard">ବ୍ରେଲି କୀବୋର୍ଡ୍ ଇକୋ |</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">ହସ୍ତଲିଖନ କୀବୋର୍ଡ୍ ଇକୋ |</string>
-    <string name="title_keyboard_echo_braille_display">ବ୍ରେଲି ପ୍ରଦର୍ଶନ ଇକୋ |</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">ଟାଇପ୍ କରିବା ସମୟରେ ବାଣୀ ବାଧା ଦିଅନ୍ତୁ |</string>
     <string name="pref_interrupt_typing_entry_always">ସର୍ବଦା |</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Késleltetés csökkentése</string>
   <string name="talkback_latency_reduction_summary">Gyorsítsa a SandFly válaszadást a képernyő megérintése után</string>
   <string name="summary_pref_intonation">A törölt betűk magasabb hangszínben történő kimondása</string>
-  <string name="title_pref_brailledisplay">Braille-kijelző</string>
-  <string name="title_pref_brailleime">Braille-billentyűzet</string>
-  <string name="summary_pref_brailleime_disabled">Eszköze nem támogatja a Braille-billentyűzetet</string>
   <string name="title_pref_speech_footer">A kisegítő lehetőségek hangerejének bármely képernyőről történő módosításához tartsa 1 ujját a képernyőn, és nyomja meg a hangerő növelése vagy csökkentése gombot.</string>
   <string name="title_pref_vibration">Visszajelzés rezgéssel</string>
   <string name="title_pref_soundback">Visszajelzés hanggal</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Hibakeresési naplózás fedvény engedélyezése</string>
   <string name="title_pref_typing_confirmation">Gépelési módszer</string>
   <string name="title_pref_typing_long_tap_duration">Lenyomva tartás késleltetése gépelés közben</string>
-  <string name="title_pref_touch_explore_timeout">Gépelési fókusz késleltetése</string>
   <string name="message_pref_touch_explore_latency">A rövidebb késleltetés hatására a SandFly hamarabb beszél, miután megérinti a billentyűzetet.\n\nVálasszon késleltetést</string>
-  <string name="title_pref_touch_focus_timeout">Fókusz késleltetése</string>
-  <string name="title_pref_talkback_gesture_detection">Kézmozdulatok kezelése a SandFlyben</string>
-  <string name="toast_pref_talkback_gesture_detection">A beállítás aktiválásához kapcsolja ki, majd újra be a SandFly funkciót.</string>
   <string name="title_pref_auto_image_captioning">Automatikus leírások</string>
   <string name="title_pref_gemini_settings">Gemini-beállítások</string>
   <string name="title_pref_gemini_enabled">Gemini hangutasítások</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Hangerő növelése</string>
   <string name="shortcut_decrease_volume">Hangerő csökkentése</string>
   <string name="shortcut_all_apps">Az összes alkalmazás</string>
-  <string name="shortcut_braille_keyboard">Váltás Braille-billentyűzetre</string>
-  <string name="shortcut_braille_display_settings">Ugrás a Braille-kijelző beállításaihoz</string>
   <string name="shortcut_tutorial">Útmutató megnyitása</string>
   <string name="shortcut_control_speak_time">Az idő kimondásának be-/kikapcsolása</string>
   <string name="shortcut_enable_speak_time">Az idő kimondása</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Az idő kimondása ki van kapcsolva</string>
   <string name="shortcut_practice_gestures">Kézmozdulatok gyakorlása</string>
   <string name="shortcut_report_gesture">Kézmozdulatok – probléma bejelentése</string>
-  <string name="shortcut_toggle_braille_display">A Braille-kijelző be- vagy kikapcsolása</string>
   <string name="shortcut_announce_current_time_and_date">Az aktuális dátum és idő kimondása</string>
   <string name="shortcut_announce_battery_state">Az akkumulátor töltöttségi szintjének felolvasása</string>
   <string name="shortcut_announce_current_title">Ablakcím felolvasása</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Beszédsebesség csökkentése</string>
   <string name="shortcut_toggle_selection">Kijelölési mód elindítása vagy bezárása</string>
   <string name="shortcut_show_tutorial">Útmutató megnyitása</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Váltás a rövidített (2. fokozat) és a rövidítés nélküli írásmód (1. fokozat) között</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Képernyő-Braille mutatása vagy elrejtése csatlakoztatott Braille-kijelzőn</string>
   <string name="shortcut_toggle_sound_feedback">Hallható visszajelzések (hangjelzések) be- és kikapcsolása</string>
   <string name="shortcut_show_learn_mode_page">Billentyűparancsok gyakorlása</string>
   <string name="shortcut_announce_phonetic_pronunciation">Betűk kimondása a fókuszban lévő elem fonetikus kiejtésével</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Hangalapú utasítások</string>
   <string name="title_show_keyboard_shortcuts">Billentyűparancsok</string>
   <string name="talkback_show_talkback_settings">A SandFly beállításai</string>
-  <string name="title_show_braille_display_settings">A Braille-kijelző beállításai</string>
   <string name="title_granularity_default">Alapértelmezett navigáció</string>
   <string name="title_action_dismiss">Elvetés</string>
   <string name="title_action_expand">Kibontás</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Módosíthatja, hogy a képernyő bekapcsolásakor hangosan kimondja-e a rendszer az időt</string>
   <string name="summary_show_keyboard_shortcuts_preferences">A billentyűparancsok listájának megnyitása</string>
   <string name="summary_talkback_preferences">A SandFly beállításainak megnyitása</string>
-  <string name="summary_braile_display_preferences">A Braille-kijelző beállításainak megnyitása</string>
   <string name="summary_system_actions">Ugrás az összes alkalmazáshoz és a Gyorsbeállításokba</string>
   <string name="summary_tts_settings">Megnyitja a szövegfelolvasáshoz tartozó beállításokat</string>
   <string name="not_editable">Nem szerkeszthető</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Csökkentheti az egyéb hangok hangerejét a SandFly felolvasása közben.</string>
   <string name="summary_support_scroll_seq">Görgetés előre vagy vissza</string>
   <string name="summary_support_change_a11y_volume">Kisegítő lehetőségek hangerejének növelése vagy csökkentése</string>
-  <string name="summary_support_change_touch_explore_latency">Gépelési fókusz késleltetésének növelése vagy csökkentése</string>
-  <string name="summary_support_change_touch_focus_latency">Fókusz késleltetésének növelése vagy csökkentése</string>
   <string name="summary_screen_overview">A képernyő összefoglalása műveletgombokkal</string>
   <string name="summary_screen_overview_no_actions">A képernyőn megjelenő tartalom összefoglalójának meghallgatása</string>
   <string name="summary_image_caption">A kijelölt képen belüli szöveg és ikonok felolvasása</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dupla csippentés</string>
   <string name="gesture_name_double_tap_and_hold">Dupla koppintás és lenyomva tartás</string>
   <string name="gesture_name_double_tap_and_hold_xr">Ujjak összecsippentése és úgy tartása</string>
-  <string name="gesture_name_2finger_tap_hold">Kétujjas koppintás és lenyomva tartás</string>
   <string name="gesture_name_3finger_tap_hold">Háromujjas koppintás és lenyomva tartás</string>
   <string name="gesture_name_2finger_3tap_hold">Kétujjas tripla koppintás és lenyomva tartás</string>
   <string name="gesture_name_3finger_3tap_hold">Háromujjas tripla koppintás és lenyomva tartás</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Hang automatikus halkítása</string>
   <string name="title_pref_support_scroll_seq">Görgetés</string>
   <string name="title_pref_a11y_volume">Kisegítő lehetőségek hangereje</string>
-  <string name="title_pref_touch_explore_latency">Gépelési fókusz késleltetése</string>
-  <string name="title_pref_touch_focus_latency">Fókusz késleltetése</string>
   <string name="message_pref_touch_focus_latency">A rövidebb késleltetés hatására SandFly hamarabb beszél, miután megérinti a képernyőt</string>
   <string name="message_pref_typing_method_prefix">Gépelés közben a legkisebb késleltetés érdekében válassza „A kiválasztáshoz tartsa az ujját a kívánt billentyűn, majd emelje fel” lehetőséget.</string>
-  <string name="message_pref_typing_method_postfix">Az osztott koppintás funkciót is bármikor használhatja a gépeléshez. Ehhez tartsa az egyik ujját a kívánt billentyűn, és koppintson valamelyik másik ujjával a képernyőre.</string>
   <string name="title_pref_talkback_speech_rate">Beszéd sebessége</string>
   <string name="title_pref_selector_adjustable_widget_slider">Csúszka módosítása</string>
   <string name="title_pref_selector_typo_granularity">Lektorálás</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">a kulcsszó: %1$s</string>
   <string name="screen_search_no_keyword_hint">Még nincs kulcsszó. Új keresés indításához koppintson három ujjal, és tartsa ujjait lenyomva, vagy nyissa meg a közvetlen keresést a SandFly-menüből.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Még nincs kulcsszó. Új keresés indításához csúsztasson balra, majd lefelé, vagy nyissa meg a közvetlen keresést a SandFly-menüből.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">A Braille-billentyűzet nincs bekapcsolva. A SandFly beállításaiban állítsa be, majd próbálja újra.</string>
   <string name="suggestions_window_available">Javaslatok állnak rendelkezésre</string>
   <string name="suggestions_window_available_with_gesture">Javaslatok állnak rendelkezésre. A megtekintéshez: %1$s.</string>
   <string name="heads_up_window_available">Értesítés érkezett</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">A SandFly mostantól rendelkezik egy „Továbbfejlesztett billentyűzetkiosztással” a fizikai billentyűzetekhez, amely számos új parancsot és gyorsbillentyűt tartalmaz. Ez a továbbfejlesztés egy „böngészési módot” tartalmaz a hatékonyabb webes navigáció érdekében, és egyszerűsíti a navigációt és az interakciót azon SandFly felhasználók számára, akik fizikai billentyűzetet használnak. A „Továbbfejlesztett billentyűkiosztásra” a következő helyen válthat: <xliff:g id="settings_path">%1$s</xliff:g>.\n\nHa Braille-kijelzőt használ, a böngészési mód új billentyűparancsait is használhatja, hogy közvetlenül a Braille-kijelzőről léphessen át a tartalmakon. A Braille-kijelző néhány parancsikonja módosult, hogy alkalmazkodjon ehhez a változáshoz. Az <xliff:g id="braille_display_settings_path">%2$s</xliff:g> helyen megtekintheti az összes Braille-kijelző billentyűparancsát.</string>
   <string name="keyboard_shortcuts_link">A SandFly beállításai &gt; Billentyűparancsok</string>
   <string name="keyboard_shortcuts_link_tts">A SandFly beállításai, majd Billentyűparancsok</string>
-  <string name="braille_display_settings_link">A Braille-kijelző beállításai</string>
   <string name="keyboard_smart_browse_mode_title">Billentyűzet: Intelligens böngészés mód</string>
   <string name="keyboard_smart_browse_mode_text">A SandFly intelligens böngészés módja kikapcsolja a böngészés módot a szerkesztőmezőkben, hogy segítsen a fizikai billentyűzettel való gépelésben az interneten való böngészéskor. Ezután újra bekapcsolja, amikor egy nem szerkeszthető mezőre ugrik, hogy hatékonyan folytathassa a böngészést. Az „Intelligens böngészés mód” a következő helyen kapcsolható be és ki: <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">A SandFly beállításai &gt; Speciális beállítások</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Szöveg beírása</string>
   <string name="basic_typing_text_text">Szövegmezőben billentyűzet nyílik meg a képernyő alsó felén.</string>
   <string name="typing_text_text">Húzza az ujját a billentyűzeten. Amikor meghallja a beírni kívánt betűt, emelje fel az ujját.\n\nAktiválja az alábbi szövegmezőt, és írja be a nevét.</string>
-  <string name="typing_text_with_braille_keyboard_text">Braille-billentyűzetet is használhat a gépeléshez. Bekapcsolása a SandFly beállításaiban lehetséges.</string>
   <string name="other_ways_to_type_title">A gépelés egyéb módjai</string>
   <string name="other_ways_to_type_text">A SandFly funkcióban más módon is lehet gépelni. Például dupla koppintással adhat meg betűket.</string>
   <string name="basic_other_ways_to_type_text">Vannak más módok is a SandFly beírására. Például dupla koppintással írhat be egy betűt. Ezt később módosíthatja a SandFly beállítások &gt; Képernyő-billentyűzet &gt; Gépelési mód menüpontban.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">A kézmozdulatok gyakorlásához kapcsolja be a SandFly funkciót</string>
   <string name="talkback_inactive_message_image_description">A képleírások kérésének kipróbálásához előbb kapcsolja be a SandFly funkciót</string>
   <string name="talkback_inactive_close_tutorial_button">Útmutató bezárása</string>
-  <string name="wear_training_welcome_paragraph">Ha a SandFly funkció be van kapcsolva, a rendszer hangosan felolvassa a képernyőn fókuszban lévő elemet.\n\nUjját gyorsan jobbra csúsztatva a következő elemre lép. Ujját gyorsan balra csúsztatva az előzőre ugrik.\n\nCsúsztassa ujját gyorsan jobbra, amíg meg nem találja a Tovább gombot.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Csúsztasson gyorsan %1$d ujjal felfelé vagy lefelé.</string>
-  <string name="wear_training_go_back_title">Vissza</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ha vissza szeretne lépni, csúsztasson %1$d ujjal jobbra a képernyő szélétől.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Sikerült</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Visszalépés kézmozdulat végrehajtva</string>
-  <string name="wear_training_volume_up_title">Hangerő növelése</string>
-  <string name="wear_training_volume_up_text">Csúsztasson jobbra, majd fel.</string>
-  <string name="wear_training_volume_down_title">Hangerő csökkentése</string>
-  <string name="wear_training_volume_down_text">Csúsztasson jobbra, majd le.</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-menü megnyitása</string>
-  <string name="wear_training_open_talkback_menu_text">A gyakran használt beállítások és vezérlők megnyitásához csúsztassa ujját gyorsan lefelé, majd jobbra</string>
-  <string name="wear_training_typing_title">Gépelés</string>
-  <string name="wear_training_typing_text1">A billentyűzettel való gépeléshez húzza az ujját a billentyűzeten. Amikor meghallja a beírni kívánt betűt, emelje fel az ujját.</string>
-  <string name="wear_training_typing_text2">A billentyűzet elrejtéséhez és a bevitt szöveg ellenőrzéséhez csúsztasson lefelé két ujjal a képernyő tetejéről.</string>
-  <string name="wear_training_typing_text3">A billentyűzethez való visszatéréshez csúsztasson felfelé két ujjal a képernyő aljáról.</string>
-  <string name="wear_training_typing_text4">A billentyűzet bezárásához és a gépelés megszakításához csúsztasson jobbra két ujjal a képernyő bal széléről.</string>
-  <string name="wear_training_typing_text5">Próbálja ki alább.</string>
-  <string name="wear_training_typing_practice_button_content_description">Gépelés billentyűzettel</string>
-  <string name="wear_training_end_tutorial_title">Készen áll a SandFly használatára</string>
   <string name="wear_new_feature_page_title">Üdvözli a frissített SandFly!</string>
   <string name="wear_new_feature_page_content">Néhány programhiba-javítást, valamint a fókusz mozgásával kapcsolatos módosításokat tapasztalhat majd</string>
   <string name="wear_new_feature_page_button_content_description">Befejezés</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Csengési mód</string>
     <string name="summary_pref_announce_ringer_mode">Kimondja, ha a csengő rezgésre vagy némára van állítva</string>
     <string name="title_pref_category_feedback">Visszajelzés</string>
-    <string name="title_pref_category_typing_and_braille">Gépelés és Braille</string>
     <string name="title_pref_category_apps">Alkalmazások</string>
     <string name="title_pref_touch_activation">Érintés és aktiválás</string>
     <string name="title_pref_navigation">Navigáció</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Ne engedd</string>
     <string name="permission_speak_label">beszéljen keresztül SandFly</string>
     <string name="permission_speak_description">Lehetővé teszi, hogy az alkalmazás szöveget mondjon az Ön SandFly hangján. SandFly megkérdezi, mielőtt az alkalmazás beszélni tudna.</string>
-    <string name="permission_braille_display_label">kérje, hogy legyen Braille-kijelző a SandFly számára</string>
-    <string name="permission_braille_display_description">Lehetővé teszi, hogy az alkalmazás Braille-kijelzőként kérje a SandFly-t. Ha engedélyezi az SandFly-ben, akkor mindent elolvashat a képernyőn, és vezérelheti az eszközt. SandFly kérdezi meg először.</string>
     <string name="title_pref_phonetic_letters_mode">A betűket fonetikusan beszélje</string>
     <string name="phonetic_letters_mode_off">Ki</string>
     <string name="phonetic_letters_mode_after_letter_delay">A levél után késleltetett, például \"h, hotel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Nyissa meg az alkalmazást</string>
     <string name="shortcut_open_app">Megnyitás <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Görgessen a tetejére</string>
-    <string name="shortcut_write_reading_control">Írja be az olvasási vezérlő betűjét!</string>
-    <string name="title_pref_reading_control_letters">Kézzel írt ábécé betűi</string>
-    <string name="reading_control_letter_none">Nincs</string>
-    <string name="handwriting_prompt">Írj egy ábécé betűt</string>
-    <string name="handwriting_closed">Kézírás zárva</string>
-    <string name="handwriting_no_match">Egyetlen olvasásvezérlő sem <xliff:g id="letter" example="Q">%1$s</xliff:g>-val kezdődik</string>
-    <string name="handwriting_not_recognized">A kézírás nem ismerhető fel</string>
-    <string name="handwriting_downloading">A kézírás-felismerés letöltése folyamatban van</string>
-    <string name="handwriting_download_title">Letölti a kézírás-felismerést?</string>
-    <string name="handwriting_download_message">A telefon felismeri a kézírást. Ennek a nyelvnek a körülbelül 20 MB-os modellje egyszer letöltődik a Google címről. Egy üzenet jelenik meg, amikor letöltötte.</string>
-    <string name="handwriting_download_button">Letöltés</string>
-    <string name="handwriting_downloaded">Kézírás-felismerés letöltve</string>
-    <string name="handwriting_download_failed">A kézírás-felismerést nem sikerült letölteni. Ellenőrizze az internetkapcsolatot.</string>
-    <string name="handwriting_unsupported_language">A kézírás-felismerés nem érhető el ezen a nyelven</string>
-    <string name="title_pref_handwriting_keyboard">Kézírásos billentyűzet</string>
-    <string name="summary_pref_handwriting_keyboard">Kapcsolja be a SandFly kézírást az Android billentyűzetbeállításaiban</string>
-    <string name="title_pref_handwriting_wait">Írás után várj</string>
-    <string name="value_handwriting_wait_200">0,2 másodperc</string>
-    <string name="value_handwriting_wait_300">0,3 másodperc</string>
-    <string name="value_handwriting_wait_400">0,4 másodperc</string>
-    <string name="value_handwriting_wait_500">0,5 másodperc</string>
-    <string name="value_handwriting_wait_600">0,6 másodperc</string>
-    <string name="value_handwriting_wait_800">0,8 másodperc</string>
-    <string name="value_handwriting_wait_1000">1 másodperc</string>
-    <string name="handwriting_keyboard_name">SandFly kézírás</string>
-    <string name="handwriting_space">Szóköz</string>
-    <string name="handwriting_new_line">Új sor</string>
-    <string name="handwriting_tutorial_intro">Kézírás billentyűzet oktatóanyag. Írjon egy ujjal bárhol a képernyőn. Amit írsz, az be van gépelve, ha megállsz egy pillanatra. Az oktatóprogram befejezéséhez húzza lefelé három ujját.</string>
-    <string name="handwriting_tutorial_write_letter">Írd le az ábécé a betűjét!</string>
-    <string name="handwriting_tutorial_write_word">Most írja be a hi szót (h, majd i).</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g> beírása.</string>
-    <string name="handwriting_tutorial_space">Szóköz beírásához csúsztassa jobbra két ujját.</string>
-    <string name="handwriting_tutorial_delete">Csúsztassa két ujját balra a kurzor előtti karakter törléséhez.</string>
-    <string name="handwriting_tutorial_deleted">Törölve.</string>
-    <string name="handwriting_tutorial_next_reading">Ha a kézírást más karakterként, például nagybetűként ismeri fel, húzza felfelé két ujját a következő felismerési javaslat kiválasztásához. Próbálja ki most.</string>
-    <string name="handwriting_tutorial_read_back">Érintse meg két ujjal a kurzor előtti szöveg elolvasásához.</string>
-    <string name="handwriting_tutorial_new_line">Csúsztassa két ujját lefelé egy új sor beszúrásához, vagy hajtsa végre a szövegmezőműveletet, például a Küldést.</string>
-    <string name="handwriting_tutorial_not_that">Ez egy másik gesztus volt.</string>
-    <string name="handwriting_tutorial_done">Új vonal. A bemutató befejeződött. Csúsztassa lefelé három ujját a billentyűzet elrejtéséhez, három ujjal pedig jobbra vagy balra a billentyűzet váltásához. Az oktatóanyag újbóli megnyitásához koppintson három ujjal.</string>
-    <string name="handwriting_tutorial_finished">A bemutató véget ért. Újbóli megnyitásához koppintson három ujjal.</string>
-    <string name="handwriting_no_alternatives">Nincs más javaslat</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> / <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Üres szöveg</string>
-    <string name="handwriting_not_available">A kézírás-felismerés nem érhető el ezen az eszközön</string>
     <string name="shortcut_scroll_to_bottom">Görgessen lefelé</string>
     <string name="shortcut_refresh">Frissítés</string>
     <string name="shortcut_system_notifications">Rendszer értesítési felület</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Kiválasztás törlése</string>
     <string name="title_pref_brightness">Fényerő</string>
     <string name="summary_support_change_brightness">Növelje vagy csökkentse a képernyő fényerejét, még akkor is, ha a képernyő el van rejtve</string>
-    <string name="title_pref_shortcut_3finger_4tap">Koppintson négyszer 3 ujjal</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Forgassa el az óramutató járásával megegyező irányba 2 ujjal</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Forgassa el 2 ujjal az óramutató járásával ellentétes irányba</string>
-    <string name="title_pref_shortcut_2finger_scrub">Dörzsölje le 2 ujjal</string>
-    <string name="title_pref_shortcut_2finger_pinch">Csípje össze 2 ujjal</string>
-    <string name="title_pref_shortcut_2finger_spread">2 ujjal szétterítjük</string>
-    <string name="title_pref_shortcut_3finger_pinch">Csípje össze 3 ujjal</string>
-    <string name="title_pref_shortcut_3finger_spread">Terítsd szét 3 ujjal</string>
-    <string name="title_pref_shortcut_4finger_pinch">Csípje össze 4 ujjal</string>
-    <string name="title_pref_shortcut_4finger_spread">Terítsd szét 4 ujjal</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Csúsztassa felfelé az ujját az alsó szélétől</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Csúsztassa hosszan felfelé az alsó széltől</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Csúsztassa lefelé az ujját a bal felső saroktól</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Csúsztassa lefelé az ujját a jobb felső saroktól</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Csúsztasson hosszan lefelé a bal felső saroktól</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Csúsztassa hosszan lefelé a jobb felső saroktól</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Csúsztassa jobbra a bal széltől, a felső felétől</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Csúsztasson hosszan jobbra a bal széltől, a felső felétől</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Csúsztassa jobbra a bal széltől, az alsó felétől</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Csúsztasson hosszan jobbra a bal széltől, az alsó felétől</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Csúsztassa balra a jobb széltől, a felső felétől</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Csúsztassa hosszan balra a jobb széltől, a felső felétől</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Csúsztassa balra a jobb széltől, az alsó felétől</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Csúsztasson hosszan balra a jobb széltől, az alsó felétől</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Tartsa lenyomva az ujját bármelyik billentyű kiválasztásához, majd emelje fel. Koppintson duplán a Belépés, a Kész vagy a Küldés lehetőséghez.</string>
-    <string name="value_type_confirmation_tap_to_type">Érintse meg bármelyik billentyűt a beírásához, vagy tartsa lenyomva az ujját bármelyik billentyű kiválasztásához, majd emelje fel</string>
-    <string name="title_pref_multi_tap_timeout">Az egyujjas érintések közötti idő</string>
     <string name="value_multi_tap_timeout_100ms">0,1 másodperc</string>
     <string name="value_multi_tap_timeout_150ms">0,15 másodperc</string>
     <string name="value_multi_tap_timeout_200ms">0,2 másodperc</string>
     <string name="value_multi_tap_timeout_250ms">0,25 másodperc (alapértelmezett)</string>
-    <string name="title_pref_rotor_step_degrees">A rotor fordulata lépésenként</string>
-    <string name="title_pref_edge_first_click_mm">Távolság az első kattintásig</string>
-    <string name="title_pref_edge_second_click_mm">Távolság az első és a második kattintás között</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Kapcsolja be vagy ki a burkolást az utolsó elemről az elsőre</string>
     <string name="wrap_around_on">Tekerje körbe</string>
     <string name="wrap_around_off">Tekerje körbe</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet arccal elfelé tartotta</string>
-    <string name="summary_support_tablet_held_up_faces_away">Táblagépen vagy szétnyitott telefonon lévő Braille-billentyűzethez</string>
-    <string name="tablet_held_up_faces_away_on">A táblagép arccal elfelé tartotta</string>
-    <string name="tablet_held_up_faces_away_off">A táblagép arccal lefelé tartotta</string>
     <string name="title_keyboard_echo_on_screen">A képernyőn megjelenő billentyűzet visszhangja</string>
     <string name="title_keyboard_echo_physical">Fizikai billentyűzet visszhangja</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille billentyűzet visszhangja</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Kézírásos billentyűzet visszhangja</string>
-    <string name="title_keyboard_echo_braille_display">Braille-kijelző visszhangja</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Gépelés közben szakítsa meg a beszédet</string>
     <string name="pref_interrupt_typing_entry_always">Mindig</string>

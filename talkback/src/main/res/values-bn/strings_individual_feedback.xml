@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">ব্রাউজ মোড চালু</string>
   <string name="individual_sound_browse_mode_off">ব্রাউজ মোড বন্ধ</string>
   <string name="individual_sound_radial_menu">বৃত্তাকার মেনু</string>
-  <string name="individual_sound_display_connected">ব্রেল ডিসপ্লে কানেক্ট হয়েছে</string>
-  <string name="individual_sound_display_disconnected">ব্রেল ডিসপ্লে ডিসকানেক্ট হয়েছে</string>
-  <string name="individual_sound_double_beep">ব্রেল কমান্ড কাজ করেনি</string>
-  <string name="individual_sound_turn_on">ব্রেল অটো স্ক্রল চালু</string>
-  <string name="individual_sound_turn_off">ব্রেল অটো স্ক্রল বন্ধ</string>
-  <string name="individual_sound_calibration_done">ব্রেল কীবোর্ড ক্যালিব্রেট করা হয়েছে</string>
   <string name="individual_vibration_focus">কোনো আইটেমে ফোকাস</string>
   <string name="individual_vibration_focus_actionable">অ্যাকশনযোগ্য আইটেমে ফোকাস</string>
   <string name="individual_vibration_clicked">ক্লিক</string>
@@ -37,12 +31,6 @@
   <string name="individual_vibration_typo">বানান ভুল</string>
   <string name="individual_vibration_notification">ঘোষণা</string>
     <string name="individual_sound_screen_on">স্ক্রিন চালু</string>
-    <string name="individual_vibration_braille_character">ব্রেইল কীবোর্ড: অক্ষর টাইপ করা</string>
-    <string name="individual_vibration_braille_space">ব্রেইল কীবোর্ড: স্পেস বা মুছে ফেলা</string>
-    <string name="individual_vibration_braille_new_line">ব্রেইল কীবোর্ড: নতুন লাইন বা শব্দ মুছে ফেলা</string>
-    <string name="individual_vibration_braille_hold">ব্রেইল কীবোর্ড: আঙুল চেপে ধরে রাখা</string>
-    <string name="individual_vibration_braille_gesture">ব্রেইল কীবোর্ড: অন্যান্য জেসচার</string>
-    <string name="individual_vibration_braille_nothing_to_delete">ব্রেইল কীবোর্ড: মোছার কিছু নেই</string>
     <string name="individual_sound_next_reading_control">পরবর্তী রিডিং কন্ট্রোল</string>
     <string name="individual_sound_previous_reading_control">আগের রিডিং কন্ট্রোল</string>
     <string name="individual_sound_edge_gesture_bottom">প্রান্ত অঙ্গভঙ্গি নীচে</string>

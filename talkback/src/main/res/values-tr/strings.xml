@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Gecikmeyi azalt</string>
   <string name="talkback_latency_reduction_summary">Ekrana dokunduktan sonra SandFly\'nin daha hızlı yanıt vermesini sağlayın</string>
   <string name="summary_pref_intonation">Silinen harfleri daha ince bir sesle oku</string>
-  <string name="title_pref_brailledisplay">Braille ekran</string>
-  <string name="title_pref_brailleime">Braille klavye</string>
-  <string name="summary_pref_brailleime_disabled">Cihazınız braille klavyeyi desteklemiyor</string>
   <string name="title_pref_speech_footer">Erişilebilirlik ses düzeyini herhangi bir ekrandan değiştirmek için 1 parmağınızı ekranda basılı tutun ve ses açma veya ses kısma tuşuna basın.</string>
   <string name="title_pref_vibration">Titreşimli geri bildirim</string>
   <string name="title_pref_soundback">Sesli geri bildirim</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Hata ayıklama günlüğü yer paylaşımını etkinleştir</string>
   <string name="title_pref_typing_confirmation">Yazma yöntemi</string>
   <string name="title_pref_typing_long_tap_duration">Yazı yazarken dokunup basılı tutma gecikmesi</string>
-  <string name="title_pref_touch_explore_timeout">Yazma odağı gecikmesi</string>
   <string name="message_pref_touch_explore_latency">Daha kısa bir gecikme, klavyeye dokunduktan sonra SandFly\'nin daha erken konuşmasını sağlar.\n\nBir gecikme seçin</string>
-  <string name="title_pref_touch_focus_timeout">Odaklanma gecikmesi</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly\'teki hareketleri işleme</string>
-  <string name="toast_pref_talkback_gesture_detection">Ayarı etkinleştirmek için SandFly\'i kapatıp tekrar açın.</string>
   <string name="title_pref_auto_image_captioning">Otomatik açıklamalar</string>
   <string name="title_pref_gemini_settings">Gemini ayarları</string>
   <string name="title_pref_gemini_enabled">Gemini sesli komutlar</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Sesi aç</string>
   <string name="shortcut_decrease_volume">Sesi kıs</string>
   <string name="shortcut_all_apps">Tüm uygulamalar</string>
-  <string name="shortcut_braille_keyboard">Braille klavyesine geç</string>
-  <string name="shortcut_braille_display_settings">Braille ekran ayarlarına git</string>
   <string name="shortcut_tutorial">Eğitimi aç</string>
   <string name="shortcut_control_speak_time">Saati söyle veya söyleme</string>
   <string name="shortcut_enable_speak_time">Saati söyle</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Saati söylemeyi kapat</string>
   <string name="shortcut_practice_gestures">Hareketler için alıştırma yap</string>
   <string name="shortcut_report_gesture">Hareket sorunu bildir</string>
-  <string name="shortcut_toggle_braille_display">Braille ekranı açın veya kapatın</string>
   <string name="shortcut_announce_current_time_and_date">Mevcut tarih ve saati söyle</string>
   <string name="shortcut_announce_battery_state">Pil yüzdesini söyle</string>
   <string name="shortcut_announce_current_title">Pencere başlığını sesli olarak söyle</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Konuşma hızını düşür</string>
   <string name="shortcut_toggle_selection">Seçim modunu başlatma veya sonlandırma</string>
   <string name="shortcut_show_tutorial">Eğitimi aç</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Kısaltılmış (2. derece) ve kısaltılmamış (1. derece) arasında geçiş yap</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Bağlı Braille varsa ekranda göster veya gizle</string>
   <string name="shortcut_toggle_sound_feedback">Sesli geri bildirimi (ses sinyalleri) aç veya kapat</string>
   <string name="shortcut_show_learn_mode_page">Klavye kısayollarını deneyin</string>
   <string name="shortcut_announce_phonetic_pronunciation">Harfleri, odaklanılan öğenin fonetik okunuşuyla söyle</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Sesli komutlar</string>
   <string name="title_show_keyboard_shortcuts">Klavye kısayolları</string>
   <string name="talkback_show_talkback_settings">SandFly ayarları</string>
-  <string name="title_show_braille_display_settings">Braille ekran ayarları</string>
   <string name="title_granularity_default">Varsayılan gezinme</string>
   <string name="title_action_dismiss">Kapat</string>
   <string name="title_action_expand">Genişlet</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Ekranı açtığınızda saatin söylenip söylenmeyeceği ayarını değiştirin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Klavye kısayolları listesini açar</string>
   <string name="summary_talkback_preferences">SandFly ayarlarını açar</string>
-  <string name="summary_braile_display_preferences">Braille ekran ayarlarını açar</string>
   <string name="summary_system_actions">Tüm uygulamalara ve Hızlı Ayarlar\'a gidin</string>
   <string name="summary_tts_settings">Metin okuma ayarlarını açar</string>
   <string name="not_editable">Düzenlenemez</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly konuştuğunda çalan diğer seslerin seviyesini kısar</string>
   <string name="summary_support_scroll_seq">İleri veya geri kaydırır</string>
   <string name="summary_support_change_a11y_volume">Erişilebilirlik ses düzeyini artırın veya azaltın</string>
-  <string name="summary_support_change_touch_explore_latency">Yazma odağı gecikmesini artırın veya azaltın</string>
-  <string name="summary_support_change_touch_focus_latency">Odaklanma gecikmesini artırın veya azaltın</string>
   <string name="summary_screen_overview">İşlem düğmeleriyle ekranı özetle</string>
   <string name="summary_screen_overview_no_actions">Ekrandaki içeriğin özetini dinleyin</string>
   <string name="summary_image_caption">Seçilen resimdeki metin ve simgeler sesli okunur</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">İki kez kıstırma</string>
   <string name="gesture_name_double_tap_and_hold">İki kez dokunma ve basılı tutma</string>
   <string name="gesture_name_double_tap_and_hold_xr">Kıstırıp basılı tutma</string>
-  <string name="gesture_name_2finger_tap_hold">2 parmakla dokunma ve basılı tutma</string>
   <string name="gesture_name_3finger_tap_hold">3 parmakla dokunma ve basılı tutma</string>
   <string name="gesture_name_2finger_3tap_hold">2 parmakla üç kez dokunma ve basılı tutma</string>
   <string name="gesture_name_3finger_3tap_hold">3 parmakla üç kez dokunma ve basılı tutma</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Sesi kısma</string>
   <string name="title_pref_support_scroll_seq">Kaydır</string>
   <string name="title_pref_a11y_volume">Erişilebilirlik ses düzeyi</string>
-  <string name="title_pref_touch_explore_latency">Yazma odağı gecikmesi</string>
-  <string name="title_pref_touch_focus_latency">Odaklanma gecikmesi</string>
   <string name="message_pref_touch_focus_latency">Daha kısa bir gecikme, ekrana dokunduktan sonra SandFly\'nin daha erken konuşmasını sağlar</string>
   <string name="message_pref_typing_method_prefix">Yazarken gecikmenin en az olmasını sağlamak üzere \"Herhangi bir tuşu seçmek için önce basılı tutup sonra parmağınızı kaldırın\" seçeneğini belirleyin.</string>
-  <string name="message_pref_typing_method_postfix">Dilediğiniz zaman bölünmüş dokunma özelliğini kullanarak da yazabilirsiniz. Bunu yapmak için bir parmağınızla herhangi bir tuşu seçip diğer parmağınızla ekrana dokunun.</string>
   <string name="title_pref_talkback_speech_rate">Konuşma hızı</string>
   <string name="title_pref_selector_adjustable_widget_slider">Kaydırma çubuğunu ayarla</string>
   <string name="title_pref_selector_typo_granularity">Gözden geçir</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">anahtar kelime %1$s</string>
   <string name="screen_search_no_keyword_hint">Henüz anahtar kelime yok. Yeni bir arama başlatmak için 3 parmağınızla dokunup basılı tutun veya SandFly menüsünden ekranda ara özelliğini açın.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Henüz anahtar kelime yok. Yeni bir arama başlatmak için sola, ardından aşağı kaydırın veya SandFly menüsünden ekranda ara özelliğini açın.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braille klavyesi açık değil. SandFly ayarlarına gidin, Braille klavyesini kurup tekrar deneyin.</string>
   <string name="suggestions_window_available">Öneri mevcut</string>
   <string name="suggestions_window_available_with_gesture">Öneri mevcut. Erişmek için %1$s</string>
   <string name="heads_up_window_available">Bildirim mevcut</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly artık fiziksel klavyeler için çeşitli yeni komutlar ve kısayollar içeren bir \"Gelişmiş tuş haritasına\" sahip. Bu geliştirme, fiziksel klavye kullanan SandFly kullanıcılar için daha verimli web navigasyonu, kolaylaştırılmış navigasyon ve etkileşim için bir \"gözatma modu\" içerir. <xliff:g id="settings_path">%1$s</xliff:g>\'de \"Gelişmiş tuş haritasına\" geçebilirsiniz.\n\nBraille ekranı kullanıyorsanız, Braille ekranınızdan doğrudan içerikte geçiş yapmak için yeni göz atma modu kısayollarını da kullanabilirsiniz. Bu değişikliğe uyum sağlamak için bazı Braille ekran kısayolları değiştirildi. Tüm Braille ekran kısayollarının listesini <xliff:g id="braille_display_settings_path">%2$s</xliff:g>\'de görebilirsiniz.</string>
   <string name="keyboard_shortcuts_link">SandFly ayarları &gt; Klavye kısayolları</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ayarlarındaki Klavye kısayolları</string>
-  <string name="braille_display_settings_link">Braille ekran ayarları</string>
   <string name="keyboard_smart_browse_mode_title">Klavye: Akıllı tarayıcı modu</string>
   <string name="keyboard_smart_browse_mode_text">SandFly akıllı tarayıcı modu, web\'de gezinirken fiziksel klavye ile yazmanıza yardımcı olmak için düzenleme alanında tarayıcı modunu devre dışı bırakır. Ardından, web\'de düzenleme yapılmayan bir alana geçtiğinizde verimli şekilde göz atmaya devam edebilmeniz için tekrar etkinleştirilir. \"Akıllı tarayıcı modu\"nu etkinleştirmek veya devre dışı bırakmak için <xliff:g id="settings_path">%1$s</xliff:g> bölümüne gidebilirsiniz.</string>
   <string name="advanced_settings_link">SandFly ayarları &gt; Gelişmiş ayarlar</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Metin yazma</string>
   <string name="basic_typing_text_text">Metin kutusundayken ekranınızın alt kısmında bir klavye açılır.</string>
   <string name="typing_text_text">Parmağınızı klavye üzerinde hareket ettirin. Yazmak istediğiniz harfi duyduğunuzda parmağınızı kaldırın.\n\nAşağıdaki metin kutusunu etkinleştirip adınızı yazmayı deneyin.</string>
-  <string name="typing_text_with_braille_keyboard_text">Braille klavyeyle de yazabilirsiniz. Braille klavyeyi SandFly ayarlarında bulabilirsiniz.</string>
   <string name="other_ways_to_type_title">Diğer yazma yöntemleri</string>
   <string name="other_ways_to_type_text">SandFly\'te yazmanın başka yolları da vardır. Örneğin, bir harf girmek için iki kez dokunabilirsiniz.</string>
   <string name="basic_other_ways_to_type_text">SandFly yazmanın başka yolları da var. Örneğin, bir harf girmek için iki kez dokunmayı kullanabilirsiniz. Bunu daha sonra SandFly ayarlar &gt; Ekran klavyesi &gt; Yazma yöntemi bölümünden değiştirebilirsiniz.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Hareketlerle ilgili alıştırma yapmak için önce SandFly\'i etkinleştirin.</string>
   <string name="talkback_inactive_message_image_description">Resim açıklamalarını almayı denemek için önce SandFly\'i açın</string>
   <string name="talkback_inactive_close_tutorial_button">Eğitimi kapat</string>
-  <string name="wear_training_welcome_paragraph">SandFly etkinken ekranda odaklanılan öğe sesli olarak söylenir.\n\nSağa kaydırma sonraki öğeye, sola kaydırmak önceki öğeye götürür.\n\nSonraki düğmesini bulana kadar sağa kaydırın.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d parmağınızla yukarı veya aşağı kaydırın.</string>
-  <string name="wear_training_go_back_title">Geri dön</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Geri dönmek istediğinizde %1$d parmağınızı kullanarak ekranın kenarından sağa kaydırın</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Başarılı</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Geri gitme hareketi yapıldı</string>
-  <string name="wear_training_volume_up_title">Sesi artır</string>
-  <string name="wear_training_volume_up_text">Sağa ve ardından yukarı kaydırın</string>
-  <string name="wear_training_volume_down_title">Sesi azalt</string>
-  <string name="wear_training_volume_down_text">Sağa ve ardından aşağı kaydırın</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly menüsünü aç</string>
-  <string name="wear_training_open_talkback_menu_text">Sık kullanabileceğiniz ayarları ve kontrolleri açmak için aşağıya, ardından sağa kaydırın</string>
-  <string name="wear_training_typing_title">Yazın</string>
-  <string name="wear_training_typing_text1">Klavyeyle yazmak için parmağınızı klavye üzerinde hareket ettirin. Yazmak istediğiniz harfi duyduğunuzda parmağınızı kaldırın.</string>
-  <string name="wear_training_typing_text2">Klavyeyi gizlemek ve girişinizi kontrol etmek için 2 parmağınızla ekranın üst kısmından aşağı doğru kaydırın.</string>
-  <string name="wear_training_typing_text3">Klavyeye dönmek için 2 parmağınızla ekranın alt kısmından yukarı doğru kaydırın.</string>
-  <string name="wear_training_typing_text4">Klavyeyi kapatmak ve yazma işlemini iptal etmek için 2 parmağınızla ekranın sol kenarından sağa kaydırın.</string>
-  <string name="wear_training_typing_text5">Aşağıdan deneyebilirsiniz.</string>
-  <string name="wear_training_typing_practice_button_content_description">Klavyeyle yazma</string>
-  <string name="wear_training_end_tutorial_title">SandFly\'i kullanmaya hazırsınız</string>
   <string name="wear_new_feature_page_title">Güncellenen SandFly\'e hoş geldiniz</string>
   <string name="wear_new_feature_page_content">Bazı hata düzeltmeleri yapıldığını ve odağın taşınma şeklinde değişiklik olduğunu göreceksiniz</string>
   <string name="wear_new_feature_page_button_content_description">Son</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Zil modu</string>
     <string name="summary_pref_announce_ringer_mode">Zil sesinin titreşime veya sessize ayarlandığını söyleyin</string>
     <string name="title_pref_category_feedback">Geribildirim</string>
-    <string name="title_pref_category_typing_and_braille">Yazma ve Braille</string>
     <string name="title_pref_category_apps">Uygulamalar</string>
     <string name="title_pref_touch_activation">Dokunma ve etkinleştirme</string>
     <string name="title_pref_navigation">Gezinme</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">İzin verme</string>
     <string name="permission_speak_label">aracılığıyla konuş SandFly</string>
     <string name="permission_speak_description">Uygulamanın metni sizin SandFly sesinizle söylemesini istemesine izin verir. SandFly uygulamanın konuşabilmesi için size sorar.</string>
-    <string name="permission_braille_display_label">SandFly için braille ekranı olmasını isteyin</string>
-    <string name="permission_braille_display_description">Uygulamanın SandFly için braille ekranı olmasını istemesine izin verir. SandFly izin verirseniz ekrandaki her şeyi okuyabilir ve cihazınızı kontrol edebilir. SandFly önce size sorar.</string>
     <string name="title_pref_phonetic_letters_mode">Harfleri fonetik olarak söyle</string>
     <string name="phonetic_letters_mode_off">Kapalı</string>
     <string name="phonetic_letters_mode_after_letter_delay">Mektuptan sonra \"h, otel\" gibi gecikti</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Uygulamayı aç</string>
     <string name="shortcut_open_app">Açık <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Yukarıya doğru kaydır</string>
-    <string name="shortcut_write_reading_control">Okuma kontrolünün harfini yazın</string>
-    <string name="title_pref_reading_control_letters">El yazısı alfabe harfleri</string>
-    <string name="reading_control_letter_none">Yok</string>
-    <string name="handwriting_prompt">Bir alfabe harfi yaz</string>
-    <string name="handwriting_closed">El yazısı kapatıldı</string>
-    <string name="handwriting_no_match">Hiçbir okuma kontrolü <xliff:g id="letter" example="Q">%1$s</xliff:g> ile başlamaz</string>
-    <string name="handwriting_not_recognized">El yazısı tanınmıyor</string>
-    <string name="handwriting_downloading">El yazısı tanıma indiriliyor</string>
-    <string name="handwriting_download_title">El yazısı tanıma indirilsin mi?</string>
-    <string name="handwriting_download_message">Bu telefonda el yazısı tanınıyor. Bu dil için yaklaşık 20 MB\'lık modeli Google\'dan bir kez indirilir. İndirildiğinde bir mesaj görüntülenir.</string>
-    <string name="handwriting_download_button">İndir</string>
-    <string name="handwriting_downloaded">El yazısı tanıma indirildi</string>
-    <string name="handwriting_download_failed">El yazısı tanıma indirilemedi. İnternet bağlantısını kontrol edin.</string>
-    <string name="handwriting_unsupported_language">El yazısı tanıma bu dilde kullanılamıyor</string>
-    <string name="title_pref_handwriting_keyboard">El yazısı klavyesi</string>
-    <string name="summary_pref_handwriting_keyboard">Android\'nin klavye ayarlarında SandFly el yazısını açın</string>
-    <string name="title_pref_handwriting_wait">Yazdıktan sonra bekleyin</string>
-    <string name="value_handwriting_wait_200">0,2 saniye</string>
-    <string name="value_handwriting_wait_300">0,3 saniye</string>
-    <string name="value_handwriting_wait_400">0,4 saniye</string>
-    <string name="value_handwriting_wait_500">0,5 saniye</string>
-    <string name="value_handwriting_wait_600">0,6 saniye</string>
-    <string name="value_handwriting_wait_800">0,8 saniye</string>
-    <string name="value_handwriting_wait_1000">1 saniye</string>
-    <string name="handwriting_keyboard_name">SandFly el yazısı</string>
-    <string name="handwriting_space">Boşluk</string>
-    <string name="handwriting_new_line">Yeni satır</string>
-    <string name="handwriting_tutorial_intro">El yazısı klavye öğreticisi. Tek parmağınızla ekranın herhangi bir yerine yazın. Bir an durduğunuzda yazdıklarınız yazılır. Öğreticiyi sonlandırmak için üç parmağınızla aşağı kaydırın.</string>
-    <string name="handwriting_tutorial_write_letter">Alfabenin a harfini yazın.</string>
-    <string name="handwriting_tutorial_write_word">Şimdi hi kelimesini yazın (h ve ardından i).</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g> yazıldı.</string>
-    <string name="handwriting_tutorial_space">Boşluk yazmak için iki parmağınızla sağa doğru kaydırın.</string>
-    <string name="handwriting_tutorial_delete">İmlecin önündeki karakteri silmek için iki parmağınızla sola kaydırın.</string>
-    <string name="handwriting_tutorial_deleted">Silindi.</string>
-    <string name="handwriting_tutorial_next_reading">El yazısı büyük harf gibi başka bir karakter olarak tanınırsa sonraki tanıma önerisini seçmek için iki parmağınızla yukarı kaydırın. Şimdi dene.</string>
-    <string name="handwriting_tutorial_read_back">İmleçten önceki metni okumak için iki parmağınızla dokunun.</string>
-    <string name="handwriting_tutorial_new_line">Yeni bir satır eklemek veya Gönder gibi metin alanı eylemini gerçekleştirmek için iki parmağınızla aşağı kaydırın.</string>
-    <string name="handwriting_tutorial_not_that">Bu başka bir jestti.</string>
-    <string name="handwriting_tutorial_done">Yeni hat. Öğretici bitti. Klavyeyi gizlemek için üç parmağınızla aşağı, klavyeler arasında geçiş yapmak için ise üç parmağınızla sağa veya sola kaydırın. Öğreticiyi tekrar açmak için üç parmağınızla dokunun.</string>
-    <string name="handwriting_tutorial_finished">Öğretici sona erdi. Tekrar açmak için üç parmağınızla dokunun.</string>
-    <string name="handwriting_no_alternatives">Başka öneri yok</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> / <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Boş metin</string>
-    <string name="handwriting_not_available">Bu cihazda el yazısı tanıma özelliği mevcut değil</string>
     <string name="shortcut_scroll_to_bottom">Aşağıya doğru kaydır</string>
     <string name="shortcut_refresh">Yenile</string>
     <string name="shortcut_system_notifications">Sistem bildirim gölgesi</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Seçimi temizle</string>
     <string name="title_pref_brightness">Parlaklık</string>
     <string name="summary_support_change_brightness">Ekran gizli olsa bile ekran parlaklığını artırın veya azaltın</string>
-    <string name="title_pref_shortcut_3finger_4tap">3 parmakla dört kez dokunma</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">2 parmağınızla saat yönünde döndürün</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">2 parmağınızla saat yönünün tersine döndürün</string>
-    <string name="title_pref_shortcut_2finger_scrub">2 parmağınızla fırçalayın</string>
-    <string name="title_pref_shortcut_2finger_pinch">2 parmağınızla sıkıştırın</string>
-    <string name="title_pref_shortcut_2finger_spread">2 parmakla yayın</string>
-    <string name="title_pref_shortcut_3finger_pinch">3 parmağınızla sıkıştırın</string>
-    <string name="title_pref_shortcut_3finger_spread">3 parmakla yayın</string>
-    <string name="title_pref_shortcut_4finger_pinch">4 parmağınızla sıkıştırın</string>
-    <string name="title_pref_shortcut_4finger_spread">4 parmakla yayın</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Alt kenardan yukarı kaydırın</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Alt kenardan yukarıya doğru uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Sol üstten aşağı doğru kaydırın</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Sağ üst kısımdan aşağı doğru kaydırın</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Sol üstten aşağı doğru uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Sağ üstten aşağı doğru uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Sol kenardan, üst yarıdan sağa kaydırın</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Sol kenardan sağa, üst yarıdan uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Sol kenardan, alt yarıdan sağa kaydırın</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Sol kenardan, alt yarıdan sağa uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Sağ kenardan, üst yarıdan sola kaydırın</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Sağ kenardan sola, üst yarıdan uzun kaydırın</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Sağ kenardan, alt yarıdan sola kaydırın</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Sağ kenardan, alt yarıdan sola uzun kaydırın</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Herhangi bir tuşu seçmek için parmağınızı basılı tutun, ardından kaldırın. Girmek, Bitti veya Göndermek için iki kez dokunun.</string>
-    <string name="value_type_confirmation_tap_to_type">Yazmak için herhangi bir tuşa dokunun veya herhangi bir tuşu seçmek için parmağınızı basılı tutun, ardından kaldırın</string>
-    <string name="title_pref_multi_tap_timeout">Tek parmakla dokunmalar arasındaki süre</string>
     <string name="value_multi_tap_timeout_100ms">0,1 saniye</string>
     <string name="value_multi_tap_timeout_150ms">0,15 saniye</string>
     <string name="value_multi_tap_timeout_200ms">0,2 saniye</string>
     <string name="value_multi_tap_timeout_250ms">0,25 saniye (varsayılan)</string>
-    <string name="title_pref_rotor_step_degrees">Adım başına rotor dönüşü</string>
-    <string name="title_pref_edge_first_click_mm">İlk tıklamaya olan mesafe</string>
-    <string name="title_pref_edge_second_click_mm">İlk tıklama ile ikinci tıklama arasındaki mesafe</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Son öğeden ilk öğeye sarmayı açma veya kapatma</string>
     <string name="wrap_around_on">Etrafını sar</string>
     <string name="wrap_around_off">Etrafı sarın</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet yüzleri uzağa doğru tutuldu</string>
-    <string name="summary_support_tablet_held_up_faces_away">Tablet veya açılmış telefondaki braille klavyesi için</string>
-    <string name="tablet_held_up_faces_away_on">Tablet yüzleri uzağa doğru tutuldu</string>
-    <string name="tablet_held_up_faces_away_off">Tablet yüzleri uzağa bakacak şekilde tutuldu</string>
     <string name="title_keyboard_echo_on_screen">Ekran klavyesi yankısı</string>
     <string name="title_keyboard_echo_physical">Fiziksel klavye yankısı</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille klavye yankısı</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">El yazısı klavye yankısı</string>
-    <string name="title_keyboard_echo_braille_display">Braille ekran yankısı</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Yazarken konuşmayı kesme</string>
     <string name="pref_interrupt_typing_entry_always">Her zaman</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Skrajšanje zakasnitve</string>
   <string name="talkback_latency_reduction_summary">Naj se SandFly hitreje odzove, ko se dotaknete zaslona</string>
   <string name="summary_pref_intonation">Izgovarjanje izbrisanih črk z višjim glasom</string>
-  <string name="title_pref_brailledisplay">Zaslon braille</string>
-  <string name="title_pref_brailleime">Braillova tipkovnica</string>
-  <string name="summary_pref_brailleime_disabled">Naprava ne podpira braillove tipkovnice</string>
   <string name="title_pref_speech_footer">Če želite spremeniti glasnost dostopnosti s katerega koli zaslona, držite 1 prst na zaslonu in pritisnite tipko za povečanje ali zmanjšanje glasnosti.</string>
   <string name="title_pref_vibration">Odziv z vibriranjem</string>
   <string name="title_pref_soundback">Zvočni odziv</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Omogoči polprosojen prikaz dnevnikov odpravljanja napak</string>
   <string name="title_pref_typing_confirmation">Metoda tipkanja</string>
   <string name="title_pref_typing_long_tap_duration">Zakasnitev dotika in pridržanja pri tipkanju</string>
-  <string name="title_pref_touch_explore_timeout">Zakasnitev fokusa za tipkanje</string>
   <string name="message_pref_touch_explore_latency">Krajša zakasnitev povzroči, da SandFly govori prej, ko se dotaknete tipkovnice.\n\nIzberite zakasnitev</string>
-  <string name="title_pref_touch_focus_timeout">Zakasnitev fokusa</string>
-  <string name="title_pref_talkback_gesture_detection">Zaznava potez v funkciji SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Nastavitev aktivirate tako, da funkcijo SandFly izklopite in jo znova vklopite.</string>
   <string name="title_pref_auto_image_captioning">Samodejni opisi</string>
   <string name="title_pref_gemini_settings">Nastavitve Geminija</string>
   <string name="title_pref_gemini_enabled">Gemini glasovni ukazi</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Povečanje glasnosti</string>
   <string name="shortcut_decrease_volume">Zmanjšanje glasnosti</string>
   <string name="shortcut_all_apps">Vse aplikacije</string>
-  <string name="shortcut_braille_keyboard">Preklop v braillovo tipkovnico</string>
-  <string name="shortcut_braille_display_settings">Pomik v nastavitve zaslona braille</string>
   <string name="shortcut_tutorial">Odpri vadnico</string>
   <string name="shortcut_control_speak_time">Vklop ali izklop izgovora ure</string>
   <string name="shortcut_enable_speak_time">Izgovori uro</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Izgovor ure je izklopljen</string>
   <string name="shortcut_practice_gestures">Vadba uporabe potez</string>
   <string name="shortcut_report_gesture">Prijava težave s potezo</string>
-  <string name="shortcut_toggle_braille_display">Vklop ali izklop zaslona braille</string>
   <string name="shortcut_announce_current_time_and_date">Izgovorjava trenutnega datuma in ure</string>
   <string name="shortcut_announce_battery_state">Izgovarjanje odstotka napolnjenosti baterije</string>
   <string name="shortcut_announce_current_title">Izgovarjanje naslova okna</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Zmanjšanje hitrosti govora</string>
   <string name="shortcut_toggle_selection">Začetek ali končanje načina za izbiro</string>
   <string name="shortcut_show_tutorial">Odpiranje vadnice</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Preklop med skrčeno (2. stopnja) in neskrčeno braillovo pisavo (1. stopnja)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Prikaz ali skrivanje braillove tipkovnice na zaslonu pri povezanih zaslonih braille</string>
   <string name="shortcut_toggle_sound_feedback">Vklop/izklop zvočnih povratnih informacij (zvočnih ikon)</string>
   <string name="shortcut_show_learn_mode_page">Vaja uporabe bližnjičnih tipk</string>
   <string name="shortcut_announce_phonetic_pronunciation">Izgovarjanje črk s fonetično izgovorjavo za element v fokusu</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Glasovni ukazi</string>
   <string name="title_show_keyboard_shortcuts">Bližnjične tipke</string>
   <string name="talkback_show_talkback_settings">Nastavitve funkcije SandFly</string>
-  <string name="title_show_braille_display_settings">Nastavitve zaslona braille</string>
   <string name="title_granularity_default">Privzeto pomikanje</string>
   <string name="title_action_dismiss">Opusti</string>
   <string name="title_action_expand">Razširi</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Nastavite, ali naj bo ura izgovorjena, ko vklopite zaslon, ali ne.</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Odpiranje seznama bližnjičnih tipk</string>
   <string name="summary_talkback_preferences">Odpiranje nastavitev funkcije SandFly</string>
-  <string name="summary_braile_display_preferences">Odpiranje nastavitev zaslona braille</string>
   <string name="summary_system_actions">Prikaz vseh aplikacij in hitrih nastavitev</string>
   <string name="summary_tts_settings">Odpiranje nastavitev pretvorbe besedila v govor</string>
   <string name="not_editable">Ni mogoče urejati</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Zmanjšanje glasnosti drugega zvoka, ki se predvaja med govorom funkcije SandFly</string>
   <string name="summary_support_scroll_seq">Pomikanje naprej ali nazaj</string>
   <string name="summary_support_change_a11y_volume">Povečanje ali zmanjšanje glasnosti funkcij dostopnosti</string>
-  <string name="summary_support_change_touch_explore_latency">Podaljšanje ali skrajšanje zakasnitve fokusa za tipkanje</string>
-  <string name="summary_support_change_touch_focus_latency">Podaljšanje ali skrajšanje zakasnitve fokusa</string>
   <string name="summary_screen_overview">Povzetek vsebine zaslona z gumbi za dejanja</string>
   <string name="summary_screen_overview_no_actions">Poslušanje povzetka vsebine zaslona</string>
   <string name="summary_image_caption">Izgovorjeni so besedilo in ikone na izbrani sliki.</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dvakratni primik prstov</string>
   <string name="gesture_name_double_tap_and_hold">Dvakratni dotik in pridržanje</string>
   <string name="gesture_name_double_tap_and_hold_xr">Primik prstov in pridržanje</string>
-  <string name="gesture_name_2finger_tap_hold">Dotik in pridržanje z 2 prstoma</string>
   <string name="gesture_name_3finger_tap_hold">Dotik in pridržanje s 3 prsti</string>
   <string name="gesture_name_2finger_3tap_hold">Trikratni dotik in pridržanje z 2 prstoma</string>
   <string name="gesture_name_3finger_3tap_hold">Trikratni dotik in pridržanje s 3 prsti</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Utišanje drugih zvokov</string>
   <string name="title_pref_support_scroll_seq">Drseče pomikanje</string>
   <string name="title_pref_a11y_volume">Glasnost za dostopnost</string>
-  <string name="title_pref_touch_explore_latency">Zakasnitev fokusa za tipkanje</string>
-  <string name="title_pref_touch_focus_latency">Zakasnitev fokusa</string>
   <string name="message_pref_touch_focus_latency">Zaradi krajšega zamika SandFly govori prej, ko se dotaknete zaslona</string>
   <string name="message_pref_typing_method_prefix">Če želite pri tipkanju najmanjšo zakasnitev, izberite »Pridržanje prsta za izbiro poljubne tipke in nato dvig prsta«</string>
-  <string name="message_pref_typing_method_postfix">Za tipkanje lahko kadar koli uporabite tudi deljeni dotik. Če ga želite uporabiti, pridržite en prst, da izberete poljubno tipko, in se z drugim prstom dotaknite zaslona.</string>
   <string name="title_pref_talkback_speech_rate">Hitrost govora</string>
   <string name="title_pref_selector_adjustable_widget_slider">Prilagajanje drsnika</string>
   <string name="title_pref_selector_typo_granularity">Lektoriraj</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">ključna beseda je %1$s</string>
   <string name="screen_search_no_keyword_hint">Še nobene ključne besede ni. Če želite začeti novo iskanje, se s tremi prsti dotaknite in pridržite zaslon ali pa v meniju funkcije SandFly odprite pregled zaslona.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Še nobene ključne besede ni. Če želite začeti novo iskanje, povlecite levo in nato navzdol ali pa v meniju funkcije SandFly odprite pregled zaslona.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braillova tipkovnica ni vklopljena. Pojdite v nastavitve za SandFly, nastavite braillovo tipkovnico in poskusite znova.</string>
   <string name="suggestions_window_available">Na voljo so predlogi.</string>
   <string name="suggestions_window_available_with_gesture">Na voljo so predlogi. Do tega dostopate tako: %1$s</string>
   <string name="heads_up_window_available">Na voljo je obvestilo</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ima zdaj \"izboljšano razporeditev tipk\" za fizične tipkovnice, ki vsebuje vrsto novih ukazov in bližnjic. This enhancement includes a \"browse mode\" for more efficient web navigation, streamlining navigation and interaction for SandFly users who rely on physical keyboards. You can switch to the \"Enhanced keymap\" in <xliff:g id="settings_path">%1$s</xliff:g>.\n\nIf you use a Braille display, you can also use new browse mode shortcuts to traverse through content directly from your Braille display. Nekatere bližnjice na Braillovem zaslonu so bile spremenjene, da bi se prilagodile tej spremembi. Seznam vseh bližnjic na Braillovem zaslonu si lahko ogledate v <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">»Nastavitve funkcije SandFly« &gt; »Bližnjične tipke«</string>
   <string name="keyboard_shortcuts_link_tts">»Nastavitve funkcije SandFly« in nato »Bližnjične tipke«</string>
-  <string name="braille_display_settings_link">Nastavitve zaslona braille</string>
   <string name="keyboard_smart_browse_mode_title">Tipkovnica: Pametni brskalni način</string>
   <string name="keyboard_smart_browse_mode_text">Pametni brskalni način funkcije SandFly izklopi brskalni način v polju za urejanje, da vam pomaga tipkati s fizično tipkovnico med brskanjem po spletu. Ko v spletu preklopite na polje, ki ne omogoča urejanja, se nato znova vklopi brskalni način, da lahko učinkovito nadaljujete brskanje. »Pametni brskalni način« lahko vklopite ali izklopite v meniju <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">»Nastavitve funkcije SandFly« &gt; »Dodatne nastavitve«</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Vnašanje besedila</string>
   <string name="basic_typing_text_text">Ko ste v besedilnem polju, se na dnu zaslona odpre tipkovnica.</string>
   <string name="typing_text_text">Prst premaknite po tipkovnici. Ko zaslišite črko, ki jo želite vnesti, dvignite prst.\n\nPoskusite aktivirati spodnje besedilno polje in vnesti svoje ime.</string>
-  <string name="typing_text_with_braille_keyboard_text">Besedilo lahko vnašate tudi z braillovo tipkovnico. Najdete jo v nastavitvah funkcije SandFly.</string>
   <string name="other_ways_to_type_title">Drugi načini tipkanja</string>
   <string name="other_ways_to_type_text">V funkciji SandFly lahko tipkate tudi na druge načine. Črko lahko na primer vnesete z dvakratnim dotikom.</string>
   <string name="basic_other_ways_to_type_text">Obstajajo tudi drugi načini za tipkanje SandFly. Za vnos črke lahko na primer uporabite dvojni dotik. To lahko spremenite pozneje v nastavitvah SandFly &gt; Zaslonska tipkovnica &gt; Način tipkanja.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Če želite vaditi poteze, najprej vklopite funkcijo SandFly</string>
   <string name="talkback_inactive_message_image_description">Če želite poskusiti pridobiti opise slik, najprej vklopite funkcijo SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Zapri vadnico</string>
-  <string name="wear_training_welcome_paragraph">Ko je funkcija SandFly vklopljena, je element v fokusu na zaslonu izgovorjen na glas.\n\nČe povlečete desno, se pomaknete na naslednji element. Če povlečete levo, se pomaknete na prejšnji element.\n\nVlecite desno zdaj, dokler ne najdete gumba za naprej.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Z %1$d prstoma povlecite navzgor ali navzdol.</string>
-  <string name="wear_training_go_back_title">Pomik nazaj</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ko se želite pomakniti nazaj, z %1$d prstoma povlecite desno z roba zaslona.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Uspešno</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Izvedli ste potezo za pomik nazaj</string>
-  <string name="wear_training_volume_up_title">Povečanje glasnosti</string>
-  <string name="wear_training_volume_up_text">Povlecite desno in nato navzgor.</string>
-  <string name="wear_training_volume_down_title">Zmanjšanje glasnosti</string>
-  <string name="wear_training_volume_down_text">Povlecite desno in nato navzdol.</string>
-  <string name="wear_training_open_talkback_menu_title">Odpiranje menija funkcije SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Če želite odpreti pogosto uporabne nastavitve in kontrolnike, povlecite navzdol in nato desno.</string>
-  <string name="wear_training_typing_title">Tipkanje</string>
-  <string name="wear_training_typing_text1">Če želite tipkati s tipkovnico, premaknite prst po tipkovnici. Ko zaslišite črko, ki jo želite vnesti, dvignite prst.</string>
-  <string name="wear_training_typing_text2">Če želite skriti tipkovnico in preveriti vnos, z dvema prstoma povlecite z vrha zaslona navzdol.</string>
-  <string name="wear_training_typing_text3">Če se želite vrniti na tipkovnico, z dvema prstoma povlecite z dna zaslona navzgor.</string>
-  <string name="wear_training_typing_text4">Če želite zapreti tipkovnico in preklicati tipkanje, z dvema prstoma povlecite desno z levega roba zaslona.</string>
-  <string name="wear_training_typing_text5">Preizkusite spodaj.</string>
-  <string name="wear_training_typing_practice_button_content_description">Tipkanje s tipkovnico</string>
-  <string name="wear_training_end_tutorial_title">Pripravljeni ste na začetek uporabe funkcije SandFly</string>
   <string name="wear_new_feature_page_title">Pozdravljeni v posodobljeni funkciji SandFly</string>
   <string name="wear_new_feature_page_content">Opazili boste nekaj popravkov napak in sprememb pri premikanju fokusa</string>
   <string name="wear_new_feature_page_button_content_description">Dokončaj</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Način zvonjenja</string>
     <string name="summary_pref_announce_ringer_mode">Povejte, ko je zvonjenje nastavljeno na vibriranje ali tiho</string>
     <string name="title_pref_category_feedback">Povratne informacije</string>
-    <string name="title_pref_category_typing_and_braille">Tipkanje in brajica</string>
     <string name="title_pref_category_apps">Aplikacije</string>
     <string name="title_pref_touch_activation">Dotik in aktivacija</string>
     <string name="title_pref_navigation">Pomikanje</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Ne dovoli</string>
     <string name="permission_speak_label">govori prek SandFly</string>
     <string name="permission_speak_description">Omogoča, da aplikacija zahteva izgovor besedila z vašim glasom SandFly. SandFly vas vpraša, preden lahko aplikacija spregovori.</string>
-    <string name="permission_braille_display_label">zahtevaj, da postaneš Braillov zaslon za SandFly</string>
-    <string name="permission_braille_display_description">Omogoča, da aplikacija zahteva, da je Braillov zaslon za SandFly. Če mu dovolite v SandFly, lahko prebere vse na zaslonu in upravlja vašo napravo. SandFly vas najprej vpraša.</string>
     <string name="title_pref_phonetic_letters_mode">Izgovarjajte črke fonetično</string>
     <string name="phonetic_letters_mode_off">Izklopljeno</string>
     <string name="phonetic_letters_mode_after_letter_delay">Po pismu z zamudo, kot \"h, hotel\"</string>
@@ -1575,50 +1529,6 @@
     <string name="shortcut_title_open_app">Odpri aplikacijo</string>
     <string name="shortcut_open_app">Odpri <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Pomaknite se na vrh</string>
-    <string name="shortcut_write_reading_control">Napišite črko kontrole branja</string>
-    <string name="title_pref_reading_control_letters">Ročno napisane črke abecede</string>
-    <string name="reading_control_letter_none">Brez</string>
-    <string name="handwriting_prompt">Napišite črko abecede</string>
-    <string name="handwriting_closed">Rokopis zaprt</string>
-    <string name="handwriting_no_match">Noben nadzor za branje se ne začne z <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Rokopis ni prepoznan</string>
-    <string name="handwriting_downloading">Prepoznavanje rokopisa se prenaša</string>
-    <string name="handwriting_download_title">Prenesti prepoznavanje rokopisa?</string>
-    <string name="handwriting_download_message">Ta telefon prepozna rokopis. Njegov model za ta jezik, približno 20 MB, se prenese iz Google enkrat. Ko se prenese, se prikaže sporočilo.</string>
-    <string name="handwriting_download_button">Prenesi</string>
-    <string name="handwriting_downloaded">Prepoznavanje rokopisa je preneseno</string>
-    <string name="handwriting_download_failed">Prepoznavanja rokopisa ni bilo mogoče prenesti. Preverite internetno povezavo.</string>
-    <string name="handwriting_unsupported_language">Prepoznavanje rokopisa ni na voljo v tem jeziku</string>
-    <string name="title_pref_handwriting_keyboard">Tipkovnica za rokopis</string>
-    <string name="summary_pref_handwriting_keyboard">Vklopi rokopis SandFly v nastavitvah tipkovnice Android</string>
-    <string name="title_pref_handwriting_wait">Počakajte po pisanju</string>
-    <string name="value_handwriting_wait_200">0,2 sekunde</string>
-    <string name="value_handwriting_wait_300">0,3 sekunde</string>
-    <string name="value_handwriting_wait_400">0,4 sekunde</string>
-    <string name="value_handwriting_wait_500">0,5 sekunde</string>
-    <string name="value_handwriting_wait_600">0,6 sekunde</string>
-    <string name="value_handwriting_wait_800">0,8 sekunde</string>
-    <string name="value_handwriting_wait_1000">1 sekunda</string>
-    <string name="handwriting_keyboard_name">SandFly rokopis</string>
-    <string name="handwriting_space">Preslednica</string>
-    <string name="handwriting_new_line">Nova vrstica</string>
-    <string name="handwriting_tutorial_intro">Vadnica za tipkovnico za rokopis. Pišite z enim prstom kjer koli na zaslonu. Kar napišete, se natipka, ko se za trenutek ustavite. Če želite končati vadnico, povlecite navzdol s tremi prsti.</string>
-    <string name="handwriting_tutorial_write_letter">Napišite abecedno črko a.</string>
-    <string name="handwriting_tutorial_write_word">Zdaj napišite besedo hi (h, ki mu sledi i).</string>
-    <string name="handwriting_tutorial_typed">Vtipkano <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Z dvema prstoma povlecite desno, da vnesete presledek.</string>
-    <string name="handwriting_tutorial_delete">Z dvema prstoma povlecite v levo, da izbrišete znak pred kazalcem.</string>
-    <string name="handwriting_tutorial_deleted">Izbrisano.</string>
-    <string name="handwriting_tutorial_next_reading">Če je rokopis prepoznan kot drug znak, na primer velika začetnica, povlecite z dvema prstoma navzgor, da izberete naslednji predlog za prepoznavanje. Poskusite zdaj.</string>
-    <string name="handwriting_tutorial_read_back">Tapnite z dvema prstoma, da preberete besedilo pred kazalcem.</string>
-    <string name="handwriting_tutorial_new_line">Z dvema prstoma povlecite navzdol, da vstavite novo vrstico ali izvedete dejanje besedilnega polja, na primer Pošlji.</string>
-    <string name="handwriting_tutorial_not_that">To je bila še ena gesta.</string>
-    <string name="handwriting_tutorial_done">Nova linija. Vadnica je končana. Povlecite navzdol s tremi prsti, da skrijete tipkovnico, in desno ali levo s tremi prsti, da preklopite tipkovnico. Če želite znova odpreti vadnico, tapnite s tremi prsti.</string>
-    <string name="handwriting_tutorial_finished">Vadnica je končana. Če ga želite znova odpreti, tapnite s tremi prsti.</string>
-    <string name="handwriting_no_alternatives">Nobenih drugih predlogov</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> od <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Prazno besedilo</string>
-    <string name="handwriting_not_available">Prepoznavanje rokopisa ni na voljo v tej napravi</string>
     <string name="shortcut_scroll_to_bottom">Pomaknite se na dno</string>
     <string name="shortcut_refresh">Osveži</string>
     <string name="shortcut_system_notifications">Zaslon sistemskih obvestil</string>
@@ -1630,40 +1540,11 @@
     <string name="title_clear_selection">Počisti izbiro</string>
     <string name="title_pref_brightness">Svetlost</string>
     <string name="summary_support_change_brightness">Povečajte ali zmanjšajte svetlost zaslona, tudi če je zaslon skrit</string>
-    <string name="title_pref_shortcut_3finger_4tap">Štirikratni dotik s 3 prsti</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Z 2 prstoma zavrtite v smeri urinega kazalca</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Zavrtite v nasprotni smeri urnega kazalca z 2 prstoma</string>
-    <string name="title_pref_shortcut_2finger_scrub">Drgnite z 2 prstoma</string>
-    <string name="title_pref_shortcut_2finger_pinch">Stisnite z 2 prstoma</string>
-    <string name="title_pref_shortcut_2finger_spread">Razmažite z 2 prstoma</string>
-    <string name="title_pref_shortcut_3finger_pinch">Stisnite s 3 prsti</string>
-    <string name="title_pref_shortcut_3finger_spread">Razširite s 3 prsti</string>
-    <string name="title_pref_shortcut_4finger_pinch">Stisnite s 4 prsti</string>
-    <string name="title_pref_shortcut_4finger_spread">Razširite s 4 prsti</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Povlecite od spodnjega roba navzgor</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Dolgo povlecite od spodnjega roba navzgor</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Povlecite navzdol od zgoraj levo</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Povlecite navzdol z zgornje desne strani</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Dolgo povlecite navzdol z zgornje leve</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Dolgo povlecite navzdol z zgornje desne strani</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Povlecite desno od levega roba, zgornje polovice</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Dolgo povlecite desno od levega roba, zgornja polovica</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Povlecite desno od levega roba, spodnja polovica</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Dolgo povlecite desno od levega roba, spodnja polovica</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Povlecite levo od desnega roba, zgornje polovice</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Dolgo povlecite levo od desnega roba, zgornja polovica</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Povlecite levo od desnega roba, spodnja polovica</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Dolgo povlecite levo od desnega roba, spodnja polovica</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Pridržite prst, da izberete katero koli tipko, nato dvignite. Dvakrat tapnite za Enter, Done ali Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Tapnite katero koli tipko, da jo vnesete, ali držite prst, da izberete katero koli tipko, nato dvignite</string>
-    <string name="title_pref_multi_tap_timeout">Čas med dotiki z enim prstom</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekunde</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekunde</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekunde</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekunde (privzeto)</string>
-    <string name="title_pref_rotor_step_degrees">Obrat rotorja na korak</string>
-    <string name="title_pref_edge_first_click_mm">Razdalja do prvega klika</string>
-    <string name="title_pref_edge_second_click_mm">Razdalja od prvega do drugega klika</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1711,15 +1592,8 @@
     <string name="summary_support_wrap_around">Vklop ali izklop ovijanja od zadnjega elementa do prvega</string>
     <string name="wrap_around_on">Ovijte okoli</string>
     <string name="wrap_around_off">Zaviti okoli</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablica je bila obrnjena stran</string>
-    <string name="summary_support_tablet_held_up_faces_away">Za brajevo tipkovnico na tablici ali raztegnjenem telefonu</string>
-    <string name="tablet_held_up_faces_away_on">Tablični računalnik je držal obrnjen stran</string>
-    <string name="tablet_held_up_faces_away_off">Tablični računalnik je bil obrnjen stran</string>
     <string name="title_keyboard_echo_on_screen">Odmev tipkovnice na zaslonu</string>
     <string name="title_keyboard_echo_physical">Odmev fizične tipkovnice</string>
-    <string name="title_keyboard_echo_braille_keyboard">Odmev Braillove tipkovnice</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Odmev rokopisne tipkovnice</string>
-    <string name="title_keyboard_echo_braille_display">Odmev Braillovega zaslona</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Prekinjajte govor med tipkanjem</string>
     <string name="pref_interrupt_typing_entry_always">Vedno</string>

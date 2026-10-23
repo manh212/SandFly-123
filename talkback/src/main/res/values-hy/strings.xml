@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Նվազեցնել հապաղումը</string>
   <string name="talkback_latency_reduction_summary">Դարձրեք SandFly-ն ավելի արագ արձագանքել էկրանին հպվելուց հետո</string>
   <string name="summary_pref_intonation">Բարձր ձայնով հնչեցնել տառերի ջնջումը</string>
-  <string name="title_pref_brailledisplay">Բրայլյան էկրան</string>
-  <string name="title_pref_brailleime">Բրայլյան ստեղնաշար</string>
-  <string name="summary_pref_brailleime_disabled">Բրայլյան ստեղնաշարը չի աջակցվում</string>
   <string name="title_pref_speech_footer">Մատչելիության ձայնը ցանկացած էկրանից փոխելու համար 1 մատը պահեք էկրանին և սեղմեք ձայնի բարձրացման կամ ձայնի իջեցման կոճակը:</string>
   <string name="title_pref_vibration">Թրթռոցով արձագանք</string>
   <string name="title_pref_soundback">Ձայնային արձագանք</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Միացնել վրիպազերծման մատյանների վրադրումը</string>
   <string name="title_pref_typing_confirmation">Մուտքագրման մեթոդ</string>
   <string name="title_pref_typing_long_tap_duration">Հպելու և պահելու հապաղում մուտքագրման ժամանակ</string>
-  <string name="title_pref_touch_explore_timeout">Մուտքագրման ընթացքում տարրի ընտրության հապաղում</string>
   <string name="message_pref_touch_explore_latency">Ավելի կարճ ուշացումը ստիպում է SandFly ավելի շուտ խոսել ստեղնաշարին հպվելուց հետո:\n\nԸնտրեք ուշացում</string>
-  <string name="title_pref_touch_focus_timeout">Տարրի ընտրության հապաղում</string>
-  <string name="title_pref_talkback_gesture_detection">Միացնել ժեստերի հայտնաբերումը SandFly-ում</string>
-  <string name="toast_pref_talkback_gesture_detection">Կարգավորումն ակտիվացնելու համար անջատեք SandFly-ը և նորից միացրեք։</string>
   <string name="title_pref_auto_image_captioning">Ավտոմատ նկարագրություններ</string>
   <string name="title_pref_gemini_settings">Gemini-ի կարգավորումներ</string>
   <string name="title_pref_gemini_enabled">Gemini ձայնային հրամաններ</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Բարձրացնել ձայնը</string>
   <string name="shortcut_decrease_volume">Իջեցնել ձայնը</string>
   <string name="shortcut_all_apps">Բոլոր հավելվածները</string>
-  <string name="shortcut_braille_keyboard">Անցնել բրայլյան ստեղնաշարին</string>
-  <string name="shortcut_braille_display_settings">Անցնել բրայլյան էկրանի կարգավորումներ</string>
   <string name="shortcut_tutorial">Բացել ուղեցույցը</string>
   <string name="shortcut_control_speak_time">Հնչեցնել կամ չհնչեցնել ժամանակը</string>
   <string name="shortcut_enable_speak_time">Հնչեցնել ժամանակը</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Ժամանակը չի հնչեցվում</string>
   <string name="shortcut_practice_gestures">Ժեստերի օգտագործման վարժություններ</string>
   <string name="shortcut_report_gesture">Հաղորդել ժեստի հետ կապված խնդրի մասին</string>
-  <string name="shortcut_toggle_braille_display">Միացնել/անջատել բրայլյան էկրանը</string>
   <string name="shortcut_announce_current_time_and_date">Հնչեցնել ընթացիկ ամսաթիվը և ժամը</string>
   <string name="shortcut_announce_battery_state">Հնչեցնել մարտկոցի լիցքի մակարդակը</string>
   <string name="shortcut_announce_current_title">Հնչեցնել պատուհանի անվանումը</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Նվազեցնել խոսքի արագությունը</string>
   <string name="shortcut_toggle_selection">Միացնել կամ անջատել տեքստի նշման ռեժիմը</string>
   <string name="shortcut_show_tutorial">Բացել ուղեցույցը</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Միացնել/անջատել կրճատված ռեժիմը</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Ցույց տալ/թաքցնել բրայլյան գրերը կապակցված բրայլյան էկրանին</string>
   <string name="shortcut_toggle_sound_feedback">Միացնել կամ անջատել ձայնային արձագանքը (ազդանշանները)</string>
   <string name="shortcut_show_learn_mode_page">Սովորել ստեղնային դյուրանցումները</string>
   <string name="shortcut_announce_phonetic_pronunciation">Ընտրված տարրի համար հնչեցնել տառերը հնչյունային արտասանությամբ</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Ձայնային կառավարում</string>
   <string name="title_show_keyboard_shortcuts">Ստեղնային դյուրանցումներ</string>
   <string name="talkback_show_talkback_settings">SandFly-ի կարգավորումներ</string>
-  <string name="title_show_braille_display_settings">Բրայլյան էկրանի կարգավորումներ</string>
   <string name="title_granularity_default">Կանխադրված նավիգացիա</string>
   <string name="title_action_dismiss">Փակել</string>
   <string name="title_action_expand">Ընդարձակել</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Ընտրեք՝ արդյոք ուզում եք լսել ժամանակը, երբ միացնում եք էկրանը</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Բացել ստեղնային դյուրանցումների ցանկը</string>
   <string name="summary_talkback_preferences">Բացել SandFly-ի կարգավորումները</string>
-  <string name="summary_braile_display_preferences">Բացել բրայլյան էկրանի կարգավորումները</string>
   <string name="summary_system_actions">Անցնել բոլոր հավելվածներին և արագ կարգավորումներին</string>
   <string name="summary_tts_settings">Բացեք տեքստի հնչեցման կարգավորումները</string>
   <string name="not_editable">Հնարավոր չէ փոփոխել</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Նվազեցնում է այլ ձայների ուժգնությունը, երբ SandFly-ը խոսում է</string>
   <string name="summary_support_scroll_seq">Թերթել առաջ կամ հետ</string>
   <string name="summary_support_change_a11y_volume">Բարձրացրեք կամ ցածրացրեք հատուկ գործառույթների ձայնը</string>
-  <string name="summary_support_change_touch_explore_latency">Մեծացրեք կամ փոքրացրեք մուտքագրման ընթացքում տարրի ընտրության հապաղումը</string>
-  <string name="summary_support_change_touch_focus_latency">Մեծացնել կամ փոքրացնել տարրի ընտրության հապաղումը</string>
   <string name="summary_screen_overview">Ամփոփել էկրանի բովանդակությունը գործողության կոճակների միջոցով</string>
   <string name="summary_screen_overview_no_actions">Լսել էկրանին ցուցադրված բովանդակության ամփոփումը</string>
   <string name="summary_image_caption">Հնչեցնում է ընտրված պատկերների տեքստը և պատկերակների նկարագրությունը</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Երկու անգամ մատներն իրար միացնել</string>
   <string name="gesture_name_double_tap_and_hold">Կրկնակի հպում և պահում</string>
   <string name="gesture_name_double_tap_and_hold_xr">Մատներն իրար միացնել և պահել</string>
-  <string name="gesture_name_2finger_tap_hold">Երկու մատով կրկնակի հպում և պահում</string>
   <string name="gesture_name_3finger_tap_hold">Երեք մատով կրկնակի հպում և պահում</string>
   <string name="gesture_name_2finger_3tap_hold">Երկու մատով եռակի հպում և պահում</string>
   <string name="gesture_name_3finger_3tap_hold">Երեք մատով եռակի հպում և պահում</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Այլ հավելվածների ձայնի իջեցում</string>
   <string name="title_pref_support_scroll_seq">Ոլորել</string>
   <string name="title_pref_a11y_volume">Հատուկ գործառույթների ձայնի ուժգնություն</string>
-  <string name="title_pref_touch_explore_latency">Մուտքագրման ընթացքում տարրի ընտրության հապաղում</string>
-  <string name="title_pref_touch_focus_latency">Տարրի ընտրության հապաղում</string>
   <string name="message_pref_touch_focus_latency">Ավելի կարճ ուշացումը ստիպում է SandFly-ին ավելի շուտ խոսել էկրանին հպվելուց հետո</string>
   <string name="message_pref_typing_method_prefix">Մուտքագրման ժամանակ հապաղումը նվազագույնի հասցնելու համար ընտրեք «Սեղմած պահել ցանկացած ստեղն, ապա բաց թողնել»</string>
-  <string name="message_pref_typing_method_postfix">Դուք նաև ցանկացած ժամանակ կարող եք օգտագործել տրոհված հպումը՝ տեքստ մուտքագրելու համար։ Մեկ մատը սեղմած պահեք ցանկացած ստեղնի վրա և մյուս մատով հպեք էկրանին։</string>
   <string name="title_pref_talkback_speech_rate">Խոսքի արագությունը</string>
   <string name="title_pref_selector_adjustable_widget_slider">Սահիչի կարգավորում</string>
   <string name="title_pref_selector_typo_granularity">Սրբագրում</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">հիմնաբառը՝ %1$s</string>
   <string name="screen_search_no_keyword_hint">Հիմնաբառ դեռ չկա։ Նոր որոնում սկսելու համար երեք մատով հպեք էկրանին և պահեք կամ SandFly-ի ընտրացանկից բացեք էկրանին որոնումը։</string>
   <string name="screen_search_no_keyword_hint_pre_r">Հիմնաբառ դեռ չկա։ Նոր որոնում սկսելու համար սահեցրեք ձախ, ապա՝ ներքև կամ SandFly-ի ընտրացանկից բացեք էկրանին որոնումը։</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Բրայլյան ստեղնաշարը միացված չէ։ Միացրեք այն SandFly-ի կարգավորումներում և նորից փորձեք։</string>
   <string name="suggestions_window_available">Հասանելի են առաջարկներ</string>
   <string name="suggestions_window_available_with_gesture">Հասանելի են առաջարկներ։ Բացելու համար %1$s։</string>
   <string name="heads_up_window_available">Հասանելի է ծանուցում</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly-ն այժմ ունի «Ընդլայնված ստեղնաշարի քարտեզ» ֆիզիկական ստեղնաշարերի համար, որը պարունակում է մի շարք նոր հրամաններ և դյուրանցումներ: Այս բարելավումը ներառում է «զննման ռեժիմ»՝ ավելի արդյունավետ վեբ նավարկության, SandFly օգտատերերի համար, որոնք հիմնված են ֆիզիկական ստեղնաշարի վրա, նավիգացիան և փոխազդեցությունը: Դուք կարող եք անցնել «Ընդլայնված ստեղնաշարի» <xliff:g id="settings_path">%1$s</xliff:g>:\n\nԵթե օգտագործում եք Բրայլյան էկրան, կարող եք նաև օգտագործել զննարկման ռեժիմի նոր դյուրանցումներ՝ բովանդակությունը անմիջապես ձեր Բրայլի էկրանից անցնելու համար: Բրայլի էկրանի որոշ դյուրանցումներ փոխվել են այս փոփոխությանը համապատասխանելու համար: Դուք կարող եք տեսնել Բրայլի էկրանի բոլոր դյուրանցումների ցանկը <xliff:g id="braille_display_settings_path">%2$s</xliff:g>-ում:</string>
   <string name="keyboard_shortcuts_link">SandFly-ի կարգավորումներ &gt; Ստեղնային դյուրանցումներ</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-ի կարգավորումներ, ապա Ստեղնային դյուրանցումներ</string>
-  <string name="braille_display_settings_link">Բրայլյան էկրանի կարգավորումներ</string>
   <string name="keyboard_smart_browse_mode_title">Ստեղնաշար․ խելացի դիտարկման ռեժիմ</string>
   <string name="keyboard_smart_browse_mode_text">SandFly-ի խելացի դիտարկման ռեժիմն անջատում է խմբագրման դաշտում դիտարկման ռեժիմը, որպեսզի վեբ բովանդակություն դիտարկելիս կարողանաք տեքստ մուտքագրել ֆիզիկական ստեղնաշարի միջոցով։ Դիտարկման ռեժիմը նորից միանում է, երբ դուրս եք գալիս վեբ էջի խմբագրման դաշտից, որպեսզի կարողանաք արդյունավետորեն շարունակել դիտարկումը։ Դուք կարող եք միացնել կամ անջատել «Խելացի դիտարկման ռեժիմը»՝ անցնելով <xliff:g id="settings_path">%1$s</xliff:g>։</string>
   <string name="advanced_settings_link">SandFly-ի կարգավորումներ &gt; Լրացուցիչ կարգավորումներ</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Տեքստի մուտքագրում</string>
   <string name="basic_typing_text_text">Երբ տեքստային դաշտ եք ընտրում, էկրանի ներքևում բացվում է ստեղնաշար։</string>
   <string name="typing_text_text">Մատը տեղաշարժեք ստեղնաշարի վրայով։ Երբ լսեք այն տառը, որն ուզում եք մուտքագրել, բարձրացրեք մատը։\n\nՓորձեք ակտիվացնել ներքևի տեքստային դաշտը և մուտքագրել ձեր անունը։</string>
-  <string name="typing_text_with_braille_keyboard_text">Կարող եք նաև տեքստ մուտքագրել բրայլյան ստեղնաշարի օգնությամբ։ Գտեք այն SandFly-ի կարգավորումներում։</string>
   <string name="other_ways_to_type_title">Մուտքագրման այլ եղանակներ</string>
   <string name="other_ways_to_type_text">SandFly-ում տեքստ մուտքագրելու այլ եղանակներ կան։ Օրինակ՝ տառ մուտքագրելու համար կրկնակի հպեք։</string>
   <string name="basic_other_ways_to_type_text">SandFly մուտքագրելու այլ եղանակներ կան: Օրինակ, տառ մուտքագրելու համար կարող եք կրկնակի հպել: Դուք կարող եք դա փոխել ավելի ուշ՝ SandFly կարգավորումներում &gt; Էկրանի ստեղնաշար &gt; Մուտքագրման եղանակ:</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ժեստերը փորձելու համար միացրեք SandFly-ը</string>
   <string name="talkback_inactive_message_image_description">Պատկերների նկարագրություններ ստանալու համար նախ միացրեք SandFly-ը</string>
   <string name="talkback_inactive_close_tutorial_button">Փակել ուղեցույցը</string>
-  <string name="wear_training_welcome_paragraph">Երբ SandFly-ը միացված է, այն հնչեցնում է միջերեսի ձեր ընտրած տարրերը։\n\nԹերթեք աջ՝ հաջորդ տարրին անցնելու համար։ Նախորդ տարրին վերադառնալու համար թերթեք ձախ։\n\nԹերթեք աջ հիմա՝ մինչև կգտնեք «Առաջ» կոճակը։</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Սահեցրեք %1$d մատը վերև կամ ներքև։</string>
-  <string name="wear_training_go_back_title">Հետ գնալ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Հետ վերադառնալու համար էկրանի եզրից %1$d մատը սահեցրեք աջ։</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Հաջողվեց</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Կատարվել է «Հետ» ժեստը</string>
-  <string name="wear_training_volume_up_title">Ձայնի բարձրացում</string>
-  <string name="wear_training_volume_up_text">Մատը սահեցրեք աջ, ապա վերև</string>
-  <string name="wear_training_volume_down_title">Ձայնի իջեցում</string>
-  <string name="wear_training_volume_down_text">Մատը սահեցրեք աջ, ապա ներքև</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly-ի ընտրացանկի բացում</string>
-  <string name="wear_training_open_talkback_menu_text">Ձեր հաճախ օգտագործվող կարգավորումներն ու կառավարման տարրերը բացելու համար սահեցրեք ներքև, ապա աջ</string>
-  <string name="wear_training_typing_title">Մուտքագրում</string>
-  <string name="wear_training_typing_text1">Մուտքագրելու համար մատները սահեցրեք ստեղնաշարի վրայով։ Երբ լսեք այն տառը, որն ուզում եք մուտքագրել, բարձրացրեք մատը։</string>
-  <string name="wear_training_typing_text2">Ստեղնաշարը թաքցնելու և ձեր ներածումը ստուգելու համար 2 մատը սահեցրեք էկրանի վերևից։</string>
-  <string name="wear_training_typing_text3">Ստեղնաշարին վերադառնալու համար էկրանի ներքևից 2 մատը սահեցրեք վերև։</string>
-  <string name="wear_training_typing_text4">Ստեղնաշարը փակելու և մուտքագրումն ավարտելու համար էկրանի ձախ եզրից 2 մատը սահեցրեք աջ։</string>
-  <string name="wear_training_typing_text5">Փորձեք այստեղ։</string>
-  <string name="wear_training_typing_practice_button_content_description">Ստեղնաշարով մուտքագրում</string>
-  <string name="wear_training_end_tutorial_title">Այժմ դուք գիտեք, թե ինչպես օգտվել SandFly-ից</string>
   <string name="wear_new_feature_page_title">Ներկայացնում ենք թարմացված SandFly-ը</string>
   <string name="wear_new_feature_page_content">Մենք շտկել ենք որոշ վրիպակներ և փոխել այն, թե ինչպես է տեղաշարժվում ֆոկուսը</string>
   <string name="wear_new_feature_page_button_content_description">Ավարտել</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Զանգակի ռեժիմ</string>
     <string name="summary_pref_announce_ringer_mode">Հնչեցնել, երբ զանգակը թրթռոցի կամ անձայն ռեժիմում է</string>
     <string name="title_pref_category_feedback">Արձագանք</string>
-    <string name="title_pref_category_typing_and_braille">Մուտքագրում և Բրայլ</string>
     <string name="title_pref_category_apps">Հավելվածներ</string>
     <string name="title_pref_touch_activation">Հպում և ակտիվացում</string>
     <string name="title_pref_navigation">Նավիգացիա</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Թույլ մի տվեք</string>
     <string name="permission_speak_label">խոսիր SandFly միջոցով</string>
     <string name="permission_speak_description">Թույլ է տալիս հավելվածին խնդրել տեքստ ասել ձեր SandFly ձայնով: SandFly հարցնում է ձեզ, նախքան հավելվածը կարող է խոսել:</string>
-    <string name="permission_braille_display_label">խնդրեք լինել բրայլյան էկրան SandFly համար</string>
-    <string name="permission_braille_display_description">Թույլ է տալիս հավելվածին խնդրել, որ լինի բրայլյան էկրան SandFly համար: Եթե ​​թույլ տաք SandFly, այն կարող է կարդալ էկրանի ամեն ինչ և կառավարել ձեր սարքը: SandFly նախ հարցնում է ձեզ:</string>
     <string name="title_pref_phonetic_letters_mode">Խոսեք տառերը հնչյունական</string>
     <string name="phonetic_letters_mode_off">Անջատել</string>
     <string name="phonetic_letters_mode_after_letter_delay">Նամակից հետո՝ ուշացած, ինչպես «հ, հյուրանոց»</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Բացեք հավելվածը</string>
     <string name="shortcut_open_app">Բացել <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Ոլորեք դեպի վերև</string>
-    <string name="shortcut_write_reading_control">Գրեք ընթերցման հսկողության տառը</string>
-    <string name="title_pref_reading_control_letters">Այբուբենի ձեռագիր տառեր</string>
-    <string name="reading_control_letter_none">Միացված չէ</string>
-    <string name="handwriting_prompt">Գրեք այբուբենի տառ</string>
-    <string name="handwriting_closed">Ձեռագիրը փակվեց</string>
-    <string name="handwriting_no_match">Ընթերցանության ոչ մի կառավարում չի սկսվում <xliff:g id="letter" example="Q">%1$s</xliff:g>-ով</string>
-    <string name="handwriting_not_recognized">Ձեռագիրը չի ճանաչվել</string>
-    <string name="handwriting_downloading">Ձեռագրի ճանաչումը ներբեռնվում է</string>
-    <string name="handwriting_download_title">Ներբեռնե՞լ ձեռագրի ճանաչումը:</string>
-    <string name="handwriting_download_message">Այս հեռախոսում ձեռագիրը ճանաչվում է: Դրա մոդելն այս լեզվի համար՝ մոտ 20 ՄԲ, ներբեռնվում է Google-ից մեկ անգամ: Հաղորդագրություն ցույց է տալիս, երբ այն ներբեռնվել է:</string>
-    <string name="handwriting_download_button">Ներբեռնել</string>
-    <string name="handwriting_downloaded">Ձեռագրի ճանաչումը ներբեռնվել է</string>
-    <string name="handwriting_download_failed">Չհաջողվեց ներբեռնել ձեռագրի ճանաչումը: Ստուգեք ինտերնետ կապը:</string>
-    <string name="handwriting_unsupported_language">Ձեռագրի ճանաչումն այս լեզվով հասանելի չէ</string>
-    <string name="title_pref_handwriting_keyboard">Ձեռագիր ստեղնաշար</string>
-    <string name="summary_pref_handwriting_keyboard">Միացրեք SandFly ձեռագիրը Android ստեղնաշարի կարգավորումներում</string>
-    <string name="title_pref_handwriting_wait">Սպասեք գրելուց հետո</string>
-    <string name="value_handwriting_wait_200">0,2 վայրկյան</string>
-    <string name="value_handwriting_wait_300">0.3 վայրկյան</string>
-    <string name="value_handwriting_wait_400">0,4 վայրկյան</string>
-    <string name="value_handwriting_wait_500">0,5 վայրկյան</string>
-    <string name="value_handwriting_wait_600">0,6 վայրկյան</string>
-    <string name="value_handwriting_wait_800">0,8 վայրկյան</string>
-    <string name="value_handwriting_wait_1000">1 վայրկյան</string>
-    <string name="handwriting_keyboard_name">SandFly ձեռագիր</string>
-    <string name="handwriting_space">Բացատ</string>
-    <string name="handwriting_new_line">Նոր տող</string>
-    <string name="handwriting_tutorial_intro">Ձեռագիր ստեղնաշարի ուսուցում: Գրեք մեկ մատով էկրանի ցանկացած կետում: Գրածդ տպվում է, երբ մի պահ կանգ ես առնում։ Ուսուցումն ավարտելու համար երեք մատով սահեցրեք ներքև:</string>
-    <string name="handwriting_tutorial_write_letter">Գրի՛ր այբուբենի տառը:</string>
-    <string name="handwriting_tutorial_write_word">Այժմ գրեք hi բառը (h որին հաջորդում է i):</string>
-    <string name="handwriting_tutorial_typed">Մուտքագրված <xliff:g id="text" example="a">%1$s</xliff:g>:</string>
-    <string name="handwriting_tutorial_space">Բացատ մուտքագրելու համար երկու մատով սահեցրեք աջ:</string>
-    <string name="handwriting_tutorial_delete">Երկու մատով սահեցրեք ձախ՝ կուրսորից առաջ նիշը ջնջելու համար:</string>
-    <string name="handwriting_tutorial_deleted">Ջնջված է։</string>
-    <string name="handwriting_tutorial_next_reading">Եթե ​​ձեռագիրը ճանաչվում է որպես մեկ այլ նիշ, օրինակ՝ մեծատառ, երկու մատով սահեցրեք վերև՝ հաջորդ ճանաչման առաջարկն ընտրելու համար: Փորձեք հիմա:</string>
-    <string name="handwriting_tutorial_read_back">Հպեք երկու մատով՝ կուրսորից առաջ տեքստը կարդալու համար:</string>
-    <string name="handwriting_tutorial_new_line">Երկու մատով սահեցրեք ներքև՝ նոր տող մտցնելու կամ տեքստային դաշտի գործողությունը կատարելու համար, օրինակ՝ Ուղարկել:</string>
-    <string name="handwriting_tutorial_not_that">Դա ևս մեկ ժեստ էր։</string>
-    <string name="handwriting_tutorial_done">Նոր գիծ. Ուսուցումն ավարտվեց: Սահեցրեք երեք մատով ներքև՝ ստեղնաշարը թաքցնելու համար, իսկ երեք մատով աջ կամ ձախ՝ ստեղնաշարը փոխելու համար: Ուսուցումը նորից բացելու համար երեք մատով հպեք։</string>
-    <string name="handwriting_tutorial_finished">Ուսուցումն ավարտվեց: Կրկին բացելու համար հպեք երեք մատով։</string>
-    <string name="handwriting_no_alternatives">Այլ առաջարկներ չկան</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> <xliff:g id="count" example="5">%3$d</xliff:g>-ից</string>
-    <string name="handwriting_empty">Դատարկ տեքստ</string>
-    <string name="handwriting_not_available">Ձեռագրի ճանաչումը հասանելի չէ այս սարքում</string>
     <string name="shortcut_scroll_to_bottom">Ոլորեք դեպի ներքև</string>
     <string name="shortcut_refresh">Թարմացնել</string>
     <string name="shortcut_system_notifications">Համակարգի ծանուցման երանգ</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Մաքրել ընտրությունը</string>
     <string name="title_pref_brightness">Պայծառություն</string>
     <string name="summary_support_change_brightness">Բարձրացնել կամ նվազեցնել էկրանի պայծառությունը, նույնիսկ երբ էկրանը թաքնված է</string>
-    <string name="title_pref_shortcut_3finger_4tap">Քառակի հպեք 3 մատով</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Պտտեք ժամացույցի սլաքի ուղղությամբ 2 մատով</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Պտտեք 2 մատով ժամացույցի սլաքի ուղղությամբ</string>
-    <string name="title_pref_shortcut_2finger_scrub">Մաքրեք 2 մատներով</string>
-    <string name="title_pref_shortcut_2finger_pinch">Կտտացրեք 2 մատով</string>
-    <string name="title_pref_shortcut_2finger_spread">Տարածեք 2 մատներով</string>
-    <string name="title_pref_shortcut_3finger_pinch">Կտրեք 3 մատով</string>
-    <string name="title_pref_shortcut_3finger_spread">Տարածեք 3 մատներով</string>
-    <string name="title_pref_shortcut_4finger_pinch">Կտտացրեք 4 մատներով</string>
-    <string name="title_pref_shortcut_4finger_spread">Տարածեք 4 մատներով</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Սահեցրեք վերև ներքևի եզրից</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Երկար սահեցրեք վերև ներքևի եզրից</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Վերևի ձախից սահեցրեք ներքև</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Վերևի աջից սահեցրեք ներքև</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Երկար սահեցրեք վերևի ձախից ներքև</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Երկար սահեցրեք վերևի աջից ներքև</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Սահեցրեք աջ ձախ եզրից, վերևի կեսից</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Երկար սահեցրեք աջ ձախ եզրից, վերևի կեսից</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Սահեցրեք աջ ձախ եզրից, ներքևի կեսից</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Երկար սահեցրեք աջ ձախ եզրից, ներքևի կեսից</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Սահեցրեք ձախ աջ եզրից, վերևի կեսից</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Երկար սահեցրեք ձախ աջ եզրից, վերևի կեսից</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Սահեցրեք ձախ աջ եզրից, ներքևի կեսից</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Երկար սահեցրեք ձախ աջ եզրից, ներքևի կեսից</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Պահեք մատը ցանկացած ստեղն ընտրելու համար, ապա բարձրացրեք: Կրկնակի հպեք Մուտքագրեք, Կատարված կամ Ուղարկեք:</string>
-    <string name="value_type_confirmation_tap_to_type">Հպեք ցանկացած ստեղնի՝ այն մուտքագրելու համար, կամ մատը պահեք՝ ցանկացած ստեղն ընտրելու համար, ապա բարձրացրեք</string>
-    <string name="title_pref_multi_tap_timeout">Մեկ մատով հպումների միջև ընկած ժամանակահատվածը</string>
     <string name="value_multi_tap_timeout_100ms">0,1 վայրկյան</string>
     <string name="value_multi_tap_timeout_150ms">0,15 վայրկյան</string>
     <string name="value_multi_tap_timeout_200ms">0,2 վայրկյան</string>
     <string name="value_multi_tap_timeout_250ms">0,25 վայրկյան (կանխադրված)</string>
-    <string name="title_pref_rotor_step_degrees">Ռոտորի պտույտ մեկ քայլով</string>
-    <string name="title_pref_edge_first_click_mm">Հեռավորությունը մինչև առաջին սեղմումը</string>
-    <string name="title_pref_edge_second_click_mm">Հեռավորությունը առաջինից երկրորդ սեղմումից</string>
     <string name="value_distance_5mm">0,5 սմ</string>
     <string name="value_distance_10mm">1 սմ</string>
     <string name="value_distance_15mm">1,5 սմ</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Միացրեք կամ անջատեք փաթաթումը վերջին տարրից մինչև առաջինը</string>
     <string name="wrap_around_on">Փաթաթել շուրջը</string>
     <string name="wrap_around_off">Անջատեք շուրջը</string>
-    <string name="title_selector_tablet_held_up_faces_away">Պլանշետը դեմքերը հեռու պահեց</string>
-    <string name="summary_support_tablet_held_up_faces_away">Պլանշետի կամ բացված հեռախոսի բրայլյան ստեղնաշարի համար</string>
-    <string name="tablet_held_up_faces_away_on">Պլանշետը բարձրացրեց դեմքերը</string>
-    <string name="tablet_held_up_faces_away_off">Պլանշետը բարձրացրել է դեմքերը</string>
     <string name="title_keyboard_echo_on_screen">Էկրանի ստեղնաշարի արձագանք</string>
     <string name="title_keyboard_echo_physical">Ֆիզիկական ստեղնաշարի արձագանք</string>
-    <string name="title_keyboard_echo_braille_keyboard">Բրայլի ստեղնաշարի արձագանք</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ձեռագիր ստեղնաշարի արձագանք</string>
-    <string name="title_keyboard_echo_braille_display">Բրայլի էկրանի արձագանք</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Ընդհատել խոսքը մուտքագրելիս</string>
     <string name="pref_interrupt_typing_entry_always">Միշտ</string>

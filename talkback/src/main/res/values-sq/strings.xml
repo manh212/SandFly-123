@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Redukto vonesën</string>
   <string name="talkback_latency_reduction_summary">Bëje që SandFly të përgjigjet më shpejt pasi të prekësh ekranin</string>
   <string name="summary_pref_intonation">Lexo shkronjat e fshira me zë me ton më të lartë</string>
-  <string name="title_pref_brailledisplay">Ekrani breil</string>
-  <string name="title_pref_brailleime">Tastiera breil</string>
-  <string name="summary_pref_brailleime_disabled">Pajisja jote nuk e mbështet tastierën breil</string>
   <string name="title_pref_speech_footer">Për të ndryshuar volumin e aksesueshmërisë nga çdo ekran, mbani 1 gisht në ekran dhe shtypni butonin e rritjes ose uljes së volumit.</string>
   <string name="title_pref_vibration">Reagimi me dridhje</string>
   <string name="title_pref_soundback">Reagimi me tinguj</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Aktivizo mbivendosjen e regjistrimit të korrigjimit</string>
   <string name="title_pref_typing_confirmation">Metoda e shtypjes</string>
   <string name="title_pref_typing_long_tap_duration">Vonesa e trokitjes dhe e mbajtjes shtypur kur shkruan</string>
-  <string name="title_pref_touch_explore_timeout">Vonesa e fokusit për të shkruar</string>
   <string name="message_pref_touch_explore_latency">Një vonesë më e shkurtër bën që SandFly të flasë më shpejt pasi prek tastierën.\n\nZgjidh një vonesë</string>
-  <string name="title_pref_touch_focus_timeout">Vonesa e fokusit</string>
-  <string name="title_pref_talkback_gesture_detection">Menaxho gjestet në SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Çaktivizo SandFly dhe aktivizoje atë sërish për të aktivizuar këtë cilësim.</string>
   <string name="title_pref_auto_image_captioning">Përshkrimet automatike</string>
   <string name="title_pref_gemini_settings">Cilësimet e Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini komandat zanore</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Rrit volumin</string>
   <string name="shortcut_decrease_volume">Ul volumin</string>
   <string name="shortcut_all_apps">Të gjitha aplikacionet</string>
-  <string name="shortcut_braille_keyboard">Kalo te tastiera breil</string>
-  <string name="shortcut_braille_display_settings">Navigo për te cilësimet e ekranit breil</string>
   <string name="shortcut_tutorial">Hap udhëzuesin</string>
   <string name="shortcut_control_speak_time">Lexo ose mos lexo me zë orën</string>
   <string name="shortcut_enable_speak_time">Lexo me zë orën</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Leximi me zë i orës është joaktiv</string>
   <string name="shortcut_practice_gestures">Praktiko gjestet</string>
   <string name="shortcut_report_gesture">Raporto problemin me gjestin</string>
-  <string name="shortcut_toggle_braille_display">Aktivizo ose çaktivizo ekranin breil</string>
   <string name="shortcut_announce_current_time_and_date">Lexo me zë datën dhe orën</string>
   <string name="shortcut_announce_battery_state">Lexo me zë përqindjen e baterisë</string>
   <string name="shortcut_announce_current_title">Lexo me zë titullin e dritares</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Ul shpejtësinë e të folurit</string>
   <string name="shortcut_toggle_selection">Nis ose përfundo modalitetin e zgjedhjes</string>
   <string name="shortcut_show_tutorial">Hap udhëzuesin</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Ndërro mes formës së shkurtuar (shkalla 2) dhe të pashkurtuar (shkalla 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Shfaq ose fshih breil në ekran për ekranet e lidhura breil</string>
   <string name="shortcut_toggle_sound_feedback">Aktivizo ose çaktivizo reagimin zanor (tingujt e shkurtër)</string>
   <string name="shortcut_show_learn_mode_page">Praktiko shkurtoret e tastierës</string>
   <string name="shortcut_announce_phonetic_pronunciation">Lexo shkronjat me shqiptim fonetik për artikullin e fokusuar</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Komandat zanore</string>
   <string name="title_show_keyboard_shortcuts">Shkurtoret e tastierës</string>
   <string name="talkback_show_talkback_settings">Cilësimet e SandFly</string>
-  <string name="title_show_braille_display_settings">Cilësimet e ekranit breil</string>
   <string name="title_granularity_default">Orientimi i parazgjedhur</string>
   <string name="title_action_dismiss">Hiqe</string>
   <string name="title_action_expand">Zgjero</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Ndrysho nëse ora lexohet me zë kur aktivizon ekranin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Hap listën e shkurtoreve të tastierës</string>
   <string name="summary_talkback_preferences">Hap cilësimet e SandFly</string>
-  <string name="summary_braile_display_preferences">Hap cilësimet e ekranit breil</string>
   <string name="summary_system_actions">Shko te \"Të gjitha aplikacionet\" dhe \"Cilësimet e shpejta\"</string>
   <string name="summary_tts_settings">Hap cilësimet e \"tekstit në ligjërim\"</string>
   <string name="not_editable">Nuk mund të modifikohet</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Ul volumin e audiove të tjera që luhen kur flet SandFly</string>
   <string name="summary_support_scroll_seq">Lëviz përpara ose prapa</string>
   <string name="summary_support_change_a11y_volume">Rrit ose ul volumin e qasshmërisë</string>
-  <string name="summary_support_change_touch_explore_latency">Rrit ose redukto vonesën e fokusit për të shkruar</string>
-  <string name="summary_support_change_touch_focus_latency">Rrit ose zvogëlo vonesën e fokusit</string>
   <string name="summary_screen_overview">Përmblidh ekranin me butonat e veprimit</string>
   <string name="summary_screen_overview_no_actions">Dëgjo një përmbledhje të përmbajtjes në ekran</string>
   <string name="summary_image_caption">Shqipto tekstin dhe ikonat brenda një imazhi të zgjedhur</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Kap me dy gishta dy herë</string>
   <string name="gesture_name_double_tap_and_hold">Trokit dy herë dhe mbaj shtypur</string>
   <string name="gesture_name_double_tap_and_hold_xr">Kap me dy gishta dhe mbaje</string>
-  <string name="gesture_name_2finger_tap_hold">Trokit dhe mbaj shtypur me 2 gishta</string>
   <string name="gesture_name_3finger_tap_hold">Trokit dhe mbaj shtypur me 3 gishta</string>
   <string name="gesture_name_2finger_3tap_hold">Trokit tri herë dhe mbaj shtypur me 2 gishta</string>
   <string name="gesture_name_3finger_3tap_hold">Trokit tri herë dhe mbaj shtypur me 3 gishta</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Ulja e zhurmave në sfond</string>
   <string name="title_pref_support_scroll_seq">Lëviz</string>
   <string name="title_pref_a11y_volume">Volumi i qasshmërisë</string>
-  <string name="title_pref_touch_explore_latency">Vonesa e fokusit për të shkruar</string>
-  <string name="title_pref_touch_focus_latency">Vonesa e fokusit</string>
   <string name="message_pref_touch_focus_latency">Një vonesë më e shkurtër bën që SandFly të flasë më shpejt pasi të keni prekur ekranin</string>
   <string name="message_pref_typing_method_prefix">Për vonesën më të ulët kur shkruan, zgjidh \"Mbaj gishtin për të zgjedhur një tast çfarëdo dhe më pas ngrije\"</string>
-  <string name="message_pref_typing_method_postfix">Gjithashtu, mund të përdorësh trokitjen e ndarë për të shkruar në çdo kohë. Për ta bërë këtë, mbaj një gisht për të zgjedhur një tast çfarëdo dhe përdor një gisht tjetër për të trokitur në ekran.</string>
   <string name="title_pref_talkback_speech_rate">Shpejtësia e të folurit</string>
   <string name="title_pref_selector_adjustable_widget_slider">Rregullo rrëshqitësin</string>
   <string name="title_pref_selector_typo_granularity">Korrigjo</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">fjala kyçe është %1$s</string>
   <string name="screen_search_no_keyword_hint">Nuk ka ende asnjë fjalë kyçe. Për të nisur një kërkim të ri, prek dhe mbaj shtypur me 3 gishta ose hap kërkimin e ekranit nga menyja e SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Nuk ka ende asnjë fjalë kyçe. Për të nisur një kërkim të ri, rrëshqit majtas dhe më pas poshtë ose hap kërkimin e ekranit nga menyja e SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Tastiera breil nuk është e aktivizuar. Shko te cilësimet e SandFly, konfiguro tastierën breil dhe provo përsëri.</string>
   <string name="suggestions_window_available">Ofrohen sugjerime</string>
   <string name="suggestions_window_available_with_gesture">Ofrohen sugjerime. Për të pasur qasje te to, %1$s</string>
   <string name="heads_up_window_available">Njoftimi është i disponueshëm</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly tani ka një \"hartë të përmirësuar të tastierës\" për tastierat fizike, duke shfaqur një sërë komandash dhe shkurtoresh të reja. Ky përmirësim përfshin një \"modalitet shfletimi\" për navigim më efikas në ueb, lundrim më efikas dhe ndërveprim për përdoruesit SandFly që mbështeten në tastierat fizike. Mund të kaloni te \"Harta e tastierës së përmirësuar\" në <xliff:g id="settings_path">%1$s</xliff:g>.\n\nNëse përdorni një ekran Braille, mund të përdorni gjithashtu shkurtore të reja të modalitetit të shfletimit për të përshkuar përmbajtjen direkt nga ekrani juaj Braille. Disa shkurtore të ekranit Braille u ndryshuan për të përshtatur këtë ndryshim. Mund të shihni një listë të të gjitha shkurtoreve të ekranit Braille në <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Cilësimet e SandFly &gt; Shkurtoret e tastierës</string>
   <string name="keyboard_shortcuts_link_tts">\"Cilësimet e SandFly\" dhe më pas \"Shkurtoret e tastierës\"</string>
-  <string name="braille_display_settings_link">Cilësimet e ekranit breil</string>
   <string name="keyboard_smart_browse_mode_title">Tastiera: Modaliteti i shfletimit inteligjent</string>
   <string name="keyboard_smart_browse_mode_text">Modaliteti i shfletimit inteligjent i SandFly çaktivizon modalitetin e shfletimit në një fushë modifikimi për të të ndihmuar të shkruash me një tastierë fizike kur shfleton në ueb. Më pas ai e aktivizon përsëri kur kalon te një fushë jomodifikimi në ueb në mënyrë që të mund të vazhdosh të shfletosh me efikasitet. Mund ta aktivizosh ose çaktivizosh \"Modalitetin e shfletimit inteligjent\" te <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Cilësimet e SandFly &gt; Cilësimet e përparuara</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Shkrimi i tekstit</string>
   <string name="basic_typing_text_text">Kur je në një kuti teksti, në fund të ekranit do të hapet një tastierë.</string>
   <string name="typing_text_text">Lëvize gishtin tënd nëpër tastierë. Kur të dëgjosh shkronjën që dëshiron të shkruash, ngrije gishtin.\n\nProvo ta aktivizosh kutinë e tekstit më poshtë dhe shkruaj emrin tënd.</string>
-  <string name="typing_text_with_braille_keyboard_text">Mund të shkruash edhe me tastierën breil. Gjeje te cilësimet e SandFly.</string>
   <string name="other_ways_to_type_title">Mënyra të tjera për të shkruar</string>
   <string name="other_ways_to_type_text">Ka mënyra të tjera për të shkruar në SandFly. Për shembull, mund të përdorësh trokitjen dy herë për të futur një shkronjë.</string>
   <string name="basic_other_ways_to_type_text">Ka mënyra të tjera për të shtypur SandFly. Për shembull, mund të përdorni prekjen e dyfishtë për të futur një shkronjë. Këtë mund ta ndryshoni më vonë te cilësimet SandFly &gt; Tastiera në ekran &gt; Mënyra e shkrimit.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Për të praktikuar gjestet, në fillim aktivizo SandFly</string>
   <string name="talkback_inactive_message_image_description">Për të provuar të marrësh përshkrimet e imazheve, në fillim aktivizo SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Mbyll udhëzuesin</string>
-  <string name="wear_training_welcome_paragraph">Kur SandFly është aktiv, artikulli i fokusuar në ekran shqiptohet me zë.\n\nRrëshqitja shpejt djathtas të çon tek artikulli i ardhshëm. Rrëshqitja shpejt majtas të çon tek artikulli i mëparshëm.\n\nRrëshqit shpejt djathtas tani derisa të gjesh butonin tjetër.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Rrëshqit shpejt lart ose poshtë me %1$d gishta.</string>
-  <string name="wear_training_go_back_title">Kthehu prapa</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Kur dëshiron të kthehesh prapa, përdor %1$d gishta për të rrëshqitur shpejt djathtas nga skaji i ekranit.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Me sukses</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">U krye gjesti i kthimit prapa</string>
-  <string name="wear_training_volume_up_title">Ngri volumin</string>
-  <string name="wear_training_volume_up_text">Rrëshqit shpejt djathtas dhe më pas lart</string>
-  <string name="wear_training_volume_down_title">Ul volumin</string>
-  <string name="wear_training_volume_down_text">Rrëshqit shpejt djathtas dhe më pas poshtë</string>
-  <string name="wear_training_open_talkback_menu_title">Hap menynë e SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Për të hapur cilësimet dhe kontrollet që mund të të duhen shpesh, rrëshqit poshtë dhe më pas djathtas</string>
-  <string name="wear_training_typing_title">Të shkruarit</string>
-  <string name="wear_training_typing_text1">Për të shkruar me anë të tastierës, lëvize gishtin nëpër tastierë. Kur të dëgjosh shkronjën që dëshiron të shkruash, ngrije gishtin.</string>
-  <string name="wear_training_typing_text2">Për ta fshehur tastierën dhe për të kontrolluar hyrjen, rrëshqit shpejt poshtë nga kreu i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text3">Për t\'u kthyer te tastiera, rrëshqit shpejt lart nga fundi i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text4">Për të mbyllur tastierën dhe për të anuluar të shkruarit, rrëshqit shpejt djathtas nga skaji i majtë i ekranit me 2 gishta.</string>
-  <string name="wear_training_typing_text5">Provoje më poshtë.</string>
-  <string name="wear_training_typing_practice_button_content_description">Të shkruarit me tastierë</string>
-  <string name="wear_training_end_tutorial_title">Je gati të fillosh përdorimin e SandFly</string>
   <string name="wear_new_feature_page_title">Mirë se vjen në versionin e përditësuar të SandFly</string>
   <string name="wear_new_feature_page_content">Do të vëresh disa rregullime defektesh në kod dhe ndryshime në mënyrën se si lëviz fokusi</string>
   <string name="wear_new_feature_page_button_content_description">Përfundo</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Modaliteti i ziles</string>
     <string name="summary_pref_announce_ringer_mode">Thuaj kur zilja është vendosur në dridhje ose në heshtje</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Shkrimi dhe shkrimi braille</string>
     <string name="title_pref_category_apps">Aplikacionet</string>
     <string name="title_pref_touch_activation">Prekni dhe aktivizoni</string>
     <string name="title_pref_navigation">Navigimi</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Mos lejoni</string>
     <string name="permission_speak_label">fol përmes SandFly</string>
     <string name="permission_speak_description">Lejon aplikacionin të kërkojë të thotë tekst me zërin tuaj SandFly. SandFly ju pyet përpara se aplikacioni të mund të flasë.</string>
-    <string name="permission_braille_display_label">kërkoni të jetë një ekran braille për SandFly</string>
-    <string name="permission_braille_display_description">Lejon që aplikacioni të kërkojë të jetë një ekran braille për SandFly. Nëse e lejoni në SandFly, ai mund të lexojë gjithçka në ekran dhe të kontrollojë pajisjen tuaj. SandFly ju pyet ju së pari.</string>
     <string name="title_pref_phonetic_letters_mode">Flisni shkronja në mënyrë fonetike</string>
     <string name="phonetic_letters_mode_off">Joaktive</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pas letrës, me vonesë, si \"h, hotel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Hap aplikacionin</string>
     <string name="shortcut_open_app">Hapur <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Lëvizni në krye</string>
-    <string name="shortcut_write_reading_control">Shkruani letrën e një kontrolli leximi</string>
-    <string name="title_pref_reading_control_letters">Shkronjat e alfabetit të shkruara me dorë</string>
-    <string name="reading_control_letter_none">Asnjë</string>
-    <string name="handwriting_prompt">Shkruani një shkronjë alfabeti</string>
-    <string name="handwriting_closed">Shkrimi i dorës i mbyllur</string>
-    <string name="handwriting_no_match">Asnjë kontroll leximi nuk fillon me <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Shkrimi i dorës nuk njihet</string>
-    <string name="handwriting_downloading">Njohja e shkrimit të dorës po shkarkohet</string>
-    <string name="handwriting_download_title">Të shkarkohet njohja e shkrimit të dorës?</string>
-    <string name="handwriting_download_message">Shkrimi i dorës njihet në këtë telefon. Modeli i tij për këtë gjuhë, rreth 20 MB, shkarkohet nga Google një herë. Një mesazh shfaqet kur është shkarkuar.</string>
-    <string name="handwriting_download_button">Shkarko</string>
-    <string name="handwriting_downloaded">Njohja e shkrimit të dorës u shkarkua</string>
-    <string name="handwriting_download_failed">Njohja e shkrimit të dorës nuk mund të shkarkohej. Kontrolloni lidhjen e internetit.</string>
-    <string name="handwriting_unsupported_language">Njohja e shkrimit të dorës nuk disponohet në këtë gjuhë</string>
-    <string name="title_pref_handwriting_keyboard">Tastierë me shkrim dore</string>
-    <string name="summary_pref_handwriting_keyboard">Aktivizo shkrimin SandFly në cilësimet e tastierës së Android</string>
-    <string name="title_pref_handwriting_wait">Prisni pasi të shkruani</string>
-    <string name="value_handwriting_wait_200">0,2 sekonda</string>
-    <string name="value_handwriting_wait_300">0.3 sekonda</string>
-    <string name="value_handwriting_wait_400">0.4 sekonda</string>
-    <string name="value_handwriting_wait_500">0,5 sekonda</string>
-    <string name="value_handwriting_wait_600">0.6 sekonda</string>
-    <string name="value_handwriting_wait_800">0.8 sekonda</string>
-    <string name="value_handwriting_wait_1000">1 sekondë</string>
-    <string name="handwriting_keyboard_name">SandFly shkrim dore</string>
-    <string name="handwriting_space">Hapësirë</string>
-    <string name="handwriting_new_line">Rresht i ri</string>
-    <string name="handwriting_tutorial_intro">Udhëzues për tastierën e shkrimit të dorës. Shkruani me një gisht kudo në ekran. Ajo që shkruani shtypet kur ndaloni për një moment. Për të përfunduar tutorialin, rrëshqitni poshtë me tre gishta.</string>
-    <string name="handwriting_tutorial_write_letter">Shkruani shkronjën e alfabetit a.</string>
-    <string name="handwriting_tutorial_write_word">Tani shkruani fjalën hi (h e ndjekur nga i).</string>
-    <string name="handwriting_tutorial_typed">Shkruani <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Rrëshqitni djathtas me dy gishta për të shkruar një hapësirë.</string>
-    <string name="handwriting_tutorial_delete">Rrëshqitni majtas me dy gishta për të fshirë karakterin përpara kursorit.</string>
-    <string name="handwriting_tutorial_deleted">Fshirë.</string>
-    <string name="handwriting_tutorial_next_reading">Nëse shkrimi i dorës njihet si një karakter tjetër, si p.sh. një shkronjë e madhe, rrëshqitni lart me dy gishta për të zgjedhur sugjerimin tjetër të njohjes. Provojeni tani.</string>
-    <string name="handwriting_tutorial_read_back">Prekni me dy gishta për të lexuar tekstin përpara kursorit.</string>
-    <string name="handwriting_tutorial_new_line">Rrëshqitni poshtë me dy gishta për të futur një rresht të ri ose për të kryer veprimin e fushës së tekstit, si p.sh. \"Dërgo\".</string>
-    <string name="handwriting_tutorial_not_that">Ky ishte një gjest tjetër.</string>
-    <string name="handwriting_tutorial_done">Linja e re. Tutoriali mbaroi. Rrëshqitni poshtë me tre gishta për të fshehur tastierën dhe djathtas ose majtas me tre gishta për të ndërruar tastierat. Për të hapur përsëri tutorialin, trokitni lehtë me tre gishta.</string>
-    <string name="handwriting_tutorial_finished">Tutoriali mbaroi. Për ta hapur përsëri, trokitni lehtë me tre gishta.</string>
-    <string name="handwriting_no_alternatives">Asnjë sugjerim tjetër</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> nga <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tekst bosh</string>
-    <string name="handwriting_not_available">Njohja e shkrimit të dorës nuk disponohet në këtë pajisje</string>
     <string name="shortcut_scroll_to_bottom">Lëvizni në fund</string>
     <string name="shortcut_refresh">Rifresko</string>
     <string name="shortcut_system_notifications">Hija e njoftimit të sistemit</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Pastro përzgjedhjen</string>
     <string name="title_pref_brightness">Shkëlqimi</string>
     <string name="summary_support_change_brightness">Rritni ose ulni ndriçimin e ekranit, edhe kur ekrani është i fshehur</string>
-    <string name="title_pref_shortcut_3finger_4tap">Prekni katër herë me 3 gishta</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Rrotulloni në drejtim të akrepave të orës me 2 gishta</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Rrotulloni në drejtim të kundërt të akrepave të orës me 2 gishta</string>
-    <string name="title_pref_shortcut_2finger_scrub">Pastroni me 2 gishta</string>
-    <string name="title_pref_shortcut_2finger_pinch">Shtypni me 2 gishta</string>
-    <string name="title_pref_shortcut_2finger_spread">Përhapeni me 2 gishta</string>
-    <string name="title_pref_shortcut_3finger_pinch">Shtypni me 3 gishta</string>
-    <string name="title_pref_shortcut_3finger_spread">Përhapeni me 3 gishta</string>
-    <string name="title_pref_shortcut_4finger_pinch">Pini me 4 gishta</string>
-    <string name="title_pref_shortcut_4finger_spread">Përhapeni me 4 gishta</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Rrëshqitni lart nga buza e poshtme</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Rrëshqitni gjatë lart nga buza e poshtme</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Rrëshqitni poshtë nga lart majtas</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Rrëshqitni poshtë nga lart djathtas</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Rrëshqitni gjatë poshtë nga lart majtas</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Rrëshqitni gjatë poshtë nga lart djathtas</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Rrëshqitni djathtas nga buza e majtë, gjysma e sipërme</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Rrëshqitni gjatë djathtas nga buza e majtë, gjysma e sipërme</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Rrëshqitni djathtas nga buza e majtë, gjysma e poshtme</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Rrëshqitni gjatë djathtas nga buza e majtë, gjysma e poshtme</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Rrëshqitni majtas nga buza e djathtë, gjysma e sipërme</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Rrëshqitni gjatë majtas nga buza e djathtë, gjysma e sipërme</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Rrëshqitni majtas nga buza e djathtë, gjysma e poshtme</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Rrëshqitni gjatë majtas nga buza e djathtë, gjysma e poshtme</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Mbajeni gishtin për të zgjedhur ndonjë çelës, më pas ngrijeni. Prekni dy herë për Enter, Done ose Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Prekni çdo tast për ta shtypur ose mbajeni gishtin për të zgjedhur ndonjë tast dhe më pas ngrijeni</string>
-    <string name="title_pref_multi_tap_timeout">Koha midis prekjeve me një gisht</string>
     <string name="value_multi_tap_timeout_100ms">0.1 sekonda</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekonda</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekonda</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekonda (e parazgjedhur)</string>
-    <string name="title_pref_rotor_step_degrees">Rrotullimi i rotorit për hap</string>
-    <string name="title_pref_edge_first_click_mm">Distanca deri në klikimin e parë</string>
-    <string name="title_pref_edge_second_click_mm">Distanca nga klikimi i parë në të dytën</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1.5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Aktivizoni ose çaktivizoni mbështjelljen nga artikulli i fundit tek i pari</string>
     <string name="wrap_around_on">Mbështilleni rreth</string>
     <string name="wrap_around_off">Mbështilleni jashtë</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tableti mbajti lart fytyrat larg</string>
-    <string name="summary_support_tablet_held_up_faces_away">Për tastierën braille në një tablet ose telefon të shpalosur</string>
-    <string name="tablet_held_up_faces_away_on">Tableti mbajti lart fytyrat larg</string>
-    <string name="tablet_held_up_faces_away_off">Tableti mbajti lart fytyrat larg</string>
     <string name="title_keyboard_echo_on_screen">Jehona e tastierës në ekran</string>
     <string name="title_keyboard_echo_physical">Jehona fizike e tastierës</string>
-    <string name="title_keyboard_echo_braille_keyboard">Jehona e tastierës Braille</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Jehonë e tastierës së shkrimit të dorës</string>
-    <string name="title_keyboard_echo_braille_display">Jehona e ekranit Braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Ndërpreni fjalimin kur shkruani</string>
     <string name="pref_interrupt_typing_entry_always">Gjithmonë</string>

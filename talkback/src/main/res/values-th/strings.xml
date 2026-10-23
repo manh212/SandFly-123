@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">ลดความล่าช้า</string>
   <string name="talkback_latency_reduction_summary">ทำให้ SandFly ตอบสนองเร็วขึ้นหลังจากที่คุณสัมผัสหน้าจอ</string>
   <string name="summary_pref_intonation">พูดตัวอักษรที่ลบด้วยโทนเสียงที่สูงขึ้น</string>
-  <string name="title_pref_brailledisplay">จอแสดงผลอักษรเบรลล์</string>
-  <string name="title_pref_brailleime">แป้นพิมพ์อักษรเบรลล์</string>
-  <string name="summary_pref_brailleime_disabled">อุปกรณ์ของคุณไม่รองรับแป้นพิมพ์อักษรเบรลล์</string>
   <string name="title_pref_speech_footer">หากต้องการเปลี่ยนระดับเสียงการเข้าถึงจากหน้าจอใดๆ ให้ใช้ 1 นิ้วบนหน้าจอค้างไว้แล้วกดปุ่มเพิ่มระดับเสียงหรือลดระดับเสียง</string>
   <string name="title_pref_vibration">การสั่นเตือน</string>
   <string name="title_pref_soundback">เสียงเตือน</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">เปิดใช้การวางซ้อนบันทึกการแก้ไขข้อบกพร่อง</string>
   <string name="title_pref_typing_confirmation">วิธีการพิมพ์</string>
   <string name="title_pref_typing_long_tap_duration">การหน่วงเวลาการแตะค้างเมื่อพิมพ์</string>
-  <string name="title_pref_touch_explore_timeout">ความล่าช้าโฟกัสการพิมพ์</string>
   <string name="message_pref_touch_explore_latency">การหน่วงเวลาที่สั้นลงจะทำให้ SandFly พูดเร็วขึ้นหลังจากที่คุณแตะแป้นพิมพ์\n\nเลือกการหน่วงเวลา</string>
-  <string name="title_pref_touch_focus_timeout">ความล่าช้าโฟกัส</string>
-  <string name="title_pref_talkback_gesture_detection">จัดการการแตะสัมผัสใน SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">ปิดและเปิด SandFly ขึ้นมาใหม่เพื่อเปิดใช้การตั้งค่า</string>
   <string name="title_pref_auto_image_captioning">คำอธิบายอัตโนมัติ</string>
   <string name="title_pref_gemini_settings">การตั้งค่า Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini คำสั่งเสียง</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">เพิ่มระดับเสียง</string>
   <string name="shortcut_decrease_volume">ลดระดับเสียง</string>
   <string name="shortcut_all_apps">แอปทั้งหมด</string>
-  <string name="shortcut_braille_keyboard">เปลี่ยนเป็นแป้นพิมพ์อักษรเบรลล์</string>
-  <string name="shortcut_braille_display_settings">ไปยังการตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="shortcut_tutorial">เปิดบทแนะนำ</string>
   <string name="shortcut_control_speak_time">พูดหรือไม่พูดบอกเวลา</string>
   <string name="shortcut_enable_speak_time">พูดบอกเวลา</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">ปิด \"พูดบอกเวลา\"</string>
   <string name="shortcut_practice_gestures">ใช้ท่าทางสัมผัส</string>
   <string name="shortcut_report_gesture">รายงานปัญหาเกี่ยวกับท่าทางสัมผัส</string>
-  <string name="shortcut_toggle_braille_display">เปิดหรือปิดจอแสดงผลอักษรเบรลล์</string>
   <string name="shortcut_announce_current_time_and_date">พูดวันที่และเวลาปัจจุบัน</string>
   <string name="shortcut_announce_battery_state">พูดเปอร์เซ็นต์แบตเตอรี่</string>
   <string name="shortcut_announce_current_title">พูดชื่อหน้าต่าง</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">ลดความเร็วในการพูด</string>
   <string name="shortcut_toggle_selection">เริ่มหรือสิ้นสุดโหมดการเลือก</string>
   <string name="shortcut_show_tutorial">เปิดบทแนะนำ</string>
-  <string name="shortcut_toggle_braille_contracted_mode">สลับรูปย่อ (เกรด 2) กับรูปเต็ม (เกรด 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">แสดง/ซ่อนอักษรเบรลล์บนหน้าจอสำหรับจออักษรเบรลล์ที่เชื่อมต่อ</string>
   <string name="shortcut_toggle_sound_feedback">เปิดหรือปิดเสียงเตือน (เอียร์คอน)</string>
   <string name="shortcut_show_learn_mode_page">ฝึกใช้แป้นพิมพ์ลัด</string>
   <string name="shortcut_announce_phonetic_pronunciation">พูดตัวอักษรพร้อมการออกเสียงสำหรับรายการที่โฟกัส</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">คำสั่งเสียง</string>
   <string name="title_show_keyboard_shortcuts">แป้นพิมพ์ลัด</string>
   <string name="talkback_show_talkback_settings">การตั้งค่า SandFly</string>
-  <string name="title_show_braille_display_settings">การตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="title_granularity_default">ค่าเริ่มต้นของการไปยังส่วนต่างๆ</string>
   <string name="title_action_dismiss">ปิด</string>
   <string name="title_action_expand">ขยาย</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">เปลี่ยนว่าจะให้ระบบพูดบอกเวลาหรือไม่เมื่อเปิดหน้าจอ</string>
   <string name="summary_show_keyboard_shortcuts_preferences">เปิดรายการแป้นพิมพ์ลัด</string>
   <string name="summary_talkback_preferences">เปิดการตั้งค่า SandFly</string>
-  <string name="summary_braile_display_preferences">เปิดการตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="summary_system_actions">ไปที่แอปทั้งหมดและการตั้งค่าด่วน</string>
   <string name="summary_tts_settings">เปิดการตั้งค่าการอ่านออกเสียงข้อความ</string>
   <string name="not_editable">แก้ไขไม่ได้</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">ลดระดับเสียงอื่นๆ ที่กำลังเล่นอยู่เมื่อ SandFly พูด</string>
   <string name="summary_support_scroll_seq">เลื่อนไปข้างหน้าหรือข้างหลัง</string>
   <string name="summary_support_change_a11y_volume">เพิ่มหรือลดระดับเสียงการช่วยเหลือพิเศษ</string>
-  <string name="summary_support_change_touch_explore_latency">เพิ่มหรือลดความล่าช้าโฟกัสการพิมพ์</string>
-  <string name="summary_support_change_touch_focus_latency">เพิ่มหรือลดความล่าช้าโฟกัส</string>
   <string name="summary_screen_overview">สรุปหน้าจอด้วยปุ่มดำเนินการ</string>
   <string name="summary_screen_overview_no_actions">ฟังสรุปเนื้อหาบนหน้าจอ</string>
   <string name="summary_image_caption">พูดข้อความและไอคอนในรูปภาพที่เลือก</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">บีบนิ้วสองครั้ง</string>
   <string name="gesture_name_double_tap_and_hold">แตะสองครั้งแล้วค้างไว้</string>
   <string name="gesture_name_double_tap_and_hold_xr">บีบนิ้วค้างไว้</string>
-  <string name="gesture_name_2finger_tap_hold">ใช้ 2 นิ้วแตะค้างไว้</string>
   <string name="gesture_name_3finger_tap_hold">ใช้ 3 นิ้วแตะค้างไว้</string>
   <string name="gesture_name_2finger_3tap_hold">ใช้ 2 นิ้วแตะสามครั้งแล้วค้างไว้</string>
   <string name="gesture_name_3finger_3tap_hold">ใช้ 3 นิ้วแตะสามครั้งแล้วค้างไว้</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">การลดเสียง</string>
   <string name="title_pref_support_scroll_seq">เลื่อน</string>
   <string name="title_pref_a11y_volume">ระดับเสียงการช่วยเหลือพิเศษ</string>
-  <string name="title_pref_touch_explore_latency">ความล่าช้าโฟกัสการพิมพ์</string>
-  <string name="title_pref_touch_focus_latency">ความล่าช้าโฟกัส</string>
   <string name="message_pref_touch_focus_latency">การหน่วงเวลาที่สั้นลงจะทำให้ SandFly พูดเร็วขึ้นหลังจากที่คุณสัมผัสหน้าจอ</string>
   <string name="message_pref_typing_method_prefix">หากต้องการให้เกิดความล่าช้าขณะพิมพ์น้อยที่สุด ให้เลือก \"กดค้างไว้เพื่อเลือกแป้น แล้วจึงยกนิ้วขึ้น\"</string>
-  <string name="message_pref_typing_method_postfix">นอกจากนี้ คุณยังใช้การแตะแยกกันเพื่อพิมพ์ได้ทุกเมื่อ หากต้องการทำเช่นนี้ ให้ใช้นิ้วหนึ่งกดค้างไว้เพื่อเลือกแป้น แล้วใช้อีกนิ้วหนึ่งแตะบนหน้าจอ</string>
   <string name="title_pref_talkback_speech_rate">ความเร็วในการพูด</string>
   <string name="title_pref_selector_adjustable_widget_slider">ปรับแถบเลื่อน</string>
   <string name="title_pref_selector_typo_granularity">การพิสูจน์อักษร</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">คีย์เวิร์ดคือ %1$s</string>
   <string name="screen_search_no_keyword_hint">ยังไม่มีคีย์เวิร์ด หากต้องการเริ่มการค้นหาใหม่ ให้ใช้ 3 นิ้วแตะค้างไว้หรือเปิดการค้นหาในหน้าจอจากเมนู SandFly</string>
   <string name="screen_search_no_keyword_hint_pre_r">ยังไม่มีคีย์เวิร์ด หากต้องการเริ่มการค้นหาใหม่ ให้ปัดไปทางซ้ายแล้วปัดลง หรือเปิดการค้นหาในหน้าจอจากเมนู SandFly</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ไม่ได้เปิดแป้นพิมพ์อักษรเบรลล์ ไปที่การตั้งค่า SandFly, ตั้งค่าแป้นพิมพ์อักษรเบรลล์ และลองอีกครั้ง</string>
   <string name="suggestions_window_available">มีคำแนะนำ</string>
   <string name="suggestions_window_available_with_gesture">มีคำแนะนำ หากต้องการเข้าถึง ให้%1$s</string>
   <string name="heads_up_window_available">มีการแจ้งเตือน</string>
@@ -908,7 +887,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ขณะนี้มี \"คีย์แมปที่ได้รับการปรับปรุง\" สำหรับแป้นพิมพ์กายภาพ ซึ่งมีคำสั่งและทางลัดใหม่ที่หลากหลาย การปรับปรุงนี้รวมถึง \"โหมดเรียกดู\" เพื่อการนำทางเว็บที่มีประสิทธิภาพมากขึ้น ปรับปรุงการนำทางและการโต้ตอบสำหรับผู้ใช้ SandFly ที่ต้องอาศัยแป้นพิมพ์จริง คุณสามารถเปลี่ยนไปใช้ \"แผนที่แป้นพิมพ์ที่ปรับปรุง\" ได้ใน <xliff:g id="settings_path">%1$s</xliff:g>.\n\n หากคุณใช้จอแสดงผลอักษรเบรลล์ คุณยังสามารถใช้ทางลัดโหมดเรียกดูใหม่เพื่อสำรวจเนื้อหาได้โดยตรงจากจอแสดงผลอักษรเบรลล์ของคุณ ทางลัดการแสดงผลอักษรเบรลล์บางส่วนมีการเปลี่ยนแปลงเพื่อรองรับการเปลี่ยนแปลงนี้ คุณสามารถดูรายการทางลัดการแสดงผลอักษรเบรลล์ทั้งหมดใน <xliff:g id="braille_display_settings_path">%2$s</xliff:g></string>
   <string name="keyboard_shortcuts_link">การตั้งค่า SandFly &gt; แป้นพิมพ์ลัด</string>
   <string name="keyboard_shortcuts_link_tts">การตั้งค่า SandFly จากนั้นไปที่ \"แป้นพิมพ์ลัด\"</string>
-  <string name="braille_display_settings_link">การตั้งค่าจอแสดงผลอักษรเบรลล์</string>
   <string name="keyboard_smart_browse_mode_title">แป้นพิมพ์: โหมดอ่านอัจฉริยะ</string>
   <string name="keyboard_smart_browse_mode_text">โหมดอ่านอัจฉริยะของ SandFly จะปิดโหมดอ่านในช่องแก้ไขเพื่อช่วยให้คุณพิมพ์ด้วยแป้นพิมพ์จริงได้เมื่อท่องเว็บ จากนั้นโหมดนี้จะเปิดอีกครั้งเมื่อคุณข้ามไปยังช่องที่ไม่ใช่ช่องแก้ไขบนเว็บเพื่อให้คุณสามารถเรียกดูได้อย่างมีประสิทธิภาพต่อไป คุณเปิดหรือปิด \"โหมดอ่านอัจฉริยะ\" ได้ใน<xliff:g id="settings_path">%1$s</xliff:g></string>
   <string name="advanced_settings_link">การตั้งค่า SandFly &gt; การตั้งค่าขั้นสูง</string>
@@ -980,7 +958,6 @@
   <string name="typing_text_title">การพิมพ์ข้อความ</string>
   <string name="basic_typing_text_text">เมื่ออยู่ในกล่องข้อความ แป้นพิมพ์จะเปิดขึ้นที่ด้านล่างของหน้าจอ</string>
   <string name="typing_text_text">เลื่อนนิ้วไปมาบนแป้นพิมพ์ เมื่อได้ยินตัวอักษรที่คุณต้องการพิมพ์แล้วให้ยกนิ้วขึ้น\n\nลองเปิดใช้งานกล่องข้อความด้านล่างแล้วพิมพ์ชื่อของคุณ</string>
-  <string name="typing_text_with_braille_keyboard_text">คุณพิมพ์โดยใช้แป้นพิมพ์อักษรเบรลล์ได้ด้วย ซึ่งจะค้นหาแป้นพิมพ์นี้ได้ในการตั้งค่า SandFly</string>
   <string name="other_ways_to_type_title">วิธีอื่นๆ ในการพิมพ์</string>
   <string name="other_ways_to_type_text">SandFly มีวิธีอื่นๆ ในการพิมพ์ เช่น คุณแตะสองครั้งเพื่อป้อนตัวอักษรได้</string>
   <string name="basic_other_ways_to_type_text">มีวิธีอื่นๆ ในการพิมพ์ SandFly ตัวอย่างเช่น คุณสามารถใช้แตะสองครั้งเพื่อป้อนตัวอักษร คุณสามารถเปลี่ยนได้ในภายหลังในการตั้งค่า SandFly &gt; แป้นพิมพ์บนหน้าจอ &gt; วิธีการพิมพ์</string>
@@ -1095,26 +1072,6 @@
   <string name="talkback_inactive_message_practice_gestures">เปิด SandFly ก่อนเพื่อใช้ท่าทางสัมผัส</string>
   <string name="talkback_inactive_message_image_description">หากต้องการลองฟังคำอธิบายรูปภาพ ให้เปิด SandFly ก่อน</string>
   <string name="talkback_inactive_close_tutorial_button">ปิดบทแนะนำ</string>
-  <string name="wear_training_welcome_paragraph">เมื่อ SandFly เปิดอยู่ ระบบจะอ่านออกเสียงรายการที่โฟกัสอยู่ในหน้าจอ\n\nปัดขวาเพื่อไปที่รายการถัดไป ปัดซ้ายเพื่อไปที่รายการก่อนหน้า\n\nปัดไปทางขวาเลยจนกว่าจะเห็นปุ่มถัดไป</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">ใช้ %1$d นิ้วปัดขึ้นหรือลง</string>
-  <string name="wear_training_go_back_title">ย้อนกลับ</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">หากต้องการย้อนกลับ ให้ใช้ %1$d นิ้วปัดไปทางขวาจากขอบของหน้าจอ</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">สำเร็จ</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ทำท่าทางสัมผัสเพื่อย้อนกลับแล้ว</string>
-  <string name="wear_training_volume_up_title">เพิ่มระดับเสียง</string>
-  <string name="wear_training_volume_up_text">ปัดไปทางขวาแล้วขึ้น</string>
-  <string name="wear_training_volume_down_title">ลดระดับเสียง</string>
-  <string name="wear_training_volume_down_text">ปัดไปทางขวาแล้วลง</string>
-  <string name="wear_training_open_talkback_menu_title">เปิดเมนู SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">หากต้องการเปิดการตั้งค่าและการควบคุมที่คุณอาจต้องการใช้บ่อยๆ ให้ปัดลงแล้วปัดไปทางขวา</string>
-  <string name="wear_training_typing_title">การพิมพ์</string>
-  <string name="wear_training_typing_text1">หากต้องการพิมพ์ด้วยแป้นพิมพ์ ให้เลื่อนนิ้วไปมาบนแป้นพิมพ์ เมื่อได้ยินตัวอักษรที่คุณต้องการพิมพ์แล้วให้ยกนิ้วขึ้น</string>
-  <string name="wear_training_typing_text2">หากต้องการซ่อนแป้นพิมพ์และตรวจสอบข้อมูลที่ป้อน ให้ใช้ 2 นิ้วปัดลงจากด้านบนของหน้าจอ</string>
-  <string name="wear_training_typing_text3">หากต้องการกลับไปที่แป้นพิมพ์ ให้ใช้ 2 นิ้วปัดขึ้นจากด้านล่างของหน้าจอ</string>
-  <string name="wear_training_typing_text4">หากต้องการปิดแป้นพิมพ์และยกเลิกการพิมพ์ ให้ใช้ 2 นิ้วปัดไปทางขวาจากขอบด้านซ้ายของหน้าจอ</string>
-  <string name="wear_training_typing_text5">ลองใช้ด้านล่าง</string>
-  <string name="wear_training_typing_practice_button_content_description">การพิมพ์ด้วยแป้นพิมพ์</string>
-  <string name="wear_training_end_tutorial_title">คุณพร้อมที่จะเริ่มใช้ SandFly แล้ว</string>
   <string name="wear_new_feature_page_title">ยินดีต้อนรับสู่ SandFly ที่อัปเดตแล้ว</string>
   <string name="wear_new_feature_page_content">คุณจะเห็นการแก้ไขข้อบกพร่องและการเปลี่ยนแปลงกับลักษณะการย้ายโฟกัส</string>
   <string name="wear_new_feature_page_button_content_description">เสร็จสิ้น</string>
@@ -1375,7 +1332,6 @@
     <string name="title_pref_announce_ringer_mode">โหมดเสียงเรียกเข้า</string>
     <string name="summary_pref_announce_ringer_mode">พูดเมื่อตั้งค่าเสียงเรียกเข้าเป็นสั่นหรือปิดเสียง</string>
     <string name="title_pref_category_feedback">ข้อเสนอแนะ</string>
-    <string name="title_pref_category_typing_and_braille">การพิมพ์และอักษรเบรลล์</string>
     <string name="title_pref_category_apps">แอป</string>
     <string name="title_pref_touch_activation">สัมผัสและเปิดใช้งาน</string>
     <string name="title_pref_navigation">การนำทาง</string>
@@ -1399,8 +1355,6 @@
     <string name="speech_control_deny">ไม่อนุญาต</string>
     <string name="permission_speak_label">พูดผ่าน SandFly</string>
     <string name="permission_speak_description">ให้แอปขอพูดข้อความด้วยเสียง SandFly ของคุณ SandFly ถามคุณก่อนที่แอปจะพูดได้</string>
-    <string name="permission_braille_display_label">ขอเป็นเครื่องแสดงอักษรเบรลล์สำหรับ SandFly</string>
-    <string name="permission_braille_display_description">ให้แอปขอเป็นจอแสดงผลอักษรเบรลล์สำหรับ SandFly หากคุณอนุญาตใน SandFly จะสามารถอ่านทุกอย่างบนหน้าจอและควบคุมอุปกรณ์ของคุณได้ SandFly ถามคุณก่อน</string>
     <string name="title_pref_phonetic_letters_mode">พูดตัวอักษรตามสัทศาสตร์</string>
     <string name="phonetic_letters_mode_off">ปิด</string>
     <string name="phonetic_letters_mode_after_letter_delay">หลังจากจดหมายล่าช้าเช่น \"h โรงแรม\"</string>
@@ -1568,50 +1522,6 @@
     <string name="shortcut_title_open_app">เปิดแอป</string>
     <string name="shortcut_open_app">เปิด <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">เลื่อนไปด้านบน</string>
-    <string name="shortcut_write_reading_control">เขียนจดหมายควบคุมการอ่าน</string>
-    <string name="title_pref_reading_control_letters">ตัวอักษรที่เขียนด้วยลายมือ</string>
-    <string name="reading_control_letter_none">ไม่มี</string>
-    <string name="handwriting_prompt">เขียนตัวอักษร</string>
-    <string name="handwriting_closed">ปิดการเขียนด้วยลายมือแล้ว</string>
-    <string name="handwriting_no_match">ไม่มีการควบคุมการอ่านเริ่มต้นด้วย <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">ไม่รู้จักลายมือ</string>
-    <string name="handwriting_downloading">กำลังดาวน์โหลดการรู้จำลายมือ</string>
-    <string name="handwriting_download_title">ดาวน์โหลดการรู้จำลายมือ?</string>
-    <string name="handwriting_download_message">จดจำลายมือบนโทรศัพท์เครื่องนี้ โมเดลสำหรับภาษานี้มีขนาดประมาณ 20 MB ดาวน์โหลดจาก Google หนึ่งครั้ง ข้อความจะแสดงเมื่อมีการดาวน์โหลด</string>
-    <string name="handwriting_download_button">ดาวน์โหลด</string>
-    <string name="handwriting_downloaded">ดาวน์โหลดการรู้จำลายมือแล้ว</string>
-    <string name="handwriting_download_failed">ไม่สามารถดาวน์โหลดการรู้จำลายมือได้ ตรวจสอบการเชื่อมต่ออินเทอร์เน็ต</string>
-    <string name="handwriting_unsupported_language">การรู้จำลายมือไม่พร้อมใช้งานในภาษานี้</string>
-    <string name="title_pref_handwriting_keyboard">แป้นพิมพ์เขียนด้วยลายมือ</string>
-    <string name="summary_pref_handwriting_keyboard">เปิด SandFly การเขียนด้วยลายมือในการตั้งค่าแป้นพิมพ์ของ Android</string>
-    <string name="title_pref_handwriting_wait">รอหลังเขียนครับ</string>
-    <string name="value_handwriting_wait_200">0.2 วินาที</string>
-    <string name="value_handwriting_wait_300">0.3 วินาที</string>
-    <string name="value_handwriting_wait_400">0.4 วินาที</string>
-    <string name="value_handwriting_wait_500">0.5 วินาที</string>
-    <string name="value_handwriting_wait_600">0.6 วินาที</string>
-    <string name="value_handwriting_wait_800">0.8 วินาที</string>
-    <string name="value_handwriting_wait_1000">1 วินาที</string>
-    <string name="handwriting_keyboard_name">SandFly ลายมือ</string>
-    <string name="handwriting_space">วรรค</string>
-    <string name="handwriting_new_line">บรรทัดใหม่</string>
-    <string name="handwriting_tutorial_intro">บทช่วยสอนแป้นพิมพ์เขียนด้วยลายมือ เขียนด้วยนิ้วเดียวได้ทุกที่บนหน้าจอ สิ่งที่คุณเขียนจะถูกพิมพ์เมื่อคุณหยุดสักครู่ หากต้องการสิ้นสุดบทช่วยสอน ให้ใช้สามนิ้วปัดลง</string>
-    <string name="handwriting_tutorial_write_letter">เขียนตัวอักษรตัวอักษรก</string>
-    <string name="handwriting_tutorial_write_word">ตอนนี้เขียนคำว่า hi (h ตามด้วย i)</string>
-    <string name="handwriting_tutorial_typed">พิมพ์ <xliff:g id="text" example="a">%1$s</xliff:g></string>
-    <string name="handwriting_tutorial_space">ปัดไปทางขวาด้วยสองนิ้วเพื่อพิมพ์ช่องว่าง</string>
-    <string name="handwriting_tutorial_delete">ใช้สองนิ้วปัดไปทางซ้ายเพื่อลบอักขระหน้าเคอร์เซอร์</string>
-    <string name="handwriting_tutorial_deleted">ลบแล้ว</string>
-    <string name="handwriting_tutorial_next_reading">หากระบบจดจำลายมือเป็นอักขระอื่น เช่น ตัวพิมพ์ใหญ่ ให้ปัดขึ้นด้วยสองนิ้วเพื่อเลือกคำแนะนำการจดจำถัดไป ลองตอนนี้</string>
-    <string name="handwriting_tutorial_read_back">แตะด้วยสองนิ้วเพื่ออ่านข้อความก่อนเคอร์เซอร์</string>
-    <string name="handwriting_tutorial_new_line">ปัดลงด้วยสองนิ้วเพื่อแทรกบรรทัดใหม่หรือดำเนินการกับช่องข้อความ เช่น ส่ง</string>
-    <string name="handwriting_tutorial_not_that">นั่นเป็นอีกท่าทางหนึ่ง</string>
-    <string name="handwriting_tutorial_done">สายใหม่. บทช่วยสอนเสร็จสิ้นแล้ว ใช้สามนิ้วปัดลงเพื่อซ่อนคีย์บอร์ด และใช้สามนิ้วปัดไปทางขวาหรือซ้ายเพื่อสลับคีย์บอร์ด หากต้องการเปิดบทช่วยสอนอีกครั้ง ให้แตะด้วยสามนิ้ว</string>
-    <string name="handwriting_tutorial_finished">บทช่วยสอนสิ้นสุดลงแล้ว หากต้องการเปิดอีกครั้ง ให้ใช้สามนิ้วแตะ</string>
-    <string name="handwriting_no_alternatives">ไม่มีข้อเสนอแนะอื่น ๆ</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> จาก <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">ข้อความว่างเปล่า</string>
-    <string name="handwriting_not_available">การรู้จำลายมือไม่พร้อมใช้งานบนอุปกรณ์นี้</string>
     <string name="shortcut_scroll_to_bottom">เลื่อนไปที่ด้านล่าง</string>
     <string name="shortcut_refresh">รีเฟรช</string>
     <string name="shortcut_system_notifications">หน้าต่างแจ้งเตือนของระบบ</string>
@@ -1623,40 +1533,11 @@
     <string name="title_clear_selection">ล้างการเลือก</string>
     <string name="title_pref_brightness">ความสว่าง</string>
     <string name="summary_support_change_brightness">เพิ่มหรือลดความสว่างของหน้าจอ แม้ว่าหน้าจอจะถูกซ่อนอยู่ก็ตาม</string>
-    <string name="title_pref_shortcut_3finger_4tap">แตะสี่เท่าด้วย 3 นิ้ว</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">หมุนตามเข็มนาฬิกาด้วย 2 นิ้ว</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">หมุนทวนเข็มนาฬิกาด้วย 2 นิ้ว</string>
-    <string name="title_pref_shortcut_2finger_scrub">ขัดด้วย 2 นิ้ว</string>
-    <string name="title_pref_shortcut_2finger_pinch">หยิกด้วย 2 นิ้ว</string>
-    <string name="title_pref_shortcut_2finger_spread">เกลี่ยด้วย 2 นิ้ว</string>
-    <string name="title_pref_shortcut_3finger_pinch">หยิกด้วย 3 นิ้ว</string>
-    <string name="title_pref_shortcut_3finger_spread">กระจายด้วย 3 นิ้ว</string>
-    <string name="title_pref_shortcut_4finger_pinch">หยิกด้วย 4 นิ้ว</string>
-    <string name="title_pref_shortcut_4finger_spread">กระจายด้วย 4 นิ้ว</string>
-    <string name="title_pref_shortcut_edge_bottom_up">ปัดขึ้นจากขอบด้านล่าง</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">ปัดขึ้นยาวจากขอบด้านล่าง</string>
-    <string name="title_pref_shortcut_edge_top_left_down">ปัดลงจากซ้ายบน</string>
-    <string name="title_pref_shortcut_edge_top_right_down">ปัดลงจากด้านบนขวา</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">ปัดลงจากซ้ายบนค้างไว้</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">ปัดลงจากขวาบนค้างไว้</string>
-    <string name="title_pref_shortcut_edge_left_top_right">ปัดไปทางขวาจากขอบซ้ายครึ่งบน</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">ปัดไปทางขวายาวๆ จากขอบซ้าย ครึ่งบน</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">ปัดไปทางขวาจากขอบซ้ายครึ่งล่าง</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">ปัดยาวไปทางขวาจากขอบซ้าย ครึ่งล่าง</string>
-    <string name="title_pref_shortcut_edge_right_top_left">ปัดไปทางซ้ายจากขอบขวาครึ่งบน</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">ปัดไปทางซ้ายยาวจากขอบขวาครึ่งบน</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">ปัดไปทางซ้ายจากขอบขวาครึ่งล่าง</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">ปัดไปทางซ้ายยาวจากขอบขวา ครึ่งล่าง</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">กดนิ้วค้างไว้เพื่อเลือกปุ่มใดก็ได้ จากนั้นยกขึ้น แตะสองครั้งเพื่อป้อน เสร็จสิ้น หรือส่ง</string>
-    <string name="value_type_confirmation_tap_to_type">แตะแป้นใดก็ได้เพื่อพิมพ์ หรือใช้นิ้วค้างไว้เพื่อเลือกแป้นใดก็ได้ จากนั้นยกขึ้น</string>
-    <string name="title_pref_multi_tap_timeout">เวลาระหว่างการแตะด้วยนิ้วเดียว</string>
     <string name="value_multi_tap_timeout_100ms">0.1 วินาที</string>
     <string name="value_multi_tap_timeout_150ms">0.15 วินาที</string>
     <string name="value_multi_tap_timeout_200ms">0.2 วินาที</string>
     <string name="value_multi_tap_timeout_250ms">0.25 วินาที (ค่าเริ่มต้น)</string>
-    <string name="title_pref_rotor_step_degrees">โรเตอร์หมุนต่อขั้นตอน</string>
-    <string name="title_pref_edge_first_click_mm">ระยะทางถึงการคลิกครั้งแรก</string>
-    <string name="title_pref_edge_second_click_mm">ระยะทางจากการคลิกครั้งแรกถึงครั้งที่สอง</string>
     <string name="value_distance_5mm">0.5 ซม</string>
     <string name="value_distance_10mm">1 ซม</string>
     <string name="value_distance_15mm">1.5 ซม</string>
@@ -1704,15 +1585,8 @@
     <string name="summary_support_wrap_around">เปิดหรือปิดการตัดจากรายการสุดท้ายไปเป็นรายการแรก</string>
     <string name="wrap_around_on">พันรอบบน</string>
     <string name="wrap_around_off">พันรอบปิด</string>
-    <string name="title_selector_tablet_held_up_faces_away">แท็บเล็ตเงยหน้าขึ้น</string>
-    <string name="summary_support_tablet_held_up_faces_away">สำหรับแป้นพิมพ์อักษรเบรลล์บนแท็บเล็ตหรือโทรศัพท์ที่กางออก</string>
-    <string name="tablet_held_up_faces_away_on">แท็บเล็ตเงยหน้าขึ้น</string>
-    <string name="tablet_held_up_faces_away_off">แท็บเล็ตยื่นหน้าออกไป</string>
     <string name="title_keyboard_echo_on_screen">เสียงสะท้อนของแป้นพิมพ์บนหน้าจอ</string>
     <string name="title_keyboard_echo_physical">เสียงสะท้อนของแป้นพิมพ์กายภาพ</string>
-    <string name="title_keyboard_echo_braille_keyboard">เสียงสะท้อนของแป้นพิมพ์อักษรเบรลล์</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">เสียงสะท้อนของคีย์บอร์ดเขียนด้วยลายมือ</string>
-    <string name="title_keyboard_echo_braille_display">เสียงสะท้อนของจอแสดงผลอักษรเบรลล์</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">ขัดจังหวะคำพูดเมื่อพิมพ์</string>
     <string name="pref_interrupt_typing_entry_always">เสมอ</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Reduzir o atraso</string>
   <string name="talkback_latency_reduction_summary">Faça SandFly responder mais rápido depois de tocar na tela</string>
   <string name="summary_pref_intonation">Fala letras excluídas em um tom de voz mais agudo</string>
-  <string name="title_pref_brailledisplay">Linha braille</string>
-  <string name="title_pref_brailleime">Teclado em braille</string>
-  <string name="summary_pref_brailleime_disabled">Incompatível com teclado em braille</string>
   <string name="title_pref_speech_footer">Para alterar o volume de acessibilidade em qualquer tela, mantenha um dedo na tela e pressione a tecla de aumentar ou diminuir volume.</string>
   <string name="title_pref_vibration">Feedback de vibração</string>
   <string name="title_pref_soundback">Feedback de som</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Ativar sobreposição dos registros de depuração</string>
   <string name="title_pref_typing_confirmation">Método de digitação</string>
   <string name="title_pref_typing_long_tap_duration">Atraso do gesto de tocar e segurar ao digitar</string>
-  <string name="title_pref_touch_explore_timeout">Atraso do foco de digitação</string>
   <string name="message_pref_touch_explore_latency">Um atraso mais curto faz com que SandFly fale mais cedo depois de tocar no teclado.\n\nEscolha um atraso</string>
-  <string name="title_pref_touch_focus_timeout">Atraso do foco</string>
-  <string name="title_pref_talkback_gesture_detection">Lidar com gestos no SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Feche o SandFly e o abra novamente para ativar a configuração.</string>
   <string name="title_pref_auto_image_captioning">Descrições automáticas</string>
   <string name="title_pref_gemini_settings">Configurações do Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini comandos de voz</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Aumentar volume</string>
   <string name="shortcut_decrease_volume">Diminuir volume</string>
   <string name="shortcut_all_apps">Todos os apps</string>
-  <string name="shortcut_braille_keyboard">Usar teclado em braille</string>
-  <string name="shortcut_braille_display_settings">Acessar configurações da linha braille</string>
   <string name="shortcut_tutorial">Abrir o tutorial</string>
   <string name="shortcut_control_speak_time">Falar o horário ou não</string>
   <string name="shortcut_enable_speak_time">Falar o horário</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">\"Falar o horário\" desativado</string>
   <string name="shortcut_practice_gestures">Praticar gestos</string>
   <string name="shortcut_report_gesture">Informar um problema com os gestos</string>
-  <string name="shortcut_toggle_braille_display">Ativar ou desativar a linha braille</string>
   <string name="shortcut_announce_current_time_and_date">Falar a data e a hora atuais</string>
   <string name="shortcut_announce_battery_state">Falar a porcentagem da bateria</string>
   <string name="shortcut_announce_current_title">Ler o título da janela em voz alta</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Diminuir velocidade da fala</string>
   <string name="shortcut_toggle_selection">Iniciar ou encerrar o modo de seleção</string>
   <string name="shortcut_show_tutorial">Abrir tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Trocar entre braille abreviado (grau 2) e integral (grau 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Mostrar ou ocultar braille na tela para as linhas conectadas</string>
   <string name="shortcut_toggle_sound_feedback">Ativar ou desativar o feedback falado (ícones auditivos)</string>
   <string name="shortcut_show_learn_mode_page">Praticar atalhos do teclado</string>
   <string name="shortcut_announce_phonetic_pronunciation">Falar letras com pronúncia fonética para o item em foco</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Comandos de voz</string>
   <string name="title_show_keyboard_shortcuts">Atalhos do teclado</string>
   <string name="talkback_show_talkback_settings">Configurações do SandFly</string>
-  <string name="title_show_braille_display_settings">Configurações da linha braille</string>
   <string name="title_granularity_default">Navegação padrão</string>
   <string name="title_action_dismiss">Dispensar</string>
   <string name="title_action_expand">Expandir</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Muda se o horário é falado em voz alta ao ligar a tela</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Abrir a lista de atalhos do teclado</string>
   <string name="summary_talkback_preferences">Abrir as configurações do SandFly</string>
-  <string name="summary_braile_display_preferences">Abrir as configurações da linha braille</string>
   <string name="summary_system_actions">Acessar todos os apps e as Configurações Rápidas</string>
   <string name="summary_tts_settings">Abrir configurações de conversão de texto em voz</string>
   <string name="not_editable">Não editável</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Diminuir o volume de outros áudios quando o SandFly falar</string>
   <string name="summary_support_scroll_seq">Rolar para frente ou para trás</string>
   <string name="summary_support_change_a11y_volume">Aumentar ou diminuir o volume de acessibilidade</string>
-  <string name="summary_support_change_touch_explore_latency">Aumentar ou diminuir o atraso do foco de digitação</string>
-  <string name="summary_support_change_touch_focus_latency">Aumentar ou diminuir o atraso do foco</string>
   <string name="summary_screen_overview">Resumir a tela com os botões de ação</string>
   <string name="summary_screen_overview_no_actions">Ouvir um resumo do conteúdo na tela</string>
   <string name="summary_image_caption">Lê texto e ícones de uma imagem selecionada</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Fazer gesto de pinça duas vezes</string>
   <string name="gesture_name_double_tap_and_hold">Tocar duas vezes e manter a tela pressionada</string>
   <string name="gesture_name_double_tap_and_hold_xr">Fazer gesto de pinça e pressionar</string>
-  <string name="gesture_name_2finger_tap_hold">Tocar com dois dedos e manter a tela pressionada</string>
   <string name="gesture_name_3finger_tap_hold">Tocar com três dedos e manter a tela pressionada</string>
   <string name="gesture_name_2finger_3tap_hold">Tocar três vezes com dois dedos e manter a tela pressionada</string>
   <string name="gesture_name_3finger_3tap_hold">Tocar três vezes com três dedos e manter a tela pressionada</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Redução de áudio</string>
   <string name="title_pref_support_scroll_seq">Rolar</string>
   <string name="title_pref_a11y_volume">Volume de acessibilidade</string>
-  <string name="title_pref_touch_explore_latency">Atraso do foco de digitação</string>
-  <string name="title_pref_touch_focus_latency">Atraso do foco</string>
   <string name="message_pref_touch_focus_latency">Um atraso menor faz com que SandFly fale mais cedo depois de tocar na tela</string>
   <string name="message_pref_typing_method_prefix">Para ter o menor atraso ao digitar, escolha \"Pressionar uma tecla para selecionar e depois levantar o dedo\"</string>
-  <string name="message_pref_typing_method_postfix">Você também pode usar o toque dividido para digitar quando quiser. Para fazer isso, pressione uma tecla com um dedo e toque na tela com outro.</string>
   <string name="title_pref_talkback_speech_rate">Velocidade da fala</string>
   <string name="title_pref_selector_adjustable_widget_slider">Ajuste o controle deslizante</string>
   <string name="title_pref_selector_typo_granularity">Revisar</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">a palavra-chave é %1$s</string>
   <string name="screen_search_no_keyword_hint">Ainda não há palavra-chave. Para iniciar uma nova pesquisa, toque na tela e mantenha pressionada com 3 dedos ou abra a Pesquisa direta no menu do SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ainda não há palavra-chave. Para iniciar uma nova pesquisa, deslize da esquerda para a direita e depois para baixo ou abra a Pesquisa direta no menu do SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Teclado em braille desativado. Acesse as config. do SandFly, configure o teclado e tente novamente.</string>
   <string name="suggestions_window_available">Sugestões disponíveis</string>
   <string name="suggestions_window_available_with_gesture">Sugestões disponíveis. Para acessar, %1$s</string>
   <string name="heads_up_window_available">Notificação disponível</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly agora possui um \"mapa de teclado aprimorado\" para teclados físicos, apresentando uma variedade de novos comandos e atalhos. Este aprimoramento inclui um “modo de navegação” para uma navegação na web mais eficiente, simplificando a navegação e a interação para usuários SandFly que dependem de teclados físicos. Você pode mudar para o \"Mapa de teclado aprimorado\" em <xliff:g id="settings_path">%1$s</xliff:g>.\n\nSe você usa uma linha Braille, também pode usar os novos atalhos do modo de navegação para navegar pelo conteúdo diretamente da sua linha Braille. Alguns atalhos do display Braille foram alterados para acomodar essa mudança. Você pode ver uma lista de todos os atalhos do display Braille em <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Configurações do SandFly &gt; Atalhos do teclado</string>
   <string name="keyboard_shortcuts_link_tts">Configurações do SandFly e, depois, Atalhos do teclado</string>
-  <string name="braille_display_settings_link">Configurações da linha braille</string>
   <string name="keyboard_smart_browse_mode_title">Teclado: Modo de Navegação Inteligente</string>
   <string name="keyboard_smart_browse_mode_text">Esse recurso do SandFly desativa o modo de navegação em campos de edição para que você possa digitar com mais facilidade usando um teclado físico ao navegar na web. Ele é reativado quando você pula para um campo na web que não é de edição para uma navegação mais eficiente. Você pode ativar ou desativar o Modo de Navegação Inteligente em <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Configurações do SandFly &gt; Configurações avançadas</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Como digitar texto</string>
   <string name="basic_typing_text_text">Quando você selecionar uma caixa de texto, um teclado vai aparecer na parte de baixo da tela.</string>
   <string name="typing_text_text">Mova o dedo pelo teclado. Quando ouvir a letra que você quer digitar, levante o dedo.\n\nTente ativar a caixa de texto abaixo e digitar seu nome.</string>
-  <string name="typing_text_with_braille_keyboard_text">Também é possível digitar com o teclado em braille. Ele pode ser encontrado nas configurações do SandFly.</string>
   <string name="other_ways_to_type_title">Outras maneiras de digitar</string>
   <string name="other_ways_to_type_text">Há outras maneiras de digitar no SandFly. Por exemplo, tocando duas vezes para inserir uma letra.</string>
   <string name="basic_other_ways_to_type_text">Existem outras maneiras de digitar SandFly. Por exemplo, você pode tocar duas vezes para inserir uma letra. Você pode alterar isso mais tarde em SandFly configurações &gt; Teclado na tela &gt; Método de digitação.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Para praticar gestos, ative o SandFly</string>
   <string name="talkback_inactive_message_image_description">Para ouvir descrições de imagens, ative o SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Fechar tutorial</string>
-  <string name="wear_training_welcome_paragraph">Quando o SandFly está ativado, o item em foco na tela é lido em voz alta.\n\nO gesto de deslizar para a direita leva ao item seguinte. O gesto de deslizar para esquerda leva ao item anterior.\n\nDeslize para a direita até encontrar o próximo botão.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Deslize para cima ou para baixo com %1$d dedos.</string>
-  <string name="wear_training_go_back_title">Voltar</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Se quiser voltar, deslize com %1$d dedos da borda da tela para a direita.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Concluído</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gesto \"Voltar\" realizado</string>
-  <string name="wear_training_volume_up_title">Aumentar o volume</string>
-  <string name="wear_training_volume_up_text">Deslize para a direita e depois para cima</string>
-  <string name="wear_training_volume_down_title">Diminuir o volume</string>
-  <string name="wear_training_volume_down_text">Deslize para a direita e depois para baixo</string>
-  <string name="wear_training_open_talkback_menu_title">Abrir o menu do SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Para abrir as configurações e os controles mais usados, deslize para baixo e depois para a direita</string>
-  <string name="wear_training_typing_title">Digitar</string>
-  <string name="wear_training_typing_text1">Para digitar com o teclado, mova o dedo pela tela. Quando ouvir a letra que você quer digitar, levante o dedo.</string>
-  <string name="wear_training_typing_text2">Para ocultar o teclado e conferir a entrada, deslize de cima para baixo na tela com 2 dedos.</string>
-  <string name="wear_training_typing_text3">Para voltar ao teclado, deslize de baixo para cima com 2 dedos.</string>
-  <string name="wear_training_typing_text4">Para fechar o teclado e cancelar a digitação, deslize da borda esquerda da tela para a direita com 2 dedos.</string>
-  <string name="wear_training_typing_text5">Teste abaixo.</string>
-  <string name="wear_training_typing_practice_button_content_description">Digitar com o teclado</string>
-  <string name="wear_training_end_tutorial_title">Você já pode começar a usar o SandFly</string>
   <string name="wear_new_feature_page_title">Conheça as atualizações do SandFly</string>
   <string name="wear_new_feature_page_content">Você vai notar algumas correções de bugs e mudanças na forma como o foco se move</string>
   <string name="wear_new_feature_page_button_content_description">Finalizar</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Modo de campainha</string>
     <string name="summary_pref_announce_ringer_mode">Diga quando a campainha está definida para vibrar ou silenciar</string>
     <string name="title_pref_category_feedback">Comentários</string>
-    <string name="title_pref_category_typing_and_braille">Digitação e braille</string>
     <string name="title_pref_category_apps">Aplicativos</string>
     <string name="title_pref_touch_activation">Toque e ativação</string>
     <string name="title_pref_navigation">Navegação</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Não permita</string>
     <string name="permission_speak_label">fale através de SandFly</string>
     <string name="permission_speak_description">Permite que o aplicativo peça para dizer o texto na sua voz SandFly. SandFly pergunta antes que o aplicativo possa falar.</string>
-    <string name="permission_braille_display_label">peça para ser um display braille para SandFly</string>
-    <string name="permission_braille_display_description">Permite que o aplicativo solicite um display braille para SandFly. Se você permitir a entrada SandFly, ele poderá ler tudo na tela e controlar seu dispositivo. SandFly pergunta primeiro.</string>
     <string name="title_pref_phonetic_letters_mode">Fale letras foneticamente</string>
     <string name="phonetic_letters_mode_off">Desativar</string>
     <string name="phonetic_letters_mode_after_letter_delay">Depois da carta, atrasada, tipo \"h, hotel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Abrir aplicativo</string>
     <string name="shortcut_open_app">Abrir <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Role para cima</string>
-    <string name="shortcut_write_reading_control">Escreva a letra de um controle de leitura</string>
-    <string name="title_pref_reading_control_letters">Letras do alfabeto manuscritas</string>
-    <string name="reading_control_letter_none">Nenhum</string>
-    <string name="handwriting_prompt">Escreva uma letra do alfabeto</string>
-    <string name="handwriting_closed">Caligrafia fechada</string>
-    <string name="handwriting_no_match">Nenhum controle de leitura começa com <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Caligrafia não reconhecida</string>
-    <string name="handwriting_downloading">O reconhecimento de escrita está sendo baixado</string>
-    <string name="handwriting_download_title">Baixar reconhecimento de escrita?</string>
-    <string name="handwriting_download_message">A escrita manual é reconhecida neste telefone. Seu modelo para esta linguagem, com cerca de 20 MB, é baixado de Google uma vez. Uma mensagem mostra quando o download foi feito.</string>
-    <string name="handwriting_download_button">Fazer o download</string>
-    <string name="handwriting_downloaded">Reconhecimento de escrita baixado</string>
-    <string name="handwriting_download_failed">Não foi possível fazer o download do reconhecimento de escrita manual. Verifique a conexão com a internet.</string>
-    <string name="handwriting_unsupported_language">O reconhecimento de escrita não está disponível neste idioma</string>
-    <string name="title_pref_handwriting_keyboard">Teclado de escrita manual</string>
-    <string name="summary_pref_handwriting_keyboard">Ative a escrita manual SandFly nas configurações do teclado de Android</string>
-    <string name="title_pref_handwriting_wait">Espere depois de escrever</string>
-    <string name="value_handwriting_wait_200">0,2 segundos</string>
-    <string name="value_handwriting_wait_300">0,3 segundos</string>
-    <string name="value_handwriting_wait_400">0,4 segundos</string>
-    <string name="value_handwriting_wait_500">0,5 segundo</string>
-    <string name="value_handwriting_wait_600">0,6 segundos</string>
-    <string name="value_handwriting_wait_800">0,8 segundos</string>
-    <string name="value_handwriting_wait_1000">1 segundo</string>
-    <string name="handwriting_keyboard_name">SandFly caligrafia</string>
-    <string name="handwriting_space">Espaço</string>
-    <string name="handwriting_new_line">Nova linha</string>
-    <string name="handwriting_tutorial_intro">Tutorial de teclado de escrita manual. Escreva com um dedo em qualquer lugar da tela. O que você escreve é ​​digitado quando você para por um momento. Para finalizar o tutorial, deslize três dedos para baixo.</string>
-    <string name="handwriting_tutorial_write_letter">Escreva a letra do alfabeto a.</string>
-    <string name="handwriting_tutorial_write_word">Agora escreva a palavra hi (h seguido de i).</string>
-    <string name="handwriting_tutorial_typed">Digitado <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Deslize para a direita com dois dedos para digitar um espaço.</string>
-    <string name="handwriting_tutorial_delete">Deslize para a esquerda com dois dedos para excluir o caractere antes do cursor.</string>
-    <string name="handwriting_tutorial_deleted">Excluído.</string>
-    <string name="handwriting_tutorial_next_reading">Se a escrita for reconhecida como outro caractere, como uma letra maiúscula, deslize dois dedos para cima para escolher a próxima sugestão de reconhecimento. Experimente agora.</string>
-    <string name="handwriting_tutorial_read_back">Toque com dois dedos para ler o texto antes do cursor.</string>
-    <string name="handwriting_tutorial_new_line">Deslize para baixo com dois dedos para inserir uma nova linha ou executar a ação do campo de texto, como Enviar.</string>
-    <string name="handwriting_tutorial_not_that">Esse foi outro gesto.</string>
-    <string name="handwriting_tutorial_done">Nova linha. Tutorial finalizado. Deslize para baixo com três dedos para ocultar o teclado e para a direita ou esquerda com três dedos para alternar o teclado. Para abrir o tutorial novamente, toque com três dedos.</string>
-    <string name="handwriting_tutorial_finished">O tutorial terminou. Para abri-lo novamente, toque com três dedos.</string>
-    <string name="handwriting_no_alternatives">Nenhuma outra sugestão</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> de <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Texto vazio</string>
-    <string name="handwriting_not_available">O reconhecimento de escrita não está disponível neste dispositivo</string>
     <string name="shortcut_scroll_to_bottom">Role para baixo</string>
     <string name="shortcut_refresh">Atualizar</string>
     <string name="shortcut_system_notifications">Sombra de notificação do sistema</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Limpar seleção</string>
     <string name="title_pref_brightness">Brilho</string>
     <string name="summary_support_change_brightness">Aumente ou diminua o brilho da tela, mesmo quando a tela estiver oculta</string>
-    <string name="title_pref_shortcut_3finger_4tap">Toque quádruplo com 3 dedos</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Gire no sentido horário com 2 dedos</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Gire no sentido anti-horário com 2 dedos</string>
-    <string name="title_pref_shortcut_2finger_scrub">Esfregue com 2 dedos</string>
-    <string name="title_pref_shortcut_2finger_pinch">Aperte com 2 dedos</string>
-    <string name="title_pref_shortcut_2finger_spread">Espalhe com 2 dedos</string>
-    <string name="title_pref_shortcut_3finger_pinch">Aperte com 3 dedos</string>
-    <string name="title_pref_shortcut_3finger_spread">Espalhe com 3 dedos</string>
-    <string name="title_pref_shortcut_4finger_pinch">Aperte com 4 dedos</string>
-    <string name="title_pref_shortcut_4finger_spread">Espalhe com 4 dedos</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Deslize de cima para baixo a partir da borda inferior</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Deslize longamente para cima a partir da borda inferior</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Deslize para baixo do canto superior esquerdo</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Deslize para baixo do canto superior direito</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Deslize longamente para baixo a partir do canto superior esquerdo</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Deslize longamente para baixo do canto superior direito</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Deslize para a direita a partir da borda esquerda, metade superior</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Deslize longamente para a direita a partir da borda esquerda, metade superior</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Deslize para a direita a partir da borda esquerda, metade inferior</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Deslize longamente para a direita a partir da borda esquerda, metade inferior</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Deslize para a esquerda a partir da borda direita, metade superior</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Deslize longamente para a esquerda a partir da borda direita, metade superior</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Deslize para a esquerda a partir da borda direita, metade inferior</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Deslize longamente para a esquerda a partir da borda direita, metade inferior</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Segure o dedo para selecionar qualquer tecla e levante. Toque duas vezes para Enter, Concluído ou Enviar.</string>
-    <string name="value_type_confirmation_tap_to_type">Toque em qualquer tecla para digitá-la ou segure o dedo para selecionar qualquer tecla e levante</string>
-    <string name="title_pref_multi_tap_timeout">Tempo entre toques com um dedo</string>
     <string name="value_multi_tap_timeout_100ms">0,1 segundos</string>
     <string name="value_multi_tap_timeout_150ms">0,15 segundos</string>
     <string name="value_multi_tap_timeout_200ms">0,2 segundos</string>
     <string name="value_multi_tap_timeout_250ms">0,25 segundos (padrão)</string>
-    <string name="title_pref_rotor_step_degrees">Rotação do rotor por passo</string>
-    <string name="title_pref_edge_first_click_mm">Distância até o primeiro clique</string>
-    <string name="title_pref_edge_second_click_mm">Distância do primeiro ao segundo clique</string>
     <string name="value_distance_5mm">0,5 centímetros</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 centímetros</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Ative ou desative o empacotamento do último item para o primeiro</string>
     <string name="wrap_around_on">Envolva-se</string>
     <string name="wrap_around_off">Enrole</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet levantado de costas</string>
-    <string name="summary_support_tablet_held_up_faces_away">Para o teclado braille em um tablet ou telefone aberto</string>
-    <string name="tablet_held_up_faces_away_on">Tablet levantado de frente para</string>
-    <string name="tablet_held_up_faces_away_off">Tablet levantado com a face voltada para fora</string>
     <string name="title_keyboard_echo_on_screen">Eco do teclado na tela</string>
     <string name="title_keyboard_echo_physical">Eco do teclado físico</string>
-    <string name="title_keyboard_echo_braille_keyboard">Eco do teclado Braille</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Eco do teclado de escrita manual</string>
-    <string name="title_keyboard_echo_braille_display">Eco da tela Braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Interromper a fala ao digitar</string>
     <string name="pref_interrupt_typing_entry_always">Sempre</string>

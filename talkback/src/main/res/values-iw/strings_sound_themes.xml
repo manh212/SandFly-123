@@ -72,10 +72,6 @@
     <string name="theme_sound_summary_none">אין קול. צליל המיקוד מתנגן.</string>
     <string name="theme_sound_summary_android_keyboard">צליל המקלדת של Android</string>
     <string name="theme_sound_use_android_keyboard">השתמש בצליל המקלדת של Android</string>
-    <string name="theme_sound_braille_character">מקלדת ברייל: הקלדת תו</string>
-    <string name="theme_sound_braille_space">מקלדת ברייל: רווח</string>
-    <string name="theme_sound_braille_delete">מקלדת ברייל: מחק</string>
-    <string name="theme_sound_braille_new_line">מקלדת ברייל: שורה חדשה</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">בחר קובץ קול</string>
     <string name="theme_sound_preview">תצוגה מקדימה</string>

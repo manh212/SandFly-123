@@ -24,12 +24,6 @@
     <string name="individual_sound_browse_mode_on">Browse mode on</string>
     <string name="individual_sound_browse_mode_off">Browse mode off</string>
     <string name="individual_sound_radial_menu">Circle menu</string>
-    <string name="individual_sound_display_connected">Braille display connected</string>
-    <string name="individual_sound_display_disconnected">Braille display disconnected</string>
-    <string name="individual_sound_double_beep">Braille command failed</string>
-    <string name="individual_sound_turn_on">Braille auto scroll on</string>
-    <string name="individual_sound_turn_off">Braille auto scroll off</string>
-    <string name="individual_sound_calibration_done">Braille keyboard calibrated</string>
     <string name="individual_vibration_focus">Focus on an item</string>
     <string name="individual_vibration_focus_actionable">Focus on an actionable item</string>
     <string name="individual_vibration_clicked">Click</string>
@@ -37,12 +31,6 @@
     <string name="individual_vibration_window_state">Window change</string>
     <string name="individual_vibration_typo">Spelling error</string>
     <string name="individual_vibration_notification">Announcement</string>
-    <string name="individual_vibration_braille_character">Braille keyboard: typing a character</string>
-    <string name="individual_vibration_braille_space">Braille keyboard: space or delete</string>
-    <string name="individual_vibration_braille_new_line">Braille keyboard: new line or deleting a word</string>
-    <string name="individual_vibration_braille_hold">Braille keyboard: holding fingers down</string>
-    <string name="individual_vibration_braille_gesture">Braille keyboard: other gestures</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Braille keyboard: nothing to delete</string>
     <string name="individual_sound_next_reading_control">Next reading control</string>
     <string name="individual_sound_previous_reading_control">Previous reading control</string>
     <string name="individual_sound_edge_gesture_bottom">Edge gesture bottom</string>

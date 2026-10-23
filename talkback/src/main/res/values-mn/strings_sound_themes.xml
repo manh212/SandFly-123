@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Дуу алга. Фокусын дуу тоглодог.</string>
     <string name="theme_sound_summary_android_keyboard">Android-ийн гарны дуу</string>
     <string name="theme_sound_use_android_keyboard">Android-ийн гарын дууг ашиглана уу</string>
-    <string name="theme_sound_braille_character">Брайл гар: тэмдэгт бичих</string>
-    <string name="theme_sound_braille_space">Брайл гар: зай</string>
-    <string name="theme_sound_braille_delete">Брайл гар: устгах</string>
-    <string name="theme_sound_braille_new_line">Брайл гар: шинэ мөр</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Дууны файлыг сонгоно уу</string>
     <string name="theme_sound_preview">Урьдчилан харах</string>

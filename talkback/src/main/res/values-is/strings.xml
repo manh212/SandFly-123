@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Stytta töf</string>
   <string name="talkback_latency_reduction_summary">Láttu SandFly svara hraðar eftir að þú snertir skjáinn</string>
   <string name="summary_pref_intonation">Lesa upp stafi sem er eytt með rödd í hærri tón</string>
-  <string name="title_pref_brailledisplay">Blindraletursskjár</string>
-  <string name="title_pref_brailleime">Blindraleturslyklaborð</string>
-  <string name="summary_pref_brailleime_disabled">Tækið þitt styður ekki braille-lyklaborð</string>
   <string name="title_pref_speech_footer">Til að breyta hljóðstyrk aðgengis frá hvaða skjá sem er, haltu 1 fingri á skjánum og ýttu á hljóðstyrkstakkann eða hljóðstyrkstakkann.</string>
   <string name="title_pref_vibration">Svörun með titringi</string>
   <string name="title_pref_soundback">Hljóðsvörun</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Kveikja á yfirlögn villuleitarannáls</string>
   <string name="title_pref_typing_confirmation">Vélritunaraðferð</string>
   <string name="title_pref_typing_long_tap_duration">Bið þegar haldið er inni við innslátt</string>
-  <string name="title_pref_touch_explore_timeout">Töf innsláttarfókuss</string>
   <string name="message_pref_touch_explore_latency">Styttri seinkun gerir SandFly til að tala fyrr eftir að þú snertir lyklaborðið.\n\nVeldu seinkun</string>
-  <string name="title_pref_touch_focus_timeout">Fókustöf</string>
-  <string name="title_pref_talkback_gesture_detection">Meðhöndla bendingar í SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Slökktu á SandFly og kveiktu svo aftur til að virkja stillinguna.</string>
   <string name="title_pref_auto_image_captioning">Sjálfvirkar lýsingar</string>
   <string name="title_pref_gemini_settings">Gemini-stillingar</string>
   <string name="title_pref_gemini_enabled">Gemini raddskipanir</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Auka hljóðstyrk</string>
   <string name="shortcut_decrease_volume">Minnka hljóðstyrk</string>
   <string name="shortcut_all_apps">Öll forrit</string>
-  <string name="shortcut_braille_keyboard">Nota blindraletursborð</string>
-  <string name="shortcut_braille_display_settings">Fara í stillingar blindraletursskjás</string>
   <string name="shortcut_tutorial">Opna leiðsögn</string>
   <string name="shortcut_control_speak_time">Segja hvað klukkan er eða ekki segja hvað klukkan er</string>
   <string name="shortcut_enable_speak_time">Segja hvað klukkan er</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Slökkt á „Segja hvað klukkan er“</string>
   <string name="shortcut_practice_gestures">Æfingabendingar</string>
   <string name="shortcut_report_gesture">Tilkynna vandamál með bendingu</string>
-  <string name="shortcut_toggle_braille_display">Kveikja eða slökkva á blindraletursskjá</string>
   <string name="shortcut_announce_current_time_and_date">Segja núverandi dagsetningu og tíma upphátt</string>
   <string name="shortcut_announce_battery_state">Segja stöðu rafhlöðu upphátt</string>
   <string name="shortcut_announce_current_title">Segja heiti glugga upphátt</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Minnka talhraða</string>
   <string name="shortcut_toggle_selection">Kveikja eða slökkva á valstillingu</string>
   <string name="shortcut_show_tutorial">Opna sýnikennslu</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Skiptu á milli þess að nota stytt (2. stig) og óstytt (1. stig)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Sýna eða fela blindraletur á skjánum þegar blindraletursskjáir eru tengdir</string>
   <string name="shortcut_toggle_sound_feedback">Kveikja eða slökkva á hljóðsvörun (hljóðmerkjum)</string>
   <string name="shortcut_show_learn_mode_page">Flýtilyklar æfingalyklaborðs</string>
   <string name="shortcut_announce_phonetic_pronunciation">Lesa upp stafi með hljóðfræðilegum framburði fyrir valið atriði</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Raddskipanir</string>
   <string name="title_show_keyboard_shortcuts">Flýtilyklar</string>
   <string name="talkback_show_talkback_settings">SandFly-stillingar</string>
-  <string name="title_show_braille_display_settings">Stillingar blindraletursskjás</string>
   <string name="title_granularity_default">Sjálfgefin fletting</string>
   <string name="title_action_dismiss">Hunsa</string>
   <string name="title_action_expand">Stækka</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Breyttu því hvort þú heyrir hvað klukkan er þegar þú kveikir á skjánum</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Opna lista yfir flýtilykla</string>
   <string name="summary_talkback_preferences">Opna stillingar SandFly</string>
-  <string name="summary_braile_display_preferences">Opna stillingar blindraletursskjás</string>
   <string name="summary_system_actions">Opna „Öll forrit“ og „Flýtistillingar“</string>
   <string name="summary_tts_settings">Opna stillingar talgervils</string>
   <string name="not_editable">Ekki hægt að breyta</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Lækka önnur hljóð sem spilast á meðan SandFly talar</string>
   <string name="summary_support_scroll_seq">Fletta áfram eða til baka</string>
   <string name="summary_support_change_a11y_volume">Hækkaðu eða lækkaðu hljóðstyrk aðgengis</string>
-  <string name="summary_support_change_touch_explore_latency">Lengja eða stytta fókustöf við innslátt</string>
-  <string name="summary_support_change_touch_focus_latency">Lengja eða stytta fókustöf</string>
   <string name="summary_screen_overview">Taka skjá saman með aðgerðarhnöppum</string>
   <string name="summary_screen_overview_no_actions">Hlustaðu á samantekt á efninu á skjánum</string>
   <string name="summary_image_caption">Lesa texta og tákn á valinni mynd</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Færa fingur saman tvisvar</string>
   <string name="gesture_name_double_tap_and_hold">Ýta tvisvar og halda inni</string>
   <string name="gesture_name_double_tap_and_hold_xr">Færa fingur saman og halda</string>
-  <string name="gesture_name_2finger_tap_hold">Halda inni með 2 fingrum</string>
   <string name="gesture_name_3finger_tap_hold">Halda inni með 3 fingrum</string>
   <string name="gesture_name_2finger_3tap_hold">Ýta þrisvar og halda inni með 2 fingrum</string>
   <string name="gesture_name_3finger_3tap_hold">Ýta þrisvar og halda inni með 3 fingrum</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Hljóðlækkun</string>
   <string name="title_pref_support_scroll_seq">Fletta</string>
   <string name="title_pref_a11y_volume">Hljóðstyrkur aðgengis</string>
-  <string name="title_pref_touch_explore_latency">Töf innsláttarfókuss</string>
-  <string name="title_pref_touch_focus_latency">Fókustöf</string>
   <string name="message_pref_touch_focus_latency">Styttri seinkun gerir SandFly til að tala fyrr eftir að þú snertir skjáinn</string>
   <string name="message_pref_typing_method_prefix">Veldu „Halda fingri á skjánum til að velja lykil og sleppa síðan“ til að stytta töfina sem mest við innslátt.</string>
-  <string name="message_pref_typing_method_postfix">Þú getur einnig notað tvískiptan innslátt hvenær sem er. Til að gera það skaltu halda einum fingri á skjánum til að velja lykil og nota annan til að ýta á skjáinn.</string>
   <string name="title_pref_talkback_speech_rate">Talhraði</string>
   <string name="title_pref_selector_adjustable_widget_slider">Breyta sleða</string>
   <string name="title_pref_selector_typo_granularity">Yfirlestur</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">leitarorðið er: %1$s</string>
   <string name="screen_search_no_keyword_hint">Ekkert leitarorð ennþá. Til að hefja nýja leit skaltu halda inni með þremur fingrum eða opna skjáleit í SandFly-valmyndinni.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ekkert leitarorð ennþá. Til að hefja nýja leit skaltu strjúka til vinstri og síðan niður eða opna skjáleit í SandFly-valmyndinni.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Ekki kveikt á blindraleturslyklaborði. Opnaðu stillingar SandFly, settu upp blindraleturslyklaborð og reyndu aftur.</string>
   <string name="suggestions_window_available">Tillögur í boði</string>
   <string name="suggestions_window_available_with_gesture">Tillögur í boði. Til að fá aðgang skaltu %1$s</string>
   <string name="heads_up_window_available">Tiltæk tilkynning</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly er nú með „Enhanced keymap“ fyrir líkamlegt lyklaborð, með ýmsum nýjum skipunum og flýtileiðum. Þessi viðbót felur í sér „vafraham“ fyrir skilvirkari vefleiðsögn, hagræðingu í leiðsögn og samskiptum fyrir SandFly notendur sem treysta á líkamlegt lyklaborð. Þú getur skipt yfir í „Enhanced keymap“ í <xliff:g id="settings_path">%1$s</xliff:g>.\n\nEf þú notar blindraletursskjá geturðu líka notað nýjar flýtileiðir í vafraham til að fara í gegnum efni beint af blindraletursskjánum þínum. Sumum blindraletursflýtivísum var breytt til að mæta þessari breytingu. Þú getur séð lista yfir alla blindraletursflýtivísa í <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Stillingar SandFly &gt; Flýtilyklar</string>
   <string name="keyboard_shortcuts_link_tts">Stillingar SandFly og síðan „Flýtilyklar“</string>
-  <string name="braille_display_settings_link">Stillingar blindraletursskjás</string>
   <string name="keyboard_smart_browse_mode_title">Lyklaborð: Snjallflettihamur</string>
   <string name="keyboard_smart_browse_mode_text">Snjallflettihamur SandFly slekkur á flettiham í breytingareit til að hjálpa þér að slá inn texta með vélbúnaðarlyklaborði þegar þú flettir á vefnum. Hann kveikir síðan aftur á honum þegar þú ferð yfir í reit sem er ekki breytingareitur á vefnum svo að þú getir haldið áfram að skoða á skilvirkan hátt. Þú getur kveikt eða slökkt á snjallflettiham í <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Stillingar SandFly &gt; Ítarlegar stillingar</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Textainnsláttur</string>
   <string name="basic_typing_text_text">Þegar þú ert í textareit birtist lyklaborð neðst á skjánum.</string>
   <string name="typing_text_text">Renndu fingrinum yfir lyklaborðið. Þegar þú heyrir stafinn sem þú vilt slá inn skaltu lyfta fingrinum.\n\nPrófaðu að opna textareitinn hér fyrir neðan og slá inn nafnið þitt.</string>
-  <string name="typing_text_with_braille_keyboard_text">Þú getur líka slegið inn með blindraleturslyklaborðinu. Það má finna í stillingum SandFly.</string>
   <string name="other_ways_to_type_title">Aðrar innsláttarleiðir</string>
   <string name="other_ways_to_type_text">Aðrar innsláttarleiðir eru í boði í SandFly. Þú getur t.d. ýtt tvisvar til að færa inn staf.</string>
   <string name="basic_other_ways_to_type_text">Það eru aðrar leiðir til að slá inn SandFly. Til dæmis geturðu notað tvisvar til að slá inn staf. Þú getur breytt þessu síðar í SandFly stillingum &gt; Skjályklaborð &gt; Innsláttaraðferð.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Byrjaðu á því að kveikja á SandFly til að æfa bendingar</string>
   <string name="talkback_inactive_message_image_description">Byrjaðu á því að kveikja á SandFly til að prófa að fá myndlýsingar</string>
   <string name="talkback_inactive_close_tutorial_button">Loka leiðsögn</string>
-  <string name="wear_training_welcome_paragraph">Þegar kveikt er á SandFly er atriðið sem er merkt á skjánum lesið upphátt.\n\nStroka til hægri fer í næsta atriði. Stroka til vinstri fer í fyrra atriði.\n\nStrjúktu til hægri núna til að finna næsta hnapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Strjúktu upp eða niður með %1$d fingrum.</string>
-  <string name="wear_training_go_back_title">Til baka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Þegar þú vilt fara til baka skaltu nota %1$d fingur og strjúka til hægri frá brún skjásins.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Tókst</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bendingin „til baka“ framkvæmd</string>
-  <string name="wear_training_volume_up_title">Hækka hljóðstyrk</string>
-  <string name="wear_training_volume_up_text">Strjúktu til hægri og svo upp</string>
-  <string name="wear_training_volume_down_title">Lækka hljóðstyrk</string>
-  <string name="wear_training_volume_down_text">Strjúktu til hægri og svo niður</string>
-  <string name="wear_training_open_talkback_menu_title">Opna valmynd SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Til að opna stillingar og stýringar sem þú þarft e.t.v. að nota oft skaltu strjúka niður og síðan til hægri</string>
-  <string name="wear_training_typing_title">Skrifar</string>
-  <string name="wear_training_typing_text1">Renndu fingrinum yfir lyklaborðið til að hefja innslátt. Lyftu fingrinum þegar þú heyrir stafinn sem þú vilt slá inn.</string>
-  <string name="wear_training_typing_text2">Strjúktu niður frá efsta hluta skjásins með tveimur fingrum til að fela lyklaborðið og sjá textann sem þú hefur slegið inn.</string>
-  <string name="wear_training_typing_text3">Strjúktu niður frá neðsta hluta skjásins með tveimur fingrum til að opna lyklaborðið aftur.</string>
-  <string name="wear_training_typing_text4">Strjúktu til hægri frá vinstri brún skjásins með tveimur fingrum til að loka lyklaborðinu og hætta innslætti.</string>
-  <string name="wear_training_typing_text5">Prófaðu þetta hér fyrir neðan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Innsláttur af lyklaborði</string>
-  <string name="wear_training_end_tutorial_title">Þú getur byrjað að nota SandFly</string>
   <string name="wear_new_feature_page_title">Velkomin(n) í uppfært SandFly</string>
   <string name="wear_new_feature_page_content">Þú sérð nokkrar villuleiðréttingar og breytingar á hvernig fókusinn hreyfist</string>
   <string name="wear_new_feature_page_button_content_description">Ljúka</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Hringistilling</string>
     <string name="summary_pref_announce_ringer_mode">Lesa upp þegar hringing er stillt á titring eða hljóðlaust</string>
     <string name="title_pref_category_feedback">Svörun</string>
-    <string name="title_pref_category_typing_and_braille">Innsláttur og blindraletur</string>
     <string name="title_pref_category_apps">Forrit</string>
     <string name="title_pref_touch_activation">Snerting og virkjun</string>
     <string name="title_pref_navigation">Fletting</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Ekki leyfa</string>
     <string name="permission_speak_label">tala í gegnum SandFly</string>
     <string name="permission_speak_description">Leyfir appinu að biðja um að segja texta með SandFly röddinni þinni. SandFly spyr þig áður en appið getur talað.</string>
-    <string name="permission_braille_display_label">biðja um að vera blindraletursskjár fyrir SandFly</string>
-    <string name="permission_braille_display_description">Leyfir appinu að biðja um að vera blindraletursskjár fyrir SandFly. Ef þú leyfir það í SandFly getur það lesið allt á skjánum og stjórnað tækinu þínu. SandFly spyr þig fyrst.</string>
     <string name="title_pref_phonetic_letters_mode">Talaðu stafina hljóðlega</string>
     <string name="phonetic_letters_mode_off">Slökkt</string>
     <string name="phonetic_letters_mode_after_letter_delay">Eftir bréfið, seinkað, eins og \"h, hótel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Opna app</string>
     <string name="shortcut_open_app">Opið <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Skrunaðu efst</string>
-    <string name="shortcut_write_reading_control">Skrifaðu bókstaf lestrarstýringar</string>
-    <string name="title_pref_reading_control_letters">Handskrifaðir stafrófsstafir</string>
-    <string name="reading_control_letter_none">Engin</string>
-    <string name="handwriting_prompt">Skrifaðu stafrófsstaf</string>
-    <string name="handwriting_closed">Rithönd lokuð</string>
-    <string name="handwriting_no_match">Engin lestrarstýring byrjar á <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Rithönd ekki þekkt</string>
-    <string name="handwriting_downloading">Rithandargreining er að hlaðast niður</string>
-    <string name="handwriting_download_title">Sækja rithandargreiningu?</string>
-    <string name="handwriting_download_message">Rithönd er þekkt á þessum síma. Líkan þess fyrir þetta tungumál, um 20 MB, er hlaðið niður frá Google einu sinni. Skilaboð sýna þegar það hefur hlaðið niður.</string>
-    <string name="handwriting_download_button">Sækja</string>
-    <string name="handwriting_downloaded">Rithandargreining hlaðið niður</string>
-    <string name="handwriting_download_failed">Ekki var hægt að hlaða niður rithandargreiningu. Athugaðu nettenginguna.</string>
-    <string name="handwriting_unsupported_language">Rithandargreining er ekki í boði á þessu tungumáli</string>
-    <string name="title_pref_handwriting_keyboard">Rithönd lyklaborð</string>
-    <string name="summary_pref_handwriting_keyboard">Kveikja á rithendi SandFly í lyklaborðsstillingum Android.</string>
-    <string name="title_pref_handwriting_wait">Bíddu eftir að hafa skrifað</string>
-    <string name="value_handwriting_wait_200">0,2 sekúndur</string>
-    <string name="value_handwriting_wait_300">0,3 sekúndur</string>
-    <string name="value_handwriting_wait_400">0,4 sekúndur</string>
-    <string name="value_handwriting_wait_500">0,5 sekúndur</string>
-    <string name="value_handwriting_wait_600">0,6 sekúndur</string>
-    <string name="value_handwriting_wait_800">0,8 sekúndur</string>
-    <string name="value_handwriting_wait_1000">1 sekúnda</string>
-    <string name="handwriting_keyboard_name">SandFly rithönd</string>
-    <string name="handwriting_space">Bil</string>
-    <string name="handwriting_new_line">Ný lína</string>
-    <string name="handwriting_tutorial_intro">Kennsla um rithönd á lyklaborði. Skrifaðu með einum fingri hvar sem er á skjánum. What you write is typed when you stop for a moment. To end the tutorial, swipe down with three fingers.</string>
-    <string name="handwriting_tutorial_write_letter">Skrifaðu stafrófsstafinn a.</string>
-    <string name="handwriting_tutorial_write_word">Skrifaðu nú orðið hi (h á eftir í).</string>
-    <string name="handwriting_tutorial_typed">Skrifaði <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Strjúktu til hægri með tveimur fingrum til að slá inn bil.</string>
-    <string name="handwriting_tutorial_delete">Strjúktu til vinstri með tveimur fingrum til að eyða stafnum fyrir framan bendilinn.</string>
-    <string name="handwriting_tutorial_deleted">Eytt.</string>
-    <string name="handwriting_tutorial_next_reading">Ef rithönd er þekkt sem annar stafur, eins og stór stafur, strjúktu upp með tveimur fingrum til að velja næstu auðkenningartillögu. Prófaðu það núna.</string>
-    <string name="handwriting_tutorial_read_back">Pikkaðu með tveimur fingrum til að lesa textann fyrir framan bendilinn.</string>
-    <string name="handwriting_tutorial_new_line">Swipe down with two fingers to insert a new line or perform the text field action, such as Send.</string>
-    <string name="handwriting_tutorial_not_that">Þetta var önnur bending.</string>
-    <string name="handwriting_tutorial_done">Ný lína. Námskeiði lokið. Swipe down with three fingers to hide the keyboard, and right or left with three fingers to switch keyboards. To open the tutorial again, tap with three fingers.</string>
-    <string name="handwriting_tutorial_finished">Kennslustund lokið. Til að opna það aftur skaltu banka með þremur fingrum.</string>
-    <string name="handwriting_no_alternatives">Engar aðrar tillögur</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> af <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tómur texti</string>
-    <string name="handwriting_not_available">Handskriftargreining er ekki í boði á þessu tæki.</string>
     <string name="shortcut_scroll_to_bottom">Skrunaðu til botns</string>
     <string name="shortcut_refresh">Endurnýja</string>
     <string name="shortcut_system_notifications">Kerfistilkynningarskuggi</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Hreinsa val</string>
     <string name="title_pref_brightness">Birtustig</string>
     <string name="summary_support_change_brightness">Auka eða minnka birtustig skjásins, jafnvel þegar skjárinn er falinn</string>
-    <string name="title_pref_shortcut_3finger_4tap">Bankaðu fjórfalt með 3 fingrum</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Snúðu réttsælis með 2 fingrum</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Snúðu rangsælis með 2 fingrum</string>
-    <string name="title_pref_shortcut_2finger_scrub">Skrúbbaðu með 2 fingrum</string>
-    <string name="title_pref_shortcut_2finger_pinch">Klípið með 2 fingrum</string>
-    <string name="title_pref_shortcut_2finger_spread">Dreifið með 2 fingrum</string>
-    <string name="title_pref_shortcut_3finger_pinch">Klípið með 3 fingrum</string>
-    <string name="title_pref_shortcut_3finger_spread">Dreifið með 3 fingrum</string>
-    <string name="title_pref_shortcut_4finger_pinch">Klípið með 4 fingrum</string>
-    <string name="title_pref_shortcut_4finger_spread">Dreifið með 4 fingrum</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Strjúktu upp frá neðri brún</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Strjúktu lengi upp frá neðri brún</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Strjúktu niður frá efst til vinstri</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Strjúktu niður frá efst til hægri</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Strjúktu lengi niður frá efst til vinstri</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Strjúktu lengi niður frá efst til hægri</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Strjúktu til hægri frá vinstri brún, efri helminginn</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Strjúktu lengi til hægri frá vinstri brún, efri helmingur</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Strjúktu til hægri frá vinstri brún, neðri helminginn</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Strjúktu lengi til hægri frá vinstri brún, neðri helminginn</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Strjúktu til vinstri frá hægri brún, efri helminginn</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Strjúktu lengi til vinstri frá hægri brún, efri helmingur</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Strjúktu til vinstri frá hægri brún, neðri helminginn</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Strjúktu lengi til vinstri frá hægri brún, neðri helminginn</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Haltu fingri til að velja hvaða takka sem er og lyftu síðan. Ýttu tvisvar fyrir Enter, Done, eða Senda.</string>
-    <string name="value_type_confirmation_tap_to_type">Pikkaðu á hvaða takka sem er til að slá hann eða haltu fingri til að velja hvaða takka sem er og lyftu síðan</string>
-    <string name="title_pref_multi_tap_timeout">Tími á milli þess að smella með einum fingri</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekúnda</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekúndur</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekúndur</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekúndur (sjálfgefið)</string>
-    <string name="title_pref_rotor_step_degrees">Snúningur í hverju skrefi</string>
-    <string name="title_pref_edge_first_click_mm">Fjarlægð að fyrsta smelli</string>
-    <string name="title_pref_edge_second_click_mm">Fjarlægð frá fyrsta til annars smelli</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Kveiktu eða slökktu á umbúðum frá síðasta hlut yfir í það fyrsta</string>
     <string name="wrap_around_on">Vefja um á</string>
     <string name="wrap_around_off">Vefja utan um</string>
-    <string name="title_selector_tablet_held_up_faces_away">Spjaldtölvan hélt andlitunum frá sér</string>
-    <string name="summary_support_tablet_held_up_faces_away">Fyrir blindraleturslyklaborð á spjaldtölvu eða óbrotnum síma</string>
-    <string name="tablet_held_up_faces_away_on">Spjaldtölvan hélt uppi andlitunum frá sér</string>
-    <string name="tablet_held_up_faces_away_off">Spjaldtölvan hélt upp andlitunum frá</string>
     <string name="title_keyboard_echo_on_screen">Ómun á skjályklaborði</string>
     <string name="title_keyboard_echo_physical">Líkamlegt hljómborðs bergmál</string>
-    <string name="title_keyboard_echo_braille_keyboard">Braille lyklaborðs bergmál</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Rithönd lyklaborðs bergmál</string>
-    <string name="title_keyboard_echo_braille_display">Braille skjár bergmál</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Truflaðu tal þegar þú skrifar</string>
     <string name="pref_interrupt_typing_entry_always">Alltaf</string>

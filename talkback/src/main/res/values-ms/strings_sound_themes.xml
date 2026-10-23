@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Tiada bunyi. Bunyi fokus dimainkan.</string>
     <string name="theme_sound_summary_android_keyboard">Bunyi papan kekunci Android</string>
     <string name="theme_sound_use_android_keyboard">Gunakan bunyi papan kekunci Android</string>
-    <string name="theme_sound_braille_character">Papan kekunci Braille: menaip aksara</string>
-    <string name="theme_sound_braille_space">Papan kekunci braille: ruang</string>
-    <string name="theme_sound_braille_delete">Papan kekunci Braille: padam</string>
-    <string name="theme_sound_braille_new_line">Papan kekunci Braille: baris baharu</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Pilih fail bunyi</string>
     <string name="theme_sound_preview">Pratonton</string>

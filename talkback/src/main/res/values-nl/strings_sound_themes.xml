@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Geen geluid. Het focusgeluid wordt afgespeeld.</string>
     <string name="theme_sound_summary_android_keyboard">Het toetsenbordgeluid van Android</string>
     <string name="theme_sound_use_android_keyboard">Gebruik het toetsenbordgeluid van Android</string>
-    <string name="theme_sound_braille_character">Brailletoetsenbord: een teken typen</string>
-    <string name="theme_sound_braille_space">Brailletoetsenbord: spatie</string>
-    <string name="theme_sound_braille_delete">Brailletoetsenbord: verwijderen</string>
-    <string name="theme_sound_braille_new_line">Brailletoetsenbord: nieuwe regel</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Kies een geluidsbestand</string>
     <string name="theme_sound_preview">Voorbeeld</string>

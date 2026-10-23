@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Nessun suono. Viene riprodotto il suono di selezione.</string>
     <string name="theme_sound_summary_android_keyboard">Suono della tastiera di Android</string>
     <string name="theme_sound_use_android_keyboard">Usa il suono della tastiera di Android</string>
-    <string name="theme_sound_braille_character">Tastiera braille: digitazione di un carattere</string>
-    <string name="theme_sound_braille_space">Tastiera braille: spazio</string>
-    <string name="theme_sound_braille_delete">Tastiera braille: eliminazione</string>
-    <string name="theme_sound_braille_new_line">Tastiera braille: nuova riga</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Scegli un file audio</string>
     <string name="theme_sound_preview">Anteprima</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Punguza muda wa kusubiri</string>
   <string name="talkback_latency_reduction_summary">Fanya SandFly kujibu haraka baada ya kugusa skrini</string>
   <string name="summary_pref_intonation">Tamka herufi zilizofutwa kwa sauti kali zaidi</string>
-  <string name="title_pref_brailledisplay">Skrini ya nukta nundu</string>
-  <string name="title_pref_brailleime">Kibodi ya nukta nundu</string>
-  <string name="summary_pref_brailleime_disabled">Kifaa chako hakitumii kibodi ya nukta nundu</string>
   <string name="title_pref_speech_footer">Ili kubadilisha sauti ya ufikivu kutoka skrini yoyote, shikilia kidole 1 kwenye skrini na ubonyeze kitufe cha kuongeza sauti au kupunguza sauti.</string>
   <string name="title_pref_vibration">Majibu kwa mtetemo</string>
   <string name="title_pref_soundback">Majibu yanayotamkwa</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Ruhusu uwekeleaji juu wa kumbukumbu ya utatuzi</string>
   <string name="title_pref_typing_confirmation">Mbinu ya kuandika</string>
   <string name="title_pref_typing_long_tap_duration">Gusa na ushikilie ili kuchelewesha wakati wa kuandika</string>
-  <string name="title_pref_touch_explore_timeout">Muda wa kusubiri kabla ya kuandika</string>
   <string name="message_pref_touch_explore_latency">Kukawia kwa muda mfupi zaidi hufanya SandFly kuongea haraka baada ya kugusa kibodi.\n\nChagua kuchelewa</string>
-  <string name="title_pref_touch_focus_timeout">Muda wa kusubiri kabla ya kutekeleza</string>
-  <string name="title_pref_talkback_gesture_detection">Shughulikia ishara katika SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Zima kisha uwashe tena SandFly ili kuweka mipangilio.</string>
   <string name="title_pref_auto_image_captioning">Maelezo ya kiotomatiki</string>
   <string name="title_pref_gemini_settings">Mipangilio ya Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini amri za sauti</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Ongeza sauti</string>
   <string name="shortcut_decrease_volume">Punguza sauti</string>
   <string name="shortcut_all_apps">Programu zote</string>
-  <string name="shortcut_braille_keyboard">Tumia kibodi ya nukta nundu</string>
-  <string name="shortcut_braille_display_settings">Sogeza kwenye mipangilio ya onyesho la braille</string>
   <string name="shortcut_tutorial">Anzisha mafunzo</string>
   <string name="shortcut_control_speak_time">Tamka au usitamke wakati</string>
   <string name="shortcut_enable_speak_time">Tamka wakati</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Kipengele cha kutamka wakati kimezimwa</string>
   <string name="shortcut_practice_gestures">Jaribu kutumia ishara</string>
   <string name="shortcut_report_gesture">Ripoti hitilafu ya ishara</string>
-  <string name="shortcut_toggle_braille_display">Washa au uzima skrini ya nukta nundu</string>
   <string name="shortcut_announce_current_time_and_date">Tamka tarehe na saa ya sasa</string>
   <string name="shortcut_announce_battery_state">Tamka asilimia ya chaji ya betri</string>
   <string name="shortcut_announce_current_title">Jina la dirisha la kuandika kwa kutamka</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Punguza kasi ya kutamka</string>
   <string name="shortcut_toggle_selection">Anzisha au ukomeshe hali ya kuchagua</string>
   <string name="shortcut_show_tutorial">Fungua mafunzo</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Badili kati ya nukta nundu iliyofupishwa (daraja la pili) na nukta nundu kwa urefu (daraja la kwanza)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Onyesha au ufiche maandishi ya nukta nundu katika skrini za nukta nundu zilizounganishwa</string>
   <string name="shortcut_toggle_sound_feedback">Kuwasha au kuzima arifa za kutamkwa (viashiria vya sauti)</string>
   <string name="shortcut_show_learn_mode_page">Mazoezi ya mikato ya kibodi</string>
   <string name="shortcut_announce_phonetic_pronunciation">Tamka herufi za kipengee kilichoangaziwa kwa matamshi ya kifonetiki</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Amri za sauti</string>
   <string name="title_show_keyboard_shortcuts">Mikato ya kibodi</string>
   <string name="talkback_show_talkback_settings">Mipangilio ya SandFly</string>
-  <string name="title_show_braille_display_settings">Mipangilio ya skrini ya nukta nundu</string>
   <string name="title_granularity_default">Usogezaji chaguomsingi</string>
   <string name="title_action_dismiss">Ondoa</string>
   <string name="title_action_expand">Panua</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Badilisha iwapo ungependa wakati utamkwe kwa sauti unapowasha skrini</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Fungua orodha ya mikato ya kibodi</string>
   <string name="summary_talkback_preferences">Fungua mipangilio ya SandFly</string>
-  <string name="summary_braile_display_preferences">Fungua mipangilio ya skrini ya nukta nundu</string>
   <string name="summary_system_actions">Nenda kwenye Mipangilio ya Haraka na programu zote</string>
   <string name="summary_tts_settings">Fungua mipangilio ya kusoma maandishi kwa sauti</string>
   <string name="not_editable">Huwezi kubadilisha</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Punguza kiwango cha sauti zingine zinazocheza wakati SandFly inazungumza</string>
   <string name="summary_support_scroll_seq">Sogeza mbele au nyuma</string>
   <string name="summary_support_change_a11y_volume">Ongeza au upunguze kiwango cha ufikivu</string>
-  <string name="summary_support_change_touch_explore_latency">Ongeza au upunguze muda wa kusubiri kabla ya kutekeleza</string>
-  <string name="summary_support_change_touch_focus_latency">Ongeza au upunguze muda wa kusubiri kabla ya kutekeleza</string>
   <string name="summary_screen_overview">Andaa muhtasari wa skrini ukitumia vitufe vya kutenda</string>
   <string name="summary_screen_overview_no_actions">Sikia muhtasari wa maudhui yaliyo kwenye skrini</string>
   <string name="summary_image_caption">Tamka maandishi na aikoni zilizo ndani ya picha iliyochaguliwa</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Bana mara mbili</string>
   <string name="gesture_name_double_tap_and_hold">Gusa mara mbili na ushikilie</string>
   <string name="gesture_name_double_tap_and_hold_xr">Bana na ushikilie</string>
-  <string name="gesture_name_2finger_tap_hold">Gusa na ushikilie ukitumia vidole viwili</string>
   <string name="gesture_name_3finger_tap_hold">Gusa na ushikilie ukitumia vidole vitatu</string>
   <string name="gesture_name_2finger_3tap_hold">Gusa mara tatu na ushikilie kwa vidole viwili</string>
   <string name="gesture_name_3finger_3tap_hold">Gusa mara tatu na ushikilie ukitumia vidole vitatu</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Upunguzaji wa sauti</string>
   <string name="title_pref_support_scroll_seq">Kusogeza</string>
   <string name="title_pref_a11y_volume">Sauti ya zana za ufikivu</string>
-  <string name="title_pref_touch_explore_latency">Muda wa kusubiri kabla ya kuandika</string>
-  <string name="title_pref_touch_focus_latency">Muda wa kusubiri kabla ya kutekeleza</string>
   <string name="message_pref_touch_focus_latency">Kucheleweshwa kwa muda mfupi hufanya SandFly kuongea haraka baada ya kugusa skrini</string>
   <string name="message_pref_typing_method_prefix">Ili utumie ucheleweshaji wa kiwango cha chini zaidi unapoandika, chagua \"Shikilia kwa kidole ili uteue kitufe chochote, kisha uinue\"</string>
-  <string name="message_pref_typing_method_postfix">Unaweza pia kutumia mguso wa kugawa ili uandike wakati wowote. Ili ufanye hivi, shikilia kwa kidole kimoja ili uchague kitufe chochote na utumie kidole kingine kugusa skrini.</string>
   <string name="title_pref_talkback_speech_rate">Kasi ya kutamka</string>
   <string name="title_pref_selector_adjustable_widget_slider">Rekebisha kitelezi</string>
   <string name="title_pref_selector_typo_granularity">Hakiki</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">neno muhimu ni %1$s</string>
   <string name="screen_search_no_keyword_hint">Bado hakuna neno muhimu. Ili utafute hoja mpya, gusa na ushikilie kwa vidole vitatu au ufungue kipengele cha utafutaji kwenye skrini katika menyu ya SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Bado hakuna neno muhimu. Ili utafute hoja mpya, telezesha kidole kushoto kisha chini au ufungue kipengele cha utafutaji kwenye skrini katika menyu ya SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Hujawasha kibodi ya Nukta nundu. Nenda kwenye mipangilio ya SandFly, weka mipangilio ya kibodi ya Nukta nundu na ujaribu tena.</string>
   <string name="suggestions_window_available">Mapendekezo yanapatikana</string>
   <string name="suggestions_window_available_with_gesture">Mapendekezo yanapatikana Ili ufikie, %1$s</string>
   <string name="heads_up_window_available">Umepokea arifa</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly sasa ina \"Ramani ya vitufe iliyoboreshwa\" ya kibodi halisi, inayoangazia amri na njia za mkato mbalimbali. Uboreshaji huu unajumuisha \"hali ya kuvinjari\" kwa usogezaji bora zaidi wa wavuti, kurahisisha urambazaji na mwingiliano kwa watumiaji SandFly wanaotegemea kibodi halisi. Unaweza kubadilisha hadi \"Ramani ya vitufe Iliyoboreshwa\" katika <xliff:g id="settings_path">%1$s</xliff:g>.\n\nIkiwa unatumia onyesho la Breli, unaweza pia kutumia mikato mpya ya hali ya kuvinjari ili kupitia maudhui moja kwa moja kutoka kwenye onyesho lako la Breli. Baadhi ya njia za mkato za onyesho la Braille zilibadilishwa ili kushughulikia mabadiliko haya. Unaweza kuona orodha ya mikato yote ya onyesho la Braille katika <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Mipangilio ya SandFly &gt; Mikato ya kibodi</string>
   <string name="keyboard_shortcuts_link_tts">Mipangilio ya SandFly kisha Mikato ya kibodi</string>
-  <string name="braille_display_settings_link">Mipangilio ya skrini ya nukta nundu</string>
   <string name="keyboard_smart_browse_mode_title">Kibodi: Hali mahiri ya kuvinjari</string>
   <string name="keyboard_smart_browse_mode_text">Hali mahiri ya kuvinjari ya SandFly huzima hali ya kuvinjari kwenye sehemu ya kubadilisha ili ikusaidie kuandika ukitumia kibodi halisi unapovinjari katika wavuti. Kisha huwasha tena unapobadilisha hadi kwenye sehemu isiyoweza kubadilishwa katika wavuti ili uweze kuendelea kuvinjari kwa urahisi. Unaweza kuwasha au kuzima \"Hali mahiri ya kuvinjari\" katika <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Mipangilio ya SandFly &gt; Mipangilio ya kina</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Kuandika maandishi</string>
   <string name="basic_typing_text_text">Ukiwa kwenye kisanduku cha maandishi, kibodi itafunguka kwenye sehemu ya chini ya skrini yako.</string>
   <string name="typing_text_text">Sogeza kidole chako kwenye kibodi. Ukisikia herufi unayotaka kuandika, inua kidole chako.\n\nJaribu kuanza kutumia kisanduku cha maandishi kilicho hapa chini na uandike jina lako.</string>
-  <string name="typing_text_with_braille_keyboard_text">Unaweza pia kuandika ukitumia kibodi ya nukta nundu. Ipate katika mipangilio ya SandFly.</string>
   <string name="other_ways_to_type_title">Njia nyingine za kuandika</string>
   <string name="other_ways_to_type_text">Kuna njia nyingine za kuandika katika SandFly. Kwa mfano, unaweza kugusa mara mbili ili kuweka herufi.</string>
   <string name="basic_other_ways_to_type_text">Kuna njia zingine za kuandika SandFly. Kwa mfano, unaweza kutumia bomba mara mbili ili kuingiza herufi. Unaweza kubadilisha hili baadaye katika SandFly mipangilio &gt; Kibodi ya skrini &gt; Mbinu ya kuandika.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ili ujifunze kutumia miguso, washa SandFly kwanza</string>
   <string name="talkback_inactive_message_image_description">Ili ujaribu kupata maelezo kuhusu picha, washa SandFly kwanza</string>
   <string name="talkback_inactive_close_tutorial_button">Funga mafunzo</string>
-  <string name="wear_training_welcome_paragraph">Ukiwasha SandFly, kipengee unachoangazia kwenye skrini kitatamkwa kwa sauti.\n\nUkitelezesha kidole kulia, utakwenda kwenye kipengee kinachofuata. Ukitelezesha kidole kushoto, utakwenda kwenye kipengee kilichotangulia.\n\nTelezesha kidole kulia sasa hadi upate kitufe kinachofuata.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Telezesha vidole %1$d juu au chini.</string>
-  <string name="wear_training_go_back_title">Rudi nyuma</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Tumia vidole %1$d kutelezesha kulia kutoka kwenye ukingo wa skrini iwapo ungependa kurudi nyuma.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Imemaliza</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Ishara ya kurudi nyuma imetekelezwa</string>
-  <string name="wear_training_volume_up_title">Ongeza sauti</string>
-  <string name="wear_training_volume_up_text">Telezesha kidole kulia kisha juu</string>
-  <string name="wear_training_volume_down_title">Punguza sauti</string>
-  <string name="wear_training_volume_down_text">Telezesha kidole kulia kisha chini</string>
-  <string name="wear_training_open_talkback_menu_title">Fungua menyu ya SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Ili ufungue mipangilio na vidhibiti unavyoweza kuhitaji mara kwa mara, telezesha chini kisha kulia</string>
-  <string name="wear_training_typing_title">Kuandika</string>
-  <string name="wear_training_typing_text1">Ili uandike ukitumia kibodi, sogeza kidole chako kwenye kibodi. Ukisikia herufi unayotaka kuandika, inua kidole chako.</string>
-  <string name="wear_training_typing_text2">Ili ufiche kibodi na ukague kitu ulichoandika, telezesha vidole 2 chini kuanzia sehemu ya juu ya skrini yako.</string>
-  <string name="wear_training_typing_text3">Ili urejee kwenye kibodi, telezesha vidole 2 juu kuanzia sehemu ya chini ya skrini yako.</string>
-  <string name="wear_training_typing_text4">Ili ufunge kibodi na ukatishe kuandika, telezesha vidole 2 kulia kuanzia ukingo wa kushoto wa skrini yako.</string>
-  <string name="wear_training_typing_text5">Ijaribu hapa chini.</string>
-  <string name="wear_training_typing_practice_button_content_description">Kuandika ukitumia kibodi</string>
-  <string name="wear_training_end_tutorial_title">Uko tayari kuanza kutumia SandFly</string>
   <string name="wear_new_feature_page_title">Karibu kwenye toleo jipya la SandFly</string>
   <string name="wear_new_feature_page_content">Utagundua hali fulani za kurekebishwa kwa hitilafu na mabadiliko kwa jinsi hali ya uangaziaji husonga</string>
   <string name="wear_new_feature_page_button_content_description">Kamilisha</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Hali ya mlio</string>
     <string name="summary_pref_announce_ringer_mode">Sema wakati mlio umewekwa ili kutetema au kunyamaza</string>
     <string name="title_pref_category_feedback">Maoni</string>
-    <string name="title_pref_category_typing_and_braille">Kuandika na braille</string>
     <string name="title_pref_category_apps">Programu</string>
     <string name="title_pref_touch_activation">Kugusa na kuwezesha</string>
     <string name="title_pref_navigation">Usogezaji</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Usiruhusu</string>
     <string name="permission_speak_label">zungumza kupitia SandFly</string>
     <string name="permission_speak_description">Huruhusu programu kuuliza kusema maandishi kwa sauti yako SandFly. SandFly hukuuliza kabla ya programu kuzungumza.</string>
-    <string name="permission_braille_display_label">omba kuwe na onyesho la nukta nundu kwa SandFly</string>
-    <string name="permission_braille_display_description">Huruhusu programu kuuliza kuwa onyesho la breli kwa SandFly. Ukiiruhusu SandFly, inaweza kusoma kila kitu kwenye skrini na kudhibiti kifaa chako. SandFly hukuuliza kwanza.</string>
     <string name="title_pref_phonetic_letters_mode">Zungumza herufi kwa fonetiki</string>
     <string name="phonetic_letters_mode_off">Zima</string>
     <string name="phonetic_letters_mode_after_letter_delay">Baada ya barua, kuchelewa, kama \"h, hoteli\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Fungua programu</string>
     <string name="shortcut_open_app">Fungua <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Tembeza hadi juu</string>
-    <string name="shortcut_write_reading_control">Andika barua ya udhibiti wa kusoma</string>
-    <string name="title_pref_reading_control_letters">Barua za alfabeti zilizoandikwa kwa mkono</string>
-    <string name="reading_control_letter_none">Hamna</string>
-    <string name="handwriting_prompt">Andika herufi ya alfabeti</string>
-    <string name="handwriting_closed">Mwandiko umefungwa</string>
-    <string name="handwriting_no_match">Hakuna udhibiti wa kusoma unaoanza na <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Mwandiko hautambuliwi</string>
-    <string name="handwriting_downloading">Utambuzi wa mwandiko unapakuliwa</string>
-    <string name="handwriting_download_title">Ungependa kupakua utambuzi wa mwandiko?</string>
-    <string name="handwriting_download_message">Mwandiko unatambuliwa kwenye simu hii. Muundo wake wa lugha hii, takriban MB 20, hupakuliwa kutoka Google mara moja. Ujumbe unaonyesha wakati umepakuliwa.</string>
-    <string name="handwriting_download_button">Pakua</string>
-    <string name="handwriting_downloaded">Utambuzi wa mwandiko umepakuliwa</string>
-    <string name="handwriting_download_failed">Utambuzi wa mwandiko haukuweza kupakuliwa. Angalia muunganisho wa intaneti.</string>
-    <string name="handwriting_unsupported_language">Utambuzi wa mwandiko haupatikani katika lugha hii</string>
-    <string name="title_pref_handwriting_keyboard">Kibodi ya mwandiko</string>
-    <string name="summary_pref_handwriting_keyboard">Washa SandFly mwandiko katika mipangilio ya kibodi ya Android</string>
-    <string name="title_pref_handwriting_wait">Subiri baada ya kuandika</string>
-    <string name="value_handwriting_wait_200">Sekunde 0.2</string>
-    <string name="value_handwriting_wait_300">Sekunde 0.3</string>
-    <string name="value_handwriting_wait_400">Sekunde 0.4</string>
-    <string name="value_handwriting_wait_500">Sekunde 0.5</string>
-    <string name="value_handwriting_wait_600">Sekunde 0.6</string>
-    <string name="value_handwriting_wait_800">Sekunde 0.8</string>
-    <string name="value_handwriting_wait_1000">Sekunde 1</string>
-    <string name="handwriting_keyboard_name">SandFly mwandiko</string>
-    <string name="handwriting_space">Nafasi</string>
-    <string name="handwriting_new_line">Mstari mpya</string>
-    <string name="handwriting_tutorial_intro">Mafunzo ya kibodi ya kuandika kwa mkono. Andika kwa kidole kimoja popote kwenye skrini. Unachoandika huandikwa unaposimama kwa muda. Ili kukatisha mafunzo, telezesha vidole vitatu chini.</string>
-    <string name="handwriting_tutorial_write_letter">Andika herufi ya alfabeti a.</string>
-    <string name="handwriting_tutorial_write_word">Sasa andika neno hi (h ikifuatiwa na i).</string>
-    <string name="handwriting_tutorial_typed">Imechapishwa <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Telezesha vidole viwili kulia ili kuandika nafasi.</string>
-    <string name="handwriting_tutorial_delete">Telezesha vidole viwili kushoto ili kufuta herufi kabla ya kielekezi.</string>
-    <string name="handwriting_tutorial_deleted">Imefutwa.</string>
-    <string name="handwriting_tutorial_next_reading">Ikiwa mwandiko unatambuliwa kama herufi nyingine, kama vile herufi kubwa, telezesha vidole viwili juu ili kuchagua pendekezo linalofuata la utambuzi. Ijaribu sasa.</string>
-    <string name="handwriting_tutorial_read_back">Gusa kwa vidole viwili ili kusoma maandishi kabla ya kishale.</string>
-    <string name="handwriting_tutorial_new_line">Telezesha kidole chini kwa vidole viwili ili kuingiza laini mpya au kutekeleza kitendo cha sehemu ya maandishi, kama vile Tuma.</string>
-    <string name="handwriting_tutorial_not_that">Hiyo ilikuwa ni ishara nyingine.</string>
-    <string name="handwriting_tutorial_done">Mstari mpya. Mafunzo yamekamilika. Telezesha vidole vitatu chini ili kuficha kibodi, na vidole vitatu kulia au kushoto ili kubadili kibodi. Ili kufungua mafunzo tena, gusa kwa vidole vitatu.</string>
-    <string name="handwriting_tutorial_finished">Mafunzo yameisha. Ili kuifungua tena, gusa kwa vidole vitatu.</string>
-    <string name="handwriting_no_alternatives">Hakuna mapendekezo mengine</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> ya <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Maandishi tupu</string>
-    <string name="handwriting_not_available">Utambuzi wa mwandiko haupatikani kwenye kifaa hiki</string>
     <string name="shortcut_scroll_to_bottom">Tembeza hadi chini</string>
     <string name="shortcut_refresh">Onyesha upya</string>
     <string name="shortcut_system_notifications">Kivuli cha arifa ya mfumo</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Futa uteuzi</string>
     <string name="title_pref_brightness">Mwangaza</string>
     <string name="summary_support_change_brightness">Ongeza au punguza mwangaza wa skrini, hata wakati skrini imefichwa</string>
-    <string name="title_pref_shortcut_3finger_4tap">Gusa mara nne kwa vidole vitatu</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Zungusha kisaa na vidole 2</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Zungusha kinyume cha saa kwa vidole 2</string>
-    <string name="title_pref_shortcut_2finger_scrub">Sugua kwa vidole 2</string>
-    <string name="title_pref_shortcut_2finger_pinch">Bana kwa vidole 2</string>
-    <string name="title_pref_shortcut_2finger_spread">Kueneza kwa vidole 2</string>
-    <string name="title_pref_shortcut_3finger_pinch">Bana kwa vidole 3</string>
-    <string name="title_pref_shortcut_3finger_spread">Kueneza kwa vidole 3</string>
-    <string name="title_pref_shortcut_4finger_pinch">Bana kwa vidole 4</string>
-    <string name="title_pref_shortcut_4finger_spread">Kueneza kwa vidole 4</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Telezesha kidole juu kutoka ukingo wa chini</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Telezesha kidole kwa muda mrefu kutoka kwenye ukingo wa chini</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Telezesha kidole chini kutoka juu kushoto</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Telezesha kidole chini kutoka juu kulia</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Telezesha kidole kwa muda mrefu chini kutoka juu kushoto</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Telezesha kidole kwa muda mrefu chini kutoka juu kulia</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Telezesha kidole kulia kutoka ukingo wa kushoto, nusu ya juu</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Telezesha kidole kwa muda mrefu kulia kutoka ukingo wa kushoto, nusu ya juu</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Telezesha kidole kulia kutoka ukingo wa kushoto, nusu ya chini</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Telezesha kidole kwa muda mrefu kulia kutoka ukingo wa kushoto, nusu ya chini</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Telezesha kidole kushoto kutoka ukingo wa kulia, nusu ya juu</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Telezesha kidole kwa muda mrefu kushoto kutoka ukingo wa kulia, nusu ya juu</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Telezesha kidole kushoto kutoka ukingo wa kulia, nusu ya chini</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Telezesha kidole kwa muda mrefu kushoto kutoka ukingo wa kulia, nusu ya chini</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Shikilia kidole ili kuchagua ufunguo wowote, kisha inua. Gusa mara mbili kwa Ingiza, Nimemaliza, au Tuma.</string>
-    <string name="value_type_confirmation_tap_to_type">Gusa ufunguo wowote ili kuuandika, au ushikilie kidole ili kuchagua ufunguo wowote, kisha uinulie</string>
-    <string name="title_pref_multi_tap_timeout">Muda kati ya kugusa kwa kidole kimoja</string>
     <string name="value_multi_tap_timeout_100ms">Sekunde 0.1</string>
     <string name="value_multi_tap_timeout_150ms">Sekunde 0.15</string>
     <string name="value_multi_tap_timeout_200ms">Sekunde 0.2</string>
     <string name="value_multi_tap_timeout_250ms">Sekunde 0.25 (chaguo-msingi)</string>
-    <string name="title_pref_rotor_step_degrees">Kugeuka kwa rotor kwa hatua</string>
-    <string name="title_pref_edge_first_click_mm">Umbali wa kubofya kwanza</string>
-    <string name="title_pref_edge_second_click_mm">Umbali kutoka kwa mbofyo wa kwanza hadi wa pili</string>
     <string name="value_distance_5mm">sentimita 0.5</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">sentimita 1.5</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Washa au zima ufungaji kutoka kwa kipengee cha mwisho hadi cha kwanza</string>
     <string name="wrap_around_on">Funga pande zote</string>
     <string name="wrap_around_off">Funga pande zote</string>
-    <string name="title_selector_tablet_held_up_faces_away">Kompyuta kibao imeinuliwa nyuso mbali</string>
-    <string name="summary_support_tablet_held_up_faces_away">Kwa kibodi ya nukta nundu kwenye kompyuta kibao au simu iliyofunguliwa</string>
-    <string name="tablet_held_up_faces_away_on">Kompyuta Kibao imeinua nyuso za pembeni</string>
-    <string name="tablet_held_up_faces_away_off">Kompyuta kibao imeinuliwa nyuso mbali mbali</string>
     <string name="title_keyboard_echo_on_screen">Mwangwi wa kibodi kwenye skrini</string>
     <string name="title_keyboard_echo_physical">Mwangwi wa kibodi halisi</string>
-    <string name="title_keyboard_echo_braille_keyboard">Mwangwi wa kibodi ya Breli</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Mwangwi wa kibodi ya mwandiko</string>
-    <string name="title_keyboard_echo_braille_display">Mwangwi wa onyesho la Breli</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Kataza hotuba unapoandika</string>
     <string name="pref_interrupt_typing_entry_always">Daima</string>

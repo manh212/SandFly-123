@@ -293,9 +293,6 @@
   <string name="title_pref_latency_reduction">遅延を短縮する</string>
   <string name="talkback_latency_reduction_summary">画面に触れた後のSandFlyの反応を速くします</string>
   <string name="summary_pref_intonation">削除した文字を高い声で読み上げます</string>
-  <string name="title_pref_brailledisplay">点字ディスプレイ</string>
-  <string name="title_pref_brailleime">点字キーボード</string>
-  <string name="summary_pref_brailleime_disabled">お使いのデバイスは点字キーボードに対応していません</string>
   <string name="title_pref_speech_footer">どの画面からでもアクセシビリティ音量を変更するには、画面上で 1 本の指を押したまま、音量を上げるキーまたは音量を下げるキーを押します。</string>
   <string name="title_pref_vibration">バイブ フィードバック</string>
   <string name="title_pref_soundback">音によるフィードバック</string>
@@ -316,11 +313,7 @@
   <string name="title_pref_log_overlay">デバッグログのオーバーレイを有効にする</string>
   <string name="title_pref_typing_confirmation">入力方法</string>
   <string name="title_pref_typing_long_tap_duration">入力時に長押しする時間</string>
-  <string name="title_pref_touch_explore_timeout">入力フォーカス遅延</string>
   <string name="message_pref_touch_explore_latency">遅延を短くすると、キーボードに触れた後、SandFly が早く話します。\n\n 遅延を選択してください</string>
-  <string name="title_pref_touch_focus_timeout">フォーカス遅延</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly でジェスチャーを処理する</string>
-  <string name="toast_pref_talkback_gesture_detection">設定を有効にするには、SandFly をオフにして再度オンにします。</string>
   <string name="title_pref_auto_image_captioning">説明の自動読み上げ</string>
   <string name="title_pref_gemini_settings">Gemini の設定</string>
   <string name="title_pref_gemini_enabled">Gemini 音声コマンド</string>
@@ -421,8 +414,6 @@
   <string name="shortcut_increase_volume">音量を上げる</string>
   <string name="shortcut_decrease_volume">音量を下げる</string>
   <string name="shortcut_all_apps">すべてのアプリ</string>
-  <string name="shortcut_braille_keyboard">点字キーボードに切り替え</string>
-  <string name="shortcut_braille_display_settings">点字ディスプレイの設定に移動</string>
   <string name="shortcut_tutorial">チュートリアルを開く</string>
   <string name="shortcut_control_speak_time">時刻を読み上げる / 時刻を読み上げない</string>
   <string name="shortcut_enable_speak_time">時刻を読み上げる</string>
@@ -431,7 +422,6 @@
   <string name="speak_time_off">時刻を読み上げる OFF</string>
   <string name="shortcut_practice_gestures">ジェスチャーの練習</string>
   <string name="shortcut_report_gesture">操作の問題を報告</string>
-  <string name="shortcut_toggle_braille_display">点字ディスプレイを ON または OFF にする</string>
   <string name="shortcut_announce_current_time_and_date">現在の日時を読み上げる</string>
   <string name="shortcut_announce_battery_state">バッテリー残量の読み上げ</string>
   <string name="shortcut_announce_current_title">ウィンドウのタイトルを読み上げる</string>
@@ -441,8 +431,6 @@
   <string name="shortcut_speech_rate_decrease">読み上げ速度を下げる</string>
   <string name="shortcut_toggle_selection">選択モードを開始または終了</string>
   <string name="shortcut_show_tutorial">チュートリアルを開く</string>
-  <string name="shortcut_toggle_braille_contracted_mode">縮約形（グレード 2）と非縮約形（グレード 1）を切り替える</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">接続された点字ディスプレイの画面上の点字を表示 / 非表示にする</string>
   <string name="shortcut_toggle_sound_feedback">音声フィードバック（イアコン）をオンまたはオフにします</string>
   <string name="shortcut_show_learn_mode_page">キーボード ショートカットの練習</string>
   <string name="shortcut_announce_phonetic_pronunciation">フォーカスした項目のフリガナを読み上げる</string>
@@ -483,7 +471,6 @@
   <string name="title_show_voice_commands">音声コマンド</string>
   <string name="title_show_keyboard_shortcuts">キーボード ショートカット</string>
   <string name="talkback_show_talkback_settings">SandFly の設定</string>
-  <string name="title_show_braille_display_settings">点字ディスプレイの設定</string>
   <string name="title_granularity_default">デフォルトのナビゲーション</string>
   <string name="title_action_dismiss">表示しない</string>
   <string name="title_action_expand">展開</string>
@@ -510,7 +497,6 @@
   <string name="summary_control_speak_time">画面を ON にしたときに時刻を読み上げるかどうかを変更します</string>
   <string name="summary_show_keyboard_shortcuts_preferences">キーボード ショートカットのリストを開く</string>
   <string name="summary_talkback_preferences">SandFly の設定を開く</string>
-  <string name="summary_braile_display_preferences">点字ディスプレイの設定を開く</string>
   <string name="summary_system_actions">[すべてのアプリ] &gt; [クイック設定] に移動</string>
   <string name="summary_tts_settings">テキスト読み上げの設定を表示</string>
   <string name="not_editable">編集できません</string>
@@ -560,8 +546,6 @@
   <string name="summary_audio_ducking">SandFly で読み上げる際に他の音の音量を下げます</string>
   <string name="summary_support_scroll_seq">前方または後方にスクロール</string>
   <string name="summary_support_change_a11y_volume">ユーザー補助機能の音量を調整する</string>
-  <string name="summary_support_change_touch_explore_latency">入力フォーカス遅延を調整します</string>
-  <string name="summary_support_change_touch_focus_latency">フォーカス遅延を長く / 短くします</string>
   <string name="summary_screen_overview">操作ボタンで画面を要約します</string>
   <string name="summary_screen_overview_no_actions">画面上のコンテンツを要約して読み上げます</string>
   <string name="summary_image_caption">選択した画像内のテキストとアイコンを読み上げます</string>
@@ -626,7 +610,6 @@
   <string name="gesture_name_double_tap_xr">ダブルピンチ</string>
   <string name="gesture_name_double_tap_and_hold">ダブルタップして長押し</string>
   <string name="gesture_name_double_tap_and_hold_xr">ピンチして長押し</string>
-  <string name="gesture_name_2finger_tap_hold">2 本の指で長押し</string>
   <string name="gesture_name_3finger_tap_hold">3 本の指で長押し</string>
   <string name="gesture_name_2finger_3tap_hold">2 本の指でトリプルタップして長押し</string>
   <string name="gesture_name_3finger_3tap_hold">3 本の指でトリプルタップして長押し</string>
@@ -752,11 +735,8 @@
   <string name="title_pref_selector_audio_focus">他の音量を下げる</string>
   <string name="title_pref_support_scroll_seq">スクロール</string>
   <string name="title_pref_a11y_volume">ユーザー補助機能の音量</string>
-  <string name="title_pref_touch_explore_latency">入力フォーカス遅延</string>
-  <string name="title_pref_touch_focus_latency">フォーカス遅延</string>
   <string name="message_pref_touch_focus_latency">遅延を短くすると、画面をタッチした後、SandFly が早く話します。</string>
   <string name="message_pref_typing_method_prefix">入力時の遅延を最小限に抑えるには、[指でキーを選択してから離す] を選択します</string>
-  <string name="message_pref_typing_method_postfix">また、いつでもスプリット タップを使用して入力できます。これを行うには、1 本の指でキーのいずれかを長押しし、別の指で画面をタップします。</string>
   <string name="title_pref_talkback_speech_rate">音声の速度</string>
   <string name="title_pref_selector_adjustable_widget_slider">スライダーを調整</string>
   <string name="title_pref_selector_typo_granularity">校正</string>
@@ -823,7 +803,6 @@
   <string name="screen_search_keyword_hint">キーワードは「%1$s」です</string>
   <string name="screen_search_no_keyword_hint">まだキーワードはありません。新しい検索を開始するには、3 本の指で長押しするか、SandFly メニューから画面検索を開きます。</string>
   <string name="screen_search_no_keyword_hint_pre_r">まだキーワードはありません。新しい検索を開始するには、左にスワイプしてから下にスワイプするか、SandFly メニューから画面検索を開きます。</string>
-  <string name="switch_to_braille_keyboard_failure_msg">点字キーボードを ON にできません。SandFly の設定で点字キーボードを設定してから、お試しください。</string>
   <string name="suggestions_window_available">候補があります</string>
   <string name="suggestions_window_available_with_gesture">候補があります。アクセスするには、%1$s</string>
   <string name="heads_up_window_available">通知があります</string>
@@ -906,7 +885,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly には、さまざまな新しいコマンドとショートカットを備えた物理キーボード用の「拡張キーマップ」が追加されました。この機能強化には、Web ナビゲーションをより効率化し、物理キーボードに依存する SandFly ユーザーのナビゲーションと対話を合理化するための「ブラウズ モード」が含まれています。 <xliff:g id="settings_path">%1$s</xliff:g>.\n\nで「拡張キーマップ」に切り替えることができます。点字ディスプレイを使用している場合は、新しい参照モードのショートカットを使用して、点字ディスプレイから直接コンテンツを移動することもできます。この変更に対応するために、点字表示のショートカットの一部が変更されました。 <xliff:g id="braille_display_settings_path">%2$s</xliff:g> ですべての点字表示ショートカットのリストを確認できます。</string>
   <string name="keyboard_shortcuts_link">[SandFly の設定] &gt; [キーボード ショートカット] で</string>
   <string name="keyboard_shortcuts_link_tts">[SandFly の設定]、[キーボード ショートカット] の順に選択して</string>
-  <string name="braille_display_settings_link">点字ディスプレイの設定</string>
   <string name="keyboard_smart_browse_mode_title">キーボード: スマート ブラウズモード</string>
   <string name="keyboard_smart_browse_mode_text">SandFly のスマート ブラウズモードを使用すると、編集項目ではブラウズモードがオフになるため、ウェブ ブラウジング中も物理キーボードで入力できます。ウェブ上の編集以外の項目に移動すると、ブラウズモードが再びオンになり、効率よくブラウジングを続けられます。[スマート ブラウズモード] は、<xliff:g id="settings_path">%1$s</xliff:g> ON / OFF を切り替えられます。</string>
   <string name="advanced_settings_link">[SandFly の設定] &gt; [詳細設定] で</string>
@@ -978,7 +956,6 @@
   <string name="typing_text_title">テキスト入力</string>
   <string name="basic_typing_text_text">テキスト ボックスを選択すると、画面の下部にキーボードが表示されます。</string>
   <string name="typing_text_text">キーボード上で指を動かします。入力したい文字が読み上げられたら、指を離します。\n\n下のテキスト ボックスを有効にして名前を入力してみましょう。</string>
-  <string name="typing_text_with_braille_keyboard_text">点字キーボードを使って入力することもできます。点字キーボードは SandFly の設定にあります。</string>
   <string name="other_ways_to_type_title">その他の入力方法</string>
   <string name="other_ways_to_type_text">SandFly で入力する方法は他にもあります。たとえば、ダブルタップして文字を入力することもできます。</string>
   <string name="basic_other_ways_to_type_text">SandFly を入力する他の方法もあります。たとえば、ダブルタップして文字を入力できます。これは、後で「SandFly 設定」&gt;「スクリーンキーボード」&gt;「入力方法」で変更できます。</string>
@@ -1093,26 +1070,6 @@
   <string name="talkback_inactive_message_practice_gestures">ジェスチャーの練習をするには、まず SandFly を ON にしてください</string>
   <string name="talkback_inactive_message_image_description">画像の説明を聞いてみるには、まず SandFly を ON にしてください</string>
   <string name="talkback_inactive_close_tutorial_button">チュートリアルを終了</string>
-  <string name="wear_training_welcome_paragraph">SandFly を ON にすると、画面上のフォーカスされている項目が読み上げられます。\n\n右にスワイプすると次の項目に移動します。左にスワイプすると前の項目に移動します。\n\nでは、右にスワイプして次のボタンに移動しましょう。</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d 本の指で上または下にスワイプします</string>
-  <string name="wear_training_go_back_title">戻る</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">戻る場合は、%1$d 本の指で画面の端から右にスワイプします</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">成功</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">戻るジェスチャーが行われました</string>
-  <string name="wear_training_volume_up_title">音量を上げる</string>
-  <string name="wear_training_volume_up_text">右にスワイプしてから上にスワイプします</string>
-  <string name="wear_training_volume_down_title">音量を下げる</string>
-  <string name="wear_training_volume_down_text">右にスワイプしてから下にスワイプします</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly メニューを開く</string>
-  <string name="wear_training_open_talkback_menu_text">設定やコントロールを開くには、下にスワイプしてから右にスワイプします</string>
-  <string name="wear_training_typing_title">文字入力</string>
-  <string name="wear_training_typing_text1">キーボードで入力するには、キーボードのキーをなぞるように指を動かします。入力したい文字が読み上げられたら、指を離します。</string>
-  <string name="wear_training_typing_text2">キーボードを非表示にして入力内容を確認するには、2 本の指で画面の上部から下にスワイプします。</string>
-  <string name="wear_training_typing_text3">キーボードに戻るには、2 本の指で画面の下部から上にスワイプします。</string>
-  <string name="wear_training_typing_text4">キーボードを閉じて入力をキャンセルするには、2 本の指で画面の左端から右にスワイプします。</string>
-  <string name="wear_training_typing_text5">以下でお試しください。</string>
-  <string name="wear_training_typing_practice_button_content_description">キーボードで入力する</string>
-  <string name="wear_training_end_tutorial_title">SandFly を使用できるようになりました</string>
   <string name="wear_new_feature_page_title">新しくなった SandFly へようこそ</string>
   <string name="wear_new_feature_page_content">バグの修正が行われ、フォーカスの移動方法が変わりました</string>
   <string name="wear_new_feature_page_button_content_description">終了</string>
@@ -1371,7 +1328,6 @@
     <string name="title_pref_announce_ringer_mode">着信音モード</string>
     <string name="summary_pref_announce_ringer_mode">着信音が振動またはサイレントに設定されているときに言ってください</string>
     <string name="title_pref_category_feedback">フィードバック</string>
-    <string name="title_pref_category_typing_and_braille">タイピングと点字</string>
     <string name="title_pref_category_apps">アプリ</string>
     <string name="title_pref_touch_activation">タッチとアクティベーション</string>
     <string name="title_pref_navigation">ナビゲーション</string>
@@ -1395,8 +1351,6 @@
     <string name="speech_control_deny">許可しないでください</string>
     <string name="permission_speak_label">SandFlyを通して話す</string>
     <string name="permission_speak_description">アプリにあなたのSandFlyの声でテキストを言うように要求させます。アプリが話す前に、SandFly が質問します。</string>
-    <string name="permission_braille_display_label">SandFly の点字ディスプレイになるよう依頼してください</string>
-    <string name="permission_braille_display_description">アプリに SandFly の点字ディスプレイになるように要求させます。 SandFly で許可すると、画面上のすべてを読み取り、デバイスを制御できます。 SandFly が最初に尋ねます。</string>
     <string name="title_pref_phonetic_letters_mode">文字を音声的に話す</string>
     <string name="phonetic_letters_mode_off">OFF</string>
     <string name="phonetic_letters_mode_after_letter_delay">手紙の後で、「えー、ホテル」のように遅れて</string>
@@ -1564,50 +1518,6 @@
     <string name="shortcut_title_open_app">アプリを開く</string>
     <string name="shortcut_open_app">オープン<xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">一番上までスクロール</string>
-    <string name="shortcut_write_reading_control">読み取りコントロールの文字を書く</string>
-    <string name="title_pref_reading_control_letters">手書きのアルファベット文字</string>
-    <string name="reading_control_letter_none">なし</string>
-    <string name="handwriting_prompt">アルファベット文字を書きます</string>
-    <string name="handwriting_closed">手書き終了</string>
-    <string name="handwriting_no_match"><xliff:g id="letter" example="Q">%1$s</xliff:g> で始まる読み取り制御はありません</string>
-    <string name="handwriting_not_recognized">手書きが認識されない</string>
-    <string name="handwriting_downloading">手書き認識をダウンロード中です</string>
-    <string name="handwriting_download_title">手書き認識をダウンロードしますか?</string>
-    <string name="handwriting_download_message">この携帯電話では手書きが認識されます。この言語のモデル (約 20 MB) は、Google から 1 回ダウンロードされます。ダウンロードが完了するとメッセージが表示されます。</string>
-    <string name="handwriting_download_button">ダウンロード</string>
-    <string name="handwriting_downloaded">手書き認識をダウンロードしました</string>
-    <string name="handwriting_download_failed">手書き認識をダウンロードできませんでした。インターネット接続を確認してください。</string>
-    <string name="handwriting_unsupported_language">この言語では手書き認識は利用できません</string>
-    <string name="title_pref_handwriting_keyboard">手書きキーボード</string>
-    <string name="summary_pref_handwriting_keyboard">Android のキーボード設定で SandFly 手書きをオンにします</string>
-    <string name="title_pref_handwriting_wait">書いてから待つ</string>
-    <string name="value_handwriting_wait_200">0.2 秒</string>
-    <string name="value_handwriting_wait_300">0.3秒</string>
-    <string name="value_handwriting_wait_400">0.4秒</string>
-    <string name="value_handwriting_wait_500">0.5 秒</string>
-    <string name="value_handwriting_wait_600">0.6秒</string>
-    <string name="value_handwriting_wait_800">0.8秒</string>
-    <string name="value_handwriting_wait_1000">1 秒</string>
-    <string name="handwriting_keyboard_name">SandFly 手書き</string>
-    <string name="handwriting_space">スペース</string>
-    <string name="handwriting_new_line">改行</string>
-    <string name="handwriting_tutorial_intro">手書きキーボードのチュートリアル。画面上の任意の場所に 1 本の指で書き込みます。書いたものは、少し立ち止まったときに入力されます。チュートリアルを終了するには、3 本の指で下にスワイプします。</string>
-    <string name="handwriting_tutorial_write_letter">アルファベットの「a」を書きます。</string>
-    <string name="handwriting_tutorial_write_word">次に、単語 hi (h の後に i) を書きます。</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g>と入力しました。</string>
-    <string name="handwriting_tutorial_space">2 本の指で右にスワイプしてスペースを入力します。</string>
-    <string name="handwriting_tutorial_delete">2 本の指で左にスワイプすると、カーソルの前の文字が削除されます。</string>
-    <string name="handwriting_tutorial_deleted">削除されました。</string>
-    <string name="handwriting_tutorial_next_reading">手書きが大文字などの別の文字として認識された場合は、2 本の指で上にスワイプして次の認識候補を選択します。今すぐ試してください。</string>
-    <string name="handwriting_tutorial_read_back">2 本の指でタップすると、カーソルの前のテキストが読み上げられます。</string>
-    <string name="handwriting_tutorial_new_line">2 本の指で下にスワイプして新しい行を挿入するか、送信などのテキスト フィールド アクションを実行します。</string>
-    <string name="handwriting_tutorial_not_that">それもまたジェスチャーでした。</string>
-    <string name="handwriting_tutorial_done">改行。チュートリアルが終了しました。 3 本の指で下にスワイプするとキーボードが非表示になり、3 本の指で右または左にスワイプするとキーボードが切り替わります。チュートリアルを再度開くには、3 本の指でタップします。</string>
-    <string name="handwriting_tutorial_finished">チュートリアルが終了しました。再度開くには、3 本の指でタップします。</string>
-    <string name="handwriting_no_alternatives">他に提案はありません</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>、<xliff:g id="index" example="2">%2$d</xliff:g>/<xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">空のテキスト</string>
-    <string name="handwriting_not_available">このデバイスでは手書き認識は利用できません</string>
     <string name="shortcut_scroll_to_bottom">一番下までスクロール</string>
     <string name="shortcut_refresh">リフレッシュ</string>
     <string name="shortcut_system_notifications">システム通知シェード</string>
@@ -1619,40 +1529,11 @@
     <string name="title_clear_selection">選択をクリア</string>
     <string name="title_pref_brightness">明るさ</string>
     <string name="summary_support_change_brightness">画面が隠れている場合でも、画面の明るさを増減します。</string>
-    <string name="title_pref_shortcut_3finger_4tap">3本指で4回タップ</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">2本の指で時計回りに回転させます</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">2本の指で反時計回りに回転</string>
-    <string name="title_pref_shortcut_2finger_scrub">2本の指でこする</string>
-    <string name="title_pref_shortcut_2finger_pinch">2本指でピンチ</string>
-    <string name="title_pref_shortcut_2finger_spread">2本の指で広げる</string>
-    <string name="title_pref_shortcut_3finger_pinch">3本指でピンチ</string>
-    <string name="title_pref_shortcut_3finger_spread">3本の指で広げる</string>
-    <string name="title_pref_shortcut_4finger_pinch">4本指でピンチ</string>
-    <string name="title_pref_shortcut_4finger_spread">4本の指で広げる</string>
-    <string name="title_pref_shortcut_edge_bottom_up">下端から上にスワイプ</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">下端から上に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_top_left_down">左上から下にスワイプ</string>
-    <string name="title_pref_shortcut_edge_top_right_down">右上から下にスワイプ</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">左上から下に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">右上から下に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_left_top_right">左端、上半分から右にスワイプ</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">左端の上半分から右に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">左端の下半分から右にスワイプ</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">左端の下半分から右に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_right_top_left">右端の上半分から左にスワイプ</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">右端の上半分から左に長くスワイプ</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">右端の下半分から左にスワイプ</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">右端の下半分から左に長くスワイプ</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">指を押したまま任意のキーを選択し、指を離します。ダブルタップして「入力」、「完了」、または「送信」を選択します。</string>
-    <string name="value_type_confirmation_tap_to_type">任意のキーをタップして入力するか、指を押したまま任意のキーを選択してから指を離します</string>
-    <string name="title_pref_multi_tap_timeout">1 本指でタップする間隔</string>
     <string name="value_multi_tap_timeout_100ms">0.1秒</string>
     <string name="value_multi_tap_timeout_150ms">0.15 秒</string>
     <string name="value_multi_tap_timeout_200ms">0.2 秒</string>
     <string name="value_multi_tap_timeout_250ms">0.25秒(デフォルト)</string>
-    <string name="title_pref_rotor_step_degrees">ステップごとのローター回転数</string>
-    <string name="title_pref_edge_first_click_mm">最初のクリックまでの距離</string>
-    <string name="title_pref_edge_second_click_mm">最初のクリックから 2 番目のクリックまでの距離</string>
     <string name="value_distance_5mm">0.5cm</string>
     <string name="value_distance_10mm">1cm</string>
     <string name="value_distance_15mm">1.5cm</string>
@@ -1700,15 +1581,8 @@
     <string name="summary_support_wrap_around">最後のアイテムから最初のアイテムへのラッピングをオンまたはオフにします</string>
     <string name="wrap_around_on">ラップアラウンドオン</string>
     <string name="wrap_around_off">ラップアラウンドオフ</string>
-    <string name="title_selector_tablet_held_up_faces_away">タブレットを向こう側に向けてかざす</string>
-    <string name="summary_support_tablet_held_up_faces_away">タブレットまたは折りたたんだ携帯電話の点字キーボードの場合</string>
-    <string name="tablet_held_up_faces_away_on">タブレットを向こう側に向けてかざす</string>
-    <string name="tablet_held_up_faces_away_off">タブレットを向こう側に向けてかざす</string>
     <string name="title_keyboard_echo_on_screen">スクリーンキーボードのエコー</string>
     <string name="title_keyboard_echo_physical">物理キーボードエコー</string>
-    <string name="title_keyboard_echo_braille_keyboard">点字キーボードのエコー</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">手書きキーボードエコー</string>
-    <string name="title_keyboard_echo_braille_display">点字表示エコー</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">入力中に音声を中断する</string>
     <string name="pref_interrupt_typing_entry_always">いつも</string>

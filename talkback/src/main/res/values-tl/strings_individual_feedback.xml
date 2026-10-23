@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Naka-on ang browse mode</string>
   <string name="individual_sound_browse_mode_off">Naka-off ang browse mode</string>
   <string name="individual_sound_radial_menu">Pabilog na menu</string>
-  <string name="individual_sound_display_connected">Nakakonekta ang braille display</string>
-  <string name="individual_sound_display_disconnected">Nadiskonekta ang braille display</string>
-  <string name="individual_sound_double_beep">Hindi gumana ang braille command</string>
-  <string name="individual_sound_turn_on">Naka-on ang awtomatikong pag-scroll ng braille</string>
-  <string name="individual_sound_turn_off">Naka-off ang awtomatikong pag-scroll ng braille</string>
-  <string name="individual_sound_calibration_done">Na-calibrate ang braille keyboard</string>
   <string name="individual_vibration_focus">Naka-focus sa isang item</string>
   <string name="individual_vibration_focus_actionable">Naka-focus sa isang item na may aksyon</string>
   <string name="individual_vibration_clicked">Pag-click</string>
@@ -37,12 +31,6 @@
   <string name="individual_vibration_typo">Maling spelling</string>
   <string name="individual_vibration_notification">Anunsyo</string>
     <string name="individual_sound_screen_on">Naka-on ang screen</string>
-    <string name="individual_vibration_braille_character">Braille keyboard: pag-type ng character</string>
-    <string name="individual_vibration_braille_space">Braille keyboard: space o pag-delete</string>
-    <string name="individual_vibration_braille_new_line">Braille keyboard: bagong linya o pag-delete ng salita</string>
-    <string name="individual_vibration_braille_hold">Braille keyboard: pagpindot nang matagal ng mga daliri</string>
-    <string name="individual_vibration_braille_gesture">Braille keyboard: iba pang galaw</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Braille keyboard: walang ide-delete</string>
     <string name="individual_sound_next_reading_control">Susunod na kontrol sa pagbabasa</string>
     <string name="individual_sound_previous_reading_control">Nakaraang kontrol sa pagbabasa</string>
     <string name="individual_sound_edge_gesture_bottom">Pagkumpas ng gilid sa ibaba</string>

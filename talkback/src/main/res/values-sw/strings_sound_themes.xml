@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Hakuna sauti. Sauti ya kuzingatia inacheza.</string>
     <string name="theme_sound_summary_android_keyboard">Android sauti ya kibodi</string>
     <string name="theme_sound_use_android_keyboard">Tumia sauti ya kibodi ya Android</string>
-    <string name="theme_sound_braille_character">Kibodi ya Breli: kuandika herufi</string>
-    <string name="theme_sound_braille_space">Kibodi ya Braille: nafasi</string>
-    <string name="theme_sound_braille_delete">Kibodi ya Braille: futa</string>
-    <string name="theme_sound_braille_new_line">Kibodi ya Braille: laini mpya</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Chagua faili ya sauti</string>
     <string name="theme_sound_preview">Onyesho la kukagua</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">ഡിലേ കുറയ്ക്കുക</string>
   <string name="talkback_latency_reduction_summary">നിങ്ങൾ സ്‌ക്രീനിൽ സ്പർശിച്ചതിന് ശേഷം SandFly വേഗത്തിൽ പ്രതികരിക്കുക</string>
   <string name="summary_pref_intonation">കീബോർഡ് ഉപയോഗിച്ച് ഇല്ലാതാക്കിയ അക്ഷരങ്ങൾ ഉയർന്ന പിച്ചിൽ പറയുക</string>
-  <string name="title_pref_brailledisplay">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ</string>
-  <string name="title_pref_brailleime">ബ്രെയ്‌ലി കീബോർഡ്</string>
-  <string name="summary_pref_brailleime_disabled">ഉപകരണം ബ്രെയ്‍ലി കീബോർഡിനെ പിന്തുണയ്ക്കുന്നില്ല</string>
   <string name="title_pref_speech_footer">ഏത് സ്‌ക്രീനിൽ നിന്നും പ്രവേശനക്ഷമത വോളിയം മാറ്റാൻ, സ്‌ക്രീനിൽ 1 വിരൽ അമർത്തിപ്പിടിച്ച് വോളിയം അപ്പ് അല്ലെങ്കിൽ വോളിയം ഡൗൺ കീ അമർത്തുക.</string>
   <string name="title_pref_vibration">വൈബ്രേഷൻ ഫീഡ്ബാക്ക്</string>
   <string name="title_pref_soundback">ശബ്ദ ഫീഡ്ബാക്ക്</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">ഡീബഗ് ലോഗ് ഓവർലേ പ്രവർത്തനക്ഷമമാക്കുക</string>
   <string name="title_pref_typing_confirmation">ടൈപ്പിംഗ് രീതി</string>
   <string name="title_pref_typing_long_tap_duration">ടൈപ്പ് ചെയ്യുമ്പോഴുള്ള സ്‌പർശിച്ച് പിടിക്കൽ താമസം</string>
-  <string name="title_pref_touch_explore_timeout">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ</string>
   <string name="message_pref_touch_explore_latency">ചെറിയ കാലതാമസം നിങ്ങൾ കീബോർഡിൽ സ്പർശിച്ചതിന് ശേഷം SandFly സംസാരിക്കാൻ ഇടയാക്കുന്നു.\n\nഒരു കാലതാമസം തിരഞ്ഞെടുക്കുക</string>
-  <string name="title_pref_touch_focus_timeout">ഫോക്കസ് ഡിലേ</string>
-  <string name="title_pref_talkback_gesture_detection">SandFly-ൽ ജെസ്‌ച്ചറുകൾ കെെകാര്യം ചെയ്യുക</string>
-  <string name="toast_pref_talkback_gesture_detection">ക്രമീകരണം സജീവമാക്കാൻ SandFly ഓഫാക്കി വീണ്ടും ഓണാക്കുക.</string>
   <string name="title_pref_auto_image_captioning">സ്വയമേവയുള്ള വിവരണങ്ങൾ</string>
   <string name="title_pref_gemini_settings">Gemini ക്രമീകരണം</string>
   <string name="title_pref_gemini_enabled">Gemini വോയ്‌സ് കമാൻഡുകൾ</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">വോളിയം കൂട്ടുക</string>
   <string name="shortcut_decrease_volume">വോളിയം കുറയ്ക്കുക</string>
   <string name="shortcut_all_apps">എല്ലാ ആപ്പുകളും</string>
-  <string name="shortcut_braille_keyboard">ബ്രെയ്‌ലി കീബോർഡിലേക്ക് മാറുക</string>
-  <string name="shortcut_braille_display_settings">ബ്രെയ്‌ലി ഡിസ്പ്ലേ ക്രമീകരണത്തിൽ പോകൂ</string>
   <string name="shortcut_tutorial">ട്യൂട്ടോറിയൽ തുറക്കുക</string>
   <string name="shortcut_control_speak_time">സമയം പറയുക അല്ലെങ്കിൽ സമയം പറയരുത്</string>
   <string name="shortcut_enable_speak_time">സമയം പറയുക</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">\'സമയം പറയുക\' ഓഫാണ്</string>
   <string name="shortcut_practice_gestures">ജെസ്ച്ചറുകൾ പരിശീലിക്കുക</string>
   <string name="shortcut_report_gesture">വിരൽചലന പ്രശ്‌നം റിപ്പോർട്ട് ചെയ്യുക</string>
-  <string name="shortcut_toggle_braille_display">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യുക</string>
   <string name="shortcut_announce_current_time_and_date">നിലവിലെ തീയതിയും സമയവും പറയുക</string>
   <string name="shortcut_announce_battery_state">ബാറ്ററി ശതമാനം പറയുക</string>
   <string name="shortcut_announce_current_title">സംസാരിക്കാനുള്ള വിൻഡോയുടെ പേര്</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">വായനയുടെ വേഗത കുറയ്ക്കുക</string>
   <string name="shortcut_toggle_selection">തിരഞ്ഞെടുക്കൽ മോഡ് തുടങ്ങുക/നിർത്തുക</string>
   <string name="shortcut_show_tutorial">ട്യൂട്ടോറിയൽ തുറക്കുക</string>
-  <string name="shortcut_toggle_braille_contracted_mode">ചുരുക്കിയതും (ഗ്രേഡ് 2) ചുരുക്കാത്തതും (ഗ്രേഡ് 1) പരസ്പരം മാറുക</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">കണക്റ്റ് ചെയ്‌ത ബ്രെയ്‌ലി ഡിസ്‌പ്ലേകൾക്കായി സ്‌ക്രീനിലെ ബ്രെയ്‌ലി കാണിക്കുക അല്ലെങ്കിൽ മറയ്ക്കുക</string>
   <string name="shortcut_toggle_sound_feedback">ശബ്‌ദ ഫീഡ്‌ബാക്ക് (ഇയർകോണുകൾ) ഓണാക്കുകയോ ഓഫാക്കുകയോ ചെയ്യുക</string>
   <string name="shortcut_show_learn_mode_page">കീബോർഡ് കുറുക്കുവഴികൾ പരിശീലിക്കുക</string>
   <string name="shortcut_announce_phonetic_pronunciation">ഫോക്കസ് ചെയ്ത ഇനത്തിനായി വാക്കിന്റെ ഉച്ചാരണത്തോടെ അക്ഷരങ്ങൾ പറയുക</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">ശബ്‌ദ കമാൻഡുകൾ</string>
   <string name="title_show_keyboard_shortcuts">കീബോർഡ് കുറുക്കുവഴികൾ</string>
   <string name="talkback_show_talkback_settings">SandFly ക്രമീകരണം</string>
-  <string name="title_show_braille_display_settings">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം</string>
   <string name="title_granularity_default">ഡിഫോൾട്ട് നാവിഗേഷൻ</string>
   <string name="title_action_dismiss">നിരസിക്കുക</string>
   <string name="title_action_expand">വികസിപ്പിക്കുക</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">സ്ക്രീൻ ഓണാക്കുമ്പോൾ സമയം ഉറക്കെ പറയണോ എന്നത് മാറ്റുക</string>
   <string name="summary_show_keyboard_shortcuts_preferences">കീബോഡ് കുറുക്കുവഴികളുടെ ലിസ്റ്റ് തുറക്കുക</string>
   <string name="summary_talkback_preferences">SandFly ക്രമീകരണം തുറക്കുക</string>
-  <string name="summary_braile_display_preferences">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം തുറക്കുക</string>
   <string name="summary_system_actions">എല്ലാ ആപ്പുകളിലേക്കും ദ്രുത ക്രമീകരണത്തിലേക്കും പോകുക</string>
   <string name="summary_tts_settings">ടെക്‌സ്റ്റ് ടു സ്‌പീച്ച് ക്രമീകരണം തുറക്കുക</string>
   <string name="not_editable">എഡിറ്റ് ചെയ്യാനാകില്ല</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">SandFly സംസാരിക്കുമ്പോൾ പ്ലേ ചെയ്‌തുകൊണ്ടിരിക്കുന്ന മറ്റ് ഓഡിയോയുടെ ശബ്‌ദം കുറയ്‌ക്കുക</string>
   <string name="summary_support_scroll_seq">മുന്നോട്ടോ പിന്നോട്ടോ സ്‌ക്രോൾ ചെയ്യുക</string>
   <string name="summary_support_change_a11y_volume">ഉപയോഗസഹായി വോളിയം കൂട്ടുക അല്ലെങ്കിൽ കുറയ്ക്കുക</string>
-  <string name="summary_support_change_touch_explore_latency">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ കൂട്ടുകയോ കുറയ്ക്കുകയോ ചെയ്യുക</string>
-  <string name="summary_support_change_touch_focus_latency">ഫോക്കസ് ഡിലേ കൂട്ടുകയോ കുറയ്ക്കുകയോ ചെയ്യുക</string>
   <string name="summary_screen_overview">പ്രവർത്തന ബട്ടണുകൾ ഉപയോഗിച്ച് സ്ക്രീൻ സംഗ്രഹിക്കുക</string>
   <string name="summary_screen_overview_no_actions">സ്ക്രീനിലെ ഉള്ളടക്കത്തിന്റെ സംഗ്രഹം കേൾക്കുക</string>
   <string name="summary_image_caption">തിരഞ്ഞെടുത്ത ഒരു ചിത്രത്തിനകത്തെ ടെക്സ്റ്റും ഐക്കണുകളും പറയുക</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">ഡബിൾ പിഞ്ച് ചെയ്യുക</string>
   <string name="gesture_name_double_tap_and_hold">ഡബിൾ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_double_tap_and_hold_xr">പിഞ്ച് ചെയ്ത് പിടിക്കുക</string>
-  <string name="gesture_name_2finger_tap_hold">2 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_3finger_tap_hold">3 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_2finger_3tap_hold">2 വിരലുകൾ ഉപയോഗിച്ച് മൂന്ന് തവണ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
   <string name="gesture_name_3finger_3tap_hold">3 വിരലുകൾ ഉപയോഗിച്ച് ട്രിപ്പിൾ ടാപ്പ് ചെയ്‌ത് പിടിക്കുക</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">ഓഡിയോ ഡക്കിംഗ്</string>
   <string name="title_pref_support_scroll_seq">സ്‌ക്രോൾ ചെയ്യുക</string>
   <string name="title_pref_a11y_volume">ഉപയോഗസഹായി വോളിയം</string>
-  <string name="title_pref_touch_explore_latency">ടൈപ്പിംഗ് ഫോക്കസ് ഡിലേ</string>
-  <string name="title_pref_touch_focus_latency">ഫോക്കസ് ഡിലേ</string>
   <string name="message_pref_touch_focus_latency">ഒരു ചെറിയ കാലതാമസം നിങ്ങൾ സ്‌ക്രീനിൽ സ്പർശിച്ചതിന് ശേഷം SandFly സംസാരിക്കും</string>
   <string name="message_pref_typing_method_prefix">ടൈപ്പ് ചെയ്യുമ്പോൾ ഏറ്റവും കുറഞ്ഞ താമസത്തിന്, \"ഏത് കീയും തിരഞ്ഞെടുക്കാൻ, വിരൽ അമർത്തിപ്പിടിച്ച ശേഷം ലിഫ്റ്റ് ചെയ്യുക\"</string>
-  <string name="message_pref_typing_method_postfix">എപ്പോൾ വേണമെങ്കിലും, ടൈപ്പ് ചെയ്യാൻ നിങ്ങൾക്ക് സ്പ്ലിറ്റ് ടാപ്പ് ഉപയോഗിക്കുകയും ചെയ്യാം. ഇത് ചെയ്യാൻ, ഏത് കീയും തിരഞ്ഞെടുക്കാൻ ഒരു വിരൽ കൊണ്ട് അമർത്തിപ്പിടിച്ച ശേഷം സ്ക്രീനിൽ ടാപ്പ് ചെയ്യാൻ മറ്റൊരു വിരൽ ഉപയോഗിക്കുക.</string>
   <string name="title_pref_talkback_speech_rate">വായനയുടെ വേഗത</string>
   <string name="title_pref_selector_adjustable_widget_slider">സ്ലൈഡർ ക്രമീകരിക്കുക</string>
   <string name="title_pref_selector_typo_granularity">പ്രൂഫ്റീഡ് ചെയ്യുക</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">%1$s ആണ് കീവേഡ്</string>
   <string name="screen_search_no_keyword_hint">ഇതുവരെ കീവേഡ് ഒന്നും ഇല്ല. പുതിയ തിരയൽ ആരംഭിക്കാൻ, 3 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്ത് പിടിക്കുക അല്ലെങ്കിൽ SandFly മെനുവിൽ നിന്ന് സ്ക്രീനിലെ വിവരങ്ങൾ തുറക്കുക.</string>
   <string name="screen_search_no_keyword_hint_pre_r">ഇതുവരെ കീവേഡ് ഒന്നും ഇല്ല. പുതിയ തിരയൽ ആരംഭിക്കാൻ, ഇടത്തേക്കും തുടർന്ന് താഴേക്കും സ്വൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ SandFly മെനുവിൽ നിന്ന് സ്ക്രീനിലെ വിവരങ്ങൾ തുറക്കുക.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">ബ്രെയ്‌ലി കീബോർഡ് ഓണല്ല. SandFly ക്രമീകരണത്തിൽ പോയി ബ്രെയ്‌ലി കീബോർഡ് ക്രമീകരിച്ച ശേഷം ശ്രമിക്കൂ.</string>
   <string name="suggestions_window_available">നിർദ്ദേശങ്ങൾ ലഭ്യമാണ്</string>
   <string name="suggestions_window_available_with_gesture">നിർദ്ദേശങ്ങൾ ലഭ്യമാണ്. ആക്‌സസ് ചെയ്യാൻ, %1$s</string>
   <string name="heads_up_window_available">അറിയിപ്പ് ലഭ്യമാണ്</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly ന് ഇപ്പോൾ ഫിസിക്കൽ കീബോർഡുകൾക്കായി ഒരു \"മെച്ചപ്പെടുത്തിയ കീമാപ്പ്\" ഉണ്ട്, വ്യത്യസ്തമായ പുതിയ കമാൻഡുകളും കുറുക്കുവഴികളും ഫീച്ചർ ചെയ്യുന്നു. ഫിസിക്കൽ കീബോർഡുകളെ ആശ്രയിക്കുന്ന SandFly ഉപയോക്താക്കൾക്കായി കൂടുതൽ കാര്യക്ഷമമായ വെബ് നാവിഗേഷൻ, സ്ട്രീംലൈനിംഗ് നാവിഗേഷൻ, ഇൻ്ററാക്ഷൻ എന്നിവയ്ക്കായുള്ള \"ബ്രൗസ് മോഡ്\" ഈ മെച്ചപ്പെടുത്തലിൽ ഉൾപ്പെടുന്നു. നിങ്ങൾക്ക് <xliff:g id="settings_path">%1$s</xliff:g>-ൽ \"മെച്ചപ്പെടുത്തിയ കീമാപ്പിലേക്ക്\" മാറാം.\n\nനിങ്ങൾ ഒരു ബ്രെയിൽ ഡിസ്‌പ്ലേ ഉപയോഗിക്കുകയാണെങ്കിൽ, നിങ്ങളുടെ ബ്രെയിൽ ഡിസ്‌പ്ലേയിൽ നിന്ന് നേരിട്ട് ഉള്ളടക്കത്തിലൂടെ സഞ്ചരിക്കുന്നതിന് പുതിയ ബ്രൗസ് മോഡ് കുറുക്കുവഴികളും ഉപയോഗിക്കാം. ഈ മാറ്റം ഉൾക്കൊള്ളുന്നതിനായി ചില ബ്രെയിൽ ഡിസ്പ്ലേ കുറുക്കുവഴികൾ മാറ്റി. എല്ലാ ബ്രെയിൽ ഡിസ്പ്ലേ കുറുക്കുവഴികളുടെയും ഒരു ലിസ്റ്റ് <xliff:g id="braille_display_settings_path">%2$s</xliff:g>-ൽ നിങ്ങൾക്ക് കാണാൻ കഴിയും.</string>
   <string name="keyboard_shortcuts_link">SandFly ക്രമീകരണം &gt; കീബോർഡ് കുറുക്കുവഴികൾ</string>
   <string name="keyboard_shortcuts_link_tts">SandFly ക്രമീകരണം, തുടർന്ന് കീബോർഡ് കുറുക്കുവഴികൾ</string>
-  <string name="braille_display_settings_link">ബ്രെയ്‌ലി ഡിസ്‌പ്ലേ ക്രമീകരണം</string>
   <string name="keyboard_smart_browse_mode_title">കീബോർഡ്: സ്‌മാർട്ട് ബ്രൗസ് മോഡ്</string>
   <string name="keyboard_smart_browse_mode_text">നിങ്ങൾ വെബ് ബ്രൗസ് ചെയ്യുമ്പോൾ ഫിസിക്കൽ കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യാൻ നിങ്ങളെ സഹായിക്കുന്നതിന് SandFly സ്‌മാർട്ട് ബ്രൗസ് മോഡ്, എഡിറ്റ് ഫീൽഡിലെ ബ്രൗസ് മോഡ് ഓഫാക്കുന്നു. തുടർന്ന് നിങ്ങൾ വെബിലെ എഡിറ്റ് ചെയ്യാത്ത ഫീൽഡിലേക്ക് പോകുമ്പോൾ അത് വീണ്ടും ഓണാക്കുന്നു, അതുവഴി നിങ്ങൾക്ക് കാര്യക്ഷമമായി ബ്രൗസ് ചെയ്യുന്നത് തുടരാനാകും. <xliff:g id="settings_path">%1$s</xliff:g> എന്നതിൽ നിങ്ങൾക്ക് \"സ്‌മാർട്ട് ബ്രൗസ് മോഡ്\" ഓണാക്കാനോ ഓഫാക്കാനോ കഴിയും.</string>
   <string name="advanced_settings_link">SandFly ക്രമീകരണം &gt; വിപുലമായ ക്രമീകരണം</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">ടെക്സ്റ്റ് ടൈപ്പ് ചെയ്യൽ</string>
   <string name="basic_typing_text_text">നിങ്ങൾ ഒരു ടെക്സ്റ്റ് ബോക്‌സ് ഉപയോഗിക്കുമ്പോൾ, നിങ്ങളുടെ സ്ക്രീനിന്റെ അടിയിൽ ഒരു കീബോർഡ് തുറക്കും.</string>
   <string name="typing_text_text">കീബോർഡിലുടനീളം നിങ്ങളുടെ വിരൽ നീക്കുക. നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യേണ്ട അക്ഷരം കേൾക്കുമ്പോൾ കീബോർഡിൽ നിന്ന് വിരലെടുക്കുക.\n\nചുവടെയുള്ള ടെക്സ്റ്റ് ബോക്സ് സജീവമാക്കി നിങ്ങളുടെ പേര് ടൈപ്പ് ചെയ്ത് നോക്കുക.</string>
-  <string name="typing_text_with_braille_keyboard_text">ബ്രെയ്‌ലി കീബോർഡ് ഉപയോഗിച്ചും നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യാം. ഇത് SandFly ക്രമീകരണത്തിൽ കണ്ടെത്തുക.</string>
   <string name="other_ways_to_type_title">ടൈപ്പ് ചെയ്യാനുള്ള മറ്റ് മാർഗ്ഗങ്ങൾ</string>
   <string name="other_ways_to_type_text">SandFly-ൽ ടൈപ്പ് ചെയ്യാൻ മറ്റ് മാർഗ്ഗങ്ങളുണ്ട്. ഉദാഹരണത്തിന്, ഒരു അക്ഷരം നൽകാൻ നിങ്ങൾക്ക് \'ഡബിൾ ടാപ്പ് ചെയ്യുക\' ഉപയോഗിക്കാം.</string>
   <string name="basic_other_ways_to_type_text">SandFly എന്ന് ടൈപ്പ് ചെയ്യാൻ മറ്റ് വഴികളുണ്ട്. ഉദാഹരണത്തിന്, ഒരു കത്ത് നൽകാൻ നിങ്ങൾക്ക് ഡബിൾ ടാപ്പ് ഉപയോഗിക്കാം. നിങ്ങൾക്ക് ഇത് പിന്നീട് SandFly ക്രമീകരണങ്ങൾ &gt; ഓൺ-സ്ക്രീൻ കീബോർഡ് &gt; ടൈപ്പിംഗ് രീതി എന്നതിൽ മാറ്റാവുന്നതാണ്.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">ജെസ്ച്ചറുകൾ പരിശീലിക്കാൻ, ആദ്യം SandFly ഓണാക്കുക</string>
   <string name="talkback_inactive_message_image_description">ചിത്രത്തിന്റെ വിവരണങ്ങൾ നേടാൻ ശ്രമിക്കുന്നതിന്, ആദ്യം SandFly ഓണാക്കുക</string>
   <string name="talkback_inactive_close_tutorial_button">ട്യൂട്ടോറിയൽ അടയ്ക്കുക</string>
-  <string name="wear_training_welcome_paragraph">SandFly ഓണായിരിക്കുമ്പോൾ, സ്‌ക്രീനിലെ ഫോക്കസ് ചെയ്‌ത ഇനം ഉറക്കെ വായിക്കപ്പെടും.\n\nവലത്തേക്ക് സ്വൈപ്പ് ചെയ്‌താൽ അടുത്ത ഇനത്തിലേക്ക് നീങ്ങും. ഇടത്തേക്ക് സ്വൈപ്പ് ചെയ്‌താൽ മുമ്പത്തെ ഇനത്തിലേക്ക് നീങ്ങും.\n\nഅടുത്ത ബട്ടൺ കണ്ടെത്താൻ ഇപ്പോൾ വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യൂ.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">%1$d വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്കോ താഴേക്കോ സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_go_back_title">മടങ്ങുക</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">തിരികെ പോകാൻ, %1$d വിരലുകൾ ഉപയോഗിച്ച് സ്ക്രീനിന്റെ അറ്റത്തുനിന്ന് വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">വിജയകരം</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">ബാക്ക് ജെസ്ച്ചർ ചെയ്തു</string>
-  <string name="wear_training_volume_up_title">വോളിയം കൂട്ടുക</string>
-  <string name="wear_training_volume_up_text">വലത്തേക്കും തുടർന്ന് മുകളിലേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_volume_down_title">വോളിയം കുറയ്ക്കുക</string>
-  <string name="wear_training_volume_down_text">വലത്തേക്കും തുടർന്ന് താഴേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_open_talkback_menu_title">SandFly മെനു തുറക്കുക</string>
-  <string name="wear_training_open_talkback_menu_text">ക്രമീകരണവും നിങ്ങൾക്ക് ഇടയ്ക്കിടെ ആവശ്യം വന്നേക്കാവുന്ന നിയന്ത്രണങ്ങളും തുറക്കാൻ, ആദ്യം താഴേക്കും തുടർന്ന് വലത്തേക്കും സ്വൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_typing_title">ടൈപ്പ് ചെയ്യൽ</string>
-  <string name="wear_training_typing_text1">കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യാൻ, കീബോർഡിലുടനീളം നിങ്ങളുടെ വിരൽ നീക്കുക. നിങ്ങൾക്ക് ടൈപ്പ് ചെയ്യേണ്ട അക്ഷരം കേൾക്കുമ്പോൾ വിരലെടുക്കുക.</string>
-  <string name="wear_training_typing_text2">കീബോർഡ് മറയ്ക്കാനും ഇൻപുട്ട് പരിശോധിക്കാനും, സ്ക്രീനിന്റെ മുകളിൽ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text3">കീബോർഡിലേക്ക് മടങ്ങിയെത്താൻ, സ്ക്രീനിന്റെ താഴെ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text4">കീബോർഡ് അടയ്ക്കാനും ടൈപ്പിംഗ് റദ്ദാക്കാനും, സ്ക്രീനിന്റെ ഇടതുവശത്തെ അരികിൽ നിന്ന് 2 വിരലുകൾ ഉപയോഗിച്ച് വലതുവശത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-  <string name="wear_training_typing_text5">ചുവടെ ഇത് പരീക്ഷിക്കുക.</string>
-  <string name="wear_training_typing_practice_button_content_description">കീബോർഡ് ഉപയോഗിച്ച് ടൈപ്പ് ചെയ്യുക</string>
-  <string name="wear_training_end_tutorial_title">SandFly ഉപയോഗിച്ച് തുടങ്ങാൻ നിങ്ങൾ തയ്യാറാണ്</string>
   <string name="wear_new_feature_page_title">അപ്ഡേറ്റ് ചെയ്‌ത SandFly-ലേക്ക് സ്വാഗതം</string>
   <string name="wear_new_feature_page_content">ചില ബഗ് പരിഹരിക്കലുകളും ഫോക്കസ് നീങ്ങുന്ന രീതിയിലെ മാറ്റങ്ങളും നിങ്ങൾ ശ്രദ്ധിച്ചേക്കാം</string>
   <string name="wear_new_feature_page_button_content_description">പൂർത്തിയാക്കുക</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">റിംഗർ മോഡ്</string>
     <string name="summary_pref_announce_ringer_mode">റിംഗർ വൈബ്രേറ്റുചെയ്യാനോ നിശബ്ദമാക്കാനോ സജ്ജമാക്കുമ്പോൾ പറയുക</string>
     <string name="title_pref_category_feedback">പ്രതികരണം</string>
-    <string name="title_pref_category_typing_and_braille">ടൈപ്പിംഗും ബ്രെയ്‌ലിയും</string>
     <string name="title_pref_category_apps">ആപ്പുകൾ</string>
     <string name="title_pref_touch_activation">സ്പർശനവും സജീവമാക്കലും</string>
     <string name="title_pref_navigation">നാവിഗേഷൻ</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">അനുവദിക്കരുത്</string>
     <string name="permission_speak_label">SandFly വഴി സംസാരിക്കുക</string>
     <string name="permission_speak_description">നിങ്ങളുടെ SandFly ശബ്ദത്തിൽ വാചകം പറയാൻ ആപ്പിനെ അനുവദിക്കുന്നു. ആപ്പ് സംസാരിക്കുന്നതിന് മുമ്പ് SandFly നിങ്ങളോട് ചോദിക്കുന്നു.</string>
-    <string name="permission_braille_display_label">SandFly-ന് ഒരു ബ്രെയിൽ ഡിസ്പ്ലേ ആകാൻ ആവശ്യപ്പെടുക</string>
-    <string name="permission_braille_display_description">SandFly-ന് ബ്രെയിൽ ഡിസ്‌പ്ലേ ആകാൻ ആപ്പിനെ അനുവദിക്കുന്നു. നിങ്ങൾ ഇത് SandFly-ൽ അനുവദിക്കുകയാണെങ്കിൽ, അതിന് സ്ക്രീനിലെ എല്ലാം വായിക്കാനും നിങ്ങളുടെ ഉപകരണം നിയന്ത്രിക്കാനും കഴിയും. SandFly നിങ്ങളോട് ആദ്യം ചോദിക്കുന്നു.</string>
     <string name="title_pref_phonetic_letters_mode">അക്ഷരങ്ങൾ സ്വരസൂചകമായി സംസാരിക്കുക</string>
     <string name="phonetic_letters_mode_off">ഓഫാണ്</string>
     <string name="phonetic_letters_mode_after_letter_delay">കത്തിന് ശേഷം, \"h, ഹോട്ടൽ\" പോലെ വൈകി.</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">ആപ്പ് തുറക്കുക</string>
     <string name="shortcut_open_app">തുറക്കുക <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">മുകളിലേക്ക് സ്ക്രോൾ ചെയ്യുക</string>
-    <string name="shortcut_write_reading_control">ഒരു വായനാ നിയന്ത്രണത്തിൻ്റെ കത്ത് എഴുതുക</string>
-    <string name="title_pref_reading_control_letters">കൈയക്ഷര അക്ഷരങ്ങൾ</string>
-    <string name="reading_control_letter_none">ഒന്നുമില്ല</string>
-    <string name="handwriting_prompt">ഒരു അക്ഷരമാല എഴുതുക</string>
-    <string name="handwriting_closed">കൈയക്ഷരം അടച്ചു</string>
-    <string name="handwriting_no_match">വായനാ നിയന്ത്രണമൊന്നും <xliff:g id="letter" example="Q">%1$s</xliff:g>-ൽ ആരംഭിക്കുന്നില്ല</string>
-    <string name="handwriting_not_recognized">കൈയക്ഷരം തിരിച്ചറിഞ്ഞില്ല</string>
-    <string name="handwriting_downloading">കൈയക്ഷരം തിരിച്ചറിയൽ ഡൗൺലോഡ് ചെയ്യുന്നു</string>
-    <string name="handwriting_download_title">കൈയക്ഷരം തിരിച്ചറിയൽ ഡൗൺലോഡ് ചെയ്യണോ?</string>
-    <string name="handwriting_download_message">ഈ ഫോണിൽ കൈയക്ഷരം തിരിച്ചറിയുന്നു. ഈ ഭാഷയ്‌ക്കുള്ള അതിൻ്റെ മോഡൽ, ഏകദേശം 20 MB, Google-ൽ നിന്ന് ഒരിക്കൽ ഡൗൺലോഡ് ചെയ്‌തു. അത് ഡൗൺലോഡ് ചെയ്യുമ്പോൾ ഒരു സന്ദേശം കാണിക്കുന്നു.</string>
-    <string name="handwriting_download_button">ഡൗൺലോഡ് ചെയ്യുക</string>
-    <string name="handwriting_downloaded">കൈയക്ഷരം തിരിച്ചറിയൽ ഡൗൺലോഡ് ചെയ്തു</string>
-    <string name="handwriting_download_failed">കൈയക്ഷരം തിരിച്ചറിയൽ ഡൗൺലോഡ് ചെയ്യാൻ കഴിഞ്ഞില്ല. ഇൻ്റർനെറ്റ് കണക്ഷൻ പരിശോധിക്കുക.</string>
-    <string name="handwriting_unsupported_language">കൈയക്ഷരം തിരിച്ചറിയൽ ഈ ഭാഷയിൽ ലഭ്യമല്ല</string>
-    <string name="title_pref_handwriting_keyboard">കൈയക്ഷരം കീബോർഡ്</string>
-    <string name="summary_pref_handwriting_keyboard">Android-ൻ്റെ കീബോർഡ് ക്രമീകരണങ്ങളിൽ SandFly കൈയക്ഷരം ഓണാക്കുക</string>
-    <string name="title_pref_handwriting_wait">എഴുതിയതിന് ശേഷം കാത്തിരിക്കുക</string>
-    <string name="value_handwriting_wait_200">0.2 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_300">0.3 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_400">0.4 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_500">0.5 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_600">0.6 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_800">0.8 സെക്കൻഡ്</string>
-    <string name="value_handwriting_wait_1000">ഒരു സെക്കൻഡ്</string>
-    <string name="handwriting_keyboard_name">SandFly കൈയക്ഷരം</string>
-    <string name="handwriting_space">സ്പെയ്സ്</string>
-    <string name="handwriting_new_line">പുതിയ വരി</string>
-    <string name="handwriting_tutorial_intro">കൈയക്ഷരം കീബോർഡ് ട്യൂട്ടോറിയൽ. സ്ക്രീനിൽ എവിടെയും ഒരു വിരൽ കൊണ്ട് എഴുതുക. നിങ്ങൾ എഴുതുന്നത് ഒരു നിമിഷം നിർത്തുമ്പോൾ ടൈപ്പ് ചെയ്യുന്നു. ട്യൂട്ടോറിയൽ അവസാനിപ്പിക്കാൻ, മൂന്ന് വിരലുകൾ ഉപയോഗിച്ച് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_tutorial_write_letter">A എന്ന അക്ഷരമാല എഴുതുക.</string>
-    <string name="handwriting_tutorial_write_word">ഇപ്പോൾ hi എന്ന വാക്ക് എഴുതുക (h തുടർന്ന് i).</string>
-    <string name="handwriting_tutorial_typed"><xliff:g id="text" example="a">%1$s</xliff:g> എന്ന് ടൈപ്പ് ചെയ്തു.</string>
-    <string name="handwriting_tutorial_space">ഒരു സ്‌പെയ്‌സ് ടൈപ്പുചെയ്യാൻ രണ്ട് വിരലുകൾ ഉപയോഗിച്ച് വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_tutorial_delete">കഴ്‌സറിന് മുമ്പുള്ള പ്രതീകം ഇല്ലാതാക്കാൻ രണ്ട് വിരലുകൾ ഉപയോഗിച്ച് ഇടത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_tutorial_deleted">ഇല്ലാതാക്കി.</string>
-    <string name="handwriting_tutorial_next_reading">കൈയക്ഷരം മറ്റൊരു പ്രതീകമായി അംഗീകരിക്കപ്പെട്ടാൽ, വലിയ അക്ഷരം പോലെ, അടുത്ത തിരിച്ചറിയൽ നിർദ്ദേശം തിരഞ്ഞെടുക്കാൻ രണ്ട് വിരലുകൾ ഉപയോഗിച്ച് മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യുക. ഇപ്പോൾ ശ്രമിക്കുക.</string>
-    <string name="handwriting_tutorial_read_back">കഴ്‌സറിന് മുമ്പുള്ള വാചകം വായിക്കാൻ രണ്ട് വിരലുകൾ കൊണ്ട് ടാപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_tutorial_new_line">ഒരു പുതിയ ലൈൻ ചേർക്കുന്നതിന് രണ്ട് വിരലുകൾ ഉപയോഗിച്ച് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക അല്ലെങ്കിൽ അയയ്ക്കുക പോലുള്ള ടെക്സ്റ്റ് ഫീൽഡ് പ്രവർത്തനം നടത്തുക.</string>
-    <string name="handwriting_tutorial_not_that">അത് മറ്റൊരു ആംഗ്യമായിരുന്നു.</string>
-    <string name="handwriting_tutorial_done">പുതിയ ലൈൻ. ട്യൂട്ടോറിയൽ പൂർത്തിയായി. കീബോർഡ് മറയ്‌ക്കാൻ മൂന്ന് വിരലുകൾ ഉപയോഗിച്ച് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക, കീബോർഡുകൾ മാറുന്നതിന് മൂന്ന് വിരലുകൾ ഉപയോഗിച്ച് വലത്തോട്ടോ ഇടത്തോട്ടോ സ്വൈപ്പ് ചെയ്യുക. ട്യൂട്ടോറിയൽ വീണ്ടും തുറക്കാൻ, മൂന്ന് വിരലുകൾ കൊണ്ട് ടാപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_tutorial_finished">ട്യൂട്ടോറിയൽ അവസാനിച്ചു. ഇത് വീണ്ടും തുറക്കാൻ, മൂന്ന് വിരലുകൾ കൊണ്ട് ടാപ്പ് ചെയ്യുക.</string>
-    <string name="handwriting_no_alternatives">മറ്റ് നിർദ്ദേശങ്ങളൊന്നുമില്ല</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> of <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">ശൂന്യമായ വാചകം</string>
-    <string name="handwriting_not_available">ഈ ഉപകരണത്തിൽ കൈയക്ഷരം തിരിച്ചറിയൽ ലഭ്യമല്ല</string>
     <string name="shortcut_scroll_to_bottom">താഴേക്ക് സ്ക്രോൾ ചെയ്യുക</string>
     <string name="shortcut_refresh">പുതുക്കുക</string>
     <string name="shortcut_system_notifications">സിസ്റ്റം അറിയിപ്പ് ഷേഡ്</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">തിരഞ്ഞെടുപ്പ് മായ്‌ക്കുക</string>
     <string name="title_pref_brightness">തെളിച്ചം</string>
     <string name="summary_support_change_brightness">സ്‌ക്രീൻ മറച്ചിരിക്കുമ്പോൾ പോലും സ്‌ക്രീൻ തെളിച്ചം കൂട്ടുകയോ കുറയ്ക്കുകയോ ചെയ്യുക</string>
-    <string name="title_pref_shortcut_3finger_4tap">3 വിരലുകൾ ഉപയോഗിച്ച് നാല് തവണ ടാപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">2 വിരലുകൾ ഉപയോഗിച്ച് ഘടികാരദിശയിൽ തിരിക്കുക</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">2 വിരലുകൾ ഉപയോഗിച്ച് എതിർ ഘടികാരദിശയിൽ തിരിക്കുക</string>
-    <string name="title_pref_shortcut_2finger_scrub">2 വിരലുകൾ കൊണ്ട് സ്‌ക്രബ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_2finger_pinch">2 വിരലുകൾ കൊണ്ട് പിഞ്ച് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_2finger_spread">2 വിരലുകൾ കൊണ്ട് പരത്തുക</string>
-    <string name="title_pref_shortcut_3finger_pinch">3 വിരലുകൾ കൊണ്ട് പിഞ്ച് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_3finger_spread">3 വിരലുകൾ കൊണ്ട് പരത്തുക</string>
-    <string name="title_pref_shortcut_4finger_pinch">4 വിരലുകൾ കൊണ്ട് പിഞ്ച് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_4finger_spread">4 വിരലുകൾ കൊണ്ട് പരത്തുക</string>
-    <string name="title_pref_shortcut_edge_bottom_up">താഴത്തെ അറ്റത്ത് നിന്ന് മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">താഴത്തെ അരികിൽ നിന്ന് മുകളിലേക്ക് ദീർഘനേരം സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_top_left_down">മുകളിൽ ഇടത് നിന്ന് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_top_right_down">മുകളിൽ വലത് നിന്ന് താഴേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">മുകളിൽ ഇടതുവശത്ത് നിന്ന് താഴേക്ക് ദീർഘനേരം സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">മുകളിൽ വലതുവശത്ത് നിന്ന് താഴേക്ക് ദീർഘനേരം സ്വൈപ്പ് ചെയ്യുക</string>
-    <string name="title_pref_shortcut_edge_left_top_right">ഇടത് അരികിൽ നിന്ന് വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക, മുകളിൽ പകുതി</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">ഇടത് അരികിൽ നിന്ന് വലത്തേക്ക് നീണ്ട സ്വൈപ്പ്, മുകളിൽ പകുതി</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">ഇടത് അരികിൽ നിന്ന് വലത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക, താഴെ പകുതി</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">ഇടത് അരികിൽ നിന്ന് വലത്തേക്ക് നീണ്ട സ്വൈപ്പ്, താഴെ പകുതി</string>
-    <string name="title_pref_shortcut_edge_right_top_left">വലത് അരികിൽ നിന്ന് ഇടത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക, മുകളിൽ പകുതി</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">വലത് അരികിൽ നിന്ന് ഇടത്തേക്ക് നീണ്ട സ്വൈപ്പ്, മുകളിൽ പകുതി</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">വലത് അരികിൽ നിന്ന് ഇടത്തേക്ക് സ്വൈപ്പ് ചെയ്യുക, താഴെ പകുതി</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">വലത് അരികിൽ നിന്ന് ഇടത്തേക്ക് നീണ്ട സ്വൈപ്പ്, താഴെ പകുതി</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">ഏതെങ്കിലും കീ തിരഞ്ഞെടുക്കാൻ വിരൽ പിടിക്കുക, തുടർന്ന് ഉയർത്തുക. നൽകുക, പൂർത്തിയാക്കുക അല്ലെങ്കിൽ അയയ്‌ക്കുന്നതിന് രണ്ടുതവണ ടാപ്പുചെയ്യുക.</string>
-    <string name="value_type_confirmation_tap_to_type">ഏതെങ്കിലും കീ ടൈപ്പ് ചെയ്യാൻ ടാപ്പുചെയ്യുക, അല്ലെങ്കിൽ ഏതെങ്കിലും കീ തിരഞ്ഞെടുക്കാൻ വിരൽ പിടിക്കുക, തുടർന്ന് ഉയർത്തുക</string>
-    <string name="title_pref_multi_tap_timeout">ഒറ്റ വിരലിലെ ടാപ്പുകൾക്കിടയിലുള്ള സമയം</string>
     <string name="value_multi_tap_timeout_100ms">0.1 സെക്കൻഡ്</string>
     <string name="value_multi_tap_timeout_150ms">0.15 സെക്കൻഡ്</string>
     <string name="value_multi_tap_timeout_200ms">0.2 സെക്കൻഡ്</string>
     <string name="value_multi_tap_timeout_250ms">0.25 സെക്കൻഡ് (സ്ഥിരസ്ഥിതി)</string>
-    <string name="title_pref_rotor_step_degrees">ഓരോ ഘട്ടത്തിലും റോട്ടർ ടേൺ</string>
-    <string name="title_pref_edge_first_click_mm">ആദ്യ ക്ലിക്കിലേക്കുള്ള ദൂരം</string>
-    <string name="title_pref_edge_second_click_mm">ആദ്യം മുതൽ രണ്ടാമത്തെ ക്ലിക്ക് വരെയുള്ള ദൂരം</string>
     <string name="value_distance_5mm">0.5 സെ.മീ</string>
     <string name="value_distance_10mm">1 സെ.മീ</string>
     <string name="value_distance_15mm">1.5 സെ.മീ</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">അവസാന ഇനത്തിൽ നിന്ന് ആദ്യത്തേതിലേക്കോ ഓഫിലേക്കോ പൊതിയുക</string>
     <string name="wrap_around_on">ചുറ്റും പൊതിയുക</string>
     <string name="wrap_around_off">പൊതിയുക</string>
-    <string name="title_selector_tablet_held_up_faces_away">ടാബ്‌ലെറ്റ് മുഖം ഉയർത്തി പിടിച്ചു</string>
-    <string name="summary_support_tablet_held_up_faces_away">ടാബ്‌ലെറ്റിലോ മടക്കിയ ഫോണിലോ ബ്രെയിൽ കീബോർഡിനായി</string>
-    <string name="tablet_held_up_faces_away_on">ടാബ്‌ലെറ്റ് മുഖം ഉയർത്തി പിടിച്ചു</string>
-    <string name="tablet_held_up_faces_away_off">ടാബ്‌ലെറ്റ് മുഖം ഉയർത്തി പിടിച്ചു</string>
     <string name="title_keyboard_echo_on_screen">ഓൺ-സ്ക്രീൻ കീബോർഡ് എക്കോ</string>
     <string name="title_keyboard_echo_physical">ഫിസിക്കൽ കീബോർഡ് എക്കോ</string>
-    <string name="title_keyboard_echo_braille_keyboard">ബ്രെയിൽ കീബോർഡ് എക്കോ</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">കൈയക്ഷര കീബോർഡ് എക്കോ</string>
-    <string name="title_keyboard_echo_braille_display">ബ്രെയിൽ ഡിസ്പ്ലേ പ്രതിധ്വനി</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">ടൈപ്പ് ചെയ്യുമ്പോൾ സംഭാഷണം തടസ്സപ്പെടുത്തുക</string>
     <string name="pref_interrupt_typing_entry_always">എപ്പോഴും</string>

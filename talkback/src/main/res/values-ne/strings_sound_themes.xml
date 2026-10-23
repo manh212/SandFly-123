@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">आवाज छैन। फोकस ध्वनि बज्छ।</string>
     <string name="theme_sound_summary_android_keyboard">Android को किबोर्ड ध्वनि</string>
     <string name="theme_sound_use_android_keyboard">Android को किबोर्ड ध्वनि प्रयोग गर्नुहोस्</string>
-    <string name="theme_sound_braille_character">ब्रेल किबोर्ड: क्यारेक्टर टाइप गर्दै</string>
-    <string name="theme_sound_braille_space">ब्रेल किबोर्ड: स्पेस</string>
-    <string name="theme_sound_braille_delete">ब्रेल किबोर्ड: मेटाउनुहोस्</string>
-    <string name="theme_sound_braille_new_line">ब्रेल किबोर्ड: नयाँ लाइन</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ध्वनि फाइल छान्नुहोस्</string>
     <string name="theme_sound_preview">प्रिभ्यू</string>

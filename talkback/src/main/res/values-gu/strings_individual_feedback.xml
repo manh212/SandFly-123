@@ -40,10 +40,4 @@
     <string name="individual_sound_column_wrap_back">કૉલમ પાછા લપેટી</string>
     <string name="individual_sound_screen_on">સ્ક્રીન ચાલુ</string>
     <string name="individual_vibration_edge_gesture_back">એજ હાવભાવ પાછળ સ્લાઇડ</string>
-    <string name="individual_vibration_braille_character">બ્રેઇલ કીબોર્ડ: અક્ષર ટાઇપ કરવો</string>
-    <string name="individual_vibration_braille_space">બ્રેઇલ કીબોર્ડ: સ્પેસ અથવા ડિલીટ</string>
-    <string name="individual_vibration_braille_new_line">બ્રેઇલ કીબોર્ડ: નવી લાઇન અથવા શબ્દ ડિલીટ કરવો</string>
-    <string name="individual_vibration_braille_hold">બ્રેઇલ કીબોર્ડ: આંગળીઓ દબાવી રાખવી</string>
-    <string name="individual_vibration_braille_gesture">બ્રેઇલ કીબોર્ડ: અન્ય સંકેતો</string>
-    <string name="individual_vibration_braille_nothing_to_delete">બ્રેઇલ કીબોર્ડ: ડિલીટ કરવા માટે કંઈ નથી</string>
 </resources>

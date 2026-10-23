@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">គ្មានសំឡេង។ សំឡេងផ្តោតអារម្មណ៍លេង។</string>
     <string name="theme_sound_summary_android_keyboard">សំឡេងក្តារចុចរបស់ Android</string>
     <string name="theme_sound_use_android_keyboard">ប្រើសំឡេងក្តារចុចរបស់ Android</string>
-    <string name="theme_sound_braille_character">ក្ដារចុចអក្សរស្ទាប៖ វាយតួអក្សរ</string>
-    <string name="theme_sound_braille_space">ក្ដារចុចអក្សរស្ទាប៖ ចន្លោះ</string>
-    <string name="theme_sound_braille_delete">ក្ដារចុចអក្សរស្ទាប៖ លុប</string>
-    <string name="theme_sound_braille_new_line">ក្ដារចុចអក្សរស្ទាប៖ បន្ទាត់ថ្មី។</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ជ្រើសរើសឯកសារសំឡេង</string>
     <string name="theme_sound_preview">មើលសាក</string>

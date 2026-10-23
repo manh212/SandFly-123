@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Намали го доцнењето</string>
   <string name="talkback_latency_reduction_summary">Направете SandFly да реагира побрзо откако ќе го допрете екранот</string>
   <string name="summary_pref_intonation">Ги изговара избришаните букви со повисок тон</string>
-  <string name="title_pref_brailledisplay">Уред за приказ на брајово писмо</string>
-  <string name="title_pref_brailleime">Тастатура со брајово писмо</string>
-  <string name="summary_pref_brailleime_disabled">Уредот не поддржува тастатура со брајово писмо</string>
   <string name="title_pref_speech_footer">За да ја промените јачината на звукот за пристапност од кој било екран, држете 1 прст на екранот и притиснете го копчето за зголемување или намалување на јачината на звукот.</string>
   <string name="title_pref_vibration">Повратни информации со вибрирање</string>
   <string name="title_pref_soundback">Звучни повратни информации</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Овозможи преклопување на евиденцијата за отстранување грешки</string>
   <string name="title_pref_typing_confirmation">Начин на пишување</string>
   <string name="title_pref_typing_long_tap_duration">Допрете и задржете кога пишувате</string>
-  <string name="title_pref_touch_explore_timeout">Доцнење на фокусот при пишување</string>
   <string name="message_pref_touch_explore_latency">Пократко одложување прави SandFly да зборува побрзо откако ќе ја допрете тастатурата.\n\nИзберете доцнење</string>
-  <string name="title_pref_touch_focus_timeout">Доцнење на фокусот</string>
-  <string name="title_pref_talkback_gesture_detection">Управувајте со движењата во SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Исклучете го, па вклучете го SandFly повторно за да ја активирате поставката.</string>
   <string name="title_pref_auto_image_captioning">Автоматски описи</string>
   <string name="title_pref_gemini_settings">Поставки за Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini гласовни команди</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Зголеми ја јачината на звукот</string>
   <string name="shortcut_decrease_volume">Намали ја јачината на звукот</string>
   <string name="shortcut_all_apps">Сите апликации</string>
-  <string name="shortcut_braille_keyboard">Префрли на тастатура со брајово писмо</string>
-  <string name="shortcut_braille_display_settings">Навигација до поставките за приказ на брајово писмо</string>
   <string name="shortcut_tutorial">Го отвора упатството</string>
   <string name="shortcut_control_speak_time">Изговарај го точното време или не изговарај го точното време</string>
   <string name="shortcut_enable_speak_time">Изговарај го точното време</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">„Не изговарај го точното време“ е исклучено</string>
   <string name="shortcut_practice_gestures">Вежбајте ги движењата</string>
   <string name="shortcut_report_gesture">Пријавете проблем со движењето</string>
-  <string name="shortcut_toggle_braille_display">Вклучете или исклучете го уредот за приказ на брајово писмо</string>
   <string name="shortcut_announce_current_time_and_date">Изговори ги тековниот датум и време</string>
   <string name="shortcut_announce_battery_state">Изговори го процентот на батеријата</string>
   <string name="shortcut_announce_current_title">Изговарање на насловот на прозорецот</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Намалување на брзината на говорот</string>
   <string name="shortcut_toggle_selection">Стартувај или заврши го режимот на избор</string>
   <string name="shortcut_show_tutorial">Отвори го упатството</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Префрлај меѓу скратено (2. ниво) и нескратено (1. ниво)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Прикажи или скриј брајово писмо на екран за поврзаните уреди за приказ на брајово писмо</string>
   <string name="shortcut_toggle_sound_feedback">Вклуч./исклуч. звучни повратни информации (звучни сигнали)</string>
   <string name="shortcut_show_learn_mode_page">Вежбајте кратенки од тастатурата</string>
   <string name="shortcut_announce_phonetic_pronunciation">Изговарај букви со фонетски изговор за фокусирана ставка</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Гласовни наредби</string>
   <string name="title_show_keyboard_shortcuts">Кратенки од тастатурата</string>
   <string name="talkback_show_talkback_settings">Поставки за SandFly</string>
-  <string name="title_show_braille_display_settings">Поставки за уредот за приказ на брајово писмо</string>
   <string name="title_granularity_default">Стандардна навигација</string>
   <string name="title_action_dismiss">Отфрли</string>
   <string name="title_action_expand">Прошири</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Променете дали да се изговара точното време кога ќе го вклучите екранот</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Отворете го списокот со кратенки од тастатурата</string>
   <string name="summary_talkback_preferences">Отворете ги поставките за SandFly</string>
-  <string name="summary_braile_display_preferences">Отворете ги поставките за уред за приказ на брајово писмо</string>
   <string name="summary_system_actions">Одете во сите апликации и „Брзи поставки“</string>
   <string name="summary_tts_settings">Отворете ги поставките за „Од текст во говор“</string>
   <string name="not_editable">Не може да се изменува</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Ја намалува јачината на другите звуци што се пуштени кога зборува SandFly</string>
   <string name="summary_support_scroll_seq">Лизгајте нанапред или наназад</string>
   <string name="summary_support_change_a11y_volume">Зголемете ја или намалете ја јачината на звук на пристапноста</string>
-  <string name="summary_support_change_touch_explore_latency">Зголемување или намалување на доцнењето на фокусот при пишување</string>
-  <string name="summary_support_change_touch_focus_latency">Зголемете или намалете го доцнењето на фокусот</string>
   <string name="summary_screen_overview">Резимирај го екранот со копчињата за дејство</string>
   <string name="summary_screen_overview_no_actions">Слушнете резиме на содржините на екранот</string>
   <string name="summary_image_caption">Изговарај текст и икони во рамките на избрана слика</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Двојно штипнување</string>
   <string name="gesture_name_double_tap_and_hold">Допрете двапати и задржете</string>
   <string name="gesture_name_double_tap_and_hold_xr">Штипнување и задржување</string>
-  <string name="gesture_name_2finger_tap_hold">Допрете и задржете со 2 прста</string>
   <string name="gesture_name_3finger_tap_hold">Допрете и задржете со 3 прста</string>
   <string name="gesture_name_2finger_3tap_hold">Троен допир и задржување со 2 прста</string>
   <string name="gesture_name_3finger_3tap_hold">Допрете трипати и задржете со 3 прста</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Намалување звук на апликации</string>
   <string name="title_pref_support_scroll_seq">Лизгање</string>
   <string name="title_pref_a11y_volume">Јачина на звукот за пристапност</string>
-  <string name="title_pref_touch_explore_latency">Доцнење на фокусот при пишување</string>
-  <string name="title_pref_touch_focus_latency">Доцнење на фокусот</string>
   <string name="message_pref_touch_focus_latency">Пократко одложување прави SandFly да зборува побрзо откако ќе го допрете екранот</string>
   <string name="message_pref_typing_method_prefix">За најмало доцнење при пишување, изберете „Задржете го прстот за да изберете копче, а потоа подигнете го“</string>
-  <string name="message_pref_typing_method_postfix">Може и да користите поделен допир за пишување во секое време. За да го направите ова, задржете еден прст за да изберете копче и користете друг прст за да допрете на екранот.</string>
   <string name="title_pref_talkback_speech_rate">Брзина на говорот</string>
   <string name="title_pref_selector_adjustable_widget_slider">Приспособете го лизгачот</string>
   <string name="title_pref_selector_typo_granularity">Лектура</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">клучниот збор е %1$s</string>
   <string name="screen_search_no_keyword_hint">Сè уште нема клучен збор. За да започнете ново пребарување, допрете и задржете со 3 прста или отворете „Пребарување на екранот“ од менито на SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Сè уште нема клучен збор. За да започнете ново пребарување, повлечете налево, па надолу или отворете „Пребарување на екранот“ од менито на SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Тастатурата со брајово писмо не е вклучена. Одете во „Поставки за SandFly“, поставете тастатура со брајово и пробајте повторно.</string>
   <string name="suggestions_window_available">Достапни се предлози</string>
   <string name="suggestions_window_available_with_gesture">Достапни се предлози. За да пристапите, %1$s</string>
   <string name="heads_up_window_available">Достапно е известување</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly сега има „Подобрена мапа на копчиња“ за физички тастатури, со различни нови команди и кратенки. Ова подобрување вклучува „режим на прелистување“ за поефикасна веб-навигација, рационализирана навигација и интеракција за SandFly корисници кои се потпираат на физички тастатури. Може да се префрлите на „Подобрена мапа на копчињата“ во <xliff:g id="settings_path">%1$s</xliff:g>.\n\nДоколку користите Брајово писмо, можете да користите и нови кратенки за режимот на прелистување за да поминувате низ содржината директно од вашиот Брајов екран. Некои кратенки на екранот на Брајово писмо беа променети за да се приспособат на оваа промена. Можете да видите список со сите кратенки за приказ на Брајово писмо во <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Поставки за SandFly &gt; Кратенки од тастатура</string>
   <string name="keyboard_shortcuts_link_tts">„Поставки за SandFly“, па „Кратенки од тастатура“</string>
-  <string name="braille_display_settings_link">Поставки за уредот за приказ на брајово писмо</string>
   <string name="keyboard_smart_browse_mode_title">Тастатура: „Паметен режим на прелистување“</string>
   <string name="keyboard_smart_browse_mode_text">„Паметниот режим на прелистување“ на SandFly го исклучува „Режимот на прелистување“ на полето за изменување за да ви помогне да пишувате со физичка тастатура кога прелистувате на интернет. Потоа повторно го вклучува кога ќе скокнете на поле што не е за изменување на интернет за да може да продолжите да прелистувате ефикасно. Може да го вклучите или исклучите „Паметниот режим на прелистување“ во <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Поставки за SandFly &gt; Напредни поставки</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Пишување текст</string>
   <string name="basic_typing_text_text">Кога сте во поле за текст, на дното од екранот ќе се отвори тастатура.</string>
   <string name="typing_text_text">Повлечете со прстот преку тастатурата. Кога ќе ја слушнете буквата што сакате да ја напишете, подигнете го прстот.\n\nПробајте да го активирате полето за текст подолу и напишете го вашето име.</string>
-  <string name="typing_text_with_braille_keyboard_text">Може да пишувате и со тастатурата со брајово писмо. Најдете ја во поставките за SandFly.</string>
   <string name="other_ways_to_type_title">Други начини за пишување</string>
   <string name="other_ways_to_type_text">Има и други начини за пишување во SandFly. На пример, може да користите двоен допир за да внесете буква.</string>
   <string name="basic_other_ways_to_type_text">Постојат и други начини за пишување SandFly. На пример, можете да користите двоен допир за да внесете буква. Ова може да го промените подоцна во поставки SandFly &gt; Тастатура на екранот &gt; Метод на пишување.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">За да вежбате движења, прво вклучете SandFly</string>
   <string name="talkback_inactive_message_image_description">За да се обидете да добиете описи на сликите, прво вклучете ја SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Затвори го упатството</string>
-  <string name="wear_training_welcome_paragraph">Кога функцијата SandFly е вклучена, нагласената ставка на екранот се изговара наглас.\n\nПовлекувањето надесно ќе ве одведе на следната ставка. Повлекувањето налево ќе ве одведе на претходната.\n\nСега повлечете надесно додека не го најдете копчето „Следно“.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Повлечете нагоре или надолу со %1$d прста.</string>
-  <string name="wear_training_go_back_title">Назад</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Ако сакате да се вратите, користете %1$d прста за да повлечете надесно од работ на екранот.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Успешно</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Извршено е движење за назад</string>
-  <string name="wear_training_volume_up_title">Зголемете ја јачината на звукот</string>
-  <string name="wear_training_volume_up_text">Повлечете надесно, па нагоре</string>
-  <string name="wear_training_volume_down_title">Намалете ја јачината на звукот</string>
-  <string name="wear_training_volume_down_text">Повлечете надесно, па надолу</string>
-  <string name="wear_training_open_talkback_menu_title">Отворете го менито на SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">За да ги отворите поставките и контролите што ви се често потребни, повлечете надолу, а потоа надесно</string>
-  <string name="wear_training_typing_title">Пишување</string>
-  <string name="wear_training_typing_text1">За да пишувате со тастатурата, движете го прстот преку тастатурата. Кога ќе ја слушнете буквата што сакате да ја напишете, подигнете го прстот.</string>
-  <string name="wear_training_typing_text2">За да ја скриете тастатурата и да го проверите она што сте го внесле, повлечете надолу од горниот дел на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text3">За да се вратите на тастатурата, повлечете нагоре од долниот дел на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text4">За да ја затворите тастатурата и да го откажете пишувањето, повлечете надесно од левиот раб на екранот со 2 прста.</string>
-  <string name="wear_training_typing_text5">Испробајте подолу.</string>
-  <string name="wear_training_typing_practice_button_content_description">Пишување со тастатура</string>
-  <string name="wear_training_end_tutorial_title">Подготвени сте да почнете да користите SandFly</string>
   <string name="wear_new_feature_page_title">Добре дојдовте во ажурираната SandFly</string>
   <string name="wear_new_feature_page_content">Ќе забележите некои поправени грешки и промени во начинот на движење на фокусот</string>
   <string name="wear_new_feature_page_button_content_description">Заврши</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Режим на ѕвонење</string>
     <string name="summary_pref_announce_ringer_mode">Кажете кога ѕвонењето е поставено на вибрира или тивко</string>
     <string name="title_pref_category_feedback">Повратни информации</string>
-    <string name="title_pref_category_typing_and_braille">Пишување и брајово писмо</string>
     <string name="title_pref_category_apps">Апликации</string>
     <string name="title_pref_touch_activation">Допрете и активирајте</string>
     <string name="title_pref_navigation">Навигација</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Не дозволувај</string>
     <string name="permission_speak_label">зборувај преку SandFly</string>
     <string name="permission_speak_description">Дозволува апликацијата да побара да каже текст со вашиот глас SandFly. SandFly ве прашува пред апликацијата да може да зборува.</string>
-    <string name="permission_braille_display_label">побарајте да биде брајовиот екран за SandFly</string>
-    <string name="permission_braille_display_description">Дозволува апликацијата да побара да биде приказ на брајово писмо за SandFly. Ако дозволите во SandFly, може да чита сè на екранот и да го контролира вашиот уред. SandFly прво ве прашува.</string>
     <string name="title_pref_phonetic_letters_mode">Зборувајте букви фонетски</string>
     <string name="phonetic_letters_mode_off">Исклучено</string>
     <string name="phonetic_letters_mode_after_letter_delay">По писмото, одложено, како „ч, хотел“</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Отворете ја апликацијата</string>
     <string name="shortcut_open_app">Отвори <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Скролувајте до врвот</string>
-    <string name="shortcut_write_reading_control">Напишете ја буквата од контролата за читање</string>
-    <string name="title_pref_reading_control_letters">Рачно напишани букви од азбуката</string>
-    <string name="reading_control_letter_none">Нема</string>
-    <string name="handwriting_prompt">Напишете буква од азбуката</string>
-    <string name="handwriting_closed">Ракописот е затворен</string>
-    <string name="handwriting_no_match">Нема контрола за читање започнува со <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Ракописот не е препознаен</string>
-    <string name="handwriting_downloading">Препознавањето на ракопис се презема</string>
-    <string name="handwriting_download_title">Да се преземе препознавање ракопис?</string>
-    <string name="handwriting_download_message">Ракописот се препознава на овој телефон. Неговиот модел за овој јазик, околу 20 MB, се презема од Google еднаш. Порака се прикажува кога е преземена.</string>
-    <string name="handwriting_download_button">Преземи</string>
-    <string name="handwriting_downloaded">Препознавањето на ракопис е преземено</string>
-    <string name="handwriting_download_failed">Препознавањето на ракопис не може да се преземе. Проверете ја интернет-врската.</string>
-    <string name="handwriting_unsupported_language">Препознавањето на ракопис не е достапно на овој јазик</string>
-    <string name="title_pref_handwriting_keyboard">Ракописна тастатура</string>
-    <string name="summary_pref_handwriting_keyboard">Вклучете SandFly ракопис во поставките на тастатурата на Android</string>
-    <string name="title_pref_handwriting_wait">Почекајте откако ќе напишете</string>
-    <string name="value_handwriting_wait_200">0,2 секунди</string>
-    <string name="value_handwriting_wait_300">0,3 секунди</string>
-    <string name="value_handwriting_wait_400">0,4 секунди</string>
-    <string name="value_handwriting_wait_500">0,5 секунди</string>
-    <string name="value_handwriting_wait_600">0,6 секунди</string>
-    <string name="value_handwriting_wait_800">0,8 секунди</string>
-    <string name="value_handwriting_wait_1000">1 секунда</string>
-    <string name="handwriting_keyboard_name">SandFly ракопис</string>
-    <string name="handwriting_space">Празно место</string>
-    <string name="handwriting_new_line">Нов ред</string>
-    <string name="handwriting_tutorial_intro">Упатство за тастатура за ракопис. Пишувајте со еден прст каде било на екранот. Тоа што го пишуваш се пишува кога ќе застанеш за момент. За да го завршите упатството, повлечете надолу со три прста.</string>
-    <string name="handwriting_tutorial_write_letter">Напишете ја азбучната буква a.</string>
-    <string name="handwriting_tutorial_write_word">Сега напишете го зборот hi (h проследено со i).</string>
-    <string name="handwriting_tutorial_typed">Внесено <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Повлечете надесно со два прста за да напишете празно место.</string>
-    <string name="handwriting_tutorial_delete">Повлечете налево со два прста за да го избришете знакот пред курсорот.</string>
-    <string name="handwriting_tutorial_deleted">Избришано.</string>
-    <string name="handwriting_tutorial_next_reading">Ако ракописот се препознае како друг знак, како што е голема буква, повлечете нагоре со два прста за да го изберете следниот предлог за препознавање. Пробајте го сега.</string>
-    <string name="handwriting_tutorial_read_back">Допрете со два прста за да го прочитате текстот пред курсорот.</string>
-    <string name="handwriting_tutorial_new_line">Повлечете надолу со два прста за да вметнете нова линија или да го извршите дејството на полето за текст, како што е Испрати.</string>
-    <string name="handwriting_tutorial_not_that">Тоа беше уште еден гест.</string>
-    <string name="handwriting_tutorial_done">Нова линија. Упатството заврши. Повлечете надолу со три прста за да ја скриете тастатурата и надесно или налево со три прста за менување на тастатурата. За повторно да го отворите упатството, допрете со три прста.</string>
-    <string name="handwriting_tutorial_finished">Упатството заврши. За да го отворите повторно, допрете со три прста.</string>
-    <string name="handwriting_no_alternatives">Нема други предлози</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> од <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Празен текст</string>
-    <string name="handwriting_not_available">Препознавањето на ракопис не е достапно на овој уред</string>
     <string name="shortcut_scroll_to_bottom">Скролувајте до дното</string>
     <string name="shortcut_refresh">Освежи</string>
     <string name="shortcut_system_notifications">Сенка за известување за системот</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Исчистете го изборот</string>
     <string name="title_pref_brightness">Осветленост</string>
     <string name="summary_support_change_brightness">Зголемете или намалете ја осветленоста на екранот, дури и кога екранот е скриен</string>
-    <string name="title_pref_shortcut_3finger_4tap">Четирикратно допрете со 3 прста</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Ротирајте во насока на стрелките на часовникот со 2 прста</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Ротирајте спротивно од стрелките на часовникот со 2 прста</string>
-    <string name="title_pref_shortcut_2finger_scrub">Исчистете со 2 прста</string>
-    <string name="title_pref_shortcut_2finger_pinch">Стиснете со 2 прста</string>
-    <string name="title_pref_shortcut_2finger_spread">Се шири со 2 прста</string>
-    <string name="title_pref_shortcut_3finger_pinch">Стиснете со 3 прсти</string>
-    <string name="title_pref_shortcut_3finger_spread">Се шири со 3 прсти</string>
-    <string name="title_pref_shortcut_4finger_pinch">Стиснете со 4 прсти</string>
-    <string name="title_pref_shortcut_4finger_spread">Се шири со 4 прсти</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Повлечете нагоре од долниот раб</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Долго поминете нагоре од долниот раб</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Повлечете надолу од горе лево</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Повлечете надолу од горниот десен агол</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Долго лизгајте надолу од горе лево</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Долго лизгајте надолу од горе десно</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Повлечете надесно од левиот раб, горната половина</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Долго поминете десно од левиот раб, горната половина</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Повлечете надесно од левиот раб, долната половина</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Долго поминете десно од левиот раб, долната половина</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Повлечете налево од десниот раб, горната половина</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Долго поминете налево од десниот раб, горната половина</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Повлечете налево од десниот раб, долната половина</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Долго поминете налево од десниот раб, долната половина</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Држете го прстот за да изберете кое било копче, а потоа подигнете го. Допрете двапати за Enter, Done или Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Допрете кое било копче за да го напишете или држете го прстот за да изберете кое било копче, а потоа подигнете</string>
-    <string name="title_pref_multi_tap_timeout">Време помеѓу допирите со еден прст</string>
     <string name="value_multi_tap_timeout_100ms">0,1 секунди</string>
     <string name="value_multi_tap_timeout_150ms">0,15 секунди</string>
     <string name="value_multi_tap_timeout_200ms">0,2 секунди</string>
     <string name="value_multi_tap_timeout_250ms">0,25 секунди (стандардно)</string>
-    <string name="title_pref_rotor_step_degrees">Вртење на роторот по чекор</string>
-    <string name="title_pref_edge_first_click_mm">Растојание до првиот клик</string>
-    <string name="title_pref_edge_second_click_mm">Растојание од првиот до вториот клик</string>
     <string name="value_distance_5mm">0,5 см</string>
     <string name="value_distance_10mm">1 см</string>
     <string name="value_distance_15mm">1,5 см</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Вклучете или исклучете го завиткувањето од последната ставка до првата</string>
     <string name="wrap_around_on">Завиткајте наоколу на</string>
     <string name="wrap_around_off">Завиткајте го</string>
-    <string name="title_selector_tablet_held_up_faces_away">Таблетот го држеше лицето настрана</string>
-    <string name="summary_support_tablet_held_up_faces_away">За брајова тастатура на таблет или расклопен телефон</string>
-    <string name="tablet_held_up_faces_away_on">Таблетот го држеше лицето настрана</string>
-    <string name="tablet_held_up_faces_away_off">Таблетот се кренати со свртени лица</string>
     <string name="title_keyboard_echo_on_screen">Ехо на тастатурата на екранот</string>
     <string name="title_keyboard_echo_physical">Физичко ехо на тастатурата</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ехо на тастатурата на Брајово писмо</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ехо на тастатурата за ракопис</string>
-    <string name="title_keyboard_echo_braille_display">Ехо на екранот на Брајово писмо</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Прекинете го говорот кога пишувате</string>
     <string name="pref_interrupt_typing_entry_always">Секогаш</string>

@@ -72,10 +72,6 @@
     <string name="theme_sound_summary_none">Nici un sunet. Se aude sunetul de focalizare.</string>
     <string name="theme_sound_summary_android_keyboard">Sunetul tastaturii lui Android</string>
     <string name="theme_sound_use_android_keyboard">Folosiți sunetul tastaturii lui Android</string>
-    <string name="theme_sound_braille_character">Tastatură Braille: introducerea unui caracter</string>
-    <string name="theme_sound_braille_space">Tastatură Braille: spațiu</string>
-    <string name="theme_sound_braille_delete">Tastatură Braille: ștergere</string>
-    <string name="theme_sound_braille_new_line">Tastatură Braille: linie nouă</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Alegeți un fișier de sunet</string>
     <string name="theme_sound_preview">Previzualizează</string>

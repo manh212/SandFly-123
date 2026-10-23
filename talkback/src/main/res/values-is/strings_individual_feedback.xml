@@ -40,10 +40,4 @@
     <string name="individual_sound_column_wrap_back">Fara aftur í fyrri röð</string>
     <string name="individual_sound_screen_on">Kveikt á skjánum</string>
     <string name="individual_vibration_edge_gesture_back">Kantbending renna til baka</string>
-    <string name="individual_vibration_braille_character">Blindraleturslyklaborð: stafur sleginn inn</string>
-    <string name="individual_vibration_braille_space">Blindraleturslyklaborð: bil eða eyða</string>
-    <string name="individual_vibration_braille_new_line">Blindraleturslyklaborð: ný lína eða orði eytt</string>
-    <string name="individual_vibration_braille_hold">Blindraleturslyklaborð: fingrum haldið inni</string>
-    <string name="individual_vibration_braille_gesture">Blindraleturslyklaborð: aðrar bendingar</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Blindraleturslyklaborð: ekkert til að eyða</string>
 </resources>

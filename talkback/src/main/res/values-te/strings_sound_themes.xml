@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">శబ్దం లేదు. ఫోకస్ సౌండ్ ప్లే అవుతుంది.</string>
     <string name="theme_sound_summary_android_keyboard">Android యొక్క కీబోర్డ్ ధ్వని</string>
     <string name="theme_sound_use_android_keyboard">Android యొక్క కీబోర్డ్ ధ్వనిని ఉపయోగించండి</string>
-    <string name="theme_sound_braille_character">బ్రెయిలీ కీబోర్డ్: అక్షరాన్ని టైప్ చేయడం</string>
-    <string name="theme_sound_braille_space">బ్రెయిలీ కీబోర్డ్: స్పేస్</string>
-    <string name="theme_sound_braille_delete">బ్రెయిలీ కీబోర్డ్: తొలగించు</string>
-    <string name="theme_sound_braille_new_line">బ్రెయిలీ కీబోర్డ్: కొత్త లైన్</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">సౌండ్ ఫైల్‌ను ఎంచుకోండి</string>
     <string name="theme_sound_preview">ప్రివ్యూ</string>

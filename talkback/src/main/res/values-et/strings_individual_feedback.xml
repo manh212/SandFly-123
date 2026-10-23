@@ -23,12 +23,6 @@
   <string name="individual_sound_browse_mode_on">Sirvimisrežiim sees</string>
   <string name="individual_sound_browse_mode_off">Sirvimisrežiim väljas</string>
   <string name="individual_sound_radial_menu">Ringmenüü</string>
-  <string name="individual_sound_display_connected">Punktkirjaekraan on ühendatud</string>
-  <string name="individual_sound_display_disconnected">Punktkirjaekraani ühendus katkes</string>
-  <string name="individual_sound_double_beep">Punktkirja käsk ebaõnnestus</string>
-  <string name="individual_sound_turn_on">Punktkirja automaatne kerimine sees</string>
-  <string name="individual_sound_turn_off">Punktkirja automaatne kerimine väljas</string>
-  <string name="individual_sound_calibration_done">Punktkirja klaviatuur on kalibreeritud</string>
   <string name="individual_vibration_focus">Fookus üksusel</string>
   <string name="individual_vibration_focus_actionable">Fookus aktiveeritaval üksusel</string>
   <string name="individual_vibration_clicked">Klõps</string>
@@ -37,12 +31,6 @@
   <string name="individual_vibration_typo">Õigekirjaviga</string>
   <string name="individual_vibration_notification">Teadaanne</string>
     <string name="individual_sound_screen_on">Ekraan on sees</string>
-    <string name="individual_vibration_braille_character">Braille klaviatuur: tähemärgi sisestamine</string>
-    <string name="individual_vibration_braille_space">Braille klaviatuur: tühik või kustutamine</string>
-    <string name="individual_vibration_braille_new_line">Braille klaviatuur: uus rida või sõna kustutamine</string>
-    <string name="individual_vibration_braille_hold">Braille klaviatuur: sõrmede all hoidmine</string>
-    <string name="individual_vibration_braille_gesture">Braille klaviatuur: muud liigutused</string>
-    <string name="individual_vibration_braille_nothing_to_delete">Braille klaviatuur: pole midagi kustutada</string>
     <string name="individual_sound_next_reading_control">Järgmine lugemise juhtelement</string>
     <string name="individual_sound_previous_reading_control">Eelmine lugemise juhtelement</string>
     <string name="individual_sound_edge_gesture_bottom">Serva liigutusega alumine</string>

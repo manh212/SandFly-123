@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Asnjë zë. Tingulli i fokusit luhet.</string>
     <string name="theme_sound_summary_android_keyboard">Tingulli i tastierës së Android</string>
     <string name="theme_sound_use_android_keyboard">Përdorni tingullin e tastierës Android</string>
-    <string name="theme_sound_braille_character">Tastiera Braille: shtypja e një karakteri</string>
-    <string name="theme_sound_braille_space">Tastiera Braille: hapësirë</string>
-    <string name="theme_sound_braille_delete">Tastiera Braille: fshi</string>
-    <string name="theme_sound_braille_new_line">Tastiera Braille: linjë e re</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Zgjidhni një skedar zanor</string>
     <string name="theme_sound_preview">Shiko paraprakisht</string>

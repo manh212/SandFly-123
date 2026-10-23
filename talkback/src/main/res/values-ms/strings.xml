@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Kurangkan penangguhan</string>
   <string name="talkback_latency_reduction_summary">Jadikan SandFly bertindak balas dengan lebih pantas selepas anda menyentuh skrin</string>
   <string name="summary_pref_intonation">Sebut huruf yang dipadamkan dengan nada suara yang lebih tinggi</string>
-  <string name="title_pref_brailledisplay">Paparan braille</string>
-  <string name="title_pref_brailleime">Papan kekunci braille</string>
-  <string name="summary_pref_brailleime_disabled">Peranti anda tidak menyokong papan kekunci braille</string>
   <string name="title_pref_speech_footer">Untuk menukar kelantangan kebolehaksesan daripada mana-mana skrin, tahan 1 jari pada skrin dan tekan kekunci kelantangan naik atau turunkan.</string>
   <string name="title_pref_vibration">Maklum balas getaran</string>
   <string name="title_pref_soundback">Maklum balas bunyi</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Dayakan tindanan log nyahpepijat</string>
   <string name="title_pref_typing_confirmation">Kaedah menaip</string>
   <string name="title_pref_typing_long_tap_duration">Kelewatan sentuh dan tahan semasa penaipan</string>
-  <string name="title_pref_touch_explore_timeout">Penangguhan fokus menaip</string>
   <string name="message_pref_touch_explore_latency">Kelewatan yang lebih singkat menjadikan SandFly bercakap lebih cepat selepas anda menyentuh papan kekunci.\n\nPilih kelewatan</string>
-  <string name="title_pref_touch_focus_timeout">Fokus penangguhan</string>
-  <string name="title_pref_talkback_gesture_detection">Kendalikan gerak isyarat dalam SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Matikan SandFly kemudian hidupkan sekali lagi untuk mengaktifkan tetapan.</string>
   <string name="title_pref_auto_image_captioning">Perihalan automatik</string>
   <string name="title_pref_gemini_settings">Tetapan Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini arahan suara</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Tingkatkan kelantangan</string>
   <string name="shortcut_decrease_volume">Kurangkan kelantangan</string>
   <string name="shortcut_all_apps">Semua apl</string>
-  <string name="shortcut_braille_keyboard">Tukar kepada papan kekunci braille</string>
-  <string name="shortcut_braille_display_settings">Navigasi ke tetapan paparan braille</string>
   <string name="shortcut_tutorial">Buka tutorial</string>
   <string name="shortcut_control_speak_time">Maklumkan masa atau jangan maklumkan masa</string>
   <string name="shortcut_enable_speak_time">Maklumkan masa</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Maklumkan masa dimatikan</string>
   <string name="shortcut_practice_gestures">Berlatih gerak isyarat</string>
   <string name="shortcut_report_gesture">Laporkan isu gerak isyarat</string>
-  <string name="shortcut_toggle_braille_display">Hidupkan atau matikan paparan braille</string>
   <string name="shortcut_announce_current_time_and_date">Sebut tarikh dan masa semasa</string>
   <string name="shortcut_announce_battery_state">Peratusan bateri pertuturan</string>
   <string name="shortcut_announce_current_title">Sebut tajuk tetingkap</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Kurangkan kadar pertuturan</string>
   <string name="shortcut_toggle_selection">Mulakan atau tamatkan mod pilihan</string>
   <string name="shortcut_show_tutorial">Open tutorial</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Bertukar antara mod disingkatkan (gred 2) dengan tidak disingkatkan (gred 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Paparkan atau sembunyikan braille pada skrin untuk paparan braille tersambung</string>
   <string name="shortcut_toggle_sound_feedback">Hidupkan atau matikan maklum balas bunyi (earkon)</string>
   <string name="shortcut_show_learn_mode_page">Pintasan papan kekunci latihan</string>
   <string name="shortcut_announce_phonetic_pronunciation">Tuturkan huruf dengan sebutan fonetik untuk item yang difokuskan</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Perintah suara</string>
   <string name="title_show_keyboard_shortcuts">Pintasan papan kekunci</string>
   <string name="talkback_show_talkback_settings">Tetapan SandFly</string>
-  <string name="title_show_braille_display_settings">Tetapan paparan braille</string>
   <string name="title_granularity_default">Navigasi lalai</string>
   <string name="title_action_dismiss">Ketepikan</string>
   <string name="title_action_expand">Kembangkan</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Tukar tetapan sama ada masa dimaklumkan dengan kuat atau tidak apabila anda menghidupkan skrin</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Buka senarai pintasan papan kekunci</string>
   <string name="summary_talkback_preferences">Buka tetapan SandFly</string>
-  <string name="summary_braile_display_preferences">Buka tetapan paparan braille</string>
   <string name="summary_system_actions">Pergi ke semua apl dan Tetapan Pantas</string>
   <string name="summary_tts_settings">Buka tetapan teks kepada pertuturan</string>
   <string name="not_editable">Tidak boleh diedit</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Kurangkan kelantangan audio lain yang dimainkan semasa SandFly bertutur</string>
   <string name="summary_support_scroll_seq">Tatal ke depan atau ke belakang</string>
   <string name="summary_support_change_a11y_volume">Tambahkan atau kurangkan kelantangan kebolehaksesan</string>
-  <string name="summary_support_change_touch_explore_latency">Tambahkan atau kurangkan penangguhan fokus menaip</string>
-  <string name="summary_support_change_touch_focus_latency">Tambah atau kurangkan penangguhan fokus</string>
   <string name="summary_screen_overview">Ringkaskan skrin dengan butang tindakan</string>
   <string name="summary_screen_overview_no_actions">Dengar ringkasan kandungan pada skrin</string>
   <string name="summary_image_caption">Sebut teks dan ikon dalam imej yang dipilih</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Cubit dua kali</string>
   <string name="gesture_name_double_tap_and_hold">Ketik dua kali dan tahan</string>
   <string name="gesture_name_double_tap_and_hold_xr">Cubit dan tahan</string>
-  <string name="gesture_name_2finger_tap_hold">Ketik dan tahan dengan 2 jari</string>
   <string name="gesture_name_3finger_tap_hold">Ketik dan tahan dengan 3 jari</string>
   <string name="gesture_name_2finger_3tap_hold">Ketik tiga kali dan tahan dengan 2 jari</string>
   <string name="gesture_name_3finger_3tap_hold">Ketik tiga kali dan tahan dengan 3 jari</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Merendahkan audio</string>
   <string name="title_pref_support_scroll_seq">Tatal</string>
   <string name="title_pref_a11y_volume">Kelantangan kebolehaksesan</string>
-  <string name="title_pref_touch_explore_latency">Penangguhan fokus menaip</string>
-  <string name="title_pref_touch_focus_latency">Penangguhan fokus</string>
   <string name="message_pref_touch_focus_latency">Kelewatan yang lebih singkat menjadikan SandFly bercakap lebih awal selepas anda menyentuh skrin</string>
   <string name="message_pref_typing_method_prefix">Untuk penangguhan paling rendah semasa menaip, pilih \"Tahan jari untuk memilih mana-mana kekunci, kemudian angkat jari\"</string>
-  <string name="message_pref_typing_method_postfix">Anda juga boleh menggunakan ketikan pisah untuk menaip pada bila-bila masa. Untuk berbuat demikian, tahan satu jari untuk memilih mana-mana kekunci dan gunakan jari lain untuk mengetik skrin.</string>
   <string name="title_pref_talkback_speech_rate">Kadar pertuturan</string>
   <string name="title_pref_selector_adjustable_widget_slider">Laraskan peluncur</string>
   <string name="title_pref_selector_typo_granularity">Baca pruf</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">kata kunci ialah %1$s</string>
   <string name="screen_search_no_keyword_hint">Tiada kata kunci lagi. Untuk memulakan carian baharu, ketik dan tahan dengan 3 jari atau buka carian skrin daripada menu SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Tiada kata kunci lagi. Untuk memulakan carian baharu, leret ke kiri kemudian ke bawah atau buka carian skrin daripada menu SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Papan kekunci Braille tidak dihidupkan. Pergi ke tetapan SandFly, sediakan papan kekunci Braille dan cuba lagi.</string>
   <string name="suggestions_window_available">Cadangan tersedia</string>
   <string name="suggestions_window_available_with_gesture">Cadangan tersedia. Untuk mengakses, %1$s</string>
   <string name="heads_up_window_available">Pemberitahuan tersedia</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly kini mempunyai \"Peta kekunci Dipertingkat\" untuk papan kekunci fizikal, menampilkan pelbagai arahan dan pintasan baharu. Peningkatan ini termasuk \"mod semak imbas\" untuk navigasi web yang lebih cekap, menyelaraskan navigasi dan interaksi untuk SandFly pengguna yang bergantung pada papan kekunci fizikal. Anda boleh bertukar kepada \"Peta kekunci Dipertingkat\" dalam <xliff:g id="settings_path">%1$s</xliff:g>.\n\nJika anda menggunakan paparan Braille, anda juga boleh menggunakan pintasan mod semak imbas baharu untuk melintasi kandungan terus daripada paparan Braille anda. Beberapa pintasan paparan Braille telah ditukar untuk menampung perubahan ini. Anda boleh melihat senarai semua pintasan paparan Braille dalam <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">Tetapan SandFly &gt; Pintasan papan kekunci</string>
   <string name="keyboard_shortcuts_link_tts">Tetapan SandFly, kemudian Pintasan papan kekunci</string>
-  <string name="braille_display_settings_link">Tetapan paparan braille</string>
   <string name="keyboard_smart_browse_mode_title">Papan kekunci: Mod semak imbas pintar</string>
   <string name="keyboard_smart_browse_mode_text">Mod semak imbas pintar SandFly mematikan mod semak imbas pada medan edit untuk membantu anda menaip dengan papan kekunci fizikal apabila anda menyemak imbas web. Kemudian, ciri ini akan dihidupkan semula apabila anda melangkau kepada medan bukan edit pada web supaya anda boleh meneruskan penyemakan imbas dengan cekap. Anda boleh menghidupkan atau mematikan \"Mod semak imbas pintar\" dalam <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Tetapan SandFly &gt; Tetapan lanjutan</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Menaip teks</string>
   <string name="basic_typing_text_text">Semasa anda menggunakan kotak teks, papan kekunci akan dibuka pada bahagian bawah skrin anda.</string>
   <string name="typing_text_text">Gerakkan jari anda merentasi papan kekunci. Apabila anda mendengar huruf yang ingin anda taip, angkat jari anda.\n\nCuba aktifkan kotak teks di bawah dan taipkan nama anda.</string>
-  <string name="typing_text_with_braille_keyboard_text">Anda juga boleh menaip dengan papan kekunci braille. Cari papan kekunci braille dalam tetapan SandFly.</string>
   <string name="other_ways_to_type_title">Cara lain untuk menaip</string>
   <string name="other_ways_to_type_text">Terdapat cara lain untuk menaip dalam SandFly. Sebagai contoh, anda boleh menggunakan dwiketik untuk memasukkan huruf.</string>
   <string name="basic_other_ways_to_type_text">Terdapat cara lain untuk menaip SandFly. Sebagai contoh, anda boleh menggunakan ketik dua kali untuk memasukkan huruf. Anda boleh menukar ini kemudian dalam tetapan SandFly &gt; Papan kekunci pada skrin &gt; Kaedah menaip.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Untuk berlatih gerak isyarat, hidupkan SandFly dahulu</string>
   <string name="talkback_inactive_message_image_description">Untuk mendapatkan perihalan imej, hidupkan SandFly dahulu</string>
   <string name="talkback_inactive_close_tutorial_button">Tutup tutorial</string>
-  <string name="wear_training_welcome_paragraph">Apabila SandFly dihidupkan, item yang difokuskan pada skrin akan disebut dengan kuat.\n\nLeret ke kanan untuk beralih kepada item seterusnya. Leret ke kiri untuk beralih kepada item sebelumnya.\n\nLeret ke kanan sekarang sehingga anda menemukan butang seterusnya.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Leret ke atas atau ke bawah dengan %1$d jari.</string>
-  <string name="wear_training_go_back_title">Kembali</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Apabila anda mahu kembali, gunakan %1$d jari untuk meleret ke kanan dari bahagian tepi skrin.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Berjaya</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Gerak isyarat kembali dilakukan</string>
-  <string name="wear_training_volume_up_title">Tinggikan kelantangan</string>
-  <string name="wear_training_volume_up_text">Leret ke kanan, kemudian ke atas</string>
-  <string name="wear_training_volume_down_title">Rendahkan kelantangan</string>
-  <string name="wear_training_volume_down_text">Leret ke kanan, kemudian ke bawah</string>
-  <string name="wear_training_open_talkback_menu_title">Buka menu SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Untuk membuka tetapan dan kawalan yang mungkin anda perlukan dengan kerap, leret ke bawah dan kemudian ke kanan</string>
-  <string name="wear_training_typing_title">Menaip</string>
-  <string name="wear_training_typing_text1">Untuk menaip dengan papan kekunci, gerakkan jari anda merentas papan kekunci. Apabila anda mendengar huruf yang mahu anda taip, angkat jari anda.</string>
-  <string name="wear_training_typing_text2">Untuk menyembunyikan papan kekunci dan menyemak input anda, leret skrin dari atas ke bawah dengan 2 jari.</string>
-  <string name="wear_training_typing_text3">Untuk kembali kepada papan kekunci, leret skrin dari bawah ke atas dengan 2 jari.</string>
-  <string name="wear_training_typing_text4">Untuk menutup papan kekunci dan membatalkan penaipan, leret skrin dari sisi kiri ke kanan dengan 2 jari.</string>
-  <string name="wear_training_typing_text5">Cuba di bawah.</string>
-  <string name="wear_training_typing_practice_button_content_description">Menaip menggunakan papan kekunci</string>
-  <string name="wear_training_end_tutorial_title">Anda sudah bersedia untuk mula menggunakan SandFly</string>
   <string name="wear_new_feature_page_title">Selamat datang ke SandFly yang telah dikemaskinikan</string>
   <string name="wear_new_feature_page_content">Anda akan menemukan beberapa pembetulan pepijat dan perubahan terhadap cara fokus beralih</string>
   <string name="wear_new_feature_page_button_content_description">Selesai</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Mod dering</string>
     <string name="summary_pref_announce_ringer_mode">Sebut apabila dering ditetapkan kepada bergetar atau senyap</string>
     <string name="title_pref_category_feedback">Maklum balas</string>
-    <string name="title_pref_category_typing_and_braille">Menaip dan braille</string>
     <string name="title_pref_category_apps">Apl</string>
     <string name="title_pref_touch_activation">Sentuh dan pengaktifan</string>
     <string name="title_pref_navigation">Navigasi</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Jangan benarkan</string>
     <string name="permission_speak_label">bercakap melalui SandFly</string>
     <string name="permission_speak_description">Membenarkan apl meminta untuk menyebut teks dalam suara SandFly anda. SandFly bertanya kepada anda sebelum apl boleh bercakap.</string>
-    <string name="permission_braille_display_label">minta untuk menjadi paparan braille untuk SandFly</string>
-    <string name="permission_braille_display_description">Membenarkan apl meminta untuk menjadi paparan braille untuk SandFly. Jika anda membenarkannya dalam SandFly, ia boleh membaca semua pada skrin dan mengawal peranti anda. SandFly bertanya kepada anda dahulu.</string>
     <string name="title_pref_phonetic_letters_mode">Sebut huruf secara fonetik</string>
     <string name="phonetic_letters_mode_off">Mati</string>
     <string name="phonetic_letters_mode_after_letter_delay">Selepas surat itu, ditangguhkan, seperti \"h, hotel\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Buka apl</string>
     <string name="shortcut_open_app">Buka <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Tatal ke atas</string>
-    <string name="shortcut_write_reading_control">Tulis huruf kawalan bacaan</string>
-    <string name="title_pref_reading_control_letters">Huruf abjad tulisan tangan</string>
-    <string name="reading_control_letter_none">Tiada</string>
-    <string name="handwriting_prompt">Tulis huruf abjad</string>
-    <string name="handwriting_closed">Tulisan tangan ditutup</string>
-    <string name="handwriting_no_match">Tiada kawalan bacaan bermula dengan <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Tulisan tangan tidak dikenali</string>
-    <string name="handwriting_downloading">Pengecaman tulisan tangan sedang dimuat turun</string>
-    <string name="handwriting_download_title">Muat turun pengecaman tulisan tangan?</string>
-    <string name="handwriting_download_message">Tulisan tangan dikenali pada telefon ini. Modelnya untuk bahasa ini, kira-kira 20 MB, dimuat turun daripada Google sekali. Mesej menunjukkan apabila ia telah dimuat turun.</string>
-    <string name="handwriting_download_button">Muat turun</string>
-    <string name="handwriting_downloaded">Pengecaman tulisan tangan dimuat turun</string>
-    <string name="handwriting_download_failed">Pengecaman tulisan tangan tidak dapat dimuat turun. Semak sambungan internet.</string>
-    <string name="handwriting_unsupported_language">Pengecaman tulisan tangan tidak tersedia dalam bahasa ini</string>
-    <string name="title_pref_handwriting_keyboard">Papan kekunci tulisan tangan</string>
-    <string name="summary_pref_handwriting_keyboard">Hidupkan SandFly tulisan tangan dalam tetapan papan kekunci Android</string>
-    <string name="title_pref_handwriting_wait">Tunggu selepas menulis</string>
-    <string name="value_handwriting_wait_200">0.2 saat</string>
-    <string name="value_handwriting_wait_300">0.3 saat</string>
-    <string name="value_handwriting_wait_400">0.4 saat</string>
-    <string name="value_handwriting_wait_500">0.5 saat</string>
-    <string name="value_handwriting_wait_600">0.6 saat</string>
-    <string name="value_handwriting_wait_800">0.8 saat</string>
-    <string name="value_handwriting_wait_1000">1 saat</string>
-    <string name="handwriting_keyboard_name">SandFly tulisan tangan</string>
-    <string name="handwriting_space">Ruang</string>
-    <string name="handwriting_new_line">Baris baharu</string>
-    <string name="handwriting_tutorial_intro">Tutorial papan kekunci tulisan tangan. Tulis dengan satu jari di mana-mana pada skrin. Apa yang anda tulis ditaip apabila anda berhenti seketika. Untuk menamatkan tutorial, leret ke bawah dengan tiga jari.</string>
-    <string name="handwriting_tutorial_write_letter">Tulis huruf abjad a.</string>
-    <string name="handwriting_tutorial_write_word">Sekarang tulis perkataan hi (h diikuti dengan i).</string>
-    <string name="handwriting_tutorial_typed">Ditaip <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Leret ke kanan dengan dua jari untuk menaip ruang.</string>
-    <string name="handwriting_tutorial_delete">Leret ke kiri dengan dua jari untuk memadam aksara sebelum kursor.</string>
-    <string name="handwriting_tutorial_deleted">Dipadamkan.</string>
-    <string name="handwriting_tutorial_next_reading">Jika tulisan tangan dikenali sebagai aksara lain, seperti huruf besar, leret ke atas dengan dua jari untuk memilih cadangan pengecaman seterusnya. Cuba sekarang.</string>
-    <string name="handwriting_tutorial_read_back">Ketik dengan dua jari untuk membaca teks sebelum kursor.</string>
-    <string name="handwriting_tutorial_new_line">Leret ke bawah dengan dua jari untuk memasukkan baris baharu atau lakukan tindakan medan teks, seperti Hantar.</string>
-    <string name="handwriting_tutorial_not_that">Itu adalah satu lagi isyarat.</string>
-    <string name="handwriting_tutorial_done">Barisan baharu. Tutorial selesai. Leret ke bawah dengan tiga jari untuk menyembunyikan papan kekunci dan kanan atau kiri dengan tiga jari untuk menukar papan kekunci. Untuk membuka tutorial sekali lagi, ketik dengan tiga jari.</string>
-    <string name="handwriting_tutorial_finished">Tutorial tamat. Untuk membukanya semula, ketik dengan tiga jari.</string>
-    <string name="handwriting_no_alternatives">Tiada cadangan lain</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> daripada <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Teks kosong</string>
-    <string name="handwriting_not_available">Pengecaman tulisan tangan tidak tersedia pada peranti ini</string>
     <string name="shortcut_scroll_to_bottom">Tatal ke bawah</string>
     <string name="shortcut_refresh">Segarkan semula</string>
     <string name="shortcut_system_notifications">Lorek pemberitahuan sistem</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Kosongkan pilihan</string>
     <string name="title_pref_brightness">Kecerahan</string>
     <string name="summary_support_change_brightness">Meningkatkan atau mengurangkan kecerahan skrin, walaupun semasa skrin tersembunyi</string>
-    <string name="title_pref_shortcut_3finger_4tap">Ketik empat kali dengan 3 jari</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Putar mengikut arah jam dengan 2 jari</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Putar lawan jam dengan 2 jari</string>
-    <string name="title_pref_shortcut_2finger_scrub">Gosok dengan 2 jari</string>
-    <string name="title_pref_shortcut_2finger_pinch">Cubit dengan 2 jari</string>
-    <string name="title_pref_shortcut_2finger_spread">Sebarkan dengan 2 jari</string>
-    <string name="title_pref_shortcut_3finger_pinch">Cubit dengan 3 jari</string>
-    <string name="title_pref_shortcut_3finger_spread">Sebarkan dengan 3 jari</string>
-    <string name="title_pref_shortcut_4finger_pinch">Cubit dengan 4 jari</string>
-    <string name="title_pref_shortcut_4finger_spread">Sebarkan dengan 4 jari</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Leret ke atas dari tepi bawah</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Leret panjang ke atas dari tepi bawah</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Leret ke bawah dari kiri atas</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Leret ke bawah dari bahagian atas sebelah kanan</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Leret panjang ke bawah dari kiri atas</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Leret panjang ke bawah dari bahagian atas sebelah kanan</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Leret ke kanan dari tepi kiri, bahagian atas</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Leret panjang ke kanan dari tepi kiri, bahagian atas</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Leret ke kanan dari tepi kiri, separuh bawah</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Leret panjang ke kanan dari tepi kiri, separuh bawah</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Leret ke kiri dari tepi kanan, bahagian atas</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Leret panjang ke kiri dari tepi kanan, bahagian atas</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Leret ke kiri dari tepi kanan, separuh bawah</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Leret panjang ke kiri dari tepi kanan, separuh bawah</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Pegang jari untuk memilih mana-mana kekunci, kemudian angkat. Ketik dua kali untuk Masukkan, Selesai atau Hantar.</string>
-    <string name="value_type_confirmation_tap_to_type">Ketik mana-mana kekunci untuk menaipnya atau tahan jari untuk memilih mana-mana kekunci, kemudian angkat</string>
-    <string name="title_pref_multi_tap_timeout">Masa antara ketukan satu jari</string>
     <string name="value_multi_tap_timeout_100ms">0.1 saat</string>
     <string name="value_multi_tap_timeout_150ms">0.15 saat</string>
     <string name="value_multi_tap_timeout_200ms">0.2 saat</string>
     <string name="value_multi_tap_timeout_250ms">0.25 saat (lalai)</string>
-    <string name="title_pref_rotor_step_degrees">Pusingan pemutar setiap langkah</string>
-    <string name="title_pref_edge_first_click_mm">Jarak untuk klik pertama</string>
-    <string name="title_pref_edge_second_click_mm">Jarak dari klik pertama hingga kedua</string>
     <string name="value_distance_5mm">0.5 sm</string>
     <string name="value_distance_10mm">1 sm</string>
     <string name="value_distance_15mm">1.5 sm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Hidupkan atau matikan pembalut dari item terakhir kepada yang pertama</string>
     <string name="wrap_around_on">Bungkus pada</string>
     <string name="wrap_around_off">Bungkus</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet mengangkat muka</string>
-    <string name="summary_support_tablet_held_up_faces_away">Untuk papan kekunci braille pada tablet atau telefon yang tidak dilipat</string>
-    <string name="tablet_held_up_faces_away_on">Tablet mengangkat mukanya</string>
-    <string name="tablet_held_up_faces_away_off">Tablet diangkat menghadap jauh</string>
     <string name="title_keyboard_echo_on_screen">Gema papan kekunci pada skrin</string>
     <string name="title_keyboard_echo_physical">Gema papan kekunci fizikal</string>
-    <string name="title_keyboard_echo_braille_keyboard">Gema papan kekunci Braille</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Gema papan kekunci tulisan tangan</string>
-    <string name="title_keyboard_echo_braille_display">Gema paparan Braille</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Mengganggu ucapan semasa menaip</string>
     <string name="pref_interrupt_typing_entry_always">Sentiasa</string>

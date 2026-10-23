@@ -75,10 +75,6 @@
     <string name="theme_sound_summary_none">Brez zvoka. Predvaja se zvok fokusa.</string>
     <string name="theme_sound_summary_android_keyboard">Zvok tipkovnice Android</string>
     <string name="theme_sound_use_android_keyboard">Uporabi zvok tipkovnice Android</string>
-    <string name="theme_sound_braille_character">Braillova tipkovnica: vnos znaka</string>
-    <string name="theme_sound_braille_space">Braillova tipkovnica: presledek</string>
-    <string name="theme_sound_braille_delete">Braillova tipkovnica: izbriši</string>
-    <string name="theme_sound_braille_new_line">Braillova tipkovnica: nova vrstica</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Izberite zvočno datoteko</string>
     <string name="theme_sound_preview">Predogled</string>

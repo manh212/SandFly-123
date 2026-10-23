@@ -72,10 +72,6 @@
     <string name="theme_sound_summary_none">Nav skaņas. Tiek atskaņota fokusa skaņa.</string>
     <string name="theme_sound_summary_android_keyboard">Android tastatūras skaņa</string>
     <string name="theme_sound_use_android_keyboard">Izmantojiet Android tastatūras skaņu</string>
-    <string name="theme_sound_braille_character">Braila tastatūra: rakstzīmes rakstīšana</string>
-    <string name="theme_sound_braille_space">Braila tastatūra: atstarpe</string>
-    <string name="theme_sound_braille_delete">Braila tastatūra: dzēst</string>
-    <string name="theme_sound_braille_new_line">Braila tastatūra: jauna rinda</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Izvēlieties skaņas failu</string>
     <string name="theme_sound_preview">Priekšskatīt</string>

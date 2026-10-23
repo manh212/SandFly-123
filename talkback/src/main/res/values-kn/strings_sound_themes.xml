@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">ಧ್ವನಿ ಇಲ್ಲ. ಫೋಕಸ್ ಸೌಂಡ್ ಪ್ಲೇ ಆಗುತ್ತದೆ.</string>
     <string name="theme_sound_summary_android_keyboard">Android ನ ಕೀಬೋರ್ಡ್ ಧ್ವನಿ</string>
     <string name="theme_sound_use_android_keyboard">Android ನ ಕೀಬೋರ್ಡ್ ಧ್ವನಿಯನ್ನು ಬಳಸಿ</string>
-    <string name="theme_sound_braille_character">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್: ಅಕ್ಷರವನ್ನು ಟೈಪ್ ಮಾಡುವುದು</string>
-    <string name="theme_sound_braille_space">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್: ಸ್ಪೇಸ್</string>
-    <string name="theme_sound_braille_delete">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್: ಅಳಿಸಿ</string>
-    <string name="theme_sound_braille_new_line">ಬ್ರೈಲ್ ಕೀಬೋರ್ಡ್: ಹೊಸ ಸಾಲು</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">ಧ್ವನಿ ಫೈಲ್ ಆಯ್ಕೆಮಾಡಿ</string>
     <string name="theme_sound_preview">ಪೂರ್ವವೀಕ್ಷಣೆ</string>

@@ -69,10 +69,6 @@
     <string name="theme_sound_summary_none">Inget ljud. Fokusljudet spelas.</string>
     <string name="theme_sound_summary_android_keyboard">Androids tangentbordsljud</string>
     <string name="theme_sound_use_android_keyboard">Använd Androids tangentbordsljud</string>
-    <string name="theme_sound_braille_character">Punktskrifttangentbord: skriva ett tecken</string>
-    <string name="theme_sound_braille_space">Punktskrifttangentbord: mellanslag</string>
-    <string name="theme_sound_braille_delete">Punktskrifttangentbord: radera</string>
-    <string name="theme_sound_braille_new_line">Punktskrifttangentbord: ny linje</string>
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <string name="theme_sound_choose">Välj en ljudfil</string>
     <string name="theme_sound_preview">Förhandsgranska</string>

@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Reduser forsinkelsen</string>
   <string name="talkback_latency_reduction_summary">Få SandFly til å svare raskere etter at du har berørt skjermen</string>
   <string name="summary_pref_intonation">Les opp bokstaver som er slettet, med lysere stemme</string>
-  <string name="title_pref_brailledisplay">Leselist</string>
-  <string name="title_pref_brailleime">Punktskrifttastatur</string>
-  <string name="summary_pref_brailleime_disabled">Enheten støtter ikke punktskrifttastatur</string>
   <string name="title_pref_speech_footer">For å endre tilgjengelighetsvolumet fra hvilken som helst skjerm, hold én finger på skjermen og trykk på volum opp eller volum ned-tasten.</string>
   <string name="title_pref_vibration">Vibrasjonstilbakemelding</string>
   <string name="title_pref_soundback">Tilbakemelding med lyd</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Slå på overlegg med feilsøkingslogg</string>
   <string name="title_pref_typing_confirmation">Skrivemetode</string>
   <string name="title_pref_typing_long_tap_duration">Forsinkelse for trykk og hold mens du skriver</string>
-  <string name="title_pref_touch_explore_timeout">Forsinkelse for skrivefokus</string>
   <string name="message_pref_touch_explore_latency">En kortere forsinkelse gjør at SandFly snakker raskere etter at du trykker på tastaturet.\n\nVelg en forsinkelse</string>
-  <string name="title_pref_touch_focus_timeout">Fokusforsinkelse</string>
-  <string name="title_pref_talkback_gesture_detection">Håndter bevegelser i SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Slå SandFly av og så på igjen for å aktivere innstillingen.</string>
   <string name="title_pref_auto_image_captioning">Automatiske beskrivelser</string>
   <string name="title_pref_gemini_settings">Gemini-innstillinger</string>
   <string name="title_pref_gemini_enabled">Gemini talekommandoer</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Øk volumet</string>
   <string name="shortcut_decrease_volume">Reduser volumet</string>
   <string name="shortcut_all_apps">Alle apper</string>
-  <string name="shortcut_braille_keyboard">Bruk punktskrifttastatur</string>
-  <string name="shortcut_braille_display_settings">Gå til innstillingene for leselist</string>
   <string name="shortcut_tutorial">Åpne veiledningen</string>
   <string name="shortcut_control_speak_time">Les opp klokkeslettet eller ikke</string>
   <string name="shortcut_enable_speak_time">Les opp klokkeslettet</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Opplesing av klokkeslettet er av</string>
   <string name="shortcut_practice_gestures">Øv på bevegelser</string>
   <string name="shortcut_report_gesture">Rapportér bevegelsesproblemer</string>
-  <string name="shortcut_toggle_braille_display">Slå leselisten på eller av</string>
   <string name="shortcut_announce_current_time_and_date">Les opp gjeldende dato og klokkeslett</string>
   <string name="shortcut_announce_battery_state">Les opp batteriprosenten</string>
   <string name="shortcut_announce_current_title">Les opp vindustittelen</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Reduser talehastigheten</string>
   <string name="shortcut_toggle_selection">Start eller avslutt markeringsmodus</string>
   <string name="shortcut_show_tutorial">Åpne veiledningen</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Bytt mellom forkortet (grad 2) og uforkortet (grad 1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Vis/skjul punktskrift på skjermen for tilkoblede leselister</string>
   <string name="shortcut_toggle_sound_feedback">Slå lydtilbakemelding (lydsignaler) av eller på</string>
   <string name="shortcut_show_learn_mode_page">Øv på hurtigtaster</string>
   <string name="shortcut_announce_phonetic_pronunciation">Les opp bokstaver med fonetisk uttale for elementet i fokus</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Talekommandoer</string>
   <string name="title_show_keyboard_shortcuts">Hurtigtaster</string>
   <string name="talkback_show_talkback_settings">SandFly-innstillinger</string>
-  <string name="title_show_braille_display_settings">Innstillinger for leselister</string>
   <string name="title_granularity_default">Standardnavigasjon</string>
   <string name="title_action_dismiss">Avvis</string>
   <string name="title_action_expand">Vis</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Endre om klokkeslettet skal leses opp når du slår på skjermen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Åpne listen over hurtigtaster</string>
   <string name="summary_talkback_preferences">Åpne SandFly-innstillingene</string>
-  <string name="summary_braile_display_preferences">Åpne innstillingene for leselister</string>
   <string name="summary_system_actions">Gå til Alle apper og Hurtiginnstillinger</string>
   <string name="summary_tts_settings">Åpne innstillinger for tekst til tale</string>
   <string name="not_editable">Ikke redigerbar</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Senk volumet til annen lyd som spilles av når SandFly snakker</string>
   <string name="summary_support_scroll_seq">Rull fremover eller bakover</string>
   <string name="summary_support_change_a11y_volume">Øk eller reduser tilgjengelighetsvolum</string>
-  <string name="summary_support_change_touch_explore_latency">Øk eller reduser forsinkelsen for skrivefokus</string>
-  <string name="summary_support_change_touch_focus_latency">Øk eller reduser fokusforsinkelsen</string>
   <string name="summary_screen_overview">Oppsummer skjermen med handlingsknapper</string>
   <string name="summary_screen_overview_no_actions">Hør et sammendrag av innholdet på skjermen</string>
   <string name="summary_image_caption">Les opp tekst og ikoner i et valgt bilde</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dobbeltklyp</string>
   <string name="gesture_name_double_tap_and_hold">Dobbelttrykk og hold</string>
   <string name="gesture_name_double_tap_and_hold_xr">Klyp og hold</string>
-  <string name="gesture_name_2finger_tap_hold">Trykk og hold med to fingre</string>
   <string name="gesture_name_3finger_tap_hold">Trykk og hold med tre fingre</string>
   <string name="gesture_name_2finger_3tap_hold">Trippeltrykk og hold med to fingre</string>
   <string name="gesture_name_3finger_3tap_hold">Trippeltrykk og hold med tre fingre</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Demp lyden fra andre apper</string>
   <string name="title_pref_support_scroll_seq">Rull</string>
   <string name="title_pref_a11y_volume">Tilgjengelighetsvolum</string>
-  <string name="title_pref_touch_explore_latency">Forsinkelse for skrivefokus</string>
-  <string name="title_pref_touch_focus_latency">Fokusforsinkelse</string>
   <string name="message_pref_touch_focus_latency">En kortere forsinkelse gjør at SandFly snakker raskere etter at du har berørt skjermen</string>
   <string name="message_pref_typing_method_prefix">For å få minst mulig forsinkelse når du skriver, velg «Hold fingeren for å velge en tast, og løft».</string>
-  <string name="message_pref_typing_method_postfix">Du kan også bruke delt trykk for å skrive når som helst. For å gjøre dette, hold én finger på en tast for å velge den, og trykk på skjermen med en annen finger.</string>
   <string name="title_pref_talkback_speech_rate">Talehastighet</string>
   <string name="title_pref_selector_adjustable_widget_slider">Juster glidebryteren</string>
   <string name="title_pref_selector_typo_granularity">Korrekturlesing</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">søkeordet er %1$s</string>
   <string name="screen_search_no_keyword_hint">Ingen søkeord ennå. For å starte et nytt søk, trykk og hold med tre fingre, eller åpne skjermsøk fra SandFly-menyen.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Ingen søkeord ennå. For å starte et nytt søk, sveip til venstre og så ned, eller åpne skjermsøk fra SandFly-menyen.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Punktskrifttastatur er ikke på. Gå til SandFly-innstillingene, konfigurer tastaturet og prøv igjen.</string>
   <string name="suggestions_window_available">Forslag er tilgjengelige</string>
   <string name="suggestions_window_available_with_gesture">Forslag er tilgjengelige. For å åpne, %1$s</string>
   <string name="heads_up_window_available">Varsel er tilgjengelig</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly har nå et \"Forbedret tastaturkart\" for fysiske tastaturer, med en rekke nye kommandoer og snarveier. Denne forbedringen inkluderer en \"nettlesemodus\" for mer effektiv nettnavigasjon, strømlinjeforming av navigasjon og interaksjon for SandFly-brukere som er avhengige av fysiske tastaturer. Du kan bytte til \"Forbedret tastatur\" i <xliff:g id="settings_path">%1$s</xliff:g>.\n\nHvis du bruker en leselist, kan du også bruke nye snarveier i blamodus for å gå gjennom innhold direkte fra leselisten. Noen blindeskriftssnarveier ble endret for å imøtekomme denne endringen. Du kan se en liste over alle blindeskriftssnarveier i <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly-innstillinger &gt; Hurtigtaster</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-innstillinger og så Hurtigtaster</string>
-  <string name="braille_display_settings_link">Innstillinger for leselister</string>
   <string name="keyboard_smart_browse_mode_title">Tastatur: smart surfemodus</string>
   <string name="keyboard_smart_browse_mode_text">Med smart surfemodus i SandFly slås surfemodus av i redigeringsfelter, slik at du kan skrive med et fysisk tastatur når du surfer på nettet. Deretter slås det på igjen når du hopper til et felt på nettet som ikke kan redigeres, slik at du kan fortsette å surfe effektivt. Du kan slå «smart surfemodus» av eller på i <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFly-innstillinger &gt; Avanserte innstillinger</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Tekstskriving</string>
   <string name="basic_typing_text_text">Når du er i et tekstfelt, åpnes et tastatur nederst på skjermen.</string>
   <string name="typing_text_text">Dra fingeren over tastaturet. Når du hører bokstaven du vil skrive inn, løfter du fingeren.\n\nPrøv å aktivere tekstfeltet nedenfor og skrive inn navnet ditt.</string>
-  <string name="typing_text_with_braille_keyboard_text">Du kan også skrive med punktskrifttastaturet. Du finner det i SandFly-innstillingene.</string>
   <string name="other_ways_to_type_title">Andre måter å skrive på</string>
   <string name="other_ways_to_type_text">Det finnes andre måter å skrive på med SandFly. Du kan for eksempel bruke dobbelttrykk for å skrive inn en bokstav.</string>
   <string name="basic_other_ways_to_type_text">Det finnes andre måter å skrive inn SandFly. Du kan for eksempel bruke dobbelttrykk for å skrive inn en bokstav. Du kan endre dette senere i SandFly-innstillinger &gt; Skjermtastatur &gt; Skrivemetode.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">For å øve på bevegelser, slå på SandFly først</string>
   <string name="talkback_inactive_message_image_description">For å prøve å få bildebeskrivelser, slå på SandFly først</string>
   <string name="talkback_inactive_close_tutorial_button">Lukk veiledningen</string>
-  <string name="wear_training_welcome_paragraph">Når SandFly er slått på, blir elementet som er i fokus på skjermen, lest opp.\n\nDu kan gå til neste element ved å sveipe mot høyre. Du kan gå til forrige element ved å sveipe mot venstre.\n\nSveip mot høyre nå for å gå til den neste knappen.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Sveip opp eller ned med %1$d fingre</string>
-  <string name="wear_training_go_back_title">Gå tilbake</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Når du vil gå tilbake, sveiper du til høyre fra kanten av skjermen med %1$d fingre.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Fullført</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">En tilbakebevegelse er utført</string>
-  <string name="wear_training_volume_up_title">Skru opp volumet</string>
-  <string name="wear_training_volume_up_text">Sveip til høyre og så opp</string>
-  <string name="wear_training_volume_down_title">Skru ned volumet</string>
-  <string name="wear_training_volume_down_text">Sveip til høyre og så ned</string>
-  <string name="wear_training_open_talkback_menu_title">Åpne SandFly-menyen</string>
-  <string name="wear_training_open_talkback_menu_text">For å åpne innstillinger og kontroller du kanskje trenger ofte, sveip ned og så mot høyre</string>
-  <string name="wear_training_typing_title">Skriver</string>
-  <string name="wear_training_typing_text1">For å skrive med tastaturet, dra fingeren over det. Når du hører bokstaven du vil skrive inn, løfter du fingeren.</string>
-  <string name="wear_training_typing_text2">For å skjule tastaturet og sjekke inndataene, sveip ned fra toppen av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text3">For å gå tilbake til tastaturet, sveip opp fra bunnen av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text4">For å lukke tastaturet og avbryte skrivingen, sveip til høyre fra venstre kant av skjermen med to fingre.</string>
-  <string name="wear_training_typing_text5">Prøv det nedenfor.</string>
-  <string name="wear_training_typing_practice_button_content_description">Skriver med tastaturet</string>
-  <string name="wear_training_end_tutorial_title">Nå kan du bruke SandFly</string>
   <string name="wear_new_feature_page_title">Velkommen til oppdaterte SandFly</string>
   <string name="wear_new_feature_page_content">Du kommer til å legge merke til noen feilrettinger og endringer i hvordan fokuset beveger seg</string>
   <string name="wear_new_feature_page_button_content_description">Fullfør</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Ringemodus</string>
     <string name="summary_pref_announce_ringer_mode">Si når ringetonen er satt til å vibrere eller stille</string>
     <string name="title_pref_category_feedback">Tilbakemelding</string>
-    <string name="title_pref_category_typing_and_braille">Skriving og punktskrift</string>
     <string name="title_pref_category_apps">Apper</string>
     <string name="title_pref_touch_activation">Berøring og aktivering</string>
     <string name="title_pref_navigation">Navigering</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">ikke tillat</string>
     <string name="permission_speak_label">snakke gjennom SandFly</string>
     <string name="permission_speak_description">Lar appen be om å si tekst med SandFly stemmen din. SandFly spør deg før appen kan snakke.</string>
-    <string name="permission_braille_display_label">be om å være en leselist for SandFly</string>
-    <string name="permission_braille_display_description">Lar appen be om å være en leselist for SandFly. Hvis du tillater det i SandFly, kan det lese alt på skjermen og kontrollere enheten din. SandFly spør deg først.</string>
     <string name="title_pref_phonetic_letters_mode">Snakk bokstaver fonetisk</string>
     <string name="phonetic_letters_mode_off">Av</string>
     <string name="phonetic_letters_mode_after_letter_delay">Etter brevet, forsinket, som \"h, hotell\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Åpne appen</string>
     <string name="shortcut_open_app">Åpne <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Rull til toppen</string>
-    <string name="shortcut_write_reading_control">Skriv bokstaven til en lesekontroll</string>
-    <string name="title_pref_reading_control_letters">Håndskrevne alfabetbokstaver</string>
-    <string name="reading_control_letter_none">Ingen</string>
-    <string name="handwriting_prompt">Skriv en alfabetbokstav</string>
-    <string name="handwriting_closed">Håndskrift lukket</string>
-    <string name="handwriting_no_match">Ingen lesekontroll starter med <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Håndskrift gjenkjennes ikke</string>
-    <string name="handwriting_downloading">Håndskriftgjenkjenning lastes ned</string>
-    <string name="handwriting_download_title">Last ned håndskriftgjenkjenning?</string>
-    <string name="handwriting_download_message">Håndskrift gjenkjennes på denne telefonen. Modellen for dette språket, omtrent 20 MB, lastes ned fra Google én gang. En melding viser når den er lastet ned.</string>
-    <string name="handwriting_download_button">Last ned</string>
-    <string name="handwriting_downloaded">Håndskriftgjenkjenning lastet ned</string>
-    <string name="handwriting_download_failed">Håndskriftgjenkjenning kunne ikke lastes ned. Sjekk internettforbindelsen.</string>
-    <string name="handwriting_unsupported_language">Håndskriftsgjenkjenning er ikke tilgjengelig på dette språket</string>
-    <string name="title_pref_handwriting_keyboard">Håndskrifttastatur</string>
-    <string name="summary_pref_handwriting_keyboard">Slå på SandFly håndskrift i Androids tastaturinnstillinger</string>
-    <string name="title_pref_handwriting_wait">Vent etter å ha skrevet</string>
-    <string name="value_handwriting_wait_200">0,2 sekunder</string>
-    <string name="value_handwriting_wait_300">0,3 sekunder</string>
-    <string name="value_handwriting_wait_400">0,4 sekunder</string>
-    <string name="value_handwriting_wait_500">0,5 sekunder</string>
-    <string name="value_handwriting_wait_600">0,6 sekunder</string>
-    <string name="value_handwriting_wait_800">0,8 sekunder</string>
-    <string name="value_handwriting_wait_1000">1 sekund</string>
-    <string name="handwriting_keyboard_name">SandFly håndskrift</string>
-    <string name="handwriting_space">Mellomrom</string>
-    <string name="handwriting_new_line">Ny linje</string>
-    <string name="handwriting_tutorial_intro">Håndskrifttastaturopplæring. Skriv med én finger hvor som helst på skjermen. Det du skriver skrives når du stopper opp et øyeblikk. For å avslutte opplæringen, sveip ned med tre fingre.</string>
-    <string name="handwriting_tutorial_write_letter">Skriv alfabetbokstaven a.</string>
-    <string name="handwriting_tutorial_write_word">Skriv nå ordet hi (h etterfulgt av i).</string>
-    <string name="handwriting_tutorial_typed">Skrev <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Sveip til høyre med to fingre for å skrive et mellomrom.</string>
-    <string name="handwriting_tutorial_delete">Sveip til venstre med to fingre for å slette tegnet før markøren.</string>
-    <string name="handwriting_tutorial_deleted">Slettet.</string>
-    <string name="handwriting_tutorial_next_reading">Hvis håndskrift gjenkjennes som et annet tegn, for eksempel en stor bokstav, sveip opp med to fingre for å velge neste gjenkjenningsforslag. Prøv det nå.</string>
-    <string name="handwriting_tutorial_read_back">Trykk med to fingre for å lese teksten før markøren.</string>
-    <string name="handwriting_tutorial_new_line">Sveip ned med to fingre for å sette inn en ny linje eller utføre tekstfelthandlingen, for eksempel Send.</string>
-    <string name="handwriting_tutorial_not_that">Det var en annen gest.</string>
-    <string name="handwriting_tutorial_done">Ny linje. Opplæringen er ferdig. Sveip ned med tre fingre for å skjule tastaturet, og til høyre eller venstre med tre fingre for å bytte tastatur. For å åpne veiledningen igjen, trykk med tre fingre.</string>
-    <string name="handwriting_tutorial_finished">Opplæringen er avsluttet. For å åpne den igjen, trykk med tre fingre.</string>
-    <string name="handwriting_no_alternatives">Ingen andre forslag</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> av <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tom tekst</string>
-    <string name="handwriting_not_available">Håndskriftsgjenkjenning er ikke tilgjengelig på denne enheten</string>
     <string name="shortcut_scroll_to_bottom">Rull til bunnen</string>
     <string name="shortcut_refresh">Oppdater</string>
     <string name="shortcut_system_notifications">Systemvarslingsskygge</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Fjern valg</string>
     <string name="title_pref_brightness">Lysstyrke</string>
     <string name="summary_support_change_brightness">Øk eller reduser skjermens lysstyrke, selv når skjermen er skjult</string>
-    <string name="title_pref_shortcut_3finger_4tap">Firedobbelttrykk med 3 fingre</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Roter med klokken med 2 fingre</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Roter mot klokken med 2 fingre</string>
-    <string name="title_pref_shortcut_2finger_scrub">Skrubb med 2 fingre</string>
-    <string name="title_pref_shortcut_2finger_pinch">Klyp med 2 fingre</string>
-    <string name="title_pref_shortcut_2finger_spread">Spred med 2 fingre</string>
-    <string name="title_pref_shortcut_3finger_pinch">Klyp med 3 fingre</string>
-    <string name="title_pref_shortcut_3finger_spread">Spred med 3 fingre</string>
-    <string name="title_pref_shortcut_4finger_pinch">Klyp med 4 fingre</string>
-    <string name="title_pref_shortcut_4finger_spread">Spred med 4 fingre</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Sveip opp fra den nederste kanten</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Langt sveip opp fra den nederste kanten</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Sveip ned fra øverst til venstre</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Sveip ned fra øverst til høyre</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Langt sveip ned fra øverst til venstre</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Langt sveip ned fra øverst til høyre</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Sveip til høyre fra venstre kant, øvre halvdel</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Langt sveip til høyre fra venstre kant, øvre halvdel</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Sveip til høyre fra venstre kant, nedre halvdel</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Langt sveip til høyre fra venstre kant, nedre halvdel</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Sveip til venstre fra høyre kant, øvre halvdel</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Langt sveip til venstre fra høyre kant, øvre halvdel</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Sveip til venstre fra høyre kant, nedre halvdel</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Langt sveip til venstre fra høyre kant, nederste halvdel</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Hold fingeren for å velge en tast, og løft deretter. Dobbelttrykk for Enter, Ferdig eller Send.</string>
-    <string name="value_type_confirmation_tap_to_type">Trykk på en tast for å skrive den, eller hold fingeren for å velge en tast, og løft deretter</string>
-    <string name="title_pref_multi_tap_timeout">Tid mellom trykk med én finger</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekunder</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekunder</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekunder</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekunder (standard)</string>
-    <string name="title_pref_rotor_step_degrees">Rotoromdreining per trinn</string>
-    <string name="title_pref_edge_first_click_mm">Avstand til første klikk</string>
-    <string name="title_pref_edge_second_click_mm">Avstand fra første til andre klikk</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Slå innpakning fra det siste elementet til det første på eller av</string>
     <string name="wrap_around_on">Pakk rundt på</string>
     <string name="wrap_around_off">Vikle rundt av</string>
-    <string name="title_selector_tablet_held_up_faces_away">Nettbrettet holdt opp ansiktene bort</string>
-    <string name="summary_support_tablet_held_up_faces_away">For punktskrifttastaturet på et nettbrett eller en utfoldet telefon</string>
-    <string name="tablet_held_up_faces_away_on">Nettbrettet holdt opp ansiktene bort på</string>
-    <string name="tablet_held_up_faces_away_off">Nettbrettet holdt opp med ansiktene bort</string>
     <string name="title_keyboard_echo_on_screen">Ekko av tastatur på skjermen</string>
     <string name="title_keyboard_echo_physical">Fysisk tastaturekko</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ekko av blindeskrifttastatur</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ekko av håndskrifttastatur</string>
-    <string name="title_keyboard_echo_braille_display">Ekko av blindeskrift</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Avbryt tale når du skriver</string>
     <string name="pref_interrupt_typing_entry_always">Alltid</string>

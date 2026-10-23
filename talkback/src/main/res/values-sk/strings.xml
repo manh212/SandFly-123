@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Zníženie oneskorenia</string>
   <string name="talkback_latency_reduction_summary">Aby SandFly reagoval rýchlejšie, keď sa dotknete obrazovky</string>
   <string name="summary_pref_intonation">Vyslovovať odstránené písmená vyšším hlasom</string>
-  <string name="title_pref_brailledisplay">Braillovský displej</string>
-  <string name="title_pref_brailleime">Braillovská klávesnica</string>
-  <string name="summary_pref_brailleime_disabled">Vaše zariadenie nepodporuje braillovskú klávesnicu</string>
   <string name="title_pref_speech_footer">Ak chcete zmeniť hlasitosť dostupnosti na ľubovoľnej obrazovke, podržte 1 prst na obrazovke a stlačte tlačidlo zvýšenia alebo zníženia hlasitosti.</string>
   <string name="title_pref_vibration">Vibračná odozva</string>
   <string name="title_pref_soundback">Zvuková odozva</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Zapnúť prekrytie s denníkom ladenia</string>
   <string name="title_pref_typing_confirmation">Spôsob písania</string>
   <string name="title_pref_typing_long_tap_duration">Oneskorenie pridržania pri písaní</string>
-  <string name="title_pref_touch_explore_timeout">Oneskorenie označovania pri písaní</string>
   <string name="message_pref_touch_explore_latency">Kratšie oneskorenie spôsobí, že SandFly začne hovoriť skôr, keď sa dotknete klávesnice.\n\nVyberte oneskorenie</string>
-  <string name="title_pref_touch_focus_timeout">Oneskorenie označovania</string>
-  <string name="title_pref_talkback_gesture_detection">Správa gest v aplikácii SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Ak chcete dané nastavenie aktivovať, vypnite a znova zapnite SandFly.</string>
   <string name="title_pref_auto_image_captioning">Automatické opisy</string>
   <string name="title_pref_gemini_settings">Nastavenia Gemini</string>
   <string name="title_pref_gemini_enabled">Gemini hlasové príkazy</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Zvýšiť hlasitosť</string>
   <string name="shortcut_decrease_volume">Znížiť hlasitosť</string>
   <string name="shortcut_all_apps">Všetky aplikácie</string>
-  <string name="shortcut_braille_keyboard">Braillova klávesnica</string>
-  <string name="shortcut_braille_display_settings">Prejsť do nastavení Braillovho displeja</string>
   <string name="shortcut_tutorial">Otvoriť návod</string>
   <string name="shortcut_control_speak_time">Hlásiť alebo nehlásiť čas</string>
   <string name="shortcut_enable_speak_time">Hlásiť čas</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Hlásenie času je vypnuté</string>
   <string name="shortcut_practice_gestures">Precvičovanie gest</string>
   <string name="shortcut_report_gesture">Nahlásiť problém s gestom</string>
-  <string name="shortcut_toggle_braille_display">Vypnutie alebo zapnutie Braillovho displeja</string>
   <string name="shortcut_announce_current_time_and_date">Prečítať aktuálny dátum a čas</string>
   <string name="shortcut_announce_battery_state">Prečítať percentá batérie</string>
   <string name="shortcut_announce_current_title">Vyslovovanie názvu okna</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Zníženie rýchlosti reči</string>
   <string name="shortcut_toggle_selection">Spustenie alebo ukončenie režimu výberu</string>
   <string name="shortcut_show_tutorial">Otvoriť návod</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Prepnúť medzi skráteným (2. stupeň) a neskráteným (1. stupeň)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Zobraziť či skryť Braillovo písmo na pripojených displejoch</string>
   <string name="shortcut_toggle_sound_feedback">Zapnutie alebo vypnutie zvukovej odozvy (zvukových signálov)</string>
   <string name="shortcut_show_learn_mode_page">Precvičte si klávesové skratky</string>
   <string name="shortcut_announce_phonetic_pronunciation">Fonetické predčítavanie písmen označenej položky</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Hlasové príkazy</string>
   <string name="title_show_keyboard_shortcuts">Klávesové skratky</string>
   <string name="talkback_show_talkback_settings">Nastavenia aplikácie SandFly</string>
-  <string name="title_show_braille_display_settings">Nastavenia braillovského displeja</string>
   <string name="title_granularity_default">Predvolená navigácia</string>
   <string name="title_action_dismiss">Odmietnuť</string>
   <string name="title_action_expand">Rozbaliť</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Vyberte, či sa bude hlásiť čas, keď zapnete obrazovku</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Otvoriť zoznam klávesových skratiek</string>
   <string name="summary_talkback_preferences">Otvorenie nastavení aplikácie SandFly</string>
-  <string name="summary_braile_display_preferences">Otvoriť nastavenia Braillovho displeja</string>
   <string name="summary_system_actions">Prejsť do všetkých aplikácií a rýchlych nastavení</string>
   <string name="summary_tts_settings">Otvorenie nastavení prevodu textu na reč</string>
   <string name="not_editable">Nedá sa upraviť</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Znížiť hlasitosť ostatných zvukov, keď hovorí SandFly</string>
   <string name="summary_support_scroll_seq">Posúvanie dopredu alebo dozadu</string>
   <string name="summary_support_change_a11y_volume">Zníženie alebo zvýšenie hlasitosti dostupnosti</string>
-  <string name="summary_support_change_touch_explore_latency">Zvýšenie alebo zníženie oneskorenia označovania pri písaní</string>
-  <string name="summary_support_change_touch_focus_latency">Zvýšenie alebo zníženie oneskorenia označovania</string>
   <string name="summary_screen_overview">Vytvoriť zhrnutie obsahu obrazovky pomocou tlačidiel akcie</string>
   <string name="summary_screen_overview_no_actions">Vypočujte si súhrn obsahu na obrazovke</string>
   <string name="summary_image_caption">Vyslovovanie textu a ikon na vybranom obrázku</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Dvojité stiahnutie</string>
   <string name="gesture_name_double_tap_and_hold">Dvojité klepnutie a pridržanie</string>
   <string name="gesture_name_double_tap_and_hold_xr">Roztiahnutie či stiahnutie a pridržanie</string>
-  <string name="gesture_name_2finger_tap_hold">Pridržanie dvoma prstami</string>
   <string name="gesture_name_3finger_tap_hold">Pridržanie troma prstami</string>
   <string name="gesture_name_2finger_3tap_hold">Trojité klepnutie a pridržanie 2 prstami</string>
   <string name="gesture_name_3finger_3tap_hold">Trojité klepnutie a pridržanie troma prstami</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Stlmenie zvuku</string>
   <string name="title_pref_support_scroll_seq">Posúvanie</string>
   <string name="title_pref_a11y_volume">Hlasitosť dostupnosti</string>
-  <string name="title_pref_touch_explore_latency">Oneskorenie označovania pri písaní</string>
-  <string name="title_pref_touch_focus_latency">Oneskorenie označovania</string>
   <string name="message_pref_touch_focus_latency">Kratšie oneskorenie spôsobí, že SandFly začne hovoriť skôr, keď sa dotknete obrazovky</string>
   <string name="message_pref_typing_method_prefix">Ak chcete zaistiť čo najkratšie oneskorenie pri písaní, vyberte „Pridržaním prsta vyberte kláves, potom ho zdvihnite“</string>
-  <string name="message_pref_typing_method_postfix">Písať môžete kedykoľvek aj pomocou rozdeleného klepnutia. Ak to chcete urobiť, vyberte ľubovoľný kláves, pridržte na ňom prst a iným prstom klepnite na obrazovku.</string>
   <string name="title_pref_talkback_speech_rate">Rýchlosť reči</string>
   <string name="title_pref_selector_adjustable_widget_slider">Upraviť posúvač</string>
   <string name="title_pref_selector_typo_granularity">Jazyková korektúra</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">kľúčové slovo je %1$s</string>
   <string name="screen_search_no_keyword_hint">Zatiaľ nemáte žiadne kľúčové slovo. Ak chcete začať nové vyhľadávanie, klepnite troma prstami a pridržte ich alebo otvorte priame vyhľadávanie v ponuke aplikácie SandFly.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Zatiaľ nemáte žiadne kľúčové slovo. Ak chcete začať nové vyhľadávanie, potiahnite doľava a nadol alebo otvorte priame vyhľadávanie v ponuke aplikácie SandFly.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Braillova klávesnica nie je zapnutá. Nakonfigurujte ju v nastaveniach SandFly a skúste to znova.</string>
   <string name="suggestions_window_available">K dispozícii sú návrhy</string>
   <string name="suggestions_window_available_with_gesture">K dispozícii sú návrhy. Ak ich chcete zobraziť, %1$s</string>
   <string name="heads_up_window_available">K dispozícii je upozornenie</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly má teraz „Vylepšenú mapu kláves“ pre fyzické klávesnice, ktorá obsahuje množstvo nových príkazov a skratiek. Toto vylepšenie zahŕňa „režim prehliadania“ pre efektívnejšiu webovú navigáciu, zefektívnenie navigácie a interakcie pre SandFly používateľov, ktorí sa spoliehajú na fyzické klávesnice. Môžete prepnúť na \"Vylepšenú mapu kláves\" v <xliff:g id="settings_path">%1$s</xliff:g>.\n\nAk používate Braillov displej, môžete tiež použiť nové skratky režimu prehliadania na prechádzanie obsahom priamo z Braillovho displeja. Niektoré skratky Braillovho displeja boli zmenené, aby sa prispôsobili tejto zmene. V <xliff:g id="braille_display_settings_path">%2$s</xliff:g> môžete vidieť zoznam všetkých skratiek pre Braillovo zobrazenie.</string>
   <string name="keyboard_shortcuts_link">Nastavenia aplikácie SandFly &gt; Klávesové skratky</string>
   <string name="keyboard_shortcuts_link_tts">Nastavenia aplikácie SandFly, potom Klávesové skratky</string>
-  <string name="braille_display_settings_link">Nastavenia braillovského displeja</string>
   <string name="keyboard_smart_browse_mode_title">Klávesnica: inteligentný režim prehliadania</string>
   <string name="keyboard_smart_browse_mode_text">Inteligentný režim prehliadania aplikácie SandFly vypne režim prehliadania v poli úprav, aby ste mohli pri prehliadaní internetu písať pomocou fyzickej klávesnice. Potom ho znova zapne, keď prejdete na internete na pole, v ktorom nie je možné vykonávať úpravy, aby ste mohli efektívne pokračovať v prehliadaní. Inteligentný režim prehliadania môžete zapnúť alebo vypnúť v sekcii <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">Nastavenia aplikácie SandFly &gt; Rozšírené nastavenia</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Písanie textu</string>
   <string name="basic_typing_text_text">Keď sa nachádzate v textovom poli, dole na obrazovke sa otvorí klávesnica.</string>
   <string name="typing_text_text">Presúvajte prst po klávesnici. Keď začujete písmeno, ktoré chcete zadať, zdvihnite prst.\n\nSkúste aktivovať textové pole nižšie a zadať svoje meno.</string>
-  <string name="typing_text_with_braille_keyboard_text">Písať môžete aj pomocou braillovskej klávesnice. Nájdete ju v nastaveniach aplikácie SandFly.</string>
   <string name="other_ways_to_type_title">Ďalšie spôsoby písania</string>
   <string name="other_ways_to_type_text">V aplikácii SandFly môžete písať aj inými spôsobmi. Napríklad môžete zadať písmeno dvojitým klepnutím.</string>
   <string name="basic_other_ways_to_type_text">Existujú aj iné spôsoby, ako zadať SandFly. Na zadanie písmena môžete napríklad použiť dvojité ťuknutie. Toto môžete neskôr zmeniť v nastaveniach SandFly &gt; Klávesnica na obrazovke &gt; Spôsob písania.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Ak chcete precvičovať gestá, najprv zapnite SandFly</string>
   <string name="talkback_inactive_message_image_description">Ak chcete získať opisy obrázkov, zapnite SandFly</string>
   <string name="talkback_inactive_close_tutorial_button">Zavrieť návod</string>
-  <string name="wear_training_welcome_paragraph">Keď je aplikácia SandFly zapnutá, nahlas vysloví zameranú položku na obrazovke.\n\nPotiahnutím doprava prejdete na nasledujúcu položku. Potiahnutím doľava prejdete na predchádzajúcu položku.\n\nTeraz potiahnite doprava, kým nenájdete ďalšie tlačidlo.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Potiahnite %1$d prstami nahor alebo nadol</string>
-  <string name="wear_training_go_back_title">Prejdenie späť</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Keď chcete prejsť späť, potiahnite %1$d prstami doprava z okraja obrazovky</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Podarilo sa</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bolo vykonané gesto na prechod späť</string>
-  <string name="wear_training_volume_up_title">Zvýšenie hlasitosti</string>
-  <string name="wear_training_volume_up_text">Potiahnite doprava a potom nahor</string>
-  <string name="wear_training_volume_down_title">Zníženie hlasitosti</string>
-  <string name="wear_training_volume_down_text">Potiahnite doprava a potom nadol</string>
-  <string name="wear_training_open_talkback_menu_title">Otvorenie ponuky aplikácie SandFly</string>
-  <string name="wear_training_open_talkback_menu_text">Ak chcete otvoriť nastavenia a ovládacie prvky, ktoré často používate, potiahnite nadol a doprava</string>
-  <string name="wear_training_typing_title">Písanie</string>
-  <string name="wear_training_typing_text1">Ak chcete písať pomocou klávesnice, pohybujte po nej prstom. Keď začujete písmeno, ktoré chcete napísať, zdvihnite prst.</string>
-  <string name="wear_training_typing_text2">Ak chcete skryť klávesnicu a skontrolovať vstup, potiahnite dvoma prstami zhora obrazovky nadol.</string>
-  <string name="wear_training_typing_text3">Ak sa chcete vrátiť na klávesnicu, potiahnite dvoma prstami zdola obrazovky nahor.</string>
-  <string name="wear_training_typing_text4">Ak chcete klávesnicu zavrieť a zrušiť písanie, potiahnite dvoma prstami z ľavého okraja obrazovky doprava.</string>
-  <string name="wear_training_typing_text5">Vyskúšajte to nižšie.</string>
-  <string name="wear_training_typing_practice_button_content_description">Písanie pomocou klávesnice</string>
-  <string name="wear_training_end_tutorial_title">Môžete začať používať SandFly</string>
   <string name="wear_new_feature_page_title">Vitajte v aktualizovanej aplikácii SandFly</string>
   <string name="wear_new_feature_page_content">Budete si môcť všimnúť niekoľko opráv chýb a zmien v tom, ako funguje zameranie</string>
   <string name="wear_new_feature_page_button_content_description">Dokončiť</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Režim zvonenia</string>
     <string name="summary_pref_announce_ringer_mode">Povedzte, keď je zvonenie nastavené na vibrovanie alebo ticho</string>
     <string name="title_pref_category_feedback">Spätná väzba</string>
-    <string name="title_pref_category_typing_and_braille">Písanie a Braillovo písmo</string>
     <string name="title_pref_category_apps">Aplikácie</string>
     <string name="title_pref_touch_activation">Dotyk a aktivácia</string>
     <string name="title_pref_navigation">Navigácia</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Nedovoľte</string>
     <string name="permission_speak_label">hovor cez SandFly</string>
     <string name="permission_speak_description">Umožňuje aplikácii požiadať o vyslovenie textu vaším hlasom SandFly. SandFly sa vás opýta skôr, ako môže aplikácia hovoriť.</string>
-    <string name="permission_braille_display_label">požiadať o zobrazenie Braillovho písma pre SandFly</string>
-    <string name="permission_braille_display_description">Umožňuje aplikácii požiadať o zobrazenie Braillovho písma pre SandFly. Ak to povolíte v SandFly, môže čítať všetko na obrazovke a ovládať vaše zariadenie. SandFly sa vás pýta ako prvý.</string>
     <string name="title_pref_phonetic_letters_mode">Hovorte písmená foneticky</string>
     <string name="phonetic_letters_mode_off">Vypnuté</string>
     <string name="phonetic_letters_mode_after_letter_delay">Po liste, oneskorený, napríklad \"h, hotel\"</string>
@@ -1575,50 +1529,6 @@
     <string name="shortcut_title_open_app">Otvorte aplikáciu</string>
     <string name="shortcut_open_app">Otvoriť <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Prejdite na začiatok</string>
-    <string name="shortcut_write_reading_control">Napíšte písmeno kontroly čítania</string>
-    <string name="title_pref_reading_control_letters">Ručne písané písmená abecedy</string>
-    <string name="reading_control_letter_none">Žiadne</string>
-    <string name="handwriting_prompt">Napíšte písmeno abecedy</string>
-    <string name="handwriting_closed">Rukopis uzavretý</string>
-    <string name="handwriting_no_match">Žiadna kontrola čítania nezačína <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Rukopis nebol rozpoznaný</string>
-    <string name="handwriting_downloading">Sťahuje sa rozpoznávanie rukopisu</string>
-    <string name="handwriting_download_title">Stiahnuť rozpoznávanie rukopisu?</string>
-    <string name="handwriting_download_message">Tento telefón rozpoznáva rukopis. Jeho model pre tento jazyk, asi 20 MB, sa stiahne z Google raz. Po stiahnutí sa zobrazí správa.</string>
-    <string name="handwriting_download_button">Stiahnuť</string>
-    <string name="handwriting_downloaded">Rozpoznávanie rukopisu bolo stiahnuté</string>
-    <string name="handwriting_download_failed">Rozpoznávanie rukopisu sa nepodarilo stiahnuť. Skontrolujte internetové pripojenie.</string>
-    <string name="handwriting_unsupported_language">Rozpoznávanie rukou písaného textu nie je v tomto jazyku dostupné</string>
-    <string name="title_pref_handwriting_keyboard">Klávesnica na písanie rukou</string>
-    <string name="summary_pref_handwriting_keyboard">Zapnite ručné písanie SandFly v nastaveniach klávesnice Android</string>
-    <string name="title_pref_handwriting_wait">Po napísaní počkajte</string>
-    <string name="value_handwriting_wait_200">0,2 sekundy</string>
-    <string name="value_handwriting_wait_300">0,3 sekundy</string>
-    <string name="value_handwriting_wait_400">0,4 sekundy</string>
-    <string name="value_handwriting_wait_500">0,5 sekundy</string>
-    <string name="value_handwriting_wait_600">0,6 sekundy</string>
-    <string name="value_handwriting_wait_800">0,8 sekundy</string>
-    <string name="value_handwriting_wait_1000">1 sekunda</string>
-    <string name="handwriting_keyboard_name">SandFly rukopis</string>
-    <string name="handwriting_space">Medzerník</string>
-    <string name="handwriting_new_line">Nový riadok</string>
-    <string name="handwriting_tutorial_intro">Kurz klávesnice na písanie rukou. Píšte jedným prstom kdekoľvek na obrazovke. To, čo píšete, sa píše, keď sa na chvíľu zastavíte. Ak chcete ukončiť návod, potiahnite troma prstami nadol.</string>
-    <string name="handwriting_tutorial_write_letter">Napíšte písmeno abecedy a.</string>
-    <string name="handwriting_tutorial_write_word">Teraz napíšte slovo hi (h, za ktorým nasleduje i).</string>
-    <string name="handwriting_tutorial_typed">Zadali ste <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Medzeru zadajte potiahnutím dvoma prstami doprava.</string>
-    <string name="handwriting_tutorial_delete">Potiahnutím dvoch prstov doľava odstránite znak pred kurzorom.</string>
-    <string name="handwriting_tutorial_deleted">Odstránené.</string>
-    <string name="handwriting_tutorial_next_reading">Ak sa rukopis rozpozná ako iný znak, napríklad veľké písmeno, potiahnutím dvoma prstami nahor vyberte ďalší návrh na rozpoznávanie. Skúste to teraz.</string>
-    <string name="handwriting_tutorial_read_back">Klepnutím dvoma prstami si prečítajte text pred kurzorom.</string>
-    <string name="handwriting_tutorial_new_line">Potiahnutím dvoma prstami nadol vložte nový riadok alebo vykonajte akciu textového poľa, napríklad Odoslať.</string>
-    <string name="handwriting_tutorial_not_that">To bolo ďalšie gesto.</string>
-    <string name="handwriting_tutorial_done">Nový riadok. Výukový program dokončený. Potiahnutím troch prstov nadol klávesnicu skryjete a tromi prstami doprava alebo doľava prepnete klávesnice. Ak chcete znova otvoriť návod, klepnite tromi prstami.</string>
-    <string name="handwriting_tutorial_finished">Kurz skončil. Ak ho chcete znova otvoriť, klepnite naň tromi prstami.</string>
-    <string name="handwriting_no_alternatives">Žiadne ďalšie návrhy</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> z <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Prázdny text</string>
-    <string name="handwriting_not_available">Na tomto zariadení nie je k dispozícii rozpoznávanie rukou písaného textu</string>
     <string name="shortcut_scroll_to_bottom">Prejdite nadol</string>
     <string name="shortcut_refresh">Obnoviť</string>
     <string name="shortcut_system_notifications">Odtieň upozornení systému</string>
@@ -1630,40 +1540,11 @@
     <string name="title_clear_selection">Vymazať výber</string>
     <string name="title_pref_brightness">Jas</string>
     <string name="summary_support_change_brightness">Zvýšte alebo znížte jas obrazovky, aj keď je obrazovka skrytá</string>
-    <string name="title_pref_shortcut_3finger_4tap">Štvorité poklepanie tromi prstami</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Otočte 2 prstami v smere hodinových ručičiek</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Otočte 2 prstami proti smeru hodinových ručičiek</string>
-    <string name="title_pref_shortcut_2finger_scrub">Vydrhnite 2 prstami</string>
-    <string name="title_pref_shortcut_2finger_pinch">Stlačte 2 prsty</string>
-    <string name="title_pref_shortcut_2finger_spread">Rozotrite 2 prstami</string>
-    <string name="title_pref_shortcut_3finger_pinch">Stlačte 3 prsty</string>
-    <string name="title_pref_shortcut_3finger_spread">Rozotrite 3 prstami</string>
-    <string name="title_pref_shortcut_4finger_pinch">Stlačte 4 prstami</string>
-    <string name="title_pref_shortcut_4finger_spread">Rozotrite 4 prstami</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Potiahnite prstom nahor od spodného okraja</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Dlhé potiahnutie nahor od spodného okraja</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Potiahnite prstom z ľavého horného rohu nadol</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Potiahnite prstom nadol z pravej hornej strany</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Dlhé potiahnutie nadol zľava hore</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Dlhé potiahnutie nadol z pravej hornej strany</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Potiahnite prstom doprava od ľavého okraja, horná polovica</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Dlhé potiahnutie doprava od ľavého okraja, horná polovica</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Potiahnite prstom doprava od ľavého okraja, spodnú polovicu</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Dlhé potiahnutie doprava od ľavého okraja, spodná polovica</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Potiahnite prstom doľava od pravého okraja, hornej polovice</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Dlhé potiahnutie doľava od pravého okraja, horná polovica</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Potiahnite prstom doľava od pravého okraja, spodnú polovicu</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Dlhé potiahnutie doľava od pravého okraja, spodná polovica</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Podržaním prsta vyberte ľubovoľný kláves a potom ho zdvihnite. Dvojitým klepnutím zobrazíte Enter, Hotovo alebo Odoslať.</string>
-    <string name="value_type_confirmation_tap_to_type">Klepnutím na ľubovoľný kláves ho napíšte alebo podržaním prsta vyberte ľubovoľný kláves a potom ho zdvihnite</string>
-    <string name="title_pref_multi_tap_timeout">Čas medzi klepnutiami jedným prstom</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekundy</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekundy</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekundy</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekundy (predvolené)</string>
-    <string name="title_pref_rotor_step_degrees">Otočenie rotora na krok</string>
-    <string name="title_pref_edge_first_click_mm">Vzdialenosť od prvého kliknutia</string>
-    <string name="title_pref_edge_second_click_mm">Vzdialenosť od prvého po druhé kliknutie</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1711,15 +1592,8 @@
     <string name="summary_support_wrap_around">Zapnite alebo vypnite balenie od poslednej položky po prvú</string>
     <string name="wrap_around_on">Zabaľte sa</string>
     <string name="wrap_around_off">Zabaľte sa</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tablet zdvihol tváre preč</string>
-    <string name="summary_support_tablet_held_up_faces_away">Pre braillovu klávesnicu na tablete alebo rozloženom telefóne</string>
-    <string name="tablet_held_up_faces_away_on">Tablet zdvihnutý tvárami preč</string>
-    <string name="tablet_held_up_faces_away_off">Tablet zdvihol tvár preč</string>
     <string name="title_keyboard_echo_on_screen">Ozvena klávesnice na obrazovke</string>
     <string name="title_keyboard_echo_physical">Fyzická ozvena klávesnice</string>
-    <string name="title_keyboard_echo_braille_keyboard">Ozvena Braillovej klávesnice</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Ozvena klávesnice na písanie rukou</string>
-    <string name="title_keyboard_echo_braille_display">Ozvena Braillovho displeja</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Prerušujte reč pri písaní</string>
     <string name="pref_interrupt_typing_entry_always">Vždy</string>

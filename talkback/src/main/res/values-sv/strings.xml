@@ -294,9 +294,6 @@
   <string name="title_pref_latency_reduction">Minska fördröjningen</string>
   <string name="talkback_latency_reduction_summary">Få SandFly att svara snabbare efter att du tryckt på skärmen</string>
   <string name="summary_pref_intonation">Läs upp texten som raderats med en röst med högre tonhöjd</string>
-  <string name="title_pref_brailledisplay">Punktskriftsskärm</string>
-  <string name="title_pref_brailleime">Punktskriftstangentbord</string>
-  <string name="summary_pref_brailleime_disabled">Ej stöd för punktskriftstangentbord</string>
   <string name="title_pref_speech_footer">För att ändra tillgänglighetsvolymen från vilken skärm som helst, håll ett finger på skärmen och tryck på volym upp- eller volym ned-knappen.</string>
   <string name="title_pref_vibration">Vibrationsåterkoppling</string>
   <string name="title_pref_soundback">Ljudsignal</string>
@@ -317,11 +314,7 @@
   <string name="title_pref_log_overlay">Aktivera överlagring av loggning för felsökning</string>
   <string name="title_pref_typing_confirmation">Skrivningsmetod</string>
   <string name="title_pref_typing_long_tap_duration">Hur lång tid en tangent ska hållas nedtryckt vid inmatning</string>
-  <string name="title_pref_touch_explore_timeout">Fokusfördröjning för att skriva</string>
   <string name="message_pref_touch_explore_latency">En kortare fördröjning gör att SandFly talar snabbare efter att du tryckt på tangentbordet.\n\nVälj en fördröjning</string>
-  <string name="title_pref_touch_focus_timeout">Fokusfördröjning</string>
-  <string name="title_pref_talkback_gesture_detection">Hantera rörelser i SandFly</string>
-  <string name="toast_pref_talkback_gesture_detection">Inaktivera och återaktivera SandFly för att aktivera den här inställningen.</string>
   <string name="title_pref_auto_image_captioning">Automatiska beskrivningar</string>
   <string name="title_pref_gemini_settings">Gemini-inställningar</string>
   <string name="title_pref_gemini_enabled">Gemini röstkommandon</string>
@@ -422,8 +415,6 @@
   <string name="shortcut_increase_volume">Höj volymen</string>
   <string name="shortcut_decrease_volume">Sänk volymen</string>
   <string name="shortcut_all_apps">Alla appar</string>
-  <string name="shortcut_braille_keyboard">Byt till punktskrift</string>
-  <string name="shortcut_braille_display_settings">Öppna inställningarna för punktskriftsskärm</string>
   <string name="shortcut_tutorial">Öppna vägledning</string>
   <string name="shortcut_control_speak_time">Läs upp eller läs inte upp tiden</string>
   <string name="shortcut_enable_speak_time">Läs upp tiden</string>
@@ -432,7 +423,6 @@
   <string name="speak_time_off">Läs upp tiden är inaktiverat</string>
   <string name="shortcut_practice_gestures">Öva på rörelser</string>
   <string name="shortcut_report_gesture">Rapportera problem med rörelse</string>
-  <string name="shortcut_toggle_braille_display">Aktivera eller inaktivera punktskriftsskärmen</string>
   <string name="shortcut_announce_current_time_and_date">Läs upp aktuellt datum och aktuell tid</string>
   <string name="shortcut_announce_battery_state">Läs upp batteriprocent</string>
   <string name="shortcut_announce_current_title">Läs upp fönstrets namn</string>
@@ -442,8 +432,6 @@
   <string name="shortcut_speech_rate_decrease">Minska talhastigheten</string>
   <string name="shortcut_toggle_selection">Aktivera eller avsluta markeringsläget</string>
   <string name="shortcut_show_tutorial">Öppna guiden</string>
-  <string name="shortcut_toggle_braille_contracted_mode">Byt mellan sammandragen (2) och icke-sammandragen (1)</string>
-  <string name="shortcut_toggle_braille_on_screen_overlay">Visa eller dölj punktskrift för anslutna punktskriftsskärmar</string>
   <string name="shortcut_toggle_sound_feedback">Aktivera eller inaktivera ljudsignaler (ljudikoner)</string>
   <string name="shortcut_show_learn_mode_page">Öva på kortkommandon</string>
   <string name="shortcut_announce_phonetic_pronunciation">Läs upp bokstäver med fonetiskt uttal för objekt i fokus</string>
@@ -484,7 +472,6 @@
   <string name="title_show_voice_commands">Röstkommandon</string>
   <string name="title_show_keyboard_shortcuts">Kortkommandon</string>
   <string name="talkback_show_talkback_settings">Inställningar för SandFly</string>
-  <string name="title_show_braille_display_settings">Inställningar för punktskriftsskärmen</string>
   <string name="title_granularity_default">Standard­navigering</string>
   <string name="title_action_dismiss">Ignorera</string>
   <string name="title_action_expand">Utöka</string>
@@ -511,7 +498,6 @@
   <string name="summary_control_speak_time">Ändra om tiden ska läsas upp när du slår på skärmen</string>
   <string name="summary_show_keyboard_shortcuts_preferences">Öppna lista över kortkommandon</string>
   <string name="summary_talkback_preferences">Öppna inställningarna för SandFly</string>
-  <string name="summary_braile_display_preferences">Öppna inställningarna för punktskriftsskärmen</string>
   <string name="summary_system_actions">Öppna alla appar och snabbinställningar</string>
   <string name="summary_tts_settings">Öppna inställningarna för text till tal</string>
   <string name="not_editable">Kan inte redigeras</string>
@@ -561,8 +547,6 @@
   <string name="summary_audio_ducking">Sänk volymen för andra ljud medan SandFly pratar</string>
   <string name="summary_support_scroll_seq">Scrolla framåt eller bakåt</string>
   <string name="summary_support_change_a11y_volume">Höja eller sänka volym för tillgänglighetsfunktionerna</string>
-  <string name="summary_support_change_touch_explore_latency">Öka eller minska fokusfördröjningen för att skriva</string>
-  <string name="summary_support_change_touch_focus_latency">Öka eller minska fokusfördröjningen</string>
   <string name="summary_screen_overview">Sammanfatta skärmen med åtgärdsknappar</string>
   <string name="summary_screen_overview_no_actions">Hör en sammanfattning av innehållet på skärmen</string>
   <string name="summary_image_caption">Läs upp text och ikoner på en markerad bild</string>
@@ -627,7 +611,6 @@
   <string name="gesture_name_double_tap_xr">Nyp två gånger</string>
   <string name="gesture_name_double_tap_and_hold">Dubbeltryck och håll kvar</string>
   <string name="gesture_name_double_tap_and_hold_xr">Nyp och håll</string>
-  <string name="gesture_name_2finger_tap_hold">Tryck länge med två fingrar</string>
   <string name="gesture_name_3finger_tap_hold">Tryck länge med tre fingrar</string>
   <string name="gesture_name_2finger_3tap_hold">Trippeltryck med två fingrar och håll kvar</string>
   <string name="gesture_name_3finger_3tap_hold">Trippeltryck med tre fingrar och håll kvar</string>
@@ -753,11 +736,8 @@
   <string name="title_pref_selector_audio_focus">Ljudkompression</string>
   <string name="title_pref_support_scroll_seq">Scrolla</string>
   <string name="title_pref_a11y_volume">Volym för tillgänglighetsfunktionerna</string>
-  <string name="title_pref_touch_explore_latency">Fokusfördröjning för att skriva</string>
-  <string name="title_pref_touch_focus_latency">Fokusfördröjning</string>
   <string name="message_pref_touch_focus_latency">En kortare fördröjning gör att SandFly talar snabbare efter att du tryckt på skärmen</string>
   <string name="message_pref_typing_method_prefix">Välj ”Håll ned fingret för att välja tangent och lyft sedan fingret” om du vill ha den kortaste fördröjningen när du skriver</string>
-  <string name="message_pref_typing_method_postfix">Du kan även skriva med delat tryck när du vill. Gör detta genom att hålla ned ett finger för att välja en tangent och trycka på skärmen med ett annat finger.</string>
   <string name="title_pref_talkback_speech_rate">Talhastighet</string>
   <string name="title_pref_selector_adjustable_widget_slider">Justera skjutreglaget</string>
   <string name="title_pref_selector_typo_granularity">Korrekturläs</string>
@@ -824,7 +804,6 @@
   <string name="screen_search_keyword_hint">sökordet är %1$s</string>
   <string name="screen_search_no_keyword_hint">Inga sökord ännu. Om du vill starta en ny sökning kan du trycka länge med tre fingrar eller öppna skärmsökning via SandFly-menyn.</string>
   <string name="screen_search_no_keyword_hint_pre_r">Inga sökord ännu. Om du vill starta en ny sökning kan du svepa åt vänster och sedan nedåt eller öppna skärmsökning via SandFly-menyn.</string>
-  <string name="switch_to_braille_keyboard_failure_msg">Punktskriftstangentbordet är av. Konfigurera det i SandFly-inställningarna och försök igen.</string>
   <string name="suggestions_window_available">Förslag är tillgängliga</string>
   <string name="suggestions_window_available_with_gesture">Förslag är tillgängliga Så här får du åtkomst: %1$s</string>
   <string name="heads_up_window_available">Avisering tillgänglig</string>
@@ -907,7 +886,6 @@
   <string name="keyboard_enhanced_keymap_text">SandFly har nu en \"Enhanced keymap\" för fysiska tangentbord, med en mängd nya kommandon och genvägar. Denna förbättring inkluderar ett \"bläddringsläge\" för effektivare webbnavigering, effektivisering av navigering och interaktion för SandFly-användare som förlitar sig på fysiska tangentbord. Du kan byta till \"Förbättrad tangentkarta\" i <xliff:g id="settings_path">%1$s</xliff:g>.\n\nOm du använder en punktdisplay kan du också använda nya genvägar för bläddringsläge för att gå igenom innehåll direkt från din punktdisplay. Vissa punktskriftsgenvägar ändrades för att anpassas till denna förändring. Du kan se en lista över alla genvägar för punktskrift i <xliff:g id="braille_display_settings_path">%2$s</xliff:g>.</string>
   <string name="keyboard_shortcuts_link">SandFly-inställningar &gt; Kortkommandon</string>
   <string name="keyboard_shortcuts_link_tts">SandFly-inställningar och sedan Kortkommandon</string>
-  <string name="braille_display_settings_link">Inställningar för punktskriftsskärmen</string>
   <string name="keyboard_smart_browse_mode_title">Tangentbord: Smart läsläge</string>
   <string name="keyboard_smart_browse_mode_text">SandFlys smarta läsläge inaktiverar läsläget i ett redigeringsfält så att du kan skriva med ett fysiskt tangentbord när du surfar på webben. Sedan aktiveras den igen när du hoppar till ett fält som inte är ett redigeringsfält på webben så att du kan fortsätta surfa effektivt. Du kan aktivera eller inaktivera Smart läsläge i <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <string name="advanced_settings_link">SandFly-inställningar &gt; Avancerade inställningar</string>
@@ -979,7 +957,6 @@
   <string name="typing_text_title">Skriva text</string>
   <string name="basic_typing_text_text">När du är i en textruta öppnas ett tangentbord längst ned på skärmen.</string>
   <string name="typing_text_text">Dra med fingret på tangentbordet. Lyft på fingret när du hör den bokstav som du vill skriva.\n\nTesta att aktivera textrutan nedan och skriva ditt namn.</string>
-  <string name="typing_text_with_braille_keyboard_text">Du kan även skriva med tangentbordet för punktskrift. Det finns i SandFly-inställningarna.</string>
   <string name="other_ways_to_type_title">Andra sätt att skriva</string>
   <string name="other_ways_to_type_text">Det finns andra sätt att skriva på i SandFly. Du kan till exempel dubbeltrycka för att skriva en bokstav.</string>
   <string name="basic_other_ways_to_type_text">Det finns andra sätt att skriva in SandFly. Du kan till exempel använda dubbeltryck för att ange en bokstav. Du kan ändra detta senare i SandFly-inställningar &gt; Tangentbord på skärmen &gt; Inmatningsmetod.</string>
@@ -1094,26 +1071,6 @@
   <string name="talkback_inactive_message_practice_gestures">Aktivera SandFly om du vill öva på rörelser</string>
   <string name="talkback_inactive_message_image_description">Aktivera SandFly om du vill testa att få bildbeskrivningar</string>
   <string name="talkback_inactive_close_tutorial_button">Avsluta guide</string>
-  <string name="wear_training_welcome_paragraph">När SandFly är aktiverat blir det som är i fokus på skärmen uppläst.\n\nGå vidare till nästa objekt genom att svepa åt höger. Svep åt vänster och du går du tillbaka till föregående objekt.\n\nSvep åt höger nu för att hitta nästa knapp.</string>
-  <string name="wear_training_scroll_text" tools:ignore="PluralsCandidate">Svep uppåt eller nedåt med %1$d fingrar.</string>
-  <string name="wear_training_go_back_title">Tillbaka</string>
-  <string name="wear_training_go_back_text" tools:ignore="PluralsCandidate">Svep åt höger från kanten av skärmen med %1$d fingrar när du vill gå tillbaka.</string>
-  <string name="wear_training_go_back_success_confirmation_curved_text">Klart</string>
-  <string name="wear_training_go_back_success_confirmation_overlay_message">Bakåtrörelsen utfördes</string>
-  <string name="wear_training_volume_up_title">Höj volymen</string>
-  <string name="wear_training_volume_up_text">Svep höger och sedan uppåt</string>
-  <string name="wear_training_volume_down_title">Sänk volymen</string>
-  <string name="wear_training_volume_down_text">Svep vänster och sedan nedåt</string>
-  <string name="wear_training_open_talkback_menu_title">Öppna SandFly-menyn</string>
-  <string name="wear_training_open_talkback_menu_text">Svep nedåt och sedan åt höger för att öppna inställningar och kontroller som du använder ofta.</string>
-  <string name="wear_training_typing_title">Skriver</string>
-  <string name="wear_training_typing_text1">Dra med fingret på tangentbordet för att skriva på det. Lyft på fingret när du hör den bokstav som du vill skriva.</string>
-  <string name="wear_training_typing_text2">Svep nedåt från skärmens överkant med två fingrar för att dölja tangentbordet och kontrollera det du har matat in.</string>
-  <string name="wear_training_typing_text3">Svep uppåt från skärmens nederkant med två fingrar för att återgå till tangentbordet.</string>
-  <string name="wear_training_typing_text4">Svep åt höger från skärmens vänstra kant med två fingrar för att stänga tangentbordet och avbryta inmatningen.</string>
-  <string name="wear_training_typing_text5">Testa nedan.</string>
-  <string name="wear_training_typing_practice_button_content_description">Skriva med tangentbordet</string>
-  <string name="wear_training_end_tutorial_title">Du kan börja använda SandFly</string>
   <string name="wear_new_feature_page_title">Välkommen till den nya versionen av SandFly</string>
   <string name="wear_new_feature_page_content">Vi har gjort några felkorrigeringar och ändringar av hur fokus flyttas</string>
   <string name="wear_new_feature_page_button_content_description">Slutför</string>
@@ -1374,7 +1331,6 @@
     <string name="title_pref_announce_ringer_mode">Ringsignalläge</string>
     <string name="summary_pref_announce_ringer_mode">Säg när ringsignalen är inställd på att vibrera eller tyst</string>
     <string name="title_pref_category_feedback">Feedback</string>
-    <string name="title_pref_category_typing_and_braille">Skrivning och punktskrift</string>
     <string name="title_pref_category_apps">Appar</string>
     <string name="title_pref_touch_activation">Tryck och aktivering</string>
     <string name="title_pref_navigation">Navigering</string>
@@ -1398,8 +1354,6 @@
     <string name="speech_control_deny">Tillåt inte</string>
     <string name="permission_speak_label">tala igenom SandFly</string>
     <string name="permission_speak_description">Låter appen be att få säga text med din SandFly röst. SandFly frågar dig innan appen kan tala.</string>
-    <string name="permission_braille_display_label">be om att vara en punktskriftsskärm för SandFly</string>
-    <string name="permission_braille_display_description">Låter appen begära att vara en punktskriftsskärm för SandFly. Om du tillåter det i SandFly kan det läsa allt på skärmen och styra din enhet. SandFly frågar dig först.</string>
     <string name="title_pref_phonetic_letters_mode">Tala bokstäver fonetiskt</string>
     <string name="phonetic_letters_mode_off">Av</string>
     <string name="phonetic_letters_mode_after_letter_delay">Efter brevet, försenat, som \"h, hotell\"</string>
@@ -1567,50 +1521,6 @@
     <string name="shortcut_title_open_app">Öppna appen</string>
     <string name="shortcut_open_app">Öppna <xliff:g id="app_name" example="Gmail">%1$s</xliff:g></string>
     <string name="shortcut_scroll_to_top">Bläddra till toppen</string>
-    <string name="shortcut_write_reading_control">Skriv bokstaven i en läskontroll</string>
-    <string name="title_pref_reading_control_letters">Handskrivna bokstäver i alfabetet</string>
-    <string name="reading_control_letter_none">Inget</string>
-    <string name="handwriting_prompt">Skriv en bokstav i alfabetet</string>
-    <string name="handwriting_closed">Handstil stängd</string>
-    <string name="handwriting_no_match">Ingen läskontroll börjar med <xliff:g id="letter" example="Q">%1$s</xliff:g></string>
-    <string name="handwriting_not_recognized">Handstilen känns inte igen</string>
-    <string name="handwriting_downloading">Handskriftsigenkänning laddas ned</string>
-    <string name="handwriting_download_title">Ladda ner handskriftsigenkänning?</string>
-    <string name="handwriting_download_message">Handstil känns igen på den här telefonen. Dess modell för detta språk, cirka 20 MB, laddas ner från Google en gång. Ett meddelande visar när den har laddats ner.</string>
-    <string name="handwriting_download_button">Ladda ned</string>
-    <string name="handwriting_downloaded">Handskriftsigenkänning har laddats ned</string>
-    <string name="handwriting_download_failed">Det gick inte att ladda ned handskriftsigenkänning. Kontrollera internetanslutningen.</string>
-    <string name="handwriting_unsupported_language">Handskriftsigenkänning är inte tillgängligt på detta språk</string>
-    <string name="title_pref_handwriting_keyboard">Handstil tangentbord</string>
-    <string name="summary_pref_handwriting_keyboard">Aktivera SandFly handskrift i Androids tangentbordsinställningar</string>
-    <string name="title_pref_handwriting_wait">Vänta efter att ha skrivit</string>
-    <string name="value_handwriting_wait_200">0,2 sekunder</string>
-    <string name="value_handwriting_wait_300">0,3 sekunder</string>
-    <string name="value_handwriting_wait_400">0,4 sekunder</string>
-    <string name="value_handwriting_wait_500">0,5 sekunder</string>
-    <string name="value_handwriting_wait_600">0,6 sekunder</string>
-    <string name="value_handwriting_wait_800">0,8 sekunder</string>
-    <string name="value_handwriting_wait_1000">1 sekund</string>
-    <string name="handwriting_keyboard_name">SandFly handstil</string>
-    <string name="handwriting_space">Blanksteg</string>
-    <string name="handwriting_new_line">Ny rad</string>
-    <string name="handwriting_tutorial_intro">Handskriftsguide för tangentbord. Skriv med ett finger var som helst på skärmen. Det du skriver skrivs när du stannar upp en stund. För att avsluta handledningen sveper du nedåt med tre fingrar.</string>
-    <string name="handwriting_tutorial_write_letter">Skriv bokstaven a.</string>
-    <string name="handwriting_tutorial_write_word">Skriv nu ordet hi (h följt av i).</string>
-    <string name="handwriting_tutorial_typed">Skrev <xliff:g id="text" example="a">%1$s</xliff:g>.</string>
-    <string name="handwriting_tutorial_space">Svep åt höger med två fingrar för att skriva ett mellanslag.</string>
-    <string name="handwriting_tutorial_delete">Svep åt vänster med två fingrar för att ta bort tecknet före markören.</string>
-    <string name="handwriting_tutorial_deleted">Raderad.</string>
-    <string name="handwriting_tutorial_next_reading">Om handstil känns igen som ett annat tecken, till exempel en stor bokstav, sveper du uppåt med två fingrar för att välja nästa igenkänningsförslag. Prova nu.</string>
-    <string name="handwriting_tutorial_read_back">Tryck med två fingrar för att läsa texten före markören.</string>
-    <string name="handwriting_tutorial_new_line">Svep nedåt med två fingrar för att infoga en ny rad eller utför textfältsåtgärden, till exempel Skicka.</string>
-    <string name="handwriting_tutorial_not_that">Det var en annan gest.</string>
-    <string name="handwriting_tutorial_done">Ny linje. Handledningen avslutad. Svep nedåt med tre fingrar för att dölja tangentbordet och höger eller vänster med tre fingrar för att byta tangentbord. För att öppna handledningen igen, tryck med tre fingrar.</string>
-    <string name="handwriting_tutorial_finished">Handledningen är slut. För att öppna den igen, tryck med tre fingrar.</string>
-    <string name="handwriting_no_alternatives">Inga andra förslag</string>
-    <string name="handwriting_alternative"><xliff:g id="text" example="Hello">%1$s</xliff:g>, <xliff:g id="index" example="2">%2$d</xliff:g> av <xliff:g id="count" example="5">%3$d</xliff:g></string>
-    <string name="handwriting_empty">Tom text</string>
-    <string name="handwriting_not_available">Handskriftsigenkänning är inte tillgängligt på den här enheten</string>
     <string name="shortcut_scroll_to_bottom">Bläddra till botten</string>
     <string name="shortcut_refresh">Uppdatera</string>
     <string name="shortcut_system_notifications">Systemaviseringspanel</string>
@@ -1622,40 +1532,11 @@
     <string name="title_clear_selection">Rensa val</string>
     <string name="title_pref_brightness">Ljusstyrka</string>
     <string name="summary_support_change_brightness">Öka eller minska skärmens ljusstyrka, även när skärmen är dold</string>
-    <string name="title_pref_shortcut_3finger_4tap">Fyrdubbelknacka med 3 fingrar</string>
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Vrid medurs med 2 fingrar</string>
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Vrid moturs med 2 fingrar</string>
-    <string name="title_pref_shortcut_2finger_scrub">Skrubba med 2 fingrar</string>
-    <string name="title_pref_shortcut_2finger_pinch">Nyp med 2 fingrar</string>
-    <string name="title_pref_shortcut_2finger_spread">Bred ut med 2 fingrar</string>
-    <string name="title_pref_shortcut_3finger_pinch">Nyp med 3 fingrar</string>
-    <string name="title_pref_shortcut_3finger_spread">Bred ut med 3 fingrar</string>
-    <string name="title_pref_shortcut_4finger_pinch">Nyp med 4 fingrar</string>
-    <string name="title_pref_shortcut_4finger_spread">Sprid ut med 4 fingrar</string>
-    <string name="title_pref_shortcut_edge_bottom_up">Svep uppåt från den nedre kanten</string>
-    <string name="title_pref_shortcut_edge_bottom_long_up">Långt svep uppåt från den nedre kanten</string>
-    <string name="title_pref_shortcut_edge_top_left_down">Svep nedåt från det övre vänstra hörnet</string>
-    <string name="title_pref_shortcut_edge_top_right_down">Svep ner från det övre högra hörnet</string>
-    <string name="title_pref_shortcut_edge_top_left_long_down">Långt svep ner från det övre vänstra hörnet</string>
-    <string name="title_pref_shortcut_edge_top_right_long_down">Långt svep ner från det övre högra hörnet</string>
-    <string name="title_pref_shortcut_edge_left_top_right">Svep åt höger från vänster kant, övre halvan</string>
-    <string name="title_pref_shortcut_edge_left_top_long_right">Långt svep höger från vänster kant, övre halvan</string>
-    <string name="title_pref_shortcut_edge_left_bottom_right">Svep åt höger från vänster kant, nedre halvan</string>
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Långt svep höger från vänster kant, nedre halvan</string>
-    <string name="title_pref_shortcut_edge_right_top_left">Svep åt vänster från höger kant, övre halvan</string>
-    <string name="title_pref_shortcut_edge_right_top_long_left">Långt svep åt vänster från höger kant, övre halvan</string>
-    <string name="title_pref_shortcut_edge_right_bottom_left">Svep åt vänster från höger kant, nedre halvan</string>
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Långt svep åt vänster från höger kant, nedre halvan</string>
     <string name="value_type_confirmation_lift_to_type_except_action_key">Håll fingret för att välja valfri tangent och lyft sedan. Dubbeltryck för Enter, Klar eller Skicka.</string>
-    <string name="value_type_confirmation_tap_to_type">Tryck på valfri tangent för att skriva den, eller håll fingret för att välja valfri tangent och lyft sedan</string>
-    <string name="title_pref_multi_tap_timeout">Tid mellan ett fingertryck</string>
     <string name="value_multi_tap_timeout_100ms">0,1 sekunder</string>
     <string name="value_multi_tap_timeout_150ms">0,15 sekunder</string>
     <string name="value_multi_tap_timeout_200ms">0,2 sekunder</string>
     <string name="value_multi_tap_timeout_250ms">0,25 sekunder (standard)</string>
-    <string name="title_pref_rotor_step_degrees">Rotorvarv per steg</string>
-    <string name="title_pref_edge_first_click_mm">Avstånd till första klick</string>
-    <string name="title_pref_edge_second_click_mm">Avstånd från första till andra klick</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1703,15 +1584,8 @@
     <string name="summary_support_wrap_around">Slå på eller av omslag från det sista föremålet till det första</string>
     <string name="wrap_around_on">Linda runt på</string>
     <string name="wrap_around_off">Linda runt av</string>
-    <string name="title_selector_tablet_held_up_faces_away">Tabletten höll upp ansiktena bort</string>
-    <string name="summary_support_tablet_held_up_faces_away">För punktskrifttangentbordet på en surfplatta eller uppfälld telefon</string>
-    <string name="tablet_held_up_faces_away_on">Tabletten höll upp ansiktena bort på</string>
-    <string name="tablet_held_up_faces_away_off">Tabletten höll upp ansiktena bort</string>
     <string name="title_keyboard_echo_on_screen">Tangentbordeko på skärmen</string>
     <string name="title_keyboard_echo_physical">Fysiskt tangentbordseko</string>
-    <string name="title_keyboard_echo_braille_keyboard">Eko av blindskriftstangentbord</string>
-    <string name="title_keyboard_echo_handwriting_keyboard">Handstil tangentbord eko</string>
-    <string name="title_keyboard_echo_braille_display">Punktdisplay eko</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_pref_interrupt_typing">Avbryt talet när du skriver</string>
     <string name="pref_interrupt_typing_entry_always">Alltid</string>
