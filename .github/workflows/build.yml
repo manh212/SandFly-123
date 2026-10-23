@@ -66,7 +66,9 @@ jobs:
       - name: Build debug APKs
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
-        run: ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain
+        run: |
+          set -o pipefail
+          ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee "$RUNNER_TEMP/assemble.log"
 
       - name: Check the signing key
         if: github.event_name == 'push'
@@ -110,10 +112,10 @@ jobs:
           if-no-files-found: error
 
       # On a failed pull request build, posts one comment on the pull request summarizing
-      # the failure (failed steps, lint errors, failing unit tests) from the report files
-      # on the runner, so the cause can be read without opening the full Actions log. It
-      # never prints environment values or file dumps, drops any line that mentions a
-      # credential, and can never fail the build itself.
+      # the failure (failed steps, the tail of the APK build's Gradle output, lint errors,
+      # failing unit tests) from the files on the runner, so the cause can be read without
+      # opening the full Actions log. It never prints environment values, drops any line
+      # that mentions a credential, and can never fail the build itself.
       - name: Comment on the pull request with the failure summary
         if: failure() && github.event_name == 'pull_request'
         continue-on-error: true
@@ -130,6 +132,12 @@ jobs:
             grep -E ': Error:' "$lint_file" 2>/dev/null | grep -Evi "$blocked" | head -n 40 > "$lint_out"
           fi
           head -c 6000 "$lint_out" > "$lint_out.tmp" && mv "$lint_out.tmp" "$lint_out"
+          assemble_out="$RUNNER_TEMP/assemble-tail.txt"
+          : > "$assemble_out"
+          if [ -f "$RUNNER_TEMP/assemble.log" ]; then
+            tail -n 150 "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" > "$assemble_out" || true
+          fi
+          head -c 12000 "$assemble_out" > "$assemble_out.tmp" && mv "$assemble_out.tmp" "$assemble_out"
           tests_out="$RUNNER_TEMP/test-failures.txt"
           python3 - > "$tests_out" <<'PYEOF'
           import glob, re, sys
@@ -167,6 +175,14 @@ jobs:
             if [ -n "$failed_steps" ]; then
               echo
               echo "**Failed steps:** $failed_steps"
+            fi
+            if [ -s "$assemble_out" ]; then
+              echo
+              echo "### Gradle output (last lines of the APK build)"
+              echo
+              echo '```'
+              cat "$assemble_out"
+              echo '```'
             fi
             if [ -s "$lint_out" ]; then
               echo
