@@ -235,12 +235,12 @@ public class WindowEventInterpreterTest {
     waitMs(600);
 
     assertTranscript(
-        "0ms windows from=11 changes=0x1 original start=0 delay=10/200 main | src 11\"Wi-Fi\" was"
+        "0ms windows from=11 changes=0x1 original start=0 delay=10/100 main | src 11\"Wi-Fi\" was"
             + " 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
-        "200ms windows from=11 changes=0x1 stable start=0 delay=200/200 main | src 11\"Wi-Fi\""
+        "100ms windows from=11 changes=0x1 stable start=0 delay=100/100 main | src 11\"Wi-Fi\""
             + " was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"");
-    // The event and each of the 20 checks ask for the windows once, for all their lookups.
-    assertEquals(1 + 20, serviceWindows.windowListRequests);
+    // The event and each of the 10 checks ask for the windows once, for all their lookups.
+    assertEquals(1 + 10, serviceWindows.windowListRequests);
   }
 
   @Test
