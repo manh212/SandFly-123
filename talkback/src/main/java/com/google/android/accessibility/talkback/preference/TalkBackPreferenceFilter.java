@@ -167,6 +167,10 @@ public class TalkBackPreferenceFilter {
     REDUCE_SWIPE_START_DELAY(
         R.string.pref_reduce_swipe_start_delay_key,
         HIDDEN_ON_TV | SHOW_IF_SERVICE_GESTURE_DETECTION),
+    // Completing swipes early also lives in Backtalk's own gesture detection.
+    COMPLETE_SWIPE_EARLY(
+        R.string.pref_complete_swipe_early_key,
+        HIDDEN_ON_TV | SHOW_IF_SERVICE_GESTURE_DETECTION),
     PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN_SETUP),
     TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN_SETUP),
     // Help & Tutorial.

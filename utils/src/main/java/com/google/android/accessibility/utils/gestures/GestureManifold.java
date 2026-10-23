@@ -117,6 +117,10 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
       return false;
     }
 
+    default boolean completeSwipeEarly() {
+      return false;
+    }
+
     default boolean useMultipleGestureSet() {
       return false;
     }

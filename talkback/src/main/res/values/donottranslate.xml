@@ -2109,4 +2109,6 @@
   <bool name="pref_show_context_menu_voice_profile_default">false</bool>
   <item type="id" name="group_voice_profile" />
   <item type="id" name="voice_profile_menu" />
+  <string name="pref_complete_swipe_early_key" translatable="false">pref_complete_swipe_early_key</string>
+  <bool name="pref_complete_swipe_early_default">false</bool>
 </resources>

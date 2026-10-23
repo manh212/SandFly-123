@@ -3473,6 +3473,9 @@ public class TalkBackService extends AccessibilityServiceCompat
           getBooleanPref(
               R.string.pref_reduce_swipe_start_delay_key,
               R.bool.pref_reduce_swipe_start_delay_default));
+      TouchInteractionMonitor.setCompleteSwipeEarly(
+          getBooleanPref(
+              R.string.pref_complete_swipe_early_key, R.bool.pref_complete_swipe_early_default));
     }
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);

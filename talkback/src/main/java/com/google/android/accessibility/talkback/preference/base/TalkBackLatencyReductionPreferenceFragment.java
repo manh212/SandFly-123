@@ -202,6 +202,7 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_single_tap_key),
             context.getString(R.string.pref_reduce_window_delay_key),
             context.getString(R.string.pref_reduce_swipe_start_delay_key),
+            context.getString(R.string.pref_complete_swipe_early_key),
             context.getString(R.string.pref_typing_confirmation_key),
             context.getString(R.string.pref_typing_long_press_duration_key),
             context.getString(R.string.pref_typing_focus_time_out_key),
@@ -274,6 +275,13 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (reduceSwipeStartDelayPreference != null) {
         reduceSwipeStartDelayPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_reduce_swipe_start_delay_default));
+      }
+
+      TwoStatePreference completeSwipeEarlyPreference =
+          findPreference(getString(R.string.pref_complete_swipe_early_key));
+      if (completeSwipeEarlyPreference != null) {
+        completeSwipeEarlyPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_complete_swipe_early_default));
       }
 
       TwoStatePreference speakItemsBeforeScrollPreference =

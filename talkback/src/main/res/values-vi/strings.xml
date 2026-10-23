@@ -1704,4 +1704,6 @@
     <string name="value_distance_40mm">4 cm</string>
     <string name="value_distance_50mm">5 cm</string>
     <string name="title_pref_category_typing">Nhập</string>
+    <string name="pref_complete_swipe_early_title">Nhận diện vuốt sớm</string>
+    <string name="pref_complete_swipe_early_summary">Cử chỉ vuốt một ngón được thực hiện ngay khi hướng đã rõ, thay vì chờ nhấc ngón, nên thao tác vuốt phản hồi sớm hơn. Cử chỉ vuốt hai đoạn bắt đầu cùng hướng sẽ được thực hiện thành cử chỉ vuốt một đoạn.</string>
 </resources>

@@ -78,6 +78,7 @@ class Swipe extends GestureMatcher {
   // Constants for separating gesture segments
   private static final float ANGLE_THRESHOLD = 0.0f;
   private final boolean invalidSwipeGestureEarlyDetection;
+  private final GestureConfigProvider configProvider;
 
   Swipe(
       Context context,
@@ -115,6 +116,7 @@ class Swipe extends GestureMatcher {
     int maxTimeToContinueSwipeMsPerCm =
         context.getResources().getInteger(R.integer.config_max_time_to_continue_swipe_ms_per_cm);
     invalidSwipeGestureEarlyDetection = configProvider.invalidSwipeGestureEarlyDetection();
+    this.configProvider = configProvider;
     maxStartThreshold = (int) (maxTimeToStartSwipeMsPerCm * gestureConfirmDistanceCm);
     maxContinueThreshold =
         // The tolerance of gesture time was actually greater than this value. Considering the
@@ -219,6 +221,18 @@ class Swipe extends GestureMatcher {
       previousGestureX = x;
       previousGestureY = y;
       strokeBuffer.add(new PointF(x, y));
+    }
+
+    if (configProvider.completeSwipeEarly()
+        && directions.length == 1
+        && getState() == STATE_GESTURE_STARTED) {
+      // The direction is already unmistakable, so complete now instead of at finger lift. The
+      // base point was reset when the gesture started, so measure from there: this confirms the
+      // direction a little past the start point before completing.
+      double earlyDelta = Math.hypot(Math.abs(x - baseX), Math.abs(y - baseY));
+      if (earlyDelta >= touchSlop && toDirection(x - baseX, y - baseY) == directions[0]) {
+        completeGesture(eventId, event);
+      }
     }
   }
 
