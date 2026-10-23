@@ -68,16 +68,24 @@ jobs:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain
 
-      # Record the exact APK sizes in the run summary, so the effect of a change like
-      # the R8 trial can be read off the run page without downloading the artifact.
+      # Record the exact APK sizes in the run summary, and on pull requests also as a
+      # comment, so the effect of a change like the R8 trial can be read without
+      # downloading the build's artifact. Never fails the build.
       - name: Record APK sizes
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           {
             echo "### APK sizes"
             for apk in build/outputs/apk/*/debug/*.apk; do
               echo "- $apk: $(stat -c%s "$apk") bytes"
             done
-          } >> "$GITHUB_STEP_SUMMARY"
+          } | tee "$RUNNER_TEMP/apk-sizes.md" >> "$GITHUB_STEP_SUMMARY"
+          if [ "$GITHUB_EVENT_NAME" = pull_request ]; then
+            gh pr comment "${{ github.event.pull_request.number }}" \
+              --body-file "$RUNNER_TEMP/apk-sizes.md" || true
+          fi
 
       - name: Check the signing key
         if: github.event_name == 'push'
