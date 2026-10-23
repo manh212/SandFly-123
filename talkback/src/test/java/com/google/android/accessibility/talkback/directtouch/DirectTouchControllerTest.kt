@@ -175,11 +175,11 @@ class DirectTouchControllerTest {
     windowsChange(SHADE, WINDOWS_CHANGE_ADDED, statusBar(), navigationBar(), underShade, shade())
     windowsChange(SHADE, WINDOWS_CHANGE_REMOVED, statusBar(), navigationBar(), game())
 
+    // The window wait settles at its second check now, before the controller's 150 ms look, so
+    // that look alone turns direct touch on for the game; the shade changes keep their counts.
     assertTranscript(
       "region [0,80][1080,2220] complex=false",
       "say \"Direct touch on\"",
-      "region [0,80][1080,2220] complex=false",
-      "region [0,80][1080,2220] complex=false",
       "region none",
       "say \"Direct touch off\"",
       "region [0,80][1080,2220] complex=false",
@@ -199,11 +199,11 @@ class DirectTouchControllerTest {
     windowsChange(TOAST, WINDOWS_CHANGE_ADDED, statusBar(), navigationBar(), game2(), toast())
     windowsChange(TOAST, WINDOWS_CHANGE_REMOVED, statusBar(), navigationBar(), game2())
 
+    // The window wait settles at its second check now, before the controller's 150 ms look, so
+    // that look alone turns direct touch on; the toast changes that follow keep their counts.
     assertTranscript(
       "region [0,80][1080,2220] complex=false",
       "say \"Direct touch on\"",
-      "region [0,80][1080,2220] complex=false",
-      "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
