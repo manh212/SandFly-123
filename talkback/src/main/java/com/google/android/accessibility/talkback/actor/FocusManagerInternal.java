@@ -251,7 +251,15 @@ public class FocusManagerInternal {
     ScreenState state = screenState.getStableScreenState();
     long windowEventInterpreterDelayTimeMs =
         SystemClock.uptimeMillis() - state.getScreenTransitionStartTime();
-    if (windowEventInterpreterDelayTimeMs <= WindowEventInterpreter.getWindowChangeDelayMs()) {
+    long focusDelayMs = WindowEventInterpreter.getWindowChangeDelayMs();
+    long stableDelayMs =
+        WindowEventInterpreter.getStableTransitionDelayMs(state.getScreenTransitionStartTime());
+    if (stableDelayMs >= 0) {
+      // The interpreter already assumed this transition's windows stable, so the wait ends
+      // with the window announcement instead of the full delay.
+      focusDelayMs = Math.min(focusDelayMs, stableDelayMs);
+    }
+    if (windowEventInterpreterDelayTimeMs <= focusDelayMs) {
       LogUtils.d(TAG, String.format("%s: Return, the initial focus is not stable yet.", subTag));
       return false;
     }

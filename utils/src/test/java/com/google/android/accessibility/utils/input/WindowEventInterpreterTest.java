@@ -205,7 +205,7 @@ public class WindowEventInterpreterTest {
   }
 
   @Test
-  public void screenWithoutAStateChangeTitleWaitsForTheLongestDelay() {
+  public void screenWithAWindowTitleButNoStateChangeTitleSettlesAtTheSecondCheck() {
     openSettings();
 
     setWindows(statusBar(), navigationBar(), app(WIFI, "Wi-Fi").active().build());
@@ -213,13 +213,39 @@ public class WindowEventInterpreterTest {
     interpret(windowsChanged(SETTINGS, WINDOWS_CHANGE_REMOVED));
     waitMs(600);
 
+    // No state-change event ever names the window, but the window list has its title from the
+    // start and two checks in a row see the same windows, so the wait ends at the second check
+    // instead of lasting the whole delay.
     assertTranscript(
         "0ms windows from=11 changes=0x1 original start=0 delay=10/550 main | src 11\"Wi-Fi\" was"
             + " 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
         "0ms windows from=10 changes=0x2 original start=0 delay=10/550 main | src 10 feedback"
             + " \"untitled\" was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
-        "550ms windows from=10 changes=0x2 stable start=0 delay=550/550 main | src 10 feedback"
+        "20ms windows from=10 changes=0x2 stable start=0 delay=20/550 main | src 10 feedback"
             + " \"untitled\" was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"");
+    // Each event and each of the 2 checks asks for the windows once, though each looks up the
+    // Settings window, which has closed.
+    assertEquals(2 + 2, serviceWindows.windowListRequests);
+  }
+
+  @Test
+  public void screenWithoutAnyTitleWaitsForTheLongestDelay() {
+    openSettings();
+
+    setWindows(statusBar(), navigationBar(), app(WIFI, null).active().build());
+    interpret(windowsChanged(WIFI, WINDOWS_CHANGE_ADDED));
+    interpret(windowsChanged(SETTINGS, WINDOWS_CHANGE_REMOVED));
+    waitMs(600);
+
+    // The changed window has no title in the window list and none arrives by state-change
+    // either, so the picture settling is not enough: the wait lasts the whole delay.
+    assertTranscript(
+        "0ms windows from=11 changes=0x1 original start=0 delay=10/550 main | src 11 feedback"
+            + " \"untitled\" was 10\"Settings\" | A 11 feedback \"untitled\" was 10\"Settings\"",
+        "0ms windows from=10 changes=0x2 original start=0 delay=10/550 main | src 10 feedback"
+            + " \"untitled\" was 10\"Settings\" | A 11 feedback \"untitled\" was 10\"Settings\"",
+        "550ms windows from=10 changes=0x2 stable start=0 delay=550/550 main | src 10 feedback"
+            + " \"untitled\" was 10\"Settings\" | A 11 feedback \"untitled\" was 10\"Settings\"");
     // Each event and each of the 55 checks asks for the windows once, though each looks up the
     // Settings window, which has closed.
     assertEquals(2 + 55, serviceWindows.windowListRequests);
@@ -237,10 +263,10 @@ public class WindowEventInterpreterTest {
     assertTranscript(
         "0ms windows from=11 changes=0x1 original start=0 delay=10/50 main | src 11\"Wi-Fi\" was"
             + " 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
-        "50ms windows from=11 changes=0x1 stable start=0 delay=50/50 main | src 11\"Wi-Fi\""
+        "20ms windows from=11 changes=0x1 stable start=0 delay=20/50 main | src 11\"Wi-Fi\""
             + " was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"");
-    // The event and each of the 5 checks ask for the windows once, for all their lookups.
-    assertEquals(1 + 5, serviceWindows.windowListRequests);
+    // The event and each of the 2 checks ask for the windows once, for all their lookups.
+    assertEquals(1 + 2, serviceWindows.windowListRequests);
   }
 
   @Test
@@ -254,18 +280,18 @@ public class WindowEventInterpreterTest {
         app(SETTINGS, "Settings").inactive().build(),
         app(TIP, "Tip").layer(2).bounds(new Rect(100, 800, 980, 1600)).active().build());
     interpret(windowsChanged(TIP, WINDOWS_CHANGE_ADDED));
-    waitMs(35);
+    waitMs(15);
     setWindows(statusBar(), navigationBar(), app(SETTINGS, "Settings").active().build());
-    waitMs(20);
+    waitMs(5);
     interpret(windowsChanged(TIP, WINDOWS_CHANGE_REMOVED));
     waitMs(600);
 
     assertTranscript(
         "0ms windows from=12 changes=0x1 original start=0 delay=10/550 main | src 12\"Tip\" was"
             + " 10\"Settings\" | A 12\"Tip\" was 10\"Settings\"",
-        "40ms windows from=12 changes=0x1 stable start=0 delay=40/550 settled | src 12\"Tip\" was"
+        "20ms windows from=12 changes=0x1 stable start=0 delay=20/550 settled | src 12\"Tip\" was"
             + " 10\"Settings\" | A 10\"Settings\"",
-        "55ms windows from=12 changes=0x2 original stable start=55 delay=0/0 settled | src 12"
+        "20ms windows from=12 changes=0x2 original stable start=20 delay=0/0 settled | src 12"
             + " feedback \"untitled\" was 12\"Tip\" | A 10\"Settings\"");
   }
 
@@ -288,7 +314,7 @@ public class WindowEventInterpreterTest {
     assertTranscript(
         "0ms windows from=31 changes=0x1 original start=0 delay=10/550 main | src 31\"Calculator\""
             + " was 10\"Settings\" | A 10\"Settings\" | B 31\"Calculator\" was -",
-        "550ms windows from=31 changes=0x1 stable start=0 delay=550/550 main | src"
+        "20ms windows from=31 changes=0x1 stable start=0 delay=20/550 main | src"
             + " 31\"Calculator\" was 10\"Settings\" | A 10\"Settings\" | B 31\"Calculator\" was -");
     assertTrue(interpreter.isSplitScreenMode(Display.DEFAULT_DISPLAY));
   }
@@ -314,7 +340,7 @@ public class WindowEventInterpreterTest {
     assertTranscript(
         "0ms windows from=20 changes=0x1 original start=0 delay=10/550 imeChanged announceIme |"
             + " src 20\"Gboard\" was 10\"Settings\" | A 10\"Settings\" | ime 20\"Gboard\" was -",
-        "550ms windows from=20 changes=0x1 stable start=0 delay=550/550 imeChanged announceIme |"
+        "20ms windows from=20 changes=0x1 stable start=0 delay=20/550 imeChanged announceIme |"
             + " src 20\"Gboard\" was 10\"Settings\" | A 10\"Settings\" | ime 20\"Gboard\" was -",
         "600ms windows from=20 changes=0x2 original start=600 delay=10/550 imeChanged announceIme"
             + " | src 20 feedback \"untitled\" was 20\"Gboard\" | A 10\"Settings\" | ime -"
@@ -381,7 +407,7 @@ public class WindowEventInterpreterTest {
             + " 10\"Settings\" was 10 | A 10\"Settings\" was 50",
         "600ms windows from=50 changes=0x2 original start=600 delay=10/550 main | src 50 feedback"
             + " \"untitled\" was 10 | A 10\"Settings\" was 50",
-        "1150ms windows from=50 changes=0x2 stable start=600 delay=550/550 main | src 50 feedback"
+        "620ms windows from=50 changes=0x2 stable start=600 delay=20/550 main | src 50 feedback"
             + " \"untitled\" was 10 | A 10\"Settings\" was 50");
     // The app is asked for the window's root once, though the window is named at every check.
     assertEquals(1, RootsShadow.rootRequests);
@@ -452,6 +478,36 @@ public class WindowEventInterpreterTest {
   }
 
   @Test
+  public void paneTitleArrivingAfterTheEarlySettleNamesTheWindowAgain() {
+    openSettings();
+
+    // The window's own title is in the window list from the start, so the wait settles at the
+    // second check and the window is named by it.
+    setWindows(statusBar(), navigationBar(), app(WIFI, "Wi-Fi").active().build());
+    interpret(windowsChanged(WIFI, WINDOWS_CHANGE_ADDED));
+    waitMs(600);
+
+    // A pane title that only arrives now, by state-change, names the window again. This pins
+    // down the accepted cost of settling early: such a window is announced twice, first by its
+    // own title and then by the pane's.
+    interpret(pane(WIFI, CONTENT_CHANGE_TYPE_PANE_APPEARED, "Filters"));
+    waitMs(600);
+
+    assertTranscript(
+        "0ms windows from=11 changes=0x1 original start=0 delay=10/550 main | src 11\"Wi-Fi\""
+            + " was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
+        "20ms windows from=11 changes=0x1 stable start=0 delay=20/550 main | src 11\"Wi-Fi\""
+            + " was 10\"Settings\" | A 11\"Wi-Fi\" was 10\"Settings\"",
+        "600ms state from=11 content=0x10 original source start=600 delay=10/550 main settled"
+            + " bounds=[0,0][0,0] | src 11\"Filters\" settled was 11\"Wi-Fi\" | A 11\"Filters\""
+            + " settled was 11\"Wi-Fi\"",
+        "610ms state from=11 content=0x10 stable source start=600 delay=10/550 main settled"
+            + " bounds=[0,0][0,0] | src 11\"Filters\" settled was 11\"Wi-Fi\" | A 11\"Filters\""
+            + " settled was 11\"Wi-Fi\"");
+    assertEquals("Filters", interpreter.getAccessibilityPaneTitle(WIFI).toString());
+  }
+
+  @Test
   public void screenOffForgetsTheWindowsAndTheFirstChangeAfterwardIsMarked() {
     openSettings();
 
@@ -465,7 +521,7 @@ public class WindowEventInterpreterTest {
     assertTranscript(
         "600ms windows from=10 changes=0x1 original wakeUp start=600 delay=10/550 main | src"
             + " 10\"Settings\" was - | A 10\"Settings\" was -",
-        "1150ms windows from=10 changes=0x1 stable wakeUp start=600 delay=550/550 main | src"
+        "620ms windows from=10 changes=0x1 stable wakeUp start=600 delay=20/550 main | src"
             + " 10\"Settings\" was - | A 10\"Settings\" was -");
   }
 
