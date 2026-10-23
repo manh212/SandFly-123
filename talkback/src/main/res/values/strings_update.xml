@@ -40,4 +40,7 @@
     <string name="update_install_canceled">Update canceled</string>
     <!-- Toast shown with the settings screen where the user allows SandFly to install apps. [CHAR LIMIT=NONE] -->
     <string name="update_allow_install">Allow SandFly to install apps, then try the update again</string>
+
+    <!-- Title of the settings screen that holds the update settings. [CHAR LIMIT=40] -->
+    <string name="title_pref_updates">Updates</string>
 </resources>
