@@ -105,7 +105,7 @@ public class WindowEventInterpreter implements WindowsDelegate, DisplayStateChan
   // Maximum delay times to interpret events and avoid incomplete transitional data.
   private static final int PIC_IN_PIC_DELAY_MS = 300;
   public static final int WINDOW_CHANGE_DELAY_MS = 550;
-  public static final int WINDOW_CHANGE_DELAY_NO_ANIMATION_MS = 200;
+  public static final int WINDOW_CHANGE_DELAY_NO_ANIMATION_MS = 100;
   private static final int NONE_APPLICATION_WINDOW_DELAY_MS = 150;
 
   // Delay between repeated event-interpretation events. 300ms delay is enough to prevent
