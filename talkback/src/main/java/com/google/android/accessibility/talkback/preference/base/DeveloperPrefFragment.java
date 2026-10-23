@@ -30,7 +30,6 @@ import android.os.Handler;
 import android.provider.Settings;
 import androidx.fragment.app.FragmentManager;
 import android.util.Log;
-import android.widget.Toast;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
@@ -230,25 +229,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
               return true;
             }
           });
-    }
-
-    final @Nullable TwoStatePreference serviceGestureDetectionPref =
-        findPreference(getString(R.string.pref_talkback_gesture_detection_key));
-    if (serviceGestureDetectionPref != null) {
-      if (FeatureSupport.supportGestureDetection()) {
-        serviceGestureDetectionPref.setOnPreferenceChangeListener(
-            (preference, newValue) -> {
-              // Turning it on or off only takes effect when Backtalk restarts.
-              Toast.makeText(
-                      getContext(),
-                      R.string.toast_pref_talkback_gesture_detection,
-                      Toast.LENGTH_LONG)
-                  .show();
-              return true;
-            });
-      } else {
-        getPreferenceScreen().removePreference(serviceGestureDetectionPref);
-      }
     }
 
     final @Nullable TwoStatePreference multipleGestureSetPref =

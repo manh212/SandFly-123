@@ -16,34 +16,6 @@
 
 package com.google.android.accessibility.talkback.gesture;
 
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_ROTATE_CLOCKWISE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SCRUB;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_2_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_3_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_3_FINGER_QUADRUPLE_TAP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_3_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_4_FINGER_PINCH;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_4_FINGER_SPREAD;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP;
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.FingerprintGestureController;
@@ -237,11 +209,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         MULTI_FINGER,
         R.string.pref_shortcut_2finger_1tap_key,
         R.string.pref_shortcut_2finger_1tap_default),
-    TWO_FINGER_SINGLE_TAP_AND_HOLD(
-        GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_1tap_hold_key,
-        R.string.pref_shortcut_2finger_1tap_hold_default),
     TWO_FINGER_DOUBLE_TAP(
         AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP,
         MULTI_FINGER,
@@ -267,12 +234,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         MULTI_FINGER,
         R.string.pref_shortcut_3finger_3tap_key,
         R.string.pref_shortcut_3finger_3tap_default),
-    // Only recognized when Backtalk detects gestures itself.
-    THREE_FINGER_QUADRUPLE_TAP(
-        GESTURE_3_FINGER_QUADRUPLE_TAP,
-        MULTI_FINGER,
-        R.string.pref_shortcut_3finger_4tap_key,
-        R.string.pref_shortcut_3finger_4tap_default),
     THREE_FINGER_TRIPLE_TAP_AND_HOLD(
         AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD,
         MULTI_FINGER,
@@ -378,124 +339,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         MULTI_FINGER,
         R.string.pref_shortcut_2finger_3tap_hold_key,
         R.string.pref_shortcut_2finger_3tap_hold_default),
-    // Only recognized when TalkBack detects gestures itself.
-    TWO_FINGER_ROTATE_CLOCKWISE(
-        GESTURE_2_FINGER_ROTATE_CLOCKWISE,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_rotate_clockwise_key,
-        R.string.pref_shortcut_2finger_rotate_clockwise_default),
-    TWO_FINGER_ROTATE_COUNTERCLOCKWISE(
-        GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_rotate_counterclockwise_key,
-        R.string.pref_shortcut_2finger_rotate_counterclockwise_default),
-    TWO_FINGER_SCRUB(
-        GESTURE_2_FINGER_SCRUB,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_scrub_key,
-        R.string.pref_shortcut_2finger_scrub_default),
-    // Pinches and spreads. Only recognized when Backtalk detects gestures itself.
-    TWO_FINGER_PINCH(
-        GESTURE_2_FINGER_PINCH,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_pinch_key,
-        R.string.pref_shortcut_2finger_pinch_default),
-    TWO_FINGER_SPREAD(
-        GESTURE_2_FINGER_SPREAD,
-        MULTI_FINGER,
-        R.string.pref_shortcut_2finger_spread_key,
-        R.string.pref_shortcut_2finger_spread_default),
-    THREE_FINGER_PINCH(
-        GESTURE_3_FINGER_PINCH,
-        MULTI_FINGER,
-        R.string.pref_shortcut_3finger_pinch_key,
-        R.string.pref_shortcut_3finger_pinch_default),
-    THREE_FINGER_SPREAD(
-        GESTURE_3_FINGER_SPREAD,
-        MULTI_FINGER,
-        R.string.pref_shortcut_3finger_spread_key,
-        R.string.pref_shortcut_3finger_spread_default),
-    FOUR_FINGER_PINCH(
-        GESTURE_4_FINGER_PINCH,
-        MULTI_FINGER,
-        R.string.pref_shortcut_4finger_pinch_key,
-        R.string.pref_shortcut_4finger_pinch_default),
-    FOUR_FINGER_SPREAD(
-        GESTURE_4_FINGER_SPREAD,
-        MULTI_FINGER,
-        R.string.pref_shortcut_4finger_spread_key,
-        R.string.pref_shortcut_4finger_spread_default),
-    // Edge gestures. Only recognized when Backtalk detects gestures itself.
-    EDGE_SWIPE_UP_FROM_BOTTOM(
-        GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_bottom_up_key,
-        R.string.pref_shortcut_edge_bottom_up_default),
-    EDGE_LONG_SWIPE_UP_FROM_BOTTOM(
-        GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_bottom_long_up_key,
-        R.string.pref_shortcut_edge_bottom_long_up_default),
-    EDGE_SWIPE_DOWN_FROM_TOP_LEFT(
-        GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_top_left_down_key,
-        R.string.pref_shortcut_edge_top_left_down_default),
-    EDGE_SWIPE_DOWN_FROM_TOP_RIGHT(
-        GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_top_right_down_key,
-        R.string.pref_shortcut_edge_top_right_down_default),
-    EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT(
-        GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_top_left_long_down_key,
-        R.string.pref_shortcut_edge_top_left_long_down_default),
-    EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT(
-        GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_top_right_long_down_key,
-        R.string.pref_shortcut_edge_top_right_long_down_default),
-    EDGE_SWIPE_RIGHT_FROM_LEFT_TOP(
-        GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_left_top_right_key,
-        R.string.pref_shortcut_edge_left_top_right_default),
-    EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP(
-        GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_left_top_long_right_key,
-        R.string.pref_shortcut_edge_left_top_long_right_default),
-    EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM(
-        GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_left_bottom_right_key,
-        R.string.pref_shortcut_edge_left_bottom_right_default),
-    EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM(
-        GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_left_bottom_long_right_key,
-        R.string.pref_shortcut_edge_left_bottom_long_right_default),
-    EDGE_SWIPE_LEFT_FROM_RIGHT_TOP(
-        GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_right_top_left_key,
-        R.string.pref_shortcut_edge_right_top_left_default),
-    EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP(
-        GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_right_top_long_left_key,
-        R.string.pref_shortcut_edge_right_top_long_left_default),
-    EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM(
-        GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_right_bottom_left_key,
-        R.string.pref_shortcut_edge_right_bottom_left_default),
-    EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM(
-        GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM,
-        SINGLE_FINGER,
-        R.string.pref_shortcut_edge_right_bottom_long_left_key,
-        R.string.pref_shortcut_edge_right_bottom_long_left_default),
 
     // Fingerprint.
     FINGERPRINT_SWIPE_UP(
@@ -948,11 +791,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
       LogUtils.w(TAG, "Gesture set is not allowed; fallback to 0.");
       index = 0;
     }
-    if (gestureId == GESTURE_TAP_HOLD_AND_2ND_FINGER_FORWARD_DOUBLE_TAP
-        || gestureId == GESTURE_TAP_HOLD_AND_2ND_FINGER_BACKWARD_DOUBLE_TAP) {
-      // These 2 gestures are dedicated for switching gesture set.
-      return gestureSetEnabled ? context.getString(R.string.switch_gesture_set) : actionUnassigned;
-    }
     String action = gestureIdToActionKey.get(index).get(gestureId);
     return action == null ? actionUnassigned : action;
   }
@@ -1147,9 +985,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         }
       }
 
-      // Non-customizable shortcut for SPLIT_TYPE
-      gestureIdToActionKeyMap.put(
-          GESTURE_FAKED_SPLIT_TYPING, context.getString(R.string.shortcut_value_split_typing));
       // Don't need to keep unassigned action in the map.
       actionToGestureMap.remove(actionUnassigned);
 
@@ -1324,8 +1159,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
           context.getString(R.string.title_pref_shortcut_3finger_2tap);
       case AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP ->
           context.getString(R.string.title_pref_shortcut_3finger_3tap);
-      case GESTURE_3_FINGER_QUADRUPLE_TAP ->
-          context.getString(R.string.title_pref_shortcut_3finger_4tap);
       case AccessibilityService.GESTURE_4_FINGER_SWIPE_UP ->
           context.getString(R.string.title_pref_shortcut_4finger_swipe_up);
       case AccessibilityService.GESTURE_4_FINGER_SWIPE_DOWN ->
@@ -1346,51 +1179,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
           context.getString(R.string.title_pref_shortcut_3finger_2tap_hold);
       case AccessibilityService.GESTURE_4_FINGER_DOUBLE_TAP_AND_HOLD ->
           context.getString(R.string.title_pref_shortcut_4finger_2tap_hold);
-      case GESTURE_2_FINGER_ROTATE_CLOCKWISE ->
-          context.getString(R.string.title_pref_shortcut_2finger_rotate_clockwise);
-      case GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE ->
-          context.getString(R.string.title_pref_shortcut_2finger_rotate_counterclockwise);
-      case GESTURE_2_FINGER_SCRUB -> context.getString(R.string.title_pref_shortcut_2finger_scrub);
-      case GESTURE_2_FINGER_PINCH ->
-          context.getString(R.string.title_pref_shortcut_2finger_pinch);
-      case GESTURE_2_FINGER_SPREAD ->
-          context.getString(R.string.title_pref_shortcut_2finger_spread);
-      case GESTURE_3_FINGER_PINCH ->
-          context.getString(R.string.title_pref_shortcut_3finger_pinch);
-      case GESTURE_3_FINGER_SPREAD ->
-          context.getString(R.string.title_pref_shortcut_3finger_spread);
-      case GESTURE_4_FINGER_PINCH ->
-          context.getString(R.string.title_pref_shortcut_4finger_pinch);
-      case GESTURE_4_FINGER_SPREAD ->
-          context.getString(R.string.title_pref_shortcut_4finger_spread);
-      case GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_bottom_up);
-      case GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_bottom_long_up);
-      case GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT ->
-          context.getString(R.string.title_pref_shortcut_edge_top_left_down);
-      case GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT ->
-          context.getString(R.string.title_pref_shortcut_edge_top_right_down);
-      case GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT ->
-          context.getString(R.string.title_pref_shortcut_edge_top_left_long_down);
-      case GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT ->
-          context.getString(R.string.title_pref_shortcut_edge_top_right_long_down);
-      case GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP ->
-          context.getString(R.string.title_pref_shortcut_edge_left_top_right);
-      case GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP ->
-          context.getString(R.string.title_pref_shortcut_edge_left_top_long_right);
-      case GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_left_bottom_right);
-      case GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_left_bottom_long_right);
-      case GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP ->
-          context.getString(R.string.title_pref_shortcut_edge_right_top_left);
-      case GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP ->
-          context.getString(R.string.title_pref_shortcut_edge_right_top_long_left);
-      case GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_right_bottom_left);
-      case GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM ->
-          context.getString(R.string.title_pref_shortcut_edge_right_bottom_long_left);
       case GESTURE_TOUCH_EXPLORATION ->
           FeatureSupport.supportGestureMotionEvents()
               ? context.getString(R.string.gesture_name_touch_explore)
@@ -1415,10 +1203,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
           FeatureSupport.supportGestureMotionEvents()
               ? context.getString(R.string.gesture_name_2finger_3tap_hold)
               : null;
-      case GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD ->
-          FeatureSupport.supportGestureMotionEvents()
-              ? context.getString(R.string.gesture_name_2finger_tap_hold)
-              : null;
       case AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD ->
           FeatureSupport.supportGestureMotionEvents()
               ? context.getString(R.string.gesture_name_3finger_tap_hold)
@@ -1427,7 +1211,6 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
           FeatureSupport.supportGestureMotionEvents()
               ? context.getString(R.string.gesture_name_3finger_3tap_hold)
               : null;
-      case GESTURE_FAKED_SPLIT_TYPING -> context.getString(R.string.shortcut_value_split_typing);
       default -> null;
     };
   }

@@ -68,7 +68,6 @@ import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
 import com.google.android.accessibility.utils.Consumer;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.PackageManagerUtils;
-import com.google.android.accessibility.utils.gestures.GestureManifold;
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -1172,54 +1171,6 @@ public abstract class PageConfig {
           AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP, ANNOUNCE_REAL_ACTION);
       this.captureGestureIdToAnnouncements.put(
           AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_3_FINGER_QUADRUPLE_TAP, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_2_FINGER_SCRUB, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_2_FINGER_PINCH, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_2_FINGER_SPREAD, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_3_FINGER_PINCH, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_3_FINGER_SPREAD, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_4_FINGER_PINCH, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_4_FINGER_SPREAD, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_UP_FROM_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_UP_FROM_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_LEFT, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_DOWN_FROM_TOP_RIGHT, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_LEFT, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_DOWN_FROM_TOP_RIGHT, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_TOP, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_TOP, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_RIGHT_FROM_LEFT_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_RIGHT_FROM_LEFT_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_TOP, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_TOP, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_SWIPE_LEFT_FROM_RIGHT_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_EDGE_LONG_SWIPE_LEFT_FROM_RIGHT_BOTTOM, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_2_FINGER_ROTATE_CLOCKWISE, ANNOUNCE_REAL_ACTION);
-      this.captureGestureIdToAnnouncements.put(
-          GestureManifold.GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE, ANNOUNCE_REAL_ACTION);
 
       // 3 fingers.
       this.captureGestureIdToAnnouncements.put(

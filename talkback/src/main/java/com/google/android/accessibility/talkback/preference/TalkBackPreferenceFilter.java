@@ -54,7 +54,6 @@ public class TalkBackPreferenceFilter {
     SHOW_IF_FINGER_PRINT,
     SHOW_SYSTEM_ACTION,
     SHOW_IF_MULTI_FINGER_TAP_AND_HOLD,
-    SHOW_IF_SERVICE_GESTURE_DETECTION,
     SHOW_FOCUS_INDICATOR,
     HIDE_NO_ACCESSIBILITY_AUDIO_STREAM,
     HIDDEN_NO_MEDIA_CONTROL,
@@ -69,8 +68,6 @@ public class TalkBackPreferenceFilter {
     HIDE_FEATURE_FORMATTING_SUMMARY,
     HIDE_FEATURE_FORMATTING_INLINE,
     HIDDEN_ON_XR,
-    HIDDEN_TYPING_LATENCY_SETTING,
-    HIDDEN_TOUCH_LATENCY_SETTING,
     HIDDEN
   })
   @Retention(RetentionPolicy.SOURCE)
@@ -99,7 +96,6 @@ public class TalkBackPreferenceFilter {
   /** Flag to show multi-finger gesture extended. */
   private static final int SHOW_IF_MULTI_FINGER_TAP_AND_HOLD = 0x4000;
   /** Flag to hide gestures that only TalkBack's own gesture detection recognizes. */
-  private static final int SHOW_IF_SERVICE_GESTURE_DETECTION = 0x40;
   /** Flag to show focus indicator. */
   private static final int SHOW_FOCUS_INDICATOR = 0x8000;
   /** Flag to hide if the runtime is a release build. */
@@ -128,8 +124,6 @@ public class TalkBackPreferenceFilter {
   /** Flag to hide preference on XR Device. */
   private static final int HIDDEN_ON_XR = 0x40000000;
 
-  private static final int HIDDEN_TYPING_LATENCY_SETTING = 0x80000000;
-  private static final int HIDDEN_TOUCH_LATENCY_SETTING = 0x4;
 
   /** List TalkBack preferences that do not appear on all devices. */
   enum TalkBackPreference {
@@ -155,22 +149,6 @@ public class TalkBackPreferenceFilter {
     // The delay settings work on watches as on phones, so watches show them too.
     TYPING_CONFIRMATION(R.string.pref_typing_confirmation_key, HIDDEN_ON_TV),
     TYPING_LONG_PRESS_DURATION(R.string.pref_typing_long_press_duration_key, HIDDEN_ON_TV),
-    TYPING_LATENCY_SETTINGS(
-        R.string.pref_typing_focus_time_out_key, HIDDEN_ON_TV | HIDDEN_TYPING_LATENCY_SETTING),
-    TOUCH_LATENCY_SETTINGS(
-        R.string.pref_touch_focus_time_out_key, HIDDEN_ON_TV | HIDDEN_TOUCH_LATENCY_SETTING),
-    // Taps are timed by Backtalk's own gesture detection, so without it this does nothing.
-    MULTI_TAP_TIMEOUT(
-        R.string.pref_multi_tap_timeout_key, HIDDEN_ON_TV | SHOW_IF_SERVICE_GESTURE_DETECTION),
-    // The swipe start hold lives in Backtalk's own gesture detection, so without it this does
-    // nothing either.
-    REDUCE_SWIPE_START_DELAY(
-        R.string.pref_reduce_swipe_start_delay_key,
-        HIDDEN_ON_TV | SHOW_IF_SERVICE_GESTURE_DETECTION),
-    // Completing swipes early also lives in Backtalk's own gesture detection.
-    COMPLETE_SWIPE_EARLY(
-        R.string.pref_complete_swipe_early_key,
-        HIDDEN_ON_TV | SHOW_IF_SERVICE_GESTURE_DETECTION),
     PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN_SETUP),
     TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN_SETUP),
     // Help & Tutorial.
@@ -225,14 +203,7 @@ public class TalkBackPreferenceFilter {
     CUSTOMIZE_READING_MENU_ADJUST_VOLUME(
         R.string.pref_selector_change_a11y_volume_key, HIDE_NO_ACCESSIBILITY_AUDIO_STREAM),
     CUSTOMIZE_READING_MENU_DIM_OR_BRIGHTEN(R.string.pref_selector_hide_screen_key, HIDDEN_ON_XR),
-    CUSTOMIZE_READING_MENU_FOCUS_LATENCY(
-        R.string.pref_selector_change_touch_focus_latency_key,
-        HIDDEN_ON_TV | HIDDEN_TOUCH_LATENCY_SETTING | HIDDEN_ON_XR),
-    CUSTOMIZE_READING_MENU_TYPING_FOCUS_LATENCY(
-        R.string.pref_selector_change_typing_focus_latency_key,
-        HIDDEN_ON_TV | HIDDEN_TYPING_LATENCY_SETTING | HIDDEN_ON_XR),
     // Developer settings
-    GESTURE_HANDLING(R.string.pref_talkback_gesture_detection_key, HIDDEN_ON_TV),
     EXPLORE_BY_TOUCH(R.string.pref_explore_by_touch_reflect_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
     // Gesture/Verbosity Settings.
     CONFIG_PHYSICAL_KEYBOARD_ECHO(R.string.pref_echo_physical_keyboard_key, HIDDEN_ON_WATCH),
@@ -262,47 +233,6 @@ public class TalkBackPreferenceFilter {
         R.string.pref_shortcut_3finger_1tap_hold_key, SHOW_IF_MULTI_FINGER_TAP_AND_HOLD),
     CUSTOMIZE_GESTURE_3FINGER_3TAP_HOLD(
         R.string.pref_shortcut_3finger_3tap_hold_key, SHOW_IF_MULTI_FINGER_TAP_AND_HOLD),
-    CUSTOMIZE_GESTURE_3FINGER_QUADRUPLE_TAP(
-        R.string.pref_shortcut_3finger_4tap_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_2FINGER_ROTATE_CLOCKWISE(
-        R.string.pref_shortcut_2finger_rotate_clockwise_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION),
-    CUSTOMIZE_GESTURE_2FINGER_ROTATE_COUNTERCLOCKWISE(
-        R.string.pref_shortcut_2finger_rotate_counterclockwise_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION),
-    // Two fingers can't make the scrub's strokes on a watch screen.
-    CUSTOMIZE_GESTURE_2FINGER_SCRUB(
-        R.string.pref_shortcut_2finger_scrub_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    // Pinches and spreads, which need room for the fingers to move apart.
-    CUSTOMIZE_GESTURE_2FINGER_PINCH(
-        R.string.pref_shortcut_2finger_pinch_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_2FINGER_SPREAD(
-        R.string.pref_shortcut_2finger_spread_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_3FINGER_PINCH(
-        R.string.pref_shortcut_3finger_pinch_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_3FINGER_SPREAD(
-        R.string.pref_shortcut_3finger_spread_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_4FINGER_PINCH(
-        R.string.pref_shortcut_4finger_pinch_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    CUSTOMIZE_GESTURE_4FINGER_SPREAD(
-        R.string.pref_shortcut_4finger_spread_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    // Watches have their own edge swipes.
-    CUSTOMIZE_GESTURE_GROUP_EDGES(
-        R.string.pref_category_edge_shortcuts_key,
-        SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    ROTOR_STEP_DEGREES(R.string.pref_rotor_step_degrees_key, SHOW_IF_SERVICE_GESTURE_DETECTION),
-    EDGE_FIRST_CLICK(
-        R.string.pref_edge_first_click_mm_key, SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
-    EDGE_SECOND_CLICK(
-        R.string.pref_edge_second_click_mm_key, SHOW_IF_SERVICE_GESTURE_DETECTION | HIDDEN_ON_WATCH),
     CUSTOMIZE_FOCUS_INDICATOR(
         R.string.pref_category_manage_focus_indicator_key, SHOW_FOCUS_INDICATOR),
     AUTOMATIC_DESCRIPTIONS(R.string.pref_auto_image_captioning_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
@@ -440,11 +370,6 @@ public class TalkBackPreferenceFilter {
       return true;
     }
 
-    if (hasFlag(pref.get(), SHOW_IF_SERVICE_GESTURE_DETECTION)
-        && !FeatureSupport.supportGestureDetection()) {
-      return true;
-    }
-
     if (hasFlag(pref.get(), SHOW_IF_FINGER_PRINT)
         && !FeatureSupport.isFingerprintGestureSupported(context)) {
       return true;
@@ -517,16 +442,6 @@ public class TalkBackPreferenceFilter {
 
     if (hasFlag(pref.get(), HIDE_FEATURE_FORMATTING_INLINE)
         && !FeatureFlagReader.enableTextFormattingInline(context)) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), HIDDEN_TYPING_LATENCY_SETTING)
-        && !FeatureFlagReader.typingFocusTimeout(context)) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), HIDDEN_TOUCH_LATENCY_SETTING)
-        && !FeatureFlagReader.touchFocusTimeout(context)) {
       return true;
     }
 

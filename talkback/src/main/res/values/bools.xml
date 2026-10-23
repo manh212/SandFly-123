@@ -22,5 +22,4 @@
     <!-- Whether to skip showing tutorial in TalkBack launching. (not from user behaviors) -->
     <bool name="skip_tutorial_in_launching">false</bool>
     <!-- Whether the Tap to type typing method is offered. SandFly recognizes gestures itself only on Android 13 and later. -->
-    <bool name="supports_tap_to_type">false</bool>
 </resources>

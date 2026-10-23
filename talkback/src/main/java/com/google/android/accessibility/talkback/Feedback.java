@@ -41,7 +41,6 @@ import com.google.android.accessibility.gemineye.screenoverview.json.ChatHistory
 import com.google.android.accessibility.talkback.Feedback.AdjustVolume.StreamType;
 import com.google.android.accessibility.talkback.Feedback.Scroll.Action;
 import com.google.android.accessibility.talkback.Feedback.TalkBackUI.Item;
-import com.google.android.accessibility.talkback.Feedback.TouchLatency.LatencyAction;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner.GeminiFeatureType;
 import com.google.android.accessibility.talkback.actor.TalkBackUIActor;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiActor.ErrorReason;
@@ -215,10 +214,6 @@ public abstract class Feedback {
 
   public static EditText.Builder edit(AccessibilityNodeInfoCompat node, EditText.Action action) {
     return EditText.builder().setNode(node).setAction(action);
-  }
-
-  public static Part.Builder touchLatency(boolean increaseLatency, LatencyAction action) {
-    return Part.builder().setTouchLatency(TouchLatency.create(increaseLatency, action));
   }
 
   public static Part.Builder systemAction(int systemActionId) {
@@ -933,8 +928,6 @@ public abstract class Feedback {
 
     public abstract @Nullable SystemAction systemAction();
 
-    public abstract @Nullable TouchLatency touchLatency();
-
     public abstract @Nullable NodeAction nodeAction();
 
     public abstract @Nullable WebAction webAction();
@@ -1065,8 +1058,6 @@ public abstract class Feedback {
       public abstract Builder setEdit(EditText edit);
 
       public abstract Builder setSystemAction(SystemAction systemAction);
-
-      public abstract Builder setTouchLatency(TouchLatency touchLatency);
 
       public abstract Builder setNodeAction(NodeAction nodeAction);
 
@@ -1541,25 +1532,6 @@ public abstract class Feedback {
 
       public abstract EditText build();
     }
-  }
-
-  /** Inner data-structure for Touch Latency. */
-  @AutoValue
-  public abstract static class TouchLatency {
-
-    /** Types of adjusting focus latency actions, could be Focus/Typing-focus latency. */
-    public enum LatencyAction {
-      TOUCH_FOCUS_LATENCY_ACTION,
-      TYPING_FOCUS_LATENCY_ACTION
-    }
-
-    public static TouchLatency create(boolean increaseLatency, LatencyAction action) {
-      return new AutoValue_Feedback_TouchLatency(increaseLatency, action);
-    }
-
-    public abstract boolean increaseLatency();
-
-    public abstract LatencyAction action();
   }
 
   /** Inner data-structure for performing a global action. */

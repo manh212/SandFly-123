@@ -399,8 +399,4 @@ public class AccessibilityFocusInterpreter
     return focusProcessorForTapAndTouchExploration.getTypingMethod();
   }
 
-  /** Types the key that the touch interaction in progress taps, without focusing it first. */
-  public void onTapToType() {
-    focusProcessorForTapAndTouchExploration.onTapToType();
-  }
 }

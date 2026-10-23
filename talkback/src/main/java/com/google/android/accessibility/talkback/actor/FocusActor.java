@@ -25,7 +25,6 @@ import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRAC
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
 import android.accessibilityservice.GestureDescription.StrokeDescription;
-import android.accessibilityservice.TouchInteractionController;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.text.style.URLSpan;
@@ -39,7 +38,6 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Interpretation;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.TalkBackService.GestureDetectionState;
 import com.google.android.accessibility.talkback.UserInterface.UserInputEventListener;
 import com.google.android.accessibility.talkback.WebActor;
 import com.google.android.accessibility.talkback.actor.helper.FocusActorHelper;
@@ -54,7 +52,6 @@ import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.utils.LinkUtils;
 import com.google.android.accessibility.talkback.utils.LinkUtils.LinkSpan;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -82,7 +79,6 @@ public class FocusActor implements UserInputEventListener {
   private ActorStateWritable actorState;
 
   private final WebActor webActor;
-  private final GestureDetectionState gestureDetectionState;
   private Pipeline.FeedbackReturner pipeline;
   private ListMenuManager menuManager;
   private GlobalVariables globalVariables;
@@ -96,12 +92,10 @@ public class FocusActor implements UserInputEventListener {
       ScreenStateMonitor.State screenState,
       AccessibilityFocusActionHistory accessibilityFocusActionHistory,
       AccessibilityFocusMonitor accessibilityFocusMonitor,
-      GestureDetectionState gestureDetectionState,
       GlobalVariables globalVariables) {
     this.service = service;
     this.history = accessibilityFocusActionHistory;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
-    this.gestureDetectionState = gestureDetectionState;
     this.globalVariables = globalVariables;
     focusManagerInternal =
         new FocusManagerInternal(
@@ -158,15 +152,6 @@ public class FocusActor implements UserInputEventListener {
     if (PerformActionUtils.isNodeSupportAction(node, AccessibilityNodeInfoCompat.ACTION_CLICK)
         && pipeline.returnFeedback(eventId, Feedback.nodeAction(node, ACTION_CLICK.getId()))) {
       return true;
-    }
-    if (gestureDetectionState.gestureDetector()) {
-      TouchInteractionController controller =
-          service.getTouchInteractionController(
-              AccessibilityWindowInfoUtils.getDisplayId(node.getWindow()));
-      if (controller != null) {
-        controller.performClick();
-        return true;
-      }
     }
     // When none of the preceding conditions are met, the last resort is simulating click event.
     return simulateClickOnNode(service, node);

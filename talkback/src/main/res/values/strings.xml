@@ -1510,9 +1510,7 @@
       Source: Preference title.
       Description: This preference removes the hold on touch exploration while a swipe is starting.
     -->
-    <string name="pref_reduce_swipe_start_delay_title">Reduce swipe start delay</string>
     <!-- Summary of the setting that starts touch exploration without waiting for a swipe to start. [CHAR LIMIT=NONE] -->
-    <string name="pref_reduce_swipe_start_delay_summary">Touch exploration starts without waiting for a swipe to begin, so touches respond sooner. A swipe that starts slowly may be explored instead.</string>
 
     <!--
       Source: Preference title.
@@ -1573,7 +1571,6 @@
       Source: Preference title.
       Description: This preference that shows current touch explore time out to exploration. [CHAR_LIMIT=60]
     -->
-    <string name="title_pref_touch_explore_timeout">Typing focus delay</string>
     <!--
       Source: Message for the preference that allows user to type focus latency.
       Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
@@ -1583,17 +1580,14 @@
       Source: Preference title.
       Description: This preference that shows current touch focus time out to exploration. [CHAR_LIMIT=35]
     -->
-    <string name="title_pref_touch_focus_timeout">Focus delay</string>
     <!--
       Source: Preference title.
       Description: This preference turns on TalkBack gesture detection. [CHAR_LIMIT=96]
       -->
-    <string name="title_pref_talkback_gesture_detection">Handle gestures in SandFly</string>
     <!--
       Source: Toast.
       Description: Hint text when turning on TalkBack gesture detection. [CHAR LIMIT=80]
        -->
-    <string name="toast_pref_talkback_gesture_detection">Turn SandFly off then on again to activate the setting.</string>
 
     <!--
       Source: Preference title.
@@ -2302,9 +2296,7 @@
     <!-- Summary for the quick menu containing screen brightness change. [CHAR_LIMIT=70] -->
     <string name="summary_support_change_brightness">Increase or decrease screen brightness, even when the screen is hidden</string>
     <!-- Summary for the quick menu containing touch explore latency change. [CHAR_LIMIT=125] -->
-    <string name="summary_support_change_touch_explore_latency">Increase or decrease typing focus delay</string>
     <!-- Summary for the quick menu containing touch focus latency change. [CHAR_LIMIT=90] -->
-    <string name="summary_support_change_touch_focus_latency">Increase or decrease focus delay</string>
     <!-- Summary for the menu item to provide screen overview with action buttons. [CHAR_LIMIT=150]-->
     <string name="summary_screen_overview">Summarize the screen with action buttons</string>
     <!-- Summary for the menu item to provide screen overview. [CHAR_LIMIT=150]-->
@@ -2389,7 +2381,6 @@
     <!-- Label for the preference that assigns an action to the "three-finger triple-tap" gesture. [CHAR_LIMIT=75] -->
     <string name="title_pref_shortcut_3finger_3tap">Triple-tap with 3 fingers</string>
     <!-- Label for the preference that assigns an action to the "three-finger quadruple-tap" gesture. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_3finger_4tap">Quadruple-tap with 3 fingers</string>
     <!-- Label for the preference that assigns an action to the "four-finger tap" gesture. [CHAR_LIMIT=63] -->
     <string name="title_pref_shortcut_4finger_1tap">Tap with 4 fingers</string>
     <!-- Label for the preference that assigns an action to the "four-finger double-tap" gesture. [CHAR_LIMIT=75] -->
@@ -2441,51 +2432,28 @@
     <string name="title_pref_shortcut_2finger_3tap_hold">Triple-tap and hold with 2 fingers</string>
 
     <!-- Label for the preference that assigns an action to turning two fingers clockwise on the screen, like turning a dial. [CHAR_LIMIT=90] -->
-    <string name="title_pref_shortcut_2finger_rotate_clockwise">Rotate clockwise with 2 fingers</string>
     <!-- Label for the preference that assigns an action to turning two fingers counterclockwise on the screen, like turning a dial. [CHAR_LIMIT=90] -->
-    <string name="title_pref_shortcut_2finger_rotate_counterclockwise">Rotate counterclockwise with 2 fingers</string>
     <!-- Label for the preference that assigns an action to the two-finger scrub: two fingers moved quickly one way across the screen and back. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_2finger_scrub">Scrub with 2 fingers</string>
     <!-- Label for the preference that assigns an action to moving two fingers toward each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_2finger_pinch">Pinch with 2 fingers</string>
     <!-- Label for the preference that assigns an action to moving two fingers away from each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_2finger_spread">Spread with 2 fingers</string>
     <!-- Label for the preference that assigns an action to moving three fingers toward each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_3finger_pinch">Pinch with 3 fingers</string>
     <!-- Label for the preference that assigns an action to moving three fingers away from each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_3finger_spread">Spread with 3 fingers</string>
     <!-- Label for the preference that assigns an action to moving four fingers toward each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_4finger_pinch">Pinch with 4 fingers</string>
     <!-- Label for the preference that assigns an action to moving four fingers away from each other. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_4finger_spread">Spread with 4 fingers</string>
     <!-- Label for the preference that assigns an action to sliding one finger up from the bottom edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_bottom_up">Swipe up from the bottom edge</string>
     <!-- Label for the preference that assigns an action to sliding one finger up from the bottom edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_bottom_long_up">Long swipe up from the bottom edge</string>
     <!-- Label for the preference that assigns an action to sliding one finger down from the left half of the top edge of the screen. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_top_left_down">Swipe down from the top left</string>
     <!-- Label for the preference that assigns an action to sliding one finger down from the right half of the top edge of the screen. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_top_right_down">Swipe down from the top right</string>
     <!-- Label for the preference that assigns an action to sliding one finger down from the left half of the top edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_top_left_long_down">Long swipe down from the top left</string>
     <!-- Label for the preference that assigns an action to sliding one finger down from the right half of the top edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_top_right_long_down">Long swipe down from the top right</string>
     <!-- Label for the preference that assigns an action to sliding one finger right from the top half of the left edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_left_top_right">Swipe right from the left edge, top half</string>
     <!-- Label for the preference that assigns an action to sliding one finger right from the top half of the left edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_left_top_long_right">Long swipe right from the left edge, top half</string>
     <!-- Label for the preference that assigns an action to sliding one finger right from the bottom half of the left edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_left_bottom_right">Swipe right from the left edge, bottom half</string>
     <!-- Label for the preference that assigns an action to sliding one finger right from the bottom half of the left edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_left_bottom_long_right">Long swipe right from the left edge, bottom half</string>
     <!-- Label for the preference that assigns an action to sliding one finger left from the top half of the right edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_right_top_left">Swipe left from the right edge, top half</string>
     <!-- Label for the preference that assigns an action to sliding one finger left from the top half of the right edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_right_top_long_left">Long swipe left from the right edge, top half</string>
     <!-- Label for the preference that assigns an action to sliding one finger left from the bottom half of the right edge of the screen until the first vibration. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_right_bottom_left">Swipe left from the right edge, bottom half</string>
     <!-- Label for the preference that assigns an action to sliding one finger left from the bottom half of the right edge of the screen, past the first vibration to the second. [CHAR_LIMIT=75] -->
-    <string name="title_pref_shortcut_edge_right_bottom_long_left">Long swipe left from the right edge, bottom half</string>
 
     <!-- Label for the preference that assigns an action to the "three-finger triple-tap and hold" gesture. [CHAR_LIMIT=90] -->
     <string name="title_pref_shortcut_3finger_3tap_hold">Triple-tap and hold with 3 fingers</string>
@@ -2505,7 +2473,6 @@
     <!-- The gesture name of long-press for XR devices. [CHAR_LIMIT=100]-->
     <string name="gesture_name_double_tap_and_hold_xr">Pinch and hold</string>
     <!-- The gesture name of 2 finger tap and hold. [CHAR_LIMIT=100]-->
-    <string name="gesture_name_2finger_tap_hold">Tap and hold with 2 fingers</string>
     <!-- The gesture name of 3 finger tap and hold. [CHAR_LIMIT=100]-->
     <string name="gesture_name_3finger_tap_hold">Tap and hold with 3 fingers</string>
     <!-- The gesture name of 2 finger triple tap and hold. [CHAR_LIMIT=100]-->
@@ -2535,12 +2502,12 @@
     <!-- Typing method where lifting the finger types every key except the key that sends or submits, such as Enter, Done, or Send, which needs a double-tap. [CHAR LIMIT=NONE] -->
     <string name="value_type_confirmation_lift_to_type_except_action_key">Hold finger to select any key, then lift. Double-tap for Enter, Done, or Send.</string>
     <!-- Typing method where a tap on the keyboard types the key under the finger without speaking it first, and holding or dragging a finger explores the keys, which type when the finger lifts. [CHAR LIMIT=NONE] -->
-    <string name="value_type_confirmation_tap_to_type">Tap any key to type it, or hold finger to select any key, then lift</string>
+    <!-- Typing method where the keyboard area bypasses gesture detection, so the key under the finger is typed as soon as the finger lifts. [CHAR LIMIT=NONE] -->
+    <string name="value_type_confirmation_single_tap_to_type">Single tap to type: hold finger to select any key, then lift. Double tap does not work in the keyboard area.</string>
 
     <!-- Label for type and hold duration. [CHAR LIMIT=NONE]-->
     <string name="value_typing_long_press_500ms">0.5 seconds</string>
     <!-- Title for the maximum time between taps of a one-finger multi-tap gesture. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_multi_tap_timeout">Time between one-finger taps</string>
     <!-- Label for multi-tap timeout. [CHAR LIMIT=NONE]-->
     <string name="value_multi_tap_timeout_100ms">0.1 seconds</string>
     <!-- Label for multi-tap timeout. [CHAR LIMIT=NONE]-->
@@ -2550,11 +2517,8 @@
     <!-- Label for multi-tap timeout. [CHAR LIMIT=NONE]-->
     <string name="value_multi_tap_timeout_250ms">0.25 seconds (default)</string>
     <!-- Title for how far 2 fingers must turn on the screen to move the rotor by one reading control. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_rotor_step_degrees">Rotor turn per step</string>
     <!-- Title for how far a finger slides in from the edge of the screen to the first click of an edge gesture. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_edge_first_click_mm">Distance to first click</string>
     <!-- Title for how far a finger slides on from the first click of an edge gesture to its second click. [CHAR LIMIT=NONE]-->
-    <string name="title_pref_edge_second_click_mm">Distance from first to second click</string>
     <!-- A distance on the screen in centimeters. [CHAR LIMIT=NONE]-->
     <string name="value_distance_5mm">0.5 cm</string>
     <!-- A distance on the screen in centimeters. [CHAR LIMIT=NONE]-->
@@ -3026,12 +2990,10 @@
     Source: Title for the preference that allows user to typing latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=60]
    -->
-  <string name="title_pref_touch_explore_latency">Typing focus delay</string>
   <!--
     Source: Title for the preference that allows user to focus latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=50]
    -->
-  <string name="title_pref_touch_focus_latency">Focus delay</string>
   <!--
     Source: Message for the preference that allows user to focus latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
@@ -3046,7 +3008,6 @@
     Source: Message for the preference that allows user to focus latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
    -->
-  <string name="message_pref_typing_method_postfix">You can also use split-tap to type at any time. To do this, hold one finger to select any key, and use another finger to tap on screen.</string>
   <!--
     Source: Title for the preference that allows user to adjust talkback speech rate.
     Description: The user can adjust the slider to change talkback speech rate. [CHAR LIMIT=81]
@@ -4377,7 +4338,5 @@
     <!-- Category for typing features. [CHAR LIMIT=40] -->
     <string name="title_pref_category_typing">Typing</string>
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
-    <string name="pref_complete_swipe_early_title">Recognize swipes early</string>
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
-    <string name="pref_complete_swipe_early_summary">A one-finger swipe is performed as soon as its direction is clear, instead of waiting for the finger to lift, so swipes respond sooner. A two-part swipe that starts in the same direction will be performed as the one-part swipe.</string>
 </resources>

@@ -27,7 +27,6 @@ import static com.google.android.accessibility.talkback.TalkBackExitController.T
 import static com.google.android.accessibility.talkback.TalkBackServiceDumpHelperKt.getConditionDefault;
 import static com.google.android.accessibility.talkback.TalkBackServiceDumpHelperKt.getConditionDefaultVerboseOnly;
 import static com.google.android.accessibility.talkback.TalkBackServiceDumpHelperKt.getConditionGivenArgs;
-import static com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.GESTURE_SPLIT_TAP;
 import static com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DESC_ORDER_NAME_ROLE_STATE_POSITION;
 import static com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DESC_ORDER_NAME_STATE_ROLE_POSITION;
 import static com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DESC_ORDER_ROLE_STATE_NAME_POSITION;
@@ -50,9 +49,6 @@ import static com.google.android.accessibility.talkback.trainingcommon.PageConfi
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_WELCOME_TO_TALKBACK;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.UNKNOWN_PAGE_INDEX;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
-import static com.google.android.accessibility.utils.gestures.GestureAnalyticsEvent.EVENT_DOUBLE_TAP_SLOP_OVER_RANGE;
-import static com.google.android.accessibility.utils.gestures.GestureAnalyticsEvent.EVENT_TAP_TO_TOUCH_EXPLORE;
-import static com.google.android.accessibility.utils.gestures.GestureManifold.GESTURE_FAKED_SPLIT_TYPING;
 import static com.google.android.accessibility.utils.output.SpeechControllerImpl.CAPITAL_LETTERS_TYPE_SPEAK_CAP;
 import static java.util.Arrays.stream;
 import static java.util.stream.Collectors.toCollection;
@@ -62,8 +58,6 @@ import android.accessibilityservice.AccessibilityGestureEvent;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.FingerprintGestureController;
 import android.accessibilityservice.FingerprintGestureController.FingerprintGestureCallback;
-import android.accessibilityservice.TouchInteractionController;
-import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
@@ -87,7 +81,6 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.Voice;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.SparseArray;
 import android.view.Display;
 import android.view.InputDevice;
 import android.view.KeyCharacterMap;
@@ -123,7 +116,6 @@ import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.actor.SystemActionPerformer;
 import com.google.android.accessibility.talkback.actor.TalkBackUIActor;
 import com.google.android.accessibility.talkback.actor.TextEditActor;
-import com.google.android.accessibility.talkback.actor.TouchLatencyAdjustor;
 import com.google.android.accessibility.talkback.actor.TypoNavigator;
 import com.google.android.accessibility.talkback.actor.VolumeAdjustor;
 import com.google.android.accessibility.talkback.actor.gemini.AiCoreEndpoint;
@@ -167,6 +159,8 @@ import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFo
 import com.google.android.accessibility.talkback.focusmanagement.FocusFeedbackMapper;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForScreenStateChange;
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration;
+import com.google.android.accessibility.talkback.focusmanagement.SingleTapTypingController;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
@@ -271,10 +265,6 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.SpellChecker;
 import com.google.android.accessibility.utils.Statistics;
 import com.google.android.accessibility.utils.TreeDebug;
-import com.google.android.accessibility.utils.WindowUtils;
-import com.google.android.accessibility.utils.gestures.GestureAnalyticsEvent;
-import com.google.android.accessibility.utils.gestures.GestureManifold.TapToTouchExploreAnalyticsEvent;
-import com.google.android.accessibility.utils.gestures.MultiTap.MultiTapAnalyticsEvent;
 import com.google.android.accessibility.utils.input.CursorGranularity;
 import com.google.android.accessibility.utils.input.HeadsUpNotificationEventInterpreter;
 import com.google.android.accessibility.utils.input.NonmodalAlertEventInterpreter;
@@ -562,15 +552,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     void requestFlag(int flag, boolean requestedState);
   }
 
-  /**
-   * Check whether gesture detection is enabled in service side.
-   *
-   * @return true for Android T and 'handle gesture detection' is on.
-   */
-  public interface GestureDetectionState {
-    boolean gestureDetector();
-  }
-
   /** Whether the user has seen the TalkBack tutorial. */
   public static final String PREF_FIRST_TIME_USER = "first_time_user";
 
@@ -731,9 +712,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** The system feature if the device supports touch screen */
   private boolean supportsTouchScreen = true;
 
-  /** Feature flag from P/H experimentation framework, for using service gesture detection. */
-  private boolean gestureDetectionFeatureFlag = true;
-
   /** Whether the current root node is dirty or not. */
   private boolean isRootNodeDirty = true;
 
@@ -787,6 +765,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   private ScrollPositionInterpreter scrollPositionInterpreter;
   private ScreenStateMonitor screenStateMonitor;
   private DirectTouchController directTouchController;
+  private SingleTapTypingController singleTapTypingController;
   private StuckTouchController stuckTouchController;
   private PauseController pauseController;
   private AudioDeviceRouter audioDeviceRouter;
@@ -804,7 +783,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   private TalkBackExitController talkBackExitController;
 
   private @Nullable SpeechCacheController speechCacheController;
-  private @Nullable Boolean useServiceGestureDetection;
   private LanguageActor languageActor;
   // In general, volume key should work as pass through mode, unless the touch interaction is
   // ongoing or in continuous reading mode. isTouchInteracting denotes the occurrence of key
@@ -828,9 +806,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** "Volume keys move the cursor" setting. */
   private boolean volumeKeysMoveCursor = false;
-
-  private final @NonNull SparseArray<TouchInteractionMonitor> displayIdToTouchInteractionMonitors =
-      new SparseArray<>();
 
   private IpcClientCallbackImpl ipcClientCallback;
   private BootReceiver bootReceiver;
@@ -958,10 +933,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       eventLatencyLogger.destroy();
     }
 
-    if (shouldUseTalkbackGestureDetection()) {
-      unregisterGestureDetection();
-    }
-
     if (bootReceiver != null) {
       unregisterReceiver(bootReceiver);
       bootReceiver = null;
@@ -978,6 +949,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (directTouchController != null) {
       directTouchController.shutdown();
       directTouchController = null;
+    }
+
+    if (singleTapTypingController != null) {
+      singleTapTypingController.shutdown();
+      singleTapTypingController = null;
     }
 
     if (stuckTouchController != null) {
@@ -1031,16 +1007,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     serviceStateListeners.clear();
     if (televisionNavigationController != null) {
       televisionNavigationController.onDestroy();
-    }
-
-    // When TalkBack off, also disable the option of TalkBack gesture detection if the flag from the
-    // P/H experimental framework is off. So next time when the user turns on TalkBack, it will not
-    // use the gesture detection.
-    if (!gestureDetectionFeatureFlag) {
-      prefs
-          .edit()
-          .putBoolean(getString(R.string.pref_talkback_gesture_detection_key), false)
-          .apply();
     }
   }
 
@@ -1153,6 +1119,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (directTouchController != null) {
       directTouchController.onAccessibilityEvent(event);
     }
+    if (singleTapTypingController != null) {
+      singleTapTypingController.onAccessibilityEvent(event);
+    }
     if (stuckTouchController != null) {
       stuckTouchController.onAccessibilityEvent(event);
     }
@@ -1182,14 +1151,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     } else if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
       isTouchInteracting = false;
       NotificationReader.onTouchEnded();
-    } else if (eventType == AccessibilityEvent.TYPE_VIEW_HOVER_ENTER) {
-      if (FeatureSupport.supportGestureDetection()) {
-        TouchInteractionMonitor touchInteractionMonitor =
-            displayIdToTouchInteractionMonitors.get(event.getDisplayId());
-        if (touchInteractionMonitor != null) {
-          touchInteractionMonitor.onHoverEntered();
-        }
-      }
     }
 
     accessibilityEventProcessor.onAccessibilityEvent(event, eventId);
@@ -1721,39 +1682,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     return false;
   }
 
-  private void provisionTouchExplore(boolean enabled) {
-    requestTouchExploration(enabled);
-  }
-
-  @SuppressLint("NewApi")
-  private void onGestureDebug(GestureAnalyticsEvent analyticsEvent) {
-    if (analyticsEvent.event == EVENT_DOUBLE_TAP_SLOP_OVER_RANGE) {
-      if (analyticsEvent instanceof MultiTapAnalyticsEvent) {
-        MultiTapAnalyticsEvent multiTapAnalyticsEvent = (MultiTapAnalyticsEvent) analyticsEvent;
-        analytics.onGestureDebug(
-            EVENT_DOUBLE_TAP_SLOP_OVER_RANGE,
-            analyticsEvent.gestureId,
-            multiTapAnalyticsEvent.doubleTapSlopOverRange);
-      }
-    } else if (analyticsEvent.event == EVENT_TAP_TO_TOUCH_EXPLORE) {
-      if (analyticsEvent instanceof TapToTouchExploreAnalyticsEvent) {
-        TapToTouchExploreAnalyticsEvent tapToTouchExploreAnalyticsEvent =
-            (TapToTouchExploreAnalyticsEvent) analyticsEvent;
-        analytics.onGestureDebug(
-            EVENT_TAP_TO_TOUCH_EXPLORE,
-            analyticsEvent.gestureId,
-            tapToTouchExploreAnalyticsEvent.savedTimeMs);
-      }
-    }
-  }
-
-  /** Called by {@link TouchInteractionMonitor} when gesture detection started. */
-  public void onGestureDetectionStarted() {
-    if (processorPhoneticLetters != null) {
-      processorPhoneticLetters.cancelPhoneticLetter(EVENT_ID_UNTRACKED);
-    }
-  }
-
   private boolean handleOnGestureById(int displayId, int gestureId) {
     if (!isServiceActive() || PauseController.isPaused()) {
       return false;
@@ -1768,19 +1696,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     EventId eventId = perf.onGestureEventReceived(gestureId);
     primesController.startTimer(TimerAction.GESTURE_EVENT);
 
-    switch (gestureId) {
-      case GESTURE_FAKED_SPLIT_TYPING -> analytics.onGesture(GESTURE_SPLIT_TAP);
-      default -> analytics.onGesture(gestureId);
-    }
+    analytics.onGesture(gestureId);
 
     gestureController.onGesture(gestureId, eventId);
-    if (FeatureSupport.supportGestureDetection()) {
-      TouchInteractionMonitor touchInteractionMonitor =
-          displayIdToTouchInteractionMonitors.get(displayId);
-      if (gestureId == GESTURE_FAKED_SPLIT_TYPING && touchInteractionMonitor != null) {
-        touchInteractionMonitor.requestTouchExploration("handleOnGestureById");
-      }
-    }
 
     // Measure latency.
     // Preceding event handling frequently initiates a framework action, which in turn
@@ -2073,7 +1991,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     ReportInbox.startFollowing(this);
     ShizukuGrants.onServiceConnected(this);
     // Turns Backtalk under its old app ID off, before this one says it is on.
-    AppIdHandOver.onServiceConnected(this, this::refreshGestureDetection);
+    AppIdHandOver.onServiceConnected(this, () -> {});
 
     compositor.handleEvent(Compositor.EVENT_SPOKEN_FEEDBACK_ON, talkbackOnEventId);
 
@@ -2132,12 +2050,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     updateTalkBackEnabledCount();
-
-    // Service gesture detection.
-    if (shouldUseTalkbackGestureDetection()) {
-      registerGestureDetection();
-      setSupportClickableLinks(true);
-    }
 
     Intent intent = new Intent(INTENT_TALKBACK_ENABLED);
     intent.setPackage(getPackageName());
@@ -2357,7 +2269,6 @@ public class TalkBackService extends AccessibilityServiceCompat
             screenStateMonitor.state,
             focusHistory,
             accessibilityFocusMonitor,
-            this::shouldUseTalkbackGestureDetection,
             globalVariables);
 
     userInterface = new UserInterface();
@@ -2526,7 +2437,6 @@ public class TalkBackService extends AccessibilityServiceCompat
                 imageCaptioner,
                 universalSearchActor,
                 geminiActor,
-                new TouchLatencyAdjustor(this),
                 this::requestServiceFlag,
                 inputDeviceMonitor),
             proximitySensorMonitor,
@@ -2732,11 +2642,7 @@ public class TalkBackService extends AccessibilityServiceCompat
                 /* continuousReading= */ fullScreenReadActor != null
                     && fullScreenReadActor.isActive()));
     eventFilter.setTargetPredictor(directionNavigationActor::predictTarget);
-    eventFilter.setFingerDownSupplier(
-        () ->
-            FeatureSupport.supportGestureDetection()
-                ? TouchInteractionMonitor.isFingerDown()
-                : touchMonitor.isUserTouchingScreen());
+    eventFilter.setFingerDownSupplier(() -> touchMonitor.isUserTouchingScreen());
     eventFilter.setVoiceActionDelegate(voiceActionMonitor);
     eventFilter.setAccessibilityFocusEventInterpreter(accessibilityFocusInterpreter);
     ActorStateProvider actorStateProvider =
@@ -2807,6 +2713,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       directTouchController =
           new DirectTouchController(
               this, prefs, pipeline.getFeedbackReturner(), windowEventInterpreter);
+      singleTapTypingController = new SingleTapTypingController(this);
       windowEventInterpreter.addListener(directTouchController);
       ringerModeAndScreenMonitor.addScreenChangedListener(directTouchController);
       displayMonitor.addDisplayStateChangedListener(directTouchController);
@@ -3040,7 +2947,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         info.flags |= AccessibilityServiceInfo.FLAG_REPORT_VIEW_IDS;
       }
 
-      // The FLAG_SERVICE_HANDLES_DOUBLE_TAP will be set when registerGestureDetection is enabled.
+      // The framework detects gestures and handles double tap itself.
       info.flags &= ~FLAG_SERVICE_HANDLES_DOUBLE_TAP;
 
       LogUtils.v(TAG, "Accessibility Service flag set: 0x%X", info.flags);
@@ -3156,8 +3063,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     reloadPreferences();
 
     inputFocusInterpreter.initLastEditableFocusForGlobalVariables();
-
-    gestureDetectionFeatureFlag = FeatureFlagReader.useTalkbackGestureDetection(this);
 
     if (eventLatencyLogger != null) {
       Performance.getInstance().addLatencyTracker(eventLatencyLogger);
@@ -3360,17 +3265,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     return windows == null ? ImmutableList.of() : windows;
   }
 
-  /** Called when a one-finger tap on the keyboard types the key under it. */
-  public void onTapToType() {
-    if (accessibilityFocusInterpreter != null) {
-      accessibilityFocusInterpreter.onTapToType();
-    }
-    if (globalVariables != null) {
-      globalVariables.setTapToType(true);
-      globalVariables.noteTapToType(SystemClock.uptimeMillis());
-    }
-  }
-
   /**
    * Adds an event listener.
    *
@@ -3468,15 +3362,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       enableAnimation(!reduceDelayPref);
     }
     WindowEventInterpreter.setReduceWindowDelay(reduceDelayPref);
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-      TouchInteractionMonitor.setReduceSwipeStartDelay(
-          getBooleanPref(
-              R.string.pref_reduce_swipe_start_delay_key,
-              R.bool.pref_reduce_swipe_start_delay_default));
-      TouchInteractionMonitor.setCompleteSwipeEarly(
-          getBooleanPref(
-              R.string.pref_complete_swipe_early_key, R.bool.pref_complete_swipe_early_default));
-    }
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);
 
@@ -3527,12 +3412,17 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(R.string.pref_single_tap_key, R.bool.pref_single_tap_default);
     globalVariables.setUseSingleTap(useSingleTap);
     accessibilityFocusInterpreter.setSingleTapEnabled(useSingleTap);
-    accessibilityFocusInterpreter.setTypingMethod(
+    int typingMethod =
         SharedPreferencesUtils.getIntFromStringPref(
             prefs,
             res,
             R.string.pref_typing_confirmation_key,
-            R.string.pref_typing_confirmation_default));
+            R.string.pref_typing_confirmation_default);
+    accessibilityFocusInterpreter.setTypingMethod(typingMethod);
+    if (singleTapTypingController != null) {
+      singleTapTypingController.setEnabled(
+          typingMethod == FocusProcessorForTapAndTouchExploration.SINGLE_TAP_TO_TYPE);
+    }
     accessibilityFocusInterpreter.setTypingLongPressDurationMs(
         SharedPreferencesUtils.getIntFromStringPref(
             prefs,
@@ -4049,6 +3939,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (directTouchController != null) {
       directTouchController.setPaused(paused);
     }
+    if (singleTapTypingController != null) {
+      singleTapTypingController.setPaused(paused);
+    }
     if (scriptHost != null) {
       scriptHost.onPausedChanged(paused);
     }
@@ -4074,12 +3967,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       return;
     }
 
-    if (((flags & FLAG_SERVICE_HANDLES_DOUBLE_TAP) != 0)
-        && displayIdToTouchInteractionMonitors.size() != 0) {
-      // Mask off double-tap service flag. When gesture detection's activated, in Android T, change
-      // this flag causes the touch interaction controller reset the state.
-      flags &= ~FLAG_SERVICE_HANDLES_DOUBLE_TAP;
-    }
     if (newValue) {
       info.flags |= flags;
     } else {
@@ -4088,15 +3975,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     LogUtils.v(TAG, "Accessibility Service flag changed: 0x%X", info.flags);
     setServiceInfo(info);
-    if ((flags & AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE)
-            == AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE
-        && newValue
-        && shouldUseTalkbackGestureDetection()) {
-      // Modifies the explore-by-touch flag will invalidate the gesture detection from the service
-      // side. Here is the workaround to re-configure the gesture detection.
-      unregisterGestureDetection();
-      registerGestureDetection();
-    }
   }
 
   /**
@@ -4483,88 +4361,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
-  protected boolean shouldUseTalkbackGestureDetection() {
-    if (!FeatureSupport.supportGestureDetection()) {
-      return false;
-    }
-    if (useServiceGestureDetection == null) {
-      SharedPreferences sharedPreferences = SharedPreferencesUtils.getSharedPreferences(this);
-      useServiceGestureDetection =
-          sharedPreferences.getBoolean(
-              getString(R.string.pref_talkback_gesture_detection_key),
-              getResources().getBoolean(R.bool.pref_talkback_gesture_detection_default));
-    }
-    return useServiceGestureDetection;
-  }
-
-  private void registerGestureDetection() {
-    AccessibilityServiceInfo info = getServiceInfo();
-    if (info != null) {
-      // When gesture detection's enabled in the service side, FLAG_SERVICE_HANDLES_DOUBLE_TAP
-      // will be set. And it won't be changed during the life time of service. Otherwise the touch
-      // interaction controller will be affected.
-      info.flags |= FLAG_SERVICE_HANDLES_DOUBLE_TAP;
-      setServiceInfo(info);
-    }
-
-    List<Display> displays = WindowUtils.getAllDisplays(getApplicationContext());
-    for (Display display : displays) {
-      @Nullable TouchInteractionController touchInteractionController =
-          getTouchInteractionController(display.getDisplayId());
-      if (touchInteractionController == null) {
-        continue;
-      }
-      TouchInteractionMonitor touchInteractionMonitor =
-          new TouchInteractionMonitor(
-              display,
-              prefs,
-              touchInteractionController,
-              this,
-              primesController,
-              new TouchExplorationModeFailureReporter(analytics),
-              this::provisionTouchExplore,
-              this::onGestureDebug);
-      touchInteractionMonitor.setMultiFingerGesturesEnabled(true);
-      touchInteractionMonitor.setTwoFingerPassthroughEnabled(true);
-      touchInteractionMonitor.setServiceHandlesDoubleTap(true);
-      // No executor: the controller calls the monitor on the main thread as each event comes in, in
-      // order with the timeouts that gesture detection counts there.
-      touchInteractionController.registerCallback(/* executor= */ null, touchInteractionMonitor);
-      displayIdToTouchInteractionMonitors.put(display.getDisplayId(), touchInteractionMonitor);
-      userInterface.registerListener(touchInteractionMonitor);
-      LogUtils.i(TAG, "Enabling service gesture detection on display %d", display.getDisplayId());
-    }
-  }
-
-  /**
-   * Sets up gesture detection again, after Android set up touch handling again and dropped it, as
-   * when another accessibility service is turned off.
-   */
-  private void refreshGestureDetection() {
-    if (isServiceActive() && shouldUseTalkbackGestureDetection()) {
-      unregisterGestureDetection();
-      registerGestureDetection();
-    }
-  }
-
-  @SuppressLint("NewApi")
-  private void unregisterGestureDetection() {
-    List<Display> displays = WindowUtils.getAllDisplays(getApplicationContext());
-    for (Display display : displays) {
-      @Nullable TouchInteractionController touchInteractionController =
-          getTouchInteractionController(display.getDisplayId());
-      TouchInteractionMonitor touchInteractionMonitor =
-          displayIdToTouchInteractionMonitors.get(display.getDisplayId());
-      if (touchInteractionController == null || touchInteractionMonitor == null) {
-        continue;
-      }
-      userInterface.unregisterListener(touchInteractionMonitor);
-      touchInteractionMonitor.stop();
-      touchInteractionController.unregisterCallback(touchInteractionMonitor);
-    }
-    displayIdToTouchInteractionMonitors.clear();
-  }
-
   protected Pipeline.@Nullable FeedbackReturner getFeedbackReturner() {
     if (pipeline != null) {
       return pipeline.getFeedbackReturner();
@@ -4784,15 +4580,6 @@ public class TalkBackService extends AccessibilityServiceCompat
             res.getString(R.string.title_pref_tts_overlay),
             SharedPreferencesUtils.getBooleanPref(
                 prefs, res, R.string.pref_tts_overlay_key, R.bool.pref_tts_overlay_default)));
-    dumpLogger.log(
-        String.format(
-            "  %s=%b",
-            res.getString(R.string.title_pref_talkback_gesture_detection),
-            SharedPreferencesUtils.getBooleanPref(
-                prefs,
-                res,
-                R.string.pref_talkback_gesture_detection_key,
-                R.bool.pref_talkback_gesture_detection_default)));
     dumpLogger.log(
         String.format(
             "  %s=%b",

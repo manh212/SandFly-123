@@ -91,7 +91,7 @@ public class OnScreenKeyboardFragment extends TalkbackBaseFragment {
 
             String[] typingValues =
                 context.getResources().getStringArray(R.array.pref_typing_types_talkback_values);
-            int position = Integer.parseInt(typingValues[typingValues.length - 1]);
+            int position = typingValues.length - 1;
             for (int index = 0; index < typingValues.length; index++) {
               if (method == Integer.parseInt(typingValues[index])) {
                 position = index;

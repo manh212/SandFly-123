@@ -697,12 +697,10 @@
     Source: String for notifying the user the accessibility volume is decreased.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
   -->
-  <string name="template_touch_latency_reach_maximum">Maximum</string>
   <!--
     Source: String for notifying the user the accessibility volume is decreased.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]
   -->
-  <string name="template_touch_latency_reach_minimum">Minimum</string>
   <!--
     Source: String for notifying the user the stream volume is at the highest level.
     Description: This is spoken to the user. [CHAR_LIMIT=NONE]

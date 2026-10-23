@@ -22,13 +22,7 @@
         android:title="@string/value_type_confirmation_lift_to_type_except_action_key"
         app:singleLineTitle="false"/>
     <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
-        android:title="@string/value_type_confirmation_tap_to_type"
-        app:singleLineTitle="false"
-        app:isPreferenceVisible="@bool/supports_tap_to_type"/>
+        android:title="@string/value_type_confirmation_single_tap_to_type"
+        app:singleLineTitle="false"/>
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
-
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_typing_method_postfix_key"
-      android:summary="@string/message_pref_typing_method_postfix"
-      android:selectable="false" />
 </PreferenceScreen>

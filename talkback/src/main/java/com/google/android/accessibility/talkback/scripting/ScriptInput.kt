@@ -23,7 +23,6 @@ import android.content.Context
 import android.view.KeyEvent
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping
-import com.google.android.accessibility.utils.gestures.GestureManifold
 
 @SuppressLint("InlinedApi")
 object ScriptInput {
@@ -58,20 +57,15 @@ object ScriptInput {
       "twoFingerTap" to AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP,
       "twoFingerDoubleTap" to AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP,
       "twoFingerTripleTap" to AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP,
-      "twoFingerTapAndHold" to GestureManifold.GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD,
       "twoFingerDoubleTapAndHold" to AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD,
       "twoFingerTripleTapAndHold" to AccessibilityService.GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD,
       "twoFingerSwipeUp" to AccessibilityService.GESTURE_2_FINGER_SWIPE_UP,
       "twoFingerSwipeDown" to AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN,
       "twoFingerSwipeLeft" to AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT,
       "twoFingerSwipeRight" to AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT,
-      "twoFingerRotateClockwise" to GestureManifold.GESTURE_2_FINGER_ROTATE_CLOCKWISE,
-      "twoFingerRotateCounterclockwise" to
-        GestureManifold.GESTURE_2_FINGER_ROTATE_COUNTERCLOCKWISE,
       "threeFingerTap" to AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP,
       "threeFingerDoubleTap" to AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP,
       "threeFingerTripleTap" to AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP,
-      "threeFingerQuadrupleTap" to GestureManifold.GESTURE_3_FINGER_QUADRUPLE_TAP,
       "threeFingerTapAndHold" to AccessibilityService.GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD,
       "threeFingerDoubleTapAndHold" to AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD,
       "threeFingerTripleTapAndHold" to AccessibilityService.GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD,
