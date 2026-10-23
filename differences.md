@@ -610,6 +610,8 @@ Text that isn't in a text field, such as a message, can be edited and copied but
 
 **Dictate**, a gesture action under **Text editing**, types what you say into the focused text field, at the cursor. A chime plays when recording starts; recording goes on, through pauses, until the gesture is performed again, which plays a second chime. Speech is silenced while recording, so that it isn't recorded. Recording stops by itself after 15 minutes.
 
+The older actions **Start or end Gboard voice input** and **Play or pause media, start or end Gboard voice input** are a different feature: they press the microphone button of the keyboard on screen, so they only work while Gboard is shown, and they ignore the Dictation settings below. Their names say Gboard in this fork, so they are not confused with **Dictate**.
+
 **Settings > Dictation** has:
 
 - **Speech recognition**: Automatic, Google on-device speech recognition, Rambler (Gemini API), Whisper or Android speech recognition.
