@@ -1354,10 +1354,6 @@ public class SpeechControllerImpl implements SpeechController {
       @Nullable UtteranceRangeStartCallback rangeStartCallback,
       @Nullable UtteranceCompleteRunnable completedAction) {
 
-    if (failoverTts.isAlwaysInterruptSpeechOn()) {
-      queueMode |= QUEUE_MODE_BIT_INTERRUPT;
-    }
-
     // If this FeedbackItem is flagged as NO_SPEECH, ignore speech and
     // immediately process earcons and haptics without disrupting the speech
     // queue.
