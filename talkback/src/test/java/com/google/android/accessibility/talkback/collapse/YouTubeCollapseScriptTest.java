@@ -97,12 +97,64 @@ public class YouTubeCollapseScriptTest {
   }
 
   @Test
-  public void menuButtonInTheBottomCorner_isNotRecognized_noExpansion() {
+  public void menuButtonInTheBottomStrip_isRecognized_expands() {
+    // This test replaces menuButtonInTheBottomCorner_isNotRecognized_noExpansion, which
+    // asserted the opposite. That test encoded a top-corner geometry assumption that no
+    // live tree ever supported: on the real feed the menu button sits in the metadata
+    // strip at the item's bottom, and the shipped geometry rule therefore never fired on
+    // device (dev 624). Recognition is by description and structure now, so the bottom
+    // strip is exactly where the button is expected — and it expands.
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
     YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
-    // Move the menu button out of the top corner: it no longer qualifies, so both child
-    // buttons stay plain actions and no catalog appears.
     CollapseTestTrees.bounds(tree.menu, 900, 450, 1080, 600);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    assertEquals(13, item.actions().size());
+    assertEquals(ChildAction.Kind.MENU_ITEM, item.actions().get(1).kind);
+    assertEquals(tree.menu, item.actions().get(1).node);
+    assertEquals(ChildAction.Kind.MENU_OPEN, item.actions().get(12).kind);
+  }
+
+  @Test
+  public void menuButtonWithVietnameseWording_expandsByDescription() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+    tree.channel.setContentDescription("Chuyển đến kênh Channel X");
+    tree.menu.setContentDescription("Trình đơn thao tác cho Video title");
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    assertEquals(13, item.actions().size());
+    assertEquals(ChildAction.Kind.CLICK, item.actions().get(0).kind);
+    assertEquals("Chuyển đến kênh Channel X", item.actions().get(0).label.toString());
+    assertEquals(ChildAction.Kind.MENU_ITEM, item.actions().get(1).kind);
+    assertEquals(tree.menu, item.actions().get(1).node);
+  }
+
+  @Test
+  public void menuButtonWithUnrecordedWording_expandsByStructure() {
+    // A wording the script has not recorded (YouTube words the button differently in some
+    // locales): the channel button is still identified by its own wording, and the menu
+    // button is the last secondary after it, so structure alone settles the identification.
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+    tree.menu.setContentDescription("More options for Video title");
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    assertEquals(13, item.actions().size());
+    assertEquals(ChildAction.Kind.MENU_ITEM, item.actions().get(1).kind);
+    assertEquals(tree.menu, item.actions().get(1).node);
+  }
+
+  @Test
+  public void twoMenuWordingButtons_noExpansion() {
+    // Both secondaries carry the menu wording: the exactly-one gate cannot settle which
+    // one is the overflow button, so both stay plain actions and no catalog appears.
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+    tree.channel.setContentDescription("Action menu for Another title");
 
     CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
 
@@ -110,6 +162,31 @@ public class YouTubeCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       assertEquals(ChildAction.Kind.CLICK, action.kind);
     }
+  }
+
+  @Test
+  public void unrecordedWordingsWithoutAChannelAnchor_noExpansion() {
+    // Neither wording is recorded and the first secondary is not recognisable as the
+    // channel button, so structure cannot settle the last one either: untouched.
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+    tree.channel.setContentDescription("Chaîne Channel X");
+    tree.menu.setContentDescription("Menu d'actions pour Video title");
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    assertEquals(2, item.actions().size());
+    for (ChildAction action : item.actions()) {
+      assertEquals(ChildAction.Kind.CLICK, action.kind);
+    }
+  }
+
+  @Test
+  public void videoItemWithoutChildButtons_isLeftUntouched() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItemWithoutChildren(list, 0);
+
+    assertNull(CollapseEngine.matchItemRoot(tree.item, SCRIPTS));
   }
 
   @Test

@@ -17,8 +17,12 @@
 package com.google.android.accessibility.talkback.collapse;
 
 import android.graphics.Rect;
+import android.text.TextUtils;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * YouTube: a video item is one large button (title, duration, channel, views) with small child
@@ -32,6 +36,21 @@ final class YouTubeCollapseScript extends CollapseScript {
   /** View id of the TextView carrying one row's label inside the open overflow-menu sheet. */
   private static final String MENU_ITEM_LABEL_VIEW_ID =
       "com.google.android.youtube:id/list_item_text";
+
+  /**
+   * Wording of the overflow button's description as recorded from YouTube's own live
+   * trees: "Action menu for &lt;title&gt;", in Vietnamese "Trình đơn thao tác cho
+   * &lt;tiêu đề&gt;". These are YouTube's words, not SandFly strings; the match is by
+   * prefix because the video title follows.
+   */
+  private static final String[] MENU_DESCRIPTION_PREFIXES = {
+    "Action menu for", "Trình đơn thao tác cho",
+  };
+
+  /** Wording of the neighbouring go-to-channel button's description, from the same trees. */
+  private static final String[] CHANNEL_DESCRIPTION_PREFIXES = {
+    "Go to channel", "Chuyển đến kênh",
+  };
 
   private static final MenuCatalog MENU_CATALOG =
       new MenuCatalog(
@@ -61,23 +80,111 @@ final class YouTubeCollapseScript extends CollapseScript {
   }
 
   /**
-   * The overflow button is the small button in the item's top corner opposite the channel
-   * button: its centre sits in the end half of the item horizontally and in the top half
-   * vertically. The channel button fails both halves (bottom strip, start side).
+   * The overflow button is identified by what YouTube calls it and by the company it keeps,
+   * never by where it sits: on a feed row the button lives in the metadata strip under the
+   * thumbnail, in the item's bottom half, so a position rule misses it there — and recorded
+   * trees carry no bounds to check a position rule against anyway. Two signals, in order:
+   *
+   * <ol>
+   *   <li>The button's spoken label carries YouTube's menu wording ({@link
+   *       #MENU_DESCRIPTION_PREFIXES}).
+   *   <li>Structure, for a menu wording that is not recorded: the button is the last of the
+   *       item's secondary buttons in reading order and every secondary before it is a
+   *       channel button. Anything less settled than that stays unidentified, and the
+   *       engine's exactly-one gate then leaves the item's actions untouched.
+   * </ol>
    */
   @Override
   public boolean isMenuButton(
       AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat itemRoot) {
-    Rect itemBounds = new Rect();
-    itemRoot.getBoundsInScreen(itemBounds);
-    Rect bounds = new Rect();
-    node.getBoundsInScreen(bounds);
-    if (itemBounds.isEmpty() || bounds.isEmpty()) {
+    CharSequence label = ItemScan.spokenLabel(node);
+    if (startsWithAny(label, MENU_DESCRIPTION_PREFIXES)) {
+      return true;
+    }
+    if (startsWithAny(label, CHANNEL_DESCRIPTION_PREFIXES)) {
       return false;
     }
-    int centreX = (bounds.left + bounds.right) / 2;
-    int centreY = (bounds.top + bounds.bottom) / 2;
-    return centreX > (itemBounds.left + itemBounds.right) / 2
-        && centreY < (itemBounds.top + itemBounds.bottom) / 2;
+    return isLastSecondaryAfterChannelButtons(node, itemRoot);
+  }
+
+  private boolean isLastSecondaryAfterChannelButtons(
+      AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat itemRoot) {
+    ItemScan scan = ItemScan.of(itemRoot);
+    if (scan == null) {
+      return false;
+    }
+    long itemArea = area(itemRoot);
+    if (itemArea <= 0) {
+      return false;
+    }
+    // Rebuild the engine's action set for this item — its primary first, then the labelled
+    // small clickables with nested duplicates removed — so "last" is judged on the same
+    // list the engine is about to expand, not on the raw scan.
+    AccessibilityNodeInfoCompat primary = null;
+    for (AccessibilityNodeInfoCompat candidate : scan.clickables()) {
+      if ((double) area(candidate) >= primaryMinAreaFraction() * itemArea
+          && !TextUtils.isEmpty(ItemScan.spokenLabel(candidate))) {
+        if (primary != null) {
+          return false;
+        }
+        primary = candidate;
+      }
+    }
+    if (primary == null) {
+      return false;
+    }
+    List<AccessibilityNodeInfoCompat> secondaries = new ArrayList<>();
+    for (AccessibilityNodeInfoCompat candidate : scan.clickables()) {
+      if (candidate.equals(primary)) {
+        continue;
+      }
+      if (AccessibilityNodeInfoUtils.hasAncestor(primary, candidate)
+          || TextUtils.isEmpty(ItemScan.spokenLabel(candidate))
+          || (double) area(candidate) > auxMaxAreaFraction() * itemArea) {
+        // The engine rejects an item carrying such a candidate outright, so no expansion
+        // is in play for it either way.
+        return false;
+      }
+      boolean nestedDuplicate = false;
+      for (AccessibilityNodeInfoCompat earlier : secondaries) {
+        if (TextUtils.equals(ItemScan.spokenLabel(earlier), ItemScan.spokenLabel(candidate))
+            && AccessibilityNodeInfoUtils.hasAncestor(candidate, earlier)) {
+          nestedDuplicate = true;
+          break;
+        }
+      }
+      if (!nestedDuplicate) {
+        secondaries.add(candidate);
+      }
+    }
+    if (secondaries.size() < 2 || !secondaries.get(secondaries.size() - 1).equals(node)) {
+      return false;
+    }
+    for (int i = 0; i < secondaries.size() - 1; i++) {
+      if (!startsWithAny(
+          ItemScan.spokenLabel(secondaries.get(i)), CHANNEL_DESCRIPTION_PREFIXES)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean startsWithAny(CharSequence label, String[] prefixes) {
+    if (TextUtils.isEmpty(label)) {
+      return false;
+    }
+    String text = label.toString();
+    for (String prefix : prefixes) {
+      if (text.startsWith(prefix)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static long area(AccessibilityNodeInfoCompat node) {
+    Rect bounds = new Rect();
+    node.getBoundsInScreen(bounds);
+    return (long) bounds.width() * bounds.height();
   }
 }

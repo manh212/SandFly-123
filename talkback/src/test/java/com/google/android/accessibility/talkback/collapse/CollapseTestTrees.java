@@ -88,7 +88,14 @@ final class CollapseTestTrees {
     AccessibilityNodeInfoCompat menu;
   }
 
-  /** One video item: a full-size primary button with channel and menu buttons nested inside. */
+  /**
+   * One video item in the shape of the recorded live home feed: the item frame only takes
+   * focus; the main button carries the composed description and holds, deep inside, a
+   * duration badge chain and a container with the channel and menu buttons as siblings —
+   * channel first, menu last. Both small buttons sit in the metadata strip at the item's
+   * bottom, under where the thumbnail renders; nothing about the menu button's identity is
+   * positional.
+   */
   static YouTubeTree youTubeItem(AccessibilityNodeInfoCompat list, int top) {
     YouTubeTree tree = new YouTubeTree();
     tree.item = item(list);
@@ -99,20 +106,54 @@ final class CollapseTestTrees {
     tree.primary.setClickable(true);
     tree.primary.setFocusable(true);
     tree.primary.setContentDescription(
-        "Video title, 10:24, Channel X, 1M views, play video");
+        "Video title - 10 minutes, 24 seconds - Go to channel Channel X - Channel X,"
+            + " 1M views - 15 minutes ago - play video");
     bounds(tree.primary, 0, top, 1080, top + 600);
 
-    tree.channel = node(tree.primary, "android.widget.Button");
+    AccessibilityNodeInfoCompat durationChain = node(tree.primary, "android.view.ViewGroup");
+    bounds(durationChain, 880, top + 380, 1080, top + 440);
+    AccessibilityNodeInfoCompat duration = node(durationChain, "android.view.ViewGroup");
+    duration.setText("10:24");
+    duration.setContentDescription("10 minutes, 24 seconds");
+    bounds(duration, 880, top + 380, 1080, top + 440);
+
+    AccessibilityNodeInfoCompat stripChain = node(tree.primary, "android.view.ViewGroup");
+    bounds(stripChain, 0, top + 450, 1080, top + 600);
+    AccessibilityNodeInfoCompat strip = node(stripChain, "android.view.ViewGroup");
+    bounds(strip, 0, top + 450, 1080, top + 600);
+    AccessibilityNodeInfoCompat buttons = node(strip, "android.view.ViewGroup");
+    bounds(buttons, 0, top + 450, 1080, top + 600);
+
+    tree.channel = node(buttons, "android.widget.Button");
     tree.channel.setClickable(true);
     tree.channel.setFocusable(true);
     tree.channel.setContentDescription("Go to channel Channel X");
-    bounds(tree.channel, 0, top + 400, 300, top + 600);
+    bounds(tree.channel, 0, top + 450, 150, top + 600);
 
-    tree.menu = node(tree.primary, "android.widget.Button");
+    tree.menu = node(buttons, "android.widget.Button");
     tree.menu.setClickable(true);
     tree.menu.setFocusable(true);
     tree.menu.setContentDescription("Action menu for Video title");
-    bounds(tree.menu, 900, top, 1080, top + 150);
+    bounds(tree.menu, 930, top + 450, 1080, top + 600);
+    applyPackage(tree.item, list.getPackageName().toString());
+    return tree;
+  }
+
+  /**
+   * A recorded variance: a video item whose main button has no child buttons rendered yet.
+   * There is nothing to fold in, so the item must simply be left untouched.
+   */
+  static YouTubeTree youTubeItemWithoutChildren(AccessibilityNodeInfoCompat list, int top) {
+    YouTubeTree tree = new YouTubeTree();
+    tree.item = item(list);
+    tree.item.setFocusable(true);
+    bounds(tree.item, 0, top, 1080, top + 600);
+
+    tree.primary = node(tree.item, "android.widget.Button");
+    tree.primary.setClickable(true);
+    tree.primary.setFocusable(true);
+    tree.primary.setContentDescription("Video title - 10 minutes, 24 seconds - play video");
+    bounds(tree.primary, 0, top, 1080, top + 600);
     applyPackage(tree.item, list.getPackageName().toString());
     return tree;
   }
