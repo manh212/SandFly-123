@@ -17,30 +17,39 @@ exceptions.
 4. **Definition of done.** A change is done when the build succeeds and it
    introduces no new lint errors. Issues already recorded in `lint-baseline.xml`
    are allowed.
-5. **Branches.** Work goes straight to `master` by default. Only extremely
-   large work — replacing or removing an entire subsystem, completely changing
-   an architecture, or adding a major new subsystem — gets its own branch and
-   pull request, created at the very start and never auto-merged. On a
-   borderline case, the default is `master`, and the owner is the final judge.
+5. **Branches.** All feature work — fixes and features of every size — goes
+   through a branch and a pull request, created at the very start of the
+   work, before any code is written, with the owner approving the creation
+   up front. Only extremely large work — replacing or removing an entire
+   subsystem, completely changing an architecture, or adding a major new
+   subsystem — is never auto-merged; everything else merges as soon as the
+   build is green. Direct pushes to `master` are only for non-feature work:
+   documentation and policy edits, and emergency reverts that restore a
+   green `master`.
 6. **Interface work.** Any change that adds or alters user interface must also
    follow [docs/ux-guidelines.md](docs/ux-guidelines.md).
 
 ## Working agreements
 
-- Push small and medium changes — normal features and fixes — directly to
-  `master`. Do not open a branch or pull request for them.
-- Open a branch only for extremely large work: replacing or removing an
-  entire subsystem, completely changing an architecture, or adding a major
-  new subsystem. Create the branch and its pull request at the very start of
-  such work; the owner approves its creation. Engine-level changes inside an
-  existing system and ordinary features, however large they feel, still go
-  straight to `master`. On a borderline case, the default is `master`, and
-  the owner is the final judge of the classification.
+- Every fix and feature, whatever its size, goes on a branch with a pull
+  request. Create the branch and its pull request at the very start of the
+  work, before any code is written, and the owner approves the creation at
+  that point — never after the code is done. A failed pull request build
+  posts a readable failure summary comment naming the failing tests, while
+  a failed `master` build leaves only artifacts, so the branch is also the
+  diagnostic route.
+- Direct pushes to `master` are only for non-feature work: documentation
+  and policy edits (this file included), and emergency reverts that
+  restore a green `master`.
 - One feature gets exactly one branch. Keep fixing on that same branch until
   it is accepted; never open a second branch for the same feature.
-- Branch work is never auto-merged. When the branch build is green, share the
-  preview APK (the build job's `apks` artifact) with the owner, who tests it
-  on a device and approves the merge.
+- Merging follows the size classification. Extremely large work — replacing
+  or removing an entire subsystem, completely changing an architecture, or
+  adding a major new subsystem — is never auto-merged: when the branch
+  build is green, share the preview APK (the build job's `apks` artifact)
+  with the owner, who tests it on a device and approves the merge. Every
+  other branch merges as soon as its build is green, without asking. On a
+  borderline case, the owner is the final judge of the classification.
 - Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
   it reports.
 - When a pull request build fails, read the automatic failure summary comment
