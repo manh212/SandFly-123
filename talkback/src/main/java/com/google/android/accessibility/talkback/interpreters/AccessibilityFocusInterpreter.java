@@ -181,13 +181,26 @@ public class AccessibilityFocusInterpreter
       return;
     }
     // Copy the event, because the framework may recycle it after dispatch.
-    pendingManualScroll =
+    ManualScrollInterpretation newPending =
         ManualScrollInterpretation.create(
             interpretation.eventId(),
             AccessibilityEvent.obtain(interpretation.event()),
             interpretation.direction());
+    if (pendingManualScroll != null) {
+      pendingManualScroll.event().recycle();
+    }
+    pendingManualScroll = newPending;
     handler.removeCallbacks(handlePendingManualScroll);
     handler.postDelayed(handlePendingManualScroll, MANUAL_SCROLL_SETTLE_MS);
+  }
+
+  /** Cancels a scroll still settling, so it cannot fire after the service has suspended. */
+  public void onSuspendInfrastructure() {
+    handler.removeCallbacks(handlePendingManualScroll);
+    if (pendingManualScroll != null) {
+      pendingManualScroll.event().recycle();
+      pendingManualScroll = null;
+    }
   }
 
   private void handleManualScroll(ManualScrollInterpretation interpretation) {
