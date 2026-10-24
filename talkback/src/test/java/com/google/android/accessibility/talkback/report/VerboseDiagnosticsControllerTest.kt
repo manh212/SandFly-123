@@ -32,14 +32,17 @@ class VerboseDiagnosticsControllerTest {
       DiagnosticsTaskScheduler.ScheduledTask {
       var cancelled = false
         private set
+      var fired = false
+        private set
 
       override fun cancel() {
         cancelled = true
       }
 
-      /** Runs the task the way a real scheduler would: not at all once cancelled. */
+      /** Runs the task the way a real scheduler would: not at all once cancelled or fired. */
       fun fire() {
-        if (!cancelled) {
+        if (!cancelled && !fired) {
+          fired = true
           task()
         }
       }
@@ -54,7 +57,7 @@ class VerboseDiagnosticsControllerTest {
       return fakeTask
     }
 
-    fun pendingTasks(): List<FakeTask> = tasks.filter { !it.cancelled }
+    fun pendingTasks(): List<FakeTask> = tasks.filter { !it.cancelled && !it.fired }
   }
 
   private val scheduler = FakeScheduler()
