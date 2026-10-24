@@ -90,7 +90,7 @@ class PrefsDigestTest {
 
   @Test
   fun digestLines_emptyPreferencesGiveNoLines() {
-    assertThat(PrefsDigest.digestLines(emptyMap())).isEmpty()
+    assertThat(PrefsDigest.digestLines(emptyMap<String, Any?>())).isEmpty()
   }
 
   @Test
