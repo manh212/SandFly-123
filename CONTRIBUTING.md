@@ -24,8 +24,17 @@ exceptions.
 
 ## Working agreements
 
-- Keep each task in one coherent pull request, sized to the task. Do not split
-  a task into several stacked pull requests unless the owner asks for it.
+- Push small and medium changes — normal features and fixes — directly to
+  `master`. Do not open a branch or pull request for them.
+- Open a branch only for extremely large work: a complete architecture
+  overhaul, a wholesale change to how a subsystem works, or adding a major
+  new subsystem. Create the branch and its pull request at the very start of
+  such work; the owner approves its creation.
+- One feature gets exactly one branch. Keep fixing on that same branch until
+  it is accepted; never open a second branch for the same feature.
+- Branch work is never auto-merged. When the branch build is green, share the
+  preview APK (the build job's `apks` artifact) with the owner, who tests it
+  on a device and approves the merge.
 - Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
   it reports.
 - When a pull request build fails, read the automatic failure summary comment
