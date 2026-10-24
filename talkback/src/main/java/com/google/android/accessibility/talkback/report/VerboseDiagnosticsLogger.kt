@@ -20,6 +20,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
 import android.util.Log
+import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 
@@ -95,6 +96,7 @@ internal class VerboseDiagnosticsController(
  */
 object VerboseDiagnosticsLogger {
   private const val TAG = "VerboseDiagnostics"
+  private const val PERFORMANCE_TAG = "Performance"
 
   @Volatile private var appContext: Context? = null
 
@@ -133,11 +135,7 @@ object VerboseDiagnosticsLogger {
   private fun logSnapshotSections() {
     val context = appContext ?: return
     LogUtils.v(TAG, "== Diagnostics snapshot in the log ==")
-    LogUtils.v(
-      TAG,
-      "Performance statistics collection: %s",
-      if (Performance.getInstance().computeStatsEnabled) "on" else "off",
-    )
+    LogUtils.v(TAG, "%s", DiagnosticsExport.performanceStatsStatusLine())
     // Line by line: a single log call would be truncated by logcat for a block this size, and
     // each snapshot line is short. The section headers delimit the block.
     for (line in DiagnosticsExport.buildSnapshotSections(context).lines()) {
@@ -149,13 +147,13 @@ object VerboseDiagnosticsLogger {
   }
 
   private fun logPerformanceStats() {
-    val performance = Performance.getInstance()
-    if (!performance.computeStatsEnabled) {
+    if (!Performance.getInstance().computeStatsEnabled) {
       return
     }
-    performance.displayLabelToStats()
-    performance.displayStatToLabelCompare()
-    performance.displayAllEventStats()
+    // Forwards to the log under the Performance tag, exactly as Performance's own displays do.
+    DiagnosticsExport.displayPerformanceStats(
+      Logger { format, args -> LogUtils.v(PERFORMANCE_TAG, format, *(args ?: emptyArray())) }
+    )
   }
 
   private class HandlerTaskScheduler(private val handler: Handler) : DiagnosticsTaskScheduler {
