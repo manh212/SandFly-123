@@ -252,7 +252,9 @@ class AiDictation(
       }
     }
     val model = WhisperModels.get(service).activeModel() ?: return null
-    val whisper = WhisperEngines.transcriber(WhisperModels.get(service).file(model)) ?: return null
+    val whisper =
+      WhisperEngines.transcriber(WhisperModels.get(service).file(model), model.shortContext)
+        ?: return null
     transcriber = whisper
     try {
       return whisper.transcribe(AudioCapture.toFloats(pcm), whisperLanguage())?.let { it to false }

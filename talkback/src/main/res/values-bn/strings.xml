@@ -187,7 +187,7 @@
   <string name="keycombo_menu_other_show_link_list">লিঙ্কের তালিকা দেখুন</string>
   <string name="keycombo_menu_other_show_control_list">কন্ট্রোলের তালিকা দেখুন</string>
   <string name="keycombo_menu_other_show_table_list">টেবিলের তালিকা দেখুন</string>
-  <string name="keycombo_menu_other_talkback_context_menu">SandFly মেনু দেখুন</string>
+  <string name="keycombo_menu_other_talkback_context_menu">SandFly মেনু দেখান</string>
   <string name="keycombo_menu_other_custom_actions">অ্যাকশনগুলি দেখুন</string>
   <string name="keycombo_menu_other_language_options">ইনস্টল করা ভাষাগুলি দেখুন</string>
   <string name="keycombo_menu_other_copy_last_spoken_phrase">আপনার বলা শেষ কথাটি কপি করুন</string>
@@ -679,7 +679,7 @@
   <string name="dialog_title_diagnosis_mode">\'ডায়গনোসিস মোড\' চালু করবেন?</string>
   <string name="dialog_message_diagnosis_mode">\'ডায়গনোসিস মোড\' ডিবাগিং করতে সাহায্য করে।  \'ডায়গনোসিস মোড\' সিস্টেম লগে স্ক্রিনের কন্টেন্ট ক্যাপচার করতে ৪টি আঙ্গুলের মাধ্যম জেসচার ট্যাপ ওভাররাইড করে।  স্ক্রিন কন্টেন্টে ব্যক্তিগত তথ্য থাকতে পারে। \n\n \'ডায়গনোসিস মোড\' চালু করতে চান?</string>
   <string name="title_request_phone_permission">ফোন অ্যাক্সেস করার অনুমতি দেবেন?</string>
-  <string name="message_request_phone_permission">আপনি কলে থাকার সময় এটি SandFly-এর ঘোষণা কমাতে সাহায্য করে।</string>
+  <string name="message_request_phone_permission">আপনি কলে থাকার সময় এটি SandFly-এর ঘোষণা কমাতে সাহায্য করে</string>
   <string name="continue_button">চালিয়ে যান</string>
   <string name="links">লিঙ্ক</string>
   <string name="start_of_page">এর আগে কোনও %1$s নেই</string>
@@ -1406,7 +1406,7 @@
     <string name="dialog_message_screen_overview_promotion">বিবরণ পেতে স্ক্রিনের একটি স্ক্রিনশট Google-এর Gemini API-তে পাঠানো হয়, যাতে কয়েক সেকেন্ড সময় লাগে। ডিভাইসে থাকা AI চালু থাকলে, বিবরণ এই ফোনেই তৈরি হয় এবং স্ক্রিনশট পাঠানো হয় না।\n\nবিনামূল্যের API কী ব্যবহার করলে, Google যা পায় তা রেখে দিতে, নিজের প্রোডাক্ট উন্নত করতে ব্যবহার করতে এবং লোক দিয়ে পর্যালোচনা করাতে পারে। জেনারেটিভ AI পরীক্ষামূলক লেভেলে রয়েছে, তাই এটি ভুল করবে। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্রযোজ্য।</string>
     <string name="shortcut_title_open_app">অ্যাপ খুলুন</string>
     <string name="shortcut_open_app"><xliff:g id="app_name" example="Gmail">%1$s</xliff:g> খুলুন</string>
-    <string name="shortcut_system_notifications">সিস্টেমের বিজ্ঞপ্তি শেড</string>
+    <string name="shortcut_system_notifications">সিস্টেম বিজ্ঞপ্তি প্যানেল</string>
     <string name="title_clear_selection">বেছে নেওয়া টেক্সট সরান</string>
     <string name="title_pref_brightness">উজ্জ্বলতা</string>
     <string name="summary_support_change_brightness">স্ক্রিন লুকানো থাকলেও স্ক্রিনের উজ্জ্বলতা বাড়ায় অথবা কমায়</string>
@@ -1492,8 +1492,8 @@
         <item>@string/speech_stream_ring</item>
         <item>@string/speech_stream_call</item>
     </string-array>
-    <string name="title_pref_play_installer">Google প্লে থেকে ইনস্টল করা প্রদর্শিত হবে</string>
-    <string name="summary_pref_play_installer">Google Play SandFly ইনস্টল করা অন্যান্য অ্যাপকে বলুন। কিছু অ্যাপ, যেমন কিছু ব্যাঙ্কিং অ্যাপ, অন্য কোথাও থেকে ইনস্টল করা অ্যাক্সেসিবিলিটি পরিষেবাগুলি বন্ধ করে দেয়। Shizuku প্রয়োজন, এবং SandFly কোথা থেকে এসেছে সে সম্পর্কে যা বলা হয়েছে শুধুমাত্র তা পরিবর্তন করে।</string>
+    <string name="title_pref_play_installer">Google Play থেকে ইনস্টল করা হিসেবে দেখান</string>
+    <string name="summary_pref_play_installer">অন্য অ্যাপকে জানায় যে SandFly Google Play থেকে ইনস্টল করা হয়েছে। কিছু অ্যাপ, যেমন কিছু ব্যাঙ্কিং অ্যাপ, অন্য কোনও উৎস থেকে ইনস্টল করা অ্যাক্সেসিবিলিটি পরিষেবা বন্ধ করে দেয়। Shizuku প্রয়োজন, এবং SandFly কোথা থেকে এসেছে সে বিষয়ে অ্যাপকে যা জানানো হয় শুধু সেটাই বদলায়।</string>
     <string name="summary_pref_play_installer_pending">চালু আছে, কিন্তু Google Play এখনও ইনস্টলার হিসেবে রেকর্ড করা হয়নি। SandFly এটি সেট করে যখন Shizuku উপলব্ধ থাকে।</string>
     <string name="notification_list_show_all">সব দেখান</string>
     <string name="notification_list_show_less">কম দেখান</string>
@@ -1540,7 +1540,7 @@
     <string name="quick_settings_settings">সেটিংস</string>
     <string name="quick_settings_power_menu">পাওয়ার মেনু</string>
     <string name="quick_settings_add_system_tile">সিস্টেম টাইল যোগ করুন</string>
-    <string name="quick_settings_no_system_tiles">কোন সিস্টেম টাইলস যোগ করার জন্য</string>
+    <string name="quick_settings_no_system_tiles">যোগ করার মতো কোনো সিস্টেম টাইল নেই</string>
     <string name="quick_settings_tile_not_found">%1$s সিস্টেমের দ্রুত সেটিংসে নেই৷</string>
     <string name="quick_settings_never">কখনও নয়</string>
     <plurals name="quick_settings_seconds">
@@ -1569,7 +1569,7 @@
     <string name="quick_settings_tile_name">%1$s, %2$s</string>
     <string name="quick_settings_columns">কলামের সংখ্যা</string>
     <string name="quick_settings_move">সরান</string>
-    <string name="quick_settings_move_title">সরান %1$s</string>
+    <string name="quick_settings_move_title">%1$s সরান</string>
     <string name="quick_settings_cell">সারি %1$d, কলাম %2$d</string>
     <string name="quick_settings_cell_with_item">%1$s, %2$s</string>
     <string name="quick_settings_moved_and_displaced">%1$s. %2$s</string>
@@ -1598,19 +1598,19 @@
     <string name="value_distance_40mm">4 সেমি</string>
     <string name="value_distance_50mm">5 সেমি</string>
     <string name="title_pref_selector_links_controls_web_only">শুধুমাত্র ওয়েব সামগ্রীতে লিঙ্ক এবং নিয়ন্ত্রণ</string>
-    <string name="title_pref_selector_auto_switch">স্বয়ংক্রিয়ভাবে পড়ার নিয়ন্ত্রণ পরিবর্তন করুন</string>
-    <string name="title_pref_touch_stops_speech">স্ক্রিনে স্পর্শ করার সময় বক্তৃতা বন্ধ করুন</string>
+    <string name="title_pref_selector_auto_switch">রিডিং কন্ট্রোল অটোমেটিক পরিবর্তন করুন</string>
+    <string name="title_pref_touch_stops_speech">স্ক্রিন স্পর্শ করলে স্পিচ বন্ধ করুন</string>
     <string name="title_pref_volume_keys_move_cursor">ভলিউম কীগুলি কার্সারকে সরিয়ে দেয়</string>
-    <string name="summary_pref_volume_keys_move_cursor">যখন একটি পাঠ্য ক্ষেত্রের ফোকাস থাকে, ভলিউম আপ কার্সারটিকে একটি অক্ষর পিছনে নিয়ে যায় এবং ভলিউম ডাউন এটিকে চালু করে</string>
+    <string name="summary_pref_volume_keys_move_cursor">টেক্সট ফিল্ডে ফোকাস থাকলে, ভলিউম বাড়ানো কার্সারকে এক অক্ষর পিছনে এবং ভলিউম কমানো এক অক্ষর সামনে নিয়ে যায়</string>
     <string name="image_qna_ask_by_voice">কণ্ঠে জিজ্ঞাসা করুন</string>
     <string name="image_qna_stop_listening">শোনা বন্ধ করুন</string>
     <string name="image_qna_type_question">একটি প্রশ্ন টাইপ করুন</string>
-    <string name="shortcut_dictate">নির্দেশ</string>
-    <string name="title_pref_ai_dictation">AI এর সাথে সঠিক ডিকশন</string>
-    <string name="dictation_not_corrected">সংশোধন করা হয়নি। স্বীকৃত হিসাবে টাইপ করুন.</string>
-    <string name="dictation_nothing_recognized">কিছুই চেনা যায় না</string>
-    <string name="dictation_unavailable">বক্তৃতা শনাক্তকরণ অনুপলব্ধ৷</string>
-    <string name="dictation_field_gone">পাঠ্য ক্ষেত্র বন্ধ। কিছুই টাইপ করা হয়নি.</string>
+    <string name="shortcut_dictate">ডিকটেট করুন</string>
+    <string name="title_pref_ai_dictation">AI দিয়ে ডিক্টেশন সংশোধন করুন</string>
+    <string name="dictation_not_corrected">সংশোধন করা হয়নি। যেভাবে শনাক্ত হয়েছে সেভাবে টাইপ করা হয়েছে।</string>
+    <string name="dictation_nothing_recognized">কিছুই শনাক্ত হয়নি</string>
+    <string name="dictation_unavailable">স্পিচ রেকগনিশন উপলভ্য নয়</string>
+    <string name="dictation_field_gone">টেক্সট ফিল্ড বন্ধ হয়ে গেছে। কিছু টাইপ করা হয়নি।</string>
     <string name="dictation_transcription_failed">কথা লেখায় রূপান্তর করা যায়নি। কিছুই টাইপ করা হয়নি।</string>
     <string name="title_pref_dictation">ডিক্টেশন</string>
     <string name="title_pref_dictation_rambler_live">Rambler লাইভ ট্রান্সক্রিপশন</string>
@@ -1627,11 +1627,11 @@
     <string name="dictation_whisper_use">ব্যবহার করুন</string>
     <string name="title_pref_dictation_ai_service">ডিক্টেশনের জন্য এআই পরিষেবা</string>
     <string name="dictation_ai_same">অটোমেটিক বিবরণের মতোই</string>
-    <string name="title_pref_browse_mode_per_app">প্রতিটি অ্যাপে ব্রাউজ মোড মনে রাখবেন</string>
-    <string name="title_pref_export_settings">রপ্তানি সেটিংস</string>
+    <string name="title_pref_browse_mode_per_app">প্রতিটি অ্যাপে ব্রাউজ মোড মনে রাখুন</string>
+    <string name="title_pref_export_settings">সেটিংস এক্সপোর্ট করুন</string>
     <string name="title_pref_import_settings">সেটিংস আমদানি করুন</string>
     <string name="settings_export_done">সেটিংস এক্সপোর্ট করা হয়েছে। API কী অন্তর্ভুক্ত করা হয় না</string>
     <string name="settings_export_failed">সেটিংস এক্সপোর্ট করা যায়নি</string>
-    <string name="settings_import_done">সেটিংস আমদানি করা হয়েছে৷</string>
+    <string name="settings_import_done">সেটিংস ইমপোর্ট করা হয়েছে</string>
     <string name="settings_import_failed">এই ফাইলটি একটি SandFly বা Backtalk সেটিংস ফাইল নয়, বা পড়া যাবে না</string>
 </resources>

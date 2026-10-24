@@ -30,9 +30,10 @@ object WhisperEngines {
 
   /**
    * Transcribes with the model in [file]. The model is loaded for each transcription and closed
-   * after it, so that it takes no memory between dictations.
+   * after it, so that it takes no memory between dictations. With [shortContext], for models
+   * fine-tuned for it, only the spoken audio is encoded.
    */
-  fun transcriber(file: File): SpeechTranscriber? =
+  fun transcriber(file: File, shortContext: Boolean): SpeechTranscriber? =
     object : SpeechTranscriber {
       @Volatile private var model: WhisperModel? = null
       @Volatile private var cancelled = false
@@ -51,7 +52,7 @@ object WhisperEngines {
           if (cancelled) return null
           val code = if (WhisperModel.isLanguage(language)) language else "auto"
           val threads = Runtime.getRuntime().availableProcessors().coerceIn(1, MAX_THREADS)
-          return loaded.transcribe(samples, code, threads)
+          return loaded.transcribe(samples, code, threads, shortContext)
         } finally {
           model = null
           loaded.close()

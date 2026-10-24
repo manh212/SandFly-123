@@ -208,6 +208,7 @@ import com.google.android.accessibility.talkback.monitor.KeyboardLockMonitor;
 import com.google.android.accessibility.talkback.monitor.ProximitySensorMonitor;
 import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor;
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
+import com.google.android.accessibility.talkback.notificationlist.NotificationListService;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
 import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
@@ -754,6 +755,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   private int physicalKeyboardEcho = TextEventFilter.PREF_ECHO_CHARACTERS_AND_WORDS;
 
   private @Nullable ProcessorMagnification processorMagnification;
+  /** The app of the last window that came up, for the turn-off log. */
+  private @Nullable CharSequence lastWindowPackage;
+
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
 
@@ -969,6 +973,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     SpeechControl.detach();
     NotificationReader.detach();
+    NotificationListService.onSandFlyStopped();
 
     if (audioDeviceRouter != null) {
       audioDeviceRouter.shutdown();
@@ -1113,6 +1118,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         && !"com.android.systemui".contentEquals(String.valueOf(event.getPackageName()))) {
       NotificationReader.onActiveApp(event.getPackageName());
+    }
+    if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
+      lastWindowPackage = event.getPackageName();
     }
     if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -4224,6 +4232,7 @@ public class TalkBackService extends AccessibilityServiceCompat
                   || isMicrophoneActiveAndHeadphoneOff()
                   || isSsbActive()
                   || (!overMedia && isAudioPlaybackActive()));
+      NotificationListService.onSandFlyStarted(this);
     }
     if (scriptHost != null || pipeline == null || !UserManagerCompat.isUserUnlocked(this)) {
       return;
