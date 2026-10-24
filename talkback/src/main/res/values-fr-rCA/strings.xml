@@ -1445,7 +1445,7 @@
     <string name="window_names_until_first_item">Toujours, interrompu par le premier élément</string>
     <string name="window_names_window_opens">Uniquement à l\'ouverture d\'une fenêtre</string>
     <string name="window_names_never">Jamais</string>
-    <string name="title_pref_focus_new_windows">Mettre en évidence les nouvelles fenêtres</string>
+    <string name="title_pref_focus_new_windows">Déplacer le focus vers les nouvelles fenêtres</string>
     <string name="title_pref_volume_keys_adjust_sliders">Touches de volume pour régler les curseurs</string>
     <string name="summary_pref_volume_keys_adjust_sliders">Lorsqu\'un curseur est mis en évidence, les touches d\'augmentation et de diminution du volume modifient sa valeur au lieu du volume</string>
     <string name="summary_support_wrap_around">Activer ou désactiver le passage du dernier élément au premier</string>
@@ -1484,7 +1484,7 @@
     <string name="title_pref_speech_stream">Volume de la voix</string>
     <string name="summary_selector_speech_stream">Basculez entre les volumes d\'accessibilité, de média, de sonnerie et d\'appel</string>
     <string name="speech_stream_accessibility">Volume d\'accessibilité</string>
-    <string name="speech_stream_media">Volume des médias</string>
+    <string name="speech_stream_media">Volume multimédia</string>
     <string name="speech_stream_ring">Volume de la sonnerie</string>
     <string name="speech_stream_call">Volume d\'appel, écouteur</string>
     <string-array name="pref_speech_stream_entries">
@@ -1498,7 +1498,7 @@
     <string name="summary_pref_play_installer_pending">Activé, mais Google Play n\'est pas encore enregistré en tant qu\'installateur. SandFly le définit lorsque Shizuku est disponible.</string>
     <string name="notification_list_show_all">Afficher tout</string>
     <string name="notification_list_show_less">Afficher moins</string>
-    <string name="title_pref_quick_settings">Utilisez les paramètres rapides de SandFly</string>
+    <string name="title_pref_quick_settings">Utiliser les paramètres rapides de SandFly</string>
     <string name="title_pref_quick_settings_items">Panneau de paramètres rapides</string>
     <string name="quick_settings_title">Réglages rapides</string>
     <string name="quick_settings_wifi">Wi-Fi</string>
@@ -1517,7 +1517,7 @@
     <string name="quick_settings_nfc">NFC</string>
     <string name="quick_settings_brightness">Luminosité</string>
     <string name="quick_settings_adaptive_brightness">Luminosité adaptative</string>
-    <string name="quick_settings_media_volume">Volume des médias</string>
+    <string name="quick_settings_media_volume">Volume multimédia</string>
     <string name="quick_settings_call_volume">Volume d\'appel</string>
     <string name="quick_settings_ring_volume">Volume de la sonnerie</string>
     <string name="quick_settings_notification_volume">Volume des notifications</string>
@@ -1533,7 +1533,7 @@
     <string name="quick_settings_camera_access">Accès à la caméra</string>
     <string name="quick_settings_screen_timeout">Délai de mise en veille de l’écran</string>
     <string name="quick_settings_font_size">Taille de la police</string>
-    <string name="quick_settings_media">Médias</string>
+    <string name="quick_settings_media">Multimédia</string>
     <string name="quick_settings_no_media">Aucun média</string>
     <string name="quick_settings_media_output">Sortie multimédia</string>
     <string name="quick_settings_next_alarm">Alarme suivante</string>
@@ -1551,8 +1551,8 @@
     </plurals>
     <plurals name="quick_settings_minutes">
         <item quantity="one">%d minute</item>
-        <item quantity="many">%d minute</item>
-        <item quantity="other">%d minute</item>
+        <item quantity="many">%d minutes</item>
+        <item quantity="other">%d minutes</item>
     </plurals>
     <string name="quick_settings_connected">Connecté</string>
     <string name="quick_settings_battery">Batterie</string>
@@ -1592,8 +1592,8 @@
     <string name="shortcut_system_quick_settings">Paramètres rapides du système</string>
     <string name="shortcut_lock_screen">Verrouiller l’écran</string>
     <string name="shortcut_power_menu">Menu d\'alimentation</string>
-    <string name="shortcut_increase_media_volume">Augmenter le volume des médias</string>
-    <string name="shortcut_decrease_media_volume">Diminuer le volume des médias</string>
+    <string name="shortcut_increase_media_volume">Augmenter le volume multimédia</string>
+    <string name="shortcut_decrease_media_volume">Baisser le volume multimédia</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1603,7 +1603,7 @@
     <string name="value_distance_50mm">5 cm</string>
     <string name="title_pref_selector_links_controls_web_only">Liens et contrôles uniquement dans le contenu Web</string>
     <string name="title_pref_selector_auto_switch">Changer automatiquement de commande de lecture</string>
-    <string name="title_pref_touch_stops_speech">Arrêter de parler lorsque vous touchez l\'écran</string>
+    <string name="title_pref_touch_stops_speech">Arrêter la synthèse vocale au toucher de l\'écran</string>
     <string name="title_pref_volume_keys_move_cursor">Les touches de volume déplacent le curseur</string>
     <string name="summary_pref_volume_keys_move_cursor">Quand un champ de texte a le focus, Volume plus recule le curseur d’un caractère et Volume moins l’avance</string>
     <string name="image_qna_ask_by_voice">Demander vocalement</string>
@@ -1611,10 +1611,10 @@
     <string name="image_qna_type_question">Tapez une question</string>
     <string name="shortcut_dictate">Dicter</string>
     <string name="title_pref_ai_dictation">Corriger la dictée avec l\'IA</string>
-    <string name="dictation_not_corrected">Non corrigé. Tapé comme reconnu.</string>
-    <string name="dictation_nothing_recognized">Rien de reconnu</string>
+    <string name="dictation_not_corrected">Non corrigé. Saisi tel que reconnu.</string>
+    <string name="dictation_nothing_recognized">Aucune parole reconnue</string>
     <string name="dictation_unavailable">Reconnaissance vocale indisponible</string>
-    <string name="dictation_field_gone">Champ de texte fermé. Rien de tapé.</string>
+    <string name="dictation_field_gone">Champ de texte fermé. Rien n\'a été saisi.</string>
     <string name="dictation_transcription_failed">Voix non transcrite. Rien de tapé.</string>
     <string name="title_pref_dictation">Dictée</string>
     <string name="title_pref_dictation_rambler_live">Transcription en direct Rambler</string>

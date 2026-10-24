@@ -30,14 +30,14 @@
   <string name="individual_vibration_window_state">ფანჯრის ცვლილება</string>
   <string name="individual_vibration_typo">ორთოგრაფიული შეცდომა</string>
   <string name="individual_vibration_notification">განცხადება</string>
-    <string name="individual_sound_next_reading_control">Წაკითხვის მართვის შემდეგი საშუალება</string>
-    <string name="individual_sound_previous_reading_control">Წაკითხვის მართვის წინა საშუალება</string>
-    <string name="individual_sound_edge_gesture_bottom">Კიდეების ჟესტის ქვედა ნაწილი</string>
-    <string name="individual_sound_edge_gesture_middle">Კიდეების ჟესტი შუა</string>
-    <string name="individual_sound_edge_gesture_top">Კიდეზე ჟესტის ზედა ნაწილი</string>
-    <string name="individual_sound_insertion_point_moved">Ჩასმის წერტილი გადატანილია</string>
-    <string name="individual_sound_column_wrap">Სვეტის შეფუთვა</string>
+    <string name="individual_sound_next_reading_control">წაკითხვის მართვის შემდეგი საშუალება</string>
+    <string name="individual_sound_previous_reading_control">წაკითხვის მართვის წინა საშუალება</string>
+    <string name="individual_sound_edge_gesture_bottom">კიდეების ჟესტის ქვედა ნაწილი</string>
+    <string name="individual_sound_edge_gesture_middle">კიდეების ჟესტი შუა</string>
+    <string name="individual_sound_edge_gesture_top">კიდეზე ჟესტის ზედა ნაწილი</string>
+    <string name="individual_sound_insertion_point_moved">ჩასმის წერტილი გადატანილია</string>
+    <string name="individual_sound_column_wrap">შემდეგ მწკრივზე გადასვლა</string>
     <string name="individual_sound_column_wrap_back">წინა მწკრივზე დაბრუნება</string>
-    <string name="individual_sound_screen_on">Ეკრანი ჩართულია</string>
-    <string name="individual_vibration_edge_gesture_back">Კიდეზე ჟესტით სრიალი უკან</string>
+    <string name="individual_sound_screen_on">ეკრანი ჩართულია</string>
+    <string name="individual_vibration_edge_gesture_back">კიდეზე ჟესტი: უკან გასრიალება</string>
 </resources>

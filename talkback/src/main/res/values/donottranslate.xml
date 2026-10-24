@@ -984,6 +984,7 @@
         <item>@string/shortcut_value_system_quick_settings</item>
         <item>@string/shortcut_value_lock_screen</item>
         <item>@string/shortcut_value_power_menu</item>
+        <item>@string/shortcut_value_write_app_name</item>
     </string-array>
 
     <!-- Shortcut preference of reading control -->
@@ -992,8 +993,6 @@
         <item>@string/shortcut_read_from_current</item>
         <item>@string/title_repeat_last_spoken_phrase</item>
         <item>@string/title_spell_last_spoken_phrase</item>
-        <item>@string/title_translate_last_spoken_phrase</item>
-        <item>@string/title_speech_history</item>
         <item>@string/shortcut_pause_or_resume_feedback</item>
         <item>@string/shortcut_toggle_voice_feedback</item>
         <item>@string/shortcut_show_language_options</item>
@@ -1008,8 +1007,6 @@
         <item>@string/shortcut_value_read_from_current</item>
         <item>@string/shortcut_value_repeat_last_spoken_phrase</item>
         <item>@string/shortcut_value_spell_last_spoken_phrase</item>
-        <item>@string/shortcut_value_translate_last_spoken_phrase</item>
-        <item>@string/shortcut_value_speech_history</item>
         <item>@string/shortcut_value_pause_or_resume_feedback</item>
         <item>@string/shortcut_value_toggle_voice_feedback</item>
         <item>@string/shortcut_value_show_language_options</item>
@@ -1857,4 +1854,5 @@
   <bool name="pref_show_context_menu_voice_profile_default">false</bool>
   <item type="id" name="group_voice_profile" />
   <item type="id" name="voice_profile_menu" />
+    <string name="shortcut_value_write_app_name">WRITE_APP_NAME</string>
 </resources>

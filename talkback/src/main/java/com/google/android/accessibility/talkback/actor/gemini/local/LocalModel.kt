@@ -40,6 +40,11 @@ data class LocalModel(
   val maxTokens: Int? = null,
   val license: String = "Apache-2.0",
   val experimental: Boolean = false,
+  /**
+   * Whether the model keeps to the JSON format that Describe screen asks for. Others are asked for
+   * plain sentences.
+   */
+  val writesJson: Boolean = false,
 ) {
   val localFileName: String
     get() = localName ?: "$id.litertlm"
@@ -65,6 +70,7 @@ data class LocalModel(
       minTotalRamGib = 6,
       note = "Recommended. Best answers for its size.",
       maxTokens = 6144,
+      writesJson = true,
     ),
     LocalModel(
       id = "e4b",
@@ -77,6 +83,7 @@ data class LocalModel(
       minTotalRamGib = 8,
       note = "Better answers, slower. Needs a phone with a lot of memory.",
       maxTokens = 6144,
+      writesJson = true,
     ),
     LocalModel(
       id = "gemma4-12b",
@@ -89,6 +96,7 @@ data class LocalModel(
       note = "Very large. For phones with 16 GB of memory or more.",
       maxTokens = 6144,
       experimental = true,
+      writesJson = true,
     ),
     LocalModel(
       id = "smolvlm2-500m",

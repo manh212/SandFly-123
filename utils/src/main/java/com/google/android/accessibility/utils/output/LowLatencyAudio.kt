@@ -35,6 +35,7 @@ import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.ScheduledThreadPoolExecutor
 import java.util.concurrent.ThreadPoolExecutor
 import java.util.concurrent.TimeUnit
+import kotlin.math.abs
 
 /**
  * Plays Backtalk's sounds and speech on one low-latency audio track at the device's own sample
@@ -83,6 +84,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   // Set when the track starts, until its first write completes. Running short before that is only
   // the track starting, not a buffer too small.
   @Volatile private var starting = false
+  // Writes left before running short counts again after the buffer grew: the underruns of the same
+  // starvation can be counted after it grew, and would grow it again.
+  private var settleWrites = 0
   // The watchdog's checks, scheduled only while the audio thread runs.
   private var watchdog: ScheduledFuture<*>? = null
   private var thread: Thread? = null
@@ -107,11 +111,35 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     track = createTrack()
   }
 
-  /** A short sound, as stereo frames at [rate]. */
-  class Clip internal constructor(internal val frames: FloatArray, internal val rate: Int) {
+  /**
+   * A short sound, as frames of [channels] channels, 1 or 2, at [rate]. A mono sound is kept mono,
+   * which takes half the memory, and plays on both sides.
+   */
+  class Clip
+  internal constructor(
+    internal val frames: FloatArray,
+    internal val rate: Int,
+    internal val channels: Int = 2,
+  ) {
     /** How many samples the clip holds. */
     val size: Int
       get() = frames.size
+
+    /** Its length, channels, and the silence before its sound starts, for the log. */
+    fun describe(): String {
+      val total = frames.size / channels
+      val firstSound =
+        (0 until total).firstOrNull { frame ->
+          (0 until channels).any { abs(frames[frame * channels + it]) > AUDIBLE }
+        } ?: total
+      return "${total * 1000L / rate} ms, $channels channels, " +
+        "${firstSound * 1000L / rate} ms before its sound"
+    }
+
+    private companion object {
+      // About -54 dB.
+      const val AUDIBLE = 0.002f
+    }
   }
 
   private class PlayingClip(val clip: Clip, val left: Float, val right: Float, val step: Double) {
@@ -125,7 +153,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
         val out = it.process(decoded.samples)
         out + it.flush()
       }
-    return Clip(toStereo(resampled, decoded.channels), sampleRate)
+    return if (decoded.channels == 1) {
+      Clip(resampled, sampleRate, channels = 1)
+    } else {
+      Clip(toStereo(resampled, decoded.channels), sampleRate)
+    }
   }
 
   /** Plays [clip] at [left] and [right] volumes from 0 to 1, and [rate], 1 for its own speed. */
@@ -768,17 +800,21 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     while (iterator.hasNext()) {
       val playing = iterator.next()
       val frames = playing.clip.frames
-      val total = frames.size / 2
+      val channels = playing.clip.channels
+      // A mono clip reads its one channel for both sides.
+      val right = channels - 1
+      val total = frames.size / channels
       for (i in 0 until burstFrames) {
         val position = playing.position
         val index = position.toInt()
         if (index >= total) break
         val next = minOf(index + 1, total - 1)
         val fraction = (position - index).toFloat()
-        out[i * 2] +=
-          (frames[index * 2] * (1 - fraction) + frames[next * 2] * fraction) * playing.left
+        val at = index * channels
+        val after = next * channels
+        out[i * 2] += (frames[at] * (1 - fraction) + frames[after] * fraction) * playing.left
         out[i * 2 + 1] +=
-          (frames[index * 2 + 1] * (1 - fraction) + frames[next * 2 + 1] * fraction) * playing.right
+          (frames[at + right] * (1 - fraction) + frames[after + right] * fraction) * playing.right
         playing.position += playing.step
       }
       if (playing.position >= total) iterator.remove()
@@ -854,8 +890,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
    */
   private fun keepUp(output: AudioTrack) {
     val count = output.underrunCount
-    if (starting) {
+    if (starting || settleWrites > 0) {
       starting = false
+      if (settleWrites > 0) settleWrites--
       underruns = count
       return
     }
@@ -865,6 +902,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     if (size >= output.bufferCapacityInFrames) return
     val grown = if (fastPath) size + burstFrames else size * 2
     output.setBufferSizeInFrames(minOf(grown, output.bufferCapacityInFrames))
+    settleWrites = 2 * output.bufferSizeInFrames / burstFrames
     if (fastPath) fastFrames = output.bufferSizeInFrames
     LogUtils.d(TAG, "Track ran short, now %d frames", output.bufferSizeInFrames)
   }
