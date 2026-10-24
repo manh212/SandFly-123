@@ -265,14 +265,14 @@ public final class CollapseEngine {
     }
     List<ChildAction> clickActions = new ArrayList<>();
     for (AccessibilityNodeInfoCompat node : scan.clickables()) {
-      CharSequence label = actionLabel(script, node);
-      if (TextUtils.isEmpty(label)) {
+      CharSequence childLabel = actionLabel(script, node);
+      if (TextUtils.isEmpty(childLabel)) {
         // A clickable that neither speaks nor wraps labelled content (an empty container
         // in Facebook's comment header) is not an action; listing it would add a blank
         // entry to the Actions control and waste a slot under the cap.
         continue;
       }
-      clickActions.add(new ChildAction(node, /* longClick= */ false, label));
+      clickActions.add(new ChildAction(node, /* longClick= */ false, childLabel));
     }
     clickActions = dedupNestedSameLabel(clickActions);
     if (clickActions.isEmpty() || clickActions.size() > script.maxActions()) {
