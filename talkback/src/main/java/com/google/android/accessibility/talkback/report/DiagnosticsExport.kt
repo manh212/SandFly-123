@@ -149,7 +149,7 @@ object DiagnosticsExport {
       for (name in OTHER_NAMED_PREFS) {
         section.append("${PrefsDigest.fileDescription(File(prefsDir, "$name.xml"))}\n")
       }
-    } catch (e: RuntimeException) {
+    } catch (e: Throwable) {
       out.append("== Preferences digest ==\n")
       out.append("Preferences digest: unavailable (${e.javaClass.simpleName})\n\n")
       return
