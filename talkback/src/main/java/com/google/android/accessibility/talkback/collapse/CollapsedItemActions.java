@@ -64,12 +64,6 @@ public class CollapsedItemActions implements NodeMenu {
   static final int ACTION_ID_BASE = 0x5d000000;
   private static final int ACTION_ID_RANGE = 0x100000;
 
-  /** Duration of one raw tap: a finger-like press, not an instant stroke. */
-  private static final long RAW_TAP_DURATION_MS = 80;
-
-  /** Extra hold past the system long-press timeout, so the press still reads as a long press. */
-  private static final long RAW_TAP_LONG_PRESS_MARGIN_MS = 100;
-
   private final Pipeline.FeedbackReturner pipeline;
   private final TalkBackAnalytics analytics;
 
@@ -191,12 +185,15 @@ public class CollapsedItemActions implements NodeMenu {
      * child's centre, so the press lands on the same child either way and "not supported"
      * is only reported when every route failed.
      *
-     * <p>Composite items try one route before all of those: a raw tap on the live button,
-     * re-located in the live tree at activation time (see {@link #rawTapLiveTarget}). The
-     * stored target of a composite item is only the frame around the real button, and its
-     * snapshot can be stale by activation time; the raw tap presses the button itself, at
-     * the point a finger would land, with a finger's duration. Any relocation doubt falls
-     * through to the stored-target routes below, unchanged.
+     * <p>Composite items try one route before all of those: the press is performed on the
+     * live button itself, re-located in the live tree at activation time (see {@link
+     * #performOnLiveButton}). The stored target of a composite item is only the frame
+     * around the real button, so the routes below never reach the button: their direct
+     * action runs on the frame, and a coordinate tap on the frame produces no click inside
+     * the app at all. The live-button route therefore fires the action directly on the
+     * button first, and only then falls back to the defended activation aimed at the
+     * button. Any relocation doubt falls through to the stored-target routes below,
+     * unchanged.
      *
      * <p>The target is refreshed first: the stored node is a snapshot from when the items
      * were built and the app may have re-created the child since, leaving the snapshot with
@@ -241,7 +238,7 @@ public class CollapsedItemActions implements NodeMenu {
         logAccessibilityFocus(focusNode);
         boolean performed = false;
         if (compositeRoot) {
-          performed = rawTapLiveTarget(focusNode);
+          performed = performOnLiveButton(focusNode);
         }
         if (!performed && (longClick ? supportsLongClick : supportsClick)) {
           performed =
@@ -294,55 +291,75 @@ public class CollapsedItemActions implements NodeMenu {
     }
 
     /**
-     * The raw-tap route for composite items: presses the live button itself with one
-     * finger-like stroke, instead of routing the press through the stored frame. The
-     * button is re-located at activation time (see {@link #relocateLiveTapNode}); when it
-     * cannot be pinned down with certainty this returns false and the stored-target tiers
-     * run as before.
+     * The live-button route for composite items. The stored target is only the frame
+     * around the real button, so first the button itself is re-located in the live tree
+     * (see {@link #relocateLiveButtonNode}) and the press is performed on it: the action
+     * directly on the live button -- every earlier route fired the action at the stored
+     * snapshot or the frame, never at this node -- and, when that is refused, the
+     * defended focus-actor activation aimed at the live button, whose simulated press is
+     * the canonical two-stroke tap. When the button cannot be pinned down with certainty
+     * this returns false and the stored-target tiers run as before.
      */
-    private boolean rawTapLiveTarget(@Nullable AccessibilityNodeInfoCompat focusNode) {
-      AccessibilityNodeInfoCompat tapNode = relocateLiveTapNode(focusNode);
-      if (tapNode == null) {
+    private boolean performOnLiveButton(@Nullable AccessibilityNodeInfoCompat focusNode) {
+      AccessibilityNodeInfoCompat button = relocateLiveButtonNode(focusNode);
+      if (button == null) {
         return false;
       }
       Rect bounds = new Rect();
-      tapNode.getBoundsInScreen(bounds);
-      long durationMs = rawTapDurationMs(longClick);
+      button.getBoundsInScreen(bounds);
       LogUtils.v(
           TAG,
-          "rawTap target class=%s bounds=%s durationMs=%d",
-          tapNode.getClassName(),
+          "liveButton class=%s bounds=%s supportsClick=%b supportsLongClick=%b",
+          button.getClassName(),
           bounds,
-          durationMs);
-      boolean tapped = rawTapper.tap(context, tapNode, durationMs);
-      LogUtils.v(TAG, "tier0 rawTap result=%b", tapped);
-      return tapped;
+          PerformActionUtils.isNodeSupportAction(
+              button, AccessibilityNodeInfoCompat.ACTION_CLICK),
+          PerformActionUtils.isNodeSupportAction(
+              button, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK));
+      int actionId =
+          longClick
+              ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
+              : AccessibilityNodeInfoCompat.ACTION_CLICK;
+      boolean acted = nodeActionPerformer.performAction(button, actionId);
+      LogUtils.v(TAG, "liveButton nodeAction result=%b", acted);
+      if (acted) {
+        return true;
+      }
+      boolean routed =
+          pipeline.returnFeedback(
+              EVENT_ID_UNTRACKED,
+              Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(button));
+      LogUtils.v(TAG, "liveButton clickNode result=%b", routed);
+      return routed;
     }
 
     /**
-     * Finds the live node a raw tap should land on, or null when it cannot be identified
-     * with certainty. The anchor is the node holding accessibility focus -- the item the
-     * user is standing on -- re-matched through the engine, and the match is accepted only
-     * when the live item's composed label still equals the composed label of the item
-     * these actions were built from, so the tap can never jump to a neighbouring item.
-     * Inside the live item the action is pinned by its label and press kind, and the node
-     * tapped is the one clickable inside the live action target -- for Facebook the live
-     * Litho button inside its frame -- cross-checked through the script's own action
-     * label, so the tap lands on the same child the stored action names.
+     * Finds the live button a composite action names, or null when it cannot be
+     * identified with certainty. The anchor is the node holding accessibility focus --
+     * the item the user is standing on -- re-matched through the engine, and the match
+     * is accepted only when the live item's composed label still equals the composed
+     * label of the item these actions were built from, so the press can never jump to a
+     * neighbouring item. Inside the live item the action is pinned by its label and press
+     * kind, and the button is the one clickable inside the live action target -- for
+     * Facebook the live Litho button inside its frame -- cross-checked through the
+     * script's own action label, so the press lands on the same child the stored action
+     * names.
      */
-    private @Nullable AccessibilityNodeInfoCompat relocateLiveTapNode(
+    private @Nullable AccessibilityNodeInfoCompat relocateLiveButtonNode(
         @Nullable AccessibilityNodeInfoCompat focusNode) {
       if (focusNode == null) {
-        LogUtils.v(TAG, "rawTap relocation failed: no accessibility focus node");
+        LogUtils.v(TAG, "liveButton relocation failed: no accessibility focus node");
         return null;
       }
       CollapsedItem liveItem = CollapseEngine.matchRepresentative(context, focusNode);
       if (liveItem == null) {
-        LogUtils.v(TAG, "rawTap relocation failed: focus is not a collapsed representative");
+        LogUtils.v(
+            TAG, "liveButton relocation failed: focus is not a collapsed representative");
         return null;
       }
       if (!TextUtils.equals(liveItem.composedLabel(), itemComposedLabel)) {
-        LogUtils.v(TAG, "rawTap relocation failed: live item label differs from the menu item");
+        LogUtils.v(
+            TAG, "liveButton relocation failed: live item label differs from the menu item");
         return null;
       }
       ChildAction liveAction = null;
@@ -351,57 +368,52 @@ public class CollapsedItemActions implements NodeMenu {
             && candidate.longClick == longClick
             && TextUtils.equals(candidate.label, actionLabel)) {
           if (liveAction != null) {
-            LogUtils.v(TAG, "rawTap relocation failed: action label matches two live actions");
+            LogUtils.v(
+                TAG, "liveButton relocation failed: action label matches two live actions");
             return null;
           }
           liveAction = candidate;
         }
       }
       if (liveAction == null) {
-        LogUtils.v(TAG, "rawTap relocation failed: action not found in the live item");
+        LogUtils.v(TAG, "liveButton relocation failed: action not found in the live item");
         return null;
       }
       ItemScan scan = ItemScan.of(liveItem.itemRoot());
       if (scan == null) {
-        LogUtils.v(TAG, "rawTap relocation failed: live item cannot be scanned");
+        LogUtils.v(TAG, "liveButton relocation failed: live item cannot be scanned");
         return null;
       }
-      AccessibilityNodeInfoCompat tapNode = null;
+      AccessibilityNodeInfoCompat button = null;
       for (AccessibilityNodeInfoCompat clickable : scan.clickables()) {
         if (!clickable.equals(liveAction.node)
             && !AccessibilityNodeInfoUtils.hasAncestor(clickable, liveAction.node)) {
           continue;
         }
-        if (tapNode != null) {
-          LogUtils.v(TAG, "rawTap relocation failed: two clickables inside the live target");
+        if (button != null) {
+          LogUtils.v(TAG, "liveButton relocation failed: two clickables inside the live target");
           return null;
         }
-        tapNode = clickable;
+        button = clickable;
       }
-      if (tapNode == null) {
-        LogUtils.v(TAG, "rawTap relocation failed: no clickable inside the live target");
+      if (button == null) {
+        LogUtils.v(TAG, "liveButton relocation failed: no clickable inside the live target");
         return null;
       }
       CollapseScript script = CollapseScripts.forPackage(liveItem.itemRoot().getPackageName());
       if (script == null
           || !TextUtils.equals(
-              script.actionLabel(tapNode, ItemScan.spokenLabel(tapNode)), actionLabel)) {
-        LogUtils.v(TAG, "rawTap relocation failed: live button label differs from the action");
+              script.actionLabel(button, ItemScan.spokenLabel(button)), actionLabel)) {
+        LogUtils.v(TAG, "liveButton relocation failed: live button label differs from the action");
         return null;
       }
       Rect bounds = new Rect();
-      tapNode.getBoundsInScreen(bounds);
+      button.getBoundsInScreen(bounds);
       if (bounds.isEmpty()) {
-        LogUtils.v(TAG, "rawTap relocation failed: live button bounds empty");
+        LogUtils.v(TAG, "liveButton relocation failed: live button bounds empty");
         return null;
       }
-      return tapNode;
-    }
-
-    private static long rawTapDurationMs(boolean longClick) {
-      return longClick
-          ? ViewConfiguration.getLongPressTimeout() + RAW_TAP_LONG_PRESS_MARGIN_MS
-          : RAW_TAP_DURATION_MS;
+      return button;
     }
   }
 
@@ -490,42 +502,22 @@ public class CollapsedItemActions implements NodeMenu {
     }
   }
 
-  /** Dispatches one raw tap at a node's centre; a seam so tests can record the tap. */
-  interface RawTapper {
-    boolean tap(Context context, AccessibilityNodeInfoCompat node, long durationMs);
+  /** Performs an accessibility action directly on a node; a seam so tests can stand in. */
+  interface NodeActionPerformer {
+    boolean performAction(AccessibilityNodeInfoCompat node, int actionId);
   }
 
-  private static RawTapper rawTapper = CollapsedItemActions::dispatchRawTap;
+  private static NodeActionPerformer nodeActionPerformer =
+      (node, actionId) -> node.performAction(actionId);
 
   @VisibleForTesting
-  static void setRawTapperForTest(RawTapper tapper) {
-    rawTapper = tapper;
+  static void setNodeActionPerformerForTest(NodeActionPerformer performer) {
+    nodeActionPerformer = performer;
   }
 
   @VisibleForTesting
-  static void resetRawTapperForTest() {
-    rawTapper = CollapsedItemActions::dispatchRawTap;
-  }
-
-  private static boolean dispatchRawTap(
-      Context context, AccessibilityNodeInfoCompat node, long durationMs) {
-    if (!(context instanceof AccessibilityService)) {
-      return false;
-    }
-    Rect bounds = new Rect();
-    node.getBoundsInScreen(bounds);
-    if (bounds.isEmpty()) {
-      return false;
-    }
-    Path path = new Path();
-    path.moveTo(bounds.centerX(), bounds.centerY());
-    GestureDescription gesture =
-        new GestureDescription.Builder()
-            .addStroke(
-                new GestureDescription.StrokeDescription(path, /* startTime= */ 0, durationMs))
-            .build();
-    return ((AccessibilityService) context)
-        .dispatchGesture(gesture, /* callback= */ null, /* handler= */ null);
+  static void resetNodeActionPerformerForTest() {
+    nodeActionPerformer = (node, actionId) -> node.performAction(actionId);
   }
 
   /**
