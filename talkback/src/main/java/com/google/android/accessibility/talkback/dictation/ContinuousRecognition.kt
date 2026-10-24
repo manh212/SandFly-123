@@ -151,9 +151,18 @@ internal class ContinuousRecognition(
       SpeechRecognizer.ERROR_RECOGNIZER_BUSY,
       SpeechRecognizer.ERROR_CLIENT ->
         when {
-          stopping -> finish()
-          ++errors > MAX_ERRORS -> fail(error)
-          else -> handler.postDelayed(listenAgain, RETRY_DELAY_MS)
+          stopping -> {
+            if (partial.isNotBlank()) parts.add(partial.trim())
+            partial = ""
+            finish()
+          }
+          // Out of restarts: end with what was recognized, as the other errors do.
+          ++errors > MAX_ERRORS -> {
+            if (partial.isNotBlank()) parts.add(partial.trim())
+            partial = ""
+            if (parts.isNotEmpty()) finish() else fail(error)
+          }
+          else -> handler.postDelayed(listenAgain, RETRY_DELAYS_MS[errors - 1])
         }
       else -> {
         LogUtils.w(TAG, "Speech recognition error %d", error)
@@ -186,7 +195,9 @@ internal class ContinuousRecognition(
     const val TAG = "ContinuousRecognition"
     const val PAUSE_MS = 10_000L
     const val STOP_WAIT_MS = 5_000L
-    const val RETRY_DELAY_MS = 300L
     const val MAX_ERRORS = 5
+
+    /** The wait before each restart after a busy or client error, growing to about 5 s in all. */
+    val RETRY_DELAYS_MS = longArrayOf(300L, 600L, 1_000L, 1_500L, 2_000L)
   }
 }
