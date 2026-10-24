@@ -1567,9 +1567,9 @@
     <string name="title_collapse_menu_play_on_device">Phát trên thiết bị khác</string>
     <string name="title_collapse_menu_play_next">Phát tiếp theo trong danh sách chờ</string>
     <string name="title_collapse_menu_play_last">Phát cuối cùng trong danh sách chờ</string>
-    <string name="title_collapse_menu_watch_later">Lưu vào danh sách Xem sau</string>
+    <string name="title_collapse_menu_watch_later">Thêm hoặc xóa khỏi Xem sau</string>
     <string name="title_collapse_menu_save_to_playlist">Lưu vào danh sách phát</string>
-    <string name="title_collapse_menu_remove_download">Xóa khỏi danh sách video tải xuống</string>
+    <string name="title_collapse_menu_remove_download">Thêm hoặc xóa khỏi video ngoại tuyến</string>
     <string name="title_collapse_menu_share">Chia sẻ</string>
     <string name="title_collapse_menu_not_interested">Không quan tâm</string>
     <string name="title_collapse_menu_dont_recommend">Không đề xuất kênh này</string>

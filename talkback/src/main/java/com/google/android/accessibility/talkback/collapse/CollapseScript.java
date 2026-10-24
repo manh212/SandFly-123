@@ -44,24 +44,63 @@ public abstract class CollapseScript {
 
   /**
    * A declaration that one child button of an item opens an overflow menu whose items should be
-   * offered directly as synthesized actions, in place of the button itself. The label resources
-   * double as the match keys: at activation time the menu is opened and the row whose live label
-   * equals the resolved label is clicked, so the strings must match the app's own menu labels in
-   * every shipped locale.
+   * offered directly as synthesized actions, in place of the button itself. For a plain item the
+   * label resource doubles as the match key: at activation time the menu is opened and the row
+   * whose live label equals the resolved label is clicked, so the string must match the app's
+   * own menu label in every shipped locale. A state-dependent (toggle) item is worded by the
+   * app according to the item's current state, so no single resolved label can serve as the key;
+   * it is offered under a neutral label instead and matched by its recorded state variants and
+   * their stable cores, as declared on {@link Item}.
    */
   public static final class MenuCatalog {
-    /** Label resources of the menu items, in the order the app's menu shows them. */
-    public final @StringRes int[] itemLabelResIds;
+
+    /** One item of the catalog, in the order the app's menu shows them. */
+    public static final class Item {
+      /** Label resource the item is offered under. */
+      public final @StringRes int labelResId;
+
+      /**
+       * Toggle items only: the full live labels the item may carry, across its states and the
+       * recorded locales, in the app's own wording. A live label equal to one of these (ignoring
+       * case and whitespace runs) is a certain match. Null for a plain item.
+       */
+      public final @Nullable String[] stateVariants;
+
+      /**
+       * Toggle items only: the stable cores shared by every state variant — the part of the
+       * wording the state prefix never touches, in the recorded locales. A live label carrying
+       * one of these also matches; this is the general rule behind the recorded variants, so a
+       * state wording nobody has recorded yet still matches. Null for a plain item.
+       */
+      public final @Nullable String[] stateCores;
+
+      public Item(@StringRes int labelResId) {
+        this(labelResId, /* stateVariants= */ null, /* stateCores= */ null);
+      }
+
+      public Item(
+          @StringRes int labelResId,
+          @Nullable String[] stateVariants,
+          @Nullable String[] stateCores) {
+        this.labelResId = labelResId;
+        this.stateVariants = stateVariants;
+        this.stateCores = stateCores;
+      }
+
+      public boolean isToggle() {
+        return stateCores != null;
+      }
+    }
+
+    /** The catalog's items, in the order the app's menu shows them. */
+    public final Item[] items;
     /** View id of the label view inside one row of the app's open menu sheet. */
     public final String sheetItemLabelViewId;
     /** Label resource of the trailing fallback action that opens the menu as usual. */
     public final @StringRes int openMenuLabelResId;
 
-    public MenuCatalog(
-        @StringRes int[] itemLabelResIds,
-        String sheetItemLabelViewId,
-        @StringRes int openMenuLabelResId) {
-      this.itemLabelResIds = itemLabelResIds;
+    public MenuCatalog(Item[] items, String sheetItemLabelViewId, @StringRes int openMenuLabelResId) {
+      this.items = items;
       this.sheetItemLabelViewId = sheetItemLabelViewId;
       this.openMenuLabelResId = openMenuLabelResId;
     }
