@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.collapse;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -141,6 +142,135 @@ public class FacebookCollapseScriptTest {
             "Demote comment"),
         clickLabels);
     assertEquals(tree.body, item.selectionTarget());
+  }
+
+  @Test
+  public void commentNestedActions_matches_labelIsAuthorTimeBody_notTheLikeInstructions() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentNestedActions(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    assertEquals(tree.root, item.representative());
+    String separator = CompositorUtils.getSeparator();
+    // The action blocks are nested inside the header's container in this shape; the Like
+    // block's instruction label must never be spoken as the comment body.
+    assertEquals(
+        "Nguyen Van A" + separator + "1 day" + separator + "This is a great comment",
+        item.composedLabel());
+    assertFalse(item.composedLabel().toString().contains("reaction tray"));
+    List<String> clickLabels = new ArrayList<>();
+    int longClickTwins = 0;
+    for (ChildAction action : item.actions()) {
+      if (action.longClick) {
+        longClickTwins++;
+        assertEquals(tree.like, action.node);
+      } else {
+        clickLabels.add(action.label.toString());
+        if ("This is a great comment".contentEquals(action.label)) {
+          assertEquals(tree.bodyActionTarget, action.node);
+        }
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            "This is a great comment",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+    assertEquals(1, longClickTwins);
+    assertEquals(tree.body, item.selectionTarget());
+    assertNull(item.activationTarget());
+  }
+
+  @Test
+  public void commentNestedShortBodyWithFollow_stillMatches_bodyIsTheShortText() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentNestedShortBodyWithFollow(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    String separator = CompositorUtils.getSeparator();
+    // The body ("Cool", 4 chars) is shorter than the follow button's label; it still wins
+    // because the body is searched inside the body shell's subtree only.
+    assertEquals("Nguyen Van A" + separator + "1 day" + separator + "Cool", item.composedLabel());
+    List<String> clickLabels = new ArrayList<>();
+    for (ChildAction action : item.actions()) {
+      if (!action.longClick) {
+        clickLabels.add(action.label.toString());
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            " · Follow",
+            "Cool",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+    assertEquals(tree.body, item.selectionTarget());
+  }
+
+  @Test
+  public void commentNestedWithBadge_stillMatches_labelIsAuthorTimeBody() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentNestedWithBadge(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    String separator = CompositorUtils.getSeparator();
+    assertEquals(
+        "Nguyen Van A" + separator + "1 day" + separator + "This is a great comment",
+        item.composedLabel());
+    List<String> clickLabels = new ArrayList<>();
+    for (ChildAction action : item.actions()) {
+      if (!action.longClick) {
+        clickLabels.add(action.label.toString());
+        if ("Fan cứng".contentEquals(action.label)) {
+          assertEquals(tree.badge, action.node);
+        }
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            "Fan cứng",
+            "This is a great comment",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+    assertEquals(tree.body, item.selectionTarget());
+  }
+
+  @Test
+  public void emptyComment_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    AccessibilityNodeInfoCompat root = CollapseTestTrees.item(list);
+    root.setClickable(true);
+    root.setFocusable(true);
+    CollapseTestTrees.bounds(root, 0, 0, 1080, 200);
+    AccessibilityNodeInfoCompat placeholder =
+        CollapseTestTrees.node(root, "android.view.ViewGroup");
+    placeholder.setClickable(true);
+    placeholder.setLongClickable(true);
+    placeholder.setFocusable(true);
+    CollapseTestTrees.bounds(placeholder, 0, 0, 1080, 200);
+    CollapseTestTrees.applyPackage(root, CollapseTestTrees.FACEBOOK_PACKAGE);
+
+    assertNull(CollapseEngine.matchItemRoot(root, SCRIPTS));
   }
 
   @Test

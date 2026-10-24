@@ -125,6 +125,7 @@ final class CollapseTestTrees {
     /** The clickable node the body action lands on: the shell, or the body itself. */
     AccessibilityNodeInfoCompat bodyActionTarget;
     AccessibilityNodeInfoCompat follow;
+    AccessibilityNodeInfoCompat badge;
     AccessibilityNodeInfoCompat seeMore;
     AccessibilityNodeInfoCompat reply;
     AccessibilityNodeInfoCompat reactions;
@@ -265,6 +266,147 @@ final class CollapseTestTrees {
     bounds(tree.like, 400, 300, 600, 400);
 
     tree.demote = node(tree.root, "android.widget.Button");
+    tree.demote.setClickable(true);
+    tree.demote.setFocusable(true);
+    tree.demote.setContentDescription("Demote comment");
+    bounds(tree.demote, 600, 300, 900, 400);
+    applyPackage(tree.root, list.getPackageName().toString());
+    return tree;
+  }
+
+  /**
+   * The third recorded comment shape: the item root has a single long-clickable container
+   * child, and the reply, reactions, like and demote blocks are children of that container —
+   * siblings of the header group, one nesting level higher than in {@link #facebookComment}.
+   * The Like block's wrapper carries a long instruction label that a whole-item body search
+   * would mistake for the comment text.
+   */
+  static FacebookCommentTree facebookCommentNestedActions(AccessibilityNodeInfoCompat list) {
+    return facebookCommentNested(list, "This is a great comment", false, false);
+  }
+
+  /** A nested-shape comment whose body is shorter than its header's follow button label. */
+  static FacebookCommentTree facebookCommentNestedShortBodyWithFollow(
+      AccessibilityNodeInfoCompat list) {
+    return facebookCommentNested(list, "Cool", true, false);
+  }
+
+  /** A nested-shape comment carrying a "top fan" badge inside its header group. */
+  static FacebookCommentTree facebookCommentNestedWithBadge(AccessibilityNodeInfoCompat list) {
+    return facebookCommentNested(list, "This is a great comment", false, true);
+  }
+
+  private static FacebookCommentTree facebookCommentNested(
+      AccessibilityNodeInfoCompat list, String bodyText, boolean withFollow, boolean withBadge) {
+    FacebookCommentTree tree = new FacebookCommentTree();
+    tree.root = item(list);
+    tree.root.setClickable(true);
+    tree.root.setFocusable(true);
+    bounds(tree.root, 0, 0, 1080, 500);
+
+    AccessibilityNodeInfoCompat container = node(tree.root, "android.view.ViewGroup");
+    container.setLongClickable(true);
+    bounds(container, 0, 0, 1080, 500);
+    AccessibilityNodeInfoCompat header = node(container, "android.view.ViewGroup");
+    bounds(header, 0, 0, 1080, 300);
+
+    tree.avatar = node(header, "android.widget.ImageView");
+    tree.avatar.setClickable(true);
+    tree.avatar.setFocusable(true);
+    tree.avatar.setContentDescription("Profile picture of Nguyen Van A");
+    bounds(tree.avatar, 0, 0, 120, 120);
+
+    tree.author = node(header, "android.view.ViewGroup");
+    tree.author.setClickable(true);
+    tree.author.setFocusable(true);
+    tree.author.setText("Nguyen Van A");
+    tree.author.setContentDescription("Nguyen Van A");
+    bounds(tree.author, 130, 0, 500, 60);
+
+    tree.time = node(header, "android.view.ViewGroup");
+    tree.time.setFocusable(true);
+    tree.time.setText("1 day");
+    tree.time.setContentDescription("1 day");
+    bounds(tree.time, 130, 60, 300, 110);
+
+    if (withFollow) {
+      tree.follow = node(header, "android.widget.Button");
+      tree.follow.setClickable(true);
+      tree.follow.setFocusable(true);
+      tree.follow.setText(" · Follow");
+      tree.follow.setContentDescription(" · Follow");
+      bounds(tree.follow, 510, 0, 700, 60);
+    }
+
+    if (withBadge) {
+      tree.badge = node(header, "android.view.ViewGroup");
+      tree.badge.setClickable(true);
+      tree.badge.setFocusable(true);
+      bounds(tree.badge, 130, 110, 420, 170);
+      AccessibilityNodeInfoCompat badgeSeparator = node(tree.badge, "android.view.ViewGroup");
+      badgeSeparator.setText(" · ");
+      badgeSeparator.setContentDescription(" · ");
+      bounds(badgeSeparator, 130, 110, 180, 170);
+      node(tree.badge, "android.widget.ImageView");
+      AccessibilityNodeInfoCompat badgeText = node(tree.badge, "android.view.ViewGroup");
+      badgeText.setText("Fan cứng");
+      badgeText.setContentDescription("Fan cứng");
+      bounds(badgeText, 240, 110, 420, 170);
+    }
+
+    AccessibilityNodeInfoCompat shell = node(header, "android.view.ViewGroup");
+    shell.setClickable(true);
+    shell.setLongClickable(true);
+    shell.setFocusable(true);
+    bounds(shell, 0, 120, 1080, 300);
+    tree.body = node(shell, "android.widget.Button");
+    tree.body.setText(bodyText);
+    tree.body.setContentDescription(bodyText);
+    bounds(tree.body, 0, 120, 1080, 300);
+    tree.bodyActionTarget = shell;
+
+    String replyDescription =
+        "Reply to the comment by Nguyen Van A, button. Double-tap to reply to the comment.";
+    AccessibilityNodeInfoCompat replyOuter = node(container, "android.view.ViewGroup");
+    bounds(replyOuter, 0, 300, 200, 400);
+    AccessibilityNodeInfoCompat replyWrap = node(replyOuter, "android.view.ViewGroup");
+    replyWrap.setFocusable(true);
+    replyWrap.setText(replyDescription);
+    replyWrap.setContentDescription(replyDescription);
+    bounds(replyWrap, 0, 300, 200, 400);
+    tree.reply = node(replyWrap, "android.widget.Button");
+    tree.reply.setClickable(true);
+    tree.reply.setFocusable(true);
+    tree.reply.setText("Reply");
+    tree.reply.setContentDescription(replyDescription);
+    bounds(tree.reply, 0, 300, 200, 400);
+
+    AccessibilityNodeInfoCompat reactionsWrap = node(container, "android.widget.Button");
+    bounds(reactionsWrap, 200, 300, 400, 400);
+    tree.reactions = node(reactionsWrap, "android.widget.Button");
+    tree.reactions.setClickable(true);
+    tree.reactions.setFocusable(true);
+    tree.reactions.setText("5 reactions");
+    tree.reactions.setContentDescription("5 reactions");
+    bounds(tree.reactions, 200, 300, 400, 400);
+
+    String likeDescription =
+        "Like button for the comment by Nguyen Van A."
+            + " Double-tap and hold to show the reaction tray.";
+    AccessibilityNodeInfoCompat likeWrap = node(container, "android.view.ViewGroup");
+    likeWrap.setFocusable(true);
+    likeWrap.setText(likeDescription);
+    likeWrap.setContentDescription(likeDescription);
+    bounds(likeWrap, 400, 300, 600, 400);
+    tree.like = node(likeWrap, "android.widget.Button");
+    tree.like.setClickable(true);
+    tree.like.setLongClickable(true);
+    tree.like.setFocusable(true);
+    tree.like.setText("Like");
+    tree.like.setContentDescription(likeDescription);
+    bounds(tree.like, 400, 300, 600, 400);
+
+    tree.demote = node(container, "android.widget.Button");
     tree.demote.setClickable(true);
     tree.demote.setFocusable(true);
     tree.demote.setContentDescription("Demote comment");

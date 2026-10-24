@@ -36,6 +36,14 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * node carrying the text (also the text-selection target), while the shell is the node the
  * synthesized body action lands on.
  *
+ * <p>The action blocks (reply, reactions, like, demote) are not always siblings of the header:
+ * in one recorded shape they sit one level higher, as siblings of the header group inside a
+ * shared container, where the Like block's long instruction label would win a whole-item
+ * longest-label search and be spoken as the body. The body search is therefore anchored to the
+ * lowest common ancestor of the avatar, author and timestamp — a subtree that only ever holds
+ * header content — and prefers the subtree of the header's clickable, long-clickable shell
+ * that wraps the body text.
+ *
  * <p>Feed posts intentionally do not match: their root is not clickable and one child already
  * carries the full description plus Facebook's own custom actions.
  */
@@ -56,9 +64,10 @@ final class FacebookCollapseScript extends CollapseScript {
 
   @Override
   protected @Nullable List<Field> resolveFields(ItemScan scan) {
-    AccessibilityNodeInfoCompat body = bodyNode(scan);
-    AccessibilityNodeInfoCompat time = timeNode(scan, body);
-    AccessibilityNodeInfoCompat author = authorNode(scan, body);
+    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
+    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
+    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
+    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
     if (body == null || time == null || author == null) {
       return null;
     }
@@ -101,59 +110,110 @@ final class FacebookCollapseScript extends CollapseScript {
     if (!node.isLongClickable()) {
       return false;
     }
-    AccessibilityNodeInfoCompat body = bodyNode(scan);
+    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
+    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
+    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
+    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
     return body != null && !node.equals(body) && scan.indexOf(node) > scan.indexOf(body);
   }
 
-  /**
-   * The header block: the item root's child whose subtree holds the avatar. Author, time and
-   * body live inside it; the reply, reactions, like and demote blocks are its siblings, so
-   * their long instruction labels stay out of the content search.
-   */
-  private static @Nullable AccessibilityNodeInfoCompat headerBlock(ItemScan scan) {
-    AccessibilityNodeInfoCompat avatar = null;
+  /** The avatar: the first clickable image button in the item. */
+  private static @Nullable AccessibilityNodeInfoCompat avatarNode(ItemScan scan) {
     for (AccessibilityNodeInfoCompat node : scan.clickables()) {
       if (Role.getRole(node) == Role.ROLE_IMAGE_BUTTON) {
-        avatar = node;
-        break;
+        return node;
       }
     }
+    return null;
+  }
+
+  /** The author name: the first labelled clickable after the avatar, skipping images. */
+  private static @Nullable AccessibilityNodeInfoCompat authorNode(
+      ItemScan scan, @Nullable AccessibilityNodeInfoCompat avatar) {
     if (avatar == null) {
       return null;
     }
-    AccessibilityNodeInfoCompat root = scan.itemRoot();
-    AccessibilityNodeInfoCompat current = avatar;
-    while (current != null) {
-      AccessibilityNodeInfoCompat parent = current.getParent();
-      if (parent == null) {
-        return null;
+    int avatarIndex = scan.indexOf(avatar);
+    for (AccessibilityNodeInfoCompat node : scan.clickables()) {
+      if (scan.indexOf(node) <= avatarIndex) {
+        continue;
       }
-      if (parent.equals(root)) {
-        return current;
+      if (Role.getRole(node) != Role.ROLE_IMAGE_BUTTON
+          && !TextUtils.isEmpty(ItemScan.spokenLabel(node))) {
+        return node;
       }
-      current = parent;
     }
     return null;
   }
 
   /**
-   * The comment body: the content node carrying the longest spoken label inside the header
-   * block, whether or not it is clickable. The tap target for it (its nearest clickable
-   * ancestor) already appears among the item's clickables on its own.
+   * The timestamp: a focusable, non-clickable, labelled node in the header cluster (the
+   * subtree of the avatar/author common ancestor), so a look-alike wrapper from an action
+   * block can never stand in for it.
    */
-  private static @Nullable AccessibilityNodeInfoCompat bodyNode(ItemScan scan) {
-    AccessibilityNodeInfoCompat header = headerBlock(scan);
-    if (header == null) {
+  private static @Nullable AccessibilityNodeInfoCompat timeNode(
+      ItemScan scan,
+      @Nullable AccessibilityNodeInfoCompat avatar,
+      @Nullable AccessibilityNodeInfoCompat author) {
+    if (avatar == null || author == null) {
       return null;
+    }
+    AccessibilityNodeInfoCompat cluster = lowestCommonAncestor(avatar, author);
+    if (cluster == null) {
+      return null;
+    }
+    for (AccessibilityNodeInfoCompat node : scan.descendants()) {
+      if (!isWithin(node, cluster) || node.equals(author)) {
+        continue;
+      }
+      if (node.isFocusable()
+          && !node.isClickable()
+          && !TextUtils.isEmpty(ItemScan.spokenLabel(node))) {
+        return node;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * The comment body: a content node inside the header region — the subtree of the lowest
+   * common ancestor of avatar, author and timestamp, which never contains an action block in
+   * either recorded nesting shape. The header's one clickable, long-clickable node is the
+   * shell wrapping the body text, so the body is the longest spoken label in the shell's
+   * subtree; without such a shell it is the longest spoken label in the region, excluding
+   * the avatar, author and timestamp and anything above or below them. The tap target for
+   * the body (its clickable shell) already appears among the item's clickables on its own.
+   */
+  private static @Nullable AccessibilityNodeInfoCompat bodyNode(
+      ItemScan scan,
+      @Nullable AccessibilityNodeInfoCompat avatar,
+      @Nullable AccessibilityNodeInfoCompat author,
+      @Nullable AccessibilityNodeInfoCompat time) {
+    if (avatar == null || author == null || time == null) {
+      return null;
+    }
+    AccessibilityNodeInfoCompat cluster = lowestCommonAncestor(avatar, author);
+    AccessibilityNodeInfoCompat region =
+        cluster == null ? null : lowestCommonAncestor(cluster, time);
+    if (region == null) {
+      return null;
+    }
+    AccessibilityNodeInfoCompat shell = null;
+    int shells = 0;
+    for (AccessibilityNodeInfoCompat node : scan.descendants()) {
+      if (isWithin(node, region) && node.isClickable() && node.isLongClickable()) {
+        shell = node;
+        shells++;
+      }
+    }
+    if (shells == 1) {
+      return longestLabelIn(scan, shell);
     }
     AccessibilityNodeInfoCompat body = null;
     int longest = 0;
     for (AccessibilityNodeInfoCompat node : scan.descendants()) {
-      if (!node.equals(header) && !AccessibilityNodeInfoUtils.hasAncestor(node, header)) {
+      if (!isWithin(node, region) || isFieldOrKin(node, avatar, author, time)) {
         continue;
-      }
-      if (Role.getRole(node) == Role.ROLE_IMAGE_BUTTON) {
-        continue; // The avatar is an action, not content.
       }
       CharSequence label = ItemScan.spokenLabel(node);
       if (!TextUtils.isEmpty(label) && label.length() > longest) {
@@ -162,6 +222,63 @@ final class FacebookCollapseScript extends CollapseScript {
       }
     }
     return body;
+  }
+
+  /** The node with the longest spoken label in a subtree, or null if it carries none. */
+  private static @Nullable AccessibilityNodeInfoCompat longestLabelIn(
+      ItemScan scan, AccessibilityNodeInfoCompat subtreeRoot) {
+    AccessibilityNodeInfoCompat best = null;
+    int longest = 0;
+    for (AccessibilityNodeInfoCompat node : scan.descendants()) {
+      if (!isWithin(node, subtreeRoot)) {
+        continue;
+      }
+      CharSequence label = ItemScan.spokenLabel(node);
+      if (!TextUtils.isEmpty(label) && label.length() > longest) {
+        longest = label.length();
+        best = node;
+      }
+    }
+    return best;
+  }
+
+  /** Whether a node is one of the resolved fields, or an ancestor or descendant of one. */
+  private static boolean isFieldOrKin(
+      AccessibilityNodeInfoCompat node,
+      AccessibilityNodeInfoCompat avatar,
+      AccessibilityNodeInfoCompat author,
+      AccessibilityNodeInfoCompat time) {
+    AccessibilityNodeInfoCompat[] fields = {avatar, author, time};
+    for (AccessibilityNodeInfoCompat field : fields) {
+      if (node.equals(field)
+          || AccessibilityNodeInfoUtils.hasAncestor(node, field)
+          || AccessibilityNodeInfoUtils.hasAncestor(field, node)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** Whether a node is the subtree root itself or one of its descendants. */
+  private static boolean isWithin(
+      AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat subtreeRoot) {
+    return node.equals(subtreeRoot)
+        || AccessibilityNodeInfoUtils.hasAncestor(node, subtreeRoot);
+  }
+
+  /** The lowest common ancestor of two nodes in the same tree, or null if there is none. */
+  private static @Nullable AccessibilityNodeInfoCompat lowestCommonAncestor(
+      AccessibilityNodeInfoCompat first, AccessibilityNodeInfoCompat second) {
+    List<AccessibilityNodeInfoCompat> chain = new ArrayList<>();
+    for (AccessibilityNodeInfoCompat node = first; node != null; node = node.getParent()) {
+      chain.add(node);
+    }
+    for (AccessibilityNodeInfoCompat node = second; node != null; node = node.getParent()) {
+      if (chain.contains(node)) {
+        return node;
+      }
+    }
+    return null;
   }
 
   /** The longest spoken label in a node's subtree, or empty if it carries none. */
@@ -182,44 +299,5 @@ final class FacebookCollapseScript extends CollapseScript {
       }
     }
     return best;
-  }
-
-  /** The timestamp: a focusable, non-clickable, labelled node before the body. */
-  private static @Nullable AccessibilityNodeInfoCompat timeNode(
-      ItemScan scan, @Nullable AccessibilityNodeInfoCompat body) {
-    if (body == null) {
-      return null;
-    }
-    int bodyIndex = scan.indexOf(body);
-    List<AccessibilityNodeInfoCompat> descendants = scan.descendants();
-    for (int i = 0; i < bodyIndex && i < descendants.size(); i++) {
-      AccessibilityNodeInfoCompat node = descendants.get(i);
-      if (node.isFocusable()
-          && !node.isClickable()
-          && !TextUtils.isEmpty(ItemScan.spokenLabel(node))
-          && !AccessibilityNodeInfoUtils.hasAncestor(body, node)) {
-        return node;
-      }
-    }
-    return null;
-  }
-
-  /** The author name: the first labelled clickable before the body, skipping images. */
-  private static @Nullable AccessibilityNodeInfoCompat authorNode(
-      ItemScan scan, @Nullable AccessibilityNodeInfoCompat body) {
-    if (body == null) {
-      return null;
-    }
-    int bodyIndex = scan.indexOf(body);
-    for (AccessibilityNodeInfoCompat node : scan.clickables()) {
-      if (scan.indexOf(node) >= bodyIndex) {
-        break;
-      }
-      if (Role.getRole(node) != Role.ROLE_IMAGE_BUTTON
-          && !TextUtils.isEmpty(ItemScan.spokenLabel(node))) {
-        return node;
-      }
-    }
-    return null;
   }
 }
