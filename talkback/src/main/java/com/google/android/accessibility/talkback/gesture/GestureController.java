@@ -94,6 +94,7 @@ import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.actor.SystemActionPerformer;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
+import com.google.android.accessibility.talkback.collapse.CollapseEngine;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
@@ -1027,6 +1028,12 @@ public class GestureController {
         accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(node);
     if (editingNode != null) {
       return editingNode;
+    }
+    // A collapsed item's representative carries no text itself; select on its content node.
+    @Nullable AccessibilityNodeInfoCompat contentNode =
+        CollapseEngine.selectionTarget(service, node);
+    if (contentNode != null) {
+      return contentNode;
     }
     // Other text is selected for copying by Backtalk; it speaks if there is none.
     if (node != null) {

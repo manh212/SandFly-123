@@ -2608,6 +2608,12 @@
     <string name="title_pref_wrap_around">Wrap around</string>
     <!-- Summary of the wrap around setting. [CHAR LIMIT=NONE]-->
     <string name="summary_pref_wrap_around">Swiping past the last item goes to the first, and past the first goes to the last. When off, a sound plays at the end instead.</string>
+    <!-- Title of the setting that collapses the child buttons of list items into the Actions reading control in supported apps. [CHAR LIMIT=NONE]-->
+    <string name="title_pref_collapse_list_item_actions">Collapse list item buttons into actions</string>
+    <!-- Summary of the list item collapse setting. [CHAR LIMIT=NONE]-->
+    <string name="summary_pref_collapse_list_item_actions">In supported apps, each list item is one stop, and its buttons move to the Actions reading control.</string>
+    <!-- Title of a synthesized action that long-presses a button inside a collapsed list item. [CHAR LIMIT=NONE]-->
+    <string name="title_collapse_action_long_press">%1$s, long press</string>
     <!-- Title of the setting that notices when touch exploration stops responding because of an Android bug, and fixes it. [CHAR LIMIT=NONE]-->
     <string name="title_pref_fix_stuck_touch_exploration">Fix stuck touch exploration</string>
     <!-- Summary of the fix stuck touch exploration setting while SandFly doesn't have the DUMP permission. Leave "DUMP" and the command untranslated. [CHAR LIMIT=NONE]-->

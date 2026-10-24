@@ -102,6 +102,7 @@ import com.google.android.accessibility.talkback.actor.DimScreenActor;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.VoiceCommandTypeId;
+import com.google.android.accessibility.talkback.collapse.CollapsedItemActions;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
@@ -388,6 +389,7 @@ public class VoiceCommandProcessor {
           new RuleAction(pipeline, actorState, accessibilityFocusMonitor, analytics);
       List<ContextMenuItem> menuItems =
           ruleAction.getMenuItemsForNode(service, node, /* includeAncestors= */ true);
+      menuItems.removeIf(CollapsedItemActions::isCollapsedActionItem);
       if (node == null || menuItems.isEmpty()) {
         menuManager.showMenu(CUSTOM_ACTION, eventId, R.string.voice_commands_no_actions_feedback);
       } else {

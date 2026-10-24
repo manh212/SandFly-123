@@ -31,6 +31,7 @@ import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.collapse.CollapseEngine;
 import com.google.android.accessibility.talkback.compositor.AccessibilityEventFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.AccessibilityFocusEventInterpretation;
 import com.google.android.accessibility.talkback.compositor.AccessibilityInterpretationFeedbackUtils;
@@ -279,14 +280,20 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
           .append(String.format("\n    unlabelledDescription={%s}", unlabelledDescription))
           .append(String.format(", eventDescription={%s}", eventDescription));
     } else {
-      CharSequence nodeTreeDescription =
-          treeNodesDescription.aggregateNodeTreeDescription(node, event);
-      if (!TextUtils.isEmpty(nodeTreeDescription)) {
-        contentDescription = nodeTreeDescription;
-        logString.append(String.format("\n    nodeTreeDescription={%s}", nodeTreeDescription));
+      CharSequence collapsedLabel = CollapseEngine.composedLabel(context, node);
+      if (collapsedLabel != null) {
+        contentDescription = collapsedLabel;
+        logString.append(String.format("\n    collapsedLabel={%s}", collapsedLabel));
       } else {
-        contentDescription = eventDescription;
-        logString.append(String.format("\n    eventDescription={%s}", eventDescription));
+        CharSequence nodeTreeDescription =
+            treeNodesDescription.aggregateNodeTreeDescription(node, event);
+        if (!TextUtils.isEmpty(nodeTreeDescription)) {
+          contentDescription = nodeTreeDescription;
+          logString.append(String.format("\n    nodeTreeDescription={%s}", nodeTreeDescription));
+        } else {
+          contentDescription = eventDescription;
+          logString.append(String.format("\n    eventDescription={%s}", eventDescription));
+        }
       }
     }
 
