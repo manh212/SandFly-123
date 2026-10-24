@@ -26,10 +26,13 @@ exceptions.
 
 - Push small and medium changes — normal features and fixes — directly to
   `master`. Do not open a branch or pull request for them.
-- Open a branch only for extremely large work: a complete architecture
-  overhaul, a wholesale change to how a subsystem works, or adding a major
+- Open a branch only for extremely large work: replacing or removing an
+  entire subsystem, completely changing an architecture, or adding a major
   new subsystem. Create the branch and its pull request at the very start of
-  such work; the owner approves its creation.
+  such work; the owner approves its creation. Engine-level changes inside an
+  existing system and ordinary features, however large they feel, still go
+  straight to `master`. On a borderline case, the default is `master`, and
+  the owner is the final judge of the classification.
 - One feature gets exactly one branch. Keep fixing on that same branch until
   it is accepted; never open a second branch for the same feature.
 - Branch work is never auto-merged. When the branch build is green, share the
@@ -39,6 +42,10 @@ exceptions.
   it reports.
 - When a pull request build fails, read the automatic failure summary comment
   on the pull request before diagnosing further.
+- When a build on `master` fails, read the Gradle log tail from the failed
+  run's own `gradle-log-tail` artifact before diagnosing further. Never add
+  temporary hooks or workflow steps to extract logs; the artifact is the
+  standing route.
 - When removing a string resource, delete it from every locale file (all
   `values-*` directories), or the `ExtraTranslation` lint fails. New strings
   only need English and Vietnamese; record the other languages in
