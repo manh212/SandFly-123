@@ -778,13 +778,18 @@ public class SpeechControllerImpl implements SpeechController {
         EmojiSpeech.restoreOriginalText(
             SpannableUtils.getCopyableText(item.getAggregateText()));
 
-    if (TextUtils.isEmpty(copyableText)) {
+    return copyTextToClipboard(copyableText, eventId);
+  }
+
+  /** Copies text to the clipboard and announces the copy, as for a spoken utterance. */
+  public boolean copyTextToClipboard(@Nullable CharSequence text, EventId eventId) {
+    if (TextUtils.isEmpty(text)) {
       return false;
     }
 
     final ClipboardManager clipboard =
         (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-    ClipData clip = ClipData.newPlainText(null, copyableText);
+    ClipData clip = ClipData.newPlainText(null, text);
     clipboard.setPrimaryClip(clip);
 
     // Verify that we actually have the utterance on the clipboard

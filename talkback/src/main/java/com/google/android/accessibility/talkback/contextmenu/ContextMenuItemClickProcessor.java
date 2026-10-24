@@ -23,6 +23,7 @@ import static com.google.android.accessibility.talkback.Feedback.DimScreen.Actio
 import static com.google.android.accessibility.talkback.Feedback.Keyboard.Action.SHOW_KEYBOARD_SHORTCUTS_DIALOG;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.REPEAT_SAVED;
+import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SHOW_HISTORY;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SPELL_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.TRANSLATE_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.UniversalSearch.Action.TOGGLE_SEARCH;
@@ -93,6 +94,7 @@ public class ContextMenuItemClickProcessor {
         || (itemId == R.id.spell_last_utterance)
         || (itemId == R.id.translate_last_utterance)
         || (itemId == R.id.copy_last_utterance_to_clipboard)
+        || (itemId == R.id.speech_history)
         || (itemId == R.id.verbosity)
         || (itemId == R.id.audio_ducking)
         || (itemId == R.id.sound_feedback)
@@ -134,6 +136,9 @@ public class ContextMenuItemClickProcessor {
     } else if (itemId == R.id.translate_last_utterance) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_SAVED)));
+    } else if (itemId == R.id.speech_history) {
+      pipeline.returnFeedback(
+          eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_HISTORY)));
     } else if (itemId == R.id.verbosity) {
       Intent intent = createSettingsIntent();
       intent.putExtra(FRAGMENT_NAME, VerbosityPrefFragment.class.getName());

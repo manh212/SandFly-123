@@ -17,14 +17,21 @@
 package com.google.android.accessibility.utils.output;
 
 import android.text.TextUtils;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Holds the text of the most recent utterance actually dispatched to speech. In memory only. */
 public final class LastSpokenTextHolder {
 
+  private static final int MAX_SPOKEN_HISTORY_SIZE = 50;
+
   private static final AtomicReference<String> lastSpokenText = new AtomicReference<>();
   private static final AtomicReference<String> savedSpokenText = new AtomicReference<>();
+  private static final Deque<String> spokenHistory = new ArrayDeque<>();
 
   private LastSpokenTextHolder() {}
 
@@ -33,10 +40,29 @@ public final class LastSpokenTextHolder {
       return;
     }
     lastSpokenText.set(text.toString());
+    synchronized (spokenHistory) {
+      spokenHistory.addFirst(text.toString());
+      while (spokenHistory.size() > MAX_SPOKEN_HISTORY_SIZE) {
+        spokenHistory.removeLast();
+      }
+    }
   }
 
   public static @Nullable String getLastSpokenText() {
     return lastSpokenText.get();
+  }
+
+  /** The most recent utterances actually dispatched to speech, newest first. In memory only. */
+  public static List<String> getSpokenHistory() {
+    synchronized (spokenHistory) {
+      return new ArrayList<>(spokenHistory);
+    }
+  }
+
+  static void clearSpokenHistoryForTest() {
+    synchronized (spokenHistory) {
+      spokenHistory.clear();
+    }
   }
 
   public static void setSavedSpokenText(@Nullable CharSequence text) {
