@@ -44,12 +44,9 @@ object PrefsDigest {
       is String -> value
       is Set<*> ->
         value
-          .map { element ->
-            val text = element.toString()
-            "${text.length}:$text"
-          }
+          .map { it.toString() }
           .sorted()
-          .joinToString(SET_SEPARATOR)
+          .joinToString(SET_SEPARATOR) { text -> "${text.length}:$text" }
       is Boolean, is Int, is Long, is Float -> value.toString()
       else -> value.toString()
     }
