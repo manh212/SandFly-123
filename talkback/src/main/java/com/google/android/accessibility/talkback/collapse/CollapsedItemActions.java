@@ -25,6 +25,8 @@ import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +65,10 @@ public class CollapsedItemActions implements NodeMenu {
   private static final String TAG = "CollapsedItemActions";
   static final int ACTION_ID_BASE = 0x5d000000;
   private static final int ACTION_ID_RANGE = 0x100000;
+  /** How long the delayed control dispatch waits out the user's own gesture cascade. */
+  private static final int DELAYED_DISPATCH_DELAY_MS = 400;
+  /** The gap between the two strokes of a simulated press; mirrors FocusActor's. */
+  private static final int STROKE_TIME_GAP_MS = 40;
 
   private final Pipeline.FeedbackReturner pipeline;
   private final TalkBackAnalytics analytics;
@@ -185,15 +191,19 @@ public class CollapsedItemActions implements NodeMenu {
      * child's centre, so the press lands on the same child either way and "not supported"
      * is only reported when every route failed.
      *
-     * <p>Composite items try one route before all of those: the press is performed on the
+     * <p>Composite items try one route before all of those: the focus-first route on the
      * live button itself, re-located in the live tree at activation time (see {@link
-     * #performOnLiveButton}). The stored target of a composite item is only the frame
+     * #performFocusFirst}). The stored target of a composite item is only the frame
      * around the real button, so the routes below never reach the button: their direct
      * action runs on the frame, and a coordinate tap on the frame produces no click inside
-     * the app at all. The live-button route therefore fires the action directly on the
-     * button first, and only then falls back to the defended activation aimed at the
-     * button. Any relocation doubt falls through to the stored-target routes below,
-     * unchanged.
+     * the app at all. On device the button refuses a direct action outright, and the
+     * defended activation aimed at it produces no click while it does not hold
+     * accessibility focus, so the focus-first route moves accessibility focus onto the
+     * button, issues the defended activation at it in that state, and restores focus to
+     * the item afterwards. When the focus move or the activation fails there, a delayed
+     * dispatch is scheduled as a control for the dispatch timing and the stored-target
+     * routes below run as before. Any relocation doubt falls through to the stored-target
+     * routes below, unchanged.
      *
      * <p>The target is refreshed first: the stored node is a snapshot from when the items
      * were built and the app may have re-created the child since, leaving the snapshot with
@@ -237,8 +247,9 @@ public class CollapsedItemActions implements NodeMenu {
       try {
         logAccessibilityFocus(focusNode);
         boolean performed = false;
+        DelayedControl delayedControl = new DelayedControl();
         if (compositeRoot) {
-          performed = performOnLiveButton(focusNode);
+          performed = performFocusFirst(focusNode, delayedControl);
         }
         if (!performed && (longClick ? supportsLongClick : supportsClick)) {
           performed =
@@ -266,6 +277,7 @@ public class CollapsedItemActions implements NodeMenu {
           performed = simulatedTapper.tap(context, node, longClick);
           LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
         }
+        delayedControl.tiersSucceeded = performed;
         LogUtils.v(TAG, "perform result=%b", performed);
         return performed;
       } finally {
@@ -291,16 +303,21 @@ public class CollapsedItemActions implements NodeMenu {
     }
 
     /**
-     * The live-button route for composite items. The stored target is only the frame
+     * The focus-first route for composite items. The stored target is only the frame
      * around the real button, so first the button itself is re-located in the live tree
-     * (see {@link #relocateLiveButtonNode}) and the press is performed on it: the action
-     * directly on the live button -- every earlier route fired the action at the stored
-     * snapshot or the frame, never at this node -- and, when that is refused, the
-     * defended focus-actor activation aimed at the live button, whose simulated press is
-     * the canonical two-stroke tap. When the button cannot be pinned down with certainty
-     * this returns false and the stored-target tiers run as before.
+     * (see {@link #relocateLiveButtonNode}); then accessibility focus is moved onto the
+     * button and the defended focus-actor activation is issued at it while it holds
+     * focus -- the one configuration that has activated these buttons on device, where a
+     * direct action on the live button is refused outright and an activation aimed at
+     * the unfocused button produces no click at all. Focus is restored to the item the
+     * user is standing on after the attempt, whether the activation landed or not. When
+     * focus does not move or the activation is refused, a delayed dispatch is scheduled
+     * as a control (see {@link #scheduleDelayedDispatch}) and this returns false, so the
+     * stored-target tiers run as before. When the button cannot be pinned down with
+     * certainty this returns false at once and no control is scheduled.
      */
-    private boolean performOnLiveButton(@Nullable AccessibilityNodeInfoCompat focusNode) {
+    private boolean performFocusFirst(
+        @Nullable AccessibilityNodeInfoCompat focusNode, DelayedControl delayedControl) {
       AccessibilityNodeInfoCompat button = relocateLiveButtonNode(focusNode);
       if (button == null) {
         return false;
@@ -316,21 +333,128 @@ public class CollapsedItemActions implements NodeMenu {
               button, AccessibilityNodeInfoCompat.ACTION_CLICK),
           PerformActionUtils.isNodeSupportAction(
               button, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK));
-      int actionId =
-          longClick
-              ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
-              : AccessibilityNodeInfoCompat.ACTION_CLICK;
-      boolean acted = nodeActionPerformer.performAction(button, actionId);
-      LogUtils.v(TAG, "liveButton nodeAction result=%b", acted);
-      if (acted) {
-        return true;
+      boolean focusMoved =
+          nodeActionPerformer.performAction(
+              button, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+      LogUtils.v(TAG, "focusFirst focusMoved=%b", focusMoved);
+      logObservedFocus(button);
+      boolean performed = false;
+      if (focusMoved) {
+        try {
+          performed =
+              pipeline.returnFeedback(
+                  EVENT_ID_UNTRACKED,
+                  Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(button));
+          LogUtils.v(
+              TAG,
+              "focusFirst %s result=%b",
+              longClick ? "longClickNode" : "clickNode",
+              performed);
+        } finally {
+          boolean restored =
+              focusNode != null
+                  && nodeActionPerformer.performAction(
+                      focusNode, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+          LogUtils.v(TAG, "focusFirst focusRestored=%b", restored);
+        }
       }
-      boolean routed =
-          pipeline.returnFeedback(
-              EVENT_ID_UNTRACKED,
-              Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(button));
-      LogUtils.v(TAG, "liveButton clickNode result=%b", routed);
-      return routed;
+      if (!performed) {
+        scheduleDelayedDispatch(delayedControl);
+      }
+      return performed;
+    }
+
+    /** Logs whether accessibility focus observably sits on the button after the move. */
+    private void logObservedFocus(AccessibilityNodeInfoCompat button) {
+      AccessibilityNodeInfoCompat observed = focusNodeProvider.getFocusNode(context);
+      boolean onButton = observed != null && observed.equals(button);
+      LogUtils.v(TAG, "focusFirst focusObservedOnButton=%b", onButton);
+      if (observed != null) {
+        observed.recycle();
+      }
+    }
+
+    /**
+     * Schedules the control dispatch for the dispatch-timing question: the same press
+     * the defended activation simulates, but issued after the user's own gesture
+     * cascade has fully settled instead of from inside it. The dispatch is only a
+     * control -- it runs after this perform has already reported its result, so it never
+     * claims the perform's success; its outcome is written to the log through the
+     * gesture callback, told apart from the dispatch acceptance boolean.
+     */
+    private void scheduleDelayedDispatch(DelayedControl delayedControl) {
+      LogUtils.v(TAG, "delayedDispatch scheduled delayMs=%d", DELAYED_DISPATCH_DELAY_MS);
+      delayedDispatcher.postDelayed(
+          () -> runDelayedDispatch(delayedControl), DELAYED_DISPATCH_DELAY_MS);
+    }
+
+    private void runDelayedDispatch(DelayedControl delayedControl) {
+      if (delayedControl.tiersSucceeded) {
+        LogUtils.v(TAG, "delayedDispatch skipped: a stored tier already performed");
+        return;
+      }
+      AccessibilityNodeInfoCompat focus = focusNodeProvider.getFocusNode(context);
+      try {
+        AccessibilityNodeInfoCompat button = relocateLiveButtonNode(focus);
+        if (button == null) {
+          return;
+        }
+        GestureDescription gesture = buildTwoStrokeTap(button, longClick);
+        if (gesture == null) {
+          LogUtils.v(TAG, "delayedDispatch aborted: live button bounds empty");
+          return;
+        }
+        boolean accepted =
+            gestureDispatcher.dispatch(context, gesture, DELAYED_DISPATCH_CALLBACK);
+        LogUtils.v(TAG, "delayedDispatch accepted=%b", accepted);
+      } finally {
+        if (focus != null) {
+          focus.recycle();
+        }
+      }
+    }
+
+    /** The gesture callback of the control dispatch; kept apart from acceptance above. */
+    private static final AccessibilityService.GestureResultCallback DELAYED_DISPATCH_CALLBACK =
+        new AccessibilityService.GestureResultCallback() {
+          @Override
+          public void onCompleted(GestureDescription gestureDescription) {
+            LogUtils.v(TAG, "delayedDispatch onCompleted");
+          }
+
+          @Override
+          public void onCancelled(GestureDescription gestureDescription) {
+            LogUtils.v(TAG, "delayedDispatch onCancelled");
+          }
+        };
+
+    /**
+     * Builds the canonical simulated press at a node's centre: two strokes of tap
+     * timeout with the focus actor's gap between them -- for a long press, the second
+     * stroke is held for the long-press timeout instead, the double-tap-and-hold shape.
+     */
+    private static @Nullable GestureDescription buildTwoStrokeTap(
+        AccessibilityNodeInfoCompat node, boolean longClick) {
+      Rect bounds = new Rect();
+      node.getBoundsInScreen(bounds);
+      if (bounds.isEmpty()) {
+        return null;
+      }
+      Path path = new Path();
+      path.moveTo(bounds.centerX(), bounds.centerY());
+      int tapMs = ViewConfiguration.getTapTimeout();
+      long secondDurationMs = longClick ? ViewConfiguration.getLongPressTimeout() : tapMs;
+      return new GestureDescription.Builder()
+          .addStroke(new GestureDescription.StrokeDescription(path, /* startTime= */ 0, tapMs))
+          .addStroke(
+              new GestureDescription.StrokeDescription(
+                  path, tapMs + STROKE_TIME_GAP_MS, secondDurationMs))
+          .build();
+    }
+
+    /** Carries the stored tiers' outcome to a control dispatch posted during perform. */
+    private static final class DelayedControl {
+      boolean tiersSucceeded;
     }
 
     /**
@@ -518,6 +642,57 @@ public class CollapsedItemActions implements NodeMenu {
   @VisibleForTesting
   static void resetNodeActionPerformerForTest() {
     nodeActionPerformer = (node, actionId) -> node.performAction(actionId);
+  }
+
+  /** Posts a runnable after a delay; a seam so tests can run the delay out by hand. */
+  interface DelayedDispatcher {
+    void postDelayed(Runnable runnable, long delayMs);
+  }
+
+  private static DelayedDispatcher delayedDispatcher =
+      (runnable, delayMs) -> new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMs);
+
+  @VisibleForTesting
+  static void setDelayedDispatcherForTest(DelayedDispatcher dispatcher) {
+    delayedDispatcher = dispatcher;
+  }
+
+  @VisibleForTesting
+  static void resetDelayedDispatcherForTest() {
+    delayedDispatcher =
+        (runnable, delayMs) -> new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMs);
+  }
+
+  /** Dispatches a gesture with its result callback; a seam so tests can stand in. */
+  interface GestureDispatcher {
+    boolean dispatch(
+        Context context,
+        GestureDescription gesture,
+        AccessibilityService.GestureResultCallback callback);
+  }
+
+  private static GestureDispatcher gestureDispatcher =
+      CollapsedItemActions::dispatchGestureWithCallback;
+
+  @VisibleForTesting
+  static void setGestureDispatcherForTest(GestureDispatcher dispatcher) {
+    gestureDispatcher = dispatcher;
+  }
+
+  @VisibleForTesting
+  static void resetGestureDispatcherForTest() {
+    gestureDispatcher = CollapsedItemActions::dispatchGestureWithCallback;
+  }
+
+  private static boolean dispatchGestureWithCallback(
+      Context context,
+      GestureDescription gesture,
+      AccessibilityService.GestureResultCallback callback) {
+    if (!(context instanceof AccessibilityService)) {
+      return false;
+    }
+    return ((AccessibilityService) context)
+        .dispatchGesture(gesture, callback, /* handler= */ null);
   }
 
   /**
