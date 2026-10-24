@@ -222,7 +222,8 @@ public final class CollapseEngine {
         withLongClickTwins(script, scan, expandMenu(script, itemRoot, clickActions)),
         /* composedLabel= */ null,
         /* activationTarget= */ null,
-        /* selectionTarget= */ null);
+        /* selectionTarget= */ null,
+        script.pattern());
   }
 
   /**
@@ -341,7 +342,8 @@ public final class CollapseEngine {
         retargetActions(script, scan, withLongClickTwins(script, scan, clickActions)),
         label.toString(),
         activationTarget,
-        fieldNode(fields, script.selectionFieldId()));
+        fieldNode(fields, script.selectionFieldId()),
+        script.pattern());
   }
 
   /** The node itself if clickable, else its nearest clickable ancestor up to the item root. */
