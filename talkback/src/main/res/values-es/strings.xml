@@ -899,8 +899,8 @@
   <string name="turn_off_talkback">Desactivar SandFly</string>
   <string name="tap_again_to_turn_off">Toca de nuevo para desactivarlo</string>
   <string name="talkback_turn_off_description_pointer_and_touch">SandFly lee en voz alta el contenido de la pantalla y cambia la manera de navegar por el dispositivo. Para desactivarlo, selecciona Desactivar SandFly o tócalo 2 veces.</string>
-  <string name="welcome_to_talkback_text">SandFly proporciona mensajes de voz para que puedas usar tu dispositivo sin mirar la pantalla. SandFly puede ser útil para personas a quienes les cuesta ver la pantalla. \n\nSi quieres activar o desactivar SandFly rápidamente con las teclas de volumen, puedes configurar un acceso directo en Ajustes de SandFly &gt; Acceso directo a Talkback.\n\nCuando SandFly está activado, el elemento enfocado de la pantalla se lee en voz alta.\n\nSi deslizas hacia la derecha, irás al siguiente elemento, y si lo haces hacia la izquierda, volverás al anterior.\n\nDesliza el dedo hacia la derecha ahora para pasar al botón Siguiente.</string>
-  <string name="welcome_to_talkback_text_tts">SandFly proporciona mensajes de voz para que puedas usar tu dispositivo sin mirar la pantalla. SandFly puede ser útil para personas a quienes les cuesta ver la pantalla. \n\nSi quieres activar o desactivar SandFly rápidamente con las teclas de volumen, puedes configurar un acceso directo en Ajustes de SandFly y, a continuación, en Acceso directo a Talkback.\n\nCuando SandFly está activado, el elemento enfocado de la pantalla se lee en voz alta.\n\nSi deslizas hacia la derecha, irás al siguiente elemento, y si lo haces hacia la izquierda, volverás al anterior.\n\nDesliza el dedo hacia la derecha ahora para encontrar el siguiente botón.</string>
+  <string name="welcome_to_talkback_text">SandFly proporciona mensajes de voz para que puedas usar tu dispositivo sin mirar la pantalla. SandFly puede ser útil para personas a quienes les cuesta ver la pantalla. \n\nSi quieres activar o desactivar SandFly rápidamente con las teclas de volumen, puedes configurar un acceso directo en Ajustes de SandFly &gt; Acceso directo a SandFly.\n\nCuando SandFly está activado, el elemento enfocado de la pantalla se lee en voz alta.\n\nSi deslizas hacia la derecha, irás al siguiente elemento, y si lo haces hacia la izquierda, volverás al anterior.\n\nDesliza el dedo hacia la derecha ahora para pasar al botón Siguiente.</string>
+  <string name="welcome_to_talkback_text_tts">SandFly proporciona mensajes de voz para que puedas usar tu dispositivo sin mirar la pantalla. SandFly puede ser útil para personas a quienes les cuesta ver la pantalla. \n\nSi quieres activar o desactivar SandFly rápidamente con las teclas de volumen, puedes configurar un acceso directo en Ajustes de SandFly y, a continuación, en Acceso directo a SandFly.\n\nCuando SandFly está activado, el elemento enfocado de la pantalla se lee en voz alta.\n\nSi deslizas hacia la derecha, irás al siguiente elemento, y si lo haces hacia la izquierda, volverás al anterior.\n\nDesliza el dedo hacia la derecha ahora para encontrar el siguiente botón.</string>
   <string name="welcome_to_talkback_page_idle_announcement">Desliza hacia la derecha ahora para encontrar el siguiente botón</string>
   <string name="explore_by_touch_title">Arrastrar el dedo para explorar</string>
   <string name="explore_by_touch_text">También puedes seleccionar un elemento arrastrando el dedo por la pantalla.\n\nPruébalo ahora tocando la pantalla y arrastrando el dedo hacia la esquina inferior izquierda hasta que encuentres el botón Siguiente.</string>
@@ -1484,7 +1484,7 @@
     <string name="title_pref_speech_stream">Volumen de la voz</string>
     <string name="summary_selector_speech_stream">Cambiar entre los volúmenes de accesibilidad, medios, timbres y llamadas</string>
     <string name="speech_stream_accessibility">Volumen de accesibilidad</string>
-    <string name="speech_stream_media">Volumen de medios</string>
+    <string name="speech_stream_media">Volumen multimedia</string>
     <string name="speech_stream_ring">Volumen del timbre</string>
     <string name="speech_stream_call">Volumen de llamada, auricular</string>
     <string-array name="pref_speech_stream_entries">
@@ -1494,7 +1494,7 @@
         <item>@string/speech_stream_call</item>
     </string-array>
     <string name="title_pref_play_installer">Aparecer como instalado desde Google Play</string>
-    <string name="summary_pref_play_installer">Dile a otras aplicaciones que Google Play instaló SandFly. Algunas aplicaciones, como algunas aplicaciones bancarias, desactivan los servicios de accesibilidad que se instalaron desde cualquier otro lugar. Necesita Shizuku y cambia solo lo que se le dice a las aplicaciones sobre el origen de SandFly.</string>
+    <string name="summary_pref_play_installer">Indica a otras aplicaciones que SandFly se instaló desde Google Play. Algunas aplicaciones, como algunas aplicaciones bancarias, desactivan los servicios de accesibilidad instalados desde cualquier otro origen. Requiere Shizuku y solo cambia lo que se indica a las aplicaciones sobre el origen de SandFly.</string>
     <string name="summary_pref_play_installer_pending">Activado, pero Google Play aún no está registrado como instalador. SandFly lo establece cuando Shizuku está disponible.</string>
     <string name="notification_list_show_all">Mostrar todo</string>
     <string name="notification_list_show_less">Mostrar menos</string>
@@ -1517,7 +1517,7 @@
     <string name="quick_settings_nfc">NFC</string>
     <string name="quick_settings_brightness">Brillo</string>
     <string name="quick_settings_adaptive_brightness">Brillo adaptativo</string>
-    <string name="quick_settings_media_volume">Volumen de medios</string>
+    <string name="quick_settings_media_volume">Volumen multimedia</string>
     <string name="quick_settings_call_volume">Volumen de llamadas</string>
     <string name="quick_settings_ring_volume">Volumen del timbre</string>
     <string name="quick_settings_notification_volume">Volumen de notificaciones</string>
@@ -1533,13 +1533,13 @@
     <string name="quick_settings_camera_access">Acceso a la cámara</string>
     <string name="quick_settings_screen_timeout">Tiempo de espera de la pantalla</string>
     <string name="quick_settings_font_size">Tamaño de fuente</string>
-    <string name="quick_settings_media">Medios</string>
-    <string name="quick_settings_no_media">Sin medios</string>
-    <string name="quick_settings_media_output">Salida de medios</string>
+    <string name="quick_settings_media">Multimedia</string>
+    <string name="quick_settings_no_media">Sin contenido multimedia</string>
+    <string name="quick_settings_media_output">Salida multimedia</string>
     <string name="quick_settings_next_alarm">Próxima alarma</string>
     <string name="quick_settings_no_alarm">Sin alarma</string>
     <string name="quick_settings_settings">Ajustes</string>
-    <string name="quick_settings_power_menu">Menú de energía</string>
+    <string name="quick_settings_power_menu">Menú de encendido</string>
     <string name="quick_settings_add_system_tile">Agregar mosaico del sistema</string>
     <string name="quick_settings_no_system_tiles">No hay mosaicos del sistema para agregar</string>
     <string name="quick_settings_tile_not_found">%1$s no está en la configuración rápida del sistema</string>
@@ -1591,9 +1591,9 @@
     <string name="shortcut_refresh">Actualizar</string>
     <string name="shortcut_system_quick_settings">Ajustes rápidos del sistema</string>
     <string name="shortcut_lock_screen">Bloquear la pantalla</string>
-    <string name="shortcut_power_menu">Menú de energía</string>
-    <string name="shortcut_increase_media_volume">Aumentar el volumen de medios</string>
-    <string name="shortcut_decrease_media_volume">Disminuir el volumen de medios</string>
+    <string name="shortcut_power_menu">Menú de encendido</string>
+    <string name="shortcut_increase_media_volume">Subir el volumen multimedia</string>
+    <string name="shortcut_decrease_media_volume">Bajar el volumen multimedia</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1601,9 +1601,9 @@
     <string name="value_distance_30mm">3 cm</string>
     <string name="value_distance_40mm">4 cm</string>
     <string name="value_distance_50mm">5 cm</string>
-    <string name="title_pref_selector_links_controls_web_only">Enlaces y Controles sólo en contenido web</string>
+    <string name="title_pref_selector_links_controls_web_only">Enlaces y Controles solo en contenido web</string>
     <string name="title_pref_selector_auto_switch">Cambiar el control de lectura automáticamente</string>
-    <string name="title_pref_touch_stops_speech">Dejar de hablar al tocar la pantalla</string>
+    <string name="title_pref_touch_stops_speech">Detener la voz al tocar la pantalla</string>
     <string name="title_pref_volume_keys_move_cursor">Las teclas de volumen mueven el cursor</string>
     <string name="summary_pref_volume_keys_move_cursor">Cuando un campo de texto tiene el foco, subir el volumen mueve el cursor hacia atrás un carácter y bajar el volumen lo mueve hacia adelante.</string>
     <string name="image_qna_ask_by_voice">Preguntar por voz</string>
@@ -1612,9 +1612,9 @@
     <string name="shortcut_dictate">Dictar</string>
     <string name="title_pref_ai_dictation">Corregir el dictado con IA</string>
     <string name="dictation_not_corrected">No se ha corregido. Se ha introducido el texto reconocido.</string>
-    <string name="dictation_nothing_recognized">Nada reconocido</string>
+    <string name="dictation_nothing_recognized">No se ha reconocido nada</string>
     <string name="dictation_unavailable">Reconocimiento de voz no disponible</string>
-    <string name="dictation_field_gone">Campo de texto cerrado. Nada escrito.</string>
+    <string name="dictation_field_gone">Campo de texto cerrado. No se ha escrito nada.</string>
     <string name="dictation_transcription_failed">No se transcribió la voz. No se escribió nada.</string>
     <string name="title_pref_dictation">Dictado</string>
     <string name="title_pref_dictation_rambler_live">Transcripción en directo de Rambler</string>

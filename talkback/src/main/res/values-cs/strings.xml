@@ -78,7 +78,7 @@
   <string name="title_pref_category_manage_focus_indicator">Indikátor výběru</string>
   <string name="title_pref_category_manage_gestures">Gesta</string>
   <string name="title_pref_manage_labels">Vlastní štítky</string>
-  <string name="title_pref_category_context_menu">Upravit nabídku čtečky SandFly</string>
+  <string name="title_pref_category_context_menu">Nabídka SandFly</string>
   <string name="title_pref_category_selector_menu">Ovládání čtení</string>
   <string name="title_pref_category_navigation_menu">Upravit možnosti navigace</string>
   <string name="title_pref_manage_keyboard_shortcuts">Klávesové zkratky</string>
@@ -1295,7 +1295,7 @@
     <string name="stuck_touch_exploration_grant_dump">Prozkoumání dotykem se možná zaseklo. Pro opravu restartujte telefon, nebo udělte SandFly oprávnění DUMP pomocí ADB, aby ho SandFly mohl opravit.</string>
     <string name="title_pref_window_names">Názvy oken</string>
     <string name="window_names_always">Vždy</string>
-    <string name="window_names_until_first_item">Vždy, přerušit první položkou</string>
+    <string name="window_names_until_first_item">Vždy, přeruší první položka</string>
     <string name="window_names_window_opens">Pouze při otevření okna</string>
     <string name="window_names_never">Nikdy</string>
     <string name="title_pref_focus_new_windows">Přesouvat zaměření do nových oken</string>
@@ -1303,9 +1303,9 @@
     <string name="title_keyboard_echo_physical">Hlasový doprovod fyzické klávesnice</string>
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <string name="title_selector_vertical_navigation">Vertikální navigace</string>
-    <string name="summary_selector_vertical_navigation">Přesuňte se na položku pod nebo nad, za ostatní položky v řádku</string>
+    <string name="summary_selector_vertical_navigation">Přechod na položku pod nebo nad, přes ostatní položky řádku</string>
     <string name="title_pref_speech_stream">Hlasitost řeči</string>
-    <string name="summary_selector_speech_stream">Přepínejte mezi dostupností, médii, hlasitostí vyzvánění a hovorů</string>
+    <string name="summary_selector_speech_stream">Přepínání mezi hlasitostí přístupnosti, médií, vyzvánění a hovorů</string>
     <string name="speech_stream_accessibility">Hlasitost zvuků pro usnadnění přístupu</string>
     <string name="speech_stream_media">Hlasitost médií</string>
     <string name="speech_stream_ring">Hlasitost vyzvánění</string>
@@ -1316,12 +1316,12 @@
         <item>@string/speech_stream_ring</item>
         <item>@string/speech_stream_call</item>
     </string-array>
-    <string name="title_pref_play_installer">Zdá se, že je nainstalováno z Google Play</string>
-    <string name="summary_pref_play_installer">Řekněte ostatním aplikacím, že Google Play je nainstalováno SandFly. Některé aplikace, například některé bankovní aplikace, vypnou služby usnadnění, které byly nainstalovány odkudkoli jinde. Potřebuje Shizuku a mění pouze to, co je aplikacím řečeno o tom, odkud SandFly pochází.</string>
+    <string name="title_pref_play_installer">Zobrazovat jako nainstalováno z Google Play</string>
+    <string name="summary_pref_play_installer">Sděluje ostatním aplikacím, že SandFly byl nainstalován z Google Play. Některé aplikace, například některé bankovní aplikace, vypínají služby usnadnění přístupu nainstalované z jiného zdroje. Vyžaduje Shizuku a mění pouze to, co se aplikace dozví o zdroji instalace SandFly.</string>
     <string name="summary_pref_play_installer_pending">Zapnuto, ale Google Play ještě není zaznamenáno jako instalační program. SandFly nastaví, když je k dispozici Shizuku.</string>
     <string name="notification_list_show_all">Zobrazit vše</string>
-    <string name="notification_list_show_less">Ukažte méně</string>
-    <string name="title_pref_quick_settings">Použijte rychlá nastavení SandFly</string>
+    <string name="notification_list_show_less">Zobrazit méně</string>
+    <string name="title_pref_quick_settings">Používat rychlé nastavení SandFly</string>
     <string name="title_pref_quick_settings_items">Panel rychlého nastavení</string>
     <string name="quick_settings_title">Rychlé nastavení</string>
     <string name="quick_settings_wifi">Wi-Fi</string>
@@ -1358,12 +1358,12 @@
     <string name="quick_settings_font_size">Velikost písma</string>
     <string name="quick_settings_media">Média</string>
     <string name="quick_settings_no_media">Žádná média</string>
-    <string name="quick_settings_media_output">Mediální výstup</string>
+    <string name="quick_settings_media_output">Výstup médií</string>
     <string name="quick_settings_next_alarm">Další budík</string>
-    <string name="quick_settings_no_alarm">Žádný alarm</string>
+    <string name="quick_settings_no_alarm">Žádný budík</string>
     <string name="quick_settings_settings">Nastavení</string>
     <string name="quick_settings_power_menu">Nabídka napájení</string>
-    <string name="quick_settings_add_system_tile">Přidejte dlaždici systému</string>
+    <string name="quick_settings_add_system_tile">Přidat dlaždici systému</string>
     <string name="quick_settings_no_system_tiles">Žádné systémové dlaždice k přidání</string>
     <string name="quick_settings_tile_not_found">%1$s není v rychlém nastavení systému</string>
     <string name="quick_settings_never">Nikdy</string>
@@ -1382,7 +1382,7 @@
     <string name="quick_settings_connected">Připojeno</string>
     <string name="quick_settings_battery">Baterie</string>
     <string name="quick_settings_battery_charging">%1$s, nabíjení</string>
-    <string name="quick_settings_battery_full">%1$s, zpoplatněno</string>
+    <string name="quick_settings_battery_full">%1$s, nabito</string>
     <string name="quick_settings_sound">Zvuk</string>
     <string name="quick_settings_vibrate">Vibrace</string>
     <string name="quick_settings_mute">Ztlumit</string>
@@ -1391,12 +1391,12 @@
     <string name="quick_settings_unavailable">Není k dispozici</string>
     <string name="quick_settings_edit">Upravit</string>
     <string name="quick_settings_system">Rychlé nastavení systému</string>
-    <string name="quick_settings_open_settings">Otevřete nastavení</string>
-    <string name="quick_settings_add_control">Přidat kontrolu</string>
+    <string name="quick_settings_open_settings">Otevřít nastavení</string>
+    <string name="quick_settings_add_control">Přidat ovládací prvek</string>
     <string name="quick_settings_add_tile">Přidat dlaždici aplikace</string>
     <string name="quick_settings_tile_name">%1$s, %2$s</string>
     <string name="quick_settings_columns">Počet sloupců</string>
-    <string name="quick_settings_move">Pohybujte se</string>
+    <string name="quick_settings_move">Přesunout</string>
     <string name="quick_settings_move_title">Posunout %1$s</string>
     <string name="quick_settings_cell">Řádek %1$d, sloupec %2$d</string>
     <string name="quick_settings_cell_with_item">%1$s, %2$s</string>
@@ -1412,14 +1412,14 @@
     <string name="quick_settings_removed">%1$s odstraněno</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Další zkratka pro zapnutí nebo vypnutí režimu prohlížení</string>
     <string name="title_pref_vibration_strength">Síla vibrací</string>
-    <string name="shortcut_scroll_to_top">Přejděte nahoru</string>
-    <string name="shortcut_scroll_to_bottom">Přejděte dolů</string>
+    <string name="shortcut_scroll_to_top">Přejít na začátek</string>
+    <string name="shortcut_scroll_to_bottom">Přejít na konec</string>
     <string name="shortcut_refresh">Obnovit</string>
     <string name="shortcut_system_quick_settings">Rychlé nastavení systému</string>
     <string name="shortcut_lock_screen">Zamkněte obrazovku zařízení</string>
     <string name="shortcut_power_menu">Nabídka napájení</string>
-    <string name="shortcut_increase_media_volume">Zvyšte hlasitost médií</string>
-    <string name="shortcut_decrease_media_volume">Snižte hlasitost médií</string>
+    <string name="shortcut_increase_media_volume">Zvýšit hlasitost médií</string>
+    <string name="shortcut_decrease_media_volume">Snížit hlasitost médií</string>
     <string name="value_distance_5mm">0,5 cm</string>
     <string name="value_distance_10mm">1 cm</string>
     <string name="value_distance_15mm">1,5 cm</string>
@@ -1429,15 +1429,15 @@
     <string name="value_distance_50mm">5 cm</string>
     <string name="title_pref_selector_links_controls_web_only">Odkazy a ovládací prvky pouze ve webovém obsahu</string>
     <string name="title_pref_selector_auto_switch">Automaticky změnit ovládání čtení</string>
-    <string name="title_pref_touch_stops_speech">Zastavte řeč při dotyku obrazovky</string>
+    <string name="title_pref_touch_stops_speech">Zastavit řeč při dotyku obrazovky</string>
     <string name="title_pref_volume_keys_move_cursor">Tlačítka hlasitosti pohybují kurzorem</string>
     <string name="summary_pref_volume_keys_move_cursor">Když je textové pole aktivní, zvýšení hlasitosti přesune kurzor zpět o znak a snížení hlasitosti jej posune dál</string>
     <string name="image_qna_ask_by_voice">Zeptejte se hlasem</string>
-    <string name="image_qna_stop_listening">Přestaň poslouchat</string>
+    <string name="image_qna_stop_listening">Zastavit poslech</string>
     <string name="image_qna_type_question">Zadejte otázku</string>
     <string name="shortcut_dictate">Diktovat</string>
-    <string name="title_pref_ai_dictation">Správný diktát s AI</string>
-    <string name="dictation_not_corrected">Neopraveno. Zapsáno jako rozpoznáno.</string>
+    <string name="title_pref_ai_dictation">Opravovat diktování pomocí AI</string>
+    <string name="dictation_not_corrected">Neopraveno. Zapsáno tak, jak bylo rozpoznáno.</string>
     <string name="dictation_nothing_recognized">Nic nebylo rozpoznáno</string>
     <string name="dictation_unavailable">Rozpoznávání řeči není k dispozici</string>
     <string name="dictation_field_gone">Textové pole uzavřeno. Nic nebylo napsáno.</string>
