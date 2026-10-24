@@ -131,6 +131,7 @@ import com.google.android.accessibility.talkback.actor.voicecommands.VoiceComman
 import com.google.android.accessibility.talkback.actor.voicecommands.VoiceCommandProcessor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.PeriodicDataProvider;
 import com.google.android.accessibility.talkback.audio.AudioDeviceRouter;
+import com.google.android.accessibility.talkback.collapse.CollapsedItemActions;
 import com.google.android.accessibility.talkback.collapse.MenuAutomation;
 import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
@@ -1132,6 +1133,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     TraversalTreeCache.onAccessibilityEvent(event);
     PreparedFocusSpeech.onAccessibilityEvent(event);
+    CollapsedItemActions.onAccessibilityEvent(event);
     if (directTouchController != null) {
       directTouchController.onAccessibilityEvent(event);
     }

@@ -27,13 +27,17 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
+import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback;
+import com.google.android.accessibility.talkback.Feedback.Speech;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
@@ -46,6 +50,8 @@ import com.google.android.accessibility.talkback.menurules.NodeMenu;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
+import com.google.android.accessibility.utils.output.FeedbackItem;
+import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,6 +73,8 @@ public class CollapsedItemActions implements NodeMenu {
   private static final int ACTION_ID_RANGE = 0x100000;
   /** How long the delayed control dispatch waits out the user's own gesture cascade. */
   private static final int DELAYED_DISPATCH_DELAY_MS = 400;
+  /** How long the focus-first route waits for the live button's own focus event. */
+  private static final int FOCUS_EVENT_WAIT_MS = 800;
   /** The gap between the two strokes of a simulated press; mirrors FocusActor's. */
   private static final int STROKE_TIME_GAP_MS = 40;
 
@@ -81,6 +89,24 @@ public class CollapsedItemActions implements NodeMenu {
   public static boolean isCollapsedActionItem(ContextMenuItem item) {
     int itemId = item.getItemId();
     return itemId >= ACTION_ID_BASE && itemId < ACTION_ID_BASE + ACTION_ID_RANGE;
+  }
+
+  /** The one armed focus wait, if any; a new activation supersedes the previous one. */
+  private static @Nullable CollapseActionClickListener.FocusWaitSession pendingFocusWait;
+
+  /**
+   * Observes the service's event stream on behalf of an armed focus wait, forwarding
+   * each accessibility-focus event's source node to it. Observe-only: the event is never
+   * consumed here, so the focus announcement is spoken exactly as usual. Called from
+   * {@code TalkBackService.onAccessibilityEvent}, next to the other observe-only hooks.
+   */
+  public static void onAccessibilityEvent(AccessibilityEvent event) {
+    if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+      return;
+    }
+    AccessibilityNodeInfo source = event.getSource();
+    focusEventSource.deliver(
+        source == null ? null : AccessibilityNodeInfoCompat.wrap(source));
   }
 
   @Override
@@ -198,12 +224,19 @@ public class CollapsedItemActions implements NodeMenu {
      * action runs on the frame, and a coordinate tap on the frame produces no click inside
      * the app at all. On device the button refuses a direct action outright, and the
      * defended activation aimed at it produces no click while it does not hold
-     * accessibility focus, so the focus-first route moves accessibility focus onto the
-     * button, issues the defended activation at it in that state, and restores focus to
-     * the item afterwards. When the focus move or the activation fails there, a delayed
-     * dispatch is scheduled as a control for the dispatch timing and the stored-target
-     * routes below run as before. Any relocation doubt falls through to the stored-target
-     * routes below, unchanged.
+     * accessibility focus. The route therefore moves accessibility focus onto the button
+     * and issues the defended activation at it in that state -- but the focus move is
+     * asynchronous on device: the button's own focus event arrives tens of milliseconds
+     * after the focus action is accepted, so a synchronous activation still fires at a
+     * not-yet-focused target. The route is a {@link FocusWaitSession}: this perform
+     * relocates the button, fires the focus action, arms a one-shot wait for the button's
+     * own focus event and returns at once; the session issues the activation only once
+     * that event has arrived and a fresh fetch confirms the button holds focus, then
+     * restores focus to the item. When the wait times out or focus lands elsewhere, the
+     * session runs the delayed-dispatch control and the stored-target routes below from
+     * its continuation, and reports total failure through the same "not supported"
+     * announcement the synchronous path produces. Any relocation doubt falls through to
+     * the stored-target routes below, unchanged.
      *
      * <p>The target is refreshed first: the stored node is a snapshot from when the items
      * were built and the app may have re-created the child since, leaving the snapshot with
@@ -244,47 +277,89 @@ public class CollapsedItemActions implements NodeMenu {
           boundsAfter,
           refreshed);
       AccessibilityNodeInfoCompat focusNode = focusNodeProvider.getFocusNode(context);
+      boolean focusWaitArmed = false;
       try {
         logAccessibilityFocus(focusNode);
-        boolean performed = false;
         DelayedControl delayedControl = new DelayedControl();
-        if (compositeRoot) {
-          performed = performFocusFirst(focusNode, delayedControl);
+        focusWaitArmed =
+            compositeRoot
+                && performFocusFirst(
+                    focusNode, delayedControl, actionId, boundsAfter, supportsClick,
+                    supportsLongClick);
+        if (focusWaitArmed) {
+          // The armed focus wait owns the rest of the ladder: its continuation issues
+          // the activation, runs these tiers on failure and announces total failure, so
+          // this click is already handled and must not be reported as unsupported.
+          LogUtils.v(TAG, "perform async: focus wait armed");
+          return true;
         }
-        if (!performed && (longClick ? supportsLongClick : supportsClick)) {
-          performed =
-              pipeline.returnFeedback(
-                  EVENT_ID_UNTRACKED,
-                  Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
-          LogUtils.v(TAG, "tier1 nodeAction result=%b", performed);
-        }
-        if (!performed) {
-          if (boundsAfter.isEmpty()) {
-            LogUtils.v(TAG, "tier2 skipped: target bounds empty after refresh");
-          } else {
-            performed =
-                pipeline.returnFeedback(
-                    EVENT_ID_UNTRACKED,
-                    Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
-            LogUtils.v(
-                TAG,
-                "tier2 %s result=%b",
-                longClick ? "LONG_CLICK_NODE" : "CLICK_NODE",
-                performed);
-          }
-        }
-        if (!performed) {
-          performed = simulatedTapper.tap(context, node, longClick);
-          LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
-        }
+        boolean performed =
+            runStoredTiers(actionId, boundsAfter, supportsClick, supportsLongClick);
         delayedControl.tiersSucceeded = performed;
         LogUtils.v(TAG, "perform result=%b", performed);
         return performed;
       } finally {
-        if (focusNode != null) {
+        // An armed session owns the focus node (it is the restore target) and recycles
+        // it when the session finishes; every other path recycles it here as before.
+        if (focusNode != null && !focusWaitArmed) {
           focusNode.recycle();
         }
       }
+    }
+
+    /**
+     * The stored-target tiers, in ladder order: the direct node action when the target
+     * exposes it, then the defended activation, then a simulated press at the target's
+     * centre. Runs synchronously from {@link #perform}, or from a focus wait's
+     * continuation when the wait failed, with the target state captured at perform time.
+     */
+    private boolean runStoredTiers(
+        int actionId, Rect boundsAfter, boolean supportsClick, boolean supportsLongClick) {
+      boolean performed = false;
+      if (longClick ? supportsLongClick : supportsClick) {
+        performed =
+            pipeline.returnFeedback(
+                EVENT_ID_UNTRACKED,
+                Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
+        LogUtils.v(TAG, "tier1 nodeAction result=%b", performed);
+      }
+      if (!performed) {
+        if (boundsAfter.isEmpty()) {
+          LogUtils.v(TAG, "tier2 skipped: target bounds empty after refresh");
+        } else {
+          performed =
+              pipeline.returnFeedback(
+                  EVENT_ID_UNTRACKED,
+                  Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
+          LogUtils.v(
+              TAG, "tier2 %s result=%b", longClick ? "LONG_CLICK_NODE" : "CLICK_NODE", performed);
+        }
+      }
+      if (!performed) {
+        performed = simulatedTapper.tap(context, node, longClick);
+        LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
+      }
+      return performed;
+    }
+
+    /**
+     * Speaks the "not supported" announcement for a perform whose asynchronous rungs all
+     * failed -- the same feedback the caller of a synchronous perform produces when the
+     * click reports false, issued here because the async perform already returned.
+     */
+    private void announceActionNotSupported() {
+      pipeline.returnFeedback(
+          EVENT_ID_UNTRACKED,
+          Feedback.Part.builder()
+              .setSpeech(
+                  Speech.builder()
+                      .setAction(Speech.Action.SPEAK)
+                      .setText(context.getString(R.string.action_not_supported))
+                      .setHintSpeakOptions(
+                          SpeechController.SpeakOptions.create()
+                              .setFlags(FeedbackItem.FLAG_NO_HISTORY))
+                      .setHint(context.getString(R.string.hint_select_action))
+                      .build()));
     }
 
     private void logAccessibilityFocus(@Nullable AccessibilityNodeInfoCompat focus) {
@@ -305,19 +380,22 @@ public class CollapsedItemActions implements NodeMenu {
     /**
      * The focus-first route for composite items. The stored target is only the frame
      * around the real button, so first the button itself is re-located in the live tree
-     * (see {@link #relocateLiveButtonNode}); then accessibility focus is moved onto the
-     * button and the defended focus-actor activation is issued at it while it holds
-     * focus -- the one configuration that has activated these buttons on device, where a
-     * direct action on the live button is refused outright and an activation aimed at
-     * the unfocused button produces no click at all. Focus is restored to the item the
-     * user is standing on after the attempt, whether the activation landed or not. When
-     * focus does not move or the activation is refused, a delayed dispatch is scheduled
-     * as a control (see {@link #scheduleDelayedDispatch}) and this returns false, so the
-     * stored-target tiers run as before. When the button cannot be pinned down with
-     * certainty this returns false at once and no control is scheduled.
+     * (see {@link #relocateLiveButtonNode}); then a {@link FocusWaitSession} is armed on
+     * it: the session fires the focus action and waits for the button's own focus event
+     * before activating it, because on device that event lands tens of milliseconds
+     * after the action while a synchronous activation still fires at the not-yet-focused
+     * button and produces nothing. Returns true when the session was armed -- the ladder
+     * then continues in the session, not here. When the button cannot be pinned down
+     * with certainty this returns false at once and no wait is armed, so the
+     * stored-target tiers run as before.
      */
     private boolean performFocusFirst(
-        @Nullable AccessibilityNodeInfoCompat focusNode, DelayedControl delayedControl) {
+        @Nullable AccessibilityNodeInfoCompat focusNode,
+        DelayedControl delayedControl,
+        int actionId,
+        Rect boundsAfter,
+        boolean supportsClick,
+        boolean supportsLongClick) {
       AccessibilityNodeInfoCompat button = relocateLiveButtonNode(focusNode);
       if (button == null) {
         return false;
@@ -333,45 +411,12 @@ public class CollapsedItemActions implements NodeMenu {
               button, AccessibilityNodeInfoCompat.ACTION_CLICK),
           PerformActionUtils.isNodeSupportAction(
               button, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK));
-      boolean focusMoved =
-          nodeActionPerformer.performAction(
-              button, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
-      LogUtils.v(TAG, "focusFirst focusMoved=%b", focusMoved);
-      logObservedFocus(button);
-      boolean performed = false;
-      if (focusMoved) {
-        try {
-          performed =
-              pipeline.returnFeedback(
-                  EVENT_ID_UNTRACKED,
-                  Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(button));
-          LogUtils.v(
-              TAG,
-              "focusFirst %s result=%b",
-              longClick ? "longClickNode" : "clickNode",
-              performed);
-        } finally {
-          boolean restored =
-              focusNode != null
-                  && nodeActionPerformer.performAction(
-                      focusNode, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
-          LogUtils.v(TAG, "focusFirst focusRestored=%b", restored);
-        }
-      }
-      if (!performed) {
-        scheduleDelayedDispatch(delayedControl);
-      }
-      return performed;
-    }
-
-    /** Logs whether accessibility focus observably sits on the button after the move. */
-    private void logObservedFocus(AccessibilityNodeInfoCompat button) {
-      AccessibilityNodeInfoCompat observed = focusNodeProvider.getFocusNode(context);
-      boolean onButton = observed != null && observed.equals(button);
-      LogUtils.v(TAG, "focusFirst focusObservedOnButton=%b", onButton);
-      if (observed != null) {
-        observed.recycle();
-      }
+      FocusWaitSession session =
+          new FocusWaitSession(
+              this, button, focusNode, delayedControl, actionId, boundsAfter, supportsClick,
+              supportsLongClick);
+      session.arm();
+      return true;
     }
 
     /**
@@ -455,6 +500,219 @@ public class CollapsedItemActions implements NodeMenu {
     /** Carries the stored tiers' outcome to a control dispatch posted during perform. */
     private static final class DelayedControl {
       boolean tiersSucceeded;
+    }
+
+    /**
+     * One armed focus-first attempt on a composite item's live button. Arming fires the
+     * focus action at the button and subscribes to the next accessibility-focus event;
+     * the activation is issued only when that event shows the button itself received
+     * focus and a fresh fetch confirms it still holds focus, because the focus move
+     * completes asynchronously on device. A wait that times out, or an event that shows
+     * focus landed somewhere else, restores focus to the item and runs the ladder's
+     * remaining rungs (delayed-dispatch control, then the stored-target tiers) from this
+     * continuation; a focus event that arrives after the wait resolved is ignored, so
+     * the press can never fire twice. At most one session is armed at a time -- arming a
+     * new one supersedes the previous -- and all of it runs on the main thread: the
+     * click, the service event stream and the posted timeout all arrive there.
+     */
+    private static final class FocusWaitSession {
+      private final CollapseActionClickListener owner;
+      private final AccessibilityNodeInfoCompat button;
+      /** The button's identity as captured at relocation: class, text and description. */
+      private final @Nullable CharSequence buttonClass;
+      private final @Nullable CharSequence buttonText;
+      private final @Nullable CharSequence buttonDescription;
+      private final Rect buttonBounds = new Rect();
+      /**
+       * The item node handed over by perform, which does not recycle it once a session
+       * is armed; kept as the restore target and recycled when the session finishes.
+       */
+      private final @Nullable AccessibilityNodeInfoCompat representative;
+      private final DelayedControl delayedControl;
+      private final int tierActionId;
+      private final Rect tierBoundsAfter;
+      private final boolean tierSupportsClick;
+      private final boolean tierSupportsLongClick;
+      private long focusActionTimeMs;
+      private boolean resolved;
+
+      FocusWaitSession(
+          CollapseActionClickListener owner,
+          AccessibilityNodeInfoCompat button,
+          @Nullable AccessibilityNodeInfoCompat representativeNode,
+          DelayedControl delayedControl,
+          int tierActionId,
+          Rect tierBoundsAfter,
+          boolean tierSupportsClick,
+          boolean tierSupportsLongClick) {
+        this.owner = owner;
+        this.button = button;
+        this.buttonClass = button.getClassName();
+        this.buttonText = button.getText();
+        this.buttonDescription = button.getContentDescription();
+        button.getBoundsInScreen(this.buttonBounds);
+        this.representative = representativeNode;
+        this.delayedControl = delayedControl;
+        this.tierActionId = tierActionId;
+        this.tierBoundsAfter = new Rect(tierBoundsAfter);
+        this.tierSupportsClick = tierSupportsClick;
+        this.tierSupportsLongClick = tierSupportsLongClick;
+      }
+
+      /** Subscribes to the focus event, fires the focus action and posts the timeout. */
+      void arm() {
+        FocusWaitSession previous = pendingFocusWait;
+        if (previous != null && previous != this) {
+          previous.supersede();
+        }
+        pendingFocusWait = this;
+        // Subscribe before firing the action, so even an unusually fast focus event
+        // cannot slip past the wait.
+        focusEventSource.arm(this::onFocusEvent);
+        focusActionTimeMs = SystemClock.uptimeMillis();
+        boolean actionResult =
+            nodeActionPerformer.performAction(
+                button, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+        LogUtils.v(TAG, "focusFirst focusAction result=%b", actionResult);
+        delayedDispatcher.postDelayed(this::onTimeout, FOCUS_EVENT_WAIT_MS);
+      }
+
+      /** A newer activation took over the wait; this attempt ends without acting. */
+      private void supersede() {
+        resolved = true;
+        LogUtils.v(TAG, "focusFirst focusWait superseded by a newer activation");
+        finish();
+      }
+
+      private void onFocusEvent(@Nullable AccessibilityNodeInfoCompat source) {
+        if (resolved) {
+          LogUtils.v(TAG, "focusFirst focusEvent ignored: wait already resolved");
+          if (source != null) {
+            source.recycle();
+          }
+          return;
+        }
+        long latencyMs = SystemClock.uptimeMillis() - focusActionTimeMs;
+        boolean sourceMatched = matchesButton(source);
+        if (source != null) {
+          source.recycle();
+        }
+        LogUtils.v(
+            TAG,
+            "focusFirst focusEvent arrived=true latencyMs=%d sourceMatched=%b",
+            latencyMs,
+            sourceMatched);
+        // The event is the trigger; a fresh fetch of the focus is the authority on
+        // where focus actually landed.
+        AccessibilityNodeInfoCompat current = focusNodeProvider.getFocusNode(owner.context);
+        try {
+          if (current != null && current.equals(button)) {
+            LogUtils.v(TAG, "focusFirst focusedNodeVerified=true");
+            resolveOnButtonFocused();
+          } else if (current != null && current.equals(representative)) {
+            // Focus never left the item: this event is not the button's arrival, so
+            // the wait stays armed for the real one.
+            LogUtils.v(TAG, "focusFirst focusEvent ignored: focus still on the item");
+          } else {
+            LogUtils.v(TAG, "focusFirst focusedNodeVerified=false");
+            resolveFocusElsewhere();
+          }
+        } finally {
+          if (current != null) {
+            current.recycle();
+          }
+        }
+      }
+
+      /** Whether an event source is the button, by the identity captured at relocation. */
+      private boolean matchesButton(@Nullable AccessibilityNodeInfoCompat source) {
+        if (source == null) {
+          return false;
+        }
+        if (source.equals(button)) {
+          return true;
+        }
+        Rect sourceBounds = new Rect();
+        source.getBoundsInScreen(sourceBounds);
+        return TextUtils.equals(source.getClassName(), buttonClass)
+            && TextUtils.equals(source.getText(), buttonText)
+            && TextUtils.equals(source.getContentDescription(), buttonDescription)
+            && sourceBounds.equals(buttonBounds);
+      }
+
+      private void onTimeout() {
+        if (resolved) {
+          LogUtils.v(TAG, "focusFirst focusEvent timeout ignored: wait already resolved");
+          return;
+        }
+        LogUtils.v(TAG, "focusFirst focusEvent timeout=true afterMs=%d", FOCUS_EVENT_WAIT_MS);
+        resolveFocusElsewhere();
+      }
+
+      /** The button holds focus: activate it in that state, then restore and finish. */
+      private void resolveOnButtonFocused() {
+        resolved = true;
+        focusEventSource.disarm();
+        boolean performed = false;
+        try {
+          performed =
+              owner.pipeline.returnFeedback(
+                  EVENT_ID_UNTRACKED,
+                  Feedback.focus(owner.longClick ? LONG_CLICK_NODE : CLICK_NODE)
+                      .setTarget(button));
+          LogUtils.v(
+              TAG,
+              "focusFirst %s result=%b",
+              owner.longClick ? "longClickNode" : "clickNode",
+              performed);
+        } finally {
+          restoreFocus();
+        }
+        if (performed) {
+          LogUtils.v(TAG, "perform result=true");
+          finish();
+        } else {
+          runFallbacksAndFinish();
+        }
+      }
+
+      /** The wait failed: focus is restored to the item and the ladder continues. */
+      private void resolveFocusElsewhere() {
+        resolved = true;
+        focusEventSource.disarm();
+        restoreFocus();
+        runFallbacksAndFinish();
+      }
+
+      private void runFallbacksAndFinish() {
+        owner.scheduleDelayedDispatch(delayedControl);
+        boolean performed =
+            owner.runStoredTiers(
+                tierActionId, tierBoundsAfter, tierSupportsClick, tierSupportsLongClick);
+        delayedControl.tiersSucceeded = performed;
+        LogUtils.v(TAG, "perform result=%b", performed);
+        if (!performed) {
+          owner.announceActionNotSupported();
+        }
+        finish();
+      }
+
+      private void restoreFocus() {
+        boolean restored =
+            representative != null
+                && nodeActionPerformer.performAction(
+                    representative, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+        LogUtils.v(TAG, "focusFirst focusRestored=%b", restored);
+      }
+
+      private void finish() {
+        if (pendingFocusWait == this) {
+          pendingFocusWait = null;
+        }
+        if (representative != null) {
+          representative.recycle();
+        }
+      }
     }
 
     /**
@@ -661,6 +919,64 @@ public class CollapsedItemActions implements NodeMenu {
   static void resetDelayedDispatcherForTest() {
     delayedDispatcher =
         (runnable, delayMs) -> new Handler(Looper.getMainLooper()).postDelayed(runnable, delayMs);
+  }
+
+  /** Receives the source node of an accessibility-focus event, or null when it has none. */
+  interface FocusEventConsumer {
+    void onFocusEvent(@Nullable AccessibilityNodeInfoCompat source);
+  }
+
+  /**
+   * A one-shot subscription to the service's accessibility-focus events; a seam so
+   * tests can stand in for the event stream. Arming replaces any armed consumer;
+   * deliveries after {@link #disarm} never happen.
+   */
+  interface FocusEventSource {
+    void arm(FocusEventConsumer consumer);
+
+    void disarm();
+
+    /** Delivers one focus event's source to the armed consumer, if any. */
+    void deliver(@Nullable AccessibilityNodeInfoCompat source);
+  }
+
+  private static FocusEventSource focusEventSource = new ServiceFocusEventSource();
+
+  @VisibleForTesting
+  static void setFocusEventSourceForTest(FocusEventSource source) {
+    focusEventSource = source;
+  }
+
+  @VisibleForTesting
+  static void resetFocusEventSourceForTest() {
+    focusEventSource = new ServiceFocusEventSource();
+  }
+
+  /** The production event source: a single armed consumer fed by {@link #onAccessibilityEvent}. */
+  private static final class ServiceFocusEventSource implements FocusEventSource {
+    private @Nullable FocusEventConsumer consumer;
+
+    @Override
+    public void arm(FocusEventConsumer newConsumer) {
+      consumer = newConsumer;
+    }
+
+    @Override
+    public void disarm() {
+      consumer = null;
+    }
+
+    @Override
+    public void deliver(@Nullable AccessibilityNodeInfoCompat source) {
+      FocusEventConsumer current = consumer;
+      if (current == null) {
+        if (source != null) {
+          source.recycle();
+        }
+        return;
+      }
+      current.onFocusEvent(source);
+    }
   }
 
   /** Dispatches a gesture with its result callback; a seam so tests can stand in. */
