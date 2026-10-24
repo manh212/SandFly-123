@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Trimiterea mesajelor</string>
   <string name="sending_messages_text">Ca să trimiți un mesaj, accesează ecranul de pornire și găsește o aplicație pentru mesaje</string>
   <string name="sending_message_tips">Poți și să soliciți Asistentului Google să trimită un mesaj unei persoane de contact sau unui număr</string>
-  <string name="reading_web_emails_title">Citește site-urile și e-mailurile</string>
-  <string name="reading_web_emails_text">Modul de lectură face conținutul lung mai ușor de răsfoit, de ascultat și de citit. Poți să modifici dimensiunea fontului și contrastul, să soliciți citirea textului cu voce tare și multe altele.</string>
-  <string name="get_the_app_button">Descarcă aplicația</string>
-  <string name="reading_web_emails_tips">După instalarea Modului de lectură:\n\n1. accesează Setări &gt; Accesibilitate &gt; Mod de lectură;\n2. activează comanda rapidă;\n3. accesează o aplicație sau un site și folosește comanda rapidă pentru a deschide Modul de lectură.</string>
-  <string name="reading_web_emails_tips_tts">După instalarea Modului de lectură:\n\n1. accesează Setări, apoi Accesibilitate, apoi Modul de lectură;\n2. activează comanda rapidă;\n3. accesează o aplicație sau un site și folosește comanda rapidă pentru a deschide Modul de lectură.</string>
-  <string name="lookout_title">Explorarea obiectelor și a textului din jur</string>
-  <string name="lookout_text">Aplicația Lookout folosește camera pentru a obține detalii despre obiecte, imagini și text din jur.  O poți utiliza pentru a citi indicatoare, a sorta corespondența și multe altele.</string>
-  <string name="lookout_tips">Lookout are mai multe moduri, în funcție de activitatea pe care o încerci. De exemplu, pentru a scana o pagină cu text, selectează modul Documente.</string>
   <string name="checking_notifications_title">Verificarea notificărilor</string>
   <string name="checking_notifications_text_head">SandFly va anunța când primești o nouă notificare.</string>
   <string name="checking_notifications_step_one">Mai întâi, glisează în jos cu patru degete ca să accesezi notificarea.</string>

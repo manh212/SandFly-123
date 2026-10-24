@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">پیغامات بھیجنا</string>
   <string name="sending_messages_text">پیغام بھیجنے کے لیے، اپنی ہوم اسکرین پر جائیں اور ایک پیغام رسانی ایپ تلاش کریں</string>
   <string name="sending_message_tips">‏آپ Google اسسٹنٹ کو رابطہ یا نمبر پر پیغام بھیجنے کو بھی کہہ سکتے ہیں</string>
-  <string name="reading_web_emails_title">ویب سائٹس اور ای میلز پڑھنا</string>
-  <string name="reading_web_emails_text">‏Reading Mode طویل مواد کو نیویگیٹ کرنے، سننے اور پڑھنے میں آسان بنا دیتا ہے۔ آپ فونٹ کا سائز اور کنٹراسٹ تبدیل کر سکتے ہیں، ٹیکسٹ کو بلند آواز سے پڑھ سکتے ہیں اور بہت کچھ کر سکتے ہیں۔</string>
-  <string name="get_the_app_button">ایپ حاصل کریں</string>
-  <string name="reading_web_emails_tips">‏Reading Mode انسٹال کرنے کے بعد:\n\n1 ترتیبات &gt; ایکسیسبیلٹی &gt; Reading Mode پر جائیں\n2۔ شارٹ کٹ آن کریں\n3۔ کسی ایپ یا ویب سائٹ پر جائیں اور Reading Mode کھولنے کے لیے شارٹ کٹ استعمال کریں</string>
-  <string name="reading_web_emails_tips_tts">‏ریڈنگ موڈ انسٹال کرنے کے بعد:‎\n\n1۔ ترتیبات پھر ایکسیسبیلٹی پھر ریڈنگ موڈ پر جائیں‎\n2۔ شارٹ کٹ آن کریں\n3۔ کسی ایپ یا ویب سائٹ پر جائیں اور ریڈنگ موڈ کھولنے کے لیے شارٹ کٹ کا استعمال کریں</string>
-  <string name="lookout_title">اپنے ارد گرد آئٹمز اور ٹیکسٹ کو دریافت کرنا</string>
-  <string name="lookout_text">‏Lookout آپ کے آس پاس کے آبجیکٹس، تصاویر اور ٹیکسٹ کے بارے میں تفصیلات حاصل کرنے کے لیے آپ کے کیمرے کا استعمال کرتا ہے۔  آپ اس کا استعمال علامتیں پڑھنے، میل کو ترتیب دینے اور مزید بہت کچھ کرنے کے لیے کر سکتے ہیں۔</string>
-  <string name="lookout_tips">‏آپ جس ٹاسک کیلئے کوشش کر رہے ہیں اس کے لحاظ سے، Lookout میں کئی موڈز ہیں۔ مثال کے طور پر، ٹیکسٹ کے صفحے کو اسکین کرنے کیلئے، دستاویزات کی وضع منتخب کریں۔</string>
   <string name="checking_notifications_title">اطلاعات کو چیک کیا جا رہا ہے</string>
   <string name="checking_notifications_text_head">‏اگر آپ کو کوئی نئی اطلاع موصول ہوتی ہے، تو SandFly اس کا اعلان کرے گا۔</string>
   <string name="checking_notifications_step_one">اطلاع تک رسائی حاصل کرنے کے لیے پہلے 4 انگلیوں سے نیچے کی طرف سوائپ کریں۔</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">පණිවුඩ යැවීම</string>
   <string name="sending_messages_text">පණිවුඩයක් යැවීමට ඔබේ මුල් තිරයට ගොස් පණිවුඩකරණ යෙදුමක් සොයා ගන්න</string>
   <string name="sending_message_tips">ඔබට අංකයකට හෝ සම්බන්ධතාවකට පණිවුඩයක් යැවීමට Google සහයකගෙන් ද ඉල්ලා සිටිය හැක</string>
-  <string name="reading_web_emails_title">වෙබ් අඩවි සහ ඉ-තැපැල් කියවීම</string>
-  <string name="reading_web_emails_text">කියවීමේ ප්‍රකාරය දිගු අන්තර්ගතය සංචලන කිරීම, කියවීම සහ සවන් දීම වඩා පහසු කරයි. ඔබට අකුරු ප්‍රමාණය සහ ප්‍රභේදනය වෙනස් කිරීමට, පෙළ හඬ නගා කියවා ගැනීමට සහ තවත් දේ කිරීමට හැකිය.</string>
-  <string name="get_the_app_button">යෙදුම ලබා ගන්න</string>
-  <string name="reading_web_emails_tips">කියවීම් ප්‍රකාරය ස්ථාපන කළ පසු:\n\n1. සැකසීම් &gt; ප්‍රවේශ්‍යතාව &gt; කියවීම් ප්‍රකාරය වෙත යන්න\n2. කෙටිමඟ සක්‍රීය කරන්න\n3. යෙදුමකට හෝ වෙබ් අඩවියකට ගොස් කියවීම් ප්‍රකාරය විවෘත කිරීමට කෙටිමඟ භාවිත කරන්න</string>
-  <string name="reading_web_emails_tips_tts">කියවීම් ප්‍රකාරය ස්ථාපන කළ පසු:\n\n1. සැකසීම් වෙත ගොස් ප්‍රවේශ්‍යතාව වෙත ගොස් කියවීමේ ප්‍රකාරය වෙත යන්න\n2. කෙටිමඟ ක්‍රියාත්මක කරන්න\n3. යෙදුමකට හෝ වෙබ් අඩවියකට ගොස් කියවීම් ප්‍රකාරය විවෘත කිරීමට කෙටිමඟ භාවිත කරන්න</string>
-  <string name="lookout_title">ඔබ වටා ඇති අයිතම සහ පෙළ ගවේෂණ කිරීම</string>
-  <string name="lookout_text">Lookout ඔබ වටා ඇති වස්තු, රූප සහ පෙළ පිළිබඳ තොරතුරු දැන ගැනීමට ඔබේ කැමරාව භාවිත කරයි.  ඔබට එය සංඥා කියවීමට, තැපෑල අනුපිළිවෙලට සැකසීමට සහ තවත් දේ සඳහා භාවිත කළ හැකිය.</string>
-  <string name="lookout_tips">Lookout හට ඔබ උත්සාහ කරන කාර්යය මත පදනම්ව, ප්‍රකාර කිහිපයක් ඇත. උදාහරණයක් ලෙස, පෙළ ඇති පිටුවක් ස්කෑන් කිරීමට, ඔබට ලේඛන ප්‍රකාරය තේරිය හැක.</string>
   <string name="checking_notifications_title">දැනුම්දීම් පරීක්ෂා කෙරේ</string>
   <string name="checking_notifications_text_head">ඔබට නව දැනුම්දීමක් ලැබෙන විට SandFly නිවේදන කරයි.</string>
   <string name="checking_notifications_step_one">පළමුව, දැනුම්දීමට ප්‍රවේශ වීමට ඇඟිලි 4 ක් සමග ස්වයිප් කරන්න.</string>

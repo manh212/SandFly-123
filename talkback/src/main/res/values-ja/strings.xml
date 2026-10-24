@@ -1027,14 +1027,6 @@
   <string name="sending_messages_title">メッセージを送信する</string>
   <string name="sending_messages_text">メッセージを送信するには、ホーム画面に移動し、メッセージ アプリを見つけます</string>
   <string name="sending_message_tips">連絡先または電話番号にメッセージを送信するよう Google アシスタントに指示することもできます</string>
-  <string name="reading_web_emails_title">ウェブサイトとメールの読み上げ</string>
-  <string name="reading_web_emails_text">読み上げモードにすると、長いコンテンツを移動したり、聞いたり、読んだりしやすくなります。フォントサイズやコントラストを変更したり、テキストを読み上げたりできます。</string>
-  <string name="get_the_app_button">アプリを入手</string>
-  <string name="reading_web_emails_tips">読み上げモードをインストールした後:\n\n1. [設定] &gt; [ユーザー補助] &gt; [読み上げモード] に移動します\n2. ショートカットを ON にします\n3. アプリまたはウェブサイトに移動し、ショートカットを使用して読み上げモードを開きます</string>
-  <string name="reading_web_emails_tips_tts">読み上げモードをインストールした後:\n\n1. [設定]、[ユーザー補助] に移動して [読み上げモード] を選択します\n2. ショートカットを ON にします\n3. アプリまたはウェブサイトに移動し、ショートカットを使用して読み上げモードを開きます</string>
-  <string name="lookout_title">周囲のアイテムやテキストについて調べる</string>
-  <string name="lookout_text">Lookout はカメラを使用して、周囲の物体、画像、テキストについての詳しい情報を取得します。標識を読んだり、メールを並べ替えたりするのに利用できます。</string>
-  <string name="lookout_tips">行おうとしている作業に応じて、Lookout には複数のモードがあります。たとえば、テキストのページをスキャンするには、ドキュメント モードを選択します。</string>
   <string name="checking_notifications_title">通知の確認</string>
   <string name="checking_notifications_text_head">通知が届くと SandFly が知らせます。</string>
   <string name="checking_notifications_step_one">まず 4 本の指で下にスワイプして、通知にアクセスします。</string>

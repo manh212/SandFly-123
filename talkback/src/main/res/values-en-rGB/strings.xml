@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Sending messages</string>
   <string name="sending_messages_text">To send a message, go to your home screen and find a messaging app</string>
   <string name="sending_message_tips">You can also ask Google Assistant to send a message to a contact or number</string>
-  <string name="reading_web_emails_title">Reading websites and emails</string>
-  <string name="reading_web_emails_text">Reading mode makes long content easier to navigate, listen to and read. You can change the font size and contrast, have the text read aloud and more.</string>
-  <string name="get_the_app_button">Get the app</string>
-  <string name="reading_web_emails_tips">After installing reading mode:\n\n1. Go to Settings &gt; Accessibility &gt; Reading mode\n2. Turn on the shortcut\n3. Go to an app or a website, and use the shortcut to open reading mode</string>
-  <string name="reading_web_emails_tips_tts">After installing Reading mode:\n\n1. Go to Settings then Accessibility then Reading mode\n2. Turn on the shortcut\n3. Go to an app or a website, and use the shortcut to open Reading mode</string>
-  <string name="lookout_title">Exploring items and text around you</string>
-  <string name="lookout_text">Lookout uses your camera to get details about objects, images and text around you.  You can use it to read signs, sort post and more.</string>
-  <string name="lookout_tips">Lookout has several modes, depending on the task that you\'re trying to do. For example, to scan a page of text, select Document mode.</string>
   <string name="checking_notifications_title">Checking notifications</string>
   <string name="checking_notifications_text_head">SandFly will announce when you get a new notification.</string>
   <string name="checking_notifications_step_one">First, swipe down with 4 fingers to access the notification.</string>

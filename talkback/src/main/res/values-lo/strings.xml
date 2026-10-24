@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">ກຳລັງສົ່ງຂໍ້ຄວາມ</string>
   <string name="sending_messages_text">ເພື່ອສົ່ງຂໍ້ຄວາມ, ໃຫ້ໄປທີ່ໂຮມສະກຣີນຂອງທ່ານ ແລະ ຊອກຫາແອັບຮັບສົ່ງຂໍ້ຄວາມ</string>
   <string name="sending_message_tips">ນອກນັ້ນທ່ານຍັງສາມາດຂໍໃຫ້ຜູ້ຊ່ວຍ Google ສົ່ງຂໍ້ຄວາມໄປຫາລາຍຊື່ຜູ້ຕິດຕໍ່ ຫຼື ເບີໂທລະສັບໄດ້ນຳ</string>
-  <string name="reading_web_emails_title">ການອ່ານເວັບໄຊ ແລະ ອີເມວ</string>
-  <string name="reading_web_emails_text">ໂໝດການອ່ານຈະເຮັດໃຫ້ເນື້ອຫາຍາວໆສາມາດນຳທາງ, ຟັງ ແລະ ອ່ານໄດ້ງ່າຍຂຶ້ນ. ທ່ານສາມາດປ່ຽນຂະໜາດຟອນ ແລະ ຄວາມຄົມຊັດ, ໃຫ້ຂໍ້ຄວາມອ່ານອອກສຽງ ແລະ ອື່ນໆໄດ້.</string>
-  <string name="get_the_app_button">ດາວໂຫຼດແອັບ</string>
-  <string name="reading_web_emails_tips">ຫຼັງຈາກການຕິດຕັ້ງໂໝດການອ່ານ:\n\n1. ໄປທີ່ການຕັ້ງຄ່າ &gt; ການຊ່ວຍເຂົ້າເຖິງ &gt; ໂໝດການອ່ານ\n2. ເປີດໃຊ້ທາງລັດ\n3. ໄປທີ່ແອັບ ຫຼື ເວັບໄຊ ແລະ ນຳໃຊ້ທາງລັດເພື່ອເປີດໂໝດການອ່ານ</string>
-  <string name="reading_web_emails_tips_tts">ຫຼັງຈາກການຕິດຕັ້ງໂໝດການອ່ານ:\n\n1. ໄປຫາການຕັ້ງຄ່າແລ້ວເລືອກການຊ່ວຍເຂົ້າເຖິງຈາກນັ້ນເລືອກໂໝດການອ່ານ\n2. ເປີດໃຊ້ທາງລັດ\n3. ໄປຫາແອັບ ຫຼື ເວັບໄຊ, ແລ້ວນຳໃຊ້ທາງລັດເພື່ອເປີດໂໝດການອ່ານ</string>
-  <string name="lookout_title">ການສຳຫຼວດລາຍການ ແລະ ຂໍ້ຄວາມທີ່ຢູ່ອ້ອມຕົວທ່ານ</string>
-  <string name="lookout_text">Lookout ໃຊ້ກ້ອງຖ່າຍຮູບຂອງທ່ານເພື່ອຮັບລາຍລະອຽດກ່ຽວກັບເປົ້າໝາຍ, ຮູບ ແລະ ຂໍ້ຄວາມທີ່ຢູ່ອ້ອມຕົວທ່ານ.  ທ່ານສາມາດນຳໃຊ້ມັນເພື່ອອ່ານປ້າຍ, ຈັດຮຽງເມວ ແລະ ອື່ນໆ.</string>
-  <string name="lookout_tips">Lookout ມີຫຼາຍໂໝດ, ໂດຍຂຶ້ນກັບໜ້າວຽກທີ່ທ່ານກຳລັງລອງເຮັດ. ຕົວຢ່າງ: ເພື່ອສະແກນໜ້າຂອງຂໍ້ຄວາມ, ໃຫ້ເລືອກໂໝດເອກະສານ.</string>
   <string name="checking_notifications_title">ການກວດສອບການແຈ້ງເຕືອນ</string>
   <string name="checking_notifications_text_head">SandFly ຈະປະກາດເມື່ອທ່ານໄດ້ຮັບການແຈ້ງເຕືອນໃໝ່.</string>
   <string name="checking_notifications_step_one">ທຳອິດ, ໃຫ້ປັດລົງດ້ວຍ 4 ນິ້ວເພື່ອເຂົ້າເຖິງການແຈ້ງເຕືອນ.</string>

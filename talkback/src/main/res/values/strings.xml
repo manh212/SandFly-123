@@ -3303,14 +3303,14 @@
   -->
   <string name="new_shortcut_gesture_stop_speech_announcement">SandFly speech stopped. Usually, this will stop the current phrase that SandFly is saying. Swipe right to continue.</string>
   <!-- The text to introduce how to copy text. This is spoken to the user. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_copy_text_text">To copy text, double-tap with 3 fingers.</string>
+  <string name="new_shortcut_gesture_copy_text_text">To copy text, use the Copy action in the context menu, or assign a gesture to Copy.</string>
   <!--
   Source: Announces when text copied.
   Description: This is spoken to the user. In RTL language, "right" and "left" should be translated reverse.[CHAR_LIMIT=NONE]
   -->
   <string name="new_shortcut_gesture_copy_text_announcement">Copied text. Usually, this will copy the text you have selected. Swipe right to continue.</string>
   <!-- The text to introduce how to paste text. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_paste_text_text">To paste text, triple-tap with 3 fingers.</string>
+  <string name="new_shortcut_gesture_paste_text_text">To paste text, triple-tap and hold with 3 fingers.</string>
   <!--
   Source: Announces when text pasted.
   Description: This is spoken to the user. In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE]
@@ -3512,7 +3512,7 @@
   <!-- The second instruction text introduce TalkBack how to adjust volume append after the first instruction. [CHAR_LIMIT=NONE]-->
   <string name="adjusting_volume_second_instruction">While holding, press the volume up or volume down key on the side of your device</string>
   <!-- The tail text introduce TalkBack how to adjust volume append after the second instruction. [CHAR_LIMIT=NONE]-->
-  <string name="adjusting_volume_tail">You\'ll hear the new accessibility volume after a few seconds.\n\nTry adjusting the accessibility volume now.</string>
+  <string name="adjusting_volume_tail">You\'ll hear the new accessibility volume after a few seconds.\n\nTry adjusting the accessibility volume now.\n\nYou can also choose what the volume keys do in SandFly settings > Volume key settings.</string>
 
   <!-- For menus page in tutorial. -->
   <!-- The title of menus page. [CHAR_LIMIT=NONE]-->
@@ -3598,11 +3598,11 @@
   <!-- The sub title of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
   <string name="other_ways_to_type_title">Other ways to type</string>
   <!-- The description of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
-  <string name="other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter.</string>
+  <string name="other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can also enter text by dictating it.</string>
   <!-- The description of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
-  <string name="basic_other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter. You can change this later in SandFly settings > On-screen keyboard > Typing method.</string>
+  <string name="basic_other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in SandFly settings > On-screen keyboard > Typing method.</string>
   <!-- Source: The text of introducing TalkBack for TTS span. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 380750154623317254]-->
-  <string name="basic_other_ways_to_type_text_tts">There are other ways to type in SandFly. For example, you can use double tap to enter a letter. You can change this later in SandFly settings then On-screen keyboard then Typing method.</string>
+  <string name="basic_other_ways_to_type_text_tts">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in SandFly settings then On-screen keyboard then Typing method.</string>
   <!-- The text of change typing preference button in typing text page. [CHAR_LIMIT=NONE]-->
   <string name="change_typing_preference_text">Change typing preference</string>
   <!-- The title of moving cursor page. [CHAR_LIMIT=NONE]-->
@@ -3614,15 +3614,15 @@
   <!-- The title of selecting text from edit box. [CHAR_LIMIT=NONE]-->
   <string name="selecting_text_title">Selecting text</string>
   <!-- The description about how to select the text via gesture. [CHAR_LIMIT=NONE]-->
-  <string name="selecting_text_text">In a text box, move the cursor to the beginning of the text you want to select.\n\nDouble-tap and hold with 2 fingers to start selection mode. Then move the cursor to the end of the text. Double-tap and hold with 2 fingers again to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
+  <string name="selecting_text_text">In a text box, move the cursor to the beginning of the text you want to select.\n\nStart selection mode with the Start selection mode action. It is in the text box\'s context menu, and you can also assign it to a gesture in SandFly settings > Gestures. Then move the cursor to the end of the text to select it. Use the same action again to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
   <!-- The description about how to select the text via gesture. [CHAR_LIMIT=NONE]-->
   <string name="selecting_text_text_pre_r">In a text box, move the cursor to the beginning of the text you want to select.\n\nSwipe down and then right to open the SandFly menu. Double-tap actions and then start selection mode. Move the cursor to the end of the text.\n\nOpen the SandFly menu again, then double-tap actions to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
   <!-- The title of coping, cutting and pasting text. [CHAR_LIMIT=NONE]-->
   <string name="copy_cut_paste_title">Copy, cut, and paste</string>
   <!-- The description about how to copy text. [CHAR_LIMIT=NONE]-->
-  <string name="copy_text">After selecting text, copy it by double tapping with 3 fingers.\n\nTry to copy a word in the text box below.</string>
+  <string name="copy_text">After selecting text, copy it with the Copy action in the text box\'s context menu, or with a gesture you assign to Copy in SandFly settings > Gestures. Copy has no gesture by default. Double-tapping with 3 fingers turns voice feedback on or off instead.\n\nTry to copy a word in the text box below.</string>
   <!-- The description about how to cut or paste text. [CHAR_LIMIT=NONE]-->
-  <string name="cut_paste_text">To cut text, double-tap and hold with 3 fingers.\n\nTo paste text, triple-tap with 3 fingers.\n\nTry to paste a word in the text box below.</string>
+  <string name="cut_paste_text">To cut text, double-tap and hold with 3 fingers.\n\nTo paste text, triple-tap and hold with 3 fingers. Triple-tapping with 3 fingers without holding copies the last spoken phrase instead.\n\nTry to paste a word in the text box below.</string>
   <!-- The description about how to copy text. [CHAR_LIMIT=NONE]-->
   <string name="copy_text_pre_r">After selecting text, you can copy it in the SandFly menu. Swipe down and then right to open the SandFly menu. Double-tap actions and then copy.\n\nTry to copy a word in the text box below.</string>
   <!-- The description about how to cut or paste text. [CHAR_LIMIT=NONE]-->
@@ -3744,7 +3744,7 @@
   <!-- The title of voice commands page. [CHAR_LIMIT=NONE] -->
   <string name="voice_commands_title">Voice commands</string>
   <!-- The description about how to use voice command. [CHAR_LIMIT=NONE]-->
-  <string name="voice_commands_text">You can use your voice to control SandFly quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text, and more.\n\nTo try it now, swipe right and then up.</string>
+  <string name="voice_commands_text">You can use your voice to control SandFly quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text, and more.\n\nTo try it now, swipe right and then up.\n\nTo dictate text instead of typing, assign the Dictate action to a gesture in SandFly settings > Gestures. Dictate has no gesture by default.</string>
 
   <!-- For screen search pages in tutorial. -->
   <!-- The title of using screen search page. [CHAR_LIMIT=NONE] -->
@@ -3775,22 +3775,6 @@
   <string name="sending_messages_text">To send a message, go to your home screen and find a messaging app</string>
   <!-- The tip about how to send messages. [CHAR_LIMIT=NONE]-->
   <string name="sending_message_tips">You can also ask Google Assistant to send a message to a contact or number</string>
-  <!-- The title of reading webpages and emails page. [CHAR_LIMIT=NONE] -->
-  <string name="reading_web_emails_title">Reading websites and emails</string>
-  <!-- The description of reading webpages and emails. [CHAR_LIMIT=NONE]-->
-  <string name="reading_web_emails_text">Reading mode makes long content easier to navigate, listen to, and read. You can change font size and contrast, have the text read aloud, and more.</string>
-  <!-- The button text for opening target app PlayStore page. [CHAR_LIMIT=NONE] -->
-  <string name="get_the_app_button">Get the app</string>
-  <!-- The tip about Reading Mode. [CHAR_LIMIT=NONE]-->
-  <string name="reading_web_emails_tips">After installing Reading mode:\n\n1. Go to Settings > Accessibility > Reading mode\n2. Turn on the shortcut\n3. Go to an app or website, and use the shortcut to open Reading mode</string>
-  <!-- The tip about Reading Mode for TTS span. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 1613025850370951720]-->
-  <string name="reading_web_emails_tips_tts">After installing Reading mode:\n\n1. Go to Settings then Accessibility then Reading mode\n2. Turn on the shortcut\n3. Go to an app or website, and use the shortcut to open Reading mode</string>
-  <!-- The title of exploring items and text in the real world. [CHAR_LIMIT=NONE] -->
-  <string name="lookout_title">Exploring items and text around you</string>
-  <!-- The description of exploring items and text in the real world. [CHAR_LIMIT=NONE]-->
-  <string name="lookout_text">Lookout uses your camera to get details about objects, images, and text around you.  You can use it to read signs, sort mail, and more.</string>
-  <!-- The tip about Lookout app. [CHAR_LIMIT=NONE]-->
-  <string name="lookout_tips">Lookout has several modes, depending on the task you’re trying. For example, to scan a page of text, select documents mode.</string>
   <!-- The title of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_title">Checking notifications</string>
   <!-- The head description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
@@ -3800,11 +3784,25 @@
   <!-- The Second bullet point description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_step_two">Then, swipe left or right to navigate within the notification.</string>
   <!-- The tail description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
-  <string name="checking_notifications_text_tail">You can check which apps have notifications turned on in Settings > Notifications.</string>
+  <string name="checking_notifications_text_tail">You can check which apps have notifications turned on in Settings > Notifications. On the Notifications screen, you can also turn on SandFly\'s notification list to browse recent notifications.</string>
   <!-- The tail description of the "Checking notifications" page's text-to-speech text. [CHAR_LIMIT=NONE] -->
-  <string name="checking_notifications_text_tail_tts">You can check which apps have notifications turned on in Settings then Notifications.</string>
+  <string name="checking_notifications_text_tail_tts">You can check which apps have notifications turned on in Settings then Notifications. On the Notifications screen, you can also turn on SandFly\'s notification list to browse recent notifications.</string>
   <!-- The tip of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_tips">To check your notification history, swipe down with 2 fingers from the top of your screen</string>
+
+  <!-- For SandFly features pages in tutorial. -->
+  <string name="tutorial_sandfly_features_link_text">SandFly features</string>
+  <string name="tutorial_sandfly_features_link_subtext">Direct key input, timer and stopwatch, volume keys, and more</string>
+  <string name="tutorial_sandfly_direct_key_input_title">Direct key input</string>
+  <string name="tutorial_sandfly_direct_key_input_text">With Direct key input, you type by sliding across the keyboard. Move your finger to the key you want, then lift your finger to type it. Keep your finger on a key to use its long-press action, such as an accented letter.\n\nTo turn it on, go to SandFly settings > On-screen keyboard > Typing method and choose Direct key input.</string>
+  <string name="tutorial_sandfly_timer_stopwatch_title">Timer and stopwatch</string>
+  <string name="tutorial_sandfly_timer_stopwatch_text">SandFly settings > Timer settings gathers the time announcements and the stopwatch. From there, open the Stopwatch screen to set its sounds, vibration, and how often it reminds you how long it has run.\n\nThe Toggle stopwatch action starts or stops the stopwatch. By default, holding the volume up key while the screen is locked does this.</string>
+  <string name="tutorial_sandfly_volume_keys_text">Turn on "SandFly manages volume keys" to choose what the volume keys do. There are six actions to assign: a press, a hold, and a hold while the screen is locked, for volume up and for volume down.\n\nBy default, a press changes the volume, and holding volume up while the screen is locked starts or stops the stopwatch.</string>
+  <string name="tutorial_sandfly_translate_text">SandFly can translate the last phrase it spoke, using translation that runs on your device. Assign the Translate last spoken utterance action to a gesture in SandFly settings > Gestures, then use that gesture right after SandFly speaks.\n\nYou can choose the languages in SandFly settings > Feedback > Offline translation.</string>
+  <string name="tutorial_sandfly_dictate_text">With Dictate, you speak and SandFly writes your words into the current text box.\n\nDictate has no gesture by default. To use it, assign the Dictate action to a gesture in SandFly settings > Gestures. You can choose the speech recognition service in SandFly settings > Dictation.</string>
+  <string name="tutorial_sandfly_web_selection_text">On web pages, SandFly can change the reading control by itself, for example to Headings or to Actions, based on what you focus on.\n\nIf you want the reading control to stay where you put it on web pages, turn off "Change reading control in selection mode" in SandFly settings > Reading controls. While it is off, the reading control never changes by itself in web content.</string>
+  <string name="tutorial_sandfly_export_diagnostics_text">If something goes wrong, export a diagnostics log and send it to whoever is helping you. Go to SandFly settings > Developer settings > Export diagnostics, then choose "Export log to Downloads" or "Copy log".\n\nThe log has your device and app details, SandFly\'s recent activity, and information about crashes.</string>
+  <string name="tutorial_sandfly_notifications_text">The Notifications screen in SandFly settings shows which apps have notifications turned on.\n\nYou can also turn on "Use SandFly\'s notification list" there. With the list on, you can browse recent notifications and hear each one with its app, time, and text.</string>
 
   <!-- For image descriptions pages in tutorial. -->
   <!-- General image description tutorial playground page title. [CHAR_LIMIT=NONE] -->

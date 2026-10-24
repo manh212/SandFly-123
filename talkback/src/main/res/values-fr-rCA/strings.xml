@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Envoyer des messages</string>
   <string name="sending_messages_text">Pour envoyer un message, accédez à votre écran d\'accueil et trouvez une appli de messagerie</string>
   <string name="sending_message_tips">Vous pouvez également demander à l\'Assistant Google d\'envoyer un message à un contact ou à un numéro</string>
-  <string name="reading_web_emails_title">Lecture de sites Web et de courriels</string>
-  <string name="reading_web_emails_text">Le mode de lecture permet de parcourir des contenus longs, de les écouter et de les lire. Vous pouvez modifier la taille et le contraste de la police, faire lire le texte à haute voix, etc.</string>
-  <string name="get_the_app_button">Télécharger l\'appli</string>
-  <string name="reading_web_emails_tips">Après l\'installation du mode de lecture :\n\n1. Accédez à Paramètres &gt; Accessibilité &gt; Mode de lecture.\n2. Activez le raccourci.\n3. Accédez à une appli ou à un site Web et utilisez le raccourci pour ouvrir le mode de lecture.</string>
-  <string name="reading_web_emails_tips_tts">Après l\'installation du Mode Lecture :\n\n1. Accédez aux paramètres, puis à Accessibilité, puis à Mode Lecture\n2. Activez le raccourci.\n3. Accédez à une appli ou à un site Web et utilisez le raccourci pour ouvrir le Mode Lecture</string>
-  <string name="lookout_title">Explorer les objets et les textes autour de soi</string>
-  <string name="lookout_text">Lookout se sert de votre appareil photo pour obtenir des détails sur les objets, les images et le texte qui se trouvent autour de vous.  Vous pouvez l\'utiliser pour lire les panneaux, trier le courrier, etc.</string>
-  <string name="lookout_tips">L\'appli Lookout est dotée de plusieurs modes, selon la tâche que vous voulez accomplir. Par exemple, pour numériser une page de texte, sélectionnez le mode Documents.</string>
   <string name="checking_notifications_title">Vérification des notifications</string>
   <string name="checking_notifications_text_head">SandFly vous préviendra de toute nouvelle notification.</string>
   <string name="checking_notifications_step_one">Tout d\'abord, balayez l\'écran vers le bas avec quatre doigts pour accéder à la notification.</string>

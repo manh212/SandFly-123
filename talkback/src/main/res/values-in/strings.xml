@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Mengirim pesan</string>
   <string name="sending_messages_text">Untuk mengirim pesan, buka layar utama dan temukan aplikasi pesan</string>
   <string name="sending_message_tips">Anda juga dapat meminta Asisten Google untuk mengirim pesan ke kontak atau nomor telepon</string>
-  <string name="reading_web_emails_title">Membaca situs dan email</string>
-  <string name="reading_web_emails_text">Mode baca membuat konten panjang menjadi lebih mudah untuk dinavigasi, didengarkan, dan dibaca. Anda dapat mengubah ukuran dan kontras font, membacakan teks secara lisan, dan lainnya.</string>
-  <string name="get_the_app_button">Dapatkan aplikasi</string>
-  <string name="reading_web_emails_tips">Setelah menginstal Mode baca:\n\n1. Buka Setelan &gt; Aksesibilitas &gt; Mode baca\n2. Aktifkan pintasan\n3. Buka aplikasi atau situs, lalu gunakan pintasan untuk membuka Mode baca</string>
-  <string name="reading_web_emails_tips_tts">Setelah menginstal Mode baca:\n\n1. Buka Setelan, lalu Aksesibilitas, lalu Mode baca\n2. Aktifkan pintasan\n3. Buka aplikasi atau situs, lalu gunakan pintasan untuk membuka Mode baca</string>
-  <string name="lookout_title">Menjelajahi item dan teks di sekitar Anda</string>
-  <string name="lookout_text">Lookout menggunakan kamera untuk mendapatkan detail tentang objek, gambar, dan teks di sekitar.  Anda dapat menggunakan Lookout untuk membaca papan informasi, menyortir surat, dan lainnya.</string>
-  <string name="lookout_tips">Lookout memiliki beberapa mode, bergantung pada tugas yang Anda coba. Misalnya, pilih mode dokumen untuk memindai teks di halaman.</string>
   <string name="checking_notifications_title">Memeriksa notifikasi</string>
   <string name="checking_notifications_text_head">SandFly akan memberi tahu jika Anda mendapatkan notifikasi baru.</string>
   <string name="checking_notifications_step_one">Pertama, geser ke bawah dengan 4 jari untuk mengakses notifikasi.</string>

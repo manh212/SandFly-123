@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Skickar meddelanden</string>
   <string name="sending_messages_text">Om du vill skicka ett meddelande öppnar du startskärmen och väljer en meddelandeapp</string>
   <string name="sending_message_tips">Du kan även be Google Assistent att skicka ett meddelande till en kontakt eller ett nummer</string>
-  <string name="reading_web_emails_title">Läsa webbplatser och e-postmeddelanden</string>
-  <string name="reading_web_emails_text">Med läsläget blir det enklare att navigera i, lyssna på och läsa innehåll. Du kan ändra teckensnitt och kontrast, få texten uppläst med mera.</string>
-  <string name="get_the_app_button">Skaffa appen</string>
-  <string name="reading_web_emails_tips">Gör så här när du har installerat läsläget:\n\n1. Öppna Inställningar &gt; Tillgänglighet &gt; Läsläge\n2. Aktivera genvägen.\n3. Öppna en app eller webbplats och öppna läsläget med hjälp av genvägen</string>
-  <string name="reading_web_emails_tips_tts">Gör så här när du har installerat läsläget:\n\n1. Öppna Inställningar sedan Tillgänglighet sedan Läsläge\n2. Aktivera genvägen.\n3. Öppna en app eller webbplats och öppna läsläget med hjälp av genvägen</string>
-  <string name="lookout_title">Utforska objekt och text i omgivningen</string>
-  <string name="lookout_text">Lookout använder kameran för att skaffa information om objekt, bilder och text i omgivningen.  Du kan använda den till att läsa skyltar, sortera post med mera.</string>
-  <string name="lookout_tips">Lookout har flera lägen, utifrån vilken uppgift du testar. Om du till exempel vill skanna en sida med text väljer du dokumentläget.</string>
   <string name="checking_notifications_title">Kontrollera aviseringar</string>
   <string name="checking_notifications_text_head">SandFly meddelar när du får en ny avisering.</string>
   <string name="checking_notifications_step_one">Svep först nedåt med fyra fingrar för att öppna aviseringen.</string>

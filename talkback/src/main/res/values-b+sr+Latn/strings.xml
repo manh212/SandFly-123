@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Slanje poruka</string>
   <string name="sending_messages_text">Da biste poslali poruku, idite na početni ekran i pronađite aplikaciju za razmenu poruka</string>
   <string name="sending_message_tips">Možete i da zatražite od Google pomoćnika da pošalje poruku kontaktu ili broju</string>
-  <string name="reading_web_emails_title">Čitanje veb-sajtova i imejlova</string>
-  <string name="reading_web_emails_text">Režim čitanja olakšava kretanje kroz dugi sadržaj i njegovo slušanje i čitanje. Možete da promenite veličinu fonta i kontrast, da izaberete čitanje teksta naglas i drugo.</string>
-  <string name="get_the_app_button">Preuzmi aplikaciju</string>
-  <string name="reading_web_emails_tips">Posle instaliranja Režima čitanja:\n\n1. Idite u Podešavanja &gt; Pristupačnost &gt; Režim čitanja\n2. Uključite prečicu\n3. Idite u aplikaciju ili na veb-sajt i otvorite Režim čitanja pomoću prečice</string>
-  <string name="reading_web_emails_tips_tts">Posle instaliranja Režima čitanja:\n\n1. Otvorite Podešavanja, zatim Pristupačnost, pa Režim čitanja\n2. Uključite prečicu\n3. Idite u aplikaciju ili na veb-sajt i otvorite Režim čitanja pomoću prečice</string>
-  <string name="lookout_title">Istraživanje stavki i teksta u okolini</string>
-  <string name="lookout_text">Lookout koristi kameru da bi dobio detalje o predmetima, slikama i tekstu u okolini.  Pomoću njega možete da čitate znakove, sortirate poštu i drugo.</string>
-  <string name="lookout_tips">Lookout ima nekoliko režima u zavisnosti od zadatka koji pokušavate da obavite. Na primer, da biste skenirali stranicu teksta, izaberite režim za dokumente.</string>
   <string name="checking_notifications_title">Proverite obaveštenja</string>
   <string name="checking_notifications_text_head">SandFly će vam reći kada dobijete novo obaveštenje.</string>
   <string name="checking_notifications_step_one">Prvo prevucite nadole pomoću 4 prsta da biste otvorili obaveštenje.</string>

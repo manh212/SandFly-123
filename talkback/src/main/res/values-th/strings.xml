@@ -1029,14 +1029,6 @@
   <string name="sending_messages_title">การส่งข้อความ</string>
   <string name="sending_messages_text">หากต้องการส่งข้อความ ให้ไปที่หน้าจอหลักแล้วหาแอปรับส่งข้อความ</string>
   <string name="sending_message_tips">และยังขอให้ Google Assistant ส่งข้อความไปยังรายชื่อติดต่อหรือหมายเลขโทรศัพท์ได้ด้วย</string>
-  <string name="reading_web_emails_title">การอ่านเว็บไซต์และอีเมล</string>
-  <string name="reading_web_emails_text">โหมดการอ่านช่วยให้สำรวจ ฟัง และอ่านเนื้อหาขนาดยาวได้ง่ายขึ้น คุณจะเปลี่ยนขนาดแบบอักษรและคอนทราสต์ ให้ระบบอ่านออกเสียงข้อความ และอื่นๆ ได้</string>
-  <string name="get_the_app_button">ดาวน์โหลดแอป</string>
-  <string name="reading_web_emails_tips">หลังจากติดตั้งโหมดการอ่าน ให้ทำดังนี้\n\n1. ไปที่การตั้งค่า &gt; การช่วยเหลือพิเศษ &gt; โหมดการอ่าน\n2. เปิดทางลัด\n3. ไปที่แอปหรือเว็บไซต์ใดก็ได้ แล้วใช้ทางลัดเพื่อเปิดโหมดการอ่าน</string>
-  <string name="reading_web_emails_tips_tts">หลังจากติดตั้งโหมดการอ่าน ให้ทำดังนี้\n\n1. ไปที่ \"การตั้งค่า\" แล้วไปที่ \"การช่วยเหลือพิเศษ\" จากนั้นไปที่ \"โหมดการอ่าน\"\n2. เปิดทางลัด\n3. ไปที่แอปหรือเว็บไซต์ใดก็ได้ แล้วใช้ทางลัดเพื่อเปิดโหมดการอ่าน</string>
-  <string name="lookout_title">การสำรวจรายการและข้อความต่างๆ รอบตัวคุณ</string>
-  <string name="lookout_text">Lookout ใช้กล้องเพื่อรับรายละเอียดเกี่ยวกับสิ่งของ รูปภาพ และข้อความรอบตัวคุณ  โดยคุณจะใช้เพื่ออ่านป้าย คัดแยกจดหมาย และอื่นๆ ได้</string>
-  <string name="lookout_tips">Lookout มีหลายโหมดขึ้นอยู่กับงานที่กำลังจะทำ เช่น หากต้องการสแกนหน้าข้อความ ให้เลือกโหมดเอกสาร</string>
   <string name="checking_notifications_title">การตรวจสอบการแจ้งเตือน</string>
   <string name="checking_notifications_text_head">SandFly จะประกาศเมื่อได้รับข้อความใหม่</string>
   <string name="checking_notifications_step_one">ขั้นแรก ให้ใช้ 4 นิ้วปัดลงเพื่อเข้าถึงการแจ้งเตือน</string>

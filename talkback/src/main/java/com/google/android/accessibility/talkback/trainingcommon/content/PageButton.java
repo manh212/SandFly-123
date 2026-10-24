@@ -20,7 +20,6 @@ import static android.widget.Toast.LENGTH_LONG;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,9 +49,7 @@ public class PageButton extends PageContentConfig {
   /** The common actions of the buttons on training pages. */
   @Immutable
   public enum PageButtonAction implements ButtonOnClickListener {
-    OPEN_READING_MODE_PAGE(PageButton::openReadingModePage),
     OPEN_TYPING_PREFERENCE_PAGE(PageButton::openTypingPreference),
-    OPEN_LOOKOUT_PAGE(PageButton::openLookoutPage),
     OPEN_TUTORIAL_INDEX_PAGE(PageButton::openTutorialIndexPage);
     private final ButtonOnClickListener onClickListener;
 
@@ -68,10 +65,6 @@ public class PageButton extends PageContentConfig {
 
   @VisibleForTesting public static final String PACKAGE_NAME = "com.google.android.marvin.talkback";
   private static final String TAG = "PageButton";
-  private static final String READING_MODE_PLAYSTORE_URL =
-      "https://play.google.com/store/apps/details?id=com.google.android.accessibility.reader&hl=en_US&gl=US";
-  private static final String LOOKOUT_PLAYSTORE_URL =
-      "https://play.google.com/store/apps/details?id=com.google.android.apps.accessibility.reveal&referrer=utm_source%3Dgoogle%26utm_campaign%3Dtbtutorial%26anid%3Dadmob";
 
   @StringRes private final int textResId;
   @Nullable private final ButtonOnClickListener buttonOnClickListener;
@@ -140,22 +133,10 @@ public class PageButton extends PageContentConfig {
     return message;
   }
 
-  private static void openReadingModePage(Context context) {
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(READING_MODE_PLAYSTORE_URL));
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    context.startActivity(intent);
-  }
-
   private static void openTypingPreference(Context context) {
     final Intent intent = new Intent(context, TalkBackPreferencesActivity.class);
     intent.putExtra(PreferencesActivity.FRAGMENT_NAME, TypingMethodPrefFragment.class.getName());
     intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-    context.startActivity(intent);
-  }
-
-  private static void openLookoutPage(Context context) {
-    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(LOOKOUT_PLAYSTORE_URL));
-    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
     context.startActivity(intent);
   }
 

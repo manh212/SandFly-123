@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Sõnumite saatmine</string>
   <string name="sending_messages_text">Sõnumi saatmiseks minge avakuvale ja leidke sõnumsiderakendus</string>
   <string name="sending_message_tips">Võite ka paluda Google\'i assistendil saata sõnum kontaktile või numbrile.</string>
-  <string name="reading_web_emails_title">Veebisaitide ja meilide lugemine</string>
-  <string name="reading_web_emails_text">Lugemisrežiim muudab pika sisu hõlpsamini navigeeritavaks, kuulatavaks ja loetavaks. Saate muuta fondi suurust ja kontrastsust, lasta teksti ette lugeda ja teha muud.</string>
-  <string name="get_the_app_button">Hankige rakendus</string>
-  <string name="reading_web_emails_tips">Pärast Lugemisrežiimi installimist tehke järgmist.\n\n1. Tehke valikud Seaded &gt; Juurdepääsufunktsioonid &gt; Lugemisrežiim\n2. Lülitage otsetee sisse\n3. Minge rakendusse või veebisaidile ja avage otsetee abil Lugemisrežiim</string>
-  <string name="reading_web_emails_tips_tts">Pärast Lugemisrežiimi installimist tehke järgmist.\n\n1. Avage Seaded, seejärel Juurdepääsetavus, seejärel Lugemisrežiim.\n2. Lülitage otsetee sisse.\n3. Minge rakendusse või veebisaidile ja avage otsetee abil Lugemisrežiim.</string>
-  <string name="lookout_title">Läheduses asuvate esemete ja teksti uurimine</string>
-  <string name="lookout_text">Lookout hangib seadme kaamera abil teavet teie läheduses asuvate objektide, piltide ja tekstide kohta.  Selle abil saate lugeda märke ja silte, sortida meile ja teha muud.</string>
-  <string name="lookout_tips">Lookout pakub eri režiime olenevalt sellest, millist ülesannet üritate täita. Näiteks tekstilehekülje skannimiseks valige dokumendirežiim.</string>
   <string name="checking_notifications_title">Märguannete vaatamine</string>
   <string name="checking_notifications_text_head">Kui saate uue märguande, annab SandFly sellest teada.</string>
   <string name="checking_notifications_step_one">Kõigepealt tõmmake märguande vaatamiseks nelja sõrmega allapoole.</string>

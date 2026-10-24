@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Enviar missatges</string>
   <string name="sending_messages_text">Per enviar un missatge, ves a la pantalla d\'inici i cerca una aplicació de missatgeria</string>
   <string name="sending_message_tips">També pots demanar a l\'Assistent de Google que enviï un missatge a un contacte o un número</string>
-  <string name="reading_web_emails_title">Llegir llocs web i correus electrònics</string>
-  <string name="reading_web_emails_text">El mode de lectura facilita la navegació, l\'escolta i la lectura del contingut llarg. Pots canviar el cos de font i el contrast, fer que el text es llegeixi en veu alta i més.</string>
-  <string name="get_the_app_button">Baixa l\'aplicació</string>
-  <string name="reading_web_emails_tips">Després d\'instal·lar el mode de lectura:\n\n1. Ves a Configuració &gt; Accessibilitat &gt; Mode de lectura.\n2. Activa la drecera.\n3. Ves a una aplicació o lloc web i fes servir la drecera per obrir el mode de lectura.</string>
-  <string name="reading_web_emails_tips_tts">Després d\'instal·lar el mode de lectura:\n\n1. Ves a Configuració, Accessibilitat i, a continuació, Mode de lectura.\n2. Activa la drecera.\n3. Ves a una aplicació o lloc web i fes servir la drecera per obrir el mode de lectura.</string>
-  <string name="lookout_title">Explorar elements i text del teu voltant</string>
-  <string name="lookout_text">Lookout utilitza la càmera per captar els detalls dels objectes, imatges i text que hi ha al teu voltant.  Pots fer servir aquesta aplicació per llegir senyals, organitzar el correu i més.</string>
-  <string name="lookout_tips">Lookout té diversos modes, en funció de la tasca que estiguis provant. Per exemple, per escanejar una pàgina amb text, selecciona el mode de documents.</string>
   <string name="checking_notifications_title">Verificar notificacions</string>
   <string name="checking_notifications_text_head">SandFly anunciarà quan reps una notificació nova.</string>
   <string name="checking_notifications_step_one">Primer, llisca cap avall amb 4 dits per accedir a la notificació.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Sending skilaboða</string>
   <string name="sending_messages_text">Farðu á heimaskjáinn og finndu skilaboðaforritið til að senda skilaboð</string>
   <string name="sending_message_tips">Þú getur einnig beðið Google-hjálparann um að senda skilaboð á tengilið eða símanúmer</string>
-  <string name="reading_web_emails_title">Lestur vefsvæða og tölvupósts</string>
-  <string name="reading_web_emails_text">Lesstillingin auðveldar þér að fletta í gegnum, hlusta á og lesa langan texta. Þú getur breytt leturstærðinni og birtuskilunum, látið lesa textann upphátt og fleira.</string>
-  <string name="get_the_app_button">Sækja forritið</string>
-  <string name="reading_web_emails_tips">Þegar búið er að setja upp lesstillingu:\n\n1. Opnaðu „Stillingar &gt; Aðgengi &gt; Lesstilling“\n2. Kveiktu á flýtileiðinni\n3. Opnaðu forrit eða vefsvæði og notaðu flýtileiðina til að opna lesstillinguna</string>
-  <string name="reading_web_emails_tips_tts">Þegar búið er að setja upp lesstillingu:\n\n1. Opnaðu stillingarnar, veldu „Aðgengi“ og síðan „Lesstilling“.\n2. Kveiktu á flýtileiðinni\n3. Opnaðu forrit eða vefsvæði og notaðu flýtileiðina til að opna lesstillinguna</string>
-  <string name="lookout_title">Könnun hluta og texta í kringum þig</string>
-  <string name="lookout_text">Lookout notar myndavélina þína til að sækja upplýsingar um hluti, myndir og texta í kringum þig.  Þú getur notað forritið til að lesa á skilti, flokka póst og fleira.</string>
-  <string name="lookout_tips">Lookout er með nokkrar stillingar í samræmi við hvaða verkefni þú ert að sinna. Ef þú vilt til dæmis skanna texta á síðu skaltu velja skjalastillingu.</string>
   <string name="checking_notifications_title">Tilkynningar athugaðar</string>
   <string name="checking_notifications_text_head">SandFly mun láta vita þegar þú færð nýja tilkynningu.</string>
   <string name="checking_notifications_step_one">Strjúktu fyrst niður með 4 fingrum til að fá aðgang að tilkynningunni.</string>

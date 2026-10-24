@@ -1029,14 +1029,6 @@
   <string name="sending_messages_title">Ziņojumu sūtīšana</string>
   <string name="sending_messages_text">Lai sūtītu ziņojumu, pārejiet uz sākuma ekrānu un atrodiet ziņojumapmaiņas lietotni.</string>
   <string name="sending_message_tips">Varat arī lūgt Google asistentam nosūtīt ziņojumu kontaktpersonai vai uz kādu numuru.</string>
-  <string name="reading_web_emails_title">Tīmekļa vietņu un e-pasta ziņojumu lasīšana</string>
-  <string name="reading_web_emails_text">Lasīšanas režīms atvieglo gara satura pārlūkošanu, klausīšanos un lasīšanu. Varat mainīt fonta lielumu un kontrastu, iestatīt teksta nolasīšanu un veikt citas darbības.</string>
-  <string name="get_the_app_button">Iegūt lietotni</string>
-  <string name="reading_web_emails_tips">Pēc lietotnes Lasīšanas režīms instalēšanas veiciet tālāk minētās darbības.\n\n1. Atveriet sadaļu Iestatījumi &gt; Pieejamība &gt; Lasīšanas režīms.\n2. Ieslēdziet saīsni\n3. Pārejiet uz lietotni vai vietni un izmantojiet saīsni, lai atvērtu Lasīšanas režīmu.</string>
-  <string name="reading_web_emails_tips_tts">Pēc lietotnes Lasīšanas režīms instalēšanas veiciet tālāk norādītās darbības.\n\n1. Pārejiet uz sadaļu “Iestatījumi”, pēc tam — uz sadaļu “Pieejamība” un atlasiet “Lasīšanas režīms”.\n2. Ieslēdziet saīsni.\n3. Pārejiet uz lietotni vai vietni un izmantojiet saīsni, lai atvērtu lasīšanas režīmu.</string>
-  <string name="lookout_title">Apkārt esošo priekšmetu un teksta izpēte</string>
-  <string name="lookout_text">Lookout izmanto jūsu kameru, lai iegūtu informāciju par priekšmetiem, attēliem un tekstu.  Varat to izmantot, lai lasītu informatīvās zīmes, kārtotu pastu u.c.</string>
-  <string name="lookout_tips">Lietotnei Lookout ir vairāki režīmi, kas piemēroti atšķirīgiem uzdevumiem. Piemēram, lai skenētu teksta lapu, atlasiet dokumentu režīmu.</string>
   <string name="checking_notifications_title">Paziņojumu pārbaudīšana</string>
   <string name="checking_notifications_text_head">Kad saņemsiet jaunu paziņojumu, SandFly jūs informēs.</string>
   <string name="checking_notifications_step_one">Vispirms ar četriem pirkstiem velciet lejup, lai piekļūtu paziņojumam.</string>

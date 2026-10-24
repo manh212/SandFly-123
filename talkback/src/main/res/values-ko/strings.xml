@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">메시지 전송</string>
   <string name="sending_messages_text">메시지를 전송하려면 홈 화면으로 이동하여 메시지 앱을 찾습니다.</string>
   <string name="sending_message_tips">또한 Google 어시스턴트에 연락처 또는 특정 번호로 메시지를 보내달라고 요청할 수 있습니다.</string>
-  <string name="reading_web_emails_title">웹사이트 및 이메일 읽기</string>
-  <string name="reading_web_emails_text">읽기 모드를 사용하면 긴 콘텐츠를 더 쉽게 탐색하고 듣고 읽을 수 있습니다. 글꼴 크기 및 대비를 변경하고 소리 내 읽게 하는 등의 작업을 할 수 있습니다.</string>
-  <string name="get_the_app_button">앱 다운로드</string>
-  <string name="reading_web_emails_tips">읽기 모드를 설치한 후:\n\n1. \'설정\' &gt; \'접근성\' &gt; \'읽기 모드\'로 이동합니다.\n2. 단축키를 사용 설정합니다.\n3. 앱 또는 웹사이트로 이동하여 단축키를 사용하여 읽기 모드를 엽니다.</string>
-  <string name="reading_web_emails_tips_tts">읽기 모드를 설치한 후:\n\n1. 설정 &gt; 접근성 &gt; 읽기 모드로 이동합니다.\n2. 단축키를 사용 설정합니다.\n3. 앱 또는 웹사이트로 이동하여 단축키를 사용하여 읽기 모드를 엽니다.</string>
-  <string name="lookout_title">주변 사물 및 텍스트 살펴보기</string>
-  <string name="lookout_text">Lookout에서는 카메라를 사용하여 주변 사물, 이미지, 텍스트에 관한 세부정보를 확인합니다.  이를 통해 신호를 읽고 우편물을 분류하는 등의 작업을 할 수 있습니다.</string>
-  <string name="lookout_tips">Lookout에는 시도하려는 작업에 따라 서로 다른 모드가 있습니다. 예를 들어 텍스트 페이지를 스캔하려면 문서 모드를 선택합니다.</string>
   <string name="checking_notifications_title">알림 확인하기</string>
   <string name="checking_notifications_text_head">새 알림을 받으면 SandFly에서 알려줍니다.</string>
   <string name="checking_notifications_step_one">먼저 네 손가락으로 아래로 스와이프하여 알림에 액세스합니다.</string>

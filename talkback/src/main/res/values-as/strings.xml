@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">বাৰ্তা পঠিওৱা</string>
   <string name="sending_messages_text">বাৰ্তা পঠিয়াবলৈ আপোনাৰ গৃহ স্ক্ৰীনলৈ যাওক আৰু এটা বাৰ্তা আদান-প্ৰদান কৰা এপ্‌ বিচাৰি উলিয়াওক</string>
   <string name="sending_message_tips">আপুনি Google Assistantক কোনো এটা সম্পৰ্ক অথবা নম্বৰলৈ বাৰ্তা পঠিয়াবলৈও ক’ব পাৰে</string>
-  <string name="reading_web_emails_title">ৱেবছাইট আৰু ইমেইল পঢ়া</string>
-  <string name="reading_web_emails_text">পঢ়াৰ ম’ডটোৱে দীঘলীয়া সমল নেভিগে’ট কৰা, শুনা আৰু পঢ়াটো সহজ কৰি তোলে। আপুনি ফণ্টৰ আকাৰ আৰু কনট্ৰাষ্ট সলনি কৰিব পাৰে, পাঠটো ডাঙৰকৈ পঢ়োৱাব পাৰে আৰু আন বহুতো কাম কৰিব পাৰে।</string>
-  <string name="get_the_app_button">এপ্‌টো লাভ কৰক</string>
-  <string name="reading_web_emails_tips">পঢ়াৰ ম’ড ইনষ্টল কৰাৰ পাছত:\n\n১) ছেটিং &gt; সাধ্য সুবিধা &gt; পঢ়াৰ ম’ডলৈ যাওক\n২) শ্বৰ্টকাটটো অন কৰক\n৩) এটা এপ্‌ অথবা ৱেবছাইটলৈ যাওক আৰু পঢ়াৰ ম’ড খুলিবলৈ শ্বৰ্টকাট ব্যৱহাৰ কৰক</string>
-  <string name="reading_web_emails_tips_tts">পঢ়াৰ ম’ড ইনষ্টল কৰাৰ পাছত:\n\n১) প্ৰথমে ছেটিং তাৰ পাছত সাধ্য সুবিধা আৰু তাৰ পাছত পঢ়াৰ ম’ডলৈ যাওক\n২) শ্বৰ্টকাটটো অন কৰক\n৩) এটা এপ্‌ অথবা ৱেবছাইটলৈ যাওক আৰু পঢ়াৰ ম’ড খুলিবলৈ শ্বৰ্টকাট ব্যৱহাৰ কৰক</string>
-  <string name="lookout_title">আপোনাৰ আশে-পাশে থকা বস্তু আৰু পাঠৰ অন্বেষণ</string>
-  <string name="lookout_text">Lookoutএ আপোনাৰ আশে-পাশে থকা বস্তু, প্ৰতিচ্ছবি আৰু পাঠৰ সবিশেষ লাভ কৰিবলৈ আপোনাৰ কেমেৰা ব্যৱহাৰ কৰে।  আপুনি প্ৰতীকসমূহ পঢ়িবলৈ, ইমেইল শৃংখলাবদ্ধ কৰিবলৈ আৰু আন বহুতো কাম কৰিবলৈ এইটো ব্যৱহাৰ কৰিব পাৰে।</string>
-  <string name="lookout_tips">আপুনি কৰিবলৈ চেষ্টা কৰি থকা কামটোৰ ওপৰত নিৰ্ভৰ কৰি, Lookoutৰ বহুত ম’ড আছে। উদাহৰণস্বৰূপে, পাঠৰ এখন পৃষ্ঠা স্কেন কৰিবলৈ, নথিৰ ম’ডটো বাছনি কৰক।</string>
   <string name="checking_notifications_title">জাননী পৰীক্ষা কৰি থকা হৈছে</string>
   <string name="checking_notifications_text_head">আপুনি কোনো নতুন জাননী পালে SandFlyএ ঘোষণা কৰিব।</string>
   <string name="checking_notifications_step_one">প্ৰথমে, জাননী এক্সেছ কৰিবলৈ ৪ টা আঙুলিৰে তললৈ ছোৱাইপ কৰক।</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Četovanie</string>
   <string name="sending_messages_text">Ak chcete četovať, prejdite na plochu a nájdite komunikátor</string>
   <string name="sending_message_tips">Okrem toho môžete požiadať Asistenta Google, aby odoslal správu kontaktu alebo na určité číslo</string>
-  <string name="reading_web_emails_title">Čítanie textu webov a e‑mailov</string>
-  <string name="reading_web_emails_text">Režim čítania uľahčuje navigáciu v dlhom obsahu a jeho počúvanie a čítanie. Môžete zmeniť veľkosť písma, kontrast, spustiť čítanie textu nahlas a vykonať ďalšie akcie.</string>
-  <string name="get_the_app_button">Stiahnuť aplikáciu</string>
-  <string name="reading_web_emails_tips">Po nainštalovaní režimu čítania:\n\n1. Prejdite do sekcie Nastavenia &gt; Dostupnosť &gt; Režim čítania.\n2. Zapnite skratku.\n3. Prejdite do aplikácie alebo na web a pomocou skratky otvorte režim čítania.</string>
-  <string name="reading_web_emails_tips_tts">Po nainštalovaní režimu čítania:\n\n1. Prejdite do sekcie Nastavenia &gt; Dostupnosť &gt; Režim čítania.\n2. Zapnite skratku.\n3. Prejdite do aplikácie alebo na web a skratkou otvorte režim čítania.</string>
-  <string name="lookout_title">Preskúmanie položiek a textu vo vašej blízkosti</string>
-  <string name="lookout_text">Aplikácia Lookout môže pomocou kamery získať podrobnosti o predmetoch, obrázkoch a textoch vo vašej blízkosti.  Môžete pomocou nej čítať značky, triediť poštu a vykonávať ďalšie kroky.</string>
-  <string name="lookout_tips">Lookout má niekoľko režimov, ktoré môžete použiť podľa toho, čo sa pokúšate urobiť. Ak chcete napríklad naskenovať stranu textu, vyberte režim Dokumenty.</string>
   <string name="checking_notifications_title">Kontrola upozornení</string>
   <string name="checking_notifications_text_head">SandFly bude oznamovať, keď dostanete nové upozornenie.</string>
   <string name="checking_notifications_step_one">Najprv získajte prístup k upozorneniu potiahnutím štyrmi prstami nadol.</string>

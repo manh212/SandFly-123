@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Dërgimi i mesazheve</string>
   <string name="sending_messages_text">Për të dërguar një mesazh, shko tek ekrani yt bazë dhe gjej një aplikacion të mesazheve</string>
   <string name="sending_message_tips">Mund t\'i kërkosh gjithashtu \"Asistentit të Google\" t\'i dërgojë një mesazh një kontakti ose numri</string>
-  <string name="reading_web_emails_title">Leximi i sajteve të uebit dhe email-eve</string>
-  <string name="reading_web_emails_text">\"Modaliteti i leximit\" e bën përmbajtjen e gjatë më të lehtë për t\'u naviguar, për t\'u dëgjuar dhe për t\'u lexuar. Mund të ndryshosh madhësinë e fontit dhe kontrastin, të lexosh tekstin me zë të lartë dhe më shumë.</string>
-  <string name="get_the_app_button">Merr aplikacionin</string>
-  <string name="reading_web_emails_tips">Pas instalimit të \"Modalitetit të leximit\":\n\n1. Shko te Cilësimet &gt; Qasshmëria &gt; Modaliteti i leximit\n2. Aktivizo shkurtoren\n3. Shko te një aplikacion ose uebsajt dhe përdor shkurtoren për të hapur \"Modalitetin e leximit\"</string>
-  <string name="reading_web_emails_tips_tts">Pas instalimit të \"Modalitetit të leximit\":\n\n1. Shko te \"Cilësimet\", më pas te \"Qasshmëria\" dhe pastaj te \"Modaliteti i leximit\"\n2. Aktivizo shkurtoren\n3. Shko te një aplikacion ose uebsajt dhe përdor shkurtoren për të hapur \"Modalitetin e leximit\"</string>
-  <string name="lookout_title">Eksplorimi i artikujve dhe i teksteve rreth teje</string>
-  <string name="lookout_text">Lookout përdor kamerën tënde për të marrë detaje rreth objekteve, imazheve dhe teksteve rreth teje.  Mund ta përdorësh për të lexuar shenjat, për të renditur email-et dhe më shumë.</string>
-  <string name="lookout_tips">Lookout ka disa modalitete, në varësi të detyrës që po provon. Për shembull, për të skanuar një faqe ose tekst, zgjidh modalitetin e dokumenteve.</string>
   <string name="checking_notifications_title">Kontrolli i njoftimeve</string>
   <string name="checking_notifications_text_head">SandFly do të të njoftojë kur të marrësh një njoftim të ri.</string>
   <string name="checking_notifications_step_one">Së pari, rrëshqit shpejt poshtë me 4 gishta për t\'u qasur te njoftimet.</string>

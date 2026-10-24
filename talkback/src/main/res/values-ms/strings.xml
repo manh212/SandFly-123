@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Menghantar mesej</string>
   <string name="sending_messages_text">Untuk menghantar mesej, akses skrin utama dan cari apl pemesejan</string>
   <string name="sending_message_tips">Anda juga boleh meminta Google Assistant untuk menghantar mesej kepada kenalan atau nombor</string>
-  <string name="reading_web_emails_title">Membaca laman web dan e-mel</string>
-  <string name="reading_web_emails_text">Mod baca membolehkan kandungan yang panjang lebih mudah dinavigasi, didengari dan dibaca. Anda boleh menukar saiz dan kontras fon, meminta teks dibacakan dengan kuat dan banyak lagi.</string>
-  <string name="get_the_app_button">Dapatkan apl</string>
-  <string name="reading_web_emails_tips">Selepas memasang Mod baca:\n\n1. Akses Tetapan&gt; Kebolehaksesan &gt; Mod baca\n2. Hidupkan pintasan\n3. Lawati apl atau laman web dan gunakan pintasan untuk membuka Mod baca</string>
-  <string name="reading_web_emails_tips_tts">Selepas memasang Mod membaca:\n\n1. Akses Tetapan, kemudian Kebolehaksesan, kemudian Mod membaca\n2. Hidupkan pintasan\n3. Lawati apl atau laman web dan gunakan pintasan untuk membuka Mod membaca</string>
-  <string name="lookout_title">Meneroka item dan teks di sekeliling anda</string>
-  <string name="lookout_text">Lookout menggunakan kamera anda untuk mendapatkan butiran tentang objek, imej dan teks di sekeliling anda.  Anda boleh menggunakan Lookout untuk membaca papan tanda, mengisih surat dan banyak lagi.</string>
-  <string name="lookout_tips">Lookout menampilkan beberapa mod, bergantung pada tugasan yang anda cuba lakukan. Contohnya, untuk mengimbas halaman teks, pilih mod dokumen.</string>
   <string name="checking_notifications_title">Menyemak pemberitahuan</string>
   <string name="checking_notifications_text_head">SandFly akan membuat pengumuman apabila anda menerima pemberitahuan baharu.</string>
   <string name="checking_notifications_step_one">Mula-mula, leret ke bawah menggunakan 4 jari untuk mengakses pemberitahuan.</string>

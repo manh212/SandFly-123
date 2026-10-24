@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Slanje poruka</string>
   <string name="sending_messages_text">Da biste poslali poruku, idite na početni zaslon i pronađite aplikaciju za slanje poruka</string>
   <string name="sending_message_tips">Od Google asistenta možete tražiti i da pošalje poruku kontaktu ili na telefonski broj</string>
-  <string name="reading_web_emails_title">Čitanje web-lokacija i e-poruka</string>
-  <string name="reading_web_emails_text">Način čitanja omogućuje lakše kretanje kroz dulje sadržaje, njihovo slušanje i čitanje. Možete promijeniti veličinu fonta i kontrast, zatražiti čitanje teksta naglas itd.</string>
-  <string name="get_the_app_button">Preuzmi aplikaciju</string>
-  <string name="reading_web_emails_tips">Nakon što instalirate Način čitanja:\n\n1. Otvorite Postavke &gt; Pristupačnost &gt; Način čitanja\n2. Uključite prečac.\n3. Otvorite aplikaciju ili web-lokaciju i upotrijebite prečac da biste otvorili Način čitanja.</string>
-  <string name="reading_web_emails_tips_tts">Nakon što instalirate čitački način rada:\n\n1. Otvorite Postavke &gt; Pristupačnost &gt; Čitački način rada\n2. Uključite prečac.\n3. Otvorite aplikaciju ili web-lokaciju i upotrijebite prečac da biste otvorili čitački način rada</string>
-  <string name="lookout_title">Istraživanje stavki i teksta u vašem okruženju</string>
-  <string name="lookout_text">Lookout koristi vašu kameru za pojedinosti o predmetima, slikama i tekstu u vašem okruženju.  Možete ga koristiti za čitanje znakova, razvrstavanje e-pošte itd.</string>
-  <string name="lookout_tips">Lookout ima nekoliko načina rada, ovisno o zadatku koji obavljate. Na primjer, da biste skenirali stranicu teksta, odaberite način dokumenata.</string>
   <string name="checking_notifications_title">Provjeravanje obavijesti</string>
   <string name="checking_notifications_text_head">SandFly će vas obavijestiti kad primite novu obavijest.</string>
   <string name="checking_notifications_step_one">Najprije se pomaknite prema dolje s četiri prsta da biste pristupili obavijesti.</string>

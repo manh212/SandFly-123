@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Stuur boodskappe</string>
   <string name="sending_messages_text">Gaan na jou tuisskerm en kry ’n boodskap-app om ’n boodskap te stuur</string>
   <string name="sending_message_tips">Jy kan ook Google Assistent vra om ’n boodskap na ’n kontak of nommer te stuur</string>
-  <string name="reading_web_emails_title">Lees webwerwe en e-posse</string>
-  <string name="reading_web_emails_text">Leesmodus maak dit makliker om deur lang inhoud te navigeer, dit te lees en daarna te luister Jy kan lettergrootte en kontras verander, die teks hardop laat lees, en meer.</string>
-  <string name="get_the_app_button">Kry die app</string>
-  <string name="reading_web_emails_tips">Nadat jy leesmodus geïnstalleer het:\n\n1. Gaan na Instellings &gt; Toeganklikheid &gt; Leesmodus\n2. Skakel die kortpad aan\n3. Gaan na ’n app of webwerf en gebruik die kortpad om Leesmodus oop te maak</string>
-  <string name="reading_web_emails_tips_tts">Nadat jy Leesmodus geïnstalleer het:\n\n1. Gaan na Instellings en dan Toeganklikheid en dan Leesmodus\n2. Skakel die kortpad aan\n3. Gaan na ’n app of webwerf en gebruik die kortpad om Leesmodus oop te maak</string>
-  <string name="lookout_title">Verken items en teks rondom jou</string>
-  <string name="lookout_text">Lookout gebruik jou kamera om besonderhede oor voorwerpe, prente en teks rondom jou te kry.  Jy kan dit gebruik om tekens te lees, pos te sorteer, en meer.</string>
-  <string name="lookout_tips">Lookout het verskeie modusse na gelang van die taak wat jy probeer uitvoer. Kies byvoorbeeld dokumentemodus om ’n bladsy met teks te skandeer.</string>
   <string name="checking_notifications_title">Gaan tans kennisgewings na</string>
   <string name="checking_notifications_text_head">SandFly sal aankondig wanneer jy \'n nuwe kennisgewing kry.</string>
   <string name="checking_notifications_step_one">Swiep eers af met 4 vingers om toegang tot die kennisgewing te kry.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Изпращане на съобщения</string>
   <string name="sending_messages_text">За да изпратите съобщение, отворете началния екран и намерете приложението за целта</string>
   <string name="sending_message_tips">Също така имате възможност да помолите Google Асистент да изпрати съобщение до даден контакт или номер</string>
-  <string name="reading_web_emails_title">Четене на уебсайтове и имейли</string>
-  <string name="reading_web_emails_text">Reading mode улеснява навигирането, слушането и четенето на дълго съдържание. Можете да променяте размера и контраста на текста, да слушате прочит на съдържанието и др.</string>
-  <string name="get_the_app_button">Изтегляне на приложението</string>
-  <string name="reading_web_emails_tips">След като инсталирате Reading mode:\n\n1. Отворете „Настройки &gt; Достъпност &gt; Reading mode“.\n2. Включете прекия път.\n3. Отворете приложение или уебсайт и използвайте прекия път, за да стартирате Reading mode.</string>
-  <string name="reading_web_emails_tips_tts">След като инсталирате „Режим на четене“:\n\n1. Отворете „Настройки“, след което „Достъпност“ и изберете „Режим на четене“.\n2. Включете прекия път.\n3. Отворете приложение или уебсайт и използвайте прекия път, за да стартирате „Режим на четене“.</string>
-  <string name="lookout_title">Разглеждане на обекти и текст около вас</string>
-  <string name="lookout_text">Lookout използва камерата ви, за да получава подробности за обектите, изображенията и текста около вас.  Можете да ползвате приложението за четене на табели, сортиране на поща и др.</string>
-  <string name="lookout_tips">Lookout разполага с няколко режима в зависимост от задачата, която изпълнявате. За сканиране на страница с текст например изберете режима за документи.</string>
   <string name="checking_notifications_title">Проверка на известията</string>
   <string name="checking_notifications_text_head">SandFly ще съобщи, когато получите ново известие.</string>
   <string name="checking_notifications_step_one">Първо плъзнете надолу с 4 пръста за достъп до известието.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Enviar mensagens</string>
   <string name="sending_messages_text">Para enviar uma mensagem, aceda ao ecrã principal e procure a app de mensagens</string>
   <string name="sending_message_tips">Também pode pedir ao Assistente Google para enviar uma mensagem para um contacto ou um número</string>
-  <string name="reading_web_emails_title">Ler Websites e emails</string>
-  <string name="reading_web_emails_text">O modo de leitura facilita a navegação, audição e leitura de conteúdos longos. Pode alterar o contraste e o tamanho do tipo de letra, fazer com que o texto seja lido em voz alta e muito mais.</string>
-  <string name="get_the_app_button">Obter app</string>
-  <string name="reading_web_emails_tips">Depois de instalar o modo de leitura:\n\n1. Aceda a Definições &gt; Acessibilidade &gt; Modo de leitura\n2. Ative o atalho\n3. Aceda a uma app ou Website e use o atalho para abrir o modo de leitura</string>
-  <string name="reading_web_emails_tips_tts">Depois de instalar o Modo de leitura:\n\n1. Aceda às Definições, Acessibilidade e, em seguida, Modo de leitura\n2. Ative o atalho\n3. Aceda a uma app ou Website e use o atalho para abrir o Modo de leitura</string>
-  <string name="lookout_title">Explorar itens e texto à sua volta</string>
-  <string name="lookout_text">O Lookout usa a sua câmara para obter detalhes acerca de objetos, imagens e texto à sua volta.  Pode usá-lo para ler sinais, organizar correio e muito mais.</string>
-  <string name="lookout_tips">O Lookout tem vários modos, consoante a tarefa que quer realizar. Por exemplo, para ler uma página de texto, selecione o modo de documentos.</string>
   <string name="checking_notifications_title">Verificar as notificações</string>
   <string name="checking_notifications_text_head">O SandFly anuncia quando recebe uma nova notificação.</string>
   <string name="checking_notifications_step_one">Primeiro, deslize rapidamente para baixo com 4 dedos para aceder à notificação.</string>

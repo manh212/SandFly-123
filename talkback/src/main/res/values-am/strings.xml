@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">መልዕክቶችን መላክ</string>
   <string name="sending_messages_text">መልዕክት ለመላክ ወደ መነሻ ማያ ገጽዎ ይሂዱ እና የመልዕክት መላኪያ መተግበሪያ ያግኙ</string>
   <string name="sending_message_tips">እንዲሁም Google ረዳት ወደ አንድ ዕውቂያ ወይም ቁጥር መልዕክት እንዲልክ መጠየቅ ይችላሉ</string>
-  <string name="reading_web_emails_title">ድር ጣቢያዎችን እና ኢሜይሎች በማንበብ ላይ</string>
-  <string name="reading_web_emails_text">የንባብ ሁነታ ረዥም ይዘትን ለመዳሰስ፣ ለማዳመጥ እና ለማንበብ ይበልጥ ቀላል ያደርጋል። የቅርጸ-ቁምፊ መጠን እና ንጽጽርን መለወጥ፣ ጽሁፉ ጮክ ብሎ እንዲነበብ እና ሌሎችንም ማድረግ ይችላሉ።</string>
-  <string name="get_the_app_button">መተግበሪያውን አግኝ</string>
-  <string name="reading_web_emails_tips">የማንበብ ሁነታን ከጫኑ በኋላ፦\n\n1. ወደ ቅንብሮች &gt; ተደራሽነት &gt; የማንበብ ሁነታ ይሂዱ\n2. አቋራጩን ያብሩ\n3. ወደ መተግበሪያ ወይም ድር ጣቢያ ይሂዱ እና የማንበብ ሁነታን ለመክፈት አቋራጩን ይጠቀሙ</string>
-  <string name="reading_web_emails_tips_tts">የንባብ ሁነታን ከጫኑ በኋላ፦\n\n1. ወደ ቅንብሮች፣ ከዚያም ወደ ተደራሽነት፣ በመቀጠል ወደ የንባብ ሁነታ ይሂዱ\n2. አቋራጩን ያብሩ\n3. ወደ መተግበሪያ ወይም ድር ጣቢያ ይሂዱ እና የንባብ ሁነታን ለመክፈት አቋራጩን ይጠቀሙ</string>
-  <string name="lookout_title">በአካባቢዎ ያሉ ንጥሎች እና ጽሁፍን በማሰስ ላይ</string>
-  <string name="lookout_text">Lookout በአካባቢዎ ስላሉ ቁሶች፣ ምስሎች እና ጽሁፍ ዝርዝሮችን ለማግኘት ካሜራዎን ይጠቀማል።  ፊርማዎችን ለማንበብ፣ ደብዳቤ ለመደርደር እና ለሌሎችም መጠቀም ይችላሉ።</string>
-  <string name="lookout_tips">በሚሞክሩት ተግባር ላይ ተመስርቶ Lookout በርካታ ሁነታዎች አሉት። ለምሳሌ የጽሁፍ ገጽ ለመቃኘት የሰነዶች ሁነታን ይምረጡ።</string>
   <string name="checking_notifications_title">ማሳወቂያዎችን መፈተሽ</string>
   <string name="checking_notifications_text_head">አዲስ ማሳወቂያ ሲደርስዎት SandFly ይናገራል።</string>
   <string name="checking_notifications_step_one">መጀመሪያ ማሳወቂያውን ለመድረስ በ4 ጣቶች ወደ ታች ያንሸራትቱ።</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Slanje poruka</string>
   <string name="sending_messages_text">Da pošaljete poruku, idite na početni ekran i pronađite aplikaciju za razmjenu poruka</string>
   <string name="sending_message_tips">Također možete zatražiti od Google Asistenta da pošalje poruku kontaktu ili broju</string>
-  <string name="reading_web_emails_title">Čitanje web lokacija i e-poruka</string>
-  <string name="reading_web_emails_text">Način rada za čitanje olakšava navigaciju, slušanje i čitanje dugog sadržaja. Možete promijeniti veličinu fonta i kontrast, omogućiti čitanje teksta naglas i drugo.</string>
-  <string name="get_the_app_button">Preuzmi aplikaciju</string>
-  <string name="reading_web_emails_tips">Nakon instaliranja načina rada za čitanje:\n\n1. Idite u Postavke &gt; Pristupačnost &gt; Način rada za čitanje.\n2. Uključite prečicu.\n3. Idite u aplikaciju ili na web lokaciju i koristite prečicu da otvorite način rada za čitanje.</string>
-  <string name="reading_web_emails_tips_tts">Nakon instaliranja načina rada za čitanje:\n\n1. Idite u Postavke, odaberite Pristupačnost, a zatim Način rada za čitanje.\n2. Uključite prečicu.\n3. Idite u aplikaciju ili na web lokaciju i koristite prečicu da otvorite način rada za čitanje.</string>
-  <string name="lookout_title">Istraživanje stavki i teksta oko vas</string>
-  <string name="lookout_text">Lookout koristi kameru da dobije detalje o predmetima, slikama i tekstu oko vas.  Možete ga koristiti za čitanje znakova, sortiranje pošte i drugo.</string>
-  <string name="lookout_tips">Lookout ima nekoliko načina rada ovisno o zadatku koji pokušavate izvršiti. Naprimjer, da skenirate stranicu teksta, odaberite način rada za dokumente.</string>
   <string name="checking_notifications_title">Provjera obavještenja</string>
   <string name="checking_notifications_text_head">SandFly će vas obavijestiti kada dobijete novo obavještenje.</string>
   <string name="checking_notifications_step_one">Prvo prevucite nadolje s 4 prsta da pristupite obavještenju.</string>

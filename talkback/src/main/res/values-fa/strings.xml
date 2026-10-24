@@ -1029,14 +1029,6 @@
   <string name="sending_messages_title">ارسال پیام</string>
   <string name="sending_messages_text">برای ارسال پیام، به صفحه اصلی بروید و برنامه پیام‌رسانی را پیدا کنید</string>
   <string name="sending_message_tips">‏همچنین می‌توانید از «دستیار Google» بخواهید پیامی به یک مخاطب یا شماره تلفن ارسال کند</string>
-  <string name="reading_web_emails_title">خواندن وب‌سایت‌ها و ایمیل‌ها</string>
-  <string name="reading_web_emails_text">«حالت خواندن» کمک می‌کند پیمایش، گوش دادن، و خواندن محتوای طولانی راحت‌تر شود. می‌توانید اندازه قلم را تغییر دهید، انتخاب کنید که نوشتار با صدای بلند برایتان خوانده شود، و کارهای دیگری انجام دهید.</string>
-  <string name="get_the_app_button">دریافت برنامه</string>
-  <string name="reading_web_emails_tips">‏پس‌از نصب «حالت خواندن»:\n\n۱. به «تنظیمات &gt; دسترس‌پذیری &gt; حالت خواندن» بروید\n۲. میان‌بر را روشن کنید\n۳. به برنامه یا وب‌سایتی بروید و از میان‌بر برای باز کردن «حالت خواندن» استفاده کنید</string>
-  <string name="reading_web_emails_tips_tts">‏پس‌از نصب «حالت خواندن»:\n\n۱. به «تنظیمات» سپس «دسترس‌پذیری» و بعداز آن «حالت خواندن» بروید\n۲. میان‌بر را روشن کنید\n۳. به برنامه یا وب‌سایتی بروید و از میان‌بر برای باز کردن «حالت خواندن» استفاده کنید</string>
-  <string name="lookout_title">کاوش چیزها و نوشتار در اطراف</string>
-  <string name="lookout_text">‏Lookout از دوربینتان برای دریافت جزئیات درباره اشیاء، تصاویر، و نوشتار در اطرافتان استفاده می‌کند.  می‌توانید از آن برای خواندن تابلوها، مرتب‌سازی نامه‌ها، و کارهای دیگر استفاده کنید.</string>
-  <string name="lookout_tips">‏Lookout بسته به کاری که انجام می‌دهید، حالت‌های مختلفی دارد. به‌عنوان مثال، برای اسکن کردن صفحه حاوی نوشتار، حالت اسناد را انتخاب کنید.</string>
   <string name="checking_notifications_title">بررسی اعلان‌ها</string>
   <string name="checking_notifications_text_head">‏وقتی اعلان جدیدی دریافت کنید، SandFly اعلام می‌کند.</string>
   <string name="checking_notifications_step_one">ابتدا با ۴ انگشت به‌پایین بکشید تا به اعلان دسترسی پیدا کنید.</string>

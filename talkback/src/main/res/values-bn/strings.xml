@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">মেসেজ পাঠানো হচ্ছে</string>
   <string name="sending_messages_text">মেসেজ পাঠাতে, আপনার হোম স্ক্রিনে যান এবং মেসেজিং অ্যাপ খুঁজুন</string>
   <string name="sending_message_tips">এছাড়াও আপনার পরিচিতির তালিকার কোনও নম্বরে বা ব্যক্তিকে মেসেজ পাঠানোর জন্য Google Assistant-কে বলতে পারেন</string>
-  <string name="reading_web_emails_title">ওয়েবসাইট ও ইমেল পড়া হচ্ছে</string>
-  <string name="reading_web_emails_text">Reading mode আরও সহজে বড় কন্টেন্ট নেভিগেট করতে, পড়তে এবং শুনতে সাহায্য করে। ফন্টের আকার ও কনট্রাস্ট পরিবর্তন করা, টেক্সট জোরে পড়া ইত্যাদি সুবিধা পেতে পারেন।</string>
-  <string name="get_the_app_button">অ্যাপ ইনস্টল করুন</string>
-  <string name="reading_web_emails_tips">Reading mode ইনস্টল করার পর:\n\n১. সেটিংস &gt; অ্যাক্সেসিবিলিটি &gt; Reading mode বিকল্পে যান\n২. শর্টকাট চালু করুন\n৩. কোনও অ্যাপ বা ওয়েবসাইটে যান এবং Reading mode খুলতে শর্টকাট ব্যবহার করুন</string>
-  <string name="reading_web_emails_tips_tts">\'রিডিং মোড\' ইনস্টল করার পর:\n\n১. প্রথমে \'সেটিংস\' তারপরে \'অ্যাক্সেসিবিলিটি\' ও \'রিডিং মোড\' বিকল্পে যান\n২. শর্টকাট চালু করুন\n৩. কোনও অ্যাপ বা ওয়েবসাইটে যান এবং \"রিডিং মোড\' খুলতে শর্টকাট ব্যবহার করুন</string>
-  <string name="lookout_title">আপনার আশেপাশের টেক্সট এবং আইটেম এক্সপ্লোর করুন</string>
-  <string name="lookout_text">Lookout, আপনার আশেপাশের অবজেক্ট, ছবি ও টেক্সট সম্পর্কিত বিবরণ জানতে আপনার ক্যামেরা ব্যবহার করে। আপনি বিভিন্ন চিহ্নের অর্থ বুঝতে, মেল সাজাতে ও আরও অনেক কিছু করতে এটি ব্যবহার করতে পারেন।</string>
-  <string name="lookout_tips">আপনি যে টাস্ক করার চেষ্টা করছেন তার উপর নির্ভর করে Lookout-এর বিভিন্ন মোড ব্যবহার করা যায়। যেমন, টেক্সট রয়েছে এমন পৃষ্ঠা স্ক্যান করতে, \'ডকুমেন্ট মোড\' বেছে নিন।</string>
   <string name="checking_notifications_title">বিজ্ঞপ্তি চেক করা হচ্ছে</string>
   <string name="checking_notifications_text_head">আপনি নতুন বিজ্ঞপ্তি পেলে SandFly তা জানিয়ে দেবে।</string>
   <string name="checking_notifications_step_one">প্রথমে, বিজ্ঞপ্তি অ্যাক্সেস করতে ৪টি আঙুল দিয়ে নিচে সোয়াইপ করুন।</string>

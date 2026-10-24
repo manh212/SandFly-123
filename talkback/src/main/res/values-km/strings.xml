@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">ការផ្ញើសារ</string>
   <string name="sending_messages_text">ដើម្បីផ្ញើសារ សូមចូលទៅកាន់អេក្រង់ដើមរបស់អ្នក ហើយរកមើលកម្មវិធី​ផ្ញើសារ</string>
   <string name="sending_message_tips">អ្នកក៏អាចប្រាប់ឱ្យ Google Assistant ផ្ញើសារទៅលេខ ឬទំនាក់ទំនងណាមួយបានផងដែរ</string>
-  <string name="reading_web_emails_title">ការអានគេហទំព័រ និងអ៊ីមែល</string>
-  <string name="reading_web_emails_text">មុខងារអានធ្វើឱ្យកាន់តែងាយស្រួលរុករក ស្ដាប់ និងអានខ្លឹមសារទម្រង់វែង។ អ្នកអាចប្ដូរកម្រិតរំលេចពណ៌និងទំហំពុម្ពអក្សរ ឱ្យអានអក្សរឮៗ និងច្រើនទៀត។</string>
-  <string name="get_the_app_button">ទាញយក​កម្មវិធី</string>
-  <string name="reading_web_emails_tips">បន្ទាប់ពីដំឡើងមុខងារអាន៖\n\n1. ចូលទៅកាន់ការកំណត់ &gt; ភាពងាយស្រួល &gt; មុខងារអាន\n2. បើកផ្លូវកាត់\n3. ចូលទៅកាន់កម្មវិធី ឬគេហទំព័រណាមួយ ហើយប្រើផ្លូវ​កាត់ដើម្បីបើកមុខងារអាន</string>
-  <string name="reading_web_emails_tips_tts">បន្ទាប់ពីដំឡើងមុខងារអាន៖\n\n1. ចូលទៅកាន់ \"ការកំណត់\" បន្ទាប់មក \"ភាពងាយស្រួល\" រួច \"មុខងារអាន\"\n2. បើកផ្លូវកាត់\n3. ចូលទៅកាន់កម្មវិធី ឬគេហទំព័រណាមួយ ហើយប្រើផ្លូវ​កាត់ដើម្បីបើកមុខងារអាន</string>
-  <string name="lookout_title">ការរុករកវត្ថុ និងអក្សរជុំវិញអ្នក</string>
-  <string name="lookout_text">Lookout ប្រើកាមេរ៉ារបស់អ្នកដើម្បីទទួលបានព័ត៌មានលម្អិតអំពីវត្ថុ រូបភាព និងអក្សរជុំវិញអ្នក។  អ្នកអាចប្រើកម្មវិធីនេះដើម្បីអានសញ្ញា តម្រៀបអ៊ីមែល និងច្រើនទៀត។</string>
-  <string name="lookout_tips">Lookout មានមុខងារជាច្រើន​ដោយផ្អែកលើកិច្ចការដែលអ្នក​កំពុងព្យាយាមធ្វើ។ ឧទាហរណ៍ ដើម្បីស្កេនទំព័រដែលមានអក្សរ ជ្រើសរើសទម្រង់ឯកសារ។</string>
   <string name="checking_notifications_title">ការពិនិត្យមើលការជូនដំណឹង</string>
   <string name="checking_notifications_text_head">SandFly នឹងប្រកាសនៅពេលដែលអ្នកទទួលបានការជូនដំណឹងថ្មី។</string>
   <string name="checking_notifications_step_one">ដំបូង អូសចុះក្រោមដោយប្រើម្រាមដៃ 4 ដើម្បីចូលប្រើការជូនដំណឹង។</string>

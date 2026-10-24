@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Cómo mandar mensajes</string>
   <string name="sending_messages_text">Para enviar un mensaje, ve a la pantalla principal y busca la app de mensajería</string>
   <string name="sending_message_tips">También puedes pedirle al Asistente de Google que envíe un mensaje a un contacto o número</string>
-  <string name="reading_web_emails_title">Lectura de sitios web y correos electrónicos</string>
-  <string name="reading_web_emails_text">Reading mode facilita la navegación, la lectura y la escucha de contenido extenso. Puedes cambiar el tamaño de la fuente y el contraste, hacer que el texto se lea en voz alta y mucho más.</string>
-  <string name="get_the_app_button">Descargar la app</string>
-  <string name="reading_web_emails_tips">Después de instalar Reading mode, haz lo siguiente:\n\n1. Ve a Configuración &gt; Accesibilidad &gt; Reading mode.\n2. Activa la combinación de teclas.\n3. Ve a una app o a un sitio web y usa la combinación de teclas para abrir el modo de lectura.</string>
-  <string name="reading_web_emails_tips_tts">Después de instalar Reading mode, haz lo siguiente:\n\n1. Ve a Configuración, Accesibilidad y, luego Modo de lectura.\n2. Activa la combinación de teclas.\n3. Ve a una app o a un sitio web, y usa la combinación de teclas para abrir el modo de lectura.</string>
-  <string name="lookout_title">Explora elementos y el texto que te rodea</string>
-  <string name="lookout_text">Lookout usa tu cámara para obtener detalles sobre los objetos, las imágenes y el texto que te rodean.  Puedes usarlo para leer letreros, ordenar el correo electrónico y mucho más.</string>
-  <string name="lookout_tips">Lookout tiene distintos modos, según la tarea que quieres realizar. Por ejemplo, para escanear una página de texto, selecciona el modo de documento.</string>
   <string name="checking_notifications_title">Cómo consultar las notificaciones</string>
   <string name="checking_notifications_text_head">SandFly anunciará cuando recibas una notificación nueva.</string>
   <string name="checking_notifications_step_one">Primero, desliza hacia abajo con 4 dedos para acceder a la notificación.</string>

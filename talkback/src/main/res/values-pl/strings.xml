@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Wysyłanie wiadomości</string>
   <string name="sending_messages_text">Aby wysyłać wiadomość, przejdź na ekran główny i znajdź aplikację do obsługi wiadomości</string>
   <string name="sending_message_tips">Możesz również poprosić Asystenta Google o wysłanie SMS-a do wybranej osoby z kontaktów lub na podany numer telefonu</string>
-  <string name="reading_web_emails_title">Odczytywanie stron internetowych i e-maili</string>
-  <string name="reading_web_emails_text">Tryb czytania ułatwia nawigowanie w obrębie dłuższych tekstów, ich odsłuchiwanie i odczytywanie. Możesz zmienić wielkość czcionki i kontrast, poprosić o przeczytanie tekstu na głos i wykonać inne działania.</string>
-  <string name="get_the_app_button">Pobierz aplikację</string>
-  <string name="reading_web_emails_tips">Po zainstalowaniu trybu czytania:\n\n1. Kliknij Ustawienia &gt; Ułatwienia dostępu &gt; Tryb czytania\n2. Włącz skrót.\n3. Przejdź do aplikacji lub strony i otwórz tryb czytania za pomocą skrótu</string>
-  <string name="reading_web_emails_tips_tts">Po zainstalowaniu Trybu czytania:\n\n1. Kliknij Ustawienia, a następnie Ułatwienia dostępu i Tryb czytania.\n2. Włącz skrót.\n3. Przejdź do aplikacji lub strony i otwórz tryb czytania za pomocą skrótu.</string>
-  <string name="lookout_title">Uzyskiwanie informacji o obiektach i napisach w pobliżu</string>
-  <string name="lookout_text">Lookout korzysta z aparatu, aby uzyskać informacje o znajdujących się w pobliżu obiektach, obrazach i napisach.  Możesz używać tej aplikacji do odczytywania znaków, sortowania e-maili i wykonywania innych czynności.</string>
-  <string name="lookout_tips">Aplikacja Lookout udostępnia różne tryby w zależności od zadania, które wykonujesz. Jeśli na przykład chcesz zeskanować stronę tekstu, wybierz tryb dokumentów.</string>
   <string name="checking_notifications_title">Sprawdzanie powiadomień</string>
   <string name="checking_notifications_text_head">SandFly poinformuje Cię, gdy otrzymasz nowe powiadomienie.</string>
   <string name="checking_notifications_step_one">Najpierw przesuń 4 palcami w dół, aby przejść do powiadomienia.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Como enviar mensagens</string>
   <string name="sending_messages_text">Para enviar uma mensagem, acesse a tela inicial e encontre o app de mensagens</string>
   <string name="sending_message_tips">Você também pode pedir que o Google Assistente envie uma mensagem para um contato ou um número</string>
-  <string name="reading_web_emails_title">Leitura de sites e e-mails</string>
-  <string name="reading_web_emails_text">O modo de leitura torna conteúdos longos mais fáceis de navegar, ouvir e ler. Você pode mudar o tamanho da fonte e o contraste, fazer com que o texto seja lido em voz alta e muito mais.</string>
-  <string name="get_the_app_button">Instalar o app</string>
-  <string name="reading_web_emails_tips">Depois de instalar o modo de leitura:\n\n1. Acesse \"Configurações &gt; Acessibilidade &gt; Modo de leitura\".\n2. Ative o atalho.\n3. Acesse um app ou site e use o atalho para abrir o modo de leitura.</string>
-  <string name="reading_web_emails_tips_tts">Depois de instalar o Modo de leitura:\n\n1. Acesse o app Configurações e vá para \"Acessibilidade\" e depois para \"Modo de leitura\".\n2. Ative o atalho.\n3. Acesse um app ou site e use o atalho para abrir o Modo de leitura.</string>
-  <string name="lookout_title">Como analisar itens e textos ao seu redor</string>
-  <string name="lookout_text">O Lookout usa a câmera para dar detalhes sobre objetos, imagens e textos ao seu redor.  Ele pode ser usado para ler placas, organizar cartas e muito mais.</string>
-  <string name="lookout_tips">O Lookout tem vários modos para se adaptar ao que você quer fazer. Por exemplo, para ler uma página de texto, selecione o modo de documentos.</string>
   <string name="checking_notifications_title">Como verificar notificações</string>
   <string name="checking_notifications_text_head">O SandFly vai anunciar quando você receber uma nova notificação.</string>
   <string name="checking_notifications_step_one">Primeiro, deslize de cima para baixo na tela com quatro dedos para abrir a notificação.</string>

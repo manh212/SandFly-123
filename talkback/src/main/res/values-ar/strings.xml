@@ -1185,14 +1185,6 @@
   <string name="sending_messages_title">إرسال الرسائل</string>
   <string name="sending_messages_text">لإرسال رسالة، انتقِل إلى الشاشة الرئيسية وابحث عن تطبيق مراسلة.</string>
   <string name="sending_message_tips">‏يمكنك أيضًا توجيه طلب إلى \"مساعد Google\" لإرسال رسالة إلى جهة اتصال أو رقم.</string>
-  <string name="reading_web_emails_title">قراءة المواقع الإلكترونية والرسائل الإلكترونية</string>
-  <string name="reading_web_emails_text">يساعد \"وضع القراءة\" في تسهيل التنقّل ضمن النصوص الطويلة والاستماع إليها وقراءتها. يمكنك تغيير حجم الخط والتباين، وسماع النص بصوت عالٍ، وغير ذلك.</string>
-  <string name="get_the_app_button">الحصول على التطبيق</string>
-  <string name="reading_web_emails_tips">‏بعد تثبيت \"وضع القراءة\"، اتّبع الخطوات التالية:\n\n1- انتقِل إلى الإعدادات &gt; تسهيل الاستخدام &gt; وضع القراءة\n2- فعِّل الاختصار.\n‏3- انتقِل إلى تطبيق أو موقع إلكتروني واستخدِم الاختصار لفتح \"وضع القراءة\".</string>
-  <string name="reading_web_emails_tips_tts">‏بعد تثبيت \"وضع القراءة\":\n\n1- انتقِل إلى الإعدادات &gt; تسهيل الاستخدام &gt; وضع القراءة.\n2- فعِّل الاختصار.\n3- انتقِل إلى تطبيق أو موقع إلكتروني واستخدِم الاختصار لفتح \"وضع القراءة\".</string>
-  <string name="lookout_title">استكشاف العناصر والنصوص من حولك</string>
-  <string name="lookout_text">‏يستخدم تطبيق Lookout الكاميرا للحصول على تفاصيل حول العناصر والصور والنصوص من حولك.  يمكنك استخدام التطبيق لقراءة اللافتات وترتيب الرسائل الإلكترونية والمزيد.</string>
-  <string name="lookout_tips">‏يتضمّن تطبيق Lookout أوضاعًا متعدّدة بناءً على المهمّة التي تنفّذها. على سبيل المثال، اختَر وضع \"المستندات\" من أجل المسح ضوئيًا لصفحة تضمّ نصًّا.</string>
   <string name="checking_notifications_title">الاطّلاع على الإشعارات</string>
   <string name="checking_notifications_text_head">‏سيتم إعلامك من خلال SandFly عند تلقّي إشعار جديد.</string>
   <string name="checking_notifications_step_one">أولاً، مرِّر سريعًا للأسفل باستخدام 4 أصابع للاطّلاع على الإشعار.</string>

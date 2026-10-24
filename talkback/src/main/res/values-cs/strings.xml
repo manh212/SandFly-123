@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Odesílání zpráv</string>
   <string name="sending_messages_text">Pokud chcete odeslat zprávu, přejděte na plochu a najděte aplikaci na odesílání zpráv</string>
   <string name="sending_message_tips">Můžete také požádat Asistenta Google, aby odeslal zprávu konkrétnímu kontaktu nebo na konkrétní číslo</string>
-  <string name="reading_web_emails_title">Čtení webů a e-mailů</string>
-  <string name="reading_web_emails_text">Režim čtení usnadňuje procházení, poslech a čtení dlouhého obsahu. Můžete změnit velikost a kontrast písma, nechat si přečíst text nahlas a podobně.</string>
-  <string name="get_the_app_button">Stáhnout aplikaci</string>
-  <string name="reading_web_emails_tips">Po instalaci Režimu čtení:\n\n1. Přejděte na Nastavení &gt; Přístupnost &gt; Režim čtení.\n2. Zapněte zkratku.\n3. Přejděte do aplikace nebo na web a pomocí zkratky otevřete Režim čtení.</string>
-  <string name="reading_web_emails_tips_tts">Po instalaci Režimu čtení:\n\n1. Přejděte do Nastavení, poté na Přístupnost a poté na Režim čtení.\n2. Zapněte zkratku.\n3. Přejděte do aplikace nebo na web a pomocí zkratky otevřete Režim čtení.</string>
-  <string name="lookout_title">Průzkum věcí a textu v okolí</string>
-  <string name="lookout_text">Aplikace Lookout umožňuje získat pomocí fotoaparátu podrobnosti o objektech, obrázcích a textu v okolí.  Můžete ji použít ke čtení značek, třídění pošty a mnoha dalším věcem.</string>
-  <string name="lookout_tips">Lookout má několik režimů podle toho, co potřebujete udělat. Pokud například chcete naskenovat stránku textu, vyberte režim dokumentů.</string>
   <string name="checking_notifications_title">Kontrola oznámení</string>
   <string name="checking_notifications_text_head">SandFly vám bude ohlašovat, že máte nové oznámení.</string>
   <string name="checking_notifications_step_one">Nejdřív oznámení otevřete přejetím čtyřmi prsty dolů.</string>
