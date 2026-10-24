@@ -1031,14 +1031,6 @@ SandFly सेटिंग्जमध्ये SandFly मेनू आणि �
   <string name="sending_messages_title">मेसेज पाठवणे</string>
   <string name="sending_messages_text">मेसेज पाठवण्यासाठी, तुमच्या होम स्क्रीनवर जा आणि मेसेजिंग ॲप शोधा</string>
   <string name="sending_message_tips">तुम्ही Google Assistant लादेखील एखाद्या संपर्काला किंवा नंबरला मेसेज पाठवण्यास सांगू शकता</string>
-  <string name="reading_web_emails_title">वेबसाइट आणि ईमेल वाचणे</string>
-  <string name="reading_web_emails_text">वाचन मोड दीर्घ आशय नेव्हिगेट करणे, ऐकणे आणि वाचणे आणखी सोपे करते. तुम्ही फॉंटचा आकार आणि कॉंट्रास्ट बदलू शकता, मजकूर मोठ्याने वाचू शकता व आणखी बरेच काही करू शकता.</string>
-  <string name="get_the_app_button">अ‍ॅप मिळवा</string>
-  <string name="reading_web_emails_tips">वाचन मोड इंस्टॉल केल्यानंतर:\n\n१. सेटिंग्ज मध्ये जा &gt; अ‍ॅक्सेसिबिलिटी &gt; वाचन मोड\n२. शॉर्टकट सुरू करा\n३. एखाद्या अ‍ॅप किंवा वेबसाइटवर जा आणि वाचन मोड उघडण्यासाठी शॉर्टकट वापरा</string>
-  <string name="reading_web_emails_tips_tts">वाचन मोड इंस्टॉल केल्यानंतर:\n\n१. Settings त्यानंतर अ‍ॅक्सेसिबिलिटी त्यानंतर वाचन मोड वर जा\n२. शॉर्टकट सुरू करा\n३. एखाद्या अ‍ॅप किंवा वेबसाइटवर जा आणि वाचन मोड उघडण्यासाठी शॉर्टकट वापरा</string>
-  <string name="lookout_title">तुमच्या आजूबाजूचे आयटम आणि मजकूर एक्सप्लोर करत आहे</string>
-  <string name="lookout_text">Lookout हे तुमच्या आजूबाजूच्या गोष्टी, इमेज आणि मजकुराबद्दल तपशील मिळवण्यासाठी तुमचा कॅमेरा वापरू शकते.  तुम्ही चिन्हे वाचण्यासाठी, मेल क्रमाने लावण्यासाठी आणि आणखी गोष्टी करण्यासाठी ते वापरू शकता.</string>
-  <string name="lookout_tips">तुम्ही कोणती टास्क करून पाहत आहात यानुसार Lookout मध्ये अनेक मोड आहेत. उदाहरणार्थ, तुम्ही मजकुराचे पेज स्कॅन करू शकता, दस्तऐवज मोड निवडू शकता.</string>
   <string name="checking_notifications_title">नोटिफिकेशन तपासत आहे</string>
   <string name="checking_notifications_text_head">तुम्हाला नवीन नोटिफिकेशन मिळाल्यावर, SandFly घोषणा करेल.</string>
   <string name="checking_notifications_step_one">सर्वप्रथम, नोटिफिकेशन ॲक्सेस करण्यासाठी ४ बोटांनी खाली स्वाइप करा.</string>

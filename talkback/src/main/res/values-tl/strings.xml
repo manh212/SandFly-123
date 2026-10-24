@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Pagpapadala ng mga mensahe</string>
   <string name="sending_messages_text">Para magpadala ng mensahe, pumunta sa iyong home screen at maghanap ng app sa pagmemensahe</string>
   <string name="sending_message_tips">Puwede mo ring hilingin sa Google Assistant na magpadala ng mensahe sa isang contact o numero</string>
-  <string name="reading_web_emails_title">Binabasa ang mga website at email</string>
-  <string name="reading_web_emails_text">Pinapadali ng reading mode ang pag-navigate, pakikinig, at pagbabasa ng mahabang content. Puwede mong baguhin ang laki ng font at contrast, ipabasa nang malakas ang text, at higit pa.</string>
-  <string name="get_the_app_button">Kunin ang app</string>
-  <string name="reading_web_emails_tips">Pagkatapos i-install ang Reading mode:\n\n1. Pumunta sa Mga Setting &gt; Accessibility &gt; Reading mode\n2. I-on ang shortcut\n3. Pumunta sa isang app o website, at gamitin ang shortcut para buksan ang Reading mode</string>
-  <string name="reading_web_emails_tips_tts">Pagkatapos i-install ang Reading mode:\n\n1. Pumunta sa Settings, pagkatapos ay Accessibility, pagkatapos ay Reading mode\n2. I-on ang shortcut\n3. Pumunta sa isang app o website, at gamitin ang shortcut para buksan ang Reading mode</string>
-  <string name="lookout_title">Pag-explore ng mga item at text sa paligid mo</string>
-  <string name="lookout_text">Ginagamit ng Lookout ang iyong camera para makakuha ng mga detalye tungkol sa mga bagay, larawan, at text sa paligid mo.  Puwede mo itong gamitin para magbasa ng mga karatula, mag-sort ng mail, at higit pa.</string>
-  <string name="lookout_tips">Maraming mode ang Lookout, depende sa gawaing sinusubukan mo. Halimbawa, para mag-scan ng page ng text, piliin ang mode na mga dokumento.</string>
   <string name="checking_notifications_title">Sinusuri ang mga notification</string>
   <string name="checking_notifications_text_head">Mag-aanunsyo ang SandFly kapag nakatanggap ka ng bagong notification.</string>
   <string name="checking_notifications_step_one">Una, mag-swipe pababa gamit ang 4 na daliri para ma-access ang notification.</string>

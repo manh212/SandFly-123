@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Üzenetek küldése</string>
   <string name="sending_messages_text">Üzenetek küldéséhez keresse meg a kezdőképernyőn az üzenetküldő alkalmazást.</string>
   <string name="sending_message_tips">A Google Segédet is megkérheti arra, hogy küldjön üzenetet az egyik ismerősének vagy az adott telefonszámra.</string>
-  <string name="reading_web_emails_title">Webhelyek és e-mailek olvasása</string>
-  <string name="reading_web_emails_text">Az Olvasó mód megkönnyíti a hosszú tartalmakban való navigálást, valamint a hosszú tartalmak meghallgatását és olvasását. Módosíthatja a betűméretet és a kontrasztot, felolvastathatja a szöveget, stb.</string>
-  <string name="get_the_app_button">Alkalmazás letöltése</string>
-  <string name="reading_web_emails_tips">Az Olvasó mód telepítése után:\n\n1. Lépjen a Beállítások &gt; KIsegítő lehetőségek &gt; Olvasó mód menüponthoz.\n2. Kapcsolja be a gyorsparancsot.\n3. Lépjen a kívánt alkalmazásba vagy webhelyre, majd a gyorsparanccsal nyissa meg az Olvasó módot.</string>
-  <string name="reading_web_emails_tips_tts">Az Olvasó mód telepítése után:\n\n1. Lépjen a Beállítások alkalmazásra, majd a Kisegítő lehetőségek, végül pedig a Olvasási mód pontra\n2. Kapcsolja be a gyorsparancsot.\n3. Lépjen a kívánt alkalmazásba vagy webhelyre, majd a gyorsparanccsal nyissa meg az Olvasási módot.</string>
-  <string name="lookout_title">A környezetében található tárgyak és szövegek felfedezése</string>
-  <string name="lookout_text">A Lookout részleteket jelenít meg a kamera segítségével a környezetében lévő tárgyakról, képekről és szövegekről.  Az alkalmazás használatával táblákat olvashat el, leveleket válogathat, stb.</string>
-  <string name="lookout_tips">Az elvégezni kívánt feladattól függően a Lookout különböző módokkal használható. Egy kinyomtatott szöveg beolvasásához például válassza ki a Dokumentumok módot.</string>
   <string name="checking_notifications_title">Értesítések ellenőrzése…</string>
   <string name="checking_notifications_text_head">A SandFly bejelenti, amikor Ön új értesítést kap.</string>
   <string name="checking_notifications_step_one">Először csúsztasson lefelé négy ujjal az értesítéshez való hozzáféréshez.</string>

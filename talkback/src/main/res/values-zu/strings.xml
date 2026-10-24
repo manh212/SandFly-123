@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Ithumela imiyalezo</string>
   <string name="sending_messages_text">Ukuze uthumele umyalezo, iya esikrinini sakho sasekhaya futhi uthole i-app yokuthumela imiyalezo</string>
   <string name="sending_message_tips">Futhi ungacela i-Google Assistant ukuthi ithumele umyalezo koxhumana naye noma inombolo</string>
-  <string name="reading_web_emails_title">Ukufunda amawebhusayithi nama-imeyili</string>
-  <string name="reading_web_emails_text">Imodi yokufunda yenza okuqukethwe okude kube lula ukukufuna, ukulkualela, nokukufunda. Ungashintsha usayizi wefonti nokugqama, wenze umbhalo ufundwe ngokuphimisela, nokuningi.</string>
-  <string name="get_the_app_button">Thola i-app</string>
-  <string name="reading_web_emails_tips">Ngemva kokufaka Imodi yokufunda:\n\n1. Iya Kumasethingi &gt; Ukufinyeleleka &gt; Imodi yokufunda\n2. Vula isinqamuleli\n3. Iya ku-app noma iwebhusayithi, bese usebenzisa isinqamuleli ukuze uvule Imodi yokufunda</string>
-  <string name="reading_web_emails_tips_tts">Ngemva kokufaka Imodi yokufunda:\n\n1. Iya Kumasethingi bese Ukufinyelela bese Imodi yokufunda\n2. Vula isinqamuleli\n3. Iya ku-app noma kuwebhusayithi, bese usebenzisa isinqamuleli ukuze uvule Imodi yokufunda</string>
-  <string name="lookout_title">Ihlola izinto nombhalo okuzungezile</string>
-  <string name="lookout_text">I-Lookout isebenzisa ikhamera yakho ukuze ithole imininingwane mayelana nezinto, imifanekiso, nombhalo okuzungezile.  Ungayisebenzisela ukufunda izimpawu, ukuhlunga imeyili, nokuningi.</string>
-  <string name="lookout_tips">I-Lookout inezinhlobo ezimbalwa, kuye ngomsebenzi owuzamayo. Ngokwesibonelo, ukuskena ikhasi lombhalo, khetha imodi yamadokhumenti.</string>
   <string name="checking_notifications_title">Ihlola izaziso</string>
   <string name="checking_notifications_text_head">I-SandFly izomemezela uma uthola isaziso esisha.</string>
   <string name="checking_notifications_step_one">Okokuqala, swayiphela phansi ngeminwe engu-4 ukuze ufinyelele esazisweni.</string>

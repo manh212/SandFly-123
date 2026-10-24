@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">ਸੁਨੇਹੇ ਭੇਜਣਾ</string>
   <string name="sending_messages_text">ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ, ਆਪਣੀ ਹੋਮ ਸਕ੍ਰੀਨ \'ਤੇ ਜਾਓ ਅਤੇ ਸੁਨੇਹਾ ਐਪ ਲੱਭੋ</string>
   <string name="sending_message_tips">ਤੁਸੀਂ Google Assistant ਨੂੰ ਕਿਸੇ ਸੰਪਰਕ ਜਾਂ ਨੰਬਰ \'ਤੇ ਸੁਨੇਹਾ ਭੇਜਣ ਲਈ ਵੀ ਕਹਿ ਸਕਦੇ ਹੋ</string>
-  <string name="reading_web_emails_title">ਵੈੱਬਸਾਈਟਾਂ ਅਤੇ ਈਮੇਲਾਂ ਪੜ੍ਹਨਾ</string>
-  <string name="reading_web_emails_text">ਪੜ੍ਹਨ ਦਾ ਮੋਡ ਲੰਬੀ ਸਮੱਗਰੀ ਨੂੰ ਨੈਵੀਗੇਟ ਕਰਨਾ, ਸੁਣਨਾ ਅਤੇ ਪੜ੍ਹਨਾ ਆਸਾਨ ਬਣਾਉਂਦਾ ਹੈ। ਤੁਸੀਂ ਫ਼ੌਂਟ ਦਾ ਆਕਾਰ ਅਤੇ ਕੰਟ੍ਰਾਸਟ ਬਦਲ ਸਕਦੇ ਹੋ, ਲਿਖਤ ਨੂੰ ਉੱਚੀ ਅਵਾਜ਼ ਵਿੱਚ ਪੜ੍ਹ ਸਕਦੇ ਹੋ ਅਤੇ ਹੋਰ ਬਹੁਤ ਕੁਝ ਕਰ ਸਕਦੇ ਹੋ।</string>
-  <string name="get_the_app_button">ਐਪ ਪ੍ਰਾਪਤ ਕਰੋ</string>
-  <string name="reading_web_emails_tips">ਪੜ੍ਹਨ ਦੇ ਮੋਡ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਤੋਂ ਬਾਅਦ:\n\n1. ਸੈਟਿੰਗਾਂ &gt; ਪਹੁੰਚਯੋਗਤਾ &gt; ਪੜ੍ਹਨ ਦੇ ਮੋਡ \'ਤੇ ਜਾਓ\n2. ਸ਼ਾਰਟਕੱਟ ਚਾਲੂ ਕਰੋ\n3. ਕਿਸੇ ਐਪ ਜਾਂ ਵੈੱਬਸਾਈਟ \'ਤੇ ਜਾਓ ਅਤੇ ਪੜ੍ਹਨ ਦੇ ਮੋਡ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਸ਼ਾਰਟਕੱਟ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
-  <string name="reading_web_emails_tips_tts">ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਮੋਡ ਨੂੰ ਸਥਾਪਤ ਕਰਨ ਤੋਂ ਬਾਅਦ:\n\n1. \'ਸੈਟਿੰਗਾਂ\' ਫਿਰ \'ਪਹੁੰਚਯੋਗਤਾ\' ਫਿਰ \'ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਮੋਡ\' \'ਤੇ ਜਾਓ\n2. ਸ਼ਾਰਟਕੱਟ ਚਾਲੂ ਕਰੋ\n3. ਕਿਸੇ ਐਪ ਜਾਂ ਵੈੱਬਸਾਈਟ \'ਤੇ ਜਾਓ ਅਤੇ ਪੜ੍ਹਨ ਸੰਬੰਧੀ ਮੋਡ ਨੂੰ ਖੋਲ੍ਹਣ ਲਈ ਸ਼ਾਰਟਕੱਟ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
-  <string name="lookout_title">ਆਪਣੇ ਆਲੇ-ਦੁਆਲੇ ਮੌਜੂਦ ਆਈਟਮਾਂ ਅਤੇ ਲਿਖਤ ਦੀ ਪੜਚੋਲ ਕਰੋ</string>
-  <string name="lookout_text">Lookout ਤੁਹਾਡੇ ਆਲੇ-ਦੁਆਲੇ ਮੌਜੂਦ ਵਸਤੂਆਂ, ਚਿੱਤਰਾਂ ਅਤੇ ਲਿਖਤ ਬਾਰੇ ਵੇਰਵੇ ਪ੍ਰਾਪਤ ਕਰਨ ਲਈ ਤੁਹਾਡੇ ਕੈਮਰੇ ਦੀ ਵਰਤੋਂ ਕਰਦੀ ਹੈ।  ਤੁਸੀਂ ਇਸਦੀ ਵਰਤੋਂ ਚਿੰਨ੍ਹਾਂ ਨੂੰ ਪੜ੍ਹਨ, ਈਮੇਲ ਨੂੰ ਕ੍ਰਮ-ਬੱਧ ਕਰਨ ਅਤੇ ਹੋਰ ਬਹੁਤ ਕੁਝ ਕਰਨ ਲਈ ਕਰ ਸਕਦੇ ਹੋ।</string>
-  <string name="lookout_tips">ਜਿਸ ਕੰਮ ਨੂੰ ਤੁਸੀਂ ਕਰਨ ਦੀ ਕੋਸ਼ਿਸ਼ ਕਰ ਰਹੇ ਹੋ, ਉਸ ਦੇ ਆਧਾਰ \'ਤੇ Lookout ਦੇ ਕਈ ਮੋਡ ਹਨ। ਉਦਾਹਰਨ ਲਈ, ਲਿਖਤ ਦੇ ਪੰਨੇ ਨੂੰ ਸਕੈਨ ਕਰਨ ਲਈ, ਦਸਤਾਵੇਜ਼ ਮੋਡ ਚੁਣੋ।</string>
   <string name="checking_notifications_title">ਸੂਚਨਾਵਾਂ ਦੀ ਜਾਂਚ ਕੀਤੀ ਜਾ ਰਹੀ ਹੈ</string>
   <string name="checking_notifications_text_head">ਨਵੀਂ ਸੂਚਨਾ ਪ੍ਰਾਪਤ ਹੋਣ \'ਤੇ, SandFly ਵਿਸ਼ੇਸ਼ਤਾ ਇਸਦੀ ਘੋਸ਼ਣਾ ਕਰੇਗੀ।</string>
   <string name="checking_notifications_step_one">ਸਭ ਤੋਂ ਪਹਿਲਾਂ, ਸੂਚਨਾ ਤੱਕ ਪਹੁੰਚ ਕਰਨ ਲਈ 4 ਉਂਗਲਾਂ ਨਾਲ ਹੇਠਾਂ ਵੱਲ ਸਵਾਈਪ ਕਰੋ।</string>

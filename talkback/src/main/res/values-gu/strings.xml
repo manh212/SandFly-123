@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">મેસેજ મોકલવા</string>
   <string name="sending_messages_text">મેસેજ મોકલવા માટે, તમારી હોમ સ્ક્રીન પર જાઓ અને મેસેજિંગ ઍપ શોધો</string>
   <string name="sending_message_tips">તમે Google Assistantને કોઈ સંપર્ક કે નંબર પર મેસેજ મોકલવા પણ કહી શકો છો</string>
-  <string name="reading_web_emails_title">વેબસાઇટ અને ઇમેઇલ વાંચવા</string>
-  <string name="reading_web_emails_text">વાંચન મોડ લાંબા કન્ટેન્ટને નૅવિગેટ કરવાનું, સાંભળવાનું અને તેને વાંચવાનું સરળ બનાવે છે. તમે ફૉન્ટનું કદ અને કોન્ટ્રાસ્ટ બદલી શકો છો અને ટેક્સ્ટને મોટેથી બોલવા જેવી બીજી ઘણી સુવિધાઓ મેળવી શકો છો.</string>
-  <string name="get_the_app_button">ઍપ મેળવો</string>
-  <string name="reading_web_emails_tips">વાંચન મોડ ઇન્સ્ટૉલ કર્યા પછી:\n\n1. સેટિંગ &gt; ઍક્સેસિબિલિટી &gt; વાંચન મોડ પર જાઓ\n2. શૉર્ટકટ ચાલુ કરો\n3. ઍપ અથવા વેબસાઇટ પર જાઓ અને વાંચન મોડ ખોલવા માટે શૉર્ટકટનો ઉપયોગ કરો</string>
-  <string name="reading_web_emails_tips_tts">વાંચન મોડ ઇન્સ્ટૉલ કર્યા પછી:\n\n1. સેટિંગ પછી ઍક્સેસિબિલિટી પછી વાંચન મોડ પર જાઓ\n2. શૉર્ટકટ ચાલુ કરો\n3. ઍપ અથવા વેબસાઇટ પર જાઓ અને વાંચન મોડ ખોલવા માટે શૉર્ટકટનો ઉપયોગ કરો</string>
-  <string name="lookout_title">તમારી આસપાસની આઇટમ અને ટેક્સ્ટ વિશે શોધખોળ કરવી</string>
-  <string name="lookout_text">તમારી આસપાસના ઑબ્જેક્ટ, છબીઓ અને ટેક્સ્ટની વિગતો મેળવવા માટે, Lookout તમારા કૅમેરાનો ઉપયોગ કરે છે.  તમે તેનો ઉપયોગ ચિહ્નો વાંચવા, મેઇલ સૉર્ટ કરવા અને બીજું ઘણું કરવા માટે કરી શકો છો.</string>
-  <string name="lookout_tips">તમે જે કાર્ય કરવાનો પ્રયાસ કરી રહ્યાં હો, તેના આધારે Lookoutમાં ઘણા મોડ છે. ઉદાહરણ તરીકે, ટેક્સ્ટના પેજને સ્કૅન કરવા માટે, દસ્તાવેજોનો મોડ પસંદ કરો.</string>
   <string name="checking_notifications_title">નોટિફિકેશન ચેક કરવી</string>
   <string name="checking_notifications_text_head">તમને જ્યારે કોઈ નવું નોટિફિકેશન મળશે ત્યારે SandFly તેની ઘોષણા કરશે.</string>
   <string name="checking_notifications_step_one">સૌથી પહેલા, નોટિફિકેશનની સુવિધાના ઍક્સેસ માટે 4 આંગળી વડે નીચેની તરફ સ્વાઇપ કરો.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Viestien lähettäminen</string>
   <string name="sending_messages_text">Lähetä viesti siirtymällä aloitusnäytölle ja etsi viestisovellus</string>
   <string name="sending_message_tips">Voit myös pyytää Google Assistantia lähettämään viestin yhteystiedolle tai numeroon</string>
-  <string name="reading_web_emails_title">Verkkosivustojen ja sähköpostien lukeminen</string>
-  <string name="reading_web_emails_text">Lukutila helpottaa pitkässä sisällössä siirtymistä sekä sisällön lukemista ja kuuntelemista. Voit esimerkiksi muuttaa fontin kokoa ja kontrastia sekä pyytää, että teksti luetaan ääneen.</string>
-  <string name="get_the_app_button">Lataa sovellus</string>
-  <string name="reading_web_emails_tips">Kun olet asentanut lukutilan, toimi näin:\n\n1. Siirry kohtaan Asetukset &gt; Saavutettavuus &gt; Lukutila\n2. Ota pikakomento käyttöön\n3. Siirry sovellukseen tai verkkosivustolle ja käytä pikakomentoa lukutilan avaamiseen</string>
-  <string name="reading_web_emails_tips_tts">Kun olet asentanut lukutilan, toimi näin:\n\n1. Siirry kohtaan Asetukset &gt; Lukutila\n2. Ota pikanäppäin käyttöön\n3. Siirry sovellukseen tai verkkosivustolle ja käytä pikakomentoa lukutilan avaamiseen</string>
-  <string name="lookout_title">Ympärilläsi olevat kohteet ja tekstit</string>
-  <string name="lookout_text">Lookout käyttää kameraa kertoakseen ympärilläsi olevista esineistä, kuvista ja tekstistä.  Voit käyttää sitä esimerkiksi kylttien lukemiseen ja postin lajitteluun.</string>
-  <string name="lookout_tips">Lookoutilla on useita tiloja, joita voit vaihtaa tarpeen mukaan. Voit esimerkiksi skannata sivun tekstin tai valita dokumenttitilan.</string>
   <string name="checking_notifications_title">Ilmoitusten tarkistaminen</string>
   <string name="checking_notifications_text_head">SandFly ilmoittaa, kun saat uuden ilmoituksen.</string>
   <string name="checking_notifications_step_one">Pääset ilmoitukseen pyyhkäisemällä ensin alas neljällä sormella.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">שליחת הודעות</string>
   <string name="sending_messages_text">כדי לשלוח הודעה, עוברים למסך הבית ומאתרים את אפליקציית ההודעות</string>
   <string name="sending_message_tips">‏אפשר גם לבקש מ-Google Assistant לשלוח הודעה לאיש קשר או למספר טלפון</string>
-  <string name="reading_web_emails_title">הקראת אתרים ואימיילים</string>
-  <string name="reading_web_emails_text">מצב ההקראה עוזר לנווט בתכנים ארוכים, להאזין להם ולקרוא אותם. ניתן לשנות את גודל הגופן והניגודיות, להפעיל הקראה של הטקסט בקול ועוד.</string>
-  <string name="get_the_app_button">להורדת האפליקציה</string>
-  <string name="reading_web_emails_tips">‏אחרי שמתקינים את מצב ההקראה:\n\n1. עוברים להגדרות &gt; נגישות &gt; מצב הקראה\n2. מפעילים את קיצור הדרך\n3. עוברים לאפליקציה או לאתר אינטרנט ומשתמשים בקיצור הדרך כדי להפעיל את מצב ההקראה</string>
-  <string name="reading_web_emails_tips_tts">‏אחרי שמתקינים את מצב ההקראה:\n\n1. עוברים אל \'הגדרות\' &gt; \'נגישות\' &gt; \'מצב הקראה\'\n2. מפעילים את קיצור הדרך\n3. עוברים לאפליקציה או לאתר אינטרנט ומשתמשים בקיצור הדרך כדי להפעיל את מצב ההקראה</string>
-  <string name="lookout_title">גילוי פריטים וטקסט בסביבתך</string>
-  <string name="lookout_text">‏אפליקציית Lookout מאפשרת להשתמש במצלמה כדי לקבל פרטים על אובייקטים, תמונות וטקסט בסביבתך.  אפשר להשתמש בה כדי לקרוא שלטים, למיין דואר ועוד.</string>
-  <string name="lookout_tips">‏לאפליקציית Lookout יש כמה מצבים, בהתאם למשימה שמנסים לבצע. לדוגמה, כדי לסרוק עמוד של טקסט, בוחרים במצב \'מסמכים\'.</string>
   <string name="checking_notifications_title">בדיקת ההתראות</string>
   <string name="checking_notifications_text_head">‏‫SandFly יודיע כשתתקבל הודעה חדשה.</string>
   <string name="checking_notifications_step_one">קודם כל, מחליקים למטה עם 4 אצבעות כדי לגשת להתראה.</string>

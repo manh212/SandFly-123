@@ -122,7 +122,6 @@ public final class TutorialGestureUses {
           .put(R.string.new_shortcut_gesture_copy_text_text, ImmutableList.of(COPY))
           .put(R.string.new_shortcut_gesture_paste_text_text, ImmutableList.of(PASTE))
           .put(R.string.new_shortcut_gesture_cut_text_text, ImmutableList.of(CUT))
-          .put(R.string.new_shortcut_gesture_selection_mode_text, ImmutableList.of(SELECTION_MODE))
           .put(
               R.string.new_shortcut_gesture_reading_menu_text,
               ImmutableList.of(PREVIOUS_CONTROL_3F, NEXT_CONTROL_3F))
@@ -203,9 +202,6 @@ public final class TutorialGestureUses {
           .put(R.string.new_shortcut_gesture_copy_text_announcement, COPY.actionKey)
           .put(R.string.new_shortcut_gesture_paste_text_announcement, PASTE.actionKey)
           .put(R.string.new_shortcut_gesture_cut_text_announcement, CUT.actionKey)
-          .put(
-              R.string.new_shortcut_gesture_selection_mode_on_announcement,
-              SELECTION_MODE.actionKey)
           .buildOrThrow();
 
   private TutorialGestureUses() {}

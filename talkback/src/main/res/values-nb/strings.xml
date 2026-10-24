@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Send meldinger</string>
   <string name="sending_messages_text">For å sende meldinger, gå til startskjermen og finn en meldingsapp</string>
   <string name="sending_message_tips">Du kan også be Google-assistenten om å sende en melding til en kontakt eller et nummer</string>
-  <string name="reading_web_emails_title">Leser nettsteder og e-poster</string>
-  <string name="reading_web_emails_text">I lesemodus blir det enklere å navigere i, lese og lytte til langt innhold. Du kan endre skriftstørrelse og kontrast, få teksten lest opp med mer.</string>
-  <string name="get_the_app_button">Skaff deg appen</string>
-  <string name="reading_web_emails_tips">Gjør dette etter at du har installert lesemodus:\n\n1. Gå til Innstillinger &gt; Tilgjengelighet &gt; Lesemodus.\n2. Slå på snarveien.\n3. Gå til en app eller et nettsted og bruk snarveien for å åpne lesemodus.</string>
-  <string name="reading_web_emails_tips_tts">Gjør dette etter at du har installert lesemodus:\n\n1. Gå til Innstillinger, deretter Tilgjengelighet og deretter Lesemodus.\n2. Slå på snarveien.\n3. Gå til en app eller et nettsted, og bruk snarveien for å åpne lesemodus.</string>
-  <string name="lookout_title">Utforsk gjenstander og tekst rundt deg</string>
-  <string name="lookout_text">Med Lookout brukes kameraet til å gi deg informasjon om gjenstander, bilder og tekst rundt deg.  Du kan bruke funksjonen til å lese skilt, sortere post med mer.</string>
-  <string name="lookout_tips">Lookout har flere moduser avhengig av hva du vil gjøre. Velg for eksempel dokumentmodus for å skanne en side med tekst.</string>
   <string name="checking_notifications_title">Sjekk av varsler</string>
   <string name="checking_notifications_text_head">SandFly sier fra når du får nye varsler.</string>
   <string name="checking_notifications_step_one">Sveip først ned med fire fingre for å åpne varselet.</string>

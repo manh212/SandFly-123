@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Cómo enviar mensajes</string>
   <string name="sending_messages_text">Para enviar un mensaje, ve a la pantalla de inicio y busca una aplicación de mensajería</string>
   <string name="sending_message_tips">También puedes pedirle al Asistente de Google que le envíe un mensaje a un contacto o a un número</string>
-  <string name="reading_web_emails_title">Lectura de sitios web y correos</string>
-  <string name="reading_web_emails_text">El modo Lectura hace que sea más fácil leer, escuchar y desplazarse por contenido extenso. Puedes cambiar el tamaño de la fuente y el contraste, leer en voz alta el texto y más.</string>
-  <string name="get_the_app_button">Descargar aplicación</string>
-  <string name="reading_web_emails_tips">Después de instalar el modo Lectura:\n\n1. Ve a Ajustes &gt; Accesibilidad &gt; Modo Lectura.\n2. Activa el acceso directo.\n3. Ve a una aplicación o página web y usa el acceso directo para abrir el modo Lectura.</string>
-  <string name="reading_web_emails_tips_tts">Después de instalar el modo Lectura:\n\n1. Ve a Ajustes, Accesibilidad y, a continuación, selecciona Modo Lectura.\n2. Activa el acceso directo.\n3. Ve a una aplicación o página web y usa el acceso directo para abrir el modo Lectura.</string>
-  <string name="lookout_title">Explora los elementos y el texto de tu entorno</string>
-  <string name="lookout_text">Lookout usa tu cámara para obtener información sobre los objetos, las imágenes y el texto de tu entorno.  Puedes usarlo para leer señales, organizar el correo y más.</string>
-  <string name="lookout_tips">Lookout tiene varios modos, según la tarea que estés haciendo. Por ejemplo, si quieres escanear una página de texto, selecciona el modo Documentos.</string>
   <string name="checking_notifications_title">Consultar notificaciones</string>
   <string name="checking_notifications_text_head">SandFly te avisará cuando recibas una nueva notificación.</string>
   <string name="checking_notifications_step_one">Primero, desliza 4 dedos hacia abajo para acceder a la notificación.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Kutuma ujumbe</string>
   <string name="sending_messages_text">Ili utume ujumbe, nenda kwenye skrini yako ya kwanza na upate programu ya kutuma ujumbe</string>
   <string name="sending_message_tips">Unaweza pia kuiomba programu ya Mratibu wa Google kutuma ujumbe kwenye anwani au namba</string>
-  <string name="reading_web_emails_title">Kusoma barua pepe na maudhui kwenye tovuti</string>
-  <string name="reading_web_emails_text">Hali ya kusoma maandishi hurahisisha kusoma, kusogeza na kusikiliza maudhui marefu. Unaweza kubadilisha ukubwa na utofautishaji wa fonti, kusoma maandishi kwa sauti na zaidi.</string>
-  <string name="get_the_app_button">Pata programu</string>
-  <string name="reading_web_emails_tips">Baada ya kusakinisha hali ya Kusoma:\n\n1. Nenda kwenye Mipangilio &gt; Ufikivu &gt; Hali ya kusoma\n2. Washa njia ya mkato\n3. Nenda kwenye programu au tovuti, na utumie njia ya mkato ili ufungue hali ya Kusoma</string>
-  <string name="reading_web_emails_tips_tts">Baada ya kusakinisha Hali ya kusoma:\n\n1. Nenda kwenye Mipangilio, kisha uteue Zana za ufikivu halafu uchague Hali ya kusoma\n2. Washa njia ya mkato\n3. Nenda kwenye programu au tovuti, kisha utumie njia ya mkato kuwasha Hali ya kusoma</string>
-  <string name="lookout_title">Kugundua vipengee na maandishi yanayokuzunguka</string>
-  <string name="lookout_text">Lookout hutumia kamera yako kupata maelezo kuhusu vitu, picha na maandishi yanayokuzunguka.  Unaweza kuitumia kusoma alama, kupanga barua pepe na zaidi.</string>
-  <string name="lookout_tips">Lookout ina hali kadhaa, kutegemea unachojaribu kutekeleza. Kwa mfano, ili uchanganue ukurasa wenye maandishi, chagua hali ya hati.</string>
   <string name="checking_notifications_title">Kuangalia arifa</string>
   <string name="checking_notifications_text_head">Kipengele cha SandFly kitatangaza unapopokea arifa mpya.</string>
   <string name="checking_notifications_step_one">Kwanza, telezesha vidole 4 chini ili ufikie arifa.</string>

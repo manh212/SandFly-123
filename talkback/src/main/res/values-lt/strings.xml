@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Pranešimų siuntimas</string>
   <string name="sending_messages_text">Jei norite išsiųsti pranešimą, eikite į pagrindinį ekraną ir raskite pranešimų programą</string>
   <string name="sending_message_tips">Taip pat galite paprašyti „Google“ padėjėjo išsiųsti pranešimą asmeniui, kurio numerį turite kontaktuose</string>
-  <string name="reading_web_emails_title">Svetainių ir el. laiškų skaitymas</string>
-  <string name="reading_web_emails_text">Skaitymo režimu lengviau skaityti ilgą turinį, jo klausytis bei jame ieškoti Galite keisti šrifto dydį ir kontrastą, nustatyti, kad tekstas būtų perskaitytas garsiai, ir kt.</string>
-  <string name="get_the_app_button">Gauti programą</string>
-  <string name="reading_web_emails_tips">Kai įdiegsite skaitymo režimą, atlikite toliau nurodytus veiksmus.\n\n1. Eikite į „Nustatymai“ &gt; „Pritaikomumas“ &gt; „Skaitymo režimas“\n2. Įjunkite šaukinį.\n3. Eikite į programą ar svetainę ir naudodami šaukinį įjunkite skaitymo režimą</string>
-  <string name="reading_web_emails_tips_tts">Kai įdiegsite skaitymo režimą, atlikite toliau nurodytus veiksmus.\n\n1. Eikite į skiltį „Nustatymai“, tada – „Pritaikomumas“ ir „Teksto perskaitymo režimas“.\n2. Įjunkite spartųjį klavišą.\n3. Eikite į programą ar svetainę ir naudodami spartųjį klavišą įjunkite skaitymo režimą</string>
-  <string name="lookout_title">Aplink esančių elementų ir teksto tyrinėjimas</string>
-  <string name="lookout_text">„Lookout“ naudoja jūsų fotoaparatą, kad gautų išsamios informacijos apie objektus, vaizdus ir tekstą aplink jus.  Galite naudoti šią funkciją ženklams skaityti, el. laiškams rūšiuoti ir kt.</string>
-  <string name="lookout_tips">„Lookout“ yra keli režimai, taikomi atsižvelgiant į užduotį, kurią norite išbandyti. Pavyzdžiui, jei norite nuskaityti teksto puslapį, pasirinkite dokumentų režimą.</string>
   <string name="checking_notifications_title">Pranešimų tikrinimas</string>
   <string name="checking_notifications_text_head">„SandFly“ praneš, kai gausite naują pranešimą.</string>
   <string name="checking_notifications_step_one">Pirmiausia perbraukite žemyn keturiais pirštais, kad pasiektumėte pranešimą.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Mezuak bidaltzea</string>
   <string name="sending_messages_text">Mezu bat bidaltzeko, joan orri nagusira eta bilatu mezularitza-aplikazio bat</string>
   <string name="sending_message_tips">Bestela, Google-ren Laguntzailea zerbitzuari kontaktu bati edo zenbaki batera mezu bat bidaltzeko eska diezaiokezu</string>
-  <string name="reading_web_emails_title">Webguneak eta mezu elektronikoak irakurtzea</string>
-  <string name="reading_web_emails_text">Irakurtzeko modua aplikazioari esker, errazago arakatzen, entzuten eta irakurtzen da eduki luzea. Letra-tamaina eta kontrastea alda ditzakezu, baita testua ozen irakurtzea aukeratu eta beste gauza asko egin ere.</string>
-  <string name="get_the_app_button">Lortu aplikazioa</string>
-  <string name="reading_web_emails_tips">Irakurtzeko modua instalatu ondoren:\n\n1. Joan Ezarpenak &gt; Erabilerraztasuna &gt; Irakurtzeko modua atalera.\n2. Aktibatu lasterbidea.\n3. Joan aplikazio edo webgune batera eta erabili lasterbidea irakurtzeko modua irekitzeko.</string>
-  <string name="reading_web_emails_tips_tts">Irakurtzeko modua instalatu ondoren:\n\n1. Joan Ezarpenak &gt; Erabilerraztasuna &gt; Irakurtzeko modua atalera.\n2. Aktibatu lasterbidea.\n3. Joan aplikazio edo webgune batera eta erabili lasterbidea irakurtzeko modua irekitzeko.</string>
-  <string name="lookout_title">Inguruan dituzun elementuak eta testua arakatzea</string>
-  <string name="lookout_text">Lookout-ek kamera erabiltzen du inguruan dituzun objektuei, irudiei eta testuari buruzko xehetasunak lortzeko.  Seinaleak irakurtzeko, posta ordenatzeko eta beste gauza askotarako erabil dezakezu.</string>
-  <string name="lookout_tips">Lookout-ek hainbat modu ditu, egin behar duzun zereginaren arabera. Adibidez, orri bateko testua eskaneatu behar baduzu, hautatu dokumentuen modua.</string>
   <string name="checking_notifications_title">Jakinarazpenak egiaztatzen</string>
   <string name="checking_notifications_text_head">SandFly-ek iragarpen bat egingo du jakinarazpen bat jasotzen duzun bakoitzean.</string>
   <string name="checking_notifications_step_one">Lehenik, pasatu 4 hatz beherantz jakinarazpenean sartzeko.</string>

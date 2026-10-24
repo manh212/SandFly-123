@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">傳送訊息</string>
   <string name="sending_messages_text">如要傳送訊息，請前往主畫面找出訊息應用程式</string>
   <string name="sending_message_tips">你也可以要求 Google 助理傳送訊息給聯絡人，或傳送到指定的手機號碼</string>
-  <string name="reading_web_emails_title">朗讀網站和電子郵件內容</string>
-  <string name="reading_web_emails_text">閱讀模式可方便使用者瀏覽、聆聽及閱讀長篇內容。你可以變更字型大小和對比，讓系統朗讀文字內容等等。</string>
-  <string name="get_the_app_button">取得應用程式</string>
-  <string name="reading_web_emails_tips">安裝閱讀模式後，請執行以下步驟：\n\n1. 依序前往「設定」&gt;「無障礙設定」&gt;「閱讀模式」\n2. 開啟捷徑\n3. 前往應用程式或網站，然後使用捷徑開啟閱讀模式</string>
-  <string name="reading_web_emails_tips_tts">安裝朗讀模式後，請執行以下步驟：\n\n1. 依序前往「設定」、「無障礙設定」和「朗讀模式」\n2. 開啟捷徑\n3. 前往應用程式或網站，然後使用捷徑開啟朗讀模式</string>
-  <string name="lookout_title">瞭解周遭的物品和文字</string>
-  <string name="lookout_text">Lookout 會使用相機取得周遭物體、圖片和文字的詳細資料，方便你辨識標誌、整理信件等等。</string>
-  <string name="lookout_tips">Lookout 有多種模式，系統會根據目前的工作調整。舉例來說，選取文件模式可掃描頁面中的文字。</string>
   <string name="checking_notifications_title">查看通知</string>
   <string name="checking_notifications_text_head">當你收到新通知時，SandFly 會告知你。</string>
   <string name="checking_notifications_step_one">首先，用 4 指向下滑動開啟通知。</string>

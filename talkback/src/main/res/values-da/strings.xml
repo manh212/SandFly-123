@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Send beskeder</string>
   <string name="sending_messages_text">Du kan sende en besked ved at gå til startskærmen og finde en beskedapp</string>
   <string name="sending_message_tips">Du kan også bede Google Assistent om at sende en besked til en kontakt eller et nummer</string>
-  <string name="reading_web_emails_title">Læser websites og mails</string>
-  <string name="reading_web_emails_text">Læsetilstand gør det nemmere at navigere, lytte til og læse indhold i langt format. Du kan ændre skriftstørrelsen og kontrasten, få læst teksten højt og mere.</string>
-  <string name="get_the_app_button">Hent app</string>
-  <string name="reading_web_emails_tips">Når du har installeret Læsetilstand:\n\n1. Gå til Indstillinger &gt; Hjælpefunktioner &gt; Læsetilstand\n2. Aktivér genvejen\n3. Gå til en app eller et website, og brug genvejen til at åbne Læsetilstand</string>
-  <string name="reading_web_emails_tips_tts">Når du har installeret Læsetilstand:\n\n1. Gå til Indstillinger &gt; Hjælpefunktioner &gt; Læsetilstand\n2. Aktivér genvejen\n3. Gå til en app eller et website, og brug genvejen til at åbne Læsetilstand</string>
-  <string name="lookout_title">Udforsk ting og tekst i nærheden</string>
-  <string name="lookout_text">Lookout bruger dit kamera til at få oplysninger om genstande, billeder og tekst omkring dig.  Du kan bruge funktionen til at læse skilte, sortere mails m.m.</string>
-  <string name="lookout_tips">Lookout har forskellige tilstande, afhængigt af hvilken opgave du vil foretage. Hvis du f.eks. vil scanne en side med tekst, skal du vælge dokumenttilstanden.</string>
   <string name="checking_notifications_title">Tjekker notifikationer</string>
   <string name="checking_notifications_text_head">SandFly giver dig besked, når du får en ny notifikation.</string>
   <string name="checking_notifications_step_one">Start med at stryge nedad med 4 fingre for at tilgå notifikationen.</string>

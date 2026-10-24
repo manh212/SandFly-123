@@ -19,18 +19,18 @@ package com.google.android.accessibility.talkback.training;
 import static com.google.android.accessibility.talkback.trainingcommon.NavigationButtonBar.DEFAULT_BUTTONS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageAndContentPredicate.ACCESSIBILITY_SERVICE_TOGGLE_VIA_SHORTCUT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageAndContentPredicate.SUPPORT_EXIT_BANNER;
-import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageAndContentPredicate.SUPPORT_GOOGLE_PLAY;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageAndContentPredicate.TALKBACK_ON;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADDITIONAL_TIPS_CHECKING_NOTIFICATIONS;
-import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADDITIONAL_TIPS_LOOKOUT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADDITIONAL_TIPS_MAKING_CALLS;
-import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADDITIONAL_TIPS_READING_WEB_EMAILS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_ADJUSTING_VOLUME;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_BASIC_TYPING_TEXT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_COPY_CUT_PASTE;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_COPY_CUT_PASTE_PRE_R;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_DICTATE;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_DIRECT_KEY_INPUT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_EXPLORE_BY_TOUCH;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_EXPORT_DIAGNOSTICS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_GESTURES_PAGE_FOR_3_BUTTON_NAVIGATION_USER;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_GESTURES_PAGE_FOR_GESTURE_NAVIGATION_USER;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_IMAGE_DESCRIPTION_PLAYGROUND;
@@ -67,6 +67,7 @@ import static com.google.android.accessibility.talkback.trainingcommon.PageConfi
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_MENUS;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_MENUS_PRE_R;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_MOVING_CURSOR;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_NOTIFICATIONS_SCREEN;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_PRACTICE_GESTURES;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_PRACTICE_GESTURES_PRE_R;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_PRACTICE_KEYBOARD_GESTURES;
@@ -77,6 +78,8 @@ import static com.google.android.accessibility.talkback.trainingcommon.PageConfi
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_SCROLLING;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_SELECTING_TEXT;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_SELECTING_TEXT_PRE_R;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TIMER_AND_STOPWATCH;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TRANSLATE_LAST_SPOKEN_UTTERANCE;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TUTORIAL_FINISHED;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TUTORIAL_INDEX;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TYPING_TEXT;
@@ -86,9 +89,9 @@ import static com.google.android.accessibility.talkback.trainingcommon.PageConfi
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_TYPO_CORRECTION_PRE_R;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_USING_TEXT_BOXES;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_VOICE_COMMANDS;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_VOLUME_KEY_SETTINGS;
+import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_WEB_SELECTION_MODE_SWITCH;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId.PAGE_ID_WELCOME_TO_TALKBACK;
-import static com.google.android.accessibility.talkback.trainingcommon.content.PageButton.PageButtonAction.OPEN_LOOKOUT_PAGE;
-import static com.google.android.accessibility.talkback.trainingcommon.content.PageButton.PageButtonAction.OPEN_READING_MODE_PAGE;
 import static com.google.android.accessibility.talkback.trainingcommon.content.PageButton.PageButtonAction.OPEN_TYPING_PREFERENCE_PAGE;
 
 import android.app.Activity;
@@ -708,20 +711,6 @@ final class TutorialConfigUtils {
                   PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES, R.string.sending_messages_title)
               .addText(R.string.sending_messages_text)
               .addTip(R.string.sending_message_tips);
-      case PAGE_ID_ADDITIONAL_TIPS_READING_WEB_EMAILS ->
-          PageConfig.builder(
-                  PAGE_ID_ADDITIONAL_TIPS_READING_WEB_EMAILS, R.string.reading_web_emails_title)
-              .setShowingPredicate(SUPPORT_GOOGLE_PLAY)
-              .addText(R.string.reading_web_emails_text)
-              .addButton(R.string.get_the_app_button, OPEN_READING_MODE_PAGE)
-              .addTipWithTtsSpan(
-                  R.string.reading_web_emails_tips, R.string.reading_web_emails_tips_tts);
-      case PAGE_ID_ADDITIONAL_TIPS_LOOKOUT ->
-          PageConfig.builder(PAGE_ID_ADDITIONAL_TIPS_LOOKOUT, R.string.lookout_title)
-              .setShowingPredicate(SUPPORT_GOOGLE_PLAY)
-              .addText(R.string.lookout_text)
-              .addButton(R.string.get_the_app_button, OPEN_LOOKOUT_PAGE)
-              .addTip(R.string.lookout_tips);
       case PAGE_ID_ADDITIONAL_TIPS_CHECKING_NOTIFICATIONS ->
           PageConfig.builder(
                   PAGE_ID_ADDITIONAL_TIPS_CHECKING_NOTIFICATIONS,
@@ -733,6 +722,42 @@ final class TutorialConfigUtils {
                   R.string.checking_notifications_text_tail,
                   R.string.checking_notifications_text_tail_tts)
               .addTip(R.string.checking_notifications_tips);
+      case PAGE_ID_DIRECT_KEY_INPUT ->
+          PageConfig.builder(
+                  PAGE_ID_DIRECT_KEY_INPUT,
+                  R.string.tutorial_sandfly_direct_key_input_title)
+              .addText(R.string.tutorial_sandfly_direct_key_input_text);
+      case PAGE_ID_TIMER_AND_STOPWATCH ->
+          PageConfig.builder(
+                  PAGE_ID_TIMER_AND_STOPWATCH,
+                  R.string.tutorial_sandfly_timer_stopwatch_title)
+              .addText(R.string.tutorial_sandfly_timer_stopwatch_text);
+      case PAGE_ID_VOLUME_KEY_SETTINGS ->
+          PageConfig.builder(
+                  PAGE_ID_VOLUME_KEY_SETTINGS, R.string.volume_key_settings_title)
+              .addText(R.string.tutorial_sandfly_volume_keys_text);
+      case PAGE_ID_TRANSLATE_LAST_SPOKEN_UTTERANCE ->
+          PageConfig.builder(
+                  PAGE_ID_TRANSLATE_LAST_SPOKEN_UTTERANCE,
+                  R.string.title_translate_last_spoken_phrase)
+              .addText(R.string.tutorial_sandfly_translate_text);
+      case PAGE_ID_DICTATE ->
+          PageConfig.builder(PAGE_ID_DICTATE, R.string.shortcut_dictate)
+              .addText(R.string.tutorial_sandfly_dictate_text);
+      case PAGE_ID_WEB_SELECTION_MODE_SWITCH ->
+          PageConfig.builder(
+                  PAGE_ID_WEB_SELECTION_MODE_SWITCH,
+                  R.string.title_pref_selection_mode_reading_control)
+              .addText(R.string.tutorial_sandfly_web_selection_text);
+      case PAGE_ID_EXPORT_DIAGNOSTICS ->
+          PageConfig.builder(
+                  PAGE_ID_EXPORT_DIAGNOSTICS,
+                  R.string.title_pref_export_diagnostics)
+              .addText(R.string.tutorial_sandfly_export_diagnostics_text);
+      case PAGE_ID_NOTIFICATIONS_SCREEN ->
+          PageConfig.builder(
+                  PAGE_ID_NOTIFICATIONS_SCREEN, R.string.notification_category_title)
+              .addText(R.string.tutorial_sandfly_notifications_text);
       default -> {
         LogUtils.w(TAG, "No matched: " + pageId);
         yield null;
@@ -849,17 +874,14 @@ final class TutorialConfigUtils {
         .addPages(getInitialPageBuilder(PAGE_ID_SCREEN_SEARCH))
         .addPageEndOfSection(getInitialPageBuilder(PAGE_ID_SCREEN_SEARCH_NAVIGATION));
     // Additional Tips
-    builder.addPages(
-        getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_MAKING_CALLS),
-        getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES),
-        getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_READING_WEB_EMAILS));
+    builder.addPages(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_MAKING_CALLS));
     if (multiFingerGestureSupported) {
       builder
-          .addPages(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_LOOKOUT))
+          .addPages(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES))
           .addPageEndOfSection(
               getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_CHECKING_NOTIFICATIONS));
     } else {
-      builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_LOOKOUT));
+      builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES));
     }
     // Practice keyboard shortcuts page.
     if (FeatureFlagReader.enableKeyboardLearnModePage(context) && multiFingerGestureSupported) {
@@ -983,6 +1005,7 @@ final class TutorialConfigUtils {
             ? getInitialPageBuilder(PAGE_ID_GESTURES_PAGE_FOR_GESTURE_NAVIGATION_USER)
             : getInitialPageBuilder(PAGE_ID_GESTURES_PAGE_FOR_3_BUTTON_NAVIGATION_USER));
     pages.add(getInitialPageBuilder(PAGE_ID_ADJUSTING_VOLUME));
+    pages.add(getInitialPageBuilder(PAGE_ID_VOLUME_KEY_SETTINGS));
     pages.add(
         multiFingerGestureSupported
             ? getInitialPageBuilder(PAGE_ID_MENUS)
@@ -994,6 +1017,7 @@ final class TutorialConfigUtils {
     pages.clear();
     pages.add(getInitialPageBuilder(PAGE_ID_USING_TEXT_BOXES));
     pages.add(getInitialPageBuilder(PAGE_ID_TYPING_TEXT));
+    pages.add(getInitialPageBuilder(PAGE_ID_DIRECT_KEY_INPUT));
     pages.add(getInitialPageBuilder(PAGE_ID_MOVING_CURSOR));
     pages.add(
         multiFingerGestureSupported
@@ -1032,6 +1056,7 @@ final class TutorialConfigUtils {
         multiFingerGestureSupported
             ? getInitialPageBuilder(PAGE_ID_JUMP_BETWEEN_HEADINGS)
             : getInitialPageBuilder(PAGE_ID_JUMP_BETWEEN_HEADINGS_PRE_R));
+    pages.add(getInitialPageBuilder(PAGE_ID_WEB_SELECTION_MODE_SWITCH));
     builder
         .addPages(pages.toArray(new PageConfig.Builder[0]))
         .addPageEndOfSection(
@@ -1043,7 +1068,11 @@ final class TutorialConfigUtils {
       builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_IMAGE_DESCRIPTION_PLAYGROUND));
     }
     // Voice commands page.
-    builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_VOICE_COMMANDS));
+    builder
+        .addPages(
+            getInitialPageBuilder(PAGE_ID_VOICE_COMMANDS),
+            getInitialPageBuilder(PAGE_ID_TRANSLATE_LAST_SPOKEN_UTTERANCE))
+        .addPageEndOfSection(getInitialPageBuilder(PAGE_ID_DICTATE));
     // Screen search page.
     builder
         .addPages(getInitialPageBuilder(PAGE_ID_SCREEN_SEARCH))
@@ -1051,16 +1080,21 @@ final class TutorialConfigUtils {
     // Additional Tips
     builder.addPages(
         getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_MAKING_CALLS),
-        getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES),
-        getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_READING_WEB_EMAILS));
+        getInitialPageBuilder(PAGE_ID_TIMER_AND_STOPWATCH));
     if (multiFingerGestureSupported) {
       builder
-          .addPages(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_LOOKOUT))
+          .addPages(
+              getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES),
+              getInitialPageBuilder(PAGE_ID_NOTIFICATIONS_SCREEN))
           .addPageEndOfSection(
               getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_CHECKING_NOTIFICATIONS));
     } else {
-      builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_LOOKOUT));
+      builder
+          .addPages(getInitialPageBuilder(PAGE_ID_NOTIFICATIONS_SCREEN))
+          .addPageEndOfSection(getInitialPageBuilder(PAGE_ID_ADDITIONAL_TIPS_SENDING_MESSAGES));
     }
+    // Export diagnostics page.
+    builder.addPageEndOfSection(getInitialPageBuilder(PAGE_ID_EXPORT_DIAGNOSTICS));
     // Practice keyboard shortcuts page.
     if (FeatureFlagReader.enableKeyboardLearnModePage(context) && multiFingerGestureSupported) {
       builder

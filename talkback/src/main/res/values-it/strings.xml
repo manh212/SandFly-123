@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Invio di messaggi</string>
   <string name="sending_messages_text">Per inviare un messaggio, vai alla schermata Home e cerca un\'app di messaggistica</string>
   <string name="sending_message_tips">Puoi anche chiedere all\'Assistente Google di inviare un messaggio a un contatto o un numero</string>
-  <string name="reading_web_emails_title">Lettura di email e siti web</string>
-  <string name="reading_web_emails_text">La modalità Lettura consente di sfogliare, ascoltare e leggere più facilmente i contenuti lunghi. Puoi cambiare le dimensioni del carattere e il contrasto, farti leggere il testo e altro ancora.</string>
-  <string name="get_the_app_button">Scarica l\'app</string>
-  <string name="reading_web_emails_tips">Dopo aver installato la modalità Lettura:\n\n1. Vai a Impostazioni &gt; Accessibilità &gt; Modalità Lettura.\n2. Attiva la scorciatoia.\n3. Vai a un\'app o un sito web e usa la scorciatoia per aprire la modalità Lettura.</string>
-  <string name="reading_web_emails_tips_tts">Dopo aver installato la modalità Lettura:\n\n1. Vai a Impostazioni, poi Accessibilità e infine Modalità Lettura\n2. Attiva la scorciatoia.\n3. Vai a un\'app o un sito web e usa la scorciatoia per aprire la modalità Lettura.</string>
-  <string name="lookout_title">Esplorazione di elementi e testo nel mondo reale</string>
-  <string name="lookout_text">Lookout utilizza la fotocamera per recuperare dettagli su oggetti, immagini e testo nel mondo reale.  Puoi usare questa app per leggere segnali stradali, ordinare la posta e altro ancora.</string>
-  <string name="lookout_tips">Lookout offre diverse modalità, a seconda dell\'attività che stai svolgendo. Ad esempio, seleziona la modalità Documenti per scansionare una pagina di testo.</string>
   <string name="checking_notifications_title">Verifica delle notifiche in corso…</string>
   <string name="checking_notifications_text_head">SandFly ti avviserà quando ricevi una nuova notifica.</string>
   <string name="checking_notifications_step_one">Innanzitutto, scorri verso il basso con 4 dita per accedere alla notifica.</string>

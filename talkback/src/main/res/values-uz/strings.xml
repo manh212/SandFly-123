@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Xabarlar yuborish</string>
   <string name="sending_messages_text">Xabar yuborish uchun bosh ekranga oʻting va xabar almashinuv ilovasini toping</string>
   <string name="sending_message_tips">Google Assistentdan kontaktingizdagi biror kishiga yoki raqamga xabar yuborishni soʻrashingiz mumkin</string>
-  <string name="reading_web_emails_title">Veb-saytlar va xatlarni oʻqish</string>
-  <string name="reading_web_emails_text">Oʻqish rejimida kontent oson varaqlanadi, tinglanadi va oʻqiladi. Matn shrifti hajmi va kontrastni oʻzgartirishingiz, matnni ovozli oʻqitishingiz mumkin.</string>
-  <string name="get_the_app_button">Ilovani yuklab oling</string>
-  <string name="reading_web_emails_tips">Oʻqish rejimi oʻrnatilgandan keyin:\n\n1. Sozlamalar &gt; Qulayliklar &gt; Oʻqish rejimini oching\n2. Tezkor kirishni yoqing\n3. Ilova yoki saytiga oʻting va Oʻqish rejimini ochish uchun buyruqdan foydalaning</string>
-  <string name="reading_web_emails_tips_tts">Oʻqish rejimi oʻrnatilgandan keyin:\n\n1. Sozlamalar &gt; Qulayliklar &gt; Oʻqish rejimini oching\n2. Tezkor kirishni yoqing\n3. Ilova yoki saytiga oʻting va Oʻqish rejimini ochish uchun buyruqdan foydalaning</string>
-  <string name="lookout_title">Atrofingizdagi obyektlar va matnlarni qanday tahlil qilish kerak</string>
-  <string name="lookout_text">Lookout ilovasi atrofdagi narsalar, tasvirlar va matnlar haqida xabar berish uchun qurilmangiz kamerasidan foydalanadi.  Shunday qilib belgilarni oʻqishingiz, xatlarni saralashingiz va boshqa amallarni bajarishingiz mumkin.</string>
-  <string name="lookout_tips">Lookout siz harakat qilayotgan vazifaga qarab bir nechta rejimlarga ega. Masalan, matn sahifalarini skanerlash uchun “Hujjatlar” rejimini tanlang.</string>
   <string name="checking_notifications_title">Bildirishnomalarni tekshirish</string>
   <string name="checking_notifications_text_head">Yangi bildirishnoma olganingizda SandFly aytadi.</string>
   <string name="checking_notifications_step_one">Avval bildirishnomaga kirish uchun 4 barmoq bilan pastga suring.</string>

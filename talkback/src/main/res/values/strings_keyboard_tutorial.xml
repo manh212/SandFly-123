@@ -124,7 +124,7 @@
   <!-- The title of the keyboard tutorial voice commands page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_tutorial_voice_commands_page_title">Voice commands</string>
   <!-- The description of how to use voice commands. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_tutorial_voice_commands_page_text">You can use your voice to control SandFly quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text and more.\n\nTo try it now, press Action + \\.</string>
+  <string name="keyboard_tutorial_voice_commands_page_text">You can use your voice to control SandFly quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text and more.\n\nTo try it now, press Action + \\.\n\nTo dictate text instead of typing, assign the Dictate action to a gesture in SandFly settings > Gestures. Dictate has no gesture by default.</string>
 
   <!-- Screen search pages in keyboard tutorial. -->
   <!-- The title of the keyboard tutorial screen search page. [CHAR_LIMIT=NONE]-->

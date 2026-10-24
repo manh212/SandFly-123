@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Pošiljanje sporočil</string>
   <string name="sending_messages_text">Če želite poslati sporočilo, na začetnem zaslonu poiščite aplikacijo za sporočanje.</string>
   <string name="sending_message_tips">Lahko pa tudi naročite Pomočniku Google, da pošlje sporočilo stiku ali na izbrano številko.</string>
-  <string name="reading_web_emails_title">Branje spletnih mest in e-poštnih sporočil</string>
-  <string name="reading_web_emails_text">Način za branje olajša poslušanje in branje daljših vsebin ter pomikanje po njih. Lahko spremenite velikost pisave in kontrast, izberete branje besedila na glas in drugo.</string>
-  <string name="get_the_app_button">Prenos aplikacije</string>
-  <string name="reading_web_emails_tips">Po namestitvi načina za branje:\n\n1. Odprite »Nastavitve« &gt; »Dostopnost« &gt; »Način za branje«\n2. Vklopite bližnjico.\n3. Odprite aplikacijo ali spletno mesto in z bližnjico odprite način za branje.</string>
-  <string name="reading_web_emails_tips_tts">Po namestitvi načina za branje:\n\n1. Odprite »Nastavitve« &gt; »Dostopnost« &gt; »Način za branje«.\n2. Vklopite bližnjico.\n3. Odprite aplikacijo ali spletno mesto in z bližnjico odprite način za branje.</string>
-  <string name="lookout_title">Raziskovanje predmetov in besedil v vaši okolici</string>
-  <string name="lookout_text">Lookout uporablja fotoaparat za pridobivanje podrobnosti o predmetih, slikah in besedilih v vaši okolici.  S to aplikacijo lahko berete znake, razvrščate pošto in drugo.</string>
-  <string name="lookout_tips">Aplikacija Lookout ima več načinov, odvisno od opravila ki ga želite izvesti. Če želite na primer optično prebrati stran besedila, izberite način dokumentov.</string>
   <string name="checking_notifications_title">Preverjanje obvestil</string>
   <string name="checking_notifications_text_head">Funkcija SandFly bo najavila prejem novega obvestila.</string>
   <string name="checking_notifications_step_one">Najprej s štirimi prsti povlecite navzdol, da odprete obvestilo.</string>

@@ -1027,14 +1027,6 @@
   <string name="sending_messages_title">ମେସେଜ ପଠାଇବା</string>
   <string name="sending_messages_text">ଏକ ମେସେଜ ପଠାଇବା ପାଇଁ ଆପଣଙ୍କ ହୋମ ସ୍କ୍ରିନକୁ ଯାଇ ଏକ ମେସେଜିଂ ଆପ ଖୋଜନ୍ତୁ</string>
   <string name="sending_message_tips">କୌଣସି କଣ୍ଟାକ୍ଟ କିମ୍ବା ନମ୍ବରକୁ ଏକ ମେସେଜ ପଠାଇବା ପାଇଁ ଆପଣ Google Assistantକୁ ମଧ୍ୟ କହିପାରିବେ</string>
-  <string name="reading_web_emails_title">ୱେବସାଇଟ ଏବଂ ଇମେଲଗୁଡ଼ିକ ପଢ଼ିବା</string>
-  <string name="reading_web_emails_text">ରିଡିଂ ମୋଡ ଲମ୍ବା ବିଷୟବସ୍ତୁକୁ ନାଭିଗେଟ କରିବା, ଶୁଣିବା ଏବଂ ପଢ଼ିବା ପାଇଁ ସହଜ କରେ। ଆପଣ ଫଣ୍ଟର ଆକାର ଏବଂ କଣ୍ଟ୍ରାଷ୍ଟକୁ ପରିବର୍ତ୍ତନ କରିପାରିବେ, ଟେକ୍ସଟକୁ ବଡ଼ ପାଟିରେ ପଢ଼ିପାରିବେ ଏବଂ ଆହୁରି ଅନେକ କିଛି କରିପାରିବେ।</string>
-  <string name="get_the_app_button">ଆପ ପାଆନ୍ତୁ</string>
-  <string name="reading_web_emails_tips">ରିଡିଂ ମୋଡ ଇନଷ୍ଟଲ କରିବା ପରେ:\n\n1. ସେଟିଂସ &gt; ଆକ୍ସେସିବିଲିଟୀ &gt; ରିଡିଂ ମୋଡକୁ ଯାଆନ୍ତୁ\n2. ସର୍ଟକଟ ଚାଲୁ କରନ୍ତୁ\n3. ଏକ ଆପ କିମ୍ବା ୱେବସାଇଟକୁ ଯାଇ ରିଡିଂ ମୋଡ ଖୋଲିବାକୁ ସର୍ଟକଟ ବ୍ୟବହାର କରନ୍ତୁ</string>
-  <string name="reading_web_emails_tips_tts">ରିଡିଂ ମୋଡ ଇନଷ୍ଟଲ କରିବା ପରେ:\n\n1. ସେଟିଂସ ତା\'ପରେ ଆକ୍ସେସିବିଲିଟୀ ତା\'ପରେ ରିଡିଂ ମୋଡକୁ ଯାଆନ୍ତୁ\n2. ସର୍ଟକଟ ଚାଲୁ କରନ୍ତୁ\n3. ଏକ ଆପ କିମ୍ବା ୱେବସାଇଟକୁ ଯାଇ ରିଡିଂ ମୋଡ ଖୋଲିବାକୁ ସର୍ଟକଟ ବ୍ୟବହାର କରନ୍ତୁ</string>
-  <string name="lookout_title">ଆପଣଙ୍କ ଆଖପାଖରେ ଥିବା ଆଇଟମ ଏବଂ ଟେକ୍ସଟକୁ ଏକ୍ସପ୍ଲୋର କରିବା</string>
-  <string name="lookout_text">ଆପଣଙ୍କ ଆଖପାଖରେ ଥିବା ଅବଜେକ୍ଟ, ଇମେଜ ଏବଂ ଟେକ୍ସଟ ବିଷୟରେ ବିବରଣୀ ପାଇବାକୁ Lookout ଆପଣଙ୍କ କେମେରା ବ୍ୟବହାର କରେ।  ସଙ୍କେତ ପଢ଼ିବା, ମେଲ ସର୍ଟ କରିବା ଏବଂ ଆହୁରି ଅନେକ କିଛି କରିବାକୁ ଆପଣ ଏହାକୁ ବ୍ୟବହାର କରିପାରିବେ।</string>
-  <string name="lookout_tips">ଆପଣ ଚେଷ୍ଟା କରୁଥିବା ଟାସ୍କ ଉପରେ ନିର୍ଭର କରି ଲୁକଆଉଟର ଅନେକ ମୋଡ ଅଛି। ଉଦାହରଣ ସ୍ୱରୂପ, ଗୋଟିଏ ଟେକ୍ସଟର ପୃଷ୍ଠା ସ୍କାନ କରିବା ପାଇଁ ଡକ୍ୟୁମେଣ୍ଟ୍ସ ମୋଡକୁ ଚୟନ କରନ୍ତୁ।</string>
   <string name="checking_notifications_title">ବିଜ୍ଞପ୍ତିଗୁଡ଼ିକୁ ଯାଞ୍ଚ କରାଯାଉଛି</string>
   <string name="checking_notifications_text_head">ଆପଣ ଏକ ନୂଆ ବିଜ୍ଞପ୍ତି ପାଇବା ସମୟରେ SandFly ଘୋଷଣା କରିବ।</string>
   <string name="checking_notifications_step_one">ପ୍ରଥମେ, ବିଜ୍ଞପ୍ତିକୁ ଆକ୍ସେସ କରିବା ପାଇଁ 4 ଆଙ୍ଗୁଠିରେ ତଳକୁ ସ୍ୱାଇପ କରନ୍ତୁ।</string>

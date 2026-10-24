@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">मैसेज भेजें</string>
   <string name="sending_messages_text">मैसेज भेजने के लिए, होम स्क्रीन पर जाएं और मैसेजिंग ऐप्लिकेशन को ढूंढें</string>
   <string name="sending_message_tips">Google Assistant का इस्तेमाल करके भी संपर्क या नंबर पर मैसेज भेजा जा सकता है</string>
-  <string name="reading_web_emails_title">वेबसाइट और ईमेल में मौजूद जानकारी पढ़ना</string>
-  <string name="reading_web_emails_text">रीडिंग मोड की मदद से बड़े कॉन्टेट पर नेविगेट करना, उसे पढ़ना, और सुनना आसान हो जाता है. फ़ॉन्ट के साइज़ और कंट्रास्ट को बदलने, टेक्स्ट को ज़ोर से पढ़ने वगैरह की सुविधा मिल सकती है.</string>
-  <string name="get_the_app_button">ऐप्लिकेशन डाउनलोड करें</string>
-  <string name="reading_web_emails_tips">रीडिंग मोड इंस्टॉल करने के बाद:\n\n1. सेटिंग &gt; सुलभता &gt; रीडिंग मोड पर जाएं\n2. शॉर्टकट को चालू करें\n3. किसी ऐप्लिकेशन या वेबसाइट पर जाएं. इसके बाद, रीडिंग मोड चालू करने के लिए शॉर्टकट का इस्तेमाल करें</string>
-  <string name="reading_web_emails_tips_tts">Reading mode इंस्टॉल करने के बाद:\n\n1. Settings में जाकर, सुलभता पर जाएं और फिर Reading mode पर जाएं\n2. शॉर्टकट को चालू करें\n3. किसी ऐप्लिकेशन या वेबसाइट पर जाएं. इसके बाद, Reading mode चालू करने के लिए शॉर्टकट का इस्तेमाल करें</string>
-  <string name="lookout_title">आस-पास मौजूद आइटम और टेक्स्ट के बारे में ज़्यादा जानें</string>
-  <string name="lookout_text">Lookout, आस-पास मौजूद ऑब्जेक्ट, इमेज, और टेक्स्ट की जानकारी देने के लिए आपके कैमरे का इस्तेमाल करता है.  इसका इस्तेमाल टेक्स्ट को पढ़ने, मेल को क्रम से लगाने वगैरह के लिए किया जा सकता है.</string>
-  <string name="lookout_tips">Lookout पर काम के हिसाब से, कई मोड उपलब्ध हैं. उदाहरण के लिए, टेक्स्ट का पेज स्कैन करने के लिए, दस्तावेज़ मोड को चुनें.</string>
   <string name="checking_notifications_title">सूचनाओं की जांच की जा रही है</string>
   <string name="checking_notifications_text_head">नई सूचना मिलने पर SandFly की सुविधा इसकी जानकारी देगी.</string>
   <string name="checking_notifications_step_one">सूचना को ऐक्सेस करने के लिए, सबसे पहले चार उंगलियों से नीचे की ओर स्वाइप करें.</string>

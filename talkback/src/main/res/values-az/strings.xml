@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Mesajların göndərilməsi</string>
   <string name="sending_messages_text">Mesaj göndərmək üçün əsas ekrana keçin və mesajlaşma tətbiqi tapın</string>
   <string name="sending_message_tips">Google Assistentdən də kontakt və ya nömrəyə mesaj göndərməsini istəyə bilərsiniz</string>
-  <string name="reading_web_emails_title">Veb-sayt və e-məktubların oxunması</string>
-  <string name="reading_web_emails_text">Oxu rejimi uzun kontentdə naviqasiya, dinləmə və oxumanı asanlaşdırır. Şrift ölçüsü və kontrastı dəyişə, mətni ucadan oxuda və s. edə bilərsiniz.</string>
-  <string name="get_the_app_button">Tətbiqi əldə edin</string>
-  <string name="reading_web_emails_tips">Oxu rejimini quraşdırdıqdan sonra:\n\n1. Ayarlar &gt; Əlçatımlıq &gt; Oxu rejimi bölməsinə keçin\n2. Qısayolu aktiv edin\n3. Tətbiq və ya veb-sayta keçin və Oxu rejimini açmaq üçün qısayol istifadə edin</string>
-  <string name="reading_web_emails_tips_tts">Oxu rejimini quraşdırdıqdan sonra:\n\n1. Ayarlar, Əlçatımlıq, sonra Oxu rejiminə keçin\n2. Qısayolu aktiv edin\n3. Tətbiq və ya veb-sayta keçin və Oxu rejimini açmaq üçün qısayol istifadə edin</string>
-  <string name="lookout_title">Ətrafdakı element və mətnin araşdırılması</string>
-  <string name="lookout_text">Lookout kamera vasitəsilə ətrafdakı obyekt, şəkil və mətn haqqında detallar əldə edir.  İşarələri oxumaq, poçtu çeşidləmək və s. üçün ondan istifadə edə bilərsiniz.</string>
-  <string name="lookout_tips">Tapşırıqdan asılı olaraq Lookout-un fərqli rejimləri var. Məsələn, mətn səhifəsini skanlamaq üçün sənədlər rejimini seçin.</string>
   <string name="checking_notifications_title">Bildirişlər yoxlanır</string>
   <string name="checking_notifications_text_head">Yeni bildiriş aldıqda SandFly elan edəcək.</string>
   <string name="checking_notifications_step_one">4 barmaqla aşağı çəkərək bildirişə daxil olun.</string>

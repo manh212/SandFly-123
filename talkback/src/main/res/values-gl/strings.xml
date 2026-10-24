@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Enviar mensaxes</string>
   <string name="sending_messages_text">Para enviar unha mensaxe, vai á pantalla de inicio e atopa unha aplicación de mensaxaría</string>
   <string name="sending_message_tips">Tamén podes pedirlle ao Asistente de Google que envíe unha mensaxe dicíndolle un número de teléfono ou o nome dun dos teus contactos</string>
-  <string name="reading_web_emails_title">Lectura de sitios web e correos electrónicos</string>
-  <string name="reading_web_emails_text">O modo de lectura fai que sexa máis fácil navegar por contido longo, escoitalo e lelo. Podes cambiar o tamaño do tipo de letra e o contraste, así como facer que se lea o texto en alto e moito máis.</string>
-  <string name="get_the_app_button">Descargar aplicación</string>
-  <string name="reading_web_emails_tips">Tras instalar o modo de lectura, fai o seguinte:\n\n1. Vai a Configuración &gt; Accesibilidade &gt; Modo de lectura\n2. Activa o atallo\n3. Abre unha aplicación ou un sitio web e usa o atallo para abrir o modo de lectura</string>
-  <string name="reading_web_emails_tips_tts">Tras instalar o modo de lectura, fai o seguinte:\n\n1. Vai a Configuración e, en Accesibilidade, selecciona Modo de lectura\n2. Activa o atallo\n3. Abre unha aplicación ou un sitio web, e usa o atallo para abrir o modo de lectura</string>
-  <string name="lookout_title">Explorar os elementos e o texto da túa contorna</string>
-  <string name="lookout_text">Lookout usa a cámara para obter detalles sobre os obxectos, as imaxes e o texto da túa contorna.  Podes usar esta aplicación para ler sinais, organizar o correo e moito máis.</string>
-  <string name="lookout_tips">Lookout ten distintos modos para as diferentes tarefas que queiras abordar. Por exemplo, se queres escanear unha páxina de texto, selecciona o modo de documentos.</string>
   <string name="checking_notifications_title">Como revisar as notificacións</string>
   <string name="checking_notifications_text_head">SandFly avisarate cando recibas unha notificación nova.</string>
   <string name="checking_notifications_step_one">Primeiro, pasa catro dedos cara abaixo para acceder á notificación.</string>

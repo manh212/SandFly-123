@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">İleti gönderme</string>
   <string name="sending_messages_text">Mesaj göndermek için ana ekranınıza gidin ve bir mesajlaşma uygulaması bulun</string>
   <string name="sending_message_tips">Google Asistan\'dan bir kişiye veya numaraya mesaj göndermesini de isteyebilirsiniz</string>
-  <string name="reading_web_emails_title">Web sitelerini ve e-postaları okuma</string>
-  <string name="reading_web_emails_text">Okuma modu, uzun içeriklerin daha kolay gezinilmesini, dinlenmesini ve okunmasını sağlar. Yazı tipi boyutunu ve kontrastı değiştirebilir, metni sesli okutabilir ve daha pek çok işlem yapabilirsiniz.</string>
-  <string name="get_the_app_button">Uygulamayı indir</string>
-  <string name="reading_web_emails_tips">Okuma modu\'nu yükledikten sonra:\n\n1. Ayarlar &gt; Erişilebilirlik &gt; Okuma modu\'na gidin\n2. Kısayolu etkinleştirin.\n3. Bir uygulamaya veya web sitesine gidip ilgili kısayolu kullanarak Okuma modu\'nu açın</string>
-  <string name="reading_web_emails_tips_tts">Okuma modu\'nu yükledikten sonra:\n\n1. Sırasıyla Ayarlar, Erişilebilirlik, Okuma Modu\'na gidin\n2. Kısayolu etkinleştirin.\n3. Bir uygulamaya veya web sitesine gidip ilgili kısayolu kullanarak Okuma modu\'nu açın</string>
-  <string name="lookout_title">Çevrenizdeki öğeleri ve metinleri keşfetme</string>
-  <string name="lookout_text">Lookout, çevrenizdeki nesneler, görseller ve metinler hakkında ayrıntılı bilgi vermek için kameranızı kullanır.  İşaretleri okumak, postaları sıralamak ve daha pek çok işlem için bu uygulamayı kullanabilirsiniz.</string>
-  <string name="lookout_tips">Lookout\'ta, denediğiniz göreve bağlı olarak çeşitli modlar vardır. Örneğin, bir metin sayfasını taramak için doküman modunu seçin.</string>
   <string name="checking_notifications_title">Bildirimleri kontrol etme</string>
   <string name="checking_notifications_text_head">SandFly, yeni bir bildirim aldığınızda bunu duyurur.</string>
   <string name="checking_notifications_step_one">Bildirime erişmek için önce dört parmağınızla aşağı doğru kaydırın.</string>

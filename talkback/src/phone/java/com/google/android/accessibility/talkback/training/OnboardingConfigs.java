@@ -90,12 +90,7 @@ final class OnboardingConfigs {
           .captureGesture(
               AccessibilityService.GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD,
               R.string.new_shortcut_gesture_cut_text_announcement)
-          .addTextWithIcon(
-              R.string.new_shortcut_gesture_selection_mode_text,
-              R.drawable.ic_gesture_2fingerdoubletaphold)
-          .captureGesture(
-              AccessibilityService.GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD,
-              R.string.new_shortcut_gesture_selection_mode_on_announcement);
+          .addText(R.string.new_shortcut_gesture_selection_mode_text);
   // For TB 16.2
   static final PageConfig.Builder updateWelcome =
       PageConfig.builder(PAGE_ID_UPDATE_WELCOME, R.string.welcome_to_updated_talkback_title)

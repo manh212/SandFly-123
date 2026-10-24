@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Nachrichten senden</string>
   <string name="sending_messages_text">Gehe zum Senden einer Nachricht zu deinem Startbildschirm und öffne eine Messaging-App</string>
   <string name="sending_message_tips">Du kannst Google Assistant auch bitten, eine Nachricht an einen Kontakt oder eine Nummer zu senden</string>
-  <string name="reading_web_emails_title">Websites und E-Mails lesen</string>
-  <string name="reading_web_emails_text">Mit dem Lesemodus findest du dich in langen Inhalten besser zurecht und kannst sie einfacher anhören und lesen. Du kannst unter anderem die Schriftgröße und den Kontrast anpassen und dir den Text vorlesen lassen.</string>
-  <string name="get_the_app_button">App herunterladen</string>
-  <string name="reading_web_emails_tips">Nachdem du den Lesemodus installiert hast:\n\n1. Gehe zu den Einstellungen &gt; „Bedienungshilfen“ &gt; „Lesemodus“.\n2. Aktiviere den Kurzbefehl.\n3. Öffne eine App oder Website und verwende den Kurzbefehl, um den Lesemodus zu starten.</string>
-  <string name="reading_web_emails_tips_tts">Nachdem du den Lesemodus installiert hast:\n\n1. Gehe in den Einstellungen zu „Bedienungshilfen“ und dann „Lesemodus“\n2. Aktiviere den Kurzbefehl\n3. Öffne eine App oder Website und verwende den Kurzbefehl, um den Lesemodus zu starten</string>
-  <string name="lookout_title">Dinge und Text in deiner Umgebung entdecken</string>
-  <string name="lookout_text">Lookout verwendet deine Kamera, um dir Details zu Dingen, Bildern und Text in deiner Umgebung zu geben.  Du kannst die App verwenden, um z. B. Schilder zu lesen und deine Post zu sortieren.</string>
-  <string name="lookout_tips">Lookout hat für die verschiedenen Aufgaben, die du ausführen willst, verschiedene Modi. Wenn du dir beispielsweise eine Seite mit Text vorlesen lassen möchtest, wählst du den Dokumentmodus.</string>
   <string name="checking_notifications_title">Benachrichtigun­gen ansehen</string>
   <string name="checking_notifications_text_head">SandFly informiert dich, wenn du eine neue Benachrichtigung erhältst.</string>
   <string name="checking_notifications_step_one">Wische zuerst mit vier Fingern nach unten, um die Benachrichtigung zu öffnen.</string>

@@ -1028,14 +1028,6 @@
   <string name="sending_messages_title">Berichten sturen</string>
   <string name="sending_messages_text">Ga naar je startscherm en zoek een berichten-app om een bericht te sturen</string>
   <string name="sending_message_tips">Je kunt ook de Google Assistent vragen een bericht naar een contact of nummer te sturen</string>
-  <string name="reading_web_emails_title">Websites en e-mails lezen</string>
-  <string name="reading_web_emails_text">In de leesmodus kun je lange content makkelijker doorzoeken, beluisteren en lezen. Je kunt de lettergrootte en het contrast wijzigen, de tekst hardop laten voorlezen en meer.</string>
-  <string name="get_the_app_button">App downloaden</string>
-  <string name="reading_web_emails_tips">Nadat de leesmodus is geïnstalleerd:\n\n1. Ga naar Instellingen &gt; Toegankelijkheid &gt; Leesmodus.\n2. Zet de snelkoppeling aan.\n3. Ga naar een app of website en gebruik de snelkoppeling om de leesmodus te openen.</string>
-  <string name="reading_web_emails_tips_tts">Nadat de leesmodus is geïnstalleerd:\n\n1. Ga naar Instellingen, dan Toegankelijkheid en daarna Leesmodus.\n2. Zet de snelkoppeling aan.\n3. Ga naar een app of website en gebruik de snelkoppeling om de leesmodus te openen.</string>
-  <string name="lookout_title">Zaken en tekst om je heen verkennen</string>
-  <string name="lookout_text">Lookout gebruikt je camera om informatie over objecten, afbeeldingen en tekst om je heen te krijgen.  Je kunt de functie onder meer gebruiken om borden te lezen en post te ordenen.</string>
-  <string name="lookout_tips">Lookout heeft verschillende modi, afhankelijk van de taak die je uitvoert. Als je bijvoorbeeld een pagina met tekst wilt scannen, selecteer je de modus Documenten.</string>
   <string name="checking_notifications_title">Meldingen checken</string>
   <string name="checking_notifications_text_head">SandFly kondigt het aan als je een nieuwe melding krijgt.</string>
   <string name="checking_notifications_step_one">Swipe eerst met 4 vingers omlaag om toegang te krijgen tot de melding.</string>
