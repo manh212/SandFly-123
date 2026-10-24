@@ -91,9 +91,6 @@ public class CollapsedItemActions implements NodeMenu {
     return itemId >= ACTION_ID_BASE && itemId < ACTION_ID_BASE + ACTION_ID_RANGE;
   }
 
-  /** The one armed focus wait, if any; a new activation supersedes the previous one. */
-  private static @Nullable CollapseActionClickListener.FocusWaitSession pendingFocusWait;
-
   /**
    * Observes the service's event stream on behalf of an armed focus wait, forwarding
    * each accessibility-focus event's source node to it. Observe-only: the event is never
@@ -171,6 +168,9 @@ public class CollapsedItemActions implements NodeMenu {
 
   private static class CollapseActionClickListener
       extends AbstractOnContextMenuItemClickListener {
+    /** The one armed focus wait, if any; a new activation supersedes the previous one. */
+    private static @Nullable FocusWaitSession pendingFocusWait;
+
     private final Context context;
     private final CharSequence label;
     private final boolean longClick;
