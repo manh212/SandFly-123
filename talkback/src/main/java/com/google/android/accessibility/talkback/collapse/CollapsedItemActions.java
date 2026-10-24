@@ -16,12 +16,19 @@
 
 package com.google.android.accessibility.talkback.collapse;
 
+import static com.google.android.accessibility.talkback.Feedback.Focus.Action.CLICK_NODE;
+import static com.google.android.accessibility.talkback.Feedback.Focus.Action.LONG_CLICK_NODE;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 
+import android.accessibilityservice.AccessibilityService;
+import android.accessibilityservice.GestureDescription;
 import android.content.Context;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewConfiguration;
+import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
@@ -33,6 +40,7 @@ import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.menurules.CustomActionMenu;
 import com.google.android.accessibility.talkback.menurules.NodeMenu;
+import com.google.android.accessibility.utils.PerformActionUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,7 +105,7 @@ public class CollapsedItemActions implements NodeMenu {
           action.kind == ChildAction.Kind.MENU_ITEM
               ? new MenuItemClickListener(context, item, action, title, pipeline, analytics)
               : new CollapseActionClickListener(
-                  action.node, action.longClick, pipeline, analytics));
+                  context, action.node, action.longClick, pipeline, analytics));
       menuItem.setCheckable(false);
       menuItems.add(menuItem);
     }
@@ -117,32 +125,103 @@ public class CollapsedItemActions implements NodeMenu {
 
   private static class CollapseActionClickListener
       extends AbstractOnContextMenuItemClickListener {
+    private final Context context;
     private final boolean longClick;
 
     CollapseActionClickListener(
+        Context context,
         AccessibilityNodeInfoCompat node,
         boolean longClick,
         Pipeline.FeedbackReturner pipeline,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
+      this.context = context;
       this.longClick = longClick;
     }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
       try {
-        return pipeline.returnFeedback(
-            EVENT_ID_UNTRACKED,
-            Feedback.nodeAction(
-                    node,
-                    longClick
-                        ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
-                        : AccessibilityNodeInfoCompat.ACTION_CLICK)
-                .vibration(R.array.view_clicked_pattern));
+        return perform();
       } finally {
         clear();
       }
     }
+
+    /**
+     * Performs the press the way activating the child itself would be performed. The direct
+     * node action only reaches children whose nodes expose the action; some apps (Facebook's
+     * Litho buttons) mark a child clickable without exposing ACTION_CLICK, and the framework
+     * then refuses the action outright -- the failure the focus actor's own click path defends
+     * against. So an unexposed or refused action falls back first to that defended
+     * activation, which redirects through app scripts and simulates a tap at the child's
+     * centre when the node exposes no action, and finally to a simulated press at the
+     * child's centre, so the press lands on the same child either way and "not supported"
+     * is only reported when every route failed.
+     */
+    private boolean perform() {
+      int actionId =
+          longClick
+              ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
+              : AccessibilityNodeInfoCompat.ACTION_CLICK;
+      boolean performed = false;
+      if (PerformActionUtils.isNodeSupportAction(node, actionId)) {
+        performed =
+            pipeline.returnFeedback(
+                EVENT_ID_UNTRACKED,
+                Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
+      }
+      if (!performed) {
+        performed =
+            pipeline.returnFeedback(
+                EVENT_ID_UNTRACKED,
+                Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
+      }
+      if (!performed) {
+        performed = simulatedTapper.tap(context, node, longClick);
+      }
+      return performed;
+    }
+  }
+
+  /** Simulates a press at a node's centre; a seam so tests can record the press. */
+  interface SimulatedTapper {
+    boolean tap(Context context, AccessibilityNodeInfoCompat node, boolean longClick);
+  }
+
+  private static SimulatedTapper simulatedTapper = CollapsedItemActions::dispatchSimulatedTap;
+
+  @VisibleForTesting
+  static void setSimulatedTapperForTest(SimulatedTapper tapper) {
+    simulatedTapper = tapper;
+  }
+
+  @VisibleForTesting
+  static void resetSimulatedTapperForTest() {
+    simulatedTapper = CollapsedItemActions::dispatchSimulatedTap;
+  }
+
+  private static boolean dispatchSimulatedTap(
+      Context context, AccessibilityNodeInfoCompat node, boolean longClick) {
+    if (!(context instanceof AccessibilityService)) {
+      return false;
+    }
+    Rect bounds = new Rect();
+    node.getBoundsInScreen(bounds);
+    if (bounds.isEmpty()) {
+      return false;
+    }
+    Path path = new Path();
+    path.moveTo(bounds.centerX(), bounds.centerY());
+    long durationMs =
+        longClick ? ViewConfiguration.getLongPressTimeout() : ViewConfiguration.getTapTimeout();
+    GestureDescription gesture =
+        new GestureDescription.Builder()
+            .addStroke(
+                new GestureDescription.StrokeDescription(path, /* startTime= */ 0, durationMs))
+            .build();
+    return ((AccessibilityService) context)
+        .dispatchGesture(gesture, /* callback= */ null, /* handler= */ null);
   }
 
   /**
