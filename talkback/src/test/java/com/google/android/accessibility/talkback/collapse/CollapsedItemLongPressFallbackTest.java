@@ -40,12 +40,12 @@ import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 /**
- * The long-press twin of a Facebook action (Like, which opens the reaction tray) when the
- * child node exposes no ACTION_LONG_CLICK: the direct action is refused and the focus
- * actor's long-click route -- which, unlike its click route, simulates nothing -- is refused
- * too, so the press must finally be simulated at the child's centre. The simulated press is
- * recorded through the listener's test seam because a unit test has no accessibility
- * service to dispatch gestures with.
+ * The long-press twin of a Facebook action (Like, which opens the reaction tray) when its
+ * target — the Like block's wrapper — exposes no ACTION_LONG_CLICK: the direct action is
+ * refused and the focus actor's long-click route -- which, unlike its click route,
+ * simulates nothing -- is refused too, so the press must finally be simulated at the
+ * wrapper's centre. The simulated press is recorded through the listener's test seam
+ * because a unit test has no accessibility service to dispatch gestures with.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
@@ -133,7 +133,7 @@ public class CollapsedItemLongPressFallbackTest {
   }
 
   @Test
-  public void facebookComment_likeLongPress_fallsBackToASimulatedPressOnTheLikeButton() {
+  public void facebookComment_likeLongPress_fallsBackToASimulatedPressOnTheLikeWrapper() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
 
@@ -141,7 +141,7 @@ public class CollapsedItemLongPressFallbackTest {
 
     assertTrue(longPress.onClickPerformed());
     assertNull("no route performs the long-click directly", returner.actionTarget);
-    assertEquals(tree.like, tapper.node);
+    assertEquals(tree.likeWrap, tapper.node);
     assertTrue(tapper.longClick);
   }
 
