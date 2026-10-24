@@ -551,10 +551,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
             return false;
           }
 
-          // If the user is disabling performance statistics... disable & unassign gesture.
-          disableAndRemoveGesture(
-              R.string.pref_performance_stats_key, R.string.shortcut_value_print_performance_stats);
-
           return true;
         }
       };

@@ -526,10 +526,6 @@ public class GestureController {
       TreeDebug.logNodeTreesOnAllDisplaysAndWriteScreenshot(service, focusIndicatorSpec);
       pipeline.returnFeedback(
           eventId, Feedback.speech(service.getString(R.string.dump_node_tree_description)));
-    } else if (action.equals(service.getString(R.string.shortcut_value_print_performance_stats))) {
-      Performance.getInstance().displayLabelToStats();
-      Performance.getInstance().displayStatToLabelCompare();
-      Performance.getInstance().displayAllEventStats();
     } else if (action.equals(
         service.getString(R.string.shortcut_value_perform_long_click_action))) {
       result = pipeline.returnFeedback(eventId, Feedback.focus(LONG_CLICK_CURRENT));

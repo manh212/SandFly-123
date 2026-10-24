@@ -570,14 +570,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
-    if (preferences.getBoolean(resources.getString(R.string.pref_performance_stats_key), false)) {
-      builder.add(
-          new ActionItem(
-              resources.getString(R.string.shortcut_print_performance_stats),
-              resources.getString(R.string.shortcut_value_print_performance_stats),
-              TYPE_ACTION_ITEM));
-    }
-
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_show_custom_actions),
