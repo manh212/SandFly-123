@@ -39,7 +39,7 @@ public class FacebookCollapseScriptTest {
       Map.of(CollapseTestTrees.FACEBOOK_PACKAGE, new FacebookCollapseScript());
 
   @Test
-  public void comment_matches_labelIsAuthorTimeBody_actionsAreTheEightChildButtons() {
+  public void comment_matches_labelIsAuthorTimeBody_actionsTargetTheSplitBodyShell() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
 
@@ -59,6 +59,74 @@ public class FacebookCollapseScriptTest {
         assertEquals(tree.like, action.node);
       } else {
         clickLabels.add(action.label.toString());
+        if ("This is a great comment".contentEquals(action.label)) {
+          // The text itself is not clickable in the real tree; its action lands on the shell.
+          assertEquals(tree.bodyActionTarget, action.node);
+        }
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            "This is a great comment",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+    assertEquals(1, longClickTwins);
+    // Text selection still targets the node carrying the text, not the shell.
+    assertEquals(tree.body, item.selectionTarget());
+    assertNull(item.activationTarget());
+  }
+
+  @Test
+  public void commentWithFollowButton_stillMatches_atTheActionCap() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentWithFollow(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    List<String> clickLabels = new ArrayList<>();
+    for (ChildAction action : item.actions()) {
+      if (!action.longClick) {
+        clickLabels.add(action.label.toString());
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            " · Follow",
+            "This is a great comment",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+  }
+
+  @Test
+  public void commentWithClickableBody_stillMatches() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentClickableBody(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    String separator = CompositorUtils.getSeparator();
+    assertEquals(
+        "Nguyen Van A" + separator + "1 day" + separator + "This is a great comment",
+        item.composedLabel());
+    List<String> clickLabels = new ArrayList<>();
+    for (ChildAction action : item.actions()) {
+      if (!action.longClick) {
+        clickLabels.add(action.label.toString());
+        if ("This is a great comment".contentEquals(action.label)) {
+          assertEquals(tree.body, action.node);
+        }
       }
     }
     assertEquals(
@@ -72,9 +140,7 @@ public class FacebookCollapseScriptTest {
             "Like",
             "Demote comment"),
         clickLabels);
-    assertEquals(1, longClickTwins);
     assertEquals(tree.body, item.selectionTarget());
-    assertNull(item.activationTarget());
   }
 
   @Test
@@ -90,13 +156,15 @@ public class FacebookCollapseScriptTest {
   public void commentWithNineClickableChildren_doesNotMatch() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    AccessibilityNodeInfoCompat attachment =
-        CollapseTestTrees.node(tree.root, "android.widget.ImageButton");
-    attachment.setClickable(true);
-    attachment.setFocusable(true);
-    attachment.setContentDescription("Attached photo");
-    CollapseTestTrees.bounds(attachment, 0, 400, 200, 600);
-    attachment.setPackageName(CollapseTestTrees.FACEBOOK_PACKAGE);
+    for (int i = 0; i < 2; i++) {
+      AccessibilityNodeInfoCompat attachment =
+          CollapseTestTrees.node(tree.root, "android.widget.ImageButton");
+      attachment.setClickable(true);
+      attachment.setFocusable(true);
+      attachment.setContentDescription("Attached photo");
+      CollapseTestTrees.bounds(attachment, 0, 400 + i * 200, 200, 600 + i * 200);
+      attachment.setPackageName(CollapseTestTrees.FACEBOOK_PACKAGE);
+    }
 
     assertNull(CollapseEngine.matchItemRoot(tree.root, SCRIPTS));
   }

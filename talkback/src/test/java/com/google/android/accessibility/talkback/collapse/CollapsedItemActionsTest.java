@@ -98,7 +98,6 @@ public class CollapsedItemActionsTest {
             "Profile picture of Nguyen Van A",
             "Nguyen Van A",
             "This is a great comment",
-            "See more",
             "Reply",
             "5 reactions",
             "Like",

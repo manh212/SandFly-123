@@ -120,7 +120,11 @@ final class CollapseTestTrees {
     AccessibilityNodeInfoCompat avatar;
     AccessibilityNodeInfoCompat author;
     AccessibilityNodeInfoCompat time;
+    /** The node carrying the body text (the text-selection target). */
     AccessibilityNodeInfoCompat body;
+    /** The clickable node the body action lands on: the shell, or the body itself. */
+    AccessibilityNodeInfoCompat bodyActionTarget;
+    AccessibilityNodeInfoCompat follow;
     AccessibilityNodeInfoCompat seeMore;
     AccessibilityNodeInfoCompat reply;
     AccessibilityNodeInfoCompat reactions;
@@ -128,8 +132,30 @@ final class CollapseTestTrees {
     AccessibilityNodeInfoCompat demote;
   }
 
-  /** A Facebook comment, structured as recorded from the real app. */
+  /**
+   * A Facebook comment as recorded from the live app: the body text sits on a plain button
+   * with no flags at all, inside a clickable shell that carries no text. Seven clickable
+   * descendants, counting the reactions button.
+   */
   static FacebookCommentTree facebookComment(AccessibilityNodeInfoCompat list) {
+    return facebookComment(list, /* splitBody= */ true, /* withFollow= */ false);
+  }
+
+  /** A live-shaped comment that also carries a follow button in its header (8 clickables). */
+  static FacebookCommentTree facebookCommentWithFollow(AccessibilityNodeInfoCompat list) {
+    return facebookComment(list, /* splitBody= */ true, /* withFollow= */ true);
+  }
+
+  /**
+   * The earlier recorded shape: the body is itself a clickable button carrying its text, with
+   * a nested "see more" button inside it.
+   */
+  static FacebookCommentTree facebookCommentClickableBody(AccessibilityNodeInfoCompat list) {
+    return facebookComment(list, /* splitBody= */ false, /* withFollow= */ false);
+  }
+
+  private static FacebookCommentTree facebookComment(
+      AccessibilityNodeInfoCompat list, boolean splitBody, boolean withFollow) {
     FacebookCommentTree tree = new FacebookCommentTree();
     tree.root = item(list);
     tree.root.setClickable(true);
@@ -138,45 +164,79 @@ final class CollapseTestTrees {
 
     AccessibilityNodeInfoCompat header = node(tree.root, "android.view.ViewGroup");
     header.setLongClickable(true);
-    header.setFocusable(true);
     bounds(header, 0, 0, 1080, 300);
+    AccessibilityNodeInfoCompat content = node(header, "android.view.ViewGroup");
+    bounds(content, 0, 0, 1080, 300);
 
-    tree.avatar = node(header, "android.widget.ImageButton");
+    tree.avatar = node(content, "android.widget.ImageView");
     tree.avatar.setClickable(true);
     tree.avatar.setFocusable(true);
     tree.avatar.setContentDescription("Profile picture of Nguyen Van A");
     bounds(tree.avatar, 0, 0, 120, 120);
 
-    tree.author = node(header, "android.view.ViewGroup");
+    tree.author = node(content, "android.view.ViewGroup");
     tree.author.setClickable(true);
     tree.author.setFocusable(true);
     tree.author.setText("Nguyen Van A");
+    tree.author.setContentDescription("Nguyen Van A");
     bounds(tree.author, 130, 0, 500, 60);
 
-    tree.time = node(header, "android.widget.TextView");
+    tree.time = node(content, "android.view.ViewGroup");
     tree.time.setFocusable(true);
     tree.time.setText("1 day");
+    tree.time.setContentDescription("1 day");
     bounds(tree.time, 130, 60, 300, 110);
 
-    tree.body = node(header, "android.widget.Button");
-    tree.body.setClickable(true);
-    tree.body.setFocusable(true);
-    tree.body.setText("This is a great comment");
-    bounds(tree.body, 0, 120, 1080, 300);
+    if (withFollow) {
+      tree.follow = node(content, "android.widget.Button");
+      tree.follow.setClickable(true);
+      tree.follow.setFocusable(true);
+      tree.follow.setText(" · Follow");
+      tree.follow.setContentDescription(" · Follow");
+      bounds(tree.follow, 510, 0, 700, 60);
+    }
 
-    tree.seeMore = node(tree.body, "android.widget.Button");
-    tree.seeMore.setClickable(true);
-    tree.seeMore.setFocusable(true);
-    tree.seeMore.setText("See more");
-    bounds(tree.seeMore, 900, 250, 1080, 300);
+    if (splitBody) {
+      AccessibilityNodeInfoCompat shell = node(content, "android.view.ViewGroup");
+      shell.setClickable(true);
+      shell.setLongClickable(true);
+      shell.setFocusable(true);
+      bounds(shell, 0, 120, 1080, 300);
+      tree.body = node(shell, "android.widget.Button");
+      tree.body.setText("This is a great comment");
+      tree.body.setContentDescription("This is a great comment");
+      bounds(tree.body, 0, 120, 1080, 300);
+      tree.bodyActionTarget = shell;
+    } else {
+      tree.body = node(content, "android.widget.Button");
+      tree.body.setClickable(true);
+      tree.body.setFocusable(true);
+      tree.body.setText("This is a great comment");
+      tree.body.setContentDescription("This is a great comment");
+      bounds(tree.body, 0, 120, 1080, 300);
+      tree.bodyActionTarget = tree.body;
 
-    AccessibilityNodeInfoCompat replyWrap = node(tree.root, "android.view.ViewGroup");
+      tree.seeMore = node(tree.body, "android.widget.Button");
+      tree.seeMore.setClickable(true);
+      tree.seeMore.setFocusable(true);
+      tree.seeMore.setText("See more");
+      bounds(tree.seeMore, 900, 250, 1080, 300);
+    }
+
+    String replyDescription =
+        "Reply to the comment by Nguyen Van A, button. Double-tap to reply to the comment.";
+    AccessibilityNodeInfoCompat replyOuter = node(tree.root, "android.view.ViewGroup");
+    bounds(replyOuter, 0, 300, 200, 400);
+    AccessibilityNodeInfoCompat replyWrap = node(replyOuter, "android.view.ViewGroup");
     replyWrap.setFocusable(true);
+    replyWrap.setText(replyDescription);
+    replyWrap.setContentDescription(replyDescription);
     bounds(replyWrap, 0, 300, 200, 400);
     tree.reply = node(replyWrap, "android.widget.Button");
     tree.reply.setClickable(true);
     tree.reply.setFocusable(true);
     tree.reply.setText("Reply");
+    tree.reply.setContentDescription(replyDescription);
     bounds(tree.reply, 0, 300, 200, 400);
 
     AccessibilityNodeInfoCompat reactionsWrap = node(tree.root, "android.widget.Button");
@@ -185,18 +245,23 @@ final class CollapseTestTrees {
     tree.reactions.setClickable(true);
     tree.reactions.setFocusable(true);
     tree.reactions.setText("5 reactions");
+    tree.reactions.setContentDescription("5 reactions");
     bounds(tree.reactions, 200, 300, 400, 400);
 
+    String likeDescription =
+        "Like button for the comment by Nguyen Van A."
+            + " Double-tap and hold to show the reaction tray.";
     AccessibilityNodeInfoCompat likeWrap = node(tree.root, "android.view.ViewGroup");
     likeWrap.setFocusable(true);
+    likeWrap.setText(likeDescription);
+    likeWrap.setContentDescription(likeDescription);
     bounds(likeWrap, 400, 300, 600, 400);
     tree.like = node(likeWrap, "android.widget.Button");
     tree.like.setClickable(true);
     tree.like.setLongClickable(true);
     tree.like.setFocusable(true);
     tree.like.setText("Like");
-    tree.like.setContentDescription(
-        "Like button for the comment by Nguyen Van A. Double-tap and hold for more options.");
+    tree.like.setContentDescription(likeDescription);
     bounds(tree.like, 400, 300, 600, 400);
 
     tree.demote = node(tree.root, "android.widget.Button");
