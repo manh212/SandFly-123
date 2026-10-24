@@ -125,27 +125,37 @@ object DiagnosticsExport {
    * after a settings change rewrote it) without exposing any of them.
    */
   private fun preferencesDigest(context: Context, out: StringBuilder) {
-    out.append("== Preferences digest ==\n")
-    // The same device-protected context the preferences themselves are read through, so the
-    // directory named here is the one holding the file the service loads at the cold start.
-    val deContext = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
-    val prefsDir = File(deContext.dataDir, "shared_prefs")
-    val defaultName = PreferenceManager.getDefaultSharedPreferencesName(deContext)
-    val file = File(prefsDir, "$defaultName.xml")
-    out.append("File: ${PrefsDigest.fileDescription(file)}\n")
-    out.append(
-      "Backup file: ${PrefsDigest.fileDescription(File(prefsDir, "$defaultName.xml.bak"))}\n"
-    )
-    val all = SharedPreferencesUtils.getSharedPreferences(context).all
-    out.append("Keys: ${all.size}\n")
-    for (line in PrefsDigest.digestLines(all)) {
-      out.append(line).append("\n")
+    // Built into a scratch buffer first: this section is a measuring instrument and must never
+    // break the diagnostics text it rides in, so any failure lands as one explicit line instead.
+    val section = StringBuilder()
+    try {
+      section.append("== Preferences digest ==\n")
+      // The same device-protected context the preferences themselves are read through, so the
+      // directory named here is the one holding the file the service loads at the cold start.
+      val deContext = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
+      val prefsDir = File(deContext.dataDir, "shared_prefs")
+      val defaultName = PreferenceManager.getDefaultSharedPreferencesName(deContext)
+      val file = File(prefsDir, "$defaultName.xml")
+      section.append("File: ${PrefsDigest.fileDescription(file)}\n")
+      section.append(
+        "Backup file: ${PrefsDigest.fileDescription(File(prefsDir, "$defaultName.xml.bak"))}\n"
+      )
+      val all = SharedPreferencesUtils.getSharedPreferences(context).all
+      section.append("Keys: ${all.size}\n")
+      for (line in PrefsDigest.digestLines(all)) {
+        section.append(line).append("\n")
+      }
+      section.append("Other preference files:\n")
+      for (name in OTHER_NAMED_PREFS) {
+        section.append("${PrefsDigest.fileDescription(File(prefsDir, "$name.xml"))}\n")
+      }
+    } catch (e: RuntimeException) {
+      out.append("== Preferences digest ==\n")
+      out.append("Preferences digest: unavailable (${e.javaClass.simpleName})\n\n")
+      return
     }
-    out.append("Other preference files:\n")
-    for (name in OTHER_NAMED_PREFS) {
-      out.append("${PrefsDigest.fileDescription(File(prefsDir, "$name.xml"))}\n")
-    }
-    out.append("\n")
+    section.append("\n")
+    out.append(section)
   }
 
   /**
