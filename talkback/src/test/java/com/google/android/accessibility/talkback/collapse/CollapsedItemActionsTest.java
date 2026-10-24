@@ -123,13 +123,14 @@ public class CollapsedItemActionsTest {
     assertEquals(heardId, rebuilt.getContextMenuItemId());
 
     assertTrue(rebuilt.onClickPerformed());
-    assertEquals(
-        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
+    // The Reply child does not expose ACTION_CLICK (it models a Litho node), so activation
+    // goes through the focus actor's defended click rather than a bare node action.
+    assertEquals(Feedback.Focus.Action.CLICK_NODE, returner.lastPart.focus().action());
     // The item scan hands out obtained copies of the nodes, so this compares nodes rather
     // than object identity: the click must land on the rebuilt tree's Reply node, and not
     // on the recycled tree's.
-    assertEquals(tree2.reply, returner.lastPart.nodeAction().target().getCompat());
-    assertNotEquals(tree1.reply, returner.lastPart.nodeAction().target().getCompat());
+    assertEquals(tree2.reply, returner.lastPart.focus().target());
+    assertNotEquals(tree1.reply, returner.lastPart.focus().target());
   }
 
   @Test
@@ -153,11 +154,10 @@ public class CollapsedItemActionsTest {
 
     ContextMenuItem longPress = findItem(tree.root, "Like, long press");
     assertTrue(longPress.onClickPerformed());
-    assertEquals(
-        AccessibilityNodeInfoCompat.ACTION_LONG_CLICK,
-        returner.lastPart.nodeAction().actionId());
-    assertEquals(
-        "Like", returner.lastPart.nodeAction().target().getCompat().getText().toString());
+    // The Like child does not expose ACTION_LONG_CLICK (it models a Litho node), so the
+    // long press goes through the focus actor rather than a bare node action.
+    assertEquals(Feedback.Focus.Action.LONG_CLICK_NODE, returner.lastPart.focus().action());
+    assertEquals("Like", returner.lastPart.focus().target().getText().toString());
   }
 
   @After
