@@ -20,7 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-      contents: write # TEMP: only for the diagnostic commit-comment step below.
     steps:
       # The full history gives the build number (commits since buildNumberBase in version.gradle) and the release notes.
       - uses: actions/checkout@v7
@@ -201,35 +200,6 @@ jobs:
             fi
           } > "$summary"
           gh pr comment "$PR_NUMBER" --body-file "$summary"
-
-      # TEMP: diagnostic hook — posts the APK build's Gradle tail as a commit comment on a
-      # failed push, so the cause is readable without Actions log access. Remove after use.
-      - name: TEMP commit comment with the failure tail
-        if: failure() && github.event_name == 'push'
-        continue-on-error: true
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set +e
-          blocked='password|secret|keystore'
-          out="$RUNNER_TEMP/push-failure-tail.txt"
-          : > "$out"
-          if [ -f "$RUNNER_TEMP/assemble.log" ]; then
-            grep -A 80 "FAILURE:" "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" > "$out" || true
-            if [ ! -s "$out" ]; then
-              grep -E "error:|FAILED|Exception" "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" | head -n 80 > "$out" || true
-            fi
-          fi
-          head -c 12000 "$out" > "$out.tmp" && mv "$out.tmp" "$out"
-          {
-            echo "## TEMP build failure tail"
-            echo
-            echo '```'
-            cat "$out"
-            echo '```'
-          } > "$RUNNER_TEMP/push-failure.md"
-          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" \
-            -F body=@"$RUNNER_TEMP/push-failure.md" || true
 
   # Publishes the build. A push to master replaces the rolling "dev" pre-release, and a tag
   # v<version> creates the stable release, which becomes the latest release. The in-app updater
