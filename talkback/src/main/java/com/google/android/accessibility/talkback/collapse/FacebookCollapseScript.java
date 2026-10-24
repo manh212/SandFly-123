@@ -44,6 +44,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * header content — and prefers the subtree of the header's clickable, long-clickable shell
  * that wraps the body text.
  *
+ * <p>Some comment frames carry no clickable or focusable flags at all — the recorded replies
+ * with an attached photo are shaped like that. This script opts in to those frames; the engine
+ * then only accepts them as direct children of the scrollable comment list, and a double-tap
+ * lands on the body shell instead of the frame. A comment that is only a photo still does not
+ * match: it has no author, time or body text to compose a label from.
+ *
+ * <p>The action cap covers the heaviest recorded combination: a photo comment with a follow
+ * button and a reactions block reaches eleven actions after de-duplication.
+ *
  * <p>Feed posts intentionally do not match: their root is not clickable and one child already
  * carries the full description plus Facebook's own custom actions.
  */
@@ -54,11 +63,21 @@ final class FacebookCollapseScript extends CollapseScript {
   private static final String FIELD_BODY = "body";
 
   FacebookCollapseScript() {
-    super(PACKAGE_NAME, Pattern.COMPOSITE_ROOT, /* maxActions= */ 8);
+    super(PACKAGE_NAME, Pattern.COMPOSITE_ROOT, /* maxActions= */ 12);
   }
 
   @Override
   public @Nullable String selectionFieldId() {
+    return FIELD_BODY;
+  }
+
+  @Override
+  public boolean allowsUnflaggedRepresentative() {
+    return true;
+  }
+
+  @Override
+  public @Nullable String activationAnchorFieldId() {
     return FIELD_BODY;
   }
 
@@ -69,6 +88,12 @@ final class FacebookCollapseScript extends CollapseScript {
     AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
     AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
     if (body == null || time == null || author == null) {
+      return null;
+    }
+    if (author.equals(time) || author.equals(body) || time.equals(body)) {
+      // One node filling two fields means a field is really absent — with no timestamp, the
+      // body itself is the first focusable, labelled, non-clickable node the timestamp
+      // selector can find. Fail safe instead of composing a label with a repeated field.
       return null;
     }
     List<Field> fields = new ArrayList<>();
@@ -110,11 +135,35 @@ final class FacebookCollapseScript extends CollapseScript {
     if (!node.isLongClickable()) {
       return false;
     }
+    // The attached-photo block is content, not a bottom-row action: its wrapper and the
+    // image inside are both long-clickable and sit after the body in reading order, but
+    // long-pressing them opens no picker, so they never earn a twin.
+    if (isOrWrapsImage(node, scan)) {
+      return false;
+    }
     AccessibilityNodeInfoCompat avatar = avatarNode(scan);
     AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
     AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
     AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
     return body != null && !node.equals(body) && scan.indexOf(node) > scan.indexOf(body);
+  }
+
+  /** Whether a node is an image or wraps one — the shape of an attached-photo block. */
+  private static boolean isOrWrapsImage(AccessibilityNodeInfoCompat node, ItemScan scan) {
+    if (isImage(node)) {
+      return true;
+    }
+    for (AccessibilityNodeInfoCompat descendant : scan.descendants()) {
+      if (isWithin(descendant, node) && isImage(descendant)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isImage(AccessibilityNodeInfoCompat node) {
+    int role = Role.getRole(node);
+    return role == Role.ROLE_IMAGE || role == Role.ROLE_IMAGE_BUTTON;
   }
 
   /** The avatar: the first clickable image button in the item. */

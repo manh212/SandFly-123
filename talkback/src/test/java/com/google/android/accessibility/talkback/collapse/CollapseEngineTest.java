@@ -29,6 +29,7 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.collapse.CollapseScript.Field;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.FacebookCommentTree;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.YouTubeTree;
+import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.List;
@@ -159,6 +160,49 @@ public class CollapseEngineTest {
 
     assertEquals(tree.root, CollapseEngine.touchTarget(context, tree.like));
     assertEquals(tree.root, CollapseEngine.touchTarget(context, tree.root));
+  }
+
+  @Test
+  public void compositeScriptWithoutOptIn_unflaggedRoot_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list("com.example.fake");
+    list.setScrollable(true);
+    AccessibilityNodeInfoCompat root = CollapseTestTrees.item(list);
+    CollapseTestTrees.bounds(root, 0, 0, 1080, 400);
+    AccessibilityNodeInfoCompat shortButton =
+        CollapseTestTrees.node(root, "android.widget.Button");
+    shortButton.setClickable(true);
+    shortButton.setFocusable(true);
+    shortButton.setText("Hi");
+    AccessibilityNodeInfoCompat body = CollapseTestTrees.node(root, "android.widget.Button");
+    body.setClickable(true);
+    body.setFocusable(true);
+    body.setText("A much longer body text");
+    CollapseTestTrees.applyPackage(root, "com.example.fake");
+
+    assertNull(CollapseEngine.match(new FakeCompositeScript(), root));
+  }
+
+  @Test
+  public void switchOn_unflaggedFacebookComment_filterAdmitsOnlyTheRoot() {
+    setCollapseEnabled(true);
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    list.setScrollable(true);
+    FacebookCommentTree tree = CollapseTestTrees.facebookCommentWithPhoto(list);
+
+    Filter<AccessibilityNodeInfoCompat> filter =
+        CollapseEngine.composeNodeFilter(context, CLICKABLE_FOCUSABLE);
+
+    // The frame has no clickable/focusable flags, yet as a matched representative it is
+    // the item's only stop; every child is hidden from swipe navigation.
+    assertTrue(filter.accept(tree.root));
+    assertFalse(filter.accept(tree.avatar));
+    assertFalse(filter.accept(tree.like));
+    assertFalse(filter.accept(tree.photoWrapper));
+    assertEquals(tree.root, CollapseEngine.touchTarget(context, tree.like));
+    String separator = CompositorUtils.getSeparator();
+    assertEquals(
+        "Nguyen Van A" + separator + "1 day" + separator + "Hoang Tuan looks great in this photo",
+        CollapseEngine.composedLabel(context, tree.root));
   }
 
   @Test

@@ -102,6 +102,27 @@ public abstract class CollapseScript {
   }
 
   /**
+   * Whether a composite item root may be the representative without being clickable or
+   * focusable itself. The engine only honours this for a root that is a top-level scroll
+   * item — a direct child of a scrollable container, the shape TalkBack's own fallback
+   * focusability covers — whose content fields resolve, and redirects its activation to
+   * the field named by {@link #activationAnchorFieldId()}. Scripts that do not opt in keep
+   * the strict rule that the root itself must be clickable and focusable.
+   */
+  public boolean allowsUnflaggedRepresentative() {
+    return false;
+  }
+
+  /**
+   * Field anchoring activation when the representative is unflagged: a double-tap clicks
+   * the field node's nearest clickable ancestor inside the item (the wrapper that carries
+   * the content on screen), because the representative itself cannot be clicked at all.
+   */
+  public @Nullable String activationAnchorFieldId() {
+    return null;
+  }
+
+  /**
    * Resolves the ordered content fields of a composite item, or returns null when any required
    * field is missing (the item then stays untouched).
    */

@@ -227,8 +227,18 @@ public final class CollapseEngine {
 
   private static @Nullable CollapsedItem matchCompositeRoot(
       CollapseScript script, AccessibilityNodeInfoCompat itemRoot, ItemScan scan) {
+    boolean unflaggedRepresentative = false;
     if (!itemRoot.isClickable() || !itemRoot.isFocusable()) {
-      return null;
+      // A script may opt in to a representative that carries no flags of its own. The only
+      // thing that can still land focus on such a node is TalkBack's fallback focusability,
+      // so the opt-in is honoured solely for its exact shape — a top-level scroll item.
+      // That the item also speaks is proven below: without resolvable labelled fields and
+      // a non-empty composed label there is no match.
+      if (!script.allowsUnflaggedRepresentative()
+          || !AccessibilityNodeInfoUtils.isTopLevelScrollItem(itemRoot)) {
+        return null;
+      }
+      unflaggedRepresentative = true;
     }
     if (!TextUtils.isEmpty(ItemScan.spokenLabel(itemRoot))) {
       return null;
@@ -255,8 +265,14 @@ public final class CollapseEngine {
     }
     List<ChildAction> clickActions = new ArrayList<>();
     for (AccessibilityNodeInfoCompat node : scan.clickables()) {
-      clickActions.add(
-          new ChildAction(node, /* longClick= */ false, actionLabel(script, node)));
+      CharSequence label = actionLabel(script, node);
+      if (TextUtils.isEmpty(label)) {
+        // A clickable that neither speaks nor wraps labelled content (an empty container
+        // in Facebook's comment header) is not an action; listing it would add a blank
+        // entry to the Actions control and waste a slot under the cap.
+        continue;
+      }
+      clickActions.add(new ChildAction(node, /* longClick= */ false, label));
     }
     clickActions = dedupNestedSameLabel(clickActions);
     if (clickActions.isEmpty() || clickActions.size() > script.maxActions()) {
@@ -268,6 +284,15 @@ public final class CollapseEngine {
       if (activationTarget == null) {
         return null;
       }
+    } else if (unflaggedRepresentative) {
+      // The representative cannot be clicked at all, so a double-tap goes to the nearest
+      // clickable ancestor of the main content field — for Facebook, the shell wrapping
+      // the body text. Without one there is nothing meaningful to activate: no match.
+      AccessibilityNodeInfoCompat anchor = fieldNode(fields, script.activationAnchorFieldId());
+      activationTarget = anchor == null ? null : closestClickable(anchor, itemRoot);
+      if (activationTarget == null) {
+        return null;
+      }
     }
     return new CollapsedItem(
         itemRoot,
@@ -276,6 +301,22 @@ public final class CollapseEngine {
         label.toString(),
         activationTarget,
         fieldNode(fields, script.selectionFieldId()));
+  }
+
+  /** The node itself if clickable, else its nearest clickable ancestor up to the item root. */
+  private static @Nullable AccessibilityNodeInfoCompat closestClickable(
+      AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat itemRoot) {
+    for (AccessibilityNodeInfoCompat current = node;
+        current != null;
+        current = current.getParent()) {
+      if (current.isClickable()) {
+        return current;
+      }
+      if (current.equals(itemRoot)) {
+        return null;
+      }
+    }
+    return null;
   }
 
   private static List<ChildAction> withLongClickTwins(
