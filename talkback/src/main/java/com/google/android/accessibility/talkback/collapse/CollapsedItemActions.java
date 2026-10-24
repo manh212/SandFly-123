@@ -40,7 +40,9 @@ import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.menurules.CustomActionMenu;
 import com.google.android.accessibility.talkback.menurules.NodeMenu;
+import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -55,6 +57,7 @@ import java.util.List;
  * menu, custom-action surfaces) filters them out via {@link #isCollapsedActionItem}.
  */
 public class CollapsedItemActions implements NodeMenu {
+  private static final String TAG = "CollapsedItemActions";
   static final int ACTION_ID_BASE = 0x5d000000;
   private static final int ACTION_ID_RANGE = 0x100000;
 
@@ -105,7 +108,7 @@ public class CollapsedItemActions implements NodeMenu {
           action.kind == ChildAction.Kind.MENU_ITEM
               ? new MenuItemClickListener(context, item, action, title, pipeline, analytics)
               : new CollapseActionClickListener(
-                  context, action.node, action.longClick, pipeline, analytics));
+                  context, action.node, title, action.longClick, pipeline, analytics));
       menuItem.setCheckable(false);
       menuItems.add(menuItem);
     }
@@ -126,16 +129,19 @@ public class CollapsedItemActions implements NodeMenu {
   private static class CollapseActionClickListener
       extends AbstractOnContextMenuItemClickListener {
     private final Context context;
+    private final CharSequence label;
     private final boolean longClick;
 
     CollapseActionClickListener(
         Context context,
         AccessibilityNodeInfoCompat node,
+        CharSequence label,
         boolean longClick,
         Pipeline.FeedbackReturner pipeline,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
       this.context = context;
+      this.label = label;
       this.longClick = longClick;
     }
 
@@ -158,30 +164,114 @@ public class CollapsedItemActions implements NodeMenu {
      * centre when the node exposes no action, and finally to a simulated press at the
      * child's centre, so the press lands on the same child either way and "not supported"
      * is only reported when every route failed.
+     *
+     * <p>The target is refreshed first: the stored node is a snapshot from when the items
+     * were built and the app may have re-created the child since, leaving the snapshot with
+     * empty bounds. A simulated tap reads the target's centre, so while the bounds stay
+     * empty the defended activation is skipped rather than allowed to report a tap at
+     * (0, 0) as success, and the failure surfaces as "not supported" instead of silence.
      */
     private boolean perform() {
       int actionId =
           longClick
               ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
               : AccessibilityNodeInfoCompat.ACTION_CLICK;
+      Rect boundsBefore = new Rect();
+      node.getBoundsInScreen(boundsBefore);
+      boolean refreshed = nodeRefresher.refresh(node);
+      Rect boundsAfter = new Rect();
+      node.getBoundsInScreen(boundsAfter);
+      boolean supportsClick =
+          PerformActionUtils.isNodeSupportAction(node, AccessibilityNodeInfoCompat.ACTION_CLICK);
+      boolean supportsLongClick =
+          PerformActionUtils.isNodeSupportAction(
+              node, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK);
+      LogUtils.v(
+          TAG,
+          "perform label=%s longClick=%b target class=%s viewId=%s clickable=%b focusable=%b"
+              + " longClickable=%b supportsClick=%b supportsLongClick=%b boundsBefore=%s"
+              + " boundsAfter=%s refreshed=%b",
+          label,
+          longClick,
+          node.getClassName(),
+          node.getViewIdResourceName(),
+          node.isClickable(),
+          node.isFocusable(),
+          node.isLongClickable(),
+          supportsClick,
+          supportsLongClick,
+          boundsBefore,
+          boundsAfter,
+          refreshed);
+      logAccessibilityFocus();
       boolean performed = false;
-      if (PerformActionUtils.isNodeSupportAction(node, actionId)) {
+      if (longClick ? supportsLongClick : supportsClick) {
         performed =
             pipeline.returnFeedback(
                 EVENT_ID_UNTRACKED,
                 Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
+        LogUtils.v(TAG, "tier1 nodeAction result=%b", performed);
       }
       if (!performed) {
-        performed =
-            pipeline.returnFeedback(
-                EVENT_ID_UNTRACKED,
-                Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
+        if (boundsAfter.isEmpty()) {
+          LogUtils.v(TAG, "tier2 skipped: target bounds empty after refresh");
+        } else {
+          performed =
+              pipeline.returnFeedback(
+                  EVENT_ID_UNTRACKED,
+                  Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
+          LogUtils.v(
+              TAG, "tier2 %s result=%b", longClick ? "LONG_CLICK_NODE" : "CLICK_NODE", performed);
+        }
       }
       if (!performed) {
         performed = simulatedTapper.tap(context, node, longClick);
+        LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
       }
+      LogUtils.v(TAG, "perform result=%b", performed);
       return performed;
     }
+
+    private void logAccessibilityFocus() {
+      AccessibilityNodeInfoCompat focus = null;
+      if (context instanceof AccessibilityService) {
+        try {
+          focus = FocusFinder.getAccessibilityFocusNode((AccessibilityService) context, false);
+        } catch (RuntimeException e) {
+          focus = null;
+        }
+      }
+      if (focus == null) {
+        LogUtils.v(TAG, "focus node: none");
+        return;
+      }
+      Rect focusBounds = new Rect();
+      focus.getBoundsInScreen(focusBounds);
+      LogUtils.v(
+          TAG,
+          "focus node class=%s bounds=%s sameAsTarget=%b",
+          focus.getClassName(),
+          focusBounds,
+          focus.equals(node));
+      focus.recycle();
+    }
+  }
+
+  /** Refreshes the target node at activation time; a seam so tests can stand in for it. */
+  interface NodeRefresher {
+    boolean refresh(AccessibilityNodeInfoCompat node);
+  }
+
+  private static NodeRefresher nodeRefresher = AccessibilityNodeInfoCompat::refresh;
+
+  @VisibleForTesting
+  static void setNodeRefresherForTest(NodeRefresher refresher) {
+    nodeRefresher = refresher;
+  }
+
+  @VisibleForTesting
+  static void resetNodeRefresherForTest() {
+    nodeRefresher = AccessibilityNodeInfoCompat::refresh;
   }
 
   /** Simulates a press at a node's centre; a seam so tests can record the press. */
