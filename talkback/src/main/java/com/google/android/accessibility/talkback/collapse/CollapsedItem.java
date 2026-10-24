@@ -50,6 +50,10 @@ public final class CollapsedItem {
     public final @StringRes int labelResId;
     /** Sheet signature for {@link Kind#MENU_ITEM}: view id of the label view in a menu row. */
     public final @Nullable String sheetItemLabelViewId;
+    /** Toggle {@link Kind#MENU_ITEM} only: the recorded state variants; null for plain items. */
+    public final @Nullable String[] menuStateVariants;
+    /** Toggle {@link Kind#MENU_ITEM} only: the stable match cores; null for plain items. */
+    public final @Nullable String[] menuStateCores;
 
     public ChildAction(AccessibilityNodeInfoCompat node, boolean longClick, CharSequence label) {
       this.node = node;
@@ -58,30 +62,48 @@ public final class CollapsedItem {
       this.kind = Kind.CLICK;
       this.labelResId = 0;
       this.sheetItemLabelViewId = null;
+      this.menuStateVariants = null;
+      this.menuStateCores = null;
     }
 
     private ChildAction(
         AccessibilityNodeInfoCompat node,
         Kind kind,
         @StringRes int labelResId,
-        @Nullable String sheetItemLabelViewId) {
+        @Nullable String sheetItemLabelViewId,
+        @Nullable String[] menuStateVariants,
+        @Nullable String[] menuStateCores) {
       this.node = node;
       this.longClick = false;
       this.label = "";
       this.kind = kind;
       this.labelResId = labelResId;
       this.sheetItemLabelViewId = sheetItemLabelViewId;
+      this.menuStateVariants = menuStateVariants;
+      this.menuStateCores = menuStateCores;
     }
 
     static ChildAction menuItem(
         AccessibilityNodeInfoCompat menuButton,
-        @StringRes int labelResId,
+        CollapseScript.MenuCatalog.Item item,
         String sheetItemLabelViewId) {
-      return new ChildAction(menuButton, Kind.MENU_ITEM, labelResId, sheetItemLabelViewId);
+      return new ChildAction(
+          menuButton,
+          Kind.MENU_ITEM,
+          item.labelResId,
+          sheetItemLabelViewId,
+          item.stateVariants,
+          item.stateCores);
     }
 
     static ChildAction menuOpen(AccessibilityNodeInfoCompat menuButton, @StringRes int labelResId) {
-      return new ChildAction(menuButton, Kind.MENU_OPEN, labelResId, /* sheetItemLabelViewId= */ null);
+      return new ChildAction(
+          menuButton,
+          Kind.MENU_OPEN,
+          labelResId,
+          /* sheetItemLabelViewId= */ null,
+          /* menuStateVariants= */ null,
+          /* menuStateCores= */ null);
     }
   }
 

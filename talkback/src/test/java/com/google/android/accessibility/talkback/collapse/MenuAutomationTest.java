@@ -52,6 +52,25 @@ public class MenuAutomationTest {
       "Video title - 10 minutes, 24 seconds - Go to channel Channel X - Channel X,"
           + " 1M views - 15 minutes ago - play video";
 
+  // The toggle specs mirror the wording recorded in YouTubeCollapseScript.
+  private static final String[] WATCH_LATER_VARIANTS = {
+    "Lưu vào Xem sau",
+    "Lưu vào danh sách Xem sau",
+    "Xóa khỏi Xem sau",
+    "Xóa khỏi danh sách Xem sau",
+    "Save to Watch later",
+    "Remove from Watch later",
+  };
+  private static final String[] WATCH_LATER_CORES = {"Xem sau", "Watch later"};
+  private static final String[] DOWNLOAD_VARIANTS = {
+    "Tải xuống",
+    "Xóa khỏi danh sách video tải xuống",
+    "Download",
+    "Remove from downloaded videos",
+    "Remove from downloads",
+  };
+  private static final String[] DOWNLOAD_CORES = {"tải xuống", "download"};
+
   /** Records every feedback part routed through the returner, in order. */
   private static final class RecordingReturner implements Pipeline.FeedbackReturner {
     final List<Feedback.Part> parts = new ArrayList<>();
@@ -113,6 +132,130 @@ public class MenuAutomationTest {
     assertEquals(
         sheet.rows.get(1), MenuAutomation.sheetTargetRow(sheet.root, SHEET_ID, "  Share "));
     assertNull(MenuAutomation.sheetTargetRow(sheet.root, SHEET_ID, "Report"));
+  }
+
+  @Test
+  public void sheetHelpers_plainRowStillNeedsTheExactLabel() {
+    YouTubeSheetTree sheet = CollapseTestTrees.youTubeMenuSheet("Shares", "share");
+
+    assertNull(MenuAutomation.sheetTargetRow(sheet.root, SHEET_ID, "Share"));
+  }
+
+  @Test
+  public void sheetHelpers_toggleRowMatchesEitherState_vietnameseAndEnglish() {
+    YouTubeSheetTree savedLater = CollapseTestTrees.youTubeMenuSheet("Chia sẻ", "Xóa khỏi Xem sau");
+    assertEquals(
+        savedLater.rows.get(1),
+        MenuAutomation.sheetToggleTargetRow(
+            savedLater.root, SHEET_ID, WATCH_LATER_VARIANTS, WATCH_LATER_CORES));
+
+    YouTubeSheetTree notSavedYet =
+        CollapseTestTrees.youTubeMenuSheet("Lưu vào danh sách Xem sau", "Chia sẻ");
+    assertEquals(
+        notSavedYet.rows.get(0),
+        MenuAutomation.sheetToggleTargetRow(
+            notSavedYet.root, SHEET_ID, WATCH_LATER_VARIANTS, WATCH_LATER_CORES));
+
+    YouTubeSheetTree downloaded =
+        CollapseTestTrees.youTubeMenuSheet("Xóa khỏi danh sách video tải xuống");
+    assertEquals(
+        downloaded.rows.get(0),
+        MenuAutomation.sheetToggleTargetRow(
+            downloaded.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+
+    YouTubeSheetTree notDownloaded = CollapseTestTrees.youTubeMenuSheet("Tải xuống", "Chia sẻ");
+    assertEquals(
+        notDownloaded.rows.get(0),
+        MenuAutomation.sheetToggleTargetRow(
+            notDownloaded.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+
+    // English states, one per pair, sharing one sheet.
+    YouTubeSheetTree english =
+        CollapseTestTrees.youTubeMenuSheet(
+            "Remove from Watch later", "Remove from downloaded videos");
+    assertEquals(
+        english.rows.get(0),
+        MenuAutomation.sheetToggleTargetRow(
+            english.root, SHEET_ID, WATCH_LATER_VARIANTS, WATCH_LATER_CORES));
+    assertEquals(
+        english.rows.get(1),
+        MenuAutomation.sheetToggleTargetRow(
+            english.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+  }
+
+  @Test
+  public void sheetHelpers_toggleRowMatchesAnUnrecordedStateWording_byCore() {
+    // Neither label below is a recorded variant; each still carries its pair's stable core.
+    YouTubeSheetTree sheet =
+        CollapseTestTrees.youTubeMenuSheet("Thêm vào Xem sau", "Xóa video đã tải xuống");
+    assertEquals(
+        sheet.rows.get(0),
+        MenuAutomation.sheetToggleTargetRow(
+            sheet.root, SHEET_ID, WATCH_LATER_VARIANTS, WATCH_LATER_CORES));
+    assertEquals(
+        sheet.rows.get(1),
+        MenuAutomation.sheetToggleTargetRow(
+            sheet.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+  }
+
+  @Test
+  public void sheetHelpers_toggleRowAmbiguousOrAbsent_returnsNull() {
+    YouTubeSheetTree bothStates =
+        CollapseTestTrees.youTubeMenuSheet("Tải xuống", "Xóa khỏi danh sách video tải xuống");
+    assertNull(
+        MenuAutomation.sheetToggleTargetRow(
+            bothStates.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+
+    YouTubeSheetTree unrelated = CollapseTestTrees.youTubeMenuSheet("Share", "Report");
+    assertNull(
+        MenuAutomation.sheetToggleTargetRow(
+            unrelated.root, SHEET_ID, WATCH_LATER_VARIANTS, WATCH_LATER_CORES));
+    assertNull(
+        MenuAutomation.sheetToggleTargetRow(
+            unrelated.root, SHEET_ID, DOWNLOAD_VARIANTS, DOWNLOAD_CORES));
+  }
+
+  @Test
+  public void toggleTarget_clicksTheRowOfTheStateTheVideoIsIn() {
+    beginToggle("Add or remove from Watch later", WATCH_LATER_VARIANTS, WATCH_LATER_CORES);
+    // This video is already saved: the sheet offers the remove wording.
+    YouTubeSheetTree sheet =
+        CollapseTestTrees.youTubeMenuSheet("Play next in queue", "Xóa khỏi Xem sau", "Share");
+    showOnly(sheet.root);
+
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+    Feedback.Part rowClick = lastNodeActionPart();
+    assertEquals(AccessibilityNodeInfoCompat.ACTION_CLICK, rowClick.nodeAction().actionId());
+    assertEquals(sheet.rows.get(1), rowClick.nodeAction().target().getCompat());
+
+    showOnly(feedList);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+    assertEquals(feedTree.primary, lastFocusPart().focus().target());
+    assertFalse(MenuAutomation.isPending());
+  }
+
+  @Test
+  public void toggleTarget_ambiguousSheet_clicksNothing_backsOut_andSpeaksNotAvailable() {
+    beginToggle("Add or remove from offline videos", DOWNLOAD_VARIANTS, DOWNLOAD_CORES);
+    // Both states of the downloads item in one sheet: no row may be guessed.
+    YouTubeSheetTree sheet =
+        CollapseTestTrees.youTubeMenuSheet("Tải xuống", "Xóa khỏi danh sách video tải xuống");
+    showOnly(sheet.root);
+
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+    assertEquals("no row may be clicked", 1, nodeActionParts().size());
+
+    shadowOf(Looper.getMainLooper()).idleFor(1100, TimeUnit.MILLISECONDS);
+    assertNotNull(lastSystemActionPart());
+    assertEquals(
+        AccessibilityService.GLOBAL_ACTION_BACK,
+        lastSystemActionPart().systemAction().systemActionId());
+
+    showOnly(feedList);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+    assertEquals(feedTree.primary, lastFocusPart().focus().target());
+    assertEquals("Not available", lastSpeechPart().speech().text().toString());
+    assertFalse(MenuAutomation.isPending());
   }
 
   @Test
@@ -221,6 +364,28 @@ public class MenuAutomationTest {
             SHEET_ID,
             ORIGIN_LABEL,
             bounds));
+  }
+
+  private void beginToggle(String neutralLabel, String[] variants, String[] cores) {
+    Rect bounds = new Rect();
+    feedTree.item.getBoundsInScreen(bounds);
+    returner.parts.clear();
+    assertTrue(
+        MenuAutomation.begin(
+            returner,
+            context,
+            feedTree.menu,
+            neutralLabel,
+            variants,
+            cores,
+            SHEET_ID,
+            ORIGIN_LABEL,
+            bounds));
+    // The first thing a sequence does is click the row's menu button.
+    assertEquals(1, returner.parts.size());
+    Feedback.Part click = returner.parts.get(0);
+    assertEquals(AccessibilityNodeInfoCompat.ACTION_CLICK, click.nodeAction().actionId());
+    assertEquals(feedTree.menu, click.nodeAction().target().getCompat());
   }
 
   private void beginShare() {

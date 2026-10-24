@@ -2614,13 +2614,13 @@
     <string name="summary_pref_collapse_list_item_actions">In supported apps, each list item is one stop, and its buttons move to the Actions reading control.</string>
     <!-- Title of a synthesized action that long-presses a button inside a collapsed list item. [CHAR LIMIT=NONE]-->
     <string name="title_collapse_action_long_press">%1$s, long press</string>
-    <!-- Titles of the items of a video's own menu, offered as synthesized actions inside a collapsed YouTube item. Each one must match the label YouTube itself shows for that menu item. [CHAR LIMIT=NONE]-->
+    <!-- Titles of the items of a video's own menu, offered as synthesized actions inside a collapsed YouTube item. Each one must match the label YouTube itself shows for that menu item, except the two state-dependent items (Watch later, downloads): YouTube words those by the video's current state, so they are offered under a neutral toggle title instead and matched by their state variants when the menu opens. [CHAR LIMIT=NONE]-->
     <string name="title_collapse_menu_play_on_device">Play on another device</string>
     <string name="title_collapse_menu_play_next">Play next in queue</string>
     <string name="title_collapse_menu_play_last">Play last in queue</string>
-    <string name="title_collapse_menu_watch_later">Save to Watch later</string>
+    <string name="title_collapse_menu_watch_later">Add or remove from Watch later</string>
     <string name="title_collapse_menu_save_to_playlist">Save to playlist</string>
-    <string name="title_collapse_menu_remove_download">Remove from downloads</string>
+    <string name="title_collapse_menu_remove_download">Add or remove from offline videos</string>
     <string name="title_collapse_menu_share">Share</string>
     <string name="title_collapse_menu_not_interested">Not interested</string>
     <string name="title_collapse_menu_dont_recommend">Don\'t recommend channel</string>

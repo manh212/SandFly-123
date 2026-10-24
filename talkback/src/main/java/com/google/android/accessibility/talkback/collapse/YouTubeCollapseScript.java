@@ -52,20 +52,62 @@ final class YouTubeCollapseScript extends CollapseScript {
     "Go to channel", "Chuyển đến kênh",
   };
 
+  /**
+   * YouTube's own wording for the Watch later menu item in its two states, recorded from the
+   * live sheet dump and the device: the item reads "Lưu vào danh sách Xem sau" (also seen
+   * without "danh sách") before the video is saved and "Xóa khỏi Xem sau" once it is; in
+   * English, "Save to Watch later" / "Remove from Watch later". Only the state prefix flips —
+   * every variant ends in the stable core "Xem sau" / "Watch later", which is what the toggle
+   * match keys on. The neutral title the action is offered under lives in {@code
+   * R.string.title_collapse_menu_watch_later}.
+   */
+  private static final String[] WATCH_LATER_STATE_VARIANTS = {
+    "Lưu vào Xem sau",
+    "Lưu vào danh sách Xem sau",
+    "Xóa khỏi Xem sau",
+    "Xóa khỏi danh sách Xem sau",
+    "Save to Watch later",
+    "Remove from Watch later",
+  };
+
+  private static final String[] WATCH_LATER_STATE_CORES = {"Xem sau", "Watch later"};
+
+  /**
+   * The same for the downloads item: "Tải xuống" / "Download" before the video is downloaded
+   * and "Xóa khỏi danh sách video tải xuống" / "Remove from downloaded videos" (also worded
+   * "Remove from downloads") once it is. Both states carry the stable core "tải xuống" /
+   * "download".
+   */
+  private static final String[] DOWNLOAD_STATE_VARIANTS = {
+    "Tải xuống",
+    "Xóa khỏi danh sách video tải xuống",
+    "Download",
+    "Remove from downloaded videos",
+    "Remove from downloads",
+  };
+
+  private static final String[] DOWNLOAD_STATE_CORES = {"tải xuống", "download"};
+
   private static final MenuCatalog MENU_CATALOG =
       new MenuCatalog(
-          new int[] {
-            R.string.title_collapse_menu_play_on_device,
-            R.string.title_collapse_menu_play_next,
-            R.string.title_collapse_menu_play_last,
-            R.string.title_collapse_menu_watch_later,
-            R.string.title_collapse_menu_save_to_playlist,
-            R.string.title_collapse_menu_remove_download,
-            R.string.title_collapse_menu_share,
-            R.string.title_collapse_menu_not_interested,
-            R.string.title_collapse_menu_dont_recommend,
-            R.string.title_collapse_menu_report,
-            R.string.title_collapse_menu_youtube_music,
+          new MenuCatalog.Item[] {
+            new MenuCatalog.Item(R.string.title_collapse_menu_play_on_device),
+            new MenuCatalog.Item(R.string.title_collapse_menu_play_next),
+            new MenuCatalog.Item(R.string.title_collapse_menu_play_last),
+            new MenuCatalog.Item(
+                R.string.title_collapse_menu_watch_later,
+                WATCH_LATER_STATE_VARIANTS,
+                WATCH_LATER_STATE_CORES),
+            new MenuCatalog.Item(R.string.title_collapse_menu_save_to_playlist),
+            new MenuCatalog.Item(
+                R.string.title_collapse_menu_remove_download,
+                DOWNLOAD_STATE_VARIANTS,
+                DOWNLOAD_STATE_CORES),
+            new MenuCatalog.Item(R.string.title_collapse_menu_share),
+            new MenuCatalog.Item(R.string.title_collapse_menu_not_interested),
+            new MenuCatalog.Item(R.string.title_collapse_menu_dont_recommend),
+            new MenuCatalog.Item(R.string.title_collapse_menu_report),
+            new MenuCatalog.Item(R.string.title_collapse_menu_youtube_music),
           },
           MENU_ITEM_LABEL_VIEW_ID,
           R.string.title_collapse_menu_open);

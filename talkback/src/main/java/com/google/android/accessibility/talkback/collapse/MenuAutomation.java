@@ -33,7 +33,10 @@ import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -70,6 +73,10 @@ public final class MenuAutomation {
     final Context context;
     final String packageName;
     final String targetLabel;
+    /** Toggle targets only: the recorded state variants of the target label; null if plain. */
+    final @Nullable String[] targetVariants;
+    /** Toggle targets only: the stable cores of the target label; null if plain. */
+    final @Nullable String[] targetCores;
     final String sheetLabelViewId;
     final String originLabel;
     final Rect originBounds;
@@ -88,6 +95,8 @@ public final class MenuAutomation {
         Context context,
         String packageName,
         String targetLabel,
+        @Nullable String[] targetVariants,
+        @Nullable String[] targetCores,
         String sheetLabelViewId,
         String originLabel,
         Rect originBounds) {
@@ -95,6 +104,8 @@ public final class MenuAutomation {
       this.context = context;
       this.packageName = packageName;
       this.targetLabel = targetLabel;
+      this.targetVariants = targetVariants;
+      this.targetCores = targetCores;
       this.sheetLabelViewId = sheetLabelViewId;
       this.originLabel = originLabel;
       this.originBounds = originBounds;
@@ -122,6 +133,33 @@ public final class MenuAutomation {
       String sheetLabelViewId,
       String originLabel,
       Rect originBounds) {
+    return begin(
+        pipeline,
+        context,
+        menuButton,
+        targetLabel,
+        /* targetVariants= */ null,
+        /* targetCores= */ null,
+        sheetLabelViewId,
+        originLabel,
+        originBounds);
+  }
+
+  /**
+   * Arms a sequence for a state-dependent (toggle) catalog item: the offered label is neutral,
+   * so the sheet row is matched by the item's recorded state variants and stable cores instead
+   * of by the label itself. See {@link #sheetToggleTargetRow}.
+   */
+  public static boolean begin(
+      Pipeline.FeedbackReturner pipeline,
+      Context context,
+      AccessibilityNodeInfoCompat menuButton,
+      String targetLabel,
+      @Nullable String[] targetVariants,
+      @Nullable String[] targetCores,
+      String sheetLabelViewId,
+      String originLabel,
+      Rect originBounds) {
     if (pending != null || menuButton.getPackageName() == null || sheetLabelViewId == null) {
       return false;
     }
@@ -131,6 +169,8 @@ public final class MenuAutomation {
             context.getApplicationContext(),
             menuButton.getPackageName().toString(),
             targetLabel,
+            targetVariants,
+            targetCores,
             sheetLabelViewId,
             originLabel,
             new Rect(originBounds));
@@ -307,10 +347,13 @@ public final class MenuAutomation {
     finish(session);
   }
 
-  /** Clicks the sheet row matching the target label; false when the sheet has no such row. */
+  /** Clicks the sheet row matching the target; false when the sheet has no such row. */
   private static boolean tryClickTarget(Pending session, AccessibilityNodeInfoCompat sheetRoot) {
     AccessibilityNodeInfoCompat row =
-        sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
+        session.targetCores != null
+            ? sheetToggleTargetRow(
+                sheetRoot, session.sheetLabelViewId, session.targetVariants, session.targetCores)
+            : sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
     if (row == null) {
       return false;
     }
@@ -419,25 +462,129 @@ public final class MenuAutomation {
       if (!labelViewId.equals(node.getViewIdResourceName())) {
         continue;
       }
-      CharSequence label = node.getText();
-      if (TextUtils.isEmpty(label)) {
-        label = node.getContentDescription();
-      }
+      CharSequence label = sheetNodeLabel(node);
       if (label == null || !target.equals(label.toString().trim())) {
         continue;
       }
-      for (AccessibilityNodeInfoCompat current = node;
-          current != null;
-          current = current.getParent()) {
-        if (current.isClickable()) {
-          return current;
-        }
-        if (current.equals(sheetRoot)) {
-          break;
-        }
+      AccessibilityNodeInfoCompat row = clickableRow(sheetRoot, node);
+      if (row != null) {
+        return row;
       }
     }
     return null;
+  }
+
+  /**
+   * The clickable row of the sheet matching a state-dependent (toggle) catalog item, or null.
+   * A row matches when its live label is one of the item's recorded state variants, or — the
+   * general rule — carries one of the item's stable cores, the part of the wording the state
+   * prefix never touches; comparisons ignore case and runs of whitespace. The match must be
+   * unique across the whole sheet: no match means the item is absent for this video, and more
+   * than one match means the sheet cannot be read unambiguously, so both end the sequence
+   * without a click rather than guessing.
+   */
+  static @Nullable AccessibilityNodeInfoCompat sheetToggleTargetRow(
+      AccessibilityNodeInfoCompat sheetRoot,
+      String labelViewId,
+      @Nullable String[] stateVariants,
+      String[] stateCores) {
+    List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+    collect(sheetRoot, nodes);
+    Set<String> variants = new HashSet<>();
+    if (stateVariants != null) {
+      for (String variant : stateVariants) {
+        variants.add(normalizeLabel(variant));
+      }
+    }
+    AccessibilityNodeInfoCompat row =
+        uniqueToggleRow(sheetRoot, labelViewId, nodes, variants, /* cores= */ null);
+    if (row != null) {
+      return row;
+    }
+    List<String> cores = new ArrayList<>();
+    for (String core : stateCores) {
+      cores.add(normalizeLabel(core));
+    }
+    return uniqueToggleRow(sheetRoot, labelViewId, nodes, /* variants= */ null, cores);
+  }
+
+  /**
+   * The single row whose normalized label is in {@code variants} (when non-null) or carries one
+   * of {@code cores} (when non-null); null when zero or several distinct rows match, so an
+   * ambiguous sheet never produces a guess click.
+   */
+  private static @Nullable AccessibilityNodeInfoCompat uniqueToggleRow(
+      AccessibilityNodeInfoCompat sheetRoot,
+      String labelViewId,
+      List<AccessibilityNodeInfoCompat> nodes,
+      @Nullable Set<String> variants,
+      @Nullable List<String> cores) {
+    AccessibilityNodeInfoCompat found = null;
+    for (AccessibilityNodeInfoCompat node : nodes) {
+      if (!labelViewId.equals(node.getViewIdResourceName())) {
+        continue;
+      }
+      CharSequence rawLabel = sheetNodeLabel(node);
+      if (rawLabel == null) {
+        continue;
+      }
+      String label = normalizeLabel(rawLabel);
+      boolean matches =
+          variants != null
+              ? variants.contains(label)
+              : cores != null && containsAnyCore(label, cores);
+      if (!matches) {
+        continue;
+      }
+      AccessibilityNodeInfoCompat row = clickableRow(sheetRoot, node);
+      if (row == null || row.equals(found)) {
+        continue;
+      }
+      if (found != null) {
+        return null;
+      }
+      found = row;
+    }
+    return found;
+  }
+
+  private static boolean containsAnyCore(String label, List<String> cores) {
+    for (String core : cores) {
+      if (label.contains(core)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /** The label a sheet label-view node carries: its text, or its description when it has none. */
+  private static @Nullable CharSequence sheetNodeLabel(AccessibilityNodeInfoCompat node) {
+    CharSequence label = node.getText();
+    if (TextUtils.isEmpty(label)) {
+      label = node.getContentDescription();
+    }
+    return label;
+  }
+
+  /** The clickable row a sheet label lives in: its nearest clickable ancestor, or itself. */
+  private static @Nullable AccessibilityNodeInfoCompat clickableRow(
+      AccessibilityNodeInfoCompat sheetRoot, AccessibilityNodeInfoCompat labelNode) {
+    for (AccessibilityNodeInfoCompat current = labelNode;
+        current != null;
+        current = current.getParent()) {
+      if (current.isClickable()) {
+        return current;
+      }
+      if (current.equals(sheetRoot)) {
+        break;
+      }
+    }
+    return null;
+  }
+
+  /** Case- and whitespace-insensitive form of a sheet label, for toggle matching. */
+  private static String normalizeLabel(CharSequence label) {
+    return label.toString().trim().replaceAll("\\s+", " ").toLowerCase(Locale.ROOT);
   }
 
   /**
