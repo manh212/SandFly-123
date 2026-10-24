@@ -864,7 +864,7 @@
   <string name="new_shortcut_gesture_paste_text_announcement">Đã dán văn bản. Thông thường, thao tác này sẽ dán văn bản mà bạn đã sao chép. Vuốt sang phải để tiếp tục.</string>
   <string name="new_shortcut_gesture_cut_text_text">Để cắt văn bản, hãy nhấn đúp và giữ bằng 3 ngón tay.</string>
   <string name="new_shortcut_gesture_cut_text_announcement">Đã cắt văn bản. Thông thường, thao tác này sẽ cắt văn bản mà bạn đã chọn. Vuốt sang phải để tiếp tục.</string>
-  <string name="new_shortcut_gesture_selection_mode_text">Để bắt đầu hoặc kết thúc chế độ lựa chọn văn bản, hãy nhấn đúp và giữ bằng 2 ngón tay.</string>
+  <string name="new_shortcut_gesture_selection_mode_text">Để bắt đầu hoặc kết thúc chế độ chọn văn bản, hãy dùng hành động Bắt đầu chế độ chọn trong menu ngữ cảnh, hoặc gán hành động đó cho một cử chỉ trong Cài đặt SandFly > Cử chỉ.</string>
   <string name="new_shortcut_gesture_selection_mode_on_announcement">Đã bật hoặc tắt chế độ lựa chọn. Thông thường, thao tác này sẽ bắt đầu hoặc dừng chế độ lựa chọn văn bản khi con trỏ nằm trong một trường nhập dữ liệu. Hãy vuốt sang phải để tiếp tục.</string>
   <string name="new_shortcut_gesture_reading_menu_text">Để dùng các thao tác điều khiển chức năng đọc, hãy vuốt sang trái hoặc sang phải bằng 3 ngón tay. Bạn cũng có thể vuốt lên hoặc vuốt xuống bằng 3 ngón tay.</string>
   <string name="new_shortcut_gesture_note">Lưu ý: Bạn đã tùy chỉnh một số cử chỉ nên thông tin này có thể không chính xác. Để xem các cử chỉ của bạn, hãy chuyển đến phần cài đặt SandFly.</string>
@@ -1059,9 +1059,7 @@
   <string name="checking_notifications_text_tail_tts">Bạn có thể vào phần Cài đặt, sau đó vào Thông báo để kiểm tra xem những ứng dụng nào đã bật thông báo. Trên màn Thông báo, bạn cũng có thể bật danh sách thông báo của SandFly để duyệt các thông báo gần đây.</string>
   <string name="checking_notifications_tips">Để kiểm tra nhật ký thông báo, hãy dùng 2 ngón tay vuốt xuống từ đầu màn hình</string>
 
-  <!-- For SandFly features pages in tutorial. -->
-  <string name="tutorial_sandfly_features_link_text">Tính năng của SandFly</string>
-  <string name="tutorial_sandfly_features_link_subtext">Nhập phím trực tiếp, hẹn giờ và đồng hồ bấm giờ, phím âm lượng và nhiều tính năng khác</string>
+  <!-- For more pages in tutorial. -->
   <string name="tutorial_sandfly_direct_key_input_title">Nhập phím trực tiếp</string>
   <string name="tutorial_sandfly_direct_key_input_text">Với Nhập phím trực tiếp, bạn nhập bằng cách trượt trên bàn phím. Di chuyển ngón tay tới phím bạn muốn, rồi nhấc ngón tay lên để nhập phím đó. Giữ ngón tay trên một phím để dùng thao tác nhấn giữ của phím, chẳng hạn như nhập chữ có dấu.\n\nĐể bật, vào Cài đặt SandFly > Bàn phím ảo > Phương thức nhập và chọn Nhập phím trực tiếp.</string>
   <string name="tutorial_sandfly_timer_stopwatch_title">Hẹn giờ và đồng hồ bấm giờ</string>

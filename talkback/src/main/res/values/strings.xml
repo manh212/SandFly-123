@@ -3324,7 +3324,7 @@
   -->
   <string name="new_shortcut_gesture_cut_text_announcement">Cut text. Usually, this will cut the text you have selected. Swipe right to continue.</string>
   <!-- The text to introduce how to start or end text selection mode. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_selection_mode_text">To start or end text selection mode, double-tap and hold with 2 fingers.</string>
+  <string name="new_shortcut_gesture_selection_mode_text">To start or end text selection mode, use the Start selection mode action in the context menu, or assign it to a gesture in SandFly settings > Gestures.</string>
   <!--
   Source: Announces when selection mode turned on or off.
   Description: This is spoken to the user. In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE] TODO: The resource name can be changed to new_shortcut_gesture_selection_mode_on_or_off_announcement
@@ -3790,9 +3790,7 @@
   <!-- The tip of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_tips">To check your notification history, swipe down with 2 fingers from the top of your screen</string>
 
-  <!-- For SandFly features pages in tutorial. -->
-  <string name="tutorial_sandfly_features_link_text">SandFly features</string>
-  <string name="tutorial_sandfly_features_link_subtext">Direct key input, timer and stopwatch, volume keys, and more</string>
+  <!-- For more pages in tutorial. -->
   <string name="tutorial_sandfly_direct_key_input_title">Direct key input</string>
   <string name="tutorial_sandfly_direct_key_input_text">With Direct key input, you type by sliding across the keyboard. Move your finger to the key you want, then lift your finger to type it. Keep your finger on a key to use its long-press action, such as an accented letter.\n\nTo turn it on, go to SandFly settings > On-screen keyboard > Typing method and choose Direct key input.</string>
   <string name="tutorial_sandfly_timer_stopwatch_title">Timer and stopwatch</string>
