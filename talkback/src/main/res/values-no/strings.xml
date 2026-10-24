@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Les fra toppen</string>
   <string name="shortcut_read_from_current">Les fra det uthevede elementet</string>
   <string name="shortcut_print_node_tree">Skriv ut nodetreet</string>
-  <string name="shortcut_print_performance_stats">Skriv ut resultatstatistikken</string>
   <string name="shortcut_first_in_screen">Fokuser på det første elementet på skjermen</string>
   <string name="shortcut_voice_commands">Start talekommando</string>
   <string name="shortcut_last_in_screen">Fokuser på det siste elementet på skjermen</string>

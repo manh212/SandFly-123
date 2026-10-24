@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Ler desde arriba</string>
   <string name="shortcut_read_from_current">Ler desde o elemento enfocado</string>
   <string name="shortcut_print_node_tree">Imprimir árbore de nós</string>
-  <string name="shortcut_print_performance_stats">Imprimir estatísticas de rendemento</string>
   <string name="shortcut_first_in_screen">Centrarse no primeiro elemento en pantalla</string>
   <string name="shortcut_voice_commands">Iniciar un comando de voz</string>
   <string name="shortcut_last_in_screen">Centrarse no último elemento en pantalla</string>

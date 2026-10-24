@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Leggi dall\'alto</string>
   <string name="shortcut_read_from_current">Leggi dall\'elemento selezionato</string>
   <string name="shortcut_print_node_tree">Stampa struttura ad albero dei nodi</string>
-  <string name="shortcut_print_performance_stats">Stampa le statistiche sulle prestazioni</string>
   <string name="shortcut_first_in_screen">Imposta lo stato attivo sul primo elemento sullo schermo</string>
   <string name="shortcut_voice_commands">Attiva comandi vocali</string>
   <string name="shortcut_last_in_screen">Imposta lo stato attivo sull\'ultimo elemento sullo schermo</string>

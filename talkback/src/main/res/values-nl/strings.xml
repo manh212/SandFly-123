@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lezen vanaf het begin</string>
   <string name="shortcut_read_from_current">Lezen vanaf item waarop is gefocust</string>
   <string name="shortcut_print_node_tree">Knooppuntstructuur afdrukken</string>
-  <string name="shortcut_print_performance_stats">Prestatiestatistieken afdrukken</string>
   <string name="shortcut_first_in_screen">Focus op eerste item op het scherm plaatsen</string>
   <string name="shortcut_voice_commands">Spraakopdracht starten</string>
   <string name="shortcut_last_in_screen">Focus op laatste item op het scherm plaatsen</string>

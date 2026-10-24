@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Читај од врвот</string>
   <string name="shortcut_read_from_current">Читај од нагласената ставка</string>
   <string name="shortcut_print_node_tree">Отпечатете го дрвото со јазли</string>
-  <string name="shortcut_print_performance_stats">Испечати ја статистиката за изведбата</string>
   <string name="shortcut_first_in_screen">Нагласи ја првата ставка на екранот</string>
   <string name="shortcut_voice_commands">Започни ја гласовната наредба</string>
   <string name="shortcut_last_in_screen">Нагласи ја последната ставка на екранот</string>

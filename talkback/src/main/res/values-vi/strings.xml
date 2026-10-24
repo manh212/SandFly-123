@@ -403,7 +403,6 @@
   <string name="shortcut_read_from_top">Đọc từ trên cùng</string>
   <string name="shortcut_read_from_current">Đọc từ mục được đặt tiêu điểm</string>
   <string name="shortcut_print_node_tree">In cây nút</string>
-  <string name="shortcut_print_performance_stats">In thống kê hiệu suất</string>
   <string name="shortcut_first_in_screen">Đặt tiêu điểm vào mục đầu tiên trên màn hình</string>
   <string name="shortcut_voice_commands">Bắt đầu lệnh thoại</string>
   <string name="shortcut_last_in_screen">Đặt tiêu điểm vào mục cuối cùng trên màn hình</string>

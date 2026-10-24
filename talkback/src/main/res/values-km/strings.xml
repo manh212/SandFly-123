@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">អាន​ពី​ខាង​លើ</string>
   <string name="shortcut_read_from_current">អានពីធាតុដែលបានផ្ដោត</string>
   <string name="shortcut_print_node_tree">បោះពុម្ព​មែក​ធាង​ថ្នាំង</string>
-  <string name="shortcut_print_performance_stats">ព្រីនស្ថិតិប្រតិបត្តិការ</string>
   <string name="shortcut_first_in_screen">ផ្ដោតលើ​ធាតុដំបូង​នៅលើអេក្រង់</string>
   <string name="shortcut_voice_commands">ចាប់ផ្ដើម​ការបញ្ជាដោយ​សំឡេង</string>
   <string name="shortcut_last_in_screen">ផ្ដោតលើ​ធាតុចុងក្រោយ​នៅលើអេក្រង់</string>

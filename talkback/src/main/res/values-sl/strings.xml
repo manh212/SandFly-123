@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Branje od vrha</string>
   <string name="shortcut_read_from_current">Branje od elementa v fokusu</string>
   <string name="shortcut_print_node_tree">Natisni drevo vozlišč</string>
-  <string name="shortcut_print_performance_stats">Natisni statistične podatke o uspešnosti</string>
   <string name="shortcut_first_in_screen">Premakni fokus na prvi element na zaslonu</string>
   <string name="shortcut_voice_commands">Zaženi glasovni ukaz</string>
   <string name="shortcut_last_in_screen">Premakni fokus na zadnji element na zaslonu</string>

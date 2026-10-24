@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Ανάγνωση από την αρχή</string>
   <string name="shortcut_read_from_current">Ανάγνωση από το εστιασμένο στοιχείο</string>
   <string name="shortcut_print_node_tree">Εκτύπωση δέντρου κόμβου</string>
-  <string name="shortcut_print_performance_stats">Εκτύπωση στατιστικών στοιχείων απόδοσης</string>
   <string name="shortcut_first_in_screen">Εστίαση στο πρώτο στοιχείο στην οθόνη</string>
   <string name="shortcut_voice_commands">Έναρξη φωνητικής εντολής</string>
   <string name="shortcut_last_in_screen">Εστίαση στο τελευταίο στοιχείο στην οθόνη</string>

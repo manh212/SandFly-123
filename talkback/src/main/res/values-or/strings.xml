@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ଶୀର୍ଷରୁ ପଢ଼ନ୍ତୁ</string>
   <string name="shortcut_read_from_current">ଫୋକସ କରାଯାଇଥିବା ଆଇଟମରୁ ପଢ଼ନ୍ତୁ</string>
   <string name="shortcut_print_node_tree">ନୋଡ୍‌ ଟ୍ରୀ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</string>
-  <string name="shortcut_print_performance_stats">କାର୍ଯ୍ୟଦକ୍ଷତା ପରିସଂଖ୍ୟନ ପ୍ରିଣ୍ଟ କରନ୍ତୁ</string>
   <string name="shortcut_first_in_screen">ସ୍କ୍ରିନର ପ୍ରଥମ ଆଇଟମରେ ଫୋକସ୍ କରନ୍ତୁ</string>
   <string name="shortcut_voice_commands">ଭଏସ୍ କମାଣ୍ଡ ଆରମ୍ଭ କରନ୍ତୁ</string>
   <string name="shortcut_last_in_screen">ସ୍କ୍ରିନର ଶେଷ ଆଇଟମରେ ଫୋକସ୍ କରନ୍ତୁ</string>

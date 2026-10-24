@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">從頂端開始朗讀</string>
   <string name="shortcut_read_from_current">從焦點項目開始朗讀</string>
   <string name="shortcut_print_node_tree">列印節點樹狀結構</string>
-  <string name="shortcut_print_performance_stats">列印效能統計資料</string>
   <string name="shortcut_first_in_screen">將焦點移至畫面上的第一個項目</string>
   <string name="shortcut_voice_commands">啟動語音指令</string>
   <string name="shortcut_last_in_screen">將焦點移至畫面上的最後一個項目</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">خواندن از بالا</string>
   <string name="shortcut_read_from_current">خواندن از مورد کانونی‌شده</string>
   <string name="shortcut_print_node_tree">چاپ سر شاخه</string>
-  <string name="shortcut_print_performance_stats">آمار عملکرد چاپ</string>
   <string name="shortcut_first_in_screen">کانونی کردن مورد نخست در صفحه‌نمایش</string>
   <string name="shortcut_voice_commands">شروع فرمان صوتی</string>
   <string name="shortcut_last_in_screen">کانونی کردن مورد آخر در صفحه‌نمایش</string>

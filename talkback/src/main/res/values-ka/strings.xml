@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">წაკითხვა თავიდან</string>
   <string name="shortcut_read_from_current">ფოკუსში მოქცეული ერთეულიდან წაკითხვა</string>
   <string name="shortcut_print_node_tree">კვანძების იერარქიის ბეჭდვა</string>
-  <string name="shortcut_print_performance_stats">ბეჭდვის მუშაობის სტატისტიკა</string>
   <string name="shortcut_first_in_screen">ეკრანის პირველი ერთეულის ფოკუსში მოქცევა</string>
   <string name="shortcut_voice_commands">ხმოვანი ბრძანების დაწყება</string>
   <string name="shortcut_last_in_screen">ეკრანის ბოლო ერთეულის ფოკუსში მოქცევა</string>

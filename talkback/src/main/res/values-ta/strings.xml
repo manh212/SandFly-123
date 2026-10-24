@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">மேலிருந்து படி</string>
   <string name="shortcut_read_from_current">மையப்படுத்தியதிலிருந்து வாசி</string>
   <string name="shortcut_print_node_tree">நோடு ட்ரீயை அச்சிடு</string>
-  <string name="shortcut_print_performance_stats">செயல்திறன் புள்ளிவிவரங்களை அச்சிடு</string>
   <string name="shortcut_first_in_screen">திரையில் முதலாவதாக மேலே உள்ளதில் கவனம் செலுத்து</string>
   <string name="shortcut_voice_commands">குரல் கட்டளையைத் தொடங்கு</string>
   <string name="shortcut_last_in_screen">திரையில் கடைசியாகக் கீழே உள்ளதில் கவனம் செலுத்து</string>

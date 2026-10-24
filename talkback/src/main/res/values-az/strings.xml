@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Başdan oxuyun</string>
   <string name="shortcut_read_from_current">Fokuslanmış elementdən oxu</string>
   <string name="shortcut_print_node_tree">Data strukturunu çap edin</string>
-  <string name="shortcut_print_performance_stats">Performans statistikasını çap edin</string>
   <string name="shortcut_first_in_screen">Ekrandakı ilk elementə fokuslanın</string>
   <string name="shortcut_voice_commands">Səs əmrini başladın</string>
   <string name="shortcut_last_in_screen">Ekrandakı son elementə fokuslanın</string>

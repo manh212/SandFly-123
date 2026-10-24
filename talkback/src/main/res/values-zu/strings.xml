@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Funda kusukela phezulu</string>
   <string name="shortcut_read_from_current">Funda okuvela entweni egxilisiwe</string>
   <string name="shortcut_print_node_tree">Phrinta inodi yesihlahla</string>
-  <string name="shortcut_print_performance_stats">Phrinta izibalo zokusebenza</string>
   <string name="shortcut_first_in_screen">Gxilisa kwinto yokuqala kusikrini</string>
   <string name="shortcut_voice_commands">Qalisa umyalo wezwi</string>
   <string name="shortcut_last_in_screen">Gxilisa kwinto yokugcina kusikrini</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Basahin mula sa itaas</string>
   <string name="shortcut_read_from_current">Basahin mula sa naka-focus na item</string>
   <string name="shortcut_print_node_tree">I-print ang node tree</string>
-  <string name="shortcut_print_performance_stats">I-print ang istatistika ng performance</string>
   <string name="shortcut_first_in_screen">Mag-focus sa unang item sa screen</string>
   <string name="shortcut_voice_commands">Simulan ang command gamit ang boses</string>
   <string name="shortcut_last_in_screen">Mag-focus sa huling item sa screen</string>

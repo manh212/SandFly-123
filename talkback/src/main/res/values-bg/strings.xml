@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Четене от горната част</string>
   <string name="shortcut_read_from_current">Четене от елемента, в/у който е фокусът</string>
   <string name="shortcut_print_node_tree">Отпечатване на дървото с възли</string>
-  <string name="shortcut_print_performance_stats">Печат на статист. данни за ефективността</string>
   <string name="shortcut_first_in_screen">Поставяне на фокуса върху първия елемент на екрана</string>
   <string name="shortcut_voice_commands">Стартиране на гласовите команди</string>
   <string name="shortcut_last_in_screen">Поставяне на фокуса върху последния елемент на екрана</string>

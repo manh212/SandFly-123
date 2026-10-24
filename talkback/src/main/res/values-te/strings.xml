@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ఎగువ నుండి చదువు</string>
   <string name="shortcut_read_from_current">ఫోకస్ చేసిన ఐటెమ్ నుండి చదవండి</string>
   <string name="shortcut_print_node_tree">బిందుసూచిత వృక్ష పటాన్ని ప్రింట్ చేయండి</string>
-  <string name="shortcut_print_performance_stats">పనితీరు గణాంకాలు ముద్రించడానికి</string>
   <string name="shortcut_first_in_screen">స్క్రీన్ మీది మొదటి ఐటెమ్ మీద ఫోకస్ చేయండి</string>
   <string name="shortcut_voice_commands">వాయిస్ కమాండ్‌ను ప్రారంభించండి</string>
   <string name="shortcut_last_in_screen">స్క్రీన్ మీది చివరి ఐటెమ్ మీద ఫోకస్ చేయండి</string>

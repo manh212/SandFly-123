@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">উপর থেকে পড়ুন</string>
   <string name="shortcut_read_from_current">ফোকাস করা আইটেম থেকে পড়ুন</string>
   <string name="shortcut_print_node_tree">নোড ট্রি প্রিন্ট করুন</string>
-  <string name="shortcut_print_performance_stats">কার্য-সম্পাদনার পরিসংখ্যান প্রিন্ট</string>
   <string name="shortcut_first_in_screen">স্ক্রিনে দেখানো প্রথম আইটেমে যান</string>
   <string name="shortcut_voice_commands">ভয়েস কমান্ডের সুবিধা চালু করুন</string>
   <string name="shortcut_last_in_screen">স্ক্রিনে দেখানো শেষ আইটেমে যান</string>

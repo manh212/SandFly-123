@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">മുകളിൽ നിന്നും വായിക്കുക</string>
   <string name="shortcut_read_from_current">ഫോക്കസ് ചെയ്ത ഇനത്തിൽ നിന്ന് വായിക്കുക</string>
   <string name="shortcut_print_node_tree">നോഡ് ട്രീ പ്രിന്റുചെയ്യുക</string>
-  <string name="shortcut_print_performance_stats">പ്രകടന സ്ഥിതിവിവരക്കണക്കുകൾ അച്ചടിക്കുക</string>
   <string name="shortcut_first_in_screen">സ്‌ക്രീനിലെ ആദ്യ ഇനത്തിൽ ഫോക്കസ് ചെയ്യുക</string>
   <string name="shortcut_voice_commands">ശബ്‌ദ കമാൻഡ് ആരംഭിക്കുക</string>
   <string name="shortcut_last_in_screen">സ്‌ക്രീനിലെ അവസാന ഇനത്തിൽ ഫോക്കസ് ചെയ്യുക</string>

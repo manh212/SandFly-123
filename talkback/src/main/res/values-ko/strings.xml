@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">맨 위부터 읽기</string>
   <string name="shortcut_read_from_current">포커스가 설정된 항목부터 읽기</string>
   <string name="shortcut_print_node_tree">인쇄 노드 트리</string>
-  <string name="shortcut_print_performance_stats">실적 통계 인쇄</string>
   <string name="shortcut_first_in_screen">화면의 첫 번째 항목에 포커스</string>
   <string name="shortcut_voice_commands">음성 명령 시작</string>
   <string name="shortcut_last_in_screen">화면의 마지막 항목에 포커스</string>

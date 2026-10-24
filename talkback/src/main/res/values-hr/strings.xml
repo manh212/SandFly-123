@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Čitanje počevši od vrha</string>
   <string name="shortcut_read_from_current">Čitanje od fokusirane stavke</string>
   <string name="shortcut_print_node_tree">Ispis stabla čvorova</string>
-  <string name="shortcut_print_performance_stats">Ispis statistike izvedbe</string>
   <string name="shortcut_first_in_screen">Fokusiranje prve stavke na zaslonu</string>
   <string name="shortcut_voice_commands">Pokretanje glasovne naredbe</string>
   <string name="shortcut_last_in_screen">Fokusiranje zadnje stavke na zaslonu</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Citește de sus</string>
   <string name="shortcut_read_from_current">Citește din elementul focalizat</string>
   <string name="shortcut_print_node_tree">Printează arborele</string>
-  <string name="shortcut_print_performance_stats">Printează statisticile de performanță</string>
   <string name="shortcut_first_in_screen">Focalizează pe primul element de pe ecran</string>
   <string name="shortcut_voice_commands">Accesează comanda vocală</string>
   <string name="shortcut_last_in_screen">Focalizează pe ultimul element de pe ecran</string>

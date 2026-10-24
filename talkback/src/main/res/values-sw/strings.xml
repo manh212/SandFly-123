@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Soma kutoka juu</string>
   <string name="shortcut_read_from_current">Soma kuanzia kipengee kilichoangaziwa</string>
   <string name="shortcut_print_node_tree">Chapisha utambuzi wa nguzo</string>
-  <string name="shortcut_print_performance_stats">Chapisha takwimu za utendaji</string>
   <string name="shortcut_first_in_screen">Angazia kipengee cha kwanza kwenye skrini</string>
   <string name="shortcut_voice_commands">Anzisha amri ya sauti</string>
   <string name="shortcut_last_in_screen">Angazia kipengee cha mwisho kwenye skrini</string>

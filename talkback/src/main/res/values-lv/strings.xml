@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lasīt no sākuma</string>
   <string name="shortcut_read_from_current">Lasīt, sākot ar izcelto vienumu</string>
   <string name="shortcut_print_node_tree">Drukāt mezglu koku</string>
-  <string name="shortcut_print_performance_stats">Drukāt veiktspējas statistiku</string>
   <string name="shortcut_first_in_screen">Pāriet uz ekrāna pirmo vienumu</string>
   <string name="shortcut_voice_commands">Ieslēgt balss komandu</string>
   <string name="shortcut_last_in_screen">Pāriet uz ekrāna pēdējo vienumu</string>

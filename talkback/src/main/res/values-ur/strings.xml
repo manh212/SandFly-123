@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">سب سے اوپر سے پڑھیں</string>
   <string name="shortcut_read_from_current">فوکس کردہ آئٹم سے پڑھیں</string>
   <string name="shortcut_print_node_tree">نوڈ ٹری پرنٹ کریں</string>
-  <string name="shortcut_print_performance_stats">کارکردگی کی شماریات پرنٹ کریں</string>
   <string name="shortcut_first_in_screen">اسکرین پر پہلے آئٹم پر فوکس کریں</string>
   <string name="shortcut_voice_commands">صوتی کمانڈ شروع کریں</string>
   <string name="shortcut_last_in_screen">اسکرین پر آخری آئٹم پر فوکس کریں</string>

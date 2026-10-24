@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Čítať zhora</string>
   <string name="shortcut_read_from_current">Čítať od označenej položky</string>
   <string name="shortcut_print_node_tree">Vytlačiť nodulárny strom</string>
-  <string name="shortcut_print_performance_stats">Vytlačiť štatistiky výkonnosti</string>
   <string name="shortcut_first_in_screen">Označiť prvú položku na obrazovke</string>
   <string name="shortcut_voice_commands">Spustiť hlasový príkaz</string>
   <string name="shortcut_last_in_screen">Označiť poslednú položku na obrazovke</string>

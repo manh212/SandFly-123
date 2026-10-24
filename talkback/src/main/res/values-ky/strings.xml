@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Башынан окуу</string>
   <string name="shortcut_read_from_current">Тандалган нерседен баштап окуу</string>
   <string name="shortcut_print_node_tree">Түйүн дарагын басып чыгаруу</string>
-  <string name="shortcut_print_performance_stats">Иштөө статистикасын басып чыгаруу</string>
   <string name="shortcut_first_in_screen">Экрандагы биринчи нерсеге өтүү</string>
   <string name="shortcut_voice_commands">Үн буйруктарын иштетесиз</string>
   <string name="shortcut_last_in_screen">Экрандагы акыркы нерсеге өтүү</string>

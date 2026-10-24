@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Von oben lesen</string>
   <string name="shortcut_read_from_current">Ab dem Element im Fokus lesen</string>
   <string name="shortcut_print_node_tree">Knotenstruktur drucken</string>
-  <string name="shortcut_print_performance_stats">Leistungsstatistiken ausdrucken</string>
   <string name="shortcut_first_in_screen">Auf erstes Bildschirmelement fokussieren</string>
   <string name="shortcut_voice_commands">Sprachbefehle aktivieren</string>
   <string name="shortcut_last_in_screen">Auf letztes Bildschirmelement fokussieren</string>

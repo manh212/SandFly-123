@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ከላይ ጀምሮ አንብብ</string>
   <string name="shortcut_read_from_current">ትኩረት ከተሰጠው ንጥል ጀምረህ አንብብ</string>
   <string name="shortcut_print_node_tree">የአንጓ ዛፍ አትም</string>
-  <string name="shortcut_print_performance_stats">የአፈጻጸም ስታቲስቲክስን አትም</string>
   <string name="shortcut_first_in_screen">በማያ ገጹ ላይ ባለው የመጀመሪያ ንጥል ላይ ያተኩሩ</string>
   <string name="shortcut_voice_commands">የድምጽ ትእዛዝ ይጀምሩ</string>
   <string name="shortcut_last_in_screen">በማያ ገጹ ላይ ባለው የመጨረሻ ንጥል ላይ ያተኩሩ</string>

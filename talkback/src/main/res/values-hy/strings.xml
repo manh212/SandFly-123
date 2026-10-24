@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Կարդալ վերևից</string>
   <string name="shortcut_read_from_current">Ընթերցել ընտրված տարրից</string>
   <string name="shortcut_print_node_tree">Տպել հանգույցի ծառը</string>
-  <string name="shortcut_print_performance_stats">Տպել վիճակագրությունը</string>
   <string name="shortcut_first_in_screen">Անցնել էկրանի առաջին տարրին</string>
   <string name="shortcut_voice_commands">Սկսել ձայնային հրահանգը</string>
   <string name="shortcut_last_in_screen">Անցնել էկրանի վերջին տարրին</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Дээрээс унших</string>
   <string name="shortcut_read_from_current">Сонгосон зүйлээс унших</string>
   <string name="shortcut_print_node_tree">Зангилаа модыг хэвлэх</string>
-  <string name="shortcut_print_performance_stats">Гүйцэтгэлийн статистикийг хэвлэх</string>
   <string name="shortcut_first_in_screen">Дэлгэц дээрх эхний зүйлийг сонгох</string>
   <string name="shortcut_voice_commands">Дуут тушаалыг эхлүүлэх</string>
   <string name="shortcut_last_in_screen">Дэлгэц дээрх сүүлийн зүйлийг сонгох</string>

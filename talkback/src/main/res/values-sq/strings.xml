@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lexo nga kreu</string>
   <string name="shortcut_read_from_current">Lexo nga artikulli i fokusuar</string>
   <string name="shortcut_print_node_tree">Printo pemën e nyjës</string>
-  <string name="shortcut_print_performance_stats">Printo statistikat e performancës</string>
   <string name="shortcut_first_in_screen">Fokuso artikullin e parë në ekran</string>
   <string name="shortcut_voice_commands">Nis veçorinë e komandave zanore</string>
   <string name="shortcut_last_in_screen">Fokuso artikullin e fundit në ekran</string>

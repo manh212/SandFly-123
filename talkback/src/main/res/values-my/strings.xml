@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ထိပ်မှ ဖတ်ရန်</string>
   <string name="shortcut_read_from_current">ရွေးထားသည်ကိုဖတ်ရန်</string>
   <string name="shortcut_print_node_tree">node tree ပရင့်ထုတ်ရန်</string>
-  <string name="shortcut_print_performance_stats">စွမ်းဆောင်ရည်ပြ စာရင်းဇယားကို ပုံနှိပ်ထုတ်ယူရန်</string>
   <string name="shortcut_first_in_screen">ဖန်သားပြင်ရှိ ပထမဆုံးအရာကို အထူးဖော်ပြရန်</string>
   <string name="shortcut_voice_commands">အသံကွန်မန်းကို စတင်ရန်</string>
   <string name="shortcut_last_in_screen">ဖန်သားပြင်ရှိ နောက်ဆုံးအရာကို အထူးဖော်ပြရန်</string>

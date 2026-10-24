@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Czytaj od góry</string>
   <string name="shortcut_read_from_current">Czytaj od zaznaczonego elementu</string>
   <string name="shortcut_print_node_tree">Wydrukuj drzewo węzłów</string>
-  <string name="shortcut_print_performance_stats">Drukuj statystyki wydajności</string>
   <string name="shortcut_first_in_screen">Zaznacz pierwszy element na ekranie</string>
   <string name="shortcut_voice_commands">Użyj polecenia głosowego</string>
   <string name="shortcut_last_in_screen">Zaznacz ostatni element na ekranie</string>

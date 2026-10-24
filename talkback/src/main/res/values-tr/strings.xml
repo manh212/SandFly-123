@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Ekranın başından başlayarak oku</string>
   <string name="shortcut_read_from_current">Odaklanan öğeden oku</string>
   <string name="shortcut_print_node_tree">Düğüm ağacını yazdır</string>
-  <string name="shortcut_print_performance_stats">Performans istatistiklerini yazdır</string>
   <string name="shortcut_first_in_screen">Ekrandaki ilk öğeye odaklan</string>
   <string name="shortcut_voice_commands">Sesli komutu başlat</string>
   <string name="shortcut_last_in_screen">Ekrandaki son öğeye odaklan</string>
