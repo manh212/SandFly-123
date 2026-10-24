@@ -20,6 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
+      # TEMP-CI-DEBUG: lets the temporary step below post a commit comment on push failures.
+      contents: write
     steps:
       # The full history gives the build number (commits since buildNumberBase in version.gradle) and the release notes.
       - uses: actions/checkout@v7
@@ -89,7 +91,9 @@ jobs:
 
       # Only the phone flavor exists, so only its unit tests run.
       - name: Run unit tests
-        run: ./gradlew testPhoneDebugUnitTest --console=plain
+        run: |
+          set -o pipefail
+          ./gradlew testPhoneDebugUnitTest --console=plain 2>&1 | tee "$RUNNER_TEMP/tests.log"
 
       # The app's lint also checks the library modules. Issues already in lint-baseline.xml are
       # allowed, so this fails only on new errors, such as a call that needs a newer Android than
@@ -110,6 +114,29 @@ jobs:
           name: apks
           path: build/outputs/apk/**/*.apk
           if-no-files-found: error
+
+      # TEMP-CI-DEBUG: on a failed push build, post the tail of the unit test log as a
+      # commit comment so the cause can be read without opening the Actions log.
+      - name: TEMP post unit test log on failure
+        if: failure() && github.event_name == 'push'
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set +e
+          tail_out="$RUNNER_TEMP/tests-tail.txt"
+          : > "$tail_out"
+          if [ -f "$RUNNER_TEMP/tests.log" ]; then
+            grep -Evi 'password|secret|keystore' "$RUNNER_TEMP/tests.log" | tail -n 150 > "$tail_out" || true
+          fi
+          {
+            echo "## TEMP CI debug - unit test log tail (run $GITHUB_RUN_ID)"
+            echo
+            echo '```'
+            cat "$tail_out"
+            echo '```'
+          } > "$RUNNER_TEMP/tests-summary.md"
+          gh api "repos/$GITHUB_REPOSITORY/commits/$GITHUB_SHA/comments" -F body=@"$RUNNER_TEMP/tests-summary.md"
 
       # On a failed pull request build, posts one comment on the pull request summarizing
       # the failure (failed steps, the tail of the APK build's Gradle output, lint errors,
