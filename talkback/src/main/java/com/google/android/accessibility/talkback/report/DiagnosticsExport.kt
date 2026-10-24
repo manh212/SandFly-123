@@ -26,11 +26,14 @@ import android.media.AudioTrack
 import android.os.Build
 import android.os.Environment
 import android.os.Process
+import android.preference.PreferenceManager
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
+import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
+import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
 import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
@@ -38,6 +41,7 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech
 import com.google.android.accessibility.utils.output.LowLatencyAudio
 import com.google.android.libraries.accessibility.utils.log.LogUtils
+import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -46,12 +50,16 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Builds one diagnostics text out of everything SandFly itself can know: the phone and the app,
- * SandFly's state and audio path, the last crash, the performance statistics, and SandFly's
- * recent log. The user saves it to Downloads or copies it, and sends it to whoever is helping.
- * SandFly sends it nowhere itself.
+ * SandFly's state and audio path, the last crash, a digest of the stored preferences, the
+ * performance statistics, and SandFly's recent log. The user saves it to Downloads or copies it,
+ * and sends it to whoever is helping. SandFly sends it nowhere itself.
  */
 object DiagnosticsExport {
   private const val TAG = "DiagnosticsExport"
+
+  /** The other named preference files read on the cold start, besides the default file. */
+  private val OTHER_NAMED_PREFS =
+    listOf("braille_keyboard", "braille_display", MigrationFiles.STATE_PREFS)
   private const val LOG_LINES = 10_000
   private const val LOG_MAX_CHARS = 2_000_000
   private const val LOG_TIMEOUT_SECONDS = 15L
@@ -89,10 +97,10 @@ object DiagnosticsExport {
   }
 
   /**
-   * The snapshot sections of [build] — device and app, SandFly state, audio, last crash — without
-   * the recent log. This is the single source of truth for those sections: [build] assembles the
-   * export file from it, and [VerboseDiagnosticsLogger] writes it into the log itself at the
-   * VERBOSE log level.
+   * The snapshot sections of [build] — device and app, SandFly state, audio, last crash,
+   * preferences digest — without the recent log. This is the single source of truth for those
+   * sections: [build] assembles the export file from it, and [VerboseDiagnosticsLogger] writes
+   * it into the log itself at the VERBOSE log level.
    */
   @WorkerThread
   fun buildSnapshotSections(context: Context): String {
@@ -104,7 +112,40 @@ object DiagnosticsExport {
     out.append("== Last crash ==\n")
     out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")
     out.append("\n\n")
+    preferencesDigest(appContext, out)
     return out.toString()
+  }
+
+  /**
+   * The preferences digest section: the default preferences file's facts and a per-key
+   * fingerprint of its contents, both from [PrefsDigest], then file facts only for the other
+   * named preference files. The stored values themselves are never written out — only their
+   * types, lengths and shortened hashes — so two exports can be diffed key by key to find which
+   * stored settings differ (for example a file left stale by an app update versus the same file
+   * after a settings change rewrote it) without exposing any of them.
+   */
+  private fun preferencesDigest(context: Context, out: StringBuilder) {
+    out.append("== Preferences digest ==\n")
+    // The same device-protected context the preferences themselves are read through, so the
+    // directory named here is the one holding the file the service loads at the cold start.
+    val deContext = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
+    val prefsDir = File(deContext.dataDir, "shared_prefs")
+    val defaultName = PreferenceManager.getDefaultSharedPreferencesName(deContext)
+    val file = File(prefsDir, "$defaultName.xml")
+    out.append("File: ${PrefsDigest.fileDescription(file)}\n")
+    out.append(
+      "Backup file: ${PrefsDigest.fileDescription(File(prefsDir, "$defaultName.xml.bak"))}\n"
+    )
+    val all = SharedPreferencesUtils.getSharedPreferences(context).all
+    out.append("Keys: ${all.size}\n")
+    for (line in PrefsDigest.digestLines(all)) {
+      out.append(line).append("\n")
+    }
+    out.append("Other preference files:\n")
+    for (name in OTHER_NAMED_PREFS) {
+      out.append("${PrefsDigest.fileDescription(File(prefsDir, "$name.xml"))}\n")
+    }
+    out.append("\n")
   }
 
   /**
