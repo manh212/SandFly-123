@@ -1089,6 +1089,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     // that nothing still thinks a finger is down after resuming. Its feedback is dropped too.
     if (PauseController.isPaused()
         && event.getEventType() != AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
+      markRootDirtyForDroppedEvent(event);
       return;
     }
     // The quick settings panel is using the system's quick settings for the user, who doesn't need
@@ -1096,11 +1097,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (SystemPanelClicker.shouldDrop(event.getPackageName())
         && event.getEventType() != AccessibilityEvent.TYPE_TOUCH_INTERACTION_END
         && event.getEventType() != AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+      markRootDirtyForDroppedEvent(event);
       return;
     }
     // While a collapsed item's menu automation is running, it owns the target app's sheet
     // events: they must not produce feedback, or the user would hear the menu open.
     if (MenuAutomation.onAccessibilityEvent(this, event)) {
+      markRootDirtyForDroppedEvent(event);
       return;
     }
     if (scriptHost != null) {
@@ -1185,10 +1188,28 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public @Nullable AccessibilityNodeInfo getRootInActiveWindow() {
     if (isRootNodeDirty || rootNode == null) {
+      if (rootNode != null) {
+        // The cache is the only owner of this instance: callers only ever receive obtain()
+        // copies of it, never the instance itself.
+        rootNode.recycle();
+      }
       rootNode = super.getRootInActiveWindow();
       isRootNodeDirty = false;
     }
     return rootNode == null ? null : AccessibilityNodeInfo.obtain(rootNode);
+  }
+
+  /**
+   * Dropped events never reach {@code AccessibilityEventProcessor}, which is what normally marks
+   * the cached root dirty for window changes, so a dropped window event must do it here.
+   */
+  private void markRootDirtyForDroppedEvent(AccessibilityEvent event) {
+    int eventType = event.getEventType();
+    if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+        || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED) {
+      setRootDirty(true);
+    }
   }
 
   public void setRootDirty(boolean rootIsDirty) {
@@ -3133,6 +3154,10 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     if (subtreeChangeEventInterpreter != null) {
       subtreeChangeEventInterpreter.onSuspendInfrastructure();
+    }
+
+    if (accessibilityFocusInterpreter != null) {
+      accessibilityFocusInterpreter.onSuspendInfrastructure();
     }
 
     if (windowEventInterpreter != null) {

@@ -801,7 +801,7 @@ public class SpeechControllerImpl implements SpeechController {
           mContext.getString(
               R.string.template_text_copied, clip.getItemAt(0).getText().toString()) /* text */,
           QUEUE_MODE_INTERRUPT /* queue mode */,
-          0 /* flags */,
+          FeedbackItem.FLAG_NO_HISTORY /* flags */,
           null /* speech params */,
           eventId);
       return true;
