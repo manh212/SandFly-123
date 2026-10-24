@@ -750,6 +750,8 @@ This fork removes upstream's **Send feedback** entirely: the settings item, the 
 
 In some apps, each list item carries its own small buttons, and swiping stops on every one of them: a video in YouTube stops on the video, then on its channel button, then on its menu button. When you turn on **Navigation** > **Collapse list item buttons into actions**, each such item is a single stop, and its buttons move into the **Actions** reading control instead (swipe up or down to pick one, then double-tap). Touch exploration works the same way: touching any part of the item focuses the item. Buttons whose long-press does something, such as holding Like on a Facebook comment to open the reaction picker, get a separate long-press action.
 
+On YouTube, a video's menu button is expanded into the items of the video's own menu — play next, save to Watch later, share, not interested, and the rest — presented in the **Actions** reading control just like actions the video natively supports, so there is no separate menu to open and browse. An **Open menu** action at the end still opens the menu as usual. An item the menu does not have for a particular video is reported as not available, and focus stays on the video either way.
+
 This applies only in apps SandFly has a built-in script for, and only to items whose structure the script recognises; anything else is left exactly as it was. The scripts currently cover YouTube video items and Facebook comments. Facebook feed posts are already a single stop with their own actions, so they are unchanged. The setting is off by default.
 
 ### App icon that opens the settings

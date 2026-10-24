@@ -219,10 +219,51 @@ public final class CollapseEngine {
     return new CollapsedItem(
         itemRoot,
         primary,
-        withLongClickTwins(script, scan, clickActions),
+        withLongClickTwins(script, scan, expandMenu(script, itemRoot, clickActions)),
         /* composedLabel= */ null,
         /* activationTarget= */ null,
         /* selectionTarget= */ null);
+  }
+
+  /**
+   * Replaces the item's overflow-menu button with the catalog of its menu items, plus a trailing
+   * fallback that opens the menu as usual. The action cap above counts real child buttons only;
+   * the catalog is a fixed declaration, not scanned children. Expansion happens only when
+   * exactly one child qualifies as the menu button — any doubt leaves the actions untouched.
+   */
+  private static List<ChildAction> expandMenu(
+      CollapseScript script,
+      AccessibilityNodeInfoCompat itemRoot,
+      List<ChildAction> clickActions) {
+    CollapseScript.MenuCatalog catalog = script.menuCatalog();
+    if (catalog == null) {
+      return clickActions;
+    }
+    int menuIndex = -1;
+    for (int i = 0; i < clickActions.size(); i++) {
+      if (script.isMenuButton(clickActions.get(i).node, itemRoot)) {
+        if (menuIndex >= 0) {
+          return clickActions;
+        }
+        menuIndex = i;
+      }
+    }
+    if (menuIndex < 0) {
+      return clickActions;
+    }
+    AccessibilityNodeInfoCompat menuButton = clickActions.get(menuIndex).node;
+    List<ChildAction> expanded = new ArrayList<>();
+    for (int i = 0; i < clickActions.size(); i++) {
+      if (i != menuIndex) {
+        expanded.add(clickActions.get(i));
+        continue;
+      }
+      for (int labelResId : catalog.itemLabelResIds) {
+        expanded.add(ChildAction.menuItem(menuButton, labelResId, catalog.sheetItemLabelViewId));
+      }
+    }
+    expanded.add(ChildAction.menuOpen(menuButton, catalog.openMenuLabelResId));
+    return expanded;
   }
 
   private static @Nullable CollapsedItem matchCompositeRoot(
@@ -324,7 +365,7 @@ public final class CollapseEngine {
     List<ChildAction> actions = new ArrayList<>();
     for (ChildAction action : clickActions) {
       actions.add(action);
-      if (script.longClickTwin(action.node, scan)) {
+      if (action.kind == ChildAction.Kind.CLICK && script.longClickTwin(action.node, scan)) {
         actions.add(new ChildAction(action.node, /* longClick= */ true, action.label));
       }
     }

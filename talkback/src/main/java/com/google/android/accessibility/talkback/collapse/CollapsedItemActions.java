@@ -81,9 +81,11 @@ public class CollapsedItemActions implements NodeMenu {
     for (int i = 0; i < actions.size(); i++) {
       ChildAction action = actions.get(i);
       CharSequence title =
-          action.longClick
-              ? context.getString(R.string.title_collapse_action_long_press, action.label)
-              : action.label;
+          action.labelResId != 0
+              ? context.getString(action.labelResId)
+              : action.longClick
+                  ? context.getString(R.string.title_collapse_action_long_press, action.label)
+                  : action.label;
       ContextMenuItem menuItem =
           ContextMenu.createMenuItem(
               context,
@@ -92,7 +94,10 @@ public class CollapsedItemActions implements NodeMenu {
               Menu.NONE,
               title);
       menuItem.setOnMenuItemClickListener(
-          new CollapseActionClickListener(action.node, action.longClick, pipeline, analytics));
+          action.kind == ChildAction.Kind.MENU_ITEM
+              ? new MenuItemClickListener(context, item, action, title, pipeline, analytics)
+              : new CollapseActionClickListener(
+                  action.node, action.longClick, pipeline, analytics));
       menuItem.setCheckable(false);
       menuItems.add(menuItem);
     }
@@ -134,6 +139,50 @@ public class CollapsedItemActions implements NodeMenu {
                         ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
                         : AccessibilityNodeInfoCompat.ACTION_CLICK)
                 .vibration(R.array.view_clicked_pattern));
+      } finally {
+        clear();
+      }
+    }
+  }
+
+  /**
+   * Activates one catalog item of the item's own overflow menu. The data captured here comes
+   * from the item as rebuilt at activation time, so the menu button node is fresh and the
+   * origin description (the representative's spoken label and the item's bounds) describes the
+   * row the user is standing on right now.
+   */
+  private static class MenuItemClickListener extends AbstractOnContextMenuItemClickListener {
+    private final Context context;
+    private final String targetLabel;
+    private final String sheetItemLabelViewId;
+    private final String originLabel;
+    private final Rect originBounds;
+
+    MenuItemClickListener(
+        Context context,
+        CollapsedItem item,
+        ChildAction action,
+        CharSequence title,
+        Pipeline.FeedbackReturner pipeline,
+        TalkBackAnalytics analytics) {
+      super(action.node, pipeline, analytics);
+      this.context = context;
+      this.targetLabel = title.toString();
+      this.sheetItemLabelViewId = action.sheetItemLabelViewId;
+      CharSequence label = ItemScan.spokenLabel(item.representative());
+      this.originLabel = label == null ? "" : label.toString();
+      this.originBounds = new Rect();
+      item.itemRoot().getBoundsInScreen(this.originBounds);
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+      try {
+        if (MenuAutomation.isPending()) {
+          return true;
+        }
+        return MenuAutomation.begin(
+            pipeline, context, node, targetLabel, sheetItemLabelViewId, originLabel, originBounds);
       } finally {
         clear();
       }

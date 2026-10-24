@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.collapse;
 
+import androidx.annotation.StringRes;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import java.util.List;
@@ -24,16 +25,63 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 /** The result of matching one list item against a {@link CollapseScript}. */
 public final class CollapsedItem {
 
-  /** One synthesized action: a child node of the item, clicked or long-clicked on activation. */
+  /** One synthesized action of a collapsed item. */
   public static final class ChildAction {
+
+    /** How the action behaves when the user activates it. */
+    public enum Kind {
+      /** Clicks (or long-clicks) {@link #node} directly. */
+      CLICK,
+      /**
+       * One item of the item's own overflow menu: {@link #node} is the menu button, and
+       * activation runs the automated sequence in {@link MenuAutomation} instead of a plain
+       * click.
+       */
+      MENU_ITEM,
+      /** Opens the item's overflow menu as usual: a plain click on {@link #node}. */
+      MENU_OPEN
+    }
+
     public final AccessibilityNodeInfoCompat node;
     public final boolean longClick;
     public final CharSequence label;
+    public final Kind kind;
+    /** Title resource for {@link Kind#MENU_ITEM} and {@link Kind#MENU_OPEN}; 0 for plain clicks. */
+    public final @StringRes int labelResId;
+    /** Sheet signature for {@link Kind#MENU_ITEM}: view id of the label view in a menu row. */
+    public final @Nullable String sheetItemLabelViewId;
 
     public ChildAction(AccessibilityNodeInfoCompat node, boolean longClick, CharSequence label) {
       this.node = node;
       this.longClick = longClick;
       this.label = label;
+      this.kind = Kind.CLICK;
+      this.labelResId = 0;
+      this.sheetItemLabelViewId = null;
+    }
+
+    private ChildAction(
+        AccessibilityNodeInfoCompat node,
+        Kind kind,
+        @StringRes int labelResId,
+        @Nullable String sheetItemLabelViewId) {
+      this.node = node;
+      this.longClick = false;
+      this.label = "";
+      this.kind = kind;
+      this.labelResId = labelResId;
+      this.sheetItemLabelViewId = sheetItemLabelViewId;
+    }
+
+    static ChildAction menuItem(
+        AccessibilityNodeInfoCompat menuButton,
+        @StringRes int labelResId,
+        String sheetItemLabelViewId) {
+      return new ChildAction(menuButton, Kind.MENU_ITEM, labelResId, sheetItemLabelViewId);
+    }
+
+    static ChildAction menuOpen(AccessibilityNodeInfoCompat menuButton, @StringRes int labelResId) {
+      return new ChildAction(menuButton, Kind.MENU_OPEN, labelResId, /* sheetItemLabelViewId= */ null);
     }
   }
 

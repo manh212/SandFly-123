@@ -21,6 +21,8 @@ import static org.robolectric.Shadows.shadowOf;
 import android.graphics.Rect;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Builds node trees shaped like the real YouTube and Facebook trees recorded for this feature. */
 final class CollapseTestTrees {
@@ -112,6 +114,40 @@ final class CollapseTestTrees {
     tree.menu.setContentDescription("Action menu for Video title");
     bounds(tree.menu, 900, top, 1080, top + 150);
     applyPackage(tree.item, list.getPackageName().toString());
+    return tree;
+  }
+
+  static final String YOUTUBE_MENU_LABEL_VIEW_ID =
+      "com.google.android.youtube:id/list_item_text";
+
+  static final class YouTubeSheetTree {
+    AccessibilityNodeInfoCompat root;
+    final List<AccessibilityNodeInfoCompat> rows = new ArrayList<>();
+  }
+
+  /** A video's open overflow-menu sheet: a list of buttons labelled by a text child. */
+  static YouTubeSheetTree youTubeMenuSheet(String... labels) {
+    YouTubeSheetTree tree = new YouTubeSheetTree();
+    tree.root = node(null, "android.widget.FrameLayout");
+    AccessibilityNodeInfoCompat sheet = node(tree.root, "android.widget.FrameLayout");
+    sheet.setClickable(true);
+    sheet.setFocusable(true);
+    AccessibilityNodeInfoCompat layout = node(sheet, "android.widget.LinearLayout");
+    layout.setClickable(true);
+    layout.setFocusable(true);
+    AccessibilityNodeInfoCompat sheetList =
+        node(layout, "androidx.recyclerview.widget.RecyclerView");
+    sheetList.setFocusable(true);
+    for (String label : labels) {
+      AccessibilityNodeInfoCompat row = node(sheetList, "android.widget.Button");
+      row.setClickable(true);
+      row.setFocusable(true);
+      AccessibilityNodeInfoCompat text = node(row, "android.widget.TextView");
+      text.setViewIdResourceName(YOUTUBE_MENU_LABEL_VIEW_ID);
+      text.setText(label);
+      tree.rows.add(row);
+    }
+    applyPackage(tree.root, YOUTUBE_PACKAGE);
     return tree;
   }
 

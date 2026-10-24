@@ -1564,6 +1564,19 @@
     <string name="title_pref_collapse_list_item_actions">Gộp nút trong mục danh sách thành thao tác</string>
     <string name="summary_pref_collapse_list_item_actions">Trong các ứng dụng được hỗ trợ, mỗi mục danh sách chỉ còn một điểm dừng, và các nút của mục chuyển vào chế độ điều khiển Thao tác.</string>
     <string name="title_collapse_action_long_press">%1$s, nhấn giữ</string>
+    <string name="title_collapse_menu_play_on_device">Phát trên thiết bị khác</string>
+    <string name="title_collapse_menu_play_next">Phát tiếp theo trong danh sách chờ</string>
+    <string name="title_collapse_menu_play_last">Phát cuối cùng trong danh sách chờ</string>
+    <string name="title_collapse_menu_watch_later">Lưu vào danh sách Xem sau</string>
+    <string name="title_collapse_menu_save_to_playlist">Lưu vào danh sách phát</string>
+    <string name="title_collapse_menu_remove_download">Xóa khỏi danh sách video tải xuống</string>
+    <string name="title_collapse_menu_share">Chia sẻ</string>
+    <string name="title_collapse_menu_not_interested">Không quan tâm</string>
+    <string name="title_collapse_menu_dont_recommend">Không đề xuất kênh này</string>
+    <string name="title_collapse_menu_report">Báo vi phạm</string>
+    <string name="title_collapse_menu_youtube_music">Nghe nhạc trên YouTube Music</string>
+    <string name="title_collapse_menu_open">Mở trình đơn</string>
+    <string name="title_collapse_menu_not_available">Không khả dụng</string>
     <string name="title_pref_fix_stuck_touch_exploration">Sửa lỗi khám phá bằng cách chạm bị treo</string>
     <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Khi không có quyền DUMP, SandFly chỉ có thể báo rằng tính năng khám phá bằng cách chạm có thể bị treo. Để SandFly sửa lỗi, hãy chạy: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
     <string name="stuck_touch_exploration_fixing">Đang sửa lỗi khám phá bằng cách chạm</string>

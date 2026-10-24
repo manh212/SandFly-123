@@ -28,6 +28,7 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.FacebookCommentTree;
+import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.YouTubeTree;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -35,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -156,6 +158,72 @@ public class CollapsedItemActionsTest {
         returner.lastPart.nodeAction().actionId());
     assertEquals(
         "Like", returner.lastPart.nodeAction().target().getCompat().getText().toString());
+  }
+
+  @After
+  public void tearDown() {
+    MenuAutomation.resetForTest();
+  }
+
+  @Test
+  public void youTubeItem_menuExpandsIntoCatalogTitles_withOpenMenuLast() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+
+    List<ContextMenuItem> items = actions.getMenuItemsForNode(context, tree.primary, false);
+
+    List<String> titles = new ArrayList<>();
+    Set<Integer> ids = new HashSet<>();
+    for (ContextMenuItem item : items) {
+      titles.add(item.getTitle().toString());
+      ids.add(item.getItemId());
+      assertTrue(CollapsedItemActions.isCollapsedActionItem(item));
+    }
+    assertEquals(
+        List.of(
+            "Go to channel Channel X",
+            "Play on another device",
+            "Play next in queue",
+            "Play last in queue",
+            "Save to Watch later",
+            "Save to playlist",
+            "Remove from downloads",
+            "Share",
+            "Not interested",
+            "Don't recommend channel",
+            "Report",
+            "Listen in YouTube Music",
+            "Open menu"),
+        titles);
+    assertEquals("every item id must be unique", titles.size(), ids.size());
+  }
+
+  @Test
+  public void youTubeItem_activatingACatalogItem_clicksTheMenuButtonAndArmsTheAutomation() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+
+    ContextMenuItem share = findItem(tree.primary, "Share");
+    assertTrue(share.onClickPerformed());
+
+    assertTrue(MenuAutomation.isPending());
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
+    assertEquals(tree.menu, returner.lastPart.nodeAction().target().getCompat());
+  }
+
+  @Test
+  public void youTubeItem_openMenuFallback_justClicksTheMenuButton() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+
+    ContextMenuItem openMenu = findItem(tree.primary, "Open menu");
+    assertTrue(openMenu.onClickPerformed());
+
+    assertFalse(MenuAutomation.isPending());
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
+    assertEquals(tree.menu, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @Test

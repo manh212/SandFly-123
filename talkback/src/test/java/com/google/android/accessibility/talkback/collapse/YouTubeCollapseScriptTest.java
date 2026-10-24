@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.YouTubeTree;
 import com.google.android.accessibility.talkback.collapse.CollapsedItem.ChildAction;
 import java.util.ArrayList;
@@ -45,11 +46,70 @@ public class YouTubeCollapseScriptTest {
 
     assertEquals(tree.primary, item.representative());
     assertNull(item.composedLabel());
-    List<String> labels = new ArrayList<>();
+    List<String> clickLabels = new ArrayList<>();
     for (ChildAction action : item.actions()) {
-      labels.add(action.label.toString());
+      if (action.kind == ChildAction.Kind.CLICK) {
+        clickLabels.add(action.label.toString());
+      }
     }
-    assertEquals(List.of("Go to channel Channel X", "Action menu for Video title"), labels);
+    assertEquals(List.of("Go to channel Channel X"), clickLabels);
+  }
+
+  @Test
+  public void videoItem_menuButtonExpandsIntoTheCatalog_withAnOpenMenuFallback() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    List<ChildAction> actions = item.actions();
+    assertEquals(13, actions.size());
+    // The channel button stays a plain click action on its own node.
+    assertEquals(ChildAction.Kind.CLICK, actions.get(0).kind);
+    assertEquals(tree.channel, actions.get(0).node);
+    // The menu button is replaced by the catalog, in menu order, all aimed at the menu node.
+    List<Integer> catalogResIds = new ArrayList<>();
+    for (int i = 1; i <= 11; i++) {
+      assertEquals(ChildAction.Kind.MENU_ITEM, actions.get(i).kind);
+      assertEquals(tree.menu, actions.get(i).node);
+      assertEquals(
+          CollapseTestTrees.YOUTUBE_MENU_LABEL_VIEW_ID, actions.get(i).sheetItemLabelViewId);
+      catalogResIds.add(actions.get(i).labelResId);
+    }
+    assertEquals(
+        List.of(
+            R.string.title_collapse_menu_play_on_device,
+            R.string.title_collapse_menu_play_next,
+            R.string.title_collapse_menu_play_last,
+            R.string.title_collapse_menu_watch_later,
+            R.string.title_collapse_menu_save_to_playlist,
+            R.string.title_collapse_menu_remove_download,
+            R.string.title_collapse_menu_share,
+            R.string.title_collapse_menu_not_interested,
+            R.string.title_collapse_menu_dont_recommend,
+            R.string.title_collapse_menu_report,
+            R.string.title_collapse_menu_youtube_music),
+        catalogResIds);
+    // The fallback that opens the menu as usual comes last.
+    assertEquals(ChildAction.Kind.MENU_OPEN, actions.get(12).kind);
+    assertEquals(tree.menu, actions.get(12).node);
+    assertEquals(R.string.title_collapse_menu_open, actions.get(12).labelResId);
+  }
+
+  @Test
+  public void menuButtonInTheBottomCorner_isNotRecognized_noExpansion() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+    // Move the menu button out of the top corner: it no longer qualifies, so both child
+    // buttons stay plain actions and no catalog appears.
+    CollapseTestTrees.bounds(tree.menu, 900, 450, 1080, 600);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+
+    assertEquals(2, item.actions().size());
+    for (ChildAction action : item.actions()) {
+      assertEquals(ChildAction.Kind.CLICK, action.kind);
+    }
   }
 
   @Test

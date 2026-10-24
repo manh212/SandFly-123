@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.collapse;
 
+import androidx.annotation.StringRes;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -39,6 +40,31 @@ public abstract class CollapseScript {
   public enum Activation {
     ROOT_CLICK,
     DESCENDANT_FIELD
+  }
+
+  /**
+   * A declaration that one child button of an item opens an overflow menu whose items should be
+   * offered directly as synthesized actions, in place of the button itself. The label resources
+   * double as the match keys: at activation time the menu is opened and the row whose live label
+   * equals the resolved label is clicked, so the strings must match the app's own menu labels in
+   * every shipped locale.
+   */
+  public static final class MenuCatalog {
+    /** Label resources of the menu items, in the order the app's menu shows them. */
+    public final @StringRes int[] itemLabelResIds;
+    /** View id of the label view inside one row of the app's open menu sheet. */
+    public final String sheetItemLabelViewId;
+    /** Label resource of the trailing fallback action that opens the menu as usual. */
+    public final @StringRes int openMenuLabelResId;
+
+    public MenuCatalog(
+        @StringRes int[] itemLabelResIds,
+        String sheetItemLabelViewId,
+        @StringRes int openMenuLabelResId) {
+      this.itemLabelResIds = itemLabelResIds;
+      this.sheetItemLabelViewId = sheetItemLabelViewId;
+      this.openMenuLabelResId = openMenuLabelResId;
+    }
   }
 
   /** A named content field of a composite item, resolved against the item's subtree. */
@@ -141,6 +167,21 @@ public abstract class CollapseScript {
    * whose long-press carries meaning, such as opening a reaction picker).
    */
   protected boolean longClickTwin(AccessibilityNodeInfoCompat node, ItemScan scan) {
+    return false;
+  }
+
+  /** The overflow-menu expansion for items matched by this script, or null for none. */
+  public @Nullable MenuCatalog menuCatalog() {
+    return null;
+  }
+
+  /**
+   * Whether a clickable child of the item is the overflow-menu button named by {@link
+   * #menuCatalog()}. The engine expands the button into the catalog only when exactly one child
+   * of an item qualifies; any other count leaves the item's actions untouched.
+   */
+  public boolean isMenuButton(
+      AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat itemRoot) {
     return false;
   }
 }

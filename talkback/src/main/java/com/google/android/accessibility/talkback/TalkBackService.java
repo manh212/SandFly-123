@@ -131,6 +131,7 @@ import com.google.android.accessibility.talkback.actor.voicecommands.VoiceComman
 import com.google.android.accessibility.talkback.actor.voicecommands.VoiceCommandProcessor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.PeriodicDataProvider;
 import com.google.android.accessibility.talkback.audio.AudioDeviceRouter;
+import com.google.android.accessibility.talkback.collapse.MenuAutomation;
 import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EarlyFocusSpeech;
@@ -1089,6 +1090,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (SystemPanelClicker.shouldDrop(event.getPackageName())
         && event.getEventType() != AccessibilityEvent.TYPE_TOUCH_INTERACTION_END
         && event.getEventType() != AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+      return;
+    }
+    // While a collapsed item's menu automation is running, it owns the target app's sheet
+    // events: they must not produce feedback, or the user would hear the menu open.
+    if (MenuAutomation.onAccessibilityEvent(this, event)) {
       return;
     }
     if (scriptHost != null) {
