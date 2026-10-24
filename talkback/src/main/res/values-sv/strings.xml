@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Läs uppifrån</string>
   <string name="shortcut_read_from_current">Läs från objektet i fokus</string>
   <string name="shortcut_print_node_tree">Skriv ut nodträd</string>
-  <string name="shortcut_print_performance_stats">Skriv ut resultatstatistik</string>
   <string name="shortcut_first_in_screen">Fokusera på det första objektet på skärmen</string>
   <string name="shortcut_voice_commands">Starta röstkommando</string>
   <string name="shortcut_last_in_screen">Fokusera på det sista objektet på skärmen</string>

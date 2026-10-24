@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lugemine ülalt alates</string>
   <string name="shortcut_read_from_current">Lugemine alates esiletõstetud üksusest</string>
   <string name="shortcut_print_node_tree">Prindi sõlmepuu</string>
-  <string name="shortcut_print_performance_stats">Prindi toimivusstatistika</string>
   <string name="shortcut_first_in_screen">Ekraanikuval esimese üksuse esile tõstmine</string>
   <string name="shortcut_voice_commands">Häälkäskluste kasutamise alustamine</string>
   <string name="shortcut_last_in_screen">Ekraanikuval viimase üksuse esile tõstmine</string>

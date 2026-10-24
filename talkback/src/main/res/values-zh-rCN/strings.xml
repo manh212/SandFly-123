@@ -383,7 +383,6 @@
   <string name="shortcut_read_from_top">从顶部开始朗读</string>
   <string name="shortcut_read_from_current">从聚焦的项开始朗读</string>
   <string name="shortcut_print_node_tree">打印节点树</string>
-  <string name="shortcut_print_performance_stats">打印性能统计信息</string>
   <string name="shortcut_first_in_screen">将焦点移至屏幕上的第一个项目</string>
   <string name="shortcut_voice_commands">启动语音指令</string>
   <string name="shortcut_last_in_screen">将焦点移至屏幕上的最后一个项目</string>

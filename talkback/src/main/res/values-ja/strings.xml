@@ -383,7 +383,6 @@
   <string name="shortcut_read_from_top">最上部から読み上げる</string>
   <string name="shortcut_read_from_current">フォーカスした項目から読み上げ</string>
   <string name="shortcut_print_node_tree">ノードツリーを印刷</string>
-  <string name="shortcut_print_performance_stats">パフォーマンスの統計情報を印刷</string>
   <string name="shortcut_first_in_screen">画面上の最初の項目にフォーカス移動</string>
   <string name="shortcut_voice_commands">音声コマンドを開始</string>
   <string name="shortcut_last_in_screen">画面上の最後の項目にフォーカス移動</string>

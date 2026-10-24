@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Читать с начала</string>
   <string name="shortcut_read_from_current">Читать с выделенного объекта</string>
   <string name="shortcut_print_node_tree">Записать дерево узлов</string>
-  <string name="shortcut_print_performance_stats">Передать статистику производительности в журнал</string>
   <string name="shortcut_first_in_screen">Перейти к первому объекту на экране</string>
   <string name="shortcut_voice_commands">Включить голосовые команды</string>
   <string name="shortcut_last_in_screen">Перейти к последнему объекту на экране</string>

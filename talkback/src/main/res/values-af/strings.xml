@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lees van bo af</string>
   <string name="shortcut_read_from_current">Lees vanaf gefokusde item</string>
   <string name="shortcut_print_node_tree">Druk nodusboom uit</string>
-  <string name="shortcut_print_performance_stats">Druk werkverrigtingstatistieke uit</string>
   <string name="shortcut_first_in_screen">Fokus op eerste item op skerm</string>
   <string name="shortcut_voice_commands">Begin stemopdrag</string>
   <string name="shortcut_last_in_screen">Fokus op laaste item op skerm</string>

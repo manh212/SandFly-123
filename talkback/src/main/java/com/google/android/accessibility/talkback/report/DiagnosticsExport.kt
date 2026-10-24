@@ -68,12 +68,7 @@ object DiagnosticsExport {
         SimpleDateFormat("yyyy-MM-dd HH:mm:ss Z", Locale.ROOT).format(Date()) +
         "\n\n"
     )
-    deviceAndApp(appContext, out)
-    sandFlyState(appContext, out)
-    audioSnapshot(appContext, out)
-    out.append("== Last crash ==\n")
-    out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")
-    out.append("\n\n")
+    out.append(buildSnapshotSections(appContext))
     val log = readLog()
     out.append("== Recent log of the SandFly process ==\n")
     if (log == null) {
@@ -86,6 +81,25 @@ object DiagnosticsExport {
       out.append(log)
       if (!log.endsWith("\n")) out.append("\n")
     }
+    return out.toString()
+  }
+
+  /**
+   * The snapshot sections of [build] — device and app, SandFly state, audio, last crash — without
+   * the recent log. This is the single source of truth for those sections: [build] assembles the
+   * export file from it, and [VerboseDiagnosticsLogger] writes it into the log itself at the
+   * VERBOSE log level.
+   */
+  @WorkerThread
+  fun buildSnapshotSections(context: Context): String {
+    val appContext = context.applicationContext
+    val out = StringBuilder()
+    deviceAndApp(appContext, out)
+    sandFlyState(appContext, out)
+    audioSnapshot(appContext, out)
+    out.append("== Last crash ==\n")
+    out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")
+    out.append("\n\n")
     return out.toString()
   }
 

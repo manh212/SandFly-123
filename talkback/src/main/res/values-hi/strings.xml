@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ऊपर से पढ़ें</string>
   <string name="shortcut_read_from_current">फ़ोकस किए गए आइटम से पढ़ना शुरू करें</string>
   <string name="shortcut_print_node_tree">प्रिंट नोड ट्री</string>
-  <string name="shortcut_print_performance_stats">प्रदर्शन के आंकड़े प्रिंट करें</string>
   <string name="shortcut_first_in_screen">स्क्रीन के पहले आइटम पर जाएं</string>
   <string name="shortcut_voice_commands">बोलकर निर्देश देने की सुविधा शुरू करें</string>
   <string name="shortcut_last_in_screen">स्क्रीन के आखिरी आइटम पर जाएं</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Číst shora</string>
   <string name="shortcut_read_from_current">Přečíst od zaměřené položky</string>
   <string name="shortcut_print_node_tree">Vytisknout strom uzlů</string>
-  <string name="shortcut_print_performance_stats">Vytisknout statistiky výkonu</string>
   <string name="shortcut_first_in_screen">Zaměřit na první položku na obrazovce</string>
   <string name="shortcut_voice_commands">Použít hlasový příkaz</string>
   <string name="shortcut_last_in_screen">Zaměřit na poslední položku na obrazovce</string>

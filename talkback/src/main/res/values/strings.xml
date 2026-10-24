@@ -1942,8 +1942,6 @@
     <string name="shortcut_read_from_current">Read from focused item</string>
     <!-- Label for the shortcut that prints the node tree to LogCat. [CHAR_LIMIT=40] -->
     <string name="shortcut_print_node_tree">Print node tree</string>
-    <!-- Label for the shortcut that prints performance statistics to LogCat. [CHAR_LIMIT=40] -->
-    <string name="shortcut_print_performance_stats">Print performance statistics</string>
     <!-- Label for the shortcut that will move focus to the first item on the screen -->
     <string name="shortcut_first_in_screen">Focus on first item on screen</string>
     <!-- Label for the shortcut that will allow voice commands to invoke TalkBack actions. [CHAR_LIMIT=60] -->

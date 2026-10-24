@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Læs fra toppen</string>
   <string name="shortcut_read_from_current">Læs fra det element, der er i fokus</string>
   <string name="shortcut_print_node_tree">Udskriv træstruktur</string>
-  <string name="shortcut_print_performance_stats">Udskriv effektivitetsstatistik</string>
   <string name="shortcut_first_in_screen">Fokuser på første element på skærmen</string>
   <string name="shortcut_voice_commands">Start stemmekommando</string>
   <string name="shortcut_last_in_screen">Fokuser på sidste element på skærmen</string>

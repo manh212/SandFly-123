@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">อ่านจากด้านบน</string>
   <string name="shortcut_read_from_current">อ่านจากรายการที่โฟกัส</string>
   <string name="shortcut_print_node_tree">พิมพ์โหนดทรี</string>
-  <string name="shortcut_print_performance_stats">พิมพ์สถิติประสิทธิภาพ</string>
   <string name="shortcut_first_in_screen">โฟกัสที่รายการแรกในหน้าจอ</string>
   <string name="shortcut_voice_commands">เริ่มคำสั่งเสียง</string>
   <string name="shortcut_last_in_screen">โฟกัสที่รายการสุดท้ายในหน้าจอ</string>

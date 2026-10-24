@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Baca dari atas</string>
   <string name="shortcut_read_from_current">Baca dari item yang difokuskan</string>
   <string name="shortcut_print_node_tree">Cetak pohon node</string>
-  <string name="shortcut_print_performance_stats">Cetak statistik performa</string>
   <string name="shortcut_first_in_screen">Fokus pada item pertama di layar</string>
   <string name="shortcut_voice_commands">Mulai perintah suara</string>
   <string name="shortcut_last_in_screen">Fokus pada item terakhir di layar</string>

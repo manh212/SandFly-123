@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Olvasás a tetejétől</string>
   <string name="shortcut_read_from_current">Olvasás a fókuszált elemtől</string>
   <string name="shortcut_print_node_tree">Csomópont-hierarchia nyomtatása</string>
-  <string name="shortcut_print_performance_stats">Teljesítménytatisztikák nyomtatása</string>
   <string name="shortcut_first_in_screen">Fókuszálás a képernyő első elemére</string>
   <string name="shortcut_voice_commands">Hangalapú utasítás indítása</string>
   <string name="shortcut_last_in_screen">Fókuszálás a képernyő utolsó elemére</string>

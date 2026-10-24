@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lire à partir du haut de la page</string>
   <string name="shortcut_read_from_current">Lire à partir de l\'élément sélectionné</string>
   <string name="shortcut_print_node_tree">Imprimer l\'arborescence des nœuds</string>
-  <string name="shortcut_print_performance_stats">Imprimer les statistiques de performances</string>
   <string name="shortcut_first_in_screen">Sélectionner le premier élément affiché à l\'écran</string>
   <string name="shortcut_voice_commands">Démarrer la commande vocale</string>
   <string name="shortcut_last_in_screen">Sélectionner le dernier élément affiché à l\'écran</string>

@@ -213,6 +213,7 @@ import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
+import com.google.android.accessibility.talkback.report.VerboseDiagnosticsLogger;
 import com.google.android.accessibility.talkback.quicksettings.SystemPanelClicker;
 import com.google.android.accessibility.talkback.scripting.ScriptHost;
 import com.google.android.accessibility.talkback.scripting.ScriptHostFactory;
@@ -3849,6 +3850,9 @@ public class TalkBackService extends AccessibilityServiceCompat
             prefs, getResources(), R.string.pref_log_level_key, R.string.pref_log_level_default));
     enforceDiagnosisModeLogging();
     MainThreadStallLogger.setEnabled(LogUtils.shouldLog(Log.DEBUG));
+    // At VERBOSE the log itself carries the diagnostics snapshot and the performance
+    // statistics; below VERBOSE this stops again.
+    VerboseDiagnosticsLogger.syncWithLogLevel(this);
   }
 
   private void enforceDiagnosisModeLogging() {

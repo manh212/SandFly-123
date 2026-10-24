@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Boshidan boshlab o‘qish</string>
   <string name="shortcut_read_from_current">Fokusga olingan elementdan oʻqish</string>
   <string name="shortcut_print_node_tree">Tugunli daraxtni chop qilish</string>
-  <string name="shortcut_print_performance_stats">Unumdorlik bo‘yicha statistikani chop etish</string>
   <string name="shortcut_first_in_screen">Ekrandagi birinchi elementga fokus qaratish</string>
   <string name="shortcut_voice_commands">Ovozli buyruqni boshlash</string>
   <string name="shortcut_last_in_screen">Ekrandagi oxirgi elementga fokus qaratish</string>

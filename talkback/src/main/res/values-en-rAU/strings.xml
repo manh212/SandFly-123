@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Read from top</string>
   <string name="shortcut_read_from_current">Read from focused item</string>
   <string name="shortcut_print_node_tree">Print node tree</string>
-  <string name="shortcut_print_performance_stats">Print performance statistics</string>
   <string name="shortcut_first_in_screen">Focus on first item on screen</string>
   <string name="shortcut_voice_commands">Start voice command</string>
   <string name="shortcut_last_in_screen">Focus on last item on screen</string>

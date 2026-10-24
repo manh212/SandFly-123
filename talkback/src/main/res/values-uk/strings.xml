@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Читати від початку</string>
   <string name="shortcut_read_from_current">Читати від виділеного об’єкта</string>
   <string name="shortcut_print_node_tree">Друкувати дерево вузлів</string>
-  <string name="shortcut_print_performance_stats">Друкувати статистику продуктивності</string>
   <string name="shortcut_first_in_screen">Перейти до першого елемента на екрані</string>
   <string name="shortcut_voice_commands">Увімкнути голосові команди</string>
   <string name="shortcut_last_in_screen">Перейти до останнього елемента на екрані</string>

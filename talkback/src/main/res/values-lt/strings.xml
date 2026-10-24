@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Skaityti nuo viršaus</string>
   <string name="shortcut_read_from_current">Skaityti nuo paryškinto elemento</string>
   <string name="shortcut_print_node_tree">Spausdinti mazgų medį</string>
-  <string name="shortcut_print_performance_stats">Spausdinti našumo statistiką</string>
   <string name="shortcut_first_in_screen">Paryškinti pirmą elementą ekrane</string>
   <string name="shortcut_voice_commands">Pradėti komandą balsu</string>
   <string name="shortcut_last_in_screen">Paryškinti paskutinį elementą ekrane</string>

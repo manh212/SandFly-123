@@ -1119,7 +1119,6 @@
   <string name="shortcut_value_perform_double_click_action">PERFORM_DOUBLE_CLICK_ACTION</string>
   <string name="shortcut_value_perform_long_click_action">PERFORM_LONG_CLICK_ACTION</string>
   <string name="shortcut_value_print_node_tree">PRINT_NODE_TREE</string>
-  <string name="shortcut_value_print_performance_stats">PRINT_PERFORMANCE_STATS</string>
   <string name="shortcut_value_show_language_options">SHOW_LANGUAGE_OPTIONS</string>
   <string name="shortcut_value_select_next_setting">SELECT_NEXT_SETTING</string>
   <string name="shortcut_value_select_previous_setting">SELECT_PREVIOUS_SETTING</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ટોચથી વાંચો</string>
   <string name="shortcut_read_from_current">ફોકસ કરેલી આઇટમમાંથી વાંચો</string>
   <string name="shortcut_print_node_tree">નોડ ટ્રી છાપો</string>
-  <string name="shortcut_print_performance_stats">કાર્યપ્રદર્શન આંકડા છાપો</string>
   <string name="shortcut_first_in_screen">સ્ક્રીન પરની પહેલી આઇટમ પર ફોકસ કરો</string>
   <string name="shortcut_voice_commands">વૉઇસ આદેશ શરૂ કરો</string>
   <string name="shortcut_last_in_screen">સ્ક્રીન પરની છેલ્લી આઇટમ પર ફોકસ કરો</string>

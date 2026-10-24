@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Irakurri goitik hasita</string>
   <string name="shortcut_read_from_current">Irakurri fokuratutako elementutik hasita</string>
   <string name="shortcut_print_node_tree">Inprimatu nodo-zuhaitza</string>
-  <string name="shortcut_print_performance_stats">Inprimatu errendimenduaren estatistikak</string>
   <string name="shortcut_first_in_screen">Fokuratu pantailako lehen elementua</string>
   <string name="shortcut_voice_commands">Hasi ahozko aginduak erabiltzen</string>
   <string name="shortcut_last_in_screen">Fokuratu pantailako azken elementua</string>

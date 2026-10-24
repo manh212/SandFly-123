@@ -382,7 +382,6 @@
   <string name="shortcut_read_from_top">Чытанне зверху</string>
   <string name="shortcut_read_from_current">Агучыць з выбранага элемента</string>
   <string name="shortcut_print_node_tree">Адпраўка дрэва вузлоў</string>
-  <string name="shortcut_print_performance_stats">Надрукаваць статыстыку прадукцыйнасці</string>
   <string name="shortcut_first_in_screen">Перайсці да першага элемента на экране</string>
   <string name="shortcut_voice_commands">Запусціць галасавую каманду</string>
   <string name="shortcut_last_in_screen">Перайсці да апошняга элемента на экране</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">මුදුනෙහි සිට කියවන්න</string>
   <string name="shortcut_read_from_current">අවධානය යොමු කළ අයිතමයෙන් කියවන්න</string>
   <string name="shortcut_print_node_tree">නෝඩු රුක මුද්‍රණය කරන්න</string>
-  <string name="shortcut_print_performance_stats">මුද්‍රණ කාර්ය සාධන සංඛ්‍යාලේඛන</string>
   <string name="shortcut_first_in_screen">තිරයෙහි පළමු අයිතමයට අවධානය යොමු කරන්න</string>
   <string name="shortcut_voice_commands">හඬ විධානය ආරම්භ කරන්න</string>
   <string name="shortcut_last_in_screen">තිරයෙහි අවසන් අයිතමයට අවධානය යොමු කරන්න</string>

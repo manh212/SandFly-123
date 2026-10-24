@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Басынан бастап оқу</string>
   <string name="shortcut_read_from_current">Ерекшеленген жерден бастап оқу</string>
   <string name="shortcut_print_node_tree">Түйін тармағын басып шығару</string>
-  <string name="shortcut_print_performance_stats">Басып шығару бойынша өнімділік статистикасы</string>
   <string name="shortcut_first_in_screen">Экрандағы бірінші элементке өту</string>
   <string name="shortcut_voice_commands">Дауыстық пәрменді қосу</string>
   <string name="shortcut_last_in_screen">Экрандағы соңғы элементке өту</string>

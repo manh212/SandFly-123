@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Ler do início</string>
   <string name="shortcut_read_from_current">Ler a partir do item focado</string>
   <string name="shortcut_print_node_tree">Imprimir a árvore de nós</string>
-  <string name="shortcut_print_performance_stats">Imprimir estatísticas de desempenho</string>
   <string name="shortcut_first_in_screen">Focar no primeiro item no ecrã</string>
   <string name="shortcut_voice_commands">Iniciar comando de voz</string>
   <string name="shortcut_last_in_screen">Focar no último item no ecrã</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Читај од врха</string>
   <string name="shortcut_read_from_current">Читај од фокисуране ставке</string>
   <string name="shortcut_print_node_tree">Штампа стабло са чворовима</string>
-  <string name="shortcut_print_performance_stats">Статистика учинка штампања</string>
   <string name="shortcut_first_in_screen">Фокусирање прве ставке на екрану</string>
   <string name="shortcut_voice_commands">Покреће гласовне команде</string>
   <string name="shortcut_last_in_screen">Фокусирање последње ставке на екрану</string>

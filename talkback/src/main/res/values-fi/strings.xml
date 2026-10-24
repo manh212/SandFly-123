@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">Lue alusta alkaen</string>
   <string name="shortcut_read_from_current">Lue korostetusta kohteesta</string>
   <string name="shortcut_print_node_tree">Tulosta solmupuu</string>
-  <string name="shortcut_print_performance_stats">Tulosta toimintatilastot</string>
   <string name="shortcut_first_in_screen">Kohdista näytön ensimmäiseen kohteeseen</string>
   <string name="shortcut_voice_commands">Aloita äänikomento</string>
   <string name="shortcut_last_in_screen">Kohdista näytön viimeiseen kohteeseen</string>

@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">ອ່ານຈາກທາງເທິງ</string>
   <string name="shortcut_read_from_current">ອ່ານຈາກລາຍການທີ່ໂຟກັສ</string>
   <string name="shortcut_print_node_tree">ພິມ​ໂນດ​ແຜ​ນ​ຜັງ​ຕົ້ນ​ໄມ້</string>
-  <string name="shortcut_print_performance_stats">ພິມສະຖິຕິປະສິດທິພາບ</string>
   <string name="shortcut_first_in_screen">ໂຟກັສໃສ່ລາຍການທຳອິດຢູ່ໜ້າຈໍ</string>
   <string name="shortcut_voice_commands">ເລີ່ມຄຳສັ່ງສຽງ</string>
   <string name="shortcut_last_in_screen">ໂຟກັສລາຍການສຸດທ້າຍຢູ່ໜ້າຈໍ</string>

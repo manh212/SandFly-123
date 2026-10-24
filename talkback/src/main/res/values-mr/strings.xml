@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">वरून वाचा</string>
   <string name="shortcut_read_from_current">फोकस केलेल्या आयटमपासून वाचा</string>
   <string name="shortcut_print_node_tree">नोड ट्री मुद्रीत करा</string>
-  <string name="shortcut_print_performance_stats">कार्यप्रदर्शन आकडेवारी प्रिंट</string>
   <string name="shortcut_first_in_screen">स्क्रीनवरील पहिल्या आयटमवर फोकस करा</string>
   <string name="shortcut_voice_commands">व्हॉइस कमांड सुरू करा</string>
   <string name="shortcut_last_in_screen">स्क्रीनवरील शेवटच्या आयटमवर फोकस करा</string>

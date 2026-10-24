@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">הקראה מההתחלה</string>
   <string name="shortcut_read_from_current">הקראה מהפריט המודגש</string>
   <string name="shortcut_print_node_tree">הדפס עץ צמתים</string>
-  <string name="shortcut_print_performance_stats">הדפס נתונים סטטיסטיים של ביצועים</string>
   <string name="shortcut_first_in_screen">התמקדות בפריט הראשון שבמסך</string>
   <string name="shortcut_voice_commands">הפעלת הפקודה הקולית</string>
   <string name="shortcut_last_in_screen">התמקדות בפריט האחרון שבמסך</string>

@@ -496,7 +496,6 @@
   <string name="shortcut_read_from_top">القراءة من أعلى الشاشة</string>
   <string name="shortcut_read_from_current">القراءة من العنصر المركَّز عليه</string>
   <string name="shortcut_print_node_tree">طباعة شجرة العقد</string>
-  <string name="shortcut_print_performance_stats">طباعة إحصاءات الأداء</string>
   <string name="shortcut_first_in_screen">نقل التركيز إلى العنصر الأول على الشاشة</string>
   <string name="shortcut_voice_commands">بدء طلب صوتي</string>
   <string name="shortcut_last_in_screen">نقل التركيز إلى العنصر الأخير على الشاشة</string>

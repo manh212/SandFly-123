@@ -384,7 +384,6 @@
   <string name="shortcut_read_from_top">শীর্ষৰ পৰা পঢ়ক</string>
   <string name="shortcut_read_from_current">ফ’কাছ কৰা বস্তুৰ পৰা পঢ়ক</string>
   <string name="shortcut_print_node_tree">ন\'ড ট্ৰী প্ৰিণ্ট কৰক</string>
-  <string name="shortcut_print_performance_stats">প্ৰিন্ট প্ৰদৰ্শনৰ তথ্য</string>
   <string name="shortcut_first_in_screen">স্ক্ৰীনত প্ৰথম বস্তুটোত ফ’কাছ কৰক</string>
   <string name="shortcut_voice_commands">কণ্ঠস্বৰৰ নিৰ্দেশসমূহ আৰম্ভ কৰক</string>
   <string name="shortcut_last_in_screen">স্ক্ৰীনত অন্তিম বস্তুটোত ফ’কাছ কৰক</string>
