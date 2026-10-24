@@ -7,6 +7,11 @@
       android:summary="@string/summary_pref_wrap_around"
       android:title="@string/title_pref_wrap_around" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_collapse_list_item_actions_default"
+      android:key="@string/pref_collapse_list_item_actions_key"
+      android:summary="@string/summary_pref_collapse_list_item_actions"
+      android:title="@string/title_pref_collapse_list_item_actions" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_focus_new_windows_default"
       android:key="@string/pref_focus_new_windows_key"
       android:title="@string/title_pref_focus_new_windows" />

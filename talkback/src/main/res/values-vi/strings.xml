@@ -1561,6 +1561,9 @@
     <string name="template_lift_to_activate_changed">Nhấc ngón tay để kích hoạt: <xliff:g id="mode">%1$s</xliff:g></string>
     <string name="title_pref_wrap_around">Quay vòng</string>
     <string name="summary_pref_wrap_around">Vuốt qua mục cuối cùng sẽ chuyển đến mục đầu tiên, và vuốt qua mục đầu tiên sẽ chuyển đến mục cuối cùng. Khi tắt, một âm thanh sẽ phát ở cuối.</string>
+    <string name="title_pref_collapse_list_item_actions">Gộp nút trong mục danh sách thành thao tác</string>
+    <string name="summary_pref_collapse_list_item_actions">Trong các ứng dụng được hỗ trợ, mỗi mục danh sách chỉ còn một điểm dừng, và các nút của mục chuyển vào chế độ điều khiển Thao tác.</string>
+    <string name="title_collapse_action_long_press">%1$s, nhấn giữ</string>
     <string name="title_pref_fix_stuck_touch_exploration">Sửa lỗi khám phá bằng cách chạm bị treo</string>
     <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Khi không có quyền DUMP, SandFly chỉ có thể báo rằng tính năng khám phá bằng cách chạm có thể bị treo. Để SandFly sửa lỗi, hãy chạy: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
     <string name="stuck_touch_exploration_fixing">Đang sửa lỗi khám phá bằng cách chạm</string>

@@ -1,0 +1,148 @@
+/*
+ * Copyright 2026 SandFly contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+package com.google.android.accessibility.talkback.collapse;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.FacebookCommentTree;
+import com.google.android.accessibility.talkback.collapse.CollapsedItem.ChildAction;
+import com.google.android.accessibility.talkback.compositor.CompositorUtils;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
+
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk = 34)
+public class FacebookCollapseScriptTest {
+  private static final Map<String, CollapseScript> SCRIPTS =
+      Map.of(CollapseTestTrees.FACEBOOK_PACKAGE, new FacebookCollapseScript());
+
+  @Test
+  public void comment_matches_labelIsAuthorTimeBody_actionsAreTheEightChildButtons() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    assertEquals(tree.root, item.representative());
+    String separator = CompositorUtils.getSeparator();
+    assertEquals(
+        "Nguyen Van A" + separator + "1 day" + separator + "This is a great comment",
+        item.composedLabel());
+    List<String> clickLabels = new ArrayList<>();
+    int longClickTwins = 0;
+    for (ChildAction action : item.actions()) {
+      if (action.longClick) {
+        longClickTwins++;
+        assertEquals(tree.like, action.node);
+      } else {
+        clickLabels.add(action.label.toString());
+      }
+    }
+    assertEquals(
+        List.of(
+            "Profile picture of Nguyen Van A",
+            "Nguyen Van A",
+            "This is a great comment",
+            "See more",
+            "Reply",
+            "5 reactions",
+            "Like",
+            "Demote comment"),
+        clickLabels);
+    assertEquals(1, longClickTwins);
+    assertEquals(tree.body, item.selectionTarget());
+    assertNull(item.activationTarget());
+  }
+
+  @Test
+  public void feedPost_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    AccessibilityNodeInfoCompat post = CollapseTestTrees.facebookPost(list);
+
+    assertNull(CollapseEngine.matchItemRoot(post, SCRIPTS));
+    assertNull(CollapseEngine.matchContaining(post.getChild(0), SCRIPTS));
+  }
+
+  @Test
+  public void commentWithNineClickableChildren_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+    AccessibilityNodeInfoCompat attachment =
+        CollapseTestTrees.node(tree.root, "android.widget.ImageButton");
+    attachment.setClickable(true);
+    attachment.setFocusable(true);
+    attachment.setContentDescription("Attached photo");
+    CollapseTestTrees.bounds(attachment, 0, 400, 200, 600);
+    attachment.setPackageName(CollapseTestTrees.FACEBOOK_PACKAGE);
+
+    assertNull(CollapseEngine.matchItemRoot(tree.root, SCRIPTS));
+  }
+
+  @Test
+  public void commentWithoutTimestamp_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+    tree.time.setText(null);
+    tree.time.setContentDescription(null);
+
+    assertNull(CollapseEngine.matchItemRoot(tree.root, SCRIPTS));
+  }
+
+  @Test
+  public void commentWithCheckableChild_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+    AccessibilityNodeInfoCompat checkbox =
+        CollapseTestTrees.node(tree.root, "android.widget.CheckBox");
+    checkbox.setCheckable(true);
+    checkbox.setPackageName(CollapseTestTrees.FACEBOOK_PACKAGE);
+
+    assertNull(CollapseEngine.matchItemRoot(tree.root, SCRIPTS));
+  }
+
+  @Test
+  public void reactionsListRow_doesNotMatch() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    AccessibilityNodeInfoCompat row = CollapseTestTrees.item(list);
+    row.setClickable(true);
+    row.setFocusable(true);
+    CollapseTestTrees.bounds(row, 0, 0, 1080, 200);
+    AccessibilityNodeInfoCompat avatar =
+        CollapseTestTrees.node(row, "android.widget.ImageButton");
+    avatar.setClickable(true);
+    avatar.setFocusable(true);
+    avatar.setContentDescription("Profile picture of Nguyen Van A");
+    CollapseTestTrees.bounds(avatar, 0, 0, 120, 120);
+    AccessibilityNodeInfoCompat name = CollapseTestTrees.node(row, "android.view.ViewGroup");
+    name.setClickable(true);
+    name.setFocusable(true);
+    name.setText("Nguyen Van A");
+    CollapseTestTrees.bounds(name, 130, 0, 600, 100);
+    CollapseTestTrees.applyPackage(row, CollapseTestTrees.FACEBOOK_PACKAGE);
+
+    assertNull(CollapseEngine.matchItemRoot(row, SCRIPTS));
+  }
+}

@@ -74,6 +74,7 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.FocusManagerInternal;
 import com.google.android.accessibility.talkback.actor.search.StringMatcher;
 import com.google.android.accessibility.talkback.actor.search.UniversalSearchActor;
+import com.google.android.accessibility.talkback.collapse.CollapseEngine;
 import com.google.android.accessibility.talkback.compositor.Compositor.TextComposer;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorAccessibilityHints;
@@ -626,7 +627,7 @@ public class FocusProcessorForLogicalNavigation {
             traversalStrategy,
             rootNode,
             searchDirection,
-            NavigationTarget.createNodeFilter(
+            composeNodeFilter(
                 NavigationTarget.TARGET_DEFAULT, traversalStrategy.getSpeakingNodesCache()));
     if (target != null) {
       // Navigate to the next focusable node if this node is Clank's WebView.
@@ -1000,7 +1001,7 @@ public class FocusProcessorForLogicalNavigation {
             focusFinder,
             /* isInitialFocus= */ true,
             filterWindowForWindowNavigation,
-            NavigationTarget.createNodeFilter(NavigationTarget.TARGET_DEFAULT, speakingNodesCache));
+            composeNodeFilter(NavigationTarget.TARGET_DEFAULT, speakingNodesCache));
     return (target != null) && setAccessibilityFocusInternal(target, navigationAction, eventId);
   }
 
@@ -1061,7 +1062,7 @@ public class FocusProcessorForLogicalNavigation {
               traversalStrategy,
               targetInWindowPane,
               direction,
-              NavigationTarget.createNodeFilter(
+              composeNodeFilter(
                   NavigationTarget.TARGET_DEFAULT, traversalStrategy.getSpeakingNodesCache()));
       if (target != null) {
         return setAccessibilityFocusInternal(target, navigationAction, eventId);
@@ -1194,6 +1195,21 @@ public class FocusProcessorForLogicalNavigation {
    * @return {@code true} if any accessibility action is successfully performed.
    */
   /**
+   * Builds the node filter for a navigation target type, composing the list-item collapse rule
+   * into default-target searches so every search path skips collapsed child buttons alike.
+   */
+  private Filter<AccessibilityNodeInfoCompat> composeNodeFilter(
+      @TargetType int targetType,
+      @Nullable Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
+    Filter<AccessibilityNodeInfoCompat> nodeFilter =
+        NavigationTarget.createNodeFilter(targetType, speakingNodesCache);
+    if (targetType != NavigationTarget.TARGET_DEFAULT || nodeFilter == null) {
+      return nodeFilter;
+    }
+    return CollapseEngine.composeNodeFilter(service, nodeFilter);
+  }
+
+  /**
    * Returns the node that a plain swipe in {@code searchDirection} from {@code pivot} would most
    * likely focus, without scrolling, focusing or changing anything, or null if there is none on
    * screen in the same window, or if there is no saved traversal order to search. It finds the
@@ -1222,7 +1238,7 @@ public class FocusProcessorForLogicalNavigation {
       return null;
     }
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
+        composeNodeFilter(
             NavigationTarget.TARGET_DEFAULT, traversalStrategy.getSpeakingNodesCache());
     AccessibilityNodeInfoCompat target =
         TraversalStrategyUtils.searchFocus(traversalStrategy, pivot, searchDirection, nodeFilter);
@@ -1356,8 +1372,7 @@ public class FocusProcessorForLogicalNavigation {
     }
 
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
-            navigationAction.targetType, traversalStrategy.getSpeakingNodesCache());
+        composeNodeFilter(navigationAction.targetType, traversalStrategy.getSpeakingNodesCache());
     if (ignoreDescendantsOfPivot) {
       final AccessibilityNodeInfoCompat pivotCopy = pivot;
       nodeFilter =
@@ -1940,7 +1955,7 @@ public class FocusProcessorForLogicalNavigation {
                 focusFinder,
                 /* isInitialFocus= */ false,
                 windowFilter,
-                NavigationTarget.createNodeFilter(navigationAction.targetType, speakingNodesCache));
+                composeNodeFilter(navigationAction.targetType, speakingNodesCache));
         if (reachEdgeBeforeSearch != reachEdge) {
           // Skip one swipe if reaching edge while searching windows in loop.
           announceNativeElement(logicalDirection, navigationAction.targetType, eventId);
@@ -1961,8 +1976,7 @@ public class FocusProcessorForLogicalNavigation {
       TraversalStrategy traversalStrategy,
       EventId eventId) {
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
-            navigationAction.targetType, traversalStrategy.getSpeakingNodesCache());
+        composeNodeFilter(navigationAction.targetType, traversalStrategy.getSpeakingNodesCache());
     // Filter to find the native node with target type or WebView, returns WebView if find it first.
     Filter<AccessibilityNodeInfoCompat> nodeFilterOrWebView =
         new Filter<AccessibilityNodeInfoCompat>() {
@@ -3003,7 +3017,7 @@ public class FocusProcessorForLogicalNavigation {
             scrolledNode, focusFinder, TraversalStrategy.SEARCH_FOCUS_FORWARD);
     // Use TARGET_DEFAULT regardless of the current granularity.
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
+        composeNodeFilter(
             NavigationTarget.TARGET_DEFAULT, traversalStrategy.getSpeakingNodesCache());
     @SearchDirection
     int direction =
@@ -3087,8 +3101,7 @@ public class FocusProcessorForLogicalNavigation {
       return;
     }
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
-            sourceAction.targetType, localTraversalStrategy.getSpeakingNodesCache());
+        composeNodeFilter(sourceAction.targetType, localTraversalStrategy.getSpeakingNodesCache());
 
     // Only if the refNode does not satisfy the desired macro granularity target type or is
     // default granularity, we look for the next target starting from
@@ -3269,8 +3282,7 @@ public class FocusProcessorForLogicalNavigation {
         TraversalStrategyUtils.getTraversalStrategy(
             scrolledNode, focusFinder, sourceAction.searchDirection);
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        NavigationTarget.createNodeFilter(
-            sourceAction.targetType, localTraversalStrategy.getSpeakingNodesCache());
+        composeNodeFilter(sourceAction.targetType, localTraversalStrategy.getSpeakingNodesCache());
     Rect previousRect = new Rect();
     focusBeforeScroll.getBoundsInScreen(previousRect);
     boolean validAccessibilityFocus =

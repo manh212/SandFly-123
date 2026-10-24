@@ -41,6 +41,7 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.UserInterface.UserInputEventListener;
 import com.google.android.accessibility.talkback.WebActor;
 import com.google.android.accessibility.talkback.actor.helper.FocusActorHelper;
+import com.google.android.accessibility.talkback.collapse.CollapseEngine;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
@@ -140,6 +141,10 @@ public class FocusActor implements UserInputEventListener {
       return false;
     }
     node = Scripts.actionTarget(node, false);
+    AccessibilityNodeInfoCompat collapseTarget = CollapseEngine.activationTarget(service, node);
+    if (collapseTarget != null) {
+      node = collapseTarget;
+    }
 
     // Drop the focused item's usage hint, which would otherwise be spoken after the item is
     // activated, ahead of the next window's name.

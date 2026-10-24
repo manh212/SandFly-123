@@ -26,6 +26,7 @@ import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.collapse.CollapseEngine;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.action.TouchExplorationAction;
 import com.google.android.accessibility.utils.AccessibilityEventListener;
@@ -228,7 +229,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
     setLastTouchedNode(touchedNode);
 
     final AccessibilityNodeInfoCompat touchedFocusableNode =
-        AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode);
+        CollapseEngine.touchTarget(
+            context, AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode));
     LogUtils.v(
         TAG,
         "handleHoverEnterEvent: touchedNode=%s, touchedFocusableNode=%s",
@@ -269,7 +271,8 @@ public class TouchExplorationInterpreter implements AccessibilityEventListener {
     return dispatchTouchExplorationAction(
         new TouchExplorationAction(
             TouchExplorationAction.HOVER_EXIT,
-            AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode)),
+            CollapseEngine.touchTarget(
+                context, AccessibilityNodeInfoUtils.findFocusFromHover(touchedNode))),
         eventId);
   }
 
