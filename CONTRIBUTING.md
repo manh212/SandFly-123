@@ -17,8 +17,11 @@ exceptions.
 4. **Definition of done.** A change is done when the build succeeds and it
    introduces no new lint errors. Issues already recorded in `lint-baseline.xml`
    are allowed.
-5. **Branches.** Large work happens on its own branch and is merged into `master`
-   when done. Small fixes may be committed straight to `master`.
+5. **Branches.** Work goes straight to `master` by default. Only extremely
+   large work — replacing or removing an entire subsystem, completely changing
+   an architecture, or adding a major new subsystem — gets its own branch and
+   pull request, created at the very start and never auto-merged. On a
+   borderline case, the default is `master`, and the owner is the final judge.
 6. **Interface work.** Any change that adds or alters user interface must also
    follow [docs/ux-guidelines.md](docs/ux-guidelines.md).
 
