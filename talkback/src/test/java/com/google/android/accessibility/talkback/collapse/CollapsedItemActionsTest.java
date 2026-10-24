@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.collapse;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
@@ -125,8 +124,11 @@ public class CollapsedItemActionsTest {
     assertTrue(rebuilt.onClickPerformed());
     assertEquals(
         AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
-    assertSame(
-        tree2.reply.unwrap(), returner.lastPart.nodeAction().target().getCompat().unwrap());
+    // The item scan hands out obtained copies of the nodes, so this compares nodes rather
+    // than object identity: the click must land on the rebuilt tree's Reply node, and not
+    // on the recycled tree's.
+    assertEquals(tree2.reply, returner.lastPart.nodeAction().target().getCompat());
+    assertNotEquals(tree1.reply, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @Test
