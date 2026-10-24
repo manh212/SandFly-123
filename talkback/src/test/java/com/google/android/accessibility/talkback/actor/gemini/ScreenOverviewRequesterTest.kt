@@ -166,7 +166,7 @@ class ScreenOverviewRequesterTest {
   @Test
   fun onlyGemmaModelsGetTheJsonFormat() {
     val json = LocalModel.entries.filter { it.writesJson }.map { it.id }
-    assertEquals(listOf("e2b", "e4b", "gemma4-12b", "e2b-tensor-g5", "e2b-tensor-g6"), json)
+    assertEquals(listOf("e2b", "e4b", "gemma4-12b"), json)
     assertTrue(LocalModel.entries.filter { it.id.startsWith("fastvlm") }.none { it.writesJson })
   }
 }
