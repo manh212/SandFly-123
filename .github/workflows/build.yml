@@ -89,13 +89,17 @@ jobs:
 
       # Only the phone flavor exists, so only its unit tests run.
       - name: Run unit tests
-        run: ./gradlew testPhoneDebugUnitTest --console=plain
+        run: |
+          set -o pipefail
+          ./gradlew testPhoneDebugUnitTest --console=plain 2>&1 | tee "$RUNNER_TEMP/tests.log"
 
       # The app's lint also checks the library modules. Issues already in lint-baseline.xml are
       # allowed, so this fails only on new errors, such as a call that needs a newer Android than
       # minSdk without a version check.
       - name: Run lint
-        run: ./gradlew :lintPhoneDebug --console=plain
+        run: |
+          set -o pipefail
+          ./gradlew :lintPhoneDebug --console=plain 2>&1 | tee "$RUNNER_TEMP/lint.log"
 
       - uses: actions/upload-artifact@v7
         if: failure()
@@ -200,6 +204,35 @@ jobs:
             fi
           } > "$summary"
           gh pr comment "$PR_NUMBER" --body-file "$summary"
+
+      # On every run, saves the tail of the three Gradle logs as one artifact, so a
+      # failed master build can be diagnosed from the run itself, with no pull request
+      # comment and no temporary hook. As in the failure summary above, it never prints
+      # environment values and drops any line that mentions a credential.
+      - name: Collect the Gradle log tail
+        if: always()
+        continue-on-error: true
+        run: |
+          blocked='password|secret|keystore'
+          out=gradle-log-tail.txt
+          : > "$out"
+          for pair in assemble:assemble.log tests:tests.log lint:lint.log; do
+            log="$RUNNER_TEMP/${pair#*:}"
+            if [ -f "$log" ]; then
+              {
+                echo "===== ${pair%%:*}: last 200 lines ====="
+                tail -n 200 "$log" | grep -Evi "$blocked" || true
+                echo
+              } >> "$out"
+            fi
+          done
+
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: gradle-log-tail
+          path: gradle-log-tail.txt
+          if-no-files-found: ignore
 
   # Publishes the build. A push to master replaces the rolling "dev" pre-release, and a tag
   # v<version> creates the stable release, which becomes the latest release. The in-app updater
