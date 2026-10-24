@@ -25,6 +25,7 @@ import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewConfiguration;
@@ -40,11 +41,13 @@ import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.menurules.CustomActionMenu;
 import com.google.android.accessibility.talkback.menurules.NodeMenu;
+import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
  * Generates the synthesized actions of a collapsed item for the Actions reading control. The
@@ -60,6 +63,12 @@ public class CollapsedItemActions implements NodeMenu {
   private static final String TAG = "CollapsedItemActions";
   static final int ACTION_ID_BASE = 0x5d000000;
   private static final int ACTION_ID_RANGE = 0x100000;
+
+  /** Duration of one raw tap: a finger-like press, not an instant stroke. */
+  private static final long RAW_TAP_DURATION_MS = 80;
+
+  /** Extra hold past the system long-press timeout, so the press still reads as a long press. */
+  private static final long RAW_TAP_LONG_PRESS_MARGIN_MS = 100;
 
   private final Pipeline.FeedbackReturner pipeline;
   private final TalkBackAnalytics analytics;
@@ -108,7 +117,15 @@ public class CollapsedItemActions implements NodeMenu {
           action.kind == ChildAction.Kind.MENU_ITEM
               ? new MenuItemClickListener(context, item, action, title, pipeline, analytics)
               : new CollapseActionClickListener(
-                  context, action.node, title, action.longClick, pipeline, analytics));
+                  context,
+                  action.node,
+                  title,
+                  action.longClick,
+                  item.pattern() == CollapseScript.Pattern.COMPOSITE_ROOT,
+                  item.composedLabel(),
+                  action.label,
+                  pipeline,
+                  analytics));
       menuItem.setCheckable(false);
       menuItems.add(menuItem);
     }
@@ -131,18 +148,27 @@ public class CollapsedItemActions implements NodeMenu {
     private final Context context;
     private final CharSequence label;
     private final boolean longClick;
+    private final boolean compositeRoot;
+    private final @Nullable CharSequence itemComposedLabel;
+    private final CharSequence actionLabel;
 
     CollapseActionClickListener(
         Context context,
         AccessibilityNodeInfoCompat node,
         CharSequence label,
         boolean longClick,
+        boolean compositeRoot,
+        @Nullable CharSequence itemComposedLabel,
+        CharSequence actionLabel,
         Pipeline.FeedbackReturner pipeline,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
       this.context = context;
       this.label = label;
       this.longClick = longClick;
+      this.compositeRoot = compositeRoot;
+      this.itemComposedLabel = itemComposedLabel;
+      this.actionLabel = actionLabel;
     }
 
     @Override
@@ -164,6 +190,13 @@ public class CollapsedItemActions implements NodeMenu {
      * centre when the node exposes no action, and finally to a simulated press at the
      * child's centre, so the press lands on the same child either way and "not supported"
      * is only reported when every route failed.
+     *
+     * <p>Composite items try one route before all of those: a raw tap on the live button,
+     * re-located in the live tree at activation time (see {@link #rawTapLiveTarget}). The
+     * stored target of a composite item is only the frame around the real button, and its
+     * snapshot can be stale by activation time; the raw tap presses the button itself, at
+     * the point a finger would land, with a finger's duration. Any relocation doubt falls
+     * through to the stored-target routes below, unchanged.
      *
      * <p>The target is refreshed first: the stored node is a snapshot from when the items
      * were built and the app may have re-created the child since, leaving the snapshot with
@@ -203,44 +236,49 @@ public class CollapsedItemActions implements NodeMenu {
           boundsBefore,
           boundsAfter,
           refreshed);
-      logAccessibilityFocus();
-      boolean performed = false;
-      if (longClick ? supportsLongClick : supportsClick) {
-        performed =
-            pipeline.returnFeedback(
-                EVENT_ID_UNTRACKED,
-                Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
-        LogUtils.v(TAG, "tier1 nodeAction result=%b", performed);
-      }
-      if (!performed) {
-        if (boundsAfter.isEmpty()) {
-          LogUtils.v(TAG, "tier2 skipped: target bounds empty after refresh");
-        } else {
+      AccessibilityNodeInfoCompat focusNode = focusNodeProvider.getFocusNode(context);
+      try {
+        logAccessibilityFocus(focusNode);
+        boolean performed = false;
+        if (compositeRoot) {
+          performed = rawTapLiveTarget(focusNode);
+        }
+        if (!performed && (longClick ? supportsLongClick : supportsClick)) {
           performed =
               pipeline.returnFeedback(
                   EVENT_ID_UNTRACKED,
-                  Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
-          LogUtils.v(
-              TAG, "tier2 %s result=%b", longClick ? "LONG_CLICK_NODE" : "CLICK_NODE", performed);
+                  Feedback.nodeAction(node, actionId).vibration(R.array.view_clicked_pattern));
+          LogUtils.v(TAG, "tier1 nodeAction result=%b", performed);
+        }
+        if (!performed) {
+          if (boundsAfter.isEmpty()) {
+            LogUtils.v(TAG, "tier2 skipped: target bounds empty after refresh");
+          } else {
+            performed =
+                pipeline.returnFeedback(
+                    EVENT_ID_UNTRACKED,
+                    Feedback.focus(longClick ? LONG_CLICK_NODE : CLICK_NODE).setTarget(node));
+            LogUtils.v(
+                TAG,
+                "tier2 %s result=%b",
+                longClick ? "LONG_CLICK_NODE" : "CLICK_NODE",
+                performed);
+          }
+        }
+        if (!performed) {
+          performed = simulatedTapper.tap(context, node, longClick);
+          LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
+        }
+        LogUtils.v(TAG, "perform result=%b", performed);
+        return performed;
+      } finally {
+        if (focusNode != null) {
+          focusNode.recycle();
         }
       }
-      if (!performed) {
-        performed = simulatedTapper.tap(context, node, longClick);
-        LogUtils.v(TAG, "tier3 simulatedTap result=%b", performed);
-      }
-      LogUtils.v(TAG, "perform result=%b", performed);
-      return performed;
     }
 
-    private void logAccessibilityFocus() {
-      AccessibilityNodeInfoCompat focus = null;
-      if (context instanceof AccessibilityService) {
-        try {
-          focus = FocusFinder.getAccessibilityFocusNode((AccessibilityService) context, false);
-        } catch (RuntimeException e) {
-          focus = null;
-        }
-      }
+    private void logAccessibilityFocus(@Nullable AccessibilityNodeInfoCompat focus) {
       if (focus == null) {
         LogUtils.v(TAG, "focus node: none");
         return;
@@ -253,7 +291,117 @@ public class CollapsedItemActions implements NodeMenu {
           focus.getClassName(),
           focusBounds,
           focus.equals(node));
-      focus.recycle();
+    }
+
+    /**
+     * The raw-tap route for composite items: presses the live button itself with one
+     * finger-like stroke, instead of routing the press through the stored frame. The
+     * button is re-located at activation time (see {@link #relocateLiveTapNode}); when it
+     * cannot be pinned down with certainty this returns false and the stored-target tiers
+     * run as before.
+     */
+    private boolean rawTapLiveTarget(@Nullable AccessibilityNodeInfoCompat focusNode) {
+      AccessibilityNodeInfoCompat tapNode = relocateLiveTapNode(focusNode);
+      if (tapNode == null) {
+        return false;
+      }
+      Rect bounds = new Rect();
+      tapNode.getBoundsInScreen(bounds);
+      long durationMs = rawTapDurationMs(longClick);
+      LogUtils.v(
+          TAG,
+          "rawTap target class=%s bounds=%s durationMs=%d",
+          tapNode.getClassName(),
+          bounds,
+          durationMs);
+      boolean tapped = rawTapper.tap(context, tapNode, durationMs);
+      LogUtils.v(TAG, "tier0 rawTap result=%b", tapped);
+      return tapped;
+    }
+
+    /**
+     * Finds the live node a raw tap should land on, or null when it cannot be identified
+     * with certainty. The anchor is the node holding accessibility focus -- the item the
+     * user is standing on -- re-matched through the engine, and the match is accepted only
+     * when the live item's composed label still equals the composed label of the item
+     * these actions were built from, so the tap can never jump to a neighbouring item.
+     * Inside the live item the action is pinned by its label and press kind, and the node
+     * tapped is the one clickable inside the live action target -- for Facebook the live
+     * Litho button inside its frame -- cross-checked through the script's own action
+     * label, so the tap lands on the same child the stored action names.
+     */
+    private @Nullable AccessibilityNodeInfoCompat relocateLiveTapNode(
+        @Nullable AccessibilityNodeInfoCompat focusNode) {
+      if (focusNode == null) {
+        LogUtils.v(TAG, "rawTap relocation failed: no accessibility focus node");
+        return null;
+      }
+      CollapsedItem liveItem = CollapseEngine.matchRepresentative(context, focusNode);
+      if (liveItem == null) {
+        LogUtils.v(TAG, "rawTap relocation failed: focus is not a collapsed representative");
+        return null;
+      }
+      if (!TextUtils.equals(liveItem.composedLabel(), itemComposedLabel)) {
+        LogUtils.v(TAG, "rawTap relocation failed: live item label differs from the menu item");
+        return null;
+      }
+      ChildAction liveAction = null;
+      for (ChildAction candidate : liveItem.actions()) {
+        if (candidate.kind == ChildAction.Kind.CLICK
+            && candidate.longClick == longClick
+            && TextUtils.equals(candidate.label, actionLabel)) {
+          if (liveAction != null) {
+            LogUtils.v(TAG, "rawTap relocation failed: action label matches two live actions");
+            return null;
+          }
+          liveAction = candidate;
+        }
+      }
+      if (liveAction == null) {
+        LogUtils.v(TAG, "rawTap relocation failed: action not found in the live item");
+        return null;
+      }
+      ItemScan scan = ItemScan.of(liveItem.itemRoot());
+      if (scan == null) {
+        LogUtils.v(TAG, "rawTap relocation failed: live item cannot be scanned");
+        return null;
+      }
+      AccessibilityNodeInfoCompat tapNode = null;
+      for (AccessibilityNodeInfoCompat clickable : scan.clickables()) {
+        if (!clickable.equals(liveAction.node)
+            && !AccessibilityNodeInfoUtils.hasAncestor(clickable, liveAction.node)) {
+          continue;
+        }
+        if (tapNode != null) {
+          LogUtils.v(TAG, "rawTap relocation failed: two clickables inside the live target");
+          return null;
+        }
+        tapNode = clickable;
+      }
+      if (tapNode == null) {
+        LogUtils.v(TAG, "rawTap relocation failed: no clickable inside the live target");
+        return null;
+      }
+      CollapseScript script = CollapseScripts.forPackage(liveItem.itemRoot().getPackageName());
+      if (script == null
+          || !TextUtils.equals(
+              script.actionLabel(tapNode, ItemScan.spokenLabel(tapNode)), actionLabel)) {
+        LogUtils.v(TAG, "rawTap relocation failed: live button label differs from the action");
+        return null;
+      }
+      Rect bounds = new Rect();
+      tapNode.getBoundsInScreen(bounds);
+      if (bounds.isEmpty()) {
+        LogUtils.v(TAG, "rawTap relocation failed: live button bounds empty");
+        return null;
+      }
+      return tapNode;
+    }
+
+    private static long rawTapDurationMs(boolean longClick) {
+      return longClick
+          ? ViewConfiguration.getLongPressTimeout() + RAW_TAP_LONG_PRESS_MARGIN_MS
+          : RAW_TAP_DURATION_MS;
     }
   }
 
@@ -305,6 +453,72 @@ public class CollapsedItemActions implements NodeMenu {
     path.moveTo(bounds.centerX(), bounds.centerY());
     long durationMs =
         longClick ? ViewConfiguration.getLongPressTimeout() : ViewConfiguration.getTapTimeout();
+    GestureDescription gesture =
+        new GestureDescription.Builder()
+            .addStroke(
+                new GestureDescription.StrokeDescription(path, /* startTime= */ 0, durationMs))
+            .build();
+    return ((AccessibilityService) context)
+        .dispatchGesture(gesture, /* callback= */ null, /* handler= */ null);
+  }
+
+  /** Supplies the node holding accessibility focus; a seam so tests can stand in for it. */
+  interface FocusNodeProvider {
+    @Nullable AccessibilityNodeInfoCompat getFocusNode(Context context);
+  }
+
+  private static FocusNodeProvider focusNodeProvider = CollapsedItemActions::fetchFocusNode;
+
+  @VisibleForTesting
+  static void setFocusNodeProviderForTest(FocusNodeProvider provider) {
+    focusNodeProvider = provider;
+  }
+
+  @VisibleForTesting
+  static void resetFocusNodeProviderForTest() {
+    focusNodeProvider = CollapsedItemActions::fetchFocusNode;
+  }
+
+  private static @Nullable AccessibilityNodeInfoCompat fetchFocusNode(Context context) {
+    if (!(context instanceof AccessibilityService)) {
+      return null;
+    }
+    try {
+      return FocusFinder.getAccessibilityFocusNode((AccessibilityService) context, false);
+    } catch (RuntimeException e) {
+      return null;
+    }
+  }
+
+  /** Dispatches one raw tap at a node's centre; a seam so tests can record the tap. */
+  interface RawTapper {
+    boolean tap(Context context, AccessibilityNodeInfoCompat node, long durationMs);
+  }
+
+  private static RawTapper rawTapper = CollapsedItemActions::dispatchRawTap;
+
+  @VisibleForTesting
+  static void setRawTapperForTest(RawTapper tapper) {
+    rawTapper = tapper;
+  }
+
+  @VisibleForTesting
+  static void resetRawTapperForTest() {
+    rawTapper = CollapsedItemActions::dispatchRawTap;
+  }
+
+  private static boolean dispatchRawTap(
+      Context context, AccessibilityNodeInfoCompat node, long durationMs) {
+    if (!(context instanceof AccessibilityService)) {
+      return false;
+    }
+    Rect bounds = new Rect();
+    node.getBoundsInScreen(bounds);
+    if (bounds.isEmpty()) {
+      return false;
+    }
+    Path path = new Path();
+    path.moveTo(bounds.centerX(), bounds.centerY());
     GestureDescription gesture =
         new GestureDescription.Builder()
             .addStroke(

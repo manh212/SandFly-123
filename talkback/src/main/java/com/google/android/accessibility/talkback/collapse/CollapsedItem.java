@@ -113,6 +113,7 @@ public final class CollapsedItem {
   private final @Nullable CharSequence composedLabel;
   private final @Nullable AccessibilityNodeInfoCompat activationTarget;
   private final @Nullable AccessibilityNodeInfoCompat selectionTarget;
+  private final CollapseScript.Pattern pattern;
 
   CollapsedItem(
       AccessibilityNodeInfoCompat itemRoot,
@@ -120,13 +121,15 @@ public final class CollapsedItem {
       List<ChildAction> actions,
       @Nullable CharSequence composedLabel,
       @Nullable AccessibilityNodeInfoCompat activationTarget,
-      @Nullable AccessibilityNodeInfoCompat selectionTarget) {
+      @Nullable AccessibilityNodeInfoCompat selectionTarget,
+      CollapseScript.Pattern pattern) {
     this.itemRoot = itemRoot;
     this.representative = representative;
     this.actions = actions;
     this.composedLabel = composedLabel;
     this.activationTarget = activationTarget;
     this.selectionTarget = selectionTarget;
+    this.pattern = pattern;
   }
 
   public AccessibilityNodeInfoCompat itemRoot() {
@@ -155,6 +158,11 @@ public final class CollapsedItem {
   /** Node that text selection should target instead of the representative, or null. */
   public @Nullable AccessibilityNodeInfoCompat selectionTarget() {
     return selectionTarget;
+  }
+
+  /** The representative strategy of the script that matched this item. */
+  public CollapseScript.Pattern pattern() {
+    return pattern;
   }
 
   /** Whether the node is the item root or one of its descendants. */
