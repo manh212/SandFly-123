@@ -120,6 +120,7 @@ public class YouTubeCollapseScriptTest {
   public void itemOutsideACollection_doesNotMatch() {
     AccessibilityNodeInfoCompat screen =
         CollapseTestTrees.node(null, "android.view.ViewGroup");
+    screen.setPackageName(CollapseTestTrees.YOUTUBE_PACKAGE);
     AccessibilityNodeInfoCompat fakeItem =
         CollapseTestTrees.node(screen, "android.view.ViewGroup");
     fakeItem.setFocusable(true);

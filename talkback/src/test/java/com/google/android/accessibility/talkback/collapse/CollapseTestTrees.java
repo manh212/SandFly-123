@@ -35,6 +35,12 @@ final class CollapseTestTrees {
     info.setVisibleToUser(true);
     if (parent != null) {
       shadowOf(parent.unwrap()).addChild(info);
+      // Real nodes always carry their app package; set it at creation because setting it
+      // later through getChild() would only reach the obtained copies, not this node.
+      CharSequence parentPackage = parent.getPackageName();
+      if (parentPackage != null) {
+        info.setPackageName(parentPackage.toString());
+      }
     }
     return AccessibilityNodeInfoCompat.wrap(info);
   }
