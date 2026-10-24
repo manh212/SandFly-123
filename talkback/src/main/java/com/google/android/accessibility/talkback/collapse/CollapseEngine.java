@@ -259,8 +259,7 @@ public final class CollapseEngine {
         continue;
       }
       for (CollapseScript.MenuCatalog.Item item : catalog.items) {
-        expanded.add(
-            ChildAction.menuItem(menuButton, item.labelResId, catalog.sheetItemLabelViewId));
+        expanded.add(ChildAction.menuItem(menuButton, item, catalog.sheetItemLabelViewId));
       }
     }
     expanded.add(ChildAction.menuOpen(menuButton, catalog.openMenuLabelResId));

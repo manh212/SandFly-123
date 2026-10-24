@@ -16,7 +16,9 @@
 
 package com.google.android.accessibility.talkback.collapse;
 
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -94,6 +96,31 @@ public class YouTubeCollapseScriptTest {
     assertEquals(ChildAction.Kind.MENU_OPEN, actions.get(12).kind);
     assertEquals(tree.menu, actions.get(12).node);
     assertEquals(R.string.title_collapse_menu_open, actions.get(12).labelResId);
+  }
+
+  @Test
+  public void catalog_watchLaterAndDownloadsAreToggles_theRestArePlain() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    YouTubeTree tree = CollapseTestTrees.youTubeItem(list, 0);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.item, SCRIPTS);
+    List<ChildAction> actions = item.actions();
+
+    // Index 4 is Watch later: a toggle whose recorded variants all share one stable core.
+    ChildAction watchLater = actions.get(4);
+    assertEquals(R.string.title_collapse_menu_watch_later, watchLater.labelResId);
+    assertNotNull(watchLater.menuStateVariants);
+    assertArrayEquals(new String[] {"Xem sau", "Watch later"}, watchLater.menuStateCores);
+    // Index 6 is downloads: the second toggle.
+    ChildAction downloads = actions.get(6);
+    assertEquals(R.string.title_collapse_menu_remove_download, downloads.labelResId);
+    assertNotNull(downloads.menuStateVariants);
+    assertArrayEquals(new String[] {"tải xuống", "download"}, downloads.menuStateCores);
+    // Their neighbours stay plain: the offered label is itself the exact match key.
+    assertNull(actions.get(5).menuStateCores);
+    assertNull(actions.get(5).menuStateVariants);
+    assertNull(actions.get(7).menuStateCores);
+    assertNull(actions.get(7).menuStateVariants);
   }
 
   @Test

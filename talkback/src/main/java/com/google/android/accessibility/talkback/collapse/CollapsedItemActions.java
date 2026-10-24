@@ -233,6 +233,8 @@ public class CollapsedItemActions implements NodeMenu {
   private static class MenuItemClickListener extends AbstractOnContextMenuItemClickListener {
     private final Context context;
     private final String targetLabel;
+    private final String[] targetVariants;
+    private final String[] targetCores;
     private final String sheetItemLabelViewId;
     private final String originLabel;
     private final Rect originBounds;
@@ -247,6 +249,8 @@ public class CollapsedItemActions implements NodeMenu {
       super(action.node, pipeline, analytics);
       this.context = context;
       this.targetLabel = title.toString();
+      this.targetVariants = action.menuStateVariants;
+      this.targetCores = action.menuStateCores;
       this.sheetItemLabelViewId = action.sheetItemLabelViewId;
       CharSequence label = ItemScan.spokenLabel(item.representative());
       this.originLabel = label == null ? "" : label.toString();
@@ -261,7 +265,15 @@ public class CollapsedItemActions implements NodeMenu {
           return true;
         }
         return MenuAutomation.begin(
-            pipeline, context, node, targetLabel, sheetItemLabelViewId, originLabel, originBounds);
+            pipeline,
+            context,
+            node,
+            targetLabel,
+            targetVariants,
+            targetCores,
+            sheetItemLabelViewId,
+            originLabel,
+            originBounds);
       } finally {
         clear();
       }
