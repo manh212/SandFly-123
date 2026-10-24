@@ -40,7 +40,7 @@ Low-latency audio also changes how pausing speech works. When you tap with two f
 
 With low-latency audio on, SandFly also watches for a speech engine that stops responding. If the engine says nothing about new speech for 3 seconds, SandFly switches to the next installed engine.
 
-Low-latency audio is on by default, except on Wear OS watches. If you used an earlier version of SandFly with the setting off, SandFly turns it on once when you update. If speech or sounds break up, turn the setting off. Low-latency speech requires Android 11 or later; on older versions, only SandFly's sounds use the fast path. Speech falls back to the usual path for engines that play their own audio or that report errors. During calls, and for 10 seconds after a call starts or ends, speech also plays the usual way. Each sound plays the usual way the first time that SandFly uses it, and 3D sounds still play through the 3D player.
+Low-latency audio is on by default. If you used an earlier version of SandFly with the setting off, SandFly turns it on once when you update. If speech or sounds break up, turn the setting off. Low-latency speech requires Android 11 or later; on older versions, only SandFly's sounds use the fast path. Speech falls back to the usual path for engines that play their own audio or that report errors. During calls, and for 10 seconds after a call starts or ends, speech also plays the usual way. Each sound plays the usual way the first time that SandFly uses it, and 3D sounds still play through the 3D player.
 
 ### Less lag while scrolling
 
@@ -169,7 +169,7 @@ A window name that a key stopped isn't spoken later. Pressing Ctrl alone pauses 
 
 While another app records from the microphone without headphones, and during calls, TalkBack dropped announcements that you asked for with a gesture or key. SandFly speaks them: the time and date, the battery, the status, the window title, phonetic letters, **Inspect focused item**, and turning scripts on or off.
 
-With **Text-to-speech** > **Quiet while recording** on, SandFly stays quiet while an app records without headphones, except for speech within two seconds of a touch, gesture, key or braille input, so that notifications and other speech you didn't ask for aren't recorded. It's off by default.
+With **Text-to-speech** > **Quiet while recording** on, SandFly stays quiet while an app records without headphones, except for speech within two seconds of a touch, gesture or key, so that notifications and other speech you didn't ask for aren't recorded. It's off by default.
 
 ### Speak volume changes
 
@@ -177,9 +177,9 @@ To stop SandFly from saying the new volume after you press the volume keys, turn
 
 ### Keyboard echo
 
-**Keyboard echo**, first under **Typing and braille**, sets the echo for each way of typing: **On-screen keyboard**, **Physical keyboard**, **Braille keyboard** and **Braille display**, each with **None**, **Characters**, **Words**, or **Characters and words**. In TalkBack, keyboard echo is in **Verbosity**, and the braille keyboard follows the on-screen keyboard's setting. Each echo setting is also a reading control and a SandFly menu item, which you can turn on in **Reading controls** and **SandFly menu**. Keyboard echo isn't part of the verbosity presets. When you update, SandFly copies your earlier echo settings once.
+**Keyboard echo**, under **Typing**, sets the echo for each way of typing: **On-screen keyboard** and **Physical keyboard**, each with **None**, **Characters**, **Words**, or **Characters and words**. In TalkBack, keyboard echo is in **Verbosity**. Each echo setting is also a reading control and a SandFly menu item, which you can turn on in **Reading controls** and **SandFly menu**. Keyboard echo isn't part of the verbosity presets. When you update, SandFly copies your earlier echo settings once.
 
-Word echo says the whole word, back to the last space, as it is in the field. TalkBack said only the part typed since the last punctuation, such as "normal" for "non-normal", and only the changed letters of a corrected word. Words with apostrophes or hyphens, such as "don't", are one word, and a web or email address is one word. When a keyboard adds a word, its punctuation, and a space all at once, as the braille keyboard does in contracted braille, SandFly echoes the word rather than just the space.
+Word echo says the whole word, back to the last space, as it is in the field. TalkBack said only the part typed since the last punctuation, such as "normal" for "non-normal", and only the changed letters of a corrected word. Words with apostrophes or hyphens, such as "don't", are one word, and a web or email address is one word. When a keyboard adds a word, its punctuation, and a space all at once, SandFly echoes the word rather than just the space.
 
 ### Order of item details
 
@@ -196,7 +196,7 @@ When you turn SandFly off, it says "SandFly off" at the accessibility volume, us
 In **Verbosity**, you can choose whether SandFly reads table column headers before or after the cell's data, or leaves them out:
 
 *   **After cell data**, the default, keeps TalkBack's order: the cell's contents, then the row and column headers or numbers.
-*   **Before cell data** speaks the row and column headers or numbers before the cell's contents, along with "Column heading" or "Row heading" for a header cell. This applies to grids as well as tables, so an item in a photo grid says its row and column first. On a TV, SandFly already speaks them first, so this option changes nothing there.
+*   **Before cell data** speaks the row and column headers or numbers before the cell's contents, along with "Column heading" or "Row heading" for a header cell. This applies to grids as well as tables, so an item in a photo grid says its row and column first.
 *   **Do not read** leaves column headers out, and reads column numbers only when row and column numbers are on.
 
 Under preset settings in **Verbosity**, you can also turn off **Speak row and column numbers** to hear only named headers without row and column coordinates. The setting is on by default.
@@ -216,11 +216,17 @@ With **After the letter, no delay** and **Instead of the letter**, SandFly says 
 
 The **High** preset uses **After the letter, delayed** and the **Low** preset uses **Off**. Your choice from the switch carries over.
 
+### Translate last spoken utterance
+
+The **Translate last spoken utterance** action translates the last phrase that SandFly said and speaks the translation. You can assign it to a gesture or a keyboard shortcut, or add it to the SandFly menu. SandFly keeps only the most recent utterance, in memory: there is no history, and nothing is kept after SandFly stops.
+
+Translation runs on the phone, with ML Kit, so it works without a network connection. **Feedback** > **Offline translation** chooses the source and target languages and downloads the language pack for the pair. Until the pack is downloaded, the action says that it isn't.
+
 ## Notifications
 
 ### Samsung watch notification content
 
-On Samsung watches, SandFly reads the app and title, then the message content, then the time when you focus a notification card. Samsung's card label can omit the message even though it is available in the accessibility tree. SandFly includes that text automatically, without an extra gesture or setting, and does not announce the card's display font formatting.
+This fork has no watch version, so there are no watch notification cards to read. See [Wear OS watches](#wear-os-watches).
 
 ### Reading notifications
 
@@ -234,7 +240,7 @@ TalkBack reads each new notification with a fixed format and has no settings for
 *   **Rules**: conditions, such as a Bluetooth device or Wi-Fi network being connected, the battery, charging, the time, the app in front, the app or text of the notification, and actions, such as not reading it, reading only the app name, another speech format, reading it with a voice profile, or reading it first. A rule's voice takes the place of the app's. **Add a rule from a template** starts from rules such as **Silent at night**.
 *   **Repeats**: skip the same notification for a while, a minimum time between an app's notifications, and leave out a start that repeats, such as a group name in a chat.
 *   **Stop reading**: shake, wave over the proximity sensor, press both volume keys, dismiss the notification, or the app removes it.
-*   **Summary and time**: read the notifications in the shade now or every day at a set time, and say the time at a set interval.
+*   **Summary and time**: read the notifications in the shade now or every day at a set time. Saying the time at a set interval is in [Timer settings](#timer-settings).
 *   **History**: the last 100 notifications, each with whether it was read and why not, and actions such as **Don't read notifications like this**.
 *   **Send a test notification**, **Allow automation apps** and **Automation**, which let apps such as Tasker turn notification speech on or off, stop it, or read the notifications.
 
@@ -268,6 +274,18 @@ With **Advanced settings** > **Use SandFly's quick settings** on, the Quick sett
 
 Android only lets the system and the shell change some settings, and only lets the system run tiles. With Shizuku running, SandFly changes the radios, the hotspot, data saver, battery saver, dark theme and the microphone and camera switches with shell commands, runs app tiles with `cmd statusbar click-tile`, and gives itself the permissions it needs for the rest. Without Shizuku, those switches open the system's settings for them. System tiles, and app tiles without Shizuku, are used in the system's quick settings: SandFly opens them, activates the tile and closes them without speaking them, and then says the tile's new state.
 
+## Timer and stopwatch
+
+### Timer settings
+
+**Timer settings**, in the main settings, gathers the time announcements that TalkBack keeps in its notification settings: how often SandFly says the time, the words it says it with, and **Exact times**, which says the time on the minute and needs the Alarms and reminders permission. Without that permission, the time can be said up to a minute late.
+
+### Stopwatch
+
+The **Stopwatch** screen, from **Timer settings**, has **Sound** and **Vibration** switches for the stopwatch's start, stop and reminder signals, and **Remind every**, which sets how often it says how long it has run: every 10 minutes by default. Starting it says "Stopwatch started"; stopping it says how long it ran. When the screen turns on while it runs, SandFly says how long it has run, then the time. **Timer history** lists the runs that have finished.
+
+The **Toggle stopwatch** action starts it or stops it. By default, holding volume up at the lock screen performs it; see [Volume key settings](#volume-key-settings).
+
 ## Sound and vibration
 
 ### Audio output device
@@ -284,7 +302,7 @@ Like VoiceOver, SandFly can tell you what happened by touch alone. Every sound h
 
 Frequent actions are a single hit: a soft tap when focus lands on an item, a firm click on an item that you can activate, and a softer tap over an empty area. Others have a rhythm of their own. The end of a list, or a completed action, is two firm knocks. Entering a list is two light taps with the second one stronger, and leaving a list is two light taps with the second one weaker. A window change is three soft taps with the middle one strongest. When SandFly scrolls a list, you feel three quick ticks. When the circle menu opens, you feel one tick for each item. The loading tone, which repeats while you wait for an image or screen description, has a short heartbeat that's firm enough to feel through a case.
 
-Progress bar tones, the sound for capital letters, and braille display and braille keyboard sounds don't vibrate. The braille keyboard has vibrations of its own, which **Vibration feedback** turns on and off with the rest. Phones that support rich haptics play the vibrations as composed effects. Phones without them play softer and shorter forms of the same patterns.
+Progress bar tones and the sound for capital letters don't vibrate. Phones that support rich haptics play the vibrations as composed effects. Phones without them play softer and shorter forms of the same patterns.
 
 **Sound feedback volume** is a slider from 5 to 100 percent in steps of 5, rather than a list of 25, 50, 75 and 100 percent. **Vibration strength**, below **Vibration feedback**, sets how strong vibrations are, from 5 to 100 percent, on phones whose vibrator can vary its strength.
 
@@ -294,11 +312,11 @@ TalkBack played its scroll sound and vibration at most every 250 ms while you sc
 
 ### Individual sounds and vibrations
 
-To turn off one sound or one vibration and keep the rest, go to **Sound and vibration** > **Individual sounds and vibrations**. There's a switch for each sound and each vibration, including the braille display and braille keyboard sounds, the braille keyboard's vibrations, and the screen-off sound. Turning off a sound keeps its vibration, and turning off a vibration keeps its sound. To hear or feel one, open the actions menu on its switch and choose **Preview**. **Sound feedback** and **Vibration feedback** still turn all of them off at once.
+To turn off one sound or one vibration and keep the rest, go to **Sound and vibration** > **Individual sounds and vibrations**. There's a switch for each sound and each vibration, including the screen-off sound. Turning off a sound keeps its vibration, and turning off a vibration keeps its sound. To hear or feel one, open the actions menu on its switch and choose **Preview**. **Sound feedback** and **Vibration feedback** still turn all of them off at once.
 
 ### Sound themes
 
-A sound theme is a set of sounds and vibrations that replace SandFly's own, with its own control sounds and 3D audio settings. You can install as many themes as you like, from a file or a link, and switch between them in **Sound and vibration** > **Sound themes**. A link to a GitHub repository that contains a theme also works, and you can open or share a theme file, or a link to one, with SandFly from another app. On Wear OS watches, you can install themes only from a link.
+A sound theme is a set of sounds and vibrations that replace SandFly's own, with its own control sounds and 3D audio settings. You can install as many themes as you like, from a file or a link, and switch between them in **Sound and vibration** > **Sound themes**. A link to a GitHub repository that contains a theme also works, and you can open or share a theme file, or a link to one, with SandFly from another app.
 
 To replace single sounds with your own, open **Sounds** under the theme that you're using. To share your sounds, save the theme as a file. For more information about installing, using, and making themes, see [Sound themes](themes.md).
 
@@ -316,7 +334,7 @@ To keep hearing the kind of control as well, turn on **Still say the kind of con
 
 TalkBack plays a sound and vibration when a gesture starts and another when it ends. SandFly plays neither. In their place, a sound theme can give a sound and a vibration to each of these:
 
-- **Next reading control** and **Previous reading control**: selecting another reading control, with a gesture, the rotor, a keyboard shortcut or the braille keyboard.
+- **Next reading control** and **Previous reading control**: selecting another reading control, with a gesture, the rotor or a keyboard shortcut.
 - **Edge gesture bottom**, **Edge gesture middle** and **Edge gesture top**: a finger touching an edge where an edge gesture starts, the gesture reaching its first click, and the gesture reaching its second click. Sliding back plays the sound of the place the finger is back at. Lifting plays nothing.
 - **Insertion point moved**: moving by character, word, line or paragraph moves the cursor in a text field you are editing.
 - **Column wrap** and **Column wrap back**: swiping forward to an item below the row you are in, and back to an item above it. Each item of a list is a row of its own; items side by side, such as icons on a home screen, cells of a table, or a title with buttons beside it, share a row. The sound plays with the focus sound, and its vibration plays in place of the focus vibration.
@@ -347,11 +365,9 @@ SandFly changes these default gestures:
 | Double-tap with three fingers | Turn speech on or off | Copy |
 | Triple-tap with three fingers | Copy last spoken phrase | Paste |
 | Triple-tap and hold with three fingers | Paste | None |
-| Double-tap and hold with two fingers | Braille keyboard | Selection mode |
+| Double-tap and hold with two fingers | None | Selection mode |
 | Triple-tap with two fingers | Speak status | Read from focused item |
 | Triple-tap and hold with two fingers | None | Turn speech on or off |
-
-Wear OS watches have defaults of their own; see [Wear OS watches](#wear-os-watches).
 
 ### Navigation gestures
 
@@ -366,8 +382,8 @@ SandFly adds these actions, which you can assign to gestures in gesture settings
 *   **Open app**, at the end of the list of actions, lists the apps on the home screen. A gesture set to an app opens it, as its home screen icon does.
 *   **Lock screen** and **Power menu**, in **System actions**.
 *   **Increase media volume** and **Decrease media volume**, in **Special features**, change the media volume a step and say the new volume.
-*   **Scroll to top** and **Scroll to bottom**, in **Basic navigation**, scroll the list that focus is in to its start or end a page at a time, then focus its first or last item. In a list that doesn't scroll, such as a short settings screen, they focus its first or last item. Outside a list, they use the first list on screen, or the first or last item on screen when there is none. A touch, gesture or key while it scrolls stops it. These aren't on watches.
-*   **Turn browse mode on or off**, in **Menu and controls**, does what Action pressed twice does on a keyboard. It is also a keyboard shortcut, **Another shortcut to turn browse mode on or off**, unassigned by default, for keyboards that take Action pressed twice for themselves. Both need the default keymap, not the classic one, and aren't on watches.
+*   **Scroll to top** and **Scroll to bottom**, in **Basic navigation**, scroll the list that focus is in to its start or end a page at a time, then focus its first or last item. In a list that doesn't scroll, such as a short settings screen, they focus its first or last item. Outside a list, they use the first list on screen, or the first or last item on screen when there is none. A touch, gesture or key while it scrolls stops it.
+*   **Turn browse mode on or off**, in **Menu and controls**, does what Action pressed twice does on a keyboard. It is also a keyboard shortcut, **Another shortcut to turn browse mode on or off**, unassigned by default, for keyboards that take Action pressed twice for themselves. Both need the default keymap, not the classic one.
 *   **Refresh**, in **Basic navigation** and as a keyboard shortcut, scrolls the list that focus is in to its top and pulls it down, which refreshes it in most apps. **Scroll back** and **Scroll up** pull a list down too when it is already at its top, as scrolling with two fingers does. SandFly sends the pull as a swipe, so it needs Android 11 or later.
 *   **System quick settings** and **System notification shade** open the system's own quick settings and notification shade, when **Use SandFly's quick settings** or **Use SandFly's notification list** is on.
 
@@ -425,7 +441,7 @@ This needs a phone whose `dumpsys input` lists the touches that Android holds fo
 
 ### Focus in new windows
 
-When a window opens, or you go back, TalkBack moves focus into it: back to the item you were on, to the text field with the cursor, or to the first item. To leave focus alone, turn off **Controls** > **Navigation** > **Move focus to new windows**. SandFly then speaks only the window name, and the next swipe moves to the first item. This applies to SandFly's own menus and dialogs too, when they open and when they close. Focus follows input focus only when you move it with a key, such as an arrow key or Tab, not when an app moves it by itself. When the item you focused disappears and the windows haven't changed, focus is placed again. The switch isn't on TVs, which need focus to follow input focus.
+When a window opens, or you go back, TalkBack moves focus into it: back to the item you were on, to the text field with the cursor, or to the first item. To leave focus alone, turn off **Controls** > **Navigation** > **Move focus to new windows**. SandFly then speaks only the window name, and the next swipe moves to the first item. This applies to SandFly's own menus and dialogs too, when they open and when they close. Focus follows input focus only when you move it with a key, such as an arrow key or Tab, not when an app moves it by itself. When the item you focused disappears and the windows haven't changed, focus is placed again.
 
 ### Gestures recognized by Android
 
@@ -470,6 +486,10 @@ When you turn on **Controls** > **Touch and activation** > **Volume keys adjust 
 
 **Controls** > **Touch and activation** > **Volume keys move the cursor**, off by default, makes the volume keys move the cursor while a text field has focus: volume up moves it back a character and volume down moves it on, saying the character.
 
+### Volume key settings
+
+**Controls** > **Volume key settings** is a screen of its own. With **SandFly manages volume keys** on, SandFly handles the volume keys itself, without showing the system volume panel, and you choose what each of six presses does: **Volume up press**, **Volume up press and hold**, **Volume up press and hold on the lock screen**, and the same three for volume down. By default, a press raises or lowers the volume, a hold does nothing, and holding volume up at the lock screen toggles the stopwatch. The switches for [speaking volume changes](#speak-volume-changes), **Volume keys adjust sliders** and **Volume keys move the cursor** are on this screen too, along with the switch that makes pressing both volume keys stop a notification being read.
+
 ### Browse mode in each app
 
 **Navigation > Remember browse mode in each app**, off by default, keeps browse mode as you last turned it on or off in each app. In an app where you haven't turned it on or off, browse mode is off, unless Smart browse mode turns it on in web content.
@@ -490,7 +510,7 @@ Touching between the icons of the home screen no longer says the page, such as "
 
 ### Shorter menu by default
 
-These items are off by default in the SandFly menu: **Actions**, **Screen search**, **Add or edit labels**, **Describe text formatting**, **Copy last spoken phrase**, **Spoken language**, **Voice commands**, **Keyboard shortcuts**, and **Braille display settings**. You can still use actions with the **Actions** reading control. **Text-to-speech** stays on, so that you can reach speech settings if your speech engine crashes, and SandFly adds a **Pause SandFly** item.
+These items are off by default in the SandFly menu: **Actions**, **Screen search**, **Add or edit labels**, **Describe text formatting**, **Copy last spoken phrase**, **Spoken language**, **Voice commands**, and **Keyboard shortcuts**. You can still use actions with the **Actions** reading control. **Text-to-speech** stays on, so that you can reach speech settings if your speech engine crashes, and SandFly adds a **Pause SandFly** item.
 
 To change the items, go to **SandFly menu**, under **Controls** in SandFly settings. In TalkBack, this screen is under **Customize menus**.
 
@@ -558,7 +578,7 @@ Audio games need raw touch, but explore by touch captures taps and swipes before
 
 Direct touch is all of [NVGT Bridge](https://github.com/trypsynth/nvgt-bridge), the accessibility service that gives audio games direct touch, built into SandFly. Because SandFly is the screen reader and already knows what's on the screen, direct touch works better than running NVGT Bridge alongside SandFly.
 
-There's nothing extra to install or turn on in Accessibility settings, and no second service that can undo SandFly's touch setting. Direct touch shares that setting with the pass-through gesture and the braille keyboard, so none of them cancels another. NVGT Bridge searches each window's views for dialogs and text fields, and looks only five levels deep. SandFly already follows the windows, the keyboard, and the screen state, so it hands touch back to you as soon as they change, with no depth limit. SandFly's own speech says "Direct touch on" and "Direct touch off", even while the game plays audio.
+There's nothing extra to install or turn on in Accessibility settings, and no second service that can undo SandFly's touch setting. Direct touch shares that setting with the pass-through gesture, so neither cancels the other. NVGT Bridge searches each window's views for dialogs and text fields, and looks only five levels deep. SandFly already follows the windows, the keyboard, and the screen state, so it hands touch back to you as soon as they change, with no depth limit. SandFly's own speech says "Direct touch on" and "Direct touch off", even while the game plays audio.
 
 ### Choose your games
 
@@ -621,6 +641,7 @@ The older actions **Start or end Gboard voice input** and **Play or pause media,
   - Whisper runs on the phone (whisper.cpp), with a model downloaded under Whisper models.
   - Android speech recognition uses the service chosen in Android's settings.
   - Google on-device and Android speech recognition start again after each pause until the gesture stops them.
+  - In this fork, those two recognizers keep what they have recognized when a recording fails for good partway through — for example when the recognition service reports that it is busy as the next stretch starts: the text recognized so far is typed instead of thrown away, and only a recording with no recognized text at all reports that recognition isn't available. A busy or client error is also retried on a lengthening schedule — after 300, 600, 1000, 1500 and 2000 ms — instead of five tries 300 ms apart. The pauses that end one stretch of recognition and start the next are decided by the recognition service itself: SandFly asks for 10 seconds of silence tolerance through the recognition intent, which the service may not honor, and there is no segment timer on SandFly's side.
   - Automatic uses Google on-device speech recognition when it is installed and has the phone's language, else Rambler when there is a Gemini API key and Rambler knows the phone's language, else Whisper when a model is downloaded, else Android speech recognition. A chosen one that can't be used gives way to the same order. If Google on-device recognition reports a missing language during recording, the next one takes over without stopping. When Rambler doesn't answer, the recording is transcribed with Whisper if a model is downloaded.
 - **Whisper models**: Tiny (32 MB), Base (60 MB), Small (190 MB) and Large v3 Turbo (574 MB), all multilingual and quantized, from Hugging Face, checked against their SHA-256. Tapping a model downloads it (asking first on mobile data), or, once downloaded, offers Use and Delete. The first downloaded model is used. Whisper is told the phone's language when it knows it, else it detects the language.
 - **Correct dictation with AI** (on by default) and **AI service for dictation**: Same as automatic descriptions (the default), any AI service that is set up, or On-device AI when its model is downloaded. So Rambler or Whisper can do the recognition while a different service corrects it, and a different service from the one describing images. The text of Google on-device, Whisper and Android speech recognition goes to that service first, with up to 300 characters of the text before the cursor, for the cleanup that Gboard's Rambler does on Google's servers: filler words, stutters and false starts removed, self-corrections resolved ("two, no, three" becomes "three"), punctuation and capital letters added, misheard words corrected, and numbers, dates and spoken lists formatted. With On-device AI, all of dictation stays on the phone and works with any keyboard. (Rambler itself can't be used by other apps: Gboard sends the audio to Google's speech servers, which accept only Gboard, and runs on-device recognition beside it as a fallback. Gemini Nano, through ML Kit GenAI, only answers the app in the foreground, which SandFly never is while you dictate into another app.) Rambler's text isn't sent again. If the service doesn't answer within 20 seconds (60 for on-device AI), or answers with something much longer than what you said, the text is typed as recognized; Dictate performed while it waits does the same at once. Dictation into a password field isn't sent to the service.
@@ -640,73 +661,11 @@ In **On-screen keyboard** > **Typing method**, **Hold finger to select any key, 
 This needs Android 11 or later; on older versions the method types like lift to type for every key. If the keyboard is also turned on in **Direct touch**, touches there go straight to the keyboard, so this method has no key to type.
 ## Braille keyboard
 
-### Keyboard echo for the braille keyboard
-
-In TalkBack, the braille keyboard follows the on-screen keyboard's echo setting. In SandFly, the braille keyboard has its own setting in **Keyboard echo**; see [Keyboard echo](#keyboard-echo). The capital and number signs follow it too.
-
-### Next braille table
-
-Hold dots 4, 5 and 6 and swipe down to switch to the next of the braille keyboard's languages. Contracted braille is turned on or off as it was when you last used that language, and SandFly says the language and whether it's contracted. Speech changes to your first voice profile in that language, if you have one, and back to **SandFly default** when the new language has none. You can change the gesture in the braille keyboard's gesture settings.
-
-### Mongolian braille
-
-The braille languages include Mongolian, uncontracted and contracted, from the liblouis tables.
-
-### Typing sounds
-
-In braille keyboard settings, **Typing sounds** plays Android's keyboard clicks as you type: a click for each character, and the space, delete, and return sounds for those actions. It's off by default, and it works even when touch sounds are off in Android's settings. A [sound theme](themes.md) can replace these sounds with its own.
-
-### Swap top and bottom dots
-
-In braille keyboard settings, **Swap top and bottom dots** makes dot 1 trade places with dot 3, and dot 4 with dot 6. TalkBack's **Reverse dots** is called **Swap left and right dots** in SandFly. You can turn on both.
-
-### Skip the tutorial
-
-The first page of the braille keyboard tutorial has a **Skip tutorial** button, which opens the keyboard immediately.
-
-### Haptics
-
-The braille keyboard uses the same crisp vibration effects as the rest of SandFly. Submitting text feels the same as closing or switching the keyboard. Deleting in an empty field gives a soft vibration that fades out, so that you know that there was nothing to delete.
-
-### Navigation that stays in the text field
-
-If you swiped to another control while the braille keyboard opened, TalkBack moved by character, word, or line in that control instead of in the text field. SandFly moves focus back to the text field before each command.
-
-### Dots that follow how you hold the device
-
-The braille keyboard keeps the dots under your fingers whichever way round you hold the device, with auto-rotate on or off. TalkBack expected the charging port on one side when auto-rotate was off, so holding the phone the other way round typed dot 4 for dot 1.
-
-SandFly remembers how you last held the device up, the whole time that the screen is on, as auto-rotate does. In screen-away mode, the dots follow how you hold the device. In tabletop mode, laying the device flat keeps the side that you held it up with, even from before the keyboard opened, and turning it on the table turns the dots with it. The keyboard says where the charging port is when the mode changes and after each turn, such as "Tabletop mode, charging port on the left". On a phone, the dots turn when the port moves to your other side, because you type with the port on your left or right; a quarter turn in between says "Charging port toward you" or "Charging port away from you". On a tablet or an unfolded foldable, they turn by quarter turns, including upside down, which auto-rotate doesn't do.
-
-#### Lock the orientation
-
-To keep the dots facing the way they are, hold dots 4, 5, and 6 and swipe up. To let them follow the device again, do the same again. There's a lock for each screen size and mode, so you can lock a foldable one way when it's folded and another way when it's unfolded.
-
-#### Tablets held up facing you
-
-Gravity can't tell whether a device that's held up faces you or faces away. When you lay a phone flat after holding it up, SandFly assumes that it faced you, as auto-rotate does, unless you typed on it screen away. The side you typed with screen away is kept, and turns with the phone on the table, until you type on the table. Typing only counts as screen away if you held the phone upright, so tilting a phone that you hold nearly flat in your hands doesn't count. A phone last held in portrait says "Tabletop mode, charging port toward you", and turning it to your left or right on the table puts the port on that side. A tablet or an unfolded foldable that's held in portrait is assumed to have faced you, and one that's held sideways is assumed to have faced away, as when typing screen away.
-
-If you hold or stand your tablet facing you instead, turn off **Tablet held up faces away** in braille keyboard settings. A tablet held up any way round then uses the tabletop layout facing you, with your thumbs holding the bottom edge, and the keyboard says, for example, "Screen toward you, charging port on the left". The dots stay the same way round when you lay the tablet flat. You can also add **Tablet held up faces away** to the reading controls. With the braille keyboard open, swipe right or left with three fingers to reach it, as you would for words or lines, and then swipe down or up with one finger.
-
-#### Limitations
-
-A phone that's opened flat, and that hasn't been held up since the screen came on, follows the screen rotation, and with auto-rotate off expects the port on the left; turning it around on the table, or locking the orientation, corrects this. A phone held up screen away and laid flat without typing, or typed on screen away without ever being held within 40 degrees of upright, is taken to have faced you, so it expects the port on the wrong side; locking the orientation corrects this. Turns on the table require the game rotation vector sensor; devices without it still follow how they're held up. A tablet says where the port is only if it's a portrait tablet with the port at the bottom. Remembering how the device is held keeps the accelerometer running while the screen is on, as auto-rotate does.
+This fork is speech-only, so the braille keyboard isn't included.
 
 ## Braille displays
 
-### EuroBraille b.note and b.book
-
-SandFly's EuroBraille driver is from a newer brltty than TalkBack's, so it also supports the b.note, b.note 2, b.book and b.book 2, with their keypads and navigation keys. Over USB they are found by their USB IDs.
-
-### Any braille display that uses HID
-
-On Android 15 and later, TalkBack connects to braille displays that use the HID braille standard over Bluetooth, but only lists displays whose names it knows, so newer displays and braille terminals were left out. SandFly lists any Bluetooth device that offers HID, whatever its name, and connecting checks that it's a braille display, so other HID devices, such as keyboards, can appear in the list too. TalkBack also refused displays that send their keys and receive their cells in separate HID reports, as the standard allows; SandFly connects to those.
-
-### Displays from other apps
-
-Apps can give SandFly a braille display that it can't connect to on its own, such as the built-in keys and cells of a braille notetaker. SandFly uses it like a display connected through Bluetooth or USB: its keys navigate and type with the same commands, and its cells show what SandFly shows. A display with keys and no cells works too.
-
-SandFly only uses a display from an app once you allow it, after a warning that the app will be able to read the screen and control the device. SandFly asks when it finds such an app, and **Displays from other apps** in braille display settings lists them, to allow or stop allowing each one. A notification says which app is in use. A display connected through Bluetooth or USB comes first, and one from an app waits while it's connected. [Providing a braille display from another app](docs/braille-display-api.md) describes the API for app developers.
+This fork is speech-only, so braille displays aren't supported, and there are no braille display settings.
 
 ## Image and screen descriptions
 
@@ -765,7 +724,7 @@ The first time an app asks, SandFly posts a notification that asks whether to al
 
 ### Layout and wording
 
-SandFly groups its main settings under **Feedback**, **Notifications**, **Controls**, **Typing and braille**, **Apps**, and **More**, and puts **SandFly menu** and **Reading controls** in the main settings. Many settings have clearer names, such as **Speak item type** and **Order of item details**. SandFly removes the links to the Play Store, the privacy policy, the terms of service, Disability Support, and Google's TalkBack help, and the pages about new features in TalkBack. **Touch and activation** and **Navigation**, in **Controls**, and **Apps** hold settings that TalkBack keeps in **Advanced settings**. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
+SandFly groups its main settings under **Feedback**, **Notifications**, **Controls**, **Typing**, **Apps**, and **More**, and puts **SandFly menu** and **Reading controls** in the main settings. Many settings have clearer names, such as **Speak item type** and **Order of item details**. SandFly removes the links to the Play Store, the privacy policy, the terms of service, Disability Support, and Google's TalkBack help, and the pages about new features in TalkBack. **Touch and activation** and **Navigation**, in **Controls**, and **Apps** hold settings that TalkBack keeps in **Advanced settings**. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
 
 ### Dark mode
 
@@ -813,32 +772,8 @@ If something records a different installer anyway, such as an update installed w
 
 ## Android TV
 
-### Settings on the TV home screen
-
-Android TV has no other way to open an accessibility service's settings, so SandFly adds **SandFly settings** to the apps on the TV home screen.
-
-### Phone-only features hidden
-
-Settings for features that need a touchscreen or a phone are hidden on TVs, such as **Direct touch**, **Status readout**, and **Speaker when away from your ear**. Pause SandFly also isn't available on TVs, because the volume keys often go to the TV or a soundbar, and there's no notification shade to resume from.
+This fork doesn't include Android TV support: it runs on phones and tablets only.
 
 ## Wear OS watches
 
-### Same settings as phones
-
-Watches show the same SandFly settings as phones, including **Text-to-speech**, all of **Verbosity**, **Individual sounds and vibrations**, **Lift to activate**, **Turn off animations**, **Status readout**, the rotor, the reading controls, the delay settings, update checks, and the circle menu, which is scaled to fit the screen. Settings for features that watches don't support are hidden, such as the braille keyboard, keyboard shortcuts, voice commands, direct touch, on-device AI, **Speaker when away from your ear**, and **Resume SandFly**.
-
-### Gestures on watches
-
-Watch screens track only two fingers, so gestures with three or four fingers don't work, and two-finger swipes scroll the app. Watches use the phone's default gestures except for the following:
-
-| Gesture | Action on watches |
-|---|---|
-| Double-tap and hold with two fingers | Open the SandFly menu |
-| Triple-tap and hold with two fingers | Turn speech on or off |
-| Swipe left then up | Repeat last spoken phrase |
-
-On Samsung watches, turn on **Controls** > **Touch and activation** > **Reserve gestures for Vibration Watch** to let Samsung's Vibration Watch use two-finger single and double taps. The switch is off by default, and Vibration Watch must also be enabled in the watch's accessibility settings. While the switch is on, these gestures no longer perform their SandFly actions: by default, a two-finger tap pauses or resumes speech, and a two-finger double tap controls media or starts voice input. Saved gesture assignments are kept and become available again when you turn the switch off.
-
-### SandFly menu on watches
-
-The SandFly menu scrolls on watches, so you can reach every item. **Describe screen** is off in the watch menu by default, and **Pause SandFly** isn't available on watches.
+This fork doesn't include a watch version: it runs on phones and tablets only, and there is no `sandfly-wear.apk`.
