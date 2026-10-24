@@ -249,6 +249,7 @@ public class TalkbackMenuProcessor {
     setSkipRefocusAndWindowAnnounce(menu, R.id.spell_last_utterance, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.repeat_last_utterance, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.translate_last_utterance, true);
+    setSkipRefocusAndWindowAnnounce(menu, R.id.speech_history, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.copy_last_utterance_to_clipboard, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.audio_ducking, true);
     setSkipRefocusAndWindowAnnounce(menu, R.id.sound_feedback, true);

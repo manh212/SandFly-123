@@ -66,6 +66,32 @@ final class FacebookCollapseScript extends CollapseScript {
     super(PACKAGE_NAME, Pattern.COMPOSITE_ROOT, /* maxActions= */ 12);
   }
 
+  /** The item's content fields, resolved once and shared by every hook of one item match. */
+  private static final class ResolvedFields {
+    final @Nullable AccessibilityNodeInfoCompat avatar;
+    final @Nullable AccessibilityNodeInfoCompat author;
+    final @Nullable AccessibilityNodeInfoCompat time;
+    final @Nullable AccessibilityNodeInfoCompat body;
+
+    ResolvedFields(ItemScan scan) {
+      avatar = avatarNode(scan);
+      author = authorNode(scan, avatar);
+      time = timeNode(scan, avatar, author);
+      body = bodyNode(scan, avatar, author, time);
+    }
+  }
+
+  private @Nullable ItemScan resolvedScan;
+  private @Nullable ResolvedFields resolvedFields;
+
+  private ResolvedFields fieldsFor(ItemScan scan) {
+    if (resolvedFields == null || resolvedScan != scan) {
+      resolvedScan = scan;
+      resolvedFields = new ResolvedFields(scan);
+    }
+    return resolvedFields;
+  }
+
   @Override
   public @Nullable String selectionFieldId() {
     return FIELD_BODY;
@@ -83,10 +109,10 @@ final class FacebookCollapseScript extends CollapseScript {
 
   @Override
   protected @Nullable List<Field> resolveFields(ItemScan scan) {
-    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
-    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
-    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
-    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
+    ResolvedFields resolved = fieldsFor(scan);
+    AccessibilityNodeInfoCompat author = resolved.author;
+    AccessibilityNodeInfoCompat time = resolved.time;
+    AccessibilityNodeInfoCompat body = resolved.body;
     if (body == null || time == null || author == null) {
       return null;
     }
@@ -141,10 +167,7 @@ final class FacebookCollapseScript extends CollapseScript {
     if (isOrWrapsImage(node, scan)) {
       return false;
     }
-    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
-    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
-    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
-    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
+    AccessibilityNodeInfoCompat body = fieldsFor(scan).body;
     return body != null && !node.equals(body) && scan.indexOf(node) > scan.indexOf(body);
   }
 
@@ -181,11 +204,10 @@ final class FacebookCollapseScript extends CollapseScript {
     }
     // Content fields are not action blocks: a mention nested in the body text keeps its
     // own target even though the text node around it is focusable and labelled.
-    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
-    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
-    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
-    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
-    if (parent.equals(author) || parent.equals(time) || parent.equals(body)) {
+    ResolvedFields resolved = fieldsFor(scan);
+    if (parent.equals(resolved.author)
+        || parent.equals(resolved.time)
+        || parent.equals(resolved.body)) {
       return node;
     }
     return parent;

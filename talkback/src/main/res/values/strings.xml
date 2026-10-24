@@ -2127,6 +2127,10 @@
     <string name="title_repeat_last_spoken_phrase">Repeat last spoken phrase</string>
     <!-- Label for the action that translates the last spoken phrase. [CHAR_LIMIT=130] -->
     <string name="title_translate_last_spoken_phrase">Translate last spoken utterance</string>
+    <!-- Label for the menu item and gesture action that opens the speech history. [CHAR_LIMIT=130] -->
+    <string name="title_speech_history">Speech history</string>
+    <!-- Spoken when the speech history is opened before anything has been said. [CHAR_LIMIT=130] -->
+    <string name="speech_history_empty">No speech history</string>
     <!-- Label for the menu item that lets the user open the custom action menu (this is menu items defined by the app [CHAR_LIMIT=40] -->
     <!--
       Source: Possible user requests from voice commands to show possible actions.

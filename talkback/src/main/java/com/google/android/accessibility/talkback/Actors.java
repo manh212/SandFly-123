@@ -111,6 +111,7 @@ import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
 import com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.translation.LastUtteranceTranslator;
+import com.google.android.accessibility.talkback.translation.SpeechHistoryDialog;
 import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -140,6 +141,7 @@ class Actors {
   private final DimScreenActor dimmer;
   private final SpeechControllerImpl speaker;
   private final LastUtteranceTranslator lastUtteranceTranslator;
+  private final SpeechHistoryDialog speechHistoryDialog;
   private final FullScreenReadActor continuousReader;
   private final FeedbackController soundAndVibration;
   private final AutoScrollActor scroller;
@@ -210,6 +212,7 @@ class Actors {
     this.dimmer = dimmer;
     this.speaker = speaker;
     this.lastUtteranceTranslator = new LastUtteranceTranslator(context, speaker);
+    this.speechHistoryDialog = new SpeechHistoryDialog(context, speaker);
     this.continuousReader = continuousReader;
     this.soundAndVibration = soundAndVibration;
     this.scroller = scroller;
@@ -368,6 +371,7 @@ class Actors {
         case SPELL_LAST -> unused = speaker.spellLastUtterance();
         case TRANSLATE_SAVED -> lastUtteranceTranslator.translateSavedUtterance(eventId);
         case TRANSLATE_LAST -> lastUtteranceTranslator.translateLastUtterance(eventId);
+        case SHOW_HISTORY -> speechHistoryDialog.show(eventId);
         case PAUSE_OR_RESUME -> {
           boolean doPause = speaker.readyToPause();
           continuousReader.pauseOrResumeContinuousReadingState(doPause);

@@ -337,6 +337,83 @@ public class MenuAutomationTest {
   }
 
   @Test
+  public void masterTimeoutInAwaitClose_afterLateClick_restoresFocusSilently() {
+    beginShare();
+    // The sheet only shows up at 2.5s, so the row is clicked into AWAIT_CLOSE with the
+    // close-settle deadline (1.2s later) still behind the master deadline (3s).
+    shadowOf(Looper.getMainLooper()).idleFor(2500, TimeUnit.MILLISECONDS);
+    YouTubeSheetTree sheet =
+        CollapseTestTrees.youTubeMenuSheet("Play next in queue", "Share", "Not interested");
+    showOnly(sheet.root);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+    assertEquals(sheet.rows.get(1), lastNodeActionPart().nodeAction().target().getCompat());
+
+    // The sheet closes on its own; no close event reaches the automation.
+    showOnly(feedList);
+    shadowOf(Looper.getMainLooper()).idleFor(600, TimeUnit.MILLISECONDS);
+
+    assertEquals(feedTree.primary, lastFocusPart().focus().target());
+    assertNull("a clicked row is not a failure", lastSpeechPart());
+    assertFalse(MenuAutomation.isPending());
+  }
+
+  @Test
+  public void masterTimeoutInAwaitClose_afterFailureClose_restoresFocusAndSpeaksFailure() {
+    beginShare();
+    // The sheet shows up at 1.5s without the target row; the grace deadline (1s later)
+    // starts the failure close, whose settle deadline lands behind the master deadline.
+    shadowOf(Looper.getMainLooper()).idleFor(1500, TimeUnit.MILLISECONDS);
+    YouTubeSheetTree sheet = CollapseTestTrees.youTubeMenuSheet("Play next in queue", "Report");
+    showOnly(sheet.root);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+
+    shadowOf(Looper.getMainLooper()).idleFor(1100, TimeUnit.MILLISECONDS);
+    assertNotNull(lastSystemActionPart());
+    assertEquals(
+        AccessibilityService.GLOBAL_ACTION_BACK,
+        lastSystemActionPart().systemAction().systemActionId());
+
+    // The Back closed the sheet; no close event reaches the automation.
+    showOnly(feedList);
+    shadowOf(Looper.getMainLooper()).idleFor(500, TimeUnit.MILLISECONDS);
+
+    assertEquals(feedTree.primary, lastFocusPart().focus().target());
+    assertEquals("Not available", lastSpeechPart().speech().text().toString());
+    assertFalse(MenuAutomation.isPending());
+  }
+
+  @Test
+  public void duplicateTitles_restoreFocusToTheRowNearestTheRecordedBounds() {
+    // The sequence starts on the second of two identically titled rows.
+    AccessibilityNodeInfoCompat feed = CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    CollapseTestTrees.youTubeItem(feed, 0);
+    YouTubeTree origin = CollapseTestTrees.youTubeItem(feed, 2000);
+    Rect bounds = new Rect();
+    origin.item.getBoundsInScreen(bounds);
+    returner.parts.clear();
+    assertTrue(
+        MenuAutomation.begin(
+            returner, context, origin.menu, "Share", SHEET_ID, ORIGIN_LABEL, bounds));
+
+    YouTubeSheetTree sheet =
+        CollapseTestTrees.youTubeMenuSheet("Play next in queue", "Share", "Not interested");
+    showOnly(sheet.root);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+
+    // The list recycled: two rows carry the title again, both away from the recorded
+    // bounds — the nearer one comes second in the tree.
+    AccessibilityNodeInfoCompat rebuilt =
+        CollapseTestTrees.list(CollapseTestTrees.YOUTUBE_PACKAGE);
+    CollapseTestTrees.youTubeItem(rebuilt, 300);
+    YouTubeTree nearer = CollapseTestTrees.youTubeItem(rebuilt, 1500);
+    showOnly(rebuilt);
+    assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
+
+    assertEquals(nearer.primary, lastFocusPart().focus().target());
+    assertFalse(MenuAutomation.isPending());
+  }
+
+  @Test
   public void noSequenceRunning_eventsPassThrough() {
     assertFalse(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));
   }

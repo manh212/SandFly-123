@@ -1,0 +1,63 @@
+/*
+ * Copyright (C) 2026 The SandFly Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package com.google.android.accessibility.talkback.translation;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.view.WindowManager;
+import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.output.FeedbackItem;
+import com.google.android.accessibility.utils.output.LastSpokenTextHolder;
+import com.google.android.accessibility.utils.output.SpeechController;
+import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
+import com.google.android.accessibility.utils.output.SpeechControllerImpl;
+import java.util.List;
+
+/** Shows the recent spoken utterances, newest first; tapping one copies it to the clipboard. */
+public class SpeechHistoryDialog {
+
+  private final Context context;
+  private final SpeechControllerImpl speaker;
+
+  public SpeechHistoryDialog(Context context, SpeechControllerImpl speaker) {
+    this.context = context;
+    this.speaker = speaker;
+  }
+
+  public void show(EventId eventId) {
+    List<String> history = LastSpokenTextHolder.getSpokenHistory();
+    if (history.isEmpty()) {
+      speaker.speak(
+          context.getString(R.string.speech_history_empty),
+          eventId,
+          SpeakOptions.create()
+              .setQueueMode(SpeechController.QUEUE_MODE_INTERRUPT)
+              .setFlags(FeedbackItem.FLAG_NO_HISTORY | FeedbackItem.FLAG_FORCE_FEEDBACK_ALL));
+      return;
+    }
+    AlertDialog dialog =
+        new AlertDialog.Builder(context)
+            .setTitle(R.string.title_speech_history)
+            .setItems(
+                history.toArray(new CharSequence[0]),
+                (clicked, which) -> speaker.copyTextToClipboard(history.get(which), eventId))
+            .create();
+    dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
+    dialog.show();
+  }
+}

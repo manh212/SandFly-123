@@ -485,6 +485,8 @@
   <string name="title_spell_last_spoken_phrase">Đánh vần cụm từ được nói gần đây nhất</string>
   <string name="title_repeat_last_spoken_phrase">Nhắc lại cụm từ được nói gần đây nhất</string>
   <string name="title_translate_last_spoken_phrase">Dịch câu vừa nói cuối cùng</string>
+  <string name="title_speech_history">Lịch sử câu đã nói</string>
+  <string name="speech_history_empty">Chưa có lịch sử câu đã nói</string>
   <string name="title_custom_action">Thao tác</string>
   <string name="title_show_hide_screen">Ẩn hoặc hiện màn hình</string>
   <string name="title_control_speak_time">Đọc to thời gian</string>
