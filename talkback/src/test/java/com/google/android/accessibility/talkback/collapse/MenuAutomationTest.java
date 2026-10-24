@@ -152,7 +152,8 @@ public class MenuAutomationTest {
     shadowOf(Looper.getMainLooper()).idleFor(1100, TimeUnit.MILLISECONDS);
     assertNotNull(lastSystemActionPart());
     assertEquals(
-        AccessibilityService.GLOBAL_ACTION_BACK, lastSystemActionPart().systemActionId());
+        AccessibilityService.GLOBAL_ACTION_BACK,
+        lastSystemActionPart().systemAction().systemActionId());
 
     showOnly(feedList);
     assertTrue(deliver(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED));

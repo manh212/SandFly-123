@@ -143,7 +143,7 @@ final class CollapseTestTrees {
       row.setClickable(true);
       row.setFocusable(true);
       AccessibilityNodeInfoCompat text = node(row, "android.widget.TextView");
-      text.setViewIdResourceName(YOUTUBE_MENU_LABEL_VIEW_ID);
+      text.unwrap().setViewIdResourceName(YOUTUBE_MENU_LABEL_VIEW_ID);
       text.setText(label);
       tree.rows.add(row);
     }
