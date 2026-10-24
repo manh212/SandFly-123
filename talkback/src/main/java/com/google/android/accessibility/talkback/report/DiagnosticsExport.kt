@@ -32,6 +32,8 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
+import com.google.android.accessibility.utils.Logger
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech
 import com.google.android.accessibility.utils.output.LowLatencyAudio
@@ -44,8 +46,9 @@ import java.util.concurrent.TimeUnit
 
 /**
  * Builds one diagnostics text out of everything SandFly itself can know: the phone and the app,
- * SandFly's state and audio path, the last crash, and SandFly's recent log. The user saves it to
- * Downloads or copies it, and sends it to whoever is helping. SandFly sends it nowhere itself.
+ * SandFly's state and audio path, the last crash, the performance statistics, and SandFly's
+ * recent log. The user saves it to Downloads or copies it, and sends it to whoever is helping.
+ * SandFly sends it nowhere itself.
  */
 object DiagnosticsExport {
   private const val TAG = "DiagnosticsExport"
@@ -69,6 +72,7 @@ object DiagnosticsExport {
         "\n\n"
     )
     out.append(buildSnapshotSections(appContext))
+    out.append(buildPerformanceStatsSection())
     val log = readLog()
     out.append("== Recent log of the SandFly process ==\n")
     if (log == null) {
@@ -101,6 +105,49 @@ object DiagnosticsExport {
     out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")
     out.append("\n\n")
     return out.toString()
+  }
+
+  /**
+   * The performance statistics section of [build], captured at the moment the text is built: the
+   * collection status line — the same line [VerboseDiagnosticsLogger] writes at the head of its
+   * log snapshot — and, when statistics collection is enabled in developer settings, the
+   * statistics themselves. Capturing them here, rather than relying on the copies written into
+   * the log at VERBOSE, keeps them in the exported text even after those log lines have scrolled
+   * out of the log buffer.
+   */
+  @WorkerThread
+  fun buildPerformanceStatsSection(): String {
+    val out = StringBuilder()
+    out.append("== Performance statistics ==\n")
+    out.append(performanceStatsStatusLine()).append("\n")
+    if (Performance.getInstance().computeStatsEnabled) {
+      displayPerformanceStats(
+        Logger { format, args ->
+          val line =
+            if (args.isNullOrEmpty()) format else String.format(Locale.ROOT, format, *args)
+          out.append(line).append("\n")
+        }
+      )
+    }
+    out.append("\n")
+    return out.toString()
+  }
+
+  /** The one-line statistics collection status, shared by the export text and the log snapshot. */
+  fun performanceStatsStatusLine(): String =
+    "Performance statistics collection: " +
+      if (Performance.getInstance().computeStatsEnabled) "on" else "off"
+
+  /**
+   * Sends the current performance statistics to [logger] — the same displays, in the same order,
+   * for the export text above and for the log at VERBOSE through [VerboseDiagnosticsLogger], so
+   * the two can never drift apart.
+   */
+  fun displayPerformanceStats(logger: Logger) {
+    val performance = Performance.getInstance()
+    performance.displayLabelToStats(logger)
+    performance.displayStatToLabelCompare(logger)
+    performance.displayAllEventStats(logger)
   }
 
   /**
