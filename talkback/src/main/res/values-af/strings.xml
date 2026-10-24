@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopieer laaste gesproke frase</string>
   <string name="keycombo_menu_other_open_tts_settings">Maak teks-na-spraak-instellings oop</string>
   <string name="keycombo_menu_other_open_talkback_settings">Maak SandFly-instellings oop</string>
-  <string name="keycombo_menu_other_report_issue">Stuur terugvoer</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Siklustikeggo</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Wys kortpadsleutelslys</string>
   <string name="keycombo_menu_category_web">Webnavigasiehandelinge</string>

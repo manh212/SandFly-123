@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopēt pēdējo izrunāto frāzi</string>
   <string name="keycombo_menu_other_open_tts_settings">Atvērt iestatījumus teksta pārvēršanai runā</string>
   <string name="keycombo_menu_other_open_talkback_settings">Atvērt SandFly iestatījumus</string>
-  <string name="keycombo_menu_other_report_issue">Sūtīt atsauksmes</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Cikliska rakstīšanas atbalss</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Rādīt īsinājumtaustiņu sarakstu</string>
   <string name="keycombo_menu_category_web">Tīmekļa navigācijas darbības</string>

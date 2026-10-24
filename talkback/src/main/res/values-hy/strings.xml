@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Պատճենել վերջին հնչեցված արտահայտությունը</string>
   <string name="keycombo_menu_other_open_tts_settings">Բացել տեքստի հնչեցման կարգավորումները</string>
   <string name="keycombo_menu_other_open_talkback_settings">Բացել SandFly-ի կարգավորումները</string>
-  <string name="keycombo_menu_other_report_issue">Կարծիք հայտնել</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Կրկնել մուտքագրվող տեքստի հնչյունավորումը</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Ցույց տալ ստեղնային դյուրանցումների ցանկը</string>
   <string name="keycombo_menu_category_web">Համացանցի նավիգացիայի գործողություններ</string>

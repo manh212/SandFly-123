@@ -233,7 +233,6 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
-import com.google.android.accessibility.talkback.report.ReportInbox;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
@@ -998,7 +997,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     Updater.stopAutomaticChecks();
-    ReportInbox.stopFollowing();
     ShizukuGrants.onServiceDestroyed();
     instance = null;
     // Shutdown and unregister all components.
@@ -1993,7 +1991,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Handle any update actions.
     new TalkBackUpdateHelper(this).checkUpdate();
     Updater.startAutomaticChecks(this);
-    ReportInbox.startFollowing(this);
     ShizukuGrants.onServiceConnected(this);
     // Turns Backtalk under its old app ID off, before this one says it is on.
     AppIdHandOver.onServiceConnected(this, () -> {});

@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopyahin ang huling sinabing parirala</string>
   <string name="keycombo_menu_other_open_tts_settings">Buksan ang mga setting ng text-to-speech</string>
   <string name="keycombo_menu_other_open_talkback_settings">Buksan ang mga setting ng SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Magpadala ng feedback</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Echo ng cycle na pag-type</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Ipakita ang listahan ng mga keyboard shortcut</string>
   <string name="keycombo_menu_category_web">Mga pagkilos para sa pag-navigate sa web</string>

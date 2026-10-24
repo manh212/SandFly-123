@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Viimasena öeldud fraasi kopeerimine</string>
   <string name="keycombo_menu_other_open_tts_settings">Kõnesünteesi seadete avamine</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFlyi seadete avamine</string>
-  <string name="keycombo_menu_other_report_issue">Tagasiside saatmine</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Teksti sisestamise kaja tsükkel</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Kuva klaviatuuri otseteede loend</string>
   <string name="keycombo_menu_category_web">Veebis navigeerimise toimingud</string>

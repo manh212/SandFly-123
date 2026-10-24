@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">අවසන් වරට කථනය කළ වැකිකඩ පිටපත් කරන්න</string>
   <string name="keycombo_menu_other_open_tts_settings">පෙළ-සිට-කථනයට සැකසීම් විවෘත කරන්න</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly සැකසීම් විවෘත කරන්න</string>
-  <string name="keycombo_menu_other_report_issue">ප්‍රතිපෝෂණය යවන්න</string>
   <string name="keycombo_menu_other_cycle_typing_echo">චක්‍ර ටයිප් කිරීමේ දෝංකාරය</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">යතුරුපුවරු කෙටිමං ලැයිස්තුව පෙන්වන්න</string>
   <string name="keycombo_menu_category_web">වෙබ් සංචලන ක්‍රියා</string>

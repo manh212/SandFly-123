@@ -254,9 +254,6 @@
             android:key="@string/keycombo_shortcut_other_show_tutorial"
             android:title="@string/keycombo_menu_other_show_tutorial"/>
         <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference
-            android:key="@string/keycombo_shortcut_other_report_issue"
-            android:title="@string/keycombo_menu_other_report_issue" />
-        <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference
             android:key="@string/keycombo_shortcut_other_read_current_url"
             android:title="@string/template_keycombo_menu_browse_mode_command"/>
         <com.google.android.accessibility.talkback.preference.base.KeyboardShortcutDialogPreference

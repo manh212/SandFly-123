@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Copiar la última frase leída</string>
   <string name="keycombo_menu_other_open_tts_settings">Abre los ajustes de la conversión de texto a voz</string>
   <string name="keycombo_menu_other_open_talkback_settings">Abrir los ajustes de SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Enviar comentarios</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Eco del ciclo de escritura</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Mostrar lista de combinaciones de teclas</string>
   <string name="keycombo_menu_category_web">Acciones de navegación web</string>

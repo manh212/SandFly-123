@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">অন্তিম কথিত বাক্যাংশটো প্ৰতিলিপি কৰক</string>
   <string name="keycombo_menu_other_open_tts_settings">পাঠৰ পৰা কথনৰ ছেটিং খোলক</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFlyৰ ছেটিং খোলক</string>
-  <string name="keycombo_menu_other_report_issue">মতামত পঠিয়াওক</string>
   <string name="keycombo_menu_other_cycle_typing_echo">চাইকেল টাইপিঙৰ প্ৰতিধ্বনি</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">কীব’ৰ্ডৰ শ্বৰ্টকাটৰ সূচী দেখুৱাওক</string>
   <string name="keycombo_menu_category_web">ৱেব নেভিগেশ্বনৰ কাৰ্যবিলাক</string>

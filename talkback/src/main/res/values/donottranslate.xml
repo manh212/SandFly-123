@@ -22,41 +22,8 @@
     <string name="pref_check_for_updates_key" translatable="false">pref_check_for_updates</string>
     <string name="pref_auto_update_check_key" translatable="false">pref_auto_update_check</string>
     <string name="pref_dev_builds_key" translatable="false">pref_dev_builds</string>
-    <string name="pref_problem_report_key" translatable="false">pref_problem_report</string>
     <string name="pref_export_settings_key" translatable="false">pref_export_settings</string>
     <string name="pref_import_settings_key" translatable="false">pref_import_settings</string>
-    <string name="pref_problem_report_type_key" translatable="false">pref_problem_report_type</string>
-    <string name="pref_problem_report_area_key" translatable="false">pref_problem_report_area</string>
-    <string name="pref_problem_report_title_key" translatable="false">pref_problem_report_title</string>
-    <string name="pref_problem_report_app_key" translatable="false">pref_problem_report_app</string>
-    <string name="pref_problem_report_description_key" translatable="false">pref_problem_report_description</string>
-    <string name="pref_problem_report_steps_key" translatable="false">pref_problem_report_steps</string>
-    <string name="pref_problem_report_email_key" translatable="false">pref_problem_report_email</string>
-    <string name="pref_problem_report_device_key" translatable="false">pref_problem_report_device</string>
-    <string name="pref_problem_report_log_key" translatable="false">pref_problem_report_log</string>
-    <string name="pref_problem_report_send_key" translatable="false">pref_problem_report_send</string>
-    <string name="pref_problem_report_clear_key" translatable="false">pref_problem_report_clear</string>
-    <!-- English names written into the GitHub issue. Must match problem_report_type_entries. -->
-    <string-array name="problem_report_type_values" translatable="false">
-        <item>Incorrect behavior</item>
-        <item>Crash</item>
-        <item>Slow or unresponsive</item>
-        <item>Suggestion</item>
-    </string-array>
-    <!-- English names written into the GitHub issue. Must match problem_report_area_entries. -->
-    <string-array name="problem_report_area_values" translatable="false">        <item>Speech</item>
-        <item>Gestures</item>
-        <item>Touch exploration</item>
-        <item>Reading controls and menus</item>
-        <item>Typing and keyboards</item>
-        <item>Sounds and vibration</item>
-        <item>Notifications</item>
-        <item>Web content</item>
-        <item>Scripts</item>
-        <item>Settings</item>
-        <item>Updates</item>
-        <item>Other</item>
-</string-array>
     <string name="pref_show_exit_watermark_key">pref_show_exit_watermark</string>
     <string name="pref_notification_list_key">pref_notification_list</string>
     <string name="pref_notification_parts_key">pref_notification_parts</string>
@@ -553,7 +520,6 @@
   <string name="keycombo_shortcut_other_toggle_selection">keycombo_shortcut_other_toggle_selection</string>
   <string name="keycombo_shortcut_other_open_tts_settings">keycombo_shortcut_other_open_tts_settings</string>
   <string name="keycombo_shortcut_other_open_talkback_settings">keycombo_shortcut_other_open_talkback_settings</string>
-  <string name="keycombo_shortcut_other_report_issue">keycombo_shortcut_other_report_issue</string>
   <string name="keycombo_shortcut_other_read_current_url">keycombo_shortcut_other_read_current_url</string>
   <string name="keycombo_shortcut_other_read_link_url">keycombo_shortcut_other_read_link_url</string>
   <string name="keycombo_shortcut_other_show_keyboard_shortcuts_dialog">keycombo_shortcut_other_show_keyboard_shortcuts_dialog</string>
@@ -1511,7 +1477,6 @@
     <bool name="pref_show_context_menu_vibration_feedback_default">false</bool>
     <bool name="pref_show_context_menu_show_keyboard_shortcuts_default">false</bool>
     <bool name="pref_show_context_menu_talkback_settings_default">true</bool>
-    <bool name="pref_show_context_menu_send_feedback_default">true</bool>
     <bool name="pref_show_context_menu_system_action_default">false</bool>
     <bool name="pref_show_context_menu_tts_settings_default">true</bool>
     <bool name="pref_show_context_menu_image_caption_default">true</bool>
@@ -1695,7 +1660,6 @@
     <string name="pref_show_context_menu_vibration_feedback_setting_key" translatable="false">pref_vibration_feedback_menu_setting_key</string>
     <string name="pref_show_context_menu_show_keyboard_shortcuts_setting_key" translatable="false">pref_show_keyboard_shortcuts_menu_setting_key</string>
     <string name="pref_show_context_menu_talkback_settings_setting_key" translatable="false">pref_talkback_settings_menu_setting_key</string>
-    <string name="pref_show_context_menu_send_feedback_setting_key" translatable="false">pref_send_feedback_menu_setting_key</string>
     <string name="pref_show_context_menu_system_action_setting_key" translatable="false">pref_system_action_menu_setting_key</string>
     <string name="pref_show_context_menu_tts_settings_setting_key" translatable="false">pref_tts_settings_menu_setting_key</string>
     <string name="pref_show_context_menu_image_caption_setting_key" translatable="false">pref_image_caption_menu_setting_key</string>

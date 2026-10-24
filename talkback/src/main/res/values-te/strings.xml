@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">చివరిగా పలికిన పదబంధాన్ని కాపీ చేయండి</string>
   <string name="keycombo_menu_other_open_tts_settings">టెక్స్ట్-టు-స్పీచ్ సెట్టింగ్‌లను తెరవండి</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly సెట్టింగ్‌లను తెరవడానికి</string>
-  <string name="keycombo_menu_other_report_issue">ఫీడ్‌బ్యాక్‌ను పంపండి</string>
   <string name="keycombo_menu_other_cycle_typing_echo">టైపింగ్ ఎకోను టోగుల్ చేయండి</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">కీబోర్డ్ షార్ట్‌కట్‌ల లిస్ట్‌ను చూడండి</string>
   <string name="keycombo_menu_category_web">వెబ్ నావిగేషన్ చర్యలు</string>

@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Копировать последнюю фразу</string>
   <string name="keycombo_menu_other_open_tts_settings">Открыть настройки озвучивания текста</string>
   <string name="keycombo_menu_other_open_talkback_settings">Открыть настройки SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Отправить отзыв</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Переключить режим озвучивания вводимого текста</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Показать список быстрых клавиш</string>
   <string name="keycombo_menu_category_web">Действия для веб-навигации</string>

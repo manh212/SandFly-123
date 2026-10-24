@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">နောက်ဆုံးပြောခဲ့သည့် စကားရပ်ကို ကူးရန်</string>
   <string name="keycombo_menu_other_open_tts_settings">စာ-မှ-စကား ပြောင်းခြင်း ဆက်တင်များ ဖွင့်ရန်</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly ဆက်တင်များကို ဖွင့်ပါ</string>
-  <string name="keycombo_menu_other_report_issue">အကြံပြုချက် ပို့ရန်</string>
   <string name="keycombo_menu_other_cycle_typing_echo">စာရိုက်မှုပဲ့တင်သံ စက်ဝန်း</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">လက်ကွက်ဖြတ်လမ်းများ စာရင်းကို ပြပါ</string>
   <string name="keycombo_menu_category_web">ဝဘ်လမ်းညွှန်လုပ်ဆောင်ချက်</string>

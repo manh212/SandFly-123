@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">复制最后说出的词组</string>
   <string name="keycombo_menu_other_open_tts_settings">打开文字转语音设置</string>
   <string name="keycombo_menu_other_open_talkback_settings">开启 SandFly 设置</string>
-  <string name="keycombo_menu_other_report_issue">发送反馈</string>
   <string name="keycombo_menu_other_cycle_typing_echo">循环输入语音提示</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">显示键盘快捷键列表</string>
   <string name="keycombo_menu_category_web">网页导航操作</string>

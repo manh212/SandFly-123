@@ -1177,8 +1177,6 @@
     <string name="keycombo_menu_other_open_talkback_settings">Open SandFly settings</string>
     <!-- Keyboard key combination assignment for opening the Tutorial page. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_show_tutorial" translatable="false">@string/shortcut_show_tutorial</string>
-    <!-- Keyboard key combination assignment for reporting an issue. [CHAR LIMIT=60] -->
-    <string name="keycombo_menu_other_report_issue" >Send feedback</string>
     <!-- Keyboard key combination assignment for cycling among the available character/word echo levels when typing. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_cycle_typing_echo">Cycle typing echo</string>
     <!-- Keyboard key combination assignment for show the keyboard shortcuts dialog. [CHAR LIMIT=60] -->

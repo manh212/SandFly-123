@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopiér den seneste sætning</string>
   <string name="keycombo_menu_other_open_tts_settings">Åbn indstillinger for oplæsning</string>
   <string name="keycombo_menu_other_open_talkback_settings">Åbn SandFly-indstillinger</string>
-  <string name="keycombo_menu_other_report_issue">Send feedback</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Cyklus for ekko ved indtastning</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Vis liste over tastaturgenveje</string>
   <string name="keycombo_menu_category_web">Handlinger for webnavigation</string>

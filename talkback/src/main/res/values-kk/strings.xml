@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Соңғы айтылған фразаны көшіру</string>
   <string name="keycombo_menu_other_open_tts_settings">Мәтінді дыбыстау параметрлерін ашу</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly параметрлерін ашу</string>
-  <string name="keycombo_menu_other_report_issue">Пікір жіберу</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Терген кездегі жаңғырықты ауыстыру</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Перне тіркесімдерінің тізімін көрсету</string>
   <string name="keycombo_menu_category_web">Интернетті шарлау әрекеттері</string>

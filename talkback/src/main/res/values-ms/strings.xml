@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Salin ungkapan terakhir yang dituturkan</string>
   <string name="keycombo_menu_other_open_tts_settings">Buka tetapan teks ke pertuturan</string>
   <string name="keycombo_menu_other_open_talkback_settings">Buka tetapan SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Hantar maklum balas</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Beralih antara gema penaipan</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Tunjukkan senarai pintasan papan kekunci</string>
   <string name="keycombo_menu_category_web">Tindakan navigasi web</string>

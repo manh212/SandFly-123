@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Copy last spoken phrase</string>
   <string name="keycombo_menu_other_open_tts_settings">Open text-to-speech settings</string>
   <string name="keycombo_menu_other_open_talkback_settings">Open SandFly settings</string>
-  <string name="keycombo_menu_other_report_issue">Send feedback</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Cycle typing echo</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Show keyboard shortcuts list</string>
   <string name="keycombo_menu_category_web">Web navigation actions</string>

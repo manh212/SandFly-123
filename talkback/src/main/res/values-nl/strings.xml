@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Laatst uitgesproken woordgroep kopiëren</string>
   <string name="keycombo_menu_other_open_tts_settings">Instellingen voor tekst-naar-spraak openen</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly-instellingen openen</string>
-  <string name="keycombo_menu_other_report_issue">Feedback sturen</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Typecho doorlopen</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Lijst met sneltoetsen tonen</string>
   <string name="keycombo_menu_category_web">Webnavigatie-acties</string>

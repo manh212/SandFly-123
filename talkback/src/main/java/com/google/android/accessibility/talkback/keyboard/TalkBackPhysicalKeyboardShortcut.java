@@ -499,10 +499,6 @@ public enum TalkBackPhysicalKeyboardShortcut {
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_PREVIOUS_UNVISITED_LINK */ 115,
       R.string.keycombo_shortcut_navigate_previous_unvisited_link,
       R.string.keycombo_menu_web_navigate_to_previous_unvisited_link),
-  REPORT_ISSUE(
-      /* KeyboardShortcut.KEYBOARD_SHORTCUT_REPORT_ISSUE */ 116,
-      R.string.keycombo_shortcut_other_report_issue,
-      R.string.keycombo_menu_other_report_issue),
   NAVIGATE_NEXT_RADIO(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_NEXT_RADIO */ 117,
       R.string.keycombo_shortcut_navigate_next_radio,

@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Сүүлд хэлсэн хэллэгийг хуулах</string>
   <string name="keycombo_menu_other_open_tts_settings">Бичвэрийг ярианд хувиргах тохиргоог нээх</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly-н тохиргоог нээх</string>
-  <string name="keycombo_menu_other_report_issue">Санал хүсэлт илгээх</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Шивэх цуурайн түвшнийг сэлгэх</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Товчлуурын шууд холбоосны жагсаалтыг харуулна уу</string>
   <string name="keycombo_menu_category_web">Веб навигацын үйл ажиллагаа</string>

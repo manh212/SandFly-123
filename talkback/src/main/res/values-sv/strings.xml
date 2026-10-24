@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopiera det senaste som lästes upp</string>
   <string name="keycombo_menu_other_open_tts_settings">Öppna inställningarna för text till tal</string>
   <string name="keycombo_menu_other_open_talkback_settings">Öppna inställningarna för SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Skicka feedback</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Cykel för inmatningseko</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Visa lista över kortkommandon</string>
   <string name="keycombo_menu_category_web">Webbnavigeringsåtgärder</string>

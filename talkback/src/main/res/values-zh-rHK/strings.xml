@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">複製系統最後讀出的詞組</string>
   <string name="keycombo_menu_other_open_tts_settings">開啟文字轉語音設定</string>
   <string name="keycombo_menu_other_open_talkback_settings">開啟 SandFly 設定</string>
-  <string name="keycombo_menu_other_report_issue">傳送意見</string>
   <string name="keycombo_menu_other_cycle_typing_echo">循環輸入回音</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">顯示鍵盤快速鍵清單</string>
   <string name="keycombo_menu_category_web">網站導覽操作</string>

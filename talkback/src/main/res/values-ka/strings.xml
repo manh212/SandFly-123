@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">ბოლო წარმოთქმული ფრაზის კოპირება</string>
   <string name="keycombo_menu_other_open_tts_settings">ტექსტის გახმოვანების პარამეტრების გახსნა</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly-ის პარამეტრების გახსნა</string>
-  <string name="keycombo_menu_other_report_issue">გამოხმაურება</string>
   <string name="keycombo_menu_other_cycle_typing_echo">ციკლის აკრეფის ექო</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">კლავიატურის მალსახმობების სიის ჩვენება</string>
   <string name="keycombo_menu_category_web">ვებში ნავიგაციის მოქმედებები</string>
