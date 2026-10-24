@@ -221,9 +221,10 @@ public class CollapsedItemActionsTest {
     assertTrue(openMenu.onClickPerformed());
 
     assertFalse(MenuAutomation.isPending());
-    assertEquals(
-        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
-    assertEquals(tree.menu, returner.lastPart.nodeAction().target().getCompat());
+    // The tree's menu button does not expose ACTION_CLICK, so the plain click goes through
+    // the focus actor's defended click rather than a bare node action.
+    assertEquals(Feedback.Focus.Action.CLICK_NODE, returner.lastPart.focus().action());
+    assertEquals(tree.menu, returner.lastPart.focus().target());
   }
 
   @Test
