@@ -209,8 +209,12 @@ final class CollapseTestTrees {
     AccessibilityNodeInfoCompat mention;
     AccessibilityNodeInfoCompat photoWrapper;
     AccessibilityNodeInfoCompat photo;
+    /** The focusable, instruction-labelled frame wrapping the Reply button. */
+    AccessibilityNodeInfoCompat replyWrap;
     AccessibilityNodeInfoCompat reply;
     AccessibilityNodeInfoCompat reactions;
+    /** The focusable, instruction-labelled frame wrapping the Like button. */
+    AccessibilityNodeInfoCompat likeWrap;
     AccessibilityNodeInfoCompat like;
     AccessibilityNodeInfoCompat demote;
   }
@@ -310,7 +314,8 @@ final class CollapseTestTrees {
         "Reply to the comment by Nguyen Van A, button. Double-tap to reply to the comment.";
     AccessibilityNodeInfoCompat replyOuter = node(tree.root, "android.view.ViewGroup");
     bounds(replyOuter, 0, 300, 200, 400);
-    AccessibilityNodeInfoCompat replyWrap = node(replyOuter, "android.view.ViewGroup");
+    tree.replyWrap = node(replyOuter, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat replyWrap = tree.replyWrap;
     replyWrap.setFocusable(true);
     replyWrap.setText(replyDescription);
     replyWrap.setContentDescription(replyDescription);
@@ -334,7 +339,8 @@ final class CollapseTestTrees {
     String likeDescription =
         "Like button for the comment by Nguyen Van A."
             + " Double-tap and hold to show the reaction tray.";
-    AccessibilityNodeInfoCompat likeWrap = node(tree.root, "android.view.ViewGroup");
+    tree.likeWrap = node(tree.root, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat likeWrap = tree.likeWrap;
     likeWrap.setFocusable(true);
     likeWrap.setText(likeDescription);
     likeWrap.setContentDescription(likeDescription);
@@ -451,7 +457,8 @@ final class CollapseTestTrees {
         "Reply to the comment by Nguyen Van A, button. Double-tap to reply to the comment.";
     AccessibilityNodeInfoCompat replyOuter = node(container, "android.view.ViewGroup");
     bounds(replyOuter, 0, 300, 200, 400);
-    AccessibilityNodeInfoCompat replyWrap = node(replyOuter, "android.view.ViewGroup");
+    tree.replyWrap = node(replyOuter, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat replyWrap = tree.replyWrap;
     replyWrap.setFocusable(true);
     replyWrap.setText(replyDescription);
     replyWrap.setContentDescription(replyDescription);
@@ -475,7 +482,8 @@ final class CollapseTestTrees {
     String likeDescription =
         "Like button for the comment by Nguyen Van A."
             + " Double-tap and hold to show the reaction tray.";
-    AccessibilityNodeInfoCompat likeWrap = node(container, "android.view.ViewGroup");
+    tree.likeWrap = node(container, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat likeWrap = tree.likeWrap;
     likeWrap.setFocusable(true);
     likeWrap.setText(likeDescription);
     likeWrap.setContentDescription(likeDescription);
@@ -589,7 +597,8 @@ final class CollapseTestTrees {
         "Reply to the comment by Nguyen Van A, button. Double-tap to reply to the comment.";
     AccessibilityNodeInfoCompat replyOuter = node(container, "android.view.ViewGroup");
     bounds(replyOuter, 0, 500, 200, 600);
-    AccessibilityNodeInfoCompat replyWrap = node(replyOuter, "android.view.ViewGroup");
+    tree.replyWrap = node(replyOuter, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat replyWrap = tree.replyWrap;
     replyWrap.setFocusable(true);
     replyWrap.setText(replyDescription);
     replyWrap.setContentDescription(replyDescription);
@@ -613,7 +622,8 @@ final class CollapseTestTrees {
     String likeDescription =
         "Like button for the comment by Nguyen Van A."
             + " Double-tap and hold to show the reaction tray.";
-    AccessibilityNodeInfoCompat likeWrap = node(container, "android.view.ViewGroup");
+    tree.likeWrap = node(container, "android.view.ViewGroup");
+    AccessibilityNodeInfoCompat likeWrap = tree.likeWrap;
     likeWrap.setFocusable(true);
     likeWrap.setText(likeDescription);
     likeWrap.setContentDescription(likeDescription);

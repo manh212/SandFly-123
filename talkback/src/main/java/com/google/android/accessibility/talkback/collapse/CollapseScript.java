@@ -209,6 +209,19 @@ public abstract class CollapseScript {
     return false;
   }
 
+  /**
+   * The node a synthesized action for {@code node} should target. The default is the node
+   * itself. A script whose scanned child is only the accessibility face of an action block —
+   * a button that exposes no click action of its own — can name the wrapper the press really
+   * lands on instead. The engine consults this only after the action's label and long-click
+   * twin have been settled from {@code node}, so retargeting never changes what an action is
+   * called or whether it exists.
+   */
+  protected AccessibilityNodeInfoCompat actionTargetNode(
+      AccessibilityNodeInfoCompat node, ItemScan scan) {
+    return node;
+  }
+
   /** The overflow-menu expansion for items matched by this script, or null for none. */
   public @Nullable MenuCatalog menuCatalog() {
     return null;

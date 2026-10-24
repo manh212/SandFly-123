@@ -119,18 +119,22 @@ public class CollapsedItemActionsTest {
     // The list recycled every node: a structurally identical new tree.
     AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree2 = CollapseTestTrees.facebookComment(list2);
+    // The Reply block's wrapper is the interaction stop: unlike the Litho button inside
+    // it, the wrapper exposes the click.
+    tree2.replyWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
     ContextMenuItem rebuilt = findItem(tree2.root, "Reply");
     assertEquals(heardId, rebuilt.getContextMenuItemId());
 
     assertTrue(rebuilt.onClickPerformed());
-    // The Reply child does not expose ACTION_CLICK (it models a Litho node), so activation
-    // goes through the focus actor's defended click rather than a bare node action.
-    assertEquals(Feedback.Focus.Action.CLICK_NODE, returner.lastPart.focus().action());
+    // The action targets the wrapper, so the press is a direct node action on it even
+    // though the button inside exposes no ACTION_CLICK of its own.
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
     // The item scan hands out obtained copies of the nodes, so this compares nodes rather
-    // than object identity: the click must land on the rebuilt tree's Reply node, and not
-    // on the recycled tree's.
-    assertEquals(tree2.reply, returner.lastPart.focus().target());
-    assertNotEquals(tree1.reply, returner.lastPart.focus().target());
+    // than object identity: the click must land on the rebuilt tree's Reply wrapper, and
+    // not on the recycled tree's.
+    assertEquals(tree2.replyWrap, returner.lastPart.nodeAction().target().getCompat());
+    assertNotEquals(tree1.replyWrap, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @Test
@@ -142,22 +146,27 @@ public class CollapsedItemActionsTest {
 
     AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree2 = CollapseTestTrees.facebookComment(list2);
-    CollapseTestTrees.bounds(tree2.reply, 0, 500, 200, 600);
+    // The item fingerprint follows the action's target node, which is the Reply wrapper.
+    CollapseTestTrees.bounds(tree2.replyWrap, 0, 500, 200, 600);
 
     assertNotEquals(heardId, findItem(tree2.root, "Reply").getContextMenuItemId());
   }
 
   @Test
-  public void longPressItem_performsLongClickOnTheLikeButton() {
+  public void longPressItem_performsLongClickOnTheLikeWrapper() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+    // The twin targets the Like block's wrapper, which exposes the long click the Litho
+    // button inside it does not.
+    tree.likeWrap.addAction(
+        AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_LONG_CLICK);
 
     ContextMenuItem longPress = findItem(tree.root, "Like, long press");
     assertTrue(longPress.onClickPerformed());
-    // The Like child does not expose ACTION_LONG_CLICK (it models a Litho node), so the
-    // long press goes through the focus actor rather than a bare node action.
-    assertEquals(Feedback.Focus.Action.LONG_CLICK_NODE, returner.lastPart.focus().action());
-    assertEquals("Like", returner.lastPart.focus().target().getText().toString());
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_LONG_CLICK,
+        returner.lastPart.nodeAction().actionId());
+    assertEquals(tree.likeWrap, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @After

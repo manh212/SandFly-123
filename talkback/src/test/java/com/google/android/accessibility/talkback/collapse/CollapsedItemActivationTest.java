@@ -61,6 +61,10 @@ import org.robolectric.annotation.Config;
  * Before the fix, the two Facebook tests fail at the click: the listener only ever emitted
  * the bare node action, the performed result was the framework's refusal, and activation
  * reported the action as not supported -- the on-device symptom.
+ *
+ * <p>Defended routes alone were not enough on device: the press has to land on the action
+ * block's wrapper, the interaction stop that exposes the click. The Facebook tests model
+ * the wrapper that way and expect delivery on the wrapper of the rebuilt tree.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
@@ -141,7 +145,7 @@ public class CollapsedItemActivationTest {
   }
 
   @Test
-  public void facebookTextComment_likeActivation_deliversThePressToTheLikeButton() {
+  public void facebookTextComment_likeActivation_deliversThePressToTheLikeWrapper() {
     AccessibilityNodeInfoCompat list1 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree1 = CollapseTestTrees.facebookComment(list1);
     ContextMenuItem.ContextMenuItemId heardId =
@@ -150,16 +154,20 @@ public class CollapsedItemActivationTest {
     // The list recycled every node: a structurally identical new tree at activation time.
     AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree2 = CollapseTestTrees.facebookComment(list2);
+    // The Like block's wrapper is the interaction stop: it exposes the click that the
+    // Litho button inside it does not.
+    tree2.likeWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
     ContextMenuItem item = lookup(tree2.root, heardId);
 
     assertNotNull("the heard item must be found again at activation time", item);
     assertTrue(
         "activation must not report the Like action as not supported", item.onClickPerformed());
-    assertEquals(tree2.like, returner.deliveredTarget());
+    assertEquals(tree2.likeWrap, returner.deliveredTarget());
+    assertEquals(tree2.likeWrap, returner.actionTarget);
   }
 
   @Test
-  public void facebookPhotoComment_likeActivation_deliversThePressToTheLikeButton() {
+  public void facebookPhotoComment_likeActivation_deliversThePressToTheLikeWrapper() {
     AccessibilityNodeInfoCompat list1 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree1 = CollapseTestTrees.facebookCommentWithPhoto(list1);
     ContextMenuItem.ContextMenuItemId heardId =
@@ -167,12 +175,14 @@ public class CollapsedItemActivationTest {
 
     AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree2 = CollapseTestTrees.facebookCommentWithPhoto(list2);
+    tree2.likeWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
     ContextMenuItem item = lookup(tree2.root, heardId);
 
     assertNotNull("the heard item must be found again at activation time", item);
     assertTrue(
         "activation must not report the Like action as not supported", item.onClickPerformed());
-    assertEquals(tree2.like, returner.deliveredTarget());
+    assertEquals(tree2.likeWrap, returner.deliveredTarget());
+    assertEquals(tree2.likeWrap, returner.actionTarget);
   }
 
   @Test

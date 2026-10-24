@@ -57,12 +57,18 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.like, action.node);
+        assertEquals(tree.likeWrap, action.node);
       } else {
         clickLabels.add(action.label.toString());
         if ("This is a great comment".contentEquals(action.label)) {
           // The text itself is not clickable in the real tree; its action lands on the shell.
           assertEquals(tree.bodyActionTarget, action.node);
+        }
+        if ("Reply".contentEquals(action.label)) {
+          // The press lands on the block's wrapper, not the inert Litho button inside it.
+          assertEquals(tree.replyWrap, action.node);
+        } else if ("Like".contentEquals(action.label)) {
+          assertEquals(tree.likeWrap, action.node);
         }
       }
     }
@@ -165,11 +171,17 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.like, action.node);
+        assertEquals(tree.likeWrap, action.node);
       } else {
         clickLabels.add(action.label.toString());
         if ("This is a great comment".contentEquals(action.label)) {
           assertEquals(tree.bodyActionTarget, action.node);
+        }
+        if ("Reply".contentEquals(action.label)) {
+          // The press lands on the block's wrapper, not the inert Litho button inside it.
+          assertEquals(tree.replyWrap, action.node);
+        } else if ("Like".contentEquals(action.label)) {
+          assertEquals(tree.likeWrap, action.node);
         }
       }
     }
@@ -346,7 +358,7 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.like, action.node);
+        assertEquals(tree.likeWrap, action.node);
       } else {
         // No blank entries: the header's unlabelled clickable container is not an action.
         assertFalse(action.label.toString().isEmpty());
@@ -354,7 +366,13 @@ public class FacebookCollapseScriptTest {
         if ("Hoang Tuan looks great in this photo".contentEquals(action.label)) {
           assertEquals(tree.bodyActionTarget, action.node);
         } else if ("Hoang Tuan".contentEquals(action.label)) {
+          // A mention inside the body text keeps its own target: the text node around it
+          // is a content field, not an action block's wrapper.
           assertEquals(tree.mention, action.node);
+        } else if ("Reply".contentEquals(action.label)) {
+          assertEquals(tree.replyWrap, action.node);
+        } else if ("Like".contentEquals(action.label)) {
+          assertEquals(tree.likeWrap, action.node);
         } else if ("May be an image of text".contentEquals(action.label)) {
           // Exactly one photo action, on the wrapper; the image itself is de-duplicated
           // into it and neither of them earns a long-press twin.
@@ -473,6 +491,58 @@ public class FacebookCollapseScriptTest {
     checkbox.setPackageName(CollapseTestTrees.FACEBOOK_PACKAGE);
 
     assertNull(CollapseEngine.matchItemRoot(tree.root, SCRIPTS));
+  }
+
+  @Test
+  public void actionTargets_stayOnTheButtons_whenTheWrapperCannotTakeThePress() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    for (ChildAction action : item.actions()) {
+      if (action.longClick) {
+        continue;
+      }
+      if ("Profile picture of Nguyen Van A".contentEquals(action.label)) {
+        // The avatar's parent is a plain container carrying no flags at all.
+        assertEquals(tree.avatar, action.node);
+      } else if ("5 reactions".contentEquals(action.label)) {
+        // The reactions frame carries no flags either, so it cannot take the press.
+        assertEquals(tree.reactions, action.node);
+      } else if ("Demote comment".contentEquals(action.label)) {
+        // The demote button hangs directly off the item root.
+        assertEquals(tree.demote, action.node);
+      }
+    }
+  }
+
+  @Test
+  public void wrapperWrappingTwoClickables_keepsBothButtonTargets() {
+    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
+    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
+    AccessibilityNodeInfoCompat extra =
+        CollapseTestTrees.node(tree.likeWrap, "android.widget.Button");
+    extra.setClickable(true);
+    extra.setFocusable(true);
+    extra.setText("Extra");
+    CollapseTestTrees.bounds(extra, 400, 300, 500, 400);
+
+    CollapsedItem item = CollapseEngine.matchItemRoot(tree.root, SCRIPTS);
+
+    assertNotNull(item);
+    for (ChildAction action : item.actions()) {
+      if (action.longClick) {
+        continue;
+      }
+      if ("Like".contentEquals(action.label)) {
+        // The Like frame now wraps two clickables: a shared container, not a wrapper.
+        assertEquals(tree.like, action.node);
+      } else if ("Extra".contentEquals(action.label)) {
+        assertEquals(extra, action.node);
+      }
+    }
   }
 
   @Test

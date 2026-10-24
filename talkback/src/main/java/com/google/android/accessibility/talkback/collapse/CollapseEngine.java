@@ -338,7 +338,7 @@ public final class CollapseEngine {
     return new CollapsedItem(
         itemRoot,
         itemRoot,
-        withLongClickTwins(script, scan, clickActions),
+        retargetActions(script, scan, withLongClickTwins(script, scan, clickActions)),
         label.toString(),
         activationTarget,
         fieldNode(fields, script.selectionFieldId()));
@@ -370,6 +370,25 @@ public final class CollapseEngine {
       }
     }
     return actions;
+  }
+
+  /**
+   * Points each action at the node its script names for it. This runs last: labels and
+   * long-click twins are settled from the scanned children first, so a retargeted action
+   * keeps the name and the twin its original child earned — only the node the press lands
+   * on changes.
+   */
+  private static List<ChildAction> retargetActions(
+      CollapseScript script, ItemScan scan, List<ChildAction> actions) {
+    List<ChildAction> retargeted = new ArrayList<>();
+    for (ChildAction action : actions) {
+      AccessibilityNodeInfoCompat target = script.actionTargetNode(action.node, scan);
+      retargeted.add(
+          target == null || target.equals(action.node)
+              ? action
+              : new ChildAction(target, action.longClick, action.label));
+    }
+    return retargeted;
   }
 
   private static List<ChildAction> dedupNestedSameLabel(List<ChildAction> actions) {
