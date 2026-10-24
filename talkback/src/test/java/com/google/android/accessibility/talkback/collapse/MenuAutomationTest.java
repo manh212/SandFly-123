@@ -49,7 +49,8 @@ import org.robolectric.annotation.Config;
 public class MenuAutomationTest {
   private static final String SHEET_ID = CollapseTestTrees.YOUTUBE_MENU_LABEL_VIEW_ID;
   private static final String ORIGIN_LABEL =
-      "Video title, 10:24, Channel X, 1M views, play video";
+      "Video title - 10 minutes, 24 seconds - Go to channel Channel X - Channel X,"
+          + " 1M views - 15 minutes ago - play video";
 
   /** Records every feedback part routed through the returner, in order. */
   private static final class RecordingReturner implements Pipeline.FeedbackReturner {
