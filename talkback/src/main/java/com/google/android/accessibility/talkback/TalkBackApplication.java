@@ -44,6 +44,10 @@ public class TalkBackApplication extends Application {
       SettingsImporter.importIfNeeded(this);
     }
 
+    // Still before anything builds state on the preferences: on the first start after an
+    // update, rewrite the main preferences file the way the manual cure does (PrefsSelfHeal).
+    PrefsSelfHeal.healIfVersionChanged(this);
+
     FormFactorUtils.initialize(this);
     PackageNameProvider.initialize(this);
     TrainingActivityInterfaceInjector.initialize(
