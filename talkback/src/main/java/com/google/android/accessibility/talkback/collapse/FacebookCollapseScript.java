@@ -148,6 +148,49 @@ final class FacebookCollapseScript extends CollapseScript {
     return body != null && !node.equals(body) && scan.indexOf(node) > scan.indexOf(body);
   }
 
+  @Override
+  protected AccessibilityNodeInfoCompat actionTargetNode(
+      AccessibilityNodeInfoCompat node, ItemScan scan) {
+    // The bottom-row blocks (reply, like) wrap their button in a focusable frame that
+    // carries the block's instruction label. The button inside is a Litho node: it exposes
+    // no click action, and a simulated tap at its centre is accepted without doing
+    // anything. The frame is the stop Facebook designed the press to land on, so the
+    // action targets it instead — under strict conditions, so nothing else in the comment
+    // changes target.
+    AccessibilityNodeInfoCompat parent = node.getParent();
+    if (parent == null || parent.equals(scan.itemRoot())) {
+      return node;
+    }
+    // The frame must be a focus stop carrying a label of its own, and must not be
+    // clickable itself: a clickable wrapper (the photo block) already takes its own press.
+    if (parent.isClickable()
+        || !parent.isFocusable()
+        || TextUtils.isEmpty(ItemScan.spokenLabel(parent))) {
+      return node;
+    }
+    // The frame must wrap exactly this one button; a frame over several clickables is a
+    // shared container, not one action's face.
+    int wrappedClickables = 0;
+    for (AccessibilityNodeInfoCompat clickable : scan.clickables()) {
+      if (isWithin(clickable, parent)) {
+        wrappedClickables++;
+      }
+    }
+    if (wrappedClickables != 1) {
+      return node;
+    }
+    // Content fields are not action blocks: a mention nested in the body text keeps its
+    // own target even though the text node around it is focusable and labelled.
+    AccessibilityNodeInfoCompat avatar = avatarNode(scan);
+    AccessibilityNodeInfoCompat author = authorNode(scan, avatar);
+    AccessibilityNodeInfoCompat time = timeNode(scan, avatar, author);
+    AccessibilityNodeInfoCompat body = bodyNode(scan, avatar, author, time);
+    if (parent.equals(author) || parent.equals(time) || parent.equals(body)) {
+      return node;
+    }
+    return parent;
+  }
+
   /** Whether a node is an image or wraps one — the shape of an attached-photo block. */
   private static boolean isOrWrapsImage(AccessibilityNodeInfoCompat node, ItemScan scan) {
     if (isImage(node)) {
