@@ -198,11 +198,10 @@ public final class MenuAutomation {
         }
         return true;
       }
-      if (session.sheetSeen
-          && (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-              || type == AccessibilityEvent.TYPE_WINDOWS_CHANGED
-              || type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)) {
-        // The sheet was open and is gone before any click: the user backed out.
+      if (session.sheetSeen) {
+        // The sheet was open and the current window list no longer contains it, before
+        // any click: the user backed out. The window list is the evidence, so this is
+        // concluded on any scanned event type, not just window events.
         tryRestore(session, provider, /* speakFailure= */ false);
         finish(session);
         return true;
