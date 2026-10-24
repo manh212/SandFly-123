@@ -215,7 +215,10 @@ jobs:
           out="$RUNNER_TEMP/push-failure-tail.txt"
           : > "$out"
           if [ -f "$RUNNER_TEMP/assemble.log" ]; then
-            tail -n 150 "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" > "$out" || true
+            grep -A 80 "FAILURE:" "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" > "$out" || true
+            if [ ! -s "$out" ]; then
+              grep -E "error:|FAILED|Exception" "$RUNNER_TEMP/assemble.log" | grep -Evi "$blocked" | head -n 80 > "$out" || true
+            fi
           fi
           head -c 12000 "$out" > "$out.tmp" && mv "$out.tmp" "$out"
           {
