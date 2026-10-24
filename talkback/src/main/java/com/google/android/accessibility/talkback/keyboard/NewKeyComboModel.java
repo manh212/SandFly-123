@@ -1126,15 +1126,6 @@ public class NewKeyComboModel implements KeyComboModel {
               /* triggerModifierUsed= */ true);
         }
       }
-      if (FeatureFlagReader.enableReportIssueKeyboard(context)) {
-        if (key.equals(context.getString(R.string.keycombo_shortcut_other_report_issue))) {
-          return new KeyCombo(
-              KeyComboModel.NO_MODIFIER,
-              KeyEvent.KEYCODE_O,
-              KeyEvent.KEYCODE_I,
-              /* triggerModifierUsed= */ true);
-        }
-      }
     }
 
     if (FeatureFlagReader.enableToggleKeyComboPassThroughOnce(context)) {
@@ -1415,9 +1406,6 @@ public class NewKeyComboModel implements KeyComboModel {
     }
     if (FeatureFlagReader.enableToggleVoiceFeedback(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_global_toggle_voice_feedback));
-    }
-    if (FeatureFlagReader.enableReportIssueKeyboard(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_report_issue));
     }
     if (FeatureFlagReader.enableCyclePunctuationVerbosityKeyboard(context)) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_global_cycle_punctuation_verbosity));

@@ -777,13 +777,7 @@ SandFly doesn't stop on a slider's title as a separate item when you swipe throu
 
 ### Feedback
 
-**Send feedback**, in Settings and in the SandFly menu, sends a problem or suggestion to SandFly's developer without a GitHub account. It has three parts:
-
-- **Send feedback**: the form. What you type is kept as a draft until you choose **Send** or **Delete draft**.
-- **Inbox**: the feedback you sent, each with its status (Open, or Closed: completed, not planned or duplicate) and how many replies you haven't read. Open one to read the replies and send your own, with **Your reply** and **Send reply**.
-- **Drafts**: feedback you started and haven't sent.
-
-While SandFly is on, it checks for replies and status changes every hour, and when you open **Send feedback**. A reply or a new status posts a notification, with sound, that opens the feedback. Closed feedback is still checked for 30 days. **Remove from inbox** stops the checks and deletes the feedback from the phone; the developer keeps it.
+This fork removes upstream's **Send feedback** entirely: the settings item, the SandFly menu item and the keyboard shortcut action are gone, and the app no longer sends reports — which could include SandFly's log — to the original author's report server, nor checks it for replies. To report a problem with this fork, use **Export diagnostics** in **Developer settings** and share the file yourself.
 
 ### Export and import settings
 

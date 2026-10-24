@@ -59,13 +59,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Patterns;
-import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Feedback.FocusDirection;
-import com.google.android.accessibility.talkback.report.ReportsFragment;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -788,7 +786,6 @@ public class KeyComboMapper {
       case SHOW_LEARN_MODE_PAGE -> openLearnModePage();
       case TOGGLE_VOICE_FEEDBACK ->
           result = pipeline.returnFeedback(eventId, Feedback.speech(TOGGLE_VOICE_FEEDBACK));
-      case REPORT_ISSUE -> reportIssue();
       case CYCLE_PUNCTUATION_VERBOSITY ->
           selectorController.cycleSpeakPunctuationVerbosity(
               eventId, TalkBackAnalytics.TYPE_KEYBOARD);
@@ -915,17 +912,6 @@ public class KeyComboMapper {
   private void openLearnModePage() {
     Intent intent = TutorialInitiator.createPracticeKeyboardShortcutsIntent(accessibilityService);
     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-    accessibilityService.startActivity(intent);
-  }
-
-  @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
-  public void reportIssue() {
-    if (!SettingsUtils.allowLinksOutOfSettings(accessibilityService.getApplicationContext())) {
-      return;
-    }
-    Intent intent = new Intent(accessibilityService, TalkBackPreferencesActivity.class);
-    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-    intent.putExtra(FRAGMENT_NAME, ReportsFragment.class.getName());
     accessibilityService.startActivity(intent);
   }
 

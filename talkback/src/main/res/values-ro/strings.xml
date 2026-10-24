@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Copiază ultima expresie rostită</string>
   <string name="keycombo_menu_other_open_tts_settings">Deschide setările redării vocale a textului</string>
   <string name="keycombo_menu_other_open_talkback_settings">Deschide setările SandFly</string>
-  <string name="keycombo_menu_other_report_issue">Trimite feedback</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Repetă ecoul la tastare</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Afișează lista de comenzi rapide de la tastatură</string>
   <string name="keycombo_menu_category_web">Acțiuni de navigare pe web</string>

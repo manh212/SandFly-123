@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">बोले गए पिछले वाक्यांश को कॉपी करें</string>
   <string name="keycombo_menu_other_open_tts_settings">लिखे गए शब्दों को सुनने की सेटिंग खोलें</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly सेटिंग खोलें</string>
-  <string name="keycombo_menu_other_report_issue">शिकायत करें</string>
   <string name="keycombo_menu_other_cycle_typing_echo">टाइप करने पर आने वाली आवाज़ को दोहराएं</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">कीबोर्ड शॉर्टकट की सूची दिखाएं</string>
   <string name="keycombo_menu_category_web">वेब मार्गदर्शक कार्रवाइयां</string>

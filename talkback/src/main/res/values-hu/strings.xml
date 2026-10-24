@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Az utolsó felolvasott mondat másolása</string>
   <string name="keycombo_menu_other_open_tts_settings">A szövegfelolvasáshoz tartozó beállítások megnyitása</string>
   <string name="keycombo_menu_other_open_talkback_settings">A SandFly beállításainak megnyitása</string>
-  <string name="keycombo_menu_other_report_issue">Visszajelzés küldése</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Váltás a gépelési visszaolvasási szintek között</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Billentyűparancsok listájának megjelenítése</string>
   <string name="keycombo_menu_category_web">Internetes navigációs műveletek</string>

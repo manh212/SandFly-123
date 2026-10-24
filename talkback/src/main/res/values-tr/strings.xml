@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Son söylenen ifadeyi kopyala</string>
   <string name="keycombo_menu_other_open_tts_settings">Metin okuma ayarlarını aç</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly ayarlarını aç</string>
-  <string name="keycombo_menu_other_report_issue">Geri bildirim gönder</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Yazma yankısı seviyeleri rasında geçiş yap</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Klavye kısayolları listesini göster</string>
   <string name="keycombo_menu_category_web">Web\'de gezinme işlemleri</string>

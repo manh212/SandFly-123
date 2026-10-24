@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">আপনার বলা শেষ কথাটি কপি করুন</string>
   <string name="keycombo_menu_other_open_tts_settings">\'টেক্সট-টু-স্পিচ\' সেটিংস খুলুন</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly সেটিংস খুলুন</string>
-  <string name="keycombo_menu_other_report_issue">মতামত জানান</string>
   <string name="keycombo_menu_other_cycle_typing_echo">সাইকেল টাইপিং ইকো</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">কীবোর্ড শর্টকাট তালিকা দেখুন</string>
   <string name="keycombo_menu_category_web">ওয়েবে নেভিগেশান অ্যাকশনগুলি</string>

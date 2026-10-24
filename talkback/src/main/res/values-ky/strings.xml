@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Акыркы айтылган сүйлөмдү көчүрүү</string>
   <string name="keycombo_menu_other_open_tts_settings">Кеп синтезаторунун параметрлерин ачыңыз</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly параметрлерин ачасыз</string>
-  <string name="keycombo_menu_other_report_issue">Пикир билдирүү</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Терүү жаңырыгынын мерчими</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Ыкчам баскычтардын тизмесин айтып бер</string>
   <string name="keycombo_menu_category_web">Интернетте чабыттоо аракеттери</string>

@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">העתקת האמירה האחרונה</string>
   <string name="keycombo_menu_other_open_tts_settings">‏פתיחת ההגדרות של המרת טקסט לדיבור (TTS)</string>
   <string name="keycombo_menu_other_open_talkback_settings">‏פתיחה של הגדרות SandFly</string>
-  <string name="keycombo_menu_other_report_issue">שליחת משוב</string>
   <string name="keycombo_menu_other_cycle_typing_echo">מחזור של הגיית ההקלדה</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">הצגת רשימה של מקשי קיצור</string>
   <string name="keycombo_menu_category_web">פעולות ניווט באינטרנט</string>

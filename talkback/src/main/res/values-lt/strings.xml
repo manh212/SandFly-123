@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopijuoti paskutinę ištartą frazę</string>
   <string name="keycombo_menu_other_open_tts_settings">Atidaryti teksto į kalbą nustatymus</string>
   <string name="keycombo_menu_other_open_talkback_settings">Atidaryti „SandFly“ nustatymus</string>
-  <string name="keycombo_menu_other_report_issue">Siųsti atsiliepimą</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Perjungti teksto vedimo aidą</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Rodyti sparčiųjų klavišų sąrašą</string>
   <string name="keycombo_menu_category_web">Žiniatinklio naršymo veiksmai</string>

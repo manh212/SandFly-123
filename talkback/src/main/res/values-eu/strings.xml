@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopiatu esandako azken esaldia</string>
   <string name="keycombo_menu_other_open_tts_settings">Ireki testua ahots bihurtzeko eginbidearen ezarpenak</string>
   <string name="keycombo_menu_other_open_talkback_settings">Ireki SandFly-en ezarpenak</string>
-  <string name="keycombo_menu_other_report_issue">Bidali oharrak</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Aldatu idazketa-oihartzuna</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Erakutsi lasterbideen zerrenda</string>
   <string name="keycombo_menu_category_web">Webguneetan nabigatzeko ekintzak</string>

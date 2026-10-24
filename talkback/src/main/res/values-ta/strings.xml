@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">கடைசியாக வாசித்த சொற்றொடரை நகலெடு</string>
   <string name="keycombo_menu_other_open_tts_settings">\'எழுத்திலிருந்து பேச்சு\' அமைப்புகளைத் திற</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly அமைப்புகளைத் திற</string>
-  <string name="keycombo_menu_other_report_issue">கருத்தை அனுப்பு</string>
   <string name="keycombo_menu_other_cycle_typing_echo">தொடர் டைப்பிங் எதிரொலி</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">கீபோர்டு ஷார்ட்கட்களின் பட்டியலைக் காட்டும்</string>
   <string name="keycombo_menu_category_web">இணைய உலாவல் செயல்கள்</string>

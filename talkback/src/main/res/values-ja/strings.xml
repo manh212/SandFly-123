@@ -192,7 +192,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">最後に読み上げたフレーズをコピー</string>
   <string name="keycombo_menu_other_open_tts_settings">テキスト読み上げの設定が表示されます</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly 設定を開く</string>
-  <string name="keycombo_menu_other_report_issue">フィードバックを送信</string>
   <string name="keycombo_menu_other_cycle_typing_echo">入力読み上げを切り替える</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">キーボード ショートカットのリストを表示</string>
   <string name="keycombo_menu_category_web">ウェブ ナビゲーション操作</string>

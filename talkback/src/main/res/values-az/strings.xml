@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Səsləndirilmiş son ifadəni kopyalayın</string>
   <string name="keycombo_menu_other_open_tts_settings">Nitq sintezi ayarlarını açın</string>
   <string name="keycombo_menu_other_open_talkback_settings">SandFly ayarlarını açın</string>
-  <string name="keycombo_menu_other_report_issue">Rəy göndərin</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Yazı zamanı səs səviyyələrinin növbələşməsi</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Klaviatura qısayolları siyahısını göstərin</string>
   <string name="keycombo_menu_category_web">Veb naviqasiya əməliyyatları</string>

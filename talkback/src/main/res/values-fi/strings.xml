@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopioi viimeksi sanottu lause</string>
   <string name="keycombo_menu_other_open_tts_settings">Avaa Tekstistä puheeksi ‑asetukset</string>
   <string name="keycombo_menu_other_open_talkback_settings">Avaa SandFly-asetukset</string>
-  <string name="keycombo_menu_other_report_issue">Lähetä palautetta</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Ota kirjoituksen kaiku käyttöön tai poista se käytöstä</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Näytä pikanäppäinlista</string>
   <string name="keycombo_menu_category_web">Verkon siirtymistoiminnot</string>

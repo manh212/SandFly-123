@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">መጨረሻ የተነገረውን ሐረግ ቅዳ</string>
   <string name="keycombo_menu_other_open_tts_settings">የጽሑፍ-ወደ-ንግግር ቅንብሮችን ይክፈቱ</string>
   <string name="keycombo_menu_other_open_talkback_settings">የSandFly ቅንብሮችን ይክፈቱ</string>
-  <string name="keycombo_menu_other_report_issue">ግብረመልስ ላክ</string>
   <string name="keycombo_menu_other_cycle_typing_echo">የዑደት ትየባ ማሚቶ</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">የቁልፍ ሰሌዳ አቋራጭ ዝርዝርን አሳይ</string>
   <string name="keycombo_menu_category_web">የድር አሰሳ እርምጃዎች</string>

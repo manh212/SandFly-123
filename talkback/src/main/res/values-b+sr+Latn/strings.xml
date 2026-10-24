@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopiraj poslednju izgovorenu frazu</string>
   <string name="keycombo_menu_other_open_tts_settings">Otvori podešavanja pretvaranja teksta u govor</string>
   <string name="keycombo_menu_other_open_talkback_settings">Otvaranje podešavanja SandFly-a</string>
-  <string name="keycombo_menu_other_report_issue">Pošalji povratne informacije</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Menjaj eho unosa</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Prikaži listu tasterskih prečica</string>
   <string name="keycombo_menu_category_web">Radnje za kretanje po vebu</string>

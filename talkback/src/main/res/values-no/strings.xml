@@ -193,7 +193,6 @@
   <string name="keycombo_menu_other_copy_last_spoken_phrase">Kopier den siste uttalte frasen</string>
   <string name="keycombo_menu_other_open_tts_settings">Åpne innstillingene for tekst til tale</string>
   <string name="keycombo_menu_other_open_talkback_settings">Åpne SandFly-innstillingene</string>
-  <string name="keycombo_menu_other_report_issue">Send tilbakemelding</string>
   <string name="keycombo_menu_other_cycle_typing_echo">Slå av eller på tasteekko</string>
   <string name="keycombo_menu_other_show_keyboard_shortcuts_dialog">Vis listen over hurtigtaster</string>
   <string name="keycombo_menu_category_web">Handlinger for navigering på nett</string>

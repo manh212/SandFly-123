@@ -312,10 +312,6 @@ public final class FeatureFlagReader {
     return true;
   }
 
-  public static boolean enableReportIssueKeyboard(Context context) {
-    return true;
-  }
-
   public static boolean enableCyclePunctuationVerbosityKeyboard(Context context) {
     return true;
   }
