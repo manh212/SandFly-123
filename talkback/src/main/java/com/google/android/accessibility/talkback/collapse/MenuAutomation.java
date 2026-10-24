@@ -298,7 +298,9 @@ public final class MenuAutomation {
       return;
     }
     if (session.stage == Stage.AWAIT_CLOSE) {
-      finish(session);
+      // Settle exactly like a normal close, so the deadline restores focus and speaks
+      // a pending failure instead of ending the sequence in silence.
+      onCloseSettle(session);
       return;
     }
     boolean sheetOpen =
@@ -590,13 +592,16 @@ public final class MenuAutomation {
   /**
    * Re-resolves the originating row's representative inside a window root: a collapsed item
    * whose representative speaks the recorded label, preferring one whose item bounds still
-   * match the recorded bounds.
+   * match the recorded bounds. When several items carry the label and none matches the
+   * bounds, the one whose bounds lie closest to the recorded bounds wins, so duplicate
+   * titles cannot send the focus to an arbitrary namesake.
    */
   private static @Nullable AccessibilityNodeInfoCompat resolveOriginRepresentative(
       AccessibilityNodeInfoCompat windowRoot, Pending session) {
     List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
     collect(windowRoot, nodes);
     AccessibilityNodeInfoCompat labelOnlyMatch = null;
+    long labelOnlyDistance = Long.MAX_VALUE;
     for (AccessibilityNodeInfoCompat node : nodes) {
       if (!CollapseEngine.isCollectionItem(node)) {
         continue;
@@ -614,11 +619,18 @@ public final class MenuAutomation {
       if (boundsClose(bounds, session.originBounds)) {
         return item.representative();
       }
-      if (labelOnlyMatch == null) {
+      long distance = boundsDistance(bounds, session.originBounds);
+      if (distance < labelOnlyDistance) {
+        labelOnlyDistance = distance;
         labelOnlyMatch = item.representative();
       }
     }
     return labelOnlyMatch;
+  }
+
+  private static long boundsDistance(Rect a, Rect b) {
+    return Math.abs((long) a.centerX() - b.centerX())
+        + Math.abs((long) a.centerY() - b.centerY());
   }
 
   private static boolean boundsClose(Rect a, Rect b) {
