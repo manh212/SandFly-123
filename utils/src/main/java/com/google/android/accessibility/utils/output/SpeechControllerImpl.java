@@ -125,6 +125,9 @@ public class SpeechControllerImpl implements SpeechController {
   /** The number of recently-spoken items to keep in history. */
   private static final int MAX_HISTORY_ITEMS = 10;
 
+  /** The longest text the compositor's interruptible-if-long rule leaves uninterruptible. */
+  private static final int SHORT_UNINTERRUPTIBLE_MAX_CHARS = 30;
+
   /**
    * The delay, in ms, after which a recently-spoken item will be considered for duplicate removal
    * in the event that a new feedback item has the flag {@link FeedbackItem#FLAG_SKIP_DUPLICATE}.
@@ -1359,6 +1362,10 @@ public class SpeechControllerImpl implements SpeechController {
       @Nullable UtteranceRangeStartCallback rangeStartCallback,
       @Nullable UtteranceCompleteRunnable completedAction) {
 
+    if (failoverTts.isAlwaysInterruptSpeechOn()) {
+      queueMode |= QUEUE_MODE_BIT_INTERRUPT;
+    }
+
     // If this FeedbackItem is flagged as NO_SPEECH, ignore speech and
     // immediately process earcons and haptics without disrupting the speech
     // queue.
@@ -1446,6 +1453,8 @@ public class SpeechControllerImpl implements SpeechController {
     } else {
       LogUtils.v(
           TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
+      Performance.getInstance()
+          .recordSpeechWaitBlocker(speechWaitBlockerClass(item, currentFeedbackItem));
     }
   }
 
@@ -1966,6 +1975,31 @@ public class SpeechControllerImpl implements SpeechController {
    * @param item The item to speak.
    */
   @SuppressLint("InlinedApi")
+  /**
+   * Which class of utterance {@code waiting} is stuck behind, for the wait-attribution counts in
+   * the performance statistics.
+   */
+  private static String speechWaitBlockerClass(FeedbackItem waiting, FeedbackItem blocking) {
+    if (!waiting.shouldFlushGlobalTtsQueue()) {
+      // The waiting item carries no interrupt bit of its own (for example the first focus of a
+      // window, which queues by design), so it waits behind whatever is speaking.
+      return Performance.SPEECH_WAIT_QUEUED_BY_DESIGN;
+    }
+    if (!blocking.isInterruptibleByNewSpeech()) {
+      CharSequence text = blocking.getFirstSpokenText();
+      int length = (text == null) ? 0 : text.length();
+      if (blocking.canIgnoreInterrupts() && length <= SHORT_UNINTERRUPTIBLE_MAX_CHARS) {
+        // The short-utterance class: announcements and typing echo that the
+        // interruptible-if-long rule made uninterruptible.
+        return Performance.SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE;
+      }
+      if (!blocking.isGloballyUninterruptible()) {
+        return Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT;
+      }
+    }
+    return Performance.SPEECH_WAIT_BLOCKER_OTHER;
+  }
+
   private void speakNextItemInternal(FeedbackItem item) {
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;

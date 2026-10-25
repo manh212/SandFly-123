@@ -1555,6 +1555,8 @@
     <string name="value_rotor_step_60">60 độ</string>
     <string name="title_pref_low_latency_audio">Âm thanh có độ trễ thấp</string>
     <string name="summary_pref_low_latency_audio">Phát âm thanh và lời nói của SandFly qua đường âm thanh nhanh nhất của điện thoại để bạn nghe thấy sớm hơn. Hãy tắt tuỳ chọn này nếu lời nói hoặc âm thanh bị ngắt quãng hoặc nghe không đúng.</string>
+    <string name="title_pref_always_interrupt_speech">Luôn ngắt câu đang nói</string>
+    <string name="summary_pref_always_interrupt_speech">Câu nói mới sẽ dừng thông báo đang nói và xóa các thông báo đang chờ, để bạn nghe thông báo mới nhất ngay lập tức. Hãy tắt tùy chọn này nếu các thông báo bị cắt ngang trước khi bạn nghe hết.</string>
     <string name="value_focus_delay_200ms_default">0,2 giây (mặc định)</string>
     <string name="value_focus_delay_300ms">0,3 giây</string>
     <string name="title_pref_lift_to_activate">Nhấc ngón tay để kích hoạt</string>

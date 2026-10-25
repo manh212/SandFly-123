@@ -240,13 +240,13 @@ object TraversalTreeCache {
   @JvmStatic
   fun changesNodes(actionId: Int): Boolean = actionId !in FOCUS_ACTIONS && actionId != SHOW_ON_SCREEN
 
-  /** Throws away the saved order if [event] can change its window. */
+  /** Throws away the saved order if [event] can change its window. Returns whether it did. */
   @JvmStatic
-  fun onAccessibilityEvent(event: AccessibilityEvent) {
-    val savedRoot = root ?: return
+  fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
+    val savedRoot = root ?: return false
     val type = event.eventType
     if (type and IGNORED_EVENT_TYPES != 0) {
-      return
+      return false
     }
     val windowId = event.windowId
     if (
@@ -264,7 +264,7 @@ object TraversalTreeCache {
         if (firstIgnoredChangeTime == 0L) {
           firstIgnoredChangeTime = SystemClock.uptimeMillis()
         }
-        return
+        return false
       }
       clear(
         if (LogUtils.shouldLog(Log.DEBUG)) {
@@ -273,6 +273,8 @@ object TraversalTreeCache {
           ""
         }
       )
+      return true
     }
+    return false
   }
 }

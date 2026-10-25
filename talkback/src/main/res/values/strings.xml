@@ -2583,6 +2583,11 @@
     <!-- Reduce delays: summary of the low-latency audio switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_low_latency_audio">Play SandFly\'s sounds and speech through the phone\'s fastest audio path, so you hear them sooner. Turn it off if speech or sounds break up or sound wrong.</string>
 
+    <!-- Reduce delays: switch that makes new speech interrupt the speech in progress. [CHAR LIMIT=50] -->
+    <string name="title_pref_always_interrupt_speech">Always interrupt speech</string>
+    <!-- Reduce delays: summary of the always interrupt speech switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_always_interrupt_speech">New speech stops the announcement currently speaking and clears any waiting, so you hear the newest announcement straight away. Turn it off if announcements get cut off before you hear them in full.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
