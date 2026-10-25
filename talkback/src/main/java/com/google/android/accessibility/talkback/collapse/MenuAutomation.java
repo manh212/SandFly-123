@@ -23,6 +23,7 @@ import android.content.Context;
 import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -32,6 +33,8 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
+import com.google.android.accessibility.utils.PerformActionUtils;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -48,8 +51,16 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * success, by the label being absent, by a deadline, or by the user backing out — accessibility
  * focus is restored to the originating row, re-resolved from the label and bounds recorded at
  * the start. At most one sequence runs at a time; everything is confined to the main thread.
+ *
+ * <p>{@link #beginTray} runs the same state machine for an app's own action tray (Facebook's
+ * comment tray): the opener is a real long press instead of a click, the sheet is recognised
+ * by anchors instead of a view id, the click lands on the tray's real button carrying the
+ * target label, and an open-only variant leaves the tray up for the user. Tray stages log
+ * under the perform tag so one log filter shows a whole activation.
  */
 public final class MenuAutomation {
+  // The perform log tag: tray stages are stages of a collapsed action's perform.
+  private static final String TAG = "CollapsedItemActions";
   private static final int MASTER_TIMEOUT_MS = 3000;
   private static final int SHEET_GRACE_MS = 1000;
   private static final int CLOSE_SETTLE_MS = 1200;
@@ -77,14 +88,25 @@ public final class MenuAutomation {
     final @Nullable String[] targetVariants;
     /** Toggle targets only: the stable cores of the target label; null if plain. */
     final @Nullable String[] targetCores;
-    final String sheetLabelViewId;
+    final @Nullable String sheetLabelViewId;
     final String originLabel;
     final Rect originBounds;
+    // Tray mode only: how the sheet is recognised and what happens inside it.
+    final boolean trayMode;
+    final @Nullable String trayHeaderText;
+    final @Nullable String trayAuthorName;
+    final @Nullable String trayTargetLabel;
+    final boolean trayOpenOnly;
+    final boolean restoreFocusOnClose;
+    /** Tray mode only: speaks the failure; null speaks the menu-not-available string. */
+    final @Nullable Runnable failureAnnouncer;
+    final long beginTimeMs;
     final Handler handler = new Handler(Looper.getMainLooper());
     Stage stage = Stage.AWAIT_SHEET;
     boolean sheetSeen;
     boolean windowEventSeen;
     boolean failureSpeechPending;
+    boolean trayButtonsLogged;
     @Nullable RootProvider lastProvider;
     @Nullable Runnable masterTimeout;
     @Nullable Runnable sheetGrace;
@@ -109,6 +131,45 @@ public final class MenuAutomation {
       this.sheetLabelViewId = sheetLabelViewId;
       this.originLabel = originLabel;
       this.originBounds = originBounds;
+      this.trayMode = false;
+      this.trayHeaderText = null;
+      this.trayAuthorName = null;
+      this.trayTargetLabel = null;
+      this.trayOpenOnly = false;
+      this.restoreFocusOnClose = true;
+      this.failureAnnouncer = null;
+      this.beginTimeMs = SystemClock.uptimeMillis();
+    }
+
+    Pending(
+        Pipeline.FeedbackReturner pipeline,
+        Context context,
+        String packageName,
+        String trayHeaderText,
+        @Nullable String trayAuthorName,
+        @Nullable String trayTargetLabel,
+        boolean trayOpenOnly,
+        boolean restoreFocusOnClose,
+        Runnable failureAnnouncer,
+        String originLabel,
+        Rect originBounds) {
+      this.pipeline = pipeline;
+      this.context = context;
+      this.packageName = packageName;
+      this.targetLabel = "";
+      this.targetVariants = null;
+      this.targetCores = null;
+      this.sheetLabelViewId = null;
+      this.originLabel = originLabel;
+      this.originBounds = originBounds;
+      this.trayMode = true;
+      this.trayHeaderText = trayHeaderText;
+      this.trayAuthorName = trayAuthorName;
+      this.trayTargetLabel = trayTargetLabel;
+      this.trayOpenOnly = trayOpenOnly;
+      this.restoreFocusOnClose = restoreFocusOnClose;
+      this.failureAnnouncer = failureAnnouncer;
+      this.beginTimeMs = SystemClock.uptimeMillis();
     }
   }
 
@@ -190,6 +251,60 @@ public final class MenuAutomation {
   }
 
   /**
+   * Arms a tray sequence and fires the opener: a real long press on the comment's live body
+   * shell, which opens the app's own action tray. The tray is then recognised by its anchors
+   * (see {@link #findTrayRoot}); unless {@code openOnly} is set, the sequence clicks the
+   * tray's real button whose own label is {@code targetButtonLabel}. When {@code
+   * restoreFocusOnClose} is false, the sequence ends without pulling focus back when the
+   * tray closes — the follow-up UI (a composer) is the intended result and keeps focus.
+   * Failures are announced through {@code failureAnnouncer} instead of the menu string.
+   * Returns false when the sequence could not be armed or the opener was refused.
+   */
+  public static boolean beginTray(
+      Pipeline.FeedbackReturner pipeline,
+      Context context,
+      AccessibilityNodeInfoCompat bodyShell,
+      @Nullable String targetButtonLabel,
+      boolean openOnly,
+      boolean restoreFocusOnClose,
+      String trayHeaderText,
+      @Nullable String trayAuthorName,
+      String originLabel,
+      Rect originBounds,
+      Runnable failureAnnouncer) {
+    if (pending != null || bodyShell.getPackageName() == null) {
+      return false;
+    }
+    Pending session =
+        new Pending(
+            pipeline,
+            context.getApplicationContext(),
+            bodyShell.getPackageName().toString(),
+            trayHeaderText,
+            trayAuthorName,
+            targetButtonLabel,
+            openOnly,
+            restoreFocusOnClose,
+            failureAnnouncer,
+            originLabel,
+            new Rect(originBounds));
+    pending = session;
+    session.masterTimeout = () -> onMasterTimeout(session);
+    session.handler.postDelayed(session.masterTimeout, MASTER_TIMEOUT_MS);
+    boolean opened =
+        pipeline.returnFeedback(
+            EVENT_ID_UNTRACKED,
+            Feedback.nodeAction(bodyShell, AccessibilityNodeInfoCompat.ACTION_LONG_CLICK)
+                .vibration(R.array.view_long_clicked_pattern));
+    LogUtils.v(TAG, "tray opener nodeAction result=%b", opened);
+    if (!opened) {
+      finish(session);
+      return false;
+    }
+    return true;
+  }
+
+  /**
    * Event hook for the service: returns true when the event belongs to a running sequence and
    * must be dropped before it can produce any feedback.
    */
@@ -225,10 +340,33 @@ public final class MenuAutomation {
   private static boolean handleAwaitSheet(
       Pending session, RootProvider provider, AccessibilityEvent event, int type) {
     if (isScanType(type)) {
-      AccessibilityNodeInfoCompat sheet =
-          findSheetRoot(scanRoots(provider, event), session.sheetLabelViewId);
+      List<AccessibilityNodeInfoCompat> roots = scanRoots(provider, event);
+      if (session.trayMode && seesForeignTray(session, roots)) {
+        // A tray is open, but its anchor names a different comment: pressing anything in
+        // it would act on the wrong comment, so the sequence aborts without a click.
+        LogUtils.v(TAG, "tray anchor mismatch: open tray belongs to another comment");
+        tryRestore(session, provider, /* speakFailure= */ true);
+        finish(session);
+        return true;
+      }
+      AccessibilityNodeInfoCompat sheet = findSheet(session, roots);
       if (sheet != null) {
+        if (session.trayMode && !session.sheetSeen) {
+          LogUtils.v(
+              TAG,
+              "tray sheet appeared afterMs=%d",
+              SystemClock.uptimeMillis() - session.beginTimeMs);
+          logTrayButtons(session, sheet);
+        }
         session.sheetSeen = true;
+        if (session.trayMode && session.trayOpenOnly) {
+          // Open-only: the tray is up and already holds accessibility focus; the user
+          // picks the reaction themselves, so the sequence ends here without clicking
+          // anything and without pulling focus back to the row.
+          LogUtils.v(TAG, "tray openOnly: sheet left open for the user");
+          finish(session);
+          return true;
+        }
         if (tryClickTarget(session, sheet)) {
           return true;
         }
@@ -272,8 +410,14 @@ public final class MenuAutomation {
   private static boolean handleAwaitClose(
       Pending session, RootProvider provider, AccessibilityEvent event, int type) {
     if (isScanType(type)) {
-      boolean sheetGone =
-          findSheetRoot(scanRoots(provider, event), session.sheetLabelViewId) == null;
+      boolean sheetGone = findSheet(session, scanRoots(provider, event)) == null;
+      if (sheetGone && !session.restoreFocusOnClose) {
+        // The sheet closed onto its follow-up UI (the reply composer), which is the
+        // intended result: end silently and let the new UI be announced, without
+        // pulling focus back to the row.
+        finish(session);
+        return false;
+      }
       if (sheetGone) {
         AccessibilityNodeInfoCompat active = provider.activeWindowRoot();
         if (active != null && resolveOriginRepresentative(active, session) != null) {
@@ -306,11 +450,13 @@ public final class MenuAutomation {
     boolean sheetOpen =
         session.sheetSeen
             || (session.lastProvider != null
-                && findSheetRoot(session.lastProvider.windowRoots(), session.sheetLabelViewId)
-                    != null);
+                && findSheet(session, session.lastProvider.windowRoots()) != null);
     if (sheetOpen) {
       startFailureClose(session);
     } else {
+      if (session.trayMode) {
+        LogUtils.v(TAG, "tray sheet never appeared within the master timeout");
+      }
       // The menu never opened; focus never left the row, but the action has failed.
       tryRestore(session, session.lastProvider, /* speakFailure= */ true);
       finish(session);
@@ -323,7 +469,7 @@ public final class MenuAutomation {
     }
     RootProvider provider = session.lastProvider;
     AccessibilityNodeInfoCompat sheet =
-        provider == null ? null : findSheetRoot(provider.windowRoots(), session.sheetLabelViewId);
+        provider == null ? null : findSheet(session, provider.windowRoots());
     if (sheet == null) {
       tryRestore(session, provider, /* speakFailure= */ false);
       finish(session);
@@ -339,10 +485,11 @@ public final class MenuAutomation {
       return;
     }
     RootProvider provider = session.lastProvider;
-    if (provider != null
-        && findSheetRoot(provider.windowRoots(), session.sheetLabelViewId) == null) {
+    if (provider != null && findSheet(session, provider.windowRoots()) == null) {
       AccessibilityNodeInfoCompat active = provider.activeWindowRoot();
-      if (active != null && resolveOriginRepresentative(active, session) != null) {
+      if (session.restoreFocusOnClose
+          && active != null
+          && resolveOriginRepresentative(active, session) != null) {
         tryRestore(session, provider, session.failureSpeechPending);
       }
     }
@@ -352,16 +499,31 @@ public final class MenuAutomation {
   /** Clicks the sheet row matching the target; false when the sheet has no such row. */
   private static boolean tryClickTarget(Pending session, AccessibilityNodeInfoCompat sheetRoot) {
     AccessibilityNodeInfoCompat row =
-        session.targetCores != null
-            ? sheetToggleTargetRow(
-                sheetRoot, session.sheetLabelViewId, session.targetVariants, session.targetCores)
-            : sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
+        session.trayMode
+            ? trayTargetButton(sheetRoot, session.trayTargetLabel)
+            : session.targetCores != null
+                ? sheetToggleTargetRow(
+                    sheetRoot,
+                    session.sheetLabelViewId,
+                    session.targetVariants,
+                    session.targetCores)
+                : sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
     if (row == null) {
       return false;
     }
-    session.pipeline.returnFeedback(
-        EVENT_ID_UNTRACKED,
-        Feedback.nodeAction(row, AccessibilityNodeInfoCompat.ACTION_CLICK));
+    boolean clicked =
+        session.pipeline.returnFeedback(
+            EVENT_ID_UNTRACKED,
+            Feedback.nodeAction(row, AccessibilityNodeInfoCompat.ACTION_CLICK));
+    if (session.trayMode) {
+      LogUtils.v(TAG, "tray target click label=%s result=%b", session.trayTargetLabel, clicked);
+      if (!clicked) {
+        // The tray's real button refused the action too: report the click as not done,
+        // so the grace and failure-close path takes over instead of waiting for a close
+        // that will never come.
+        return false;
+      }
+    }
     session.stage = Stage.AWAIT_CLOSE;
     cancel(session, session.sheetGrace);
     session.sheetGrace = null;
@@ -405,10 +567,14 @@ public final class MenuAutomation {
       }
     }
     if (speakFailure) {
-      session.pipeline.returnFeedback(
-          EVENT_ID_UNTRACKED,
-          Feedback.speech(
-              session.context.getString(R.string.title_collapse_menu_not_available)));
+      if (session.failureAnnouncer != null) {
+        session.failureAnnouncer.run();
+      } else {
+        session.pipeline.returnFeedback(
+            EVENT_ID_UNTRACKED,
+            Feedback.speech(
+                session.context.getString(R.string.title_collapse_menu_not_available)));
+      }
     }
   }
 
@@ -449,6 +615,190 @@ public final class MenuAutomation {
       }
     }
     return null;
+  }
+
+  /** The session's sheet: by view id for menus, by anchors for the tray. */
+  private static @Nullable AccessibilityNodeInfoCompat findSheet(
+      Pending session, List<AccessibilityNodeInfoCompat> roots) {
+    return session.trayMode
+        ? findTrayRoot(roots, session.trayHeaderText, session.trayAuthorName)
+        : findSheetRoot(roots, session.sheetLabelViewId);
+  }
+
+  /**
+   * The window root holding the app's action tray, recognised by anchors instead of a view
+   * id: a node carrying the tray's recorded header text, or a reply button whose label names
+   * {@code authorName} — the anti-confusion anchor, since a tray belonging to a different
+   * comment names a different author and can never match. Either anchor suffices because
+   * recorded tray shapes vary in which of them a build exposes. Both the text and the
+   * content description of every node are examined: recorded buttons carry their plain
+   * label as text and the anchored form as description.
+   */
+  static @Nullable AccessibilityNodeInfoCompat findTrayRoot(
+      List<AccessibilityNodeInfoCompat> roots,
+      @Nullable String headerText,
+      @Nullable String authorName) {
+    for (AccessibilityNodeInfoCompat root : roots) {
+      List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+      collect(root, nodes);
+      for (AccessibilityNodeInfoCompat node : nodes) {
+        for (CharSequence label : labelsOf(node)) {
+          String text = label.toString().trim();
+          if (headerText != null && headerText.equals(text)) {
+            return root;
+          }
+          if (authorName != null && authorName.equals(anchoredReplyAuthor(text))) {
+            return root;
+          }
+        }
+      }
+    }
+    return null;
+  }
+
+  private static final String[] REPLY_AUTHOR_PREFIXES = {
+    "Trả lời bình luận của ", "Reply to the comment by ", "Reply to "
+  };
+
+  /**
+   * The author named by an author-anchored reply label ("Reply to the comment by X, ...",
+   * "Trả lời bình luận của X, ...", "Reply to X's comment"), or null when the label is not
+   * anchored. Recorded tray reply buttons are usually plain, so null means "no anchor on
+   * this label", never "a different comment".
+   */
+  static @Nullable String anchoredReplyAuthor(CharSequence label) {
+    if (label == null) {
+      return null;
+    }
+    String text = label.toString().trim();
+    for (String prefix : REPLY_AUTHOR_PREFIXES) {
+      if (!text.startsWith(prefix)) {
+        continue;
+      }
+      String rest = text.substring(prefix.length());
+      int possessive = rest.indexOf("'s comment");
+      if (possessive > 0) {
+        return rest.substring(0, possessive).trim();
+      }
+      int end = rest.length();
+      for (int i = 0; i < rest.length(); i++) {
+        char c = rest.charAt(i);
+        if (c == ',' || c == '.') {
+          end = i;
+          break;
+        }
+      }
+      String author = rest.substring(0, end).trim();
+      return author.isEmpty() ? null : author;
+    }
+    return null;
+  }
+
+  /** Every label form a node carries: its text and its content description, when present. */
+  private static List<CharSequence> labelsOf(AccessibilityNodeInfoCompat node) {
+    List<CharSequence> labels = new ArrayList<>(2);
+    if (!TextUtils.isEmpty(node.getText())) {
+      labels.add(node.getText());
+    }
+    if (!TextUtils.isEmpty(node.getContentDescription())) {
+      labels.add(node.getContentDescription());
+    }
+    return labels;
+  }
+
+  /**
+   * Whether the current windows hold a tray belonging to a different comment than the one
+   * the sequence started from: a tray-shaped window — one carrying the tray header or an
+   * author-anchored reply button — whose anchored reply names another author. The window
+   * holding the origin row is exempt, because the feed itself lists other comments'
+   * anchored reply buttons. Always false when the sequence recorded no author.
+   */
+  private static boolean seesForeignTray(
+      Pending session, List<AccessibilityNodeInfoCompat> roots) {
+    if (session.trayAuthorName == null) {
+      return false;
+    }
+    for (AccessibilityNodeInfoCompat root : roots) {
+      if (resolveOriginRepresentative(root, session) != null) {
+        continue;
+      }
+      List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+      collect(root, nodes);
+      boolean trayShaped = false;
+      boolean foreignAuthor = false;
+      for (AccessibilityNodeInfoCompat node : nodes) {
+        for (CharSequence label : labelsOf(node)) {
+          String text = label.toString().trim();
+          if (text.equals(session.trayHeaderText)) {
+            trayShaped = true;
+          }
+          String author = anchoredReplyAuthor(text);
+          if (author != null) {
+            trayShaped = true;
+            if (!author.equals(session.trayAuthorName)) {
+              foreignAuthor = true;
+            }
+          }
+        }
+      }
+      if (trayShaped && foreignAuthor) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * The tray's real button carrying exactly {@code targetLabel} (surrounding whitespace
+   * ignored), or null when there is not exactly one. Only Button-class nodes are
+   * considered: the click must land on the button itself, never on a container that
+   * happens to carry the same words.
+   */
+  static @Nullable AccessibilityNodeInfoCompat trayTargetButton(
+      AccessibilityNodeInfoCompat trayRoot, @Nullable String targetLabel) {
+    if (targetLabel == null) {
+      return null;
+    }
+    String target = targetLabel.trim();
+    List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+    collect(trayRoot, nodes);
+    AccessibilityNodeInfoCompat found = null;
+    for (AccessibilityNodeInfoCompat node : nodes) {
+      if (!"android.widget.Button".equals(node.getClassName())) {
+        continue;
+      }
+      CharSequence label = sheetNodeLabel(node);
+      if (label == null || !target.equals(label.toString().trim())) {
+        continue;
+      }
+      if (found != null) {
+        return null;
+      }
+      found = node;
+    }
+    return found;
+  }
+
+  /** Logs the tray's buttons and their ACTION_CLICK support, once per sequence. */
+  private static void logTrayButtons(
+      Pending session, AccessibilityNodeInfoCompat trayRoot) {
+    if (session.trayButtonsLogged) {
+      return;
+    }
+    session.trayButtonsLogged = true;
+    List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+    collect(trayRoot, nodes);
+    for (AccessibilityNodeInfoCompat node : nodes) {
+      if (!"android.widget.Button".equals(node.getClassName())) {
+        continue;
+      }
+      LogUtils.v(
+          TAG,
+          "tray button label=%s supportsClick=%b",
+          sheetNodeLabel(node),
+          PerformActionUtils.isNodeSupportAction(
+              node, AccessibilityNodeInfoCompat.ACTION_CLICK));
+    }
   }
 
   /**
@@ -610,7 +960,10 @@ public final class MenuAutomation {
       if (item == null) {
         continue;
       }
-      CharSequence label = ItemScan.spokenLabel(item.representative());
+      // A composite item's representative speaks nothing itself; its identity is the
+      // label the engine composed from its fields, so tray sessions match on that.
+      CharSequence label =
+          session.trayMode ? item.composedLabel() : ItemScan.spokenLabel(item.representative());
       if (label == null || !session.originLabel.equals(label.toString())) {
         continue;
       }

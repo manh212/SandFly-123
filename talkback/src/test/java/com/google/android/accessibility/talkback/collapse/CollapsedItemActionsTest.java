@@ -114,27 +114,26 @@ public class CollapsedItemActionsTest {
     AccessibilityNodeInfoCompat list1 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree1 = CollapseTestTrees.facebookComment(list1);
     ContextMenuItem.ContextMenuItemId heardId =
-        findItem(tree1.root, "Reply").getContextMenuItemId();
+        findItem(tree1.root, "Demote comment").getContextMenuItemId();
 
     // The list recycled every node: a structurally identical new tree.
     AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree2 = CollapseTestTrees.facebookComment(list2);
-    // The Reply block's wrapper is the interaction stop: unlike the Litho button inside
-    // it, the wrapper exposes the click.
-    tree2.replyWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
-    ContextMenuItem rebuilt = findItem(tree2.root, "Reply");
+    // The Demote button exposes the click on the rebuilt tree, as a view-backed button
+    // does. (Like and Reply are not used here: they run the tray sequence instead of
+    // the stored tiers this test exercises.)
+    tree2.demote.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
+    ContextMenuItem rebuilt = findItem(tree2.root, "Demote comment");
     assertEquals(heardId, rebuilt.getContextMenuItemId());
 
     assertTrue(rebuilt.onClickPerformed());
-    // The action targets the wrapper, so the press is a direct node action on it even
-    // though the button inside exposes no ACTION_CLICK of its own.
     assertEquals(
         AccessibilityNodeInfoCompat.ACTION_CLICK, returner.lastPart.nodeAction().actionId());
     // The item scan hands out obtained copies of the nodes, so this compares nodes rather
-    // than object identity: the click must land on the rebuilt tree's Reply wrapper, and
+    // than object identity: the click must land on the rebuilt tree's Demote button, and
     // not on the recycled tree's.
-    assertEquals(tree2.replyWrap, returner.lastPart.nodeAction().target().getCompat());
-    assertNotEquals(tree1.replyWrap, returner.lastPart.nodeAction().target().getCompat());
+    assertEquals(tree2.demote, returner.lastPart.nodeAction().target().getCompat());
+    assertNotEquals(tree1.demote, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @Test
@@ -150,23 +149,6 @@ public class CollapsedItemActionsTest {
     CollapseTestTrees.bounds(tree2.replyWrap, 0, 500, 200, 600);
 
     assertNotEquals(heardId, findItem(tree2.root, "Reply").getContextMenuItemId());
-  }
-
-  @Test
-  public void longPressItem_performsLongClickOnTheLikeWrapper() {
-    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    // The twin targets the Like block's wrapper, which exposes the long click the Litho
-    // button inside it does not.
-    tree.likeWrap.addAction(
-        AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_LONG_CLICK);
-
-    ContextMenuItem longPress = findItem(tree.root, "Like, long press");
-    assertTrue(longPress.onClickPerformed());
-    assertEquals(
-        AccessibilityNodeInfoCompat.ACTION_LONG_CLICK,
-        returner.lastPart.nodeAction().actionId());
-    assertEquals(tree.likeWrap, returner.lastPart.nodeAction().target().getCompat());
   }
 
   @After

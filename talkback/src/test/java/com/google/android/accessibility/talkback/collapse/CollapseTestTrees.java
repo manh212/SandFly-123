@@ -362,6 +362,84 @@ final class CollapseTestTrees {
     return tree;
   }
 
+  static final class FacebookTrayTree {
+    AccessibilityNodeInfoCompat root;
+    /** The tray's reaction header; null in the author-anchor-only shape. */
+    AccessibilityNodeInfoCompat header;
+
+    AccessibilityNodeInfoCompat likeButton;
+    AccessibilityNodeInfoCompat replyButton;
+    final List<AccessibilityNodeInfoCompat> buttons = new ArrayList<>();
+  }
+
+  /** The tray's recorded header text, as the production anchor constant records it. */
+  static final String FACEBOOK_TRAY_HEADER_TEXT = "Bày tỏ cảm xúc về bình luận này";
+
+  /**
+   * Facebook's comment action tray as recorded from the live app: a window of its own
+   * holding the reaction row (Like first), the "react to this comment" header and the
+   * action row (Share, Report, Reply, Copy, Hide); every button is clickable and
+   * focusable and — unlike the buried in-comment buttons — exposes ACTION_CLICK. Button
+   * labels follow the recorded English in-comment wording; the header carries the
+   * recorded Vietnamese anchor text. When {@code replyAuthor} is non-null the Reply
+   * button's description becomes the author-anchored recorded form naming that author,
+   * the shape in which the tray's owner can be told apart from another comment.
+   */
+  static FacebookTrayTree facebookTray(boolean withHeader, String replyAuthor) {
+    FacebookTrayTree tree = new FacebookTrayTree();
+    tree.root = node(null, "android.widget.FrameLayout");
+    bounds(tree.root, 0, 0, 1080, 800);
+    AccessibilityNodeInfoCompat outer = node(tree.root, "android.view.ViewGroup");
+    bounds(outer, 0, 0, 1080, 800);
+    AccessibilityNodeInfoCompat inner = node(outer, "android.view.ViewGroup");
+    bounds(inner, 0, 0, 1080, 800);
+
+    String[] reactions = {"Like", "Love", "Care", "Haha", "Wow", "Sad", "Angry"};
+    for (int i = 0; i < reactions.length; i++) {
+      AccessibilityNodeInfoCompat button = trayButton(tree, inner, reactions[i]);
+      bounds(button, i * 150, 60, i * 150 + 150, 200);
+      if (i == 0) {
+        tree.likeButton = button;
+      }
+    }
+    if (withHeader) {
+      tree.header = node(inner, "android.view.ViewGroup");
+      tree.header.setText(FACEBOOK_TRAY_HEADER_TEXT);
+      tree.header.setContentDescription(FACEBOOK_TRAY_HEADER_TEXT);
+      bounds(tree.header, 0, 200, 1080, 260);
+    }
+    String[] actions = {"Share comment", "Report comment", "Reply", "Copy", "Hide comment"};
+    for (int i = 0; i < actions.length; i++) {
+      AccessibilityNodeInfoCompat button = trayButton(tree, inner, actions[i]);
+      bounds(button, 0, 260 + i * 100, 1080, 360 + i * 100);
+      if ("Reply".equals(actions[i])) {
+        tree.replyButton = button;
+        if (replyAuthor != null) {
+          button.setContentDescription(
+              "Reply to the comment by "
+                  + replyAuthor
+                  + ", button. Double-tap to reply to the comment.");
+        }
+      }
+    }
+    applyPackage(tree.root, FACEBOOK_PACKAGE);
+    return tree;
+  }
+
+  private static AccessibilityNodeInfoCompat trayButton(
+      FacebookTrayTree tree, AccessibilityNodeInfoCompat parent, String label) {
+    AccessibilityNodeInfoCompat button = node(parent, "android.widget.Button");
+    button.setClickable(true);
+    button.setFocusable(true);
+    button.setText(label);
+    button.setContentDescription(label);
+    button.addAction(
+        new AccessibilityNodeInfoCompat.AccessibilityActionCompat(
+            AccessibilityNodeInfoCompat.ACTION_CLICK, null));
+    tree.buttons.add(button);
+    return button;
+  }
+
   /**
    * The third recorded comment shape: the item root has a single long-clickable container
    * child, and the reply, reactions, like and demote blocks are children of that container —
