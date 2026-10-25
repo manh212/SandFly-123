@@ -2631,6 +2631,11 @@
     <!-- Reduce delays: summary of the window and focus interrupt switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_window_focus_interrupt">Speech for the window you just opened, and for the item focus lands on, cuts short an announcement that other speech must wait behind, instead of waiting for it to finish. Window changes and focus moves were the other long waits. Utterances that can never be interrupted still play out in full.</string>
 
+    <!-- Reduce delays: switch that caps how long navigation speech waits behind any utterance. [CHAR LIMIT=50] -->
+    <string name="title_pref_speech_wait_cap">End long waits behind announcements</string>
+    <!-- Reduce delays: summary of the speech wait cap switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_speech_wait_cap">If speech answering your swipe, a window change or a focus move has waited more than a moment behind another utterance, that utterance is cut short so your answer is not held up, even one that can never be interrupted. Speech you asked to hear in full, like the speaking clock and stopwatch milestones, is never cut. Turn this off if utterances are cut short too often.</string>
+
     <!-- Reduce delays: switch that queues one audio burst instead of two. [CHAR LIMIT=50] -->
     <string name="title_pref_small_audio_buffer">Use a smaller audio buffer</string>
     <!-- Reduce delays: summary of the smaller audio buffer switch. [CHAR LIMIT=NONE] -->

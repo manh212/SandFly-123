@@ -290,6 +290,12 @@ public class Performance {
   /** How often window-change or focus speech cut short such an announcement. */
   private long windowFocusSpeechInterrupts;
 
+  /** How often the speech wait cap force-flushed an utterance ahead of waiting navigation. */
+  private long speechWaitCapFlushes;
+
+  /** How often the speech wait cap was held back because the blocker was exempt speech. */
+  private long speechWaitCapHeld;
+
   /** Prepared announcements kept because a change's region spared them. */
   private long preparedKeptByRegion;
 
@@ -1440,6 +1446,38 @@ public class Performance {
     }
   }
 
+  /** Counts one utterance force-flushed by the speech wait cap. */
+  public void onSpeechWaitCapFlush() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapFlushes++;
+    }
+  }
+
+  public long getSpeechWaitCapFlushCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapFlushes;
+    }
+  }
+
+  /** Counts one wait the cap deliberately did not cut because the blocker was exempt speech. */
+  public void onSpeechWaitCapHeld() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapHeld++;
+    }
+  }
+
+  public long getSpeechWaitCapHeldCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapHeld;
+    }
+  }
+
   /** Displays how long queued utterances waited, and how often navigation speech cut a wait. */
   public void displaySpeechWaitStats(Logger logger) {
     synchronized (lockLabelToStats) {
@@ -1459,6 +1497,11 @@ public class Performance {
         logger.log(
             "Window and focus speech interrupts of uninterruptible announcements: %d",
             windowFocusSpeechInterrupts);
+      }
+      if (speechWaitCapFlushes > 0 || speechWaitCapHeld > 0) {
+        logger.log(
+            "Speech wait cap: %d waits cut short, %d held for exempt speech",
+            speechWaitCapFlushes, speechWaitCapHeld);
       }
       if (utterancesSplit > 0) {
         logger.log(
@@ -1718,6 +1761,8 @@ public class Performance {
       staleTargetsRejected = 0;
       navigationSpeechInterrupts = 0;
       windowFocusSpeechInterrupts = 0;
+      speechWaitCapFlushes = 0;
+      speechWaitCapHeld = 0;
       preparedKeptByRegion = 0;
       preparedEvictedByRegion = 0;
       utterancesSplit = 0;

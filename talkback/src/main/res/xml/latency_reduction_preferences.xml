@@ -66,6 +66,12 @@
         android:key="@string/pref_window_focus_interrupt_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speech_wait_cap_default"
+        android:title="@string/title_pref_speech_wait_cap"
+        android:summary="@string/summary_pref_speech_wait_cap"
+        android:key="@string/pref_speech_wait_cap_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_small_audio_buffer_default"
         android:title="@string/title_pref_small_audio_buffer"
         android:summary="@string/summary_pref_small_audio_buffer"

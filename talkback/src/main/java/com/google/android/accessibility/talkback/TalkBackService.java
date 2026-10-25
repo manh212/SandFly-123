@@ -3479,6 +3479,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements =
         getBooleanPref(
             R.string.pref_window_focus_interrupt_key, R.bool.pref_window_focus_interrupt_default);
+    SpeechControllerImpl.speechWaitCapEnabled =
+        getBooleanPref(R.string.pref_speech_wait_cap_key, R.bool.pref_speech_wait_cap_default);
     backgroundOrderBuildEnabled =
         getBooleanPref(
             R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);

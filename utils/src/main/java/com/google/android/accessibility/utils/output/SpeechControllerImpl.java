@@ -125,6 +125,18 @@ public class SpeechControllerImpl implements SpeechController {
    */
   public static volatile boolean windowFocusSpeechInterruptsAnnouncements = true;
 
+  /**
+   * When on, navigation speech (a swipe, or the window change and focus movement from the user's
+   * own actions) that has waited longer than {@link #SPEECH_WAIT_CAP_MS} behind any utterance
+   * force-flushes it, whatever its interrupt class, except speech carrying {@link
+   * FeedbackItem#FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP}. Mirrors the user's switch; read directly so a
+   * change applies at once.
+   */
+  public static volatile boolean speechWaitCapEnabled = true;
+
+  /** How long navigation speech may wait behind another utterance before the cap frees it. */
+  static final long SPEECH_WAIT_CAP_MS = 150;
+
   public interface SpeechFilter {
     @Nullable CharSequence filter(CharSequence text);
   }
@@ -1539,6 +1551,59 @@ public class SpeechControllerImpl implements SpeechController {
               SystemClock.uptimeMillis(),
               speechBlockerLabel(currentFeedbackItem),
               speechWaiterLabel(item)));
+      if (speechWaitCapEnabled && speechMayCutAnnouncement(item)) {
+        mHandler.postDelayed(() -> enforceSpeechWaitCap(item), SPEECH_WAIT_CAP_MS);
+      }
+    }
+  }
+
+  /**
+   * The wait cap: {@code waiting} has been queued behind another utterance for {@link
+   * #SPEECH_WAIT_CAP_MS}. Unless the speech ahead of it is exempt — speech the user asked to
+   * hear in full, like the speaking clock — everything uninterruptible ahead of it is cut so the
+   * user's own navigation answer goes out now. Runs on the speech handler; every guard re-checks
+   * the live state, since the wait may have resolved on its own in the meantime.
+   */
+  private void enforceSpeechWaitCap(FeedbackItem waiting) {
+    SpeechWait wait = speechWaits.get(waiting);
+    if (wait == null
+        || !feedbackQueue.contains(waiting)
+        || currentFeedbackItem == null
+        || currentFeedbackItem == waiting) {
+      return;
+    }
+    FeedbackItem blocker = currentFeedbackItem;
+    if (blocker.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+      // Count the held cap once per blocker; the exempt speech then plays out, however long it
+      // takes. Check once more afterwards, in case a non-exempt utterance is queued behind it.
+      if (wait.capSparedBlocker != blocker) {
+        wait.capSparedBlocker = blocker;
+        Performance.getInstance().onSpeechWaitCapHeld();
+      }
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
+      return;
+    }
+    for (FeedbackItem queued : new ArrayList<>(feedbackQueue)) {
+      if (queued == waiting) {
+        break;
+      }
+      if (!queued.isInterruptibleByNewSpeech()
+          && !queued.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+        notifyItemInterrupted(queued);
+      }
+    }
+    waiting.setFlushGlobalTtsQueue(true);
+    notifyItemInterrupted(blocker);
+    currentFragmentIterator = null;
+    Performance.getInstance().onSpeechWaitCapFlush();
+    LogUtils.v(TAG, "Speech wait cap cut the utterance ahead of a waiting navigation item.");
+    speakNextItem();
+    // If an exempt or globally protected utterance was queued ahead and is now the one playing,
+    // the wait continues behind it; check the cap again against that new blocker.
+    if (speechWaits.containsKey(waiting)
+        && currentFeedbackItem != null
+        && currentFeedbackItem != waiting) {
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
     }
   }
 

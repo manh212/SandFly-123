@@ -157,6 +157,7 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_serve_stale_order_key),
             context.getString(R.string.pref_navigation_interrupt_key),
             context.getString(R.string.pref_window_focus_interrupt_key),
+            context.getString(R.string.pref_speech_wait_cap_key),
             context.getString(R.string.pref_small_audio_buffer_key),
             context.getString(R.string.pref_split_speech_key),
             context.getString(R.string.pref_presynthesize_prepared_key),
@@ -276,6 +277,13 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (windowFocusInterruptPreference != null) {
         windowFocusInterruptPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_window_focus_interrupt_default));
+      }
+
+      TwoStatePreference speechWaitCapPreference =
+          findPreference(getString(R.string.pref_speech_wait_cap_key));
+      if (speechWaitCapPreference != null) {
+        speechWaitCapPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speech_wait_cap_default));
       }
 
       TwoStatePreference smallAudioBufferPreference =

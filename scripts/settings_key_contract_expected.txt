@@ -465,6 +465,7 @@ pref_speak_notifications
 pref_speak_roles_key
 pref_speak_time_key
 pref_speak_volume_changes
+pref_speech_wait_cap_key
 pref_speaker_devices
 pref_speakerphone_away_from_ear
 pref_speech_footer

@@ -1554,6 +1554,8 @@
     <string name="summary_pref_navigation_interrupt">Câu đọc trả lời thao tác vuốt của chính bạn sẽ ngắt ngắn một thông báo mà các câu khác phải chờ, thay vì đợi nó đọc xong. Các câu không bao giờ được ngắt, như chuông báo thức, vẫn được đọc trọn vẹn. Hãy tắt tùy chọn này nếu thông báo bị ngắt quá thường xuyên.</string>
     <string name="title_pref_window_focus_interrupt">Để câu đổi cửa sổ và tiêu điểm ngắt thông báo</string>
     <string name="summary_pref_window_focus_interrupt">Câu đọc cho cửa sổ bạn vừa mở, và cho mục tiêu điểm vừa tới, sẽ ngắt ngắn một thông báo mà các câu khác phải chờ, thay vì đợi nó đọc xong. Đổi cửa sổ và di chuyển tiêu điểm là nguồn chờ lâu còn lại. Các câu không bao giờ được ngắt vẫn được đọc trọn vẹn.</string>
+    <string name="title_pref_speech_wait_cap">Chấm dứt chờ lâu sau thông báo</string>
+    <string name="summary_pref_speech_wait_cap">Nếu câu đọc trả lời thao tác vuốt, thao tác đổi cửa sổ hoặc di chuyển tiêu điểm của bạn đã chờ quá một lúc sau một câu khác, câu đó sẽ bị ngắt để câu trả lời của bạn không bị giữ lại, kể cả câu không bao giờ được ngắt. Các câu bạn đã yêu cầu nghe trọn vẹn, như đồng hồ nói và các mốc bấm giờ, không bao giờ bị ngắt. Hãy tắt tùy chọn này nếu các câu bị ngắt quá thường xuyên.</string>
     <string name="title_pref_small_audio_buffer">Dùng bộ đệm âm thanh nhỏ hơn</string>
     <string name="summary_pref_small_audio_buffer">Lời nói được giữ trong bộ đệm dài một nhịp thay vì hai, để âm thanh mới bắt đầu sớm hơn. Hãy tắt tùy chọn này nếu lời nói bị rè hoặc giật.</string>
     <string name="title_pref_split_speech">Nói phần đầu của mục trước</string>
