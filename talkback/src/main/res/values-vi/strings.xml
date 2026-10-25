@@ -320,6 +320,8 @@
   <string name="title_pref_log_overlay">Bật lớp phủ nhật ký gỡ lỗi</string>
   <string name="title_pref_typing_confirmation">Phương thức nhập</string>
   <string name="title_pref_typing_long_tap_duration">Độ trễ của thao tác chạm và giữ khi nhập</string>
+  <string name="title_pref_direct_input_tap_delay">Độ trễ bấm phím của Nhập phím trực tiếp</string>
+  <string name="summary_pref_direct_input_tap_delay">Khoảng chờ từ lúc nhấc ngón tay khỏi phím đến khi phím được nhập. Chỉ áp dụng cho Nhập phím trực tiếp.</string>
   <string name="message_pref_touch_explore_latency">Độ trễ càng ngắn thì SandFly đọc càng sớm sau khi bạn chạm vào bàn phím.\n\nChọn độ trễ</string>
   <string name="title_pref_auto_image_captioning">Tự động mô tả</string>
   <string name="title_pref_gemini_settings">Cài đặt Gemini</string>

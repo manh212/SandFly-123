@@ -26,8 +26,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import androidx.annotation.StringRes;
+import androidx.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import androidx.preference.Preference;
+import com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference;
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference;
 import com.google.android.accessibility.talkback.R;
@@ -37,6 +39,8 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils;
 public class TypingMethodPrefFragment extends TalkbackBaseFragment {
   private static final String TAG = "TypingMethodPrefFragment";
   private AccessibilitySuitePreferenceCategory typingMethodPrefCategory;
+  private AccessibilitySeekBarPreference tapDelayPref;
+  private boolean tapDelayShown = true;
   private Context context;
   private SharedPreferences prefs;
 
@@ -90,6 +94,18 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
 
     initTypingMethodPref();
+    tapDelayPref =
+        (AccessibilitySeekBarPreference)
+            findPreference(getString(R.string.pref_direct_input_tap_delay_key));
+    updateTapDelayVisibility(currentTypingMethod());
+  }
+
+  private int currentTypingMethod() {
+    return SharedPreferencesUtils.getIntFromStringPref(
+        prefs,
+        context.getResources(),
+        R.string.pref_typing_confirmation_key,
+        R.string.pref_typing_confirmation_default);
   }
 
   @Override
@@ -130,6 +146,7 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
             R.string.pref_typing_confirmation_key,
             String.valueOf(source.getMethod()));
         updateCheckedState(value);
+        updateTapDelayVisibility(source.getMethod());
         break;
       }
     }
@@ -139,18 +156,39 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
     typingMethodPrefCategory =
         (AccessibilitySuitePreferenceCategory)
             findPreference(getString(R.string.pref_typing_confirmation_key));
-    int typingMethod =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            context.getResources(),
-            R.string.pref_typing_confirmation_key,
-            R.string.pref_typing_confirmation_default);
+    int typingMethod = currentTypingMethod();
     for (TypingMethodPref source : TypingMethodPref.values()) {
       if (typingMethod == source.getMethod()) {
         updateCheckedState(getString(source.getTitleId()));
         break;
       }
     }
+  }
+
+  /** The tap-delay row belongs to Direct key input alone; the other methods never read it. */
+  @VisibleForTesting
+  static boolean isTapDelayRowVisible(int typingMethod) {
+    return typingMethod == SINGLE_TAP_TO_TYPE;
+  }
+
+  /**
+   * Adds the tap-delay row to the screen or takes it off it, following the typing method in
+   * effect: with any other method the row is gone, not greyed out.
+   */
+  private void updateTapDelayVisibility(int typingMethod) {
+    if (tapDelayPref == null || getPreferenceScreen() == null) {
+      return;
+    }
+    boolean show = isTapDelayRowVisible(typingMethod);
+    if (show == tapDelayShown) {
+      return;
+    }
+    if (show) {
+      getPreferenceScreen().addPreference(tapDelayPref);
+    } else {
+      getPreferenceScreen().removePreference(tapDelayPref);
+    }
+    tapDelayShown = show;
   }
 
   private void updateCheckedState(CharSequence selectedPref) {

@@ -149,6 +149,7 @@ public class TalkBackPreferenceFilter {
     // The delay settings work on watches as on phones, so watches show them too.
     TYPING_CONFIRMATION(R.string.pref_typing_confirmation_key, HIDDEN_ON_TV),
     TYPING_LONG_PRESS_DURATION(R.string.pref_typing_long_press_duration_key, HIDDEN_ON_TV),
+    DIRECT_INPUT_TAP_DELAY(R.string.pref_direct_input_tap_delay_key, HIDDEN_ON_TV),
     PRIVACY_POLICY(R.string.pref_policy_key, HIDDEN_SETUP),
     TERMS_OF_SERVICE(R.string.pref_show_tos_key, HIDDEN_SETUP),
     // Help & Tutorial.

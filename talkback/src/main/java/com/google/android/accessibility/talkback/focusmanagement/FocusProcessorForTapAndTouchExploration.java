@@ -126,6 +126,9 @@ public class FocusProcessorForTapAndTouchExploration {
    */
   private static final long SINGLE_TAP_EARLY_END_DELAY_MS = 100;
 
+  /** The longest early-end delay the Direct key input tap-delay setting can ask for. */
+  private static final long DIRECT_INPUT_TAP_DELAY_MAX_MS = 300;
+
   // It is copied from  Gboard's code.
   private static final long LIFT_TO_TYPE_LONG_PRESS_DELAY_MS = 3000;
 
@@ -436,9 +439,23 @@ public class FocusProcessorForTapAndTouchExploration {
     if (typingMethod == SINGLE_TAP_TO_TYPE
         && touchedFocusableNode != null
         && touchedFocusableNode.equals(lastFocusableNodeBeingTouched)) {
-      postDelayHandler.earlyTouchEndAfterTimeout();
+      postDelayHandler.earlyTouchEndAfterTimeout(directInputTapDelayMs());
     }
     return false;
+  }
+
+  /**
+   * How long after the finger leaves a key the early end types it, from the Direct key input
+   * tap-delay setting. Read as the message is posted, so a change applies to the next key; this
+   * is the only reader of the setting, and only the Direct key input path reaches it.
+   */
+  private long directInputTapDelayMs() {
+    int delayMs =
+        SharedPreferencesUtils.getSharedPreferences(context)
+            .getInt(
+                context.getString(R.string.pref_direct_input_tap_delay_key),
+                (int) SINGLE_TAP_EARLY_END_DELAY_MS);
+    return Math.max(0, Math.min(delayMs, DIRECT_INPUT_TAP_DELAY_MAX_MS));
   }
 
   /**
@@ -610,9 +627,9 @@ public class FocusProcessorForTapAndTouchExploration {
       removeMessages(MSG_REFOCUS);
     }
 
-    private void earlyTouchEndAfterTimeout() {
+    private void earlyTouchEndAfterTimeout(long delayMs) {
       removeMessages(MSG_EARLY_TOUCH_END);
-      sendEmptyMessageDelayed(MSG_EARLY_TOUCH_END, SINGLE_TAP_EARLY_END_DELAY_MS);
+      sendEmptyMessageDelayed(MSG_EARLY_TOUCH_END, delayMs);
     }
 
     private void cancelEarlyTouchEnd() {
