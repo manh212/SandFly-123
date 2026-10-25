@@ -167,6 +167,7 @@ public class FocusProcessorForLogicalNavigation {
   private final ScreenStateMonitor.State screenState;
   private final UniversalSearchActor.State searchState;
   private Pipeline.FeedbackReturner pipeline;
+  private @Nullable FastNavigator fastNavigator;
   private final boolean isWindowNavigationSupported;
 
   // Whether the previous navigation action reaches the edge of the window, reset the value after
@@ -235,8 +236,18 @@ public class FocusProcessorForLogicalNavigation {
     this.actorState = actorState;
   }
 
+  /** Sets the fast navigator that answers directional navigation while it is switched on. */
+  public void setFastNavigator(@Nullable FastNavigator navigator) {
+    fastNavigator = navigator;
+  }
+
   public static void setWrapAround(boolean wrap) {
     wrapAround = wrap;
+  }
+
+  /** Whether navigation wraps around the ends of the order, as the settings now stand. */
+  public static boolean isWrapAroundEnabled() {
+    return wrapAround;
   }
 
   ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -245,6 +256,13 @@ public class FocusProcessorForLogicalNavigation {
     if (navigationAction == null || navigationAction.actionType == NavigationAction.UNKNOWN) {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
+    }
+    if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION
+        && fastNavigator != null
+        && TraversalTreeCache.getFastNavigatorEnabled()) {
+      // The fast navigator answers the swipe itself, from the saved order, and this machinery
+      // is not touched for it at all: the switch is the only way back here.
+      return fastNavigator.handle(navigationAction, eventId);
     }
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);
     if (pivot == null) {

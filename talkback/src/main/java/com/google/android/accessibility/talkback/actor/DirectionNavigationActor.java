@@ -40,6 +40,7 @@ import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
@@ -206,6 +207,11 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
     this.pipeline = pipeline;
     focusProcessorForLogicalNavigation.setPipeline(pipeline);
     cursorGranularityManager.setPipelineFeedbackReturner(pipeline);
+  }
+
+  /** Sets the fast navigator that answers directional navigation while it is switched on. */
+  public void setFastNavigator(FastNavigator navigator) {
+    focusProcessorForLogicalNavigation.setFastNavigator(navigator);
   }
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipeline) {
