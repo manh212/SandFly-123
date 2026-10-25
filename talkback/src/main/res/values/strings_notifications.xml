@@ -259,12 +259,56 @@
     <string name="notification_clock_format_message">Placeholders: {time}, {date} and {battery} (the battery percentage).</string>
     <!-- The default text said for the time. Leave {time} untranslated. -->
     <string name="notification_clock_format_default">It\'s {time}</string>
-    <!-- Switch: the time is said on the minute, which needs the Alarms and reminders permission. -->
-    <string name="notification_clock_exact_title">Exact times</string>
-    <!-- Summary of the exact times switch. -->
-    <string name="notification_clock_exact_summary">Needs Alarms and reminders. Otherwise the time can be said up to a minute late.</string>
     <!-- Heading of the timer settings, and of the screen they open. -->
     <string name="timer_settings_title">Timer settings</string>
+    <!-- Screen: the permissions SandFly needs, checked and asked for one by one. -->
+    <string name="timer_setup_title">Initial setup</string>
+    <!-- Action: goes on to the next permission of the initial setup. -->
+    <string name="timer_setup_next">Continue</string>
+    <!-- Action: goes from the last permission of the initial setup to its summary. -->
+    <string name="timer_setup_finish">See the summary</string>
+    <!-- Action: leaves the initial setup. -->
+    <string name="timer_setup_done">Done</string>
+    <!-- Heading: every permission of the initial setup with the state it stands in. -->
+    <string name="timer_setup_summary_title">Setup results</string>
+    <!-- State of a permission of the initial setup: it is held. -->
+    <string name="timer_setup_status_granted">Granted</string>
+    <!-- State of a permission of the initial setup: it is not held. -->
+    <string name="timer_setup_status_missing">Not granted</string>
+    <!-- State of a permission of the initial setup: its state could not be read. -->
+    <string name="timer_setup_status_unknown">Could not be checked</string>
+    <!-- Step of the initial setup: the battery saving that can stop SandFly while the phone rests. -->
+    <string name="timer_setup_battery_title">Battery saving</string>
+    <!-- The battery step, held: SandFly is exempt from battery saving. -->
+    <string name="timer_setup_battery_granted">SandFly is exempt: the phone does not restrict it while it rests.</string>
+    <!-- The battery step, not held: the phone may still restrict SandFly while it rests. -->
+    <string name="timer_setup_battery_missing">Not exempt: the phone may still restrict SandFly while it rests, and timer announcements can be missed.</string>
+    <!-- Action of the battery step: asks the system for the exemption. -->
+    <string name="timer_setup_battery_open">Ask for the exemption</string>
+    <!-- Step of the initial setup: SandFly's access to the notifications. -->
+    <string name="timer_setup_access_title">Notification access</string>
+    <!-- The access step, held. -->
+    <string name="timer_setup_access_granted">Granted: SandFly can read notifications for the daily summary.</string>
+    <!-- The access step, not held. -->
+    <string name="timer_setup_access_missing">Not granted: the daily summary is read from the notifications.</string>
+    <!-- Action of the access step. -->
+    <string name="timer_setup_access_open">Open notification access</string>
+    <!-- Step of the initial setup: SandFly's own notifications. -->
+    <string name="timer_setup_notifications_title">SandFly\'s notifications</string>
+    <!-- The notifications step, on. -->
+    <string name="timer_setup_notifications_granted">On: SandFly can post its own notifications.</string>
+    <!-- The notifications step, off. -->
+    <string name="timer_setup_notifications_missing">Off: SandFly cannot post its own notifications.</string>
+    <!-- Action of the notifications step. -->
+    <string name="timer_setup_notifications_open">Open notification settings</string>
+    <!-- Step of the initial setup: the screen reader service itself. -->
+    <string name="timer_setup_service_title">SandFly service</string>
+    <!-- The service step, on. -->
+    <string name="timer_setup_service_granted">On: the screen reader is running.</string>
+    <!-- The service step, off. -->
+    <string name="timer_setup_service_missing">Off: the screen reader is not running.</string>
+    <!-- Action of the service step. -->
+    <string name="timer_setup_service_open">Open accessibility settings</string>
     <!-- Setting screen of the stopwatch. -->
     <string name="stopwatch_title">Stopwatch</string>
     <!-- Action: starts the stopwatch if it is stopped, and stops it if it is running. -->

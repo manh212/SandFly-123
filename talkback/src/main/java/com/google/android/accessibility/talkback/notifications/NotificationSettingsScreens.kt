@@ -16,14 +16,12 @@
 
 package com.google.android.accessibility.talkback.notifications
 
-import android.app.AlarmManager
 import android.app.TimePickerDialog
 import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -103,8 +101,16 @@ abstract class NotificationXmlFragment(@XmlRes xml: Int, @StringRes private val 
         SpokenSchedules.KEY_SUMMARY_DAILY -> {
           NotificationListService.rebind(requireContext())
           updateAccess()
+          if (key == SpokenSchedules.KEY_SUMMARY_DAILY && prefs.getBoolean(key, false)) {
+            askForSummaryPermissions()
+          }
         }
-        SpokenSchedules.KEY_CLOCK_EXACT -> if (prefs.getBoolean(key, false)) askForExactAlarms()
+        SpokenSchedules.KEY_CLOCK_INTERVAL -> {
+          // A spoken time needs nothing but to be left running: ask for that at once.
+          if (NotificationSettings.int(prefs, key, 0) > 0) {
+            TimerPermissionChecks.promptForBatteryExemption(requireContext())
+          }
+        }
       }
     }
 
@@ -230,16 +236,17 @@ abstract class NotificationXmlFragment(@XmlRes xml: Int, @StringRes private val 
     access.summary = getString(R.string.notification_access_summary)
   }
 
-  private fun askForExactAlarms() {
-    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
-    val alarms = requireContext().getSystemService(AlarmManager::class.java) ?: return
-    if (alarms.canScheduleExactAlarms()) return
-    try {
-      startActivity(
-        Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM, Uri.parse("package:" + requireContext().packageName))
-      )
-    } catch (e: ActivityNotFoundException) {
-      // The setting falls back to times within a minute.
+  /**
+   * The summary is read from the notifications and kept by an alarm clock, so turning it on asks
+   * at once for the one it cannot read without, and then for the battery exemption that keeps
+   * SandFly running to read it.
+   */
+  private fun askForSummaryPermissions() {
+    val context = requireContext()
+    if (!NotificationListService.isAccessGranted(context)) {
+      openAccessSettings(context)
+    } else {
+      TimerPermissionChecks.promptForBatteryExemption(context)
     }
   }
 

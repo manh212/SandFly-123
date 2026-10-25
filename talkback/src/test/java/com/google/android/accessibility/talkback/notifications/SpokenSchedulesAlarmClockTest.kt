@@ -20,6 +20,7 @@ import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
 import android.os.Looper
+import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.timer.Stopwatch
 import com.google.android.accessibility.talkback.timer.StopwatchEngine
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -39,8 +40,8 @@ import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlarmManager
 
 /**
- * The spoken schedules' alarms: alarm clocks at exact times (and always for the daily summary,
- * as before), windowed listener alarms otherwise, never disturbing the stopwatch's alarm.
+ * The spoken schedules' alarms: every spoken time is a system alarm clock, never disturbing the
+ * stopwatch's alarm; a day's summary whose alarm was lost is read when the engine next runs.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -65,11 +66,8 @@ class SpokenSchedulesAlarmClockTest {
   }
 
   @Test
-  fun exactClock_setsAnAlarmClockAtTheNextBoundary() {
-    startSchedules {
-      putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60")
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, true)
-    }
+  fun clock_setsAnAlarmClockAtTheNextBoundary() {
+    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60") }
 
     val info = alarmManager.nextAlarmClock
     assertNotNull(info)
@@ -83,33 +81,19 @@ class SpokenSchedulesAlarmClockTest {
     )
     assertNotNull(info.showIntent)
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
+    assertNotNull(shadowAlarms.scheduledAlarms[0].alarmClockInfo)
   }
 
   @Test
-  fun inexactClock_setsAWindowListenerAlarmAsBefore() {
-    startSchedules {
-      putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60")
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false)
-    }
-
-    assertNull(alarmManager.nextAlarmClock)
-    assertEquals(1, shadowAlarms.scheduledAlarms.size)
-    val alarm = shadowAlarms.scheduledAlarms[0]
-    assertEquals(60_000L, alarm.windowLengthMs)
-    assertNotNull(alarm.onAlarmListener)
-  }
-
-  @Test
-  fun dailySummary_setsAnAlarmClockAsItAlwaysAskedForExact() {
+  fun dailySummary_setsAnAlarmClock() {
     val minutes = minuteOfDay(System.currentTimeMillis()) + 2
     startSchedules {
       putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
       putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false)
     }
 
     val info = alarmManager.nextAlarmClock
-    assertNotNull("the daily summary stays exact even with the exact toggle off", info)
+    assertNotNull(info)
     assertTrue(
       info!!.triggerTime in
         setOf(
@@ -118,6 +102,7 @@ class SpokenSchedulesAlarmClockTest {
         )
     )
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
+    assertEquals("its time has not come, so nothing is read yet", 0, said.size)
   }
 
   @Test
@@ -125,7 +110,6 @@ class SpokenSchedulesAlarmClockTest {
     val minutes = minuteOfDay(System.currentTimeMillis()) + 2
     val schedules = startSchedules {
       putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60")
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, true)
       putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
       putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
     }
@@ -139,10 +123,7 @@ class SpokenSchedulesAlarmClockTest {
 
   @Test
   fun clockBroadcast_speaksTheTimeAndReschedules() {
-    startSchedules {
-      putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "30")
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, true)
-    }
+    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "30") }
     val operation = shadowAlarms.scheduledAlarms.single().operation
     assertNotNull(operation)
     assertEquals(
@@ -162,12 +143,46 @@ class SpokenSchedulesAlarmClockTest {
   }
 
   @Test
+  fun summaryWhoseTimeHasPassed_isReadOnceWhenTheEngineStarts() {
+    val minutes = minuteOfDay(System.currentTimeMillis()) - 30
+    startSchedules {
+      putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
+      putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
+    }
+
+    // Without notification access the summary reads its no-access line; what matters here is
+    // that the missed summary is read at all, and marked read for today.
+    assertEquals(1, said.size)
+    assertEquals(
+      context.getString(R.string.notification_summary_no_access),
+      said[0].toString(),
+    )
+    assertEquals(todayKey(), prefs.getInt(SpokenSchedules.KEY_SUMMARY_LAST_DAY, 0))
+    assertEquals(1, shadowAlarms.scheduledAlarms.size)
+  }
+
+  @Test
+  fun summaryAlreadyReadToday_isNotReadAgainOnRestart() {
+    val minutes = minuteOfDay(System.currentTimeMillis()) - 30
+    val schedules = startSchedules {
+      putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
+      putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
+    }
+    assertEquals(1, said.size)
+    schedules.stop()
+
+    startSchedules {
+      putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
+      putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
+    }
+
+    assertEquals(1, said.size)
+  }
+
+  @Test
   fun theTwoEngines_neverCancelEachOthersAlarm() {
     val before = System.currentTimeMillis()
-    startSchedules {
-      putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60")
-      putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, true)
-    }
+    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60") }
     val spokenTrigger = alarmManager.nextAlarmClock!!.triggerTime
     val stopwatch =
       StopwatchEngine(context, { _, _ -> }, {}).also {
@@ -201,5 +216,12 @@ class SpokenSchedulesAlarmClockTest {
   private fun minuteOfDay(now: Long): Int {
     val calendar = Calendar.getInstance().apply { timeInMillis = now }
     return calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE)
+  }
+
+  private fun todayKey(): Int {
+    val calendar = Calendar.getInstance()
+    return calendar.get(Calendar.YEAR) * 10_000 +
+      (calendar.get(Calendar.MONTH) + 1) * 100 +
+      calendar.get(Calendar.DAY_OF_MONTH)
   }
 }

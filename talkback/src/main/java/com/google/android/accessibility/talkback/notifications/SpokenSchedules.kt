@@ -38,22 +38,20 @@ import java.util.Date
 
 /**
  * Speech at set times: the time, every so often, and a summary of the notifications once a day.
- * The alarms are set again after each one and when the settings change. An exact time is a
- * system alarm clock, so it still fires on time while the phone rests; an inexact one is an
- * alarm with a listener in SandFly's process, which the system may delay by a minute.
+ * The alarms are set again after each one and when the settings change. Every time is a system
+ * alarm clock, so it still fires on time while the phone rests. A day's summary whose alarm is
+ * lost — SandFly restarting across it, for one — is read when the engine next runs that day,
+ * once, instead of being dropped.
  */
 class SpokenSchedules(
   private val context: Context,
   /** Says a text, interrupting what notifications are saying when the second value is true. */
   private val say: (CharSequence, Boolean) -> Unit,
 ) {
-  private val handler = Handler(Looper.getMainLooper())
   private val alarms = context.getSystemService(AlarmManager::class.java)
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-  private val clockAlarm = AlarmManager.OnAlarmListener { onClock() }
-  private val summaryAlarm = AlarmManager.OnAlarmListener { onSummary() }
 
-  /** Receives an exact clock or summary time when its alarm clock fires, and runs it. */
+  /** Receives a clock or summary time when its alarm clock fires, and runs it. */
   private val alarmReceiver =
     object : BroadcastReceiver() {
       override fun onReceive(receiverContext: Context, intent: Intent) {
@@ -85,6 +83,7 @@ class SpokenSchedules(
     )
     prefs.registerOnSharedPreferenceChangeListener(settingsListener)
     schedule()
+    catchUpSummary()
   }
 
   @MainThread
@@ -94,74 +93,78 @@ class SpokenSchedules(
     prefs.unregisterOnSharedPreferenceChangeListener(settingsListener)
     runCatching { context.unregisterReceiver(alarmReceiver) }
     alarms?.let {
-      cancelAlarm(it, clockAlarm, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
-      cancelAlarm(it, summaryAlarm, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
+      cancelAlarm(it, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
+      cancelAlarm(it, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
     }
   }
 
   private fun schedule() {
     val alarms = alarms ?: return
-    cancelAlarm(alarms, clockAlarm, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
-    cancelAlarm(alarms, summaryAlarm, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
+    cancelAlarm(alarms, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
+    cancelAlarm(alarms, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
     val interval = NotificationSettings.int(prefs, KEY_CLOCK_INTERVAL, 0)
     val now = System.currentTimeMillis()
     if (interval > 0) {
-      set(
-        alarms,
-        nextClockTime(now, interval),
-        prefs.getBoolean(KEY_CLOCK_EXACT, false),
-        clockAlarm,
-        AlarmClockIntents.ACTION_SPOKEN_CLOCK,
-      )
+      set(alarms, nextClockTime(now, interval), AlarmClockIntents.ACTION_SPOKEN_CLOCK)
     }
     if (prefs.getBoolean(KEY_SUMMARY_DAILY, false)) {
       val minutes = NotificationSettings.int(prefs, KEY_SUMMARY_TIME, 8 * 60)
-      set(
-        alarms,
-        nextDailyTime(now, minutes),
-        exact = true,
-        summaryAlarm,
-        AlarmClockIntents.ACTION_SPOKEN_SUMMARY,
-      )
+      set(alarms, nextDailyTime(now, minutes), AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
     }
   }
 
-  private fun set(
-    alarms: AlarmManager,
-    at: Long,
-    exact: Boolean,
-    listener: AlarmManager.OnAlarmListener,
-    actionSuffix: String,
-  ) {
-    if (exact) {
-      alarms.setAlarmClock(
-        AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
-        AlarmClockIntents.alarm(context, actionSuffix),
-      )
-    } else {
-      alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, listener, handler)
+  private fun set(alarms: AlarmManager, at: Long, actionSuffix: String) {
+    val pending = AlarmClockIntents.alarm(context, actionSuffix)
+    try {
+      alarms.setAlarmClock(AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)), pending)
+    } catch (e: SecurityException) {
+      // An alarm clock needs no permission; should a system ever refuse one, an alarm that may
+      // run late still beats none — a late summary is read, a lost one is caught up.
+      alarms.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending)
     }
   }
 
-  /** Drops one pending time in both of its forms, so switching forms never leaves two. */
-  private fun cancelAlarm(
-    alarms: AlarmManager,
-    listener: AlarmManager.OnAlarmListener,
-    actionSuffix: String,
-  ) {
-    alarms.cancel(listener)
+  private fun cancelAlarm(alarms: AlarmManager, actionSuffix: String) {
     alarms.cancel(AlarmClockIntents.alarm(context, actionSuffix))
   }
 
   private fun onClock() {
     schedule()
+    catchUpSummary()
     val text = clockText(context, prefs.getString(KEY_CLOCK_FORMAT, null).orEmpty())
     speak(text)
   }
 
   private fun onSummary() {
+    prefs.edit().putInt(KEY_SUMMARY_LAST_DAY, todayKey()).apply()
     schedule()
     readSummary(context, say)
+  }
+
+  /**
+   * Reads today's summary when its time has passed and it has not been read today: its alarm
+   * was lost, and waiting for tomorrow would drop the day altogether.
+   */
+  private fun catchUpSummary() {
+    if (!prefs.getBoolean(KEY_SUMMARY_DAILY, false)) return
+    if (prefs.getInt(KEY_SUMMARY_LAST_DAY, 0) == todayKey()) return
+    val minutes = NotificationSettings.int(prefs, KEY_SUMMARY_TIME, 8 * 60)
+    val calendar =
+      Calendar.getInstance().apply {
+        set(Calendar.HOUR_OF_DAY, minutes / 60)
+        set(Calendar.MINUTE, minutes % 60)
+        set(Calendar.SECOND, 0)
+        set(Calendar.MILLISECOND, 0)
+      }
+    if (calendar.timeInMillis <= System.currentTimeMillis()) onSummary()
+  }
+
+  /** The day now, as a number that changes at midnight: year, month and day in one. */
+  private fun todayKey(): Int {
+    val calendar = Calendar.getInstance()
+    return calendar.get(Calendar.YEAR) * 10_000 +
+      (calendar.get(Calendar.MONTH) + 1) * 100 +
+      calendar.get(Calendar.DAY_OF_MONTH)
   }
 
   private fun speak(text: CharSequence) {
@@ -170,7 +173,6 @@ class SpokenSchedules(
 
   companion object {
     private const val TAG = "SpokenSchedules"
-    private const val WINDOW_MS = 60_000L
     private const val KEEP_FOR_SUMMARY_MS = 60_000L
     private const val RETRY_MS = 1_500L
     private const val CLOCK_PREFIX = "pref_notification_clock"
@@ -179,8 +181,8 @@ class SpokenSchedules(
     private val summaryHandler = Handler(Looper.getMainLooper())
     const val KEY_CLOCK_INTERVAL = "pref_notification_clock_interval"
     const val KEY_CLOCK_FORMAT = "pref_notification_clock_format"
-    const val KEY_CLOCK_EXACT = "pref_notification_clock_exact"
     const val KEY_SUMMARY_DAILY = "pref_notification_summary_daily"
+    const val KEY_SUMMARY_LAST_DAY = "pref_notification_summary_last_day"
     const val KEY_SUMMARY_TIME = "pref_notification_summary_time"
     const val KEY_SUMMARY_NEWEST_FIRST = "pref_notification_summary_newest_first"
     const val KEY_SUMMARY_NAME = "pref_notification_summary_name"

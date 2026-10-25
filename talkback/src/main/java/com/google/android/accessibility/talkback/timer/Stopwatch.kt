@@ -26,6 +26,7 @@ object Stopwatch {
   const val KEY_VIBRATION = "pref_stopwatch_vibration"
   const val KEY_INTERVAL_MINUTES = "pref_stopwatch_interval_minutes"
   const val KEY_STARTED_AT = "pref_stopwatch_started_at"
+  const val KEY_LAST_ANNOUNCED = "pref_stopwatch_last_announced"
   const val KEY_HISTORY = "pref_stopwatch_history"
   const val MAX_HISTORY = 50
   val INTERVAL_CHOICES = listOf(5, 10, 15, 20, 30, 60)

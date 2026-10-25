@@ -43,8 +43,9 @@
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <!-- Time announcements on the minute, when the user turns on exact times. -->
+    <!-- Exact alarms, kept although the spoken times are alarm clocks, which need no permission. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- Lets a watch ask for Wi-Fi to download an update. -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 
