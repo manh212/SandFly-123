@@ -182,10 +182,19 @@ class LabelSuggester(
           candidate?.let { AccessibilityNodeInfoUtils.getNodeText(it) }?.toString()?.trim()
         if (!text.isNullOrEmpty()) texts += text.take(MAX_NEARBY_TEXT_LENGTH)
       }
-      add(parent)
-      for (i in 0 until parent.childCount) {
-        if (texts.size >= MAX_NEARBY_TEXTS) break
-        add(parent.getChild(i))
+      try {
+        add(parent)
+        for (i in 0 until parent.childCount) {
+          if (texts.size >= MAX_NEARBY_TEXTS) break
+          val child = parent.getChild(i)
+          try {
+            add(child)
+          } finally {
+            child?.recycle()
+          }
+        }
+      } finally {
+        parent.recycle()
       }
       return texts.toList()
     }
@@ -248,7 +257,14 @@ class LabelSuggester(
           override fun onSuccess(screenshot: AccessibilityService.ScreenshotResult) {
             super.onSuccess(screenshot)
             val full = getBitmap()
-            callback(full?.let { cropAroundNode(it, node, isCaptureByWindow) })
+            val cropped =
+              try {
+                full?.let { cropAroundNode(it, node, isCaptureByWindow) }
+              } catch (e: RuntimeException) {
+                // The node went stale while the screenshot was on its way.
+                null
+              }
+            callback(cropped)
           }
         },
       )

@@ -544,6 +544,7 @@ public class GeminiActor {
             prompt, image, /* manualTrigger= */ true, stopTones);
     if (sent) {
       progressTonePlayer.stop();
+      aiCoreEndpoint.cancelCommand();
       progressTonePlayer.play(/* playTone= */ true, /* delayPlayTone= */ false);
     }
     return sent;

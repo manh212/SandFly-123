@@ -329,11 +329,15 @@ public class CollapsedItemActions implements NodeMenu {
           supportsLongClick);
       Rect originBounds = new Rect();
       liveItem.itemRoot().getBoundsInScreen(originBounds);
+      // beginTray fires its opener through feedback that takes the node it is given, so it
+      // is given a copy; the shell and the body node stay this method's to recycle below.
+      @SuppressWarnings("deprecation") // obtain(): copy, so that the shell is left as it was.
+      AccessibilityNodeInfoCompat shellForTray = AccessibilityNodeInfoCompat.obtain(shell);
       boolean armed =
           MenuAutomation.beginTray(
               pipeline,
               context,
-              shell,
+              shellForTray,
               trayLabels,
               trayRestoreFocus,
               TRAY_HEADER_TEXT,
@@ -360,7 +364,13 @@ public class CollapsedItemActions implements NodeMenu {
       boolean ownCurrent = false;
       while (current != null) {
         if (current.isClickable() && current.isLongClickable()) {
-          return current.equals(itemRoot) ? null : current;
+          if (current.equals(itemRoot)) {
+            if (ownCurrent) {
+              current.recycle();
+            }
+            return null;
+          }
+          return current;
         }
         if (current.equals(itemRoot)) {
           if (ownCurrent) {
