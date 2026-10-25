@@ -140,7 +140,8 @@ public class EventFilter {
   private final Set<String> synthesesInFlight = new HashSet<>();
 
   /** The notifier for one sound being made ahead, learning its outcome under its text. */
-  private LoadSpeechResultNotifier synthesisNotifierFor(String key) {
+  private LoadSpeechResultNotifier synthesisNotifierFor(
+      String key, int depth, boolean settleSource) {
     return new LoadSpeechResultNotifier() {
       @Override
       public void onFinished(@Nullable SpeechInfo speechInfo, Boolean success) {
@@ -157,7 +158,7 @@ public class EventFilter {
             synthesizedPrepared.remove(eldest.text);
           }
         }
-        Performance.getInstance().onPreparedSpeechSynthesized();
+        Performance.getInstance().onPreparedSpeechSynthesized(depth, settleSource);
         if (eldest != null) {
           final SpeechInfo toRemove = eldest;
           handler.post(
@@ -881,17 +882,26 @@ public class EventFilter {
 
   /**
    * Asks for the sound of a prepared announcement to be made ahead of time, so a swipe to it
-   * plays at once. Only plain swipe targets: announcements for a reading control are prepared
-   * too, but their sound is not made ahead, as they are reached less often and every sound
-   * kept costs memory. A sound is keyed by its text as the speaking path will look for it, so
-   * nothing is asked for twice while it is kept or being made.
+   * plays at once. Only plain swipe targets, at preparation depth 1 or 2: announcements for a
+   * reading control are prepared too, but their sound is not made ahead, as they are reached
+   * less often and every sound kept costs memory. Preparation rounds that run when the screen
+   * settles come through here as well, so their targets get sound too. A sound is keyed by its
+   * text as the speaking path will look for it, so nothing is asked for twice while it is kept
+   * or being made.
    */
+  /** Whether a prepared announcement at {@code depth} is stable enough to make sound for. */
+  static boolean shouldSynthesizePrepared(
+      boolean enabled, @TargetType int targetType, int depth) {
+    return enabled
+        && targetType == NavigationTarget.TARGET_DEFAULT
+        && depth >= 1
+        && depth <= 2;
+  }
+
   private void maybeSynthesizePrepared(
       EventFeedback feedback, @TargetType int targetType, int depth) {
-    if (!presynthesizePreparedSpeech
-        || preparedSpeechSynthesizer == null
-        || targetType != NavigationTarget.TARGET_DEFAULT
-        || depth != 1) {
+    if (!shouldSynthesizePrepared(presynthesizePreparedSpeech, targetType, depth)
+        || preparedSpeechSynthesizer == null) {
       return;
     }
     CharSequence text = feedback.ttsOutput().orElse(null);
@@ -908,7 +918,9 @@ public class EventFilter {
       synthesesInFlight.add(key);
     }
     preparedSpeechSynthesizer.synthesize(
-        text, (float) feedback.ttsPitch(), synthesisNotifierFor(key));
+        text,
+        (float) feedback.ttsPitch(),
+        synthesisNotifierFor(key, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE));
   }
 
   /** Whether {@code text} carries a TtsSpan, whose sound the speech cache cannot make. */

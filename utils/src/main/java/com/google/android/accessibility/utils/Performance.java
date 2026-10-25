@@ -339,6 +339,12 @@ public class Performance {
   /** Prepared announcements whose sound was made in advance into the speech cache. */
   private long preparedSpeechSyntheses;
 
+  /** Of those, the ones made for targets two swipes away instead of one. */
+  private long preparedSpeechSynthesesDepth2;
+
+  /** Of those, the ones made by a preparation round that ran when the screen settled. */
+  private long preparedSpeechSynthesesSettle;
+
   /** How many of the slowest swipes are profiled. */
   private static final int MAX_SLOW_SWIPE_PROFILES = 10;
 
@@ -1405,12 +1411,30 @@ public class Performance {
   }
 
   /** Counts one prepared announcement whose sound was made in advance into the speech cache. */
-  public void onPreparedSpeechSynthesized() {
+  public void onPreparedSpeechSynthesized(int depth, boolean settleSource) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       preparedSpeechSyntheses++;
+      if (depth >= 2) {
+        preparedSpeechSynthesesDepth2++;
+      }
+      if (settleSource) {
+        preparedSpeechSynthesesSettle++;
+      }
+    }
+  }
+
+  public long getPreparedSpeechSynthesesDepth2Count() {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechSynthesesDepth2;
+    }
+  }
+
+  public long getPreparedSpeechSynthesesSettleCount() {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechSynthesesSettle;
     }
   }
 
@@ -1512,6 +1536,11 @@ public class Performance {
         logger.log(
             "Speech cache: %d plays, %d prepared announcements made into sound ahead",
             speechCachePlays, preparedSpeechSyntheses);
+      }
+      if (preparedSpeechSynthesesDepth2 > 0 || preparedSpeechSynthesesSettle > 0) {
+        logger.log(
+            "Speech made ahead by reach: %d for targets two swipes away, %d from settle rounds",
+            preparedSpeechSynthesesDepth2, preparedSpeechSynthesesSettle);
       }
     }
     for (String line : speechWaitProfileLines()) {
@@ -1769,6 +1798,8 @@ public class Performance {
       splitPieces = 0;
       speechCachePlays = 0;
       preparedSpeechSyntheses = 0;
+      preparedSpeechSynthesesDepth2 = 0;
+      preparedSpeechSynthesesSettle = 0;
       speechWaitStats.clear();
       speechWaitProfiles.clear();
       slowSwipeProfiles.clear();
