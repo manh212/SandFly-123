@@ -114,6 +114,11 @@ public class EventFilter {
 
     /** The target type of the reading control now in effect. */
     @TargetType int currentTargetType();
+
+    /** Whether the target last predicted came from the previous reading order. */
+    default boolean lastPredictionFromStaleOrder() {
+      return false;
+    }
   }
 
   private @Nullable TargetPredictor targetPredictor;
@@ -171,12 +176,48 @@ public class EventFilter {
   private @Nullable AccessibilityNodeInfoCompat lastFocusedNode;
   private final Handler handler = new Handler(Looper.getMainLooper());
   private final Runnable prepareSwipeTargets = this::prepareSwipeTargets;
+  private final Runnable settlePrepare = this::settlePrepareSwipeTargets;
+  private final Runnable prepareSecondRing = this::prepareSecondRing;
+
+  /** What set off the preparation round now being scheduled; see PreparedFocusSpeech. */
+  private int prepareRoundSource = PreparedFocusSpeech.SOURCE_FOCUS;
+
+  /** The pivot the second ring is prepared around, and the source of the round that asked. */
+  private @Nullable AccessibilityNodeInfoCompat secondRingPivot;
+  private int secondRingSource = PreparedFocusSpeech.SOURCE_FOCUS;
+
+  /**
+   * Whether preparation is also offered after the window goes quiet following a change, for the
+   * focused node it is already at. Set from the latency settings; see {@link
+   * #setPrepareOnSettle}.
+   */
+  private static volatile boolean prepareOnSettle = true;
+
+  /**
+   * Whether preparation reaches further: keeping the announcements a swipe did not use, and
+   * preparing the nodes two swipes away as well. Set from the latency settings; see {@link
+   * #setPrepareWider}.
+   */
+  private static volatile boolean prepareWider = true;
 
   /**
    * How long after focus moves the announcements of the next and previous nodes are prepared: after
    * the app's focus event has been handled, and usually before the next swipe starts.
    */
   private static final long PREPARE_DELAY_MS = 30;
+
+  /**
+   * How long the window must stay quiet after a change before its swipe targets are prepared
+   * again around the focused node: long enough that a burst of changes in a busy window arms
+   * one round, not one per change.
+   */
+  private static final long SETTLE_DELAY_MS = 300;
+
+  /**
+   * How long after a preparation round the nodes two swipes away are prepared: outside the
+   * window of the swipe that is about to come, so the cost never lands on it.
+   */
+  private static final long SECOND_RING_DELAY_MS = 200;
 
   /**
    * Whether a swipe's target that is only partly on screen is spoken before the swipe has scrolled
@@ -203,6 +244,9 @@ public class EventFilter {
     this.touchMonitor = touchMonitor;
     this.globalVariables = globalVariables;
     this.earlyFocusSpeech = earlyFocusSpeech;
+    // A busy window can throw every preparation away between two focus moves; when it goes
+    // quiet, preparation is offered again around the node the focus is at.
+    PreparedFocusSpeech.setSettleListener(this::armSettlePrepare);
   }
 
   ///////////////////////////////////////////////////////////////////////////////////
@@ -224,6 +268,16 @@ public class EventFilter {
   /** Sets whether prepared announcements also have their sound made ahead; see the field. */
   public static void setPresynthesizePreparedSpeech(boolean synthesize) {
     presynthesizePreparedSpeech = synthesize;
+  }
+
+  /** Sets whether preparation is offered again when the window goes quiet; see the field. */
+  public static void setPrepareOnSettle(boolean settle) {
+    prepareOnSettle = settle;
+  }
+
+  /** Sets whether preparation reaches further, to two swipes away; see the field. */
+  public static void setPrepareWider(boolean wider) {
+    prepareWider = wider;
   }
 
   /** Sets how to tell whether a finger is on the screen, so that a swipe never waits for this. */
@@ -485,6 +539,9 @@ public class EventFilter {
       if (preparedFeedback != null) {
         feedback = preparedFeedback;
         Performance.getInstance().onPreparedSpeechHit();
+        Performance.getInstance()
+            .onPreparedSpeechHitSource(
+                prepared.getSource(), prepared.isFromStaleOrder(), prepared.getDepth());
         LogUtils.v(TAG, "Prepared speech hit: %s", node);
         // Working the feedback out would have moved the container title to the node's, as
         // preparing it did before putting it back.
@@ -614,9 +671,38 @@ public class EventFilter {
   /** Prepares the announcements of the nodes next to {@code node}, which focus just moved to. */
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
+    prepareRoundSource = PreparedFocusSpeech.SOURCE_FOCUS;
     handler.removeCallbacks(prepareSwipeTargets);
+    handler.removeCallbacks(settlePrepare);
+    handler.removeCallbacks(prepareSecondRing);
     if (targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
+    }
+  }
+
+  /**
+   * Offers a preparation round once the window has been quiet for a while after a change:
+   * changes in a busy window throw preparations away faster than focus moves refill them, and
+   * this is what refills them while the focus stays where it is. Called by {@link
+   * PreparedFocusSpeech} on any event that may have changed the prepared window, so it only
+   * arms the round; the delay is what makes a burst of changes arm one round, not one each.
+   */
+  private void armSettlePrepare() {
+    if (!prepareOnSettle || targetPredictor == null || lastFocusedNode == null) {
+      return;
+    }
+    handler.removeCallbacks(settlePrepare);
+    handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+  }
+
+  /** The preparation round a quiet window asked for; the round carries the settle source. */
+  private void settlePrepareSwipeTargets() {
+    int roundSource = prepareRoundSource;
+    prepareRoundSource = PreparedFocusSpeech.SOURCE_SETTLE;
+    try {
+      prepareSwipeTargets();
+    } finally {
+      prepareRoundSource = roundSource;
     }
   }
 
@@ -636,35 +722,101 @@ public class EventFilter {
       // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
+    Performance.getInstance().onPreparationRound(prepareRoundSource);
     for (int direction : SWIPE_DIRECTIONS) {
       @Nullable AccessibilityNodeInfoCompat target;
+      boolean fromStaleOrder;
       try {
         target = targetPredictor.predictTarget(pivot, direction);
+        fromStaleOrder = targetPredictor.lastPredictionFromStaleOrder();
       } catch (RuntimeException e) {
         LogUtils.e(TAG, "Cannot predict swipe target: %s", e);
         return;
       }
       if (target != null && !PreparedFocusSpeech.has(target)) {
-        prepareFocusSpeech(target);
+        prepareFocusSpeech(target, NavigationTarget.TARGET_DEFAULT, fromStaleOrder, 1);
       }
     }
     // A swipe at the reading control now in effect reaches a different node than a plain swipe
     // (the next heading, say, rather than the next node), so its targets are prepared too.
     @TargetType int targetType = targetPredictor.currentTargetType();
-    if (targetType == NavigationTarget.TARGET_DEFAULT) {
+    if (targetType != NavigationTarget.TARGET_DEFAULT) {
+      for (int direction : SWIPE_DIRECTIONS) {
+        @Nullable AccessibilityNodeInfoCompat target;
+        boolean fromStaleOrder;
+        try {
+          target = targetPredictor.predictTarget(pivot, direction, targetType);
+          fromStaleOrder = targetPredictor.lastPredictionFromStaleOrder();
+        } catch (RuntimeException e) {
+          LogUtils.e(TAG, "Cannot predict reading-control swipe target: %s", e);
+          return;
+        }
+        if (target != null && !PreparedFocusSpeech.has(target, targetType)) {
+          prepareFocusSpeech(target, targetType, fromStaleOrder, 1);
+        }
+      }
+    }
+    if (prepareWider) {
+      // The nodes two swipes away are prepared a little later, off the window of the swipe
+      // that is about to come; keeping the announcements this round did not use is what makes
+      // them worth preparing at all.
+      secondRingPivot = pivot;
+      secondRingSource = prepareRoundSource;
+      handler.removeCallbacks(prepareSecondRing);
+      handler.postDelayed(prepareSecondRing, SECOND_RING_DELAY_MS);
+    }
+  }
+
+  /**
+   * Prepares the announcements of the nodes two swipes away from the focused node, in both
+   * directions and at the reading control in effect, by predicting twice in a row. Runs only
+   * while the focus is still at the node the first round was prepared around.
+   */
+  private void prepareSecondRing() {
+    @Nullable AccessibilityNodeInfoCompat pivot = secondRingPivot;
+    if (pivot == null
+        || pivot != lastFocusedNode
+        || targetPredictor == null
+        || fingerDown.getAsBoolean()
+        || !PreparedFocusSpeech.shouldPrepare(pivot)) {
       return;
     }
-    for (int direction : SWIPE_DIRECTIONS) {
-      @Nullable AccessibilityNodeInfoCompat target;
-      try {
-        target = targetPredictor.predictTarget(pivot, direction, targetType);
-      } catch (RuntimeException e) {
-        LogUtils.e(TAG, "Cannot predict reading-control swipe target: %s", e);
+    int roundSource = prepareRoundSource;
+    prepareRoundSource = secondRingSource;
+    try {
+      for (int direction : SWIPE_DIRECTIONS) {
+        prepareSecondRingInDirection(pivot, direction, NavigationTarget.TARGET_DEFAULT);
+      }
+      @TargetType int targetType = targetPredictor.currentTargetType();
+      if (targetType != NavigationTarget.TARGET_DEFAULT) {
+        for (int direction : SWIPE_DIRECTIONS) {
+          prepareSecondRingInDirection(pivot, direction, targetType);
+        }
+      }
+    } finally {
+      prepareRoundSource = roundSource;
+    }
+  }
+
+  /** Prepares the node two swipes from {@code pivot} in {@code direction}, if it is not kept. */
+  private void prepareSecondRingInDirection(
+      AccessibilityNodeInfoCompat pivot, int direction, @TargetType int targetType) {
+    @Nullable AccessibilityNodeInfoCompat first;
+    @Nullable AccessibilityNodeInfoCompat second;
+    boolean fromStaleOrder;
+    try {
+      first = targetPredictor.predictTarget(pivot, direction, targetType);
+      if (first == null) {
         return;
       }
-      if (target != null && !PreparedFocusSpeech.has(target, targetType)) {
-        prepareFocusSpeech(target, targetType);
-      }
+      second = targetPredictor.predictTarget(first, direction, targetType);
+      fromStaleOrder = targetPredictor.lastPredictionFromStaleOrder();
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "Cannot predict second swipe target: %s", e);
+      return;
+    }
+    if (second != null && !PreparedFocusSpeech.has(second, targetType)) {
+      prepareFocusSpeech(second, targetType, fromStaleOrder, 2);
     }
   }
 
@@ -673,23 +825,25 @@ public class EventFilter {
    * swipe would reach changed with it: prepare them around the focused node again.
    */
   public void onGranularityChanged() {
+    prepareRoundSource = PreparedFocusSpeech.SOURCE_GRANULARITY;
     handler.removeCallbacks(prepareSwipeTargets);
+    handler.removeCallbacks(settlePrepare);
+    handler.removeCallbacks(prepareSecondRing);
     if (lastFocusedNode != null && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }
 
-  /** Works out and keeps what focusing {@code focusedNode} by a swipe would say. */
-  private void prepareFocusSpeech(AccessibilityNodeInfoCompat focusedNode) {
-    prepareFocusSpeech(focusedNode, NavigationTarget.TARGET_DEFAULT);
-  }
-
   /**
    * Works out and keeps what focusing {@code focusedNode} by a swipe at a reading control whose
-   * target type is {@code targetType} would say.
+   * target type is {@code targetType} would say. {@code fromStaleOrder} says the node was
+   * predicted from the previous reading order, and {@code depth} how many swipes away it was.
    */
   private void prepareFocusSpeech(
-      AccessibilityNodeInfoCompat focusedNode, @TargetType int targetType) {
+      AccessibilityNodeInfoCompat focusedNode,
+      @TargetType int targetType,
+      boolean fromStaleOrder,
+      int depth) {
     // Read the node again from the app, as a swipe to it would, rather than prepare from a copy
     // that the saved reading order may have kept since before its text or state changed.
     @SuppressWarnings("deprecation") // obtain(): copy, so that the saved node is left as it was.
@@ -719,8 +873,9 @@ public class EventFilter {
       globalVariables.restoreFocusState(saved);
     }
     if (hasSpeech(feedback)) {
-      PreparedFocusSpeech.put(node, feedback, containerTitle, targetType);
-      maybeSynthesizePrepared(feedback, targetType);
+      PreparedFocusSpeech.put(
+          node, feedback, containerTitle, targetType, prepareRoundSource, fromStaleOrder, depth);
+      maybeSynthesizePrepared(feedback, targetType, depth);
     }
   }
 
@@ -731,10 +886,12 @@ public class EventFilter {
    * kept costs memory. A sound is keyed by its text as the speaking path will look for it, so
    * nothing is asked for twice while it is kept or being made.
    */
-  private void maybeSynthesizePrepared(EventFeedback feedback, @TargetType int targetType) {
+  private void maybeSynthesizePrepared(
+      EventFeedback feedback, @TargetType int targetType, int depth) {
     if (!presynthesizePreparedSpeech
         || preparedSpeechSynthesizer == null
-        || targetType != NavigationTarget.TARGET_DEFAULT) {
+        || targetType != NavigationTarget.TARGET_DEFAULT
+        || depth != 1) {
       return;
     }
     CharSequence text = feedback.ttsOutput().orElse(null);

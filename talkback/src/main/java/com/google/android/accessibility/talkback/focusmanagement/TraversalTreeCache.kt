@@ -181,6 +181,34 @@ object TraversalTreeCache {
   }
 
   /**
+   * The previous order holding [pivot], for working out where a swipe from it would land
+   * before the swipe happens, under the same checks as [serveStaleOrder] but without counting
+   * a served swipe: no swipe is being answered yet. The caller checks the target it picks in
+   * the same way (see [validateStaleTarget]) before working out its announcement, and the
+   * announcement is worked out from the node read again from the app, so a target let through
+   * can at worst not be the node the swipe reaches, never a wrong announcement.
+   */
+  @JvmStatic
+  fun staleOrderForPrediction(
+    pivot: AccessibilityNodeInfoCompat
+  ): OrderedTraversalStrategy? {
+    if (!serveStaleOrdersEnabled) {
+      return null
+    }
+    val savedStale = synchronized(stateLock) { staleStrategy }
+    if (savedStale == null || !savedStale.containsNode(pivot)) {
+      return null
+    }
+    if (structuralChangesTouch(pivot)) {
+      return null
+    }
+    if (!pivot.refresh()) {
+      return null
+    }
+    return savedStale
+  }
+
+  /**
    * Whether [target], picked from the previous order, may be focused: no structural change
    * touched it, it is still there when asked again, it is exactly where the order left it, and
    * it is still visible. A target the order does not hold did not come from it and needs no

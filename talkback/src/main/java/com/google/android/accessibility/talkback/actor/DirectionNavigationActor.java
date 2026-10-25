@@ -185,6 +185,12 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
     return focusProcessorForLogicalNavigation.predictTarget(pivot, searchDirection, targetType);
   }
 
+  /** Whether the last predicted target came from the previous reading order. */
+  @Override
+  public boolean lastPredictionFromStaleOrder() {
+    return focusProcessorForLogicalNavigation.lastPredictionFromStaleOrder();
+  }
+
   /** The target type of the granularity now in effect, whose targets are prepared in advance. */
   @Override
   public @TargetType int currentTargetType() {

@@ -458,3 +458,127 @@ class PreparedFocusSpeechUnrelatedChangeTest {
     assertNull(PreparedFocusSpeech.take(node))
   }
 }
+
+/**
+ * Tests that taking one announcement keeps the ones beside it for the next swipe (and that
+ * turning that off restores forgetting them all), that a preparation keeps what set it off,
+ * and that the settle listener hears about changes to the window announcements were prepared
+ * for, even after the announcements themselves are gone.
+ */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [34])
+class PreparedFocusSpeechKeepingTest {
+  private fun node(windowId: Int, bounds: Rect): AccessibilityNodeInfoCompat {
+    val info = AccessibilityNodeInfo.obtain()
+    info.packageName = "com.example"
+    info.setBoundsInScreen(bounds)
+    val window = AccessibilityWindowInfo()
+    shadowOf(window).setId(windowId)
+    shadowOf(info).setAccessibilityWindowInfo(window)
+    return AccessibilityNodeInfoCompat.wrap(info)
+  }
+
+  private fun feedback(): EventFeedback = EventFeedback.builder().build()
+
+  private fun agePastMinimum() {
+    ShadowSystemClock.advanceBy(Duration.ofMillis(PreparedFocusSpeech.MIN_AGE_MS + 1))
+  }
+
+  @Before
+  fun setUp() {
+    PreparedFocusSpeech.clear()
+    PreparedFocusSpeech.keepUnusedOnTake = true
+    PreparedFocusSpeech.settleListener = null
+  }
+
+  @After
+  fun tearDown() {
+    PreparedFocusSpeech.clear()
+    PreparedFocusSpeech.keepUnusedOnTake = true
+    PreparedFocusSpeech.settleListener = null
+  }
+
+  @Test
+  fun take_keepsTheAnnouncementsBesideTheTakenOne() {
+    val taken = node(401, Rect(0, 0, 100, 100))
+    val beside = node(401, Rect(200, 0, 300, 100))
+    val besideFeedback = feedback()
+    PreparedFocusSpeech.put(taken, feedback(), "")
+    PreparedFocusSpeech.put(beside, besideFeedback, "")
+    agePastMinimum()
+
+    assertNotNull(PreparedFocusSpeech.take(taken))
+
+    assertTrue(PreparedFocusSpeech.has(beside))
+    assertSame(besideFeedback, PreparedFocusSpeech.take(beside)?.feedback)
+  }
+
+  @Test
+  fun take_forgetsEverything_whenKeepingIsOff() {
+    val taken = node(402, Rect(0, 0, 100, 100))
+    val beside = node(402, Rect(200, 0, 300, 100))
+    PreparedFocusSpeech.keepUnusedOnTake = false
+    PreparedFocusSpeech.put(taken, feedback(), "")
+    PreparedFocusSpeech.put(beside, feedback(), "")
+    agePastMinimum()
+
+    assertNotNull(PreparedFocusSpeech.take(taken))
+
+    assertFalse(PreparedFocusSpeech.has(beside))
+  }
+
+  @Test
+  fun put_keepsWhatSetThePreparationOff() {
+    val node = node(403, Rect(0, 0, 100, 100))
+    PreparedFocusSpeech.put(
+      node,
+      feedback(),
+      "",
+      NavigationTarget.TARGET_DEFAULT,
+      PreparedFocusSpeech.SOURCE_SETTLE,
+      true,
+      2,
+    )
+    agePastMinimum()
+
+    val prepared = PreparedFocusSpeech.take(node)
+
+    assertNotNull(prepared)
+    assertTrue(prepared!!.source == PreparedFocusSpeech.SOURCE_SETTLE)
+    assertTrue(prepared.fromStaleOrder)
+    assertTrue(prepared.depth == 2)
+  }
+
+  @Test
+  fun settleListener_hearsChangesToThePreparedWindow_evenAfterTheyAreGone() {
+    val node = node(404, Rect(0, 0, 100, 100))
+    var heard = 0
+    PreparedFocusSpeech.settleListener = Runnable { heard++ }
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    shadowOf(event).setWindowId(404)
+    PreparedFocusSpeech.onAccessibilityEvent(event)
+    // The announcements are gone now; a further change to the same window is still heard,
+    // which is what lets preparation be offered again once the window goes quiet.
+    PreparedFocusSpeech.onAccessibilityEvent(event)
+    event.recycle()
+
+    assertTrue(heard == 2)
+  }
+
+  @Test
+  fun settleListener_ignoresChangesToAnotherWindow() {
+    val node = node(405, Rect(0, 0, 100, 100))
+    var heard = 0
+    PreparedFocusSpeech.settleListener = Runnable { heard++ }
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    shadowOf(event).setWindowId(406)
+    PreparedFocusSpeech.onAccessibilityEvent(event)
+    event.recycle()
+
+    assertTrue(heard == 0)
+  }
+}

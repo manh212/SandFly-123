@@ -572,4 +572,54 @@ class TraversalTreeCacheTest {
 
     assertTrue(TraversalTreeCache.validateStaleTarget(outsider))
   }
+
+  @Test
+  fun staleOrderForPrediction_changeAwayFromThePivot_returnsThePreviousOrder() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+
+    assertNotNull(TraversalTreeCache.staleOrderForPrediction(child))
+  }
+
+  @Test
+  fun staleOrderForPrediction_changeOverThePivot_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(0, 0, 200, 200)))
+
+    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
+  }
+
+  @Test
+  fun staleOrderForPrediction_changeWithUnknownRegion_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, null))
+
+    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
+  }
+
+  @Test
+  fun staleOrderForPrediction_disabled_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    TraversalTreeCache.serveStaleOrdersEnabled = false
+
+    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
+  }
+
+  @Test
+  fun staleOrderForPrediction_noPreviousOrder_returnsNull() {
+    val (_, child) = savedOrder()
+
+    // The order is still the current one; there is no previous order to predict from.
+    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
+  }
+
+  @Test
+  fun staleOrderForPrediction_pivotOutsideThePreviousOrder_refuses() {
+    val (root, _) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    val outsider = AccessibilityNodeInfoCompat.wrap(node(null))
+
+    assertNull(TraversalTreeCache.staleOrderForPrediction(outsider))
+  }
 }

@@ -1243,16 +1243,25 @@ public class FocusProcessorForLogicalNavigation {
     // few hundred, on the main thread, where a swipe that starts meanwhile would wait for it. A
     // swipe saves the order it builds, so the next prediction has one. The root comes from the
     // saved order too, as asking the window for it would wait for the app.
+    lastPredictionFromStaleOrder = false;
     AccessibilityNodeInfoCompat rootNode = TraversalTreeCache.rootFor(pivot);
-    if (rootNode == null) {
-      // Remember where the next swipe starts all the same, as a search of the saved order does, so
-      // that a swipe after the focused node is removed carries on from here.
-      TraversalTreeCache.rememberPivot(pivot);
-      return null;
-    }
-    TraversalStrategy traversalStrategy = TraversalTreeCache.get(rootNode, pivot);
+    TraversalStrategy traversalStrategy =
+        rootNode == null ? null : TraversalTreeCache.get(rootNode, pivot);
     if (traversalStrategy == null) {
-      return null;
+      // The order was thrown away and kept as the previous one, which a swipe may be served
+      // from under checks. A prediction may use it under the same checks, plus the target check
+      // below: the announcement is then worked out from the node read again from the app, so
+      // the worst a prediction from it can do is miss the node the swipe reaches.
+      traversalStrategy = TraversalTreeCache.staleOrderForPrediction(pivot);
+      if (traversalStrategy == null) {
+        if (rootNode == null) {
+          // Remember where the next swipe starts all the same, as a search of the saved order
+          // does, so that a swipe after the focused node is removed carries on from here.
+          TraversalTreeCache.rememberPivot(pivot);
+        }
+        return null;
+      }
+      lastPredictionFromStaleOrder = true;
     }
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
         composeNodeFilter(targetType, traversalStrategy.getSpeakingNodesCache());
@@ -1264,8 +1273,19 @@ public class FocusProcessorForLogicalNavigation {
         || WebInterfaceUtils.supportsWebActions(target)) {
       return null;
     }
+    if (lastPredictionFromStaleOrder && !TraversalTreeCache.validateStaleTarget(target)) {
+      return null;
+    }
     return target;
   }
+
+  /** Whether the target {@link #predictTarget} last returned came from the previous order. */
+  public boolean lastPredictionFromStaleOrder() {
+    return lastPredictionFromStaleOrder;
+  }
+
+  /** Whether the last predicted target came from the previous reading order; see above. */
+  private boolean lastPredictionFromStaleOrder;
 
   /** Whether a swipe at a granularity with this target type searches the saved reading order. */
   @VisibleForTesting

@@ -3488,6 +3488,13 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(
             R.string.pref_presynthesize_prepared_key,
             R.bool.pref_presynthesize_prepared_default));
+    EventFilter.setPrepareOnSettle(
+        getBooleanPref(
+            R.string.pref_prepare_on_settle_key, R.bool.pref_prepare_on_settle_default));
+    boolean prepareWider =
+        getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default);
+    EventFilter.setPrepareWider(prepareWider);
+    PreparedFocusSpeech.setKeepUnusedOnTake(prepareWider);
   }
 
   protected void reloadPreferences() {

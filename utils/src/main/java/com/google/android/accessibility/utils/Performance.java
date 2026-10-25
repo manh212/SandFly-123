@@ -231,6 +231,20 @@ public class Performance {
 
   private long preparedSpeechMisses;
 
+  /**
+   * Preparation rounds and hits by what set them off; the source numbers are PreparedFocusSpeech's:
+   * 0 = the focus moved, 1 = the window went quiet, 2 = the reading control changed.
+   */
+  private final long[] preparationRoundsBySource = new long[3];
+
+  private final long[] preparedHitsBySource = new long[3];
+
+  /** How often a used prepared announcement had been predicted from the previous reading order. */
+  private long preparedHitsFromStaleOrder;
+
+  /** How often a used prepared announcement had been prepared two swipes ahead. */
+  private long preparedHitsSecondRing;
+
   /** Durations of the named segments inside one swipe, by segment name. */
   private final HashMap<String, Statistics> swipeSegmentStats = new HashMap<>();
 
@@ -1177,6 +1191,36 @@ public class Performance {
     }
   }
 
+  /** Counts one round of preparing swipe announcements, by what set it off. */
+  public void onPreparationRound(int source) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < preparationRoundsBySource.length) {
+        preparationRoundsBySource[source]++;
+      }
+    }
+  }
+
+  /** Counts where a used prepared announcement came from. */
+  public void onPreparedSpeechHitSource(int source, boolean fromStaleOrder, int depth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < preparedHitsBySource.length) {
+        preparedHitsBySource[source]++;
+      }
+      if (fromStaleOrder) {
+        preparedHitsFromStaleOrder++;
+      }
+      if (depth >= 2) {
+        preparedHitsSecondRing++;
+      }
+    }
+  }
+
   /** Counts one focus that was spoken without a prepared announcement to use. */
   public void onPreparedSpeechMiss() {
     if (!computeStatsEnabled) {
@@ -1223,6 +1267,23 @@ public class Performance {
         logger.log(
             "Prepared speech region checks: %d kept, %d evicted",
             preparedKeptByRegion, preparedEvictedByRegion);
+      }
+      long preparationRounds =
+          preparationRoundsBySource[0]
+              + preparationRoundsBySource[1]
+              + preparationRoundsBySource[2];
+      if (preparationRounds > 0) {
+        logger.log(
+            "Preparation rounds and hits by source: focus %d/%d, settle %d/%d, reading control"
+                + " %d/%d; %d hits from the previous order, %d hits two swipes ahead",
+            preparationRoundsBySource[0],
+            preparedHitsBySource[0],
+            preparationRoundsBySource[1],
+            preparedHitsBySource[1],
+            preparationRoundsBySource[2],
+            preparedHitsBySource[2],
+            preparedHitsFromStaleOrder,
+            preparedHitsSecondRing);
       }
     }
   }
@@ -1559,6 +1620,10 @@ public class Performance {
       speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
+      Arrays.fill(preparationRoundsBySource, 0);
+      Arrays.fill(preparedHitsBySource, 0);
+      preparedHitsFromStaleOrder = 0;
+      preparedHitsSecondRing = 0;
       swipeSegmentStats.clear();
       speakEarlyFromSavedOrder = 0;
       speakEarlyReRead = 0;
