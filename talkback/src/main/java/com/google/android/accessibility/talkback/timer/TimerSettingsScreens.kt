@@ -26,14 +26,11 @@ import com.google.android.accessibility.talkback.notifications.NotificationXmlFr
 import java.util.Date
 
 /**
- * Timer settings: the time announcements, which keep their keys and values from the
- * notification schedules screen they were on, and the stopwatch.
+ * Timer settings on one screen: the time announcements, which keep their keys and values from
+ * the notification schedules screen they were on, and the stopwatch below them.
  */
 class TimerSettingsFragment :
-  NotificationXmlFragment(R.xml.timer_preferences, R.string.timer_settings_title)
-
-class StopwatchFragment :
-  NotificationXmlFragment(R.xml.stopwatch_preferences, R.string.stopwatch_title) {
+  NotificationXmlFragment(R.xml.timer_preferences, R.string.timer_settings_title) {
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)

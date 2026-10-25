@@ -22,22 +22,19 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.os.Handler
-import android.os.Looper
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.notifications.AlarmClockIntents
-import com.google.android.accessibility.talkback.notifications.SpokenSchedules
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 /**
  * Runs the stopwatch: at each multiple of the reminder interval it says how long the stopwatch
- * has run, with the sound and vibration the stopwatch settings choose. Like [SpokenSchedules],
- * its alarms are set again after each one and when the settings change. With exact times on, a
- * reminder is a system alarm clock, so it still fires on time while the phone rests; otherwise
- * it is an alarm with a listener in SandFly's process, which the system may delay by a minute.
+ * has run, with the sound and vibration the stopwatch settings choose. A reminder is a system
+ * alarm clock, so it still fires on time while the phone rests. If a reminder's alarm is lost —
+ * SandFly restarting across it, for one — the milestone is not dropped: the last announced
+ * milestone is kept, and when the engine next runs it says the newest milestone it owes, once.
  */
 class StopwatchEngine(
   private val context: Context,
@@ -46,12 +43,10 @@ class StopwatchEngine(
   /** Plays sound and vibration feedback through SandFly's pipeline. */
   private val feedback: (Feedback.Part.Builder) -> Unit,
 ) {
-  private val handler = Handler(Looper.getMainLooper())
   private val alarms = context.getSystemService(AlarmManager::class.java)
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-  private val reminderAlarm = AlarmManager.OnAlarmListener { onReminder() }
 
-  /** Receives an exact reminder when its alarm clock fires, and runs the reminder. */
+  /** Receives a reminder when its alarm clock fires, and runs the reminder. */
   private val alarmReceiver =
     object : BroadcastReceiver() {
       override fun onReceive(receiverContext: Context, intent: Intent) {
@@ -62,9 +57,7 @@ class StopwatchEngine(
 
   private val settingsListener =
     SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-      if (key == Stopwatch.KEY_INTERVAL_MINUTES || key == SpokenSchedules.KEY_CLOCK_EXACT) {
-        schedule()
-      }
+      if (key == Stopwatch.KEY_INTERVAL_MINUTES) schedule()
     }
 
   @MainThread
@@ -79,6 +72,7 @@ class StopwatchEngine(
     )
     prefs.registerOnSharedPreferenceChangeListener(settingsListener)
     schedule()
+    announceLatestMilestone()
   }
 
   @MainThread
@@ -97,7 +91,11 @@ class StopwatchEngine(
   }
 
   private fun startStopwatch() {
-    prefs.edit().putLong(Stopwatch.KEY_STARTED_AT, System.currentTimeMillis()).apply()
+    prefs
+      .edit()
+      .putLong(Stopwatch.KEY_STARTED_AT, System.currentTimeMillis())
+      .putLong(Stopwatch.KEY_LAST_ANNOUNCED, 0)
+      .apply()
     signal(R.raw.chime_up)
     say(context.getString(R.string.stopwatch_started), false)
     schedule()
@@ -106,7 +104,11 @@ class StopwatchEngine(
   private fun stopStopwatch() {
     val startedAt = Stopwatch.startedAt(context)
     val now = System.currentTimeMillis()
-    prefs.edit().putLong(Stopwatch.KEY_STARTED_AT, 0).apply()
+    prefs
+      .edit()
+      .putLong(Stopwatch.KEY_STARTED_AT, 0)
+      .putLong(Stopwatch.KEY_LAST_ANNOUNCED, 0)
+      .apply()
     alarms?.let { cancelAlarm(it) }
     if (startedAt > 0) {
       Stopwatch.addHistory(context, Stopwatch.Entry(startedAt, now - startedAt))
@@ -131,19 +133,13 @@ class StopwatchEngine(
   }
 
   private fun set(alarms: AlarmManager, at: Long) {
-    if (prefs.getBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false)) {
-      alarms.setAlarmClock(
-        AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
-        AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH),
-      )
-    } else {
-      alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, reminderAlarm, handler)
-    }
+    alarms.setAlarmClock(
+      AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
+      AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH),
+    )
   }
 
-  /** Drops the pending reminder in both of its forms, so switching forms never leaves two. */
   private fun cancelAlarm(alarms: AlarmManager) {
-    alarms.cancel(reminderAlarm)
     alarms.cancel(AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH))
   }
 
@@ -152,6 +148,15 @@ class StopwatchEngine(
 
   private fun onReminder() {
     schedule()
+    announceLatestMilestone()
+  }
+
+  /**
+   * Says the newest milestone the stopwatch has reached and not yet said, with the reminder's
+   * sound. A milestone an alarm delivered late, or one whose alarm never arrived, is said here
+   * instead of being lost; one already said is not said again.
+   */
+  private fun announceLatestMilestone() {
     val startedAt = Stopwatch.startedAt(context)
     if (startedAt <= 0) return
     val intervalMs = Stopwatch.intervalMinutes(context) * 60_000L
@@ -159,6 +164,8 @@ class StopwatchEngine(
     val elapsed = System.currentTimeMillis() - startedAt
     val milestone = elapsed / intervalMs * intervalMs
     if (milestone <= 0) return
+    if (milestone <= prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, 0)) return
+    prefs.edit().putLong(Stopwatch.KEY_LAST_ANNOUNCED, milestone).apply()
     signal(R.raw.chime_up)
     say(Stopwatch.formatElapsed(context, milestone), false)
   }
@@ -172,10 +179,5 @@ class StopwatchEngine(
     if (sound) builder.sound(soundResource)
     if (vibration) builder.vibration(R.array.view_clicked_pattern)
     feedback(builder)
-  }
-
-  private companion object {
-    const val TAG = "Stopwatch"
-    const val WINDOW_MS = 60_000L
   }
 }

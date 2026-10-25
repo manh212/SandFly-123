@@ -34,5 +34,8 @@ public class TalkBackUpdateHelper {
   public void checkUpdate() {
     BatteryOptimizationCheck.check(service, sharedPreferences);
     PhoneticLetterMode.migrate(sharedPreferences, service.getResources());
+    // The Exact times switch is gone: spoken times are always system alarm clocks now, so its
+    // saved value has nothing left to drive and is dropped.
+    sharedPreferences.edit().remove("pref_notification_clock_exact").apply();
   }
 }

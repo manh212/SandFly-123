@@ -45,6 +45,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- Time announcements on the minute, when the user turns on exact times. -->
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!-- Lets a watch ask for Wi-Fi to download an update. -->
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 

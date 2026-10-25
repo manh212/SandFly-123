@@ -21,7 +21,6 @@ import android.content.Context
 import android.content.Intent
 import android.os.Looper
 import com.google.android.accessibility.talkback.notifications.AlarmClockIntents
-import com.google.android.accessibility.talkback.notifications.SpokenSchedules
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -36,7 +35,10 @@ import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowAlarmManager
 
-/** The stopwatch's alarms: an alarm clock at exact times, a windowed listener alarm otherwise. */
+/**
+ * The stopwatch's alarms and milestones: a reminder is always a system alarm clock, and a
+ * milestone whose alarm never arrived is said once when the engine next runs, not dropped.
+ */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class StopwatchEngineAlarmClockTest {
@@ -60,9 +62,9 @@ class StopwatchEngineAlarmClockTest {
   }
 
   @Test
-  fun exactOn_setsAnAlarmClockAtTheNextMultiple() {
+  fun start_setsAnAlarmClockAtTheNextMultiple() {
     val startedAt = System.currentTimeMillis() - 60_000L
-    startEngine(exact = true, startedAt = startedAt)
+    startEngine(startedAt)
 
     val info = alarmManager.nextAlarmClock
     assertNotNull(info)
@@ -70,24 +72,12 @@ class StopwatchEngineAlarmClockTest {
     assertNotNull(info.showIntent)
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
     assertNotNull(shadowAlarms.scheduledAlarms[0].alarmClockInfo)
-  }
-
-  @Test
-  fun exactOff_setsAWindowListenerAlarmAsBefore() {
-    val startedAt = System.currentTimeMillis() - 60_000L
-    startEngine(exact = false, startedAt = startedAt)
-
-    assertNull(alarmManager.nextAlarmClock)
-    assertEquals(1, shadowAlarms.scheduledAlarms.size)
-    val alarm = shadowAlarms.scheduledAlarms[0]
-    assertEquals(startedAt + 600_000L, alarm.triggerAtMs)
-    assertEquals(60_000L, alarm.windowLengthMs)
-    assertNotNull(alarm.onAlarmListener)
+    assertEquals("no milestone has been reached yet", 0, said.size)
   }
 
   @Test
   fun stop_cancelsTheAlarmClock() {
-    startEngine(exact = true, startedAt = System.currentTimeMillis() - 60_000L)
+    startEngine(System.currentTimeMillis() - 60_000L)
     assertNotNull(alarmManager.nextAlarmClock)
 
     engine!!.stop()
@@ -98,27 +88,37 @@ class StopwatchEngineAlarmClockTest {
   }
 
   @Test
-  fun togglingExact_reschedulesIntoTheOtherFormLeavingOneAlarm() {
-    startEngine(exact = true, startedAt = System.currentTimeMillis() - 60_000L)
-    assertNotNull(alarmManager.nextAlarmClock)
+  fun missedMilestones_theNewestIsSaidOnceWhenTheEngineStarts() {
+    // Twenty-five minutes in, the 10- and 20-minute milestones were never announced.
+    val startedAt = System.currentTimeMillis() - 1_500_000L
+    startEngine(startedAt)
 
-    prefs.edit().putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false).commit()
-    assertNull("the alarm clock must be gone once exact times are off", alarmManager.nextAlarmClock)
-    assertEquals(1, shadowAlarms.scheduledAlarms.size)
-    assertNotNull(shadowAlarms.scheduledAlarms[0].onAlarmListener)
-
-    prefs.edit().putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, true).commit()
-    assertNotNull(alarmManager.nextAlarmClock)
-    assertEquals(1, shadowAlarms.scheduledAlarms.size)
-    assertNotNull(shadowAlarms.scheduledAlarms[0].alarmClockInfo)
+    assertEquals("only the newest missed milestone is said", 1, said.size)
+    assertEquals(Stopwatch.formatElapsed(context, 1_200_000L), said[0].toString())
+    assertEquals(1_200_000L, prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, -1))
+    // The chain is armed again for the next milestone.
+    assertEquals(startedAt + 1_800_000L, alarmManager.nextAlarmClock!!.triggerTime)
   }
 
   @Test
-  fun alarmBroadcast_runsTheReminderAndReschedules() {
-    val startedAt = System.currentTimeMillis() - 605_000L
-    startEngine(exact = true, startedAt = startedAt)
+  fun startingAgain_doesNotSayTheMilestoneAgain() {
+    val startedAt = System.currentTimeMillis() - 1_500_000L
+    startEngine(startedAt)
+    assertEquals(1, said.size)
 
-    // The alarm clock's operation is the stopwatch broadcast.
+    engine!!.stop()
+    engine = null
+    startEngine(startedAt)
+
+    assertEquals(1, said.size)
+  }
+
+  @Test
+  fun alarmBroadcast_doesNotSayAgain_andReschedules() {
+    val startedAt = System.currentTimeMillis() - 605_000L
+    startEngine(startedAt)
+    assertEquals("the catch-up said the milestone it found", 1, said.size)
+
     val operation = shadowAlarms.scheduledAlarms.single().operation
     assertNotNull(operation)
     val savedIntent: Intent = Shadows.shadowOf(operation).savedIntent
@@ -133,21 +133,30 @@ class StopwatchEngineAlarmClockTest {
     )
     Shadows.shadowOf(Looper.getMainLooper()).idle()
 
-    assertEquals("the reminder says the milestone it reached", 1, said.size)
+    assertEquals("the same milestone is not said twice", 1, said.size)
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
-    assertEquals(
-      startedAt + 1_200_000L,
-      shadowAlarms.scheduledAlarms.single().triggerAtMs,
-    )
+    assertEquals(startedAt + 1_200_000L, shadowAlarms.scheduledAlarms.single().triggerAtMs)
     assertNotNull(alarmManager.nextAlarmClock)
   }
 
-  private fun startEngine(exact: Boolean, startedAt: Long) {
+  @Test
+  fun stoppingTheStopwatch_forgetsTheAnnouncedMilestone() {
+    val startedAt = System.currentTimeMillis() - 1_500_000L
+    startEngine(startedAt)
+    assertEquals(1_200_000L, prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, -1))
+
+    engine!!.toggle()
+
+    assertEquals(0L, Stopwatch.startedAt(context))
+    assertEquals(0L, prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, -1))
+    assertNull(alarmManager.nextAlarmClock)
+  }
+
+  private fun startEngine(startedAt: Long) {
     prefs
       .edit()
       .putLong(Stopwatch.KEY_STARTED_AT, startedAt)
       .putString(Stopwatch.KEY_INTERVAL_MINUTES, "10")
-      .putBoolean(SpokenSchedules.KEY_CLOCK_EXACT, exact)
       .putBoolean(Stopwatch.KEY_SOUND, false)
       .putBoolean(Stopwatch.KEY_VIBRATION, false)
       .commit()

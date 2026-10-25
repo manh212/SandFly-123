@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Timer settings: the time announcements moved from Notifications, and the stopwatch. -->
+<!-- Timer settings: the initial setup, then the time announcements and the stopwatch, all on
+     one screen — the spoken clock above, the stopwatch below. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.timer.TimerSetupFragment"
+      android:key="pref_timer_setup_screen"
+      android:title="@string/timer_setup_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/notification_category_clock">
     <ListPreference
         android:defaultValue="0"
@@ -12,14 +17,24 @@
         android:dialogMessage="@string/notification_clock_format_message"
         android:key="pref_notification_clock_format"
         android:title="@string/notification_clock_format_title" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-        android:defaultValue="false"
-        android:key="pref_notification_clock_exact"
-        android:summary="@string/notification_clock_exact_summary"
-        android:title="@string/notification_clock_exact_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.timer.StopwatchFragment"
-      android:key="pref_stopwatch_screen"
-      android:title="@string/stopwatch_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/stopwatch_title">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="true"
+        android:key="pref_stopwatch_sound"
+        android:title="@string/stopwatch_sound_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="true"
+        android:key="pref_stopwatch_vibration"
+        android:title="@string/stopwatch_vibration_title" />
+    <ListPreference
+        android:defaultValue="10"
+        android:key="pref_stopwatch_interval_minutes"
+        android:summary="%s"
+        android:title="@string/stopwatch_interval_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.timer.StopwatchHistoryFragment"
+        android:key="pref_stopwatch_history_screen"
+        android:title="@string/stopwatch_history_title" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>
