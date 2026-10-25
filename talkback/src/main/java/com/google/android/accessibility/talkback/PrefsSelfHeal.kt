@@ -38,6 +38,14 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils
  * it. This performs that same rewrite automatically, early enough that the normal startup
  * then reads the healed file, so the cure no longer needs the manual ritual.
  *
+ * The rewrite alone turned out not to be the whole cure: it runs before the service exists,
+ * when re-applying the typing preferences cannot take effect — there is no keyboard window
+ * yet, so the passthrough region sync is a no-op, and the drifted state sits on the framework
+ * side of the service. A live preference change cures the lag because it re-applies those
+ * preferences in the running service. So the rewrite also stamps [KEY_PENDING_LIVE_REAPPLY],
+ * and the live service performs that re-apply itself, once, the first time the keyboard
+ * window is present after the update.
+ *
  * At VERBOSE the diagnostics snapshot is written to the log before the rewrite, so an export
  * after a still-sick update carries the pristine, pre-heal state of the file.
  *
@@ -49,6 +57,9 @@ object PrefsSelfHeal {
 
   /** The main preferences file's own record of the version it was last rewritten for. */
   const val KEY_HEALED_VERSION = "prefs_self_heal_version_code"
+
+  /** The version the live service still owes a one-time live re-apply of preferences for. */
+  const val KEY_PENDING_LIVE_REAPPLY = "prefs_pending_live_reapply_version_code"
 
   /** How many times this process has actually rewritten the file. Test seam. */
   internal var rewriteCount = 0
@@ -105,16 +116,44 @@ object PrefsSelfHeal {
     }
   }
 
-  /** Clears the file and writes every value back with its own type, in one synchronous commit. */
+  /** The version the live service still owes a live re-apply for, or 0 when none is owed. */
+  @JvmStatic
+  fun pendingLiveReapplyVersion(prefs: SharedPreferences): Long {
+    return try {
+      prefs.all[KEY_PENDING_LIVE_REAPPLY] as? Long ?: 0L
+    } catch (t: Throwable) {
+      LogUtils.w(TAG, "Could not read the pending live re-apply marker: %s", t)
+      0L
+    }
+  }
+
+  /** Clears the pending live re-apply marker once the service has performed the re-apply. */
+  @JvmStatic
+  fun clearPendingLiveReapply(prefs: SharedPreferences) {
+    try {
+      if (prefs.contains(KEY_PENDING_LIVE_REAPPLY)) {
+        prefs.edit().remove(KEY_PENDING_LIVE_REAPPLY).apply()
+      }
+    } catch (t: Throwable) {
+      LogUtils.w(TAG, "Could not clear the pending live re-apply marker: %s", t)
+    }
+  }
+
+  /**
+   * Clears the file and writes every value back with its own type, in one synchronous commit.
+   * The same commit stamps the healed-version marker and the live re-apply the service still
+   * owes for this version, so the two can never disagree.
+   */
   private fun rewrite(prefs: SharedPreferences, currentVersionCode: Long): Boolean {
     val editor = prefs.edit()
     editor.clear()
     for ((key, value) in prefs.all) {
-      if (key != KEY_HEALED_VERSION) {
+      if (key != KEY_HEALED_VERSION && key != KEY_PENDING_LIVE_REAPPLY) {
         putValue(editor, key, value)
       }
     }
     editor.putLong(KEY_HEALED_VERSION, currentVersionCode)
+    editor.putLong(KEY_PENDING_LIVE_REAPPLY, currentVersionCode)
     if (!editor.commit()) {
       LogUtils.w(TAG, "Preferences self-heal could not rewrite the preferences file")
       return false
