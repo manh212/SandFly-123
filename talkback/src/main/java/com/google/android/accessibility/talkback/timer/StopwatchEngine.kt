@@ -17,22 +17,27 @@
 package com.google.android.accessibility.talkback.timer
 
 import android.app.AlarmManager
+import android.content.BroadcastReceiver
 import android.content.Context
+import android.content.Intent
+import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.notifications.AlarmClockIntents
 import com.google.android.accessibility.talkback.notifications.SpokenSchedules
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 /**
  * Runs the stopwatch: at each multiple of the reminder interval it says how long the stopwatch
  * has run, with the sound and vibration the stopwatch settings choose. Like [SpokenSchedules],
- * it uses alarms with listeners in SandFly's process, which wake the phone without extra
- * permission, set again after each one and when the settings change.
+ * its alarms are set again after each one and when the settings change. With exact times on, a
+ * reminder is a system alarm clock, so it still fires on time while the phone rests; otherwise
+ * it is an alarm with a listener in SandFly's process, which the system may delay by a minute.
  */
 class StopwatchEngine(
   private val context: Context,
@@ -45,6 +50,14 @@ class StopwatchEngine(
   private val alarms = context.getSystemService(AlarmManager::class.java)
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val reminderAlarm = AlarmManager.OnAlarmListener { onReminder() }
+
+  /** Receives an exact reminder when its alarm clock fires, and runs the reminder. */
+  private val alarmReceiver =
+    object : BroadcastReceiver() {
+      override fun onReceive(receiverContext: Context, intent: Intent) {
+        if (intent.action == alarmAction()) onReminder()
+      }
+    }
   private var started = false
 
   private val settingsListener =
@@ -58,6 +71,12 @@ class StopwatchEngine(
   fun start() {
     if (started) return
     started = true
+    ContextCompat.registerReceiver(
+      context,
+      alarmReceiver,
+      IntentFilter(alarmAction()),
+      ContextCompat.RECEIVER_NOT_EXPORTED,
+    )
     prefs.registerOnSharedPreferenceChangeListener(settingsListener)
     schedule()
   }
@@ -67,7 +86,8 @@ class StopwatchEngine(
     if (!started) return
     started = false
     prefs.unregisterOnSharedPreferenceChangeListener(settingsListener)
-    alarms?.cancel(reminderAlarm)
+    runCatching { context.unregisterReceiver(alarmReceiver) }
+    alarms?.let { cancelAlarm(it) }
   }
 
   /** Starts the stopwatch if it is stopped, and stops it if it is running. */
@@ -87,7 +107,7 @@ class StopwatchEngine(
     val startedAt = Stopwatch.startedAt(context)
     val now = System.currentTimeMillis()
     prefs.edit().putLong(Stopwatch.KEY_STARTED_AT, 0).apply()
-    alarms?.cancel(reminderAlarm)
+    alarms?.let { cancelAlarm(it) }
     if (startedAt > 0) {
       Stopwatch.addHistory(context, Stopwatch.Entry(startedAt, now - startedAt))
     }
@@ -100,7 +120,7 @@ class StopwatchEngine(
 
   private fun schedule() {
     val alarms = alarms ?: return
-    alarms.cancel(reminderAlarm)
+    cancelAlarm(alarms)
     val startedAt = Stopwatch.startedAt(context)
     if (startedAt <= 0) return
     val intervalMs = Stopwatch.intervalMinutes(context) * 60_000L
@@ -111,20 +131,24 @@ class StopwatchEngine(
   }
 
   private fun set(alarms: AlarmManager, at: Long) {
-    val exact = prefs.getBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false)
-    try {
-      if (exact && canScheduleExact(alarms)) {
-        alarms.setExact(AlarmManager.RTC_WAKEUP, at, TAG, reminderAlarm, handler)
-      } else {
-        alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, reminderAlarm, handler)
-      }
-    } catch (e: SecurityException) {
+    if (prefs.getBoolean(SpokenSchedules.KEY_CLOCK_EXACT, false)) {
+      alarms.setAlarmClock(
+        AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
+        AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH),
+      )
+    } else {
       alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, reminderAlarm, handler)
     }
   }
 
-  private fun canScheduleExact(alarms: AlarmManager): Boolean =
-    Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarms.canScheduleExactAlarms()
+  /** Drops the pending reminder in both of its forms, so switching forms never leaves two. */
+  private fun cancelAlarm(alarms: AlarmManager) {
+    alarms.cancel(reminderAlarm)
+    alarms.cancel(AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH))
+  }
+
+  private fun alarmAction(): String =
+    AlarmClockIntents.action(context, AlarmClockIntents.ACTION_STOPWATCH)
 
   private fun onReminder() {
     schedule()
