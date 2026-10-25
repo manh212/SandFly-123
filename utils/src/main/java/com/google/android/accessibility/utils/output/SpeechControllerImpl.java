@@ -46,6 +46,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
 import android.text.style.TtsSpan;
+import android.util.Log;
 import android.util.Range;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
@@ -2083,6 +2084,13 @@ public class SpeechControllerImpl implements SpeechController {
       addUtteranceCompleteAction(utteranceIndex, utteranceGroup, fullScreenReadNextCallback);
     }
 
+    processNextFragmentInternal();
+
+    // The item is on its way to the engine; only now is it written into the speech history
+    // and announced as started. Nothing before the first sound needs the history: the repeat,
+    // copy and translate-last commands read it when the user asks, long after this returns,
+    // and the start listener is told within the same call either way. Keeping the aggregate
+    // text walk and the list work behind the submission takes them off the swipe's path.
     if ((item != null) && !item.hasFlag(FeedbackItem.FLAG_NO_HISTORY)) {
       while (mFeedbackHistory.size() >= MAX_HISTORY_ITEMS) {
         mFeedbackHistory.remove(mFeedbackHistory.peek());
@@ -2094,8 +2102,6 @@ public class SpeechControllerImpl implements SpeechController {
     if (speechListener != null) {
       speechListener.onUtteranceStarted(item);
     }
-
-    processNextFragmentInternal();
   }
 
   // Resumes the speech for continuous reading.
@@ -2217,15 +2223,20 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
-    final String logText = (text == null) ? null : String.format("\"%s\"", text.toString());
-    LogUtils.v(
-        TAG,
-        "Speaking fragment text=%s, utteranceId=%s, TtsSpan=%s, locale=%s, event=%s",
-        logText,
-        feedbackItem.getUtteranceId(),
-        SpannableUtils.spansToStringForLogging(text, TtsSpan.class),
-        locale,
-        eventId);
+    // Walking the text's spans for this line costs on every fragment, at any log level: the
+    // arguments are worked out before the call decides whether anything is printed. At the
+    // verbose level the owner runs at, that walk was on every swipe's path to the engine.
+    if (LogUtils.shouldLog(Log.VERBOSE)) {
+      final String logText = (text == null) ? null : String.format("\"%s\"", text.toString());
+      LogUtils.v(
+          TAG,
+          "Speaking fragment text=%s, utteranceId=%s, TtsSpan=%s, locale=%s, event=%s",
+          logText,
+          feedbackItem.getUtteranceId(),
+          SpannableUtils.spansToStringForLogging(text, TtsSpan.class),
+          locale,
+          eventId);
+    }
 
     if (text != null && feedbackItem.hasFlag(FeedbackItem.FLAG_FORCE_FEEDBACK)) {
       mDelegate.onSpeakingForcedFeedback();
@@ -2249,10 +2260,13 @@ public class SpeechControllerImpl implements SpeechController {
         eventId);
 
     if (ttsOverlay != null) {
+      // The on-screen text follows the sound, it does not lead it: showing it is posted, so
+      // its window work never sits between the submission and the first sound.
       if (eventId != null) {
-        ttsOverlay.displayText(text, eventId.getEventSubtype());
+        int eventSubtype = eventId.getEventSubtype();
+        mHandler.post(() -> ttsOverlay.displayText(text, eventSubtype));
       } else {
-        ttsOverlay.displayText(text);
+        mHandler.post(() -> ttsOverlay.displayText(text));
       }
     }
 
