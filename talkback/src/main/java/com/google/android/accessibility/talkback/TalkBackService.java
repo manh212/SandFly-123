@@ -103,6 +103,7 @@ import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FocusActor;
 import com.google.android.accessibility.talkback.actor.FocusActorForScreenStateChange;
 import com.google.android.accessibility.talkback.actor.FocusActorForTapAndTouchExploration;
+import com.google.android.accessibility.talkback.actor.FocusManagerInternal;
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
 import com.google.android.accessibility.talkback.actor.GestureReporter;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
@@ -156,6 +157,7 @@ import com.google.android.accessibility.talkback.feedbackpolicy.WindowNamesSetti
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.flags.Flags;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusFeedbackMapper;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForScreenStateChange;
@@ -167,6 +169,7 @@ import com.google.android.accessibility.talkback.focusmanagement.WindowNodePrefe
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter;
 import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory;
+import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.talkback.gesture.GestureController;
 import com.google.android.accessibility.talkback.gesture.GestureHistory;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
@@ -2780,14 +2783,98 @@ public class TalkBackService extends AccessibilityServiceCompat
     eventFilter =
         new EventFilter(this, compositor, touchMonitor, globalVariables, earlyFocusSpeech);
     focuser.setFocusSetListener(
-        (node, info, eventId, actionTime) ->
+        new FocusManagerInternal.FocusSetListener() {
+          @Override
+          public void onAccessibilityFocusSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
             eventFilter.onAccessibilityFocusSet(
                 node,
                 info,
                 eventId,
                 actionTime,
                 /* continuousReading= */ fullScreenReadActor != null
-                    && fullScreenReadActor.isActive()));
+                    && fullScreenReadActor.isActive());
+          }
+
+          @Override
+          public void onAccessibilityFocusAboutToBeSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            // Continuous reading's focus is not spoken on prediction either, as it is not
+            // spoken early: it moves on when the speech for a node ends.
+            if (fullScreenReadActor == null || !fullScreenReadActor.isActive()) {
+              eventFilter.speculateFocusSpeech(node, info, eventId, actionTime);
+            }
+          }
+
+          @Override
+          public void onAccessibilityFocusSetFailed(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (eventFilter.onSpeculativeSpeechActionFailed(node, actionTime)) {
+              // The speech submitted on the prediction is for a focus that never landed.
+              speechController.interrupt(false);
+            }
+          }
+        });
+    // The fast navigator answers directional navigation while its switch is on, from the
+    // saved order, and tells the same listener in the same shape, so the speaking path —
+    // prepared announcements, speaking early, speculation — serves its focus exactly as it
+    // serves the other path's.
+    FastNavigator fastNavigator =
+        new FastNavigator(
+            this,
+            focusHistory,
+            screenStateMonitor.state,
+            directionNavigationActor::isSelectionModeActive);
+    fastNavigator.setFeedbackReturner(pipeline.getFeedbackReturner());
+    fastNavigator.setFocusListener(
+        new FastNavigator.FocusListener() {
+          @Override
+          public void onAccessibilityFocusAboutToBeSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (fullScreenReadActor == null || !fullScreenReadActor.isActive()) {
+              eventFilter.speculateFocusSpeech(node, info, eventId, actionTime);
+            }
+          }
+
+          @Override
+          public void onAccessibilityFocusSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            eventFilter.onAccessibilityFocusSet(
+                node,
+                info,
+                eventId,
+                actionTime,
+                /* continuousReading= */ fullScreenReadActor != null
+                    && fullScreenReadActor.isActive());
+          }
+
+          @Override
+          public void onAccessibilityFocusSetFailed(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (eventFilter.onSpeculativeSpeechActionFailed(node, actionTime)) {
+              speechController.interrupt(false);
+            }
+          }
+        });
+    directionNavigationActor.setFastNavigator(fastNavigator);
     eventFilter.setTargetPredictor(directionNavigationActor);
     eventFilter.setPreparedSpeechSynthesizer(
         new EventFilter.PreparedSpeechSynthesizer() {
@@ -3557,6 +3644,24 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default);
     EventFilter.setPrepareWider(prepareWider);
     PreparedFocusSpeech.setKeepUnusedOnTake(prepareWider);
+    EventFilter.setYieldingPrepare(
+        getBooleanPref(
+            R.string.pref_yielding_prepare_key, R.bool.pref_yielding_prepare_default));
+    TraversalTreeCache.setListenerBuildCoalescingEnabled(
+        getBooleanPref(
+            R.string.pref_coalesce_listener_builds_key,
+            R.bool.pref_coalesce_listener_builds_default));
+    EventFilter.setSpeechPipelineEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_key, R.bool.pref_speech_pipeline_default));
+    EventFilter.setSpeculativeSpeechEnabled(
+        getBooleanPref(
+            R.string.pref_speculative_speech_key, R.bool.pref_speculative_speech_default));
+    ProcessorEventQueue.setFocusPriorityEnabled(
+        getBooleanPref(
+            R.string.pref_focus_priority_lane_key, R.bool.pref_focus_priority_lane_default));
+    TraversalTreeCache.setFastNavigatorEnabled(
+        getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
   }
 
   protected void reloadPreferences() {
