@@ -32,6 +32,7 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.concurrent.locks.ReentrantLock
+import java.util.function.Supplier
 import kotlin.concurrent.withLock
 
 /**
@@ -104,35 +105,45 @@ object WindowNodePrefetcher {
   }
 
   /**
-   * Reads the nodes below [root] into Android's node cache without waiting for them, so that a
-   * reading order built soon after finds them already read. Takes ownership of [root], which is
-   * recycled once the read ends. Does nothing while an earlier background read is still running,
-   * and under the same conditions as [prefetch].
+   * Reads the nodes below the root that [rootSupplier] returns into Android's node cache without
+   * waiting for them, so that a reading order built soon after finds them already read. The
+   * supplier runs on this executor, never on the calling thread: finding the root costs binder
+   * calls the caller should not pay for. Takes ownership of the supplied root, which is recycled
+   * once the read ends. Does nothing while an earlier background read is still running, and under
+   * the same conditions as [prefetch]; a call that does nothing never invokes the supplier.
    */
   @JvmStatic
-  fun prefetchInBackground(root: AccessibilityNodeInfoCompat, ownPackage: String) {
+  fun prefetchInBackground(
+    rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
+    ownPackage: String,
+  ) {
     if (
       Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-        TextUtils.equals(root.packageName, ownPackage) ||
         running.get() >= THREADS ||
         !backgroundRunning.compareAndSet(false, true)
     ) {
-      root.recycle()
       return
     }
-    val walk = Walk(SystemClock.uptimeMillis() + MAX_WAIT_MS)
     try {
       executor.execute {
         try {
-          walk.submit(root.unwrap())
-          walk.await()
+          val root = rootSupplier.get()
+          if (root != null) {
+            try {
+              if (!TextUtils.equals(root.packageName, ownPackage)) {
+                val walk = Walk(SystemClock.uptimeMillis() + MAX_WAIT_MS)
+                walk.submit(root.unwrap())
+                walk.await()
+              }
+            } finally {
+              root.recycle()
+            }
+          }
         } finally {
-          root.recycle()
           backgroundRunning.set(false)
         }
       }
     } catch (e: RejectedExecutionException) {
-      root.recycle()
       backgroundRunning.set(false)
     }
   }

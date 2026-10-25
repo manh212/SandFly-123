@@ -118,6 +118,7 @@
     <string name="pref_developer_version_code_key">pref_developer_version_code</string>
     <string name="pref_typing_confirmation_key" translatable="false">pref_typing_confirmation</string>
     <string name="pref_typing_long_press_duration_key" translatable="false">pref_typing_long_press_duration</string>
+    <string name="pref_direct_input_tap_delay_key" translatable="false">pref_direct_input_tap_delay</string>
     <string name="pref_typing_focus_time_out_seekbar_key" translatable="false">pref_typing_focus_time_out_seekbar_key</string>
     <string name="pref_category_focus_delay_key" translatable="false">pref_category_focus_delay_key</string>
     <string name="pref_category_typing_focus_delay_key" translatable="false">pref_category_typing_focus_delay_key</string>

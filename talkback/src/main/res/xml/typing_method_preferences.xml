@@ -25,4 +25,14 @@
         android:title="@string/value_type_confirmation_single_tap_to_type"
         app:singleLineTitle="false"/>
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+
+  <com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference
+      android:defaultValue="100"
+      android:key="@string/pref_direct_input_tap_delay_key"
+      android:max="300"
+      android:summary="@string/summary_pref_direct_input_tap_delay"
+      android:title="@string/title_pref_direct_input_tap_delay"
+      app:min="0"
+      app:seekBarIncrement="10"
+      app:showSeekBarValue="true" />
 </PreferenceScreen>

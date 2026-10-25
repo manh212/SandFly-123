@@ -1225,11 +1225,22 @@ public class TalkBackService extends AccessibilityServiceCompat
    * The event threw away the saved reading order, so the next swipe would have to read the
    * window's nodes on the main thread. Read them in the background now instead, starting from the
    * window's current root: the cached root is only refreshed when the event processor runs later
-   * in this method, so it is not asked here.
+   * in this method, so it is not asked here. Only the window id is captured here; finding the
+   * root costs binder calls, so the prefetcher does it on its own executor.
    */
   private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
-    AccessibilityNodeInfo root = null;
     int windowId = event.getWindowId();
+    WindowNodePrefetcher.prefetchInBackground(() -> rootOfWindow(windowId), getPackageName());
+  }
+
+  /**
+   * The root of the window with {@code windowId}, or of the active window if that window is
+   * already gone. Runs on the prefetcher's executor: {@link #getWindows()} and the base class's
+   * root call are plain binder calls, unlike the cached root {@link #getRootInActiveWindow()}
+   * hands out, whose state only the main thread may touch.
+   */
+  private @Nullable AccessibilityNodeInfoCompat rootOfWindow(int windowId) {
+    AccessibilityNodeInfo root = null;
     for (AccessibilityWindowInfo window : getWindows()) {
       if (root == null && window.getId() == windowId) {
         root = window.getRoot();
@@ -1239,10 +1250,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (root == null) {
       root = super.getRootInActiveWindow();
     }
-    if (root != null) {
-      WindowNodePrefetcher.prefetchInBackground(
-          AccessibilityNodeInfoCompat.wrap(root), getPackageName());
-    }
+    return root == null ? null : AccessibilityNodeInfoCompat.wrap(root);
   }
 
   private void setServiceState(int newState) {

@@ -22,6 +22,8 @@ import static com.google.android.accessibility.talkback.Feedback.Focus.Action.IN
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.INITIAL_FOCUS_RESTORE;
 
 import android.accessibilityservice.AccessibilityService;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.VisibleForTesting;
@@ -80,6 +82,9 @@ public class FocusManagerInternal {
   private ActorStateWritable actorState;
 
   private final AccessibilityFocusMonitor accessibilityFocusMonitor;
+
+  /** Posts the focus-history record off the swipe path; see the focus action method below. */
+  private final Handler historyHandler = new Handler(Looper.getMainLooper());
 
   private Pipeline.FeedbackReturner pipeline;
 
@@ -535,9 +540,18 @@ public class FocusManagerInternal {
       if (focusSetListener != null) {
         focusSetListener.onAccessibilityFocusSet(node, focusActionInfo, eventId, currentTime);
       }
-      // AccessibilityFocusActionHistory makes copy of the node, no need to obtain() here.
-      history.onAccessibilityFocusAction(
-          node, focusActionInfo, currentTime, screenState.getStableScreenState());
+      // Building the record walks the node's ancestors, an IPC per level, so it is posted
+      // instead of built inside the swipe. The post is queued ahead of the app's focus event,
+      // which still has to come back through the event queue, so the record is in place before
+      // any interpreter matches that event against the history. The history keeps the node it
+      // is given, so it is given an obtain() copy of its own.
+      AccessibilityNodeInfoCompat nodeForRecord = AccessibilityNodeInfoCompat.obtain(node);
+      FocusActionInfo infoForRecord = focusActionInfo;
+      ScreenState stableScreenState = screenState.getStableScreenState();
+      historyHandler.post(
+          () ->
+              history.onAccessibilityFocusAction(
+                  nodeForRecord, infoForRecord, currentTime, stableScreenState));
     }
     LogUtils.d(
         TAG,

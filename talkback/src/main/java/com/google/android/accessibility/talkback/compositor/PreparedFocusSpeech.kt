@@ -43,6 +43,12 @@ object PreparedFocusSpeech {
 
   private const val NO_WINDOW_ID = -1
 
+  /** Wasted preparation rounds in a row after which a window's preparation pauses. */
+  private const val MAX_WASTED_STREAK = 3
+
+  /** How long preparation stays paused for a window that keeps wasting it. */
+  private const val SUPPRESSION_MS = 30_000L
+
   /**
    * An announcement of focusing [node], which was read from the app to prepare it, and
    * [containerTitle], the title of the container that working it out left focus in, which giving it
@@ -65,6 +71,14 @@ object PreparedFocusSpeech {
   private val prepared = ArrayList<Prepared>(4)
   private var windowId = NO_WINDOW_ID
 
+  /** Preparations thrown away unused in a row, and the window they were made for. */
+  private var wastedStreak = 0
+  private var wastedWindowId = NO_WINDOW_ID
+
+  /** The window preparation is paused for, and when the pause ends. */
+  private var suppressedWindowId = NO_WINDOW_ID
+  private var suppressedUntilMs = 0L
+
   /** Keeps [feedback] as the announcement of focusing [node]; see [Prepared]. */
   @JvmStatic
   @JvmOverloads
@@ -77,6 +91,11 @@ object PreparedFocusSpeech {
     if (node.windowId != windowId) {
       clear()
       windowId = node.windowId
+      if (node.windowId != wastedWindowId) {
+        // A different window took over: waste in the old one says nothing about this one.
+        wastedWindowId = node.windowId
+        wastedStreak = 0
+      }
     }
     prepared.removeAll { it.isFor(node, targetType) }
     prepared += Prepared(node, feedback, containerTitle, targetType)
@@ -95,6 +114,13 @@ object PreparedFocusSpeech {
   @JvmStatic
   fun take(node: AccessibilityNodeInfoCompat): Prepared? {
     val found = find(node, null)
+    if (found != null) {
+      // A preparation was used: the window is earning its preparations again.
+      wastedStreak = 0
+      if (windowId == suppressedWindowId) {
+        suppressedWindowId = NO_WINDOW_ID
+      }
+    }
     clear()
     return found?.takeIf { isOldEnough(it.time, SystemClock.uptimeMillis()) }
   }
@@ -113,7 +139,45 @@ object PreparedFocusSpeech {
   /** Forgets all announcements if [event] can change what a node in their window says. */
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent) {
-    if (prepared.isNotEmpty() && canChange(event.eventType, event.windowId, windowId)) clear()
+    if (prepared.isNotEmpty() && canChange(event.eventType, event.windowId, windowId)) {
+      noteWasted()
+      clear()
+    }
+  }
+
+  /** A set of preparations died unused: count it, and pause a window that keeps doing it. */
+  private fun noteWasted() {
+    if (windowId != wastedWindowId) {
+      wastedWindowId = windowId
+      wastedStreak = 0
+    }
+    wastedStreak++
+    if (wastedStreak >= MAX_WASTED_STREAK) {
+      suppressedWindowId = windowId
+      suppressedUntilMs = SystemClock.uptimeMillis() + SUPPRESSION_MS
+    }
+  }
+
+  /**
+   * Whether preparing announcements around [node] is worth its main-thread cost. It is not, for
+   * a while, in a window whose preparations kept dying unused — a churning chat window, say,
+   * where a swipe then falls back to composing on the spot, exactly as without preparation.
+   * After [MAX_WASTED_STREAK] wastes in a row, preparation pauses for that window until a
+   * preparation is used there again, or [SUPPRESSION_MS] passes, after which one preparation is
+   * let through and a further waste re-arms the pause at once. A window that never changes
+   * under the focus never wastes a preparation, so a static list is prepared exactly as before.
+   */
+  @JvmStatic
+  fun shouldPrepare(node: AccessibilityNodeInfoCompat): Boolean {
+    if (node.windowId != suppressedWindowId) {
+      return true
+    }
+    if (SystemClock.uptimeMillis() >= suppressedUntilMs) {
+      suppressedWindowId = NO_WINDOW_ID
+      wastedStreak = MAX_WASTED_STREAK - 1
+      return true
+    }
+    return false
   }
 
   /**

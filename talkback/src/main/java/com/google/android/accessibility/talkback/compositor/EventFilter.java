@@ -395,7 +395,8 @@ public class EventFilter {
             preparedContainerTitle;
       } else {
         Performance.getInstance().onPreparedSpeechMiss();
-        LogUtils.v(TAG, "Prepared speech miss: %s", node);
+        // No node in this line: formatting it walks the node's properties on the swipe path.
+        LogUtils.v(TAG, "Prepared speech miss");
         feedback = getSwipeTargetFeedback(event, node, eventInterpreted);
       }
       if (!hasSpeech(feedback)) {
@@ -526,6 +527,10 @@ public class EventFilter {
     @Nullable AccessibilityNodeInfoCompat pivot = lastFocusedNode;
     if (pivot == null || targetPredictor == null || fingerDown.getAsBoolean()) {
       // A swipe may be starting, and must not wait for this.
+      return;
+    }
+    if (!PreparedFocusSpeech.shouldPrepare(pivot)) {
+      // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
     for (int direction : SWIPE_DIRECTIONS) {

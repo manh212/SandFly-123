@@ -1588,6 +1588,18 @@
       Description: This preference that shows current delay for touch and hold. [CHAR_LIMIT=96]
     -->
     <string name="title_pref_typing_long_tap_duration">Touch and hold delay when typing</string>
+
+    <!--
+      Source: Preference title.
+      Description: This preference that shows the tap delay of Direct key input. [CHAR_LIMIT=60]
+    -->
+    <string name="title_pref_direct_input_tap_delay">Direct key input tap delay</string>
+
+    <!--
+      Source: Preference summary.
+      Description: Explains what the Direct key input tap delay is. [CHAR_LIMIT=NONE]
+    -->
+    <string name="summary_pref_direct_input_tap_delay">How long after you lift your finger off a key before the key is typed. Only applies to Direct key input.</string>
     <!--
       Source: Preference title.
       Description: This preference that shows current touch explore time out to exploration. [CHAR_LIMIT=60]
