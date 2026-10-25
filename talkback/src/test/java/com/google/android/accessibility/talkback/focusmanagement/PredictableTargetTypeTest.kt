@@ -19,11 +19,16 @@ package com.google.android.accessibility.talkback.focusmanagement
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
 
 /**
  * Only target types the saved reading order can resolve the same way as a real move may have
  * their speech prepared in advance; every other kind keeps the plain behavior.
  */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [34])
 class PredictableTargetTypeTest {
 
   @Test
