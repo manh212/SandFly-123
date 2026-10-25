@@ -49,6 +49,24 @@ public class OrderedTraversalController {
     this.makeFabFirst = makeFabFirst;
   }
 
+  /**
+   * Takes over a working tree and its node map that a builder in this package has already
+   * built and reordered the way {@link #initOrder} builds them, so the searches run on it
+   * unchanged. The map must be in the order the builder visited the nodes, as {@link
+   * #createWorkingTree} leaves it: {@link #reorderTree} and the initial-focus search read it in
+   * that order.
+   */
+  OrderedTraversalController(
+      Map<AccessibilityNodeInfoCompat, WorkingTree> nodeTreeMap,
+      @Nullable WorkingTree tree,
+      @Nullable AccessibilityNodeInfoCompat initialFocusNode,
+      boolean makeFabFirst) {
+    this.nodeTreeMap = nodeTreeMap;
+    this.tree = tree;
+    this.initialFocusNode = initialFocusNode;
+    this.makeFabFirst = makeFabFirst;
+  }
+
   public void setSpeakingNodesCache(Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
     this.speakingNodesCache = speakingNodesCache;
   }

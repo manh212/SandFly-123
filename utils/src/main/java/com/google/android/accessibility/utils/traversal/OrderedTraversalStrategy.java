@@ -40,6 +40,18 @@ public class OrderedTraversalStrategy implements TraversalStrategy {
     this(rootNode, false, false);
   }
 
+  /**
+   * Wraps a controller a builder in this package has already built the order with, and the
+   * speaking-nodes cache that builder filled while building, instead of building the order
+   * here.
+   */
+  OrderedTraversalStrategy(
+      OrderedTraversalController controller,
+      Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
+    this.controller = controller;
+    this.speakingNodesCache = speakingNodesCache;
+  }
+
   /** TODO: Experimental code. Remove {@code makeFabFirst} when experiment is done. */
   public OrderedTraversalStrategy(
       @Nullable AccessibilityNodeInfoCompat rootNode,
