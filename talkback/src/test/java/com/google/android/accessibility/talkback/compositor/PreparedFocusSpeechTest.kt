@@ -268,14 +268,15 @@ class PreparedFocusSpeechSuppressionTest {
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class PreparedFocusSpeechUnrelatedChangeTest {
-  private val hostView = View(RuntimeEnvironment.getApplicationContext())
-  private var nextVirtualId = 0
-
   private fun node(windowId: Int, bounds: Rect): AccessibilityNodeInfoCompat {
     val info = AccessibilityNodeInfo()
     info.packageName = "com.example"
-    // Two bare infos cannot be told apart under the shadow: its equals wants a source id.
-    info.setSource(hostView, ++nextVirtualId)
+    // The shadow tells nodes apart by their source view alone, so each node needs its own:
+    // a bare info makes its equals throw, and a shared view would make every node equal.
+    info.setSource(
+      View(RuntimeEnvironment.getApplicationContext()),
+      AccessibilityNodeInfo.HOST_VIEW_ID,
+    )
     info.setBoundsInScreen(bounds)
     val window = AccessibilityWindowInfo()
     shadowOf(window).setId(windowId)
