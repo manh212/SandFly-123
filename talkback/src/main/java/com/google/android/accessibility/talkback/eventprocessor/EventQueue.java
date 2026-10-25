@@ -20,6 +20,7 @@ import android.util.SparseIntArray;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityEventCompat;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
+import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -44,6 +45,24 @@ class EventQueue {
           | AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUSED
           | AccessibilityEventCompat.TYPE_VIEW_SCROLLED
           | AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+
+  /**
+   * How many focus events in a row may be let through ahead of the queue's head before the
+   * head is served anyway. A burst of ordinary events — a chat window churning, say — must
+   * not starve behind focus events, and focus events must not wait behind the whole burst:
+   * this is the bargain between the two.
+   */
+  static final int MAX_CONSECUTIVE_FOCUS_JUMPS = 3;
+
+  /**
+   * Whether an accessibility-focus event waiting in the queue may be served ahead of the
+   * events in front of it. Set from the latency settings; see {@link
+   * ProcessorEventQueue#setFocusPriorityEnabled}.
+   */
+  static volatile boolean focusPriorityEnabled = true;
+
+  /** Focus events let through in a row since the head of the queue was last served. */
+  private int consecutiveFocusJumps;
 
   /** The list responsible for maintaining events in the event queue. */
   private final ArrayList<AccessibilityEvent> eventQueue = new ArrayList<>();
@@ -75,16 +94,34 @@ class EventQueue {
   }
 
   /**
-   * Removes and returns an AccessibilityEvent from the front of the event queue.
+   * Removes and returns an AccessibilityEvent from the queue. The head is served as it always
+   * was, except that a waiting accessibility-focus event may be served ahead of it: the focus
+   * a swipe just set is the event the user is listening for, and every ordinary event in front
+   * of it is time added to the swipe. At most {@link #MAX_CONSECUTIVE_FOCUS_JUMPS} focus
+   * events jump in a row; then the head is served once, so nothing else starves.
    *
-   * @return The event at the front of the queue.
+   * @return The event to process next.
    */
   public AccessibilityEvent dequeue() {
     if (eventQueue.isEmpty()) {
       return null;
     }
 
-    final AccessibilityEvent event = eventQueue.remove(0);
+    int index = 0;
+    if (focusPriorityEnabled && consecutiveFocusJumps < MAX_CONSECUTIVE_FOCUS_JUMPS) {
+      index =
+          jumpIndex(
+              eventQueue.get(0).getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
+              oldestFocusEventIndex());
+    }
+    final AccessibilityEvent event = eventQueue.remove(index);
+
+    if (index > 0) {
+      consecutiveFocusJumps++;
+      Performance.getInstance().onFocusEventQueueJump(eventQueue.size() + 1);
+    } else {
+      consecutiveFocusJumps = 0;
+    }
 
     if (event != null
         && AccessibilityEventUtils.eventMatchesAnyType(event, MASK_LIMITED_EVENT_TYPES)) {
@@ -95,10 +132,30 @@ class EventQueue {
     return event;
   }
 
+  /**
+   * The index a dequeue serves: the head's, unless the head is not itself a focus event and a
+   * focus event waits behind it at {@code oldestFocusIndex}, in which case that event's.
+   */
+  static int jumpIndex(boolean headIsFocusEvent, int oldestFocusIndex) {
+    return !headIsFocusEvent && oldestFocusIndex > 0 ? oldestFocusIndex : 0;
+  }
+
+  /** The index of the oldest waiting accessibility-focus event, or -1 when none waits. */
+  private int oldestFocusEventIndex() {
+    for (int i = 1; i < eventQueue.size(); i++) {
+      if (eventQueue.get(i).getEventType()
+          == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   /** Clears the event queue and discards all events waiting for processing. */
   public void clear() {
     eventQueue.clear();
     qualifyingEvents.clear();
+    consecutiveFocusJumps = 0;
   }
 
   /**
