@@ -257,6 +257,9 @@ public class Performance {
   /** How often a reading order still had to be built on the thread that was swiping. */
   private long orderBuildsOnSwipePath;
 
+  /** How often the scroll-edge check reused the verdict the reveal check had just computed. */
+  private long edgeChecksShared;
+
   /** How often a reading order built in the background was saved for the next swipe to use. */
   private long orderSnapshotsPublished;
 
@@ -1660,6 +1663,29 @@ public class Performance {
           stats.getPercentile(50),
           stats.getPercentile(90));
     }
+    long shared;
+    synchronized (lockLabelToStats) {
+      shared = edgeChecksShared;
+    }
+    if (shared > 0) {
+      logger.log("Scroll edge checks shared with the reveal check: %d", shared);
+    }
+  }
+
+  /** Counts one scroll-edge check that reused the reveal check's verdict for the same list. */
+  public void onEdgeCheckShared() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      edgeChecksShared++;
+    }
+  }
+
+  public long getEdgeCheckSharedCount() {
+    synchronized (lockLabelToStats) {
+      return edgeChecksShared;
+    }
   }
 
   /** Counts one reading order built on the swiping thread because no saved order could be used. */
@@ -1783,6 +1809,7 @@ public class Performance {
       speakEarlyFromSavedOrder = 0;
       speakEarlyReRead = 0;
       orderBuildsOnSwipePath = 0;
+      edgeChecksShared = 0;
       orderSnapshotsPublished = 0;
       orderCacheMissCounts.clear();
       orderBuildsDiedUnpublished = 0;

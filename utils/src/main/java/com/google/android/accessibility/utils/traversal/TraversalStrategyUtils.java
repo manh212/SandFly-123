@@ -22,6 +22,7 @@ import com.google.android.accessibility.utils.ScrollableNodeInfo;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -309,8 +310,24 @@ public class TraversalStrategyUtils {
       return false;
     }
 
-    Filter<AccessibilityNodeInfoCompat> focusNodeFilter =
-        AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS;
+    // The strategy's speaking-nodes cache answers the same question FILTER_SHOULD_FOCUS asks,
+    // without re-walking subtrees this navigation has already judged; strategies that keep no
+    // cache fall back to the uncached filter.
+    Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache =
+        traversalStrategy.getSpeakingNodesCache();
+    Filter<AccessibilityNodeInfoCompat> focusNodeFilter;
+    if (speakingNodesCache != null) {
+      focusNodeFilter =
+          new Filter<AccessibilityNodeInfoCompat>() {
+            @Override
+            public boolean accept(AccessibilityNodeInfoCompat node) {
+              return node != null
+                  && AccessibilityNodeInfoUtils.shouldFocusNode(node, speakingNodesCache);
+            }
+          };
+    } else {
+      focusNodeFilter = AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS;
+    }
     if (ignoreDescendantsOfCursor) {
       focusNodeFilter =
           focusNodeFilter.and(

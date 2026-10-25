@@ -1413,6 +1413,8 @@ public class FocusProcessorForLogicalNavigation {
 
     // In a scroll view the next item is already in the tree, just off screen. Show the next screen
     // at once and search again, rather than scrolling a page and waiting for the scroll event.
+    long edgeChecksStart = SystemClock.uptimeMillis();
+    EdgeCheckMemo edgeCheckMemo = new EdgeCheckMemo();
     if (!revealingOffscreen) {
       @RevealResult
       int reveal =
@@ -1422,8 +1424,10 @@ public class FocusProcessorForLogicalNavigation {
               navigationAction,
               logicalDirection,
               reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
+              edgeCheckMemo,
               eventId);
       if (reveal == REVEAL_SHOWN) {
+        recordEdgeCheckSegment(edgeChecksStart);
         // The saved order was read before the scroll, so it still has the next item off screen,
         // and the search would stop at the edge.
         TraversalTreeCache.clearCompletely("revealed next item");
@@ -1438,6 +1442,7 @@ public class FocusProcessorForLogicalNavigation {
       if (reveal == REVEAL_MOVED) {
         // The view moved, but the item is still not on screen. A page scroll now would pass what
         // the move brought on screen, so stop here, and let the next swipe carry on.
+        recordEdgeCheckSegment(edgeChecksStart);
         return true;
       }
     }
@@ -1450,8 +1455,13 @@ public class FocusProcessorForLogicalNavigation {
             ignoreDescendantsOfPivot,
             navigationAction,
             reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
+            edgeCheckMemo,
             eventId)) {
+      recordEdgeCheckSegment(edgeChecksStart);
       return true;
+    }
+    if (!revealingOffscreen) {
+      recordEdgeCheckSegment(edgeChecksStart);
     }
 
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
@@ -2717,6 +2727,21 @@ public class FocusProcessorForLogicalNavigation {
   private static final int REVEAL_MOVED = 2;
 
   /**
+   * The edge verdict one check computed for a scrollable node during a navigation, so the next
+   * check in the same navigation can reuse it instead of searching the list again.
+   */
+  private static final class EdgeCheckMemo {
+    @Nullable AccessibilityNodeInfoCompat scrollableNode;
+    boolean atEdge;
+  }
+
+  /** Records the time the scroll-edge checks of one navigation took, as a swipe segment. */
+  private static void recordEdgeCheckSegment(long startMs) {
+    Performance.getInstance()
+        .recordSwipeSegment("edge checks", SystemClock.uptimeMillis() - startMs);
+  }
+
+  /**
    * Shows the next screen of a scroll view when the pivot is the last item on screen. Scroll views
    * keep all of their content in the tree, and they scroll for ACTION_SHOW_ON_SCREEN before the
    * action returns, so the caller can search again at once. It shows an item about a screen on,
@@ -2735,6 +2760,7 @@ public class FocusProcessorForLogicalNavigation {
       NavigationAction navigationAction,
       @SearchDirection int logicalDirection,
       @Nullable OrderedTraversalStrategy windowOrderedStrategy,
+      EdgeCheckMemo edgeCheckMemo,
       EventId eventId) {
     if (!BuildVersionUtils.isAtLeastU()
         || !navigationAction.shouldScroll
@@ -2750,14 +2776,22 @@ public class FocusProcessorForLogicalNavigation {
             /* includeSelf= */ false,
             WindowUtils.isScreenLayoutRTL(service));
     if (scrollableNodeInfo == null
-        || !OffscreenContent.keepsAllContent(scrollableNodeInfo.getNode())
-        || !TraversalStrategyUtils.isAutoScrollEdgeListItem(
+        || !OffscreenContent.keepsAllContent(scrollableNodeInfo.getNode())) {
+      return REVEAL_NONE;
+    }
+    boolean atEdge =
+        TraversalStrategyUtils.isAutoScrollEdgeListItem(
             pivot,
             scrollableNodeInfo,
             ignoreDescendantsOfPivot,
             navigationAction.searchDirection,
             focusFinder,
-            windowOrderedStrategy)) {
+            windowOrderedStrategy);
+    // The page scroll below asks the same question of the same list; let it reuse this answer
+    // instead of searching the list a second time.
+    edgeCheckMemo.scrollableNode = scrollableNodeInfo.getNode();
+    edgeCheckMemo.atEdge = atEdge;
+    if (!atEdge) {
       return REVEAL_NONE;
     }
     AccessibilityNodeInfoCompat scrollable = scrollableNodeInfo.getNode();
@@ -2810,6 +2844,7 @@ public class FocusProcessorForLogicalNavigation {
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
       @Nullable OrderedTraversalStrategy windowOrderedStrategy,
+      EdgeCheckMemo edgeCheckMemo,
       EventId eventId) {
     if (!navigationAction.shouldScroll) {
       LogUtils.v(TAG, "autoScrollAtEdge returns due to shouldScroll is false");
@@ -2841,14 +2876,25 @@ public class FocusProcessorForLogicalNavigation {
       return false;
     }
 
-    // No need to scroll if the pivot is not at the edge of the scrollable container.
-    if (!TraversalStrategyUtils.isAutoScrollEdgeListItem(
-        pivot,
-        scrollableNodeInfo,
-        ignoreDescendantsOfPivot,
-        navigationAction.searchDirection,
-        focusFinder,
-        windowOrderedStrategy)) {
+    // No need to scroll if the pivot is not at the edge of the scrollable container. When the
+    // reveal check just answered this for the same list, reuse its answer instead of searching
+    // the list again.
+    boolean atEdge;
+    if (edgeCheckMemo.scrollableNode != null
+        && edgeCheckMemo.scrollableNode.equals(scrollableNode)) {
+      atEdge = edgeCheckMemo.atEdge;
+      Performance.getInstance().onEdgeCheckShared();
+    } else {
+      atEdge =
+          TraversalStrategyUtils.isAutoScrollEdgeListItem(
+              pivot,
+              scrollableNodeInfo,
+              ignoreDescendantsOfPivot,
+              navigationAction.searchDirection,
+              focusFinder,
+              windowOrderedStrategy);
+    }
+    if (!atEdge) {
       return false;
     }
 
