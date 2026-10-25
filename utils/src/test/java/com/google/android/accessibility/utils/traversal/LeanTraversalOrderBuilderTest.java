@@ -19,14 +19,12 @@
 package com.google.android.accessibility.utils.traversal;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 import android.graphics.Rect;
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -210,30 +208,21 @@ public class LeanTraversalOrderBuilderTest {
           lean.containsNode(AccessibilityNodeInfoCompat.wrap(leanTree.byId.get(id))));
     }
 
-    // The speaking verdicts both builders reached while building, for the nodes both recorded.
-    Map<String, Boolean> standardSpeaking = speakingById(standard);
-    Map<String, Boolean> leanSpeaking = speakingById(lean);
-    int compared = 0;
-    for (Map.Entry<String, Boolean> entry : standardSpeaking.entrySet()) {
-      Boolean leanVerdict = leanSpeaking.get(entry.getKey());
-      if (leanVerdict != null) {
-        assertEquals(
-            caseName + ": speaking verdict of " + entry.getKey(),
-            entry.getValue(),
-            leanVerdict);
-        compared++;
-      }
+    // The focus verdict of every node, asked of each strategy through the speaking cache that
+    // strategy hands out -- the cache a later search will be answered from. The builds record
+    // into those caches lazily, so the verdicts are asked for directly here rather than read
+    // back from whatever the builds happened to record.
+    for (String id : standardTree.byId.keySet()) {
+      boolean standardVerdict =
+          AccessibilityNodeInfoUtils.shouldFocusNode(
+              AccessibilityNodeInfoCompat.wrap(standardTree.byId.get(id)),
+              standard.getSpeakingNodesCache());
+      boolean leanVerdict =
+          AccessibilityNodeInfoUtils.shouldFocusNode(
+              AccessibilityNodeInfoCompat.wrap(leanTree.byId.get(id)),
+              lean.getSpeakingNodesCache());
+      assertEquals(caseName + ": focus verdict of " + id, standardVerdict, leanVerdict);
     }
-    assertTrue(caseName + ": speaking verdicts compared", compared > 0);
-  }
-
-  private static Map<String, Boolean> speakingById(OrderedTraversalStrategy strategy) {
-    Map<String, Boolean> byId = new HashMap<>();
-    for (Map.Entry<AccessibilityNodeInfoCompat, Boolean> entry :
-        strategy.getSpeakingNodesCache().entrySet()) {
-      byId.put(String.valueOf(entry.getKey().getText()), entry.getValue());
-    }
-    return byId;
   }
 
   // -------------------------------------------------------------------------------------------
