@@ -47,6 +47,7 @@ import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.TelegramChatCell;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
+import com.google.android.accessibility.utils.WindowUtils;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
 import com.google.android.accessibility.utils.monitor.TouchMonitor;
 import com.google.android.accessibility.utils.monitor.VoiceActionDelegate;
@@ -54,9 +55,12 @@ import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpee
 import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
+import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
@@ -141,7 +145,11 @@ public class EventFilter {
 
   /** The notifier for one sound being made ahead, learning its outcome under its text. */
   private LoadSpeechResultNotifier synthesisNotifierFor(
-      String key, int depth, boolean settleSource, AccessibilityNodeInfoCompat node) {
+      String key,
+      int depth,
+      boolean settleSource,
+      AccessibilityNodeInfoCompat node,
+      boolean pipelined) {
     return new LoadSpeechResultNotifier() {
       @Override
       public void onFinished(@Nullable SpeechInfo speechInfo, Boolean success) {
@@ -160,7 +168,7 @@ public class EventFilter {
         }
         Performance performance = Performance.getInstance();
         performance.onPreparedSpeechSynthesized(depth, settleSource);
-        performance.registerPreparedSound(key, depth);
+        performance.registerPreparedSound(key, depth, pipelined);
         if (!PreparedFocusSpeech.has(node)) {
           // The announcement this sound was made for has already been used or thrown away:
           // the sound arrived too late to be the thing that makes a swipe speak at once.
@@ -234,6 +242,102 @@ public class EventFilter {
    */
   private static volatile boolean speakItemsBeforeScroll = false;
 
+  /**
+   * Whether a preparation round runs in slices, yielding to the event loop between the
+   * announcements it prepares, and is put off to settle time when it would run between two
+   * swipes of a burst. When false, a round runs in one piece on the main thread, as before.
+   */
+  private static volatile boolean yieldingPrepare = true;
+
+  /**
+   * Whether the sound of the next announcement is set going as soon as the announcement before
+   * it plays from a sound made ahead, instead of waiting for the next preparation round.
+   */
+  private static volatile boolean speechPipelineEnabled = true;
+
+  /**
+   * Whether the focus a navigation action is about to set is spoken on that prediction, before
+   * the action is even fired, and checked against the focus event when it comes back.
+   */
+  private static volatile boolean speculativeSpeechEnabled = true;
+
+  /** How soon after a focus landed a preparation round counts as running between swipes. */
+  private static final long BURST_DEFER_MS = 300;
+
+  /** How long a speculation waits for the focus event that confirms or corrects it. */
+  private static final long SPECULATION_WINDOW_MS = 1000;
+
+  /** speakFocusEarlyInternal outcomes: the focus was not spoken or remembered here. */
+  private static final int EARLY_NOT_HANDLED = 0;
+
+  /** speakFocusEarlyInternal outcomes: only the focus state was updated, nothing was spoken. */
+  private static final int EARLY_STATE_ONLY = 1;
+
+  /** speakFocusEarlyInternal outcomes: the focus was spoken. */
+  private static final int EARLY_SPOKEN = 2;
+
+  /** When accessibility focus last landed, in {@link SystemClock#uptimeMillis()} time. */
+  private long lastFocusMoveMs;
+
+  /** The node a speculation spoke for, and when its focus action started; null when none waits. */
+  private @Nullable AccessibilityNodeInfoCompat speculatedNode;
+  private long speculatedActionTime;
+  private boolean speculationSubmittedSpeech;
+
+  /** One announcement a preparation round owes, worked out when the round is planned. */
+  private static final class PrepareItem {
+    final @Nullable AccessibilityNodeInfoCompat node;
+    final @TargetType int targetType;
+    final boolean fromStaleOrder;
+    final int depth;
+    /** Whether running this item only arms the second ring instead of preparing a node. */
+    final boolean armSecondRing;
+
+    PrepareItem(
+        AccessibilityNodeInfoCompat node,
+        @TargetType int targetType,
+        boolean fromStaleOrder,
+        int depth) {
+      this.node = node;
+      this.targetType = targetType;
+      this.fromStaleOrder = fromStaleOrder;
+      this.depth = depth;
+      this.armSecondRing = false;
+    }
+
+    private PrepareItem() {
+      this.node = null;
+      this.targetType = NavigationTarget.TARGET_DEFAULT;
+      this.fromStaleOrder = false;
+      this.depth = 1;
+      this.armSecondRing = true;
+    }
+
+    static PrepareItem armSecondRing() {
+      return new PrepareItem();
+    }
+  }
+
+  /** A preparation round as a plan of items, so it can run a slice at a time. */
+  private static final class PreparePlan {
+    final AccessibilityNodeInfoCompat pivot;
+    final int source;
+    final List<PrepareItem> items;
+    int nextIndex;
+    int slices;
+
+    PreparePlan(AccessibilityNodeInfoCompat pivot, int source, List<PrepareItem> items) {
+      this.pivot = pivot;
+      this.source = source;
+      this.items = items;
+    }
+  }
+
+  /** The preparation plan still running in slices, if any; a newer round replaces it. */
+  private @Nullable PreparePlan activePreparePlan;
+
+  private final Runnable preparePlanContinuation = this::continuePreparePlan;
+
   /** The directions of the swipes whose targets are prepared: to the next and previous node. */
   private static final int[] SWIPE_DIRECTIONS = {
     TraversalStrategy.SEARCH_FOCUS_FORWARD, TraversalStrategy.SEARCH_FOCUS_BACKWARD
@@ -300,6 +404,7 @@ public class EventFilter {
   }
 
   public void sendEvent(AccessibilityEvent event, @Nullable EventId eventId) {
+    verifySpeculation(event);
     EarlyFocusMatch earlyFocus = earlyFocusSpeech.consume(event);
     if (earlyFocus == EarlyFocusMatch.SPOKEN) {
       // Spoken as soon as the focus was set, so this event only goes to the interpreter, which
@@ -458,10 +563,109 @@ public class EventFilter {
       @Nullable EventId eventId,
       long actionTime,
       boolean continuousReading) {
-    if (continuousReading || !speakFocusEarly(node, info, eventId, actionTime)) {
+    if (speculatedNode != null
+        && speculatedActionTime == actionTime
+        && speculatedNode.equals(node)) {
+      // This focus was already spoken, or its state already updated, when its action was
+      // fired, on the prediction the speculation made. Doing it again here would update the
+      // focus state a second time, which the speaking path must never do. The speculation
+      // stays pending: the app's focus event still has to confirm or correct it.
+      return;
+    }
+    if (continuousReading || speakFocusEarly(node, info, eventId, actionTime) == EARLY_NOT_HANDLED) {
       // A node spoken early before, whose event never came here, must not hide this focus.
       earlyFocusSpeech.forget(node);
     }
+  }
+
+  /**
+   * Speaks the focus a navigation action is about to set on {@code node}, before the action is
+   * fired: the node a swipe will reach is known from the saved order while the gesture is being
+   * handled, so its announcement need not wait for the action, the app's move, and the focus
+   * event's round trip. When the event comes back it confirms the speculation, or the speech
+   * is corrected by the event's own speaking, which interrupts it as any newer speech does.
+   * Only orders this filter can vouch for are speculated from: the saved order must hold the
+   * node, or its announcement must already be prepared.
+   */
+  public void speculateFocusSpeech(
+      AccessibilityNodeInfoCompat node,
+      FocusActionInfo info,
+      @Nullable EventId eventId,
+      long actionTime) {
+    clearSpeculation();
+    if (!speculationAllowed(
+        speculativeSpeechEnabled,
+        shouldSpeakFocusEarly(info),
+        // The destination of a swipe the machinery had to scroll for is the app's choice, made
+        // while scrolling; predicting it from the order is not to be trusted.
+        info.navigationAction != null ? info.navigationAction.autoScrollAttempt : 0,
+        TraversalTreeCache.holds(node) || PreparedFocusSpeech.has(node))) {
+      return;
+    }
+    int outcome = speakFocusEarly(node, info, eventId, actionTime);
+    if (outcome == EARLY_NOT_HANDLED) {
+      return;
+    }
+    speculatedNode = node;
+    speculatedActionTime = actionTime;
+    speculationSubmittedSpeech = outcome == EARLY_SPOKEN;
+    if (speculationSubmittedSpeech) {
+      Performance.getInstance().onSpeculativeSpeechSubmitted();
+    }
+  }
+
+  /**
+   * Told that the focus action a speculation spoke for was refused by the app, so the focus
+   * never moved: the speech submitted for it is wrong where it stands. Returns whether speech
+   * had been submitted, so the caller can interrupt it.
+   */
+  public boolean onSpeculativeSpeechActionFailed(
+      AccessibilityNodeInfoCompat node, long actionTime) {
+    if (speculatedNode == null
+        || speculatedActionTime != actionTime
+        || !speculatedNode.equals(node)) {
+      return false;
+    }
+    boolean submitted = speculationSubmittedSpeech;
+    clearSpeculation();
+    if (submitted) {
+      Performance.getInstance().onSpeculativeSpeechCorrected();
+    }
+    return submitted;
+  }
+
+  /** Checks a waiting speculation against a focus event that has come back. */
+  private void verifySpeculation(AccessibilityEvent event) {
+    if (speculatedNode == null
+        || event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+      return;
+    }
+    if (SystemClock.uptimeMillis() - speculatedActionTime > SPECULATION_WINDOW_MS) {
+      // No event came back for it in time; whatever this event is, it is not its verdict.
+      clearSpeculation();
+      return;
+    }
+    long eventTime = event.getEventTime();
+    if (eventTime > 0 && eventTime < speculatedActionTime) {
+      // An event from before the action was fired is not its verdict either.
+      return;
+    }
+    AccessibilityNodeInfoCompat source = AccessibilityEventUtils.sourceCompat(event);
+    if (source == null) {
+      return;
+    }
+    int verdict = speculationVerdict(speculationSubmittedSpeech, source.equals(speculatedNode));
+    clearSpeculation();
+    if (verdict == SPECULATION_CONFIRMED) {
+      Performance.getInstance().onSpeculativeSpeechConfirmed();
+    } else if (verdict == SPECULATION_CORRECTED) {
+      Performance.getInstance().onSpeculativeSpeechCorrected();
+    }
+  }
+
+  private void clearSpeculation() {
+    speculatedNode = null;
+    speculationSubmittedSpeech = false;
   }
 
   /**
@@ -473,22 +677,22 @@ public class EventFilter {
    * announced from the event. Nodes whose descriptions need details only the event has, such as
    * keyboard keys, sliders, pages and web content, wait for their event.
    *
-   * @return whether its node is now remembered, so that the app's focus event for it is handled
-   *     by what was done here
+   * @return what was done for the focus: one of the EARLY outcomes — spoken, state updated
+   *     only, or not handled, in which case the app's focus event for it is handled as usual
    */
-  private boolean speakFocusEarly(
+  private int speakFocusEarly(
       AccessibilityNodeInfoCompat focusedNode,
       FocusActionInfo info,
       @Nullable EventId eventId,
       long actionTime) {
     long speakEarlyStart = SystemClock.uptimeMillis();
-    boolean result = speakFocusEarlyInternal(focusedNode, info, eventId, actionTime);
+    int result = speakFocusEarlyInternal(focusedNode, info, eventId, actionTime);
     Performance.getInstance()
         .recordSwipeSegment("speak early", SystemClock.uptimeMillis() - speakEarlyStart);
     return result;
   }
 
-  private boolean speakFocusEarlyInternal(
+  private int speakFocusEarlyInternal(
       AccessibilityNodeInfoCompat focusedNode,
       FocusActionInfo info,
       @Nullable EventId eventId,
@@ -496,7 +700,7 @@ public class EventFilter {
     // The focus is moving, so the prepared announcements are used now or not at all.
     PreparedFocusSpeech.@Nullable Prepared prepared = PreparedFocusSpeech.take(focusedNode);
     if (!shouldSpeakFocusEarly(info)) {
-      return false;
+      return EARLY_NOT_HANDLED;
     }
     AccessibilityNodeInfoCompat node;
     @Nullable EventFeedback preparedFeedback;
@@ -525,14 +729,14 @@ public class EventFilter {
       Performance.getInstance()
           .recordSwipeSegment("speak re-read", SystemClock.uptimeMillis() - reReadStart);
       if (!refreshed) {
-        return false;
+        return EARLY_NOT_HANDLED;
       }
       Performance.getInstance().onSpeakEarlyReRead();
       node = copy;
       preparedFeedback = null;
     }
     if (!shouldSpeakFocusEarly(node)) {
-      return false;
+      return EARLY_NOT_HANDLED;
     }
     AccessibilityEvent event = focusEventFor(node);
     EventInterpretation eventInterpreted = focusInterpretation(info);
@@ -574,25 +778,105 @@ public class EventFilter {
         // event, which comes after it shows the content, should say it.
         earlyFocusSpeech.addStateUpdated(node, actionTime);
         onFocusMoved(node);
-        return true;
+        return EARLY_STATE_ONLY;
       }
       compositor.handleEvent(event, node, eventId, eventInterpreted, feedback);
+      if (prepared != null
+          && prepared.getDepth() == 1
+          && prepared.getTargetType() == NavigationTarget.TARGET_DEFAULT) {
+        // The announcement just played was a prepared one: the swipe after this one is
+        // already aimed, so its sound can be set going now, while this one plays.
+        maybePipelineNextSound(node, info, feedback);
+      }
     } catch (RuntimeException e) {
       // Something on the way to speech needed more than a Backtalk-made event has. Leave the
       // focus to be spoken from the app's event rather than stop Backtalk.
       LogUtils.e(TAG, "Cannot speak focus early: %s", e);
       earlyFocusSpeech.addStateUpdated(node, actionTime);
       onFocusMoved(node);
-      return true;
+      return EARLY_STATE_ONLY;
     }
     earlyFocusSpeech.addSpoken(node, actionTime);
     onFocusMoved(node);
-    return true;
+    return EARLY_SPOKEN;
   }
 
   /** Sets whether items are spoken before a swipe scrolls them into view; see the field. */
   public static void setSpeakItemsBeforeScroll(boolean speak) {
     speakItemsBeforeScroll = speak;
+  }
+
+  /** Sets whether preparation rounds yield and defer in bursts; see the field. */
+  public static void setYieldingPrepare(boolean yielding) {
+    yieldingPrepare = yielding;
+  }
+
+  /** Whether preparation rounds yield between items and defer in bursts; see the field. */
+  static boolean isYieldingPrepare() {
+    return yieldingPrepare;
+  }
+
+  /** Sets whether the next sound is pipelined as the current one plays; see the field. */
+  public static void setSpeechPipelineEnabled(boolean enabled) {
+    speechPipelineEnabled = enabled;
+  }
+
+  /** Sets whether focus is spoken on prediction ahead of its action; see the field. */
+  public static void setSpeculativeSpeechEnabled(boolean enabled) {
+    speculativeSpeechEnabled = enabled;
+  }
+
+  /**
+   * Whether a speculation may be made for a focus action with this info: the same gates that
+   * let a set focus be spoken early, and no scroll attempt, whose destination the app chooses
+   * while scrolling rather than the order deciding it.
+   */
+  static boolean speculationAllowed(
+      boolean enabled, boolean speakableInfo, int autoScrollAttempt, boolean orderHoldsNode) {
+    return enabled && speakableInfo && autoScrollAttempt == 0 && orderHoldsNode;
+  }
+
+  /** speculationVerdict outcomes: the speculation submitted no speech, so nothing is judged. */
+  static final int SPECULATION_NO_VERDICT = 0;
+
+  /** speculationVerdict outcomes: the focus event landed on the node spoken for. */
+  static final int SPECULATION_CONFIRMED = 1;
+
+  /** speculationVerdict outcomes: the focus event landed elsewhere; the speech was wrong. */
+  static final int SPECULATION_CORRECTED = 2;
+
+  /**
+   * The verdict of a focus event on a waiting speculation. A speculation that submitted no
+   * speech — it only updated the focus state — has nothing to judge: the event's own speaking
+   * is the only speech there is, right or wrong.
+   */
+  static int speculationVerdict(boolean submittedSpeech, boolean eventNodeIsSpeculated) {
+    if (!submittedSpeech) {
+      return SPECULATION_NO_VERDICT;
+    }
+    return eventNodeIsSpeculated ? SPECULATION_CONFIRMED : SPECULATION_CORRECTED;
+  }
+
+  /**
+   * Whether a round starting at {@code now} would run between two swipes of a burst: only a
+   * round the focus itself set off can be in a burst's way, and only while the last focus is
+   * still fresh; settle and reading-control rounds run when nothing is landing.
+   */
+  static boolean shouldDeferRound(
+      boolean yielding, int roundSource, long lastFocusMoveMs, long now) {
+    return yielding
+        && roundSource == PreparedFocusSpeech.SOURCE_FOCUS
+        && lastFocusMoveMs > 0
+        && now - lastFocusMoveMs < BURST_DEFER_MS;
+  }
+
+  /**
+   * The end (exclusive) of the slice of a plan of {@code size} items starting at {@code from}:
+   * one item when yielding, so the loop turns between items; the whole rest when not, so the
+   * round runs in one piece exactly as it did before plans.
+   */
+  static int sliceEnd(boolean yielding, int from, int size) {
+    return yielding ? Math.min(from + 1, size) : size;
   }
 
   /**
@@ -680,7 +964,12 @@ public class EventFilter {
   /** Prepares the announcements of the nodes next to {@code node}, which focus just moved to. */
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
+    lastFocusMoveMs = SystemClock.uptimeMillis();
+    // The saved order is told where the focus landed, so a navigation that starts from here
+    // need not ask the app where the focus is.
+    TraversalTreeCache.rememberFocus(node);
     prepareRoundSource = PreparedFocusSpeech.SOURCE_FOCUS;
+    cancelPreparePlan();
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(settlePrepare);
     handler.removeCallbacks(prepareSecondRing);
@@ -731,20 +1020,36 @@ public class EventFilter {
       // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
-    Performance.getInstance().onPreparationRound(prepareRoundSource);
-    // The round runs on the main thread, so a swipe that lands while it runs waits for what is
-    // left of it. Timing the rounds is what lets an export blame them, or clear them, for the
-    // swipes that had to wait.
-    long roundStart = SystemClock.uptimeMillis();
-    try {
-      prepareSwipeTargetsAround(pivot);
-    } finally {
-      Performance.getInstance().onPrepareRoundDuration(SystemClock.uptimeMillis() - roundStart);
+    int roundSource = prepareRoundSource;
+    if (shouldDeferRound(
+        yieldingPrepare, roundSource, lastFocusMoveMs, SystemClock.uptimeMillis())) {
+      // A swipe has just landed, so this round would run between two swipes of a burst and
+      // make the next one wait for it. Put it off to when the window settles instead; a round
+      // the settle path runs is never put off a second time.
+      Performance.getInstance().onPrepareRoundDeferred();
+      handler.removeCallbacks(settlePrepare);
+      handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+      return;
     }
+    Performance.getInstance().onPreparationRound(roundSource);
+    List<PrepareItem> items = new ArrayList<>();
+    if (planFirstRingItems(pivot, items) && prepareWider) {
+      // The nodes two swipes away are prepared a little later, off the window of the swipe
+      // that is about to come; keeping the announcements this round did not use is what makes
+      // them worth preparing at all.
+      items.add(PrepareItem.armSecondRing());
+    }
+    runPreparePlan(new PreparePlan(pivot, roundSource, items));
   }
 
-  /** The round itself: predicts and prepares the targets around {@code pivot}. */
-  private void prepareSwipeTargetsAround(AccessibilityNodeInfoCompat pivot) {
+  /**
+   * Works out the round around {@code pivot} as a plan of items, in the order the round has
+   * always prepared them: the plain targets first, then the reading control's. Predicting is
+   * the cheap half of a round; preparing is the half that can wait a turn of the event loop.
+   * Returns whether the plan is whole: a prediction failing stops the planning where the
+   * round itself used to stop.
+   */
+  private boolean planFirstRingItems(AccessibilityNodeInfoCompat pivot, List<PrepareItem> items) {
     for (int direction : SWIPE_DIRECTIONS) {
       @Nullable AccessibilityNodeInfoCompat target;
       boolean fromStaleOrder;
@@ -753,10 +1058,10 @@ public class EventFilter {
         fromStaleOrder = targetPredictor.lastPredictionFromStaleOrder();
       } catch (RuntimeException e) {
         LogUtils.e(TAG, "Cannot predict swipe target: %s", e);
-        return;
+        return false;
       }
       if (target != null && !PreparedFocusSpeech.has(target)) {
-        prepareFocusSpeech(target, NavigationTarget.TARGET_DEFAULT, fromStaleOrder, 1);
+        items.add(new PrepareItem(target, NavigationTarget.TARGET_DEFAULT, fromStaleOrder, 1));
       }
     }
     // A swipe at the reading control now in effect reaches a different node than a plain swipe
@@ -771,22 +1076,80 @@ public class EventFilter {
           fromStaleOrder = targetPredictor.lastPredictionFromStaleOrder();
         } catch (RuntimeException e) {
           LogUtils.e(TAG, "Cannot predict reading-control swipe target: %s", e);
-          return;
+          return false;
         }
         if (target != null && !PreparedFocusSpeech.has(target, targetType)) {
-          prepareFocusSpeech(target, targetType, fromStaleOrder, 1);
+          items.add(new PrepareItem(target, targetType, fromStaleOrder, 1));
         }
       }
     }
-    if (prepareWider) {
-      // The nodes two swipes away are prepared a little later, off the window of the swipe
-      // that is about to come; keeping the announcements this round did not use is what makes
-      // them worth preparing at all.
-      secondRingPivot = pivot;
-      secondRingSource = prepareRoundSource;
-      handler.removeCallbacks(prepareSecondRing);
-      handler.postDelayed(prepareSecondRing, SECOND_RING_DELAY_MS);
+    return true;
+  }
+
+  /** Starts {@code plan} as the round now running, replacing any round still in slices. */
+  private void runPreparePlan(PreparePlan plan) {
+    cancelPreparePlan();
+    activePreparePlan = plan;
+    stepPreparePlan();
+  }
+
+  /** Forgets the round still running in slices, if any: the focus it served has moved on. */
+  private void cancelPreparePlan() {
+    handler.removeCallbacks(preparePlanContinuation);
+    activePreparePlan = null;
+  }
+
+  private void continuePreparePlan() {
+    stepPreparePlan();
+  }
+
+  /**
+   * Runs the next slice of the round now planned. With yielding on, a slice is one item, and
+   * the rest of the round is posted to a later turn of the event loop, so a gesture or a focus
+   * action waiting on this thread is never behind more than one item of preparation. With
+   * yielding off the whole round runs here, in one piece, as it did before plans existed.
+   * Each slice is timed as its own stretch of round: that is the stretch a swipe would wait
+   * behind, which is what the round's timing exists to show.
+   */
+  private void stepPreparePlan() {
+    PreparePlan plan = activePreparePlan;
+    if (plan == null) {
+      return;
     }
+    if (plan.pivot != lastFocusedNode) {
+      // The focus the round was planned around has moved on; its remaining items would
+      // prepare announcements around a focus the user has already left.
+      activePreparePlan = null;
+      return;
+    }
+    plan.slices++;
+    long sliceStart = SystemClock.uptimeMillis();
+    try {
+      int sliceEnd = sliceEnd(yieldingPrepare, plan.nextIndex, plan.items.size());
+      while (plan.nextIndex < sliceEnd) {
+        PrepareItem item = plan.items.get(plan.nextIndex++);
+        if (item.armSecondRing) {
+          secondRingPivot = plan.pivot;
+          secondRingSource = plan.source;
+          handler.removeCallbacks(prepareSecondRing);
+          handler.postDelayed(prepareSecondRing, SECOND_RING_DELAY_MS);
+        } else {
+          prepareRoundSource = plan.source;
+          prepareFocusSpeech(item.node, item.targetType, item.fromStaleOrder, item.depth);
+        }
+      }
+    } finally {
+      Performance.getInstance()
+          .onPrepareRoundDuration(SystemClock.uptimeMillis() - sliceStart);
+    }
+    if (plan.nextIndex >= plan.items.size()) {
+      activePreparePlan = null;
+      if (yieldingPrepare && plan.slices > 1) {
+        Performance.getInstance().onPrepareRoundChunked(plan.slices);
+      }
+      return;
+    }
+    handler.post(preparePlanContinuation);
   }
 
   /**
@@ -803,28 +1166,27 @@ public class EventFilter {
         || !PreparedFocusSpeech.shouldPrepare(pivot)) {
       return;
     }
-    int roundSource = prepareRoundSource;
-    prepareRoundSource = secondRingSource;
-    long roundStart = SystemClock.uptimeMillis();
-    try {
+    List<PrepareItem> items = new ArrayList<>();
+    for (int direction : SWIPE_DIRECTIONS) {
+      planSecondRingItem(pivot, direction, NavigationTarget.TARGET_DEFAULT, items);
+    }
+    @TargetType int targetType = targetPredictor.currentTargetType();
+    if (targetType != NavigationTarget.TARGET_DEFAULT) {
       for (int direction : SWIPE_DIRECTIONS) {
-        prepareSecondRingInDirection(pivot, direction, NavigationTarget.TARGET_DEFAULT);
+        planSecondRingItem(pivot, direction, targetType, items);
       }
-      @TargetType int targetType = targetPredictor.currentTargetType();
-      if (targetType != NavigationTarget.TARGET_DEFAULT) {
-        for (int direction : SWIPE_DIRECTIONS) {
-          prepareSecondRingInDirection(pivot, direction, targetType);
-        }
-      }
-    } finally {
-      prepareRoundSource = roundSource;
-      Performance.getInstance().onPrepareRoundDuration(SystemClock.uptimeMillis() - roundStart);
+    }
+    if (!items.isEmpty()) {
+      runPreparePlan(new PreparePlan(pivot, secondRingSource, items));
     }
   }
 
-  /** Prepares the node two swipes from {@code pivot} in {@code direction}, if it is not kept. */
-  private void prepareSecondRingInDirection(
-      AccessibilityNodeInfoCompat pivot, int direction, @TargetType int targetType) {
+  /** Plans the node two swipes from {@code pivot} in {@code direction}, if it is not kept. */
+  private void planSecondRingItem(
+      AccessibilityNodeInfoCompat pivot,
+      int direction,
+      @TargetType int targetType,
+      List<PrepareItem> items) {
     @Nullable AccessibilityNodeInfoCompat first;
     @Nullable AccessibilityNodeInfoCompat second;
     boolean fromStaleOrder;
@@ -840,7 +1202,7 @@ public class EventFilter {
       return;
     }
     if (second != null && !PreparedFocusSpeech.has(second, targetType)) {
-      prepareFocusSpeech(second, targetType, fromStaleOrder, 2);
+      items.add(new PrepareItem(second, targetType, fromStaleOrder, 2));
     }
   }
 
@@ -850,6 +1212,7 @@ public class EventFilter {
    */
   public void onGranularityChanged() {
     prepareRoundSource = PreparedFocusSpeech.SOURCE_GRANULARITY;
+    cancelPreparePlan();
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(settlePrepare);
     handler.removeCallbacks(prepareSecondRing);
@@ -929,6 +1292,24 @@ public class EventFilter {
         || preparedSpeechSynthesizer == null) {
       return;
     }
+    synthesizePreparedSound(
+        feedback, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE, node, false);
+  }
+
+  /**
+   * Asks for the sound of {@code feedback} to be made ahead, under its text. A sound already
+   * kept or already being made is not asked for twice, and the in-flight cap is the same one
+   * the kept sounds live under, so asking never queues more engine work than the cache holds.
+   */
+  private void synthesizePreparedSound(
+      EventFeedback feedback,
+      int depth,
+      boolean settleSource,
+      AccessibilityNodeInfoCompat node,
+      boolean pipelined) {
+    if (preparedSpeechSynthesizer == null) {
+      return;
+    }
     CharSequence text = feedback.ttsOutput().orElse(null);
     if (TextUtils.isEmpty(text) || hasTtsSpan(text)) {
       return;
@@ -942,11 +1323,63 @@ public class EventFilter {
       }
       synthesesInFlight.add(key);
     }
+    if (pipelined) {
+      Performance.getInstance().onSpeechPipelineStarted();
+    }
     preparedSpeechSynthesizer.synthesize(
-        text,
-        (float) feedback.ttsPitch(),
-        synthesisNotifierFor(
-            key, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE, node));
+        text, (float) feedback.ttsPitch(), synthesisNotifierFor(key, depth, settleSource, node, pipelined));
+  }
+
+  /**
+   * Sets the sound of the next announcement going while the current one plays. The current
+   * announcement only counts when its own sound was made ahead — that is the case where the
+   * speech engine is free right now, its serial queue holding nothing of this swipe — and the
+   * next announcement only counts when its text is already prepared, so all that is missing
+   * is its sound. The neighbor is the target one more swipe in the direction just swiped
+   * would reach, the same prediction the preparation rounds make.
+   */
+  private void maybePipelineNextSound(
+      AccessibilityNodeInfoCompat focusedNode, FocusActionInfo info, EventFeedback playedFeedback) {
+    if (!speechPipelineEnabled || preparedSpeechSynthesizer == null || targetPredictor == null) {
+      return;
+    }
+    CharSequence playedText = playedFeedback.ttsOutput().orElse(null);
+    if (TextUtils.isEmpty(playedText) || hasTtsSpan(playedText)) {
+      return;
+    }
+    synchronized (synthesizedPrepared) {
+      if (!synthesizedPrepared.containsKey(playedText.toString())) {
+        // The current announcement is being made by the engine as it plays; starting another
+        // sound now would only queue behind it.
+        return;
+      }
+    }
+    if (info.navigationAction == null) {
+      return;
+    }
+    int logicalDirection =
+        TraversalStrategyUtils.getLogicalDirection(
+            info.navigationAction.searchDirection, WindowUtils.isScreenLayoutRTL(context));
+    if (logicalDirection != TraversalStrategy.SEARCH_FOCUS_FORWARD
+        && logicalDirection != TraversalStrategy.SEARCH_FOCUS_BACKWARD) {
+      return;
+    }
+    @Nullable AccessibilityNodeInfoCompat next;
+    try {
+      next = targetPredictor.predictTarget(focusedNode, logicalDirection);
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "Cannot predict pipelined swipe target: %s", e);
+      return;
+    }
+    if (next == null) {
+      return;
+    }
+    PreparedFocusSpeech.@Nullable Prepared neighbor =
+        PreparedFocusSpeech.peek(next, NavigationTarget.TARGET_DEFAULT);
+    if (neighbor == null) {
+      return;
+    }
+    synthesizePreparedSound(neighbor.getFeedback(), 1, false, next, true);
   }
 
   /** Whether {@code text} carries a TtsSpan, whose sound the speech cache cannot make. */

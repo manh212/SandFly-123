@@ -160,6 +160,17 @@ object PreparedFocusSpeech {
     find(node, targetType) != null
 
   /**
+   * Returns the announcement of focusing [node] as a [targetType] target, or null, without
+   * spending it: the node has not been focused, so its announcement stays kept for the swipe
+   * that does focus it. Looking is what lets the sound of the next announcement be set going
+   * while the current one plays.
+   */
+  @JvmStatic
+  @JvmOverloads
+  fun peek(node: AccessibilityNodeInfoCompat, targetType: Int = NavigationTarget.TARGET_DEFAULT): Prepared? =
+    find(node, targetType)
+
+  /**
    * Returns the announcement of focusing [node], or null if there is none or it was prepared less
    * than [MIN_AGE_MS] ago. The focus is moving to [node]: its own announcements are spent either
    * way, and the ones of the nodes beside it are kept for its swipes when [keepUnusedOnTake],

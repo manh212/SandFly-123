@@ -168,6 +168,29 @@ class PreparedFocusSpeechKeyingTest {
 
     assertSame(headingFeedback, PreparedFocusSpeech.take(node)?.feedback)
   }
+
+  @Test
+  fun peek_returnsTheEntryWithoutSpendingIt() {
+    val node = node()
+    val prepared = feedback()
+
+    PreparedFocusSpeech.put(node, prepared, "")
+
+    assertSame(prepared, PreparedFocusSpeech.peek(node)?.feedback)
+    // Looking did not spend it: the swipe that focuses the node can still take it.
+    ShadowSystemClock.advanceBy(Duration.ofMillis(PreparedFocusSpeech.MIN_AGE_MS + 1))
+    assertSame(prepared, PreparedFocusSpeech.take(node)?.feedback)
+  }
+
+  @Test
+  fun peek_respectsTheKindAndTheNode() {
+    val node = node()
+    PreparedFocusSpeech.put(node, feedback(), "", NavigationTarget.TARGET_HEADING)
+
+    assertNull(PreparedFocusSpeech.peek(node))
+    assertNotNull(PreparedFocusSpeech.peek(node, NavigationTarget.TARGET_HEADING))
+    assertNull(PreparedFocusSpeech.peek(node()))
+  }
 }
 
 /**
