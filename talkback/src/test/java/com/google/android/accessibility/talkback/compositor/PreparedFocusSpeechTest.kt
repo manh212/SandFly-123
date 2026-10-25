@@ -17,9 +17,19 @@
 package com.google.android.accessibility.talkback.compositor
 
 import android.view.accessibility.AccessibilityEvent
+import android.view.accessibility.AccessibilityNodeInfo
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget
+import java.time.Duration
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertSame
 import org.junit.Assert.assertTrue
+import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.RobolectricTestRunner
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowSystemClock
 
 class PreparedFocusSpeechTest {
   private val window = 7
@@ -90,5 +100,66 @@ class PreparedFocusSpeechTest {
     )
     assertTrue(PreparedFocusSpeech.isOldEnough(prepared, prepared + PreparedFocusSpeech.MIN_AGE_MS))
     assertTrue(PreparedFocusSpeech.isOldEnough(prepared, prepared + 2_000L))
+  }
+}
+
+/** Tests that a prepared announcement is kept per node and per kind of swipe target. */
+@RunWith(RobolectricTestRunner::class)
+@Config(sdk = [34])
+class PreparedFocusSpeechKeyingTest {
+  private fun node(): AccessibilityNodeInfoCompat {
+    val info = AccessibilityNodeInfo()
+    info.packageName = "com.example"
+    return AccessibilityNodeInfoCompat.wrap(info)
+  }
+
+  private fun feedback(): EventFeedback = EventFeedback.builder().build()
+
+  @Before
+  fun setUp() {
+    PreparedFocusSpeech.clear()
+  }
+
+  @Test
+  fun headingEntry_doesNotStandInForTheDefaultEntry() {
+    val node = node()
+
+    PreparedFocusSpeech.put(node, feedback(), "", NavigationTarget.TARGET_HEADING)
+
+    assertTrue(PreparedFocusSpeech.has(node, NavigationTarget.TARGET_HEADING))
+    assertFalse(PreparedFocusSpeech.has(node))
+  }
+
+  @Test
+  fun defaultEntry_doesNotStandInForTheHeadingEntry() {
+    val node = node()
+
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    assertTrue(PreparedFocusSpeech.has(node))
+    assertFalse(PreparedFocusSpeech.has(node, NavigationTarget.TARGET_HEADING))
+  }
+
+  @Test
+  fun sameNodeAndKind_replacesTheEarlierEntry() {
+    val node = node()
+    val latest = feedback()
+
+    PreparedFocusSpeech.put(node, feedback(), "", NavigationTarget.TARGET_LINK)
+    PreparedFocusSpeech.put(node, latest, "", NavigationTarget.TARGET_LINK)
+    ShadowSystemClock.advanceBy(Duration.ofMillis(PreparedFocusSpeech.MIN_AGE_MS + 1))
+
+    assertSame(latest, PreparedFocusSpeech.take(node)?.feedback)
+  }
+
+  @Test
+  fun take_matchesByNodeAcrossKinds() {
+    val node = node()
+    val headingFeedback = feedback()
+
+    PreparedFocusSpeech.put(node, headingFeedback, "", NavigationTarget.TARGET_HEADING)
+    ShadowSystemClock.advanceBy(Duration.ofMillis(PreparedFocusSpeech.MIN_AGE_MS + 1))
+
+    assertSame(headingFeedback, PreparedFocusSpeech.take(node)?.feedback)
   }
 }

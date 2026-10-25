@@ -2679,7 +2679,8 @@ public class TalkBackService extends AccessibilityServiceCompat
                 actionTime,
                 /* continuousReading= */ fullScreenReadActor != null
                     && fullScreenReadActor.isActive()));
-    eventFilter.setTargetPredictor(directionNavigationActor::predictTarget);
+    eventFilter.setTargetPredictor(directionNavigationActor);
+    directionNavigationActor.setGranularityChangeListener(eventFilter::onGranularityChanged);
     eventFilter.setFingerDownSupplier(() -> touchMonitor.isUserTouchingScreen());
     eventFilter.setVoiceActionDelegate(voiceActionMonitor);
     eventFilter.setAccessibilityFocusEventInterpreter(accessibilityFocusInterpreter);

@@ -190,6 +190,7 @@
     <string name="pref_auto_on_device_image_description_unlabelled_only_key" translatable="false">pref_auto_on_device_image_description_unlabelled_only_key</string>
     <string name="pref_auto_text_recognition_unlabelled_only_key" translatable="false">pref_auto_text_recognition_unlabelled_only_key</string>
     <string name="pref_detailed_image_description_key" translatable="false">pref_detailed_image_description_key</string>
+    <string name="pref_ai_label_suggestion_key" translatable="false">pref_ai_label_suggestion_key</string>
     <string name="pref_opt_in_screen_overview_key" translatable="false">pref_opt_in_screen_overview_key</string>
     <string name="pref_auto_on_devices_image_description_key" translatable="false">pref_auto_on_devices_image_description_key</string>
     <string name="pref_gemini_enabled_key" translatable="false">pref_gemini_enabled_key</string>
@@ -1384,6 +1385,7 @@
     <bool name="pref_auto_on_device_image_description_unlabelled_only_default">true</bool>
     <bool name="pref_auto_text_recognition_unlabelled_only_default">true</bool>
     <bool name="pref_detailed_image_description_default">false</bool>
+    <bool name="pref_ai_label_suggestion_default">false</bool>
     <bool name="pref_opt_in_screen_overview_default">false</bool>
     <bool name="pref_auto_on_device_image_description_default">false</bool>
     <bool name="pref_gemini_opt_in_default">false</bool>

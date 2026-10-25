@@ -199,6 +199,7 @@ object DiagnosticsExport {
     performance.displayLabelToStats(logger)
     performance.displayStatToLabelCompare(logger)
     performance.displayAllEventStats(logger)
+    performance.displayPreparedSpeechStats(logger)
   }
 
   /**

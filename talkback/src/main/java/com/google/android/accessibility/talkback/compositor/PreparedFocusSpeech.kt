@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.compositor
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
 
 /**
@@ -26,7 +27,9 @@ import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCa
  * worked out while the user listens, so that a swipe can speak one without working it out then.
  *
  * They hold for the focused node only, and are thrown away when the focus moves, when anything in
- * the window changes, even text, and after [MAX_AGE_MS].
+ * the window changes, even text, and after [MAX_AGE_MS]. An announcement is kept per node and per
+ * kind of swipe target it was worked out for, so the announcement of a node as the next plain
+ * target does not stand in for it as the next heading, or the other way round.
  */
 object PreparedFocusSpeech {
   /** How long a prepared announcement is kept, in case a change came without an event. */
@@ -49,33 +52,41 @@ object PreparedFocusSpeech {
     val node: AccessibilityNodeInfoCompat,
     val feedback: EventFeedback,
     val containerTitle: CharSequence,
+    val targetType: Int,
   ) {
     internal val time = SystemClock.uptimeMillis()
 
     internal fun isFor(other: AccessibilityNodeInfoCompat): Boolean = node == other
+
+    internal fun isFor(other: AccessibilityNodeInfoCompat, otherTargetType: Int): Boolean =
+      node == other && targetType == otherTargetType
   }
 
-  private val prepared = ArrayList<Prepared>(2)
+  private val prepared = ArrayList<Prepared>(4)
   private var windowId = NO_WINDOW_ID
 
   /** Keeps [feedback] as the announcement of focusing [node]; see [Prepared]. */
   @JvmStatic
+  @JvmOverloads
   fun put(
     node: AccessibilityNodeInfoCompat,
     feedback: EventFeedback,
     containerTitle: CharSequence,
+    targetType: Int = NavigationTarget.TARGET_DEFAULT,
   ) {
     if (node.windowId != windowId) {
       clear()
       windowId = node.windowId
     }
-    prepared.removeAll { it.isFor(node) }
-    prepared += Prepared(node, feedback, containerTitle)
+    prepared.removeAll { it.isFor(node, targetType) }
+    prepared += Prepared(node, feedback, containerTitle, targetType)
   }
 
-  /** Returns whether an announcement of focusing [node] is kept. */
+  /** Returns whether an announcement of focusing [node] as a [targetType] target is kept. */
   @JvmStatic
-  fun has(node: AccessibilityNodeInfoCompat): Boolean = find(node) != null
+  @JvmOverloads
+  fun has(node: AccessibilityNodeInfoCompat, targetType: Int = NavigationTarget.TARGET_DEFAULT): Boolean =
+    find(node, targetType) != null
 
   /**
    * Returns the announcement of focusing [node], or null if there is none or it was prepared less
@@ -83,7 +94,7 @@ object PreparedFocusSpeech {
    */
   @JvmStatic
   fun take(node: AccessibilityNodeInfoCompat): Prepared? {
-    val found = find(node)
+    val found = find(node, null)
     clear()
     return found?.takeIf { isOldEnough(it.time, SystemClock.uptimeMillis()) }
   }
@@ -124,9 +135,11 @@ object PreparedFocusSpeech {
     if (TraversalTreeCache.changesNodes(actionId)) clear()
   }
 
-  private fun find(node: AccessibilityNodeInfoCompat): Prepared? {
+  private fun find(node: AccessibilityNodeInfoCompat, targetType: Int?): Prepared? {
     val now = SystemClock.uptimeMillis()
     prepared.removeAll { now - it.time > MAX_AGE_MS }
-    return prepared.firstOrNull { it.isFor(node) }
+    return prepared.firstOrNull {
+      if (targetType == null) it.isFor(node) else it.isFor(node, targetType)
+    }
   }
 }
