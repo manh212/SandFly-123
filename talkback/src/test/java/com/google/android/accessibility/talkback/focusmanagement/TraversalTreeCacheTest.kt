@@ -56,6 +56,8 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.serveStaleOrdersEnabled = true
     TraversalTreeCache.settleRetryEnabled = true
     TraversalTreeCache.leanOrderBuilderEnabled = true
+    TraversalTreeCache.fastNavigatorEnabled = true
+    TraversalTreeCache.listenerBuildCoalescingEnabled = true
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -690,5 +692,61 @@ class TraversalTreeCacheTest {
     shadowOf(Looper.getMainLooper()).idleFor(1, TimeUnit.SECONDS)
 
     assertTrue(requested.isEmpty())
+  }
+
+  @Test
+  fun fastNavigatorSwitch_defaultsOn_andFollowsTheSetting() {
+    assertTrue(TraversalTreeCache.fastNavigatorEnabled)
+    TraversalTreeCache.fastNavigatorEnabled = false
+    assertFalse(TraversalTreeCache.fastNavigatorEnabled)
+  }
+
+  @Test
+  fun buildOrderOnTheSpot_buildsAndSavesTheOrder() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.clearCompletely("no order saved")
+
+    assertTrue(TraversalTreeCache.buildOrderOnTheSpot(root))
+    assertNotNull(TraversalTreeCache.get(root, child))
+  }
+
+  @Test
+  fun focusNodeForNavigation_rememberedFocusInTheSavedOrder_isServed() {
+    val (_, child) = savedOrder()
+    child.unwrap().isAccessibilityFocused = true
+    TraversalTreeCache.rememberFocus(child)
+
+    assertEquals(child, TraversalTreeCache.focusNodeForNavigation())
+  }
+
+  @Test
+  fun focusNodeForNavigation_noOrderSaved_servesNothing() {
+    val rootInfo = node(null)
+    val child = AccessibilityNodeInfoCompat.wrap(node(rootInfo))
+    child.unwrap().isAccessibilityFocused = true
+    TraversalTreeCache.rememberFocus(child)
+
+    // Nothing was ever saved, so the remembered node belongs to no order the cache can vouch
+    // for: a navigation must ask the app where the focus is, as it always did.
+    assertNull(TraversalTreeCache.focusNodeForNavigation())
+  }
+
+  @Test
+  fun focusNodeForNavigation_focusHasMovedOn_servesNothing() {
+    val (_, child) = savedOrder()
+    // The node is in the saved order, but it no longer reports itself as the focus.
+    TraversalTreeCache.rememberFocus(child)
+
+    assertNull(TraversalTreeCache.focusNodeForNavigation())
+  }
+
+  @Test
+  fun focusNodeForNavigation_orderThrownAwaySince_servesNothing() {
+    val (_, child) = savedOrder()
+    child.unwrap().isAccessibilityFocused = true
+    TraversalTreeCache.rememberFocus(child)
+    TraversalTreeCache.clearCompletely("the window changed")
+
+    assertNull(TraversalTreeCache.focusNodeForNavigation())
   }
 }

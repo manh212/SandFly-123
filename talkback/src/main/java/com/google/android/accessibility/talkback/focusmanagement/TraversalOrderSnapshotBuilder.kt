@@ -39,6 +39,15 @@ import java.util.function.Supplier
 internal object TraversalOrderSnapshotBuilder {
   private const val TAG = "BacktalkOrderBuild"
 
+  /** The ask was taken on: it is the build now waited for, or the one running. */
+  const val OUTCOME_ACCEPTED = 0
+
+  /** The ask named the very build already on its way, so nothing new was posted. */
+  const val OUTCOME_DEDUPED = 1
+
+  /** The ask was folded into the build on its way; one more build follows when that one lands. */
+  const val OUTCOME_COALESCED = 2
+
   private val executor by lazy {
     Executors.newSingleThreadExecutor { runnable ->
       Thread(runnable, TAG).apply { isDaemon = true }
@@ -57,6 +66,17 @@ internal object TraversalOrderSnapshotBuilder {
   private var pending: Request? = null
   private var running = false
 
+  /** The window of the request being built right now, or -1 when no build is running. */
+  private var runningWindowId = -1
+
+  /**
+   * The newest listener ask folded into the build on its way, kept so a build from the newest
+   * tree follows when that build lands. A root supplier resolves the current root whenever it
+   * is called, and the follow-up build reads the generation again when it is taken up, so it
+   * always starts from the tree as it stands then — the fold can delay a build, never stale it.
+   */
+  private var dirtyRequest: Request? = null
+
   /** The (window, generation) of the request waiting or running, if any. */
   private var askedKey: Pair<Int, Long>? = null
 
@@ -68,20 +88,34 @@ internal object TraversalOrderSnapshotBuilder {
    */
   private var publishedKey: Pair<Int, Long>? = null
 
-  /** Queues a build of the order of [windowId], replacing any older build still waiting. */
+  /**
+   * Queues a build of the order of [windowId], replacing any older build still waiting, and
+   * says how the ask was taken on. A listener ask that arrives while a build for the same
+   * window is already running is folded into it instead of replacing the build still waiting:
+   * in a churning window those asks arrived by the hundred and most of the builds they queued
+   * died unpublished, while the fold keeps exactly one follow-up build, from the newest tree.
+   */
   fun request(
     windowId: Int,
     generation: Long,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
     source: Int = Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR,
-  ) {
+  ): Int {
     val key = windowId to generation
     val start =
       synchronized(lock) {
         if (key == askedKey || key == publishedKey) {
           Performance.getInstance().onOrderBuildRequestDeduped()
-          return
+          return OUTCOME_DEDUPED
+        }
+        if (source == Performance.ORDER_BUILD_SOURCE_LISTENER &&
+          TraversalTreeCache.listenerBuildCoalescingEnabled &&
+          running &&
+          (runningWindowId == windowId || pending?.windowId == windowId)) {
+          dirtyRequest = Request(windowId, generation, rootSupplier, ownPackage, source)
+          Performance.getInstance().onListenerBuildCoalesced()
+          return OUTCOME_COALESCED
         }
         askedKey = key
         pending = Request(windowId, generation, rootSupplier, ownPackage, source)
@@ -104,16 +138,37 @@ internal object TraversalOrderSnapshotBuilder {
         }
       }
     }
+    return OUTCOME_ACCEPTED
   }
 
   private fun drain() {
     while (true) {
       val request =
         synchronized(lock) {
-          val next = pending
+          var next = pending
           pending = null
           if (next == null) {
+            // Nothing newer was posted, but listener asks may have been folded into the build
+            // that just ran: their follow-up build is owed, from the tree as it stands now.
+            val dirty = dirtyRequest
+            dirtyRequest = null
+            if (dirty != null) {
+              next =
+                Request(
+                  dirty.windowId,
+                  TraversalTreeCache.currentGeneration(),
+                  dirty.rootSupplier,
+                  dirty.ownPackage,
+                  dirty.source,
+                )
+              askedKey = next.windowId to next.generation
+            }
+          }
+          if (next == null) {
             running = false
+            runningWindowId = -1
+          } else {
+            runningWindowId = next.windowId
           }
           next
         } ?: return
@@ -142,14 +197,17 @@ internal object TraversalOrderSnapshotBuilder {
     }
   }
 
-  /** Builds one requested order and publishes it. Runs the whole pipeline on the calling thread. */
+  /**
+   * Builds one requested order and publishes it, saying whether it was published. Runs the
+   * whole pipeline on the calling thread.
+   */
   fun buildNow(
     windowId: Int,
     generation: Long,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
-  ) {
-    build(Request(windowId, generation, rootSupplier, ownPackage,
+  ): Boolean {
+    return build(Request(windowId, generation, rootSupplier, ownPackage,
       Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR))
   }
 

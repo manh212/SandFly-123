@@ -45,6 +45,7 @@ class TraversalOrderSnapshotBuilderTest {
   @After
   fun tearDown() {
     TraversalTreeCache.clear("test")
+    TraversalTreeCache.listenerBuildCoalescingEnabled = true
   }
 
   private fun taggedNode(
@@ -202,6 +203,131 @@ class TraversalOrderSnapshotBuilderTest {
       performance.getOrderBuildDiedCount() > diedBefore
     }
     assertTrue(!supplierCalled.get())
+  }
+
+  @Test
+  fun request_listenerAsksWhileABuildRuns_areFolded_andTheLastBuildIsNotLost() {
+    val performance = Performance.getInstance()
+    performance.setComputeStatsEnabled(true)
+    val coalescedBefore = performance.getListenerBuildsCoalescedCount()
+    TraversalTreeCache.listenerBuildCoalescingEnabled = true
+
+    // A listener ask whose build stays busy reading while the window keeps changing.
+    val firstStarted = CountDownLatch(1)
+    val releaseFirst = CountDownLatch(1)
+    val firstRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val firstOutcome =
+      TraversalOrderSnapshotBuilder.request(
+        firstRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        {
+          firstStarted.countDown()
+          releaseFirst.await(WAIT_MS, TimeUnit.MILLISECONDS)
+          firstRoot
+        },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, firstOutcome)
+    assertTrue(firstStarted.await(WAIT_MS, TimeUnit.MILLISECONDS))
+
+    // The window changes and asks again: that ask waits behind the running build.
+    TraversalTreeCache.clear("the window changed")
+    val secondRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val secondOutcome =
+      TraversalOrderSnapshotBuilder.request(
+        secondRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { secondRoot },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, secondOutcome)
+
+    // The window changes twice more while both builds are still owed: those asks fold into
+    // the build on its way instead of replacing the waiting one, and only the newest folded
+    // ask's follow-up build is owed.
+    TraversalTreeCache.clear("the window changed again")
+    val thirdOutcome =
+      TraversalOrderSnapshotBuilder.request(
+        secondRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { secondRoot },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+    TraversalTreeCache.clear("the window changed once more")
+    val fourthRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val fourthPivot = checkNotNull(fourthRoot.getChild(0)).getChild(0)
+    val fourthOutcome =
+      TraversalOrderSnapshotBuilder.request(
+        fourthRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { fourthRoot },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_COALESCED, thirdOutcome)
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_COALESCED, fourthOutcome)
+    assertEquals(coalescedBefore + 2, performance.getListenerBuildsCoalescedCount())
+
+    releaseFirst.countDown()
+
+    // The running build and the waiting one are both stale by now and die without building;
+    // the folded asks still get their build, from the newest tree, and it publishes.
+    waitUntil("the follow-up build to be saved") {
+      TraversalTreeCache.holds(checkNotNull(fourthPivot))
+    }
+    assertNotNull(TraversalTreeCache.get(fourthRoot, checkNotNull(fourthPivot)))
+  }
+
+  @Test
+  fun request_coalescingOff_listenerAsksReplaceTheWaitingBuildAsBefore() {
+    TraversalTreeCache.listenerBuildCoalescingEnabled = false
+    try {
+      val firstStarted = CountDownLatch(1)
+      val releaseFirst = CountDownLatch(1)
+      val firstRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+      TraversalOrderSnapshotBuilder.request(
+        firstRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        {
+          firstStarted.countDown()
+          releaseFirst.await(WAIT_MS, TimeUnit.MILLISECONDS)
+          firstRoot
+        },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+      assertTrue(firstStarted.await(WAIT_MS, TimeUnit.MILLISECONDS))
+
+      TraversalTreeCache.clear("the window changed")
+      val secondRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+      TraversalOrderSnapshotBuilder.request(
+        secondRoot.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { secondRoot },
+        ownPackage = "com.example.other",
+        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+      )
+      TraversalTreeCache.clear("the window changed again")
+      val thirdOutcome =
+        TraversalOrderSnapshotBuilder.request(
+          secondRoot.windowId,
+          TraversalTreeCache.currentGeneration(),
+          { secondRoot },
+          ownPackage = "com.example.other",
+          source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+        )
+      assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, thirdOutcome)
+      releaseFirst.countDown()
+
+      // Let the builder finish before the next test asks it for anything.
+      val pivot = checkNotNull(secondRoot.getChild(0)).getChild(0)
+      waitUntil("the last build to be saved") { TraversalTreeCache.holds(checkNotNull(pivot)) }
+    } finally {
+      TraversalTreeCache.listenerBuildCoalescingEnabled = true
+    }
   }
 
   @Test

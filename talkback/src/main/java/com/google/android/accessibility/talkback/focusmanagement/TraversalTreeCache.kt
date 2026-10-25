@@ -109,6 +109,53 @@ object TraversalTreeCache {
   @JvmStatic var leanOrderBuilderEnabled: Boolean = true
 
   /**
+   * Whether directional navigation is answered by the fast navigator, working from this cache's
+   * order, instead of by the usual navigation machinery. When false, the fast navigator is never
+   * asked, and navigation is exactly as it was before it existed.
+   */
+  @JvmStatic var fastNavigatorEnabled: Boolean = true
+
+  /**
+   * Whether a listener's ask for a background build, arriving while a build for the same window
+   * is already on its way, is folded into that build — remembered as a need to build once more
+   * from the newest tree when the current build lands — instead of replacing the waiting build.
+   * When false, every ask is posted as it was before.
+   */
+  @JvmStatic var listenerBuildCoalescingEnabled: Boolean = true
+
+  /** The node accessibility focus was last known to land on, as far as this cache is told. */
+  @Volatile private var lastFocusNode: AccessibilityNodeInfoCompat? = null
+
+  /**
+   * Remembers the node accessibility focus last landed on. A navigation that starts from it
+   * need not ask the app where the focus is, which is a round trip on the swipe's way.
+   */
+  @JvmStatic
+  fun rememberFocus(node: AccessibilityNodeInfoCompat) {
+    lastFocusNode = node
+  }
+
+  /**
+   * The focus node a navigation may start from without asking the app, or null when it must ask
+   * as usual: the remembered node serves only while the saved order still holds it, it is still
+   * there when asked again, and it still reports itself as the accessibility focus. Any of
+   * those failing, the app is the only authority, exactly as before.
+   */
+  @JvmStatic
+  fun focusNodeForNavigation(): AccessibilityNodeInfoCompat? {
+    val node = lastFocusNode ?: return null
+    val usable =
+      runCatching { holds(node) && node.refresh() && node.isAccessibilityFocused }
+        .getOrDefault(false)
+    if (usable) {
+      Performance.getInstance().onCachedFocusShortcutUsed()
+      return node
+    }
+    Performance.getInstance().onCachedFocusShortcutRejected()
+    return null
+  }
+
+  /**
    * The last order thrown away, kept as a stale copy a swipe may be served by under checks (see
    * [serveStaleOrder]) until a fresh order lands. A throw-away demotes the saved order to here
    * instead of dropping it; only a throw-away that proves an order wrong (see [clearCompletely])
@@ -634,6 +681,24 @@ object TraversalTreeCache {
   internal fun currentGeneration(): Long = generation
 
   /**
+   * Builds the order of [root]'s window on this thread and saves it, for a navigation that
+   * arrived before any background build landed. Returns whether the built order was saved —
+   * false when the window changed while it was being built. The build is given a copy of the
+   * root to keep or throw away as its own; the caller's root is never the build's to recycle.
+   */
+  @JvmStatic
+  fun buildOrderOnTheSpot(root: AccessibilityNodeInfoCompat): Boolean {
+    @SuppressWarnings("deprecation") // obtain(): the copy the build owns, published or recycled.
+    val copy = AccessibilityNodeInfoCompat.obtain(root)
+    return TraversalOrderSnapshotBuilder.buildNow(
+      root.windowId,
+      generation,
+      { copy },
+      root.packageName?.toString() ?: "",
+    )
+  }
+
+  /**
    * Asks for the order of the window [windowId] to be built in the background, so that the next
    * swipe finds it saved here instead of building it on the swiping thread. The root is resolved
    * by [rootSupplier] on the builder's thread, never here. Below Android 13 the background read
@@ -647,13 +712,19 @@ object TraversalTreeCache {
     ownPackage: String,
     source: Int = Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR,
   ) {
-    Performance.getInstance().onOrderBuildPosted(source)
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+      Performance.getInstance().onOrderBuildPosted(source)
       WindowNodePrefetcher.prefetchInBackground(rootSupplier, ownPackage)
       return
     }
     snapshotBuildWindowId = windowId
-    TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage, source)
+    val outcome =
+      TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage, source)
+    // A folded ask posted nothing: the build on its way, and the one follow-up it owes, are
+    // what the posted count describes, so folded asks are counted by their own counter only.
+    if (outcome != TraversalOrderSnapshotBuilder.OUTCOME_COALESCED) {
+      Performance.getInstance().onOrderBuildPosted(source)
+    }
   }
 
   /**
