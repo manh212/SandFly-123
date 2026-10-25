@@ -31,13 +31,16 @@ import org.junit.Test
 class EventFilterPresynthesisGateTest {
 
   @Test
-  fun depthsOneAndTwo_qualify() {
+  fun depthOne_qualifies() {
     assertTrue(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 1))
-    assertTrue(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 2))
   }
 
   @Test
-  fun deeperThanTwo_doesNotQualify() {
+  fun depthTwoAndDeeper_doNotQualify() {
+    // Sounds made for targets two swipes away were almost never the ones played, while each
+    // held the speech engine as long as a sound one swipe away: their text stays prepared,
+    // but their sound is no longer made ahead.
+    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 2))
     assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 3))
     assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 0))
   }
@@ -52,6 +55,5 @@ class EventFilterPresynthesisGateTest {
   @Test
   fun switchOff_nothingQualifies() {
     assertFalse(EventFilter.shouldSynthesizePrepared(false, NavigationTarget.TARGET_DEFAULT, 1))
-    assertFalse(EventFilter.shouldSynthesizePrepared(false, NavigationTarget.TARGET_DEFAULT, 2))
   }
 }

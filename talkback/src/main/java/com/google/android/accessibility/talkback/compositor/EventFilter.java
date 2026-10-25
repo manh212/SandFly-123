@@ -131,7 +131,7 @@ public class EventFilter {
   private static volatile boolean presynthesizePreparedSpeech = true;
 
   /** The most prepared announcements whose sound is kept made ahead at once. */
-  private static final int MAX_SYNTHESIZED_PREPARED = 12;
+  private static final int MAX_SYNTHESIZED_PREPARED = 20;
 
   /** Sounds made ahead for prepared announcements, by their text, oldest first. */
   private final LinkedHashMap<String, SpeechInfo> synthesizedPrepared = new LinkedHashMap<>();
@@ -141,7 +141,7 @@ public class EventFilter {
 
   /** The notifier for one sound being made ahead, learning its outcome under its text. */
   private LoadSpeechResultNotifier synthesisNotifierFor(
-      String key, int depth, boolean settleSource) {
+      String key, int depth, boolean settleSource, AccessibilityNodeInfoCompat node) {
     return new LoadSpeechResultNotifier() {
       @Override
       public void onFinished(@Nullable SpeechInfo speechInfo, Boolean success) {
@@ -158,9 +158,17 @@ public class EventFilter {
             synthesizedPrepared.remove(eldest.text);
           }
         }
-        Performance.getInstance().onPreparedSpeechSynthesized(depth, settleSource);
+        Performance performance = Performance.getInstance();
+        performance.onPreparedSpeechSynthesized(depth, settleSource);
+        performance.registerPreparedSound(key, depth);
+        if (!PreparedFocusSpeech.has(node)) {
+          // The announcement this sound was made for has already been used or thrown away:
+          // the sound arrived too late to be the thing that makes a swipe speak at once.
+          performance.onPresynthCompletedLate();
+        }
         if (eldest != null) {
           final SpeechInfo toRemove = eldest;
+          performance.unregisterPreparedSound(toRemove.text);
           handler.post(
               () -> {
                 if (preparedSpeechSynthesizer != null) {
@@ -724,6 +732,19 @@ public class EventFilter {
       return;
     }
     Performance.getInstance().onPreparationRound(prepareRoundSource);
+    // The round runs on the main thread, so a swipe that lands while it runs waits for what is
+    // left of it. Timing the rounds is what lets an export blame them, or clear them, for the
+    // swipes that had to wait.
+    long roundStart = SystemClock.uptimeMillis();
+    try {
+      prepareSwipeTargetsAround(pivot);
+    } finally {
+      Performance.getInstance().onPrepareRoundDuration(SystemClock.uptimeMillis() - roundStart);
+    }
+  }
+
+  /** The round itself: predicts and prepares the targets around {@code pivot}. */
+  private void prepareSwipeTargetsAround(AccessibilityNodeInfoCompat pivot) {
     for (int direction : SWIPE_DIRECTIONS) {
       @Nullable AccessibilityNodeInfoCompat target;
       boolean fromStaleOrder;
@@ -784,6 +805,7 @@ public class EventFilter {
     }
     int roundSource = prepareRoundSource;
     prepareRoundSource = secondRingSource;
+    long roundStart = SystemClock.uptimeMillis();
     try {
       for (int direction : SWIPE_DIRECTIONS) {
         prepareSecondRingInDirection(pivot, direction, NavigationTarget.TARGET_DEFAULT);
@@ -796,6 +818,7 @@ public class EventFilter {
       }
     } finally {
       prepareRoundSource = roundSource;
+      Performance.getInstance().onPrepareRoundDuration(SystemClock.uptimeMillis() - roundStart);
     }
   }
 
@@ -876,30 +899,32 @@ public class EventFilter {
     if (hasSpeech(feedback)) {
       PreparedFocusSpeech.put(
           node, feedback, containerTitle, targetType, prepareRoundSource, fromStaleOrder, depth);
-      maybeSynthesizePrepared(feedback, targetType, depth);
+      maybeSynthesizePrepared(feedback, targetType, depth, node);
     }
   }
 
   /**
    * Asks for the sound of a prepared announcement to be made ahead of time, so a swipe to it
-   * plays at once. Only plain swipe targets, at preparation depth 1 or 2: announcements for a
-   * reading control are prepared too, but their sound is not made ahead, as they are reached
-   * less often and every sound kept costs memory. Preparation rounds that run when the screen
-   * settles come through here as well, so their targets get sound too. A sound is keyed by its
-   * text as the speaking path will look for it, so nothing is asked for twice while it is kept
-   * or being made.
+   * plays at once. Only plain swipe targets one swipe away: announcements for a reading control
+   * are prepared too, but their sound is not made ahead, as they are reached less often and
+   * every sound kept costs memory. The announcements two swipes away keep their prepared text
+   * but no longer get sound made: measured on the owner's phone, the sounds made for them were
+   * almost never the ones played, while each one held the speech engine for as long as a sound
+   * one swipe away. Preparation rounds that run when the screen settles come through here as
+   * well, so their targets get sound too. A sound is keyed by its text as the speaking path
+   * will look for it, so nothing is asked for twice while it is kept or being made.
    */
   /** Whether a prepared announcement at {@code depth} is stable enough to make sound for. */
   static boolean shouldSynthesizePrepared(
       boolean enabled, @TargetType int targetType, int depth) {
-    return enabled
-        && targetType == NavigationTarget.TARGET_DEFAULT
-        && depth >= 1
-        && depth <= 2;
+    return enabled && targetType == NavigationTarget.TARGET_DEFAULT && depth == 1;
   }
 
   private void maybeSynthesizePrepared(
-      EventFeedback feedback, @TargetType int targetType, int depth) {
+      EventFeedback feedback,
+      @TargetType int targetType,
+      int depth,
+      AccessibilityNodeInfoCompat node) {
     if (!shouldSynthesizePrepared(presynthesizePreparedSpeech, targetType, depth)
         || preparedSpeechSynthesizer == null) {
       return;
@@ -920,7 +945,8 @@ public class EventFilter {
     preparedSpeechSynthesizer.synthesize(
         text,
         (float) feedback.ttsPitch(),
-        synthesisNotifierFor(key, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE));
+        synthesisNotifierFor(
+            key, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE, node));
   }
 
   /** Whether {@code text} carries a TtsSpan, whose sound the speech cache cannot make. */
