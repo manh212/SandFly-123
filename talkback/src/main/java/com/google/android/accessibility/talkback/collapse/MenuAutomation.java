@@ -620,9 +620,22 @@ public final class MenuAutomation {
   /** The session's sheet: by view id for menus, by anchors for the tray. */
   private static @Nullable AccessibilityNodeInfoCompat findSheet(
       Pending session, List<AccessibilityNodeInfoCompat> roots) {
-    return session.trayMode
-        ? findTrayRoot(roots, session.trayHeaderText, session.trayAuthorName)
-        : findSheetRoot(roots, session.sheetLabelViewId);
+    if (!session.trayMode) {
+      return findSheetRoot(roots, session.sheetLabelViewId);
+    }
+    for (AccessibilityNodeInfoCompat root : roots) {
+      // The window the sequence started from holds the comment itself, whose own
+      // reply button carries the same author anchor: the tray is a window of its
+      // own, so the origin's window is never the tray.
+      if (resolveOriginRepresentative(root, session) != null) {
+        continue;
+      }
+      if (findTrayRoot(List.of(root), session.trayHeaderText, session.trayAuthorName)
+          != null) {
+        return root;
+      }
+    }
+    return null;
   }
 
   /**
