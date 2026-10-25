@@ -42,7 +42,8 @@ class EventQueue {
   private static final int MASK_LIMITED_EVENT_TYPES =
       AccessibilityEventCompat.TYPE_VIEW_HOVER_ENTER
           | AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUSED
-          | AccessibilityEventCompat.TYPE_VIEW_SCROLLED;
+          | AccessibilityEventCompat.TYPE_VIEW_SCROLLED
+          | AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
 
   /** The list responsible for maintaining events in the event queue. */
   private final ArrayList<AccessibilityEvent> eventQueue = new ArrayList<>();

@@ -46,6 +46,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.Locale.Category;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -175,6 +177,15 @@ public class Performance {
   public static final int MOTION_EVENT_DIRECTION_FORWARD = 1;
   public static final int MOTION_EVENT_DIRECTION_BACKWARD = 2;
 
+  /** Classes of utterance that queued speech can be waiting behind. */
+  public static final String SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE =
+      "SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE";
+
+  public static final String SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT =
+      "SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT";
+  public static final String SPEECH_WAIT_QUEUED_BY_DESIGN = "SPEECH_WAIT_QUEUED_BY_DESIGN";
+  public static final String SPEECH_WAIT_BLOCKER_OTHER = "SPEECH_WAIT_BLOCKER_OTHER";
+
   public static final @Nullable EventId EVENT_ID_UNTRACKED = null;
 
   /////////////////////////////////////////////////////////////////////////////////////////////
@@ -211,6 +222,9 @@ public class Performance {
 
   protected final Object lockLabelToStats = new Object();
   protected Statistics allEventStats = new Statistics();
+
+  /** How often queued speech waited behind each class of utterance, by blocker class label. */
+  private final HashMap<String, Long> speechWaitBlockerCounts = new HashMap<>();
 
   /** How often focus was spoken from an announcement prepared before the swipe, and how often not. */
   private long preparedSpeechHits;
@@ -1038,6 +1052,22 @@ public class Performance {
     logger.log("performance statistic is cleared");
   }
 
+  /** Records that one queued utterance had to wait behind an utterance of {@code blockerClass}. */
+  public void recordSpeechWaitBlocker(@NonNull String blockerClass) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitBlockerCounts.merge(blockerClass, 1L, Long::sum);
+    }
+  }
+
+  public long getSpeechWaitBlockerCount(@NonNull String blockerClass) {
+    synchronized (lockLabelToStats) {
+      return speechWaitBlockerCounts.getOrDefault(blockerClass, 0L);
+    }
+  }
+
   /** Counts one focus spoken from a prepared announcement. */
   public void onPreparedSpeechHit() {
     if (!computeStatsEnabled) {
@@ -1071,6 +1101,7 @@ public class Performance {
   public void clearAllStats() {
     synchronized (lockLabelToStats) {
       labelToStats.clear();
+      speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
     }
@@ -1152,6 +1183,17 @@ public class Performance {
       Statistics stats = labelToStats.get(labelAndStage);
       display(logger, "  %s", labelAndStage);
       displayStatistics(logger, stats);
+    }
+
+    HashMap<String, Long> waitCounts;
+    synchronized (lockLabelToStats) {
+      waitCounts = new HashMap<>(speechWaitBlockerCounts);
+    }
+    if (!waitCounts.isEmpty()) {
+      display(logger, "  displaySpeechWaitBlockerCounts()");
+      for (Map.Entry<String, Long> entry : new TreeMap<>(waitCounts).entrySet()) {
+        display(logger, "    %s count=%s", entry.getKey(), entry.getValue());
+      }
     }
   }
 

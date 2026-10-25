@@ -22,10 +22,12 @@ import static org.junit.Assert.assertTrue;
 import android.content.Context;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -93,14 +95,17 @@ public class SpeechControllerImplTest {
         public void onSpeakingForcedFeedback() {}
       };
 
+  private Context context;
   private RecordingFailoverTts failoverTts;
   private SpeechControllerImpl speechController;
+  private RecordingFailoverTts activeTts;
 
   @Before
   public void setUp() {
-    Context context = RuntimeEnvironment.getApplication();
+    context = RuntimeEnvironment.getApplication();
     LastSpokenTextHolder.clearSpokenHistoryForTest();
     failoverTts = new RecordingFailoverTts(context);
+    activeTts = failoverTts;
     speechController =
         new SpeechControllerImpl(
             context,
@@ -108,6 +113,44 @@ public class SpeechControllerImplTest {
             new FeedbackController(context),
             failoverTts,
             /* removeUnnecessarySpans= */ false);
+  }
+
+  @After
+  public void tearDown() {
+    setAlwaysInterruptPreference(false);
+    Performance.getInstance().setComputeStatsEnabled(false);
+    Performance.getInstance().clearAllStats();
+  }
+
+  private void setAlwaysInterruptPreference(boolean on) {
+    SharedPreferencesUtils.getSharedPreferences(context)
+        .edit()
+        .putBoolean(FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY, on)
+        .commit();
+  }
+
+  /** Builds a controller whose failover TTS reads the current always-interrupt preference. */
+  private SpeechControllerImpl controllerWithAlwaysInterrupt(boolean on) {
+    setAlwaysInterruptPreference(on);
+    activeTts = new RecordingFailoverTts(context);
+    assertEquals(on, activeTts.isAlwaysInterruptSpeechOn());
+    return new SpeechControllerImpl(
+        context,
+        NO_OP_DELEGATE,
+        new FeedbackController(context),
+        activeTts,
+        /* removeUnnecessarySpans= */ false);
+  }
+
+  private void enablePerformanceStats() {
+    Performance performance = Performance.getInstance();
+    performance.setComputeStatsEnabled(true);
+    performance.clearAllStats();
+  }
+
+  private void speak(SpeechControllerImpl controller, String text, int queueMode) {
+    controller.speak(text, queueMode, 0 /* flags */, null /* speechParams */,
+        Performance.EVENT_ID_UNTRACKED);
   }
 
   @Test
@@ -121,6 +164,119 @@ public class SpeechControllerImplTest {
 
     assertEquals(List.of("a real utterance"), failoverTts.spokenTexts);
     assertEquals(List.of("a real utterance"), LastSpokenTextHolder.getSpokenHistory());
+  }
+
+  @Test
+  public void speak_switchOff_queuedUtteranceWaitsForCurrent() {
+    speak(speechController, "first utterance", SpeechController.QUEUE_MODE_QUEUE);
+    speak(speechController, "second utterance", SpeechController.QUEUE_MODE_QUEUE);
+
+    assertEquals(List.of("first utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void speak_switchOff_interruptUtteranceInterruptsCurrent() {
+    speak(speechController, "first utterance", SpeechController.QUEUE_MODE_QUEUE);
+    speak(speechController, "second utterance", SpeechController.QUEUE_MODE_INTERRUPT);
+
+    assertEquals(List.of("first utterance", "second utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void speak_switchOn_queuedUtteranceInterruptsCurrent() {
+    SpeechControllerImpl controller = controllerWithAlwaysInterrupt(true);
+
+    speak(controller, "first utterance", SpeechController.QUEUE_MODE_QUEUE);
+    speak(controller, "second utterance", SpeechController.QUEUE_MODE_QUEUE);
+
+    assertEquals(List.of("first utterance", "second utterance"), activeTts.spokenTexts);
+  }
+
+  @Test
+  public void speak_switchOn_uninterruptibleUtteranceStillFinishes() {
+    SpeechControllerImpl controller = controllerWithAlwaysInterrupt(true);
+
+    speak(
+        controller,
+        "uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speak(controller, "next utterance", SpeechController.QUEUE_MODE_QUEUE);
+
+    // The announcement is uninterruptible by design, so the next utterance still waits.
+    assertEquals(List.of("uninterruptible announcement"), activeTts.spokenTexts);
+  }
+
+  @Test
+  public void speak_waitQueuedByDesign_recordsByDesignClass() {
+    enablePerformanceStats();
+
+    speak(speechController, "first utterance", SpeechController.QUEUE_MODE_QUEUE);
+    speak(speechController, "second utterance", SpeechController.QUEUE_MODE_QUEUE);
+
+    Performance performance = Performance.getInstance();
+    assertEquals(1, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_QUEUED_BY_DESIGN));
+    assertEquals(
+        0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE));
+    assertEquals(
+        0,
+        performance.getSpeechWaitBlockerCount(
+            Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT));
+    assertEquals(0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_OTHER));
+  }
+
+  @Test
+  public void speak_waitBehindShortUninterruptible_recordsShortClass() {
+    enablePerformanceStats();
+
+    speak(
+        speechController,
+        "short",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH
+            | SpeechController.QUEUE_MODE_CAN_IGNORE_INTERRUPTS);
+    speak(speechController, "waiting utterance", SpeechController.QUEUE_MODE_INTERRUPT);
+
+    assertEquals(List.of("short"), failoverTts.spokenTexts);
+    assertEquals(
+        1,
+        Performance.getInstance()
+            .getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE));
+  }
+
+  @Test
+  public void speak_waitBehindUninterruptibleAnnouncement_recordsAnnouncementClass() {
+    enablePerformanceStats();
+
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speak(speechController, "waiting utterance", SpeechController.QUEUE_MODE_INTERRUPT);
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+    assertEquals(
+        1,
+        Performance.getInstance()
+            .getSpeechWaitBlockerCount(
+                Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT));
+  }
+
+  @Test
+  public void speak_switchOn_recordsNoWait() {
+    enablePerformanceStats();
+    SpeechControllerImpl controller = controllerWithAlwaysInterrupt(true);
+
+    speak(controller, "first utterance", SpeechController.QUEUE_MODE_QUEUE);
+    speak(controller, "second utterance", SpeechController.QUEUE_MODE_QUEUE);
+
+    Performance performance = Performance.getInstance();
+    assertEquals(0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_QUEUED_BY_DESIGN));
+    assertEquals(
+        0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_SHORT_UNINTERRUPTIBLE));
+    assertEquals(
+        0,
+        performance.getSpeechWaitBlockerCount(
+            Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT));
+    assertEquals(0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_OTHER));
   }
 
   @Test
