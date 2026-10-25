@@ -495,6 +495,21 @@ public class SpeechControllerImplTest {
             AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED));
   }
 
+  /**
+   * Speaks as the answer to the user's own swipe, queued instead of flushing. A flushing
+   * utterance discards interruptible queued speech by design, so it can never be the speech
+   * that ends another item's wait; a queued navigation answer can, by cutting the blocker and
+   * freeing the head of the queue.
+   */
+  private void speakGestureQueued(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_QUEUE,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_GESTURE, 1));
+  }
+
   @Test
   public void longWait_isProfiledNamingBlockerAndWaiter() {
     // With the window/focus interrupt privilege on, focus speech would cut the announcement
@@ -505,12 +520,11 @@ public class SpeechControllerImplTest {
     speakAnnouncement(speechController, "a long announcement");
     speakFocus(speechController, "the focused item");
     Robolectric.getForegroundThreadScheduler().advanceBy(250, TimeUnit.MILLISECONDS);
-    // A swipe cuts the announcement, and the waiting focus speech is spoken next.
-    speakGesture(speechController, "swipe target");
+    // A swipe's answer cuts the announcement, and the waiting focus speech, at the head of
+    // the queue, is spoken next; the swipe's own answer stays queued behind it.
+    speakGestureQueued(speechController, "swipe target");
 
-    assertEquals(
-        List.of("a long announcement", "the focused item", "swipe target"),
-        failoverTts.spokenTexts);
+    assertEquals(List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
     List<String> profiles = Performance.getInstance().speechWaitProfileLines();
     assertEquals(1, profiles.size());
     assertTrue(profiles.get(0), profiles.get(0).contains("focus waited behind announcement"));
@@ -524,11 +538,9 @@ public class SpeechControllerImplTest {
 
     speakAnnouncement(speechController, "a long announcement");
     speakFocus(speechController, "the focused item");
-    speakGesture(speechController, "swipe target");
+    speakGestureQueued(speechController, "swipe target");
 
-    assertEquals(
-        List.of("a long announcement", "the focused item", "swipe target"),
-        failoverTts.spokenTexts);
+    assertEquals(List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
     assertTrue(Performance.getInstance().speechWaitProfileLines().isEmpty());
   }
 
