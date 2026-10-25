@@ -2606,6 +2606,16 @@
     <!-- Reduce delays: summary of the background reading order switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_background_order_build">When a screen changes, SandFly works out the new reading order in the background, so the next swipe does not have to wait for it. Turn this off if focus lands on the wrong item after a screen changes.</string>
 
+    <!-- Reduce delays: switch that skips re-reading a swipe target that did not change. [CHAR LIMIT=50] -->
+    <string name="title_pref_trust_untouched_nodes">Skip re-reading a swipe target that did not change</string>
+    <!-- Reduce delays: summary of the skip re-reading switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_trust_untouched_nodes">When only other items on the screen change, the item you swipe to is announced as it was last read, without waiting to read it again. Turn this off if an item is announced with old text after something else changed.</string>
+
+    <!-- Reduce delays: switch that keeps prepared announcements across unrelated changes. [CHAR LIMIT=50] -->
+    <string name="title_pref_keep_prepared_across_unrelated">Keep prepared announcements across unrelated changes</string>
+    <!-- Reduce delays: summary of the keep prepared announcements switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_keep_prepared_across_unrelated">Announcements SandFly has prepared for the next swipe are kept when a change elsewhere on the screen does not touch them, so the swipe speaks sooner. Turn this off if a prepared announcement sounds out of date.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->

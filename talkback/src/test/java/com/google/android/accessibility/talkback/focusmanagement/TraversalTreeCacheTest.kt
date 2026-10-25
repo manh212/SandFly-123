@@ -48,6 +48,7 @@ class TraversalTreeCacheTest {
   @After
   fun tearDown() {
     TraversalTreeCache.clear("test")
+    TraversalTreeCache.unrelatedChangesSpareNodes = true
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -80,6 +81,20 @@ class TraversalTreeCacheTest {
   private fun eventInWindow(windowId: Int, type: Int, contentChangeTypes: Int = 0): AccessibilityEvent {
     val event = event(type, contentChangeTypes)
     shadowOf(event).setWindowId(windowId)
+    return event
+  }
+
+  /** A graced content change in [windowId] whose source sits in [sourceBounds]. */
+  private fun gracedEvent(windowId: Int, sourceBounds: Rect): AccessibilityEvent {
+    val event =
+      eventInWindow(
+        windowId,
+        AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+        AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT,
+      )
+    val source = AccessibilityNodeInfo.obtain()
+    source.setBoundsInScreen(sourceBounds)
+    shadowOf(event).setSourceNode(source)
     return event
   }
 
@@ -198,6 +213,72 @@ class TraversalTreeCacheTest {
     ShadowSystemClock.advanceBy(1600, TimeUnit.MILLISECONDS)
 
     assertNull(TraversalTreeCache.get(root, child))
+  }
+
+  @Test
+  fun gracedChange_regionNotContainingPivot_holdsCurrentStaysTrue_viaEvent() {
+    val (root, child) = savedOrder()
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(gracedEvent(root.windowId, Rect(200, 200, 300, 300)))
+
+    assertFalse(cleared)
+    assertTrue(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionContainingPivot_holdsCurrentIsFalse_viaEvent() {
+    val (root, child) = savedOrder()
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(gracedEvent(root.windowId, Rect(0, 0, 200, 200)))
+
+    assertFalse(cleared)
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionNotContainingPivot_holdsCurrentStaysTrue_viaSeam() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
+
+    assertTrue(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionContainingPivot_holdsCurrentIsFalse_viaSeam() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(0, 0, 200, 200))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionUnknown_holdsCurrentIsFalse() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, null)
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_sparingOff_holdsCurrentIsFalseEvenForAnUntouchedPivot() {
+    val (_, child) = savedOrder()
+    TraversalTreeCache.unrelatedChangesSpareNodes = false
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun noGracedChange_holdsCurrentIsTrue() {
+    val (_, child) = savedOrder()
+
+    assertTrue(TraversalTreeCache.holdsCurrent(child))
   }
 
   @Test

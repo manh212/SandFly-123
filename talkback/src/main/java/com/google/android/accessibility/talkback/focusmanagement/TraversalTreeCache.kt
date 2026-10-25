@@ -21,6 +21,7 @@ import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
+import androidx.annotation.VisibleForTesting
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
 import com.google.android.accessibility.utils.Performance
@@ -63,10 +64,13 @@ object TraversalTreeCache {
    * follows the tree's structure, bounds and flags, never what a node says, so a new description
    * (a "typing…" line, a read tick in a chat app) cannot move a node within it.
    */
-  private const val NON_STRUCTURAL_CHANGES =
+  internal const val NON_STRUCTURAL_CHANGES =
     AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT or
       AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION or
       AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION
+
+  /** How many graced change regions are remembered before their reach is given up as unknown. */
+  private const val MAX_GRACED_CHANGE_REGIONS = 8
 
   /**
    * How long the order is kept after one of those changes. A text change can, rarely, make a node
@@ -102,6 +106,19 @@ object TraversalTreeCache {
   @Volatile private var strategy: OrderedTraversalStrategy? = null
   @Volatile private var lastClearReason = "start"
   @Volatile private var firstIgnoredChangeTime = 0L
+
+  /**
+   * Whether a graced change that did not touch a node leaves that node current. When false,
+   * [holdsCurrent] behaves as it did before regions were remembered: any graced change in the
+   * window makes every node in it stale.
+   */
+  @JvmStatic var unrelatedChangesSpareNodes: Boolean = true
+
+  /** Regions of the graced changes since the order was saved, as window id to bounds in screen. */
+  private val gracedChangeRegions = ArrayList<Pair<Int, Rect>>()
+
+  /** Whether a graced change since the order was saved has a region that is not known. */
+  private var gracedChangeUnknown = false
   private var hits = 0
   private var misses = 0
 
@@ -161,13 +178,71 @@ object TraversalTreeCache {
     synchronized(stateLock) { strategy }?.containsNode(node) == true
 
   /**
-   * Whether the saved order holds [node] as the app has it now: nothing in its window has changed
-   * since the order was read from the app, not even a text or state, so the node needs no second
-   * read.
+   * Whether the saved order holds [node] as the app has it now: no change since the order was
+   * read from the app touched [node], not even a text or state change, so the node needs no
+   * second read. A graced change elsewhere in the window does not touch it: only a change whose
+   * region contains the node does, and a change whose region is not known touches every node.
    */
   @JvmStatic
   fun holdsCurrent(node: AccessibilityNodeInfoCompat): Boolean =
-    firstIgnoredChangeTime == 0L && holds(node)
+    holds(node) && !gracedChangesTouch(node)
+
+  /** Whether any graced change since the order was saved touched [node]. */
+  private fun gracedChangesTouch(node: AccessibilityNodeInfoCompat): Boolean {
+    if (firstIgnoredChangeTime == 0L) {
+      return false
+    }
+    if (!unrelatedChangesSpareNodes || gracedChangeUnknown) {
+      return true
+    }
+    val bounds = Rect()
+    node.getBoundsInScreen(bounds)
+    return gracedChangeRegions.any { (windowId, region) ->
+      windowId == node.windowId && region.contains(bounds)
+    }
+  }
+
+  /**
+   * Remembers where a graced change happened, so [holdsCurrent] can tell the nodes it touched
+   * from the ones it did not. A null [sourceBounds] means the region is not known, which touches
+   * every node; more than [MAX_GRACED_CHANGE_REGIONS] regions are not remembered either, and
+   * their reach is given up as unknown in the same way.
+   */
+  @VisibleForTesting
+  internal fun noteGracedChange(windowId: Int, sourceBounds: Rect?) {
+    if (firstIgnoredChangeTime == 0L) {
+      firstIgnoredChangeTime = SystemClock.uptimeMillis()
+    }
+    if (sourceBounds == null || sourceBounds.isEmpty || gracedChangeUnknown) {
+      gracedChangeUnknown = true
+      return
+    }
+    if (gracedChangeRegions.size >= MAX_GRACED_CHANGE_REGIONS) {
+      gracedChangeUnknown = true
+      return
+    }
+    gracedChangeRegions += windowId to Rect(sourceBounds)
+  }
+
+  /** Forgets the graced changes remembered since the order was saved. */
+  private fun resetGracedChanges() {
+    gracedChangeRegions.clear()
+    gracedChangeUnknown = false
+  }
+
+  /** The bounds in screen of [event]'s source, or null when its region is not known. */
+  private fun sourceBounds(event: AccessibilityEvent): Rect? {
+    val source = runCatching { event.source }.getOrNull() ?: return null
+    try {
+      val bounds = Rect()
+      source.getBoundsInScreen(bounds)
+      return bounds.takeIf { !it.isEmpty }
+    } catch (e: Exception) {
+      return null
+    } finally {
+      source.recycle()
+    }
+  }
 
   /**
    * The root of the window that [node] is in, if the saved order holds [node]: the root the order
@@ -241,6 +316,7 @@ object TraversalTreeCache {
       this.root = root
       this.strategy = strategy
       firstIgnoredChangeTime = 0L
+      resetGracedChanges()
     }
   }
 
@@ -252,6 +328,7 @@ object TraversalTreeCache {
       root = null
       strategy = null
       firstIgnoredChangeTime = 0L
+      resetGracedChanges()
       lastClearReason = reason
     }
   }
@@ -299,6 +376,7 @@ object TraversalTreeCache {
       this.root = root
       this.strategy = strategy
       firstIgnoredChangeTime = 0L
+      resetGracedChanges()
     }
     if (LogUtils.shouldLog(Log.DEBUG)) {
       Log.d(TAG, "Saved order built in the background")
@@ -347,9 +425,7 @@ object TraversalTreeCache {
           changes != 0 &&
           changes and NON_STRUCTURAL_CHANGES.inv() == 0
       ) {
-        if (firstIgnoredChangeTime == 0L) {
-          firstIgnoredChangeTime = SystemClock.uptimeMillis()
-        }
+        noteGracedChange(windowId, sourceBounds(event))
         return false
       }
       clear(

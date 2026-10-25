@@ -1544,6 +1544,10 @@
     <string name="summary_pref_always_interrupt_speech">Câu nói mới sẽ dừng thông báo đang nói và xóa các thông báo đang chờ, để bạn nghe thông báo mới nhất ngay lập tức. Hãy tắt tùy chọn này nếu các thông báo bị cắt ngang trước khi bạn nghe hết.</string>
     <string name="title_pref_background_order_build">Dựng thứ tự đọc ở nền</string>
     <string name="summary_pref_background_order_build">Khi màn hình thay đổi, SandFly tính thứ tự đọc mới ở chế độ nền để thao tác vuốt tiếp theo không phải chờ. Hãy tắt tùy chọn này nếu tiêu điểm đáp sai mục sau khi màn hình thay đổi.</string>
+    <string name="title_pref_trust_untouched_nodes">Không đọc lại mục vuốt không thay đổi</string>
+    <string name="summary_pref_trust_untouched_nodes">Khi chỉ các mục khác trên màn hình thay đổi, mục bạn vuốt tới sẽ được đọc như lần đọc gần nhất mà không phải chờ đọc lại. Hãy tắt tùy chọn này nếu một mục bị đọc với nội dung cũ sau khi mục khác thay đổi.</string>
+    <string name="title_pref_keep_prepared_across_unrelated">Giữ câu chuẩn bị sẵn khi thay đổi không liên quan</string>
+    <string name="summary_pref_keep_prepared_across_unrelated">Các câu SandFly đã chuẩn bị cho lần vuốt tiếp theo sẽ được giữ lại khi một thay đổi ở nơi khác trên màn hình không chạm tới chúng, để lần vuốt được đọc sớm hơn. Hãy tắt tùy chọn này nếu câu chuẩn bị sẵn nghe có vẻ đã cũ.</string>
     <string name="value_focus_delay_200ms_default">0,2 giây (mặc định)</string>
     <string name="value_focus_delay_300ms">0,3 giây</string>
     <string name="title_pref_lift_to_activate">Nhấc ngón tay để kích hoạt</string>

@@ -209,6 +209,7 @@ pref_inspect_item_menu_setting_key
 pref_interrupt_enter
 pref_interrupt_typing
 pref_intonation
+pref_keep_prepared_across_unrelated_key
 pref_keyboard_echo_on_screen_menu_setting_key
 pref_keyboard_echo_physical_menu_setting_key
 pref_keyboard_echo_screen
@@ -502,6 +503,7 @@ pref_touch_activation
 pref_touch_stops_speech_key
 pref_translate_last_spoken_phrase_menu_setting_key
 pref_tree_debug_reflect
+pref_trust_untouched_nodes_key
 pref_tts_engine
 pref_tts_overlay
 pref_tts_settings

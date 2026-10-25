@@ -1123,6 +1123,13 @@ public class TalkBackService extends AccessibilityServiceCompat
         && HomeScreenPages.isHomePackage(this, event.getPackageName())) {
       clearCache();
     }
+    TraversalTreeCache.setUnrelatedChangesSpareNodes(
+        getBooleanPref(
+            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
+    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
+        getBooleanPref(
+            R.string.pref_keep_prepared_across_unrelated_key,
+            R.bool.pref_keep_prepared_across_unrelated_default));
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
       if (getBooleanPref(
           R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {

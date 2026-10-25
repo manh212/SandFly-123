@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.compositor
 
+import android.graphics.Rect
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -43,6 +44,12 @@ object PreparedFocusSpeech {
 
   private const val NO_WINDOW_ID = -1
 
+  /**
+   * Whether a graced change that did not touch a prepared node leaves its announcement kept.
+   * When false, any content change in the window throws every announcement away, as before.
+   */
+  @JvmStatic var keepAcrossUnrelatedChanges: Boolean = true
+
   /** Wasted preparation rounds in a row after which a window's preparation pauses. */
   private const val MAX_WASTED_STREAK = 3
 
@@ -61,6 +68,9 @@ object PreparedFocusSpeech {
     val targetType: Int,
   ) {
     internal val time = SystemClock.uptimeMillis()
+
+    /** Where [node] was when this announcement was prepared, so a change can be told apart. */
+    internal val bounds: Rect = Rect().also { node.getBoundsInScreen(it) }
 
     internal fun isFor(other: AccessibilityNodeInfoCompat): Boolean = node == other
 
@@ -139,9 +149,48 @@ object PreparedFocusSpeech {
   /** Forgets all announcements if [event] can change what a node in their window says. */
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent) {
-    if (prepared.isNotEmpty() && canChange(event.eventType, event.windowId, windowId)) {
-      noteWasted()
-      clear()
+    if (prepared.isEmpty() || !canChange(event.eventType, event.windowId, windowId)) {
+      return
+    }
+    if (
+      keepAcrossUnrelatedChanges &&
+        event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
+        isGracedChange(event.contentChangeTypes)
+    ) {
+      val region = sourceBounds(event)
+      if (region != null) {
+        val sizeBefore = prepared.size
+        prepared.removeAll { region.contains(it.bounds) }
+        if (prepared.size == sizeBefore) {
+          // The change touched no prepared node: nothing was wasted.
+          return
+        }
+        if (prepared.isNotEmpty()) {
+          // Only the touched announcements died; the rest were not wasted either.
+          return
+        }
+      }
+      // The region is not known, or it touched every announcement: as before.
+    }
+    noteWasted()
+    clear()
+  }
+
+  /** Whether [changes] are only of the graced, non-structural kind. */
+  private fun isGracedChange(changes: Int): Boolean =
+    changes != 0 && changes and TraversalTreeCache.NON_STRUCTURAL_CHANGES.inv() == 0
+
+  /** The bounds in screen of [event]'s source, or null when its region is not known. */
+  private fun sourceBounds(event: AccessibilityEvent): Rect? {
+    val source = runCatching { event.source }.getOrNull() ?: return null
+    try {
+      val bounds = Rect()
+      source.getBoundsInScreen(bounds)
+      return bounds.takeIf { !it.isEmpty }
+    } catch (e: Exception) {
+      return null
+    } finally {
+      source.recycle()
     }
   }
 
