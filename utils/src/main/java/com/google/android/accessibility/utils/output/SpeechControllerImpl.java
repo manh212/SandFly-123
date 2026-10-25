@@ -48,6 +48,7 @@ import android.text.style.ReplacementSpan;
 import android.text.style.TtsSpan;
 import android.util.Log;
 import android.util.Range;
+import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -176,8 +177,23 @@ public class SpeechControllerImpl implements SpeechController {
   /** The list of items to be spoken. */
   private List<FeedbackItem> feedbackQueue = Collections.synchronizedList(new ArrayList<>());
 
-  /** When each queued utterance started waiting behind the one being spoken, by utterance. */
-  private final Map<FeedbackItem, Long> speechWaitStartTimes = new IdentityHashMap<>();
+  /** One queued utterance's wait: since when, behind what, and what the wait cap last spared. */
+  private static final class SpeechWait {
+    final long startMs;
+    final String blockerLabel;
+    final String waiterLabel;
+    /** The blocker a wait-cap check already decided to spare, so it is not counted again. */
+    @Nullable FeedbackItem capSparedBlocker;
+
+    SpeechWait(long startMs, String blockerLabel, String waiterLabel) {
+      this.startMs = startMs;
+      this.blockerLabel = blockerLabel;
+      this.waiterLabel = waiterLabel;
+    }
+  }
+
+  /** The utterances now waiting behind the one being spoken, by utterance. */
+  private final Map<FeedbackItem, SpeechWait> speechWaits = new IdentityHashMap<>();
 
   /** The list for stopping or resuming voice feedback. */
   private ArrayList<FeedbackItem> savedFeedbackQueue;
@@ -1505,7 +1521,12 @@ public class SpeechControllerImpl implements SpeechController {
           TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
       Performance.getInstance()
           .recordSpeechWaitBlocker(speechWaitBlockerClass(item, currentFeedbackItem));
-      speechWaitStartTimes.put(item, SystemClock.uptimeMillis());
+      speechWaits.put(
+          item,
+          new SpeechWait(
+              SystemClock.uptimeMillis(),
+              speechBlockerLabel(currentFeedbackItem),
+              speechWaiterLabel(item)));
     }
   }
 
@@ -1591,6 +1612,8 @@ public class SpeechControllerImpl implements SpeechController {
       LogUtils.w(TAG, "notifyItemInterrupted: FeedbackItem is null");
       return;
     }
+    // An interrupted utterance will not be spoken, so its wait is over either way.
+    speechWaits.remove(item);
 
     final UtteranceCompleteRunnable queuedItemCompletedAction = item.getCompletedAction();
     if (queuedItemCompletedAction != null) {
@@ -2026,6 +2049,66 @@ public class SpeechControllerImpl implements SpeechController {
    * @param item The item to speak.
    */
   @SuppressLint("InlinedApi")
+  /** A short name for what an utterance's feedback answers, for the speech wait profiles. */
+  static String speechEventLabel(FeedbackItem item) {
+    EventId eventId = item.getEventId();
+    if (eventId == null) {
+      return "untracked speech";
+    }
+    switch (eventId.getEventType()) {
+      case Performance.EVENT_TYPE_GESTURE:
+        return "gesture navigation";
+      case Performance.EVENT_TYPE_ACCESSIBILITY:
+        switch (eventId.getEventSubtype()) {
+          case AccessibilityEvent.TYPE_WINDOWS_CHANGED:
+          case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
+            return "window change";
+          case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
+            return "focus";
+          case AccessibilityEvent.TYPE_ANNOUNCEMENT:
+            return "announcement";
+          case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+            return "notification";
+          case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
+            return "content change";
+          default:
+            return AccessibilityEvent.eventTypeToString(eventId.getEventSubtype());
+        }
+      default:
+        return "event type " + eventId.getEventType();
+    }
+  }
+
+  /** What a waiting utterance is, for the speech wait profiles. */
+  static String speechWaiterLabel(FeedbackItem waiting) {
+    return speechEventLabel(waiting);
+  }
+
+  /**
+   * What a waiting utterance is stuck behind, for the speech wait profiles: what the blocker is,
+   * and how strongly it is protected from being cut short.
+   */
+  static String speechBlockerLabel(FeedbackItem blocking) {
+    String kind =
+        blocking.getUtteranceGroup() == UTTERANCE_GROUP_NOTIFICATIONS
+            ? "notification readout"
+            : speechEventLabel(blocking);
+    String protection;
+    if (blocking.isGloballyUninterruptible()) {
+      protection = "globally uninterruptible";
+    } else if (!blocking.isInterruptibleByNewSpeech()) {
+      CharSequence text = blocking.getFirstSpokenText();
+      int length = (text == null) ? 0 : text.length();
+      protection =
+          blocking.canIgnoreInterrupts() && length <= SHORT_UNINTERRUPTIBLE_MAX_CHARS
+              ? "short uninterruptible"
+              : "uninterruptible";
+    } else {
+      protection = "interruptible";
+    }
+    return kind + " (" + protection + ")";
+  }
+
   /**
    * Which class of utterance {@code waiting} is stuck behind, for the wait-attribution counts in
    * the performance statistics.
@@ -2052,10 +2135,12 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void speakNextItemInternal(FeedbackItem item) {
-    Long waitStart = speechWaitStartTimes.remove(item);
-    if (waitStart != null) {
+    SpeechWait wait = speechWaits.remove(item);
+    if (wait != null) {
+      long waitDurationMs = SystemClock.uptimeMillis() - wait.startMs;
+      Performance.getInstance().recordSpeechWaitDuration(waitDurationMs);
       Performance.getInstance()
-          .recordSpeechWaitDuration(SystemClock.uptimeMillis() - waitStart);
+          .recordSpeechWaitProfile(waitDurationMs, wait.blockerLabel, wait.waiterLabel);
     }
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;

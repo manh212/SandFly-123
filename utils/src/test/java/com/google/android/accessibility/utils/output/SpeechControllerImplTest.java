@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -27,10 +28,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -335,6 +338,60 @@ public class SpeechControllerImplTest {
         performance.getSpeechWaitBlockerCount(
             Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT));
     assertEquals(0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_OTHER));
+  }
+
+  /** Speaks as an announcement event, the kind of speech that blocks navigation answers. */
+  private void speakAnnouncement(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_ANNOUNCEMENT));
+  }
+
+  /** Speaks as the first focus of a window, which queues behind whatever is speaking. */
+  private void speakFocus(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_QUEUE,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(
+            0,
+            Performance.EVENT_TYPE_ACCESSIBILITY,
+            AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED));
+  }
+
+  @Test
+  public void longWait_isProfiledNamingBlockerAndWaiter() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "a long announcement");
+    speakFocus(speechController, "the focused item");
+    Robolectric.getForegroundThreadScheduler().advanceBy(250, TimeUnit.MILLISECONDS);
+    // A swipe cuts the announcement, and the waiting focus speech is spoken next.
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(
+        List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+    List<String> profiles = Performance.getInstance().speechWaitProfileLines();
+    assertEquals(1, profiles.size());
+    assertTrue(profiles.get(0), profiles.get(0).contains("focus waited behind announcement"));
+    assertTrue(profiles.get(0), profiles.get(0).contains("(uninterruptible)"));
+  }
+
+  @Test
+  public void shortWait_isCountedButNotProfiled() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "a long announcement");
+    speakFocus(speechController, "the focused item");
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(
+        List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+    assertTrue(Performance.getInstance().speechWaitProfileLines().isEmpty());
   }
 
   @Test

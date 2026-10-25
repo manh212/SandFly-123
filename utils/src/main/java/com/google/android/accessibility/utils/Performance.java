@@ -296,6 +296,28 @@ public class Performance {
   /** How long queued utterances waited in the speech queue before they were spoken. */
   private final Statistics speechWaitStats = new Statistics();
 
+  /** A wait longer than this is profiled with what blocked it and what had to wait. */
+  private static final long SPEECH_WAIT_PROFILE_MIN_MS = 100;
+
+  /** How many of the longest speech waits are profiled. */
+  private static final int MAX_SPEECH_WAIT_PROFILES = 10;
+
+  /** One long speech wait: how long it lasted, what was speaking, and what had to wait. */
+  private static final class SpeechWaitProfile {
+    final long durationMs;
+    final String blockerLabel;
+    final String waiterLabel;
+
+    SpeechWaitProfile(long durationMs, String blockerLabel, String waiterLabel) {
+      this.durationMs = durationMs;
+      this.blockerLabel = blockerLabel;
+      this.waiterLabel = waiterLabel;
+    }
+  }
+
+  /** The longest speech waits seen, longest first. */
+  private final ArrayList<SpeechWaitProfile> speechWaitProfiles = new ArrayList<>();
+
   /** Utterances sent to the engine in pieces, cut at the first separator between their parts. */
   private long utterancesSplit;
 
@@ -1318,6 +1340,40 @@ public class Performance {
     }
   }
 
+  /**
+   * Profiles one long speech wait, naming what was speaking and what had to wait, so an export
+   * can say which utterance was the blocker instead of leaving it to guesswork. Waits shorter
+   * than {@link #SPEECH_WAIT_PROFILE_MIN_MS} are counted in the statistics but not profiled.
+   */
+  public void recordSpeechWaitProfile(
+      long durationMs, @NonNull String blockerLabel, @NonNull String waiterLabel) {
+    if (!computeStatsEnabled || durationMs < SPEECH_WAIT_PROFILE_MIN_MS) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitProfiles.add(new SpeechWaitProfile(durationMs, blockerLabel, waiterLabel));
+      speechWaitProfiles.sort((a, b) -> Long.compare(b.durationMs, a.durationMs));
+      while (speechWaitProfiles.size() > MAX_SPEECH_WAIT_PROFILES) {
+        speechWaitProfiles.remove(speechWaitProfiles.size() - 1);
+      }
+    }
+  }
+
+  /** The profiled long speech waits, formatted as they are displayed, longest first. */
+  public List<String> speechWaitProfileLines() {
+    ArrayList<String> lines = new ArrayList<>();
+    synchronized (lockLabelToStats) {
+      for (SpeechWaitProfile profile : speechWaitProfiles) {
+        lines.add(
+            String.format(
+                Locale.US,
+                "Speech wait %dms: %s waited behind %s",
+                profile.durationMs, profile.waiterLabel, profile.blockerLabel));
+      }
+    }
+    return lines;
+  }
+
   /** Counts one utterance sent to the engine in pieces, cut at its first separator. */
   public void onUtteranceSplit(int pieces) {
     if (!computeStatsEnabled) {
@@ -1390,6 +1446,9 @@ public class Performance {
             "Speech cache: %d plays, %d prepared announcements made into sound ahead",
             speechCachePlays, preparedSpeechSyntheses);
       }
+    }
+    for (String line : speechWaitProfileLines()) {
+      logger.log(line);
     }
   }
 
@@ -1641,6 +1700,7 @@ public class Performance {
       speechCachePlays = 0;
       preparedSpeechSyntheses = 0;
       speechWaitStats.clear();
+      speechWaitProfiles.clear();
       slowSwipeProfiles.clear();
       activeSwipeSegments = null;
       activeSwipeOrderPath = null;
