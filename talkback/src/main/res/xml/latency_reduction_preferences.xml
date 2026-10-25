@@ -120,6 +120,42 @@
         android:key="@string/pref_prepare_wider_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_yielding_prepare_default"
+        android:title="@string/title_pref_yielding_prepare"
+        android:summary="@string/summary_pref_yielding_prepare"
+        android:key="@string/pref_yielding_prepare_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_coalesce_listener_builds_default"
+        android:title="@string/title_pref_coalesce_listener_builds"
+        android:summary="@string/summary_pref_coalesce_listener_builds"
+        android:key="@string/pref_coalesce_listener_builds_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speech_pipeline_default"
+        android:title="@string/title_pref_speech_pipeline"
+        android:summary="@string/summary_pref_speech_pipeline"
+        android:key="@string/pref_speech_pipeline_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speculative_speech_default"
+        android:title="@string/title_pref_speculative_speech"
+        android:summary="@string/summary_pref_speculative_speech"
+        android:key="@string/pref_speculative_speech_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_focus_priority_lane_default"
+        android:title="@string/title_pref_focus_priority_lane"
+        android:summary="@string/summary_pref_focus_priority_lane"
+        android:key="@string/pref_focus_priority_lane_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_fast_navigator_default"
+        android:title="@string/title_pref_fast_navigator"
+        android:summary="@string/summary_pref_fast_navigator"
+        android:key="@string/pref_fast_navigator_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_items_before_scroll_default"
         android:title="@string/title_pref_speak_items_before_scroll"
         android:key="@string/pref_speak_items_before_scroll_key" />

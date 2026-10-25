@@ -166,6 +166,12 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_presynthesize_prepared_key),
             context.getString(R.string.pref_prepare_on_settle_key),
             context.getString(R.string.pref_prepare_wider_key),
+            context.getString(R.string.pref_yielding_prepare_key),
+            context.getString(R.string.pref_coalesce_listener_builds_key),
+            context.getString(R.string.pref_speech_pipeline_key),
+            context.getString(R.string.pref_speculative_speech_key),
+            context.getString(R.string.pref_focus_priority_lane_key),
+            context.getString(R.string.pref_fast_navigator_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,
             FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY);
         dialogInterface.dismiss();
@@ -343,6 +349,48 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (prepareWiderPreference != null) {
         prepareWiderPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_prepare_wider_default));
+      }
+
+      TwoStatePreference yieldingPreparePreference =
+          findPreference(getString(R.string.pref_yielding_prepare_key));
+      if (yieldingPreparePreference != null) {
+        yieldingPreparePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_yielding_prepare_default));
+      }
+
+      TwoStatePreference coalesceListenerBuildsPreference =
+          findPreference(getString(R.string.pref_coalesce_listener_builds_key));
+      if (coalesceListenerBuildsPreference != null) {
+        coalesceListenerBuildsPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_coalesce_listener_builds_default));
+      }
+
+      TwoStatePreference speechPipelinePreference =
+          findPreference(getString(R.string.pref_speech_pipeline_key));
+      if (speechPipelinePreference != null) {
+        speechPipelinePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speech_pipeline_default));
+      }
+
+      TwoStatePreference speculativeSpeechPreference =
+          findPreference(getString(R.string.pref_speculative_speech_key));
+      if (speculativeSpeechPreference != null) {
+        speculativeSpeechPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speculative_speech_default));
+      }
+
+      TwoStatePreference focusPriorityLanePreference =
+          findPreference(getString(R.string.pref_focus_priority_lane_key));
+      if (focusPriorityLanePreference != null) {
+        focusPriorityLanePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_focus_priority_lane_default));
+      }
+
+      TwoStatePreference fastNavigatorPreference =
+          findPreference(getString(R.string.pref_fast_navigator_key));
+      if (fastNavigatorPreference != null) {
+        fastNavigatorPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_fast_navigator_default));
       }
     }
 

@@ -4515,4 +4515,34 @@
     <string name="title_pref_category_typing">Typing</string>
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
+
+    <!-- Reduce delays: switch that lets preparation rounds yield and defer in bursts. [CHAR LIMIT=50] -->
+    <string name="title_pref_yielding_prepare">Let preparation yield to swipes</string>
+    <!-- Reduce delays: summary of the yielding preparation switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_yielding_prepare">Announcements are prepared one at a time, giving way between items, and a round that would run between two quick swipes waits until the screen settles. The same announcements are prepared; they simply never make a swipe wait for the whole round.</string>
+
+    <!-- Reduce delays: switch that folds repeated reading-order build requests. [CHAR LIMIT=50] -->
+    <string name="title_pref_coalesce_listener_builds">Fold repeated reading-order builds</string>
+    <!-- Reduce delays: summary of the build folding switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_coalesce_listener_builds">While a screen is changing quickly, requests to rebuild the reading order are folded into the build already on its way, with one more build from the newest screen when it lands, instead of build after build that the changes throw away.</string>
+
+    <!-- Reduce delays: switch that starts the next prepared sound while one plays. [CHAR LIMIT=50] -->
+    <string name="title_pref_speech_pipeline">Start the next sound while one plays</string>
+    <!-- Reduce delays: summary of the speech pipeline switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_speech_pipeline">When an announcement plays from sound made in advance, the sound of the next item in the direction you are swiping is started straight away, so a run of swipes keeps playing at once instead of waiting for each sound to be made.</string>
+
+    <!-- Reduce delays: switch that speaks a swipe's target as the swipe is handled. [CHAR LIMIT=50] -->
+    <string name="title_pref_speculative_speech">Speak the next item as the swipe lands</string>
+    <!-- Reduce delays: summary of the speculative speech switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_speculative_speech">The item a swipe will reach is known from the saved reading order, so its announcement starts as the swipe is handled, before the focus has moved. If the focus lands somewhere else, the announcement is corrected at once.</string>
+
+    <!-- Reduce delays: switch that lets waiting focus events be handled first. [CHAR LIMIT=50] -->
+    <string name="title_pref_focus_priority_lane">Let focus events through first</string>
+    <!-- Reduce delays: summary of the focus priority lane switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_focus_priority_lane">When several events are waiting, the event that says where the focus landed is handled before the ones in front of it, a few times in a row at most, so a swipe is answered sooner without other events being left behind.</string>
+
+    <!-- Reduce delays: switch that answers swipes with the fast navigator. [CHAR LIMIT=50] -->
+    <string name="title_pref_fast_navigator">Navigate with the fast navigator</string>
+    <!-- Reduce delays: summary of the fast navigator switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_fast_navigator">Swipes are answered by a new navigator that works straight from the saved reading order: it finds the next item, checks it once, and focuses it, speaking as it goes. It builds the order itself when none is saved and scrolls itself at the end of a list. Turn this off to go back to the original navigation.</string>
 </resources>
