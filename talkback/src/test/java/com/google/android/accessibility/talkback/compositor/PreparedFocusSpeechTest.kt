@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.compositor
 
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityWindowInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget
 import java.time.Duration
@@ -29,6 +30,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowSystemClock
 
@@ -176,9 +178,11 @@ class PreparedFocusSpeechSuppressionTest {
   private fun node(windowId: Int): AccessibilityNodeInfoCompat {
     val info = AccessibilityNodeInfo()
     info.packageName = "com.example"
-    val compat = AccessibilityNodeInfoCompat.wrap(info)
-    compat.windowId = windowId
-    return compat
+    // A node reports the id of the window it is in; there is no public setter for it.
+    val window = AccessibilityWindowInfo()
+    shadowOf(window).setId(windowId)
+    shadowOf(info).setAccessibilityWindowInfo(window)
+    return AccessibilityNodeInfoCompat.wrap(info)
   }
 
   private fun feedback(): EventFeedback = EventFeedback.builder().build()
@@ -187,7 +191,7 @@ class PreparedFocusSpeechSuppressionTest {
   private fun waste(windowId: Int) {
     PreparedFocusSpeech.put(node(windowId), feedback(), "")
     val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
-    event.windowId = windowId
+    shadowOf(event).setWindowId(windowId)
     PreparedFocusSpeech.onAccessibilityEvent(event)
     event.recycle()
   }
