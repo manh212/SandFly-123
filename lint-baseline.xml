@@ -16451,4 +16451,688 @@
             line="2133"
             column="13"/>
     </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;de&quot; (German)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;hi&quot; (Hindi)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;lo&quot; (Lao)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;pt&quot; (Portuguese)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;fil&quot; (Filipino; Pilipino)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;lt&quot; (Lithuanian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;hr&quot; (Croatian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;lv&quot; (Latvian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;hu&quot; (Hungarian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;hy&quot; (Armenian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;uk&quot; (Ukrainian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;id&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ur&quot; (Urdu)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;mk&quot; (Macedonian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ml&quot; (Malayalam)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;mn&quot; (Mongolian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;af&quot; (Afrikaans)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;in&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;mr&quot; (Marathi)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;uz&quot; (Uzbek)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ms&quot; (Malay)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;el&quot; (Greek)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;en&quot; (English)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;is&quot; (Icelandic)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;it&quot; (Italian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;am&quot; (Amharic)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;my&quot; (Burmese)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;es&quot; (Spanish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;iw&quot; (Hebrew)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;zh&quot; (Chinese)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;et&quot; (Estonian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;eu&quot; (Basque)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ar&quot; (Arabic)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;as&quot; (Assamese)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;nb&quot; (Norwegian Bokmål)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ja&quot; (Japanese)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ne&quot; (Nepali)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;az&quot; (Azerbaijani)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;fa&quot; (Persian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;zu&quot; (Zulu)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ro&quot; (Romanian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;nl&quot; (Dutch)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;no&quot; (Norwegian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;be&quot; (Belarusian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;fi&quot; (Finnish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ru&quot; (Russian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;bg&quot; (Bulgarian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;bn&quot; (Bangla)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;fr&quot; (French)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;bs&quot; (Bosnian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ka&quot; (Georgian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;si&quot; (Sinhala)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sk&quot; (Slovak)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sl&quot; (Slovenian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ca&quot; (Catalan)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sq&quot; (Albanian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sr&quot; (Serbian)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;kk&quot; (Kazakh)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;km&quot; (Khmer)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;kn&quot; (Kannada)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;or&quot; (Odia)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sv&quot; (Swedish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ko&quot; (Korean)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;sw&quot; (Swahili)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;gl&quot; (Galician)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ta&quot; (Tamil)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;gu&quot; (Gujarati)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;ky&quot; (Kyrgyz)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;cs&quot; (Czech)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;pa&quot; (Punjabi)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;te&quot; (Telugu)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;th&quot; (Thai)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;tl&quot; (Tagalog)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;pl&quot; (Polish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;da&quot; (Danish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;title_pref_ai_label_suggestion&quot; is not translated in &quot;tr&quot; (Turkish)" errorLine1="  &lt;string name=&quot;title_pref_ai_label_suggestion&quot;&gt;AI label suggestions&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1695" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;de&quot; (German)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;hi&quot; (Hindi)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;lo&quot; (Lao)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;pt&quot; (Portuguese)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;fil&quot; (Filipino; Pilipino)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;lt&quot; (Lithuanian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;hr&quot; (Croatian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;lv&quot; (Latvian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;hu&quot; (Hungarian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;hy&quot; (Armenian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;uk&quot; (Ukrainian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;id&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ur&quot; (Urdu)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;mk&quot; (Macedonian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ml&quot; (Malayalam)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;mn&quot; (Mongolian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;af&quot; (Afrikaans)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;in&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;mr&quot; (Marathi)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;uz&quot; (Uzbek)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ms&quot; (Malay)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;el&quot; (Greek)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;en&quot; (English)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;is&quot; (Icelandic)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;it&quot; (Italian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;am&quot; (Amharic)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;my&quot; (Burmese)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;es&quot; (Spanish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;iw&quot; (Hebrew)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;zh&quot; (Chinese)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;et&quot; (Estonian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;eu&quot; (Basque)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ar&quot; (Arabic)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;as&quot; (Assamese)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;nb&quot; (Norwegian Bokmål)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ja&quot; (Japanese)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ne&quot; (Nepali)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;az&quot; (Azerbaijani)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;fa&quot; (Persian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;zu&quot; (Zulu)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ro&quot; (Romanian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;nl&quot; (Dutch)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;no&quot; (Norwegian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;be&quot; (Belarusian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;fi&quot; (Finnish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ru&quot; (Russian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;bg&quot; (Bulgarian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;bn&quot; (Bangla)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;fr&quot; (French)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;bs&quot; (Bosnian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ka&quot; (Georgian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;si&quot; (Sinhala)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sk&quot; (Slovak)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sl&quot; (Slovenian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ca&quot; (Catalan)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sq&quot; (Albanian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sr&quot; (Serbian)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;kk&quot; (Kazakh)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;km&quot; (Khmer)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;kn&quot; (Kannada)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;or&quot; (Odia)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sv&quot; (Swedish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ko&quot; (Korean)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;sw&quot; (Swahili)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;gl&quot; (Galician)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ta&quot; (Tamil)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;gu&quot; (Gujarati)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;ky&quot; (Kyrgyz)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;cs&quot; (Czech)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;pa&quot; (Punjabi)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;te&quot; (Telugu)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;th&quot; (Thai)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;tl&quot; (Tagalog)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;pl&quot; (Polish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;da&quot; (Danish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;summary_pref_ai_label_suggestion&quot; is not translated in &quot;tr&quot; (Turkish)" errorLine1="  &lt;string name=&quot;summary_pref_ai_label_suggestion&quot;&gt;When you add a label to an unlabeled button, the service that describes images suggests a label for you to review&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1696" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;de&quot; (German)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;hi&quot; (Hindi)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;lo&quot; (Lao)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;pt&quot; (Portuguese)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;fil&quot; (Filipino; Pilipino)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;lt&quot; (Lithuanian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;hr&quot; (Croatian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;lv&quot; (Latvian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;hu&quot; (Hungarian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;hy&quot; (Armenian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;uk&quot; (Ukrainian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;id&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ur&quot; (Urdu)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;mk&quot; (Macedonian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ml&quot; (Malayalam)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;mn&quot; (Mongolian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;af&quot; (Afrikaans)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;in&quot; (Indonesian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;mr&quot; (Marathi)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;uz&quot; (Uzbek)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ms&quot; (Malay)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;el&quot; (Greek)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;en&quot; (English)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;is&quot; (Icelandic)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;it&quot; (Italian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;am&quot; (Amharic)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;my&quot; (Burmese)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;es&quot; (Spanish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;iw&quot; (Hebrew)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;zh&quot; (Chinese)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;et&quot; (Estonian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;eu&quot; (Basque)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ar&quot; (Arabic)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;as&quot; (Assamese)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;nb&quot; (Norwegian Bokmål)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ja&quot; (Japanese)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ne&quot; (Nepali)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;az&quot; (Azerbaijani)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;fa&quot; (Persian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;zu&quot; (Zulu)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ro&quot; (Romanian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;nl&quot; (Dutch)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;no&quot; (Norwegian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;be&quot; (Belarusian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;fi&quot; (Finnish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ru&quot; (Russian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;bg&quot; (Bulgarian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;bn&quot; (Bangla)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;fr&quot; (French)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;bs&quot; (Bosnian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ka&quot; (Georgian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;si&quot; (Sinhala)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sk&quot; (Slovak)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sl&quot; (Slovenian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ca&quot; (Catalan)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sq&quot; (Albanian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sr&quot; (Serbian)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;kk&quot; (Kazakh)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;km&quot; (Khmer)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;kn&quot; (Kannada)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;or&quot; (Odia)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sv&quot; (Swedish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ko&quot; (Korean)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;sw&quot; (Swahili)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;gl&quot; (Galician)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ta&quot; (Tamil)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;gu&quot; (Gujarati)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;ky&quot; (Kyrgyz)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;cs&quot; (Czech)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;pa&quot; (Punjabi)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;te&quot; (Telugu)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;th&quot; (Thai)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;tl&quot; (Tagalog)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;pl&quot; (Polish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;da&quot; (Danish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
+    <issue id="MissingTranslation" message="&quot;label_suggestion_failed&quot; is not translated in &quot;tr&quot; (Turkish)" errorLine1="  &lt;string name=&quot;label_suggestion_failed&quot;&gt;Couldn\'t get a label suggestion&lt;/string&gt;" errorLine2="          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~">
+        <location file="src/main/res/values/strings.xml" line="1697" column="11" />
+    </issue>
 </issues>
