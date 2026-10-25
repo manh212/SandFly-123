@@ -164,6 +164,7 @@ import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorF
 import com.google.android.accessibility.talkback.focusmanagement.SingleTapTypingController;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
+import com.google.android.accessibility.talkback.focusmanagement.WindowNodePrefetcher;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter;
 import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory;
@@ -1130,7 +1131,9 @@ public class TalkBackService extends AccessibilityServiceCompat
         && HomeScreenPages.isHomePackage(this, event.getPackageName())) {
       clearCache();
     }
-    TraversalTreeCache.onAccessibilityEvent(event);
+    if (TraversalTreeCache.onAccessibilityEvent(event)) {
+      prefetchWindowOfClearedOrder(event);
+    }
     PreparedFocusSpeech.onAccessibilityEvent(event);
     if (directTouchController != null) {
       directTouchController.onAccessibilityEvent(event);
@@ -1214,6 +1217,32 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   public void setRootDirty(boolean rootIsDirty) {
     isRootNodeDirty = rootIsDirty;
+  }
+
+  /**
+   * The event threw away the saved reading order, so the next swipe would have to read the
+   * window's nodes on the main thread. Read them in the background now instead, starting from the
+   * window's current root: the cached root is only refreshed when the event processor runs later
+   * in this method, so it is not asked here.
+   */
+  private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
+    AccessibilityNodeInfo root = null;
+    int windowId = event.getWindowId();
+    if (windowId != AccessibilityWindowInfo.INVALID_WINDOW_ID) {
+      for (AccessibilityWindowInfo window : getWindows()) {
+        if (root == null && window.getId() == windowId) {
+          root = window.getRoot();
+        }
+        window.recycle();
+      }
+    }
+    if (root == null) {
+      root = super.getRootInActiveWindow();
+    }
+    if (root != null) {
+      WindowNodePrefetcher.prefetchInBackground(
+          AccessibilityNodeInfoCompat.wrap(root), getPackageName());
+    }
   }
 
   private void setServiceState(int newState) {
