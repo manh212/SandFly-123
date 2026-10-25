@@ -18,12 +18,13 @@ package com.google.android.accessibility.talkback.focusmanagement
 
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAccessibilityNodeInfo
 
 /**
  * The background prefetch takes ownership of the root it is handed: when it declines to walk (here,
@@ -38,12 +39,13 @@ class WindowNodePrefetcherTest {
   fun prefetchInBackground_ownPackage_recyclesRootAndReturns() {
     val rootInfo = AccessibilityNodeInfo.obtain()
     rootInfo.packageName = "io.github.aaron_gh.sandfly"
+    assertTrue(ShadowAccessibilityNodeInfo.areThereUnrecycledNodes(false))
 
     WindowNodePrefetcher.prefetchInBackground(
       AccessibilityNodeInfoCompat.wrap(rootInfo),
       ownPackage = "io.github.aaron_gh.sandfly",
     )
 
-    assertTrue(shadowOf(rootInfo).isRecycled)
+    assertFalse(ShadowAccessibilityNodeInfo.areThereUnrecycledNodes(false))
   }
 }
