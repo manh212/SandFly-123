@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Timer settings: the initial setup, then the time announcements and the stopwatch, all on
-     one screen — the spoken clock above, the stopwatch below. -->
+<!-- Timer settings: the time announcements and the stopwatch on one screen — the spoken
+     clock above, the stopwatch below. The initial setup lives on the main settings screen. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.timer.TimerSetupFragment"
-      android:key="pref_timer_setup_screen"
-      android:title="@string/timer_setup_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/notification_category_clock">
     <ListPreference
         android:defaultValue="0"

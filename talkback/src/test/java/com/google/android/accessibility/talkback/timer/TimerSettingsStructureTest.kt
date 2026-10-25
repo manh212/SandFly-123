@@ -20,6 +20,7 @@ import android.content.Context
 import com.google.android.accessibility.talkback.R
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -28,8 +29,9 @@ import org.robolectric.annotation.Config
 import org.xmlpull.v1.XmlPullParser
 
 /**
- * The timer settings are one flat screen: the initial setup first, the spoken clock above, the
- * stopwatch below — no exact-times switch and no stopwatch screen inside the screen.
+ * The timer settings are one flat screen: the spoken clock above, the stopwatch below — no
+ * exact-times switch and no stopwatch screen inside the screen. The initial setup is not here:
+ * it is the first row of the main settings screen, and nowhere else.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -38,21 +40,10 @@ class TimerSettingsStructureTest {
 
   @Test
   fun timerScreen_isFlat_inOrder_andHasNoExactSwitch() {
-    val rows = mutableListOf<Pair<String?, String?>>()
-    val parser = context.resources.getXml(R.xml.timer_preferences)
-    var event = parser.eventType
-    while (event != XmlPullParser.END_DOCUMENT) {
-      if (event == XmlPullParser.START_TAG && parser.name != "PreferenceScreen") {
-        val key = parser.getAttributeValue(ANDROID_NS, "key")
-        val fragment = parser.getAttributeValue(ANDROID_NS, "fragment")
-        if (key != null || fragment != null) rows += key to fragment
-      }
-      event = parser.next()
-    }
+    val rows = rowsOf(R.xml.timer_preferences)
 
     assertEquals(
       listOf(
-        "pref_timer_setup_screen",
         "pref_notification_clock_interval",
         "pref_notification_clock_format",
         "pref_stopwatch_sound",
@@ -62,9 +53,9 @@ class TimerSettingsStructureTest {
       ),
       rows.map { it.first },
     )
-    assertEquals(
-      "com.google.android.accessibility.talkback.timer.TimerSetupFragment",
-      rows.first().second,
+    assertFalse(
+      "the initial setup moved off this screen",
+      rows.any { it.first == SETUP_KEY || it.second?.contains("SetupFragment") == true },
     )
     assertFalse(
       "the exact-times switch is gone",
@@ -76,7 +67,47 @@ class TimerSettingsStructureTest {
     )
   }
 
+  @Test
+  fun mainScreen_startsWithTheInitialSetup_andHasItOnce() {
+    val topLevel = mutableListOf<Pair<String?, String?>>()
+    val parser = context.resources.getXml(R.xml.preferences)
+    var event = parser.eventType
+    while (event != XmlPullParser.END_DOCUMENT) {
+      if (event == XmlPullParser.START_TAG && parser.depth == 2) {
+        topLevel +=
+          parser.getAttributeValue(ANDROID_NS, "key") to
+            parser.getAttributeValue(ANDROID_NS, "fragment")
+      }
+      event = parser.next()
+    }
+
+    assertEquals(SETUP_KEY, topLevel.first().first)
+    assertTrue(topLevel.first().second?.contains("SetupFragment") == true)
+    assertEquals(
+      "one initial setup entry point in the whole main screen",
+      1,
+      rowsOf(R.xml.preferences).count { it.first == SETUP_KEY },
+    )
+  }
+
+  /** Every row of an XML preference screen, in document order, as key to fragment. */
+  private fun rowsOf(xml: Int): List<Pair<String?, String?>> {
+    val rows = mutableListOf<Pair<String?, String?>>()
+    val parser = context.resources.getXml(xml)
+    var event = parser.eventType
+    while (event != XmlPullParser.END_DOCUMENT) {
+      if (event == XmlPullParser.START_TAG && parser.name != "PreferenceScreen") {
+        val key = parser.getAttributeValue(ANDROID_NS, "key")
+        val fragment = parser.getAttributeValue(ANDROID_NS, "fragment")
+        if (key != null || fragment != null) rows += key to fragment
+      }
+      event = parser.next()
+    }
+    return rows
+  }
+
   private companion object {
     const val ANDROID_NS = "http://schemas.android.com/apk/res/android"
+    const val SETUP_KEY = "pref_initial_setup_screen"
   }
 }
