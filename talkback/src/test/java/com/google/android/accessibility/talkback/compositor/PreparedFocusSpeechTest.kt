@@ -17,7 +17,6 @@
 package com.google.android.accessibility.talkback.compositor
 
 import android.graphics.Rect
-import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
@@ -34,7 +33,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowSystemClock
@@ -269,14 +267,10 @@ class PreparedFocusSpeechSuppressionTest {
 @Config(sdk = [34])
 class PreparedFocusSpeechUnrelatedChangeTest {
   private fun node(windowId: Int, bounds: Rect): AccessibilityNodeInfoCompat {
-    val info = AccessibilityNodeInfo()
+    // Obtained, not constructed: the shadow gives obtained nodes an origin id, which is what
+    // its equals tells nodes apart by - a constructed info has none and makes equals throw.
+    val info = AccessibilityNodeInfo.obtain()
     info.packageName = "com.example"
-    // The shadow tells nodes apart by their source view alone, so each node needs its own:
-    // a bare info makes its equals throw, and a shared view would make every node equal.
-    info.setSource(
-      View(RuntimeEnvironment.getApplication()),
-      AccessibilityNodeInfo.HOST_VIEW_ID,
-    )
     info.setBoundsInScreen(bounds)
     val window = AccessibilityWindowInfo()
     shadowOf(window).setId(windowId)
