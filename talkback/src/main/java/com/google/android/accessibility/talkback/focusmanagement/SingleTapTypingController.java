@@ -23,6 +23,7 @@ import android.view.Display;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
+import androidx.annotation.Nullable;
 import com.google.android.accessibility.utils.FeatureSupport;
 
 /**
@@ -36,6 +37,7 @@ public class SingleTapTypingController {
   private boolean enabled;
   private boolean paused;
   private boolean regionSet;
+  private @Nullable Runnable keyboardWindowPresentCallback;
 
   public SingleTapTypingController(AccessibilityService service) {
     this.service = service;
@@ -62,6 +64,14 @@ public class SingleTapTypingController {
 
   public void shutdown() {
     clearRegion();
+  }
+
+  /**
+   * Sets a one-shot callback run the next time the passthrough region is armed for the keyboard
+   * window, for work that can only take effect once the keyboard exists.
+   */
+  public void setKeyboardWindowPresentCallback(@Nullable Runnable callback) {
+    keyboardWindowPresentCallback = callback;
   }
 
   public void onAccessibilityEvent(AccessibilityEvent event) {
@@ -122,6 +132,11 @@ public class SingleTapTypingController {
     keyboardWindow.getBoundsInScreen(bounds);
     service.setGestureDetectionPassthroughRegion(Display.DEFAULT_DISPLAY, new Region(bounds));
     regionSet = true;
+    Runnable callback = keyboardWindowPresentCallback;
+    if (callback != null) {
+      keyboardWindowPresentCallback = null;
+      callback.run();
+    }
   }
 
   private void clearRegion() {
