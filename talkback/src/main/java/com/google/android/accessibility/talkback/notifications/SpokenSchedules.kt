@@ -17,16 +17,17 @@
 package com.google.android.accessibility.talkback.notifications
 
 import android.app.AlarmManager
+import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
 import android.os.BatteryManager
-import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.text.format.DateFormat
 import androidx.annotation.MainThread
+import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeNotificationStateChangedFeedbackRule
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService
@@ -37,8 +38,9 @@ import java.util.Date
 
 /**
  * Speech at set times: the time, every so often, and a summary of the notifications once a day.
- * Alarms with listeners in SandFly's process wake the phone for them, so they need no extra
- * permission, and they are set again after each one and when the settings change.
+ * The alarms are set again after each one and when the settings change. An exact time is a
+ * system alarm clock, so it still fires on time while the phone rests; an inexact one is an
+ * alarm with a listener in SandFly's process, which the system may delay by a minute.
  */
 class SpokenSchedules(
   private val context: Context,
@@ -50,6 +52,17 @@ class SpokenSchedules(
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val clockAlarm = AlarmManager.OnAlarmListener { onClock() }
   private val summaryAlarm = AlarmManager.OnAlarmListener { onSummary() }
+
+  /** Receives an exact clock or summary time when its alarm clock fires, and runs it. */
+  private val alarmReceiver =
+    object : BroadcastReceiver() {
+      override fun onReceive(receiverContext: Context, intent: Intent) {
+        when (intent.action) {
+          AlarmClockIntents.action(context, AlarmClockIntents.ACTION_SPOKEN_CLOCK) -> onClock()
+          AlarmClockIntents.action(context, AlarmClockIntents.ACTION_SPOKEN_SUMMARY) -> onSummary()
+        }
+      }
+    }
   private var started = false
 
   private val settingsListener =
@@ -61,6 +74,15 @@ class SpokenSchedules(
   fun start() {
     if (started) return
     started = true
+    ContextCompat.registerReceiver(
+      context,
+      alarmReceiver,
+      IntentFilter().apply {
+        addAction(AlarmClockIntents.action(context, AlarmClockIntents.ACTION_SPOKEN_CLOCK))
+        addAction(AlarmClockIntents.action(context, AlarmClockIntents.ACTION_SPOKEN_SUMMARY))
+      },
+      ContextCompat.RECEIVER_NOT_EXPORTED,
+    )
     prefs.registerOnSharedPreferenceChangeListener(settingsListener)
     schedule()
   }
@@ -70,39 +92,66 @@ class SpokenSchedules(
     if (!started) return
     started = false
     prefs.unregisterOnSharedPreferenceChangeListener(settingsListener)
-    alarms?.cancel(clockAlarm)
-    alarms?.cancel(summaryAlarm)
+    runCatching { context.unregisterReceiver(alarmReceiver) }
+    alarms?.let {
+      cancelAlarm(it, clockAlarm, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
+      cancelAlarm(it, summaryAlarm, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
+    }
   }
 
   private fun schedule() {
     val alarms = alarms ?: return
-    alarms.cancel(clockAlarm)
-    alarms.cancel(summaryAlarm)
+    cancelAlarm(alarms, clockAlarm, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
+    cancelAlarm(alarms, summaryAlarm, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
     val interval = NotificationSettings.int(prefs, KEY_CLOCK_INTERVAL, 0)
     val now = System.currentTimeMillis()
     if (interval > 0) {
-      set(alarms, nextClockTime(now, interval), prefs.getBoolean(KEY_CLOCK_EXACT, false), clockAlarm)
+      set(
+        alarms,
+        nextClockTime(now, interval),
+        prefs.getBoolean(KEY_CLOCK_EXACT, false),
+        clockAlarm,
+        AlarmClockIntents.ACTION_SPOKEN_CLOCK,
+      )
     }
     if (prefs.getBoolean(KEY_SUMMARY_DAILY, false)) {
       val minutes = NotificationSettings.int(prefs, KEY_SUMMARY_TIME, 8 * 60)
-      set(alarms, nextDailyTime(now, minutes), exact = true, summaryAlarm)
+      set(
+        alarms,
+        nextDailyTime(now, minutes),
+        exact = true,
+        summaryAlarm,
+        AlarmClockIntents.ACTION_SPOKEN_SUMMARY,
+      )
     }
   }
 
-  private fun set(alarms: AlarmManager, at: Long, exact: Boolean, listener: AlarmManager.OnAlarmListener) {
-    try {
-      if (exact && canScheduleExact(alarms)) {
-        alarms.setExact(AlarmManager.RTC_WAKEUP, at, TAG, listener, handler)
-      } else {
-        alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, listener, handler)
-      }
-    } catch (e: SecurityException) {
+  private fun set(
+    alarms: AlarmManager,
+    at: Long,
+    exact: Boolean,
+    listener: AlarmManager.OnAlarmListener,
+    actionSuffix: String,
+  ) {
+    if (exact) {
+      alarms.setAlarmClock(
+        AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
+        AlarmClockIntents.alarm(context, actionSuffix),
+      )
+    } else {
       alarms.setWindow(AlarmManager.RTC_WAKEUP, at, WINDOW_MS, TAG, listener, handler)
     }
   }
 
-  private fun canScheduleExact(alarms: AlarmManager): Boolean =
-    Build.VERSION.SDK_INT < Build.VERSION_CODES.S || alarms.canScheduleExactAlarms()
+  /** Drops one pending time in both of its forms, so switching forms never leaves two. */
+  private fun cancelAlarm(
+    alarms: AlarmManager,
+    listener: AlarmManager.OnAlarmListener,
+    actionSuffix: String,
+  ) {
+    alarms.cancel(listener)
+    alarms.cancel(AlarmClockIntents.alarm(context, actionSuffix))
+  }
 
   private fun onClock() {
     schedule()
