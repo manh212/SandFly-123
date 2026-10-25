@@ -294,6 +294,8 @@ import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FeedbackProcessingUtils;
 import com.google.android.accessibility.utils.output.LowLatencyAudio;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
+import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechController;
@@ -2739,6 +2741,21 @@ public class TalkBackService extends AccessibilityServiceCompat
                 /* continuousReading= */ fullScreenReadActor != null
                     && fullScreenReadActor.isActive()));
     eventFilter.setTargetPredictor(directionNavigationActor);
+    eventFilter.setPreparedSpeechSynthesizer(
+        new EventFilter.PreparedSpeechSynthesizer() {
+          @Override
+          public void synthesize(
+              CharSequence text, float pitch, LoadSpeechResultNotifier notifier) {
+            Bundle speechParams = new Bundle();
+            speechParams.putFloat(FailoverTextToSpeech.SpeechParam.PITCH, pitch);
+            speechController.addSpeech(text, notifier, speechParams, /* eventId= */ null);
+          }
+
+          @Override
+          public void remove(SpeechInfo speechInfo) {
+            speechController.removeSpeech(speechInfo);
+          }
+        });
     directionNavigationActor.setGranularityChangeListener(eventFilter::onGranularityChanged);
     eventFilter.setFingerDownSupplier(() -> touchMonitor.isUserTouchingScreen());
     eventFilter.setVoiceActionDelegate(voiceActionMonitor);
@@ -3467,6 +3484,10 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
     FailoverTextToSpeech.splitAtFirstSeparatorEnabled =
         getBooleanPref(R.string.pref_split_speech_key, R.bool.pref_split_speech_default);
+    EventFilter.setPresynthesizePreparedSpeech(
+        getBooleanPref(
+            R.string.pref_presynthesize_prepared_key,
+            R.bool.pref_presynthesize_prepared_default));
   }
 
   protected void reloadPreferences() {

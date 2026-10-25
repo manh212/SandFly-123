@@ -23,7 +23,9 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.text.Spannable;
 import android.text.TextUtils;
+import android.text.style.TtsSpan;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -48,10 +50,15 @@ import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
 import com.google.android.accessibility.utils.monitor.TouchMonitor;
 import com.google.android.accessibility.utils.monitor.VoiceActionDelegate;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
+import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Objects;
+import java.util.Set;
 import java.util.function.BooleanSupplier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -77,6 +84,20 @@ public class EventFilter {
   private AccessibilityNodeInfoCompat lastHoverEnteredNode = null;
   private final EarlyFocusSpeech earlyFocusSpeech;
 
+  /**
+   * Makes sound for an announcement ahead of time, into the speech cache, and takes it out
+   * again. Wired to the speech controller, whose cache the speaking path looks in first: an
+   * announcement whose sound was made ahead is played from memory instead of waiting for the
+   * engine to make it.
+   */
+  public interface PreparedSpeechSynthesizer {
+    /** Asks for {@code text} at {@code pitch} to be made into sound in the speech cache. */
+    void synthesize(CharSequence text, float pitch, LoadSpeechResultNotifier notifier);
+
+    /** Takes a sound made by {@link #synthesize} out of the speech cache again. */
+    void remove(SpeechInfo speechInfo);
+  }
+
   /** Works out which node a swipe from the focused node would most likely reach. */
   public interface TargetPredictor {
     @Nullable AccessibilityNodeInfoCompat predictTarget(
@@ -96,6 +117,54 @@ public class EventFilter {
   }
 
   private @Nullable TargetPredictor targetPredictor;
+  private @Nullable PreparedSpeechSynthesizer preparedSpeechSynthesizer;
+
+  /**
+   * Whether the announcements prepared for the next swipe also have their sound made ahead of
+   * time, from the latency setting.
+   */
+  private static volatile boolean presynthesizePreparedSpeech = true;
+
+  /** The most prepared announcements whose sound is kept made ahead at once. */
+  private static final int MAX_SYNTHESIZED_PREPARED = 12;
+
+  /** Sounds made ahead for prepared announcements, by their text, oldest first. */
+  private final LinkedHashMap<String, SpeechInfo> synthesizedPrepared = new LinkedHashMap<>();
+
+  /** Texts whose sound is being made now, so a preparation round does not ask twice. */
+  private final Set<String> synthesesInFlight = new HashSet<>();
+
+  /** The notifier for one sound being made ahead, learning its outcome under its text. */
+  private LoadSpeechResultNotifier synthesisNotifierFor(String key) {
+    return new LoadSpeechResultNotifier() {
+      @Override
+      public void onFinished(@Nullable SpeechInfo speechInfo, Boolean success) {
+        @Nullable SpeechInfo eldest = null;
+        synchronized (synthesizedPrepared) {
+          synthesesInFlight.remove(key);
+          if (!Boolean.TRUE.equals(success) || speechInfo == null) {
+            return;
+          }
+          synthesizedPrepared.remove(key);
+          synthesizedPrepared.put(key, speechInfo);
+          if (synthesizedPrepared.size() > MAX_SYNTHESIZED_PREPARED) {
+            eldest = synthesizedPrepared.values().iterator().next();
+            synthesizedPrepared.remove(eldest.text);
+          }
+        }
+        Performance.getInstance().onPreparedSpeechSynthesized();
+        if (eldest != null) {
+          final SpeechInfo toRemove = eldest;
+          handler.post(
+              () -> {
+                if (preparedSpeechSynthesizer != null) {
+                  preparedSpeechSynthesizer.remove(toRemove);
+                }
+              });
+        }
+      }
+    };
+  }
   // Whether a finger is on the screen now.
   private BooleanSupplier fingerDown = () -> false;
   // The node that accessibility focus last moved to, as far as this filter knows.
@@ -145,6 +214,16 @@ public class EventFilter {
 
   public void setTargetPredictor(@Nullable TargetPredictor predictor) {
     targetPredictor = predictor;
+  }
+
+  /** Sets who makes sound for prepared announcements ahead of time, if anyone. */
+  public void setPreparedSpeechSynthesizer(@Nullable PreparedSpeechSynthesizer synthesizer) {
+    preparedSpeechSynthesizer = synthesizer;
+  }
+
+  /** Sets whether prepared announcements also have their sound made ahead; see the field. */
+  public static void setPresynthesizePreparedSpeech(boolean synthesize) {
+    presynthesizePreparedSpeech = synthesize;
   }
 
   /** Sets how to tell whether a finger is on the screen, so that a swipe never waits for this. */
@@ -641,7 +720,44 @@ public class EventFilter {
     }
     if (hasSpeech(feedback)) {
       PreparedFocusSpeech.put(node, feedback, containerTitle, targetType);
+      maybeSynthesizePrepared(feedback, targetType);
     }
+  }
+
+  /**
+   * Asks for the sound of a prepared announcement to be made ahead of time, so a swipe to it
+   * plays at once. Only plain swipe targets: announcements for a reading control are prepared
+   * too, but their sound is not made ahead, as they are reached less often and every sound
+   * kept costs memory. A sound is keyed by its text as the speaking path will look for it, so
+   * nothing is asked for twice while it is kept or being made.
+   */
+  private void maybeSynthesizePrepared(EventFeedback feedback, @TargetType int targetType) {
+    if (!presynthesizePreparedSpeech
+        || preparedSpeechSynthesizer == null
+        || targetType != NavigationTarget.TARGET_DEFAULT) {
+      return;
+    }
+    CharSequence text = feedback.ttsOutput().orElse(null);
+    if (TextUtils.isEmpty(text) || hasTtsSpan(text)) {
+      return;
+    }
+    String key = text.toString();
+    synchronized (synthesizedPrepared) {
+      if (synthesizedPrepared.containsKey(key)
+          || synthesesInFlight.contains(key)
+          || synthesesInFlight.size() >= MAX_SYNTHESIZED_PREPARED) {
+        return;
+      }
+      synthesesInFlight.add(key);
+    }
+    preparedSpeechSynthesizer.synthesize(
+        text, (float) feedback.ttsPitch(), synthesisNotifierFor(key));
+  }
+
+  /** Whether {@code text} carries a TtsSpan, whose sound the speech cache cannot make. */
+  private static boolean hasTtsSpan(CharSequence text) {
+    return text instanceof Spannable spannable
+        && spannable.getSpans(0, text.length(), TtsSpan.class).length > 0;
   }
 
   /** Whether {@code feedback} says anything. */
