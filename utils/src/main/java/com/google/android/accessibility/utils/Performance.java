@@ -287,6 +287,9 @@ public class Performance {
   /** How often navigation speech cut short an announcement that other speech could not cut. */
   private long navigationSpeechInterrupts;
 
+  /** How often window-change or focus speech cut short such an announcement. */
+  private long windowFocusSpeechInterrupts;
+
   /** Prepared announcements kept because a change's region spared them. */
   private long preparedKeptByRegion;
 
@@ -1421,6 +1424,22 @@ public class Performance {
     }
   }
 
+  /** Counts one announcement cut short by window-change or focus speech. */
+  public void onWindowFocusSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      windowFocusSpeechInterrupts++;
+    }
+  }
+
+  public long getWindowFocusSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return windowFocusSpeechInterrupts;
+    }
+  }
+
   /** Displays how long queued utterances waited, and how often navigation speech cut a wait. */
   public void displaySpeechWaitStats(Logger logger) {
     synchronized (lockLabelToStats) {
@@ -1435,6 +1454,11 @@ public class Performance {
         logger.log(
             "Navigation speech interrupts of uninterruptible announcements: %d",
             navigationSpeechInterrupts);
+      }
+      if (windowFocusSpeechInterrupts > 0) {
+        logger.log(
+            "Window and focus speech interrupts of uninterruptible announcements: %d",
+            windowFocusSpeechInterrupts);
       }
       if (utterancesSplit > 0) {
         logger.log(
@@ -1693,6 +1717,7 @@ public class Performance {
       staleOrdersServed = 0;
       staleTargetsRejected = 0;
       navigationSpeechInterrupts = 0;
+      windowFocusSpeechInterrupts = 0;
       preparedKeptByRegion = 0;
       preparedEvictedByRegion = 0;
       utterancesSplit = 0;

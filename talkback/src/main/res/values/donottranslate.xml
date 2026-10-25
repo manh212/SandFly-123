@@ -103,6 +103,7 @@
     <string name="pref_keep_prepared_across_unrelated_key">pref_keep_prepared_across_unrelated_key</string>
     <string name="pref_serve_stale_order_key">pref_serve_stale_order_key</string>
     <string name="pref_navigation_interrupt_key">pref_navigation_interrupt_key</string>
+    <string name="pref_window_focus_interrupt_key">pref_window_focus_interrupt_key</string>
     <string name="pref_small_audio_buffer_key">pref_small_audio_buffer_key</string>
     <string name="pref_split_speech_key">pref_split_speech_key</string>
     <string name="pref_presynthesize_prepared_key">pref_presynthesize_prepared_key</string>
@@ -1374,6 +1375,7 @@
     <bool name="pref_keep_prepared_across_unrelated_default">true</bool>
     <bool name="pref_serve_stale_order_default">true</bool>
     <bool name="pref_navigation_interrupt_default">true</bool>
+    <bool name="pref_window_focus_interrupt_default">true</bool>
     <bool name="pref_small_audio_buffer_default">true</bool>
     <bool name="pref_split_speech_default">true</bool>
     <bool name="pref_presynthesize_prepared_default">true</bool>

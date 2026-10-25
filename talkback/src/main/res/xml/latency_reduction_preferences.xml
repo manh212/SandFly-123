@@ -60,6 +60,12 @@
         android:key="@string/pref_navigation_interrupt_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_window_focus_interrupt_default"
+        android:title="@string/title_pref_window_focus_interrupt"
+        android:summary="@string/summary_pref_window_focus_interrupt"
+        android:key="@string/pref_window_focus_interrupt_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_small_audio_buffer_default"
         android:title="@string/title_pref_small_audio_buffer"
         android:summary="@string/summary_pref_small_audio_buffer"

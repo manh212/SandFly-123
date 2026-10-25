@@ -115,6 +115,16 @@ public class SpeechControllerImpl implements SpeechController {
    */
   public static volatile boolean navigationSpeechInterruptsAnnouncements = true;
 
+  /**
+   * Whether speech for a window change or a focus move may cut short an utterance that is
+   * uninterruptible by other speech, but not globally uninterruptible, the way {@link
+   * #navigationSpeechInterruptsAnnouncements} lets a swipe's answer do. The long waits that
+   * survived the gesture privilege sat on these events: the title of the window the user just
+   * opened, and the first item in it, queued behind an announcement like any other speech.
+   * Pushed from the latency settings, where it is on by default.
+   */
+  public static volatile boolean windowFocusSpeechInterruptsAnnouncements = true;
+
   public interface SpeechFilter {
     @Nullable CharSequence filter(CharSequence text);
   }
@@ -1477,13 +1487,11 @@ public class SpeechControllerImpl implements SpeechController {
 
     if (!currentFeedbackInterrupted
         && currentFeedbackItem != null
-        && navigationSpeechInterruptsAnnouncements
-        && item.getEventId() != null
-        && item.getEventId().getEventType() == Performance.EVENT_TYPE_GESTURE
+        && speechMayCutAnnouncement(item)
         && !currentFeedbackItem.isInterruptibleByNewSpeech()
         && !currentFeedbackItem.isGloballyUninterruptible()) {
-      // The utterance answering the user's own swipe must not wait behind an announcement that
-      // is protected from other speech but not from the user. Queued utterances of the same
+      // The utterance answering the user's own navigation must not wait behind an announcement
+      // that is protected from other speech but not from the user. Queued utterances of the same
       // kind go with it; globally uninterruptible utterances always play out.
       ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
       while (iterator.hasNext()) {
@@ -1497,7 +1505,11 @@ public class SpeechControllerImpl implements SpeechController {
       item.setFlushGlobalTtsQueue(true);
       notifyItemInterrupted(currentFeedbackItem);
       currentFeedbackInterrupted = true;
-      Performance.getInstance().onNavigationSpeechInterrupt();
+      if (item.getEventId().getEventType() == Performance.EVENT_TYPE_GESTURE) {
+        Performance.getInstance().onNavigationSpeechInterrupt();
+      } else {
+        Performance.getInstance().onWindowFocusSpeechInterrupt();
+      }
     }
 
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
@@ -2049,6 +2061,30 @@ public class SpeechControllerImpl implements SpeechController {
    * @param item The item to speak.
    */
   @SuppressLint("InlinedApi")
+  /**
+   * Whether {@code item} answers the user's own navigation — a swipe, or the window change and
+   * focus movement that follow from the user's actions — under the latency settings. Such speech
+   * may cut an announcement it would otherwise wait behind; all other speech may not.
+   */
+  static boolean speechMayCutAnnouncement(FeedbackItem item) {
+    EventId eventId = item.getEventId();
+    if (eventId == null) {
+      return false;
+    }
+    if (navigationSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE) {
+      return true;
+    }
+    if (windowFocusSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY) {
+      int subtype = eventId.getEventSubtype();
+      return subtype == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+          || subtype == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+          || subtype == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+    }
+    return false;
+  }
+
   /** A short name for what an utterance's feedback answers, for the speech wait profiles. */
   static String speechEventLabel(FeedbackItem item) {
     EventId eventId = item.getEventId();

@@ -122,6 +122,7 @@ public class SpeechControllerImplTest {
   public void tearDown() {
     setAlwaysInterruptPreference(false);
     SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
     Performance.getInstance().setComputeStatsEnabled(false);
     Performance.getInstance().clearAllStats();
   }
@@ -338,6 +339,73 @@ public class SpeechControllerImplTest {
         performance.getSpeechWaitBlockerCount(
             Performance.SPEECH_WAIT_BLOCKER_UNINTERRUPTIBLE_ANNOUNCEMENT));
     assertEquals(0, performance.getSpeechWaitBlockerCount(Performance.SPEECH_WAIT_BLOCKER_OTHER));
+  }
+
+  /** Speaks as the title of a window the user just opened. */
+  private void speakWindowChange(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(
+            0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_WINDOWS_CHANGED));
+  }
+
+  /** Speaks as the item focus landed on, flushing the way focus speech does. */
+  private void speakFocusFlush(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(
+            0,
+            Performance.EVENT_TYPE_ACCESSIBILITY,
+            AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED));
+  }
+
+  @Test
+  public void windowChangeSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "the new window"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getWindowFocusSpeechInterruptCount());
+    assertEquals(0, Performance.getInstance().getNavigationSpeechInterruptCount());
+  }
+
+  @Test
+  public void focusSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakFocusFlush(speechController, "the focused item");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "the focused item"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getWindowFocusSpeechInterruptCount());
+  }
+
+  @Test
+  public void windowChangeSpeech_switchOff_waitsBehindAnnouncement() {
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void windowChangeSpeech_neverInterruptsGloballyUninterruptible() {
+    speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(List.of("critical utterance"), failoverTts.spokenTexts);
   }
 
   /** Speaks as an announcement event, the kind of speech that blocks navigation answers. */
