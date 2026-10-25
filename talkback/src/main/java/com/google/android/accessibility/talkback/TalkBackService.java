@@ -1865,8 +1865,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   /**
-   * Returns the controller of the exit watermark, or null before the service is connected. Settings
-   * screens can resume in that time, such as when they are opened as Backtalk restarts.
+   * Returns the mis-triggering recovery controller, or null before the service is connected.
+   * Settings screens can resume in that time, such as when they are opened as SandFly restarts.
    */
   public @Nullable TalkBackExitController getTalkBackExitController() {
     if (talkBackExitController == null) {
