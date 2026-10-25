@@ -104,6 +104,29 @@ public class LabelDialogManager {
   }
 
   /**
+   * Shows the dialog to add a label, with {@code initialText} already filled in for the user to
+   * review, edit or clear, as if they had typed it. The label is only saved if the user confirms,
+   * through the same store as a typed label.
+   *
+   * @return True if showing the dialog was successful, otherwise false
+   */
+  public static boolean addLabelWithInitialText(
+      Context context,
+      String resourceName,
+      boolean needToRestoreFocus,
+      @Nullable Pipeline.FeedbackReturner pipeline,
+      @Nullable String initialText) {
+    if (context == null) {
+      return false;
+    }
+
+    LabelDialogManager dialogManager =
+        new LabelDialogManager(context, /* labelChangeListener= */ null);
+    dialogManager.showAddLabelDialog(resourceName, needToRestoreFocus, pipeline, initialText);
+    return true;
+  }
+
+  /**
    * Shows the dialog to edit the given label in the given context.
    *
    * @param context Context to display the dialog in
@@ -175,12 +198,22 @@ public class LabelDialogManager {
       final String resourceName,
       boolean needToRestoreFocus,
       @Nullable Pipeline.FeedbackReturner pipeline) {
+    showAddLabelDialog(resourceName, needToRestoreFocus, pipeline, /* initialText= */ null);
+  }
+
+  private void showAddLabelDialog(
+      final String resourceName,
+      boolean needToRestoreFocus,
+      @Nullable Pipeline.FeedbackReturner pipeline,
+      @Nullable String initialText) {
     AddLabelDialog addLabelDialog =
-        new AddLabelDialog(context, resourceName, labelManager, pipeline);
+        new AddLabelDialog(context, resourceName, labelManager, pipeline, initialText);
     addLabelDialog.setSoftInputMode(true);
     addLabelDialog.setRestoreFocus(needToRestoreFocus);
     addLabelDialog.showDialog();
-    addLabelDialog.setButtonEnabled(DialogInterface.BUTTON_POSITIVE, false);
+    if (TextUtils.isEmpty(initialText)) {
+      addLabelDialog.setButtonEnabled(DialogInterface.BUTTON_POSITIVE, false);
+    }
   }
 
   private void showEditLabelDialog(
@@ -298,14 +331,33 @@ public class LabelDialogManager {
   /** Dialog class to add label. */
   private static class AddLabelDialog extends BaseEditLabelDialog {
     private String resourceName;
+    @Nullable private final String initialText;
 
     public AddLabelDialog(
         Context context,
         String resourceName,
         CustomLabelManager labelManager,
         Pipeline.FeedbackReturner pipeline) {
+      this(context, resourceName, labelManager, pipeline, /* initialText= */ null);
+    }
+
+    public AddLabelDialog(
+        Context context,
+        String resourceName,
+        CustomLabelManager labelManager,
+        Pipeline.FeedbackReturner pipeline,
+        @Nullable String initialText) {
       super(context, R.string.label_dialog_title_add, labelManager, pipeline);
       this.resourceName = resourceName;
+      this.initialText = initialText;
+    }
+
+    @Override
+    public void setupCustomizedView() {
+      if (editField != null && !TextUtils.isEmpty(initialText)) {
+        editField.setText(initialText);
+        editField.setSelection(editField.length());
+      }
     }
 
     @Override

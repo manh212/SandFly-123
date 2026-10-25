@@ -343,6 +343,9 @@
   <string name="dialog_title_turn_on_image_description">Bật tính năng mô tả hình ảnh trong phần Cài đặt</string>
   <string name="dialog_message_turn_on_image_description">Sau khi bật tính năng tự động mô tả hình ảnh hoặc tính năng mô tả chi tiết về hình ảnh, bạn có thể thử lại</string>
   <string name="title_pref_detailed_image_description">Mô tả chi tiết về hình ảnh</string>
+  <string name="title_pref_ai_label_suggestion">Gợi ý nhãn bằng AI</string>
+  <string name="summary_pref_ai_label_suggestion">Khi bạn thêm nhãn cho một nút chưa có nhãn, dịch vụ mô tả hình ảnh sẽ gợi ý một nhãn để bạn xem lại</string>
+  <string name="label_suggestion_failed">Không lấy được gợi ý nhãn</string>
   <string name="dialog_message_on_device_ai_description">Bạn sẽ nghe thấy một đoạn mô tả ngắn khi đặt tiêu điểm vào một hình ảnh trong các ứng dụng được hỗ trợ.\n\nCác hình ảnh được xử lý trên thiết bị của bạn và không bao giờ được gửi cho Google. \n\nAI tạo sinh đang trong quá trình thử nghiệm nên sẽ vẫn mắc lỗi. Bằng việc tiếp tục, bạn đồng ý với <a href="https://policies.google.com/terms/generative-ai">Điều khoản dịch vụ của Google</a>.</string>
   <string name="enable_gemini">Bật</string>
   <string name="powered_by_gemini">Sử dụng AI tạo sinh</string>

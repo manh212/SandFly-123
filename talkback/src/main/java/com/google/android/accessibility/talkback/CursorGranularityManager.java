@@ -102,6 +102,9 @@ public class CursorGranularityManager {
    */
   private CursorGranularity currentGranularity = CursorGranularity.DEFAULT;
 
+  /** Told whenever {@link #currentGranularity} changes, by any of the ways it can be set. */
+  private @Nullable Runnable granularityChangeListener;
+
   /** Used on API 18+ to track when text selection mode is active. */
   private boolean selectionModeActive;
 
@@ -186,6 +189,17 @@ public class CursorGranularityManager {
     return currentGranularity;
   }
 
+  /** Sets who is told whenever the current granularity changes; see the listener field. */
+  public void setGranularityChangeListener(@Nullable Runnable listener) {
+    granularityChangeListener = listener;
+  }
+
+  private void notifyGranularityChangedIfNeeded(CursorGranularity before) {
+    if (granularityChangeListener != null && currentGranularity != before) {
+      granularityChangeListener.run();
+    }
+  }
+
   public CursorGranularity getSavedGranularity() {
     return savedGranularity;
   }
@@ -237,6 +251,7 @@ public class CursorGranularityManager {
   @CanIgnoreReturnValue
   public boolean setCurrentGranularityAt(
       @Nullable AccessibilityNodeInfoCompat node, CursorGranularity granularity, EventId eventId) {
+    CursorGranularity before = currentGranularity;
     setLockedNode(node, granularity.isMicroGranularity(), eventId);
 
     // If node is null, setLocked node does not populate supportedGranularities,
@@ -247,18 +262,22 @@ public class CursorGranularityManager {
 
     if (!supportedGranularities.contains(granularity)) {
       currentGranularity = CursorGranularity.DEFAULT;
+      notifyGranularityChangedIfNeeded(before);
       return false;
     }
 
     currentGranularity = granularity;
+    notifyGranularityChangedIfNeeded(before);
     return true;
   }
 
   /** Sets granularity to default, clears locked node. */
   public void setGranularityToDefault() {
+    CursorGranularity before = currentGranularity;
     currentGranularity = CursorGranularity.DEFAULT;
     savedGranularity = CursorGranularity.DEFAULT;
     clear();
+    notifyGranularityChangedIfNeeded(before);
   }
 
   /** Populates macro granularities in {@link #supportedGranularities}. */
@@ -349,8 +368,10 @@ public class CursorGranularityManager {
       nextIndex = count - 1;
     }
 
+    CursorGranularity before = currentGranularity;
     currentGranularity = supportedGranularities.get(nextIndex);
     savedGranularity = currentGranularity;
+    notifyGranularityChangedIfNeeded(before);
     return nextIndex != currentIndex;
   }
 

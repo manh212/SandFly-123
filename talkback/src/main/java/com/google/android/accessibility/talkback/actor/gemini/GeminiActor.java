@@ -510,6 +510,38 @@ public class GeminiActor {
   }
 
   /**
+   * Asks the service that describes images to answer {@code prompt} about {@code image}, through
+   * the same endpoint, and so by the same route, as an image description: on the phone when the
+   * on-device model answers requests, otherwise through the AI service in use. The listener gets
+   * the answer text, or an error. Returns whether the request was sent.
+   */
+  public boolean requestLabelSuggestion(
+      String prompt, Bitmap image, GeminiResponseListener listener) {
+    GeminiResponseListener stopTones =
+        new GeminiResponseListener() {
+          @Override
+          public void onResponse(FinishReason finishReason, String text) {
+            progressTonePlayer.stop();
+            listener.onResponse(finishReason, text);
+          }
+
+          @Override
+          public void onError(ErrorReason errorReason) {
+            progressTonePlayer.stop();
+            listener.onError(errorReason);
+          }
+        };
+    boolean sent =
+        geminiEndpoint.createRequestGeminiCommand(
+            prompt, image, /* manualTrigger= */ true, stopTones);
+    if (sent) {
+      progressTonePlayer.stop();
+      progressTonePlayer.play(/* playTone= */ true, /* delayPlayTone= */ false);
+    }
+    return sent;
+  }
+
+  /**
    * Requests a new on-device Gemini session for image captioning.
    *
    * @param requestId The requestId for identify the result

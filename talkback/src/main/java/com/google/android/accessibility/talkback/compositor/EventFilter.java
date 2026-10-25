@@ -30,6 +30,8 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeViewAccessibilityFocusedFeedbackRule;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.ColumnWrap;
+import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
+import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
@@ -37,6 +39,7 @@ import com.google.android.accessibility.talkback.notifications.Outcome;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
+import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.SettingsUtils;
@@ -78,6 +81,18 @@ public class EventFilter {
   public interface TargetPredictor {
     @Nullable AccessibilityNodeInfoCompat predictTarget(
         AccessibilityNodeInfoCompat pivot, @SearchDirection int searchDirection);
+
+    /**
+     * Works out which node a swipe from the focused node at the reading control now in effect
+     * would most likely reach.
+     */
+    @Nullable AccessibilityNodeInfoCompat predictTarget(
+        AccessibilityNodeInfoCompat pivot,
+        @SearchDirection int searchDirection,
+        @TargetType int targetType);
+
+    /** The target type of the reading control now in effect. */
+    @TargetType int currentTargetType();
   }
 
   private @Nullable TargetPredictor targetPredictor;
@@ -372,11 +387,15 @@ public class EventFilter {
       EventFeedback feedback;
       if (preparedFeedback != null) {
         feedback = preparedFeedback;
+        Performance.getInstance().onPreparedSpeechHit();
+        LogUtils.v(TAG, "Prepared speech hit: %s", node);
         // Working the feedback out would have moved the container title to the node's, as
         // preparing it did before putting it back.
         EventTypeViewAccessibilityFocusedFeedbackRule.currentContainerTitle =
             preparedContainerTitle;
       } else {
+        Performance.getInstance().onPreparedSpeechMiss();
+        LogUtils.v(TAG, "Prepared speech miss: %s", node);
         feedback = getSwipeTargetFeedback(event, node, eventInterpreted);
       }
       if (!hasSpeech(feedback)) {
@@ -521,10 +540,48 @@ public class EventFilter {
         prepareFocusSpeech(target);
       }
     }
+    // A swipe at the reading control now in effect reaches a different node than a plain swipe
+    // (the next heading, say, rather than the next node), so its targets are prepared too.
+    @TargetType int targetType = targetPredictor.currentTargetType();
+    if (targetType == NavigationTarget.TARGET_DEFAULT) {
+      return;
+    }
+    for (int direction : SWIPE_DIRECTIONS) {
+      @Nullable AccessibilityNodeInfoCompat target;
+      try {
+        target = targetPredictor.predictTarget(pivot, direction, targetType);
+      } catch (RuntimeException e) {
+        LogUtils.e(TAG, "Cannot predict reading-control swipe target: %s", e);
+        return;
+      }
+      if (target != null && !PreparedFocusSpeech.has(target, targetType)) {
+        prepareFocusSpeech(target, targetType);
+      }
+    }
+  }
+
+  /**
+   * The reading control changed while the focus stayed where it was, so the targets the next
+   * swipe would reach changed with it: prepare them around the focused node again.
+   */
+  public void onGranularityChanged() {
+    handler.removeCallbacks(prepareSwipeTargets);
+    if (lastFocusedNode != null && targetPredictor != null) {
+      handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
+    }
   }
 
   /** Works out and keeps what focusing {@code focusedNode} by a swipe would say. */
   private void prepareFocusSpeech(AccessibilityNodeInfoCompat focusedNode) {
+    prepareFocusSpeech(focusedNode, NavigationTarget.TARGET_DEFAULT);
+  }
+
+  /**
+   * Works out and keeps what focusing {@code focusedNode} by a swipe at a reading control whose
+   * target type is {@code targetType} would say.
+   */
+  private void prepareFocusSpeech(
+      AccessibilityNodeInfoCompat focusedNode, @TargetType int targetType) {
     // Read the node again from the app, as a swipe to it would, rather than prepare from a copy
     // that the saved reading order may have kept since before its text or state changed.
     @SuppressWarnings("deprecation") // obtain(): copy, so that the saved node is left as it was.
@@ -554,7 +611,7 @@ public class EventFilter {
       globalVariables.restoreFocusState(saved);
     }
     if (hasSpeech(feedback)) {
-      PreparedFocusSpeech.put(node, feedback, containerTitle);
+      PreparedFocusSpeech.put(node, feedback, containerTitle, targetType);
     }
   }
 

@@ -25,10 +25,13 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.labeling.LabelDialogManager;
+import com.google.android.accessibility.talkback.labeling.LabelSuggester;
+import com.google.android.accessibility.talkback.labeling.LabelSuggestionSettings;
 import com.google.android.accessibility.utils.labeling.Label;
 import java.util.ArrayList;
 import java.util.List;
@@ -78,8 +81,15 @@ class RuleUnlabeledNode extends NodeMenuRule {
               context.getString(R.string.label_dialog_title_add));
       item.setOnMenuItemClickListener(
           (menuItem) -> {
-            LabelDialogManager.addLabel(
-                context, resourceName, /* needToRestoreFocus= */ true, pipeline);
+            if (LabelSuggestionSettings.isEnabled(context)
+                && context instanceof TalkBackService) {
+              // The one add-label entry point, with an AI suggestion asked for first. Without
+              // the switch, or outside the service, adding a label is exactly as before.
+              LabelSuggester.request((TalkBackService) context, node, resourceName, pipeline);
+            } else {
+              LabelDialogManager.addLabel(
+                  context, resourceName, /* needToRestoreFocus= */ true, pipeline);
+            }
             analytics.onLocalContextMenuAction(MENU_TYPE_LABELING, item.getItemId());
             return true;
           });

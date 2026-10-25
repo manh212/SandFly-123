@@ -1692,6 +1692,9 @@
     Description: This preference to enable/disable the recognize text in images. [CHAR_LIMIT=NONE]
   -->
   <string name="title_pref_detailed_image_description">Detailed image descriptions</string>
+  <string name="title_pref_ai_label_suggestion">AI label suggestions</string>
+  <string name="summary_pref_ai_label_suggestion">When you add a label to an unlabeled button, the service that describes images suggests a label for you to review</string>
+  <string name="label_suggestion_failed">Couldn\'t get a label suggestion</string>
 
 
   <!-- Message for dialog shown when a user wants to enable detailed image description. [CHAR LIMIT=NONE]  -->

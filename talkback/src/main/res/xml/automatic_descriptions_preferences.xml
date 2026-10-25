@@ -10,6 +10,11 @@
       android:defaultValue="@bool/pref_detailed_image_description_default"
       android:key="@string/pref_detailed_image_description_key"
       android:title="@string/title_pref_detailed_image_description" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_ai_label_suggestion_default"
+      android:key="@string/pref_ai_label_suggestion_key"
+      android:summary="@string/summary_pref_ai_label_suggestion"
+      android:title="@string/title_pref_ai_label_suggestion" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_image_description_key"
       android:title="@string/title_pref_image_description" />

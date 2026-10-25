@@ -226,6 +226,11 @@ public class Performance {
   /** How often queued speech waited behind each class of utterance, by blocker class label. */
   private final HashMap<String, Long> speechWaitBlockerCounts = new HashMap<>();
 
+  /** How often focus was spoken from an announcement prepared before the swipe, and how often not. */
+  private long preparedSpeechHits;
+
+  private long preparedSpeechMisses;
+
   private final List<LatencyTracker> latencyTrackers = new ArrayList<>();
 
   /**
@@ -1063,10 +1068,42 @@ public class Performance {
     }
   }
 
+  /** Counts one focus spoken from a prepared announcement. */
+  public void onPreparedSpeechHit() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechHits++;
+    }
+  }
+
+  /** Counts one focus that was spoken without a prepared announcement to use. */
+  public void onPreparedSpeechMiss() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechMisses++;
+    }
+  }
+
+  /** Displays how often focus was spoken from a prepared announcement, and how often not. */
+  public void displayPreparedSpeechStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (preparedSpeechHits + preparedSpeechMisses > 0) {
+        logger.log(
+            "Prepared speech: %d hits, %d misses", preparedSpeechHits, preparedSpeechMisses);
+      }
+    }
+  }
+
   public void clearAllStats() {
     synchronized (lockLabelToStats) {
       labelToStats.clear();
       speechWaitBlockerCounts.clear();
+      preparedSpeechHits = 0;
+      preparedSpeechMisses = 0;
     }
     allEventStats.clear();
 
