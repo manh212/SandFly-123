@@ -506,7 +506,8 @@ public class SpeechControllerImplTest {
     speakGesture(speechController, "swipe target");
 
     assertEquals(
-        List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+        List.of("a long announcement", "the focused item", "swipe target"),
+        failoverTts.spokenTexts);
     List<String> profiles = Performance.getInstance().speechWaitProfileLines();
     assertEquals(1, profiles.size());
     assertTrue(profiles.get(0), profiles.get(0).contains("focus waited behind announcement"));
@@ -522,7 +523,8 @@ public class SpeechControllerImplTest {
     speakGesture(speechController, "swipe target");
 
     assertEquals(
-        List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+        List.of("a long announcement", "the focused item", "swipe target"),
+        failoverTts.spokenTexts);
     assertTrue(Performance.getInstance().speechWaitProfileLines().isEmpty());
   }
 
