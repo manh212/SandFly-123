@@ -147,6 +147,12 @@ class SpokenSchedules(
    */
   private fun catchUpSummary() {
     if (!prefs.getBoolean(KEY_SUMMARY_DAILY, false)) return
+    if (!prefs.contains(KEY_SUMMARY_LAST_DAY)) {
+      // The engine's first run, as after an upgrade: a summary time that passed before it
+      // ever ran is not read out now.
+      prefs.edit().putInt(KEY_SUMMARY_LAST_DAY, todayKey()).apply()
+      return
+    }
     if (prefs.getInt(KEY_SUMMARY_LAST_DAY, 0) == todayKey()) return
     val minutes = NotificationSettings.int(prefs, KEY_SUMMARY_TIME, 8 * 60)
     val calendar =

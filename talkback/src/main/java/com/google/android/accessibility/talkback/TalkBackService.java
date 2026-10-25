@@ -4164,14 +4164,18 @@ public class TalkBackService extends AccessibilityServiceCompat
     long version = pendingLiveReapplyVersionCode;
     pendingLiveReapplyVersionCode = 0L;
     try {
-      PrefsSelfHeal.clearPendingLiveReapply(prefs);
       LogUtils.i(
           TAG,
           "Re-applying the typing preferences in the live service after the update to"
               + " version %d",
           version);
       reloadPreferences(getString(R.string.pref_typing_confirmation_key));
+      // The stored marker is cleared only once the re-apply has run: clearing it first
+      // would lose the re-apply for good if the reload failed.
+      PrefsSelfHeal.clearPendingLiveReapply(prefs);
     } catch (Throwable t) {
+      // The re-apply is still owed; a later keyboard window retries it.
+      pendingLiveReapplyVersionCode = version;
       LogUtils.w(TAG, "The live re-apply of the typing preferences failed: %s", t);
     }
   }
