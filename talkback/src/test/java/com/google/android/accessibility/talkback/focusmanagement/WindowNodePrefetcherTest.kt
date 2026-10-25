@@ -25,7 +25,6 @@ import java.util.concurrent.atomic.AtomicReference
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
-import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -72,19 +71,23 @@ class WindowNodePrefetcherTest {
     fail("Timed out waiting for: $description")
   }
 
-  /** The prefetcher is a singleton: no earlier test may still hold the single flight. */
-  @Before
-  fun awaitFlightFree() {
-    val probe = CountDownLatch(1)
-    waitUntil("the background prefetch to become free") {
+  /**
+   * The prefetcher is a singleton with a single flight: a call made while an earlier test's
+   * flight is still draining is declined, and a declined call never invokes its supplier.
+   * Retrying until the supplier runs is therefore the only reliable way to place a call, and
+   * it cannot double-resolve: only the accepted call ever invokes the supplier.
+   */
+  private fun callUntilInvoked(supplier: () -> AccessibilityNodeInfoCompat?) {
+    val invoked = AtomicBoolean(false)
+    waitUntil("the call to be accepted") {
       WindowNodePrefetcher.prefetchInBackground(
         {
-          probe.countDown()
-          null
+          invoked.set(true)
+          supplier()
         },
         ownPackage = OWN_PACKAGE,
       )
-      probe.await(50, TimeUnit.MILLISECONDS)
+      invoked.get()
     }
   }
 
@@ -92,7 +95,7 @@ class WindowNodePrefetcherTest {
   fun prefetchInBackground_ownPackage_recyclesRootAndReturns() {
     val root = root(OWN_PACKAGE)
 
-    WindowNodePrefetcher.prefetchInBackground({ root }, ownPackage = OWN_PACKAGE)
+    callUntilInvoked { root }
 
     waitUntil("the root to be recycled") { root.recycled }
     assertTrue(root.recycled)
@@ -103,13 +106,10 @@ class WindowNodePrefetcherTest {
     val resolvingThread = AtomicReference<String>()
     val root = root("com.example.app")
 
-    WindowNodePrefetcher.prefetchInBackground(
-      {
-        resolvingThread.set(Thread.currentThread().name)
-        root
-      },
-      ownPackage = OWN_PACKAGE,
-    )
+    callUntilInvoked {
+      resolvingThread.set(Thread.currentThread().name)
+      root
+    }
 
     waitUntil("the root to be resolved and recycled") { root.recycled }
     assertTrue(resolvingThread.get().startsWith("BacktalkPrefetch"))
@@ -120,14 +120,11 @@ class WindowNodePrefetcherTest {
     val releaseFirst = CountDownLatch(1)
     val firstResolving = CountDownLatch(1)
     val firstRoot = root("com.example.first")
-    WindowNodePrefetcher.prefetchInBackground(
-      {
-        firstResolving.countDown()
-        releaseFirst.await(WAIT_MS, TimeUnit.MILLISECONDS)
-        firstRoot
-      },
-      ownPackage = OWN_PACKAGE,
-    )
+    callUntilInvoked {
+      firstResolving.countDown()
+      releaseFirst.await(WAIT_MS, TimeUnit.MILLISECONDS)
+      firstRoot
+    }
     assertTrue(firstResolving.await(WAIT_MS, TimeUnit.MILLISECONDS))
 
     val secondInvoked = AtomicBoolean(false)
