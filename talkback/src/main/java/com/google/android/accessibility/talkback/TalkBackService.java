@@ -772,6 +772,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   private ScreenStateMonitor screenStateMonitor;
   private DirectTouchController directTouchController;
   private SingleTapTypingController singleTapTypingController;
+  /** Version the live re-apply of the typing preferences is still owed for, or 0 when none. */
+  private long pendingLiveReapplyVersionCode;
   private StuckTouchController stuckTouchController;
   private PauseController pauseController;
   private AudioDeviceRouter audioDeviceRouter;
@@ -3126,6 +3128,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         getString(R.string.pref_current_selector_setting_key),
         getString(R.string.selector_switch_tts_engine),
         getString(R.string.selector_voice_profile));
+    armPendingLiveReapply();
     reloadPreferences();
 
     inputFocusInterpreter.initLastEditableFocusForGlobalVariables();
@@ -4185,6 +4188,48 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   private boolean skipShowingTutorialInLaunching() {
     return getResources().getBoolean(R.bool.skip_tutorial_in_launching);
+  }
+
+  /**
+   * The first-start preferences rewrite (see {@link PrefsSelfHeal}) runs before this service
+   * exists, when re-applying the typing preferences cannot take effect: there is no keyboard
+   * window yet, so the passthrough region sync is a no-op, and the state an update leaves
+   * drifted sits on the framework side. When the rewrite reports a live re-apply still owed
+   * for this version, arm it here: it runs once, the first time the passthrough region is
+   * armed for the keyboard window.
+   */
+  private void armPendingLiveReapply() {
+    try {
+      long pending = PrefsSelfHeal.pendingLiveReapplyVersion(prefs);
+      if (pending == 0L || singleTapTypingController == null) {
+        return;
+      }
+      pendingLiveReapplyVersionCode = pending;
+      singleTapTypingController.setKeyboardWindowPresentCallback(
+          this::consumePendingLiveReapply);
+    } catch (Throwable t) {
+      LogUtils.w(TAG, "Could not arm the live re-apply of the typing preferences: %s", t);
+    }
+  }
+
+  /** Performs the owed live re-apply, through the same reload a typing change would run. */
+  private void consumePendingLiveReapply() {
+    if (pendingLiveReapplyVersionCode == 0L) {
+      return;
+    }
+    long version = pendingLiveReapplyVersionCode;
+    pendingLiveReapplyVersionCode = 0L;
+    try {
+      PrefsSelfHeal.clearPendingLiveReapply(prefs);
+      LogUtils.i(
+          TAG,
+          "Re-applying the typing preferences in the live service after the update to"
+              + " version %d",
+          version);
+      reloadPreferences(getString(R.string.pref_typing_confirmation_key));
+    } catch (Throwable t) {
+      LogUtils.w(TAG, "The live re-apply of the typing preferences failed: %s", t);
+    }
   }
 
   /** Reloads preferences whenever their values change. */

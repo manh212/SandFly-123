@@ -80,17 +80,63 @@ class PrefsSelfHealTest {
   fun everyValueTypeSurvivesTheRewriteUnchanged() {
     seedValues()
     prefs.edit().putLong(PrefsSelfHeal.KEY_HEALED_VERSION, 100L).commit()
-    val before = prefs.all.toMap() - PrefsSelfHeal.KEY_HEALED_VERSION
+    val bookkeeping = setOf(PrefsSelfHeal.KEY_HEALED_VERSION, PrefsSelfHeal.KEY_PENDING_LIVE_REAPPLY)
+    val before = prefs.all.toMap() - bookkeeping
 
     assertEquals(Result.HEALED, PrefsSelfHeal.heal(prefs, 200L) {})
 
-    assertEquals(before, prefs.all.toMap() - PrefsSelfHeal.KEY_HEALED_VERSION)
+    assertEquals(before, prefs.all.toMap() - bookkeeping)
     assertEquals(true, prefs.getBoolean("a_switch", false))
     assertEquals(3, prefs.getInt("an_int", 0))
     assertEquals(1L shl 40, prefs.getLong("a_long", 0))
     assertEquals(1.5f, prefs.getFloat("a_float", 0f))
     assertEquals("x", prefs.getString("a_string", null))
     assertEquals(setOf("1", "2"), prefs.getStringSet("a_set", null))
+  }
+
+  @Test
+  fun versionChanged_stampsThePendingLiveReapply() {
+    assertEquals(Result.HEALED, PrefsSelfHeal.heal(prefs, 200L) {})
+
+    assertEquals(200L, prefs.getLong(PrefsSelfHeal.KEY_PENDING_LIVE_REAPPLY, -1L))
+    assertEquals(200L, PrefsSelfHeal.pendingLiveReapplyVersion(prefs))
+  }
+
+  @Test
+  fun sameVersion_keepsAnUnconsumedPendingLiveReapply() {
+    // The service was restarted before the keyboard ever appeared: the marker says this
+    // version is healed, but the live re-apply is still owed and must survive the no-op.
+    prefs.edit().putLong(PrefsSelfHeal.KEY_HEALED_VERSION, 200L).commit()
+    prefs.edit().putLong(PrefsSelfHeal.KEY_PENDING_LIVE_REAPPLY, 200L).commit()
+
+    assertEquals(Result.NOT_NEEDED, PrefsSelfHeal.heal(prefs, 200L) {})
+    assertEquals(200L, PrefsSelfHeal.pendingLiveReapplyVersion(prefs))
+  }
+
+  @Test
+  fun aLaterVersionChange_movesThePendingLiveReapplyToTheNewVersion() {
+    assertEquals(Result.HEALED, PrefsSelfHeal.heal(prefs, 200L) {})
+    PrefsSelfHeal.clearPendingLiveReapply(prefs)
+    assertEquals(0L, PrefsSelfHeal.pendingLiveReapplyVersion(prefs))
+
+    assertEquals(Result.HEALED, PrefsSelfHeal.heal(prefs, 201L) {})
+    assertEquals(201L, PrefsSelfHeal.pendingLiveReapplyVersion(prefs))
+  }
+
+  @Test
+  fun noPendingLiveReapply_readsAsZeroAndClearingIsHarmless() {
+    assertEquals(0L, PrefsSelfHeal.pendingLiveReapplyVersion(prefs))
+
+    PrefsSelfHeal.clearPendingLiveReapply(prefs)
+    assertFalse(prefs.contains(PrefsSelfHeal.KEY_PENDING_LIVE_REAPPLY))
+  }
+
+  @Test
+  fun failingCommit_stampsNoPendingLiveReapply() {
+    val stub = StubPrefs(prefs, throwOnCommit = true)
+
+    assertEquals(Result.FAILED, PrefsSelfHeal.heal(stub, 200L) {})
+    assertFalse(prefs.contains(PrefsSelfHeal.KEY_PENDING_LIVE_REAPPLY))
   }
 
   @Test
