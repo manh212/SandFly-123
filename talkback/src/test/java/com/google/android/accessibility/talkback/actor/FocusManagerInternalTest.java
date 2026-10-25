@@ -132,7 +132,7 @@ public class FocusManagerInternalTest {
 
     AccessibilityEvent focusedEvent =
         AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
-    focusedEvent.setSource(node.unwrap());
+    shadowOf(focusedEvent).setSourceNode(node.unwrap());
     assertNull(history.matchFocusActionRecordFromEvent(focusedEvent));
 
     shadowOf(Looper.getMainLooper()).idle();
