@@ -265,6 +265,11 @@ public class FailoverTextToSpeech {
 
   private volatile boolean lowLatencyAudio = false;
 
+  /** Makes each new utterance interrupt the one speaking and clear those waiting. */
+  public static final String PREF_ALWAYS_INTERRUPT_SPEECH_KEY = "pref_always_interrupt_speech";
+
+  private volatile boolean alwaysInterruptSpeech = false;
+
   /** Why low-latency playback was last turned off for the current engine, or null. */
   private volatile @Nullable String lowLatencyOffReason;
 
@@ -284,6 +289,11 @@ public class FailoverTextToSpeech {
   /** Whether the low-latency audio setting is on. */
   public boolean isLowLatencyAudioOn() {
     return lowLatencyAudio;
+  }
+
+  /** Whether each new utterance interrupts the one speaking and clears those waiting. */
+  public boolean isAlwaysInterruptSpeechOn() {
+    return alwaysInterruptSpeech;
   }
 
   /** Whether the current engine speaks the usual way because low-latency playback failed on it. */
@@ -424,6 +434,8 @@ public class FailoverTextToSpeech {
           if (wasOn && !lowLatencyAudio) {
             turnOffLowLatencyAudio();
           }
+        } else if (PREF_ALWAYS_INTERRUPT_SPEECH_KEY.equals(key)) {
+          alwaysInterruptSpeech = sharedPrefs.getBoolean(key, false);
         } else if (PREF_SWITCH_LANGUAGES_KEY.equals(key)
             || PREF_SWITCH_DIALECTS_KEY.equals(key)) {
           readLanguageSwitches(sharedPrefs);
@@ -516,6 +528,7 @@ public class FailoverTextToSpeech {
     preferredTtsEngine = readPreferredEngine(prefs);
     speakInPhrases = prefs.getBoolean(PREF_SPEAK_IN_PHRASES_KEY, SPEAK_IN_PHRASES_DEFAULT);
     lowLatencyAudio = prefs.getBoolean(PREF_LOW_LATENCY_AUDIO_KEY, lowLatencyAudioDefault(context));
+    alwaysInterruptSpeech = prefs.getBoolean(PREF_ALWAYS_INTERRUPT_SPEECH_KEY, false);
     readLanguageSwitches(prefs);
     VoiceProfiles.setActive(VoiceProfiles.readActive(prefs));
     prefs.registerOnSharedPreferenceChangeListener(preferenceChangeListener);
