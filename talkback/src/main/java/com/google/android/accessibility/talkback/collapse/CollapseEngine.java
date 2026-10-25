@@ -404,7 +404,7 @@ public final class CollapseEngine {
   }
 
   /** The catalog entry whose scanned counterpart carries this label, or null if none does. */
-  private static @Nullable CollapseScript.TrayCatalog.Entry absorbingEntry(
+  private static CollapseScript.TrayCatalog.@Nullable Entry absorbingEntry(
       CollapseScript.TrayCatalog catalog, CharSequence label) {
     if (label == null) {
       return null;

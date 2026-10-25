@@ -91,7 +91,7 @@ final class FacebookCollapseScript extends CollapseScript {
           });
 
   @Override
-  public TrayCatalog trayCatalog() {
+  public @Nullable TrayCatalog trayCatalog() {
     return TRAY_CATALOG;
   }
 
