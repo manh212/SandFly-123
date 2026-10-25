@@ -263,10 +263,15 @@
     <string name="timer_settings_title">Timer settings</string>
     <!-- Screen: the permissions SandFly needs, checked and asked for one by one. -->
     <string name="timer_setup_title">Initial setup</string>
-    <!-- Action: goes on to the next permission of the initial setup. -->
-    <string name="timer_setup_next">Continue</string>
-    <!-- Action: goes from the last permission of the initial setup to its summary. -->
-    <string name="timer_setup_finish">See the summary</string>
+    <!-- Where the initial setup stands, said on every step: the step showing, how many steps
+         there are, and the state the step stands in. -->
+    <string name="timer_setup_progress">Step %1$d of %2$d: %3$s</string>
+    <!-- Action of a step of the initial setup: passes this permission by. -->
+    <string name="timer_setup_skip">Skip this permission</string>
+    <!-- Action of a step of the initial setup: leaves the setup before its end. -->
+    <string name="timer_setup_exit">Leave initial setup</string>
+    <!-- Action of a step opened from the summary: goes back to the summary. -->
+    <string name="timer_setup_back">Back to the summary</string>
     <!-- Action: leaves the initial setup. -->
     <string name="timer_setup_done">Done</string>
     <!-- Heading: every permission of the initial setup with the state it stands in. -->
@@ -309,6 +314,38 @@
     <string name="timer_setup_service_missing">Off: the screen reader is not running.</string>
     <!-- Action of the service step. -->
     <string name="timer_setup_service_open">Open accessibility settings</string>
+    <!-- Step of the initial setup: the microphone dictation listens with. -->
+    <string name="timer_setup_microphone_title">Microphone</string>
+    <!-- The microphone step, held. -->
+    <string name="timer_setup_microphone_granted">Granted: dictation can hear you.</string>
+    <!-- The microphone step, not held. -->
+    <string name="timer_setup_microphone_missing">Not granted: dictation cannot hear you, so voice typing has no way in.</string>
+    <!-- Action of the microphone step: asks with the system's own dialog. -->
+    <string name="timer_setup_microphone_open">Ask for the microphone</string>
+    <!-- Step of the initial setup: the state of phone calls. -->
+    <string name="timer_setup_phone_title">Phone state</string>
+    <!-- The phone state step, held. -->
+    <string name="timer_setup_phone_granted">Granted: SandFly can follow when a call rings, runs and ends.</string>
+    <!-- The phone state step, not held. -->
+    <string name="timer_setup_phone_missing">Not granted: SandFly cannot tell a ringing call from an ended one.</string>
+    <!-- Action of the phone state step: asks with the system's own dialog. -->
+    <string name="timer_setup_phone_open">Ask for phone state</string>
+    <!-- Step of the initial setup: installing the updates SandFly downloads. -->
+    <string name="timer_setup_install_title">Installing updates</string>
+    <!-- The install step, held. -->
+    <string name="timer_setup_install_granted">Allowed: the updater can install the builds it downloads.</string>
+    <!-- The install step, not held. -->
+    <string name="timer_setup_install_missing">Not allowed: a downloaded update cannot be installed until this is allowed.</string>
+    <!-- Action of the install step. -->
+    <string name="timer_setup_install_open">Open the install permission</string>
+    <!-- Step of the initial setup: changing system settings, which the brightness control does. -->
+    <string name="timer_setup_brightness_title">Screen brightness</string>
+    <!-- The brightness step, held. -->
+    <string name="timer_setup_brightness_granted">Allowed: the reading controls can change the screen brightness.</string>
+    <!-- The brightness step, not held. -->
+    <string name="timer_setup_brightness_missing">Not allowed: the brightness item of the reading controls cannot change the system brightness.</string>
+    <!-- Action of the brightness step. -->
+    <string name="timer_setup_brightness_open">Open the modify-settings permission</string>
     <!-- Setting screen of the stopwatch. -->
     <string name="stopwatch_title">Stopwatch</string>
     <!-- Action: starts the stopwatch if it is stopped, and stops it if it is running. -->

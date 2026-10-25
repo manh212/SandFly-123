@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.timer.TimerSetupFragment"
+      android:fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment"
       android:key="pref_initial_setup_screen"
       android:title="@string/timer_setup_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
