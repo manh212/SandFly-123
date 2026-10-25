@@ -152,6 +152,9 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_cache_keyboard_keys),
             context.getString(R.string.pref_speak_items_before_scroll_key),
             context.getString(R.string.pref_background_order_build_key),
+            context.getString(R.string.pref_touch_order_build_key),
+            context.getString(R.string.pref_settle_order_build_key),
+            context.getString(R.string.pref_lean_order_builder_key),
             context.getString(R.string.pref_trust_untouched_nodes_key),
             context.getString(R.string.pref_keep_prepared_across_unrelated_key),
             context.getString(R.string.pref_serve_stale_order_key),
@@ -240,6 +243,27 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (backgroundOrderBuildPreference != null) {
         backgroundOrderBuildPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_background_order_build_default));
+      }
+
+      TwoStatePreference touchOrderBuildPreference =
+          findPreference(getString(R.string.pref_touch_order_build_key));
+      if (touchOrderBuildPreference != null) {
+        touchOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_touch_order_build_default));
+      }
+
+      TwoStatePreference settleOrderBuildPreference =
+          findPreference(getString(R.string.pref_settle_order_build_key));
+      if (settleOrderBuildPreference != null) {
+        settleOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_settle_order_build_default));
+      }
+
+      TwoStatePreference leanOrderBuilderPreference =
+          findPreference(getString(R.string.pref_lean_order_builder_key));
+      if (leanOrderBuilderPreference != null) {
+        leanOrderBuilderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_lean_order_builder_default));
       }
 
       TwoStatePreference trustUntouchedNodesPreference =

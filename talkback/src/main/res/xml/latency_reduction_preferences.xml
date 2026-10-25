@@ -36,6 +36,24 @@
         android:key="@string/pref_background_order_build_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_touch_order_build_default"
+        android:title="@string/title_pref_touch_order_build"
+        android:summary="@string/summary_pref_touch_order_build"
+        android:key="@string/pref_touch_order_build_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_settle_order_build_default"
+        android:title="@string/title_pref_settle_order_build"
+        android:summary="@string/summary_pref_settle_order_build"
+        android:key="@string/pref_settle_order_build_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_lean_order_builder_default"
+        android:title="@string/title_pref_lean_order_builder"
+        android:summary="@string/summary_pref_lean_order_builder"
+        android:key="@string/pref_lean_order_builder_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_trust_untouched_nodes_default"
         android:title="@string/title_pref_trust_untouched_nodes"
         android:summary="@string/summary_pref_trust_untouched_nodes"

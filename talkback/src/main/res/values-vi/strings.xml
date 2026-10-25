@@ -1544,6 +1544,12 @@
     <string name="summary_pref_always_interrupt_speech">Câu nói mới sẽ dừng thông báo đang nói và xóa các thông báo đang chờ, để bạn nghe thông báo mới nhất ngay lập tức. Hãy tắt tùy chọn này nếu các thông báo bị cắt ngang trước khi bạn nghe hết.</string>
     <string name="title_pref_background_order_build">Dựng thứ tự đọc ở nền</string>
     <string name="summary_pref_background_order_build">Khi màn hình thay đổi, SandFly tính thứ tự đọc mới ở chế độ nền để thao tác vuốt tiếp theo không phải chờ. Hãy tắt tùy chọn này nếu tiêu điểm đáp sai mục sau khi màn hình thay đổi.</string>
+    <string name="title_pref_touch_order_build">Dựng thứ tự đọc ngay khi bắt đầu chạm</string>
+    <string name="summary_pref_touch_order_build">Khi bạn chạm vào màn hình mà chưa có thứ tự đọc nào được lưu, SandFly bắt đầu dựng ngay, trong lúc ngón tay bạn còn đang di chuyển, để thứ tự sẵn sàng khi thao tác vuốt tới. Nếu đã có thứ tự được lưu thì không có gì bắt đầu cả. Hãy tắt tùy chọn này nếu việc chạm dường như gây ra độ trễ cảm nhận được.</string>
+    <string name="title_pref_settle_order_build">Dựng lại thứ tự đọc khi màn hình đã lắng</string>
+    <string name="summary_pref_settle_order_build">Một lần dựng bắt đầu khi màn hình còn đang thay đổi thường không qua được các thay đổi nối tiếp sau nó. Khi màn hình đã yên một lúc mà vẫn chưa có thứ tự đọc nào được lưu, SandFly yêu cầu dựng lại, để thao tác vuốt đầu tiên trên màn hình đã lắng không phải tự dựng. Hãy tắt tùy chọn này nếu thao tác vuốt đáp sai mục sau khi màn hình lắng xuống.</string>
+    <string name="title_pref_lean_order_builder">Dựng thứ tự đọc bằng cách nhanh</string>
+    <string name="summary_pref_lean_order_builder">SandFly tính thứ tự đọc bằng bộ dựng nhanh của riêng mình, vốn chỉ đọc màn hình một lần thay vì nhiều lần. Thứ tự cho ra vẫn như cũ. Hãy tắt tùy chọn này nếu thao tác vuốt đáp sai mục hoặc các mục được đọc không đúng thứ tự.</string>
     <string name="title_pref_trust_untouched_nodes">Không đọc lại mục vuốt không thay đổi</string>
     <string name="summary_pref_trust_untouched_nodes">Khi chỉ các mục khác trên màn hình thay đổi, mục bạn vuốt tới sẽ được đọc như lần đọc gần nhất mà không phải chờ đọc lại. Hãy tắt tùy chọn này nếu một mục bị đọc với nội dung cũ sau khi mục khác thay đổi.</string>
     <string name="title_pref_keep_prepared_across_unrelated">Giữ câu chuẩn bị sẵn khi thay đổi không liên quan</string>

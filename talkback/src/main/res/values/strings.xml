@@ -2661,6 +2661,21 @@
     <!-- Reduce delays: summary of the prepare further ahead switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_prepare_wider">The second item each way from the focused item is prepared as well, and a prepared announcement you did not swipe to is kept for the next swipe instead of being thrown away.</string>
 
+    <!-- Reduce delays: switch that starts building the reading order when a touch begins. [CHAR LIMIT=50] -->
+    <string name="title_pref_touch_order_build">Build the reading order when a touch starts</string>
+    <!-- Reduce delays: summary of the build at touch start switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_touch_order_build">When you touch the screen and no reading order is saved, SandFly starts building it straight away, while your finger is still moving, so it is ready when your swipe lands. Nothing starts when an order is already saved. Turn this off if touches seem to cause work you can feel.</string>
+
+    <!-- Reduce delays: switch that retries the reading order build once the screen settles. [CHAR LIMIT=50] -->
+    <string name="title_pref_settle_order_build">Retry the reading order build when the screen settles</string>
+    <!-- Reduce delays: summary of the settle retry switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_settle_order_build">A build started while a screen is still changing often does not survive the changes that follow it. When the screen has been quiet for a moment and still no reading order is saved, SandFly asks for the build again, so the first swipe on the settled screen does not have to build it. Turn this off if a swipe lands on the wrong item after a screen settles.</string>
+
+    <!-- Reduce delays: switch that builds the reading order the lean way. [CHAR LIMIT=50] -->
+    <string name="title_pref_lean_order_builder">Build the reading order the fast way</string>
+    <!-- Reduce delays: summary of the lean builder switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_lean_order_builder">SandFly works out the reading order with its own quicker builder, which reads the screen once instead of several times. The order it produces is the same. Turn this off if swiping lands on the wrong item or items are read out of order.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
