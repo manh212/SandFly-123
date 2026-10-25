@@ -497,6 +497,9 @@ public class SpeechControllerImplTest {
 
   @Test
   public void longWait_isProfiledNamingBlockerAndWaiter() {
+    // With the window/focus interrupt privilege on, focus speech would cut the announcement
+    // itself and never wait; turn it off so the wait this test profiles can happen.
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
     enablePerformanceStats();
 
     speakAnnouncement(speechController, "a long announcement");
@@ -516,6 +519,7 @@ public class SpeechControllerImplTest {
 
   @Test
   public void shortWait_isCountedButNotProfiled() {
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
     enablePerformanceStats();
 
     speakAnnouncement(speechController, "a long announcement");
