@@ -69,11 +69,6 @@ public class CollapsedItemActions implements NodeMenu {
   /** The recorded header text of Facebook's comment action tray (Vietnamese UI). */
   static final String TRAY_HEADER_TEXT = "Bày tỏ cảm xúc về bình luận này";
 
-  /** The recorded labels of the collapsed Like action, per UI language. */
-  private static final String[] TRAY_LIKE_LABELS = {"Thích", "Like"};
-  /** The recorded labels of the collapsed Reply action, per UI language. */
-  private static final String[] TRAY_REPLY_LABELS = {"Trả lời", "Reply"};
-
   private final Pipeline.FeedbackReturner pipeline;
   private final TalkBackAnalytics analytics;
 
@@ -128,6 +123,8 @@ public class CollapsedItemActions implements NodeMenu {
                   item.pattern() == CollapseScript.Pattern.COMPOSITE_ROOT,
                   item.composedLabel(),
                   action.label,
+                  action.kind == ChildAction.Kind.TRAY_ITEM ? action.trayLabels : null,
+                  action.trayRestoreFocus,
                   pipeline,
                   analytics));
       menuItem.setCheckable(false);
@@ -155,6 +152,10 @@ public class CollapsedItemActions implements NodeMenu {
     private final boolean compositeRoot;
     private final @Nullable CharSequence itemComposedLabel;
     private final CharSequence actionLabel;
+    /** The tray button's recorded labels for a tray action; null for any other action. */
+    private final @Nullable String[] trayLabels;
+    /** Whether the tray sequence restores focus to the item when the tray closes. */
+    private final boolean trayRestoreFocus;
 
     CollapseActionClickListener(
         Context context,
@@ -164,6 +165,8 @@ public class CollapsedItemActions implements NodeMenu {
         boolean compositeRoot,
         @Nullable CharSequence itemComposedLabel,
         CharSequence actionLabel,
+        @Nullable String[] trayLabels,
+        boolean trayRestoreFocus,
         Pipeline.FeedbackReturner pipeline,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
@@ -173,6 +176,8 @@ public class CollapsedItemActions implements NodeMenu {
       this.compositeRoot = compositeRoot;
       this.itemComposedLabel = itemComposedLabel;
       this.actionLabel = actionLabel;
+      this.trayLabels = trayLabels;
+      this.trayRestoreFocus = trayRestoreFocus;
     }
 
     @Override
@@ -195,16 +200,20 @@ public class CollapsedItemActions implements NodeMenu {
      * the press lands on the same child either way and "not supported" is only reported
      * when every route failed.
      *
-     * <p>Two composite actions take a different route entirely: Like and Reply on a
-     * Facebook comment. Their real buttons are buried inside the item where no route above
+     * <p>The tray actions of a composite item — the full contents of Facebook's comment
+     * tray, offered as the item's own actions — take a different route entirely. The
+     * in-item buttons they correspond to are buried inside the item where no route above
      * reaches them -- the button exposes no ACTION_CLICK and a simulated tap on its frame
      * produces no click inside the app at all (the full on-device record is in the tray
-     * research note). Those two actions instead run the tray sequence (see {@link
+     * research note). A tray action instead runs the tray sequence (see {@link
      * #performTraySequence}): a real long press on the comment's live body shell opens
-     * Facebook's own action tray, and the sequence clicks the tray's real button. The
-     * buried-button routes never run for them, and a tray sequence that fails at any stage
-     * fails honestly -- the perform reports false, or the sequence announces "not
-     * supported" itself -- rather than falling back to a route already known to be dead.
+     * Facebook's own action tray, and the sequence clicks the tray's real button carrying
+     * the action's label. The route is chosen by the action's kind, ahead of the stored
+     * tiers and of the long-click flag, so a long press on a tray action runs the same
+     * sequence as a click. The buried-button routes never run for them, and a tray
+     * sequence that fails at any stage fails honestly -- the perform reports false, or
+     * the sequence announces "not supported" itself -- rather than falling back to a route
+     * already known to be dead.
      *
      * <p>The target is refreshed first: the stored node is a snapshot from when the items
      * were built and the app may have re-created the child since, leaving the snapshot with
@@ -247,13 +256,12 @@ public class CollapsedItemActions implements NodeMenu {
       AccessibilityNodeInfoCompat focusNode = focusNodeProvider.getFocusNode(context);
       try {
         logAccessibilityFocus(focusNode);
-        TrayKind trayKind = trayKind();
-        if (compositeRoot && trayKind != TrayKind.NONE) {
+        if (compositeRoot && trayLabels != null) {
           // The tray sequence owns the outcome from here: arming already fired the
           // opener, and every later failure is announced by the sequence itself, so
           // the arming result is the whole perform.
-          boolean armed = performTraySequence(focusNode, trayKind);
-          LogUtils.v(TAG, "perform traySequence armed=%b kind=%s", armed, trayKind);
+          boolean armed = performTraySequence(focusNode);
+          LogUtils.v(TAG, "perform traySequence armed=%b label=%s", armed, actionLabel);
           return armed;
         }
         boolean performed =
@@ -267,33 +275,8 @@ public class CollapsedItemActions implements NodeMenu {
       }
     }
 
-    /** Which tray sequence, if any, this activation runs; NONE keeps the stored tiers. */
-    private enum TrayKind {
-      NONE,
-      LIKE,
-      LIKE_LONG_PRESS,
-      REPLY
-    }
-
-    private TrayKind trayKind() {
-      String trimmed = actionLabel == null ? "" : actionLabel.toString().trim();
-      for (String likeLabel : TRAY_LIKE_LABELS) {
-        if (likeLabel.equals(trimmed)) {
-          return longClick ? TrayKind.LIKE_LONG_PRESS : TrayKind.LIKE;
-        }
-      }
-      if (!longClick) {
-        for (String replyLabel : TRAY_REPLY_LABELS) {
-          if (replyLabel.equals(trimmed)) {
-            return TrayKind.REPLY;
-          }
-        }
-      }
-      return TrayKind.NONE;
-    }
-
     /**
-     * Starts the tray sequence for a composite Like or Reply activation. The live item is
+     * Starts the tray sequence for a composite tray activation. The live item is
      * re-matched from the node holding accessibility focus and accepted only when its
      * composed label still equals the label of the item these actions were built from, so
      * the press can never jump to a neighbouring comment. The opener target is the live
@@ -302,8 +285,7 @@ public class CollapsedItemActions implements NodeMenu {
      * on the comment text lands on. Every stage is logged; any doubt ends the perform
      * with false, the honest synchronous failure.
      */
-    private boolean performTraySequence(
-        @Nullable AccessibilityNodeInfoCompat focusNode, TrayKind kind) {
+    private boolean performTraySequence(@Nullable AccessibilityNodeInfoCompat focusNode) {
       if (MenuAutomation.isPending()) {
         // Swallowed like a menu activation during a running sequence: the click is
         // handled, and the running sequence owns the outcome.
@@ -347,16 +329,13 @@ public class CollapsedItemActions implements NodeMenu {
           supportsLongClick);
       Rect originBounds = new Rect();
       liveItem.itemRoot().getBoundsInScreen(originBounds);
-      boolean openOnly = kind == TrayKind.LIKE_LONG_PRESS;
       boolean armed =
           MenuAutomation.beginTray(
               pipeline,
               context,
               shell,
-              openOnly ? null : actionLabel.toString(),
-              openOnly,
-              // Reply ends in the composer, which must keep focus; Like restores it.
-              /* restoreFocusOnClose= */ kind != TrayKind.REPLY,
+              trayLabels,
+              trayRestoreFocus,
               TRAY_HEADER_TEXT,
               authorOf(liveItem.composedLabel()),
               itemComposedLabel == null ? "" : itemComposedLabel.toString(),

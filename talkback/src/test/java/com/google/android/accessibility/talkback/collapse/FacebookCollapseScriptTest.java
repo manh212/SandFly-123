@@ -20,6 +20,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.FacebookCommentTree;
@@ -39,6 +40,41 @@ public class FacebookCollapseScriptTest {
   private static final Map<String, CollapseScript> SCRIPTS =
       Map.of(CollapseTestTrees.FACEBOOK_PACKAGE, new FacebookCollapseScript());
 
+  /** The collapsed item's tray actions, in tray order, under the tray's English labels. */
+  private static final List<String> TRAY_LABELS_EN =
+      List.of(
+          "Like",
+          "Love",
+          "Care",
+          "Haha",
+          "Wow",
+          "Sad",
+          "Angry",
+          "Share comment",
+          "Report comment",
+          "Reply",
+          "Copy",
+          "Hide comment");
+
+  /** The expected non-twin action labels: {@code before}, the tray set, {@code after}. */
+  private static List<String> labelsAroundTray(List<String> before, List<String> after) {
+    List<String> all = new ArrayList<>(before);
+    all.addAll(TRAY_LABELS_EN);
+    all.addAll(after);
+    return all;
+  }
+
+  /** The item's tray actions, in the order they are offered. */
+  private static List<ChildAction> trayActionsOf(CollapsedItem item) {
+    List<ChildAction> tray = new ArrayList<>();
+    for (ChildAction action : item.actions()) {
+      if (action.kind == ChildAction.Kind.TRAY_ITEM) {
+        tray.add(action);
+      }
+    }
+    return tray;
+  }
+
   @Test
   public void comment_matches_labelIsAuthorTimeBody_actionsTargetTheSplitBodyShell() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
@@ -57,32 +93,39 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.likeWrap, action.node);
       } else {
         clickLabels.add(action.label.toString());
         if ("This is a great comment".contentEquals(action.label)) {
           // The text itself is not clickable in the real tree; its action lands on the shell.
           assertEquals(tree.bodyActionTarget, action.node);
         }
-        if ("Reply".contentEquals(action.label)) {
-          // The press lands on the block's wrapper, not the inert Litho button inside it.
-          assertEquals(tree.replyWrap, action.node);
-        } else if ("Like".contentEquals(action.label)) {
-          assertEquals(tree.likeWrap, action.node);
-        }
       }
     }
+    // The scanned Reply and Like (and Like's long-press twin) are absorbed into the tray
+    // set, which stands where the Reply/Like cluster stood, in the tray's own order.
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            "This is a great comment",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of("Profile picture of Nguyen Van A", "Nguyen Van A", "This is a great comment"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
-    assertEquals(1, longClickTwins);
+    assertEquals(0, longClickTwins);
+    List<ChildAction> tray = trayActionsOf(item);
+    assertEquals(12, tray.size());
+    for (int i = 0; i < tray.size(); i++) {
+      // Every tray action is backed by the first absorbed action's node and carries the
+      // button's recorded labels in both languages for the tray-side match.
+      assertEquals(tree.replyWrap, tray.get(i).node);
+      assertEquals(2, tray.get(i).trayLabels.length);
+    }
+    // Reactions and Copy restore focus to the comment; Reply, Share, Report and Hide hand
+    // over to Facebook's follow-up UI.
+    boolean[] restores = {
+      true, true, true, true, true, true, true, false, false, false, true, false
+    };
+    for (int i = 0; i < tray.size(); i++) {
+      assertEquals(restores[i], tray.get(i).trayRestoreFocus);
+    }
+    assertTrue(tray.get(0).trayLabels[0].equals("Thích"));
     // Text selection still targets the node carrying the text, not the shell.
     assertEquals(tree.body, item.selectionTarget());
     assertNull(item.activationTarget());
@@ -103,15 +146,13 @@ public class FacebookCollapseScriptTest {
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            " · Follow",
-            "This is a great comment",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of(
+                "Profile picture of Nguyen Van A",
+                "Nguyen Van A",
+                " · Follow",
+                "This is a great comment"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
   }
 
@@ -137,15 +178,13 @@ public class FacebookCollapseScriptTest {
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            "This is a great comment",
-            "See more",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of(
+                "Profile picture of Nguyen Van A",
+                "Nguyen Van A",
+                "This is a great comment",
+                "See more"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
     assertEquals(tree.body, item.selectionTarget());
   }
@@ -171,31 +210,19 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.likeWrap, action.node);
       } else {
         clickLabels.add(action.label.toString());
         if ("This is a great comment".contentEquals(action.label)) {
           assertEquals(tree.bodyActionTarget, action.node);
         }
-        if ("Reply".contentEquals(action.label)) {
-          // The press lands on the block's wrapper, not the inert Litho button inside it.
-          assertEquals(tree.replyWrap, action.node);
-        } else if ("Like".contentEquals(action.label)) {
-          assertEquals(tree.likeWrap, action.node);
-        }
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            "This is a great comment",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of("Profile picture of Nguyen Van A", "Nguyen Van A", "This is a great comment"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
-    assertEquals(1, longClickTwins);
+    assertEquals(0, longClickTwins);
     assertEquals(tree.body, item.selectionTarget());
     assertNull(item.activationTarget());
   }
@@ -219,15 +246,9 @@ public class FacebookCollapseScriptTest {
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            " · Follow",
-            "Cool",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of("Profile picture of Nguyen Van A", "Nguyen Van A", " · Follow", "Cool"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
     assertEquals(tree.body, item.selectionTarget());
   }
@@ -254,15 +275,13 @@ public class FacebookCollapseScriptTest {
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            "Fan cứng",
-            "This is a great comment",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of(
+                "Profile picture of Nguyen Van A",
+                "Nguyen Van A",
+                "Fan cứng",
+                "This is a great comment"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
     assertEquals(tree.body, item.selectionTarget());
   }
@@ -319,7 +338,9 @@ public class FacebookCollapseScriptTest {
         clickActions++;
       }
     }
-    assertEquals(9, clickActions);
+    // Nine scanned click actions, of which Like and Reply are absorbed into the tray
+    // set of twelve: 9 - 2 + 12. The cap counts the scanned children, not the tray set.
+    assertEquals(19, clickActions);
   }
 
   @Test
@@ -358,7 +379,6 @@ public class FacebookCollapseScriptTest {
     for (ChildAction action : item.actions()) {
       if (action.longClick) {
         longClickTwins++;
-        assertEquals(tree.likeWrap, action.node);
       } else {
         // No blank entries: the header's unlabelled clickable container is not an action.
         assertFalse(action.label.toString().isEmpty());
@@ -369,10 +389,6 @@ public class FacebookCollapseScriptTest {
           // A mention inside the body text keeps its own target: the text node around it
           // is a content field, not an action block's wrapper.
           assertEquals(tree.mention, action.node);
-        } else if ("Reply".contentEquals(action.label)) {
-          assertEquals(tree.replyWrap, action.node);
-        } else if ("Like".contentEquals(action.label)) {
-          assertEquals(tree.likeWrap, action.node);
         } else if ("May be an image of text".contentEquals(action.label)) {
           // Exactly one photo action, on the wrapper; the image itself is de-duplicated
           // into it and neither of them earns a long-press twin.
@@ -381,18 +397,16 @@ public class FacebookCollapseScriptTest {
       }
     }
     assertEquals(
-        List.of(
-            "Profile picture of Nguyen Van A",
-            "Nguyen Van A",
-            "Hoang Tuan looks great in this photo",
-            "Hoang Tuan",
-            "May be an image of text",
-            "Reply",
-            "5 reactions",
-            "Like",
-            "Demote comment"),
+        labelsAroundTray(
+            List.of(
+                "Profile picture of Nguyen Van A",
+                "Nguyen Van A",
+                "Hoang Tuan looks great in this photo",
+                "Hoang Tuan",
+                "May be an image of text"),
+            List.of("5 reactions", "Demote comment")),
         clickLabels);
-    assertEquals(1, longClickTwins);
+    assertEquals(0, longClickTwins);
     // The frame cannot be clicked, so a double-tap lands on the body shell, while text
     // selection still targets the node carrying the text.
     assertEquals(tree.bodyActionTarget, item.activationTarget());
@@ -401,7 +415,8 @@ public class FacebookCollapseScriptTest {
 
   @Test
   public void commentWithPhoto_heaviestRecordedCombination_stillMatches() {
-    // Photo + follow button + reactions together: eleven actions after de-duplication.
+    // Photo + follow button + reactions together: eleven scanned actions after
+    // de-duplication, of which Like and Reply are absorbed into the tray set of twelve.
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     list.setScrollable(true);
     FacebookCommentTree tree = CollapseTestTrees.facebookCommentWithPhoto(list);
@@ -435,7 +450,7 @@ public class FacebookCollapseScriptTest {
         clickActions++;
       }
     }
-    assertEquals(11, clickActions);
+    assertEquals(21, clickActions);
   }
 
   @Test
@@ -537,8 +552,9 @@ public class FacebookCollapseScriptTest {
         continue;
       }
       if ("Like".contentEquals(action.label)) {
-        // The Like frame now wraps two clickables: a shared container, not a wrapper.
-        assertEquals(tree.like, action.node);
+        // The scanned Like is absorbed into the tray set whatever its own target was:
+        // the tray entry never presses the button or the frame it sits in.
+        assertEquals(ChildAction.Kind.TRAY_ITEM, action.kind);
       } else if ("Extra".contentEquals(action.label)) {
         assertEquals(extra, action.node);
       }

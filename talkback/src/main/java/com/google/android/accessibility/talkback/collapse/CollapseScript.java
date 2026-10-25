@@ -106,6 +106,52 @@ public abstract class CollapseScript {
     }
   }
 
+  /**
+   * A declaration that an item's own action tray — the sheet the app opens on a long press —
+   * should be offered directly as synthesized actions, in place of the scanned actions the
+   * tray duplicates. Each entry is one button of the tray, in the tray's own order, named by
+   * the tray's own recorded labels in each language the tray is recorded in. An entry whose
+   * in-item counterpart the scan already carries is marked as absorbing: the scanned action
+   * (and its long-click twin) is removed and the tray set takes its place in the list, under
+   * the label set of the language the absorbed labels were read in.
+   */
+  public static final class TrayCatalog {
+
+    /** One button of the tray, in the order the tray shows them. */
+    public static final class Entry {
+      /** The button's label in the tray's Vietnamese wording (the recorded ground truth). */
+      public final String labelVi;
+      /** The button's label in the tray's English wording. */
+      public final String labelEn;
+      /**
+       * Whether the tray sequence restores focus to the item when the tray closes. Entries
+       * whose whole result is the tray closing restore; entries that hand over to the app's
+       * follow-up UI (a composer, a share or report flow, the item disappearing) do not.
+       */
+      public final boolean restoreFocusOnClose;
+      /**
+       * Whether a scanned action carrying this entry's label is the in-item counterpart the
+       * tray set replaces: such actions are absorbed into the set, never duplicated by it.
+       */
+      public final boolean absorbsScanned;
+
+      public Entry(
+          String labelVi, String labelEn, boolean restoreFocusOnClose, boolean absorbsScanned) {
+        this.labelVi = labelVi;
+        this.labelEn = labelEn;
+        this.restoreFocusOnClose = restoreFocusOnClose;
+        this.absorbsScanned = absorbsScanned;
+      }
+    }
+
+    /** The catalog's entries, in the order the app's tray shows them. */
+    public final Entry[] entries;
+
+    public TrayCatalog(Entry[] entries) {
+      this.entries = entries;
+    }
+  }
+
   /** A named content field of a composite item, resolved against the item's subtree. */
   public static final class Field {
     public final String id;
@@ -224,6 +270,11 @@ public abstract class CollapseScript {
 
   /** The overflow-menu expansion for items matched by this script, or null for none. */
   public @Nullable MenuCatalog menuCatalog() {
+    return null;
+  }
+
+  /** The action-tray expansion for items matched by this script, or null for none. */
+  public @Nullable TrayCatalog trayCatalog() {
     return null;
   }
 

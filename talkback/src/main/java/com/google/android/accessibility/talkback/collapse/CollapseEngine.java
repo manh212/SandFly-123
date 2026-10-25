@@ -32,6 +32,7 @@ import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -339,11 +340,83 @@ public final class CollapseEngine {
     return new CollapsedItem(
         itemRoot,
         itemRoot,
-        retargetActions(script, scan, withLongClickTwins(script, scan, clickActions)),
+        expandTray(
+            script, retargetActions(script, scan, withLongClickTwins(script, scan, clickActions))),
         label.toString(),
         activationTarget,
         fieldNode(fields, script.selectionFieldId()),
         script.pattern());
+  }
+
+  /**
+   * Replaces the scanned actions an item's action tray duplicates with the tray's full
+   * declared contents, in tray order, at the position of the first replaced action. The
+   * action cap above counts real child buttons only; the tray set is a fixed declaration,
+   * not scanned children. Expansion happens only when at least one scanned action is
+   * absorbed; any other shape leaves the actions untouched. The tray is offered under the
+   * label set of the language the absorbed actions were read in — the live item is the
+   * ground truth for the app's current language.
+   */
+  private static List<ChildAction> expandTray(CollapseScript script, List<ChildAction> actions) {
+    CollapseScript.TrayCatalog catalog = script.trayCatalog();
+    if (catalog == null) {
+      return actions;
+    }
+    List<ChildAction> kept = new ArrayList<>();
+    int insertAt = -1;
+    AccessibilityNodeInfoCompat backing = null;
+    Boolean vietnamese = null;
+    for (ChildAction action : actions) {
+      CollapseScript.TrayCatalog.Entry absorbed =
+          action.kind == ChildAction.Kind.CLICK ? absorbingEntry(catalog, action.label) : null;
+      if (absorbed == null) {
+        kept.add(action);
+        continue;
+      }
+      if (insertAt < 0) {
+        insertAt = kept.size();
+        backing = action.node;
+      }
+      if (vietnamese == null) {
+        String label = action.label.toString().trim();
+        if (label.equals(absorbed.labelVi)) {
+          vietnamese = true;
+        } else if (label.equals(absorbed.labelEn)) {
+          vietnamese = false;
+        }
+      }
+    }
+    if (insertAt < 0) {
+      return actions;
+    }
+    boolean vi = vietnamese != null ? vietnamese : "vi".equals(Locale.getDefault().getLanguage());
+    List<ChildAction> trayActions = new ArrayList<>();
+    for (CollapseScript.TrayCatalog.Entry entry : catalog.entries) {
+      trayActions.add(
+          ChildAction.trayItem(
+              backing,
+              vi ? entry.labelVi : entry.labelEn,
+              new String[] {entry.labelVi, entry.labelEn},
+              entry.restoreFocusOnClose));
+    }
+    kept.addAll(insertAt, trayActions);
+    return kept;
+  }
+
+  /** The catalog entry whose scanned counterpart carries this label, or null if none does. */
+  private static CollapseScript.TrayCatalog.@Nullable Entry absorbingEntry(
+      CollapseScript.TrayCatalog catalog, CharSequence label) {
+    if (label == null) {
+      return null;
+    }
+    String trimmed = label.toString().trim();
+    for (CollapseScript.TrayCatalog.Entry entry : catalog.entries) {
+      if (entry.absorbsScanned
+          && (trimmed.equals(entry.labelVi) || trimmed.equals(entry.labelEn))) {
+        return entry;
+      }
+    }
+    return null;
   }
 
   /** The node itself if clickable, else its nearest clickable ancestor up to the item root. */
