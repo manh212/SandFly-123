@@ -4,9 +4,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_survey_setting_entry_point_key"
-      android:title="@string/survey_setting_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.update.UpdatesFragment"
       android:key="pref_updates_screen"
       android:title="@string/title_pref_updates" />
@@ -14,6 +11,9 @@
       android:fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment"
       android:key="pref_initial_setup_screen"
       android:title="@string/timer_setup_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_survey_setting_entry_point_key"
+      android:title="@string/survey_setting_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.timer.TimerSettingsFragment"
       android:key="pref_timer_settings_screen"

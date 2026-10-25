@@ -31,7 +31,7 @@ import org.xmlpull.v1.XmlPullParser
 /**
  * The timer settings are one flat screen: the spoken clock above, the stopwatch below — no
  * exact-times switch and no stopwatch screen inside the screen. The initial setup is not here:
- * it is the first row of the main settings screen, and nowhere else.
+ * it stands second on the main settings screen, right after Updates, and nowhere else.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -68,7 +68,7 @@ class TimerSettingsStructureTest {
   }
 
   @Test
-  fun mainScreen_startsWithTheInitialSetup_andHasItOnce() {
+  fun mainScreen_startsWithUpdates_thenTheInitialSetup_andHasItOnce() {
     val topLevel = mutableListOf<Pair<String?, String?>>()
     val parser = context.resources.getXml(R.xml.preferences)
     var event = parser.eventType
@@ -81,8 +81,10 @@ class TimerSettingsStructureTest {
       event = parser.next()
     }
 
-    assertEquals(SETUP_KEY, topLevel.first().first)
-    assertTrue(topLevel.first().second?.contains("SetupFragment") == true)
+    assertEquals("pref_updates_screen", topLevel[0].first)
+    assertTrue(topLevel[0].second?.contains("UpdatesFragment") == true)
+    assertEquals(SETUP_KEY, topLevel[1].first)
+    assertTrue(topLevel[1].second?.contains("SetupFragment") == true)
     assertEquals(
       "one initial setup entry point in the whole main screen",
       1,
