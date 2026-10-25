@@ -63,14 +63,15 @@ class TraversalOrderSnapshotBuilderTest {
   }
 
   /**
-   * A tree whose reading order is not its child order: within the box, the right-hand child is
-   * added first, so only the bounds sort puts "A" before "B".
+   * A tree whose reading order is not its child order: within the box, "B" is added first, but
+   * "A" declares itself before "B", so the builder's reorder pass must move it ahead.
    */
   private fun syntheticTree(): AccessibilityNodeInfo {
     val root = taggedNode(null, "root", Rect(0, 0, 600, 600))
     val box = taggedNode(root, "box", Rect(0, 0, 600, 300))
-    taggedNode(box, "B", Rect(300, 0, 600, 300))
-    taggedNode(box, "A", Rect(0, 0, 300, 300))
+    val b = taggedNode(box, "B", Rect(300, 0, 600, 300))
+    val a = taggedNode(box, "A", Rect(0, 0, 300, 300))
+    shadowOf(a).setTraversalBefore(b)
     taggedNode(root, "C", Rect(0, 300, 600, 600))
     return root
   }
