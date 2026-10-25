@@ -17,7 +17,6 @@
 package com.google.android.accessibility.talkback.collapse;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -27,13 +26,11 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.FacebookCommentTree;
 import com.google.android.accessibility.talkback.collapse.CollapseTestTrees.YouTubeTree;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
-import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -58,13 +55,10 @@ import org.robolectric.annotation.Config;
  *       as a real tap on the child; its long-click (LONG_CLICK_NODE) has no such simulation.
  * </ul>
  *
- * Before the fix, the two Facebook tests fail at the click: the listener only ever emitted
- * the bare node action, the performed result was the framework's refusal, and activation
- * reported the action as not supported -- the on-device symptom.
- *
- * <p>Defended routes alone were not enough on device: the press has to land on the action
- * block's wrapper, the interaction stop that exposes the click. The Facebook tests model
- * the wrapper that way and expect delivery on the wrapper of the rebuilt tree.
+ * <p>Facebook's Like and Reply used to be pinned here against delivery on the action
+ * block's wrapper; they now run the tray sequence instead of these routes and are pinned
+ * in {@code CollapsedItemTrayActivationTest}, so this file keeps the routes' contract
+ * for the actions that still use them.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
@@ -120,11 +114,6 @@ public class CollapsedItemActivationTest {
       }
       return true;
     }
-
-    /** The node the press ultimately landed on, by whichever route delivered it. */
-    AccessibilityNodeInfoCompat deliveredTarget() {
-      return actionTarget != null ? actionTarget : simulatedTarget;
-    }
   }
 
   private Context context;
@@ -142,47 +131,6 @@ public class CollapsedItemActivationTest {
         .commit();
     returner = new PerformingReturner();
     actions = new CollapsedItemActions(returner, /* analytics= */ null);
-  }
-
-  @Test
-  public void facebookTextComment_likeActivation_deliversThePressToTheLikeWrapper() {
-    AccessibilityNodeInfoCompat list1 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree1 = CollapseTestTrees.facebookComment(list1);
-    ContextMenuItem.ContextMenuItemId heardId =
-        findItem(tree1.root, "Like").getContextMenuItemId();
-
-    // The list recycled every node: a structurally identical new tree at activation time.
-    AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree2 = CollapseTestTrees.facebookComment(list2);
-    // The Like block's wrapper is the interaction stop: it exposes the click that the
-    // Litho button inside it does not.
-    tree2.likeWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
-    ContextMenuItem item = lookup(tree2.root, heardId);
-
-    assertNotNull("the heard item must be found again at activation time", item);
-    assertTrue(
-        "activation must not report the Like action as not supported", item.onClickPerformed());
-    assertEquals(tree2.likeWrap, returner.deliveredTarget());
-    assertEquals(tree2.likeWrap, returner.actionTarget);
-  }
-
-  @Test
-  public void facebookPhotoComment_likeActivation_deliversThePressToTheLikeWrapper() {
-    AccessibilityNodeInfoCompat list1 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree1 = CollapseTestTrees.facebookCommentWithPhoto(list1);
-    ContextMenuItem.ContextMenuItemId heardId =
-        findItem(tree1.root, "Like").getContextMenuItemId();
-
-    AccessibilityNodeInfoCompat list2 = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree2 = CollapseTestTrees.facebookCommentWithPhoto(list2);
-    tree2.likeWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
-    ContextMenuItem item = lookup(tree2.root, heardId);
-
-    assertNotNull("the heard item must be found again at activation time", item);
-    assertTrue(
-        "activation must not report the Like action as not supported", item.onClickPerformed());
-    assertEquals(tree2.likeWrap, returner.deliveredTarget());
-    assertEquals(tree2.likeWrap, returner.actionTarget);
   }
 
   @Test
@@ -208,18 +156,5 @@ public class CollapsedItemActivationTest {
       }
     }
     throw new AssertionError("No action titled " + title);
-  }
-
-  /** Finds an item the way the reading control does at activation time: by id equality. */
-  private ContextMenuItem lookup(
-      AccessibilityNodeInfoCompat representative,
-      ContextMenuItem.ContextMenuItemId heardId) {
-    List<ContextMenuItem> items = actions.getMenuItemsForNode(context, representative, false);
-    for (ContextMenuItem item : items) {
-      if (item.getContextMenuItemId().equals(heardId)) {
-        return item;
-      }
-    }
-    return null;
   }
 }

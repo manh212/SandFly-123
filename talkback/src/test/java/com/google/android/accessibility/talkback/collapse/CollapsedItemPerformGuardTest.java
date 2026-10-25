@@ -46,6 +46,9 @@ import org.robolectric.annotation.Config;
  * (0, 0) and call it a press. Robolectric nodes cannot go stale, so staleness is modelled by
  * empty bounds on the target; the refresh itself is stood in for through the listener's seam
  * where a test needs it to restore the bounds, the way a live refresh re-reads the child.
+ * The guard is exercised through Demote, an action that still runs the stored tiers; Like
+ * and Reply run the tray sequence instead and are pinned in {@code
+ * CollapsedItemTrayActivationTest}.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
@@ -147,15 +150,15 @@ public class CollapsedItemPerformGuardTest {
   }
 
   @Test
-  public void likeClick_emptyBounds_refreshLeavesThemEmpty_honestFailure() {
+  public void demoteClick_emptyBounds_refreshLeavesThemEmpty_honestFailure() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    CollapseTestTrees.bounds(tree.likeWrap, 0, 0, 0, 0);
+    CollapseTestTrees.bounds(tree.demote, 0, 0, 0, 0);
 
-    ContextMenuItem like = findItem(tree.root, "Like");
+    ContextMenuItem demote = findItem(tree.root, "Demote comment");
 
     assertFalse("empty bounds must surface as not supported, not as success",
-        like.onClickPerformed());
+        demote.onClickPerformed());
     assertEquals("no perform tier may emit feedback against an empty-bounds target",
         0, returner.partCount);
     assertNull(returner.actionTarget);
@@ -163,58 +166,45 @@ public class CollapsedItemPerformGuardTest {
   }
 
   @Test
-  public void likeClick_emptyBounds_refreshRestoresBounds_defendedClickRuns() {
+  public void demoteClick_emptyBounds_refreshRestoresBounds_defendedClickRuns() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    CollapseTestTrees.bounds(tree.likeWrap, 0, 0, 0, 0);
+    CollapseTestTrees.bounds(tree.demote, 0, 0, 0, 0);
     RecordingRefresher refresher = new RecordingRefresher();
     refresher.restoreBounds = true;
     CollapsedItemActions.setNodeRefresherForTest(refresher);
 
-    ContextMenuItem like = findItem(tree.root, "Like");
+    ContextMenuItem demote = findItem(tree.root, "Demote comment");
 
-    assertTrue(like.onClickPerformed());
+    assertTrue(demote.onClickPerformed());
     assertEquals(1, refresher.calls);
-    assertEquals(tree.likeWrap, refresher.node);
-    assertEquals(tree.likeWrap, returner.simulatedTarget);
+    assertEquals(tree.demote, refresher.node);
+    assertEquals(tree.demote, returner.simulatedTarget);
   }
 
   @Test
-  public void likeClick_emptyBounds_wrapperExposesClick_directActionStillPerforms() {
+  public void demoteClick_emptyBounds_buttonExposesClick_directActionStillPerforms() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    CollapseTestTrees.bounds(tree.likeWrap, 0, 0, 0, 0);
-    tree.likeWrap.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
+    CollapseTestTrees.bounds(tree.demote, 0, 0, 0, 0);
+    tree.demote.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
 
-    ContextMenuItem like = findItem(tree.root, "Like");
+    ContextMenuItem demote = findItem(tree.root, "Demote comment");
 
-    assertTrue(like.onClickPerformed());
-    assertEquals(tree.likeWrap, returner.actionTarget);
+    assertTrue(demote.onClickPerformed());
+    assertEquals(tree.demote, returner.actionTarget);
     assertEquals(AccessibilityNodeInfoCompat.ACTION_CLICK, returner.actionId);
   }
 
   @Test
-  public void likeLongPress_emptyBounds_honestFailure() {
-    AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
-    FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
-    CollapseTestTrees.bounds(tree.likeWrap, 0, 0, 0, 0);
-
-    ContextMenuItem longPress = findItem(tree.root, "Like, long press");
-
-    assertFalse(longPress.onClickPerformed());
-    assertEquals(0, returner.partCount);
-    assertNull(returner.actionTarget);
-  }
-
-  @Test
-  public void likeClick_validBounds_defendedClickUnchanged() {
+  public void demoteClick_validBounds_defendedClickUnchanged() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
 
-    ContextMenuItem like = findItem(tree.root, "Like");
+    ContextMenuItem demote = findItem(tree.root, "Demote comment");
 
-    assertTrue(like.onClickPerformed());
-    assertEquals(tree.likeWrap, returner.simulatedTarget);
+    assertTrue(demote.onClickPerformed());
+    assertEquals(tree.demote, returner.simulatedTarget);
     assertNull(returner.actionTarget);
   }
 
