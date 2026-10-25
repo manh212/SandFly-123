@@ -16,15 +16,19 @@
 
 package com.google.android.accessibility.talkback.clipboard;
 
-import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
+import java.util.Arrays;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 /** Tests for {@link ClipboardHistory}. */
 @RunWith(RobolectricTestRunner.class)
+@Config(sdk = 34)
 public class ClipboardHistoryTest {
 
   @Before
@@ -37,7 +41,7 @@ public class ClipboardHistoryTest {
     ClipboardHistory.record("one");
     ClipboardHistory.record("two");
 
-    assertThat(ClipboardHistory.getEntries()).containsExactly("two", "one").inOrder();
+    assertEquals(Arrays.asList("two", "one"), ClipboardHistory.getEntries());
   }
 
   @Test
@@ -46,7 +50,7 @@ public class ClipboardHistoryTest {
     ClipboardHistory.record("two");
     ClipboardHistory.record("one");
 
-    assertThat(ClipboardHistory.getEntries()).containsExactly("one", "two").inOrder();
+    assertEquals(Arrays.asList("one", "two"), ClipboardHistory.getEntries());
   }
 
   @Test
@@ -54,7 +58,7 @@ public class ClipboardHistoryTest {
     ClipboardHistory.record("");
     ClipboardHistory.record(null);
 
-    assertThat(ClipboardHistory.getEntries()).isEmpty();
+    assertTrue(ClipboardHistory.getEntries().isEmpty());
   }
 
   @Test
@@ -63,8 +67,8 @@ public class ClipboardHistoryTest {
       ClipboardHistory.record("text " + i);
     }
 
-    assertThat(ClipboardHistory.getEntries()).hasSize(50);
-    assertThat(ClipboardHistory.getEntries().get(0)).isEqualTo("text 59");
-    assertThat(ClipboardHistory.getEntries().get(49)).isEqualTo("text 10");
+    assertEquals(50, ClipboardHistory.getEntries().size());
+    assertEquals("text 59", ClipboardHistory.getEntries().get(0));
+    assertEquals("text 10", ClipboardHistory.getEntries().get(49));
   }
 }
