@@ -133,10 +133,14 @@ class StopwatchEngine(
   }
 
   private fun set(alarms: AlarmManager, at: Long) {
-    alarms.setAlarmClock(
-      AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
-      AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH),
-    )
+    val pending = AlarmClockIntents.alarm(context, AlarmClockIntents.ACTION_STOPWATCH)
+    try {
+      alarms.setAlarmClock(AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)), pending)
+    } catch (e: SecurityException) {
+      // An alarm clock needs no permission; should a system ever refuse one, an alarm that may
+      // run late still beats none — a late milestone is still announced, a lost one caught up.
+      alarms.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending)
+    }
   }
 
   private fun cancelAlarm(alarms: AlarmManager) {

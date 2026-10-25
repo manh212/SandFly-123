@@ -114,10 +114,14 @@ class SpokenSchedules(
   }
 
   private fun set(alarms: AlarmManager, at: Long, actionSuffix: String) {
-    alarms.setAlarmClock(
-      AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)),
-      AlarmClockIntents.alarm(context, actionSuffix),
-    )
+    val pending = AlarmClockIntents.alarm(context, actionSuffix)
+    try {
+      alarms.setAlarmClock(AlarmManager.AlarmClockInfo(at, AlarmClockIntents.showSettings(context)), pending)
+    } catch (e: SecurityException) {
+      // An alarm clock needs no permission; should a system ever refuse one, an alarm that may
+      // run late still beats none — a late summary is read, a lost one is caught up.
+      alarms.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pending)
+    }
   }
 
   private fun cancelAlarm(alarms: AlarmManager, actionSuffix: String) {
