@@ -168,12 +168,6 @@ class StopwatchEngine(
     val elapsed = System.currentTimeMillis() - startedAt
     val milestone = elapsed / intervalMs * intervalMs
     if (milestone <= 0) return
-    if (!prefs.contains(Stopwatch.KEY_LAST_ANNOUNCED)) {
-      // First sight of the marker, as after an upgrade from a version that never wrote it:
-      // everything up to now counts as said, so the newest milestone is not said a second time.
-      prefs.edit().putLong(Stopwatch.KEY_LAST_ANNOUNCED, milestone).apply()
-      return
-    }
     if (milestone <= prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, 0)) return
     prefs.edit().putLong(Stopwatch.KEY_LAST_ANNOUNCED, milestone).apply()
     signal(R.raw.chime_up)
