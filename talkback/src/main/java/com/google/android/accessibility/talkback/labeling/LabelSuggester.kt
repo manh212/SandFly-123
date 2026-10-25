@@ -195,7 +195,7 @@ class LabelSuggester(
       full: Bitmap,
       node: AccessibilityNodeInfoCompat,
       captureByWindow: Boolean,
-    ): Bitmap {
+    ): Bitmap? {
       val bounds = Rect()
       if (captureByWindow) node.getBoundsInWindow(bounds) else node.getBoundsInScreen(bounds)
       if (bounds.isEmpty) return full
