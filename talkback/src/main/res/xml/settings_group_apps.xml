@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_apps_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.scripting.ScriptsFragment"
+        android:key="@string/pref_scripts_key"
+        android:summary="@string/summary_pref_scripts"
+        android:title="@string/title_pref_scripts" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_manage_labels_key"
+        android:title="@string/title_pref_manage_labels" >
+      <intent
+          android:targetPackage="@string/app_id"
+          android:targetClass="com.google.android.accessibility.talkback.labeling.LabelManagerSummaryActivity" />
+    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

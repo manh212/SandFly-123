@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Palieskite vieną kartą paryškintą elementą, kad suaktyvintumėte. Spartesnis naršymas, nei dukart palietus.</string>
   <string name="pref_verbosity_title">Daugiažodiškumas</string>
   <string name="pref_punctuation_title">Ištarti skyrybos ženklus ir simbolius</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokusavimo indikatorius</string>
   <string name="title_pref_category_manage_gestures">Gestai</string>
   <string name="title_pref_manage_labels">Tinkintos etiketės</string>
   <string name="title_pref_category_context_menu">„SandFly“ meniu</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">„SandFly“ mokomoji medžiaga</string>
   <string name="title_pref_category_help_no_tutorial">Pagalba</string>
   <string name="title_pref_advanced_settings">Išplėstiniai nustatymai</string>
-  <string name="title_pref_show_exit_watermark">Rodyti „SandFly“ išjungimo instrukcijas</string>
-  <string name="summary_pref_show_exit_watermark">Kai SandFly įsijungia, rodoma, kaip jį išjungti</string>
-  <string name="talkback_exit_watermark_text">„SandFly“ įjungta. Penkias sekundes laikykite du pirštus ant ekrano, kad išjungtumėte. Jei norite, kad šis pranešimas nebebūtų rodomas, palieskite trimis pirštais, kad atidarytumėte „SandFly“ meniu.</string>
-  <string name="talkback_exit_watermark_hint_text">Rodoma reklamjuostė, nurodanti, kad „SandFly“ įjungta. Jei norite išjungti „SandFly“, penkias sekundes palaikykite du pirštus ant ekrano. Jei norite pašalinti šią reklamjuostę, eikite į „SandFly“ nustatymų skiltį.</string>
   <string name="reset_gesture_settings_title">Gestų nustatymas iš naujo</string>
   <string name="one_finger_gestures_title">Vienas pirštas</string>
   <string name="one_finger_back_forth_gestures_title">Vienas pirštas atgal ir pirmyn</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Patikrinkite, ar telefonas prijungtas.</string>
   <string name="image_qna_voice_input_empty">Kalba neatpažinta.</string>
   <string name="image_qna_answer_unavailable">Nėra atsakymo.</string>
-  <string name="title_pref_thick_border">Storos kraštinės</string>
-  <string name="title_pref_category_border_color">Spalva</string>
-  <string name="title_pref_default_color">Numatytoji</string>
-  <string name="title_pref_red">Raudona</string>
-  <string name="title_pref_orange">Oranžinė</string>
-  <string name="title_pref_yellow">Geltona</string>
-  <string name="title_pref_green">Žalia</string>
-  <string name="title_pref_blue">Mėlyna</string>
-  <string name="title_pref_grey">Pilka</string>
   <string name="survey_setting_title">Bendrinti atsiliepimus</string>
   <string name="title_summarize_view">Aprašykite ekraną</string>
   <string name="detected_result">Aptikta: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Reikia leidimo, kurio Android nesuteikia ekrano skaitytuvams. Kad jį suteiktumėte, paleiskite šią komandą per adb arba Shizuku ir grįžkite į šį ekraną: %1$s</string>
     <string name="action_copy_command">Kopijuoti komandą</string>
     <string name="command_copied">Komanda nukopijuota</string>
-    <string name="title_pref_speech_control">Leisti kitoms programoms kalbėti</string>
-    <string name="summary_pref_speech_control">Leistos programos gali sakyti tekstą SandFly balsu. Kol įrenginys užrakintas, nieko nesakoma.</string>
-    <string name="title_pref_speech_control_sound">Leisti garsą prieš kalbant kitoms programoms</string>
-    <string name="speech_control_apps_category">Programos</string>
-    <string name="speech_control_no_apps">Jokia programa dar neprašė kalbėti.</string>
-    <string name="speech_control_ask_title">Leisti <xliff:g id="app" example="Tasker">%1$s</xliff:g> kalbėti per SandFly?</string>
-    <string name="speech_control_ask_text">Jis gali pasakyti tekstą jūsų SandFly balsu. Tai galite pakeisti Išplėstiniuose nustatymuose.</string>
-    <string name="speech_control_allow">Leisti</string>
-    <string name="speech_control_deny">Neleisti</string>
-    <string name="permission_speak_label">kalbėti per SandFly</string>
-    <string name="permission_speak_description">Leidžia programai paprašyti pasakyti tekstą jūsų SandFly balsu. SandFly klausia jūsų prieš programai galint kalbėti.</string>
     <string name="title_pref_phonetic_letters_mode">Tarti raides fonetiškai</string>
     <string name="phonetic_letters_mode_off">Išjungta</string>
     <string name="phonetic_letters_mode_after_letter_delay">Po raidės, su pauze, pvz., „h, Henrikas“</string>
@@ -1494,7 +1469,6 @@
     <string name="quick_settings_remove">Pašalinti</string>
     <string name="quick_settings_added">%1$s pridėta</string>
     <string name="quick_settings_removed">%1$s pašalinta</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly įjungta. Laikykite 2 pirštus ant ekrano 5 sekundes, kad išjungtumėte. Jei norite neberodyti šio pranešimo, išjunkite SandFly nustatymai &gt; Išplėstiniai nustatymai &gt; Rodyti instrukcijas, kaip išjungti SandFly.</string>
     <string name="edge_gestures_title">Kraštai</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Kitas spartusis klavišas, skirtas įjungti arba išjungti naršymo režimą</string>
     <string name="title_pref_vibration_strength">Vibracijos stiprumas</string>

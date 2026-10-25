@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">แตะรายการที่โฟกัส 1 ครั้งเพื่อเปิดใช้งาน การไปยังส่วนต่างๆ ที่รวดเร็วกว่าการแตะสองครั้ง</string>
   <string name="pref_verbosity_title">การพูดรายละเอียด</string>
   <string name="pref_punctuation_title">พูดเครื่องหมายวรรคตอนและสัญลักษณ์</string>
-  <string name="title_pref_category_manage_focus_indicator">สัญลักษณ์แสดงโฟกัส</string>
   <string name="title_pref_category_manage_gestures">ท่าทางสัมผัส</string>
   <string name="title_pref_manage_labels">ป้ายกำกับที่กำหนดเอง</string>
   <string name="title_pref_category_context_menu">เมนู SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">บทแนะนำของ SandFly</string>
   <string name="title_pref_category_help_no_tutorial">ความช่วยเหลือ</string>
   <string name="title_pref_advanced_settings">การตั้งค่าขั้นสูง</string>
-  <string name="title_pref_show_exit_watermark">แสดงวิธีการปิด SandFly</string>
-  <string name="summary_pref_show_exit_watermark">เมื่อ SandFly เปิด จะแสดงวิธีปิด</string>
-  <string name="talkback_exit_watermark_text">SandFly เปิดอยู่ ใช้ 2 นิ้วกดหน้าจอค้างไว้ 5 วินาทีเพื่อปิด หากต้องการหยุดแสดงข้อความนี้ ให้ใช้ 3 นิ้วแตะเพื่อเปิดเมนู SandFly</string>
-  <string name="talkback_exit_watermark_hint_text">แสดงแบนเนอร์ที่ระบุว่า SandFly เปิดอยู่ หากต้องการปิด SandFly ให้ใช้ 2 นิ้วแตะหน้าจอค้างไว้ 5 วินาที หากต้องการนำแบนเนอร์นี้ออก ให้ไปที่การตั้งค่า SandFly</string>
   <string name="reset_gesture_settings_title">รีเซ็ตการตั้งค่าท่าทางสัมผัส</string>
   <string name="one_finger_gestures_title">1 นิ้ว</string>
   <string name="one_finger_back_forth_gestures_title">ใช้ 1 นิ้วปัดกลับไปกลับมา</string>
@@ -1070,15 +1065,6 @@
   <string name="watch_remote_intent_error_confirmation_text">โปรดตรวจสอบว่าโทรศัพท์เชื่อมต่ออยู่หรือไม่</string>
   <string name="image_qna_voice_input_empty">ไม่รู้จักคำพูด</string>
   <string name="image_qna_answer_unavailable">ไม่มีคำตอบ</string>
-  <string name="title_pref_thick_border">เส้นขอบหนา</string>
-  <string name="title_pref_category_border_color">สี</string>
-  <string name="title_pref_default_color">ค่าเริ่มต้น</string>
-  <string name="title_pref_red">แดง</string>
-  <string name="title_pref_orange">ส้ม</string>
-  <string name="title_pref_yellow">เหลือง</string>
-  <string name="title_pref_green">เขียว</string>
-  <string name="title_pref_blue">น้ำเงิน</string>
-  <string name="title_pref_grey">สีเทา</string>
   <string name="survey_setting_title">แชร์ความคิดเห็น</string>
   <string name="title_summarize_view">อธิบายหน้าจอ</string>
   <string name="detected_result">ตรวจพบ: %1$s</string>
@@ -1334,17 +1320,6 @@
     <string name="summary_pref_speakerphone_needs_permission">ต้องใช้สิทธิ์ที่ Android ไม่ให้แก่โปรแกรมอ่านหน้าจอ หากต้องการให้สิทธิ์ ให้เรียกใช้คำสั่งนี้ด้วย adb หรือ Shizuku แล้วกลับมาที่หน้าจอนี้: %1$s</string>
     <string name="action_copy_command">คัดลอกคำสั่ง</string>
     <string name="command_copied">คัดลอกคำสั่งแล้ว</string>
-    <string name="title_pref_speech_control">อนุญาตให้แอปอื่นพูด</string>
-    <string name="summary_pref_speech_control">แอปที่คุณอนุญาตสามารถพูดข้อความด้วยเสียงของ SandFly ได้ ไม่มีการพูดใดๆ ขณะที่อุปกรณ์ล็อกอยู่</string>
-    <string name="title_pref_speech_control_sound">เล่นเสียงก่อนที่แอปอื่นจะพูด</string>
-    <string name="speech_control_apps_category">แอป</string>
-    <string name="speech_control_no_apps">ยังไม่มีแอปใดขอให้พูด</string>
-    <string name="speech_control_ask_title">อนุญาตให้ <xliff:g id="app" example="Tasker">%1$s</xliff:g> พูดผ่าน SandFly หรือไม่</string>
-    <string name="speech_control_ask_text">สามารถพูดข้อความด้วยเสียง SandFly ของคุณได้ คุณสามารถเปลี่ยนสิ่งนี้ได้ในการตั้งค่าขั้นสูง</string>
-    <string name="speech_control_allow">อนุญาต</string>
-    <string name="speech_control_deny">ไม่อนุญาต</string>
-    <string name="permission_speak_label">พูดผ่าน SandFly</string>
-    <string name="permission_speak_description">ให้แอปขอพูดข้อความด้วยเสียง SandFly ของคุณ SandFly ถามคุณก่อนที่แอปจะพูดได้</string>
     <string name="title_pref_phonetic_letters_mode">พูดตัวอักษรตามสัทศาสตร์</string>
     <string name="phonetic_letters_mode_off">ปิด</string>
     <string name="phonetic_letters_mode_after_letter_delay">หลังตัวอักษร เว้นช่วง เช่น “ห, หีบ”</string>
@@ -1487,7 +1462,6 @@
     <string name="quick_settings_remove">ลบ</string>
     <string name="quick_settings_added">%1$s เพิ่มแล้ว</string>
     <string name="quick_settings_removed">%1$s ลบแล้ว</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly เปิด กด 2 นิ้วบนหน้าจอเป็นเวลา 5 วินาทีเพื่อปิด หากต้องการหยุดแสดงข้อความนี้ ให้ปิดการตั้งค่า SandFly &gt; การตั้งค่าขั้นสูง &gt; แสดงคำแนะนำในการปิด SandFly</string>
     <string name="edge_gestures_title">ขอบ</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ทางลัดอื่นสำหรับเปิดหรือปิดโหมดเรียกดู</string>
     <string name="title_pref_vibration_strength">ความแรงของการสั่นสะเทือน</string>

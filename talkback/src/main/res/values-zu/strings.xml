@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Thepha kanye entweni okugxilwe kuyo ukuze wenze kusebenze. Ukufuna okusheshayo kunokuthepha kabili.</string>
   <string name="pref_verbosity_title">I-Verbosity</string>
   <string name="pref_punctuation_title">Khuluma izimpawu zokuloba nezimpawu</string>
-  <string name="title_pref_category_manage_focus_indicator">Inkomba yokugxila</string>
   <string name="title_pref_category_manage_gestures">Okwenziwayo</string>
   <string name="title_pref_manage_labels">Amalebula angokwezifiso</string>
   <string name="title_pref_category_context_menu">Imenyu ye-SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Okokufundisa kwe-SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Usizo</string>
   <string name="title_pref_advanced_settings">Amasethingi athuthukisiwe</string>
-  <string name="title_pref_show_exit_watermark">Bonisa imiyalelo yokuvala iSandFly</string>
-  <string name="summary_pref_show_exit_watermark">Uma i-SandFly ivuleka, ibonisa ukuthi ivalwa kanjani</string>
-  <string name="talkback_exit_watermark_text">ISandFly ivuliwe. Beka iminwe emi-2 esikrinini imizuzwana emi-5 ukuze uvale. Ukuze uyeke ukubonisa lo myalezo, thepha ngeminwe emi-3 ukuze uvule imenyu yeSandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Ibonisa isibhengezo kubonisa ukuthi iSandFly ivuliwe. Ukuze uvale iSandFly, bamba iminwe emi-2 esikrinini imizuzwana emi-5. Ukuze ususe lesi sibhengezo, iya Kumasethingi eSandFly.</string>
   <string name="reset_gesture_settings_title">Setha kabusha amasethingi wokuthinta</string>
   <string name="one_finger_gestures_title">umunwe o-1</string>
   <string name="one_finger_back_forth_gestures_title">umunwe o-1 emuva naphambili</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Sicela uhlole uma ifoni yakho ixhunyiwe.</string>
   <string name="image_qna_voice_input_empty">Ayikho inkulumo eyaziwayo.</string>
   <string name="image_qna_answer_unavailable">Ayikho impendulo etholakalayo.</string>
-  <string name="title_pref_thick_border">Imingcele emikhulu</string>
-  <string name="title_pref_category_border_color">Umbala</string>
-  <string name="title_pref_default_color">Zenzekela</string>
-  <string name="title_pref_red">Okubomvu</string>
-  <string name="title_pref_orange">Olintshi</string>
-  <string name="title_pref_yellow">Okuphuzi</string>
-  <string name="title_pref_green">Okuluhlaza</string>
-  <string name="title_pref_blue">Okuluhlaza okwesibhakabhaka</string>
-  <string name="title_pref_grey">Okumpunga</string>
   <string name="survey_setting_title">Yabelana ngempendulo yakho</string>
   <string name="title_summarize_view">Isikrini esichazayo</string>
   <string name="detected_result">Itholiwe: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Idinga imvume i-Android engayiniki izifundi zesikrini. Ukuze uyinikeze, qalisa lo myalo nge-adb noma i-Shizuku, bese ubuyela kulesi sikrini: %1$s</string>
     <string name="action_copy_command">Kopisha umyalo</string>
     <string name="command_copied">Umyalo ukopishiwe</string>
-    <string name="title_pref_speech_control">Vumela ezinye izinhlelo zokusebenza zikhulume</string>
-    <string name="summary_pref_speech_control">Izinhlelo zokusebenza ozivumelayo zingasho umbhalo ngezwi le-SandFly. Akukho okushiwoyo ngesikhathi idivayisi ikhiyiwe.</string>
-    <string name="title_pref_speech_control_sound">Dlala umsindo ngaphambi kokuthi ezinye izinhlelo zokusebenza zikhulume</string>
-    <string name="speech_control_apps_category">Izinhlelo zokusebenza</string>
-    <string name="speech_control_no_apps">Azikho izinhlelo zokusebenza ezicele ukukhuluma okwamanje.</string>
-    <string name="speech_control_ask_title">Vumela u-<xliff:g id="app" example="Tasker">%1$s</xliff:g> ukuthi akhulume nge-SandFly?</string>
-    <string name="speech_control_ask_text">Lingasho umbhalo ngezwi lakho le-SandFly. Ungashintsha lokhu kumasethingi athuthukisiwe.</string>
-    <string name="speech_control_allow">Vumela</string>
-    <string name="speech_control_deny">Ungavumeli</string>
-    <string name="permission_speak_label">ukukhuluma nge-SandFly</string>
-    <string name="permission_speak_description">Ivumela uhlelo lokusebenza ukuthi lucele ukusho umbhalo ngezwi lakho le-SandFly. I-SandFly ikubuza ngaphambi kokuthi uhlelo lokusebenza lukhulume.</string>
     <string name="title_pref_phonetic_letters_mode">Khuluma izinhlamvu ngefonetiki</string>
     <string name="phonetic_letters_mode_off">Kuvaliwe</string>
     <string name="phonetic_letters_mode_after_letter_delay">Ngemva kohlamvu, ngokuma kancane, njengokuthi “h, ihhotela”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Susa</string>
     <string name="quick_settings_added">%1$s kwengeziwe</string>
     <string name="quick_settings_removed">%1$s isusiwe</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">I-SandFly ivuliwe. Bamba iminwe emi-2 esikrinini imizuzwana emi-5 ukuze uyivale. Ukuze uyeke ukubonisa lo mlayezo, vala Amasethingi weSandFly &gt; Amasethingi athuthukisiwe &gt; Bonisa imiyalelo yokuvala iSandFly.</string>
     <string name="edge_gestures_title">Imiphetho</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Esinye isinqamuleli sokuvula noma ukuvala imodi yokudlulisa amehlo</string>
     <string name="title_pref_vibration_strength">Amandla okudlidliza</string>

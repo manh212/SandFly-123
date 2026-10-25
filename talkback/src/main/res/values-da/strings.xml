@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Tryk én gang på et element, der er fokus på, for at aktivere det. Hurtigere navigation end ved at trykke to gange.</string>
   <string name="pref_verbosity_title">Detaljering</string>
   <string name="pref_punctuation_title">Læs tegn og symboler op</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokusindikator</string>
   <string name="title_pref_category_manage_gestures">Bevægelser</string>
   <string name="title_pref_manage_labels">Tilpassede etiketter</string>
   <string name="title_pref_category_context_menu">SandFly-menu</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-vejledning</string>
   <string name="title_pref_category_help_no_tutorial">Hjælp</string>
   <string name="title_pref_advanced_settings">Avancerede indstillinger</string>
-  <string name="title_pref_show_exit_watermark">Vis vejledning i, hvordan du deaktiverer SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Vis, hvordan SandFly deaktiveres, når SandFly aktiveres</string>
-  <string name="talkback_exit_watermark_text">SandFly er aktiveret. Hold 2 fingre på skærmen i 5 sekunder for at deaktivere funktionen. Hvis du ikke længere vil se denne meddelelse, kan du trykke med 3 fingre for at åbne SandFly-menuen.</string>
-  <string name="talkback_exit_watermark_hint_text">Banneret, der angiver, at SandFly er aktiveret, vises. Du kan deaktivere SandFly ved at holde 2 fingre på skærmen i 5 sekunder. Du kan fjerne dette banner ved at gå til indstillingerne for SandFly.</string>
   <string name="reset_gesture_settings_title">Nulstil indstillingerne for bevægelser</string>
   <string name="one_finger_gestures_title">1 finger</string>
   <string name="one_finger_back_forth_gestures_title">1 finger frem og tilbage</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Tjek, om telefonen har forbindelse.</string>
   <string name="image_qna_voice_input_empty">Ingen tale blev genkendt.</string>
   <string name="image_qna_answer_unavailable">Der er ikke noget tilgængeligt svar.</string>
-  <string name="title_pref_thick_border">Brede kanter</string>
-  <string name="title_pref_category_border_color">Farve</string>
-  <string name="title_pref_default_color">Standard</string>
-  <string name="title_pref_red">Rød</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Gul</string>
-  <string name="title_pref_green">Grøn</string>
-  <string name="title_pref_blue">Blå</string>
-  <string name="title_pref_grey">Grå</string>
   <string name="survey_setting_title">Giv os feedback</string>
   <string name="title_summarize_view">Beskriv skærmen</string>
   <string name="detected_result">Registreret: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Kræver en tilladelse, som Android ikke giver skærmlæsere. Kør denne kommando med adb eller Shizuku for at give tilladelsen, og vend derefter tilbage til denne skærm: %1$s</string>
     <string name="action_copy_command">Kopiér kommando</string>
     <string name="command_copied">Kommandoen er kopieret</string>
-    <string name="title_pref_speech_control">Tillad andre apps at tale</string>
-    <string name="summary_pref_speech_control">Apps, du giver tilladelse, kan sige tekst med din SandFly-stemme. Der siges intet, mens enheden er låst.</string>
-    <string name="title_pref_speech_control_sound">Afspil en lyd, før andre apps taler</string>
-    <string name="speech_control_apps_category">Apps</string>
-    <string name="speech_control_no_apps">Ingen apps har anmodet om at tale endnu.</string>
-    <string name="speech_control_ask_title">Vil du tillade, at <xliff:g id="app" example="Tasker">%1$s</xliff:g> taler via SandFly?</string>
-    <string name="speech_control_ask_text">Appen kan sige tekst med din SandFly-stemme. Du kan ændre dette i Avancerede indstillinger.</string>
-    <string name="speech_control_allow">Tillad</string>
-    <string name="speech_control_deny">Tillad ikke</string>
-    <string name="permission_speak_label">tale via SandFly</string>
-    <string name="permission_speak_description">Tillader, at appen anmoder om at sige tekst med din SandFly-stemme. SandFly spørger dig, før appen kan tale.</string>
     <string name="title_pref_phonetic_letters_mode">Oplæs bogstaver fonetisk</string>
     <string name="phonetic_letters_mode_off">Fra</string>
     <string name="phonetic_letters_mode_after_letter_delay">Efter bogstavet, forsinket, f.eks. \"h, Hotel\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d notifikation</item>
         <item quantity="other">%d notifikationer</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly er aktiveret. Hold 2 fingre på skærmen i 5 sekunder for at deaktivere funktionen. Hvis du ikke længere vil se denne meddelelse, kan du deaktivere SandFly-indstillinger &gt; Avancerede indstillinger &gt; Vis vejledning i, hvordan du deaktiverer SandFly.</string>
     <string name="edge_gestures_title">Kanter</string>
     <string name="title_pref_audio_output_device">Lydudgangsenhed</string>
     <string name="dialog_title_audio_output_device">Vælg, hvor SandFly-lyd skal afspilles</string>

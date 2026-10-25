@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Nhấn một lần vào mục được lấy tiêu điểm để kích hoạt. Thao tác nhanh hơn so với thao tác nhấn đúp.</string>
   <string name="pref_verbosity_title">Độ chi tiết</string>
   <string name="pref_punctuation_title">Đọc dấu câu và ký hiệu</string>
-  <string name="title_pref_category_manage_focus_indicator">Chỉ báo lấy tiêu điểm</string>
   <string name="title_pref_category_manage_gestures">Cử chỉ</string>
   <string name="title_pref_manage_labels">Nhãn tùy chỉnh</string>
   <string name="title_pref_category_context_menu">Trình đơn SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Hướng dẫn về SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Trợ giúp</string>
   <string name="title_pref_advanced_settings">Cài đặt nâng cao</string>
-  <string name="title_pref_show_exit_watermark">Hiện hướng dẫn tắt SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Khi SandFly bật, hiện cách tắt SandFly</string>
-  <string name="talkback_exit_watermark_text">SandFly đang bật. Giữ 2 ngón tay trên màn hình trong 5 giây để tắt. Nếu muốn ngừng hiện thông báo này, hãy nhấn bằng 3 ngón tay để mở trình đơn SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Hiện biểu ngữ cho biết SandFly đang bật. Để tắt SandFly, hãy giữ 2 ngón tay trên màn hình trong 5 giây. Để xoá biểu ngữ này, hãy chuyển đến phần Cài đặt SandFly.</string>
   <string name="reset_gesture_settings_title">Đặt lại chế độ cài đặt cử chỉ</string>
   <string name="one_finger_gestures_title">1 ngón tay</string>
   <string name="one_finger_back_forth_gestures_title">Cử chỉ tiến lùi bằng 1 ngón tay</string>
@@ -1112,15 +1107,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Vui lòng kiểm tra xem điện thoại đã kết nối chưa.</string>
   <string name="image_qna_voice_input_empty">Không nhận dạng được lời nói.</string>
   <string name="image_qna_answer_unavailable">Không có câu trả lời nào.</string>
-  <string name="title_pref_thick_border">Đường viền dày</string>
-  <string name="title_pref_category_border_color">Màu</string>
-  <string name="title_pref_default_color">Mặc định</string>
-  <string name="title_pref_red">Đỏ</string>
-  <string name="title_pref_orange">Cam</string>
-  <string name="title_pref_yellow">Vàng</string>
-  <string name="title_pref_green">Xanh lục</string>
-  <string name="title_pref_blue">Xanh dương</string>
-  <string name="title_pref_grey">Xám</string>
   <string name="survey_setting_title">Chia sẻ ý kiến phản hồi của bạn</string>
   <string name="title_summarize_view">Mô tả nội dung trên màn hình</string>
   <string name="detected_result">Đã phát hiện: %1$s</string>
@@ -1354,6 +1340,15 @@
     <string name="title_pref_touch_activation">Chạm và kích hoạt</string>
     <string name="title_pref_navigation">Điều hướng</string>
     <string name="title_pref_category_more">Khác</string>
+    <string name="title_pref_group_speech">Giọng nói</string>
+    <string name="title_pref_group_navigation">Điều hướng</string>
+    <string name="title_pref_group_gestures_shortcuts">Cử chỉ và phím tắt</string>
+    <string name="title_pref_group_menu_controls">Menu và điều khiển đọc</string>
+    <string name="title_pref_group_typing">Nhập liệu</string>
+    <string name="title_pref_group_screen_info">Thông tin trên màn hình</string>
+    <string name="title_pref_group_apps">Ứng dụng</string>
+    <string name="title_pref_group_system_help">Hệ thống và trợ giúp</string>
+    <string name="title_pref_group_other">Cài đặt khác</string>
     <string name="title_pref_reserve_vibration_watch_gestures">Dành cử chỉ cho Vibration Watch</string>
     <string name="summary_pref_reserve_vibration_watch_gestures">SandFly ngừng xử lý thao tác nhấn một lần và nhấn đúp bằng hai ngón tay để Samsung Vibration Watch có thể dùng các cử chỉ này. Hãy bật Vibration Watch trong phần cài đặt hỗ trợ tiếp cận của đồng hồ.</string>
     <string name="shortcut_reserved_for_vibration_watch">Dành cho Vibration Watch trong phần Cài đặt nâng cao</string>
@@ -1362,17 +1357,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Cần một quyền mà Android không cấp cho trình đọc màn hình. Để cấp quyền, hãy chạy lệnh này bằng adb hoặc Shizuku rồi quay lại màn hình này: %1$s</string>
     <string name="action_copy_command">Sao chép lệnh</string>
     <string name="command_copied">Đã sao chép lệnh</string>
-    <string name="title_pref_speech_control">Cho phép ứng dụng khác đọc</string>
-    <string name="summary_pref_speech_control">Các ứng dụng mà bạn cho phép có thể đọc văn bản bằng giọng nói SandFly của bạn. Không có nội dung nào được đọc khi thiết bị đang khoá.</string>
-    <string name="title_pref_speech_control_sound">Phát âm thanh trước khi ứng dụng khác đọc</string>
-    <string name="speech_control_apps_category">Ứng dụng</string>
-    <string name="speech_control_no_apps">Chưa có ứng dụng nào yêu cầu đọc.</string>
-    <string name="speech_control_ask_title">Cho phép <xliff:g id="app" example="Tasker">%1$s</xliff:g> đọc thông qua SandFly?</string>
-    <string name="speech_control_ask_text">Ứng dụng này có thể đọc văn bản bằng giọng nói SandFly của bạn. Bạn có thể thay đổi điều này trong phần Cài đặt nâng cao.</string>
-    <string name="speech_control_allow">Cho phép</string>
-    <string name="speech_control_deny">Không cho phép</string>
-    <string name="permission_speak_label">đọc thông qua SandFly</string>
-    <string name="permission_speak_description">Cho phép ứng dụng yêu cầu đọc văn bản bằng giọng nói SandFly của bạn. SandFly sẽ hỏi bạn trước khi ứng dụng có thể đọc.</string>
     <string name="title_pref_phonetic_letters_mode">Đọc chữ cái theo phiên âm</string>
     <string name="phonetic_letters_mode_off">Tắt</string>
     <string name="phonetic_letters_mode_after_letter_delay">Sau chữ cái, có ngắt quãng, như “b, bò”</string>
@@ -1511,7 +1495,6 @@
     <string name="quick_settings_remove">Xoá</string>
     <string name="quick_settings_added">Đã thêm %1$s</string>
     <string name="quick_settings_removed">Đã xoá %1$s</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly đang bật. Giữ 2 ngón tay trên màn hình trong 5 giây để tắt. Để không hiện thông báo này nữa, hãy tắt mục Cài đặt SandFly &gt; Cài đặt nâng cao &gt; Hiện hướng dẫn tắt SandFly.</string>
     <string name="edge_gestures_title">Cạnh màn hình</string>
     <string name="title_pref_audio_output_device">Thiết bị đầu ra âm thanh</string>
     <string name="dialog_title_audio_output_device">Chọn nơi phát âm thanh của SandFly</string>

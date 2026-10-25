@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_other_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.OfflineTranslationSettingsFragment"
+        android:key="@string/pref_offline_translation_settings_key"
+        android:title="@string/title_pref_offline_translation_settings" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.GeminiSettingsFragment"
+        android:key="@string/pref_gemini_settings_key"
+        android:title="@string/title_pref_gemini_settings" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

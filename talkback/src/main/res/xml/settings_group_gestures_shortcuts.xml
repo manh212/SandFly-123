@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_gestures_shortcuts_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackGestureShortcutPreferenceFragment"
+        android:key="@string/pref_category_manage_gestures_key"
+        android:title="@string/title_pref_category_manage_gestures" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackKeyboardShortcutPreferenceFragment"
+        android:key="@string/pref_category_manage_keyboard_shortcut_key"
+        android:title="@string/title_pref_manage_keyboard_shortcuts" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

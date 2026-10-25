@@ -34,7 +34,7 @@ import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.Pipeline
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo
-import com.google.android.accessibility.talkback.speechcontrol.ExternalSpeech
+import com.google.android.accessibility.talkback.speech.ExternalSpeech
 import com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT

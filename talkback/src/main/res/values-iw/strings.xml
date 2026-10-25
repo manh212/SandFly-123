@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">כדי להפעיל את הפריט שבמיקוד לוחצים פעם אחת. ניווט מהיר יותר מלחיצה כפולה.</string>
   <string name="pref_verbosity_title">דרגת מלל</string>
   <string name="pref_punctuation_title">הקראת סימני הפיסוק והסמלים</string>
-  <string name="title_pref_category_manage_focus_indicator">מחוון מיקוד</string>
   <string name="title_pref_category_manage_gestures">תנועות לביצוע פעולות</string>
   <string name="title_pref_manage_labels">תוויות מותאמות אישית</string>
   <string name="title_pref_category_context_menu">תפריט SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">‏המדריך של SandFly</string>
   <string name="title_pref_category_help_no_tutorial">עזרה</string>
   <string name="title_pref_advanced_settings">הגדרות מתקדמות</string>
-  <string name="title_pref_show_exit_watermark">‏הצגת הוראות להשבתת SandFly</string>
-  <string name="summary_pref_show_exit_watermark">כש-SandFly נדלק, מוצגת הדרך לכבות אותו</string>
-  <string name="talkback_exit_watermark_text">‏התכונה SandFly מופעלת. כדי להשבית אותה, צריך ללחוץ לחיצה ארוכה על המסך ב-2 אצבעות למשך 5 שניות. רוצה להפסיק לראות את ההודעה הזו? צריך ללחוץ עם 3 אצבעות כדי לפתוח את תפריט SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">‏מוצג באנר כדי לציין שהתכונה SandFly מופעלת. כדי להשבית את SandFly, לוחצים לחיצה ארוכה עם שתי אצבעות על המסך למשך 5 שניות. כדי להסיר את הבאנר הזה, צריך לעבור להגדרות SandFly.</string>
   <string name="reset_gesture_settings_title">איפוס של הגדרות התנועה</string>
   <string name="one_finger_gestures_title">אצבע אחת</string>
   <string name="one_finger_back_forth_gestures_title">תנועת \"הלוך ושוב\" באצבע אחת</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">צריך לוודא שהטלפון מחובר.</string>
   <string name="image_qna_voice_input_empty">לא זוהה דיבור.</string>
   <string name="image_qna_answer_unavailable">אין תשובה זמינה.</string>
-  <string name="title_pref_thick_border">גבולות עבים</string>
-  <string name="title_pref_category_border_color">צבע</string>
-  <string name="title_pref_default_color">ברירת מחדל</string>
-  <string name="title_pref_red">אדום</string>
-  <string name="title_pref_orange">כתום</string>
-  <string name="title_pref_yellow">צהוב</string>
-  <string name="title_pref_green">ירוק</string>
-  <string name="title_pref_blue">כחול</string>
-  <string name="title_pref_grey">אפור</string>
   <string name="survey_setting_title">שיתוף משוב</string>
   <string name="title_summarize_view">תיאור המסך</string>
   <string name="detected_result">בוצע זיהוי: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">נדרשת הרשאה ש-Android לא מעניק לקוראי מסך. כדי להעניק אותה, יש להריץ את הפקודה הזו באמצעות adb או Shizuku ואז לחזור למסך הזה: %1$s</string>
     <string name="action_copy_command">העתק פקודה</string>
     <string name="command_copied">הפקודה הועתקה</string>
-    <string name="title_pref_speech_control">מתן אפשרות לאפליקציות אחרות לדבר</string>
-    <string name="summary_pref_speech_control">אפליקציות שקיבלו הרשאה יכולות להקריא טקסט בקול של SandFly. כשהמכשיר נעול, שום דבר לא מוקרא.</string>
-    <string name="title_pref_speech_control_sound">השמעת צליל לפני שאפליקציות אחרות מדברות</string>
-    <string name="speech_control_apps_category">אפליקציות</string>
-    <string name="speech_control_no_apps">אף אפליקציה לא ביקשה לדבר עדיין.</string>
-    <string name="speech_control_ask_title">לאפשר ל-<xliff:g id="app" example="Tasker">%1$s</xliff:g> לדבר דרך SandFly?</string>
-    <string name="speech_control_ask_text">האפליקציה יכולה להקריא טקסט בקול של SandFly. אפשר לשנות זאת בהגדרות המתקדמות.</string>
-    <string name="speech_control_allow">אפשר</string>
-    <string name="speech_control_deny">אל תאפשר</string>
-    <string name="permission_speak_label">דיבור דרך SandFly</string>
-    <string name="permission_speak_description">מאפשרת לאפליקציה לבקש להקריא טקסט בקול של SandFly. SandFly מבקש אישור לפני שהאפליקציה יכולה לדבר.</string>
     <string name="title_pref_phonetic_letters_mode">הקראת אותיות באופן פונטי</string>
     <string name="phonetic_letters_mode_off">מצב מושבת</string>
     <string name="phonetic_letters_mode_after_letter_delay">אחרי האות, בהשהיה, כמו “ה, הדס”</string>
@@ -1490,7 +1465,6 @@
     <string name="quick_settings_remove">הסרה</string>
     <string name="quick_settings_added">%1$s נוסף</string>
     <string name="quick_settings_removed">%1$s הוסר</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly פועל. החזק 2 אצבעות על המסך למשך 5 שניות כדי לכבות. כדי להפסיק את הצגת ההודעה הזו, כבה את הגדרות SandFly &gt; הגדרות מתקדמות &gt; הצג הוראות לכיבוי SandFly.</string>
     <string name="edge_gestures_title">קצוות</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">קיצור דרך נוסף להפעלה או כיבוי של מצב עיון</string>
     <string name="title_pref_vibration_strength">חוזק רטט</string>

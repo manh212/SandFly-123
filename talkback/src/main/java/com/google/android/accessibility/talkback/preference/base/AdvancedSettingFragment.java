@@ -17,12 +17,9 @@
 package com.google.android.accessibility.talkback.preference.base;
 
 import android.content.Context;
-import android.os.Bundle;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.shizuku.PlayInstaller;
-import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
-import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 
 /**
  * Settings that most people never change. Touch and activation, navigation and the settings for
@@ -37,17 +34,6 @@ public class AdvancedSettingFragment extends TalkbackBaseFragment {
   @Override
   public CharSequence getTitle() {
     return getText(R.string.title_pref_advanced_settings);
-  }
-
-  @Override
-  public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    super.onCreatePreferences(savedInstanceState, rootKey);
-
-    // TODO hide preference until the feature stable.
-    if (!TalkbackFeatureSupport.supportTalkBackExitBanner(getContext())) {
-      PreferenceSettingsUtils.hidePreference(
-          getContext(), getPreferenceScreen(), R.string.pref_show_exit_watermark_key);
-    }
   }
 
   @Override

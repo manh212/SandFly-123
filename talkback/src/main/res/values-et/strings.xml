@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Aktiveerimiseks puudutage esile tõstetud üksust ühe korra. Kiirem navigeerimine võrreldes topeltpuudutusega.</string>
   <string name="pref_verbosity_title">Sõnaohtrus</string>
   <string name="pref_punctuation_title">Loe ette kirjavahemärgid ja sümbolid</string>
-  <string name="title_pref_category_manage_focus_indicator">Fookusenäidik</string>
   <string name="title_pref_category_manage_gestures">Liigutused</string>
   <string name="title_pref_manage_labels">Kohandatud sildid</string>
   <string name="title_pref_category_context_menu">SandFlyi menüü</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFlyi õpetused</string>
   <string name="title_pref_category_help_no_tutorial">Abi</string>
   <string name="title_pref_advanced_settings">Täpsemad seaded</string>
-  <string name="title_pref_show_exit_watermark">Kuva SandFlyi väljalüiltamise juhised</string>
-  <string name="summary_pref_show_exit_watermark">Kui SandFly lülitub sisse, kuvatakse selle väljalülitamise juhised</string>
-  <string name="talkback_exit_watermark_text">SandFly on sisse lülitatud. Väljalülitamiseks hoidke kahte sõrme viis sekundit ekraanil. Kui te ei soovi seda teadet enam näha, puudutage kolme sõrmega, et avada SandFlyi menüü.</string>
-  <string name="talkback_exit_watermark_hint_text">Kuvatakse bänner, mis näitab, et SandFly on sisse lülitatud. SandFlyi väljalülitamiseks hoidke kahte sõrme 5 sekundit ekraanil. Selle bänneri eemaldamiseks avage SandFlyi seaded.</string>
   <string name="reset_gesture_settings_title">Liigutuste lähtestamise seaded</string>
   <string name="one_finger_gestures_title">1 sõrm</string>
   <string name="one_finger_back_forth_gestures_title">1 sõrmega edasi-tagasi</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Kontrollige, kas telefon on ühendatud.</string>
   <string name="image_qna_voice_input_empty">Kõnet ei tuvastatud.</string>
   <string name="image_qna_answer_unavailable">Ühtegi vastust pole saadaval.</string>
-  <string name="title_pref_thick_border">Paksud äärised</string>
-  <string name="title_pref_category_border_color">Värv</string>
-  <string name="title_pref_default_color">Vaikeseade</string>
-  <string name="title_pref_red">Punane</string>
-  <string name="title_pref_orange">Oranž</string>
-  <string name="title_pref_yellow">Kollane</string>
-  <string name="title_pref_green">Roheline</string>
-  <string name="title_pref_blue">Sinine</string>
-  <string name="title_pref_grey">Hall</string>
   <string name="survey_setting_title">Andke tagasisidet</string>
   <string name="title_summarize_view">Ekraani kirjeldamine</string>
   <string name="detected_result">Tuvastati: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Vajab luba, mida Android ekraanilugejatele ei anna. Loa andmiseks käitage see käsk adb või Shizuku abil ja avage seejärel uuesti see kuva: %1$s</string>
     <string name="action_copy_command">Kopeeri käsk</string>
     <string name="command_copied">Käsk on kopeeritud</string>
-    <string name="title_pref_speech_control">Luba teistel rakendustel kõnet esitada</string>
-    <string name="summary_pref_speech_control">Teie lubatud rakendused saavad teksti esitada teie SandFlyi häälega. Kui seade on lukus, ei esitata midagi.</string>
-    <string name="title_pref_speech_control_sound">Esita heli enne teiste rakenduste kõnet</string>
-    <string name="speech_control_apps_category">Rakendused</string>
-    <string name="speech_control_no_apps">Ükski rakendus pole veel kõne esitamiseks luba küsinud.</string>
-    <string name="speech_control_ask_title">Kas lubada rakendusel <xliff:g id="app" example="Tasker">%1$s</xliff:g> SandFly kaudu kõnet esitada?</string>
-    <string name="speech_control_ask_text">Rakendus saab teksti esitada teie SandFlyi häälega. Saate seda muuta jaotises Täpsemad seaded.</string>
-    <string name="speech_control_allow">Luba</string>
-    <string name="speech_control_deny">Ära luba</string>
-    <string name="permission_speak_label">kõne esitamine SandFly kaudu</string>
-    <string name="permission_speak_description">Lubab rakendusel küsida luba teksti esitamiseks teie SandFlyi häälega. SandFly küsib teie kinnitust, enne kui rakendus saab kõnet esitada.</string>
     <string name="title_pref_phonetic_letters_mode">Loe tähed ette foneetiliselt</string>
     <string name="phonetic_letters_mode_off">Väljas</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pärast tähte, viivitusega, nt „h, hotell“</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d märguanne</item>
         <item quantity="other">%d märguannet</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly on sees. Väljalülitamiseks hoidke kahte sõrme 5 sekundit ekraanil. Selle teate peitmiseks lülitage välja SandFlyi seaded &gt; Täpsemad seaded &gt; Kuva SandFlyi väljalülitamise juhised.</string>
     <string name="edge_gestures_title">Servad</string>
     <string name="title_pref_audio_output_device">Heliväljundseade</string>
     <string name="dialog_title_audio_output_device">SandFlyi heli väljundi valimine</string>

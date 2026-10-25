@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">ចុចម្ដង​នៅលើ​ធាតុដែលបានផ្ដោត ដើម្បី​បើកដំណើរការ។ ការរុករកលឿនជាងការចុចពីរដង។</string>
   <string name="pref_verbosity_title">កម្រិតនិយាយ</string>
   <string name="pref_punctuation_title">អាន​សញ្ញាវណ្ណយុត្ត និងនិមិត្តសញ្ញា</string>
-  <string name="title_pref_category_manage_focus_indicator">សូចនាករការផ្ដោត</string>
   <string name="title_pref_category_manage_gestures">ចលនា</string>
   <string name="title_pref_manage_labels">ស្លាក​ផ្ទាល់ខ្លួន</string>
   <string name="title_pref_category_context_menu">ម៉ឺនុយ SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">មេរៀនអំពីមុខងារ SandFly</string>
   <string name="title_pref_category_help_no_tutorial">ជំនួយ</string>
   <string name="title_pref_advanced_settings">ការកំណត់​កម្រិតខ្ពស់</string>
-  <string name="title_pref_show_exit_watermark">បង្ហាញការណែនាំអំពីការបិទ SandFly</string>
-  <string name="summary_pref_show_exit_watermark">នៅពេល SandFly បើក វាបង្ហាញពីរបៀបបិទវា</string>
-  <string name="talkback_exit_watermark_text">SandFly បើក។ ប្រើម្រាមដៃ 2 ចុចឱ្យជាប់លើអេក្រង់រយៈពេល 5 វិនាទី ដើម្បីបិទ។ ដើម្បីបញ្ឈប់ការបង្ហាញសារនេះ សូមចុចដោយប្រើម្រាមដៃ 3 ដើម្បីបើកម៉ឺនុយ SandFly។</string>
-  <string name="talkback_exit_watermark_hint_text">កំពុងបង្ហាញបដាដែលដាក់ថា SandFly ត្រូវបានបើក។ ដើម្បីបិទ SandFly សូមប្រើម្រាមដៃ 2 សង្កត់ឱ្យជាប់លើអេក្រង់រយៈពេល 5 វិនាទី។ ដើម្បីដកបដានេះចេញ សូមចូលទៅកាន់ \"ការកំណត់ SandFly\"។</string>
   <string name="reset_gesture_settings_title">កំណត់​ការកំណត់ចលនា​ឡើងវិញ</string>
   <string name="one_finger_gestures_title">ម្រាមដៃ 1</string>
   <string name="one_finger_back_forth_gestures_title">ចលនាទៅមុខ​ថយក្រោយ​ដោយប្រើ​ម្រាមដៃ 1</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">សូមពិនិត្យមើលថាតើទូរសព្ទត្រូវបានភ្ជាប់ឬអត់។</string>
   <string name="image_qna_voice_input_empty">មិនសម្គាល់ឃើញការនិយាយទេ។</string>
   <string name="image_qna_answer_unavailable">មិនមានចម្លើយទេ។</string>
-  <string name="title_pref_thick_border">ស៊ុម​ក្រាស់</string>
-  <string name="title_pref_category_border_color">ពណ៌</string>
-  <string name="title_pref_default_color">លំនាំដើម</string>
-  <string name="title_pref_red">ក្រហម</string>
-  <string name="title_pref_orange">ទឹកក្រូច</string>
-  <string name="title_pref_yellow">លឿង</string>
-  <string name="title_pref_green">បៃតង</string>
-  <string name="title_pref_blue">ខៀវ</string>
-  <string name="title_pref_grey">ប្រផេះ</string>
   <string name="survey_setting_title">ចែករំលែក​មតិកែលម្អ​របស់អ្នក</string>
   <string name="title_summarize_view">ពណ៌នាអេក្រង់</string>
   <string name="detected_result">បានរកឃើញ៖ %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">ត្រូវការការអនុញ្ញាតដែល Android មិនផ្ដល់ឱ្យកម្មវិធីអានអេក្រង់។ ដើម្បីផ្ដល់វា សូមដំណើរការពាក្យបញ្ជានេះដោយប្រើ adb ឬ Shizuku រួចត្រឡប់មកអេក្រង់នេះវិញ៖ %1$s</string>
     <string name="action_copy_command">ចម្លងពាក្យបញ្ជា</string>
     <string name="command_copied">បានចម្លងពាក្យបញ្ជា</string>
-    <string name="title_pref_speech_control">អនុញ្ញាតឱ្យកម្មវិធីផ្សេងទៀតនិយាយ</string>
-    <string name="summary_pref_speech_control">កម្មវិធីដែលអ្នកអនុញ្ញាតអាចនិយាយអត្ថបទដោយប្រើសំឡេង SandFly។ ពេលឧបករណ៍ចាក់សោ គ្មានអ្វីត្រូវបាននិយាយទេ។</string>
-    <string name="title_pref_speech_control_sound">ចាក់សំឡេងមុនពេលកម្មវិធីផ្សេងទៀតនិយាយ</string>
-    <string name="speech_control_apps_category">កម្មវិធី</string>
-    <string name="speech_control_no_apps">មិនទាន់មានកម្មវិធីណាមួយសុំនិយាយនៅឡើយទេ</string>
-    <string name="speech_control_ask_title">អនុញ្ញាតឱ្យ <xliff:g id="app" example="Tasker">%1$s</xliff:g> និយាយតាមរយៈ SandFly ឬ?</string>
-    <string name="speech_control_ask_text">វាអាចនិយាយអត្ថបទជាសំឡេង SandFly របស់អ្នក។ អ្នកអាចផ្លាស់ប្តូរវានៅក្នុងការកំណត់កម្រិតខ្ពស់។</string>
-    <string name="speech_control_allow">អនុញ្ញាត</string>
-    <string name="speech_control_deny">មិនអនុញ្ញាត</string>
-    <string name="permission_speak_label">និយាយតាមរយៈSandFly</string>
-    <string name="permission_speak_description">អនុញ្ញាតឱ្យកម្មវិធីសុំនិយាយអត្ថបទជាសំឡេង SandFly របស់អ្នក។ SandFly សួរអ្នកមុនពេលកម្មវិធីអាចនិយាយបាន។</string>
     <string name="title_pref_phonetic_letters_mode">និយាយអក្សរតាមសូរសព្ទ</string>
     <string name="phonetic_letters_mode_off">បិទ</string>
     <string name="phonetic_letters_mode_after_letter_delay">បន្ទាប់ពីអក្សរ មានផ្អាក ដូចជា “ក, កង់”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">ដកចេញ</string>
     <string name="quick_settings_added">បានបន្ថែម %1$s</string>
     <string name="quick_settings_removed">បានដក %1$s ចេញ</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly បើក។ សង្កត់ម្រាមដៃ 2 នៅលើអេក្រង់រយៈពេល 5 វិនាទីដើម្បីបិទ។ ដើម្បីបញ្ឈប់ការបង្ហាញសារនេះ សូមបិទ SandFly ការកំណត់ &gt; ការកំណត់កម្រិតខ្ពស់ &gt; បង្ហាញការណែនាំសម្រាប់ការបិទ SandFly។</string>
     <string name="edge_gestures_title">គែម</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ផ្លូវកាត់មួយទៀតដើម្បីបើក ឬបិទមុខងាររុករក</string>
     <string name="title_pref_vibration_strength">កម្លាំងរំញ័រ</string>

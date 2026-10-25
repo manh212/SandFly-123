@@ -187,9 +187,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       return false;
     }
 
-    // Disables watermark if menu shows.
-    disableTalkBackExitWatermark();
-
     /*
      * We get the last utterance at the time of menu creation.
      * The utterances produced by the user navigating the menu will go into the history.
@@ -673,17 +670,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       menuId = null;
     }
     clearCurrentNode();
-  }
-
-  /**
-   * Disables TalkBack-exit watermark if watermark shows when TalkBack menu shows. It reduces
-   * watermark UI for genuine users.
-   */
-  private void disableTalkBackExitWatermark() {
-    if (service.getTalkBackExitController() != null
-        && service.getTalkBackExitController().isTalkBackExitWatermarkShown()) {
-      service.getTalkBackExitController().disableTalkBackExitWatermark(service);
-    }
   }
 
   /** Dismisses all TalkBack menus. */

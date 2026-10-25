@@ -361,7 +361,14 @@ public class DimScreenActor implements OnConfigurationChangedListener {
     makeScreenBright();
     SharedPreferencesUtils.putBooleanPref(
         prefs, service.getResources(), R.string.pref_dim_when_talkback_enabled_key, false);
-    FocusIndicatorUtils.applyFocusAppearancePreference(service, prefs, service.getResources());
+    FocusIndicatorUtils.setAccessibilityFocusAppearance(
+        service,
+        service
+            .getResources()
+            .getDimensionPixelSize(R.dimen.accessibility_focus_highlight_stroke_width),
+        service
+            .getResources()
+            .getColor(R.color.accessibility_focus_highlight_color, null));
   }
 
   public boolean getShouldShowDialogPref() {

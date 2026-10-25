@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Tryck en gång på ett objekt i fokus för att aktivera det. Med detta kan du navigera snabbare än med dubbeltryck.</string>
   <string name="pref_verbosity_title">Detaljnivå</string>
   <string name="pref_punctuation_title">Läs upp skiljetecken och symboler</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokusindikator</string>
   <string name="title_pref_category_manage_gestures">Rörelser</string>
   <string name="title_pref_manage_labels">Anpassade etiketter</string>
   <string name="title_pref_category_context_menu">SandFly-menyn</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-guiden</string>
   <string name="title_pref_category_help_no_tutorial">Hjälp</string>
   <string name="title_pref_advanced_settings">Avancerade inställningar</string>
-  <string name="title_pref_show_exit_watermark">Visa anvisningar för att inaktivera SandFly</string>
-  <string name="summary_pref_show_exit_watermark">När SandFly slås på visas hur den stängs av</string>
-  <string name="talkback_exit_watermark_text">SandFly har aktiverats. Inaktivera genom att hålla två fingrar på skärmen i fem sekunder. Om du vill sluta visa det här meddelandet trycker du med tre fingrar för att öppna SandFly-menyn.</string>
-  <string name="talkback_exit_watermark_hint_text">Visar bannern som visar att SandFly är aktiverat. Inaktivera SandFly genom att hålla två fingrar på skärmen i fem sekunder. Du kan ta bort bannern i SandFly-inställningarna.</string>
   <string name="reset_gesture_settings_title">Återställ rörelse­inställningarna</string>
   <string name="one_finger_gestures_title">1 finger</string>
   <string name="one_finger_back_forth_gestures_title">1 finger fram och tillbaka</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Kontrollera att telefonen är ansluten.</string>
   <string name="image_qna_voice_input_empty">Inget tal identifierades.</string>
   <string name="image_qna_answer_unavailable">Inget svar tillgängligt.</string>
-  <string name="title_pref_thick_border">Tjocka kanter</string>
-  <string name="title_pref_category_border_color">Färg</string>
-  <string name="title_pref_default_color">Standard</string>
-  <string name="title_pref_red">Röd</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Gul</string>
-  <string name="title_pref_green">Grön</string>
-  <string name="title_pref_blue">Blå</string>
-  <string name="title_pref_grey">Grå</string>
   <string name="survey_setting_title">Dela din feedback</string>
   <string name="title_summarize_view">Beskriv skärmen</string>
   <string name="detected_result">Identifierades: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Kräver en behörighet som Android inte ger skärmläsare. Kör det här kommandot med adb eller Shizuku för att bevilja den och gå sedan tillbaka till den här skärmen: %1$s</string>
     <string name="action_copy_command">Kopiera kommando</string>
     <string name="command_copied">Kommandot kopierat</string>
-    <string name="title_pref_speech_control">Låt andra appar tala</string>
-    <string name="summary_pref_speech_control">Appar som du tillåter kan läsa upp text med SandFly-rösten. Inget läses upp medan enheten är låst.</string>
-    <string name="title_pref_speech_control_sound">Spela ett ljud innan andra appar talar</string>
-    <string name="speech_control_apps_category">Appar</string>
-    <string name="speech_control_no_apps">Inga appar har bett om att få tala ännu.</string>
-    <string name="speech_control_ask_title">Vill du tillåta <xliff:g id="app" example="Tasker">%1$s</xliff:g> att tala genom SandFly?</string>
-    <string name="speech_control_ask_text">Appen kan säga text med din SandFly-röst. Du kan ändra detta i Avancerade inställningar.</string>
-    <string name="speech_control_allow">Tillåt</string>
-    <string name="speech_control_deny">Tillåt inte</string>
-    <string name="permission_speak_label">tala genom SandFly</string>
-    <string name="permission_speak_description">Låter appen be att få säga text med din SandFly-röst. SandFly frågar dig innan appen kan tala.</string>
     <string name="title_pref_phonetic_letters_mode">Läs upp bokstäver fonetiskt</string>
     <string name="phonetic_letters_mode_off">Av</string>
     <string name="phonetic_letters_mode_after_letter_delay">Efter bokstaven, med paus, t.ex. ”h, Helge”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Ta bort</string>
     <string name="quick_settings_added">%1$s har lagts till</string>
     <string name="quick_settings_removed">%1$s borttagen</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly på. Håll två fingrar på skärmen i 5 sekunder för att stänga av. För att sluta visa det här meddelandet, stäng av SandFly-inställningar &gt; Avancerade inställningar &gt; Visa instruktioner för att stänga av SandFly.</string>
     <string name="edge_gestures_title">Kanter</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">En annan genväg för att slå på eller av bläddringsläget</string>
     <string name="title_pref_vibration_strength">Vibrationsstyrka</string>

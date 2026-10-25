@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Označenú položku aktivujete jedným klepnutím. Rýchlejšie prechádzanie ako dvojité klepnutie.</string>
   <string name="pref_verbosity_title">Podrobnosť</string>
   <string name="pref_punctuation_title">Vyslovovanie interpunkcie a symbolov</string>
-  <string name="title_pref_category_manage_focus_indicator">Indikátor výberu</string>
   <string name="title_pref_category_manage_gestures">Gestá</string>
   <string name="title_pref_manage_labels">Vlastné štítky</string>
   <string name="title_pref_category_context_menu">Ponuka SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Návod k aplikácii SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Pomocník</string>
   <string name="title_pref_advanced_settings">Rozšírené nastavenia</string>
-  <string name="title_pref_show_exit_watermark">Zobrazovať pokyny, ako vypnúť SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Keď sa SandFly zapne, zobrazí sa, ako ho vypnúť</string>
-  <string name="talkback_exit_watermark_text">Aplikácia SandFly je zapnutá. Ak ju chcete vypnúť, pridržte päť sekúnd dva prsty na obrazovke. Zobrazovanie tejto správy zastavíte v ponuke aplikácie SandFly, ktorú otvoríte klepnutím troma prstami.</string>
-  <string name="talkback_exit_watermark_hint_text">Zobrazuje sa banner s informáciou, že aplikácia SandFly je zapnutá. Ak chcete SandFly vypnúť, pridržte päť sekúnd dva prsty na obrazovke. Ak chcete tento banner odstrániť, prejdite do nastavení aplikácie SandFly.</string>
   <string name="reset_gesture_settings_title">Resetovať nastavenia gest</string>
   <string name="one_finger_gestures_title">1 prst</string>
   <string name="one_finger_back_forth_gestures_title">1 prst tam a späť</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Skontrolujte, či je telefón pripojený.</string>
   <string name="image_qna_voice_input_empty">Reč sa nepodarilo rozpoznať.</string>
   <string name="image_qna_answer_unavailable">Nie je k dispozícii žiadna odpoveď.</string>
-  <string name="title_pref_thick_border">Hrubé okraje</string>
-  <string name="title_pref_category_border_color">Farba</string>
-  <string name="title_pref_default_color">Predvolené</string>
-  <string name="title_pref_red">Červená</string>
-  <string name="title_pref_orange">Oranžová</string>
-  <string name="title_pref_yellow">Žltá</string>
-  <string name="title_pref_green">Zelená</string>
-  <string name="title_pref_blue">Modrá</string>
-  <string name="title_pref_grey">Sivá</string>
   <string name="survey_setting_title">Zdieľanie spätnej väzby</string>
   <string name="title_summarize_view">Opísať obrazovku</string>
   <string name="detected_result">Rozpoznané: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Vyžaduje povolenie, ktoré Android čítačkám obrazovky neudeľuje. Ak ho chcete udeliť, spustite tento príkaz cez adb alebo Shizuku a potom sa vráťte na túto obrazovku: %1$s</string>
     <string name="action_copy_command">Kopírovať príkaz</string>
     <string name="command_copied">Príkaz bol skopírovaný</string>
-    <string name="title_pref_speech_control">Povoliť ostatným aplikáciám hovoriť</string>
-    <string name="summary_pref_speech_control">Povolené aplikácie môžu vyslovovať text hlasom SandFly. Kým je zariadenie uzamknuté, nič sa nevysloví.</string>
-    <string name="title_pref_speech_control_sound">Prehrať zvuk pred hovorením iných aplikácií</string>
-    <string name="speech_control_apps_category">Aplikácie</string>
-    <string name="speech_control_no_apps">Žiadna aplikácia zatiaľ nepožiadala o hovorenie.</string>
-    <string name="speech_control_ask_title">Povoliť <xliff:g id="app" example="Tasker">%1$s</xliff:g> hovoriť cez SandFly?</string>
-    <string name="speech_control_ask_text">Môže povedať text vaším hlasom SandFly. Môžete to zmeniť v rozšírených nastaveniach.</string>
-    <string name="speech_control_allow">Povoliť</string>
-    <string name="speech_control_deny">Nepovoliť</string>
-    <string name="permission_speak_label">hovorenie cez SandFly</string>
-    <string name="permission_speak_description">Umožňuje aplikácii požiadať o vyslovenie textu vaším hlasom SandFly. SandFly sa vás opýta skôr, ako môže aplikácia hovoriť.</string>
     <string name="title_pref_phonetic_letters_mode">Vyslovovať písmená foneticky</string>
     <string name="phonetic_letters_mode_off">Vypnuté</string>
     <string name="phonetic_letters_mode_after_letter_delay">Po písmene, s pauzou, napríklad „h, Helena“</string>
@@ -1494,7 +1469,6 @@
     <string name="quick_settings_remove">Odstrániť</string>
     <string name="quick_settings_added">%1$s pridané</string>
     <string name="quick_settings_removed">%1$s odstránené</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly zapnuté. Pre vypnutie podržte 2 prsty na obrazovke na 5 sekúnd. Ak chcete zastaviť zobrazovanie tejto správy, vypnite nastavenia SandFly &gt; Rozšírené nastavenia &gt; Zobraziť pokyny na vypnutie SandFly.</string>
     <string name="edge_gestures_title">Okraje</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Ďalšia skratka na zapnutie alebo vypnutie režimu prehliadania</string>
     <string name="title_pref_vibration_strength">Sila vibrácií</string>

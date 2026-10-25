@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Toque uma vez num item focado para ativar. Navegação mais rápida do que tocar duas vezes.</string>
   <string name="pref_verbosity_title">Verbosidade</string>
   <string name="pref_punctuation_title">Ler pontuação e símbolos</string>
-  <string name="title_pref_category_manage_focus_indicator">Indicador de foco</string>
   <string name="title_pref_category_manage_gestures">Gestos</string>
   <string name="title_pref_manage_labels">Etiquetas personalizadas</string>
   <string name="title_pref_category_context_menu">Menu do SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Tutorial do SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Ajuda</string>
   <string name="title_pref_advanced_settings">Definições avançadas</string>
-  <string name="title_pref_show_exit_watermark">Mostrar instruções para desativar o SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Quando o SandFly é ativado, mostra como desativá-lo</string>
-  <string name="talkback_exit_watermark_text">SandFly ativado. Mantenha 2 dedos no ecrã durante 5 segundos para o desativar. Para deixar de apresentar esta mensagem, toque com 3 dedos para abrir o menu do SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">A apresentar uma faixa a indicar que o SandFly está ativado. Para desativar o SandFly, mantenha 2 dedos no ecrã durante 5 segundos. Para remover esta faixa, aceda às Definições do SandFly.</string>
   <string name="reset_gesture_settings_title">Repor as definições de gestos</string>
   <string name="one_finger_gestures_title">1 dedo</string>
   <string name="one_finger_back_forth_gestures_title">1 dedo para trás e para a frente</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Verifique se o telemóvel está ligado.</string>
   <string name="image_qna_voice_input_empty">Nenhuma voz reconhecida.</string>
   <string name="image_qna_answer_unavailable">Nenhuma resposta disponível.</string>
-  <string name="title_pref_thick_border">Limites espessos</string>
-  <string name="title_pref_category_border_color">Cor</string>
-  <string name="title_pref_default_color">Predefinição</string>
-  <string name="title_pref_red">Vermelho</string>
-  <string name="title_pref_orange">Laranja</string>
-  <string name="title_pref_yellow">Amarelo</string>
-  <string name="title_pref_green">Verde</string>
-  <string name="title_pref_blue">Azul</string>
-  <string name="title_pref_grey">Cinzento</string>
   <string name="survey_setting_title">Partilhar feedback</string>
   <string name="title_summarize_view">Descrever ecrã</string>
   <string name="detected_result">Detetado: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Precisa de uma autorização que o Android não concede a leitores de ecrã. Para a conceder, execute este comando com adb ou Shizuku e volte a este ecrã: %1$s</string>
     <string name="action_copy_command">Copiar comando</string>
     <string name="command_copied">Comando copiado</string>
-    <string name="title_pref_speech_control">Permitir que outras aplicações falem</string>
-    <string name="summary_pref_speech_control">As apps que permitir podem dizer texto com a voz do SandFly. Nada é dito enquanto o dispositivo está bloqueado.</string>
-    <string name="title_pref_speech_control_sound">Reproduzir um som antes de outras aplicações falarem</string>
-    <string name="speech_control_apps_category">Aplicativos</string>
-    <string name="speech_control_no_apps">Nenhuma aplicação pediu para falar ainda.</string>
-    <string name="speech_control_ask_title">Permitir que <xliff:g id="app" example="Tasker">%1$s</xliff:g> fale através do SandFly?</string>
-    <string name="speech_control_ask_text">A app pode dizer texto com a sua voz do SandFly. Pode alterar isto nas definições avançadas.</string>
-    <string name="speech_control_allow">Permitir</string>
-    <string name="speech_control_deny">Não permitir</string>
-    <string name="permission_speak_label">falar pelo SandFly</string>
-    <string name="permission_speak_description">Permite que a app peça para dizer texto com a sua voz do SandFly. O SandFly pergunta-lhe antes de a app poder falar.</string>
     <string name="title_pref_phonetic_letters_mode">Falar letras foneticamente</string>
     <string name="phonetic_letters_mode_off">Desativado</string>
     <string name="phonetic_letters_mode_after_letter_delay">Depois da letra, com pausa, como “h, hotel”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Remover</string>
     <string name="quick_settings_added">%1$s adicionado</string>
     <string name="quick_settings_removed">%1$s removido</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ativado. Mantenha 2 dedos no ecrã durante 5 segundos para desativar. Para deixar de mostrar esta mensagem, desative Definições do SandFly &gt; Definições avançadas &gt; Mostrar instruções para desativar o SandFly.</string>
     <string name="edge_gestures_title">Bordas</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Outro atalho para ativar ou desativar o modo de navegação</string>
     <string name="title_pref_vibration_strength">Força de vibração</string>

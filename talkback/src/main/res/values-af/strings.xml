@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Tik een keer op ’n gefokusde item om te aktiveer. Vinniger navigasie as dubbeltik.</string>
   <string name="pref_verbosity_title">Breedsprakigheid</string>
   <string name="pref_punctuation_title">Sê leestekens en simbole hardop</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokusaanduier</string>
   <string name="title_pref_category_manage_gestures">Gebare</string>
   <string name="title_pref_manage_labels">Gepasmaakte etikette</string>
   <string name="title_pref_category_context_menu">SandFly-kieslys</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-tutoriaal</string>
   <string name="title_pref_category_help_no_tutorial">Hulp</string>
   <string name="title_pref_advanced_settings">Gevorderde instellings</string>
-  <string name="title_pref_show_exit_watermark">Wys instruksies om SandFly af te skakel</string>
-  <string name="summary_pref_show_exit_watermark">Wys hoe om SandFly af te skakel wanneer dit aanskakel</string>
-  <string name="talkback_exit_watermark_text">SandFly is aan. Hou 2 vingers vir 5 sekondes op die skerm om dit af te skakel. Tik met 3 vingers om die SandFly-kieslys oop te maak om op te hou om hierdie boodskap te wys.</string>
-  <string name="talkback_exit_watermark_hint_text">Wys tans banier wat aandui dat SandFly aan is. Hou 2 vingers op die skerm vir 5 sekondes om SandFly af te skakel. Gaan na SandFly-instellings om dié banier te verwyder.</string>
   <string name="reset_gesture_settings_title">Stel gebaarinstellings terug</string>
   <string name="one_finger_gestures_title">1 vinger</string>
   <string name="one_finger_back_forth_gestures_title">1 vinger heen en weer</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Kontroleer asseblief of die foon gekoppel is.</string>
   <string name="image_qna_voice_input_empty">Geen spraak herken nie.</string>
   <string name="image_qna_answer_unavailable">Geen antwoord beskikbaar nie.</string>
-  <string name="title_pref_thick_border">Dik rande</string>
-  <string name="title_pref_category_border_color">Kleur</string>
-  <string name="title_pref_default_color">Verstek</string>
-  <string name="title_pref_red">Rooi</string>
-  <string name="title_pref_orange">Oranje</string>
-  <string name="title_pref_yellow">Geel</string>
-  <string name="title_pref_green">Groen</string>
-  <string name="title_pref_blue">Blou</string>
-  <string name="title_pref_grey">Grys</string>
   <string name="survey_setting_title">Deel jou terugvoer</string>
   <string name="title_summarize_view">Beskryf skerm</string>
   <string name="detected_result">Bespeur: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Benodig ’n toestemming wat Android nie aan skermlesers gee nie. Voer hierdie opdrag met adb of Shizuku uit om dit toe te staan, en keer dan terug na hierdie skerm: %1$s</string>
     <string name="action_copy_command">Kopieer opdrag</string>
     <string name="command_copied">Opdrag gekopieer</string>
-    <string name="title_pref_speech_control">Laat ander apps praat</string>
-    <string name="summary_pref_speech_control">Apps wat jy toelaat, kan teks in jou SandFly-stem sê. Niks word gesê terwyl die toestel gesluit is nie.</string>
-    <string name="title_pref_speech_control_sound">Speel ’n klank voordat ander apps praat</string>
-    <string name="speech_control_apps_category">Apps</string>
-    <string name="speech_control_no_apps">Geen apps het nog gevra om te praat nie.</string>
-    <string name="speech_control_ask_title">Laat <xliff:g id="app" example="Tasker">%1$s</xliff:g> toe om deur SandFly te praat?</string>
-    <string name="speech_control_ask_text">Dit kan teks in jou SandFly-stem sê. Jy kan dit in Gevorderde instellings verander.</string>
-    <string name="speech_control_allow">Laat toe</string>
-    <string name="speech_control_deny">Moenie toelaat nie</string>
-    <string name="permission_speak_label">praat deur SandFly</string>
-    <string name="permission_speak_description">Laat die app toe om te vra om teks in jou SandFly-stem te sê. SandFly vra jou voordat die app kan praat.</string>
     <string name="title_pref_phonetic_letters_mode">Sê letters foneties</string>
     <string name="phonetic_letters_mode_off">Af</string>
     <string name="phonetic_letters_mode_after_letter_delay">Ná die letter, met vertraging, soos “h, hotel”</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d kennisgewing</item>
         <item quantity="other">%d kennisgewings</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly is aan. Hou 2 vingers vir 5 sekondes op die skerm om dit af te skakel. Skakel SandFly-instellings &gt; Gevorderde instellings &gt; Wys instruksies om SandFly af te skakel af om op te hou om hierdie boodskap te wys.</string>
     <string name="edge_gestures_title">Rande</string>
     <string name="title_pref_audio_output_device">Oudio-uitvoertoestel</string>
     <string name="dialog_title_audio_output_device">Kies waar SandFly se klank speel</string>

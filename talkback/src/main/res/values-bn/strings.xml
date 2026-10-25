@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">চালু করতে ফোকাস করা আইটেমে একবার ট্যাপ করুন। ডবল-ট্যাপ করার চেয়ে ঝটপট নেভিগেশন।</string>
   <string name="pref_verbosity_title">ভার্বোসিটি</string>
   <string name="pref_punctuation_title">যতিচিহ্ন ও প্রতীক পড়ে শোনায়</string>
-  <string name="title_pref_category_manage_focus_indicator">ফোকাস ইন্ডিকেটর</string>
   <string name="title_pref_category_manage_gestures">জেসচার</string>
   <string name="title_pref_manage_labels">কাস্টম লেবেল</string>
   <string name="title_pref_category_context_menu">SandFly মেনু</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly টিউটোরিয়াল</string>
   <string name="title_pref_category_help_no_tutorial">সহায়তা</string>
   <string name="title_pref_advanced_settings">উন্নত সেটিংস</string>
-  <string name="title_pref_show_exit_watermark">SandFly বন্ধ করার নির্দেশাবলী দেখুন</string>
-  <string name="summary_pref_show_exit_watermark">SandFly চালু হলে, কীভাবে সেটি বন্ধ করতে হয় তা দেখায়</string>
-  <string name="talkback_exit_watermark_text">SandFly চালু আছে। বন্ধ করতে, দুটি আঙুল দিয়ে স্ক্রিনের উপর ৫ সেকেন্ড হোল্ড করুন। এই মেসেজ দেখানো বন্ধ করার জন্য, SandFly মেনু খুলতে ৩টি আঙুল দিয়ে ট্যাপ করুন।</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly চালু হওয়ার ব্যানার দেখানো হচ্ছে। SandFly বন্ধ করতে, ৫ সেকেন্ডের জন্য স্ক্রিনে ২টি আঙুল দিয়ে হোল্ড করুন। এই ব্যানার সরাতে, \'SandFly সেটিংস\'-এ যান।</string>
   <string name="reset_gesture_settings_title">জেসচার সেটিংস রিসেট করুন</string>
   <string name="one_finger_gestures_title">১টি আঙুল ব্যবহার করে করা জেসচার</string>
   <string name="one_finger_back_forth_gestures_title">১টি আঙুল দিয়ে সামনে নিয়ে যাওয়া ও পিছনে নিয়ে আসার জেসচার</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">ফোন কানেক্ট করা আছে কিনা তা চেক করুন।</string>
   <string name="image_qna_voice_input_empty">কোনও স্পিচ শনাক্ত করা যায়নি।</string>
   <string name="image_qna_answer_unavailable">কোনও উত্তর উপলভ্য নেই।</string>
-  <string name="title_pref_thick_border">পুরু বর্ডার</string>
-  <string name="title_pref_category_border_color">রঙ</string>
-  <string name="title_pref_default_color">ডিফল্ট</string>
-  <string name="title_pref_red">লাল</string>
-  <string name="title_pref_orange">কমলা</string>
-  <string name="title_pref_yellow">হলুদ</string>
-  <string name="title_pref_green">সবুজ</string>
-  <string name="title_pref_blue">নীল</string>
-  <string name="title_pref_grey">ধূসর</string>
   <string name="survey_setting_title">আপনার মতামত জানান</string>
   <string name="title_summarize_view">স্ক্রিনের বিবরণ দিন</string>
   <string name="detected_result">শনাক্ত করা হয়েছে: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">এমন একটি অনুমতি প্রয়োজন যা Android স্ক্রিন রিডারকে দেয় না। অনুমতি দিতে, adb বা Shizuku দিয়ে এই কমান্ড চালান, তারপর এই স্ক্রিনে ফিরে আসুন: %1$s</string>
     <string name="action_copy_command">কমান্ড কপি করুন</string>
     <string name="command_copied">কমান্ড কপি করা হয়েছে</string>
-    <string name="title_pref_speech_control">অন্যান্য অ্যাপকে স্পিচ আউটপুট দিতে দিন</string>
-    <string name="summary_pref_speech_control">আপনি যেসব অ্যাপকে অনুমতি দেন সেগুলি আপনার SandFly ভয়েসে টেক্সট বলাতে পারে। ডিভাইস লক থাকলে কিছু বলা হয় না।</string>
-    <string name="title_pref_speech_control_sound">অন্যান্য অ্যাপের স্পিচের আগে সাউন্ড চালান</string>
-    <string name="speech_control_apps_category">অ্যাপ</string>
-    <string name="speech_control_no_apps">এখনও কোনও অ্যাপ স্পিচ আউটপুটের অনুরোধ করেনি।</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g>-কে SandFly-এর মাধ্যমে স্পিচ আউটপুট দেওয়ার অনুমতি দেবেন?</string>
-    <string name="speech_control_ask_text">এটি আপনার SandFly ভয়েসে টেক্সট বলাতে পারবে। উন্নত সেটিংসে এটি পরিবর্তন করতে পারবেন।</string>
-    <string name="speech_control_allow">অনুমতি দিন</string>
-    <string name="speech_control_deny">অনুমতি দেবেন না</string>
-    <string name="permission_speak_label">SandFly-এর মাধ্যমে স্পিচ আউটপুট দেওয়া</string>
-    <string name="permission_speak_description">অ্যাপকে আপনার SandFly ভয়েসে টেক্সট বলানোর অনুরোধ করতে দেয়। অ্যাপ স্পিচ আউটপুট দেওয়ার আগে SandFly আপনার অনুমতি চায়।</string>
     <string name="title_pref_phonetic_letters_mode">অক্ষর ফোনেটিক উচ্চারণে বলুন</string>
     <string name="phonetic_letters_mode_off">বন্ধ</string>
     <string name="phonetic_letters_mode_after_letter_delay">অক্ষরের পরে, বিরতি দিয়ে, যেমন \"হ, হলুদ\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%dটি বিজ্ঞপ্তি</item>
         <item quantity="other">%dটি বিজ্ঞপ্তি</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly চালু আছে। বন্ধ করতে, দুটি আঙুল দিয়ে স্ক্রিনের উপর ৫ সেকেন্ড হোল্ড করুন। এই মেসেজ দেখানো বন্ধ করতে, \'SandFly সেটিংস &gt; উন্নত সেটিংস &gt; SandFly বন্ধ করার নির্দেশাবলী দেখুন\' বন্ধ করুন।</string>
     <string name="edge_gestures_title">কিনারা</string>
     <string name="title_pref_audio_output_device">অডিও আউটপুট ডিভাইস</string>
     <string name="dialog_title_audio_output_device">SandFly-এর সাউন্ড কোথায় চালানো হবে বেছে নিন</string>

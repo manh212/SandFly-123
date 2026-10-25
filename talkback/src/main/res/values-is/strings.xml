@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Ýttu einu sinni á atriði sem er í fókus til að virkja það. Þetta er fljótlegra en að ýta tvisvar.</string>
   <string name="pref_verbosity_title">Nákvæmni</string>
   <string name="pref_punctuation_title">Lesa upp greinarmerki og tákn</string>
-  <string name="title_pref_category_manage_focus_indicator">Fókusvísir</string>
   <string name="title_pref_category_manage_gestures">Bendingar</string>
   <string name="title_pref_manage_labels">Sérsniðnir flokkar</string>
   <string name="title_pref_category_context_menu">SandFly-valmynd</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Leiðsögn í SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Hjálp</string>
   <string name="title_pref_advanced_settings">Ítarlegar stillingar</string>
-  <string name="title_pref_show_exit_watermark">Sýna leiðbeiningar um hvernig slökkt er á SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Þegar kveikt er á SandFly birtist hvernig slökkt er á því</string>
-  <string name="talkback_exit_watermark_text">Kveikt á SandFly. Haltu tveimur fingrum á skjánum í fimm sekúndur til að slökkva. Til að hætta að sýna þessi skilaboð skaltu ýta með þremur fingrum til að opna SandFly-valmyndina.</string>
-  <string name="talkback_exit_watermark_hint_text">Borði sem gefur til kynna að kveikt sé á SandFly er sýndur. Til að slökkva á SandFly skaltu halda tveimur fingrum á skjánum í 5 sekúndur. Opnaðu stillingar SandFly til að fjarlægja þennan borða.</string>
   <string name="reset_gesture_settings_title">Endurstilla bendistillingar</string>
   <string name="one_finger_gestures_title">1 fingur</string>
   <string name="one_finger_back_forth_gestures_title">1 fingur fram og til baka</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Athugaðu hvort að síminn sé tengdur.</string>
   <string name="image_qna_voice_input_empty">Engin rödd greindist.</string>
   <string name="image_qna_answer_unavailable">Ekkert svar tiltækt.</string>
-  <string name="title_pref_thick_border">Þykkir rammar</string>
-  <string name="title_pref_category_border_color">Litur</string>
-  <string name="title_pref_default_color">Sjálfgefið</string>
-  <string name="title_pref_red">Rauður</string>
-  <string name="title_pref_orange">Appelsínugulur</string>
-  <string name="title_pref_yellow">Gulur</string>
-  <string name="title_pref_green">Grænn</string>
-  <string name="title_pref_blue">Blár</string>
-  <string name="title_pref_grey">Grár</string>
   <string name="survey_setting_title">Deildu ábendingum</string>
   <string name="title_summarize_view">Lýsa skjánum</string>
   <string name="detected_result">Greint: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Þarf heimild sem Android veitir ekki skjálesurum. Til að veita hana skaltu keyra þessa skipun með adb eða Shizuku og opna svo þennan skjá aftur: %1$s</string>
     <string name="action_copy_command">Afrita skipun</string>
     <string name="command_copied">Skipun afrituð</string>
-    <string name="title_pref_speech_control">Leyfa öðrum forritum að tala</string>
-    <string name="summary_pref_speech_control">Forrit sem þú leyfir geta lesið upp texta með SandFly-röddinni. Ekkert er lesið upp meðan tækið er læst.</string>
-    <string name="title_pref_speech_control_sound">Spila hljóð áður en önnur forrit tala</string>
-    <string name="speech_control_apps_category">Forrit</string>
-    <string name="speech_control_no_apps">Engin forrit hafa beðið um að tala ennþá.</string>
-    <string name="speech_control_ask_title">Leyfa <xliff:g id="app" example="Tasker">%1$s</xliff:g> að tala í gegnum SandFly?</string>
-    <string name="speech_control_ask_text">Það getur sagt texta með SandFly röddinni þinni. Þú getur breytt þessu í Ítarlegri stillingum.</string>
-    <string name="speech_control_allow">Leyfa</string>
-    <string name="speech_control_deny">Ekki leyfa</string>
-    <string name="permission_speak_label">tala í gegnum SandFly</string>
-    <string name="permission_speak_description">Leyfir appinu að biðja um að segja texta með SandFly röddinni þinni. SandFly spyr þig áður en appið getur talað.</string>
     <string name="title_pref_phonetic_letters_mode">Lesa stafi með stafrófsorðum</string>
     <string name="phonetic_letters_mode_off">Slökkt</string>
     <string name="phonetic_letters_mode_after_letter_delay">Á eftir stafnum, með töf, t.d. „h, hótel“</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Fjarlægja</string>
     <string name="quick_settings_added">%1$s bætt við</string>
     <string name="quick_settings_removed">%1$s fjarlægt</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly á. Haltu tveimur fingrum á skjánum í 5 sekúndur til að slökkva. Til að hætta að sýna þessi skilaboð skaltu slökkva á SandFly stillingum &gt; Ítarlegar stillingar &gt; Sýna leiðbeiningar um að slökkva á SandFly.</string>
     <string name="edge_gestures_title">Brúnir</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Önnur flýtileið til að kveikja eða slökkva á vafraham</string>
     <string name="title_pref_vibration_strength">Titringsstyrkur</string>

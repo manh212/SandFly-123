@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Appuyez sur un élément sélectionné pour l\'activer. Navigation plus rapide qu\'avec un double appui.</string>
   <string name="pref_verbosity_title">Niveau de détail</string>
   <string name="pref_punctuation_title">Lire la ponctuation et les symboles</string>
-  <string name="title_pref_category_manage_focus_indicator">Indicateur de focus</string>
   <string name="title_pref_category_manage_gestures">Gestes</string>
   <string name="title_pref_manage_labels">Libellés personnalisés</string>
   <string name="title_pref_category_context_menu">Menu SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Tutoriel SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Aide</string>
   <string name="title_pref_advanced_settings">Paramètres avancés</string>
-  <string name="title_pref_show_exit_watermark">Afficher les instructions pour désactiver SandFly</string>
-  <string name="summary_pref_show_exit_watermark">À l\'activation de SandFly, afficher comment le désactiver</string>
-  <string name="talkback_exit_watermark_text">SandFly activé. Maintenez deux doigts sur l\'écran pendant 5 secondes pour le désactiver. Pour ne plus afficher ce message, appuyez avec trois doigts pour ouvrir le menu SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Affichage d\'une bannière indiquant que SandFly est activé. Pour désactiver SandFly, maintenez deux doigts sur l\'écran pendant cinq secondes. Pour supprimer cette bannière, accédez aux paramètres SandFly.</string>
   <string name="reset_gesture_settings_title">Réinitialiser les paramètres des gestes</string>
   <string name="one_finger_gestures_title">Gestes avec un doigt</string>
   <string name="one_finger_back_forth_gestures_title">Gestes d\'aller-retour avec un doigt</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Veuillez vérifier si le téléphone est connecté.</string>
   <string name="image_qna_voice_input_empty">Aucune voix reconnue.</string>
   <string name="image_qna_answer_unavailable">Aucune réponse disponible.</string>
-  <string name="title_pref_thick_border">Bordures épaisses</string>
-  <string name="title_pref_category_border_color">Couleur</string>
-  <string name="title_pref_default_color">Par défaut</string>
-  <string name="title_pref_red">Rouge</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Jaune</string>
-  <string name="title_pref_green">Vert</string>
-  <string name="title_pref_blue">Bleu</string>
-  <string name="title_pref_grey">Gris</string>
   <string name="survey_setting_title">Envoyer des commentaires</string>
   <string name="title_summarize_view">Décrire l\'écran</string>
   <string name="detected_result">Élément détecté : %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Nécessite une autorisation qu\'Android n\'accorde pas aux lecteurs d\'écran. Pour l\'accorder, exécutez cette commande avec adb ou Shizuku, puis revenez sur cet écran : %1$s</string>
     <string name="action_copy_command">Copier la commande</string>
     <string name="command_copied">Commande copiée</string>
-    <string name="title_pref_speech_control">Autoriser d\'autres applications à parler</string>
-    <string name="summary_pref_speech_control">Les applications que vous autorisez peuvent énoncer du texte avec votre voix SandFly. Rien n\'est énoncé lorsque l\'appareil est verrouillé.</string>
-    <string name="title_pref_speech_control_sound">Émettre un son avant que d\'autres applications parlent</string>
-    <string name="speech_control_apps_category">Applications</string>
-    <string name="speech_control_no_apps">Aucune application n\'a encore demandé à parler.</string>
-    <string name="speech_control_ask_title">Autoriser <xliff:g id="app" example="Tasker">%1$s</xliff:g> à parler via SandFly ?</string>
-    <string name="speech_control_ask_text">Elle pourra énoncer du texte avec votre voix SandFly. Vous pouvez modifier ce choix dans les paramètres avancés.</string>
-    <string name="speech_control_allow">Autoriser</string>
-    <string name="speech_control_deny">Ne pas autoriser</string>
-    <string name="permission_speak_label">parler via SandFly</string>
-    <string name="permission_speak_description">Permet à l\'application de demander à énoncer du texte avec votre voix SandFly. SandFly vous demande votre accord avant que l\'application puisse parler.</string>
     <string name="title_pref_phonetic_letters_mode">Lettres phonétiques</string>
     <string name="phonetic_letters_mode_off">Désactivé</string>
     <string name="phonetic_letters_mode_after_letter_delay">Après la lettre, avec un délai, par exemple \"h, Hotel\"</string>
@@ -1385,7 +1360,6 @@
         <item quantity="many">%d notifications</item>
         <item quantity="other">%d notifications</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly activé. Maintenez deux doigts sur l\'écran pendant 5 secondes pour le désactiver. Pour ne plus afficher ce message, désactivez Paramètres SandFly &gt; Paramètres avancés &gt; Afficher les instructions pour désactiver SandFly.</string>
     <string name="edge_gestures_title">Bords</string>
     <string name="title_pref_audio_output_device">Périphérique de sortie audio</string>
     <string name="dialog_title_audio_output_device">Choisir la sortie du son de SandFly</string>

@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Aktivləşdirmək üçün fokuslanmış elementə bir dəfə toxunun. İki dəfə toxunmaqdan daha sürətli naviqasiya.</string>
   <string name="pref_verbosity_title">Söz yığını</string>
   <string name="pref_punctuation_title">Punktuasiya və simvolları səsləndirin</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokus göstəricisi</string>
   <string name="title_pref_category_manage_gestures">Jestlər</string>
   <string name="title_pref_manage_labels">Fərdi etiketlər</string>
   <string name="title_pref_category_context_menu">SandFly menyusu</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly ilə bağlı təlimat</string>
   <string name="title_pref_category_help_no_tutorial">Kömək</string>
   <string name="title_pref_advanced_settings">Qabaqcıl ayarlar</string>
-  <string name="title_pref_show_exit_watermark">SandFly-i söndürmək üçün təlimatları göstərin</string>
-  <string name="summary_pref_show_exit_watermark">SandFly aktiv olduqda onu necə deaktiv etməyi göstərin</string>
-  <string name="talkback_exit_watermark_text">SandFly aktivdir. Söndürmək üçün 2 barmağınızı ekranda 5 saniyə basıb saxlayın. Bu mesajın göstərilməsini dayandırmaq üçün 3 barmağınızla toxunaraq SandFly menyusunu açın.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly-in aktiv olduğunu əks etdirən banner göstərilir. SandFly-i deaktiv etmək üçün 2 barmağınızı ekranda 5 saniyə basıb saxlayın. Bu banneri silmək üçün SandFly Ayarlara keçin.</string>
   <string name="reset_gesture_settings_title">Jest ayarlarını sıfırlayın</string>
   <string name="one_finger_gestures_title">1 barmaq</string>
   <string name="one_finger_back_forth_gestures_title">1 barmaqla irəli-geri</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Telefonun qoşulub-qoşulmadığını yoxlayın.</string>
   <string name="image_qna_voice_input_empty">Nitq tanınmadı.</string>
   <string name="image_qna_answer_unavailable">Əlçatan cavab yoxdur.</string>
-  <string name="title_pref_thick_border">Qalın sərhədlər</string>
-  <string name="title_pref_category_border_color">Rəng</string>
-  <string name="title_pref_default_color">Defolt</string>
-  <string name="title_pref_red">Qırmızı</string>
-  <string name="title_pref_orange">Narıncı</string>
-  <string name="title_pref_yellow">Sarı</string>
-  <string name="title_pref_green">Yaşıl</string>
-  <string name="title_pref_blue">Göy</string>
-  <string name="title_pref_grey">Boz</string>
   <string name="survey_setting_title">Rəy bildirin</string>
   <string name="title_summarize_view">Ekranı təsvir edin</string>
   <string name="detected_result">Aşkarlandı: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android-in ekran oxuyucularına vermədiyi icazə tələb olunur. İcazə vermək üçün bu əmri adb və ya Shizuku ilə icra edin, sonra bu ekrana qayıdın: %1$s</string>
     <string name="action_copy_command">Əmri kopyalayın</string>
     <string name="command_copied">Əmr kopyalandı</string>
-    <string name="title_pref_speech_control">Digər tətbiqlərə danışmağa icazə ver</string>
-    <string name="summary_pref_speech_control">İcazə verdiyiniz tətbiqlər mətni SandFly səsinizlə səsləndirə bilər. Cihaz kilidli olduqda heç nə səsləndirilmir.</string>
-    <string name="title_pref_speech_control_sound">Digər tətbiqlər danışmazdan əvvəl səs oxut</string>
-    <string name="speech_control_apps_category">Tətbiqlər</string>
-    <string name="speech_control_no_apps">Hələ heç bir tətbiq danışmaq üçün icazə istəməyib.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> tətbiqinə SandFly vasitəsilə danışmağa icazə verilsin?</string>
-    <string name="speech_control_ask_text">Tətbiq mətni SandFly səsinizlə səsləndirə bilər. Bunu Qabaqcıl ayarlarda dəyişə bilərsiniz.</string>
-    <string name="speech_control_allow">İcazə verin</string>
-    <string name="speech_control_deny">İcazə verməyin</string>
-    <string name="permission_speak_label">SandFly vasitəsilə danışmaq</string>
-    <string name="permission_speak_description">Tətbiqə mətni SandFly səsinizlə səsləndirmək üçün icazə istəməyə imkan verir. Tətbiq danışmazdan əvvəl SandFly sizdən icazə istəyir.</string>
     <string name="title_pref_phonetic_letters_mode">Hərfləri fonetik səsləndirin</string>
     <string name="phonetic_letters_mode_off">Deaktiv</string>
     <string name="phonetic_letters_mode_after_letter_delay">Hərfdən sonra, gecikmə ilə, məsələn, \"h, hotel\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d bildiriş</item>
         <item quantity="other">%d bildiriş</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly aktivdir. Deaktiv etmək üçün 2 barmağınızı ekranda 5 saniyə basıb saxlayın. Bu mesajın göstərilməsini dayandırmaq üçün SandFly ayarları &gt; Qabaqcıl ayarlar &gt; SandFly-ı söndürmək üçün təlimatları göstərin ayarını deaktiv edin.</string>
     <string name="edge_gestures_title">Kənarlar</string>
     <string name="title_pref_audio_output_device">Audio çıxış cihazı</string>
     <string name="dialog_title_audio_output_device">SandFly səsinin oxudulacağı yeri seçin</string>

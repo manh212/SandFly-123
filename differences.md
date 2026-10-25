@@ -714,12 +714,6 @@ Hooks that change or suppress speech take priority over queued script work and s
 
 Scripts run on phones and tablets only. [Writing SandFly scripts](docs/scripting.md) describes the whole API, and [docs/scripting/examples](docs/scripting/examples) has a script to start from.
 
-### Speech from other apps
-
-Apps can ask SandFly to say text in your own SandFly voice, for example a game, an automation app such as Tasker, or a remote-access tool. To allow this, turn on **Apps** > **Let other apps speak**. It's off by default.
-
-The first time an app asks, SandFly posts a notification that asks whether to allow it, and nothing the app sends is said until you choose **Allow**. You can allow or block each app later in **Let other apps speak**. To hear a short sound before each thing another app says, so that you can tell it apart from SandFly, turn on **Play a sound before other apps speak**. Nothing is said while the device is locked, an app can speak only a few times in a row, and apps can never stop or cut off SandFly's own speech. [Speaking through SandFly from another app](docs/speech-api.md) describes the API for app developers.
-
 ### Inspect focused item and Copy screen tree
 
 **Inspect focused item** says the focused item's id, class, role, app, activity and window, and copies them, so that scripts can name the item. **Copy screen tree** copies every item on screen as JSON. Assign either to a gesture in gesture settings, or add it to the SandFly menu in **SandFly menu**, under **Controls**.
@@ -728,7 +722,15 @@ The first time an app asks, SandFly posts a notification that asks whether to al
 
 ### Layout and wording
 
-SandFly groups its main settings under **Feedback**, **Notifications**, **Controls**, **Typing**, **Apps**, and **More**, and puts **SandFly menu** and **Reading controls** in the main settings. Many settings have clearer names, such as **Speak item type** and **Order of item details**. SandFly removes the links to the Play Store, the privacy policy, the terms of service, Disability Support, and Google's TalkBack help, and the pages about new features in TalkBack. **Touch and activation** and **Navigation**, in **Controls**, and **Apps** hold settings that TalkBack keeps in **Advanced settings**. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
+SandFly lays out its main settings screen in this order: **Updates**, **Initial setup** and **Timer settings** stand on their own, then **Speech** (text-to-speech and verbosity), **Notifications** on its own, **Navigation** (navigation, touch and activation, direct touch, and volume key settings), **Sound and vibration** on its own, **Gestures and shortcuts**, **Menus and reading controls** (the SandFly menu and the reading controls), **Typing**, **On-screen information** (automatic descriptions, status readout, and screen announcements — the last moved out of **Verbosity**), **Apps** (scripts and custom labels), **System and help** (advanced settings, export and import settings, and the tutorial), and **Other settings** (offline translation, and Gemini settings when they are enabled). Only items that genuinely belong together share a group. Many settings have clearer names, such as **Speak item type** and **Order of item details**. SandFly removes the links to the Play Store, the privacy policy, the terms of service, Disability Support, and Google's TalkBack help, and the pages about new features in TalkBack. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
+
+Three upstream settings are removed entirely, with the features behind them:
+
+- **Focus indicator** settings (border width and color). Android still draws its own focus frame; only SandFly's customization of it is gone, including the places that read those two preferences.
+- **Let other apps speak** (Speech Control). The whole inter-app speech API is gone: the `speechcontrol` package, its AIDL interface, the exported receiver and service, the `${applicationId}.permission.SPEAK` permission, and `docs/speech-api.md`. The speech-options helper that scripts also use moved to the `speech` package.
+- **Show instructions for turning off SandFly** (the exit watermark). The on-screen banner, its switch in **Advanced settings**, and the service code that showed and hid it are gone. The mis-trigger recovery itself stays: holding two fingers on the screen still turns SandFly off, and the tutorial's exit flow is unchanged.
+
+For maintainers: `scripts/check_settings_key_contract.py` walks the settings tree from the main screen and fails if a reachable preference key disappears or if one of the three removed items comes back, so an upstream sync cannot drop or resurrect a settings item silently.
 
 ### Dark mode
 

@@ -121,7 +121,6 @@ import com.google.android.accessibility.talkback.trainingcommon.TrainingActivity
 import com.google.android.accessibility.talkback.trainingcommon.content.TutorialGestureUses;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
 import com.google.android.accessibility.talkback.utils.DebugProperties;
-import com.google.android.accessibility.talkback.utils.FocusIndicatorUtils;
 import com.google.android.accessibility.talkback.utils.GeminiCommandUtils;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
@@ -517,11 +516,12 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_print_node_tree))) {
       TreeDebugRenderer.FocusIndicatorSpec focusIndicatorSpec = null;
       if (DebugProperties.includeScreenshotWithTreeDebug(service)) {
-        SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
         int color =
-            FocusIndicatorUtils.getTalkBackFocusColor(service, prefs, service.getResources());
+            service.getResources().getColor(R.color.accessibility_focus_highlight_color, null);
         float strokeWidth =
-            FocusIndicatorUtils.getTalkBackFocusStrokeWidth(prefs, service.getResources());
+            service
+                .getResources()
+                .getDimensionPixelSize(R.dimen.accessibility_focus_highlight_stroke_width);
         focusIndicatorSpec = new TreeDebugRenderer.FocusIndicatorSpec(color, strokeWidth);
       }
       TreeDebug.logNodeTreesOnAllDisplaysAndWriteScreenshot(service, focusIndicatorSpec);

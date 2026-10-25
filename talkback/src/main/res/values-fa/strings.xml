@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">برای فعال کردن موارد، روی مورد متمرکزشده یک‌بار تک‌ضرب بزنید. این نوع پیمایش نسبت‌به دو تک‌ضرب زدن سریع‌تر است.</string>
   <string name="pref_verbosity_title">سطح جزئیات</string>
   <string name="pref_punctuation_title">خواندن نشان‌ها و نشانه‌های سجاوندی</string>
-  <string name="title_pref_category_manage_focus_indicator">نشانگر کانونی کردن</string>
   <string name="title_pref_category_manage_gestures">اشاره‌ها</string>
   <string name="title_pref_manage_labels">برچسب‌های سفارشی</string>
   <string name="title_pref_category_context_menu">‏منو SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">‏آموزش گام‌به‌گام SandFly</string>
   <string name="title_pref_category_help_no_tutorial">راهنما</string>
   <string name="title_pref_advanced_settings">تنظیمات پیشرفته</string>
-  <string name="title_pref_show_exit_watermark">‏نمایش دستورالعمل‌های خاموش کردن SandFly</string>
-  <string name="summary_pref_show_exit_watermark">‏وقتی SandFly روشن می‌شود، نحوه خاموش کردن آن نشان داده می‌شود</string>
-  <string name="talkback_exit_watermark_text">‏‫SandFly روشن است. برای خاموش کردن آن، ۲ انگشت را ۵ ثانیه روی صفحه‌نمایش نگه دارید. برای متوقف کردن نمایش این پیام، با ۳ انگشت تک‌ضرب بزنید تا منو SandFly باز شود.</string>
-  <string name="talkback_exit_watermark_hint_text">‏نمایش دادن برنمایی که نشان می‌دهد SandFly روشن است. برای خاموش کردن SandFly،‏ ۲ انگشت را ۵ ثانیه روی صفحه‌نمایش نگه دارید. برای برداشتن این برنما، به «تنظیمات SandFly» بروید.</string>
   <string name="reset_gesture_settings_title">بازنشانی تنظیمات اشاره</string>
   <string name="one_finger_gestures_title">۱ انگشت</string>
   <string name="one_finger_back_forth_gestures_title">۱ انگشت به‌عقب‌وجلو</string>
@@ -1070,15 +1065,6 @@
   <string name="watch_remote_intent_error_confirmation_text">لطفاً بررسی کنید تلفن متصل باشد.</string>
   <string name="image_qna_voice_input_empty">گفتار شناسایی نشد.</string>
   <string name="image_qna_answer_unavailable">پاسخی دردسترس نیست.</string>
-  <string name="title_pref_thick_border">حاشیه ضخیم</string>
-  <string name="title_pref_category_border_color">رنگ</string>
-  <string name="title_pref_default_color">پیش‌فرض</string>
-  <string name="title_pref_red">قرمز</string>
-  <string name="title_pref_orange">نارنجی</string>
-  <string name="title_pref_yellow">زرد</string>
-  <string name="title_pref_green">سبز</string>
-  <string name="title_pref_blue">آبی</string>
-  <string name="title_pref_grey">خاکستری</string>
   <string name="survey_setting_title">هم‌رسانی بازخورد</string>
   <string name="title_summarize_view">شرح صفحه‌نمایش</string>
   <string name="detected_result">شناسایی‌شده: %1$s</string>
@@ -1320,17 +1306,6 @@
     <string name="summary_pref_speakerphone_needs_permission">‏به اجازه‌ای نیاز دارد که Android به صفحه‌خوان‌ها نمی‌دهد. برای دادن آن، این فرمان را با adb یا Shizuku اجرا کنید و سپس به این صفحه برگردید: %1$s</string>
     <string name="action_copy_command">کپی کردن فرمان</string>
     <string name="command_copied">فرمان کپی شد</string>
-    <string name="title_pref_speech_control">اجازه گفتار به برنامه‌های دیگر</string>
-    <string name="summary_pref_speech_control">‏برنامه‌هایی که اجازه می‌دهید می‌توانند نوشتار را با صدای SandFly شما بگویند. وقتی دستگاه قفل است، چیزی گفته نمی‌شود.</string>
-    <string name="title_pref_speech_control_sound">پخش صدا پیش‌از گفتار برنامه‌های دیگر</string>
-    <string name="speech_control_apps_category">برنامه‌ها</string>
-    <string name="speech_control_no_apps">هنوز هیچ برنامه‌ای درخواست گفتار نکرده است.</string>
-    <string name="speech_control_ask_title">‏به <xliff:g id="app" example="Tasker">%1$s</xliff:g> اجازه داده شود ازطریق SandFly گفتار پخش کند؟</string>
-    <string name="speech_control_ask_text">‏این برنامه می‌تواند نوشتار را با صدای SandFly شما بگوید. می‌توانید این را در «تنظیمات پیشرفته» تغییر دهید.</string>
-    <string name="speech_control_allow">اجازه دادن</string>
-    <string name="speech_control_deny">اجازه ندادن</string>
-    <string name="permission_speak_label">‏گفتار ازطریق SandFly</string>
-    <string name="permission_speak_description">‏به برنامه امکان می‌دهد درخواست کند نوشتار را با صدای SandFly شما بگوید. SandFly پیش‌از اینکه برنامه بتواند گفتار پخش کند، از شما اجازه می‌گیرد.</string>
     <string name="title_pref_phonetic_letters_mode">خواندن حروف به‌همراه مثال</string>
     <string name="phonetic_letters_mode_off">خاموش</string>
     <string name="phonetic_letters_mode_after_letter_delay">پس‌از حرف، با تأخیر، مانند «ه، هوا»</string>
@@ -1385,7 +1360,6 @@
         <item quantity="one">‏%d اعلان</item>
         <item quantity="other">‏%d اعلان</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">‏‫SandFly روشن است. برای خاموش کردن آن، ۲ انگشت را ۵ ثانیه روی صفحه‌نمایش نگه دارید. برای متوقف کردن نمایش این پیام، «تنظیمات SandFly &gt; تنظیمات پیشرفته &gt; نمایش دستورالعمل‌های خاموش کردن SandFly» را خاموش کنید.</string>
     <string name="edge_gestures_title">لبه‌ها</string>
     <string name="title_pref_audio_output_device">دستگاه خروجی صدا</string>
     <string name="dialog_title_audio_output_device">‏انتخاب محل پخش صدای SandFly</string>

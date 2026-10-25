@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Fokusētu vienumu varat aktivizēt, tam vienreiz pieskaroties. Šāda pārvietošanās ir ātrāka par dubultskārienu.</string>
   <string name="pref_verbosity_title">Detalizētība</string>
   <string name="pref_punctuation_title">Izrunāt pieturzīmes un simbolus</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokusa indikators</string>
   <string name="title_pref_category_manage_gestures">Žesti</string>
   <string name="title_pref_manage_labels">Pielāgotās iezīmes</string>
   <string name="title_pref_category_context_menu">SandFly izvēlne</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly pamācība</string>
   <string name="title_pref_category_help_no_tutorial">Palīdzība</string>
   <string name="title_pref_advanced_settings">Papildu iestatījumi</string>
-  <string name="title_pref_show_exit_watermark">Rādīt norādījumus par SandFly izslēgšanu</string>
-  <string name="summary_pref_show_exit_watermark">Kad SandFly ieslēdzas, tiek parādīts, kā to izslēgt</string>
-  <string name="talkback_exit_watermark_text">Funkcija SandFly ir ieslēgta. Lai to izslēgtu, piecas sekundes turiet uz ekrāna divus pirkstus. Lai pārtrauktu šī ziņojuma rādīšanu, pieskarieties ar trim pirkstiem, un tiks atvērta SandFly izvēlne.</string>
-  <string name="talkback_exit_watermark_hint_text">Tiek rādīts paziņojums, kas informē, ka funkcija SandFly ir ieslēgta. Lai izslēgtu SandFly, piecas sekundes turiet uz ekrāna divus pirkstus. Lai noņemtu šo paziņojumu, pārejiet uz SandFly iestatījumiem.</string>
   <string name="reset_gesture_settings_title">Atiestatīt žestu iestatījumus</string>
   <string name="one_finger_gestures_title">Žesti ar 1 pirkstu</string>
   <string name="one_finger_back_forth_gestures_title">Divvirzienu žesti ar 1 pirkstu</string>
@@ -1070,15 +1065,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Lūdzu, pārbaudiet, vai ir izveidots tālruņa savienojums.</string>
   <string name="image_qna_voice_input_empty">Runa netika atpazīta.</string>
   <string name="image_qna_answer_unavailable">Nav pieejama neviena atbilde.</string>
-  <string name="title_pref_thick_border">Biezas apmales</string>
-  <string name="title_pref_category_border_color">Krāsa</string>
-  <string name="title_pref_default_color">Noklusējums</string>
-  <string name="title_pref_red">Sarkana</string>
-  <string name="title_pref_orange">Oranža</string>
-  <string name="title_pref_yellow">Dzeltena</string>
-  <string name="title_pref_green">Zaļa</string>
-  <string name="title_pref_blue">Zila</string>
-  <string name="title_pref_grey">Pelēka</string>
   <string name="survey_setting_title">Sniegt atsauksmes</string>
   <string name="title_summarize_view">Aprakstīt ekrānā redzamo saturu</string>
   <string name="detected_result">Noteiktais objekts: %1$s</string>
@@ -1334,17 +1320,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Nepieciešama atļauja, ko Android nepiešķir ekrāna lasītājiem. Lai to piešķirtu, izpildiet šo komandu ar adb vai Shizuku un pēc tam atgriezieties šajā ekrānā: %1$s</string>
     <string name="action_copy_command">Kopēt komandu</string>
     <string name="command_copied">Komanda ir nokopēta</string>
-    <string name="title_pref_speech_control">Ļaut citām lietotnēm runāt</string>
-    <string name="summary_pref_speech_control">Atļautās lietotnes var izrunāt tekstu ar SandFly balsi. Kamēr ierīce ir bloķēta, nekas netiek izrunāts.</string>
-    <string name="title_pref_speech_control_sound">Atskaņot skaņu, pirms runā citas lietotnes</string>
-    <string name="speech_control_apps_category">Lietotnes</string>
-    <string name="speech_control_no_apps">Neviena lietotne vēl nav lūgusi runāt.</string>
-    <string name="speech_control_ask_title">Vai atļaut <xliff:g id="app" example="Tasker">%1$s</xliff:g> runāt caur SandFly?</string>
-    <string name="speech_control_ask_text">Tas var pateikt tekstu jūsu SandFly balsī. To var mainīt sadaļā Papildu iestatījumi.</string>
-    <string name="speech_control_allow">Atļaut</string>
-    <string name="speech_control_deny">Neatļaut</string>
-    <string name="permission_speak_label">runāt caur SandFly</string>
-    <string name="permission_speak_description">Ļauj lietotnei lūgt pateikt tekstu jūsu SandFly balsī. SandFly jautā, pirms lietotne var runāt.</string>
     <string name="title_pref_phonetic_letters_mode">Izrunāt burtus fonētiski</string>
     <string name="phonetic_letters_mode_off">Izslēgts</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pēc burta, ar pauzi, piemēram, „h, Hugo“</string>
@@ -1491,7 +1466,6 @@
     <string name="quick_settings_remove">Noņemt</string>
     <string name="quick_settings_added">%1$s pievienots</string>
     <string name="quick_settings_removed">%1$s noņemts</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ieslēgts. Turiet divus pirkstus uz ekrāna 5 sekundes, lai izslēgtu. Lai pārtrauktu šī ziņojuma rādīšanu, izslēdziet SandFly iestatījumi &gt; Papildu iestatījumi &gt; Rādīt norādījumus SandFly izslēgšanai.</string>
     <string name="edge_gestures_title">Malas</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Vēl viens īsceļš, lai ieslēgtu vai izslēgtu pārlūkošanas režīmu</string>
     <string name="title_pref_vibration_strength">Vibrācijas spēks</string>

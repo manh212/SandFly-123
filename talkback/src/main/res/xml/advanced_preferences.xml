@@ -12,11 +12,6 @@
         android:summary="%s"
         android:title="@string/title_pref_resume_backtalk"/>
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-        android:defaultValue="@bool/pref_show_exit_watermark_default"
-        android:key="@string/pref_show_exit_watermark_key"
-        android:summary="@string/summary_pref_show_exit_watermark"
-        android:title="@string/title_pref_show_exit_watermark"/>
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_quick_settings_default"
         android:key="@string/pref_quick_settings_key"
         android:title="@string/title_pref_quick_settings"/>

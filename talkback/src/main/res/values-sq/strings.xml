@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Trokit një herë në një artikull të fokusuar për ta aktivizuar. Navigim më i shpejtë se trokitja dy herë.</string>
   <string name="pref_verbosity_title">Detajimi zanor</string>
   <string name="pref_punctuation_title">Lexo me zë pikësimin dhe simbolet</string>
-  <string name="title_pref_category_manage_focus_indicator">Treguesi i fokusit</string>
   <string name="title_pref_category_manage_gestures">Gjestet</string>
   <string name="title_pref_manage_labels">Etiketat e personalizuara</string>
   <string name="title_pref_category_context_menu">Menuja SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Udhëzuesi i SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Ndihma</string>
   <string name="title_pref_advanced_settings">Cilësimet e përparuara</string>
-  <string name="title_pref_show_exit_watermark">Shfaq udhëzimet për çaktivizimin e SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Kur SandFly ndizet, shfaqet si fiket</string>
-  <string name="talkback_exit_watermark_text">SandFly është aktiv. Mbaj 2 gishta në ekran për 5 sekonda për ta çaktivizuar. Për të ndaluar shfaqjen e këtij mesazhi, trokit me 3 gishta për të hapur menynë e SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Shfaqja e banderolës tregon se SandFly është aktiv. Për të çaktivizuar SandFly, mbaj 2 gishta mbi ekran për 5 sekonda. Për ta hequr këtë banderolë, shko te cilësimet e SandFly.</string>
   <string name="reset_gesture_settings_title">Rivendos cilësimet e gjesteve</string>
   <string name="one_finger_gestures_title">1 gisht</string>
   <string name="one_finger_back_forth_gestures_title">1 gisht para e prapa</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Kontrollo nëse telefoni është i lidhur.</string>
   <string name="image_qna_voice_input_empty">E folura nuk njihet.</string>
   <string name="image_qna_answer_unavailable">Nuk ofrohet asnjë përgjigje.</string>
-  <string name="title_pref_thick_border">Bordura të trasha</string>
-  <string name="title_pref_category_border_color">Ngjyra</string>
-  <string name="title_pref_default_color">Parazgjedhja</string>
-  <string name="title_pref_red">E kuqe</string>
-  <string name="title_pref_orange">Portokalli</string>
-  <string name="title_pref_yellow">E verdhë</string>
-  <string name="title_pref_green">E gjelbër</string>
-  <string name="title_pref_blue">Blu</string>
-  <string name="title_pref_grey">Gri</string>
   <string name="survey_setting_title">Ndaj komentet e tua</string>
   <string name="title_summarize_view">Përshkruaj ekranin</string>
   <string name="detected_result">Zbuluar: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Kërkon një leje që Android nuk ua jep lexuesve të ekranit. Për ta dhënë, ekzekutoni këtë komandë me adb ose Shizuku, pastaj kthehuni në këtë ekran: %1$s</string>
     <string name="action_copy_command">Kopjo komandën</string>
     <string name="command_copied">Komanda u kopjua</string>
-    <string name="title_pref_speech_control">Lejo aplikacionet e tjera të flasin</string>
-    <string name="summary_pref_speech_control">Aplikacionet që lejoni mund të thonë tekst me zërin e SandFly. Kur pajisja është e kyçur, nuk thuhet asgjë.</string>
-    <string name="title_pref_speech_control_sound">Luaj një tingull përpara se të flasin aplikacionet e tjera</string>
-    <string name="speech_control_apps_category">Aplikacionet</string>
-    <string name="speech_control_no_apps">Asnjë aplikacion nuk ka kërkuar ende të flasë.</string>
-    <string name="speech_control_ask_title">Të lejohet <xliff:g id="app" example="Tasker">%1$s</xliff:g> të flasë përmes SandFly?</string>
-    <string name="speech_control_ask_text">Mund të thotë tekst me zërin tuaj SandFly. Këtë mund ta ndryshoni te Cilësimet e avancuara.</string>
-    <string name="speech_control_allow">Lejo</string>
-    <string name="speech_control_deny">Mos lejo</string>
-    <string name="permission_speak_label">të folurit përmes SandFly</string>
-    <string name="permission_speak_description">Lejon aplikacionin të kërkojë të thotë tekst me zërin tuaj SandFly. SandFly ju pyet përpara se aplikacioni të mund të flasë.</string>
     <string name="title_pref_phonetic_letters_mode">Fol shkronjat fonetikisht</string>
     <string name="phonetic_letters_mode_off">Joaktive</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pas shkronjës, me pauzë, si “h, hotel”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Hiq</string>
     <string name="quick_settings_added">%1$s u shtua</string>
     <string name="quick_settings_removed">%1$s u hoq</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly aktiv. Mbani 2 gishta në ekran për 5 sekonda për ta fikur. Për të ndaluar shfaqjen e këtij mesazhi, çaktivizoni cilësimet SandFly &gt; Cilësimet e avancuara &gt; Shfaq udhëzimet për çaktivizimin e SandFly.</string>
     <string name="edge_gestures_title">Skajet</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Një tjetër shkurtore për të aktivizuar ose çaktivizuar modalitetin e shfletimit</string>
     <string name="title_pref_vibration_strength">Forca e dridhjeve</string>

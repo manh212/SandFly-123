@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">ସକ୍ରିୟ କରିବାକୁ ଏକ ଫୋକସ କରାଯାଇଥିବା ଆଇଟମ ଉପରେ ଥରେ ଟାପ କରନ୍ତୁ। ଦୁଇଥର-ଟାପ କରିବା ଅପେକ୍ଷା ଶୀଘ୍ର ନାଭିଗେସନ।</string>
   <string name="pref_verbosity_title">ଭର୍ବୋସିଟି</string>
   <string name="pref_punctuation_title">ବିରାମ ଚିହ୍ନ ଏବଂ ପ୍ରତୀକ କୁହନ୍ତୁ</string>
-  <string name="title_pref_category_manage_focus_indicator">ଫୋକସ୍ ସୂଚକ</string>
   <string name="title_pref_category_manage_gestures">ଜେଶ୍ଚର</string>
   <string name="title_pref_manage_labels">କଷ୍ଟମ ଲେବଲ</string>
   <string name="title_pref_category_context_menu">SandFly ମେନୁ</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly ଟ୍ୟୁଟୋରିଆଲ</string>
   <string name="title_pref_category_help_no_tutorial">ସହାୟତା</string>
   <string name="title_pref_advanced_settings">ଉନ୍ନତ ସେଟିଂସ</string>
-  <string name="title_pref_show_exit_watermark">SandFly ବନ୍ଦ କରିବା ପାଇଁ ନିର୍ଦ୍ଦେଶାବଳୀ ଦେଖାନ୍ତୁ</string>
-  <string name="summary_pref_show_exit_watermark">SandFly ଚାଲୁ ହେଲେ, ଏହାକୁ କିପରି ବନ୍ଦ କରିବେ ତାହା ଦେଖାଏ</string>
-  <string name="talkback_exit_watermark_text">SandFly ଚାଲୁ ଅଛି। ବନ୍ଦ କରିବା ପାଇଁ ସ୍କ୍ରିନରେ 2 ଆଙ୍ଗୁଠିକୁ 5 ସେକେଣ୍ଡ ପାଇଁ ଧରି ରଖନ୍ତୁ। ଏହି ମେସେଜକୁ ଦେଖାଇବା ବନ୍ଦ କରିବା ପାଇଁ SandFly ମେନୁ ଖୋଲିବାକୁ 3 ଆଙ୍ଗୁଠିରେ ଟାପ କରନ୍ତୁ।</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly ଚାଲୁ ଅଛି ବୋଲି ସୂଚିତ କରି ବେନର ଦେଖାଯାଉଛି। SandFly ବନ୍ଦ କରିବାକୁ 5 ସେକେଣ୍ଡ ପାଇଁ ସ୍କ୍ରିନରେ 2 ଆଙ୍ଗୁଠିକୁ ଧରି ରଖନ୍ତୁ। ଏହି ବେନରକୁ କାଢ଼ି ଦେବା ପାଇଁ SandFly ସେଟିଂସକୁ ଯାଆନ୍ତୁ।</string>
   <string name="reset_gesture_settings_title">ଜେଶ୍ଚର୍ ସେଟିଂସ୍ ରିସେଟ୍ କରନ୍ତୁ</string>
   <string name="one_finger_gestures_title">1ଟି ଆଙ୍ଗୁଠି</string>
   <string name="one_finger_back_forth_gestures_title">1ଟି ଆଙ୍ଗୁଠିକୁ ପଛକୁ-ଏବଂ-ଆଗକୁ କରିବା ଜେଶ୍ଚରଗୁଡ଼ିକ</string>
@@ -1068,15 +1063,6 @@
   <string name="watch_remote_intent_error_confirmation_text">ଫୋନ ସଂଯୁକ୍ତ ଅଛି ନା ନାହିଁ ତାହା ଦୟାକରି ଯାଞ୍ଚ କରନ୍ତୁ।</string>
   <string name="image_qna_voice_input_empty">କୌଣସି ସ୍ପିଚ ଚିହ୍ନଟ ହୋଇନାହିଁ</string>
   <string name="image_qna_answer_unavailable">କୌଣସି ଉତ୍ତର ଉପଲବ୍ଧ ନାହିଁ</string>
-  <string name="title_pref_thick_border">ମୋଟା ବର୍ଡର୍</string>
-  <string name="title_pref_category_border_color">ରଙ୍ଗ</string>
-  <string name="title_pref_default_color">ଡିଫଲ୍ଟ</string>
-  <string name="title_pref_red">ଲାଲ୍</string>
-  <string name="title_pref_orange">କମଳା</string>
-  <string name="title_pref_yellow">ହଳଦିଆ</string>
-  <string name="title_pref_green">ସବୁଜ</string>
-  <string name="title_pref_blue">ନୀଳ</string>
-  <string name="title_pref_grey">ଧୂସର</string>
   <string name="survey_setting_title">ଆପଣଙ୍କ ମତାମତ ସେୟାର କରନ୍ତୁ</string>
   <string name="title_summarize_view">ସ୍କ୍ରିନର ବର୍ଣ୍ଣନା କରନ୍ତୁ</string>
   <string name="detected_result">ଚିହ୍ନଟ କରାଯାଇଛି: %1$s</string>
@@ -1332,17 +1318,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android ସ୍କ୍ରିନ୍ ରିଡର୍‌କୁ ଦେଉନଥିବା ଏକ ଅନୁମତି ଆବଶ୍ୟକ। ଏହା ଦେବା ପାଇଁ adb କିମ୍ବା Shizuku ସହ ଏହି କମାଣ୍ଡ ଚଲାନ୍ତୁ, ତାପରେ ଏହି ସ୍କ୍ରିନ୍‌କୁ ଫେରନ୍ତୁ: %1$s</string>
     <string name="action_copy_command">କମାଣ୍ଡ୍ କପି କରନ୍ତୁ</string>
     <string name="command_copied">ନିର୍ଦ୍ଦେଶ କପି ହୋଇଛି</string>
-    <string name="title_pref_speech_control">ଅନ୍ୟ ଆପ୍ସକୁ କହିବାକୁ ଦିଅ</string>
-    <string name="summary_pref_speech_control">ଆପଣ ଅନୁମତି ଦେଇଥିବା ଆପଗୁଡ଼ିକ ଆପଣଙ୍କ SandFly ସ୍ୱରରେ ପାଠ କହିପାରେ | ଡିଭାଇସ୍ ଲକ୍ ହୋଇଥିବାବେଳେ କିଛି କୁହାଯାଏ ନାହିଁ |</string>
-    <string name="title_pref_speech_control_sound">ଅନ୍ୟ ଆପ୍ସ କହିବା ପୂର୍ବରୁ ଏକ ଧ୍ୱନି ବଜାନ୍ତୁ</string>
-    <string name="speech_control_apps_category">ଆପଗୁଡ଼ିକ</string>
-    <string name="speech_control_no_apps">କୌଣସି ଆପ୍ ଏପର୍ଯ୍ୟନ୍ତ କହିବାକୁ ଅନୁରୋଧ କରିନାହିଁ।</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> କୁ SandFly ମାଧ୍ୟମରେ କହିବାକୁ ଅନୁମତି ଦେବେ?</string>
-    <string name="speech_control_ask_text">ଏହା ଆପଣଙ୍କ SandFly ସ୍ୱରରେ ଟେକ୍ସଟ୍ କହିପାରେ। ଆପଣ ଏହାକୁ ଉନ୍ନତ ସେଟିଂସରେ ବଦଳାଇପାରିବେ।</string>
-    <string name="speech_control_allow">ଅନୁମତି ଦିଅନ୍ତୁ</string>
-    <string name="speech_control_deny">ଅନୁମତି ଦିଅନ୍ତୁ ନାହିଁ</string>
-    <string name="permission_speak_label">SandFly ମାଧ୍ୟମରେ କହିବା</string>
-    <string name="permission_speak_description">ଆପଣଙ୍କ SandFly ସ୍ୱରରେ ଟେକ୍ସଟ୍ କହିବାକୁ ଅନୁରୋଧ କରିବା ପାଇଁ ଆପ୍‌କୁ ଅନୁମତି ଦିଏ। ଆପ୍ କହିବା ପୂର୍ବରୁ SandFly ଆପଣଙ୍କୁ ପଚାରେ।</string>
     <string name="title_pref_phonetic_letters_mode">ଅକ୍ଷରଗୁଡ଼ିକୁ ଫୋନେଟିକ୍ କୁହନ୍ତୁ</string>
     <string name="phonetic_letters_mode_off">ବନ୍ଦ ଅଛି</string>
     <string name="phonetic_letters_mode_after_letter_delay">ଅକ୍ଷର ପରେ, ବିରାମ ସହ, ଯେପରି “ହ, ହାତୀ”</string>
@@ -1485,7 +1460,6 @@
     <string name="quick_settings_remove">ଅପସାରଣ କରନ୍ତୁ</string>
     <string name="quick_settings_added">%1$s ଯୋଗ କରାଯାଇଛି</string>
     <string name="quick_settings_removed">%1$s ଅପସାରିତ ହୋଇଛି</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ଚାଲୁ ଅଛି। ବନ୍ଦ କରିବାକୁ ସ୍କ୍ରିନ୍‌ରେ 2ଟି ଆଙ୍ଗୁଠି 5 ସେକେଣ୍ଡ ଧରି ରଖନ୍ତୁ। ଏହି ମେସେଜ୍ ଦେଖାଇବା ବନ୍ଦ କରିବାକୁ, SandFly ସେଟିଂସ &gt; ଉନ୍ନତ ସେଟିଂସ &gt; SandFly ବନ୍ଦ କରିବା ପାଇଁ ନିର୍ଦ୍ଦେଶାବଳୀ ଦେଖାନ୍ତୁ ବନ୍ଦ କରନ୍ତୁ।</string>
     <string name="edge_gestures_title">ଧାର</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ବ୍ରାଉଜ୍ ମୋଡ୍ ଅନ୍ କିମ୍ବା ଅଫ୍ କରିବାକୁ ଅନ୍ୟ ଏକ ସର୍ଟକଟ୍</string>
     <string name="title_pref_vibration_strength">କମ୍ପନ ଶକ୍ତି</string>

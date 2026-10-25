@@ -62,17 +62,6 @@
   <string name="title_pref_speakerphone_away_from_ear">Włączaj tryb głośnomówiący po odsunięciu telefonu od ucha</string>
   <string name="summary_pref_speakerphone_away_from_ear">Podczas rozmowy włącza tryb głośnomówiący po odsunięciu telefonu od ucha i wyłącza go po ponownym przyłożeniu.</string>
   <string name="summary_pref_speakerphone_needs_permission">Wymaga uprawnienia, którego Android nie przyznaje czytnikom ekranu. Aby je przyznać, wykonaj poniższe polecenie za pomocą adb lub Shizuku, a następnie wróć do tego ekranu: %1$s</string>
-  <string name="title_pref_speech_control">Zezwalaj innym aplikacjom na odczytywanie tekstu przez SandFly</string>
-  <string name="summary_pref_speech_control">Aplikacje, którym zezwolisz, mogą odczytywać tekst głosem używanym w SandFly. Gdy urządzenie jest zablokowane, ich tekst nie jest odczytywany.</string>
-  <string name="title_pref_speech_control_sound">Odtwarzaj dźwięk przed odczytaniem tekstu przekazanego przez inną aplikację</string>
-  <string name="speech_control_apps_category">Aplikacje</string>
-  <string name="speech_control_no_apps">Żadna aplikacja nie poprosiła jeszcze o odczytywanie tekstu przez SandFly.</string>
-  <string name="speech_control_ask_title">Zezwolić aplikacji <xliff:g id="app" example="Tasker">%1$s</xliff:g> na odczytywanie tekstu przez SandFly?</string>
-  <string name="speech_control_ask_text">Może odczytywać tekst głosem używanym w SandFly. Możesz zmienić to uprawnienie w ustawieniach zaawansowanych.</string>
-  <string name="speech_control_allow">Zezwól</string>
-  <string name="speech_control_deny">Nie zezwalaj</string>
-  <string name="permission_speak_label">odczytywanie tekstu przez SandFly</string>
-  <string name="permission_speak_description">Umożliwia aplikacji zgłoszenie prośby o odczytywanie tekstu głosem używanym w SandFly. SandFly poprosi Cię o zgodę, zanim aplikacja będzie mogła z niego korzystać.</string>
   <string name="title_pref_emoji_speech">Emoji</string>
   <string name="emoji_speech_engine">Odczytywane przez syntezator mowy</string>
   <string name="emoji_speech_names">Odczytywane przez SandFly</string>
@@ -97,7 +86,6 @@
   <string name="summary_pref_speak_volume_changes">Podawaj nowy poziom po naciśnięciu przycisków głośności</string>
   <string name="title_pref_speak_notifications">Odczytuj powiadomienia</string>
   <string name="summary_pref_speak_notifications">Odczytuj nowe powiadomienia, gdy się pojawią. Informacje o połączeniach przychodzących są zawsze odczytywane.</string>
-  <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly jest włączony. Aby go wyłączyć, przytrzymaj 2 palce na ekranie przez 5 sekund. Aby ukryć ten komunikat, w ustawieniach zaawansowanych SandFly wyłącz opcję pokazywania instrukcji jego wyłączania.</string>
   <string name="title_pref_audio_output_device">Urządzenie odtwarzające</string>
   <string name="dialog_title_audio_output_device">Wybierz, gdzie odtwarzać dźwięk SandFly</string>
   <string name="value_audio_output_device_default">Domyślne urządzenie systemowe</string>

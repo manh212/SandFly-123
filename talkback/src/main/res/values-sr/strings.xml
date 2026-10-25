@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Додирните једном фокусирану ставку да бисте је активирали. Брже кретање него са двоструким додиром.</string>
   <string name="pref_verbosity_title">Обим говора</string>
   <string name="pref_punctuation_title">Изговарај интерпункцију и симболе</string>
-  <string name="title_pref_category_manage_focus_indicator">Индикатор фокуса</string>
   <string name="title_pref_category_manage_gestures">Покрети</string>
   <string name="title_pref_manage_labels">Прилагођене ознаке</string>
   <string name="title_pref_category_context_menu">SandFly мени</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Водич за SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Помоћ</string>
   <string name="title_pref_advanced_settings">Напредна подешавања</string>
-  <string name="title_pref_show_exit_watermark">Прикажи упутства за искључивање SandFly-а</string>
-  <string name="summary_pref_show_exit_watermark">Када се SandFly укључи, приказује се како да се искључи</string>
-  <string name="talkback_exit_watermark_text">SandFly је укључен. Да бисте га искључили, држите 2 прста на екрану 5 секунди. Да бисте прекинули приказивање ове поруке, додирните са 3 прста и отворите SandFly мени.</string>
-  <string name="talkback_exit_watermark_hint_text">Приказује се банер који указује да је SandFly укључен. Да бисте искључили SandFly, држите 2 прста на екрану 5 секунди. Да бисте уклонили овај банер, идите у Подешавања SandFly-а.</string>
   <string name="reset_gesture_settings_title">Ресетујте подешавања покрета</string>
   <string name="one_finger_gestures_title">1 прст</string>
   <string name="one_finger_back_forth_gestures_title">Напред и назад са 1 прстом</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Проверите да ли је телефон повезан.</string>
   <string name="image_qna_voice_input_empty">Говор није препознат.</string>
   <string name="image_qna_answer_unavailable">Нема доступних одговора.</string>
-  <string name="title_pref_thick_border">Дебеле ивице</string>
-  <string name="title_pref_category_border_color">Боја</string>
-  <string name="title_pref_default_color">Подразумевано</string>
-  <string name="title_pref_red">Црвена</string>
-  <string name="title_pref_orange">Наранџаста</string>
-  <string name="title_pref_yellow">Жута</string>
-  <string name="title_pref_green">Зелена</string>
-  <string name="title_pref_blue">Плава</string>
-  <string name="title_pref_grey">Сиво</string>
   <string name="survey_setting_title">Пошаљите повратне информације</string>
   <string name="title_summarize_view">Опиши екран</string>
   <string name="detected_result">Откривено: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Потребна је дозвола коју Android не даје читачима екрана. Да бисте је доделили, покрените ову команду помоћу adb-а или Shizuku-а, па се вратите на овај екран: %1$s</string>
     <string name="action_copy_command">Копирај команду</string>
     <string name="command_copied">Команда је копирана</string>
-    <string name="title_pref_speech_control">Дозволи другим апликацијама да говоре</string>
-    <string name="summary_pref_speech_control">Апликације којима дозволите могу да изговарају текст гласом који SandFly користи. Док је уређај закључан, ништа се не изговара.</string>
-    <string name="title_pref_speech_control_sound">Пусти звук пре него што друге апликације проговоре</string>
-    <string name="speech_control_apps_category">Апликације</string>
-    <string name="speech_control_no_apps">Још ниједна апликација није тражила да говори.</string>
-    <string name="speech_control_ask_title">Дозволити <xliff:g id="app" example="Tasker">%1$s</xliff:g> да говори кроз SandFly?</string>
-    <string name="speech_control_ask_text">Може да изговори текст вашим гласом SandFly. Ово можете променити у Напредним подешавањима.</string>
-    <string name="speech_control_allow">Дозволи</string>
-    <string name="speech_control_deny">Не дозволи</string>
-    <string name="permission_speak_label">говор преко SandFly-а</string>
-    <string name="permission_speak_description">Дозвољава апликацији да тражи да изговори текст вашим гласом SandFly-а. SandFly вас пита пре него што апликација може да говори.</string>
     <string name="title_pref_phonetic_letters_mode">Изговарај слова фонетски</string>
     <string name="phonetic_letters_mode_off">Искључено</string>
     <string name="phonetic_letters_mode_after_letter_delay">После слова, са паузом, нпр. „х, Христина“</string>
@@ -1490,7 +1465,6 @@
     <string name="quick_settings_remove">Уклони</string>
     <string name="quick_settings_added">%1$s додато</string>
     <string name="quick_settings_removed">%1$s уклоњено</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly укључено. Држите 2 прста на екрану 5 секунди да бисте га искључили. Да бисте престали да приказујете ову поруку, искључите SandFly подешавања &gt; Напредна подешавања &gt; Прикажи упутства за искључивање SandFly.</string>
     <string name="edge_gestures_title">Ивице</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Још једна пречица за укључивање или искључивање режима претраживања</string>
     <string name="title_pref_vibration_strength">Снага вибрација</string>

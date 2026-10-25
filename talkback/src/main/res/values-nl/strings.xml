@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Tik één keer op een gefocust item om het te activeren. Snellere navigatie dan dubbeltikken.</string>
   <string name="pref_verbosity_title">Uitgebreid­heidsniveau</string>
   <string name="pref_punctuation_title">Interpunctie en symbolen uitspreken</string>
-  <string name="title_pref_category_manage_focus_indicator">Focusindicator</string>
   <string name="title_pref_category_manage_gestures">Gebaren</string>
   <string name="title_pref_manage_labels">Aangepaste labels</string>
   <string name="title_pref_category_context_menu">SandFly-menu</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-tutorial</string>
   <string name="title_pref_category_help_no_tutorial">Hulp</string>
   <string name="title_pref_advanced_settings">Geavanceerde instellingen</string>
-  <string name="title_pref_show_exit_watermark">Instructies tonen om SandFly uit te zetten</string>
-  <string name="summary_pref_show_exit_watermark">Als SandFly wordt ingeschakeld, wordt getoond hoe je het uitschakelt</string>
-  <string name="talkback_exit_watermark_text">SandFly staat aan. Houd 2 vingers 5 seconden op het scherm om deze functie uit te zetten. Als je dit bericht niet meer wilt weergeven, tik je met 3 vingers om het SandFly-menu te openen.</string>
-  <string name="talkback_exit_watermark_hint_text">Er wordt een banner getoond die aangeeft dat SandFly aanstaat. Als je SandFly wilt uitzetten, houd je 2 vingers 5 seconden op het scherm. Ga naar de SandFly-instellingen om deze banner te verwijderen.</string>
   <string name="reset_gesture_settings_title">Instellingen voor gebaren resetten</string>
   <string name="one_finger_gestures_title">1 vinger</string>
   <string name="one_finger_back_forth_gestures_title">Heen en weer met 1 vinger</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Check of de telefoon is verbonden.</string>
   <string name="image_qna_voice_input_empty">Geen spraak herkend.</string>
   <string name="image_qna_answer_unavailable">Geen antwoord beschikbaar.</string>
-  <string name="title_pref_thick_border">Dikke randen</string>
-  <string name="title_pref_category_border_color">Kleur</string>
-  <string name="title_pref_default_color">Standaard</string>
-  <string name="title_pref_red">Rood</string>
-  <string name="title_pref_orange">Oranje</string>
-  <string name="title_pref_yellow">Geel</string>
-  <string name="title_pref_green">Groen</string>
-  <string name="title_pref_blue">Blauw</string>
-  <string name="title_pref_grey">Grijs</string>
   <string name="survey_setting_title">Je feedback delen</string>
   <string name="title_summarize_view">Scherm beschrijven</string>
   <string name="detected_result">Waargenomen: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Vereist een recht dat Android niet aan schermlezers geeft. Voer deze opdracht uit met adb of Shizuku om het te verlenen en ga daarna terug naar dit scherm: %1$s</string>
     <string name="action_copy_command">Opdracht kopiëren</string>
     <string name="command_copied">Commando gekopieerd</string>
-    <string name="title_pref_speech_control">Andere apps laten spreken</string>
-    <string name="summary_pref_speech_control">Apps die je toestaat, kunnen tekst uitspreken met de stem van SandFly. Terwijl het apparaat is vergrendeld, wordt niets uitgesproken.</string>
-    <string name="title_pref_speech_control_sound">Speel een geluid af voordat andere apps spreken</string>
-    <string name="speech_control_apps_category">Apps</string>
-    <string name="speech_control_no_apps">Nog geen apps hebben gevraagd om te spreken.</string>
-    <string name="speech_control_ask_title">Toestaan dat <xliff:g id="app" example="Tasker">%1$s</xliff:g> via SandFly spreekt?</string>
-    <string name="speech_control_ask_text">De app kan tekst uitspreken met je SandFly-stem. Je kunt dit wijzigen in Geavanceerde instellingen.</string>
-    <string name="speech_control_allow">Toestaan</string>
-    <string name="speech_control_deny">Niet toestaan</string>
-    <string name="permission_speak_label">spreken via SandFly</string>
-    <string name="permission_speak_description">Hiermee kan de app vragen om tekst uit te spreken met je SandFly-stem. SandFly vraagt het je voordat de app kan spreken.</string>
     <string name="title_pref_phonetic_letters_mode">Letters fonetisch uitspreken</string>
     <string name="phonetic_letters_mode_off">Uit</string>
     <string name="phonetic_letters_mode_after_letter_delay">Na de letter, met pauze, zoals ‘h, Hendrik’</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Verwijderen</string>
     <string name="quick_settings_added">%1$s toegevoegd</string>
     <string name="quick_settings_removed">%1$s verwijderd</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly aan. Houd 2 vingers 5 seconden op het scherm om het uit te schakelen. Als je dit bericht niet meer wilt zien, zet je Instellingen voor SandFly &gt; Geavanceerde instellingen &gt; Instructies tonen om SandFly uit te zetten uit.</string>
     <string name="edge_gestures_title">Randen</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Nog een snelkoppeling om de bladermodus in of uit te schakelen</string>
     <string name="title_pref_vibration_strength">Trillingssterkte</string>

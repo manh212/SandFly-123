@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Gusa mara moja kipengee unacholenga ili ukifungue. Usogezaji wa haraka zaidi ukilinganishwa na kugusa mara mbili.</string>
   <string name="pref_verbosity_title">Maneno mengi</string>
   <string name="pref_punctuation_title">Tamka uakifishaji na ishara</string>
-  <string name="title_pref_category_manage_focus_indicator">Kiashiria cha umakini</string>
   <string name="title_pref_category_manage_gestures">Ishara</string>
   <string name="title_pref_manage_labels">Lebo maalum</string>
   <string name="title_pref_category_context_menu">Menyu ya SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Mafunzo ya SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Usaidizi</string>
   <string name="title_pref_advanced_settings">Mipangilio ya kina</string>
-  <string name="title_pref_show_exit_watermark">Onyesha maagizo ya kuzima SandFly</string>
-  <string name="summary_pref_show_exit_watermark">SandFly inapowashwa, huonyesha jinsi ya kuizima</string>
-  <string name="talkback_exit_watermark_text">Umewasha SandFly. Shikilia skrini kwa sekunde 5 ukitumia vidole 2 ili uizime. Ili uache kuonyesha ujumbe huu, gusa ukitumia vidole 3 ili ufungue menyu ya SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Inaonyesha bango linaloashiria kuwa umewasha kipengele cha SandFly. Shikilia vidole 2 kwenye skrini kwa sekunde 5 ili uzime kipengele cha SandFly. Nenda kwenye Mipangilio ya SandFly ili uondoe bango hili.</string>
   <string name="reset_gesture_settings_title">Badilisha mipangilio ya ishara</string>
   <string name="one_finger_gestures_title">Kidole kimoja</string>
   <string name="one_finger_back_forth_gestures_title">Ishara za kidole kimoja za nyuma na mbele</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Tafadhali angalia iwapo simu imeunganishwa.</string>
   <string name="image_qna_voice_input_empty">Hakuna matamshi yaliyotambuliwa.</string>
   <string name="image_qna_answer_unavailable">Hakuna jibu lililopatikana.</string>
-  <string name="title_pref_thick_border">Mipaka minene</string>
-  <string name="title_pref_category_border_color">Rangi</string>
-  <string name="title_pref_default_color">Chaguomsingi</string>
-  <string name="title_pref_red">Nyekundu</string>
-  <string name="title_pref_orange">Rangi ya machungwa</string>
-  <string name="title_pref_yellow">Manjano</string>
-  <string name="title_pref_green">Kijani</string>
-  <string name="title_pref_blue">Samawati</string>
-  <string name="title_pref_grey">Kijivu</string>
   <string name="survey_setting_title">Tuma maoni yako</string>
   <string name="title_summarize_view">Toa maelezo kuhusu skrini</string>
   <string name="detected_result">Imetambuliwa: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Inahitaji ruhusa ambayo Android haitoi kwa visoma skrini. Ili kuitoa, endesha amri hii kwa adb au Shizuku, kisha urudi kwenye skrini hii: %1$s</string>
     <string name="action_copy_command">Nakili amri</string>
     <string name="command_copied">Amri imenakiliwa</string>
-    <string name="title_pref_speech_control">Ruhusu programu zingine zizungumze</string>
-    <string name="summary_pref_speech_control">Programu unazoruhusu zinaweza kutamka maandishi kwa sauti ya SandFly. Hakuna kinachotamkwa kifaa kikiwa kimefungwa.</string>
-    <string name="title_pref_speech_control_sound">Cheza sauti kabla programu nyingine hazijazungumza</string>
-    <string name="speech_control_apps_category">Programu</string>
-    <string name="speech_control_no_apps">Bado hakuna programu ambazo zimeomba kuzungumza.</string>
-    <string name="speech_control_ask_title">Ungependa kuruhusu <xliff:g id="app" example="Tasker">%1$s</xliff:g> izungumze kupitia SandFly?</string>
-    <string name="speech_control_ask_text">Inaweza kusema maandishi kwa sauti yako ya SandFly. Unaweza kubadilisha hili katika Mipangilio ya kina.</string>
-    <string name="speech_control_allow">Ruhusu</string>
-    <string name="speech_control_deny">Usiruhusu</string>
-    <string name="permission_speak_label">zungumza kupitia SandFly</string>
-    <string name="permission_speak_description">Huruhusu programu iombe kusema maandishi kwa sauti yako ya SandFly. SandFly hukuuliza kabla programu haijaweza kuzungumza.</string>
     <string name="title_pref_phonetic_letters_mode">Zungumza herufi kwa fonetiki</string>
     <string name="phonetic_letters_mode_off">Zima</string>
     <string name="phonetic_letters_mode_after_letter_delay">Baada ya herufi, kwa kusita, kama “h, hoteli”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Ondoa</string>
     <string name="quick_settings_added">%1$s imeongezwa</string>
     <string name="quick_settings_removed">%1$s imeondolewa</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly imewashwa. Shikilia vidole 2 kwenye skrini kwa sekunde 5 ili kuizima. Ili kuacha kuonyesha ujumbe huu, zima Mipangilio ya SandFly &gt; Mipangilio ya kina &gt; Onyesha maagizo ya kuzima SandFly.</string>
     <string name="edge_gestures_title">Kingo</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Njia nyingine ya mkato ya kuwasha au kuzima modi ya kuvinjari</string>
     <string name="title_pref_vibration_strength">Nguvu ya mtetemo</string>

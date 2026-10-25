@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Az aktiváláshoz koppintson egyszer az éppen kijelölt elemre. Gyorsabb navigáció, mint a dupla koppintás használatakor.</string>
   <string name="pref_verbosity_title">Részletesség</string>
   <string name="pref_punctuation_title">Központozás és szimbólumok kimondása</string>
-  <string name="title_pref_category_manage_focus_indicator">Fókuszjelző</string>
   <string name="title_pref_category_manage_gestures">Kézmozdulatok</string>
   <string name="title_pref_manage_labels">Egyéni címkék</string>
   <string name="title_pref_category_context_menu">SandFly-menü</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-útmutató</string>
   <string name="title_pref_category_help_no_tutorial">Súgó</string>
   <string name="title_pref_advanced_settings">Speciális beállítások</string>
-  <string name="title_pref_show_exit_watermark">Utasítások megjelenítése a SandFly kikapcsolásához</string>
-  <string name="summary_pref_show_exit_watermark">Amikor a SandFly bekapcsol, mutassa meg, hogyan kapcsolhatja ki</string>
-  <string name="talkback_exit_watermark_text">A SandFly be van kapcsolva. A kikapcsolásához tartsa két ujját a képernyőn öt másodpercig. Ha a továbbiakban nem szeretné látni ezt az üzenetet, koppintson három ujjal a SandFly-menü megnyitásához.</string>
-  <string name="talkback_exit_watermark_hint_text">A SandFly bekapcsolt állapotát jelző üzenetszalag megjelenítése. A SandFly kikapcsolásához tartson két ujját a képernyőn öt másodpercig. Az üzenetszalag eltávolításához lépjen a SandFly beállításaihoz.</string>
   <string name="reset_gesture_settings_title">Kézmozdulatok beállításainak visszaállítása</string>
   <string name="one_finger_gestures_title">Egyujjas</string>
   <string name="one_finger_back_forth_gestures_title">Egyujjas oda-vissza kézmozdulatok</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Ellenőrizze, hogy csatlakoztatva van-e a telefon.</string>
   <string name="image_qna_voice_input_empty">Nem ismerhető fel beszéd.</string>
   <string name="image_qna_answer_unavailable">Nem áll rendelkezésre válasz.</string>
-  <string name="title_pref_thick_border">Vastag szegélyek</string>
-  <string name="title_pref_category_border_color">Szín</string>
-  <string name="title_pref_default_color">Alapértelmezett</string>
-  <string name="title_pref_red">Piros</string>
-  <string name="title_pref_orange">Narancssárga</string>
-  <string name="title_pref_yellow">Sárga</string>
-  <string name="title_pref_green">Zöld</string>
-  <string name="title_pref_blue">Kék</string>
-  <string name="title_pref_grey">Szürke</string>
   <string name="survey_setting_title">Visszajelzés</string>
   <string name="title_summarize_view">Képernyő leírása</string>
   <string name="detected_result">Észlelve: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Olyan engedély szükséges hozzá, amelyet az Android nem ad meg a képernyőolvasóknak. A megadásához futtassa ezt a parancsot adb-vel vagy Shizukuval, majd térjen vissza erre a képernyőre: %1$s</string>
     <string name="action_copy_command">Parancs másolása</string>
     <string name="command_copied">Parancs másolva</string>
-    <string name="title_pref_speech_control">Más alkalmazások beszédének engedélyezése</string>
-    <string name="summary_pref_speech_control">Az engedélyezett alkalmazások szöveget mondhatnak ki az Ön SandFly-hangján. Az eszköz zárolt állapotában nincs beszéd.</string>
-    <string name="title_pref_speech_control_sound">Hang lejátszása más alkalmazások beszéde előtt</string>
-    <string name="speech_control_apps_category">Alkalmazások</string>
-    <string name="speech_control_no_apps">Még egyetlen alkalmazás sem kért engedélyt a beszédre.</string>
-    <string name="speech_control_ask_title">Engedélyezi a(z) <xliff:g id="app" example="Tasker">%1$s</xliff:g> számára, hogy a SandFlyon keresztül beszéljen?</string>
-    <string name="speech_control_ask_text">Szöveget tud mondani az Ön SandFly hangján. Ezt a Speciális beállításokban módosíthatja.</string>
-    <string name="speech_control_allow">Engedélyezés</string>
-    <string name="speech_control_deny">Tiltás</string>
-    <string name="permission_speak_label">beszéd a SandFly segítségével</string>
-    <string name="permission_speak_description">Lehetővé teszi, hogy az alkalmazás kérje, hogy szöveget mondhasson el az Ön SandFly-hangján. A SandFly megkérdezi Önt, mielőtt az alkalmazás beszélhetne.</string>
     <string name="title_pref_phonetic_letters_mode">Betűk fonetikus kimondása</string>
     <string name="phonetic_letters_mode_off">Ki</string>
     <string name="phonetic_letters_mode_after_letter_delay">A betű után, szünettel, például „h, Huba”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Eltávolítás</string>
     <string name="quick_settings_added">%1$s hozzáadva</string>
     <string name="quick_settings_removed">%1$s eltávolítva</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly bekapcsolva. A kikapcsoláshoz tartsa két ujját a képernyőn 5 másodpercig. Az üzenet megjelenítésének leállításához kapcsolja ki a SandFly beállítások &gt; Speciális beállítások &gt; Útmutató a SandFly kikapcsolásához.</string>
     <string name="edge_gestures_title">Szélek</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Egy másik parancsikon a böngészési mód be- és kikapcsolásához</string>
     <string name="title_pref_vibration_strength">Rezgés erőssége</string>

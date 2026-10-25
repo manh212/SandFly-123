@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Aktivoi napauttamalla valittua kohtaa kerran. Nopeampi siirtyminen kuin kaksoisnapauttamalla.</string>
   <string name="pref_verbosity_title">Puheen määrä</string>
   <string name="pref_punctuation_title">Sano välimerkit ja symbolit ääneen</string>
-  <string name="title_pref_category_manage_focus_indicator">Valitun kohdan osoitin</string>
   <string name="title_pref_category_manage_gestures">Eleet</string>
   <string name="title_pref_manage_labels">Omat tunnisteet</string>
   <string name="title_pref_category_context_menu">SandFly-valikko</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-ohje</string>
   <string name="title_pref_category_help_no_tutorial">Ohje</string>
   <string name="title_pref_advanced_settings">Lisäasetukset</string>
-  <string name="title_pref_show_exit_watermark">Näytä ohjeet SandFlyin laittamiseen pois päältä</string>
-  <string name="summary_pref_show_exit_watermark">Kun SandFly laitetaan päälle, näytä, miten sen saa pois päältä</string>
-  <string name="talkback_exit_watermark_text">SandFly päällä. Laita se pois päältä painamalla näyttöä kahdella sormella viiden sekunnin ajan. Jos et halua enää nähdä viestiä, avaa SandFly-valikko napauttamalla kolmella sormella.</string>
-  <string name="talkback_exit_watermark_hint_text">Banneri näkyvillä, SandFly on päällä. Laita SandFly pois päältä painamalla näyttöä kahdella sormella viiden sekunnin ajan. Voit poistaa bannerin SandFlyin asetuksista.</string>
   <string name="reset_gesture_settings_title">Nollaa eleasetukset</string>
   <string name="one_finger_gestures_title">1 sormi</string>
   <string name="one_finger_back_forth_gestures_title">1 sormen edestakainen ele</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Tarkista, onko puhelin yhdistetty.</string>
   <string name="image_qna_voice_input_empty">Ei puheentunnistusta.</string>
   <string name="image_qna_answer_unavailable">Ei vastausta saatavilla.</string>
-  <string name="title_pref_thick_border">Paksut reunat</string>
-  <string name="title_pref_category_border_color">Väri</string>
-  <string name="title_pref_default_color">Oletus</string>
-  <string name="title_pref_red">Punainen</string>
-  <string name="title_pref_orange">Oranssi</string>
-  <string name="title_pref_yellow">Keltainen</string>
-  <string name="title_pref_green">Vihreä</string>
-  <string name="title_pref_blue">Sininen</string>
-  <string name="title_pref_grey">Harmaa</string>
   <string name="survey_setting_title">Anna palautetta</string>
   <string name="title_summarize_view">Kuvaile näyttöä</string>
   <string name="detected_result">Havaittu: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Vaatii luvan, jota Android ei anna näytönlukuohjelmille. Anna lupa suorittamalla tämä komento adb:llä tai Shizukulla ja palaa sitten tälle näytölle: %1$s</string>
     <string name="action_copy_command">Kopioi komento</string>
     <string name="command_copied">Komento kopioitu</string>
-    <string name="title_pref_speech_control">Salli muiden sovellusten puhua</string>
-    <string name="summary_pref_speech_control">Sallimasi sovellukset voivat sanoa tekstiä SandFlyn äänellä. Mitään ei sanota, kun laite on lukittu.</string>
-    <string name="title_pref_speech_control_sound">Toista ääni ennen muiden sovellusten puhetta</string>
-    <string name="speech_control_apps_category">Sovellukset</string>
-    <string name="speech_control_no_apps">Mikään sovellus ei ole vielä pyytänyt lupaa puhua.</string>
-    <string name="speech_control_ask_title">Sallitaanko sovelluksen <xliff:g id="app" example="Tasker">%1$s</xliff:g> puhua SandFlyn kautta?</string>
-    <string name="speech_control_ask_text">Se voi sanoa tekstiä SandFlyn äänellä. Voit muuttaa tätä Lisäasetuksissa.</string>
-    <string name="speech_control_allow">Salli</string>
-    <string name="speech_control_deny">Älä salli</string>
-    <string name="permission_speak_label">puhua SandFlyn kautta</string>
-    <string name="permission_speak_description">Sallii sovelluksen pyytää lupaa sanoa tekstiä SandFlyn äänellä. SandFly kysyy sinulta ennen kuin sovellus voi puhua.</string>
     <string name="title_pref_phonetic_letters_mode">Sano kirjaimet foneettisesti</string>
     <string name="phonetic_letters_mode_off">Pois päältä</string>
     <string name="phonetic_letters_mode_after_letter_delay">Kirjaimen jälkeen viiveellä, esimerkiksi \"h, heikki\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d ilmoitus</item>
         <item quantity="other">%d ilmoitusta</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly päällä. Laita se pois päältä painamalla näyttöä kahdella sormella viiden sekunnin ajan. Jos et halua enää nähdä viestiä, poista käytöstä SandFly-asetukset &gt; Lisäasetukset &gt; Näytä ohjeet SandFlyn laittamiseen pois päältä.</string>
     <string name="edge_gestures_title">Reunat</string>
     <string name="title_pref_audio_output_device">Äänen ulostulolaite</string>
     <string name="dialog_title_audio_output_device">Valitse, missä SandFlyn ääni toistetaan</string>

@@ -41,7 +41,7 @@ If you use an accessibility shortcut, grant SandFly permission to change secure 
 
 SandFly speaks sooner after each swipe and screen change, and can play its sounds and speech through a low-latency audio path. It adds direct key input, a circle menu, Pause SandFly, direct touch for audio games, sound themes with control sounds in 3D, a vibration for every sound, a status gesture, voice profiles, settings for how notifications are read, its own notification list and quick settings panel, image and screen descriptions from several AI services or a model on the phone. It also changes some defaults and fixes problems in TalkBack. For the full list, see [Differences from TalkBack](differences.md).
 
-Scripts written in Lua can change how SandFly works in one app or in every app. See [Writing SandFly scripts](docs/scripting.md). Other apps can speak in the user's SandFly voice, through the [speech API](docs/speech-api.md).
+Scripts written in Lua can change how SandFly works in one app or in every app. See [Writing SandFly scripts](docs/scripting.md).
 
 ## Permissions through Shizuku or adb
 

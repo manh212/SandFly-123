@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Fokusdagi elementni faollashtirish uchun ustiga bir marta bosing. Ikki marta teginishdan koʻra tezroq navigatsiya.</string>
   <string name="pref_verbosity_title">Tafsilotlar</string>
   <string name="pref_punctuation_title">Tinish belgilari va maxsus belgilarni aytish</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokus ko\'rsatkichi</string>
   <string name="title_pref_category_manage_gestures">Imo-ishoralar</string>
   <string name="title_pref_manage_labels">Maxsus yorliqlar</string>
   <string name="title_pref_category_context_menu">SandFly menyusi</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly qoʻllanmasi</string>
   <string name="title_pref_category_help_no_tutorial">Yordam</string>
   <string name="title_pref_advanced_settings">Kengaytirilgan sozlamalar</string>
-  <string name="title_pref_show_exit_watermark">SandFly qulayligini faolsizlantirish tartibi</string>
-  <string name="summary_pref_show_exit_watermark">SandFly yoqilganda, uni qanday oʻchirish koʻrsatiladi</string>
-  <string name="talkback_exit_watermark_text">SandFly yoqildi. Faolsizlantirish uchun ekranda 2 ta barmoq bilan 5 soniya bosib turing. Bu xabar chiqmasligi uchun 3 ta barmoq bilan SandFly menyusini bosing.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly yoniqligini anglatuvchi ekranni koʻrsatish. SandFly faolsizlanishi uchun 2 ta barmogʻingizni ekranga 5 soniya bosib turing Bu ekranni olib tashlash uchun SandFly sozlamalariga kiring.</string>
   <string name="reset_gesture_settings_title">Ishora sozlamalarini tiklash</string>
   <string name="one_finger_gestures_title">1 barmoq</string>
   <string name="one_finger_back_forth_gestures_title">1 barmoq bilan oldinga-orqaga</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Telefon ulanishini tekshiring.</string>
   <string name="image_qna_voice_input_empty">Hech qanday nutq aniqlanmadi.</string>
   <string name="image_qna_answer_unavailable">Javob mavjud emas.</string>
-  <string name="title_pref_thick_border">Qalin chegaralar</string>
-  <string name="title_pref_category_border_color">Rang</string>
-  <string name="title_pref_default_color">Standart</string>
-  <string name="title_pref_red">Qizil</string>
-  <string name="title_pref_orange">Apelsinrang</string>
-  <string name="title_pref_yellow">Sariq</string>
-  <string name="title_pref_green">Yashil</string>
-  <string name="title_pref_blue">Koʻk</string>
-  <string name="title_pref_grey">Kulrang</string>
   <string name="survey_setting_title">Fikr-mulohaza bildiring</string>
   <string name="title_summarize_view">Ekran sarhisobi</string>
   <string name="detected_result">Aniqlandi: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android ekrandan oʻqish dasturlariga bermaydigan ruxsat kerak. Uni berish uchun bu buyruqni adb yoki Shizuku orqali bajaring, keyin shu ekranga qayting: %1$s</string>
     <string name="action_copy_command">Buyruqni nusxalash</string>
     <string name="command_copied">Buyruq nusxalandi</string>
-    <string name="title_pref_speech_control">Boshqa ilovalarga gapirishga ruxsat berish</string>
-    <string name="summary_pref_speech_control">Siz ruxsat bergan ilovalar SandFly ovozingiz bilan matn aytishi mumkin. Qurilma qulflanganda hech narsa aytilmaydi.</string>
-    <string name="title_pref_speech_control_sound">Boshqa ilovalar gapirishidan oldin ovoz ijro etish</string>
-    <string name="speech_control_apps_category">Ilovalar</string>
-    <string name="speech_control_no_apps">Hech qanday ilova hali gapirishni soʻramagan.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> ga SandFly orqali gapirishga ruxsat berilsinmi?</string>
-    <string name="speech_control_ask_text">U SandFly ovozingiz bilan matnni aytishi mumkin. Buni Kengaytirilgan sozlamalarda oʻzgartirishingiz mumkin.</string>
-    <string name="speech_control_allow">Ruxsat berish</string>
-    <string name="speech_control_deny">Ruxsat bermaslik</string>
-    <string name="permission_speak_label">SandFly orqali gapirish</string>
-    <string name="permission_speak_description">Ilovaga SandFly ovozingiz bilan matn aytishni soʻrashiga ruxsat beradi. SandFly ilova gapirishdan oldin sizdan soʻraydi.</string>
     <string name="title_pref_phonetic_letters_mode">Harflarni fonetik aytish</string>
     <string name="phonetic_letters_mode_off">Oʻchiq</string>
     <string name="phonetic_letters_mode_after_letter_delay">Harfdan keyin, pauza bilan, masalan “h, hovli”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">O\'chirish</string>
     <string name="quick_settings_added">%1$s qo\'shildi</string>
     <string name="quick_settings_removed">%1$s olib tashlandi</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly yoqilgan. Oʻchirish uchun 2 barmogʻingizni ekranda 5 soniya ushlab turing. Bu xabarni koʻrsatishni toʻxtatish uchun SandFly sozlamalari &gt; Qoʻshimcha sozlamalar &gt; SandFly oʻchirish boʻyicha koʻrsatmalarni koʻrsatish-ni oʻchiring.</string>
     <string name="edge_gestures_title">Chetlar</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Koʻrib chiqish rejimini yoqish yoki oʻchirish uchun yana bir tezkor tugma</string>
     <string name="title_pref_vibration_strength">Tebranish kuchi</string>

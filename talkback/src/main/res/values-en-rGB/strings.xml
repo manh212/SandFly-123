@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Tap once on a focused item to activate. Faster navigation than double-tapping.</string>
   <string name="pref_verbosity_title">Verbosity</string>
   <string name="pref_punctuation_title">Speak punctuation and symbols</string>
-  <string name="title_pref_category_manage_focus_indicator">Focus indicator</string>
   <string name="title_pref_category_manage_gestures">Gestures</string>
   <string name="title_pref_manage_labels">Custom labels</string>
   <string name="title_pref_category_context_menu">Customise SandFly menu</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly tutorial</string>
   <string name="title_pref_category_help_no_tutorial">Help</string>
   <string name="title_pref_advanced_settings">Advanced settings</string>
-  <string name="title_pref_show_exit_watermark">Show instructions for turning off SandFly</string>
-  <string name="summary_pref_show_exit_watermark">A message shows when SandFly is turned on, to help you quickly turn it off</string>
-  <string name="talkback_exit_watermark_text">SandFly on. Hold 2 fingers on screen for 5 seconds to turn off. To stop showing this message, tap with 3 fingers to open the SandFly menu.</string>
-  <string name="talkback_exit_watermark_hint_text">Showing banner indicating SandFly is on. To turn off SandFly, hold two fingers on the screen for five seconds. To remove this banner, go to SandFly settings.</string>
   <string name="reset_gesture_settings_title">Reset gesture settings</string>
   <string name="one_finger_gestures_title">1 finger</string>
   <string name="one_finger_back_forth_gestures_title">1 finger back-and-forth</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Please check if the phone is connected.</string>
   <string name="image_qna_voice_input_empty">No speech recognised.</string>
   <string name="image_qna_answer_unavailable">No answer available.</string>
-  <string name="title_pref_thick_border">Thick borders</string>
-  <string name="title_pref_category_border_color">Colour</string>
-  <string name="title_pref_default_color">Default</string>
-  <string name="title_pref_red">Red</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Yellow</string>
-  <string name="title_pref_green">Green</string>
-  <string name="title_pref_blue">Blue</string>
-  <string name="title_pref_grey">Grey</string>
   <string name="survey_setting_title">Share your feedback</string>
   <string name="title_summarize_view">Describe screen</string>
   <string name="detected_result">Detected: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Needs a permission that Android does not give to screen readers. To grant it, run this command with adb or Shizuku, then come back to this screen: %1$s</string>
     <string name="action_copy_command">Copy command</string>
     <string name="command_copied">Command copied</string>
-    <string name="title_pref_speech_control">Let other apps speak</string>
-    <string name="summary_pref_speech_control">Apps that you allow can say text in your SandFly voice. Nothing is said while the device is locked.</string>
-    <string name="title_pref_speech_control_sound">Play a sound before other apps speak</string>
-    <string name="speech_control_apps_category">Apps</string>
-    <string name="speech_control_no_apps">No apps have asked to speak yet.</string>
-    <string name="speech_control_ask_title">Allow <xliff:g id="app" example="Tasker">%1$s</xliff:g> to speak through SandFly?</string>
-    <string name="speech_control_ask_text">It can say text in your SandFly voice. You can change this in Advanced settings.</string>
-    <string name="speech_control_allow">Allow</string>
-    <string name="speech_control_deny">Don\'t allow</string>
-    <string name="permission_speak_label">speak through SandFly</string>
-    <string name="permission_speak_description">Lets the app ask to say text in your SandFly voice. SandFly asks you before the app can speak.</string>
     <string name="title_pref_phonetic_letters_mode">Speak letters phonetically</string>
     <string name="phonetic_letters_mode_off">Off</string>
     <string name="phonetic_letters_mode_after_letter_delay">After the letter, delayed, like \'h, hotel\'</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d notification</item>
         <item quantity="other">%d notifications</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly on. Hold 2 fingers on screen for 5 seconds to turn off. To stop showing this message, turn off SandFly settings &gt; Advanced settings &gt; Show instructions for turning off SandFly.</string>
     <string name="edge_gestures_title">Edges</string>
     <string name="title_pref_audio_output_device">Audio output device</string>
     <string name="dialog_title_audio_output_device">Choose where to play SandFly sound</string>

@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">አንድ የተተኮረበትን ንጥል ለማግበር አንድ ጊዜ መታ ያድርጉ። ከሁለቴ መታ ማድረግ የበለጠ ፈጣን አሰሳ።</string>
   <string name="pref_verbosity_title">ብዙ ቃላት</string>
   <string name="pref_punctuation_title">ሥርዓተ ነጥብን እና ምልክቶችን ተናገር</string>
-  <string name="title_pref_category_manage_focus_indicator">የትኩረት አመልካች</string>
   <string name="title_pref_category_manage_gestures">የጣት ሸርተቴዎች</string>
   <string name="title_pref_manage_labels">ብጁ መሰየሚያዎች</string>
   <string name="title_pref_category_context_menu">የSandFly ምናሌ</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly አጋዥ ስልጠና</string>
   <string name="title_pref_category_help_no_tutorial">እገዛ</string>
   <string name="title_pref_advanced_settings">የላቁ ቅንብሮች</string>
-  <string name="title_pref_show_exit_watermark">SandFly ለማጥፋት መመሪያዎችን አሳይ</string>
-  <string name="summary_pref_show_exit_watermark">SandFly ሲበራ እንዴት እንደሚጠፋ አሳይ</string>
-  <string name="talkback_exit_watermark_text">SandFly በርቷል። ለማጥፋት ማያ ገጽ ላይ 2 ጣቶችን ለ5 ሰከንዶች ይያዙ። ይህን መልዕክት ማሳየት ለማቆም SandFly ምናሌን ለመክፈት በ3 ጣቶች መታ ያድርጉ።</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly መብራቱን የሚያመላክት ሰንደቅ በማሳየት ላይ። SandFly ለማጥፋት ለ5 ሰከንዶች በ2 ጣቶች ማያ ገፁ ላይ ይያዙ። ይህን ሰንደቅ ለማስወገድ ወደ SandFly ቅንብሮች ይሂዱ።</string>
   <string name="reset_gesture_settings_title">የእጅ ምልክት ቅንብሮችን ዳግም አስጀምር</string>
   <string name="one_finger_gestures_title">1 ጣት</string>
   <string name="one_finger_back_forth_gestures_title">1 ጣት ወደ ፊት እና ወደኋላ</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">እባክህ ስልኩ መገናኘቱን ያረጋግጡ።</string>
   <string name="image_qna_voice_input_empty">ምንም ንግግር አልታወቀም።</string>
   <string name="image_qna_answer_unavailable">ምንም መልስ አይገኝም።</string>
-  <string name="title_pref_thick_border">ወፍራም ክፈፎች</string>
-  <string name="title_pref_category_border_color">ቀለም</string>
-  <string name="title_pref_default_color">ነባሪ</string>
-  <string name="title_pref_red">ቀይ</string>
-  <string name="title_pref_orange">ብርቱካናማ</string>
-  <string name="title_pref_yellow">ቢጫ</string>
-  <string name="title_pref_green">አረንጓዴ</string>
-  <string name="title_pref_blue">ሰማያዊ</string>
-  <string name="title_pref_grey">ግራጫ</string>
   <string name="survey_setting_title">ግብረመልስዎን ያጋሩ</string>
   <string name="title_summarize_view">ማያ ገፅን ይግለፁ</string>
   <string name="detected_result">የተገኘ፦ %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android ለማያ ገፅ አንባቢዎች የማይሰጠው ፈቃድ ያስፈልገዋል። ለመስጠት ይህን ትዕዛዝ በadb ወይም በShizuku ያሂዱ፣ ከዚያ ወደዚህ ማያ ገፅ ይመለሱ፦ %1$s</string>
     <string name="action_copy_command">ትዕዛዝ ቅዳ</string>
     <string name="command_copied">ትዕዛዝ ተቀድቷል</string>
-    <string name="title_pref_speech_control">ሌሎች መተግበሪያዎች እንዲናገሩ ፍቀድ</string>
-    <string name="summary_pref_speech_control">የፈቀዷቸው መተግበሪያዎች ጽሑፍን በSandFly ድምፅዎ መናገር ይችላሉ። መሣሪያው ተቆልፎ ሳለ ምንም አይነገርም።</string>
-    <string name="title_pref_speech_control_sound">ሌሎች መተግበሪያዎች ከመናገራቸው በፊት ድምፅ አጫውት</string>
-    <string name="speech_control_apps_category">መተግበሪያዎች</string>
-    <string name="speech_control_no_apps">እስካሁን ምንም መተግበሪያዎች ለመናገር አልጠየቁም።</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> በSandFly በኩል እንዲናገር ይፈቀድለት?</string>
-    <string name="speech_control_ask_text">ጽሑፍን በSandFly ድምፅዎ መናገር ይችላል። ይህን በላቁ ቅንብሮች ውስጥ መቀየር ይችላሉ።</string>
-    <string name="speech_control_allow">ፍቀድ</string>
-    <string name="speech_control_deny">አትፍቀድ</string>
-    <string name="permission_speak_label">በSandFly በኩል መናገር</string>
-    <string name="permission_speak_description">መተግበሪያው ጽሑፍን በSandFly ድምፅዎ ለመናገር እንዲጠይቅ ያስችለዋል። መተግበሪያው መናገር ከመቻሉ በፊት SandFly ይጠይቅዎታል።</string>
     <string name="title_pref_phonetic_letters_mode">ፊደላትን በድምፅ ምሳሌ ተናገር</string>
     <string name="phonetic_letters_mode_off">ጠፍቷል</string>
     <string name="phonetic_letters_mode_after_letter_delay">ከፊደሉ በኋላ፣ በመዘግየት፣ እንደ «h, hotel»</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d ማሳወቂያ</item>
         <item quantity="other">%d ማሳወቂያዎች</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly በርቷል። ለማጥፋት 2 ጣቶችን በማያ ገፁ ላይ ለ5 ሰከንዶች ይያዙ። ይህን መልዕክት ማሳየት ለማቆም SandFly ቅንብሮች &gt; የላቁ ቅንብሮች &gt; SandFlyን ለማጥፋት መመሪያዎችን አሳይ የሚለውን ያጥፉ።</string>
     <string name="edge_gestures_title">ጠርዞች</string>
     <string name="title_pref_audio_output_device">የኦዲዮ ውጽዓት መሣሪያ</string>
     <string name="dialog_title_audio_output_device">የSandFly ድምፅ የሚጫወትበትን ይምረጡ</string>

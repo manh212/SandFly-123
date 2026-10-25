@@ -250,11 +250,6 @@ public final class FeatureSupport {
     return BuildVersionUtils.isAtLeastS();
   }
 
-  /** Returns {@code true} if the device supports customizing focus indicator. */
-  public static boolean supportCustomizingFocusIndicator() {
-    return BuildVersionUtils.isAtLeastS();
-  }
-
   /**
    * Provides a function to check if support the dark theme. This feature is supported from Q (API
    * 29).
