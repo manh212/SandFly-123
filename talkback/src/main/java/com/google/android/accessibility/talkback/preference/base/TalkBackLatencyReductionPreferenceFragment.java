@@ -154,6 +154,7 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_background_order_build_key),
             context.getString(R.string.pref_trust_untouched_nodes_key),
             context.getString(R.string.pref_keep_prepared_across_unrelated_key),
+            context.getString(R.string.pref_serve_stale_order_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,
             FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY);
         dialogInterface.dismiss();
@@ -247,6 +248,13 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context
                 .getResources()
                 .getBoolean(R.bool.pref_keep_prepared_across_unrelated_default));
+      }
+
+      TwoStatePreference serveStaleOrderPreference =
+          findPreference(getString(R.string.pref_serve_stale_order_key));
+      if (serveStaleOrderPreference != null) {
+        serveStaleOrderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_serve_stale_order_default));
       }
     }
 

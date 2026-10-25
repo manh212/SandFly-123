@@ -88,6 +88,134 @@ object TraversalTreeCache {
     )
 
   /**
+   * Whether a swipe may be served by the previous order, under the checks in [serveStaleOrder],
+   * while a fresh one is being built. When false, a throw-away costs the next swipe a build on
+   * its own thread, as before.
+   */
+  @JvmStatic var serveStaleOrdersEnabled: Boolean = true
+
+  /**
+   * The last order thrown away, kept as a stale copy a swipe may be served by under checks (see
+   * [serveStaleOrder]) until a fresh order lands. A throw-away demotes the saved order to here
+   * instead of dropping it; only a throw-away that proves an order wrong (see [clearCompletely])
+   * or a fresh order landing drops it.
+   */
+  @Volatile private var staleRoot: AccessibilityNodeInfoCompat? = null
+
+  @Volatile private var staleStrategy: OrderedTraversalStrategy? = null
+
+  /** Regions of the structural changes since the demotion, as window id to bounds in screen. */
+  private val structuralChangeRegions = ArrayList<Pair<Int, Rect>>()
+
+  /** Whether a structural change since the demotion has a region that is not known. */
+  private var structuralChangeUnknown = false
+
+  /** Forgets the structural changes remembered since the demotion. */
+  private fun resetStructuralChanges() {
+    structuralChangeRegions.clear()
+    structuralChangeUnknown = false
+  }
+
+  /**
+   * Remembers where a structural change happened, so a stale order can tell the nodes it reached
+   * from the ones it did not. A null [sourceBounds] means the region is not known, which reaches
+   * every node; more than [MAX_STRUCTURAL_CHANGE_REGIONS] regions are not remembered either.
+   */
+  private fun noteStructuralChange(windowId: Int, sourceBounds: Rect?) {
+    synchronized(stateLock) {
+      if (staleStrategy == null) {
+        return
+      }
+      if (sourceBounds == null || sourceBounds.isEmpty || structuralChangeUnknown) {
+        structuralChangeUnknown = true
+        return
+      }
+      if (structuralChangeRegions.size >= MAX_STRUCTURAL_CHANGE_REGIONS) {
+        structuralChangeUnknown = true
+        return
+      }
+      structuralChangeRegions += windowId to Rect(sourceBounds)
+    }
+  }
+
+  /** Whether any structural change since the demotion touched [node]. */
+  private fun structuralChangesTouch(node: AccessibilityNodeInfoCompat): Boolean {
+    if (structuralChangeUnknown) {
+      return true
+    }
+    val bounds = Rect()
+    node.getBoundsInScreen(bounds)
+    return structuralChangeRegions.any { (windowId, region) ->
+      windowId == node.windowId && Rect.intersects(region, bounds)
+    }
+  }
+
+  /**
+   * The previous order of [root], for a swipe, if it may still be trusted for [pivot]: the order
+   * has been thrown away, but nothing that happened since reached the pivot, and the pivot is
+   * still there when asked again. The caller checks the target it picks from the order in the
+   * same way (see [validateStaleTarget]) before focusing it, and the background build a
+   * throw-away starts replaces this order with a fresh one for the swipes after. Null when the
+   * previous order may not be trusted, and the swipe then builds its own, as before.
+   */
+  @JvmStatic
+  fun serveStaleOrder(
+    root: AccessibilityNodeInfoCompat,
+    pivot: AccessibilityNodeInfoCompat,
+  ): OrderedTraversalStrategy? {
+    if (!serveStaleOrdersEnabled) {
+      return null
+    }
+    val (savedStaleRoot, savedStale) = synchronized(stateLock) { staleRoot to staleStrategy }
+    if (savedStale == null || root != savedStaleRoot || !savedStale.containsNode(pivot)) {
+      return null
+    }
+    if (structuralChangesTouch(pivot)) {
+      return null
+    }
+    if (!pivot.refresh()) {
+      return null
+    }
+    Performance.getInstance().onStaleOrderServed()
+    return savedStale
+  }
+
+  /**
+   * Whether [target], picked from the previous order, may be focused: no structural change
+   * touched it, it is still there when asked again, it is exactly where the order left it, and
+   * it is still visible. A target the order does not hold did not come from it and needs no
+   * check. When this returns false the caller throws the order away for good and searches again
+   * in a fresh one, so a wrong answer costs one build, never a wrong landing.
+   */
+  @JvmStatic
+  fun validateStaleTarget(target: AccessibilityNodeInfoCompat): Boolean {
+    val savedStale = staleStrategy ?: return true
+    if (!savedStale.containsNode(target)) {
+      return true
+    }
+    if (structuralChangesTouch(target)) {
+      Performance.getInstance().onStaleTargetRejected()
+      return false
+    }
+    val before = Rect()
+    target.getBoundsInScreen(before)
+    if (!target.refresh()) {
+      Performance.getInstance().onStaleTargetRejected()
+      return false
+    }
+    val after = Rect()
+    target.getBoundsInScreen(after)
+    val valid = before == after && target.isVisibleToUser
+    if (!valid) {
+      Performance.getInstance().onStaleTargetRejected()
+    }
+    return valid
+  }
+
+  /** How many structural change regions are remembered before their reach is given up as unknown. */
+  private const val MAX_STRUCTURAL_CHANGE_REGIONS = 8
+
+  /**
    * Showing a node on screen only scrolls when the node is near the edge, which on a round watch
    * screen is nearly every swipe, and a scroll sends its own event, which throws the order away if
    * it arrives. Throwing it away for the action as well rebuilt the order on every swipe there.
@@ -291,8 +419,11 @@ object TraversalTreeCache {
       return null
     }
     val saved = synchronized(stateLock) { strategy?.takeIf { root == this.root } }
+    // The stale copy answers the positional question just as well — the caller checks the node
+    // it picks with the app before using it — and asking it costs no build at all.
     val order =
       saved
+        ?: staleStrategy?.takeIf { root == staleRoot }
         ?: runCatching {
               OrderedTraversalStrategy(root).also {
                 Performance.getInstance().onOrderBuildOnSwipePath()
@@ -334,6 +465,9 @@ object TraversalTreeCache {
       generation++
       this.root = root
       this.strategy = strategy
+      staleRoot = null
+      staleStrategy = null
+      resetStructuralChanges()
       firstIgnoredChangeTime = 0L
       resetGracedChanges()
     }
@@ -346,15 +480,45 @@ object TraversalTreeCache {
   }
 
   /**
-   * Throws away the saved order. The listener is told unless the throw-away came from an
-   * accessibility event, whose handler in TalkBackService starts the background build itself
-   * with the event's own window.
+   * Throws away the saved order for good, the previous one with it: the order has been proved
+   * wrong — a target it offered could not be focused, or failed its checks — so nothing may be
+   * served by it again.
+   */
+  @JvmStatic
+  fun clearCompletely(reason: String) {
+    val clearedWindowId =
+      synchronized(stateLock) {
+        generation++
+        val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
+        root = null
+        strategy = null
+        staleRoot = null
+        staleStrategy = null
+        resetStructuralChanges()
+        firstIgnoredChangeTime = 0L
+        resetGracedChanges()
+        lastClearReason = reason
+        windowId
+      }
+    orderClearedListener?.onOrderCleared(clearedWindowId)
+  }
+
+  /**
+   * Throws away the saved order. The saved order is demoted to the stale copy, not dropped, so
+   * a swipe may still be served by it under checks while a fresh one is built. The listener is
+   * told unless the throw-away came from an accessibility event, whose handler in
+   * TalkBackService starts the background build itself with the event's own window.
    */
   private fun clear(reason: String, notifyListener: Boolean) {
     val clearedWindowId =
       synchronized(stateLock) {
         generation++
-        val windowId = root?.windowId ?: NO_WINDOW_ID
+        val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
+        if (strategy != null) {
+          staleRoot = root
+          staleStrategy = strategy
+          resetStructuralChanges()
+        }
         root = null
         strategy = null
         firstIgnoredChangeTime = 0L
@@ -409,6 +573,9 @@ object TraversalTreeCache {
       }
       this.root = root
       this.strategy = strategy
+      staleRoot = null
+      staleStrategy = null
+      resetStructuralChanges()
       firstIgnoredChangeTime = 0L
       resetGracedChanges()
     }
@@ -421,12 +588,24 @@ object TraversalTreeCache {
   /**
    * Throws away the saved order before TalkBack performs [actionId] on a node, unless the action
    * only moves focus. A scroll or click changes the screen before the app's change event reaches
-   * us, and TalkBack can navigate again in between, such as right after it scrolls a list.
+   * us, and TalkBack can navigate again in between, such as right after it scrolls a list. The
+   * action's [target] says where the change will happen, so the demoted order can still serve
+   * the nodes away from it.
    */
   @JvmStatic
-  fun onNodeAction(actionId: Int) {
+  fun onNodeAction(actionId: Int, target: AccessibilityNodeInfoCompat?) {
     if (changesNodes(actionId)) {
-      clear(if (LogUtils.shouldLog(Log.DEBUG)) AccessibilityNodeInfoUtils.actionToString(actionId) else "")
+      clear(
+        if (LogUtils.shouldLog(Log.DEBUG)) AccessibilityNodeInfoUtils.actionToString(actionId)
+        else ""
+      )
+      if (target != null) {
+        val bounds = Rect()
+        target.getBoundsInScreen(bounds)
+        noteStructuralChange(target.windowId, bounds)
+      } else {
+        noteStructuralChange(NO_WINDOW_ID, null)
+      }
     }
   }
 
@@ -444,6 +623,7 @@ object TraversalTreeCache {
     val savedRoot = root
     if (savedRoot == null) {
       invalidateSnapshotBuild(event)
+      noteStructuralChangeAgainstStale(event)
       return false
     }
     val windowId = event.windowId
@@ -470,9 +650,45 @@ object TraversalTreeCache {
         },
         notifyListener = false,
       )
+      // The change that threw the order away is the first one remembered against its stale
+      // copy: where it happened decides which of the copy's nodes a swipe may still be served.
+      noteStructuralChange(
+        windowId,
+        if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) sourceBounds(event) else null,
+      )
       return true
     }
     return false
+  }
+
+  /**
+   * No order is saved, but a stale one may be: a structural change that reaches it is remembered
+   * against it, and a fresh build is asked for, exactly as if the order had just been thrown
+   * away. Graced changes leave the stale order as it is — they cannot move a node within it, and
+   * the nodes they touch are re-checked before any of them is focused.
+   */
+  private fun noteStructuralChangeAgainstStale(event: AccessibilityEvent) {
+    val savedStaleRoot = staleRoot ?: return
+    val type = event.eventType
+    if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+      val changes = event.contentChangeTypes
+      if (changes != 0 && changes and NON_STRUCTURAL_CHANGES.inv() == 0) {
+        return
+      }
+    }
+    val windowId = event.windowId
+    if (
+      type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
+        type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+        windowId == NO_WINDOW_ID ||
+        windowId == savedStaleRoot.windowId
+    ) {
+      noteStructuralChange(
+        windowId,
+        if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) sourceBounds(event) else null,
+      )
+      orderClearedListener?.onOrderCleared(savedStaleRoot.windowId)
+    }
   }
 
   /**

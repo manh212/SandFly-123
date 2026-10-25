@@ -1353,6 +1353,20 @@ public class FocusProcessorForLogicalNavigation {
     if (traversalStrategy != null) {
       Performance.getInstance().setSwipeProfileOrderPath("saved order");
     }
+    // The saved order was thrown away, but its previous copy may still serve this swipe under
+    // checks while a fresh one is built in the background: building here instead is what the
+    // slowest swipes were made of. The target picked from it is checked before it is focused
+    // (below), and a failed check or a failed focus throws the copy away for good.
+    boolean servedStaleOrder = false;
+    if (traversalStrategy == null
+        && TraversalStrategyUtils.isLogicalDirection(searchDirection)) {
+      traversalStrategy = TraversalTreeCache.serveStaleOrder(rootNode, pivot);
+      if (traversalStrategy != null) {
+        servedStaleOrder = true;
+        usedSavedTree = true;
+        Performance.getInstance().setSwipeProfileOrderPath("stale order");
+      }
+    }
     if (traversalStrategy == null) {
       boolean trace = LogUtils.shouldLog(Log.DEBUG);
       long buildStart = trace ? SystemClock.uptimeMillis() : 0;
@@ -1392,7 +1406,7 @@ public class FocusProcessorForLogicalNavigation {
       if (reveal == REVEAL_SHOWN) {
         // The saved order was read before the scroll, so it still has the next item off screen,
         // and the search would stop at the edge.
-        TraversalTreeCache.clear("revealed next item");
+        TraversalTreeCache.clearCompletely("revealed next item");
         revealingOffscreen = true;
         try {
           return navigateToDefaultOrMacroGranularityTargetInternal(
@@ -1561,6 +1575,16 @@ public class FocusProcessorForLogicalNavigation {
       }
     }
 
+    if (target != null
+        && servedStaleOrder
+        && !TraversalTreeCache.validateStaleTarget(target)) {
+      // The previous order offered a target that is no longer there, or no longer where the
+      // order left it: throw the order away for good and search again in a fresh one.
+      TraversalTreeCache.clearCompletely("stale target rejected");
+      return navigateToDefaultOrMacroGranularityTargetInternal(
+          pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
+    }
+
     if (target != null) {
       int linkIndexToFocus = getLinkIndexForFocus(pivot, navigationResult, navigationAction);
       if (linkIndexToFocus >= 0) {
@@ -1577,8 +1601,9 @@ public class FocusProcessorForLogicalNavigation {
                 eventId);
         if (!focused && usedSavedTree) {
           // The app might have removed the target before its change event reached us, so try
-          // again with a new tree.
-          TraversalTreeCache.clear("focus failed");
+          // again with a new tree. The order that offered the target is thrown away for good:
+          // it has been proved wrong, and no later swipe may be served by it either.
+          TraversalTreeCache.clearCompletely("focus failed");
           return navigateToDefaultOrMacroGranularityTargetInternal(
               pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
         }

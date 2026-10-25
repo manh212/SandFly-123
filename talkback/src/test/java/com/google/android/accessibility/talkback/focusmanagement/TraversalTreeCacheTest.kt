@@ -48,8 +48,10 @@ class TraversalTreeCacheTest {
 
   @After
   fun tearDown() {
-    TraversalTreeCache.clear("test")
+    TraversalTreeCache.orderClearedListener = null
+    TraversalTreeCache.clearCompletely("test")
     TraversalTreeCache.unrelatedChangesSpareNodes = true
+    TraversalTreeCache.serveStaleOrdersEnabled = true
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -82,6 +84,22 @@ class TraversalTreeCacheTest {
   private fun eventInWindow(windowId: Int, type: Int, contentChangeTypes: Int = 0): AccessibilityEvent {
     val event = event(type, contentChangeTypes)
     shadowOf(event).setWindowId(windowId)
+    return event
+  }
+
+  /** A structural content change in [windowId] whose source sits in [sourceBounds]. */
+  private fun structuralEvent(windowId: Int, sourceBounds: Rect?): AccessibilityEvent {
+    val event =
+      eventInWindow(
+        windowId,
+        AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+        AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE,
+      )
+    if (sourceBounds != null) {
+      val source = AccessibilityNodeInfo.obtain()
+      source.setBoundsInScreen(sourceBounds)
+      shadowOf(event).setSourceNode(source)
+    }
     return event
   }
 
@@ -418,7 +436,10 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.orderClearedListener =
       TraversalTreeCache.OrderClearedListener { windowId -> told += windowId }
     try {
-      TraversalTreeCache.onNodeAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK)
+      TraversalTreeCache.onNodeAction(
+        android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK,
+        null,
+      )
     } finally {
       TraversalTreeCache.orderClearedListener = null
     }
@@ -441,5 +462,114 @@ class TraversalTreeCacheTest {
     } finally {
       TraversalTreeCache.orderClearedListener = null
     }
+  }
+
+  @Test
+  fun serveStaleOrder_changeAwayFromThePivot_servesThePreviousOrder() {
+    val (root, child) = savedOrder()
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(
+        structuralEvent(root.windowId, Rect(500, 500, 600, 600))
+      )
+
+    assertTrue(cleared)
+    assertNull(TraversalTreeCache.get(root, child))
+    assertNotNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun serveStaleOrder_changeOverThePivot_refuses() {
+    val (root, child) = savedOrder()
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(0, 0, 200, 200)))
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun serveStaleOrder_changeWithUnknownRegion_refuses() {
+    val (root, child) = savedOrder()
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, null))
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun serveStaleOrder_secondChangeOverThePivot_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    assertNotNull(TraversalTreeCache.serveStaleOrder(root, child))
+
+    // No order is saved any more, so this change is remembered against the stale copy itself.
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(0, 0, 200, 200)))
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun serveStaleOrder_disabled_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    TraversalTreeCache.serveStaleOrdersEnabled = false
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun serveStaleOrder_otherWindow_refuses() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    val (otherRoot, _) = unsavedOrder()
+
+    assertNull(TraversalTreeCache.serveStaleOrder(otherRoot, child))
+  }
+
+  @Test
+  fun clearCompletely_dropsTheStaleCopy() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+
+    TraversalTreeCache.clearCompletely("test")
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun freshOrderLanding_dropsTheStaleCopy() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    val (newRoot, newChild) = unsavedOrder()
+    TraversalTreeCache.put(newRoot, OrderedTraversalStrategy(newRoot))
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+    assertNotNull(TraversalTreeCache.get(newRoot, newChild))
+  }
+
+  @Test
+  fun validateStaleTarget_untouchedTarget_validates() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+
+    assertTrue(TraversalTreeCache.validateStaleTarget(child))
+  }
+
+  @Test
+  fun validateStaleTarget_changeOverTheTarget_rejects() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(0, 0, 200, 200)))
+
+    assertFalse(TraversalTreeCache.validateStaleTarget(child))
+  }
+
+  @Test
+  fun validateStaleTarget_nodeOutsideTheStaleOrder_needsNoCheck() {
+    val (root, _) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, null))
+    val outsider = AccessibilityNodeInfoCompat.wrap(node(null))
+
+    assertTrue(TraversalTreeCache.validateStaleTarget(outsider))
   }
 }

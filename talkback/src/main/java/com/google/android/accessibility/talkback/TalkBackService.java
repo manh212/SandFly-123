@@ -1130,6 +1130,9 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(
             R.string.pref_keep_prepared_across_unrelated_key,
             R.bool.pref_keep_prepared_across_unrelated_default));
+    TraversalTreeCache.setServeStaleOrdersEnabled(
+        getBooleanPref(
+            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
       if (getBooleanPref(
           R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {

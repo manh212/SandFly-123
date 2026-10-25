@@ -1548,6 +1548,8 @@
     <string name="summary_pref_trust_untouched_nodes">Khi chỉ các mục khác trên màn hình thay đổi, mục bạn vuốt tới sẽ được đọc như lần đọc gần nhất mà không phải chờ đọc lại. Hãy tắt tùy chọn này nếu một mục bị đọc với nội dung cũ sau khi mục khác thay đổi.</string>
     <string name="title_pref_keep_prepared_across_unrelated">Giữ câu chuẩn bị sẵn khi thay đổi không liên quan</string>
     <string name="summary_pref_keep_prepared_across_unrelated">Các câu SandFly đã chuẩn bị cho lần vuốt tiếp theo sẽ được giữ lại khi một thay đổi ở nơi khác trên màn hình không chạm tới chúng, để lần vuốt được đọc sớm hơn. Hãy tắt tùy chọn này nếu câu chuẩn bị sẵn nghe có vẻ đã cũ.</string>
+    <string name="title_pref_serve_stale_order">Dùng lại thứ tự đọc trước</string>
+    <string name="summary_pref_serve_stale_order">Khi màn hình thay đổi, thao tác vuốt được trả lời từ thứ tự đọc vừa bị thay thế, sau khi kiểm tra mục vẫn còn đó, trong lúc thứ tự mới được dựng ở nền. Hãy tắt tùy chọn này nếu thao tác vuốt đáp sai mục sau khi màn hình thay đổi.</string>
     <string name="value_focus_delay_200ms_default">0,2 giây (mặc định)</string>
     <string name="value_focus_delay_300ms">0,3 giây</string>
     <string name="title_pref_lift_to_activate">Nhấc ngón tay để kích hoạt</string>

@@ -2616,6 +2616,11 @@
     <!-- Reduce delays: summary of the keep prepared announcements switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_keep_prepared_across_unrelated">Announcements SandFly has prepared for the next swipe are kept when a change elsewhere on the screen does not touch them, so the swipe speaks sooner. Turn this off if a prepared announcement sounds out of date.</string>
 
+    <!-- Reduce delays: switch that serves a swipe from the previous reading order. [CHAR LIMIT=50] -->
+    <string name="title_pref_serve_stale_order">Reuse the previous reading order</string>
+    <!-- Reduce delays: summary of the previous reading order switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_serve_stale_order">When the screen changes, a swipe is answered from the reading order just replaced, after checking the item is still there, while the new order is built in the background. Turn this off if a swipe lands on the wrong item after the screen changes.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->

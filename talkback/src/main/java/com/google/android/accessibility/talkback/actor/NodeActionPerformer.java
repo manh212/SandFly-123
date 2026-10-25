@@ -76,7 +76,7 @@ public class NodeActionPerformer {
     AccessibilityNode nodeActionTarget = nodeAction.target();
     boolean success = true;
     if (nodeActionTarget != null) {
-      TraversalTreeCache.onNodeAction(nodeAction.actionId());
+      TraversalTreeCache.onNodeAction(nodeAction.actionId(), nodeActionTarget.getCompat());
       PreparedFocusSpeech.onNodeAction(nodeAction.actionId());
       long time = SystemClock.uptimeMillis();
       if (nodeAction.actionId() == AccessibilityNodeInfoCompat.ACTION_CLICK

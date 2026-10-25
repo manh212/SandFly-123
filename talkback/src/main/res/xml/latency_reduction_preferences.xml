@@ -48,6 +48,12 @@
         android:key="@string/pref_keep_prepared_across_unrelated_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_serve_stale_order_default"
+        android:title="@string/title_pref_serve_stale_order"
+        android:summary="@string/summary_pref_serve_stale_order"
+        android:key="@string/pref_serve_stale_order_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_items_before_scroll_default"
         android:title="@string/title_pref_speak_items_before_scroll"
         android:key="@string/pref_speak_items_before_scroll_key" />
