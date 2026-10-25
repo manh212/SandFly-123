@@ -18,34 +18,39 @@ package com.google.android.accessibility.talkback.focusmanagement
 
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
-import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
-import org.robolectric.shadows.ShadowAccessibilityNodeInfo
 
 /**
  * The background prefetch takes ownership of the root it is handed: when it declines to walk (here,
- * the window is the app's own), it must still recycle the root rather than leak it. The walk itself
- * reads nodes through the accessibility cache, which a unit test cannot stage.
+ * the window is the app's own), it must still recycle the root rather than leak it. Robolectric's
+ * shadow exposes no way to ask whether a node was recycled, so the root records the call itself.
+ * The walk itself reads nodes through the accessibility cache, which a unit test cannot stage.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class WindowNodePrefetcherTest {
 
+  private class RecordingRoot(info: AccessibilityNodeInfo) : AccessibilityNodeInfoCompat(info) {
+    var recycled = false
+
+    override fun recycle() {
+      recycled = true
+      super.recycle()
+    }
+  }
+
   @Test
   fun prefetchInBackground_ownPackage_recyclesRootAndReturns() {
     val rootInfo = AccessibilityNodeInfo.obtain()
     rootInfo.packageName = "io.github.aaron_gh.sandfly"
-    assertTrue(ShadowAccessibilityNodeInfo.areThereUnrecycledNodes(false))
+    val root = RecordingRoot(rootInfo)
 
-    WindowNodePrefetcher.prefetchInBackground(
-      AccessibilityNodeInfoCompat.wrap(rootInfo),
-      ownPackage = "io.github.aaron_gh.sandfly",
-    )
+    WindowNodePrefetcher.prefetchInBackground(root, ownPackage = "io.github.aaron_gh.sandfly")
 
-    assertFalse(ShadowAccessibilityNodeInfo.areThereUnrecycledNodes(false))
+    assertTrue(root.recycled)
   }
 }
