@@ -112,7 +112,7 @@ public class FastNavigator {
   private final BooleanSupplier selectionModeActive;
   private final Handler handler = new Handler(Looper.getMainLooper());
 
-  private @Nullable Pipeline.FeedbackReturner feedbackReturner;
+  private Pipeline.@Nullable FeedbackReturner feedbackReturner;
   private @Nullable FocusListener focusListener;
 
   /**
@@ -164,7 +164,7 @@ public class FastNavigator {
     this.selectionModeActive = selectionModeActive;
   }
 
-  public void setFeedbackReturner(@Nullable Pipeline.FeedbackReturner feedbackReturner) {
+  public void setFeedbackReturner(Pipeline.@Nullable FeedbackReturner feedbackReturner) {
     this.feedbackReturner = feedbackReturner;
   }
 
