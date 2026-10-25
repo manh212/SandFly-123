@@ -824,6 +824,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     for (i in out.indices) out[i] = out[i].coerceIn(-1f, 1f)
   }
 
+  /** Sizes the track again under the buffer setting now in force, after that setting changed. */
+  fun refitBuffer() {
+    track?.let { fitBuffer(it) }
+  }
+
   private fun createTrack(): AudioTrack? =
     try {
       val minBytes =
@@ -857,18 +862,22 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
 
   /**
    * Queues two bursts on the fast path, so new sound waits no longer than that, or more if it ran
-   * short before. The burst Android reports can be smaller than the fast mixer's period, such as 144
-   * frames for a 192 frame period. Other outputs, such as Bluetooth without the fast path, mix a
-   * much larger period at a time, so the buffer starts at SLOW_BUFFER_MS there. Both grow in
-   * [keepUp] until the mixer stops running short.
+   * short before. With the smaller-buffer setting, one burst is queued instead, and [keepUp]
+   * does not grow out of it. The burst Android reports can be smaller than the fast mixer's
+   * period, such as 144 frames for a 192 frame period. Other outputs, such as Bluetooth without
+   * the fast path, mix a much larger period at a time, so the buffer starts at SLOW_BUFFER_MS
+   * there. Both grow in [keepUp] until the mixer stops running short.
    */
   private fun fitBuffer(output: AudioTrack) {
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
       output.setBufferSizeInFrames(
-        if (fast) maxOf(burstFrames * QUEUED_BURSTS, fastFrames)
+        if (fast) fastBufferFrames(burstFrames, smallBufferEnabled, fastFrames)
         else sampleRate * SLOW_BUFFER_MS / 1000
       )
+      if (fast && smallBufferEnabled) {
+        noteSmallBufferFitting()
+      }
       underruns = output.underrunCount
       fastPath = fast
       LogUtils.d(
@@ -898,6 +907,12 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     }
     if (count <= underruns) return
     underruns = count
+    if (fastPath && smallBufferEnabled) {
+      // The smaller buffer is on trial: running short is counted, not grown out of, or the
+      // first shortfall would put the buffer back where it was and end the trial.
+      noteSmallBufferShortfall()
+      return
+    }
     val size = output.bufferSizeInFrames
     if (size >= output.bufferCapacityInFrames) return
     val grown = if (fastPath) size + burstFrames else size * 2
@@ -956,6 +971,46 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
           allowCoreThreadTimeOut(true)
           removeOnCancelPolicy = true
         }
+
+    /**
+     * Whether fast-path tracks queue a single burst of audio instead of [QUEUED_BURSTS], so new
+     * sound starts about a burst sooner, at the risk of running short more often. Set from the
+     * latency setting; tracks already made are sized again when it changes.
+     */
+    @JvmStatic
+    var smallBufferEnabled: Boolean = true
+      set(value) {
+        if (field == value) return
+        field = value
+        for (player in players()) player.refitBuffer()
+      }
+
+    /** How many times a track was sized at one burst while the smaller buffer was in use. */
+    @Volatile var smallBufferFittings: Int = 0
+      private set
+
+    /** How many times a track ran short while the smaller buffer kept it from growing. */
+    @Volatile var smallBufferShortfalls: Int = 0
+      private set
+
+    @JvmStatic
+    internal fun noteSmallBufferFitting() {
+      smallBufferFittings++
+    }
+
+    @JvmStatic
+    internal fun noteSmallBufferShortfall() {
+      smallBufferShortfalls++
+    }
+
+    /**
+     * The fast path's buffer in frames: [QUEUED_BURSTS] bursts, or more if running short has
+     * grown it before. At one burst, a size remembered from running short is not let back in:
+     * the trial is only over when the setting is turned off.
+     */
+    @JvmStatic
+    fun fastBufferFrames(burstFrames: Int, smallBuffer: Boolean, rememberedFrames: Int): Int =
+      if (smallBuffer) burstFrames else maxOf(burstFrames * QUEUED_BURSTS, rememberedFrames)
 
     /** An executor running tasks in order on one thread, which ends when it has nothing to do. */
     private fun singleThreadExecutor(name: String): Executor =

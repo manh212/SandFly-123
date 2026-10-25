@@ -293,6 +293,7 @@ import com.google.android.accessibility.utils.output.FailoverTextToSpeech;
 import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FeedbackProcessingUtils;
+import com.google.android.accessibility.utils.output.LowLatencyAudio;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechController;
@@ -750,6 +751,13 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** The app of the last window that came up, for the turn-off log. */
   private @Nullable CharSequence lastWindowPackage;
 
+  /**
+   * Whether reading orders are built in the background, from the latency setting. Read once per
+   * settings load by {@link #refreshLatencySwitches()} instead of on every accessibility event,
+   * which arrives dozens of times a second in a busy app.
+   */
+  private boolean backgroundOrderBuildEnabled = true;
+
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
 
@@ -1123,22 +1131,8 @@ public class TalkBackService extends AccessibilityServiceCompat
         && HomeScreenPages.isHomePackage(this, event.getPackageName())) {
       clearCache();
     }
-    TraversalTreeCache.setUnrelatedChangesSpareNodes(
-        getBooleanPref(
-            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
-    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
-        getBooleanPref(
-            R.string.pref_keep_prepared_across_unrelated_key,
-            R.bool.pref_keep_prepared_across_unrelated_default));
-    TraversalTreeCache.setServeStaleOrdersEnabled(
-        getBooleanPref(
-            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
-    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements =
-        getBooleanPref(
-            R.string.pref_navigation_interrupt_key, R.bool.pref_navigation_interrupt_default);
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
-      if (getBooleanPref(
-          R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {
+      if (backgroundOrderBuildEnabled) {
         int windowId = event.getWindowId();
         TraversalTreeCache.buildOrderInBackground(
             windowId, () -> rootOfWindow(windowId), getPackageName());
@@ -1264,8 +1258,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private void startBackgroundOrderBuildForCleared(int windowId) {
-    if (!getBooleanPref(
-        R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {
+    if (!backgroundOrderBuildEnabled) {
       return;
     }
     int targetWindowId = windowId;
@@ -3446,6 +3439,34 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   /** Reloads service preferences. */
+  /**
+   * Applies the latency settings to the code that uses them. They used to be read again on every
+   * accessibility event; events arrive dozens of times a second in a busy app, and each read was
+   * work on the way to answering a swipe. Settings only change through the listener that reloads
+   * preferences, so reading them here loses nothing.
+   */
+  private void refreshLatencySwitches() {
+    TraversalTreeCache.setUnrelatedChangesSpareNodes(
+        getBooleanPref(
+            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
+    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
+        getBooleanPref(
+            R.string.pref_keep_prepared_across_unrelated_key,
+            R.bool.pref_keep_prepared_across_unrelated_default));
+    TraversalTreeCache.setServeStaleOrdersEnabled(
+        getBooleanPref(
+            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements =
+        getBooleanPref(
+            R.string.pref_navigation_interrupt_key, R.bool.pref_navigation_interrupt_default);
+    backgroundOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
+    LowLatencyAudio.setSmallBufferEnabled(
+        getBooleanPref(
+            R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
+  }
+
   protected void reloadPreferences() {
     reloadPreferences(null);
   }
@@ -3457,6 +3478,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   protected void reloadPreferences(@Nullable String key) {
     final Resources res = getResources();
+    refreshLatencySwitches();
 
     LogUtils.v(
         TAG,

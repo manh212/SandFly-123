@@ -2626,6 +2626,31 @@
     <!-- Reduce delays: summary of the navigation interrupt switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_navigation_interrupt">Speech answering your own swipe cuts short an announcement that other speech must wait behind, instead of waiting for it to finish. Utterances that can never be interrupted, such as alarms, still play out in full. Turn this off if announcements are cut short too often.</string>
 
+    <!-- Reduce delays: switch that queues one audio burst instead of two. [CHAR LIMIT=50] -->
+    <string name="title_pref_small_audio_buffer">Use a smaller audio buffer</string>
+    <!-- Reduce delays: summary of the smaller audio buffer switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_small_audio_buffer">Speech is held in a buffer one burst long instead of two, so new sound starts sooner. Turn this off if speech crackles or stutters.</string>
+
+    <!-- Reduce delays: switch that sends an item's first part to the engine first. [CHAR LIMIT=50] -->
+    <string name="title_pref_split_speech">Speak an item\'s first part first</string>
+    <!-- Reduce delays: summary of the split speech switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_split_speech">The first part of an item, usually its name, is sent to the speech engine ahead of the rest, so you start hearing the item sooner. The whole item is still spoken, in the same order.</string>
+
+    <!-- Reduce delays: switch that makes sound for prepared announcements in advance. [CHAR LIMIT=50] -->
+    <string name="title_pref_presynthesize_prepared">Make sound for prepared announcements ahead</string>
+    <!-- Reduce delays: summary of the pre-synthesized prepared announcements switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_presynthesize_prepared">Announcements SandFly prepares for the next swipe are also turned into sound in advance, so swiping to them plays the sound at once instead of waiting for the speech engine to make it.</string>
+
+    <!-- Reduce delays: switch that prepares announcements again when the screen settles. [CHAR LIMIT=50] -->
+    <string name="title_pref_prepare_on_settle">Prepare again when the screen settles</string>
+    <!-- Reduce delays: summary of the prepare on settle switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_prepare_on_settle">When a busy screen goes quiet, the announcements for the next swipe are prepared again, since changes on the screen may have thrown the earlier ones away.</string>
+
+    <!-- Reduce delays: switch that prepares further ahead around the focused item. [CHAR LIMIT=50] -->
+    <string name="title_pref_prepare_wider">Prepare further ahead</string>
+    <!-- Reduce delays: summary of the prepare further ahead switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_prepare_wider">The second item each way from the focused item is prepared as well, and a prepared announcement you did not swipe to is kept for the next swipe instead of being thrown away.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->

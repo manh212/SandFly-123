@@ -1552,6 +1552,16 @@
     <string name="summary_pref_serve_stale_order">Khi màn hình thay đổi, thao tác vuốt được trả lời từ thứ tự đọc vừa bị thay thế, sau khi kiểm tra mục vẫn còn đó, trong lúc thứ tự mới được dựng ở nền. Hãy tắt tùy chọn này nếu thao tác vuốt đáp sai mục sau khi màn hình thay đổi.</string>
     <string name="title_pref_navigation_interrupt">Để câu điều hướng ngắt thông báo</string>
     <string name="summary_pref_navigation_interrupt">Câu đọc trả lời thao tác vuốt của chính bạn sẽ ngắt ngắn một thông báo mà các câu khác phải chờ, thay vì đợi nó đọc xong. Các câu không bao giờ được ngắt, như chuông báo thức, vẫn được đọc trọn vẹn. Hãy tắt tùy chọn này nếu thông báo bị ngắt quá thường xuyên.</string>
+    <string name="title_pref_small_audio_buffer">Dùng bộ đệm âm thanh nhỏ hơn</string>
+    <string name="summary_pref_small_audio_buffer">Lời nói được giữ trong bộ đệm dài một nhịp thay vì hai, để âm thanh mới bắt đầu sớm hơn. Hãy tắt tùy chọn này nếu lời nói bị rè hoặc giật.</string>
+    <string name="title_pref_split_speech">Nói phần đầu của mục trước</string>
+    <string name="summary_pref_split_speech">Phần đầu của một mục, thường là tên của nó, được gửi tới bộ máy nói trước phần còn lại, để bạn bắt đầu nghe mục đó sớm hơn. Toàn bộ mục vẫn được đọc hết, theo đúng thứ tự.</string>
+    <string name="title_pref_presynthesize_prepared">Tạo sẵn âm thanh cho câu chuẩn bị</string>
+    <string name="summary_pref_presynthesize_prepared">Các câu SandFly chuẩn bị cho thao tác vuốt tiếp theo cũng được tạo thành âm thanh từ trước, để khi vuốt tới, âm thanh phát ngay thay vì chờ bộ máy nói tạo ra.</string>
+    <string name="title_pref_prepare_on_settle">Chuẩn bị lại khi màn hình lắng</string>
+    <string name="summary_pref_prepare_on_settle">Khi một màn hình bận rộn trở nên yên tĩnh, các câu cho thao tác vuốt tiếp theo được chuẩn bị lại, vì những thay đổi trên màn hình có thể đã làm mất các câu chuẩn bị trước đó.</string>
+    <string name="title_pref_prepare_wider">Chuẩn bị xa hơn</string>
+    <string name="summary_pref_prepare_wider">Mục thứ hai ở mỗi phía tính từ mục đang có tiêu điểm cũng được chuẩn bị, và câu đã chuẩn bị mà bạn không vuốt tới được giữ lại cho thao tác vuốt sau thay vì bị bỏ đi.</string>
     <string name="value_focus_delay_200ms_default">0,2 giây (mặc định)</string>
     <string name="value_focus_delay_300ms">0,3 giây</string>
     <string name="title_pref_lift_to_activate">Nhấc ngón tay để kích hoạt</string>

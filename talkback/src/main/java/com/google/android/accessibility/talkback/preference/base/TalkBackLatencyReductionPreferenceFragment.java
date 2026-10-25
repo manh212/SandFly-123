@@ -156,6 +156,11 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_keep_prepared_across_unrelated_key),
             context.getString(R.string.pref_serve_stale_order_key),
             context.getString(R.string.pref_navigation_interrupt_key),
+            context.getString(R.string.pref_small_audio_buffer_key),
+            context.getString(R.string.pref_split_speech_key),
+            context.getString(R.string.pref_presynthesize_prepared_key),
+            context.getString(R.string.pref_prepare_on_settle_key),
+            context.getString(R.string.pref_prepare_wider_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,
             FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY);
         dialogInterface.dismiss();
@@ -263,6 +268,41 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (navigationInterruptPreference != null) {
         navigationInterruptPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_navigation_interrupt_default));
+      }
+
+      TwoStatePreference smallAudioBufferPreference =
+          findPreference(getString(R.string.pref_small_audio_buffer_key));
+      if (smallAudioBufferPreference != null) {
+        smallAudioBufferPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_small_audio_buffer_default));
+      }
+
+      TwoStatePreference splitSpeechPreference =
+          findPreference(getString(R.string.pref_split_speech_key));
+      if (splitSpeechPreference != null) {
+        splitSpeechPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_split_speech_default));
+      }
+
+      TwoStatePreference presynthesizePreparedPreference =
+          findPreference(getString(R.string.pref_presynthesize_prepared_key));
+      if (presynthesizePreparedPreference != null) {
+        presynthesizePreparedPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_presynthesize_prepared_default));
+      }
+
+      TwoStatePreference prepareOnSettlePreference =
+          findPreference(getString(R.string.pref_prepare_on_settle_key));
+      if (prepareOnSettlePreference != null) {
+        prepareOnSettlePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_prepare_on_settle_default));
+      }
+
+      TwoStatePreference prepareWiderPreference =
+          findPreference(getString(R.string.pref_prepare_wider_key));
+      if (prepareWiderPreference != null) {
+        prepareWiderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_prepare_wider_default));
       }
     }
 

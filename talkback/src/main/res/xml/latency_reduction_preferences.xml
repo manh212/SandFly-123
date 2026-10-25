@@ -60,6 +60,36 @@
         android:key="@string/pref_navigation_interrupt_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_small_audio_buffer_default"
+        android:title="@string/title_pref_small_audio_buffer"
+        android:summary="@string/summary_pref_small_audio_buffer"
+        android:key="@string/pref_small_audio_buffer_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_split_speech_default"
+        android:title="@string/title_pref_split_speech"
+        android:summary="@string/summary_pref_split_speech"
+        android:key="@string/pref_split_speech_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_presynthesize_prepared_default"
+        android:title="@string/title_pref_presynthesize_prepared"
+        android:summary="@string/summary_pref_presynthesize_prepared"
+        android:key="@string/pref_presynthesize_prepared_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_prepare_on_settle_default"
+        android:title="@string/title_pref_prepare_on_settle"
+        android:summary="@string/summary_pref_prepare_on_settle"
+        android:key="@string/pref_prepare_on_settle_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_prepare_wider_default"
+        android:title="@string/title_pref_prepare_wider"
+        android:summary="@string/summary_pref_prepare_wider"
+        android:key="@string/pref_prepare_wider_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_items_before_scroll_default"
         android:title="@string/title_pref_speak_items_before_scroll"
         android:key="@string/pref_speak_items_before_scroll_key" />
