@@ -43,6 +43,42 @@ public final class SpeechChunker {
   private SpeechChunker() {}
 
   /**
+   * Returns the start offsets of the pieces of {@code text} when its first piece must end at
+   * {@code firstCut} — the end of the first separator between the parts an announcement was
+   * joined from, so the first part (usually an item's name) is sent to the engine ahead of the
+   * rest and heard sooner, while the rest follows as one piece, or in phrase pieces when {@code
+   * usePhrases}. A cut that is not inside the text, or whose first piece holds no letter or
+   * digit worth hearing on its own, is ignored and the text is pieced as usual.
+   */
+  public static List<Integer> chunkStartsFromFirstCut(
+      CharSequence text, Locale locale, int firstCut, boolean usePhrases) {
+    if (firstCut <= 0 || firstCut >= text.length() || !hasLetterOrDigit(text, 0, firstCut)) {
+      return usePhrases ? chunkStarts(text, locale) : List.of(0);
+    }
+    List<Integer> starts = new ArrayList<>();
+    starts.add(0);
+    starts.add(firstCut);
+    if (usePhrases) {
+      List<Integer> tailStarts =
+          chunkStarts(text.subSequence(firstCut, text.length()), locale);
+      for (int i = 1; i < tailStarts.size(); i++) {
+        starts.add(firstCut + tailStarts.get(i));
+      }
+    }
+    return starts;
+  }
+
+  /** Whether {@code text} between {@code start} and {@code end} holds a letter or a digit. */
+  private static boolean hasLetterOrDigit(CharSequence text, int start, int end) {
+    for (int i = start; i < end; i++) {
+      if (Character.isLetterOrDigit(text.charAt(i))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
    * Returns the start offset of each piece of {@code text}, beginning with 0. Text up to {@link
    * #MAX_CHUNK} long is one piece, so that ordinary item descriptions are not split into separate
    * requests. Longer text is cut at sentence boundaries, unless that leaves a piece shorter than

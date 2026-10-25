@@ -282,6 +282,18 @@ public class Performance {
   /** How long queued utterances waited in the speech queue before they were spoken. */
   private final Statistics speechWaitStats = new Statistics();
 
+  /** Utterances sent to the engine in pieces, cut at the first separator between their parts. */
+  private long utterancesSplit;
+
+  /** Pieces those utterances were sent in, in total. */
+  private long splitPieces;
+
+  /** Utterances played from the speech cache instead of the engine making their sound. */
+  private long speechCachePlays;
+
+  /** Prepared announcements whose sound was made in advance into the speech cache. */
+  private long preparedSpeechSyntheses;
+
   /** How many of the slowest swipes are profiled. */
   private static final int MAX_SLOW_SWIPE_PROFILES = 10;
 
@@ -1245,6 +1257,37 @@ public class Performance {
     }
   }
 
+  /** Counts one utterance sent to the engine in pieces, cut at its first separator. */
+  public void onUtteranceSplit(int pieces) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      utterancesSplit++;
+      splitPieces += pieces;
+    }
+  }
+
+  /** Counts one utterance played from the speech cache instead of the engine making its sound. */
+  public void onSpeechCachePlay() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechCachePlays++;
+    }
+  }
+
+  /** Counts one prepared announcement whose sound was made in advance into the speech cache. */
+  public void onPreparedSpeechSynthesized() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechSyntheses++;
+    }
+  }
+
   /** Counts one announcement cut short by navigation speech that was not allowed to wait. */
   public void onNavigationSpeechInterrupt() {
     if (!computeStatsEnabled) {
@@ -1275,6 +1318,16 @@ public class Performance {
         logger.log(
             "Navigation speech interrupts of uninterruptible announcements: %d",
             navigationSpeechInterrupts);
+      }
+      if (utterancesSplit > 0) {
+        logger.log(
+            "Split utterances: %d sent in %d pieces at the first separator",
+            utterancesSplit, splitPieces);
+      }
+      if (speechCachePlays > 0 || preparedSpeechSyntheses > 0) {
+        logger.log(
+            "Speech cache: %d plays, %d prepared announcements made into sound ahead",
+            speechCachePlays, preparedSpeechSyntheses);
       }
     }
   }
@@ -1518,6 +1571,10 @@ public class Performance {
       navigationSpeechInterrupts = 0;
       preparedKeptByRegion = 0;
       preparedEvictedByRegion = 0;
+      utterancesSplit = 0;
+      splitPieces = 0;
+      speechCachePlays = 0;
+      preparedSpeechSyntheses = 0;
       speechWaitStats.clear();
       slowSwipeProfiles.clear();
       activeSwipeSegments = null;

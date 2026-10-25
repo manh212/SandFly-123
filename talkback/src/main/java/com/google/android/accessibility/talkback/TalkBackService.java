@@ -3465,6 +3465,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     LowLatencyAudio.setSmallBufferEnabled(
         getBooleanPref(
             R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled =
+        getBooleanPref(R.string.pref_split_speech_key, R.bool.pref_split_speech_default);
   }
 
   protected void reloadPreferences() {
