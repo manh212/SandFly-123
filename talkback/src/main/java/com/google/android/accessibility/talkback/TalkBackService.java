@@ -1228,13 +1228,11 @@ public class TalkBackService extends AccessibilityServiceCompat
   private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
     AccessibilityNodeInfo root = null;
     int windowId = event.getWindowId();
-    if (windowId != AccessibilityWindowInfo.INVALID_WINDOW_ID) {
-      for (AccessibilityWindowInfo window : getWindows()) {
-        if (root == null && window.getId() == windowId) {
-          root = window.getRoot();
-        }
-        window.recycle();
+    for (AccessibilityWindowInfo window : getWindows()) {
+      if (root == null && window.getId() == windowId) {
+        root = window.getRoot();
       }
+      window.recycle();
     }
     if (root == null) {
       root = super.getRootInActiveWindow();
