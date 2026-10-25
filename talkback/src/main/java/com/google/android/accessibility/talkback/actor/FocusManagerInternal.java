@@ -137,6 +137,24 @@ public class FocusManagerInternal {
         FocusActionInfo info,
         @Nullable EventId eventId,
         long actionTime);
+
+    /**
+     * Told just before the focus action is fired, with the final action info, so the listener
+     * may already speak for the node the action is about to focus. Listeners that do nothing
+     * here keep the behavior they had before this telling existed.
+     */
+    default void onAccessibilityFocusAboutToBeSet(
+        AccessibilityNodeInfoCompat node,
+        FocusActionInfo info,
+        @Nullable EventId eventId,
+        long actionTime) {}
+
+    /** Told when the focus action was fired and the app refused it. */
+    default void onAccessibilityFocusSetFailed(
+        AccessibilityNodeInfoCompat node,
+        FocusActionInfo info,
+        @Nullable EventId eventId,
+        long actionTime) {}
   }
 
   private @Nullable FocusSetListener focusSetListener;
@@ -530,6 +548,14 @@ public class FocusManagerInternal {
       @NonNull FocusActionInfo focusActionInfo,
       @Nullable EventId eventId) {
     long currentTime = SystemClock.uptimeMillis();
+    // The info is settled before the action is fired, not after: anything told about the
+    // action ahead of it — speech submitted on the prediction that this node is about to be
+    // focused — must see the same muting the telling after the action would have seen.
+    focusActionInfo = updateFocusActionInfoIfNecessary(focusActionInfo, node);
+    if (focusSetListener != null) {
+      focusSetListener.onAccessibilityFocusAboutToBeSet(
+          node, focusActionInfo, eventId, currentTime);
+    }
     long focusActionStart = SystemClock.uptimeMillis();
     boolean result =
         pipeline.returnFeedback(
@@ -537,8 +563,10 @@ public class FocusManagerInternal {
             Feedback.nodeAction(node, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS));
     Performance.getInstance()
         .recordSwipeSegment("focus action", SystemClock.uptimeMillis() - focusActionStart);
+    if (!result && focusSetListener != null) {
+      focusSetListener.onAccessibilityFocusSetFailed(node, focusActionInfo, eventId, currentTime);
+    }
     if (result) {
-      focusActionInfo = updateFocusActionInfoIfNecessary(focusActionInfo, node);
       // Told first, so that speech can start before the history walks the node's ancestors. The
       // history only has to be ready by the time the app's focus event arrives.
       if (focusSetListener != null) {
