@@ -1282,11 +1282,13 @@ public class FocusProcessorForLogicalNavigation {
       NavigationAction navigationAction,
       EventId eventId) {
     long navigationStart = SystemClock.uptimeMillis();
+    Performance.getInstance().beginSwipeProfile();
     boolean result =
         navigateToDefaultOrMacroGranularityTargetInternal(
             pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
-    Performance.getInstance()
-        .recordSwipeSegment("navigation", SystemClock.uptimeMillis() - navigationStart);
+    long navigationMs = SystemClock.uptimeMillis() - navigationStart;
+    Performance.getInstance().recordSwipeSegment("navigation", navigationMs);
+    Performance.getInstance().endSwipeProfile(navigationMs);
     return result;
   }
 
@@ -1348,6 +1350,9 @@ public class FocusProcessorForLogicalNavigation {
       traversalStrategy = TraversalTreeCache.get(rootNode, pivot);
     }
     boolean usedSavedTree = traversalStrategy != null;
+    if (traversalStrategy != null) {
+      Performance.getInstance().setSwipeProfileOrderPath("saved order");
+    }
     if (traversalStrategy == null) {
       boolean trace = LogUtils.shouldLog(Log.DEBUG);
       long buildStart = trace ? SystemClock.uptimeMillis() : 0;
@@ -1358,6 +1363,7 @@ public class FocusProcessorForLogicalNavigation {
       traversalStrategy =
           TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
       Performance.getInstance().onOrderBuildOnSwipePath();
+      Performance.getInstance().setSwipeProfileOrderPath("built on the spot");
       if (trace) {
         Trace.endSection();
         Log.d(
@@ -1901,10 +1907,12 @@ public class FocusProcessorForLogicalNavigation {
     int logicalDirection =
         TraversalStrategyUtils.getLogicalDirection(
             searchDirection, WindowUtils.isScreenLayoutRTL(service));
-    AccessibilityWindowInfo currentWindow = AccessibilityNodeInfoUtils.getWindow(pivot.unwrap());
-    AccessibilityNodeInfoCompat anchorNode = AccessibilityWindowInfoUtils.getAnchor(currentWindow);
-    if (navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
-        && logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD
+    // Both rules below serve the default granularity only, and asking the window for itself and
+    // its anchor waits for the app, so settle the cheap checks before either question is asked.
+    if (navigationAction.targetType != NavigationTarget.TARGET_DEFAULT) {
+      return NavigationResult.create(null);
+    }
+    if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD
         && Role.getRole(pivot) == Role.ROLE_EDIT_TEXT) {
       // Set the target to the initial focus node of the anchored window.
       AccessibilityWindowInfo anchoredWindow =
@@ -1916,22 +1924,24 @@ public class FocusProcessorForLogicalNavigation {
             TraversalStrategyUtils.findFirstFocusInNodeTree(
                 traversalStrategy, rootNode, searchDirection, nodeFilter);
       }
-    } else if (navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
-        && isNavigationResultEmpty
-        && anchorNode != null
-        && Role.getRole(anchorNode) == Role.ROLE_EDIT_TEXT) {
-      // Return talkback-focus to the parent-window.
-      if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_BACKWARD) {
-        // Set the target back to the anchor node.
-        target = AccessibilityWindowInfoUtils.getAnchor(currentWindow);
-      } else if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD) {
-        // Set the target to the next traversal node of the anchor node.
-        rootNode = AccessibilityNodeInfoUtils.getRoot(anchorNode);
-        if (rootNode != null) {
-          traversalStrategy = createTraversal(rootNode, searchDirection);
-          target =
-              TraversalStrategyUtils.searchFocus(
-                  traversalStrategy, anchorNode, searchDirection, nodeFilter);
+    } else if (isNavigationResultEmpty) {
+      AccessibilityWindowInfo currentWindow = AccessibilityNodeInfoUtils.getWindow(pivot.unwrap());
+      AccessibilityNodeInfoCompat anchorNode =
+          AccessibilityWindowInfoUtils.getAnchor(currentWindow);
+      if (anchorNode != null && Role.getRole(anchorNode) == Role.ROLE_EDIT_TEXT) {
+        // Return talkback-focus to the parent-window.
+        if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_BACKWARD) {
+          // Set the target back to the anchor node.
+          target = AccessibilityWindowInfoUtils.getAnchor(currentWindow);
+        } else if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD) {
+          // Set the target to the next traversal node of the anchor node.
+          rootNode = AccessibilityNodeInfoUtils.getRoot(anchorNode);
+          if (rootNode != null) {
+            traversalStrategy = createTraversal(rootNode, searchDirection);
+            target =
+                TraversalStrategyUtils.searchFocus(
+                    traversalStrategy, anchorNode, searchDirection, nodeFilter);
+          }
         }
       }
     }

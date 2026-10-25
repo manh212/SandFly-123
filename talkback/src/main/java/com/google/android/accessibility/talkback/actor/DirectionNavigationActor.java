@@ -326,15 +326,22 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
       final boolean skipEdgeCheck,
       final EventId eventId) {
     CursorGranularity granularity = cursorGranularityManager.getSavedGranularity();
-    return navigateInternal(
-        direction,
-        granularity,
-        shouldWrap,
-        shouldScroll,
-        useInputFocusAsPivotIfEmpty,
-        inputMode,
-        skipEdgeCheck,
-        eventId);
+    // One navigation asks the focus monitor for the focused node several times in a row, and
+    // each asking waits for the app; the focus cannot move in between on this thread.
+    accessibilityFocusMonitor.beginFocusFetchReuse();
+    try {
+      return navigateInternal(
+          direction,
+          granularity,
+          shouldWrap,
+          shouldScroll,
+          useInputFocusAsPivotIfEmpty,
+          inputMode,
+          skipEdgeCheck,
+          eventId);
+    } finally {
+      accessibilityFocusMonitor.endFocusFetchReuse();
+    }
   }
 
   /**

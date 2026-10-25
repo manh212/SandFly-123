@@ -120,10 +120,14 @@ internal object TraversalOrderSnapshotBuilder {
       }
       WindowNodePrefetcher.prefetch(root, request.ownPackage)
       if (TraversalTreeCache.currentGeneration() != request.generation) {
+        Performance.getInstance().onOrderBuildDied()
         return
       }
       val strategy = OrderedTraversalStrategy(root)
       published = TraversalTreeCache.publishSnapshot(root, strategy, request.generation)
+      if (!published) {
+        Performance.getInstance().onOrderBuildDied()
+      }
       if (published) {
         Performance.getInstance().onOrderSnapshotPublished()
         if (LogUtils.shouldLog(Log.DEBUG)) {

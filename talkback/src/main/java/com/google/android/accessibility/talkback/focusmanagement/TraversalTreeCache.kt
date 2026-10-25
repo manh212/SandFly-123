@@ -143,28 +143,33 @@ object TraversalTreeCache {
     pivot: AccessibilityNodeInfoCompat,
   ): OrderedTraversalStrategy? {
     rememberPivot(pivot)
+    var graceExpired = false
     if (
       firstIgnoredChangeTime != 0L &&
         SystemClock.uptimeMillis() - firstIgnoredChangeTime > MAX_AGE_AFTER_TEXT_CHANGE_MS
     ) {
       clear("text changes")
+      graceExpired = true
     }
-    val (savedRoot, saved) = synchronized(stateLock) { root to strategy }
+    val (savedRoot, saved) = synchronized(stateLock) { this.root to strategy }
     val result = saved?.takeIf { root == savedRoot && it.containsNode(pivot) }
-    if (LogUtils.shouldLog(Log.DEBUG)) {
-      if (result != null) {
-        hits++
-        Log.d(TAG, "Reused order ($hits reused, $misses built)")
-      } else {
+    if (result == null) {
+      val reason =
+        when {
+          graceExpired -> Performance.ORDER_MISS_GRACE_EXPIRED
+          saved == null -> Performance.ORDER_MISS_NO_SAVED_ORDER
+          root != savedRoot -> Performance.ORDER_MISS_DIFFERENT_WINDOW
+          else -> Performance.ORDER_MISS_PIVOT_NOT_IN_ORDER
+        }
+      Performance.getInstance().onOrderCacheMiss(reason)
+      if (LogUtils.shouldLog(Log.DEBUG)) {
         misses++
-        val reason =
-          when {
-            saved == null -> "cleared by $lastClearReason"
-            root != savedRoot -> "different window"
-            else -> "focused node not in order"
-          }
-        Log.d(TAG, "Building order, $reason ($hits reused, $misses built)")
+        val detail = if (saved == null) "cleared by $lastClearReason" else reason
+        Log.d(TAG, "Building order, $detail ($hits reused, $misses built)")
       }
+    } else if (LogUtils.shouldLog(Log.DEBUG)) {
+      hits++
+      Log.d(TAG, "Reused order ($hits reused, $misses built)")
     }
     return result
   }

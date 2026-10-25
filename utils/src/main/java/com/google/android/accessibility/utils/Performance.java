@@ -246,6 +246,78 @@ public class Performance {
   /** How often a reading order built in the background was saved for the next swipe to use. */
   private long orderSnapshotsPublished;
 
+  /** Why the saved reading order could not be used: it had been thrown away. */
+  public static final String ORDER_MISS_NO_SAVED_ORDER = "no saved order";
+
+  /** Why the saved reading order could not be used: it belongs to another window. */
+  public static final String ORDER_MISS_DIFFERENT_WINDOW = "different window";
+
+  /** Why the saved reading order could not be used: the focused node is not in it. */
+  public static final String ORDER_MISS_PIVOT_NOT_IN_ORDER = "focused node not in order";
+
+  /** Why the saved reading order could not be used: it was kept too long after a text change. */
+  public static final String ORDER_MISS_GRACE_EXPIRED = "kept too long after a text change";
+
+  /** How often the saved reading order could not be used, by the reason it missed. */
+  private final HashMap<String, Long> orderCacheMissCounts = new HashMap<>();
+
+  /** How often a background reading-order build finished but was no longer current. */
+  private long orderBuildsDiedUnpublished;
+
+  /** How often a swipe was served by the previous reading order while a new one was built. */
+  private long staleOrdersServed;
+
+  /** How often a target taken from that previous order failed its checks and was refused. */
+  private long staleTargetsRejected;
+
+  /** How often navigation speech cut short an announcement that other speech could not cut. */
+  private long navigationSpeechInterrupts;
+
+  /** Prepared announcements kept because a change's region spared them. */
+  private long preparedKeptByRegion;
+
+  /** Prepared announcements thrown away because a change's region touched them. */
+  private long preparedEvictedByRegion;
+
+  /** How long queued utterances waited in the speech queue before they were spoken. */
+  private final Statistics speechWaitStats = new Statistics();
+
+  /** How many of the slowest swipes are profiled. */
+  private static final int MAX_SLOW_SWIPE_PROFILES = 10;
+
+  /** A swipe slower than this, end to end through navigation, earns a profile. */
+  private static final long SLOW_SWIPE_THRESHOLD_MS = 35;
+
+  /** One slow swipe: how long it took, where the time went, and which paths it took. */
+  private static final class SlowSwipeProfile {
+    final long totalMs;
+    final HashMap<String, Long> segments;
+    final String orderPath;
+    final String speakPath;
+
+    SlowSwipeProfile(long totalMs, HashMap<String, Long> segments, String orderPath, String speakPath) {
+      this.totalMs = totalMs;
+      this.segments = segments;
+      this.orderPath = orderPath;
+      this.speakPath = speakPath;
+    }
+  }
+
+  /** The slowest swipes seen, slowest first. */
+  private final ArrayList<SlowSwipeProfile> slowSwipeProfiles = new ArrayList<>();
+
+  /** Segment durations of the swipe being profiled, or null when no swipe is. */
+  private HashMap<String, Long> activeSwipeSegments;
+
+  /** The order path of the swipe being profiled: saved, stale, or built on the spot. */
+  private String activeSwipeOrderPath;
+
+  /** The speech-path counters as the profiled swipe began, to tell which path it took. */
+  private long profilePreparedHitsBase;
+
+  private long profileSavedOrderBase;
+  private long profileReReadBase;
+
   private final List<LatencyTracker> latencyTrackers = new ArrayList<>();
 
   /**
@@ -1135,6 +1207,75 @@ public class Performance {
             "Speak-early paths: %d prepared, %d from the saved order, %d re-read from the app",
             preparedSpeechHits, speakEarlyFromSavedOrder, speakEarlyReRead);
       }
+      if (preparedKeptByRegion + preparedEvictedByRegion > 0) {
+        logger.log(
+            "Prepared speech region checks: %d kept, %d evicted",
+            preparedKeptByRegion, preparedEvictedByRegion);
+      }
+    }
+  }
+
+  /** Counts prepared announcements a change's region spared, so their preparation was not wasted. */
+  public void onPreparedEntriesKeptByRegion(int count) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedKeptByRegion += count;
+    }
+  }
+
+  /** Counts prepared announcements a change's region touched, which were thrown away. */
+  public void onPreparedEntriesEvictedByRegion(int count) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedEvictedByRegion += count;
+    }
+  }
+
+  /** Records how long one queued utterance waited in the speech queue before it was spoken. */
+  public void recordSpeechWaitDuration(long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitStats.increment(durationMs);
+    }
+  }
+
+  /** Counts one announcement cut short by navigation speech that was not allowed to wait. */
+  public void onNavigationSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      navigationSpeechInterrupts++;
+    }
+  }
+
+  public long getNavigationSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return navigationSpeechInterrupts;
+    }
+  }
+
+  /** Displays how long queued utterances waited, and how often navigation speech cut a wait. */
+  public void displaySpeechWaitStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (speechWaitStats.getCount() > 0) {
+        logger.log(
+            "Speech waits: count=%d, median=%dms, 90th percentile=%dms",
+            speechWaitStats.getCount(),
+            speechWaitStats.getPercentile(50),
+            speechWaitStats.getPercentile(90));
+      }
+      if (navigationSpeechInterrupts > 0) {
+        logger.log(
+            "Navigation speech interrupts of uninterruptible announcements: %d",
+            navigationSpeechInterrupts);
+      }
     }
   }
 
@@ -1150,6 +1291,87 @@ public class Performance {
         swipeSegmentStats.put(name, stats);
       }
       stats.increment(durationMs);
+      if (activeSwipeSegments != null) {
+        activeSwipeSegments.put(name, durationMs);
+      }
+    }
+  }
+
+  /** Starts profiling the swipe now being navigated, until {@link #endSwipeProfile}. */
+  public void beginSwipeProfile() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      activeSwipeSegments = new HashMap<>();
+      activeSwipeOrderPath = "not recorded";
+      profilePreparedHitsBase = preparedSpeechHits;
+      profileSavedOrderBase = speakEarlyFromSavedOrder;
+      profileReReadBase = speakEarlyReRead;
+    }
+  }
+
+  /** Notes which order the swipe being profiled used: the saved one, a stale one, or a new build. */
+  public void setSwipeProfileOrderPath(@NonNull String orderPath) {
+    synchronized (lockLabelToStats) {
+      if (activeSwipeSegments != null) {
+        activeSwipeOrderPath = orderPath;
+      }
+    }
+  }
+
+  /**
+   * Ends the profile of a swipe that took {@code totalMs} through navigation. Only slow swipes are
+   * kept, slowest first, so an export shows what the worst swipes were made of: their segment
+   * durations, the order they used, and the path their speech took.
+   */
+  public void endSwipeProfile(long totalMs) {
+    synchronized (lockLabelToStats) {
+      if (activeSwipeSegments == null) {
+        return;
+      }
+      HashMap<String, Long> segments = activeSwipeSegments;
+      String orderPath = activeSwipeOrderPath;
+      activeSwipeSegments = null;
+      activeSwipeOrderPath = null;
+      if (totalMs < SLOW_SWIPE_THRESHOLD_MS) {
+        return;
+      }
+      String speakPath;
+      if (preparedSpeechHits > profilePreparedHitsBase) {
+        speakPath = "prepared";
+      } else if (speakEarlyFromSavedOrder > profileSavedOrderBase) {
+        speakPath = "saved order";
+      } else if (speakEarlyReRead > profileReReadBase) {
+        speakPath = "re-read";
+      } else {
+        speakPath = "composed on the spot";
+      }
+      slowSwipeProfiles.add(new SlowSwipeProfile(totalMs, segments, orderPath, speakPath));
+      slowSwipeProfiles.sort((a, b) -> Long.compare(b.totalMs, a.totalMs));
+      while (slowSwipeProfiles.size() > MAX_SLOW_SWIPE_PROFILES) {
+        slowSwipeProfiles.remove(slowSwipeProfiles.size() - 1);
+      }
+    }
+  }
+
+  /** Displays the profiles of the slowest swipes, slowest first. */
+  public void displaySlowSwipeProfiles(Logger logger) {
+    ArrayList<SlowSwipeProfile> profiles;
+    synchronized (lockLabelToStats) {
+      profiles = new ArrayList<>(slowSwipeProfiles);
+    }
+    for (SlowSwipeProfile profile : profiles) {
+      StringBuilder segments = new StringBuilder();
+      for (Map.Entry<String, Long> entry : new TreeMap<>(profile.segments).entrySet()) {
+        if (segments.length() > 0) {
+          segments.append(", ");
+        }
+        segments.append(entry.getKey()).append('=').append(entry.getValue());
+      }
+      logger.log(
+          "Slow swipe %dms: %s | order: %s | speech: %s",
+          profile.totalMs, segments, profile.orderPath, profile.speakPath);
     }
   }
 
@@ -1191,6 +1413,64 @@ public class Performance {
     }
   }
 
+  /** Counts one time the saved reading order could not be used, by the reason it missed. */
+  public void onOrderCacheMiss(@NonNull String reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderCacheMissCounts.merge(reason, 1L, Long::sum);
+    }
+  }
+
+  public long getOrderCacheMissCount(@NonNull String reason) {
+    synchronized (lockLabelToStats) {
+      return orderCacheMissCounts.getOrDefault(reason, 0L);
+    }
+  }
+
+  /** Counts one background reading-order build that finished after its window had moved on. */
+  public void onOrderBuildDied() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildsDiedUnpublished++;
+    }
+  }
+
+  public long getOrderBuildDiedCount() {
+    synchronized (lockLabelToStats) {
+      return orderBuildsDiedUnpublished;
+    }
+  }
+
+  /** Counts one swipe served by the previous reading order while a new one was being built. */
+  public void onStaleOrderServed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      staleOrdersServed++;
+    }
+  }
+
+  public long getStaleOrderServedCount() {
+    synchronized (lockLabelToStats) {
+      return staleOrdersServed;
+    }
+  }
+
+  /** Counts one target from the previous reading order that failed its checks and was refused. */
+  public void onStaleTargetRejected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      staleTargetsRejected++;
+    }
+  }
+
   /** Displays how many reading orders were built on the swipe path, and how many in the background. */
   public void displayOrderBuildStats(Logger logger) {
     synchronized (lockLabelToStats) {
@@ -1198,6 +1478,24 @@ public class Performance {
         logger.log(
             "Reading order: %d builds on the swipe path, %d background builds saved",
             orderBuildsOnSwipePath, orderSnapshotsPublished);
+      }
+      if (!orderCacheMissCounts.isEmpty()) {
+        StringBuilder misses = new StringBuilder();
+        for (Map.Entry<String, Long> entry : new TreeMap<>(orderCacheMissCounts).entrySet()) {
+          if (misses.length() > 0) {
+            misses.append(", ");
+          }
+          misses.append(entry.getKey()).append('=').append(entry.getValue());
+        }
+        logger.log("Reading order misses: %s", misses);
+      }
+      if (orderBuildsDiedUnpublished > 0) {
+        logger.log("Background builds that died unpublished: %d", orderBuildsDiedUnpublished);
+      }
+      if (staleOrdersServed + staleTargetsRejected > 0) {
+        logger.log(
+            "Stale orders: %d served, %d targets rejected",
+            staleOrdersServed, staleTargetsRejected);
       }
     }
   }
@@ -1213,6 +1511,17 @@ public class Performance {
       speakEarlyReRead = 0;
       orderBuildsOnSwipePath = 0;
       orderSnapshotsPublished = 0;
+      orderCacheMissCounts.clear();
+      orderBuildsDiedUnpublished = 0;
+      staleOrdersServed = 0;
+      staleTargetsRejected = 0;
+      navigationSpeechInterrupts = 0;
+      preparedKeptByRegion = 0;
+      preparedEvictedByRegion = 0;
+      speechWaitStats.clear();
+      slowSwipeProfiles.clear();
+      activeSwipeSegments = null;
+      activeSwipeOrderPath = null;
     }
     allEventStats.clear();
 

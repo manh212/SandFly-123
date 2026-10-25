@@ -73,11 +73,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
@@ -164,6 +166,9 @@ public class SpeechControllerImpl implements SpeechController {
 
   /** The list of items to be spoken. */
   private List<FeedbackItem> feedbackQueue = Collections.synchronizedList(new ArrayList<>());
+
+  /** When each queued utterance started waiting behind the one being spoken, by utterance. */
+  private final Map<FeedbackItem, Long> speechWaitStartTimes = new IdentityHashMap<>();
 
   /** The list for stopping or resuming voice feedback. */
   private ArrayList<FeedbackItem> savedFeedbackQueue;
@@ -1466,6 +1471,7 @@ public class SpeechControllerImpl implements SpeechController {
           TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
       Performance.getInstance()
           .recordSpeechWaitBlocker(speechWaitBlockerClass(item, currentFeedbackItem));
+      speechWaitStartTimes.put(item, SystemClock.uptimeMillis());
     }
   }
 
@@ -2012,6 +2018,11 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void speakNextItemInternal(FeedbackItem item) {
+    Long waitStart = speechWaitStartTimes.remove(item);
+    if (waitStart != null) {
+      Performance.getInstance()
+          .recordSpeechWaitDuration(SystemClock.uptimeMillis() - waitStart);
+    }
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;
     item.setUtteranceId(utteranceId);
