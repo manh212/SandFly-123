@@ -1133,6 +1133,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     TraversalTreeCache.setServeStaleOrdersEnabled(
         getBooleanPref(
             R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements =
+        getBooleanPref(
+            R.string.pref_navigation_interrupt_key, R.bool.pref_navigation_interrupt_default);
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
       if (getBooleanPref(
           R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {

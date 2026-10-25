@@ -118,6 +118,7 @@ public class SpeechControllerImplTest {
   @After
   public void tearDown() {
     setAlwaysInterruptPreference(false);
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
     Performance.getInstance().setComputeStatsEnabled(false);
     Performance.getInstance().clearAllStats();
   }
@@ -151,6 +152,63 @@ public class SpeechControllerImplTest {
   private void speak(SpeechControllerImpl controller, String text, int queueMode) {
     controller.speak(text, queueMode, 0 /* flags */, null /* speechParams */,
         Performance.EVENT_ID_UNTRACKED);
+  }
+
+  /** Speaks as the answer to the user's own swipe, which is what focus speech arrives as. */
+  private void speakGesture(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_GESTURE, 1));
+  }
+
+  @Test
+  public void gestureSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "swipe target"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getNavigationSpeechInterruptCount());
+  }
+
+  @Test
+  public void gestureSpeech_switchOff_waitsBehindAnnouncement() {
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = false;
+
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void gestureSpeech_neverInterruptsGloballyUninterruptible() {
+    speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(List.of("critical utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void nonGestureSpeech_stillWaitsBehindAnnouncement() {
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speak(speechController, "waiting utterance", SpeechController.QUEUE_MODE_FLUSH_ALL);
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
   }
 
   @Test

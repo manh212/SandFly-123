@@ -105,6 +105,14 @@ public class SpeechControllerImpl implements SpeechController {
 
   private static final String TAG = "SpeechControllerImpl";
 
+  /**
+   * Whether speech answering the user's own navigation gesture may cut short an utterance that
+   * is uninterruptible by other speech, but not globally uninterruptible. Those waits were the
+   * long tail of swipe-to-heard latency: the user is already somewhere else while the
+   * announcement finishes. Pushed from the latency settings, where it is on by default.
+   */
+  public static volatile boolean navigationSpeechInterruptsAnnouncements = true;
+
   public interface SpeechFilter {
     @Nullable CharSequence filter(CharSequence text);
   }
@@ -1448,6 +1456,31 @@ public class SpeechControllerImpl implements SpeechController {
         notifyItemInterrupted(currentFeedbackItem);
         currentFeedbackInterrupted = true;
       }
+    }
+
+    if (!currentFeedbackInterrupted
+        && currentFeedbackItem != null
+        && navigationSpeechInterruptsAnnouncements
+        && item.getEventId() != null
+        && item.getEventId().getEventType() == Performance.EVENT_TYPE_GESTURE
+        && !currentFeedbackItem.isInterruptibleByNewSpeech()
+        && !currentFeedbackItem.isGloballyUninterruptible()) {
+      // The utterance answering the user's own swipe must not wait behind an announcement that
+      // is protected from other speech but not from the user. Queued utterances of the same
+      // kind go with it; globally uninterruptible utterances always play out.
+      ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
+      while (iterator.hasNext()) {
+        FeedbackItem queuedItem = iterator.next();
+        if (!queuedItem.isInterruptibleByNewSpeech()
+            && !queuedItem.isGloballyUninterruptible()) {
+          iterator.remove();
+          notifyItemInterrupted(queuedItem);
+        }
+      }
+      item.setFlushGlobalTtsQueue(true);
+      notifyItemInterrupted(currentFeedbackItem);
+      currentFeedbackInterrupted = true;
+      Performance.getInstance().onNavigationSpeechInterrupt();
     }
 
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());

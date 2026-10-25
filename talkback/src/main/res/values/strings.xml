@@ -2621,6 +2621,11 @@
     <!-- Reduce delays: summary of the previous reading order switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_serve_stale_order">When the screen changes, a swipe is answered from the reading order just replaced, after checking the item is still there, while the new order is built in the background. Turn this off if a swipe lands on the wrong item after the screen changes.</string>
 
+    <!-- Reduce delays: switch that lets navigation speech interrupt announcements. [CHAR LIMIT=50] -->
+    <string name="title_pref_navigation_interrupt">Let navigation speech interrupt announcements</string>
+    <!-- Reduce delays: summary of the navigation interrupt switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_navigation_interrupt">Speech answering your own swipe cuts short an announcement that other speech must wait behind, instead of waiting for it to finish. Utterances that can never be interrupted, such as alarms, still play out in full. Turn this off if announcements are cut short too often.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->

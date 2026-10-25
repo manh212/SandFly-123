@@ -1935,7 +1935,7 @@ public class FocusProcessorForLogicalNavigation {
     // Both rules below serve the default granularity only, and asking the window for itself and
     // its anchor waits for the app, so settle the cheap checks before either question is asked.
     if (navigationAction.targetType != NavigationTarget.TARGET_DEFAULT) {
-      return NavigationResult.create(null);
+      return NavigationResult.create(NavigationResult.Type.EMPTY);
     }
     if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD
         && Role.getRole(pivot) == Role.ROLE_EDIT_TEXT) {

@@ -229,6 +229,7 @@ pref_manage_labels
 pref_multiple_gesture_set_key
 pref_mute_speech_while_recording
 pref_navigation_actions_category_key
+pref_navigation_interrupt_key
 pref_navigation_settings
 pref_node_desc_order_key
 pref_notification_apps_screen
