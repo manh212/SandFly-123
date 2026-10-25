@@ -160,7 +160,7 @@ object PreparedFocusSpeech {
       val region = sourceBounds(event)
       if (region != null) {
         val sizeBefore = prepared.size
-        prepared.removeAll { region.contains(it.bounds) }
+        prepared.removeAll { Rect.intersects(region, it.bounds) }
         if (prepared.size == sizeBefore) {
           // The change touched no prepared node: nothing was wasted.
           return

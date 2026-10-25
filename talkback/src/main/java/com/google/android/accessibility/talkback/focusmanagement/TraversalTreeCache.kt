@@ -181,7 +181,9 @@ object TraversalTreeCache {
    * Whether the saved order holds [node] as the app has it now: no change since the order was
    * read from the app touched [node], not even a text or state change, so the node needs no
    * second read. A graced change elsewhere in the window does not touch it: only a change whose
-   * region contains the node does, and a change whose region is not known touches every node.
+   * region overlaps the node does — the node's announcement is worked out from its own subtree
+   * and its container, so a change inside it or around it both count — and a change whose region
+   * is not known touches every node.
    */
   @JvmStatic
   fun holdsCurrent(node: AccessibilityNodeInfoCompat): Boolean =
@@ -198,7 +200,7 @@ object TraversalTreeCache {
     val bounds = Rect()
     node.getBoundsInScreen(bounds)
     return gracedChangeRegions.any { (windowId, region) ->
-      windowId == node.windowId && region.contains(bounds)
+      windowId == node.windowId && Rect.intersects(region, bounds)
     }
   }
 

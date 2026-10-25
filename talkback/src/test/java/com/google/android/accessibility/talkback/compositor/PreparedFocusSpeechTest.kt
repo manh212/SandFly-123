@@ -259,7 +259,7 @@ class PreparedFocusSpeechSuppressionTest {
 
 /**
  * Tests that a graced change (text, state or content description only) throws away only the
- * prepared announcements its region contains, so an unrelated change in a chat window neither
+ * prepared announcements its region overlaps, so an unrelated change in a chat window neither
  * kills the preparations nor counts as waste toward the suppression pause. Each test uses its
  * own window ids, since the waste state under test is kept per window.
  */
@@ -344,6 +344,18 @@ class PreparedFocusSpeechUnrelatedChangeTest {
     PreparedFocusSpeech.put(node, feedback(), "")
 
     PreparedFocusSpeech.onAccessibilityEvent(gracedEvent(303, null))
+    agePastMinimum()
+
+    assertNull(PreparedFocusSpeech.take(node))
+  }
+
+  @Test
+  fun gracedChangeInsideTheNode_takeReturnsNull() {
+    val node = node(308, Rect(0, 0, 100, 100))
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    // A change inside the node (a child's text, say) changes what the node announces.
+    PreparedFocusSpeech.onAccessibilityEvent(gracedEvent(308, Rect(10, 10, 50, 50)))
     agePastMinimum()
 
     assertNull(PreparedFocusSpeech.take(node))

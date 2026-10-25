@@ -256,6 +256,16 @@ class TraversalTreeCacheTest {
   }
 
   @Test
+  fun gracedChange_regionInsidePivot_holdsCurrentIsFalse_viaSeam() {
+    val (_, child) = savedOrder()
+
+    // A change inside the node (a child's text, say) changes what the node announces.
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(10, 10, 50, 50))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
   fun gracedChange_regionUnknown_holdsCurrentIsFalse() {
     val (_, child) = savedOrder()
 
