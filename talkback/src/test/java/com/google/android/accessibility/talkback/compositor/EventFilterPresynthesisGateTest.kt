@@ -20,11 +20,14 @@ import com.google.android.accessibility.talkback.focusmanagement.NavigationTarge
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.RobolectricTestRunner
 
-/** The gate that decides which prepared announcements get their sound made ahead of time. */
-@RunWith(RobolectricTestRunner::class)
+/**
+ * The gate that decides which prepared announcements get their sound made ahead of time.
+ *
+ * A plain JVM test on purpose: the gate is a pure predicate over constants, and loading
+ * EventFilter through the Robolectric sandbox also drags in the speech-cache file machinery,
+ * whose FileDescriptor interception in Robolectric fails on current JDK 25 patch builds.
+ */
 class EventFilterPresynthesisGateTest {
 
   @Test
