@@ -16,6 +16,7 @@ package com.google.android.accessibility.talkback.focusmanagement
 import android.graphics.Rect
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
@@ -177,6 +178,49 @@ class TraversalOrderSnapshotBuilderTest {
 
     waitUntil("the second snapshot to be saved") { TraversalTreeCache.holds(checkNotNull(pivot)) }
     assertNotNull(TraversalTreeCache.get(secondRoot, checkNotNull(pivot)))
+  }
+
+  @Test
+  fun request_withAStaleGeneration_isSkippedWithoutTouchingTheSupplier() {
+    val performance = Performance.getInstance()
+    performance.setComputeStatsEnabled(true)
+    val diedBefore = performance.getOrderBuildDiedCount()
+    val supplierCalled = java.util.concurrent.atomic.AtomicBoolean(false)
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+
+    TraversalOrderSnapshotBuilder.request(
+      root.windowId,
+      TraversalTreeCache.currentGeneration() + 999,
+      {
+        supplierCalled.set(true)
+        root
+      },
+      ownPackage = "com.example.other",
+    )
+
+    waitUntil("the stale request to be counted as died") {
+      performance.getOrderBuildDiedCount() > diedBefore
+    }
+    assertTrue(!supplierCalled.get())
+  }
+
+  @Test
+  fun buildNow_withAStaleGeneration_publishesNothing_andCountsTheDeath() {
+    val performance = Performance.getInstance()
+    performance.setComputeStatsEnabled(true)
+    val diedBefore = performance.getOrderBuildDiedCount()
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val pivot = checkNotNull(root.getChild(0)).getChild(0)
+
+    TraversalOrderSnapshotBuilder.buildNow(
+      root.windowId,
+      TraversalTreeCache.currentGeneration() + 999,
+      { root },
+      ownPackage = "com.example.other",
+    )
+
+    assertNull(TraversalTreeCache.get(root, checkNotNull(pivot)))
+    assertEquals(diedBefore + 1, performance.getOrderBuildDiedCount())
   }
 
   private companion object {

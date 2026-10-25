@@ -91,6 +91,14 @@ internal object TraversalOrderSnapshotBuilder {
           }
           next
         } ?: return
+      // A request the window has already moved past is not worth even resolving its root for:
+      // in a churning window, builds used to queue up behind one another and each walked the
+      // whole tree before its snapshot was refused, keeping the single builder busy with dead
+      // work while the live request waited.
+      if (request.generation != TraversalTreeCache.currentGeneration()) {
+        Performance.getInstance().onOrderBuildDied()
+        continue
+      }
       build(request)
     }
   }
@@ -118,7 +126,15 @@ internal object TraversalOrderSnapshotBuilder {
       if (root.windowId != request.windowId) {
         return
       }
-      WindowNodePrefetcher.prefetch(root, request.ownPackage)
+      if (TraversalTreeCache.currentGeneration() != request.generation) {
+        Performance.getInstance().onOrderBuildDied()
+        return
+      }
+      // The read stops early if the window moves on while it runs, so a dead build hands the
+      // builder back at once instead of walking the whole tree for a refused snapshot.
+      WindowNodePrefetcher.prefetch(root, request.ownPackage) {
+        TraversalTreeCache.currentGeneration() != request.generation
+      }
       if (TraversalTreeCache.currentGeneration() != request.generation) {
         Performance.getInstance().onOrderBuildDied()
         return

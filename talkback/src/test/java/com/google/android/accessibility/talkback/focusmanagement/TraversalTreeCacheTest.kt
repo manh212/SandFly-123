@@ -23,6 +23,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import java.util.concurrent.TimeUnit
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
@@ -408,5 +409,37 @@ class TraversalTreeCacheTest {
       TraversalTreeCache.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED))
 
     assertFalse(cleared)
+  }
+
+  @Test
+  fun nodeActionClear_tellsTheListenerTheWindow() {
+    val (root, _) = savedOrder()
+    val told = ArrayList<Int>()
+    TraversalTreeCache.orderClearedListener =
+      TraversalTreeCache.OrderClearedListener { windowId -> told += windowId }
+    try {
+      TraversalTreeCache.onNodeAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_CLICK)
+    } finally {
+      TraversalTreeCache.orderClearedListener = null
+    }
+
+    assertEquals(listOf(root.windowId), told)
+  }
+
+  @Test
+  fun eventClear_doesNotTellTheListener() {
+    savedOrder()
+    val told = ArrayList<Int>()
+    TraversalTreeCache.orderClearedListener =
+      TraversalTreeCache.OrderClearedListener { windowId -> told += windowId }
+    try {
+      val cleared =
+        TraversalTreeCache.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED))
+
+      assertTrue(cleared)
+      assertTrue(told.isEmpty())
+    } finally {
+      TraversalTreeCache.orderClearedListener = null
+    }
   }
 }

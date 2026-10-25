@@ -61,6 +61,9 @@ object WindowNodePrefetcher {
   /** Stops a window with a very large or looped tree. */
   private const val MAX_NODES = 5000
 
+  /** How often a read with an abort check asks whether it should give up. */
+  private const val ABORT_POLL_MS = 10L
+
   private const val FLAGS =
     AccessibilityNodeInfo.FLAG_PREFETCH_SIBLINGS or
       AccessibilityNodeInfo.FLAG_PREFETCH_DESCENDANTS_HYBRID or
@@ -88,6 +91,20 @@ object WindowNodePrefetcher {
    */
   @JvmStatic
   fun prefetch(root: AccessibilityNodeInfoCompat, ownPackage: String) {
+    prefetch(root, ownPackage, null)
+  }
+
+  /**
+   * As [prefetch], except that the read stops early once [abortCheck] reports true — a
+   * background build whose window has already moved on should hand its threads back instead of
+   * walking a tree whose order will be refused.
+   */
+  @JvmStatic
+  fun prefetch(
+    root: AccessibilityNodeInfoCompat,
+    ownPackage: String,
+    abortCheck: (() -> Boolean)?,
+  ) {
     if (
       Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
         TextUtils.equals(root.packageName, ownPackage) ||
@@ -96,7 +113,7 @@ object WindowNodePrefetcher {
       return
     }
     val start = SystemClock.uptimeMillis()
-    val walk = Walk(start + MAX_WAIT_MS)
+    val walk = Walk(start + MAX_WAIT_MS, abortCheck)
     walk.submit(root.unwrap())
     walk.await()
     if (LogUtils.shouldLog(Log.DEBUG)) {
@@ -149,7 +166,7 @@ object WindowNodePrefetcher {
   }
 
   @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-  private class Walk(private val deadline: Long) {
+  private class Walk(private val deadline: Long, private val abortCheck: (() -> Boolean)? = null) {
     private val lock = ReentrantLock()
     private val finished = lock.newCondition()
     private var pending = 0
@@ -214,7 +231,13 @@ object WindowNodePrefetcher {
           if (left <= 0) {
             break
           }
-          finished.await(left, TimeUnit.MILLISECONDS)
+          // With an abort check, wait in short slices so a dead read is given up at once
+          // rather than at its deadline.
+          val slice = if (abortCheck != null) minOf(left, ABORT_POLL_MS) else left
+          finished.await(slice, TimeUnit.MILLISECONDS)
+          if (abortCheck?.invoke() == true) {
+            break
+          }
         }
       }
       stopped = true

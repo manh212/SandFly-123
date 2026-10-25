@@ -315,6 +315,18 @@ object TraversalTreeCache {
     return above
   }
 
+  /**
+   * Told the window of a throw-away, or [NO_WINDOW_ID] when the window is not known. Registered
+   * by TalkBackService, which starts a background build for the window: a throw-away caused by
+   * an action TalkBack itself performed — a click, a selection — used to start nothing, so the
+   * next swipe paid for the whole build itself, which is where the slowest swipes came from.
+   */
+  fun interface OrderClearedListener {
+    fun onOrderCleared(windowId: Int)
+  }
+
+  @JvmStatic var orderClearedListener: OrderClearedListener? = null
+
   /** Saves the order of [root], replacing any saved order. */
   @JvmStatic
   fun put(root: AccessibilityNodeInfoCompat, strategy: OrderedTraversalStrategy) {
@@ -330,13 +342,28 @@ object TraversalTreeCache {
   /** Throws away the saved order. */
   @JvmStatic
   fun clear(reason: String) {
-    synchronized(stateLock) {
-      generation++
-      root = null
-      strategy = null
-      firstIgnoredChangeTime = 0L
-      resetGracedChanges()
-      lastClearReason = reason
+    clear(reason, notifyListener = true)
+  }
+
+  /**
+   * Throws away the saved order. The listener is told unless the throw-away came from an
+   * accessibility event, whose handler in TalkBackService starts the background build itself
+   * with the event's own window.
+   */
+  private fun clear(reason: String, notifyListener: Boolean) {
+    val clearedWindowId =
+      synchronized(stateLock) {
+        generation++
+        val windowId = root?.windowId ?: NO_WINDOW_ID
+        root = null
+        strategy = null
+        firstIgnoredChangeTime = 0L
+        resetGracedChanges()
+        lastClearReason = reason
+        windowId
+      }
+    if (notifyListener) {
+      orderClearedListener?.onOrderCleared(clearedWindowId)
     }
   }
 
@@ -440,7 +467,8 @@ object TraversalTreeCache {
           AccessibilityEvent.eventTypeToString(type) + " 0x" + Integer.toHexString(changes)
         } else {
           ""
-        }
+        },
+        notifyListener = false,
       )
       return true
     }

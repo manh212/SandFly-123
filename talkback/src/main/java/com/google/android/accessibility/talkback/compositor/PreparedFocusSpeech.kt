@@ -22,6 +22,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
+import com.google.android.accessibility.utils.Performance
 
 /**
  * The announcements of the nodes that a swipe from the focused node would most likely reach,
@@ -45,7 +46,7 @@ object PreparedFocusSpeech {
   private const val NO_WINDOW_ID = -1
 
   /**
-   * Whether a graced change that did not touch a prepared node leaves its announcement kept.
+   * Whether a content change that did not touch a prepared node leaves its announcement kept.
    * When false, any content change in the window throws every announcement away, as before.
    */
   @JvmStatic var keepAcrossUnrelatedChanges: Boolean = true
@@ -154,31 +155,34 @@ object PreparedFocusSpeech {
     }
     if (
       keepAcrossUnrelatedChanges &&
-        event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
-        isGracedChange(event.contentChangeTypes)
+        event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
     ) {
+      // A change, even a structural one, only reaches the announcements of the nodes in its
+      // region: a reaction added to one message says nothing about the message above it. A
+      // change whose region is not known reaches everything, as before.
       val region = sourceBounds(event)
       if (region != null) {
         val sizeBefore = prepared.size
         prepared.removeAll { Rect.intersects(region, it.bounds) }
-        if (prepared.size == sizeBefore) {
+        val evicted = sizeBefore - prepared.size
+        if (evicted == 0) {
           // The change touched no prepared node: nothing was wasted.
+          Performance.getInstance().onPreparedEntriesKeptByRegion(sizeBefore)
           return
         }
         if (prepared.isNotEmpty()) {
           // Only the touched announcements died; the rest were not wasted either.
+          Performance.getInstance().onPreparedEntriesEvictedByRegion(evicted)
+          Performance.getInstance().onPreparedEntriesKeptByRegion(prepared.size)
           return
         }
+        Performance.getInstance().onPreparedEntriesEvictedByRegion(evicted)
       }
       // The region is not known, or it touched every announcement: as before.
     }
     noteWasted()
     clear()
   }
-
-  /** Whether [changes] are only of the graced, non-structural kind. */
-  private fun isGracedChange(changes: Int): Boolean =
-    changes != 0 && changes and TraversalTreeCache.NON_STRUCTURAL_CHANGES.inv() == 0
 
   /** The bounds in screen of [event]'s source, or null when its region is not known. */
   private fun sourceBounds(event: AccessibilityEvent): Rect? {

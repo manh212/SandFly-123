@@ -258,10 +258,12 @@ class PreparedFocusSpeechSuppressionTest {
 }
 
 /**
- * Tests that a graced change (text, state or content description only) throws away only the
- * prepared announcements its region overlaps, so an unrelated change in a chat window neither
- * kills the preparations nor counts as waste toward the suppression pause. Each test uses its
- * own window ids, since the waste state under test is kept per window.
+ * Tests that a content change throws away only the prepared announcements its region overlaps,
+ * so an unrelated change in a chat window neither kills the preparations nor counts as waste
+ * toward the suppression pause. That holds for changes of the graced kind (text, state or
+ * content description only) and for structural changes alike, as long as the region the change
+ * came from is known. Each test uses its own window ids, since the waste state under test is
+ * kept per window.
  */
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -404,10 +406,11 @@ class PreparedFocusSpeechUnrelatedChangeTest {
   }
 
   @Test
-  fun subtreeChange_clearsEverythingEvenOutsideItsRegion() {
+  fun subtreeChangeTouchingOnlyOneEntry_keepsTheOther() {
     val near = node(307, Rect(0, 0, 100, 100))
     val far = node(307, Rect(200, 200, 300, 300))
-    PreparedFocusSpeech.put(near, feedback(), "")
+    val nearFeedback = feedback()
+    PreparedFocusSpeech.put(near, nearFeedback, "")
     PreparedFocusSpeech.put(far, feedback(), "")
 
     PreparedFocusSpeech.onAccessibilityEvent(
@@ -418,8 +421,40 @@ class PreparedFocusSpeechUnrelatedChangeTest {
           AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE,
       )
     )
+    agePastMinimum()
 
-    assertFalse(PreparedFocusSpeech.has(near))
     assertFalse(PreparedFocusSpeech.has(far))
+    assertSame(nearFeedback, PreparedFocusSpeech.take(near)?.feedback)
+  }
+
+  @Test
+  fun subtreeChangeWithUnknownRegion_clearsEverything() {
+    val node = node(309, Rect(0, 0, 100, 100))
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    PreparedFocusSpeech.onAccessibilityEvent(
+      changeEvent(309, null, AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE)
+    )
+    agePastMinimum()
+
+    assertNull(PreparedFocusSpeech.take(node))
+  }
+
+  @Test
+  fun keepingOff_subtreeChangeClearsAsBefore_evenOutsideItsRegion() {
+    val node = node(310, Rect(0, 0, 100, 100))
+    PreparedFocusSpeech.keepAcrossUnrelatedChanges = false
+    PreparedFocusSpeech.put(node, feedback(), "")
+
+    PreparedFocusSpeech.onAccessibilityEvent(
+      changeEvent(
+        310,
+        Rect(200, 200, 300, 300),
+        AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE,
+      )
+    )
+    agePastMinimum()
+
+    assertNull(PreparedFocusSpeech.take(node))
   }
 }

@@ -1257,6 +1257,25 @@ public class TalkBackService extends AccessibilityServiceCompat
     return root == null ? null : AccessibilityNodeInfoCompat.wrap(root);
   }
 
+  private void startBackgroundOrderBuildForCleared(int windowId) {
+    if (!getBooleanPref(
+        R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {
+      return;
+    }
+    int targetWindowId = windowId;
+    if (targetWindowId == -1) {
+      AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
+      if (activeRoot != null) {
+        targetWindowId = activeRoot.getWindowId();
+      }
+    }
+    if (targetWindowId != -1) {
+      final int buildWindowId = targetWindowId;
+      TraversalTreeCache.buildOrderInBackground(
+          buildWindowId, () -> rootOfWindow(buildWindowId), getPackageName());
+    }
+  }
+
   private void setServiceState(int newState) {
     if (serviceState == newState) {
       return;
@@ -2041,6 +2060,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     initializeInfrastructure();
+
+    // A throw-away of the saved reading order that no accessibility event caused — an action
+    // TalkBack itself performed, an expiry noticed by a swipe — starts the same background
+    // build as one an event caused, so the next swipe does not pay for the build itself.
+    TraversalTreeCache.setOrderClearedListener(this::startBackgroundOrderBuildForCleared);
 
     // Configure logs.
     LogUtils.setTagPrefix("talkback: ");
