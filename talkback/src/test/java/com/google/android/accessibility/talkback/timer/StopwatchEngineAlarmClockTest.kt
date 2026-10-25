@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.timer
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.os.Looper
 import com.google.android.accessibility.talkback.notifications.AlarmClockIntents
 import com.google.android.accessibility.talkback.notifications.SpokenSchedules
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -130,6 +131,7 @@ class StopwatchEngineAlarmClockTest {
       Intent(AlarmClockIntents.action(context, AlarmClockIntents.ACTION_STOPWATCH))
         .setPackage(context.packageName)
     )
+    Shadows.shadowOf(Looper.getMainLooper()).idle()
 
     assertEquals("the reminder says the milestone it reached", 1, said.size)
     assertEquals(1, shadowAlarms.scheduledAlarms.size)

@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.notifications
 import android.app.AlarmManager
 import android.content.Context
 import android.content.Intent
+import android.os.Looper
 import com.google.android.accessibility.talkback.timer.Stopwatch
 import com.google.android.accessibility.talkback.timer.StopwatchEngine
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -153,6 +154,7 @@ class SpokenSchedulesAlarmClockTest {
       Intent(AlarmClockIntents.action(context, AlarmClockIntents.ACTION_SPOKEN_CLOCK))
         .setPackage(context.packageName)
     )
+    Shadows.shadowOf(Looper.getMainLooper()).idle()
 
     assertTrue("the clock speaks when its alarm fires", said.isNotEmpty())
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
