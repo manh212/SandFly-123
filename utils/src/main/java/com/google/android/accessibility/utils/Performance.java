@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -281,6 +282,42 @@ public class Performance {
   /** How often a background reading-order build finished but was no longer current. */
   private long orderBuildsDiedUnpublished;
 
+  /** What asked for a background reading-order build: an event threw the saved order away. */
+  public static final int ORDER_BUILD_SOURCE_EVENT_CLEAR = 0;
+
+  /** What asked for a background reading-order build: the order was thrown away off the event path. */
+  public static final int ORDER_BUILD_SOURCE_LISTENER = 1;
+
+  /** What asked for a background reading-order build: a touch began with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_TOUCH = 2;
+
+  /** What asked for a background reading-order build: the screen went quiet with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_SETTLE = 3;
+
+  /** Names of the build sources above, for the statistics display. */
+  private static final String[] ORDER_BUILD_SOURCE_NAMES = {"event", "listener", "touch", "settle"};
+
+  /** Background reading-order builds asked for, by what asked for them. */
+  private final long[] orderBuildsPostedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** Of those, the ones saved for the next swipe, by source. */
+  private final long[] orderBuildsPublishedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** Of those, the ones that finished after their window had moved on, by source. */
+  private final long[] orderBuildsDiedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** How long background reading-order builds took, from being picked up to landing or dying. */
+  private final Statistics orderBuildDurationStats = new Statistics();
+
+  /** Build requests dropped because the very same build was already asked for or had just landed. */
+  private long orderBuildRequestsDeduped;
+
+  /** Background orders built by the lean builder instead of the standard one. */
+  private long leanOrderBuilds;
+
+  /** Lean builds that failed and were redone by the standard builder. */
+  private long leanOrderBuildFallbacks;
+
   /** How often a swipe was served by the previous reading order while a new one was built. */
   private long staleOrdersServed;
 
@@ -347,6 +384,44 @@ public class Performance {
 
   /** Of those, the ones made by a preparation round that ran when the screen settled. */
   private long preparedSpeechSynthesesSettle;
+
+  /** Prepared sounds thrown out of the cache before any of them was ever played. */
+  private long presynthEvictedBeforePlay;
+
+  /** Prepared sounds that finished being made only after their announcement was already gone. */
+  private long presynthCompletedLate;
+
+  /** Speech-cache plays of a sound made ahead for a target one swipe away. */
+  private long speechCachePlaysDepth1;
+
+  /** Speech-cache plays of a sound made ahead for a target two swipes away. */
+  private long speechCachePlaysDepth2;
+
+  /** Cache misses where the words had been made into sound, but under another voice setting. */
+  private long speechCacheMissKeyMismatch;
+
+  /** Cache misses where the words had never been made into sound at all. */
+  private long speechCacheMissNeverMade;
+
+  /**
+   * Sounds made ahead, by their text: the depth each was made for, and whether it has been
+   * played. Kept only so a play can be credited to the depth that made its sound, and an
+   * eviction can tell a wasted sound from a used one; bounded, and dropped whole when it grows
+   * past the bound rather than trimmed, as a stale entry can only miscredit one play.
+   */
+  private final HashMap<String, Integer> preparedSoundDepths = new HashMap<>();
+
+  /** Texts of sounds made ahead that have been played at least once. */
+  private final HashSet<String> preparedSoundsPlayed = new HashSet<>();
+
+  /** The most prepared sounds whose depth is remembered at once. */
+  private static final int MAX_PREPARED_SOUND_DEPTHS = 128;
+
+  /** Latency from an utterance being queued to being heard, when its sound came from the cache. */
+  private final Statistics betweenCacheHitStats = new Statistics();
+
+  /** The same latency, when the engine had to make the sound first. */
+  private final Statistics betweenCacheMissStats = new Statistics();
 
   /** How many of the slowest swipes are profiled. */
   private static final int MAX_SLOW_SWIPE_PROFILES = 10;
@@ -885,6 +960,15 @@ public class Performance {
             stats.increment(latency);
           }
         }
+        // The same wait, split by whether the sound was already made: this is what tells a
+        // later export what a speech-cache hit is actually worth, instead of leaving the worth
+        // of making sounds ahead to be guessed from the mixed figure.
+        long betweenLatency = now - eventData.getTimeFeedbackQueued();
+        if (localCache) {
+          betweenCacheHitStats.increment(betweenLatency);
+        } else {
+          betweenCacheMissStats.increment(betweenLatency);
+        }
       }
     }
 
@@ -1413,6 +1497,103 @@ public class Performance {
     }
   }
 
+  /**
+   * Counts one speech-cache play of {@code text}, crediting it to the preparation depth that
+   * made its sound ahead of time when the sound was one of those, so an export can say whether
+   * the sounds made for targets two swipes away are ever heard at all.
+   */
+  public void onSpeechCachePlayOfText(@NonNull CharSequence text) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechCachePlays++;
+      Integer depth = preparedSoundDepths.get(text.toString());
+      if (depth == null) {
+        return;
+      }
+      preparedSoundsPlayed.add(text.toString());
+      if (depth >= 2) {
+        speechCachePlaysDepth2++;
+      } else {
+        speechCachePlaysDepth1++;
+      }
+    }
+  }
+
+  /** Remembers that the sound of {@code text} was made ahead, and for how far ahead. */
+  public void registerPreparedSound(@NonNull String text, int depth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (preparedSoundDepths.size() >= MAX_PREPARED_SOUND_DEPTHS) {
+        preparedSoundDepths.clear();
+        preparedSoundsPlayed.clear();
+      }
+      preparedSoundDepths.put(text, depth);
+    }
+  }
+
+  /**
+   * Forgets the sound of {@code text} made ahead, as it has been thrown out of the cache, and
+   * counts the waste if it was never played: a sound the cache threw away unheard is engine time
+   * that bought nothing.
+   */
+  public void unregisterPreparedSound(@NonNull String text) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (preparedSoundDepths.remove(text) != null && !preparedSoundsPlayed.remove(text)) {
+        presynthEvictedBeforePlay++;
+      }
+    }
+  }
+
+  /** Counts one sound that finished being made only after its announcement was already gone. */
+  public void onPresynthCompletedLate() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      presynthCompletedLate++;
+    }
+  }
+
+  /**
+   * Counts one speech-cache miss, by its kind: the words had been made into sound under another
+   * voice setting, so the sound existed but its key did not match, or they had never been made
+   * into sound at all.
+   */
+  public void onSpeechCacheMiss(boolean keyMismatch) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (keyMismatch) {
+        speechCacheMissKeyMismatch++;
+      } else {
+        speechCacheMissNeverMade++;
+      }
+    }
+  }
+
+  /** Records how long one round of preparing swipe announcements took on the main thread. */
+  public void onPrepareRoundDuration(long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      Statistics stats = swipeSegmentStats.get("prepare round");
+      if (stats == null) {
+        stats = new Statistics();
+        swipeSegmentStats.put("prepare round", stats);
+      }
+      stats.increment(durationMs);
+    }
+  }
+
   /** Counts one prepared announcement whose sound was made in advance into the speech cache. */
   public void onPreparedSpeechSynthesized(int depth, boolean settleSource) {
     if (!computeStatsEnabled) {
@@ -1544,6 +1725,31 @@ public class Performance {
         logger.log(
             "Speech made ahead by reach: %d for targets two swipes away, %d from settle rounds",
             preparedSpeechSynthesesDepth2, preparedSpeechSynthesesSettle);
+      }
+      if (speechCachePlaysDepth1 + speechCachePlaysDepth2 > 0) {
+        logger.log(
+            "Speech cache plays of sounds made ahead: %d for targets one swipe away,"
+                + " %d for targets two swipes away",
+            speechCachePlaysDepth1, speechCachePlaysDepth2);
+      }
+      if (presynthEvictedBeforePlay > 0 || presynthCompletedLate > 0) {
+        logger.log(
+            "Prepared sounds wasted: %d thrown out unplayed, %d finished too late to be used",
+            presynthEvictedBeforePlay, presynthCompletedLate);
+      }
+      if (speechCacheMissKeyMismatch + speechCacheMissNeverMade > 0) {
+        logger.log(
+            "Speech cache misses: %d made under another voice setting, %d never made",
+            speechCacheMissKeyMismatch, speechCacheMissNeverMade);
+      }
+      if (betweenCacheHitStats.getCount() + betweenCacheMissStats.getCount() > 0) {
+        logger.log(
+            "Between queued and heard: sound already made median=%dms (count=%d),"
+                + " engine-made median=%dms (count=%d)",
+            betweenCacheHitStats.getPercentile(50),
+            betweenCacheHitStats.getCount(),
+            betweenCacheMissStats.getPercentile(50),
+            betweenCacheMissStats.getCount());
       }
     }
     for (String line : speechWaitProfileLines()) {
@@ -1700,11 +1906,77 @@ public class Performance {
 
   /** Counts one reading order built in the background and saved for the next swipe. */
   public void onOrderSnapshotPublished() {
+    onOrderSnapshotPublished(-1);
+  }
+
+  /** Counts one background-built reading order saved for the next swipe, by what asked for it. */
+  public void onOrderSnapshotPublished(int source) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       orderSnapshotsPublished++;
+      if (source >= 0 && source < orderBuildsPublishedBySource.length) {
+        orderBuildsPublishedBySource[source]++;
+      }
+    }
+  }
+
+  /** Counts one background reading-order build asked for, by what asked for it. */
+  public void onOrderBuildPosted(int source) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < orderBuildsPostedBySource.length) {
+        orderBuildsPostedBySource[source]++;
+      }
+    }
+  }
+
+  /** Records how long one background reading-order build took. */
+  public void onOrderBuildDuration(long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildDurationStats.increment(durationMs);
+    }
+  }
+
+  /** Counts one build request dropped because the same build was already asked for or had landed. */
+  public void onOrderBuildRequestDeduped() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildRequestsDeduped++;
+    }
+  }
+
+  public long getOrderBuildRequestDedupedCount() {
+    synchronized (lockLabelToStats) {
+      return orderBuildRequestsDeduped;
+    }
+  }
+
+  /** Counts one background order built by the lean builder, or one that fell back to the standard. */
+  public void onLeanOrderBuild(boolean fellBack) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (fellBack) {
+        leanOrderBuildFallbacks++;
+      } else {
+        leanOrderBuilds++;
+      }
+    }
+  }
+
+  public long getLeanOrderBuildFallbackCount() {
+    synchronized (lockLabelToStats) {
+      return leanOrderBuildFallbacks;
     }
   }
 
@@ -1726,11 +1998,19 @@ public class Performance {
 
   /** Counts one background reading-order build that finished after its window had moved on. */
   public void onOrderBuildDied() {
+    onOrderBuildDied(-1);
+  }
+
+  /** Counts one background build that died unpublished, by what asked for it. */
+  public void onOrderBuildDied(int source) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       orderBuildsDiedUnpublished++;
+      if (source >= 0 && source < orderBuildsDiedBySource.length) {
+        orderBuildsDiedBySource[source]++;
+      }
     }
   }
 
@@ -1787,6 +2067,48 @@ public class Performance {
       if (orderBuildsDiedUnpublished > 0) {
         logger.log("Background builds that died unpublished: %d", orderBuildsDiedUnpublished);
       }
+      long buildsPosted = 0;
+      for (long posted : orderBuildsPostedBySource) {
+        buildsPosted += posted;
+      }
+      if (buildsPosted > 0) {
+        StringBuilder bySource = new StringBuilder();
+        for (int source = 0; source < ORDER_BUILD_SOURCE_NAMES.length; source++) {
+          if (orderBuildsPostedBySource[source] == 0) {
+            continue;
+          }
+          if (bySource.length() > 0) {
+            bySource.append(", ");
+          }
+          bySource
+              .append(ORDER_BUILD_SOURCE_NAMES[source])
+              .append(' ')
+              .append(orderBuildsPostedBySource[source])
+              .append(" asked, ")
+              .append(orderBuildsPublishedBySource[source])
+              .append(" saved, ")
+              .append(orderBuildsDiedBySource[source])
+              .append(" died");
+        }
+        logger.log("Background builds by source: %s", bySource);
+      }
+      if (orderBuildDurationStats.getCount() > 0) {
+        logger.log(
+            "Background build time: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+            orderBuildDurationStats.getCount(),
+            orderBuildDurationStats.getMean(),
+            orderBuildDurationStats.getPercentile(50),
+            orderBuildDurationStats.getPercentile(90));
+      }
+      if (orderBuildRequestsDeduped > 0) {
+        logger.log(
+            "Background build requests dropped as duplicates: %d", orderBuildRequestsDeduped);
+      }
+      if (leanOrderBuilds + leanOrderBuildFallbacks > 0) {
+        logger.log(
+            "Lean order builder: %d orders built, %d fell back to the standard builder",
+            leanOrderBuilds, leanOrderBuildFallbacks);
+      }
       if (staleOrdersServed + staleTargetsRejected > 0) {
         logger.log(
             "Stale orders: %d served, %d targets rejected",
@@ -1813,6 +2135,23 @@ public class Performance {
       orderSnapshotsPublished = 0;
       orderCacheMissCounts.clear();
       orderBuildsDiedUnpublished = 0;
+      Arrays.fill(orderBuildsPostedBySource, 0);
+      Arrays.fill(orderBuildsPublishedBySource, 0);
+      Arrays.fill(orderBuildsDiedBySource, 0);
+      orderBuildDurationStats.clear();
+      orderBuildRequestsDeduped = 0;
+      leanOrderBuilds = 0;
+      leanOrderBuildFallbacks = 0;
+      presynthEvictedBeforePlay = 0;
+      presynthCompletedLate = 0;
+      speechCachePlaysDepth1 = 0;
+      speechCachePlaysDepth2 = 0;
+      speechCacheMissKeyMismatch = 0;
+      speechCacheMissNeverMade = 0;
+      preparedSoundDepths.clear();
+      preparedSoundsPlayed.clear();
+      betweenCacheHitStats.clear();
+      betweenCacheMissStats.clear();
       staleOrdersServed = 0;
       staleTargetsRejected = 0;
       navigationSpeechInterrupts = 0;

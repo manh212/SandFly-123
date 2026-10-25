@@ -204,6 +204,16 @@ object DiagnosticsExport {
     performance.displaySwipeSegmentStats(logger)
     performance.displaySpeechWaitStats(logger)
     performance.displaySlowSwipeProfiles(logger)
+    val tts = failoverTts()
+    if (tts != null && tts.speechCacheCount >= 0) {
+      val format = tts.speechCacheFormatDescription
+      logger.log(
+        "Speech cache contents: %d sounds, %d KB%s",
+        tts.speechCacheCount,
+        tts.speechCacheSizeBytes / 1024,
+        if (format.isEmpty()) "" else ", $format",
+      )
+    }
   }
 
   /**

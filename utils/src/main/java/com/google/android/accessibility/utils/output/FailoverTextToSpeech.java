@@ -172,6 +172,47 @@ public class FailoverTextToSpeech {
     return -1;
   }
 
+  /** The memory usage of the speech cache in bytes, or -1 when there is no cache. */
+  public long getSpeechCacheSizeBytes() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheSizeBytes();
+    }
+    return -1;
+  }
+
+  /** How many sounds the speech cache holds, or -1 when there is no cache. */
+  public int getSpeechCacheCount() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheCount();
+    }
+    return -1;
+  }
+
+  /** The sound format the speech cache's player settled on, or empty when there is none. */
+  public String getSpeechCacheFormatDescription() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheFormatDescription();
+    }
+    return "";
+  }
+
+  /**
+   * Counts why the speech cache could not serve {@code text}: its sound existed under another
+   * voice setting, or it was never made. Utterances the cache never serves at all — ones queued
+   * behind others, and ones carrying spans the cache cannot make — are not counted either way.
+   */
+  private void countSpeechCacheMiss(
+      SpeechCacheManager speechCacheManager, CharSequence text, int queueMode) {
+    if (queueMode == TextToSpeech.QUEUE_ADD || text == null) {
+      return;
+    }
+    if (text instanceof Spannable
+        && ((Spannable) text).getSpans(0, text.length(), TtsSpan.class).length > 0) {
+      return;
+    }
+    Performance.getInstance().onSpeechCacheMiss(speechCacheManager.hasCacheForText(text));
+  }
+
   /** Class defining constants used for describing speech parameters. */
   public static final class SpeechParam {
     /** Float parameter for controlling speech volume. Range is {0 ... 2}. */
@@ -1392,20 +1433,22 @@ public class FailoverTextToSpeech {
         // speak next speech immediately
         if (speechCacheManager.speakWithSpeechCachePlayer(
             utteranceId, queueMode, text, bundle, playbackStateListener, locale)) {
-          Performance.getInstance().onSpeechCachePlay();
+          Performance.getInstance().onSpeechCachePlayOfText(text);
           tts.speak("", SPEECH_FLUSH_ALL, null);
           return TextToSpeech.SUCCESS;
         }
+        countSpeechCacheMiss(speechCacheManager, text, queueMode);
         LogUtils.d(TAG, "tts.speak, utteranceId =" + utteranceId);
         return speakInChunks(text, queueMode, bundle, utteranceId, locale, firstChunkEnd);
       }
     } else {
       if (speechCacheManager.speakWithSpeechCachePlayer(
           utteranceId, queueMode, text, bundle, playbackStateListener, locale)) {
-        Performance.getInstance().onSpeechCachePlay();
+        Performance.getInstance().onSpeechCachePlayOfText(text);
         tts.speak("", SPEECH_FLUSH_ALL, null);
         return TextToSpeech.SUCCESS;
       }
+      countSpeechCacheMiss(speechCacheManager, text, queueMode);
       LogUtils.d(TAG, "tts.speak, utteranceId =" + utteranceId);
       return speakInChunks(text, queueMode, bundle, utteranceId, locale, firstChunkEnd);
     }
