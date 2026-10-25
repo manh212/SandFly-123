@@ -162,10 +162,10 @@ object PreparedFocusSpeech {
    * Whether preparing announcements around [node] is worth its main-thread cost. It is not, for
    * a while, in a window whose preparations kept dying unused — a churning chat window, say,
    * where a swipe then falls back to composing on the spot, exactly as without preparation.
-   * After [MAX_WASTED_STREAK] wastes in a row, preparation pauses for that window until a
-   * preparation is used there again, or [SUPPRESSION_MS] passes, after which one preparation is
-   * let through and a further waste re-arms the pause at once. A window that never changes
-   * under the focus never wastes a preparation, so a static list is prepared exactly as before.
+   * After [MAX_WASTED_STREAK] wastes in a row, preparation pauses for that window until
+   * [SUPPRESSION_MS] passes, after which one preparation is let through and a further waste
+   * re-arms the pause at once. A window that never changes under the focus never wastes a
+   * preparation, so a static list is prepared exactly as before.
    */
   @JvmStatic
   fun shouldPrepare(node: AccessibilityNodeInfoCompat): Boolean {

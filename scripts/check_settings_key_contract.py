@@ -123,11 +123,16 @@ def reachable_keys():
     return keys
 
 
-# Keys of settings items the fork owner ordered deleted outright. If a sync brings any
-# of them back into the reachable tree, the check fails loudly.
+# Keys of settings items the fork owner ordered deleted outright: the entry keys of
+# the three removed features and the keys of the rows inside their screens, so a sync
+# that brings back a single deleted row fails the check too, not just the whole screen.
 FORBIDDEN_KEYS = {
     "pref_category_manage_focus_indicator_key",
+    "pref_thick_border_key",
+    "pref_border_color_category_key",
+    "pref_border_color_key",
     "pref_speech_control_screen",
+    "pref_speech_control",
     "pref_show_exit_watermark",
 }
 

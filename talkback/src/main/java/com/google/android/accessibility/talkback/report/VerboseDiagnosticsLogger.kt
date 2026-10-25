@@ -43,6 +43,7 @@ internal class VerboseDiagnosticsController(
   private val scheduler: DiagnosticsTaskScheduler,
   private val writeSnapshot: () -> Unit,
   private val writeStats: () -> Unit,
+  private val onStop: () -> Unit = {},
 ) {
   private var pendingStats: DiagnosticsTaskScheduler.ScheduledTask? = null
 
@@ -62,6 +63,7 @@ internal class VerboseDiagnosticsController(
       isActive = false
       pendingStats?.cancel()
       pendingStats = null
+      onStop()
     }
   }
 
@@ -117,6 +119,9 @@ object VerboseDiagnosticsLogger {
     controller().syncWithLogLevel(verbose)
   }
 
+  private val snapshotRunnable = Runnable { logSnapshotSections() }
+  private val statsRunnable = Runnable { logPerformanceStats() }
+
   @Synchronized
   private fun controller(): VerboseDiagnosticsController {
     controller?.let {
@@ -126,8 +131,13 @@ object VerboseDiagnosticsLogger {
     val handler = Handler(thread.looper)
     return VerboseDiagnosticsController(
         HandlerTaskScheduler(handler),
-        writeSnapshot = { handler.post { logSnapshotSections() } },
-        writeStats = { handler.post { logPerformanceStats() } },
+        writeSnapshot = { handler.post(snapshotRunnable) },
+        writeStats = { handler.post(statsRunnable) },
+        // A write posted but not yet run when VERBOSE ends is dropped, not run late.
+        onStop = {
+          handler.removeCallbacks(snapshotRunnable)
+          handler.removeCallbacks(statsRunnable)
+        },
       )
       .also { controller = it }
   }

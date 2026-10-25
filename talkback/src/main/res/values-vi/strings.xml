@@ -487,6 +487,8 @@
   <string name="title_translate_last_spoken_phrase">Dịch câu vừa nói cuối cùng</string>
   <string name="title_speech_history">Lịch sử câu đã nói</string>
   <string name="speech_history_empty">Chưa có lịch sử câu đã nói</string>
+  <string name="title_clipboard_history">Lịch sử bộ nhớ tạm</string>
+  <string name="clipboard_history_empty">Chưa có lịch sử bộ nhớ tạm</string>
   <string name="title_custom_action">Thao tác</string>
   <string name="title_show_hide_screen">Ẩn hoặc hiện màn hình</string>
   <string name="title_control_speak_time">Đọc to thời gian</string>

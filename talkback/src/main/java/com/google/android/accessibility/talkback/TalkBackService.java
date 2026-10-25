@@ -235,6 +235,7 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
@@ -808,6 +809,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   private IpcClientCallbackImpl ipcClientCallback;
   private BootReceiver bootReceiver;
+  private ClipboardHistoryCapture clipboardHistoryCapture;
 
 
   private EventLatencyLogger eventLatencyLogger;
@@ -935,6 +937,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (bootReceiver != null) {
       unregisterReceiver(bootReceiver);
       bootReceiver = null;
+    }
+
+    if (clipboardHistoryCapture != null) {
+      clipboardHistoryCapture.stop();
+      clipboardHistoryCapture = null;
     }
 
     if (pauseController != null) {
@@ -2062,6 +2069,9 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // Hides the screen after announcing that TalkBack is on, so "Screen hidden" is spoken second.
     dimScreenController.resume();
+
+    clipboardHistoryCapture = new ClipboardHistoryCapture(this);
+    clipboardHistoryCapture.start();
 
     // If the locked-boot-completed intent was fired before onServiceConnected, we queued it,
     // so now we need to run it.
@@ -4154,14 +4164,18 @@ public class TalkBackService extends AccessibilityServiceCompat
     long version = pendingLiveReapplyVersionCode;
     pendingLiveReapplyVersionCode = 0L;
     try {
-      PrefsSelfHeal.clearPendingLiveReapply(prefs);
       LogUtils.i(
           TAG,
           "Re-applying the typing preferences in the live service after the update to"
               + " version %d",
           version);
       reloadPreferences(getString(R.string.pref_typing_confirmation_key));
+      // The stored marker is cleared only once the re-apply has run: clearing it first
+      // would lose the re-apply for good if the reload failed.
+      PrefsSelfHeal.clearPendingLiveReapply(prefs);
     } catch (Throwable t) {
+      // The re-apply is still owed; a later keyboard window retries it.
+      pendingLiveReapplyVersionCode = version;
       LogUtils.w(TAG, "The live re-apply of the typing preferences failed: %s", t);
     }
   }

@@ -1233,6 +1233,7 @@ public abstract class Feedback {
       TRANSLATE_SAVED,
       TRANSLATE_LAST,
       SHOW_HISTORY,
+      SHOW_CLIPBOARD_HISTORY,
       PAUSE_OR_RESUME,
       TOGGLE_VOICE_FEEDBACK,
       /**

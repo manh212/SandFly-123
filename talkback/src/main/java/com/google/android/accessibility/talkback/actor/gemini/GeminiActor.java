@@ -510,13 +510,21 @@ public class GeminiActor {
   }
 
   /**
-   * Asks the service that describes images to answer {@code prompt} about {@code image}, through
-   * the same endpoint, and so by the same route, as an image description: on the phone when the
-   * on-device model answers requests, otherwise through the AI service in use. The listener gets
-   * the answer text, or an error. Returns whether the request was sent.
+   * Asks for a label for an unlabeled button, by the same route an image description takes, as
+   * Describe is configured: the endpoint below answers through the model on the phone when
+   * that is the service in use and the model can answer, and through the AI service in use
+   * otherwise. One case is refused: when Describe is set to the model on the phone but that
+   * model cannot answer now, nothing is sent — the button's picture never goes to the cloud
+   * under an on-device setting, and the caller falls back to typing the label by hand. The
+   * listener gets the answer text, or an error. Returns whether the request was sent.
    */
   public boolean requestLabelSuggestion(
       String prompt, Bitmap image, GeminiResponseListener listener) {
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    if (OnDeviceAiSettings.INSTANCE.isOnDevice(prefs)
+        && !LocalModelManager.Companion.get(context).answersRequests()) {
+      return false;
+    }
     GeminiResponseListener stopTones =
         new GeminiResponseListener() {
           @Override
@@ -536,6 +544,7 @@ public class GeminiActor {
             prompt, image, /* manualTrigger= */ true, stopTones);
     if (sent) {
       progressTonePlayer.stop();
+      aiCoreEndpoint.cancelCommand();
       progressTonePlayer.play(/* playTone= */ true, /* delayPlayTone= */ false);
     }
     return sent;

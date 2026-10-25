@@ -17,6 +17,8 @@
 package com.google.android.accessibility.talkback.translation;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import com.google.android.gms.tasks.Tasks;
 import com.google.mlkit.common.model.DownloadConditions;
 import com.google.mlkit.common.model.RemoteModelManager;
@@ -43,11 +45,17 @@ public class OfflineTranslator {
     void onFailure();
   }
 
+  /** How long the client stays open after the last translation before it is closed. */
+  private static final long IDLE_CLOSE_MS = 10 * 60 * 1000L;
+
   private final Context context;
+  private final Handler idleHandler = new Handler(Looper.getMainLooper());
+  private final Runnable idleClose = this::closeClientIfIdle;
   private @Nullable Translator translator;
   private @Nullable String translatorSourceLanguage;
   private @Nullable String translatorTargetLanguage;
   private volatile boolean downloadInProgress;
+  private int translationsInFlight;
 
   public OfflineTranslator(Context context) {
     this.context = context.getApplicationContext();
@@ -81,7 +89,24 @@ public class OfflineTranslator {
       translatorSourceLanguage = sourceLanguage;
       translatorTargetLanguage = targetLanguage;
     }
+    noteActivity();
     return translator;
+  }
+
+  /** Restarts the idle countdown; the client is closed once it runs out with nothing in flight. */
+  private void noteActivity() {
+    idleHandler.removeCallbacks(idleClose);
+    idleHandler.postDelayed(idleClose, IDLE_CLOSE_MS);
+  }
+
+  private void closeClientIfIdle() {
+    synchronized (this) {
+      if (translationsInFlight > 0 || downloadInProgress) {
+        noteActivity();
+        return;
+      }
+      closeClient();
+    }
   }
 
   private synchronized void closeClient() {
@@ -129,9 +154,29 @@ public class OfflineTranslator {
   }
 
   public void translate(String text, TranslateCallback callback) {
-    getOrCreateTranslator()
+    Translator client;
+    synchronized (this) {
+      translationsInFlight++;
+      client = getOrCreateTranslator();
+    }
+    client
         .translate(text)
-        .addOnSuccessListener(callback::onSuccess)
-        .addOnFailureListener(e -> callback.onFailure());
+        .addOnSuccessListener(
+            result -> {
+              translationFinished();
+              callback.onSuccess(result);
+            })
+        .addOnFailureListener(
+            e -> {
+              translationFinished();
+              callback.onFailure();
+            });
+  }
+
+  private void translationFinished() {
+    synchronized (this) {
+      translationsInFlight--;
+    }
+    noteActivity();
   }
 }
