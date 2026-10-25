@@ -20,7 +20,6 @@ import static android.accessibilityservice.AccessibilityServiceInfo.FLAG_SERVICE
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.RENEW_ENSURE_FOCUS;
 import static com.google.android.accessibility.talkback.Feedback.PassThroughMode.Action.DISABLE_PASSTHROUGH;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.INVALIDATE_FREQUENT_CONTENT_CHANGE_CACHE;
-import static com.google.android.accessibility.talkback.TalkBackExitController.TalkBackMistriggeringRecoveryType.EVENT_SHOW_TALKBACK_EXIT_WATERMARK;
 import static com.google.android.accessibility.talkback.TalkBackExitController.TalkBackMistriggeringRecoveryType.TYPE_ACCESSIBILITY_SHORTCUT;
 import static com.google.android.accessibility.talkback.TalkBackExitController.TalkBackMistriggeringRecoveryType.TYPE_TALKBACK_EXIT_BANNER;
 import static com.google.android.accessibility.talkback.TalkBackExitController.TalkBackMistriggeringRecoveryType.TYPE_TALKBACK_EXIT_WATERMARK;
@@ -229,7 +228,6 @@ import com.google.android.accessibility.talkback.speech.SpeechCacheController;
 import com.google.android.accessibility.talkback.speech.VoiceProfileNames;
 import com.google.android.accessibility.talkback.speechbubble.DisableTalkBackDialog;
 import com.google.android.accessibility.talkback.migration.AppIdHandOver;
-import com.google.android.accessibility.talkback.speechcontrol.SpeechControl;
 import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.stucktouch.StuckTouchController;
 import com.google.android.accessibility.talkback.training.OnboardingInitiator;
@@ -241,7 +239,6 @@ import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
 import com.google.android.accessibility.talkback.utils.ExperimentalUtils;
-import com.google.android.accessibility.talkback.utils.FocusIndicatorUtils;
 import com.google.android.accessibility.talkback.utils.NotificationUtils;
 import com.google.android.accessibility.talkback.utils.SpeechRecognizerPerformer;
 import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
@@ -393,12 +390,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       clientDisconnectedTimeStamp = System.currentTimeMillis();
       setCaptureTrainingCombos(false);
 
-      // Show TalkBack-exit watermark if training UI has TalkBack-exit banner. It means Training
-      // activity initiated from TalkBack settings will not have TalkBack-exit banner in training
-      // and TalkBack-exit watermark.
-      if (hasExitBanner && !hasTrainingFinished) {
-        talkBackService.updateTalkBackExitWatermark();
-      }
     }
 
     @Override
@@ -974,7 +965,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       scriptHost.shutdown();
       scriptHost = null;
     }
-    SpeechControl.detach();
     NotificationReader.detach();
     NotificationListService.onSandFlyStopped();
 
@@ -1875,8 +1865,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   /**
-   * Returns the controller of the exit watermark, or null before the service is connected. Settings
-   * screens can resume in that time, such as when they are opened as Backtalk restarts.
+   * Returns the mis-triggering recovery controller, or null before the service is connected.
+   * Settings screens can resume in that time, such as when they are opened as SandFly restarts.
    */
   public @Nullable TalkBackExitController getTalkBackExitController() {
     if (talkBackExitController == null) {
@@ -2102,12 +2092,7 @@ public class TalkBackService extends AccessibilityServiceCompat
           != 0) {
         // When the Tutorial is blocked, during the OOBE for instance, we should delay the
         // on-boarding to next TalkBack cycle.
-        // Show watermark again if onboarding is not confirmed finished by user.
-        if (!OnboardingInitiator.showOnboardingIfNecessary(this)
-            && OnboardingInitiator.hasOnboardingForNewFeaturesBeenShown(prefs, this)
-            && !prefs.getBoolean(PREF_HAS_ONBOARDING_FINISHED, false)) {
-          updateTalkBackExitWatermark();
-        }
+        OnboardingInitiator.showOnboardingIfNecessary(this);
       }
     }
 
@@ -3858,42 +3843,10 @@ public class TalkBackService extends AccessibilityServiceCompat
       globalVariables.setCountRepeatedSymbols(countrepeatedSymbols);
     }
 
-    // Update watermark preference and UI.
-    boolean showExitWatermark =
-        getBooleanPref(
-            R.string.pref_show_exit_watermark_key, R.bool.pref_show_exit_watermark_default);
-    TalkBackExitController talkBackExitController = getTalkBackExitController();
-    if (talkBackExitController == null) {
-      // Not connected yet.
-    } else if (showExitWatermark && TalkbackFeatureSupport.supportTalkBackExitBanner(this)) {
-      if (!talkBackExitController.isTalkBackExitWatermarkShown()
-          && TextUtils.equals(key, getString(R.string.pref_show_exit_watermark_key))) {
-        // Show watermark that respects user settings.
-        talkBackExitController.showTalkBackExitWatermark();
-        analytics.sendMistriggerAndAliveTimeLog(EVENT_SHOW_TALKBACK_EXIT_WATERMARK.getIndex());
-      } else if ((SharedPreferencesUtils.getFloatFromStringPref(
-                  prefs,
-                  getResources(),
-                  R.string.pref_speech_rate_key,
-                  R.string.pref_speech_rate_default)
-              > Float.parseFloat(getString(R.string.pref_speech_rate_default))
-          || dimScreenController.isDimmingEnabled()
-          || prefs.getBoolean(getString(R.string.has_training_page_switched), false))) {
-        // Disable watermark if we assume the user is genuine user by
-        // TalkBack preferences. It helps genuine user skip unnecessary watermark UI.
-        talkBackExitController.disableTalkBackExitWatermark(this);
-      }
-    } else if (talkBackExitController.isTalkBackExitWatermarkShown()) {
-      // Hide watermark UI that by user preference.
-      updateTalkBackExitWatermark();
-    }
-
     boolean enabledTellTime =
         SharedPreferencesUtils.getBooleanPref(
             prefs, res, R.string.pref_speak_time_key, R.bool.pref_tell_time_default);
     ringerModeAndScreenMonitor.enableTellingTime(enabledTellTime);
-
-    FocusIndicatorUtils.applyFocusAppearancePreference(this, prefs, res);
 
     enableCacheTextEntryKeyIfNeeded(key);
   }
@@ -4108,30 +4061,6 @@ public class TalkBackService extends AccessibilityServiceCompat
         .apply();
   }
 
-  /**
-   * Updates TalkBack-exit watermark UI if needed.
-   *
-   * <ul>
-   *   <li>Show watermark when training is not confirmed finished by user but training lifecycle
-   *       ends,
-   *   <li>Hide watermark if user turns off show watermark preference when it shows,
-   *   <li>Hide watermark if user performs any TalkBack action on TalkBack menu when it shows,
-   * </ul>
-   */
-  void updateTalkBackExitWatermark() {
-    if (!TalkbackFeatureSupport.supportTalkBackExitBanner(this)) {
-      return;
-    }
-    // Show or hide by preference.
-    if (getBooleanPref(
-        R.string.pref_show_exit_watermark_key, R.bool.pref_show_exit_watermark_default)) {
-      talkBackExitController.showTalkBackExitWatermark();
-      analytics.sendMistriggerAndAliveTimeLog(EVENT_SHOW_TALKBACK_EXIT_WATERMARK.getIndex());
-    } else {
-      talkBackExitController.hideTalkBackExitWatermark();
-    }
-  }
-
   boolean hasTrainingFinishedByUser() {
     return prefs.getBoolean(PREF_HAS_TRAINING_FINISHED, false);
   }
@@ -4167,9 +4096,6 @@ public class TalkBackService extends AccessibilityServiceCompat
    * restarts next time, it will show tutorial again.
    */
   public void requestDisableTalkBackByTalkBackExitBanner() {
-    if (!talkBackExitController.isTalkBackExitWatermarkShown()) {
-      return;
-    }
     requestDisableTalkBack(TYPE_TALKBACK_EXIT_WATERMARK.getIndex());
   }
 
@@ -4324,7 +4250,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   private void startScripts() {
     if (pipeline != null && speechController != null) {
-      SpeechControl.attach(this, pipeline.getFeedbackReturner(), speechController);
       NotificationReader.attach(
           this,
           pipeline.getFeedbackReturner(),

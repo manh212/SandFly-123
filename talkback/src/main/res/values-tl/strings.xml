@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Mag-tap nang isang beses sa naka-focus na item para i-activate. Mas mabilis na pag-navigate kaysa sa pag-double-tap.</string>
   <string name="pref_verbosity_title">Verbosity</string>
   <string name="pref_punctuation_title">Banggitin ang mga punctuation at simbolo</string>
-  <string name="title_pref_category_manage_focus_indicator">Indicator ng focus</string>
   <string name="title_pref_category_manage_gestures">Mga Galaw</string>
   <string name="title_pref_manage_labels">Mga custom na label</string>
   <string name="title_pref_category_context_menu">Menu ng SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Tutorial sa SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Tulong</string>
   <string name="title_pref_advanced_settings">Mga advanced na setting</string>
-  <string name="title_pref_show_exit_watermark">Ipakita ang mga tagubilin para sa pag-off sa SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Kapag na-on ang SandFly, ipakita kung paano ito i-off</string>
-  <string name="talkback_exit_watermark_text">Naka-on ang SandFly. I-hold ang 2 daliri sa screen sa loob ng 5 segundo para i-off. Para ihinto ang pagpapakita ng mensaheng ito, mag-tap gamit ang 3 daliri para buksan ang menu ng SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Nagpapakita ng banner na nagsasaad na naka-on ang SandFly. Para i-off ang SandFly, i-hold ang 2 daliri sa screen sa loob ng 5 segundo. Para alisin ang banner na ito, pumunta sa Mga Setting ng SandFly.</string>
   <string name="reset_gesture_settings_title">I-reset ang mga setting ng galaw</string>
   <string name="one_finger_gestures_title">1 daliri</string>
   <string name="one_finger_back_forth_gestures_title">Pabalik-balik gamit ang 1 daliri</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Pakitingnan kung nakakonekta ang telepono.</string>
   <string name="image_qna_voice_input_empty">Walang nakilalang speech.</string>
   <string name="image_qna_answer_unavailable">Walang sagot.</string>
-  <string name="title_pref_thick_border">Makakapal na border</string>
-  <string name="title_pref_category_border_color">Kulay</string>
-  <string name="title_pref_default_color">Default</string>
-  <string name="title_pref_red">Pula</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Dilaw</string>
-  <string name="title_pref_green">Berde</string>
-  <string name="title_pref_blue">Asul</string>
-  <string name="title_pref_grey">Gray</string>
   <string name="survey_setting_title">I-share ang iyong feedback</string>
   <string name="title_summarize_view">Ilarawan ang screen</string>
   <string name="detected_result">Na-detect: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Kailangan ng pahintulot na hindi ibinibigay ng Android sa mga screen reader. Para ibigay ito, patakbuhin ang command na ito gamit ang adb o Shizuku, pagkatapos ay bumalik sa screen na ito: %1$s</string>
     <string name="action_copy_command">Kopyahin ang command</string>
     <string name="command_copied">Nakopya ang command</string>
-    <string name="title_pref_speech_control">Payagang magsalita ang ibang app</string>
-    <string name="summary_pref_speech_control">Puwedeng magsabi ng text gamit ang iyong boses ng SandFly ang mga app na pinapayagan mo. Walang sinasabi habang naka-lock ang device.</string>
-    <string name="title_pref_speech_control_sound">Mag-play ng tunog bago magsalita ang ibang app</string>
-    <string name="speech_control_apps_category">Mga app</string>
-    <string name="speech_control_no_apps">Wala pang app na humiling na magsalita.</string>
-    <string name="speech_control_ask_title">Payagan ang <xliff:g id="app" example="Tasker">%1$s</xliff:g> na magsalita sa pamamagitan ng SandFly?</string>
-    <string name="speech_control_ask_text">Puwede itong magsabi ng text gamit ang iyong boses ng SandFly. Puwede mo itong baguhin sa Mga advanced na setting.</string>
-    <string name="speech_control_allow">Payagan</string>
-    <string name="speech_control_deny">Huwag payagan</string>
-    <string name="permission_speak_label">magsalita sa pamamagitan ng SandFly</string>
-    <string name="permission_speak_description">Pinapayagan ang app na humiling na magsabi ng text gamit ang iyong boses ng SandFly. Magtatanong muna sa iyo ang SandFly bago makapagsalita ang app.</string>
     <string name="title_pref_phonetic_letters_mode">Bigkasin ang letra nang phonetic</string>
     <string name="phonetic_letters_mode_off">Naka-off</string>
     <string name="phonetic_letters_mode_after_letter_delay">Pagkatapos ng letra, may pagkaantala, gaya ng \"h, hotel\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d notification</item>
         <item quantity="other">%d na notification</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">Naka-on ang SandFly. I-hold ang 2 daliri sa screen sa loob ng 5 segundo para i-off. Para ihinto ang pagpapakita ng mensaheng ito, i-off ang mga setting ng SandFly &gt; Mga advanced na setting &gt; Ipakita ang mga tagubilin para sa pag-off sa SandFly.</string>
     <string name="edge_gestures_title">Mga gilid</string>
     <string name="title_pref_audio_output_device">Device ng audio output</string>
     <string name="dialog_title_audio_output_device">Piliin kung saan ipe-play ang tunog ng SandFly</string>

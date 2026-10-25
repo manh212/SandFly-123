@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">फ़ोकस वाले आइटम को चालू करने के लिए, उस पर एक बार टैप करें. दो बार के बजाय एक बार टैप करने की सेटिंग चालू करने पर, नेविगेशन तेज़ी से होता है.</string>
   <string name="pref_verbosity_title">कितने शब्दों में जानकारी दी जाए</string>
   <string name="pref_punctuation_title">विराम चिह्नों और प्रतीकों को सुनें</string>
-  <string name="title_pref_category_manage_focus_indicator">फ़ोकस इंडिकेटर</string>
   <string name="title_pref_category_manage_gestures">हाथ के जेस्चर</string>
   <string name="title_pref_manage_labels">पसंद से बनाए गए लेबल</string>
   <string name="title_pref_category_context_menu">SandFly मेन्यू</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly का ट्यूटोरियल</string>
   <string name="title_pref_category_help_no_tutorial">सहायता</string>
   <string name="title_pref_advanced_settings">ऐडवांस सेटिंग</string>
-  <string name="title_pref_show_exit_watermark">SandFly की सुविधा बंद करने से जुड़े निर्देश दिखाएं</string>
-  <string name="summary_pref_show_exit_watermark">SandFly चालू होने पर दिखाएं कि इसे कैसे बंद करें</string>
-  <string name="talkback_exit_watermark_text">SandFly की सुविधा चालू है. इसे बंद करने के लिए, स्क्रीन को दो उंगलियों से पांच सेकंड तक दबाकर रखें. इस मैसेज को दिखने से रोकने के लिए, तीन उंगलियों से टैप करके SandFly मेन्यू खोलें.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly की सुविधा चालू होने का बैनर दिखाया जा रहा है. इस सुविधा को बंद करने के लिए, स्क्रीन को दो उंगलियों से पांच सेकंड तक दबाकर रखें. इस बैनर को हटाने के लिए, SandFly की सेटिंग पर जाएं.</string>
   <string name="reset_gesture_settings_title">हाथ के जेस्चर की सेटिंग को रीसेट करें</string>
   <string name="one_finger_gestures_title">एक उंगली से किए जाने वाले जेस्चर</string>
   <string name="one_finger_back_forth_gestures_title">एक उंगली को आगे-पीछे करके किए जाने वाले जेस्चर</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">कृपया देख लें कि फ़ोन इंटरनेट से कनेक्ट है या नहीं</string>
   <string name="image_qna_voice_input_empty">बोली की पहचान नहीं की जा सकी.</string>
   <string name="image_qna_answer_unavailable">कोई जवाब उपलब्ध नहीं है.</string>
-  <string name="title_pref_thick_border">बॉर्डर की मोटाई</string>
-  <string name="title_pref_category_border_color">रंग</string>
-  <string name="title_pref_default_color">डिफ़ॉल्ट</string>
-  <string name="title_pref_red">लाल</string>
-  <string name="title_pref_orange">नारंगी</string>
-  <string name="title_pref_yellow">पीला</string>
-  <string name="title_pref_green">हरा</string>
-  <string name="title_pref_blue">नीला</string>
-  <string name="title_pref_grey">स्लेटी</string>
   <string name="survey_setting_title">सुझाव/राय दें या शिकायत करें</string>
   <string name="title_summarize_view">स्क्रीन के बारे में जानकारी सुनें</string>
   <string name="detected_result">इसका पता चला: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">एक ऐसी अनुमति ज़रूरी है जो Android, स्क्रीन रीडर को नहीं देता. अनुमति देने के लिए, adb या Shizuku से यह निर्देश चलाएं, फिर इस स्क्रीन पर वापस आएं: %1$s</string>
     <string name="action_copy_command">कमांड कॉपी करें</string>
     <string name="command_copied">कमांड कॉपी किया गया</string>
-    <string name="title_pref_speech_control">दूसरे ऐप्लिकेशन को बोलने दें</string>
-    <string name="summary_pref_speech_control">जिन ऐप्लिकेशन को आप अनुमति देते हैं वे आपकी SandFly वॉइस में टेक्स्ट बोल सकते हैं. डिवाइस लॉक होने पर कुछ नहीं बोला जाता.</string>
-    <string name="title_pref_speech_control_sound">दूसरे ऐप्लिकेशन के बोलने से पहले आवाज़ चलाएं</string>
-    <string name="speech_control_apps_category">ऐप्लिकेशन</string>
-    <string name="speech_control_no_apps">अब तक किसी ऐप्लिकेशन ने बोलने की अनुमति का अनुरोध नहीं किया है.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> को SandFly के ज़रिए बोलने की अनुमति दें?</string>
-    <string name="speech_control_ask_text">यह आपकी SandFly वॉइस में टेक्स्ट बोल सकता है. आप इसे ऐडवांस सेटिंग में बदल सकते हैं.</string>
-    <string name="speech_control_allow">अनुमति दें</string>
-    <string name="speech_control_deny">अनुमति न दें</string>
-    <string name="permission_speak_label">SandFly के ज़रिए बोलना</string>
-    <string name="permission_speak_description">ऐप्लिकेशन को आपकी SandFly वॉइस में टेक्स्ट बोलने का अनुरोध करने देता है. ऐप्लिकेशन के बोलने से पहले SandFly आपसे अनुमति लेता है.</string>
     <string name="title_pref_phonetic_letters_mode">अक्षरों का फ़ोनेटिक उच्चारण बोलें</string>
     <string name="phonetic_letters_mode_off">बंद</string>
     <string name="phonetic_letters_mode_after_letter_delay">अक्षर के बाद, रुककर, जैसे \"h, hotel\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d सूचना</item>
         <item quantity="other">%d सूचनाएं</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly की सुविधा चालू है. इसे बंद करने के लिए, स्क्रीन को दो उंगलियों से पांच सेकंड तक दबाकर रखें. इस मैसेज को दिखने से रोकने के लिए, SandFly की सेटिंग &gt; ऐडवांस सेटिंग &gt; SandFly की सुविधा बंद करने से जुड़े निर्देश दिखाएं को बंद करें.</string>
     <string name="edge_gestures_title">किनारे</string>
     <string name="title_pref_audio_output_device">ऑडियो आउटपुट डिवाइस</string>
     <string name="dialog_title_audio_output_device">चुनें कि SandFly की आवाज़ कहां चले</string>

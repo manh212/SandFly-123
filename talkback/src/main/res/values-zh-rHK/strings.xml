@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">輕按一下焦點項目以啟用。相比輕按兩下，導覽更快速。</string>
   <string name="pref_verbosity_title">詳細程度</string>
   <string name="pref_punctuation_title">讀出標點和符號</string>
-  <string name="title_pref_category_manage_focus_indicator">焦點指示器</string>
   <string name="title_pref_category_manage_gestures">手勢</string>
   <string name="title_pref_manage_labels">自訂標籤</string>
   <string name="title_pref_category_context_menu">SandFly 選單</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly 教學</string>
   <string name="title_pref_category_help_no_tutorial">說明</string>
   <string name="title_pref_advanced_settings">進階設定</string>
-  <string name="title_pref_show_exit_watermark">顯示關閉 SandFly 的指示</string>
-  <string name="summary_pref_show_exit_watermark">開啟 SandFly 時顯示關閉方法</string>
-  <string name="talkback_exit_watermark_text">SandFly 已開啟。用兩隻手指按住螢幕 5 秒即可關閉。如要停止顯示此訊息，請用 3 隻手指輕按螢幕以開啟 SandFly 選單。</string>
-  <string name="talkback_exit_watermark_hint_text">正在顯示表示已開啟 SandFly 的橫額。用 2 隻手指按住螢幕 5 秒，即可關閉 SandFly。如要移除此橫額，請前往 SandFly 設定。</string>
   <string name="reset_gesture_settings_title">重設手勢設定</string>
   <string name="one_finger_gestures_title">單指</string>
   <string name="one_finger_back_forth_gestures_title">單指來回</string>
@@ -1068,15 +1063,6 @@
   <string name="watch_remote_intent_error_confirmation_text">請檢查手機是否已連線。</string>
   <string name="image_qna_voice_input_empty">無法識別任何語音。</string>
   <string name="image_qna_answer_unavailable">無法提供答案。</string>
-  <string name="title_pref_thick_border">粗邊框</string>
-  <string name="title_pref_category_border_color">顏色</string>
-  <string name="title_pref_default_color">預設</string>
-  <string name="title_pref_red">紅色</string>
-  <string name="title_pref_orange">橙色</string>
-  <string name="title_pref_yellow">黃色</string>
-  <string name="title_pref_green">綠色</string>
-  <string name="title_pref_blue">藍色</string>
-  <string name="title_pref_grey">灰色</string>
   <string name="survey_setting_title">分享意見</string>
   <string name="title_summarize_view">描述畫面</string>
   <string name="detected_result">偵測到嘅項目：%1$s</string>
@@ -1332,17 +1318,6 @@
     <string name="summary_pref_speakerphone_needs_permission">需要 Android 不會授予螢幕閱讀器的權限。如要授予，請使用 adb 或 Shizuku 執行此指令，然後返回此畫面：%1$s</string>
     <string name="action_copy_command">複製指令</string>
     <string name="command_copied">命令已複製</string>
-    <string name="title_pref_speech_control">允許其他應用程式朗讀</string>
-    <string name="summary_pref_speech_control">你允許的應用程式可以用 SandFly 的語音讀出文字。裝置鎖定時不會讀出任何內容。</string>
-    <string name="title_pref_speech_control_sound">其他應用程式朗讀前播放提示音</string>
-    <string name="speech_control_apps_category">應用程式</string>
-    <string name="speech_control_no_apps">尚未有應用程式要求朗讀。</string>
-    <string name="speech_control_ask_title">允許<xliff:g id="app" example="Tasker">%1$s</xliff:g>透過SandFly說話嗎？</string>
-    <string name="speech_control_ask_text">它可以用您的 SandFly 聲音說出文字。您可以在進階設定中變更此設定。</string>
-    <string name="speech_control_allow">允許</string>
-    <string name="speech_control_deny">不允許</string>
-    <string name="permission_speak_label">透過 SandFly 朗讀</string>
-    <string name="permission_speak_description">允許應用程式要求使用您的 SandFly 語音讀出文字。應用程式說話前，SandFly 會先詢問您。</string>
     <string name="title_pref_phonetic_letters_mode">以拼讀單字讀出字母</string>
     <string name="phonetic_letters_mode_off">關閉</string>
     <string name="phonetic_letters_mode_after_letter_delay">字母後，有停頓，例如「h，hotel」</string>
@@ -1485,7 +1460,6 @@
     <string name="quick_settings_remove">移除</string>
     <string name="quick_settings_added">已新增%1$s</string>
     <string name="quick_settings_removed">%1$s 已刪除</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly 開啟。將 2 根手指按住螢幕 5 秒鐘即可關閉。若要停止顯示此訊息，請關閉 SandFly 設定 &gt; 進階設定 &gt; 顯示關閉 SandFly 的說明。</string>
     <string name="edge_gestures_title">邊緣</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">開啟或關閉瀏覽模式的另一個捷徑</string>
     <string name="title_pref_vibration_strength">振動強度</string>

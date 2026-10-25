@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Kliknij zaznaczony element raz, aby go uaktywnić. Jest to szybsza metoda niż dwukrotne kliknięcie.</string>
   <string name="pref_verbosity_title">Szczegółowość</string>
   <string name="pref_punctuation_title">Odczytuj znaki interpunkcyjne i symbole</string>
-  <string name="title_pref_category_manage_focus_indicator">Wskaźnik zaznaczenia</string>
   <string name="title_pref_category_manage_gestures">Gesty</string>
   <string name="title_pref_manage_labels">Etykiety niestandardowe</string>
   <string name="title_pref_category_context_menu">Menu SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Samouczek SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Pomoc</string>
   <string name="title_pref_advanced_settings">Ustawienia zaawansowane</string>
-  <string name="title_pref_show_exit_watermark">Pokazuj instrukcje wyłączania funkcji SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Gdy funkcja SandFly jest włączona, wyświetla się komunikat, który pomaga ją szybko wyłączyć</string>
-  <string name="talkback_exit_watermark_text">Funkcja SandFly jest włączona. Aby ją wyłączyć, przytrzymaj 2 palce na ekranie przez 5 sekund. Aby przestać wyświetlać ten komunikat, dotknij ekranu 3 palcami, co spowoduje otwarcie menu SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Wyświetlam baner informujący o włączeniu funkcji SandFly. Aby wyłączyć SandFly, przytrzymaj 2 palce na ekranie przez 5 sekund. Aby usunąć ten baner, otwórz ustawienia funkcji SandFly.</string>
   <string name="reset_gesture_settings_title">Resetowanie ustawień gestów</string>
   <string name="one_finger_gestures_title">1 palec</string>
   <string name="one_finger_back_forth_gestures_title">1 palec, tam i z powrotem</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Sprawdź, czy telefon jest połączony.</string>
   <string name="image_qna_voice_input_empty">Nie rozpoznano mowy.</string>
   <string name="image_qna_answer_unavailable">Brak odpowiedzi.</string>
-  <string name="title_pref_thick_border">Grube obramowanie</string>
-  <string name="title_pref_category_border_color">Kolor</string>
-  <string name="title_pref_default_color">Domyślny</string>
-  <string name="title_pref_red">Czerwony</string>
-  <string name="title_pref_orange">Pomarańczowy</string>
-  <string name="title_pref_yellow">Żółty</string>
-  <string name="title_pref_green">Zielony</string>
-  <string name="title_pref_blue">Niebieski</string>
-  <string name="title_pref_grey">Szary</string>
   <string name="survey_setting_title">Prześlij opinię</string>
   <string name="title_summarize_view">Opisz ekran</string>
   <string name="detected_result">Wykryto: %1$s</string>

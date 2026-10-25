@@ -128,14 +128,6 @@
       android:summary="%s"
       android:title="@string/title_pref_window_names" />
 
-  <!-- What is said when the screen turns off or on and when the phone is unlocked -->
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_screen_announcements"
-      android:summary="@string/summary_pref_screen_announcements"
-      android:title="@string/title_pref_screen_announcements"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenAnnouncementsFragment" />
-
-
   <!-- Limit frequent content change -->
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_allow_frequent_content_change_announcement_default"

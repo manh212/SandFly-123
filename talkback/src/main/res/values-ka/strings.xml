@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">გასააქტიურებლად ერთხელ შეეხეთ ფოკუსში მოქცეულ ერთეულს. უფრო სწრაფი ნავიგაცია, ვიდრე ორმაგი შეხებით.</string>
   <string name="pref_verbosity_title">დეტალიზაცია</string>
   <string name="pref_punctuation_title">სასვენი ნიშნების და სიმბოლოების წარმოთქმა</string>
-  <string name="title_pref_category_manage_focus_indicator">ფოკუსის მაჩვენებელი</string>
   <string name="title_pref_category_manage_gestures">ჟესტები</string>
   <string name="title_pref_manage_labels">მორგებული ლეიბლები</string>
   <string name="title_pref_category_context_menu">SandFly მენიუ</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-ის სახელმძღვანელო</string>
   <string name="title_pref_category_help_no_tutorial">დახმარება</string>
   <string name="title_pref_advanced_settings">გაფართოებული პარამეტრები</string>
-  <string name="title_pref_show_exit_watermark">SandFly-ის გამორთვის ინსტრუქციების ჩვენება</string>
-  <string name="summary_pref_show_exit_watermark">SandFly-ის ჩართვისას ნაჩვენებია, როგორ გამოირთვება</string>
-  <string name="talkback_exit_watermark_text">SandFly ჩართულია. გამოსართავად ეკრანზე ხუთი წამის განმავლობაში დააჭირეთ ორი თითით. ამ შეტყობინების ჩვენების შესაწყვეტად შეეხეთ ეკრანს სამი თითით, რომ გახსნათ SandFly-ის მენიუ.</string>
-  <string name="talkback_exit_watermark_hint_text">ნაჩვენებია ბანერი, რომელიც აჩვენებს, რომ SandFly ჩართულია. SandFly-ის გამოსართავად ეკრანზე დაიჭირეთ ორი თითი ხუთი წამის განმავლობაში. ამ ბანერის ამოსაშლელად გადადით SandFly-ის პარამეტრებზე.</string>
   <string name="reset_gesture_settings_title">ჟესტების პარამეტრების გადაყენება</string>
   <string name="one_finger_gestures_title">1 თითი</string>
   <string name="one_finger_back_forth_gestures_title">1 თითი წინ და უკან</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">გთხოვთ, შეამოწმოთ დაკავშირებულია თუ არა ტელეფონი.</string>
   <string name="image_qna_voice_input_empty">მეტყველების ამოცნობა ვერ მოხერხდა.</string>
   <string name="image_qna_answer_unavailable">პასუხი ხელმისაწვდომი არ არის.</string>
-  <string name="title_pref_thick_border">სქელი საზღვრები</string>
-  <string name="title_pref_category_border_color">ფერი</string>
-  <string name="title_pref_default_color">ნაგულისხმევი</string>
-  <string name="title_pref_red">წითელი</string>
-  <string name="title_pref_orange">ნარინჯისფერი</string>
-  <string name="title_pref_yellow">ყვითელი</string>
-  <string name="title_pref_green">მწვანე</string>
-  <string name="title_pref_blue">ლურჯი</string>
-  <string name="title_pref_grey">ნაცრისფერი</string>
   <string name="survey_setting_title">გაგვიზიარეთ გამოხმაურება</string>
   <string name="title_summarize_view">ეკრანის აღწერა</string>
   <string name="detected_result">აღმოჩენილია: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">საჭიროა ნებართვა, რომელსაც Android ეკრანის წამკითხველებს არ აძლევს. მის მისაცემად გაუშვით ეს ბრძანება adb-ით ან Shizuku-თი, შემდეგ დაბრუნდით ამ ეკრანზე: %1$s</string>
     <string name="action_copy_command">დააკოპირეთ ბრძანება</string>
     <string name="command_copied">ბრძანება დაკოპირებულია</string>
-    <string name="title_pref_speech_control">სხვა აპებისთვის საუბრის დაშვება</string>
-    <string name="summary_pref_speech_control">დაშვებულ აპებს შეუძლიათ ტექსტის წარმოთქმა SandFly-ის ხმით. სანამ მოწყობილობა დაბლოკილია, არაფერი წარმოითქმება.</string>
-    <string name="title_pref_speech_control_sound">ხმის დაკვრა სხვა აპების საუბრამდე</string>
-    <string name="speech_control_apps_category">აპები</string>
-    <string name="speech_control_no_apps">ჯერ არცერთ აპს არ მოუთხოვია საუბარი.</string>
-    <string name="speech_control_ask_title">დავუშვათ, რომ <xliff:g id="app" example="Tasker">%1$s</xliff:g> ისაუბროს SandFly-ით?</string>
-    <string name="speech_control_ask_text">მას შეუძლია თქვას ტექსტი თქვენი SandFly ხმით. ამის შეცვლა შეგიძლიათ გაფართოებულ პარამეტრებში.</string>
-    <string name="speech_control_allow">დაშვება</string>
-    <string name="speech_control_deny">არ დაუშვა</string>
-    <string name="permission_speak_label">SandFly-ის მეშვეობით საუბარი</string>
-    <string name="permission_speak_description">აპს აძლევს უფლებას, ითხოვოს ტექსტის თქმა თქვენი SandFly ხმით. SandFly გკითხავთ, სანამ აპი ლაპარაკს შეძლებს.</string>
     <string name="title_pref_phonetic_letters_mode">ასოების ფონეტიკურად წარმოთქმა</string>
     <string name="phonetic_letters_mode_off">გამორთული</string>
     <string name="phonetic_letters_mode_after_letter_delay">ასოს შემდეგ, პაუზით, მაგ. „ჰ, ჰაერი“</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">ამოღება</string>
     <string name="quick_settings_added">%1$s დამატებულია</string>
     <string name="quick_settings_removed">%1$s ამოღებულია</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ჩართულია. გააჩერეთ 2 თითი ეკრანზე 5 წამის განმავლობაში, რომ გამორთოთ. ამ შეტყობინების ჩვენების შესაჩერებლად გამორთეთ SandFly პარამეტრები &gt; გაფართოებული პარამეტრები &gt; SandFly გამორთვის ინსტრუქციების ჩვენება.</string>
     <string name="edge_gestures_title">კიდეები</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">დათვალიერების რეჟიმის ჩართვის ან გამორთვის კიდევ ერთი მალსახმობი</string>
     <string name="title_pref_vibration_strength">ვიბრაციის სიძლიერე</string>

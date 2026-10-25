@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Označenou položku aktivovat jedním klepnutím. Rychlejší procházení než dvojitým klepnutím.</string>
   <string name="pref_verbosity_title">Míra popisnosti</string>
   <string name="pref_punctuation_title">Vyslovovat interpunkci a symboly</string>
-  <string name="title_pref_category_manage_focus_indicator">Indikátor výběru</string>
   <string name="title_pref_category_manage_gestures">Gesta</string>
   <string name="title_pref_manage_labels">Vlastní štítky</string>
   <string name="title_pref_category_context_menu">Nabídka SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Výukový program SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Nápověda</string>
   <string name="title_pref_advanced_settings">Rozšířená nastavení</string>
-  <string name="title_pref_show_exit_watermark">Zobrazit pokyny k vypnutí funkce SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Při zapnutí SandFly zobrazit, jak jej vypnout</string>
-  <string name="talkback_exit_watermark_text">Je zapnutá funkce SandFly. Vypnete ji tak, že na pět sekund podržíte na obrazovce dva prsty. Pokud tuhle zprávu chcete skrýt, klepnutím třemi prsty otevřete nabídku SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Zobrazuje se banner se sdělením, že je zapnutá funkce SandFly. Pokud chcete funkci SandFly vypnout, podržte pět sekund na obrazovce dva prsty. Pokud tento banner chcete vypnout, přejděte na nastavení funkce SandFly.</string>
   <string name="reset_gesture_settings_title">Resetovat nastavení gest</string>
   <string name="one_finger_gestures_title">1 prst</string>
   <string name="one_finger_back_forth_gestures_title">1 prst tam a zpět</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Zkontrolujte, zda je telefon připojen.</string>
   <string name="image_qna_voice_input_empty">Nebyla rozpoznána žádná řeč.</string>
   <string name="image_qna_answer_unavailable">Není k dispozici žádná odpověď.</string>
-  <string name="title_pref_thick_border">Tlusté ohraničení</string>
-  <string name="title_pref_category_border_color">Barva</string>
-  <string name="title_pref_default_color">Výchozí</string>
-  <string name="title_pref_red">Červená</string>
-  <string name="title_pref_orange">Oranžová</string>
-  <string name="title_pref_yellow">Žlutá</string>
-  <string name="title_pref_green">Zelená</string>
-  <string name="title_pref_blue">Modrá</string>
-  <string name="title_pref_grey">Šedá</string>
   <string name="survey_setting_title">Podělte se o svůj názor</string>
   <string name="title_summarize_view">Popsat obrazovku</string>
   <string name="detected_result">Zjištěno: %1$s</string>

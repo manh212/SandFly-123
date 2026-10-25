@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">フォーカスのあるアイテムを 1 回タップすると有効にできます。ダブルタップよりもすばやく操作できます。</string>
   <string name="pref_verbosity_title">読み上げの詳細設定</string>
   <string name="pref_punctuation_title">句読点と記号の読み上げ</string>
-  <string name="title_pref_category_manage_focus_indicator">フォーカスインジケーター</string>
   <string name="title_pref_category_manage_gestures">ジェスチャー</string>
   <string name="title_pref_manage_labels">カスタムラベル</string>
   <string name="title_pref_category_context_menu">SandFlyメニュー</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly チュートリアル</string>
   <string name="title_pref_category_help_no_tutorial">ヘルプ</string>
   <string name="title_pref_advanced_settings">詳細設定</string>
-  <string name="title_pref_show_exit_watermark">SandFly を OFF にする手順を表示する</string>
-  <string name="summary_pref_show_exit_watermark">SandFly がオンになったら、オフにする方法を示します</string>
-  <string name="talkback_exit_watermark_text">SandFly が ON になっています。OFF にするには、2 本の指で画面を 5 秒間長押しします。このメッセージを表示しないようにするには、3 本の指でタップして SandFly メニューを開きます。</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly がオンになっていることを示すバナーが表示されています。SandFly をオフにするには、2 本の指で画面を 5 秒間長押しします。このバナーを削除するには、SandFly の設定に移動してください。</string>
   <string name="reset_gesture_settings_title">ジェスチャーの設定をリセット</string>
   <string name="one_finger_gestures_title">1 本の指のジェスチャー</string>
   <string name="one_finger_back_forth_gestures_title">1 本の指の往復ジェスチャー</string>
@@ -1068,15 +1063,6 @@
   <string name="watch_remote_intent_error_confirmation_text">スマートフォンが接続されているかご確認ください。</string>
   <string name="image_qna_voice_input_empty">音声を認識できません。</string>
   <string name="image_qna_answer_unavailable">回答はありません。</string>
-  <string name="title_pref_thick_border">太い枠線</string>
-  <string name="title_pref_category_border_color">色</string>
-  <string name="title_pref_default_color">デフォルト</string>
-  <string name="title_pref_red">赤</string>
-  <string name="title_pref_orange">オレンジ</string>
-  <string name="title_pref_yellow">黄</string>
-  <string name="title_pref_green">緑</string>
-  <string name="title_pref_blue">青</string>
-  <string name="title_pref_grey">グレイ</string>
   <string name="survey_setting_title">フィードバックをお寄せください</string>
   <string name="title_summarize_view">画面の説明</string>
   <string name="detected_result">検出: %1$s</string>
@@ -1330,17 +1316,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android がスクリーン リーダーに付与しない権限が必要です。付与するには、adb または Shizuku で次のコマンドを実行してから、この画面に戻ってください: %1$s</string>
     <string name="action_copy_command">コマンドをコピー</string>
     <string name="command_copied">コマンドがコピーされました</string>
-    <string name="title_pref_speech_control">他のアプリの読み上げを許可</string>
-    <string name="summary_pref_speech_control">許可したアプリは SandFly の音声でテキストを読み上げられます。デバイスのロック中は何も読み上げられません。</string>
-    <string name="title_pref_speech_control_sound">他のアプリが話す前にサウンドを再生する</string>
-    <string name="speech_control_apps_category">アプリ</string>
-    <string name="speech_control_no_apps">まだ読み上げをリクエストしたアプリはありません。</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> が SandFly を通して話すことを許可しますか?</string>
-    <string name="speech_control_ask_text">SandFly の音声でテキストを読み上げることができます。これは詳細設定で変更できます。</string>
-    <string name="speech_control_allow">許可する</string>
-    <string name="speech_control_deny">許可しない</string>
-    <string name="permission_speak_label">SandFly を通して読み上げる</string>
-    <string name="permission_speak_description">SandFly の音声でテキストを読み上げるようリクエストすることをアプリに許可します。アプリが読み上げる前に SandFly が確認します。</string>
     <string name="title_pref_phonetic_letters_mode">文字をフォネティックで読み上げる</string>
     <string name="phonetic_letters_mode_off">オフ</string>
     <string name="phonetic_letters_mode_after_letter_delay">文字の後に間を置く（例:「h、ホテル」）</string>
@@ -1483,7 +1458,6 @@
     <string name="quick_settings_remove">削除</string>
     <string name="quick_settings_added">%1$s を追加しました</string>
     <string name="quick_settings_removed">%1$s が削除されました</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly オン。 2 本の指を画面上で 5 秒間押し続けると、電源がオフになります。このメッセージの表示を停止するには、「SandFly 設定」&gt;「詳細設定」&gt;「SandFly をオフにする手順を表示」をオフにします。</string>
     <string name="edge_gestures_title">エッジ</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ブラウズ モードをオンまたはオフにする別のショートカット</string>
     <string name="title_pref_vibration_strength">振動強度</string>

@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Докоснете веднъж елемент, върху който е поставен фокусът, за да го активирате. По-бързо навигиране спрямо двукратното докосване.</string>
   <string name="pref_verbosity_title">Детайлност на говора</string>
   <string name="pref_punctuation_title">Изговаряне на пункт. знаци и символите</string>
-  <string name="title_pref_category_manage_focus_indicator">Индикатор за фокус</string>
   <string name="title_pref_category_manage_gestures">Жестове</string>
   <string name="title_pref_manage_labels">Персонализирани етикети</string>
   <string name="title_pref_category_context_menu">Меню на SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Обучение за SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Помощ</string>
   <string name="title_pref_advanced_settings">Разширени настройки</string>
-  <string name="title_pref_show_exit_watermark">Показване на инструкции за изключване на SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Когато SandFly се включи, се показва как да го изключите</string>
-  <string name="talkback_exit_watermark_text">Функцията SandFly е включена. Докоснете екрана с два пръста и задръжте в продължение на 5 секунди, за да я изключите. За да спрете показването на това съобщение, докоснете с 3 пръста, така че да отворите менюто на SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Показва се банер, който показва, че услугата SandFly е включена. За да я изключите, задръжте два пръста на екрана в продължение на 5 секунди. За да премахнете този банер, отворете настройките на SandFly.</string>
   <string name="reset_gesture_settings_title">Нулиране на настройките за жестовете</string>
   <string name="one_finger_gestures_title">Жестове с 1 пръст</string>
   <string name="one_finger_back_forth_gestures_title">Жестове с 1 пръст в две противоположни посоки</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Моля, проверете дали телефонът е свързан.</string>
   <string name="image_qna_voice_input_empty">Не бе разпознат говор.</string>
   <string name="image_qna_answer_unavailable">Няма наличен отговор.</string>
-  <string name="title_pref_thick_border">Дебели контури</string>
-  <string name="title_pref_category_border_color">Цвят</string>
-  <string name="title_pref_default_color">По подразбиране</string>
-  <string name="title_pref_red">червено</string>
-  <string name="title_pref_orange">оранжево</string>
-  <string name="title_pref_yellow">жълто</string>
-  <string name="title_pref_green">зелено</string>
-  <string name="title_pref_blue">синьо</string>
-  <string name="title_pref_grey">Сиво</string>
   <string name="survey_setting_title">Споделяне на отзиви</string>
   <string name="title_summarize_view">Описание на екрана</string>
   <string name="detected_result">Разпознато: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Изисква разрешение, което Android не дава на екранните четци. За да го предоставите, изпълнете тази команда с adb или Shizuku, след което се върнете на този екран: %1$s</string>
     <string name="action_copy_command">Копиране на командата</string>
     <string name="command_copied">Командата е копирана</string>
-    <string name="title_pref_speech_control">Изговаряне от други приложения</string>
-    <string name="summary_pref_speech_control">Приложенията, на които разрешите, могат да изговарят текст с гласа на SandFly. Докато устройството е заключено, нищо не се изговаря.</string>
-    <string name="title_pref_speech_control_sound">Звук преди изговаряне от други приложения</string>
-    <string name="speech_control_apps_category">Приложения</string>
-    <string name="speech_control_no_apps">Още няма приложения, поискали изговаряне.</string>
-    <string name="speech_control_ask_title">Да се разреши ли на <xliff:g id="app" example="Tasker">%1$s</xliff:g> да изговаря чрез SandFly?</string>
-    <string name="speech_control_ask_text">Приложението може да изговаря текст с гласа на SandFly. Можете да промените това в „Разширени настройки“.</string>
-    <string name="speech_control_allow">Разрешаване</string>
-    <string name="speech_control_deny">Без разрешаване</string>
-    <string name="permission_speak_label">изговаряне чрез SandFly</string>
-    <string name="permission_speak_description">Позволява на приложението да иска да изговаря текст с гласа на SandFly. SandFly иска потвърждение от вас, преди приложението да може да изговаря.</string>
     <string name="title_pref_phonetic_letters_mode">Фонетично изговаряне на буквите</string>
     <string name="phonetic_letters_mode_off">Изкл.</string>
     <string name="phonetic_letters_mode_after_letter_delay">След буквата, със закъснение, например „х, Христо“</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d известие</item>
         <item quantity="other">%d известия</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly е включен. Задръжте 2 пръста на екрана за 5 секунди, за да го изключите. За да спрете показването на това съобщение, изключете „Настройки на SandFly &gt; Разширени настройки &gt; Показване на инструкции за изключване на SandFly“.</string>
     <string name="edge_gestures_title">Ръбове</string>
     <string name="title_pref_audio_output_device">Устройство за аудиоизход</string>
     <string name="dialog_title_audio_output_device">Изберете къде да се възпроизвежда звукът на SandFly</string>

@@ -101,15 +101,6 @@
     <!-- Granted by the user with adb, for the speakerphone setting. -->
     <uses-permission android:name="android.permission.MANAGE_ONGOING_CALLS" />
 
-    <!-- Named after the app ID, because Android refuses to install an app that declares a
-         permission another app, signed with a different key, already declares. Under
-         fyi.quin.backtalk the name is fyi.quin.backtalk.permission.SPEAK. -->
-    <permission
-        android:name="${applicationId}.permission.SPEAK"
-        android:label="@string/permission_speak_label"
-        android:description="@string/permission_speak_description"
-        android:protectionLevel="normal" />
-
     <!-- Granted by the user with adb, to move the accessibility shortcut from the old app ID
          and turn the old screen reader off. -->
     <uses-permission
@@ -526,28 +517,6 @@
                 <action android:name="io.github.aaron_gh.sandfly.action.HAND_OVER" />
             </intent-filter>
         </receiver>
-
-        <receiver
-            android:name="com.google.android.accessibility.talkback.speechcontrol.SpeechControlReceiver"
-            android:exported="true"
-            android:permission="${applicationId}.permission.SPEAK">
-            <intent-filter>
-                <action android:name="fyi.quin.backtalk.action.SPEAK" />
-                <action android:name="fyi.quin.backtalk.action.STOP_SPEECH" />
-            </intent-filter>
-        </receiver>
-        <!-- Saves the user's answer from the notification that asks whether an app may speak. -->
-        <receiver
-            android:name="com.google.android.accessibility.talkback.speechcontrol.SpeechControlApproval$AnswerReceiver"
-            android:exported="false" />
-        <service
-            android:name="com.google.android.accessibility.talkback.speechcontrol.SpeechControlService"
-            android:exported="true"
-            android:permission="${applicationId}.permission.SPEAK">
-            <intent-filter>
-                <action android:name="fyi.quin.backtalk.action.SPEECH_CONTROL" />
-            </intent-filter>
-        </service>
 
         <receiver
             android:name="com.google.android.libraries.appdoctor.AppDoctorReceiver"

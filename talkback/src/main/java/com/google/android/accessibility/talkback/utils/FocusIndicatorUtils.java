@@ -17,46 +17,22 @@
 package com.google.android.accessibility.talkback.utils;
 
 import android.accessibilityservice.AccessibilityService;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
-import androidx.annotation.ColorInt;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.DimScreenActor;
-import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Utils function for updating focus indicator stroke width and color. */
 public class FocusIndicatorUtils {
 
   /**
-   * Applies the focus appearance preference. It would set the preferences via {@link
-   * AccessibilityService}
-   *
-   * @param service The parent service.
-   * @param prefs Shared preferences from which to obtain the value
-   * @param res Resources from which to obtain the key and default value
-   */
-  public static void applyFocusAppearancePreference(
-      AccessibilityService service, SharedPreferences prefs, Resources res) {
-    if (DimScreenActor.isDimScreenEnabled(service, prefs)) {
-      // No need to modify the focus indicator when the screen is dimming.
-      return;
-    }
-
-      int borderWidth = getTalkBackFocusStrokeWidth(prefs, res);
-      int borderColor = getTalkBackFocusColor(service, prefs, res);
-      setAccessibilityFocusAppearance(service, borderWidth, borderColor);
-  }
-
-  /**
    * Hides the focus indicator, so that a screenshot doesn't show it. Returns false when the focus
    * indicator can't be changed. {@link #restoreAfterScreenshot} shows it again.
    */
   public static boolean hideForScreenshot(AccessibilityService service) {
-    // A version check that lint recognizes, unlike FeatureSupport.supportCustomizingFocusIndicator.
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
       return false;
     }
@@ -64,7 +40,7 @@ public class FocusIndicatorUtils {
     return true;
   }
 
-  /** Shows the focus indicator that {@link #hideForScreenshot} hid, as it was. */
+  /** Shows the focus indicator that {@link #hideForScreenshot} hid, with the default appearance. */
   public static void restoreAfterScreenshot(AccessibilityService service) {
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
     Resources res = service.getResources();
@@ -75,7 +51,10 @@ public class FocusIndicatorUtils {
           res.getDimensionPixelSize(R.dimen.accessibility_focus_highlight_stroke_width),
           Color.BLACK);
     } else {
-      applyFocusAppearancePreference(service, prefs, res);
+      setAccessibilityFocusAppearance(
+          service,
+          res.getDimensionPixelSize(R.dimen.accessibility_focus_highlight_stroke_width),
+          res.getColor(R.color.accessibility_focus_highlight_color, null));
     }
   }
 
@@ -93,34 +72,4 @@ public class FocusIndicatorUtils {
     }
   }
 
-  /**
-   * Gets the stroke width of TalkBack focus indicator settings.
-   *
-   * @param prefs Shared preferences from which to obtain the value
-   * @param res Resources from which to obtain the key and default value
-   */
-  public static int getTalkBackFocusStrokeWidth(SharedPreferences prefs, Resources res) {
-    boolean isThickBorder = prefs.getBoolean(res.getString(R.string.pref_thick_border_key), false);
-    int borderWidth =
-        isThickBorder
-            ? res.getDimensionPixelSize(R.dimen.accessibility_thick_focus_highlight_stroke_width)
-            : res.getDimensionPixelSize(R.dimen.accessibility_focus_highlight_stroke_width);
-    return borderWidth;
-  }
-
-  /**
-   * Gets the color value of TalkBack focus indicator settings.
-   *
-   * @param context The context.
-   * @param prefs Shared preferences from which to obtain the value
-   * @param res Resources from which to obtain the key and default value
-   */
-  @ColorInt
-  public static int getTalkBackFocusColor(Context context, SharedPreferences prefs, Resources res) {
-    int borderColor =
-        prefs.getInt(
-            res.getString(R.string.pref_border_color_key),
-            res.getColor(R.color.accessibility_focus_highlight_color, null));
-    return borderColor;
-  }
 }

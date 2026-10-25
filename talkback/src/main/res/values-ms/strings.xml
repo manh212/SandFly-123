@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Ketik sekali pada item yang difokuskan untuk pengaktifan. Navigasi lebih pantas daripada ketik dua kali.</string>
   <string name="pref_verbosity_title">Maklumat berjela</string>
   <string name="pref_punctuation_title">Sebut tanda baca dan simbol</string>
-  <string name="title_pref_category_manage_focus_indicator">Penunjuk fokus</string>
   <string name="title_pref_category_manage_gestures">Gerak isyarat</string>
   <string name="title_pref_manage_labels">Label tersuai</string>
   <string name="title_pref_category_context_menu">Menu SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Tutorial SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Bantuan</string>
   <string name="title_pref_advanced_settings">Tetapan terperinci</string>
-  <string name="title_pref_show_exit_watermark">Tunjukkan arahan untuk mematikan SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Apabila SandFly dihidupkan, cara mematikannya ditunjukkan</string>
-  <string name="talkback_exit_watermark_text">SandFly dihidupkan. Tahan 2 jari pada skrin selama 5 saat untuk mematikan SandFly. Untuk berhenti memaparkan mesej ini, ketik dengan 3 jari untuk membuka menu SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Sepanduk dipaparkan untuk menunjukkan SandFly dihidupkan. Untuk mematikan SandFly, tahan 2 jari pada skrin selama 5 saat. Untuk mengalih keluar sepanduk ini, akses Tetapan SandFly.</string>
   <string name="reset_gesture_settings_title">Tetapkan semula tetapan gerak isyarat</string>
   <string name="one_finger_gestures_title">1 jari</string>
   <string name="one_finger_back_forth_gestures_title">1 jari ulang-alik</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Sila semak sama ada telefon bersambung atau tidak.</string>
   <string name="image_qna_voice_input_empty">Tiada pertuturan dikenal pasti.</string>
   <string name="image_qna_answer_unavailable">Tiada jawapan tersedia.</string>
-  <string name="title_pref_thick_border">Sempadan tebal</string>
-  <string name="title_pref_category_border_color">Warna</string>
-  <string name="title_pref_default_color">Lalai</string>
-  <string name="title_pref_red">Merah</string>
-  <string name="title_pref_orange">Orange</string>
-  <string name="title_pref_yellow">Kuning</string>
-  <string name="title_pref_green">Hijau</string>
-  <string name="title_pref_blue">Biru</string>
-  <string name="title_pref_grey">Kelabu</string>
   <string name="survey_setting_title">Kongsi maklum balas anda</string>
   <string name="title_summarize_view">Perihalkan skrin</string>
   <string name="detected_result">Dikesan: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Memerlukan kebenaran yang tidak diberikan oleh Android kepada pembaca skrin. Untuk memberikannya, jalankan arahan ini dengan adb atau Shizuku, kemudian kembali ke skrin ini: %1$s</string>
     <string name="action_copy_command">Salin arahan</string>
     <string name="command_copied">Perintah disalin</string>
-    <string name="title_pref_speech_control">Biarkan apl lain bercakap</string>
-    <string name="summary_pref_speech_control">Apl yang anda benarkan boleh menyebut teks dengan suara SandFly. Tiada apa-apa disebut semasa peranti dikunci.</string>
-    <string name="title_pref_speech_control_sound">Mainkan bunyi sebelum apl lain bercakap</string>
-    <string name="speech_control_apps_category">Apl</string>
-    <string name="speech_control_no_apps">Belum ada apl yang meminta untuk bercakap.</string>
-    <string name="speech_control_ask_title">Benarkan <xliff:g id="app" example="Tasker">%1$s</xliff:g> bercakap melalui SandFly?</string>
-    <string name="speech_control_ask_text">Ia boleh menyebut teks dalam suara SandFly anda. Anda boleh menukar ini dalam tetapan Lanjutan.</string>
-    <string name="speech_control_allow">Benarkan</string>
-    <string name="speech_control_deny">Jangan benarkan</string>
-    <string name="permission_speak_label">bercakap melalui SandFly</string>
-    <string name="permission_speak_description">Membenarkan apl meminta untuk menyebut teks dalam suara SandFly anda. SandFly bertanya kepada anda sebelum apl boleh bercakap.</string>
     <string name="title_pref_phonetic_letters_mode">Sebut huruf secara fonetik</string>
     <string name="phonetic_letters_mode_off">Mati</string>
     <string name="phonetic_letters_mode_after_letter_delay">Selepas huruf, dengan jeda, seperti “h, hotel”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Alih keluar</string>
     <string name="quick_settings_added">%1$s ditambah</string>
     <string name="quick_settings_removed">%1$s dikeluarkan</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly hidup. Tahan 2 jari pada skrin selama 5 saat untuk mematikannya. Untuk berhenti menunjukkan mesej ini, matikan Tetapan SandFly &gt; Tetapan terperinci &gt; Tunjukkan arahan untuk mematikan SandFly.</string>
     <string name="edge_gestures_title">Tepi</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Pintasan lain untuk menghidupkan atau mematikan mod semak imbas</string>
     <string name="title_pref_vibration_strength">Kekuatan getaran</string>

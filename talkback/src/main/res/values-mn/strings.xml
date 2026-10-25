@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Идэвхжүүлэхийн тулд сонгосон зүйл дээр нэг товшино уу. Хоёр товшихоос илүү хурдан навигац.</string>
   <string name="pref_verbosity_title">Нуршуу</string>
   <string name="pref_punctuation_title">Цэг, таслал, тэмдэгтийг унших</string>
-  <string name="title_pref_category_manage_focus_indicator">Фокус үзүүлэлт</string>
   <string name="title_pref_category_manage_gestures">Зангаа</string>
   <string name="title_pref_manage_labels">Захиалгат шошго</string>
   <string name="title_pref_category_context_menu">SandFly цэс</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-н заавар</string>
   <string name="title_pref_category_help_no_tutorial">Тусламж</string>
   <string name="title_pref_advanced_settings">Дэвшилтэт тохиргоо</string>
-  <string name="title_pref_show_exit_watermark">SandFly-г унтраах зааварчилгааг харуулна уу</string>
-  <string name="summary_pref_show_exit_watermark">SandFly асахад түүнийг хэрхэн унтраахыг харуулна</string>
-  <string name="talkback_exit_watermark_text">SandFly асаалттай байна. Унтраахын тулд дэлгэц дээр 2 хуруугаараа 5 секундийн турш удаан дарна уу. Үүнийг харуулахыг зогсоохын тулд 3 хуруугаараа товшиж SandFly-н цэсийг нээнэ үү.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly-г асаалттайг заах баннерыг харуулж байна. SandFly-г унтраахын тулд 5 секундийн турш дэлгэц дээр 2 хуруугаараа удаан дарна уу. Энэ баннерыг хасахын тулд SandFly-н Тохиргоо руу очно уу.</string>
   <string name="reset_gesture_settings_title">Зангааны тохиргоог шинэчлэх</string>
   <string name="one_finger_gestures_title">1 хурууны</string>
   <string name="one_finger_back_forth_gestures_title">1 хурууны урагш хойш</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Утас холбогдсон эсэхийг шалгана уу.</string>
   <string name="image_qna_voice_input_empty">Ямар ч яриаг таниагүй.</string>
   <string name="image_qna_answer_unavailable">Ямар ч хариулт боломжгүй.</string>
-  <string name="title_pref_thick_border">Өргөн хүрээ</string>
-  <string name="title_pref_category_border_color">Өнгө</string>
-  <string name="title_pref_default_color">Өгөгдмөл</string>
-  <string name="title_pref_red">Улаан</string>
-  <string name="title_pref_orange">Улбар шар</string>
-  <string name="title_pref_yellow">Шар</string>
-  <string name="title_pref_green">Ногоон</string>
-  <string name="title_pref_blue">Цэнхэр</string>
-  <string name="title_pref_grey">Саарал</string>
   <string name="survey_setting_title">Санал хүсэлтээ хуваалцах</string>
   <string name="title_summarize_view">Дэлгэцийг тайлбарлах</string>
   <string name="detected_result">Илэрсэн: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android дэлгэц уншигчид олгодоггүй зөвшөөрөл шаардлагатай. Үүнийг олгохын тулд энэ командыг adb эсвэл Shizuku-аар ажиллуулаад, энэ дэлгэц рүү буцна уу: %1$s</string>
     <string name="action_copy_command">Тушаалыг хуулах</string>
     <string name="command_copied">Командыг хуулсан</string>
-    <string name="title_pref_speech_control">Бусад аппад ярихыг зөвшөөрөх</string>
-    <string name="summary_pref_speech_control">Зөвшөөрсөн аппууд SandFly-ийн хоолойгоор текст хэлж болно. Төхөөрөмж түгжээтэй үед юу ч хэлэхгүй.</string>
-    <string name="title_pref_speech_control_sound">Бусад апп ярихаас өмнө дуу тоглуулах</string>
-    <string name="speech_control_apps_category">Аппууд</string>
-    <string name="speech_control_no_apps">Одоогоор ямар ч програм ярихыг хүсээгүй байна.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g>-д SandFly-ээр ярихыг зөвшөөрөх үү?</string>
-    <string name="speech_control_ask_text">Энэ нь таны SandFly хоолойгоор текст хэлэх боломжтой. Та үүнийг Нарийвчилсан тохиргооноос өөрчилж болно.</string>
-    <string name="speech_control_allow">Зөвшөөрөх</string>
-    <string name="speech_control_deny">Зөвшөөрөхгүй</string>
-    <string name="permission_speak_label">SandFly дамжуулан ярих</string>
-    <string name="permission_speak_description">Апп-д таны SandFly хоолойгоор текст хэлүүлэх хүсэлт гаргах боломж олгоно. Апп ярихаас өмнө SandFly танаас асууна.</string>
     <string name="title_pref_phonetic_letters_mode">Үсгийг авиа зүйн дагуу хэлэх</string>
     <string name="phonetic_letters_mode_off">Унтраалттай</string>
     <string name="phonetic_letters_mode_after_letter_delay">Үсгийн дараа, завсарлагатай, жишээ нь «х, хонь»</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Устгах</string>
     <string name="quick_settings_added">%1$s нэмсэн</string>
     <string name="quick_settings_removed">%1$s хасагдсан</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly асаалттай. Унтраахын тулд дэлгэцэн дээр 2 хуруугаа 5 секунд барина уу. Энэ мессежийг харуулахыг зогсоохын тулд SandFly тохиргоо &gt; Нарийвчилсан тохиргоо &gt; SandFly унтраах зааврыг харуулах гэснийг унтраа.</string>
     <string name="edge_gestures_title">Ирмэгүүд</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Үзэх горимыг асаах эсвэл унтраах өөр нэг товчлол</string>
     <string name="title_pref_vibration_strength">Чичиргээний хүч</string>

@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Ерекшеленген элементті бір рет түртіп іске қосыңыз. Екі рет түртіп өтуге қарағанда тез болады.</string>
   <string name="pref_verbosity_title">Сөз мөлшері</string>
   <string name="pref_punctuation_title">Тыныс белгілері мен таңбаларды дыбыстау</string>
-  <string name="title_pref_category_manage_focus_indicator">Фокус көрсеткіші</string>
   <string name="title_pref_category_manage_gestures">Қимылдар</string>
   <string name="title_pref_manage_labels">Арнаулы белгілер</string>
   <string name="title_pref_category_context_menu">SandFly мәзірі</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly оқулығы</string>
   <string name="title_pref_category_help_no_tutorial">Анықтама</string>
   <string name="title_pref_advanced_settings">Қосымша параметрлер</string>
-  <string name="title_pref_show_exit_watermark">SandFly функциясын өшіру нұсқауларын көрсету</string>
-  <string name="summary_pref_show_exit_watermark">SandFly қосылғанда, оны қалай өшіру керектігі көрсетіледі</string>
-  <string name="talkback_exit_watermark_text">SandFly қосулы. Өшіру үшін 2 саусақты экранда 5 секунд ұстап тұрыңыз. Бұл хабарды көрсетуді тоқтату үшін 3 саусақпен түртіп, SandFly мәзірін ашыңыз.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly функциясының қосулы тұрғанын білдіретін баннер көрсетіліп тұр. SandFly функциясын өшіру үшін 2 саусағыңызды экранда 5 секунд ұстап тұрыңыз. Бұл баннерді алып тастау үшін SandFly параметрлеріне өтіңіз.</string>
   <string name="reset_gesture_settings_title">Қимыл параметрлерін бастапқы күйге қайтару</string>
   <string name="one_finger_gestures_title">1 саусақ</string>
   <string name="one_finger_back_forth_gestures_title">1 саусақпен алға және артқа жылжыту</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Телефон қосулы екенін тексеріңіз.</string>
   <string name="image_qna_voice_input_empty">Ешқандай сөз танылмады.</string>
   <string name="image_qna_answer_unavailable">Жауап қолжетімді емес.</string>
-  <string name="title_pref_thick_border">Жуан жақтаулар</string>
-  <string name="title_pref_category_border_color">Түсі</string>
-  <string name="title_pref_default_color">Әдепкі</string>
-  <string name="title_pref_red">Қызыл</string>
-  <string name="title_pref_orange">Қызыл сары</string>
-  <string name="title_pref_yellow">Сары</string>
-  <string name="title_pref_green">Жасыл</string>
-  <string name="title_pref_blue">Көк</string>
-  <string name="title_pref_grey">Сұр</string>
   <string name="survey_setting_title">Пікір білдіру</string>
   <string name="title_summarize_view">Экранды сипаттаңыз</string>
   <string name="detected_result">Анықталды: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android экраннан оқу құралдарына бермейтін рұқсат қажет. Оны беру үшін осы пәрменді adb немесе Shizuku арқылы орындаңыз, содан кейін осы экранға оралыңыз: %1$s</string>
     <string name="action_copy_command">Пәрменді көшіру</string>
     <string name="command_copied">Пәрмен көшірілді</string>
-    <string name="title_pref_speech_control">Басқа қолданбаларға сөйлеуге рұқсат беру</string>
-    <string name="summary_pref_speech_control">Рұқсат берілген қолданбалар мәтінді SandFly дауысымен айта алады. Құрылғы құлыптаулы кезде ештеңе айтылмайды.</string>
-    <string name="title_pref_speech_control_sound">Басқа қолданбалар сөйлемес бұрын дыбыс ойнату</string>
-    <string name="speech_control_apps_category">Қолданбалар</string>
-    <string name="speech_control_no_apps">Әзірге ешбір қолданба сөйлеуді сұраған жоқ.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> SandFly арқылы сөйлеуге рұқсат етілсін бе?</string>
-    <string name="speech_control_ask_text">Ол мәтінді SandFly дауысыңызбен айта алады. Мұны Кеңейтілген параметрлерде өзгертуге болады.</string>
-    <string name="speech_control_allow">Рұқсат ету</string>
-    <string name="speech_control_deny">Рұқсат етпеу</string>
-    <string name="permission_speak_label">SandFly арқылы сөйлеу</string>
-    <string name="permission_speak_description">Қолданба мәтінді SandFly дауысыңызбен айтуды сұрауға мүмкіндік береді. SandFly қолданба сөйлей алмас бұрын сізден сұрайды.</string>
     <string name="title_pref_phonetic_letters_mode">Әріптерді фонетикалық түрде айту</string>
     <string name="phonetic_letters_mode_off">Өшірулі</string>
     <string name="phonetic_letters_mode_after_letter_delay">Әріптен кейін, кідіріспен, мысалы «а, Алма»</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">Жою</string>
     <string name="quick_settings_added">%1$s қосылды</string>
     <string name="quick_settings_removed">%1$s жойылды</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly қосулы. Өшіру үшін экранда 2 саусақты 5 секунд ұстап тұрыңыз. Бұл хабарды көрсетуді тоқтату үшін SandFly параметрлері &gt; Қосымша параметрлер &gt; SandFly өшіру нұсқауларын көрсету тармағын өшіріңіз.</string>
     <string name="edge_gestures_title">Жиектер</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Шолу режимін қосу немесе өшіру үшін тағы бір төте жол</string>
     <string name="title_pref_vibration_strength">Діріл күші</string>

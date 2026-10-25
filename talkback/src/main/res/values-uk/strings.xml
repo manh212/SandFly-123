@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Щоб активувати виділений об’єкт, натисніть його один раз. Швидша навігація, ніж подвійний дотик.</string>
   <string name="pref_verbosity_title">Деталізація</string>
   <string name="pref_punctuation_title">Озвучувати розділові знаки й символи</string>
-  <string name="title_pref_category_manage_focus_indicator">Індикатор фокусування</string>
   <string name="title_pref_category_manage_gestures">Жести</string>
   <string name="title_pref_manage_labels">Спеціальні мітки</string>
   <string name="title_pref_category_context_menu">Меню SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Навчальний посібник SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Довідка</string>
   <string name="title_pref_advanced_settings">Розширені налаштування</string>
-  <string name="title_pref_show_exit_watermark">Відображати вказівки з вимкнення SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Коли SandFly вмикається, показується, як його вимкнути</string>
-  <string name="talkback_exit_watermark_text">SandFly увімкнено. Щоб вимкнути цю функцію, утримуйте 2 пальці на екрані протягом 5 секунд. Щоб припинити показ цього повідомлення, відкрийте меню SandFly, торкнувшись екрана трьома пальцями.</string>
-  <string name="talkback_exit_watermark_hint_text">На екрані відображається банер, який указує, що функцію SandFly увімкнено. Щоб вимкнути SandFly, утримуйте 2 пальці на екрані протягом 5 секунд. Щоб закрити цей банер, перейдіть у налаштування SandFly.</string>
   <string name="reset_gesture_settings_title">Скинути налаштування жестів</string>
   <string name="one_finger_gestures_title">Жести одним пальцем</string>
   <string name="one_finger_back_forth_gestures_title">Жести одним пальцем уперед і назад</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Перевірте, чи телефон підключено.</string>
   <string name="image_qna_voice_input_empty">Мовлення не розпізнано.</string>
   <string name="image_qna_answer_unavailable">Немає відповіді.</string>
-  <string name="title_pref_thick_border">Товсті межі</string>
-  <string name="title_pref_category_border_color">Колір</string>
-  <string name="title_pref_default_color">За умовчанням</string>
-  <string name="title_pref_red">Червоний</string>
-  <string name="title_pref_orange">Оранжевий</string>
-  <string name="title_pref_yellow">Жовтий</string>
-  <string name="title_pref_green">Зелений</string>
-  <string name="title_pref_blue">Синій</string>
-  <string name="title_pref_grey">Сірий</string>
   <string name="survey_setting_title">Надіслати відгук</string>
   <string name="title_summarize_view">Описати, що на екрані</string>
   <string name="detected_result">Розпізнано: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Потрібен дозвіл, який Android не надає програмам зчитування з екрана. Щоб надати його, виконайте цю команду через adb або Shizuku, а потім поверніться на цей екран: %1$s</string>
     <string name="action_copy_command">Копіювати команду</string>
     <string name="command_copied">Команду скопійовано</string>
-    <string name="title_pref_speech_control">Дозволити іншим програмам озвучувати текст</string>
-    <string name="summary_pref_speech_control">Дозволені додатки можуть промовляти текст голосом SandFly. Поки пристрій заблоковано, нічого не промовляється.</string>
-    <string name="title_pref_speech_control_sound">Відтворювати звук перед мовленням інших програм</string>
-    <string name="speech_control_apps_category">Додатки</string>
-    <string name="speech_control_no_apps">Жодна програма ще не попросила говорити.</string>
-    <string name="speech_control_ask_title">Дозволити <xliff:g id="app" example="Tasker">%1$s</xliff:g> говорити через SandFly?</string>
-    <string name="speech_control_ask_text">Він може вимовляти текст вашим голосом SandFly. Ви можете змінити це в Розширених налаштуваннях.</string>
-    <string name="speech_control_allow">Дозволити</string>
-    <string name="speech_control_deny">Не дозволяти</string>
-    <string name="permission_speak_label">говорити через SandFly</string>
-    <string name="permission_speak_description">Дозволяє додатку просити озвучити текст вашим голосом SandFly. SandFly запитує вас, перш ніж додаток зможе говорити.</string>
     <string name="title_pref_phonetic_letters_mode">Промовляти букви фонетично</string>
     <string name="phonetic_letters_mode_off">Вимкнено</string>
     <string name="phonetic_letters_mode_after_letter_delay">Після літери, з паузою, наприклад «г, Галина»</string>
@@ -1494,7 +1469,6 @@
     <string name="quick_settings_remove">Видалити</string>
     <string name="quick_settings_added">%1$s додано</string>
     <string name="quick_settings_removed">%1$s видалено</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly увімкнено. Щоб вимкнути, утримуйте 2 пальці на екрані протягом 5 секунд. Щоб більше не показувати це повідомлення, вимкніть налаштування SandFly &gt; Додаткові налаштування &gt; Показати інструкції щодо вимкнення SandFly.</string>
     <string name="edge_gestures_title">Краї</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">Ще один ярлик для ввімкнення або вимкнення режиму перегляду</string>
     <string name="title_pref_vibration_strength">Сила вібрації</string>

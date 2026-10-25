@@ -238,8 +238,6 @@ object SettingsBackup {
     setOf(
       "pref_developer_version_code",
       "brailleime_shared_prefs_version",
-      "pref_speech_control_allowed_apps",
-      "pref_speech_control_denied_apps",
       "remembered_devices_with_addresses",
     )
 

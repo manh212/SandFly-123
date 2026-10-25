@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Πατήστε μία φορά το εστιασμένο στοιχείο για ενεργοποίηση. Πιο γρήγορη πλοήγηση από το διπλό πάτημα.</string>
   <string name="pref_verbosity_title">Έκταση</string>
   <string name="pref_punctuation_title">Εκφώνηση σημείων στίξης και συμβόλων</string>
-  <string name="title_pref_category_manage_focus_indicator">Ένδειξη εστίασης</string>
   <string name="title_pref_category_manage_gestures">Κινήσεις</string>
   <string name="title_pref_manage_labels">Προσαρμοσμένες ετικέτες</string>
   <string name="title_pref_category_context_menu">Μενού SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Οδηγός SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Βοήθεια</string>
   <string name="title_pref_advanced_settings">Σύνθετες ρυθμίσεις</string>
-  <string name="title_pref_show_exit_watermark">Εμφάνιση οδηγιών για την απενεργοποίηση του SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Όταν ενεργοποιείται το SandFly, εμφάνιση του τρόπου απενεργοποίησής του</string>
-  <string name="talkback_exit_watermark_text">Το SandFly είναι ενεργό. Πατήστε με 2 δάχτυλα στην οθόνη για 5 δευτερόλεπτα για απενεργοποίηση. Για να σταματήσετε την εμφάνιση αυτού του μηνύματος, πατήστε με 3 δάχτυλα για να ανοίξετε το μενού του SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Εμφάνιση banner που υποδεικνύει ότι το SandFly είναι ενεργό. Για να απενεργοποιήσετε το SandFly, πατήστε με 2 δάχτυλα στην οθόνη για 5 δευτερόλεπτα. Για να καταργήσετε αυτό το banner, μεταβείτε στις Ρυθμίσεις του SandFly.</string>
   <string name="reset_gesture_settings_title">Επαναφορά ρυθμίσεων κινήσεων</string>
   <string name="one_finger_gestures_title">1 δάχτυλο</string>
   <string name="one_finger_back_forth_gestures_title">1 δάχτυλο μπροστά και πίσω</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Ελέγξτε εάν το τηλέφωνο είναι συνδεδεμένο.</string>
   <string name="image_qna_voice_input_empty">Δεν αναγνωρίστηκε ομιλία.</string>
   <string name="image_qna_answer_unavailable">Δεν υπάρχει διαθέσιμη απάντηση.</string>
-  <string name="title_pref_thick_border">Παχιά περιθώρια</string>
-  <string name="title_pref_category_border_color">Χρώμα</string>
-  <string name="title_pref_default_color">Προεπιλογή</string>
-  <string name="title_pref_red">Κόκκινο</string>
-  <string name="title_pref_orange">Πορτοκαλί</string>
-  <string name="title_pref_yellow">Κίτρινο</string>
-  <string name="title_pref_green">Πράσινο</string>
-  <string name="title_pref_blue">Μπλε</string>
-  <string name="title_pref_grey">Γκρι</string>
   <string name="survey_setting_title">Μοιραστείτε τα σχόλιά σας</string>
   <string name="title_summarize_view">Περιγραφή οθόνης</string>
   <string name="detected_result">Εντοπίστηκε: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Απαιτεί μια άδεια που το Android δεν παρέχει στους αναγνώστες οθόνης. Για να την παραχωρήσετε, εκτελέστε αυτή την εντολή με adb ή Shizuku και, στη συνέχεια, επιστρέψτε σε αυτή την οθόνη: %1$s</string>
     <string name="action_copy_command">Αντιγραφή εντολής</string>
     <string name="command_copied">Η εντολή αντιγράφηκε</string>
-    <string name="title_pref_speech_control">Εκφώνηση από άλλες εφαρμογές</string>
-    <string name="summary_pref_speech_control">Οι εφαρμογές που επιτρέπετε μπορούν να εκφωνούν κείμενο με τη φωνή του SandFly. Όταν η συσκευή είναι κλειδωμένη, δεν εκφωνείται τίποτα.</string>
-    <string name="title_pref_speech_control_sound">Αναπαραγωγή ήχου πριν από την εκφώνηση άλλων εφαρμογών</string>
-    <string name="speech_control_apps_category">Εφαρμογές</string>
-    <string name="speech_control_no_apps">Καμία εφαρμογή δεν έχει ζητήσει ακόμη εκφώνηση.</string>
-    <string name="speech_control_ask_title">Να επιτρέπεται στην εφαρμογή <xliff:g id="app" example="Tasker">%1$s</xliff:g> η εκφώνηση μέσω του SandFly;</string>
-    <string name="speech_control_ask_text">Μπορεί να εκφωνεί κείμενο με τη φωνή του SandFly. Μπορείτε να το αλλάξετε στις Σύνθετες ρυθμίσεις.</string>
-    <string name="speech_control_allow">Να επιτρέπεται</string>
-    <string name="speech_control_deny">Να μην επιτρέπεται</string>
-    <string name="permission_speak_label">εκφώνηση μέσω του SandFly</string>
-    <string name="permission_speak_description">Επιτρέπει στην εφαρμογή να ζητά να εκφωνεί κείμενο με τη φωνή του SandFly. Το SandFly ζητά την έγκρισή σας πριν από την εκφώνηση.</string>
     <string name="title_pref_phonetic_letters_mode">Φωνητική εκφώνηση γραμμάτων</string>
     <string name="phonetic_letters_mode_off">Ανενεργό</string>
     <string name="phonetic_letters_mode_after_letter_delay">Μετά το γράμμα, με καθυστέρηση, όπως «ξ, ξενοδοχείο»</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d ειδοποίηση</item>
         <item quantity="other">%d ειδοποιήσεις</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">Το SandFly είναι ενεργό. Πατήστε με 2 δάχτυλα στην οθόνη για 5 δευτερόλεπτα για απενεργοποίηση. Για να σταματήσετε την εμφάνιση αυτού του μηνύματος, απενεργοποιήστε τη ρύθμιση Ρυθμίσεις SandFly &gt; Σύνθετες ρυθμίσεις &gt; Εμφάνιση οδηγιών για την απενεργοποίηση του SandFly.</string>
     <string name="edge_gestures_title">Άκρες</string>
     <string name="title_pref_audio_output_device">Συσκευή εξόδου ήχου</string>
     <string name="dialog_title_audio_output_device">Επιλογή συσκευής για τον ήχο του SandFly</string>

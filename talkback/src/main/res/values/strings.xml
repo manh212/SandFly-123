@@ -355,6 +355,24 @@
     <string name="title_pref_navigation">Navigation</string>
     <!-- Settings category for advanced settings, the tutorial, and help. [CHAR LIMIT=40] -->
     <string name="title_pref_category_more">More</string>
+    <!-- Main settings group for text-to-speech and verbosity. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_speech">Speech</string>
+    <!-- Main settings group for moving through screens and items. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_navigation">Navigation</string>
+    <!-- Main settings group for the gesture and keyboard shortcut assignments. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_gestures_shortcuts">Gestures and shortcuts</string>
+    <!-- Main settings group for the SandFly menu and the reading controls. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_menu_controls">Menus and reading controls</string>
+    <!-- Main settings group for typing and keyboards. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_typing">Typing</string>
+    <!-- Main settings group for descriptions, status and screen announcements. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_screen_info">On-screen information</string>
+    <!-- Main settings group for scripts and custom labels. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_apps">Apps</string>
+    <!-- Main settings group for system options, updates and help. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_system_help">System and help</string>
+    <!-- Main settings group for items that belong to no other group. [CHAR LIMIT=40] -->
+    <string name="title_pref_group_other">Other settings</string>
     <!-- Title for preference that controls the volume of TalkBack's speech output. [CHAR LIMIT=25] -->
     <string name="title_pref_speech_volume">Speech volume</string>
     <!--
@@ -389,27 +407,16 @@
     <!-- Shown after the adb command was copied to the clipboard. [CHAR LIMIT=NONE] -->
     <string name="command_copied">Command copied</string>
     <!-- Title of the setting that lets other apps speak through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_speech_control">Let other apps speak</string>
     <!-- Summary of that setting. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speech_control">Apps that you allow can say text in your SandFly voice. Nothing is said while the device is locked.</string>
     <!-- Title of the setting that plays a sound before each thing another app says through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_speech_control_sound">Play a sound before other apps speak</string>
     <!-- Heading of the list of apps that asked to speak through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_apps_category">Apps</string>
     <!-- Shown in that list before any app has asked to speak. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_no_apps">No apps have asked to speak yet.</string>
     <!-- Title of the notification that asks whether an app may speak through SandFly. The app's name is filled in. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_ask_title">Allow <xliff:g id="app" example="Tasker">%1$s</xliff:g> to speak through SandFly?</string>
     <!-- Text of that notification. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_ask_text">It can say text in your SandFly voice. You can change this in Advanced settings.</string>
     <!-- Button in that notification that lets the app speak. [CHAR LIMIT=30] -->
-    <string name="speech_control_allow">Allow</string>
     <!-- Button in that notification that stops the app from speaking. [CHAR LIMIT=30] -->
-    <string name="speech_control_deny">Don\'t allow</string>
     <!-- Name of the permission that apps ask for to speak through SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
-    <string name="permission_speak_label">speak through SandFly</string>
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
-    <string name="permission_speak_description">Lets the app ask to say text in your SandFly voice. SandFly asks you before the app can speak.</string>
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
 
     <!--
@@ -675,7 +682,6 @@
     -->
     <string name="pref_punctuation_title">Speak punctuation and symbols</string>
     <!-- Label for the PreferenceScreen used to manage TalkBack's focus indicator. [CHAR LIMIT=40] -->
-    <string name="title_pref_category_manage_focus_indicator">Focus indicator</string>
     <!-- Label for the PreferenceScreen used to manage TalkBack's gesture mapping. [CHAR LIMIT=40] -->
     <string name="title_pref_category_manage_gestures">Gestures</string>
     <!-- Label for the button to launch an activity for managing TalkBack's custom view labels. [CHAR LIMIT=70] -->
@@ -709,12 +715,10 @@
       Source: Preference for showing mis-trigger prevention watermark on screen.
       Description: The user can check or not check this. [CHAR LIMIT=120]
     -->
-    <string name="title_pref_show_exit_watermark">Show instructions for turning off SandFly</string>
     <!--
       Source: Summary subtext for showing mis-trigger prevention watermark on screen.
       Description: Explains whether to show the banner. [CHAR LIMIT=NONE]
     -->
-    <string name="summary_pref_show_exit_watermark">When SandFly turns on, show how to turn it off</string>
     <!-- Title of the switch that makes the Notifications action open SandFly's own list of notifications instead of the system's notification shade. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_notification_list">Use SandFly\'s notification list</string>
     <!-- Title of the screen that chooses which parts of a notification SandFly's notification list speaks, and their order. [CHAR_LIMIT=NONE] -->
@@ -930,11 +934,8 @@
     <!-- Spoken after an item is removed from SandFly's quick settings panel. %1$s is its name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_removed">%1$s removed</string>
     <!-- The text of TalkBack mis-trigger-prevention watermark. [CHAR_LIMIT=NONE]-->
-    <string name="talkback_exit_watermark_text">SandFly on. Hold 2 fingers on screen for 5 seconds to turn off. To stop showing this message, tap with 3 fingers to open the SandFly menu.</string>
     <!-- The hint text of TalkBack mis-trigger-prevention watermark. [CHAR_LIMIT=NONE]-->
-    <string name="talkback_exit_watermark_hint_text">Showing banner indicating SandFly is on. To turn off SandFly, hold 2 fingers on the screen for 5 seconds. To remove this banner, go to SandFly Settings.</string>
     <!-- The text of the SandFly-on banner when no 3-finger tap opens the SandFly menu. [CHAR_LIMIT=NONE]-->
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly on. Hold 2 fingers on screen for 5 seconds to turn off. To stop showing this message, turn off SandFly settings &gt; Advanced settings &gt; Show instructions for turning off SandFly.</string>
 
     <!-- Label for the reset gesture settings. [CHAR_LIMIT=66] -->
     <string name="reset_gesture_settings_title">Reset gesture settings</string>
@@ -3951,26 +3952,17 @@
   Source: Title for the thick border setting.
   Description: The user can customize the border thickness. [CHAR_LIMIT=NONE]
   -->
-  <string name="title_pref_thick_border">Thick borders</string>
   <!--
   Source: Preference category for the border color.
   Description: The user can customize the border color. [CHAR LIMIT=25]
   -->
-  <string name="title_pref_category_border_color">Color</string>
   <!-- Title for default border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_default_color">Default</string>
   <!-- Title for red border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_red">Red</string>
   <!-- Title for orange border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_orange">Orange</string>
   <!-- Title for yellow border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_yellow">Yellow</string>
   <!-- Title for green border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_green">Green</string>
   <!-- Title for blue border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_blue">Blue</string>
   <!-- Title for grey border color. [CHAR LIMIT=25] -->
-  <string name="title_pref_grey">Gray</string>
 
   <!-- For HaTS. -->
   <!-- A item in settings page to take a survey. [CHAR_LIMIT=NONE]-->

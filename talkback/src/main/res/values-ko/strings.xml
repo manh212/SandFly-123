@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">포커스가 설정된 항목을 한 번 탭하여 활성화합니다. 두 번 탭하는 것보다 빠르게 탐색할 수 있습니다.</string>
   <string name="pref_verbosity_title">상세 출력</string>
   <string name="pref_punctuation_title">구두점 및 기호 소리 내어 읽기</string>
-  <string name="title_pref_category_manage_focus_indicator">초점 표시</string>
   <string name="title_pref_category_manage_gestures">동작</string>
   <string name="title_pref_manage_labels">맞춤 라벨</string>
   <string name="title_pref_category_context_menu">SandFly 메뉴</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly 튜토리얼</string>
   <string name="title_pref_category_help_no_tutorial">도움말</string>
   <string name="title_pref_advanced_settings">고급 설정</string>
-  <string name="title_pref_show_exit_watermark">SandFly 사용 중지 안내 표시</string>
-  <string name="summary_pref_show_exit_watermark">SandFly가 켜질 때 끄는 방법을 표시합니다</string>
-  <string name="talkback_exit_watermark_text">SandFly을 사용 중입니다. 두 손가락으로 화면을 5초 동안 누르면 사용 중지됩니다. 이 메시지를 더 이상 표시하지 않으려면 세 손가락으로 탭하여 SandFly 메뉴를 여세요.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly이 사용 설정되었음을 나타내는 배너가 표시됩니다. SandFly을 사용 중지하려면 두 손가락으로 화면을 5초 동안 누르세요. 이 배너를 삭제하려면 SandFly 설정으로 이동하세요.</string>
   <string name="reset_gesture_settings_title">동작 재설정</string>
   <string name="one_finger_gestures_title">한 손가락</string>
   <string name="one_finger_back_forth_gestures_title">한 손가락 앞뒤로</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">휴대전화가 연결되어 있는지 확인하세요.</string>
   <string name="image_qna_voice_input_empty">인식된 음성이 없습니다.</string>
   <string name="image_qna_answer_unavailable">제공된 답변이 없습니다.</string>
-  <string name="title_pref_thick_border">두꺼운 테두리</string>
-  <string name="title_pref_category_border_color">색상</string>
-  <string name="title_pref_default_color">기본</string>
-  <string name="title_pref_red">빨간색</string>
-  <string name="title_pref_orange">주황색</string>
-  <string name="title_pref_yellow">노란색</string>
-  <string name="title_pref_green">녹색</string>
-  <string name="title_pref_blue">파란색</string>
-  <string name="title_pref_grey">회색</string>
   <string name="survey_setting_title">의견 공유</string>
   <string name="title_summarize_view">화면 설명</string>
   <string name="detected_result">감지됨: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android가 스크린 리더에 부여하지 않는 권한이 필요합니다. 권한을 부여하려면 adb 또는 Shizuku로 다음 명령어를 실행한 후 이 화면으로 돌아오세요. %1$s</string>
     <string name="action_copy_command">명령어 복사</string>
     <string name="command_copied">명령이 복사되었습니다.</string>
-    <string name="title_pref_speech_control">다른 앱의 음성 출력 허용</string>
-    <string name="summary_pref_speech_control">허용한 앱은 SandFly 음성으로 텍스트를 읽을 수 있습니다. 기기가 잠겨 있는 동안에는 아무것도 읽지 않습니다.</string>
-    <string name="title_pref_speech_control_sound">다른 앱이 말하기 전에 소리 재생</string>
-    <string name="speech_control_apps_category">앱</string>
-    <string name="speech_control_no_apps">아직 말하기를 요청한 앱이 없습니다.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g>이(가) SandFly를 통해 말하도록 허용할까요?</string>
-    <string name="speech_control_ask_text">SandFly 음성으로 텍스트를 말할 수 있습니다. 고급 설정에서 이를 변경할 수 있습니다.</string>
-    <string name="speech_control_allow">허용</string>
-    <string name="speech_control_deny">허용하지 않음</string>
-    <string name="permission_speak_label">SandFly를 통해 말하기</string>
-    <string name="permission_speak_description">앱에서 SandFly 음성으로 텍스트를 말하도록 요청할 수 있습니다. 앱이 말하기 전에 SandFly에서 확인을 요청합니다.</string>
     <string name="title_pref_phonetic_letters_mode">글자를 음성 기호로 읽기</string>
     <string name="phonetic_letters_mode_off">사용 안함</string>
     <string name="phonetic_letters_mode_after_letter_delay">글자 다음에 잠시 쉬고, 예: “ㅎ, 하늘”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">제거</string>
     <string name="quick_settings_added">%1$s 추가됨</string>
     <string name="quick_settings_removed">%1$s 삭제됨</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly 켜짐. 끄려면 두 손가락으로 화면을 5초 동안 길게 누르세요. 이 메시지를 표시하지 않으려면 SandFly 설정 &gt; 고급 설정 &gt; SandFly 사용 중지 안내 표시를 사용 중지하세요.</string>
     <string name="edge_gestures_title">가장자리</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">탐색 모드를 켜거나 끄는 또 다른 단축키</string>
     <string name="title_pref_vibration_strength">진동 강도</string>

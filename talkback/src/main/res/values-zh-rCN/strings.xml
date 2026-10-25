@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">只需点按一次聚焦的项目即可将其激活，这种导航方式比点按两次更快。</string>
   <string name="pref_verbosity_title">详细程度</string>
   <string name="pref_punctuation_title">读出标点和符号</string>
-  <string name="title_pref_category_manage_focus_indicator">焦点指示器</string>
   <string name="title_pref_category_manage_gestures">手势</string>
   <string name="title_pref_manage_labels">自定义标签</string>
   <string name="title_pref_category_context_menu">SandFly 菜单</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly 教程</string>
   <string name="title_pref_category_help_no_tutorial">帮助</string>
   <string name="title_pref_advanced_settings">高级设置</string>
-  <string name="title_pref_show_exit_watermark">显示 SandFly 关闭说明</string>
-  <string name="summary_pref_show_exit_watermark">开启 SandFly 时显示关闭方法</string>
-  <string name="talkback_exit_watermark_text">SandFly 已开启。双指按住屏幕 5 秒即可将其关闭。如要停止显示此消息，请用 3 根手指点按以打开 SandFly 菜单。</string>
-  <string name="talkback_exit_watermark_hint_text">显示一条表明 SandFly 已开启的横幅。若要关闭 SandFly，请用 2 根手指按住屏幕 5 秒。若要移除此横幅，请前往 SandFly 设置。</string>
   <string name="reset_gesture_settings_title">重置手势设置</string>
   <string name="one_finger_gestures_title">单指</string>
   <string name="one_finger_back_forth_gestures_title">单指来回</string>
@@ -1067,15 +1062,6 @@
   <string name="watch_remote_intent_error_confirmation_text">请检查手机是否已连接。</string>
   <string name="image_qna_voice_input_empty">未识别到语音。</string>
   <string name="image_qna_answer_unavailable">无法给出答案。</string>
-  <string name="title_pref_thick_border">粗边框</string>
-  <string name="title_pref_category_border_color">颜色</string>
-  <string name="title_pref_default_color">默认</string>
-  <string name="title_pref_red">红色</string>
-  <string name="title_pref_orange">橙色</string>
-  <string name="title_pref_yellow">黄色</string>
-  <string name="title_pref_green">绿色</string>
-  <string name="title_pref_blue">蓝色</string>
-  <string name="title_pref_grey">灰色</string>
   <string name="survey_setting_title">分享反馈</string>
   <string name="title_summarize_view">描述屏幕内容</string>
   <string name="detected_result">检测到的项目：%1$s</string>
@@ -1525,37 +1511,26 @@
     <string name="command_copied">命令已复制</string>
 
     <!-- Title of the setting that lets other apps speak through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_speech_control">允许其他应用朗读</string>
 
     <!-- Summary of that setting. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speech_control">你允许的应用可以用你的 SandFly 声音朗读文本。设备锁定时不朗读任何内容。</string>
 
     <!-- Title of the setting that plays a sound before each thing another app says through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_speech_control_sound">其他应用说话前播放提示音</string>
 
     <!-- Heading of the list of apps that asked to speak through SandFly. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_apps_category">应用</string>
 
     <!-- Shown in that list before any app has asked to speak. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_no_apps">还没有应用请求朗读。</string>
 
     <!-- Title of the notification that asks whether an app may speak through SandFly. The app's name is filled in. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_ask_title">允许 <xliff:g id="app" example="Tasker">%1$s</xliff:g> 通过 SandFly 朗读吗？</string>
 
     <!-- Text of that notification. [CHAR LIMIT=NONE] -->
-    <string name="speech_control_ask_text">它可以用你的 SandFly 声音朗读文本。你可以在高级设置中更改此项。</string>
 
     <!-- Button in that notification that lets the app speak. [CHAR LIMIT=30] -->
-    <string name="speech_control_allow">允许</string>
 
     <!-- Button in that notification that stops the app from speaking. [CHAR LIMIT=30] -->
-    <string name="speech_control_deny">不允许</string>
 
     <!-- Name of the permission that apps ask for to speak through SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
-    <string name="permission_speak_label">通过 SandFly 朗读</string>
 
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
-    <string name="permission_speak_description">允许应用请求用你的 SandFly 声音朗读文本。应用朗读前 SandFly 会先询问你。</string>
 
     <!-- Name of the permission that an app needs to ask to be a braille display for SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
 
@@ -1675,7 +1650,6 @@
     <string name="summary_pref_speak_notifications">新通知到达时朗读。来电始终朗读。</string>
 
     <!-- The text of the SandFly-on banner when no 3-finger tap opens the SandFly menu. [CHAR_LIMIT=NONE]-->
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly 已开启。用两根手指按住屏幕 5 秒可关闭。要停止显示此消息，请关闭 SandFly 设置 > 高级设置 > 显示关闭 SandFly 的说明。</string>
 
     <!-- Announce toggle sound feedback on or off -->
 

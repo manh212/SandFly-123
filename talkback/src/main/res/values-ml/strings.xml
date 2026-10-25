@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">ഫോക്കസ് ചെയ്‌തിരിക്കുന്ന ഇനം സജീവമാക്കാൻ, ഒരു തവണ അതിൽ ടാപ്പ് ചെയ്യുക. ഡബിൾ ടാപ്പിംഗിനേക്കാൾ വേഗത്തിലുള്ള നാവിഗേഷൻ.</string>
   <string name="pref_verbosity_title">വാചാലത</string>
   <string name="pref_punctuation_title">ചിഹ്നങ്ങളും അടയാളങ്ങളും പറയുക</string>
-  <string name="title_pref_category_manage_focus_indicator">ഫോക്കസ് ഇൻഡിക്കേറ്റർ</string>
   <string name="title_pref_category_manage_gestures">ജെസ്‌റ്ററുകൾ</string>
   <string name="title_pref_manage_labels">ഇഷ്ടാനുസൃത ലേബലുകൾ</string>
   <string name="title_pref_category_context_menu">SandFly മെനു</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly ട്യൂട്ടോറിയൽ</string>
   <string name="title_pref_category_help_no_tutorial">സഹായം</string>
   <string name="title_pref_advanced_settings">വിപുലമായ ക്രമീകരണം</string>
-  <string name="title_pref_show_exit_watermark">SandFly ഓഫാക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ കാണിക്കുക</string>
-  <string name="summary_pref_show_exit_watermark">SandFly ഓണാകുമ്പോൾ, അത് എങ്ങനെ ഓഫാക്കാമെന്ന് കാണിക്കുന്നു</string>
-  <string name="talkback_exit_watermark_text">SandFly ഓണാണ്. ഓഫാക്കാൻ, 5 സെക്കൻഡ് നേരത്തേക്ക് രണ്ട് വിരലുകൾ സ്ക്രീനിൽ ഹോൾഡ് ചെയ്യുക. ഈ സന്ദേശം കാണിക്കുന്നത് അവസാനിപ്പിക്കാൻ, SandFly മെനു തുറക്കാൻ 3 വിരലുകൾ ഉപയോഗിച്ച് ടാപ്പ് ചെയ്യുക.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly ഓണാണെന്ന് സൂചിപ്പിക്കുന്ന ബാനർ കാണിക്കുന്നു. SandFly ഓഫാക്കാൻ, 2 വിരലുകൾ ഉപയോഗിച്ച് 5 സെക്കൻഡ് നേരത്തേക്ക് സ്‌ക്രീനിൽ ഹോൾഡ് ചെയ്യുക. ഈ ബാനർ നീക്കം ചെയ്യാൻ, SandFly ക്രമീകരണത്തിലേക്ക് പോകുക.</string>
   <string name="reset_gesture_settings_title">വിരൽചലന ക്രമീകരണം റീസെറ്റ് ചെയ്യുക</string>
   <string name="one_finger_gestures_title">1 വിരൽ</string>
   <string name="one_finger_back_forth_gestures_title">1 വിരൽ പിന്നോട്ടും മുന്നോട്ടും</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">ഫോൺ കണക്‌റ്റ് ചെയ്‌തിട്ടുണ്ടെന്ന് പരിശോധിക്കുക.</string>
   <string name="image_qna_voice_input_empty">സംഭാഷണമൊന്നും തിരിച്ചറിഞ്ഞില്ല.</string>
   <string name="image_qna_answer_unavailable">ഉത്തരമൊന്നും ലഭ്യമല്ല.</string>
-  <string name="title_pref_thick_border">കനമുള്ള ബോർഡറുകൾ</string>
-  <string name="title_pref_category_border_color">നിറം</string>
-  <string name="title_pref_default_color">ഡിഫോൾട്ട്</string>
-  <string name="title_pref_red">ചുവപ്പ്</string>
-  <string name="title_pref_orange">ഓറഞ്ച്</string>
-  <string name="title_pref_yellow">മഞ്ഞ</string>
-  <string name="title_pref_green">പച്ച</string>
-  <string name="title_pref_blue">നീല</string>
-  <string name="title_pref_grey">ചാരനിറം</string>
   <string name="survey_setting_title">നിങ്ങളുടെ ഫീഡ്ബാക്ക് പങ്കിടുക</string>
   <string name="title_summarize_view">സ്‌‌ക്രീൻ വിവരിക്കുക</string>
   <string name="detected_result">കണ്ടെത്തി: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android സ്‌ക്രീൻ റീഡറുകൾക്ക് നൽകാത്ത ഒരു അനുമതി ആവശ്യമാണ്. അത് നൽകാൻ, adb അല്ലെങ്കിൽ Shizuku ഉപയോഗിച്ച് ഈ കമാൻഡ് റൺ ചെയ്യുക, തുടർന്ന് ഈ സ്‌ക്രീനിലേക്ക് മടങ്ങുക: %1$s</string>
     <string name="action_copy_command">കമാൻഡ് പകർത്തുക</string>
     <string name="command_copied">കമാൻഡ് പകർത്തി</string>
-    <string name="title_pref_speech_control">മറ്റ് ആപ്പുകളെ സംസാരിക്കാൻ അനുവദിക്കുക</string>
-    <string name="summary_pref_speech_control">നിങ്ങൾ അനുവദിക്കുന്ന ആപ്പുകൾക്ക് നിങ്ങളുടെ SandFly വോയ്‌സിൽ വാചകം പറയാൻ കഴിയും. ഉപകരണം ലോക്കായിരിക്കുമ്പോൾ ഒന്നും പറയുന്നില്ല.</string>
-    <string name="title_pref_speech_control_sound">മറ്റ് ആപ്പുകൾ സംസാരിക്കുന്നതിന് മുമ്പ് ഒരു ശബ്ദം പ്ലേ ചെയ്യുക</string>
-    <string name="speech_control_apps_category">ആപ്പുകൾ</string>
-    <string name="speech_control_no_apps">ആപ്പുകളൊന്നും ഇതുവരെ സംസാരിക്കാൻ ആവശ്യപ്പെട്ടിട്ടില്ല.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g>-നെ SandFly-ലൂടെ സംസാരിക്കാൻ അനുവദിക്കണോ?</string>
-    <string name="speech_control_ask_text">ഇതിന് നിങ്ങളുടെ SandFly ശബ്ദത്തിൽ വാചകം പറയാൻ കഴിയും. വിപുലമായ ക്രമീകരണങ്ങളിൽ നിങ്ങൾക്ക് ഇത് മാറ്റാവുന്നതാണ്.</string>
-    <string name="speech_control_allow">അനുവദിക്കുക</string>
-    <string name="speech_control_deny">അനുവദിക്കരുത്</string>
-    <string name="permission_speak_label">SandFly വഴി സംസാരിക്കൽ</string>
-    <string name="permission_speak_description">നിങ്ങളുടെ SandFly ശബ്ദത്തിൽ ടെക്സ്റ്റ് പറയാൻ അഭ്യർത്ഥിക്കാൻ ആപ്പിനെ അനുവദിക്കുന്നു. ആപ്പ് സംസാരിക്കുന്നതിന് മുമ്പ് SandFly നിങ്ങളോട് ചോദിക്കും.</string>
     <string name="title_pref_phonetic_letters_mode">അക്ഷരങ്ങൾ സ്വരസൂചകമായി സംസാരിക്കുക</string>
     <string name="phonetic_letters_mode_off">ഓഫാണ്</string>
     <string name="phonetic_letters_mode_after_letter_delay">അക്ഷരത്തിന് ശേഷം, ഇടവേളയോടെ, ഉദാ. “ഹ, ഹംസം”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">നീക്കം ചെയ്യുക</string>
     <string name="quick_settings_added">%1$s ചേർത്തു</string>
     <string name="quick_settings_removed">%1$s നീക്കം ചെയ്തു</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ഓണാണ്. ഓഫാക്കാൻ 2 വിരലുകൾ സ്‌ക്രീനിൽ 5 സെക്കൻഡ് അമർത്തിപ്പിടിക്കുക. ഈ സന്ദേശം കാണിക്കുന്നത് നിർത്താൻ, SandFly ക്രമീകരണം &gt; വിപുലമായ ക്രമീകരണം &gt; SandFly ഓഫാക്കുന്നതിനുള്ള നിർദ്ദേശങ്ങൾ കാണിക്കുക ഓഫാക്കുക.</string>
     <string name="edge_gestures_title">അരികുകൾ</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ബ്രൗസ് മോഡ് ഓണാക്കാനോ ഓഫാക്കാനോ ഉള്ള മറ്റൊരു കുറുക്കുവഴി</string>
     <string name="title_pref_vibration_strength">വൈബ്രേഷൻ ശക്തി</string>

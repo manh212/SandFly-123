@@ -37,7 +37,6 @@ import com.google.android.accessibility.talkback.HelpAndFeedbackUtils;
 import com.google.android.accessibility.talkback.NotificationActivity;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.backup.SettingsBackup;
-import com.google.android.accessibility.talkback.TalkBackExitController;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
 import com.google.android.accessibility.talkback.preference.base.PreferenceActionHelper.WebPage;
@@ -64,6 +63,10 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
 
   public TalkBackPreferenceFragment() {
     super(R.xml.preferences);
+  }
+
+  protected TalkBackPreferenceFragment(int preferenceResId) {
+    super(preferenceResId);
   }
 
   @Override
@@ -123,11 +126,12 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
 
     // During setup, do not allow user access below settings.
     if (!SettingsUtils.allowLinksOutOfSettings(context)) {
-      removePreference(R.string.pref_category_apps_key, R.string.pref_manage_labels_key);
+      removePreference(R.string.pref_category_group_apps_key, R.string.pref_manage_labels_key);
     }
 
     if (!ImageCaptioner.supportsImageCaption(context)) {
-      removePreference(R.string.pref_category_audio_key, R.string.pref_auto_image_captioning_key);
+      removePreference(
+          R.string.pref_category_group_screen_info_key, R.string.pref_auto_image_captioning_key);
     }
     updateGeminiPreferenceState();
     SettingsBackup.setUpPreferences(this);
@@ -147,7 +151,8 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
               ? R.string.summary_pref_gemini_support_enabled
               : R.string.summary_pref_gemini_support_disabled);
     } else {
-      removePreference(R.string.pref_category_controls_key, R.string.pref_gemini_settings_key);
+      removePreference(
+          R.string.pref_category_group_other_key, R.string.pref_gemini_settings_key);
     }
   }
 
@@ -199,7 +204,8 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
         preference.setIntent(intent);
       }
     } else {
-      removePreference(R.string.pref_category_typing_key, R.string.pref_physical_keyboard_key);
+      removePreference(
+          R.string.pref_category_group_typing_key, R.string.pref_physical_keyboard_key);
     }
   }
 
@@ -210,9 +216,6 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
     updateGeminiPreferenceState();
     updatePhysicalKeyboardPreference();
     updateTtsOverlay();
-
-    // Disable watermark when user enters TalkBack settings.
-    disableTalkBackExitWatermark();
   }
 
   @Override
@@ -329,17 +332,6 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
 
         preference.setOnPreferenceChangeListener(preferenceChangeListener);
       }
-    }
-  }
-
-  private void disableTalkBackExitWatermark() {
-    TalkBackService service = TalkBackService.getInstance();
-    if (service == null) {
-      return;
-    }
-    TalkBackExitController talkBackExitController = service.getTalkBackExitController();
-    if (talkBackExitController != null && talkBackExitController.isTalkBackExitWatermarkShown()) {
-      talkBackExitController.disableTalkBackExitWatermark(service);
     }
   }
 

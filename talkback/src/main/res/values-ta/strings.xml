@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">செயல்படுத்த, ஃபோகஸ் செய்யப்பட்டிருப்பதை ஒருமுறை தட்டவும். இருமுறை தட்டுவதைவிட வேகமான வழிசெலுத்தல்.</string>
   <string name="pref_verbosity_title">மிகைச்சொற்கள்</string>
   <string name="pref_punctuation_title">நிறுத்தற்குறிகளையும் குறியீடுகளையும் படி</string>
-  <string name="title_pref_category_manage_focus_indicator">ஃபோகஸ் குறிகாட்டி</string>
   <string name="title_pref_category_manage_gestures">சைகைகள்</string>
   <string name="title_pref_manage_labels">பிரத்தியேக லேபிள்கள்</string>
   <string name="title_pref_category_context_menu">SandFly மெனு</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly பயிற்சி</string>
   <string name="title_pref_category_help_no_tutorial">உதவி</string>
   <string name="title_pref_advanced_settings">மேம்பட்ட அமைப்புகள்</string>
-  <string name="title_pref_show_exit_watermark">SandFly-ஐ ஆஃப் செய்வதற்கான வழிமுறைகளைக் காட்டு</string>
-  <string name="summary_pref_show_exit_watermark">SandFly இயக்கப்படும்போது, அதை எப்படி அணைப்பது என்பதைக் காட்டும்</string>
-  <string name="talkback_exit_watermark_text">SandFly ஆன் செய்யப்பட்டுள்ளது. ஆஃப் செய்ய, திரையில் 2 விரல்களை 5 வினாடிகளுக்குப் பிடித்திருக்கவும். இந்த மெசேஜ் காட்டப்படுவதை நிறுத்த 3 விரல்களால் தட்டி SandFly மெனுவைத் திறக்கவும்.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly இயக்கத்தில் இருப்பதைக் குறிப்பிடும் பேனர் காட்டப்படுகிறது. SandFlyகை முடக்குவதற்கு, 2 விரல்களால் திரையை 5 வினாடிகளுக்குப் பிடியுங்கள். இந்த பேனரை அகற்றுவதற்கு, SandFly அமைப்புகளுக்குச் செல்லுங்கள்.</string>
   <string name="reset_gesture_settings_title">சைகை அமைப்புகளை மீட்டமை</string>
   <string name="one_finger_gestures_title">1 விரல்</string>
   <string name="one_finger_back_forth_gestures_title">1 விரலால் முன்னும் பின்னும் நகர்த்துவது</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">மொபைல் இணைக்கப்பட்டுள்ளதா எனச் சரிபார்க்கவும்.</string>
   <string name="image_qna_voice_input_empty">பேச்சை அறிய முடியவில்லை.</string>
   <string name="image_qna_answer_unavailable">பதில் இல்லை.</string>
-  <string name="title_pref_thick_border">தடித்த பார்டர்கள்</string>
-  <string name="title_pref_category_border_color">நிறம்</string>
-  <string name="title_pref_default_color">இயல்பு</string>
-  <string name="title_pref_red">சிவப்பு</string>
-  <string name="title_pref_orange">ஆரஞ்சு</string>
-  <string name="title_pref_yellow">மஞ்சள்</string>
-  <string name="title_pref_green">பச்சை</string>
-  <string name="title_pref_blue">நீலம்</string>
-  <string name="title_pref_grey">சாம்பல்</string>
   <string name="survey_setting_title">உங்கள் கருத்தைப் பகிருங்கள்</string>
   <string name="title_summarize_view">திரையில் உள்ளவற்றை விளக்கு</string>
   <string name="detected_result">கண்டறியப்பட்டது: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android திரை வாசிப்பான்களுக்கு வழங்காத அனுமதி தேவை. அதை வழங்க, adb அல்லது Shizuku மூலம் இந்தக் கட்டளையை இயக்கி, பின்னர் இந்தத் திரைக்குத் திரும்பவும்: %1$s</string>
     <string name="action_copy_command">கட்டளையை நகலெடுக்கவும்</string>
     <string name="command_copied">கட்டளை நகலெடுக்கப்பட்டது</string>
-    <string name="title_pref_speech_control">பிற ஆப்ஸைப் பேச அனுமதி</string>
-    <string name="summary_pref_speech_control">நீங்கள் அனுமதிக்கும் ஆப்ஸ் SandFly குரலில் உரையைச் சொல்லலாம். சாதனம் பூட்டப்பட்டிருக்கும்போது எதுவும் சொல்லப்படாது.</string>
-    <string name="title_pref_speech_control_sound">பிற பயன்பாடுகள் பேசுவதற்கு முன் ஒலியை இயக்கவும்</string>
-    <string name="speech_control_apps_category">ஆப்ஸ்</string>
-    <string name="speech_control_no_apps">இதுவரை எந்த ஆப்ஸும் பேசும்படி கேட்கவில்லை.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> ஐ SandFly மூலம் பேச அனுமதிக்கவா?</string>
-    <string name="speech_control_ask_text">இது உங்கள் SandFly குரலில் உரையைக் கூறலாம். மேம்பட்ட அமைப்புகளில் இதை மாற்றலாம்.</string>
-    <string name="speech_control_allow">அனுமதி</string>
-    <string name="speech_control_deny">அனுமதிக்காதே</string>
-    <string name="permission_speak_label">SandFly மூலம் பேசுதல்</string>
-    <string name="permission_speak_description">உங்கள் SandFly குரலில் உரையைச் சொல்லக் கோர ஆப்ஸை அனுமதிக்கும். ஆப்ஸ் பேசும் முன் SandFly உங்களிடம் கேட்கும்.</string>
     <string name="title_pref_phonetic_letters_mode">எழுத்துக்களை ஒலிப்பு முறையில் பேசுங்கள்</string>
     <string name="phonetic_letters_mode_off">முடக்கப்பட்டுள்ளது</string>
     <string name="phonetic_letters_mode_after_letter_delay">எழுத்துக்குப் பிறகு, இடைவெளியுடன், எ.கா. “க, கடல்”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">அகற்று</string>
     <string name="quick_settings_added">%1$s சேர்க்கப்பட்டது</string>
     <string name="quick_settings_removed">%1$s அகற்றப்பட்டது</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly இயக்கத்தில் உள்ளது. முடக்க, திரையில் 2 விரல்களை 5 வினாடிகள் வைத்திருக்கவும். இந்தச் செய்தி காட்டப்படுவதை நிறுத்த, SandFly அமைப்புகள் &gt; மேம்பட்ட அமைப்புகள் &gt; SandFly-ஐ ஆஃப் செய்வதற்கான வழிமுறைகளைக் காட்டு என்பதை முடக்கவும்.</string>
     <string name="edge_gestures_title">விளிம்புகள்</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">உலாவல் பயன்முறையை இயக்க அல்லது முடக்க மற்றொரு குறுக்குவழி</string>
     <string name="title_pref_vibration_strength">அதிர்வு வலிமை</string>

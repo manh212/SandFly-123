@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_typing_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.dictation.DictationFragment"
+        android:key="pref_dictation_screen"
+        android:title="@string/title_pref_dictation" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoFragment"
+        android:key="@string/pref_keyboard_echo_screen_key"
+        android:title="@string/title_pref_keyboard_echo" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.OnScreenKeyboardFragment"
+        android:key="@string/pref_on_screen_keyboard_key"
+        android:title="@string/title_pref_on_screen_keyboard" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_physical_keyboard_key"
+        android:title="@string/title_pref_physical_keyboard" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

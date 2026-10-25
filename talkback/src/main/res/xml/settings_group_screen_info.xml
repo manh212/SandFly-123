@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_screen_info_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment"
+        android:key="@string/pref_auto_image_captioning_key"
+        android:summary="@string/summary_pref_auto_image_captioning"
+        android:title="@string/title_pref_auto_image_captioning" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.status.StatusReadoutFragment"
+        android:key="@string/pref_status_readout_key"
+        android:title="@string/title_pref_status_readout" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenAnnouncementsFragment"
+        android:key="pref_screen_announcements"
+        android:summary="@string/summary_pref_screen_announcements"
+        android:title="@string/title_pref_screen_announcements" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

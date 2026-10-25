@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">সক্ৰিয় কৰিবৰ বাবে ফ’কাছত থকা এটা বস্তুত এবাৰ টিপক। দুবাৰ টিপাতকৈ দ্ৰুত নেভিগেশ্বন।</string>
   <string name="pref_verbosity_title">শব্দৰ বাহুল্যতা</string>
   <string name="pref_punctuation_title">যতিচিহ্ন আৰু চিহ্ন উচ্চাৰণ কৰক</string>
-  <string name="title_pref_category_manage_focus_indicator">ফ’কাছৰ সূচক</string>
   <string name="title_pref_category_manage_gestures">আঙুলিৰ স্পৰ্শৰে নিৰ্দেশসমূহ</string>
   <string name="title_pref_manage_labels">উপযোগিতা অনুসৰি সৃষ্টি কৰা লেবেলসমূহ</string>
   <string name="title_pref_category_context_menu">SandFlyৰ মেনু</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFlyৰ টিউট’ৰিয়েল</string>
   <string name="title_pref_category_help_no_tutorial">সহায়</string>
   <string name="title_pref_advanced_settings">উচ্চখাপৰ ছেটিং</string>
-  <string name="title_pref_show_exit_watermark">SandFly অফ কৰাৰ নিৰ্দেশনা দেখুৱাওক</string>
-  <string name="summary_pref_show_exit_watermark">SandFly অন হ’লে, ইয়াক কেনেকৈ অফ কৰিব লাগে দেখুৱাওক</string>
-  <string name="talkback_exit_watermark_text">SandFly অন হৈ আছে। অফ কৰিবলৈ স্ক্ৰীনত ২ টা আঙুলিৰে ৫ ছেকেণ্ডৰ বাবে হেঁচি ৰাখক। এই বাৰ্তাটো দেখুওৱা বন্ধ কৰিবলৈ, SandFlyৰ মেনুখন খুলিবলৈ ৩ টা আঙুলিৰে টিপক।</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly অন থকাটো সূচাই বেনাৰ প্ৰদৰ্শন কৰি থকা হৈছে। SandFly অফ কৰিবলৈ, ২ টা আঙুলিৰে স্ক্ৰীনখনত ৫ ছেকেণ্ড ধৰি ৰাখক। এই বেনাৰখন আঁতৰাবলৈ, SandFlyৰ ছেটিঙলৈ যাওক।</string>
   <string name="reset_gesture_settings_title">নিৰ্দেশৰ ছেটিং ৰিছেট কৰক</string>
   <string name="one_finger_gestures_title">১ টা আঙুলি</string>
   <string name="one_finger_back_forth_gestures_title">১ টা আঙুলি আগলৈ আৰু পিছলৈ কৰি কৰা নিৰ্দেশ</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">অনুগ্ৰহ কৰি, ফ\'নটো সংযোগ কৰি থোৱা আছেনে নাই সেয়া পৰীক্ষা কৰক।</string>
   <string name="image_qna_voice_input_empty">কোনো কথন চিনাক্ত কৰিব পৰা নগ’ল।</string>
   <string name="image_qna_answer_unavailable">কোনো উত্তৰ উপলব্ধ নহয়।</string>
-  <string name="title_pref_thick_border">মোটা সীমা</string>
-  <string name="title_pref_category_border_color">ৰং</string>
-  <string name="title_pref_default_color">ডিফ’ল্ট</string>
-  <string name="title_pref_red">ৰঙা</string>
-  <string name="title_pref_orange">কমলা</string>
-  <string name="title_pref_yellow">হালধীয়া</string>
-  <string name="title_pref_green">সেউজীয়া</string>
-  <string name="title_pref_blue">নীলা</string>
-  <string name="title_pref_grey">ছাই-বৰণীয়া</string>
   <string name="survey_setting_title">আপোনাৰ মতামত শ্বেয়াৰ কৰক</string>
   <string name="title_summarize_view">স্ক্ৰীনখন বর্ণনা কৰক</string>
   <string name="detected_result">চিনাক্ত কৰা হৈছে: %1$s</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Androidএ স্ক্ৰীন ৰীডাৰক নিদিয়া এটা অনুমতিৰ প্ৰয়োজন। এইটো দিবলৈ, adb বা Shizukuৰে এই কামাণ্ডটো চলাওক, তাৰ পাছত এই স্ক্ৰীনলৈ উভতি আহক: %1$s</string>
     <string name="action_copy_command">কামাণ্ড প্ৰতিলিপি কৰক</string>
     <string name="command_copied">কামাণ্ড প্ৰতিলিপি কৰা হ’ল</string>
-    <string name="title_pref_speech_control">অন্য এপক কথা ক’বলৈ দিয়ক</string>
-    <string name="summary_pref_speech_control">আপুনি অনুমতি দিয়া এপে আপোনাৰ SandFly কণ্ঠত পাঠ ক’ব পাৰে। ডিভাইচ লক হৈ থাকোঁতে একো কোৱা নহয়।</string>
-    <string name="title_pref_speech_control_sound">অন্য এপে কথা কোৱাৰ আগতে এটা ধ্বনি বজাওক</string>
-    <string name="speech_control_apps_category">এপ</string>
-    <string name="speech_control_no_apps">এতিয়ালৈকে কোনো এপে কথা ক’বলৈ অনুৰোধ কৰা নাই।</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g>ক SandFlyৰ জৰিয়তে কথা ক’বলৈ অনুমতি দিবনে?</string>
-    <string name="speech_control_ask_text">ই আপোনাৰ SandFly কণ্ঠত পাঠ ক’ব পাৰে। আপুনি উচ্চখাপৰ ছেটিঙত এইটো সলনি কৰিব পাৰে।</string>
-    <string name="speech_control_allow">অনুমতি দিয়ক</string>
-    <string name="speech_control_deny">অনুমতি নিদিব</string>
-    <string name="permission_speak_label">SandFlyৰ জৰিয়তে কথা কোৱা</string>
-    <string name="permission_speak_description">এপটোক আপোনাৰ SandFly কণ্ঠত পাঠ ক’বলৈ অনুৰোধ কৰিবলৈ দিয়ে। এপটোৱে কথা কোৱাৰ আগতে SandFlyএ আপোনাৰ অনুমতি বিচাৰে।</string>
     <string name="title_pref_phonetic_letters_mode">ধ্বনিগতভাৱে বৰ্ণ কওক</string>
     <string name="phonetic_letters_mode_off">অফ</string>
     <string name="phonetic_letters_mode_after_letter_delay">বৰ্ণৰ পাছত, বিলম্বৰ সৈতে, যেনে “হ, হাতী”</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%dটা জাননী</item>
         <item quantity="other">%dটা জাননী</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly অন আছে। অফ কৰিবলৈ স্ক্ৰীনত ২ টা আঙুলি ৫ ছেকেণ্ডৰ বাবে ধৰি ৰাখক। এই বাৰ্তাটো দেখুওৱা বন্ধ কৰিবলৈ, SandFlyৰ ছেটিং &gt; উচ্চখাপৰ ছেটিং &gt; SandFly অফ কৰাৰ নিৰ্দেশনা দেখুৱাওক অফ কৰক।</string>
     <string name="edge_gestures_title">কাষ</string>
     <string name="title_pref_audio_output_device">অডিঅ’ আউটপুট ডিভাইচ</string>
     <string name="dialog_title_audio_output_device">SandFlyৰ ধ্বনি ক’ত বজাব বাছনি কৰক</string>

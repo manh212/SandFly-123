@@ -54,7 +54,6 @@ public class TalkBackPreferenceFilter {
     SHOW_IF_FINGER_PRINT,
     SHOW_SYSTEM_ACTION,
     SHOW_IF_MULTI_FINGER_TAP_AND_HOLD,
-    SHOW_FOCUS_INDICATOR,
     HIDE_NO_ACCESSIBILITY_AUDIO_STREAM,
     HIDDEN_NO_MEDIA_CONTROL,
     HIDDEN_ON_RELEASE_BUILD,
@@ -96,8 +95,6 @@ public class TalkBackPreferenceFilter {
   /** Flag to show multi-finger gesture extended. */
   private static final int SHOW_IF_MULTI_FINGER_TAP_AND_HOLD = 0x4000;
   /** Flag to hide gestures that only TalkBack's own gesture detection recognizes. */
-  /** Flag to show focus indicator. */
-  private static final int SHOW_FOCUS_INDICATOR = 0x8000;
   /** Flag to hide if the runtime is a release build. */
   private static final int HIDDEN_ON_RELEASE_BUILD = 0x10000;
 
@@ -234,8 +231,6 @@ public class TalkBackPreferenceFilter {
         R.string.pref_shortcut_3finger_1tap_hold_key, SHOW_IF_MULTI_FINGER_TAP_AND_HOLD),
     CUSTOMIZE_GESTURE_3FINGER_3TAP_HOLD(
         R.string.pref_shortcut_3finger_3tap_hold_key, SHOW_IF_MULTI_FINGER_TAP_AND_HOLD),
-    CUSTOMIZE_FOCUS_INDICATOR(
-        R.string.pref_category_manage_focus_indicator_key, SHOW_FOCUS_INDICATOR),
     AUTOMATIC_DESCRIPTIONS(R.string.pref_auto_image_captioning_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
     GEMINI_SUPPORT(
         R.string.pref_gemini_settings_key, HIDDEN_ON_WATCH | HIDDEN_ON_TV | HIDE_GEMINI_SETTINGS),
@@ -378,11 +373,6 @@ public class TalkBackPreferenceFilter {
 
     if (hasFlag(pref.get(), SHOW_SYSTEM_ACTION)
         && !FeatureSupport.supportGetSystemActions(context)) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), SHOW_FOCUS_INDICATOR)
-        && !FeatureSupport.supportCustomizingFocusIndicator()) {
       return true;
     }
 

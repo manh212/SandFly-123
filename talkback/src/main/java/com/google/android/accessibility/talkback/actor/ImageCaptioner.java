@@ -60,7 +60,6 @@ import static com.google.android.accessibility.talkback.imagecaption.ImageCaptio
 import static com.google.android.accessibility.talkback.imagecaption.Request.ERROR_INSUFFICIENT_STORAGE;
 import static com.google.android.accessibility.talkback.imagecaption.Request.ERROR_NETWORK_ERROR;
 import static com.google.android.accessibility.talkback.imagecaption.Request.INVALID_DURATION;
-import static com.google.android.accessibility.talkback.utils.FocusIndicatorUtils.getTalkBackFocusStrokeWidth;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
 import static com.google.android.accessibility.utils.output.FeedbackItem.FLAG_FORCE_FEEDBACK;
 import static com.google.android.accessibility.utils.output.FeedbackItem.FLAG_NO_DEVICE_SLEEP;
@@ -1003,7 +1002,9 @@ public class ImageCaptioner extends Handler
         processImageForNodeCaption(
             focusedNode,
             screenCapture,
-            getTalkBackFocusStrokeWidth(prefs, service.getResources()),
+            service.getResources()
+                .getDimensionPixelSize(
+                    R.dimen.accessibility_focus_highlight_stroke_width),
             captureByWindow);
     CaptionResult captionResult =
         new CaptionResult(
@@ -1346,7 +1347,9 @@ public class ImageCaptioner extends Handler
         processImageForNodeCaption(
             node,
             screenCapture,
-            getTalkBackFocusStrokeWidth(prefs, service.getResources()),
+            service.getResources()
+                .getDimensionPixelSize(
+                    R.dimen.accessibility_focus_highlight_stroke_width),
             captureByWindow);
 
     CaptionResult captionResult =

@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">فعال کرنے کیلئے فوکس کیے گئے آئٹم پر ایک بار تھپتھپائیں۔ دو بار تھپتھپائیں سے زیادہ تیز نیویگیشن۔</string>
   <string name="pref_verbosity_title">طوالت بیانی</string>
   <string name="pref_punctuation_title">رموز اوقاف اور علامات بولیں</string>
-  <string name="title_pref_category_manage_focus_indicator">فوکس اشارے</string>
   <string name="title_pref_category_manage_gestures">اشارے</string>
   <string name="title_pref_manage_labels">حسب ضرورت لیبلز</string>
   <string name="title_pref_category_context_menu">SandFly مینو</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">‏SandFly ٹیوٹوریل</string>
   <string name="title_pref_category_help_no_tutorial">مدد</string>
   <string name="title_pref_advanced_settings">جدید ترین ترتیبات</string>
-  <string name="title_pref_show_exit_watermark">‏‫SandFly کو آف کرنے کے لیے ہدایات دکھائیں</string>
-  <string name="summary_pref_show_exit_watermark">SandFly آن ہونے پر اسے آف کرنے کا طریقہ دکھاتا ہے</string>
-  <string name="talkback_exit_watermark_text">‏‫SandFly آن ہے۔ آف کرنے کے لیے 2 انگلیاں اسکرین پر 5 سیکنڈ تک دبائے رکھیں۔ اس پیغام کو دکھانا بند کرنے کے لیے، SandFly مینیو کھولنے کے لیے 3 انگلیوں سے تھپتھپائیں۔</string>
-  <string name="talkback_exit_watermark_hint_text">‏بینر دکھا رہا ہے جو ظاہر کرتا ہے کہ SandFly آن ہے۔ ‫SandFly آف کرنے کے لیے، 2 انگلیاں اسکرین پر 5 سیکنڈ تک دبائے رکھیں۔ اس بینر کو ہٹانے کے لیے، SandFly کی ترتیبات پر جائیں۔</string>
   <string name="reset_gesture_settings_title">اشاروں کی ترتیبات ری سیٹ کریں</string>
   <string name="one_finger_gestures_title">1 انگلی</string>
   <string name="one_finger_back_forth_gestures_title">1 انگلی آگے اور پیچھے</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">براہ کرم چیک کریں کہ آیا فون منسلک ہے۔</string>
   <string name="image_qna_voice_input_empty">کسی اسپیچ کی شناخت نہیں کی گئی۔</string>
   <string name="image_qna_answer_unavailable">کوئی جواب دستیاب نہیں ہے۔</string>
-  <string name="title_pref_thick_border">موٹے بارڈرز</string>
-  <string name="title_pref_category_border_color">رنگ</string>
-  <string name="title_pref_default_color">ڈیفالٹ</string>
-  <string name="title_pref_red">سرخ</string>
-  <string name="title_pref_orange">اورنج</string>
-  <string name="title_pref_yellow">پیلا</string>
-  <string name="title_pref_green">سبز</string>
-  <string name="title_pref_blue">نیلا</string>
-  <string name="title_pref_grey">خاکستری</string>
   <string name="survey_setting_title">اپنے تاثرات کا اشتراک کریں</string>
   <string name="title_summarize_view">اسکرین کی وضاخت کریں</string>
   <string name="detected_result">پتا چلا: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">ایک اجازت درکار ہے جو Android اسکرین ریڈرز کو نہیں دیتا۔ اسے دینے کے لیے یہ کمانڈ adb یا Shizuku سے چلائیں، پھر اس اسکرین پر واپس آئیں: %1$s</string>
     <string name="action_copy_command">کمانڈ کاپی کریں</string>
     <string name="command_copied">کمانڈ کاپی ہو گیا</string>
-    <string name="title_pref_speech_control">دوسری ایپس کو بولنے دیں</string>
-    <string name="summary_pref_speech_control">جن ایپس کو آپ اجازت دیں وہ SandFly کی آواز میں متن بول سکتی ہیں۔ آلہ لاک ہونے پر کچھ نہیں بولا جاتا۔</string>
-    <string name="title_pref_speech_control_sound">دیگر ایپس کے بولنے سے پہلے آواز چلائیں</string>
-    <string name="speech_control_apps_category">ایپس</string>
-    <string name="speech_control_no_apps">ابھی تک کسی ایپ نے بولنے کی اجازت نہیں مانگی۔</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> کو SandFly کے ذریعے بولنے کی اجازت دیں؟</string>
-    <string name="speech_control_ask_text">یہ آپ کی SandFly آواز میں متن کہہ سکتا ہے۔ آپ اسے اعلیٰ ترتیبات میں تبدیل کر سکتے ہیں۔</string>
-    <string name="speech_control_allow">اجازت دیں</string>
-    <string name="speech_control_deny">اجازت نہ دیں</string>
-    <string name="permission_speak_label">SandFly کے ذریعے بولنا</string>
-    <string name="permission_speak_description">ایپ کو آپ کی SandFly آواز میں متن کہنے کو کہنے دیتا ہے۔ ایپ کے بولنے سے پہلے SandFly آپ سے پوچھتا ہے۔</string>
     <string name="title_pref_phonetic_letters_mode">حروف کو صوتی طور پر بولیں</string>
     <string name="phonetic_letters_mode_off">آف ہے</string>
     <string name="phonetic_letters_mode_after_letter_delay">حرف کے بعد، وقفے کے ساتھ، جیسے “ہ، ہاتھی”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">ہٹا دیں</string>
     <string name="quick_settings_added">%1$s شامل کر دیا گیا</string>
     <string name="quick_settings_removed">%1$s ہٹا دیا گیا</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly آن ہے۔ آف کرنے کے لیے اسکرین پر 2 انگلیاں 5 سیکنڈ تک رکھیں۔ یہ پیغام دکھانا بند کرنے کے لیے، SandFly کی ترتیبات &gt; جدید ترین ترتیبات &gt; SandFly کو آف کرنے کے لیے ہدایات دکھائیں کو آف کریں۔</string>
     <string name="edge_gestures_title">کنارے</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">براؤز موڈ کو آن یا آف کرنے کے لیے ایک اور شارٹ کٹ</string>
     <string name="title_pref_vibration_strength">کمپن کی طاقت</string>

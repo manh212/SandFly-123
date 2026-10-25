@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Для актывацыі элемента ў фокусе дакраніцеся да яго адзін раз. Больш хуткая навігацыя, чым пры двайным націсканні.</string>
   <string name="pref_verbosity_title">Дэталізацыя</string>
   <string name="pref_punctuation_title">Агучваць знакі прыпынку і сімвалы</string>
-  <string name="title_pref_category_manage_focus_indicator">Індыкатар фокуса</string>
   <string name="title_pref_category_manage_gestures">Жэсты</string>
   <string name="title_pref_manage_labels">Карыстальніцкія меткі</string>
   <string name="title_pref_category_context_menu">Меню SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Дапаможнік па SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Даведка</string>
   <string name="title_pref_advanced_settings">Пашыраныя налады</string>
-  <string name="title_pref_show_exit_watermark">Паказаць інструкцыі па выключэнні SandFly</string>
-  <string name="summary_pref_show_exit_watermark">Пры ўключэнні SandFly паказваць, як яго выключыць</string>
-  <string name="talkback_exit_watermark_text">Функцыя SandFly уключана. Каб выключыць яе, утрымлівайце на экране два пальцы на працягу пяці секунд. Каб адключыць паказ гэтага паведамлення, адкрыйце меню SandFly, націснуўшы трыма пальцамі.</string>
-  <string name="talkback_exit_watermark_hint_text">Паказваецца банер, які папярэджвае, што функцыя SandFly уключана. Каб выключыць яе, трымайце два пальцы на экране на працягу 5 секунд. Каб выдаліць гэты банер, перайдзіце ў налады функцыі SandFly.</string>
   <string name="reset_gesture_settings_title">Скінуць налады жэстаў</string>
   <string name="one_finger_gestures_title">Жэсты адным пальцам</string>
   <string name="one_finger_back_forth_gestures_title">Жэсты адным пальцам уперад і назад</string>
@@ -1067,15 +1062,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Праверце, ці падключаны тэлефон.</string>
   <string name="image_qna_voice_input_empty">Маўленне не распазнана.</string>
   <string name="image_qna_answer_unavailable">Даступнага адказу няма.</string>
-  <string name="title_pref_thick_border">Тоўстыя межы</string>
-  <string name="title_pref_category_border_color">Колер</string>
-  <string name="title_pref_default_color">Стандартны</string>
-  <string name="title_pref_red">Чырвоны</string>
-  <string name="title_pref_orange">Аранжавы</string>
-  <string name="title_pref_yellow">Жоўты</string>
-  <string name="title_pref_green">Зялёны</string>
-  <string name="title_pref_blue">Сіні</string>
-  <string name="title_pref_grey">Шэры</string>
   <string name="survey_setting_title">Пакінуць водгук</string>
   <string name="title_summarize_view">Апісаць экран</string>
   <string name="detected_result">Выяўлена на відарысе: \"%1$s\"</string>
@@ -1317,17 +1303,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Патрабуецца дазвол, які Android не дае праграмам чытання з экрана. Каб даць яго, выканайце гэту каманду праз adb або Shizuku, а потым вярніцеся на гэты экран: %1$s</string>
     <string name="action_copy_command">Скапіраваць каманду</string>
     <string name="command_copied">Каманда скапіравана</string>
-    <string name="title_pref_speech_control">Маўленне іншых праграм</string>
-    <string name="summary_pref_speech_control">Праграмы, якім вы дазволіце, могуць агучваць тэкст голасам SandFly. Калі прылада заблакіравана, нічога не агучваецца.</string>
-    <string name="title_pref_speech_control_sound">Прайграваць гук перад маўленнем іншых праграм</string>
-    <string name="speech_control_apps_category">Праграмы</string>
-    <string name="speech_control_no_apps">Пакуль ніводная праграма не запытвала дазвол на маўленне.</string>
-    <string name="speech_control_ask_title">Дазволіць праграме <xliff:g id="app" example="Tasker">%1$s</xliff:g> агучваць тэкст праз SandFly?</string>
-    <string name="speech_control_ask_text">Праграма зможа агучваць тэкст голасам SandFly. Гэта можна змяніць у пашыраных наладах.</string>
-    <string name="speech_control_allow">Дазволіць</string>
-    <string name="speech_control_deny">Не дазваляць</string>
-    <string name="permission_speak_label">агучванне тэксту праз SandFly</string>
-    <string name="permission_speak_description">Дазваляе праграме запытваць агучванне тэксту голасам SandFly. Перад тым як праграма зможа агучваць тэкст, SandFly запытвае ваш дазвол.</string>
     <string name="title_pref_phonetic_letters_mode">Фанетычнае агучванне літар</string>
     <string name="phonetic_letters_mode_off">Выключана</string>
     <string name="phonetic_letters_mode_after_letter_delay">Пасля літары, з паўзай, напрыклад \"г, гасцініца\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="many">%d апавяшчэнняў</item>
         <item quantity="other">%d апавяшчэння</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly уключаны. Каб выключыць яго, утрымлівайце на экране два пальцы на працягу пяці секунд. Каб адключыць паказ гэтага паведамлення, выключыце параметр \"Налады SandFly &gt; Пашыраныя налады &gt; Паказаць інструкцыі па выключэнні SandFly\".</string>
     <string name="edge_gestures_title">Краі экрана</string>
     <string name="title_pref_audio_output_device">Прылада вываду аўдыя</string>
     <string name="dialog_title_audio_output_device">Выберыце, дзе прайграваць гук SandFly</string>

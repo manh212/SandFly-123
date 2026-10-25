@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_navigation_key">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.NavigationPrefFragment"
+        android:key="@string/pref_navigation_settings_key"
+        android:title="@string/title_pref_navigation" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TouchActivationFragment"
+        android:key="@string/pref_touch_activation_key"
+        android:title="@string/title_pref_touch_activation" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.DirectTouchFragment"
+        android:key="@string/pref_direct_touch_key"
+        android:title="@string/title_pref_direct_touch" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.volume.VolumeKeySettingsFragment"
+        android:key="pref_volume_key_settings_screen"
+        android:title="@string/volume_key_settings_title" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+</PreferenceScreen>

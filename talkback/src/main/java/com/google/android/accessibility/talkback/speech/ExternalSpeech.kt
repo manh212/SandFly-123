@@ -14,7 +14,7 @@
  * the License.
  */
 
-package com.google.android.accessibility.talkback.speechcontrol
+package com.google.android.accessibility.talkback.speech
 
 import android.os.Bundle
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech.SpeechParam
@@ -24,8 +24,8 @@ import com.google.android.accessibility.utils.output.SpeechController.SpeakOptio
 import com.google.android.accessibility.utils.output.SpeechControllerImpl
 
 /**
- * Speech options for text that a script or another app asks Backtalk to say. It keeps its own rate
- * and pitch, is said as given, without Backtalk's speech filter, and is said over media.
+ * Speech options for text that a script asks SandFly to say. It keeps its own rate and pitch, is
+ * said as given, without SandFly's speech filter, and is said over media.
  */
 object ExternalSpeech {
   @JvmStatic

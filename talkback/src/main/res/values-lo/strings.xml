@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">ແຕະລາຍການທີ່ໂຟກັສ 1 ເທື່ອເພື່ອເປີດການນຳໃຊ້. ການນຳທາງໄປຫາສ່ວນຕ່າງໆທີ່ໄວກວ່າການແຕະສອງເທື່ອ.</string>
   <string name="pref_verbosity_title">ການເວົ້າລາຍລະອຽດ</string>
   <string name="pref_punctuation_title">ອ່ານເຄື່ອງໝາຍວັກຕອນ ແລະ ສັນຍາລັກ</string>
-  <string name="title_pref_category_manage_focus_indicator">ຕົວຊີ້ວັດຈຸດສຸມ</string>
   <string name="title_pref_category_manage_gestures">ທ່າທາງ</string>
   <string name="title_pref_manage_labels">ປ້າຍກຳກັບແບບກຳນົດເອງ</string>
   <string name="title_pref_category_context_menu">ເມນູ SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">ບົດສອນການນຳໃຊ້ SandFly</string>
   <string name="title_pref_category_help_no_tutorial">ຊ່ວຍເຫຼືອ</string>
   <string name="title_pref_advanced_settings">ການຕັ້ງຄ່າຂັ້ນສູງ</string>
-  <string name="title_pref_show_exit_watermark">ສະແດງຄຳແນະນຳສຳລັບການປິດ SandFly</string>
-  <string name="summary_pref_show_exit_watermark">ເມື່ອ SandFly ເປີດ, ຈະສະແດງວິທີປິດ</string>
-  <string name="talkback_exit_watermark_text">SandFly ເປີດ. ໃຊ້ 2 ນິ້ວກົດຄ້າງຢູ່ໜ້າຈໍໄວ້ 5 ວິນາທີເພື່ອປິດ. ເພື່ອຢຸດສະແດງຂໍ້ຄວາມນີ້, ໃຫ້ໃຊ້ 3 ນິ້ວແຕະເພື່ອເປີດເມນູ SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">ສະແດງແບນເນີທີ່ລະບຸວ່າ SandFly ເປີດຢູ່. ເພື່ອປິດ SandFly, ໃຫ້ໃຊ້ 2 ນິ້ວກົດໜ້າຈໍຄ້າງໄວ້ 5 ວິນາທີ. ເພື່ອລຶບແບນເນີນີ້ອອກ, ໃຫ້ເຂົ້າໄປການຕັ້ງຄ່າ SandFly.</string>
   <string name="reset_gesture_settings_title">ຣີເຊັດການຕັ້ງຄ່າທ່າທາງ</string>
   <string name="one_finger_gestures_title">1 ນິ້ວ</string>
   <string name="one_finger_back_forth_gestures_title">1 ນິ້ວໄປກັບ</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">ກະລຸນາກວດສອບວ່າເຊື່ອມຕໍ່ໂທລະສັບແລ້ວຫຼືຍັງ.</string>
   <string name="image_qna_voice_input_empty">ບໍ່ມີການຈຳແນກສຽງເວົ້າ.</string>
   <string name="image_qna_answer_unavailable">ບໍ່ມີຄຳຕອບໃຫ້.</string>
-  <string name="title_pref_thick_border">ຂອບໜາ</string>
-  <string name="title_pref_category_border_color">ສີ</string>
-  <string name="title_pref_default_color">ຄ່າເລີ່ມຕົ້ນ</string>
-  <string name="title_pref_red">ສີແດງ</string>
-  <string name="title_pref_orange">ສີສົ້ມ</string>
-  <string name="title_pref_yellow">ສີເຫຼືອງ</string>
-  <string name="title_pref_green">ສີຂຽວ</string>
-  <string name="title_pref_blue">ສີຟ້າ</string>
-  <string name="title_pref_grey">ສີເທົາ</string>
   <string name="survey_setting_title">ແບ່ງປັນຄຳຕິຊົມຂອງທ່ານ</string>
   <string name="title_summarize_view">ອະທິບາຍໜ້າຈໍ</string>
   <string name="detected_result">ກວດພົບ: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">ຕ້ອງການສິດທີ່ Android ບໍ່ໃຫ້ກັບໂປຣແກຣມອ່ານໜ້າຈໍ. ເພື່ອໃຫ້ສິດນີ້, ໃຫ້ແລ່ນຄຳສັ່ງນີ້ດ້ວຍ adb ຫຼື Shizuku, ຈາກນັ້ນກັບມາໜ້າຈໍນີ້: %1$s</string>
     <string name="action_copy_command">ຄັດລອກຄໍາສັ່ງ</string>
     <string name="command_copied">ສຳເນົາຄຳສັ່ງແລ້ວ</string>
-    <string name="title_pref_speech_control">ໃຫ້ແອັບຯອື່ນເວົ້າ</string>
-    <string name="summary_pref_speech_control">ແອັບທີ່ທ່ານອະນຸຍາດສາມາດເວົ້າຂໍ້ຄວາມດ້ວຍສຽງຂອງ SandFly. ບໍ່ມີການເວົ້າຫຍັງໃນຂະນະທີ່ອຸປະກອນລັອກຢູ່.</string>
-    <string name="title_pref_speech_control_sound">ຫຼິ້ນສຽງກ່ອນທີ່ແອັບອື່ນຈະເວົ້າ</string>
-    <string name="speech_control_apps_category">ແອັບ</string>
-    <string name="speech_control_no_apps">ບໍ່ມີແອັບໃດທີ່ຂໍໃຫ້ເວົ້າເທື່ອ.</string>
-    <string name="speech_control_ask_title">ອະນຸຍາດໃຫ້ <xliff:g id="app" example="Tasker">%1$s</xliff:g> ເວົ້າຜ່ານ SandFly ບໍ?</string>
-    <string name="speech_control_ask_text">ແອັບນີ້ສາມາດເວົ້າຂໍ້ຄວາມດ້ວຍສຽງ SandFly ຂອງທ່ານ. ທ່ານສາມາດປ່ຽນສິ່ງນີ້ໄດ້ໃນການຕັ້ງຄ່າຂັ້ນສູງ.</string>
-    <string name="speech_control_allow">ອະນຸຍາດ</string>
-    <string name="speech_control_deny">ບໍ່ອະນຸຍາດ</string>
-    <string name="permission_speak_label">ເວົ້າຜ່ານ SandFly</string>
-    <string name="permission_speak_description">ອະນຸຍາດໃຫ້ແອັບຂໍເວົ້າຂໍ້ຄວາມດ້ວຍສຽງ SandFly ຂອງທ່ານ. SandFly ຈະຖາມທ່ານກ່ອນທີ່ແອັບຈະເວົ້າໄດ້.</string>
     <string name="title_pref_phonetic_letters_mode">ເວົ້າຕົວອັກສອນຕາມສຽງ</string>
     <string name="phonetic_letters_mode_off">ປິດ</string>
     <string name="phonetic_letters_mode_after_letter_delay">ຫຼັງຕົວອັກສອນ, ມີຢຸດ, ເຊັ່ນ “ກ, ໄກ່”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">ເອົາອອກ</string>
     <string name="quick_settings_added">ເພີ່ມ %1$s ແລ້ວ</string>
     <string name="quick_settings_removed">ເອົາ %1$s ອອກແລ້ວ</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ເປີດ. ຖື 2 ນິ້ວເທິງໜ້າຈໍເປັນເວລາ 5 ວິນາທີເພື່ອປິດ. ເພື່ອຢຸດການສະແດງຂໍ້ຄວາມນີ້, ປິດການຕັ້ງຄ່າ SandFly &gt; ການຕັ້ງຄ່າຂັ້ນສູງ &gt; ສະແດງຄໍາແນະນໍາສໍາລັບການປິດ SandFly.</string>
     <string name="edge_gestures_title">ຂອບ</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ທາງລັດອື່ນເພື່ອເປີດ ຫຼືປິດໂໝດທ່ອງເວັບ</string>
     <string name="title_pref_vibration_strength">ຄວາມແຮງສັ່ນສະເທືອນ</string>

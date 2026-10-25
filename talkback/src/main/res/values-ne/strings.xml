@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">फोकस गरिएको सामग्री एक्टिभेट गर्न उक्त सामग्रीमा एक पटक ट्याप गर्नुहोस्। डबल ट्याप गर्नुको साटो यसरी नेभिगेट गर्दा छिटो हुन्छ।</string>
   <string name="pref_verbosity_title">भर्बोसिटी</string>
   <string name="pref_punctuation_title">विराम चिन्ह तथा सङ्केतहरू भन्ने</string>
-  <string name="title_pref_category_manage_focus_indicator">फोकस सूचक</string>
   <string name="title_pref_category_manage_gestures">जेस्चरहरू</string>
   <string name="title_pref_manage_labels"> कस्टम लेबलहरू</string>
   <string name="title_pref_category_context_menu">SandFly मेनु</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly को ट्युटोरियल</string>
   <string name="title_pref_category_help_no_tutorial">मद्दत</string>
   <string name="title_pref_advanced_settings">उन्नत सेटिङ</string>
-  <string name="title_pref_show_exit_watermark">SandFly अफ गर्ने तरिका देखाउनुहोस्</string>
-  <string name="summary_pref_show_exit_watermark">SandFly सक्रिय हुँदा यसलाई कसरी बन्द गर्ने भनेर देखाउँछ</string>
-  <string name="talkback_exit_watermark_text">SandFly अन छ। यसलाई अफ गर्न स्क्रिनमा ५ सेकेन्डसम्म २ औँलाले थिचिराख्नुहोस्। यो म्यासेज देखाउन छाड्न ३ औँलाले ट्याप गरेर SandFly मेनु खोल्नुहोस्।</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly अन गरिएको छ भन्ने कुरा जनाउने ब्यानर देखाइँदै छ। SandFly अफ गर्न २ वटा औँलाले ५ सेकेन्डसम्म स्क्रिनमा होल्ड गर्नुहोस्। यो ब्यानर हटाउन SandFly का सेटिङमा जानुहोस्।</string>
   <string name="reset_gesture_settings_title">इसारासम्बन्धी सेटिङ रिसेट गर्नुहोस्</string>
   <string name="one_finger_gestures_title">एउटा औँला</string>
   <string name="one_finger_back_forth_gestures_title">एउटा औँलाले स्क्रिनमा छोएर औँला अगाडि पछाडि सार्दा</string>
@@ -1070,15 +1065,6 @@
   <string name="watch_remote_intent_error_confirmation_text">कृपया फोन कनेक्ट गरिएको छ कि छैन भन्ने कुरा जाँच्नुहोस्।</string>
   <string name="image_qna_voice_input_empty">बोली पहिचान गर्न सकिएन।</string>
   <string name="image_qna_answer_unavailable">कुनै पनि जवाफ उपलब्ध छैन।</string>
-  <string name="title_pref_thick_border">बाक्ला किनाराहरू</string>
-  <string name="title_pref_category_border_color">रङ</string>
-  <string name="title_pref_default_color">डिफल्ट</string>
-  <string name="title_pref_red">रातो</string>
-  <string name="title_pref_orange">सुन्तले रङ</string>
-  <string name="title_pref_yellow">पहेँलो</string>
-  <string name="title_pref_green">हरियो</string>
-  <string name="title_pref_blue">निलो</string>
-  <string name="title_pref_grey">खैरो</string>
   <string name="survey_setting_title">प्रतिक्रिया दिनुहोस्</string>
   <string name="title_summarize_view">स्क्रिनमा देखिएको कुरा वर्णन गर्नुहोस्</string>
   <string name="detected_result">निम्न कुरा पत्ता लगाइयो: %1$s</string>
@@ -1334,17 +1320,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android ले स्क्रिन रिडरहरूलाई नदिने अनुमति चाहिन्छ। यो दिन adb वा Shizuku बाट यो कमान्ड चलाउनुहोस्, त्यसपछि यही स्क्रिनमा फर्कनुहोस्: %1$s</string>
     <string name="action_copy_command">आदेश प्रतिलिपि गर्नुहोस्</string>
     <string name="command_copied">आदेश प्रतिलिपि गरियो</string>
-    <string name="title_pref_speech_control">अन्य एपहरूलाई बोल्न दिनुहोस्</string>
-    <string name="summary_pref_speech_control">तपाईंले अनुमति दिएका एपहरूले SandFly को आवाजमा पाठ बोल्न सक्छन्। डिभाइस लक हुँदा केही पनि बोलिँदैन।</string>
-    <string name="title_pref_speech_control_sound">अन्य एपहरू बोल्नु अघि ध्वनि बजाउनुहोस्</string>
-    <string name="speech_control_apps_category">एपहरू</string>
-    <string name="speech_control_no_apps">कुनै पनि एपहरूले अझै बोल्न आग्रह गरेका छैनन्।</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> लाई SandFly मार्फत बोल्न दिने हो?</string>
-    <string name="speech_control_ask_text">यसले तपाईंको SandFly आवाजमा पाठ भन्न सक्छ। तपाईं यसलाई उन्नत सेटिङहरूमा परिवर्तन गर्न सक्नुहुन्छ।</string>
-    <string name="speech_control_allow">अनुमति दिनुहोस्</string>
-    <string name="speech_control_deny">अनुमति नदिनुहोस्</string>
-    <string name="permission_speak_label">SandFly मार्फत बोल्ने</string>
-    <string name="permission_speak_description">एपलाई तपाईंको SandFly आवाजमा पाठ बोल्न अनुरोध गर्न दिन्छ। एपले बोल्नुअघि SandFly ले तपाईंलाई सोध्छ।</string>
     <string name="title_pref_phonetic_letters_mode">फोनेटिक रूपमा अक्षरहरू बोल्नुहोस्</string>
     <string name="phonetic_letters_mode_off">अफ</string>
     <string name="phonetic_letters_mode_after_letter_delay">अक्षरपछि, रोकेर, जस्तै “ह, हात्ती”</string>
@@ -1487,7 +1462,6 @@
     <string name="quick_settings_remove">हटाउनुहोस्</string>
     <string name="quick_settings_added">%1$s थपियो</string>
     <string name="quick_settings_removed">%1$s हटाइयो</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly अन। बन्द गर्न 5 सेकेन्डको लागि स्क्रिनमा 2 औंलाहरू समात्नुहोस्। यो सन्देश देखाउन रोक्न, बन्द गर्नुहोस् SandFly सेटिङहरू &gt; उन्नत सेटिङहरू &gt; SandFly बन्द गर्न निर्देशनहरू देखाउनुहोस्।</string>
     <string name="edge_gestures_title">किनारहरू</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">ब्राउज मोड अन वा अफ गर्न अर्को सर्टकट</string>
     <string name="title_pref_vibration_strength">कम्पन शक्ति</string>

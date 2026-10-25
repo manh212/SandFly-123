@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">සක්‍රිය කිරීමට නාභිගත අයිතමයක් මත එක් වරක් තට්ටු කරන්න. දෙවරක් තට්ටු කිරීමට වඩා වේගවත් සංචාලනය.</string>
   <string name="pref_verbosity_title">වාචිකතාව</string>
   <string name="pref_punctuation_title">විරාම ලකුණු සහ සංකේත කියන්න</string>
-  <string name="title_pref_category_manage_focus_indicator">නාභිගත දර්ශකය</string>
   <string name="title_pref_category_manage_gestures">ඉංගිත</string>
   <string name="title_pref_manage_labels">අභිරුචි ලේබල</string>
   <string name="title_pref_category_context_menu">SandFly මෙනුව</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly නිබන්ධනය</string>
   <string name="title_pref_category_help_no_tutorial">උදවු</string>
   <string name="title_pref_advanced_settings">උසස් සැකසීම්</string>
-  <string name="title_pref_show_exit_watermark">SandFly ක්‍රියාවිරහිත කිරීම සඳහා උපදෙස් පෙන්වන්න</string>
-  <string name="summary_pref_show_exit_watermark">SandFly ක්‍රියාත්මක වන විට, එය අක්‍රිය කරන ආකාරය පෙන්වයි</string>
-  <string name="talkback_exit_watermark_text">SandFly ක්‍රියාත්මකයි. ක්‍රියාවිරහිත කිරීමට ඇඟිලි 2ක් තිරය මත තත්පර 5ක් අල්ලාගෙන සිටින්න. මෙම පණිවිඩය පෙන්වීම නැවැත්වීමට, SandFly මෙනුව විවෘත කිරීමට ඇඟිලි 3කින් තට්ටු කරන්න.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly ක්‍රියාත්මක බව දැක්වෙන බැනරය පෙන්වමින්. SandFly ක්‍රියා විරහිත කිරීමට, තිරය මත ඇඟිලි 2ක් තත්පර 5ක් ඔබාගෙන සිටින්න. මෙම බැනරය ඉවත් කිරීමට, SandFly සැකසීම් වෙත යන්න.</string>
   <string name="reset_gesture_settings_title">ඉංගිත සැකසීම් යළි සකසන්න</string>
   <string name="one_finger_gestures_title">ඇඟිලි 1</string>
   <string name="one_finger_back_forth_gestures_title">ඉදිරියට සහ පසුපසට ඇඟිලි 1</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">කරුණාකර දුරකථනය සම්බන්ධ කර ඇත්දැයි පරීක්ෂා කරන්න.</string>
   <string name="image_qna_voice_input_empty">කථනයක් හඳුනා නොගන්නා ලදි.</string>
   <string name="image_qna_answer_unavailable">පිළිතුරක් නොමැත.</string>
-  <string name="title_pref_thick_border">ඝන බෝඩර</string>
-  <string name="title_pref_category_border_color">වර්ණය</string>
-  <string name="title_pref_default_color">පෙරනිමි</string>
-  <string name="title_pref_red">රතු</string>
-  <string name="title_pref_orange">තැඹිලි</string>
-  <string name="title_pref_yellow">කහ</string>
-  <string name="title_pref_green">කොළ</string>
-  <string name="title_pref_blue">නිල්</string>
-  <string name="title_pref_grey">අළු</string>
   <string name="survey_setting_title">ඔබේ ප්‍රතිපෝෂණය බෙදා ගන්න</string>
   <string name="title_summarize_view">තිරය ​​විස්තර කරන්න</string>
   <string name="detected_result">අනාවරණය කර ඇත: %1$s</string>
@@ -1333,17 +1319,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android තිර කියවනවලට ලබා නොදෙන අවසරයක් අවශ්‍යයි. එය ලබා දීමට adb හෝ Shizuku සමඟ මෙම විධානය ධාවනය කර, ඉන්පසු මෙම තිරයට ආපසු එන්න: %1$s</string>
     <string name="action_copy_command">විධානය පිටපත් කරන්න</string>
     <string name="command_copied">විධානය පිටපත් කර ඇත</string>
-    <string name="title_pref_speech_control">වෙනත් යෙදුම්වලට කතා කිරීමට ඉඩ දෙන්න</string>
-    <string name="summary_pref_speech_control">ඔබ ඉඩ දෙන යෙදුම්වලට SandFly හඬින් පෙළ කිව හැක. උපාංගය අගුළු දමා ඇති විට කිසිවක් නොකියයි.</string>
-    <string name="title_pref_speech_control_sound">වෙනත් යෙදුම් කතා කිරීමට පෙර ශබ්දයක් වාදනය කරන්න</string>
-    <string name="speech_control_apps_category">යෙදුම්</string>
-    <string name="speech_control_no_apps">යෙදුම් කිසිවක් තවම කතා කිරීමට ඉල්ලා නැත.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> හට SandFly හරහා කතා කිරීමට ඉඩ දෙන්නද?</string>
-    <string name="speech_control_ask_text">එයට ඔබේ SandFly කටහඬින් පෙළ පැවසිය හැක. ඔබට මෙය උසස් සැකසුම් තුළ වෙනස් කළ හැක.</string>
-    <string name="speech_control_allow">ඉඩ දෙන්න</string>
-    <string name="speech_control_deny">ඉඩ දෙන්න එපා</string>
-    <string name="permission_speak_label">SandFly හරහා කතා කිරීම</string>
-    <string name="permission_speak_description">ඔබේ SandFly කටහඬින් පෙළ කීමට ඉල්ලීමට යෙදුමට ඉඩ දෙයි. යෙදුමට කථා කිරීමට පෙර SandFly ඔබෙන් අසයි.</string>
     <string name="title_pref_phonetic_letters_mode">අක්ෂර උච්චාරණ ලෙස කතා කරන්න</string>
     <string name="phonetic_letters_mode_off">ක්‍රියාවිරහිතයි</string>
     <string name="phonetic_letters_mode_after_letter_delay">අකුරට පසුව, විරාමයක් සමඟ, උදා. “හ, හාවා”</string>
@@ -1486,7 +1461,6 @@
     <string name="quick_settings_remove">ඉවත් කරන්න</string>
     <string name="quick_settings_added">%1$s එකතු කරන ලදී</string>
     <string name="quick_settings_removed">%1$s ඉවත් කරන ලදී</string>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly ක්‍රියාත්මකයි. ක්‍රියාවිරහිත කිරීමට ඇඟිලි 2ක් තිරය මත තත්පර 5ක් තබාගෙන සිටින්න. මෙම පණිවිඩය පෙන්වීම නැවැත්වීමට, SandFly සැකසීම් &gt; උසස් සැකසීම් &gt; SandFly ක්‍රියාවිරහිත කිරීම සඳහා උපදෙස් පෙන්වන්න ක්‍රියාවිරහිත කරන්න.</string>
     <string name="edge_gestures_title">දාර</string>
     <string name="keycombo_menu_other_toggle_browse_mode_extra">බ්‍රවුස් ප්‍රකාරය සක්‍රිය හෝ අක්‍රිය කිරීමට තවත් කෙටි මගක්</string>
     <string name="title_pref_vibration_strength">කම්පන ශක්තිය</string>

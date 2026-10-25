@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Fokuratutako elementua aktibatzeko, saka ezazu behin. Birritan sakatuta baino bizkorrago nabigatzen da horrela.</string>
   <string name="pref_verbosity_title">Adierazgarritasuna</string>
   <string name="pref_punctuation_title">Irakurri ozen puntuazio-zeinu eta ikurren izenak</string>
-  <string name="title_pref_category_manage_focus_indicator">Fokuaren adierazlea</string>
   <string name="title_pref_category_manage_gestures">Keinuak</string>
   <string name="title_pref_manage_labels">Etiketa pertsonalizatuak</string>
   <string name="title_pref_category_context_menu">SandFly-en menua</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">SandFly-en tutoriala</string>
   <string name="title_pref_category_help_no_tutorial">Laguntza</string>
   <string name="title_pref_advanced_settings">Ezarpen aurreratuak</string>
-  <string name="title_pref_show_exit_watermark">Erakutsi SandFly desaktibatzeko argibideak</string>
-  <string name="summary_pref_show_exit_watermark">SandFly aktibatzen denean, erakutsi nola desaktibatu</string>
-  <string name="talkback_exit_watermark_text">SandFly aktibatuta dago. Desaktibatzeko, eduki pantaila 2 hatzekin sakatuta 5 segundoz. Mezu hau erakusteari uzteko, sakatu pantaila 3 hatzekin SandFly-en menua ireki dadin.</string>
-  <string name="talkback_exit_watermark_hint_text">SandFly aktibatuta dagoela adierazten duen banda-mezu bat agertzen da. SandFly desaktibatzeko, eduki pantaila 2 hatzekin sakatuta 5 segundoz. Banda-mezu hau kentzeko, joan SandFly-en ezarpenetara.</string>
   <string name="reset_gesture_settings_title">Berrezarri keinuen ezarpenak</string>
   <string name="one_finger_gestures_title">Hatz bat</string>
   <string name="one_finger_back_forth_gestures_title">Hatz bat aurrera eta atzera</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Egiaztatu telefonoa konektatuta dagoela.</string>
   <string name="image_qna_voice_input_empty">Ez da hauteman hizketarik.</string>
   <string name="image_qna_answer_unavailable">Ez dago erantzunik erabilgarri.</string>
-  <string name="title_pref_thick_border">Ertz lodiak</string>
-  <string name="title_pref_category_border_color">Kolorea</string>
-  <string name="title_pref_default_color">Lehenetsia</string>
-  <string name="title_pref_red">Gorria</string>
-  <string name="title_pref_orange">Laranja</string>
-  <string name="title_pref_yellow">Horia</string>
-  <string name="title_pref_green">Berdea</string>
-  <string name="title_pref_blue">Urdina</string>
-  <string name="title_pref_grey">Grisa</string>
   <string name="survey_setting_title">Partekatu iritzia</string>
   <string name="title_summarize_view">Azaldu pantaila</string>
   <string name="detected_result">%1$s hauteman da</string>
@@ -1319,17 +1305,6 @@
     <string name="summary_pref_speakerphone_needs_permission">Android-ek pantaila-irakurgailuei ematen ez dien baimen bat behar du. Baimena emateko, exekutatu agindu hau adb edo Shizuku erabilita, eta itzuli pantaila honetara: %1$s</string>
     <string name="action_copy_command">Kopiatu agindua</string>
     <string name="command_copied">Kopiatu da agindua</string>
-    <string name="title_pref_speech_control">Eman beste aplikazioei hitz egiteko baimena</string>
-    <string name="summary_pref_speech_control">Baimena ematen diezun aplikazioek testua esan dezakete SandFly-en ahotsarekin. Gailua blokeatuta dagoen bitartean, ez da ezer esaten.</string>
-    <string name="title_pref_speech_control_sound">Erreproduzitu soinu bat beste aplikazioek hitz egin aurretik</string>
-    <string name="speech_control_apps_category">Aplikazioak</string>
-    <string name="speech_control_no_apps">Aplikaziorik ez da hitz egiteko baimena eskatu oraindik.</string>
-    <string name="speech_control_ask_title"><xliff:g id="app" example="Tasker">%1$s</xliff:g> aplikazioari SandFly-en bidez hitz egiteko baimena eman nahi diozu?</string>
-    <string name="speech_control_ask_text">Testua esan dezake SandFly-en ahotsarekin. Ezarpen aurreratuak atalean alda dezakezu hau.</string>
-    <string name="speech_control_allow">Eman baimena</string>
-    <string name="speech_control_deny">Ez eman baimenik</string>
-    <string name="permission_speak_label">hitz egin SandFly-en bidez</string>
-    <string name="permission_speak_description">Aplikazioak testua SandFly-en ahotsarekin esateko baimena eska dezake. Aplikazioak hitz egin aurretik, SandFly-ek baimena eskatuko dizu.</string>
     <string name="title_pref_phonetic_letters_mode">Irakurri hizkiak fonetikoki</string>
     <string name="phonetic_letters_mode_off">Desaktibatuta</string>
     <string name="phonetic_letters_mode_after_letter_delay">Hizkiaren ondoren, atzerapenarekin; adibidez, \"h, hotel\"</string>
@@ -1384,7 +1359,6 @@
         <item quantity="one">%d jakinarazpen</item>
         <item quantity="other">%d jakinarazpen</item>
     </plurals>
-    <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly aktibatuta dago. Desaktibatzeko, eduki 2 hatz pantailan 5 segundoz. Mezu hau ez erakusteko, desaktibatu SandFly-en ezarpenak &gt; Ezarpen aurreratuak &gt; Erakutsi SandFly desaktibatzeko argibideak.</string>
     <string name="edge_gestures_title">Ertzak</string>
     <string name="title_pref_audio_output_device">Audio-irteerako gailua</string>
     <string name="dialog_title_audio_output_device">Aukeratu non erreproduzitu SandFly-en audioa</string>

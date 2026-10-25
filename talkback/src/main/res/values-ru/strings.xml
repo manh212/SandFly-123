@@ -75,7 +75,6 @@
   <string name="summary_pref_single_tap">Чтобы активировать выбранный элемент, нажмите на него один раз. Вы сможете перемещаться по интерфейсу быстрее, чем когда выбрано двойное нажатие.</string>
   <string name="pref_verbosity_title">Детализация</string>
   <string name="pref_punctuation_title">Озвучивать знаки пунктуации и символы</string>
-  <string name="title_pref_category_manage_focus_indicator">Индикатор фокуса</string>
   <string name="title_pref_category_manage_gestures">Жесты</string>
   <string name="title_pref_manage_labels">Персональные ярлыки</string>
   <string name="title_pref_category_context_menu">Меню SandFly</string>
@@ -91,10 +90,6 @@
   <string name="title_pref_category_tutorial">Руководство по SandFly</string>
   <string name="title_pref_category_help_no_tutorial">Справка</string>
   <string name="title_pref_advanced_settings">Расширенные настройки</string>
-  <string name="title_pref_show_exit_watermark">Показывать инструкцию по отключению SandFly</string>
-  <string name="summary_pref_show_exit_watermark">После включения SandFly будет появляться сообщение, позволяющее быстро его выключить</string>
-  <string name="talkback_exit_watermark_text">Функция SandFly включена. Чтобы выключить её, удерживайте два пальца на экране в течение пяти секунд. Если вы больше не хотите видеть это сообщение, коснитесь экрана тремя пальцами, чтобы открыть меню SandFly.</string>
-  <string name="talkback_exit_watermark_hint_text">Баннер, указывающий на то, что включена функция SandFly. Чтобы отключить её, удерживайте два пальца на экране в течение пяти секунд. Чтобы убрать баннер, перейдите в настройки SandFly.</string>
   <string name="reset_gesture_settings_title">Сбросить настройки жестов</string>
   <string name="one_finger_gestures_title">Один палец</string>
   <string name="one_finger_back_forth_gestures_title">Жесты вперёд-назад одним пальцем</string>
@@ -1069,15 +1064,6 @@
   <string name="watch_remote_intent_error_confirmation_text">Убедитесь, что телефон подключён.</string>
   <string name="image_qna_voice_input_empty">Речь не распознана.</string>
   <string name="image_qna_answer_unavailable">Нет доступных ответов.</string>
-  <string name="title_pref_thick_border">Толстые границы</string>
-  <string name="title_pref_category_border_color">Цвет</string>
-  <string name="title_pref_default_color">По умолчанию</string>
-  <string name="title_pref_red">Красный</string>
-  <string name="title_pref_orange">Оранжевый</string>
-  <string name="title_pref_yellow">Жёлтый</string>
-  <string name="title_pref_green">Зелёный</string>
-  <string name="title_pref_blue">Синий</string>
-  <string name="title_pref_grey">Серый</string>
   <string name="survey_setting_title">Отправить отзыв</string>
   <string name="title_summarize_view">Описать, что изображено на экране</string>
   <string name="detected_result">Распознано: %1$s</string>
@@ -1307,17 +1293,6 @@
   <string name="title_pref_speakerphone_away_from_ear">Громкая связь, когда телефон не у уха</string>
   <string name="summary_pref_speakerphone_away_from_ear">Во время звонка включает громкую связь, когда вы отводите телефон от уха, и возвращает звук в разговорный динамик, когда снова подносите телефон к уху.</string>
   <string name="summary_pref_speakerphone_needs_permission">Требуется разрешение, которое Android не выдаёт программам чтения с экрана. Чтобы предоставить его, выполните эту команду через adb или Shizuku, затем вернитесь на этот экран: %1$s</string>
-  <string name="title_pref_speech_control">Разрешить другим приложениям озвучивать текст</string>
-  <string name="summary_pref_speech_control">Разрешённые приложения могут озвучивать текст голосом SandFly. Пока устройство заблокировано, текст не озвучивается.</string>
-  <string name="title_pref_speech_control_sound">Воспроизводить звук перед озвучиванием из других приложений</string>
-  <string name="speech_control_apps_category">Приложения</string>
-  <string name="speech_control_no_apps">Ни одно приложение пока не запрашивало озвучивание текста.</string>
-  <string name="speech_control_ask_title">Разрешить приложению <xliff:g id="app" example="Tasker">%1$s</xliff:g> озвучивать текст через SandFly?</string>
-  <string name="speech_control_ask_text">Оно сможет озвучивать текст голосом SandFly. Это разрешение можно изменить в расширенных настройках.</string>
-  <string name="speech_control_allow">Разрешить</string>
-  <string name="speech_control_deny">Не разрешать</string>
-  <string name="permission_speak_label">озвучивать текст через SandFly</string>
-  <string name="permission_speak_description">Позволяет приложению запрашивать озвучивание текста голосом SandFly. Прежде чем приложение сможет озвучивать текст, SandFly запросит ваше разрешение.</string>
   <string name="title_pref_phonetic_letters_mode">Озвучивать буквы с примерами</string>
   <string name="phonetic_letters_mode_off">Отключено</string>
   <string name="phonetic_letters_mode_after_letter_delay">После буквы, с задержкой, например «а, Анна»</string>
@@ -1347,7 +1322,6 @@
   <string name="summary_pref_speak_volume_changes">Произносить новый уровень громкости после нажатия кнопок громкости</string>
   <string name="title_pref_speak_notifications">Озвучивать уведомления</string>
   <string name="summary_pref_speak_notifications">Читать новые уведомления вслух при их получении. Входящие звонки озвучиваются всегда.</string>
-  <string name="talkback_exit_watermark_text_no_menu_gesture">SandFly включён. Чтобы отключить его, удерживайте два пальца на экране в течение пяти секунд. Чтобы скрыть это сообщение, отключите параметр «Настройки SandFly &gt; Расширенные настройки &gt; Показывать инструкцию по отключению SandFly».</string>
   <string name="title_pref_audio_output_device">Устройство вывода звука</string>
   <string name="dialog_title_audio_output_device">Выберите, где воспроизводить звук SandFly</string>
   <string name="value_audio_output_device_default">Системное по умолчанию</string>
