@@ -63,7 +63,7 @@ class TraversalTreeCacheTest {
     val rootInfo = node(null)
     node(rootInfo)
     val root = AccessibilityNodeInfoCompat.wrap(rootInfo)
-    val child = root.getChild(0)
+    val child = checkNotNull(root.getChild(0))
     TraversalTreeCache.put(root, OrderedTraversalStrategy(root))
     return root to child
   }
