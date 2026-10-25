@@ -231,6 +231,12 @@ public class Performance {
 
   private long preparedSpeechMisses;
 
+  /** How often a reading order still had to be built on the thread that was swiping. */
+  private long orderBuildsOnSwipePath;
+
+  /** How often a reading order built in the background was saved for the next swipe to use. */
+  private long orderSnapshotsPublished;
+
   private final List<LatencyTracker> latencyTrackers = new ArrayList<>();
 
   /**
@@ -1098,12 +1104,45 @@ public class Performance {
     }
   }
 
+  /** Counts one reading order built on the swiping thread because no saved order could be used. */
+  public void onOrderBuildOnSwipePath() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildsOnSwipePath++;
+    }
+  }
+
+  /** Counts one reading order built in the background and saved for the next swipe. */
+  public void onOrderSnapshotPublished() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderSnapshotsPublished++;
+    }
+  }
+
+  /** Displays how many reading orders were built on the swipe path, and how many in the background. */
+  public void displayOrderBuildStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (orderBuildsOnSwipePath + orderSnapshotsPublished > 0) {
+        logger.log(
+            "Reading order: %d builds on the swipe path, %d background builds saved",
+            orderBuildsOnSwipePath, orderSnapshotsPublished);
+      }
+    }
+  }
+
   public void clearAllStats() {
     synchronized (lockLabelToStats) {
       labelToStats.clear();
       speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
+      orderBuildsOnSwipePath = 0;
+      orderSnapshotsPublished = 0;
     }
     allEventStats.clear();
 

@@ -17,13 +17,16 @@
 package com.google.android.accessibility.talkback.focusmanagement
 
 import android.graphics.Rect
+import android.os.Build
 import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.libraries.accessibility.utils.log.LogUtils
+import java.util.function.Supplier
 
 /**
  * Keeps the reading order of the window that the user last swiped in, so that swiping through a
@@ -56,11 +59,14 @@ object TraversalTreeCache {
   /**
    * Content changes that leave the nodes and their order as they are, such as a progress bar or a
    * clock that ticks. An app that shows one sends these events all the time, which would otherwise
-   * throw the order away before every swipe.
+   * throw the order away before every swipe. A change of description is one of them: the order
+   * follows the tree's structure, bounds and flags, never what a node says, so a new description
+   * (a "typing…" line, a read tick in a chat app) cannot move a node within it.
    */
   private const val NON_STRUCTURAL_CHANGES =
     AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT or
-      AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION
+      AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION or
+      AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION
 
   /**
    * How long the order is kept after one of those changes. A text change can, rarely, make a node
@@ -86,12 +92,28 @@ object TraversalTreeCache {
 
   private const val NO_WINDOW_ID = -1
 
-  private var root: AccessibilityNodeInfoCompat? = null
-  private var strategy: OrderedTraversalStrategy? = null
-  private var lastClearReason = "start"
-  private var firstIgnoredChangeTime = 0L
+  /**
+   * Guards the saved order against the one writer that is not on the main thread: a snapshot
+   * build publishing its result. Every other use stays on the main thread, as before.
+   */
+  private val stateLock = Any()
+
+  @Volatile private var root: AccessibilityNodeInfoCompat? = null
+  @Volatile private var strategy: OrderedTraversalStrategy? = null
+  @Volatile private var lastClearReason = "start"
+  @Volatile private var firstIgnoredChangeTime = 0L
   private var hits = 0
   private var misses = 0
+
+  /**
+   * Bumped by every throw-away and every save of the order. A background build captures it when
+   * it is asked for and may only publish if it is still current when the build finishes, so an
+   * order read from a tree that has since changed is never handed to a swipe.
+   */
+  @Volatile private var generation = 0L
+
+  /** The window the newest background build was asked for, or [NO_WINDOW_ID] before any. */
+  @Volatile private var snapshotBuildWindowId = NO_WINDOW_ID
 
   /** Where the last navigation started, so a removed node does not send the user to the top. */
   private var lastPivotTop = Int.MIN_VALUE
@@ -110,8 +132,8 @@ object TraversalTreeCache {
     ) {
       clear("text changes")
     }
-    val saved = strategy
-    val result = saved?.takeIf { root == this.root && it.containsNode(pivot) }
+    val (savedRoot, saved) = synchronized(stateLock) { root to strategy }
+    val result = saved?.takeIf { root == savedRoot && it.containsNode(pivot) }
     if (LogUtils.shouldLog(Log.DEBUG)) {
       if (result != null) {
         hits++
@@ -121,7 +143,7 @@ object TraversalTreeCache {
         val reason =
           when {
             saved == null -> "cleared by $lastClearReason"
-            root != this.root -> "different window"
+            root != savedRoot -> "different window"
             else -> "focused node not in order"
           }
         Log.d(TAG, "Building order, $reason ($hits reused, $misses built)")
@@ -135,7 +157,8 @@ object TraversalTreeCache {
    * happened since the order was saved, so the node is still there.
    */
   @JvmStatic
-  fun holds(node: AccessibilityNodeInfoCompat): Boolean = strategy?.containsNode(node) == true
+  fun holds(node: AccessibilityNodeInfoCompat): Boolean =
+    synchronized(stateLock) { strategy }?.containsNode(node) == true
 
   /**
    * Whether the saved order holds [node] as the app has it now: nothing in its window has changed
@@ -154,7 +177,7 @@ object TraversalTreeCache {
    */
   @JvmStatic
   fun rootFor(node: AccessibilityNodeInfoCompat): AccessibilityNodeInfoCompat? =
-    root?.takeIf { it.windowId == node.windowId && holds(node) }
+    synchronized(stateLock) { root }?.takeIf { it.windowId == node.windowId && holds(node) }
 
   /**
    * Remembers where a navigation started. When the focused node is later removed — an app
@@ -185,9 +208,15 @@ object TraversalTreeCache {
     if (lastPivotWindowId == NO_WINDOW_ID || root.windowId != lastPivotWindowId) {
       return null
     }
+    val saved = synchronized(stateLock) { strategy?.takeIf { root == this.root } }
     val order =
-      strategy?.takeIf { root == this.root }
-        ?: runCatching { OrderedTraversalStrategy(root) }.getOrNull()
+      saved
+        ?: runCatching {
+              OrderedTraversalStrategy(root).also {
+                Performance.getInstance().onOrderBuildOnSwipePath()
+              }
+            }
+            .getOrNull()
         ?: return null
     val bounds = Rect()
     var above: AccessibilityNodeInfoCompat? = null
@@ -207,21 +236,74 @@ object TraversalTreeCache {
   /** Saves the order of [root], replacing any saved order. */
   @JvmStatic
   fun put(root: AccessibilityNodeInfoCompat, strategy: OrderedTraversalStrategy) {
-    this.root = root
-    this.strategy = strategy
-    firstIgnoredChangeTime = 0L
+    synchronized(stateLock) {
+      generation++
+      this.root = root
+      this.strategy = strategy
+      firstIgnoredChangeTime = 0L
+    }
   }
 
   /** Throws away the saved order. */
   @JvmStatic
   fun clear(reason: String) {
-    if (strategy == null) {
+    synchronized(stateLock) {
+      generation++
+      root = null
+      strategy = null
+      firstIgnoredChangeTime = 0L
+      lastClearReason = reason
+    }
+  }
+
+  /** The current order generation, captured by a background build when it is asked for. */
+  internal fun currentGeneration(): Long = generation
+
+  /**
+   * Asks for the order of the window [windowId] to be built in the background, so that the next
+   * swipe finds it saved here instead of building it on the swiping thread. The root is resolved
+   * by [rootSupplier] on the builder's thread, never here. Below Android 13 the background read
+   * of the nodes is all that is offered, exactly as before this mechanism existed.
+   */
+  @JvmStatic
+  fun buildOrderInBackground(
+    windowId: Int,
+    rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
+    ownPackage: String,
+  ) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
+      WindowNodePrefetcher.prefetchInBackground(rootSupplier, ownPackage)
       return
     }
-    root = null
-    strategy = null
-    firstIgnoredChangeTime = 0L
-    lastClearReason = reason
+    snapshotBuildWindowId = windowId
+    TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage)
+  }
+
+  /**
+   * Saves an order built in the background, if the window has not changed since the build was
+   * asked for: [generation] must still be current. A swipe verifies the order again when it
+   * takes it (the root must be this window's and the order must hold the focused node), and
+   * falls back to building on its own thread whenever this returns false or no snapshot has
+   * landed yet. Returns whether the order was saved.
+   */
+  @JvmStatic
+  fun publishSnapshot(
+    root: AccessibilityNodeInfoCompat,
+    strategy: OrderedTraversalStrategy,
+    generation: Long,
+  ): Boolean {
+    synchronized(stateLock) {
+      if (generation != this.generation) {
+        return false
+      }
+      this.root = root
+      this.strategy = strategy
+      firstIgnoredChangeTime = 0L
+    }
+    if (LogUtils.shouldLog(Log.DEBUG)) {
+      Log.d(TAG, "Saved order built in the background")
+    }
+    return true
   }
 
   /**
@@ -243,9 +325,13 @@ object TraversalTreeCache {
   /** Throws away the saved order if [event] can change its window. Returns whether it did. */
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
-    val savedRoot = root ?: return false
     val type = event.eventType
     if (type and IGNORED_EVENT_TYPES != 0) {
+      return false
+    }
+    val savedRoot = root
+    if (savedRoot == null) {
+      invalidateSnapshotBuild(event)
       return false
     }
     val windowId = event.windowId
@@ -276,5 +362,31 @@ object TraversalTreeCache {
       return true
     }
     return false
+  }
+
+  /**
+   * No order is saved, but a background build may be reading the tree for the window one was
+   * asked for: an event that would have thrown that window's order away must also retire the
+   * build, or it would publish an order read from a tree that has already changed. Changes of
+   * the graced kind leave the order as it is, so they retire nothing.
+   */
+  private fun invalidateSnapshotBuild(event: AccessibilityEvent) {
+    val type = event.eventType
+    if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+      val changes = event.contentChangeTypes
+      if (changes != 0 && changes and NON_STRUCTURAL_CHANGES.inv() == 0) {
+        return
+      }
+    }
+    val windowId = event.windowId
+    val buildWindowId = snapshotBuildWindowId
+    if (
+      type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
+        type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+        windowId == NO_WINDOW_ID ||
+        (buildWindowId != NO_WINDOW_ID && windowId == buildWindowId)
+    ) {
+      synchronized(stateLock) { generation++ }
+    }
   }
 }

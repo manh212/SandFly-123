@@ -98,6 +98,7 @@ import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.NodeActionFilter;
+import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.Role.RoleName;
@@ -1341,6 +1342,7 @@ public class FocusProcessorForLogicalNavigation {
       WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
       traversalStrategy =
           TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
+      Performance.getInstance().onOrderBuildOnSwipePath();
       if (trace) {
         Trace.endSection();
         Log.d(

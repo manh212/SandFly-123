@@ -1124,7 +1124,14 @@ public class TalkBackService extends AccessibilityServiceCompat
       clearCache();
     }
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
-      prefetchWindowOfClearedOrder(event);
+      if (getBooleanPref(
+          R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default)) {
+        int windowId = event.getWindowId();
+        TraversalTreeCache.buildOrderInBackground(
+            windowId, () -> rootOfWindow(windowId), getPackageName());
+      } else {
+        prefetchWindowOfClearedOrder(event);
+      }
     }
     PreparedFocusSpeech.onAccessibilityEvent(event);
     if (directTouchController != null) {
