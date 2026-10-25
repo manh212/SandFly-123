@@ -212,6 +212,11 @@ public class Performance {
   protected final Object lockLabelToStats = new Object();
   protected Statistics allEventStats = new Statistics();
 
+  /** How often focus was spoken from an announcement prepared before the swipe, and how often not. */
+  private long preparedSpeechHits;
+
+  private long preparedSpeechMisses;
+
   private final List<LatencyTracker> latencyTrackers = new ArrayList<>();
 
   /**
@@ -1033,9 +1038,41 @@ public class Performance {
     logger.log("performance statistic is cleared");
   }
 
+  /** Counts one focus spoken from a prepared announcement. */
+  public void onPreparedSpeechHit() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechHits++;
+    }
+  }
+
+  /** Counts one focus that was spoken without a prepared announcement to use. */
+  public void onPreparedSpeechMiss() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechMisses++;
+    }
+  }
+
+  /** Displays how often focus was spoken from a prepared announcement, and how often not. */
+  public void displayPreparedSpeechStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (preparedSpeechHits + preparedSpeechMisses > 0) {
+        logger.log(
+            "Prepared speech: %d hits, %d misses", preparedSpeechHits, preparedSpeechMisses);
+      }
+    }
+  }
+
   public void clearAllStats() {
     synchronized (lockLabelToStats) {
       labelToStats.clear();
+      preparedSpeechHits = 0;
+      preparedSpeechMisses = 0;
     }
     allEventStats.clear();
 

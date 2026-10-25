@@ -35,6 +35,7 @@ import com.google.android.accessibility.talkback.UserInterface.UserInputEventLis
 import com.google.android.accessibility.talkback.actor.search.UniversalSearchActor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.compositor.Compositor;
+import com.google.android.accessibility.talkback.compositor.EventFilter;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
@@ -73,7 +74,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * Executes directional navigation actions, such as moving accessibility-focus up/down/left/right,
  * forward/backward, top/bottom.
  */
-public class DirectionNavigationActor implements UserInputEventListener {
+public class DirectionNavigationActor implements UserInputEventListener, EventFilter.TargetPredictor {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////
   // State reader interface
@@ -164,9 +165,35 @@ public class DirectionNavigationActor implements UserInputEventListener {
    * likely focus, without changing anything. See {@link
    * FocusProcessorForLogicalNavigation#predictTarget}.
    */
+  @Override
   public @Nullable AccessibilityNodeInfoCompat predictTarget(
       AccessibilityNodeInfoCompat pivot, @SearchDirection int searchDirection) {
     return focusProcessorForLogicalNavigation.predictTarget(pivot, searchDirection);
+  }
+
+  /**
+   * Returns the node that a swipe in {@code searchDirection} from {@code pivot} at the granularity
+   * whose target type is {@code targetType} would most likely focus, without changing anything.
+   * See {@link FocusProcessorForLogicalNavigation#predictTarget(AccessibilityNodeInfoCompat, int,
+   * int)}.
+   */
+  @Override
+  public @Nullable AccessibilityNodeInfoCompat predictTarget(
+      AccessibilityNodeInfoCompat pivot,
+      @SearchDirection int searchDirection,
+      @TargetType int targetType) {
+    return focusProcessorForLogicalNavigation.predictTarget(pivot, searchDirection, targetType);
+  }
+
+  /** The target type of the granularity now in effect, whose targets are prepared in advance. */
+  @Override
+  public @TargetType int currentTargetType() {
+    return granularityToTargetType(cursorGranularityManager.getCurrentGranularity());
+  }
+
+  /** Sets who is told whenever the current granularity changes. */
+  public void setGranularityChangeListener(@Nullable Runnable listener) {
+    cursorGranularityManager.setGranularityChangeListener(listener);
   }
 
   public void setPipeline(Pipeline.FeedbackReturner pipeline) {

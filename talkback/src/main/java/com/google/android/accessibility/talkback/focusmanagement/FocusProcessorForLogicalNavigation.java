@@ -1218,7 +1218,23 @@ public class FocusProcessorForLogicalNavigation {
    */
   public @Nullable AccessibilityNodeInfoCompat predictTarget(
       @NonNull AccessibilityNodeInfoCompat pivot, @SearchDirection int searchDirection) {
-    if (!TraversalStrategyUtils.isLogicalDirection(searchDirection)
+    return predictTarget(pivot, searchDirection, NavigationTarget.TARGET_DEFAULT);
+  }
+
+  /**
+   * Returns the node that a swipe in {@code searchDirection} from {@code pivot} at the granularity
+   * whose target type is {@code targetType} would most likely focus, or null if it cannot be
+   * worked out from the saved reading order. Only target types whose real move searches the saved
+   * order with a node filter can be predicted this way: the plain target, headings, controls and
+   * links. The others move by their own means (the page itself for web elements, a table walk, a
+   * screen search, another window), so they are not predicted.
+   */
+  public @Nullable AccessibilityNodeInfoCompat predictTarget(
+      @NonNull AccessibilityNodeInfoCompat pivot,
+      @SearchDirection int searchDirection,
+      @TargetType int targetType) {
+    if (!isPredictableTargetType(targetType)
+        || !TraversalStrategyUtils.isLogicalDirection(searchDirection)
         || WebInterfaceUtils.supportsWebActions(pivot)) {
       return null;
     }
@@ -1238,8 +1254,7 @@ public class FocusProcessorForLogicalNavigation {
       return null;
     }
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
-        composeNodeFilter(
-            NavigationTarget.TARGET_DEFAULT, traversalStrategy.getSpeakingNodesCache());
+        composeNodeFilter(targetType, traversalStrategy.getSpeakingNodesCache());
     AccessibilityNodeInfoCompat target =
         TraversalStrategyUtils.searchFocus(traversalStrategy, pivot, searchDirection, nodeFilter);
     if (target == null
@@ -1249,6 +1264,15 @@ public class FocusProcessorForLogicalNavigation {
       return null;
     }
     return target;
+  }
+
+  /** Whether a swipe at a granularity with this target type searches the saved reading order. */
+  @VisibleForTesting
+  static boolean isPredictableTargetType(@TargetType int targetType) {
+    return targetType == NavigationTarget.TARGET_DEFAULT
+        || targetType == NavigationTarget.TARGET_HEADING
+        || targetType == NavigationTarget.TARGET_CONTROL
+        || targetType == NavigationTarget.TARGET_LINK;
   }
 
   private boolean navigateToDefaultOrMacroGranularityTarget(
