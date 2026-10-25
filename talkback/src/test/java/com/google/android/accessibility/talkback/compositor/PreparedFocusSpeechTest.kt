@@ -274,7 +274,7 @@ class PreparedFocusSpeechUnrelatedChangeTest {
     // The shadow tells nodes apart by their source view alone, so each node needs its own:
     // a bare info makes its equals throw, and a shared view would make every node equal.
     info.setSource(
-      View(RuntimeEnvironment.getApplicationContext()),
+      View(RuntimeEnvironment.getApplication()),
       AccessibilityNodeInfo.HOST_VIEW_ID,
     )
     info.setBoundsInScreen(bounds)
