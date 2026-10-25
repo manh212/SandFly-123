@@ -312,6 +312,75 @@ public class Performance {
   /** Build requests dropped because the very same build was already asked for or had just landed. */
   private long orderBuildRequestsDeduped;
 
+  /**
+   * Listener build asks folded into a build already on its way for the same window: the ask is
+   * remembered as a need to build again from the newest tree when the current build lands, so a
+   * burst of throw-aways in a churning window starts one build, not one per throw-away.
+   */
+  private long listenerBuildsCoalesced;
+
+  /** Swipes the fast navigator handled itself, including the ones it answered at an edge. */
+  private long fastNavigationsHandled;
+
+  /** Swipes the fast navigator answered at the end of the list, with its edge feedback. */
+  private long fastNavigationEdges;
+
+  /** Hard cases the fast navigator handled itself: it had to build the order on the spot. */
+  public static final int FAST_NAV_HARD_BUILT_ON_SPOT = 0;
+
+  /** Hard cases the fast navigator handled itself: it scrolled for the next item itself. */
+  public static final int FAST_NAV_HARD_SELF_SCROLL = 1;
+
+  /** Hard cases the fast navigator handled itself: a reading control's own order was used. */
+  public static final int FAST_NAV_HARD_GRANULARITY_ORDER = 2;
+
+  /** Hard cases the fast navigator handled itself: it read the web tree in its own order. */
+  public static final int FAST_NAV_HARD_WEB_ORDER = 3;
+
+  /** Hard cases the fast navigator handled itself: the target was dead, a live one stood in. */
+  public static final int FAST_NAV_HARD_DEAD_TARGET_SUBSTITUTED = 4;
+
+  /** Hard cases the fast navigator handled itself: the swipe landed in selection mode. */
+  public static final int FAST_NAV_HARD_SELECTION_MODE = 5;
+
+  /** Names of the hard-case kinds above, for the statistics display. */
+  private static final String[] FAST_NAV_HARD_NAMES = {
+    "built on the spot", "scrolled itself", "reading-control order", "web order",
+    "dead target replaced", "selection mode"
+  };
+
+  /** Hard cases the fast navigator handled itself, by kind. */
+  private final long[] fastNavigationHardCases = new long[FAST_NAV_HARD_NAMES.length];
+
+  /** The fast navigator could not move the focus at all: there was no pivot to start from. */
+  public static final int FAST_NAV_STUCK_NO_PIVOT = 0;
+
+  /** The fast navigator could not move the focus at all: no order could be had or built. */
+  public static final int FAST_NAV_STUCK_NO_ORDER = 1;
+
+  /** The fast navigator scrolled, and nothing new landed to focus. */
+  public static final int FAST_NAV_STUCK_SCROLL_NO_LANDING = 2;
+
+  /** Every target the order offered in the swipe's direction was dead. */
+  public static final int FAST_NAV_STUCK_ALL_TARGETS_DEAD = 3;
+
+  /** The one focus action the fast navigator fired did not land. */
+  public static final int FAST_NAV_STUCK_FOCUS_ACTION_FAILED = 4;
+
+  /** Names of the stuck reasons above, for the statistics display. */
+  private static final String[] FAST_NAV_STUCK_NAMES = {
+    "no pivot", "no order", "scroll landed nothing", "all targets dead", "focus action failed"
+  };
+
+  /** Swipes the fast navigator could not move at all, by reason. */
+  private final long[] fastNavigationStuck = new long[FAST_NAV_STUCK_NAMES.length];
+
+  /** Navigations whose pivot was the focus node the reading-order cache already held. */
+  private long cachedFocusShortcutUsed;
+
+  /** Held focus nodes that failed their checks, so the navigation asked the app as usual. */
+  private long cachedFocusShortcutRejected;
+
   /** Background orders built by the lean builder instead of the standard one. */
   private long leanOrderBuilds;
 
@@ -402,6 +471,43 @@ public class Performance {
 
   /** Cache misses where the words had never been made into sound at all. */
   private long speechCacheMissNeverMade;
+
+  /**
+   * Sounds whose making was started by the speech pipeline: a prepared sound was played for the
+   * item just focused, so the sound of the next item in the swipe's direction was set going at
+   * once instead of at the next preparation round.
+   */
+  private long speechPipelineStarted;
+
+  /** Of those pipeline-started sounds, the ones that were later played. */
+  private long speechPipelinePlayed;
+
+  /** Texts of sounds the pipeline started, so a play can be credited to the pipeline. */
+  private final HashSet<String> preparedSoundsPipelined = new HashSet<>();
+
+  /** Announcements submitted speculatively, before the focus action they belong to was fired. */
+  private long speculativeSpeechSubmitted;
+
+  /** Speculations the app's focus event confirmed: the focus landed where the speech said. */
+  private long speculativeSpeechConfirmed;
+
+  /** Speculations the focus that actually landed contradicted, and which were cut short. */
+  private long speculativeSpeechCorrected;
+
+  /** Preparation rounds split into slices that yield the main thread between items. */
+  private long prepareRoundsChunked;
+
+  /** Slices those rounds ran in, in total. */
+  private long prepareRoundChunks;
+
+  /** Preparation rounds put off to when the screen settles because swipes were landing thick. */
+  private long prepareRoundsDeferred;
+
+  /** Focus events the event queue let through ahead of the events queued before them. */
+  private long focusEventQueueJumps;
+
+  /** How deep the event queue was at each of those jumps. */
+  private final Statistics focusEventQueueJumpDepthStats = new Statistics();
 
   /**
    * Sounds made ahead, by their text: the depth each was made for, and whether it has been
@@ -1409,6 +1515,23 @@ public class Performance {
             preparedHitsFromStaleOrder,
             preparedHitsSecondRing);
       }
+      if (prepareRoundsChunked > 0 || prepareRoundsDeferred > 0) {
+        logger.log(
+            "Preparation rounds yielding: %d rounds ran in %d slices, %d rounds put off"
+                + " to settle time while swipes landed",
+            prepareRoundsChunked, prepareRoundChunks, prepareRoundsDeferred);
+      }
+      if (speculativeSpeechSubmitted > 0) {
+        logger.log(
+            "Speculative speech: %d submitted ahead of the focus action, %d confirmed by"
+                + " the focus event, %d corrected",
+            speculativeSpeechSubmitted, speculativeSpeechConfirmed, speculativeSpeechCorrected);
+      }
+      if (focusEventQueueJumps > 0) {
+        logger.log(
+            "Focus events let through the queue early: %d, at a median queue depth of %d",
+            focusEventQueueJumps, focusEventQueueJumpDepthStats.getPercentile(50));
+      }
     }
   }
 
@@ -1518,11 +1641,22 @@ public class Performance {
       } else {
         speechCachePlaysDepth1++;
       }
+      if (preparedSoundsPipelined.contains(text.toString())) {
+        speechPipelinePlayed++;
+      }
     }
   }
 
   /** Remembers that the sound of {@code text} was made ahead, and for how far ahead. */
   public void registerPreparedSound(@NonNull String text, int depth) {
+    registerPreparedSound(text, depth, /* pipelined= */ false);
+  }
+
+  /**
+   * Remembers that the sound of {@code text} was made ahead, and for how far ahead. A sound the
+   * speech pipeline started is remembered as such, so its play is credited to the pipeline.
+   */
+  public void registerPreparedSound(@NonNull String text, int depth, boolean pipelined) {
     if (!computeStatsEnabled) {
       return;
     }
@@ -1530,8 +1664,126 @@ public class Performance {
       if (preparedSoundDepths.size() >= MAX_PREPARED_SOUND_DEPTHS) {
         preparedSoundDepths.clear();
         preparedSoundsPlayed.clear();
+        preparedSoundsPipelined.clear();
       }
       preparedSoundDepths.put(text, depth);
+      if (pipelined) {
+        preparedSoundsPipelined.add(text);
+      }
+    }
+  }
+
+  /** Counts one sound whose making the speech pipeline started. */
+  public void onSpeechPipelineStarted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechPipelineStarted++;
+    }
+  }
+
+  public long getSpeechPipelineStartedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineStarted;
+    }
+  }
+
+  public long getSpeechPipelinePlayedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelinePlayed;
+    }
+  }
+
+  /** Counts one announcement submitted speculatively, ahead of its focus action. */
+  public void onSpeculativeSpeechSubmitted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechSubmitted++;
+    }
+  }
+
+  /** Counts one speculation the app's focus event confirmed. */
+  public void onSpeculativeSpeechConfirmed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechConfirmed++;
+    }
+  }
+
+  /** Counts one speculation the focus that actually landed contradicted. */
+  public void onSpeculativeSpeechCorrected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechCorrected++;
+    }
+  }
+
+  public long getSpeculativeSpeechSubmittedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechSubmitted;
+    }
+  }
+
+  public long getSpeculativeSpeechConfirmedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechConfirmed;
+    }
+  }
+
+  public long getSpeculativeSpeechCorrectedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechCorrected;
+    }
+  }
+
+  /** Counts one preparation round split into yielding slices, and how many slices it ran in. */
+  public void onPrepareRoundChunked(int chunks) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsChunked++;
+      prepareRoundChunks += chunks;
+    }
+  }
+
+  /** Counts one preparation round put off to settle time because swipes were landing thick. */
+  public void onPrepareRoundDeferred() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsDeferred++;
+    }
+  }
+
+  public long getPrepareRoundsDeferredCount() {
+    synchronized (lockLabelToStats) {
+      return prepareRoundsDeferred;
+    }
+  }
+
+  /** Counts one focus event let through the event queue ahead of older events, and the depth. */
+  public void onFocusEventQueueJump(int queueDepth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      focusEventQueueJumps++;
+      focusEventQueueJumpDepthStats.increment(queueDepth);
+    }
+  }
+
+  public long getFocusEventQueueJumpCount() {
+    synchronized (lockLabelToStats) {
+      return focusEventQueueJumps;
     }
   }
 
@@ -1545,6 +1797,7 @@ public class Performance {
       return;
     }
     synchronized (lockLabelToStats) {
+      preparedSoundsPipelined.remove(text);
       if (preparedSoundDepths.remove(text) != null && !preparedSoundsPlayed.remove(text)) {
         presynthEvictedBeforePlay++;
       }
@@ -1741,6 +1994,12 @@ public class Performance {
         logger.log(
             "Speech cache misses: %d made under another voice setting, %d never made",
             speechCacheMissKeyMismatch, speechCacheMissNeverMade);
+      }
+      if (speechPipelineStarted > 0) {
+        logger.log(
+            "Speech pipeline: %d sounds started as the item before them played, %d of them"
+                + " played",
+            speechPipelineStarted, speechPipelinePlayed);
       }
       if (betweenCacheHitStats.getCount() + betweenCacheMissStats.getCount() > 0) {
         logger.log(
@@ -1960,6 +2219,104 @@ public class Performance {
     }
   }
 
+  /** Counts one listener build ask folded into a build already on its way for the same window. */
+  public void onListenerBuildCoalesced() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      listenerBuildsCoalesced++;
+    }
+  }
+
+  public long getListenerBuildsCoalescedCount() {
+    synchronized (lockLabelToStats) {
+      return listenerBuildsCoalesced;
+    }
+  }
+
+  /** Counts one swipe the fast navigator handled itself, off the saved reading order. */
+  public void onFastNavigationHandled() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      fastNavigationsHandled++;
+    }
+  }
+
+  public long getFastNavigationsHandledCount() {
+    synchronized (lockLabelToStats) {
+      return fastNavigationsHandled;
+    }
+  }
+
+  /** Counts one swipe the fast navigator answered at the end of the list. */
+  public void onFastNavigationEdge() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      fastNavigationEdges++;
+    }
+  }
+
+  /** Counts one hard case of {@code kind} the fast navigator handled itself. */
+  public void onFastNavigationHardCase(int kind) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (kind >= 0 && kind < fastNavigationHardCases.length) {
+        fastNavigationHardCases[kind]++;
+      }
+    }
+  }
+
+  public long getFastNavigationHardCaseCount(int kind) {
+    synchronized (lockLabelToStats) {
+      return fastNavigationHardCases[kind];
+    }
+  }
+
+  /** Counts one swipe the fast navigator could not move at all, and why. */
+  public void onFastNavigationStuck(int reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (reason >= 0 && reason < fastNavigationStuck.length) {
+        fastNavigationStuck[reason]++;
+      }
+    }
+  }
+
+  public long getFastNavigationStuckCount(int reason) {
+    synchronized (lockLabelToStats) {
+      return fastNavigationStuck[reason];
+    }
+  }
+
+  /** Counts one navigation whose pivot was the focus node the cache already held. */
+  public void onCachedFocusShortcutUsed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      cachedFocusShortcutUsed++;
+    }
+  }
+
+  /** Counts one held focus node that failed its checks, so the app was asked as usual. */
+  public void onCachedFocusShortcutRejected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      cachedFocusShortcutRejected++;
+    }
+  }
+
   /** Counts one background order built by the lean builder, or one that fell back to the standard. */
   public void onLeanOrderBuild(boolean fellBack) {
     if (!computeStatsEnabled) {
@@ -2103,6 +2460,57 @@ public class Performance {
       if (orderBuildRequestsDeduped > 0) {
         logger.log(
             "Background build requests dropped as duplicates: %d", orderBuildRequestsDeduped);
+      }
+      if (listenerBuildsCoalesced > 0) {
+        logger.log(
+            "Listener build asks folded into a build already on its way: %d",
+            listenerBuildsCoalesced);
+      }
+      if (fastNavigationsHandled > 0 || cachedFocusShortcutUsed + cachedFocusShortcutRejected > 0) {
+        logger.log(
+            "Fast navigator: %d swipes handled (%d answered at an edge), %d pivots from the"
+                + " held focus (%d held focuses rejected)",
+            fastNavigationsHandled,
+            fastNavigationEdges,
+            cachedFocusShortcutUsed,
+            cachedFocusShortcutRejected);
+      }
+      long fastHardCases = 0;
+      for (long hardCase : fastNavigationHardCases) {
+        fastHardCases += hardCase;
+      }
+      if (fastHardCases > 0) {
+        StringBuilder byKind = new StringBuilder();
+        for (int kind = 0; kind < FAST_NAV_HARD_NAMES.length; kind++) {
+          if (fastNavigationHardCases[kind] == 0) {
+            continue;
+          }
+          if (byKind.length() > 0) {
+            byKind.append(", ");
+          }
+          byKind.append(FAST_NAV_HARD_NAMES[kind]).append(' ').append(fastNavigationHardCases[kind]);
+        }
+        logger.log("Fast navigator hard cases handled itself: %s", byKind);
+      }
+      long fastStuck = 0;
+      for (long stuck : fastNavigationStuck) {
+        fastStuck += stuck;
+      }
+      if (fastStuck > 0) {
+        StringBuilder byReason = new StringBuilder();
+        for (int reason = 0; reason < FAST_NAV_STUCK_NAMES.length; reason++) {
+          if (fastNavigationStuck[reason] == 0) {
+            continue;
+          }
+          if (byReason.length() > 0) {
+            byReason.append(", ");
+          }
+          byReason
+              .append(FAST_NAV_STUCK_NAMES[reason])
+              .append(' ')
+              .append(fastNavigationStuck[reason]);
+        }
+        logger.log("Fast navigator could not move: %s", byReason);
       }
       if (leanOrderBuilds + leanOrderBuildFallbacks > 0) {
         logger.log(
