@@ -235,6 +235,7 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
@@ -808,6 +809,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   private IpcClientCallbackImpl ipcClientCallback;
   private BootReceiver bootReceiver;
+  private ClipboardHistoryCapture clipboardHistoryCapture;
 
 
   private EventLatencyLogger eventLatencyLogger;
@@ -935,6 +937,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (bootReceiver != null) {
       unregisterReceiver(bootReceiver);
       bootReceiver = null;
+    }
+
+    if (clipboardHistoryCapture != null) {
+      clipboardHistoryCapture.stop();
+      clipboardHistoryCapture = null;
     }
 
     if (pauseController != null) {
@@ -2062,6 +2069,9 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // Hides the screen after announcing that TalkBack is on, so "Screen hidden" is spoken second.
     dimScreenController.resume();
+
+    clipboardHistoryCapture = new ClipboardHistoryCapture(this);
+    clipboardHistoryCapture.start();
 
     // If the locked-boot-completed intent was fired before onServiceConnected, we queued it,
     // so now we need to run it.

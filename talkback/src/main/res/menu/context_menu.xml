@@ -30,6 +30,10 @@
       android:orderInCategory="14"
       android:title="@string/title_speech_history" />
   <item
+      android:id="@+id/clipboard_history"
+      android:orderInCategory="15"
+      android:title="@string/title_clipboard_history" />
+  <item
       android:id="@+id/verbosity"
       android:orderInCategory="13"
       android:title="@string/title_pref_selector_verbosity" />

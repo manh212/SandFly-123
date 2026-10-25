@@ -2147,6 +2147,10 @@
     <string name="title_speech_history">Speech history</string>
     <!-- Spoken when the speech history is opened before anything has been said. [CHAR_LIMIT=130] -->
     <string name="speech_history_empty">No speech history</string>
+    <!-- Label for the menu item and gesture action that opens the clipboard history. [CHAR_LIMIT=130] -->
+    <string name="title_clipboard_history">Clipboard history</string>
+    <!-- Spoken when the clipboard history is opened before anything has been copied. [CHAR_LIMIT=130] -->
+    <string name="clipboard_history_empty">No clipboard history</string>
     <!-- Label for the menu item that lets the user open the custom action menu (this is menu items defined by the app [CHAR_LIMIT=40] -->
     <!--
       Source: Possible user requests from voice commands to show possible actions.
