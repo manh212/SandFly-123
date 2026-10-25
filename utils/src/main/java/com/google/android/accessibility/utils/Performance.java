@@ -231,6 +231,15 @@ public class Performance {
 
   private long preparedSpeechMisses;
 
+  /** Durations of the named segments inside one swipe, by segment name. */
+  private final HashMap<String, Statistics> swipeSegmentStats = new HashMap<>();
+
+  /** How often early speech read the focused node from the saved reading order. */
+  private long speakEarlyFromSavedOrder;
+
+  /** How often early speech had to read the focused node again from the app. */
+  private long speakEarlyReRead;
+
   /** How often a reading order still had to be built on the thread that was swiping. */
   private long orderBuildsOnSwipePath;
 
@@ -1094,6 +1103,26 @@ public class Performance {
     }
   }
 
+  /** Counts one early speech that used the node from the saved reading order as it was. */
+  public void onSpeakEarlyFromSavedOrder() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speakEarlyFromSavedOrder++;
+    }
+  }
+
+  /** Counts one early speech that read the focused node again from the app first. */
+  public void onSpeakEarlyReRead() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speakEarlyReRead++;
+    }
+  }
+
   /** Displays how often focus was spoken from a prepared announcement, and how often not. */
   public void displayPreparedSpeechStats(Logger logger) {
     synchronized (lockLabelToStats) {
@@ -1101,6 +1130,44 @@ public class Performance {
         logger.log(
             "Prepared speech: %d hits, %d misses", preparedSpeechHits, preparedSpeechMisses);
       }
+      if (preparedSpeechHits + speakEarlyFromSavedOrder + speakEarlyReRead > 0) {
+        logger.log(
+            "Speak-early paths: %d prepared, %d from the saved order, %d re-read from the app",
+            preparedSpeechHits, speakEarlyFromSavedOrder, speakEarlyReRead);
+      }
+    }
+  }
+
+  /** Records how long one named segment of a swipe took. */
+  public void recordSwipeSegment(@NonNull String name, long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      Statistics stats = swipeSegmentStats.get(name);
+      if (stats == null) {
+        stats = new Statistics();
+        swipeSegmentStats.put(name, stats);
+      }
+      stats.increment(durationMs);
+    }
+  }
+
+  /** Displays the recorded swipe segment durations, one line per segment. */
+  public void displaySwipeSegmentStats(Logger logger) {
+    HashMap<String, Statistics> segments;
+    synchronized (lockLabelToStats) {
+      segments = new HashMap<>(swipeSegmentStats);
+    }
+    for (Map.Entry<String, Statistics> entry : new TreeMap<>(segments).entrySet()) {
+      Statistics stats = entry.getValue();
+      logger.log(
+          "Swipe segment %s: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+          entry.getKey(),
+          stats.getCount(),
+          stats.getMean(),
+          stats.getPercentile(50),
+          stats.getPercentile(90));
     }
   }
 
@@ -1141,6 +1208,9 @@ public class Performance {
       speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
+      swipeSegmentStats.clear();
+      speakEarlyFromSavedOrder = 0;
+      speakEarlyReRead = 0;
       orderBuildsOnSwipePath = 0;
       orderSnapshotsPublished = 0;
     }

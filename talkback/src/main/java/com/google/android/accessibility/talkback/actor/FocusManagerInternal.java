@@ -47,6 +47,7 @@ import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.accessibility.utils.input.CursorGranularity;
@@ -529,10 +530,13 @@ public class FocusManagerInternal {
       @NonNull FocusActionInfo focusActionInfo,
       @Nullable EventId eventId) {
     long currentTime = SystemClock.uptimeMillis();
+    long focusActionStart = SystemClock.uptimeMillis();
     boolean result =
         pipeline.returnFeedback(
             eventId,
             Feedback.nodeAction(node, AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS));
+    Performance.getInstance()
+        .recordSwipeSegment("focus action", SystemClock.uptimeMillis() - focusActionStart);
     if (result) {
       focusActionInfo = updateFocusActionInfoIfNecessary(focusActionInfo, node);
       // Told first, so that speech can start before the history walks the node's ancestors. The

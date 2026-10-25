@@ -339,6 +339,18 @@ public class EventFilter {
       FocusActionInfo info,
       @Nullable EventId eventId,
       long actionTime) {
+    long speakEarlyStart = SystemClock.uptimeMillis();
+    boolean result = speakFocusEarlyInternal(focusedNode, info, eventId, actionTime);
+    Performance.getInstance()
+        .recordSwipeSegment("speak early", SystemClock.uptimeMillis() - speakEarlyStart);
+    return result;
+  }
+
+  private boolean speakFocusEarlyInternal(
+      AccessibilityNodeInfoCompat focusedNode,
+      FocusActionInfo info,
+      @Nullable EventId eventId,
+      long actionTime) {
     // The focus is moving, so the prepared announcements are used now or not at all.
     PreparedFocusSpeech.@Nullable Prepared prepared = PreparedFocusSpeech.take(focusedNode);
     if (!shouldSpeakFocusEarly(info)) {
@@ -357,17 +369,23 @@ public class EventFilter {
     } else if (TraversalTreeCache.holdsCurrent(focusedNode)) {
       // Read from the app with the saved order, and nothing in its window has changed since, so a
       // second read would only wait for the app, which on a watch is often busy scrolling.
+      Performance.getInstance().onSpeakEarlyFromSavedOrder();
       node = focusedNode;
       preparedFeedback = null;
     } else {
       // The node may come from the saved reading order, which keeps nodes for a while after their
       // text or state changes, such as a progress label or a switch the app turned on. Read it
       // again from the app, as its focus event would. If it is gone, leave it to the event.
+      long reReadStart = SystemClock.uptimeMillis();
       @SuppressWarnings("deprecation") // obtain(): copy, so that the saved node is left as it was.
       AccessibilityNodeInfoCompat copy = AccessibilityNodeInfoCompat.obtain(focusedNode);
-      if (!copy.refresh()) {
+      boolean refreshed = copy.refresh();
+      Performance.getInstance()
+          .recordSwipeSegment("speak re-read", SystemClock.uptimeMillis() - reReadStart);
+      if (!refreshed) {
         return false;
       }
+      Performance.getInstance().onSpeakEarlyReRead();
       node = copy;
       preparedFeedback = null;
     }
@@ -397,7 +415,13 @@ public class EventFilter {
         Performance.getInstance().onPreparedSpeechMiss();
         // No node in this line: formatting it walks the node's properties on the swipe path.
         LogUtils.v(TAG, "Prepared speech miss");
-        feedback = getSwipeTargetFeedback(event, node, eventInterpreted);
+        long composeStart = SystemClock.uptimeMillis();
+        try {
+          feedback = getSwipeTargetFeedback(event, node, eventInterpreted);
+        } finally {
+          Performance.getInstance()
+              .recordSwipeSegment("compose", SystemClock.uptimeMillis() - composeStart);
+        }
       }
       if (!hasSpeech(feedback)) {
         // Some nodes only show their content once focused, such as the second notification of a

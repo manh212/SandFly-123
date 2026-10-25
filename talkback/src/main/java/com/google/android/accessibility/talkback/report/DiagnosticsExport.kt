@@ -201,6 +201,7 @@ object DiagnosticsExport {
     performance.displayAllEventStats(logger)
     performance.displayPreparedSpeechStats(logger)
     performance.displayOrderBuildStats(logger)
+    performance.displaySwipeSegmentStats(logger)
   }
 
   /**

@@ -1281,6 +1281,20 @@ public class FocusProcessorForLogicalNavigation {
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
       EventId eventId) {
+    long navigationStart = SystemClock.uptimeMillis();
+    boolean result =
+        navigateToDefaultOrMacroGranularityTargetInternal(
+            pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
+    Performance.getInstance()
+        .recordSwipeSegment("navigation", SystemClock.uptimeMillis() - navigationStart);
+    return result;
+  }
+
+  private boolean navigateToDefaultOrMacroGranularityTargetInternal(
+      @NonNull AccessibilityNodeInfoCompat pivot,
+      boolean ignoreDescendantsOfPivot,
+      NavigationAction navigationAction,
+      EventId eventId) {
     int searchDirection = navigationAction.searchDirection;
     int logicalDirection =
         TraversalStrategyUtils.getLogicalDirection(
@@ -1328,6 +1342,7 @@ public class FocusProcessorForLogicalNavigation {
     // Build the window's traversal tree once and share it with the edge checks below, which would
     // otherwise each build their own copy of the same tree. Reuse the tree of the last swipe if
     // nothing in the window has changed since.
+    long orderFetchStart = SystemClock.uptimeMillis();
     TraversalStrategy traversalStrategy = null;
     if (TraversalStrategyUtils.isLogicalDirection(searchDirection)) {
       traversalStrategy = TraversalTreeCache.get(rootNode, pivot);
@@ -1353,6 +1368,8 @@ public class FocusProcessorForLogicalNavigation {
         TraversalTreeCache.put(rootNode, orderedStrategy);
       }
     }
+    Performance.getInstance()
+        .recordSwipeSegment("order fetch", SystemClock.uptimeMillis() - orderFetchStart);
 
     // In a scroll view the next item is already in the tree, just off screen. Show the next screen
     // at once and search again, rather than scrolling a page and waiting for the scroll event.
@@ -1372,7 +1389,7 @@ public class FocusProcessorForLogicalNavigation {
         TraversalTreeCache.clear("revealed next item");
         revealingOffscreen = true;
         try {
-          return navigateToDefaultOrMacroGranularityTarget(
+          return navigateToDefaultOrMacroGranularityTargetInternal(
               pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
         } finally {
           revealingOffscreen = false;
@@ -1556,7 +1573,7 @@ public class FocusProcessorForLogicalNavigation {
           // The app might have removed the target before its change event reached us, so try
           // again with a new tree.
           TraversalTreeCache.clear("focus failed");
-          return navigateToDefaultOrMacroGranularityTarget(
+          return navigateToDefaultOrMacroGranularityTargetInternal(
               pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
         }
         return focused;
