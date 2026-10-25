@@ -2601,6 +2601,11 @@
     <!-- Reduce delays: summary of the always interrupt speech switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_always_interrupt_speech">New speech stops the announcement currently speaking and clears any waiting, so you hear the newest announcement straight away. Turn it off if announcements get cut off before you hear them in full.</string>
 
+    <!-- Reduce delays: switch that builds the reading order in the background. [CHAR LIMIT=50] -->
+    <string name="title_pref_background_order_build">Build the reading order in the background</string>
+    <!-- Reduce delays: summary of the background reading order switch. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_background_order_build">When a screen changes, SandFly works out the new reading order in the background, so the next swipe does not have to wait for it. Turn this off if focus lands on the wrong item after a screen changes.</string>
+
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
