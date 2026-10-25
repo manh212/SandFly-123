@@ -13,9 +13,11 @@
 
 package com.google.android.accessibility.talkback.focusmanagement
 
+import android.os.SystemClock
 import android.util.Log
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.Performance
+import com.google.android.accessibility.utils.traversal.LeanTraversalOrderBuilder
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.concurrent.Executors
@@ -48,11 +50,23 @@ internal object TraversalOrderSnapshotBuilder {
     val generation: Long,
     val rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     val ownPackage: String,
+    val source: Int,
   )
 
   private val lock = Any()
   private var pending: Request? = null
   private var running = false
+
+  /** The (window, generation) of the request waiting or running, if any. */
+  private var askedKey: Pair<Int, Long>? = null
+
+  /**
+   * The (window, generation) the newest saved snapshot was built for. Publishing does not move
+   * the generation on, so without remembering this, a second request for the order that has
+   * just landed — a screen change and a touch arriving together ask for exactly that — would
+   * build the same order all over again and save it a second time.
+   */
+  private var publishedKey: Pair<Int, Long>? = null
 
   /** Queues a build of the order of [windowId], replacing any older build still waiting. */
   fun request(
@@ -60,10 +74,17 @@ internal object TraversalOrderSnapshotBuilder {
     generation: Long,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
+    source: Int = Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR,
   ) {
+    val key = windowId to generation
     val start =
       synchronized(lock) {
-        pending = Request(windowId, generation, rootSupplier, ownPackage)
+        if (key == askedKey || key == publishedKey) {
+          Performance.getInstance().onOrderBuildRequestDeduped()
+          return
+        }
+        askedKey = key
+        pending = Request(windowId, generation, rootSupplier, ownPackage, source)
         if (running) {
           false
         } else {
@@ -75,7 +96,12 @@ internal object TraversalOrderSnapshotBuilder {
       try {
         executor.execute { drain() }
       } catch (e: RejectedExecutionException) {
-        synchronized(lock) { running = false }
+        synchronized(lock) {
+          running = false
+          if (askedKey == key) {
+            askedKey = null
+          }
+        }
       }
     }
   }
@@ -96,10 +122,23 @@ internal object TraversalOrderSnapshotBuilder {
       // whole tree before its snapshot was refused, keeping the single builder busy with dead
       // work while the live request waited.
       if (request.generation != TraversalTreeCache.currentGeneration()) {
-        Performance.getInstance().onOrderBuildDied()
+        Performance.getInstance().onOrderBuildDied(request.source)
+        synchronized(lock) {
+          if (askedKey == (request.windowId to request.generation) && pending == null) {
+            askedKey = null
+          }
+        }
         continue
       }
-      build(request)
+      val published = build(request)
+      synchronized(lock) {
+        if (published) {
+          publishedKey = request.windowId to request.generation
+        }
+        if (askedKey == (request.windowId to request.generation) && pending == null) {
+          askedKey = null
+        }
+      }
     }
   }
 
@@ -110,25 +149,36 @@ internal object TraversalOrderSnapshotBuilder {
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
   ) {
-    build(Request(windowId, generation, rootSupplier, ownPackage))
+    build(Request(windowId, generation, rootSupplier, ownPackage,
+      Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR))
   }
 
-  private fun build(request: Request) {
+  private fun build(request: Request): Boolean {
+    val started = SystemClock.uptimeMillis()
+    try {
+      return buildOrder(request)
+    } finally {
+      Performance.getInstance()
+        .onOrderBuildDuration(SystemClock.uptimeMillis() - started)
+    }
+  }
+
+  private fun buildOrder(request: Request): Boolean {
     val root =
       try {
         request.rootSupplier.get()
       } catch (e: RuntimeException) {
         Log.w(TAG, "Could not resolve the root of the window to build", e)
         null
-      } ?: return
+      } ?: return false
     var published = false
     try {
       if (root.windowId != request.windowId) {
-        return
+        return false
       }
       if (TraversalTreeCache.currentGeneration() != request.generation) {
-        Performance.getInstance().onOrderBuildDied()
-        return
+        Performance.getInstance().onOrderBuildDied(request.source)
+        return false
       }
       // The read stops early if the window moves on while it runs, so a dead build hands the
       // builder back at once instead of walking the whole tree for a refused snapshot.
@@ -136,16 +186,16 @@ internal object TraversalOrderSnapshotBuilder {
         TraversalTreeCache.currentGeneration() != request.generation
       }
       if (TraversalTreeCache.currentGeneration() != request.generation) {
-        Performance.getInstance().onOrderBuildDied()
-        return
+        Performance.getInstance().onOrderBuildDied(request.source)
+        return false
       }
-      val strategy = OrderedTraversalStrategy(root)
+      val strategy = buildStrategy(root)
       published = TraversalTreeCache.publishSnapshot(root, strategy, request.generation)
       if (!published) {
-        Performance.getInstance().onOrderBuildDied()
+        Performance.getInstance().onOrderBuildDied(request.source)
       }
       if (published) {
-        Performance.getInstance().onOrderSnapshotPublished()
+        Performance.getInstance().onOrderSnapshotPublished(request.source)
         if (LogUtils.shouldLog(Log.DEBUG)) {
           Log.d(TAG, "Built the order of window ${request.windowId} in the background")
         }
@@ -157,6 +207,27 @@ internal object TraversalOrderSnapshotBuilder {
       if (!published) {
         root.recycle()
       }
+    }
+    return published
+  }
+
+  /**
+   * Builds the order of [root] with the lean builder while it is switched on, and with the
+   * standard builder otherwise — and with the standard builder whenever the lean one fails,
+   * so a window the lean builder cannot handle costs one wasted walk, never a missing order.
+   */
+  private fun buildStrategy(root: AccessibilityNodeInfoCompat): OrderedTraversalStrategy {
+    if (!TraversalTreeCache.leanOrderBuilderEnabled) {
+      return OrderedTraversalStrategy(root)
+    }
+    return try {
+      val strategy = LeanTraversalOrderBuilder.build(root)
+      Performance.getInstance().onLeanOrderBuild(false)
+      strategy
+    } catch (e: RuntimeException) {
+      Log.w(TAG, "The lean order builder failed; building the standard way", e)
+      Performance.getInstance().onLeanOrderBuild(true)
+      OrderedTraversalStrategy(root)
     }
   }
 }

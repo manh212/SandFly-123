@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.focusmanagement
 
 import android.graphics.Rect
+import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -49,9 +50,12 @@ class TraversalTreeCacheTest {
   @After
   fun tearDown() {
     TraversalTreeCache.orderClearedListener = null
+    TraversalTreeCache.settleBuildRequester = null
     TraversalTreeCache.clearCompletely("test")
     TraversalTreeCache.unrelatedChangesSpareNodes = true
     TraversalTreeCache.serveStaleOrdersEnabled = true
+    TraversalTreeCache.settleRetryEnabled = true
+    TraversalTreeCache.leanOrderBuilderEnabled = true
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -621,5 +625,70 @@ class TraversalTreeCacheTest {
     val outsider = AccessibilityNodeInfoCompat.wrap(node(null))
 
     assertNull(TraversalTreeCache.staleOrderForPrediction(outsider))
+  }
+
+  @Test
+  fun hasSavedOrder_reflectsTheCache() {
+    assertFalse(TraversalTreeCache.hasSavedOrder())
+
+    savedOrder()
+
+    assertTrue(TraversalTreeCache.hasSavedOrder())
+  }
+
+  @Test
+  fun settleBuild_firesAfterTheDelay_whenTheCacheIsEmpty() {
+    val requested = mutableListOf<Int>()
+    TraversalTreeCache.settleBuildRequester =
+      TraversalTreeCache.SettleBuildRequester { requested.add(it) }
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(0, 0, 10, 10)))
+    shadowOf(Looper.getMainLooper()).idleFor(299, TimeUnit.MILLISECONDS)
+    assertTrue(requested.isEmpty())
+
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.MILLISECONDS)
+    assertEquals(listOf(7), requested)
+  }
+
+  @Test
+  fun settleBuild_doesNotFire_whenAnOrderWasSavedMeanwhile() {
+    val requested = mutableListOf<Int>()
+    TraversalTreeCache.settleBuildRequester =
+      TraversalTreeCache.SettleBuildRequester { requested.add(it) }
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(0, 0, 10, 10)))
+    savedOrder()
+    shadowOf(Looper.getMainLooper()).idleFor(1, TimeUnit.SECONDS)
+
+    assertTrue(requested.isEmpty())
+  }
+
+  @Test
+  fun settleBuild_reArmsOnEachStructuralChange_whileTheCacheIsEmpty() {
+    val requested = mutableListOf<Int>()
+    TraversalTreeCache.settleBuildRequester =
+      TraversalTreeCache.SettleBuildRequester { requested.add(it) }
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(0, 0, 10, 10)))
+    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(20, 20, 30, 30)))
+    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
+    assertTrue(requested.isEmpty())
+
+    shadowOf(Looper.getMainLooper()).idleFor(150, TimeUnit.MILLISECONDS)
+    assertEquals(listOf(7), requested)
+  }
+
+  @Test
+  fun settleBuild_switchOff_neverFires() {
+    val requested = mutableListOf<Int>()
+    TraversalTreeCache.settleBuildRequester =
+      TraversalTreeCache.SettleBuildRequester { requested.add(it) }
+    TraversalTreeCache.settleRetryEnabled = false
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(0, 0, 10, 10)))
+    shadowOf(Looper.getMainLooper()).idleFor(1, TimeUnit.SECONDS)
+
+    assertTrue(requested.isEmpty())
   }
 }

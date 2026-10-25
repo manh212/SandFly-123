@@ -18,6 +18,8 @@ package com.google.android.accessibility.talkback.focusmanagement
 
 import android.graphics.Rect
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
 import android.view.accessibility.AccessibilityEvent
@@ -93,6 +95,18 @@ object TraversalTreeCache {
    * its own thread, as before.
    */
   @JvmStatic var serveStaleOrdersEnabled: Boolean = true
+
+  /**
+   * Whether a missing order is asked for again once the screen has been quiet for a while (see
+   * [armSettleBuild]). When false, only the triggers that already existed ask for a build.
+   */
+  @JvmStatic var settleRetryEnabled: Boolean = true
+
+  /**
+   * Whether background builds use the lean order builder, which walks the window once, instead
+   * of the standard one. When false, every background build is the standard build.
+   */
+  @JvmStatic var leanOrderBuilderEnabled: Boolean = true
 
   /**
    * The last order thrown away, kept as a stale copy a swipe may be served by under checks (see
@@ -339,6 +353,13 @@ object TraversalTreeCache {
     synchronized(stateLock) { strategy }?.containsNode(node) == true
 
   /**
+   * Whether any order is saved at all. A touch that begins while none is saved is the first
+   * warning that a swipe is coming for a window whose order has still to be built.
+   */
+  @JvmStatic
+  fun hasSavedOrder(): Boolean = synchronized(stateLock) { strategy != null }
+
+  /**
    * Whether the saved order holds [node] as the app has it now: no change since the order was
    * read from the app touched [node], not even a text or state change, so the node needs no
    * second read. A graced change elsewhere in the window does not touch it: only a change whose
@@ -486,6 +507,54 @@ object TraversalTreeCache {
 
   @JvmStatic var orderClearedListener: OrderClearedListener? = null
 
+  /**
+   * Told that the screen has been quiet for a while and still no order is saved, so one should
+   * be built now. Registered by TalkBackService, like [orderClearedListener]: the cache knows
+   * when the order is missing, but only the service can resolve a window's root.
+   */
+  fun interface SettleBuildRequester {
+    fun onSettleBuildNeeded(windowId: Int)
+  }
+
+  @JvmStatic var settleBuildRequester: SettleBuildRequester? = null
+
+  /** How long the screen must stay quiet after a change before a missing order is retried. */
+  private const val SETTLE_BUILD_DELAY_MS = 300L
+
+  private val settleHandler = Handler(Looper.getMainLooper())
+
+  /** The window the pending settle retry would build, from the change that armed it. */
+  private var settleBuildWindowId = NO_WINDOW_ID
+
+  private val settleBuildRunnable = Runnable { fireSettleBuild() }
+
+  /**
+   * Arms the settle retry for [windowId]: if the screen stays quiet for
+   * [SETTLE_BUILD_DELAY_MS] and no order has been saved by then, a build is asked for. Every
+   * further change arms it again, so the delay runs from the last change, not the first.
+   *
+   * A build asked for the moment a window changes has to survive the whole burst of changes
+   * that follows — on the owner's phone, roughly two in five did not — so the retry is what
+   * turns those dead builds into a second chance once the window has settled, instead of
+   * leaving the first swipe on the settled window to build the order itself.
+   */
+  private fun armSettleBuild(windowId: Int) {
+    if (!settleRetryEnabled) {
+      return
+    }
+    settleBuildWindowId = windowId
+    settleHandler.removeCallbacks(settleBuildRunnable)
+    settleHandler.postDelayed(settleBuildRunnable, SETTLE_BUILD_DELAY_MS)
+  }
+
+  /** The settle retry falling due: asks for a build if the order is still missing. */
+  private fun fireSettleBuild() {
+    if (!settleRetryEnabled || hasSavedOrder()) {
+      return
+    }
+    settleBuildRequester?.onSettleBuildNeeded(settleBuildWindowId)
+  }
+
   /** Saves the order of [root], replacing any saved order. */
   @JvmStatic
   fun put(root: AccessibilityNodeInfoCompat, strategy: OrderedTraversalStrategy) {
@@ -528,6 +597,7 @@ object TraversalTreeCache {
         lastClearReason = reason
         windowId
       }
+    armSettleBuild(clearedWindowId)
     orderClearedListener?.onOrderCleared(clearedWindowId)
   }
 
@@ -554,6 +624,7 @@ object TraversalTreeCache {
         lastClearReason = reason
         windowId
       }
+    armSettleBuild(clearedWindowId)
     if (notifyListener) {
       orderClearedListener?.onOrderCleared(clearedWindowId)
     }
@@ -569,17 +640,20 @@ object TraversalTreeCache {
    * of the nodes is all that is offered, exactly as before this mechanism existed.
    */
   @JvmStatic
+  @JvmOverloads
   fun buildOrderInBackground(
     windowId: Int,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
+    source: Int = Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR,
   ) {
+    Performance.getInstance().onOrderBuildPosted(source)
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
       WindowNodePrefetcher.prefetchInBackground(rootSupplier, ownPackage)
       return
     }
     snapshotBuildWindowId = windowId
-    TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage)
+    TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage, source)
   }
 
   /**
@@ -652,6 +726,10 @@ object TraversalTreeCache {
     if (savedRoot == null) {
       invalidateSnapshotBuild(event)
       noteStructuralChangeAgainstStale(event)
+      // No order is saved, so no throw-away happened here to ask for a build — the blind spot
+      // where a fresh window, or a build that already died, leaves the next swipe to build
+      // the order itself. The settle retry is what asks, once the changes stop.
+      armSettleBuild(event.windowId)
       return false
     }
     val windowId = event.windowId

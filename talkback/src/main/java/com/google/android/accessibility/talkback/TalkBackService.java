@@ -760,6 +760,12 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   private boolean backgroundOrderBuildEnabled = true;
 
+  /**
+   * Whether a touch that begins with no reading order saved starts building one, from the
+   * latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}.
+   */
+  private boolean touchOrderBuildEnabled = true;
+
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
 
@@ -1137,7 +1143,10 @@ public class TalkBackService extends AccessibilityServiceCompat
       if (backgroundOrderBuildEnabled) {
         int windowId = event.getWindowId();
         TraversalTreeCache.buildOrderInBackground(
-            windowId, () -> rootOfWindow(windowId), getPackageName());
+            windowId,
+            () -> rootOfWindow(windowId),
+            getPackageName(),
+            Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR);
       } else {
         prefetchWindowOfClearedOrder(event);
       }
@@ -1159,6 +1168,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START
         && gestureController != null) {
       gestureController.onUserInputStarted();
+    }
+    if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
+      maybeBuildOrderAtTouchStart();
     }
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       // TODO: Could move the logic of TOUCH_INTERACTION related event handling out of
@@ -1260,6 +1272,15 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private void startBackgroundOrderBuildForCleared(int windowId) {
+    startBackgroundOrderBuild(windowId, Performance.ORDER_BUILD_SOURCE_LISTENER);
+  }
+
+  /**
+   * Starts a background build of the reading order of {@code windowId} — or of the active
+   * window when it is -1 — for the asker {@code source} (one of the {@code
+   * Performance.ORDER_BUILD_SOURCE_*} values), unless background builds are switched off.
+   */
+  private void startBackgroundOrderBuild(int windowId, int source) {
     if (!backgroundOrderBuildEnabled) {
       return;
     }
@@ -1268,13 +1289,33 @@ public class TalkBackService extends AccessibilityServiceCompat
       AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
       if (activeRoot != null) {
         targetWindowId = activeRoot.getWindowId();
+        activeRoot.recycle();
       }
     }
     if (targetWindowId != -1) {
       final int buildWindowId = targetWindowId;
       TraversalTreeCache.buildOrderInBackground(
-          buildWindowId, () -> rootOfWindow(buildWindowId), getPackageName());
+          buildWindowId, () -> rootOfWindow(buildWindowId), getPackageName(), source);
     }
+  }
+
+  /**
+   * A touch has just begun, and the time the finger spends travelling is time a build could
+   * have: measured on the owner's phone, the finger takes a median of about 110 ms to become
+   * a swipe, and no build observed took that long. So when no reading order is saved, the
+   * build starts now instead of when the swipe lands. The gate is the point: a touch that
+   * finds an order saved starts nothing, so touches that never become swipes — holds, taps,
+   * keyboard typing — cost at most the one build the next swipe would have paid for anyway,
+   * and only while an order is actually missing.
+   */
+  private void maybeBuildOrderAtTouchStart() {
+    if (!touchOrderBuildEnabled || !backgroundOrderBuildEnabled) {
+      return;
+    }
+    if (TraversalTreeCache.hasSavedOrder()) {
+      return;
+    }
+    startBackgroundOrderBuild(-1, Performance.ORDER_BUILD_SOURCE_TOUCH);
   }
 
   private void setServiceState(int newState) {
@@ -2066,6 +2107,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     // TalkBack itself performed, an expiry noticed by a swipe — starts the same background
     // build as one an event caused, so the next swipe does not pay for the build itself.
     TraversalTreeCache.setOrderClearedListener(this::startBackgroundOrderBuildForCleared);
+
+    // When the screen has been quiet for a while and still no reading order is saved — the
+    // build the change asked for died in the burst that followed it, or no change ever asked —
+    // the cache asks for the build again through here.
+    TraversalTreeCache.setSettleBuildRequester(
+        windowId ->
+            startBackgroundOrderBuild(windowId, Performance.ORDER_BUILD_SOURCE_SETTLE));
 
     // Configure logs.
     LogUtils.setTagPrefix("talkback: ");
@@ -3484,6 +3532,15 @@ public class TalkBackService extends AccessibilityServiceCompat
     backgroundOrderBuildEnabled =
         getBooleanPref(
             R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
+    touchOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_touch_order_build_key, R.bool.pref_touch_order_build_default);
+    TraversalTreeCache.setSettleRetryEnabled(
+        getBooleanPref(
+            R.string.pref_settle_order_build_key, R.bool.pref_settle_order_build_default));
+    TraversalTreeCache.setLeanOrderBuilderEnabled(
+        getBooleanPref(
+            R.string.pref_lean_order_builder_key, R.bool.pref_lean_order_builder_default));
     LowLatencyAudio.setSmallBufferEnabled(
         getBooleanPref(
             R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
