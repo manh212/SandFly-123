@@ -541,7 +541,7 @@ public class EventFilter {
         Performance.getInstance().onPreparedSpeechHit();
         Performance.getInstance()
             .onPreparedSpeechHitSource(
-                prepared.getSource(), prepared.isFromStaleOrder(), prepared.getDepth());
+                prepared.getSource(), prepared.getFromStaleOrder(), prepared.getDepth());
         LogUtils.v(TAG, "Prepared speech hit: %s", node);
         // Working the feedback out would have moved the container title to the node's, as
         // preparing it did before putting it back.
