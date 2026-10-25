@@ -433,10 +433,13 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
 
     SpeakOptions speakOptions =
         SpeakOptions.create()
-            // Uses QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH so that time announcement does not
-            // interrupt DeviceUnlocked speech and REFERTO won't be interrupted by the
-            // following selected text.
-            .setQueueMode(SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED)
+            // Uses QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS so that the
+            // time announcement does not interrupt DeviceUnlocked speech and is not interrupted
+            // by ordinary following speech. It is a status announcement, not an alarm: the
+            // user's own navigation speech may still cut it short (see the latency settings),
+            // so it is not globally uninterruptible.
+            .setQueueMode(
+                SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH_CAN_IGNORE_INTERRUPTS)
             .setFlags(FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE);
 
     pipeline.returnFeedback(eventId, Feedback.speech(ttsText, speakOptions));
