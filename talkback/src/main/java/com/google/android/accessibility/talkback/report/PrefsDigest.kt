@@ -28,7 +28,9 @@ import java.util.Locale
  * the value itself. Two diagnostics exports can then be compared line by line to find exactly
  * which stored settings differ between them (for example a settings file left stale by an app
  * update versus the same file after a settings change rewrote it), without either export
- * revealing a single setting's value.
+ * writing a value out. The limit of that: a shortened hash of a value with few possibilities —
+ * a boolean, a small number — can be recognised by trying each candidate, so the digest
+ * conceals free text and long values, not simple ones.
  */
 object PrefsDigest {
 

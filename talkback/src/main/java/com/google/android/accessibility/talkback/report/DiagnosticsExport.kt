@@ -47,6 +47,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.atomic.AtomicReference
 
 /**
  * Builds one diagnostics text out of everything SandFly itself can know: the phone and the app,
@@ -122,7 +123,8 @@ object DiagnosticsExport {
    * named preference files. The stored values themselves are never written out — only their
    * types, lengths and shortened hashes — so two exports can be diffed key by key to find which
    * stored settings differ (for example a file left stale by an app update versus the same file
-   * after a settings change rewrote it) without exposing any of them.
+   * after a settings change rewrote it) without writing any value out; see [PrefsDigest] for
+   * what a shortened hash can still give away.
    */
   private fun preferencesDigest(context: Context, out: StringBuilder) {
     // Built into a scratch buffer first: this section is a measuring instrument and must never
@@ -232,7 +234,8 @@ object DiagnosticsExport {
       val stream = resolver.openOutputStream(uri, "wt") ?: throw IOException("No output stream")
       stream.use { it.write(text.toByteArray(Charsets.UTF_8)) }
       true
-    } catch (e: IOException) {
+    } catch (e: Exception) {
+      // A runtime failure from the resolver must end as a reported failure, not a dead worker.
       LogUtils.w(TAG, "Cannot write the diagnostics file: %s", e)
       try {
         resolver.delete(uri, null, null)
@@ -449,14 +452,32 @@ object DiagnosticsExport {
         LogUtils.w(TAG, "Cannot run logcat: %s", e)
         return null
       }
+    // The stream has to be drained on its own thread: reading it here would block until the
+    // process ends, and the timeout below could never cut a stuck read short.
+    val read = AtomicReference<String?>()
+    val reader =
+      Thread {
+        read.set(
+          try {
+            process.inputStream.bufferedReader().use { it.readText() }
+          } catch (e: IOException) {
+            LogUtils.w(TAG, "Cannot read the log: %s", e)
+            null
+          }
+        )
+      }
+    reader.start()
     return try {
-      val log = process.inputStream.bufferedReader().use { it.readText() }
-      process.waitFor(LOG_TIMEOUT_SECONDS, TimeUnit.SECONDS)
-      if (log.length <= LOG_MAX_CHARS) log
-      else log.takeLast(LOG_MAX_CHARS).substringAfter('\n')
-    } catch (e: IOException) {
-      LogUtils.w(TAG, "Cannot read the log: %s", e)
-      null
+      reader.join(TimeUnit.SECONDS.toMillis(LOG_TIMEOUT_SECONDS))
+      if (reader.isAlive) {
+        LogUtils.w(TAG, "Reading the log timed out")
+        null
+      } else {
+        read.get()?.let { log ->
+          if (log.length <= LOG_MAX_CHARS) log
+          else log.takeLast(LOG_MAX_CHARS).substringAfter('\n')
+        }
+      }
     } catch (e: InterruptedException) {
       Thread.currentThread().interrupt()
       null
