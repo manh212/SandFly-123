@@ -368,7 +368,12 @@ final class CollapseTestTrees {
     AccessibilityNodeInfoCompat header;
 
     AccessibilityNodeInfoCompat likeButton;
+    AccessibilityNodeInfoCompat careButton;
+    AccessibilityNodeInfoCompat shareButton;
+    AccessibilityNodeInfoCompat reportButton;
     AccessibilityNodeInfoCompat replyButton;
+    AccessibilityNodeInfoCompat copyButton;
+    AccessibilityNodeInfoCompat hideButton;
     final List<AccessibilityNodeInfoCompat> buttons = new ArrayList<>();
   }
 
@@ -400,6 +405,8 @@ final class CollapseTestTrees {
       bounds(button, i * 150, 60, i * 150 + 150, 200);
       if (i == 0) {
         tree.likeButton = button;
+      } else if (i == 2) {
+        tree.careButton = button;
       }
     }
     if (withHeader) {
@@ -412,7 +419,11 @@ final class CollapseTestTrees {
     for (int i = 0; i < actions.length; i++) {
       AccessibilityNodeInfoCompat button = trayButton(tree, inner, actions[i]);
       bounds(button, 0, 260 + i * 100, 1080, 360 + i * 100);
-      if ("Reply".equals(actions[i])) {
+      if ("Share comment".equals(actions[i])) {
+        tree.shareButton = button;
+      } else if ("Report comment".equals(actions[i])) {
+        tree.reportButton = button;
+      } else if ("Reply".equals(actions[i])) {
         tree.replyButton = button;
         if (replyAuthor != null) {
           button.setContentDescription(
@@ -420,6 +431,10 @@ final class CollapseTestTrees {
                   + replyAuthor
                   + ", button. Double-tap to reply to the comment.");
         }
+      } else if ("Copy".equals(actions[i])) {
+        tree.copyButton = button;
+      } else if ("Hide comment".equals(actions[i])) {
+        tree.hideButton = button;
       }
     }
     applyPackage(tree.root, FACEBOOK_PACKAGE);

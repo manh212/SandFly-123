@@ -66,6 +66,35 @@ final class FacebookCollapseScript extends CollapseScript {
     super(PACKAGE_NAME, Pattern.COMPOSITE_ROOT, /* maxActions= */ 12);
   }
 
+  /**
+   * The full contents of Facebook's comment tray, in the tray's own order, as recorded from
+   * the live app: the seven reactions, then the action row. The Vietnamese labels are the
+   * recorded ground truth; the English ones are the tray's standard English wording. The
+   * scanned Like and Reply actions are absorbed into the set; everything in it activates
+   * through the tray (see {@code CollapsedItemActions}).
+   */
+  private static final TrayCatalog TRAY_CATALOG =
+      new TrayCatalog(
+          new TrayCatalog.Entry[] {
+            new TrayCatalog.Entry("Thích", "Like", true, true),
+            new TrayCatalog.Entry("Yêu thích", "Love", true, false),
+            new TrayCatalog.Entry("Thương thương", "Care", true, false),
+            new TrayCatalog.Entry("Haha", "Haha", true, false),
+            new TrayCatalog.Entry("Wow", "Wow", true, false),
+            new TrayCatalog.Entry("Buồn", "Sad", true, false),
+            new TrayCatalog.Entry("Phẫn nộ", "Angry", true, false),
+            new TrayCatalog.Entry("Chia sẻ bình luận", "Share comment", false, false),
+            new TrayCatalog.Entry("Báo cáo bình luận", "Report comment", false, false),
+            new TrayCatalog.Entry("Trả lời", "Reply", false, true),
+            new TrayCatalog.Entry("Sao chép", "Copy", true, false),
+            new TrayCatalog.Entry("Ẩn bình luận", "Hide comment", false, false),
+          });
+
+  @Override
+  public TrayCatalog trayCatalog() {
+    return TRAY_CATALOG;
+  }
+
   /** The item's content fields, resolved once and shared by every hook of one item match. */
   private static final class ResolvedFields {
     final @Nullable AccessibilityNodeInfoCompat avatar;

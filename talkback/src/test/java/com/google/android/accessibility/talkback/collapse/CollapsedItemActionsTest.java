@@ -82,7 +82,7 @@ public class CollapsedItemActionsTest {
   }
 
   @Test
-  public void facebookComment_producesChildActionsInReadingOrder_withLikeLongPress() {
+  public void facebookComment_producesChildActionsInReadingOrder_withTheFullTraySet() {
     AccessibilityNodeInfoCompat list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     FacebookCommentTree tree = CollapseTestTrees.facebookComment(list);
 
@@ -95,15 +95,26 @@ public class CollapsedItemActionsTest {
       ids.add(item.getItemId());
       assertTrue(CollapsedItemActions.isCollapsedActionItem(item));
     }
+    // Where the scanned Reply/Like cluster stood, the item now offers the tray's full
+    // contents in tray order; there is no separate long-press variant of any of them.
     assertEquals(
         List.of(
             "Profile picture of Nguyen Van A",
             "Nguyen Van A",
             "This is a great comment",
-            "Reply",
-            "5 reactions",
             "Like",
-            "Like, long press",
+            "Love",
+            "Care",
+            "Haha",
+            "Wow",
+            "Sad",
+            "Angry",
+            "Share comment",
+            "Report comment",
+            "Reply",
+            "Copy",
+            "Hide comment",
+            "5 reactions",
             "Demote comment"),
         titles);
     assertEquals("every item id must be unique", titles.size(), ids.size());

@@ -54,9 +54,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>{@link #beginTray} runs the same state machine for an app's own action tray (Facebook's
  * comment tray): the opener is a real long press instead of a click, the sheet is recognised
- * by anchors instead of a view id, the click lands on the tray's real button carrying the
- * target label, and an open-only variant leaves the tray up for the user. Tray stages log
- * under the perform tag so one log filter shows a whole activation.
+ * by anchors instead of a view id, and the click lands on the tray's real button carrying
+ * the target label. Tray stages log under the perform tag so one log filter shows a whole
+ * activation.
  */
 public final class MenuAutomation {
   // The perform log tag: tray stages are stages of a collapsed action's perform.
@@ -95,8 +95,7 @@ public final class MenuAutomation {
     final boolean trayMode;
     final @Nullable String trayHeaderText;
     final @Nullable String trayAuthorName;
-    final @Nullable String trayTargetLabel;
-    final boolean trayOpenOnly;
+    final @Nullable String[] trayTargetLabels;
     final boolean restoreFocusOnClose;
     /** Tray mode only: speaks the failure; null speaks the menu-not-available string. */
     final @Nullable Runnable failureAnnouncer;
@@ -134,8 +133,7 @@ public final class MenuAutomation {
       this.trayMode = false;
       this.trayHeaderText = null;
       this.trayAuthorName = null;
-      this.trayTargetLabel = null;
-      this.trayOpenOnly = false;
+      this.trayTargetLabels = null;
       this.restoreFocusOnClose = true;
       this.failureAnnouncer = null;
       this.beginTimeMs = SystemClock.uptimeMillis();
@@ -147,8 +145,7 @@ public final class MenuAutomation {
         String packageName,
         String trayHeaderText,
         @Nullable String trayAuthorName,
-        @Nullable String trayTargetLabel,
-        boolean trayOpenOnly,
+        @Nullable String[] trayTargetLabels,
         boolean restoreFocusOnClose,
         Runnable failureAnnouncer,
         String originLabel,
@@ -165,8 +162,7 @@ public final class MenuAutomation {
       this.trayMode = true;
       this.trayHeaderText = trayHeaderText;
       this.trayAuthorName = trayAuthorName;
-      this.trayTargetLabel = trayTargetLabel;
-      this.trayOpenOnly = trayOpenOnly;
+      this.trayTargetLabels = trayTargetLabels;
       this.restoreFocusOnClose = restoreFocusOnClose;
       this.failureAnnouncer = failureAnnouncer;
       this.beginTimeMs = SystemClock.uptimeMillis();
@@ -253,19 +249,20 @@ public final class MenuAutomation {
   /**
    * Arms a tray sequence and fires the opener: a real long press on the comment's live body
    * shell, which opens the app's own action tray. The tray is then recognised by its anchors
-   * (see {@link #findTrayRoot}); unless {@code openOnly} is set, the sequence clicks the
-   * tray's real button whose own label is {@code targetButtonLabel}. When {@code
+   * (see {@link #findTrayRoot}), and the sequence clicks the tray's real button whose own
+   * label is one of {@code targetButtonLabels} — the target's recorded labels, one per
+   * language, since the tray speaks the app's current language. When {@code
    * restoreFocusOnClose} is false, the sequence ends without pulling focus back when the
-   * tray closes — the follow-up UI (a composer) is the intended result and keeps focus.
-   * Failures are announced through {@code failureAnnouncer} instead of the menu string.
-   * Returns false when the sequence could not be armed or the opener was refused.
+   * tray closes — the follow-up UI (a composer, a share or report flow) is the intended
+   * result and keeps the screen. Failures are announced through {@code failureAnnouncer}
+   * instead of the menu string. Returns false when the sequence could not be armed or the
+   * opener was refused.
    */
   public static boolean beginTray(
       Pipeline.FeedbackReturner pipeline,
       Context context,
       AccessibilityNodeInfoCompat bodyShell,
-      @Nullable String targetButtonLabel,
-      boolean openOnly,
+      String[] targetButtonLabels,
       boolean restoreFocusOnClose,
       String trayHeaderText,
       @Nullable String trayAuthorName,
@@ -282,8 +279,7 @@ public final class MenuAutomation {
             bodyShell.getPackageName().toString(),
             trayHeaderText,
             trayAuthorName,
-            targetButtonLabel,
-            openOnly,
+            targetButtonLabels,
             restoreFocusOnClose,
             failureAnnouncer,
             originLabel,
@@ -359,14 +355,6 @@ public final class MenuAutomation {
           logTrayButtons(session, sheet);
         }
         session.sheetSeen = true;
-        if (session.trayMode && session.trayOpenOnly) {
-          // Open-only: the tray is up and already holds accessibility focus; the user
-          // picks the reaction themselves, so the sequence ends here without clicking
-          // anything and without pulling focus back to the row.
-          LogUtils.v(TAG, "tray openOnly: sheet left open for the user");
-          finish(session);
-          return true;
-        }
         if (tryClickTarget(session, sheet)) {
           return true;
         }
@@ -500,7 +488,7 @@ public final class MenuAutomation {
   private static boolean tryClickTarget(Pending session, AccessibilityNodeInfoCompat sheetRoot) {
     AccessibilityNodeInfoCompat row =
         session.trayMode
-            ? trayTargetButton(sheetRoot, session.trayTargetLabel)
+            ? trayTargetButton(sheetRoot, session.trayTargetLabels)
             : session.targetCores != null
                 ? sheetToggleTargetRow(
                     sheetRoot,
@@ -516,7 +504,7 @@ public final class MenuAutomation {
             EVENT_ID_UNTRACKED,
             Feedback.nodeAction(row, AccessibilityNodeInfoCompat.ACTION_CLICK));
     if (session.trayMode) {
-      LogUtils.v(TAG, "tray target click label=%s result=%b", session.trayTargetLabel, clicked);
+      LogUtils.v(TAG, "tray target click label=%s result=%b", sheetNodeLabel(row), clicked);
       if (!clicked) {
         // The tray's real button refused the action too: report the click as not done,
         // so the grace and failure-close path takes over instead of waiting for a close
@@ -762,17 +750,26 @@ public final class MenuAutomation {
   }
 
   /**
-   * The tray's real button carrying exactly {@code targetLabel} (surrounding whitespace
-   * ignored), or null when there is not exactly one. Only Button-class nodes are
+   * The tray's real button carrying exactly one of {@code targetLabels} (surrounding
+   * whitespace ignored) — the target's recorded labels, one per language — or null when
+   * there is not exactly one match across all of them. Only Button-class nodes are
    * considered: the click must land on the button itself, never on a container that
    * happens to carry the same words.
    */
   static @Nullable AccessibilityNodeInfoCompat trayTargetButton(
-      AccessibilityNodeInfoCompat trayRoot, @Nullable String targetLabel) {
-    if (targetLabel == null) {
+      AccessibilityNodeInfoCompat trayRoot, @Nullable String[] targetLabels) {
+    if (targetLabels == null) {
       return null;
     }
-    String target = targetLabel.trim();
+    Set<String> targets = new HashSet<>();
+    for (String label : targetLabels) {
+      if (label != null) {
+        targets.add(label.trim());
+      }
+    }
+    if (targets.isEmpty()) {
+      return null;
+    }
     List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
     collect(trayRoot, nodes);
     AccessibilityNodeInfoCompat found = null;
@@ -781,7 +778,7 @@ public final class MenuAutomation {
         continue;
       }
       CharSequence label = sheetNodeLabel(node);
-      if (label == null || !target.equals(label.toString().trim())) {
+      if (label == null || !targets.contains(label.toString().trim())) {
         continue;
       }
       if (found != null) {

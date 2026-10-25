@@ -53,16 +53,17 @@ import org.robolectric.shadows.ShadowLog;
 import org.robolectric.shadows.ShadowLog.LogItem;
 
 /**
- * The tray route of a composite item's Like and Reply actions: instead of pressing the
+ * The tray route of a composite item's tray actions — the full contents of Facebook's
+ * comment tray, offered as the collapsed comment's own actions: instead of pressing the
  * button buried inside the comment — which exposes no ACTION_CLICK, and whose frame
- * produces no click inside the app at all — the activation fires a real long press at
+ * produces no click inside the app at all — every tray action fires a real long press at
  * the comment's live body shell, opening Facebook's own action tray, and the sequence
- * then clicks the tray's real button. A unit test has no accessibility service, so the
- * focus node is stood in for through the listener's seam and the tray's window events
- * are delivered to the automation by hand; what is pinned here is the opener's target
- * and action, the anchor matching (including the wrong-comment abort), which tray
- * button each action clicks, the open-only long press, the honest failures, and the
- * kill-axis log stages.
+ * then clicks the tray's real button carrying the action's label. A unit test has no
+ * accessibility service, so the focus node is stood in for through the listener's seam
+ * and the tray's window events are delivered to the automation by hand; what is pinned
+ * here is the opener's target and action, the anchor matching (including the
+ * wrong-comment abort), which tray button each group of actions clicks, the
+ * per-group close behaviour, the honest failures, and the kill-axis log stages.
  */
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
@@ -235,7 +236,7 @@ public class CollapsedItemTrayActivationTest {
     assertTrue(log.contains("tray bodyShell"));
     assertTrue(log.contains("supportsLongClick=true"));
     assertTrue(log.contains("tray opener nodeAction result=true"));
-    assertTrue(log.contains("perform traySequence armed=true kind=LIKE"));
+    assertTrue(log.contains("perform traySequence armed=true label=Like"));
   }
 
   @Test
@@ -287,24 +288,110 @@ public class CollapsedItemTrayActivationTest {
   }
 
   @Test
-  public void likeLongPress_opensTheTrayOnly_noReactionIsClicked() {
-    standOnCommentWithTrayOpener();
+  public void trayActions_offerNoLongPressVariant() {
+    // The tray set supersedes the open-only long-press Like of the first tray build: a
+    // tray action exists only as itself, so there is no long-press form that could
+    // behave differently from the click.
+    List<String> titles = new ArrayList<>();
+    for (ContextMenuItem item : actions.getMenuItemsForNode(context, tree.root, false)) {
+      titles.add(item.getTitle().toString());
+    }
+    for (String title : titles) {
+      assertFalse("no action is a long-press variant: " + title, title.contains("long press"));
+    }
+  }
 
-    assertTrue(findItem(tree.root, "Like, long press").onClickPerformed());
+  @Test
+  public void careClick_trayAppears_clicksTheTrayCareButton_restoresFocusAfterClose() {
+    standOnCommentWithTrayOpener();
+    assertTrue(findItem(tree.root, "Care").onClickPerformed());
     assertEquals(1, returner.nodeActions.size());
+    assertEquals(tree.bodyActionTarget, returner.nodeActions.get(0).target);
     assertEquals(
         AccessibilityNodeInfoCompat.ACTION_LONG_CLICK, returner.nodeActions.get(0).actionId);
     FacebookTrayTree tray = CollapseTestTrees.facebookTray(true, null);
 
     deliverTrayWindow(tray);
 
+    assertEquals(2, returner.nodeActions.size());
+    assertEquals(tray.careButton, returner.nodeActions.get(1).target);
     assertEquals(
-        "the tray is left open for the user: no button inside it is clicked",
-        1,
-        returner.nodeActions.size());
-    assertFalse("the sequence ends once the tray is up", MenuAutomation.isPending());
-    assertTrue(collapsedActionsLog().contains("tray openOnly: sheet left open for the user"));
-    assertTrue(returner.focusTargets.isEmpty());
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.nodeActions.get(1).actionId);
+    assertTrue(collapsedActionsLog().contains("tray target click label=Care result=true"));
+
+    deliverFeedWindow();
+
+    assertFalse(MenuAutomation.isPending());
+    assertTrue(
+        "focus returns to the originating comment",
+        returner.focusTargets.contains(tree.root));
+  }
+
+  @Test
+  public void copyClick_trayAppears_clicksTheTrayCopyButton_restoresFocusAfterClose() {
+    standOnCommentWithTrayOpener();
+    assertTrue(findItem(tree.root, "Copy").onClickPerformed());
+    FacebookTrayTree tray = CollapseTestTrees.facebookTray(true, null);
+
+    deliverTrayWindow(tray);
+
+    assertEquals(2, returner.nodeActions.size());
+    assertEquals(tray.copyButton, returner.nodeActions.get(1).target);
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.nodeActions.get(1).actionId);
+
+    deliverFeedWindow();
+
+    assertFalse(MenuAutomation.isPending());
+    assertTrue(
+        "focus returns to the originating comment",
+        returner.focusTargets.contains(tree.root));
+  }
+
+  @Test
+  public void hideClick_trayAppears_clicksTheTrayHideButton_handsOverToTheFollowUpUi() {
+    standOnCommentWithTrayOpener();
+    assertTrue(findItem(tree.root, "Hide comment").onClickPerformed());
+    FacebookTrayTree tray = CollapseTestTrees.facebookTray(true, null);
+
+    deliverTrayWindow(tray);
+
+    assertEquals(2, returner.nodeActions.size());
+    assertEquals(tray.hideButton, returner.nodeActions.get(1).target);
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.nodeActions.get(1).actionId);
+
+    // The comment is gone once hidden: the sequence ends without pulling focus back to
+    // an item that no longer exists, and the follow-up UI is announced as usual.
+    deliverFeedWindow();
+
+    assertFalse(MenuAutomation.isPending());
+    assertTrue(
+        "no focus part may target the comment after a Hide",
+        returner.focusTargets.isEmpty());
+  }
+
+  @Test
+  public void shareClick_trayAppears_clicksTheTrayShareButton_handsOverToTheFollowUpUi() {
+    standOnCommentWithTrayOpener();
+    assertTrue(findItem(tree.root, "Share comment").onClickPerformed());
+    FacebookTrayTree tray = CollapseTestTrees.facebookTray(true, null);
+
+    deliverTrayWindow(tray);
+
+    assertEquals(2, returner.nodeActions.size());
+    assertEquals(tray.shareButton, returner.nodeActions.get(1).target);
+    assertEquals(
+        AccessibilityNodeInfoCompat.ACTION_CLICK, returner.nodeActions.get(1).actionId);
+
+    // The share flow is Facebook's own UI now: the sequence ends quietly, without
+    // pulling focus back to the comment.
+    deliverFeedWindow();
+
+    assertFalse(MenuAutomation.isPending());
+    assertTrue(
+        "no focus part may target the comment after a Share",
+        returner.focusTargets.isEmpty());
   }
 
   @Test
