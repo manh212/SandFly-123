@@ -4556,7 +4556,7 @@
     <!-- Reduce delays: switch that fires the focus action before the speech is submitted. [CHAR LIMIT=50] -->
     <string name="title_pref_fast_nav_fire_first">Focus first, speak as it lands</string>
     <!-- Reduce delays: summary of the focus-first switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_fast_nav_fire_first">The focus action goes out before the next item's announcement is composed and submitted, so focusing never waits behind speaking. The announcement still starts in the same moment, and is corrected if the focus lands elsewhere. Turn this off to submit the announcement first.</string>
+    <string name="summary_pref_fast_nav_fire_first">The focus action goes out before the next item\'s announcement is composed and submitted, so focusing never waits behind speaking. The announcement still starts in the same moment, and is corrected if the focus lands elsewhere. Turn this off to submit the announcement first.</string>
     <!-- Reduce delays: switch that chains sounds made ahead while swiping continues. [CHAR LIMIT=50] -->
     <string name="title_pref_speech_pipeline_chain">Keep making sounds ahead while swiping</string>
     <!-- Reduce delays: summary of the sound-chaining switch. [CHAR LIMIT=NONE] -->
