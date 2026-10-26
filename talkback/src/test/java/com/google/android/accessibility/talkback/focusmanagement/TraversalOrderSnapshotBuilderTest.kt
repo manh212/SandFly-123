@@ -14,6 +14,7 @@
 package com.google.android.accessibility.talkback.focusmanagement
 
 import android.graphics.Rect
+import android.os.Looper
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.Performance
@@ -46,6 +47,8 @@ class TraversalOrderSnapshotBuilderTest {
   fun tearDown() {
     TraversalTreeCache.clear("test")
     TraversalTreeCache.listenerBuildCoalescingEnabled = true
+    TraversalTreeCache.burstBuildDeferralEnabled = true
+    TraversalTreeCache.noteNavigationActivity(0L)
   }
 
   private fun taggedNode(
@@ -110,6 +113,33 @@ class TraversalOrderSnapshotBuilderTest {
     assertEquals(expected, orderOf(snapshot as OrderedTraversalStrategy))
     // The synthetic tree only proves anything if its order really was re-sorted.
     assertEquals(listOf("root", "box", "A", "B", "C"), expected)
+  }
+
+  @Test
+  fun request_duringASwipeBurst_isHeld_andTheBuildStillRunsWhenTheBurstPasses() {
+    // A swipe just landed: asks are inside the burst window.
+    TraversalTreeCache.noteNavigationActivity()
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val pivot = checkNotNull(root.getChild(0)).getChild(0)
+
+    val outcome =
+      TraversalOrderSnapshotBuilder.request(
+        root.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { root },
+        ownPackage = "com.example.other",
+      )
+
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_DEFERRED, outcome)
+    // Held means held: nothing has been built or published for the window yet.
+    assertNull(TraversalTreeCache.get(root, pivot))
+
+    // The burst passes, the hold lifts, and the build still runs and lands: the last ask of
+    // a burst is deferred, never dropped.
+    shadowOf(Looper.getMainLooper()).idleFor(400, TimeUnit.MILLISECONDS)
+    waitUntil("the deferred build published") {
+      TraversalTreeCache.get(root, pivot) != null
+    }
   }
 
   @Test

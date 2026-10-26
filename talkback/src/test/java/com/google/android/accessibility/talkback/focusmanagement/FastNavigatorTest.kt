@@ -125,6 +125,9 @@ class FastNavigatorTest {
   @After
   fun tearDown() {
     TraversalTreeCache.clearCompletely("test")
+    TraversalTreeCache.skipTargetRefreshEnabled = true
+    TraversalTreeCache.fireFocusBeforeSpeechEnabled = true
+    TraversalTreeCache.eventDrivenScrollLandingEnabled = true
     FocusProcessorForLogicalNavigation.setWrapAround(true)
   }
 
@@ -333,6 +336,8 @@ class FastNavigatorTest {
 
   @Test
   fun deadTarget_theNearestLivingItemInTheDirectionStandsIn() {
+    // The refresh-first path: a target whose refresh fails is stepped over unheard.
+    TraversalTreeCache.skipTargetRefreshEnabled = false
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C", "D"))
     // B is gone by the time the swipe asks for it again.
     shadowOf(childInfos[1]).setRefreshReturnValue(false)
@@ -354,6 +359,7 @@ class FastNavigatorTest {
 
   @Test
   fun allTargetsDead_countsTheFailure_andStillAnnouncesTheEdge() {
+    TraversalTreeCache.skipTargetRefreshEnabled = false
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B"))
     shadowOf(childInfos[1]).setRefreshReturnValue(false)
     val children = saveOrder(rootInfo)
@@ -439,6 +445,53 @@ class FastNavigatorTest {
   }
 
   @Test
+  fun scrollLanding_theFirstContentChangeLandsTheFirstNewItemAtOnce() {
+    val rootInfo = listTree(listOf("A", "B"))
+    rootInfo.isScrollable = true
+    val children = saveOrder(rootInfo)
+    focusOn(children[1])
+    val byEventBefore = performance.getScrollLandingsByEventCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    // The content the scroll was fired for arrives: C joins the window, and the saved order
+    // is the new one, as the background build would leave it. No timer has run yet.
+    item(rootInfo, "C", 200)
+    saveOrder(rootInfo)
+    navigator.onWindowContentChanged(rootInfo.windowId)
+
+    // The change itself landed the swipe on C, the first new item — not a timed try.
+    assertEquals(listOf("C"), listener.set)
+    assertEquals(byEventBefore + 1, performance.getScrollLandingsByEventCount())
+  }
+
+  @Test
+  fun scrollLanding_switchOff_theContentChangeAloneDoesNotLand() {
+    TraversalTreeCache.eventDrivenScrollLandingEnabled = false
+    val rootInfo = listTree(listOf("A", "B"))
+    rootInfo.isScrollable = true
+    val children = saveOrder(rootInfo)
+    focusOn(children[1])
+    val byEventBefore = performance.getScrollLandingsByEventCount()
+    val byBackstopBefore = performance.getScrollLandingsByBackstopCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    item(rootInfo, "C", 200)
+    saveOrder(rootInfo)
+    navigator.onWindowContentChanged(rootInfo.windowId)
+
+    // The change is not a trigger with the switch off: nothing has landed yet.
+    assertTrue(listener.set.isEmpty())
+    assertEquals(byEventBefore, performance.getScrollLandingsByEventCount())
+
+    // The timed try lands it instead, as landings were landed before.
+    shadowOf(Looper.getMainLooper()).idleFor(150, TimeUnit.MILLISECONDS)
+    assertEquals(listOf("C"), listener.set)
+    assertEquals(byBackstopBefore + 1, performance.getScrollLandingsByBackstopCount())
+  }
+
+  @Test
   fun noPivotAndNoWindow_countsNoPivot_andMovesNothing() {
     val stuckBefore =
       performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_PIVOT)
@@ -493,6 +546,142 @@ class FastNavigatorTest {
     assertEquals(0, FastNavigator.nextCandidateIndex(all, 2, false, filterNotB))
     assertEquals(1, FastNavigator.indexOfNode(all, b))
     assertEquals(-1, FastNavigator.indexOfNode(all, node("Z")))
+  }
+
+  @Test
+  fun deadTarget_skipRefreshOn_refusedActionStepsOnWithinTheSameOrder() {
+    val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C", "D"))
+    // B is dead by the time the swipe reaches it: with no refresh before firing, the refused
+    // focus action itself is what reports it.
+    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
+      action != AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS
+    }
+    val children = saveOrder(rootInfo)
+    focusOn(children[0])
+    val substitutedBefore =
+      performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_DEAD_TARGET_SUBSTITUTED)
+    val builtBefore =
+      performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_BUILT_ON_SPOT)
+
+    assertTrue(navigator.handle(swipe(forward = true), null))
+
+    // The swipe stepped past B inside the order it already held — no rebuild was paid for —
+    // and landed on C, the nearest living item in the direction, counted as a substitution.
+    assertEquals(listOf("B"), listener.failed)
+    assertEquals(listOf("C"), listener.set)
+    assertEquals(
+      substitutedBefore + 1,
+      performance.getFastNavigationHardCaseCount(
+        Performance.FAST_NAV_HARD_DEAD_TARGET_SUBSTITUTED
+      ),
+    )
+    assertEquals(
+      builtBefore,
+      performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_BUILT_ON_SPOT),
+    )
+  }
+
+  @Test
+  fun skipRefreshOn_aTargetWhoseRefreshWouldFailIsFiredAnyway() {
+    val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C"))
+    // B's refresh would report it gone, but nothing asks: the refresh is skipped, the action
+    // is the only vouching, and the action succeeds.
+    shadowOf(childInfos[1]).setRefreshReturnValue(false)
+    val children = saveOrder(rootInfo)
+    focusOn(children[0])
+
+    assertTrue(navigator.handle(swipe(forward = true), null))
+
+    assertEquals(listOf("B"), listener.set)
+  }
+
+  @Test
+  fun fireFirst_theActionGoesOutBeforeTheSpeechIsTold() {
+    val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B"))
+    val order = mutableListOf<String>()
+    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
+      if (action == AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS) {
+        order += "action"
+      }
+      true
+    }
+    val children = saveOrder(rootInfo)
+    focusOn(children[0])
+    navigator.setFocusListener(
+      object : FastNavigator.FocusListener {
+        override fun onAccessibilityFocusAboutToBeSet(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {
+          order += "speech"
+        }
+
+        override fun onAccessibilityFocusSet(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {}
+
+        override fun onAccessibilityFocusSetFailed(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {}
+      }
+    )
+
+    assertTrue(navigator.handle(swipe(forward = true), null))
+
+    assertEquals(listOf("action", "speech"), order)
+  }
+
+  @Test
+  fun fireFirstOff_theSpeechIsToldBeforeTheActionGoesOut() {
+    TraversalTreeCache.fireFocusBeforeSpeechEnabled = false
+    val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B"))
+    val order = mutableListOf<String>()
+    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
+      if (action == AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS) {
+        order += "action"
+      }
+      true
+    }
+    val children = saveOrder(rootInfo)
+    focusOn(children[0])
+    navigator.setFocusListener(
+      object : FastNavigator.FocusListener {
+        override fun onAccessibilityFocusAboutToBeSet(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {
+          order += "speech"
+        }
+
+        override fun onAccessibilityFocusSet(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {}
+
+        override fun onAccessibilityFocusSetFailed(
+          node: AccessibilityNodeInfoCompat,
+          info: FocusActionInfo,
+          eventId: Performance.EventId?,
+          actionTime: Long,
+        ) {}
+      }
+    )
+
+    assertTrue(navigator.handle(swipe(forward = true), null))
+
+    assertEquals(listOf("speech", "action"), order)
   }
 
   private fun node(tag: String): AccessibilityNodeInfoCompat {

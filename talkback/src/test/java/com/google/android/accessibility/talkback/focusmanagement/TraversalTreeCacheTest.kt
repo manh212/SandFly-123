@@ -58,6 +58,7 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.leanOrderBuilderEnabled = true
     TraversalTreeCache.fastNavigatorEnabled = true
     TraversalTreeCache.listenerBuildCoalescingEnabled = true
+    TraversalTreeCache.cheapPivotCheckEnabled = true
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -746,6 +747,41 @@ class TraversalTreeCacheTest {
     child.unwrap().isAccessibilityFocused = true
     TraversalTreeCache.rememberFocus(child)
     TraversalTreeCache.clearCompletely("the window changed")
+
+    assertNull(TraversalTreeCache.focusNodeForNavigation())
+  }
+
+  @Test
+  fun focusNodeForNavigation_cheapCheck_servesTheRememberedFocusWithoutRefreshing() {
+    val (_, child) = savedOrder()
+    child.unwrap().isAccessibilityFocused = true
+    TraversalTreeCache.rememberFocus(child)
+    // The refresh would report the node gone; the cheap check never asks it, and serves the
+    // focus on the local evidence: order not thrown away since, node held, flag still set.
+    shadowOf(child.unwrap()).setRefreshReturnValue(false)
+
+    assertEquals(child, TraversalTreeCache.focusNodeForNavigation())
+
+    // With the cheap check off, the same node is put to the refresh, and refused.
+    TraversalTreeCache.cheapPivotCheckEnabled = false
+    assertNull(TraversalTreeCache.focusNodeForNavigation())
+  }
+
+  @Test
+  fun focusNodeForNavigation_focusClearedSince_forgetsTheRememberedFocus() {
+    val (root, child) = savedOrder()
+    child.unwrap().isAccessibilityFocused = true
+    TraversalTreeCache.rememberFocus(child)
+    // The app clears the focus without landing it anywhere else. The event is addressed to
+    // another window so the saved order itself is untouched: only the forgetting can stop
+    // the remembered focus from serving.
+    val event =
+      eventInWindow(
+        root.windowId + 1,
+        AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED,
+      )
+    shadowOf(event).setSourceNode(child.unwrap())
+    TraversalTreeCache.onAccessibilityEvent(event)
 
     assertNull(TraversalTreeCache.focusNodeForNavigation())
   }
