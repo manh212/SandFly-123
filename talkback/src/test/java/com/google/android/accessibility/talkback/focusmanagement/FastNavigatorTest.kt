@@ -260,17 +260,6 @@ class FastNavigatorTest {
     TraversalTreeCache.rememberFocus(node)
   }
 
-  /** TEMP DIAGNOSTIC: the refusal counters a scroll-bound swipe can move, as one line. */
-  private fun scrollDiag(): String =
-    "noPivot=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_PIVOT)}" +
-      " noOrder=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_ORDER)}" +
-      " noLanding=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING)}" +
-      " allDead=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD)}" +
-      " focusFailed=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_FOCUS_ACTION_FAILED)}" +
-      " noScrollable=${performance.getScrollNoScrollableNodeCount()}" +
-      " appRefused=${performance.getScrollFiredAppRefusedCount()}" +
-      " noEffect=${performance.getScrollNoEffectCount()}"
-
   private fun swipe(
     forward: Boolean,
     wrap: Boolean = false,
@@ -710,15 +699,13 @@ class FastNavigatorTest {
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C"))
     rootInfo.isScrollable = true
     // C is in the order but off screen: the swipe aims at it, and scrolls to bring it in.
+    // The swipe is built as the gesture path builds it, with scrolling allowed: past the
+    // last on-screen item is where a swipe may scroll.
     childInfos[2].isVisibleToUser = false
     val children = saveOrder(rootInfo)
     focusOn(children[1])
 
-    // TEMP DIAGNOSTIC (remove once the failing gate is named): which counter moves when
-    // this swipe is refused, so the refusal names its own gate.
-    val diagBefore = scrollDiag()
-    val diagHandled = navigator.handle(swipe(forward = true), null)
-    assertTrue("diag: ${scrollDiag()} (before: $diagBefore)", diagHandled)
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
     assertTrue(
       shadowOf(rootInfo)
         .performedActions
@@ -776,11 +763,9 @@ class FastNavigatorTest {
 
     // The next item is off screen, so the swipe scrolls — and the scroll must fire on the
     // page's own scroller, not on the small chip row nested inside the item: the chip row
-    // would answer true while the page never moves.
-    // TEMP DIAGNOSTIC (remove once the failing gate is named): see the scroll-landing tests.
-    val diagBefore = scrollDiag()
-    val diagHandled = navigator.handle(swipe(forward = true), null)
-    assertTrue("diag: ${scrollDiag()} (before: $diagBefore)", diagHandled)
+    // would answer true while the page never moves. The swipe is built as the gesture
+    // path builds it, with scrolling allowed.
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
     assertTrue(
       shadowOf(rootInfo)
         .performedActions
