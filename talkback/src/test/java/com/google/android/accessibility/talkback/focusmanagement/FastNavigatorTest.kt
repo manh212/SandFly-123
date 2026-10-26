@@ -644,20 +644,28 @@ class FastNavigatorTest {
     showWindow(rootInfo)
     focusOn(children[1])
 
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+    assertTrue("first scroll answered", navigator.handle(swipe(forward = true, scroll = true), null))
+    // On a device every ask hands the service's windows out afresh — the window object
+    // the first scroll was looked up through has been recycled since, as the platform
+    // does — so the window is shown again for the second swipe, as it would stand then.
+    showWindow(rootInfo)
+    assertTrue(
+      "second scroll answered",
+      navigator.handle(swipe(forward = true, scroll = true), null),
+    )
 
     // Each scroll stands on its own: the second fires exactly as the first did, and
     // neither leaves anything behind to fire, focus or announce later.
     assertEquals(
+      "both scrolls fired on the root",
       2,
       shadowOf(rootInfo)
         .performedActions
         .count { it == AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD },
     )
     shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
-    assertTrue(listener.set.isEmpty())
-    assertEquals(0, feedbackCount.get())
+    assertTrue("no focus fired after the scrolls", listener.set.isEmpty())
+    assertEquals("no edge announced after the scrolls", 0, feedbackCount.get())
   }
 
   @Test
