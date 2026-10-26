@@ -158,6 +158,7 @@ import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.flags.Flags;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
+import com.google.android.accessibility.talkback.focusmanagement.LiveTreeNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusFeedbackMapper;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForScreenStateChange;
@@ -2906,6 +2907,11 @@ public class TalkBackService extends AccessibilityServiceCompat
           }
         });
     directionNavigationActor.setFastNavigator(fastNavigator);
+    // The live-tree pattern engine stands at the same gate the fast navigator used, under
+    // the same switch: while it is on, the engine tries a directional swipe on the live
+    // tree first and hands back every swipe it does not answer, where the fast navigator
+    // worked from the saved order. The fast navigator itself stays disconnected.
+    directionNavigationActor.setLiveTreeNavigator(new LiveTreeNavigator());
     eventFilter.setTargetPredictor(directionNavigationActor);
     eventFilter.setPreparedSpeechSynthesizer(
         new EventFilter.PreparedSpeechSynthesizer() {

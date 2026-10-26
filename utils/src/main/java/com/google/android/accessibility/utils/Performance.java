@@ -339,6 +339,29 @@ public class Performance {
   /** Swipes the fast navigator answered at the end of the list, with its edge feedback. */
   private long fastNavigationEdges;
 
+  /** The pattern engine handed the swipe back: the pivot or the way is web content. */
+  public static final int PATTERN_FALL_WEB = 0;
+
+  /** The pattern engine handed the swipe back: no further stop on the live tree. */
+  public static final int PATTERN_FALL_END_OF_CONTENT = 1;
+
+  /** The pattern engine handed the swipe back: the pivot was not on the live tree. */
+  public static final int PATTERN_FALL_PIVOT_NOT_IN_TREE = 2;
+
+  /** The pattern engine handed the swipe back: the target it found died before use. */
+  public static final int PATTERN_FALL_TARGET_GONE = 3;
+
+  private static final int PATTERN_FALL_REASON_COUNT = 4;
+
+  /** Directional swipes the live-tree pattern engine answered with a target it found. */
+  private long patternEngineAnswers;
+
+  /** Swipes the pattern engine handed back to the original navigation, by reason. */
+  private final long[] patternEngineFalls = new long[PATTERN_FALL_REASON_COUNT];
+
+  /** How long the pattern engine's finds took, over the swipes it answered. */
+  private final Statistics patternEngineFindStats = new Statistics();
+
   /** Hard cases the fast navigator handled itself: it had to build the order on the spot. */
   public static final int FAST_NAV_HARD_BUILT_ON_SPOT = 0;
 
@@ -2264,6 +2287,29 @@ public class Performance {
     }
   }
 
+  /** Records one directional swipe the live-tree pattern engine answered, and its find time. */
+  public void onPatternEngineAnswer(long findMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      patternEngineAnswers++;
+      patternEngineFindStats.increment(findMs);
+    }
+  }
+
+  /** Counts one swipe the pattern engine handed back to the original navigation, by reason. */
+  public void onPatternEngineFall(int reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (reason >= 0 && reason < patternEngineFalls.length) {
+        patternEngineFalls[reason]++;
+      }
+    }
+  }
+
   /** Counts one reading order built in the background and saved for the next swipe. */
   public void onOrderSnapshotPublished() {
     onOrderSnapshotPublished(-1);
@@ -2676,6 +2722,29 @@ public class Performance {
             "Stale orders: %d served, %d targets rejected",
             staleOrdersServed, staleTargetsRejected);
       }
+      long patternFalls = 0;
+      for (long fall : patternEngineFalls) {
+        patternFalls += fall;
+      }
+      if (patternEngineAnswers > 0 || patternFalls > 0) {
+        logger.log(
+            "Pattern engine: %d swipes answered, %d handed back to the original navigation"
+                + " (web %d, end of content %d, pivot not in the live tree %d, target gone %d)",
+            patternEngineAnswers,
+            patternFalls,
+            patternEngineFalls[PATTERN_FALL_WEB],
+            patternEngineFalls[PATTERN_FALL_END_OF_CONTENT],
+            patternEngineFalls[PATTERN_FALL_PIVOT_NOT_IN_TREE],
+            patternEngineFalls[PATTERN_FALL_TARGET_GONE]);
+      }
+      if (patternEngineFindStats.getCount() > 0) {
+        logger.log(
+            "Pattern engine find time: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+            patternEngineFindStats.getCount(),
+            patternEngineFindStats.getMean(),
+            patternEngineFindStats.getPercentile(50),
+            patternEngineFindStats.getPercentile(90));
+      }
     }
   }
 
@@ -2708,6 +2777,9 @@ public class Performance {
       scrollLandingsByEvent = 0;
       scrollLandingsByBackstop = 0;
       fastNavigationEdges = 0;
+      patternEngineAnswers = 0;
+      Arrays.fill(patternEngineFalls, 0);
+      patternEngineFindStats.clear();
       Arrays.fill(fastNavigationHardCases, 0);
       Arrays.fill(fastNavigationStuck, 0);
       cachedFocusShortcutUsed = 0;

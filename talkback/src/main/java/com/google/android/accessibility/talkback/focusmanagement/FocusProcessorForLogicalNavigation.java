@@ -168,6 +168,7 @@ public class FocusProcessorForLogicalNavigation {
   private final UniversalSearchActor.State searchState;
   private Pipeline.FeedbackReturner pipeline;
   private @Nullable FastNavigator fastNavigator;
+  private @Nullable LiveTreeNavigator liveTreeNavigator;
   private final boolean isWindowNavigationSupported;
 
   // Whether the previous navigation action reaches the edge of the window, reset the value after
@@ -241,6 +242,14 @@ public class FocusProcessorForLogicalNavigation {
     fastNavigator = navigator;
   }
 
+  /**
+   * Sets the live-tree pattern engine that tries a directional swipe first while the fast
+   * navigator switch is on, handing back every swipe it does not answer.
+   */
+  public void setLiveTreeNavigator(@Nullable LiveTreeNavigator navigator) {
+    liveTreeNavigator = navigator;
+  }
+
   public static void setWrapAround(boolean wrap) {
     wrapAround = wrap;
   }
@@ -257,13 +266,34 @@ public class FocusProcessorForLogicalNavigation {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
     }
-    // The fast navigator is disconnected by the owner's order: directional swipes are always
-    // answered by the original machinery below. Its settings screen and switches stay in place.
+    // The fast navigator stays disconnected: it is never asked. In its place at the same
+    // gate, while the same switch is on, the live-tree pattern engine tries the swipe
+    // first — from the same pivot the machinery below would use, and with the same notion
+    // of a stop. It answers only with a target it found on the live tree, which is then
+    // focused through the very same exit every path below uses; at a scroll edge, in web
+    // content, and everywhere else it hands the swipe back, and the original navigation
+    // below answers exactly as it does with the switch off.
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);
     if (pivot == null) {
       // Ideally the pivot should never be null. Do the null check in case of exception.
       LogUtils.w(TAG, "Cannot find pivot node for %s", navigationAction);
       return false;
+    }
+    if (liveTreeNavigator != null
+        && TraversalTreeCache.getFastNavigatorEnabled()
+        && isMoveToNextOrPreviousItem(navigationAction)) {
+      boolean rtl = WindowUtils.isScreenLayoutRTL(service);
+      int logicalDirection =
+          TraversalStrategyUtils.getLogicalDirection(navigationAction.searchDirection, rtl);
+      AccessibilityNodeInfoCompat target =
+          liveTreeNavigator.findTarget(
+              pivot,
+              logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD,
+              rtl,
+              composeNodeFilter(NavigationTarget.TARGET_DEFAULT, new HashMap<>()));
+      if (target != null) {
+        return setAccessibilityFocusInternal(target, navigationAction, eventId);
+      }
     }
     return switch (navigationAction.actionType) {
       case NavigationAction.DIRECTIONAL_NAVIGATION ->
