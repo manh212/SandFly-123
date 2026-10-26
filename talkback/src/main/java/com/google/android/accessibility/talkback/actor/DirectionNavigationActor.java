@@ -41,6 +41,7 @@ import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneti
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
+import com.google.android.accessibility.talkback.focusmanagement.LiveTreeNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
@@ -212,6 +213,11 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
   /** Sets the fast navigator that answers directional navigation while it is switched on. */
   public void setFastNavigator(FastNavigator navigator) {
     focusProcessorForLogicalNavigation.setFastNavigator(navigator);
+  }
+
+  /** Sets the live-tree pattern engine that tries directional navigation while it is on. */
+  public void setLiveTreeNavigator(LiveTreeNavigator navigator) {
+    focusProcessorForLogicalNavigation.setLiveTreeNavigator(navigator);
   }
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipeline) {
