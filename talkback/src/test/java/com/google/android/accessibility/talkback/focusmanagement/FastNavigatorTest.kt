@@ -615,4 +615,11 @@ class FastNavigatorTest {
 
     assertEquals(listOf("action", "speech"), order)
   }
+
+  private fun node(tag: String): AccessibilityNodeInfoCompat {
+    val info = AccessibilityNodeInfo.obtain()
+    info.className = "android.widget.Button"
+    info.text = tag
+    return AccessibilityNodeInfoCompat.wrap(info)
+  }
 }
