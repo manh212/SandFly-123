@@ -81,6 +81,10 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   @Volatile private var underruns = 0
   // The fast path's buffer size, once it has had to grow, kept for new tracks and outputs.
   @Volatile private var fastFrames = 0
+  // Shortfalls counted while this player's buffer is at the small size, and whether they have
+  // ended the small size's trial for this player, letting the buffer grow out of it.
+  private var smallShortfalls = 0
+  @Volatile private var outgrewSmallBuffer = false
   // Set when the track starts, until its first write completes. Running short before that is only
   // the track starting, not a buffer too small.
   @Volatile private var starting = false
@@ -872,10 +876,10 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
       output.setBufferSizeInFrames(
-        if (fast) fastBufferFrames(burstFrames, smallBufferEnabled, fastFrames)
+        if (fast) fastBufferFrames(burstFrames, smallBufferEnabled && !outgrewSmallBuffer, fastFrames)
         else sampleRate * SLOW_BUFFER_MS / 1000
       )
-      if (fast && smallBufferEnabled) {
+      if (fast && smallBufferEnabled && !outgrewSmallBuffer) {
         noteSmallBufferFitting()
       }
       underruns = output.underrunCount
@@ -907,18 +911,26 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     }
     if (count <= underruns) return
     underruns = count
-    if (fastPath && smallBufferEnabled) {
+    if (fastPath && smallBufferEnabled && !outgrewSmallBuffer) {
       // The smaller buffer is on trial: running short is counted, not grown out of, or the
-      // first shortfall would put the buffer back where it was and end the trial.
+      // first shortfall would put the buffer back where it was and end the trial. A buffer
+      // that keeps running short ends its own trial instead: once the shortfalls reach
+      // SMALL_BUFFER_SHORTFALL_LIMIT it grows like any other, a burst at a time, so a device
+      // that cannot hold the small size heals itself instead of crackling on.
       noteSmallBufferShortfall()
-      return
+      smallShortfalls++
+      if (!smallBufferTrialOver(smallShortfalls)) return
+      outgrewSmallBuffer = true
     }
     val size = output.bufferSizeInFrames
-    if (size >= output.bufferCapacityInFrames) return
-    val grown = if (fastPath) size + burstFrames else size * 2
-    output.setBufferSizeInFrames(minOf(grown, output.bufferCapacityInFrames))
+    val grown = grownBufferFrames(size, burstFrames, fastPath, output.bufferCapacityInFrames)
+    if (grown == size) return
+    output.setBufferSizeInFrames(grown)
     settleWrites = 2 * output.bufferSizeInFrames / burstFrames
-    if (fastPath) fastFrames = output.bufferSizeInFrames
+    if (fastPath) {
+      fastFrames = output.bufferSizeInFrames
+      if (smallBufferEnabled) noteBufferAutoRaise(output.bufferSizeInFrames)
+    }
     LogUtils.d(TAG, "Track ran short, now %d frames", output.bufferSizeInFrames)
   }
 
@@ -993,6 +1005,17 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     @Volatile var smallBufferShortfalls: Int = 0
       private set
 
+    /** Shortfalls at the small size after which the buffer starts growing out of it. */
+    const val SMALL_BUFFER_SHORTFALL_LIMIT = 3
+
+    /** How many times running short has grown a buffer out of the small size. */
+    @Volatile var bufferAutoRaises: Int = 0
+      private set
+
+    /** The size, in frames, a buffer was last grown to out of the small size. */
+    @Volatile var autoGrownBufferFrames: Int = 0
+      private set
+
     @JvmStatic
     internal fun noteSmallBufferFitting() {
       smallBufferFittings++
@@ -1003,10 +1026,38 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
       smallBufferShortfalls++
     }
 
+    @JvmStatic
+    internal fun noteBufferAutoRaise(frames: Int) {
+      bufferAutoRaises++
+      autoGrownBufferFrames = frames
+    }
+
+    /** Whether [shortfalls] shortfalls at the small size are enough to end its trial. */
+    @JvmStatic
+    fun smallBufferTrialOver(shortfalls: Int): Boolean =
+      shortfalls >= SMALL_BUFFER_SHORTFALL_LIMIT
+
+    /**
+     * The size running short grows a buffer to: a burst more on the fast path, double
+     * without it, and never past the track's capacity.
+     */
+    @JvmStatic
+    fun grownBufferFrames(
+      sizeInFrames: Int,
+      burstFrames: Int,
+      fastPath: Boolean,
+      capacityInFrames: Int,
+    ): Int {
+      if (sizeInFrames >= capacityInFrames) return sizeInFrames
+      val grown = if (fastPath) sizeInFrames + burstFrames else sizeInFrames * 2
+      return minOf(grown, capacityInFrames)
+    }
+
     /**
      * The fast path's buffer in frames: [QUEUED_BURSTS] bursts, or more if running short has
-     * grown it before. At one burst, a size remembered from running short is not let back in:
-     * the trial is only over when the setting is turned off.
+     * grown it before. At one burst, a size remembered from running short is not let back in
+     * while the small size is still on trial: the trial ends when the setting is turned off,
+     * or when the shortfalls themselves end it (see [SMALL_BUFFER_SHORTFALL_LIMIT]).
      */
     @JvmStatic
     fun fastBufferFrames(burstFrames: Int, smallBuffer: Boolean, rememberedFrames: Int): Int =

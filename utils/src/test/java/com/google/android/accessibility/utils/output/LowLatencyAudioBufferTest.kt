@@ -42,4 +42,51 @@ class LowLatencyAudioBufferTest {
     // The trial is only honest if a size remembered from running short cannot creep back in.
     assertEquals(256, LowLatencyAudio.fastBufferFrames(256, true, 768))
   }
+
+  @Test
+  fun smallBufferTrialOver_noShortfallsKeepsTrial() {
+    assertEquals(false, LowLatencyAudio.smallBufferTrialOver(0))
+  }
+
+  @Test
+  fun smallBufferTrialOver_belowLimitKeepsTrial() {
+    assertEquals(false, LowLatencyAudio.smallBufferTrialOver(LowLatencyAudio.SMALL_BUFFER_SHORTFALL_LIMIT - 1))
+  }
+
+  @Test
+  fun smallBufferTrialOver_atLimitEndsTrial() {
+    assertEquals(true, LowLatencyAudio.smallBufferTrialOver(LowLatencyAudio.SMALL_BUFFER_SHORTFALL_LIMIT))
+  }
+
+  @Test
+  fun smallBufferTrialOver_farAboveLimitEndsTrial() {
+    // The count the owner's device reached, which used to be kept small for ever.
+    assertEquals(true, LowLatencyAudio.smallBufferTrialOver(18))
+  }
+
+  @Test
+  fun grownBufferFrames_fastPathGrowsOneBurst() {
+    assertEquals(512, LowLatencyAudio.grownBufferFrames(256, 256, true, 4100))
+  }
+
+  @Test
+  fun grownBufferFrames_slowPathDoubles() {
+    assertEquals(1920, LowLatencyAudio.grownBufferFrames(960, 256, false, 4100))
+  }
+
+  @Test
+  fun grownBufferFrames_fastPathClampsAtCapacity() {
+    assertEquals(4100, LowLatencyAudio.grownBufferFrames(3968, 256, true, 4100))
+  }
+
+  @Test
+  fun grownBufferFrames_slowPathClampsAtCapacity() {
+    assertEquals(4100, LowLatencyAudio.grownBufferFrames(3000, 256, false, 4100))
+  }
+
+  @Test
+  fun grownBufferFrames_atCapacityStays() {
+    // No trouble can be grown out of past the capacity: the size is left alone.
+    assertEquals(4100, LowLatencyAudio.grownBufferFrames(4100, 256, true, 4100))
+  }
 }

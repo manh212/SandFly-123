@@ -371,6 +371,12 @@ object DiagnosticsExport {
             " ${LowLatencyAudio.smallBufferShortfalls} shortfalls kept small\n"
         )
       }
+      if (LowLatencyAudio.bufferAutoRaises > 0) {
+        out.append(
+          "Buffer auto-adjust: raised ${LowLatencyAudio.bufferAutoRaises} times" +
+            " after repeated shortfalls, now ${LowLatencyAudio.autoGrownBufferFrames} frames\n"
+        )
+      }
     }
     out.append("\n")
   }
