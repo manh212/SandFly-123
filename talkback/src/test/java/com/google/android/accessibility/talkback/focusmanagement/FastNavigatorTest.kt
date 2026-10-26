@@ -712,10 +712,18 @@ class FastNavigatorTest {
         .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
     )
 
-    // The app drops C outright and brings D instead: a fresh tree of the same window, in
-    // which the item the swipe aimed at does not exist at all.
-    val (turned, _) = listTreeWithInfos(listOf("A", "B", "D"))
+    // The app drops C outright and brings D instead. A and B are still on screen and
+    // still the same views, so the window's new tree holds the very same nodes for them,
+    // as a re-read of the window would hand back; only C is gone and D is new.
+    val turned = AccessibilityNodeInfo.obtain()
+    turned.className = "android.widget.FrameLayout"
+    turned.packageName = "com.example.chat"
+    turned.isVisibleToUser = true
     turned.isScrollable = true
+    turned.setBoundsInScreen(Rect(0, 0, 600, 300))
+    shadowOf(turned).addChild(childInfos[0])
+    shadowOf(turned).addChild(childInfos[1])
+    item(turned, "D", 200)
     saveOrder(turned)
     navigator.onWindowContentChanged(turned.windowId)
     shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
