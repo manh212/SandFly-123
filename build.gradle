@@ -44,10 +44,13 @@ android {
     }
     defaultConfig {
         applicationId = talkbackApplicationId
-        // The version code is 100000000 plus the build number. Gboard does its own touch typing,
-        // which types a key when the finger slides off the keyboard, unless the screen reader's
-        // package has the support_lift_to_type meta-data and a version code of at least 60105832.
-        versionCode = 100000000 + gitCommitCount
+        // The version code is 100000200 plus the build number. The extra 200 was added once so
+        // that builds from this count stay above the trial builds of a retired experiment
+        // branch, which Android would otherwise refuse as downgrades. Gboard does its own
+        // touch typing, which types a key when the finger slides off the keyboard, unless the
+        // screen reader's package has the support_lift_to_type meta-data and a version code of
+        // at least 60105832.
+        versionCode = 100000200 + gitCommitCount
         versionName = sandflyVersionName
         minSdk = 26
         targetSdk = 36
