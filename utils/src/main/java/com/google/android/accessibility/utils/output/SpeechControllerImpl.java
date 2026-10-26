@@ -134,8 +134,13 @@ public class SpeechControllerImpl implements SpeechController {
    */
   public static volatile boolean speechWaitCapEnabled = true;
 
-  /** How long navigation speech may wait behind another utterance before the cap frees it. */
-  static final long SPEECH_WAIT_CAP_MS = 150;
+  /**
+   * How long navigation speech may wait behind another utterance before the cap frees it.
+   * Lowered from 150 to 100 ms: a wait at the old cap alone was five times the whole
+   * swipe-to-heard budget, and the flush and held counters in the diagnostics say how often
+   * the cap is hit at either value. Speech exempt from the cap is untouched by the change.
+   */
+  static final long SPEECH_WAIT_CAP_MS = 100;
 
   public interface SpeechFilter {
     @Nullable CharSequence filter(CharSequence text);

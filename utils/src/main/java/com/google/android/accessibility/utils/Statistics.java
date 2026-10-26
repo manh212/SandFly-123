@@ -30,6 +30,9 @@ public final class Statistics {
   private long count;
   private long sum;
   private long sumSquares;
+  private long max;
+  private long countOver50;
+  private long countOver100;
   private final Queue<Long> rawData;
 
   /** Bin start value = 2^(index-1) , except index=0 holds bin start value=0. */
@@ -45,6 +48,9 @@ public final class Statistics {
     count = 0;
     sum = 0;
     sumSquares = 0;
+    max = 0;
+    countOver50 = 0;
+    countOver100 = 0;
     histogram.clear();
     rawData.clear();
   }
@@ -58,6 +64,15 @@ public final class Statistics {
     ++count;
     sum += value;
     sumSquares += value * value;
+    if (value > max) {
+      max = value;
+    }
+    if (value > 50) {
+      ++countOver50;
+    }
+    if (value > 100) {
+      ++countOver100;
+    }
 
     // Ensure histogram is big enough to hold this value.
     int binIndex = valueToHistogramBin(value);
@@ -79,6 +94,21 @@ public final class Statistics {
 
   public long getCount() {
     return count;
+  }
+
+  /** The largest value ever given to {@link #increment}, or zero when none has been. */
+  public long getMax() {
+    return max;
+  }
+
+  /** How many values over 50 were given to {@link #increment}. */
+  public long getCountOver50() {
+    return countOver50;
+  }
+
+  /** How many values over 100 were given to {@link #increment}. */
+  public long getCountOver100() {
+    return countOver100;
   }
 
   public long getMean() {

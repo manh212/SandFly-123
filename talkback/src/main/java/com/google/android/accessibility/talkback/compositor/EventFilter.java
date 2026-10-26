@@ -149,7 +149,9 @@ public class EventFilter {
       int depth,
       boolean settleSource,
       AccessibilityNodeInfoCompat node,
-      boolean pipelined) {
+      boolean pipelined,
+      boolean chained,
+      int logicalDirection) {
     return new LoadSpeechResultNotifier() {
       @Override
       public void onFinished(@Nullable SpeechInfo speechInfo, Boolean success) {
@@ -168,7 +170,7 @@ public class EventFilter {
         }
         Performance performance = Performance.getInstance();
         performance.onPreparedSpeechSynthesized(depth, settleSource);
-        performance.registerPreparedSound(key, depth, pipelined);
+        performance.registerPreparedSound(key, depth, pipelined, chained);
         if (!PreparedFocusSpeech.has(node)) {
           // The announcement this sound was made for has already been used or thrown away:
           // the sound arrived too late to be the thing that makes a swipe speak at once.
@@ -183,6 +185,12 @@ public class EventFilter {
                   preparedSpeechSynthesizer.remove(toRemove);
                 }
               });
+        }
+        if (pipelined && speechPipelineChainEnabled && logicalDirection != 0) {
+          // A pipelined sound landed: the chain keeps going one step further in the swipe's
+          // direction, so a run of swipes keeps finding its sound already made. Posted to
+          // the main thread, where the prediction machinery this uses lives.
+          handler.post(() -> maybeChainNextSound(node, logicalDirection));
         }
       }
     };
@@ -254,6 +262,18 @@ public class EventFilter {
    * it plays from a sound made ahead, instead of waiting for the next preparation round.
    */
   private static volatile boolean speechPipelineEnabled = true;
+
+  /**
+   * Whether a pipelined sound, when its own making lands, starts the sound one step further in
+   * the same direction in turn — a chain that keeps the engine one item ahead of the focus for
+   * as long as the swiping continues, instead of the pipeline's single step per play. The
+   * chain only continues while focus is still landing (see {@link #CHAIN_FRESH_MS}), so a
+   * sound nobody is about to hear is never made for a user who has stopped.
+   */
+  private static volatile boolean speechPipelineChainEnabled = true;
+
+  /** How long after focus last landed the chain still counts the swiping as going on. */
+  private static final long CHAIN_FRESH_MS = 1500;
 
   /**
    * Whether the focus a navigation action is about to set is spoken on that prediction, before
@@ -821,6 +841,11 @@ public class EventFilter {
     speechPipelineEnabled = enabled;
   }
 
+  /** Sets whether pipelined sounds chain one step further as they land; see the field. */
+  public static void setSpeechPipelineChainEnabled(boolean enabled) {
+    speechPipelineChainEnabled = enabled;
+  }
+
   /** Sets whether focus is spoken on prediction ahead of its action; see the field. */
   public static void setSpeculativeSpeechEnabled(boolean enabled) {
     speculativeSpeechEnabled = enabled;
@@ -1293,7 +1318,13 @@ public class EventFilter {
       return;
     }
     synthesizePreparedSound(
-        feedback, depth, prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE, node, false);
+        feedback,
+        depth,
+        prepareRoundSource == PreparedFocusSpeech.SOURCE_SETTLE,
+        node,
+        /* pipelined= */ false,
+        /* chained= */ false,
+        /* logicalDirection= */ 0);
   }
 
   /**
@@ -1306,7 +1337,9 @@ public class EventFilter {
       int depth,
       boolean settleSource,
       AccessibilityNodeInfoCompat node,
-      boolean pipelined) {
+      boolean pipelined,
+      boolean chained,
+      int logicalDirection) {
     if (preparedSpeechSynthesizer == null) {
       return;
     }
@@ -1323,11 +1356,15 @@ public class EventFilter {
       }
       synthesesInFlight.add(key);
     }
-    if (pipelined) {
+    if (chained) {
+      Performance.getInstance().onSpeechPipelineChainedStarted();
+    } else if (pipelined) {
       Performance.getInstance().onSpeechPipelineStarted();
     }
     preparedSpeechSynthesizer.synthesize(
-        text, (float) feedback.ttsPitch(), synthesisNotifierFor(key, depth, settleSource, node, pipelined));
+        text,
+        (float) feedback.ttsPitch(),
+        synthesisNotifierFor(key, depth, settleSource, node, pipelined, chained, logicalDirection));
   }
 
   /**
@@ -1379,7 +1416,58 @@ public class EventFilter {
     if (neighbor == null) {
       return;
     }
-    synthesizePreparedSound(neighbor.getFeedback(), 1, false, next, true);
+    synthesizePreparedSound(
+        neighbor.getFeedback(),
+        1,
+        false,
+        next,
+        /* pipelined= */ true,
+        /* chained= */ false,
+        logicalDirection);
+  }
+
+  /**
+   * Starts the sound one step further than a pipelined sound that just landed, in the same
+   * direction, while the swiping is still going on: the pipelined sound was made for the item
+   * after the one playing, and this one is for the item after that, so the engine stays ahead
+   * of the focus through a run of swipes instead of for a single step. The freshness gate is
+   * the chain's brake, besides the kept-sounds cap and the same-text checks every synthesis
+   * passes: once focus has stopped landing, no further sound is started.
+   */
+  private void maybeChainNextSound(
+      AccessibilityNodeInfoCompat fromNode, int logicalDirection) {
+    if (!speechPipelineChainEnabled
+        || preparedSpeechSynthesizer == null
+        || targetPredictor == null) {
+      return;
+    }
+    if (lastFocusMoveMs <= 0
+        || SystemClock.uptimeMillis() - lastFocusMoveMs > CHAIN_FRESH_MS) {
+      return;
+    }
+    @Nullable AccessibilityNodeInfoCompat next;
+    try {
+      next = targetPredictor.predictTarget(fromNode, logicalDirection);
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "Cannot predict chained swipe target: %s", e);
+      return;
+    }
+    if (next == null) {
+      return;
+    }
+    PreparedFocusSpeech.@Nullable Prepared neighbor =
+        PreparedFocusSpeech.peek(next, NavigationTarget.TARGET_DEFAULT);
+    if (neighbor == null) {
+      return;
+    }
+    synthesizePreparedSound(
+        neighbor.getFeedback(),
+        1,
+        false,
+        next,
+        /* pipelined= */ true,
+        /* chained= */ true,
+        logicalDirection);
   }
 
   /** Whether {@code text} carries a TtsSpan, whose sound the speech cache cannot make. */

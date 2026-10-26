@@ -319,8 +319,17 @@ public class Performance {
    */
   private long listenerBuildsCoalesced;
 
+  /** Background build asks held back until a burst of swipes passed. */
+  private long backgroundBuildsDeferredDuringBurst;
+
   /** Swipes the fast navigator handled itself, including the ones it answered at an edge. */
   private long fastNavigationsHandled;
+
+  /** Scroll landings settled by a try a content change triggered. */
+  private long scrollLandingsByEvent;
+
+  /** Scroll landings settled by a try the timed backstop ran. */
+  private long scrollLandingsByBackstop;
 
   /** Swipes the fast navigator answered at the end of the list, with its edge feedback. */
   private long fastNavigationEdges;
@@ -484,6 +493,18 @@ public class Performance {
 
   /** Texts of sounds the pipeline started, so a play can be credited to the pipeline. */
   private final HashSet<String> preparedSoundsPipelined = new HashSet<>();
+
+  /**
+   * Sounds whose making the pipeline chain started: a pipelined sound landed while the
+   * swiping was still going, so the sound one step further was set going in turn.
+   */
+  private long speechPipelineChainedStarted;
+
+  /** Of those chain-started sounds, the ones that were later played. */
+  private long speechPipelineChainedPlayed;
+
+  /** Texts of sounds the chain started, so a play can be credited to the chain. */
+  private final HashSet<String> preparedSoundsChained = new HashSet<>();
 
   /** Announcements submitted speculatively, before the focus action they belong to was fired. */
   private long speculativeSpeechSubmitted;
@@ -1644,6 +1665,9 @@ public class Performance {
       if (preparedSoundsPipelined.contains(text.toString())) {
         speechPipelinePlayed++;
       }
+      if (preparedSoundsChained.contains(text.toString())) {
+        speechPipelineChainedPlayed++;
+      }
     }
   }
 
@@ -1657,6 +1681,16 @@ public class Performance {
    * speech pipeline started is remembered as such, so its play is credited to the pipeline.
    */
   public void registerPreparedSound(@NonNull String text, int depth, boolean pipelined) {
+    registerPreparedSound(text, depth, pipelined, /* chained= */ false);
+  }
+
+  /**
+   * Remembers that the sound of {@code text} was made ahead, and for how far ahead. A sound
+   * the pipeline chain started — one step further than the pipeline's own — is credited to the
+   * chain when it plays, not to the pipeline.
+   */
+  public void registerPreparedSound(
+      @NonNull String text, int depth, boolean pipelined, boolean chained) {
     if (!computeStatsEnabled) {
       return;
     }
@@ -1665,9 +1699,12 @@ public class Performance {
         preparedSoundDepths.clear();
         preparedSoundsPlayed.clear();
         preparedSoundsPipelined.clear();
+        preparedSoundsChained.clear();
       }
       preparedSoundDepths.put(text, depth);
-      if (pipelined) {
+      if (chained) {
+        preparedSoundsChained.add(text);
+      } else if (pipelined) {
         preparedSoundsPipelined.add(text);
       }
     }
@@ -1680,6 +1717,28 @@ public class Performance {
     }
     synchronized (lockLabelToStats) {
       speechPipelineStarted++;
+    }
+  }
+
+  /** Counts one sound whose making the pipeline chain started, one step further along. */
+  public void onSpeechPipelineChainedStarted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechPipelineChainedStarted++;
+    }
+  }
+
+  public long getSpeechPipelineChainedStartedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineChainedStarted;
+    }
+  }
+
+  public long getSpeechPipelineChainedPlayedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineChainedPlayed;
     }
   }
 
@@ -1798,6 +1857,7 @@ public class Performance {
     }
     synchronized (lockLabelToStats) {
       preparedSoundsPipelined.remove(text);
+      preparedSoundsChained.remove(text);
       if (preparedSoundDepths.remove(text) != null && !preparedSoundsPlayed.remove(text)) {
         presynthEvictedBeforePlay++;
       }
@@ -1974,6 +2034,16 @@ public class Performance {
             "Speech cache: %d plays, %d prepared announcements made into sound ahead",
             speechCachePlays, preparedSpeechSyntheses);
       }
+      long announcementsSpokenEarly =
+          preparedSpeechHits + speakEarlyFromSavedOrder + speakEarlyReRead;
+      if (announcementsSpokenEarly > 0) {
+        logger.log(
+            "Speech cache hit ratio on the swipe path: %d%% (%d plays of %d announcements"
+                + " spoken early)",
+            Math.min(100, speechCachePlays * 100 / announcementsSpokenEarly),
+            speechCachePlays,
+            announcementsSpokenEarly);
+      }
       if (preparedSpeechSynthesesDepth2 > 0 || preparedSpeechSynthesesSettle > 0) {
         logger.log(
             "Speech made ahead by reach: %d for targets two swipes away, %d from settle rounds",
@@ -1995,11 +2065,14 @@ public class Performance {
             "Speech cache misses: %d made under another voice setting, %d never made",
             speechCacheMissKeyMismatch, speechCacheMissNeverMade);
       }
-      if (speechPipelineStarted > 0) {
+      if (speechPipelineStarted > 0 || speechPipelineChainedStarted > 0) {
         logger.log(
             "Speech pipeline: %d sounds started as the item before them played, %d of them"
-                + " played",
-            speechPipelineStarted, speechPipelinePlayed);
+                + " played; %d chained one step further as those landed, %d of them played",
+            speechPipelineStarted,
+            speechPipelinePlayed,
+            speechPipelineChainedStarted,
+            speechPipelineChainedPlayed);
       }
       if (betweenCacheHitStats.getCount() + betweenCacheMissStats.getCount() > 0) {
         logger.log(
@@ -2235,6 +2308,22 @@ public class Performance {
     }
   }
 
+  /** Counts one background build ask held back until a burst of swipes passed. */
+  public void onBackgroundBuildDeferredDuringBurst() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      backgroundBuildsDeferredDuringBurst++;
+    }
+  }
+
+  public long getBackgroundBuildsDeferredDuringBurstCount() {
+    synchronized (lockLabelToStats) {
+      return backgroundBuildsDeferredDuringBurst;
+    }
+  }
+
   /** Counts one swipe the fast navigator handled itself, off the saved reading order. */
   public void onFastNavigationHandled() {
     if (!computeStatsEnabled) {
@@ -2294,6 +2383,32 @@ public class Performance {
   public long getFastNavigationStuckCount(int reason) {
     synchronized (lockLabelToStats) {
       return fastNavigationStuck[reason];
+    }
+  }
+
+  /** Counts one scroll landing settled, by the kind of try that settled it. */
+  public void onScrollLandingSettled(boolean byEvent) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (byEvent) {
+        scrollLandingsByEvent++;
+      } else {
+        scrollLandingsByBackstop++;
+      }
+    }
+  }
+
+  public long getScrollLandingsByEventCount() {
+    synchronized (lockLabelToStats) {
+      return scrollLandingsByEvent;
+    }
+  }
+
+  public long getScrollLandingsByBackstopCount() {
+    synchronized (lockLabelToStats) {
+      return scrollLandingsByBackstop;
     }
   }
 
@@ -2466,6 +2581,11 @@ public class Performance {
             "Listener build asks folded into a build already on its way: %d",
             listenerBuildsCoalesced);
       }
+      if (backgroundBuildsDeferredDuringBurst > 0) {
+        logger.log(
+            "Background build asks held until a swipe burst passed: %d",
+            backgroundBuildsDeferredDuringBurst);
+      }
       if (fastNavigationsHandled > 0 || cachedFocusShortcutUsed + cachedFocusShortcutRejected > 0) {
         logger.log(
             "Fast navigator: %d swipes handled (%d answered at an edge), %d pivots from the"
@@ -2512,6 +2632,12 @@ public class Performance {
         }
         logger.log("Fast navigator could not move: %s", byReason);
       }
+      if (scrollLandingsByEvent + scrollLandingsByBackstop > 0) {
+        logger.log(
+            "Scroll landings: %d settled by the first content change, %d by the timed"
+                + " backstop",
+            scrollLandingsByEvent, scrollLandingsByBackstop);
+      }
       if (leanOrderBuilds + leanOrderBuildFallbacks > 0) {
         logger.log(
             "Lean order builder: %d orders built, %d fell back to the standard builder",
@@ -2549,7 +2675,10 @@ public class Performance {
       orderBuildDurationStats.clear();
       orderBuildRequestsDeduped = 0;
       listenerBuildsCoalesced = 0;
+      backgroundBuildsDeferredDuringBurst = 0;
       fastNavigationsHandled = 0;
+      scrollLandingsByEvent = 0;
+      scrollLandingsByBackstop = 0;
       fastNavigationEdges = 0;
       Arrays.fill(fastNavigationHardCases, 0);
       Arrays.fill(fastNavigationStuck, 0);
@@ -2557,6 +2686,9 @@ public class Performance {
       cachedFocusShortcutRejected = 0;
       speechPipelineStarted = 0;
       speechPipelinePlayed = 0;
+      speechPipelineChainedStarted = 0;
+      speechPipelineChainedPlayed = 0;
+      preparedSoundsChained.clear();
       speculativeSpeechSubmitted = 0;
       speculativeSpeechConfirmed = 0;
       speculativeSpeechCorrected = 0;
@@ -2676,6 +2808,18 @@ public class Performance {
       Statistics stats = labelToStats.get(labelAndStage);
       display(logger, "  %s", labelAndStage);
       displayStatistics(logger, stats);
+      if (labelAndStage.getStage() == STAGE_FEEDBACK_HEARD
+          && (labelAndStage.getLabel().equals("GESTURE_SWIPE_RIGHT")
+              || labelAndStage.getLabel().equals("GESTURE_SWIPE_LEFT"))) {
+        // The tail of the swipe, as read numbers rather than a percentile's suggestion: the
+        // single worst swipe of the session, and how many swipes ran long.
+        display(
+            logger,
+            "    Swipe-to-heard extremes: max=%sms, over 50ms=%s, over 100ms=%s",
+            stats.getMax(),
+            stats.getCountOver50(),
+            stats.getCountOver100());
+      }
     }
 
     HashMap<String, Long> waitCounts;
