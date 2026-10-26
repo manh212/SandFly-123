@@ -201,6 +201,7 @@ object TraversalTreeCache {
 
   /** Notes that a directional navigation just ran, for the burst checks that read it. */
   @JvmStatic
+  @JvmOverloads
   fun noteNavigationActivity(nowMs: Long = SystemClock.uptimeMillis()) {
     previousNavigationMs = lastNavigationMs
     lastNavigationMs = nowMs
@@ -229,6 +230,7 @@ object TraversalTreeCache {
 
   /** Whether navigation is arriving in a burst right now; see [isNavigationBurst]. */
   @JvmStatic
+  @JvmOverloads
   fun inNavigationBurst(nowMs: Long = SystemClock.uptimeMillis()): Boolean =
     isNavigationBurst(previousNavigationMs, lastNavigationMs, nowMs)
 
