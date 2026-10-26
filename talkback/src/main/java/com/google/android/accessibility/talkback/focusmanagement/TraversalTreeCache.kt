@@ -24,6 +24,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.libraries.accessibility.utils.log.LogUtils
+import java.util.function.IntConsumer
 
 /**
  * Keeps the reading order of the window that the user last swiped in, so that swiping through a
@@ -88,6 +89,15 @@ object TraversalTreeCache {
 
   private var root: AccessibilityNodeInfoCompat? = null
   private var strategy: OrderedTraversalStrategy? = null
+
+  /**
+   * Who is told the window id when an operation throws the saved order away, so that window's
+   * nodes can be read in the background before the next swipe, as they are when an event throws
+   * the order away. An event's own clear is reported by [onAccessibilityEvent] instead, and the
+   * order expiring inside [get] is not reported either: an order is built at once there anyway.
+   */
+  @Volatile private var orderClearedListener: IntConsumer? = null
+
   private var lastClearReason = "start"
   private var firstIgnoredChangeTime = 0L
   private var hits = 0
@@ -108,7 +118,7 @@ object TraversalTreeCache {
       firstIgnoredChangeTime != 0L &&
         SystemClock.uptimeMillis() - firstIgnoredChangeTime > MAX_AGE_AFTER_TEXT_CHANGE_MS
     ) {
-      clear("text changes")
+      clear("text changes", notifyListener = false)
     }
     val saved = strategy
     val result = saved?.takeIf { root == this.root && it.containsNode(pivot) }
@@ -212,16 +222,34 @@ object TraversalTreeCache {
     firstIgnoredChangeTime = 0L
   }
 
+  /**
+   * Sets who is told when an operation throws the saved order away — a node action performed by
+   * TalkBack, a resume, a focus retry — with the id of the window the order belonged to. Pass
+   * null to stop being told.
+   */
+  @JvmStatic
+  fun setOrderClearedListener(listener: IntConsumer?) {
+    orderClearedListener = listener
+  }
+
   /** Throws away the saved order. */
   @JvmStatic
   fun clear(reason: String) {
+    clear(reason, notifyListener = true)
+  }
+
+  private fun clear(reason: String, notifyListener: Boolean) {
     if (strategy == null) {
       return
     }
+    val windowId = root?.windowId ?: NO_WINDOW_ID
     root = null
     strategy = null
     firstIgnoredChangeTime = 0L
     lastClearReason = reason
+    if (notifyListener) {
+      orderClearedListener?.accept(windowId)
+    }
   }
 
   /**
@@ -271,7 +299,8 @@ object TraversalTreeCache {
           AccessibilityEvent.eventTypeToString(type) + " 0x" + Integer.toHexString(changes)
         } else {
           ""
-        }
+        },
+        notifyListener = false,
       )
       return true
     }

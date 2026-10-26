@@ -21,7 +21,9 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
+import java.time.Duration
 import org.junit.After
+import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -30,6 +32,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowSystemClock
 
 /**
  * [TraversalTreeCache.onAccessibilityEvent] reports whether it threw the saved order away, which
@@ -44,7 +47,15 @@ class TraversalTreeCacheTest {
 
   @After
   fun tearDown() {
+    TraversalTreeCache.setOrderClearedListener(null)
     TraversalTreeCache.clear("test")
+  }
+
+  /** Registers a listener that records the windows it is told about, and returns the record. */
+  private fun recordingListener(): MutableList<Int> {
+    val reported = mutableListOf<Int>()
+    TraversalTreeCache.setOrderClearedListener { reported.add(it) }
+    return reported
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {
@@ -134,5 +145,78 @@ class TraversalTreeCacheTest {
       TraversalTreeCache.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED))
 
     assertFalse(cleared)
+  }
+
+  @Test
+  fun nodeActionClear_reportsTheWindowToTheListener() {
+    val (root, child) = savedOrder()
+    val reported = recordingListener()
+
+    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD.id)
+
+    assertFalse(TraversalTreeCache.holds(child))
+    assertEquals(listOf(root.windowId), reported)
+  }
+
+  @Test
+  fun focusOnlyNodeAction_keepsTheOrder_andReportsNothing() {
+    val (_, child) = savedOrder()
+    val reported = recordingListener()
+
+    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS.id)
+
+    assertTrue(TraversalTreeCache.holds(child))
+    assertTrue(reported.isEmpty())
+  }
+
+  @Test
+  fun operationClear_reportsTheWindowToTheListener() {
+    val (root, _) = savedOrder()
+    val reported = recordingListener()
+
+    // The clear a resume and a focus retry perform: a direct call, not an event.
+    TraversalTreeCache.clear("resume")
+
+    assertEquals(listOf(root.windowId), reported)
+  }
+
+  @Test
+  fun operationClear_withNoSavedOrder_reportsNothing() {
+    val reported = recordingListener()
+
+    TraversalTreeCache.clear("resume")
+
+    assertTrue(reported.isEmpty())
+  }
+
+  @Test
+  fun eventClear_doesNotReportToTheListener() {
+    savedOrder()
+    val reported = recordingListener()
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED))
+
+    assertTrue(cleared)
+    // The service warms the window from the event itself; the listener is only for the
+    // clears no event reports.
+    assertTrue(reported.isEmpty())
+  }
+
+  @Test
+  fun orderExpiredAfterTextChange_doesNotReportToTheListener() {
+    val (root, child) = savedOrder()
+    val reported = recordingListener()
+    TraversalTreeCache.onAccessibilityEvent(
+      event(
+        AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+        contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT,
+      )
+    )
+
+    ShadowSystemClock.advanceBy(Duration.ofMillis(2_000))
+    assertNull(TraversalTreeCache.get(root, child))
+
+    assertTrue(reported.isEmpty())
   }
 }

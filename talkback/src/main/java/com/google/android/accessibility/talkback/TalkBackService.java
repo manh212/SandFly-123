@@ -830,6 +830,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     this.setTheme(R.style.TalkbackBaseTheme);
 
     instance = this;
+    // An operation that throws the saved reading order away — a click or scroll TalkBack
+    // performs, a resume, a focus retry — warms the window's nodes in the background too, as
+    // an event that throws it away already does; otherwise the event that would have reported
+    // the change cannot, because the order is already gone.
+    TraversalTreeCache.setOrderClearedListener(
+        windowId -> prefetchWindowNodesInBackground(windowId));
     setServiceState(ServiceStateListener.SERVICE_STATE_INACTIVE);
 
     systemUeh = Thread.getDefaultUncaughtExceptionHandler();
@@ -1226,8 +1232,18 @@ public class TalkBackService extends AccessibilityServiceCompat
    * root costs binder calls, so the prefetcher does it on its own executor.
    */
   private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
-    int windowId = event.getWindowId();
-    WindowNodePrefetcher.prefetchInBackground(() -> rootOfWindow(windowId), getPackageName());
+    prefetchWindowNodesInBackground(event.getWindowId());
+  }
+
+  /**
+   * Reads the nodes of the window with {@code windowId} in the background, so that a reading
+   * order built soon after finds them already read. The one trigger every throw of the saved
+   * order goes through: an event's throw is reported from {@link #onAccessibilityEvent}, an
+   * operation's throw from {@link TraversalTreeCache}'s cleared listener.
+   */
+  private void prefetchWindowNodesInBackground(int windowId) {
+    WindowNodePrefetcher.prefetchInBackground(
+        windowId, () -> rootOfWindow(windowId), getPackageName());
   }
 
   /**
@@ -3285,6 +3301,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // The saved reading order holds nodes, which would outlive the service and could be reused,
     // stale, when Backtalk is turned on again.
+    TraversalTreeCache.setOrderClearedListener(null);
     TraversalTreeCache.clear("shutdown");
 
     if (fullScreenReadActor != null) {
