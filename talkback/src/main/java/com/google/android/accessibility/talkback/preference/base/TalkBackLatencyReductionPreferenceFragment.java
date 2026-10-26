@@ -151,7 +151,26 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_typing_long_press_duration_key),
             context.getString(R.string.pref_cache_keyboard_keys),
             context.getString(R.string.pref_speak_items_before_scroll_key),
+            context.getString(R.string.pref_background_order_build_key),
+            context.getString(R.string.pref_touch_order_build_key),
+            context.getString(R.string.pref_focus_order_build_key),
+            context.getString(R.string.pref_settle_order_build_key),
+            context.getString(R.string.pref_lean_order_builder_key),
+            context.getString(R.string.pref_trust_untouched_nodes_key),
+            context.getString(R.string.pref_keep_prepared_across_unrelated_key),
+            context.getString(R.string.pref_serve_stale_order_key),
+            context.getString(R.string.pref_prepare_ahead_key),
+            context.getString(R.string.pref_presynthesize_prepared_key),
+            context.getString(R.string.pref_prepare_on_settle_key),
+            context.getString(R.string.pref_prepare_wider_key),
+            context.getString(R.string.pref_keep_unused_prepared_key),
+            context.getString(R.string.pref_yielding_prepare_key),
+            context.getString(R.string.pref_coalesce_listener_builds_key),
+            context.getString(R.string.pref_speech_pipeline_key),
+            context.getString(R.string.pref_speculative_speech_key),
             context.getString(R.string.pref_fast_navigator_key),
+            context.getString(R.string.pref_speech_pipeline_chain_key),
+            context.getString(R.string.pref_defer_builds_during_burst_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,
             FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY);
         dialogInterface.dismiss();
@@ -224,6 +243,128 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
         alwaysInterruptSpeechPreference.setChecked(false);
       }
 
+      TwoStatePreference backgroundOrderBuildPreference =
+          findPreference(getString(R.string.pref_background_order_build_key));
+      if (backgroundOrderBuildPreference != null) {
+        backgroundOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_background_order_build_default));
+      }
+
+      TwoStatePreference touchOrderBuildPreference =
+          findPreference(getString(R.string.pref_touch_order_build_key));
+      if (touchOrderBuildPreference != null) {
+        touchOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_touch_order_build_default));
+      }
+
+      TwoStatePreference focusOrderBuildPreference =
+          findPreference(getString(R.string.pref_focus_order_build_key));
+      if (focusOrderBuildPreference != null) {
+        focusOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_focus_order_build_default));
+      }
+
+      TwoStatePreference settleOrderBuildPreference =
+          findPreference(getString(R.string.pref_settle_order_build_key));
+      if (settleOrderBuildPreference != null) {
+        settleOrderBuildPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_settle_order_build_default));
+      }
+
+      TwoStatePreference leanOrderBuilderPreference =
+          findPreference(getString(R.string.pref_lean_order_builder_key));
+      if (leanOrderBuilderPreference != null) {
+        leanOrderBuilderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_lean_order_builder_default));
+      }
+
+      TwoStatePreference trustUntouchedNodesPreference =
+          findPreference(getString(R.string.pref_trust_untouched_nodes_key));
+      if (trustUntouchedNodesPreference != null) {
+        trustUntouchedNodesPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_trust_untouched_nodes_default));
+      }
+
+      TwoStatePreference keepPreparedAcrossUnrelatedPreference =
+          findPreference(getString(R.string.pref_keep_prepared_across_unrelated_key));
+      if (keepPreparedAcrossUnrelatedPreference != null) {
+        keepPreparedAcrossUnrelatedPreference.setChecked(
+            context
+                .getResources()
+                .getBoolean(R.bool.pref_keep_prepared_across_unrelated_default));
+      }
+
+      TwoStatePreference serveStaleOrderPreference =
+          findPreference(getString(R.string.pref_serve_stale_order_key));
+      if (serveStaleOrderPreference != null) {
+        serveStaleOrderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_serve_stale_order_default));
+      }
+
+
+      TwoStatePreference prepareAheadPreference =
+          findPreference(getString(R.string.pref_prepare_ahead_key));
+      if (prepareAheadPreference != null) {
+        prepareAheadPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_prepare_ahead_default));
+      }
+
+      TwoStatePreference presynthesizePreparedPreference =
+          findPreference(getString(R.string.pref_presynthesize_prepared_key));
+      if (presynthesizePreparedPreference != null) {
+        presynthesizePreparedPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_presynthesize_prepared_default));
+      }
+
+      TwoStatePreference prepareOnSettlePreference =
+          findPreference(getString(R.string.pref_prepare_on_settle_key));
+      if (prepareOnSettlePreference != null) {
+        prepareOnSettlePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_prepare_on_settle_default));
+      }
+
+      TwoStatePreference prepareWiderPreference =
+          findPreference(getString(R.string.pref_prepare_wider_key));
+      if (prepareWiderPreference != null) {
+        prepareWiderPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_prepare_wider_default));
+      }
+
+      TwoStatePreference keepUnusedPreparedPreference =
+          findPreference(getString(R.string.pref_keep_unused_prepared_key));
+      if (keepUnusedPreparedPreference != null) {
+        keepUnusedPreparedPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_keep_unused_prepared_default));
+      }
+
+      TwoStatePreference yieldingPreparePreference =
+          findPreference(getString(R.string.pref_yielding_prepare_key));
+      if (yieldingPreparePreference != null) {
+        yieldingPreparePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_yielding_prepare_default));
+      }
+
+      TwoStatePreference coalesceListenerBuildsPreference =
+          findPreference(getString(R.string.pref_coalesce_listener_builds_key));
+      if (coalesceListenerBuildsPreference != null) {
+        coalesceListenerBuildsPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_coalesce_listener_builds_default));
+      }
+
+      TwoStatePreference speechPipelinePreference =
+          findPreference(getString(R.string.pref_speech_pipeline_key));
+      if (speechPipelinePreference != null) {
+        speechPipelinePreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speech_pipeline_default));
+      }
+
+      TwoStatePreference speculativeSpeechPreference =
+          findPreference(getString(R.string.pref_speculative_speech_key));
+      if (speculativeSpeechPreference != null) {
+        speculativeSpeechPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speculative_speech_default));
+      }
+
       TwoStatePreference fastNavigatorPreference =
           findPreference(getString(R.string.pref_fast_navigator_key));
       if (fastNavigatorPreference != null) {
@@ -231,6 +372,19 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getResources().getBoolean(R.bool.pref_fast_navigator_default));
       }
 
+      TwoStatePreference speechPipelineChainPreference =
+          findPreference(getString(R.string.pref_speech_pipeline_chain_key));
+      if (speechPipelineChainPreference != null) {
+        speechPipelineChainPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speech_pipeline_chain_default));
+      }
+
+      TwoStatePreference deferBuildsDuringBurstPreference =
+          findPreference(getString(R.string.pref_defer_builds_during_burst_key));
+      if (deferBuildsDuringBurstPreference != null) {
+        deferBuildsDuringBurstPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_defer_builds_during_burst_default));
+      }
     }
 
     AccessibilitySuitePreference typingPreference =

@@ -302,6 +302,67 @@ public class Performance {
     "event", "listener", "touch", "settle", "focus"
   };
 
+  /**
+   * Swipe cadence buckets, for the burst-vs-single split: whether a swipe arrived while
+   * the user was flinging through items or at a reading pace is what decides whether the
+   * preparation work helped or hurt, so the stage latencies and the counters below are
+   * kept per bucket as well as in total.
+   */
+  public static final int SWIPE_BUCKET_BURST = 1;
+
+  /** See {@link #SWIPE_BUCKET_BURST}: a swipe at a reading pace, or the first of a run. */
+  public static final int SWIPE_BUCKET_SINGLE = 2;
+
+  /** No bucket: the event was not a swipe, or its cadence is unknown. */
+  private static final int SWIPE_BUCKET_NONE = 0;
+
+  /** A swipe following the previous one by less than this is part of the same burst. */
+  private static final long SWIPE_BURST_WINDOW_MS = 300L;
+
+  /** Label suffix per bucket, for the per-bucket stage statistics; index 0 is unused. */
+  private static final String[] SWIPE_BUCKET_SUFFIXES = {"", " [burst]", " [single]"};
+
+  /**
+   * The bucket of a swipe that landed at {@code lastMs} after the one at {@code
+   * previousMs}: burst when the two are closer than {@link #SWIPE_BURST_WINDOW_MS}. A
+   * missing or out-of-order predecessor counts as single — one quick swipe after a pause
+   * is not a burst.
+   */
+  public static int bucketSinceLastSwipe(long previousMs, long lastMs) {
+    if (previousMs <= 0 || lastMs <= previousMs) {
+      return SWIPE_BUCKET_SINGLE;
+    }
+    return lastMs - previousMs < SWIPE_BURST_WINDOW_MS
+        ? SWIPE_BUCKET_BURST
+        : SWIPE_BUCKET_SINGLE;
+  }
+
+  /** Uptime of the most recent swipe gesture, for bucketing the next one. */
+  private long lastSwipeUptimeMs;
+
+  /** Reading-order builds on the swipe path, per swipe bucket. */
+  private final long[] orderBuildsOnSwipePathByBucket = new long[3];
+
+  /** Swipes answered from the live tree in a burst instead of a synchronous build. */
+  private long burstLiveAnswers;
+
+  /** Live-tree pattern engine answers, per swipe bucket. */
+  private final long[] patternEngineAnswersByBucket = new long[3];
+
+  /** Preparation rounds, per swipe bucket. */
+  private final long[] preparationRoundsByBucket = new long[3];
+
+  /** Prepared-speech hits, per swipe bucket. */
+  private final long[] preparedSpeechHitsByBucket = new long[3];
+
+  /** Prepared-speech misses, per swipe bucket. */
+  private final long[] preparedSpeechMissesByBucket = new long[3];
+
+  /** Preparation round durations, per swipe bucket; index 0 is unused. */
+  private final Statistics[] prepareRoundDurationByBucket = {
+    new Statistics(), new Statistics(), new Statistics()
+  };
+
   /** Background reading-order builds asked for, by what asked for them. */
   private final long[] orderBuildsPostedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
 
@@ -725,6 +786,40 @@ public class Performance {
     return eventId;
   }
 
+  /** Event labels of the two swipe gestures, as produced for gesture events. */
+  private static final String LABEL_GESTURE_SWIPE_LEFT = "GESTURE_SWIPE_LEFT";
+
+  private static final String LABEL_GESTURE_SWIPE_RIGHT = "GESTURE_SWIPE_RIGHT";
+
+  /**
+   * The cadence bucket of this event when it is a swipe gesture: burst when the previous
+   * swipe landed less than {@link #SWIPE_BURST_WINDOW_MS} before this one. This swipe is
+   * remembered for the next one's bucket. Non-swipe events get no bucket.
+   */
+  private int bucketForSwipeEvent(@Nullable String[] labels, @NonNull EventId eventId) {
+    if (labels == null) {
+      return SWIPE_BUCKET_NONE;
+    }
+    boolean swipe = false;
+    for (String label : labels) {
+      if (LABEL_GESTURE_SWIPE_LEFT.equals(label) || LABEL_GESTURE_SWIPE_RIGHT.equals(label)) {
+        swipe = true;
+        break;
+      }
+    }
+    if (!swipe) {
+      return SWIPE_BUCKET_NONE;
+    }
+    long nowMs = eventId.getEventTimeMs();
+    synchronized (lockLabelToStats) {
+      int bucket = bucketSinceLastSwipe(lastSwipeUptimeMs, nowMs);
+      if (nowMs > lastSwipeUptimeMs) {
+        lastSwipeUptimeMs = nowMs;
+      }
+      return bucket;
+    }
+  }
+
   protected void onEventReceived(@NonNull EventId eventId, String[] labels) {
     onEventReceived(eventId, labels, null, false);
   }
@@ -737,6 +832,7 @@ public class Performance {
 
     // Create event data.
     EventData eventData = new EventData(getTime(), getUptime(), labels, eventId);
+    eventData.swipeBucket = bucketForSwipeEvent(labels, eventId);
     if (event != null
         && ((event.getEventType() & eventMaskForLoggingAccessibilityAttributes) != 0)) {
       eventData.recordAccessibilityEventAttributes(event);
@@ -1048,6 +1144,11 @@ public class Performance {
       for (String label : eventData.labels) {
         Statistics stats = getOrCreateStatistics(label, STAGE_FEEDBACK_QUEUED);
         stats.increment(stageLatency);
+        if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+          getOrCreateStatistics(
+                  label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket], STAGE_FEEDBACK_QUEUED)
+              .increment(stageLatency);
+        }
 
         if (stageLatency > FEEDBACK_QUEUED_THRESHOLD_MS) {
           LogUtils.d(
@@ -1095,6 +1196,11 @@ public class Performance {
           for (String label : eventData.labels) {
             Statistics stats = getOrCreateStatistics(label, STAGE_FEEDBACK_HEARD);
             stats.increment(stageLatency);
+            if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+              getOrCreateStatistics(
+                      label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket], STAGE_FEEDBACK_HEARD)
+                  .increment(stageLatency);
+            }
 
             if (stageLatency > FEEDBACK_HEARD_THRESHOLD_MS) {
               LogUtils.d(
@@ -1116,6 +1222,12 @@ public class Performance {
             }
             stats = getOrCreateStatistics(label, STAGE_BETWEEN_FEEDBACK_QUEUED_AND_FEEDBACK_HEARD);
             stats.increment(latency);
+            if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+              getOrCreateStatistics(
+                      label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket],
+                      STAGE_BETWEEN_FEEDBACK_QUEUED_AND_FEEDBACK_HEARD)
+                  .increment(latency);
+            }
           }
         }
         // The same wait, split by whether the sound was already made: this is what tells a
@@ -1463,24 +1575,30 @@ public class Performance {
     }
   }
 
-  /** Counts one focus spoken from a prepared announcement. */
-  public void onPreparedSpeechHit() {
+  /** Counts one focus spoken from a prepared announcement, in the given swipe bucket. */
+  public void onPreparedSpeechHit(int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       preparedSpeechHits++;
+      if (bucket >= 0 && bucket < preparedSpeechHitsByBucket.length) {
+        preparedSpeechHitsByBucket[bucket]++;
+      }
     }
   }
 
-  /** Counts one round of preparing swipe announcements, by what set it off. */
-  public void onPreparationRound(int source) {
+  /** Counts one round of preparing swipe announcements, by what set it off and by bucket. */
+  public void onPreparationRound(int source, int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       if (source >= 0 && source < preparationRoundsBySource.length) {
         preparationRoundsBySource[source]++;
+      }
+      if (bucket >= 0 && bucket < preparationRoundsByBucket.length) {
+        preparationRoundsByBucket[bucket]++;
       }
     }
   }
@@ -1503,13 +1621,16 @@ public class Performance {
     }
   }
 
-  /** Counts one focus that was spoken without a prepared announcement to use. */
-  public void onPreparedSpeechMiss() {
+  /** Counts one focus spoken without a prepared announcement, in the given swipe bucket. */
+  public void onPreparedSpeechMiss(int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       preparedSpeechMisses++;
+      if (bucket >= 0 && bucket < preparedSpeechMissesByBucket.length) {
+        preparedSpeechMissesByBucket[bucket]++;
+      }
     }
   }
 
@@ -1944,7 +2065,7 @@ public class Performance {
   }
 
   /** Records how long one round of preparing swipe announcements took on the main thread. */
-  public void onPrepareRoundDuration(long durationMs) {
+  public void onPrepareRoundDuration(long durationMs, int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
@@ -1955,6 +2076,9 @@ public class Performance {
         swipeSegmentStats.put("prepare round", stats);
       }
       stats.increment(durationMs);
+      if (bucket >= 0 && bucket < prepareRoundDurationByBucket.length) {
+        prepareRoundDurationByBucket[bucket].increment(durationMs);
+      }
     }
   }
 
@@ -2277,24 +2401,71 @@ public class Performance {
     }
   }
 
-  /** Counts one reading order built on the swiping thread because no saved order could be used. */
-  public void onOrderBuildOnSwipePath() {
+  /**
+   * Counts one reading order built on the swiping thread because no saved order could be
+   * used, in the given swipe bucket.
+   */
+  public void onOrderBuildOnSwipePath(int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       orderBuildsOnSwipePath++;
+      if (bucket >= 0 && bucket < orderBuildsOnSwipePathByBucket.length) {
+        orderBuildsOnSwipePathByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Counts one swipe answered from the live tree in a burst instead of a built order. */
+  public void onBurstLiveAnswer(int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      burstLiveAnswers++;
     }
   }
 
   /** Records one directional swipe the live-tree pattern engine answered, and its find time. */
-  public void onPatternEngineAnswer(long findMs) {
+  public void onPatternEngineAnswer(long findMs, int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       patternEngineAnswers++;
       patternEngineFindStats.increment(findMs);
+      if (bucket >= 0 && bucket < patternEngineAnswersByBucket.length) {
+        patternEngineAnswersByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Preparation rounds counted in the given swipe bucket; for tests and the display. */
+  public long getPreparationRoundsByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return preparationRoundsByBucket[bucket];
+    }
+  }
+
+  /** Prepared-speech hits counted in the given swipe bucket; for tests and the display. */
+  public long getPreparedSpeechHitsByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechHitsByBucket[bucket];
+    }
+  }
+
+  /** Order builds on the swipe path counted in the given swipe bucket; for tests. */
+  public long getOrderBuildsOnSwipePathByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return orderBuildsOnSwipePathByBucket[bucket];
+    }
+  }
+
+  /** Swipes answered live in a burst instead of a synchronous build; for tests. */
+  public long getBurstLiveAnswers() {
+    synchronized (lockLabelToStats) {
+      return burstLiveAnswers;
     }
   }
 
@@ -2593,6 +2764,58 @@ public class Performance {
   }
 
   /** Displays how many reading orders were built on the swipe path, and how many in the background. */
+  /**
+   * Displays the burst-vs-single split: whether the latency mechanisms earn their keep
+   * while the user flings through items, or only at a reading pace. The per-stage lines
+   * (queued, between, heard) live in the label statistics under the "[burst]" and
+   * "[single]" label suffixes; this section carries the counters. A burst figure is only
+   * comparable across exports taken with the same protocol — two minutes of flinging,
+   * then two minutes of reading, per switch configuration.
+   */
+  public void displayBurstStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      long roundsBurst = preparationRoundsByBucket[SWIPE_BUCKET_BURST];
+      long roundsSingle = preparationRoundsByBucket[SWIPE_BUCKET_SINGLE];
+      if (roundsBurst + roundsSingle > 0) {
+        logger.log(
+            "Burst vs single: preparation rounds burst %d, single %d; prepared hits burst"
+                + " %d, single %d; prepared misses burst %d, single %d",
+            roundsBurst,
+            roundsSingle,
+            preparedSpeechHitsByBucket[SWIPE_BUCKET_BURST],
+            preparedSpeechHitsByBucket[SWIPE_BUCKET_SINGLE],
+            preparedSpeechMissesByBucket[SWIPE_BUCKET_BURST],
+            preparedSpeechMissesByBucket[SWIPE_BUCKET_SINGLE]);
+      }
+      Statistics burstDuration = prepareRoundDurationByBucket[SWIPE_BUCKET_BURST];
+      Statistics singleDuration = prepareRoundDurationByBucket[SWIPE_BUCKET_SINGLE];
+      if (burstDuration.getCount() + singleDuration.getCount() > 0) {
+        logger.log(
+            "Burst vs single: preparation round time burst median %dms (count %d), single"
+                + " median %dms (count %d)",
+            burstDuration.getPercentile(50),
+            burstDuration.getCount(),
+            singleDuration.getPercentile(50),
+            singleDuration.getCount());
+      }
+      long buildsBurst = orderBuildsOnSwipePathByBucket[SWIPE_BUCKET_BURST];
+      long buildsSingle = orderBuildsOnSwipePathByBucket[SWIPE_BUCKET_SINGLE];
+      if (buildsBurst + buildsSingle + burstLiveAnswers > 0) {
+        logger.log(
+            "Burst vs single: order builds on the swipe path burst %d, single %d; swipes"
+                + " answered live in a burst %d",
+            buildsBurst, buildsSingle, burstLiveAnswers);
+      }
+      long engineBurst = patternEngineAnswersByBucket[SWIPE_BUCKET_BURST];
+      long engineSingle = patternEngineAnswersByBucket[SWIPE_BUCKET_SINGLE];
+      if (engineBurst + engineSingle > 0) {
+        logger.log(
+            "Burst vs single: pattern engine answers burst %d, single %d",
+            engineBurst, engineSingle);
+      }
+    }
+  }
+
   public void displayOrderBuildStats(Logger logger) {
     synchronized (lockLabelToStats) {
       if (orderBuildsOnSwipePath + orderSnapshotsPublished > 0) {
@@ -2754,6 +2977,16 @@ public class Performance {
       speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
+      lastSwipeUptimeMs = 0;
+      Arrays.fill(orderBuildsOnSwipePathByBucket, 0);
+      burstLiveAnswers = 0;
+      Arrays.fill(patternEngineAnswersByBucket, 0);
+      Arrays.fill(preparationRoundsByBucket, 0);
+      Arrays.fill(preparedSpeechHitsByBucket, 0);
+      Arrays.fill(preparedSpeechMissesByBucket, 0);
+      for (Statistics bucketStats : prepareRoundDurationByBucket) {
+        bucketStats.clear();
+      }
       Arrays.fill(preparationRoundsBySource, 0);
       Arrays.fill(preparedHitsBySource, 0);
       preparedHitsFromStaleOrder = 0;
@@ -3363,6 +3596,9 @@ public class Performance {
     // Members set when event is received at TalkBack.
     final String[] labels;
     public final EventId eventId; // This EventData's key in mEventIndex.
+
+    /** Cadence bucket of this event when it is a swipe; see {@link #bucketForSwipeEvent}. */
+    int swipeBucket;
 
     /** The timestamp retrieved from {@link System#currentTimeMillis()} when receiving the event. */
     public final long timeReceivedAtTalkback;

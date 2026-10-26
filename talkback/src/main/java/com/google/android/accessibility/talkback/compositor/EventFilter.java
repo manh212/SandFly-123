@@ -203,6 +203,7 @@ public class EventFilter {
   private final Runnable prepareSwipeTargets = this::prepareSwipeTargets;
   private final Runnable settlePrepare = this::settlePrepareSwipeTargets;
   private final Runnable prepareSecondRing = this::prepareSecondRing;
+  private final Runnable burstRetryPrepare = this::retryPrepareAfterBurst;
 
   /** What set off the preparation round now being scheduled; see PreparedFocusSpeech. */
   private int prepareRoundSource = PreparedFocusSpeech.SOURCE_FOCUS;
@@ -218,6 +219,15 @@ public class EventFilter {
   private int secondRingSource = PreparedFocusSpeech.SOURCE_FOCUS;
 
   /**
+   * Whether swipe targets are prepared ahead at all: the master switch of the preparation
+   * family. Every round — focus, settle, reading-control, second ring — is posted and run
+   * under this flag alone; the family's other switches only change how a round that runs
+   * is done. When false, no round is posted, no slice runs, and nothing of the family is
+   * left running. Set from the latency settings; see {@link #setPrepareAheadEnabled}.
+   */
+  private static volatile boolean prepareAheadEnabled = true;
+
+  /**
    * Whether preparation is also offered after the window goes quiet following a change, for the
    * focused node it is already at. Set from the latency settings; see {@link
    * #setPrepareOnSettle}.
@@ -225,9 +235,10 @@ public class EventFilter {
   private static volatile boolean prepareOnSettle = true;
 
   /**
-   * Whether preparation reaches further: keeping the announcements a swipe did not use, and
-   * preparing the nodes two swipes away as well. Set from the latency settings; see {@link
-   * #setPrepareWider}.
+   * Whether preparation reaches further, preparing the nodes two swipes away as well. Set
+   * from the latency settings; see {@link #setPrepareWider}. Keeping the announcements a
+   * swipe did not use is a separate mechanism with its own switch, on {@link
+   * PreparedFocusSpeech}.
    */
   private static volatile boolean prepareWider = true;
 
@@ -298,6 +309,12 @@ public class EventFilter {
    */
   private static final long BURST_DEFER_MS = PREPARE_DELAY_MS;
 
+  /** The first wait before a round the burst governor put off is tried again. */
+  private static final long BURST_RETRY_FIRST_MS = 300;
+
+  /** The longest wait between burst-governor retries; the wait doubles up to this. */
+  private static final long BURST_RETRY_MAX_MS = 1200;
+
   /** How long a speculation waits for the focus event that confirms or corrects it. */
   private static final long SPECULATION_WINDOW_MS = 1000;
 
@@ -312,6 +329,15 @@ public class EventFilter {
 
   /** When accessibility focus last landed, in {@link SystemClock#uptimeMillis()} time. */
   private long lastFocusMoveMs;
+
+  /** When the focus landing before the last one happened, for cadence bucketing. */
+  private long previousFocusMoveMs;
+
+  /** The cadence bucket of the preparation round now running; see the Performance buckets. */
+  private int activeRoundBucket = Performance.SWIPE_BUCKET_SINGLE;
+
+  /** How many times in a row the burst governor has put the current round off. */
+  private int burstDeferrals;
 
   /** The node a speculation spoke for, and when its focus action started; null when none waits. */
   private @Nullable AccessibilityNodeInfoCompat speculatedNode;
@@ -415,6 +441,16 @@ public class EventFilter {
   /** Sets whether prepared announcements also have their sound made ahead; see the field. */
   public static void setPresynthesizePreparedSpeech(boolean synthesize) {
     presynthesizePreparedSpeech = synthesize;
+  }
+
+  /** Sets whether swipe targets are prepared ahead at all; see the field. */
+  public static void setPrepareAheadEnabled(boolean enabled) {
+    prepareAheadEnabled = enabled;
+  }
+
+  /** Whether swipe targets are prepared ahead at all; see the field. */
+  static boolean isPrepareAheadEnabled() {
+    return prepareAheadEnabled;
   }
 
   /** Sets whether preparation is offered again when the window goes quiet; see the field. */
@@ -787,7 +823,7 @@ public class EventFilter {
       EventFeedback feedback;
       if (preparedFeedback != null) {
         feedback = preparedFeedback;
-        Performance.getInstance().onPreparedSpeechHit();
+        Performance.getInstance().onPreparedSpeechHit(currentSwipeBucket());
         Performance.getInstance()
             .onPreparedSpeechHitSource(
                 prepared.getSource(), prepared.getFromStaleOrder(), prepared.getDepth());
@@ -797,7 +833,7 @@ public class EventFilter {
         EventTypeViewAccessibilityFocusedFeedbackRule.currentContainerTitle =
             preparedContainerTitle;
       } else {
-        Performance.getInstance().onPreparedSpeechMiss();
+        Performance.getInstance().onPreparedSpeechMiss(currentSwipeBucket());
         // No node in this line: formatting it walks the node's properties on the swipe path.
         LogUtils.v(TAG, "Prepared speech miss");
         long composeStart = SystemClock.uptimeMillis();
@@ -926,6 +962,28 @@ public class EventFilter {
   }
 
   /**
+   * Whether the burst governor holds a round or a slice back right now: while
+   * navigation is arriving in a burst, a slice run between two swipes is main-thread
+   * work the next swipe waits behind — which is what made "on" slower than "off" on
+   * the owner's phone. The governor only exists in the yielding mode that runs rounds
+   * in slices; with yielding off, a round runs in one piece exactly as it always did.
+   * The burst input is the navigation cadence itself, so the answer holds whatever set
+   * the round off.
+   */
+  static boolean governorDefersRound(boolean yielding, boolean inBurst) {
+    return yielding && inBurst;
+  }
+
+  /** The wait before retrying a round the burst governor put off, doubling per put-off. */
+  static long burstRetryDelayMs(int deferrals) {
+    long delay = BURST_RETRY_FIRST_MS;
+    for (int i = 1; i < deferrals && delay < BURST_RETRY_MAX_MS; i++) {
+      delay *= 2;
+    }
+    return Math.min(delay, BURST_RETRY_MAX_MS);
+  }
+
+  /**
    * The end (exclusive) of the slice of a plan of {@code size} items starting at {@code from}:
    * one item when yielding, so the loop turns between items; the whole rest when not, so the
    * round runs in one piece exactly as it did before plans.
@@ -1019,6 +1077,7 @@ public class EventFilter {
   /** Prepares the announcements of the nodes next to {@code node}, which focus just moved to. */
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
+    previousFocusMoveMs = lastFocusMoveMs;
     lastFocusMoveMs = SystemClock.uptimeMillis();
     emptyRoundRetried = false;
     // The saved order is told where the focus landed, so a navigation that starts from here
@@ -1029,7 +1088,9 @@ public class EventFilter {
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(settlePrepare);
     handler.removeCallbacks(prepareSecondRing);
-    if (targetPredictor != null) {
+    handler.removeCallbacks(burstRetryPrepare);
+    burstDeferrals = 0;
+    if (targetPredictor != null && prepareAheadEnabled) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }
@@ -1042,11 +1103,35 @@ public class EventFilter {
    * arms the round; the delay is what makes a burst of changes arm one round, not one each.
    */
   private void armSettlePrepare() {
-    if (!prepareOnSettle || targetPredictor == null || lastFocusedNode == null) {
+    scheduleSettlePrepare();
+  }
+
+  /**
+   * Posts the settle round, when both the settle switch and the family's master switch
+   * allow. Every path that wants a settle round — the quiet-window listener, the round
+   * put off to settle time, the empty-round retry, a round the burst governor stopped
+   * mid-plan — goes through here, so neither switch can be bypassed by posting the round
+   * directly.
+   */
+  private void scheduleSettlePrepare() {
+    if (!prepareAheadEnabled
+        || !prepareOnSettle
+        || targetPredictor == null
+        || lastFocusedNode == null) {
       return;
     }
     handler.removeCallbacks(settlePrepare);
     handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+  }
+
+  /** A round the burst governor put off, tried again; the governor judges it afresh. */
+  private void retryPrepareAfterBurst() {
+    prepareSwipeTargets();
+  }
+
+  /** The cadence bucket of a round starting now, from the focus landings' cadence. */
+  private int currentSwipeBucket() {
+    return Performance.bucketSinceLastSwipe(previousFocusMoveMs, lastFocusMoveMs);
   }
 
   /** The preparation round a quiet window asked for; the round carries the settle source. */
@@ -1072,22 +1157,38 @@ public class EventFilter {
       // A swipe may be starting, and must not wait for this.
       return;
     }
+    if (!prepareAheadEnabled) {
+      // The family's master switch is off: no round runs, whatever posted this.
+      return;
+    }
     if (!PreparedFocusSpeech.shouldPrepare(pivot)) {
       // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
     int roundSource = prepareRoundSource;
+    if (governorDefersRound(yieldingPrepare, TraversalTreeCache.inNavigationBurst())) {
+      // Navigation is arriving in a burst, so any slice of this round would run on the
+      // main thread between two swipes, in the next swipe's way. Put the whole round off
+      // and try again when the input settles, waiting longer each time the burst outlasts
+      // the wait. A round only ever runs once the cadence has calmed.
+      Performance.getInstance().onPrepareRoundDeferred();
+      burstDeferrals++;
+      handler.removeCallbacks(burstRetryPrepare);
+      handler.postDelayed(burstRetryPrepare, burstRetryDelayMs(burstDeferrals));
+      return;
+    }
+    burstDeferrals = 0;
+    activeRoundBucket = currentSwipeBucket();
     if (shouldDeferRound(
         yieldingPrepare, roundSource, lastFocusMoveMs, SystemClock.uptimeMillis())) {
       // A swipe has just landed, so this round would run between two swipes of a burst and
       // make the next one wait for it. Put it off to when the window settles instead; a round
       // the settle path runs is never put off a second time.
       Performance.getInstance().onPrepareRoundDeferred();
-      handler.removeCallbacks(settlePrepare);
-      handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+      scheduleSettlePrepare();
       return;
     }
-    Performance.getInstance().onPreparationRound(roundSource);
+    Performance.getInstance().onPreparationRound(roundSource, activeRoundBucket);
     List<PrepareItem> items = new ArrayList<>();
     boolean planComplete = planFirstRingItems(pivot, items);
     if (shouldRetryEmptyRound(planComplete, items.isEmpty(), emptyRoundRetried)) {
@@ -1096,8 +1197,7 @@ public class EventFilter {
       // once more when the window settles, by which time the order should be there.
       emptyRoundRetried = true;
       Performance.getInstance().onPrepareRoundRetried();
-      handler.removeCallbacks(settlePrepare);
-      handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+      scheduleSettlePrepare();
     }
     if (planComplete && prepareWider) {
       // The nodes two swipes away are prepared a little later, off the window of the swipe
@@ -1188,6 +1288,19 @@ public class EventFilter {
       activePreparePlan = null;
       return;
     }
+    if (!prepareAheadEnabled) {
+      // Preparation was switched off mid-round: no further slice runs.
+      activePreparePlan = null;
+      return;
+    }
+    if (governorDefersRound(yieldingPrepare, TraversalTreeCache.inNavigationBurst())) {
+      // A burst caught up with a round already in slices: stop here rather than run a
+      // slice between two swipes. The settle path offers the round again once the
+      // window is quiet, if its switch allows; the announcements already kept stay kept.
+      activePreparePlan = null;
+      scheduleSettlePrepare();
+      return;
+    }
     plan.slices++;
     long sliceStart = SystemClock.uptimeMillis();
     try {
@@ -1206,7 +1319,7 @@ public class EventFilter {
       }
     } finally {
       Performance.getInstance()
-          .onPrepareRoundDuration(SystemClock.uptimeMillis() - sliceStart);
+          .onPrepareRoundDuration(SystemClock.uptimeMillis() - sliceStart, activeRoundBucket);
     }
     if (plan.nextIndex >= plan.items.size()) {
       activePreparePlan = null;
@@ -1229,6 +1342,7 @@ public class EventFilter {
         || pivot != lastFocusedNode
         || targetPredictor == null
         || fingerDown.getAsBoolean()
+        || !prepareAheadEnabled
         || !PreparedFocusSpeech.shouldPrepare(pivot)) {
       return;
     }
@@ -1283,7 +1397,7 @@ public class EventFilter {
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(settlePrepare);
     handler.removeCallbacks(prepareSecondRing);
-    if (lastFocusedNode != null && targetPredictor != null) {
+    if (lastFocusedNode != null && targetPredictor != null && prepareAheadEnabled) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }

@@ -767,9 +767,18 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /**
    * Whether a touch that begins with no reading order saved starts building one, from the
-   * latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}.
+   * latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}. This switch
+   * gates the touch ask alone: it is not combined with the background switch, so turning
+   * background builds off leaves a touch able to start the one build its swipe would need.
    */
   private boolean touchOrderBuildEnabled = true;
+
+  /**
+   * Whether focus landing in a window with no reading order saved starts building one, from
+   * the latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}, and
+   * gates the focus-landing ask alone, like {@link #touchOrderBuildEnabled} gates the touch.
+   */
+  private boolean focusOrderBuildEnabled = true;
 
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
@@ -1288,18 +1297,21 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private void startBackgroundOrderBuildForCleared(int windowId) {
+    if (!backgroundOrderBuildEnabled) {
+      return;
+    }
     startBackgroundOrderBuild(windowId, Performance.ORDER_BUILD_SOURCE_LISTENER);
   }
 
   /**
    * Starts a background build of the reading order of {@code windowId} — or of the active
    * window when it is -1 — for the asker {@code source} (one of the {@code
-   * Performance.ORDER_BUILD_SOURCE_*} values), unless background builds are switched off.
+   * Performance.ORDER_BUILD_SOURCE_*} values). The ask itself is ungated on purpose: every
+   * caller checks the switch of its own trigger first (the background switch for
+   * event-caused and listener asks, the touch switch, the focus switch, the settle retry
+   * inside the cache), so no ask inherits another trigger's switch.
    */
   private void startBackgroundOrderBuild(int windowId, int source) {
-    if (!backgroundOrderBuildEnabled) {
-      return;
-    }
     int targetWindowId = windowId;
     if (targetWindowId == -1) {
       AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
@@ -1325,7 +1337,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    * and only while an order is actually missing.
    */
   private void maybeBuildOrderAtTouchStart() {
-    if (!touchOrderBuildEnabled || !backgroundOrderBuildEnabled) {
+    if (!touchOrderBuildEnabled) {
       return;
     }
     if (TraversalTreeCache.hasSavedOrder()) {
@@ -1344,7 +1356,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    * costs nothing here.
    */
   private void maybeBuildOrderAtFocusLanding(AccessibilityEvent event) {
-    if (!backgroundOrderBuildEnabled) {
+    if (!focusOrderBuildEnabled) {
       return;
     }
     if (TraversalTreeCache.hasSavedOrder()) {
@@ -3635,35 +3647,80 @@ public class TalkBackService extends AccessibilityServiceCompat
    * which gates the live-tree navigator and is still read from its preference.
    */
   private void refreshLatencySwitches() {
-    TraversalTreeCache.setUnrelatedChangesSpareNodes(true);
-    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(true);
-    TraversalTreeCache.setServeStaleOrdersEnabled(true);
+    // Every mechanism reads exactly its own switch: the switch-isolation rule the owner set
+    // after finding that a coupled switch had made "off" faster than "on". The few
+    // mechanisms whose switch was removed for good keep the literal they were pinned at.
+    TraversalTreeCache.setUnrelatedChangesSpareNodes(
+        getBooleanPref(
+            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
+    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
+        getBooleanPref(
+            R.string.pref_keep_prepared_across_unrelated_key,
+            R.bool.pref_keep_prepared_across_unrelated_default));
+    TraversalTreeCache.setServeStaleOrdersEnabled(
+        getBooleanPref(
+            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
     SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
     SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
     SpeechControllerImpl.speechWaitCapEnabled = true;
-    backgroundOrderBuildEnabled = true;
-    touchOrderBuildEnabled = true;
-    TraversalTreeCache.setSettleRetryEnabled(true);
-    TraversalTreeCache.setLeanOrderBuilderEnabled(true);
+    backgroundOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
+    touchOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_touch_order_build_key, R.bool.pref_touch_order_build_default);
+    focusOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_focus_order_build_key, R.bool.pref_focus_order_build_default);
+    TraversalTreeCache.setSettleRetryEnabled(
+        getBooleanPref(
+            R.string.pref_settle_order_build_key, R.bool.pref_settle_order_build_default));
+    TraversalTreeCache.setLeanOrderBuilderEnabled(
+        getBooleanPref(
+            R.string.pref_lean_order_builder_key, R.bool.pref_lean_order_builder_default));
     LowLatencyAudio.setSmallBufferEnabled(true);
     FailoverTextToSpeech.splitAtFirstSeparatorEnabled = true;
-    EventFilter.setPresynthesizePreparedSpeech(true);
-    EventFilter.setPrepareOnSettle(true);
-    EventFilter.setPrepareWider(true);
-    PreparedFocusSpeech.setKeepUnusedOnTake(true);
-    EventFilter.setYieldingPrepare(true);
-    TraversalTreeCache.setListenerBuildCoalescingEnabled(true);
-    EventFilter.setSpeechPipelineEnabled(true);
-    EventFilter.setSpeculativeSpeechEnabled(true);
+    EventFilter.setPrepareAheadEnabled(
+        getBooleanPref(R.string.pref_prepare_ahead_key, R.bool.pref_prepare_ahead_default));
+    EventFilter.setPresynthesizePreparedSpeech(
+        getBooleanPref(
+            R.string.pref_presynthesize_prepared_key,
+            R.bool.pref_presynthesize_prepared_default));
+    EventFilter.setPrepareOnSettle(
+        getBooleanPref(
+            R.string.pref_prepare_on_settle_key, R.bool.pref_prepare_on_settle_default));
+    EventFilter.setPrepareWider(
+        getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default));
+    PreparedFocusSpeech.setKeepUnusedOnTake(
+        getBooleanPref(
+            R.string.pref_keep_unused_prepared_key, R.bool.pref_keep_unused_prepared_default));
+    EventFilter.setYieldingPrepare(
+        getBooleanPref(
+            R.string.pref_yielding_prepare_key, R.bool.pref_yielding_prepare_default));
+    TraversalTreeCache.setListenerBuildCoalescingEnabled(
+        getBooleanPref(
+            R.string.pref_coalesce_listener_builds_key,
+            R.bool.pref_coalesce_listener_builds_default));
+    EventFilter.setSpeechPipelineEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_key, R.bool.pref_speech_pipeline_default));
+    EventFilter.setSpeculativeSpeechEnabled(
+        getBooleanPref(
+            R.string.pref_speculative_speech_key, R.bool.pref_speculative_speech_default));
     ProcessorEventQueue.setFocusPriorityEnabled(true);
     TraversalTreeCache.setFastNavigatorEnabled(
         getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
     TraversalTreeCache.setSkipTargetRefreshEnabled(true);
     TraversalTreeCache.setCheapPivotCheckEnabled(true);
     TraversalTreeCache.setFireFocusBeforeSpeechEnabled(true);
-    EventFilter.setSpeechPipelineChainEnabled(true);
+    EventFilter.setSpeechPipelineChainEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_chain_key, R.bool.pref_speech_pipeline_chain_default));
     TraversalTreeCache.setEventDrivenScrollLandingEnabled(true);
-    TraversalTreeCache.setBurstBuildDeferralEnabled(true);
+    TraversalTreeCache.setBurstBuildDeferralEnabled(
+        getBooleanPref(
+            R.string.pref_defer_builds_during_burst_key,
+            R.bool.pref_defer_builds_during_burst_default));
   }
 
   protected void reloadPreferences() {

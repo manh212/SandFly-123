@@ -88,7 +88,7 @@ public class PerformanceSlowSwipeProfileTest {
   public void speechPath_preparedWinsOverSavedOrder() {
     performance.beginSwipeProfile();
     performance.onSpeakEarlyFromSavedOrder();
-    performance.onPreparedSpeechHit();
+    performance.onPreparedSpeechHit(Performance.SWIPE_BUCKET_SINGLE);
     performance.endSwipeProfile(60);
 
     performance.displaySlowSwipeProfiles(logger);

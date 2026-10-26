@@ -116,6 +116,7 @@ import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.traversal.GridTraversalManager;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategyConfig;
+import com.google.android.accessibility.utils.traversal.SimpleTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
@@ -265,6 +266,12 @@ public class FocusProcessorForLogicalNavigation {
     if (navigationAction == null || navigationAction.actionType == NavigationAction.UNKNOWN) {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
+    }
+    if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION) {
+      // Feed the burst signal the preparation governor and the burst build guard read.
+      // This is the one place every directional navigation passes through, whatever
+      // mechanism ends up answering it, so the cadence recorded is the user's own.
+      TraversalTreeCache.noteNavigationActivity();
     }
     // The fast navigator stays disconnected: it is never asked. In its place at the same
     // gate, while the same switch is on, the live-tree pattern engine tries the swipe
@@ -1422,7 +1429,11 @@ public class FocusProcessorForLogicalNavigation {
     // (below), and a failed check or a failed focus throws the copy away for good.
     boolean servedStaleOrder = false;
     if (traversalStrategy == null
-        && TraversalStrategyUtils.isLogicalDirection(searchDirection)) {
+        && TraversalStrategyUtils.isLogicalDirection(searchDirection)
+        // A stale order is never served in a burst, whatever its switch says: the burst
+        // is exactly when the screen is churning under the swipes, so the stale copy is
+        // at its least trustworthy, and the live answer below costs no build at all.
+        && !TraversalTreeCache.inNavigationBurst()) {
       traversalStrategy = TraversalTreeCache.serveStaleOrder(rootNode, pivot);
       if (traversalStrategy != null) {
         servedStaleOrder = true;
@@ -1431,24 +1442,43 @@ public class FocusProcessorForLogicalNavigation {
       }
     }
     if (traversalStrategy == null) {
-      boolean trace = LogUtils.shouldLog(Log.DEBUG);
-      long buildStart = trace ? SystemClock.uptimeMillis() : 0;
-      if (trace) {
-        Trace.beginSection("BuildTraversalStrategy");
-      }
-      WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
-      traversalStrategy =
-          TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
-      Performance.getInstance().onOrderBuildOnSwipePath();
-      Performance.getInstance().setSwipeProfileOrderPath("built on the spot");
-      if (trace) {
-        Trace.endSection();
-        Log.d(
-            "BacktalkTreeCache",
-            "Built order in " + (SystemClock.uptimeMillis() - buildStart) + " ms");
-      }
-      if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
-        TraversalTreeCache.put(rootNode, orderedStrategy);
+      if (TraversalTreeCache.inNavigationBurst()) {
+        // In a burst of swipes, building the whole order here — prefetch walk and all —
+        // is work the swipe then waits on, and the owner's phone showed it is the stall
+        // that makes "on" slower than "off". Answer from the live tree instead, one step
+        // at a time, and save nothing: the background asks repair the saved order for
+        // later swipes.
+        traversalStrategy = new SimpleTraversalStrategy();
+        Performance.getInstance()
+            .onBurstLiveAnswer(
+                Performance.bucketSinceLastSwipe(
+                    TraversalTreeCache.previousNavigationTimeMs(),
+                    TraversalTreeCache.lastNavigationTimeMs()));
+        Performance.getInstance().setSwipeProfileOrderPath("live in burst");
+      } else {
+        boolean trace = LogUtils.shouldLog(Log.DEBUG);
+        long buildStart = trace ? SystemClock.uptimeMillis() : 0;
+        if (trace) {
+          Trace.beginSection("BuildTraversalStrategy");
+        }
+        WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
+        traversalStrategy =
+            TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
+        Performance.getInstance()
+            .onOrderBuildOnSwipePath(
+                Performance.bucketSinceLastSwipe(
+                    TraversalTreeCache.previousNavigationTimeMs(),
+                    TraversalTreeCache.lastNavigationTimeMs()));
+        Performance.getInstance().setSwipeProfileOrderPath("built on the spot");
+        if (trace) {
+          Trace.endSection();
+          Log.d(
+              "BacktalkTreeCache",
+              "Built order in " + (SystemClock.uptimeMillis() - buildStart) + " ms");
+        }
+        if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
+          TraversalTreeCache.put(rootNode, orderedStrategy);
+        }
       }
     }
     Performance.getInstance()

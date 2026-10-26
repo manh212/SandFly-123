@@ -52,9 +52,9 @@ public class PerformancePreparedSpeechTest {
 
   @Test
   public void countsAreDisplayed() {
-    performance.onPreparedSpeechHit();
-    performance.onPreparedSpeechHit();
-    performance.onPreparedSpeechMiss();
+    performance.onPreparedSpeechHit(Performance.SWIPE_BUCKET_SINGLE);
+    performance.onPreparedSpeechHit(Performance.SWIPE_BUCKET_SINGLE);
+    performance.onPreparedSpeechMiss(Performance.SWIPE_BUCKET_SINGLE);
 
     performance.displayPreparedSpeechStats(logger);
 
@@ -68,8 +68,8 @@ public class PerformancePreparedSpeechTest {
   @Test
   public void statsDisabled_eventsAreNotCounted() {
     performance.setComputeStatsEnabled(false);
-    performance.onPreparedSpeechHit();
-    performance.onPreparedSpeechMiss();
+    performance.onPreparedSpeechHit(Performance.SWIPE_BUCKET_SINGLE);
+    performance.onPreparedSpeechMiss(Performance.SWIPE_BUCKET_SINGLE);
     performance.setComputeStatsEnabled(true);
 
     performance.displayPreparedSpeechStats(logger);
@@ -79,7 +79,7 @@ public class PerformancePreparedSpeechTest {
 
   @Test
   public void clearAllStats_resetsCounts() {
-    performance.onPreparedSpeechHit();
+    performance.onPreparedSpeechHit(Performance.SWIPE_BUCKET_SINGLE);
 
     performance.clearAllStats();
     performance.displayPreparedSpeechStats(logger);

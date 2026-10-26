@@ -180,6 +180,15 @@ object TraversalTreeCache {
   /** When directional navigation last ran, by the uptime clock; zero when none has yet. */
   @Volatile private var lastNavigationMs: Long = 0L
 
+  /** When the navigation before the last one ran, by the uptime clock; zero when none. */
+  @Volatile private var previousNavigationMs: Long = 0L
+
+  /**
+   * The gap under which two navigations in a row count as one burst: a swipe that follows
+   * the previous one by less than this is being flung, not read.
+   */
+  const val NAVIGATION_BURST_WINDOW_MS = 300L
+
   /**
    * Remembers the node accessibility focus last landed on. A navigation that starts from it
    * need not ask the app where the focus is, which is a round trip on the swipe's way.
@@ -193,11 +202,35 @@ object TraversalTreeCache {
   /** Notes that a directional navigation just ran, for the burst checks that read it. */
   @JvmStatic
   fun noteNavigationActivity(nowMs: Long = SystemClock.uptimeMillis()) {
+    previousNavigationMs = lastNavigationMs
     lastNavigationMs = nowMs
   }
 
   /** When directional navigation last ran, by the uptime clock; zero when none has yet. */
   @JvmStatic fun lastNavigationTimeMs(): Long = lastNavigationMs
+
+  /** When the navigation before the last one ran, by the uptime clock; zero when none. */
+  @JvmStatic fun previousNavigationTimeMs(): Long = previousNavigationMs
+
+  /**
+   * Whether navigation is arriving in a burst at [nowMs]: the last navigation followed the
+   * one before it by less than [NAVIGATION_BURST_WINDOW_MS], and it is itself less than
+   * that long ago. A single quick swipe after a pause is not a burst — the cadence has to
+   * be established by two close navigations before anything is treated as flinging.
+   */
+  @JvmStatic
+  fun isNavigationBurst(previousMs: Long, lastMs: Long, nowMs: Long): Boolean {
+    if (previousMs <= 0L || lastMs <= previousMs) {
+      return false
+    }
+    return lastMs - previousMs < NAVIGATION_BURST_WINDOW_MS &&
+      nowMs - lastMs < NAVIGATION_BURST_WINDOW_MS
+  }
+
+  /** Whether navigation is arriving in a burst right now; see [isNavigationBurst]. */
+  @JvmStatic
+  fun inNavigationBurst(nowMs: Long = SystemClock.uptimeMillis()): Boolean =
+    isNavigationBurst(previousNavigationMs, lastNavigationMs, nowMs)
 
   /**
    * The focus node a navigation may start from without asking the app, or null when it must ask
@@ -622,6 +655,8 @@ object TraversalTreeCache {
    * collapsing sends a content change of the undefined type, which is structural here — so a fresh
    * order is built when there is none. That build is on the swiping thread, but it happens only on
    * the rare path where the focused node disappeared, and a swipe would have built an order anyway.
+   * In a burst of swipes it is not built at all: null is returned and the caller searches
+   * from the root on the live tree instead.
    */
   @JvmStatic
   fun pivotAfterRemoval(root: AccessibilityNodeInfoCompat): AccessibilityNodeInfoCompat? {
@@ -631,16 +666,25 @@ object TraversalTreeCache {
     val saved = synchronized(stateLock) { strategy?.takeIf { root == this.root } }
     // The stale copy answers the positional question just as well — the caller checks the node
     // it picks with the app before using it — and asking it costs no build at all.
-    val order =
-      saved
-        ?: staleStrategy?.takeIf { root == staleRoot }
-        ?: runCatching {
+    var order = saved ?: staleStrategy?.takeIf { root == staleRoot }
+    if (order == null) {
+      // In a burst of swipes the synchronous build is exactly the stall the burst
+      // governor exists to prevent: the caller falls back to searching from the root
+      // on the live tree, and a background build repairs the order for later swipes.
+      if (inNavigationBurst()) {
+        return null
+      }
+      order =
+        runCatching {
               OrderedTraversalStrategy(root).also {
-                Performance.getInstance().onOrderBuildOnSwipePath()
+                Performance.getInstance()
+                  .onOrderBuildOnSwipePath(
+                    Performance.bucketSinceLastSwipe(previousNavigationMs, lastNavigationMs))
               }
             }
             .getOrNull()
-        ?: return null
+          ?: return null
+    }
     val bounds = Rect()
     var above: AccessibilityNodeInfoCompat? = null
     for (node in order.dumpTree()) {

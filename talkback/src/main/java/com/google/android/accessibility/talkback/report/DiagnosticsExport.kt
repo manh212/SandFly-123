@@ -200,6 +200,7 @@ object DiagnosticsExport {
     performance.displayStatToLabelCompare(logger)
     performance.displayAllEventStats(logger)
     performance.displayPreparedSpeechStats(logger)
+    performance.displayBurstStats(logger)
     performance.displayOrderBuildStats(logger)
     performance.displaySwipeSegmentStats(logger)
     performance.displaySpeechWaitStats(logger)

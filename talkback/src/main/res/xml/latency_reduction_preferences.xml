@@ -29,25 +29,107 @@
         android:summary="@string/summary_pref_always_interrupt_speech"
         android:key="pref_always_interrupt_speech" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_background_order_build_default"
+        android:title="@string/title_pref_background_order_build"
+        android:summary="@string/summary_pref_background_order_build"
+        android:key="@string/pref_background_order_build_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_touch_order_build_default"
+        android:title="@string/title_pref_touch_order_build"
+        android:summary="@string/summary_pref_touch_order_build"
+        android:key="@string/pref_touch_order_build_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_focus_order_build_default"
+        android:title="@string/title_pref_focus_order_build"
+        android:summary="@string/summary_pref_focus_order_build"
+        android:key="@string/pref_focus_order_build_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_settle_order_build_default"
+        android:title="@string/title_pref_settle_order_build"
+        android:summary="@string/summary_pref_settle_order_build"
+        android:key="@string/pref_settle_order_build_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_lean_order_builder_default"
+        android:title="@string/title_pref_lean_order_builder"
+        android:summary="@string/summary_pref_lean_order_builder"
+        android:key="@string/pref_lean_order_builder_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_trust_untouched_nodes_default"
+        android:title="@string/title_pref_trust_untouched_nodes"
+        android:summary="@string/summary_pref_trust_untouched_nodes"
+        android:key="@string/pref_trust_untouched_nodes_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_keep_prepared_across_unrelated_default"
+        android:title="@string/title_pref_keep_prepared_across_unrelated"
+        android:summary="@string/summary_pref_keep_prepared_across_unrelated"
+        android:key="@string/pref_keep_prepared_across_unrelated_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_serve_stale_order_default"
+        android:title="@string/title_pref_serve_stale_order"
+        android:summary="@string/summary_pref_serve_stale_order"
+        android:key="@string/pref_serve_stale_order_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_prepare_ahead_default"
+        android:title="@string/title_pref_prepare_ahead"
+        android:summary="@string/summary_pref_prepare_ahead"
+        android:key="@string/pref_prepare_ahead_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_presynthesize_prepared_default"
+        android:title="@string/title_pref_presynthesize_prepared"
+        android:summary="@string/summary_pref_presynthesize_prepared"
+        android:key="@string/pref_presynthesize_prepared_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_prepare_on_settle_default"
+        android:title="@string/title_pref_prepare_on_settle"
+        android:summary="@string/summary_pref_prepare_on_settle"
+        android:key="@string/pref_prepare_on_settle_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_prepare_wider_default"
+        android:title="@string/title_pref_prepare_wider"
+        android:summary="@string/summary_pref_prepare_wider"
+        android:key="@string/pref_prepare_wider_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_keep_unused_prepared_default"
+        android:title="@string/title_pref_keep_unused_prepared"
+        android:summary="@string/summary_pref_keep_unused_prepared"
+        android:key="@string/pref_keep_unused_prepared_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_yielding_prepare_default"
+        android:title="@string/title_pref_yielding_prepare"
+        android:summary="@string/summary_pref_yielding_prepare"
+        android:key="@string/pref_yielding_prepare_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_coalesce_listener_builds_default"
+        android:title="@string/title_pref_coalesce_listener_builds"
+        android:summary="@string/summary_pref_coalesce_listener_builds"
+        android:key="@string/pref_coalesce_listener_builds_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speech_pipeline_default"
+        android:title="@string/title_pref_speech_pipeline"
+        android:summary="@string/summary_pref_speech_pipeline"
+        android:key="@string/pref_speech_pipeline_key" />
 
-
-
-
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speculative_speech_default"
+        android:title="@string/title_pref_speculative_speech"
+        android:summary="@string/summary_pref_speculative_speech"
+        android:key="@string/pref_speculative_speech_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_fast_navigator_default"
@@ -55,11 +137,17 @@
         android:summary="@string/summary_pref_fast_navigator"
         android:key="@string/pref_fast_navigator_key" />
 
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speech_pipeline_chain_default"
+        android:title="@string/title_pref_speech_pipeline_chain"
+        android:summary="@string/summary_pref_speech_pipeline_chain"
+        android:key="@string/pref_speech_pipeline_chain_key" />
 
-
-
-
-
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_defer_builds_during_burst_default"
+        android:title="@string/title_pref_defer_builds_during_burst"
+        android:summary="@string/summary_pref_defer_builds_during_burst"
+        android:key="@string/pref_defer_builds_during_burst_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_items_before_scroll_default"

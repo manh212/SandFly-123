@@ -97,7 +97,12 @@ public class LiveTreeNavigator {
       Performance.getInstance().onPatternEngineFall(Performance.PATTERN_FALL_TARGET_GONE);
       return null;
     }
-    Performance.getInstance().onPatternEngineAnswer(SystemClock.uptimeMillis() - findStart);
+    Performance.getInstance()
+        .onPatternEngineAnswer(
+            SystemClock.uptimeMillis() - findStart,
+            Performance.bucketSinceLastSwipe(
+                TraversalTreeCache.previousNavigationTimeMs(),
+                TraversalTreeCache.lastNavigationTimeMs()));
     return result.target;
   }
 
