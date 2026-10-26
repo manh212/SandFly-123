@@ -792,6 +792,107 @@ class FastNavigatorTest {
     assertEquals(listOf("last"), listener.set)
   }
 
+  @Test
+  fun scrollFor_theFirstPagerRefuses_theScrollStepsOnToTheNextCandidate() {
+    // Two pagers nested, as a short-video feed nests its page pager inside a section
+    // pager: both page-level, the outer one ordered first by area.
+    val rootInfo = AccessibilityNodeInfo.obtain()
+    rootInfo.className = "android.widget.FrameLayout"
+    rootInfo.packageName = "com.example.chat"
+    rootInfo.isVisibleToUser = true
+    rootInfo.setBoundsInScreen(Rect(0, 0, 600, 2000))
+    val outerInfo =
+      placed(rootInfo, null, Rect(0, 0, 600, 2000), scrollable = true, speaking = false)
+    val innerInfo =
+      placed(outerInfo, null, Rect(0, 0, 600, 1900), scrollable = true, speaking = false)
+    placed(innerInfo, "A", Rect(0, 0, 600, 100))
+    val bInfo = placed(innerInfo, "B", Rect(0, 100, 600, 200), visible = false)
+    // The outer pager refuses the scroll outright. The refusal must not kill the swipe:
+    // the inner pager is the one that turns this page, and the scroll steps on to it.
+    shadowOf(outerInfo).setOnPerformActionListener { action, _ ->
+      action != AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD
+    }
+    val root = saveOrderRoot(rootInfo)
+    focusOn(checkNotNull(findInTree(root, "A")))
+    val refusedBefore = performance.getScrollFiredAppRefusedCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    assertEquals(refusedBefore + 1, performance.getScrollFiredAppRefusedCount())
+    assertTrue(
+      shadowOf(innerInfo)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
+    )
+
+    // The landing was armed on the candidate that accepted, and lands from it.
+    bInfo.isVisibleToUser = true
+    saveOrder(rootInfo)
+    navigator.onWindowContentChanged(rootInfo.windowId)
+    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
+    assertEquals(listOf("B"), listener.set)
+  }
+
+  @Test
+  fun scrollFor_noScrollableAncestor_theWindowItselfIsSearched() {
+    // The focused item's chain holds no scroller at all — the state a recycled feed item
+    // is left in, its chain ending at the fragment the pager tore off — but the window's
+    // own order holds the window's pager, and the scroll is found there instead.
+    val rootInfo = AccessibilityNodeInfo.obtain()
+    rootInfo.className = "android.widget.FrameLayout"
+    rootInfo.packageName = "com.example.chat"
+    rootInfo.isVisibleToUser = true
+    rootInfo.setBoundsInScreen(Rect(0, 0, 600, 2000))
+    val pagerInfo =
+      placed(rootInfo, null, Rect(0, 0, 600, 2000), scrollable = true, speaking = false)
+    placed(pagerInfo, "X", Rect(0, 0, 600, 100))
+    val panelInfo = placed(rootInfo, null, Rect(0, 0, 600, 300), speaking = false)
+    placed(panelInfo, "A", Rect(0, 0, 600, 100))
+    val bInfo = placed(panelInfo, "B", Rect(0, 100, 600, 200), visible = false)
+
+    val root = saveOrderRoot(rootInfo)
+    focusOn(checkNotNull(findInTree(root, "A")))
+    val noScrollerBefore = performance.getScrollNoScrollableNodeCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    assertEquals(noScrollerBefore, performance.getScrollNoScrollableNodeCount())
+    assertTrue(
+      shadowOf(pagerInfo)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
+    )
+
+    bInfo.isVisibleToUser = true
+    saveOrder(rootInfo)
+    navigator.onWindowContentChanged(rootInfo.windowId)
+    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
+    assertEquals(listOf("B"), listener.set)
+  }
+
+  @Test
+  fun scrollLanding_continuousChurn_landsEarlyOnceTheTargetIsClear() {
+    val rootInfo = listTree(listOf("A", "B"))
+    rootInfo.isScrollable = true
+    val children = saveOrder(rootInfo)
+    focusOn(children[1])
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    // The item the scroll brings is on screen at once — the target is clear from the
+    // start — but the window never goes quiet: a playing page keeps changing, a change
+    // every 100 ms, none of them the 150 ms of quiet the settle path waits for. The churn
+    // must not hold the landing to the 1200 ms deadline: it lands early, mid-churn.
+    item(rootInfo, "C", 200)
+    saveOrder(rootInfo)
+    repeat(6) {
+      navigator.onWindowContentChanged(rootInfo.windowId)
+      shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS)
+    }
+
+    assertEquals(listOf("C"), listener.set)
+  }
+
   /** A page of an article in a WebView, between two native items of the same window. */
   private class WebArticleFixture(
     val rootInfo: AccessibilityNodeInfo,

@@ -107,6 +107,21 @@ public class FastNavigator {
   /** How often a waiting landing re-checks for the order its background build owes it. */
   private static final long SCROLL_LANDING_POLL_MS = 150;
 
+  /**
+   * The quiet an early landing try asks for — far shorter than the settle quiet: an early
+   * try runs while the window may still be changing (a playing page changes without end),
+   * so it is allowed only once this much quiet has passed, and it may land only on a target
+   * that is unambiguous on the tree as it stands — the item the swipe aimed at, showing, or
+   * an item newly on screen. Anything less clear waits for the full settle or the deadline.
+   */
+  private static final long SCROLL_LANDING_EARLY_QUIET_MS = 50;
+
+  /**
+   * How long a scroll must have been waiting before an early try is allowed at all: a
+   * pager's snap takes about this long, and a try before it reads the page still turning.
+   */
+  private static final long SCROLL_LANDING_EARLY_MIN_ELAPSED_MS = 250;
+
   /** How many focus fires one landing try may spend before it waits for a fresher tree. */
   private static final int SCROLL_LANDING_MAX_FIRES_PER_TRY = 3;
 
@@ -167,6 +182,15 @@ public class FastNavigator {
   /** A scroll this navigator fired, still waiting for the item it was fired for. */
   private @Nullable PendingScrollLanding pendingScrollLanding;
   private final Runnable scrollLandingTask = this::runScrollLanding;
+
+  /**
+   * When the landing's next check is due, by the uptime clock; zero when none is scheduled.
+   * Kept so a change in the landing's window can ask for a check without ever pushing the
+   * one already due later — a window that changes without pause (a playing video page)
+   * would otherwise postpone the check, and with it the landing deadline the check exists
+   * to enforce, forever.
+   */
+  private long scrollLandingCheckDueMs;
 
   /** One item on screen when a scroll was fired: the node, and where it stood. */
   private static final class VisibleItem {
@@ -592,7 +616,7 @@ public class FastNavigator {
       }
       if (!candidate.isVisibleToUser()) {
         List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
-        if (scrollFor(action, container, forward, candidate, speaking, eventId)) {
+        if (scrollFor(action, container, forward, candidate, speaking, eventId, fullOrder)) {
           performance.onWebNativeExit();
           return true;
         }
@@ -662,7 +686,9 @@ public class FastNavigator {
     while (true) {
       index = nextCandidateIndex(fullOrder, index, forward, filter);
       if (index < 0) {
-        return handleEdge(action, pivot, fullOrder, filter, forward, eventId, substituted);
+        return handleEdge(
+            action, pivot, fullOrder, filter, forward, eventId, substituted,
+            /* scrollFailed= */ false);
       }
       AccessibilityNodeInfoCompat candidate = fullOrder.get(index);
       if (candidate.getWindowId() != pivot.getWindowId()) {
@@ -677,11 +703,17 @@ public class FastNavigator {
         // is off screen by nature, and firing focus on the element lets the page scroll it
         // into view itself, as a web element may be focused unseen.
         List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
-        if (scrollFor(action, pivot, forward, candidate, speaking, eventId)) {
+        if (scrollFor(action, pivot, forward, candidate, speaking, eventId, fullOrder)) {
           return true;
         }
-        substituted = true;
-        continue;
+        // The scroll this swipe needed could not be fired at all. Stepping on to another
+        // candidate of this same order would fire focus on an item of the page already on
+        // screen — the swipe asked to turn the page, and a sideways jump inside it is a
+        // wrong answer, not a lesser one. The swipe is answered at the edge instead, by
+        // the same path that answers an order run out of candidates.
+        return handleEdge(
+            action, pivot, fullOrder, filter, forward, eventId, substituted,
+            /* scrollFailed= */ true);
       }
       if (fireTarget(candidate, pivot, action, eventId, substituted, /* countHandled= */ true)) {
         return true;
@@ -719,9 +751,12 @@ public class FastNavigator {
       Filter<AccessibilityNodeInfoCompat> filter,
       boolean forward,
       @Nullable EventId eventId,
-      boolean anyTargetDead) {
+      boolean anyTargetDead,
+      boolean scrollFailed) {
     List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
-    if (action.shouldScroll && scrollFor(action, pivot, forward, null, speaking, eventId)) {
+    if (action.shouldScroll
+        && !scrollFailed
+        && scrollFor(action, pivot, forward, null, speaking, eventId, fullOrder)) {
       return true;
     }
     if (action.shouldWrap && FocusProcessorForLogicalNavigation.isWrapAroundEnabled()) {
@@ -755,6 +790,17 @@ public class FastNavigator {
    * The scroll fires on the window's own scroller (see {@link #orderScrollCandidates}), and
    * the landing remembers every candidate: a scroll that changes nothing is retried once on
    * the next candidate before it is given up on.
+   *
+   * <p>The candidates are the scrollable ancestors of the pivot — and of the aimed item,
+   * when the pivot's own chain offers none. Both chains are walked on nodes read earlier,
+   * and a pager recycles or detaches its items as the page turns: a chain that ends at a
+   * torn-off fragment offers nothing, though the window's scroller stands in the order the
+   * swipe is walking. So when both chains come up empty, the window's own nodes are
+   * searched ({@link #scrollableInWindow}) before the swipe is given up on. And a candidate
+   * that refuses the scroll does not end the swipe either: with nested pagers the first
+   * candidate is often the wrong one of the two, so the fire steps on to the next candidate
+   * — the same stepping the landing's no-effect retry does later — and only a refusal by
+   * every candidate is a refusal of the swipe.
    */
   private boolean scrollFor(
       NavigationAction action,
@@ -762,11 +808,15 @@ public class FastNavigator {
       boolean forward,
       @Nullable AccessibilityNodeInfoCompat preferNode,
       List<AccessibilityNodeInfoCompat> oldSpeaking,
-      @Nullable EventId eventId) {
+      @Nullable EventId eventId,
+      List<AccessibilityNodeInfoCompat> windowNodes) {
     long seekStart = SystemClock.uptimeMillis();
     List<AccessibilityNodeInfoCompat> candidates = scrollableAncestors(pivot, forward);
     if (candidates.isEmpty() && preferNode != null) {
       candidates = scrollableAncestors(preferNode, forward);
+    }
+    if (candidates.isEmpty()) {
+      candidates = scrollableInWindow(windowNodes, pivot.getWindowId(), forward);
     }
     List<AccessibilityNodeInfoCompat> ordered = orderScrollCandidates(candidates);
     recordSegment("fast nav scroll seek", seekStart);
@@ -780,8 +830,15 @@ public class FastNavigator {
     }
     List<VisibleItem> visibleBefore = visibleSnapshot(oldSpeaking);
     long generationAtScroll = TraversalTreeCache.orderGeneration();
-    if (!fireScrollAction(ordered.get(0), forward)) {
+    int firedIndex = -1;
+    for (int i = 0; i < ordered.size(); i++) {
+      if (fireScrollAction(ordered.get(i), forward)) {
+        firedIndex = i;
+        break;
+      }
       Performance.getInstance().onScrollFiredAppRefused();
+    }
+    if (firedIndex < 0) {
       return false;
     }
     Performance.getInstance().onFastNavigationHardCase(Performance.FAST_NAV_HARD_SELF_SCROLL);
@@ -790,6 +847,7 @@ public class FastNavigator {
       Performance.getInstance().onScrollLandingSuperseded();
     }
     handler.removeCallbacks(scrollLandingTask);
+    scrollLandingCheckDueMs = 0;
     PendingScrollLanding landing =
         new PendingScrollLanding(
             action,
@@ -803,9 +861,73 @@ public class FastNavigator {
             ordered,
             generationAtScroll,
             SystemClock.uptimeMillis());
+    landing.scrollCandidateIndex = firedIndex;
     pendingScrollLanding = landing;
-    handler.postDelayed(scrollLandingTask, SCROLL_NO_EFFECT_WINDOW_MS);
+    scheduleScrollLandingCheck(SCROLL_NO_EFFECT_WINDOW_MS);
     return true;
+  }
+
+  /**
+   * The scrollable nodes of one window, searched in the order the swipe is walking when no
+   * ancestor chain offers a scroller: the window's pager is a node of its own order whether
+   * or not the focused item still hangs under it. Handed to {@link #orderScrollCandidates}
+   * smallest first, so the largest stands last, where that ordering reads the outermost
+   * candidate for its page-level measure — a flat search has no nearness of its own.
+   */
+  private static List<AccessibilityNodeInfoCompat> scrollableInWindow(
+      List<AccessibilityNodeInfoCompat> windowNodes, int windowId, boolean forward) {
+    int scrollAction =
+        forward
+            ? AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD
+            : AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD;
+    List<AccessibilityNodeInfoCompat> found = new ArrayList<>();
+    for (AccessibilityNodeInfoCompat node : windowNodes) {
+      if (node.getWindowId() == windowId
+          && isScrollableFor(node, scrollAction)
+          && !found.contains(node)) {
+        found.add(node);
+      }
+    }
+    found.sort(
+        (a, b) -> {
+          Rect boundsA = new Rect();
+          a.getBoundsInScreen(boundsA);
+          Rect boundsB = new Rect();
+          b.getBoundsInScreen(boundsB);
+          return Integer.compare(
+              boundsA.width() * boundsA.height(), boundsB.width() * boundsB.height());
+        });
+    return found;
+  }
+
+  /** Whether {@code node} can scroll in the direction {@code scrollAction} names. */
+  private static boolean isScrollableFor(
+      AccessibilityNodeInfoCompat node, int scrollAction) {
+    if (node.isScrollable()) {
+      return true;
+    }
+    for (AccessibilityNodeInfoCompat.AccessibilityActionCompat action : node.getActionList()) {
+      if (action.getId() == scrollAction) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Schedules the landing's next check {@code delayMs} out — unless a check is already due
+   * sooner, which stands: a check may be asked for earlier, never pushed later. The
+   * landing's deadline is judged inside the check, so a window changing faster than the
+   * settle quiet must not be able to starve the check itself.
+   */
+  private void scheduleScrollLandingCheck(long delayMs) {
+    long due = SystemClock.uptimeMillis() + delayMs;
+    if (scrollLandingCheckDueMs > 0 && scrollLandingCheckDueMs <= due) {
+      return;
+    }
+    handler.removeCallbacks(scrollLandingTask);
+    handler.postDelayed(scrollLandingTask, delayMs);
+    scrollLandingCheckDueMs = due;
   }
 
   /** Fires one scroll action on {@code scrollable}, timed as its own swipe segment. */
@@ -849,8 +971,13 @@ public class FastNavigator {
     }
     landing.changeSeen = true;
     landing.lastChangeMs = SystemClock.uptimeMillis();
-    handler.removeCallbacks(scrollLandingTask);
-    handler.postDelayed(scrollLandingTask, SCROLL_LANDING_SETTLE_QUIET_MS);
+    // The check is asked for a settle quiet out — but never past the landing's deadline:
+    // a window that keeps changing (a playing page) would otherwise hold the check off
+    // indefinitely, and the deadline it exists to enforce would never be reached.
+    long untilDeadline =
+        landing.startedAtMs + SCROLL_LANDING_DEADLINE_MS - landing.lastChangeMs;
+    scheduleScrollLandingCheck(
+        Math.min(SCROLL_LANDING_SETTLE_QUIET_MS, Math.max(0, untilDeadline)));
   }
 
   /**
@@ -859,12 +986,20 @@ public class FastNavigator {
    * the next scrollable ancestor), tries the landing once the window has gone quiet on a
    * tree newer than the last try, and at the deadline spends the landing's one on-the-spot
    * build, then its positional fallback, before giving up loudly.
+   *
+   * <p>A window that never goes quiet — a playing page sends content changes without end —
+   * is not waited on for the full quiet when its answer is already clear: once the scroll
+   * is {@link #SCROLL_LANDING_EARLY_MIN_ELAPSED_MS} old, a shorter quiet suffices for an
+   * early try, provided an order published after the scroll exists to read. An early try
+   * may land only on an unambiguous target (see {@link #tryScrollLanding}); a tree still in
+   * flight offers none, and the settle and deadline paths run as before.
    */
   private void runScrollLanding() {
     PendingScrollLanding landing = pendingScrollLanding;
     if (landing == null) {
       return;
     }
+    scrollLandingCheckDueMs = 0;
     long now = SystemClock.uptimeMillis();
     long elapsed = now - landing.startedAtMs;
     if (!landing.changeSeen
@@ -877,7 +1012,7 @@ public class FastNavigator {
       landing.noEffectHandled = true;
       Performance.getInstance().onScrollNoEffect();
       if (retryScrollOnNextCandidate(landing)) {
-        handler.postDelayed(scrollLandingTask, SCROLL_NO_EFFECT_WINDOW_MS);
+        scheduleScrollLandingCheck(SCROLL_NO_EFFECT_WINDOW_MS);
         return;
       }
       if (tryPositionalLanding(landing)) {
@@ -896,12 +1031,21 @@ public class FastNavigator {
         TraversalTreeCache.orderGeneration() != landing.lastTryGeneration
             || TraversalTreeCache.savedOrderGeneration() != landing.lastTrySavedGeneration;
     boolean spacingKept = now - landing.lastTryMs >= SCROLL_LANDING_MIN_TRY_SPACING_MS;
-    if ((settled && generationNew && spacingKept) || deadlineReached) {
+    boolean earlyTry =
+        !deadlineReached
+            && landing.changeSeen
+            && elapsed >= SCROLL_LANDING_EARLY_MIN_ELAPSED_MS
+            && now - landing.lastChangeMs >= SCROLL_LANDING_EARLY_QUIET_MS
+            && generationNew
+            && spacingKept
+            && TraversalTreeCache.savedOrderGeneration() > landing.generationAtScroll;
+    if ((settled && generationNew && spacingKept) || earlyTry || deadlineReached) {
       if (settled) {
         landing.settleCloses++;
       }
-      boolean buildEligible = landing.settleCloses >= 2 || deadlineReached;
-      if (tryScrollLanding(landing, buildEligible)) {
+      boolean buildEligible =
+          landing.settleCloses >= 2 || deadlineReached || landing.tries >= 2;
+      if (tryScrollLanding(landing, buildEligible, /* early= */ earlyTry && !settled)) {
         return;
       }
       if (landing.windowGone) {
@@ -919,7 +1063,7 @@ public class FastNavigator {
         return;
       }
     }
-    handler.postDelayed(scrollLandingTask, SCROLL_LANDING_POLL_MS);
+    scheduleScrollLandingCheck(SCROLL_LANDING_POLL_MS);
   }
 
   /**
@@ -952,6 +1096,7 @@ public class FastNavigator {
   private void giveUpScrollLanding(PendingScrollLanding landing) {
     pendingScrollLanding = null;
     handler.removeCallbacks(scrollLandingTask);
+    scrollLandingCheckDueMs = 0;
     Performance performance = Performance.getInstance();
     performance.recordSwipeSegment(
         "scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
@@ -1011,10 +1156,13 @@ public class FastNavigator {
    * newly on screen in the scroll's direction, or the item the swipe aimed at, once it
    * shows. With no post-scroll order to read, the first try asks for one in the background
    * under the landing's own build source; a later try, when {@code buildEligible}, spends
-   * the landing's one on-the-spot build on the settled tree instead. Returns whether the
+   * the landing's one on-the-spot build on the settled tree instead. An {@code early} try —
+   * one taken before the window has gone fully quiet — reads the same order but may land
+   * only on an unambiguous target, never on the positional safety net. Returns whether the
    * landing is settled, having focused its item.
    */
-  private boolean tryScrollLanding(PendingScrollLanding landing, boolean buildEligible) {
+  private boolean tryScrollLanding(
+      PendingScrollLanding landing, boolean buildEligible, boolean early) {
     landing.tries++;
     AccessibilityNodeInfoCompat root = landingRoot(landing);
     if (root == null) {
@@ -1038,7 +1186,8 @@ public class FastNavigator {
         order = savedOrderOf(landing, root);
         if (order != null) {
           landing.usableOrderSeen = true;
-          return landFromOrder(landing, root, order, Performance.SCROLL_LANDING_BY_DEADLINE_BUILD);
+          return landFromOrder(
+              landing, root, order, Performance.SCROLL_LANDING_BY_DEADLINE_BUILD, early);
         }
       }
     }
@@ -1046,7 +1195,7 @@ public class FastNavigator {
       return false;
     }
     landing.usableOrderSeen = true;
-    return landFromOrder(landing, root, order, Performance.SCROLL_LANDING_BY_SETTLE);
+    return landFromOrder(landing, root, order, Performance.SCROLL_LANDING_BY_SETTLE, early);
   }
 
   /**
@@ -1094,13 +1243,17 @@ public class FastNavigator {
   /**
    * Lands a scroll from {@code order}: the item the swipe aimed at once it shows, else the
    * first newly visible item in the scroll's direction. A target whose focus fire is refused
-   * is stepped past within the same try, a few times at most. Returns whether it landed.
+   * is stepped past within the same try, a few times at most. When {@code unambiguousOnly},
+   * the landing-index safety net below is not used: on a tree that has not settled, only
+   * the aimed item showing, or an item newly on screen, is a target clear enough to take.
+   * Returns whether it landed.
    */
   private boolean landFromOrder(
       PendingScrollLanding landing,
       AccessibilityNodeInfoCompat root,
       OrderedTraversalStrategy order,
-      int settleSource) {
+      int settleSource,
+      boolean unambiguousOnly) {
     Filter<AccessibilityNodeInfoCompat> filter = composeFilter(landing.action.targetType, order);
     List<AccessibilityNodeInfoCompat> speaking = speakingList(order.dumpTree(), filter);
     List<AccessibilityNodeInfoCompat> candidates = new ArrayList<>();
@@ -1127,7 +1280,7 @@ public class FastNavigator {
         break;
       }
     }
-    if (candidates.isEmpty()) {
+    if (candidates.isEmpty() && !unambiguousOnly) {
       int index =
           landingIndex(
               speaking, landing.oldSpeaking, landing.forward, node -> node.isVisibleToUser());
@@ -1225,6 +1378,7 @@ public class FastNavigator {
     }
     pendingScrollLanding = null;
     handler.removeCallbacks(scrollLandingTask);
+    scrollLandingCheckDueMs = 0;
     Performance performance = Performance.getInstance();
     performance.recordSwipeSegment(
         "scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
@@ -1503,17 +1657,7 @@ public class FastNavigator {
     List<AccessibilityNodeInfoCompat> candidates = new ArrayList<>();
     AccessibilityNodeInfoCompat current = node;
     while (current != null) {
-      boolean scrollable = current.isScrollable();
-      if (!scrollable) {
-        for (AccessibilityNodeInfoCompat.AccessibilityActionCompat action :
-            current.getActionList()) {
-          if (action.getId() == scrollAction) {
-            scrollable = true;
-            break;
-          }
-        }
-      }
-      if (scrollable) {
+      if (isScrollableFor(current, scrollAction)) {
         candidates.add(current);
       }
       current = current.getParent();
