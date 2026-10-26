@@ -257,13 +257,8 @@ public class FocusProcessorForLogicalNavigation {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
     }
-    if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION
-        && fastNavigator != null
-        && TraversalTreeCache.getFastNavigatorEnabled()) {
-      // The fast navigator answers the swipe itself, from the saved order, and this machinery
-      // is not touched for it at all: the switch is the only way back here.
-      return fastNavigator.handle(navigationAction, eventId);
-    }
+    // The fast navigator is disconnected by the owner's order: directional swipes are always
+    // answered by the original machinery below. Its settings screen and switches stay in place.
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);
     if (pivot == null) {
       // Ideally the pivot should never be null. Do the null check in case of exception.
