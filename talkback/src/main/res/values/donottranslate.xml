@@ -97,34 +97,6 @@
     <string name="pref_multiple_gesture_set_key">pref_multiple_gesture_set_key</string>
     <string name="pref_echo_recognized_text_speech_key">pref_echo_recognized_text_speech_key</string>
     <string name="pref_tree_debug_key">pref_tree_debug</string>
-    <string name="pref_reduce_window_delay_key">pref_reduce_window_delay_key</string>
-    <string name="pref_background_order_build_key">pref_background_order_build_key</string>
-    <string name="pref_touch_order_build_key">pref_touch_order_build_key</string>
-    <string name="pref_settle_order_build_key">pref_settle_order_build_key</string>
-    <string name="pref_lean_order_builder_key">pref_lean_order_builder_key</string>
-    <string name="pref_trust_untouched_nodes_key">pref_trust_untouched_nodes_key</string>
-    <string name="pref_keep_prepared_across_unrelated_key">pref_keep_prepared_across_unrelated_key</string>
-    <string name="pref_serve_stale_order_key">pref_serve_stale_order_key</string>
-    <string name="pref_navigation_interrupt_key">pref_navigation_interrupt_key</string>
-    <string name="pref_window_focus_interrupt_key">pref_window_focus_interrupt_key</string>
-    <string name="pref_speech_wait_cap_key">pref_speech_wait_cap_key</string>
-    <string name="pref_small_audio_buffer_key">pref_small_audio_buffer_key</string>
-    <string name="pref_split_speech_key">pref_split_speech_key</string>
-    <string name="pref_presynthesize_prepared_key">pref_presynthesize_prepared_key</string>
-    <string name="pref_prepare_on_settle_key">pref_prepare_on_settle_key</string>
-    <string name="pref_prepare_wider_key">pref_prepare_wider_key</string>
-    <string name="pref_yielding_prepare_key">pref_yielding_prepare_key</string>
-    <string name="pref_coalesce_listener_builds_key">pref_coalesce_listener_builds_key</string>
-    <string name="pref_speech_pipeline_key">pref_speech_pipeline_key</string>
-    <string name="pref_speculative_speech_key">pref_speculative_speech_key</string>
-    <string name="pref_focus_priority_lane_key">pref_focus_priority_lane_key</string>
-    <string name="pref_fast_navigator_key">pref_fast_navigator_key</string>
-    <string name="pref_fast_nav_skip_target_refresh_key">pref_fast_nav_skip_target_refresh_key</string>
-    <string name="pref_fast_nav_cheap_pivot_key">pref_fast_nav_cheap_pivot_key</string>
-    <string name="pref_fast_nav_fire_first_key">pref_fast_nav_fire_first_key</string>
-    <string name="pref_speech_pipeline_chain_key">pref_speech_pipeline_chain_key</string>
-    <string name="pref_event_driven_scroll_landing_key">pref_event_driven_scroll_landing_key</string>
-    <string name="pref_defer_builds_during_burst_key">pref_defer_builds_during_burst_key</string>
     <string name="pref_scripts_key" translatable="false">pref_scripts_key</string>
     <string name="pref_auto_enter_table_navigation_key">pref_auto_enter_table_navigation_key</string>
     <string name="pref_tree_debug_reflect_key">pref_tree_debug_reflect</string>
@@ -204,8 +176,6 @@
     <string name="pref_settings_group_other_key" translatable="false">pref_settings_group_other_key</string>
     <string name="pref_tutorial_entry_point_key" translatable="false">pref_tutorial_entry_point_key</string>
     <string name="pref_practice_gestures_entry_point_key" translatable="false">pref_practice_gestures_entry_point_key</string>
-    <string name="pref_reset_latency_settings_key" translatable="false">pref_reset_latency_settings_key</string>
-    <string name="pref_category_reduce_latency_summary_key" translatable="false">pref_category_reduce_latency_summary_key</string>
     <string name="pref_typing_method_prefix_key" translatable="false">pref_typing_method_prefix_key</string>
     <string name="pref_formatting_inline_key">pref_formatting_inline_key</string>
     <string name="pref_formatting_inline_detail_key">pref_formatting_inline_detail_key</string>
@@ -413,7 +383,6 @@
     <!-- Preference sub-activity links -->
     <string name="pref_verbosity_key">pref_verbosity_key</string>
     <string name="pref_category_manage_gestures_key">pref_category_manage_gestures</string>
-    <string name="pref_category_latency_reduction_shortcut_key">pref_category_latency_reduction_shortcut_key</string>
     <string name="pref_category_manage_keyboard_shortcut_key">pref_category_manage_keyboard_shortcut_key</string>
 
     <string name="pref_sound_and_vibration_key" translatable="false">pref_sound_and_vibration_key</string>
@@ -1385,34 +1354,6 @@
     <bool name="pref_tts_overlay_default">false</bool>
     <bool name="pref_multiple_gesture_set_default">false</bool>
     <bool name="pref_echo_recognized_text_default">false</bool>
-    <bool name="pref_reduce_window_delay_default">true</bool>
-    <bool name="pref_background_order_build_default">true</bool>
-    <bool name="pref_touch_order_build_default">true</bool>
-    <bool name="pref_settle_order_build_default">true</bool>
-    <bool name="pref_lean_order_builder_default">true</bool>
-    <bool name="pref_trust_untouched_nodes_default">true</bool>
-    <bool name="pref_keep_prepared_across_unrelated_default">true</bool>
-    <bool name="pref_serve_stale_order_default">true</bool>
-    <bool name="pref_navigation_interrupt_default">true</bool>
-    <bool name="pref_window_focus_interrupt_default">true</bool>
-    <bool name="pref_speech_wait_cap_default">true</bool>
-    <bool name="pref_small_audio_buffer_default">true</bool>
-    <bool name="pref_split_speech_default">true</bool>
-    <bool name="pref_presynthesize_prepared_default">true</bool>
-    <bool name="pref_prepare_on_settle_default">true</bool>
-    <bool name="pref_prepare_wider_default">true</bool>
-    <bool name="pref_yielding_prepare_default">true</bool>
-    <bool name="pref_coalesce_listener_builds_default">true</bool>
-    <bool name="pref_speech_pipeline_default">true</bool>
-    <bool name="pref_speculative_speech_default">true</bool>
-    <bool name="pref_focus_priority_lane_default">true</bool>
-    <bool name="pref_fast_navigator_default">true</bool>
-    <bool name="pref_fast_nav_skip_target_refresh_default">true</bool>
-    <bool name="pref_fast_nav_cheap_pivot_default">true</bool>
-    <bool name="pref_fast_nav_fire_first_default">true</bool>
-    <bool name="pref_speech_pipeline_chain_default">true</bool>
-    <bool name="pref_event_driven_scroll_landing_default">true</bool>
-    <bool name="pref_defer_builds_during_burst_default">true</bool>
     <bool name="pref_wrap_around_default">true</bool>
     <bool name="pref_collapse_list_item_actions_default">false</bool>
     <bool name="pref_fix_stuck_touch_exploration_default">true</bool>

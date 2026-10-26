@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">הקראת השעה</string>
   <string name="pref_speak_time_summary">כשמפעילים את המסך</string>
   <string name="summary_speak_container_element_positions">הקראה בכניסה לרשימות, לרשתות ולקונטיינרים אחרים וביציאה מהם</string>
-  <string name="reset_letency_reduction_settings_dialog_title">לאפס את הגדרות ההשהיה?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">הפעולה הזו תאפס את כל הגדרות ההשהיה לברירת המחדל</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">איפוס</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ההגדרות של הפחתת זמן הטעינה אופסו.</string>
   <string name="Reset_gesture_settings_dialog_title">לאפס את התנועות?</string>
   <string name="Reset_gesture_settings_set_dialog_title">לאפס את התנועות של הקבוצה הנוכחית?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">‏פעולה זו תאפס את כל התנועות לפעולות שמוגדרות כברירת מחדל.\n\nשינויים שביצעת יבוטלו.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ההגדרה הזו כוללת עדכונים בזמן הורדה, מעקב אחר מסלול הנסיעה ועוד. כשההגדרה מושבתת, עדיין יהיו עדכונים, אבל בתדירות נמוכה יותר.</string>
   <string name="title_pref_explore_by_touch">גילוי באמצעות מגע</string>
   <string name="title_pref_category_controls">אפשרויות</string>
-  <string name="title_pref_category_reduce_latency_summary">הגדרות אלה גורמות ל-SandFly להגיב מהר יותר לאחר שנגעת במסך</string>
-  <string name="reset_latency_settings_title">איפוס כל הגדרות ההשהיה</string>
   <string name="title_pref_single_tap">הפעלה בלחיצה אחת</string>
   <string name="summary_pref_single_tap">כדי להפעיל את הפריט שבמיקוד לוחצים פעם אחת. ניווט מהיר יותר מלחיצה כפולה.</string>
   <string name="pref_verbosity_title">דרגת מלל</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">הגיית הקלדה</string>
   <string name="pref_node_desc_order_title">סדר פרטי הפריט</string>
   <string name="pref_time_feedback_format_title">פורמט השעה</string>
-  <string name="title_pref_latency_reduction">הפחתת ההשהיה</string>
-  <string name="talkback_latency_reduction_summary">SandFly מגיב מהר יותר אחרי נגיעה במסך</string>
   <string name="summary_pref_intonation">הקראת אותיות שנמחקו בקול גבוה יותר</string>
   <string name="title_pref_speech_footer">כדי לשנות את עוצמת הנגישות מכל מסך, החזק אצבע אחת על המסך ולחץ על מקש הגברת עוצמת הקול או הורדת עוצמת הקול.</string>
   <string name="title_pref_vibration">משוב ברטט</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">הגדרות למפתחים</string>
   <string name="title_activity_dump_a11y_event">בחירת אירועים לרישום</string>
   <string name="title_pref_dump_a11y_event">סנן רישום אירועי נגישות</string>
-  <string name="pref_reduce_window_delay_title">כיבוי אנימציות</string>
   <string name="title_pref_log_level">רמת רישום של הפלט ביומן</string>
   <string name="title_pref_diagnosis_mode">מצב אבחון</string>
   <string name="title_pref_tts_overlay">הצגת פלט דיבור</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">הקראה של הטקסט והסמלים בתוך תמונה שנבחרה</string>
   <string name="summary_typo_suggestions">מוצג כשהסמן נמצא על מילה שהוקלדה באופן שגוי</string>
   <string name="summary_cache_keyboard_keys">‏כדי לא לחכות הרבה זמן כשמקלידים, ההכרזות נטענות מראש ב-SandFly</string>
-  <string name="summary_cache_keyboard_keys_disabled">‏כדי שהתכונה הזו תפעל, צריך להשתמש ב\"המרת טקסט לדיבור של Google\"</string>
   <string name="title_pref_shortcut_up">החלקה למעלה</string>
   <string name="title_pref_shortcut_up_xr">תנועת צביטה והחלקה למעלה עם היד שלא מחזיקה את המכשיר</string>
   <string name="title_pref_shortcut_down">החלקה מטה</string>
@@ -1482,7 +1472,6 @@
     <string name="title_pref_speaker_devices">רמקול טלפון עם מכשירים אלה</string>
     <string name="summary_pref_speaker_devices_none">ללא</string>
     <string name="summary_pref_speaker_devices_no_devices">לא מחוברים עדיין מכשירים Bluetooth או קוויים</string>
-    <string name="pref_reduce_window_delay_summary">SandFly קורא מסכים חדשים מהר יותר כאשר אנימציות כבויות. זה מכבה אנימציות עבור כל הטלפון.</string>
     <string name="dialog_message_detailed_ai_description">התמונות שנבחרו נשלחות ל-Gemini API של Google לקבלת תיאור. כשהאפשרות “AI במכשיר” מופעלת, הן מתוארות בטלפון הזה במקום זאת ולא נשלחות.\n\nעם מפתח API בחינם, Google רשאית לשמור את מה שהיא מקבלת, להשתמש בו לשיפור המוצרים שלה ולהעביר אותו לבדיקה של בני אדם. AI גנרטיבי הוא ניסיוני, ולכן הוא יטעה. חלים <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">תיאורי תמונה מפורטים נוצרים באמצעות AI גנרטיבי. התמונות שנבחרו נשלחות ל-Gemini API של Google לקבלת תיאור. כשהאפשרות “AI במכשיר” מופעלת, הן מתוארות בטלפון הזה במקום זאת ולא נשלחות.\n\nעם מפתח API בחינם, Google רשאית לשמור את מה שהיא מקבלת, להשתמש בו לשיפור המוצרים שלה ולהעביר אותו לבדיקה של בני אדם. AI גנרטיבי הוא ניסיוני, ולכן הוא יטעה. אפשר להשבית תיאורי תמונה מפורטים בכל שלב בהגדרות של SandFly.\n\nחלים <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">צילום מסך נשלח ל-Gemini API של Google לקבלת תיאור, והפעולה נמשכת כמה שניות. כשהאפשרות “AI במכשיר” מופעלת, הוא מתואר בטלפון הזה במקום זאת ולא נשלח.\n\nעם מפתח API בחינם, Google רשאית לשמור את מה שהיא מקבלת, להשתמש בו לשיפור המוצרים שלה ולהעביר אותו לבדיקה של בני אדם. AI גנרטיבי הוא ניסיוני, ולכן הוא יטעה. חלים <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

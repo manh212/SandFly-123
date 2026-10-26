@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Saatı de</string>
   <string name="pref_speak_time_summary">Ekranı yandıranda</string>
   <string name="summary_speak_container_element_positions">Siyahılara, şəbəkələrə və digər konteynerlərə daxil olduqda və ya onlardan çıxdıqda səsləndirin</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Gecikmə ayarları sıfırlansın?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Bu, bütün gecikmə ayarlarını defolt vəziyyətə sıfırlayacaq</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Sıfırlayın</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Gecikmənin azaldılması ayarları sıfırlandı.</string>
   <string name="Reset_gesture_settings_dialog_title">Jestlər sıfırlansın?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Cari dəstdəki jestlər sıfırlansın?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Bununla bütün jestlər defolt əməliyyatlara sıfırlanacaq.\n\nEtdiyiniz dəyişiklikləri itirəcəksiniz.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Endirmə, hərəkət istiqamətlərini izləmə və s. üzrə bildirişlər daxildir. Deaktiv etdikdə daha az bildiriş alacaqsınız.</string>
   <string name="title_pref_explore_by_touch">Toxunuşla kəşf</string>
   <string name="title_pref_category_controls">Nizamlayıcılar</string>
-  <string name="title_pref_category_reduce_latency_summary">Bu ayarlar ekrana toxunduqdan sonra SandFly-ın daha tez reaksiya verməsini təmin edir</string>
-  <string name="reset_latency_settings_title">Bütün gecikmə ayarlarını sıfırlayın</string>
   <string name="title_pref_single_tap">Aktivləşdirmək üçün bir dəfə toxunun</string>
   <string name="summary_pref_single_tap">Aktivləşdirmək üçün fokuslanmış elementə bir dəfə toxunun. İki dəfə toxunmaqdan daha sürətli naviqasiya.</string>
   <string name="pref_verbosity_title">Söz yığını</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Klaviatura exosu</string>
   <string name="pref_node_desc_order_title">Element detallarının sırası</string>
   <string name="pref_time_feedback_format_title">Vaxt formatı</string>
-  <string name="title_pref_latency_reduction">Gecikməni azaldın</string>
-  <string name="talkback_latency_reduction_summary">Ekrana toxunduqdan sonra SandFly-ın daha tez reaksiya verməsini təmin edin</string>
   <string name="summary_pref_intonation">Silinmiş hərfləri daha yüksək səslə deyin</string>
   <string name="title_pref_speech_footer">İstənilən ekranda xüsusi imkanlar səs səviyyəsini dəyişmək üçün 1 barmağı ekranda saxlayın və səs artırma və ya azaltma düyməsini basın.</string>
   <string name="title_pref_vibration">Vibrasiya haqqında geri əlaqə</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Developer ayarları</string>
   <string name="title_activity_dump_a11y_event">Daxil etmək üçün tədbirlər seçin</string>
   <string name="title_pref_dump_a11y_event">Filter əlçatımlığı tədbir daxiletməsi</string>
-  <string name="pref_reduce_window_delay_title">Animasiyaları deaktiv edin</string>
   <string name="title_pref_log_level">Xaricetmə səviyyəsi jurnalı</string>
   <string name="title_pref_diagnosis_mode">Diaqnoz rejimi</string>
   <string name="title_pref_tts_overlay">Nitq xaricetməsini göstər</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Seçilmiş şəkil daxilində mətn və nişanları səsləndirin</string>
   <string name="summary_typo_suggestions">Kursorun yazı səhvi üzərində olduğunu göstərir</string>
   <string name="summary_cache_keyboard_keys">SandFly siz yazarkən gecikməni azaltmaq üçün elanları əvvəlcədən yükləyir</string>
-  <string name="summary_cache_keyboard_keys_disabled">Bu funksiyadan istifadə etmək üçün Google nitq sintezatorudan istifadə edin</string>
   <string name="title_pref_shortcut_up">Yuxarı sürüşdürün</string>
   <string name="title_pref_shortcut_up_xr">Digər ovuc içəri doğru, barmaqları birləşdirin və yuxarı çəkin</string>
   <string name="title_pref_shortcut_down">Aşağı sürüşdürün</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Bu cihazlarla telefon dinamiki</string>
     <string name="summary_pref_speaker_devices_none">Yoxdur</string>
     <string name="summary_pref_speaker_devices_no_devices">Hələ Bluetooth və ya naqilli cihaz qoşulmayıb</string>
-    <string name="pref_reduce_window_delay_summary">Animasiyalar deaktiv olduqda SandFly yeni ekranları daha tez oxuyur. Bu, bütün telefon üçün animasiyaları deaktiv edir.</string>
     <string name="dialog_message_detailed_ai_description">Seçilmiş şəkillər təsvir edilmək üçün Google-un Gemini API-sinə göndərilir. Cihazda Sİ aktiv olduqda isə onlar bu telefonda təsvir edilir və göndərilmir.\n\nPulsuz API açarı ilə Google aldığı məlumatları saxlaya, məhsullarını təkmilləşdirmək üçün istifadə edə və insanlara nəzərdən keçirtdirə bilər. Generativ Sİ eksperimentaldır, ona görə səhvlər edəcək. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tətbiq olunur.</string>
     <string name="dialog_message_detailed_ai_promotion">Detallı şəkil təsvirləri generativ Sİ ilə işləyir. Seçilmiş şəkillər təsvir edilmək üçün Google-un Gemini API-sinə göndərilir. Cihazda Sİ aktiv olduqda isə onlar bu telefonda təsvir edilir və göndərilmir.\n\nPulsuz API açarı ilə Google aldığı məlumatları saxlaya, məhsullarını təkmilləşdirmək üçün istifadə edə və insanlara nəzərdən keçirtdirə bilər. Generativ Sİ eksperimentaldır, ona görə səhvlər edəcək. Detallı şəkil təsvirlərini istənilən vaxt SandFly ayarlarında deaktiv edə bilərsiniz.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tətbiq olunur.</string>
     <string name="dialog_message_screen_overview_promotion">Ekranın skrinşotu təsvir edilmək üçün Google-un Gemini API-sinə göndərilir, bu bir neçə saniyə çəkir. Cihazda Sİ aktiv olduqda isə o, bu telefonda təsvir edilir və göndərilmir.\n\nPulsuz API açarı ilə Google aldığı məlumatları saxlaya, məhsullarını təkmilləşdirmək üçün istifadə edə və insanlara nəzərdən keçirtdirə bilər. Generativ Sİ eksperimentaldır, ona görə səhvlər edəcək. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tətbiq olunur.</string>

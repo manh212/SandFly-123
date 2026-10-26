@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">時刻を読み上げる</string>
   <string name="pref_speak_time_summary">画面を ON にしたとき</string>
   <string name="summary_speak_container_element_positions">リスト、グリッドなどのコンテナに出入りしたときに読み上げます</string>
-  <string name="reset_letency_reduction_settings_dialog_title">遅延の設定をリセットしますか？</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">遅延の設定がすべてデフォルトにリセットされます</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">リセット</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">遅延の軽減に関する設定がリセットされました。</string>
   <string name="Reset_gesture_settings_dialog_title">ジェスチャーをリセットしますか？</string>
   <string name="Reset_gesture_settings_set_dialog_title">現在のジェスチャー セットをリセットしますか？</string>
   <string name="message_reset_gesture_settings_confirm_dialog">すべてのジェスチャーがデフォルトの操作にリセットされます。\n\nこれまでに行った変更はすべて失われます。</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ダウンロード、運転ルートの検索などを行っている間の更新を含みます。OFF にしても頻度を下げて更新は読み上げられます。</string>
   <string name="title_pref_explore_by_touch">タッチガイド</string>
   <string name="title_pref_category_controls">コントロール</string>
-  <string name="title_pref_category_reduce_latency_summary">これらの設定により、画面に触れた後の SandFly の反応が速くなります</string>
-  <string name="reset_latency_settings_title">遅延の設定をすべてリセット</string>
   <string name="title_pref_single_tap">シングルタップで有効化</string>
   <string name="summary_pref_single_tap">フォーカスのあるアイテムを 1 回タップすると有効にできます。ダブルタップよりもすばやく操作できます。</string>
   <string name="pref_verbosity_title">読み上げの詳細設定</string>
@@ -284,8 +278,6 @@
   <string name="title_pref_keyboard_echo">キーボード操作の読み上げ</string>
   <string name="pref_node_desc_order_title">アイテム詳細の並び順</string>
   <string name="pref_time_feedback_format_title">時刻の表示形式</string>
-  <string name="title_pref_latency_reduction">遅延を短縮する</string>
-  <string name="talkback_latency_reduction_summary">画面に触れた後のSandFlyの反応を速くします</string>
   <string name="summary_pref_intonation">削除した文字を高い声で読み上げます</string>
   <string name="title_pref_speech_footer">どの画面からでもアクセシビリティ音量を変更するには、画面上で 1 本の指を押したまま、音量を上げるキーまたは音量を下げるキーを押します。</string>
   <string name="title_pref_vibration">バイブ フィードバック</string>
@@ -295,7 +287,6 @@
   <string name="title_pref_category_developer_settings">デベロッパー向けの設定</string>
   <string name="title_activity_dump_a11y_event">ログに記録するイベントの選択</string>
   <string name="title_pref_dump_a11y_event">ユーザー補助機能イベントのログのフィルタ</string>
-  <string name="pref_reduce_window_delay_title">アニメーションをオフにする</string>
   <string name="title_pref_log_level">ログ出力レベル</string>
   <string name="title_pref_diagnosis_mode">診断モード</string>
   <string name="title_pref_tts_overlay">音声出力の表示</string>
@@ -544,7 +535,6 @@
   <string name="summary_image_caption">選択した画像内のテキストとアイコンを読み上げます</string>
   <string name="summary_typo_suggestions">スペルミスにカーソルを合わせると表示されます</string>
   <string name="summary_cache_keyboard_keys">SandFly は読み上げを事前に読み込んで、入力時の遅延を短縮します</string>
-  <string name="summary_cache_keyboard_keys_disabled">この機能を使用するには、Google テキスト読み上げを使用します</string>
   <string name="title_pref_shortcut_up">上にスワイプ</string>
   <string name="title_pref_shortcut_up_xr">2 番目の手のひらを内側に向けて、ピンチ、上にスワイプ</string>
   <string name="title_pref_shortcut_down">下にスワイプ</string>
@@ -1475,7 +1465,6 @@
     <string name="title_pref_speaker_devices">これらのデバイスの接続時はスマートフォンのスピーカー</string>
     <string name="summary_pref_speaker_devices_none">なし</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth または有線デバイスがまだ接続されていません</string>
-    <string name="pref_reduce_window_delay_summary">SandFly は、アニメーションがオフのときに新しい画面をより速く読み取ります。これにより、電話全体のアニメーションがオフになります。</string>
     <string name="dialog_message_detailed_ai_description">選択した画像は、説明を生成するために Google の Gemini API に送信されます。[オンデバイスAI] をオンにすると、代わりにこのスマートフォン上で説明され、送信されません。\n\n無料の API キーを使用している場合、Google は受け取った内容を保持し、サービスの改善に使用し、人間による確認を行うことがあります。生成 AI は試験運用中のため、間違いが発生します。<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> が適用されます。</string>
     <string name="dialog_message_detailed_ai_promotion">画像の詳細な説明は生成 AI によって作成されます。選択した画像は、説明を生成するために Google の Gemini API に送信されます。[オンデバイスAI] をオンにすると、代わりにこのスマートフォン上で説明され、送信されません。\n\n無料の API キーを使用している場合、Google は受け取った内容を保持し、サービスの改善に使用し、人間による確認を行うことがあります。生成 AI は試験運用中のため、間違いが発生します。画像の詳細な説明は SandFly の設定でいつでもオフにできます。\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> が適用されます。</string>
     <string name="dialog_message_screen_overview_promotion">画面のスクリーンショットが説明のために Google の Gemini API に送信されます。これには数秒かかります。[オンデバイスAI] をオンにすると、代わりにこのスマートフォン上で説明され、送信されません。\n\n無料の API キーを使用している場合、Google は受け取った内容を保持し、サービスの改善に使用し、人間による確認を行うことがあります。生成 AI は試験運用中のため、間違いが発生します。<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> が適用されます。</string>

@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Изговарај го точното време</string>
   <string name="pref_speak_time_summary">Кога ќе го вклучите екранот</string>
   <string name="summary_speak_container_element_positions">Кажува кога влегувате во списоци, мрежи и други контејнери или излегувате од нив</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Да се ресетираат поставките за доцнење?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Ова ќе ги ресетира сите поставки за доцнење на стандардните поставки</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Ресетирај</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Поставките за намалување на латенцијата се ресетирани.</string>
   <string name="Reset_gesture_settings_dialog_title">Да се ресетираат движењата?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Да се ресетираат движењата во актуелниот сет?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Ова ќе ги ресетира сите движења на нивните стандардни дејства.\n\nЌе ги изгубите сите промени што сте ги извршиле.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Вклучува известувања при преземање, следење насоки за возење и друго. Кога е исклучено, сепак ќе добивате известувања, но поретко.</string>
   <string name="title_pref_explore_by_touch">Истражувајте со допир</string>
   <string name="title_pref_category_controls">Контроли</string>
-  <string name="title_pref_category_reduce_latency_summary">Овие поставки прават SandFly да реагира побрзо откако ќе го допрете екранот</string>
-  <string name="reset_latency_settings_title">Ресетирај ги сите поставки за доцнење</string>
   <string name="title_pref_single_tap">Допрете еднаш за активирање</string>
   <string name="summary_pref_single_tap">Допрете еднаш на фокусираната ставка за активирање. Побрза навигација од двоен допир.</string>
   <string name="pref_verbosity_title">Речитост</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Ехо од тастатура</string>
   <string name="pref_node_desc_order_title">Редоследот на деталите за ставката</string>
   <string name="pref_time_feedback_format_title">Формат за време</string>
-  <string name="title_pref_latency_reduction">Намали го доцнењето</string>
-  <string name="talkback_latency_reduction_summary">SandFly реагира побрзо откако ќе го допрете екранот</string>
   <string name="summary_pref_intonation">Ги изговара избришаните букви со повисок тон</string>
   <string name="title_pref_speech_footer">За да ја промените јачината на звукот за пристапност од кој било екран, држете 1 прст на екранот и притиснете го копчето за зголемување или намалување на јачината на звукот.</string>
   <string name="title_pref_vibration">Повратни информации со вибрирање</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Програмерски поставки</string>
   <string name="title_activity_dump_a11y_event">Изберете настани</string>
   <string name="title_pref_dump_a11y_event">Филтрирајте го евидентирањето на настаните за пристапност</string>
-  <string name="pref_reduce_window_delay_title">Исклучи ги анимациите</string>
   <string name="title_pref_log_level">Ниво на бележење излези</string>
   <string name="title_pref_diagnosis_mode">Режим за дијагностика</string>
   <string name="title_pref_tts_overlay">Приказ на говорен излез</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Изговарај текст и икони во рамките на избрана слика</string>
   <string name="summary_typo_suggestions">Се прикажува кога курсорот е на печатна грешка</string>
   <string name="summary_cache_keyboard_keys">SandFly ги вчитува соопштенијата однапред за да го намали доцнењето кога пишувате</string>
-  <string name="summary_cache_keyboard_keys_disabled">Користете ја „Од текст во говор на Google“ за да ја користите функцијава</string>
   <string name="title_pref_shortcut_up">Повлекување нагоре</string>
   <string name="title_pref_shortcut_up_xr">Секундарна дланка свртена навнатре, штипнување и повлекување нагоре</string>
   <string name="title_pref_shortcut_down">Повлекување надолу</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Телефонски звучник со овие уреди</string>
     <string name="summary_pref_speaker_devices_none">Нема</string>
     <string name="summary_pref_speaker_devices_no_devices">Сè уште нема поврзани Bluetooth или жични уреди</string>
-    <string name="pref_reduce_window_delay_summary">SandFly побрзо ги чита новите екрани кога анимациите се исклучени. Ова ги исклучува анимациите за целиот телефон.</string>
     <string name="dialog_message_detailed_ai_description">Избраните слики се испраќаат до Gemini API на Google за да бидат опишани. Кога е вклучено „ВИ на уредот“, тие се опишуваат на овој телефон и не се испраќаат.\n\nСо бесплатен API-клуч, Google може да го задржи она што го добива, да го користи за подобрување на своите производи и да го дава на преглед на луѓе. Генеративната ВИ е експериментална, па ќе прави грешки. Важат <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Деталните описи на слики ги создава генеративна ВИ. Избраните слики се испраќаат до Gemini API на Google за да бидат опишани. Кога е вклучено „ВИ на уредот“, тие се опишуваат на овој телефон и не се испраќаат.\n\nСо бесплатен API-клуч, Google може да го задржи она што го добива, да го користи за подобрување на своите производи и да го дава на преглед на луѓе. Генеративната ВИ е експериментална, па ќе прави грешки. Деталните описи на слики може да ги исклучите во секое време во Поставки за SandFly.\n\nВажат <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Слика од екранот се испраќа до Gemini API на Google за да биде опишана, што трае неколку секунди. Кога е вклучено „ВИ на уредот“, таа се опишува на овој телефон и не се испраќа.\n\nСо бесплатен API-клуч, Google може да го задржи она што го добива, да го користи за подобрување на своите производи и да го дава на преглед на луѓе. Генеративната ВИ е експериментална, па ќе прави грешки. Важат <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

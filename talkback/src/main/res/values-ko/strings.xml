@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">음성 시간 알림</string>
   <string name="pref_speak_time_summary">화면을 켤 때</string>
   <string name="summary_speak_container_element_positions">목록, 그리드 등 컨테이너에 들어가거나 나올 때 알립니다</string>
-  <string name="reset_letency_reduction_settings_dialog_title">지연 설정을 재설정하시겠습니까?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">이렇게 하면 모든 지연 시간 설정이 기본값으로 재설정됩니다.</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">재설정</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">지연 시간 감소 설정이 재설정되었습니다.</string>
   <string name="Reset_gesture_settings_dialog_title">동작을 재설정할까요?</string>
   <string name="Reset_gesture_settings_set_dialog_title">현재 세트의 제스처를 재설정할까요?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">모든 동작이 기본값으로 재설정됩니다.\n\n변경사항이 모두 삭제됩니다.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">다운로드, 운전 경로 따르기 등의 작업을 하는 동안의 업데이트가 포함됩니다. 이 기능을 끄면 업데이트 빈도가 줄어듭니다.</string>
   <string name="title_pref_explore_by_touch">터치하여 탐색</string>
   <string name="title_pref_category_controls">컨트롤</string>
-  <string name="title_pref_category_reduce_latency_summary">이 설정을 사용하면 화면을 터치한 후 SandFly가 더 빠르게 반응합니다.</string>
-  <string name="reset_latency_settings_title">모든 지연 설정 재설정</string>
   <string name="title_pref_single_tap">한 번 탭하여 활성화</string>
   <string name="summary_pref_single_tap">포커스가 설정된 항목을 한 번 탭하여 활성화합니다. 두 번 탭하는 것보다 빠르게 탐색할 수 있습니다.</string>
   <string name="pref_verbosity_title">상세 출력</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">키보드 에코</string>
   <string name="pref_node_desc_order_title">항목 세부정보 순서</string>
   <string name="pref_time_feedback_format_title">시간 형식</string>
-  <string name="title_pref_latency_reduction">지연 시간 줄이기</string>
-  <string name="talkback_latency_reduction_summary">화면을 터치한 후 SandFly가 더 빠르게 반응하도록 설정</string>
   <string name="summary_pref_intonation">삭제한 글자를 더 높은 음으로 소리 내어 읽습니다.</string>
   <string name="title_pref_speech_footer">어느 화면에서나 접근성 볼륨을 변경하려면 화면에 손가락 한 개를 대고 볼륨 높이기 또는 볼륨 낮추기 키를 누릅니다.</string>
   <string name="title_pref_vibration">진동 확인</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">개발자 설정</string>
   <string name="title_activity_dump_a11y_event">로깅할 일정 선택</string>
   <string name="title_pref_dump_a11y_event">필터 접근성 일정 로깅</string>
-  <string name="pref_reduce_window_delay_title">애니메이션 끄기</string>
   <string name="title_pref_log_level">로그 출력 수준</string>
   <string name="title_pref_diagnosis_mode">진단 모드</string>
   <string name="title_pref_tts_overlay">음성 출력 표시</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">선택된 이미지 내 텍스트와 아이콘을 읽어줍니다.</string>
   <string name="summary_typo_suggestions">오타 위에 커서를 올려두면 표시됩니다.</string>
   <string name="summary_cache_keyboard_keys">SandFly은 입력 시 지연 시간을 줄이기 위해 안내를 미리 로드합니다.</string>
-  <string name="summary_cache_keyboard_keys_disabled">Google TTS(텍스트 음성 변환)를 사용해 이 기능을 이용합니다.</string>
   <string name="title_pref_shortcut_up">위로 스와이프</string>
   <string name="title_pref_shortcut_up_xr">보조 손의 손바닥이 나를 향한 상태에서 손가락을 모은 후 위로 스와이프</string>
   <string name="title_pref_shortcut_down">아래로 스와이프</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">이 기기 연결 시 휴대전화 스피커 사용</string>
     <string name="summary_pref_speaker_devices_none">없음</string>
     <string name="summary_pref_speaker_devices_no_devices">아직 Bluetooth 또는 유선 기기가 연결되지 않았습니다.</string>
-    <string name="pref_reduce_window_delay_summary">애니메이션이 꺼져 있으면 SandFly가 새 화면을 더 빠르게 읽습니다. 이 설정은 휴대전화 전체의 애니메이션을 끕니다.</string>
     <string name="dialog_message_detailed_ai_description">선택한 이미지는 설명을 위해 Google의 Gemini API로 전송됩니다. 온디바이스 AI를 켜면 대신 이 휴대전화에서 설명되며 전송되지 않습니다.\n\n무료 API 키를 사용하면 Google에서 수신한 내용을 보관하고 제품 개선에 사용하며 사람이 검토하게 할 수 있습니다. 생성형 AI는 실험 단계이므로 실수를 합니다. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>이(가) 적용됩니다.</string>
     <string name="dialog_message_detailed_ai_promotion">자세한 이미지 설명은 생성형 AI로 만들어집니다. 선택한 이미지는 설명을 위해 Google의 Gemini API로 전송됩니다. 온디바이스 AI를 켜면 대신 이 휴대전화에서 설명되며 전송되지 않습니다.\n\n무료 API 키를 사용하면 Google에서 수신한 내용을 보관하고 제품 개선에 사용하며 사람이 검토하게 할 수 있습니다. 생성형 AI는 실험 단계이므로 실수를 합니다. 자세한 이미지 설명은 SandFly 설정에서 언제든지 사용 중지할 수 있습니다.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>이(가) 적용됩니다.</string>
     <string name="dialog_message_screen_overview_promotion">화면의 스크린샷이 설명을 위해 Google의 Gemini API로 전송되며, 몇 초 정도 걸립니다. 온디바이스 AI를 켜면 대신 이 휴대전화에서 설명되며 전송되지 않습니다.\n\n무료 API 키를 사용하면 Google에서 수신한 내용을 보관하고 제품 개선에 사용하며 사람이 검토하게 할 수 있습니다. 생성형 AI는 실험 단계이므로 실수를 합니다. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>이(가) 적용됩니다.</string>

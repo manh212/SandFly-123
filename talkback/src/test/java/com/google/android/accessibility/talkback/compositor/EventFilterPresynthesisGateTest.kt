@@ -32,7 +32,7 @@ class EventFilterPresynthesisGateTest {
 
   @Test
   fun depthOne_qualifies() {
-    assertTrue(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 1))
+    assertTrue(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_DEFAULT, 1))
   }
 
   @Test
@@ -40,20 +40,16 @@ class EventFilterPresynthesisGateTest {
     // Sounds made for targets two swipes away were almost never the ones played, while each
     // held the speech engine as long as a sound one swipe away: their text stays prepared,
     // but their sound is no longer made ahead.
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 2))
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 3))
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_DEFAULT, 0))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_DEFAULT, 2))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_DEFAULT, 3))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_DEFAULT, 0))
   }
 
   @Test
   fun readingControlTargets_doNotQualify() {
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_HEADING, 1))
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_CONTROL, 2))
-    assertFalse(EventFilter.shouldSynthesizePrepared(true, NavigationTarget.TARGET_LINK, 1))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_HEADING, 1))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_CONTROL, 2))
+    assertFalse(EventFilter.shouldSynthesizePrepared(NavigationTarget.TARGET_LINK, 1))
   }
 
-  @Test
-  fun switchOff_nothingQualifies() {
-    assertFalse(EventFilter.shouldSynthesizePrepared(false, NavigationTarget.TARGET_DEFAULT, 1))
-  }
 }

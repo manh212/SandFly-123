@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Vaqtni aytish</string>
   <string name="pref_speak_time_summary">Ekranni yoqqaningizda</string>
   <string name="summary_speak_container_element_positions">Roʻyxatlar, toʻrlar va boshqa konteynerlarga kirganda yoki chiqqanda aytadi</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Kechikish sozlamalari asliga qaytarilsinmi?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Bunda barcha kechikish sozlamalari asliga qaytariladi</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Asliga qaytarish</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Kechikishni kamaytirish sozlamalari asliga qaytarildi.</string>
   <string name="Reset_gesture_settings_dialog_title">Ishoralar asliga qaytarilsinmi?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Joriy toʻplamdagi ishoralar tiklansinmi?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Barcha ishoralarni birlamchi amallariga qaytaradi.\n\nKiritilgan barcha oʻzgartirishlar saqlanmaydi.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Bunga yuklab olish va navigatsiya paytidagi bildirishnomalar kiradi. Sozlama oʻchiq boʻlsa, kamroq bildirishnoma chiqadi.</string>
   <string name="title_pref_explore_by_touch">Teginib o‘rganish</string>
   <string name="title_pref_category_controls">Boshqaruv</string>
-  <string name="title_pref_category_reduce_latency_summary">Bu sozlamalar ekranga tegingandan keyin SandFly tezroq javob berishini taʼminlaydi</string>
-  <string name="reset_latency_settings_title">Barcha kechikish sozlamalarini asliga qaytarish</string>
   <string name="title_pref_single_tap">Faollashtirish uchun bir marta bosing</string>
   <string name="summary_pref_single_tap">Fokusdagi elementni faollashtirish uchun ustiga bir marta bosing. Ikki marta teginishdan koʻra tezroq navigatsiya.</string>
   <string name="pref_verbosity_title">Tafsilotlar</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Klaviatura aks sadosi</string>
   <string name="pref_node_desc_order_title">Element tafsilotlari tartibi</string>
   <string name="pref_time_feedback_format_title">Vaqt formati</string>
-  <string name="title_pref_latency_reduction">Kechikishni kamaytirish</string>
-  <string name="talkback_latency_reduction_summary">Ekranga tegingandan keyin SandFly tezroq javob beradi</string>
   <string name="summary_pref_intonation">Oʻchirib tashlangan harflarni baland ovozda aytish</string>
   <string name="title_pref_speech_footer">Har qanday ekrandan maxsus imkoniyatlar ovozini oʻzgartirish uchun ekranda 1 barmogʻingizni ushlab turing va ovoz balandligini oshirish yoki pasaytirish tugmasini bosing.</string>
   <string name="title_pref_vibration">Tebranishli signal</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Dasturchi sozlamalari</string>
   <string name="title_activity_dump_a11y_event">Jurnalga qo‘shish kerak bo‘lgan tadbirni tanlang</string>
   <string name="title_pref_dump_a11y_event">Jurnalga qo‘shish uchun maxsus imkoniyatlardan foydalanib tadbirlarni filtrlash</string>
-  <string name="pref_reduce_window_delay_title">Animatsiyalarni oʻchirish</string>
   <string name="title_pref_log_level">Jurnalni chiqarish darajasi</string>
   <string name="title_pref_diagnosis_mode">Diagnostika rejimi</string>
   <string name="title_pref_tts_overlay">Nutqni matnga aylantirish</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Tanlangan rasm ichidagi matn va belgilarni oʻqib eshittirish</string>
   <string name="summary_typo_suggestions">Kursor xato ustida turganda chiqadi</string>
   <string name="summary_cache_keyboard_keys">SandFly yozganingizda kechikishni kamaytirish uchun eʼlonlarni oldindan yuklaydi</string>
-  <string name="summary_cache_keyboard_keys_disabled">Bu funksiya uchun Google Nutq sintezatoridan foydalaning</string>
   <string name="title_pref_shortcut_up">Tepaga surish</string>
   <string name="title_pref_shortcut_up_xr">Ikkinchi qoʻlni oʻzingizga qaratib, chimdish va tepaga surish</string>
   <string name="title_pref_shortcut_down">Pastga surish</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Ushbu qurilmalar bilan telefon dinamiki</string>
     <string name="summary_pref_speaker_devices_none">Hech qanday</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth yoki simli qurilmalar hali ulanmagan</string>
-    <string name="pref_reduce_window_delay_summary">Animatsiyalar oʻchiq boʻlsa, SandFly yangi ekranlarni tezroq oʻqiydi. Bu butun telefon uchun animatsiyalarni oʻchiradi.</string>
     <string name="dialog_message_detailed_ai_description">Tanlangan rasmlar tavsiflash uchun Google Gemini API’ga yuboriladi. “Qurilmadagi AI” yoqilganda, ular oʻrniga shu telefonda tavsiflanadi va yuborilmaydi.\n\nBepul API kaliti bilan Google olgan maʼlumotlarni saqlashi, mahsulotlarini yaxshilash uchun ishlatishi va odamlarga koʻrib chiqtirishi mumkin. Generativ AI tajriba bosqichida, shuning uchun xato qiladi. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> amal qiladi.</string>
     <string name="dialog_message_detailed_ai_promotion">Rasmlarning batafsil tavsiflari generativ AI yordamida yaratiladi. Tanlangan rasmlar tavsiflash uchun Google Gemini API’ga yuboriladi. “Qurilmadagi AI” yoqilganda, ular oʻrniga shu telefonda tavsiflanadi va yuborilmaydi.\n\nBepul API kaliti bilan Google olgan maʼlumotlarni saqlashi, mahsulotlarini yaxshilash uchun ishlatishi va odamlarga koʻrib chiqtirishi mumkin. Generativ AI tajriba bosqichida, shuning uchun xato qiladi. Rasmlarning batafsil tavsiflarini istalgan vaqtda SandFly sozlamalarida oʻchirib qoʻyishingiz mumkin.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> amal qiladi.</string>
     <string name="dialog_message_screen_overview_promotion">Ekran tasviri tavsiflash uchun Google Gemini API’ga yuboriladi, bu bir necha soniya davom etadi. “Qurilmadagi AI” yoqilganda, u oʻrniga shu telefonda tavsiflanadi va yuborilmaydi.\n\nBepul API kaliti bilan Google olgan maʼlumotlarni saqlashi, mahsulotlarini yaxshilash uchun ishlatishi va odamlarga koʻrib chiqtirishi mumkin. Generativ AI tajriba bosqichida, shuning uchun xato qiladi. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> amal qiladi.</string>

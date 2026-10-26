@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">بول کر وقت بتانے کی سہولت</string>
   <string name="pref_speak_time_summary">اسکرین آن کرنے پر</string>
   <string name="summary_speak_container_element_positions">فہرستوں، گرڈز اور دیگر کنٹینرز میں داخل ہونے یا ان سے نکلنے پر بتاتا ہے</string>
-  <string name="reset_letency_reduction_settings_dialog_title">تاخیر کی ترتیبات کو ری سیٹ کریں؟</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">اس سے تاخیر کی تمام ترتیبات ڈیفالٹ پر ری سیٹ ہو جائیں گی</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ری سیٹ کریں</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">تاخیر میں کمی کی ترتیبات ری سیٹ ہو گئی ہیں۔</string>
   <string name="Reset_gesture_settings_dialog_title">اشارے ری سیٹ کریں؟</string>
   <string name="Reset_gesture_settings_set_dialog_title">موجودہ سیٹ کے اشاروں کو ری سیٹ کریں؟</string>
   <string name="message_reset_gesture_settings_confirm_dialog">‏اس سے تمام اشارے ڈیفالٹ کارروائیوں پر ری سیٹ ہو جائیں گے۔\n\nآپ اپنی جانب سے کی گئی کسی بھی تبدیلی سے محروم ہو جائیں گے۔</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ڈاؤن لوڈ کرنے، گاڑی چلانے کی ڈائریکشنز کی پیروی کرنے اور بہت کچھ کرنے کے دوران اپ ڈیٹس شامل ہیں۔ آف ہونے کی صورت میں آپ کو اب بھی مزید کم اپ ڈیٹس موصول ہوں گی۔</string>
   <string name="title_pref_explore_by_touch">ٹچ کرکے دریافت کریں</string>
   <string name="title_pref_category_controls">کنٹرولز</string>
-  <string name="title_pref_category_reduce_latency_summary">یہ ترتیبات اسکرین چھونے کے بعد SandFly کو تیزی سے جواب دینے والا بناتی ہیں</string>
-  <string name="reset_latency_settings_title">سبھی تاخیر کی ترتیبات کو ری سیٹ کریں</string>
   <string name="title_pref_single_tap">فعال کرنے کیلئے ایک بار تھپتھپائيں</string>
   <string name="summary_pref_single_tap">فعال کرنے کیلئے فوکس کیے گئے آئٹم پر ایک بار تھپتھپائیں۔ دو بار تھپتھپائیں سے زیادہ تیز نیویگیشن۔</string>
   <string name="pref_verbosity_title">طوالت بیانی</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">کی بورڈ کی صدائے بازگشت</string>
   <string name="pref_node_desc_order_title">آئٹم کی تفصیلات کی ترتیب</string>
   <string name="pref_time_feedback_format_title">ٹائم فارمیٹ</string>
-  <string name="title_pref_latency_reduction">تاخیر کم کریں</string>
-  <string name="talkback_latency_reduction_summary">اسکرین چھونے کے بعد SandFly تیزی سے جواب دیتا ہے</string>
   <string name="summary_pref_intonation">حذف شدہ حروف کو بلند آواز سے پڑھیں</string>
   <string name="title_pref_speech_footer">کسی بھی اسکرین سے ایکسیسبیلٹی والیوم کو تبدیل کرنے کے لیے، اسکرین پر 1 انگلی دبائے رکھیں اور والیوم اپ یا والیوم ڈاؤن کلید کو دبائیں۔</string>
   <string name="title_pref_vibration">وائبریشن تاثرات</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ڈویلپر کی ترتیبات</string>
   <string name="title_activity_dump_a11y_event">لاگ کرنے کیلئے ایونٹس منتخـب کریں</string>
   <string name="title_pref_dump_a11y_event">ایکسیسبیلٹی ایونٹ لاگنگ کو فلٹر کریں</string>
-  <string name="pref_reduce_window_delay_title">متحرک تصاویر کو بند کریں</string>
   <string name="title_pref_log_level">لاگ آؤٹ پٹ کی سطح</string>
   <string name="title_pref_diagnosis_mode">تشخیصی وضع</string>
   <string name="title_pref_tts_overlay">اسپیچ آؤٹ پٹ ڈسپلے کریں</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">منتخب تصویر کے اندر ٹیکسٹ اور آئیکنز بولیں</string>
   <string name="summary_typo_suggestions">جب کرسر ٹائپنگ پر ہوتا ہے تو دکھاتا ہے</string>
   <string name="summary_cache_keyboard_keys">‏‫SandFly آپ کے ٹائپ کرتے وقت تاخیر کو کم کرنے کے لیے اعلانات کو پہلے سے لوڈ کرتا ہے</string>
-  <string name="summary_cache_keyboard_keys_disabled">‏اس خصوصیت کو استعمال کرنے کے لیے Google ٹیکسٹ ٹو اسپیچ استعمال کریں</string>
   <string name="title_pref_shortcut_up">اوپر سوائپ کریں</string>
   <string name="title_pref_shortcut_up_xr">ثانوی ہتھیلی کو اندر کی طرف موڑیں، چٹکی بھر کر اوپر سوائپ کریں</string>
   <string name="title_pref_shortcut_down">نیچے سوائپ کریں</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ان آلات کے ساتھ فون اسپیکر</string>
     <string name="summary_pref_speaker_devices_none">کوئی نہیں</string>
     <string name="summary_pref_speaker_devices_no_devices">ابھی تک کوئی Bluetooth یا وائرڈ ڈیوائسز منسلک نہیں ہیں</string>
-    <string name="pref_reduce_window_delay_summary">SandFly متحرک تصاویر بند ہونے پر نئی اسکرینوں کو تیزی سے پڑھتا ہے۔ یہ پورے فون کے لیے متحرک تصاویر کو بند کر دیتا ہے۔</string>
     <string name="dialog_message_detailed_ai_description">منتخب تصاویر کی وضاحت کے لیے انہیں Google کے Gemini API پر بھیجا جاتا ہے۔ آن ڈیوائس AI آن ہونے پر، ان کی وضاحت اس کے بجائے اسی فون پر ہوتی ہے اور انہیں بھیجا نہیں جاتا۔\n\nمفت API کلید کے ساتھ، Google جو کچھ وصول کرتا ہے اسے رکھ سکتا ہے، اپنی مصنوعات بہتر بنانے کے لیے استعمال کر سکتا ہے اور لوگوں سے اس کا جائزہ لگوا سکتا ہے۔ جنریٹو AI تجرباتی ہے، اس لیے اس سے غلطیاں ہوں گی۔ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> لاگو ہوتی ہیں۔</string>
     <string name="dialog_message_detailed_ai_promotion">تصاویر کی تفصیلی وضاحتیں جنریٹو AI سے بنائی جاتی ہیں۔ منتخب تصاویر کی وضاحت کے لیے انہیں Google کے Gemini API پر بھیجا جاتا ہے۔ آن ڈیوائس AI آن ہونے پر، ان کی وضاحت اس کے بجائے اسی فون پر ہوتی ہے اور انہیں بھیجا نہیں جاتا۔\n\nمفت API کلید کے ساتھ، Google جو کچھ وصول کرتا ہے اسے رکھ سکتا ہے، اپنی مصنوعات بہتر بنانے کے لیے استعمال کر سکتا ہے اور لوگوں سے اس کا جائزہ لگوا سکتا ہے۔ جنریٹو AI تجرباتی ہے، اس لیے اس سے غلطیاں ہوں گی۔ آپ SandFly کی ترتیبات میں کسی بھی وقت تصاویر کی تفصیلی وضاحتیں آف کر سکتے ہیں۔\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> لاگو ہوتی ہیں۔</string>
     <string name="dialog_message_screen_overview_promotion">اسکرین کی وضاحت کے لیے اس کا اسکرین شاٹ Google کے Gemini API پر بھیجا جاتا ہے، جس میں چند سیکنڈ لگتے ہیں۔ آن ڈیوائس AI آن ہونے پر، اس کی وضاحت اس کے بجائے اسی فون پر ہوتی ہے اور اسے بھیجا نہیں جاتا۔\n\nمفت API کلید کے ساتھ، Google جو کچھ وصول کرتا ہے اسے رکھ سکتا ہے، اپنی مصنوعات بہتر بنانے کے لیے استعمال کر سکتا ہے اور لوگوں سے اس کا جائزہ لگوا سکتا ہے۔ جنریٹو AI تجرباتی ہے، اس لیے اس سے غلطیاں ہوں گی۔ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> لاگو ہوتی ہیں۔</string>

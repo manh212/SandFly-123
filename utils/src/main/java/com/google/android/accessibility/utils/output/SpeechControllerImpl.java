@@ -108,33 +108,6 @@ public class SpeechControllerImpl implements SpeechController {
   private static final String TAG = "SpeechControllerImpl";
 
   /**
-   * Whether speech answering the user's own navigation gesture may cut short an utterance that
-   * is uninterruptible by other speech, but not globally uninterruptible. Those waits were the
-   * long tail of swipe-to-heard latency: the user is already somewhere else while the
-   * announcement finishes. Pushed from the latency settings, where it is on by default.
-   */
-  public static volatile boolean navigationSpeechInterruptsAnnouncements = true;
-
-  /**
-   * Whether speech for a window change or a focus move may cut short an utterance that is
-   * uninterruptible by other speech, but not globally uninterruptible, the way {@link
-   * #navigationSpeechInterruptsAnnouncements} lets a swipe's answer do. The long waits that
-   * survived the gesture privilege sat on these events: the title of the window the user just
-   * opened, and the first item in it, queued behind an announcement like any other speech.
-   * Pushed from the latency settings, where it is on by default.
-   */
-  public static volatile boolean windowFocusSpeechInterruptsAnnouncements = true;
-
-  /**
-   * When on, navigation speech (a swipe, or the window change and focus movement from the user's
-   * own actions) that has waited longer than {@link #SPEECH_WAIT_CAP_MS} behind any utterance
-   * force-flushes it, whatever its interrupt class, except speech carrying {@link
-   * FeedbackItem#FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP}. Mirrors the user's switch; read directly so a
-   * change applies at once.
-   */
-  public static volatile boolean speechWaitCapEnabled = true;
-
-  /**
    * How long navigation speech may wait behind another utterance before the cap frees it.
    * Lowered from 150 to 100 ms: a wait at the old cap alone was five times the whole
    * swipe-to-heard budget, and the flush and held counters in the diagnostics say how often
@@ -1556,7 +1529,7 @@ public class SpeechControllerImpl implements SpeechController {
               SystemClock.uptimeMillis(),
               speechBlockerLabel(currentFeedbackItem),
               speechWaiterLabel(item)));
-      if (speechWaitCapEnabled && speechMayCutAnnouncement(item)) {
+      if (speechMayCutAnnouncement(item)) {
         mHandler.postDelayed(() -> enforceSpeechWaitCap(item), SPEECH_WAIT_CAP_MS);
       }
     }
@@ -2141,12 +2114,17 @@ public class SpeechControllerImpl implements SpeechController {
     if (eventId == null) {
       return false;
     }
-    if (navigationSpeechInterruptsAnnouncements
-        && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE) {
+    // Speech answering the user's own navigation gesture may cut short an utterance that is
+    // uninterruptible by other speech, but not globally uninterruptible: those waits were the
+    // long tail of swipe-to-heard latency, the user already somewhere else while the
+    // announcement finished.
+    if (eventId.getEventType() == Performance.EVENT_TYPE_GESTURE) {
       return true;
     }
-    if (windowFocusSpeechInterruptsAnnouncements
-        && eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY) {
+    // The same privilege for speech from a window change or a focus move: the title of the
+    // window the user just opened, and the first item in it, do not queue behind an
+    // announcement like any other speech.
+    if (eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY) {
       int subtype = eventId.getEventSubtype();
       return subtype == AccessibilityEvent.TYPE_WINDOWS_CHANGED
           || subtype == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED

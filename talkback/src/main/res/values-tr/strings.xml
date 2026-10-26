@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Saati söyle</string>
   <string name="pref_speak_time_summary">Ekranı açtığınızda</string>
   <string name="summary_speak_container_element_positions">Listelere, ızgaralara ve diğer kapsayıcılara girip çıktığınızda söyler</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Gecikme ayarları sıfırlansın mı?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Tüm gecikme ayarları varsayılan değerlere sıfırlanacak</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Sıfırla</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Gecikmeyi azaltma ayarları sıfırlandı.</string>
   <string name="Reset_gesture_settings_dialog_title">Hareketler sıfırlansın mı?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Geçerli grubun hareketleri sıfırlansın mı?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Tüm hareketler sıfırlanıp varsayılan işlemleri yapmaya başlayacak.\n\nYaptığınız tüm değişiklikleri kaybedeceksiniz.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">İndirme, arabayla yol tarifini takip etme ve benzeri işlemler sırasında yapılan güncellemeleri içerir. Bu ayar kapatıldığında daha az sıklıkta da olsa güncellemeleri almaya devam edersiniz.</string>
   <string name="title_pref_explore_by_touch">Dokunarak keşfet</string>
   <string name="title_pref_category_controls">Kontroller</string>
-  <string name="title_pref_category_reduce_latency_summary">Bu ayarlar, ekrana dokunduktan sonra SandFly\'nin daha hızlı yanıt vermesini sağlar</string>
-  <string name="reset_latency_settings_title">Tüm gecikme ayarlarını sıfırla</string>
   <string name="title_pref_single_tap">Etkinleştirmek için bir kez dokunun</string>
   <string name="summary_pref_single_tap">Etkinleştirmek için, odaklanılan öğeye bir kez dokunun. İki kez dokunmaya göre daha hızlı gezinme.</string>
   <string name="pref_verbosity_title">Ayrıntı düzeyi</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Klavye yankısı</string>
   <string name="pref_node_desc_order_title">Öğe ayrıntılarının sırası</string>
   <string name="pref_time_feedback_format_title">Saat biçimi</string>
-  <string name="title_pref_latency_reduction">Gecikmeyi azalt</string>
-  <string name="talkback_latency_reduction_summary">Ekrana dokunduktan sonra SandFly\'nin daha hızlı yanıt vermesini sağlayın</string>
   <string name="summary_pref_intonation">Silinen harfleri daha ince bir sesle oku</string>
   <string name="title_pref_speech_footer">Erişilebilirlik ses düzeyini herhangi bir ekrandan değiştirmek için 1 parmağınızı ekranda basılı tutun ve ses açma veya ses kısma tuşuna basın.</string>
   <string name="title_pref_vibration">Titreşimli geri bildirim</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Geliştirici ayarları</string>
   <string name="title_activity_dump_a11y_event">Günlüğe kaydedilecek etkinlikleri seçin</string>
   <string name="title_pref_dump_a11y_event">Erişilebilirlik etkinlik günlüğünü filtrele</string>
-  <string name="pref_reduce_window_delay_title">Animasyonları kapat</string>
   <string name="title_pref_log_level">Günlük çıktı düzeyi</string>
   <string name="title_pref_diagnosis_mode">Teşhis modu</string>
   <string name="title_pref_tts_overlay">Konuşma çıktısını görüntüle</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Seçilen resimdeki metin ve simgeler sesli okunur</string>
   <string name="summary_typo_suggestions">İmleç bir yazım hatasının üzerindeyken gösterilir</string>
   <string name="summary_cache_keyboard_keys">SandFly, yazarken gecikmeyi azaltmak için duyuruları önceden yükler</string>
-  <string name="summary_cache_keyboard_keys_disabled">Bu özelliği kullanmak için Google Metin Okuma özelliğini kullanın</string>
   <string name="title_pref_shortcut_up">Yukarı kaydırma</string>
   <string name="title_pref_shortcut_up_xr">İkincil elin avuç içini içe doğru çevirme, kıstırma ve yukarı kaydırma</string>
   <string name="title_pref_shortcut_down">Aşağı hızlıca kaydırma</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Bu cihazlarla telefon hoparlörü</string>
     <string name="summary_pref_speaker_devices_none">Yok</string>
     <string name="summary_pref_speaker_devices_no_devices">Henüz Bluetooth veya kablolu cihaz bağlı değil</string>
-    <string name="pref_reduce_window_delay_summary">SandFly animasyonlar kapalıyken yeni ekranları daha hızlı okur. Bu, telefonun tamamı için animasyonları kapatır.</string>
     <string name="dialog_message_detailed_ai_description">Seçilen görseller açıklanmak üzere Google\'ın Gemini API\'sine gönderilir. Cihaz içi yapay zeka açıkken bunun yerine bu telefonda açıklanır ve gönderilmez.\n\nÜcretsiz bir API anahtarıyla Google aldıklarını saklayabilir, ürünlerini geliştirmek için kullanabilir ve insanlara inceletebilir. Üretken yapay zeka deneysel olduğundan hata yapacaktır. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geçerlidir.</string>
     <string name="dialog_message_detailed_ai_promotion">Ayrıntılı görsel açıklamaları üretken yapay zeka ile oluşturulur. Seçilen görseller açıklanmak üzere Google\'ın Gemini API\'sine gönderilir. Cihaz içi yapay zeka açıkken bunun yerine bu telefonda açıklanır ve gönderilmez.\n\nÜcretsiz bir API anahtarıyla Google aldıklarını saklayabilir, ürünlerini geliştirmek için kullanabilir ve insanlara inceletebilir. Üretken yapay zeka deneysel olduğundan hata yapacaktır. Ayrıntılı görsel açıklamalarını istediğiniz zaman SandFly ayarlarından kapatabilirsiniz.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geçerlidir.</string>
     <string name="dialog_message_screen_overview_promotion">Ekranın bir ekran görüntüsü açıklanmak üzere Google\'ın Gemini API\'sine gönderilir ve bu birkaç saniye sürer. Cihaz içi yapay zeka açıkken bunun yerine bu telefonda açıklanır ve gönderilmez.\n\nÜcretsiz bir API anahtarıyla Google aldıklarını saklayabilir, ürünlerini geliştirmek için kullanabilir ve insanlara inceletebilir. Üretken yapay zeka deneysel olduğundan hata yapacaktır. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geçerlidir.</string>

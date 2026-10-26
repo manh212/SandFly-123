@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Rostirea orei</string>
   <string name="pref_speak_time_summary">Când activezi ecranul</string>
   <string name="summary_speak_container_element_positions">Anunță când intrați în liste, grile și alte containere sau ieșiți din ele</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Restabilești setările pentru decalaj?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Astfel, toate setările pentru decalaj vor fi resetate la valorile prestabilite</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Resetează</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Setările de reducere a latenței au fost resetate.</string>
   <string name="Reset_gesture_settings_dialog_title">Resetezi gesturile?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Resetezi gesturile setului actual?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Astfel, vor fi restabilite toate gesturile la acțiunile lor prestabilite.\n\nVei pierde toate modificările aduse.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Aici sunt incluse actualizările la descărcare, urmărirea indicațiilor rutiere și multe altele. Când opțiunea este dezactivată, vei primi actualizări mai puțin frecvente.</string>
   <string name="title_pref_explore_by_touch">Explorează prin atingere</string>
   <string name="title_pref_category_controls">Comenzi</string>
-  <string name="title_pref_category_reduce_latency_summary">Aceste setări fac ca SandFly să răspundă mai rapid după ce atingeți ecranul</string>
-  <string name="reset_latency_settings_title">Restabilește toate setările pentru decalaj</string>
   <string name="title_pref_single_tap">Atinge o singură dată pentru a activa</string>
   <string name="summary_pref_single_tap">Atinge o dată elementul focalizat pentru a activa. Navigare mai rapidă decât cu atingerea dublă.</string>
   <string name="pref_verbosity_title">Informații rostite</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Rostirea tastelor</string>
   <string name="pref_node_desc_order_title">Ordinea detaliilor articolului</string>
   <string name="pref_time_feedback_format_title">Formatul orei</string>
-  <string name="title_pref_latency_reduction">Redu decalajul</string>
-  <string name="talkback_latency_reduction_summary">Faceți SandFly să răspundă mai rapid după ce atingeți ecranul</string>
   <string name="summary_pref_intonation">Rostește literele șterse pe un ton mai înalt</string>
   <string name="title_pref_speech_footer">Pentru a modifica volumul de accesibilitate de pe orice ecran, țineți apăsat 1 deget pe ecran și apăsați tasta de creștere sau de reducere a volumului.</string>
   <string name="title_pref_vibration">Feedback prin vibrații</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Setări pentru dezvoltatori</string>
   <string name="title_activity_dump_a11y_event">Selectează evenimentele de înregistrat în jurnal</string>
   <string name="title_pref_dump_a11y_event">Filtrează înregistrarea în jurnal a evenimentelor de accesibilitate</string>
-  <string name="pref_reduce_window_delay_title">Dezactivează animațiile</string>
   <string name="title_pref_log_level">Nivel de înregistrare în jurnal</string>
   <string name="title_pref_diagnosis_mode">Modul de diagnosticare</string>
   <string name="title_pref_tts_overlay">Afișează mesajul vocal</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Oferă feedback rostit pentru text și pictograme dintr-o imagine selectată</string>
   <string name="summary_typo_suggestions">Apare când cursorul este plasat deasupra unei greșeli de ortografie</string>
   <string name="summary_cache_keyboard_keys">SandFly preîncarcă anunțurile pentru a reduce decalajul când tastezi</string>
-  <string name="summary_cache_keyboard_keys_disabled">Folosește Redarea vocală a textului Google pentru a folosi această funcție</string>
   <string name="title_pref_shortcut_up">Glisează în sus</string>
   <string name="title_pref_shortcut_up_xr">Palma mâinii non-dominante spre tine, ciupește și glisează în sus</string>
   <string name="title_pref_shortcut_down">Glisează în jos</string>
@@ -1482,7 +1472,6 @@
     <string name="title_pref_speaker_devices">Difuzor telefon cu aceste dispozitive</string>
     <string name="summary_pref_speaker_devices_none">Fără</string>
     <string name="summary_pref_speaker_devices_no_devices">Niciun dispozitiv Bluetooth sau cu fir conectat încă</string>
-    <string name="pref_reduce_window_delay_summary">SandFly citește mai rapid ecranele noi când animațiile sunt oprite. Aceasta dezactivează animațiile pentru întregul telefon.</string>
     <string name="dialog_message_detailed_ai_description">Imaginile selectate sunt trimise la API-ul Gemini de la Google pentru a fi descrise. Cu AI pe dispozitiv activat, sunt descrise pe acest telefon și nu sunt trimise.\n\nCu o cheie API gratuită, Google poate păstra ce primește, îl poate folosi pentru a-și îmbunătăți produsele și îl poate da spre verificare unor oameni. AI generativ este experimental, așa că va face greșeli. Se aplică <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Descrierile detaliate ale imaginilor sunt generate de AI generativ. Imaginile selectate sunt trimise la API-ul Gemini de la Google pentru a fi descrise. Cu AI pe dispozitiv activat, sunt descrise pe acest telefon și nu sunt trimise.\n\nCu o cheie API gratuită, Google poate păstra ce primește, îl poate folosi pentru a-și îmbunătăți produsele și îl poate da spre verificare unor oameni. AI generativ este experimental, așa că va face greșeli. Puteți dezactiva oricând descrierile detaliate ale imaginilor din Setări SandFly.\n\nSe aplică <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">O captură de ecran este trimisă la API-ul Gemini de la Google pentru a fi descrisă, ceea ce durează câteva secunde. Cu AI pe dispozitiv activat, este descrisă pe acest telefon și nu este trimisă.\n\nCu o cheie API gratuită, Google poate păstra ce primește, îl poate folosi pentru a-și îmbunătăți produsele și îl poate da spre verificare unor oameni. AI generativ este experimental, așa că va face greșeli. Se aplică <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

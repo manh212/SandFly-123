@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Aika puhuttuna</string>
   <string name="pref_speak_time_summary">Kun laitat näytön päälle</string>
   <string name="summary_speak_container_element_positions">Sano, kun siirryt luetteloihin, ruudukkoihin ja muihin säiliöihin tai poistut niistä</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Nollataanko viiveasetukset?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Tämä palauttaa kaikki viiveasetukset oletusarvoihin</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Nollaa</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Viiveen vähentämisasetukset on nollattu.</string>
   <string name="Reset_gesture_settings_dialog_title">Nollataanko eleet?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Nollataanko nykyisen joukon eleet?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Tämä palauttaa kaikki eleet oletustoimintoihin.\n\nMenetät tekemäsi muutokset.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Sisältää päivitykset esimerkiksi lataamisen ja ajo-ohjeiden seuraamisen aikana. Saat vähemmän päivityksiä, kun ominaisuus on pois päältä.</string>
   <string name="title_pref_explore_by_touch">Kosketuksella tutkiminen</string>
   <string name="title_pref_category_controls">Ohjaimet</string>
-  <string name="title_pref_category_reduce_latency_summary">Nämä asetukset nopeuttavat SandFlyn reagointia, kun kosketat näyttöä</string>
-  <string name="reset_latency_settings_title">Nollaa kaikki viiveasetukset</string>
   <string name="title_pref_single_tap">Aktivoi yhdellä napautuksella</string>
   <string name="summary_pref_single_tap">Aktivoi napauttamalla valittua kohtaa kerran. Nopeampi siirtyminen kuin kaksoisnapauttamalla.</string>
   <string name="pref_verbosity_title">Puheen määrä</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Sano painetut näppäimet</string>
   <string name="pref_node_desc_order_title">Kohteen tietojen järjestys</string>
   <string name="pref_time_feedback_format_title">Ajan esitystapa</string>
-  <string name="title_pref_latency_reduction">Lyhennä viivettä</string>
-  <string name="talkback_latency_reduction_summary">Nopeuta SandFlyn reagointia, kun kosketat näyttöä</string>
   <string name="summary_pref_intonation">Sano poistetut kirjaimet korkeammalla äänellä</string>
   <string name="title_pref_speech_footer">Voit muuttaa saavutettavuuden äänenvoimakkuutta millä tahansa näytöllä pitämällä sormea näytöllä ja painamalla äänenvoimakkuuden lisäys- tai vähennyspainiketta.</string>
   <string name="title_pref_vibration">Värinäpalaute</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Kehittäjäasetukset</string>
   <string name="title_activity_dump_a11y_event">Valitse tapahtumat lokiin</string>
   <string name="title_pref_dump_a11y_event">Suodata esteettömyystapahtumien lokeja</string>
-  <string name="pref_reduce_window_delay_title">Poista animaatiot käytöstä</string>
   <string name="title_pref_log_level">Lokiin tallennuksen lähtötaso</string>
   <string name="title_pref_diagnosis_mode">Diagnoositila</string>
   <string name="title_pref_tts_overlay">Näytä puhe</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Lue ääneen teksti ja kuvakkeet valitusta kuvasta</string>
   <string name="summary_typo_suggestions">Näyttää, kun kohdistin on kirjoitusvirheen päällä</string>
   <string name="summary_cache_keyboard_keys">SandFly esilataa ilmoituksia, jotta viive kirjoittamisen aikana lyhenee</string>
-  <string name="summary_cache_keyboard_keys_disabled">Käytä Google Tekstistä puheeksi ‑ominaisuutta</string>
   <string name="title_pref_shortcut_up">Pyyhkäise ylös</string>
   <string name="title_pref_shortcut_up_xr">Toissijainen kämmen sisäänpäin, nipistä ja pyyhkäise ylös</string>
   <string name="title_pref_shortcut_down">Pyyhkäise alas</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Puhelimen kaiutin näiden laitteiden kanssa</string>
     <string name="summary_pref_speaker_devices_none">Ei mitään</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth- tai johdollisia laitteita ei ole vielä yhdistetty</string>
-    <string name="pref_reduce_window_delay_summary">SandFly lukee uudet näytöt nopeammin, kun animaatiot ovat pois päältä. Tämä poistaa animaatiot käytöstä koko puhelimesta.</string>
     <string name="dialog_message_detailed_ai_description">Valitut kuvat lähetetään Googlen Gemini API:lle kuvailtaviksi. Kun Laitteen tekoäly on käytössä, ne kuvaillaan sen sijaan tällä puhelimella eikä niitä lähetetä.\n\nIlmaista API-avainta käytettäessä Google voi säilyttää vastaanottamansa tiedot, käyttää niitä tuotteidensa parantamiseen ja antaa ihmisten tarkistaa ne. Generatiivinen tekoäly on kokeellinen, joten se tekee virheitä. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ovat voimassa.</string>
     <string name="dialog_message_detailed_ai_promotion">Yksityiskohtaiset kuvien kuvaukset tuottaa generatiivinen tekoäly. Valitut kuvat lähetetään Googlen Gemini API:lle kuvailtaviksi. Kun Laitteen tekoäly on käytössä, ne kuvaillaan sen sijaan tällä puhelimella eikä niitä lähetetä.\n\nIlmaista API-avainta käytettäessä Google voi säilyttää vastaanottamansa tiedot, käyttää niitä tuotteidensa parantamiseen ja antaa ihmisten tarkistaa ne. Generatiivinen tekoäly on kokeellinen, joten se tekee virheitä. Voit poistaa yksityiskohtaiset kuvien kuvaukset käytöstä milloin tahansa SandFly-asetuksissa.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ovat voimassa.</string>
     <string name="dialog_message_screen_overview_promotion">Näytöstä otettu kuvakaappaus lähetetään Googlen Gemini API:lle kuvailtavaksi, mikä kestää useita sekunteja. Kun Laitteen tekoäly on käytössä, se kuvaillaan sen sijaan tällä puhelimella eikä sitä lähetetä.\n\nIlmaista API-avainta käytettäessä Google voi säilyttää vastaanottamansa tiedot, käyttää niitä tuotteidensa parantamiseen ja antaa ihmisten tarkistaa ne. Generatiivinen tekoäly on kokeellinen, joten se tekee virheitä. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ovat voimassa.</string>

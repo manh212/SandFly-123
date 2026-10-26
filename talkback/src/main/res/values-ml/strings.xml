@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">സമയം പറയുക</string>
   <string name="pref_speak_time_summary">നിങ്ങൾ സ്ക്രീൻ ഓണാക്കുമ്പോൾ</string>
   <string name="summary_speak_container_element_positions">ലിസ്‌റ്റുകൾ, ഗ്രിഡുകൾ, മറ്റ് കണ്ടെയ്‌നറുകൾ എന്നിവയിൽ പ്രവേശിക്കുമ്പോഴോ പുറത്തുകടക്കുമ്പോഴോ പറയുന്നു</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ഡിലേ ക്രമീകരണം റീസെറ്റ് ചെയ്യണോ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ഇത് എല്ലാ ഡിലേ ക്രമീകരണവും ഡിഫോൾട്ടിലേക്ക് റീസെറ്റ് ചെയ്യും</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">റീസെറ്റ് ചെയ്യുക</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ലേറ്റൻസി കുറയ്ക്കൽ ക്രമീകരണം റീസെറ്റ് ചെയ്തു.</string>
   <string name="Reset_gesture_settings_dialog_title">ജെസ്ച്ചറുകൾ റീസെറ്റ് ചെയ്യണോ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">നിലവിലെ സെറ്റിന്റെ ജെസ്ച്ചറുകൾ റീസെറ്റ് ചെയ്യണോ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ഇത് എല്ലാ ജെസ്ച്ചറുകളും അവയുടെ ഡിഫോൾട്ട് പ്രവർത്തനങ്ങളിലേക്ക് റീസെറ്റ് ചെയ്യും.\n\nനിങ്ങൾ വരുത്തിയ എല്ലാ മാറ്റങ്ങളും നഷ്ടപ്പെടും.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ഡൗൺലോഡ് ചെയ്യുമ്പോഴും വാഹനമോടിച്ച് പോകാനുള്ള വഴികൾ പിന്തുടരുമ്പോഴും മറ്റുമുള്ള അപ്ഡേറ്റുകൾ ഉൾപ്പെടുന്നു. ഓഫാക്കിയിരിക്കുമ്പോൾ, തുടർന്നും ഇടവിട്ട് അപ്ഡേറ്റുകൾ ലഭിക്കും.</string>
   <string name="title_pref_explore_by_touch">ടച്ച് വഴി അടുത്തറിയൽ</string>
   <string name="title_pref_category_controls">നിയന്ത്രണങ്ങൾ</string>
-  <string name="title_pref_category_reduce_latency_summary">സ്‌ക്രീനിൽ സ്പർശിച്ച ശേഷം SandFly വേഗത്തിൽ പ്രതികരിക്കാൻ ഈ ക്രമീകരണങ്ങൾ സഹായിക്കുന്നു</string>
-  <string name="reset_latency_settings_title">എല്ലാ ഡിലേ ക്രമീകരണവും റീസെറ്റ് ചെയ്യുക</string>
   <string name="title_pref_single_tap">സജീവമാക്കാൻ, ഒറ്റത്തവണ ടാപ്പ് ചെയ്യുക</string>
   <string name="summary_pref_single_tap">ഫോക്കസ് ചെയ്‌തിരിക്കുന്ന ഇനം സജീവമാക്കാൻ, ഒരു തവണ അതിൽ ടാപ്പ് ചെയ്യുക. ഡബിൾ ടാപ്പിംഗിനേക്കാൾ വേഗത്തിലുള്ള നാവിഗേഷൻ.</string>
   <string name="pref_verbosity_title">വാചാലത</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">കീബോർഡ് എക്കോ</string>
   <string name="pref_node_desc_order_title">ഇനത്തിൻ്റെ വിശദാംശങ്ങളുടെ ക്രമം</string>
   <string name="pref_time_feedback_format_title">സമയ ഫോർമാറ്റ്</string>
-  <string name="title_pref_latency_reduction">ഡിലേ കുറയ്ക്കുക</string>
-  <string name="talkback_latency_reduction_summary">സ്‌ക്രീനിൽ സ്പർശിച്ച ശേഷം SandFly വേഗത്തിൽ പ്രതികരിക്കുന്നു</string>
   <string name="summary_pref_intonation">കീബോർഡ് ഉപയോഗിച്ച് ഇല്ലാതാക്കിയ അക്ഷരങ്ങൾ ഉയർന്ന പിച്ചിൽ പറയുക</string>
   <string name="title_pref_speech_footer">ഏത് സ്‌ക്രീനിൽ നിന്നും പ്രവേശനക്ഷമത വോളിയം മാറ്റാൻ, സ്‌ക്രീനിൽ 1 വിരൽ അമർത്തിപ്പിടിച്ച് വോളിയം അപ്പ് അല്ലെങ്കിൽ വോളിയം ഡൗൺ കീ അമർത്തുക.</string>
   <string name="title_pref_vibration">വൈബ്രേഷൻ ഫീഡ്ബാക്ക്</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ഡെവലപ്പർ ക്രമീകരണങ്ങൾ</string>
   <string name="title_activity_dump_a11y_event">ലോഗുചെയ്യേണ്ട ഇവന്റുകൾ തിരഞ്ഞെടുക്കുക</string>
   <string name="title_pref_dump_a11y_event">ഫിൽറ്റർ ഉപയോഗസഹായി ഇവന്റ് ലോഗുചെയ്യൽ</string>
-  <string name="pref_reduce_window_delay_title">ആനിമേഷനുകൾ ഓഫാക്കുക</string>
   <string name="title_pref_log_level">ലോഗ് ഔട്ട്പുട്ട് നില</string>
   <string name="title_pref_diagnosis_mode">ഡയഗ്‌നോസിസ് മോഡ്</string>
   <string name="title_pref_tts_overlay">സംഭാഷണ ഔട്ട്പുട്ട് ദൃശ്യമാക്കുക</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">തിരഞ്ഞെടുത്ത ഒരു ചിത്രത്തിനകത്തെ ടെക്സ്റ്റും ഐക്കണുകളും പറയുക</string>
   <string name="summary_typo_suggestions">അക്ഷരത്തെറ്റിൽ കഴ്‌സർ എത്തുമ്പോൾ കാണിക്കുന്നു</string>
   <string name="summary_cache_keyboard_keys">നിങ്ങൾ ടൈപ്പ് ചെയ്യുമ്പോൾ കാലതാമസം ഒഴിവാക്കാൻ SandFly മുൻകൂട്ടി പ്രഖ്യാപനങ്ങൾ ലോഡ് ചെയ്യുന്നു</string>
-  <string name="summary_cache_keyboard_keys_disabled">ഈ ഫീച്ചർ ഉപയോഗിക്കാൻ Google ടെക്‌സ്‌റ്റ് ടു സ്‌പീച്ച് ഉപയോഗിക്കുക</string>
   <string name="title_pref_shortcut_up">മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യുക</string>
   <string name="title_pref_shortcut_up_xr">രണ്ടാമത്തെ കൈപ്പത്തി അകത്തേക്ക് തിരിച്ച് പിഞ്ച് ചെയ്ത് മുകളിലേക്ക് സ്വൈപ്പ് ചെയ്യൂ</string>
   <string name="title_pref_shortcut_down">താഴോട്ട് സ്വൈപ്പുചെയ്യുക</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ഈ ഉപകരണങ്ങൾ കണക്റ്റ് ചെയ്യുമ്പോൾ ഫോൺ സ്പീക്കർ</string>
     <string name="summary_pref_speaker_devices_none">ഒന്നുമില്ല</string>
     <string name="summary_pref_speaker_devices_no_devices">ഇതുവരെ Bluetooth അല്ലെങ്കിൽ വയർഡ് ഉപകരണങ്ങളൊന്നും കണക്‌റ്റ് ചെയ്‌തിട്ടില്ല</string>
-    <string name="pref_reduce_window_delay_summary">ആനിമേഷനുകൾ ഓഫായിരിക്കുമ്പോൾ SandFly പുതിയ സ്ക്രീനുകൾ വേഗത്തിൽ വായിക്കുന്നു. ഇത് മുഴുവൻ ഫോണിനുമുള്ള ആനിമേഷനുകൾ ഓഫാക്കുന്നു.</string>
     <string name="dialog_message_detailed_ai_description">തിരഞ്ഞെടുത്ത ചിത്രങ്ങൾ വിവരിക്കാനായി Google-ന്റെ Gemini API-ലേക്ക് അയയ്ക്കുന്നു. ഉപകരണത്തിലെ AI ഓണാണെങ്കിൽ, പകരം അവ ഈ ഫോണിൽ തന്നെ വിവരിക്കുകയും അയയ്ക്കാതിരിക്കുകയും ചെയ്യും.\n\nസൗജന്യ API കീ ഉപയോഗിക്കുമ്പോൾ, Google-ന് ലഭിക്കുന്നത് സൂക്ഷിക്കാനും ഉൽപ്പന്നങ്ങൾ മെച്ചപ്പെടുത്താൻ ഉപയോഗിക്കാനും ആളുകളെക്കൊണ്ട് അവലോകനം ചെയ്യിക്കാനും കഴിയും. ജനറേറ്റീവ് AI പരീക്ഷണാത്മകമാണ്, അതിനാൽ അത് തെറ്റുകൾ വരുത്തും. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ബാധകമാണ്.</string>
     <string name="dialog_message_detailed_ai_promotion">വിശദമായ ചിത്ര വിവരണങ്ങൾ ജനറേറ്റീവ് AI ഉപയോഗിച്ചാണ് സൃഷ്ടിക്കുന്നത്. തിരഞ്ഞെടുത്ത ചിത്രങ്ങൾ വിവരിക്കാനായി Google-ന്റെ Gemini API-ലേക്ക് അയയ്ക്കുന്നു. ഉപകരണത്തിലെ AI ഓണാണെങ്കിൽ, പകരം അവ ഈ ഫോണിൽ തന്നെ വിവരിക്കുകയും അയയ്ക്കാതിരിക്കുകയും ചെയ്യും.\n\nസൗജന്യ API കീ ഉപയോഗിക്കുമ്പോൾ, Google-ന് ലഭിക്കുന്നത് സൂക്ഷിക്കാനും ഉൽപ്പന്നങ്ങൾ മെച്ചപ്പെടുത്താൻ ഉപയോഗിക്കാനും ആളുകളെക്കൊണ്ട് അവലോകനം ചെയ്യിക്കാനും കഴിയും. ജനറേറ്റീവ് AI പരീക്ഷണാത്മകമാണ്, അതിനാൽ അത് തെറ്റുകൾ വരുത്തും. SandFly ക്രമീകരണത്തിൽ എപ്പോൾ വേണമെങ്കിലും വിശദമായ ചിത്ര വിവരണങ്ങൾ ഓഫാക്കാം.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ബാധകമാണ്.</string>
     <string name="dialog_message_screen_overview_promotion">സ്‌ക്രീനിന്റെ ഒരു സ്‌ക്രീൻഷോട്ട് വിവരിക്കാനായി Google-ന്റെ Gemini API-ലേക്ക് അയയ്ക്കുന്നു, ഇതിന് കുറച്ച് സെക്കൻഡുകൾ എടുക്കും. ഉപകരണത്തിലെ AI ഓണാണെങ്കിൽ, പകരം ഇത് ഈ ഫോണിൽ തന്നെ വിവരിക്കും, അയയ്ക്കില്ല.\n\nസൗജന്യ API കീ ഉപയോഗിക്കുമ്പോൾ, Google-ന് ലഭിക്കുന്നത് സൂക്ഷിക്കാനും ഉൽപ്പന്നങ്ങൾ മെച്ചപ്പെടുത്താൻ ഉപയോഗിക്കാനും ആളുകളെക്കൊണ്ട് അവലോകനം ചെയ്യിക്കാനും കഴിയും. ജനറേറ്റീവ് AI പരീക്ഷണാത്മകമാണ്, അതിനാൽ അത് തെറ്റുകൾ വരുത്തും. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ബാധകമാണ്.</string>

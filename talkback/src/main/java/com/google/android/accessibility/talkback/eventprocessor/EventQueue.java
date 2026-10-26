@@ -54,13 +54,6 @@ class EventQueue {
    */
   static final int MAX_CONSECUTIVE_FOCUS_JUMPS = 3;
 
-  /**
-   * Whether an accessibility-focus event waiting in the queue may be served ahead of the
-   * events in front of it. Set from the latency settings; see {@link
-   * ProcessorEventQueue#setFocusPriorityEnabled}.
-   */
-  static volatile boolean focusPriorityEnabled = true;
-
   /** Focus events let through in a row since the head of the queue was last served. */
   private int consecutiveFocusJumps;
 
@@ -108,7 +101,7 @@ class EventQueue {
     }
 
     int index = 0;
-    if (focusPriorityEnabled && consecutiveFocusJumps < MAX_CONSECUTIVE_FOCUS_JUMPS) {
+    if (consecutiveFocusJumps < MAX_CONSECUTIVE_FOCUS_JUMPS) {
       index =
           jumpIndex(
               eventQueue.get(0).getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,

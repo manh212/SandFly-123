@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Říkat čas nahlas</string>
   <string name="pref_speak_time_summary">Když zapnete obrazovku</string>
   <string name="summary_speak_container_element_positions">Říkat, když vstoupíte do seznamu, mřížky nebo jiného kontejneru nebo je opustíte</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Resetovat nastavení prodlev?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Veškerá nastavení prodlev se resetují na výchozí hodnoty</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Resetovat</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Nastavení snížení latence bylo resetováno.</string>
   <string name="Reset_gesture_settings_dialog_title">Resetovat gesta?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Resetovat gesta aktuální sady?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Všechna gesta budou resetována na výchozí akce.\n\nVšechny provedené změny budou ztraceny.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Zahrnuje aktualizace při stahování, sledování trasy jízdy apod. Pokud tato možnost bude vypnuta, stále budete dostávat méně časté aktualizace.</string>
   <string name="title_pref_explore_by_touch">Prozkoumání dotykem</string>
   <string name="title_pref_category_controls">Ovládací prvky</string>
-  <string name="title_pref_category_reduce_latency_summary">Tato nastavení zrychlují reakce SandFly po dotyku obrazovky</string>
-  <string name="reset_latency_settings_title">Resetovat všechna nastavení prodlev</string>
   <string name="title_pref_single_tap">Aktivovat jedním klepnutím</string>
   <string name="summary_pref_single_tap">Označenou položku aktivovat jedním klepnutím. Rychlejší procházení než dvojitým klepnutím.</string>
   <string name="pref_verbosity_title">Míra popisnosti</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Hlasový doprovod klávesnice</string>
   <string name="pref_node_desc_order_title">Pořadí podrobností položky</string>
   <string name="pref_time_feedback_format_title">Formát času</string>
-  <string name="title_pref_latency_reduction">Zkrátit prodlevu</string>
-  <string name="talkback_latency_reduction_summary">Zrychlit reakce SandFly po dotyku obrazovky</string>
   <string name="summary_pref_intonation">Smazaná písmena vyslovovat vyšším hlasem</string>
   <string name="title_pref_speech_footer">Pokud chcete hlasitost zvuků pro usnadnění přístupu změnit z kterékoliv obrazovky, podržte jeden prst na obrazovce a stiskněte tlačítko pro zvýšení nebo snížení hlasitosti.</string>
   <string name="title_pref_vibration">Vibrační zpětná vazba</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Nastavení pro vývojáře</string>
   <string name="title_activity_dump_a11y_event">Vybrat události k zaprotokolování</string>
   <string name="title_pref_dump_a11y_event">Filtrovat protokolování událostí přístupnosti</string>
-  <string name="pref_reduce_window_delay_title">Vypnout animace</string>
   <string name="title_pref_log_level">Úroveň výstupu v protokolu</string>
   <string name="title_pref_diagnosis_mode">Režim diagnózy</string>
   <string name="title_pref_tts_overlay">Zobrazit hlasový výstup</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Číst text a ikony ve vybraném obrázku</string>
   <string name="summary_typo_suggestions">Zobrazí se, když se kurzor nachází na překlepu</string>
   <string name="summary_cache_keyboard_keys">Aby se zkrátila prodleva při psaní, načítá SandFly oznámení předem</string>
-  <string name="summary_cache_keyboard_keys_disabled">K použití této funkce použijte Převod textu na řeč Google</string>
   <string name="title_pref_shortcut_up">Přejetí nahoru</string>
   <string name="title_pref_shortcut_up_xr">Druhá dlaň směrem dovnitř, stáhnout prsty a přejet nahoru</string>
   <string name="title_pref_shortcut_down">Přejetí dolů</string>

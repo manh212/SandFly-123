@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Агучванне часу</string>
   <string name="pref_speak_time_summary">Пры ўключэнні экрана</string>
   <string name="summary_speak_container_element_positions">Агучваць уваход у спісы, сеткі і іншыя кантэйнеры і выхад з іх</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Скінуць налады затрымкі?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Усе налады затрымкі будуць скінуты да стандартных значэнняў</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Скінуць</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Налады памяншэння затрымкі скінуты.</string>
   <string name="Reset_gesture_settings_dialog_title">Скінуць жэсты?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Выдаліць жэсты бягучага набору?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Гэта дзеянне скіне ўсе жэсты да стандартных значэнняў.\n\nВы страціце ўсе зробленыя вамі змяненні.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">У тым ліку абнаўленні працэсу спампоўкі, прытрымлівання аўтамабільнага маршрута і іншае. Калі выключана, вы ўсё роўна будзеце атрымліваць менш частыя абнаўленні.</string>
   <string name="title_pref_explore_by_touch">Азнаямленне дотыкам</string>
   <string name="title_pref_category_controls">Сродкі кіравання</string>
-  <string name="title_pref_category_reduce_latency_summary">Гэтыя налады паскараюць адказ SandFly пасля дотыку да экрана</string>
-  <string name="reset_latency_settings_title">Скінуць усе налады затрымкі</string>
   <string name="title_pref_single_tap">Актывізацыя адным дотыкам</string>
   <string name="summary_pref_single_tap">Для актывацыі элемента ў фокусе дакраніцеся да яго адзін раз. Больш хуткая навігацыя, чым пры двайным націсканні.</string>
   <string name="pref_verbosity_title">Дэталізацыя</string>
@@ -283,8 +277,6 @@
   <string name="title_pref_keyboard_echo">Рэха клавіятуры</string>
   <string name="pref_node_desc_order_title">Парадак звестак пра элемент</string>
   <string name="pref_time_feedback_format_title">Фармат часу</string>
-  <string name="title_pref_latency_reduction">Скараціць час затрымкі</string>
-  <string name="talkback_latency_reduction_summary">Паскарэнне адказу SandFly пасля дотыку да экрана</string>
   <string name="summary_pref_intonation">Агучваць павышаным тонам выдаленне літар</string>
   <string name="title_pref_speech_footer">Каб змяніць гучнасць для спецыяльных магчымасцей на любым экране, трымайце адзін палец на экране і націскайце кнопку павелічэння або памяншэння гучнасці.</string>
   <string name="title_pref_vibration">Вібрасігнал</string>
@@ -294,7 +286,6 @@
   <string name="title_pref_category_developer_settings">Налады распрацоўшчыка</string>
   <string name="title_activity_dump_a11y_event">Выбраць падзеі для ўнясення ў журнал</string>
   <string name="title_pref_dump_a11y_event">Фільтр унясення падзей спецыяльных магчымасцей у журнал</string>
-  <string name="pref_reduce_window_delay_title">Выключыць анімацыю</string>
   <string name="title_pref_log_level">Узровень вываду журнала</string>
   <string name="title_pref_diagnosis_mode">Рэжым дыягностыкі</string>
   <string name="title_pref_tts_overlay">Выводзіць гаворку на экран</string>
@@ -543,7 +534,6 @@
   <string name="summary_image_caption">Агучваць тэкст і значкі на выбраным відарысе</string>
   <string name="summary_typo_suggestions">Паказваецца, калі курсор знаходзіцца на няправільна напісаным слове</string>
   <string name="summary_cache_keyboard_keys">SandFly загадзя загружае апавяшчэнні, каб скараціць час затрымкі пры ўводзе тэксту</string>
-  <string name="summary_cache_keyboard_keys_disabled">Выкарыстоўвайце гэту функцыю праз Google Сінтэз маўлення</string>
   <string name="title_pref_shortcut_up">Правядзенне пальцам уверх</string>
   <string name="title_pref_shortcut_up_xr">Павярнуць другую руку далонню да сябе, звесці пальцы і правесці ўверх</string>
   <string name="title_pref_shortcut_down">Правядзенне пальцам уніз</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Дынамік тэлефона з гэтымі прыладамі</string>
     <string name="summary_pref_speaker_devices_none">Няма</string>
     <string name="summary_pref_speaker_devices_no_devices">Яшчэ не падключалася ніводная прылада Bluetooth або правадная прылада</string>
-    <string name="pref_reduce_window_delay_summary">Калі анімацыя выключана, SandFly хутчэй чытае новыя экраны. Анімацыя выключаецца для ўсяго тэлефона.</string>
     <string name="dialog_message_detailed_ai_description">Выбраныя відарысы адпраўляюцца ў Gemini API ад Google для апісання. Калі ўключаны AI на прыладзе, яны апісваюцца на гэтым тэлефоне і не адпраўляюцца.\n\nКалі выкарыстоўваецца бясплатны ключ API, Google можа захоўваць атрыманыя даныя, выкарыстоўваць іх для паляпшэння сваіх прадуктаў і перадаваць іх на праверку людзям. Функцыя генератыўнага штучнага інтэлекту з’яўляецца эксперыментальнай і можа рабіць памылкі. Дзейнічаюць наступныя ўмовы: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Падрабязныя апісанні відарысаў ствараюцца з дапамогай генератыўнага штучнага інтэлекту. Выбраныя відарысы адпраўляюцца ў Gemini API ад Google для апісання. Калі ўключаны AI на прыладзе, яны апісваюцца на гэтым тэлефоне і не адпраўляюцца.\n\nКалі выкарыстоўваецца бясплатны ключ API, Google можа захоўваць атрыманыя даныя, выкарыстоўваць іх для паляпшэння сваіх прадуктаў і перадаваць іх на праверку людзям. Функцыя генератыўнага штучнага інтэлекту з’яўляецца эксперыментальнай і можа рабіць памылкі. Падрабязныя апісанні відарысаў можна выключыць у любы час у наладах SandFly.\n\nДзейнічаюць наступныя ўмовы: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Здымак экрана адпраўляецца ў Gemini API ад Google для апісання, што займае некалькі секунд. Калі ўключаны AI на прыладзе, ён апісваецца на гэтым тэлефоне і не адпраўляецца.\n\nКалі выкарыстоўваецца бясплатны ключ API, Google можа захоўваць атрыманыя даныя, выкарыстоўваць іх для паляпшэння сваіх прадуктаў і перадаваць іх на праверку людзям. Функцыя генератыўнага штучнага інтэлекту з’яўляецца эксперыментальнай і можа рабіць памылкі. Дзейнічаюць наступныя ўмовы: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

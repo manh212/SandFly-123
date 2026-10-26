@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Läs upp tiden</string>
   <string name="pref_speak_time_summary">När du aktiverar skärmen</string>
   <string name="summary_speak_container_element_positions">Meddelar när du går in i eller lämnar listor, rutnät och andra behållare</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Vill du återställa inställningarna för fördröjning?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Detta återställer alla inställningar för fördröjning till standard</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Återställ</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Inställningarna för minskad latens har återställts.</string>
   <string name="Reset_gesture_settings_dialog_title">Vill du återställa rörelserna?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Vill du återställa rörelserna i den aktuella uppsättningen?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Standardinställningen återställs för alla rörelser.\n\nAlla ändringar som du har gjort försvinner.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Omfattar uppdateringar vid nedladdning, vägbeskrivningar med mera. Du får fortfarande uppdateringar när inställningen är av, men inte lika ofta.</string>
   <string name="title_pref_explore_by_touch">Upptäck genom beröring</string>
   <string name="title_pref_category_controls">Kontroller</string>
-  <string name="title_pref_category_reduce_latency_summary">Dessa inställningar gör att SandFly reagerar snabbare efter att du tryckt på skärmen</string>
-  <string name="reset_latency_settings_title">Återställ alla inställningar för fördröjning</string>
   <string name="title_pref_single_tap">Aktivera genom att trycka en gång</string>
   <string name="summary_pref_single_tap">Tryck en gång på ett objekt i fokus för att aktivera det. Med detta kan du navigera snabbare än med dubbeltryck.</string>
   <string name="pref_verbosity_title">Detaljnivå</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Tangentbordseko</string>
   <string name="pref_node_desc_order_title">Ordning för objektdetaljer</string>
   <string name="pref_time_feedback_format_title">Tidsformat</string>
-  <string name="title_pref_latency_reduction">Minska fördröjningen</string>
-  <string name="talkback_latency_reduction_summary">Få SandFly att svara snabbare efter att du tryckt på skärmen</string>
   <string name="summary_pref_intonation">Läs upp texten som raderats med en röst med högre tonhöjd</string>
   <string name="title_pref_speech_footer">För att ändra tillgänglighetsvolymen från vilken skärm som helst, håll ett finger på skärmen och tryck på volym upp- eller volym ned-knappen.</string>
   <string name="title_pref_vibration">Vibrationsåterkoppling</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Inställningar för utvecklare</string>
   <string name="title_activity_dump_a11y_event">Välj händelser som du vill logga</string>
   <string name="title_pref_dump_a11y_event">Filtrera händelseloggning efter tillgänglighet</string>
-  <string name="pref_reduce_window_delay_title">Stäng av animationer</string>
   <string name="title_pref_log_level">Detaljnivå för logg</string>
   <string name="title_pref_diagnosis_mode">Diagnosläge</string>
   <string name="title_pref_tts_overlay">Visa talad output</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Läs upp text och ikoner på en markerad bild</string>
   <string name="summary_typo_suggestions">Visas när markören hålls över ett felstavat ord</string>
   <string name="summary_cache_keyboard_keys">SandFly läser in meddelanden i förväg för att minska fördröjningen när du skriver</string>
-  <string name="summary_cache_keyboard_keys_disabled">Använd Google Text till tal för att använda den här funktionen</string>
   <string name="title_pref_shortcut_up">Svep uppåt</string>
   <string name="title_pref_shortcut_up_xr">Sekundär handflata inåt, nyp ihop fingrarna och svep uppåt</string>
   <string name="title_pref_shortcut_down">Svep nedåt</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Telefonhögtalare med dessa enheter</string>
     <string name="summary_pref_speaker_devices_none">Inget</string>
     <string name="summary_pref_speaker_devices_no_devices">Inga Bluetooth- eller trådbundna enheter anslutna ännu</string>
-    <string name="pref_reduce_window_delay_summary">SandFly läser nya skärmar snabbare när animationer är avstängda. Detta stänger av animationer för hela telefonen.</string>
     <string name="dialog_message_detailed_ai_description">Valda bilder skickas till Googles Gemini API för att beskrivas. När AI på enheten är på beskrivs de i stället på den här telefonen och skickas inte.\n\nMed en kostnadsfri API-nyckel får Google spara det som tas emot, använda det för att förbättra sina produkter och låta människor granska det. Generativ AI är experimentell och gör därför fel. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gäller.</string>
     <string name="dialog_message_detailed_ai_promotion">Detaljerade bildbeskrivningar skapas med generativ AI. Valda bilder skickas till Googles Gemini API för att beskrivas. När AI på enheten är på beskrivs de i stället på den här telefonen och skickas inte.\n\nMed en kostnadsfri API-nyckel får Google spara det som tas emot, använda det för att förbättra sina produkter och låta människor granska det. Generativ AI är experimentell och gör därför fel. Du kan när som helst stänga av detaljerade bildbeskrivningar i Inställningar för SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gäller.</string>
     <string name="dialog_message_screen_overview_promotion">En skärmbild skickas till Googles Gemini API för att beskrivas, vilket tar några sekunder. När AI på enheten är på beskrivs den i stället på den här telefonen och skickas inte.\n\nMed en kostnadsfri API-nyckel får Google spara det som tas emot, använda det för att förbättra sina produkter och låta människor granska det. Generativ AI är experimentell och gör därför fel. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gäller.</string>

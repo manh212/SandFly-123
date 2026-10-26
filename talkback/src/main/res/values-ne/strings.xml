@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">बोलेर समय बताउनुहोस्</string>
   <string name="pref_speak_time_summary">तपाईंले स्क्रिन अन गर्दा</string>
   <string name="summary_speak_container_element_positions">सूची, ग्रिड र अन्य कन्टेनरमा पस्दा वा निस्कँदा भन्छ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">डिलेसम्बन्धी सेटिङ रिसेट गर्ने हो?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">तपाईंले यसो गर्नुभयो भने डिलेसम्बन्धी सबै सेटिङ रिसेट गरी डिफल्ट सेटिङ लागू गरिने छन्</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">रिसेट गर्नुहोस्</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">विलम्बता कम गर्ने सुविधासम्बन्धी सेटिङ रिसेट गरिएका छन्।</string>
   <string name="Reset_gesture_settings_dialog_title">जेस्चरहरू रिसेट गर्ने हो?</string>
   <string name="Reset_gesture_settings_set_dialog_title">हालको सेटका जेस्चर रिसेट गर्ने हो?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">तपाईंले जेस्चरहरू रिसेट गर्नुभयो भने इसारासम्बन्धी सबै सेटिङ रिसेट भई डिफल्ट सेटिङ लागू हुने छ।\n\nतपाईं आफूले सेट गरेका सबै जेस्चरहरू गुमाउनु हुने छ।</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">यसअन्तर्गत सामग्री डाउनलोड गर्ने र ड्राइभिङ निर्देशनहरू पालना गर्ने जस्ता कार्यहरू गरिरहेका बेला दिइने अद्यावधिक जानकारी समावेश हुन्छ। तपाईं यो सुविधा अफ गरिएका बेला पनि कहिलेकाहीँ पठाइने अद्यावधिक जानकारी प्राप्त गर्नु हुने छ।</string>
   <string name="title_pref_explore_by_touch">छोएर अन्वेषण</string>
   <string name="title_pref_category_controls">कन्ट्रोलहरू</string>
-  <string name="title_pref_category_reduce_latency_summary">यी सेटिङहरूले स्क्रिन छोएपछि SandFly लाई छिटो प्रतिक्रिया दिन लगाउँछन्</string>
-  <string name="reset_latency_settings_title">डिलेसम्बन्धी सबै सेटिङ रिसेट गर्नुहोस्</string>
   <string name="title_pref_single_tap">एक्टिभेट गर्न एक पटक ट्याप गर्नुहोस्</string>
   <string name="summary_pref_single_tap">फोकस गरिएको सामग्री एक्टिभेट गर्न उक्त सामग्रीमा एक पटक ट्याप गर्नुहोस्। डबल ट्याप गर्नुको साटो यसरी नेभिगेट गर्दा छिटो हुन्छ।</string>
   <string name="pref_verbosity_title">भर्बोसिटी</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">किबोर्ड इको</string>
   <string name="pref_node_desc_order_title">वस्तु विवरणहरूको क्रम</string>
   <string name="pref_time_feedback_format_title">समयको फर्म्याट</string>
-  <string name="title_pref_latency_reduction">डिले घटाउनुहोस्</string>
-  <string name="talkback_latency_reduction_summary">स्क्रिन छोएपछि SandFly छिटो प्रतिक्रिया दिन्छ</string>
   <string name="summary_pref_intonation">मेटाइएका अक्षरहरू ठुलो स्वरमा भनियोस्</string>
   <string name="title_pref_speech_footer">कुनै पनि स्क्रिनबाट पहुँच भोल्युम परिवर्तन गर्न, स्क्रिनमा १ औंला समात्नुहोस् र भोल्युम अप वा भोल्युम डाउन कुञ्जी थिच्नुहोस्।</string>
   <string name="title_pref_vibration">भाइब्रेसन प्रतिक्रिया</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">विकासकर्तासम्बन्धी सेटिङहरू</string>
   <string name="title_activity_dump_a11y_event">लग गर्न घटनाक्रमहरूलाई चयन गर्नुहोस्</string>
   <string name="title_pref_dump_a11y_event">पहुँच सम्बन्धी घटनाक्रम लग गर्ने कार्यलाई फिल्टर गर्नुहोस्</string>
-  <string name="pref_reduce_window_delay_title">एनिमेसनहरू बन्द गर्नुहोस्</string>
   <string name="title_pref_log_level">उत्पादन स्तर लग गर्नुहोस्</string>
   <string name="title_pref_diagnosis_mode">डाइग्नोसिस मोड</string>
   <string name="title_pref_tts_overlay">बोली उत्पादन प्रदर्शन गर्नुहोस्</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">चयन गरिएको फोटोमा भएका टेक्स्ट र आइकनहरूका बारेमा बोलेर दिइने प्रतिक्रिया पढेर सुनाउनुहोस्</string>
   <string name="summary_typo_suggestions">हिज्जे गलत भएको शब्दमा कर्सर हुँदा हिज्जेसम्बन्धी सुझाव देखाउँछ</string>
   <string name="summary_cache_keyboard_keys">SandFly ले टाइप गर्दा हुने विलम्बता घटाउने प्रयोजनका लागि सूचनाहरू अग्रिम रूपमा लोड गर्छ</string>
-  <string name="summary_cache_keyboard_keys_disabled">यो सुविधा प्रयोग गर्न Google टेक्स्ट-टु-स्पिच प्रयोग गर्नुहोस्</string>
   <string name="title_pref_shortcut_up">माथितिर स्वाइप गर्दा</string>
   <string name="title_pref_shortcut_up_xr">अर्को हत्केला आफूतिर फर्काएर पिन्च गर्नुहोस् र माथितिर स्वाइप गर्नुहोस्</string>
   <string name="title_pref_shortcut_down">तलतिर स्वाइप गर्दा</string>
@@ -1479,7 +1469,6 @@
     <string name="title_pref_speaker_devices">यी यन्त्रहरूसँग फोन स्पिकर</string>
     <string name="summary_pref_speaker_devices_none">कुनै पनि होइन</string>
     <string name="summary_pref_speaker_devices_no_devices">कुनै Bluetooth वा तारयुक्त यन्त्रहरू अझै जोडिएका छैनन्</string>
-    <string name="pref_reduce_window_delay_summary">SandFly एनिमेसनहरू बन्द हुँदा नयाँ स्क्रिनहरू छिटो पढ्छ। यसले सम्पूर्ण फोनको लागि एनिमेसनहरू बन्द गर्छ।</string>
     <string name="dialog_message_detailed_ai_description">चयन गरिएका तस्बिरहरूको विवरण तयार गर्न तिनलाई Google को Gemini API मा पठाइन्छ। डिभाइसमै चल्ने AI अन हुँदा, तिनको विवरण यसको सट्टा यही फोनमा तयार हुन्छ र तिनलाई पठाइँदैन।\n\nनिःशुल्क API की प्रयोग गर्दा, Google ले प्राप्त गरेको कुरा राख्न, आफ्ना उत्पादनहरू सुधार्न प्रयोग गर्न र मानिसहरूबाट समीक्षा गराउन सक्छ। जेनेरेटिभ AI प्रयोगात्मक छ, त्यसैले यसले गल्ती गर्छ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू हुन्छन्।</string>
     <string name="dialog_message_detailed_ai_promotion">विस्तृत तस्बिर विवरणहरू जेनेरेटिभ AI ले तयार गर्छ। चयन गरिएका तस्बिरहरूको विवरण तयार गर्न तिनलाई Google को Gemini API मा पठाइन्छ। डिभाइसमै चल्ने AI अन हुँदा, तिनको विवरण यसको सट्टा यही फोनमा तयार हुन्छ र तिनलाई पठाइँदैन।\n\nनिःशुल्क API की प्रयोग गर्दा, Google ले प्राप्त गरेको कुरा राख्न, आफ्ना उत्पादनहरू सुधार्न प्रयोग गर्न र मानिसहरूबाट समीक्षा गराउन सक्छ। जेनेरेटिभ AI प्रयोगात्मक छ, त्यसैले यसले गल्ती गर्छ। तपाईं SandFly का सेटिङमा जुनसुकै बेला विस्तृत तस्बिर विवरणहरू अफ गर्न सक्नुहुन्छ।\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू हुन्छन्।</string>
     <string name="dialog_message_screen_overview_promotion">स्क्रिनको विवरण तयार गर्न यसको स्क्रिनसट Google को Gemini API मा पठाइन्छ, जसमा केही सेकेन्ड लाग्छ। डिभाइसमै चल्ने AI अन हुँदा, यसको विवरण यसको सट्टा यही फोनमा तयार हुन्छ र स्क्रिनसट पठाइँदैन।\n\nनिःशुल्क API की प्रयोग गर्दा, Google ले प्राप्त गरेको कुरा राख्न, आफ्ना उत्पादनहरू सुधार्न प्रयोग गर्न र मानिसहरूबाट समीक्षा गराउन सक्छ। जेनेरेटिभ AI प्रयोगात्मक छ, त्यसैले यसले गल्ती गर्छ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू हुन्छन्।</string>

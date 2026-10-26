@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Speak time</string>
   <string name="pref_speak_time_summary">When you turn on the screen</string>
   <string name="summary_speak_container_element_positions">Say when you enter or leave lists, grids and other containers</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Reset delay settings?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">This will reset all delay settings to default</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Reset</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">The latency reduction settings have been reset.</string>
   <string name="Reset_gesture_settings_dialog_title">Reset gestures?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Reset gestures of current set?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">This will reset all gestures to their default actions.\n\nYou will lose any changes that you have made.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Includes updates while downloading, following driving directions and more. When turned off, you\'ll still receive less frequent updates.</string>
   <string name="title_pref_explore_by_touch">Explore by Touch</string>
   <string name="title_pref_category_controls">Controls</string>
-  <string name="title_pref_category_reduce_latency_summary">These settings can reduce the delay before SandFly announcements</string>
-  <string name="reset_latency_settings_title">Reset all delay settings</string>
   <string name="title_pref_single_tap">Single-tap to activate</string>
   <string name="summary_pref_single_tap">Tap once on a focused item to activate. Faster navigation than double-tapping.</string>
   <string name="pref_verbosity_title">Verbosity</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Keyboard echo</string>
   <string name="pref_node_desc_order_title">Order of item details</string>
   <string name="pref_time_feedback_format_title">Time format</string>
-  <string name="title_pref_latency_reduction">Reduce delay</string>
-  <string name="talkback_latency_reduction_summary">Settings to reduce the delay before SandFly announcements</string>
   <string name="summary_pref_intonation">Speak deleted letters in a higher-pitched voice</string>
   <string name="title_pref_speech_footer">You can quickly adjust some of SandFly\'s sound settings from any screen.\n\nAccessibility volume: Hold 1 finger on the screen and press the volume up or volume down key.\nSandFly speech rate: Swipe up or down with 3 fingers. When you hear \'speech rate\', swipe up or down with 1 finger.</string>
   <string name="title_pref_vibration">Vibration feedback</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Developer settings</string>
   <string name="title_activity_dump_a11y_event">Select events to log</string>
   <string name="title_pref_dump_a11y_event">Filter accessibility event logging</string>
-  <string name="pref_reduce_window_delay_title">Turn off animations</string>
   <string name="title_pref_log_level">Log output level</string>
   <string name="title_pref_diagnosis_mode">Diagnosis mode</string>
   <string name="title_pref_tts_overlay">Display speech output</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Speak text and icons within a selected image</string>
   <string name="summary_typo_suggestions">Shows when the cursor is on a typo</string>
   <string name="summary_cache_keyboard_keys">SandFly preloads announcements to reduce delay when you type</string>
-  <string name="summary_cache_keyboard_keys_disabled">Use Google Text-to-speech to use this feature</string>
   <string name="title_pref_shortcut_up">Swipe up</string>
   <string name="title_pref_shortcut_up_xr">Secondary palm in, pinch and swipe up</string>
   <string name="title_pref_shortcut_down">Swipe down</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Phone speaker with these devices</string>
     <string name="summary_pref_speaker_devices_none">None</string>
     <string name="summary_pref_speaker_devices_no_devices">No Bluetooth or wired devices connected yet</string>
-    <string name="pref_reduce_window_delay_summary">SandFly reads new screens faster when animations are off. This turns off animations for the whole phone.</string>
     <string name="dialog_message_detailed_ai_description">Selected images are sent to Google\'s Gemini API to be described. With On-device AI turned on, they\'re described on this phone instead and aren\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. The <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>
     <string name="dialog_message_detailed_ai_promotion">Detailed image descriptions are powered by generative AI. Selected images are sent to Google\'s Gemini API to be described. With On-device AI turned on, they\'re described on this phone instead and aren\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. You can turn off detailed image descriptions anytime in SandFly settings.\n\nThe <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>
     <string name="dialog_message_screen_overview_promotion">A screenshot of the screen is sent to Google\'s Gemini API to be described, which takes several seconds. With On-device AI turned on, it\'s described on this phone instead and isn\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. The <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>

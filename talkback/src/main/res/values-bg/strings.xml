@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Изговаряне на часа</string>
   <string name="pref_speak_time_summary">Когато включите екрана</string>
   <string name="summary_speak_container_element_positions">Изговаряне при влизане в и излизане от списъци, таблици и други контейнери</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Да се нулират ли настройките за забавянето?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Това действие ще възстанови стандартните настройки за забавяне</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Нулиране</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Настройките за намаляване на забавянето са нулирани.</string>
   <string name="Reset_gesture_settings_dialog_title">Искате ли да нулирате жестовете?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Да се нулират ли жестовете в текущия набор?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Така ще се възстановят стандартните действия за всички жестове.\n\nЩе загубите всички направени от вас промени.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Включва актуализации при изтегляне, следване на упътвания за достъп с автомобил и др. Когато тази настройка е изключена, ще получавате по-малко актуализации.</string>
   <string name="title_pref_explore_by_touch">Изследване чрез докосване</string>
   <string name="title_pref_category_controls">Контроли</string>
-  <string name="title_pref_category_reduce_latency_summary">Тези настройки карат SandFly да реагира по-бързо, след като докоснете екрана</string>
-  <string name="reset_latency_settings_title">Възстановяване на всички настройки за забавяне</string>
   <string name="title_pref_single_tap">Еднократно докосване за активиране</string>
   <string name="summary_pref_single_tap">Докоснете веднъж елемент, върху който е поставен фокусът, за да го активирате. По-бързо навигиране спрямо двукратното докосване.</string>
   <string name="pref_verbosity_title">Детайлност на говора</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Ехо от клавиатурата</string>
   <string name="pref_node_desc_order_title">Ред на подробностите за елементите</string>
   <string name="pref_time_feedback_format_title">Формат за часа</string>
-  <string name="title_pref_latency_reduction">Намаляване на забавянето</string>
-  <string name="talkback_latency_reduction_summary">SandFly реагира по-бързо, след като докоснете екрана</string>
   <string name="summary_pref_intonation">Произнасяне на изтритите букви с по-голяма височина на гласа</string>
   <string name="title_pref_speech_footer">За да промените силата на звука за услугите за достъпност от всеки екран, задръжте 1 пръст на екрана и натиснете бутона за увеличаване или намаляване на силата на звука.</string>
   <string name="title_pref_vibration">Обр. връзка с вибриране</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Настройки за програмисти</string>
   <string name="title_activity_dump_a11y_event">Избиране на събития за запис в регистрационни файлове</string>
   <string name="title_pref_dump_a11y_event">Филтриране на записването в регистрационни файлове на събития за достъпност</string>
-  <string name="pref_reduce_window_delay_title">Изключване на анимациите</string>
   <string name="title_pref_log_level">Ниво на регистрация</string>
   <string name="title_pref_diagnosis_mode">Режим за диагностика</string>
   <string name="title_pref_tts_overlay">Показване на синтез. на говор</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Изговаряне на текст и описания на икони в избраното изображение</string>
   <string name="summary_typo_suggestions">Показва се, когато курсорът е върху правописна грешка</string>
   <string name="summary_cache_keyboard_keys">SandFly зарежда съобщенията предварително, за да намали забавянето при въвеждане</string>
-  <string name="summary_cache_keyboard_keys_disabled">Използвайте Google Text-to-speech, за да ползвате тази функция</string>
   <string name="title_pref_shortcut_up">Плъзване с пръст нагоре</string>
   <string name="title_pref_shortcut_up_xr">Обръщане на вторичн. длан надолу, събиране на пръсти и плъзгане нагоре</string>
   <string name="title_pref_shortcut_down">Прекарване на пръст надолу</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Високоговорител на телефона с тези устройства</string>
     <string name="summary_pref_speaker_devices_none">Няма</string>
     <string name="summary_pref_speaker_devices_no_devices">Още няма свързани Bluetooth или кабелни устройства</string>
-    <string name="pref_reduce_window_delay_summary">SandFly чете новите екрани по-бързо, когато анимациите са изключени. Това изключва анимациите за целия телефон.</string>
     <string name="dialog_message_detailed_ai_description">Избраните изображения се изпращат до Gemini API на Google, за да бъдат описани. Когато AI на устройството е включен, те се описват на този телефон и не се изпращат.\n\nПри безплатен API ключ Google може да запази получените данни, да ги използва за подобряване на продуктите си и да ги дава за преглед от хора. Генеративният AI е експериментален и ще допуска грешки. Прилагат се <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Подробните описания на изображенията се генерират от генеративен AI. Избраните изображения се изпращат до Gemini API на Google, за да бъдат описани. Когато AI на устройството е включен, те се описват на този телефон и не се изпращат.\n\nПри безплатен API ключ Google може да запази получените данни, да ги използва за подобряване на продуктите си и да ги дава за преглед от хора. Генеративният AI е експериментален и ще допуска грешки. Можете да изключите подробните описания на изображенията по всяко време от настройките на SandFly.\n\nПрилагат се <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Екранна снимка на екрана се изпраща до Gemini API на Google, за да бъде описана, което отнема няколко секунди. Когато AI на устройството е включен, тя се описва на този телефон и не се изпраща.\n\nПри безплатен API ключ Google може да запази получените данни, да ги използва за подобряване на продуктите си и да ги дава за преглед от хора. Генеративният AI е експериментален и ще допуска грешки. Прилагат се <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

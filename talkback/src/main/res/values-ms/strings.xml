@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Maklumkan masa</string>
   <string name="pref_speak_time_summary">Apabila anda menghidupkan skrin</string>
   <string name="summary_speak_container_element_positions">Menyebut apabila anda masuk ke atau keluar dari senarai, grid dan bekas lain</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Tetapkan semula tetapan penangguhan?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Tetapan ini akan menetapkan semula tetapan penangguhan kepada lalai</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Tetapkan semula</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Tetapan pengurangan kependaman telah ditetapkan semula.</string>
   <string name="Reset_gesture_settings_dialog_title">Tetapkan semula gerak isyarat?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Tetapkan semula set gerak isyarat semasa?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Ini akan menetapkan semula semua gerak isyarat kepada tindakan lalai.\n\nAnda akan kehilangan apa-apa perubahan yang telah anda buat.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Merangkumi kemaskinian semasa memuat turun, mengikut arah memandu dan pelbagai lagi. Apabila dimatikan, anda masih menerima kemaskinian tetapi kurang kerap.</string>
   <string name="title_pref_explore_by_touch">Teroka melalui sentuhan</string>
   <string name="title_pref_category_controls">Kawalan</string>
-  <string name="title_pref_category_reduce_latency_summary">Tetapan ini menjadikan SandFly bertindak balas lebih pantas selepas anda menyentuh skrin</string>
-  <string name="reset_latency_settings_title">Tetapkan semula semua tetapan penangguhan</string>
   <string name="title_pref_single_tap">Satu ketikan untuk mengaktifkan</string>
   <string name="summary_pref_single_tap">Ketik sekali pada item yang difokuskan untuk pengaktifan. Navigasi lebih pantas daripada ketik dua kali.</string>
   <string name="pref_verbosity_title">Maklumat berjela</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Gema papan kekunci</string>
   <string name="pref_node_desc_order_title">Susunan butiran item</string>
   <string name="pref_time_feedback_format_title">Format waktu</string>
-  <string name="title_pref_latency_reduction">Kurangkan penangguhan</string>
-  <string name="talkback_latency_reduction_summary">Jadikan SandFly bertindak balas dengan lebih pantas selepas anda menyentuh skrin</string>
   <string name="summary_pref_intonation">Sebut huruf yang dipadamkan dengan nada suara yang lebih tinggi</string>
   <string name="title_pref_speech_footer">Untuk menukar kelantangan kebolehaksesan dari mana-mana skrin, tahan 1 jari pada skrin dan tekan kekunci naikkan atau turunkan kelantangan.</string>
   <string name="title_pref_vibration">Maklum balas getaran</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Tetapan pembangun</string>
   <string name="title_activity_dump_a11y_event">Pilih acara untuk dilog</string>
   <string name="title_pref_dump_a11y_event">Tapis pengelogan acara kebolehaksesan</string>
-  <string name="pref_reduce_window_delay_title">Matikan animasi</string>
   <string name="title_pref_log_level">Tahap output log</string>
   <string name="title_pref_diagnosis_mode">Mod diagnosis</string>
   <string name="title_pref_tts_overlay">Paparkan output pertuturan</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Sebut teks dan ikon dalam imej yang dipilih</string>
   <string name="summary_typo_suggestions">Paparkan apabila kursor berada pada perkataan yang disalah eja</string>
   <string name="summary_cache_keyboard_keys">SandFly dilengkapi pengumuman untuk mengurangkan penangguhan apabila anda menaip</string>
-  <string name="summary_cache_keyboard_keys_disabled">Gunakan Teks kepada pertuturan Google untuk menggunakan ciri ini</string>
   <string name="title_pref_shortcut_up">Leret ke atas</string>
   <string name="title_pref_shortcut_up_xr">Tapak tangan kedua ke hadapan, cubit dan leret ke atas</string>
   <string name="title_pref_shortcut_down">Leret ke bawah</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Pembesar suara telefon dengan peranti ini</string>
     <string name="summary_pref_speaker_devices_none">Tiada</string>
     <string name="summary_pref_speaker_devices_no_devices">Tiada peranti Bluetooth atau berwayar disambungkan lagi</string>
-    <string name="pref_reduce_window_delay_summary">SandFly membaca skrin baharu dengan lebih pantas apabila animasi dimatikan. Ini mematikan animasi untuk keseluruhan telefon.</string>
     <string name="dialog_message_detailed_ai_description">Imej yang dipilih dihantar ke Gemini API Google untuk diterangkan. Apabila AI pada peranti dihidupkan, imej diterangkan pada telefon ini dan tidak dihantar.\n\nDengan kunci API percuma, Google boleh menyimpan perkara yang diterimanya, menggunakannya untuk menambah baik produknya dan meminta manusia menyemaknya. AI generatif masih dalam percubaan, jadi ia akan membuat kesilapan. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> terpakai.</string>
     <string name="dialog_message_detailed_ai_promotion">Penerangan imej terperinci dijana oleh AI generatif. Imej yang dipilih dihantar ke Gemini API Google untuk diterangkan. Apabila AI pada peranti dihidupkan, imej diterangkan pada telefon ini dan tidak dihantar.\n\nDengan kunci API percuma, Google boleh menyimpan perkara yang diterimanya, menggunakannya untuk menambah baik produknya dan meminta manusia menyemaknya. AI generatif masih dalam percubaan, jadi ia akan membuat kesilapan. Anda boleh mematikan penerangan imej terperinci pada bila-bila masa dalam Tetapan SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> terpakai.</string>
     <string name="dialog_message_screen_overview_promotion">Tangkapan skrin dihantar ke Gemini API Google untuk diterangkan, dan ini mengambil masa beberapa saat. Apabila AI pada peranti dihidupkan, tangkapan skrin diterangkan pada telefon ini dan tidak dihantar.\n\nDengan kunci API percuma, Google boleh menyimpan perkara yang diterimanya, menggunakannya untuk menambah baik produknya dan meminta manusia menyemaknya. AI generatif masih dalam percubaan, jadi ia akan membuat kesilapan. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> terpakai.</string>

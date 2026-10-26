@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">நேரத்தை வாசித்தல்</string>
   <string name="pref_speak_time_summary">திரையை இயக்கும்போது</string>
   <string name="summary_speak_container_element_positions">பட்டியல்கள், கட்டங்கள், பிற கண்டெய்னர்களுக்குள் நுழையும்போது அல்லது வெளியேறும்போது சொல்லும்</string>
-  <string name="reset_letency_reduction_settings_dialog_title">தாமத அமைப்புகளை மீட்டமைக்கவா?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">தாமத அமைப்புகள் அனைத்தையும் இது இயல்புநிலைக்கு மீட்டமைக்கும்</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">மீட்டமை</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">தாமதத்தைக் குறைக்கும் அமைப்புகள் மீட்டமைக்கப்பட்டன.</string>
   <string name="Reset_gesture_settings_dialog_title">சைகைகளை மீட்டமைக்கவா?</string>
   <string name="Reset_gesture_settings_set_dialog_title">தற்போதைய சைகைத் தொகுப்புகளை ரீசெட் செய்யவா?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">இது சைகைகள் அனைத்தையும் அவற்றின் இயல்புச் செயல்களுக்கு மீட்டமைக்கும்.\n\nநீங்கள் ஏதேனும் மாற்றங்களைச் செய்திருந்தால் அவற்றை இழப்பீர்கள்.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">பதிவிறக்குவது, வாகன வழிகளைப் பின்பற்றுவது மற்றும் பல அறிவிப்புகள் இதிலடங்கும். முடக்கப்பட்டால் அவ்வப்போது குறைவான அறிவிப்புகளைப் பெறுவீர்கள்.</string>
   <string name="title_pref_explore_by_touch">தொடுவதன் மூலம் அறிக</string>
   <string name="title_pref_category_controls">கட்டுப்பாடுகள்</string>
-  <string name="title_pref_category_reduce_latency_summary">திரையைத் தொட்ட பிறகு SandFly விரைவாகப் பதிலளிக்க இந்த அமைப்புகள் உதவும்</string>
-  <string name="reset_latency_settings_title">தாமத அமைப்புகள் அனைத்தையும் மீட்டமை</string>
   <string name="title_pref_single_tap">செயல்படுத்த ஒருமுறை தட்டுதல்</string>
   <string name="summary_pref_single_tap">செயல்படுத்த, ஃபோகஸ் செய்யப்பட்டிருப்பதை ஒருமுறை தட்டவும். இருமுறை தட்டுவதைவிட வேகமான வழிசெலுத்தல்.</string>
   <string name="pref_verbosity_title">மிகைச்சொற்கள்</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">கீபோர்டு எக்கோ</string>
   <string name="pref_node_desc_order_title">பொருள் விவரங்களின் வரிசை</string>
   <string name="pref_time_feedback_format_title">நேர வடிவம்</string>
-  <string name="title_pref_latency_reduction">தாமத நேரத்தைக் குறைத்தல்</string>
-  <string name="talkback_latency_reduction_summary">திரையைத் தொட்ட பிறகு SandFly விரைவாகப் பதிலளிக்கும்</string>
   <string name="summary_pref_intonation">நீக்கிய எழுத்துகளை உரத்த குரலில் சொல்லும்</string>
   <string name="title_pref_speech_footer">எந்தத் திரையில் இருந்தும் அணுகல்தன்மை ஒலியளவை மாற்ற, திரையில் 1 விரலைப் பிடித்து, வால்யூம் அப் அல்லது வால்யூம் டவுன் விசையை அழுத்தவும்.</string>
   <string name="title_pref_vibration">அதிர்வு அறிவிப்பு</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">டெவெலப்பர் அமைப்புகள்</string>
   <string name="title_activity_dump_a11y_event">பதிவு செய்ய வேண்டிய நிகழ்வுகளைத் தேர்ந்தெடுக்கவும்</string>
   <string name="title_pref_dump_a11y_event">வடிப்பான் அணுகல் உள்ள நிகழ்வைப் பதிவுசெய்தல்</string>
-  <string name="pref_reduce_window_delay_title">அனிமேஷன்களை முடக்கு</string>
   <string name="title_pref_log_level">வெளியீட்டு நிலையைப் பதிவுசெய்</string>
   <string name="title_pref_diagnosis_mode">கண்டறிதல் பயன்முறை</string>
   <string name="title_pref_tts_overlay">பேச்சு வெளியீட்டைக் காட்டு</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">தேர்வுசெய்யப்பட்ட படத்திலுள்ள வார்த்தைகளையும் ஐகான்களையும் வாசிக்கும்</string>
   <string name="summary_typo_suggestions">எழுத்துப்பிழையுள்ள சொல் மீது கர்சர் இருக்கும்போது காட்டும்</string>
   <string name="summary_cache_keyboard_keys">நீங்கள் டைப் செய்யும்போது தாமதத்தைக் குறைக்க, அறிவிப்புகளை SandFly முன்கூட்டியே ஏற்றும்</string>
-  <string name="summary_cache_keyboard_keys_disabled">இந்த அம்சத்தைப் பயன்படுத்த, Google Text-to-speech சேவையைப் பயன்படுத்தும்</string>
   <string name="title_pref_shortcut_up">மேல்நோக்கி ஸ்வைப் செய்தல்</string>
   <string name="title_pref_shortcut_up_xr">இரண்டாம்நிலை உள்ளங்கையை உள்நோக்கித் திருப்பி, பின்ச் செய்து மேலே ஸ்வைப் செய்தல்</string>
   <string name="title_pref_shortcut_down">கீழ்நோக்கி ஸ்வைப் செய்தல்</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">இந்த சாதனங்களுடன் ஃபோன் ஸ்பீக்கர்</string>
     <string name="summary_pref_speaker_devices_none">எதுவுமில்லை</string>
     <string name="summary_pref_speaker_devices_no_devices">இதுவரை Bluetooth அல்லது கம்பி சாதனங்கள் இணைக்கப்படவில்லை</string>
-    <string name="pref_reduce_window_delay_summary">அனிமேஷன்கள் முடக்கப்பட்டிருக்கும் போது SandFly புதிய திரைகளை வேகமாகப் படிக்கும். இது முழு தொலைபேசியிலும் அனிமேஷன்களை முடக்குகிறது.</string>
     <string name="dialog_message_detailed_ai_description">தேர்ந்தெடுத்த படங்கள் விவரிக்கப்படுவதற்காக Google இன் Gemini APIக்கு அனுப்பப்படும். சாதனத்தில் AI இயக்கத்தில் இருந்தால், அவை இந்த மொபைலிலேயே விவரிக்கப்படும், அனுப்பப்படாது.\n\nஇலவச API விசையைப் பயன்படுத்தினால், Google தான் பெறுவதை வைத்துக்கொள்ளலாம், தனது தயாரிப்புகளை மேம்படுத்த அதைப் பயன்படுத்தலாம், மனிதர்களைக் கொண்டு அதை மதிப்பாய்வு செய்யலாம். ஜெனரேட்டிவ் AI சோதனை நிலையில் உள்ளது, எனவே அது தவறுகள் செய்யும். <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> பொருந்தும்.</string>
     <string name="dialog_message_detailed_ai_promotion">விரிவான பட விளக்கங்கள் ஜெனரேட்டிவ் AI மூலம் உருவாக்கப்படுகின்றன. தேர்ந்தெடுத்த படங்கள் விவரிக்கப்படுவதற்காக Google இன் Gemini APIக்கு அனுப்பப்படும். சாதனத்தில் AI இயக்கத்தில் இருந்தால், அவை இந்த மொபைலிலேயே விவரிக்கப்படும், அனுப்பப்படாது.\n\nஇலவச API விசையைப் பயன்படுத்தினால், Google தான் பெறுவதை வைத்துக்கொள்ளலாம், தனது தயாரிப்புகளை மேம்படுத்த அதைப் பயன்படுத்தலாம், மனிதர்களைக் கொண்டு அதை மதிப்பாய்வு செய்யலாம். ஜெனரேட்டிவ் AI சோதனை நிலையில் உள்ளது, எனவே அது தவறுகள் செய்யும். SandFly அமைப்புகளில் எப்போது வேண்டுமானாலும் விரிவான பட விளக்கங்களை முடக்கலாம்.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> பொருந்தும்.</string>
     <string name="dialog_message_screen_overview_promotion">திரையின் ஸ்கிரீன்ஷாட் விவரிக்கப்படுவதற்காக Google இன் Gemini APIக்கு அனுப்பப்படும், இதற்குச் சில வினாடிகள் ஆகும். சாதனத்தில் AI இயக்கத்தில் இருந்தால், அது இந்த மொபைலிலேயே விவரிக்கப்படும், அனுப்பப்படாது.\n\nஇலவச API விசையைப் பயன்படுத்தினால், Google தான் பெறுவதை வைத்துக்கொள்ளலாம், தனது தயாரிப்புகளை மேம்படுத்த அதைப் பயன்படுத்தலாம், மனிதர்களைக் கொண்டு அதை மதிப்பாய்வு செய்யலாம். ஜெனரேட்டிவ் AI சோதனை நிலையில் உள்ளது, எனவே அது தவறுகள் செய்யும். <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> பொருந்தும்.</string>

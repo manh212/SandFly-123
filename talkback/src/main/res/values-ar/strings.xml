@@ -134,10 +134,6 @@
   <string name="pref_speak_time_title">قول الوقت بصوت عالٍ</string>
   <string name="pref_speak_time_summary">عند تفعيل الشاشة</string>
   <string name="summary_speak_container_element_positions">قول متى تدخل القوائم والشبكات والحاويات الأخرى أو تخرج منها</string>
-  <string name="reset_letency_reduction_settings_dialog_title">هل أردت إعادة ضبط إعدادات وقت الاستجابة؟</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">سيؤدي هذا الإجراء إلى إعادة ضبط جميع إعدادات وقت الاستجابة على الإعدادات التلقائية</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">إعادة الضبط</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">تمّت إعادة ضبط إعدادات تقليل وقت الاستجابة.</string>
   <string name="Reset_gesture_settings_dialog_title">هل تريد إعادة ضبط الإيماءات؟</string>
   <string name="Reset_gesture_settings_set_dialog_title">هل تريد إعادة ضبط الإيماءات للمجموعة الحالية؟</string>
   <string name="message_reset_gesture_settings_confirm_dialog">‏سيؤدي ذلك إلى إعادة ضبط كل الإيماءات على الإجراءات التلقائية.\n\nستفقد أي تغييرات أجريتها.</string>
@@ -155,8 +151,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">تشمل الإشعارات بشأن عمليات التنزيل واتّباع اتجاهات القيادة وغيرها. عند إيقاف هذا الإعداد، ستستمر في تلقّى أخبار أقل.</string>
   <string name="title_pref_explore_by_touch">الاستكشاف باللمس</string>
   <string name="title_pref_category_controls">عناصر التحكّم</string>
-  <string name="title_pref_category_reduce_latency_summary">تجعل هذه الإعدادات SandFly يستجيب بشكل أسرع بعد لمس الشاشة</string>
-  <string name="reset_latency_settings_title">إعادة ضبط جميع إعدادات وقت الاستجابة</string>
   <string name="title_pref_single_tap">نقرة واحدة لتفعيل العنصر</string>
   <string name="summary_pref_single_tap">عليك النقر مرة واحدة على العنصر محلّ التركيز لتفعيله. ويؤدي هذا الإجراء إلى التنقّل بشكل أسرع من النقر مرّتين.</string>
   <string name="pref_verbosity_title">الإسهاب</string>
@@ -371,8 +365,6 @@
   <string name="title_pref_keyboard_echo">صدى لوحة المفاتيح</string>
   <string name="pref_node_desc_order_title">ترتيب تفاصيل العنصر</string>
   <string name="pref_time_feedback_format_title">تنسيق الوقت</string>
-  <string name="title_pref_latency_reduction">تقليل وقت الاستجابة</string>
-  <string name="talkback_latency_reduction_summary">جعل SandFly يستجيب بشكل أسرع بعد لمس الشاشة</string>
   <string name="summary_pref_intonation">قول الأحرف التي يتم حذفها بطبقة صوت أعلى</string>
   <string name="title_pref_speech_footer">لتغيير مستوى صوت \"تسهيل الاستخدام\" من أي شاشة، انقر مع الاستمرار بإصبع واحد على الشاشة، ثم اضغط على مفتاح رفع الصوت أو خفضه.</string>
   <string name="title_pref_vibration">التجاوب بالاهتزاز</string>
@@ -393,8 +385,6 @@
   <string name="title_pref_category_developer_settings">إعدادات مطوّر البرامج</string>
   <string name="title_activity_dump_a11y_event">تحديد أحداث للتسجيل</string>
   <string name="title_pref_dump_a11y_event">تصفية سجلّ أحداث \"سهولة الاستخدام\"</string>
-  <string name="pref_reduce_window_delay_title">إيقاف الرسوم المتحركة</string>
-  <string name="pref_reduce_window_delay_summary">‏يقرأ SandFly الشاشات الجديدة بشكل أسرع عند إيقاف الرسوم المتحركة. يؤدي هذا إلى إيقاف الرسوم المتحركة في الهاتف بالكامل.</string>
   <string name="title_pref_log_level">مستوى مخرجات السجل</string>
   <string name="title_pref_diagnosis_mode">وضع التشخيص</string>
   <string name="title_pref_tts_overlay">عرض الكلام المحكي</string>
@@ -648,7 +638,6 @@
   <string name="summary_image_caption">يوفّر وصفًا شفهيًا للنص والرموز داخل صورة محدّدة.</string>
   <string name="summary_typo_suggestions">يظهر الاقتراح عند وضع المؤشر على خطأ إملائي</string>
   <string name="summary_cache_keyboard_keys">‏تحمّل ميزة SandFly مسبقًا قراءات أسماء المفاتيح لتقليل مدة الاستجابة أثناء الكتابة</string>
-  <string name="summary_cache_keyboard_keys_disabled">‏يجب استخدام ميزة \"تحويل النص إلى كلام\" من Google لاستخدام هذه الميزة</string>
   <string name="title_pref_shortcut_up">التمرير للأعلى</string>
   <string name="title_pref_shortcut_up_xr">توجيه راحة اليد الثانوية للداخل والتصغير/التكبير بإصبعين مع التمرير السريع للأعلى</string>
   <string name="title_pref_shortcut_down">التمرير للأسفل</string>

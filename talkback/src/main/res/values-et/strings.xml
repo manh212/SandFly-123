@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Ütle aeg</string>
   <string name="pref_speak_time_summary">Kui ekraani sisse lülitate</string>
   <string name="summary_speak_container_element_positions">Öeldakse, kui sisenete loenditesse, ruudustikesse ja muudesse konteineritesse või väljute neist</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Kas lähtestada viivituse seaded?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">See lähtestab kõik viivituse seaded vaikeseadetele.</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Lähtesta</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Latentsusaja lühendamise seaded on lähtestatud.</string>
   <string name="Reset_gesture_settings_dialog_title">Kas soovite liigutused lähtestada?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Kas lähtestada praegune liigutuste komplekt?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">See lähtestab kõik liigutused vaiketoimingutele.\n\nKaotate kõik tehtud muudatused.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Hõlmab värskendusi allalaadimise, sõidujuhiste järgimise jm ajal. Kui see on välja lülitatud, esitatakse siiski värskendusi, kuid harvem.</string>
   <string name="title_pref_explore_by_touch">Puudutusega uurimine</string>
   <string name="title_pref_category_controls">Juhtelemendid</string>
-  <string name="title_pref_category_reduce_latency_summary">Need seaded muudavad SandFly reageerimise pärast ekraani puudutamist kiiremaks</string>
-  <string name="reset_latency_settings_title">Lähtesta kõik viivituse seaded</string>
   <string name="title_pref_single_tap">Üks puudutus aktiveerimiseks</string>
   <string name="summary_pref_single_tap">Aktiveerimiseks puudutage esile tõstetud üksust ühe korra. Kiirem navigeerimine võrreldes topeltpuudutusega.</string>
   <string name="pref_verbosity_title">Sõnaohtrus</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Klaviatuuri kaja</string>
   <string name="pref_node_desc_order_title">Üksuse üksikasjade järjestus</string>
   <string name="pref_time_feedback_format_title">Ajavorming</string>
-  <string name="title_pref_latency_reduction">Viivituse vähendamine</string>
-  <string name="talkback_latency_reduction_summary">SandFly reageerimise kiirendamine pärast ekraani puudutamist</string>
   <string name="summary_pref_intonation">Kustutatud tähed loetakse ette kõrgema tooniga</string>
   <string name="title_pref_speech_footer">Juurdepääsufunktsioonide helitugevuse muutmiseks mis tahes ekraanil hoidke ühte sõrme ekraanil ja vajutage helitugevuse suurendamise või vähendamise nuppu.</string>
   <string name="title_pref_vibration">Vibreerimisega tagasiside</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Arendaja seaded</string>
   <string name="title_activity_dump_a11y_event">Logitavate sündmuste valimine</string>
   <string name="title_pref_dump_a11y_event">Juurdepääsetavuse sündmuste logimise filtreerimine</string>
-  <string name="pref_reduce_window_delay_title">Lülita animatsioonid välja</string>
   <string name="title_pref_log_level">Logi väljundi tase</string>
   <string name="title_pref_diagnosis_mode">Diagnoosirežiim</string>
   <string name="title_pref_tts_overlay">Kõne väljundi kuvamine</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Valitud pildi teksti ettelugemine ja ikoonide kirjeldamine</string>
   <string name="summary_typo_suggestions">Näitab, kui kursor asub kirjaveal</string>
   <string name="summary_cache_keyboard_keys">SandFly eellaadib teadaanded, et vähendada sisestamisel tekkivat viivitust.</string>
-  <string name="summary_cache_keyboard_keys_disabled">Kasutage selle funktsiooni jaoks Google\'i kõnesünteesi.</string>
   <string name="title_pref_shortcut_up">Üles pühkimine</string>
   <string name="title_pref_shortcut_up_xr">Teisene peopesa sissepoole, liigutage sõrmed kokku ja pühkige üles</string>
   <string name="title_pref_shortcut_down">Alla pühkimine</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Telefoni kõlar nende seadmetega</string>
     <string name="summary_pref_speaker_devices_none">Puudub</string>
     <string name="summary_pref_speaker_devices_no_devices">Ühtegi Bluetooth- ega juhtmega seadet pole veel ühendatud</string>
-    <string name="pref_reduce_window_delay_summary">SandFly loeb uusi kuvasid kiiremini, kui animatsioonid on väljas. See lülitab animatsioonid välja kogu telefonis.</string>
     <string name="dialog_message_detailed_ai_description">Valitud pildid saadetakse kirjeldamiseks Google\'i Gemini API-le. Kui seadmesisene AI on sisse lülitatud, kirjeldatakse neid hoopis selles telefonis ja neid ei saadeta.\n\nTasuta API võtme korral võib Google saadud andmed säilitada, kasutada neid oma toodete täiustamiseks ja lasta inimestel neid üle vaadata. Generatiivne AI on katsejärgus, mistõttu teeb see vigu. Kehtivad dokumendi <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tingimused.</string>
     <string name="dialog_message_detailed_ai_promotion">Üksikasjalikud pildikirjeldused põhinevad generatiivsel AI-l. Valitud pildid saadetakse kirjeldamiseks Google\'i Gemini API-le. Kui seadmesisene AI on sisse lülitatud, kirjeldatakse neid hoopis selles telefonis ja neid ei saadeta.\n\nTasuta API võtme korral võib Google saadud andmed säilitada, kasutada neid oma toodete täiustamiseks ja lasta inimestel neid üle vaadata. Generatiivne AI on katsejärgus, mistõttu teeb see vigu. Üksikasjalikud pildikirjeldused saate igal ajal SandFlyi seadetes välja lülitada.\n\nKehtivad dokumendi <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tingimused.</string>
     <string name="dialog_message_screen_overview_promotion">Ekraanipilt saadetakse kirjeldamiseks Google\'i Gemini API-le, mis võtab mitu sekundit. Kui seadmesisene AI on sisse lülitatud, kirjeldatakse seda hoopis selles telefonis ja seda ei saadeta.\n\nTasuta API võtme korral võib Google saadud andmed säilitada, kasutada neid oma toodete täiustamiseks ja lasta inimestel neid üle vaadata. Generatiivne AI on katsejärgus, mistõttu teeb see vigu. Kehtivad dokumendi <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> tingimused.</string>

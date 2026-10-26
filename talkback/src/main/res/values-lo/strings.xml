@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">ບອກເວລາ</string>
   <string name="pref_speak_time_summary">ເມື່ອທ່ານເປີດໜ້າຈໍ</string>
   <string name="summary_speak_container_element_positions">ເວົ້າເມື່ອທ່ານເຂົ້າ ຫຼື ອອກຈາກລາຍການ, ຕາຕະລາງ ແລະ ຄອນເທນເນີອື່ນໆ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ຣີເຊັດການຕັ້ງຄ່າຄວາມຫຼ້າຊ້າບໍ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ການດຳເນີນການນີ້ຈະຣີເຊັດການຕັ້ງຄ່າຄວາມຫຼ້າຊ້າທັງໝົດເປັນຄ່າເລີ່ມຕົ້ນ</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ຣີເຊັດ</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ຣີເຊັດການຕັ້ງຄ່າການຫຼຸດເວລາໃນການຕອບສະໜອງແລ້ວ.</string>
   <string name="Reset_gesture_settings_dialog_title">ຣີເຊັດທ່າທາງບໍ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">ຣີເຊັດທ່າທາງຂອງຊຸດປັດຈຸບັນບໍ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ນີ້ຈະເປັນການຣີເຊັດທ່າທາງທັງໝົດໄປເປັນຄຳສັ່ງເລີມຕົ້ນຂອງພວກມັນ.\n\nທ່ານຈະສູນເສຍການປ່ຽນແປງໃດກໍຕາມທີ່ທ່ານສ້າງຂຶ້ນ.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ຮວມມີການອັບເດດໃນຂະນະທີ່ດາວໂຫຼດ, ການຕິດຕາມເສັ້ນທາງການຂັບລົດ ແລະ ອື່ນໆອີກ. ເມື່ອປິດແລ້ວ, ທ່ານຈະຍັງໄດ້ຮັບການອັບເດດເລື້ອຍໆໜ້ອຍລົງ.</string>
   <string name="title_pref_explore_by_touch">​ສຳຫຼວດ​ໂດຍ​ການ​ສຳ​ຜັດ</string>
   <string name="title_pref_category_controls">ການຄວບຄຸມ</string>
-  <string name="title_pref_category_reduce_latency_summary">ການຕັ້ງຄ່າເຫຼົ່ານີ້ເຮັດໃຫ້ SandFly ຕອບສະໜອງໄວຂຶ້ນຫຼັງຈາກທີ່ທ່ານແຕະໜ້າຈໍ</string>
-  <string name="reset_latency_settings_title">ຣີເຊັດການຕັ້ງຄ່າຄວາມຫຼ້າຊ້າທັງໝົດ</string>
   <string name="title_pref_single_tap">ແຕະເທື່ອດຽວເພື່ອເປີດນຳໃຊ້</string>
   <string name="summary_pref_single_tap">ແຕະລາຍການທີ່ໂຟກັສ 1 ເທື່ອເພື່ອເປີດການນຳໃຊ້. ການນຳທາງໄປຫາສ່ວນຕ່າງໆທີ່ໄວກວ່າການແຕະສອງເທື່ອ.</string>
   <string name="pref_verbosity_title">ການເວົ້າລາຍລະອຽດ</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">ອອກສຽງແປ້ນພິມ</string>
   <string name="pref_node_desc_order_title">ລຳດັບລາຍລະອຽດລາຍການ</string>
   <string name="pref_time_feedback_format_title">ຮູບແບບເວລາ</string>
-  <string name="title_pref_latency_reduction">ຫຼຸດຄວາມຫຼ້າຊ້າ</string>
-  <string name="talkback_latency_reduction_summary">ເຮັດໃຫ້ SandFly ຕອບສະໜອງໄວຂຶ້ນຫຼັງຈາກທີ່ທ່ານແຕະໜ້າຈໍ</string>
   <string name="summary_pref_intonation">ອ່ານຕົວອັກສອນທີ່ລຶບອອກແລ້ວດ້ວຍສຽງສູງຂຶ້ນ</string>
   <string name="title_pref_speech_footer">ເພື່ອປ່ຽນລະດັບສຽງການຊ່ວຍເຂົ້າເຖິງຈາກໜ້າຈໍໃດກໍໄດ້, ໃຫ້ກົດ 1 ນິ້ວຄ້າງໄວ້ເທິງໜ້າຈໍ ແລະ ກົດປຸ່ມເພີ່ມ ຫຼື ຫຼຸດລະດັບສຽງ.</string>
   <string name="title_pref_vibration">ການສັ່ນເຕືອນ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ການຕັ້ງຄ່າ​ສຳລັບ​ນັກພັດທະນາ</string>
   <string name="title_activity_dump_a11y_event">ເລືອກນັດໝາຍເພື່ອບັນທຶກ</string>
   <string name="title_pref_dump_a11y_event">ກັ່ນຕອງການບັນທຶກນັດໝາຍການຊ່ວຍເຂົ້າເຖິງ</string>
-  <string name="pref_reduce_window_delay_title">ປິດພາບເຄື່ອນໄຫວ</string>
   <string name="title_pref_log_level">ລະດັບການບັນທຶກ</string>
   <string name="title_pref_diagnosis_mode">ໂໝດການວິນິໄສ</string>
   <string name="title_pref_tts_overlay">​ສະ​ແດງ​ການ​ເວົ້າ</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">ເວົ້າຂໍ້ຄວາມ ແລະ ໄອຄອນພາຍໃນຮູບທີ່ເລືອກ</string>
   <string name="summary_typo_suggestions">ສະແດງເມື່ອເຄີເຊີຢູ່ເທິງການພິມຜິດ</string>
   <string name="summary_cache_keyboard_keys">SandFly ປະກາດການໂຫຼດລ່ວງໜ້າເພື່ອຫຼຸດຜ່ອນຄວາມລ່າຊ້າເມື່ອທ່ານພິມ</string>
-  <string name="summary_cache_keyboard_keys_disabled">ໃຊ້ Google ຂໍ້​ຄວາມ​ເປັນ​ຄຳ​ເວົ້າເພື່ອໃຊ້ຄຸນສົມບັດນີ້</string>
   <string name="title_pref_shortcut_up">ປັດ​ຂຶ້ນ</string>
   <string name="title_pref_shortcut_up_xr">ຫັນຝາມືຂ້າງທີ່ທ່ານບໍ່ລຶ້ງເຂົ້າຫາໂຕ, ຈາກນັ້ນບີບນິ້ວ ແລ້ວປັດຂຶ້ນ</string>
   <string name="title_pref_shortcut_down">ປັດ​ລົງ</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ລຳໂພງໂທລະສັບເມື່ອເຊື່ອມຕໍ່ອຸປະກອນເຫຼົ່ານີ້</string>
     <string name="summary_pref_speaker_devices_none">ບໍ່ມີ</string>
     <string name="summary_pref_speaker_devices_no_devices">ຍັງບໍ່ມີອຸປະກອນ Bluetooth ຫຼື ມີສາຍເຊື່ອມຕໍ່ເທື່ອ</string>
-    <string name="pref_reduce_window_delay_summary">SandFly ອ່ານໜ້າຈໍໃໝ່ໄດ້ໄວຂຶ້ນເມື່ອອະນິເມຊັນຖືກປິດໄວ້. ນີ້ຈະເປັນການປິດອະນິເມຊັນສຳລັບໂທລະສັບທັງໝົດ.</string>
     <string name="dialog_message_detailed_ai_description">ຮູບພາບທີ່ເລືອກຈະຖືກສົ່ງໄປຫາ Gemini API ຂອງ Google ເພື່ອອະທິບາຍ. ເມື່ອເປີດ AI ໃນອຸປະກອນ, ຮູບພາບຈະຖືກອະທິບາຍຢູ່ໃນໂທລະສັບເຄື່ອງນີ້ແທນ ແລະ ບໍ່ຖືກສົ່ງໄປ.\n\nເມື່ອໃຊ້ລະຫັດ API ຟຣີ, Google ອາດເກັບສິ່ງທີ່ໄດ້ຮັບ, ໃຊ້ມັນເພື່ອປັບປຸງຜະລິດຕະພັນຂອງຕົນ ແລະ ໃຫ້ຄົນກວດເບິ່ງມັນ. AI ສ້າງເນື້ອຫາຍັງຢູ່ໃນຂັ້ນທົດລອງ, ສະນັ້ນມັນຈະມີຂໍ້ຜິດພາດ. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ມີຜົນບັງຄັບໃຊ້.</string>
     <string name="dialog_message_detailed_ai_promotion">ຄຳອະທິບາຍຮູບພາບແບບລະອຽດສ້າງໂດຍ AI ສ້າງເນື້ອຫາ. ຮູບພາບທີ່ເລືອກຈະຖືກສົ່ງໄປຫາ Gemini API ຂອງ Google ເພື່ອອະທິບາຍ. ເມື່ອເປີດ AI ໃນອຸປະກອນ, ຮູບພາບຈະຖືກອະທິບາຍຢູ່ໃນໂທລະສັບເຄື່ອງນີ້ແທນ ແລະ ບໍ່ຖືກສົ່ງໄປ.\n\nເມື່ອໃຊ້ລະຫັດ API ຟຣີ, Google ອາດເກັບສິ່ງທີ່ໄດ້ຮັບ, ໃຊ້ມັນເພື່ອປັບປຸງຜະລິດຕະພັນຂອງຕົນ ແລະ ໃຫ້ຄົນກວດເບິ່ງມັນ. AI ສ້າງເນື້ອຫາຍັງຢູ່ໃນຂັ້ນທົດລອງ, ສະນັ້ນມັນຈະມີຂໍ້ຜິດພາດ. ທ່ານສາມາດປິດຄຳອະທິບາຍຮູບພາບແບບລະອຽດໄດ້ທຸກເວລາໃນການຕັ້ງຄ່າ SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ມີຜົນບັງຄັບໃຊ້.</string>
     <string name="dialog_message_screen_overview_promotion">ພາບໜ້າຈໍຈະຖືກສົ່ງໄປຫາ Gemini API ຂອງ Google ເພື່ອອະທິບາຍ, ເຊິ່ງໃຊ້ເວລາສອງສາມວິນາທີ. ເມື່ອເປີດ AI ໃນອຸປະກອນ, ພາບຈະຖືກອະທິບາຍຢູ່ໃນໂທລະສັບເຄື່ອງນີ້ແທນ ແລະ ບໍ່ຖືກສົ່ງໄປ.\n\nເມື່ອໃຊ້ລະຫັດ API ຟຣີ, Google ອາດເກັບສິ່ງທີ່ໄດ້ຮັບ, ໃຊ້ມັນເພື່ອປັບປຸງຜະລິດຕະພັນຂອງຕົນ ແລະ ໃຫ້ຄົນກວດເບິ່ງມັນ. AI ສ້າງເນື້ອຫາຍັງຢູ່ໃນຂັ້ນທົດລອງ, ສະນັ້ນມັນຈະມີຂໍ້ຜິດພາດ. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ມີຜົນບັງຄັບໃຊ້.</string>

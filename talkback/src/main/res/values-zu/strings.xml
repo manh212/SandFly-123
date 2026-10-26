@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Khuluma isikhathi</string>
   <string name="pref_speak_time_summary">Lapho uvula isikrini</string>
   <string name="summary_speak_container_element_positions">Isho lapho ungena noma uphuma ohlwini, kumagridi, nakwezinye iziqukathi</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Setha kabusha amasethingi okubambezeleka?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Lokhu kuzosetha kabusha onke amasethingi okubambezeleka abe azenzakalelayo</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Setha kabusha</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Amasethingi okunciphisa ukubambezeleka asethwe kabusha.</string>
   <string name="Reset_gesture_settings_dialog_title">Setha kabusha ukuthintwa?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Setha kabusha ukuthinta kwesethi yamanje?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Lokhu kuzosetha kabusha konke ukuthintwa kubuyele kulokho obekwenzeka ngokuzenzakalela kwasekuqaleni.\n\nUzolahlekelwa yinoma yiziphi izinguquko osuzenzile.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Kufaka phakathi izibuyekezo ngenkathi ulayisha, udawuniloda, ulandela izikhombisi-ndlela zokushayela, nokuningi. Uma kuvaliwe, usazothola izibuyekezo ezivamile.</string>
   <string name="title_pref_explore_by_touch">Hlola ngokuthinta</string>
   <string name="title_pref_category_controls">Izilawuli</string>
-  <string name="title_pref_category_reduce_latency_summary">Lawa masethingi enza i-SandFly iphendule ngokushesha ngemva kokuthinta isikrini</string>
-  <string name="reset_latency_settings_title">Setha kabusha wonke amasethingi okubambezeleka</string>
   <string name="title_pref_single_tap">Thepha kanye ukuze usebenzise</string>
   <string name="summary_pref_single_tap">Thepha kanye entweni okugxilwe kuyo ukuze wenze kusebenze. Ukufuna okusheshayo kunokuthepha kabili.</string>
   <string name="pref_verbosity_title">I-Verbosity</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Imisindo yekhibhodi</string>
   <string name="pref_node_desc_order_title">Ukuhleleka kwemininingwane yento</string>
   <string name="pref_time_feedback_format_title">Ifomethi yesikhathi</string>
-  <string name="title_pref_latency_reduction">Nciphisa ukubambezeleka</string>
-  <string name="talkback_latency_reduction_summary">I-SandFly iphendula ngokushesha ngemva kokuthinta isikrini</string>
   <string name="summary_pref_intonation">Khuluma izinhlamvu ezisuliwe ngezwi lokuphakama okuphezulu</string>
   <string name="title_pref_speech_footer">Ukuze ushintshe ivolumu yokufinyeleleka kunoma yisiphi isikrini, bamba umunwe ongu-1 esikrinini bese ucindezela ukhiye wevolumu uye phezulu noma wehlise ivolumu.</string>
   <string name="title_pref_vibration">Impendulo yokudlidliza</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Izilungiselelo zonjiniyela</string>
   <string name="title_activity_dump_a11y_event">Khetha imicimbi ongayifaka</string>
   <string name="title_pref_dump_a11y_event">Ukufaka komcimbi wokufinyelela kwesihlungi</string>
-  <string name="pref_reduce_window_delay_title">Vala ukugqwayiza</string>
   <string name="title_pref_log_level">Ileveli yokukhishwa kwelogi</string>
   <string name="title_pref_diagnosis_mode">Imodi yokuxilonga</string>
   <string name="title_pref_tts_overlay">Bonisa ukuphuma kwenkulumo</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Khuluma umbhalo nezithonjana ngaphakathi komfanekiso okhethiwe</string>
   <string name="summary_typo_suggestions">Ibonisa uma ngabe i-cursor iku-typo</string>
   <string name="summary_cache_keyboard_keys">ISandFly ilayisha izaziso kusengaphambili ukunciphisa ukubambezeleka lapho uthayipha</string>
-  <string name="summary_cache_keyboard_keys_disabled">Sebenzisa Ukuguqula Umbhalo Ube Yinkulumo kweGoogle ukuze usebenzenzise lesi sakhi</string>
   <string name="title_pref_shortcut_up">Swayiphela phezulu</string>
   <string name="title_pref_shortcut_up_xr">Intende yesibili phakathi, ncinza futhi uswayiphele phezulu</string>
   <string name="title_pref_shortcut_down">Swayiphela phansi</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Isipikha sefoni uma kuxhunywe lawa madivayisi</string>
     <string name="summary_pref_speaker_devices_none">Lutho</string>
     <string name="summary_pref_speaker_devices_no_devices">Awekho amadivayisi e-Bluetooth noma anentambo axhunyiwe okwamanje</string>
-    <string name="pref_reduce_window_delay_summary">SandFly ifunda izikrini ezintsha ngokushesha uma ukugqwayiza kuvaliwe. Lokhu kuvala ukugqwayiza kwayo yonke ifoni.</string>
     <string name="dialog_message_detailed_ai_description">Izithombe ezikhethiwe zithunyelwa ku-Gemini API ye-Google ukuze zichazwe. Uma i-AI ekudivayisi ivuliwe, zichazwa kule foni esikhundleni salokho futhi azithunyelwa.\n\nNgokhiye we-API wamahhala, i-Google ingagcina ekutholayo, ikusebenzisele ukuthuthukisa imikhiqizo yayo, futhi ivumele abantu bakubuyekeze. I-AI ekhiqizayo isesesigabeni sokuhlolwa, ngakho izokwenza amaphutha. Kusebenza i-<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Izincazelo zezithombe ezinemininingwane zakhiwa yi-AI ekhiqizayo. Izithombe ezikhethiwe zithunyelwa ku-Gemini API ye-Google ukuze zichazwe. Uma i-AI ekudivayisi ivuliwe, zichazwa kule foni esikhundleni salokho futhi azithunyelwa.\n\nNgokhiye we-API wamahhala, i-Google ingagcina ekutholayo, ikusebenzisele ukuthuthukisa imikhiqizo yayo, futhi ivumele abantu bakubuyekeze. I-AI ekhiqizayo isesesigabeni sokuhlolwa, ngakho izokwenza amaphutha. Ungavala izincazelo zezithombe ezinemininingwane noma nini ku-Amasethingi weSandFly.\n\nKusebenza i-<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Isithombe-skrini sithunyelwa ku-Gemini API ye-Google ukuze sichazwe, okuthatha imizuzwana embalwa. Uma i-AI ekudivayisi ivuliwe, sichazwa kule foni esikhundleni salokho futhi asithunyelwa.\n\nNgokhiye we-API wamahhala, i-Google ingagcina ekutholayo, ikusebenzisele ukuthuthukisa imikhiqizo yayo, futhi ivumele abantu bakubuyekeze. I-AI ekhiqizayo isesesigabeni sokuhlolwa, ngakho izokwenza amaphutha. Kusebenza i-<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

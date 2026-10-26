@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Az idő kimondása</string>
   <string name="pref_speak_time_summary">A képernyő bekapcsolásakor</string>
   <string name="summary_speak_container_element_positions">Kimondja, amikor listába, rácsba vagy más tárolóba belép, illetve kilép onnan</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Visszaállítja a késleltetési beállításokat?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Ezzel visszaállítja az összes késleltetési beállítást az alapértelmezettre.</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Visszaállítás</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">A késleltetéscsökkentési beállítások visszaállítása megtörtént.</string>
   <string name="Reset_gesture_settings_dialog_title">Biztosan visszaállítja a kézmozdulatokat?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Visszállítja a jelenlegi készlet kézmozdulatait?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Ezzel az összes kézmozdulatot az alapértelmezett műveletekre állítja vissza.\n\nAz elvégzett módosítások így elvesznek.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">A letöltés, az autós útvonaltervek követése és egyebek közbeni értesítésítésekre is vonatkozik. Amikor ki van kapcsolva, kevesebb értesítést kap.</string>
   <string name="title_pref_explore_by_touch">Felfedezés érintéssel</string>
   <string name="title_pref_category_controls">Vezérlők</string>
-  <string name="title_pref_category_reduce_latency_summary">Ezekkel a beállításokkal a SandFly gyorsabban reagál, miután megérinti a képernyőt</string>
-  <string name="reset_latency_settings_title">Az összes késleltetési beállítás visszaállítása</string>
   <string name="title_pref_single_tap">Koppintson egyszer az aktiváláshoz</string>
   <string name="summary_pref_single_tap">Az aktiváláshoz koppintson egyszer az éppen kijelölt elemre. Gyorsabb navigáció, mint a dupla koppintás használatakor.</string>
   <string name="pref_verbosity_title">Részletesség</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Leütött billentyűk kimondása</string>
   <string name="pref_node_desc_order_title">Az elemadatok sorrendje</string>
   <string name="pref_time_feedback_format_title">Időformátum</string>
-  <string name="title_pref_latency_reduction">Késleltetés csökkentése</string>
-  <string name="talkback_latency_reduction_summary">A SandFly gyorsabban reagál a képernyő megérintése után</string>
   <string name="summary_pref_intonation">A törölt betűk magasabb hangszínben történő kimondása</string>
   <string name="title_pref_speech_footer">A kisegítő lehetőségek hangerejének bármely képernyőről történő módosításához tartsa 1 ujját a képernyőn, és nyomja meg a hangerő növelése vagy csökkentése gombot.</string>
   <string name="title_pref_vibration">Visszajelzés rezgéssel</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Fejlesztői beállítások</string>
   <string name="title_activity_dump_a11y_event">Válassza ki a naplózni kívánt eseményeket</string>
   <string name="title_pref_dump_a11y_event">Kisegítő lehetőségekkel kapcsolatos naplózás szűrése</string>
-  <string name="pref_reduce_window_delay_title">Animációk kikapcsolása</string>
   <string name="title_pref_log_level">Naplózás szintje</string>
   <string name="title_pref_diagnosis_mode">Elemző mód</string>
   <string name="title_pref_tts_overlay">Kimondott beszéd megjelenítése</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">A kijelölt képen belüli szöveg és ikonok felolvasása</string>
   <string name="summary_typo_suggestions">Akkor jelenik meg, amikor a kurzor elgépelt szón áll</string>
   <string name="summary_cache_keyboard_keys">A SandFly előre betölti a közleményeket, hogy csökkentse a gépelés közbeni késleltetést</string>
-  <string name="summary_cache_keyboard_keys_disabled">A funkció használatához használja a Google Szövegfelolvasót</string>
   <string name="title_pref_shortcut_up">Csúsztatás felfelé</string>
   <string name="title_pref_shortcut_up_xr">Maga felé néző másodlagos tenyér, összecsippentés, felfelé csúsztatás</string>
   <string name="title_pref_shortcut_down">Csúsztatás lefelé</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Telefon hangszórója ezeknél az eszközöknél</string>
     <string name="summary_pref_speaker_devices_none">Nincs</string>
     <string name="summary_pref_speaker_devices_no_devices">Még nincs Bluetooth vagy vezetékes eszköz csatlakoztatva</string>
-    <string name="pref_reduce_window_delay_summary">A SandFly gyorsabban beolvassa az új képernyőket, ha az animációk ki vannak kapcsolva. Ezzel kikapcsolja az animációkat az egész telefonra.</string>
     <string name="dialog_message_detailed_ai_description">A kiválasztott képeket a Google Gemini API kapja meg leírásra. Ha az Eszközön futó AI be van kapcsolva, a leírás ehelyett ezen a telefonon készül, és a képek nem kerülnek elküldésre.\n\nIngyenes API-kulcs esetén a Google megőrizheti a kapott adatokat, felhasználhatja őket termékei fejlesztésére, és emberekkel is átnézetheti őket. A generatív AI kísérleti jellegű, ezért hibázni fog. Érvényesek a következők: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">A részletes képleírásokat generatív AI készíti. A kiválasztott képeket a Google Gemini API kapja meg leírásra. Ha az Eszközön futó AI be van kapcsolva, a leírás ehelyett ezen a telefonon készül, és a képek nem kerülnek elküldésre.\n\nIngyenes API-kulcs esetén a Google megőrizheti a kapott adatokat, felhasználhatja őket termékei fejlesztésére, és emberekkel is átnézetheti őket. A generatív AI kísérleti jellegű, ezért hibázni fog. A részletes képleírásokat bármikor kikapcsolhatja a SandFly beállításaiban.\n\nÉrvényesek a következők: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">A képernyőről készült képernyőképet a Google Gemini API kapja meg leírásra, ami néhány másodpercig tart. Ha az Eszközön futó AI be van kapcsolva, a leírás ehelyett ezen a telefonon készül, és a kép nem kerül elküldésre.\n\nIngyenes API-kulcs esetén a Google megőrizheti a kapott adatokat, felhasználhatja őket termékei fejlesztésére, és emberekkel is átnézetheti őket. A generatív AI kísérleti jellegű, ezért hibázni fog. Érvényesek a következők: <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

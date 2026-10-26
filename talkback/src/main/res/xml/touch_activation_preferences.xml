@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- How touches focus and activate items. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_category_latency_reduction_shortcut_key"
-      android:title="@string/title_pref_latency_reduction"
-      android:summary="@string/talkback_latency_reduction_summary"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackLatencyReductionPreferenceFragment" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
       android:defaultValue="@string/pref_lift_to_activate_default"
       android:dialogTitle="@string/title_pref_lift_to_activate"

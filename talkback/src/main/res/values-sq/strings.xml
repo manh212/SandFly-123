@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Lexo me zë orën</string>
   <string name="pref_speak_time_summary">Kur aktivizon ekranin</string>
   <string name="summary_speak_container_element_positions">Njofton kur hyni ose dilni nga listat, rrjetat dhe kontejnerët e tjerë</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Të rivendosen cilësimet e vonesës?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Kjo do t\'i rivendosë te parazgjedhja të gjitha cilësimet e vonesës</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Rivendos</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Cilësimet e reduktimit të vonesës janë rivendosur.</string>
   <string name="Reset_gesture_settings_dialog_title">Të rivendosen gjestet?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Të rivendosen gjestet e grupit aktual?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Kjo do t\'i rivendosë të gjitha gjestet te veprimet e tyre të parazgjedhura.\n\nDo të humbësh çdo ndryshim që ke bërë.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Përfshin përditësimet ndërkohë që shkarkon, ndjek drejtimet e udhëtimit me makinë etj. Kur është i çaktivizuar, do të marrësh përsëri përditësime më pak të shpeshta.</string>
   <string name="title_pref_explore_by_touch">Eksploro me prekje</string>
   <string name="title_pref_category_controls">Kontrollet</string>
-  <string name="title_pref_category_reduce_latency_summary">Këto cilësime bëjnë që SandFly të përgjigjet më shpejt pasi të prekni ekranin</string>
-  <string name="reset_latency_settings_title">Rivendos të gjitha cilësimet e vonesës</string>
   <string name="title_pref_single_tap">Trokit një herë për ta aktivizuar</string>
   <string name="summary_pref_single_tap">Trokit një herë në një artikull të fokusuar për ta aktivizuar. Navigim më i shpejtë se trokitja dy herë.</string>
   <string name="pref_verbosity_title">Detajimi zanor</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Jehona e tastierës</string>
   <string name="pref_node_desc_order_title">Renditja e detajeve të artikullit</string>
   <string name="pref_time_feedback_format_title">Formati i orës</string>
-  <string name="title_pref_latency_reduction">Redukto vonesën</string>
-  <string name="talkback_latency_reduction_summary">Bëje që SandFly të përgjigjet më shpejt pasi të prekësh ekranin</string>
   <string name="summary_pref_intonation">Lexo shkronjat e fshira me zë me ton më të lartë</string>
   <string name="title_pref_speech_footer">Për të ndryshuar volumin e aksesueshmërisë nga çdo ekran, mbani 1 gisht në ekran dhe shtypni butonin e rritjes ose uljes së volumit.</string>
   <string name="title_pref_vibration">Reagimi me dridhje</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Cilësimet e zhvilluesit</string>
   <string name="title_activity_dump_a11y_event">Zgjidh ngjarjet për regjistrimin</string>
   <string name="title_pref_dump_a11y_event">Filtro regjistrimin e ngjarjeve të qasshmërisë</string>
-  <string name="pref_reduce_window_delay_title">Fik animacionet</string>
   <string name="title_pref_log_level">Niveli i daljes së regjistrit</string>
   <string name="title_pref_diagnosis_mode">Modaliteti i diagnostikimit</string>
   <string name="title_pref_tts_overlay">Shfaq daljen e ligjërimit</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Shqipto tekstin dhe ikonat brenda një imazhi të zgjedhur</string>
   <string name="summary_typo_suggestions">Shfaqet kur kursori është mbi një gabim drejtshkrimor</string>
   <string name="summary_cache_keyboard_keys">SandFly ngarkon paraprakisht njoftimet për të zvogëluar vonesën kur ti shkruan</string>
-  <string name="summary_cache_keyboard_keys_disabled">Përdor \"Tekstin në ligjërim\" të Google për të përdorur këtë veçori</string>
   <string name="title_pref_shortcut_up">Rrëshqitja lart</string>
   <string name="title_pref_shortcut_up_xr">Pëllëmba e dytë drejt vetes, kap me dy gishta dhe rrëshqit shpejt lart</string>
   <string name="title_pref_shortcut_down">Rrëshqitja poshtë</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Altoparlanti i telefonit me këto pajisje</string>
     <string name="summary_pref_speaker_devices_none">Asnjë</string>
     <string name="summary_pref_speaker_devices_no_devices">Nuk janë lidhur ende pajisje Bluetooth ose me kabllo</string>
-    <string name="pref_reduce_window_delay_summary">SandFly lexon më shpejt ekranet e reja kur animacionet janë të fikur. Kjo çaktivizon animacionet për të gjithë telefonin.</string>
     <string name="dialog_message_detailed_ai_description">Imazhet e zgjedhura dërgohen te Gemini API e Google për t\'u përshkruar. Kur AI në pajisje është aktive, ato përshkruhen në këtë telefon dhe nuk dërgohen.\n\nMe një çelës API falas, Google mund të mbajë atë që merr, ta përdorë për të përmirësuar produktet e tij dhe ta japë për shqyrtim te njerëz. AI gjeneruese është eksperimentale, kështu që do të bëjë gabime. Zbatohen <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Përshkrimet e detajuara të imazheve krijohen nga AI gjeneruese. Imazhet e zgjedhura dërgohen te Gemini API e Google për t\'u përshkruar. Kur AI në pajisje është aktive, ato përshkruhen në këtë telefon dhe nuk dërgohen.\n\nMe një çelës API falas, Google mund të mbajë atë që merr, ta përdorë për të përmirësuar produktet e tij dhe ta japë për shqyrtim te njerëz. AI gjeneruese është eksperimentale, kështu që do të bëjë gabime. Mund t\'i çaktivizoni përshkrimet e detajuara të imazheve në çdo kohë te Cilësimet e SandFly.\n\nZbatohen <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Një pamje ekrani dërgohet te Gemini API e Google për t\'u përshkruar, gjë që zgjat disa sekonda. Kur AI në pajisje është aktive, ajo përshkruhet në këtë telefon dhe nuk dërgohet.\n\nMe një çelës API falas, Google mund të mbajë atë që merr, ta përdorë për të përmirësuar produktet e tij dhe ta japë për shqyrtim te njerëz. AI gjeneruese është eksperimentale, kështu që do të bëjë gabime. Zbatohen <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

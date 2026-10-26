@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">အချိန်ပြောရန်</string>
   <string name="pref_speak_time_summary">ဖန်သားပြင်ဖွင့်ထားသောအခါ</string>
   <string name="summary_speak_container_element_positions">စာရင်းများ၊ ဇယားကွက်များနှင့် အခြား container များထဲ ဝင်သည့်အခါ သို့မဟုတ် ထွက်သည့်အခါ ပြောသည်</string>
-  <string name="reset_letency_reduction_settings_dialog_title">စောင့်ရချိန် ဆက်တင်များကို ပြင်ဆင်သတ်မှတ်မလား။</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">၎င်းသည် စောင့်ရချိန် ဆက်တင်များကို မူရင်းသို့ ပြင်ဆင်သတ်မှတ်ပါမည်</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ပြင်ဆင်သတ်မှတ်ရန်</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">တုံ့ပြန်ချိန်လျှော့ချမှု ဆက်တင်များကို ပြင်ဆင်သတ်မှတ်လိုက်သည်။</string>
   <string name="Reset_gesture_settings_dialog_title">လက်ဟန်များကို ပြင်ဆင်သတ်မှတ်မလား။</string>
   <string name="Reset_gesture_settings_set_dialog_title">လက်ရှိ လက်ဟန်အုပ်စုကို ပြင်ဆင်သတ်မှတ်မလား။</string>
   <string name="message_reset_gesture_settings_confirm_dialog">လက်ဟန်များအားလုံးကို ယင်းတို့၏ မူလလုပ်ဆောင်ချက်များသို့ ပြင်ဆင်သတ်မှတ်ပေးသည်။\n\nသင်ပြုလုပ်ထားသော ပြောင်းလဲမှုများကို ဆုံးရှုံးပါမည်။</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ဒေါင်းလုဒ်လုပ်နေစဉ်၊ ယာဉ်လမ်းညွှန်များအတိုင်း မောင်နေစဉ်နှင့် အခြားအခြေအနေများ ပါဝင်သည်။ ပိတ်ထားချိန်တွင်ပင် အပ်ဒိတ်အနည်းငယ်ကို ကြားရပါဦးမည်။</string>
   <string name="title_pref_explore_by_touch">တို့ထိလျက် စူးစမ်းပါ</string>
   <string name="title_pref_category_controls">ထိန်းချုပ်မှုများ</string>
-  <string name="title_pref_category_reduce_latency_summary">ဤဆက်တင်များသည် မျက်နှာပြင်ကိုထိပြီးနောက် SandFly တုံ့ပြန်မှုကို ပိုမိုမြန်ဆန်စေသည်</string>
-  <string name="reset_latency_settings_title">စောင့်ရချိန် ဆက်တင်အားလုံးကို ပြင်ဆင်သတ်မှတ်ရန်</string>
   <string name="title_pref_single_tap">စဖွင့်ရန် တစ်ကြိမ်တို့ပါ</string>
   <string name="summary_pref_single_tap">စတင်ရန် ပြထားသည့် အကြောင်းအရာကို တစ်ကြိမ်တို့ပါ။ နှစ်ချက်တို့ခြင်းထက် ရွှေ့ရန် ပိုမြန်သည်။</string>
   <string name="pref_verbosity_title">အကျယ်ချဲ့ရှင်းပြရန်</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">ကီးဘုတ် အသံထွက်</string>
   <string name="pref_node_desc_order_title">အရာ၏ အသေးစိတ်အစီအစဉ်</string>
   <string name="pref_time_feedback_format_title">အချိန်ဖော်မက်</string>
-  <string name="title_pref_latency_reduction">စောင့်ရချိန် လျှော့ရန်</string>
-  <string name="talkback_latency_reduction_summary">မျက်နှာပြင်ကို ထိပြီးနောက် SandFly ပိုမြန်မြန် တုံ့ပြန်စေသည်</string>
   <string name="summary_pref_intonation">ဖျက်လိုက်သည့်စာကို အသံစူးစူးဖြင့် ပြောပေးသည်</string>
   <string name="title_pref_speech_footer">မည်သည့် ဖန်သားပြင်မှမဆို အများသုံးစွဲနိုင်မှု အသံအတိုးအကျယ်ကို ပြောင်းရန် ဖန်သားပြင်ပေါ်တွင် လက်ချောင်း ၁ ချောင်းကို ဖိထားပြီး အသံချဲ့ သို့မဟုတ် အသံချုံ့ ခလုတ်ကို နှိပ်ပါ။</string>
   <string name="title_pref_vibration">တုန်ခါ တုံ့ပြန်ချက်</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ဆော့ဖ်ဝဲရေးသူ ဆက်တင်များ</string>
   <string name="title_activity_dump_a11y_event">မှတ်တမ်းတင်ရန် ဖြစ်ရပ်ကို ရွေးချယ်ပါ</string>
   <string name="title_pref_dump_a11y_event">အများသုံးစွဲနိုင်မှုဖြစ်ရပ် မှတ်တမ်းတင်ခြင်းကို စိစစ်ပါ</string>
-  <string name="pref_reduce_window_delay_title">လှုပ်ရှားမှုပုံများကို ပိတ်ရန်</string>
   <string name="title_pref_log_level">လော့ဂ် ထုတ်ပေးမှု အဆင့်</string>
   <string name="title_pref_diagnosis_mode">စစ်ဆေးရေးမုဒ်</string>
   <string name="title_pref_tts_overlay">နှုတ်ပြော ထုတ်ပေးမှုကို ပြရန်</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">ရွေးထားသောပုံအတွင်း စာသားနှင့် သင်္ကေတများ အသံထွက်ဖတ်ပြရန်</string>
   <string name="summary_typo_suggestions">စာလုံးပေါင်းအမှားပေါ်တွင် ကာဆာရောက်သွားသောအခါ ပြသည်</string>
   <string name="summary_cache_keyboard_keys">သင် စာရိုက်သည့်အခါ နှောင့်နှေးချိန်ကို လျှော့ချရန် SandFly က ကြိုတင်ဖွင့်သော ကြေညာချက်များ</string>
-  <string name="summary_cache_keyboard_keys_disabled">ဤဝန်ဆောင်မှုသုံးရန် ‘Google စာ-မှ-စကား’ ကို သုံးနိုင်သည်</string>
   <string name="title_pref_shortcut_up">အပေါ်သို့ ပွတ်ဆွဲရန်</string>
   <string name="title_pref_shortcut_up_xr">အရန်မျက်နှာပြင်လှည့်၊ လက်နှစ်ချောင်းဖြင့် ချဲ့ချုံ့ပြီး အပေါ်ပွတ်ဆွဲပါ</string>
   <string name="title_pref_shortcut_down">အောက်သို့ပွတ်ဆွဲပါ</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ဤစက်ပစ္စည်းများ ချိတ်ဆက်ထားစဉ် ဖုန်းစပီကာ</string>
     <string name="summary_pref_speaker_devices_none">မရှိ</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth သို့မဟုတ် ကြိုးတပ်ကိရိယာများ မချိတ်ဆက်ရသေးပါ</string>
-    <string name="pref_reduce_window_delay_summary">အန်နီမေးရှင်းများ ပိတ်ထားသည့်အခါ SandFly သည် မျက်နှာပြင်အသစ်များကို ပိုမြန်စွာ ဖတ်သည်။ ၎င်းသည် ဖုန်းတစ်ခုလုံးအတွက် အန်နီမေးရှင်းများကို ပိတ်သည်။</string>
     <string name="dialog_message_detailed_ai_description">ရွေးထားသော ပုံများကို ဖော်ပြချက်ရယူရန် Google ၏ Gemini API သို့ ပို့သည်။ စက်ပေါ်ရှိ AI ကို ဖွင့်ထားလျှင် ၎င်းတို့ကို ဤဖုန်းပေါ်တွင်သာ ဖော်ပြပြီး မပို့ပါ။\n\nအခမဲ့ API ကီးဖြင့် Google သည် ရရှိသည့်အရာများကို သိမ်းထားနိုင်၊ ၎င်း၏ ထုတ်ကုန်များ တိုးတက်စေရန် အသုံးပြုနိုင်ပြီး လူများကို စစ်ဆေးခိုင်းနိုင်သည်။ Generative AI သည် စမ်းသပ်ဆဲဖြစ်သဖြင့် အမှားများ ရှိမည်။ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> သက်ရောက်သည်။</string>
     <string name="dialog_message_detailed_ai_promotion">အသေးစိတ် ပုံဖော်ပြချက်များကို Generative AI ဖြင့် ပြုလုပ်သည်။ ရွေးထားသော ပုံများကို ဖော်ပြချက်ရယူရန် Google ၏ Gemini API သို့ ပို့သည်။ စက်ပေါ်ရှိ AI ကို ဖွင့်ထားလျှင် ၎င်းတို့ကို ဤဖုန်းပေါ်တွင်သာ ဖော်ပြပြီး မပို့ပါ။\n\nအခမဲ့ API ကီးဖြင့် Google သည် ရရှိသည့်အရာများကို သိမ်းထားနိုင်၊ ၎င်း၏ ထုတ်ကုန်များ တိုးတက်စေရန် အသုံးပြုနိုင်ပြီး လူများကို စစ်ဆေးခိုင်းနိုင်သည်။ Generative AI သည် စမ်းသပ်ဆဲဖြစ်သဖြင့် အမှားများ ရှိမည်။ SandFly ဆက်တင်များတွင် အသေးစိတ် ပုံဖော်ပြချက်များကို အချိန်မရွေး ပိတ်နိုင်သည်။\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> သက်ရောက်သည်။</string>
     <string name="dialog_message_screen_overview_promotion">မျက်နှာပြင်ဓာတ်ပုံကို ဖော်ပြချက်ရယူရန် Google ၏ Gemini API သို့ ပို့ပြီး စက္ကန့်အနည်းငယ် ကြာသည်။ စက်ပေါ်ရှိ AI ကို ဖွင့်ထားလျှင် ၎င်းကို ဤဖုန်းပေါ်တွင်သာ ဖော်ပြပြီး မပို့ပါ။\n\nအခမဲ့ API ကီးဖြင့် Google သည် ရရှိသည့်အရာများကို သိမ်းထားနိုင်၊ ၎င်း၏ ထုတ်ကုန်များ တိုးတက်စေရန် အသုံးပြုနိုင်ပြီး လူများကို စစ်ဆေးခိုင်းနိုင်သည်။ Generative AI သည် စမ်းသပ်ဆဲဖြစ်သဖြင့် အမှားများ ရှိမည်။ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> သက်ရောက်သည်။</string>

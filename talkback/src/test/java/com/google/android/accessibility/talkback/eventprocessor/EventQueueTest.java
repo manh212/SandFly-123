@@ -41,11 +41,6 @@ public class EventQueueTest {
 
   private final EventQueue queue = new EventQueue();
 
-  @After
-  public void tearDown() {
-    EventQueue.focusPriorityEnabled = true;
-  }
-
   private static String tagOf(AccessibilityEvent event) {
     return event.getPackageName().toString();
   }
@@ -132,7 +127,6 @@ public class EventQueueTest {
 
   @Test
   public void focusEvent_jumpsAheadOfTheEventsInFrontOfIt() {
-    EventQueue.focusPriorityEnabled = true;
     Performance performance = Performance.getInstance();
     performance.setComputeStatsEnabled(true);
     long jumpsBefore = performance.getFocusEventQueueJumpCount();
@@ -149,7 +143,6 @@ public class EventQueueTest {
 
   @Test
   public void focusJumps_stopAtTheCap_soTheHeadIsServedBeforeAnyMoreJump() {
-    EventQueue.focusPriorityEnabled = true;
     queue.enqueue(event(AccessibilityEvent.TYPE_ANNOUNCEMENT, "head"));
 
     // Focus events keep arriving behind the same head: three jump, then the head is served,
@@ -165,13 +158,4 @@ public class EventQueueTest {
     assertEquals("focus4", tagOf(queue.dequeue()));
   }
 
-  @Test
-  public void focusPriorityOff_eventsAreServedInTheOrderTheyCame() {
-    EventQueue.focusPriorityEnabled = false;
-    queue.enqueue(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "wcc1"));
-    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus1"));
-
-    assertEquals("wcc1", tagOf(queue.dequeue()));
-    assertEquals("focus1", tagOf(queue.dequeue()));
-  }
 }

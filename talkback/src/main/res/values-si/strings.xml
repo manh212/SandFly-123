@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">වේලාව කථා කරන්න</string>
   <string name="pref_speak_time_summary">ඔබ තිරය ක්‍රියාත්මක කරන විට</string>
   <string name="summary_speak_container_element_positions">ලැයිස්තු, ජාලක සහ වෙනත් බහාලුම්වලට ඇතුළු වන විට හෝ ඉන් පිටවන විට කියයි</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ප්‍රමාද සැකසීම් යළි සකසන්න ද?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">මෙය සියලු ප්‍රමාද සැකසීම් පෙරනිමියට යළි සකසනු ඇත</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">යළි සකසන්න</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ප්‍රමාදය අඩු කිරීමේ සැකසීම් යළි සකසා ඇත.</string>
   <string name="Reset_gesture_settings_dialog_title">ඉංගිත යළි සකසන්නද?</string>
   <string name="Reset_gesture_settings_set_dialog_title">වත්මන් කට්ටලයේ අභිනයන් යළි සකසන්න ද?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">මෙය සියලු ඉංගිත ඒවායෙහි පෙරනිමි ක්‍රියා වෙත යළි සකසනු ඇත.\n\nඔබට ඔබ සිදු කළ කිනම් හෝ වෙනස් කිරීම් අහිමි වනු ඇත.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">බාගන්නා, රිය පැදවීමේ උපදෙස් අනුගමනය කරන, සහ තවත් දේ අතරේ යාවත්කාලීන ඇතුළත් වේ. ක්‍රියාවිරහිත කළ විට, ඔබට තවමත් නිතර අඩුවෙන් යාවත්කාලීන ලැබෙනු ඇත.</string>
   <string name="title_pref_explore_by_touch">ස්පර්ශය මගින් ගවේෂණය කරන්න</string>
   <string name="title_pref_category_controls">පාලන</string>
-  <string name="title_pref_category_reduce_latency_summary">මෙම සැකසීම් ඔබ තිරය ස්පර්ශ කිරීමෙන් පසු SandFly ප්‍රතිචාර දැක්වීම වේගවත් කරයි</string>
-  <string name="reset_latency_settings_title">සියලු ප්‍රමාද සැකසීම් යළි සකසන්න</string>
   <string name="title_pref_single_tap">සක්‍රිය කිරීමට එක් වරක් තට්ටු කරන්න</string>
   <string name="summary_pref_single_tap">සක්‍රිය කිරීමට නාභිගත අයිතමයක් මත එක් වරක් තට්ටු කරන්න. දෙවරක් තට්ටු කිරීමට වඩා වේගවත් සංචාලනය.</string>
   <string name="pref_verbosity_title">වාචිකතාව</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">යතුරුපුවරු දෝංකාරය</string>
   <string name="pref_node_desc_order_title">අයිතමයේ විස්තර අනුපිළිවෙල</string>
   <string name="pref_time_feedback_format_title">වේලා ආකෘතිය</string>
-  <string name="title_pref_latency_reduction">ප්‍රමාදය අඩු කරන්න</string>
-  <string name="talkback_latency_reduction_summary">ඔබ තිරය ස්පර්ශ කළ පසු SandFly ප්‍රතිචාර දැක්වීම වේගවත් කරන්න</string>
   <string name="summary_pref_intonation">මකන ලද අකුරු ඉහළ තාරතාවක කටහඬකින් කියන්න</string>
   <string name="title_pref_speech_footer">ඕනෑම තිරයකින් ප්‍රවේශ්‍යතා පරිමාව වෙනස් කිරීමට, තිරය මත ඇඟිලි 1ක් අල්ලාගෙන ශබ්දය ඉහළට හෝ ශබ්දය පහළට යතුර ඔබන්න.</string>
   <string name="title_pref_vibration">කම්පන ප්‍රතිපෝෂණ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">වර්ධක සැකසීම්</string>
   <string name="title_activity_dump_a11y_event">ඇතුළු කිරීමට සිදුවීම් තේරීම</string>
   <string name="title_pref_dump_a11y_event">ප්‍රවේශ්‍යතා සිදුවීම් ඇතුළු කිරීම පෙරහන් කිරීම</string>
-  <string name="pref_reduce_window_delay_title">සජීවිකරණ අක්‍රිය කරන්න</string>
   <string name="title_pref_log_level">ප්‍රතිදාන මට්ටම සටහන් කර ගන්න</string>
   <string name="title_pref_diagnosis_mode">දෝෂ නිර්ණ ප්‍රකාරය</string>
   <string name="title_pref_tts_overlay">කථන ප්‍රතිදාන සංදර්ශනය කරන්න</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">තෝරාගත් රූපයක් තුළ පෙළ සහ නිරූපක කථනය</string>
   <string name="summary_typo_suggestions">කර්සරය මුද්‍රණ දෝෂයක ඇති විට පෙන්වයි</string>
   <string name="summary_cache_keyboard_keys">ඔබ ටයිප් කරන විට ප්‍රමාදය අඩු කිරීම සඳහා SandFly නිවේදන පූර්ව-පූරණය කරයි</string>
-  <string name="summary_cache_keyboard_keys_disabled">මෙම විශේෂාංගය භාවිත කිරීමට Google පෙළ-සිට-කථනය භාවිත කරන්න</string>
   <string name="title_pref_shortcut_up">ඉහළට ස්වයිප් කරන්න</string>
   <string name="title_pref_shortcut_up_xr">ද්විතියික අත්ලෙන් අල්ලාගෙන, පින්ච් කර ඉහළට ස්වයිප් කරන්න</string>
   <string name="title_pref_shortcut_down">පහළට ස්වයිප් කරන්න</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">මෙම උපාංග සමඟ දුරකථන ස්පීකරය</string>
     <string name="summary_pref_speaker_devices_none">කිසිවක් නැත</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth හෝ රැහැන්ගත උපාංග තවමත් සම්බන්ධ වී නොමැත</string>
-    <string name="pref_reduce_window_delay_summary">සජීවිකරණ අක්‍රිය වූ විට SandFly නව තිර වේගයෙන් කියවයි. මෙය මුළු දුරකථනය සඳහාම සජීවිකරණ අක්‍රිය කරයි.</string>
     <string name="dialog_message_detailed_ai_description">තෝරාගත් රූප විස්තර කිරීම සඳහා Google හි Gemini API වෙත යවනු ලැබේ. උපාංගයේ AI ක්‍රියාත්මක විට, ඒ වෙනුවට ඒවා මෙම දුරකථනයේම විස්තර කරන අතර ඒවා නොයවයි.\n\nනොමිලේ API යතුරක් සමඟ, Google හට ලැබෙන දේ තබා ගැනීමට, තම නිෂ්පාදන වැඩිදියුණු කිරීමට එය භාවිත කිරීමට සහ මිනිසුන් ලවා එය සමාලෝචනය කරවීමට හැකිය. උත්පාදක AI පර්යේෂණාත්මක බැවින් එය වැරදි කරයි. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> අදාළ වේ.</string>
     <string name="dialog_message_detailed_ai_promotion">සවිස්තරාත්මක රූප විස්තර උත්පාදක AI මගින් සාදනු ලැබේ. තෝරාගත් රූප විස්තර කිරීම සඳහා Google හි Gemini API වෙත යවනු ලැබේ. උපාංගයේ AI ක්‍රියාත්මක විට, ඒ වෙනුවට ඒවා මෙම දුරකථනයේම විස්තර කරන අතර ඒවා නොයවයි.\n\nනොමිලේ API යතුරක් සමඟ, Google හට ලැබෙන දේ තබා ගැනීමට, තම නිෂ්පාදන වැඩිදියුණු කිරීමට එය භාවිත කිරීමට සහ මිනිසුන් ලවා එය සමාලෝචනය කරවීමට හැකිය. උත්පාදක AI පර්යේෂණාත්මක බැවින් එය වැරදි කරයි. ඔබට ඕනෑම වේලාවක SandFly සැකසීම් තුළ සවිස්තරාත්මක රූප විස්තර ක්‍රියාවිරහිත කළ හැක.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> අදාළ වේ.</string>
     <string name="dialog_message_screen_overview_promotion">තිරය විස්තර කිරීම සඳහා එහි තිර රුවක් Google හි Gemini API වෙත යවනු ලබන අතර, එයට තත්පර කිහිපයක් ගත වේ. උපාංගයේ AI ක්‍රියාත්මක විට, ඒ වෙනුවට එය මෙම දුරකථනයේම විස්තර කරන අතර එය නොයවයි.\n\nනොමිලේ API යතුරක් සමඟ, Google හට ලැබෙන දේ තබා ගැනීමට, තම නිෂ්පාදන වැඩිදියුණු කිරීමට එය භාවිත කිරීමට සහ මිනිසුන් ලවා එය සමාලෝචනය කරවීමට හැකිය. උත්පාදක AI පර්යේෂණාත්මක බැවින් එය වැරදි කරයි. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> අදාළ වේ.</string>

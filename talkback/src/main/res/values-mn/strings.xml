@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Цаг хэд болж байгааг хэлэх</string>
   <string name="pref_speak_time_summary">Таныг дэлгэцийг асаахад</string>
   <string name="summary_speak_container_element_positions">Жагсаалт, хүснэгт болон бусад контейнерт орох, гарах үед хэлнэ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Саатлын тохиргоог шинэчлэх үү?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Энэ нь саатлын бүх тохиргоог өгөгдмөл тохиргоо руу шинэчилнэ</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Шинэчлэх</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Хоцролтыг багасгах тохиргоог шинэчилсэн.</string>
   <string name="Reset_gesture_settings_dialog_title">Зангааг шинэчлэх үү?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Одоогийн багцын зангааг шинэчлэх үү?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Энэ нь бүх зангааг өгөгдмөл үйлдлүүд рүү нь шинэчилнэ.\n\nТа хийсэн аливаа өөрчлөлтүүдээ алдана.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Татах, машинаар явах чиглэлийг дагах болон бусад үеийн шинэчлэлт багтана. Унтраалттай үед та цөөн тооны тогтмол шинэчлэлт авсан хэвээр байх болно.</string>
   <string name="title_pref_explore_by_touch">Хүрэлтээр сонсох</string>
   <string name="title_pref_category_controls">Хяналт</string>
-  <string name="title_pref_category_reduce_latency_summary">Эдгээр тохиргоо нь таныг дэлгэцэнд хүрсний дараа SandFly илүү хурдан хариу үйлдэл үзүүлэх болно</string>
-  <string name="reset_latency_settings_title">Саатлын бүх тохиргоог шинэчлэх</string>
   <string name="title_pref_single_tap">Идэвхжүүлэхийн тулд нэг удаа товшино уу</string>
   <string name="summary_pref_single_tap">Идэвхжүүлэхийн тулд сонгосон зүйл дээр нэг товшино уу. Хоёр товшихоос илүү хурдан навигац.</string>
   <string name="pref_verbosity_title">Нуршуу</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Гарын чимээ</string>
   <string name="pref_node_desc_order_title">Зүйлийн дэлгэрэнгүйн дараалал</string>
   <string name="pref_time_feedback_format_title">Цагийн формат</string>
-  <string name="title_pref_latency_reduction">Саатлыг багасгах</string>
-  <string name="talkback_latency_reduction_summary">Дэлгэцэнд хүрсний дараа SandFly илүү хурдан хариу үйлдэл үзүүлнэ</string>
   <string name="summary_pref_intonation">Устгасан үсгийг илүү дээд өнгөтэй дуу хоолойгоор уншина</string>
   <string name="title_pref_speech_footer">Хүртээмжтэй байдлын дууг дурын дэлгэцээс өөрчлөхийн тулд дэлгэцэн дээр 1 хуруугаа бариад дууг нэмэгдүүлэх эсвэл багасгах товчийг дарна уу.</string>
   <string name="title_pref_vibration">Чичирдэг санал хүсэлт</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Хөгжүүлэгчийн тохиргоо</string>
   <string name="title_activity_dump_a11y_event">Нэвтрэх арга хэмжээг сонгох</string>
   <string name="title_pref_dump_a11y_event">Хандалтын үйл ажиллагааны нэвтрэлтийг шүүх</string>
-  <string name="pref_reduce_window_delay_title">Анимацийг унтраах</string>
   <string name="title_pref_log_level">Лог гаргах түвшин</string>
   <string name="title_pref_diagnosis_mode">Оношилгооны горим</string>
   <string name="title_pref_tts_overlay">Дууны гаралтыг үзүүлэх</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Сонгосон зураг дахь текст болон дүрс тэмдгийг чангаар унших</string>
   <string name="summary_typo_suggestions">Курсор алдаатай бичсэн үгэн дээр байгаа үед харуулдаг</string>
   <string name="summary_cache_keyboard_keys">SandFly таныг бичих үед саатлыг багасгахын тулд мэдэгдлүүдийг урьдчилан ачаалдаг</string>
-  <string name="summary_cache_keyboard_keys_disabled">Энэ онцлогийг ашиглахын тулд Google Бичвэрийг ярианд хувиргах аппыг ашиглана уу</string>
   <string name="title_pref_shortcut_up">Дээш нь шудрах</string>
   <string name="title_pref_shortcut_up_xr">Нөгөө гарынхаа алгыг өөр лүүгээ харуулж, чимхээд, дээш шудрах</string>
   <string name="title_pref_shortcut_down">Доош нь шудрах</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Эдгээр төхөөрөмж холбогдсон үед утасны чанга яригч</string>
     <string name="summary_pref_speaker_devices_none">Байхгүй</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth эсвэл утастай төхөөрөмж хараахан холбогдоогүй байна</string>
-    <string name="pref_reduce_window_delay_summary">SandFly нь хөдөлгөөнт дүрс унтраалттай үед шинэ дэлгэцийг илүү хурдан уншдаг. Энэ нь утасны хөдөлгөөнт дүрсийг бүхэлд нь унтраадаг.</string>
     <string name="dialog_message_detailed_ai_description">Сонгосон зургуудыг тайлбарлуулахаар Google-ийн Gemini API руу илгээдэг. «Төхөөрөмж дээрх AI» асаалттай үед тэдгээрийг оронд нь энэ утсан дээр тайлбарлах бөгөөд илгээхгүй.\n\nҮнэгүй API түлхүүр ашиглах үед Google хүлээн авсан зүйлээ хадгалж, бүтээгдэхүүнээ сайжруулахад ашиглаж, хүмүүсээр хянуулж болно. Үүсгэгч AI туршилтын шатанд байгаа тул алдаа гаргана. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> хамаарна.</string>
     <string name="dialog_message_detailed_ai_promotion">Зургийн дэлгэрэнгүй тайлбарыг үүсгэгч AI бүтээдэг. Сонгосон зургуудыг тайлбарлуулахаар Google-ийн Gemini API руу илгээдэг. «Төхөөрөмж дээрх AI» асаалттай үед тэдгээрийг оронд нь энэ утсан дээр тайлбарлах бөгөөд илгээхгүй.\n\nҮнэгүй API түлхүүр ашиглах үед Google хүлээн авсан зүйлээ хадгалж, бүтээгдэхүүнээ сайжруулахад ашиглаж, хүмүүсээр хянуулж болно. Үүсгэгч AI туршилтын шатанд байгаа тул алдаа гаргана. Зургийн дэлгэрэнгүй тайлбарыг SandFly-н тохиргооноос хүссэн үедээ унтрааж болно.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> хамаарна.</string>
     <string name="dialog_message_screen_overview_promotion">Дэлгэцийн агшныг тайлбарлуулахаар Google-ийн Gemini API руу илгээдэг бөгөөд үүнд хэдэн секунд зарцуулагдана. «Төхөөрөмж дээрх AI» асаалттай үед үүнийг оронд нь энэ утсан дээр тайлбарлах бөгөөд илгээхгүй.\n\nҮнэгүй API түлхүүр ашиглах үед Google хүлээн авсан зүйлээ хадгалж, бүтээгдэхүүнээ сайжруулахад ашиглаж, хүмүүсээр хянуулж болно. Үүсгэгч AI туршилтын шатанд байгаа тул алдаа гаргана. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> хамаарна.</string>

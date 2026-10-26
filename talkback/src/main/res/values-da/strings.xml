@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Sig, hvad klokken er</string>
   <string name="pref_speak_time_summary">Når du tænder skærmen</string>
   <string name="summary_speak_container_element_positions">Sig, når du går ind i eller forlader lister, gitre og andre containere</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Vil du nulstille indstillingerne for forsinkelse?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Dette nulstiller alle standardindstillingerne for forsinkelse</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Nulstil</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Indstillingerne for reduktion af forsinkelse er blevet nulstillet.</string>
   <string name="Reset_gesture_settings_dialog_title">Vil du nulstille bevægelser?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Vil du nulstille bevægelserne i det aktuelle sæt?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Denne handling gendanner standardhandlingerne for alle bevægelser.\n\nDu mister eventuelle ændringer, du har foretaget.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Omfatter opdateringer under download, brug af rutevejledning m.m. Når indstillingen er deaktiveret, får du stadig opdateringer, men færre af dem.</string>
   <string name="title_pref_explore_by_touch">Tryk for at høre</string>
   <string name="title_pref_category_controls">Styring</string>
-  <string name="title_pref_category_reduce_latency_summary">Disse indstillinger får SandFly til at reagere hurtigere, når du rører ved skærmen</string>
-  <string name="reset_latency_settings_title">Nulstil alle indstillinger for forsinkelse</string>
   <string name="title_pref_single_tap">Tryk én gang for at aktivere</string>
   <string name="summary_pref_single_tap">Tryk én gang på et element, der er fokus på, for at aktivere det. Hurtigere navigation end ved at trykke to gange.</string>
   <string name="pref_verbosity_title">Detaljering</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Tastaturekko</string>
   <string name="pref_node_desc_order_title">Rækkefølge for elementdetaljer</string>
   <string name="pref_time_feedback_format_title">Tidsformat</string>
-  <string name="title_pref_latency_reduction">Reducer forsinkelse</string>
-  <string name="talkback_latency_reduction_summary">Få SandFly til at reagere hurtigere, når du rører ved skærmen</string>
   <string name="summary_pref_intonation">Læs bogstaver, der slettes, op i et højere toneleje</string>
   <string name="title_pref_speech_footer">Hvis du vil ændre lydstyrken for hjælpefunktioner fra en hvilken som helst skærm, skal du holde 1 finger på skærmen og trykke på tasten til lydstyrke op eller lydstyrke ned.</string>
   <string name="title_pref_vibration">Vibration</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Indstillinger for udviklere</string>
   <string name="title_activity_dump_a11y_event">Vælg, hvilke hændelser der skal logføres</string>
   <string name="title_pref_dump_a11y_event">Filtrér hændelseslogføring af hjælpefunktioner</string>
-  <string name="pref_reduce_window_delay_title">Deaktiver animationer</string>
   <string name="title_pref_log_level">Udgangsniveau for logføring</string>
   <string name="title_pref_diagnosis_mode">Diagnosticeringstilstand</string>
   <string name="title_pref_tts_overlay">Vis taleoutput</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Læs tekst og ikoner på et valgt billede højt</string>
   <string name="summary_typo_suggestions">Vises, når markøren holdes over et ord, der er stavet forkert</string>
   <string name="summary_cache_keyboard_keys">SandFly indlæser meddelelser på forhånd for at reducere forsinkelsen, når du skriver</string>
-  <string name="summary_cache_keyboard_keys_disabled">Brug Google Oplæsning for at tilgå denne funktion</string>
   <string name="title_pref_shortcut_up">Stryg op</string>
   <string name="title_pref_shortcut_up_xr">Ikke-dominant håndflade indad, knib fingrene sammen, og stryg opad</string>
   <string name="title_pref_shortcut_down">Stryg ned</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Telefonens højttaler med disse enheder</string>
     <string name="summary_pref_speaker_devices_none">Ingen</string>
     <string name="summary_pref_speaker_devices_no_devices">Ingen Bluetooth- eller kabelenheder er tilsluttet endnu</string>
-    <string name="pref_reduce_window_delay_summary">SandFly læser nye skærme hurtigere, når animationer er deaktiveret. Dette deaktiverer animationer på hele telefonen.</string>
     <string name="dialog_message_detailed_ai_description">Valgte billeder sendes til Googles Gemini API for at blive beskrevet. Når AI på enheden er aktiveret, beskrives de i stedet på denne telefon og sendes ikke.\n\nMed en gratis API-nøgle kan Google gemme det modtagne, bruge det til at forbedre sine produkter og lade personer gennemgå det. Generativ AI er en eksperimentel funktion, og den begår derfor fejl. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gælder.</string>
     <string name="dialog_message_detailed_ai_promotion">Detaljerede billedbeskrivelser bruger generativ AI. Valgte billeder sendes til Googles Gemini API for at blive beskrevet. Når AI på enheden er aktiveret, beskrives de i stedet på denne telefon og sendes ikke.\n\nMed en gratis API-nøgle kan Google gemme det modtagne, bruge det til at forbedre sine produkter og lade personer gennemgå det. Generativ AI er en eksperimentel funktion, og den begår derfor fejl. Du kan altid deaktivere detaljerede billedbeskrivelser i SandFly-indstillingerne.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gælder.</string>
     <string name="dialog_message_screen_overview_promotion">Et screenshot af skærmen sendes til Googles Gemini API for at blive beskrevet, hvilket tager flere sekunder. Når AI på enheden er aktiveret, beskrives det i stedet på denne telefon og sendes ikke.\n\nMed en gratis API-nøgle kan Google gemme det modtagne, bruge det til at forbedre sine produkter og lade personer gennemgå det. Generativ AI er en eksperimentel funktion, og den begår derfor fejl. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gælder.</string>

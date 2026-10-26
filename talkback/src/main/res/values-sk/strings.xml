@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Hlásiť čas</string>
   <string name="pref_speak_time_summary">Keď zapnete obrazovku</string>
   <string name="summary_speak_container_element_positions">Oznamovať vstup do zoznamov, mriežok a iných kontajnerov a výstup z nich</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Chcete resetovať nastavenia oneskorenia?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Týmto resetujete všetky nastavenia oneskorenia na predvolené hodnoty</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Resetovať</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Nastavenia zníženia oneskorenia boli resetované.</string>
   <string name="Reset_gesture_settings_dialog_title">Chcete gestá resetovať?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Chcete resetovať gestá aktuálnej skupiny?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Všetky gestá budú resetované a budú im pridelené predvolené akcie.\n\nPrídete o všetky zmeny, ktoré ste urobili.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Zahŕňa aktuality počas sťahovania, šoférovania podľa trás jazdy a ďalších aktivít. Keď túto možnosť vypnete, stále budete dostávať menej časté aktuality.</string>
   <string name="title_pref_explore_by_touch">Preskúmanie dotykom</string>
   <string name="title_pref_category_controls">Ovládacie prvky</string>
-  <string name="title_pref_category_reduce_latency_summary">Vďaka týmto nastaveniam bude SandFly reagovať rýchlejšie po dotyku obrazovky</string>
-  <string name="reset_latency_settings_title">Reset všetkých nastavení oneskorenia</string>
   <string name="title_pref_single_tap">Aktivácia jedným klepnutím</string>
   <string name="summary_pref_single_tap">Označenú položku aktivujete jedným klepnutím. Rýchlejšie prechádzanie ako dvojité klepnutie.</string>
   <string name="pref_verbosity_title">Podrobnosť</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Zvuky klávesnice</string>
   <string name="pref_node_desc_order_title">Poradie podrobností položky</string>
   <string name="pref_time_feedback_format_title">Formát času</string>
-  <string name="title_pref_latency_reduction">Zníženie oneskorenia</string>
-  <string name="talkback_latency_reduction_summary">SandFly reaguje rýchlejšie po dotyku obrazovky</string>
   <string name="summary_pref_intonation">Vyslovovať odstránené písmená vyšším hlasom</string>
   <string name="title_pref_speech_footer">Ak chcete zmeniť hlasitosť dostupnosti na ľubovoľnej obrazovke, podržte 1 prst na obrazovke a stlačte tlačidlo zvýšenia alebo zníženia hlasitosti.</string>
   <string name="title_pref_vibration">Vibračná odozva</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Nastavenia pre vývojárov</string>
   <string name="title_activity_dump_a11y_event">Vybrať zaznamenávané udalosti</string>
   <string name="title_pref_dump_a11y_event">Filtrovať záznamy udalostí dostupnosti v denníku</string>
-  <string name="pref_reduce_window_delay_title">Vypnúť animácie</string>
   <string name="title_pref_log_level">Zaznamenať úroveň výstupu</string>
   <string name="title_pref_diagnosis_mode">Diagnostický režim</string>
   <string name="title_pref_tts_overlay">Zobraziť hlasový výstup</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Vyslovovanie textu a ikon na vybranom obrázku</string>
   <string name="summary_typo_suggestions">Zobrazí sa po umiestnení kurzora na preklep</string>
   <string name="summary_cache_keyboard_keys">SandFly prednačítava oznamy, aby sa znížilo oneskorenie pri písaní</string>
-  <string name="summary_cache_keyboard_keys_disabled">Ak chcete používať túto funkciu, použite Prevod textu na reč Google</string>
   <string name="title_pref_shortcut_up">Potiahnuť nahor</string>
   <string name="title_pref_shortcut_up_xr">Druhá dlaň dole, stiahnuť prsty a potiahnuť nahor</string>
   <string name="title_pref_shortcut_down">Potiahnuť nadol</string>
@@ -1486,7 +1476,6 @@
     <string name="title_pref_speaker_devices">Reproduktor telefónu s týmito zariadeniami</string>
     <string name="summary_pref_speaker_devices_none">Žiadne</string>
     <string name="summary_pref_speaker_devices_no_devices">Zatiaľ nie sú pripojené žiadne Bluetooth ani káblové zariadenia</string>
-    <string name="pref_reduce_window_delay_summary">SandFly číta nové obrazovky rýchlejšie, keď sú animácie vypnuté. Tým sa vypnú animácie pre celý telefón.</string>
     <string name="dialog_message_detailed_ai_description">Vybrané obrázky sa na opísanie odosielajú do rozhrania Gemini API od Googlu. Keď je zapnutá AI na zariadení, opíšu sa namiesto toho v tomto telefóne a neodošlú sa.\n\nPri bezplatnom kľúči API si môže Google ponechať prijaté údaje, použiť ich na zlepšenie svojich produktov a nechať ich skontrolovať ľuďmi. Generatívna AI je experimentálna, preto bude robiť chyby. Platia <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Podrobné opisy obrázkov vytvára generatívna AI. Vybrané obrázky sa na opísanie odosielajú do rozhrania Gemini API od Googlu. Keď je zapnutá AI na zariadení, opíšu sa namiesto toho v tomto telefóne a neodošlú sa.\n\nPri bezplatnom kľúči API si môže Google ponechať prijaté údaje, použiť ich na zlepšenie svojich produktov a nechať ich skontrolovať ľuďmi. Generatívna AI je experimentálna, preto bude robiť chyby. Podrobné opisy obrázkov môžete kedykoľvek vypnúť v nastaveniach aplikácie SandFly.\n\nPlatia <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Snímka obrazovky sa na opísanie odošle do rozhrania Gemini API od Googlu, čo trvá niekoľko sekúnd. Keď je zapnutá AI na zariadení, opíše sa namiesto toho v tomto telefóne a neodošle sa.\n\nPri bezplatnom kľúči API si môže Google ponechať prijaté údaje, použiť ich na zlepšenie svojich produktov a nechať ich skontrolovať ľuďmi. Generatívna AI je experimentálna, preto bude robiť chyby. Platia <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

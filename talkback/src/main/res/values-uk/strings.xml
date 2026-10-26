@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Озвучувати час</string>
   <string name="pref_speak_time_summary">Коли ви вмикаєте екран</string>
   <string name="summary_speak_container_element_positions">Повідомляти, коли ви входите в списки, сітки й інші контейнери або виходите з них</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Скинути налаштування затримки?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Усі налаштування затримки буде скинуто</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Скинути</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Налаштування зменшення затримки скинуто.</string>
   <string name="Reset_gesture_settings_dialog_title">Скинути жести?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Скинути жести з поточного набору?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Для всіх жестів буде встановлено дії за умовчанням, а всі ваші зміни буде скасовано.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Це стосується перебігу завантаження контенту, руху за маршрутом тощо. Якщо це налаштування вимкнено, ви все одно отримуватимете сповіщення про зміни, але рідше.</string>
   <string name="title_pref_explore_by_touch">Дослідження дотиком</string>
   <string name="title_pref_category_controls">Елементи керування</string>
-  <string name="title_pref_category_reduce_latency_summary">Завдяки цим налаштуванням SandFly реагує швидше після дотику до екрана</string>
-  <string name="reset_latency_settings_title">Скинути всі налаштування затримки</string>
   <string name="title_pref_single_tap">Активація одним дотиком</string>
   <string name="summary_pref_single_tap">Щоб активувати виділений об’єкт, натисніть його один раз. Швидша навігація, ніж подвійний дотик.</string>
   <string name="pref_verbosity_title">Деталізація</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Озвучення натиснених клавіш</string>
   <string name="pref_node_desc_order_title">Порядок відомостей про елемент</string>
   <string name="pref_time_feedback_format_title">Формат часу</string>
-  <string name="title_pref_latency_reduction">Зменшити затримку</string>
-  <string name="talkback_latency_reduction_summary">Зробіть так, щоб SandFly реагував швидше після дотику до екрана</string>
   <string name="summary_pref_intonation">Відтворювати видалені літери голосом із вищим тоном</string>
   <string name="title_pref_speech_footer">Щоб змінити гучність спеціальних можливостей на будь-якому екрані, утримуйте 1 палець на екрані та натисніть клавішу збільшення або зменшення гучності.</string>
   <string name="title_pref_vibration">Вібровідгук</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Налаштування розробника</string>
   <string name="title_activity_dump_a11y_event">Вибирати, які події внести в журнал</string>
   <string name="title_pref_dump_a11y_event">Фільтрувати події спеціальних можливостей під час внесення в журнал</string>
-  <string name="pref_reduce_window_delay_title">Вимкнути анімації</string>
   <string name="title_pref_log_level">Рівень виводу журналу</string>
   <string name="title_pref_diagnosis_mode">Режим діагностики</string>
   <string name="title_pref_tts_overlay">Показувати результат мовлення</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Опис тексту й значків на вибраному зображенні</string>
   <string name="summary_typo_suggestions">Показується, коли курсор наведено на помилку</string>
   <string name="summary_cache_keyboard_keys">SandFly попередньо завантажує сповіщення, щоб зменшити затримку під час введення тексту</string>
-  <string name="summary_cache_keyboard_keys_disabled">Щоб користуватися цією функцією, використовуйте синтез мовлення від Google</string>
   <string name="title_pref_shortcut_up">Провести пальцем угору</string>
   <string name="title_pref_shortcut_up_xr">Повернути другу руку долонею до себе, звести пальці й провести вгору</string>
   <string name="title_pref_shortcut_down">Провести пальцем униз</string>
@@ -1486,7 +1476,6 @@
     <string name="title_pref_speaker_devices">Динамік телефону з цими пристроями</string>
     <string name="summary_pref_speaker_devices_none">Немає</string>
     <string name="summary_pref_speaker_devices_no_devices">Ще немає підключених Bluetooth або дротових пристроїв</string>
-    <string name="pref_reduce_window_delay_summary">SandFly читає нові екрани швидше, коли анімацію вимкнено. Це вимкне анімацію для всього телефону.</string>
     <string name="dialog_message_detailed_ai_description">Вибрані зображення надсилаються до Gemini API від Google для опису. Коли ввімкнено ШІ на пристрої, вони натомість описуються на цьому телефоні й не надсилаються.\n\nЗ безкоштовним ключем API Google може зберігати отримане, використовувати це для покращення своїх продуктів і передавати на перевірку людям. Генеративний ШІ експериментальний, тому помилятиметься. Застосовуються <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Детальні описи зображень створює генеративний ШІ. Вибрані зображення надсилаються до Gemini API від Google для опису. Коли ввімкнено ШІ на пристрої, вони натомість описуються на цьому телефоні й не надсилаються.\n\nЗ безкоштовним ключем API Google може зберігати отримане, використовувати це для покращення своїх продуктів і передавати на перевірку людям. Генеративний ШІ експериментальний, тому помилятиметься. Детальні описи зображень можна будь-коли вимкнути в налаштуваннях SandFly.\n\nЗастосовуються <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Знімок екрана надсилається до Gemini API від Google для опису, що триває кілька секунд. Коли ввімкнено ШІ на пристрої, він натомість описується на цьому телефоні й не надсилається.\n\nЗ безкоштовним ключем API Google може зберігати отримане, використовувати це для покращення своїх продуктів і передавати на перевірку людям. Генеративний ШІ експериментальний, тому помилятиметься. Застосовуються <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

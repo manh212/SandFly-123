@@ -128,12 +128,6 @@ public class EventFilter {
   private @Nullable TargetPredictor targetPredictor;
   private @Nullable PreparedSpeechSynthesizer preparedSpeechSynthesizer;
 
-  /**
-   * Whether the announcements prepared for the next swipe also have their sound made ahead of
-   * time, from the latency setting.
-   */
-  private static volatile boolean presynthesizePreparedSpeech = true;
-
   /** The most prepared announcements whose sound is kept made ahead at once. */
   private static final int MAX_SYNTHESIZED_PREPARED = 20;
 
@@ -186,7 +180,7 @@ public class EventFilter {
                 }
               });
         }
-        if (pipelined && speechPipelineChainEnabled && logicalDirection != 0) {
+        if (pipelined && logicalDirection != 0) {
           // A pipelined sound landed: the chain keeps going one step further in the swipe's
           // direction, so a run of swipes keeps finding its sound already made. Posted to
           // the main thread, where the prediction machinery this uses lives.
@@ -210,20 +204,6 @@ public class EventFilter {
   /** The pivot the second ring is prepared around, and the source of the round that asked. */
   private @Nullable AccessibilityNodeInfoCompat secondRingPivot;
   private int secondRingSource = PreparedFocusSpeech.SOURCE_FOCUS;
-
-  /**
-   * Whether preparation is also offered after the window goes quiet following a change, for the
-   * focused node it is already at. Set from the latency settings; see {@link
-   * #setPrepareOnSettle}.
-   */
-  private static volatile boolean prepareOnSettle = true;
-
-  /**
-   * Whether preparation reaches further: keeping the announcements a swipe did not use, and
-   * preparing the nodes two swipes away as well. Set from the latency settings; see {@link
-   * #setPrepareWider}.
-   */
-  private static volatile boolean prepareWider = true;
 
   /**
    * How long after focus moves the announcements of the next and previous nodes are prepared: after
@@ -251,35 +231,10 @@ public class EventFilter {
   private static volatile boolean speakItemsBeforeScroll = false;
 
   /**
-   * Whether a preparation round runs in slices, yielding to the event loop between the
-   * announcements it prepares, and is put off to settle time when it would run between two
-   * swipes of a burst. When false, a round runs in one piece on the main thread, as before.
+   * How long after focus last landed the pipelined-sound chain still counts the swiping as
+   * going on, so a sound nobody is about to hear is never made for a user who has stopped.
    */
-  private static volatile boolean yieldingPrepare = true;
-
-  /**
-   * Whether the sound of the next announcement is set going as soon as the announcement before
-   * it plays from a sound made ahead, instead of waiting for the next preparation round.
-   */
-  private static volatile boolean speechPipelineEnabled = true;
-
-  /**
-   * Whether a pipelined sound, when its own making lands, starts the sound one step further in
-   * the same direction in turn — a chain that keeps the engine one item ahead of the focus for
-   * as long as the swiping continues, instead of the pipeline's single step per play. The
-   * chain only continues while focus is still landing (see {@link #CHAIN_FRESH_MS}), so a
-   * sound nobody is about to hear is never made for a user who has stopped.
-   */
-  private static volatile boolean speechPipelineChainEnabled = true;
-
-  /** How long after focus last landed the chain still counts the swiping as going on. */
   private static final long CHAIN_FRESH_MS = 1500;
-
-  /**
-   * Whether the focus a navigation action is about to set is spoken on that prediction, before
-   * the action is even fired, and checked against the focus event when it comes back.
-   */
-  private static volatile boolean speculativeSpeechEnabled = true;
 
   /** How soon after a focus landed a preparation round counts as running between swipes. */
   private static final long BURST_DEFER_MS = 300;
@@ -396,21 +351,6 @@ public class EventFilter {
   /** Sets who makes sound for prepared announcements ahead of time, if anyone. */
   public void setPreparedSpeechSynthesizer(@Nullable PreparedSpeechSynthesizer synthesizer) {
     preparedSpeechSynthesizer = synthesizer;
-  }
-
-  /** Sets whether prepared announcements also have their sound made ahead; see the field. */
-  public static void setPresynthesizePreparedSpeech(boolean synthesize) {
-    presynthesizePreparedSpeech = synthesize;
-  }
-
-  /** Sets whether preparation is offered again when the window goes quiet; see the field. */
-  public static void setPrepareOnSettle(boolean settle) {
-    prepareOnSettle = settle;
-  }
-
-  /** Sets whether preparation reaches further, to two swipes away; see the field. */
-  public static void setPrepareWider(boolean wider) {
-    prepareWider = wider;
   }
 
   /** Sets how to tell whether a finger is on the screen, so that a swipe never waits for this. */
@@ -614,7 +554,6 @@ public class EventFilter {
       long actionTime) {
     clearSpeculation();
     if (!speculationAllowed(
-        speculativeSpeechEnabled,
         shouldSpeakFocusEarly(info),
         // The destination of a swipe the machinery had to scroll for is the app's choice, made
         // while scrolling; predicting it from the order is not to be trusted.
@@ -826,39 +765,14 @@ public class EventFilter {
     speakItemsBeforeScroll = speak;
   }
 
-  /** Sets whether preparation rounds yield and defer in bursts; see the field. */
-  public static void setYieldingPrepare(boolean yielding) {
-    yieldingPrepare = yielding;
-  }
-
-  /** Whether preparation rounds yield between items and defer in bursts; see the field. */
-  static boolean isYieldingPrepare() {
-    return yieldingPrepare;
-  }
-
-  /** Sets whether the next sound is pipelined as the current one plays; see the field. */
-  public static void setSpeechPipelineEnabled(boolean enabled) {
-    speechPipelineEnabled = enabled;
-  }
-
-  /** Sets whether pipelined sounds chain one step further as they land; see the field. */
-  public static void setSpeechPipelineChainEnabled(boolean enabled) {
-    speechPipelineChainEnabled = enabled;
-  }
-
-  /** Sets whether focus is spoken on prediction ahead of its action; see the field. */
-  public static void setSpeculativeSpeechEnabled(boolean enabled) {
-    speculativeSpeechEnabled = enabled;
-  }
-
   /**
    * Whether a speculation may be made for a focus action with this info: the same gates that
    * let a set focus be spoken early, and no scroll attempt, whose destination the app chooses
    * while scrolling rather than the order deciding it.
    */
   static boolean speculationAllowed(
-      boolean enabled, boolean speakableInfo, int autoScrollAttempt, boolean orderHoldsNode) {
-    return enabled && speakableInfo && autoScrollAttempt == 0 && orderHoldsNode;
+      boolean speakableInfo, int autoScrollAttempt, boolean orderHoldsNode) {
+    return speakableInfo && autoScrollAttempt == 0 && orderHoldsNode;
   }
 
   /** speculationVerdict outcomes: the speculation submitted no speech, so nothing is judged. */
@@ -887,21 +801,19 @@ public class EventFilter {
    * round the focus itself set off can be in a burst's way, and only while the last focus is
    * still fresh; settle and reading-control rounds run when nothing is landing.
    */
-  static boolean shouldDeferRound(
-      boolean yielding, int roundSource, long lastFocusMoveMs, long now) {
-    return yielding
-        && roundSource == PreparedFocusSpeech.SOURCE_FOCUS
+  static boolean shouldDeferRound(int roundSource, long lastFocusMoveMs, long now) {
+    return roundSource == PreparedFocusSpeech.SOURCE_FOCUS
         && lastFocusMoveMs > 0
         && now - lastFocusMoveMs < BURST_DEFER_MS;
   }
 
   /**
    * The end (exclusive) of the slice of a plan of {@code size} items starting at {@code from}:
-   * one item when yielding, so the loop turns between items; the whole rest when not, so the
-   * round runs in one piece exactly as it did before plans.
+   * one item at a time, so the loop turns between items and a swipe landing mid-round never
+   * waits for the rest of it.
    */
-  static int sliceEnd(boolean yielding, int from, int size) {
-    return yielding ? Math.min(from + 1, size) : size;
+  static int sliceEnd(int from, int size) {
+    return Math.min(from + 1, size);
   }
 
   /**
@@ -1011,7 +923,7 @@ public class EventFilter {
    * arms the round; the delay is what makes a burst of changes arm one round, not one each.
    */
   private void armSettlePrepare() {
-    if (!prepareOnSettle || targetPredictor == null || lastFocusedNode == null) {
+    if (targetPredictor == null || lastFocusedNode == null) {
       return;
     }
     handler.removeCallbacks(settlePrepare);
@@ -1046,8 +958,7 @@ public class EventFilter {
       return;
     }
     int roundSource = prepareRoundSource;
-    if (shouldDeferRound(
-        yieldingPrepare, roundSource, lastFocusMoveMs, SystemClock.uptimeMillis())) {
+    if (shouldDeferRound(roundSource, lastFocusMoveMs, SystemClock.uptimeMillis())) {
       // A swipe has just landed, so this round would run between two swipes of a burst and
       // make the next one wait for it. Put it off to when the window settles instead; a round
       // the settle path runs is never put off a second time.
@@ -1058,7 +969,7 @@ public class EventFilter {
     }
     Performance.getInstance().onPreparationRound(roundSource);
     List<PrepareItem> items = new ArrayList<>();
-    if (planFirstRingItems(pivot, items) && prepareWider) {
+    if (planFirstRingItems(pivot, items)) {
       // The nodes two swipes away are prepared a little later, off the window of the swipe
       // that is about to come; keeping the announcements this round did not use is what makes
       // them worth preparing at all.
@@ -1150,7 +1061,7 @@ public class EventFilter {
     plan.slices++;
     long sliceStart = SystemClock.uptimeMillis();
     try {
-      int sliceEnd = sliceEnd(yieldingPrepare, plan.nextIndex, plan.items.size());
+      int sliceEnd = sliceEnd(plan.nextIndex, plan.items.size());
       while (plan.nextIndex < sliceEnd) {
         PrepareItem item = plan.items.get(plan.nextIndex++);
         if (item.armSecondRing) {
@@ -1169,7 +1080,7 @@ public class EventFilter {
     }
     if (plan.nextIndex >= plan.items.size()) {
       activePreparePlan = null;
-      if (yieldingPrepare && plan.slices > 1) {
+      if (plan.slices > 1) {
         Performance.getInstance().onPrepareRoundChunked(plan.slices);
       }
       return;
@@ -1303,9 +1214,8 @@ public class EventFilter {
    * will look for it, so nothing is asked for twice while it is kept or being made.
    */
   /** Whether a prepared announcement at {@code depth} is stable enough to make sound for. */
-  static boolean shouldSynthesizePrepared(
-      boolean enabled, @TargetType int targetType, int depth) {
-    return enabled && targetType == NavigationTarget.TARGET_DEFAULT && depth == 1;
+  static boolean shouldSynthesizePrepared(@TargetType int targetType, int depth) {
+    return targetType == NavigationTarget.TARGET_DEFAULT && depth == 1;
   }
 
   private void maybeSynthesizePrepared(
@@ -1313,8 +1223,7 @@ public class EventFilter {
       @TargetType int targetType,
       int depth,
       AccessibilityNodeInfoCompat node) {
-    if (!shouldSynthesizePrepared(presynthesizePreparedSpeech, targetType, depth)
-        || preparedSpeechSynthesizer == null) {
+    if (!shouldSynthesizePrepared(targetType, depth) || preparedSpeechSynthesizer == null) {
       return;
     }
     synthesizePreparedSound(
@@ -1377,7 +1286,7 @@ public class EventFilter {
    */
   private void maybePipelineNextSound(
       AccessibilityNodeInfoCompat focusedNode, FocusActionInfo info, EventFeedback playedFeedback) {
-    if (!speechPipelineEnabled || preparedSpeechSynthesizer == null || targetPredictor == null) {
+    if (preparedSpeechSynthesizer == null || targetPredictor == null) {
       return;
     }
     CharSequence playedText = playedFeedback.ttsOutput().orElse(null);
@@ -1436,9 +1345,7 @@ public class EventFilter {
    */
   private void maybeChainNextSound(
       AccessibilityNodeInfoCompat fromNode, int logicalDirection) {
-    if (!speechPipelineChainEnabled
-        || preparedSpeechSynthesizer == null
-        || targetPredictor == null) {
+    if (preparedSpeechSynthesizer == null || targetPredictor == null) {
       return;
     }
     if (lastFocusMoveMs <= 0

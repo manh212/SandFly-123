@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Irakurri ordua ozen</string>
   <string name="pref_speak_time_summary">Pantaila pizten duzunean</string>
   <string name="summary_speak_container_element_positions">Esan zerrendetan, saretetan eta bestelako edukiontzietan sartzen edo haietatik irteten zarenean</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Atzerapen-ezarpenak berrezarri nahi dituzu?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Atzerapen-ezarpen guztien balio lehenetsiak berrezarriko dira</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Berrezarri</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Berrezarri dira latentzia murrizteko ezarpenak.</string>
   <string name="Reset_gesture_settings_dialog_title">Keinuak berrezarri nahi dituzu?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Oraingo multzoaren keinuak berrezarri nahi dituzu?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Keinu guztien ekintza lehenetsiak berrezarriko dira.\n\nEgin dituzun aldaketa guztiak galdu egingo dituzu.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Besteak beste, deskargatzen, gidatzeko jarraibideak erabiltzen eta antzeko ekintzetan ari garenean. Ezarpena desaktibatuta egon arren, garapenen berri izaten jarraituko duzu, baina ez horren maiz.</string>
   <string name="title_pref_explore_by_touch">Arakatu sakatuta</string>
   <string name="title_pref_category_controls">Kontrolatzeko aukerak</string>
-  <string name="title_pref_category_reduce_latency_summary">Ezarpen hauen bidez, SandFly-ek bizkorrago erantzuten du pantaila ukitu ondoren</string>
-  <string name="reset_latency_settings_title">Berrezarri atzerapen-ezarpen guztiak</string>
   <string name="title_pref_single_tap">Aktibatzeko, sakatu behin</string>
   <string name="summary_pref_single_tap">Fokuratutako elementua aktibatzeko, saka ezazu behin. Birritan sakatuta baino bizkorrago nabigatzen da horrela.</string>
   <string name="pref_verbosity_title">Adierazgarritasuna</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Entzun tekla bakoitza</string>
   <string name="pref_node_desc_order_title">Elementuaren xehetasunen ordena</string>
   <string name="pref_time_feedback_format_title">Orduaren formatua</string>
-  <string name="title_pref_latency_reduction">Murriztu atzerapena</string>
-  <string name="talkback_latency_reduction_summary">Egin SandFly-ek bizkorrago erantzutea pantaila ukitu ondoren</string>
   <string name="summary_pref_intonation">Irakurri ozen ezabatutako hizkiak ahots-tonu altuago bat erabilita</string>
   <string name="title_pref_speech_footer">Erabilerraztasun-eginbideen bolumena edozein pantailatatik aldatzeko, eduki hatz bat pantailan sakatuta eta sakatu bolumena igotzeko edo jaisteko botoia.</string>
   <string name="title_pref_vibration">Dardara bidezko erantzunak</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Garatzaileen ezarpenak</string>
   <string name="title_activity_dump_a11y_event">Hautatu erregistroan gorde beharreko gertaerak</string>
   <string name="title_pref_dump_a11y_event">Iragazi erregistroan gorde beharreko erabilerraztasun-jarduerak</string>
-  <string name="pref_reduce_window_delay_title">Desaktibatu animazioak</string>
   <string name="title_pref_log_level">Erregistroen irteera-maila</string>
   <string name="title_pref_diagnosis_mode">Diagnostikoen modua</string>
   <string name="title_pref_tts_overlay">Bistaratu ahots-irteera</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Irakurri ozen hautatutako irudiko testua eta ikonoak</string>
   <string name="summary_typo_suggestions">Kurtsorea akats ortografiko batean dagoenean agertzen da</string>
   <string name="summary_cache_keyboard_keys">SandFly-ek aurrez kargatzen ditu iragarpenak, idaztean atzerapen gutxiago egon dadin</string>
-  <string name="summary_cache_keyboard_keys_disabled">Eginbide hau erabiltzeko, erabili Google-ren Testua ahots bihurtzea</string>
   <string name="title_pref_shortcut_up">Pasatu hatza gora</string>
   <string name="title_pref_shortcut_up_xr">Biratu bigarren mailako esku-ahurra zuganantz, atximurkatu eta pasatu hatza gora</string>
   <string name="title_pref_shortcut_down">Pasatu hatza behera</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Telefonoaren bozgorailua gailu hauekin</string>
     <string name="summary_pref_speaker_devices_none">Bat ere ez</string>
     <string name="summary_pref_speaker_devices_no_devices">Ez da Bluetooth edo kable bidezko gailurik konektatu oraindik</string>
-    <string name="pref_reduce_window_delay_summary">SandFly-ek bizkorrago irakurtzen ditu pantaila berriak animazioak desaktibatuta daudenean. Telefono osoko animazioak desaktibatzen ditu honek.</string>
     <string name="dialog_message_detailed_ai_description">Hautatutako irudiak Google-ren Gemini API-ra bidaltzen dira azal daitezen. Gailuko AA aktibatuta badago, telefono honetan azaltzen dira eta ez dira bidaltzen.\n\nDoako API gako batekin, Google-k jasotzen duena gorde dezake, bere produktuak hobetzeko erabil dezake eta pertsonek berrikus dezakete. AA generatiboa esperimentala da; beraz, akatsak egingo ditu. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> aplikatzen dira.</string>
     <string name="dialog_message_detailed_ai_promotion">Irudien azalpen xehatuek AA generatiboa erabiltzen dute. Hautatutako irudiak Google-ren Gemini API-ra bidaltzen dira azal daitezen. Gailuko AA aktibatuta badago, telefono honetan azaltzen dira eta ez dira bidaltzen.\n\nDoako API gako batekin, Google-k jasotzen duena gorde dezake, bere produktuak hobetzeko erabil dezake eta pertsonek berrikus dezakete. AA generatiboa esperimentala da; beraz, akatsak egingo ditu. Irudien azalpen xehatuak edonoiz desaktiba ditzakezu SandFly-en ezarpenetan.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> aplikatzen dira.</string>
     <string name="dialog_message_screen_overview_promotion">Pantailaren argazki bat Google-ren Gemini API-ra bidaltzen da azal dadin, eta zenbait segundo behar ditu. Gailuko AA aktibatuta badago, telefono honetan azaltzen da eta ez da bidaltzen.\n\nDoako API gako batekin, Google-k jasotzen duena gorde dezake, bere produktuak hobetzeko erabil dezake eta pertsonek berrikus dezakete. AA generatiboa esperimentala da; beraz, akatsak egingo ditu. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> aplikatzen dira.</string>

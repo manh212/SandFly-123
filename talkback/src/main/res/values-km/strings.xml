@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">ប្រាប់ពេលវេលា</string>
   <string name="pref_speak_time_summary">នៅពេលអ្នកបើកអេក្រង់</string>
   <string name="summary_speak_container_element_positions">និយាយនៅពេលអ្នកចូល ឬចេញពីបញ្ជី ក្រឡា និងប្រអប់ផ្ទុកផ្សេងទៀត</string>
-  <string name="reset_letency_reduction_settings_dialog_title">កំណត់ឡើងវិញនូវការកំណត់ការពន្យារពេលឬ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ការធ្វើបែបនេះនឹងកំណត់ឡើងវិញនូវការកំណត់ការពន្យារពេលទាំងអស់ទៅលំនាំដើម</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">កំណត់​ឡើងវិញ</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ការ​កំណត់ការកាត់បន្ថយការ​ពន្យារត្រូវបានកំណត់​ឡើងវិញ។</string>
   <string name="Reset_gesture_settings_dialog_title">កំណត់​ចលនា​ឡើងវិញឬ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">កំណត់ចលនានៃសំណុំបច្ចុប្បន្នឡើងវិញឬ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ការធ្វើបែបនេះ​នឹងកំណត់​ចលនាទាំងអស់​ឡើងវិញទៅសកម្មភាព​លំនាំដើមរបស់​ចលនាទាំងនោះ។\n\nអ្នកនឹង​បាត់បង់​ការផ្លាស់ប្ដូរ​ដែលអ្នក​បានធ្វើឡើង។</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">រួមបញ្ចូលព័ត៌មានថ្មីៗពេលទាញយក ទៅតាមទិសដៅ​បើកបររថយន្ត និងច្រើនទៀត។ នៅពេលបិទ អ្នកនឹងនៅតែទទួលបានព័ត៌មានថ្មីៗដែលមិនសូវញឹកញាប់។</string>
   <string name="title_pref_explore_by_touch">រក​មើល​ដោយ​ការ​ប៉ះ</string>
   <string name="title_pref_category_controls">ការបញ្ជា</string>
-  <string name="title_pref_category_reduce_latency_summary">ការកំណត់ទាំងនេះធ្វើឱ្យ SandFly ឆ្លើយតបលឿនជាងមុន បន្ទាប់ពីអ្នកប៉ះអេក្រង់</string>
-  <string name="reset_latency_settings_title">កំណត់ឡើងវិញនូវការកំណត់ការពន្យារពេលទាំងអស់</string>
   <string name="title_pref_single_tap">ចុចតែម្តង ដើម្បី​បើកដំណើរការ</string>
   <string name="summary_pref_single_tap">ចុចម្ដង​នៅលើ​ធាតុដែលបានផ្ដោត ដើម្បី​បើកដំណើរការ។ ការរុករកលឿនជាងការចុចពីរដង។</string>
   <string name="pref_verbosity_title">កម្រិតនិយាយ</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">ក្ដារចុចនិយាយ</string>
   <string name="pref_node_desc_order_title">លំដាប់នៃព័ត៌មានលម្អិត</string>
   <string name="pref_time_feedback_format_title">ទម្រង់​ម៉ោង</string>
-  <string name="title_pref_latency_reduction">កាត់បន្ថយការពន្យារពេល</string>
-  <string name="talkback_latency_reduction_summary">ធ្វើឱ្យ SandFly ឆ្លើយតបលឿនជាងមុន បន្ទាប់ពីអ្នកប៉ះអេក្រង់</string>
   <string name="summary_pref_intonation">អានអក្សរដែលបានលុបនៅក្នុងកម្រិតសំឡេងខ្ពស់</string>
   <string name="title_pref_speech_footer">ដើម្បីផ្លាស់ប្តូរកម្រិតសំឡេងភាពងាយស្រួលពីអេក្រង់ណាមួយ សូមសង្កត់ម្រាមដៃ 1 នៅលើអេក្រង់ ហើយចុចគ្រាប់ចុចកម្រិតសំឡេងឡើងលើ ឬកម្រិតសំឡេងចុះក្រោម។</string>
   <string name="title_pref_vibration">ប្រតិកម្ម​ញ័រ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ការ​កំណត់​​របស់​អ្នក​អភិវឌ្ឍន៍</string>
   <string name="title_activity_dump_a11y_event">ជ្រើសរើសព្រឹត្តិការណ៍ដែលត្រូវធ្វើកំណត់ហេតុ</string>
   <string name="title_pref_dump_a11y_event">ការធ្វើកំណត់ហេតុព្រឹត្តិការណ៍លទ្ធភាពចូលដំណើរការតម្រង</string>
-  <string name="pref_reduce_window_delay_title">បិទចលនា</string>
   <string name="title_pref_log_level">កម្រិត​លទ្ធផល​កំណត់​ហេតុ</string>
   <string name="title_pref_diagnosis_mode">មុខងារវិភាគ</string>
   <string name="title_pref_tts_overlay">បង្ហាញ​លទ្ធផល​​និយាយ</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">អានអក្សរ និងរូបតំណាងនៅក្នុងរូបភាពដែលបានជ្រើសរើសឱ្យឮ</string>
   <string name="summary_typo_suggestions">បង្ហាញពេលទស្សន៍ទ្រនិចស្ថិតនៅលើកំហុសវាយបញ្ចូល</string>
   <string name="summary_cache_keyboard_keys">SandFly ផ្ទុកសេចក្ដីប្រកាសជាមុន ដើម្បីកាត់បន្ថយការពន្យារពេល នៅពេលអ្នកវាយបញ្ចូល</string>
-  <string name="summary_cache_keyboard_keys_disabled">ប្រើ Google អត្ថបទទៅជាការនិយាយ ដើម្បីប្រើមុខងារនេះ</string>
   <string name="title_pref_shortcut_up">អូសឡើងលើ</string>
   <string name="title_pref_shortcut_up_xr">បែរបាតដៃទីពីរចូល ច្បិច ហើយអូសឡើងលើ</string>
   <string name="title_pref_shortcut_down">អូសចុះក្រោម</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ឧបករណ៍បំពងសំឡេងទូរសព្ទ ពេលភ្ជាប់ឧបករណ៍ទាំងនេះ</string>
     <string name="summary_pref_speaker_devices_none">គ្មាន</string>
     <string name="summary_pref_speaker_devices_no_devices">មិនទាន់បានភ្ជាប់ឧបករណ៍ Bluetooth ឬមានខ្សែនៅឡើយទេ</string>
-    <string name="pref_reduce_window_delay_summary">SandFly អានអេក្រង់ថ្មីបានលឿនជាងមុន នៅពេលដែលចលនាបិទ។ វាបិទចលនាសម្រាប់ទូរស័ព្ទទាំងមូល។</string>
     <string name="dialog_message_detailed_ai_description">រូបភាពដែលបានជ្រើសរើសត្រូវបានផ្ញើទៅ Gemini API របស់ Google ដើម្បីពិពណ៌នា។ នៅពេលបើក AI នៅលើឧបករណ៍ រូបភាពត្រូវបានពិពណ៌នានៅលើទូរសព្ទនេះជំនួសវិញ ហើយមិនត្រូវបានផ្ញើទេ។\n\nជាមួយសោ API ឥតគិតថ្លៃ Google អាចរក្សាទុកអ្វីដែលខ្លួនទទួលបាន ប្រើវាដើម្បីកែលម្អផលិតផលរបស់ខ្លួន និងឱ្យមនុស្សពិនិត្យមើលវា។ AI ផលិតខ្លឹមសារនៅជាការពិសោធន៍ ដូច្នេះវានឹងមានកំហុស។ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ត្រូវបានអនុវត្ត។</string>
     <string name="dialog_message_detailed_ai_promotion">ការពិពណ៌នារូបភាពលម្អិតត្រូវបានបង្កើតដោយ AI ផលិតខ្លឹមសារ។ រូបភាពដែលបានជ្រើសរើសត្រូវបានផ្ញើទៅ Gemini API របស់ Google ដើម្បីពិពណ៌នា។ នៅពេលបើក AI នៅលើឧបករណ៍ រូបភាពត្រូវបានពិពណ៌នានៅលើទូរសព្ទនេះជំនួសវិញ ហើយមិនត្រូវបានផ្ញើទេ។\n\nជាមួយសោ API ឥតគិតថ្លៃ Google អាចរក្សាទុកអ្វីដែលខ្លួនទទួលបាន ប្រើវាដើម្បីកែលម្អផលិតផលរបស់ខ្លួន និងឱ្យមនុស្សពិនិត្យមើលវា។ AI ផលិតខ្លឹមសារនៅជាការពិសោធន៍ ដូច្នេះវានឹងមានកំហុស។ អ្នកអាចបិទការពិពណ៌នារូបភាពលម្អិតបានគ្រប់ពេលនៅក្នុងការកំណត់ SandFly។\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ត្រូវបានអនុវត្ត។</string>
     <string name="dialog_message_screen_overview_promotion">រូបថតអេក្រង់ត្រូវបានផ្ញើទៅ Gemini API របស់ Google ដើម្បីពិពណ៌នា ដែលចំណាយពេលពីរបីវិនាទី។ នៅពេលបើក AI នៅលើឧបករណ៍ វាត្រូវបានពិពណ៌នានៅលើទូរសព្ទនេះជំនួសវិញ ហើយមិនត្រូវបានផ្ញើទេ។\n\nជាមួយសោ API ឥតគិតថ្លៃ Google អាចរក្សាទុកអ្វីដែលខ្លួនទទួលបាន ប្រើវាដើម្បីកែលម្អផលិតផលរបស់ខ្លួន និងឱ្យមនុស្សពិនិត្យមើលវា។ AI ផលិតខ្លឹមសារនៅជាការពិសោធន៍ ដូច្នេះវានឹងមានកំហុស។ <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ត្រូវបានអនុវត្ត។</string>

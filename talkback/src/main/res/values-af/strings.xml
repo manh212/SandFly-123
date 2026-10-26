@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Lees Tyd Hardop</string>
   <string name="pref_speak_time_summary">Wanneer jy die skerm aanskakel</string>
   <string name="summary_speak_container_element_positions">Sê wanneer jy lyste, roosters en ander houers binnegaan of verlaat</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Stel vertraginginstellings terug?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Dit sal alle vertraginginstellings na verstek terugstel</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Stel terug</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Die traagheidverminderinginstellings is teruggestel.</string>
   <string name="Reset_gesture_settings_dialog_title">Stel gebare terug?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Stel huidige stel se gebare terug?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Dit sal alle gebaarinstellings na hul verstekhandelinge toe terugstel.\n\nJy sal enige veranderinge wat jy gemaak het, verloor.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Sluit opdaterings in terwyl daar afgelaai word, rigtingaanwysings gevolg word, en meer. Wanneer dit afgeskakel is, sal jy steeds minder gereelde opdaterings kry.</string>
   <string name="title_pref_explore_by_touch">Verken-met-aanraking</string>
   <string name="title_pref_category_controls">Kontroles</string>
-  <string name="title_pref_category_reduce_latency_summary">Hierdie instellings laat SandFly vinniger reageer nadat jy aan die skerm raak</string>
-  <string name="reset_latency_settings_title">Stel alle vertraginginstellings terug</string>
   <string name="title_pref_single_tap">Enkeltik om te aktiveer</string>
   <string name="summary_pref_single_tap">Tik een keer op ’n gefokusde item om te aktiveer. Vinniger navigasie as dubbeltik.</string>
   <string name="pref_verbosity_title">Breedsprakigheid</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Sleutelbord-eggo</string>
   <string name="pref_node_desc_order_title">Volgorde van itembesonderhede</string>
   <string name="pref_time_feedback_format_title">Tydformaat</string>
-  <string name="title_pref_latency_reduction">Verminder vertraging</string>
-  <string name="talkback_latency_reduction_summary">Laat SandFly vinniger reageer nadat jy aan die skerm raak</string>
   <string name="summary_pref_intonation">Sê letters wat uitgevee word in \'n hoër stemtoon</string>
   <string name="title_pref_speech_footer">Hou 1 vinger op die skerm en druk die Volume Harder- of Volume Sagter-sleutel om die toeganklikheidsvolume van enige skerm af te verander.</string>
   <string name="title_pref_vibration">Vibrasieterugvoer</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Ontwikkelaarinstellings</string>
   <string name="title_activity_dump_a11y_event">Kies gebeure om aan te teken</string>
   <string name="title_pref_dump_a11y_event">Filtreer aantekening van toeganklikheidsgebeure</string>
-  <string name="pref_reduce_window_delay_title">Skakel animasies af</string>
   <string name="title_pref_log_level">Loglêer-uitsetvlak</string>
   <string name="title_pref_diagnosis_mode">Diagnosemodus</string>
   <string name="title_pref_tts_overlay">Vertoon spraakuitvoer</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Sê teks en ikone binne ’n gekose prent</string>
   <string name="summary_typo_suggestions">Wys wanneer die skermpyltjie op ’n spelfout is</string>
   <string name="summary_cache_keyboard_keys">SandFly laai vooraf aankondigings om vertraging te verminder wanneer jy tik</string>
-  <string name="summary_cache_keyboard_keys_disabled">Gebruik Google Teks-na-spraak om hierdie kenmerk te gebruik</string>
   <string name="title_pref_shortcut_up">Swiep op</string>
   <string name="title_pref_shortcut_up_xr">Sekondêre palm in, knyp en swiep op</string>
   <string name="title_pref_shortcut_down">Swiep af</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Foonluidspreker met hierdie toestelle</string>
     <string name="summary_pref_speaker_devices_none">Geen</string>
     <string name="summary_pref_speaker_devices_no_devices">Nog geen Bluetooth- of bedrade toestelle gekoppel nie</string>
-    <string name="pref_reduce_window_delay_summary">SandFly lees nuwe skerms vinniger wanneer animasies af is. Dit skakel animasies vir die hele foon af.</string>
     <string name="dialog_message_detailed_ai_description">Gekose prente word na Google se Gemini API gestuur om beskryf te word. As AI op die toestel aangeskakel is, word dit eerder op hierdie foon beskryf en nie gestuur nie.\n\nMet ’n gratis API-sleutel kan Google hou wat dit ontvang, dit gebruik om sy produkte te verbeter, en mense dit laat nagaan. Generatiewe AI is eksperimenteel en dit sal dus foute maak. Die <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geld.</string>
     <string name="dialog_message_detailed_ai_promotion">Gedetailleerde prentbeskrywings word deur generatiewe AI aangedryf. Gekose prente word na Google se Gemini API gestuur om beskryf te word. As AI op die toestel aangeskakel is, word dit eerder op hierdie foon beskryf en nie gestuur nie.\n\nMet ’n gratis API-sleutel kan Google hou wat dit ontvang, dit gebruik om sy produkte te verbeter, en mense dit laat nagaan. Generatiewe AI is eksperimenteel en dit sal dus foute maak. Jy kan gedetailleerde prentbeskrywings enige tyd in SandFly-instellings afskakel.\n\nDie <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geld.</string>
     <string name="dialog_message_screen_overview_promotion">’n Skermskoot van die skerm word na Google se Gemini API gestuur om beskryf te word, wat ’n paar sekondes neem. As AI op die toestel aangeskakel is, word dit eerder op hierdie foon beskryf en nie gestuur nie.\n\nMet ’n gratis API-sleutel kan Google hou wat dit ontvang, dit gebruik om sy produkte te verbeter, en mense dit laat nagaan. Generatiewe AI is eksperimenteel en dit sal dus foute maak. Die <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> geld.</string>

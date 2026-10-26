@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Wypowiadaj godzinę</string>
   <string name="pref_speak_time_summary">Po włączeniu ekranu</string>
   <string name="summary_speak_container_element_positions">Informowanie o wejściu do list, siatek i innych kontenerów oraz o wyjściu z nich</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Zresetować ustawienia opóźnienia?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Spowoduje to zresetowanie wszystkich ustawień opóźnienia do wartości domyślnych</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Zresetuj</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Ustawienia zmniejszania opóźnienia zostały zresetowane.</string>
   <string name="Reset_gesture_settings_dialog_title">Zresetować gesty?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Zresetować gesty w bieżącym zestawie?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Wszystkie ustawienia gestów zostaną przywrócone do działań domyślnych.\n\nWszystkie zmiany zostaną utracone.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Obejmuje to zmiany dotyczące pobierania, postępowanie według wskazówek dojazdu i inne informacje. Nawet jeśli wyłączysz tę funkcję, będziesz otrzymywać informacje o mniej częstych zmianach.</string>
   <string name="title_pref_explore_by_touch">Czytanie dotykiem</string>
   <string name="title_pref_category_controls">Elementy sterujące</string>
-  <string name="title_pref_category_reduce_latency_summary">Wybranie tych ustawień może zmniejszyć opóźnienie przed odtwarzaniem komunikatów SandFly</string>
-  <string name="reset_latency_settings_title">Zresetuj wszystkie ustawienia opóźnienia</string>
   <string name="title_pref_single_tap">Kliknij raz, aby uaktywnić</string>
   <string name="summary_pref_single_tap">Kliknij zaznaczony element raz, aby go uaktywnić. Jest to szybsza metoda niż dwukrotne kliknięcie.</string>
   <string name="pref_verbosity_title">Szczegółowość</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Echo klawiatury</string>
   <string name="pref_node_desc_order_title">Kolejność szczegółów pozycji</string>
   <string name="pref_time_feedback_format_title">Format godziny</string>
-  <string name="title_pref_latency_reduction">Zmniejsz opóźnienie</string>
-  <string name="talkback_latency_reduction_summary">Ustawienia pozwalające zmniejszyć opóźnienie przed odtwarzaniem komunikatów SandFly</string>
   <string name="summary_pref_intonation">Wypowiadaj wyższym głosem litery usuwane za pomocą klawiatury</string>
   <string name="title_pref_speech_footer">Możesz szybko dostosować niektóre ustawienia dźwięku SandFly na dowolnym ekranie.\n\nGłośność dostępności: przytrzymaj 1 palec na ekranie i naciśnij przycisk zwiększania lub zmniejszania głośności.\nSzybkość mowy SandFly: przesuń 3 palcami w górę lub w dół. Gdy usłyszysz „szybkość mowy”, przesuń 1 palcem w górę lub w dół.</string>
   <string name="title_pref_vibration">Sygnał wibracyjny</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Ustawienia programisty</string>
   <string name="title_activity_dump_a11y_event">Wybierz zdarzenia do zapisania w dzienniku</string>
   <string name="title_pref_dump_a11y_event">Filtruj rejestrowanie zdarzeń ułatwiania dostępu</string>
-  <string name="pref_reduce_window_delay_title">Wyłącz animacje</string>
   <string name="title_pref_log_level">Poziom rejestrowania</string>
   <string name="title_pref_diagnosis_mode">Tryb diagnostyczny</string>
   <string name="title_pref_tts_overlay">Pokazuj odpowiedzi głosowe na ekranie</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Odczytuje tekst i opisuje ikony na wybranym obrazie</string>
   <string name="summary_typo_suggestions">Wyświetlane, gdy kursor zostanie ustawiony na literówce</string>
   <string name="summary_cache_keyboard_keys">SandFly wstępnie wczytuje komunikaty, aby zmniejszyć opóźnienie podczas pisania</string>
-  <string name="summary_cache_keyboard_keys_disabled">Aby korzystać z tej funkcji, użyj Zamiany tekstu na mowę Google</string>
   <string name="title_pref_shortcut_up">Przesuń w górę</string>
   <string name="title_pref_shortcut_up_xr">Obróć drugą dłoń do wewnątrz, zetknij palce i przesuń w górę</string>
   <string name="title_pref_shortcut_down">Przesuń w dół</string>

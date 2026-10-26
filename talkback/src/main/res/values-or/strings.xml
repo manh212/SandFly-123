@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">ସମୟ କୁହ</string>
   <string name="pref_speak_time_summary">ଆପଣ ସ୍କ୍ରିନରେ ଚାଲୁ କରିବା ସମୟରେ</string>
   <string name="summary_speak_container_element_positions">ତାଲିକା, ଗ୍ରିଡ୍ ଓ ଅନ୍ୟ କଣ୍ଟେନର୍‌ରେ ପ୍ରବେଶ କଲେ କିମ୍ବା ବାହାରିଲେ କହେ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ବିଳମ୍ବ ସେଟିଂସକୁ ରିସେଟ କରିବେ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ଏହା ସମସ୍ତ ବିଳମ୍ବ ସେଟିଂସକୁ ଡିଫଲ୍ଟରେ ରିସେଟ କରିବ</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ରିସେଟ କରନ୍ତୁ</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ଲାଟେନ୍ସି ହ୍ରାସ ସେଟିଂସକୁ ରିସେଟ କରାଯାଇଛି।</string>
   <string name="Reset_gesture_settings_dialog_title">ଜେଶ୍ଚରଗୁଡ଼ିକୁ ରିସେଟ୍ କରିବେ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">ବର୍ତ୍ତମାନ ସେଟର ଜେଶ୍ଚରଗୁଡ଼ିକୁ ରିସେଟ କରିବେ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ଏହା ସମସ୍ତ ଜେଶ୍ଚରକୁ ସେଗୁଡ଼ିକର ଡିଫଲ୍ଟ କାର୍ଯ୍ୟଗୁଡ଼ିକରେ ରିସେଟ୍ କରିବ।\n\nଆପଣ ନିଜେ କରିଥିବା ଯେ କୌଣସି ପରିବର୍ତ୍ତନକୁ ହରାଇବେ।</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ଏହା ଡାଉନଲୋଡ, ଡ୍ରାଇଭିଂ ଦିଗନିର୍ଦ୍ଦେଶଗୁଡ଼ିକୁ ଫଲୋ କରିବା ଏବଂ ଆହୁରି ଅନେକ କିଛି କରିବା ସମୟରେ ଅପଡେଟଗୁଡ଼ିକ ଅନ୍ତର୍ଭୁକ୍ତ କରେ। ବନ୍ଦ କଲେ, ଆପଣ ଏବେ ବି କମ ଥର ଅପଡେଟ ପାଇବେ।</string>
   <string name="title_pref_explore_by_touch">ସ୍ପର୍ଶ ଦ୍ୱାରା ଅନ୍ୱେଷଣ କରନ୍ତୁ</string>
   <string name="title_pref_category_controls">ନିୟନ୍ତ୍ରଣ</string>
-  <string name="title_pref_category_reduce_latency_summary">ଏହି ସେଟିଂସ ସ୍କ୍ରିନ୍ ଛୁଇଁବା ପରେ SandFlyକୁ ଶୀଘ୍ର ପ୍ରତିକ୍ରିୟା କରାଏ</string>
-  <string name="reset_latency_settings_title">ସମସ୍ତ ବିଳମ୍ବ ସେଟିଂସକୁ ରିସେଟ କରନ୍ତୁ</string>
   <string name="title_pref_single_tap">ସକ୍ରିୟ କରିବାକୁ ଗୋଟିଏ ଥର-ଟାପ କରନ୍ତୁ</string>
   <string name="summary_pref_single_tap">ସକ୍ରିୟ କରିବାକୁ ଏକ ଫୋକସ କରାଯାଇଥିବା ଆଇଟମ ଉପରେ ଥରେ ଟାପ କରନ୍ତୁ। ଦୁଇଥର-ଟାପ କରିବା ଅପେକ୍ଷା ଶୀଘ୍ର ନାଭିଗେସନ।</string>
   <string name="pref_verbosity_title">ଭର୍ବୋସିଟି</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">କୀବୋର୍ଡ ଇକୋ</string>
   <string name="pref_node_desc_order_title">ଆଇଟମ୍ ବିବରଣୀଗୁଡିକର କ୍ରମ</string>
   <string name="pref_time_feedback_format_title">ସମୟ ଫର୍ମାଟ</string>
-  <string name="title_pref_latency_reduction">ବିଳମ୍ଵ ହ୍ରାସ କରନ୍ତୁ</string>
-  <string name="talkback_latency_reduction_summary">ସ୍କ୍ରିନ୍ ଛୁଇଁବା ପରେ SandFly ଶୀଘ୍ର ପ୍ରତିକ୍ରିୟା କରେ</string>
   <string name="summary_pref_intonation">ଡିଲିଟ କରାଯାଇଥିବା ଲେଟରଗୁଡ଼ିକୁ ଏକ ହାଇ-ପିଚ ଭଏସରେ କୁହନ୍ତୁ</string>
   <string name="title_pref_speech_footer">ଯେକୌଣସି ପରଦାରୁ ଆକ୍ସେସିବିଲିଟି ଭଲ୍ୟୁମ୍ ପରିବର୍ତ୍ତନ କରିବାକୁ, ସ୍କ୍ରିନରେ 1 ଆଙ୍ଗୁଠି ଧରି ଭଲ୍ୟୁମ୍ ଅପ୍ କିମ୍ବା ଭଲ୍ୟୁମ୍ ଡାଉନ୍ କୀ ଦବାନ୍ତୁ |</string>
   <string name="title_pref_vibration">ଭାଇବ୍ରେସନ ମତାମତ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ଡେଭଲପର ସେଟିଂସ</string>
   <string name="title_activity_dump_a11y_event">ଲଗରେ ଇଭେଣ୍ଟଗୁଡ଼ିକ ଚୟନ କରନ୍ତୁ</string>
   <string name="title_pref_dump_a11y_event">ଆକ୍ସେସବିଲିଟି ଇଭେଣ୍ଟ ଲଗିଙ୍ଗ ଫିଲ୍ଟର କରନ୍ତୁ</string>
-  <string name="pref_reduce_window_delay_title">ଆନିମେସନ୍ ବନ୍ଦ କରନ୍ତୁ</string>
   <string name="title_pref_log_level">ଲଗ୍‌ ଆଉଟପୁଟ୍‌ ସ୍ତର</string>
   <string name="title_pref_diagnosis_mode">ଡାଏଗ୍ନୋସିସ ମୋଡ</string>
   <string name="title_pref_tts_overlay">ସ୍ପିଚ ଆଉଟପୁଟ ଡିସପ୍ଲେ କରନ୍ତୁ</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">ଏକ ଚୟନିତ ଇମେଜ ମଧ୍ୟରେ ଥିବା ଟେକ୍ସଟ ଏବଂ ଆଇକନଗୁଡ଼ିକୁ କୁହନ୍ତୁ</string>
   <string name="summary_typo_suggestions">କର୍ସର ଏକ ଟାଇପୋ ଉପରେ ଥିବା ସମୟରେ ଦେଖାଯାଏ</string>
   <string name="summary_cache_keyboard_keys">ଆପଣ ଟାଇପ କରିବା ସମୟରେ ବିଳମ୍ବ ହ୍ରାସ କରିବା ପାଇଁ SandFly ଘୋଷଣାଗୁଡ଼ିକୁ ପ୍ରି-ଲୋଡ କରେ</string>
-  <string name="summary_cache_keyboard_keys_disabled">ଏହି ଫିଚର ବ୍ୟବହାର କରିବାକୁ Google ଟେକ୍ସଟ-ଟୁ-ସ୍ପିଚ ବ୍ୟବହାର କରନ୍ତୁ</string>
   <string name="title_pref_shortcut_up">ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
   <string name="title_pref_shortcut_up_xr">ଦ୍ୱିତୀୟ ପାପୁଲିକୁ ଭିତରକୁ ନିଅନ୍ତୁ, ପିଞ୍ଚ କରି ଉପରକୁ ସ୍ୱାଇପ କରନ୍ତୁ</string>
   <string name="title_pref_shortcut_down">ତଳକୁ ସ୍ୱାଇପ୍‌ କରନ୍ତୁ</string>
@@ -1477,7 +1467,6 @@
     <string name="title_pref_speaker_devices">ଏହି ଉପକରଣଗୁଡ଼ିକ ସହିତ ଫୋନ୍ ସ୍ପିକର</string>
     <string name="summary_pref_speaker_devices_none">କିଛି ନାହିଁ</string>
     <string name="summary_pref_speaker_devices_no_devices">କୌଣସି Bluetooth କିମ୍ବା ତାରଯୁକ୍ତ ଉପକରଣଗୁଡ଼ିକ ଏପର୍ଯ୍ୟନ୍ତ ସଂଯୁକ୍ତ ନୁହେଁ</string>
-    <string name="pref_reduce_window_delay_summary">ଆନିମେସନ୍ ବନ୍ଦ ଥିଲେ SandFly ନୂଆ ସ୍କ୍ରିନ୍‌ଗୁଡ଼ିକୁ ଶୀଘ୍ର ପଢ଼େ। ଏହା ପୁରା ଫୋନ୍ ପାଇଁ ଆନିମେସନ୍ ବନ୍ଦ କରେ।</string>
     <string name="dialog_message_detailed_ai_description">ଚୟନ କରାଯାଇଥିବା ପ୍ରତିଛବିଗୁଡ଼ିକର ବର୍ଣ୍ଣନା ପାଇଁ ସେଗୁଡ଼ିକୁ Googleର Gemini APIକୁ ପଠାଯାଏ। ଅନ୍-ଡିଭାଇସ୍ AI ଚାଲୁ ଥିଲେ, ସେଗୁଡ଼ିକର ବର୍ଣ୍ଣନା ଏହି ଫୋନରେ ହିଁ ହୁଏ ଏବଂ ସେଗୁଡ଼ିକୁ ପଠାଯାଏ ନାହିଁ।\n\nଏକ ମାଗଣା API କି ସହିତ, Google ଯାହା ପାଏ ତାହା ରଖିପାରେ, ନିଜ ଉତ୍ପାଦର ଉନ୍ନତି ପାଇଁ ବ୍ୟବହାର କରିପାରେ ଏବଂ ଲୋକଙ୍କ ଦ୍ୱାରା ସମୀକ୍ଷା କରାଇପାରେ। ଜେନେରେଟିଭ୍ AI ପରୀକ୍ଷାମୂଳକ, ତେଣୁ ଏହା ଭୁଲ୍ କରିବ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ପ୍ରଯୁଜ୍ୟ।</string>
     <string name="dialog_message_detailed_ai_promotion">ବିସ୍ତୃତ ପ୍ରତିଛବି ବର୍ଣ୍ଣନା ଜେନେରେଟିଭ୍ AI ଦ୍ୱାରା ପ୍ରସ୍ତୁତ ହୁଏ। ଚୟନ କରାଯାଇଥିବା ପ୍ରତିଛବିଗୁଡ଼ିକର ବର୍ଣ୍ଣନା ପାଇଁ ସେଗୁଡ଼ିକୁ Googleର Gemini APIକୁ ପଠାଯାଏ। ଅନ୍-ଡିଭାଇସ୍ AI ଚାଲୁ ଥିଲେ, ସେଗୁଡ଼ିକର ବର୍ଣ୍ଣନା ଏହି ଫୋନରେ ହିଁ ହୁଏ ଏବଂ ସେଗୁଡ଼ିକୁ ପଠାଯାଏ ନାହିଁ।\n\nଏକ ମାଗଣା API କି ସହିତ, Google ଯାହା ପାଏ ତାହା ରଖିପାରେ, ନିଜ ଉତ୍ପାଦର ଉନ୍ନତି ପାଇଁ ବ୍ୟବହାର କରିପାରେ ଏବଂ ଲୋକଙ୍କ ଦ୍ୱାରା ସମୀକ୍ଷା କରାଇପାରେ। ଜେନେରେଟିଭ୍ AI ପରୀକ୍ଷାମୂଳକ, ତେଣୁ ଏହା ଭୁଲ୍ କରିବ। ଆପଣ ଯେକୌଣସି ସମୟରେ SandFly ସେଟିଂସରେ ବିସ୍ତୃତ ପ୍ରତିଛବି ବର୍ଣ୍ଣନା ବନ୍ଦ କରିପାରିବେ।\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ପ୍ରଯୁଜ୍ୟ।</string>
     <string name="dialog_message_screen_overview_promotion">ସ୍କ୍ରିନର ବର୍ଣ୍ଣନା ପାଇଁ ଏହାର ସ୍କ୍ରିନସଟ୍ Googleର Gemini APIକୁ ପଠାଯାଏ, ଯାହାକୁ କିଛି ସେକେଣ୍ଡ ଲାଗେ। ଅନ୍-ଡିଭାଇସ୍ AI ଚାଲୁ ଥିଲେ, ଏହାର ବର୍ଣ୍ଣନା ଏହି ଫୋନରେ ହିଁ ହୁଏ ଏବଂ ଏହାକୁ ପଠାଯାଏ ନାହିଁ।\n\nଏକ ମାଗଣା API କି ସହିତ, Google ଯାହା ପାଏ ତାହା ରଖିପାରେ, ନିଜ ଉତ୍ପାଦର ଉନ୍ନତି ପାଇଁ ବ୍ୟବହାର କରିପାରେ ଏବଂ ଲୋକଙ୍କ ଦ୍ୱାରା ସମୀକ୍ଷା କରାଇପାରେ। ଜେନେରେଟିଭ୍ AI ପରୀକ୍ଷାମୂଳକ, ତେଣୁ ଏହା ଭୁଲ୍ କରିବ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ପ୍ରଯୁଜ୍ୟ।</string>

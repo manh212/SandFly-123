@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">መናገሪያ ጊዜ</string>
   <string name="pref_speak_time_summary">ማያ ገፁን ሲያበሩ</string>
   <string name="summary_speak_container_element_positions">ወደ ዝርዝሮች፣ ፍርግርጎች እና ሌሎች መያዣዎች ሲገቡ ወይም ሲወጡ ተናገር</string>
-  <string name="reset_letency_reduction_settings_dialog_title">የመዘግየት ቅንብሮች ዳግም ይጀምሩ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ይህ ሁሉንም የመዘግየት ቅንብሮችን ወደ ነባሪ ዳግም ያስጀምራል</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ዳግም አስጀምር</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">የሥርዓተ ምላሽ ጊዜ መቀነስ ቅንብሮች ዳግም ተጀምረዋል።</string>
   <string name="Reset_gesture_settings_dialog_title">የእጅ ምልክቶች ዳግም ይጀመሩ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">የአሁኑ ስብስብ ምልክቶች ዳግም ይጀምሩ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ይህ ሁሉንም የእጅ ምልክቶች ወደ ነባሪ እርምጃዎቻቸው ዳግም ያስጀምራቸዋል።\n\nያደረጓቸውን ማኛቸውም ለውጦ ያጣሉ።</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">በማውረድ፣ የማሽከርከሪያ አቅጣጫዎችን በመከተል ላይ እና በሌሎችም ላይ ሳሉ ያሉ ዝማኔዎችን ያካትታል። ሲጠፋ አሁንም ያነሰ ተደጋጋሚነት ያላቸው ዝማኔዎችን ያገኛሉ።</string>
   <string name="title_pref_explore_by_touch">በመንካት አስስ</string>
   <string name="title_pref_category_controls">መቆጣጠሪያዎች</string>
-  <string name="title_pref_category_reduce_latency_summary">እነዚህ ቅንብሮች ማያ ገፁን ከነኩ በኋላ SandFly በፍጥነት ምላሽ እንዲሰጥ ያደርጋሉ</string>
-  <string name="reset_latency_settings_title">ሁሉንም የመዘግየት ቅንብሮች ዳግም አስጀምር</string>
   <string name="title_pref_single_tap">ለማግበር አንዴ መታ ያድርጉ</string>
   <string name="summary_pref_single_tap">አንድ የተተኮረበትን ንጥል ለማግበር አንድ ጊዜ መታ ያድርጉ። ከሁለቴ መታ ማድረግ የበለጠ ፈጣን አሰሳ።</string>
   <string name="pref_verbosity_title">ብዙ ቃላት</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">የቁልፍ ሰሌዳ ማሚቶ</string>
   <string name="pref_node_desc_order_title">የንጥል ዝርዝሮች ቅደም-ተከተል</string>
   <string name="pref_time_feedback_format_title">የጊዜ ቅርጸት</string>
-  <string name="title_pref_latency_reduction">መዘግየትን ቀንስ</string>
-  <string name="talkback_latency_reduction_summary">ማያ ገፁን ከነኩ በኋላ SandFly በፍጥነት ምላሽ እንዲሰጥ ያድርጉ</string>
   <string name="summary_pref_intonation">ቀጠን ባለ ድምፅ የተሰረዙ ፊደላትን ተናገር</string>
   <string name="title_pref_speech_footer">ከማንኛውም ማያ ገፅ የተደራሽነት ድምፅ መጠንን ለመቀየር በማያ ገፁ ላይ 1 ጣት ይያዙ እና ድምፅ ጨምር ወይም ድምፅ ቀንስ ቁልፍ ይጫኑ።</string>
   <string name="title_pref_vibration">የንዝረት ግብረመልስ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">የገንቢ ቅንብሮች</string>
   <string name="title_activity_dump_a11y_event">የምዝግብ ማስታወሻ የሚያዝላቸውን ክስተቶች ይምረጡ</string>
   <string name="title_pref_dump_a11y_event">የተደራሽነት ክስተት ምዝግብ ማስታወሻን ያጣሩ</string>
-  <string name="pref_reduce_window_delay_title">እነማዎችን አጥፋ</string>
   <string name="title_pref_log_level">የውጽአት ደረጃን መዝግብ</string>
   <string name="title_pref_diagnosis_mode">የምርመራ ሁነታ</string>
   <string name="title_pref_tts_overlay">የንግግር ውፅዓት አሳይ</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">በተመረጠው ምስል ውስጥ ጽሁፍ እና አዶዎችን ይናገሩ</string>
   <string name="summary_typo_suggestions">ጠቋሚው በስርዓት ሆሄ ግድፈት ላይ ሲሆን ያሳያል</string>
   <string name="summary_cache_keyboard_keys">ሲተይቡ መዘግየትን ለመቀነስ SandFly ማስታወቂያዎችን አስቀድሞ ይጭናል</string>
-  <string name="summary_cache_keyboard_keys_disabled">ይህን ባህሪ ለመጠቀም Google ጽሑፍ-ወደ-ንግግርን ይጠቀሙ</string>
   <string name="title_pref_shortcut_up">ወደ ላይ ያንሸራትቱ</string>
   <string name="title_pref_shortcut_up_xr">ሁለተኛ መዳፍ ወደ ውስጥ፣ ይቆንጥጡ እና ወደላይ ያንሸራትቱ</string>
   <string name="title_pref_shortcut_down">ወደ ታች አንሸራትት</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">የስልክ ድምፅ ማጉያ ከእነዚህ መሣሪያዎች ጋር</string>
     <string name="summary_pref_speaker_devices_none">ምንም</string>
     <string name="summary_pref_speaker_devices_no_devices">እስካሁን ምንም የብሉቱዝ ወይም ባለገመድ መሣሪያዎች አልተገናኙም</string>
-    <string name="pref_reduce_window_delay_summary">እነማዎች ሲጠፉ SandFly አዲስ ማያ ገፆችን በፍጥነት ያነባል። ይህ ለመላው ስልክ እነማዎችን ያጠፋል።</string>
     <string name="dialog_message_detailed_ai_description">የተመረጡ ምስሎች እንዲገለጹ ወደ Google Gemini API ይላካሉ። በመሣሪያ ላይ ያለ ሰው ሠራሽ አስተውሎት ሲበራ በምትኩ በዚህ ስልክ ላይ ይገለጻሉ እና አይላኩም።\n\nነፃ የAPI ቁልፍ ሲኖር Google የሚቀበለውን ሊያስቀምጥ፣ ምርቶቹን ለማሻሻል ሊጠቀምበት እና ሰዎች እንዲገመግሙት ሊያደርግ ይችላል። አመንጪ ሰው ሠራሽ አስተውሎት የሙከራ ነው፣ ስለዚህ ስህተቶች ይሠራል። <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ተፈጻሚ ይሆናል።</string>
     <string name="dialog_message_detailed_ai_promotion">ዝርዝር የምስል መግለጫዎች በአመንጪ ሰው ሠራሽ አስተውሎት የሚሠሩ ናቸው። የተመረጡ ምስሎች እንዲገለጹ ወደ Google Gemini API ይላካሉ። በመሣሪያ ላይ ያለ ሰው ሠራሽ አስተውሎት ሲበራ በምትኩ በዚህ ስልክ ላይ ይገለጻሉ እና አይላኩም።\n\nነፃ የAPI ቁልፍ ሲኖር Google የሚቀበለውን ሊያስቀምጥ፣ ምርቶቹን ለማሻሻል ሊጠቀምበት እና ሰዎች እንዲገመግሙት ሊያደርግ ይችላል። አመንጪ ሰው ሠራሽ አስተውሎት የሙከራ ነው፣ ስለዚህ ስህተቶች ይሠራል። ዝርዝር የምስል መግለጫዎችን በማንኛውም ጊዜ በSandFly ቅንብሮች ውስጥ ማጥፋት ይችላሉ።\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ተፈጻሚ ይሆናል።</string>
     <string name="dialog_message_screen_overview_promotion">የማያ ገፁ ቅጽበታዊ ገጽ እይታ እንዲገለጽ ወደ Google Gemini API ይላካል፣ ይህም በርካታ ሰከንዶችን ይወስዳል። በመሣሪያ ላይ ያለ ሰው ሠራሽ አስተውሎት ሲበራ በምትኩ በዚህ ስልክ ላይ ይገለጻል እና አይላክም።\n\nነፃ የAPI ቁልፍ ሲኖር Google የሚቀበለውን ሊያስቀምጥ፣ ምርቶቹን ለማሻሻል ሊጠቀምበት እና ሰዎች እንዲገመግሙት ሊያደርግ ይችላል። አመንጪ ሰው ሠራሽ አስተውሎት የሙከራ ነው፣ ስለዚህ ስህተቶች ይሠራል። <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ተፈጻሚ ይሆናል።</string>

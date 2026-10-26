@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Tamka wakati</string>
   <string name="pref_speak_time_summary">Unapowasha skrini</string>
   <string name="summary_speak_container_element_positions">Hutamka unapoingia au kutoka kwenye orodha, gridi na vyombo vingine vya maudhui</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Ungependa kubadilisha mipangilio ya muda wa kusubiri?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Hatua hii itabadilisha mipangilio yote ya muda wa kusubiri iwe chaguomsingi</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Weka upya</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Umeweka upya mipangilio ya kupunguza muda wa kusubiri.</string>
   <string name="Reset_gesture_settings_dialog_title">Ungependa kubadilisha ishara?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Ungependa kuweka upya ishara za kikundi cha sasa?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Hatua hii itarejesha ishara zote kwenye vitendo vyake chaguomsingi.\n\nUtapoteza mabadiliko yoyote ambayo umefanya.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Inajumuisha taarifa wakati wa kupakua, kufuata maelekezo ya safari kwa gari na zaidi. Ukizima, bado utapata taarifa mara chache.</string>
   <string name="title_pref_explore_by_touch">Chunguza kwa kugusa</string>
   <string name="title_pref_category_controls">Vidhibiti</string>
-  <string name="title_pref_category_reduce_latency_summary">Mipangilio hii hufanya SandFly kujibu haraka baada ya kugusa skrini</string>
-  <string name="reset_latency_settings_title">Badilisha mipangilio yote ya muda wa kusubiri</string>
   <string name="title_pref_single_tap">Gusa mara moja ili uanze kutumia</string>
   <string name="summary_pref_single_tap">Gusa mara moja kipengee unacholenga ili ukifungue. Usogezaji wa haraka zaidi ukilinganishwa na kugusa mara mbili.</string>
   <string name="pref_verbosity_title">Maneno mengi</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Mwangwi wa kibodi</string>
   <string name="pref_node_desc_order_title">Mpangilio wa maelezo ya kipengee</string>
   <string name="pref_time_feedback_format_title">Mfumo wa saa</string>
-  <string name="title_pref_latency_reduction">Punguza muda wa kusubiri</string>
-  <string name="talkback_latency_reduction_summary">Hufanya SandFly ijibu haraka baada ya kugusa skrini</string>
   <string name="summary_pref_intonation">Tamka herufi zilizofutwa kwa sauti kali zaidi</string>
   <string name="title_pref_speech_footer">Ili kubadilisha sauti ya ufikivu kutoka skrini yoyote, shikilia kidole 1 kwenye skrini na ubonyeze kitufe cha kuongeza sauti au kupunguza sauti.</string>
   <string name="title_pref_vibration">Majibu kwa mtetemo</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Mipangilio ya msanidi programu</string>
   <string name="title_activity_dump_a11y_event">Chagua matukio ya kuhifadhi kwenye kumbukumbu</string>
   <string name="title_pref_dump_a11y_event">Chuja kumbukumbu ya matukio ya zana za walio na matatizo ya kuona au kusikia</string>
-  <string name="pref_reduce_window_delay_title">Zima uhuishaji</string>
   <string name="title_pref_log_level">Kiwango cha kumbukumbu ya utoaji</string>
   <string name="title_pref_diagnosis_mode">Hali ya uchunguzi</string>
   <string name="title_pref_tts_overlay">Onyesha utoaji kwa kutamka</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Tamka maandishi na aikoni zilizo ndani ya picha iliyochaguliwa</string>
   <string name="summary_typo_suggestions">Huonyesha wakati kiteuzi kipo kwenye kosa la tahajia</string>
   <string name="summary_cache_keyboard_keys">SandFly hupakia mapema matangazo ili kupunguza ucheleweshaji unapoandika</string>
-  <string name="summary_cache_keyboard_keys_disabled">Tumia Huduma ya Google ya Kusoma Maandishi kwa Sauti ili utumie kipengele hiki</string>
   <string name="title_pref_shortcut_up">Telezesha kidole juu</string>
   <string name="title_pref_shortcut_up_xr">Geuza kiganja cha mkono usiotumia sana kuelekea ndani, bana na utelezeshe juu</string>
   <string name="title_pref_shortcut_down">Telezesha kidole chini</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Spika ya simu vifaa hivi vikiunganishwa</string>
     <string name="summary_pref_speaker_devices_none">Hamna</string>
     <string name="summary_pref_speaker_devices_no_devices">Bado hakuna vifaa vya Bluetooth au vya waya vilivyounganishwa</string>
-    <string name="pref_reduce_window_delay_summary">SandFly husoma skrini mpya haraka wakati uhuishaji umezimwa. Hii huzima uhuishaji kwa simu nzima.</string>
     <string name="dialog_message_detailed_ai_description">Picha zilizochaguliwa hutumwa kwa Gemini API ya Google ili zielezwe. AI kwenye kifaa ikiwa imewashwa, badala yake zinaelezwa kwenye simu hii na hazitumwi.\n\nUkitumia ufunguo wa API usiolipishwa, Google inaweza kuhifadhi inachopokea, kukitumia kuboresha bidhaa zake na kuwaruhusu watu wakikague. AI zalishi bado ni ya majaribio, kwa hivyo itafanya makosa. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> yanatumika.</string>
     <string name="dialog_message_detailed_ai_promotion">Maelezo ya kina ya picha huundwa na AI zalishi. Picha zilizochaguliwa hutumwa kwa Gemini API ya Google ili zielezwe. AI kwenye kifaa ikiwa imewashwa, badala yake zinaelezwa kwenye simu hii na hazitumwi.\n\nUkitumia ufunguo wa API usiolipishwa, Google inaweza kuhifadhi inachopokea, kukitumia kuboresha bidhaa zake na kuwaruhusu watu wakikague. AI zalishi bado ni ya majaribio, kwa hivyo itafanya makosa. Unaweza kuzima maelezo ya kina ya picha wakati wowote katika Mipangilio ya SandFly.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> yanatumika.</string>
     <string name="dialog_message_screen_overview_promotion">Picha ya skrini hutumwa kwa Gemini API ya Google ili ielezwe, hali inayochukua sekunde kadhaa. AI kwenye kifaa ikiwa imewashwa, badala yake inaelezwa kwenye simu hii na haitumwi.\n\nUkitumia ufunguo wa API usiolipishwa, Google inaweza kuhifadhi inachopokea, kukitumia kuboresha bidhaa zake na kuwaruhusu watu wakikague. AI zalishi bado ni ya majaribio, kwa hivyo itafanya makosa. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> yanatumika.</string>

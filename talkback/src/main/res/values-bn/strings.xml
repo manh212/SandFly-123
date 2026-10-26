@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">স্পিক টাইম</string>
   <string name="pref_speak_time_summary">আপনি স্ক্রিন চালু করলে</string>
   <string name="summary_speak_container_element_positions">তালিকা, গ্রিড এবং অন্যান্য কন্টেনারে ঢুকলে বা সেগুলি থেকে বেরোলে তা বলে</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ডিলে সেটিংস রিসেট করবেন?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">এর ফলে সব ডিলে সেটিংস, ডিফল্ট হিসেবে রিসেট হয়ে যাবে</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">রিসেট করুন</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">লেটেন্সি কমানোর সেটিংস আগেই রিসেট করা হয়েছে।</string>
   <string name="Reset_gesture_settings_dialog_title">জেসচার রিসেট করতে চান?</string>
   <string name="Reset_gesture_settings_set_dialog_title">বর্তমান সেটের জন্য জেসচার রিসেট করবেন?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">এর ফলে সমস্ত জেসচার সেটিং ডিফল্টে রিসেট হয়ে যাবে।\n\nজেসচারে আপনার করা পরিবর্তন আর পাওয়া যাবে না।</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ডাউনলোড করা, গাড়ি চালানোর দিকনির্দেশ ফলো করা ও আরও অনেক আপডেট অন্তর্ভুক্ত রয়েছে। বন্ধ করা হলেও, আপনি আপডেট পাবেন, তবে ঘনঘন নয়।</string>
   <string name="title_pref_explore_by_touch">স্পর্শ করে অন্বেষণ করা</string>
   <string name="title_pref_category_controls">কন্ট্রোল</string>
-  <string name="title_pref_category_reduce_latency_summary">এইসব সেটিংস স্ক্রিন টাচ করার পরে SandFly-কে দ্রুত সাড়া দিতে সাহায্য করে</string>
-  <string name="reset_latency_settings_title">সব ডিলে সেটিংস রিসেট করুন</string>
   <string name="title_pref_single_tap">চালু করতে একবার ট্যাপ করুন</string>
   <string name="summary_pref_single_tap">চালু করতে ফোকাস করা আইটেমে একবার ট্যাপ করুন। ডবল-ট্যাপ করার চেয়ে ঝটপট নেভিগেশন।</string>
   <string name="pref_verbosity_title">ভার্বোসিটি</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">কীবোর্ড প্রতিধ্বনি</string>
   <string name="pref_node_desc_order_title">আইটেমের বিবরণের ক্রম</string>
   <string name="pref_time_feedback_format_title">টাইম ফর্ম্যাট</string>
-  <string name="title_pref_latency_reduction">ডিলে কমানো</string>
-  <string name="talkback_latency_reduction_summary">স্ক্রিন টাচ করার পরে SandFly-কে দ্রুত সাড়া দেয়</string>
   <string name="summary_pref_intonation">অক্ষর মোছার সময় উঁচু-স্বরে বলে শোনানো হবে</string>
   <string name="title_pref_speech_footer">যেকোনও স্ক্রিন থেকে অ্যাক্সেসিবিলিটি ভলিউম পরিবর্তন করতে, স্ক্রিনে ১টি আঙুল রাখুন এবং ভলিউম বাড়ানো বা ভলিউম কমানোর কী প্রেস করুন।</string>
   <string name="title_pref_vibration">ভাইব্রেশন ফিডব্যাক</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ডেভেলপার সেটিংস</string>
   <string name="title_activity_dump_a11y_event">লগ করার জন্য ইভেন্টগুলি বেছে নিন</string>
   <string name="title_pref_dump_a11y_event">অ্যাক্সেসযোগ্যতা ইভেন্টের লগ ফিল্টার করুন</string>
-  <string name="pref_reduce_window_delay_title">অ্যানিমেশন বন্ধ করুন</string>
   <string name="title_pref_log_level">আউটপুট স্তরের লগ</string>
   <string name="title_pref_diagnosis_mode">\'ডায়গনোসিস মোড\'</string>
   <string name="title_pref_tts_overlay">স্পিচ আউটপুট প্রদর্শন করুন</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">বাছাই করা ইমেজে থাকা টেক্সট ও আইকনগুলি পড়ে শোনাও</string>
   <string name="summary_typo_suggestions">টাইপোর উপরে কার্সার থাকার সময় এটি দেখায়</string>
   <string name="summary_cache_keyboard_keys">আপনি টাইপ করার সময় ডিলে কমাতে, SandFly আগে থেকে ঘোষণা লোড করে</string>
-  <string name="summary_cache_keyboard_keys_disabled">এই ফিচার ব্যবহার করতে Google স্পিচ-টু-টেক্সট ব্যবহার করুন</string>
   <string name="title_pref_shortcut_up">উপরের দিকে সোয়াইপ করুন</string>
   <string name="title_pref_shortcut_up_xr">সেকেন্ডারি পাম ভিতরের দিকে নিয়ে এসে পিঞ্চ করে উপরের দিকে সোয়াইপ করুন</string>
   <string name="title_pref_shortcut_down">নিচের দিকে সোয়াইপ করুন</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">এই ডিভাইসগুলির সাথে ফোনের স্পিকার</string>
     <string name="summary_pref_speaker_devices_none">কোনওটিই নয়</string>
     <string name="summary_pref_speaker_devices_no_devices">এখনও কোনও ব্লুটুথ বা তারযুক্ত ডিভাইস কানেক্ট করা হয়নি</string>
-    <string name="pref_reduce_window_delay_summary">অ্যানিমেশন বন্ধ থাকলে SandFly নতুন স্ক্রিন দ্রুত পড়ে। এটি পুরো ফোনের জন্য অ্যানিমেশন বন্ধ করে।</string>
     <string name="dialog_message_detailed_ai_description">বেছে নেওয়া ছবির বিবরণ পেতে সেগুলি Google-এর Gemini API-তে পাঠানো হয়। ডিভাইসে থাকা AI চালু থাকলে, বিবরণ এই ফোনেই তৈরি হয় এবং ছবি পাঠানো হয় না।\n\nবিনামূল্যের API কী ব্যবহার করলে, Google যা পায় তা রেখে দিতে, নিজের প্রোডাক্ট উন্নত করতে ব্যবহার করতে এবং লোক দিয়ে পর্যালোচনা করাতে পারে। জেনারেটিভ AI পরীক্ষামূলক লেভেলে রয়েছে, তাই এটি ভুল করবে। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্রযোজ্য।</string>
     <string name="dialog_message_detailed_ai_promotion">ছবির বিস্তারিত বিবরণ জেনারেটিভ AI দিয়ে তৈরি হয়। বেছে নেওয়া ছবির বিবরণ পেতে সেগুলি Google-এর Gemini API-তে পাঠানো হয়। ডিভাইসে থাকা AI চালু থাকলে, বিবরণ এই ফোনেই তৈরি হয় এবং ছবি পাঠানো হয় না।\n\nবিনামূল্যের API কী ব্যবহার করলে, Google যা পায় তা রেখে দিতে, নিজের প্রোডাক্ট উন্নত করতে ব্যবহার করতে এবং লোক দিয়ে পর্যালোচনা করাতে পারে। জেনারেটিভ AI পরীক্ষামূলক লেভেলে রয়েছে, তাই এটি ভুল করবে। আপনি যেকোনও সময় SandFly সেটিংসে ছবির বিস্তারিত বিবরণ বন্ধ করতে পারবেন।\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্রযোজ্য।</string>
     <string name="dialog_message_screen_overview_promotion">বিবরণ পেতে স্ক্রিনের একটি স্ক্রিনশট Google-এর Gemini API-তে পাঠানো হয়, যাতে কয়েক সেকেন্ড সময় লাগে। ডিভাইসে থাকা AI চালু থাকলে, বিবরণ এই ফোনেই তৈরি হয় এবং স্ক্রিনশট পাঠানো হয় না।\n\nবিনামূল্যের API কী ব্যবহার করলে, Google যা পায় তা রেখে দিতে, নিজের প্রোডাক্ট উন্নত করতে ব্যবহার করতে এবং লোক দিয়ে পর্যালোচনা করাতে পারে। জেনারেটিভ AI পরীক্ষামূলক লেভেলে রয়েছে, তাই এটি ভুল করবে। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্রযোজ্য।</string>

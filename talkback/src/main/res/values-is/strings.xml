@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Segja hvað klukkan er</string>
   <string name="pref_speak_time_summary">Þegar þú kveikir á skjánum</string>
   <string name="summary_speak_container_element_positions">Segir frá þegar þú ferð inn í eða út úr listum, hnitanetum og öðrum hólfum</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Endurstilla tafarstillingar?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Þetta verður til þess að allar tafarstillingar verða endurstilltar</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Endurstilla</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Stillingar styttingar biðtíma hafa verið endurstilltar.</string>
   <string name="Reset_gesture_settings_dialog_title">Endurstilla bendingar?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Endurstilla bendingar núverandi setts?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Þetta mun endurstilla allar bendingar á sjálfgefnar aðgerðir.\n\nÞú glatar öllum breytingum sem þú hefur gert.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Felur í sér tilkynningar við niðurhal, þegar akstursleiðsögn er fylgt og fleira. Þú færð færri uppfærslur þegar slökkt er á þessu en þó einhverjar.</string>
   <string name="title_pref_explore_by_touch">Snertikönnun</string>
   <string name="title_pref_category_controls">Stýringar</string>
-  <string name="title_pref_category_reduce_latency_summary">Þessar stillingar gera það að verkum að SandFly bregst hraðar eftir að þú snertir skjáinn</string>
-  <string name="reset_latency_settings_title">Endurstilla allar tafarstillingar</string>
   <string name="title_pref_single_tap">Ýta einu sinni til að virkja</string>
   <string name="summary_pref_single_tap">Ýttu einu sinni á atriði sem er í fókus til að virkja það. Þetta er fljótlegra en að ýta tvisvar.</string>
   <string name="pref_verbosity_title">Nákvæmni</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Upplestur lyklaborðs</string>
   <string name="pref_node_desc_order_title">Röðun á upplýsingum um atriði</string>
   <string name="pref_time_feedback_format_title">Tímasnið</string>
-  <string name="title_pref_latency_reduction">Stytta töf</string>
-  <string name="talkback_latency_reduction_summary">Láttu SandFly svara hraðar eftir að þú snertir skjáinn</string>
   <string name="summary_pref_intonation">Lesa upp stafi sem er eytt með rödd í hærri tón</string>
   <string name="title_pref_speech_footer">Til að breyta hljóðstyrk aðgengis á hvaða skjá sem er skaltu halda einum fingri á skjánum og ýta á hækkunar- eða lækkunarhnapp hljóðstyrks.</string>
   <string name="title_pref_vibration">Svörun með titringi</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Forritarastillingar</string>
   <string name="title_activity_dump_a11y_event">Velja atburði til að skrá</string>
   <string name="title_pref_dump_a11y_event">Sía aðgengisatburðaannál</string>
-  <string name="pref_reduce_window_delay_title">Slökkva á hreyfimyndum</string>
   <string name="title_pref_log_level">Stig skráningarúttaks</string>
   <string name="title_pref_diagnosis_mode">Greiningarstilling</string>
   <string name="title_pref_tts_overlay">Birta talúttak</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Lesa texta og tákn á valinni mynd</string>
   <string name="summary_typo_suggestions">Sýnir þegar bendillinn er á innsláttarvillu</string>
   <string name="summary_cache_keyboard_keys">SandFly forhleður tilkynningum til að draga úr töfum á meðan þú skrifar</string>
-  <string name="summary_cache_keyboard_keys_disabled">Kveiktu á talgervli Google til að nota þennan eiginleika</string>
   <string name="title_pref_shortcut_up">Strjúka upp</string>
   <string name="title_pref_shortcut_up_xr">Lófi aukahandar að þér, vísifingur og þumalfingur saman og strjúka upp</string>
   <string name="title_pref_shortcut_down">Strjúka niður</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Símahátalari með þessum tækjum</string>
     <string name="summary_pref_speaker_devices_none">Engin</string>
     <string name="summary_pref_speaker_devices_no_devices">Engin Bluetooth- eða snúrutæki tengd ennþá</string>
-    <string name="pref_reduce_window_delay_summary">SandFly les nýja skjái hraðar þegar slökkt er á hreyfimyndum. Þetta slekkur á hreyfimyndum fyrir allan símann.</string>
     <string name="dialog_message_detailed_ai_description">Valdar myndir eru sendar í Gemini API frá Google til að fá lýsingu. Þegar kveikt er á „Gervigreind í tækinu“ er þeim lýst í þessum síma í staðinn og þær eru ekki sendar.\n\nMeð ókeypis API-lykli má Google geyma það sem berst, nota það til að bæta vörur sínar og láta fólk fara yfir það. Gervigreind sem býr til efni er á tilraunastigi og gerir því mistök. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gilda.</string>
     <string name="dialog_message_detailed_ai_promotion">Ítarlegar myndlýsingar eru búnar til með gervigreind. Valdar myndir eru sendar í Gemini API frá Google til að fá lýsingu. Þegar kveikt er á „Gervigreind í tækinu“ er þeim lýst í þessum síma í staðinn og þær eru ekki sendar.\n\nMeð ókeypis API-lykli má Google geyma það sem berst, nota það til að bæta vörur sínar og láta fólk fara yfir það. Gervigreind sem býr til efni er á tilraunastigi og gerir því mistök. Þú getur slökkt á ítarlegum myndlýsingum hvenær sem er í SandFly-stillingum.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gilda.</string>
     <string name="dialog_message_screen_overview_promotion">Skjámynd af skjánum er send í Gemini API frá Google til að fá lýsingu, sem tekur nokkrar sekúndur. Þegar kveikt er á „Gervigreind í tækinu“ er henni lýst í þessum síma í staðinn og hún er ekki send.\n\nMeð ókeypis API-lykli má Google geyma það sem berst, nota það til að bæta vörur sínar og láta fólk fara yfir það. Gervigreind sem býr til efni er á tilraunastigi og gerir því mistök. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> gilda.</string>

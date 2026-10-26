@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">ਬੋਲ ਕੇ ਸਮਾਂ ਦੱਸੋ</string>
   <string name="pref_speak_time_summary">ਜਦੋਂ ਤੁਸੀਂ ਸਕ੍ਰੀਨ ਚਾਲੂ ਕਰਦੇ ਹੋ</string>
   <string name="summary_speak_container_element_positions">ਸੂਚੀਆਂ, ਗ੍ਰਿਡਾਂ ਅਤੇ ਹੋਰ ਕੰਟੇਨਰਾਂ ਵਿੱਚ ਜਾਣ ਜਾਂ ਬਾਹਰ ਨਿਕਲਣ ’ਤੇ ਦੱਸਦਾ ਹੈ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">ਕੀ ਦੇਰੀ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਨੂੰ ਰੀਸੈੱਟ ਕਰਨਾ ਹੈ?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ਇਸ ਨਾਲ ਦੇਰੀ ਸੰਬੰਧੀ ਸਾਰੀਆਂ ਸੈਟਿੰਗਾਂ ਪੂਰਵ-ਨਿਰਧਾਰਿਤ \'ਤੇ ਰੀਸੈੱਟ ਹੋ ਜਾਣਗੀਆਂ</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ਰੀਸੈੱਟ ਕਰੋ</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ਵਿਲੰਬਤਾ ਘਟਾਉਣ ਸੰਬੰਧੀ ਸੈਟਿੰਗਾਂ ਰੀਸੈੱਟ ਕਰ ਦਿੱਤੀਆਂ ਗਈਆਂ ਹਨ।</string>
   <string name="Reset_gesture_settings_dialog_title">ਕੀ ਇਸ਼ਾਰੇ ਰੀਸੈੱਟ ਕਰਨੇ ਹਨ?</string>
   <string name="Reset_gesture_settings_set_dialog_title">ਕੀ ਮੌਜੂਦਾ ਸੈੱਟ ਦੇ ਇਸ਼ਾਰਿਆਂ ਨੂੰ ਰੀਸੈੱਟ ਕਰਨਾ ਹੈ?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ਇਸ ਨਾਲ ਸਾਰੇ ਇਸ਼ਾਰੇ ਆਪਣੀਆਂ ਪੂਰਵ-ਨਿਰਧਾਰਿਤ ਕਾਰਵਾਈਆਂ \'ਤੇ ਰੀਸੈੱਟ ਕੀਤੇ ਜਾਣਗੇ।\n\nਤੁਸੀਂ ਤੁਹਾਡੇ ਵੱਲੋਂ ਕੀਤੀ ਕਿਸੇ ਵੀ ਤਬਦੀਲੀ ਨੂੰ ਗੁਆ ਦੇਵੋਗੇ।</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ਇਸ ਵਿੱਚ ਡਾਊਨਲੋਡ ਕਰਨ, ਡਰਾਈਵਿੰਗ ਦਿਸ਼ਾਵਾਂ ਦੀ ਪਾਲਣਾ ਕਰਨ ਅਤੇ ਹੋਰ ਚੀਜ਼ਾਂ ਕਰਨ ਵੇਲੇ ਦੇ ਅੱਪਡੇਟ ਸ਼ਾਮਲ ਹੁੰਦੇ ਹਨ। ਬੰਦ ਹੋਣ \'ਤੇ ਵੀ ਤੁਹਾਨੂੰ ਕਦੇ-ਕਦਾਈਂ ਅੱਪਡੇਟ ਪ੍ਰਾਪਤ ਹੋਣਗੇ।</string>
   <string name="title_pref_explore_by_touch">ਸਪੱਰਸ਼ ਰਾਹੀਂ ਪੜਚੋਲ ਕਰੋ</string>
   <string name="title_pref_category_controls">ਕੰਟਰੋਲ</string>
-  <string name="title_pref_category_reduce_latency_summary">ਇਹ ਸੈਟਿੰਗਾਂ ਸਕ੍ਰੀਨ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ SandFly ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਜਵਾਬ ਦੇਣ ਯੋਗ ਬਣਾਉਂਦੀਆਂ ਹਨ</string>
-  <string name="reset_latency_settings_title">ਦੇਰੀ ਸੰਬੰਧੀ ਸਾਰੀਆਂ ਸੈਟਿੰਗਾਂ ਨੂੰ ਰੀਸੈੱਟ ਕਰੋ</string>
   <string name="title_pref_single_tap">ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਇੱਕ ਵਾਰ ਟੈਪ ਕਰੋ</string>
   <string name="summary_pref_single_tap">ਕਿਰਿਆਸ਼ੀਲ ਕਰਨ ਲਈ ਫੋਕਸ ਕੀਤੀ ਆਈਟਮ \'ਤੇ ਇੱਕ ਵਾਰ ਟੈਪ ਕਰੋ। ਡਬਲ ਟੈਪ ਨਾਲੋਂ ਜ਼ਿਆਦਾ ਤੇਜ਼ੀ ਨਾਲ ਨੈਵੀਗੇਟ ਕਰੋ।</string>
   <string name="pref_verbosity_title">ਸ਼ਬਦ-ਵਰਤੋਂ</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">ਕੀ-ਬੋਰਡ ਈਕੋ</string>
   <string name="pref_node_desc_order_title">ਆਈਟਮ ਦੇ ਵੇਰਵਿਆਂ ਦਾ ਕ੍ਰਮ</string>
   <string name="pref_time_feedback_format_title">ਸਮਾਂ ਫਾਰਮੈਟ</string>
-  <string name="title_pref_latency_reduction">ਦੇਰੀ ਘਟਾਓ</string>
-  <string name="talkback_latency_reduction_summary">ਸਕ੍ਰੀਨ ਨੂੰ ਛੂਹਣ ਤੋਂ ਬਾਅਦ SandFly ਤੇਜ਼ੀ ਨਾਲ ਜਵਾਬ ਦਿੰਦਾ ਹੈ</string>
   <string name="summary_pref_intonation">ਮਿਟਾਏ ਗਏ ਅੱਖਰਾਂ ਨੂੰ ਉੱਚੀ ਸੁਰ ਵਾਲੀ ਅਵਾਜ਼ ਵਿੱਚ ਬੋਲੋ</string>
   <string name="title_pref_speech_footer">ਕਿਸੇ ਵੀ ਸਕ੍ਰੀਨ ਤੋਂ ਪਹੁੰਚਯੋਗਤਾ ਵਾਲੀਅਮ ਨੂੰ ਬਦਲਣ ਲਈ, ਸਕ੍ਰੀਨ \'ਤੇ 1 ਉਂਗਲ ਨੂੰ ਫੜੀ ਰੱਖੋ ਅਤੇ ਵਾਲੀਅਮ ਅੱਪ ਜਾਂ ਵਾਲੀਅਮ ਡਾਊਨ ਕੁੰਜੀ ਨੂੰ ਦਬਾਓ।</string>
   <string name="title_pref_vibration">ਥਰਥਰਾਹਟ ਸੰਬੰਧੀ ਵਿਚਾਰ</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">ਵਿਕਾਸਕਾਰ ਸੈਟਿੰਗਾਂ</string>
   <string name="title_activity_dump_a11y_event">ਲੌਗ ਲਈ ਇਵੈਂਟ ਚੁਣੋ</string>
   <string name="title_pref_dump_a11y_event">ਪਹੁੰਚਯੋਗਤਾ ਇਵੈਂਟ ਲੌਗਿੰਗ ਫਿਲਟਰ ਕਰੋ</string>
-  <string name="pref_reduce_window_delay_title">ਐਨੀਮੇਸ਼ਨ ਬੰਦ ਕਰੋ</string>
   <string name="title_pref_log_level">ਆਊਟਪੁੱਟ ਪੱਧਰ ਲੌਗ ਕਰੋ</string>
   <string name="title_pref_diagnosis_mode">ਤਸ਼ਖੀਸੀ ਮੋਡ</string>
   <string name="title_pref_tts_overlay">ਸਪੀਚ ਆਊਟਪੁੱਟ ਪ੍ਰਦਰਸ਼ਿਤ ਕਰੋ</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">ਚੁਣੇ ਗਏ ਚਿੱਤਰ ਵਿਚਲੀ ਲਿਖਤ ਅਤੇ ਪ੍ਰਤੀਕਾਂ ਨੂੰ ਬੋਲੋ ਜਾਣ ਦੀ ਸੁਵਿਧਾ</string>
   <string name="summary_typo_suggestions">ਇਹ ਉਦੋਂ ਦਿਸਦਾ ਹੈ, ਜਦੋਂ ਕਰਸਰ ਟਾਈਪਿੰਗ ਸੰਬੰਧੀ ਗੜਬੜ \'ਤੇ ਹੁੰਦਾ ਹੈ</string>
   <string name="summary_cache_keyboard_keys">ਟਾਈਪ ਕਰਨ ਵੇਲੇ ਦੇਰੀ ਨੂੰ ਘਟਾਉਣ ਲਈ SandFly ਵਿਸ਼ੇਸ਼ਤਾ ਘੋਸ਼ਣਾਵਾਂ ਨੂੰ ਪਹਿਲਾਂ ਤੋਂ ਲੋਡ ਕਰ ਲੈਂਦੀ ਹੈ</string>
-  <string name="summary_cache_keyboard_keys_disabled">ਇਸ ਵਿਸ਼ੇਸ਼ਤਾ ਨੂੰ ਵਰਤਣ ਲਈ Google ਲਿਖਤ ਤੋਂ ਬੋਲੀ ਦੀ ਵਰਤੋਂ ਕਰੋ</string>
   <string name="title_pref_shortcut_up">ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
   <string name="title_pref_shortcut_up_xr">ਦੂਜੀ ਹਥੇਲੀ ਨੂੰ ਅੰਦਰ ਵੱਲ ਘੁਮਾ ਕੇ ਚੂੰਢੀ ਭਰੋ ਅਤੇ ਉੱਪਰ ਵੱਲ ਸਵਾਈਪ ਕਰੋ</string>
   <string name="title_pref_shortcut_down">ਹੇਠਾਂ ਸਵਾਈਪ ਕਰੋ</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">ਇਨ੍ਹਾਂ ਡਿਵਾਈਸਾਂ ਨਾਲ ਫੋਨ ਸਪੀਕਰ</string>
     <string name="summary_pref_speaker_devices_none">ਕੋਈ ਨਹੀਂ</string>
     <string name="summary_pref_speaker_devices_no_devices">ਹਾਲੇ ਤੱਕ ਕੋਈ Bluetooth ਜਾਂ ਵਾਇਰਡ ਡੀਵਾਈਸ ਕਨੈਕਟ ਨਹੀਂ ਕੀਤੇ ਗਏ ਹਨ</string>
-    <string name="pref_reduce_window_delay_summary">ਐਨੀਮੇਸ਼ਨ ਬੰਦ ਹੋਣ \'ਤੇ SandFly ਨਵੀਆਂ ਸਕ੍ਰੀਨਾਂ ਨੂੰ ਤੇਜ਼ੀ ਨਾਲ ਪੜ੍ਹਦਾ ਹੈ। ਇਹ ਪੂਰੇ ਫ਼ੋਨ ਲਈ ਐਨੀਮੇਸ਼ਨਾਂ ਨੂੰ ਬੰਦ ਕਰ ਦਿੰਦਾ ਹੈ।</string>
     <string name="dialog_message_detailed_ai_description">ਚੁਣੀਆਂ ਗਈਆਂ ਤਸਵੀਰਾਂ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਉਹਨਾਂ ਨੂੰ Google ਦੇ Gemini API \'ਤੇ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ। ਆਨ-ਡਿਵਾਈਸ AI ਚਾਲੂ ਹੋਣ \'ਤੇ, ਉਹਨਾਂ ਦਾ ਵਰਣਨ ਇਸ ਦੀ ਬਜਾਏ ਇਸੇ ਫ਼ੋਨ \'ਤੇ ਹੁੰਦਾ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾਂਦਾ।\n\nਮੁਫ਼ਤ API ਕੁੰਜੀ ਨਾਲ, Google ਪ੍ਰਾਪਤ ਹੋਈ ਸਮੱਗਰੀ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ, ਆਪਣੇ ਉਤਪਾਦਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਲਈ ਵਰਤ ਸਕਦਾ ਹੈ ਅਤੇ ਲੋਕਾਂ ਤੋਂ ਉਸਦੀ ਸਮੀਖਿਆ ਕਰਵਾ ਸਕਦਾ ਹੈ। ਜਨਰੇਟਿਵ AI ਪ੍ਰਯੋਗਾਤਮਕ ਹੈ, ਇਸ ਲਈ ਇਹ ਗਲਤੀਆਂ ਕਰੇਗਾ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ਲਾਗੂ ਹੁੰਦੀਆਂ ਹਨ।</string>
     <string name="dialog_message_detailed_ai_promotion">ਵਿਸਤ੍ਰਿਤ ਤਸਵੀਰ ਵਰਣਨ ਜਨਰੇਟਿਵ AI ਨਾਲ ਬਣਾਏ ਜਾਂਦੇ ਹਨ। ਚੁਣੀਆਂ ਗਈਆਂ ਤਸਵੀਰਾਂ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਉਹਨਾਂ ਨੂੰ Google ਦੇ Gemini API \'ਤੇ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ। ਆਨ-ਡਿਵਾਈਸ AI ਚਾਲੂ ਹੋਣ \'ਤੇ, ਉਹਨਾਂ ਦਾ ਵਰਣਨ ਇਸ ਦੀ ਬਜਾਏ ਇਸੇ ਫ਼ੋਨ \'ਤੇ ਹੁੰਦਾ ਹੈ ਅਤੇ ਉਹਨਾਂ ਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾਂਦਾ।\n\nਮੁਫ਼ਤ API ਕੁੰਜੀ ਨਾਲ, Google ਪ੍ਰਾਪਤ ਹੋਈ ਸਮੱਗਰੀ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ, ਆਪਣੇ ਉਤਪਾਦਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਲਈ ਵਰਤ ਸਕਦਾ ਹੈ ਅਤੇ ਲੋਕਾਂ ਤੋਂ ਉਸਦੀ ਸਮੀਖਿਆ ਕਰਵਾ ਸਕਦਾ ਹੈ। ਜਨਰੇਟਿਵ AI ਪ੍ਰਯੋਗਾਤਮਕ ਹੈ, ਇਸ ਲਈ ਇਹ ਗਲਤੀਆਂ ਕਰੇਗਾ। ਤੁਸੀਂ SandFly ਸੈਟਿੰਗਾਂ ਵਿੱਚ ਕਿਸੇ ਵੀ ਸਮੇਂ ਵਿਸਤ੍ਰਿਤ ਤਸਵੀਰ ਵਰਣਨ ਬੰਦ ਕਰ ਸਕਦੇ ਹੋ।\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ਲਾਗੂ ਹੁੰਦੀਆਂ ਹਨ।</string>
     <string name="dialog_message_screen_overview_promotion">ਸਕ੍ਰੀਨ ਦਾ ਵਰਣਨ ਕਰਨ ਲਈ ਉਸਦਾ ਸਕ੍ਰੀਨਸ਼ਾਟ Google ਦੇ Gemini API \'ਤੇ ਭੇਜਿਆ ਜਾਂਦਾ ਹੈ, ਜਿਸ ਵਿੱਚ ਕੁਝ ਸਕਿੰਟ ਲੱਗਦੇ ਹਨ। ਆਨ-ਡਿਵਾਈਸ AI ਚਾਲੂ ਹੋਣ \'ਤੇ, ਇਸਦਾ ਵਰਣਨ ਇਸ ਦੀ ਬਜਾਏ ਇਸੇ ਫ਼ੋਨ \'ਤੇ ਹੁੰਦਾ ਹੈ ਅਤੇ ਇਸਨੂੰ ਭੇਜਿਆ ਨਹੀਂ ਜਾਂਦਾ।\n\nਮੁਫ਼ਤ API ਕੁੰਜੀ ਨਾਲ, Google ਪ੍ਰਾਪਤ ਹੋਈ ਸਮੱਗਰੀ ਨੂੰ ਰੱਖ ਸਕਦਾ ਹੈ, ਆਪਣੇ ਉਤਪਾਦਾਂ ਨੂੰ ਬਿਹਤਰ ਬਣਾਉਣ ਲਈ ਵਰਤ ਸਕਦਾ ਹੈ ਅਤੇ ਲੋਕਾਂ ਤੋਂ ਉਸਦੀ ਸਮੀਖਿਆ ਕਰਵਾ ਸਕਦਾ ਹੈ। ਜਨਰੇਟਿਵ AI ਪ੍ਰਯੋਗਾਤਮਕ ਹੈ, ਇਸ ਲਈ ਇਹ ਗਲਤੀਆਂ ਕਰੇਗਾ। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> ਲਾਗੂ ਹੁੰਦੀਆਂ ਹਨ।</string>

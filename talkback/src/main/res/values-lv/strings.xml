@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Pateikt laiku</string>
   <string name="pref_speak_time_summary">Kad ieslēdzat ekrānu</string>
   <string name="summary_speak_container_element_positions">Paziņot, kad ieejat sarakstos, režģos un citos konteineros vai izejat no tiem</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Vai atiestatīt aizkaves iestatījumus?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Tādējādi visi aizkaves samazināšanas iestatījumi tiks atiestatīti uz noklusējumu.</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Atiestatīt</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Latentuma samazināšanas iestatījumi ir atiestatīti.</string>
   <string name="Reset_gesture_settings_dialog_title">Vai atiestatīt žestus?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Vai atiestatīt pašreizējās kopas žestus?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Tādējādi visiem žestiem tiks atjaunotas noklusējuma darbības.\n\nJūsu veiktās izmaiņas tiks zaudētas.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Ietver paziņojumus par lejupielādi, braukšanas norāžu ievērošanu un citu informāciju. Ja šī funkcija būs izslēgta, paziņojumus saņemsiet retāk.</string>
   <string name="title_pref_explore_by_touch">Pārlūkot pieskaroties</string>
   <string name="title_pref_category_controls">Vadīklas</string>
-  <string name="title_pref_category_reduce_latency_summary">Šie iestatījumi ļauj SandFly reaģēt ātrāk pēc pieskaršanās ekrānam</string>
-  <string name="reset_latency_settings_title">Atiestatīt visus aizkaves iestatījumus</string>
   <string name="title_pref_single_tap">Aktivizēt ar vienu pieskārienu</string>
   <string name="summary_pref_single_tap">Fokusētu vienumu varat aktivizēt, tam vienreiz pieskaroties. Šāda pārvietošanās ir ātrāka par dubultskārienu.</string>
   <string name="pref_verbosity_title">Detalizētība</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Tastatūras atbalss</string>
   <string name="pref_node_desc_order_title">Vienuma informācijas secība</string>
   <string name="pref_time_feedback_format_title">Laika formāts</string>
-  <string name="title_pref_latency_reduction">Samazināt aizkavi</string>
-  <string name="talkback_latency_reduction_summary">Ļaujiet SandFly reaģēt ātrāk pēc pieskaršanās ekrānam</string>
   <string name="summary_pref_intonation">Izrunāt dzēstos burtus paaugstinātā balss tonī</string>
   <string name="title_pref_speech_footer">Lai mainītu pieejamības skaļumu jebkurā ekrānā, turiet vienu pirkstu uz ekrāna un nospiediet skaļuma palielināšanas vai samazināšanas taustiņu.</string>
   <string name="title_pref_vibration">Vibrācija</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Izstrādātāja iestatījumi</string>
   <string name="title_activity_dump_a11y_event">Atlasīt notikumus reģistrēšanai</string>
   <string name="title_pref_dump_a11y_event">Filtrēt pieejamības notikuma reģistrēšanu</string>
-  <string name="pref_reduce_window_delay_title">Izslēgt animācijas</string>
   <string name="title_pref_log_level">Žurnāla izvades līmenis</string>
   <string name="title_pref_diagnosis_mode">Diagnostikas režīms</string>
   <string name="title_pref_tts_overlay">Runas izvades rādīšana</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Nosaukt tekstu un ikonas atlasītajā attēlā</string>
   <string name="summary_typo_suggestions">Tiek rādīts, kad kursors atrodas uz pareizrakstības kļūdas</string>
   <string name="summary_cache_keyboard_keys">Lai samazinātu aizkavi rakstīšanas laikā, SandFly iepriekš ielādē paziņojumus.</string>
-  <string name="summary_cache_keyboard_keys_disabled">Lai varētu lietot šo funkciju, izmantojiet Google teksta-runas lietotni</string>
   <string name="title_pref_shortcut_up">Vilkt augšup</string>
   <string name="title_pref_shortcut_up_xr">Nevadošās rokas plauksta pret sevi — savilkt pirkstus un vilkt augšup</string>
   <string name="title_pref_shortcut_down">Vilkt lejup</string>
@@ -1483,7 +1473,6 @@
     <string name="title_pref_speaker_devices">Tālruņa skaļrunis ar šīm ierīcēm</string>
     <string name="summary_pref_speaker_devices_none">Nav</string>
     <string name="summary_pref_speaker_devices_no_devices">Vēl nav pievienota neviena Bluetooth vai vadu ierīce</string>
-    <string name="pref_reduce_window_delay_summary">SandFly nolasa jaunus ekrānus ātrāk, ja animācijas ir izslēgtas. Tas izslēdz animācijas visam tālrunim.</string>
     <string name="dialog_message_detailed_ai_description">Atlasītie attēli tiek nosūtīti uz Google Gemini API, lai tos aprakstītu. Ja ir ieslēgts “Ierīces AI”, tie tiek aprakstīti šajā tālrunī un netiek sūtīti.\n\nIzmantojot bezmaksas API atslēgu, Google var paturēt saņemto, izmantot to savu produktu uzlabošanai un ļaut cilvēkiem to pārskatīt. Ģeneratīvais AI ir eksperimentāls, tāpēc tas kļūdīsies. Ir spēkā <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Detalizētos attēlu aprakstus veido ģeneratīvais AI. Atlasītie attēli tiek nosūtīti uz Google Gemini API, lai tos aprakstītu. Ja ir ieslēgts “Ierīces AI”, tie tiek aprakstīti šajā tālrunī un netiek sūtīti.\n\nIzmantojot bezmaksas API atslēgu, Google var paturēt saņemto, izmantot to savu produktu uzlabošanai un ļaut cilvēkiem to pārskatīt. Ģeneratīvais AI ir eksperimentāls, tāpēc tas kļūdīsies. Detalizētos attēlu aprakstus jebkurā laikā var izslēgt SandFly iestatījumos.\n\nIr spēkā <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Ekrānuzņēmums tiek nosūtīts uz Google Gemini API, lai to aprakstītu, un tas aizņem dažas sekundes. Ja ir ieslēgts “Ierīces AI”, tas tiek aprakstīts šajā tālrunī un netiek sūtīts.\n\nIzmantojot bezmaksas API atslēgu, Google var paturēt saņemto, izmantot to savu produktu uzlabošanai un ļaut cilvēkiem to pārskatīt. Ģeneratīvais AI ir eksperimentāls, tāpēc tas kļūdīsies. Ir spēkā <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

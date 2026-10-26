@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Govori vrijeme</string>
   <string name="pref_speak_time_summary">Kada uključite ekran</string>
   <string name="summary_speak_container_element_positions">Izgovara kada uđete u liste, mreže i druge spremnike ili izađete iz njih</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Vratiti postavke kašnjenja na zadano?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Ovo će vratiti sve postavke kašnjenja na zadano</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Vrati na zadano</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Uređaj je vraćen na zadane postavke smanjivanja latentnosti</string>
   <string name="Reset_gesture_settings_dialog_title">Vratiti pokrete na zadano?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Poništiti pokrete trenutnog skupa?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Ovim će se svi pokreti vratiti na zadane radnje.\n\nIzgubit ćete sve promjene koje ste izvršili.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Uključuje novosti tokom preuzimanja, praćenja uputa za vožnju i drugo. Kada je ova postavka isključena, i dalje ćete dobijati novosti, ali rjeđe.</string>
   <string name="title_pref_explore_by_touch">Istraži dodirom</string>
   <string name="title_pref_category_controls">Kontrole</string>
-  <string name="title_pref_category_reduce_latency_summary">Ove postavke ubrzavaju reakciju SandFlya nakon dodira ekrana</string>
-  <string name="reset_latency_settings_title">Vrati sve postavke kašnjenja na zadano</string>
   <string name="title_pref_single_tap">Jednom dodirnite da aktivirate</string>
   <string name="summary_pref_single_tap">Jednom dodirnite fokusiranu stavku da je aktivirate. Brža navigacija od dvostrukog dodira.</string>
   <string name="pref_verbosity_title">Opširnost</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Eho tastature</string>
   <string name="pref_node_desc_order_title">Redoslijed detalja stavke</string>
   <string name="pref_time_feedback_format_title">Format vremena</string>
-  <string name="title_pref_latency_reduction">Smanji kašnjenje</string>
-  <string name="talkback_latency_reduction_summary">Brža reakcija SandFlya nakon dodira ekrana</string>
   <string name="summary_pref_intonation">Izgovaranje izbrisanih slova u višem tonalitetu</string>
   <string name="title_pref_speech_footer">Da promijenite jačinu zvuka za pristupačnost s bilo kojeg ekrana, držite 1 prst na ekranu i pritisnite dugme za pojačavanje ili stišavanje zvuka.</string>
   <string name="title_pref_vibration">Obavještenje vibracijom</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Programerske postavke</string>
   <string name="title_activity_dump_a11y_event">Odaberite koje događaje želite bilježiti</string>
   <string name="title_pref_dump_a11y_event">Filtriraj zapise pristupačnosti</string>
-  <string name="pref_reduce_window_delay_title">Isključi animacije</string>
   <string name="title_pref_log_level">Nivo zapisa izlaza</string>
   <string name="title_pref_diagnosis_mode">Način rada za dijagnostiku</string>
   <string name="title_pref_tts_overlay">Prikaži izlaz govora</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Izgovaranje teksta i ikona unutar odabrane slike</string>
   <string name="summary_typo_suggestions">Prikazuje se kada je kursor na grešci</string>
   <string name="summary_cache_keyboard_keys">SandFly unaprijed učitava obavještenja da smanji kašnjenje prilikom pisanja</string>
-  <string name="summary_cache_keyboard_keys_disabled">Koristite Googleovo pretvaranje teksta u govor da koristite ovu funkciju</string>
   <string name="title_pref_shortcut_up">Prevlačenje nagore</string>
   <string name="title_pref_shortcut_up_xr">Pokret drugim dlanom prema unutra, spajanje prstiju i prevlačenje nagore</string>
   <string name="title_pref_shortcut_down">Prevlačenje nadolje</string>
@@ -1375,7 +1365,6 @@
     <string name="title_pref_speaker_devices">Zvučnik telefona s ovim uređajima</string>
     <string name="summary_pref_speaker_devices_none">Nema</string>
     <string name="summary_pref_speaker_devices_no_devices">Još nije povezan nijedan Bluetooth ili žičani uređaj</string>
-    <string name="pref_reduce_window_delay_summary">SandFly brže čita nove ekrane kada su animacije isključene. Ovim se isključuju animacije za cijeli telefon.</string>
     <string name="dialog_message_detailed_ai_description">Odabrane slike se šalju Googleovom Gemini API-ju na opisivanje. Kada je uključen AI na uređaju, umjesto toga se opisuju na ovom telefonu i ne šalju se.\n\nUz besplatni API ključ Google može zadržati ono što primi, koristiti to za poboljšanje svojih proizvoda i dati ljudima da to pregledaju. Generativni AI je eksperimentalan, pa će griješiti. Primjenjuju se <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Detaljne opise slika omogućava generativni AI. Odabrane slike se šalju Googleovom Gemini API-ju na opisivanje. Kada je uključen AI na uređaju, umjesto toga se opisuju na ovom telefonu i ne šalju se.\n\nUz besplatni API ključ Google može zadržati ono što primi, koristiti to za poboljšanje svojih proizvoda i dati ljudima da to pregledaju. Generativni AI je eksperimentalan, pa će griješiti. Detaljne opise slika možete isključiti bilo kada u postavkama SandFlya.\n\nPrimjenjuju se <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Snimak ekrana se šalje Googleovom Gemini API-ju na opisivanje, što traje nekoliko sekundi. Kada je uključen AI na uređaju, umjesto toga se opisuje na ovom telefonu i ne šalje se.\n\nUz besplatni API ključ Google može zadržati ono što primi, koristiti to za poboljšanje svojih proizvoda i dati ljudima da to pregledaju. Generativni AI je eksperimentalan, pa će griješiti. Primjenjuju se <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

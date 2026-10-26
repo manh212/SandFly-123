@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">సమయాన్ని చెప్పడం</string>
   <string name="pref_speak_time_summary">మీరు స్క్రీన్‌ను ఆన్ చేసినప్పుడు</string>
   <string name="summary_speak_container_element_positions">జాబితాలు, గ్రిడ్‌లు, ఇతర కంటైనర్‌లలోకి ప్రవేశించినప్పుడు లేదా వాటి నుండి బయటకు వచ్చినప్పుడు చెబుతుంది</string>
-  <string name="reset_letency_reduction_settings_dialog_title">డిలే సెట్టింగ్‌లను రీసెట్ చేయాలనుకుంటున్నారా?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">ఇది మొత్తం డిలే సెట్టింగ్‌లను ఆటోమేటిక్‌కు రీసెట్ చేస్తుంది</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">రీసెట్ చేయండి</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">ల్యాగ్ తగ్గింపు సెట్టింగ్‌లు రీసెట్ అయ్యాయి.</string>
   <string name="Reset_gesture_settings_dialog_title">సంజ్ఞలను రీసెట్ చేయాలా?</string>
   <string name="Reset_gesture_settings_set_dialog_title">ప్రస్తుత సెట్‌కు సంబంధించిన సంజ్ఞలను రీసెట్ చేయాలా?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">ఇది అన్ని సంజ్ఞలను వాటి ఆటోమేటిక్ సెట్టింగ్‌లకు రీసెట్ చేస్తుంది.\n\nమీరు ఏవైనా మార్పులు చేస్తే వాటిని కోల్పోతారు.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">డౌన్‌లోడ్ చేస్తున్నప్పుడు, డ్రైవింగ్ దిశలను ఫాలో అవుతున్నప్పుడు, ఇంకా మరిన్ని చేస్తున్నప్పుడు అప్‌డేట్‌లను కలిగి ఉంటుంది. ఆఫ్ చేసినప్పుడు, మీరు తక్కువగా అప్పుడప్పుడు అప్‌డేట్‌లను ఇప్పటికీ అందుకుంటారు.</string>
   <string name="title_pref_explore_by_touch">తాకడం ద్వారా పరిశీలించడం</string>
   <string name="title_pref_category_controls">కంట్రోల్స్</string>
-  <string name="title_pref_category_reduce_latency_summary">ఈ సెట్టింగ్‌లు మీరు స్క్రీన్‌ను తాకిన తర్వాత SandFly వేగంగా స్పందించేలా చేస్తాయి</string>
-  <string name="reset_latency_settings_title">డిలే సెట్టింగ్‌లన్నింటినీ రీసెట్ చేయండి</string>
   <string name="title_pref_single_tap">యాక్టివేట్ చేయడానికి ఒకసారి ట్యాప్ చేయండి</string>
   <string name="summary_pref_single_tap">ఏదైనా ఫోకస్ చేసిన ఐటెమ్‌ను యాక్టివేట్ చేయడానికి దానిపై ఒకసారి ట్యాప్ చేయండి. డబుల్-ట్యాపింగ్ కంటే వేగంగా నావిగేట్ చేయండి.</string>
   <string name="pref_verbosity_title">వివరణాత్మకంగా చదవడం</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">కీబోర్డ్ ప్రతిధ్వని</string>
   <string name="pref_node_desc_order_title">వస్తువు వివరాల క్రమం</string>
   <string name="pref_time_feedback_format_title">టైమ్ ఫార్మాట్</string>
-  <string name="title_pref_latency_reduction">డిలేను తగ్గించండి</string>
-  <string name="talkback_latency_reduction_summary">మీరు స్క్రీన్‌ను తాకిన తర్వాత SandFly వేగంగా స్పందించేలా చేయండి</string>
   <string name="summary_pref_intonation">తొలగించబడిన అక్షరాలను పిచ్ ఎక్కువగా ఉన్న వాయిస్‌తో చదివి వినిపిస్తుంది</string>
   <string name="title_pref_speech_footer">ఏదైనా స్క్రీన్ నుండి యాక్సెసిబిలిటీ వాల్యూమ్‌ను మార్చడానికి, స్క్రీన్‌పై 1 వేలును పట్టుకుని, వాల్యూమ్ అప్ లేదా వాల్యూమ్ డౌన్ కీని నొక్కండి.</string>
   <string name="title_pref_vibration">వైబ్రేషన్ ప్రతిస్పందన</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">డెవలపర్ సెట్టింగ్‌లు</string>
   <string name="title_activity_dump_a11y_event">లాగ్ చేయాల్సిన ఈవెంట్‌లను ఎంచుకోండి</string>
   <string name="title_pref_dump_a11y_event">యాక్సెస్ సామర్థ్య ఈవెంట్ లాగింగ్‌ను ఫిల్టర్ చేయండి</string>
-  <string name="pref_reduce_window_delay_title">యానిమేషన్లను ఆఫ్ చేయండి</string>
   <string name="title_pref_log_level">లాగ్ అవుట్‌పుట్ స్థాయి</string>
   <string name="title_pref_diagnosis_mode">డయాగ్నోసిస్ మోడ్</string>
   <string name="title_pref_tts_overlay">స్పీచ్‌ అవుట్‌పుట్‌ను డిస్‌ప్లే చేయండి</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">ఎంపిక చేసిన ఇమేజ్‌లోని టెక్స్ట్, ఇంకా చిహ్నాల గురించి మాటల ప్రతిస్పందనను అందిస్తుంది</string>
   <string name="summary_typo_suggestions">కర్సర్ అక్షర దోషం ఉన్న పదంపై ఉన్నప్పుడు స్పెల్లింగ్ సూచనలను చూపుతుంది</string>
   <string name="summary_cache_keyboard_keys">మీరు టైప్ చేసేటప్పుడు ఆలస్యాలను తగ్గించడానికి SandFly అనౌన్స్‌మెంట్‌లను ప్రీ-లోడ్ చేస్తుంది</string>
-  <string name="summary_cache_keyboard_keys_disabled">ఈ ఫీచర్‌ను ఉపయోగించడానికి Google టెక్స్ట్-టు-స్పీచ్‌ను ఉపయోగించండి</string>
   <string name="title_pref_shortcut_up">పైకి స్వైప్ చేయండి</string>
   <string name="title_pref_shortcut_up_xr">రెండవ అరచేతిని లోపలికి తిప్పి, వేళ్లతో స్క్రీన్‌ను నియంత్రించి, పైకి స్వైప్ చేయండి</string>
   <string name="title_pref_shortcut_down">కిందికి స్వైప్ చేయండి</string>
@@ -1469,7 +1459,6 @@
     <string name="title_pref_speaker_devices">ఈ పరికరాలతో ఫోన్ స్పీకర్</string>
     <string name="summary_pref_speaker_devices_none">ఏదీ లేదు</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth లేదా వైర్డు పరికరాలు ఇంకా కనెక్ట్ చేయబడలేదు</string>
-    <string name="pref_reduce_window_delay_summary">యానిమేషన్‌లు ఆఫ్‌లో ఉన్నప్పుడు SandFly కొత్త స్క్రీన్‌లను వేగంగా రీడ్ చేస్తుంది. ఇది మొత్తం ఫోన్‌కు యానిమేషన్‌లను ఆఫ్ చేస్తుంది.</string>
     <string name="dialog_message_detailed_ai_description">ఎంచుకున్న చిత్రాలను వివరించడానికి Google యొక్క Gemini APIకి పంపుతారు. పరికరంలో AI ఆన్‌లో ఉన్నప్పుడు, వాటిని బదులుగా ఈ ఫోన్‌లోనే వివరిస్తారు, పంపరు.\n\nఉచిత API కీతో, Google తనకు అందిన వాటిని ఉంచుకోవచ్చు, తన ఉత్పత్తులను మెరుగుపరచడానికి ఉపయోగించవచ్చు, వ్యక్తులతో వాటిని సమీక్షింపజేయవచ్చు. జెనరేటివ్ AI ప్రయోగాత్మకమైనది, కాబట్టి అది తప్పులు చేస్తుంది. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> వర్తిస్తాయి.</string>
     <string name="dialog_message_detailed_ai_promotion">వివరణాత్మక చిత్ర వివరణలను జెనరేటివ్ AI రూపొందిస్తుంది. ఎంచుకున్న చిత్రాలను వివరించడానికి Google యొక్క Gemini APIకి పంపుతారు. పరికరంలో AI ఆన్‌లో ఉన్నప్పుడు, వాటిని బదులుగా ఈ ఫోన్‌లోనే వివరిస్తారు, పంపరు.\n\nఉచిత API కీతో, Google తనకు అందిన వాటిని ఉంచుకోవచ్చు, తన ఉత్పత్తులను మెరుగుపరచడానికి ఉపయోగించవచ్చు, వ్యక్తులతో వాటిని సమీక్షింపజేయవచ్చు. జెనరేటివ్ AI ప్రయోగాత్మకమైనది, కాబట్టి అది తప్పులు చేస్తుంది. మీరు ఎప్పుడైనా SandFly సెట్టింగ్‌లలో వివరణాత్మక చిత్ర వివరణలను ఆఫ్ చేయవచ్చు.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> వర్తిస్తాయి.</string>
     <string name="dialog_message_screen_overview_promotion">స్క్రీన్‌ను వివరించడానికి దాని స్క్రీన్‌షాట్‌ను Google యొక్క Gemini APIకి పంపుతారు, దీనికి కొన్ని సెకన్లు పడుతుంది. పరికరంలో AI ఆన్‌లో ఉన్నప్పుడు, దాన్ని బదులుగా ఈ ఫోన్‌లోనే వివరిస్తారు, పంపరు.\n\nఉచిత API కీతో, Google తనకు అందిన వాటిని ఉంచుకోవచ్చు, తన ఉత్పత్తులను మెరుగుపరచడానికి ఉపయోగించవచ్చు, వ్యక్తులతో వాటిని సమీక్షింపజేయవచ్చు. జెనరేటివ్ AI ప్రయోగాత్మకమైనది, కాబట్టి అది తప్పులు చేస్తుంది. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> వర్తిస్తాయి.</string>

@@ -22,8 +22,8 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 /**
- * The pure decisions of the phase-7 preparation and speculation changes: when a round defers,
- * how a round is sliced, and when a focus may be spoken on prediction. A plain JVM test on
+ * The pure decisions of the preparation and speculation machinery: when a round defers, how
+ * a round is sliced, and when a focus may be spoken on prediction. A plain JVM test on
  * purpose, for the same reason as the presynthesis gate's: the predicates are pure, and
  * loading the machinery around them through the Robolectric sandbox is what breaks.
  */
@@ -33,17 +33,17 @@ class EventFilterPhase7GateTest {
   fun deferRound_focusRoundRightAfterAFocus_defers() {
     assertTrue(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
+        PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
   }
 
   @Test
   fun deferRound_focusRoundAfterTheBurstWindow_runs() {
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_300))
+        PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_300))
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 5_000))
+        PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 5_000))
   }
 
   @Test
@@ -51,30 +51,27 @@ class EventFilterPhase7GateTest {
     // A settle round is where deferred rounds land; deferring it again would starve it.
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_SETTLE, 1_000, 1_100))
+        PreparedFocusSpeech.SOURCE_SETTLE, 1_000, 1_100))
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_GRANULARITY, 1_000, 1_100))
+        PreparedFocusSpeech.SOURCE_GRANULARITY, 1_000, 1_100))
   }
 
   @Test
-  fun deferRound_switchOff_orNoFocusYet_neverDefers() {
+  fun deferRound_noFocusYet_neverDefers() {
     assertFalse(
       EventFilter.shouldDeferRound(
-        false, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
-    assertFalse(
-      EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, 0, 1_100))
+        PreparedFocusSpeech.SOURCE_FOCUS, 0, 1_100))
   }
 
   @Test
-  fun sliceEnd_yielding_takesOneItemAtATime_inOrder() {
+  fun sliceEnd_takesOneItemAtATime_inOrder() {
     // Walking the slices of a four-item plan visits every item exactly once, in plan order:
     // the chunked round prepares the same announcements as the round in one piece.
     val visited = mutableListOf<Int>()
     var from = 0
     while (from < 4) {
-      val end = EventFilter.sliceEnd(true, from, 4)
+      val end = EventFilter.sliceEnd(from, 4)
       assertEquals(from + 1, end)
       for (i in from until end) {
         visited.add(i)
@@ -85,36 +82,30 @@ class EventFilterPhase7GateTest {
   }
 
   @Test
-  fun sliceEnd_notYielding_takesTheWholeRestAtOnce() {
-    assertEquals(4, EventFilter.sliceEnd(false, 0, 4))
-    assertEquals(4, EventFilter.sliceEnd(false, 2, 4))
-    assertEquals(0, EventFilter.sliceEnd(false, 0, 0))
-    assertEquals(0, EventFilter.sliceEnd(true, 0, 0))
+  fun sliceEnd_emptyPlan_endsWhereItStarts() {
+    assertEquals(0, EventFilter.sliceEnd(0, 0))
   }
 
   @Test
   fun speculation_allGatesOpen_isAllowed() {
     assertTrue(
       EventFilter.speculationAllowed(
-        true, true, 0, true))
+        true, 0, true))
   }
 
   @Test
   fun speculation_anyGateClosed_isRefused() {
     assertFalse(
       EventFilter.speculationAllowed(
-        false, true, 0, true))
-    assertFalse(
-      EventFilter.speculationAllowed(
-        true, false, 0, true))
+        false, 0, true))
     // A swipe the machinery had to scroll for lands where the app chooses, not where the
     // order says: never speculated.
     assertFalse(
       EventFilter.speculationAllowed(
-        true, true, 1, true))
+        true, 1, true))
     assertFalse(
       EventFilter.speculationAllowed(
-        true, true, 0, false))
+        true, 0, false))
   }
 
   @Test

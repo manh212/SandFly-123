@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Հնչեցնել ժամանակը</string>
   <string name="pref_speak_time_summary">Երբ դուք միացնում եք էկրանը</string>
   <string name="summary_speak_container_element_positions">Ասում է, երբ մտնում եք ցանկեր, ցանցեր և այլ կոնտեյներներ կամ դուրս գալիս դրանցից</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Զրոյացնե՞լ հապաղման կարգավորումները</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Զրոյացման արդյունքում կվերականգնվեն հապաղման կանխադրված կարգավորումները</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Զրոյացնել</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Հապաղման նվազեցման կարգավորումները զրոյացվեցին։</string>
   <string name="Reset_gesture_settings_dialog_title">Վերակայե՞լ ժեստերի կարգավորումները</string>
   <string name="Reset_gesture_settings_set_dialog_title">Զրոյացնե՞լ ընթացիկ հավաքածուի ժեստերը</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Բոլոր ժեստերի կանխադրված կարգավորումները կվերականգնվեն։\n\nՁեր կատարած ոչ մի փոփոխություն չի պահպանվի։</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Ներառում է ներբեռնման, նավիգացիայի և այլ գործողությունների ժամանակ ցուցադրվող ծանուցումները։ Երբ կարգավորումն անջատված է, դուք ավելի քիչ ծանուցումներ կստանաք։</string>
   <string name="title_pref_explore_by_touch">Հպումով ուսումնասիրում</string>
   <string name="title_pref_category_controls">Կառավարման տարրեր</string>
-  <string name="title_pref_category_reduce_latency_summary">Այս կարգավորումները ստիպում են SandFly-ին ավելի արագ արձագանքել էկրանին հպվելուց հետո</string>
-  <string name="reset_latency_settings_title">Զրոյացնել հապաղման բոլոր կարգավորումները</string>
   <string name="title_pref_single_tap">Մեկ անգամ հպեք՝ ակտիվացնելու համար</string>
   <string name="summary_pref_single_tap">Մեկ անգամ հպեք ընդգծված տարրին՝ այն ակտիվացնելու համար։ Ինտերֆեյսում նավիգացիան ավելի արագ կլինի, քան կրկնակի սեղմման ժամանակ։</string>
   <string name="pref_verbosity_title">Խոսքի ծավալը</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Ստեղնաշարի արձագանք</string>
   <string name="pref_node_desc_order_title">Տարրի մանրամասների կարգը</string>
   <string name="pref_time_feedback_format_title">Ժամանակի ձևաչափ</string>
-  <string name="title_pref_latency_reduction">Նվազեցնել հապաղումը</string>
-  <string name="talkback_latency_reduction_summary">SandFly-ն ավելի արագ է արձագանքում էկրանին հպվելուց հետո</string>
   <string name="summary_pref_intonation">Բարձր ձայնով հնչեցնել տառերի ջնջումը</string>
   <string name="title_pref_speech_footer">Մատչելիության ձայնը ցանկացած էկրանից փոխելու համար 1 մատը պահեք էկրանին և սեղմեք ձայնի բարձրացման կամ ձայնի իջեցման կոճակը:</string>
   <string name="title_pref_vibration">Թրթռոցով արձագանք</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Մշակողի կարգավորումներ</string>
   <string name="title_activity_dump_a11y_event">Ընտրեք իրադարձություններ՝ գրանցելու համար</string>
   <string name="title_pref_dump_a11y_event">Իրադարձությունների զտում մատյանի համար</string>
-  <string name="pref_reduce_window_delay_title">Անջատել անիմացիաները</string>
   <string name="title_pref_log_level">Մատյանի դուրսբերման մակարդակը</string>
   <string name="title_pref_diagnosis_mode">Դիագնոստիկայի ռեժիմ</string>
   <string name="title_pref_tts_overlay">Խոսքը վերածել տեքստի</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Հնչեցնում է ընտրված պատկերների տեքստը և պատկերակների նկարագրությունը</string>
   <string name="summary_typo_suggestions">Ցուցադրվում է, երբ նշորդը գտնվում է տառասխալի վրա</string>
   <string name="summary_cache_keyboard_keys">SandFly-ը նախապես բեռնում է հայտարարությունները՝ տեքստի մուտքագրման ընթացքում հապաղումները նվազեցնելու համար</string>
-  <string name="summary_cache_keyboard_keys_disabled">Այս գործառույթն օգտագործելու համար միացրեք Google Տեքստի հնչեցումը</string>
   <string name="title_pref_shortcut_up">Վերև</string>
   <string name="title_pref_shortcut_up_xr">Պասիվ ձեռքի ափը թեքել դեպի ձեզ և մատներն իրար միացնել և սահեցնել վերև</string>
   <string name="title_pref_shortcut_down">Ներքև</string>
@@ -1478,7 +1468,6 @@
     <string name="title_pref_speaker_devices">Հեռախոսի բարձրախոս այս սարքերով</string>
     <string name="summary_pref_speaker_devices_none">Ոչ մեկը</string>
     <string name="summary_pref_speaker_devices_no_devices">Bluetooth կամ լարային սարքեր դեռ միացված չեն</string>
-    <string name="pref_reduce_window_delay_summary">SandFly ավելի արագ է կարդում նոր էկրանները, երբ անիմացիաներն անջատված են: Սա անջատում է անիմացիաները ամբողջ հեռախոսի համար:</string>
     <string name="dialog_message_detailed_ai_description">Ընտրված պատկերներն ուղարկվում են Google-ի Gemini API՝ նկարագրելու համար։ Երբ «Սարքում աշխատող ԱԲ»-ն միացված է, դրանք նկարագրվում են այս հեռախոսում և չեն ուղարկվում։\n\nԱնվճար API բանալու դեպքում Google-ը կարող է պահել ստացածը, օգտագործել այն իր արտադրանքը բարելավելու համար և տալ մարդկանց այն վերանայելու։ Գեներատիվ ԱԲ-ն փորձնական է, ուստի սխալներ կանի։ Գործում են <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>։</string>
     <string name="dialog_message_detailed_ai_promotion">Պատկերների մանրամասն նկարագրությունները ստեղծվում են գեներատիվ ԱԲ-ի միջոցով։ Ընտրված պատկերներն ուղարկվում են Google-ի Gemini API՝ նկարագրելու համար։ Երբ «Սարքում աշխատող ԱԲ»-ն միացված է, դրանք նկարագրվում են այս հեռախոսում և չեն ուղարկվում։\n\nԱնվճար API բանալու դեպքում Google-ը կարող է պահել ստացածը, օգտագործել այն իր արտադրանքը բարելավելու համար և տալ մարդկանց այն վերանայելու։ Գեներատիվ ԱԲ-ն փորձնական է, ուստի սխալներ կանի։ Պատկերների մանրամասն նկարագրությունները ցանկացած պահի կարող եք անջատել SandFly-ի կարգավորումներում։\n\nԳործում են <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>։</string>
     <string name="dialog_message_screen_overview_promotion">Էկրանի սքրինշոթն ուղարկվում է Google-ի Gemini API՝ նկարագրելու համար, ինչը մի քանի վայրկյան է տևում։ Երբ «Սարքում աշխատող ԱԲ»-ն միացված է, այն նկարագրվում է այս հեռախոսում և չի ուղարկվում։\n\nԱնվճար API բանալու դեպքում Google-ը կարող է պահել ստացածը, օգտագործել այն իր արտադրանքը բարելավելու համար և տալ մարդկանց այն վերանայելու։ Գեներատիվ ԱԲ-ն փորձնական է, ուստի սխալներ կանի։ Գործում են <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>։</string>

@@ -315,15 +315,6 @@ public class FailoverTextToSpeech {
   private volatile @Nullable String lowLatencyOffReason;
 
   /**
-   * Whether an utterance answering the user's own navigation is sent to the engine in two
-   * pieces, cut where its parts were joined, so the first part — usually an item's name —
-   * starts being made into sound at once and the rest follows in the same queue. Set from the
-   * latency setting. Only utterances that flush are cut: a later flush then destroys the
-   * second piece with the rest of the queue, exactly as it destroys an uncut utterance's
-   * queue, so a cut utterance can never leave its tail behind to be spoken.
-   */
-  public static volatile boolean splitAtFirstSeparatorEnabled = true;
-
   /**
    * Returns whether low-latency audio is on when the user hasn't chosen. It's off on watches,
    * whose settings don't have the switch.
@@ -1154,9 +1145,14 @@ public class FailoverTextToSpeech {
       locale = getUsedLocale();
     }
 
+    // An utterance answering the user's own navigation is sent to the engine in two pieces,
+    // cut where its parts were joined, so the first part — usually an item's name — starts
+    // being made into sound at once and the rest follows in the same queue. Only utterances
+    // that flush are cut: a later flush then destroys the second piece with the rest of the
+    // queue, exactly as it destroys an uncut utterance's queue, so a cut utterance can never
+    // leave its tail behind to be spoken.
     int firstChunkEnd =
-        splitAtFirstSeparatorEnabled
-                && eventId != null
+        eventId != null
                 && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE
                 && utteranceInfoCombo.flushGlobalTtsQueue()
             ? utteranceInfoCombo.firstSeparatorEnd()

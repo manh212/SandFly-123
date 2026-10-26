@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Dicir a hora</string>
   <string name="pref_speak_time_summary">Cando actives a pantalla</string>
   <string name="summary_speak_container_element_positions">Le cando entras ou saes de listas, grades e outros contedores</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Queres restablecer a configuración do retardo?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Restableceranse os valores predeterminados de todas as opcións de configuración do retardo</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Restablecer</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">A configuración de redución de latencia restableceuse.</string>
   <string name="Reset_gesture_settings_dialog_title">Queres restablecer os xestos?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Queres restablecer os xestos do conxunto actual?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Deste xeito, restableceranse as accións predeterminadas de todos os xestos.\n\nPerderás todos os cambios que fixeses.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Inclúe notificacións ao descargar contido, seguir indicacións para chegar en coche e moito máis. Ao desactivar a opción de configuración, seguirás recibindo notificacións con menos frecuencia.</string>
   <string name="title_pref_explore_by_touch">Exploración táctil</string>
   <string name="title_pref_category_controls">Controis</string>
-  <string name="title_pref_category_reduce_latency_summary">Estas opcións de configuración fan que SandFly responda máis rápido despois de tocar a pantalla</string>
-  <string name="reset_latency_settings_title">Restablecer todas as opcións de configuración do retardo</string>
   <string name="title_pref_single_tap">Un só toque para activar</string>
   <string name="summary_pref_single_tap">Para activar un elemento enfocado, dá un toque. Así navegarás máis rápido que con dous toques.</string>
   <string name="pref_verbosity_title">Verbosidade</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Eco do teclado</string>
   <string name="pref_node_desc_order_title">Orde dos detalles dos elementos</string>
   <string name="pref_time_feedback_format_title">Formato de hora</string>
-  <string name="title_pref_latency_reduction">Reducir retardo</string>
-  <string name="talkback_latency_reduction_summary">Fai que SandFly responda máis rápido despois de tocar a pantalla</string>
   <string name="summary_pref_intonation">Le as letras eliminadas cunha voz máis aguda</string>
   <string name="title_pref_speech_footer">Para cambiar o volume de accesibilidade desde calquera pantalla, mantén un dedo na pantalla e preme a tecla de subida ou baixada de volume.</string>
   <string name="title_pref_vibration">Vibración</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Configuración de programador</string>
   <string name="title_activity_dump_a11y_event">Seleccionar eventos para rexistrar</string>
   <string name="title_pref_dump_a11y_event">Filtrar rexistro de eventos de accesibilidade</string>
-  <string name="pref_reduce_window_delay_title">Desactivar animacións</string>
   <string name="title_pref_log_level">Rexistrar nivel de saída</string>
   <string name="title_pref_diagnosis_mode">Modo de diagnóstico</string>
   <string name="title_pref_tts_overlay">Mostrar saída da voz</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Le en voz alta o texto e as iconas dunha imaxe seleccionada</string>
   <string name="summary_typo_suggestions">Móstrase cando o cursor se sitúa sobre un erro ortográfico</string>
   <string name="summary_cache_keyboard_keys">SandFly carga os avisos con antelación para reducir o retardo cando escribes</string>
-  <string name="summary_cache_keyboard_keys_disabled">Usa a Conversión de Google de texto a voz para gozar desta función</string>
   <string name="title_pref_shortcut_up">Pasar dedo cara arriba</string>
   <string name="title_pref_shortcut_up_xr">Palma non dominante cara a ti, beliscar e pasar o dedo cara arriba</string>
   <string name="title_pref_shortcut_down">Pasar dedo cara abaixo</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Altofalante do teléfono con estes dispositivos</string>
     <string name="summary_pref_speaker_devices_none">Ningún</string>
     <string name="summary_pref_speaker_devices_no_devices">Aínda non se conectou ningún dispositivo Bluetooth ou con cable</string>
-    <string name="pref_reduce_window_delay_summary">SandFly le as pantallas novas máis rápido cando as animacións están desactivadas. Isto desactiva as animacións en todo o teléfono.</string>
     <string name="dialog_message_detailed_ai_description">As imaxes seleccionadas envíanse á API de Gemini de Google para describilas. Coa IA no dispositivo activada, descríbense neste teléfono e non se envían.\n\nCunha clave da API gratuíta, Google pode conservar o que recibe, usalo para mellorar os seus produtos e facer que o revisen persoas. A IA xenerativa é experimental, polo que cometerá erros. Aplícanse as <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">As descricións detalladas das imaxes funcionan coa IA xenerativa. As imaxes seleccionadas envíanse á API de Gemini de Google para describilas. Coa IA no dispositivo activada, descríbense neste teléfono e non se envían.\n\nCunha clave da API gratuíta, Google pode conservar o que recibe, usalo para mellorar os seus produtos e facer que o revisen persoas. A IA xenerativa é experimental, polo que cometerá erros. Podes desactivar as descricións detalladas das imaxes en calquera momento na configuración de SandFly.\n\nAplícanse as <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Envíase unha captura da pantalla á API de Gemini de Google para describila, o que tarda varios segundos. Coa IA no dispositivo activada, descríbese neste teléfono e non se envía.\n\nCunha clave da API gratuíta, Google pode conservar o que recibe, usalo para mellorar os seus produtos e facer que o revisen persoas. A IA xenerativa é experimental, polo que cometerá erros. Aplícanse as <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

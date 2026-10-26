@@ -165,7 +165,6 @@ import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorF
 import com.google.android.accessibility.talkback.focusmanagement.SingleTapTypingController;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
-import com.google.android.accessibility.talkback.focusmanagement.WindowNodePrefetcher;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter;
 import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory;
@@ -757,19 +756,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** The app of the last window that came up, for the turn-off log. */
   private @Nullable CharSequence lastWindowPackage;
 
-  /**
-   * Whether reading orders are built in the background, from the latency setting. Read once per
-   * settings load by {@link #refreshLatencySwitches()} instead of on every accessibility event,
-   * which arrives dozens of times a second in a busy app.
-   */
-  private boolean backgroundOrderBuildEnabled = true;
-
-  /**
-   * Whether a touch that begins with no reading order saved starts building one, from the
-   * latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}.
-   */
-  private boolean touchOrderBuildEnabled = true;
-
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
 
@@ -1144,16 +1130,12 @@ public class TalkBackService extends AccessibilityServiceCompat
       clearCache();
     }
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
-      if (backgroundOrderBuildEnabled) {
-        int windowId = event.getWindowId();
-        TraversalTreeCache.buildOrderInBackground(
-            windowId,
-            () -> rootOfWindow(windowId),
-            getPackageName(),
-            Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR);
-      } else {
-        prefetchWindowOfClearedOrder(event);
-      }
+      int windowId = event.getWindowId();
+      TraversalTreeCache.buildOrderInBackground(
+          windowId,
+          () -> rootOfWindow(windowId),
+          getPackageName(),
+          Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR);
     }
     if (fastNavigator != null
         && (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
@@ -1252,18 +1234,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   /**
-   * The event threw away the saved reading order, so the next swipe would have to read the
-   * window's nodes on the main thread. Read them in the background now instead, starting from the
-   * window's current root: the cached root is only refreshed when the event processor runs later
-   * in this method, so it is not asked here. Only the window id is captured here; finding the
-   * root costs binder calls, so the prefetcher does it on its own executor.
-   */
-  private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
-    int windowId = event.getWindowId();
-    WindowNodePrefetcher.prefetchInBackground(() -> rootOfWindow(windowId), getPackageName());
-  }
-
-  /**
    * The root of the window with {@code windowId}, or of the active window if that window is
    * already gone. Runs on the prefetcher's executor: {@link #getWindows()} and the base class's
    * root call are plain binder calls, unlike the cached root {@link #getRootInActiveWindow()}
@@ -1290,12 +1260,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   /**
    * Starts a background build of the reading order of {@code windowId} — or of the active
    * window when it is -1 — for the asker {@code source} (one of the {@code
-   * Performance.ORDER_BUILD_SOURCE_*} values), unless background builds are switched off.
+   * Performance.ORDER_BUILD_SOURCE_*} values).
    */
   private void startBackgroundOrderBuild(int windowId, int source) {
-    if (!backgroundOrderBuildEnabled) {
-      return;
-    }
     int targetWindowId = windowId;
     if (targetWindowId == -1) {
       AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
@@ -1321,9 +1288,6 @@ public class TalkBackService extends AccessibilityServiceCompat
    * and only while an order is actually missing.
    */
   private void maybeBuildOrderAtTouchStart() {
-    if (!touchOrderBuildEnabled || !backgroundOrderBuildEnabled) {
-      return;
-    }
     if (TraversalTreeCache.hasSavedOrder()) {
       return;
     }
@@ -3599,101 +3563,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
-  /** Reloads service preferences. */
-  /**
-   * Applies the latency settings to the code that uses them. They used to be read again on every
-   * accessibility event; events arrive dozens of times a second in a busy app, and each read was
-   * work on the way to answering a swipe. Settings only change through the listener that reloads
-   * preferences, so reading them here loses nothing.
-   */
-  private void refreshLatencySwitches() {
-    TraversalTreeCache.setUnrelatedChangesSpareNodes(
-        getBooleanPref(
-            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
-    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
-        getBooleanPref(
-            R.string.pref_keep_prepared_across_unrelated_key,
-            R.bool.pref_keep_prepared_across_unrelated_default));
-    TraversalTreeCache.setServeStaleOrdersEnabled(
-        getBooleanPref(
-            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
-    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements =
-        getBooleanPref(
-            R.string.pref_navigation_interrupt_key, R.bool.pref_navigation_interrupt_default);
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements =
-        getBooleanPref(
-            R.string.pref_window_focus_interrupt_key, R.bool.pref_window_focus_interrupt_default);
-    SpeechControllerImpl.speechWaitCapEnabled =
-        getBooleanPref(R.string.pref_speech_wait_cap_key, R.bool.pref_speech_wait_cap_default);
-    backgroundOrderBuildEnabled =
-        getBooleanPref(
-            R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
-    touchOrderBuildEnabled =
-        getBooleanPref(
-            R.string.pref_touch_order_build_key, R.bool.pref_touch_order_build_default);
-    TraversalTreeCache.setSettleRetryEnabled(
-        getBooleanPref(
-            R.string.pref_settle_order_build_key, R.bool.pref_settle_order_build_default));
-    TraversalTreeCache.setLeanOrderBuilderEnabled(
-        getBooleanPref(
-            R.string.pref_lean_order_builder_key, R.bool.pref_lean_order_builder_default));
-    LowLatencyAudio.setSmallBufferEnabled(
-        getBooleanPref(
-            R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
-    FailoverTextToSpeech.splitAtFirstSeparatorEnabled =
-        getBooleanPref(R.string.pref_split_speech_key, R.bool.pref_split_speech_default);
-    EventFilter.setPresynthesizePreparedSpeech(
-        getBooleanPref(
-            R.string.pref_presynthesize_prepared_key,
-            R.bool.pref_presynthesize_prepared_default));
-    EventFilter.setPrepareOnSettle(
-        getBooleanPref(
-            R.string.pref_prepare_on_settle_key, R.bool.pref_prepare_on_settle_default));
-    boolean prepareWider =
-        getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default);
-    EventFilter.setPrepareWider(prepareWider);
-    PreparedFocusSpeech.setKeepUnusedOnTake(prepareWider);
-    EventFilter.setYieldingPrepare(
-        getBooleanPref(
-            R.string.pref_yielding_prepare_key, R.bool.pref_yielding_prepare_default));
-    TraversalTreeCache.setListenerBuildCoalescingEnabled(
-        getBooleanPref(
-            R.string.pref_coalesce_listener_builds_key,
-            R.bool.pref_coalesce_listener_builds_default));
-    EventFilter.setSpeechPipelineEnabled(
-        getBooleanPref(
-            R.string.pref_speech_pipeline_key, R.bool.pref_speech_pipeline_default));
-    EventFilter.setSpeculativeSpeechEnabled(
-        getBooleanPref(
-            R.string.pref_speculative_speech_key, R.bool.pref_speculative_speech_default));
-    ProcessorEventQueue.setFocusPriorityEnabled(
-        getBooleanPref(
-            R.string.pref_focus_priority_lane_key, R.bool.pref_focus_priority_lane_default));
-    TraversalTreeCache.setFastNavigatorEnabled(
-        getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
-    TraversalTreeCache.setSkipTargetRefreshEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_skip_target_refresh_key,
-            R.bool.pref_fast_nav_skip_target_refresh_default));
-    TraversalTreeCache.setCheapPivotCheckEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_cheap_pivot_key, R.bool.pref_fast_nav_cheap_pivot_default));
-    TraversalTreeCache.setFireFocusBeforeSpeechEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_fire_first_key, R.bool.pref_fast_nav_fire_first_default));
-    EventFilter.setSpeechPipelineChainEnabled(
-        getBooleanPref(
-            R.string.pref_speech_pipeline_chain_key, R.bool.pref_speech_pipeline_chain_default));
-    TraversalTreeCache.setEventDrivenScrollLandingEnabled(
-        getBooleanPref(
-            R.string.pref_event_driven_scroll_landing_key,
-            R.bool.pref_event_driven_scroll_landing_default));
-    TraversalTreeCache.setBurstBuildDeferralEnabled(
-        getBooleanPref(
-            R.string.pref_defer_builds_during_burst_key,
-            R.bool.pref_defer_builds_during_burst_default));
-  }
-
   protected void reloadPreferences() {
     reloadPreferences(null);
   }
@@ -3705,7 +3574,6 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   protected void reloadPreferences(@Nullable String key) {
     final Resources res = getResources();
-    refreshLatencySwitches();
 
     LogUtils.v(
         TAG,
@@ -3713,14 +3581,11 @@ public class TalkBackService extends AccessibilityServiceCompat
         PreferencesActivityUtils.isDiagnosisModeOn(prefs, res),
         key);
 
-    // Preference to turn off animations, so that windows are announced sooner.
-    boolean reduceDelayPref =
-        getBooleanPref(
-            R.string.pref_reduce_window_delay_key, R.bool.pref_reduce_window_delay_default);
+    // Animations are turned off, so that windows are announced sooner.
     if (windowEventInterpreter != null) {
-      enableAnimation(!reduceDelayPref);
+      enableAnimation(false);
     }
-    WindowEventInterpreter.setReduceWindowDelay(reduceDelayPref);
+    WindowEventInterpreter.setReduceWindowDelay(true);
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);
 

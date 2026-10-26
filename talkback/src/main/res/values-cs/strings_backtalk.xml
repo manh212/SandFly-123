@@ -5,7 +5,6 @@
     <!-- Reduce delays. -->
     <string name="title_pref_low_latency_audio">Zvuk s nízkou latencí</string>
     <string name="summary_pref_low_latency_audio">Přehrávat zvuky a řeč SandFly nejrychlejší zvukovou cestou telefonu, abyste je slyšeli dříve. Pokud se řeč nebo zvuky trhají či znějí nesprávně, tuto možnost vypněte.</string>
-    <string name="pref_reduce_window_delay_summary">Když jsou animace vypnuté, SandFly čte nové obrazovky rychleji. Tato možnost vypne animace v celém telefonu.</string>
 
     <!-- Text-to-speech. -->
     <string name="title_pref_switch_languages">Automaticky přepínat jazyk</string>

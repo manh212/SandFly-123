@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Sabihin ang oras</string>
   <string name="pref_speak_time_summary">Kapag na-on mo ang screen</string>
   <string name="summary_speak_container_element_positions">Sabihin kapag pumasok ka o lumabas sa mga listahan, grid, at iba pang container</string>
-  <string name="reset_letency_reduction_settings_dialog_title">I-reset ang mga setting ng pagkaantala?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Ire-reset nito ang lahat ng setting ng pagkaantala sa default</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">I-reset</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Na-reset ang mga setting ng pagbabawas ng latency.</string>
   <string name="Reset_gesture_settings_dialog_title">I-reset ang mga galaw?</string>
   <string name="Reset_gesture_settings_set_dialog_title">I-reset ang mga galaw ng kasalukuyang hanay?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Ire-reset nito ang lahat ng galaw sa mga default nitong pagkilos.\n\nMawawala mo ang anumang pagbabagong iyong ginawa.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Kasama ang mga update habang nagda-download, pagsunod sa mga direksyon sa pagmamaneho, at higit pa. Kapag naka-off, makakatanggap ka pa rin ng hindi na ganoon kadalas na mga update.</string>
   <string name="title_pref_explore_by_touch">Explore by touch</string>
   <string name="title_pref_category_controls">Mga Kontrol</string>
-  <string name="title_pref_category_reduce_latency_summary">Pinapabilis ng mga setting na ito ang pagtugon ng SandFly pagkatapos mong pindutin ang screen</string>
-  <string name="reset_latency_settings_title">I-reset ang lahat ng setting ng pagkaantala</string>
   <string name="title_pref_single_tap">I-tap nang isang beses para i-activate</string>
   <string name="summary_pref_single_tap">Mag-tap nang isang beses sa naka-focus na item para i-activate. Mas mabilis na pag-navigate kaysa sa pag-double-tap.</string>
   <string name="pref_verbosity_title">Verbosity</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Echo ng keyboard</string>
   <string name="pref_node_desc_order_title">Pagkakasunud-sunod ng mga detalye ng item</string>
   <string name="pref_time_feedback_format_title">Format ng oras</string>
-  <string name="title_pref_latency_reduction">Bawasan ang pagkaantala</string>
-  <string name="talkback_latency_reduction_summary">Pabilisin ang pagtugon ng SandFly pagkatapos mong pindutin ang screen</string>
   <string name="summary_pref_intonation">Bigkasin ang mga na-delete na titik sa boses na may mas mataas na pitch</string>
   <string name="title_pref_speech_footer">Para baguhin ang volume ng accessibility mula sa anumang screen, pindutin nang matagal ang screen gamit ang 1 daliri at pindutin ang pataas na volume o pababang volume key.</string>
   <string name="title_pref_vibration">Feedback ng pag-vibrate</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Mga setting ng developer</string>
   <string name="title_activity_dump_a11y_event">Piliin ang mga ila-log na event</string>
   <string name="title_pref_dump_a11y_event">I-filter ang pagla-log ng mga event sa accessibility</string>
-  <string name="pref_reduce_window_delay_title">I-off ang mga animation</string>
   <string name="title_pref_log_level">Antas ng output ng log</string>
   <string name="title_pref_diagnosis_mode">Diagnosis mode</string>
   <string name="title_pref_tts_overlay">Ipakita ang output ng pagsasalita</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Bigkasin ang text at mga icon sa loob ng napiling larawan</string>
   <string name="summary_typo_suggestions">Ipinapakita kapag nakatapat ang cursor sa typo</string>
   <string name="summary_cache_keyboard_keys">Nagpe-preload ang SandFly ng mga anunsyo para mabawasan ang pagkaantala kapag nagta-type ka</string>
-  <string name="summary_cache_keyboard_keys_disabled">Gamitin ang Google Text-to-Speech para magamit ang feature na ito</string>
   <string name="title_pref_shortcut_up">Mag-swipe pataas</string>
   <string name="title_pref_shortcut_up_xr">I-pinch gamit ang isang daliri at i-swipe up</string>
   <string name="title_pref_shortcut_down">Mag-swipe pababa</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Speaker ng telepono sa mga device na ito</string>
     <string name="summary_pref_speaker_devices_none">Wala</string>
     <string name="summary_pref_speaker_devices_no_devices">Wala pang nakakonektang Bluetooth o wired na device</string>
-    <string name="pref_reduce_window_delay_summary">Mas mabilis binabasa ng SandFly ang mga bagong screen kapag naka-off ang mga animation. Ino-off nito ang mga animation para sa buong telepono.</string>
     <string name="dialog_message_detailed_ai_description">Ipinapadala sa Gemini API ng Google ang mga napiling larawan para mailarawan. Kapag naka-on ang On-device na AI, sa teleponong ito na inilalarawan ang mga ito at hindi ipinapadala.\n\nKapag libreng API key ang gamit, puwedeng itago ng Google ang natatanggap nito, gamitin ito para pahusayin ang mga produkto nito, at ipasuri ito sa mga tao. Pang-eksperimento ang Generative AI, kaya magkakamali ito. Nalalapat ang <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Pinapagana ng generative AI ang mga detalyadong paglalarawan ng larawan. Ipinapadala sa Gemini API ng Google ang mga napiling larawan para mailarawan. Kapag naka-on ang On-device na AI, sa teleponong ito na inilalarawan ang mga ito at hindi ipinapadala.\n\nKapag libreng API key ang gamit, puwedeng itago ng Google ang natatanggap nito, gamitin ito para pahusayin ang mga produkto nito, at ipasuri ito sa mga tao. Pang-eksperimento ang Generative AI, kaya magkakamali ito. Puwede mong i-off ang mga detalyadong paglalarawan ng larawan anumang oras sa mga setting ng SandFly.\n\nNalalapat ang <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Ipinapadala sa Gemini API ng Google ang isang screenshot ng screen para mailarawan, na tumatagal nang ilang segundo. Kapag naka-on ang On-device na AI, sa teleponong ito na ito inilalarawan at hindi ipinapadala.\n\nKapag libreng API key ang gamit, puwedeng itago ng Google ang natatanggap nito, gamitin ito para pahusayin ang mga produkto nito, at ipasuri ito sa mga tao. Pang-eksperimento ang Generative AI, kaya magkakamali ito. Nalalapat ang <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

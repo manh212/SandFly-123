@@ -121,9 +121,6 @@ public class SpeechControllerImplTest {
   @After
   public void tearDown() {
     setAlwaysInterruptPreference(false);
-    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
-    SpeechControllerImpl.speechWaitCapEnabled = true;
     Performance.getInstance().setComputeStatsEnabled(false);
     Performance.getInstance().clearAllStats();
   }
@@ -182,19 +179,6 @@ public class SpeechControllerImplTest {
     assertEquals(
         List.of("an uninterruptible announcement", "swipe target"), failoverTts.spokenTexts);
     assertEquals(1, Performance.getInstance().getNavigationSpeechInterruptCount());
-  }
-
-  @Test
-  public void gestureSpeech_switchOff_waitsBehindAnnouncement() {
-    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = false;
-
-    speak(
-        speechController,
-        "an uninterruptible announcement",
-        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
-    speakGesture(speechController, "swipe target");
-
-    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
   }
 
   @Test
@@ -378,20 +362,6 @@ public class SpeechControllerImplTest {
   }
 
   @Test
-  public void waitCap_switchOff_leavesTheWaitAlone() {
-    SpeechControllerImpl.speechWaitCapEnabled = false;
-    enablePerformanceStats();
-
-    speak(speechController, "a globally protected utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
-    speakGesture(speechController, "the swiped item");
-
-    Robolectric.getForegroundThreadScheduler().advanceBy(400, TimeUnit.MILLISECONDS);
-
-    assertEquals(List.of("a globally protected utterance"), failoverTts.spokenTexts);
-    assertEquals(0, Performance.getInstance().getSpeechWaitCapFlushCount());
-  }
-
-  @Test
   public void waitCap_waiterGoneBeforeCap_noFlushNoCrash() {
     enablePerformanceStats();
 
@@ -455,16 +425,6 @@ public class SpeechControllerImplTest {
   }
 
   @Test
-  public void windowChangeSpeech_switchOff_waitsBehindAnnouncement() {
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
-
-    speakAnnouncement(speechController, "an uninterruptible announcement");
-    speakWindowChange(speechController, "the new window");
-
-    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
-  }
-
-  @Test
   public void windowChangeSpeech_neverInterruptsGloballyUninterruptible() {
     speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
     speakWindowChange(speechController, "the new window");
@@ -477,6 +437,16 @@ public class SpeechControllerImplTest {
     controller.speak(
         text,
         SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_ANNOUNCEMENT));
+  }
+
+  /** Speaks announcement-class speech in queue mode, so it waits behind whatever is speaking. */
+  private void speakAnnouncementQueued(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_QUEUE,
         0 /* flags */,
         null /* speechParams */,
         new EventId(0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_ANNOUNCEMENT));
@@ -512,35 +482,35 @@ public class SpeechControllerImplTest {
 
   @Test
   public void longWait_isProfiledNamingBlockerAndWaiter() {
-    // With the window/focus interrupt privilege on, focus speech would cut the announcement
-    // itself and never wait; turn it off so the wait this test profiles can happen.
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
+    // The waiter is announcement-class speech: navigation and window/focus speech hold the
+    // interrupt privilege and would cut the announcement itself instead of waiting, so an
+    // announcement is what can still be caught waiting.
     enablePerformanceStats();
 
     speakAnnouncement(speechController, "a long announcement");
-    speakFocus(speechController, "the focused item");
+    speakAnnouncementQueued(speechController, "the waiting item");
     Robolectric.getForegroundThreadScheduler().advanceBy(250, TimeUnit.MILLISECONDS);
-    // A swipe's answer cuts the announcement, and the waiting focus speech, at the head of
+    // A swipe's answer cuts the announcement, and the waiting speech, at the head of
     // the queue, is spoken next; the swipe's own answer stays queued behind it.
     speakGestureQueued(speechController, "swipe target");
 
-    assertEquals(List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+    assertEquals(List.of("a long announcement", "the waiting item"), failoverTts.spokenTexts);
     List<String> profiles = Performance.getInstance().speechWaitProfileLines();
     assertEquals(1, profiles.size());
-    assertTrue(profiles.get(0), profiles.get(0).contains("focus waited behind announcement"));
+    assertTrue(
+        profiles.get(0), profiles.get(0).contains("announcement waited behind announcement"));
     assertTrue(profiles.get(0), profiles.get(0).contains("(uninterruptible)"));
   }
 
   @Test
   public void shortWait_isCountedButNotProfiled() {
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
     enablePerformanceStats();
 
     speakAnnouncement(speechController, "a long announcement");
-    speakFocus(speechController, "the focused item");
+    speakAnnouncementQueued(speechController, "the waiting item");
     speakGestureQueued(speechController, "swipe target");
 
-    assertEquals(List.of("a long announcement", "the focused item"), failoverTts.spokenTexts);
+    assertEquals(List.of("a long announcement", "the waiting item"), failoverTts.spokenTexts);
     assertTrue(Performance.getInstance().speechWaitProfileLines().isEmpty());
   }
 

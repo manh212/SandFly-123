@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">बोलकर समय बताने की सुविधा</string>
   <string name="pref_speak_time_summary">स्क्रीन चालू करने पर</string>
   <string name="summary_speak_container_element_positions">सूची, ग्रिड, और अन्य कंटेनर में जाने या उनसे बाहर निकलने पर बोलें</string>
-  <string name="reset_letency_reduction_settings_dialog_title">इंतज़ार का समय कम करने की सभी सेटिंग को रीसेट करना है?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">इंतज़ार का समय कम करने की सभी सेटिंग, डिफ़ॉल्ट पर रीसेट हो जाएंगी</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">रीसेट करें</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">इंतज़ार का समय कम करने की सेटिंग रीसेट कर दी गई हैं.</string>
   <string name="Reset_gesture_settings_dialog_title">क्या आपको हाथ के जेस्चर (हाव-भाव) को रीसेट करना है?</string>
   <string name="Reset_gesture_settings_set_dialog_title">हाथ के जेस्चर के मौजूदा सेट को रीसेट करें?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">इससे, हाथ के सभी जेस्चर की सेटिंग डिफ़ॉल्ट पर सेट हो जाएंगी.\n\nसाथ ही, आपका किया गया कोई भी बदलाव सेव नहीं होगा.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">इसमें डाउनलोड करने, ड्राइविंग दिशा-निर्देशों का पालन करने वगैरह के दौरान मिलने वाले अपटेड शामिल होते हैं. इस सेटिंग के बंद होने पर भी आपको कभी-कभार अपडेट मिलेंगे.</string>
   <string name="title_pref_explore_by_touch">कॉन्टेंट को छूकर, उसे सुनने की सुविधा</string>
   <string name="title_pref_category_controls">कंट्रोल</string>
-  <string name="title_pref_category_reduce_latency_summary">इन सेटिंग से, स्क्रीन छूने के बाद SandFly ज़्यादा तेज़ी से जवाब देता है</string>
-  <string name="reset_latency_settings_title">जानकारी मिलने में लगने वाला समय कम करने की सभी सेटिंग को रीसेट करें</string>
   <string name="title_pref_single_tap">किसी आइटम को चालू करने के लिए एक बार टैप करें</string>
   <string name="summary_pref_single_tap">फ़ोकस वाले आइटम को चालू करने के लिए, उस पर एक बार टैप करें. दो बार के बजाय एक बार टैप करने की सेटिंग चालू करने पर, नेविगेशन तेज़ी से होता है.</string>
   <string name="pref_verbosity_title">कितने शब्दों में जानकारी दी जाए</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">कीबोर्ड प्रतिध्वनि</string>
   <string name="pref_node_desc_order_title">आइटम की जानकारी का क्रम</string>
   <string name="pref_time_feedback_format_title">टाइम फ़ॉर्मैट</string>
-  <string name="title_pref_latency_reduction">इंतज़ार का समय कम करें</string>
-  <string name="talkback_latency_reduction_summary">स्क्रीन छूने के बाद SandFly को ज़्यादा तेज़ी से जवाब देने दें</string>
   <string name="summary_pref_intonation">मिटाए गए टेक्स्ट को हाई पिच वाली आवाज़ में सुनें</string>
   <string name="title_pref_speech_footer">किसी भी स्क्रीन से सुलभता सुविधाओं की आवाज़ अडजस्ट करने के लिए, स्क्रीन को एक उंगली से दबाकर रखें और आवाज़ तेज़ या कम करने वाला बटन दबाएं.</string>
   <string name="title_pref_vibration">वाइब्रेशन फ़ीडबैक</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">डेवलपर सेटिंग</string>
   <string name="title_activity_dump_a11y_event">लॉग किए जाने वाले इवेंट चुनें</string>
   <string name="title_pref_dump_a11y_event">सुलभता इवेंट से जुड़ी लॉगिंग फ़िल्टर करें</string>
-  <string name="pref_reduce_window_delay_title">ऐनिमेशन बंद करें</string>
   <string name="title_pref_log_level">लॉग आउटपुट लेवल</string>
   <string name="title_pref_diagnosis_mode">गड़बड़ी का पता लगाने वाला मोड</string>
   <string name="title_pref_tts_overlay">स्पीच आउटपुट दिखाएं</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">चुनी हुई इमेज में मौजूद टेक्स्ट पढ़कर सुनाने और आइकॉन के बारे में बोलकर बताने की सुविधा</string>
   <string name="summary_typo_suggestions">किसी गलत स्पेलिंग के ऊपर कर्सर होने पर उसका सुझाव दिखता है</string>
   <string name="summary_cache_keyboard_keys">टाइप करने के दौरान, जानकारी मिलने में लगने वाला समय कम करने के लिए SandFly उन्हें पहले से ही लोड कर लेती है</string>
-  <string name="summary_cache_keyboard_keys_disabled">इस सुविधा का इस्तेमाल करने के लिए, टेक्स्ट को ऑडियो में बदलने वाली Google टेक्नोलॉजी का इस्तेमाल करें</string>
   <string name="title_pref_shortcut_up">ऊपर की ओर स्वाइप करें</string>
   <string name="title_pref_shortcut_up_xr">दूसरी हथेली को अंदर की ओर घुमाकर पिंच करें और ऊपर की ओर स्वाइप करें</string>
   <string name="title_pref_shortcut_down">नीचे स्‍वाइप करें</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">इन डिवाइस के साथ फ़ोन का स्पीकर</string>
     <string name="summary_pref_speaker_devices_none">कोई नहीं</string>
     <string name="summary_pref_speaker_devices_no_devices">अब तक कोई ब्लूटूथ या वायर वाला डिवाइस कनेक्ट नहीं किया गया</string>
-    <string name="pref_reduce_window_delay_summary">ऐनिमेशन बंद होने पर SandFly नई स्क्रीन ज़्यादा तेज़ी से पढ़ता है. इससे पूरे फ़ोन के लिए ऐनिमेशन बंद हो जाते हैं.</string>
     <string name="dialog_message_detailed_ai_description">चुनी गई इमेज, उनके बारे में जानकारी पाने के लिए Google के Gemini API को भेजी जाती हैं. \'डिवाइस पर एआई\' चालू होने पर, उनके बारे में जानकारी इसी फ़ोन पर तैयार होती है और वे भेजी नहीं जातीं.\n\nमुफ़्त API कुंजी के साथ, Google को मिलने वाला डेटा वह अपने पास रख सकता है, उसका इस्तेमाल अपने प्रॉडक्ट बेहतर बनाने के लिए कर सकता है, और लोग उसकी समीक्षा कर सकते हैं. जनरेटिव एआई अभी प्रयोग के तौर पर उपलब्ध है, इसलिए इससे गलतियां होंगी. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होती हैं.</string>
     <string name="dialog_message_detailed_ai_promotion">इमेज के बारे में ज़्यादा जानकारी, जनरेटिव एआई से तैयार होती है. चुनी गई इमेज, उनके बारे में जानकारी पाने के लिए Google के Gemini API को भेजी जाती हैं. \'डिवाइस पर एआई\' चालू होने पर, उनके बारे में जानकारी इसी फ़ोन पर तैयार होती है और वे भेजी नहीं जातीं.\n\nमुफ़्त API कुंजी के साथ, Google को मिलने वाला डेटा वह अपने पास रख सकता है, उसका इस्तेमाल अपने प्रॉडक्ट बेहतर बनाने के लिए कर सकता है, और लोग उसकी समीक्षा कर सकते हैं. जनरेटिव एआई अभी प्रयोग के तौर पर उपलब्ध है, इसलिए इससे गलतियां होंगी. इमेज के बारे में ज़्यादा जानकारी की सुविधा, SandFly की सेटिंग में कभी भी बंद की जा सकती है.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होती हैं.</string>
     <string name="dialog_message_screen_overview_promotion">स्क्रीन का स्क्रीनशॉट, उसके बारे में जानकारी पाने के लिए Google के Gemini API को भेजा जाता है. इसमें कुछ सेकंड लगते हैं. \'डिवाइस पर एआई\' चालू होने पर, उसके बारे में जानकारी इसी फ़ोन पर तैयार होती है और वह भेजा नहीं जाता.\n\nमुफ़्त API कुंजी के साथ, Google को मिलने वाला डेटा वह अपने पास रख सकता है, उसका इस्तेमाल अपने प्रॉडक्ट बेहतर बनाने के लिए कर सकता है, और लोग उसकी समीक्षा कर सकते हैं. जनरेटिव एआई अभी प्रयोग के तौर पर उपलब्ध है, इसलिए इससे गलतियां होंगी. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होती हैं.</string>

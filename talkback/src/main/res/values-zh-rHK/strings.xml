@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">朗讀時間</string>
   <string name="pref_speak_time_summary">開啟螢幕時</string>
   <string name="summary_speak_container_element_positions">進入或離開清單、網格和其他容器時讀出</string>
-  <string name="reset_letency_reduction_settings_dialog_title">要重設延遲時間設定嗎？</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">此操作會將所有延遲時間設定重設為預設值</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">重設</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">重設咗縮短延遲時間設定</string>
   <string name="Reset_gesture_settings_dialog_title">要重設手勢嗎？</string>
   <string name="Reset_gesture_settings_set_dialog_title">要重設目前的手勢組合嗎？</string>
   <string name="message_reset_gesture_settings_confirm_dialog">此操作會將所有手勢重設回預設動作。\n\n你亦會失去已往作出的變更。</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">包括下載、按照駕駛路線等最新進度。如果關閉此功能，系統仍會朗讀進度，只是頻率較低。</string>
   <string name="title_pref_explore_by_touch">輕觸探索</string>
   <string name="title_pref_category_controls">控制項</string>
-  <string name="title_pref_category_reduce_latency_summary">這些設定可讓 SandFly 在你輕觸螢幕後更快回應</string>
-  <string name="reset_latency_settings_title">重設所有延遲時間設定</string>
   <string name="title_pref_single_tap">輕按一下即可啟用</string>
   <string name="summary_pref_single_tap">輕按一下焦點項目以啟用。相比輕按兩下，導覽更快速。</string>
   <string name="pref_verbosity_title">詳細程度</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">鍵盤語音提示</string>
   <string name="pref_node_desc_order_title">項目詳細資料的順序</string>
   <string name="pref_time_feedback_format_title">時間格式</string>
-  <string name="title_pref_latency_reduction">縮短延遲時間</string>
-  <string name="talkback_latency_reduction_summary">讓 SandFly 在你輕觸螢幕後更快回應</string>
   <string name="summary_pref_intonation">以較高音調朗讀刪除的字母</string>
   <string name="title_pref_speech_footer">若要從任何螢幕變更輔助功能音量，請用 1 根手指按住螢幕，然後按音量增大或音量降低鍵。</string>
   <string name="title_pref_vibration">震動回應</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">開發人員設定</string>
   <string name="title_activity_dump_a11y_event">選取要記錄的活動</string>
   <string name="title_pref_dump_a11y_event">篩選無障礙功能活動記錄</string>
-  <string name="pref_reduce_window_delay_title">關閉動畫</string>
   <string name="title_pref_log_level">記錄輸出水平</string>
   <string name="title_pref_diagnosis_mode">診斷模式</string>
   <string name="title_pref_tts_overlay">顯示語音輸出</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">讀出所選圖像內的文字和圖示</string>
   <string name="summary_typo_suggestions">游標移到錯別字上即顯示</string>
   <string name="summary_cache_keyboard_keys">SandFly 會預先載入朗讀內容，以縮短輸入延遲時間</string>
-  <string name="summary_cache_keyboard_keys_disabled">此功能須透過「Google 文字轉語音」使用</string>
   <string name="title_pref_shortcut_up">往上滑動</string>
   <string name="title_pref_shortcut_up_xr">將非慣用手的掌心朝向自己，兩指縮放並向上滑動</string>
   <string name="title_pref_shortcut_down">往下滑動</string>
@@ -1477,7 +1467,6 @@
     <string name="title_pref_speaker_devices">連接這些裝置時使用手機揚聲器</string>
     <string name="summary_pref_speaker_devices_none">無</string>
     <string name="summary_pref_speaker_devices_no_devices">尚未連接Bluetooth或有線設備</string>
-    <string name="pref_reduce_window_delay_summary">動畫關閉時，SandFly 可以更快地讀取新畫面。這會關閉整支手機的動畫。</string>
     <string name="dialog_message_detailed_ai_description">所選圖片會傳送至 Google 的 Gemini API 以產生描述。開啟「裝置端 AI」後，圖片會改為在這部手機上描述，不會傳送出去。\n\n使用免費 API 金鑰時，Google 可能會保留收到的內容、用於改善其產品，並交由人員審查。生成式 AI 仍處於實驗階段，因此會出錯。適用 <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>。</string>
     <string name="dialog_message_detailed_ai_promotion">詳細圖片描述由生成式 AI 產生。所選圖片會傳送至 Google 的 Gemini API 以產生描述。開啟「裝置端 AI」後，圖片會改為在這部手機上描述，不會傳送出去。\n\n使用免費 API 金鑰時，Google 可能會保留收到的內容、用於改善其產品，並交由人員審查。生成式 AI 仍處於實驗階段，因此會出錯。您可以隨時在 SandFly 設定中關閉詳細圖片描述。\n\n適用 <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>。</string>
     <string name="dialog_message_screen_overview_promotion">螢幕截圖會傳送至 Google 的 Gemini API 以產生描述，需時數秒。開啟「裝置端 AI」後，截圖會改為在這部手機上描述，不會傳送出去。\n\n使用免費 API 金鑰時，Google 可能會保留收到的內容、用於改善其產品，並交由人員審查。生成式 AI 仍處於實驗階段，因此會出錯。適用 <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>。</string>

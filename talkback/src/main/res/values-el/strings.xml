@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Εκφώνηση ώρας</string>
   <string name="pref_speak_time_summary">Όταν ενεργοποιείτε την οθόνη</string>
   <string name="summary_speak_container_element_positions">Εκφώνηση όταν μπαίνετε ή βγαίνετε από λίστες, πλέγματα και άλλα κοντέινερ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Επαναφορά ρυθμίσεων καθυστέρησης;</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Με αυτή την ενέργεια, θα γίνει επαναφορά όλων των ρυθμίσεων καθυστέρησης στις προεπιλογές</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Επαναφορά</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Έγινε επαναφορά των ρυθμίσεων μείωσης λανθάνοντος χρόνου.</string>
   <string name="Reset_gesture_settings_dialog_title">Επαναφορά κινήσεων;</string>
   <string name="Reset_gesture_settings_set_dialog_title">Επαναφορά κινήσεων στο τρέχον σύνολο;</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Με αυτή την ενέργεια θα γίνει επαναφορά των κινήσεων στις προεπιλεγμένες ενέργειες.\n\Τυχόν αλλαγές που έχετε κάνει θα χαθούν.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Περιλαμβάνει ενημερώσεις κατά τη λήψη, την ακολούθηση οδηγιών διαδρομής κ.ά. Όταν έχει απενεργοποιηθεί, θα εξακολουθείτε να λαμβάνετε λιγότερο συχνές ενημερώσεις.</string>
   <string name="title_pref_explore_by_touch">Εξερεύνηση μέσω αφής</string>
   <string name="title_pref_category_controls">Στοιχεία ελέγχου</string>
-  <string name="title_pref_category_reduce_latency_summary">Αυτές οι ρυθμίσεις κάνουν το SandFly να αποκρίνεται πιο γρήγορα μετά το άγγιγμα της οθόνης</string>
-  <string name="reset_latency_settings_title">Επαναφορά όλων των ρυθμίσεων καθυστέρησης</string>
   <string name="title_pref_single_tap">Ενεργοποίηση με ένα πάτημα</string>
   <string name="summary_pref_single_tap">Πατήστε μία φορά το εστιασμένο στοιχείο για ενεργοποίηση. Πιο γρήγορη πλοήγηση από το διπλό πάτημα.</string>
   <string name="pref_verbosity_title">Έκταση</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Ηχώ πληκτρολογίου</string>
   <string name="pref_node_desc_order_title">Σειρά λεπτομερειών στοιχείου</string>
   <string name="pref_time_feedback_format_title">Μορφή ώρας</string>
-  <string name="title_pref_latency_reduction">Μείωση καθυστέρησης</string>
-  <string name="talkback_latency_reduction_summary">Πιο γρήγορη απόκριση του SandFly μετά το άγγιγμα της οθόνης</string>
   <string name="summary_pref_intonation">Εκφώνηση γραμμάτων που έχουν διαγραφεί σε υψηλότερο τόνο φωνής</string>
   <string name="title_pref_speech_footer">Για να αλλάξετε την ένταση ήχου προσβασιμότητας από οποιαδήποτε οθόνη, ακουμπήστε παρατεταμένα την οθόνη με ένα δάχτυλο και πατήστε το κουμπί αύξησης ή μείωσης έντασης ήχου.</string>
   <string name="title_pref_vibration">Ανάδραση δόνησης</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Ρυθμίσεις προγραμματιστή</string>
   <string name="title_activity_dump_a11y_event">Συμβάντα προς καταγραφή</string>
   <string name="title_pref_dump_a11y_event">Φιλτράρισμα καταγραφής συμβάτων προσβασιμότητας</string>
-  <string name="pref_reduce_window_delay_title">Απενεργοποίηση κινούμενων εικόνων</string>
   <string name="title_pref_log_level">Καταγραφή επιπέδου εξόδου</string>
   <string name="title_pref_diagnosis_mode">Λειτουργία διαγνωστικών ελέγχων</string>
   <string name="title_pref_tts_overlay">Εμφάνιση εξόδου ομιλίας</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Εκφώνηση κειμένου και εικονιδίων εντός επιλεγμένης εικόνας</string>
   <string name="summary_typo_suggestions">Εμφανίζεται όταν ο δείκτης βρίσκεται σε ένα ορθογραφικό λάθος</string>
   <string name="summary_cache_keyboard_keys">Το SandFly προφορτώνει τις ανακοινώσεις για να μειώσει την καθυστέρηση κατά την πληκτρολόγηση</string>
-  <string name="summary_cache_keyboard_keys_disabled">Χρησιμοποιήστε την τεχνολογία Κείμενο σε ομιλία Google για να χρησιμοποιήσετε αυτή τη λειτουργία</string>
   <string name="title_pref_shortcut_up">Σύρετε προς τα επάνω</string>
   <string name="title_pref_shortcut_up_xr">Πλησίασμα/απομάκρυνση δαχτύλων και ολίσθηση επάνω με δευτερεύουσα παλάμη μέσα</string>
   <string name="title_pref_shortcut_down">Σύρετε προς τα κάτω</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">Ηχείο τηλεφώνου με αυτές τις συσκευές</string>
     <string name="summary_pref_speaker_devices_none">Καμία</string>
     <string name="summary_pref_speaker_devices_no_devices">Δεν έχουν συνδεθεί ακόμη συσκευές Bluetooth ή ενσύρματες συσκευές</string>
-    <string name="pref_reduce_window_delay_summary">Το SandFly διαβάζει πιο γρήγορα τις νέες οθόνες όταν οι κινούμενες εικόνες είναι απενεργοποιημένες. Απενεργοποιεί τις κινούμενες εικόνες σε όλο το τηλέφωνο.</string>
     <string name="dialog_message_detailed_ai_description">Οι επιλεγμένες εικόνες αποστέλλονται στο Gemini API της Google για περιγραφή. Όταν είναι ενεργό το AI στη συσκευή, περιγράφονται σε αυτό το τηλέφωνο και δεν αποστέλλονται.\n\nΜε δωρεάν κλειδί API, η Google μπορεί να διατηρεί ό,τι λαμβάνει, να το χρησιμοποιεί για τη βελτίωση των προϊόντων της και να το ελέγχουν άνθρωποι. Το παραγωγικό AI είναι σε πειραματικό στάδιο, οπότε θα κάνει λάθη. Ισχύουν οι <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Οι λεπτομερείς περιγραφές εικόνων λειτουργούν με παραγωγικό AI. Οι επιλεγμένες εικόνες αποστέλλονται στο Gemini API της Google για περιγραφή. Όταν είναι ενεργό το AI στη συσκευή, περιγράφονται σε αυτό το τηλέφωνο και δεν αποστέλλονται.\n\nΜε δωρεάν κλειδί API, η Google μπορεί να διατηρεί ό,τι λαμβάνει, να το χρησιμοποιεί για τη βελτίωση των προϊόντων της και να το ελέγχουν άνθρωποι. Το παραγωγικό AI είναι σε πειραματικό στάδιο, οπότε θα κάνει λάθη. Μπορείτε να απενεργοποιήσετε τις λεπτομερείς περιγραφές εικόνων ανά πάσα στιγμή στις ρυθμίσεις του SandFly.\n\nΙσχύουν οι <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Ένα στιγμιότυπο της οθόνης αποστέλλεται στο Gemini API της Google για περιγραφή, κάτι που διαρκεί αρκετά δευτερόλεπτα. Όταν είναι ενεργό το AI στη συσκευή, περιγράφεται σε αυτό το τηλέφωνο και δεν αποστέλλεται.\n\nΜε δωρεάν κλειδί API, η Google μπορεί να διατηρεί ό,τι λαμβάνει, να το χρησιμοποιεί για τη βελτίωση των προϊόντων της και να το ελέγχουν άνθρωποι. Το παραγωγικό AI είναι σε πειραματικό στάδιο, οπότε θα κάνει λάθη. Ισχύουν οι <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

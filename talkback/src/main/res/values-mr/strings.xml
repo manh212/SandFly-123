@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">बोलून वेळ सांगा</string>
   <string name="pref_speak_time_summary">तुम्ही स्क्रीन सुरू करता, तेव्हा</string>
   <string name="summary_speak_container_element_positions">सूची, ग्रिड आणि इतर कंटेनरमध्ये प्रवेश करताना किंवा बाहेर पडताना सांगते</string>
-  <string name="reset_letency_reduction_settings_dialog_title">विलंबासंबंधित सेटिंग्ज रीसेट करायची आहेत का?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">यामुळे विलंबासंबंधित सर्व सेटिंग्ज डीफॉल्टवर रीसेट होतील</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">रीसेट करा</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">लेटन्सी कमी करण्यासंबंधित सेटिंग्ज रीसेट करण्यात आली आहेत.</string>
   <string name="Reset_gesture_settings_dialog_title">जेश्चर रीसेट करायचे का?</string>
   <string name="Reset_gesture_settings_set_dialog_title">सद्य संचाची जेश्चर रीसेट करायची आहेत का?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">यामुळे सर्व जेश्चर त्यांच्या डीफॉल्ट क्रियांमध्ये रीसेट केली जातील.\n\nतुम्ही केलेले कोणतेही बदल गमवाल.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">डाउनलोड, चालकांसाठी दिशानिर्देश फॉलो आणि आणखी बरेच काही करताना अपडेटचा समावेश आहे. बंद केल्यावर, तुम्हाला तरीही कमी वारंवार अपडेट मिळतील.</string>
   <string name="title_pref_explore_by_touch">स्‍पर्श करून एक्‍सप्‍लोर करा</string>
   <string name="title_pref_category_controls">नियंत्रणे</string>
-  <string name="title_pref_category_reduce_latency_summary">या सेटिंग्जमुळे स्क्रीनला स्पर्श केल्यानंतर SandFly जलद प्रतिसाद देते</string>
-  <string name="reset_latency_settings_title">विलंबासंबंधित सर्व सेटिंग्ज रीसेट करा</string>
   <string name="title_pref_single_tap">अ‍ॅक्टिव्हेट करण्यासाठी एकदा टॅप करा</string>
   <string name="summary_pref_single_tap">फोकस केलेला आयटम अ‍ॅक्टिव्हेट करण्यासाठी त्यावर एकदा टॅप करा. दोनदा टॅप करण्याच्या तुलनेत अधिक जलद नेव्हिगेशन.</string>
   <string name="pref_verbosity_title">व्हर्बाेसिटी</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">कीबोर्ड इको</string>
   <string name="pref_node_desc_order_title">आयटम तपशीलांचा क्रम</string>
   <string name="pref_time_feedback_format_title">वेळेचा फॉरमॅट</string>
-  <string name="title_pref_latency_reduction">विलंब कमी करा</string>
-  <string name="talkback_latency_reduction_summary">स्क्रीनला स्पर्श केल्यानंतर SandFly जलद प्रतिसाद देते</string>
   <string name="summary_pref_intonation">हटवलेली अक्षरे मोठ्या आवाजात बोलून सांगा</string>
   <string name="title_pref_speech_footer">कोणत्याही स्क्रीनवरून प्रवेशयोग्यता व्हॉल्यूम बदलण्यासाठी, स्क्रीनवर 1 बोट धरून ठेवा आणि व्हॉल्यूम अप किंवा व्हॉल्यूम डाउन की दाबा.</string>
   <string name="title_pref_vibration">व्हायब्रेशन फीडबॅक</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">डेव्हलपर सेटिंग्ज</string>
   <string name="title_activity_dump_a11y_event">लॉग इन करण्यासाठी इव्हेंट निवडा</string>
   <string name="title_pref_dump_a11y_event">प्रवेशयोग्यता कार्यक्रम नोंदी फिल्टर करा</string>
-  <string name="pref_reduce_window_delay_title">ॲनिमेशन बंद करा</string>
   <string name="title_pref_log_level">लॉग आउटपुट स्तर</string>
   <string name="title_pref_diagnosis_mode">निदानासंबंधित मोड</string>
   <string name="title_pref_tts_overlay">स्पीच आउटपुट प्रदर्शित करा</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">निवडलेल्या इमेजमधील मजकूर आणि आयकन बोला</string>
   <string name="summary_typo_suggestions">कर्सर टायपिंगच्या चुकीवर असल्यावर दिसते</string>
   <string name="summary_cache_keyboard_keys">तुम्ही टाइप करताना होणारा विलंब कमी करण्यासाठी SandFly घोषणा आधीच लोड करते</string>
-  <string name="summary_cache_keyboard_keys_disabled">हे वैशिष्‍ट्य वापरण्यासाठी Google टेक्‍स्‍ट-टू-स्‍पीच वापरा</string>
   <string name="title_pref_shortcut_up">वर स्वाइप करा</string>
   <string name="title_pref_shortcut_up_xr">दुय्यम पाम आतील बाजूस, पिंच करून वर स्‍वाइप करा</string>
   <string name="title_pref_shortcut_down">खाली स्वाइप करा</string>
@@ -1481,7 +1471,6 @@ SandFly सेटिंग्जमध्ये SandFly मेनू आणि �
     <string name="title_pref_speaker_devices">या उपकरणांसह फोन स्पीकर</string>
     <string name="summary_pref_speaker_devices_none">कोणतेही नाही</string>
     <string name="summary_pref_speaker_devices_no_devices">अद्याप कोणतेही Bluetooth किंवा वायर्ड डिव्हाइस कनेक्ट केलेले नाहीत</string>
-    <string name="pref_reduce_window_delay_summary">ॲनिमेशन बंद असताना SandFly नवीन स्क्रीन जलद वाचते. हे संपूर्ण फोनसाठी ॲनिमेशन बंद करते.</string>
     <string name="dialog_message_detailed_ai_description">निवडलेल्या प्रतिमांचे वर्णन करण्यासाठी त्या Google च्या Gemini API वर पाठवल्या जातात. ऑन-डिव्हाइस AI सुरू असताना, त्यांचे वर्णन त्याऐवजी याच फोनवर केले जाते आणि त्या पाठवल्या जात नाहीत.\n\nविनामूल्य API की सह, Google ला मिळालेला डेटा ठेवू शकते, तो आपली उत्पादने सुधारण्यासाठी वापरू शकते आणि लोकांकडून त्याचे पुनरावलोकन करून घेऊ शकते. जनरेटिव्ह AI प्रायोगिक आहे, त्यामुळे त्यात चुका होतील. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होतात.</string>
     <string name="dialog_message_detailed_ai_promotion">तपशीलवार प्रतिमा वर्णने जनरेटिव्ह AI वापरून तयार केली जातात. निवडलेल्या प्रतिमांचे वर्णन करण्यासाठी त्या Google च्या Gemini API वर पाठवल्या जातात. ऑन-डिव्हाइस AI सुरू असताना, त्यांचे वर्णन त्याऐवजी याच फोनवर केले जाते आणि त्या पाठवल्या जात नाहीत.\n\nविनामूल्य API की सह, Google ला मिळालेला डेटा ठेवू शकते, तो आपली उत्पादने सुधारण्यासाठी वापरू शकते आणि लोकांकडून त्याचे पुनरावलोकन करून घेऊ शकते. जनरेटिव्ह AI प्रायोगिक आहे, त्यामुळे त्यात चुका होतील. तुम्ही SandFly सेटिंग्जमध्ये कधीही तपशीलवार प्रतिमा वर्णने बंद करू शकता.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होतात.</string>
     <string name="dialog_message_screen_overview_promotion">स्क्रीनचे वर्णन करण्यासाठी तिचा स्क्रीनशॉट Google च्या Gemini API वर पाठवला जातो, ज्याला काही सेकंद लागतात. ऑन-डिव्हाइस AI सुरू असताना, त्याचे वर्णन त्याऐवजी याच फोनवर केले जाते आणि तो पाठवला जात नाही.\n\nविनामूल्य API की सह, Google ला मिळालेला डेटा ठेवू शकते, तो आपली उत्पादने सुधारण्यासाठी वापरू शकते आणि लोकांकडून त्याचे पुनरावलोकन करून घेऊ शकते. जनरेटिव्ह AI प्रायोगिक आहे, त्यामुळे त्यात चुका होतील. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> लागू होतात.</string>

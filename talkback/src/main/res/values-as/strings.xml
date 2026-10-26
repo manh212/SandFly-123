@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">সময় কৈ শুনোৱাৰ সুবিধা</string>
   <string name="pref_speak_time_summary">আপুনি স্ক্ৰীনখন অন কৰিলে</string>
   <string name="summary_speak_container_element_positions">আপুনি সূচী, গ্ৰিড আৰু অন্য কণ্টেইনাৰত সোমালে বা ওলালে কওক</string>
-  <string name="reset_letency_reduction_settings_dialog_title">বিলম্বৰ ছেটিং ৰিছেট কৰিবনে?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">এইটোৱে বিলম্বতাৰ আটাইবোৰ ছেটিং ডিফ’ল্টলৈ ৰিছেট কৰিব</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">ৰিছেট কৰক</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">বিলম্বতা কমোৱাৰ ছেটিং ৰিছেট কৰা হৈছে।</string>
   <string name="Reset_gesture_settings_dialog_title">নিৰ্দেশসমূহ ৰিছেট কৰিবনে?</string>
   <string name="Reset_gesture_settings_set_dialog_title">বৰ্তমানৰ ছেটটোৰ নিৰ্দেশ ৰিছেট কৰিবনে?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">এই কাৰ্যই সকলো নিৰ্দেশক সেইসমূহৰ ডিফ’ল্ট কাৰ্যলৈ ৰিছেট কৰিব।\n\nআপুনি কৰা আটাইবোৰ সালসলনি হেৰুৱাব।</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">ডাউনল’ড কৰি থকা, গাড়ী চলাই থাকোঁতে পোৱা দিক্-নিৰ্দেশনা অনুসৰণ কৰি থকা আৰু অধিক কাম কৰাৰ সময়ত দিয়া আপডে’ট অন্তর্ভুক্ত। অফ কৰিলে, আপুনি তথাপি কম সঘনে আপডে’ট পাব।</string>
   <string name="title_pref_explore_by_touch">স্পৰ্শৰ দ্বাৰা অন্বেষণ কৰক</string>
   <string name="title_pref_category_controls">নিয়ন্ত্ৰণসমূহ</string>
-  <string name="title_pref_category_reduce_latency_summary">এই ছেটিংসমূহে আপুনি স্ক্ৰীন স্পৰ্শ কৰাৰ পাছত SandFlyক দ্ৰুত সঁহাৰি দিয়ায়</string>
-  <string name="reset_latency_settings_title">বিলম্বতাৰ আটাইবোৰ ছেটিং ৰিছেট কৰক</string>
   <string name="title_pref_single_tap">সক্ৰিয় কৰিবলৈ এবাৰ টিপক</string>
   <string name="summary_pref_single_tap">সক্ৰিয় কৰিবৰ বাবে ফ’কাছত থকা এটা বস্তুত এবাৰ টিপক। দুবাৰ টিপাতকৈ দ্ৰুত নেভিগেশ্বন।</string>
   <string name="pref_verbosity_title">শব্দৰ বাহুল্যতা</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">কীব\'ৰ্ডৰ প্ৰতিধ্বনি</string>
   <string name="pref_node_desc_order_title">বস্তুৰ সবিশেষৰ ক্ৰম</string>
   <string name="pref_time_feedback_format_title">সময়ৰ ফৰ্মেট</string>
-  <string name="title_pref_latency_reduction">বিলম্বতা হ্ৰাস কৰক</string>
-  <string name="talkback_latency_reduction_summary">আপুনি স্ক্ৰীন স্পৰ্শ কৰাৰ পাছত SandFlyক দ্ৰুত সঁহাৰি দিয়াওক</string>
   <string name="summary_pref_intonation">মচা বৰ্ণসমূহ অধিক উচ্চ ভইচত কওক</string>
   <string name="title_pref_speech_footer">যিকোনো স্ক্ৰীনৰ পৰা সাধ্য সুবিধাৰ ভলিউম সলনি কৰিবলৈ, ১ টা আঙুলিৰে স্ক্ৰীনখনত টিপি ধৰি ৰাখি ভলিউম বঢ়োৱা বা কমোৱা কীটো টিপক।</string>
   <string name="title_pref_vibration">কম্পনৰ প্ৰতিক্ৰিয়া</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">বিকাশকর্তাৰ ছেটিং</string>
   <string name="title_activity_dump_a11y_event">লগৰ বাবে কাৰ্যক্ৰম বাছনি কৰক</string>
   <string name="title_pref_dump_a11y_event">সাধ্য সুবিধাসমূহৰ কাৰ্যক্ৰমৰ লগিং ফিল্টাৰ কৰক</string>
-  <string name="pref_reduce_window_delay_title">এনিমেশ্বন অফ কৰক</string>
   <string name="title_pref_log_level">লগ আউটপুটৰ স্তৰ</string>
   <string name="title_pref_diagnosis_mode">ডায়গন’ছিছ ম’ড</string>
   <string name="title_pref_tts_overlay">কথনৰ আউটপুট দেখুৱাওক</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">এখন বাছনি কৰা প্ৰতিচ্ছবিৰ ভিতৰত থকা পাঠ আৰু চিহ্নসমূহ কওক</string>
   <string name="summary_typo_suggestions">কাৰ্ছৰডাল টাইপ কৰাৰ সময়ত হোৱা ভুল শব্দ এটাত থাকিলে দেখুৱায়</string>
   <string name="summary_cache_keyboard_keys">আপুনি লিখাৰ সময়ত পলম হোৱাটো হ্ৰাস কৰিবলৈ SandFly সুবিধাই ঘোষণাসমূহ আগৰেপৰা ল’ড কৰে</string>
-  <string name="summary_cache_keyboard_keys_disabled">এই সুবিধাটো ব্যৱহাৰ কৰিবলৈ Googleৰ পাঠৰ পৰা কথন ব্যৱহাৰ কৰক</string>
   <string name="title_pref_shortcut_up">ওপৰলৈ ছোৱাইপ কৰক</string>
   <string name="title_pref_shortcut_up_xr">গৌণ হাতৰ তলুৱা ভিতৰলৈ ঘূৰাওক, তাত পিঞ্চ কৰি ওপৰলৈ ছোৱাইপ কৰক</string>
   <string name="title_pref_shortcut_down">তললৈ ছোৱাইপ কৰক</string>
@@ -1374,7 +1364,6 @@
     <string name="title_pref_speaker_devices">এই ডিভাইচবোৰৰ সৈতে ফ’নৰ স্পীকাৰ</string>
     <string name="summary_pref_speaker_devices_none">নাই</string>
     <string name="summary_pref_speaker_devices_no_devices">এতিয়ালৈকে কোনো ব্লুটুথ বা তাঁৰযুক্ত ডিভাইচ সংযোগ কৰা নাই</string>
-    <string name="pref_reduce_window_delay_summary">এনিমেশ্বন অফ থাকিলে SandFlyএ নতুন স্ক্ৰীন দ্ৰুতভাৱে পঢ়ে। এইটোৱে গোটেই ফ’নৰ বাবে এনিমেশ্বন অফ কৰে।</string>
     <string name="dialog_message_detailed_ai_description">বাছনি কৰা প্ৰতিচ্ছবিসমূহ বিৱৰণৰ বাবে Googleৰ Gemini APIলৈ পঠিওৱা হয়। ডিভাইচত থকা AI অন থাকিলে, সেইবোৰৰ বিৱৰণ ইয়াৰ সলনি এই ফ’নতে প্ৰস্তুত কৰা হয় আৰু পঠিওৱা নহয়।\n\nবিনামূলীয়া API কীৰ সৈতে, Googleএ পোৱা তথ্য ৰাখিব পাৰে, নিজৰ প্ৰডাক্ট উন্নত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে, আৰু মানুহৰ দ্বাৰা পৰ্যালোচনা কৰাব পাৰে। Generative AI পৰীক্ষামূলক, সেয়ে ই ভুল কৰিব। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্ৰযোজ্য।</string>
     <string name="dialog_message_detailed_ai_promotion">সবিশেষ প্ৰতিচ্ছবিৰ বিৱৰণ Generative AIৰ দ্বাৰা চালিত। বাছনি কৰা প্ৰতিচ্ছবিসমূহ বিৱৰণৰ বাবে Googleৰ Gemini APIলৈ পঠিওৱা হয়। ডিভাইচত থকা AI অন থাকিলে, সেইবোৰৰ বিৱৰণ ইয়াৰ সলনি এই ফ’নতে প্ৰস্তুত কৰা হয় আৰু পঠিওৱা নহয়।\n\nবিনামূলীয়া API কীৰ সৈতে, Googleএ পোৱা তথ্য ৰাখিব পাৰে, নিজৰ প্ৰডাক্ট উন্নত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে, আৰু মানুহৰ দ্বাৰা পৰ্যালোচনা কৰাব পাৰে। Generative AI পৰীক্ষামূলক, সেয়ে ই ভুল কৰিব। আপুনি যিকোনো সময়তে SandFlyৰ ছেটিঙত সবিশেষ প্ৰতিচ্ছবিৰ বিৱৰণ অফ কৰিব পাৰে।\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্ৰযোজ্য।</string>
     <string name="dialog_message_screen_overview_promotion">স্ক্ৰীনখনৰ এটা স্ক্ৰীনশ্বট বিৱৰণৰ বাবে Googleৰ Gemini APIলৈ পঠিওৱা হয়, যাৰ বাবে কেইছেকেণ্ডমান সময় লাগে। ডিভাইচত থকা AI অন থাকিলে, ইয়াৰ বিৱৰণ ইয়াৰ সলনি এই ফ’নতে প্ৰস্তুত কৰা হয় আৰু পঠিওৱা নহয়।\n\nবিনামূলীয়া API কীৰ সৈতে, Googleএ পোৱা তথ্য ৰাখিব পাৰে, নিজৰ প্ৰডাক্ট উন্নত কৰিবলৈ ব্যৱহাৰ কৰিব পাৰে, আৰু মানুহৰ দ্বাৰা পৰ্যালোচনা কৰাব পাৰে। Generative AI পৰীক্ষামূলক, সেয়ে ই ভুল কৰিব। <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> প্ৰযোজ্য।</string>

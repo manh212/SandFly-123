@@ -339,13 +339,11 @@ class PreparedFocusSpeechUnrelatedChangeTest {
   @Before
   fun setUp() {
     PreparedFocusSpeech.clear()
-    PreparedFocusSpeech.keepAcrossUnrelatedChanges = true
   }
 
   @After
   fun tearDown() {
     PreparedFocusSpeech.clear()
-    PreparedFocusSpeech.keepAcrossUnrelatedChanges = true
   }
 
   @Test
@@ -425,18 +423,6 @@ class PreparedFocusSpeechUnrelatedChangeTest {
   }
 
   @Test
-  fun keepingOff_anyGracedChangeClearsAsBefore() {
-    val node = node(306, Rect(0, 0, 100, 100))
-    PreparedFocusSpeech.keepAcrossUnrelatedChanges = false
-    PreparedFocusSpeech.put(node, feedback(), "")
-
-    PreparedFocusSpeech.onAccessibilityEvent(gracedEvent(306, Rect(200, 200, 300, 300)))
-    agePastMinimum()
-
-    assertNull(PreparedFocusSpeech.take(node))
-  }
-
-  @Test
   fun subtreeChangeTouchingOnlyOneEntry_keepsTheOther() {
     val near = node(307, Rect(0, 0, 100, 100))
     val far = node(307, Rect(200, 200, 300, 300))
@@ -470,29 +456,11 @@ class PreparedFocusSpeechUnrelatedChangeTest {
 
     assertNull(PreparedFocusSpeech.take(node))
   }
-
-  @Test
-  fun keepingOff_subtreeChangeClearsAsBefore_evenOutsideItsRegion() {
-    val node = node(310, Rect(0, 0, 100, 100))
-    PreparedFocusSpeech.keepAcrossUnrelatedChanges = false
-    PreparedFocusSpeech.put(node, feedback(), "")
-
-    PreparedFocusSpeech.onAccessibilityEvent(
-      changeEvent(
-        310,
-        Rect(200, 200, 300, 300),
-        AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE,
-      )
-    )
-    agePastMinimum()
-
-    assertNull(PreparedFocusSpeech.take(node))
-  }
 }
 
 /**
- * Tests that taking one announcement keeps the ones beside it for the next swipe (and that
- * turning that off restores forgetting them all), that a preparation keeps what set it off,
+ * Tests that taking one announcement keeps the ones beside it for the next swipe, that a
+ * preparation keeps what set it off,
  * and that the settle listener hears about changes to the window announcements were prepared
  * for, even after the announcements themselves are gone.
  */
@@ -518,14 +486,12 @@ class PreparedFocusSpeechKeepingTest {
   @Before
   fun setUp() {
     PreparedFocusSpeech.clear()
-    PreparedFocusSpeech.keepUnusedOnTake = true
     PreparedFocusSpeech.settleListener = null
   }
 
   @After
   fun tearDown() {
     PreparedFocusSpeech.clear()
-    PreparedFocusSpeech.keepUnusedOnTake = true
     PreparedFocusSpeech.settleListener = null
   }
 
@@ -542,20 +508,6 @@ class PreparedFocusSpeechKeepingTest {
 
     assertTrue(PreparedFocusSpeech.has(beside))
     assertSame(besideFeedback, PreparedFocusSpeech.take(beside)?.feedback)
-  }
-
-  @Test
-  fun take_forgetsEverything_whenKeepingIsOff() {
-    val taken = node(402, Rect(0, 0, 100, 100))
-    val beside = node(402, Rect(200, 0, 300, 100))
-    PreparedFocusSpeech.keepUnusedOnTake = false
-    PreparedFocusSpeech.put(taken, feedback(), "")
-    PreparedFocusSpeech.put(beside, feedback(), "")
-    agePastMinimum()
-
-    assertNotNull(PreparedFocusSpeech.take(taken))
-
-    assertFalse(PreparedFocusSpeech.has(beside))
   }
 
   @Test

@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">พูดบอกเวลา</string>
   <string name="pref_speak_time_summary">เมื่อคุณเปิดหน้าจอ</string>
   <string name="summary_speak_container_element_positions">บอกเมื่อคุณเข้าหรือออกจากรายการ ตาราง และคอนเทนเนอร์อื่นๆ</string>
-  <string name="reset_letency_reduction_settings_dialog_title">รีเซ็ตการตั้งค่าความล่าช้าไหม</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">การดำเนินการนี้จะรีเซ็ตการตั้งค่าความล่าช้าทั้งหมดเป็นค่าเริ่มต้น</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">รีเซ็ต</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">รีเซ็ตการตั้งค่าการลดเวลาในการตอบสนองแล้ว</string>
   <string name="Reset_gesture_settings_dialog_title">รีเซ็ตท่าทางสัมผัสไหม</string>
   <string name="Reset_gesture_settings_set_dialog_title">รีเซ็ตท่าทางสัมผัสที่ตั้งค่าไว้ปัจจุบันใช่ไหม</string>
   <string name="message_reset_gesture_settings_confirm_dialog">การดำเนินการนี้จะรีเซ็ตท่าทางสัมผัสทั้งหมดเป็นการกระทำเริ่มต้น\n\nการเปลี่ยนแปลงทั้งหมดที่คุณทำไว้จะหายไป</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">รวมถึงข้อมูลอัปเดตขณะดาวน์โหลด ติดตามเส้นทางการขับขี่ และอื่นๆ เมื่อปิดการตั้งค่านี้ คุณจะได้รับข้อมูลอัปเดตน้อยลง</string>
   <string name="title_pref_explore_by_touch">แตะเพื่อสำรวจ</string>
   <string name="title_pref_category_controls">การควบคุม</string>
-  <string name="title_pref_category_reduce_latency_summary">การตั้งค่าเหล่านี้ทำให้ SandFly ตอบสนองเร็วขึ้นหลังจากที่คุณสัมผัสหน้าจอ</string>
-  <string name="reset_latency_settings_title">รีเซ็ตการตั้งค่าความล่าช้าทั้งหมด</string>
   <string name="title_pref_single_tap">แตะครั้งเดียวเพื่อเปิดใช้งาน</string>
   <string name="summary_pref_single_tap">แตะรายการที่โฟกัส 1 ครั้งเพื่อเปิดใช้งาน การไปยังส่วนต่างๆ ที่รวดเร็วกว่าการแตะสองครั้ง</string>
   <string name="pref_verbosity_title">การพูดรายละเอียด</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">เสียงสะท้อนของแป้นพิมพ์</string>
   <string name="pref_node_desc_order_title">ลำดับรายละเอียดรายการ</string>
   <string name="pref_time_feedback_format_title">รูปแบบเวลา</string>
-  <string name="title_pref_latency_reduction">ลดความล่าช้า</string>
-  <string name="talkback_latency_reduction_summary">ทำให้ SandFly ตอบสนองเร็วขึ้นหลังจากที่คุณสัมผัสหน้าจอ</string>
   <string name="summary_pref_intonation">พูดตัวอักษรที่ลบด้วยโทนเสียงที่สูงขึ้น</string>
   <string name="title_pref_speech_footer">หากต้องการเปลี่ยนระดับเสียงการเข้าถึงจากหน้าจอใดๆ ให้ใช้ 1 นิ้วบนหน้าจอค้างไว้แล้วกดปุ่มเพิ่มระดับเสียงหรือลดระดับเสียง</string>
   <string name="title_pref_vibration">การสั่นเตือน</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">การตั้งค่าสำหรับนักพัฒนาซอฟต์แวร์</string>
   <string name="title_activity_dump_a11y_event">เลือกกิจกรรมที่จะบันทึก</string>
   <string name="title_pref_dump_a11y_event">กรองการบันทึกกิจกรรมการเข้าถึง</string>
-  <string name="pref_reduce_window_delay_title">ปิดภาพเคลื่อนไหว</string>
   <string name="title_pref_log_level">ระดับของการบันทึกเอาต์พุต</string>
   <string name="title_pref_diagnosis_mode">โหมดวิเคราะห์</string>
   <string name="title_pref_tts_overlay">แสดงเอาต์พุตเสียงพูด</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">พูดข้อความและไอคอนในรูปภาพที่เลือก</string>
   <string name="summary_typo_suggestions">แสดงเมื่อเคอร์เซอร์อยู่บนคำที่พิมพ์ผิด</string>
   <string name="summary_cache_keyboard_keys">SandFly โหลดประกาศไว้ล่วงหน้าเพื่อลดความล่าช้าเมื่อคุณพิมพ์</string>
-  <string name="summary_cache_keyboard_keys_disabled">ใช้การอ่านออกเสียงข้อความ Google เพื่อใช้ฟีเจอร์นี้</string>
   <string name="title_pref_shortcut_up">ปัดขึ้น</string>
   <string name="title_pref_shortcut_up_xr">หันฝ่ามือข้างที่ไม่ถนัดเข้าหาตัว จากนั้นบีบนิ้วแล้วปัดขึ้น</string>
   <string name="title_pref_shortcut_down">ปัดลง</string>
@@ -1479,7 +1469,6 @@
     <string name="title_pref_speaker_devices">ลำโพงโทรศัพท์เมื่อเชื่อมต่ออุปกรณ์เหล่านี้</string>
     <string name="summary_pref_speaker_devices_none">ไม่มี</string>
     <string name="summary_pref_speaker_devices_no_devices">ยังไม่ได้เชื่อมต่ออุปกรณ์ Bluetooth หรือแบบมีสาย</string>
-    <string name="pref_reduce_window_delay_summary">SandFly อ่านหน้าจอใหม่เร็วขึ้นเมื่อปิดภาพเคลื่อนไหว การดำเนินการนี้จะปิดภาพเคลื่อนไหวสำหรับโทรศัพท์ทั้งหมด</string>
     <string name="dialog_message_detailed_ai_description">ระบบจะส่งรูปภาพที่เลือกไปยัง Gemini API ของ Google เพื่อสร้างคำอธิบาย เมื่อเปิด AI บนอุปกรณ์ ระบบจะอธิบายรูปภาพบนโทรศัพท์เครื่องนี้แทนและไม่ส่งรูปภาพออกไป\n\nเมื่อใช้คีย์ API แบบไม่มีค่าใช้จ่าย Google อาจเก็บข้อมูลที่ได้รับ ใช้ข้อมูลนั้นเพื่อปรับปรุงผลิตภัณฑ์ และให้เจ้าหน้าที่ตรวจสอบ Generative AI ยังอยู่ในขั้นทดลอง จึงจะเกิดข้อผิดพลาด <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> มีผลบังคับใช้</string>
     <string name="dialog_message_detailed_ai_promotion">คำอธิบายรูปภาพแบบละเอียดสร้างโดย Generative AI ระบบจะส่งรูปภาพที่เลือกไปยัง Gemini API ของ Google เพื่อสร้างคำอธิบาย เมื่อเปิด AI บนอุปกรณ์ ระบบจะอธิบายรูปภาพบนโทรศัพท์เครื่องนี้แทนและไม่ส่งรูปภาพออกไป\n\nเมื่อใช้คีย์ API แบบไม่มีค่าใช้จ่าย Google อาจเก็บข้อมูลที่ได้รับ ใช้ข้อมูลนั้นเพื่อปรับปรุงผลิตภัณฑ์ และให้เจ้าหน้าที่ตรวจสอบ Generative AI ยังอยู่ในขั้นทดลอง จึงจะเกิดข้อผิดพลาด คุณปิดคำอธิบายรูปภาพแบบละเอียดได้ทุกเมื่อในการตั้งค่า SandFly\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> มีผลบังคับใช้</string>
     <string name="dialog_message_screen_overview_promotion">ระบบจะส่งภาพหน้าจอไปยัง Gemini API ของ Google เพื่อสร้างคำอธิบาย ซึ่งใช้เวลาสักครู่ เมื่อเปิด AI บนอุปกรณ์ ระบบจะอธิบายภาพหน้าจอบนโทรศัพท์เครื่องนี้แทนและไม่ส่งออกไป\n\nเมื่อใช้คีย์ API แบบไม่มีค่าใช้จ่าย Google อาจเก็บข้อมูลที่ได้รับ ใช้ข้อมูลนั้นเพื่อปรับปรุงผลิตภัณฑ์ และให้เจ้าหน้าที่ตรวจสอบ Generative AI ยังอยู่ในขั้นทดลอง จึงจะเกิดข้อผิดพลาด <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> มีผลบังคับใช้</string>

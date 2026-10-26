@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">Sakyti laiką</string>
   <string name="pref_speak_time_summary">Kai įjungiate ekraną</string>
   <string name="summary_speak_container_element_positions">Sakyti, kai įeinate į sąrašus, tinklelius ir kitus konteinerius ar iš jų išeinate</string>
-  <string name="reset_letency_reduction_settings_dialog_title">Iš naujo nustatyti delsos nustatymus?</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">Tai atlikus visi delsos nustatymai bus iš naujo nustatyti į numatytuosius</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">Nustatyti iš naujo</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">Delsos mažinimo nustatymai nustatyti iš naujo.</string>
   <string name="Reset_gesture_settings_dialog_title">Nustatyti gestus iš naujo?</string>
   <string name="Reset_gesture_settings_set_dialog_title">Iš naujo nustatyti dabartinio rinkinio gestus?</string>
   <string name="message_reset_gesture_settings_confirm_dialog">Visiems gestams bus iš naujo nustatyti numatytieji veiksmai.\n\nPrarasite visus atliktus keitimus.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">Apima naujinius atsisiunčiant, naudojantis važiavimo nuorodomis ir kt. Kai išjungta, vis tiek gausite mažiau naujinių.</string>
   <string name="title_pref_explore_by_touch">Naršyti paliečiant</string>
   <string name="title_pref_category_controls">Valdikliai</string>
-  <string name="title_pref_category_reduce_latency_summary">Šie nustatymai leidžia SandFly greičiau reaguoti palietus ekraną</string>
-  <string name="reset_latency_settings_title">Iš naujo nustatyti visus delsos nustatymus</string>
   <string name="title_pref_single_tap">Suaktyvinimas vienu palietimu</string>
   <string name="summary_pref_single_tap">Palieskite vieną kartą paryškintą elementą, kad suaktyvintumėte. Spartesnis naršymas, nei dukart palietus.</string>
   <string name="pref_verbosity_title">Daugiažodiškumas</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">Klaviatūros aidas</string>
   <string name="pref_node_desc_order_title">Elemento išsamios informacijos tvarka</string>
   <string name="pref_time_feedback_format_title">Laiko formatas</string>
-  <string name="title_pref_latency_reduction">Sumažinti delsą</string>
-  <string name="talkback_latency_reduction_summary">SandFly greičiau reaguoja palietus ekraną</string>
   <string name="summary_pref_intonation">Ištrintas raides tarti aukštesniu balso tonu</string>
   <string name="title_pref_speech_footer">Norėdami pakeisti pritaikymo neįgaliesiems garsumą bet kuriame ekrane, laikykite 1 pirštą ekrane ir paspauskite garsumo didinimo arba mažinimo klavišus.</string>
   <string name="title_pref_vibration">Atsakas vibruojant</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">Kūrėjų nustatymai</string>
   <string name="title_activity_dump_a11y_event">Pasirin. įvyk., kurie bus įraš.</string>
   <string name="title_pref_dump_a11y_event">Filtruoti pritaikymo neįgaliesiems įvykių rašymą į žurnalą</string>
-  <string name="pref_reduce_window_delay_title">Išjungti animacijas</string>
   <string name="title_pref_log_level">Žurnalo išvesties lygis</string>
   <string name="title_pref_diagnosis_mode">Diagnostikos režimas</string>
   <string name="title_pref_tts_overlay">Pateikti kalbos išvestį</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">Ištarti pasirinkto vaizdo tekstą ir piktogramas</string>
   <string name="summary_typo_suggestions">Rodoma, kai žymeklis yra ant rašybos klaidos</string>
   <string name="summary_cache_keyboard_keys">„SandFly“ iš anksto įkelia pranešimus, kad sumažintų delsą, kai vedate tekstą</string>
-  <string name="summary_cache_keyboard_keys_disabled">Naudokite „Google“ teksto į kalbą funkciją, kad galėtumėte naudoti šią funkciją</string>
   <string name="title_pref_shortcut_up">Perbraukti aukštyn</string>
   <string name="title_pref_shortcut_up_xr">Nedomin. rankos delno pasuk. į save, pirštų suėm. ir perbrauk. aukštyn</string>
   <string name="title_pref_shortcut_down">Perbraukti žemyn</string>
@@ -1486,7 +1476,6 @@
     <string name="title_pref_speaker_devices">Telefono garsiakalbis su šiais įrenginiais</string>
     <string name="summary_pref_speaker_devices_none">Nėra</string>
     <string name="summary_pref_speaker_devices_no_devices">Dar neprijungta jokių Bluetooth arba laidinių įrenginių</string>
-    <string name="pref_reduce_window_delay_summary">SandFly greičiau nuskaito naujus ekranus, kai animacija išjungta. Tai išjungia animacijas visame telefone.</string>
     <string name="dialog_message_detailed_ai_description">Pasirinkti vaizdai siunčiami į Google Gemini API, kad būtų aprašyti. Įjungus „Įrenginio AI“, jie aprašomi šiame telefone ir nesiunčiami.\n\nNaudojant nemokamą API raktą, Google gali pasilikti tai, ką gauna, naudoti tai savo produktams tobulinti ir duoti tai peržiūrėti žmonėms. Generatyvusis AI yra eksperimentinis, todėl darys klaidų. Taikomos <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_detailed_ai_promotion">Išsamius vaizdų aprašus kuria generatyvusis AI. Pasirinkti vaizdai siunčiami į Google Gemini API, kad būtų aprašyti. Įjungus „Įrenginio AI“, jie aprašomi šiame telefone ir nesiunčiami.\n\nNaudojant nemokamą API raktą, Google gali pasilikti tai, ką gauna, naudoti tai savo produktams tobulinti ir duoti tai peržiūrėti žmonėms. Generatyvusis AI yra eksperimentinis, todėl darys klaidų. Išsamius vaizdų aprašus bet kada galite išjungti „SandFly“ nustatymuose.\n\nTaikomos <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>
     <string name="dialog_message_screen_overview_promotion">Ekrano kopija siunčiama į Google Gemini API, kad būtų aprašyta. Tai užtrunka kelias sekundes. Įjungus „Įrenginio AI“, ji aprašoma šiame telefone ir nesiunčiama.\n\nNaudojant nemokamą API raktą, Google gali pasilikti tai, ką gauna, naudoti tai savo produktams tobulinti ir duoti tai peržiūrėti žmonėms. Generatyvusis AI yra eksperimentinis, todėl darys klaidų. Taikomos <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>.</string>

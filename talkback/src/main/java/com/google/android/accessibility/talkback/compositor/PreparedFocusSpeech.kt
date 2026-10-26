@@ -32,7 +32,7 @@ import com.google.android.accessibility.utils.Performance
  * again from the app, so it holds for that node however the focus reaches it. Announcements
  * are thrown away when anything in the window changes, even text, and after [MAX_AGE_MS];
  * taking one spends only that node's announcements, and the ones beside it — which are beside
- * the new focus too — are kept for its swipes, unless [keepUnusedOnTake] is off. An
+ * the new focus too — are kept for its swipes. An
  * announcement is kept per node and per kind of swipe target it was worked out for, so the
  * announcement of a node as the next plain target does not stand in for it as the next heading,
  * or the other way round.
@@ -56,20 +56,6 @@ object PreparedFocusSpeech {
   const val MIN_AGE_MS = 100L
 
   private const val NO_WINDOW_ID = -1
-
-  /**
-   * Whether a content change that did not touch a prepared node leaves its announcement kept.
-   * When false, any content change in the window throws every announcement away, as before.
-   */
-  @JvmStatic var keepAcrossUnrelatedChanges: Boolean = true
-
-  /**
-   * Whether taking an announcement leaves the others kept for the next swipe, instead of
-   * forgetting them all as the focus moves. The announcements beside the taken one are beside
-   * the newly focused node too: one of them is where a second swipe in the same direction
-   * lands, another where a swipe back lands.
-   */
-  @JvmStatic var keepUnusedOnTake: Boolean = true
 
   /**
    * Told when an event may have changed the window announcements were last prepared for, so
@@ -173,8 +159,7 @@ object PreparedFocusSpeech {
   /**
    * Returns the announcement of focusing [node], or null if there is none or it was prepared less
    * than [MIN_AGE_MS] ago. The focus is moving to [node]: its own announcements are spent either
-   * way, and the ones of the nodes beside it are kept for its swipes when [keepUnusedOnTake],
-   * or all are forgotten as before when it is off.
+   * way, and the ones of the nodes beside it are kept for its swipes.
    */
   @JvmStatic
   fun take(node: AccessibilityNodeInfoCompat): Prepared? {
@@ -186,13 +171,12 @@ object PreparedFocusSpeech {
         suppressedWindowId = NO_WINDOW_ID
       }
     }
-    if (keepUnusedOnTake) {
-      prepared.removeAll { it.isFor(node) }
-      if (prepared.isEmpty()) {
-        windowId = NO_WINDOW_ID
-      }
-    } else {
-      clear()
+    // Taking an announcement leaves the others kept for the next swipe: the announcements
+    // beside the taken one are beside the newly focused node too — one of them is where a
+    // second swipe in the same direction lands, another where a swipe back lands.
+    prepared.removeAll { it.isFor(node) }
+    if (prepared.isEmpty()) {
+      windowId = NO_WINDOW_ID
     }
     return found?.takeIf { isOldEnough(it.time, SystemClock.uptimeMillis()) }
   }
@@ -225,10 +209,7 @@ object PreparedFocusSpeech {
     if (prepared.isEmpty() || !canChange(event.eventType, event.windowId, windowId)) {
       return
     }
-    if (
-      keepAcrossUnrelatedChanges &&
-        event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-    ) {
+    if (event.eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
       // A change, even a structural one, only reaches the announcements of the nodes in its
       // region: a reaction added to one message says nothing about the message above it. A
       // change whose region is not known reaches everything, as before.

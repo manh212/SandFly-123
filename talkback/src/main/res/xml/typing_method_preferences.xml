@@ -35,4 +35,13 @@
       app:min="0"
       app:seekBarIncrement="10"
       app:showSeekBarValue="true" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:defaultValue="@string/pref_typing_long_press_duration_default"
+      android:dialogTitle="@string/title_pref_typing_long_tap_duration"
+      android:entries="@array/pref_typing_long_press_entries"
+      android:entryValues="@array/pref_typing_long_press_values"
+      android:key="@string/pref_typing_long_press_duration_key"
+      android:summary="%s"
+      android:title="@string/title_pref_typing_long_tap_duration" />
 </PreferenceScreen>

@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">播报时间</string>
   <string name="pref_speak_time_summary">在您开启屏幕时</string>
   <string name="summary_speak_container_element_positions">播报进入或离开列表、网格及其他容器</string>
-  <string name="reset_letency_reduction_settings_dialog_title">要重置延迟时间设置吗？</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">执行此操作会将所有延迟时间设置重置为默认值</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">重置</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">减少延迟设置已重置。</string>
   <string name="Reset_gesture_settings_dialog_title">要重置手势设置吗？</string>
   <string name="Reset_gesture_settings_set_dialog_title">要重置当前的手势集合？</string>
   <string name="message_reset_gesture_settings_confirm_dialog">这样做会将所有手势重置为其默认操作。\n\n您做过的所有更改都将失效。</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">包括下载、行车路线等进度。如果您关闭此功能，系统仍会读出进度，只是频率较低。</string>
   <string name="title_pref_explore_by_touch">触摸浏览</string>
   <string name="title_pref_category_controls">控制</string>
-  <string name="title_pref_category_reduce_latency_summary">这些设置可使 SandFly 在你触摸屏幕后更快响应</string>
-  <string name="reset_latency_settings_title">重置所有延迟时间设置</string>
   <string name="title_pref_single_tap">点按一次即可激活</string>
   <string name="summary_pref_single_tap">只需点按一次聚焦的项目即可将其激活，这种导航方式比点按两次更快。</string>
   <string name="pref_verbosity_title">详细程度</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">键盘语音提示</string>
   <string name="pref_node_desc_order_title">元素描述顺序</string>
   <string name="pref_time_feedback_format_title">时间格式</string>
-  <string name="title_pref_latency_reduction">缩短延迟时间</string>
-  <string name="talkback_latency_reduction_summary">让 SandFly 在你触摸屏幕后更快响应</string>
   <string name="summary_pref_intonation">以较高的音调读出删除的字母</string>
   <string name="title_pref_speech_footer">如要在任何屏幕中调整无障碍功能音量，请用一根手指按住屏幕，同时按音量调高或音量调低键。</string>
   <string name="title_pref_vibration">振动反馈</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">开发者设置</string>
   <string name="title_activity_dump_a11y_event">选择要记录的事件</string>
   <string name="title_pref_dump_a11y_event">过滤无障碍事件记录</string>
-  <string name="pref_reduce_window_delay_title">关闭动画</string>
   <string name="title_pref_log_level">日志输出级别</string>
   <string name="title_pref_diagnosis_mode">诊断模式</string>
   <string name="title_pref_tts_overlay">显示语音输出</string>
@@ -544,7 +535,6 @@
   <string name="summary_image_caption">读出所选图片中的文字和图标</string>
   <string name="summary_typo_suggestions">当光标位于拼写错误上时显示</string>
   <string name="summary_cache_keyboard_keys">SandFly 会预加载播报内容，以缩短输入延迟时间</string>
-  <string name="summary_cache_keyboard_keys_disabled">通过 Google 文字转语音功能才能使用此功能</string>
   <string name="title_pref_shortcut_up">向上滑动</string>
   <string name="title_pref_shortcut_up_xr">将非惯用手的手掌朝向自己，双指张合并向上滑动</string>
   <string name="title_pref_shortcut_down">向下滑动</string>
@@ -1756,7 +1746,6 @@
     <string name="value_audio_output_device_usb_device">USB 音频设备</string>
 
     <!-- Summary of the setting that turns off animations so that SandFly reads new screens faster. [CHAR LIMIT=NONE] -->
-    <string name="pref_reduce_window_delay_summary">关闭动画后 SandFly 读取新屏幕更快。这会关闭整台手机的动画。</string>
 
     <!-- Message for dialog shown when a user wants to enable detailed image description. [CHAR LIMIT=NONE]  -->
     <string name="dialog_message_detailed_ai_description">所选图片会被发送到 Google 的 Gemini API 进行描述。开启端侧 AI 后，改为在本机上描述，不会上传。\n\n使用免费 API 密钥时，Google 可能会保留其收到的内容、用于改进其产品，并安排人员审阅。生成式 AI 属于实验性功能，因此会出错。适用 <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g>。</string>

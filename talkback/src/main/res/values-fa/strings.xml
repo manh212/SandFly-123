@@ -52,10 +52,6 @@
   <string name="pref_speak_time_title">اعلام کردن زمان</string>
   <string name="pref_speak_time_summary">وقتی صفحه‌نمایش را روشن می‌کنید</string>
   <string name="summary_speak_container_element_positions">ورود به فهرست‌ها، شبکه‌ها، و دیگر محتوی‌ها و خروج از آن‌ها اعلام می‌شود</string>
-  <string name="reset_letency_reduction_settings_dialog_title">تنظیمات تأخیر بازنشانی شود؟</string>
-  <string name="message_reset_letency_reduction_settings_confirm_dialog">با این کار، همه تنظیمات تأخیر به حالت پیش‌فرض بازنشانی خواهد شد</string>
-  <string name="reset_button_in_reset_letency_reduction_settings_confirm_dialog">بازنشانی</string>
-  <string name="gestures_announce_reset_latency_reduction_settings">تنظیمات کاهش تأخیر بازنشانی شد.</string>
   <string name="Reset_gesture_settings_dialog_title">اشاره‌ها بازنشانی شوند؟</string>
   <string name="Reset_gesture_settings_set_dialog_title">اشاره‌های مجموعه کنونی بازنشانی شود؟</string>
   <string name="message_reset_gesture_settings_confirm_dialog">‏با این کار همه اشاره‌ها به کنش‌های پیش‌فرض بازنشانی می‌شوند.\n\nهمه تغییراتی را که اعمال کرده‌اید ازدست خواهید داد.</string>
@@ -69,8 +65,6 @@
   <string name="summary_pref_allow_frequent_content_change_announcement">حاوی به‌روزرسانی درحین بارگیری، دنبال کردن مسیرهای رانندگی، و موارد دیگر است. وقتی خاموش باشد، همچنان به‌روزرسانی دریافت خواهید کرد اما به دفعات کمتر.</string>
   <string name="title_pref_explore_by_touch">کاوش با لمس</string>
   <string name="title_pref_category_controls">کنترل‌ها</string>
-  <string name="title_pref_category_reduce_latency_summary">‏این تنظیمات باعث می‌شوند SandFly پس‌از لمس صفحه سریع‌تر پاسخ دهد</string>
-  <string name="reset_latency_settings_title">بازنشانی کردن همه تنظیمات تأخیر</string>
   <string name="title_pref_single_tap">فعال کردن با تک‌ضربه</string>
   <string name="summary_pref_single_tap">برای فعال کردن موارد، روی مورد متمرکزشده یک‌بار تک‌ضرب بزنید. این نوع پیمایش نسبت‌به دو تک‌ضرب زدن سریع‌تر است.</string>
   <string name="pref_verbosity_title">سطح جزئیات</string>
@@ -285,8 +279,6 @@
   <string name="title_pref_keyboard_echo">صدای صفحه‌کلید</string>
   <string name="pref_node_desc_order_title">ترتیب جزئیات مورد</string>
   <string name="pref_time_feedback_format_title">قالب زمان</string>
-  <string name="title_pref_latency_reduction">کاهش دادن تأخیر</string>
-  <string name="talkback_latency_reduction_summary">‏SandFly پس‌از لمس صفحه سریع‌تر پاسخ می‌دهد</string>
   <string name="summary_pref_intonation">حروف حذف‌شده با صدای زیرتری خوانده می‌شود</string>
   <string name="title_pref_speech_footer">برای تغییر میزان صدای دسترس‌پذیری در هر صفحه‌ای، ۱ انگشت را روی صفحه نگه دارید و کلید افزایش صدا یا کاهش صدا را فشار دهید.</string>
   <string name="title_pref_vibration">بازخورد لرزشی</string>
@@ -296,7 +288,6 @@
   <string name="title_pref_category_developer_settings">تنظیمات توسعه‌دهنده</string>
   <string name="title_activity_dump_a11y_event">انتخاب رویدادها برای ثبت گزارش</string>
   <string name="title_pref_dump_a11y_event">فیلتر کردن ثبت رویداد قابلیت دسترس‌پذیری</string>
-  <string name="pref_reduce_window_delay_title">خاموش کردن پویانمایی‌ها</string>
   <string name="title_pref_log_level">سطح خروجی گزارش</string>
   <string name="title_pref_diagnosis_mode">حالت عیب‌یابی</string>
   <string name="title_pref_tts_overlay">نمایش خروجی گفتار</string>
@@ -545,7 +536,6 @@
   <string name="summary_image_caption">نوشتار و نمادهای درون تصویر انتخاب‌شده خوانده می‌شوند</string>
   <string name="summary_typo_suggestions">زمانی که مکان‌نما روی کلمه‌ای با املای اشتباه قرار بگیرد نشان داده می‌شود</string>
   <string name="summary_cache_keyboard_keys">‏‫SandFly اعلام‌ها را پیش‌بار می‌کند تا هنگام تایپ کردن تأخیر را کاهش دهد</string>
-  <string name="summary_cache_keyboard_keys_disabled">‏برای استفاده از این ویژگی، از «نوشتار به گفتار Google» استفاده کنید</string>
   <string name="title_pref_shortcut_up">تند کشیدن به‌بالا</string>
   <string name="title_pref_shortcut_up_xr">به داخل چرخاندن کف دست دوم، به‌هم نزدیک کردن انگشتان، و تند بالا کشیدن</string>
   <string name="title_pref_shortcut_down">تند کشیدن به‌پایین</string>
@@ -1375,7 +1365,6 @@
     <string name="title_pref_speaker_devices">بلندگوی تلفن با این دستگاه‌ها</string>
     <string name="summary_pref_speaker_devices_none">هیچ‌کدام</string>
     <string name="summary_pref_speaker_devices_no_devices">هنوز هیچ دستگاه بلوتوث یا سیمی متصل نشده است</string>
-    <string name="pref_reduce_window_delay_summary">‏وقتی پویانمایی‌ها خاموش باشند، SandFly صفحه‌های جدید را سریع‌تر می‌خواند. این کار پویانمایی‌ها را برای کل تلفن خاموش می‌کند.</string>
     <string name="dialog_message_detailed_ai_description">‏تصاویر انتخاب‌شده برای توصیف به Gemini API ‏Google ارسال می‌شوند. وقتی «هوش مصنوعی روی دستگاه» روشن باشد، به‌جای آن در همین تلفن توصیف می‌شوند و ارسال نمی‌شوند.\n\nبا کلید API رایگان، Google ممکن است آنچه را دریافت می‌کند نگه دارد، از آن برای بهبود محصولاتش استفاده کند و افرادی آن را بررسی کنند. هوش مصنوعی زایا آزمایشی است، بنابراین اشتباهاتی خواهد داشت. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> اعمال می‌شود.</string>
     <string name="dialog_message_detailed_ai_promotion">‏شرح دقیق تصویر با هوش مصنوعی زایا انجام می‌شود. تصاویر انتخاب‌شده برای توصیف به Gemini API ‏Google ارسال می‌شوند. وقتی «هوش مصنوعی روی دستگاه» روشن باشد، به‌جای آن در همین تلفن توصیف می‌شوند و ارسال نمی‌شوند.\n\nبا کلید API رایگان، Google ممکن است آنچه را دریافت می‌کند نگه دارد، از آن برای بهبود محصولاتش استفاده کند و افرادی آن را بررسی کنند. هوش مصنوعی زایا آزمایشی است، بنابراین اشتباهاتی خواهد داشت. هرزمان بخواهید می‌توانید شرح دقیق تصویر را در تنظیمات SandFly خاموش کنید.\n\n<xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> اعمال می‌شود.</string>
     <string name="dialog_message_screen_overview_promotion">‏نماگرفتی از صفحه برای توصیف به Gemini API ‏Google ارسال می‌شود که چند ثانیه طول می‌کشد. وقتی «هوش مصنوعی روی دستگاه» روشن باشد، به‌جای آن در همین تلفن توصیف می‌شود و ارسال نمی‌شود.\n\nبا کلید API رایگان، Google ممکن است آنچه را دریافت می‌کند نگه دارد، از آن برای بهبود محصولاتش استفاده کند و افرادی آن را بررسی کنند. هوش مصنوعی زایا آزمایشی است، بنابراین اشتباهاتی خواهد داشت. <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> اعمال می‌شود.</string>
