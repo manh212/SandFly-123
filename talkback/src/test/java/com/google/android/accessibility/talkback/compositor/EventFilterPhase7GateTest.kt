@@ -33,17 +33,17 @@ class EventFilterPhase7GateTest {
   fun deferRound_focusRoundRightAfterAFocus_defers() {
     assertTrue(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, lastFocusMoveMs = 1_000, now = 1_100))
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
   }
 
   @Test
   fun deferRound_focusRoundAfterTheBurstWindow_runs() {
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, lastFocusMoveMs = 1_000, now = 1_300))
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_300))
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, lastFocusMoveMs = 1_000, now = 5_000))
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 5_000))
   }
 
   @Test
@@ -51,20 +51,20 @@ class EventFilterPhase7GateTest {
     // A settle round is where deferred rounds land; deferring it again would starve it.
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_SETTLE, lastFocusMoveMs = 1_000, now = 1_100))
+        true, PreparedFocusSpeech.SOURCE_SETTLE, 1_000, 1_100))
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_GRANULARITY, lastFocusMoveMs = 1_000, now = 1_100))
+        true, PreparedFocusSpeech.SOURCE_GRANULARITY, 1_000, 1_100))
   }
 
   @Test
   fun deferRound_switchOff_orNoFocusYet_neverDefers() {
     assertFalse(
       EventFilter.shouldDeferRound(
-        false, PreparedFocusSpeech.SOURCE_FOCUS, lastFocusMoveMs = 1_000, now = 1_100))
+        false, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
     assertFalse(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, lastFocusMoveMs = 0, now = 1_100))
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 0, 1_100))
   }
 
   @Test
@@ -96,39 +96,39 @@ class EventFilterPhase7GateTest {
   fun speculation_allGatesOpen_isAllowed() {
     assertTrue(
       EventFilter.speculationAllowed(
-        enabled = true, speakableInfo = true, autoScrollAttempt = 0, orderHoldsNode = true))
+        true, true, 0, true))
   }
 
   @Test
   fun speculation_anyGateClosed_isRefused() {
     assertFalse(
       EventFilter.speculationAllowed(
-        enabled = false, speakableInfo = true, autoScrollAttempt = 0, orderHoldsNode = true))
+        false, true, 0, true))
     assertFalse(
       EventFilter.speculationAllowed(
-        enabled = true, speakableInfo = false, autoScrollAttempt = 0, orderHoldsNode = true))
+        true, false, 0, true))
     // A swipe the machinery had to scroll for lands where the app chooses, not where the
     // order says: never speculated.
     assertFalse(
       EventFilter.speculationAllowed(
-        enabled = true, speakableInfo = true, autoScrollAttempt = 1, orderHoldsNode = true))
+        true, true, 1, true))
     assertFalse(
       EventFilter.speculationAllowed(
-        enabled = true, speakableInfo = true, autoScrollAttempt = 0, orderHoldsNode = false))
+        true, true, 0, false))
   }
 
   @Test
   fun speculationVerdict_eventOnTheSpokenNode_confirms() {
     assertEquals(
       EventFilter.SPECULATION_CONFIRMED,
-      EventFilter.speculationVerdict(submittedSpeech = true, eventNodeIsSpeculated = true))
+      EventFilter.speculationVerdict(true, true))
   }
 
   @Test
   fun speculationVerdict_eventElsewhere_corrects() {
     assertEquals(
       EventFilter.SPECULATION_CORRECTED,
-      EventFilter.speculationVerdict(submittedSpeech = true, eventNodeIsSpeculated = false))
+      EventFilter.speculationVerdict(true, false))
   }
 
   @Test
@@ -137,9 +137,9 @@ class EventFilterPhase7GateTest {
     // the focus event's own speaking is not a correction of anything.
     assertEquals(
       EventFilter.SPECULATION_NO_VERDICT,
-      EventFilter.speculationVerdict(submittedSpeech = false, eventNodeIsSpeculated = true))
+      EventFilter.speculationVerdict(false, true))
     assertEquals(
       EventFilter.SPECULATION_NO_VERDICT,
-      EventFilter.speculationVerdict(submittedSpeech = false, eventNodeIsSpeculated = false))
+      EventFilter.speculationVerdict(false, false))
   }
 }
