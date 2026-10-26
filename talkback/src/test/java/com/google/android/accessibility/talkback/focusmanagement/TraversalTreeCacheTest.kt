@@ -152,7 +152,7 @@ class TraversalTreeCacheTest {
     val (root, child) = savedOrder()
     val reported = recordingListener()
 
-    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD.id)
+    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
 
     assertFalse(TraversalTreeCache.holds(child))
     assertEquals(listOf(root.windowId), reported)
@@ -163,7 +163,7 @@ class TraversalTreeCacheTest {
     val (_, child) = savedOrder()
     val reported = recordingListener()
 
-    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS.id)
+    TraversalTreeCache.onNodeAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS)
 
     assertTrue(TraversalTreeCache.holds(child))
     assertTrue(reported.isEmpty())
