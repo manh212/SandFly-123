@@ -59,6 +59,7 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.fastNavigatorEnabled = true
     TraversalTreeCache.listenerBuildCoalescingEnabled = true
     TraversalTreeCache.cheapPivotCheckEnabled = true
+    TraversalTreeCache.noteNavigationActivity(0L)
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {

@@ -125,6 +125,9 @@ class FastNavigatorTest {
   @After
   fun tearDown() {
     TraversalTreeCache.clearCompletely("test")
+    // Navigations here mark the cache's burst clock, which other classes in this sandbox
+    // would otherwise still see: the test clock does not advance on its own.
+    TraversalTreeCache.noteNavigationActivity(0L)
     TraversalTreeCache.skipTargetRefreshEnabled = true
     TraversalTreeCache.fireFocusBeforeSpeechEnabled = true
     TraversalTreeCache.eventDrivenScrollLandingEnabled = true

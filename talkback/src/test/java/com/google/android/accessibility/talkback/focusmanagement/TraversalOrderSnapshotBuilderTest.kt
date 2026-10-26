@@ -27,6 +27,7 @@ import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
@@ -42,6 +43,14 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class TraversalOrderSnapshotBuilderTest {
+
+  @Before
+  fun setUp() {
+    // Navigations in other test classes share this sandbox, and the test clock does not
+    // advance on its own: without this, a navigation remembered from another class would
+    // still count as a burst here, and asks would defer that were never meant to.
+    TraversalTreeCache.noteNavigationActivity(0L)
+  }
 
   @After
   fun tearDown() {
