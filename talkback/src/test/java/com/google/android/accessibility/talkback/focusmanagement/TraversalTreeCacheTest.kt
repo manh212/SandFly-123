@@ -21,7 +21,9 @@ import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -453,6 +455,66 @@ class TraversalTreeCacheTest {
     }
 
     assertEquals(listOf(root.windowId), told)
+  }
+
+  @Test
+  fun eventRetiringAnInFlightBuild_tellsTheListenerTheWindow() {
+    // No order is saved, but a background build is reading the window: a structural change
+    // retires that build, and until this fix nothing asked again until the screen had been
+    // quiet for the settle retry — the gap in which a swipe built its order on the spot.
+    TraversalTreeCache.noteNavigationActivity(0L)
+    val (root, _) = unsavedOrder()
+    val started = CountDownLatch(1)
+    val release = CountDownLatch(1)
+    TraversalTreeCache.buildOrderInBackground(
+      root.windowId,
+      {
+        started.countDown()
+        release.await(5_000L, TimeUnit.MILLISECONDS)
+        root
+      },
+      "com.example.other",
+      Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR,
+    )
+    val told = ArrayList<Int>()
+    TraversalTreeCache.orderClearedListener =
+      TraversalTreeCache.OrderClearedListener { windowId -> told += windowId }
+    try {
+      assertTrue(started.await(5_000L, TimeUnit.MILLISECONDS))
+
+      TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, null))
+
+      assertEquals(listOf(root.windowId), told)
+    } finally {
+      TraversalTreeCache.orderClearedListener = null
+      release.countDown()
+    }
+    // The retired build publishes nothing once it is let go.
+    val deadline = System.currentTimeMillis() + 5_000L
+    while (
+      TraversalOrderSnapshotBuilder.isBuildOnItsWay(root.windowId) &&
+        System.currentTimeMillis() < deadline
+    ) {
+      Thread.sleep(10)
+    }
+    assertFalse(TraversalTreeCache.hasSavedOrder())
+  }
+
+  @Test
+  fun eventWithNoBuildOnItsWay_doesNotTellTheListener() {
+    // The cache remembers the window of the newest build asked for long after it landed;
+    // a change in that window must not ask again when nothing was lost.
+    val (root, _) = unsavedOrder()
+    val told = ArrayList<Int>()
+    TraversalTreeCache.orderClearedListener =
+      TraversalTreeCache.OrderClearedListener { windowId -> told += windowId }
+    try {
+      TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, null))
+
+      assertTrue(told.isEmpty())
+    } finally {
+      TraversalTreeCache.orderClearedListener = null
+    }
   }
 
   @Test

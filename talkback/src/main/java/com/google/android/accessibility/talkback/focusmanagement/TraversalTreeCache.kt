@@ -919,9 +919,10 @@ object TraversalTreeCache {
     if (savedRoot == null) {
       invalidateSnapshotBuild(event)
       noteStructuralChangeAgainstStale(event)
-      // No order is saved, so no throw-away happened here to ask for a build — the blind spot
-      // where a fresh window, or a build that already died, leaves the next swipe to build
-      // the order itself. The settle retry is what asks, once the changes stop.
+      // No order is saved, so no throw-away happened here to ask for a build — except a
+      // build this event just retired, which invalidateSnapshotBuild asks for again at
+      // once. A fresh window nobody has asked for is still covered only by the settle
+      // retry, once the changes stop.
       armSettleBuild(event.windowId)
       return false
     }
@@ -1013,6 +1014,21 @@ object TraversalTreeCache {
         (buildWindowId != NO_WINDOW_ID && windowId == buildWindowId)
     ) {
       synchronized(stateLock) { generation++ }
+    } else {
+      return
+    }
+    // The build this event just retired will never publish, and until now nothing asked
+    // again until the screen stayed quiet for the settle retry — measured on the owner's
+    // phone, that gap is exactly where a swipe landed and built its order on the spot.
+    // When the event names the build's own window (or no window) and a build really is on
+    // its way, ask for the window again at once, from the tree as it stands now; the
+    // builder's dedupe, folding and burst rules keep the ask from multiplying.
+    if (
+      buildWindowId != NO_WINDOW_ID &&
+        (windowId == buildWindowId || windowId == NO_WINDOW_ID) &&
+        TraversalOrderSnapshotBuilder.isBuildOnItsWay(buildWindowId)
+    ) {
+      orderClearedListener?.onOrderCleared(buildWindowId)
     }
   }
 }

@@ -30,20 +30,51 @@ import org.junit.Test
 class EventFilterPhase7GateTest {
 
   @Test
-  fun deferRound_focusRoundRightAfterAFocus_defers() {
+  fun deferRound_focusRoundBeforeItsOwnDelay_defers() {
+    // A focus round is posted 30 ms after the focus lands; one attempted sooner than that
+    // is still inside the landing's own handling.
     assertTrue(
       EventFilter.shouldDeferRound(
-        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_010))
+    assertTrue(
+      EventFilter.shouldDeferRound(
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_029))
   }
 
   @Test
-  fun deferRound_focusRoundAfterTheBurstWindow_runs() {
+  fun deferRound_focusRoundAtOrAfterItsDelay_runs() {
+    // At or past its posting delay the round runs: it goes in slices that yield the event
+    // loop between items, so it is never in the next swipe's way. This is the case that
+    // matters — a wider deferral window put every focus round off to settle time, and the
+    // rounds by source counted zero focus rounds in a whole session of swiping.
+    assertFalse(
+      EventFilter.shouldDeferRound(
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_030))
+    assertFalse(
+      EventFilter.shouldDeferRound(
+        true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_100))
     assertFalse(
       EventFilter.shouldDeferRound(
         true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 1_300))
     assertFalse(
       EventFilter.shouldDeferRound(
         true, PreparedFocusSpeech.SOURCE_FOCUS, 1_000, 5_000))
+  }
+
+  @Test
+  fun retryEmptyRound_completeEmptyPlanNotYetRetried_retries() {
+    assertTrue(EventFilter.shouldRetryEmptyRound(true, true, false))
+  }
+
+  @Test
+  fun retryEmptyRound_anyReasonNotTo_doesNotRetry() {
+    // Already retried once for this focus: a second empty plan means the order is not
+    // coming, and later changes arm their own rounds.
+    assertFalse(EventFilter.shouldRetryEmptyRound(true, true, true))
+    // The round planned something after all.
+    assertFalse(EventFilter.shouldRetryEmptyRound(true, false, false))
+    // Planning failed partway: that is not an order that has not landed yet.
+    assertFalse(EventFilter.shouldRetryEmptyRound(false, true, false))
   }
 
   @Test

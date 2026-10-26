@@ -1184,6 +1184,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       maybeBuildOrderAtTouchStart();
     }
+    if (eventType == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+      maybeBuildOrderAtFocusLanding(event);
+    }
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       // TODO: Could move the logic of TOUCH_INTERACTION related event handling out of
       // TalkBackService, and concentrated in a dedicated module such as ?
@@ -1328,6 +1331,25 @@ public class TalkBackService extends AccessibilityServiceCompat
       return;
     }
     startBackgroundOrderBuild(-1, Performance.ORDER_BUILD_SOURCE_TOUCH);
+  }
+
+  /**
+   * Focus has just landed in a window no reading order is saved for — the user arrived by
+   * keyboard, by the app's own focus restore after a pause, or on a screen whose build died
+   * before it could land. The landing itself is the earliest sign the window will be swiped
+   * in, so its build starts now, while the user listens to the item that took focus, instead
+   * of on the first swipe. The gate is the same as the touch ask's: a landing that finds an
+   * order saved starts nothing, so ordinary swiping, which lands focus with every step,
+   * costs nothing here.
+   */
+  private void maybeBuildOrderAtFocusLanding(AccessibilityEvent event) {
+    if (!backgroundOrderBuildEnabled) {
+      return;
+    }
+    if (TraversalTreeCache.hasSavedOrder()) {
+      return;
+    }
+    startBackgroundOrderBuild(event.getWindowId(), Performance.ORDER_BUILD_SOURCE_FOCUS);
   }
 
   private void setServiceState(int newState) {

@@ -115,6 +115,23 @@ internal object TraversalOrderSnapshotBuilder {
   private var publishedKey: Pair<Int, Long>? = null
 
   /**
+   * Whether a build of [windowId]'s order is on its way in any form: running, waiting,
+   * folded into the running build as a follow-up, or held by burst deferral. The cache asks
+   * this when an event retires the build a window was asked for, so that it only asks again
+   * when something was actually lost — the window id it remembers outlives every build, and
+   * asking again on every later change would rebuild orders nobody is missing.
+   */
+  fun isBuildOnItsWay(windowId: Int): Boolean {
+    synchronized(lock) {
+      return (running && runningWindowId == windowId) ||
+        pending?.windowId == windowId ||
+        dirtyRequest?.windowId == windowId ||
+        deferredRequest?.windowId == windowId ||
+        askedKey?.first == windowId
+    }
+  }
+
+  /**
    * Queues a build of the order of [windowId], replacing any older build still waiting, and
    * says how the ask was taken on. A listener ask that arrives while a build for the same
    * window is already running is folded into it instead of replacing the build still waiting:

@@ -207,6 +207,12 @@ public class EventFilter {
   /** What set off the preparation round now being scheduled; see PreparedFocusSpeech. */
   private int prepareRoundSource = PreparedFocusSpeech.SOURCE_FOCUS;
 
+  /**
+   * Whether the focus now rested on has already had its one retry of a round that planned
+   * nothing; reset whenever focus lands or the reading control changes.
+   */
+  private boolean emptyRoundRetried;
+
   /** The pivot the second ring is prepared around, and the source of the round that asked. */
   private @Nullable AccessibilityNodeInfoCompat secondRingPivot;
   private int secondRingSource = PreparedFocusSpeech.SOURCE_FOCUS;
@@ -281,8 +287,16 @@ public class EventFilter {
    */
   private static volatile boolean speculativeSpeechEnabled = true;
 
-  /** How soon after a focus landed a preparation round counts as running between swipes. */
-  private static final long BURST_DEFER_MS = 300;
+  /**
+   * How soon after a focus landed a preparation round still counts as running inside the
+   * landing's own handling: a round is posted {@link #PREPARE_DELAY_MS} after the focus
+   * lands, so one attempted sooner than that was set off by something else while the landing
+   * was still being worked through, and it waits for settle time. A round attempted later
+   * runs in slices that yield the event loop between items, so it is never in the next
+   * swipe's way — measured on the owner's phone, the wider window this used to be put every
+   * focus round off to settle time, and focus rounds never ran at all.
+   */
+  private static final long BURST_DEFER_MS = PREPARE_DELAY_MS;
 
   /** How long a speculation waits for the focus event that confirms or corrects it. */
   private static final long SPECULATION_WINDOW_MS = 1000;
@@ -717,11 +731,13 @@ public class EventFilter {
       FocusActionInfo info,
       @Nullable EventId eventId,
       long actionTime) {
-    // The focus is moving, so the prepared announcements are used now or not at all.
-    PreparedFocusSpeech.@Nullable Prepared prepared = PreparedFocusSpeech.take(focusedNode);
     if (!shouldSpeakFocusEarly(info)) {
+      // Not spoken early, so the prepared announcement is not spent either: taking it here
+      // would throw away a preparation the event path never asked this filter to make.
       return EARLY_NOT_HANDLED;
     }
+    // The focus is moving, so the prepared announcements are used now or not at all.
+    PreparedFocusSpeech.@Nullable Prepared prepared = PreparedFocusSpeech.take(focusedNode);
     AccessibilityNodeInfoCompat node;
     @Nullable EventFeedback preparedFeedback;
     @Nullable CharSequence preparedContainerTitle = null;
@@ -883,9 +899,10 @@ public class EventFilter {
   }
 
   /**
-   * Whether a round starting at {@code now} would run between two swipes of a burst: only a
-   * round the focus itself set off can be in a burst's way, and only while the last focus is
-   * still fresh; settle and reading-control rounds run when nothing is landing.
+   * Whether a round starting at {@code now} would run inside the handling of the focus
+   * landing that set it off: only a round the focus itself set off can be in the way, and
+   * only before its own posting delay has passed; settle and reading-control rounds run when
+   * nothing is landing.
    */
   static boolean shouldDeferRound(
       boolean yielding, int roundSource, long lastFocusMoveMs, long now) {
@@ -893,6 +910,19 @@ public class EventFilter {
         && roundSource == PreparedFocusSpeech.SOURCE_FOCUS
         && lastFocusMoveMs > 0
         && now - lastFocusMoveMs < BURST_DEFER_MS;
+  }
+
+  /**
+   * Whether a round that planned to its end and still planned nothing is retried once at
+   * settle time: planning finds nothing when no reading order is saved yet — the predictions
+   * all come from it — and the background build asked for when the screen changed lands
+   * after the round, so without the retry the neighbours of the focus stay unprepared until
+   * some later change happens to arm a round. A round whose planning failed partway is not
+   * retried: its failure is not an order that has not landed yet.
+   */
+  static boolean shouldRetryEmptyRound(
+      boolean planComplete, boolean planEmpty, boolean alreadyRetried) {
+    return planComplete && planEmpty && !alreadyRetried;
   }
 
   /**
@@ -990,6 +1020,7 @@ public class EventFilter {
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
     lastFocusMoveMs = SystemClock.uptimeMillis();
+    emptyRoundRetried = false;
     // The saved order is told where the focus landed, so a navigation that starts from here
     // need not ask the app where the focus is.
     TraversalTreeCache.rememberFocus(node);
@@ -1058,7 +1089,17 @@ public class EventFilter {
     }
     Performance.getInstance().onPreparationRound(roundSource);
     List<PrepareItem> items = new ArrayList<>();
-    if (planFirstRingItems(pivot, items) && prepareWider) {
+    boolean planComplete = planFirstRingItems(pivot, items);
+    if (shouldRetryEmptyRound(planComplete, items.isEmpty(), emptyRoundRetried)) {
+      // The round planned nothing, most likely because no reading order is saved yet: the
+      // predictions all come from it, and its background build lands after this round. Try
+      // once more when the window settles, by which time the order should be there.
+      emptyRoundRetried = true;
+      Performance.getInstance().onPrepareRoundRetried();
+      handler.removeCallbacks(settlePrepare);
+      handler.postDelayed(settlePrepare, SETTLE_DELAY_MS);
+    }
+    if (planComplete && prepareWider) {
       // The nodes two swipes away are prepared a little later, off the window of the swipe
       // that is about to come; keeping the announcements this round did not use is what makes
       // them worth preparing at all.
@@ -1237,6 +1278,7 @@ public class EventFilter {
    */
   public void onGranularityChanged() {
     prepareRoundSource = PreparedFocusSpeech.SOURCE_GRANULARITY;
+    emptyRoundRetried = false;
     cancelPreparePlan();
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(settlePrepare);
@@ -1257,10 +1299,15 @@ public class EventFilter {
       boolean fromStaleOrder,
       int depth) {
     // Read the node again from the app, as a swipe to it would, rather than prepare from a copy
-    // that the saved reading order may have kept since before its text or state changed.
+    // that the saved reading order may have kept since before its text or state changed —
+    // unless the saved order itself vouches for the node: nothing in its window has changed
+    // since the order read it, not even text or state, which is the same word the speaking
+    // path takes to speak from the order's node without a second read. A read the cache
+    // vouches against would only fetch the values the copy already carries, and preparation
+    // pays it for every target of every round.
     @SuppressWarnings("deprecation") // obtain(): copy, so that the saved node is left as it was.
     AccessibilityNodeInfoCompat node = AccessibilityNodeInfoCompat.obtain(focusedNode);
-    if (!node.refresh()) {
+    if (!TraversalTreeCache.holdsCurrent(focusedNode) && !node.refresh()) {
       return;
     }
     if (globalVariables.hasSkipFocusProcessing() || !shouldSpeakFocusEarly(node)) {

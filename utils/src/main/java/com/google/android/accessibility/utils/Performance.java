@@ -294,8 +294,13 @@ public class Performance {
   /** What asked for a background reading-order build: the screen went quiet with no order saved. */
   public static final int ORDER_BUILD_SOURCE_SETTLE = 3;
 
+  /** What asked for a background reading-order build: focus landed with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_FOCUS = 4;
+
   /** Names of the build sources above, for the statistics display. */
-  private static final String[] ORDER_BUILD_SOURCE_NAMES = {"event", "listener", "touch", "settle"};
+  private static final String[] ORDER_BUILD_SOURCE_NAMES = {
+    "event", "listener", "touch", "settle", "focus"
+  };
 
   /** Background reading-order builds asked for, by what asked for them. */
   private final long[] orderBuildsPostedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
@@ -523,6 +528,9 @@ public class Performance {
 
   /** Preparation rounds put off to when the screen settles because swipes were landing thick. */
   private long prepareRoundsDeferred;
+
+  /** Preparation rounds that planned nothing and were retried once the order could have landed. */
+  private long prepareRoundsRetried;
 
   /** Focus events the event queue let through ahead of the events queued before them. */
   private long focusEventQueueJumps;
@@ -1542,6 +1550,10 @@ public class Performance {
                 + " to settle time while swipes landed",
             prepareRoundsChunked, prepareRoundChunks, prepareRoundsDeferred);
       }
+      if (prepareRoundsRetried > 0) {
+        logger.log(
+            "Preparation rounds retried after planning nothing: %d", prepareRoundsRetried);
+      }
       if (speculativeSpeechSubmitted > 0) {
         logger.log(
             "Speculative speech: %d submitted ahead of the focus action, %d confirmed by"
@@ -1826,6 +1838,22 @@ public class Performance {
   public long getPrepareRoundsDeferredCount() {
     synchronized (lockLabelToStats) {
       return prepareRoundsDeferred;
+    }
+  }
+
+  /** Counts one preparation round that planned nothing and was retried at settle time. */
+  public void onPrepareRoundRetried() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsRetried++;
+    }
+  }
+
+  public long getPrepareRoundsRetriedCount() {
+    synchronized (lockLabelToStats) {
+      return prepareRoundsRetried;
     }
   }
 
@@ -2695,6 +2723,7 @@ public class Performance {
       prepareRoundsChunked = 0;
       prepareRoundChunks = 0;
       prepareRoundsDeferred = 0;
+      prepareRoundsRetried = 0;
       focusEventQueueJumps = 0;
       focusEventQueueJumpDepthStats.clear();
       preparedSoundsPipelined.clear();

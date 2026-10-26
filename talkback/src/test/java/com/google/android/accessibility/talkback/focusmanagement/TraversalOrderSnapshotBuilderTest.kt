@@ -23,6 +23,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -368,6 +369,35 @@ class TraversalOrderSnapshotBuilderTest {
       waitUntil("the last build to be saved") { TraversalTreeCache.holds(checkNotNull(pivot)) }
     } finally {
       TraversalTreeCache.listenerBuildCoalescingEnabled = true
+    }
+  }
+
+  @Test
+  fun isBuildOnItsWay_runningBuildCounts_finishedAndOtherWindowsDoNot() {
+    val started = CountDownLatch(1)
+    val release = CountDownLatch(1)
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    TraversalOrderSnapshotBuilder.request(
+      root.windowId,
+      TraversalTreeCache.currentGeneration(),
+      {
+        started.countDown()
+        release.await(WAIT_MS, TimeUnit.MILLISECONDS)
+        root
+      },
+      ownPackage = "com.example.other",
+    )
+    try {
+      assertTrue(started.await(WAIT_MS, TimeUnit.MILLISECONDS))
+      assertTrue(TraversalOrderSnapshotBuilder.isBuildOnItsWay(root.windowId))
+      assertFalse(TraversalOrderSnapshotBuilder.isBuildOnItsWay(root.windowId + 1))
+    } finally {
+      release.countDown()
+    }
+    // Once the build has landed and nothing is queued behind it, the window has no build
+    // on its way: this is what stops the cache asking again for a build nobody lost.
+    waitUntil("the build to finish") {
+      !TraversalOrderSnapshotBuilder.isBuildOnItsWay(root.windowId)
     }
   }
 
