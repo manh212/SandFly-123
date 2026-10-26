@@ -111,6 +111,13 @@ public class FeedbackItem {
   /** Flag to indicate that the speech rate is absolute, not a multiplier of the system rate. */
   public static final int FLAG_RATE_IS_ABSOLUTE = 0x10000;
 
+  /**
+   * This speech is exempt from the speech wait cap: navigation speech that has waited too long
+   * behind it must still let it finish. Reserved for speech the user asked to hear in full, such
+   * as the speaking clock and stopwatch milestones.
+   */
+  public static final int FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP = 0x20000;
+
   /** Unique ID defining this generated feedback */
   private String mUtteranceId = "";
 
@@ -482,6 +489,7 @@ public class FeedbackItem {
       case FLAG_CHUNKING_APPLIED -> "FLAG_CHUNKING_APPLIED";
       case FLAG_INLINE_FORMATTING -> "FLAG_INLINE_FORMATTING";
       case FLAG_RATE_IS_ABSOLUTE -> "FLAG_RATE_IS_ABSOLUTE";
+      case FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP -> "FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP";
       default -> null;
     };
   }

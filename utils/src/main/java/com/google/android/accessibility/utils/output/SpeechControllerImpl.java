@@ -46,7 +46,9 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
 import android.text.style.TtsSpan;
+import android.util.Log;
 import android.util.Range;
+import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -73,11 +75,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
@@ -102,6 +106,41 @@ public class SpeechControllerImpl implements SpeechController {
   public static final float DEFAULT_SPEECH_PITCH = 1.0f;
 
   private static final String TAG = "SpeechControllerImpl";
+
+  /**
+   * Whether speech answering the user's own navigation gesture may cut short an utterance that
+   * is uninterruptible by other speech, but not globally uninterruptible. Those waits were the
+   * long tail of swipe-to-heard latency: the user is already somewhere else while the
+   * announcement finishes. Pushed from the latency settings, where it is on by default.
+   */
+  public static volatile boolean navigationSpeechInterruptsAnnouncements = true;
+
+  /**
+   * Whether speech for a window change or a focus move may cut short an utterance that is
+   * uninterruptible by other speech, but not globally uninterruptible, the way {@link
+   * #navigationSpeechInterruptsAnnouncements} lets a swipe's answer do. The long waits that
+   * survived the gesture privilege sat on these events: the title of the window the user just
+   * opened, and the first item in it, queued behind an announcement like any other speech.
+   * Pushed from the latency settings, where it is on by default.
+   */
+  public static volatile boolean windowFocusSpeechInterruptsAnnouncements = true;
+
+  /**
+   * When on, navigation speech (a swipe, or the window change and focus movement from the user's
+   * own actions) that has waited longer than {@link #SPEECH_WAIT_CAP_MS} behind any utterance
+   * force-flushes it, whatever its interrupt class, except speech carrying {@link
+   * FeedbackItem#FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP}. Mirrors the user's switch; read directly so a
+   * change applies at once.
+   */
+  public static volatile boolean speechWaitCapEnabled = true;
+
+  /**
+   * How long navigation speech may wait behind another utterance before the cap frees it.
+   * Lowered from 150 to 100 ms: a wait at the old cap alone was five times the whole
+   * swipe-to-heard budget, and the flush and held counters in the diagnostics say how often
+   * the cap is hit at either value. Speech exempt from the cap is untouched by the change.
+   */
+  static final long SPEECH_WAIT_CAP_MS = 100;
 
   public interface SpeechFilter {
     @Nullable CharSequence filter(CharSequence text);
@@ -164,6 +203,24 @@ public class SpeechControllerImpl implements SpeechController {
 
   /** The list of items to be spoken. */
   private List<FeedbackItem> feedbackQueue = Collections.synchronizedList(new ArrayList<>());
+
+  /** One queued utterance's wait: since when, behind what, and what the wait cap last spared. */
+  private static final class SpeechWait {
+    final long startMs;
+    final String blockerLabel;
+    final String waiterLabel;
+    /** The blocker a wait-cap check already decided to spare, so it is not counted again. */
+    @Nullable FeedbackItem capSparedBlocker;
+
+    SpeechWait(long startMs, String blockerLabel, String waiterLabel) {
+      this.startMs = startMs;
+      this.blockerLabel = blockerLabel;
+      this.waiterLabel = waiterLabel;
+    }
+  }
+
+  /** The utterances now waiting behind the one being spoken, by utterance. */
+  private final Map<FeedbackItem, SpeechWait> speechWaits = new IdentityHashMap<>();
 
   /** The list for stopping or resuming voice feedback. */
   private ArrayList<FeedbackItem> savedFeedbackQueue;
@@ -1445,6 +1502,33 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
+    if (!currentFeedbackInterrupted
+        && currentFeedbackItem != null
+        && speechMayCutAnnouncement(item)
+        && !currentFeedbackItem.isInterruptibleByNewSpeech()
+        && !currentFeedbackItem.isGloballyUninterruptible()) {
+      // The utterance answering the user's own navigation must not wait behind an announcement
+      // that is protected from other speech but not from the user. Queued utterances of the same
+      // kind go with it; globally uninterruptible utterances always play out.
+      ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
+      while (iterator.hasNext()) {
+        FeedbackItem queuedItem = iterator.next();
+        if (!queuedItem.isInterruptibleByNewSpeech()
+            && !queuedItem.isGloballyUninterruptible()) {
+          iterator.remove();
+          notifyItemInterrupted(queuedItem);
+        }
+      }
+      item.setFlushGlobalTtsQueue(true);
+      notifyItemInterrupted(currentFeedbackItem);
+      currentFeedbackInterrupted = true;
+      if (item.getEventId().getEventType() == Performance.EVENT_TYPE_GESTURE) {
+        Performance.getInstance().onNavigationSpeechInterrupt();
+      } else {
+        Performance.getInstance().onWindowFocusSpeechInterrupt();
+      }
+    }
+
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
     feedbackQueue.add(item);
     if (speechListener != null) {
@@ -1466,6 +1550,65 @@ public class SpeechControllerImpl implements SpeechController {
           TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
       Performance.getInstance()
           .recordSpeechWaitBlocker(speechWaitBlockerClass(item, currentFeedbackItem));
+      speechWaits.put(
+          item,
+          new SpeechWait(
+              SystemClock.uptimeMillis(),
+              speechBlockerLabel(currentFeedbackItem),
+              speechWaiterLabel(item)));
+      if (speechWaitCapEnabled && speechMayCutAnnouncement(item)) {
+        mHandler.postDelayed(() -> enforceSpeechWaitCap(item), SPEECH_WAIT_CAP_MS);
+      }
+    }
+  }
+
+  /**
+   * The wait cap: {@code waiting} has been queued behind another utterance for {@link
+   * #SPEECH_WAIT_CAP_MS}. Unless the speech ahead of it is exempt — speech the user asked to
+   * hear in full, like the speaking clock — everything uninterruptible ahead of it is cut so the
+   * user's own navigation answer goes out now. Runs on the speech handler; every guard re-checks
+   * the live state, since the wait may have resolved on its own in the meantime.
+   */
+  private void enforceSpeechWaitCap(FeedbackItem waiting) {
+    SpeechWait wait = speechWaits.get(waiting);
+    if (wait == null
+        || !feedbackQueue.contains(waiting)
+        || currentFeedbackItem == null
+        || currentFeedbackItem == waiting) {
+      return;
+    }
+    FeedbackItem blocker = currentFeedbackItem;
+    if (blocker.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+      // Count the held cap once per blocker; the exempt speech then plays out, however long it
+      // takes. Check once more afterwards, in case a non-exempt utterance is queued behind it.
+      if (wait.capSparedBlocker != blocker) {
+        wait.capSparedBlocker = blocker;
+        Performance.getInstance().onSpeechWaitCapHeld();
+      }
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
+      return;
+    }
+    for (FeedbackItem queued : new ArrayList<>(feedbackQueue)) {
+      if (queued == waiting) {
+        break;
+      }
+      if (!queued.isInterruptibleByNewSpeech()
+          && !queued.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+        notifyItemInterrupted(queued);
+      }
+    }
+    waiting.setFlushGlobalTtsQueue(true);
+    notifyItemInterrupted(blocker);
+    currentFragmentIterator = null;
+    Performance.getInstance().onSpeechWaitCapFlush();
+    LogUtils.v(TAG, "Speech wait cap cut the utterance ahead of a waiting navigation item.");
+    speakNextItem();
+    // If an exempt or globally protected utterance was queued ahead and is now the one playing,
+    // the wait continues behind it; check the cap again against that new blocker.
+    if (speechWaits.containsKey(waiting)
+        && currentFeedbackItem != null
+        && currentFeedbackItem != waiting) {
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
     }
   }
 
@@ -1551,6 +1694,8 @@ public class SpeechControllerImpl implements SpeechController {
       LogUtils.w(TAG, "notifyItemInterrupted: FeedbackItem is null");
       return;
     }
+    // An interrupted utterance will not be spoken, so its wait is over either way.
+    speechWaits.remove(item);
 
     final UtteranceCompleteRunnable queuedItemCompletedAction = item.getCompletedAction();
     if (queuedItemCompletedAction != null) {
@@ -1987,6 +2132,90 @@ public class SpeechControllerImpl implements SpeechController {
    */
   @SuppressLint("InlinedApi")
   /**
+   * Whether {@code item} answers the user's own navigation — a swipe, or the window change and
+   * focus movement that follow from the user's actions — under the latency settings. Such speech
+   * may cut an announcement it would otherwise wait behind; all other speech may not.
+   */
+  static boolean speechMayCutAnnouncement(FeedbackItem item) {
+    EventId eventId = item.getEventId();
+    if (eventId == null) {
+      return false;
+    }
+    if (navigationSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE) {
+      return true;
+    }
+    if (windowFocusSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY) {
+      int subtype = eventId.getEventSubtype();
+      return subtype == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+          || subtype == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+          || subtype == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+    }
+    return false;
+  }
+
+  /** A short name for what an utterance's feedback answers, for the speech wait profiles. */
+  static String speechEventLabel(FeedbackItem item) {
+    EventId eventId = item.getEventId();
+    if (eventId == null) {
+      return "untracked speech";
+    }
+    switch (eventId.getEventType()) {
+      case Performance.EVENT_TYPE_GESTURE:
+        return "gesture navigation";
+      case Performance.EVENT_TYPE_ACCESSIBILITY:
+        switch (eventId.getEventSubtype()) {
+          case AccessibilityEvent.TYPE_WINDOWS_CHANGED:
+          case AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED:
+            return "window change";
+          case AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED:
+            return "focus";
+          case AccessibilityEvent.TYPE_ANNOUNCEMENT:
+            return "announcement";
+          case AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED:
+            return "notification";
+          case AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED:
+            return "content change";
+          default:
+            return AccessibilityEvent.eventTypeToString(eventId.getEventSubtype());
+        }
+      default:
+        return "event type " + eventId.getEventType();
+    }
+  }
+
+  /** What a waiting utterance is, for the speech wait profiles. */
+  static String speechWaiterLabel(FeedbackItem waiting) {
+    return speechEventLabel(waiting);
+  }
+
+  /**
+   * What a waiting utterance is stuck behind, for the speech wait profiles: what the blocker is,
+   * and how strongly it is protected from being cut short.
+   */
+  static String speechBlockerLabel(FeedbackItem blocking) {
+    String kind =
+        blocking.getUtteranceGroup() == UTTERANCE_GROUP_NOTIFICATIONS
+            ? "notification readout"
+            : speechEventLabel(blocking);
+    String protection;
+    if (blocking.isGloballyUninterruptible()) {
+      protection = "globally uninterruptible";
+    } else if (!blocking.isInterruptibleByNewSpeech()) {
+      CharSequence text = blocking.getFirstSpokenText();
+      int length = (text == null) ? 0 : text.length();
+      protection =
+          blocking.canIgnoreInterrupts() && length <= SHORT_UNINTERRUPTIBLE_MAX_CHARS
+              ? "short uninterruptible"
+              : "uninterruptible";
+    } else {
+      protection = "interruptible";
+    }
+    return kind + " (" + protection + ")";
+  }
+
+  /**
    * Which class of utterance {@code waiting} is stuck behind, for the wait-attribution counts in
    * the performance statistics.
    */
@@ -2012,6 +2241,13 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void speakNextItemInternal(FeedbackItem item) {
+    SpeechWait wait = speechWaits.remove(item);
+    if (wait != null) {
+      long waitDurationMs = SystemClock.uptimeMillis() - wait.startMs;
+      Performance.getInstance().recordSpeechWaitDuration(waitDurationMs);
+      Performance.getInstance()
+          .recordSpeechWaitProfile(waitDurationMs, wait.blockerLabel, wait.waiterLabel);
+    }
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;
     item.setUtteranceId(utteranceId);
@@ -2039,6 +2275,13 @@ public class SpeechControllerImpl implements SpeechController {
       addUtteranceCompleteAction(utteranceIndex, utteranceGroup, fullScreenReadNextCallback);
     }
 
+    processNextFragmentInternal();
+
+    // The item is on its way to the engine; only now is it written into the speech history
+    // and announced as started. Nothing before the first sound needs the history: the repeat,
+    // copy and translate-last commands read it when the user asks, long after this returns,
+    // and the start listener is told within the same call either way. Keeping the aggregate
+    // text walk and the list work behind the submission takes them off the swipe's path.
     if ((item != null) && !item.hasFlag(FeedbackItem.FLAG_NO_HISTORY)) {
       while (mFeedbackHistory.size() >= MAX_HISTORY_ITEMS) {
         mFeedbackHistory.remove(mFeedbackHistory.peek());
@@ -2050,8 +2293,6 @@ public class SpeechControllerImpl implements SpeechController {
     if (speechListener != null) {
       speechListener.onUtteranceStarted(item);
     }
-
-    processNextFragmentInternal();
   }
 
   // Resumes the speech for continuous reading.
@@ -2173,15 +2414,20 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
-    final String logText = (text == null) ? null : String.format("\"%s\"", text.toString());
-    LogUtils.v(
-        TAG,
-        "Speaking fragment text=%s, utteranceId=%s, TtsSpan=%s, locale=%s, event=%s",
-        logText,
-        feedbackItem.getUtteranceId(),
-        SpannableUtils.spansToStringForLogging(text, TtsSpan.class),
-        locale,
-        eventId);
+    // Walking the text's spans for this line costs on every fragment, at any log level: the
+    // arguments are worked out before the call decides whether anything is printed. At the
+    // verbose level the owner runs at, that walk was on every swipe's path to the engine.
+    if (LogUtils.shouldLog(Log.VERBOSE)) {
+      final String logText = (text == null) ? null : String.format("\"%s\"", text.toString());
+      LogUtils.v(
+          TAG,
+          "Speaking fragment text=%s, utteranceId=%s, TtsSpan=%s, locale=%s, event=%s",
+          logText,
+          feedbackItem.getUtteranceId(),
+          SpannableUtils.spansToStringForLogging(text, TtsSpan.class),
+          locale,
+          eventId);
+    }
 
     if (text != null && feedbackItem.hasFlag(FeedbackItem.FLAG_FORCE_FEEDBACK)) {
       mDelegate.onSpeakingForcedFeedback();
@@ -2205,10 +2451,13 @@ public class SpeechControllerImpl implements SpeechController {
         eventId);
 
     if (ttsOverlay != null) {
+      // The on-screen text follows the sound, it does not lead it: showing it is posted, so
+      // its window work never sits between the submission and the first sound.
       if (eventId != null) {
-        ttsOverlay.displayText(text, eventId.getEventSubtype());
+        int eventSubtype = eventId.getEventSubtype();
+        mHandler.post(() -> ttsOverlay.displayText(text, eventSubtype));
       } else {
-        ttsOverlay.displayText(text);
+        mHandler.post(() -> ttsOverlay.displayText(text));
       }
     }
 

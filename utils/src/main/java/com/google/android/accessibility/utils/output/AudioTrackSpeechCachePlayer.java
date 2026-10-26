@@ -7,6 +7,7 @@ import static android.media.AudioFormat.ENCODING_PCM_FLOAT;
 
 import android.media.AudioAttributes;
 import android.media.AudioFormat;
+import java.util.Locale;
 import android.media.AudioTrack;
 import android.media.PlaybackParams;
 import androidx.annotation.GuardedBy;
@@ -441,6 +442,39 @@ public class AudioTrackSpeechCachePlayer extends SpeechCachePlayer {
   @Override
   public long getCacheSizeMb() {
     return speechDataLength / 1024 / 1024;
+  }
+
+  @Override
+  public boolean hasCacheForText(CharSequence text) {
+    for (SpeechInfo info : speechInfoPcmDataMap.keySet()) {
+      if (info.text.contentEquals(text)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public long getCacheSizeBytes() {
+    return speechDataLength;
+  }
+
+  @Override
+  public int getCacheCount() {
+    return speechInfoPcmDataMap.size();
+  }
+
+  @Override
+  public String getCacheFormatDescription() {
+    if (sampleRate == 0) {
+      return "";
+    }
+    return String.format(
+        Locale.US,
+        "%d Hz, %d-bit, %s",
+        sampleRate,
+        getBytesPerSample(audioFormatEncoding) * 8,
+        channelConfig == AudioFormat.CHANNEL_OUT_MONO ? "mono" : "stereo");
   }
 
   @Override

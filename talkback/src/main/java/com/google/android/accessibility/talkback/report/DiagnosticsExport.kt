@@ -202,6 +202,21 @@ object DiagnosticsExport {
     performance.displayStatToLabelCompare(logger)
     performance.displayAllEventStats(logger)
     performance.displayPreparedSpeechStats(logger)
+    performance.displayBurstStats(logger)
+    performance.displayOrderBuildStats(logger)
+    performance.displaySwipeSegmentStats(logger)
+    performance.displaySpeechWaitStats(logger)
+    performance.displaySlowSwipeProfiles(logger)
+    val tts = failoverTts()
+    if (tts != null && tts.speechCacheCount >= 0) {
+      val format = tts.speechCacheFormatDescription
+      logger.log(
+        "Speech cache contents: %d sounds, %d KB%s",
+        tts.speechCacheCount,
+        tts.speechCacheSizeBytes / 1024,
+        if (format.isEmpty()) "" else ", $format",
+      )
+    }
   }
 
   /**
@@ -352,6 +367,18 @@ object DiagnosticsExport {
             (if (deviceType == null) "unknown"
             else "${deviceTypeName(deviceType)}${snapshot.routedDeviceName?.let { " ($it)" } ?: ""}") +
             "\n"
+        )
+      }
+      if (LowLatencyAudio.smallBufferFittings > 0) {
+        out.append(
+          "Small buffer: ${LowLatencyAudio.smallBufferFittings} fittings," +
+            " ${LowLatencyAudio.smallBufferShortfalls} shortfalls kept small\n"
+        )
+      }
+      if (LowLatencyAudio.bufferAutoRaises > 0) {
+        out.append(
+          "Buffer auto-adjust: raised ${LowLatencyAudio.bufferAutoRaises} times" +
+            " after repeated shortfalls, now ${LowLatencyAudio.autoGrownBufferFrames} frames\n"
         )
       }
     }

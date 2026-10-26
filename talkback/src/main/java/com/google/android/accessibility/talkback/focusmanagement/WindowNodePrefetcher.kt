@@ -61,6 +61,15 @@ object WindowNodePrefetcher {
   /** Stops a window with a very large or looped tree. */
   private const val MAX_NODES = 5000
 
+  /** How often a read with an abort check asks whether it should give up. */
+  private const val ABORT_POLL_MS = 10L
+
+  /**
+   * How long after a walk of a window finished another walk of the same window counts as a
+   * duplicate: the nodes it would read are the ones the finished walk just put in the cache.
+   */
+  private const val DUPLICATE_WALK_WINDOW_MS = 150L
+
   private const val FLAGS =
     AccessibilityNodeInfo.FLAG_PREFETCH_SIBLINGS or
       AccessibilityNodeInfo.FLAG_PREFETCH_DESCENDANTS_HYBRID or
@@ -80,6 +89,56 @@ object WindowNodePrefetcher {
   /** Whether a background read is still warming the cache. */
   private val backgroundRunning = AtomicBoolean()
 
+  /** Windows a walk is reading right now, so a second walk of the same window is a duplicate. */
+  private val walksInFlight = ConcurrentHashMap.newKeySet<Int>()
+
+  /** When the newest walk of each window finished, by the uptime clock. */
+  private val lastWalkFinishedMs = ConcurrentHashMap<Int, Long>()
+
+  /**
+   * Whether a walk of a window starting at [nowMs] would only re-read what a walk of the same
+   * window is reading now, or read a moment ago: the nodes land in the same cache either way,
+   * so the second walk's binder calls buy nothing. Right after a window's order is thrown
+   * away, a background build and the swipe it was too slow for used to walk the same tree side
+   * by side.
+   */
+  internal fun duplicateWalk(inFlight: Boolean, lastFinishedMs: Long, nowMs: Long): Boolean =
+    inFlight || (lastFinishedMs > 0L && nowMs - lastFinishedMs < DUPLICATE_WALK_WINDOW_MS)
+
+  /**
+   * Claims the walk of [windowId] for the caller, or returns false when the walk would be a
+   * duplicate of one on its way or just finished. A window id of -1 names no window, so its
+   * walks are never claimed or deduplicated.
+   */
+  private fun claimWalk(windowId: Int, nowMs: Long): Boolean {
+    if (windowId < 0) {
+      return true
+    }
+    if (
+      duplicateWalk(
+        walksInFlight.contains(windowId),
+        lastWalkFinishedMs[windowId] ?: 0L,
+        nowMs,
+      )
+    ) {
+      return false
+    }
+    return walksInFlight.add(windowId)
+  }
+
+  /** Releases the claim [claimWalk] took and remembers when the window's walk finished. */
+  private fun finishWalk(windowId: Int) {
+    if (windowId < 0) {
+      return
+    }
+    walksInFlight.remove(windowId)
+    lastWalkFinishedMs[windowId] = SystemClock.uptimeMillis()
+    if (lastWalkFinishedMs.size > 64) {
+      val cutoff = SystemClock.uptimeMillis() - 5_000L
+      lastWalkFinishedMs.entries.removeIf { it.value < cutoff }
+    }
+  }
+
   /**
    * Reads the nodes below [root] into Android's node cache, waiting at most [MAX_WAIT_MS]. Does
    * nothing for a window of [ownPackage]: its requests are answered on the main thread, which is
@@ -88,6 +147,20 @@ object WindowNodePrefetcher {
    */
   @JvmStatic
   fun prefetch(root: AccessibilityNodeInfoCompat, ownPackage: String) {
+    prefetch(root, ownPackage, null)
+  }
+
+  /**
+   * As [prefetch], except that the read stops early once [abortCheck] reports true — a
+   * background build whose window has already moved on should hand its threads back instead of
+   * walking a tree whose order will be refused.
+   */
+  @JvmStatic
+  fun prefetch(
+    root: AccessibilityNodeInfoCompat,
+    ownPackage: String,
+    abortCheck: (() -> Boolean)?,
+  ) {
     if (
       Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
         TextUtils.equals(root.packageName, ownPackage) ||
@@ -96,11 +169,22 @@ object WindowNodePrefetcher {
       return
     }
     val start = SystemClock.uptimeMillis()
-    val walk = Walk(start + MAX_WAIT_MS)
-    walk.submit(root.unwrap())
-    walk.await()
-    if (LogUtils.shouldLog(Log.DEBUG)) {
-      Log.d(TAG, "Read ${walk.nodes.get()} nodes in ${SystemClock.uptimeMillis() - start} ms")
+    val windowId = root.windowId
+    if (!claimWalk(windowId, start)) {
+      // A walk of this window is reading, or just read, the same nodes into the same cache;
+      // the build that called for this one reads what it still needs itself, exactly as it
+      // does when a walk's wait runs out.
+      return
+    }
+    try {
+      val walk = Walk(start + MAX_WAIT_MS, abortCheck)
+      walk.submit(root.unwrap())
+      walk.await()
+      if (LogUtils.shouldLog(Log.DEBUG)) {
+        Log.d(TAG, "Read ${walk.nodes.get()} nodes in ${SystemClock.uptimeMillis() - start} ms")
+      }
+    } finally {
+      finishWalk(windowId)
     }
   }
 
@@ -131,9 +215,16 @@ object WindowNodePrefetcher {
           if (root != null) {
             try {
               if (!TextUtils.equals(root.packageName, ownPackage)) {
-                val walk = Walk(SystemClock.uptimeMillis() + MAX_WAIT_MS)
-                walk.submit(root.unwrap())
-                walk.await()
+                val windowId = root.windowId
+                if (claimWalk(windowId, SystemClock.uptimeMillis())) {
+                  try {
+                    val walk = Walk(SystemClock.uptimeMillis() + MAX_WAIT_MS)
+                    walk.submit(root.unwrap())
+                    walk.await()
+                  } finally {
+                    finishWalk(windowId)
+                  }
+                }
               }
             } finally {
               root.recycle()
@@ -149,7 +240,7 @@ object WindowNodePrefetcher {
   }
 
   @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-  private class Walk(private val deadline: Long) {
+  private class Walk(private val deadline: Long, private val abortCheck: (() -> Boolean)? = null) {
     private val lock = ReentrantLock()
     private val finished = lock.newCondition()
     private var pending = 0
@@ -214,7 +305,13 @@ object WindowNodePrefetcher {
           if (left <= 0) {
             break
           }
-          finished.await(left, TimeUnit.MILLISECONDS)
+          // With an abort check, wait in short slices so a dead read is given up at once
+          // rather than at its deadline.
+          val slice = if (abortCheck != null) minOf(left, ABORT_POLL_MS) else left
+          finished.await(slice, TimeUnit.MILLISECONDS)
+          if (abortCheck?.invoke() == true) {
+            break
+          }
         }
       }
       stopped = true

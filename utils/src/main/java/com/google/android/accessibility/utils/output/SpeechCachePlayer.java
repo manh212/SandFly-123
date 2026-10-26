@@ -101,6 +101,31 @@ public abstract class SpeechCachePlayer {
   /** Gets the memory usage of the speech cache in MB. */
   public abstract long getCacheSizeMb();
 
+  /**
+   * Whether any cached sound exists for {@code text}, under any voice setting: a miss for the
+   * exact words whose sound was made with another pitch, rate or language is a different waste
+   * than words that were never made into sound at all, and telling them apart is the only way
+   * to know which one a fuller cache would fix.
+   */
+  public boolean hasCacheForText(CharSequence text) {
+    return false;
+  }
+
+  /** The memory usage of the speech cache in bytes, finer-grained than {@link #getCacheSizeMb}. */
+  public long getCacheSizeBytes() {
+    return 0;
+  }
+
+  /** How many sounds the cache holds. */
+  public int getCacheCount() {
+    return 0;
+  }
+
+  /** The sound format the cache's player settled on, or empty while no sound has been loaded. */
+  public String getCacheFormatDescription() {
+    return "";
+  }
+
   public static final int STATE_UNKNOWN = 0;
 
   /** The initial state where the player is prepared but not yet started. */

@@ -403,6 +403,26 @@ public class SpeechCacheManager {
     return speechCachePlayer.getCacheSizeMb();
   }
 
+  /** Whether any cached sound exists for {@code text}, under any voice setting. */
+  public boolean hasCacheForText(CharSequence text) {
+    return speechCachePlayer.hasCacheForText(text);
+  }
+
+  /** The memory usage of the speech cache in bytes. */
+  public long getCacheSizeBytes() {
+    return speechCachePlayer.getCacheSizeBytes();
+  }
+
+  /** How many sounds the cache holds. */
+  public int getCacheCount() {
+    return speechCachePlayer.getCacheCount();
+  }
+
+  /** The sound format the cache's player settled on, or empty while no sound has been loaded. */
+  public String getCacheFormatDescription() {
+    return speechCachePlayer.getCacheFormatDescription();
+  }
+
   /** Callback to notify the result of loading a speech file. */
   public interface LoadSpeechResultNotifier {
 

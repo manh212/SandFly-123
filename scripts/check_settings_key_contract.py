@@ -134,6 +134,20 @@ FORBIDDEN_KEYS = {
     "pref_speech_control_screen",
     "pref_speech_control",
     "pref_show_exit_watermark",
+    # Tuning switches the reading-order arc added to the latency screen and later
+    # removed for good (their behavior is pinned in code or the mechanism is gone).
+    # The switches restored by the switch-isolation package (each mechanism behind
+    # exactly its own switch) are deliberately NOT listed here.
+    "pref_navigation_interrupt_key",
+    "pref_window_focus_interrupt_key",
+    "pref_speech_wait_cap_key",
+    "pref_small_audio_buffer_key",
+    "pref_split_speech_key",
+    "pref_focus_priority_lane_key",
+    "pref_fast_nav_skip_target_refresh_key",
+    "pref_fast_nav_cheap_pivot_key",
+    "pref_fast_nav_fire_first_key",
+    "pref_event_driven_scroll_landing_key",
 }
 
 

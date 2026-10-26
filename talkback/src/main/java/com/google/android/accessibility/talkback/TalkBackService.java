@@ -103,6 +103,7 @@ import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FocusActor;
 import com.google.android.accessibility.talkback.actor.FocusActorForScreenStateChange;
 import com.google.android.accessibility.talkback.actor.FocusActorForTapAndTouchExploration;
+import com.google.android.accessibility.talkback.actor.FocusManagerInternal;
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
 import com.google.android.accessibility.talkback.actor.GestureReporter;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
@@ -156,6 +157,8 @@ import com.google.android.accessibility.talkback.feedbackpolicy.WindowNamesSetti
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.flags.Flags;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
+import com.google.android.accessibility.talkback.focusmanagement.LiveTreeNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusFeedbackMapper;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForScreenStateChange;
@@ -167,6 +170,7 @@ import com.google.android.accessibility.talkback.focusmanagement.WindowNodePrefe
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter;
 import com.google.android.accessibility.talkback.focusmanagement.record.AccessibilityFocusActionHistory;
+import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.talkback.gesture.GestureController;
 import com.google.android.accessibility.talkback.gesture.GestureHistory;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
@@ -294,6 +298,9 @@ import com.google.android.accessibility.utils.output.FailoverTextToSpeech;
 import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FeedbackProcessingUtils;
+import com.google.android.accessibility.utils.output.LowLatencyAudio;
+import com.google.android.accessibility.utils.output.SpeechCacheManager.LoadSpeechResultNotifier;
+import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechController;
@@ -622,6 +629,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   private TextEventInterpreter textEventInterpreter;
   private Compositor compositor;
   private DirectionNavigationActor.StateReader directionNavigationActorStateReader;
+  private @Nullable FastNavigator fastNavigator;
   private FullScreenReadActor fullScreenReadActor;
   private GeminiActor geminiActor;
   private EditTextActionHistory editTextActionHistory;
@@ -750,6 +758,28 @@ public class TalkBackService extends AccessibilityServiceCompat
   private @Nullable ProcessorMagnification processorMagnification;
   /** The app of the last window that came up, for the turn-off log. */
   private @Nullable CharSequence lastWindowPackage;
+
+  /**
+   * Whether reading orders are built in the background, from the latency setting. Read once per
+   * settings load by {@link #refreshLatencySwitches()} instead of on every accessibility event,
+   * which arrives dozens of times a second in a busy app.
+   */
+  private boolean backgroundOrderBuildEnabled = true;
+
+  /**
+   * Whether a touch that begins with no reading order saved starts building one, from the
+   * latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}. This switch
+   * gates the touch ask alone: it is not combined with the background switch, so turning
+   * background builds off leaves a touch able to start the one build its swipe would need.
+   */
+  private boolean touchOrderBuildEnabled = true;
+
+  /**
+   * Whether focus landing in a window with no reading order saved starts building one, from
+   * the latency setting. Read the same way as {@link #backgroundOrderBuildEnabled}, and
+   * gates the focus-landing ask alone, like {@link #touchOrderBuildEnabled} gates the touch.
+   */
+  private boolean focusOrderBuildEnabled = true;
 
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
@@ -1131,7 +1161,24 @@ public class TalkBackService extends AccessibilityServiceCompat
       clearCache();
     }
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
-      prefetchWindowOfClearedOrder(event);
+      if (backgroundOrderBuildEnabled) {
+        int windowId = event.getWindowId();
+        TraversalTreeCache.buildOrderInBackground(
+            windowId,
+            () -> rootOfWindow(windowId),
+            getPackageName(),
+            Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR);
+      } else {
+        prefetchWindowOfClearedOrder(event);
+      }
+    }
+    if (fastNavigator != null
+        && (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+            || eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED)) {
+      // A scroll the fast navigator fired may be waiting on exactly this change to land its
+      // item; it is told after the order cache has had the event, so the order it reads is
+      // the one the change left behind.
+      fastNavigator.onWindowContentChanged(event.getWindowId());
     }
     PreparedFocusSpeech.onAccessibilityEvent(event);
     if (directTouchController != null) {
@@ -1150,6 +1197,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START
         && gestureController != null) {
       gestureController.onUserInputStarted();
+    }
+    if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
+      maybeBuildOrderAtTouchStart();
+    }
+    if (eventType == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+      maybeBuildOrderAtFocusLanding(event);
     }
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       // TODO: Could move the logic of TOUCH_INTERACTION related event handling out of
@@ -1248,6 +1301,75 @@ public class TalkBackService extends AccessibilityServiceCompat
       root = super.getRootInActiveWindow();
     }
     return root == null ? null : AccessibilityNodeInfoCompat.wrap(root);
+  }
+
+  private void startBackgroundOrderBuildForCleared(int windowId) {
+    if (!backgroundOrderBuildEnabled) {
+      return;
+    }
+    startBackgroundOrderBuild(windowId, Performance.ORDER_BUILD_SOURCE_LISTENER);
+  }
+
+  /**
+   * Starts a background build of the reading order of {@code windowId} — or of the active
+   * window when it is -1 — for the asker {@code source} (one of the {@code
+   * Performance.ORDER_BUILD_SOURCE_*} values). The ask itself is ungated on purpose: every
+   * caller checks the switch of its own trigger first (the background switch for
+   * event-caused and listener asks, the touch switch, the focus switch, the settle retry
+   * inside the cache), so no ask inherits another trigger's switch.
+   */
+  private void startBackgroundOrderBuild(int windowId, int source) {
+    int targetWindowId = windowId;
+    if (targetWindowId == -1) {
+      AccessibilityNodeInfo activeRoot = getRootInActiveWindow();
+      if (activeRoot != null) {
+        targetWindowId = activeRoot.getWindowId();
+        activeRoot.recycle();
+      }
+    }
+    if (targetWindowId != -1) {
+      final int buildWindowId = targetWindowId;
+      TraversalTreeCache.buildOrderInBackground(
+          buildWindowId, () -> rootOfWindow(buildWindowId), getPackageName(), source);
+    }
+  }
+
+  /**
+   * A touch has just begun, and the time the finger spends travelling is time a build could
+   * have: measured on the owner's phone, the finger takes a median of about 110 ms to become
+   * a swipe, and no build observed took that long. So when no reading order is saved, the
+   * build starts now instead of when the swipe lands. The gate is the point: a touch that
+   * finds an order saved starts nothing, so touches that never become swipes — holds, taps,
+   * keyboard typing — cost at most the one build the next swipe would have paid for anyway,
+   * and only while an order is actually missing.
+   */
+  private void maybeBuildOrderAtTouchStart() {
+    if (!touchOrderBuildEnabled) {
+      return;
+    }
+    if (TraversalTreeCache.hasSavedOrder()) {
+      return;
+    }
+    startBackgroundOrderBuild(-1, Performance.ORDER_BUILD_SOURCE_TOUCH);
+  }
+
+  /**
+   * Focus has just landed in a window no reading order is saved for — the user arrived by
+   * keyboard, by the app's own focus restore after a pause, or on a screen whose build died
+   * before it could land. The landing itself is the earliest sign the window will be swiped
+   * in, so its build starts now, while the user listens to the item that took focus, instead
+   * of on the first swipe. The gate is the same as the touch ask's: a landing that finds an
+   * order saved starts nothing, so ordinary swiping, which lands focus with every step,
+   * costs nothing here.
+   */
+  private void maybeBuildOrderAtFocusLanding(AccessibilityEvent event) {
+    if (!focusOrderBuildEnabled) {
+      return;
+    }
+    if (TraversalTreeCache.hasSavedOrder()) {
+      return;
+    }
+    startBackgroundOrderBuild(event.getWindowId(), Performance.ORDER_BUILD_SOURCE_FOCUS);
   }
 
   private void setServiceState(int newState) {
@@ -2035,6 +2157,18 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     initializeInfrastructure();
 
+    // A throw-away of the saved reading order that no accessibility event caused — an action
+    // TalkBack itself performed, an expiry noticed by a swipe — starts the same background
+    // build as one an event caused, so the next swipe does not pay for the build itself.
+    TraversalTreeCache.setOrderClearedListener(this::startBackgroundOrderBuildForCleared);
+
+    // When the screen has been quiet for a while and still no reading order is saved — the
+    // build the change asked for died in the burst that followed it, or no change ever asked —
+    // the cache asks for the build again through here.
+    TraversalTreeCache.setSettleBuildRequester(
+        windowId ->
+            startBackgroundOrderBuild(windowId, Performance.ORDER_BUILD_SOURCE_SETTLE));
+
     // Configure logs.
     LogUtils.setTagPrefix("talkback: ");
     LogUtils.setParameterCustomizer(
@@ -2703,15 +2837,119 @@ public class TalkBackService extends AccessibilityServiceCompat
     eventFilter =
         new EventFilter(this, compositor, touchMonitor, globalVariables, earlyFocusSpeech);
     focuser.setFocusSetListener(
-        (node, info, eventId, actionTime) ->
+        new FocusManagerInternal.FocusSetListener() {
+          @Override
+          public void onAccessibilityFocusSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
             eventFilter.onAccessibilityFocusSet(
                 node,
                 info,
                 eventId,
                 actionTime,
                 /* continuousReading= */ fullScreenReadActor != null
-                    && fullScreenReadActor.isActive()));
+                    && fullScreenReadActor.isActive());
+          }
+
+          @Override
+          public void onAccessibilityFocusAboutToBeSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            // Continuous reading's focus is not spoken on prediction either, as it is not
+            // spoken early: it moves on when the speech for a node ends.
+            if (fullScreenReadActor == null || !fullScreenReadActor.isActive()) {
+              eventFilter.speculateFocusSpeech(node, info, eventId, actionTime);
+            }
+          }
+
+          @Override
+          public void onAccessibilityFocusSetFailed(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (eventFilter.onSpeculativeSpeechActionFailed(node, actionTime)) {
+              // The speech submitted on the prediction is for a focus that never landed.
+              speechController.interrupt(false);
+            }
+          }
+        });
+    // The fast navigator answers directional navigation while its switch is on, from the
+    // saved order, and tells the same listener in the same shape, so the speaking path —
+    // prepared announcements, speaking early, speculation — serves its focus exactly as it
+    // serves the other path's.
+    fastNavigator =
+        new FastNavigator(
+            this,
+            focusHistory,
+            screenStateMonitor.state,
+            directionNavigationActor::isSelectionModeActive);
+    fastNavigator.setFeedbackReturner(pipeline.getFeedbackReturner());
+    fastNavigator.setFocusListener(
+        new FastNavigator.FocusListener() {
+          @Override
+          public void onAccessibilityFocusAboutToBeSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (fullScreenReadActor == null || !fullScreenReadActor.isActive()) {
+              eventFilter.speculateFocusSpeech(node, info, eventId, actionTime);
+            }
+          }
+
+          @Override
+          public void onAccessibilityFocusSet(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            eventFilter.onAccessibilityFocusSet(
+                node,
+                info,
+                eventId,
+                actionTime,
+                /* continuousReading= */ fullScreenReadActor != null
+                    && fullScreenReadActor.isActive());
+          }
+
+          @Override
+          public void onAccessibilityFocusSetFailed(
+              AccessibilityNodeInfoCompat node,
+              FocusActionInfo info,
+              @Nullable EventId eventId,
+              long actionTime) {
+            if (eventFilter.onSpeculativeSpeechActionFailed(node, actionTime)) {
+              speechController.interrupt(false);
+            }
+          }
+        });
+    directionNavigationActor.setFastNavigator(fastNavigator);
+    // The live-tree pattern engine stands at the same gate the fast navigator used, under
+    // the same switch: while it is on, the engine tries a directional swipe on the live
+    // tree first and hands back every swipe it does not answer, where the fast navigator
+    // worked from the saved order. The fast navigator itself stays disconnected.
+    directionNavigationActor.setLiveTreeNavigator(new LiveTreeNavigator());
     eventFilter.setTargetPredictor(directionNavigationActor);
+    eventFilter.setPreparedSpeechSynthesizer(
+        new EventFilter.PreparedSpeechSynthesizer() {
+          @Override
+          public void synthesize(
+              CharSequence text, float pitch, LoadSpeechResultNotifier notifier) {
+            Bundle speechParams = new Bundle();
+            speechParams.putFloat(FailoverTextToSpeech.SpeechParam.PITCH, pitch);
+            speechController.addSpeech(text, notifier, speechParams, /* eventId= */ null);
+          }
+
+          @Override
+          public void remove(SpeechInfo speechInfo) {
+            speechController.removeSpeech(speechInfo);
+          }
+        });
     directionNavigationActor.setGranularityChangeListener(eventFilter::onGranularityChanged);
     eventFilter.setFingerDownSupplier(() -> touchMonitor.isUserTouchingScreen());
     eventFilter.setVoiceActionDelegate(voiceActionMonitor);
@@ -3412,6 +3650,89 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   /** Reloads service preferences. */
+  /**
+   * Applies the latency behavior to the code that uses it. The tuning switches this arc added
+   * were removed once the behavior was settled: every one of them is pinned on here, at the
+   * value the switches defaulted to. The one switch that remains is the navigator switch,
+   * which gates the live-tree navigator and is still read from its preference.
+   */
+  private void refreshLatencySwitches() {
+    // Every mechanism reads exactly its own switch: the switch-isolation rule the owner set
+    // after finding that a coupled switch had made "off" faster than "on". The few
+    // mechanisms whose switch was removed for good keep the literal they were pinned at.
+    TraversalTreeCache.setUnrelatedChangesSpareNodes(
+        getBooleanPref(
+            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
+    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
+        getBooleanPref(
+            R.string.pref_keep_prepared_across_unrelated_key,
+            R.bool.pref_keep_prepared_across_unrelated_default));
+    TraversalTreeCache.setServeStaleOrdersEnabled(
+        getBooleanPref(
+            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.speechWaitCapEnabled = true;
+    backgroundOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
+    touchOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_touch_order_build_key, R.bool.pref_touch_order_build_default);
+    focusOrderBuildEnabled =
+        getBooleanPref(
+            R.string.pref_focus_order_build_key, R.bool.pref_focus_order_build_default);
+    TraversalTreeCache.setSettleRetryEnabled(
+        getBooleanPref(
+            R.string.pref_settle_order_build_key, R.bool.pref_settle_order_build_default));
+    TraversalTreeCache.setLeanOrderBuilderEnabled(
+        getBooleanPref(
+            R.string.pref_lean_order_builder_key, R.bool.pref_lean_order_builder_default));
+    LowLatencyAudio.setSmallBufferEnabled(true);
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = true;
+    EventFilter.setPrepareAheadEnabled(
+        getBooleanPref(R.string.pref_prepare_ahead_key, R.bool.pref_prepare_ahead_default));
+    EventFilter.setPresynthesizePreparedSpeech(
+        getBooleanPref(
+            R.string.pref_presynthesize_prepared_key,
+            R.bool.pref_presynthesize_prepared_default));
+    EventFilter.setPrepareOnSettle(
+        getBooleanPref(
+            R.string.pref_prepare_on_settle_key, R.bool.pref_prepare_on_settle_default));
+    EventFilter.setPrepareWider(
+        getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default));
+    PreparedFocusSpeech.setKeepUnusedOnTake(
+        getBooleanPref(
+            R.string.pref_keep_unused_prepared_key, R.bool.pref_keep_unused_prepared_default));
+    EventFilter.setYieldingPrepare(
+        getBooleanPref(
+            R.string.pref_yielding_prepare_key, R.bool.pref_yielding_prepare_default));
+    TraversalTreeCache.setListenerBuildCoalescingEnabled(
+        getBooleanPref(
+            R.string.pref_coalesce_listener_builds_key,
+            R.bool.pref_coalesce_listener_builds_default));
+    EventFilter.setSpeechPipelineEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_key, R.bool.pref_speech_pipeline_default));
+    EventFilter.setSpeculativeSpeechEnabled(
+        getBooleanPref(
+            R.string.pref_speculative_speech_key, R.bool.pref_speculative_speech_default));
+    ProcessorEventQueue.setFocusPriorityEnabled(true);
+    TraversalTreeCache.setFastNavigatorEnabled(
+        getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
+    TraversalTreeCache.setSkipTargetRefreshEnabled(true);
+    TraversalTreeCache.setCheapPivotCheckEnabled(true);
+    TraversalTreeCache.setFireFocusBeforeSpeechEnabled(true);
+    EventFilter.setSpeechPipelineChainEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_chain_key, R.bool.pref_speech_pipeline_chain_default));
+    TraversalTreeCache.setEventDrivenScrollLandingEnabled(true);
+    TraversalTreeCache.setBurstBuildDeferralEnabled(
+        getBooleanPref(
+            R.string.pref_defer_builds_during_burst_key,
+            R.bool.pref_defer_builds_during_burst_default));
+  }
+
   protected void reloadPreferences() {
     reloadPreferences(null);
   }
@@ -3423,6 +3744,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   protected void reloadPreferences(@Nullable String key) {
     final Resources res = getResources();
+    refreshLatencySwitches();
 
     LogUtils.v(
         TAG,

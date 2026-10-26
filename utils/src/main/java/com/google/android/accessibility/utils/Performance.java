@@ -44,6 +44,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -231,6 +232,452 @@ public class Performance {
 
   private long preparedSpeechMisses;
 
+  /**
+   * Preparation rounds and hits by what set them off; the source numbers are PreparedFocusSpeech's:
+   * 0 = the focus moved, 1 = the window went quiet, 2 = the reading control changed.
+   */
+  private final long[] preparationRoundsBySource = new long[3];
+
+  private final long[] preparedHitsBySource = new long[3];
+
+  /** How often a used prepared announcement had been predicted from the previous reading order. */
+  private long preparedHitsFromStaleOrder;
+
+  /** How often a used prepared announcement had been prepared two swipes ahead. */
+  private long preparedHitsSecondRing;
+
+  /** Durations of the named segments inside one swipe, by segment name. */
+  private final HashMap<String, Statistics> swipeSegmentStats = new HashMap<>();
+
+  /** How often early speech read the focused node from the saved reading order. */
+  private long speakEarlyFromSavedOrder;
+
+  /** How often early speech had to read the focused node again from the app. */
+  private long speakEarlyReRead;
+
+  /** How often a reading order still had to be built on the thread that was swiping. */
+  private long orderBuildsOnSwipePath;
+
+  /** How often the scroll-edge check reused the verdict the reveal check had just computed. */
+  private long edgeChecksShared;
+
+  /** How often a reading order built in the background was saved for the next swipe to use. */
+  private long orderSnapshotsPublished;
+
+  /** Why the saved reading order could not be used: it had been thrown away. */
+  public static final String ORDER_MISS_NO_SAVED_ORDER = "no saved order";
+
+  /** Why the saved reading order could not be used: it belongs to another window. */
+  public static final String ORDER_MISS_DIFFERENT_WINDOW = "different window";
+
+  /** Why the saved reading order could not be used: the focused node is not in it. */
+  public static final String ORDER_MISS_PIVOT_NOT_IN_ORDER = "focused node not in order";
+
+  /** Why the saved reading order could not be used: it was kept too long after a text change. */
+  public static final String ORDER_MISS_GRACE_EXPIRED = "kept too long after a text change";
+
+  /** How often the saved reading order could not be used, by the reason it missed. */
+  private final HashMap<String, Long> orderCacheMissCounts = new HashMap<>();
+
+  /** How often a background reading-order build finished but was no longer current. */
+  private long orderBuildsDiedUnpublished;
+
+  /** What asked for a background reading-order build: an event threw the saved order away. */
+  public static final int ORDER_BUILD_SOURCE_EVENT_CLEAR = 0;
+
+  /** What asked for a background reading-order build: the order was thrown away off the event path. */
+  public static final int ORDER_BUILD_SOURCE_LISTENER = 1;
+
+  /** What asked for a background reading-order build: a touch began with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_TOUCH = 2;
+
+  /** What asked for a background reading-order build: the screen went quiet with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_SETTLE = 3;
+
+  /** What asked for a background reading-order build: focus landed with no order saved. */
+  public static final int ORDER_BUILD_SOURCE_FOCUS = 4;
+
+  /** Names of the build sources above, for the statistics display. */
+  private static final String[] ORDER_BUILD_SOURCE_NAMES = {
+    "event", "listener", "touch", "settle", "focus"
+  };
+
+  /**
+   * Swipe cadence buckets, for the burst-vs-single split: whether a swipe arrived while
+   * the user was flinging through items or at a reading pace is what decides whether the
+   * preparation work helped or hurt, so the stage latencies and the counters below are
+   * kept per bucket as well as in total.
+   */
+  public static final int SWIPE_BUCKET_BURST = 1;
+
+  /** See {@link #SWIPE_BUCKET_BURST}: a swipe at a reading pace, or the first of a run. */
+  public static final int SWIPE_BUCKET_SINGLE = 2;
+
+  /** No bucket: the event was not a swipe, or its cadence is unknown. */
+  private static final int SWIPE_BUCKET_NONE = 0;
+
+  /** A swipe following the previous one by less than this is part of the same burst. */
+  private static final long SWIPE_BURST_WINDOW_MS = 300L;
+
+  /** Label suffix per bucket, for the per-bucket stage statistics; index 0 is unused. */
+  private static final String[] SWIPE_BUCKET_SUFFIXES = {"", " [burst]", " [single]"};
+
+  /**
+   * The bucket of a swipe that landed at {@code lastMs} after the one at {@code
+   * previousMs}: burst when the two are closer than {@link #SWIPE_BURST_WINDOW_MS}. A
+   * missing or out-of-order predecessor counts as single — one quick swipe after a pause
+   * is not a burst.
+   */
+  public static int bucketSinceLastSwipe(long previousMs, long lastMs) {
+    if (previousMs <= 0 || lastMs <= previousMs) {
+      return SWIPE_BUCKET_SINGLE;
+    }
+    return lastMs - previousMs < SWIPE_BURST_WINDOW_MS
+        ? SWIPE_BUCKET_BURST
+        : SWIPE_BUCKET_SINGLE;
+  }
+
+  /** Uptime of the most recent swipe gesture, for bucketing the next one. */
+  private long lastSwipeUptimeMs;
+
+  /** Reading-order builds on the swipe path, per swipe bucket. */
+  private final long[] orderBuildsOnSwipePathByBucket = new long[3];
+
+  /** Swipes answered from the live tree in a burst instead of a synchronous build. */
+  private long burstLiveAnswers;
+
+  /** Live-tree pattern engine answers, per swipe bucket. */
+  private final long[] patternEngineAnswersByBucket = new long[3];
+
+  /** Preparation rounds, per swipe bucket. */
+  private final long[] preparationRoundsByBucket = new long[3];
+
+  /** Prepared-speech hits, per swipe bucket. */
+  private final long[] preparedSpeechHitsByBucket = new long[3];
+
+  /** Prepared-speech misses, per swipe bucket. */
+  private final long[] preparedSpeechMissesByBucket = new long[3];
+
+  /** Preparation round durations, per swipe bucket; index 0 is unused. */
+  private final Statistics[] prepareRoundDurationByBucket = {
+    new Statistics(), new Statistics(), new Statistics()
+  };
+
+  /** Background reading-order builds asked for, by what asked for them. */
+  private final long[] orderBuildsPostedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** Of those, the ones saved for the next swipe, by source. */
+  private final long[] orderBuildsPublishedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** Of those, the ones that finished after their window had moved on, by source. */
+  private final long[] orderBuildsDiedBySource = new long[ORDER_BUILD_SOURCE_NAMES.length];
+
+  /** How long background reading-order builds took, from being picked up to landing or dying. */
+  private final Statistics orderBuildDurationStats = new Statistics();
+
+  /** Build requests dropped because the very same build was already asked for or had just landed. */
+  private long orderBuildRequestsDeduped;
+
+  /**
+   * Listener build asks folded into a build already on its way for the same window: the ask is
+   * remembered as a need to build again from the newest tree when the current build lands, so a
+   * burst of throw-aways in a churning window starts one build, not one per throw-away.
+   */
+  private long listenerBuildsCoalesced;
+
+  /** Background build asks held back until a burst of swipes passed. */
+  private long backgroundBuildsDeferredDuringBurst;
+
+  /** Swipes the fast navigator handled itself, including the ones it answered at an edge. */
+  private long fastNavigationsHandled;
+
+  /** Scroll landings settled by a try a content change triggered. */
+  private long scrollLandingsByEvent;
+
+  /** Scroll landings settled by a try the timed backstop ran. */
+  private long scrollLandingsByBackstop;
+
+  /** Swipes the fast navigator answered at the end of the list, with its edge feedback. */
+  private long fastNavigationEdges;
+
+  /** The pattern engine handed the swipe back: the pivot or the way is web content. */
+  public static final int PATTERN_FALL_WEB = 0;
+
+  /** The pattern engine handed the swipe back: no further stop on the live tree. */
+  public static final int PATTERN_FALL_END_OF_CONTENT = 1;
+
+  /** The pattern engine handed the swipe back: the pivot was not on the live tree. */
+  public static final int PATTERN_FALL_PIVOT_NOT_IN_TREE = 2;
+
+  /** The pattern engine handed the swipe back: the target it found died before use. */
+  public static final int PATTERN_FALL_TARGET_GONE = 3;
+
+  private static final int PATTERN_FALL_REASON_COUNT = 4;
+
+  /** Directional swipes the live-tree pattern engine answered with a target it found. */
+  private long patternEngineAnswers;
+
+  /** Swipes the pattern engine handed back to the original navigation, by reason. */
+  private final long[] patternEngineFalls = new long[PATTERN_FALL_REASON_COUNT];
+
+  /** How long the pattern engine's finds took, over the swipes it answered. */
+  private final Statistics patternEngineFindStats = new Statistics();
+
+  /** Hard cases the fast navigator handled itself: it had to build the order on the spot. */
+  public static final int FAST_NAV_HARD_BUILT_ON_SPOT = 0;
+
+  /** Hard cases the fast navigator handled itself: it scrolled for the next item itself. */
+  public static final int FAST_NAV_HARD_SELF_SCROLL = 1;
+
+  /** Hard cases the fast navigator handled itself: a reading control's own order was used. */
+  public static final int FAST_NAV_HARD_GRANULARITY_ORDER = 2;
+
+  /** Hard cases the fast navigator handled itself: it read the web tree in its own order. */
+  public static final int FAST_NAV_HARD_WEB_ORDER = 3;
+
+  /** Hard cases the fast navigator handled itself: the target was dead, a live one stood in. */
+  public static final int FAST_NAV_HARD_DEAD_TARGET_SUBSTITUTED = 4;
+
+  /** Hard cases the fast navigator handled itself: the swipe landed in selection mode. */
+  public static final int FAST_NAV_HARD_SELECTION_MODE = 5;
+
+  /** Names of the hard-case kinds above, for the statistics display. */
+  private static final String[] FAST_NAV_HARD_NAMES = {
+    "built on the spot", "scrolled itself", "reading-control order", "web order",
+    "dead target replaced", "selection mode"
+  };
+
+  /** Hard cases the fast navigator handled itself, by kind. */
+  private final long[] fastNavigationHardCases = new long[FAST_NAV_HARD_NAMES.length];
+
+  /** The fast navigator could not move the focus at all: there was no pivot to start from. */
+  public static final int FAST_NAV_STUCK_NO_PIVOT = 0;
+
+  /** The fast navigator could not move the focus at all: no order could be had or built. */
+  public static final int FAST_NAV_STUCK_NO_ORDER = 1;
+
+  /** The fast navigator scrolled, and nothing new landed to focus. */
+  public static final int FAST_NAV_STUCK_SCROLL_NO_LANDING = 2;
+
+  /** Every target the order offered in the swipe's direction was dead. */
+  public static final int FAST_NAV_STUCK_ALL_TARGETS_DEAD = 3;
+
+  /** The one focus action the fast navigator fired did not land. */
+  public static final int FAST_NAV_STUCK_FOCUS_ACTION_FAILED = 4;
+
+  /** Names of the stuck reasons above, for the statistics display. */
+  private static final String[] FAST_NAV_STUCK_NAMES = {
+    "no pivot", "no order", "scroll landed nothing", "all targets dead", "focus action failed"
+  };
+
+  /** Swipes the fast navigator could not move at all, by reason. */
+  private final long[] fastNavigationStuck = new long[FAST_NAV_STUCK_NAMES.length];
+
+  /** Navigations whose pivot was the focus node the reading-order cache already held. */
+  private long cachedFocusShortcutUsed;
+
+  /** Held focus nodes that failed their checks, so the navigation asked the app as usual. */
+  private long cachedFocusShortcutRejected;
+
+  /** Background orders built by the lean builder instead of the standard one. */
+  private long leanOrderBuilds;
+
+  /** Lean builds that failed and were redone by the standard builder. */
+  private long leanOrderBuildFallbacks;
+
+  /** How often a swipe was served by the previous reading order while a new one was built. */
+  private long staleOrdersServed;
+
+  /** How often a target taken from that previous order failed its checks and was refused. */
+  private long staleTargetsRejected;
+
+  /** How often navigation speech cut short an announcement that other speech could not cut. */
+  private long navigationSpeechInterrupts;
+
+  /** How often window-change or focus speech cut short such an announcement. */
+  private long windowFocusSpeechInterrupts;
+
+  /** How often the speech wait cap force-flushed an utterance ahead of waiting navigation. */
+  private long speechWaitCapFlushes;
+
+  /** How often the speech wait cap was held back because the blocker was exempt speech. */
+  private long speechWaitCapHeld;
+
+  /** Prepared announcements kept because a change's region spared them. */
+  private long preparedKeptByRegion;
+
+  /** Prepared announcements thrown away because a change's region touched them. */
+  private long preparedEvictedByRegion;
+
+  /** How long queued utterances waited in the speech queue before they were spoken. */
+  private final Statistics speechWaitStats = new Statistics();
+
+  /** A wait longer than this is profiled with what blocked it and what had to wait. */
+  private static final long SPEECH_WAIT_PROFILE_MIN_MS = 100;
+
+  /** How many of the longest speech waits are profiled. */
+  private static final int MAX_SPEECH_WAIT_PROFILES = 10;
+
+  /** One long speech wait: how long it lasted, what was speaking, and what had to wait. */
+  private static final class SpeechWaitProfile {
+    final long durationMs;
+    final String blockerLabel;
+    final String waiterLabel;
+
+    SpeechWaitProfile(long durationMs, String blockerLabel, String waiterLabel) {
+      this.durationMs = durationMs;
+      this.blockerLabel = blockerLabel;
+      this.waiterLabel = waiterLabel;
+    }
+  }
+
+  /** The longest speech waits seen, longest first. */
+  private final ArrayList<SpeechWaitProfile> speechWaitProfiles = new ArrayList<>();
+
+  /** Utterances sent to the engine in pieces, cut at the first separator between their parts. */
+  private long utterancesSplit;
+
+  /** Pieces those utterances were sent in, in total. */
+  private long splitPieces;
+
+  /** Utterances played from the speech cache instead of the engine making their sound. */
+  private long speechCachePlays;
+
+  /** Prepared announcements whose sound was made in advance into the speech cache. */
+  private long preparedSpeechSyntheses;
+
+  /** Of those, the ones made for targets two swipes away instead of one. */
+  private long preparedSpeechSynthesesDepth2;
+
+  /** Of those, the ones made by a preparation round that ran when the screen settled. */
+  private long preparedSpeechSynthesesSettle;
+
+  /** Prepared sounds thrown out of the cache before any of them was ever played. */
+  private long presynthEvictedBeforePlay;
+
+  /** Prepared sounds that finished being made only after their announcement was already gone. */
+  private long presynthCompletedLate;
+
+  /** Speech-cache plays of a sound made ahead for a target one swipe away. */
+  private long speechCachePlaysDepth1;
+
+  /** Speech-cache plays of a sound made ahead for a target two swipes away. */
+  private long speechCachePlaysDepth2;
+
+  /** Cache misses where the words had been made into sound, but under another voice setting. */
+  private long speechCacheMissKeyMismatch;
+
+  /** Cache misses where the words had never been made into sound at all. */
+  private long speechCacheMissNeverMade;
+
+  /**
+   * Sounds whose making was started by the speech pipeline: a prepared sound was played for the
+   * item just focused, so the sound of the next item in the swipe's direction was set going at
+   * once instead of at the next preparation round.
+   */
+  private long speechPipelineStarted;
+
+  /** Of those pipeline-started sounds, the ones that were later played. */
+  private long speechPipelinePlayed;
+
+  /** Texts of sounds the pipeline started, so a play can be credited to the pipeline. */
+  private final HashSet<String> preparedSoundsPipelined = new HashSet<>();
+
+  /**
+   * Sounds whose making the pipeline chain started: a pipelined sound landed while the
+   * swiping was still going, so the sound one step further was set going in turn.
+   */
+  private long speechPipelineChainedStarted;
+
+  /** Of those chain-started sounds, the ones that were later played. */
+  private long speechPipelineChainedPlayed;
+
+  /** Texts of sounds the chain started, so a play can be credited to the chain. */
+  private final HashSet<String> preparedSoundsChained = new HashSet<>();
+
+  /** Announcements submitted speculatively, before the focus action they belong to was fired. */
+  private long speculativeSpeechSubmitted;
+
+  /** Speculations the app's focus event confirmed: the focus landed where the speech said. */
+  private long speculativeSpeechConfirmed;
+
+  /** Speculations the focus that actually landed contradicted, and which were cut short. */
+  private long speculativeSpeechCorrected;
+
+  /** Preparation rounds split into slices that yield the main thread between items. */
+  private long prepareRoundsChunked;
+
+  /** Slices those rounds ran in, in total. */
+  private long prepareRoundChunks;
+
+  /** Preparation rounds put off to when the screen settles because swipes were landing thick. */
+  private long prepareRoundsDeferred;
+
+  /** Preparation rounds that planned nothing and were retried once the order could have landed. */
+  private long prepareRoundsRetried;
+
+  /** Focus events the event queue let through ahead of the events queued before them. */
+  private long focusEventQueueJumps;
+
+  /** How deep the event queue was at each of those jumps. */
+  private final Statistics focusEventQueueJumpDepthStats = new Statistics();
+
+  /**
+   * Sounds made ahead, by their text: the depth each was made for, and whether it has been
+   * played. Kept only so a play can be credited to the depth that made its sound, and an
+   * eviction can tell a wasted sound from a used one; bounded, and dropped whole when it grows
+   * past the bound rather than trimmed, as a stale entry can only miscredit one play.
+   */
+  private final HashMap<String, Integer> preparedSoundDepths = new HashMap<>();
+
+  /** Texts of sounds made ahead that have been played at least once. */
+  private final HashSet<String> preparedSoundsPlayed = new HashSet<>();
+
+  /** The most prepared sounds whose depth is remembered at once. */
+  private static final int MAX_PREPARED_SOUND_DEPTHS = 128;
+
+  /** Latency from an utterance being queued to being heard, when its sound came from the cache. */
+  private final Statistics betweenCacheHitStats = new Statistics();
+
+  /** The same latency, when the engine had to make the sound first. */
+  private final Statistics betweenCacheMissStats = new Statistics();
+
+  /** How many of the slowest swipes are profiled. */
+  private static final int MAX_SLOW_SWIPE_PROFILES = 10;
+
+  /** A swipe slower than this, end to end through navigation, earns a profile. */
+  private static final long SLOW_SWIPE_THRESHOLD_MS = 35;
+
+  /** One slow swipe: how long it took, where the time went, and which paths it took. */
+  private static final class SlowSwipeProfile {
+    final long totalMs;
+    final HashMap<String, Long> segments;
+    final String orderPath;
+    final String speakPath;
+
+    SlowSwipeProfile(long totalMs, HashMap<String, Long> segments, String orderPath, String speakPath) {
+      this.totalMs = totalMs;
+      this.segments = segments;
+      this.orderPath = orderPath;
+      this.speakPath = speakPath;
+    }
+  }
+
+  /** The slowest swipes seen, slowest first. */
+  private final ArrayList<SlowSwipeProfile> slowSwipeProfiles = new ArrayList<>();
+
+  /** Segment durations of the swipe being profiled, or null when no swipe is. */
+  private HashMap<String, Long> activeSwipeSegments;
+
+  /** The order path of the swipe being profiled: saved, stale, or built on the spot. */
+  private String activeSwipeOrderPath;
+
+  /** The speech-path counters as the profiled swipe began, to tell which path it took. */
+  private long profilePreparedHitsBase;
+
+  private long profileSavedOrderBase;
+  private long profileReReadBase;
+
   private final List<LatencyTracker> latencyTrackers = new ArrayList<>();
 
   /**
@@ -339,6 +786,40 @@ public class Performance {
     return eventId;
   }
 
+  /** Event labels of the two swipe gestures, as produced for gesture events. */
+  private static final String LABEL_GESTURE_SWIPE_LEFT = "GESTURE_SWIPE_LEFT";
+
+  private static final String LABEL_GESTURE_SWIPE_RIGHT = "GESTURE_SWIPE_RIGHT";
+
+  /**
+   * The cadence bucket of this event when it is a swipe gesture: burst when the previous
+   * swipe landed less than {@link #SWIPE_BURST_WINDOW_MS} before this one. This swipe is
+   * remembered for the next one's bucket. Non-swipe events get no bucket.
+   */
+  private int bucketForSwipeEvent(@Nullable String[] labels, @NonNull EventId eventId) {
+    if (labels == null) {
+      return SWIPE_BUCKET_NONE;
+    }
+    boolean swipe = false;
+    for (String label : labels) {
+      if (LABEL_GESTURE_SWIPE_LEFT.equals(label) || LABEL_GESTURE_SWIPE_RIGHT.equals(label)) {
+        swipe = true;
+        break;
+      }
+    }
+    if (!swipe) {
+      return SWIPE_BUCKET_NONE;
+    }
+    long nowMs = eventId.getEventTimeMs();
+    synchronized (lockLabelToStats) {
+      int bucket = bucketSinceLastSwipe(lastSwipeUptimeMs, nowMs);
+      if (nowMs > lastSwipeUptimeMs) {
+        lastSwipeUptimeMs = nowMs;
+      }
+      return bucket;
+    }
+  }
+
   protected void onEventReceived(@NonNull EventId eventId, String[] labels) {
     onEventReceived(eventId, labels, null, false);
   }
@@ -351,6 +832,7 @@ public class Performance {
 
     // Create event data.
     EventData eventData = new EventData(getTime(), getUptime(), labels, eventId);
+    eventData.swipeBucket = bucketForSwipeEvent(labels, eventId);
     if (event != null
         && ((event.getEventType() & eventMaskForLoggingAccessibilityAttributes) != 0)) {
       eventData.recordAccessibilityEventAttributes(event);
@@ -662,6 +1144,11 @@ public class Performance {
       for (String label : eventData.labels) {
         Statistics stats = getOrCreateStatistics(label, STAGE_FEEDBACK_QUEUED);
         stats.increment(stageLatency);
+        if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+          getOrCreateStatistics(
+                  label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket], STAGE_FEEDBACK_QUEUED)
+              .increment(stageLatency);
+        }
 
         if (stageLatency > FEEDBACK_QUEUED_THRESHOLD_MS) {
           LogUtils.d(
@@ -709,6 +1196,11 @@ public class Performance {
           for (String label : eventData.labels) {
             Statistics stats = getOrCreateStatistics(label, STAGE_FEEDBACK_HEARD);
             stats.increment(stageLatency);
+            if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+              getOrCreateStatistics(
+                      label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket], STAGE_FEEDBACK_HEARD)
+                  .increment(stageLatency);
+            }
 
             if (stageLatency > FEEDBACK_HEARD_THRESHOLD_MS) {
               LogUtils.d(
@@ -730,7 +1222,22 @@ public class Performance {
             }
             stats = getOrCreateStatistics(label, STAGE_BETWEEN_FEEDBACK_QUEUED_AND_FEEDBACK_HEARD);
             stats.increment(latency);
+            if (eventData.swipeBucket != SWIPE_BUCKET_NONE) {
+              getOrCreateStatistics(
+                      label + SWIPE_BUCKET_SUFFIXES[eventData.swipeBucket],
+                      STAGE_BETWEEN_FEEDBACK_QUEUED_AND_FEEDBACK_HEARD)
+                  .increment(latency);
+            }
           }
+        }
+        // The same wait, split by whether the sound was already made: this is what tells a
+        // later export what a speech-cache hit is actually worth, instead of leaving the worth
+        // of making sounds ahead to be guessed from the mixed figure.
+        long betweenLatency = now - eventData.getTimeFeedbackQueued();
+        if (localCache) {
+          betweenCacheHitStats.increment(betweenLatency);
+        } else {
+          betweenCacheMissStats.increment(betweenLatency);
         }
       }
     }
@@ -1068,23 +1575,82 @@ public class Performance {
     }
   }
 
-  /** Counts one focus spoken from a prepared announcement. */
-  public void onPreparedSpeechHit() {
+  /** Counts one focus spoken from a prepared announcement, in the given swipe bucket. */
+  public void onPreparedSpeechHit(int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       preparedSpeechHits++;
+      if (bucket >= 0 && bucket < preparedSpeechHitsByBucket.length) {
+        preparedSpeechHitsByBucket[bucket]++;
+      }
     }
   }
 
-  /** Counts one focus that was spoken without a prepared announcement to use. */
-  public void onPreparedSpeechMiss() {
+  /** Counts one round of preparing swipe announcements, by what set it off and by bucket. */
+  public void onPreparationRound(int source, int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < preparationRoundsBySource.length) {
+        preparationRoundsBySource[source]++;
+      }
+      if (bucket >= 0 && bucket < preparationRoundsByBucket.length) {
+        preparationRoundsByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Counts where a used prepared announcement came from. */
+  public void onPreparedSpeechHitSource(int source, boolean fromStaleOrder, int depth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < preparedHitsBySource.length) {
+        preparedHitsBySource[source]++;
+      }
+      if (fromStaleOrder) {
+        preparedHitsFromStaleOrder++;
+      }
+      if (depth >= 2) {
+        preparedHitsSecondRing++;
+      }
+    }
+  }
+
+  /** Counts one focus spoken without a prepared announcement, in the given swipe bucket. */
+  public void onPreparedSpeechMiss(int bucket) {
     if (!computeStatsEnabled) {
       return;
     }
     synchronized (lockLabelToStats) {
       preparedSpeechMisses++;
+      if (bucket >= 0 && bucket < preparedSpeechMissesByBucket.length) {
+        preparedSpeechMissesByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Counts one early speech that used the node from the saved reading order as it was. */
+  public void onSpeakEarlyFromSavedOrder() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speakEarlyFromSavedOrder++;
+    }
+  }
+
+  /** Counts one early speech that read the focused node again from the app first. */
+  public void onSpeakEarlyReRead() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speakEarlyReRead++;
     }
   }
 
@@ -1095,6 +1661,1313 @@ public class Performance {
         logger.log(
             "Prepared speech: %d hits, %d misses", preparedSpeechHits, preparedSpeechMisses);
       }
+      if (preparedSpeechHits + speakEarlyFromSavedOrder + speakEarlyReRead > 0) {
+        logger.log(
+            "Speak-early paths: %d prepared, %d from the saved order, %d re-read from the app",
+            preparedSpeechHits, speakEarlyFromSavedOrder, speakEarlyReRead);
+      }
+      if (preparedKeptByRegion + preparedEvictedByRegion > 0) {
+        logger.log(
+            "Prepared speech region checks: %d kept, %d evicted",
+            preparedKeptByRegion, preparedEvictedByRegion);
+      }
+      long preparationRounds =
+          preparationRoundsBySource[0]
+              + preparationRoundsBySource[1]
+              + preparationRoundsBySource[2];
+      if (preparationRounds > 0) {
+        logger.log(
+            "Preparation rounds and hits by source: focus %d/%d, settle %d/%d, reading control"
+                + " %d/%d; %d hits from the previous order, %d hits two swipes ahead",
+            preparationRoundsBySource[0],
+            preparedHitsBySource[0],
+            preparationRoundsBySource[1],
+            preparedHitsBySource[1],
+            preparationRoundsBySource[2],
+            preparedHitsBySource[2],
+            preparedHitsFromStaleOrder,
+            preparedHitsSecondRing);
+      }
+      if (prepareRoundsChunked > 0 || prepareRoundsDeferred > 0) {
+        logger.log(
+            "Preparation rounds yielding: %d rounds ran in %d slices, %d rounds put off"
+                + " to settle time while swipes landed",
+            prepareRoundsChunked, prepareRoundChunks, prepareRoundsDeferred);
+      }
+      if (prepareRoundsRetried > 0) {
+        logger.log(
+            "Preparation rounds retried after planning nothing: %d", prepareRoundsRetried);
+      }
+      if (speculativeSpeechSubmitted > 0) {
+        logger.log(
+            "Speculative speech: %d submitted ahead of the focus action, %d confirmed by"
+                + " the focus event, %d corrected",
+            speculativeSpeechSubmitted, speculativeSpeechConfirmed, speculativeSpeechCorrected);
+      }
+      if (focusEventQueueJumps > 0) {
+        logger.log(
+            "Focus events let through the queue early: %d, at a median queue depth of %d",
+            focusEventQueueJumps, focusEventQueueJumpDepthStats.getPercentile(50));
+      }
+    }
+  }
+
+  /** Counts prepared announcements a change's region spared, so their preparation was not wasted. */
+  public void onPreparedEntriesKeptByRegion(int count) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedKeptByRegion += count;
+    }
+  }
+
+  /** Counts prepared announcements a change's region touched, which were thrown away. */
+  public void onPreparedEntriesEvictedByRegion(int count) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedEvictedByRegion += count;
+    }
+  }
+
+  /** Records how long one queued utterance waited in the speech queue before it was spoken. */
+  public void recordSpeechWaitDuration(long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitStats.increment(durationMs);
+    }
+  }
+
+  /**
+   * Profiles one long speech wait, naming what was speaking and what had to wait, so an export
+   * can say which utterance was the blocker instead of leaving it to guesswork. Waits shorter
+   * than {@link #SPEECH_WAIT_PROFILE_MIN_MS} are counted in the statistics but not profiled.
+   */
+  public void recordSpeechWaitProfile(
+      long durationMs, @NonNull String blockerLabel, @NonNull String waiterLabel) {
+    if (!computeStatsEnabled || durationMs < SPEECH_WAIT_PROFILE_MIN_MS) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitProfiles.add(new SpeechWaitProfile(durationMs, blockerLabel, waiterLabel));
+      speechWaitProfiles.sort((a, b) -> Long.compare(b.durationMs, a.durationMs));
+      while (speechWaitProfiles.size() > MAX_SPEECH_WAIT_PROFILES) {
+        speechWaitProfiles.remove(speechWaitProfiles.size() - 1);
+      }
+    }
+  }
+
+  /** The profiled long speech waits, formatted as they are displayed, longest first. */
+  public List<String> speechWaitProfileLines() {
+    ArrayList<String> lines = new ArrayList<>();
+    synchronized (lockLabelToStats) {
+      for (SpeechWaitProfile profile : speechWaitProfiles) {
+        lines.add(
+            String.format(
+                Locale.US,
+                "Speech wait %dms: %s waited behind %s",
+                profile.durationMs, profile.waiterLabel, profile.blockerLabel));
+      }
+    }
+    return lines;
+  }
+
+  /** Counts one utterance sent to the engine in pieces, cut at its first separator. */
+  public void onUtteranceSplit(int pieces) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      utterancesSplit++;
+      splitPieces += pieces;
+    }
+  }
+
+  /** Counts one utterance played from the speech cache instead of the engine making its sound. */
+  public void onSpeechCachePlay() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechCachePlays++;
+    }
+  }
+
+  /**
+   * Counts one speech-cache play of {@code text}, crediting it to the preparation depth that
+   * made its sound ahead of time when the sound was one of those, so an export can say whether
+   * the sounds made for targets two swipes away are ever heard at all.
+   */
+  public void onSpeechCachePlayOfText(@NonNull CharSequence text) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechCachePlays++;
+      Integer depth = preparedSoundDepths.get(text.toString());
+      if (depth == null) {
+        return;
+      }
+      preparedSoundsPlayed.add(text.toString());
+      if (depth >= 2) {
+        speechCachePlaysDepth2++;
+      } else {
+        speechCachePlaysDepth1++;
+      }
+      if (preparedSoundsPipelined.contains(text.toString())) {
+        speechPipelinePlayed++;
+      }
+      if (preparedSoundsChained.contains(text.toString())) {
+        speechPipelineChainedPlayed++;
+      }
+    }
+  }
+
+  /** Remembers that the sound of {@code text} was made ahead, and for how far ahead. */
+  public void registerPreparedSound(@NonNull String text, int depth) {
+    registerPreparedSound(text, depth, /* pipelined= */ false);
+  }
+
+  /**
+   * Remembers that the sound of {@code text} was made ahead, and for how far ahead. A sound the
+   * speech pipeline started is remembered as such, so its play is credited to the pipeline.
+   */
+  public void registerPreparedSound(@NonNull String text, int depth, boolean pipelined) {
+    registerPreparedSound(text, depth, pipelined, /* chained= */ false);
+  }
+
+  /**
+   * Remembers that the sound of {@code text} was made ahead, and for how far ahead. A sound
+   * the pipeline chain started — one step further than the pipeline's own — is credited to the
+   * chain when it plays, not to the pipeline.
+   */
+  public void registerPreparedSound(
+      @NonNull String text, int depth, boolean pipelined, boolean chained) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (preparedSoundDepths.size() >= MAX_PREPARED_SOUND_DEPTHS) {
+        preparedSoundDepths.clear();
+        preparedSoundsPlayed.clear();
+        preparedSoundsPipelined.clear();
+        preparedSoundsChained.clear();
+      }
+      preparedSoundDepths.put(text, depth);
+      if (chained) {
+        preparedSoundsChained.add(text);
+      } else if (pipelined) {
+        preparedSoundsPipelined.add(text);
+      }
+    }
+  }
+
+  /** Counts one sound whose making the speech pipeline started. */
+  public void onSpeechPipelineStarted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechPipelineStarted++;
+    }
+  }
+
+  /** Counts one sound whose making the pipeline chain started, one step further along. */
+  public void onSpeechPipelineChainedStarted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechPipelineChainedStarted++;
+    }
+  }
+
+  public long getSpeechPipelineChainedStartedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineChainedStarted;
+    }
+  }
+
+  public long getSpeechPipelineChainedPlayedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineChainedPlayed;
+    }
+  }
+
+  public long getSpeechPipelineStartedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelineStarted;
+    }
+  }
+
+  public long getSpeechPipelinePlayedCount() {
+    synchronized (lockLabelToStats) {
+      return speechPipelinePlayed;
+    }
+  }
+
+  /** Counts one announcement submitted speculatively, ahead of its focus action. */
+  public void onSpeculativeSpeechSubmitted() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechSubmitted++;
+    }
+  }
+
+  /** Counts one speculation the app's focus event confirmed. */
+  public void onSpeculativeSpeechConfirmed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechConfirmed++;
+    }
+  }
+
+  /** Counts one speculation the focus that actually landed contradicted. */
+  public void onSpeculativeSpeechCorrected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speculativeSpeechCorrected++;
+    }
+  }
+
+  public long getSpeculativeSpeechSubmittedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechSubmitted;
+    }
+  }
+
+  public long getSpeculativeSpeechConfirmedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechConfirmed;
+    }
+  }
+
+  public long getSpeculativeSpeechCorrectedCount() {
+    synchronized (lockLabelToStats) {
+      return speculativeSpeechCorrected;
+    }
+  }
+
+  /** Counts one preparation round split into yielding slices, and how many slices it ran in. */
+  public void onPrepareRoundChunked(int chunks) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsChunked++;
+      prepareRoundChunks += chunks;
+    }
+  }
+
+  /** Counts one preparation round put off to settle time because swipes were landing thick. */
+  public void onPrepareRoundDeferred() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsDeferred++;
+    }
+  }
+
+  public long getPrepareRoundsDeferredCount() {
+    synchronized (lockLabelToStats) {
+      return prepareRoundsDeferred;
+    }
+  }
+
+  /** Counts one preparation round that planned nothing and was retried at settle time. */
+  public void onPrepareRoundRetried() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      prepareRoundsRetried++;
+    }
+  }
+
+  public long getPrepareRoundsRetriedCount() {
+    synchronized (lockLabelToStats) {
+      return prepareRoundsRetried;
+    }
+  }
+
+  /** Counts one focus event let through the event queue ahead of older events, and the depth. */
+  public void onFocusEventQueueJump(int queueDepth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      focusEventQueueJumps++;
+      focusEventQueueJumpDepthStats.increment(queueDepth);
+    }
+  }
+
+  public long getFocusEventQueueJumpCount() {
+    synchronized (lockLabelToStats) {
+      return focusEventQueueJumps;
+    }
+  }
+
+  /**
+   * Forgets the sound of {@code text} made ahead, as it has been thrown out of the cache, and
+   * counts the waste if it was never played: a sound the cache threw away unheard is engine time
+   * that bought nothing.
+   */
+  public void unregisterPreparedSound(@NonNull String text) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSoundsPipelined.remove(text);
+      preparedSoundsChained.remove(text);
+      if (preparedSoundDepths.remove(text) != null && !preparedSoundsPlayed.remove(text)) {
+        presynthEvictedBeforePlay++;
+      }
+    }
+  }
+
+  /** Counts one sound that finished being made only after its announcement was already gone. */
+  public void onPresynthCompletedLate() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      presynthCompletedLate++;
+    }
+  }
+
+  /**
+   * Counts one speech-cache miss, by its kind: the words had been made into sound under another
+   * voice setting, so the sound existed but its key did not match, or they had never been made
+   * into sound at all.
+   */
+  public void onSpeechCacheMiss(boolean keyMismatch) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (keyMismatch) {
+        speechCacheMissKeyMismatch++;
+      } else {
+        speechCacheMissNeverMade++;
+      }
+    }
+  }
+
+  /** Records how long one round of preparing swipe announcements took on the main thread. */
+  public void onPrepareRoundDuration(long durationMs, int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      Statistics stats = swipeSegmentStats.get("prepare round");
+      if (stats == null) {
+        stats = new Statistics();
+        swipeSegmentStats.put("prepare round", stats);
+      }
+      stats.increment(durationMs);
+      if (bucket >= 0 && bucket < prepareRoundDurationByBucket.length) {
+        prepareRoundDurationByBucket[bucket].increment(durationMs);
+      }
+    }
+  }
+
+  /** Counts one prepared announcement whose sound was made in advance into the speech cache. */
+  public void onPreparedSpeechSynthesized(int depth, boolean settleSource) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      preparedSpeechSyntheses++;
+      if (depth >= 2) {
+        preparedSpeechSynthesesDepth2++;
+      }
+      if (settleSource) {
+        preparedSpeechSynthesesSettle++;
+      }
+    }
+  }
+
+  public long getPreparedSpeechSynthesesDepth2Count() {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechSynthesesDepth2;
+    }
+  }
+
+  public long getPreparedSpeechSynthesesSettleCount() {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechSynthesesSettle;
+    }
+  }
+
+  /** Counts one announcement cut short by navigation speech that was not allowed to wait. */
+  public void onNavigationSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      navigationSpeechInterrupts++;
+    }
+  }
+
+  public long getNavigationSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return navigationSpeechInterrupts;
+    }
+  }
+
+  /** Counts one announcement cut short by window-change or focus speech. */
+  public void onWindowFocusSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      windowFocusSpeechInterrupts++;
+    }
+  }
+
+  public long getWindowFocusSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return windowFocusSpeechInterrupts;
+    }
+  }
+
+  /** Counts one utterance force-flushed by the speech wait cap. */
+  public void onSpeechWaitCapFlush() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapFlushes++;
+    }
+  }
+
+  public long getSpeechWaitCapFlushCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapFlushes;
+    }
+  }
+
+  /** Counts one wait the cap deliberately did not cut because the blocker was exempt speech. */
+  public void onSpeechWaitCapHeld() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapHeld++;
+    }
+  }
+
+  public long getSpeechWaitCapHeldCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapHeld;
+    }
+  }
+
+  /** Displays how long queued utterances waited, and how often navigation speech cut a wait. */
+  public void displaySpeechWaitStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (speechWaitStats.getCount() > 0) {
+        logger.log(
+            "Speech waits: count=%d, median=%dms, 90th percentile=%dms",
+            speechWaitStats.getCount(),
+            speechWaitStats.getPercentile(50),
+            speechWaitStats.getPercentile(90));
+      }
+      if (navigationSpeechInterrupts > 0) {
+        logger.log(
+            "Navigation speech interrupts of uninterruptible announcements: %d",
+            navigationSpeechInterrupts);
+      }
+      if (windowFocusSpeechInterrupts > 0) {
+        logger.log(
+            "Window and focus speech interrupts of uninterruptible announcements: %d",
+            windowFocusSpeechInterrupts);
+      }
+      if (speechWaitCapFlushes > 0 || speechWaitCapHeld > 0) {
+        logger.log(
+            "Speech wait cap: %d waits cut short, %d held for exempt speech",
+            speechWaitCapFlushes, speechWaitCapHeld);
+      }
+      if (utterancesSplit > 0) {
+        logger.log(
+            "Split utterances: %d sent in %d pieces at the first separator",
+            utterancesSplit, splitPieces);
+      }
+      if (speechCachePlays > 0 || preparedSpeechSyntheses > 0) {
+        logger.log(
+            "Speech cache: %d plays, %d prepared announcements made into sound ahead",
+            speechCachePlays, preparedSpeechSyntheses);
+      }
+      long announcementsSpokenEarly =
+          preparedSpeechHits + speakEarlyFromSavedOrder + speakEarlyReRead;
+      if (announcementsSpokenEarly > 0) {
+        logger.log(
+            "Speech cache hit ratio on the swipe path: %d%% (%d plays of %d announcements"
+                + " spoken early)",
+            Math.min(100, speechCachePlays * 100 / announcementsSpokenEarly),
+            speechCachePlays,
+            announcementsSpokenEarly);
+      }
+      if (preparedSpeechSynthesesDepth2 > 0 || preparedSpeechSynthesesSettle > 0) {
+        logger.log(
+            "Speech made ahead by reach: %d for targets two swipes away, %d from settle rounds",
+            preparedSpeechSynthesesDepth2, preparedSpeechSynthesesSettle);
+      }
+      if (speechCachePlaysDepth1 + speechCachePlaysDepth2 > 0) {
+        logger.log(
+            "Speech cache plays of sounds made ahead: %d for targets one swipe away,"
+                + " %d for targets two swipes away",
+            speechCachePlaysDepth1, speechCachePlaysDepth2);
+      }
+      if (presynthEvictedBeforePlay > 0 || presynthCompletedLate > 0) {
+        logger.log(
+            "Prepared sounds wasted: %d thrown out unplayed, %d finished too late to be used",
+            presynthEvictedBeforePlay, presynthCompletedLate);
+      }
+      if (speechCacheMissKeyMismatch + speechCacheMissNeverMade > 0) {
+        logger.log(
+            "Speech cache misses: %d made under another voice setting, %d never made",
+            speechCacheMissKeyMismatch, speechCacheMissNeverMade);
+      }
+      if (speechPipelineStarted > 0 || speechPipelineChainedStarted > 0) {
+        logger.log(
+            "Speech pipeline: %d sounds started as the item before them played, %d of them"
+                + " played; %d chained one step further as those landed, %d of them played",
+            speechPipelineStarted,
+            speechPipelinePlayed,
+            speechPipelineChainedStarted,
+            speechPipelineChainedPlayed);
+      }
+      if (betweenCacheHitStats.getCount() + betweenCacheMissStats.getCount() > 0) {
+        logger.log(
+            "Between queued and heard: sound already made median=%dms (count=%d),"
+                + " engine-made median=%dms (count=%d)",
+            betweenCacheHitStats.getPercentile(50),
+            betweenCacheHitStats.getCount(),
+            betweenCacheMissStats.getPercentile(50),
+            betweenCacheMissStats.getCount());
+      }
+    }
+    for (String line : speechWaitProfileLines()) {
+      logger.log(line);
+    }
+  }
+
+  /** Records how long one named segment of a swipe took. */
+  public void recordSwipeSegment(@NonNull String name, long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      Statistics stats = swipeSegmentStats.get(name);
+      if (stats == null) {
+        stats = new Statistics();
+        swipeSegmentStats.put(name, stats);
+      }
+      stats.increment(durationMs);
+      if (activeSwipeSegments != null) {
+        activeSwipeSegments.put(name, durationMs);
+      }
+    }
+  }
+
+  /** Starts profiling the swipe now being navigated, until {@link #endSwipeProfile}. */
+  public void beginSwipeProfile() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      activeSwipeSegments = new HashMap<>();
+      activeSwipeOrderPath = "not recorded";
+      profilePreparedHitsBase = preparedSpeechHits;
+      profileSavedOrderBase = speakEarlyFromSavedOrder;
+      profileReReadBase = speakEarlyReRead;
+    }
+  }
+
+  /** Notes which order the swipe being profiled used: the saved one, a stale one, or a new build. */
+  public void setSwipeProfileOrderPath(@NonNull String orderPath) {
+    synchronized (lockLabelToStats) {
+      if (activeSwipeSegments != null) {
+        activeSwipeOrderPath = orderPath;
+      }
+    }
+  }
+
+  /**
+   * Ends the profile of a swipe that took {@code totalMs} through navigation. Only slow swipes are
+   * kept, slowest first, so an export shows what the worst swipes were made of: their segment
+   * durations, the order they used, and the path their speech took.
+   */
+  public void endSwipeProfile(long totalMs) {
+    synchronized (lockLabelToStats) {
+      if (activeSwipeSegments == null) {
+        return;
+      }
+      HashMap<String, Long> segments = activeSwipeSegments;
+      String orderPath = activeSwipeOrderPath;
+      activeSwipeSegments = null;
+      activeSwipeOrderPath = null;
+      if (totalMs < SLOW_SWIPE_THRESHOLD_MS) {
+        return;
+      }
+      String speakPath;
+      if (preparedSpeechHits > profilePreparedHitsBase) {
+        speakPath = "prepared";
+      } else if (speakEarlyFromSavedOrder > profileSavedOrderBase) {
+        speakPath = "saved order";
+      } else if (speakEarlyReRead > profileReReadBase) {
+        speakPath = "re-read";
+      } else {
+        speakPath = "composed on the spot";
+      }
+      slowSwipeProfiles.add(new SlowSwipeProfile(totalMs, segments, orderPath, speakPath));
+      slowSwipeProfiles.sort((a, b) -> Long.compare(b.totalMs, a.totalMs));
+      while (slowSwipeProfiles.size() > MAX_SLOW_SWIPE_PROFILES) {
+        slowSwipeProfiles.remove(slowSwipeProfiles.size() - 1);
+      }
+    }
+  }
+
+  /** Displays the profiles of the slowest swipes, slowest first. */
+  public void displaySlowSwipeProfiles(Logger logger) {
+    ArrayList<SlowSwipeProfile> profiles;
+    synchronized (lockLabelToStats) {
+      profiles = new ArrayList<>(slowSwipeProfiles);
+    }
+    for (SlowSwipeProfile profile : profiles) {
+      StringBuilder segments = new StringBuilder();
+      for (Map.Entry<String, Long> entry : new TreeMap<>(profile.segments).entrySet()) {
+        if (segments.length() > 0) {
+          segments.append(", ");
+        }
+        segments.append(entry.getKey()).append('=').append(entry.getValue());
+      }
+      logger.log(
+          "Slow swipe %dms: %s | order: %s | speech: %s",
+          profile.totalMs, segments, profile.orderPath, profile.speakPath);
+    }
+  }
+
+  /** Displays the recorded swipe segment durations, one line per segment. */
+  public void displaySwipeSegmentStats(Logger logger) {
+    HashMap<String, Statistics> segments;
+    synchronized (lockLabelToStats) {
+      segments = new HashMap<>(swipeSegmentStats);
+    }
+    for (Map.Entry<String, Statistics> entry : new TreeMap<>(segments).entrySet()) {
+      Statistics stats = entry.getValue();
+      logger.log(
+          "Swipe segment %s: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+          entry.getKey(),
+          stats.getCount(),
+          stats.getMean(),
+          stats.getPercentile(50),
+          stats.getPercentile(90));
+    }
+    long shared;
+    synchronized (lockLabelToStats) {
+      shared = edgeChecksShared;
+    }
+    if (shared > 0) {
+      logger.log("Scroll edge checks shared with the reveal check: %d", shared);
+    }
+  }
+
+  /** Counts one scroll-edge check that reused the reveal check's verdict for the same list. */
+  public void onEdgeCheckShared() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      edgeChecksShared++;
+    }
+  }
+
+  public long getEdgeCheckSharedCount() {
+    synchronized (lockLabelToStats) {
+      return edgeChecksShared;
+    }
+  }
+
+  /**
+   * Counts one reading order built on the swiping thread because no saved order could be
+   * used, in the given swipe bucket.
+   */
+  public void onOrderBuildOnSwipePath(int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildsOnSwipePath++;
+      if (bucket >= 0 && bucket < orderBuildsOnSwipePathByBucket.length) {
+        orderBuildsOnSwipePathByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Counts one swipe answered from the live tree in a burst instead of a built order. */
+  public void onBurstLiveAnswer(int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      burstLiveAnswers++;
+    }
+  }
+
+  /** Records one directional swipe the live-tree pattern engine answered, and its find time. */
+  public void onPatternEngineAnswer(long findMs, int bucket) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      patternEngineAnswers++;
+      patternEngineFindStats.increment(findMs);
+      if (bucket >= 0 && bucket < patternEngineAnswersByBucket.length) {
+        patternEngineAnswersByBucket[bucket]++;
+      }
+    }
+  }
+
+  /** Preparation rounds counted in the given swipe bucket; for tests and the display. */
+  public long getPreparationRoundsByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return preparationRoundsByBucket[bucket];
+    }
+  }
+
+  /** Prepared-speech hits counted in the given swipe bucket; for tests and the display. */
+  public long getPreparedSpeechHitsByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return preparedSpeechHitsByBucket[bucket];
+    }
+  }
+
+  /** Order builds on the swipe path counted in the given swipe bucket; for tests. */
+  public long getOrderBuildsOnSwipePathByBucket(int bucket) {
+    synchronized (lockLabelToStats) {
+      return orderBuildsOnSwipePathByBucket[bucket];
+    }
+  }
+
+  /** Swipes answered live in a burst instead of a synchronous build; for tests. */
+  public long getBurstLiveAnswers() {
+    synchronized (lockLabelToStats) {
+      return burstLiveAnswers;
+    }
+  }
+
+  /** Counts one swipe the pattern engine handed back to the original navigation, by reason. */
+  public void onPatternEngineFall(int reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (reason >= 0 && reason < patternEngineFalls.length) {
+        patternEngineFalls[reason]++;
+      }
+    }
+  }
+
+  /** Counts one reading order built in the background and saved for the next swipe. */
+  public void onOrderSnapshotPublished() {
+    onOrderSnapshotPublished(-1);
+  }
+
+  /** Counts one background-built reading order saved for the next swipe, by what asked for it. */
+  public void onOrderSnapshotPublished(int source) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderSnapshotsPublished++;
+      if (source >= 0 && source < orderBuildsPublishedBySource.length) {
+        orderBuildsPublishedBySource[source]++;
+      }
+    }
+  }
+
+  /** Counts one background reading-order build asked for, by what asked for it. */
+  public void onOrderBuildPosted(int source) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (source >= 0 && source < orderBuildsPostedBySource.length) {
+        orderBuildsPostedBySource[source]++;
+      }
+    }
+  }
+
+  /** Records how long one background reading-order build took. */
+  public void onOrderBuildDuration(long durationMs) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildDurationStats.increment(durationMs);
+    }
+  }
+
+  /** Counts one build request dropped because the same build was already asked for or had landed. */
+  public void onOrderBuildRequestDeduped() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildRequestsDeduped++;
+    }
+  }
+
+  public long getOrderBuildRequestDedupedCount() {
+    synchronized (lockLabelToStats) {
+      return orderBuildRequestsDeduped;
+    }
+  }
+
+  /** Counts one listener build ask folded into a build already on its way for the same window. */
+  public void onListenerBuildCoalesced() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      listenerBuildsCoalesced++;
+    }
+  }
+
+  public long getListenerBuildsCoalescedCount() {
+    synchronized (lockLabelToStats) {
+      return listenerBuildsCoalesced;
+    }
+  }
+
+  /** Counts one background build ask held back until a burst of swipes passed. */
+  public void onBackgroundBuildDeferredDuringBurst() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      backgroundBuildsDeferredDuringBurst++;
+    }
+  }
+
+  public long getBackgroundBuildsDeferredDuringBurstCount() {
+    synchronized (lockLabelToStats) {
+      return backgroundBuildsDeferredDuringBurst;
+    }
+  }
+
+  /** Counts one swipe the fast navigator handled itself, off the saved reading order. */
+  public void onFastNavigationHandled() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      fastNavigationsHandled++;
+    }
+  }
+
+  public long getFastNavigationsHandledCount() {
+    synchronized (lockLabelToStats) {
+      return fastNavigationsHandled;
+    }
+  }
+
+  /** Counts one swipe the fast navigator answered at the end of the list. */
+  public void onFastNavigationEdge() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      fastNavigationEdges++;
+    }
+  }
+
+  /** Counts one hard case of {@code kind} the fast navigator handled itself. */
+  public void onFastNavigationHardCase(int kind) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (kind >= 0 && kind < fastNavigationHardCases.length) {
+        fastNavigationHardCases[kind]++;
+      }
+    }
+  }
+
+  public long getFastNavigationHardCaseCount(int kind) {
+    synchronized (lockLabelToStats) {
+      return fastNavigationHardCases[kind];
+    }
+  }
+
+  /** Counts one swipe the fast navigator could not move at all, and why. */
+  public void onFastNavigationStuck(int reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (reason >= 0 && reason < fastNavigationStuck.length) {
+        fastNavigationStuck[reason]++;
+      }
+    }
+  }
+
+  public long getFastNavigationStuckCount(int reason) {
+    synchronized (lockLabelToStats) {
+      return fastNavigationStuck[reason];
+    }
+  }
+
+  /** Counts one scroll landing settled, by the kind of try that settled it. */
+  public void onScrollLandingSettled(boolean byEvent) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (byEvent) {
+        scrollLandingsByEvent++;
+      } else {
+        scrollLandingsByBackstop++;
+      }
+    }
+  }
+
+  public long getScrollLandingsByEventCount() {
+    synchronized (lockLabelToStats) {
+      return scrollLandingsByEvent;
+    }
+  }
+
+  public long getScrollLandingsByBackstopCount() {
+    synchronized (lockLabelToStats) {
+      return scrollLandingsByBackstop;
+    }
+  }
+
+  /** Counts one navigation whose pivot was the focus node the cache already held. */
+  public void onCachedFocusShortcutUsed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      cachedFocusShortcutUsed++;
+    }
+  }
+
+  /** Counts one held focus node that failed its checks, so the app was asked as usual. */
+  public void onCachedFocusShortcutRejected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      cachedFocusShortcutRejected++;
+    }
+  }
+
+  /** Counts one background order built by the lean builder, or one that fell back to the standard. */
+  public void onLeanOrderBuild(boolean fellBack) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      if (fellBack) {
+        leanOrderBuildFallbacks++;
+      } else {
+        leanOrderBuilds++;
+      }
+    }
+  }
+
+  public long getLeanOrderBuildFallbackCount() {
+    synchronized (lockLabelToStats) {
+      return leanOrderBuildFallbacks;
+    }
+  }
+
+  /** Counts one time the saved reading order could not be used, by the reason it missed. */
+  public void onOrderCacheMiss(@NonNull String reason) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderCacheMissCounts.merge(reason, 1L, Long::sum);
+    }
+  }
+
+  public long getOrderCacheMissCount(@NonNull String reason) {
+    synchronized (lockLabelToStats) {
+      return orderCacheMissCounts.getOrDefault(reason, 0L);
+    }
+  }
+
+  /** Counts one background reading-order build that finished after its window had moved on. */
+  public void onOrderBuildDied() {
+    onOrderBuildDied(-1);
+  }
+
+  /** Counts one background build that died unpublished, by what asked for it. */
+  public void onOrderBuildDied(int source) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildsDiedUnpublished++;
+      if (source >= 0 && source < orderBuildsDiedBySource.length) {
+        orderBuildsDiedBySource[source]++;
+      }
+    }
+  }
+
+  public long getOrderBuildDiedCount() {
+    synchronized (lockLabelToStats) {
+      return orderBuildsDiedUnpublished;
+    }
+  }
+
+  /** Counts one swipe served by the previous reading order while a new one was being built. */
+  public void onStaleOrderServed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      staleOrdersServed++;
+    }
+  }
+
+  public long getStaleOrderServedCount() {
+    synchronized (lockLabelToStats) {
+      return staleOrdersServed;
+    }
+  }
+
+  /** Counts one target from the previous reading order that failed its checks and was refused. */
+  public void onStaleTargetRejected() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      staleTargetsRejected++;
+    }
+  }
+
+  /** Displays how many reading orders were built on the swipe path, and how many in the background. */
+  /**
+   * Displays the burst-vs-single split: whether the latency mechanisms earn their keep
+   * while the user flings through items, or only at a reading pace. The per-stage lines
+   * (queued, between, heard) live in the label statistics under the "[burst]" and
+   * "[single]" label suffixes; this section carries the counters. A burst figure is only
+   * comparable across exports taken with the same protocol — two minutes of flinging,
+   * then two minutes of reading, per switch configuration.
+   */
+  public void displayBurstStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      long roundsBurst = preparationRoundsByBucket[SWIPE_BUCKET_BURST];
+      long roundsSingle = preparationRoundsByBucket[SWIPE_BUCKET_SINGLE];
+      if (roundsBurst + roundsSingle > 0) {
+        logger.log(
+            "Burst vs single: preparation rounds burst %d, single %d; prepared hits burst"
+                + " %d, single %d; prepared misses burst %d, single %d",
+            roundsBurst,
+            roundsSingle,
+            preparedSpeechHitsByBucket[SWIPE_BUCKET_BURST],
+            preparedSpeechHitsByBucket[SWIPE_BUCKET_SINGLE],
+            preparedSpeechMissesByBucket[SWIPE_BUCKET_BURST],
+            preparedSpeechMissesByBucket[SWIPE_BUCKET_SINGLE]);
+      }
+      Statistics burstDuration = prepareRoundDurationByBucket[SWIPE_BUCKET_BURST];
+      Statistics singleDuration = prepareRoundDurationByBucket[SWIPE_BUCKET_SINGLE];
+      if (burstDuration.getCount() + singleDuration.getCount() > 0) {
+        logger.log(
+            "Burst vs single: preparation round time burst median %dms (count %d), single"
+                + " median %dms (count %d)",
+            burstDuration.getPercentile(50),
+            burstDuration.getCount(),
+            singleDuration.getPercentile(50),
+            singleDuration.getCount());
+      }
+      long buildsBurst = orderBuildsOnSwipePathByBucket[SWIPE_BUCKET_BURST];
+      long buildsSingle = orderBuildsOnSwipePathByBucket[SWIPE_BUCKET_SINGLE];
+      if (buildsBurst + buildsSingle + burstLiveAnswers > 0) {
+        logger.log(
+            "Burst vs single: order builds on the swipe path burst %d, single %d; swipes"
+                + " answered live in a burst %d",
+            buildsBurst, buildsSingle, burstLiveAnswers);
+      }
+      long engineBurst = patternEngineAnswersByBucket[SWIPE_BUCKET_BURST];
+      long engineSingle = patternEngineAnswersByBucket[SWIPE_BUCKET_SINGLE];
+      if (engineBurst + engineSingle > 0) {
+        logger.log(
+            "Burst vs single: pattern engine answers burst %d, single %d",
+            engineBurst, engineSingle);
+      }
+    }
+  }
+
+  public void displayOrderBuildStats(Logger logger) {
+    synchronized (lockLabelToStats) {
+      if (orderBuildsOnSwipePath + orderSnapshotsPublished > 0) {
+        logger.log(
+            "Reading order: %d builds on the swipe path, %d background builds saved",
+            orderBuildsOnSwipePath, orderSnapshotsPublished);
+      }
+      if (!orderCacheMissCounts.isEmpty()) {
+        StringBuilder misses = new StringBuilder();
+        for (Map.Entry<String, Long> entry : new TreeMap<>(orderCacheMissCounts).entrySet()) {
+          if (misses.length() > 0) {
+            misses.append(", ");
+          }
+          misses.append(entry.getKey()).append('=').append(entry.getValue());
+        }
+        logger.log("Reading order misses: %s", misses);
+      }
+      if (orderBuildsDiedUnpublished > 0) {
+        logger.log("Background builds that died unpublished: %d", orderBuildsDiedUnpublished);
+      }
+      long buildsPosted = 0;
+      for (long posted : orderBuildsPostedBySource) {
+        buildsPosted += posted;
+      }
+      if (buildsPosted > 0) {
+        StringBuilder bySource = new StringBuilder();
+        for (int source = 0; source < ORDER_BUILD_SOURCE_NAMES.length; source++) {
+          if (orderBuildsPostedBySource[source] == 0) {
+            continue;
+          }
+          if (bySource.length() > 0) {
+            bySource.append(", ");
+          }
+          bySource
+              .append(ORDER_BUILD_SOURCE_NAMES[source])
+              .append(' ')
+              .append(orderBuildsPostedBySource[source])
+              .append(" asked, ")
+              .append(orderBuildsPublishedBySource[source])
+              .append(" saved, ")
+              .append(orderBuildsDiedBySource[source])
+              .append(" died");
+        }
+        logger.log("Background builds by source: %s", bySource);
+      }
+      if (orderBuildDurationStats.getCount() > 0) {
+        logger.log(
+            "Background build time: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+            orderBuildDurationStats.getCount(),
+            orderBuildDurationStats.getMean(),
+            orderBuildDurationStats.getPercentile(50),
+            orderBuildDurationStats.getPercentile(90));
+      }
+      if (orderBuildRequestsDeduped > 0) {
+        logger.log(
+            "Background build requests dropped as duplicates: %d", orderBuildRequestsDeduped);
+      }
+      if (listenerBuildsCoalesced > 0) {
+        logger.log(
+            "Listener build asks folded into a build already on its way: %d",
+            listenerBuildsCoalesced);
+      }
+      if (backgroundBuildsDeferredDuringBurst > 0) {
+        logger.log(
+            "Background build asks held until a swipe burst passed: %d",
+            backgroundBuildsDeferredDuringBurst);
+      }
+      if (fastNavigationsHandled > 0 || cachedFocusShortcutUsed + cachedFocusShortcutRejected > 0) {
+        logger.log(
+            "Fast navigator: %d swipes handled (%d answered at an edge), %d pivots from the"
+                + " held focus (%d held focuses rejected)",
+            fastNavigationsHandled,
+            fastNavigationEdges,
+            cachedFocusShortcutUsed,
+            cachedFocusShortcutRejected);
+      }
+      long fastHardCases = 0;
+      for (long hardCase : fastNavigationHardCases) {
+        fastHardCases += hardCase;
+      }
+      if (fastHardCases > 0) {
+        StringBuilder byKind = new StringBuilder();
+        for (int kind = 0; kind < FAST_NAV_HARD_NAMES.length; kind++) {
+          if (fastNavigationHardCases[kind] == 0) {
+            continue;
+          }
+          if (byKind.length() > 0) {
+            byKind.append(", ");
+          }
+          byKind.append(FAST_NAV_HARD_NAMES[kind]).append(' ').append(fastNavigationHardCases[kind]);
+        }
+        logger.log("Fast navigator hard cases handled itself: %s", byKind);
+      }
+      long fastStuck = 0;
+      for (long stuck : fastNavigationStuck) {
+        fastStuck += stuck;
+      }
+      if (fastStuck > 0) {
+        StringBuilder byReason = new StringBuilder();
+        for (int reason = 0; reason < FAST_NAV_STUCK_NAMES.length; reason++) {
+          if (fastNavigationStuck[reason] == 0) {
+            continue;
+          }
+          if (byReason.length() > 0) {
+            byReason.append(", ");
+          }
+          byReason
+              .append(FAST_NAV_STUCK_NAMES[reason])
+              .append(' ')
+              .append(fastNavigationStuck[reason]);
+        }
+        logger.log("Fast navigator could not move: %s", byReason);
+      }
+      if (scrollLandingsByEvent + scrollLandingsByBackstop > 0) {
+        logger.log(
+            "Scroll landings: %d settled by the first content change, %d by the timed"
+                + " backstop",
+            scrollLandingsByEvent, scrollLandingsByBackstop);
+      }
+      if (leanOrderBuilds + leanOrderBuildFallbacks > 0) {
+        logger.log(
+            "Lean order builder: %d orders built, %d fell back to the standard builder",
+            leanOrderBuilds, leanOrderBuildFallbacks);
+      }
+      if (staleOrdersServed + staleTargetsRejected > 0) {
+        logger.log(
+            "Stale orders: %d served, %d targets rejected",
+            staleOrdersServed, staleTargetsRejected);
+      }
+      long patternFalls = 0;
+      for (long fall : patternEngineFalls) {
+        patternFalls += fall;
+      }
+      if (patternEngineAnswers > 0 || patternFalls > 0) {
+        logger.log(
+            "Pattern engine: %d swipes answered, %d handed back to the original navigation"
+                + " (web %d, end of content %d, pivot not in the live tree %d, target gone %d)",
+            patternEngineAnswers,
+            patternFalls,
+            patternEngineFalls[PATTERN_FALL_WEB],
+            patternEngineFalls[PATTERN_FALL_END_OF_CONTENT],
+            patternEngineFalls[PATTERN_FALL_PIVOT_NOT_IN_TREE],
+            patternEngineFalls[PATTERN_FALL_TARGET_GONE]);
+      }
+      if (patternEngineFindStats.getCount() > 0) {
+        logger.log(
+            "Pattern engine find time: count=%d, mean=%dms, median=%dms, 90th percentile=%dms",
+            patternEngineFindStats.getCount(),
+            patternEngineFindStats.getMean(),
+            patternEngineFindStats.getPercentile(50),
+            patternEngineFindStats.getPercentile(90));
+      }
     }
   }
 
@@ -1104,6 +2977,92 @@ public class Performance {
       speechWaitBlockerCounts.clear();
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
+      lastSwipeUptimeMs = 0;
+      Arrays.fill(orderBuildsOnSwipePathByBucket, 0);
+      burstLiveAnswers = 0;
+      Arrays.fill(patternEngineAnswersByBucket, 0);
+      Arrays.fill(preparationRoundsByBucket, 0);
+      Arrays.fill(preparedSpeechHitsByBucket, 0);
+      Arrays.fill(preparedSpeechMissesByBucket, 0);
+      for (Statistics bucketStats : prepareRoundDurationByBucket) {
+        bucketStats.clear();
+      }
+      Arrays.fill(preparationRoundsBySource, 0);
+      Arrays.fill(preparedHitsBySource, 0);
+      preparedHitsFromStaleOrder = 0;
+      preparedHitsSecondRing = 0;
+      swipeSegmentStats.clear();
+      speakEarlyFromSavedOrder = 0;
+      speakEarlyReRead = 0;
+      orderBuildsOnSwipePath = 0;
+      edgeChecksShared = 0;
+      orderSnapshotsPublished = 0;
+      orderCacheMissCounts.clear();
+      orderBuildsDiedUnpublished = 0;
+      Arrays.fill(orderBuildsPostedBySource, 0);
+      Arrays.fill(orderBuildsPublishedBySource, 0);
+      Arrays.fill(orderBuildsDiedBySource, 0);
+      orderBuildDurationStats.clear();
+      orderBuildRequestsDeduped = 0;
+      listenerBuildsCoalesced = 0;
+      backgroundBuildsDeferredDuringBurst = 0;
+      fastNavigationsHandled = 0;
+      scrollLandingsByEvent = 0;
+      scrollLandingsByBackstop = 0;
+      fastNavigationEdges = 0;
+      patternEngineAnswers = 0;
+      Arrays.fill(patternEngineFalls, 0);
+      patternEngineFindStats.clear();
+      Arrays.fill(fastNavigationHardCases, 0);
+      Arrays.fill(fastNavigationStuck, 0);
+      cachedFocusShortcutUsed = 0;
+      cachedFocusShortcutRejected = 0;
+      speechPipelineStarted = 0;
+      speechPipelinePlayed = 0;
+      speechPipelineChainedStarted = 0;
+      speechPipelineChainedPlayed = 0;
+      preparedSoundsChained.clear();
+      speculativeSpeechSubmitted = 0;
+      speculativeSpeechConfirmed = 0;
+      speculativeSpeechCorrected = 0;
+      prepareRoundsChunked = 0;
+      prepareRoundChunks = 0;
+      prepareRoundsDeferred = 0;
+      prepareRoundsRetried = 0;
+      focusEventQueueJumps = 0;
+      focusEventQueueJumpDepthStats.clear();
+      preparedSoundsPipelined.clear();
+      leanOrderBuilds = 0;
+      leanOrderBuildFallbacks = 0;
+      presynthEvictedBeforePlay = 0;
+      presynthCompletedLate = 0;
+      speechCachePlaysDepth1 = 0;
+      speechCachePlaysDepth2 = 0;
+      speechCacheMissKeyMismatch = 0;
+      speechCacheMissNeverMade = 0;
+      preparedSoundDepths.clear();
+      preparedSoundsPlayed.clear();
+      betweenCacheHitStats.clear();
+      betweenCacheMissStats.clear();
+      staleOrdersServed = 0;
+      staleTargetsRejected = 0;
+      navigationSpeechInterrupts = 0;
+      windowFocusSpeechInterrupts = 0;
+      speechWaitCapFlushes = 0;
+      speechWaitCapHeld = 0;
+      preparedKeptByRegion = 0;
+      preparedEvictedByRegion = 0;
+      utterancesSplit = 0;
+      splitPieces = 0;
+      speechCachePlays = 0;
+      preparedSpeechSyntheses = 0;
+      preparedSpeechSynthesesDepth2 = 0;
+      preparedSpeechSynthesesSettle = 0;
+      speechWaitStats.clear();
+      speechWaitProfiles.clear();
+      slowSwipeProfiles.clear();
+      activeSwipeSegments = null;
+      activeSwipeOrderPath = null;
     }
     allEventStats.clear();
 
@@ -1183,6 +3142,18 @@ public class Performance {
       Statistics stats = labelToStats.get(labelAndStage);
       display(logger, "  %s", labelAndStage);
       displayStatistics(logger, stats);
+      if (labelAndStage.getStage() == STAGE_FEEDBACK_HEARD
+          && (labelAndStage.getLabel().equals("GESTURE_SWIPE_RIGHT")
+              || labelAndStage.getLabel().equals("GESTURE_SWIPE_LEFT"))) {
+        // The tail of the swipe, as read numbers rather than a percentile's suggestion: the
+        // single worst swipe of the session, and how many swipes ran long.
+        display(
+            logger,
+            "    Swipe-to-heard extremes: max=%sms, over 50ms=%s, over 100ms=%s",
+            stats.getMax(),
+            stats.getCountOver50(),
+            stats.getCountOver100());
+      }
     }
 
     HashMap<String, Long> waitCounts;
@@ -1625,6 +3596,9 @@ public class Performance {
     // Members set when event is received at TalkBack.
     final String[] labels;
     public final EventId eventId; // This EventData's key in mEventIndex.
+
+    /** Cadence bucket of this event when it is a swipe; see {@link #bucketForSwipeEvent}. */
+    int swipeBucket;
 
     /** The timestamp retrieved from {@link System#currentTimeMillis()} when receiving the event. */
     public final long timeReceivedAtTalkback;

@@ -40,6 +40,8 @@ import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.focusmanagement.FastNavigator;
+import com.google.android.accessibility.talkback.focusmanagement.LiveTreeNavigator;
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForLogicalNavigation;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
@@ -185,6 +187,12 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
     return focusProcessorForLogicalNavigation.predictTarget(pivot, searchDirection, targetType);
   }
 
+  /** Whether the last predicted target came from the previous reading order. */
+  @Override
+  public boolean lastPredictionFromStaleOrder() {
+    return focusProcessorForLogicalNavigation.lastPredictionFromStaleOrder();
+  }
+
   /** The target type of the granularity now in effect, whose targets are prepared in advance. */
   @Override
   public @TargetType int currentTargetType() {
@@ -200,6 +208,16 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
     this.pipeline = pipeline;
     focusProcessorForLogicalNavigation.setPipeline(pipeline);
     cursorGranularityManager.setPipelineFeedbackReturner(pipeline);
+  }
+
+  /** Sets the fast navigator that answers directional navigation while it is switched on. */
+  public void setFastNavigator(FastNavigator navigator) {
+    focusProcessorForLogicalNavigation.setFastNavigator(navigator);
+  }
+
+  /** Sets the live-tree pattern engine that tries directional navigation while it is on. */
+  public void setLiveTreeNavigator(LiveTreeNavigator navigator) {
+    focusProcessorForLogicalNavigation.setLiveTreeNavigator(navigator);
   }
 
   public void setPipelineEventReceiver(Pipeline.EventReceiver pipeline) {
@@ -326,15 +344,22 @@ public class DirectionNavigationActor implements UserInputEventListener, EventFi
       final boolean skipEdgeCheck,
       final EventId eventId) {
     CursorGranularity granularity = cursorGranularityManager.getSavedGranularity();
-    return navigateInternal(
-        direction,
-        granularity,
-        shouldWrap,
-        shouldScroll,
-        useInputFocusAsPivotIfEmpty,
-        inputMode,
-        skipEdgeCheck,
-        eventId);
+    // One navigation asks the focus monitor for the focused node several times in a row, and
+    // each asking waits for the app; the focus cannot move in between on this thread.
+    accessibilityFocusMonitor.beginFocusFetchReuse();
+    try {
+      return navigateInternal(
+          direction,
+          granularity,
+          shouldWrap,
+          shouldScroll,
+          useInputFocusAsPivotIfEmpty,
+          inputMode,
+          skipEdgeCheck,
+          eventId);
+    } finally {
+      accessibilityFocusMonitor.endFocusFetchReuse();
+    }
   }
 
   /**

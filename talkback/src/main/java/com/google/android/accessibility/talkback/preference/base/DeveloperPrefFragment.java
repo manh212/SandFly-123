@@ -551,6 +551,12 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
             return false;
           }
 
+          // The user is disabling performance statistics: write false to the real key
+          // too. Enabling wrote true there from the dialog's confirmation, while this
+          // switch only persists to its reflect key — so without this write the service
+          // kept the statistics on forever, and the counters could not be stopped.
+          SharedPreferencesUtils.storeBooleanAsync(
+              prefs, getString(R.string.pref_performance_stats_key), false);
           return true;
         }
       };

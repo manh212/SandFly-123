@@ -144,6 +144,25 @@ class WindowNodePrefetcherTest {
     waitUntil("the first root to be recycled") { firstRoot.recycled }
   }
 
+  @Test
+  fun duplicateWalk_walkOnItsWay_isDuplicate() {
+    assertTrue(WindowNodePrefetcher.duplicateWalk(true, 0L, 1_000L))
+    assertTrue(WindowNodePrefetcher.duplicateWalk(true, 500L, 5_000L))
+  }
+
+  @Test
+  fun duplicateWalk_walkFinishedWithinTheWindow_isDuplicate() {
+    assertTrue(WindowNodePrefetcher.duplicateWalk(false, 1_000L, 1_100L))
+    assertTrue(WindowNodePrefetcher.duplicateWalk(false, 1_000L, 1_149L))
+  }
+
+  @Test
+  fun duplicateWalk_walkFinishedLongAgoOrNever_isNotDuplicate() {
+    assertFalse(WindowNodePrefetcher.duplicateWalk(false, 1_000L, 1_150L))
+    assertFalse(WindowNodePrefetcher.duplicateWalk(false, 1_000L, 5_000L))
+    assertFalse(WindowNodePrefetcher.duplicateWalk(false, 0L, 1_000L))
+  }
+
   private companion object {
     const val OWN_PACKAGE = "io.github.aaron_gh.sandfly"
     const val WAIT_MS = 5_000L

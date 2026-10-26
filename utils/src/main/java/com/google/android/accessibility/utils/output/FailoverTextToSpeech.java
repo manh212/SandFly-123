@@ -172,6 +172,47 @@ public class FailoverTextToSpeech {
     return -1;
   }
 
+  /** The memory usage of the speech cache in bytes, or -1 when there is no cache. */
+  public long getSpeechCacheSizeBytes() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheSizeBytes();
+    }
+    return -1;
+  }
+
+  /** How many sounds the speech cache holds, or -1 when there is no cache. */
+  public int getSpeechCacheCount() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheCount();
+    }
+    return -1;
+  }
+
+  /** The sound format the speech cache's player settled on, or empty when there is none. */
+  public String getSpeechCacheFormatDescription() {
+    if (speechCacheManager != null) {
+      return speechCacheManager.getCacheFormatDescription();
+    }
+    return "";
+  }
+
+  /**
+   * Counts why the speech cache could not serve {@code text}: its sound existed under another
+   * voice setting, or it was never made. Utterances the cache never serves at all — ones queued
+   * behind others, and ones carrying spans the cache cannot make — are not counted either way.
+   */
+  private void countSpeechCacheMiss(
+      SpeechCacheManager speechCacheManager, CharSequence text, int queueMode) {
+    if (queueMode == TextToSpeech.QUEUE_ADD || text == null) {
+      return;
+    }
+    if (text instanceof Spannable
+        && ((Spannable) text).getSpans(0, text.length(), TtsSpan.class).length > 0) {
+      return;
+    }
+    Performance.getInstance().onSpeechCacheMiss(speechCacheManager.hasCacheForText(text));
+  }
+
   /** Class defining constants used for describing speech parameters. */
   public static final class SpeechParam {
     /** Float parameter for controlling speech volume. Range is {0 ... 2}. */
@@ -272,6 +313,16 @@ public class FailoverTextToSpeech {
 
   /** Why low-latency playback was last turned off for the current engine, or null. */
   private volatile @Nullable String lowLatencyOffReason;
+
+  /**
+   * Whether an utterance answering the user's own navigation is sent to the engine in two
+   * pieces, cut where its parts were joined, so the first part — usually an item's name —
+   * starts being made into sound at once and the rest follows in the same queue. Set from the
+   * latency setting. Only utterances that flush are cut: a later flush then destroys the
+   * second piece with the rest of the queue, exactly as it destroys an uncut utterance's
+   * queue, so a cut utterance can never leave its tail behind to be spoken.
+   */
+  public static volatile boolean splitAtFirstSeparatorEnabled = true;
 
   /**
    * Returns whether low-latency audio is on when the user hasn't chosen. It's off on watches,
@@ -1006,8 +1057,14 @@ public class FailoverTextToSpeech {
             spannable.getSpans(0, text.length(), IdentifierSpan.class);
         if (identifierSpans.length > 0) {
           utteranceInfoCombo.setIsSeparatorInUtterance(true);
+          int firstSeparatorEnd = Integer.MAX_VALUE;
           for (IdentifierSpan identifierSpan : identifierSpans) {
+            firstSeparatorEnd =
+                Math.min(firstSeparatorEnd, spannable.getSpanEnd(identifierSpan));
             spannable.removeSpan(identifierSpan);
+          }
+          if (firstSeparatorEnd != Integer.MAX_VALUE) {
+            utteranceInfoCombo.setFirstSeparatorEnd(firstSeparatorEnd);
           }
         }
       }
@@ -1097,7 +1154,14 @@ public class FailoverTextToSpeech {
       locale = getUsedLocale();
     }
 
-    return speakWithCacheOrTts(utteranceId, text, queueMode, locale, bundle);
+    int firstChunkEnd =
+        splitAtFirstSeparatorEnabled
+                && eventId != null
+                && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE
+                && utteranceInfoCombo.flushGlobalTtsQueue()
+            ? utteranceInfoCombo.firstSeparatorEnd()
+            : 0;
+    return speakWithCacheOrTts(utteranceId, text, queueMode, locale, bundle, firstChunkEnd);
   }
 
   private static void readLanguageSwitches(SharedPreferences prefs) {
@@ -1332,7 +1396,12 @@ public class FailoverTextToSpeech {
    * @return The result of speaking the text.
    */
   private int speakWithCacheOrTts(
-      String utteranceId, CharSequence text, int queueMode, Locale locale, Bundle bundle) {
+      String utteranceId,
+      CharSequence text,
+      int queueMode,
+      Locale locale,
+      Bundle bundle,
+      int firstChunkEnd) {
     if (heldUtteranceId != null) {
       if (resumeHeldSpeech(utteranceId, text)) {
         return TextToSpeech.SUCCESS;
@@ -1345,7 +1414,7 @@ public class FailoverTextToSpeech {
     }
     SpeechCacheManager speechCacheManager = usableSpeechCache();
     if (speechCacheManager == null) {
-      return speakInChunks(text, queueMode, bundle, utteranceId, locale);
+      return speakInChunks(text, queueMode, bundle, utteranceId, locale, firstChunkEnd);
     }
 
     if (speechCacheManager.isSpeaking()) {
@@ -1364,20 +1433,24 @@ public class FailoverTextToSpeech {
         // speak next speech immediately
         if (speechCacheManager.speakWithSpeechCachePlayer(
             utteranceId, queueMode, text, bundle, playbackStateListener, locale)) {
+          Performance.getInstance().onSpeechCachePlayOfText(text);
           tts.speak("", SPEECH_FLUSH_ALL, null);
           return TextToSpeech.SUCCESS;
         }
+        countSpeechCacheMiss(speechCacheManager, text, queueMode);
         LogUtils.d(TAG, "tts.speak, utteranceId =" + utteranceId);
-        return speakInChunks(text, queueMode, bundle, utteranceId, locale);
+        return speakInChunks(text, queueMode, bundle, utteranceId, locale, firstChunkEnd);
       }
     } else {
       if (speechCacheManager.speakWithSpeechCachePlayer(
           utteranceId, queueMode, text, bundle, playbackStateListener, locale)) {
+        Performance.getInstance().onSpeechCachePlayOfText(text);
         tts.speak("", SPEECH_FLUSH_ALL, null);
         return TextToSpeech.SUCCESS;
       }
+      countSpeechCacheMiss(speechCacheManager, text, queueMode);
       LogUtils.d(TAG, "tts.speak, utteranceId =" + utteranceId);
-      return speakInChunks(text, queueMode, bundle, utteranceId, locale);
+      return speakInChunks(text, queueMode, bundle, utteranceId, locale, firstChunkEnd);
     }
   }
 
@@ -1418,13 +1491,35 @@ public class FailoverTextToSpeech {
    * Speaks long text as pieces of a sentence or phrase, so a later utterance can interrupt it
    * quickly. See {@link SpeechChunker}. The pieces report progress as the one original utterance:
    * see {@link #toOriginal}. The {@link #PREF_SPEAK_IN_PHRASES_KEY} setting turns this off.
+   *
+   * <p>When {@code firstChunkEnd} is positive, the first piece ends there instead — the end of
+   * the first part the utterance was joined from — however short the text, so that part starts
+   * being heard sooner; the rest follows as one piece, or in phrase pieces when that setting
+   * is on.
    */
   private int speakInChunks(
-      CharSequence text, int queueMode, Bundle bundle, String utteranceId, Locale locale) {
+      CharSequence text,
+      int queueMode,
+      Bundle bundle,
+      String utteranceId,
+      Locale locale,
+      int firstChunkEnd) {
     List<Integer> starts =
-        utteranceId == null || !speaksInPhrases()
+        utteranceId == null
             ? Collections.singletonList(0)
-            : SpeechChunker.chunkStarts(text, locale == null ? Locale.getDefault() : locale);
+            : firstChunkEnd > 0
+                ? SpeechChunker.chunkStartsFromFirstCut(
+                    text,
+                    locale == null ? Locale.getDefault() : locale,
+                    firstChunkEnd,
+                    speaksInPhrases())
+                : !speaksInPhrases()
+                    ? Collections.singletonList(0)
+                    : SpeechChunker.chunkStarts(
+                        text, locale == null ? Locale.getDefault() : locale);
+    if (firstChunkEnd > 0 && starts.size() > 1 && starts.get(1) == firstChunkEnd) {
+      Performance.getInstance().onUtteranceSplit(starts.size());
+    }
     if (starts.size() <= 1) {
       if (utteranceId != null) {
         progressEstimator.onQueued(utteranceId, text, requestRate, ttsEngine);
@@ -3156,6 +3251,12 @@ public class FailoverTextToSpeech {
 
     public abstract boolean isSeparatorInUtterance();
 
+    /**
+     * Where the first separator between the parts of the utterance ends, and so where an early
+     * first piece may be cut, or 0 when the utterance was not joined from parts.
+     */
+    public abstract int firstSeparatorEnd();
+
     public abstract boolean isAggressiveChunking();
 
     public abstract boolean flushGlobalTtsQueue();
@@ -3178,6 +3279,7 @@ public class FailoverTextToSpeech {
           .setLocale(locale)
           .setIsLocaleAttached(isLocaleAttached)
           .setIsSeparatorInUtterance(false)
+          .setFirstSeparatorEnd(0)
           .setIsAggressiveChunking(false)
           .setFlushGlobalTtsQueue(true)
           .setChangeLocaleAction(changeLocaleAction);
@@ -3193,6 +3295,8 @@ public class FailoverTextToSpeech {
       public abstract Builder setIsLocaleAttached(boolean value);
 
       public abstract Builder setIsSeparatorInUtterance(boolean value);
+
+      public abstract Builder setFirstSeparatorEnd(int value);
 
       public abstract Builder setIsAggressiveChunking(boolean value);
 
