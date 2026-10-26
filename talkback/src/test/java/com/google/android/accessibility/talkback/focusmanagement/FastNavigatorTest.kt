@@ -960,7 +960,7 @@ class FastNavigatorTest {
     assertEquals(1, page.webActions.size)
     assertEquals(NavigationTarget.TARGET_HEADING, page.webActions[0].targetType)
     assertEquals(
-      "heading",
+      "HEADING",
       NavigationTarget.targetTypeToHtmlElement(page.webActions[0].targetType),
     )
   }
