@@ -290,8 +290,23 @@ class FastNavigatorTest {
     assertFalse(navigator.handle(swipe(forward = true), null))
 
     assertTrue(listener.set.isEmpty())
-    assertEquals(1, feedbackCount.get())
+    // The old path's own edge announcement says nothing for plain items — its text names a
+    // reading control, and plain items have none — so equivalence is silence here too; the
+    // swipe is answered and counted, not swallowed.
+    assertEquals(0, feedbackCount.get())
     assertEquals(handledBefore + 1, performance.getFastNavigationsHandledCount())
+  }
+
+  @Test
+  fun edge_forANamedReadingControl_announcesTheEdge() {
+    val children = saveOrder(listTree(listOf("A", "B", "C")))
+    focusOn(children[2])
+
+    assertFalse(
+      navigator.handle(swipe(forward = true, targetType = NavigationTarget.TARGET_HEADING), null))
+
+    assertTrue(listener.set.isEmpty())
+    assertEquals(1, feedbackCount.get())
   }
 
   @Test
@@ -313,7 +328,7 @@ class FastNavigatorTest {
     assertFalse(navigator.handle(swipe(forward = true, wrap = true), null))
 
     assertTrue(listener.set.isEmpty())
-    assertEquals(1, feedbackCount.get())
+    assertEquals(0, feedbackCount.get())
   }
 
   @Test
@@ -349,7 +364,9 @@ class FastNavigatorTest {
     assertFalse(navigator.handle(swipe(forward = true), null))
 
     assertTrue(listener.set.isEmpty())
-    assertEquals(1, feedbackCount.get())
+    // Loud in the numbers, as required; the edge announcement is the old path's own, which
+    // says nothing for plain items.
+    assertEquals(0, feedbackCount.get())
     assertEquals(
       stuckBefore + 1,
       performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD),
@@ -410,14 +427,15 @@ class FastNavigatorTest {
       performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_SELF_SCROLL),
     )
 
-    // Nothing new ever lands in this tree: the landing tries run out, the failure is counted,
-    // and the edge is announced — the swipe is not swallowed in silence.
+    // Nothing new ever lands in this tree: the landing tries run out and the failure is
+    // counted, and the edge is answered with the old path's own announcement — which says
+    // nothing for plain items, so the loud part here is the count, exactly as specified.
     shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
     assertEquals(
       stuckBefore + 1,
       performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING),
     )
-    assertEquals(1, feedbackCount.get())
+    assertEquals(0, feedbackCount.get())
   }
 
   @Test

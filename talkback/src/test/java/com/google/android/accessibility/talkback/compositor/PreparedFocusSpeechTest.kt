@@ -184,12 +184,20 @@ class PreparedFocusSpeechKeyingTest {
 
   @Test
   fun peek_respectsTheKindAndTheNode() {
-    val node = node()
+    // Nodes obtained the framework's way, with identities of their own: comparing two
+    // different nodes is what this test is about, and a node built by the raw constructor
+    // has no identity a comparison could use.
+    fun obtainedNode(): AccessibilityNodeInfoCompat {
+      val info = AccessibilityNodeInfo.obtain()
+      info.packageName = "com.example"
+      return AccessibilityNodeInfoCompat.wrap(info)
+    }
+    val node = obtainedNode()
     PreparedFocusSpeech.put(node, feedback(), "", NavigationTarget.TARGET_HEADING)
 
     assertNull(PreparedFocusSpeech.peek(node))
     assertNotNull(PreparedFocusSpeech.peek(node, NavigationTarget.TARGET_HEADING))
-    assertNull(PreparedFocusSpeech.peek(node()))
+    assertNull(PreparedFocusSpeech.peek(obtainedNode()))
   }
 }
 
