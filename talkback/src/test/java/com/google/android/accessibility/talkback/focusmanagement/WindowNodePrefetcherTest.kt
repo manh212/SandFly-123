@@ -77,10 +77,14 @@ class WindowNodePrefetcherTest {
    * Retrying until the supplier runs is therefore the only reliable way to place a call, and
    * it cannot double-resolve: only the accepted call ever invokes the supplier.
    */
-  private fun callUntilInvoked(supplier: () -> AccessibilityNodeInfoCompat?) {
+  private fun callUntilInvoked(
+    windowId: Int = WINDOW_ID,
+    supplier: () -> AccessibilityNodeInfoCompat?,
+  ) {
     val invoked = AtomicBoolean(false)
     waitUntil("the call to be accepted") {
       WindowNodePrefetcher.prefetchInBackground(
+        windowId,
         {
           invoked.set(true)
           supplier()
@@ -129,6 +133,7 @@ class WindowNodePrefetcherTest {
 
     val secondInvoked = AtomicBoolean(false)
     WindowNodePrefetcher.prefetchInBackground(
+      WINDOW_ID,
       {
         secondInvoked.set(true)
         root("com.example.second")
@@ -144,8 +149,65 @@ class WindowNodePrefetcherTest {
     waitUntil("the first root to be recycled") { firstRoot.recycled }
   }
 
+  /**
+   * Places a background read whose supplier stays blocked until [releaseSupplier] is counted
+   * down, so the read is in flight — recorded, but with its walk not yet started — for as long
+   * as the test needs. Returns the root the supplier will hand over.
+   */
+  private fun blockedBackgroundRead(
+    windowId: Int,
+    releaseSupplier: CountDownLatch,
+  ): RecordingRoot {
+    val supplierEntered = CountDownLatch(1)
+    val backgroundRoot = root("com.example.app")
+    callUntilInvoked(windowId) {
+      supplierEntered.countDown()
+      releaseSupplier.await(WAIT_MS, TimeUnit.MILLISECONDS)
+      backgroundRoot
+    }
+    assertTrue(supplierEntered.await(WAIT_MS, TimeUnit.MILLISECONDS))
+    return backgroundRoot
+  }
+
+  @Test
+  fun prefetch_backgroundReadOfSameWindowInFlight_waitsForItInsteadOfWalking() {
+    val releaseSupplier = CountDownLatch(1)
+    val backgroundRoot = blockedBackgroundRead(backgroundWindowId(), releaseSupplier)
+
+    // The background read is still resolving its root, so nothing has walked yet. A walk of
+    // this childless root would return at once; the prefetch must instead wait for the
+    // background read, up to the usual wait budget, rather than walk the same window again.
+    val start = System.currentTimeMillis()
+    WindowNodePrefetcher.prefetch(root("com.example.app"), OWN_PACKAGE)
+    val elapsed = System.currentTimeMillis() - start
+
+    assertTrue("prefetch waited only ${elapsed}ms", elapsed >= 200)
+    releaseSupplier.countDown()
+    waitUntil("the background root to be recycled") { backgroundRoot.recycled }
+  }
+
+  @Test
+  fun prefetch_backgroundReadOfAnotherWindowInFlight_doesNotWait() {
+    val releaseSupplier = CountDownLatch(1)
+    // The read in flight is recorded under a different window than the prefetch below asks
+    // about, so the prefetch walks its own window as usual and returns at once.
+    val backgroundRoot = blockedBackgroundRead(backgroundWindowId() + 1, releaseSupplier)
+
+    val start = System.currentTimeMillis()
+    WindowNodePrefetcher.prefetch(root("com.example.app"), OWN_PACKAGE)
+    val elapsed = System.currentTimeMillis() - start
+
+    assertTrue("prefetch waited ${elapsed}ms", elapsed < 200)
+    releaseSupplier.countDown()
+    waitUntil("the background root to be recycled") { backgroundRoot.recycled }
+  }
+
+  /** The window the roots staged here report, read back so no default has to be assumed. */
+  private fun backgroundWindowId(): Int = root("com.example.app").windowId
+
   private companion object {
     const val OWN_PACKAGE = "io.github.aaron_gh.sandfly"
+    const val WINDOW_ID = 1
     const val WAIT_MS = 5_000L
   }
 }

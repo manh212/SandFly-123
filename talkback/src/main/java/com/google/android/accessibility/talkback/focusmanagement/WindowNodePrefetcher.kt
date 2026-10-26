@@ -26,6 +26,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.WebInterfaceUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.concurrent.ConcurrentHashMap
+import java.util.concurrent.CountDownLatch
 import java.util.concurrent.Executors
 import java.util.concurrent.RejectedExecutionException
 import java.util.concurrent.TimeUnit
@@ -81,18 +82,45 @@ object WindowNodePrefetcher {
   private val backgroundRunning = AtomicBoolean()
 
   /**
+   * A background read in flight, and the window it is reading. Recorded when the read is
+   * accepted, so a synchronous [prefetch] of the same window can wait for this read instead of
+   * walking the same tree a second time.
+   */
+  private class BackgroundRead(@Volatile var windowId: Int) {
+    val finished = CountDownLatch(1)
+  }
+
+  @Volatile private var backgroundRead: BackgroundRead? = null
+
+  /**
    * Reads the nodes below [root] into Android's node cache, waiting at most [MAX_WAIT_MS]. Does
    * nothing for a window of [ownPackage]: its requests are answered on the main thread, which is
    * waiting here. Does nothing either while every thread is still waiting for an earlier window,
    * since none of them could start on this one.
+   *
+   * While a background read of this same window is still in flight — the usual case is a swipe
+   * right after the reading order was thrown away, which starts such a read — this waits for
+   * that read, never longer than a walk of its own would have waited, instead of walking the
+   * same tree twice.
    */
   @JvmStatic
   fun prefetch(root: AccessibilityNodeInfoCompat, ownPackage: String) {
     if (
       Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
-        TextUtils.equals(root.packageName, ownPackage) ||
-        running.get() >= THREADS
+        TextUtils.equals(root.packageName, ownPackage)
     ) {
+      return
+    }
+    val background = backgroundRead
+    if (background != null && background.windowId == root.windowId) {
+      try {
+        background.finished.await(MAX_WAIT_MS, TimeUnit.MILLISECONDS)
+      } catch (e: InterruptedException) {
+        Thread.currentThread().interrupt()
+      }
+      return
+    }
+    if (running.get() >= THREADS) {
       return
     }
     val start = SystemClock.uptimeMillis()
@@ -111,9 +139,15 @@ object WindowNodePrefetcher {
    * calls the caller should not pay for. Takes ownership of the supplied root, which is recycled
    * once the read ends. Does nothing while an earlier background read is still running, and under
    * the same conditions as [prefetch]; a call that does nothing never invokes the supplier.
+   *
+   * The read is recorded under [windowId] as soon as it is accepted, so that a synchronous
+   * [prefetch] of that window waits for this read instead of walking the same tree again. The
+   * supplier may fall back to another window's root; the record is corrected to that root's
+   * window once it is resolved.
    */
   @JvmStatic
   fun prefetchInBackground(
+    windowId: Int,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
   ) {
@@ -124,6 +158,8 @@ object WindowNodePrefetcher {
     ) {
       return
     }
+    val read = BackgroundRead(windowId)
+    backgroundRead = read
     try {
       executor.execute {
         try {
@@ -131,6 +167,7 @@ object WindowNodePrefetcher {
           if (root != null) {
             try {
               if (!TextUtils.equals(root.packageName, ownPackage)) {
+                read.windowId = root.windowId
                 val walk = Walk(SystemClock.uptimeMillis() + MAX_WAIT_MS)
                 walk.submit(root.unwrap())
                 walk.await()
@@ -140,10 +177,18 @@ object WindowNodePrefetcher {
             }
           }
         } finally {
+          read.finished.countDown()
+          if (backgroundRead === read) {
+            backgroundRead = null
+          }
           backgroundRunning.set(false)
         }
       }
     } catch (e: RejectedExecutionException) {
+      read.finished.countDown()
+      if (backgroundRead === read) {
+        backgroundRead = null
+      }
       backgroundRunning.set(false)
     }
   }
