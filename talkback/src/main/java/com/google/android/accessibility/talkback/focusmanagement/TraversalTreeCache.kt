@@ -89,80 +89,6 @@ object TraversalTreeCache {
       AccessibilityNodeInfoCompat.ACTION_CLEAR_FOCUS,
     )
 
-  /**
-   * Whether a swipe may be served by the previous order, under the checks in [serveStaleOrder],
-   * while a fresh one is being built. When false, a throw-away costs the next swipe a build on
-   * its own thread, as before.
-   */
-  @JvmStatic var serveStaleOrdersEnabled: Boolean = true
-
-  /**
-   * Whether a missing order is asked for again once the screen has been quiet for a while (see
-   * [armSettleBuild]). When false, only the triggers that already existed ask for a build.
-   */
-  @JvmStatic var settleRetryEnabled: Boolean = true
-
-  /**
-   * Whether background builds use the lean order builder, which walks the window once, instead
-   * of the standard one. When false, every background build is the standard build.
-   */
-  @JvmStatic var leanOrderBuilderEnabled: Boolean = true
-
-  /**
-   * Whether directional navigation is answered by the fast navigator, working from this cache's
-   * order, instead of by the usual navigation machinery. When false, the fast navigator is never
-   * asked, and navigation is exactly as it was before it existed.
-   */
-  @JvmStatic var fastNavigatorEnabled: Boolean = true
-
-  /**
-   * Whether a listener's ask for a background build, arriving while a build for the same window
-   * is already on its way, is folded into that build — remembered as a need to build once more
-   * from the newest tree when the current build lands — instead of replacing the waiting build.
-   * When false, every ask is posted as it was before.
-   */
-  @JvmStatic var listenerBuildCoalescingEnabled: Boolean = true
-
-  /**
-   * Whether the fast navigator fires the focus action at a target without refreshing the
-   * target first. A target that turns out dead refuses the action, and the navigator walks on
-   * to the next living one, exactly as a failed refresh used to make it do — one binder round
-   * trip fewer on every swipe. When false, targets are refreshed before firing, as before.
-   */
-  @JvmStatic var skipTargetRefreshEnabled: Boolean = true
-
-  /**
-   * Whether the remembered focus may serve as a navigation's starting point on cheap local
-   * evidence — the saved order has not been thrown away since the focus was remembered, the
-   * saved order still holds the node, and the node still carries its focused flag — instead
-   * of a refresh round trip to the app. When false, the remembered focus is always confirmed
-   * by refreshing it, as before.
-   */
-  @JvmStatic var cheapPivotCheckEnabled: Boolean = true
-
-  /**
-   * Whether the fast navigator fires the focus action before it starts the target's speech, so
-   * the action never waits behind composing and submitting the announcement. Both calls run on
-   * the same thread one after the other, so no focus event can arrive between them. When
-   * false, the speech is submitted first, as before.
-   */
-  @JvmStatic var fireFocusBeforeSpeechEnabled: Boolean = true
-
-  /**
-   * Whether a scroll the fast navigator performs is landed by the first content change the app
-   * reports for the window, with the timed tries kept only as a shorter backstop, instead of
-   * by timed tries alone. When false, the landing is polled as before.
-   */
-  @JvmStatic var eventDrivenScrollLandingEnabled: Boolean = true
-
-  /**
-   * Whether a background build asked for while swipes are landing in quick succession is held
-   * until the burst passes, instead of starting at once and competing for the main thread.
-   * The ask is kept, newest one winning, and the build still runs. When false, builds start
-   * the moment they are asked for, as before.
-   */
-  @JvmStatic var burstBuildDeferralEnabled: Boolean = true
-
   /** The node accessibility focus was last known to land on, as far as this cache is told. */
   @Volatile private var lastFocusNode: AccessibilityNodeInfoCompat? = null
 
@@ -208,20 +134,17 @@ object TraversalTreeCache {
   @JvmStatic
   fun focusNodeForNavigation(): AccessibilityNodeInfoCompat? {
     val node = lastFocusNode ?: return null
-    // Cheap evidence first, when its switch allows: the saved order has not been thrown away
-    // since this focus was remembered (a focus move onto a node is itself remembered the
-    // moment its event arrives, and a focus cleared without a landing is forgotten, so a
-    // remembered focus the screen has moved past fails one of these), the saved order still
-    // holds the node, and the node still carries its focused flag. Any doubt falls through
-    // to the refresh below, which stays the authority.
+    // Cheap evidence first: the saved order has not been thrown away since this focus was
+    // remembered (a focus move onto a node is itself remembered the moment its event
+    // arrives, and a focus cleared without a landing is forgotten, so a remembered focus
+    // the screen has moved past fails one of these), the saved order still holds the node,
+    // and the node still carries its focused flag. Any doubt falls through to the refresh
+    // below, which stays the authority.
     if (
-      cheapPivotCheckEnabled &&
-        runCatching {
-              lastFocusInvalidations == invalidations &&
-                holds(node) &&
-                node.isAccessibilityFocused
-            }
-            .getOrDefault(false)
+      runCatching {
+            lastFocusInvalidations == invalidations && holds(node) && node.isAccessibilityFocused
+          }
+          .getOrDefault(false)
     ) {
       Performance.getInstance().onCachedFocusShortcutUsed()
       return node
@@ -285,33 +208,115 @@ object TraversalTreeCache {
   /** Whether a structural change since the demotion has a region that is not known. */
   private var structuralChangeUnknown = false
 
+  /** How many structural changes have been noted against a stale copy, in order. */
+  private var structuralChangeSeq = 0L
+
+  /**
+   * The [structuralChangeSeq] up to which the stale copy may still serve: the note of the one
+   * change that set the copy aside is the last one allowed. A structural change noted after
+   * that leaves the copy's node set provably incomplete — items the change added are not in
+   * it, so walking it would never reach them — and the copy stops serving for navigation (see
+   * [staleExpiredForNavigation]) until a fresh order lands.
+   */
+  private var staleServableSeq = 0L
+
+  /** Whether the current stale copy's expiry has been counted in the statistics. */
+  private var staleExpiryCounted = false
+
+  /**
+   * The window whose next background build ask goes ahead even inside a swipe burst: the first
+   * ask after a structural change expired that window's served order, so holding it back would
+   * only keep navigation walking an order known to be incomplete. Consumed by the ask. Kept
+   * as a flag beside the window id, so a window whose id is [NO_WINDOW_ID] is not mistaken
+   * for no exemption at all.
+   */
+  @Volatile private var deferExemptWindowId = NO_WINDOW_ID
+  @Volatile private var deferExemptionArmed = false
+
   /** Forgets the structural changes remembered since the demotion. */
   private fun resetStructuralChanges() {
     structuralChangeRegions.clear()
     structuralChangeUnknown = false
+    staleServableSeq = structuralChangeSeq + 1
+    staleExpiryCounted = false
   }
 
   /**
    * Remembers where a structural change happened, so a stale order can tell the nodes it reached
    * from the ones it did not. A null [sourceBounds] means the region is not known, which reaches
    * every node; more than [MAX_STRUCTURAL_CHANGE_REGIONS] regions are not remembered either.
+   *
+   * A change beyond the one that set the stale copy aside expires that copy for navigation:
+   * the window's next build ask is then exempt from burst deferral, and an ask already held
+   * by the deferral is released at once, so the fresh order the expiry waits for is not itself
+   * held back by the swipes it is meant to repair.
    */
   private fun noteStructuralChange(windowId: Int, sourceBounds: Rect?) {
-    synchronized(stateLock) {
-      if (staleStrategy == null) {
-        return
+    val expiredWindowId =
+      synchronized(stateLock) {
+        if (staleStrategy == null) {
+          return
+        }
+        structuralChangeSeq++
+        if (sourceBounds == null || sourceBounds.isEmpty || structuralChangeUnknown) {
+          structuralChangeUnknown = true
+        } else if (structuralChangeRegions.size >= MAX_STRUCTURAL_CHANGE_REGIONS) {
+          structuralChangeUnknown = true
+        } else {
+          structuralChangeRegions += windowId to Rect(sourceBounds)
+        }
+        if (structuralChangeSeq > staleServableSeq) staleRoot?.windowId else null
       }
-      if (sourceBounds == null || sourceBounds.isEmpty || structuralChangeUnknown) {
-        structuralChangeUnknown = true
-        return
-      }
-      if (structuralChangeRegions.size >= MAX_STRUCTURAL_CHANGE_REGIONS) {
-        structuralChangeUnknown = true
-        return
-      }
-      structuralChangeRegions += windowId to Rect(sourceBounds)
+    if (expiredWindowId != null) {
+      deferExemptWindowId = expiredWindowId
+      deferExemptionArmed = true
+      TraversalOrderSnapshotBuilder.releaseDeferred(expiredWindowId)
     }
   }
+
+  /**
+   * Whether the stale copy may no longer serve for navigation: a structural change reached its
+   * window after the one that set it aside, so the nodes it would walk are not the nodes on
+   * screen. Counted once per copy, when a serve is first refused for it.
+   */
+  private fun staleExpiredForNavigation(): Boolean {
+    if (staleStrategy == null || structuralChangeSeq <= staleServableSeq) {
+      return false
+    }
+    if (!staleExpiryCounted) {
+      staleExpiryCounted = true
+      Performance.getInstance().onStaleOrderExpiredForNavigation()
+    }
+    return true
+  }
+
+  /**
+   * Whether [windowId]'s next background build ask is exempt from burst deferral, consuming
+   * the exemption: set when a structural change expires that window's served order, and meant
+   * for the first ask that follows it — later asks defer and fold as usual.
+   */
+  @JvmStatic
+  fun buildDeferralExempt(windowId: Int): Boolean {
+    if (!deferExemptionArmed || deferExemptWindowId != windowId) {
+      return false
+    }
+    deferExemptionArmed = false
+    deferExemptWindowId = NO_WINDOW_ID
+    return true
+  }
+
+  /** How many times the saved order has been thrown away; see [invalidations]. */
+  @JvmStatic fun invalidations(): Long = invalidations
+
+  /** Whether background builds for [windowId] have died unpublished often enough in a row to escalate. */
+  @JvmStatic
+  fun orderBuildEscalationArmed(windowId: Int): Boolean =
+    TraversalOrderSnapshotBuilder.escalationArmed(windowId)
+
+  /** Spends the escalation armed for [windowId]: one forced on-the-spot build per arming. */
+  @JvmStatic
+  fun consumeOrderBuildEscalation(windowId: Int) =
+    TraversalOrderSnapshotBuilder.consumeEscalation(windowId)
 
   /** Whether any structural change since the demotion touched [node]. */
   private fun structuralChangesTouch(node: AccessibilityNodeInfoCompat): Boolean {
@@ -338,11 +343,11 @@ object TraversalTreeCache {
     root: AccessibilityNodeInfoCompat,
     pivot: AccessibilityNodeInfoCompat,
   ): OrderedTraversalStrategy? {
-    if (!serveStaleOrdersEnabled) {
-      return null
-    }
     val (savedStaleRoot, savedStale) = synchronized(stateLock) { staleRoot to staleStrategy }
     if (savedStale == null || root != savedStaleRoot || !savedStale.containsNode(pivot)) {
+      return null
+    }
+    if (staleExpiredForNavigation()) {
       return null
     }
     if (structuralChangesTouch(pivot)) {
@@ -367,11 +372,11 @@ object TraversalTreeCache {
   fun staleOrderForPrediction(
     pivot: AccessibilityNodeInfoCompat
   ): OrderedTraversalStrategy? {
-    if (!serveStaleOrdersEnabled) {
-      return null
-    }
     val savedStale = synchronized(stateLock) { staleStrategy }
     if (savedStale == null || !savedStale.containsNode(pivot)) {
+      return null
+    }
+    if (staleExpiredForNavigation()) {
       return null
     }
     if (structuralChangesTouch(pivot)) {
@@ -437,13 +442,6 @@ object TraversalTreeCache {
   @Volatile private var strategy: OrderedTraversalStrategy? = null
   @Volatile private var lastClearReason = "start"
   @Volatile private var firstIgnoredChangeTime = 0L
-
-  /**
-   * Whether a graced change that did not touch a node leaves that node current. When false,
-   * [holdsCurrent] behaves as it did before regions were remembered: any graced change in the
-   * window makes every node in it stale.
-   */
-  @JvmStatic var unrelatedChangesSpareNodes: Boolean = true
 
   /** Regions of the graced changes since the order was saved, as window id to bounds in screen. */
   private val gracedChangeRegions = ArrayList<Pair<Int, Rect>>()
@@ -537,7 +535,7 @@ object TraversalTreeCache {
     if (firstIgnoredChangeTime == 0L) {
       return false
     }
-    if (!unrelatedChangesSpareNodes || gracedChangeUnknown) {
+    if (gracedChangeUnknown) {
       return true
     }
     val bounds = Rect()
@@ -700,9 +698,6 @@ object TraversalTreeCache {
    * leaving the first swipe on the settled window to build the order itself.
    */
   private fun armSettleBuild(windowId: Int) {
-    if (!settleRetryEnabled) {
-      return
-    }
     settleBuildWindowId = windowId
     settleHandler.removeCallbacks(settleBuildRunnable)
     settleHandler.postDelayed(settleBuildRunnable, SETTLE_BUILD_DELAY_MS)
@@ -710,7 +705,7 @@ object TraversalTreeCache {
 
   /** The settle retry falling due: asks for a build if the order is still missing. */
   private fun fireSettleBuild() {
-    if (!settleRetryEnabled || hasSavedOrder()) {
+    if (hasSavedOrder()) {
       return
     }
     settleBuildRequester?.onSettleBuildNeeded(settleBuildWindowId)
@@ -728,6 +723,8 @@ object TraversalTreeCache {
       resetStructuralChanges()
       firstIgnoredChangeTime = 0L
       resetGracedChanges()
+      deferExemptionArmed = false
+      deferExemptWindowId = NO_WINDOW_ID
     }
   }
 
@@ -756,6 +753,8 @@ object TraversalTreeCache {
         resetStructuralChanges()
         firstIgnoredChangeTime = 0L
         resetGracedChanges()
+        deferExemptionArmed = false
+        deferExemptWindowId = NO_WINDOW_ID
         lastClearReason = reason
         windowId
       }
@@ -801,9 +800,19 @@ object TraversalTreeCache {
    * arrived before any background build landed. Returns whether the built order was saved —
    * false when the window changed while it was being built. The build is given a copy of the
    * root to keep or throw away as its own; the caller's root is never the build's to recycle.
+   *
+   * With [forcePublish] the build is the escalation answer to background builds that keep
+   * dying unpublished for this window: the order is read from the tree as it stands when the
+   * build runs and saved however the window moves while it is read, so a window churning
+   * faster than a build can finish still gets a complete order for its moment. Changes after
+   * it lands throw it away and rebuild through the usual paths, exactly as for any order.
    */
   @JvmStatic
-  fun buildOrderOnTheSpot(root: AccessibilityNodeInfoCompat): Boolean {
+  @JvmOverloads
+  fun buildOrderOnTheSpot(
+    root: AccessibilityNodeInfoCompat,
+    forcePublish: Boolean = false,
+  ): Boolean {
     @SuppressWarnings("deprecation") // obtain(): the copy the build owns, published or recycled.
     val copy = AccessibilityNodeInfoCompat.obtain(root)
     return TraversalOrderSnapshotBuilder.buildNow(
@@ -811,6 +820,7 @@ object TraversalTreeCache {
       generation,
       { copy },
       root.packageName?.toString() ?: "",
+      forcePublish,
     )
   }
 
@@ -870,11 +880,41 @@ object TraversalTreeCache {
       resetStructuralChanges()
       firstIgnoredChangeTime = 0L
       resetGracedChanges()
+      deferExemptionArmed = false
+      deferExemptWindowId = NO_WINDOW_ID
     }
     if (LogUtils.shouldLog(Log.DEBUG)) {
       Log.d(TAG, "Saved order built in the background")
     }
     return true
+  }
+
+  /**
+   * Saves an order built on the spot under escalation, without the generation check of
+   * [publishSnapshot]: the window may have moved while the order was read — that is why the
+   * escalation was armed — and the order, read from the tree at one moment, is still the
+   * freshest complete answer there is. Anything that changes afterwards throws it away
+   * through the usual paths.
+   */
+  @JvmStatic
+  fun publishSnapshotForced(
+    root: AccessibilityNodeInfoCompat,
+    strategy: OrderedTraversalStrategy,
+  ) {
+    synchronized(stateLock) {
+      this.root = root
+      this.strategy = strategy
+      staleRoot = null
+      staleStrategy = null
+      resetStructuralChanges()
+      firstIgnoredChangeTime = 0L
+      resetGracedChanges()
+      deferExemptionArmed = false
+      deferExemptWindowId = NO_WINDOW_ID
+    }
+    if (LogUtils.shouldLog(Log.DEBUG)) {
+      Log.d(TAG, "Saved order built on the spot under escalation")
+    }
   }
 
   /**

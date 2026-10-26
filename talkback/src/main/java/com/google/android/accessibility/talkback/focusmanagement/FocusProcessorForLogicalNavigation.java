@@ -258,10 +258,9 @@ public class FocusProcessorForLogicalNavigation {
       return false;
     }
     if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION
-        && fastNavigator != null
-        && TraversalTreeCache.getFastNavigatorEnabled()) {
+        && fastNavigator != null) {
       // The fast navigator answers the swipe itself, from the saved order, and this machinery
-      // is not touched for it at all: the switch is the only way back here.
+      // is not touched for it at all.
       return fastNavigator.handle(navigationAction, eventId);
     }
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);

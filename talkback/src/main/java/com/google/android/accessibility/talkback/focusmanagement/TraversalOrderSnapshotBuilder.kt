@@ -53,6 +53,17 @@ internal object TraversalOrderSnapshotBuilder {
   /** The ask was held until the swipe burst passes; it is taken up when the hold lifts. */
   const val OUTCOME_DEFERRED = 3
 
+  /**
+   * How many background builds in a row may die unpublished for one window before the next
+   * navigation stops waiting for the background route and builds on the spot, publishing
+   * however the window moved while the order was read. One death is ordinary churn — in a
+   * busy window roughly two builds in five died even before this machinery — and the settle
+   * retry gives the background route its second chances; three in a row for the same window
+   * means that route is starved, and the user is walking an order known to be incomplete
+   * meanwhile.
+   */
+  private const val DEATHS_BEFORE_ESCALATION = 3
+
   /** How long after the last navigation an ask is still inside the swipe burst. */
   private const val BURST_WINDOW_MS = 300L
 
@@ -74,6 +85,8 @@ internal object TraversalOrderSnapshotBuilder {
     val rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     val ownPackage: String,
     val source: Int,
+    /** An escalation build: publish the order however the window moved while it was read. */
+    val forcePublish: Boolean = false,
   )
 
   private val lock = Any()
@@ -102,6 +115,65 @@ internal object TraversalOrderSnapshotBuilder {
 
   private val flushHandler = Handler(Looper.getMainLooper())
   private val flushDeferredTask = Runnable { flushDeferred() }
+
+  /** Background builds that died unpublished in a row, and the window they were for. */
+  private var consecutiveDeaths = 0
+  private var deathsWindowId = -1
+
+  /** Notes one more background build for [windowId] that died unpublished. */
+  private fun noteBuildDied(windowId: Int) {
+    synchronized(lock) {
+      if (windowId == deathsWindowId) {
+        consecutiveDeaths++
+      } else {
+        deathsWindowId = windowId
+        consecutiveDeaths = 1
+      }
+    }
+  }
+
+  /** Notes a background build for [windowId] that landed: the death run is over. */
+  private fun noteBuildPublished(windowId: Int) {
+    synchronized(lock) {
+      if (windowId == deathsWindowId) {
+        consecutiveDeaths = 0
+      }
+    }
+  }
+
+  /**
+   * Whether [windowId]'s background builds have died unpublished [DEATHS_BEFORE_ESCALATION]
+   * times in a row, so the next navigation for it escalates to a forced on-the-spot build.
+   */
+  fun escalationArmed(windowId: Int): Boolean =
+    synchronized(lock) {
+      windowId == deathsWindowId && consecutiveDeaths >= DEATHS_BEFORE_ESCALATION
+    }
+
+  /** Spends the escalation armed for [windowId]: one forced build per arming. */
+  fun consumeEscalation(windowId: Int) {
+    synchronized(lock) {
+      if (windowId == deathsWindowId) {
+        consecutiveDeaths = 0
+      }
+    }
+  }
+
+  /**
+   * Takes up at once an ask held by burst deferral for [windowId], if one is held: called
+   * when a structural change expires that window's served order, whose replacement build must
+   * not wait out the burst it is meant to repair. The ask goes through [request] again, where
+   * the cache's deferral exemption for the window lets it proceed.
+   */
+  fun releaseDeferred(windowId: Int) {
+    val held =
+      synchronized(lock) {
+        deferredRequest?.windowId == windowId
+      }
+    if (held) {
+      flushDeferred()
+    }
+  }
 
   /** The (window, generation) of the request waiting or running, if any. */
   private var askedKey: Pair<Int, Long>? = null
@@ -135,17 +207,23 @@ internal object TraversalOrderSnapshotBuilder {
           Performance.getInstance().onOrderBuildRequestDeduped()
           return OUTCOME_DEDUPED
         }
-        if (TraversalTreeCache.burstBuildDeferralEnabled) {
-          // A build starting now would compete for the main thread with the swipes still
-          // landing; the ask is held instead, newest one winning, until the burst has been
-          // quiet for the burst window — or until it has been held the maximum, so a burst
-          // that never pauses cannot starve the window of its order.
-          val lastNavigation = TraversalTreeCache.lastNavigationTimeMs()
-          val now = SystemClock.uptimeMillis()
-          val inBurst = lastNavigation > 0 && now - lastNavigation < BURST_WINDOW_MS
-          val heldTooLong =
-            deferredRequest != null && deferredSinceMs > 0 && now - deferredSinceMs >= DEFER_MAX_MS
-          if (inBurst && !heldTooLong) {
+        // A build starting now would compete for the main thread with the swipes still
+        // landing; the ask is held instead, newest one winning, until the burst has been
+        // quiet for the burst window — or until it has been held the maximum, so a burst
+        // that never pauses cannot starve the window of its order.
+        val lastNavigation = TraversalTreeCache.lastNavigationTimeMs()
+        val now = SystemClock.uptimeMillis()
+        val inBurst = lastNavigation > 0 && now - lastNavigation < BURST_WINDOW_MS
+        val heldTooLong =
+          deferredRequest != null && deferredSinceMs > 0 && now - deferredSinceMs >= DEFER_MAX_MS
+        if (inBurst && !heldTooLong) {
+          // The first ask after a structural change expired this window's served order
+          // goes ahead even inside the burst: holding it back would keep navigation
+          // walking an order known to be incomplete — the failure the hold exists to
+          // avoid costing the user, not one it may cause.
+          if (TraversalTreeCache.buildDeferralExempt(windowId)) {
+            Performance.getInstance().onBuildDeferralExemptionUsed()
+          } else {
             if (deferredRequest == null) {
               deferredSinceMs = now
             }
@@ -158,7 +236,6 @@ internal object TraversalOrderSnapshotBuilder {
           }
         }
         if (source == Performance.ORDER_BUILD_SOURCE_LISTENER &&
-          TraversalTreeCache.listenerBuildCoalescingEnabled &&
           running &&
           (runningWindowId == windowId || pending?.windowId == windowId)) {
           dirtyRequest = Request(windowId, generation, rootSupplier, ownPackage, source)
@@ -263,6 +340,7 @@ internal object TraversalOrderSnapshotBuilder {
       // work while the live request waited.
       if (request.generation != TraversalTreeCache.currentGeneration()) {
         Performance.getInstance().onOrderBuildDied(request.source)
+        noteBuildDied(request.windowId)
         synchronized(lock) {
           if (askedKey == (request.windowId to request.generation) && pending == null) {
             askedKey = null
@@ -271,6 +349,11 @@ internal object TraversalOrderSnapshotBuilder {
         continue
       }
       val published = build(request)
+      if (published) {
+        noteBuildPublished(request.windowId)
+      } else {
+        noteBuildDied(request.windowId)
+      }
       synchronized(lock) {
         if (published) {
           publishedKey = request.windowId to request.generation
@@ -284,16 +367,18 @@ internal object TraversalOrderSnapshotBuilder {
 
   /**
    * Builds one requested order and publishes it, saying whether it was published. Runs the
-   * whole pipeline on the calling thread.
+   * whole pipeline on the calling thread. With [forcePublish] the build is an escalation
+   * build: it publishes however the window moved while the order was read.
    */
   fun buildNow(
     windowId: Int,
     generation: Long,
     rootSupplier: Supplier<AccessibilityNodeInfoCompat?>,
     ownPackage: String,
+    forcePublish: Boolean = false,
   ): Boolean {
     return build(Request(windowId, generation, rootSupplier, ownPackage,
-      Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR))
+      Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR, forcePublish))
   }
 
   private fun build(request: Request): Boolean {
@@ -319,21 +404,32 @@ internal object TraversalOrderSnapshotBuilder {
       if (root.windowId != request.windowId) {
         return false
       }
-      if (TraversalTreeCache.currentGeneration() != request.generation) {
+      // An escalation build skips the moved-on checks below: the window moving while the
+      // order is read is the very starvation it answers, and the order it publishes was read
+      // from the one tree it started from.
+      if (!request.forcePublish &&
+        TraversalTreeCache.currentGeneration() != request.generation) {
         Performance.getInstance().onOrderBuildDied(request.source)
         return false
       }
       // The read stops early if the window moves on while it runs, so a dead build hands the
       // builder back at once instead of walking the whole tree for a refused snapshot.
       WindowNodePrefetcher.prefetch(root, request.ownPackage) {
-        TraversalTreeCache.currentGeneration() != request.generation
+        !request.forcePublish && TraversalTreeCache.currentGeneration() != request.generation
       }
-      if (TraversalTreeCache.currentGeneration() != request.generation) {
+      if (!request.forcePublish &&
+        TraversalTreeCache.currentGeneration() != request.generation) {
         Performance.getInstance().onOrderBuildDied(request.source)
         return false
       }
       val strategy = buildStrategy(root)
-      published = TraversalTreeCache.publishSnapshot(root, strategy, request.generation)
+      published =
+        if (request.forcePublish) {
+          TraversalTreeCache.publishSnapshotForced(root, strategy)
+          true
+        } else {
+          TraversalTreeCache.publishSnapshot(root, strategy, request.generation)
+        }
       if (!published) {
         Performance.getInstance().onOrderBuildDied(request.source)
       }
@@ -355,14 +451,11 @@ internal object TraversalOrderSnapshotBuilder {
   }
 
   /**
-   * Builds the order of [root] with the lean builder while it is switched on, and with the
-   * standard builder otherwise — and with the standard builder whenever the lean one fails,
-   * so a window the lean builder cannot handle costs one wasted walk, never a missing order.
+   * Builds the order of [root] with the lean builder — and with the standard builder whenever
+   * the lean one fails, so a window the lean builder cannot handle costs one wasted walk,
+   * never a missing order.
    */
   private fun buildStrategy(root: AccessibilityNodeInfoCompat): OrderedTraversalStrategy {
-    if (!TraversalTreeCache.leanOrderBuilderEnabled) {
-      return OrderedTraversalStrategy(root)
-    }
     return try {
       val strategy = LeanTraversalOrderBuilder.build(root)
       Performance.getInstance().onLeanOrderBuild(false)

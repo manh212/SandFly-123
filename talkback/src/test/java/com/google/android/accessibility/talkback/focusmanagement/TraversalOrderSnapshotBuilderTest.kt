@@ -15,6 +15,7 @@ package com.google.android.accessibility.talkback.focusmanagement
 
 import android.graphics.Rect
 import android.os.Looper
+import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.Performance
@@ -23,6 +24,7 @@ import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import org.junit.After
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -55,8 +57,6 @@ class TraversalOrderSnapshotBuilderTest {
   @After
   fun tearDown() {
     TraversalTreeCache.clear("test")
-    TraversalTreeCache.listenerBuildCoalescingEnabled = true
-    TraversalTreeCache.burstBuildDeferralEnabled = true
     TraversalTreeCache.noteNavigationActivity(0L)
   }
 
@@ -92,6 +92,17 @@ class TraversalOrderSnapshotBuilderTest {
 
   private fun orderOf(strategy: OrderedTraversalStrategy): List<String> =
     strategy.dumpTree().map { it.text.toString() }
+
+  /** A structural content change in [windowId] whose source sits in [sourceBounds]. */
+  private fun structuralEvent(windowId: Int, sourceBounds: Rect): AccessibilityEvent {
+    val event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED)
+    event.contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE
+    shadowOf(event).setWindowId(windowId)
+    val source = AccessibilityNodeInfo.obtain()
+    source.setBoundsInScreen(sourceBounds)
+    shadowOf(event).setSourceNode(source)
+    return event
+  }
 
   private fun waitUntil(description: String, condition: () -> Boolean) {
     val deadline = System.currentTimeMillis() + WAIT_MS
@@ -249,7 +260,6 @@ class TraversalOrderSnapshotBuilderTest {
     val performance = Performance.getInstance()
     performance.setComputeStatsEnabled(true)
     val coalescedBefore = performance.getListenerBuildsCoalescedCount()
-    TraversalTreeCache.listenerBuildCoalescingEnabled = true
 
     // A listener ask whose build stays busy reading while the window keeps changing.
     val firstStarted = CountDownLatch(1)
@@ -323,52 +333,92 @@ class TraversalOrderSnapshotBuilderTest {
   }
 
   @Test
-  fun request_coalescingOff_listenerAsksReplaceTheWaitingBuildAsBefore() {
-    TraversalTreeCache.listenerBuildCoalescingEnabled = false
-    try {
-      val firstStarted = CountDownLatch(1)
-      val releaseFirst = CountDownLatch(1)
-      val firstRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
-      TraversalOrderSnapshotBuilder.request(
-        firstRoot.windowId,
-        TraversalTreeCache.currentGeneration(),
+  fun buildNow_forced_publishesHoweverTheWindowMovedDuringTheBuild() {
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val pivot = checkNotNull(root.getChild(0)).getChild(0)
+    val generation = TraversalTreeCache.currentGeneration()
+
+    // The same build that publishes nothing unforced (see
+    // buildNow_windowMovedOnDuringTheBuild_publishesNothing): under escalation it lands,
+    // because a window moving faster than a build can finish is the starvation it answers.
+    val published =
+      TraversalOrderSnapshotBuilder.buildNow(
+        root.windowId,
+        generation,
         {
-          firstStarted.countDown()
-          releaseFirst.await(WAIT_MS, TimeUnit.MILLISECONDS)
-          firstRoot
+          TraversalTreeCache.clear("the window changed while building")
+          root
         },
         ownPackage = "com.example.other",
-        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
+        forcePublish = true,
       )
-      assertTrue(firstStarted.await(WAIT_MS, TimeUnit.MILLISECONDS))
 
-      TraversalTreeCache.clear("the window changed")
-      val secondRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    assertTrue(published)
+    assertNotNull(TraversalTreeCache.get(root, checkNotNull(pivot)))
+  }
+
+  @Test
+  fun repeatedBuildDeaths_armTheEscalation_andSpendingItDisarms() {
+    val performance = Performance.getInstance()
+    performance.setComputeStatsEnabled(true)
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val windowId = root.windowId
+    // A clean run for this window, whatever earlier tests in the sandbox left behind.
+    TraversalOrderSnapshotBuilder.consumeEscalation(windowId)
+    assertFalse(TraversalOrderSnapshotBuilder.escalationArmed(windowId))
+
+    // Asks carrying a generation the window has already moved past die in the drain without
+    // ever reading the tree; three in a row for the same window arm the escalation.
+    val diedBefore = performance.getOrderBuildDiedCount()
+    repeat(3) { deaths ->
       TraversalOrderSnapshotBuilder.request(
-        secondRoot.windowId,
-        TraversalTreeCache.currentGeneration(),
-        { secondRoot },
+        windowId,
+        // A different moved-past generation each time, so no ask can fold into the last.
+        TraversalTreeCache.currentGeneration() + 999 - deaths,
+        { root },
         ownPackage = "com.example.other",
-        source = Performance.ORDER_BUILD_SOURCE_LISTENER,
       )
-      TraversalTreeCache.clear("the window changed again")
-      val thirdOutcome =
-        TraversalOrderSnapshotBuilder.request(
-          secondRoot.windowId,
-          TraversalTreeCache.currentGeneration(),
-          { secondRoot },
-          ownPackage = "com.example.other",
-          source = Performance.ORDER_BUILD_SOURCE_LISTENER,
-        )
-      assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, thirdOutcome)
-      releaseFirst.countDown()
-
-      // Let the builder finish before the next test asks it for anything.
-      val pivot = checkNotNull(secondRoot.getChild(0)).getChild(0)
-      waitUntil("the last build to be saved") { TraversalTreeCache.holds(checkNotNull(pivot)) }
-    } finally {
-      TraversalTreeCache.listenerBuildCoalescingEnabled = true
+      waitUntil("death ${deaths + 1} to be counted") {
+        performance.getOrderBuildDiedCount() >= diedBefore + deaths + 1
+      }
     }
+    waitUntil("the escalation to arm") {
+      TraversalOrderSnapshotBuilder.escalationArmed(windowId)
+    }
+
+    // One forced build per arming: spending it disarms until deaths pile up again.
+    TraversalOrderSnapshotBuilder.consumeEscalation(windowId)
+    assertFalse(TraversalOrderSnapshotBuilder.escalationArmed(windowId))
+  }
+
+  @Test
+  fun request_firstAskAfterAStructuralExpiry_goesAheadInsideABurst() {
+    val root = AccessibilityNodeInfoCompat.wrap(syntheticTree())
+    val pivot = checkNotNull(root.getChild(0)).getChild(0)
+    // A published order, set aside by one structural change and expired by a second one:
+    // the state the cache arms its deferral exemption from.
+    TraversalTreeCache.put(root, OrderedTraversalStrategy(root))
+    TraversalTreeCache.onAccessibilityEvent(
+      structuralEvent(root.windowId, Rect(500, 500, 600, 600))
+    )
+    TraversalTreeCache.onAccessibilityEvent(
+      structuralEvent(root.windowId, Rect(700, 700, 800, 800))
+    )
+
+    // A swipe just landed, so asks are inside the burst window — where they are held by
+    // default (see request_duringASwipeBurst_isHeld...). The first ask for the expired
+    // window goes ahead instead, and its build lands.
+    TraversalTreeCache.noteNavigationActivity()
+    val outcome =
+      TraversalOrderSnapshotBuilder.request(
+        root.windowId,
+        TraversalTreeCache.currentGeneration(),
+        { root },
+        ownPackage = "com.example.other",
+      )
+
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, outcome)
+    waitUntil("the exempted build to be saved") { TraversalTreeCache.holds(checkNotNull(pivot)) }
   }
 
   @Test

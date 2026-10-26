@@ -402,6 +402,21 @@ public class Performance {
   /** How often a target taken from that previous order failed its checks and was refused. */
   private long staleTargetsRejected;
 
+  /**
+   * How often the previous reading order stopped being served for navigation because a
+   * structural change reached its window after the one that set it aside.
+   */
+  private long staleOrdersExpiredForNavigation;
+
+  /**
+   * How often a navigation built the order on the spot, publishing it however the window had
+   * moved while it was read, because background builds for its window kept dying unpublished.
+   */
+  private long orderBuildEscalations;
+
+  /** How often a build ask went ahead during a swipe burst under the structural-change exemption. */
+  private long buildDeferralExemptionsUsed;
+
   /** How often navigation speech cut short an announcement that other speech could not cut. */
   private long navigationSpeechInterrupts;
 
@@ -2508,6 +2523,58 @@ public class Performance {
     }
   }
 
+  /**
+   * Counts one previous reading order expired for navigation by a structural change that
+   * reached its window after the change that set it aside: items added since it was read are
+   * not in it, so walking it would never reach them.
+   */
+  public void onStaleOrderExpiredForNavigation() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      staleOrdersExpiredForNavigation++;
+    }
+  }
+
+  public long getStaleOrderExpiredForNavigationCount() {
+    synchronized (lockLabelToStats) {
+      return staleOrdersExpiredForNavigation;
+    }
+  }
+
+  /** Counts one escalation build: an on-the-spot build published however its window had moved. */
+  public void onOrderBuildEscalated() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      orderBuildEscalations++;
+    }
+  }
+
+  public long getOrderBuildEscalationCount() {
+    synchronized (lockLabelToStats) {
+      return orderBuildEscalations;
+    }
+  }
+
+  /** Counts one build ask that burst deferral let through under the structural-change exemption. */
+  public void onBuildDeferralExemptionUsed() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      buildDeferralExemptionsUsed++;
+    }
+  }
+
+  public long getBuildDeferralExemptionUsedCount() {
+    synchronized (lockLabelToStats) {
+      return buildDeferralExemptionsUsed;
+    }
+  }
+
   /** Counts one target from the previous reading order that failed its checks and was refused. */
   public void onStaleTargetRejected() {
     if (!computeStatsEnabled) {
@@ -2538,6 +2605,16 @@ public class Performance {
       }
       if (orderBuildsDiedUnpublished > 0) {
         logger.log("Background builds that died unpublished: %d", orderBuildsDiedUnpublished);
+      }
+      if (orderBuildEscalations > 0) {
+        logger.log(
+            "Escalation builds published on the spot after repeated build deaths: %d",
+            orderBuildEscalations);
+      }
+      if (staleOrdersExpiredForNavigation > 0) {
+        logger.log(
+            "Previous orders expired for navigation by a later structural change: %d",
+            staleOrdersExpiredForNavigation);
       }
       long buildsPosted = 0;
       for (long posted : orderBuildsPostedBySource) {
@@ -2585,6 +2662,11 @@ public class Performance {
         logger.log(
             "Background build asks held until a swipe burst passed: %d",
             backgroundBuildsDeferredDuringBurst);
+      }
+      if (buildDeferralExemptionsUsed > 0) {
+        logger.log(
+            "Build asks let through a swipe burst after a structural change: %d",
+            buildDeferralExemptionsUsed);
       }
       if (fastNavigationsHandled > 0 || cachedFocusShortcutUsed + cachedFocusShortcutRejected > 0) {
         logger.log(

@@ -824,11 +824,6 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     for (i in out.indices) out[i] = out[i].coerceIn(-1f, 1f)
   }
 
-  /** Sizes the track again under the buffer setting now in force, after that setting changed. */
-  fun refitBuffer() {
-    track?.let { fitBuffer(it) }
-  }
-
   private fun createTrack(): AudioTrack? =
     try {
       val minBytes =
@@ -861,21 +856,21 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     }
 
   /**
-   * Queues two bursts on the fast path, so new sound waits no longer than that, or more if it ran
-   * short before. With the smaller-buffer setting, one burst is queued instead, and [keepUp]
-   * does not grow out of it. The burst Android reports can be smaller than the fast mixer's
-   * period, such as 144 frames for a 192 frame period. Other outputs, such as Bluetooth without
-   * the fast path, mix a much larger period at a time, so the buffer starts at SLOW_BUFFER_MS
-   * there. Both grow in [keepUp] until the mixer stops running short.
+   * Queues one burst on the fast path, as the starting size [keepUp] grows out of when the
+   * mixer runs short, or more if it ran short before. The burst Android reports can be
+   * smaller than the fast mixer's period, such as 144 frames for a 192 frame period. Other
+   * outputs, such as Bluetooth without the fast path, mix a much larger period at a time, so
+   * the buffer starts at SLOW_BUFFER_MS there. Both grow in [keepUp] until the mixer stops
+   * running short.
    */
   private fun fitBuffer(output: AudioTrack) {
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
       output.setBufferSizeInFrames(
-        if (fast) fastBufferFrames(burstFrames, smallBufferEnabled, fastFrames)
+        if (fast) fastBufferFrames(burstFrames, fastFrames)
         else sampleRate * SLOW_BUFFER_MS / 1000
       )
-      if (fast && smallBufferEnabled) {
+      if (fast) {
         noteSmallBufferFitting()
       }
       underruns = output.underrunCount
@@ -895,7 +890,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   /**
    * Grows the buffer after the mixer ran short, which otherwise pops, or crackles and slows audio
    * down. A full buffer delays new sound by its length, so it grows only as far as it has to: a
-   * burst at a time on the fast path, and double without it.
+   * burst at a time on the fast path, and double without it. The fast path starts at one burst —
+   * the smaller buffer is the starting point, not a size to stay at — and grows out of it by
+   * exactly this, a burst per shortfall, keeping the size it settles at for later tracks.
    */
   private fun keepUp(output: AudioTrack) {
     val count = output.underrunCount
@@ -905,20 +902,25 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
       underruns = count
       return
     }
-    if (count <= underruns) return
-    underruns = count
-    if (fastPath && smallBufferEnabled) {
-      // The smaller buffer is on trial: running short is counted, not grown out of, or the
-      // first shortfall would put the buffer back where it was and end the trial.
-      noteSmallBufferShortfall()
-      return
+    val grew = count > underruns
+    if (grew) {
+      underruns = count
+      if (fastPath) {
+        // A shortfall from the one-burst start, counted before the buffer grows out of it
+        // below: how often the small start proved too small for this output.
+        noteSmallBufferShortfall()
+      }
     }
     val size = output.bufferSizeInFrames
-    if (size >= output.bufferCapacityInFrames) return
-    val grown = if (fastPath) size + burstFrames else size * 2
-    output.setBufferSizeInFrames(minOf(grown, output.bufferCapacityInFrames))
+    val next =
+      nextBufferFrames(size, output.bufferCapacityInFrames, burstFrames, fastPath, grew)
+    if (next == size) return
+    output.setBufferSizeInFrames(next)
     settleWrites = 2 * output.bufferSizeInFrames / burstFrames
-    if (fastPath) fastFrames = output.bufferSizeInFrames
+    if (fastPath) {
+      fastFrames = output.bufferSizeInFrames
+      noteSmallBufferGrowth()
+    }
     LogUtils.d(TAG, "Track ran short, now %d frames", output.bufferSizeInFrames)
   }
 
@@ -926,7 +928,6 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     private const val TAG = "LowLatencyAudio"
     private const val DEFAULT_RATE = 48_000
     private const val DEFAULT_BURST = 192
-    private const val QUEUED_BURSTS = 2
     // Two periods of a typical mixer without the fast path.
     private const val SLOW_BUFFER_MS = 40
     // How long the audio thread waits for the engine's speech at a time, well within WRITE_STUCK_MS.
@@ -972,25 +973,16 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
           removeOnCancelPolicy = true
         }
 
-    /**
-     * Whether fast-path tracks queue a single burst of audio instead of [QUEUED_BURSTS], so new
-     * sound starts about a burst sooner, at the risk of running short more often. Set from the
-     * latency setting; tracks already made are sized again when it changes.
-     */
-    @JvmStatic
-    var smallBufferEnabled: Boolean = true
-      set(value) {
-        if (field == value) return
-        field = value
-        for (player in players()) player.refitBuffer()
-      }
-
-    /** How many times a track was sized at one burst while the smaller buffer was in use. */
+    /** How many times a track was sized at the one-burst start. */
     @Volatile var smallBufferFittings: Int = 0
       private set
 
-    /** How many times a track ran short while the smaller buffer kept it from growing. */
+    /** How many times a track ran short from the one-burst start, before growing out of it. */
     @Volatile var smallBufferShortfalls: Int = 0
+      private set
+
+    /** How many times a track that started at one burst grew after running short. */
+    @Volatile var smallBufferGrowths: Int = 0
       private set
 
     @JvmStatic
@@ -1003,14 +995,39 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
       smallBufferShortfalls++
     }
 
+    @JvmStatic
+    internal fun noteSmallBufferGrowth() {
+      smallBufferGrowths++
+    }
+
     /**
-     * The fast path's buffer in frames: [QUEUED_BURSTS] bursts, or more if running short has
-     * grown it before. At one burst, a size remembered from running short is not let back in:
-     * the trial is only over when the setting is turned off.
+     * The fast path's buffer in frames: one burst, or more if running short has grown it
+     * before. A size remembered from running short is where later tracks start instead, as
+     * the growth that found it is the size this output turned out to need.
      */
     @JvmStatic
-    fun fastBufferFrames(burstFrames: Int, smallBuffer: Boolean, rememberedFrames: Int): Int =
-      if (smallBuffer) burstFrames else maxOf(burstFrames * QUEUED_BURSTS, rememberedFrames)
+    fun fastBufferFrames(burstFrames: Int, rememberedFrames: Int): Int =
+      maxOf(burstFrames, rememberedFrames)
+
+    /**
+     * The buffer size after a write: unchanged when the track did not run short, and grown —
+     * a burst at a time on the fast path, double without it, never past the capacity — when
+     * it did.
+     */
+    @JvmStatic
+    internal fun nextBufferFrames(
+      currentFrames: Int,
+      capacityFrames: Int,
+      burstFrames: Int,
+      fastPath: Boolean,
+      underrunGrew: Boolean,
+    ): Int {
+      if (!underrunGrew || currentFrames >= capacityFrames) {
+        return currentFrames
+      }
+      val grown = if (fastPath) currentFrames + burstFrames else currentFrames * 2
+      return minOf(grown, capacityFrames)
+    }
 
     /** An executor running tasks in order on one thread, which ends when it has nothing to do. */
     private fun singleThreadExecutor(name: String): Executor =

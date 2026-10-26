@@ -128,9 +128,6 @@ class FastNavigatorTest {
     // Navigations here mark the cache's burst clock, which other classes in this sandbox
     // would otherwise still see: the test clock does not advance on its own.
     TraversalTreeCache.noteNavigationActivity(0L)
-    TraversalTreeCache.skipTargetRefreshEnabled = true
-    TraversalTreeCache.fireFocusBeforeSpeechEnabled = true
-    TraversalTreeCache.eventDrivenScrollLandingEnabled = true
     FocusProcessorForLogicalNavigation.setWrapAround(true)
   }
 
@@ -339,11 +336,12 @@ class FastNavigatorTest {
 
   @Test
   fun deadTarget_theNearestLivingItemInTheDirectionStandsIn() {
-    // The refresh-first path: a target whose refresh fails is stepped over unheard.
-    TraversalTreeCache.skipTargetRefreshEnabled = false
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C", "D"))
-    // B is gone by the time the swipe asks for it again.
-    shadowOf(childInfos[1]).setRefreshReturnValue(false)
+    // B is gone by the time the swipe asks for it again: targets are not refreshed before
+    // firing, so a dead one shows itself by refusing the focus action.
+    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
+      action != AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS
+    }
     val children = saveOrder(rootInfo)
     focusOn(children[0])
     val substitutedBefore =
@@ -361,14 +359,16 @@ class FastNavigatorTest {
   }
 
   @Test
-  fun allTargetsDead_countsTheFailure_andStillAnnouncesTheEdge() {
-    TraversalTreeCache.skipTargetRefreshEnabled = false
+  fun allTargetsRefuse_countsTheFailure_andStillAnnouncesTheEdge() {
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B"))
-    shadowOf(childInfos[1]).setRefreshReturnValue(false)
+    // The only target refuses the focus action, and refuses it again in the rebuilt order.
+    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
+      action != AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS
+    }
     val children = saveOrder(rootInfo)
     focusOn(children[0])
     val stuckBefore =
-      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD)
+      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_FOCUS_ACTION_FAILED)
 
     assertFalse(navigator.handle(swipe(forward = true), null))
 
@@ -378,7 +378,7 @@ class FastNavigatorTest {
     assertEquals(0, feedbackCount.get())
     assertEquals(
       stuckBefore + 1,
-      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD),
+      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_FOCUS_ACTION_FAILED),
     )
   }
 
@@ -466,32 +466,6 @@ class FastNavigatorTest {
     // The change itself landed the swipe on C, the first new item — not a timed try.
     assertEquals(listOf("C"), listener.set)
     assertEquals(byEventBefore + 1, performance.getScrollLandingsByEventCount())
-  }
-
-  @Test
-  fun scrollLanding_switchOff_theContentChangeAloneDoesNotLand() {
-    TraversalTreeCache.eventDrivenScrollLandingEnabled = false
-    val rootInfo = listTree(listOf("A", "B"))
-    rootInfo.isScrollable = true
-    val children = saveOrder(rootInfo)
-    focusOn(children[1])
-    val byEventBefore = performance.getScrollLandingsByEventCount()
-    val byBackstopBefore = performance.getScrollLandingsByBackstopCount()
-
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    item(rootInfo, "C", 200)
-    saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-
-    // The change is not a trigger with the switch off: nothing has landed yet.
-    assertTrue(listener.set.isEmpty())
-    assertEquals(byEventBefore, performance.getScrollLandingsByEventCount())
-
-    // The timed try lands it instead, as landings were landed before.
-    shadowOf(Looper.getMainLooper()).idleFor(150, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("C"), listener.set)
-    assertEquals(byBackstopBefore + 1, performance.getScrollLandingsByBackstopCount())
   }
 
   @Test
@@ -640,57 +614,5 @@ class FastNavigatorTest {
     assertTrue(navigator.handle(swipe(forward = true), null))
 
     assertEquals(listOf("action", "speech"), order)
-  }
-
-  @Test
-  fun fireFirstOff_theSpeechIsToldBeforeTheActionGoesOut() {
-    TraversalTreeCache.fireFocusBeforeSpeechEnabled = false
-    val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B"))
-    val order = mutableListOf<String>()
-    shadowOf(childInfos[1]).setOnPerformActionListener { action, _ ->
-      if (action == AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS) {
-        order += "action"
-      }
-      true
-    }
-    val children = saveOrder(rootInfo)
-    focusOn(children[0])
-    navigator.setFocusListener(
-      object : FastNavigator.FocusListener {
-        override fun onAccessibilityFocusAboutToBeSet(
-          node: AccessibilityNodeInfoCompat,
-          info: FocusActionInfo,
-          eventId: Performance.EventId?,
-          actionTime: Long,
-        ) {
-          order += "speech"
-        }
-
-        override fun onAccessibilityFocusSet(
-          node: AccessibilityNodeInfoCompat,
-          info: FocusActionInfo,
-          eventId: Performance.EventId?,
-          actionTime: Long,
-        ) {}
-
-        override fun onAccessibilityFocusSetFailed(
-          node: AccessibilityNodeInfoCompat,
-          info: FocusActionInfo,
-          eventId: Performance.EventId?,
-          actionTime: Long,
-        ) {}
-      }
-    )
-
-    assertTrue(navigator.handle(swipe(forward = true), null))
-
-    assertEquals(listOf("speech", "action"), order)
-  }
-
-  private fun node(tag: String): AccessibilityNodeInfoCompat {
-    val info = AccessibilityNodeInfo.obtain()
-    info.className = "android.widget.Button"
-    info.text = tag
-    return AccessibilityNodeInfoCompat.wrap(info)
   }
 }

@@ -23,23 +23,70 @@ import org.junit.Test
 class LowLatencyAudioBufferTest {
 
   @Test
-  fun fastBufferFrames_twoBurstsByDefault() {
-    assertEquals(512, LowLatencyAudio.fastBufferFrames(256, false, 0))
+  fun fastBufferFrames_oneBurstAtTheStart() {
+    assertEquals(256, LowLatencyAudio.fastBufferFrames(256, 0))
   }
 
   @Test
-  fun fastBufferFrames_rememberedGrowthWinsOverTwoBursts() {
-    assertEquals(768, LowLatencyAudio.fastBufferFrames(256, false, 768))
+  fun fastBufferFrames_rememberedGrowthKept() {
+    // The one-burst size is only the starting point: a track made after running short grew
+    // the buffer starts at the grown size, not back at one burst.
+    assertEquals(768, LowLatencyAudio.fastBufferFrames(256, 768))
   }
 
   @Test
-  fun fastBufferFrames_oneBurstWhenSmall() {
-    assertEquals(256, LowLatencyAudio.fastBufferFrames(256, true, 0))
+  fun nextBufferFrames_noShortfallKeepsTheOneBurstStart() {
+    assertEquals(
+      256,
+      LowLatencyAudio.nextBufferFrames(
+        currentFrames = 256,
+        capacityFrames = 4096,
+        burstFrames = 256,
+        fastPath = true,
+        underrunGrew = false,
+      ),
+    )
   }
 
   @Test
-  fun fastBufferFrames_rememberedGrowthIgnoredWhenSmall() {
-    // The trial is only honest if a size remembered from running short cannot creep back in.
-    assertEquals(256, LowLatencyAudio.fastBufferFrames(256, true, 768))
+  fun nextBufferFrames_shortfallFromTheSmallStartGrowsOneBurst() {
+    assertEquals(
+      512,
+      LowLatencyAudio.nextBufferFrames(
+        currentFrames = 256,
+        capacityFrames = 4096,
+        burstFrames = 256,
+        fastPath = true,
+        underrunGrew = true,
+      ),
+    )
+  }
+
+  @Test
+  fun nextBufferFrames_aFurtherShortfallGrowsAnotherBurst() {
+    assertEquals(
+      768,
+      LowLatencyAudio.nextBufferFrames(
+        currentFrames = 512,
+        capacityFrames = 4096,
+        burstFrames = 256,
+        fastPath = true,
+        underrunGrew = true,
+      ),
+    )
+  }
+
+  @Test
+  fun nextBufferFrames_growthStopsAtTheCapacity() {
+    assertEquals(
+      4096,
+      LowLatencyAudio.nextBufferFrames(
+        currentFrames = 4096,
+        capacityFrames = 4096,
+        burstFrames = 256,
+        fastPath = true,
+        underrunGrew = true,
+      ),
+    )
   }
 }

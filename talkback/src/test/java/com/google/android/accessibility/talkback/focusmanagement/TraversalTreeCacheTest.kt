@@ -21,6 +21,7 @@ import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import java.util.concurrent.TimeUnit
 import org.junit.After
@@ -52,13 +53,6 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.orderClearedListener = null
     TraversalTreeCache.settleBuildRequester = null
     TraversalTreeCache.clearCompletely("test")
-    TraversalTreeCache.unrelatedChangesSpareNodes = true
-    TraversalTreeCache.serveStaleOrdersEnabled = true
-    TraversalTreeCache.settleRetryEnabled = true
-    TraversalTreeCache.leanOrderBuilderEnabled = true
-    TraversalTreeCache.fastNavigatorEnabled = true
-    TraversalTreeCache.listenerBuildCoalescingEnabled = true
-    TraversalTreeCache.cheapPivotCheckEnabled = true
     TraversalTreeCache.noteNavigationActivity(0L)
   }
 
@@ -302,16 +296,6 @@ class TraversalTreeCacheTest {
   }
 
   @Test
-  fun gracedChange_sparingOff_holdsCurrentIsFalseEvenForAnUntouchedPivot() {
-    val (_, child) = savedOrder()
-    TraversalTreeCache.unrelatedChangesSpareNodes = false
-
-    TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
-
-    assertFalse(TraversalTreeCache.holdsCurrent(child))
-  }
-
-  @Test
   fun noGracedChange_holdsCurrentIsTrue() {
     val (_, child) = savedOrder()
 
@@ -517,21 +501,63 @@ class TraversalTreeCacheTest {
   }
 
   @Test
-  fun serveStaleOrder_disabled_refuses() {
-    val (root, child) = savedOrder()
-    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
-    TraversalTreeCache.serveStaleOrdersEnabled = false
-
-    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
-  }
-
-  @Test
   fun serveStaleOrder_otherWindow_refuses() {
     val (root, child) = savedOrder()
     TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
     val (otherRoot, _) = unsavedOrder()
 
     assertNull(TraversalTreeCache.serveStaleOrder(otherRoot, child))
+  }
+
+  @Test
+  fun serveStaleOrder_secondStructuralChangeAwayFromThePivot_expiresForNavigation() {
+    val performance = Performance.getInstance()
+    performance.setComputeStatsEnabled(true)
+    val expiredBefore = performance.getStaleOrderExpiredForNavigationCount()
+    val (root, child) = savedOrder()
+    // The change that sets the order aside, nowhere near the pivot: the copy still serves.
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    assertNotNull(TraversalTreeCache.serveStaleOrder(root, child))
+
+    // A further structural change, still nowhere near the pivot — items added across the
+    // window, as when a panel opens more entries. The copy's node set is now provably
+    // incomplete: the added items are not in it, so it stops serving for navigation and
+    // for prediction alike, however far from the pivot the change was.
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(700, 700, 800, 800)))
+
+    assertNull(TraversalTreeCache.serveStaleOrder(root, child))
+    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
+    // The expiry is counted once per copy, however many serves it refuses.
+    assertEquals(expiredBefore + 1, performance.getStaleOrderExpiredForNavigationCount())
+  }
+
+  @Test
+  fun serveStaleOrder_textOnlyChangeAfterTheDemotion_doesNotExpire() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    assertNotNull(TraversalTreeCache.serveStaleOrder(root, child))
+
+    // A text change moves no node and adds none: it never reaches the structural notes,
+    // so the copy goes on serving, exactly as before.
+    TraversalTreeCache.onAccessibilityEvent(gracedEvent(root.windowId, Rect(700, 700, 800, 800)))
+
+    assertNotNull(TraversalTreeCache.serveStaleOrder(root, child))
+  }
+
+  @Test
+  fun structuralExpiry_armsTheDeferralExemption_forTheFirstAskOnly() {
+    val (root, _) = savedOrder()
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
+    // The demotion alone arms nothing: its own change is the one the copy may still serve.
+    assertFalse(TraversalTreeCache.buildDeferralExempt(root.windowId))
+
+    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(700, 700, 800, 800)))
+
+    assertTrue(TraversalTreeCache.buildDeferralExempt(root.windowId))
+    // Spent by the first ask that takes it: later asks defer and fold as usual.
+    assertFalse(TraversalTreeCache.buildDeferralExempt(root.windowId))
+    // And it is armed per window, not for any window that asks.
+    assertFalse(TraversalTreeCache.buildDeferralExempt(root.windowId + 1))
   }
 
   @Test
@@ -606,15 +632,6 @@ class TraversalTreeCacheTest {
   }
 
   @Test
-  fun staleOrderForPrediction_disabled_refuses() {
-    val (root, child) = savedOrder()
-    TraversalTreeCache.onAccessibilityEvent(structuralEvent(root.windowId, Rect(500, 500, 600, 600)))
-    TraversalTreeCache.serveStaleOrdersEnabled = false
-
-    assertNull(TraversalTreeCache.staleOrderForPrediction(child))
-  }
-
-  @Test
   fun staleOrderForPrediction_noPreviousOrder_returnsNull() {
     val (_, child) = savedOrder()
 
@@ -684,26 +701,6 @@ class TraversalTreeCacheTest {
   }
 
   @Test
-  fun settleBuild_switchOff_neverFires() {
-    val requested = mutableListOf<Int>()
-    TraversalTreeCache.settleBuildRequester =
-      TraversalTreeCache.SettleBuildRequester { requested.add(it) }
-    TraversalTreeCache.settleRetryEnabled = false
-
-    TraversalTreeCache.onAccessibilityEvent(structuralEvent(7, Rect(0, 0, 10, 10)))
-    shadowOf(Looper.getMainLooper()).idleFor(1, TimeUnit.SECONDS)
-
-    assertTrue(requested.isEmpty())
-  }
-
-  @Test
-  fun fastNavigatorSwitch_defaultsOn_andFollowsTheSetting() {
-    assertTrue(TraversalTreeCache.fastNavigatorEnabled)
-    TraversalTreeCache.fastNavigatorEnabled = false
-    assertFalse(TraversalTreeCache.fastNavigatorEnabled)
-  }
-
-  @Test
   fun buildOrderOnTheSpot_buildsAndSavesTheOrder() {
     val (root, child) = savedOrder()
     TraversalTreeCache.clearCompletely("no order saved")
@@ -762,10 +759,6 @@ class TraversalTreeCacheTest {
     shadowOf(child.unwrap()).setRefreshReturnValue(false)
 
     assertEquals(child, TraversalTreeCache.focusNodeForNavigation())
-
-    // With the cheap check off, the same node is put to the refresh, and refused.
-    TraversalTreeCache.cheapPivotCheckEnabled = false
-    assertNull(TraversalTreeCache.focusNodeForNavigation())
   }
 
   @Test

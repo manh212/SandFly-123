@@ -367,8 +367,9 @@ object DiagnosticsExport {
       }
       if (LowLatencyAudio.smallBufferFittings > 0) {
         out.append(
-          "Small buffer: ${LowLatencyAudio.smallBufferFittings} fittings," +
-            " ${LowLatencyAudio.smallBufferShortfalls} shortfalls kept small\n"
+          "Small buffer: ${LowLatencyAudio.smallBufferFittings} fittings at one burst," +
+            " ${LowLatencyAudio.smallBufferShortfalls} shortfalls," +
+            " grew ${LowLatencyAudio.smallBufferGrowths} times\n"
         )
       }
     }
