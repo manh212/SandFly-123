@@ -13,6 +13,8 @@
 
 package com.google.android.accessibility.talkback.focusmanagement
 
+import android.os.Handler
+import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
@@ -48,6 +50,18 @@ internal object TraversalOrderSnapshotBuilder {
   /** The ask was folded into the build on its way; one more build follows when that one lands. */
   const val OUTCOME_COALESCED = 2
 
+  /** The ask was held until the swipe burst passes; it is taken up when the hold lifts. */
+  const val OUTCOME_DEFERRED = 3
+
+  /** How long after the last navigation an ask is still inside the swipe burst. */
+  private const val BURST_WINDOW_MS = 300L
+
+  /**
+   * The longest an ask may be held by burst deferral, however long the burst runs: a burst
+   * that never pauses must not starve the window of its order.
+   */
+  private const val DEFER_MAX_MS = 1500L
+
   private val executor by lazy {
     Executors.newSingleThreadExecutor { runnable ->
       Thread(runnable, TAG).apply { isDaemon = true }
@@ -76,6 +90,18 @@ internal object TraversalOrderSnapshotBuilder {
    * always starts from the tree as it stands then — the fold can delay a build, never stale it.
    */
   private var dirtyRequest: Request? = null
+
+  /**
+   * The newest ask held back by burst deferral, and when the hold began. The ask is kept whole
+   * — its root supplier resolves the current root whenever it is called — and is taken up with
+   * a fresh generation when the burst passes, so the hold can delay a build, never stale it,
+   * and the last ask of a burst is never lost.
+   */
+  private var deferredRequest: Request? = null
+  private var deferredSinceMs: Long = 0L
+
+  private val flushHandler = Handler(Looper.getMainLooper())
+  private val flushDeferredTask = Runnable { flushDeferred() }
 
   /** The (window, generation) of the request waiting or running, if any. */
   private var askedKey: Pair<Int, Long>? = null
@@ -109,6 +135,28 @@ internal object TraversalOrderSnapshotBuilder {
           Performance.getInstance().onOrderBuildRequestDeduped()
           return OUTCOME_DEDUPED
         }
+        if (TraversalTreeCache.burstBuildDeferralEnabled) {
+          // A build starting now would compete for the main thread with the swipes still
+          // landing; the ask is held instead, newest one winning, until the burst has been
+          // quiet for the burst window — or until it has been held the maximum, so a burst
+          // that never pauses cannot starve the window of its order.
+          val lastNavigation = TraversalTreeCache.lastNavigationTimeMs()
+          val now = SystemClock.uptimeMillis()
+          val inBurst = lastNavigation > 0 && now - lastNavigation < BURST_WINDOW_MS
+          val heldTooLong =
+            deferredRequest != null && deferredSinceMs > 0 && now - deferredSinceMs >= DEFER_MAX_MS
+          if (inBurst && !heldTooLong) {
+            if (deferredRequest == null) {
+              deferredSinceMs = now
+            }
+            deferredRequest = Request(windowId, generation, rootSupplier, ownPackage, source)
+            flushHandler.removeCallbacks(flushDeferredTask)
+            flushHandler.postDelayed(
+              flushDeferredTask, lastNavigation + BURST_WINDOW_MS - now)
+            Performance.getInstance().onBackgroundBuildDeferredDuringBurst()
+            return OUTCOME_DEFERRED
+          }
+        }
         if (source == Performance.ORDER_BUILD_SOURCE_LISTENER &&
           TraversalTreeCache.listenerBuildCoalescingEnabled &&
           running &&
@@ -116,6 +164,12 @@ internal object TraversalOrderSnapshotBuilder {
           dirtyRequest = Request(windowId, generation, rootSupplier, ownPackage, source)
           Performance.getInstance().onListenerBuildCoalesced()
           return OUTCOME_COALESCED
+        }
+        if (deferredRequest?.windowId == windowId) {
+          // This ask supersedes the one being held for the same window.
+          deferredRequest = null
+          deferredSinceMs = 0L
+          flushHandler.removeCallbacks(flushDeferredTask)
         }
         askedKey = key
         pending = Request(windowId, generation, rootSupplier, ownPackage, source)
@@ -139,6 +193,37 @@ internal object TraversalOrderSnapshotBuilder {
       }
     }
     return OUTCOME_ACCEPTED
+  }
+
+  /**
+   * Takes up the ask held by burst deferral, with the generation read fresh, as the coalesced
+   * follow-up builds are taken up. If navigations have landed again since, the ask defers
+   * once more — with the hold's start kept, so the maximum hold still bounds the chain.
+   */
+  private fun flushDeferred() {
+    val held =
+      synchronized(lock) {
+        val taken = deferredRequest
+        deferredRequest = null
+        taken to deferredSinceMs
+      }
+    val (deferred, heldSince) = held
+    if (deferred == null) {
+      return
+    }
+    val outcome =
+      request(
+        deferred.windowId,
+        TraversalTreeCache.currentGeneration(),
+        deferred.rootSupplier,
+        deferred.ownPackage,
+        deferred.source,
+      )
+    if (outcome == OUTCOME_DEFERRED && heldSince > 0) {
+      synchronized(lock) {
+        deferredSinceMs = heldSince
+      }
+    }
   }
 
   private fun drain() {

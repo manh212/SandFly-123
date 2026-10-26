@@ -123,8 +123,62 @@ object TraversalTreeCache {
    */
   @JvmStatic var listenerBuildCoalescingEnabled: Boolean = true
 
+  /**
+   * Whether the fast navigator fires the focus action at a target without refreshing the
+   * target first. A target that turns out dead refuses the action, and the navigator walks on
+   * to the next living one, exactly as a failed refresh used to make it do — one binder round
+   * trip fewer on every swipe. When false, targets are refreshed before firing, as before.
+   */
+  @JvmStatic var skipTargetRefreshEnabled: Boolean = true
+
+  /**
+   * Whether the remembered focus may serve as a navigation's starting point on cheap local
+   * evidence — the saved order has not been thrown away since the focus was remembered, the
+   * saved order still holds the node, and the node still carries its focused flag — instead
+   * of a refresh round trip to the app. When false, the remembered focus is always confirmed
+   * by refreshing it, as before.
+   */
+  @JvmStatic var cheapPivotCheckEnabled: Boolean = true
+
+  /**
+   * Whether the fast navigator fires the focus action before it starts the target's speech, so
+   * the action never waits behind composing and submitting the announcement. Both calls run on
+   * the same thread one after the other, so no focus event can arrive between them. When
+   * false, the speech is submitted first, as before.
+   */
+  @JvmStatic var fireFocusBeforeSpeechEnabled: Boolean = true
+
+  /**
+   * Whether a scroll the fast navigator performs is landed by the first content change the app
+   * reports for the window, with the timed tries kept only as a shorter backstop, instead of
+   * by timed tries alone. When false, the landing is polled as before.
+   */
+  @JvmStatic var eventDrivenScrollLandingEnabled: Boolean = true
+
+  /**
+   * Whether a background build asked for while swipes are landing in quick succession is held
+   * until the burst passes, instead of starting at once and competing for the main thread.
+   * The ask is kept, newest one winning, and the build still runs. When false, builds start
+   * the moment they are asked for, as before.
+   */
+  @JvmStatic var burstBuildDeferralEnabled: Boolean = true
+
   /** The node accessibility focus was last known to land on, as far as this cache is told. */
   @Volatile private var lastFocusNode: AccessibilityNodeInfoCompat? = null
+
+  /**
+   * How many times the saved order had been thrown away when [lastFocusNode] was remembered.
+   * A fresh order landing does not count: it replaces the snapshot without the screen having
+   * moved past the remembered focus, and the remembered node is re-located in the new order
+   * before anything is aimed from it.
+   */
+  private var lastFocusInvalidations: Long = -1L
+
+  /** How many times the saved order has been thrown away; see [lastFocusInvalidations]. */
+  @Volatile private var invalidations = 0L
+
+  /** When directional navigation last ran, by the uptime clock; zero when none has yet. */
+  @Volatile private var lastNavigationMs: Long = 0L
 
   /**
    * Remembers the node accessibility focus last landed on. A navigation that starts from it
@@ -133,7 +187,17 @@ object TraversalTreeCache {
   @JvmStatic
   fun rememberFocus(node: AccessibilityNodeInfoCompat) {
     lastFocusNode = node
+    lastFocusInvalidations = invalidations
   }
+
+  /** Notes that a directional navigation just ran, for the burst checks that read it. */
+  @JvmStatic
+  fun noteNavigationActivity(nowMs: Long = SystemClock.uptimeMillis()) {
+    lastNavigationMs = nowMs
+  }
+
+  /** When directional navigation last ran, by the uptime clock; zero when none has yet. */
+  @JvmStatic fun lastNavigationTimeMs(): Long = lastNavigationMs
 
   /**
    * The focus node a navigation may start from without asking the app, or null when it must ask
@@ -144,15 +208,65 @@ object TraversalTreeCache {
   @JvmStatic
   fun focusNodeForNavigation(): AccessibilityNodeInfoCompat? {
     val node = lastFocusNode ?: return null
+    // Cheap evidence first, when its switch allows: the saved order has not been thrown away
+    // since this focus was remembered (a focus move onto a node is itself remembered the
+    // moment its event arrives, and a focus cleared without a landing is forgotten, so a
+    // remembered focus the screen has moved past fails one of these), the saved order still
+    // holds the node, and the node still carries its focused flag. Any doubt falls through
+    // to the refresh below, which stays the authority.
+    if (
+      cheapPivotCheckEnabled &&
+        runCatching {
+              lastFocusInvalidations == invalidations &&
+                holds(node) &&
+                node.isAccessibilityFocused
+            }
+            .getOrDefault(false)
+    ) {
+      Performance.getInstance().onCachedFocusShortcutUsed()
+      return node
+    }
     val usable =
-      runCatching { holds(node) && node.refresh() && node.isAccessibilityFocused }
-        .getOrDefault(false)
+      runCatching {
+            holds(node) && refreshForNavigation(node) && node.isAccessibilityFocused
+          }
+          .getOrDefault(false)
     if (usable) {
       Performance.getInstance().onCachedFocusShortcutUsed()
       return node
     }
     Performance.getInstance().onCachedFocusShortcutRejected()
     return null
+  }
+
+  /** Refreshes [node] for a navigation, timing the round trip as its own swipe segment. */
+  private fun refreshForNavigation(node: AccessibilityNodeInfoCompat): Boolean {
+    val started = SystemClock.uptimeMillis()
+    val refreshed = node.refresh()
+    Performance.getInstance()
+      .recordSwipeSegment("fast nav pivot refresh", SystemClock.uptimeMillis() - started)
+    return refreshed
+  }
+
+  /**
+   * Forgets the remembered focus when the app reports it cleared: a node whose focus was
+   * cleared without a landing elsewhere must not serve as a starting point on the strength of
+   * its stale focused flag.
+   */
+  private fun forgetFocusIfCleared(event: AccessibilityEvent) {
+    val remembered = lastFocusNode ?: return
+    val source =
+      runCatching { event.source?.let { AccessibilityNodeInfoCompat.wrap(it) } }
+        .getOrNull()
+        ?: return
+    try {
+      if (source == remembered) {
+        lastFocusNode = null
+        lastFocusInvalidations = -1L
+      }
+    } finally {
+      source.recycle()
+    }
   }
 
   /**
@@ -633,6 +747,7 @@ object TraversalTreeCache {
     val clearedWindowId =
       synchronized(stateLock) {
         generation++
+        invalidations++
         val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
         root = null
         strategy = null
@@ -658,6 +773,7 @@ object TraversalTreeCache {
     val clearedWindowId =
       synchronized(stateLock) {
         generation++
+        invalidations++
         val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
         if (strategy != null) {
           staleRoot = root
@@ -722,7 +838,10 @@ object TraversalTreeCache {
       TraversalOrderSnapshotBuilder.request(windowId, generation, rootSupplier, ownPackage, source)
     // A folded ask posted nothing: the build on its way, and the one follow-up it owes, are
     // what the posted count describes, so folded asks are counted by their own counter only.
-    if (outcome != TraversalOrderSnapshotBuilder.OUTCOME_COALESCED) {
+    // A deferred ask posted nothing yet either: its build is counted when the hold lifts and
+    // the ask is taken up for real.
+    if (outcome != TraversalOrderSnapshotBuilder.OUTCOME_COALESCED &&
+      outcome != TraversalOrderSnapshotBuilder.OUTCOME_DEFERRED) {
       Performance.getInstance().onOrderBuildPosted(source)
     }
   }
@@ -790,6 +909,9 @@ object TraversalTreeCache {
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
     val type = event.eventType
+    if (type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED) {
+      forgetFocusIfCleared(event)
+    }
     if (type and IGNORED_EVENT_TYPES != 0) {
       return false
     }

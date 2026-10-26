@@ -627,6 +627,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   private TextEventInterpreter textEventInterpreter;
   private Compositor compositor;
   private DirectionNavigationActor.StateReader directionNavigationActorStateReader;
+  private @Nullable FastNavigator fastNavigator;
   private FullScreenReadActor fullScreenReadActor;
   private GeminiActor geminiActor;
   private EditTextActionHistory editTextActionHistory;
@@ -1153,6 +1154,14 @@ public class TalkBackService extends AccessibilityServiceCompat
       } else {
         prefetchWindowOfClearedOrder(event);
       }
+    }
+    if (fastNavigator != null
+        && (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+            || eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED)) {
+      // A scroll the fast navigator fired may be waiting on exactly this change to land its
+      // item; it is told after the order cache has had the event, so the order it reads is
+      // the one the change left behind.
+      fastNavigator.onWindowContentChanged(event.getWindowId());
     }
     PreparedFocusSpeech.onAccessibilityEvent(event);
     if (directTouchController != null) {
@@ -2828,7 +2837,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     // saved order, and tells the same listener in the same shape, so the speaking path —
     // prepared announcements, speaking early, speculation — serves its focus exactly as it
     // serves the other path's.
-    FastNavigator fastNavigator =
+    fastNavigator =
         new FastNavigator(
             this,
             focusHistory,
@@ -3662,6 +3671,27 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_focus_priority_lane_key, R.bool.pref_focus_priority_lane_default));
     TraversalTreeCache.setFastNavigatorEnabled(
         getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
+    TraversalTreeCache.setSkipTargetRefreshEnabled(
+        getBooleanPref(
+            R.string.pref_fast_nav_skip_target_refresh_key,
+            R.bool.pref_fast_nav_skip_target_refresh_default));
+    TraversalTreeCache.setCheapPivotCheckEnabled(
+        getBooleanPref(
+            R.string.pref_fast_nav_cheap_pivot_key, R.bool.pref_fast_nav_cheap_pivot_default));
+    TraversalTreeCache.setFireFocusBeforeSpeechEnabled(
+        getBooleanPref(
+            R.string.pref_fast_nav_fire_first_key, R.bool.pref_fast_nav_fire_first_default));
+    EventFilter.setSpeechPipelineChainEnabled(
+        getBooleanPref(
+            R.string.pref_speech_pipeline_chain_key, R.bool.pref_speech_pipeline_chain_default));
+    TraversalTreeCache.setEventDrivenScrollLandingEnabled(
+        getBooleanPref(
+            R.string.pref_event_driven_scroll_landing_key,
+            R.bool.pref_event_driven_scroll_landing_default));
+    TraversalTreeCache.setBurstBuildDeferralEnabled(
+        getBooleanPref(
+            R.string.pref_defer_builds_during_burst_key,
+            R.bool.pref_defer_builds_during_burst_default));
   }
 
   protected void reloadPreferences() {

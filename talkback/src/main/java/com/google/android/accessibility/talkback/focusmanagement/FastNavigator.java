@@ -80,6 +80,22 @@ public class FastNavigator {
   private static final int SCROLL_LANDING_ATTEMPTS = 4;
 
   /**
+   * When the timed landing tries run for an event-driven landing, as absolute times after the
+   * scroll: a first quick look, then two wider ones. The last is also the cap — a scroll whose
+   * content has not landed 300 ms after it fired is given up, where the polling this replaces
+   * could keep a swipe waiting some 480 ms. Content changes are the primary trigger and are
+   * not bound by this schedule; these tries are only the backstop for a scroll that brings
+   * its content quietly.
+   */
+  private static final long[] SCROLL_LANDING_BACKSTOP_TIMES_MS = {50, 150, 300};
+
+  /** How long after a scroll a content change may still trigger its landing. */
+  private static final long SCROLL_LANDING_EVENT_WINDOW_MS = 300;
+
+  /** How many content changes may each trigger a landing try for one scroll. */
+  private static final int SCROLL_LANDING_MAX_EVENT_TRIES = 8;
+
+  /**
    * Told about the focus this navigator sets, in the same shape the other focus path tells its
    * listener, so the speaking path cannot tell the two apart: before the action, with the
    * final info, so speech can be submitted on the prediction; after it lands; and when the app
@@ -134,7 +150,18 @@ public class FastNavigator {
     final @Nullable AccessibilityNodeInfoCompat preferNode;
     final List<AccessibilityNodeInfoCompat> oldSpeaking;
     final @Nullable EventId eventId;
+    /** Whether content changes trigger the landing tries, with timed tries as a backstop. */
+    final boolean eventDriven;
+    /** The window the scroll was fired in; content changes elsewhere are not its landing. */
+    final int windowId;
+    /** When the scroll was fired, by the uptime clock. */
+    final long startedAtMs;
+    /** Tries left, when the landing is timed (not event-driven). */
     int attemptsLeft;
+    /** Which backstop time the next timed try runs at, when the landing is event-driven. */
+    int backstopStage;
+    /** How many content changes have already triggered a try for this scroll. */
+    int eventTries;
 
     PendingScrollLanding(
         NavigationAction action,
@@ -142,13 +169,19 @@ public class FastNavigator {
         @Nullable AccessibilityNodeInfoCompat preferNode,
         List<AccessibilityNodeInfoCompat> oldSpeaking,
         @Nullable EventId eventId,
-        int attemptsLeft) {
+        int attemptsLeft,
+        boolean eventDriven,
+        int windowId,
+        long startedAtMs) {
       this.action = action;
       this.forward = forward;
       this.preferNode = preferNode;
       this.oldSpeaking = oldSpeaking;
       this.eventId = eventId;
       this.attemptsLeft = attemptsLeft;
+      this.eventDriven = eventDriven;
+      this.windowId = windowId;
+      this.startedAtMs = startedAtMs;
     }
   }
 
@@ -178,6 +211,7 @@ public class FastNavigator {
    */
   public boolean handle(NavigationAction action, @Nullable EventId eventId) {
     long start = SystemClock.uptimeMillis();
+    TraversalTreeCache.noteNavigationActivity(start);
     Performance.getInstance().beginSwipeProfile();
     try {
       return handleInternal(action, eventId);
@@ -194,10 +228,17 @@ public class FastNavigator {
     }
   }
 
+  /** Times one part of a navigation under its own segment name, from {@code startMs} to now. */
+  private static void recordSegment(String name, long startMs) {
+    Performance.getInstance().recordSwipeSegment(name, SystemClock.uptimeMillis() - startMs);
+  }
+
   private boolean handleInternal(NavigationAction action, @Nullable EventId eventId) {
     boolean rtl = WindowUtils.isScreenLayoutRTL(service);
     int logicalDirection = TraversalStrategyUtils.getLogicalDirection(action.searchDirection, rtl);
+    long pivotStart = SystemClock.uptimeMillis();
     AccessibilityNodeInfoCompat pivot = resolvePivot();
+    recordSegment("fast nav pivot", pivotStart);
 
     if (pivot == null) {
       return handleWithoutPivot(action, logicalDirection, eventId);
@@ -216,7 +257,9 @@ public class FastNavigator {
     boolean forward = logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD;
 
     if (WebInterfaceUtils.supportsWebActions(pivot)) {
+      long orderStart = SystemClock.uptimeMillis();
       OrderedTraversalStrategy order = webOrderFor(pivot);
+      recordSegment("fast nav order fetch", orderStart);
       if (order == null) {
         Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_NO_ORDER);
         announceEdge(action, forward, eventId);
@@ -225,7 +268,9 @@ public class FastNavigator {
       return navigateInOrder(action, pivot, order, forward, eventId, /* rebuilt= */ false);
     }
 
+    long orderStart = SystemClock.uptimeMillis();
     OrderedTraversalStrategy order = savedOrderFor(pivot);
+    recordSegment("fast nav order fetch", orderStart);
     if (order == null) {
       Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_NO_ORDER);
       announceEdge(action, forward, eventId);
@@ -276,9 +321,14 @@ public class FastNavigator {
       return false;
     }
     AccessibilityNodeInfoCompat target = forward ? speaking.get(0) : speaking.get(speaking.size() - 1);
-    if (!target.refresh()) {
-      Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD);
-      return false;
+    if (!TraversalTreeCache.getSkipTargetRefreshEnabled()) {
+      long refreshStart = SystemClock.uptimeMillis();
+      boolean alive = target.refresh();
+      recordSegment("fast nav target refresh", refreshStart);
+      if (!alive) {
+        Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD);
+        return false;
+      }
     }
     return fireTarget(target, root, action, eventId, /* substituted= */ false, /* countHandled= */ true);
   }
@@ -346,8 +396,10 @@ public class FastNavigator {
 
   /**
    * The swipe itself, as arithmetic on {@code order}: from the pivot's place, the next node
-   * the reading control's list offers, skipping any that died or belong elsewhere, each vouched
-   * for once by {@code refresh()}.
+   * the reading control's list offers, skipping any that died or belong elsewhere. A candidate
+   * is vouched for by {@code refresh()} before firing, unless the skip-refresh switch is on:
+   * then the focus action itself is the vouching — a dead node refuses it, and the walk steps
+   * on to the next candidate in the same order, as a failed refresh used to make it do.
    */
   private boolean navigateInOrder(
       NavigationAction action,
@@ -356,6 +408,7 @@ public class FastNavigator {
       boolean forward,
       @Nullable EventId eventId,
       boolean rebuilt) {
+    long searchStart = SystemClock.uptimeMillis();
     List<AccessibilityNodeInfoCompat> fullOrder = order.dumpTree();
     int pivotIndex = indexOfNode(fullOrder, pivot);
     if (pivotIndex < 0) {
@@ -366,10 +419,12 @@ public class FastNavigator {
       return false;
     }
     Filter<AccessibilityNodeInfoCompat> filter = composeFilter(action.targetType, order);
+    recordSegment("fast nav target search", searchStart);
     if (action.targetType != NavigationTarget.TARGET_DEFAULT) {
       Performance.getInstance()
           .onFastNavigationHardCase(Performance.FAST_NAV_HARD_GRANULARITY_ORDER);
     }
+    boolean skipRefresh = TraversalTreeCache.getSkipTargetRefreshEnabled();
     boolean substituted = false;
     int index = pivotIndex;
     while (true) {
@@ -378,11 +433,21 @@ public class FastNavigator {
         return handleEdge(action, pivot, fullOrder, filter, forward, eventId, substituted);
       }
       AccessibilityNodeInfoCompat candidate = fullOrder.get(index);
-      if (candidate.getWindowId() != pivot.getWindowId() || !candidate.refresh()) {
-        // Dead, or another window's: the nearest living one in the swipe's direction stands
-        // in for it, so the swipe still lands somewhere true.
+      if (candidate.getWindowId() != pivot.getWindowId()) {
+        // Another window's: the nearest one of this window in the swipe's direction stands in.
         substituted = true;
         continue;
+      }
+      if (!skipRefresh) {
+        long refreshStart = SystemClock.uptimeMillis();
+        boolean alive = candidate.refresh();
+        recordSegment("fast nav target refresh", refreshStart);
+        if (!alive) {
+          // Dead: the nearest living one in the swipe's direction stands in for it, so the
+          // swipe still lands somewhere true.
+          substituted = true;
+          continue;
+        }
       }
       if (!candidate.isVisibleToUser()) {
         // In the order but not on screen: the swipe has run ahead of the window's drawing.
@@ -397,6 +462,13 @@ public class FastNavigator {
       }
       if (fireTarget(candidate, pivot, action, eventId, substituted, /* countHandled= */ true)) {
         return true;
+      }
+      if (skipRefresh && nextCandidateIndex(fullOrder, index, forward, filter) >= 0) {
+        // The action itself reported this target dead, and the order has another candidate
+        // beyond it: step on within the same order instead of paying for a rebuild. The
+        // substitution is counted by the fire that eventually lands, as refresh-skips are.
+        substituted = true;
+        continue;
       }
       // The app refused the one focus action. Read the window once more, as it now stands,
       // and answer from that — once, so a refusing app is a counted failure, not a loop.
@@ -432,8 +504,25 @@ public class FastNavigator {
     if (action.shouldWrap && FocusProcessorForLogicalNavigation.isWrapAroundEnabled()) {
       AccessibilityNodeInfoCompat wrapTarget =
           speaking.isEmpty() ? null : forward ? speaking.get(0) : speaking.get(speaking.size() - 1);
-      if (wrapTarget != null && !wrapTarget.equals(pivot) && wrapTarget.refresh()) {
-        return fireTarget(wrapTarget, pivot, action, eventId, false, /* countHandled= */ true);
+      if (wrapTarget != null && !wrapTarget.equals(pivot)) {
+        if (!TraversalTreeCache.getSkipTargetRefreshEnabled()) {
+          long refreshStart = SystemClock.uptimeMillis();
+          boolean alive = wrapTarget.refresh();
+          recordSegment("fast nav target refresh", refreshStart);
+          if (!alive) {
+            wrapTarget = null;
+          }
+        }
+        if (wrapTarget != null) {
+          if (fireTarget(wrapTarget, pivot, action, eventId, false, /* countHandled= */ true)) {
+            return true;
+          }
+          if (!TraversalTreeCache.getSkipTargetRefreshEnabled()) {
+            return false;
+          }
+          // With the refresh skipped, a refused action is how a dead wrap target shows
+          // itself; the refreshed path answers that with the edge announcement below.
+        }
       }
     }
     announceEdge(action, forward, eventId);
@@ -478,19 +567,96 @@ public class FastNavigator {
     Performance.getInstance().onFastNavigationHardCase(Performance.FAST_NAV_HARD_SELF_SCROLL);
     Performance.getInstance().onFastNavigationHandled();
     handler.removeCallbacks(scrollLandingTask);
-    pendingScrollLanding =
+    boolean eventDriven = TraversalTreeCache.getEventDrivenScrollLandingEnabled();
+    PendingScrollLanding landing =
         new PendingScrollLanding(
-            action, forward, preferNode, oldSpeaking, eventId, SCROLL_LANDING_ATTEMPTS);
-    handler.postDelayed(scrollLandingTask, SCROLL_LANDING_DELAY_MS);
+            action,
+            forward,
+            preferNode,
+            oldSpeaking,
+            eventId,
+            SCROLL_LANDING_ATTEMPTS,
+            eventDriven,
+            pivot.getWindowId(),
+            SystemClock.uptimeMillis());
+    pendingScrollLanding = landing;
+    if (eventDriven) {
+      scheduleScrollBackstop(landing);
+    } else {
+      handler.postDelayed(scrollLandingTask, SCROLL_LANDING_DELAY_MS);
+    }
     return true;
   }
 
-  /** Runs one landing try for a scroll this navigator fired. */
+  /** Arms the next timed try of an event-driven landing, at its backstop time. */
+  private void scheduleScrollBackstop(PendingScrollLanding landing) {
+    if (landing.backstopStage >= SCROLL_LANDING_BACKSTOP_TIMES_MS.length) {
+      return;
+    }
+    long target = landing.startedAtMs + SCROLL_LANDING_BACKSTOP_TIMES_MS[landing.backstopStage];
+    handler.postDelayed(
+        scrollLandingTask, Math.max(0, target - SystemClock.uptimeMillis()));
+  }
+
+  /**
+   * Tells the navigator that the content of {@code windowId} changed: when a scroll this
+   * navigator fired is still waiting to land in that window, the change is tried as its
+   * landing at once, instead of at the next timed try. The service calls this for content
+   * changes and scroll events, after the order cache has had the event.
+   */
+  public void onWindowContentChanged(int windowId) {
+    PendingScrollLanding landing = pendingScrollLanding;
+    if (landing == null || !landing.eventDriven || landing.windowId != windowId) {
+      return;
+    }
+    if (SystemClock.uptimeMillis() - landing.startedAtMs > SCROLL_LANDING_EVENT_WINDOW_MS
+        || landing.eventTries >= SCROLL_LANDING_MAX_EVENT_TRIES) {
+      return;
+    }
+    landing.eventTries++;
+    tryScrollLanding(landing, /* fromEvent= */ true);
+  }
+
+  /** Runs one timed landing try for a scroll this navigator fired. */
   private void runScrollLanding() {
     PendingScrollLanding landing = pendingScrollLanding;
     if (landing == null) {
       return;
     }
+    if (tryScrollLanding(landing, /* fromEvent= */ false)) {
+      return;
+    }
+    if (landing.eventDriven) {
+      landing.backstopStage++;
+      if (landing.backstopStage >= SCROLL_LANDING_BACKSTOP_TIMES_MS.length) {
+        giveUpScrollLanding(landing);
+      } else {
+        scheduleScrollBackstop(landing);
+      }
+    } else if (--landing.attemptsLeft > 0) {
+      handler.postDelayed(scrollLandingTask, SCROLL_LANDING_DELAY_MS);
+    } else {
+      giveUpScrollLanding(landing);
+    }
+  }
+
+  /** Gives up on a scroll's landing, counted loudly, and answers its swipe with the edge. */
+  private void giveUpScrollLanding(PendingScrollLanding landing) {
+    pendingScrollLanding = null;
+    handler.removeCallbacks(scrollLandingTask);
+    Performance.getInstance()
+        .recordSwipeSegment("scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
+    Performance.getInstance()
+        .onFastNavigationStuck(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING);
+    announceEdge(landing.action, landing.forward, landing.eventId);
+  }
+
+  /**
+   * One try at landing a scroll: rebuilds or reads the order the scroll left behind, and
+   * focuses the first new item in its direction — or the item it was fired for, once that
+   * shows. Returns whether the landing is settled, having focused its item.
+   */
+  private boolean tryScrollLanding(PendingScrollLanding landing, boolean fromEvent) {
     AccessibilityNodeInfoCompat anchor =
         landing.preferNode != null
             ? landing.preferNode
@@ -544,20 +710,18 @@ public class FastNavigator {
       }
       if (target != null && target.refresh()) {
         pendingScrollLanding = null;
+        handler.removeCallbacks(scrollLandingTask);
+        Performance.getInstance()
+            .recordSwipeSegment(
+                "scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
+        Performance.getInstance().onScrollLandingSettled(fromEvent);
         AccessibilityNodeInfoCompat pivotForWrap =
             anchor != null ? anchor : target;
         fireTarget(target, pivotForWrap, landing.action, landing.eventId, false, false);
-        return;
+        return true;
       }
     }
-    if (--landing.attemptsLeft > 0) {
-      handler.postDelayed(scrollLandingTask, SCROLL_LANDING_DELAY_MS);
-      return;
-    }
-    pendingScrollLanding = null;
-    Performance.getInstance()
-        .onFastNavigationStuck(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING);
-    announceEdge(landing.action, landing.forward, landing.eventId);
+    return false;
   }
 
   /**
@@ -593,7 +757,11 @@ public class FastNavigator {
   /**
    * Fires the one focus action of a swipe, telling the focus listener as the action goes out —
    * speech on the prediction first, the telling of the landing after — and leaves the history
-   * record the event interpreters match the coming focus event against.
+   * record the event interpreters match the coming focus event against. When the fire-first
+   * switch is on, the order of the first two is swapped: the action goes out before the speech
+   * is composed and submitted, so the focus never waits behind the speaking. Both calls run
+   * back to back on this thread, so the app's focus event cannot arrive between them either
+   * way; a refused action simply never starts any speech.
    */
   private boolean fireTarget(
       AccessibilityNodeInfoCompat target,
@@ -602,6 +770,7 @@ public class FastNavigator {
       @Nullable EventId eventId,
       boolean substituted,
       boolean countHandled) {
+    long actionStart = SystemClock.uptimeMillis();
     FocusActionInfo info =
         FocusActionInfo.builder()
             .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
@@ -614,17 +783,32 @@ public class FastNavigator {
                     WindowUtils.isScreenLayoutRTL(service)))
             .build();
     long actionTime = SystemClock.uptimeMillis();
-    if (focusListener != null) {
-      focusListener.onAccessibilityFocusAboutToBeSet(target, info, eventId, actionTime);
+    boolean fireFirst = TraversalTreeCache.getFireFocusBeforeSpeechEnabled();
+    boolean landed;
+    if (fireFirst) {
+      landed = target.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+      recordSegment("fast nav focus action", actionStart);
+      if (landed && focusListener != null) {
+        long speculateStart = SystemClock.uptimeMillis();
+        focusListener.onAccessibilityFocusAboutToBeSet(target, info, eventId, actionTime);
+        recordSegment("fast nav speculate", speculateStart);
+      }
+    } else {
+      if (focusListener != null) {
+        long speculateStart = SystemClock.uptimeMillis();
+        focusListener.onAccessibilityFocusAboutToBeSet(target, info, eventId, actionTime);
+        recordSegment("fast nav speculate", speculateStart);
+      }
+      landed = target.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
+      recordSegment("fast nav focus action", actionStart);
     }
-    boolean landed =
-        target.performAction(AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS);
     if (!landed) {
       if (focusListener != null) {
         focusListener.onAccessibilityFocusSetFailed(target, info, eventId, actionTime);
       }
       return false;
     }
+    long bookkeepingStart = SystemClock.uptimeMillis();
     if (focusListener != null) {
       focusListener.onAccessibilityFocusSet(target, info, eventId, actionTime);
     }
@@ -637,6 +821,7 @@ public class FastNavigator {
     if (countHandled) {
       Performance.getInstance().onFastNavigationHandled();
     }
+    recordSegment("fast nav bookkeeping", bookkeepingStart);
     return true;
   }
 
