@@ -882,7 +882,7 @@ public class FastNavigator {
       if (TraversalTreeCache.buildOrderOnTheSpot(root)) {
         // The build just read the tree as it stands, settled: its order is this try's to
         // read however the generation gate below would judge it.
-        order = savedOrderOf(root, landing);
+        order = savedOrderOf(landing, root);
         if (order != null) {
           landing.usableOrderSeen = true;
           return landFromOrder(landing, root, order, Performance.SCROLL_LANDING_BY_DEADLINE_BUILD);
@@ -904,7 +904,7 @@ public class FastNavigator {
    */
   private @Nullable OrderedTraversalStrategy postScrollOrder(
       PendingScrollLanding landing, AccessibilityNodeInfoCompat root) {
-    OrderedTraversalStrategy order = savedOrderOf(root, landing);
+    OrderedTraversalStrategy order = savedOrderOf(landing, root);
     if (order == null) {
       return null;
     }
