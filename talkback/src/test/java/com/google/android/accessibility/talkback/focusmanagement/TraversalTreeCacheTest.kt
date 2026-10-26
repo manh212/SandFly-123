@@ -20,6 +20,7 @@ import android.graphics.Rect
 import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityWindowInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
@@ -462,8 +463,15 @@ class TraversalTreeCacheTest {
     // No order is saved, but a background build is reading the window: a structural change
     // retires that build, and until this fix nothing asked again until the screen had been
     // quiet for the settle retry — the gap in which a swipe built its order on the spot.
+    // The root needs a real window id: a bare node reports -1, which names no window, and
+    // no build is ever on its way for no window.
     TraversalTreeCache.noteNavigationActivity(0L)
-    val (root, _) = unsavedOrder()
+    val rootInfo = node(null)
+    node(rootInfo)
+    val window = AccessibilityWindowInfo()
+    shadowOf(window).setId(777)
+    shadowOf(rootInfo).setAccessibilityWindowInfo(window)
+    val root = AccessibilityNodeInfoCompat.wrap(rootInfo)
     val started = CountDownLatch(1)
     val release = CountDownLatch(1)
     TraversalTreeCache.buildOrderInBackground(
