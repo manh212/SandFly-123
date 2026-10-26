@@ -1602,4 +1602,6 @@
     <string name="settings_export_failed">Iestatījumus nevarēja eksportēt</string>
     <string name="settings_import_done">Iestatījumi importēti</string>
     <string name="settings_import_failed">Šis fails nav SandFly vai Backtalk iestatījumu fails, vai arī to nevarēja nolasīt</string>
+    <string name="pref_reduce_window_delay_title">Izslēgt animācijas</string>
+    <string name="pref_reduce_window_delay_summary">SandFly nolasa jaunus ekrānus ātrāk, ja animācijas ir izslēgtas. Tas izslēdz animācijas visam tālrunim.</string>
 </resources>

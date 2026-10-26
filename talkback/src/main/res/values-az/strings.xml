@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Parametrləri ixrac etmək mümkün olmadı</string>
     <string name="settings_import_done">Parametrlər idxal edildi</string>
     <string name="settings_import_failed">Bu fayl SandFly və ya Backtalk parametrlər faylı deyil və ya oxuna bilməz</string>
+    <string name="pref_reduce_window_delay_title">Animasiyaları deaktiv edin</string>
+    <string name="pref_reduce_window_delay_summary">Animasiyalar deaktiv olduqda SandFly yeni ekranları daha tez oxuyur. Bu, bütün telefon üçün animasiyaları deaktiv edir.</string>
 </resources>

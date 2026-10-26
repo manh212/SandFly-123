@@ -1601,4 +1601,6 @@
     <string name="settings_export_failed">לא ניתן לייצא את ההגדרות</string>
     <string name="settings_import_done">הגדרות יובאו</string>
     <string name="settings_import_failed">קובץ זה אינו קובץ הגדרות SandFly או Backtalk, או שלא ניתן היה לקרוא אותו</string>
+    <string name="pref_reduce_window_delay_title">כיבוי אנימציות</string>
+    <string name="pref_reduce_window_delay_summary">SandFly קורא מסכים חדשים מהר יותר כאשר אנימציות כבויות. זה מכבה אנימציות עבור כל הטלפון.</string>
 </resources>

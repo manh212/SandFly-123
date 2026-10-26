@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">無法匯出設定</string>
     <string name="settings_import_done">已匯入設定</string>
     <string name="settings_import_failed">該檔案不是 SandFly 或 Backtalk 設定檔，或無法讀取</string>
+    <string name="pref_reduce_window_delay_title">關閉動畫</string>
+    <string name="pref_reduce_window_delay_summary">動畫關閉時，SandFly 可以更快地讀取新畫面。這會關閉整支手機的動畫。</string>
 </resources>

@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Δεν ήταν δυνατή η εξαγωγή των ρυθμίσεων</string>
     <string name="settings_import_done">Οι ρυθμίσεις εισήχθησαν</string>
     <string name="settings_import_failed">Αυτό το αρχείο δεν είναι αρχείο ρυθμίσεων SandFly ή Backtalk ή δεν ήταν δυνατό να διαβαστεί</string>
+    <string name="pref_reduce_window_delay_title">Απενεργοποίηση κινούμενων εικόνων</string>
+    <string name="pref_reduce_window_delay_summary">Το SandFly διαβάζει πιο γρήγορα τις νέες οθόνες όταν οι κινούμενες εικόνες είναι απενεργοποιημένες. Απενεργοποιεί τις κινούμενες εικόνες σε όλο το τηλέφωνο.</string>
 </resources>

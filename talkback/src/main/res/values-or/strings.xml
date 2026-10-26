@@ -1596,4 +1596,6 @@
     <string name="settings_export_failed">ସେଟିଂସମୂହ ରପ୍ତାନି ହୋଇପାରିଲା ନାହିଁ</string>
     <string name="settings_import_done">ସେଟିଂସମୂହ ଆମଦାନୀ ହୋଇଛି</string>
     <string name="settings_import_failed">ଏହି ଫାଇଲ୍ SandFly କିମ୍ବା Backtalk ସେଟିଂସ ଫାଇଲ୍ ନୁହେଁ, କିମ୍ବା ପଢ଼ିହେଲା ନାହିଁ</string>
+    <string name="pref_reduce_window_delay_title">ଆନିମେସନ୍ ବନ୍ଦ କରନ୍ତୁ</string>
+    <string name="pref_reduce_window_delay_summary">ଆନିମେସନ୍ ବନ୍ଦ ଥିଲେ SandFly ନୂଆ ସ୍କ୍ରିନ୍‌ଗୁଡ଼ିକୁ ଶୀଘ୍ର ପଢ଼େ। ଏହା ପୁରା ଫୋନ୍ ପାଇଁ ଆନିମେସନ୍ ବନ୍ଦ କରେ।</string>
 </resources>

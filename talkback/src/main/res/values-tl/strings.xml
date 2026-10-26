@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Hindi ma-export ang mga setting</string>
     <string name="settings_import_done">Na-import ang mga setting</string>
     <string name="settings_import_failed">Ang file na ito ay hindi SandFly o Backtalk settings file, o hindi mabasa</string>
+    <string name="pref_reduce_window_delay_title">I-off ang mga animation</string>
+    <string name="pref_reduce_window_delay_summary">Mas mabilis binabasa ng SandFly ang mga bagong screen kapag naka-off ang mga animation. Ino-off nito ang mga animation para sa buong telepono.</string>
 </resources>

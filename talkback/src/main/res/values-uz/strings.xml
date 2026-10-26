@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Sozlamalarni eksport qilib bo‘lmadi</string>
     <string name="settings_import_done">Sozlamalar import qilindi</string>
     <string name="settings_import_failed">Bu fayl SandFly yoki Backtalk sozlamalar fayli emas yoki uni oʻqib boʻlmadi</string>
+    <string name="pref_reduce_window_delay_title">Animatsiyalarni oʻchirish</string>
+    <string name="pref_reduce_window_delay_summary">Animatsiyalar oʻchiq boʻlsa, SandFly yangi ekranlarni tezroq oʻqiydi. Bu butun telefon uchun animatsiyalarni oʻchiradi.</string>
 </resources>

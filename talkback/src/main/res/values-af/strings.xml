@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Instellings kon nie uitgevoer word nie</string>
     <string name="settings_import_done">Instellings ingevoer</string>
     <string name="settings_import_failed">Hierdie lêer is nie \'n SandFly of Backtalk instellingslêer nie, of kon nie gelees word nie</string>
+    <string name="pref_reduce_window_delay_title">Skakel animasies af</string>
+    <string name="pref_reduce_window_delay_summary">SandFly lees nuwe skerms vinniger wanneer animasies af is. Dit skakel animasies vir die hele foon af.</string>
 </resources>

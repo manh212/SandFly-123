@@ -1598,4 +1598,6 @@
     <string name="settings_export_failed">ไม่สามารถส่งออกการตั้งค่าได้</string>
     <string name="settings_import_done">นำเข้าการตั้งค่าแล้ว</string>
     <string name="settings_import_failed">ไฟล์นี้ไม่ใช่ไฟล์การตั้งค่า SandFly หรือ Backtalk หรือไม่สามารถอ่านได้</string>
+    <string name="pref_reduce_window_delay_title">ปิดภาพเคลื่อนไหว</string>
+    <string name="pref_reduce_window_delay_summary">SandFly อ่านหน้าจอใหม่เร็วขึ้นเมื่อปิดภาพเคลื่อนไหว การดำเนินการนี้จะปิดภาพเคลื่อนไหวสำหรับโทรศัพท์ทั้งหมด</string>
 </resources>

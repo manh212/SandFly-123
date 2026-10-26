@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Seadeid ei saanud eksportida</string>
     <string name="settings_import_done">Seaded imporditud</string>
     <string name="settings_import_failed">See fail ei ole SandFly või Backtalk seadete fail või seda ei saa lugeda</string>
+    <string name="pref_reduce_window_delay_title">Lülita animatsioonid välja</string>
+    <string name="pref_reduce_window_delay_summary">SandFly loeb uusi kuvasid kiiremini, kui animatsioonid on väljas. See lülitab animatsioonid välja kogu telefonis.</string>
 </resources>

@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Կարգավորումները չհաջողվեց արտահանել</string>
     <string name="settings_import_done">Կարգավորումները ներմուծված են</string>
     <string name="settings_import_failed">Այս ֆայլը SandFly կամ Backtalk կարգավորումների ֆայլ չէ կամ հնարավոր չէ կարդալ</string>
+    <string name="pref_reduce_window_delay_title">Անջատել անիմացիաները</string>
+    <string name="pref_reduce_window_delay_summary">SandFly ավելի արագ է կարդում նոր էկրանները, երբ անիմացիաներն անջատված են: Սա անջատում է անիմացիաները ամբողջ հեռախոսի համար:</string>
 </resources>

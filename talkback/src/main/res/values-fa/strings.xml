@@ -1598,4 +1598,6 @@
     <string name="settings_export_failed">تنظیمات صادر نشد</string>
     <string name="settings_import_done">تنظیمات وارد شد</string>
     <string name="settings_import_failed">این فایل یک فایل تنظیمات SandFly یا Backtalk نیست یا قابل خواندن نیست</string>
+    <string name="pref_reduce_window_delay_title">خاموش کردن پویانمایی‌ها</string>
+    <string name="pref_reduce_window_delay_summary">‏وقتی پویانمایی‌ها خاموش باشند، SandFly صفحه‌های جدید را سریع‌تر می‌خواند. این کار پویانمایی‌ها را برای کل تلفن خاموش می‌کند.</string>
 </resources>

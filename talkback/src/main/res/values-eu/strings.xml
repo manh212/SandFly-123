@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Ezin izan dira ezarpenak esportatu</string>
     <string name="settings_import_done">Ezarpenak inportatu dira</string>
     <string name="settings_import_failed">Fitxategi hau ez da SandFly edo Backtalk ezarpen fitxategi bat, edo ezin izan da irakurri</string>
+    <string name="pref_reduce_window_delay_title">Desaktibatu animazioak</string>
+    <string name="pref_reduce_window_delay_summary">SandFly-ek bizkorrago irakurtzen ditu pantaila berriak animazioak desaktibatuta daudenean. Telefono osoko animazioak desaktibatzen ditu honek.</string>
 </resources>

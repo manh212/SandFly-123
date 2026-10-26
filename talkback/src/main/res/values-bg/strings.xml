@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Настройките не можаха да бъдат експортирани</string>
     <string name="settings_import_done">Настройките са импортирани</string>
     <string name="settings_import_failed">Този файл не е файл с настройки SandFly или Backtalk или не може да бъде прочетен</string>
+    <string name="pref_reduce_window_delay_title">Изключване на анимациите</string>
+    <string name="pref_reduce_window_delay_summary">SandFly чете новите екрани по-бързо, когато анимациите са изключени. Това изключва анимациите за целия телефон.</string>
 </resources>

@@ -1600,4 +1600,6 @@ SandFly सेटिंग्जमध्ये SandFly मेनू आणि �
     <string name="settings_export_failed">सेटिंग्ज एक्सपोर्ट करता आल्या नाहीत</string>
     <string name="settings_import_done">सेटिंग्ज इंपोर्ट केल्या</string>
     <string name="settings_import_failed">ही फाइल SandFly किंवा Backtalk सेटिंग फाइल नाही किंवा वाचता येत नाही</string>
+    <string name="pref_reduce_window_delay_title">ॲनिमेशन बंद करा</string>
+    <string name="pref_reduce_window_delay_summary">ॲनिमेशन बंद असताना SandFly नवीन स्क्रीन जलद वाचते. हे संपूर्ण फोनसाठी ॲनिमेशन बंद करते.</string>
 </resources>

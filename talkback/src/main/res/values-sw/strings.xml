@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Mipangilio haikuweza kutumwa</string>
     <string name="settings_import_done">Mipangilio imeingizwa</string>
     <string name="settings_import_failed">Faili hii si faili ya mipangilio ya SandFly au Backtalk, au haikuweza kusomwa</string>
+    <string name="pref_reduce_window_delay_title">Zima uhuishaji</string>
+    <string name="pref_reduce_window_delay_summary">SandFly husoma skrini mpya haraka wakati uhuishaji umezimwa. Hii huzima uhuishaji kwa simu nzima.</string>
 </resources>

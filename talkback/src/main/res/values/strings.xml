@@ -4504,4 +4504,6 @@
     <!-- Reduce delays: summary of the event-driven scroll landing switch. [CHAR LIMIT=NONE] -->
     <!-- Reduce delays: switch that holds new reading orders during a burst of swipes. [CHAR LIMIT=50] -->
     <!-- Reduce delays: summary of the burst build deferral switch. [CHAR LIMIT=NONE] -->
+    <string name="pref_reduce_window_delay_title">Turn off animations</string>
+    <string name="pref_reduce_window_delay_summary">SandFly reads new screens faster when animations are off. This turns off animations for the whole phone.</string>
 </resources>

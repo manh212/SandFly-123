@@ -1601,4 +1601,6 @@
     <string name="settings_export_failed">Подешавања нису могла да се извезу</string>
     <string name="settings_import_done">Подешавања су увезена</string>
     <string name="settings_import_failed">Ова датотека није датотека за подешавања SandFly или Backtalk или није могла да се прочита</string>
+    <string name="pref_reduce_window_delay_title">Искључи анимације</string>
+    <string name="pref_reduce_window_delay_summary">SandFly брже чита нове екране када су анимације искључене. Ово искључује анимације за цео телефон.</string>
 </resources>

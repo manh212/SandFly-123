@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Ayarlar dışa aktarılamadı</string>
     <string name="settings_import_done">Ayarlar içe aktarıldı</string>
     <string name="settings_import_failed">Bu dosya bir SandFly veya Backtalk ayar dosyası değil ya da okunamıyor</string>
+    <string name="pref_reduce_window_delay_title">Animasyonları kapat</string>
+    <string name="pref_reduce_window_delay_summary">SandFly animasyonlar kapalıyken yeni ekranları daha hızlı okur. Bu, telefonun tamamı için animasyonları kapatır.</string>
 </resources>

@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Ekki var hægt að flytja út stillingar</string>
     <string name="settings_import_done">Stillingar fluttar inn</string>
     <string name="settings_import_failed">Þessi skrá er ekki SandFly- eða Backtalk-stillingaskrá, eða ekki var hægt að lesa hana</string>
+    <string name="pref_reduce_window_delay_title">Slökkva á hreyfimyndum</string>
+    <string name="pref_reduce_window_delay_summary">SandFly les nýja skjái hraðar þegar slökkt er á hreyfimyndum. Þetta slekkur á hreyfimyndum fyrir allan símann.</string>
 </resources>

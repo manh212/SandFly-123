@@ -1603,4 +1603,6 @@
     <string name="settings_export_failed">Не ўдалося экспартаваць налады</string>
     <string name="settings_import_done">Налады імпартаваны</string>
     <string name="settings_import_failed">Гэты файл не з\'яўляецца файлам налад SandFly або Backtalk або не можа быць прачытаны</string>
+    <string name="pref_reduce_window_delay_title">Выключыць анімацыю</string>
+    <string name="pref_reduce_window_delay_summary">Калі анімацыя выключана, SandFly хутчэй чытае новыя экраны. Анімацыя выключаецца для ўсяго тэлефона.</string>
 </resources>

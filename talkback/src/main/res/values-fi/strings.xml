@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Asetuksia ei voitu viedä</string>
     <string name="settings_import_done">Asetukset tuotu</string>
     <string name="settings_import_failed">Tämä tiedosto ei ole SandFly- tai Backtalk-asetustiedosto, tai sitä ei voitu lukea</string>
+    <string name="pref_reduce_window_delay_title">Poista animaatiot käytöstä</string>
+    <string name="pref_reduce_window_delay_summary">SandFly lukee uudet näytöt nopeammin, kun animaatiot ovat pois päältä. Tämä poistaa animaatiot käytöstä koko puhelimesta.</string>
 </resources>

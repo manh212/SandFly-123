@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">ဆက်တင်များကို ထုတ်ယူ၍မရပါ</string>
     <string name="settings_import_done">ဆက်တင်များကို ထည့်သွင်းခဲ့သည်</string>
     <string name="settings_import_failed">ဤဖိုင်သည် SandFly သို့မဟုတ် Backtalk ဆက်တင်ဖိုင်မဟုတ်ပါ၊ သို့မဟုတ် ဖတ်၍မရပါ</string>
+    <string name="pref_reduce_window_delay_title">လှုပ်ရှားမှုပုံများကို ပိတ်ရန်</string>
+    <string name="pref_reduce_window_delay_summary">အန်နီမေးရှင်းများ ပိတ်ထားသည့်အခါ SandFly သည် မျက်နှာပြင်အသစ်များကို ပိုမြန်စွာ ဖတ်သည်။ ၎င်းသည် ဖုန်းတစ်ခုလုံးအတွက် အန်နီမေးရှင်းများကို ပိတ်သည်။</string>
 </resources>

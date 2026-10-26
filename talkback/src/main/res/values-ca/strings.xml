@@ -1601,4 +1601,6 @@
     <string name="settings_export_failed">No s\'ha pogut exportar la configuració</string>
     <string name="settings_import_done">S\'ha importat la configuració</string>
     <string name="settings_import_failed">Aquest fitxer no és un fitxer de configuració SandFly o Backtalk o no es pot llegir</string>
+    <string name="pref_reduce_window_delay_title">Desactiva les animacions</string>
+    <string name="pref_reduce_window_delay_summary">SandFly llegeix les pantalles noves més ràpid amb les animacions desactivades. Desactiva les animacions de tot el telèfon.</string>
 </resources>

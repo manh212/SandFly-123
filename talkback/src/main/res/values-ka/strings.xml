@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">პარამეტრების ექსპორტი ვერ მოხერხდა</string>
     <string name="settings_import_done">პარამეტრები იმპორტირებულია</string>
     <string name="settings_import_failed">ეს ფაილი არ არის SandFly ან Backtalk პარამეტრების ფაილი, ან მისი წაკითხვა შეუძლებელია</string>
+    <string name="pref_reduce_window_delay_title">ანიმაციების გამორთვა</string>
+    <string name="pref_reduce_window_delay_summary">SandFly უფრო სწრაფად კითხულობს ახალ ეკრანებს, როდესაც ანიმაციები გამორთულია. ეს გამორთავს ანიმაციებს მთელი ტელეფონისთვის.</string>
 </resources>

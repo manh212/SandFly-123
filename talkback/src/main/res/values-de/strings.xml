@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Einstellungen konnten nicht exportiert werden</string>
     <string name="settings_import_done">Einstellungen importiert</string>
     <string name="settings_import_failed">Diese Datei ist keine SandFly- oder Backtalk-Einstellungsdatei oder konnte nicht gelesen werden</string>
+    <string name="pref_reduce_window_delay_title">Animationen deaktivieren</string>
+    <string name="pref_reduce_window_delay_summary">SandFly liest neue Bildschirme schneller vor, wenn Animationen deaktiviert sind. Dadurch werden Animationen auf dem gesamten Smartphone deaktiviert.</string>
 </resources>

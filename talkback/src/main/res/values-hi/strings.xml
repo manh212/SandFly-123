@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">सेटिंग्स निर्यात नहीं की जा सकीं</string>
     <string name="settings_import_done">सेटिंग्स आयात की गईं</string>
     <string name="settings_import_failed">यह फ़ाइल SandFly या Backtalk सेटिंग फ़ाइल नहीं है, या पढ़ी नहीं जा सकी</string>
+    <string name="pref_reduce_window_delay_title">ऐनिमेशन बंद करें</string>
+    <string name="pref_reduce_window_delay_summary">ऐनिमेशन बंद होने पर SandFly नई स्क्रीन ज़्यादा तेज़ी से पढ़ता है. इससे पूरे फ़ोन के लिए ऐनिमेशन बंद हो जाते हैं.</string>
 </resources>

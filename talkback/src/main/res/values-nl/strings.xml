@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Instellingen konden niet worden geëxporteerd</string>
     <string name="settings_import_done">Instellingen geïmporteerd</string>
     <string name="settings_import_failed">Dit bestand is geen SandFly- of Backtalk-instellingenbestand, of het kon niet worden gelezen</string>
+    <string name="pref_reduce_window_delay_title">Animaties uitschakelen</string>
+    <string name="pref_reduce_window_delay_summary">SandFly leest nieuwe schermen sneller wanneer animaties zijn uitgeschakeld. Hierdoor worden animaties voor de hele telefoon uitgeschakeld.</string>
 </resources>

@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">ترتیبات کو برآمد نہیں کیا جا سکا</string>
     <string name="settings_import_done">ترتیبات درآمد کی گئیں</string>
     <string name="settings_import_failed">یہ فائل SandFly یا Backtalk سیٹنگ فائل نہیں ہے، یا پڑھی نہیں جا سکتی</string>
+    <string name="pref_reduce_window_delay_title">متحرک تصاویر کو بند کریں</string>
+    <string name="pref_reduce_window_delay_summary">SandFly متحرک تصاویر بند ہونے پر نئی اسکرینوں کو تیزی سے پڑھتا ہے۔ یہ پورے فون کے لیے متحرک تصاویر کو بند کر دیتا ہے۔</string>
 </resources>

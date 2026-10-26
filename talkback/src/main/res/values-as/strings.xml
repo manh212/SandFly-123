@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">ছেটিংছ ৰপ্তানি কৰিব পৰা নগ\'ল</string>
     <string name="settings_import_done">ছেটিংছ আমদানি কৰা হৈছে</string>
     <string name="settings_import_failed">এই ফাইলটো SandFly বা Backtalkৰ ছেটিঙৰ ফাইল নহয়, বা পঢ়িব পৰা নগ’ল</string>
+    <string name="pref_reduce_window_delay_title">এনিমেশ্বন অফ কৰক</string>
+    <string name="pref_reduce_window_delay_summary">এনিমেশ্বন অফ থাকিলে SandFlyএ নতুন স্ক্ৰীন দ্ৰুতভাৱে পঢ়ে। এইটোৱে গোটেই ফ’নৰ বাবে এনিমেশ্বন অফ কৰে।</string>
 </resources>

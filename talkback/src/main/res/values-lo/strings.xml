@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">ບໍ່ສາມາດສົ່ງອອກການຕັ້ງຄ່າໄດ້</string>
     <string name="settings_import_done">ນຳເຂົ້າການຕັ້ງຄ່າແລ້ວ</string>
     <string name="settings_import_failed">ໄຟລ໌ນີ້ບໍ່ແມ່ນໄຟລ໌ການຕັ້ງຄ່າ SandFly ຫຼື Backtalk, ຫຼືບໍ່ສາມາດອ່ານໄດ້</string>
+    <string name="pref_reduce_window_delay_title">ປິດພາບເຄື່ອນໄຫວ</string>
+    <string name="pref_reduce_window_delay_summary">SandFly ອ່ານໜ້າຈໍໃໝ່ໄດ້ໄວຂຶ້ນເມື່ອອະນິເມຊັນຖືກປິດໄວ້. ນີ້ຈະເປັນການປິດອະນິເມຊັນສຳລັບໂທລະສັບທັງໝົດ.</string>
 </resources>

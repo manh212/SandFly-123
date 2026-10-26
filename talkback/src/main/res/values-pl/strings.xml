@@ -1451,4 +1451,5 @@
     <string name="settings_export_failed">Nie można wyeksportować ustawień</string>
     <string name="settings_import_done">Ustawienia zaimportowane</string>
     <string name="settings_import_failed">Ten plik nie jest plikiem ustawień SandFly ani Backtalk lub nie można go odczytać</string>
+    <string name="pref_reduce_window_delay_title">Wyłącz animacje</string>
 </resources>

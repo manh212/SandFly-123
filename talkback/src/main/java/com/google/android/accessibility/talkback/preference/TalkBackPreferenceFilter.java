@@ -49,6 +49,7 @@ public class TalkBackPreferenceFilter {
     HIDDEN_SETUP,
     HIDE_NO_PROXIMITY_SENSOR,
     HIDE_HAS_VOLUME_KEY,
+    HIDE_IF_NO_USER_DISABLING_OF_GLOBAL_ANIMATIONS,
     SHOW_IF_MULTI_FINGER,
     SHOW_IF_FINGER_PRINT,
     SHOW_SYSTEM_ACTION,
@@ -100,6 +101,8 @@ public class TalkBackPreferenceFilter {
   private static final int HIDE_NO_ACCESSIBILITY_AUDIO_STREAM = 0x40000;
   /** Flag to hide media control (play/pause) if system doesn't support it. */
   private static final int HIDDEN_NO_MEDIA_CONTROL = 0x80000;
+  /** Flag to hide if no animation control capability. */
+  private static final int HIDE_IF_NO_USER_DISABLING_OF_GLOBAL_ANIMATIONS = 0x100000;
   /** Flag to hide icon detection if system doesn't support it. */
   private static final int HIDE_ICON_DETECTION = 0x200000;
 
@@ -135,6 +138,8 @@ public class TalkBackPreferenceFilter {
     SCRIPTS(R.string.pref_scripts_key, HIDDEN_ON_WATCH),
     SINGLE_TAP_ACTIVATION(
         R.string.pref_single_tap_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
+    REDUCE_WINDOW_DELAY(
+        R.string.pref_reduce_window_delay_key, HIDE_IF_NO_USER_DISABLING_OF_GLOBAL_ANIMATIONS),
     KEYBOARD_SHORTCUTS(
         R.string.pref_category_manage_keyboard_shortcut_key, HIDDEN_ON_TV | HIDDEN_ON_WATCH),
     PLAY_PAUSE_MEDIA(R.string.keycombo_shortcut_global_play_pause_media, HIDDEN_NO_MEDIA_CONTROL),
@@ -343,6 +348,11 @@ public class TalkBackPreferenceFilter {
 
     if (hasFlag(pref.get(), HIDE_HAS_VOLUME_KEY)
         && FeatureSupport.hasAccessibilityAudioStream(context)) {
+      return true;
+    }
+
+    if (hasFlag(pref.get(), HIDE_IF_NO_USER_DISABLING_OF_GLOBAL_ANIMATIONS)
+        && !FeatureSupport.supportsUserDisablingOfGlobalAnimations()) {
       return true;
     }
 

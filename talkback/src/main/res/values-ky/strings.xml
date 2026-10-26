@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Жөндөөлөрдү экспорттоо мүмкүн болбоду</string>
     <string name="settings_import_done">Орнотуулар импорттолду</string>
     <string name="settings_import_failed">Бул файл SandFly же Backtalk жөндөө файлы эмес же окуу мүмкүн эмес</string>
+    <string name="pref_reduce_window_delay_title">Анимацияларды өчүрүү</string>
+    <string name="pref_reduce_window_delay_summary">SandFly анимациялар өчүк болгондо жаңы экрандарды тезирээк окуйт. Бул бүт телефон үчүн анимацияларды өчүрөт.</string>
 </resources>

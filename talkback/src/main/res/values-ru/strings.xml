@@ -1606,4 +1606,6 @@
     <string name="settings_export_failed">Настройки не удалось экспортировать</string>
     <string name="settings_import_done">Настройки импортированы</string>
     <string name="settings_import_failed">Этот файл не является файлом настроек SandFly или Backtalk или не может быть прочитан</string>
+    <string name="pref_reduce_window_delay_title">Отключить анимацию</string>
+    <string name="pref_reduce_window_delay_summary">При отключённой анимации SandFly быстрее озвучивает новые экраны. Анимация отключается на всём телефоне.</string>
 </resources>

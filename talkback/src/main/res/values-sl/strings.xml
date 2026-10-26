@@ -1605,4 +1605,6 @@
     <string name="settings_export_failed">Nastavitev ni bilo mogoče izvoziti</string>
     <string name="settings_import_done">Nastavitve so uvožene</string>
     <string name="settings_import_failed">Ta datoteka ni datoteka z nastavitvami SandFly ali Backtalk ali je ni bilo mogoče prebrati</string>
+    <string name="pref_reduce_window_delay_title">Izklopi animacije</string>
+    <string name="pref_reduce_window_delay_summary">SandFly hitreje bere nove zaslone, ko so animacije izklopljene. To izklopi animacije za celoten telefon.</string>
 </resources>

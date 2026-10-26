@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">A beállításokat nem sikerült exportálni</string>
     <string name="settings_import_done">Beállítások importálva</string>
     <string name="settings_import_failed">Ez a fájl nem SandFly vagy Backtalk beállításfájl, vagy nem olvasható</string>
+    <string name="pref_reduce_window_delay_title">Animációk kikapcsolása</string>
+    <string name="pref_reduce_window_delay_summary">A SandFly gyorsabban beolvassa az új képernyőket, ha az animációk ki vannak kapcsolva. Ezzel kikapcsolja az animációkat az egész telefonra.</string>
 </resources>

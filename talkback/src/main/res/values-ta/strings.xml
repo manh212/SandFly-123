@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">அமைப்புகளை ஏற்றுமதி செய்ய முடியவில்லை</string>
     <string name="settings_import_done">அமைப்புகள் இறக்குமதி செய்யப்பட்டன</string>
     <string name="settings_import_failed">இந்தக் கோப்பு SandFly அல்லது Backtalk அமைப்புக் கோப்பு அல்ல, அல்லது படிக்க முடியவில்லை</string>
+    <string name="pref_reduce_window_delay_title">அனிமேஷன்களை முடக்கு</string>
+    <string name="pref_reduce_window_delay_summary">அனிமேஷன்கள் முடக்கப்பட்டிருக்கும் போது SandFly புதிய திரைகளை வேகமாகப் படிக்கும். இது முழு தொலைபேசியிலும் அனிமேஷன்களை முடக்குகிறது.</string>
 </resources>

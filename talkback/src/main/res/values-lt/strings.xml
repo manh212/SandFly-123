@@ -1605,4 +1605,6 @@
     <string name="settings_export_failed">Nepavyko eksportuoti nustatymų</string>
     <string name="settings_import_done">Nustatymai importuoti</string>
     <string name="settings_import_failed">Šis failas nėra SandFly arba Backtalk nustatymų failas arba jo negalima nuskaityti</string>
+    <string name="pref_reduce_window_delay_title">Išjungti animacijas</string>
+    <string name="pref_reduce_window_delay_summary">SandFly greičiau nuskaito naujus ekranus, kai animacija išjungta. Tai išjungia animacijas visame telefone.</string>
 </resources>

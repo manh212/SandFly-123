@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Setelan tidak dapat diekspor</string>
     <string name="settings_import_done">Pengaturan diimpor</string>
     <string name="settings_import_failed">File ini bukan file pengaturan SandFly atau Backtalk, atau tidak dapat dibaca</string>
+    <string name="pref_reduce_window_delay_title">Matikan animasi</string>
+    <string name="pref_reduce_window_delay_summary">SandFly membacakan layar baru lebih cepat saat animasi nonaktif. Setelan ini menonaktifkan animasi untuk seluruh ponsel.</string>
 </resources>

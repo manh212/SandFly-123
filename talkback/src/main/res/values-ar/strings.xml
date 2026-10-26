@@ -1613,4 +1613,6 @@
     <string name="settings_export_failed">لا يمكن تصدير الإعدادات</string>
     <string name="settings_import_done">تم استيراد الإعدادات</string>
     <string name="settings_import_failed">هذا الملف ليس ملف إعدادات SandFly أو Backtalk، أو لا يمكن قراءته</string>
+    <string name="pref_reduce_window_delay_title">إيقاف الرسوم المتحركة</string>
+    <string name="pref_reduce_window_delay_summary">‏يقرأ SandFly الشاشات الجديدة بشكل أسرع عند إيقاف الرسوم المتحركة. يؤدي هذا إلى إيقاف الرسوم المتحركة في الهاتف بالكامل.</string>
 </resources>

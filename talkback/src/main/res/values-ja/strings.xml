@@ -1594,4 +1594,6 @@
     <string name="settings_export_failed">設定をエクスポートできませんでした</string>
     <string name="settings_import_done">設定をインポートしました</string>
     <string name="settings_import_failed">このファイルは SandFly または Backtalk の設定ファイルではないか、読み取れませんでした</string>
+    <string name="pref_reduce_window_delay_title">アニメーションをオフにする</string>
+    <string name="pref_reduce_window_delay_summary">SandFly は、アニメーションがオフのときに新しい画面をより速く読み取ります。これにより、電話全体のアニメーションがオフになります。</string>
 </resources>

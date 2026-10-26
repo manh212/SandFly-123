@@ -3581,11 +3581,14 @@ public class TalkBackService extends AccessibilityServiceCompat
         PreferencesActivityUtils.isDiagnosisModeOn(prefs, res),
         key);
 
-    // Animations are turned off, so that windows are announced sooner.
+    // Preference to turn off animations, so that windows are announced sooner.
+    boolean reduceDelayPref =
+        getBooleanPref(
+            R.string.pref_reduce_window_delay_key, R.bool.pref_reduce_window_delay_default);
     if (windowEventInterpreter != null) {
-      enableAnimation(false);
+      enableAnimation(!reduceDelayPref);
     }
-    WindowEventInterpreter.setReduceWindowDelay(true);
+    WindowEventInterpreter.setReduceWindowDelay(reduceDelayPref);
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);
 

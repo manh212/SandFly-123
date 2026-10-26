@@ -1695,4 +1695,6 @@
     <string name="title_pref_dictation_rambler_live">Bản chép lời trực tiếp của Rambler</string>
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>
     <string name="title_pref_whisper_models">Mô hình Whisper</string>
+    <string name="pref_reduce_window_delay_title">Tắt hiệu ứng động</string>
+    <string name="pref_reduce_window_delay_summary">SandFly đọc màn hình mới nhanh hơn khi tắt hiệu ứng động. Thao tác này tắt hiệu ứng động trên toàn bộ điện thoại.</string>
 </resources>

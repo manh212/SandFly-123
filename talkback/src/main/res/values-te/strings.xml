@@ -1588,4 +1588,6 @@
     <string name="settings_export_failed">సెట్టింగ్‌లను ఎగుమతి చేయడం సాధ్యపడలేదు</string>
     <string name="settings_import_done">సెట్టింగ్‌లు దిగుమతి చేయబడ్డాయి</string>
     <string name="settings_import_failed">ఈ ఫైల్ SandFly లేదా Backtalk సెట్టింగ్‌ల ఫైల్ కాదు లేదా చదవడం సాధ్యం కాదు</string>
+    <string name="pref_reduce_window_delay_title">యానిమేషన్లను ఆఫ్ చేయండి</string>
+    <string name="pref_reduce_window_delay_summary">యానిమేషన్‌లు ఆఫ్‌లో ఉన్నప్పుడు SandFly కొత్త స్క్రీన్‌లను వేగంగా రీడ్ చేస్తుంది. ఇది మొత్తం ఫోన్‌కు యానిమేషన్‌లను ఆఫ్ చేస్తుంది.</string>
 </resources>

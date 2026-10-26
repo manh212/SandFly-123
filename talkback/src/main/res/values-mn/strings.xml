@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Тохиргоог экспорт хийж чадсангүй</string>
     <string name="settings_import_done">Тохиргоог импортолсон</string>
     <string name="settings_import_failed">Энэ файл нь SandFly эсвэл Backtalk тохиргооны файл биш эсвэл унших боломжгүй</string>
+    <string name="pref_reduce_window_delay_title">Анимацийг унтраах</string>
+    <string name="pref_reduce_window_delay_summary">SandFly нь хөдөлгөөнт дүрс унтраалттай үед шинэ дэлгэцийг илүү хурдан уншдаг. Энэ нь утасны хөдөлгөөнт дүрсийг бүхэлд нь унтраадаг.</string>
 </resources>

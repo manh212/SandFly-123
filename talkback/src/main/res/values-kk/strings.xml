@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Параметрлерді экспорттау мүмкін болмады</string>
     <string name="settings_import_done">Параметрлер импортталды</string>
     <string name="settings_import_failed">Бұл файл SandFly немесе Backtalk параметрлер файлы емес немесе оқу мүмкін емес</string>
+    <string name="pref_reduce_window_delay_title">Анимацияларды өшіру</string>
+    <string name="pref_reduce_window_delay_summary">SandFly анимациялар өшірілген кезде жаңа экрандарды жылдамырақ оқиды. Бұл бүкіл телефон үшін анимацияларды өшіреді.</string>
 </resources>

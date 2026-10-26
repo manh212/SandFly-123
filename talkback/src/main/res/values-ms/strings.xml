@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Tetapan tidak dapat dieksport</string>
     <string name="settings_import_done">Tetapan diimport</string>
     <string name="settings_import_failed">Fail ini bukan fail tetapan SandFly atau Backtalk, atau tidak boleh dibaca</string>
+    <string name="pref_reduce_window_delay_title">Matikan animasi</string>
+    <string name="pref_reduce_window_delay_summary">SandFly membaca skrin baharu dengan lebih pantas apabila animasi dimatikan. Ini mematikan animasi untuk keseluruhan telefon.</string>
 </resources>

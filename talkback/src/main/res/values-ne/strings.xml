@@ -1598,4 +1598,6 @@
     <string name="settings_export_failed">सेटिङहरू एक्सपोर्ट गर्न सकिएन</string>
     <string name="settings_import_done">सेटिङ्हरू आयात गरियो</string>
     <string name="settings_import_failed">यो फाइल SandFly वा Backtalk सेटिङ फाइल होइन, वा पढ्न सकिँदैन</string>
+    <string name="pref_reduce_window_delay_title">एनिमेसनहरू बन्द गर्नुहोस्</string>
+    <string name="pref_reduce_window_delay_summary">SandFly एनिमेसनहरू बन्द हुँदा नयाँ स्क्रिनहरू छिटो पढ्छ। यसले सम्पूर्ण फोनको लागि एनिमेसनहरू बन्द गर्छ।</string>
 </resources>

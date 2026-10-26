@@ -2162,4 +2162,6 @@
     <string name="settings_export_failed">无法导出设置</string>
     <string name="settings_import_done">设置已导入</string>
     <string name="settings_import_failed">该文件不是 SandFly 或 Backtalk 设置文件，或者无法读取</string>
+    <string name="pref_reduce_window_delay_title">关闭动画</string>
+    <string name="pref_reduce_window_delay_summary">关闭动画后 SandFly 读取新屏幕更快。这会关闭整台手机的动画。</string>
 </resources>

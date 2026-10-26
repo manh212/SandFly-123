@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">සැකසීම් නිර්යාත කළ නොහැකි විය</string>
     <string name="settings_import_done">සැකසීම් ආනයනය කරන ලදී</string>
     <string name="settings_import_failed">මෙම ගොනුව SandFly හෝ Backtalk සිටුවම් ගොනුවක් නොවේ, නැතහොත් කියවිය නොහැක</string>
+    <string name="pref_reduce_window_delay_title">සජීවිකරණ අක්‍රිය කරන්න</string>
+    <string name="pref_reduce_window_delay_summary">සජීවිකරණ අක්‍රිය වූ විට SandFly නව තිර වේගයෙන් කියවයි. මෙය මුළු දුරකථනය සඳහාම සජීවිකරණ අක්‍රිය කරයි.</string>
 </resources>

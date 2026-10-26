@@ -1601,4 +1601,6 @@
     <string name="settings_export_failed">Setările nu au putut fi exportate</string>
     <string name="settings_import_done">Setări importate</string>
     <string name="settings_import_failed">Acest fișier nu este un fișier de setări SandFly sau Backtalk sau nu a putut fi citit</string>
+    <string name="pref_reduce_window_delay_title">Dezactivează animațiile</string>
+    <string name="pref_reduce_window_delay_summary">SandFly citește mai rapid ecranele noi când animațiile sunt oprite. Aceasta dezactivează animațiile pentru întregul telefon.</string>
 </resources>

@@ -1440,4 +1440,5 @@
     <string name="settings_export_failed">Nastavení se nepodařilo exportovat</string>
     <string name="settings_import_done">Nastavení byla importována</string>
     <string name="settings_import_failed">Tento soubor není soubor nastavení SandFly nebo Backtalk nebo jej nelze přečíst</string>
+    <string name="pref_reduce_window_delay_title">Vypnout animace</string>
 </resources>

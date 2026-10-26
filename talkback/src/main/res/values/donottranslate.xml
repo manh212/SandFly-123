@@ -260,6 +260,7 @@
     <string name="pref_focus_new_windows_key" translatable="false">pref_focus_new_windows_key</string>
     <string name="pref_volume_keys_adjust_sliders_key" translatable="false">pref_volume_keys_adjust_sliders_key</string>
     <string name="pref_volume_keys_move_cursor_key" translatable="false">pref_volume_keys_move_cursor</string>
+<string name="pref_reduce_window_delay_key">pref_reduce_window_delay_key</string>
     <string name="pref_speak_items_before_scroll_key" translatable="false">pref_speak_items_before_scroll_key</string>
     <string name="pref_first_item_interrupts_window_name_key" translatable="false">pref_first_item_interrupts_window_name_key</string>
     <!-- Window names. Replaces the speak system window titles and first item interrupts window name
@@ -1862,4 +1863,5 @@
   <item type="id" name="group_voice_profile" />
   <item type="id" name="voice_profile_menu" />
     <string name="shortcut_value_write_app_name">WRITE_APP_NAME</string>
+    <bool name="pref_reduce_window_delay_default">true</bool>
 </resources>

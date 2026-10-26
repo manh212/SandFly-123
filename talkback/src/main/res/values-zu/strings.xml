@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Izilungiselelo azikwazanga ukuthunyelwa</string>
     <string name="settings_import_done">Izilungiselelo zingenisiwe</string>
     <string name="settings_import_failed">Leli fayela akulona ifayela lezilungiselelo le-SandFly noma le-Backtalk, noma alikwazanga ukufundwa</string>
+    <string name="pref_reduce_window_delay_title">Vala ukugqwayiza</string>
+    <string name="pref_reduce_window_delay_summary">SandFly ifunda izikrini ezintsha ngokushesha uma ukugqwayiza kuvaliwe. Lokhu kuvala ukugqwayiza kwayo yonke ifoni.</string>
 </resources>

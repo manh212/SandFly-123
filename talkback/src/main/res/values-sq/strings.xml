@@ -1597,4 +1597,6 @@
     <string name="settings_export_failed">Cilësimet nuk mund të eksportoheshin</string>
     <string name="settings_import_done">Cilësimet u importuan</string>
     <string name="settings_import_failed">Ky skedar nuk është skedar i cilësimeve SandFly ose Backtalk, ose nuk mund të lexohej</string>
+    <string name="pref_reduce_window_delay_title">Fik animacionet</string>
+    <string name="pref_reduce_window_delay_summary">SandFly lexon më shpejt ekranet e reja kur animacionet janë të fikur. Kjo çaktivizon animacionet për të gjithë telefonin.</string>
 </resources>

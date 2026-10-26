@@ -1601,4 +1601,6 @@
     <string name="settings_export_failed">Les paramètres n\'ont pas pu être exportés</string>
     <string name="settings_import_done">Paramètres importés</string>
     <string name="settings_import_failed">Ce fichier n\'est pas un fichier de paramètres SandFly ou Backtalk, ou n\'a pas pu être lu</string>
+    <string name="pref_reduce_window_delay_title">Désactiver les animations</string>
+    <string name="pref_reduce_window_delay_summary">SandFly lit les nouveaux écrans plus rapidement lorsque les animations sont désactivées. Cette option désactive les animations sur tout le téléphone.</string>
 </resources>
