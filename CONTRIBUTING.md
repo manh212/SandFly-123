@@ -52,12 +52,16 @@ exceptions.
   judge of whether work counts as extremely large.
 - Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
   it reports.
-- When a pull request build fails, read the automatic failure summary comment
-  on the pull request before diagnosing further.
-- When a build on `master` fails, read the Gradle log tail from the failed
-  run's own `gradle-log-tail` artifact before diagnosing further. Never add
-  temporary hooks or workflow steps to extract logs; the artifact is the
-  standing route.
+- Reading the failure log is automatic, never optional, on every failed
+  build — on a branch or on `master`. Before diagnosing or changing
+  anything, read the run's full error output: the automatic failure
+  summary comment on the pull request, the failed run's own
+  `gradle-log-tail` artifact, and the run's log or annotations when the
+  tail does not establish the cause. Never guess at a cause while a log
+  exists unread, and never re-run blind. If a needed log is genuinely
+  unreachable from where you work, say exactly that in your handoff
+  instead of speculating. Never add temporary hooks or workflow steps to
+  extract logs; the artifact is the standing route.
 - When removing a string resource, delete it from every locale file (all
   `values-*` directories), or the `ExtraTranslation` lint fails. New strings
   only need English and Vietnamese; record the other languages in
