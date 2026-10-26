@@ -158,7 +158,10 @@ public class LiveTreeNavigator {
       boolean rtl,
       Filter<AccessibilityNodeInfoCompat> filter,
       Result result) {
-    List<AccessibilityNodeInfoCompat> items = orderedChildren(frame.collection, forward, rtl);
+    // The items are always listed in reading order; the step below walks them in the
+    // swipe's direction. (Listing them reversed for a backward swipe as well would turn
+    // the step around twice, and the items before the pivot would never be walked.)
+    List<AccessibilityNodeInfoCompat> items = orderedChildren(frame.collection, true, rtl);
     try {
       int pivotItemIndex = -1;
       for (int i = 0; i < items.size(); i++) {
