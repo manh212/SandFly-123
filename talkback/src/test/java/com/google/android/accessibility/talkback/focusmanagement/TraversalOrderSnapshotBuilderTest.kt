@@ -231,7 +231,9 @@ class TraversalOrderSnapshotBuilderTest {
     assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, firstOutcome)
     assertTrue(firstStarted.await(WAIT_MS, TimeUnit.MILLISECONDS))
 
-    // The window changes and asks again: that ask waits behind the running build.
+    // The window changes and asks again while the first build is still running: that ask
+    // folds into the build on its way too — a build for this window is already owed, and the
+    // fold is what keeps the follow-up to exactly one.
     TraversalTreeCache.clear("the window changed")
     val secondRoot = AccessibilityNodeInfoCompat.wrap(syntheticTree())
     val secondOutcome =
@@ -242,11 +244,11 @@ class TraversalOrderSnapshotBuilderTest {
         ownPackage = "com.example.other",
         source = Performance.ORDER_BUILD_SOURCE_LISTENER,
       )
-    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_ACCEPTED, secondOutcome)
+    assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_COALESCED, secondOutcome)
 
-    // The window changes twice more while both builds are still owed: those asks fold into
-    // the build on its way instead of replacing the waiting one, and only the newest folded
-    // ask's follow-up build is owed.
+    // The window changes twice more while the build is still running: those asks fold as
+    // well, each replacing the folded ask before it, and only the newest folded ask's
+    // follow-up build is owed.
     TraversalTreeCache.clear("the window changed again")
     val thirdOutcome =
       TraversalOrderSnapshotBuilder.request(
@@ -269,12 +271,12 @@ class TraversalOrderSnapshotBuilderTest {
       )
     assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_COALESCED, thirdOutcome)
     assertEquals(TraversalOrderSnapshotBuilder.OUTCOME_COALESCED, fourthOutcome)
-    assertEquals(coalescedBefore + 2, performance.getListenerBuildsCoalescedCount())
+    assertEquals(coalescedBefore + 3, performance.getListenerBuildsCoalescedCount())
 
     releaseFirst.countDown()
 
-    // The running build and the waiting one are both stale by now and die without building;
-    // the folded asks still get their build, from the newest tree, and it publishes.
+    // The running build is stale by now and dies without building; the folded asks still
+    // get their build, from the newest tree, and it publishes.
     waitUntil("the follow-up build to be saved") {
       TraversalTreeCache.holds(checkNotNull(fourthPivot))
     }
