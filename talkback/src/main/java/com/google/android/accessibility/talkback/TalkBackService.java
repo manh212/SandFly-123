@@ -3629,97 +3629,41 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Reloads service preferences. */
   /**
-   * Applies the latency settings to the code that uses them. They used to be read again on every
-   * accessibility event; events arrive dozens of times a second in a busy app, and each read was
-   * work on the way to answering a swipe. Settings only change through the listener that reloads
-   * preferences, so reading them here loses nothing.
+   * Applies the latency behavior to the code that uses it. The tuning switches this arc added
+   * were removed once the behavior was settled: every one of them is pinned on here, at the
+   * value the switches defaulted to. The one switch that remains is the navigator switch,
+   * which gates the live-tree navigator and is still read from its preference.
    */
   private void refreshLatencySwitches() {
-    TraversalTreeCache.setUnrelatedChangesSpareNodes(
-        getBooleanPref(
-            R.string.pref_trust_untouched_nodes_key, R.bool.pref_trust_untouched_nodes_default));
-    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(
-        getBooleanPref(
-            R.string.pref_keep_prepared_across_unrelated_key,
-            R.bool.pref_keep_prepared_across_unrelated_default));
-    TraversalTreeCache.setServeStaleOrdersEnabled(
-        getBooleanPref(
-            R.string.pref_serve_stale_order_key, R.bool.pref_serve_stale_order_default));
-    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements =
-        getBooleanPref(
-            R.string.pref_navigation_interrupt_key, R.bool.pref_navigation_interrupt_default);
-    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements =
-        getBooleanPref(
-            R.string.pref_window_focus_interrupt_key, R.bool.pref_window_focus_interrupt_default);
-    SpeechControllerImpl.speechWaitCapEnabled =
-        getBooleanPref(R.string.pref_speech_wait_cap_key, R.bool.pref_speech_wait_cap_default);
-    backgroundOrderBuildEnabled =
-        getBooleanPref(
-            R.string.pref_background_order_build_key, R.bool.pref_background_order_build_default);
-    touchOrderBuildEnabled =
-        getBooleanPref(
-            R.string.pref_touch_order_build_key, R.bool.pref_touch_order_build_default);
-    TraversalTreeCache.setSettleRetryEnabled(
-        getBooleanPref(
-            R.string.pref_settle_order_build_key, R.bool.pref_settle_order_build_default));
-    TraversalTreeCache.setLeanOrderBuilderEnabled(
-        getBooleanPref(
-            R.string.pref_lean_order_builder_key, R.bool.pref_lean_order_builder_default));
-    LowLatencyAudio.setSmallBufferEnabled(
-        getBooleanPref(
-            R.string.pref_small_audio_buffer_key, R.bool.pref_small_audio_buffer_default));
-    FailoverTextToSpeech.splitAtFirstSeparatorEnabled =
-        getBooleanPref(R.string.pref_split_speech_key, R.bool.pref_split_speech_default);
-    EventFilter.setPresynthesizePreparedSpeech(
-        getBooleanPref(
-            R.string.pref_presynthesize_prepared_key,
-            R.bool.pref_presynthesize_prepared_default));
-    EventFilter.setPrepareOnSettle(
-        getBooleanPref(
-            R.string.pref_prepare_on_settle_key, R.bool.pref_prepare_on_settle_default));
-    boolean prepareWider =
-        getBooleanPref(R.string.pref_prepare_wider_key, R.bool.pref_prepare_wider_default);
-    EventFilter.setPrepareWider(prepareWider);
-    PreparedFocusSpeech.setKeepUnusedOnTake(prepareWider);
-    EventFilter.setYieldingPrepare(
-        getBooleanPref(
-            R.string.pref_yielding_prepare_key, R.bool.pref_yielding_prepare_default));
-    TraversalTreeCache.setListenerBuildCoalescingEnabled(
-        getBooleanPref(
-            R.string.pref_coalesce_listener_builds_key,
-            R.bool.pref_coalesce_listener_builds_default));
-    EventFilter.setSpeechPipelineEnabled(
-        getBooleanPref(
-            R.string.pref_speech_pipeline_key, R.bool.pref_speech_pipeline_default));
-    EventFilter.setSpeculativeSpeechEnabled(
-        getBooleanPref(
-            R.string.pref_speculative_speech_key, R.bool.pref_speculative_speech_default));
-    ProcessorEventQueue.setFocusPriorityEnabled(
-        getBooleanPref(
-            R.string.pref_focus_priority_lane_key, R.bool.pref_focus_priority_lane_default));
+    TraversalTreeCache.setUnrelatedChangesSpareNodes(true);
+    PreparedFocusSpeech.setKeepAcrossUnrelatedChanges(true);
+    TraversalTreeCache.setServeStaleOrdersEnabled(true);
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.speechWaitCapEnabled = true;
+    backgroundOrderBuildEnabled = true;
+    touchOrderBuildEnabled = true;
+    TraversalTreeCache.setSettleRetryEnabled(true);
+    TraversalTreeCache.setLeanOrderBuilderEnabled(true);
+    LowLatencyAudio.setSmallBufferEnabled(true);
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = true;
+    EventFilter.setPresynthesizePreparedSpeech(true);
+    EventFilter.setPrepareOnSettle(true);
+    EventFilter.setPrepareWider(true);
+    PreparedFocusSpeech.setKeepUnusedOnTake(true);
+    EventFilter.setYieldingPrepare(true);
+    TraversalTreeCache.setListenerBuildCoalescingEnabled(true);
+    EventFilter.setSpeechPipelineEnabled(true);
+    EventFilter.setSpeculativeSpeechEnabled(true);
+    ProcessorEventQueue.setFocusPriorityEnabled(true);
     TraversalTreeCache.setFastNavigatorEnabled(
         getBooleanPref(R.string.pref_fast_navigator_key, R.bool.pref_fast_navigator_default));
-    TraversalTreeCache.setSkipTargetRefreshEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_skip_target_refresh_key,
-            R.bool.pref_fast_nav_skip_target_refresh_default));
-    TraversalTreeCache.setCheapPivotCheckEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_cheap_pivot_key, R.bool.pref_fast_nav_cheap_pivot_default));
-    TraversalTreeCache.setFireFocusBeforeSpeechEnabled(
-        getBooleanPref(
-            R.string.pref_fast_nav_fire_first_key, R.bool.pref_fast_nav_fire_first_default));
-    EventFilter.setSpeechPipelineChainEnabled(
-        getBooleanPref(
-            R.string.pref_speech_pipeline_chain_key, R.bool.pref_speech_pipeline_chain_default));
-    TraversalTreeCache.setEventDrivenScrollLandingEnabled(
-        getBooleanPref(
-            R.string.pref_event_driven_scroll_landing_key,
-            R.bool.pref_event_driven_scroll_landing_default));
-    TraversalTreeCache.setBurstBuildDeferralEnabled(
-        getBooleanPref(
-            R.string.pref_defer_builds_during_burst_key,
-            R.bool.pref_defer_builds_during_burst_default));
+    TraversalTreeCache.setSkipTargetRefreshEnabled(true);
+    TraversalTreeCache.setCheapPivotCheckEnabled(true);
+    TraversalTreeCache.setFireFocusBeforeSpeechEnabled(true);
+    EventFilter.setSpeechPipelineChainEnabled(true);
+    TraversalTreeCache.setEventDrivenScrollLandingEnabled(true);
+    TraversalTreeCache.setBurstBuildDeferralEnabled(true);
   }
 
   protected void reloadPreferences() {

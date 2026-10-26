@@ -2602,79 +2602,49 @@
     <string name="summary_pref_always_interrupt_speech">New speech stops the announcement currently speaking and clears any waiting, so you hear the newest announcement straight away. Turn it off if announcements get cut off before you hear them in full.</string>
 
     <!-- Reduce delays: switch that builds the reading order in the background. [CHAR LIMIT=50] -->
-    <string name="title_pref_background_order_build">Build the reading order in the background</string>
     <!-- Reduce delays: summary of the background reading order switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_background_order_build">When a screen changes, SandFly works out the new reading order in the background, so the next swipe does not have to wait for it. Turn this off if focus lands on the wrong item after a screen changes.</string>
 
     <!-- Reduce delays: switch that skips re-reading a swipe target that did not change. [CHAR LIMIT=50] -->
-    <string name="title_pref_trust_untouched_nodes">Skip re-reading a swipe target that did not change</string>
     <!-- Reduce delays: summary of the skip re-reading switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_trust_untouched_nodes">When only other items on the screen change, the item you swipe to is announced as it was last read, without waiting to read it again. Turn this off if an item is announced with old text after something else changed.</string>
 
     <!-- Reduce delays: switch that keeps prepared announcements across unrelated changes. [CHAR LIMIT=50] -->
-    <string name="title_pref_keep_prepared_across_unrelated">Keep prepared announcements across unrelated changes</string>
     <!-- Reduce delays: summary of the keep prepared announcements switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_keep_prepared_across_unrelated">Announcements SandFly has prepared for the next swipe are kept when a change elsewhere on the screen does not touch them, so the swipe speaks sooner. Turn this off if a prepared announcement sounds out of date.</string>
 
     <!-- Reduce delays: switch that serves a swipe from the previous reading order. [CHAR LIMIT=50] -->
-    <string name="title_pref_serve_stale_order">Reuse the previous reading order</string>
     <!-- Reduce delays: summary of the previous reading order switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_serve_stale_order">When the screen changes, a swipe is answered from the reading order just replaced, after checking the item is still there, while the new order is built in the background. Turn this off if a swipe lands on the wrong item after the screen changes.</string>
 
     <!-- Reduce delays: switch that lets navigation speech interrupt announcements. [CHAR LIMIT=50] -->
-    <string name="title_pref_navigation_interrupt">Let navigation speech interrupt announcements</string>
     <!-- Reduce delays: summary of the navigation interrupt switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_navigation_interrupt">Speech answering your own swipe cuts short an announcement that other speech must wait behind, instead of waiting for it to finish. Utterances that can never be interrupted, such as alarms, still play out in full. Turn this off if announcements are cut short too often.</string>
 
     <!-- Reduce delays: switch that lets window and focus speech interrupt announcements. [CHAR LIMIT=50] -->
-    <string name="title_pref_window_focus_interrupt">Let window and focus speech interrupt announcements</string>
     <!-- Reduce delays: summary of the window and focus interrupt switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_window_focus_interrupt">Speech for the window you just opened, and for the item focus lands on, cuts short an announcement that other speech must wait behind, instead of waiting for it to finish. Window changes and focus moves were the other long waits. Utterances that can never be interrupted still play out in full.</string>
 
     <!-- Reduce delays: switch that caps how long navigation speech waits behind any utterance. [CHAR LIMIT=50] -->
-    <string name="title_pref_speech_wait_cap">End long waits behind announcements</string>
     <!-- Reduce delays: summary of the speech wait cap switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speech_wait_cap">If speech answering your swipe, a window change or a focus move has waited more than a moment behind another utterance, that utterance is cut short so your answer is not held up, even one that can never be interrupted. Speech you asked to hear in full, like the speaking clock and stopwatch milestones, is never cut. Turn this off if utterances are cut short too often.</string>
 
     <!-- Reduce delays: switch that queues one audio burst instead of two. [CHAR LIMIT=50] -->
-    <string name="title_pref_small_audio_buffer">Use a smaller audio buffer</string>
     <!-- Reduce delays: summary of the smaller audio buffer switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_small_audio_buffer">Speech is held in a buffer one burst long instead of two, so new sound starts sooner. Turn this off if speech crackles or stutters.</string>
 
     <!-- Reduce delays: switch that sends an item's first part to the engine first. [CHAR LIMIT=50] -->
-    <string name="title_pref_split_speech">Speak an item\'s first part first</string>
     <!-- Reduce delays: summary of the split speech switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_split_speech">The first part of an item, usually its name, is sent to the speech engine ahead of the rest, so you start hearing the item sooner. The whole item is still spoken, in the same order.</string>
 
     <!-- Reduce delays: switch that makes sound for prepared announcements in advance. [CHAR LIMIT=50] -->
-    <string name="title_pref_presynthesize_prepared">Make sound for prepared announcements ahead</string>
     <!-- Reduce delays: summary of the pre-synthesized prepared announcements switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_presynthesize_prepared">Announcements SandFly prepares for the next swipe are also turned into sound in advance, so swiping to them plays the sound at once instead of waiting for the speech engine to make it.</string>
 
     <!-- Reduce delays: switch that prepares announcements again when the screen settles. [CHAR LIMIT=50] -->
-    <string name="title_pref_prepare_on_settle">Prepare again when the screen settles</string>
     <!-- Reduce delays: summary of the prepare on settle switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_prepare_on_settle">When a busy screen goes quiet, the announcements for the next swipe are prepared again, since changes on the screen may have thrown the earlier ones away.</string>
 
     <!-- Reduce delays: switch that prepares further ahead around the focused item. [CHAR LIMIT=50] -->
-    <string name="title_pref_prepare_wider">Prepare further ahead</string>
     <!-- Reduce delays: summary of the prepare further ahead switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_prepare_wider">The second item each way from the focused item is prepared as well, and a prepared announcement you did not swipe to is kept for the next swipe instead of being thrown away.</string>
 
     <!-- Reduce delays: switch that starts building the reading order when a touch begins. [CHAR LIMIT=50] -->
-    <string name="title_pref_touch_order_build">Build the reading order when a touch starts</string>
     <!-- Reduce delays: summary of the build at touch start switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_touch_order_build">When you touch the screen and no reading order is saved, SandFly starts building it straight away, while your finger is still moving, so it is ready when your swipe lands. Nothing starts when an order is already saved. Turn this off if touches seem to cause work you can feel.</string>
 
     <!-- Reduce delays: switch that retries the reading order build once the screen settles. [CHAR LIMIT=50] -->
-    <string name="title_pref_settle_order_build">Retry the reading order build when the screen settles</string>
     <!-- Reduce delays: summary of the settle retry switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_settle_order_build">A build started while a screen is still changing often does not survive the changes that follow it. When the screen has been quiet for a moment and still no reading order is saved, SandFly asks for the build again, so the first swipe on the settled screen does not have to build it. Turn this off if a swipe lands on the wrong item after a screen settles.</string>
 
     <!-- Reduce delays: switch that builds the reading order the lean way. [CHAR LIMIT=50] -->
-    <string name="title_pref_lean_order_builder">Build the reading order the fast way</string>
     <!-- Reduce delays: summary of the lean builder switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_lean_order_builder">SandFly works out the reading order with its own quicker builder, which reads the screen once instead of several times. The order it produces is the same. Turn this off if swiping lands on the wrong item or items are read out of order.</string>
 
     <!-- Label for touch explore time out. [CHAR LIMIT=NONE]-->
     <string name="value_touch_explore_time_out_150ms">0.15 seconds</string>
@@ -4517,56 +4487,34 @@
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
 
     <!-- Reduce delays: switch that lets preparation rounds yield and defer in bursts. [CHAR LIMIT=50] -->
-    <string name="title_pref_yielding_prepare">Let preparation yield to swipes</string>
     <!-- Reduce delays: summary of the yielding preparation switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_yielding_prepare">Announcements are prepared one at a time, giving way between items, and a round that would run between two quick swipes waits until the screen settles. The same announcements are prepared; they simply never make a swipe wait for the whole round.</string>
 
     <!-- Reduce delays: switch that folds repeated reading-order build requests. [CHAR LIMIT=50] -->
-    <string name="title_pref_coalesce_listener_builds">Fold repeated reading-order builds</string>
     <!-- Reduce delays: summary of the build folding switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_coalesce_listener_builds">While a screen is changing quickly, requests to rebuild the reading order are folded into the build already on its way, with one more build from the newest screen when it lands, instead of build after build that the changes throw away.</string>
 
     <!-- Reduce delays: switch that starts the next prepared sound while one plays. [CHAR LIMIT=50] -->
-    <string name="title_pref_speech_pipeline">Start the next sound while one plays</string>
     <!-- Reduce delays: summary of the speech pipeline switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speech_pipeline">When an announcement plays from sound made in advance, the sound of the next item in the direction you are swiping is started straight away, so a run of swipes keeps playing at once instead of waiting for each sound to be made.</string>
 
     <!-- Reduce delays: switch that speaks a swipe's target as the swipe is handled. [CHAR LIMIT=50] -->
-    <string name="title_pref_speculative_speech">Speak the next item as the swipe lands</string>
     <!-- Reduce delays: summary of the speculative speech switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speculative_speech">The item a swipe will reach is known from the saved reading order, so its announcement starts as the swipe is handled, before the focus has moved. If the focus lands somewhere else, the announcement is corrected at once.</string>
 
     <!-- Reduce delays: switch that lets waiting focus events be handled first. [CHAR LIMIT=50] -->
-    <string name="title_pref_focus_priority_lane">Let focus events through first</string>
     <!-- Reduce delays: summary of the focus priority lane switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_focus_priority_lane">When several events are waiting, the event that says where the focus landed is handled before the ones in front of it, a few times in a row at most, so a swipe is answered sooner without other events being left behind.</string>
 
     <!-- Reduce delays: switch that answers swipes with the fast navigator. [CHAR LIMIT=50] -->
     <string name="title_pref_fast_navigator">Navigate with the fast navigator</string>
     <!-- Reduce delays: summary of the fast navigator switch. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_fast_navigator">Swipes are answered by a new navigator that works straight from the saved reading order: it finds the next item, checks it once, and focuses it, speaking as it goes. It builds the order itself when none is saved and scrolls itself at the end of a list. Turn this off to go back to the original navigation.</string>
     <!-- Reduce delays: switch that fires at the next item without checking it first. [CHAR LIMIT=50] -->
-    <string name="title_pref_fast_nav_skip_target_refresh">Fire at the next item without checking it first</string>
     <!-- Reduce delays: summary of the skip-target-check switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_fast_nav_skip_target_refresh">The fast navigator fires the focus action at the next item straight away, without asking the app to confirm the item is still there first. An item that is gone refuses the action, and the navigator moves on to the next living one, as it did when the check failed. Turn this off to check every item before focusing it.</string>
     <!-- Reduce delays: switch that starts from the held focus without asking the app. [CHAR LIMIT=50] -->
-    <string name="title_pref_fast_nav_cheap_pivot">Start from the held focus without asking the app</string>
     <!-- Reduce delays: summary of the held-focus switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_fast_nav_cheap_pivot">A swipe starts from the focus the navigator already holds, on local evidence — the reading order has not been thrown away since, and the item still shows as focused — instead of a round trip asking the app to confirm it. Any doubt, and the app is asked as before. Turn this off to always ask.</string>
     <!-- Reduce delays: switch that fires the focus action before the speech is submitted. [CHAR LIMIT=50] -->
-    <string name="title_pref_fast_nav_fire_first">Focus first, speak as it lands</string>
     <!-- Reduce delays: summary of the focus-first switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_fast_nav_fire_first">The focus action goes out before the next item\'s announcement is composed and submitted, so focusing never waits behind speaking. The announcement still starts in the same moment, and is corrected if the focus lands elsewhere. Turn this off to submit the announcement first.</string>
     <!-- Reduce delays: switch that chains sounds made ahead while swiping continues. [CHAR LIMIT=50] -->
-    <string name="title_pref_speech_pipeline_chain">Keep making sounds ahead while swiping</string>
     <!-- Reduce delays: summary of the sound-chaining switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_speech_pipeline_chain">When a sound made in advance lands and you are still swiping, the sound one item further is started in turn, so the speech engine stays ahead of your swipes instead of one step behind each play. The chain stops when the swiping does. Turn this off to make only one sound ahead per play.</string>
     <!-- Reduce delays: switch that lands a scroll on the first content change. [CHAR LIMIT=50] -->
-    <string name="title_pref_event_driven_scroll_landing">Land scrolls on the first change</string>
     <!-- Reduce delays: summary of the event-driven scroll landing switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_event_driven_scroll_landing">When the fast navigator scrolls for the next item, the first change the app reports in the window lands the swipe on the new item at once, instead of the landing being checked on a timer. A timed backstop still gives up after a shorter wait than before when nothing lands.</string>
     <!-- Reduce delays: switch that holds new reading orders during a burst of swipes. [CHAR LIMIT=50] -->
-    <string name="title_pref_defer_builds_during_burst">Hold new reading orders during a swipe burst</string>
     <!-- Reduce delays: summary of the burst build deferral switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_defer_builds_during_burst">While swipes are landing in quick succession, a new reading order is not started at once: the ask is kept and the order is built when the burst passes, so building never competes with answering your swipes. Turn this off to start every order the moment it is asked for.</string>
 </resources>

@@ -19,12 +19,15 @@ package com.google.android.accessibility.talkback.focusmanagement
 import android.graphics.Rect
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.Filter
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
+import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 
@@ -243,5 +246,16 @@ class LiveTreeNavigatorTest {
       node(list, "", Rect(0, 100, 600, 200), "android.widget.FrameLayout", focusable = false)
     val b = node(item1, "b", Rect(0, 100, 600, 200))
     assertEquals("a2", find(b, forward = false))
+  }
+
+  @Test
+  fun navigatorSwitchDefaultsOn() {
+    // The owner's standing order for the merged build: the live-tree navigator is on unless
+    // the user turns its switch off. The gate's field starts on, and so does the default
+    // the service reads for the switch's preference.
+    assertTrue(TraversalTreeCache.fastNavigatorEnabled)
+    assertTrue(
+      RuntimeEnvironment.getApplication().resources.getBoolean(R.bool.pref_fast_navigator_default)
+    )
   }
 }
