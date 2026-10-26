@@ -391,6 +391,18 @@ public class Performance {
   /** Landing tries offered an order published before the scroll, and refused it. */
   private long scrollLandingPreScrollOrderReads;
 
+  /** Swipes the fast navigator was asked to answer with the focus inside web content. */
+  private long webSwipes;
+
+  /** Web swipes answered by asking the page itself to move the focus to its next element. */
+  private long webDelegations;
+
+  /** Page delegations refused: the page had no further element in the swipe's direction. */
+  private long webPageRefusals;
+
+  /** Refused delegations answered by leaving the web content for a native element. */
+  private long webNativeExits;
+
   /** Swipes the fast navigator answered at the end of the list, with its edge feedback. */
   private long fastNavigationEdges;
 
@@ -2619,6 +2631,70 @@ public class Performance {
     }
   }
 
+  /** Counts one swipe the fast navigator was asked to answer inside web content. */
+  public void onWebSwipe() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      webSwipes++;
+    }
+  }
+
+  public long getWebSwipesCount() {
+    synchronized (lockLabelToStats) {
+      return webSwipes;
+    }
+  }
+
+  /** Counts one web swipe the page itself was asked to answer, and it accepted. */
+  public void onWebDelegation() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      webDelegations++;
+    }
+  }
+
+  public long getWebDelegationsCount() {
+    synchronized (lockLabelToStats) {
+      return webDelegations;
+    }
+  }
+
+  /** Counts one delegation the page refused: no further element in the swipe's direction. */
+  public void onWebPageRefusal() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      webPageRefusals++;
+    }
+  }
+
+  public long getWebPageRefusalsCount() {
+    synchronized (lockLabelToStats) {
+      return webPageRefusals;
+    }
+  }
+
+  /** Counts one refused delegation answered by exiting the web content to a native element. */
+  public void onWebNativeExit() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      webNativeExits++;
+    }
+  }
+
+  public long getWebNativeExitsCount() {
+    synchronized (lockLabelToStats) {
+      return webNativeExits;
+    }
+  }
+
   /** Counts one navigation whose pivot was the focus node the cache already held. */
   public void onCachedFocusShortcutUsed() {
     if (!computeStatsEnabled) {
@@ -2906,6 +2982,12 @@ public class Performance {
         }
         logger.log("Fast navigator could not move: %s", byReason);
       }
+      if (webSwipes > 0) {
+        logger.log(
+            "Web swipes: %d entered, %d delegated to the page (%d refused at the page edge,"
+                + " %d answered by exiting to a native element)",
+            webSwipes, webDelegations, webPageRefusals, webNativeExits);
+      }
       if (scrollLandingsByEvent + scrollLandingsByBackstop > 0) {
         logger.log(
             "Scroll landings: %d settled by the first content change, %d by the timed"
@@ -3019,6 +3101,10 @@ public class Performance {
       scrollRetriedOnNextAncestor = 0;
       scrollLandingsSuperseded = 0;
       scrollLandingPreScrollOrderReads = 0;
+      webSwipes = 0;
+      webDelegations = 0;
+      webPageRefusals = 0;
+      webNativeExits = 0;
       fastNavigationEdges = 0;
       Arrays.fill(fastNavigationHardCases, 0);
       Arrays.fill(fastNavigationStuck, 0);

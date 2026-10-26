@@ -38,6 +38,7 @@ import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.accessibility.utils.WindowUtils;
 import com.google.android.accessibility.utils.output.FeedbackItem;
@@ -68,9 +69,11 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>Nothing is handed back when a swipe is hard. An order that has not landed yet is built on
  * the spot; an end of the order scrolls from here and lands on the first new item; a target
- * that died is replaced by the nearest living one in the swipe's direction; web content is read
- * in this navigator's own web-inclusive order. A swipe that truly cannot move is counted by its
- * reason, and answered with the end-of-list announcement from here, never swallowed quietly.
+ * that died is replaced by the nearest living one in the swipe's direction; a swipe in web
+ * content is delegated to the page itself, which owns its elements and their order, and only
+ * the reading controls the page cannot serve are read in this navigator's own web-inclusive
+ * order. A swipe that truly cannot move is counted by its reason, and answered with the
+ * end-of-list announcement from here, never swallowed quietly.
  */
 public class FastNavigator {
 
@@ -331,16 +334,14 @@ public class FastNavigator {
     }
     boolean forward = logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD;
 
-    if (WebInterfaceUtils.supportsWebActions(pivot)) {
-      long orderStart = SystemClock.uptimeMillis();
-      OrderedTraversalStrategy order = webOrderFor(pivot);
-      recordSegment("fast nav order fetch", orderStart);
-      if (order == null) {
-        Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_NO_ORDER);
-        announceEdge(action, forward, eventId);
-        return false;
-      }
-      return navigateInOrder(action, pivot, order, forward, eventId, /* rebuilt= */ false);
+    if (WebInterfaceUtils.supportsWebActions(pivot)
+        && !(Role.getRole(pivot) == Role.ROLE_WEB_VIEW
+            && action.targetType == NavigationTarget.TARGET_DEFAULT
+            && !forward)) {
+      // The one case the page must not answer is left to the saved order below: the web
+      // container itself swiping backwards at the default control looks for the native
+      // element before the container — asking the page would land on its last element.
+      return navigateInWeb(action, pivot, forward, rtl, eventId);
     }
 
     long orderStart = SystemClock.uptimeMillis();
@@ -477,6 +478,156 @@ public class FastNavigator {
   }
 
   /**
+   * A swipe whose focus stands in web content. The page itself is the authority on its
+   * elements — which of them are stops, and in what order — so the swipe is delegated to
+   * it, through the same feedback the original path sends, and the speech is composed when
+   * the page's focus event comes back, as it is there: a delegated target is the page's to
+   * choose, never this navigator's to predict. Only a reading control the page has no HTML
+   * element name for is answered from this navigator's own web-inclusive order, as before.
+   */
+  private boolean navigateInWeb(
+      NavigationAction action,
+      AccessibilityNodeInfoCompat pivot,
+      boolean forward,
+      boolean rtl,
+      @Nullable EventId eventId) {
+    Performance.getInstance().onWebSwipe();
+    if (NavigationTarget.targetTypeToHtmlElement(action.targetType) == null) {
+      long orderStart = SystemClock.uptimeMillis();
+      OrderedTraversalStrategy order = webOrderFor(pivot);
+      recordSegment("fast nav order fetch", orderStart);
+      if (order == null) {
+        Performance.getInstance().onFastNavigationStuck(Performance.FAST_NAV_STUCK_NO_ORDER);
+        announceEdge(action, forward, eventId);
+        return false;
+      }
+      return navigateInOrder(action, pivot, order, forward, eventId, /* rebuilt= */ false);
+    }
+    return delegateToPage(action, pivot, forward, rtl, eventId);
+  }
+
+  /**
+   * Asks the page to move the focus from {@code pivot} to its next element of the swipe's
+   * kind: the page picks the element, scrolls it into view itself, and its focus event
+   * drives the speech when it comes back. A refusal — the page has no further element
+   * that way, and has already announced the edge itself — is answered by leaving the web
+   * content for the nearest native element past it, as the original path falls back.
+   */
+  private boolean delegateToPage(
+      NavigationAction action,
+      AccessibilityNodeInfoCompat pivot,
+      boolean forward,
+      boolean rtl,
+      @Nullable EventId eventId) {
+    Performance performance = Performance.getInstance();
+    long delegateStart = SystemClock.uptimeMillis();
+    boolean accepted =
+        feedbackReturner != null
+            && feedbackReturner.returnFeedback(
+                eventId, Feedback.webDirectionHtml(pivot, action));
+    recordSegment("fast nav web delegation", delegateStart);
+    if (accepted) {
+      performance.onWebDelegation();
+      performance.onFastNavigationHandled();
+      if (action.targetType == NavigationTarget.TARGET_DEFAULT) {
+        // The page moves the focus, so its focus event shows where it went.
+        ColumnWrap.expectWebFocus(pivot, forward, rtl);
+      }
+      TraversalTreeCache.rememberPivot(pivot);
+      return true;
+    }
+    performance.onWebPageRefusal();
+    return exitWebToNative(action, pivot, forward, eventId);
+  }
+
+  /**
+   * The answer to a page that refused to move the focus: the nearest native element past
+   * the web content in the swipe's direction, read from the saved order — which holds the
+   * web container as its one web node and none of its children. A candidate of the web
+   * subtree itself is never the exit: leaving the page for another of its elements would
+   * hand the swipe back to the content that just refused it. The page has already
+   * announced the edge, so a swipe with no native element to leave to is answered by
+   * that announcement alone, never a second one from here.
+   */
+  private boolean exitWebToNative(
+      NavigationAction action,
+      AccessibilityNodeInfoCompat pivot,
+      boolean forward,
+      @Nullable EventId eventId) {
+    Performance performance = Performance.getInstance();
+    AccessibilityNodeInfoCompat container =
+        Role.getRole(pivot) == Role.ROLE_WEB_VIEW
+            ? pivot
+            : WebInterfaceUtils.ascendToWebView(pivot);
+    OrderedTraversalStrategy order = container == null ? null : savedOrderFor(container);
+    if (container == null || order == null) {
+      performance.onFastNavigationHandled();
+      performance.onFastNavigationEdge();
+      return false;
+    }
+    List<AccessibilityNodeInfoCompat> fullOrder = order.dumpTree();
+    int containerIndex = indexOfNode(fullOrder, container);
+    if (containerIndex < 0) {
+      performance.onFastNavigationHandled();
+      performance.onFastNavigationEdge();
+      return false;
+    }
+    Filter<AccessibilityNodeInfoCompat> filter = composeFilter(action.targetType, order);
+    boolean substituted = false;
+    int index = containerIndex;
+    while (true) {
+      index = nextCandidateIndex(fullOrder, index, forward, filter);
+      if (index < 0) {
+        performance.onFastNavigationHandled();
+        performance.onFastNavigationEdge();
+        return false;
+      }
+      AccessibilityNodeInfoCompat candidate = fullOrder.get(index);
+      if (candidate.getWindowId() != pivot.getWindowId()
+          || WebInterfaceUtils.supportsWebActions(candidate)
+          || isInWebSubtree(candidate, container)) {
+        // Another window's, or still the page's own: the nearest native one stands in.
+        substituted = true;
+        continue;
+      }
+      if (!candidate.isVisibleToUser()) {
+        List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
+        if (scrollFor(action, container, forward, candidate, speaking, eventId)) {
+          performance.onWebNativeExit();
+          return true;
+        }
+        substituted = true;
+        continue;
+      }
+      if (fireTarget(candidate, container, action, eventId, substituted, /* countHandled= */ true)) {
+        performance.onWebNativeExit();
+        return true;
+      }
+      if (nextCandidateIndex(fullOrder, index, forward, filter) < 0) {
+        performance.onFastNavigationHandled();
+        performance.onFastNavigationEdge();
+        return false;
+      }
+      // The action itself reported this target dead, and the order has another candidate
+      // beyond it: step on, as a navigation in the order steps on.
+      substituted = true;
+    }
+  }
+
+  /** Whether {@code node} is {@code container} or stands inside its subtree. */
+  private static boolean isInWebSubtree(
+      AccessibilityNodeInfoCompat node, AccessibilityNodeInfoCompat container) {
+    AccessibilityNodeInfoCompat current = node;
+    while (current != null) {
+      if (current.equals(container)) {
+        return true;
+      }
+      current = current.getParent();
+    }
+    return false;
+  }
+
+  /**
    * The swipe itself, as arithmetic on {@code order}: from the pivot's place, the next node
    * the reading control's list offers, skipping any that died or belong elsewhere. A candidate
    * is vouched for by {@code refresh()} before firing, unless the skip-refresh switch is on:
@@ -519,10 +670,12 @@ public class FastNavigator {
         substituted = true;
         continue;
       }
-      if (!candidate.isVisibleToUser()) {
+      if (!candidate.isVisibleToUser() && !WebInterfaceUtils.supportsWebActions(candidate)) {
         // In the order but not on screen: the swipe has run ahead of the window's drawing.
         // Scrolling from here is this navigator's own work, and the item is landed on when
-        // the scroll brings it in.
+        // the scroll brings it in. A web element is never detoured this way: most of a page
+        // is off screen by nature, and firing focus on the element lets the page scroll it
+        // into view itself, as a web element may be focused unseen.
         List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
         if (scrollFor(action, pivot, forward, candidate, speaking, eventId)) {
           return true;
@@ -955,8 +1108,13 @@ public class FastNavigator {
       int preferIndex = indexOfNode(speaking, landing.preferNode);
       if (preferIndex >= 0) {
         landing.preferSeenInOrder = true;
-        if (speaking.get(preferIndex).isVisibleToUser()) {
-          candidates.add(speaking.get(preferIndex));
+        AccessibilityNodeInfoCompat prefer = speaking.get(preferIndex);
+        // A web element the swipe aimed at is landed on as it stands: the saved order is
+        // not its measure (it leaves web elements out by design), and the page scrolls a
+        // focused element into view itself, so the visibility a native item must show is
+        // not asked of it.
+        if (prefer.isVisibleToUser() || WebInterfaceUtils.supportsWebActions(prefer)) {
+          candidates.add(prefer);
         }
       }
     }

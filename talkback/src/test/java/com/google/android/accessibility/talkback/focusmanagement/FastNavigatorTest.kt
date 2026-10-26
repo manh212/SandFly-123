@@ -792,6 +792,257 @@ class FastNavigatorTest {
     assertEquals(listOf("last"), listener.set)
   }
 
+  /** A page of an article in a WebView, between two native items of the same window. */
+  private class WebArticleFixture(
+    val rootInfo: AccessibilityNodeInfo,
+    val containerInfo: AccessibilityNodeInfo,
+    val firstTextInfo: AccessibilityNodeInfo,
+    val imageInfo: AccessibilityNodeInfo,
+    val lastTextInfo: AccessibilityNodeInfo,
+  )
+
+  /** A node of the page itself: the page's actions on it, and no text unless [tag] says so. */
+  private fun webNode(
+    parent: AccessibilityNodeInfo?,
+    tag: String?,
+    top: Int,
+    visible: Boolean = true,
+  ): AccessibilityNodeInfo {
+    val node = AccessibilityNodeInfo.obtain()
+    node.className = "android.view.View"
+    node.packageName = "com.android.chrome"
+    node.isVisibleToUser = visible
+    node.text = tag
+    node.setBoundsInScreen(Rect(0, top, 600, top + 100))
+    node.addAction(AccessibilityNodeInfo.ACTION_NEXT_HTML_ELEMENT)
+    node.addAction(AccessibilityNodeInfo.ACTION_PREVIOUS_HTML_ELEMENT)
+    parent?.let { shadowOf(it).addChild(node) }
+    return node
+  }
+
+  private fun webArticleTree(hasNativeAfter: Boolean = true): WebArticleFixture {
+    val root = AccessibilityNodeInfo.obtain()
+    root.className = "android.widget.FrameLayout"
+    root.packageName = "com.android.chrome"
+    root.isVisibleToUser = true
+    root.setBoundsInScreen(Rect(0, 0, 600, 2000))
+    placed(root, "before", Rect(0, 0, 600, 100))
+    val container = AccessibilityNodeInfo.obtain()
+    container.className = "android.webkit.WebView"
+    container.packageName = "com.android.chrome"
+    container.isVisibleToUser = true
+    container.isScrollable = true
+    container.setBoundsInScreen(Rect(0, 100, 600, 1900))
+    container.addAction(AccessibilityNodeInfo.ACTION_NEXT_HTML_ELEMENT)
+    container.addAction(AccessibilityNodeInfo.ACTION_PREVIOUS_HTML_ELEMENT)
+    shadowOf(root).addChild(container)
+    webNode(container, "Article title", 100)
+    val firstText = webNode(container, "First paragraph", 200)
+    val image = webNode(container, null, 300)
+    image.className = "android.widget.Image"
+    val lastText = webNode(container, "Text after the image", 1900, visible = false)
+    if (hasNativeAfter) {
+      placed(root, "after", Rect(0, 1900, 600, 2000))
+    }
+    return WebArticleFixture(root, container, firstText, image, lastText)
+  }
+
+  /** Saves the window's order with the page's children in it, as the web path reads it. */
+  private fun saveWebOrder(rootInfo: AccessibilityNodeInfo) {
+    val root = AccessibilityNodeInfoCompat.wrap(rootInfo)
+    TraversalTreeCache.put(
+      root,
+      OrderedTraversalStrategy(root, /* includeChildrenOfNodesWithWebActions= */ true, false),
+    )
+  }
+
+  /** A feedback returner standing in for the page: it records web actions, and answers them. */
+  private class PageReturner(var accepts: Boolean) : Pipeline.FeedbackReturner {
+    val webTargets = mutableListOf<AccessibilityNodeInfoCompat>()
+    val webActions = mutableListOf<NavigationAction>()
+    var speechParts = 0
+
+    override fun returnFeedback(feedback: Feedback): Boolean {
+      var result = true
+      for (part in feedback.failovers()) {
+        val webAction = part.webAction()
+        if (webAction != null) {
+          webTargets += webAction.target()
+          webActions += checkNotNull(webAction.navigationAction())
+          result = accepts
+        } else if (part.speech() != null) {
+          speechParts++
+        }
+      }
+      return result
+    }
+  }
+
+  @Test
+  fun webSwipe_forwardFromAnImage_delegatesToThePage_andNeverScrolls() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = true)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.imageInfo))
+    val swipesBefore = performance.getWebSwipesCount()
+    val delegationsBefore = performance.getWebDelegationsCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    // The page is asked for its next element from the image itself, and nothing in the
+    // window is scrolled or focused from here: the text after the image stands below the
+    // fold, which is the page's to bring in, not a landing's to hunt for.
+    assertEquals(1, page.webTargets.size)
+    assertEquals(AccessibilityNodeInfoCompat.wrap(fixture.imageInfo), page.webTargets[0])
+    assertEquals(TraversalStrategy.SEARCH_FOCUS_FORWARD, page.webActions[0].searchDirection)
+    assertTrue(listener.set.isEmpty())
+    assertFalse(
+      shadowOf(fixture.containerInfo)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
+    )
+    assertEquals(swipesBefore + 1, performance.getWebSwipesCount())
+    assertEquals(delegationsBefore + 1, performance.getWebDelegationsCount())
+  }
+
+  @Test
+  fun webSwipe_forwardFromTextBeforeAnImage_delegatesSoTheImageStaysAStop() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = true)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.firstTextInfo))
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    // The image carries no text at all, so no order of this window could offer it as a
+    // stop; the page's own stops can, and the swipe is the page's to answer.
+    assertEquals(1, page.webTargets.size)
+    assertEquals(AccessibilityNodeInfoCompat.wrap(fixture.firstTextInfo), page.webTargets[0])
+    assertTrue(listener.set.isEmpty())
+  }
+
+  @Test
+  fun webSwipe_backward_delegatesToThePageBackwards() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = true)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.lastTextInfo))
+    val delegationsBefore = performance.getWebDelegationsCount()
+
+    assertTrue(navigator.handle(swipe(forward = false, scroll = true), null))
+
+    assertEquals(1, page.webTargets.size)
+    assertEquals(AccessibilityNodeInfoCompat.wrap(fixture.lastTextInfo), page.webTargets[0])
+    assertEquals(TraversalStrategy.SEARCH_FOCUS_BACKWARD, page.webActions[0].searchDirection)
+    assertEquals(delegationsBefore + 1, performance.getWebDelegationsCount())
+  }
+
+  @Test
+  fun webSwipe_withAHeadingControl_delegatesWithTheControlsElementKind() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = true)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.firstTextInfo))
+
+    assertTrue(
+      navigator.handle(
+        swipe(forward = true, scroll = true, targetType = NavigationTarget.TARGET_HEADING),
+        null,
+      )
+    )
+
+    // The page is asked for a heading, in its own element kind, not for the next item of
+    // a tree order filtered by a heading check of this window's devising.
+    assertEquals(1, page.webActions.size)
+    assertEquals(NavigationTarget.TARGET_HEADING, page.webActions[0].targetType)
+    assertEquals(
+      "heading",
+      NavigationTarget.targetTypeToHtmlElement(page.webActions[0].targetType),
+    )
+  }
+
+  @Test
+  fun webSwipe_pageRefusesAtItsEnd_exitsToTheNativeItemAfterThePage() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = false)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.lastTextInfo))
+    val refusalsBefore = performance.getWebPageRefusalsCount()
+    val exitsBefore = performance.getWebNativeExitsCount()
+
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    assertEquals(listOf("after"), listener.set)
+    assertEquals(refusalsBefore + 1, performance.getWebPageRefusalsCount())
+    assertEquals(exitsBefore + 1, performance.getWebNativeExitsCount())
+  }
+
+  @Test
+  fun webSwipe_pageRefusesWithNoNativeItemAfter_answersWithThePagesEdgeAlone() {
+    val fixture = webArticleTree(hasNativeAfter = false)
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = false)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.lastTextInfo))
+    val refusalsBefore = performance.getWebPageRefusalsCount()
+    val exitsBefore = performance.getWebNativeExitsCount()
+
+    assertFalse(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    assertTrue(listener.set.isEmpty())
+    // The page announced the edge as it refused; the navigator adds no second one.
+    assertEquals(0, page.speechParts)
+    assertEquals(refusalsBefore + 1, performance.getWebPageRefusalsCount())
+    assertEquals(exitsBefore, performance.getWebNativeExitsCount())
+  }
+
+  @Test
+  fun webSwipe_containerItselfBackwards_goesToTheNativeItemBeforeThePage() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    val page = PageReturner(accepts = true)
+    navigator.setFeedbackReturner(page)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.containerInfo))
+    val swipesBefore = performance.getWebSwipesCount()
+
+    assertTrue(navigator.handle(swipe(forward = false, scroll = true), null))
+
+    // The one case the page must not answer: it would land on the page's last element,
+    // where the swipe asks for the native item before the page in the window.
+    assertTrue(page.webTargets.isEmpty())
+    assertEquals(listOf("before"), listener.set)
+    assertEquals(swipesBefore, performance.getWebSwipesCount())
+  }
+
+  @Test
+  fun webSwipe_controlThePageCannotServe_firesTheUnseenWebTargetWithoutScrolling() {
+    val fixture = webArticleTree()
+    saveWebOrder(fixture.rootInfo)
+    focusOn(AccessibilityNodeInfoCompat.wrap(fixture.imageInfo))
+
+    // The windows control has no HTML element kind, so the navigator's own web order
+    // answers — and its next item, the text below the fold, is fired as it stands: a web
+    // element off screen is the page's normal state, not a reason to scroll and land.
+    assertTrue(
+      navigator.handle(
+        swipe(forward = true, scroll = true, targetType = NavigationTarget.TARGET_WINDOW),
+        null,
+      )
+    )
+
+    assertEquals(listOf("Text after the image"), listener.set)
+    assertFalse(
+      shadowOf(fixture.containerInfo)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
+    )
+  }
+
   @Test
   fun noPivotAndNoWindow_countsNoPivot_andMovesNothing() {
     val stuckBefore =
