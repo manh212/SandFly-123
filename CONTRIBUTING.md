@@ -17,16 +17,16 @@ exceptions.
 4. **Definition of done.** A change is done when the build succeeds and it
    introduces no new lint errors. Issues already recorded in `lint-baseline.xml`
    are allowed.
-5. **Branches.** Small and normal work — fixes and features that do not
-   overhaul a core subsystem — is pushed directly to `master`. Large work
-   goes through a branch and a pull request, created at the very start of
-   the work, before any code is written, with the owner approving the
-   creation up front. Only extremely large work — replacing or removing an
-   entire subsystem, completely changing an architecture, or adding a major
-   new subsystem — is never auto-merged; every other branch merges as soon
-   as its build is green. A failed `master` build pauses the dev channel
-   until it is fixed forward; the failed run's `gradle-log-tail` artifact
-   is the diagnostic route.
+5. **Branches.** Only extremely large work — replacing or removing an
+   entire subsystem, completely changing an architecture, or adding a
+   major new subsystem — goes through a branch and a pull request, created
+   at the very start of the work, before any code is written, with the
+   owner approving the creation up front. A branch is never auto-merged:
+   the owner tests the branch build's preview APK on a device and
+   approves the merge. Everything else — every fix and feature below that
+   class — is pushed directly to `master`. A failed `master` build pauses
+   the dev channel until it is fixed forward; the failed run's
+   `gradle-log-tail` artifact is the diagnostic route.
 6. **Interface work.** Any change that adds or alters user interface must also
    follow [docs/ux-guidelines.md](docs/ux-guidelines.md).
 
@@ -38,20 +38,18 @@ exceptions.
   diagnosing further, and fix forward on `master`; the dev channel stays
   paused until `master` is green again. Emergency reverts that restore a
   green `master` are always direct pushes.
-- Large work goes on a branch with a pull request. Create the branch and
-  its pull request at the very start of the work, before any code is
-  written, and the owner approves the creation at that point — never
-  after the code is done. A failed pull request build posts a readable
-  failure summary comment naming the failing tests.
+- Extremely large work goes on a branch with a pull request. Create the
+  branch and its pull request at the very start of the work, before any
+  code is written, and the owner approves the creation at that point —
+  never after the code is done. A failed pull request build posts a
+  readable failure summary comment naming the failing tests.
 - One feature gets exactly one branch. Keep fixing on that same branch until
   it is accepted; never open a second branch for the same feature.
-- Merging follows the size classification. Extremely large work — replacing
-  or removing an entire subsystem, completely changing an architecture, or
-  adding a major new subsystem — is never auto-merged: when the branch
-  build is green, share the preview APK (the build job's `apks` artifact)
-  with the owner, who tests it on a device and approves the merge. Every
-  other branch merges as soon as its build is green, without asking. On a
-  borderline case, the owner is the final judge of the classification.
+- Branches exist only for extremely large work, and a branch is never
+  auto-merged: when the branch build is green, share the preview APK (the
+  build job's `apks` artifact) with the owner, who tests it on a device
+  and approves the merge. On a borderline case, the owner is the final
+  judge of whether work counts as extremely large.
 - Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
   it reports.
 - When a pull request build fails, read the automatic failure summary comment

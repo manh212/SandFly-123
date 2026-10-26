@@ -113,7 +113,7 @@ If you build SandFly yourself, you can also build a key into the APK instead. Ad
 
 ### Dependencies
 
-Library and plugin versions are in `gradle/libs.versions.toml`. GitHub Actions builds each pull request.
+Library and plugin versions are in `gradle/libs.versions.toml`. GitHub Actions builds pushes to `master` and each pull request.
 
 ### Debug tools
 
