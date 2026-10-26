@@ -260,6 +260,17 @@ class FastNavigatorTest {
     TraversalTreeCache.rememberFocus(node)
   }
 
+  /** TEMP DIAGNOSTIC: the refusal counters a scroll-bound swipe can move, as one line. */
+  private fun scrollDiag(): String =
+    "noPivot=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_PIVOT)}" +
+      " noOrder=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_ORDER)}" +
+      " noLanding=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING)}" +
+      " allDead=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_ALL_TARGETS_DEAD)}" +
+      " focusFailed=${performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_FOCUS_ACTION_FAILED)}" +
+      " noScrollable=${performance.getScrollNoScrollableNodeCount()}" +
+      " appRefused=${performance.getScrollFiredAppRefusedCount()}" +
+      " noEffect=${performance.getScrollNoEffectCount()}"
+
   private fun swipe(
     forward: Boolean,
     wrap: Boolean = false,
@@ -613,14 +624,25 @@ class FastNavigatorTest {
 
     // The pager recycles the very item the swipe started from: the window's new tree has no
     // A3 at all — its view now carries new-page content — and page B is what is on screen.
+    // A1 and A2 are still on screen and still the same views, so the new tree holds the very
+    // same nodes for them, as a re-read of the window would hand back; only A3 is gone.
     // The landing is anchored on the window and on position, so nothing it needs is gone.
-    val turned = listTree(listOf("A1", "A2", "B1", "B2", "B3"))
+    val turned = AccessibilityNodeInfo.obtain()
+    turned.className = "android.widget.FrameLayout"
+    turned.packageName = "com.example.chat"
+    turned.isVisibleToUser = true
     turned.isScrollable = true
+    turned.setBoundsInScreen(Rect(0, 0, 600, 2000))
+    shadowOf(turned).addChild(fixture.pageAItems[0])
+    shadowOf(turned).addChild(fixture.pageAItems[1])
+    placed(turned, "B1", Rect(0, 200, 600, 300))
+    placed(turned, "B2", Rect(0, 300, 600, 400))
+    placed(turned, "B3", Rect(0, 400, 600, 500))
     saveOrder(turned)
     navigator.onWindowContentChanged(turned.windowId)
     shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
 
-    assertEquals(listOf("B1"), listener.set)
+    assertEquals("landed", listOf("B1"), listener.set)
   }
 
   @Test
@@ -692,7 +714,11 @@ class FastNavigatorTest {
     val children = saveOrder(rootInfo)
     focusOn(children[1])
 
-    assertTrue(navigator.handle(swipe(forward = true), null))
+    // TEMP DIAGNOSTIC (remove once the failing gate is named): which counter moves when
+    // this swipe is refused, so the refusal names its own gate.
+    val diagBefore = scrollDiag()
+    val diagHandled = navigator.handle(swipe(forward = true), null)
+    assertTrue("diag: ${scrollDiag()} (before: $diagBefore)", diagHandled)
     assertTrue(
       shadowOf(rootInfo)
         .performedActions
@@ -751,7 +777,10 @@ class FastNavigatorTest {
     // The next item is off screen, so the swipe scrolls — and the scroll must fire on the
     // page's own scroller, not on the small chip row nested inside the item: the chip row
     // would answer true while the page never moves.
-    assertTrue(navigator.handle(swipe(forward = true), null))
+    // TEMP DIAGNOSTIC (remove once the failing gate is named): see the scroll-landing tests.
+    val diagBefore = scrollDiag()
+    val diagHandled = navigator.handle(swipe(forward = true), null)
+    assertTrue("diag: ${scrollDiag()} (before: $diagBefore)", diagHandled)
     assertTrue(
       shadowOf(rootInfo)
         .performedActions
