@@ -156,6 +156,42 @@
         android:key="@string/pref_fast_navigator_key" />
 
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_fast_nav_skip_target_refresh_default"
+        android:title="@string/title_pref_fast_nav_skip_target_refresh"
+        android:summary="@string/summary_pref_fast_nav_skip_target_refresh"
+        android:key="@string/pref_fast_nav_skip_target_refresh_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_fast_nav_cheap_pivot_default"
+        android:title="@string/title_pref_fast_nav_cheap_pivot"
+        android:summary="@string/summary_pref_fast_nav_cheap_pivot"
+        android:key="@string/pref_fast_nav_cheap_pivot_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_fast_nav_fire_first_default"
+        android:title="@string/title_pref_fast_nav_fire_first"
+        android:summary="@string/summary_pref_fast_nav_fire_first"
+        android:key="@string/pref_fast_nav_fire_first_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speech_pipeline_chain_default"
+        android:title="@string/title_pref_speech_pipeline_chain"
+        android:summary="@string/summary_pref_speech_pipeline_chain"
+        android:key="@string/pref_speech_pipeline_chain_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_event_driven_scroll_landing_default"
+        android:title="@string/title_pref_event_driven_scroll_landing"
+        android:summary="@string/summary_pref_event_driven_scroll_landing"
+        android:key="@string/pref_event_driven_scroll_landing_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_defer_builds_during_burst_default"
+        android:title="@string/title_pref_defer_builds_during_burst"
+        android:summary="@string/summary_pref_defer_builds_during_burst"
+        android:key="@string/pref_defer_builds_during_burst_key" />
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_items_before_scroll_default"
         android:title="@string/title_pref_speak_items_before_scroll"
         android:key="@string/pref_speak_items_before_scroll_key" />

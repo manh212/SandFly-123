@@ -172,6 +172,12 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
             context.getString(R.string.pref_speculative_speech_key),
             context.getString(R.string.pref_focus_priority_lane_key),
             context.getString(R.string.pref_fast_navigator_key),
+            context.getString(R.string.pref_fast_nav_skip_target_refresh_key),
+            context.getString(R.string.pref_fast_nav_cheap_pivot_key),
+            context.getString(R.string.pref_fast_nav_fire_first_key),
+            context.getString(R.string.pref_speech_pipeline_chain_key),
+            context.getString(R.string.pref_event_driven_scroll_landing_key),
+            context.getString(R.string.pref_defer_builds_during_burst_key),
             FailoverTextToSpeech.PREF_LOW_LATENCY_AUDIO_KEY,
             FailoverTextToSpeech.PREF_ALWAYS_INTERRUPT_SPEECH_KEY);
         dialogInterface.dismiss();
@@ -391,6 +397,48 @@ public class TalkBackLatencyReductionPreferenceFragment extends TalkbackBaseFrag
       if (fastNavigatorPreference != null) {
         fastNavigatorPreference.setChecked(
             context.getResources().getBoolean(R.bool.pref_fast_navigator_default));
+      }
+
+      TwoStatePreference skipTargetRefreshPreference =
+          findPreference(getString(R.string.pref_fast_nav_skip_target_refresh_key));
+      if (skipTargetRefreshPreference != null) {
+        skipTargetRefreshPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_fast_nav_skip_target_refresh_default));
+      }
+
+      TwoStatePreference cheapPivotPreference =
+          findPreference(getString(R.string.pref_fast_nav_cheap_pivot_key));
+      if (cheapPivotPreference != null) {
+        cheapPivotPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_fast_nav_cheap_pivot_default));
+      }
+
+      TwoStatePreference fireFirstPreference =
+          findPreference(getString(R.string.pref_fast_nav_fire_first_key));
+      if (fireFirstPreference != null) {
+        fireFirstPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_fast_nav_fire_first_default));
+      }
+
+      TwoStatePreference speechPipelineChainPreference =
+          findPreference(getString(R.string.pref_speech_pipeline_chain_key));
+      if (speechPipelineChainPreference != null) {
+        speechPipelineChainPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_speech_pipeline_chain_default));
+      }
+
+      TwoStatePreference eventDrivenScrollLandingPreference =
+          findPreference(getString(R.string.pref_event_driven_scroll_landing_key));
+      if (eventDrivenScrollLandingPreference != null) {
+        eventDrivenScrollLandingPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_event_driven_scroll_landing_default));
+      }
+
+      TwoStatePreference deferBuildsDuringBurstPreference =
+          findPreference(getString(R.string.pref_defer_builds_during_burst_key));
+      if (deferBuildsDuringBurstPreference != null) {
+        deferBuildsDuringBurstPreference.setChecked(
+            context.getResources().getBoolean(R.bool.pref_defer_builds_during_burst_default));
       }
     }
 

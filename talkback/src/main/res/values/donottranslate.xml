@@ -119,6 +119,12 @@
     <string name="pref_speculative_speech_key">pref_speculative_speech_key</string>
     <string name="pref_focus_priority_lane_key">pref_focus_priority_lane_key</string>
     <string name="pref_fast_navigator_key">pref_fast_navigator_key</string>
+    <string name="pref_fast_nav_skip_target_refresh_key">pref_fast_nav_skip_target_refresh_key</string>
+    <string name="pref_fast_nav_cheap_pivot_key">pref_fast_nav_cheap_pivot_key</string>
+    <string name="pref_fast_nav_fire_first_key">pref_fast_nav_fire_first_key</string>
+    <string name="pref_speech_pipeline_chain_key">pref_speech_pipeline_chain_key</string>
+    <string name="pref_event_driven_scroll_landing_key">pref_event_driven_scroll_landing_key</string>
+    <string name="pref_defer_builds_during_burst_key">pref_defer_builds_during_burst_key</string>
     <string name="pref_scripts_key" translatable="false">pref_scripts_key</string>
     <string name="pref_auto_enter_table_navigation_key">pref_auto_enter_table_navigation_key</string>
     <string name="pref_tree_debug_reflect_key">pref_tree_debug_reflect</string>
@@ -1401,6 +1407,12 @@
     <bool name="pref_speculative_speech_default">true</bool>
     <bool name="pref_focus_priority_lane_default">true</bool>
     <bool name="pref_fast_navigator_default">true</bool>
+    <bool name="pref_fast_nav_skip_target_refresh_default">true</bool>
+    <bool name="pref_fast_nav_cheap_pivot_default">true</bool>
+    <bool name="pref_fast_nav_fire_first_default">true</bool>
+    <bool name="pref_speech_pipeline_chain_default">true</bool>
+    <bool name="pref_event_driven_scroll_landing_default">true</bool>
+    <bool name="pref_defer_builds_during_burst_default">true</bool>
     <bool name="pref_wrap_around_default">true</bool>
     <bool name="pref_collapse_list_item_actions_default">false</bool>
     <bool name="pref_fix_stuck_touch_exploration_default">true</bool>
