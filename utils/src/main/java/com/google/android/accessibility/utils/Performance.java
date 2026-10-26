@@ -294,12 +294,9 @@ public class Performance {
   /** What asked for a background reading-order build: the screen went quiet with no order saved. */
   public static final int ORDER_BUILD_SOURCE_SETTLE = 3;
 
-  /** What asked for a background reading-order build: a scroll is waiting to land on its item. */
-  public static final int ORDER_BUILD_SOURCE_SCROLL_LANDING = 4;
-
   /** Names of the build sources above, for the statistics display. */
   private static final String[] ORDER_BUILD_SOURCE_NAMES = {
-    "event", "listener", "touch", "settle", "scroll landing"
+    "event", "listener", "touch", "settle"
   };
 
   /** Background reading-order builds asked for, by what asked for them. */
@@ -330,66 +327,11 @@ public class Performance {
   /** Swipes the fast navigator handled itself, including the ones it answered at an edge. */
   private long fastNavigationsHandled;
 
-  /** Scroll landings settled by a try a content change triggered. */
-  private long scrollLandingsByEvent;
-
-  /** Scroll landings settled by a try the timed backstop ran. */
-  private long scrollLandingsByBackstop;
-
-  /** A scroll landing settled once its content had gone quiet: the settle try read a settled tree. */
-  public static final int SCROLL_LANDING_BY_SETTLE = 0;
-
-  /** A scroll landing settled by the one on-the-spot build allowed at the landing's deadline. */
-  public static final int SCROLL_LANDING_BY_DEADLINE_BUILD = 1;
-
-  /** A scroll landing settled by position alone, after its deadline, with no fresh order to read. */
-  public static final int SCROLL_LANDING_BY_POSITION = 2;
-
-  /** Names of the landing settle sources above, for the statistics display. */
-  private static final String[] SCROLL_LANDING_SOURCE_NAMES = {
-    "after the content settled", "by the deadline build", "by position"
-  };
-
-  /** Scroll landings settled, by the source that settled them. */
-  private final long[] scrollLandingsBySource = new long[SCROLL_LANDING_SOURCE_NAMES.length];
-
-  /** A scroll landing gave up: no order published after the scroll was ever to be had. */
-  public static final int SCROLL_LANDING_FAIL_NO_POST_SCROLL_ORDER = 0;
-
-  /** A scroll landing gave up: a post-scroll order was read, but nothing newly visible was in it. */
-  public static final int SCROLL_LANDING_FAIL_NO_NEWLY_VISIBLE = 1;
-
-  /** A scroll landing gave up: the item the swipe aimed at was in the order but never showed. */
-  public static final int SCROLL_LANDING_FAIL_PREFER_NEVER_VISIBLE = 2;
-
-  /** A scroll landing gave up: the window the scroll was fired in is gone. */
-  public static final int SCROLL_LANDING_FAIL_WINDOW_GONE = 3;
-
-  /** Names of the landing failure reasons above, for the statistics display. */
-  private static final String[] SCROLL_LANDING_FAIL_NAMES = {
-    "no post-scroll order", "no newly visible item", "preferred item never showed", "window gone"
-  };
-
-  /** Scroll landings given up on, by the reason they were given up on. */
-  private final long[] scrollLandingsFailed = new long[SCROLL_LANDING_FAIL_NAMES.length];
-
   /** Scrolls the app itself refused: the scroll action came back false. */
   private long scrollFiredAppRefused;
 
   /** Scrolls that never fired: no node in the window could scroll in the swipe's direction. */
   private long scrollNoScrollableNode;
-
-  /** Scrolls that fired and changed nothing at all within the no-effect window. */
-  private long scrollNoEffect;
-
-  /** Scrolls retried once on the next scrollable ancestor after the first changed nothing. */
-  private long scrollRetriedOnNextAncestor;
-
-  /** Scroll landings abandoned because a newer scroll superseded them. */
-  private long scrollLandingsSuperseded;
-
-  /** Landing tries offered an order published before the scroll, and refused it. */
-  private long scrollLandingPreScrollOrderReads;
 
   /** Swipes the fast navigator was asked to answer with the focus inside web content. */
   private long webSwipes;
@@ -439,18 +381,15 @@ public class Performance {
   /** The fast navigator could not move the focus at all: no order could be had or built. */
   public static final int FAST_NAV_STUCK_NO_ORDER = 1;
 
-  /** The fast navigator scrolled, and nothing new landed to focus. */
-  public static final int FAST_NAV_STUCK_SCROLL_NO_LANDING = 2;
-
   /** Every target the order offered in the swipe's direction was dead. */
-  public static final int FAST_NAV_STUCK_ALL_TARGETS_DEAD = 3;
+  public static final int FAST_NAV_STUCK_ALL_TARGETS_DEAD = 2;
 
   /** The one focus action the fast navigator fired did not land. */
-  public static final int FAST_NAV_STUCK_FOCUS_ACTION_FAILED = 4;
+  public static final int FAST_NAV_STUCK_FOCUS_ACTION_FAILED = 3;
 
   /** Names of the stuck reasons above, for the statistics display. */
   private static final String[] FAST_NAV_STUCK_NAMES = {
-    "no pivot", "no order", "scroll landed nothing", "all targets dead", "focus action failed"
+    "no pivot", "no order", "all targets dead", "focus action failed"
   };
 
   /** Swipes the fast navigator could not move at all, by reason. */
@@ -2473,68 +2412,6 @@ public class Performance {
     }
   }
 
-  /** Counts one scroll landing settled, by the kind of try that settled it. */
-  public void onScrollLandingSettled(boolean byEvent) {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      if (byEvent) {
-        scrollLandingsByEvent++;
-      } else {
-        scrollLandingsByBackstop++;
-      }
-    }
-  }
-
-  public long getScrollLandingsByEventCount() {
-    synchronized (lockLabelToStats) {
-      return scrollLandingsByEvent;
-    }
-  }
-
-  public long getScrollLandingsByBackstopCount() {
-    synchronized (lockLabelToStats) {
-      return scrollLandingsByBackstop;
-    }
-  }
-
-  /** Counts one scroll landing settled, by the source that settled it. */
-  public void onScrollLandingSettledSource(int source) {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      if (source >= 0 && source < scrollLandingsBySource.length) {
-        scrollLandingsBySource[source]++;
-      }
-    }
-  }
-
-  public long getScrollLandingsBySourceCount(int source) {
-    synchronized (lockLabelToStats) {
-      return scrollLandingsBySource[source];
-    }
-  }
-
-  /** Counts one scroll landing given up on, and the reason it was given up on. */
-  public void onScrollLandingFailed(int reason) {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      if (reason >= 0 && reason < scrollLandingsFailed.length) {
-        scrollLandingsFailed[reason]++;
-      }
-    }
-  }
-
-  public long getScrollLandingsFailedCount(int reason) {
-    synchronized (lockLabelToStats) {
-      return scrollLandingsFailed[reason];
-    }
-  }
-
   /** Counts one scroll the app refused: its scroll action came back false. */
   public void onScrollFiredAppRefused() {
     if (!computeStatsEnabled) {
@@ -2564,70 +2441,6 @@ public class Performance {
   public long getScrollNoScrollableNodeCount() {
     synchronized (lockLabelToStats) {
       return scrollNoScrollableNode;
-    }
-  }
-
-  /** Counts one scroll that fired and changed nothing at all within the no-effect window. */
-  public void onScrollNoEffect() {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      scrollNoEffect++;
-    }
-  }
-
-  public long getScrollNoEffectCount() {
-    synchronized (lockLabelToStats) {
-      return scrollNoEffect;
-    }
-  }
-
-  /** Counts one scroll retried on the next scrollable ancestor after changing nothing. */
-  public void onScrollRetriedOnNextAncestor() {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      scrollRetriedOnNextAncestor++;
-    }
-  }
-
-  public long getScrollRetriedOnNextAncestorCount() {
-    synchronized (lockLabelToStats) {
-      return scrollRetriedOnNextAncestor;
-    }
-  }
-
-  /** Counts one scroll landing abandoned because a newer scroll superseded it. */
-  public void onScrollLandingSuperseded() {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      scrollLandingsSuperseded++;
-    }
-  }
-
-  public long getScrollLandingsSupersededCount() {
-    synchronized (lockLabelToStats) {
-      return scrollLandingsSuperseded;
-    }
-  }
-
-  /** Counts one landing try that was offered an order published before its scroll, and refused it. */
-  public void onScrollLandingPreScrollOrderRead() {
-    if (!computeStatsEnabled) {
-      return;
-    }
-    synchronized (lockLabelToStats) {
-      scrollLandingPreScrollOrderReads++;
-    }
-  }
-
-  public long getScrollLandingPreScrollOrderReadsCount() {
-    synchronized (lockLabelToStats) {
-      return scrollLandingPreScrollOrderReads;
     }
   }
 
@@ -2988,69 +2801,10 @@ public class Performance {
                 + " %d answered by exiting to a native element)",
             webSwipes, webDelegations, webPageRefusals, webNativeExits);
       }
-      if (scrollLandingsByEvent + scrollLandingsByBackstop > 0) {
+      if (scrollFiredAppRefused + scrollNoScrollableNode > 0) {
         logger.log(
-            "Scroll landings: %d settled by the first content change, %d by the timed"
-                + " backstop",
-            scrollLandingsByEvent, scrollLandingsByBackstop);
-      }
-      long landingsBySource = 0;
-      for (long settled : scrollLandingsBySource) {
-        landingsBySource += settled;
-      }
-      if (landingsBySource > 0) {
-        StringBuilder bySource = new StringBuilder();
-        for (int source = 0; source < SCROLL_LANDING_SOURCE_NAMES.length; source++) {
-          if (scrollLandingsBySource[source] == 0) {
-            continue;
-          }
-          if (bySource.length() > 0) {
-            bySource.append(", ");
-          }
-          bySource
-              .append(SCROLL_LANDING_SOURCE_NAMES[source])
-              .append(' ')
-              .append(scrollLandingsBySource[source]);
-        }
-        logger.log("Scroll landings by settle source: %s", bySource);
-      }
-      long landingsFailed = 0;
-      for (long failed : scrollLandingsFailed) {
-        landingsFailed += failed;
-      }
-      if (landingsFailed > 0) {
-        StringBuilder byReason = new StringBuilder();
-        for (int reason = 0; reason < SCROLL_LANDING_FAIL_NAMES.length; reason++) {
-          if (scrollLandingsFailed[reason] == 0) {
-            continue;
-          }
-          if (byReason.length() > 0) {
-            byReason.append(", ");
-          }
-          byReason
-              .append(SCROLL_LANDING_FAIL_NAMES[reason])
-              .append(' ')
-              .append(scrollLandingsFailed[reason]);
-        }
-        logger.log("Scroll landings given up: %s", byReason);
-      }
-      if (scrollFiredAppRefused
-              + scrollNoScrollableNode
-              + scrollNoEffect
-              + scrollRetriedOnNextAncestor
-              + scrollLandingsSuperseded
-              + scrollLandingPreScrollOrderReads
-          > 0) {
-        logger.log(
-            "Scroll troubles: app refused %d, no scrollable node %d, no effect %d, retried on"
-                + " the next ancestor %d, landings superseded %d, landing tries refused a"
-                + " pre-scroll order %d",
-            scrollFiredAppRefused,
-            scrollNoScrollableNode,
-            scrollNoEffect,
-            scrollRetriedOnNextAncestor,
-            scrollLandingsSuperseded,
-            scrollLandingPreScrollOrderReads);
+            "Scroll troubles: app refused %d, no scrollable node %d",
+            scrollFiredAppRefused, scrollNoScrollableNode);
       }
       if (leanOrderBuilds + leanOrderBuildFallbacks > 0) {
         logger.log(
@@ -3091,16 +2845,8 @@ public class Performance {
       listenerBuildsCoalesced = 0;
       backgroundBuildsDeferredDuringBurst = 0;
       fastNavigationsHandled = 0;
-      scrollLandingsByEvent = 0;
-      scrollLandingsByBackstop = 0;
-      Arrays.fill(scrollLandingsBySource, 0);
-      Arrays.fill(scrollLandingsFailed, 0);
       scrollFiredAppRefused = 0;
       scrollNoScrollableNode = 0;
-      scrollNoEffect = 0;
-      scrollRetriedOnNextAncestor = 0;
-      scrollLandingsSuperseded = 0;
-      scrollLandingPreScrollOrderReads = 0;
       webSwipes = 0;
       webDelegations = 0;
       webPageRefusals = 0;

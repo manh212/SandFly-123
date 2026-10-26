@@ -1137,14 +1137,6 @@ public class TalkBackService extends AccessibilityServiceCompat
           getPackageName(),
           Performance.ORDER_BUILD_SOURCE_EVENT_CLEAR);
     }
-    if (fastNavigator != null
-        && (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
-            || eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED)) {
-      // A scroll the fast navigator fired may be waiting on exactly this change to land its
-      // item; it is told after the order cache has had the event, so the order it reads is
-      // the one the change left behind.
-      fastNavigator.onWindowContentChanged(event.getWindowId());
-    }
     PreparedFocusSpeech.onAccessibilityEvent(event);
     if (directTouchController != null) {
       directTouchController.onAccessibilityEvent(event);

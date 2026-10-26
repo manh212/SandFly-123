@@ -458,19 +458,8 @@ object TraversalTreeCache {
    */
   @Volatile private var generation = 0L
 
-  /**
-   * The [generation] the saved order was published under: the value the counter stood at when
-   * the order landed here. A reader that must only trust orders published after some moment —
-   * a scroll landing, whose scroll moved the window on — compares this against the counter's
-   * value at that moment. -1 while no order is saved.
-   */
-  @Volatile private var savedGeneration = -1L
-
   /** The current order generation; see [generation]. */
   @JvmStatic fun orderGeneration(): Long = generation
-
-  /** The generation the saved order was published under, or -1 while none is saved. */
-  @JvmStatic fun savedOrderGeneration(): Long = savedGeneration
 
   /** The window the newest background build was asked for, or [NO_WINDOW_ID] before any. */
   @Volatile private var snapshotBuildWindowId = NO_WINDOW_ID
@@ -524,15 +513,6 @@ object TraversalTreeCache {
   @JvmStatic
   fun holds(node: AccessibilityNodeInfoCompat): Boolean =
     synchronized(stateLock) { strategy }?.containsNode(node) == true
-
-  /**
-   * The root the saved order was read from, when it belongs to [windowId]: the freshest root
-   * of that window this cache knows, for a reader that must start from the window itself
-   * rather than from any node in it — a scroll landing, whose item nodes may be gone.
-   */
-  @JvmStatic
-  fun rootOfSavedOrder(windowId: Int): AccessibilityNodeInfoCompat? =
-    synchronized(stateLock) { root }?.takeIf { it.windowId == windowId }
 
   /**
    * Whether any order is saved at all. A touch that begins while none is saved is the first
@@ -739,7 +719,6 @@ object TraversalTreeCache {
   fun put(root: AccessibilityNodeInfoCompat, strategy: OrderedTraversalStrategy) {
     synchronized(stateLock) {
       generation++
-      savedGeneration = generation
       this.root = root
       this.strategy = strategy
       staleRoot = null
@@ -768,7 +747,6 @@ object TraversalTreeCache {
     val clearedWindowId =
       synchronized(stateLock) {
         generation++
-        savedGeneration = -1L
         invalidations++
         val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
         root = null
@@ -797,7 +775,6 @@ object TraversalTreeCache {
     val clearedWindowId =
       synchronized(stateLock) {
         generation++
-        savedGeneration = -1L
         invalidations++
         val windowId = root?.windowId ?: staleRoot?.windowId ?: NO_WINDOW_ID
         if (strategy != null) {
@@ -901,7 +878,6 @@ object TraversalTreeCache {
       }
       this.root = root
       this.strategy = strategy
-      savedGeneration = generation
       staleRoot = null
       staleStrategy = null
       resetStructuralChanges()
@@ -931,7 +907,6 @@ object TraversalTreeCache {
     synchronized(stateLock) {
       this.root = root
       this.strategy = strategy
-      savedGeneration = generation
       staleRoot = null
       staleStrategy = null
       resetStructuralChanges()

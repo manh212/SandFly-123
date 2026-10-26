@@ -51,7 +51,6 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.BooleanSupplier;
-import java.util.function.Predicate;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -68,8 +67,9 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  * when the event comes back, as it does for any focus set this way.
  *
  * <p>Nothing is handed back when a swipe is hard. An order that has not landed yet is built on
- * the spot; an end of the order scrolls from here and lands on the first new item; a target
- * that died is replaced by the nearest living one in the swipe's direction; a swipe in web
+ * the spot; an end of the order scrolls the window from here, on its live tree, and leaves
+ * where the focus goes next to the app; a target that died is replaced by the nearest
+ * living one in the swipe's direction; a swipe in web
  * content is delegated to the page itself, which owns its elements and their order, and only
  * the reading controls the page cannot serve are read in this navigator's own web-inclusive
  * order. A swipe that truly cannot move is counted by its reason, and answered with the
@@ -78,52 +78,6 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class FastNavigator {
 
   private static final String TAG = "FastNavigator";
-
-  /**
-   * How long a scroll's window must stay quiet before its landing is tried: a pager's snap,
-   * the new page attaching, and its rebinding all send changes, and a try that runs while
-   * they are still arriving reads a tree mid-flight. Every change in the window starts this
-   * quiet window over, so the try runs on the tree as it stands once the changes stop.
-   */
-  private static final long SCROLL_LANDING_SETTLE_QUIET_MS = 150;
-
-  /**
-   * The longest a scroll's landing may take, all in. Past it, the landing falls back to
-   * position alone and then gives up loudly: a feed page has either landed by then or is
-   * churning without settling, and more waiting only delays the edge answer.
-   */
-  private static final long SCROLL_LANDING_DEADLINE_MS = 1200;
-
-  /**
-   * How long a fired scroll may change nothing at all before it is counted as having no
-   * effect: a scroll the app accepted but did not act on (or fired at a list already at its
-   * end) brings no change event, so silence past this is itself the evidence.
-   */
-  private static final long SCROLL_NO_EFFECT_WINDOW_MS = 200;
-
-  /** The closest together two landing tries for one scroll may run. */
-  private static final long SCROLL_LANDING_MIN_TRY_SPACING_MS = 50;
-
-  /** How often a waiting landing re-checks for the order its background build owes it. */
-  private static final long SCROLL_LANDING_POLL_MS = 150;
-
-  /**
-   * The quiet an early landing try asks for — far shorter than the settle quiet: an early
-   * try runs while the window may still be changing (a playing page changes without end),
-   * so it is allowed only once this much quiet has passed, and it may land only on a target
-   * that is unambiguous on the tree as it stands — the item the swipe aimed at, showing, or
-   * an item newly on screen. Anything less clear waits for the full settle or the deadline.
-   */
-  private static final long SCROLL_LANDING_EARLY_QUIET_MS = 50;
-
-  /**
-   * How long a scroll must have been waiting before an early try is allowed at all: a
-   * pager's snap takes about this long, and a try before it reads the page still turning.
-   */
-  private static final long SCROLL_LANDING_EARLY_MIN_ELAPSED_MS = 250;
-
-  /** How many focus fires one landing try may spend before it waits for a fresher tree. */
-  private static final int SCROLL_LANDING_MAX_FIRES_PER_TRY = 3;
 
   /**
    * A scrollable ancestor tall enough, against the outermost scrollable ancestor's height,
@@ -178,114 +132,6 @@ public class FastNavigator {
   private @Nullable OrderedTraversalStrategy webOrder;
   private int webOrderWindowId = -1;
   private long webOrderInvalidations = -1;
-
-  /** A scroll this navigator fired, still waiting for the item it was fired for. */
-  private @Nullable PendingScrollLanding pendingScrollLanding;
-  private final Runnable scrollLandingTask = this::runScrollLanding;
-
-  /**
-   * When the landing's next check is due, by the uptime clock; zero when none is scheduled.
-   * Kept so a change in the landing's window can ask for a check without ever pushing the
-   * one already due later — a window that changes without pause (a playing video page)
-   * would otherwise postpone the check, and with it the landing deadline the check exists
-   * to enforce, forever.
-   */
-  private long scrollLandingCheckDueMs;
-
-  /** One item on screen when a scroll was fired: the node, and where it stood. */
-  private static final class VisibleItem {
-    final AccessibilityNodeInfoCompat node;
-    final Rect bounds;
-
-    VisibleItem(AccessibilityNodeInfoCompat node, Rect bounds) {
-      this.node = node;
-      this.bounds = bounds;
-    }
-  }
-
-  /**
-   * A scroll fired for a swipe, and what landing from it takes. The landing is anchored on
-   * the window and on position — the live root of the window and a picture of what was on
-   * screen when the scroll fired — never on an item node: a pager recycles or detaches its
-   * items as the page turns, and an anchor on one of them points at a detached fragment by
-   * the time the landing runs.
-   */
-  private static final class PendingScrollLanding {
-    final NavigationAction action;
-    final boolean forward;
-    final @Nullable AccessibilityNodeInfoCompat preferNode;
-    final List<AccessibilityNodeInfoCompat> oldSpeaking;
-    final @Nullable EventId eventId;
-    /** The window the scroll was fired in; content changes elsewhere are not its landing. */
-    final int windowId;
-    /** The window's root as the scroll fired, re-read live at every try. */
-    final @Nullable AccessibilityNodeInfoCompat rootHint;
-    /** What was on screen when the scroll fired: the landing's picture of "before". */
-    final List<VisibleItem> visibleBefore;
-    /** The scrollable ancestors the scroll may fire on, best first; see the no-effect retry. */
-    final List<AccessibilityNodeInfoCompat> scrollCandidates;
-    /** Which of {@link #scrollCandidates} the scroll last fired on. */
-    int scrollCandidateIndex;
-    /** The order generation when the scroll fired; only orders published after it may land it. */
-    long generationAtScroll;
-    /** When the scroll was fired, by the uptime clock; restarted by the no-effect retry. */
-    long startedAtMs;
-    /** Whether any change in the window has been seen since the scroll fired. */
-    boolean changeSeen;
-    /** When the window last changed, by the uptime clock. */
-    long lastChangeMs;
-    /** Whether the silence after firing has already been judged for effect once. */
-    boolean noEffectHandled;
-    /** Whether the one no-effect retry, on the next scrollable ancestor, has been spent. */
-    boolean noEffectRetried;
-    /** The generation the last try ran against; a try needs a newer one, or the deadline. */
-    long lastTryGeneration = -1;
-    /** The saved order's generation at the last try; a build landing moves this, not the above. */
-    long lastTrySavedGeneration = -1;
-    /** When the last try ran, by the uptime clock. */
-    long lastTryMs;
-    /** How many tries have run for this scroll. */
-    int tries;
-    /** How many times the window has gone quiet and been tried since the scroll fired. */
-    int settleCloses;
-    /** Whether a background build has been asked for this landing's post-scroll order. */
-    boolean backgroundBuildAsked;
-    /** Whether this landing's one on-the-spot build has been spent. */
-    boolean onTheSpotBuildUsed;
-    /** Whether any try ever read an order published after the scroll. */
-    boolean usableOrderSeen;
-    /** Whether the item the swipe aimed at was seen in a post-scroll order. */
-    boolean preferSeenInOrder;
-    /** The newest pre-scroll generation this landing has already counted refusing. */
-    long preScrollGenerationCounted = Long.MIN_VALUE;
-    /** Whether the window this scroll was fired in proved gone at a try. */
-    boolean windowGone;
-
-    PendingScrollLanding(
-        NavigationAction action,
-        boolean forward,
-        @Nullable AccessibilityNodeInfoCompat preferNode,
-        List<AccessibilityNodeInfoCompat> oldSpeaking,
-        @Nullable EventId eventId,
-        int windowId,
-        @Nullable AccessibilityNodeInfoCompat rootHint,
-        List<VisibleItem> visibleBefore,
-        List<AccessibilityNodeInfoCompat> scrollCandidates,
-        long generationAtScroll,
-        long startedAtMs) {
-      this.action = action;
-      this.forward = forward;
-      this.preferNode = preferNode;
-      this.oldSpeaking = oldSpeaking;
-      this.eventId = eventId;
-      this.windowId = windowId;
-      this.rootHint = rootHint;
-      this.visibleBefore = visibleBefore;
-      this.scrollCandidates = scrollCandidates;
-      this.generationAtScroll = generationAtScroll;
-      this.startedAtMs = startedAtMs;
-    }
-  }
 
   public FastNavigator(
       AccessibilityService service,
@@ -615,8 +461,7 @@ public class FastNavigator {
         continue;
       }
       if (!candidate.isVisibleToUser()) {
-        List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
-        if (scrollFor(action, container, forward, candidate, speaking, eventId, fullOrder)) {
+        if (scrollFor(action, container, forward, candidate)) {
           performance.onWebNativeExit();
           return true;
         }
@@ -698,12 +543,12 @@ public class FastNavigator {
       }
       if (!candidate.isVisibleToUser() && !WebInterfaceUtils.supportsWebActions(candidate)) {
         // In the order but not on screen: the swipe has run ahead of the window's drawing.
-        // Scrolling from here is this navigator's own work, and the item is landed on when
-        // the scroll brings it in. A web element is never detoured this way: most of a page
-        // is off screen by nature, and firing focus on the element lets the page scroll it
-        // into view itself, as a web element may be focused unseen.
-        List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
-        if (scrollFor(action, pivot, forward, candidate, speaking, eventId, fullOrder)) {
+        // Scrolling from here is this navigator's own work: the scroll fires on the
+        // window's live tree and the app brings the item in. A web element is never
+        // detoured this way: most of a page is off screen by nature, and firing focus on
+        // the element lets the page scroll it into view itself, as a web element may be
+        // focused unseen.
+        if (scrollFor(action, pivot, forward, candidate)) {
           return true;
         }
         // The scroll this swipe needed could not be fired at all. Stepping on to another
@@ -756,7 +601,7 @@ public class FastNavigator {
     List<AccessibilityNodeInfoCompat> speaking = speakingList(fullOrder, filter);
     if (action.shouldScroll
         && !scrollFailed
-        && scrollFor(action, pivot, forward, null, speaking, eventId, fullOrder)) {
+        && scrollFor(action, pivot, forward, null)) {
       return true;
     }
     if (action.shouldWrap && FocusProcessorForLogicalNavigation.isWrapAroundEnabled()) {
@@ -784,120 +629,150 @@ public class FastNavigator {
   }
 
   /**
-   * Scrolls the window from here, in the swipe's direction, and arms the landing: when the
-   * content the scroll brings has settled, the first newly visible item in the direction is
-   * focused — or {@code preferNode}, the item the swipe was already aimed at, once it shows.
-   * The scroll fires on the window's own scroller (see {@link #orderScrollCandidates}), and
-   * the landing remembers every candidate: a scroll that changes nothing is retried once on
-   * the next candidate before it is given up on.
+   * Scrolls the window from here, in the swipe's direction — on the window's live tree,
+   * the way the navigation this replaces always scrolled: the scroller is looked up at the
+   * moment of the swipe, in the tree the service hands out now, never in a saved copy of
+   * it, and never by climbing a remembered item's parent chain — a pager recycles or
+   * detaches its items as the page turns, and a chain that ends at a torn-off fragment
+   * offers nothing, though the window's scroller stands in the live tree all along.
    *
-   * <p>The candidates are the scrollable ancestors of the pivot — and of the aimed item,
-   * when the pivot's own chain offers none. Both chains are walked on nodes read earlier,
-   * and a pager recycles or detaches its items as the page turns: a chain that ends at a
-   * torn-off fragment offers nothing, though the window's scroller stands in the order the
-   * swipe is walking. So when both chains come up empty, the window's own nodes are
-   * searched ({@link #scrollableInWindow}) before the swipe is given up on. And a candidate
-   * that refuses the scroll does not end the swipe either: with nested pagers the first
-   * candidate is often the wrong one of the two, so the fire steps on to the next candidate
-   * — the same stepping the landing's no-effect retry does later — and only a refusal by
-   * every candidate is a refusal of the swipe.
+   * <p>The scroll is the whole of the answer. Where the focus goes once the content has
+   * moved is the app's to decide and the standard event pipeline's to announce, as it was
+   * before this navigator existed: nothing here waits for the content to settle, aims at
+   * an item, or fires a focus of its own after the scroll.
+   *
+   * <p>The candidates come from the live counterparts of the item the swipe aimed at and
+   * of the focused item, resolved in the fresh tree (see {@link #liveScrollCandidates}),
+   * and are fired on in the order {@link #orderScrollCandidates} gives — the window's own
+   * scroller first. A candidate that refuses the scroll does not end the swipe: with
+   * nested pagers the first candidate is often the wrong one of the two, so the fire steps
+   * on to the next candidate, and only a refusal by every candidate is a refusal of the
+   * swipe.
    */
   private boolean scrollFor(
       NavigationAction action,
       AccessibilityNodeInfoCompat pivot,
       boolean forward,
-      @Nullable AccessibilityNodeInfoCompat preferNode,
-      List<AccessibilityNodeInfoCompat> oldSpeaking,
-      @Nullable EventId eventId,
-      List<AccessibilityNodeInfoCompat> windowNodes) {
+      @Nullable AccessibilityNodeInfoCompat preferNode) {
     long seekStart = SystemClock.uptimeMillis();
-    List<AccessibilityNodeInfoCompat> candidates = scrollableAncestors(pivot, forward);
-    if (candidates.isEmpty() && preferNode != null) {
-      candidates = scrollableAncestors(preferNode, forward);
-    }
-    if (candidates.isEmpty()) {
-      candidates = scrollableInWindow(windowNodes, pivot.getWindowId(), forward);
-    }
-    List<AccessibilityNodeInfoCompat> ordered = orderScrollCandidates(candidates);
+    List<AccessibilityNodeInfoCompat> ordered =
+        orderScrollCandidates(liveScrollCandidates(pivot, preferNode, forward));
     recordSegment("fast nav scroll seek", seekStart);
     if (ordered.isEmpty()) {
       Performance.getInstance().onScrollNoScrollableNode();
       return false;
     }
-    AccessibilityNodeInfoCompat rootHint = TraversalTreeCache.rootFor(pivot);
-    if (rootHint == null) {
-      rootHint = rootOf(pivot);
-    }
-    List<VisibleItem> visibleBefore = visibleSnapshot(oldSpeaking);
-    long generationAtScroll = TraversalTreeCache.orderGeneration();
-    int firedIndex = -1;
-    for (int i = 0; i < ordered.size(); i++) {
-      if (fireScrollAction(ordered.get(i), forward)) {
-        firedIndex = i;
-        break;
+    for (AccessibilityNodeInfoCompat candidate : ordered) {
+      if (fireScrollAction(candidate, forward)) {
+        Performance.getInstance()
+            .onFastNavigationHardCase(Performance.FAST_NAV_HARD_SELF_SCROLL);
+        Performance.getInstance().onFastNavigationHandled();
+        return true;
       }
       Performance.getInstance().onScrollFiredAppRefused();
     }
-    if (firedIndex < 0) {
-      return false;
-    }
-    Performance.getInstance().onFastNavigationHardCase(Performance.FAST_NAV_HARD_SELF_SCROLL);
-    Performance.getInstance().onFastNavigationHandled();
-    if (pendingScrollLanding != null) {
-      Performance.getInstance().onScrollLandingSuperseded();
-    }
-    handler.removeCallbacks(scrollLandingTask);
-    scrollLandingCheckDueMs = 0;
-    PendingScrollLanding landing =
-        new PendingScrollLanding(
-            action,
-            forward,
-            preferNode,
-            oldSpeaking,
-            eventId,
-            pivot.getWindowId(),
-            rootHint,
-            visibleBefore,
-            ordered,
-            generationAtScroll,
-            SystemClock.uptimeMillis());
-    landing.scrollCandidateIndex = firedIndex;
-    pendingScrollLanding = landing;
-    scheduleScrollLandingCheck(SCROLL_NO_EFFECT_WINDOW_MS);
-    return true;
+    return false;
   }
 
   /**
-   * The scrollable nodes of one window, searched in the order the swipe is walking when no
-   * ancestor chain offers a scroller: the window's pager is a node of its own order whether
-   * or not the focused item still hangs under it. Handed to {@link #orderScrollCandidates}
-   * smallest first, so the largest stands last, where that ordering reads the outermost
-   * candidate for its page-level measure — a flat search has no nearness of its own.
+   * The scroll candidates of this swipe, nearest first, read from the window's live tree:
+   * the scrollable ancestors of the live counterpart of the item the swipe aimed at — its
+   * scroller is the one that brings it on screen, the way the navigation this replaces
+   * scrolled for a target it could not show — then of the focused item's live counterpart.
+   * A counterpart the window has dropped offers nothing, and the other chain, or the tree
+   * itself, answers instead. When neither chain offers a scroller, every scrollable node
+   * of the tree is offered, smallest first, so the largest stands last, where {@link
+   * #orderScrollCandidates} reads the outermost candidate for its page-level measure — a
+   * flat search has no nearness of its own.
    */
-  private static List<AccessibilityNodeInfoCompat> scrollableInWindow(
-      List<AccessibilityNodeInfoCompat> windowNodes, int windowId, boolean forward) {
-    int scrollAction =
-        forward
-            ? AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD
-            : AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD;
-    List<AccessibilityNodeInfoCompat> found = new ArrayList<>();
-    for (AccessibilityNodeInfoCompat node : windowNodes) {
-      if (node.getWindowId() == windowId
-          && isScrollableFor(node, scrollAction)
-          && !found.contains(node)) {
-        found.add(node);
+  private List<AccessibilityNodeInfoCompat> liveScrollCandidates(
+      AccessibilityNodeInfoCompat pivot,
+      @Nullable AccessibilityNodeInfoCompat preferNode,
+      boolean forward) {
+    List<AccessibilityNodeInfoCompat> nearestFirst = new ArrayList<>();
+    AccessibilityNodeInfoCompat root = liveRootOfWindow(pivot.getWindowId());
+    if (root == null) {
+      return nearestFirst;
+    }
+    if (preferNode != null) {
+      AccessibilityNodeInfoCompat livePrefer = findInLiveTree(root, preferNode);
+      if (livePrefer != null) {
+        addScrollCandidates(nearestFirst, scrollableAncestors(livePrefer, forward));
       }
     }
-    found.sort(
-        (a, b) -> {
-          Rect boundsA = new Rect();
-          a.getBoundsInScreen(boundsA);
-          Rect boundsB = new Rect();
-          b.getBoundsInScreen(boundsB);
-          return Integer.compare(
-              boundsA.width() * boundsA.height(), boundsB.width() * boundsB.height());
-        });
-    return found;
+    AccessibilityNodeInfoCompat livePivot = findInLiveTree(root, pivot);
+    if (livePivot != null) {
+      addScrollCandidates(nearestFirst, scrollableAncestors(livePivot, forward));
+    }
+    if (nearestFirst.isEmpty()) {
+      List<AccessibilityNodeInfoCompat> inTree = new ArrayList<>();
+      collectScrollables(
+          root,
+          forward
+              ? AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD
+              : AccessibilityNodeInfoCompat.ACTION_SCROLL_BACKWARD,
+          inTree);
+      inTree.sort(
+          (a, b) -> {
+            Rect boundsA = new Rect();
+            a.getBoundsInScreen(boundsA);
+            Rect boundsB = new Rect();
+            b.getBoundsInScreen(boundsB);
+            return Integer.compare(
+                boundsA.width() * boundsA.height(), boundsB.width() * boundsB.height());
+          });
+      nearestFirst.addAll(inTree);
+    }
+    return nearestFirst;
+  }
+
+  /** Adds {@code candidates} to {@code into}, skipping any it already holds. */
+  private static void addScrollCandidates(
+      List<AccessibilityNodeInfoCompat> into, List<AccessibilityNodeInfoCompat> candidates) {
+    for (AccessibilityNodeInfoCompat candidate : candidates) {
+      if (!into.contains(candidate)) {
+        into.add(candidate);
+      }
+    }
+  }
+
+  /**
+   * The node of the live tree {@code root} that is {@code node}, or null when the window
+   * has dropped it: the fresh handle the scroll's lookups run on, where the remembered
+   * node's own chain may already end at a detached fragment.
+   */
+  private static @Nullable AccessibilityNodeInfoCompat findInLiveTree(
+      AccessibilityNodeInfoCompat root, AccessibilityNodeInfoCompat node) {
+    if (root.equals(node)) {
+      return root;
+    }
+    for (int i = 0; i < root.getChildCount(); i++) {
+      AccessibilityNodeInfoCompat child = root.getChild(i);
+      if (child == null) {
+        continue;
+      }
+      AccessibilityNodeInfoCompat found = findInLiveTree(child, node);
+      if (found != null) {
+        return found;
+      }
+    }
+    return null;
+  }
+
+  /** Every node of the live tree under {@code node} that can scroll {@code scrollAction}. */
+  private static void collectScrollables(
+      AccessibilityNodeInfoCompat node,
+      int scrollAction,
+      List<AccessibilityNodeInfoCompat> out) {
+    if (isScrollableFor(node, scrollAction)) {
+      out.add(node);
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      AccessibilityNodeInfoCompat child = node.getChild(i);
+      if (child != null) {
+        collectScrollables(child, scrollAction, out);
+      }
+    }
   }
 
   /** Whether {@code node} can scroll in the direction {@code scrollAction} names. */
@@ -914,22 +789,6 @@ public class FastNavigator {
     return false;
   }
 
-  /**
-   * Schedules the landing's next check {@code delayMs} out — unless a check is already due
-   * sooner, which stands: a check may be asked for earlier, never pushed later. The
-   * landing's deadline is judged inside the check, so a window changing faster than the
-   * settle quiet must not be able to starve the check itself.
-   */
-  private void scheduleScrollLandingCheck(long delayMs) {
-    long due = SystemClock.uptimeMillis() + delayMs;
-    if (scrollLandingCheckDueMs > 0 && scrollLandingCheckDueMs <= due) {
-      return;
-    }
-    handler.removeCallbacks(scrollLandingTask);
-    handler.postDelayed(scrollLandingTask, delayMs);
-    scrollLandingCheckDueMs = due;
-  }
-
   /** Fires one scroll action on {@code scrollable}, timed as its own swipe segment. */
   private boolean fireScrollAction(AccessibilityNodeInfoCompat scrollable, boolean forward) {
     int scrollAction =
@@ -942,458 +801,13 @@ public class FastNavigator {
     return fired;
   }
 
-  /** The items of {@code speaking} on screen right now, with where each of them stands. */
-  private static List<VisibleItem> visibleSnapshot(
-      List<AccessibilityNodeInfoCompat> speaking) {
-    List<VisibleItem> snapshot = new ArrayList<>();
-    for (AccessibilityNodeInfoCompat node : speaking) {
-      if (node.isVisibleToUser()) {
-        Rect bounds = new Rect();
-        node.getBoundsInScreen(bounds);
-        snapshot.add(new VisibleItem(node, bounds));
-      }
-    }
-    return snapshot;
-  }
-
   /**
-   * Tells the navigator that the content of {@code windowId} changed. The service calls this
-   * for content changes and scroll events, after the order cache has had the event. A scroll
-   * this navigator fired may be waiting to land in that window: the change is not tried as
-   * its landing at once — a pager's snap sends its changes while the page is still moving —
-   * but starts the landing's quiet window over, and the landing is tried once the window has
-   * been quiet for {@link #SCROLL_LANDING_SETTLE_QUIET_MS}.
+   * The root of the window {@code windowId} as the service has it now: the fresh tree of
+   * the window, read at the moment it is asked for — the tree a scroll looks its scroller
+   * up in, where a remembered item's broken parent chain cannot strand the lookup. Falls
+   * back to the active window's root when it is this window. Null when the window is gone.
    */
-  public void onWindowContentChanged(int windowId) {
-    PendingScrollLanding landing = pendingScrollLanding;
-    if (landing == null || landing.windowId != windowId) {
-      return;
-    }
-    landing.changeSeen = true;
-    landing.lastChangeMs = SystemClock.uptimeMillis();
-    // The check is asked for a settle quiet out — but never past the landing's deadline:
-    // a window that keeps changing (a playing page) would otherwise hold the check off
-    // indefinitely, and the deadline it exists to enforce would never be reached.
-    long untilDeadline =
-        landing.startedAtMs + SCROLL_LANDING_DEADLINE_MS - landing.lastChangeMs;
-    scheduleScrollLandingCheck(
-        Math.min(SCROLL_LANDING_SETTLE_QUIET_MS, Math.max(0, untilDeadline)));
-  }
-
-  /**
-   * The landing's one scheduled check, re-armed by every change in its window and by itself:
-   * it judges the silence after firing (a scroll that changed nothing is retried once, on
-   * the next scrollable ancestor), tries the landing once the window has gone quiet on a
-   * tree newer than the last try, and at the deadline spends the landing's one on-the-spot
-   * build, then its positional fallback, before giving up loudly.
-   *
-   * <p>A window that never goes quiet — a playing page sends content changes without end —
-   * is not waited on for the full quiet when its answer is already clear: once the scroll
-   * is {@link #SCROLL_LANDING_EARLY_MIN_ELAPSED_MS} old, a shorter quiet suffices for an
-   * early try, provided an order published after the scroll exists to read. An early try
-   * may land only on an unambiguous target (see {@link #tryScrollLanding}); a tree still in
-   * flight offers none, and the settle and deadline paths run as before.
-   */
-  private void runScrollLanding() {
-    PendingScrollLanding landing = pendingScrollLanding;
-    if (landing == null) {
-      return;
-    }
-    scrollLandingCheckDueMs = 0;
-    long now = SystemClock.uptimeMillis();
-    long elapsed = now - landing.startedAtMs;
-    if (!landing.changeSeen
-        && !landing.noEffectHandled
-        && TraversalTreeCache.orderGeneration() == landing.generationAtScroll
-        && elapsed >= SCROLL_NO_EFFECT_WINDOW_MS) {
-      // The scroll fired and the window did not move at all: the app accepted a scroll it
-      // did not act on, or the list was already at its end. Judged now, not at the deadline,
-      // so a true end of the content is answered as fast as it can be told from a slow one.
-      landing.noEffectHandled = true;
-      Performance.getInstance().onScrollNoEffect();
-      if (retryScrollOnNextCandidate(landing)) {
-        scheduleScrollLandingCheck(SCROLL_NO_EFFECT_WINDOW_MS);
-        return;
-      }
-      if (tryPositionalLanding(landing)) {
-        return;
-      }
-      giveUpScrollLanding(landing);
-      return;
-    }
-    boolean deadlineReached = elapsed >= SCROLL_LANDING_DEADLINE_MS;
-    boolean settled =
-        landing.changeSeen && now - landing.lastChangeMs >= SCROLL_LANDING_SETTLE_QUIET_MS;
-    // A try needs a tree it has not tried: the generation moving on says the tree changed,
-    // and the saved order's generation moving says a build landed — publishing does not move
-    // the generation itself, so the pair of them is the try's currency.
-    boolean generationNew =
-        TraversalTreeCache.orderGeneration() != landing.lastTryGeneration
-            || TraversalTreeCache.savedOrderGeneration() != landing.lastTrySavedGeneration;
-    boolean spacingKept = now - landing.lastTryMs >= SCROLL_LANDING_MIN_TRY_SPACING_MS;
-    boolean earlyTry =
-        !deadlineReached
-            && landing.changeSeen
-            && elapsed >= SCROLL_LANDING_EARLY_MIN_ELAPSED_MS
-            && now - landing.lastChangeMs >= SCROLL_LANDING_EARLY_QUIET_MS
-            && generationNew
-            && spacingKept
-            && TraversalTreeCache.savedOrderGeneration() > landing.generationAtScroll;
-    if ((settled && generationNew && spacingKept) || earlyTry || deadlineReached) {
-      if (settled) {
-        landing.settleCloses++;
-      }
-      boolean buildEligible =
-          landing.settleCloses >= 2 || deadlineReached || landing.tries >= 2;
-      if (tryScrollLanding(landing, buildEligible, /* early= */ earlyTry && !settled)) {
-        return;
-      }
-      if (landing.windowGone) {
-        giveUpScrollLanding(landing);
-        return;
-      }
-      landing.lastTryGeneration = TraversalTreeCache.orderGeneration();
-      landing.lastTrySavedGeneration = TraversalTreeCache.savedOrderGeneration();
-      landing.lastTryMs = now;
-      if (deadlineReached) {
-        if (tryPositionalLanding(landing)) {
-          return;
-        }
-        giveUpScrollLanding(landing);
-        return;
-      }
-    }
-    scheduleScrollLandingCheck(SCROLL_LANDING_POLL_MS);
-  }
-
-  /**
-   * Fires the landing's scroll once more, on the next scrollable ancestor: the first node
-   * accepted the scroll and nothing moved, so the scroll it wanted may live one level up —
-   * a small scroller inside an item can take a scroll meant for the page. The landing's
-   * clock and generation restart for the new firing; its picture of "before" stands, as the
-   * window has not changed. Returns whether a retry was fired.
-   */
-  private boolean retryScrollOnNextCandidate(PendingScrollLanding landing) {
-    int next = landing.scrollCandidateIndex + 1;
-    if (landing.noEffectRetried || next >= landing.scrollCandidates.size()) {
-      return false;
-    }
-    if (!fireScrollAction(landing.scrollCandidates.get(next), landing.forward)) {
-      Performance.getInstance().onScrollFiredAppRefused();
-      return false;
-    }
-    Performance.getInstance().onScrollRetriedOnNextAncestor();
-    Performance.getInstance().onFastNavigationHardCase(Performance.FAST_NAV_HARD_SELF_SCROLL);
-    landing.noEffectRetried = true;
-    landing.scrollCandidateIndex = next;
-    landing.startedAtMs = SystemClock.uptimeMillis();
-    landing.generationAtScroll = TraversalTreeCache.orderGeneration();
-    landing.noEffectHandled = false;
-    return true;
-  }
-
-  /** Gives up on a scroll's landing, counted loudly, and answers its swipe with the edge. */
-  private void giveUpScrollLanding(PendingScrollLanding landing) {
-    pendingScrollLanding = null;
-    handler.removeCallbacks(scrollLandingTask);
-    scrollLandingCheckDueMs = 0;
-    Performance performance = Performance.getInstance();
-    performance.recordSwipeSegment(
-        "scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
-    performance.recordSwipeSegment("scroll landing tries", landing.tries);
-    performance.onFastNavigationStuck(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING);
-    performance.onScrollLandingFailed(scrollLandingFailReason(landing));
-    announceEdge(landing.action, landing.forward, landing.eventId);
-  }
-
-  /** Why a landing that never landed is given up on, of the reasons the statistics keep. */
-  private static int scrollLandingFailReason(PendingScrollLanding landing) {
-    if (landing.windowGone) {
-      return Performance.SCROLL_LANDING_FAIL_WINDOW_GONE;
-    }
-    if (landing.preferNode != null && landing.preferSeenInOrder) {
-      return Performance.SCROLL_LANDING_FAIL_PREFER_NEVER_VISIBLE;
-    }
-    if (landing.noEffectHandled && !landing.changeSeen) {
-      // The scroll changed nothing at all: what failed to appear is a newly visible item.
-      return Performance.SCROLL_LANDING_FAIL_NO_NEWLY_VISIBLE;
-    }
-    if (!landing.usableOrderSeen) {
-      return Performance.SCROLL_LANDING_FAIL_NO_POST_SCROLL_ORDER;
-    }
-    return Performance.SCROLL_LANDING_FAIL_NO_NEWLY_VISIBLE;
-  }
-
-  /**
-   * The live root of the landing's window: the root of the order the cache currently saves
-   * for the window, else the root remembered when the scroll fired, else the active
-   * window's root when it is the landing's window — each re-read by {@code refresh()}, so a
-   * root the window has since dropped fails here. Null when the window is gone — its old
-   * items are never walked up for a root, as a detached item's parent chain ends at the
-   * fragment the pager tore off, not at the window.
-   */
-  private @Nullable AccessibilityNodeInfoCompat landingRoot(PendingScrollLanding landing) {
-    AccessibilityNodeInfoCompat saved = TraversalTreeCache.rootOfSavedOrder(landing.windowId);
-    if (saved != null && saved.refresh()) {
-      return saved;
-    }
-    AccessibilityNodeInfoCompat hint = landing.rootHint;
-    if (hint != null && hint.getWindowId() == landing.windowId && hint.refresh()) {
-      return hint;
-    }
-    AccessibilityNodeInfoCompat root =
-        AccessibilityServiceCompatUtils.getRootInActiveWindow(service);
-    if (root != null && root.getWindowId() == landing.windowId) {
-      return root;
-    }
-    return null;
-  }
-
-  /**
-   * One try at landing a scroll, on a tree that has gone quiet: reads the window's order —
-   * only one published after the scroll fired, so a mid-flight order the scroll's own first
-   * moments left behind can never be served back to it — and focuses the first item that is
-   * newly on screen in the scroll's direction, or the item the swipe aimed at, once it
-   * shows. With no post-scroll order to read, the first try asks for one in the background
-   * under the landing's own build source; a later try, when {@code buildEligible}, spends
-   * the landing's one on-the-spot build on the settled tree instead. An {@code early} try —
-   * one taken before the window has gone fully quiet — reads the same order but may land
-   * only on an unambiguous target, never on the positional safety net. Returns whether the
-   * landing is settled, having focused its item.
-   */
-  private boolean tryScrollLanding(
-      PendingScrollLanding landing, boolean buildEligible, boolean early) {
-    landing.tries++;
-    AccessibilityNodeInfoCompat root = landingRoot(landing);
-    if (root == null) {
-      landing.windowGone = true;
-      return false;
-    }
-    OrderedTraversalStrategy order = postScrollOrder(landing, root);
-    if (order == null && !landing.backgroundBuildAsked) {
-      landing.backgroundBuildAsked = true;
-      TraversalTreeCache.buildOrderInBackground(
-          landing.windowId,
-          () -> rootOfWindowForBuild(landing.windowId),
-          service.getPackageName(),
-          Performance.ORDER_BUILD_SOURCE_SCROLL_LANDING);
-    }
-    if (order == null && buildEligible && !landing.onTheSpotBuildUsed) {
-      landing.onTheSpotBuildUsed = true;
-      if (TraversalTreeCache.buildOrderOnTheSpot(root)) {
-        // The build just read the tree as it stands, settled: its order is this try's to
-        // read however the generation gate below would judge it.
-        order = savedOrderOf(landing, root);
-        if (order != null) {
-          landing.usableOrderSeen = true;
-          return landFromOrder(
-              landing, root, order, Performance.SCROLL_LANDING_BY_DEADLINE_BUILD, early);
-        }
-      }
-    }
-    if (order == null) {
-      return false;
-    }
-    landing.usableOrderSeen = true;
-    return landFromOrder(landing, root, order, Performance.SCROLL_LANDING_BY_SETTLE, early);
-  }
-
-  /**
-   * The saved order of {@code root}'s window, when it was published after the landing's
-   * scroll fired: the order the scroll left behind is the landing's to read, and an older
-   * one — read from the tree as the scroll found it, or from the tree mid-flight — is not,
-   * so being offered one is counted and refused.
-   */
-  private @Nullable OrderedTraversalStrategy postScrollOrder(
-      PendingScrollLanding landing, AccessibilityNodeInfoCompat root) {
-    OrderedTraversalStrategy order = savedOrderOf(landing, root);
-    if (order == null) {
-      return null;
-    }
-    long savedGeneration = TraversalTreeCache.savedOrderGeneration();
-    if (savedGeneration <= landing.generationAtScroll) {
-      if (savedGeneration != landing.preScrollGenerationCounted) {
-        landing.preScrollGenerationCounted = savedGeneration;
-        Performance.getInstance().onScrollLandingPreScrollOrderRead();
-      }
-      return null;
-    }
-    return order;
-  }
-
-  /** The saved order of {@code root}'s window holding the landing's anchor item, if it has one. */
-  private @Nullable OrderedTraversalStrategy savedOrderOf(
-      PendingScrollLanding landing, AccessibilityNodeInfoCompat root) {
-    AccessibilityNodeInfoCompat anchor =
-        landing.preferNode != null
-            ? landing.preferNode
-            : landing.oldSpeaking.isEmpty()
-                ? root
-                : landing.forward
-                    ? landing.oldSpeaking.get(landing.oldSpeaking.size() - 1)
-                    : landing.oldSpeaking.get(0);
-    TraversalStrategy strategy = TraversalTreeCache.get(root, anchor);
-    if (strategy instanceof OrderedTraversalStrategy ordered) {
-      return ordered;
-    }
-    strategy = TraversalTreeCache.get(root, root);
-    return strategy instanceof OrderedTraversalStrategy ordered ? ordered : null;
-  }
-
-  /**
-   * Lands a scroll from {@code order}: the item the swipe aimed at once it shows, else the
-   * first newly visible item in the scroll's direction. A target whose focus fire is refused
-   * is stepped past within the same try, a few times at most. When {@code unambiguousOnly},
-   * the landing-index safety net below is not used: on a tree that has not settled, only
-   * the aimed item showing, or an item newly on screen, is a target clear enough to take.
-   * Returns whether it landed.
-   */
-  private boolean landFromOrder(
-      PendingScrollLanding landing,
-      AccessibilityNodeInfoCompat root,
-      OrderedTraversalStrategy order,
-      int settleSource,
-      boolean unambiguousOnly) {
-    Filter<AccessibilityNodeInfoCompat> filter = composeFilter(landing.action.targetType, order);
-    List<AccessibilityNodeInfoCompat> speaking = speakingList(order.dumpTree(), filter);
-    List<AccessibilityNodeInfoCompat> candidates = new ArrayList<>();
-    if (landing.preferNode != null) {
-      int preferIndex = indexOfNode(speaking, landing.preferNode);
-      if (preferIndex >= 0) {
-        landing.preferSeenInOrder = true;
-        AccessibilityNodeInfoCompat prefer = speaking.get(preferIndex);
-        // A web element the swipe aimed at is landed on as it stands: the saved order is
-        // not its measure (it leaves web elements out by design), and the page scrolls a
-        // focused element into view itself, so the visibility a native item must show is
-        // not asked of it.
-        if (prefer.isVisibleToUser() || WebInterfaceUtils.supportsWebActions(prefer)) {
-          candidates.add(prefer);
-        }
-      }
-    }
-    int scanFrom = landing.forward ? 0 : speaking.size() - 1;
-    int scanStep = landing.forward ? 1 : -1;
-    for (int i = scanFrom; i >= 0 && i < speaking.size(); i += scanStep) {
-      AccessibilityNodeInfoCompat node = speaking.get(i);
-      if (!candidates.contains(node) && node.isVisibleToUser() && isNewlyVisible(landing, node)) {
-        candidates.add(node);
-        break;
-      }
-    }
-    if (candidates.isEmpty() && !unambiguousOnly) {
-      int index =
-          landingIndex(
-              speaking, landing.oldSpeaking, landing.forward, node -> node.isVisibleToUser());
-      if (index >= 0) {
-        candidates.add(speaking.get(index));
-      }
-    }
-    int fires = 0;
-    for (AccessibilityNodeInfoCompat target : candidates) {
-      if (fires >= SCROLL_LANDING_MAX_FIRES_PER_TRY || !target.refresh()) {
-        continue;
-      }
-      fires++;
-      if (fireLandingTarget(landing, target, settleSource)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  /**
-   * Whether {@code node} is newly on screen for this landing: it was not on screen when the
-   * scroll fired, or it stands somewhere other than where it stood then — a recycled node
-   * carrying the new page counts by its place, which is what a pager leaves to tell by.
-   */
-  private static boolean isNewlyVisible(
-      PendingScrollLanding landing, AccessibilityNodeInfoCompat node) {
-    Rect bounds = new Rect();
-    node.getBoundsInScreen(bounds);
-    for (VisibleItem before : landing.visibleBefore) {
-      if (before.node.equals(node)) {
-        return !before.bounds.equals(bounds);
-      }
-    }
-    return true;
-  }
-
-  /**
-   * The landing's last answer, by position alone: the first item on screen now that was not
-   * on screen when the scroll fired, nearest the edge the scroll moved towards — read from
-   * whatever order the window has, of whatever age, or from the place the last navigation
-   * started. Returns whether it landed.
-   */
-  private boolean tryPositionalLanding(PendingScrollLanding landing) {
-    AccessibilityNodeInfoCompat root = landingRoot(landing);
-    if (root == null) {
-      landing.windowGone = true;
-      return false;
-    }
-    TraversalStrategy strategy = TraversalTreeCache.get(root, root);
-    if (strategy instanceof OrderedTraversalStrategy ordered) {
-      Filter<AccessibilityNodeInfoCompat> filter =
-          composeFilter(landing.action.targetType, ordered);
-      List<AccessibilityNodeInfoCompat> speaking = speakingList(ordered.dumpTree(), filter);
-      AccessibilityNodeInfoCompat target = null;
-      int scanFrom = landing.forward ? 0 : speaking.size() - 1;
-      int scanStep = landing.forward ? 1 : -1;
-      for (int i = scanFrom; i >= 0 && i < speaking.size(); i += scanStep) {
-        AccessibilityNodeInfoCompat node = speaking.get(i);
-        if (node.isVisibleToUser() && isNewlyVisible(landing, node)) {
-          // The item past the old screen's edge in the scroll's direction is the one whose
-          // place the scroll was moving towards; the scan walks in that order already.
-          target = node;
-          break;
-        }
-      }
-      if (target != null && target.refresh()) {
-        return fireLandingTarget(landing, target, Performance.SCROLL_LANDING_BY_POSITION);
-      }
-    }
-    AccessibilityNodeInfoCompat pivot = TraversalTreeCache.pivotAfterRemoval(root);
-    if (pivot != null
-        && pivot.getWindowId() == landing.windowId
-        && pivot.isVisibleToUser()
-        && indexOfNode(landing.oldSpeaking, pivot) < 0
-        && pivot.refresh()) {
-      return fireLandingTarget(landing, pivot, Performance.SCROLL_LANDING_BY_POSITION);
-    }
-    return false;
-  }
-
-  /**
-   * Settles a landing on {@code target}: the bookkeeping every settled landing shares, then
-   * the one focus fire. A refused fire is the caller's to step past, so the landing stays
-   * armed and uncounted until a fire lands.
-   */
-  private boolean fireLandingTarget(
-      PendingScrollLanding landing,
-      AccessibilityNodeInfoCompat target,
-      int settleSource) {
-    AccessibilityNodeInfoCompat pivotForWrap =
-        landing.preferNode != null ? landing.preferNode : target;
-    if (!fireTarget(target, pivotForWrap, landing.action, landing.eventId, false, false)) {
-      return false;
-    }
-    pendingScrollLanding = null;
-    handler.removeCallbacks(scrollLandingTask);
-    scrollLandingCheckDueMs = 0;
-    Performance performance = Performance.getInstance();
-    performance.recordSwipeSegment(
-        "scroll landing wait", SystemClock.uptimeMillis() - landing.startedAtMs);
-    performance.recordSwipeSegment("scroll landing tries", landing.tries);
-    performance.onScrollLandingSettled(landing.changeSeen);
-    performance.onScrollLandingSettledSource(settleSource);
-    return true;
-  }
-
-  /**
-   * The root of the window {@code windowId}, for a background build's root supplier: runs on
-   * the builder's thread, where the window list and a window's root are plain binder calls.
-   * Null when the window is already gone.
-   */
-  private @Nullable AccessibilityNodeInfoCompat rootOfWindowForBuild(int windowId) {
+  private @Nullable AccessibilityNodeInfoCompat liveRootOfWindow(int windowId) {
     for (AccessibilityWindowInfo window : service.getWindows()) {
       boolean match = window.getId() == windowId;
       AccessibilityNodeInfo root = match ? window.getRoot() : null;
@@ -1402,7 +816,9 @@ public class FastNavigator {
         return AccessibilityNodeInfoCompat.wrap(root);
       }
     }
-    return null;
+    AccessibilityNodeInfoCompat root =
+        AccessibilityServiceCompatUtils.getRootInActiveWindow(service);
+    return root != null && root.getWindowId() == windowId ? root : null;
   }
 
   /**
@@ -1592,59 +1008,6 @@ public class FastNavigator {
   }
 
   /**
-   * Where a scroll's landing is, in the order as it stands after the scroll: the first item in
-   * the swipe's direction that the old order did not have, past the last item the two orders
-   * share — or, when the orders share nothing, the first item on screen in that direction; a
-   * backward landing mirrors it. -1 when nothing on screen is new.
-   */
-  static int landingIndex(
-      List<AccessibilityNodeInfoCompat> newSpeaking,
-      List<AccessibilityNodeInfoCompat> oldSpeaking,
-      boolean forward,
-      Predicate<AccessibilityNodeInfoCompat> visible) {
-    if (forward) {
-      int lastShared = -1;
-      for (int i = 0; i < newSpeaking.size(); i++) {
-        if (indexOfNode(oldSpeaking, newSpeaking.get(i)) >= 0) {
-          lastShared = i;
-        }
-      }
-      for (int i = lastShared + 1; i < newSpeaking.size(); i++) {
-        if (visible.test(newSpeaking.get(i))) {
-          return i;
-        }
-      }
-      if (lastShared < 0) {
-        for (int i = 0; i < newSpeaking.size(); i++) {
-          if (visible.test(newSpeaking.get(i))) {
-            return i;
-          }
-        }
-      }
-      return -1;
-    }
-    int firstShared = newSpeaking.size();
-    for (int i = newSpeaking.size() - 1; i >= 0; i--) {
-      if (indexOfNode(oldSpeaking, newSpeaking.get(i)) >= 0) {
-        firstShared = i;
-      }
-    }
-    for (int i = firstShared - 1; i >= 0; i--) {
-      if (visible.test(newSpeaking.get(i))) {
-        return i;
-      }
-    }
-    if (firstShared >= newSpeaking.size()) {
-      for (int i = newSpeaking.size() - 1; i >= 0; i--) {
-        if (visible.test(newSpeaking.get(i))) {
-          return i;
-        }
-      }
-    }
-    return -1;
-  }
-
-  /**
    * Every ancestor of {@code node} that can scroll in the swipe's direction, nearest first:
    * the node itself counts, as a list is its own scroller.
    */
@@ -1671,8 +1034,9 @@ public class FastNavigator {
    * scroller of its own (a row of chips, a comment thread), and firing the scroll there
    * answers true while the page never turns. Candidates tall enough against the outermost
    * candidate to be page-level are ordered by area, largest first; the rest follow in
-   * nearness order, as the no-effect retry's fallbacks. When no candidate is page-level the
-   * order is plain nearness — the choice the nearest-ancestor walk always made.
+   * nearness order, as the fallbacks the fire steps through when a candidate refuses.
+   * When no candidate is page-level the order is plain nearness — the choice the
+   * nearest-ancestor walk always made.
    */
   static List<AccessibilityNodeInfoCompat> orderScrollCandidates(
       List<AccessibilityNodeInfoCompat> nearestFirst) {

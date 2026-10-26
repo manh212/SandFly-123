@@ -21,6 +21,7 @@ import android.graphics.Rect
 import android.os.Looper
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
+import android.view.accessibility.AccessibilityWindowInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.Pipeline
@@ -98,6 +99,7 @@ class FastNavigatorTest {
     }
   }
 
+  private lateinit var service: TestService
   private lateinit var navigator: FastNavigator
   private lateinit var listener: RecordingFocusListener
   private val feedbackCount = AtomicInteger()
@@ -105,7 +107,7 @@ class FastNavigatorTest {
 
   @Before
   fun setUp() {
-    val service = Robolectric.setupService(TestService::class.java)
+    service = Robolectric.setupService(TestService::class.java)
     val history = AccessibilityFocusActionHistory(service)
     val screenState = ScreenStateMonitor(service, InputMethodMonitor(service)).state
     navigator = FastNavigator(service, history, screenState) { false }
@@ -179,6 +181,20 @@ class FastNavigatorTest {
     val root = AccessibilityNodeInfoCompat.wrap(rootInfo)
     TraversalTreeCache.put(root, OrderedTraversalStrategy(root))
     return root
+  }
+
+  /**
+   * Puts [rootInfo]'s window on the service, as the window the swipe stands in: the live
+   * tree a scroll is looked up in at the moment of the swipe, as the service hands the
+   * window out on a device.
+   */
+  private fun showWindow(rootInfo: AccessibilityNodeInfo) {
+    val window = AccessibilityWindowInfo()
+    val windowShadow = shadowOf(window)
+    windowShadow.setId(rootInfo.windowId)
+    windowShadow.setType(AccessibilityWindowInfo.TYPE_APPLICATION)
+    windowShadow.setRoot(rootInfo)
+    shadowOf(service).setWindows(listOf(window))
   }
 
   /** A node with an explicit place and size: the pages, scrollers and items of a pager. */
@@ -494,19 +510,16 @@ class FastNavigatorTest {
   }
 
   @Test
-  fun edgeWithScroll_scrollsItself_andGivesUpLoudlyAndEarlyWhenTheScrollChangesNothing() {
+  fun edgeWithScroll_firesOnTheLiveScroller_andNothingFollowsIt() {
     val rootInfo = listTree(listOf("A", "B"))
     rootInfo.isScrollable = true
     val root = AccessibilityNodeInfoCompat.wrap(rootInfo)
     val children = saveOrder(rootInfo)
+    showWindow(rootInfo)
     focusOn(children[1])
     val scrolledBefore =
       performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_SELF_SCROLL)
-    val stuckBefore =
-      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING)
-    val noEffectBefore = performance.getScrollNoEffectCount()
-    val noNewItemBefore =
-      performance.getScrollLandingsFailedCount(Performance.SCROLL_LANDING_FAIL_NO_NEWLY_VISIBLE)
+    val handledBefore = performance.getFastNavigationsHandledCount()
 
     assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
 
@@ -519,70 +532,22 @@ class FastNavigatorTest {
       scrolledBefore + 1,
       performance.getFastNavigationHardCaseCount(Performance.FAST_NAV_HARD_SELF_SCROLL),
     )
+    assertEquals(handledBefore + 1, performance.getFastNavigationsHandledCount())
 
-    // Nothing ever changes in this tree: the silence is judged at the no-effect window, not
-    // at the landing deadline, so by half a second the failure is already counted — with
-    // its reason — and the edge is answered with the old path's own announcement, which
-    // says nothing for plain items, so the loud part here is the count, exactly as specified.
-    shadowOf(Looper.getMainLooper()).idleFor(500, TimeUnit.MILLISECONDS)
-    assertEquals(
-      stuckBefore + 1,
-      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING),
-    )
-    assertEquals(noEffectBefore + 1, performance.getScrollNoEffectCount())
-    assertEquals(
-      noNewItemBefore + 1,
-      performance.getScrollLandingsFailedCount(Performance.SCROLL_LANDING_FAIL_NO_NEWLY_VISIBLE),
-    )
-    assertEquals(0, feedbackCount.get())
-
-    // And it is given up on exactly once.
+    // The scroll is the whole answer: nothing is armed behind it. However long the window
+    // is left alone afterwards, no focus is fired from here and no edge is announced —
+    // where the focus goes next is the app's move, announced by its own event.
     shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
-    assertEquals(
-      stuckBefore + 1,
-      performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_SCROLL_NO_LANDING),
-    )
-  }
-
-  @Test
-  fun scrollLanding_afterTheContentSettles_landsTheFirstNewItem() {
-    val rootInfo = listTree(listOf("A", "B"))
-    rootInfo.isScrollable = true
-    val children = saveOrder(rootInfo)
-    focusOn(children[1])
-    val byEventBefore = performance.getScrollLandingsByEventCount()
-    val bySettleBefore =
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE)
-
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    // The content the scroll was fired for arrives: C joins the window, and the saved order
-    // is the new one, as the background build would leave it.
-    item(rootInfo, "C", 200)
-    saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-
-    // The change alone does not land the swipe: a landing waits for the window to go quiet,
-    // so a change still in flight can never be read as the settled content.
-    shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS)
     assertTrue(listener.set.isEmpty())
-
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("C"), listener.set)
-    assertEquals(byEventBefore + 1, performance.getScrollLandingsByEventCount())
-    assertEquals(
-      bySettleBefore + 1,
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE),
-    )
+    assertEquals(0, feedbackCount.get())
   }
 
   @Test
-  fun scrollLanding_pagerTurn_landsTheFirstItemOfTheNewPage() {
+  fun scrollFor_pagerPageOffScreen_firesThePager_andLeavesTheFocusToTheApp() {
     val fixture = pagerTree()
     val root = saveOrderRoot(fixture.rootInfo)
+    showWindow(fixture.rootInfo)
     focusOn(checkNotNull(findInTree(root, "A3")))
-    val bySettleBefore =
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE)
 
     assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
     assertTrue(
@@ -591,31 +556,26 @@ class FastNavigatorTest {
         .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
     )
 
+    // The pager turns and the new page is on screen. The navigator fires nothing at it:
+    // the focus the user hears next comes from the app's own event, as it did before
+    // this navigator existed — not from anything the scroll armed.
     flipPager(fixture)
     saveOrder(fixture.rootInfo)
-    navigator.onWindowContentChanged(fixture.rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-
-    assertEquals(listOf("B1"), listener.set)
-    assertEquals(
-      bySettleBefore + 1,
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE),
-    )
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   @Test
-  fun scrollLanding_pagerRecyclesTheAnchorItem_landsByWindowAndPositionAnyway() {
+  fun scrollFor_theAnchorItemRecycledByThePager_stillScrollsFromTheLiveTree() {
     val fixture = pagerTree()
     val root = saveOrderRoot(fixture.rootInfo)
     focusOn(checkNotNull(findInTree(root, "A3")))
 
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    // The pager recycles the very item the swipe started from: the window's new tree has no
-    // A3 at all — its view now carries new-page content — and page B is what is on screen.
-    // A1 and A2 are still on screen and still the same views, so the new tree holds the very
-    // same nodes for them, as a re-read of the window would hand back; only A3 is gone.
-    // The landing is anchored on the window and on position, so nothing it needs is gone.
+    // The pager recycles the very item the swipe starts from before the swipe is read:
+    // the window's live tree has no A3 at all — its view now carries new-page content —
+    // while A1 and A2 are still the same views, as a re-read of the window hands back.
+    // The saved order still starts from A3, and the scroll is looked up in the live tree,
+    // where the window's scroller stands whether or not the item does.
     val turned = AccessibilityNodeInfo.obtain()
     turned.className = "android.widget.FrameLayout"
     turned.packageName = "com.example.chat"
@@ -627,75 +587,20 @@ class FastNavigatorTest {
     placed(turned, "B1", Rect(0, 200, 600, 300))
     placed(turned, "B2", Rect(0, 300, 600, 400))
     placed(turned, "B3", Rect(0, 400, 600, 500))
-    saveOrder(turned)
-    navigator.onWindowContentChanged(turned.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-
-    assertEquals("landed", listOf("B1"), listener.set)
-  }
-
-  @Test
-  fun scrollLanding_churnKeepsTheLandingWaiting_untilTheTreeSettles() {
-    val rootInfo = listTree(listOf("A", "B"))
-    rootInfo.isScrollable = true
-    val children = saveOrder(rootInfo)
-    focusOn(children[1])
-    val bySettleBefore =
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE)
+    showWindow(turned)
 
     assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    // C joins the window at once but stays off screen while the window churns: five
-    // changes, each starting the quiet window over, none letting it close — and no landing
-    // try may run against any of the trees in between.
-    val cInfo = item(rootInfo, "C", 200)
-    cInfo.isVisibleToUser = false
-    repeat(5) {
-      saveOrder(rootInfo)
-      navigator.onWindowContentChanged(rootInfo.windowId)
-      shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS)
-      assertTrue(listener.set.isEmpty())
-    }
-
-    // The churn stops with C on screen: the first quiet window lands the swipe, once.
-    cInfo.isVisibleToUser = true
-    saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("C"), listener.set)
-    assertEquals(
-      bySettleBefore + 1,
-      performance.getScrollLandingsBySourceCount(Performance.SCROLL_LANDING_BY_SETTLE),
+    assertTrue(
+      shadowOf(turned)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
     )
-  }
-
-  @Test
-  fun scrollLanding_anOrderFromBeforeTheScrollIsNeverServedToIt() {
-    val rootInfo = listTree(listOf("A", "B"))
-    rootInfo.isScrollable = true
-    val children = saveOrder(rootInfo)
-    focusOn(children[1])
-    val refusedBefore = performance.getScrollLandingPreScrollOrderReadsCount()
-
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    // The scroll's own change arrives while the pre-scroll order is still the saved one:
-    // the landing is offered it, refuses it by its generation, and lands nothing.
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(300, TimeUnit.MILLISECONDS)
-    assertEquals(refusedBefore + 1, performance.getScrollLandingPreScrollOrderReadsCount())
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
     assertTrue(listener.set.isEmpty())
-
-    // The post-scroll order lands, and with it the item.
-    item(rootInfo, "C", 200)
-    saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(300, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("C"), listener.set)
   }
 
   @Test
-  fun scrollLanding_theAimedItemDroppedByTheApp_landsTheNewItemAnyway() {
+  fun scrollFor_theAimedItemDroppedByTheApp_stillScrollsFromTheLiveTree() {
     val (rootInfo, childInfos) = listTreeWithInfos(listOf("A", "B", "C"))
     rootInfo.isScrollable = true
     // C is in the order but off screen: the swipe aims at it, and scrolls to bring it in.
@@ -705,16 +610,11 @@ class FastNavigatorTest {
     val children = saveOrder(rootInfo)
     focusOn(children[1])
 
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-    assertTrue(
-      shadowOf(rootInfo)
-        .performedActions
-        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
-    )
-
-    // The app drops C outright and brings D instead. A and B are still on screen and
-    // still the same views, so the window's new tree holds the very same nodes for them,
-    // as a re-read of the window would hand back; only C is gone and D is new.
+    // Before the swipe is read, the app drops C outright and brings D instead. A and B
+    // are still the same views, so the window's live tree holds the very same nodes for
+    // them, as a re-read of the window would hand back; only C is gone and D is new. The
+    // saved order still aims at C — and the scroll does not need it: the scroller is read
+    // from the live tree, through the focused item still standing in it.
     val turned = AccessibilityNodeInfo.obtain()
     turned.className = "android.widget.FrameLayout"
     turned.packageName = "com.example.chat"
@@ -724,31 +624,61 @@ class FastNavigatorTest {
     shadowOf(turned).addChild(childInfos[0])
     shadowOf(turned).addChild(childInfos[1])
     item(turned, "D", 200)
-    saveOrder(turned)
-    navigator.onWindowContentChanged(turned.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
+    showWindow(turned)
 
-    assertEquals(listOf("D"), listener.set)
+    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
+    assertTrue(
+      shadowOf(turned)
+        .performedActions
+        .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
+    )
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   @Test
-  fun scrollLanding_aSecondScrollSupersedesTheFirstLanding() {
+  fun edgeWithScroll_aSecondScroll_firesAgain_withNothingLeftArmed() {
     val rootInfo = listTree(listOf("A", "B"))
     rootInfo.isScrollable = true
     val children = saveOrder(rootInfo)
+    showWindow(rootInfo)
     focusOn(children[1])
-    val supersededBefore = performance.getScrollLandingsSupersededCount()
 
     assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
     assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-    assertEquals(supersededBefore + 1, performance.getScrollLandingsSupersededCount())
 
-    // Only the second scroll's landing is alive to land, and it lands exactly once.
-    item(rootInfo, "C", 200)
-    saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("C"), listener.set)
+    // Each scroll stands on its own: the second fires exactly as the first did, and
+    // neither leaves anything behind to fire, focus or announce later.
+    assertEquals(
+      2,
+      shadowOf(rootInfo)
+        .performedActions
+        .count { it == AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD },
+    )
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
+    assertEquals(0, feedbackCount.get())
+  }
+
+  @Test
+  fun edgeWithScroll_noScrollerInTheLiveTree_answersTheEdge_andMovesNothing() {
+    val rootInfo = listTree(listOf("A", "B"))
+    val children = saveOrder(rootInfo)
+    showWindow(rootInfo)
+    focusOn(children[1])
+    val noScrollerBefore = performance.getScrollNoScrollableNodeCount()
+    val handledBefore = performance.getFastNavigationsHandledCount()
+
+    assertFalse(navigator.handle(swipe(forward = true, scroll = true), null))
+
+    // Counted by its reason and answered at the edge; the focus is never jumped sideways
+    // to another item of the page in place of the turn that could not be made.
+    assertEquals(noScrollerBefore + 1, performance.getScrollNoScrollableNodeCount())
+    assertEquals(handledBefore + 1, performance.getFastNavigationsHandledCount())
+    assertTrue(listener.set.isEmpty())
+    assertEquals(0, feedbackCount.get())
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   @Test
@@ -767,6 +697,7 @@ class FastNavigatorTest {
     val lastInfo = placed(rootInfo, "last", Rect(0, 300, 600, 400), visible = false)
 
     val root = saveOrderRoot(rootInfo)
+    showWindow(rootInfo)
     focusOn(checkNotNull(findInTree(root, "chip2")))
 
     // The next item is off screen, so the swipe scrolls — and the scroll must fire on the
@@ -785,11 +716,12 @@ class FastNavigatorTest {
         .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
     )
 
+    // And nothing follows the scroll: the item it was fired for is the app's to focus
+    // when the scroll brings it in, through the app's own event.
     lastInfo.isVisibleToUser = true
     saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("last"), listener.set)
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   @Test
@@ -813,6 +745,7 @@ class FastNavigatorTest {
       action != AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD
     }
     val root = saveOrderRoot(rootInfo)
+    showWindow(rootInfo)
     focusOn(checkNotNull(findInTree(root, "A")))
     val refusedBefore = performance.getScrollFiredAppRefusedCount()
 
@@ -825,19 +758,19 @@ class FastNavigatorTest {
         .contains(AccessibilityNodeInfoCompat.ACTION_SCROLL_FORWARD)
     )
 
-    // The landing was armed on the candidate that accepted, and lands from it.
+    // The scroll that was accepted is the whole answer: nothing is armed to focus B
+    // when it shows — the app's own event announces it.
     bInfo.isVisibleToUser = true
     saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("B"), listener.set)
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   @Test
-  fun scrollFor_noScrollableAncestor_theWindowItselfIsSearched() {
+  fun scrollFor_noScrollableAncestor_theLiveTreeItselfIsSearched() {
     // The focused item's chain holds no scroller at all — the state a recycled feed item
     // is left in, its chain ending at the fragment the pager tore off — but the window's
-    // own order holds the window's pager, and the scroll is found there instead.
+    // live tree holds the window's pager, and the scroll is found there instead.
     val rootInfo = AccessibilityNodeInfo.obtain()
     rootInfo.className = "android.widget.FrameLayout"
     rootInfo.packageName = "com.example.chat"
@@ -851,6 +784,7 @@ class FastNavigatorTest {
     val bInfo = placed(panelInfo, "B", Rect(0, 100, 600, 200), visible = false)
 
     val root = saveOrderRoot(rootInfo)
+    showWindow(rootInfo)
     focusOn(checkNotNull(findInTree(root, "A")))
     val noScrollerBefore = performance.getScrollNoScrollableNodeCount()
 
@@ -865,32 +799,8 @@ class FastNavigatorTest {
 
     bInfo.isVisibleToUser = true
     saveOrder(rootInfo)
-    navigator.onWindowContentChanged(rootInfo.windowId)
-    shadowOf(Looper.getMainLooper()).idleFor(200, TimeUnit.MILLISECONDS)
-    assertEquals(listOf("B"), listener.set)
-  }
-
-  @Test
-  fun scrollLanding_continuousChurn_landsEarlyOnceTheTargetIsClear() {
-    val rootInfo = listTree(listOf("A", "B"))
-    rootInfo.isScrollable = true
-    val children = saveOrder(rootInfo)
-    focusOn(children[1])
-
-    assertTrue(navigator.handle(swipe(forward = true, scroll = true), null))
-
-    // The item the scroll brings is on screen at once — the target is clear from the
-    // start — but the window never goes quiet: a playing page keeps changing, a change
-    // every 100 ms, none of them the 150 ms of quiet the settle path waits for. The churn
-    // must not hold the landing to the 1200 ms deadline: it lands early, mid-churn.
-    item(rootInfo, "C", 200)
-    saveOrder(rootInfo)
-    repeat(6) {
-      navigator.onWindowContentChanged(rootInfo.windowId)
-      shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS)
-    }
-
-    assertEquals(listOf("C"), listener.set)
+    shadowOf(Looper.getMainLooper()).idleFor(2, TimeUnit.SECONDS)
+    assertTrue(listener.set.isEmpty())
   }
 
   /** A page of an article in a WebView, between two native items of the same window. */
@@ -993,7 +903,7 @@ class FastNavigatorTest {
 
     // The page is asked for its next element from the image itself, and nothing in the
     // window is scrolled or focused from here: the text after the image stands below the
-    // fold, which is the page's to bring in, not a landing's to hunt for.
+    // fold, which is the page's to bring in, not this navigator's to hunt for.
     assertEquals(1, page.webTargets.size)
     assertEquals(AccessibilityNodeInfoCompat.wrap(fixture.imageInfo), page.webTargets[0])
     assertEquals(TraversalStrategy.SEARCH_FOCUS_FORWARD, page.webActions[0].searchDirection)
@@ -1156,25 +1066,6 @@ class FastNavigatorTest {
       stuckBefore + 1,
       performance.getFastNavigationStuckCount(Performance.FAST_NAV_STUCK_NO_PIVOT),
     )
-  }
-
-  @Test
-  fun landingIndex_firstNewItemPastTheSharedOnes() {
-    val a = node("A")
-    val b = node("B")
-    val c = node("C")
-    val d = node("D")
-    val old = listOf(a, b)
-    // After a forward scroll the orders overlap on B; the landing is C, the first new item.
-    assertEquals(2, FastNavigator.landingIndex(listOf(a, b, c, d), old, true) { true })
-    // Nothing new: no landing.
-    assertEquals(-1, FastNavigator.landingIndex(listOf(a, b), old, true) { true })
-    // No overlap at all: the first item on screen in the direction.
-    assertEquals(0, FastNavigator.landingIndex(listOf(c, d), old, true) { true })
-    // Backward mirrors it: the last new item before the shared ones.
-    assertEquals(1, FastNavigator.landingIndex(listOf(d, c, a, b), old, false) { true })
-    // Invisible items are skipped.
-    assertEquals(3, FastNavigator.landingIndex(listOf(a, b, c, d), old, true) { it == d })
   }
 
   @Test
