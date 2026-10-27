@@ -525,6 +525,48 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_toggle_stopwatch),
             TYPE_ACTION_ITEM));
 
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_media_previous),
+            resources.getString(R.string.shortcut_value_media_previous),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_media_next),
+            resources.getString(R.string.shortcut_value_media_next),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_copy_focused),
+            resources.getString(R.string.shortcut_value_copy_focused),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_clear_all_text),
+            resources.getString(R.string.shortcut_value_clear_all_text),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_direct_tap),
+            resources.getString(R.string.shortcut_value_direct_tap),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_take_screenshot),
+            resources.getString(R.string.shortcut_value_take_screenshot),
+            TYPE_ACTION_ITEM));
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_toggle_touch_exploration),
+            resources.getString(R.string.shortcut_value_toggle_touch_exploration),
+            TYPE_ACTION_ITEM));
+
     if (TalkbackFeatureSupport.supportSpeechRecognize()) {
       builder.add(
           new ActionItem(

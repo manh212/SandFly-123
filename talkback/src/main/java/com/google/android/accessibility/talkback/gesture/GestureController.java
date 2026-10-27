@@ -75,14 +75,21 @@ import static com.google.android.accessibility.utils.traversal.TraversalStrategy
 
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.FingerprintGestureController;
+import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Path;
+import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.ViewConfiguration;
+import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
@@ -122,6 +129,7 @@ import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivity;
 import com.google.android.accessibility.talkback.trainingcommon.content.TutorialGestureUses;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
+import com.google.android.accessibility.talkback.utils.ClipboardUtils;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
 import com.google.android.accessibility.talkback.utils.DebugProperties;
 import com.google.android.accessibility.talkback.utils.GeminiCommandUtils;
@@ -367,6 +375,52 @@ public class GestureController {
       result =
           pipeline.returnFeedback(
               eventId, Feedback.systemAction(GLOBAL_ACTION_KEYCODE_HEADSETHOOK));
+    } else if (action.equals(service.getString(R.string.shortcut_value_media_previous))) {
+      result = dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_PREVIOUS);
+    } else if (action.equals(service.getString(R.string.shortcut_value_media_next))) {
+      result = dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_NEXT);
+    } else if (action.equals(service.getString(R.string.shortcut_value_copy_focused))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      CharSequence text = node == null ? null : node.getText();
+      if (TextUtils.isEmpty(text) && node != null) {
+        text = node.getContentDescription();
+      }
+      result = !TextUtils.isEmpty(text) && ClipboardUtils.copyToClipboard(service, text);
+      if (result) {
+        speak(service.getString(R.string.template_text_copied, text));
+      } else {
+        speak(service.getString(R.string.copy_focused_nothing_to_copy));
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_clear_all_text))) {
+      AccessibilityNodeInfoCompat node = getEditTextFocus();
+      if (node == null || !node.isEditable()) {
+        result = false;
+      } else {
+        Bundle arguments = new Bundle();
+        arguments.putCharSequence(
+            AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "");
+        result = node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_direct_tap))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+      result = node != null && directTap(node);
+    } else if (action.equals(service.getString(R.string.shortcut_value_take_screenshot))) {
+      result =
+          pipeline.returnFeedback(
+              eventId,
+              Feedback.systemAction(AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT));
+    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_touch_exploration))) {
+      Boolean enabled = service.toggleTouchExploration();
+      result = enabled != null;
+      if (enabled != null) {
+        speak(
+            service.getString(
+                enabled
+                    ? R.string.touch_exploration_on
+                    : R.string.touch_exploration_off));
+      }
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_input))) {
       result = false;
       AccessibilityNodeInfoCompat editor = getEditTextInputFocus();
@@ -1079,6 +1133,33 @@ public class GestureController {
     } else {
       return null;
     }
+  }
+
+  private boolean dispatchMediaKey(int keyCode) {
+    AudioManager audioManager = (AudioManager) service.getSystemService(Context.AUDIO_SERVICE);
+    if (audioManager == null) {
+      return false;
+    }
+    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
+    audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
+    return true;
+  }
+
+  private boolean directTap(AccessibilityNodeInfoCompat node) {
+    Rect rect = new Rect();
+    node.getBoundsInScreen(rect);
+    if (rect.isEmpty()) {
+      return false;
+    }
+    Path path = new Path();
+    path.moveTo(rect.centerX(), rect.centerY());
+    int durationMs = ViewConfiguration.getTapTimeout();
+    GestureDescription gesture =
+        new GestureDescription.Builder()
+            .addStroke(
+                new GestureDescription.StrokeDescription(path, 0, durationMs))
+            .build();
+    return service.dispatchGesture(gesture, null, null);
   }
 
   /** voice feedback function */

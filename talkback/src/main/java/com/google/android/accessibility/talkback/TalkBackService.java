@@ -3988,6 +3988,14 @@ public class TalkBackService extends AccessibilityServiceCompat
     return isTouchExplorationEnabled();
   }
 
+  public @Nullable Boolean toggleTouchExploration() {
+    Boolean current = isTouchExplorationEnabled();
+    if (current == null) {
+      return null;
+    }
+    return requestTouchExploration(!current);
+  }
+
   /** Turns explore by touch on or off as the preference says. */
   private void applyTouchExplorationPreference() {
     if (supportsTouchScreen) {

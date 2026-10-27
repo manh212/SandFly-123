@@ -427,6 +427,16 @@
   <string name="label_search_result_landmark_search">Tìm kiếm</string>
   <string name="label_search_result_table">Bảng</string>
   <string name="shortcut_media_control">Phát hoặc tạm dừng nhạc/video</string>
+  <string name="shortcut_media_previous">Phương tiện trước đó</string>
+  <string name="shortcut_media_next">Phương tiện tiếp theo</string>
+  <string name="shortcut_copy_focused">Sao chép tiêu điểm hiện tại</string>
+  <string name="shortcut_clear_all_text">Xóa tất cả nội dung trong ô nhập liệu</string>
+  <string name="shortcut_direct_tap">Nhấn trực tiếp</string>
+  <string name="shortcut_take_screenshot">Chụp màn hình</string>
+  <string name="shortcut_toggle_touch_exploration">Bật hoặc tắt duyệt bằng cách chạm</string>
+  <string name="copy_focused_nothing_to_copy">Không có gì để sao chép</string>
+  <string name="touch_exploration_on">Đã bật duyệt bằng cách chạm</string>
+  <string name="touch_exploration_off">Đã tắt duyệt bằng cách chạm</string>
   <string name="shortcut_voice_input">Bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
   <string name="shortcut_media_control_or_voice_input">Phát/tạm dừng nội dung nghe nhìn, bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
   <string name="shortcut_increase_volume">Tăng âm lượng</string>

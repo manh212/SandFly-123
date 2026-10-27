@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="media_previous_menu" type="id" />
+    <item name="media_next_menu" type="id" />
+    <item name="copy_focused_menu" type="id" />
+    <item name="clear_all_text_menu" type="id" />
+    <item name="direct_tap_menu" type="id" />
+    <item name="take_screenshot_menu" type="id" />
+    <item name="toggle_touch_exploration_menu" type="id" />
+</resources>

@@ -2017,6 +2017,16 @@
   <string name="title_screen_search" translatable="false">@string/title_show_screen_search</string>
     <!-- Label for the shortcut that plays/pauses media [CHAR_LIMIT=61]-->
     <string name="shortcut_media_control">Play or pause media</string>
+    <string name="shortcut_media_previous">Previous media</string>
+    <string name="shortcut_media_next">Next media</string>
+    <string name="shortcut_copy_focused">Copy focused item</string>
+    <string name="shortcut_clear_all_text">Clear all text</string>
+    <string name="shortcut_direct_tap">Direct tap</string>
+    <string name="shortcut_take_screenshot">Take screenshot</string>
+    <string name="shortcut_toggle_touch_exploration">Turn touch exploration on or off</string>
+    <string name="copy_focused_nothing_to_copy">Nothing to copy</string>
+    <string name="touch_exploration_on">Touch exploration on</string>
+    <string name="touch_exploration_off">Touch exploration off</string>
     <!-- Label for the shortcut that start/stop voice input [CHAR_LIMIT=60]-->
     <string name="shortcut_voice_input">Start or end Gboard voice input</string>
     <!-- Label for the shortcut that plays/pauses or start/stop voice input [CHAR_LIMIT=90]-->

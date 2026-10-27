@@ -180,6 +180,8 @@ public class TalkbackMenuProcessor {
     // Read From & Last Phrase Spoken & screen search at context_menu.xml
     addContextMenuXmlMenu(menu);
 
+    // New assignable actions: media, copy, clear, direct tap, screenshot, touch exploration.
+    addNewActionMenus(menu);
     // Show/hide screen
     addDimOrBrightenScreen(menu);
     // Pause Backtalk
@@ -595,6 +597,53 @@ public class TalkbackMenuProcessor {
               });
       subMenu.add(item);
     }
+  }
+
+  private void addNewActionMenus(ContextMenu menu) {
+    addAfterMenuCloses(
+        menu,
+        R.id.media_previous_menu,
+        28,
+        service.getString(R.string.shortcut_media_previous),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_media_previous)));
+    addAfterMenuCloses(
+        menu,
+        R.id.media_next_menu,
+        28,
+        service.getString(R.string.shortcut_media_next),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_media_next)));
+    addAfterMenuCloses(
+        menu,
+        R.id.copy_focused_menu,
+        28,
+        service.getString(R.string.shortcut_copy_focused),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_copy_focused)));
+    addAfterMenuCloses(
+        menu,
+        R.id.clear_all_text_menu,
+        28,
+        service.getString(R.string.shortcut_clear_all_text),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_clear_all_text)));
+    addAfterMenuCloses(
+        menu,
+        R.id.direct_tap_menu,
+        28,
+        service.getString(R.string.shortcut_direct_tap),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_direct_tap)));
+    addAfterMenuCloses(
+        menu,
+        R.id.take_screenshot_menu,
+        28,
+        service.getString(R.string.shortcut_take_screenshot),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_take_screenshot)));
+    addAfterMenuCloses(
+        menu,
+        R.id.toggle_touch_exploration_menu,
+        28,
+        service.getString(R.string.shortcut_toggle_touch_exploration),
+        node ->
+            service.performCatalogAction(
+                service.getString(R.string.shortcut_value_toggle_touch_exploration)));
   }
 
   private void addDimOrBrightenScreen(ContextMenu menu) {

@@ -507,6 +507,15 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
     // Special features.
     MEDIA_CONTROL(R.string.shortcut_value_media_control, R.string.shortcut_media_control),
+    MEDIA_PREVIOUS(R.string.shortcut_value_media_previous, R.string.shortcut_media_previous),
+    MEDIA_NEXT(R.string.shortcut_value_media_next, R.string.shortcut_media_next),
+    COPY_FOCUSED(R.string.shortcut_value_copy_focused, R.string.shortcut_copy_focused),
+    CLEAR_ALL_TEXT(R.string.shortcut_value_clear_all_text, R.string.shortcut_clear_all_text),
+    DIRECT_TAP(R.string.shortcut_value_direct_tap, R.string.shortcut_direct_tap),
+    TAKE_SCREENSHOT(R.string.shortcut_value_take_screenshot, R.string.shortcut_take_screenshot),
+    TOGGLE_TOUCH_EXPLORATION(
+        R.string.shortcut_value_toggle_touch_exploration,
+        R.string.shortcut_toggle_touch_exploration),
     VOICE_INPUT(R.string.shortcut_value_voice_input, R.string.shortcut_voice_input),
     MEDIA_CONTROL_OR_VOICE_INPUT(
         R.string.shortcut_value_media_control_or_voice_input,
