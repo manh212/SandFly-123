@@ -16,7 +16,70 @@ env:
   SANDFLY_CERT_SHA256: 7fde506fa8d1652fb21f1bc8f9fd98666f7a92187636340f4b95672d4068f3f8
 
 jobs:
+  plan:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    outputs:
+      application: ${{ steps.selection.outputs.application }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Read published dev baseline
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release view dev --repo "$GITHUB_REPOSITORY" --json name --jq '.name' > "$RUNNER_TEMP/published-dev-name.txt" 2>/dev/null || : > "$RUNNER_TEMP/published-dev-name.txt"
+
+      - name: Select related tests
+        id: selection
+        env:
+          SANDFLY_DEV_RELEASE_NAME_FILE: ${{ runner.temp }}/published-dev-name.txt
+        run: |
+          set -o pipefail
+          python3 scripts/select_ci_tests.py 2>&1 | tee "$RUNNER_TEMP/test-selection.log"
+
+      - name: Verify test selection logic
+        if: steps.selection.outputs.planner_tests == 'true'
+        run: |
+          set -o pipefail
+          python3 -m unittest discover -s scripts/tests -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/planner-tests.log"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: test-plan
+          path: test-plan.json
+          if-no-files-found: error
+
+      - name: Collect selection failure logs
+        if: failure()
+        run: |
+          python3 - <<'PYEOF'
+          import os
+          from pathlib import Path
+          import re
+          blocked = re.compile(r'password|secret|keystore', re.I)
+          lines = []
+          for name in ['test-selection.log', 'planner-tests.log']:
+              path = Path(os.environ['RUNNER_TEMP']) / name
+              if path.exists():
+                  lines.append('===== ' + name + ' =====')
+                  lines.extend(line for line in path.read_text().splitlines()[-200:] if not blocked.search(line))
+          Path('gradle-log-tail.txt').write_text('\n'.join(lines) + '\n')
+          PYEOF
+
+      - uses: actions/upload-artifact@v7
+        if: failure()
+        with:
+          name: gradle-log-tail
+          path: gradle-log-tail.txt
+          if-no-files-found: ignore
+
   build:
+    needs: plan
+    if: needs.plan.outputs.application == 'true'
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
@@ -25,6 +88,11 @@ jobs:
       - uses: actions/checkout@v7
         with:
           fetch-depth: 0
+
+      - uses: actions/download-artifact@v8
+        with:
+          name: test-plan
+          path: ci-selection
 
       - name: Run repository checks
         run: |
@@ -97,11 +165,10 @@ jobs:
             fi
           done
 
-      # Only the phone flavor exists, so only its unit tests run.
-      - name: Run unit tests
+      - name: Run selected unit tests
         run: |
           set -o pipefail
-          ./gradlew testPhoneDebugUnitTest --console=plain 2>&1 | tee "$RUNNER_TEMP/tests.log"
+          python3 scripts/run_ci_tests.py ci-selection/test-plan.json 2>&1 | tee "$RUNNER_TEMP/tests.log"
 
       # The app's lint also checks the library modules. Issues already in lint-baseline.xml are
       # allowed, so this fails only on new errors, such as a call that needs a newer Android than
@@ -250,8 +317,8 @@ jobs:
   # <subject>" line is a change, newest first. A stable release also gets the notes in
   # release-notes/<version>.md, whose list items must start with "* ", not "- ".
   publish:
-    needs: build
-    if: github.event_name == 'push'
+    needs: [plan, build]
+    if: github.event_name == 'push' && needs.plan.outputs.application == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write

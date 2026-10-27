@@ -64,14 +64,17 @@ not require repeated approval.
 - Keep automated execution in GitHub Actions. Do not run tests, builds, lint or
   packaging on the coding machine. App builds, signing and publication still
   follow the existing delivery rules for application changes.
-- Before pushing application changes, ensure the CI invocation selects the
-  intended tests. If the workflow still forces a full suite, arrange scoped CI
-  execution first; do not silently ignore this policy or skip relevant tests
-  just to obtain a green result.
+- GitHub Actions uses `scripts/select_ci_tests.py` to select tests automatically.
+  Review its summary and `test-plan` artifact after pushing. Uncertain changes
+  automatically broaden to the affected modules and their consumers. Shared
+  build and CI changes can require every test module. See
+  [Automatic CI test selection](docs/ci-testing.md) for the rules and limits.
 - Documentation-only edits do not require application tests, an APK build or a
   dev release. Review their content, links and diff, push them to `master` and
-  verify the published files. Use `[skip ci]` on a documentation-only commit
-  when the current workflow would otherwise run unrelated application checks.
+  verify the published files and the CI selection result. Do not add `[skip ci]`:
+  CI automatically skips application work for documentation-only changes.
+  Unpublished application changes from an earlier push still need validation
+  and publication even when the newest commit changes only documentation.
 
 ## Working agreements
 
@@ -83,8 +86,8 @@ not require repeated approval.
   green again.
 - GitHub Actions runs `scripts/pre-push-check.sh` and
   `scripts/check_settings_key_contract.py` for pushes to `master` and pull
-  requests unless CI is skipped for a documentation-only change. These checks
-  are not required on the coding machine. Fix failures reported by CI and push
+  requests when application work is selected. These checks are not required on
+  the coding machine. Fix failures reported by CI and push
   the correction.
 - Reading the failure log is automatic, never optional, on every failed
   build — on a branch or on `master`. Before diagnosing or changing
