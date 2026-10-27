@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.shizuku
 
 import android.content.Context
+import android.content.pm.PackageManager.NameNotFoundException
 import android.os.Build
 import android.os.ParcelFileDescriptor
 import androidx.core.content.edit
@@ -66,6 +67,8 @@ object PlayInstaller {
       } else {
         context.packageManager.getInstallerPackageName(context.packageName)
       }
+    } catch (e: NameNotFoundException) {
+      null
     } catch (e: RuntimeException) {
       null
     }
