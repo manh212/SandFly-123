@@ -18,7 +18,6 @@ package com.google.android.accessibility.talkback.preference.base;
 
 import com.google.android.accessibility.talkback.R;
 
-/** Main settings group holding descriptions, status readout and screen announcements. */
 public class ScreenInfoGroupFragment extends TalkBackPreferenceFragment {
 
   public ScreenInfoGroupFragment() {
@@ -27,6 +26,6 @@ public class ScreenInfoGroupFragment extends TalkBackPreferenceFragment {
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_group_screen_info);
+    return getText(R.string.title_pref_descriptions_ai);
   }
 }

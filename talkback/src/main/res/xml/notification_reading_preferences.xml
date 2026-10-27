@@ -18,10 +18,6 @@
         android:key="pref_notification_voice_profile"
         android:summary="%s"
         android:title="@string/notification_voice_title" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment"
-        android:key="pref_notification_voice_profiles"
-        android:title="@string/title_pref_voice_profiles" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="false"
         android:key="pref_notification_detect_language"
