@@ -1,17 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
-      android:key="@string/pref_category_group_speech_key">
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:key="@string/pref_category_group_speech_key">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.TextToSpeechSettingsFragment"
         android:key="@string/pref_tts_settings_key"
         android:title="@string/tts_preferences_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment"
+        android:key="@string/pref_voice_profiles_screen_key"
+        android:persistent="false"
+        android:title="@string/title_pref_voice_profiles" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.VerbosityPrefFragment"
         android:key="@string/pref_verbosity_key"
         android:title="@string/pref_verbosity_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.status.StatusReadoutFragment"
+        android:key="@string/pref_status_readout_key"
+        android:title="@string/title_pref_status_readout" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenAnnouncementsFragment"
+        android:key="pref_screen_announcements"
+        android:summary="@string/summary_pref_screen_announcements"
+        android:title="@string/title_pref_screen_announcements" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

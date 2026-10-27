@@ -27,6 +27,10 @@
       android:key="pref_notification_when_screen"
       android:title="@string/notification_when_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationRulesFragment"
+      android:key="pref_notification_rules_screen"
+      android:title="@string/notification_rules_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationRepeatsFragment"
       android:key="pref_notification_repeats_screen"
       android:title="@string/notification_repeats_title" />
