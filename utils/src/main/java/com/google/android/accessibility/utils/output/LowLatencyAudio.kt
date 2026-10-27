@@ -18,6 +18,8 @@ package com.google.android.accessibility.utils.output
 
 import android.content.Context
 import android.media.AudioAttributes
+import android.media.AudioDeviceCallback
+import android.media.AudioDeviceInfo
 import android.media.AudioFormat
 import android.media.AudioManager
 import android.media.AudioTrack
@@ -26,6 +28,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import android.os.SystemClock
+import androidx.annotation.VisibleForTesting
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
@@ -51,70 +54,6 @@ import kotlin.math.abs
  * way instead, for the same reason.
  */
 class LowLatencyAudio private constructor(context: Context, private val attributes: AudioAttributes) {
-  /** Output frames per second. */
-  val sampleRate: Int
-
-  private val burstFrames: Int
-  private val mainHandler = Handler(Looper.getMainLooper())
-  private val lock = java.lang.Object()
-  private val clips = ArrayList<PlayingClip>()
-  private val streams = ArrayDeque<SpeechStream>()
-  // Listener callbacks run here, in order, so that they never hold up the audio thread. Its thread
-  // ends when there is nothing to report.
-  private val callbacks = singleThreadExecutor("LowLatencyAudio callbacks")
-  @Volatile private var track: AudioTrack?
-  // Set when no track can be made, or the track stops taking audio and cannot be remade. Then audio
-  // plays the usual way.
-  @Volatile private var broken = false
-  // Set by shutdown. Nothing plays again, and the track is released.
-  @Volatile private var released = false
-  // When the track last took audio, to find a track that has stopped.
-  @Volatile private var lastWrite = 0L
-  // Set by the watchdog when the track has taken no audio for WRITE_STUCK_MS.
-  @Volatile private var remakeTrack = false
-  // Set when a paused track without the fast path starts, until its first write completes. An
-  // output such as Bluetooth can take a second or more to wake from standby, which is not a stuck
-  // track, so the watchdog gives it WAKE_STUCK_MS longer.
-  @Volatile private var waking = false
-  // Whether the track has the fast path, and its underrun count when its buffer was last sized.
-  @Volatile private var fastPath = false
-  @Volatile private var underruns = 0
-  // The fast path's buffer size, once it has had to grow, kept for new tracks and outputs.
-  @Volatile private var fastFrames = 0
-  // Set when the track starts, until its first write completes. Running short before that is only
-  // the track starting, not a buffer too small.
-  @Volatile private var starting = false
-  // Writes left before running short counts again after the buffer grew: the underruns of the same
-  // starvation can be counted after it grew, and would grow it again.
-  private var settleWrites = 0
-  // The watchdog's checks, scheduled only while the audio thread runs.
-  private var watchdog: ScheduledFuture<*>? = null
-  private var thread: Thread? = null
-  private var idleFrames = 0
-  // Whether the track has audio queued since it last paused. Without the fast path, it pauses as
-  // soon as its audio has been heard, after silentFrames of silence.
-  private var primed = false
-  private var silentFrames = 0
-  // While held, speech streams keep what they have and keep receiving audio, but do not play.
-  private var held = false
-  // Whether this hold has filled up already, so it is reported once.
-  private var holdFull = false
-
-  init {
-    val audioManager = context.getSystemService(AudioManager::class.java)
-    sampleRate =
-      audioManager?.getProperty(AudioManager.PROPERTY_OUTPUT_SAMPLE_RATE)?.toIntOrNull()
-        ?: DEFAULT_RATE
-    burstFrames =
-      audioManager?.getProperty(AudioManager.PROPERTY_OUTPUT_FRAMES_PER_BUFFER)?.toIntOrNull()
-        ?: DEFAULT_BURST
-    track = createTrack()
-  }
-
-  /**
-   * A short sound, as frames of [channels] channels, 1 or 2, at [rate]. A mono sound is kept mono,
-   * which takes half the memory, and plays on both sides.
-   */
   class Clip
   internal constructor(
     internal val frames: FloatArray,
@@ -630,6 +569,21 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     }
   }
 
+  private fun remake() {
+    synchronized(lock) {
+      if (released || broken) return
+      if (thread != null) {
+        remakeTrack = true
+        interrupt(track)
+        return
+      }
+      track?.release()
+      primed = false
+      track = createTrack()
+      if (track == null) giveUp()
+    }
+  }
+
   /** Stops using the low-latency track: everything waiting plays the usual way. */
   private fun giveUp() {
     synchronized(lock) {
@@ -794,74 +748,6 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   private fun idleLimit(): Int =
     sampleRate * (if (microphoneInUse) MICROPHONE_IDLE_MS else IDLE_MS) / 1000
 
-  /** Mixes the next burst of every sound and the speech stream at the head of the queue. */
-  private fun mix(out: FloatArray) {
-    val iterator = clips.iterator()
-    while (iterator.hasNext()) {
-      val playing = iterator.next()
-      val frames = playing.clip.frames
-      val channels = playing.clip.channels
-      // A mono clip reads its one channel for both sides.
-      val right = channels - 1
-      val total = frames.size / channels
-      for (i in 0 until burstFrames) {
-        val position = playing.position
-        val index = position.toInt()
-        if (index >= total) break
-        val next = minOf(index + 1, total - 1)
-        val fraction = (position - index).toFloat()
-        val at = index * channels
-        val after = next * channels
-        out[i * 2] += (frames[at] * (1 - fraction) + frames[after] * fraction) * playing.left
-        out[i * 2 + 1] +=
-          (frames[at + right] * (1 - fraction) + frames[after + right] * fraction) * playing.right
-        playing.position += playing.step
-      }
-      if (playing.position >= total) iterator.remove()
-    }
-    val head = if (held) null else streams.peekFirst()
-    if (head != null && !head.mixInto(out, burstFrames)) streams.removeFirst()
-    for (i in out.indices) out[i] = out[i].coerceIn(-1f, 1f)
-  }
-
-  private fun createTrack(): AudioTrack? =
-    try {
-      val minBytes =
-        AudioTrack.getMinBufferSize(
-          sampleRate,
-          AudioFormat.CHANNEL_OUT_STEREO,
-          AudioFormat.ENCODING_PCM_FLOAT,
-        )
-      AudioTrack.Builder()
-        .setAudioAttributes(attributes)
-        .setAudioFormat(
-          AudioFormat.Builder()
-            .setEncoding(AudioFormat.ENCODING_PCM_FLOAT)
-            .setSampleRate(sampleRate)
-            .setChannelMask(AudioFormat.CHANNEL_OUT_STEREO)
-            .build()
-        )
-        .setPerformanceMode(AudioTrack.PERFORMANCE_MODE_LOW_LATENCY)
-        .setTransferMode(AudioTrack.MODE_STREAM)
-        .setBufferSizeInBytes(minBytes)
-        .build()
-        .also {
-          fitBuffer(it)
-          // Moving to another output, such as Bluetooth, can lose or gain the fast path.
-          it.addOnRoutingChangedListener({ routed -> fitBuffer(routed as AudioTrack) }, mainHandler)
-        }
-    } catch (e: RuntimeException) {
-      LogUtils.e(TAG, "Cannot create a low-latency track: %s", e)
-      null
-    }
-
-  /**
-   * Queues two bursts on the fast path, so new sound waits no longer than that, or more if it ran
-   * short before. The burst Android reports can be smaller than the fast mixer's period, such as 144
-   * frames for a 192 frame period. Other outputs, such as Bluetooth without the fast path, mix a
-   * much larger period at a time, so the buffer starts at SLOW_BUFFER_MS there. Both grow in
-   * [keepUp] until the mixer stops running short.
-   */
   private fun fitBuffer(output: AudioTrack) {
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
@@ -878,6 +764,36 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
         output.bufferSizeInFrames,
         fast,
       )
+    } catch (e: IllegalStateException) {
+      // Released already.
+    }
+  }
+
+  private fun followMedia() {
+    val am = audioManager ?: return
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || released || broken) return
+    val output = track ?: return
+    val target =
+      try {
+        val ours = am.getAudioDevicesForAttributes(attributes).firstOrNull()?.type
+        val media = am.getAudioDevicesForAttributes(MEDIA_ATTRIBUTES).firstOrNull()
+        val send =
+          sendToMedia(am.mode, ours, output.routedDevice?.type, media?.type, stickyDetour)
+        stickyDetour = send && ours != AudioDeviceInfo.TYPE_BUILTIN_EARPIECE
+        media.takeIf { send }
+      } catch (e: RuntimeException) {
+        LogUtils.w(TAG, "Cannot find the media output: %s", e)
+        return
+      }
+    detour = target
+    if (output.preferredDevice?.id == target?.id) return
+    if (target == null) {
+      LogUtils.d(TAG, "Track plays where Android routes it again")
+    } else {
+      LogUtils.d(TAG, "Accessibility audio is on the earpiece outside a call, sending the track to %s", describe(target))
+    }
+    try {
+      output.setPreferredDevice(target)
     } catch (e: IllegalStateException) {
       // Released already.
     }
@@ -922,63 +838,16 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     // How long the callback thread is kept with nothing to do.
     private const val THREAD_KEEP_ALIVE_MS = 5_000L
 
-    /** The most audio held speech keeps, at about 384 KB a second. */
-    const val MAX_HELD_MS = 10_000L
+    @VisibleForTesting
+    @JvmStatic
+    fun sendToMedia(mode: Int, ours: Int?, routed: Int?, mediaOutput: Int?, sticky: Boolean): Boolean =
+      mode == AudioManager.MODE_NORMAL &&
+        mediaOutput != null &&
+        mediaOutput != AudioDeviceInfo.TYPE_BUILTIN_EARPIECE &&
+        (ours == AudioDeviceInfo.TYPE_BUILTIN_EARPIECE ||
+          routed == AudioDeviceInfo.TYPE_BUILTIN_EARPIECE ||
+          sticky)
 
-    /** The most audio a speech stream may have waiting to play while not held. */
-    private const val MAX_QUEUED_MS = 30_000L
-
-    /** How long a stream at the front of the queue waits for audio before it is dropped. */
-    const val STALL_MS = 4_000L
-
-    /** How much digital silence from the engine means it silenced the audio itself. */
-    const val SILENT_MS = 500L
-
-    /** How often the watchdog looks for stalled speech and a stuck track. */
-    private const val WATCHDOG_MS = 250L
-
-    /** How long the track may take no audio before it is remade. */
-    private const val WRITE_STUCK_MS = 300L
-
-    /** How long the track may take no audio before the watchdog gives up on it. */
-    private const val TRACK_STUCK_MS = 1_500L
-
-    /** How much longer a track without the fast path may take to wake from standby. */
-    private const val WAKE_STUCK_MS = 2_000L
-
-    private val instances = HashMap<Int, LowLatencyAudio>()
-
-    // Runs every player's watchdog while its audio thread runs. Its thread ends when none is.
-    private val WATCHDOG =
-      ScheduledThreadPoolExecutor(1) { Thread(it, "LowLatencyAudio watchdog") }
-        .apply {
-          setKeepAliveTime(THREAD_KEEP_ALIVE_MS, TimeUnit.MILLISECONDS)
-          allowCoreThreadTimeOut(true)
-          removeOnCancelPolicy = true
-        }
-
-    /** An executor running tasks in order on one thread, which ends when it has nothing to do. */
-    private fun singleThreadExecutor(name: String): Executor =
-      ThreadPoolExecutor(
-          1,
-          1,
-          THREAD_KEEP_ALIVE_MS,
-          TimeUnit.MILLISECONDS,
-          LinkedBlockingQueue(),
-        ) {
-          Thread(it, name)
-        }
-        .apply { allowCoreThreadTimeOut(true) }
-
-    /** The players made so far, without making new ones. */
-    /** Whether an app is recording from the microphone, set by [setMicrophoneInUse]. */
-    @Volatile private var microphoneInUse = false
-
-    /**
-     * Whether an app is recording from the microphone. Speech and sounds then play the usual way:
-     * some apps, such as Gemini, don't hear the user while the accessibility service itself plays
-     * audio, but do while the speech engine plays it.
-     */
     @JvmStatic fun isMicrophoneInUse(): Boolean = microphoneInUse
 
     /**
@@ -993,22 +862,76 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     @JvmStatic
     fun players(): List<LowLatencyAudio> = synchronized(instances) { instances.values.toList() }
 
-    /** Stops every speech stream of every player made so far, without making new ones. */
     @JvmStatic
-    fun stopAllStreams() {
+    fun remakeTracks() {
       val players = synchronized(instances) { instances.values.toList() }
-      for (player in players) player.stopStreams()
+      LogUtils.d(TAG, "A call ended, making %d low-latency tracks again", players.size)
+      for (player in players) player.remake()
     }
 
-    /**
-     * Shuts down every player, releasing their tracks, for when the setting is turned off or the
-     * service stops. Players are made again when next needed.
-     */
     @JvmStatic
     fun shutdownAll() {
       val players = synchronized(instances) { instances.values.toList().also { instances.clear() } }
       for (player in players) player.shutdown()
+      stopWatchingRoutes()
     }
+
+    private fun followMediaAll() {
+      val check = Runnable { ROUTES.execute { for (player in players()) player.followMedia() } }
+      routeHandler.removeCallbacksAndMessages(FOLLOW_MEDIA_TOKEN)
+      routeHandler.post(check)
+      routeHandler.postAtTime(check, FOLLOW_MEDIA_TOKEN, SystemClock.uptimeMillis() + ROUTE_SETTLE_MS)
+    }
+
+    private val FOLLOW_MEDIA_TOKEN = Any()
+
+    @Volatile private var inCall = false
+
+    private fun watchRoutes(context: Context) {
+      if (routeWatcher != null || Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+      val audioManager = context.getSystemService(AudioManager::class.java) ?: return
+      inCall = isCallMode(audioManager.mode)
+      val modeListener =
+        AudioManager.OnModeChangedListener { mode ->
+          val wasInCall = inCall
+          inCall = isCallMode(mode)
+          if (wasInCall && mode == AudioManager.MODE_NORMAL) remakeTracks()
+          followMediaAll()
+        }
+      val communicationListener =
+        AudioManager.OnCommunicationDeviceChangedListener { followMediaAll() }
+      val deviceCallback =
+        object : AudioDeviceCallback() {
+          override fun onAudioDevicesAdded(addedDevices: Array<out AudioDeviceInfo>?) =
+            followMediaAll()
+
+          override fun onAudioDevicesRemoved(removedDevices: Array<out AudioDeviceInfo>?) =
+            followMediaAll()
+        }
+      try {
+        audioManager.addOnModeChangedListener({ it.run() }, modeListener)
+        audioManager.addOnCommunicationDeviceChangedListener({ it.run() }, communicationListener)
+        audioManager.registerAudioDeviceCallback(deviceCallback, routeHandler)
+        routeWatcher = RouteWatcher(audioManager, modeListener, communicationListener, deviceCallback)
+      } catch (e: RuntimeException) {
+        LogUtils.w(TAG, "Cannot follow the audio mode and outputs: %s", e)
+      }
+    }
+
+    private fun stopWatchingRoutes() {
+      val watcher = synchronized(instances) { routeWatcher.also { routeWatcher = null } } ?: return
+      routeHandler.removeCallbacksAndMessages(FOLLOW_MEDIA_TOKEN)
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+        runCatching { watcher.audioManager.removeOnModeChangedListener(watcher.modeListener) }
+        runCatching {
+          watcher.audioManager.removeOnCommunicationDeviceChangedListener(watcher.communicationListener)
+        }
+        runCatching { watcher.audioManager.unregisterAudioDeviceCallback(watcher.deviceCallback) }
+      }
+    }
+
+    private fun isCallMode(mode: Int): Boolean =
+      mode == AudioManager.MODE_IN_CALL || mode == AudioManager.MODE_IN_COMMUNICATION
 
     /**
      * The player for [attributes]' usage, one for each kind of audio, or null if the device cannot
@@ -1017,6 +940,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     @JvmStatic
     fun get(context: Context, attributes: AudioAttributes): LowLatencyAudio? =
       synchronized(instances) {
+        watchRoutes(context.applicationContext)
         instances
           .getOrPut(attributes.usage) { LowLatencyAudio(context.applicationContext, attributes) }
           .takeIf { it.track != null && !it.broken }

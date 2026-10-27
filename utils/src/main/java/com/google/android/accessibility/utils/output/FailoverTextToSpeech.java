@@ -82,6 +82,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -330,22 +332,8 @@ public class FailoverTextToSpeech {
    */
   private volatile @Nullable LowLatencyAudio heldPlayer;
 
-  /** When speech was held, so that the pause is not counted as speaking time. */
-  private volatile long heldSinceMs;
+  private static final long CALL_END_WAIT_MS = 3_000;
 
-  /** How long held speech waits for the pause gesture, as long as saved speech waits for it. */
-  private static final long HELD_SPEECH_TIMEOUT_MS = 800;
-
-  private final Runnable dropHeldSpeech = this::dropHeldSpeech;
-
-  /** The text of recent utterances, by ID, to match a resumed utterance with its held speech. */
-  private final Map<String, CharSequence> utteranceTexts = recentMap();
-
-  /**
-   * How far into its text a resumed utterance's held speech carried on, by utterance ID, for recent
-   * utterances. Backtalk resumes with the rest of the text, so word positions in the held speech
-   * are reported from there.
-   */
   private final Map<String, Integer> resumeOffsets = recentMap();
 
   /** A map that keeps only the last few entries put in it, since only recent speech can resume. */
@@ -420,6 +408,7 @@ public class FailoverTextToSpeech {
         if (PREF_TTS_ENGINE_KEY.equals(key)) {
           preferredTtsEngine = readPreferredEngine(sharedPrefs);
           updateDefaultEngine();
+          updateWarmEngines();
         } else if (PREF_USE_ACCESSIBILITY_STREAM_KEY.equals(key)
             || PREF_SPEECH_STREAM_KEY.equals(key)
             || PREF_ROUTE_FORCED_KEY.equals(key)) {
@@ -441,46 +430,12 @@ public class FailoverTextToSpeech {
           readLanguageSwitches(sharedPrefs);
         } else if (VoiceProfiles.isProfileKey(key)) {
           readVoiceProfile(sharedPrefs);
+          updateWarmEngines();
         }
       };
 
-  /** The number of time the current TTS has failed consecutively. */
-  private int ttsFailures;
+  private final Map<String, TextToSpeech> warmEngines = new HashMap<>();
 
-  /** The package name of the preferred TTS engine. */
-  private String defaultTtsEngine;
-
-  /** The package name of the system TTS engine. */
-  private String systemTtsEngine;
-
-  /** A temporary TTS used for switching engines. */
-  private @Nullable TextToSpeech tempTts;
-
-  /** The engine loading into the temporary TTS. */
-  private @Nullable String tempTtsEngine;
-
-  private int tempTtsGeneration;
-
-  /** The rate adjustment specified in {@link Settings}. */
-  private float defaultRate;
-
-  /** The pitch adjustment specified in {@link Settings}. */
-  private float defaultPitch;
-
-  private final List<FailoverTtsListener> listeners = new ArrayList<>();
-
-  /** Wake lock for keeping the device unlocked while reading */
-  private WakeLock wakeLock;
-
-  private final AudioManager audioManager;
-  private final TelephonyManager telephonyManager;
-
-  private boolean shouldHandleTtsCallbackInHandlerThread = true;
-
-  /**
-   * A buffer of N most recent utterance ids, used to ensure that a recent utterance's completion
-   * handler does not unlock a WakeLock used by the currently speaking utterance.
-   */
   private final Deque<String> recentUtteranceIds =
       new ConcurrentLinkedDeque<>(); // may contain nulls
 
@@ -705,6 +660,57 @@ public class FailoverTextToSpeech {
       boolean preventDeviceSleep,
       boolean flushGlobalTtsQueue,
       EventId eventId) {
+    if (!TextUtils.isEmpty(text) && (!afterCallSpeech.isEmpty() || callAudioEnding())) {
+      if (afterCallSpeech.isEmpty()) {
+        afterCallWaitSince = SystemClock.uptimeMillis();
+        mHandler.postDelayed(speakAfterCall, CALL_END_POLL_MS);
+      }
+      LogUtils.d(
+          TAG,
+          "Speech %s waits for the ended call's audio",
+          params.get(Engine.KEY_PARAM_UTTERANCE_ID));
+      afterCallSpeech.add(
+          () ->
+              speakNow(
+                  text,
+                  locale,
+                  pitch,
+                  rate,
+                  params,
+                  customFlags,
+                  stream,
+                  volume,
+                  preventDeviceSleep,
+                  flushGlobalTtsQueue,
+                  eventId));
+      return;
+    }
+    speakNow(
+        text,
+        locale,
+        pitch,
+        rate,
+        params,
+        customFlags,
+        stream,
+        volume,
+        preventDeviceSleep,
+        flushGlobalTtsQueue,
+        eventId);
+  }
+
+  private void speakNow(
+      CharSequence text,
+      @Nullable Locale locale,
+      float pitch,
+      float rate,
+      Map<String, String> params,
+      Map<String, Integer> customFlags,
+      int stream,
+      float volume,
+      boolean preventDeviceSleep,
+      boolean flushGlobalTtsQueue,
+      EventId eventId) {
     String utteranceId = params.get(Engine.KEY_PARAM_UTTERANCE_ID);
     addRecentUtteranceId(utteranceId);
 
@@ -758,117 +764,27 @@ public class FailoverTextToSpeech {
     }
   }
 
-  /** Adjust volume if we are in a phone call and speaking with phone audio stream */
-  private float calculateVolumeAdjustment() {
-    float multiple = 1.0f;
-
-    // Accessibility services will eventually have their own audio stream, making this
-    // adjustment unnecessary.
-    if (!BuildVersionUtils.isAtLeastN()) {
-
-      // If we are in a phone call...
-      // (Phone call state is often reported late, missing the first utterance.)
-      if (telephonyManager != null) {
-        int callState = telephonyManager.getCallState();
-        if (callState != TelephonyManager.CALL_STATE_IDLE) {
-          // find audio stream volumes
-          if (audioManager != null) {
-            int volumeMusic = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
-            if (volumeMusic <= 0) {
-              return 0.0f;
-            }
-            int volumeVoice = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
-            int maxVolMusic = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
-            int maxVolVoice = audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL);
-            float volumeMusicFrac =
-                (maxVolMusic <= 0) ? -1.0f : (float) volumeMusic / (float) maxVolMusic;
-            float volumeVoiceCallFrac =
-                (maxVolVoice <= 0) ? -1.0f : (float) volumeVoice / (float) maxVolVoice;
-            // If phone volume is higher than talkback/media volume...
-            if (0.0f <= volumeMusicFrac && volumeMusicFrac < volumeVoiceCallFrac) {
-              // Reduce effective volume closer to media volume.
-              // The UI volume seekbars have an exponential effect on volume,
-              // but text-to-speech volume multiple has a linear effect.
-              // So take the Nth root of the volume difference to reduce speech
-              // volume multiplier exponentially, to match the volume seekbar effect.
-              float diff = volumeVoiceCallFrac - volumeMusicFrac;
-              float numberDoublingSteps = diff / VOLUME_FRAC_PER_DOUBLING;
-              multiple = (float) Math.pow(2.0f, -numberDoublingSteps);
-            }
-          }
-        }
-      }
+  private boolean callAudioEnding() {
+    int mode = audioManager.getMode();
+    if (mode != AudioManager.MODE_IN_CALL && mode != AudioManager.MODE_IN_COMMUNICATION) {
+      return false;
     }
-    return multiple;
-  }
-
-  /** Releases the {@link WakeLock} */
-  private void allowDeviceSleep() {
-    allowDeviceSleep(null);
-  }
-
-  private void allowDeviceSleep(@Nullable String completedUtteranceId) {
-    if (wakeLock != null && wakeLock.isHeld()) {
-      boolean isRecent = recentUtteranceIds.contains(completedUtteranceId);
-      boolean isLast = Objects.equals(recentUtteranceIds.peekLast(), completedUtteranceId);
-      if (completedUtteranceId == null || isLast || !isRecent) {
-        try {
-          wakeLock.release();
-        } catch (RuntimeException unused) {
-          // Ignore: already released by timeout.
-          // TODO: Log this exception from GoogleLogger.
-        }
-      }
-    }
-  }
-
-  private void addRecentUtteranceId(String utteranceId) {
-    recentUtteranceIds.add(utteranceId);
-    while (recentUtteranceIds.size() > 10) {
-      recentUtteranceIds.poll();
-    }
-  }
-
-  @VisibleForTesting
-  public List<String> getRecentUtteranceIds() {
-    return Collections.unmodifiableList(new ArrayList<>(recentUtteranceIds));
-  }
-
-  /** Stops speech from all applications. No utterance callbacks will be sent. */
-  public void stopAll() {
-    dropHeldSpeech();
-    stopLowLatencySpeech();
+    int callState;
     try {
-      allowDeviceSleep();
-      ensureQueueFlush();
-      tts.speak("", SPEECH_FLUSH_ALL, null);
-      unfinishedUtterances.clear();
-    } catch (Exception e) {
-      // Don't care, we're not speaking.
+      callState =
+          telephonyManager == null ? TelephonyManager.CALL_STATE_IDLE : telephonyManager.getCallState();
+    } catch (SecurityException e) {
+      return false;
     }
+    long now = SystemClock.uptimeMillis();
+    if (callState != TelephonyManager.CALL_STATE_IDLE) {
+      phoneCallSeenAt = now;
+      return false;
+    }
+    return mode == AudioManager.MODE_IN_CALL
+        || (phoneCallSeenAt != 0 && now - phoneCallSeenAt < CALL_SEEN_MS);
   }
 
-  /** Stops all speech that originated from TalkBack. No utterance callbacks will be sent. */
-  public void stopFromTalkBack() {
-    if (holdLowLatencySpeech()) {
-      // The engine keeps making the held speech, so it can carry on if speech is paused.
-      allowDeviceSleep();
-      return;
-    }
-    stopLowLatencySpeech();
-    try {
-      allowDeviceSleep();
-      tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
-      unfinishedUtterances.clear();
-    } catch (Exception e) {
-      // Don't care, we're not speaking.
-    }
-  }
-
-  /**
-   * Unregisters receivers, observers, and shuts down the text-to-speech engine. No calls should be
-   * made to this object after calling this method.
-   */
   public void shutdown() {
     // The player outlives this engine, so speech it holds or waits for must not block the next.
     releaseLowLatencyAudio();
@@ -889,6 +805,12 @@ public class FailoverTextToSpeech {
 
     TextToSpeechUtils.attemptTtsShutdown(tempTts);
     tempTts = null;
+    for (TextToSpeech warm : warmEngines.values()) {
+      TextToSpeechUtils.attemptTtsShutdown(warm);
+    }
+    warmEngines.clear();
+    warmEnginesReady.clear();
+    warmEngineVoices.clear();
     if (speechCacheManager != null) {
       speechCacheManager.shutDown();
     }
@@ -1163,7 +1085,15 @@ public class FailoverTextToSpeech {
     }
     cancelEngineSwitchAwayFrom(getTargetEngine());
     // A new engine sets its voice once it starts.
-    updateDefaultEngine();
+    switchingForVoiceProfile = true;
+    try {
+      updateDefaultEngine();
+    } finally {
+      switchingForVoiceProfile = false;
+    }
+    if (tts != null && isStartingVoiceProfileEngine()) {
+      stopFromTalkBack();
+    }
     if (tts != null && tempTts == null) {
       synchronized (ttsLock) {
         cachedTtsLocale = null;
@@ -1511,58 +1441,18 @@ public class FailoverTextToSpeech {
   private void checkAudioMode() {
     int mode = audioManager.getMode();
     if (mode != lastAudioMode) {
+      boolean callEnded =
+          (lastAudioMode == AudioManager.MODE_IN_CALL
+                  || lastAudioMode == AudioManager.MODE_IN_COMMUNICATION)
+              && mode == AudioManager.MODE_NORMAL;
       lastAudioMode = mode;
+      if (callEnded && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.S) {
+        LowLatencyAudio.remakeTracks();
+      }
       audioModeChangedAt = SystemClock.uptimeMillis();
     }
   }
 
-  /** Whether the audio mode changed less than {@link #AUDIO_MODE_SETTLE_MS} ago. */
-  private boolean audioModeSettling() {
-    checkAudioMode();
-    long changedAt = audioModeChangedAt;
-    return changedAt != 0 && SystemClock.uptimeMillis() - changedAt < AUDIO_MODE_SETTLE_MS;
-  }
-
-  /** The player for speech, or null if speech should play the usual way. */
-  private @Nullable LowLatencyAudio lowLatencyPlayer() {
-    if (!lowLatencyAudio
-        || LowLatencyAudio.isMicrophoneInUse()
-        || inCall()
-        || audioModeSettling()
-        || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R
-        || (ttsEngine != null && enginesWithoutFileAudio.contains(ttsEngine))) {
-      return null;
-    }
-    return LowLatencyAudio.get(context, speechAttributes());
-  }
-
-  private AudioAttributes speechAttributes() {
-    return new AudioAttributes.Builder()
-        .setUsage(speechUsage(context))
-        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-        .build();
-  }
-
-  /** Reads a number parameter, which can be a float or a string. */
-  private static float floatParam(Bundle bundle, String key, float defaultValue) {
-    Object value = bundle.get(key);
-    if (value instanceof Number number) {
-      return number.floatValue();
-    }
-    if (value instanceof String string) {
-      try {
-        return Float.parseFloat(string);
-      } catch (NumberFormatException e) {
-        return defaultValue;
-      }
-    }
-    return defaultValue;
-  }
-
-  /**
-   * Holds the low-latency speech playing now, and returns whether there was any. Speech that is
-   * held already stays held.
-   */
   private boolean holdLowLatencySpeech() {
     if (heldUtteranceId != null) {
       return true;
@@ -1838,82 +1728,6 @@ public class FailoverTextToSpeech {
     }
   }
 
-  /** Whether the engine says it is speaking, for any app. A hung engine says it is not. */
-  private boolean isEngineSpeaking() {
-    try {
-      return tts.isSpeaking();
-    } catch (RuntimeException e) {
-      return false;
-    }
-  }
-
-  /** Notes that the engine said something about {@code utteranceId}, so it is not hung. */
-  private void engineResponded(String utteranceId, boolean finished) {
-    engineQuietSince = 0;
-    if (finished) {
-      unfinishedUtterances.remove(utteranceId);
-    }
-  }
-
-  /** Moves to another engine if the engine has said nothing about new speech in time. */
-  private void checkEngineHang() {
-    long since = engineQuietSince;
-    if (since == 0 || tts == null || !lowLatencyAudio) {
-      engineQuietSince = 0;
-      return;
-    }
-    long quiet = SystemClock.uptimeMillis() - since;
-    if (quiet < ENGINE_HANG_MS) {
-      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS - quiet);
-      return;
-    }
-    if (quiet < ENGINE_BUSY_HANG_MS && isEngineSpeaking()) {
-      // Another app's speech with the same engine comes first.
-      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS);
-      return;
-    }
-    checkAudioMode();
-    if (quiet < ENGINE_BUSY_HANG_MS && audioModeChangedAt >= since) {
-      // The audio mode changed while the engine had the speech, such as when a call started.
-      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS);
-      return;
-    }
-    @Nullable String hungUtteranceId = engineQuietUtteranceId;
-    LogUtils.e(TAG, "TTS engine %s said nothing for %d ms, so it is hung", ttsEngine, quiet);
-    engineQuietSince = 0;
-    unfinishedUtterances.clear();
-    boolean lowLatency = hungUtteranceId != null && lowLatencyRequests.containsKey(hungUtteranceId);
-    // Speech waiting on the hung engine stops, so that it holds up nothing.
-    mHandler.removeCallbacks(dropHeldSpeech);
-    heldUtteranceId = null;
-    heldPlayer = null;
-    lowLatencyStreams.clear();
-    LowLatencyAudio.stopAllStreams();
-    lowLatencyRequests.clear();
-    respokenUtterances.clear();
-    // Restarting the same engine does not help, since its process stays hung.
-    ttsFailures = Math.max(ttsFailures, MAX_TTS_FAILURES - 1);
-    attemptTtsFailover(ttsEngine);
-    if (hungUtteranceId != null && !lowLatency) {
-      utteranceProgressCallback.onError(hungUtteranceId);
-    }
-  }
-
-  /** Speaks the usual way with the current engine from now on. */
-  private void stopUsingLowLatencyAudio(String reason) {
-    lowLatencyOffReason = reason;
-    if (ttsEngine != null) {
-      enginesWithoutFileAudio.add(ttsEngine);
-    }
-    // Logged at error level, so that it shows at the default log level: speech slows down from
-    // here on, and the reason is needed to tell why.
-    LogUtils.e(TAG, "Low-latency playback off for %s: %s", ttsEngine, reason);
-  }
-
-  /**
-   * Says a low-latency utterance that failed again the usual way. If {@code engineAtFault}, the
-   * engine speaks the usual way from now on.
-   */
   private void speakAgainWithoutLowLatency(
       String utteranceId, LowLatencyAudio.@Nullable SpeechStream stream, boolean engineAtFault) {
     // A stream that stalled has left its player already.
@@ -2176,6 +1990,10 @@ public class FailoverTextToSpeech {
 
     final int generation = ++tempTtsGeneration;
     tempTtsEngine = engine;
+    tempTtsForVoiceProfile = switchingForVoiceProfile;
+    if (switchingForVoiceProfile) {
+      voiceProfileEngineWaitEnd = SystemClock.uptimeMillis() + MAX_VOICE_PROFILE_ENGINE_WAIT_MS;
+    }
     tempTts =
         new TextToSpeech(context, status -> mHandler.onTtsInitialized(status, generation), engine);
   }
@@ -2237,21 +2055,38 @@ public class FailoverTextToSpeech {
     this.tempTts = null;
     this.tempTtsEngine = null;
 
-    synchronized (ttsLock) {
-      cachedTtsLocale = null;
-      engineVoices = null;
-      missingVoice = null;
-    }
-
     if (status != TextToSpeech.SUCCESS) {
+      synchronized (ttsLock) {
+        cachedTtsLocale = null;
+        engineVoices = null;
+        missingVoice = null;
+      }
       attemptTtsFailover(tempTtsEngine);
       return;
+    }
+
+    useEngine(tempTts, tempTtsEngine, tempTtsForVoiceProfile, null);
+  }
+
+  @SuppressWarnings("deprecation")
+  private void useEngine(
+      TextToSpeech newTts,
+      @Nullable String engine,
+      boolean forVoiceProfile,
+      @Nullable Set<Voice> voices) {
+    final Set<Voice> oldVoices;
+    synchronized (ttsLock) {
+      oldVoices = engineVoices;
+      cachedTtsLocale = null;
+      mLastUtteranceLocale = null;
+      engineVoices = voices;
+      missingVoice = null;
     }
 
     final boolean isSwitchingEngines = (tts != null);
 
     if (isSwitchingEngines) {
-      TextToSpeechUtils.attemptTtsShutdown(tts);
+      retireEngine(tts, ttsEngine, oldVoices, engine);
     }
     // Speech from an engine that is gone never finishes, so it must not hold up the new engine's.
     mHandler.removeCallbacks(dropHeldSpeech);
@@ -2265,24 +2100,26 @@ public class FailoverTextToSpeech {
     engineQuietSince = 0;
     unfinishedUtterances.clear();
 
-    tts = tempTts;
+    tts = newTts;
     tts.setOnUtteranceProgressListener(lowLatencyRouter);
 
-    if (tempTtsEngine == null) {
+    if (engine == null) {
       ttsEngine = TextToSpeechCompatUtils.getCurrentEngine(tts);
     } else {
-      ttsEngine = tempTtsEngine;
+      ttsEngine = engine;
     }
 
     updateDefaultLocale();
 
     applyAudioAttributes();
 
-    LogUtils.i(TAG, "Switched to TTS engine: %s", tempTtsEngine);
+    LogUtils.i(TAG, "Switched to TTS engine: %s", engine);
 
+    engineForVoiceProfile = forVoiceProfile;
     for (FailoverTtsListener mListener : listeners) {
-      mListener.onTtsInitialized(isSwitchingEngines, tempTtsEngine);
+      mListener.onTtsInitialized(isSwitchingEngines, engine);
     }
+    updateWarmEngines();
   }
 
   /**
@@ -2431,44 +2268,123 @@ public class FailoverTextToSpeech {
 
   private @Nullable String getTargetEngine() {
     VoiceProfile profile = VoiceProfiles.active();
-    String preferred = profile != null ? profile.engine() : preferredTtsEngine;
-    return (preferred != null && installedTtsEngines.contains(preferred))
-        ? preferred
-        : defaultTtsEngine;
+    return engineToUse(profile != null ? profile.engine() : preferredTtsEngine);
   }
 
-  public void updateDefaultEngine() {
-    final ContentResolver resolver = context.getContentResolver();
-
-    // Always refresh the list of available engines, since the user may have
-    // installed a new TTS and then switched to it.
-    installedTtsEngines.clear();
-    systemTtsEngine =
-        TextToSpeechUtils.reloadInstalledTtsEngines(
-            context.getPackageManager(), installedTtsEngines);
-
-    // This may be null if the user hasn't specified an engine.
-    defaultTtsEngine = Secure.getString(resolver, Secure.TTS_DEFAULT_SYNTH);
-
-    // Switch engines when the target engine changes and it's not the current engine.
-    final String targetEngine = getTargetEngine();
-    if (targetEngine != null && targetEngine.equals(tempTtsEngine)) {
+  private void updateWarmEngines() {
+    if (tts == null) {
       return;
     }
-    if (ttsEngine == null || !ttsEngine.equals(targetEngine)) {
-      if (installedTtsEngines.contains(targetEngine)) {
-        setTtsEngine(targetEngine, true);
-      } else if (!installedTtsEngines.isEmpty()) {
-        // We'll take whatever TTS we can get.
-        setTtsEngine(installedTtsEngines.getFirst(), true);
+    Set<String> targets = voiceProfileEngines();
+    targets.remove(ttsEngine);
+    targets.remove(tempTtsEngine);
+    for (String engine : new ArrayList<>(warmEngines.keySet())) {
+      if (!targets.contains(engine)) {
+        dropWarmEngine(engine);
+      } else if (warmEnginesReady.contains(engine) && !isConnected(warmEngines.get(engine))) {
+        LogUtils.w(TAG, "TTS engine for voice profiles stopped: %s", engine);
+        dropWarmEngine(engine);
+      }
+    }
+    for (String engine : targets) {
+      if (!warmEngines.containsKey(engine)) {
+        LogUtils.i(TAG, "Starting TTS engine for voice profiles: %s", engine);
+        TextToSpeech[] started = new TextToSpeech[1];
+        started[0] =
+            new TextToSpeech(
+                context,
+                status -> mHandler.post(() -> handleWarmEngineStarted(engine, started[0], status)),
+                engine);
+        warmEngines.put(engine, started[0]);
       }
     }
   }
 
-  /**
-   * Loads the default pitch adjustment from {@link Secure#TTS_DEFAULT_PITCH}. This will take effect
-   * during the next call to {@link #trySpeak}.
-   */
+  private void dropWarmEngine(String engine) {
+    TextToSpeechUtils.attemptTtsShutdown(warmEngines.remove(engine));
+    warmEnginesReady.remove(engine);
+    warmEngineVoices.remove(engine);
+  }
+
+  private static boolean isConnected(TextToSpeech engine) {
+    try {
+      return engine.stop() == TextToSpeech.SUCCESS;
+    } catch (RuntimeException e) {
+      return false;
+    }
+  }
+
+  private void handleWarmEngineStarted(String engine, TextToSpeech started, int status) {
+    if (warmEngines.get(engine) != started) {
+      return;
+    }
+    if (status != TextToSpeech.SUCCESS) {
+      LogUtils.w(TAG, "TTS engine for voice profiles failed to start: %s", engine);
+      warmEngines.remove(engine);
+      TextToSpeechUtils.attemptTtsShutdown(started);
+      return;
+    }
+    warmEnginesReady.add(engine);
+    try {
+      warmEngineVoices.put(engine, started.getVoices());
+    } catch (RuntimeException e) {
+    }
+  }
+
+  private boolean useWarmEngine(String engine) {
+    if (tts == null || !warmEnginesReady.contains(engine)) {
+      return false;
+    }
+    if (!isConnected(warmEngines.get(engine))) {
+      LogUtils.w(TAG, "TTS engine for voice profiles stopped: %s", engine);
+      dropWarmEngine(engine);
+      return false;
+    }
+    TextToSpeech warm = warmEngines.remove(engine);
+    warmEnginesReady.remove(engine);
+    Set<Voice> voices = warmEngineVoices.remove(engine);
+    if (tempTts != null) {
+      TextToSpeechUtils.attemptTtsShutdown(tempTts);
+      tempTts = null;
+      tempTtsEngine = null;
+      tempTtsGeneration++;
+    }
+    ttsFailures = 0;
+    LogUtils.i(TAG, "Using started TTS engine: %s", engine);
+    useEngine(warm, engine, switchingForVoiceProfile, voices);
+    return true;
+  }
+
+  private void retireEngine(
+      TextToSpeech retired,
+      @Nullable String engine,
+      @Nullable Set<Voice> voices,
+      @Nullable String newEngine) {
+    if (engine == null
+        || engine.equals(newEngine)
+        || warmEngines.containsKey(engine)
+        || !voiceProfileEngines().contains(engine)) {
+      TextToSpeechUtils.attemptTtsShutdown(retired);
+      return;
+    }
+    try {
+      retired.setOnUtteranceProgressListener(null);
+      retired.stop();
+    } catch (RuntimeException e) {
+      TextToSpeechUtils.attemptTtsShutdown(retired);
+      return;
+    }
+    warmEngines.put(engine, retired);
+    warmEnginesReady.add(engine);
+    warmEngineVoices.put(engine, voices);
+  }
+
+  public boolean isStartingVoiceProfileEngine() {
+    return tempTts != null
+        && tempTtsForVoiceProfile
+        && SystemClock.uptimeMillis() < voiceProfileEngineWaitEnd;
+  }
+
   private void updateDefaultPitch() {
     defaultPitch = (Secure.getInt(resolver, Secure.TTS_DEFAULT_PITCH, 100) / 100.0f);
     for (FailoverTtsListener listener : listeners) {
