@@ -9,7 +9,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.utils.ScreenshotSaver;
 import com.google.android.accessibility.utils.screencapture.ScreenshotCapture;
-import com.google.android.accessibility.utils.screencapture.ScreenCaptureController.CaptureListener;
+import com.google.android.libraries.accessibility.utils.screencapture.ScreenCaptureController.CaptureListener;
 import com.google.android.libraries.accessibility.utils.bitmap.BitmapUtils;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
