@@ -20,6 +20,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.googlecode.tesseract.android.TessBaseAPI;
@@ -45,7 +46,25 @@ public final class TesseractOcr {
   private static final int READ_TIMEOUT_MS = 60000;
 
   private static final Object ENGINE_LOCK = new Object();
+  private static final long IDLE_TIMEOUT_MS = 180000L;
+  private static final Handler IDLE_HANDLER = new Handler(Looper.getMainLooper());
   private static TessBaseAPI engine;
+  private static long lastUsedMs;
+  private static final Runnable IDLE_RELEASE =
+      () -> {
+        synchronized (ENGINE_LOCK) {
+          if (engine == null) {
+            return;
+          }
+          long idleMs = SystemClock.elapsedRealtime() - lastUsedMs;
+          if (idleMs >= IDLE_TIMEOUT_MS) {
+            engine.recycle();
+            engine = null;
+          } else {
+            IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS - idleMs);
+          }
+        }
+      };
 
   public interface DownloadListener {
     void onDownloadFinished(boolean success);
@@ -133,7 +152,11 @@ public final class TesseractOcr {
           }
         }
         engine.setImage(bitmap);
-        return engine.getUTF8Text();
+        String text = engine.getUTF8Text();
+        lastUsedMs = SystemClock.elapsedRealtime();
+        IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
+        IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS);
+        return text;
       } catch (RuntimeException e) {
         LogUtils.w(TAG, "Recognition failed: " + e.getMessage());
         return null;
@@ -143,6 +166,7 @@ public final class TesseractOcr {
 
   public static void release() {
     synchronized (ENGINE_LOCK) {
+      IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
       if (engine != null) {
         engine.recycle();
         engine = null;
