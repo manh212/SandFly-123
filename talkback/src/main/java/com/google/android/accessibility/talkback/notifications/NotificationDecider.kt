@@ -50,6 +50,11 @@ enum class Outcome {
   BUSY,
   /** An incoming call, announced as calls always are. */
   CALL,
+  WAITING,
+  READ_IN_SANDFLY_VOICE,
+  SILENCED,
+  CANCELLED,
+  TOO_MANY,
 }
 
 /** What to do with a notification. */

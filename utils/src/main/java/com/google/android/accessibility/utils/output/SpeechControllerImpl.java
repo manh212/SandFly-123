@@ -1741,6 +1741,7 @@ public class SpeechControllerImpl implements SpeechController {
     LogUtils.v(TAG, "interruptInternal, stopTtsSpeechCompletely=" + stopTtsSpeechCompletely);
 
     clearUtteranceRangeStartCallbacks();
+    mUtteranceStartActions.clear();
     // Clear and post all remaining completion actions.
     clearUtteranceCompletionActions(true);
 
@@ -2661,6 +2662,11 @@ public class SpeechControllerImpl implements SpeechController {
       if (runnable != null) {
         runUtteranceCompleteRunnable(runnable, status);
       }
+    }
+    UtteranceStartAction startAction;
+    while (((startAction = mUtteranceStartActions.peek()) != null)
+        && (startAction.utteranceIndex <= utteranceIndex)) {
+      mUtteranceStartActions.remove(startAction);
     }
 
     mUtteranceRangeStartCallbacks.remove(utteranceIndex);

@@ -506,6 +506,11 @@
     <string name="notification_outcome_busy">Not read: another notification was read</string>
     <!-- Outcome in the notification history: an incoming call, announced as calls always are. -->
     <string name="notification_outcome_call">Announced as a call</string>
+    <string name="notification_outcome_waiting">Đang chờ đọc</string>
+    <string name="notification_outcome_sandfly_voice">Đã đọc bằng giọng SandFly: hồ sơ giọng nói bị lỗi</string>
+    <string name="notification_outcome_silenced">Không đọc: giọng nói bị tắt tiếng</string>
+    <string name="notification_outcome_cancelled">Không đọc: đã dừng trước khi bắt đầu</string>
+    <string name="notification_outcome_too_many">Không đọc: quá nhiều thông báo đang chờ</string>
     <!-- Action that adds a rule. -->
     <string name="notification_rule_add">Add a rule</string>
     <!-- Action that adds a ready-made rule. -->
