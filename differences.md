@@ -34,7 +34,7 @@ In a test on a Realme phone, three in four swipes reused the reading order, and 
 
 ### Low-latency audio
 
-Android's usual audio path adds about 60 to 70 ms before a sound or speech reaches the speaker. When you turn on **Controls** > **Touch and activation** > **Reduce delay** > **Low-latency audio**, SandFly plays its sounds and speech through a single fast audio track at your phone's own sample rate. On a Galaxy Z Fold7, this path takes about 21 ms.
+Android's usual audio path adds about 60 to 70 ms before a sound or speech reaches the speaker. When you turn on **Sound and vibration** > **Low-latency audio**, SandFly plays its sounds and speech through a single fast audio track at your phone's own sample rate. On a Galaxy Z Fold7, this path takes about 21 ms.
 
 Low-latency audio also changes how pausing speech works. When you tap with two fingers, speech stops mid-word, and when you resume, it carries on from exactly where it stopped. SandFly holds up to 10 seconds of paused speech.
 
@@ -44,7 +44,7 @@ Low-latency audio is on by default. If you used an earlier version of SandFly wi
 
 ### Always interrupt speech
 
-Ordinarily, speech is queued: an announcement waits until the ones before it have finished, so a new announcement can be heard seconds after it was made. When you turn on **Controls** > **Touch and activation** > **Reduce delay** > **Always interrupt speech**, every new announcement instead stops the one currently speaking and clears the ones waiting, so you always hear the newest announcement straight away. Announcements that SandFly itself marks as uninterruptible are still left to finish. The setting is off by default; turn it off again if announcements you want to hear in full get cut off.
+Ordinarily, speech is queued: an announcement waits until the ones before it have finished, so a new announcement can be heard seconds after it was made. When you turn on **Speech** > **Always interrupt speech**, every new announcement instead stops the one currently speaking and clears the ones waiting, so you always hear the newest announcement straight away. Announcements that SandFly itself marks as uninterruptible are still left to finish. The setting is off by default; turn it off again if announcements you want to hear in full get cut off.
 
 ### Less lag while scrolling
 

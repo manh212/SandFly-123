@@ -16,18 +16,25 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
+import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.text.TextUtils;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
+import androidx.preference.TwoStatePreference;
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.eventprocessor.PhoneticLetterMode;
+import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.talkback.speech.SpeechCacheController;
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 
 /** Fragment holding a set of onscreen keyboard preferences. */
 public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
@@ -58,6 +65,9 @@ public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
             }
           }
         }
+        if (TextUtils.equals(key, getString(R.string.pref_typing_confirmation_key))) {
+          updateLongPressPreference();
+        }
       };
 
   public OnScreenKeyboardFragment() {
@@ -83,6 +93,10 @@ public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
       return;
     }
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    if (!FeatureFlagReader.hasLocalCacheCapability(context)) {
+      PreferenceSettingsUtils.hidePreference(
+          context, getPreferenceScreen(), R.string.pref_cache_keyboard_keys);
+    }
   }
 
   @Override
@@ -124,6 +138,8 @@ public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
             R.string.pref_verbosity_preset_key,
             R.string.pref_verbosity_preset_value_default);
     updateSpeakPhoneticLetters(verbosityValue);
+    updateLongPressPreference();
+    updateKeyboardCachePreference();
     prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
   }
 
@@ -150,5 +166,36 @@ public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
     preference.setValue(PhoneticLetterMode.read(prefs, getResources()));
     // Disable default verbosity preference details if it is high or low.
     preference.setEnabled(!VerbosityPreferences.isVerbosityValueHighOrLow(verbosityValue, context));
+  }
+
+  private void updateLongPressPreference() {
+    Preference preference = findPreference(getString(R.string.pref_typing_long_press_duration_key));
+    if (!(preference instanceof ListPreference list)) {
+      return;
+    }
+    int method = SharedPreferencesUtils.getIntFromStringPref(
+        prefs, getResources(), R.string.pref_typing_confirmation_key,
+        R.string.pref_typing_confirmation_default);
+    list.setValue(prefs.getString(
+        getString(R.string.pref_typing_long_press_duration_key),
+        getString(R.string.pref_typing_long_press_duration_default)));
+    list.setEnabled(method != DOUBLE_TAP);
+  }
+
+  private void updateKeyboardCachePreference() {
+    Preference preference = findPreference(getString(R.string.pref_cache_keyboard_keys));
+    if (!(preference instanceof TwoStatePreference cache)) {
+      return;
+    }
+    TextToSpeech engine = new TextToSpeech(context.getApplicationContext(), status -> {});
+    boolean supported = TextUtils.equals(
+        SpeechCacheController.DEFAULT_CACHE_SUPPORT_TTS_ENGINE, engine.getDefaultEngine());
+    engine.shutdown();
+    cache.setEnabled(supported);
+    cache.setSummary(supported
+        ? R.string.summary_cache_keyboard_keys : R.string.summary_cache_keyboard_keys_disabled);
+    cache.setChecked(SharedPreferencesUtils.getBooleanPref(
+        prefs, getResources(), R.string.pref_cache_keyboard_keys,
+        R.bool.pref_cache_keyboard_keys_default));
   }
 }

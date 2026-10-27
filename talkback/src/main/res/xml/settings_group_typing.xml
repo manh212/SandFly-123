@@ -40,5 +40,18 @@
         android:defaultValue="@bool/pref_interrupt_enter_default"
         android:key="@string/pref_interrupt_enter_key"
         android:title="@string/title_pref_interrupt_enter" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_cache_keyboard_keys_default"
+        android:title="@string/title_pref_cache_keyboard_keys"
+        android:summary="@string/summary_cache_keyboard_keys"
+        android:key="@string/pref_cache_keyboard_keys" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_typing_long_press_duration_default"
+        android:dialogTitle="@string/title_pref_typing_long_tap_duration"
+        android:entries="@array/pref_typing_long_press_entries"
+        android:entryValues="@array/pref_typing_long_press_values"
+        android:key="@string/pref_typing_long_press_duration_key"
+        android:summary="%s"
+        android:title="@string/title_pref_typing_long_tap_duration" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

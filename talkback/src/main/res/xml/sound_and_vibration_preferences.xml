@@ -1,6 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="true"
+      android:title="@string/title_pref_low_latency_audio"
+      android:summary="@string/summary_pref_low_latency_audio"
+      android:key="pref_low_latency_audio" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_soundback_default"
       android:key="@string/pref_soundback_key"

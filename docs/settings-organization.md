@@ -17,7 +17,7 @@ not by an arbitrary limit on the number of levels.
 | Descriptions and AI | Keep automatic description behavior, cloud providers and on-device models together. Provider credentials and individual model management remain dedicated editors. |
 | Apps | Keep scripts and custom labels as app-specific customization. A script's own configurable schema remains controlled by that script. |
 | Tools | Keep timer and offline translation configuration as separate tools. |
-| System and help | Show setup, backup, resume behavior, installation identity, performance and developer access here. Remove the Advanced settings landing page. |
+| System and help | Show setup, backup, resume behavior, installation identity, response-settings reset and developer access here. Remove the Advanced settings and Reduce delay landing pages. |
 
 ## Specific relocations
 
@@ -28,8 +28,14 @@ not by an arbitrary limit on the number of levels.
 - Spoken element identifiers belong to Developer settings.
 - Text formatting announcement mode is a list dialog on the formatting page,
   rather than a separate screen for a single selection.
-- Performance and latency configuration is accessed through System and help,
-  rather than nested below touch activation.
+- Remove the Reduce delay screen. Low-latency audio belongs to Sound and
+  vibration; always interrupting speech belongs to Speech; window delay and
+  preparing items before scrolling belong to Navigation; keyboard caching and
+  long-press timing belong to Typing.
+- Preserve the response-settings reset action under System and help. Its
+  confirmation lists its scope, and unrelated settings are retained.
+- Notification delay and queue handling belong to When to read; re-reading until
+  the screen wakes belongs to Repeats; the duration limit belongs to Stop reading.
 
 ## State and visibility
 
@@ -45,3 +51,44 @@ profile lists, provider availability and hidden options affect that count.
 
 CI checks the settings contract, builds, unit tests and lint. The owner verifies
 the resulting dev build's screen reader focus and navigation on a phone.
+
+## Source audit coverage
+
+The follow-up source pass covers all twelve main entries and the 37 XML screens
+reachable through their explicit fragment links. This is a source inventory,
+not a count of screens or rows visible on a particular phone. Runtime filtering,
+alternative keyboard keymaps and dynamically generated editors also affect the
+interface.
+
+| Main entry XML | Linked XML screens reviewed |
+| --- | --- |
+| `updates_preferences` | `updates_preferences` |
+| `settings_group_speech` | `screen_announcement_preferences`, `settings_group_speech`, `text_formatting_detail_preferences`, `text_to_speech_preferences` |
+| `settings_group_navigation` | `settings_group_navigation`, `touch_activation_preferences`, `volume_key_preferences` |
+| `settings_group_gestures_shortcuts` | `default_key_combo_preferences`, `gesture_preferences`, `settings_group_gestures_shortcuts` |
+| `settings_group_menu_controls` | `context_menu_preferences`, `navigation_menu_preferences`, `selector_menu_preferences`, `settings_group_menu_controls` |
+| `sound_and_vibration_preferences` | `sound_and_vibration_preferences` |
+| `notification_preferences` | `notification_kinds_preferences`, `notification_preferences`, `notification_reading_preferences`, `notification_repeats_preferences`, `notification_schedules_preferences`, `notification_stop_preferences`, `notification_when_preferences` |
+| `settings_group_typing` | `dictation_preferences`, `settings_group_typing`, `typing_method_preferences` |
+| `settings_group_screen_info` | `automatic_descriptions_preferences`, `gemini_settings`, `settings_group_screen_info` |
+| `settings_group_apps` | `settings_group_apps` |
+| `settings_group_tools` | `offline_translation_preferences`, `settings_group_tools`, `timer_preferences` |
+| `settings_group_system_help` | `developer_preferences`, `diagnostics_preferences`, `dump_events_preferences`, `settings_group_system_help` |
+
+The only repeated row key in this static traversal is `pref_notification_access`
+on When to read, Stop reading and Schedules. These are conditional permission
+shortcuts for features that need notification access, rather than duplicate
+stored choices.
+
+Generated screens are assessed separately: voice profile lists and editors,
+notification app filters, substitutions, rules and history, direct-touch app
+lists, dictation models, sound themes and individual feedback, AI providers and
+models, quick settings items, status ordering, scripts and custom labels. Their
+object editors remain nested because they configure the selected profile, app,
+rule, model, theme, script or label. Script-defined settings can supply their own
+schema and are not fixed rows in the application's XML.
+
+The relocated typing controls retain the engine and feature checks for keyboard
+caching, and long-press timing is disabled for double-tap typing. Notification
+numeric choices are initialized by the same shared settings implementation on
+their new pages. CI regression tests cover these behaviors and reset scope.

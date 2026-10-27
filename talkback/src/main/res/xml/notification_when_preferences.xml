@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Notifications > When to read: the device states in which notifications are read. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="pref_notification_access"
@@ -75,4 +74,16 @@
         android:key="pref_notification_quiet_end"
         android:title="@string/notification_quiet_end_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <ListPreference
+      android:defaultValue="0"
+      android:key="pref_notification_delay"
+      android:summary="%s"
+      android:title="@string/notification_delay_title" />
+  <ListPreference
+      android:defaultValue="QUEUE"
+      android:entries="@array/notification_queue_entries"
+      android:entryValues="@array/notification_queue_values"
+      android:key="pref_notification_queue"
+      android:summary="%s"
+      android:title="@string/notification_queue_title" />
 </PreferenceScreen>

@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Notifications > Repeats: notifications that come again, and apps that post many. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <ListPreference
+      android:defaultValue="0"
+      android:key="pref_notification_repeat_minutes"
+      android:summary="%s"
+      android:title="@string/notification_repeat_minutes_title" />
   <ListPreference
       android:defaultValue="0"
       android:key="pref_notification_repeat_seconds"

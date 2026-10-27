@@ -34,6 +34,11 @@
         android:key="@string/pref_time_feedback_format_key"
         android:summary="%s"
         android:title="@string/pref_time_feedback_format_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:title="@string/title_pref_always_interrupt_speech"
+        android:summary="@string/summary_pref_always_interrupt_speech"
+        android:key="pref_always_interrupt_speech" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_spoken_item_information"

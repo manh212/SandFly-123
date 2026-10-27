@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Notifications > Stop reading: what stops a notification being read. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="pref_notification_access"
@@ -40,4 +39,9 @@
       android:defaultValue="false"
       android:key="pref_notification_app_cancel_stops"
       android:title="@string/notification_app_cancel_title" />
+  <ListPreference
+      android:defaultValue="0"
+      android:key="pref_notification_max_seconds"
+      android:summary="%s"
+      android:title="@string/notification_max_seconds_title" />
 </PreferenceScreen>

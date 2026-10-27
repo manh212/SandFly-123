@@ -8,6 +8,9 @@
   <string name="title_pref_spoken_item_information" translatable="false">Thông tin về mục</string>
   <string name="title_pref_echo_virtual_keyboard" translatable="false">Đọc khi gõ bàn phím ảo</string>
   <string name="title_pref_echo_hardware_keyboard" translatable="false">Đọc khi gõ bàn phím thực</string>
+  <string name="title_pref_reset_responsiveness" translatable="false">Khôi phục cài đặt phản hồi</string>
+  <string name="message_reset_responsiveness" translatable="false">Đặt lại nhấn một lần, chuyển cửa sổ, cách nhập phím, thời gian nhấn giữ, bộ nhớ đệm bàn phím, đọc trước khi cuộn, âm thanh độ trễ thấp và ngắt lời nói về mặc định? Các cài đặt khác được giữ nguyên.</string>
+  <string name="responsiveness_reset_done" translatable="false">Đã khôi phục cài đặt phản hồi</string>
   <string-array name="formatting_announcement_entries" translatable="false">
     <item>@string/pref_text_formatting_announcement_mode_speech_and_sound</item>
     <item>@string/pref_text_formatting_announcement_mode_speech</item>

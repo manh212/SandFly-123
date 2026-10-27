@@ -5,6 +5,12 @@ import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.TwoStatePreference
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE
+import com.google.android.accessibility.talkback.notifications.NotificationReadingFragment
+import com.google.android.accessibility.talkback.notifications.NotificationWhenFragment
+import com.google.android.accessibility.talkback.notifications.NotificationRepeatsFragment
+import com.google.android.accessibility.talkback.notifications.NotificationStopFragment
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences
 import com.google.android.accessibility.utils.FormFactorUtils
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -108,5 +114,60 @@ class OrganizedSettingsTest {
     val value = activity.resources.getStringArray(R.array.pref_keyboard_echo_values).last()
     prefs.edit().putString(echoKey, value).commit()
     assertEquals(value, echo.value)
+  }
+
+  @Test
+  fun longPressDurationFollowsTheTypingMethodWithoutLosingItsValue() {
+    val methodKey = activity.getString(R.string.pref_typing_confirmation_key)
+    val durationKey = activity.getString(R.string.pref_typing_long_press_duration_key)
+    val duration = activity.resources.getStringArray(R.array.pref_typing_long_press_values).last()
+    prefs.edit().putString(methodKey, DOUBLE_TAP.toString()).putString(durationKey, duration).commit()
+    val fragment = TypingGroupFragment()
+    open(fragment)
+    val row = requireNotNull(fragment.findPreference<ListPreference>(durationKey))
+    assertFalse(row.isEnabled)
+    prefs.edit().putString(methodKey, LIFT_TO_TYPE.toString()).commit()
+    assertTrue(row.isEnabled)
+    assertEquals(duration, row.value)
+  }
+
+  @Test
+  fun notificationTimingChoicesRetainSavedValuesOnTheirRelatedPages() {
+    val cases = listOf(
+      Triple(NotificationWhenFragment(), "pref_notification_delay", "5"),
+      Triple(NotificationRepeatsFragment(), "pref_notification_repeat_minutes", "2"),
+      Triple(NotificationStopFragment(), "pref_notification_max_seconds", "30"),
+    )
+    for ((fragment, key, value) in cases) {
+      prefs.edit().putString(key, value).commit()
+      open(fragment)
+      val row = requireNotNull(fragment.findPreference<ListPreference>(key))
+      assertTrue(row.entries.isNotEmpty())
+      assertEquals(value, row.value)
+    }
+    val reading = NotificationReadingFragment()
+    open(reading)
+    for ((_, key, _) in cases) {
+      assertTrue(reading.findPreference<androidx.preference.Preference>(key) == null)
+    }
+  }
+
+  @Test
+  fun responseResetPreservesUnrelatedSettingsAndCustomReadingValues() {
+    val customKey = presetKey(R.string.pref_verbosity_preset_value_custom, R.string.pref_a11y_hints_key)
+    val typingKey = activity.getString(R.string.pref_typing_confirmation_key)
+    prefs.edit()
+      .putString(typingKey, LIFT_TO_TYPE.toString())
+      .putBoolean("pref_low_latency_audio", false)
+      .putBoolean("pref_always_interrupt_speech", true)
+      .putBoolean(customKey, false)
+      .putString("pref_notification_format", "saved format")
+      .commit()
+    ResponseSettingsReset.reset(activity)
+    assertFalse(prefs.contains(typingKey))
+    assertFalse(prefs.contains("pref_low_latency_audio"))
+    assertFalse(prefs.contains("pref_always_interrupt_speech"))
+    assertFalse(prefs.getBoolean(customKey, true))
+    assertEquals("saved format", prefs.getString("pref_notification_format", null))
   }
 }
