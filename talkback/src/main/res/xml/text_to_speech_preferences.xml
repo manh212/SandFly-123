@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
   <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
       android:defaultValue=""
@@ -45,4 +44,9 @@
       android:key="@string/pref_speech_pitch_seekbar_key_int"
       android:persistent="false"
       android:title="@string/title_pref_speech_pitch" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_intonation_default"
+      android:key="@string/pref_intonation_key"
+      android:summary="@string/summary_pref_intonation"
+      android:title="@string/title_pref_intonation" />
 </PreferenceScreen>

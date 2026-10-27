@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
       android:key="@string/pref_text_formatting_announcement_mode_key"
       android:title="@string/title_text_formatting_announcement_mode"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.TextFormattingAnnouncementModeFragment" />
+      android:entries="@array/formatting_announcement_entries"
+      android:entryValues="@array/formatting_announcement_values"
+      android:defaultValue="@string/pref_text_formatting_announcement_mode_value_default"
+      android:summary="%s" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_text_formatting_option_key"
       android:title="@string/header_text_formatting_options">

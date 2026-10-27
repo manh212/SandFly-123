@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:key="@string/pref_category_group_system_help_key">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment"
         android:key="pref_initial_setup_screen"
         android:title="@string/timer_setup_title" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.AdvancedSettingFragment"
-        android:key="@string/pref_advanced_settings_key"
-        android:title="@string/title_pref_advanced_settings" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_export_settings_key"
         android:title="@string/title_pref_export_settings" />
@@ -21,5 +19,31 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_survey_setting_entry_point_key"
         android:title="@string/survey_setting_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_resume_backtalk_default"
+        android:dialogTitle="@string/title_pref_resume_backtalk"
+        android:entries="@array/pref_resume_backtalk_entries"
+        android:entryValues="@array/pref_resume_backtalk_values"
+        android:key="@string/pref_resume_backtalk_key"
+        android:summary="%s"
+        android:title="@string/title_pref_resume_backtalk" />
+
+
+    <com.google.android.accessibility.talkback.preference.base.CommandSwitchPreference
+        android:defaultValue="false"
+        android:key="@string/pref_play_installer_key"
+        android:persistent="false"
+        android:summary="@string/summary_pref_play_installer"
+        android:title="@string/title_pref_play_installer" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment"
+        android:key="@string/pref_category_developer_key"
+        android:title="@string/title_pref_category_developer_settings"
+        app:allowDividerAbove="true" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_category_latency_reduction_shortcut_key"
+        android:title="@string/title_pref_latency_reduction"
+        android:summary="@string/talkback_latency_reduction_summary"
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackLatencyReductionPreferenceFragment" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

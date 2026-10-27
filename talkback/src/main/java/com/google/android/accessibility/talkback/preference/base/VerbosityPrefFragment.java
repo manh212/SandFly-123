@@ -61,12 +61,16 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
   @Nullable private TwoStatePreference tellTimePreference;
 
   public VerbosityPrefFragment() {
-    super(R.xml.verbosity_preferences);
+    super(R.xml.settings_group_speech);
+  }
+
+  protected VerbosityPrefFragment(int preferenceResId) {
+    super(preferenceResId);
   }
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.pref_verbosity_title);
+    return getText(R.string.title_pref_group_speech);
   }
 
   @Override
@@ -198,20 +202,38 @@ public class VerbosityPrefFragment extends TalkbackBaseFragment {
    */
   private ArrayList<Preference> collectDetailedPreferences() {
     ArrayList<Preference> detailedPrefs = new ArrayList<>();
-    PreferenceGroup prefGroup =
-        (PreferenceGroup) findPreference(R.string.pref_verbosity_category_preset_settings_key);
-    if (prefGroup == null) {
-      return detailedPrefs;
-    }
+    collectDetailedPreferences(getPreferenceScreen(), detailedPrefs);
+    return detailedPrefs;
+  }
 
-    // For each preference... collect
-    for (int p = 0; p < prefGroup.getPreferenceCount(); p++) {
-      Preference preference = prefGroup.getPreference(p);
-      if (preference != null) {
-        detailedPrefs.add(preference);
+  private void collectDetailedPreferences(
+      PreferenceGroup group, ArrayList<Preference> detailedPrefs) {
+    int[] keys = {
+      R.string.pref_a11y_hints_key,
+      R.string.pref_speak_container_element_positions_key,
+      R.string.pref_table_speak_row_column_numbers_key,
+      R.string.pref_verbose_scroll_announcement_key,
+      R.string.pref_speak_roles_key,
+      R.string.pref_intonation_key,
+      R.string.pref_phonetic_letters_mode_key,
+      R.string.pref_capital_letters_key,
+    };
+    for (int i = 0; i < group.getPreferenceCount(); i++) {
+      Preference preference = group.getPreference(i);
+      if (preference instanceof PreferenceGroup nested) {
+        collectDetailedPreferences(nested, detailedPrefs);
+      } else {
+        String key =
+            VerbosityPreferences.restoreToCustomVerbosityPrefKey(
+                getResources(), preference.getKey());
+        for (int keyId : keys) {
+          if (getString(keyId).equals(key)) {
+            detailedPrefs.add(preference);
+            break;
+          }
+        }
       }
     }
-    return detailedPrefs;
   }
 
   /**

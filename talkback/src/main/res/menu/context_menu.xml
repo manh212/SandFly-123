@@ -36,7 +36,7 @@
   <item
       android:id="@+id/verbosity"
       android:orderInCategory="13"
-      android:title="@string/title_pref_selector_verbosity" />
+      android:title="@string/title_pref_group_speech" />
   <item
       android:id="@+id/audio_ducking"
       android:orderInCategory="16"

@@ -1,24 +1,44 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
-      android:key="@string/pref_category_group_typing_key">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:key="@string/pref_category_group_typing_key">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.dictation.DictationFragment"
         android:key="pref_dictation_screen"
         android:title="@string/title_pref_dictation" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoFragment"
-        android:key="@string/pref_keyboard_echo_screen_key"
-        android:title="@string/title_pref_keyboard_echo" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.OnScreenKeyboardFragment"
-        android:key="@string/pref_on_screen_keyboard_key"
-        android:title="@string/title_pref_on_screen_keyboard" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_physical_keyboard_key"
         android:title="@string/title_pref_physical_keyboard" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TypingMethodPrefFragment"
+        android:key="@string/pref_typing_confirmation_key"
+        android:title="@string/title_pref_typing_confirmation"
+        app:summary="%s" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_keyboard_echo_default"
+        android:entries="@array/pref_keyboard_echo_entries"
+        android:entryValues="@array/pref_keyboard_echo_values"
+        android:key="@string/pref_echo_on_screen_keyboard_key"
+        android:summary="%s"
+        android:title="@string/title_pref_echo_virtual_keyboard" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_keyboard_echo_default"
+        android:entries="@array/pref_keyboard_echo_entries"
+        android:entryValues="@array/pref_keyboard_echo_values"
+        android:key="@string/pref_echo_physical_keyboard_key"
+        android:summary="%s"
+        android:title="@string/title_pref_echo_hardware_keyboard" />
+    <ListPreference
+        android:defaultValue="@string/pref_interrupt_typing_default"
+        android:entries="@array/pref_interrupt_typing_entries"
+        android:entryValues="@array/pref_interrupt_typing_values"
+        android:key="@string/pref_interrupt_typing_key"
+        android:summary="%s"
+        android:title="@string/title_pref_interrupt_typing" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_interrupt_enter_default"
+        android:key="@string/pref_interrupt_enter_key"
+        android:title="@string/title_pref_interrupt_enter" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

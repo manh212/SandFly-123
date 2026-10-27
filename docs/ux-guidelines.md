@@ -3,6 +3,16 @@
 These rules govern every new or changed piece of user interface in this fork of
 SandFly. A feature that breaks them is not done, even if it builds.
 
+## Settings organization
+
+- Keep Updates first on the main settings screen.
+- The main screen contains navigation entries only. Controls belong inside their
+  related settings pages.
+- Place each setting with the task it affects. Avoid catch-all screens such as
+  Verbosity when their controls belong to several different tasks.
+- A nested page must configure its parent topic directly. Remove pages that only
+  add an unnecessary navigation step.
+
 ## Labels
 
 - Every interactive element **must** have an accessibility label. No exceptions:

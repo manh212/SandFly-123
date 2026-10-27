@@ -90,11 +90,11 @@ The APK retains its existing English and Vietnamese resources. From now on, new 
 The coding agent writes and reviews code, pushes it to GitHub, follows CI and reports the result. GitHub Actions handles repository checks, builds, unit tests, lint, signing, packaging and publication. The coding agent does not run builds, tests, lint or packaging on the coding machine.
 
 1. Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing code, and follow [the interface guidelines](docs/ux-guidelines.md) for interface work. Write clear code without adding comments, and review the code and diff before pushing.
-2. Push normal fixes and features directly to `master`. Only extremely large work uses a branch and pull request, with the owner's approval before either is created and before code is written. Keep one branch per feature.
+2. Commit and push all fixes and features directly to `master`, including large reorganizations. Do not create feature branches or pull requests.
 3. Follow the GitHub Actions run for the pushed commit. CI runs `scripts/pre-push-check.sh`, `scripts/check_settings_key_contract.py`, the APK build, unit tests and lint. Existing issues in `lint-baseline.xml` are allowed; new lint errors fail CI.
 4. If a check or build fails, read its failure output before diagnosing it. Use the run's `gradle-log-tail` artifact, the pull request failure summary when applicable, and the full job log or annotations when needed. Fix the cause, push the correction and follow CI again until it succeeds. If required logs cannot be accessed, report that limitation instead of guessing or rerunning blindly.
 5. For `master`, wait for both the build job and the publication job to succeed for the pushed commit. Confirm that the rolling [dev release](https://github.com/manh212/SandFly-123/releases/tag/dev) has been updated, then report the change and the CI and release links to the owner. A green build alone does not complete the task if publication has failed.
-6. The owner tests the dev build on a phone, including focus order and screen reader behavior. For extremely large work on a branch, share the CI job's `apks` artifact after CI succeeds; the owner tests it and approves the merge. Branches are never auto-merged.
+6. The owner tests the published dev build on a phone, including focus order and screen reader behavior.
 
 Upstream changes are reviewed and synchronized only when the owner requests it.
 

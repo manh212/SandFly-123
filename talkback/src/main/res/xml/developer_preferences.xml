@@ -1,35 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+<PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:key="@string/pref_category_developer_key">
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_developer_version_code_key"
       android:title="@string/title_pref_version_code"
-      android:selectable="false"/>
+      android:selectable="false" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_diagnosis_mode_default"
       android:key="@string/pref_diagnosis_mode_key"
-      android:title="@string/title_pref_diagnosis_mode"/>
+      android:title="@string/title_pref_diagnosis_mode" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tts_overlay_default"
       android:key="@string/pref_tts_overlay_key"
-      android:title="@string/title_pref_tts_overlay"/>
+      android:title="@string/title_pref_tts_overlay" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="false"
       android:key="@string/pref_on_device_ai_ignore_memory_limits_key"
       android:title="@string/title_pref_on_device_ai_ignore_memory_limits"
-      android:summary="@string/summary_pref_on_device_ai_ignore_memory_limits"/>
+      android:summary="@string/summary_pref_on_device_ai_ignore_memory_limits" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_multiple_gesture_set_default"
       android:key="@string/pref_multiple_gesture_set_key"
-      android:title="@string/title_pref_multiple_gesture_set"/>
+      android:title="@string/title_pref_multiple_gesture_set" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_echo_recognized_text_default"
       android:key="@string/pref_echo_recognized_text_speech_key"
-      android:title="@string/title_pref_echo_recognized_text_speech"/>
+      android:title="@string/title_pref_echo_recognized_text_speech" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_performance_stats_default"
       android:key="@string/pref_performance_stats_reflect_key"
-      android:title="@string/title_pref_performance_stats"/>
+      android:title="@string/title_pref_performance_stats" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_explore_by_touch_default"
       android:key="@string/pref_explore_by_touch_reflect_key"
@@ -37,11 +38,11 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tree_debug_default"
       android:key="@string/pref_tree_debug_reflect_key"
-      android:title="@string/title_pref_tree_debug"/>
+      android:title="@string/title_pref_tree_debug" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_log_overlay_default"
       android:key="@string/pref_log_overlay_key"
-      android:title="@string/title_pref_log_overlay"/>
+      android:title="@string/title_pref_log_overlay" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
       android:defaultValue="@string/pref_log_level_default"
       android:dialogTitle="@string/title_pref_log_level"
@@ -49,7 +50,7 @@
       android:entryValues="@array/pref_log_level_values"
       android:key="@string/pref_log_level_key"
       android:summary="%s"
-      android:title="@string/title_pref_log_level"/>
+      android:title="@string/title_pref_log_level" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_dump_a11y_event_key"
       android:title="@string/title_pref_dump_a11y_event"
@@ -58,4 +59,9 @@
       android:key="@string/pref_export_diagnostics_key"
       android:title="@string/title_pref_export_diagnostics"
       android:fragment="com.google.android.accessibility.talkback.preference.base.DiagnosticsPrefFragment" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_speak_element_ids_default"
+      android:key="@string/pref_speak_element_ids_key"
+      android:summary="@string/summary_pref_speak_element_ids"
+      android:title="@string/title_pref_speak_element_ids" />
 </PreferenceScreen>

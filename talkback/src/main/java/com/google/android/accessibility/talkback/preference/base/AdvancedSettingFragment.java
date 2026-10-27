@@ -25,10 +25,14 @@ import com.google.android.accessibility.talkback.shizuku.PlayInstaller;
  * Settings that most people never change. Touch and activation, navigation and the settings for
  * apps have screens of their own on the main settings screen.
  */
-public class AdvancedSettingFragment extends TalkbackBaseFragment {
+public class AdvancedSettingFragment extends TalkBackPreferenceFragment {
 
   public AdvancedSettingFragment() {
     super(R.xml.advanced_preferences);
+  }
+
+  protected AdvancedSettingFragment(int preferenceResId) {
+    super(preferenceResId);
   }
 
   @Override

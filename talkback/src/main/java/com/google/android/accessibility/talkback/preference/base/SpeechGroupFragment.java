@@ -18,8 +18,7 @@ package com.google.android.accessibility.talkback.preference.base;
 
 import com.google.android.accessibility.talkback.R;
 
-/** Main settings group holding text-to-speech and verbosity. */
-public class SpeechGroupFragment extends TalkBackPreferenceFragment {
+public class SpeechGroupFragment extends VerbosityPrefFragment {
 
   public SpeechGroupFragment() {
     super(R.xml.settings_group_speech);

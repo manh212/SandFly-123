@@ -19,7 +19,7 @@ package com.google.android.accessibility.talkback.preference.base;
 import com.google.android.accessibility.talkback.R;
 
 /** Main settings group holding navigation, touch and activation, direct touch and volume keys. */
-public class NavigationGroupFragment extends TalkBackPreferenceFragment {
+public class NavigationGroupFragment extends NavigationPrefFragment {
 
   public NavigationGroupFragment() {
     super(R.xml.settings_group_navigation);

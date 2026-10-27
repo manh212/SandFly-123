@@ -26,7 +26,7 @@ import com.google.android.accessibility.utils.output.VoiceProfiles.VoiceProfile;
 import java.util.List;
 import java.util.function.IntFunction;
 
-public class TextToSpeechSettingsFragment extends TalkbackBaseFragment {
+public class TextToSpeechSettingsFragment extends VerbosityPrefFragment {
 
   private static final int[] SEEK_BAR_KEYS = {
     R.string.pref_speech_volume_seekbar_key_int,

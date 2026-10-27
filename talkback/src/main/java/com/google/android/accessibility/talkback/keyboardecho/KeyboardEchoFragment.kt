@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.keyboardecho
 
 import android.content.SharedPreferences
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -32,7 +33,7 @@ class KeyboardEchoFragment : TalkbackBaseFragment(R.xml.keyboard_echo_preference
   private val listener =
     SharedPreferences.OnSharedPreferenceChangeListener { sharedPrefs, key ->
       val preference =
-        key?.let { findPreference<ListPreference>(it) }
+        key?.let { findPreference<Preference>(it) as? ListPreference }
           ?: return@OnSharedPreferenceChangeListener
       val value = sharedPrefs.getString(key, null)
       if (value != null && value != preference.value) {

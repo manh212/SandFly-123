@@ -19,7 +19,7 @@ package com.google.android.accessibility.talkback.preference.base;
 import com.google.android.accessibility.talkback.R;
 
 /** Main settings group holding advanced settings, settings backup and the tutorial. */
-public class SystemHelpGroupFragment extends TalkBackPreferenceFragment {
+public class SystemHelpGroupFragment extends AdvancedSettingFragment {
 
   public SystemHelpGroupFragment() {
     super(R.xml.settings_group_system_help);

@@ -19,7 +19,7 @@ package com.google.android.accessibility.talkback.preference.base;
 import com.google.android.accessibility.talkback.R;
 
 /** Main settings group holding dictation, keyboard echo and the keyboard settings. */
-public class TypingGroupFragment extends TalkBackPreferenceFragment {
+public class TypingGroupFragment extends OnScreenKeyboardFragment {
 
   public TypingGroupFragment() {
     super(R.xml.settings_group_typing);

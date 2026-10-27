@@ -19,10 +19,9 @@ the starting point for discovering them.
 - Write clear code without adding code comments. Keep code identifiers,
   documentation and commit messages in English. Write new or changed interface
   text in Vietnamese; unrelated existing text does not need to be converted.
-- Review the source and diff, then push normal fixes and features directly to
-  `master`. Only extremely large work uses a branch and pull request, with the
-  owner's approval before creating them and before writing code. Never auto-merge
-  a branch.
+- Review the source and diff, then commit and push all fixes and features directly
+  to `master`, including large changes. Do not create feature branches or pull
+  requests.
 - Leave repository checks, builds, tests, lint, signing and packaging to GitHub
   Actions. Do not run them on the coding machine. The owner performs device
   testing; review focus order and accessibility through the source.
@@ -32,7 +31,6 @@ the starting point for discovering them.
   CI until it succeeds. If required logs are inaccessible, report that limitation.
 - For `master`, confirm both CI success and successful publication of the dev
   release for the pushed commit before reporting completion. Include the CI and
-  dev release links. For branch work, share the CI preview APK for owner testing
-  and merge approval.
+  dev release links. The owner tests the published dev build on a phone.
 - Create stable releases and review or synchronize upstream changes only when
   the owner explicitly requests them.

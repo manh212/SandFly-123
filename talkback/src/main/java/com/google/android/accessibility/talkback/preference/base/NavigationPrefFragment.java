@@ -22,10 +22,14 @@ import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 
 /** Settings for where focus goes as the user moves through the screen. */
-public class NavigationPrefFragment extends TalkbackBaseFragment {
+public class NavigationPrefFragment extends VerbosityPrefFragment {
 
   public NavigationPrefFragment() {
     super(R.xml.navigation_preferences);
+  }
+
+  protected NavigationPrefFragment(int preferenceResId) {
+    super(preferenceResId);
   }
 
   @Override

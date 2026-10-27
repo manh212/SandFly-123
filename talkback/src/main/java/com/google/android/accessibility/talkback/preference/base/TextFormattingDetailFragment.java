@@ -29,12 +29,4 @@ public class TextFormattingDetailFragment extends TalkbackBaseFragment {
     return getText(R.string.title_text_formatting_options);
   }
 
-  @Override
-  public void onResume() {
-    super.onResume();
-    String announcementModeTitle =
-        TextFormattingAnnouncementModeFragment.getAnnouncementModeTitle(getContext());
-    findPreference(getString(R.string.pref_text_formatting_announcement_mode_key))
-        .setSummary(announcementModeTitle);
-  }
 }

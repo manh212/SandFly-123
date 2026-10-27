@@ -48,7 +48,7 @@ import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.menurules.CustomActionMenu;
 import com.google.android.accessibility.talkback.preference.base.TextToSpeechSettingsFragment;
-import com.google.android.accessibility.talkback.preference.base.VerbosityPrefFragment;
+import com.google.android.accessibility.talkback.preference.base.SpeechGroupFragment;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.output.FeedbackItem;
@@ -146,7 +146,7 @@ public class ContextMenuItemClickProcessor {
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_CLIPBOARD_HISTORY)));
     } else if (itemId == R.id.verbosity) {
       Intent intent = createSettingsIntent();
-      intent.putExtra(FRAGMENT_NAME, VerbosityPrefFragment.class.getName());
+      intent.putExtra(FRAGMENT_NAME, SpeechGroupFragment.class.getName());
       service.startActivity(intent);
     } else if (itemId == R.id.audio_ducking) {
       switchValueAndEcho(

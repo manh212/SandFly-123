@@ -22,6 +22,7 @@ import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 import android.text.TextUtils;
 import androidx.preference.ListPreference;
+import androidx.preference.Preference;
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.eventprocessor.PhoneticLetterMode;
@@ -29,7 +30,7 @@ import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Fragment holding a set of onscreen keyboard preferences. */
-public class OnScreenKeyboardFragment extends TalkbackBaseFragment {
+public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
   private static final String TAG = "OnScreenKeyboardFragment";
   private Context context;
   private SharedPreferences prefs;
@@ -48,6 +49,14 @@ public class OnScreenKeyboardFragment extends TalkbackBaseFragment {
                   R.string.pref_verbosity_preset_key,
                   R.string.pref_verbosity_preset_value_default);
           updateSpeakPhoneticLetters(verbosityValue);
+        } else if (key != null) {
+          Preference preference = findPreference(key);
+          if (preference instanceof ListPreference list) {
+            String value = prefs.getString(key, null);
+            if (value != null && !TextUtils.equals(value, list.getValue())) {
+              list.setValue(value);
+            }
+          }
         }
       };
 
@@ -55,8 +64,12 @@ public class OnScreenKeyboardFragment extends TalkbackBaseFragment {
     super(R.xml.on_screen_keyboard_preferences);
   }
 
+  protected OnScreenKeyboardFragment(int preferenceResId) {
+    super(preferenceResId);
+  }
+
   @Override
-  protected CharSequence getTitle() {
+  public CharSequence getTitle() {
     return getText(R.string.title_pref_on_screen_keyboard);
   }
 

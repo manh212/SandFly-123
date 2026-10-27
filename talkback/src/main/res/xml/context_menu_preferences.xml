@@ -78,11 +78,7 @@
             android:title="@string/title_granularity"
             app:singleLineTitle="false"
             android:summary="@string/summary_granularity"/>
-        <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-            android:key="@string/pref_show_context_menu_granularity_detail_setting_key"
-            android:order="7"
-            android:title="@string/title_pref_category_navigation_menu"
-            android:fragment="com.google.android.accessibility.talkback.preference.base.NavigationMenuFragment" />
+
     </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
         android:key="@string/pref_show_context_menu_reading_control_category_key"
@@ -140,8 +136,7 @@
             android:defaultValue="@bool/pref_show_context_menu_verbosity_default"
             android:key="@string/pref_show_context_menu_verbosity_setting_key"
             android:order="13"
-            android:title="@string/title_pref_selector_verbosity"
-            android:summary="@string/summary_selector_menu_verbosity"/>
+            android:title="@string/title_pref_group_speech"/>
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_show_context_menu_language_default"
