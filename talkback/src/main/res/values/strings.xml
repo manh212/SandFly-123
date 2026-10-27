@@ -4477,6 +4477,7 @@
     <string name="screen_recognition_empty">Không tìm thấy nội dung trên màn hình</string>
     <string name="screen_recognition_off">Đã tắt nhận dạng màn hình</string>
     <string name="screen_recognition_failed">Không nhận dạng được màn hình</string>
+    <string name="title_screen_recognition">Nhận dạng màn hình</string>
     <!-- Category for typing features. [CHAR LIMIT=40] -->
     <string name="title_pref_category_typing">Typing</string>
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->

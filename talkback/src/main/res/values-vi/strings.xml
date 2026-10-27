@@ -1741,6 +1741,7 @@
     <string name="screen_recognition_empty">Không tìm thấy nội dung trên màn hình</string>
     <string name="screen_recognition_off">Đã tắt nhận dạng màn hình</string>
     <string name="screen_recognition_failed">Không nhận dạng được màn hình</string>
+    <string name="title_screen_recognition">Nhận dạng màn hình</string>
     <string name="title_pref_dictation_ai_service">Dịch vụ AI cho tính năng nhập bằng giọng nói</string>
     <string name="title_pref_dictation_rambler_live">Bản chép lời trực tiếp của Rambler</string>
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>

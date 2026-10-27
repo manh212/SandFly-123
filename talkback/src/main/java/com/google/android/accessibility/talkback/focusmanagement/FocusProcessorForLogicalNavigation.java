@@ -3887,6 +3887,7 @@ public class FocusProcessorForLogicalNavigation {
             || (type == AccessibilityWindowInfo.TYPE_INPUT_METHOD)
             || (type == AccessibilityWindowInfo.TYPE_SYSTEM)
             || (type == AccessibilityWindowInfo.TYPE_MAGNIFICATION_OVERLAY)
+            || isScreenRecognitionOverlay(context, window)
             || (Role.getRole(window.getRoot()) == ROLE_FLOATING_ACTION_BUTTON);
       }
     }
@@ -3896,5 +3897,13 @@ public class FocusProcessorForLogicalNavigation {
     return (AccessibilityWindowInfoUtils.getType(window)
             == AccessibilityWindowInfoCompat.TYPE_ACCESSIBILITY_OVERLAY)
         && TextUtils.equals(window.getTitle(), context.getString(R.string.title_screen_search));
+  }
+
+  private static boolean isScreenRecognitionOverlay(
+      Context context, AccessibilityWindowInfo window) {
+    return (AccessibilityWindowInfoUtils.getType(window)
+            == AccessibilityWindowInfoCompat.TYPE_ACCESSIBILITY_OVERLAY)
+        && TextUtils.equals(
+            window.getTitle(), context.getString(R.string.title_screen_recognition));
   }
 }

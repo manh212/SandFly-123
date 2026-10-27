@@ -202,6 +202,7 @@ public class ScreenRecognitionController {
             service, this::activate, item -> announcer.announce(item.text));
     overlay.setItems(items);
     WindowManager.LayoutParams params = new WindowManager.LayoutParams();
+    params.setTitle(service.getString(R.string.title_screen_recognition));
     params.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
     params.flags =
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
@@ -210,7 +211,15 @@ public class ScreenRecognitionController {
     params.width = WindowManager.LayoutParams.MATCH_PARENT;
     params.height = WindowManager.LayoutParams.MATCH_PARENT;
     params.format = PixelFormat.TRANSLUCENT;
-    windowManager.addView(overlay, params);
+    try {
+      windowManager.addView(overlay, params);
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Overlay could not be shown: " + e.getMessage());
+      overlay = null;
+      active = false;
+      announcer.announce(service.getString(R.string.screen_recognition_failed));
+      return;
+    }
     active = true;
   }
 

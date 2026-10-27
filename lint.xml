@@ -84,5 +84,6 @@
         <ignore regexp="screen_recognition_empty" />
         <ignore regexp="screen_recognition_off" />
         <ignore regexp="screen_recognition_failed" />
+        <ignore regexp="title_screen_recognition" />
     </issue>
 </lint>
