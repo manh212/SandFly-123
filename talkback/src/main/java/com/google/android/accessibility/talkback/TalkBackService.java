@@ -1011,8 +1011,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (isServiceActive()) {
       suspendInfrastructure();
     }
-    Updater.stopAutomaticChecks();
-      ExitAfterTurnOff.schedule(getApplication());
+
+      Updater.stopAutomaticChecks();
+    ExitAfterTurnOff.schedule(getApplication());
     ShizukuGrants.onServiceDestroyed();
     instance = null;
     // Shutdown and unregister all components.
@@ -2038,7 +2039,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   protected void onServiceConnected() {
-  ExitAfterTurnOff.cancel();
+    ExitAfterTurnOff.cancel();
       super.onServiceConnected();
     EventId talkbackOnEventId =
         Performance.getInstance().onHintEventReceived(Performance.HINT_SUB_TYPE_TALKBACK_ON);
