@@ -117,6 +117,7 @@ class AiProviderFragment : TalkbackBaseFragment() {
       isSingleLine = true
       setHint(hint)
       setText(value)
+      post { requestFocus() }
     }
 
   /** [view] lined up with the dialog's message. */

@@ -72,6 +72,7 @@ object GeminiApiKeyPreference {
         isSingleLine = true
         setHint(R.string.gemini_api_key_hint)
         setText(GeminiApiKey.userKey(prefs))
+        post { requestFocus() }
       }
     // Lines the field up with the dialog's message.
     val padding = (24 * context.resources.displayMetrics.density).toInt()
