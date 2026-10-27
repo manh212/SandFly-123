@@ -111,7 +111,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       dismissDialog()
       voicePending = false
       voiceGeneration++
-      engine?.cancel()
+      if (engine?.active == true) engine?.cancel()
       engine = TaskEngine(this, apps())
       engine?.start(goal)
     }
