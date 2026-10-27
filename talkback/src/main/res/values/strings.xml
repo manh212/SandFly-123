@@ -2027,6 +2027,21 @@
     <string name="copy_focused_nothing_to_copy">Nothing to copy</string>
     <string name="touch_exploration_on">Touch exploration on</string>
     <string name="touch_exploration_off">Touch exploration off</string>
+    <string name="shortcut_monitor_focus">Monitor focused item</string>
+    <string name="shortcut_auto_translate">Automatic translation</string>
+    <string name="shortcut_copy_more">Copy more</string>
+    <string name="shortcut_take_focus_screenshot">Screenshot of focused item</string>
+    <string name="monitor_started">Monitoring focused item</string>
+    <string name="monitor_stopped">Stopped monitoring</string>
+    <string name="monitor_no_focus">Nothing focused to monitor</string>
+    <string name="auto_translate_on">Automatic translation on</string>
+    <string name="auto_translate_off">Automatic translation off</string>
+    <string name="auto_translate_pack_not_downloaded">Translation pack not downloaded</string>
+    <string name="copy_more_nothing">Nothing to copy</string>
+    <string name="copy_more_done">Copied <xliff:g id="count" example="5">%1$d</xliff:g> items</string>
+    <string name="screenshot_saved">Screenshot saved, opening share dialog</string>
+    <string name="screenshot_failed">Screenshot failed</string>
+    <string name="share_screenshot">Share screenshot</string>
     <!-- Label for the shortcut that start/stop voice input [CHAR_LIMIT=60]-->
     <string name="shortcut_voice_input">Start or end Gboard voice input</string>
     <!-- Label for the shortcut that plays/pauses or start/stop voice input [CHAR_LIMIT=90]-->

@@ -32,6 +32,7 @@ import com.google.android.accessibility.talkback.compositor.roledescription.Role
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.talkback.scripting.Scripts;
+import com.google.android.accessibility.talkback.translation.AutoTranslationController;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.input.TextEventInterpretation;
@@ -617,6 +618,9 @@ public class Compositor {
       speakOptions.mFlags |= flags;
       if (synthesizeResultNotifier != null) {
         addSpeech(ttsOutput, eventId, speechParams, synthesizeResultNotifier);
+      } else if (AutoTranslationController.isEnabled()) {
+        AutoTranslationController.translate(
+            ttsOutput, translated -> speak(translated, eventId, speakOptions));
       } else {
         speak(ttsOutput, eventId, speakOptions);
       }

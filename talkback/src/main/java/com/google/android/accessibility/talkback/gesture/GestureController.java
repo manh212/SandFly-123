@@ -108,6 +108,7 @@ import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
+import com.google.android.accessibility.talkback.focusmanagement.FocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.TalkbackAction;
@@ -128,6 +129,7 @@ import com.google.android.accessibility.talkback.selector.SelectorController.Set
 import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivity;
 import com.google.android.accessibility.talkback.trainingcommon.content.TutorialGestureUses;
+import com.google.android.accessibility.talkback.translation.AutoTranslationController;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
 import com.google.android.accessibility.talkback.utils.ClipboardUtils;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
@@ -187,6 +189,7 @@ public class GestureController {
   private final ListEdgeScroller listEdgeScroller;
   private final PullToRefresh pullToRefresh;
   private final AiDictation dictation;
+  private final FocusMonitor focusMonitor;
 
   private final @NonNull Map<Integer, Integer> captureGestureIdToAnnouncements = new HashMap<>();
   private final @NonNull Map<Integer, Integer> captureFingerprintGestureIdToAnnouncements =
@@ -241,6 +244,7 @@ public class GestureController {
     listEdgeScroller = new ListEdgeScroller(service, pipeline, accessibilityFocusMonitor);
     pullToRefresh = new PullToRefresh(service, pipeline, accessibilityFocusMonitor);
     dictation = new AiDictation(service, pipeline);
+    focusMonitor = new FocusMonitor(service, this::speak);
   }
 
   /** Stops what gestures started that is still going on. */
@@ -254,6 +258,10 @@ public class GestureController {
   public void onUserInputStarted() {
     listEdgeScroller.cancel();
     pullToRefresh.cancel();
+  }
+
+  public void onAccessibilityEvent(android.view.accessibility.AccessibilityEvent event) {
+    focusMonitor.onAccessibilityEvent(event);
   }
 
   ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -407,10 +415,28 @@ public class GestureController {
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
       result = node != null && directTap(node);
     } else if (action.equals(service.getString(R.string.shortcut_value_take_screenshot))) {
-      result =
-          pipeline.returnFeedback(
-              eventId,
-              Feedback.systemAction(AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT));
+      result = true;
+      ScreenshotActions.takeFullScreenshot(
+          service,
+          service.getString(R.string.share_screenshot),
+          new ScreenshotActions.Callback() {
+            @Override
+            public void onSavedAndShared() {
+              speak(service.getString(R.string.screenshot_saved));
+            }
+
+            @Override
+            public void onFailed() {
+              speak(service.getString(R.string.screenshot_failed));
+            }
+
+            @Override
+            public void onSystemFallback() {
+              pipeline.returnFeedback(
+                  eventId,
+                  Feedback.systemAction(AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT));
+            }
+          });
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_touch_exploration))) {
       Boolean enabled = service.toggleTouchExploration();
       result = enabled != null;
@@ -420,6 +446,87 @@ public class GestureController {
                 enabled
                     ? R.string.touch_exploration_on
                     : R.string.touch_exploration_off));
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_monitor_focus))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      if (node == null) {
+        speak(service.getString(R.string.monitor_no_focus));
+        result = false;
+      } else {
+        boolean monitoring = focusMonitor.toggle(node);
+        speak(
+            service.getString(
+                monitoring ? R.string.monitor_started : R.string.monitor_stopped));
+        result = true;
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_auto_translate))) {
+      result = true;
+      boolean wasEnabled = AutoTranslationController.isEnabled();
+      AutoTranslationController.toggle(
+          service,
+          enabled -> {
+            if (enabled) {
+              speak(service.getString(R.string.auto_translate_on));
+            } else if (wasEnabled) {
+              speak(service.getString(R.string.auto_translate_off));
+            } else {
+              speak(service.getString(R.string.auto_translate_pack_not_downloaded));
+            }
+          });
+    } else if (action.equals(service.getString(R.string.shortcut_value_copy_more))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      if (node == null) {
+        speak(service.getString(R.string.copy_more_nothing));
+        result = false;
+      } else {
+        result = true;
+        new CopyMoreCollector(
+                service,
+                new CopyMoreCollector.Callback() {
+                  @Override
+                  public void onCopied(int count) {
+                    speak(service.getString(R.string.copy_more_done, count));
+                  }
+
+                  @Override
+                  public void onNothing() {
+                    speak(service.getString(R.string.copy_more_nothing));
+                  }
+                })
+            .start(node);
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_take_focus_screenshot))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+      if (node == null) {
+        speak(service.getString(R.string.screenshot_failed));
+        result = false;
+      } else {
+        result = true;
+        ScreenshotActions.takeFocusScreenshot(
+            service,
+            node,
+            service.getString(R.string.share_screenshot),
+            new ScreenshotActions.Callback() {
+              @Override
+              public void onSavedAndShared() {
+                speak(service.getString(R.string.screenshot_saved));
+              }
+
+              @Override
+              public void onFailed() {
+                speak(service.getString(R.string.screenshot_failed));
+              }
+
+              @Override
+              public void onSystemFallback() {
+                pipeline.returnFeedback(
+                    eventId,
+                    Feedback.systemAction(AccessibilityService.GLOBAL_ACTION_TAKE_SCREENSHOT));
+              }
+            });
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_input))) {
       result = false;

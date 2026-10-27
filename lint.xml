@@ -55,5 +55,20 @@
         <ignore regexp="copy_focused_nothing_to_copy" />
         <ignore regexp="touch_exploration_on" />
         <ignore regexp="touch_exploration_off" />
+        <ignore regexp="shortcut_monitor_focus" />
+        <ignore regexp="shortcut_auto_translate" />
+        <ignore regexp="shortcut_copy_more" />
+        <ignore regexp="shortcut_take_focus_screenshot" />
+        <ignore regexp="monitor_started" />
+        <ignore regexp="monitor_stopped" />
+        <ignore regexp="monitor_no_focus" />
+        <ignore regexp="auto_translate_on" />
+        <ignore regexp="auto_translate_off" />
+        <ignore regexp="auto_translate_pack_not_downloaded" />
+        <ignore regexp="copy_more_nothing" />
+        <ignore regexp="copy_more_done" />
+        <ignore regexp="screenshot_saved" />
+        <ignore regexp="screenshot_failed" />
+        <ignore regexp="share_screenshot" />
     </issue>
 </lint>

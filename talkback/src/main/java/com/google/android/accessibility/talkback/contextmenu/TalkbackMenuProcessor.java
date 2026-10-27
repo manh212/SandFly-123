@@ -644,6 +644,33 @@ public class TalkbackMenuProcessor {
         node ->
             service.performCatalogAction(
                 service.getString(R.string.shortcut_value_toggle_touch_exploration)));
+    addAfterMenuCloses(
+        menu,
+        R.id.monitor_focus_menu,
+        28,
+        service.getString(R.string.shortcut_monitor_focus),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_monitor_focus)));
+    addAfterMenuCloses(
+        menu,
+        R.id.auto_translate_menu,
+        28,
+        service.getString(R.string.shortcut_auto_translate),
+        node ->
+            service.performCatalogAction(service.getString(R.string.shortcut_value_auto_translate)));
+    addAfterMenuCloses(
+        menu,
+        R.id.copy_more_menu,
+        28,
+        service.getString(R.string.shortcut_copy_more),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_copy_more)));
+    addAfterMenuCloses(
+        menu,
+        R.id.take_focus_screenshot_menu,
+        28,
+        service.getString(R.string.shortcut_take_focus_screenshot),
+        node ->
+            service.performCatalogAction(
+                service.getString(R.string.shortcut_value_take_focus_screenshot)));
   }
 
   private void addDimOrBrightenScreen(ContextMenu menu) {

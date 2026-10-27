@@ -7,4 +7,8 @@
     <item name="direct_tap_menu" type="id" />
     <item name="take_screenshot_menu" type="id" />
     <item name="toggle_touch_exploration_menu" type="id" />
+    <item name="monitor_focus_menu" type="id" />
+    <item name="auto_translate_menu" type="id" />
+    <item name="copy_more_menu" type="id" />
+    <item name="take_focus_screenshot_menu" type="id" />
 </resources>

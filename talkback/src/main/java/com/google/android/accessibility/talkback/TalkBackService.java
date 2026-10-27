@@ -1153,6 +1153,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (stuckTouchController != null) {
       stuckTouchController.onAccessibilityEvent(event);
     }
+    if (gestureController != null) {
+      gestureController.onAccessibilityEvent(event);
+    }
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START
         || eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
       RecentUserInput.mark();
