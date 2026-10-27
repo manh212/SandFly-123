@@ -275,7 +275,7 @@ def main():
     if output := os.environ.get("GITHUB_OUTPUT"):
         with open(output, "a") as handle:
             handle.write("application=" + str(plan["application"]).lower() + "\n")
-        handle.write("validation=" + str(plan["validation"]).lower() + "\n")
+            handle.write("validation=" + str(plan["validation"]).lower() + "\n")
             handle.write("planner_tests=" + str(plan["planner_tests"]).lower() + "\n")
     if summary := os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(summary, "a") as handle:
