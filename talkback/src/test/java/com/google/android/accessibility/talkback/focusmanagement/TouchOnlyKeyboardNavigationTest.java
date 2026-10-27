@@ -33,6 +33,7 @@ import com.google.android.accessibility.talkback.monitor.InputMethodMonitor;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
+import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
@@ -62,6 +63,7 @@ public class TouchOnlyKeyboardNavigationTest {
   @Before
   public void setUp() {
     service = Robolectric.setupService(TestService.class);
+    FormFactorUtils.initialize(service);
     FocusFinder finder = new FocusFinder(service);
     AccessibilityFocusMonitor monitor =
         new AccessibilityFocusMonitor(service, finder, null) {
