@@ -182,6 +182,7 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
       Class<?> fragmentClass =
           Class.forName(
               fragmentName,
+              false,
               TalkBackPreferencesActivity.class.getClassLoader());
       if (PreferenceFragmentCompat.class.isAssignableFrom(fragmentClass)) {
         return (PreferenceFragmentCompat) fragmentClass.getDeclaredConstructor().newInstance();
