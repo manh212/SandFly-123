@@ -44,6 +44,9 @@ public final class TesseractOcr {
   private static final int CONNECT_TIMEOUT_MS = 30000;
   private static final int READ_TIMEOUT_MS = 60000;
 
+  private static final Object ENGINE_LOCK = new Object();
+  private static TessBaseAPI engine;
+
   public interface DownloadListener {
     void onDownloadFinished(boolean success);
   }
@@ -119,18 +122,31 @@ public final class TesseractOcr {
 
   @Nullable
   public static String recognizeText(Context context, Bitmap bitmap) {
-    TessBaseAPI api = new TessBaseAPI();
-    try {
-      if (!api.init(getDataDir(context).getAbsolutePath(), LANGUAGE)) {
+    synchronized (ENGINE_LOCK) {
+      try {
+        if (engine == null) {
+          engine = new TessBaseAPI();
+          if (!engine.init(getDataDir(context).getAbsolutePath(), LANGUAGE)) {
+            engine.recycle();
+            engine = null;
+            return null;
+          }
+        }
+        engine.setImage(bitmap);
+        return engine.getUTF8Text();
+      } catch (RuntimeException e) {
+        LogUtils.w(TAG, "Recognition failed: " + e.getMessage());
         return null;
       }
-      api.setImage(bitmap);
-      return api.getUTF8Text();
-    } catch (RuntimeException e) {
-      LogUtils.w(TAG, "Recognition failed: " + e.getMessage());
-      return null;
-    } finally {
-      api.recycle();
+    }
+  }
+
+  public static void release() {
+    synchronized (ENGINE_LOCK) {
+      if (engine != null) {
+        engine.recycle();
+        engine = null;
+      }
     }
   }
 }

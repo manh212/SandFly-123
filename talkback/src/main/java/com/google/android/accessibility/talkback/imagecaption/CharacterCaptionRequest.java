@@ -79,6 +79,7 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
   }
 
   private void recognizeWithMlKit() {
+    TesseractOcr.release();
     final List<OcrInfo> ocrInfos = new ArrayList<>();
     ocrInfos.add(new OcrInfo(node));
     ocrController.recognizeTextForNodes(
