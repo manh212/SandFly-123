@@ -2,4 +2,5 @@
 <resources>
   <string name="title_pref_translation_and_ai" translatable="false">Dịch thuật và AI</string>
   <string name="title_pref_tools_and_system" translatable="false">Công cụ và hệ thống</string>
+  <string name="title_pref_notification_rules_main" translatable="false">Quy tắc thông báo</string>
 </resources>

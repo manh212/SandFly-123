@@ -263,7 +263,6 @@ pref_notification_test
 pref_notification_url_text
 pref_notification_urls
 pref_notification_voice_profile
-pref_notification_voice_profiles
 pref_notification_volume_keys_stop
 pref_notification_when_screen
 pref_notification_words_screen

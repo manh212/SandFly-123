@@ -15,6 +15,10 @@
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationsFragment"
       android:key="pref_notifications_screen"
       android:title="@string/notification_category_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationRulesFragment"
+      android:key="pref_notification_rules_screen"
+      android:title="@string/title_pref_notification_rules_main" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_group_speech_key"
       android:title="@string/title_pref_group_speech">
@@ -22,6 +26,11 @@
         android:fragment="com.google.android.accessibility.talkback.preference.base.TextToSpeechSettingsFragment"
         android:key="@string/pref_tts_settings_key"
         android:title="@string/tts_preferences_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment"
+        android:key="@string/pref_voice_profiles_screen_key"
+        android:persistent="false"
+        android:title="@string/title_pref_voice_profiles" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.VerbosityPrefFragment"
         android:key="@string/pref_verbosity_key"
@@ -98,6 +107,11 @@
         android:key="@string/pref_auto_image_captioning_key"
         android:summary="@string/summary_pref_auto_image_captioning"
         android:title="@string/title_pref_auto_image_captioning" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiFragment"
+        android:key="@string/pref_on_device_ai_key"
+        android:summary="@string/summary_pref_on_device_ai"
+        android:title="@string/title_pref_on_device_ai" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.status.StatusReadoutFragment"
         android:key="@string/pref_status_readout_key"

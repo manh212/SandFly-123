@@ -132,6 +132,8 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
     if (!ImageCaptioner.supportsImageCaption(context)) {
       removePreference(
           R.string.pref_category_group_screen_info_key, R.string.pref_auto_image_captioning_key);
+      removePreference(
+          R.string.pref_category_group_screen_info_key, R.string.pref_on_device_ai_key);
     }
     updateGeminiPreferenceState();
     SettingsBackup.setUpPreferences(this);
