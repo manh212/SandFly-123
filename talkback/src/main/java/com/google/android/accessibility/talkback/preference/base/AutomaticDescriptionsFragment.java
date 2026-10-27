@@ -71,6 +71,7 @@ import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConsta
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionConstants.UninstallDialogResources;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType;
 import com.google.android.accessibility.talkback.imagecaption.Request.ErrorCode;
+import com.google.android.accessibility.talkback.imagecaption.TesseractOcr;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
@@ -101,6 +102,7 @@ public class AutomaticDescriptionsFragment extends TalkbackBaseFragment {
   private SharedPreferences prefs;
   @Nullable private ModuleStateManager moduleStateManager;
   @Nullable private AiCoreEndpoint aiCoreEndpoint;
+  private boolean ocrDataDownloading;
   @Nullable private ListenableFuture<Boolean> hasAiCoreFuture;
   private Optional<Boolean> useAiCore = Optional.empty();
 
@@ -152,6 +154,7 @@ public class AutomaticDescriptionsFragment extends TalkbackBaseFragment {
     setupIconDetectionPreference();
     setupImageDescriptionPreference();
     setupTextRecognitionPreference();
+    setupOcrDataDownloadPreference();
     setupDetailedImageDescriptionPreference(
         FeatureSwitchDialogResources.DETAILED_IMAGE_DESCRIPTION);
     AiProviderPreferences.setUp(this);
@@ -161,6 +164,7 @@ public class AutomaticDescriptionsFragment extends TalkbackBaseFragment {
   public void onResume() {
     super.onResume();
     AiProviderPreferences.refresh(this);
+    refreshOcrDataDownloadSummary();
 
     // Cancels the download completion notification because users may be led to the settings page by
     // the notification.
@@ -653,6 +657,53 @@ public class AutomaticDescriptionsFragment extends TalkbackBaseFragment {
           }.showDialog();
           return true;
         });
+  }
+
+  private void setupOcrDataDownloadPreference() {
+    Preference downloadPreference = findPreferenceByResId(R.string.pref_ocr_data_download_key);
+    if (downloadPreference == null) {
+      return;
+    }
+
+    refreshOcrDataDownloadSummary(downloadPreference);
+    downloadPreference.setOnPreferenceClickListener(
+        preference -> {
+          if (ocrDataDownloading) {
+            return true;
+          }
+          ocrDataDownloading = true;
+          preference.setSummary(R.string.summary_ocr_data_downloading);
+          TesseractOcr.downloadData(
+              context.getApplicationContext(),
+              success -> {
+                ocrDataDownloading = false;
+                if (!isAdded()) {
+                  return;
+                }
+                preference.setSummary(
+                    success
+                        ? R.string.summary_ocr_data_downloaded
+                        : R.string.summary_ocr_data_download_failed);
+              });
+          return true;
+        });
+  }
+
+  private void refreshOcrDataDownloadSummary() {
+    Preference downloadPreference = findPreferenceByResId(R.string.pref_ocr_data_download_key);
+    if (downloadPreference != null) {
+      refreshOcrDataDownloadSummary(downloadPreference);
+    }
+  }
+
+  private void refreshOcrDataDownloadSummary(Preference downloadPreference) {
+    if (ocrDataDownloading) {
+      return;
+    }
+    downloadPreference.setSummary(
+        TesseractOcr.isDataDownloaded(context)
+            ? R.string.summary_ocr_data_downloaded
+            : R.string.summary_ocr_data_not_downloaded);
   }
 
   private void updatePreferenceSummary(
