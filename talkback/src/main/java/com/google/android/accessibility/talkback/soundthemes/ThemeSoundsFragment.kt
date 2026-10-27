@@ -487,6 +487,21 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
     names += getString(R.string.theme_sound_library_default)
     names += SOUND_LIBRARY.map { it.name }
     val listView = ListView(context)
+    listView.accessibilityDelegate =
+      object : View.AccessibilityDelegate() {
+        override fun onRequestSendAccessibilityEvent(
+          host: ViewGroup,
+          child: View,
+          event: AccessibilityEvent,
+        ): Boolean {
+          if (event.eventType == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+            val position = listView.getPositionForView(child)
+            if (position == 0) playDefaultSound(item)
+            else if (position > 0) playLibrarySound(SOUND_LIBRARY[position - 1].resId)
+          }
+          return super.onRequestSendAccessibilityEvent(host, child, event)
+        }
+      }
     listView.adapter =
       object : BaseAdapter() {
         override fun getCount(): Int = names.size
@@ -504,19 +519,6 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
                 textSize = 18f
               }
           view.text = names[position]
-          view.accessibilityDelegate =
-            object : View.AccessibilityDelegate() {
-              override fun onRequestSendAccessibilityEvent(
-                host: View,
-                event: AccessibilityEvent,
-              ): Boolean {
-                if (event.eventType == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
-                  if (position == 0) playDefaultSound(item)
-                  else playLibrarySound(SOUND_LIBRARY[position - 1].resId)
-                }
-                return super.onRequestSendAccessibilityEvent(host, event)
-              }
-            }
           return view
         }
       }
