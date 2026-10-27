@@ -47,6 +47,7 @@ class TaskProtocolTest {
 
   @Test fun requiresObservableCompletionEvidenceAndTheRequestedCheckedState() {
     reject("""{"snapshot":7,"action":"done","message":"Đã bật"}""")
+    reject("""{"snapshot":7,"action":"done","node":"n0","evidence":"Phụ đề","message":"Đã bật"}""")
     reject("""{"snapshot":7,"action":"done","node":"n0","evidence":"Phụ đề","checked":true,"message":"Đã bật"}""")
     reject("""{"snapshot":7,"action":"done","node":"n0","evidence":"Wi-Fi","message":"Đã bật"}""")
     val step = parse("""{"snapshot":7,"action":"done","node":"n0","evidence":"Phụ đề","checked":false,"message":"Phụ đề đang tắt"}""")

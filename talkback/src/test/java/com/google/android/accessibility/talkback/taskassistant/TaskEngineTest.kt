@@ -55,7 +55,7 @@ class TaskEngineTest {
     val engine = TaskEngine(host, emptyList())
     engine.start("Đến phần phụ đề")
     host.screen(screen)
-    host.reply("""{"snapshot":1,"action":"done","node":"n0","evidence":"Phụ đề","message":"Đã đến"}""")
+    host.reply("""{"snapshot":1,"action":"done","node":"n0","evidence":"Phụ đề","checked":false,"message":"Đã đến"}""")
     host.screen(screen.copy(id = 2, fingerprint = "different"))
     assertEquals(TaskState.OBSERVING, engine.state)
   }

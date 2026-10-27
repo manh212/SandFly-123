@@ -84,6 +84,7 @@ object TaskProtocol {
       TaskOperation.DONE -> {
         require(target != null && step.evidence.isNotBlank()) { "Chưa có bằng chứng hoàn thành" }
         require(normalize(step.evidence).isNotBlank() && normalize(target.label).contains(normalize(step.evidence))) { "Bằng chứng không có trên màn hình" }
+        require(target.checked == null || step.checked != null) { "Chưa đối chiếu trạng thái bật hoặc tắt" }
         require(step.checked == null || target.checked == step.checked) { "Trạng thái chưa đạt yêu cầu" }
         require(step.message.isNotBlank()) { "Chưa có kết quả nhiệm vụ" }
       }

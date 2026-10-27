@@ -51,7 +51,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   }
 
   fun show() {
-    if (closed) return
+    if (closed || dialog?.isShowing == true) return
     voicePending = false
     voiceGeneration++
     if (engine?.busy == true) engine?.interrupt()
