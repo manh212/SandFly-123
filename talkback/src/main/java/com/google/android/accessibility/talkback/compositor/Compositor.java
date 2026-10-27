@@ -619,8 +619,9 @@ public class Compositor {
       if (synthesizeResultNotifier != null) {
         addSpeech(ttsOutput, eventId, speechParams, synthesizeResultNotifier);
       } else if (AutoTranslationController.isEnabled()) {
+        SpeakOptions translatedSpeakOptions = speakOptions;
         AutoTranslationController.translate(
-            ttsOutput, translated -> speak(translated, eventId, speakOptions));
+            ttsOutput, translated -> speak(translated, eventId, translatedSpeakOptions));
       } else {
         speak(ttsOutput, eventId, speakOptions);
       }
