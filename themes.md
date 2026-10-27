@@ -322,19 +322,14 @@ vibration when you preview it.
 *   To make a theme file from sounds on your phone, choose them in **Sounds** and use **Save as a
     theme file**. Its `theme.json` has the theme's settings.
 
-## Themes in this repository
+## The built-in sound library
 
-The `themes/` folder holds two ready-made themes built from sound packs sent in by users,
-so that both packs stay available as choices next to SandFly's own sounds:
-
-*   `goi-am-thanh-moi.zip` — "Gói âm thanh mới", the newer pack, which SandFly's defaults
-    are built from. Where this pack has no sound for an event, the default stays in place.
-*   `goi-am-thanh-cu.zip` — "Gói âm thanh cũ", the earlier pack. Install it to hear the
-    earlier pack's sounds instead, and switch back to **SandFly** at any time to return to
-    the defaults.
-
-Either file installs like any other theme file, from a file manager or from **From a file**
-in **Sound themes**.
+SandFly's own sounds are built from sound packs sent in by users, and every sound of
+those packs is also kept in the app as one library. In **Sounds**, under the theme in use,
+choosing **Chọn từ thư viện** for a sound opens that one long list: the first row is
+SandFly's own sound, and every other row is one library sound. Moving through the list
+plays each sound at once, so you can hear what it is, and tapping a row makes it the
+sound of that event straight away.
 
 ## Limitations
 

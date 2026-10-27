@@ -136,6 +136,8 @@
     <string name="theme_sound_dialog_title"><xliff:g id="sound" example="Click">%1$s</xliff:g> (<xliff:g id="name" example="tick">%2$s</xliff:g>)</string>
     <!-- Theme sounds: choice that opens the file picker to choose a sound file. [CHAR LIMIT=50] -->
     <string name="theme_sound_choose">Choose a sound file</string>
+    <string name="theme_sound_choose_library">Chọn từ thư viện</string>
+    <string name="theme_sound_library_default">Âm thanh của SandFly</string>
     <!-- Theme sounds: choice that plays the sound. [CHAR LIMIT=50] -->
     <string name="theme_sound_preview">Preview</string>
     <!-- Theme sounds: choice that sets an event to play no sound. [CHAR LIMIT=50] -->

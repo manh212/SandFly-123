@@ -70,5 +70,7 @@
         <ignore regexp="screenshot_saved" />
         <ignore regexp="screenshot_failed" />
         <ignore regexp="share_screenshot" />
+        <ignore regexp="theme_sound_choose_library" />
+        <ignore regexp="theme_sound_library_default" />
     </issue>
 </lint>

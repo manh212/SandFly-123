@@ -19,10 +19,18 @@ package com.google.android.accessibility.talkback.soundthemes
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.SharedPreferences
+import android.media.AudioAttributes
+import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Bundle
 import android.provider.OpenableColumns
+import android.view.View
+import android.view.ViewGroup
+import android.view.accessibility.AccessibilityEvent
 import android.webkit.MimeTypeMap
+import android.widget.BaseAdapter
+import android.widget.ListView
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.ActivityResultLauncher
@@ -44,6 +52,7 @@ import com.google.android.accessibility.talkback.individualfeedback.FeedbackItem
 import com.google.android.accessibility.talkback.individualfeedback.SoundPreview
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 import com.google.android.accessibility.utils.SharedPreferencesUtils
+import com.google.android.accessibility.utils.output.FailoverTextToSpeech
 import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
@@ -58,6 +67,7 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
   private var discardDialog: AlertDialog? = null
   private lateinit var prefs: SharedPreferences
   private val soundPreview = SoundPreview()
+  private var libraryPlayer: MediaPlayer? = null
   internal val executor: ExecutorService = Executors.newSingleThreadExecutor()
   private val rows = ArrayList<SoundRow>()
   private var resetPreference: Preference? = null
@@ -239,6 +249,7 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
   override fun onPause() {
     super.onPause()
     soundPreview.stop()
+    stopLibrarySound()
   }
 
   override fun onDestroy() {
@@ -426,6 +437,11 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
         {
           launchChooser(item)
         }
+    choices +=
+      R.string.theme_sound_choose_library to
+        {
+          showLibrary(item)
+        }
     if (!isNone && (hasCustom || SoundThemes.hasOwnSound(context, item.key))) {
       choices += R.string.theme_sound_preview to { preview(item) }
     }
@@ -462,6 +478,134 @@ class ThemeSoundsFragment : TalkbackBaseFragment() {
       }
       .setNegativeButton(android.R.string.cancel, null)
       .show()
+  }
+
+  private fun showLibrary(item: FeedbackItem) {
+    if (closing || !available()) return
+    val context = requireContext()
+    val names = ArrayList<String>()
+    names += getString(R.string.theme_sound_library_default)
+    names += SOUND_LIBRARY.map { it.name }
+    val listView = ListView(context)
+    listView.adapter =
+      object : BaseAdapter() {
+        override fun getCount(): Int = names.size
+
+        override fun getItem(position: Int): Any = names[position]
+
+        override fun getItemId(position: Int): Long = position.toLong()
+
+        override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+          val density = context.resources.displayMetrics.density
+          val view =
+            (convertView as? TextView)
+              ?: TextView(context).apply {
+                setPadding((16 * density).toInt(), (12 * density).toInt(), (16 * density).toInt(), (12 * density).toInt())
+                textSize = 18f
+              }
+          view.text = names[position]
+          view.accessibilityDelegate =
+            object : View.AccessibilityDelegate() {
+              override fun onRequestSendAccessibilityEvent(
+                host: View,
+                event: AccessibilityEvent,
+              ): Boolean {
+                if (event.eventType == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+                  if (position == 0) playDefaultSound(item)
+                  else playLibrarySound(SOUND_LIBRARY[position - 1].resId)
+                }
+                return super.onRequestSendAccessibilityEvent(host, event)
+              }
+            }
+          return view
+        }
+      }
+    val dialog =
+      AlertDialog.Builder(context)
+        .setTitle(getString(R.string.theme_sound_dialog_title, getString(item.title), item.key))
+        .setView(listView)
+        .setNegativeButton(android.R.string.cancel, null)
+        .create()
+    listView.setOnItemClickListener { _, _, position, _ ->
+      dialog.dismiss()
+      if (position == 0) {
+        if (!closing && available()) {
+          SoundThemes.removeSound(context, prefs, item)
+          refresh()
+          preview(item)
+        }
+      } else {
+        setLibrarySound(item, SOUND_LIBRARY[position - 1])
+      }
+    }
+    dialog.setOnDismissListener {
+      stopLibrarySound()
+      soundPreview.stop()
+    }
+    dialog.show()
+  }
+
+  private fun setLibrarySound(item: FeedbackItem, sound: LibrarySound) {
+    if (closing || !available()) return
+    val context = requireContext().applicationContext
+    val activity = requireActivity()
+    executor.execute {
+      val result =
+        try {
+          context.resources.openRawResource(sound.resId).use {
+            SoundThemes.setSound(context, prefs, item, it, "ogg")
+          }
+        } catch (e: IOException) {
+          SoundThemes.Result.FAILED
+        } catch (e: RuntimeException) {
+          SoundThemes.Result.FAILED
+        }
+      activity.runOnUiThread {
+        if (!isAdded || closing) return@runOnUiThread
+        refresh()
+        when (result) {
+          SoundThemes.Result.OK -> preview(item)
+          SoundThemes.Result.TOO_LARGE -> showMessage(getString(R.string.theme_sound_too_large))
+          SoundThemes.Result.NOT_AUDIO -> showMessage(getString(R.string.theme_sound_not_audio))
+          SoundThemes.Result.FAILED -> showMessage(getString(R.string.theme_sound_failed))
+        }
+      }
+    }
+  }
+
+  private fun playLibrarySound(resId: Int) {
+    stopLibrarySound()
+    soundPreview.stop()
+    val context = requireContext()
+    val attributes =
+      AudioAttributes.Builder()
+        .setUsage(FailoverTextToSpeech.speechUsage(context))
+        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+        .build()
+    libraryPlayer =
+      MediaPlayer.create(context, resId, attributes, 0)?.apply {
+        setOnCompletionListener {
+          if (libraryPlayer === it) {
+            libraryPlayer = null
+          }
+          it.release()
+        }
+        start()
+      }
+  }
+
+  private fun playDefaultSound(item: FeedbackItem) {
+    stopLibrarySound()
+    soundPreview.stop()
+    val context = requireContext()
+    val resId =
+      context.resources.getIdentifier(item.resourceNames.first(), "raw", context.packageName)
+    if (resId != 0) playLibrarySound(resId)
+  }
+
+  private fun stopLibrarySound() {
+    libraryPlayer?.release()
+    libraryPlayer = null
   }
 
   private fun launchChooser(item: FeedbackItem) {
