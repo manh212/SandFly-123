@@ -45,6 +45,10 @@
       android:key="pref_settings_group_tools"
       android:title="@string/title_pref_tools" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.BackupResetFragment"
+      android:key="pref_backup_reset_screen"
+      android:title="@string/title_pref_backup_reset" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.SystemHelpGroupFragment"
       android:key="@string/pref_settings_group_system_help_key"
       android:title="@string/title_pref_group_system_help" />

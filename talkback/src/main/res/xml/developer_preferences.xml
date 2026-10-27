@@ -59,9 +59,4 @@
       android:key="@string/pref_export_diagnostics_key"
       android:title="@string/title_pref_export_diagnostics"
       android:fragment="com.google.android.accessibility.talkback.preference.base.DiagnosticsPrefFragment" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_speak_element_ids_default"
-      android:key="@string/pref_speak_element_ids_key"
-      android:summary="@string/summary_pref_speak_element_ids"
-      android:title="@string/title_pref_speak_element_ids" />
 </PreferenceScreen>

@@ -44,6 +44,10 @@
       android:key="pref_spoken_item_information"
       android:title="@string/title_pref_spoken_item_information">
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="@bool/pref_speak_element_ids_default"
+        android:key="@string/pref_speak_element_ids_key"
+        android:title="@string/title_pref_read_unlabelled_identifiers" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_a11y_hints_default"
         android:key="@string/pref_a11y_hints_key"
         android:summary="@string/summary_pref_a11y_hints"

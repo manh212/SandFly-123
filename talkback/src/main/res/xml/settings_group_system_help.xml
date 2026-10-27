@@ -8,12 +8,6 @@
         android:key="pref_initial_setup_screen"
         android:title="@string/timer_setup_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:key="@string/pref_export_settings_key"
-        android:title="@string/title_pref_export_settings" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:key="@string/pref_import_settings_key"
-        android:title="@string/title_pref_import_settings" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_tutorial_and_help_key"
         android:title="@string/title_pref_category_tutorial" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
@@ -38,8 +32,5 @@
         android:key="@string/pref_category_developer_key"
         android:title="@string/title_pref_category_developer_settings"
         app:allowDividerAbove="true" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:title="@string/title_pref_reset_responsiveness"
-        android:key="@string/pref_reset_latency_settings_key" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

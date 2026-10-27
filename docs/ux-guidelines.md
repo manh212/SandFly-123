@@ -8,6 +8,9 @@ SandFly. A feature that breaks them is not done, even if it builds.
 - Keep Updates first on the main settings screen.
 - The main screen contains navigation entries only. Controls belong inside their
   related settings pages.
+- The Navigation landing page also contains topic links only. Do not mix direct
+  controls with links to other navigation topics.
+- Keep backup, restore and application reset together in their own main entry.
 - Place each setting with the task it affects. Avoid catch-all screens such as
   Verbosity when their controls belong to several different tasks.
 - A nested page must configure its parent topic directly. Remove pages that only

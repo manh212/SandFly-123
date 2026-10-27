@@ -16,20 +16,12 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
-import android.os.Bundle;
 import com.google.android.accessibility.talkback.R;
 
-/** Main settings group holding advanced settings, settings backup and the tutorial. */
 public class SystemHelpGroupFragment extends AdvancedSettingFragment {
 
   public SystemHelpGroupFragment() {
     super(R.xml.settings_group_system_help);
-  }
-
-  @Override
-  public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-    super.onCreatePreferences(savedInstanceState, rootKey);
-    ResponseSettingsReset.bind(this);
   }
 
   @Override

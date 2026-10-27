@@ -34,7 +34,7 @@ public class NavigationPrefFragment extends VerbosityPrefFragment {
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_navigation);
+    return getText(R.string.title_pref_navigation_movement);
   }
 
   @Override

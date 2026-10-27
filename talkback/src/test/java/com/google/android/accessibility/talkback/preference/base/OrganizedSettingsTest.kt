@@ -3,6 +3,7 @@ package com.google.android.accessibility.talkback.preference.base
 import android.content.SharedPreferences
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.TwoStatePreference
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
@@ -25,6 +26,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.android.controller.ActivityController
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowDialog
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
@@ -70,7 +72,7 @@ class OrganizedSettingsTest {
       R.string.pref_speak_container_element_positions_key,
     )
     prefs.edit().putBoolean(customKey, false).commit()
-    val fragment = NavigationGroupFragment()
+    val fragment = NavigationFeedbackFragment()
     open(fragment)
     val row = requireNotNull(fragment.findPreference<TwoStatePreference>(customKey))
     assertFalse(row.isChecked)
@@ -170,4 +172,71 @@ class OrganizedSettingsTest {
     assertFalse(prefs.getBoolean(customKey, true))
     assertEquals("saved format", prefs.getString("pref_notification_format", null))
   }
+  @Test
+  fun navigationContainsOnlyTopicLinksWithConstructibleDestinations() {
+    val fragment = NavigationGroupFragment()
+    open(fragment)
+    val screen = fragment.preferenceScreen
+    assertEquals(5, screen.preferenceCount)
+    for (index in 0 until screen.preferenceCount) {
+      val row = screen.getPreference(index)
+      val destination = requireNotNull(row.fragment)
+      assertTrue(
+        activity.supportFragmentManager.fragmentFactory.instantiate(
+          activity.classLoader, destination,
+        ) is TalkbackBaseFragment
+      )
+    }
+    val row = requireNotNull(fragment.findPreference<Preference>(activity.getString(R.string.pref_direct_touch_key)))
+    val directTouch = activity.supportFragmentManager.fragmentFactory.instantiate(
+      activity.classLoader, requireNotNull(row.fragment),
+    ) as TalkbackBaseFragment
+    assertEquals("com.google.android.accessibility.talkback.directtouch.DirectTouchFragment", directTouch.javaClass.name)
+    open(directTouch)
+    assertTrue(directTouch.preferenceScreen.preferenceCount > 0)
+  }
+
+  @Test
+  fun backupAndResetActionsAreGroupedAndResetRequiresConfirmation() {
+    val system = SystemHelpGroupFragment()
+    open(system)
+    assertTrue(system.findPreference<Preference>(activity.getString(R.string.pref_export_settings_key)) == null)
+    assertTrue(system.findPreference<Preference>(activity.getString(R.string.pref_import_settings_key)) == null)
+    assertTrue(system.findPreference<Preference>(activity.getString(R.string.pref_reset_latency_settings_key)) == null)
+    val fragment = BackupResetFragment()
+    open(fragment)
+    for (key in listOf(
+      activity.getString(R.string.pref_export_settings_key),
+      activity.getString(R.string.pref_import_settings_key),
+      activity.getString(R.string.pref_reset_latency_settings_key),
+      "pref_reset_application",
+    )) {
+      val row = requireNotNull(fragment.findPreference<Preference>(key))
+      assertTrue(row.onPreferenceClickListener != null)
+    }
+    prefs.edit().putString("saved_setting", "kept").commit()
+    val reset = requireNotNull(fragment.findPreference<Preference>("pref_reset_application"))
+    assertTrue(requireNotNull(reset.onPreferenceClickListener).onPreferenceClick(reset))
+    val dialog = requireNotNull(ShadowDialog.getLatestDialog())
+    assertTrue(dialog.isShowing)
+    assertEquals("kept", prefs.getString("saved_setting", null))
+    requireNotNull(dialog.findViewById<android.view.View>(android.R.id.button2)).performClick()
+    assertEquals("kept", prefs.getString("saved_setting", null))
+  }
+
+  @Test
+  fun unlabelledButtonReadingLivesInSpeechAndKeepsItsSavedValue() {
+    val key = activity.getString(R.string.pref_speak_element_ids_key)
+    prefs.edit().putBoolean(key, true).commit()
+    val fragment = SpeechGroupFragment()
+    open(fragment)
+    val row = requireNotNull(fragment.findPreference<TwoStatePreference>(key))
+    assertTrue(row.isChecked)
+    row.isChecked = false
+    assertFalse(prefs.getBoolean(key, true))
+    val developer = DeveloperPrefFragment()
+    open(developer)
+    assertTrue(developer.findPreference<Preference>(key) == null)
+  }
+
 }
