@@ -24,7 +24,6 @@ import android.graphics.Rect;
 import android.os.Build;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -119,8 +118,7 @@ public class ScreenRecognitionController {
     int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
     float scaleX = (float) displayWidth / bitmap.getWidth();
     float scaleY = (float) displayHeight / bitmap.getHeight();
-    List<RecognizedItem> treeItems = collectTreeItems();
-    List<RecognizedItem> items = new ArrayList<>(treeItems);
+    List<RecognizedItem> items = new ArrayList<>();
     for (Text.TextBlock block : text.getTextBlocks()) {
       for (Text.Line line : block.getLines()) {
         Rect box = line.getBoundingBox();
@@ -134,9 +132,6 @@ public class ScreenRecognitionController {
                 Math.round(box.top * scaleY),
                 Math.round(box.right * scaleX),
                 Math.round(box.bottom * scaleY));
-        if (isCoveredByTree(screenBox, treeItems)) {
-          continue;
-        }
         items.add(new RecognizedItem(lineText, screenBox, false));
       }
     }
@@ -151,47 +146,6 @@ public class ScreenRecognitionController {
           return first.bounds.centerX() - second.bounds.centerX();
         });
     return items;
-  }
-
-  private boolean isCoveredByTree(Rect screenBox, List<RecognizedItem> treeItems) {
-    int centerX = screenBox.centerX();
-    int centerY = screenBox.centerY();
-    for (RecognizedItem treeItem : treeItems) {
-      if (treeItem.bounds.contains(centerX, centerY)) {
-        return true;
-      }
-    }
-    return false;
-  }
-
-  private List<RecognizedItem> collectTreeItems() {
-    List<RecognizedItem> items = new ArrayList<>();
-    AccessibilityNodeInfo root = service.getRootInActiveWindow();
-    if (root == null) {
-      return items;
-    }
-    collectTreeItems(root, items);
-    root.recycle();
-    return items;
-  }
-
-  private void collectTreeItems(AccessibilityNodeInfo node, List<RecognizedItem> items) {
-    CharSequence text = node.getText();
-    if (text == null || text.length() == 0) {
-      text = node.getContentDescription();
-    }
-    Rect bounds = new Rect();
-    node.getBoundsInScreen(bounds);
-    if (node.isVisibleToUser() && text != null && text.length() > 0 && !bounds.isEmpty()) {
-      items.add(new RecognizedItem(text.toString(), bounds, true));
-    }
-    for (int i = 0; i < node.getChildCount(); i++) {
-      AccessibilityNodeInfo child = node.getChild(i);
-      if (child != null) {
-        collectTreeItems(child, items);
-        child.recycle();
-      }
-    }
   }
 
   private void show(List<RecognizedItem> items) {
