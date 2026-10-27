@@ -58,6 +58,7 @@ class SelectionTests(unittest.TestCase):
     def test_documents_skip_application_validation(self):
         plan = self.plan("README.md", "AGENTS.md", "docs/ux-guidelines.md", "release-notes/1.md")
         self.assertFalse(plan["application"])
+        self.assertFalse(plan["validation"])
         self.assertEqual([], plan["commands"])
 
     def test_markdown_assets_are_not_mistaken_for_documentation(self):
@@ -76,6 +77,8 @@ class SelectionTests(unittest.TestCase):
     def test_changed_tests_are_selected_without_other_features(self):
         plan = self.plan(TEST_PREFIX + "update/UpdaterTest.kt")
         self.assertEqual({"com.google.android.accessibility.talkback.update.UpdaterTest"}, self.classes(plan))
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
 
     def test_changed_test_helper_broadens_to_its_module(self):
         path = TEST_PREFIX + "directtouch/FakePreferences.kt"
@@ -83,6 +86,32 @@ class SelectionTests(unittest.TestCase):
         plan = self.plan(path)
         self.assertEqual("module", plan["commands"][0]["scope"])
         self.assertNotIn("--tests", plan["commands"][0]["argv"])
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
+
+    def test_test_resources_validate_without_building_apk(self):
+        plan = self.plan("talkback/src/test/resources/fixtures.json")
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
+        self.assertEqual("module", plan["commands"][0]["scope"])
+
+    def test_android_test_changes_do_not_publish_an_apk(self):
+        plan = self.plan("talkback/src/androidTest/java/example/InteractionTest.kt")
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
+        self.assertTrue(plan["commands"])
+
+    def test_planner_unit_tests_do_not_trigger_apk(self):
+        plan = self.plan("scripts/tests/test_select_ci_tests.py")
+        self.assertTrue(plan["planner_tests"])
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
+        self.assertEqual({"talkback", "utils"}, {command["module"] for command in plan["commands"]})
+
+    def test_app_and_test_changes_still_build_apk(self):
+        plan = self.plan(TEST_PREFIX + "update/UpdaterTest.kt", PREFIX + "directtouch/DirectTouchPolicy.kt")
+        self.assertTrue(plan["application"])
+        self.assertTrue(plan["validation"])
 
     def test_resources_broaden_only_to_the_owning_module(self):
         plan = self.plan("talkback/src/main/res/xml/preferences.xml")
@@ -198,12 +227,23 @@ class BaselineTests(unittest.TestCase):
         plan = selector.create_plan(self.root, {}, "push", "refs/heads/master", self.published_name)
         self.assertEqual(self.base, plan["base"])
         self.assertTrue(plan["application"])
+        self.assertTrue(plan["validation"])
         self.assertIn(path, plan["changed"])
 
     def test_documents_after_published_baseline_skip_build(self):
         (self.root / "README.md").write_text("Documentation")
         self.commit("Documentation")
         self.assertFalse(selector.create_plan(self.root, {}, "push", "refs/heads/master", self.published_name)["application"])
+
+    def test_test_only_commit_requires_validation_but_no_apk(self):
+        path = TEST_PREFIX + "update/UpdaterTest.kt"
+        target = self.root / path
+        target.write_text(target.read_text() + "\nval testChanged = true\n")
+        self.commit("Update test")
+        plan = selector.create_plan(self.root, {}, "push", "refs/heads/master", self.published_name)
+        self.assertFalse(plan["application"])
+        self.assertTrue(plan["validation"])
+        self.assertEqual(1, plan["test_classes"])
 
     def test_missing_release_metadata_broadens_coverage(self):
         plan = selector.create_plan(self.root, {}, "push", "refs/heads/master")

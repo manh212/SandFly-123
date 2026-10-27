@@ -50,6 +50,12 @@ def documentation(path):
     )
 
 
+def test_only_change(path):
+    return path.startswith("scripts/tests/") or bool(
+        re.search(r"/src/(?:test[^/]*|androidTest[^/]*)/", path)
+    )
+
+
 def module_directories(files):
     return {
         str(Path(path).parent)
@@ -193,7 +199,8 @@ def plan_tests(changed, files, previous=None, force_all=None):
     if (relevant or force_all) and not commands:
         raise ValueError("Application changes have no runnable test coverage; test discovery must be updated")
     return {
-        "application": bool(relevant or force_all),
+        "application": bool(force_all or any(not test_only_change(path) for path in relevant)),
+        "validation": bool(relevant or force_all),
         "planner_tests": bool(set(changed) & PLANNER_FILES) or any(path.startswith("scripts/tests/") for path in changed),
         "changed": sorted(changed),
         "reasons": reasons or ["Documentation only; no application tests, build or release"],
@@ -268,6 +275,7 @@ def main():
     if output := os.environ.get("GITHUB_OUTPUT"):
         with open(output, "a") as handle:
             handle.write("application=" + str(plan["application"]).lower() + "\n")
+        handle.write("validation=" + str(plan["validation"]).lower() + "\n")
             handle.write("planner_tests=" + str(plan["planner_tests"]).lower() + "\n")
     if summary := os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(summary, "a") as handle:

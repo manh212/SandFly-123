@@ -25,7 +25,8 @@ validates every test module.
 | Change | Selected application tests |
 | --- | --- |
 | Root Markdown, `docs/`, release notes and issue templates only | None; skip the application build and publication too. |
-| An existing unit test class | That class. |
+| An existing unit test class | That class; validate it without building or publishing an APK if no application code changed. |
+| Test-only resources, instrumentation tests or test-selection tests | Related module tests (or all test modules for CI selector tests); do not build or publish an APK for test-only changes. |
 | A test helper or removed test | Its module and dependent modules. |
 | Source in a recognized feature package | Tests in its feature groups plus tests elsewhere that reference symbols from those groups. |
 | Shared code, resources, manifests, native code or an unclassified feature | The owning module and modules that depend on it. |
@@ -53,9 +54,14 @@ Failures stop execution and block publication. Application changes cannot pass
 with an empty test plan. Gradle's failure when a class filter matches no tests
 is retained.
 
-Application changes still run repository checks, the settings key contract,
-APK assembly, signature verification and lint before dev publication. The
-selector's own Python tests run in CI when its scripts or workflow change.
+The validation job runs repository checks, the settings key contract and selected
+unit tests before any APK assembly. If only tests change, this validation job runs
+without APK assembly, lint or publication. Application changes start APK assembly
+and lint in separate, parallel GitHub Actions jobs only after validation succeeds.
+Publication waits for both jobs to pass, and the APK signature is checked before
+publication. The selector's own Python tests run in CI when its scripts or
+workflow change. Gradle caches are restored separately on each runner, so
+parallelization can trade more runner usage for a shorter elapsed build time.
 No builds, tests, lint or packaging run on the coding machine.
 
 Documentation changes need no `[skip ci]` marker. The plan job confirms their
@@ -77,5 +83,7 @@ A focused green run verifies its selected coverage; it does not claim the
 unselected tests passed. Test compilation and dependency setup can still involve
 more source files than the test classes executed, and build and lint time remain.
 
-Selection failures and application failures retain the standing
-`gradle-log-tail` artifact. Read it before diagnosing or fixing a failed run.
+Selection failures retain `gradle-log-tail`; build failures retain
+`gradle-log-tail`; test and lint failures retain `gradle-log-tail-tests`
+and `gradle-log-tail-lint` respectively. Read the relevant logs before
+diagnosing or fixing a failed run.
