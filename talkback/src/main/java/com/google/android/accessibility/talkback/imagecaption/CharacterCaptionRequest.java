@@ -19,11 +19,16 @@ package com.google.android.accessibility.talkback.imagecaption;
 import static com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType.OCR;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import androidx.annotation.NonNull;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.Filter;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import com.google.android.accessibility.utils.ocr.OcrController;
 import com.google.android.accessibility.utils.ocr.OcrController.OcrListener;
@@ -38,6 +43,7 @@ import java.util.List;
 public class CharacterCaptionRequest extends CaptionRequest implements OcrListener {
 
   private final OcrController ocrController;
+  private final AccessibilityService service;
   private final Bitmap screenCapture;
   private final float threshold = 0.3f;
 
@@ -52,6 +58,7 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
       boolean isUserRequested) {
     super(requestId, node, onFinishListener, onErrorListener, isUserRequested);
     ocrController = new OcrController(this, /* needCropScreenshot= */ false);
+    this.service = service;
     this.screenCapture = screenCapture;
   }
 
@@ -61,13 +68,49 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
    */
   @Override
   public void perform() {
-    final List<OcrInfo> ocrInfos = new ArrayList<>();
-    ocrInfos.add(new OcrInfo(node));
     onCaptionStart();
-    ocrController.recognizeTextForNodes(
-        screenCapture, ocrInfos, /* selectionBounds= */ null, Filter.node(node -> true));
+    if (useTesseract(service)) {
+      recognizeWithTesseract();
+    } else {
+      recognizeWithMlKit();
+    }
 
     runTimeoutRunnable();
+  }
+
+  private void recognizeWithMlKit() {
+    final List<OcrInfo> ocrInfos = new ArrayList<>();
+    ocrInfos.add(new OcrInfo(node));
+    ocrController.recognizeTextForNodes(
+        screenCapture, ocrInfos, /* selectionBounds= */ null, Filter.node(node -> true));
+  }
+
+  private void recognizeWithTesseract() {
+    Handler mainHandler = new Handler(Looper.getMainLooper());
+    new Thread(
+            () -> {
+              String text = TesseractOcr.recognizeText(service, screenCapture);
+              mainHandler.post(
+                  () -> {
+                    if (text == null) {
+                      recognizeWithMlKit();
+                      return;
+                    }
+                    stopTimeoutRunnable();
+                    onCaptionFinish(Result.create(OCR, text.trim()));
+                  });
+            })
+        .start();
+  }
+
+  private static boolean useTesseract(AccessibilityService service) {
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    String engine =
+        prefs.getString(
+            service.getString(R.string.pref_ocr_engine_key),
+            service.getString(R.string.ocr_engine_mlkit_value));
+    return service.getString(R.string.ocr_engine_tesseract_value).equals(engine)
+        && TesseractOcr.isDataDownloaded(service);
   }
 
   @Override
