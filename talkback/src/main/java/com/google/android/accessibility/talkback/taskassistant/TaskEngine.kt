@@ -173,6 +173,10 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   }
 
   private fun execute(screen: TaskScreen, step: TaskStep) {
+    if (steps >= MAX_STEPS || host.now() - started > MAX_ACTIVE_MS) {
+      fail("Đã dừng vì tác vụ vượt giới hạn thời gian hoặc số bước")
+      return
+    }
     val signature = "${screen.fingerprint}:${step.operation}:${step.node}:${step.packageName}"
     val attempts = (repeated[signature] ?: 0) + 1
     repeated[signature] = attempts

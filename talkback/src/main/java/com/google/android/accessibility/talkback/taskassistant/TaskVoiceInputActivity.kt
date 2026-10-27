@@ -17,7 +17,7 @@ class TaskVoiceInputActivity : Activity() {
       }, 1)
     } catch (_: Exception) {
       finish()
-      TaskAssistant.onVoiceResult(null)
+      TaskAssistant.onVoiceResult(intent.getLongExtra(REQUEST_TOKEN, 0), null)
     }
   }
 
@@ -26,6 +26,7 @@ class TaskVoiceInputActivity : Activity() {
     if (requestCode != 1) return
     val text = if (resultCode == RESULT_OK) data?.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)?.firstOrNull() else null
     finish()
-    TaskAssistant.onVoiceResult(text)
+    TaskAssistant.onVoiceResult(intent.getLongExtra(REQUEST_TOKEN, 0), text)
   }
+  companion object { const val REQUEST_TOKEN = "task_voice_request" }
 }

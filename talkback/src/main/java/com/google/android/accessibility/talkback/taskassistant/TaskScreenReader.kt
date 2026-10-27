@@ -29,7 +29,7 @@ class TaskScreenReader(private val service: AccessibilityService) {
     while (pending.isNotEmpty() && visited++ < 1800 && nodes.size < 300 && SystemClock.uptimeMillis() < deadline) {
       val node = pending.removeFirst()
       if (!node.isVisibleToUser) continue
-      if (!node.isPassword) {
+      if (!isPrivateInput(node)) {
         val actions = linkedSetOf<String>()
         val supported = node.actionList.map { it.id }.toSet()
         if (node.isEnabled) {
@@ -48,7 +48,7 @@ class TaskScreenReader(private val service: AccessibilityService) {
           handles[id] = node
         }
       }
-      if (!node.isPassword) for (index in 0 until node.childCount) node.getChild(index)?.let(pending::addLast)
+      if (!isPrivateInput(node)) for (index in 0 until node.childCount) node.getChild(index)?.let(pending::addLast)
     }
     val packageName = root.packageName?.toString() ?: error("Không xác định được ứng dụng")
     val title = window.title?.toString().orEmpty()
@@ -56,6 +56,10 @@ class TaskScreenReader(private val service: AccessibilityService) {
     val fingerprint = MessageDigest.getInstance("SHA-256").digest(signature.toByteArray()).joinToString("") { "%02x".format(it) }
     return CapturedTaskScreen(TaskScreen(sequence.incrementAndGet(), packageName, title, fingerprint, nodes, pending.isNotEmpty()), window.id, handles)
   }
+
+  private fun isPrivateInput(node: AccessibilityNodeInfoCompat): Boolean = node.isPassword ||
+    (node.isEditable && TaskProtocol.isCredentialRequest(listOfNotNull(node.hintText, node.contentDescription,
+      node.viewIdResourceName).joinToString(" ")))
 
   private fun label(node: AccessibilityNodeInfoCompat, includeDescendants: Boolean): String =
     listOfNotNull(node.text?.toString(), node.contentDescription?.toString(), node.stateDescription?.toString(), node.hintText?.toString())
@@ -69,7 +73,7 @@ class TaskScreenReader(private val service: AccessibilityService) {
     var count = 0
     while (queue.isNotEmpty() && count++ < 24) {
       val item = queue.removeFirst()
-      if (!item.isVisibleToUser || item.isPassword) continue
+      if (!item.isVisibleToUser || isPrivateInput(item)) continue
       (item.text ?: item.contentDescription)?.toString()?.takeIf { it.isNotBlank() }?.let(parts::add)
       for (i in 0 until item.childCount.coerceAtMost(8)) item.getChild(i)?.let(queue::addLast)
     }
@@ -78,7 +82,7 @@ class TaskScreenReader(private val service: AccessibilityService) {
 
   fun perform(capture: CapturedTaskScreen, step: TaskStep): Boolean {
     val node = capture.handles[step.node] ?: return false
-    if (!node.refresh() || !node.isVisibleToUser || !node.isEnabled || node.isPassword || node.windowId != capture.windowId ||
+    if (!node.refresh() || !node.isVisibleToUser || !node.isEnabled || isPrivateInput(node) || node.windowId != capture.windowId ||
       node.packageName?.toString() != capture.screen.packageName) return false
     val expected = capture.screen.nodes.firstOrNull { it.id == step.node } ?: return false
     if (label(node, expected.actions.isNotEmpty()) != expected.label ||

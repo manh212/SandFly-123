@@ -38,6 +38,9 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   private var touchDown = false
   private var showInterruption = false
   private var closed = false
+  private var voicePending = false
+  private var voiceGeneration = 0L
+  private val consumedKeys = mutableSetOf<Int>()
   private var lastState = TaskState.IDLE
 
   private fun apps(): List<TaskApp> {
@@ -49,6 +52,8 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
 
   fun show() {
     if (closed) return
+    voicePending = false
+    voiceGeneration++
     if (engine?.busy == true) engine?.interrupt()
     if (engine?.state == TaskState.INTERRUPTED) { showInterruptionDialog(); return }
     if (engine?.state == TaskState.PAUSED) { showPaused(); return }
@@ -76,9 +81,11 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       setOnClickListener {
         draft = field.text.toString()
         dismissDialog()
+        voicePending = true
+        val voiceToken = ++voiceGeneration
         runCatching {
-          service.startActivity(Intent(service, TaskVoiceInputActivity::class.java).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
-        }.onFailure { announce(service.getString(R.string.task_voice_unavailable)); showEntry() }
+          service.startActivity(Intent(service, TaskVoiceInputActivity::class.java).putExtra(TaskVoiceInputActivity.REQUEST_TOKEN, voiceToken).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        }.onFailure { voicePending = false; announce(service.getString(R.string.task_voice_unavailable)); showEntry() }
       }
     })
     val spinner = Spinner(service).apply {
@@ -102,6 +109,9 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       TaskAiCatalog.select(service, choice)
       ai = choice
       dismissDialog()
+      voicePending = false
+      voiceGeneration++
+      engine?.cancel()
       engine = TaskEngine(this, apps())
       engine?.start(goal)
     }
@@ -148,6 +158,13 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     if (engine?.busy != true) return false
     engine?.interrupt()
     return true
+  }
+
+  private fun keyEvent(event: KeyEvent): Boolean {
+    if (event.action == KeyEvent.ACTION_UP) return consumedKeys.remove(event.keyCode)
+    if (event.action != KeyEvent.ACTION_DOWN) return false
+    if (event.keyCode in consumedKeys) return true
+    return userInput().also { if (it) consumedKeys += event.keyCode }
   }
 
   private fun event(event: AccessibilityEvent) {
@@ -293,15 +310,16 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
 
     @JvmStatic fun onGesture(): Boolean = instance?.userInput() == true
 
-    @JvmStatic fun onKeyEvent(event: KeyEvent): Boolean =
-      event.action == KeyEvent.ACTION_DOWN && instance?.userInput() == true
+    @JvmStatic fun onKeyEvent(event: KeyEvent): Boolean = instance?.keyEvent(event) == true
 
     @JvmStatic fun closeService() { instance?.close(); instance = null }
 
-    @JvmStatic fun onVoiceResult(text: String?) {
+    @JvmStatic fun onVoiceResult(token: Long, text: String?) {
       val controller = instance ?: return
+      if (!controller.voicePending || controller.voiceGeneration != token || controller.closed || controller.engine?.active == true) return
+      controller.voicePending = false
       if (text != null) controller.draft = text
-      controller.main.postDelayed({ if (!controller.closed) controller.showEntry() }, 350)
+      controller.main.postDelayed({ if (!controller.closed && controller.voiceGeneration == token && controller.engine?.active != true) controller.showEntry() }, 350)
     }
   }
 }

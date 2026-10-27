@@ -113,6 +113,31 @@ class TaskEngineTest {
     assertEquals(TaskState.FAILED, engine.state)
   }
 
+  @Test fun anAiReplyAfterTheTimeBudgetCannotExecuteAnAction() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Bật phụ đề")
+    host.screen(screen)
+    host.time = TaskEngine.MAX_ACTIVE_MS + 1
+    host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
+    assertEquals(TaskState.FAILED, engine.state)
+    assertEquals(0, host.performed)
+  }
+
+  @Test fun theStepLimitStopsEvenWhenEveryScreenAndDecisionIsDifferent() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Chờ kết quả")
+    repeat(TaskEngine.MAX_STEPS) { index ->
+      val id = index + 1L
+      host.screen(screen.copy(id = id, fingerprint = "screen-$index"))
+      host.reply("""{"snapshot":$id,"action":"wait"}""")
+      host.execution!!(TaskExecution.PERFORMED)
+    }
+    assertEquals(TaskState.FAILED, engine.state)
+    assertEquals(TaskEngine.MAX_STEPS, host.performed)
+  }
+
   @Test fun staleTargetsAreObservedAgainWithoutRepeatingTheOldDecision() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())

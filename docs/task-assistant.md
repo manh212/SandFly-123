@@ -31,7 +31,7 @@ the answer. It cannot execute scripts, arbitrary intents, coordinates or package
 names absent from the installed launcher catalog.
 
 Screen content is shared with the chosen provider when cloud AI is used. Password
-nodes and their children are excluded. The planner is instructed to treat app
+nodes, identified credential inputs and their children are excluded. The planner is instructed to treat app
 content as data, avoid unrelated actions and leave credentials to the user.
 Credential questions pause for private entry instead of collecting an answer.
 

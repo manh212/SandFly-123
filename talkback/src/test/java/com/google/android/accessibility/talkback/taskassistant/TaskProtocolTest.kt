@@ -66,6 +66,18 @@ class TaskProtocolTest {
     assertTrue(prompt.contains("\"checked\":false"))
   }
 
+  @Test fun blankNormalizedEvidenceCannotProveCompletion() {
+    reject("""{"snapshot":7,"action":"done","node":"n0","evidence":"\u0301","message":"Đã xong"}""")
+  }
+
+  @Test fun credentialInputsAreNotExecutableEvenWhenNotMarkedAsPassword() {
+    val privateScreen = screen.copy(nodes = listOf(screen.nodes[2].copy(label = "Mã xác minh")))
+    try {
+      TaskProtocol.parse("""{"snapshot":7,"action":"set_text","node":"n2","text":"123456"}""", privateScreen, apps)
+      fail("Credential entry must stay private")
+    } catch (_: IllegalArgumentException) { }
+  }
+
   @Test fun imeSubmissionAlwaysRequiresConfirmationAndMustBeExposed() {
     reject("""{"snapshot":7,"action":"press_enter","node":"n2"}""")
     val editable = screen.copy(nodes = listOf(screen.nodes[2].copy(actions = setOf("press_enter"))))

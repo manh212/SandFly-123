@@ -77,10 +77,13 @@ object TaskProtocol {
       TaskOperation.CLICK, TaskOperation.LONG_CLICK, TaskOperation.SET_TEXT,
       TaskOperation.PRESS_ENTER, TaskOperation.SCROLL_FORWARD, TaskOperation.SCROLL_BACKWARD -> {
         require(target != null && operation.wire in target.actions) { "Phần tử không hỗ trợ hành động này" }
+        require(operation != TaskOperation.SET_TEXT || !isCredentialRequest(target.label + " " + target.viewId)) {
+          "Hãy tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng"
+        }
       }
       TaskOperation.DONE -> {
         require(target != null && step.evidence.isNotBlank()) { "Chưa có bằng chứng hoàn thành" }
-        require(normalize(target.label).contains(normalize(step.evidence))) { "Bằng chứng không có trên màn hình" }
+        require(normalize(step.evidence).isNotBlank() && normalize(target.label).contains(normalize(step.evidence))) { "Bằng chứng không có trên màn hình" }
         require(step.checked == null || target.checked == step.checked) { "Trạng thái chưa đạt yêu cầu" }
         require(step.message.isNotBlank()) { "Chưa có kết quả nhiệm vụ" }
       }
@@ -110,7 +113,7 @@ object TaskProtocol {
   }
 
   fun isCredentialRequest(text: String): Boolean =
-    Regex("password|passcode|mat khau|otp|ma xac thuc|verification code|ma dang nhap|ma pin|secret key|api key").containsMatchIn(normalize(text))
+    Regex("password|passcode|mat khau|otp|ma xac thuc|ma xac minh|verification code|ma dang nhap|ma bao mat|\\bpin\\b|secret key|api key").containsMatchIn(normalize(text))
 
   fun prompt(goal: String, screen: TaskScreen, apps: List<TaskApp>, history: List<String>): String = """
     You operate an Android phone for a Vietnamese-speaking blind user. Follow only the user's goal.
