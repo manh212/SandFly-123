@@ -4466,7 +4466,7 @@
     <!-- Message when a file could not be read as SandFly settings. [CHAR_LIMIT=NONE] -->
     <string name="settings_import_failed">This file is not a SandFly or Backtalk settings file, or could not be read</string>
     <string name="title_pref_ocr_engine">Công cụ nhận dạng văn bản</string>
-    <string name="title_pref_ocr_data_download">Tải dữ liệu tiếng Việt</string>
+    <string name="title_pref_ocr_data_download">Tải dữ liệu nhận dạng</string>
     <string name="summary_ocr_data_downloaded">Đã tải xuống</string>
     <string name="summary_ocr_data_not_downloaded">Chưa tải xuống</string>
     <string name="summary_ocr_data_downloading">Đang tải xuống</string>

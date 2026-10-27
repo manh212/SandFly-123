@@ -1730,7 +1730,7 @@
     <string name="title_pref_browse_mode_per_app">Ghi nhớ chế độ duyệt trong từng ứng dụng</string>
     <string name="title_pref_dictation">Nhập bằng giọng nói</string>
     <string name="title_pref_ocr_engine">Công cụ nhận dạng văn bản</string>
-    <string name="title_pref_ocr_data_download">Tải dữ liệu tiếng Việt</string>
+    <string name="title_pref_ocr_data_download">Tải dữ liệu nhận dạng</string>
     <string name="summary_ocr_data_downloaded">Đã tải xuống</string>
     <string name="summary_ocr_data_not_downloaded">Chưa tải xuống</string>
     <string name="summary_ocr_data_downloading">Đang tải xuống</string>

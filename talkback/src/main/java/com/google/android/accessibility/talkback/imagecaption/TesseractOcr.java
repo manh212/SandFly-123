@@ -34,14 +34,14 @@ import java.net.URL;
 
 public final class TesseractOcr {
 
-  public static final String DATA_URL =
-      "https://github.com/tesseract-ocr/tessdata_best/raw/main/vie.traineddata";
+  public static final String DATA_URL_BASE =
+      "https://github.com/tesseract-ocr/tessdata_best/raw/main/";
 
   private static final String TAG = "TesseractOcr";
   private static final String DATA_DIR_NAME = "tesseract";
   private static final String DATA_SUBDIR_NAME = "tessdata";
-  private static final String LANGUAGE = "vie";
-  private static final String DATA_FILE_NAME = "vie.traineddata";
+  private static final String LANGUAGE = "vie+eng";
+  private static final String[] DATA_FILE_NAMES = {"vie.traineddata", "eng.traineddata"};
   private static final int CONNECT_TIMEOUT_MS = 30000;
   private static final int READ_TIMEOUT_MS = 60000;
 
@@ -76,13 +76,18 @@ public final class TesseractOcr {
     return new File(context.getFilesDir(), DATA_DIR_NAME);
   }
 
-  public static File getDataFile(Context context) {
-    return new File(new File(getDataDir(context), DATA_SUBDIR_NAME), DATA_FILE_NAME);
+  public static File getDataFile(Context context, String fileName) {
+    return new File(new File(getDataDir(context), DATA_SUBDIR_NAME), fileName);
   }
 
   public static boolean isDataDownloaded(Context context) {
-    File dataFile = getDataFile(context);
-    return dataFile.exists() && dataFile.length() > 0;
+    for (String fileName : DATA_FILE_NAMES) {
+      File dataFile = getDataFile(context, fileName);
+      if (!dataFile.exists() || dataFile.length() == 0) {
+        return false;
+      }
+    }
+    return true;
   }
 
   public static void downloadData(Context context, DownloadListener listener) {
@@ -101,11 +106,24 @@ public final class TesseractOcr {
     if (!dataDir.exists() && !dataDir.mkdirs()) {
       return false;
     }
-    File tempFile = new File(dataDir, DATA_FILE_NAME + ".tmp");
-    File dataFile = new File(dataDir, DATA_FILE_NAME);
+    for (String fileName : DATA_FILE_NAMES) {
+      File dataFile = new File(dataDir, fileName);
+      if (dataFile.exists() && dataFile.length() > 0) {
+        continue;
+      }
+      if (!downloadOneFile(dataDir, fileName)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private static boolean downloadOneFile(File dataDir, String fileName) {
+    File tempFile = new File(dataDir, fileName + ".tmp");
+    File dataFile = new File(dataDir, fileName);
     HttpURLConnection connection = null;
     try {
-      connection = (HttpURLConnection) new URL(DATA_URL).openConnection();
+      connection = (HttpURLConnection) new URL(DATA_URL_BASE + fileName).openConnection();
       connection.setConnectTimeout(CONNECT_TIMEOUT_MS);
       connection.setReadTimeout(READ_TIMEOUT_MS);
       if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
