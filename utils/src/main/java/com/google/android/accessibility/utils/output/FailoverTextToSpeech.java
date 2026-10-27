@@ -332,8 +332,36 @@ public class FailoverTextToSpeech {
    */
   private volatile @Nullable LowLatencyAudio heldPlayer;
 
+  /** When speech was held, so that the pause is not counted as speaking time. */
+  private volatile long heldSinceMs;
+
+  /** How long held speech waits for the pause gesture, as long as saved speech waits for it. */
+  private static final long HELD_SPEECH_TIMEOUT_MS = 800;
+
+  private final Runnable dropHeldSpeech = this::dropHeldSpeech;
+
   private static final long CALL_END_WAIT_MS = 3_000;
 
+  private static final long CALL_END_POLL_MS = 50;
+
+  private static final long CALL_SEEN_MS = 10_000;
+
+  private long phoneCallSeenAt;
+
+  private final List<Runnable> afterCallSpeech = new ArrayList<>();
+
+  private long afterCallWaitSince;
+
+  private final Runnable speakAfterCall = this::speakAfterCall;
+
+  /** The text of recent utterances, by ID, to match a resumed utterance with its held speech. */
+  private final Map<String, CharSequence> utteranceTexts = recentMap();
+
+  /**
+   * How far into its text a resumed utterance's held speech carried on, by utterance ID, for recent
+   * utterances. Backtalk resumes with the rest of the text, so word positions in the held speech
+   * are reported from there.
+   */
   private final Map<String, Integer> resumeOffsets = recentMap();
 
   /** A map that keeps only the last few entries put in it, since only recent speech can resume. */
@@ -434,8 +462,59 @@ public class FailoverTextToSpeech {
         }
       };
 
+  /** The number of time the current TTS has failed consecutively. */
+  private int ttsFailures;
+
+  /** The package name of the preferred TTS engine. */
+  private String defaultTtsEngine;
+
+  /** The package name of the system TTS engine. */
+  private String systemTtsEngine;
+
+  /** A temporary TTS used for switching engines. */
+  private @Nullable TextToSpeech tempTts;
+
+  /** The engine loading into the temporary TTS. */
+  private @Nullable String tempTtsEngine;
+
+  private int tempTtsGeneration;
+
+  private boolean switchingForVoiceProfile;
+
+  private boolean tempTtsForVoiceProfile;
+
+  private boolean engineForVoiceProfile;
+
+  private static final long MAX_VOICE_PROFILE_ENGINE_WAIT_MS = 3000;
+
+  private long voiceProfileEngineWaitEnd;
+
   private final Map<String, TextToSpeech> warmEngines = new HashMap<>();
 
+  private final Set<String> warmEnginesReady = new HashSet<>();
+
+  private final Map<String, Set<Voice>> warmEngineVoices = new HashMap<>();
+
+  /** The rate adjustment specified in {@link Settings}. */
+  private float defaultRate;
+
+  /** The pitch adjustment specified in {@link Settings}. */
+  private float defaultPitch;
+
+  private final List<FailoverTtsListener> listeners = new ArrayList<>();
+
+  /** Wake lock for keeping the device unlocked while reading */
+  private WakeLock wakeLock;
+
+  private final AudioManager audioManager;
+  private final TelephonyManager telephonyManager;
+
+  private boolean shouldHandleTtsCallbackInHandlerThread = true;
+
+  /**
+   * A buffer of N most recent utterance ids, used to ensure that a recent utterance's completion
+   * handler does not unlock a WakeLock used by the currently speaking utterance.
+   */
   private final Deque<String> recentUtteranceIds =
       new ConcurrentLinkedDeque<>(); // may contain nulls
 
@@ -785,6 +864,141 @@ public class FailoverTextToSpeech {
         || (phoneCallSeenAt != 0 && now - phoneCallSeenAt < CALL_SEEN_MS);
   }
 
+  private void speakAfterCall() {
+    long waited = SystemClock.uptimeMillis() - afterCallWaitSince;
+    if (inCall() && waited < CALL_END_WAIT_MS) {
+      mHandler.postDelayed(speakAfterCall, CALL_END_POLL_MS);
+      return;
+    }
+    if (inCall()) {
+      phoneCallSeenAt = 0;
+    }
+    LogUtils.d(TAG, "Speaking %d utterances after %d ms for the ended call's audio", afterCallSpeech.size(), waited);
+    List<Runnable> waiting = new ArrayList<>(afterCallSpeech);
+    afterCallSpeech.clear();
+    for (Runnable speech : waiting) {
+      speech.run();
+    }
+  }
+
+  private void dropAfterCallSpeech() {
+    afterCallSpeech.clear();
+    mHandler.removeCallbacks(speakAfterCall);
+  }
+
+  /** Adjust volume if we are in a phone call and speaking with phone audio stream */
+  private float calculateVolumeAdjustment() {
+    float multiple = 1.0f;
+
+    // Accessibility services will eventually have their own audio stream, making this
+    // adjustment unnecessary.
+    if (!BuildVersionUtils.isAtLeastN()) {
+
+      // If we are in a phone call...
+      // (Phone call state is often reported late, missing the first utterance.)
+      if (telephonyManager != null) {
+        int callState = telephonyManager.getCallState();
+        if (callState != TelephonyManager.CALL_STATE_IDLE) {
+          // find audio stream volumes
+          if (audioManager != null) {
+            int volumeMusic = audioManager.getStreamVolume(AudioManager.STREAM_MUSIC);
+            if (volumeMusic <= 0) {
+              return 0.0f;
+            }
+            int volumeVoice = audioManager.getStreamVolume(AudioManager.STREAM_VOICE_CALL);
+            int maxVolMusic = audioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC);
+            int maxVolVoice = audioManager.getStreamMaxVolume(AudioManager.STREAM_VOICE_CALL);
+            float volumeMusicFrac =
+                (maxVolMusic <= 0) ? -1.0f : (float) volumeMusic / (float) maxVolMusic;
+            float volumeVoiceCallFrac =
+                (maxVolVoice <= 0) ? -1.0f : (float) volumeVoice / (float) maxVolVoice;
+            // If phone volume is higher than talkback/media volume...
+            if (0.0f <= volumeMusicFrac && volumeMusicFrac < volumeVoiceCallFrac) {
+              // Reduce effective volume closer to media volume.
+              // The UI volume seekbars have an exponential effect on volume,
+              // but text-to-speech volume multiple has a linear effect.
+              // So take the Nth root of the volume difference to reduce speech
+              // volume multiplier exponentially, to match the volume seekbar effect.
+              float diff = volumeVoiceCallFrac - volumeMusicFrac;
+              float numberDoublingSteps = diff / VOLUME_FRAC_PER_DOUBLING;
+              multiple = (float) Math.pow(2.0f, -numberDoublingSteps);
+            }
+          }
+        }
+      }
+    }
+    return multiple;
+  }
+
+  /** Releases the {@link WakeLock} */
+  private void allowDeviceSleep() {
+    allowDeviceSleep(null);
+  }
+
+  private void allowDeviceSleep(@Nullable String completedUtteranceId) {
+    if (wakeLock != null && wakeLock.isHeld()) {
+      boolean isRecent = recentUtteranceIds.contains(completedUtteranceId);
+      boolean isLast = Objects.equals(recentUtteranceIds.peekLast(), completedUtteranceId);
+      if (completedUtteranceId == null || isLast || !isRecent) {
+        try {
+          wakeLock.release();
+        } catch (RuntimeException unused) {
+          // Ignore: already released by timeout.
+          // TODO: Log this exception from GoogleLogger.
+        }
+      }
+    }
+  }
+
+  private void addRecentUtteranceId(String utteranceId) {
+    recentUtteranceIds.add(utteranceId);
+    while (recentUtteranceIds.size() > 10) {
+      recentUtteranceIds.poll();
+    }
+  }
+
+  @VisibleForTesting
+  public List<String> getRecentUtteranceIds() {
+    return Collections.unmodifiableList(new ArrayList<>(recentUtteranceIds));
+  }
+
+  /** Stops speech from all applications. No utterance callbacks will be sent. */
+  public void stopAll() {
+    dropAfterCallSpeech();
+    dropHeldSpeech();
+    stopLowLatencySpeech();
+    try {
+      allowDeviceSleep();
+      ensureQueueFlush();
+      tts.speak("", SPEECH_FLUSH_ALL, null);
+      unfinishedUtterances.clear();
+    } catch (Exception e) {
+      // Don't care, we're not speaking.
+    }
+  }
+
+  /** Stops all speech that originated from TalkBack. No utterance callbacks will be sent. */
+  public void stopFromTalkBack() {
+    dropAfterCallSpeech();
+    if (holdLowLatencySpeech()) {
+      // The engine keeps making the held speech, so it can carry on if speech is paused.
+      allowDeviceSleep();
+      return;
+    }
+    stopLowLatencySpeech();
+    try {
+      allowDeviceSleep();
+      tts.speak("", TextToSpeech.QUEUE_FLUSH, null);
+      unfinishedUtterances.clear();
+    } catch (Exception e) {
+      // Don't care, we're not speaking.
+    }
+  }
+
+  /**
+   * Unregisters receivers, observers, and shuts down the text-to-speech engine. No calls should be
+   * made to this object after calling this method.
+   */
   public void shutdown() {
     // The player outlives this engine, so speech it holds or waits for must not block the next.
     releaseLowLatencyAudio();
@@ -1453,6 +1667,53 @@ public class FailoverTextToSpeech {
     }
   }
 
+  /** Whether the audio mode changed less than {@link #AUDIO_MODE_SETTLE_MS} ago. */
+  private boolean audioModeSettling() {
+    checkAudioMode();
+    long changedAt = audioModeChangedAt;
+    return changedAt != 0 && SystemClock.uptimeMillis() - changedAt < AUDIO_MODE_SETTLE_MS;
+  }
+
+  /** The player for speech, or null if speech should play the usual way. */
+  private @Nullable LowLatencyAudio lowLatencyPlayer() {
+    if (!lowLatencyAudio
+        || LowLatencyAudio.isMicrophoneInUse()
+        || inCall()
+        || (audioModeSettling() && !LowLatencyAudio.isAvoidingEarpiece())
+        || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R
+        || (ttsEngine != null && enginesWithoutFileAudio.contains(ttsEngine))) {
+      return null;
+    }
+    return LowLatencyAudio.get(context, speechAttributes());
+  }
+
+  private AudioAttributes speechAttributes() {
+    return new AudioAttributes.Builder()
+        .setUsage(speechUsage(context))
+        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+        .build();
+  }
+
+  /** Reads a number parameter, which can be a float or a string. */
+  private static float floatParam(Bundle bundle, String key, float defaultValue) {
+    Object value = bundle.get(key);
+    if (value instanceof Number number) {
+      return number.floatValue();
+    }
+    if (value instanceof String string) {
+      try {
+        return Float.parseFloat(string);
+      } catch (NumberFormatException e) {
+        return defaultValue;
+      }
+    }
+    return defaultValue;
+  }
+
+  /**
+   * Holds the low-latency speech playing now, and returns whether there was any. Speech that is
+   * held already stays held.
+   */
   private boolean holdLowLatencySpeech() {
     if (heldUtteranceId != null) {
       return true;
@@ -1728,6 +1989,84 @@ public class FailoverTextToSpeech {
     }
   }
 
+  /** Whether the engine says it is speaking, for any app. A hung engine says it is not. */
+  private boolean isEngineSpeaking() {
+    try {
+      return tts.isSpeaking();
+    } catch (RuntimeException e) {
+      return false;
+    }
+  }
+
+  /** Notes that the engine said something about {@code utteranceId}, so it is not hung. */
+  private void engineResponded(String utteranceId, boolean finished) {
+    engineQuietSince = 0;
+    if (finished) {
+      unfinishedUtterances.remove(utteranceId);
+    }
+  }
+
+  /** Moves to another engine if the engine has said nothing about new speech in time. */
+  private void checkEngineHang() {
+    long since = engineQuietSince;
+    if (since == 0 || tts == null || !lowLatencyAudio) {
+      engineQuietSince = 0;
+      return;
+    }
+    long quiet = SystemClock.uptimeMillis() - since;
+    if (quiet < ENGINE_HANG_MS) {
+      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS - quiet);
+      return;
+    }
+    if (quiet < ENGINE_BUSY_HANG_MS && isEngineSpeaking()) {
+      // Another app's speech with the same engine comes first.
+      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS);
+      return;
+    }
+    checkAudioMode();
+    long modeChangedAt = audioModeChangedAt;
+    if (quiet < ENGINE_BUSY_HANG_MS
+        && modeChangedAt != 0
+        && modeChangedAt >= since - AUDIO_MODE_SETTLE_MS) {
+      mHandler.postDelayed(checkEngineHang, ENGINE_HANG_MS);
+      return;
+    }
+    @Nullable String hungUtteranceId = engineQuietUtteranceId;
+    LogUtils.e(TAG, "TTS engine %s said nothing for %d ms, so it is hung", ttsEngine, quiet);
+    engineQuietSince = 0;
+    unfinishedUtterances.clear();
+    boolean lowLatency = hungUtteranceId != null && lowLatencyRequests.containsKey(hungUtteranceId);
+    // Speech waiting on the hung engine stops, so that it holds up nothing.
+    mHandler.removeCallbacks(dropHeldSpeech);
+    heldUtteranceId = null;
+    heldPlayer = null;
+    lowLatencyStreams.clear();
+    LowLatencyAudio.stopAllStreams();
+    lowLatencyRequests.clear();
+    respokenUtterances.clear();
+    // Restarting the same engine does not help, since its process stays hung.
+    ttsFailures = Math.max(ttsFailures, MAX_TTS_FAILURES - 1);
+    attemptTtsFailover(ttsEngine);
+    if (hungUtteranceId != null && !lowLatency) {
+      utteranceProgressCallback.onError(hungUtteranceId);
+    }
+  }
+
+  /** Speaks the usual way with the current engine from now on. */
+  private void stopUsingLowLatencyAudio(String reason) {
+    lowLatencyOffReason = reason;
+    if (ttsEngine != null) {
+      enginesWithoutFileAudio.add(ttsEngine);
+    }
+    // Logged at error level, so that it shows at the default log level: speech slows down from
+    // here on, and the reason is needed to tell why.
+    LogUtils.e(TAG, "Low-latency playback off for %s: %s", ttsEngine, reason);
+  }
+
+  /**
+   * Says a low-latency utterance that failed again the usual way. If {@code engineAtFault}, the
+   * engine speaks the usual way from now on.
+   */
   private void speakAgainWithoutLowLatency(
       String utteranceId, LowLatencyAudio.@Nullable SpeechStream stream, boolean engineAtFault) {
     // A stream that stalled has left its player already.
@@ -2271,6 +2610,27 @@ public class FailoverTextToSpeech {
     return engineToUse(profile != null ? profile.engine() : preferredTtsEngine);
   }
 
+  private @Nullable String engineToUse(@Nullable String preferred) {
+    return (preferred != null && installedTtsEngines.contains(preferred))
+        ? preferred
+        : defaultTtsEngine;
+  }
+
+  private Set<String> voiceProfileEngines() {
+    Set<String> targets = new HashSet<>();
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    List<String> ids = VoiceProfiles.ids(prefs);
+    if (ids.isEmpty()) {
+      return targets;
+    }
+    for (String id : ids) {
+      targets.add(engineToUse(VoiceProfiles.read(prefs, id).engine()));
+    }
+    targets.add(engineToUse(preferredTtsEngine));
+    targets.remove(null);
+    return targets;
+  }
+
   private void updateWarmEngines() {
     if (tts == null) {
       return;
@@ -2385,6 +2745,48 @@ public class FailoverTextToSpeech {
         && SystemClock.uptimeMillis() < voiceProfileEngineWaitEnd;
   }
 
+  public long voiceProfileEngineWaitLeft() {
+    return Math.max(0, voiceProfileEngineWaitEnd - SystemClock.uptimeMillis());
+  }
+
+  public boolean isEngineForVoiceProfile() {
+    return engineForVoiceProfile;
+  }
+
+  public void updateDefaultEngine() {
+    final ContentResolver resolver = context.getContentResolver();
+
+    // Always refresh the list of available engines, since the user may have
+    // installed a new TTS and then switched to it.
+    installedTtsEngines.clear();
+    systemTtsEngine =
+        TextToSpeechUtils.reloadInstalledTtsEngines(
+            context.getPackageManager(), installedTtsEngines);
+
+    // This may be null if the user hasn't specified an engine.
+    defaultTtsEngine = Secure.getString(resolver, Secure.TTS_DEFAULT_SYNTH);
+
+    // Switch engines when the target engine changes and it's not the current engine.
+    final String targetEngine = getTargetEngine();
+    if (targetEngine != null && targetEngine.equals(tempTtsEngine)) {
+      return;
+    }
+    if (ttsEngine == null || !ttsEngine.equals(targetEngine)) {
+      if (installedTtsEngines.contains(targetEngine)) {
+        if (!useWarmEngine(targetEngine)) {
+          setTtsEngine(targetEngine, true);
+        }
+      } else if (!installedTtsEngines.isEmpty()) {
+        // We'll take whatever TTS we can get.
+        setTtsEngine(installedTtsEngines.getFirst(), true);
+      }
+    }
+  }
+
+  /**
+   * Loads the default pitch adjustment from {@link Secure#TTS_DEFAULT_PITCH}. This will take effect
+   * during the next call to {@link #trySpeak}.
+   */
   private void updateDefaultPitch() {
     defaultPitch = (Secure.getInt(resolver, Secure.TTS_DEFAULT_PITCH, 100) / 100.0f);
     for (FailoverTtsListener listener : listeners) {

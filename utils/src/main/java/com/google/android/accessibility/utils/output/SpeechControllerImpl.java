@@ -2816,6 +2816,204 @@ public class SpeechControllerImpl implements SpeechController {
 
   private final Runnable speakAfterVoiceProfileEngineWait = this::speakAfterVoiceProfileEngineWait;
 
+  private void speakAfterVoiceProfileEngineWait() {
+    if (currentFeedbackItem == null && failoverTts.isReady()) {
+      speakNextItem();
+    }
+  }
+
+  private final AudioManager.OnAudioFocusChangeListener mAudioFocusListener =
+      new AudioManager.OnAudioFocusChangeListener() {
+        @Override
+        public void onAudioFocusChange(int focusChange) {
+          LogUtils.d(TAG, "Saw audio focus change: %d", focusChange);
+        }
+      };
+
+  private final @Nullable AudioFocusRequest mAudioFocusRequest =
+      BuildVersionUtils.isAtLeastO()
+          ? new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT_MAY_DUCK)
+              .setOnAudioFocusChangeListener(mAudioFocusListener, mHandler)
+              .setAudioAttributes(
+                  new AudioAttributes.Builder()
+                      .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+                      .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                      .build())
+              .build()
+          : null;
+
+  /** An action that should be performed before a particular utterance index starts. */
+  private static class UtteranceStartAction implements Comparable<UtteranceStartAction> {
+    public UtteranceStartAction(int utteranceIndex, UtteranceStartRunnable runnable) {
+      this.utteranceIndex = utteranceIndex;
+      this.runnable = runnable;
+    }
+
+    /** The maximum utterance index that can be spoken before this action should be performed. */
+    public int utteranceIndex;
+
+    /** The action to execute. */
+    public UtteranceStartRunnable runnable;
+
+    @Override
+    public int compareTo(@NonNull UtteranceStartAction another) {
+      return (utteranceIndex - another.utteranceIndex);
+    }
+  }
+
+  /** An action that should be performed after a particular utterance index completes. */
+  private static class UtteranceCompleteAction implements Comparable<UtteranceCompleteAction> {
+    public UtteranceCompleteAction(
+        int utteranceIndex,
+        @UtteranceGroup int utteranceGroup,
+        UtteranceCompleteRunnable runnable) {
+      this.utteranceIndex = utteranceIndex;
+      this.runnable = runnable;
+      this.utteranceGroup = utteranceGroup;
+    }
+
+    /** The minimum utterance index that must complete before this action should be performed. */
+    public int utteranceIndex;
+
+    /** The action to execute. */
+    public UtteranceCompleteRunnable runnable;
+
+    /** The group of the utterance. */
+    @UtteranceGroup public int utteranceGroup = UTTERANCE_GROUP_DEFAULT;
+
+    @Override
+    public int compareTo(@NonNull UtteranceCompleteAction another) {
+      return (utteranceIndex - another.utteranceIndex);
+    }
+  }
+
+  private interface FeedbackItemPredicate {
+    public boolean accept(FeedbackItem item);
+  }
+
+  private static class FeedbackItemDisjunctionPredicateSet implements FeedbackItemPredicate {
+    private FeedbackItemPredicate mPredicate1;
+    private FeedbackItemPredicate mPredicate2;
+
+    public FeedbackItemDisjunctionPredicateSet(
+        FeedbackItemPredicate predicate1, FeedbackItemPredicate predicate2) {
+      mPredicate1 = predicate1;
+      mPredicate2 = predicate2;
+    }
+
+    @Override
+    public boolean accept(FeedbackItem item) {
+      return mPredicate1.accept(item) || mPredicate2.accept(item);
+    }
+  }
+
+  private static class FeedbackItemConjunctionPredicateSet implements FeedbackItemPredicate {
+    private FeedbackItemPredicate mPredicate1;
+    private FeedbackItemPredicate mPredicate2;
+
+    public FeedbackItemConjunctionPredicateSet(
+        FeedbackItemPredicate predicate1, FeedbackItemPredicate predicate2) {
+      mPredicate1 = predicate1;
+      mPredicate2 = predicate2;
+    }
+
+    @Override
+    public boolean accept(FeedbackItem item) {
+      return mPredicate1.accept(item) && mPredicate2.accept(item);
+    }
+  }
+
+  private static class FeedbackItemInterruptiblePredicate implements FeedbackItemPredicate {
+    @Override
+    public boolean accept(FeedbackItem item) {
+      if (item == null) {
+        return false;
+      }
+
+      return item.isInterruptibleByNewSpeech();
+    }
+  }
+
+  private static class FeedbackItemEqualSamplePredicate implements FeedbackItemPredicate {
+
+    private final @Nullable FeedbackItem mSample;
+    private final boolean mEqual;
+
+    public FeedbackItemEqualSamplePredicate(@Nullable FeedbackItem sample, boolean equal) {
+      mSample = sample;
+      mEqual = equal;
+    }
+
+    @Override
+    public boolean accept(FeedbackItem item) {
+      if (mEqual) {
+        return mSample == item;
+      }
+
+      return mSample != item;
+    }
+  }
+
+  private static class FeedbackItemUtteranceGroupPredicate implements FeedbackItemPredicate {
+
+    private int mUtteranceGroup;
+
+    public FeedbackItemUtteranceGroupPredicate(int utteranceGroup) {
+      mUtteranceGroup = utteranceGroup;
+    }
+
+    @Override
+    public boolean accept(FeedbackItem item) {
+      if (item == null) {
+        return false;
+      }
+
+      return item.getUtteranceGroup() == mUtteranceGroup;
+    }
+  }
+
+  private static class FeedbackItemFilter {
+
+    private FeedbackItemPredicate mPredicate;
+
+    public void addFeedbackItemPredicate(FeedbackItemPredicate predicate) {
+      if (predicate == null) {
+        return;
+      }
+
+      if (mPredicate == null) {
+        mPredicate = predicate;
+      } else {
+        mPredicate = new FeedbackItemDisjunctionPredicateSet(mPredicate, predicate);
+      }
+    }
+
+    public boolean accept(FeedbackItem item) {
+      return mPredicate != null && mPredicate.accept(item);
+    }
+  }
+
+  /** Updates the history of inline feedback. */
+  private void updateInlineFormattingHistory(CharSequence text, int flags) {
+    if (formattingFeedbackMode == TextFormattingUtils.FEEDBACK_MODE_NONE) {
+      cachedInlineFormattingHistory = null;
+      return;
+    }
+    if ((flags & FeedbackItem.FLAG_INLINE_FORMATTING) != 0) {
+      cachedInlineFormattingHistory = new InlineFormattingHistory(text);
+    }
+  }
+
+  /** Clears the history of inline feedback. */
+  public void clearInlineFormattingHistory() {
+    cachedInlineFormattingHistory = null;
+  }
+
+  /**
+   * The history of inline feedback.
+   *
+   * <p>The history is used to cache the last source text in previous speech.
+   */
   public static class InlineFormattingHistory {
     protected CharSequence lastSourceText;
 
