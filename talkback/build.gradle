@@ -17,6 +17,7 @@ dependencies {
     testPhoneRuntimeOnly "party.iroiro.luajava:lua54-platform:${libs.versions.luajava.get()}:natives-desktop"
     implementation libs.litertlm
     implementation libs.mlkit.translate
+    implementation libs.tesseract4android
     // WebSockets, for Rambler live transcription.
     implementation libs.okhttp
     implementation libs.camera.camera2

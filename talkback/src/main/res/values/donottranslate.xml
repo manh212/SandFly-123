@@ -1878,6 +1878,21 @@
   <bool name="pref_show_context_menu_voice_profile_default">false</bool>
   <item type="id" name="group_voice_profile" />
   <item type="id" name="voice_profile_menu" />
+    <string name="pref_ocr_engine_key" translatable="false">pref_ocr_engine_key</string>
+    <string name="pref_ocr_data_download_key" translatable="false">pref_ocr_data_download_key</string>
+    <string name="ocr_engine_mlkit_value" translatable="false">mlkit</string>
+    <string name="ocr_engine_tesseract_value" translatable="false">tesseract</string>
+    <string name="pref_ocr_engine_default" translatable="false">@string/ocr_engine_mlkit_value</string>
+    <string name="value_ocr_engine_mlkit" translatable="false">ML Kit</string>
+    <string name="value_ocr_engine_tesseract" translatable="false">Tesseract tiếng Việt</string>
+    <string-array name="pref_ocr_engine_entries">
+        <item>@string/value_ocr_engine_mlkit</item>
+        <item>@string/value_ocr_engine_tesseract</item>
+    </string-array>
+    <string-array name="pref_ocr_engine_values">
+        <item>@string/ocr_engine_mlkit_value</item>
+        <item>@string/ocr_engine_tesseract_value</item>
+    </string-array>
     <string name="shortcut_value_write_app_name">WRITE_APP_NAME</string>
     <string name="pref_selector_live_recognition_key" translatable="false">pref_selector_live_recognition_key</string>
     <bool name="pref_selector_live_recognition_default">true</bool>

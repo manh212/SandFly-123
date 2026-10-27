@@ -11,6 +11,7 @@ camerax = "1.6.2"
 
 [libraries]
 # Google common
+tesseract4android = "cz.adaptech.tesseract4android:tesseract4android:4.7.0"
 mlkit-text-recognition = "com.google.android.gms:play-services-mlkit-text-recognition:19.0.1"
 mlkit-language-id = "com.google.android.gms:play-services-mlkit-language-id:17.0.0"
 mlkit-translate = "com.google.mlkit:translate:17.0.3"

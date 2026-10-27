@@ -72,5 +72,11 @@
         <ignore regexp="share_screenshot" />
         <ignore regexp="theme_sound_choose_library" />
         <ignore regexp="theme_sound_library_default" />
+        <ignore regexp="title_pref_ocr_engine" />
+        <ignore regexp="title_pref_ocr_data_download" />
+        <ignore regexp="summary_ocr_data_downloaded" />
+        <ignore regexp="summary_ocr_data_not_downloaded" />
+        <ignore regexp="summary_ocr_data_downloading" />
+        <ignore regexp="summary_ocr_data_download_failed" />
     </issue>
 </lint>

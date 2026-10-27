@@ -1729,6 +1729,12 @@
     <string name="title_pref_ai_dictation">Sửa nội dung nhập bằng giọng nói bằng AI</string>
     <string name="title_pref_browse_mode_per_app">Ghi nhớ chế độ duyệt trong từng ứng dụng</string>
     <string name="title_pref_dictation">Nhập bằng giọng nói</string>
+    <string name="title_pref_ocr_engine">Công cụ nhận dạng văn bản</string>
+    <string name="title_pref_ocr_data_download">Tải dữ liệu tiếng Việt</string>
+    <string name="summary_ocr_data_downloaded">Đã tải xuống</string>
+    <string name="summary_ocr_data_not_downloaded">Chưa tải xuống</string>
+    <string name="summary_ocr_data_downloading">Đang tải xuống</string>
+    <string name="summary_ocr_data_download_failed">Tải xuống thất bại</string>
     <string name="title_pref_dictation_ai_service">Dịch vụ AI cho tính năng nhập bằng giọng nói</string>
     <string name="title_pref_dictation_rambler_live">Bản chép lời trực tiếp của Rambler</string>
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>
