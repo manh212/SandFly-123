@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.screenrecognition;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -33,12 +34,28 @@ public class ScreenRecognitionOverlay extends View {
     void onItemActivated(RecognizedItem item);
   }
 
-  private final RecognitionHelper helper;
-  private List<RecognizedItem> items = new ArrayList<>();
+  public interface OnItemTouchedListener {
+    void onItemTouched(RecognizedItem item);
+  }
 
-  public ScreenRecognitionOverlay(Context context, OnItemActivatedListener listener) {
+  private static final long DOUBLE_TAP_TIMEOUT_MS = 400;
+
+  private final RecognitionHelper helper;
+  private final OnItemTouchedListener touchListener;
+  private final OnItemActivatedListener activationListener;
+  private List<RecognizedItem> items = new ArrayList<>();
+  private RecognizedItem touchedItem;
+  private RecognizedItem lastUpItem;
+  private long lastUpTimeMs;
+
+  public ScreenRecognitionOverlay(
+      Context context,
+      OnItemActivatedListener activationListener,
+      OnItemTouchedListener touchListener) {
     super(context);
-    helper = new RecognitionHelper(this, listener);
+    this.activationListener = activationListener;
+    this.touchListener = touchListener;
+    helper = new RecognitionHelper(this, activationListener);
     ViewCompat.setAccessibilityDelegate(this, helper);
   }
 
@@ -50,6 +67,47 @@ public class ScreenRecognitionOverlay extends View {
   @Override
   public boolean dispatchHoverEvent(MotionEvent event) {
     return helper.dispatchHoverEvent(event) || super.dispatchHoverEvent(event);
+  }
+
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    int action = event.getActionMasked();
+    if (action == MotionEvent.ACTION_DOWN || action == MotionEvent.ACTION_MOVE) {
+      RecognizedItem item = findItemAt(event.getX(), event.getY());
+      if (item != null && item != touchedItem) {
+        touchedItem = item;
+        touchListener.onItemTouched(item);
+      } else if (item == null) {
+        touchedItem = null;
+      }
+      return true;
+    }
+    if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+      RecognizedItem item = findItemAt(event.getX(), event.getY());
+      long now = SystemClock.uptimeMillis();
+      if (action == MotionEvent.ACTION_UP
+          && item != null
+          && item == lastUpItem
+          && now - lastUpTimeMs < DOUBLE_TAP_TIMEOUT_MS) {
+        lastUpItem = null;
+        activationListener.onItemActivated(item);
+      } else if (action == MotionEvent.ACTION_UP) {
+        lastUpItem = item;
+        lastUpTimeMs = now;
+      }
+      touchedItem = null;
+      return true;
+    }
+    return super.onTouchEvent(event);
+  }
+
+  private RecognizedItem findItemAt(float x, float y) {
+    for (RecognizedItem item : items) {
+      if (item.bounds.contains((int) x, (int) y)) {
+        return item;
+      }
+    }
+    return null;
   }
 
   private class RecognitionHelper extends ExploreByTouchHelper {

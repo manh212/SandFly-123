@@ -197,7 +197,9 @@ public class ScreenRecognitionController {
   private void show(List<RecognizedItem> items) {
     hide();
     WindowManager windowManager = service.getSystemService(WindowManager.class);
-    overlay = new ScreenRecognitionOverlay(service, this::activate);
+    overlay =
+        new ScreenRecognitionOverlay(
+            service, this::activate, item -> announcer.announce(item.text));
     overlay.setItems(items);
     WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     params.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
