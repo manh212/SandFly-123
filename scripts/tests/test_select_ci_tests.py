@@ -108,6 +108,12 @@ class SelectionTests(unittest.TestCase):
         self.assertFalse(plan["application"])
         self.assertEqual({"talkback", "utils"}, {command["module"] for command in plan["commands"]})
 
+    def test_test_only_change_with_documentation_still_skips_apk(self):
+        plan = self.plan(TEST_PREFIX + "update/UpdaterTest.kt", "docs/ci-testing.md")
+        self.assertTrue(plan["validation"])
+        self.assertFalse(plan["application"])
+        self.assertEqual(1, plan["test_classes"])
+
     def test_app_and_test_changes_still_build_apk(self):
         plan = self.plan(TEST_PREFIX + "update/UpdaterTest.kt", PREFIX + "directtouch/DirectTouchPolicy.kt")
         self.assertTrue(plan["application"])
