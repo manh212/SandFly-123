@@ -235,6 +235,7 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
+import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
@@ -978,6 +979,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       scriptHost.shutdown();
       scriptHost = null;
     }
+    TutorialHooks.setFeedback(null);
     NotificationReader.detach();
     NotificationListService.onSandFlyStopped();
 
@@ -2544,6 +2546,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     voiceCommandProcessor.setActorState(pipeline.getActorState());
     voiceCommandProcessor.setPipeline(pipeline.getFeedbackReturner());
+    TutorialHooks.setFeedback(pipeline.getFeedbackReturner());
 
     accessibilityEventProcessor.setActorState(pipeline.getActorState());
     accessibilityEventProcessor.setAccessibilityEventIdleListener(pipeline);
@@ -4066,6 +4069,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     final int touchscreenState = getResources().getConfiguration().touchscreen;
 
     return touchscreenState != Configuration.TOUCHSCREEN_NOTOUCH && supportsTouchScreen;
+  }
+
+  public void onTutorialClosed() {
+    if (ipcClientCallback != null && !hasTrainingFinishedByUser()) {
+      ipcClientCallback.onTrainingFinish();
+    }
   }
 
   public void showTutorial() {
