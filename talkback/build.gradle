@@ -18,6 +18,7 @@ dependencies {
     implementation libs.litertlm
     implementation libs.mlkit.translate
     implementation libs.tesseract4android
+    implementation libs.androidx.customview
     // WebSockets, for Rambler live transcription.
     implementation libs.okhttp
     implementation libs.camera.camera2

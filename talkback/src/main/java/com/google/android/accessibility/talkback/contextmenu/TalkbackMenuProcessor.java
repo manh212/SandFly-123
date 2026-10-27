@@ -671,6 +671,14 @@ public class TalkbackMenuProcessor {
         node ->
             service.performCatalogAction(
                 service.getString(R.string.shortcut_value_take_focus_screenshot)));
+    addAfterMenuCloses(
+        menu,
+        R.id.screen_recognition_menu,
+        28,
+        service.getString(R.string.shortcut_screen_recognition),
+        node ->
+            service.performCatalogAction(
+                service.getString(R.string.shortcut_value_screen_recognition)));
   }
 
   private void addDimOrBrightenScreen(ContextMenu menu) {

@@ -4471,6 +4471,12 @@
     <string name="summary_ocr_data_not_downloaded">Chưa tải xuống</string>
     <string name="summary_ocr_data_downloading">Đang tải xuống</string>
     <string name="summary_ocr_data_download_failed">Tải xuống thất bại</string>
+    <string name="shortcut_screen_recognition">Nhận dạng màn hình</string>
+    <string name="screen_recognition_starting">Đang nhận dạng màn hình</string>
+    <string name="screen_recognition_done">Đã nhận dạng <xliff:g id="count" example="5">%1$d</xliff:g> mục, vuốt để duyệt</string>
+    <string name="screen_recognition_empty">Không tìm thấy nội dung trên màn hình</string>
+    <string name="screen_recognition_off">Đã tắt nhận dạng màn hình</string>
+    <string name="screen_recognition_failed">Không nhận dạng được màn hình</string>
     <!-- Category for typing features. [CHAR LIMIT=40] -->
     <string name="title_pref_category_typing">Typing</string>
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->

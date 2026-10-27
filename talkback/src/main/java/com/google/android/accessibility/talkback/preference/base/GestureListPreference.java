@@ -591,6 +591,12 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_take_focus_screenshot),
             TYPE_ACTION_ITEM));
 
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.shortcut_screen_recognition),
+            resources.getString(R.string.shortcut_value_screen_recognition),
+            TYPE_ACTION_ITEM));
+
     if (TalkbackFeatureSupport.supportSpeechRecognize()) {
       builder.add(
           new ActionItem(

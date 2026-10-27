@@ -109,6 +109,7 @@ import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneti
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.FocusMonitor;
+import com.google.android.accessibility.talkback.screenrecognition.ScreenRecognitionController;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.TalkbackAction;
@@ -190,6 +191,7 @@ public class GestureController {
   private final PullToRefresh pullToRefresh;
   private final AiDictation dictation;
   private final FocusMonitor focusMonitor;
+  private final ScreenRecognitionController screenRecognitionController;
 
   private final @NonNull Map<Integer, Integer> captureGestureIdToAnnouncements = new HashMap<>();
   private final @NonNull Map<Integer, Integer> captureFingerprintGestureIdToAnnouncements =
@@ -245,6 +247,7 @@ public class GestureController {
     pullToRefresh = new PullToRefresh(service, pipeline, accessibilityFocusMonitor);
     dictation = new AiDictation(service, pipeline);
     focusMonitor = new FocusMonitor(service, this::speak);
+    screenRecognitionController = new ScreenRecognitionController(service, this::speak);
   }
 
   /** Stops what gestures started that is still going on. */
@@ -460,6 +463,9 @@ public class GestureController {
                 monitoring ? R.string.monitor_started : R.string.monitor_stopped));
         result = true;
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_screen_recognition))) {
+      screenRecognitionController.toggle();
+      result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_auto_translate))) {
       result = true;
       boolean wasEnabled = AutoTranslationController.isEnabled();

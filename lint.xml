@@ -78,5 +78,11 @@
         <ignore regexp="summary_ocr_data_not_downloaded" />
         <ignore regexp="summary_ocr_data_downloading" />
         <ignore regexp="summary_ocr_data_download_failed" />
+        <ignore regexp="shortcut_screen_recognition" />
+        <ignore regexp="screen_recognition_starting" />
+        <ignore regexp="screen_recognition_done" />
+        <ignore regexp="screen_recognition_empty" />
+        <ignore regexp="screen_recognition_off" />
+        <ignore regexp="screen_recognition_failed" />
     </issue>
 </lint>
