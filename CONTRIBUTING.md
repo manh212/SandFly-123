@@ -7,16 +7,21 @@ exceptions.
 
 ## Ground rules
 
-1. **Language.** Everything in this repository is in English — code, comments,
-   commit messages and documentation — matching upstream.
-2. **Comments.** Keep comments in code to an absolute minimum. Code must be clear
-   enough to read on its own. Add a comment only when it is truly unavoidable.
+1. **Language.** Code identifiers, commit messages and documentation remain in
+   English. From now on, write new or changed user interface text in Vietnamese;
+   an English translation is not required. Existing interface text outside the
+   change's scope does not need to be converted.
+2. **Comments.** Do not add comments to code. Write clear, self-explanatory code.
 3. **Where changes go.** Edit upstream code directly when a feature needs it.
    There is no requirement to isolate this fork's changes into separate files or
    modules. In exchange, upstream syncs may need manual conflict resolution.
-4. **Definition of done.** A change is done when the build succeeds and it
-   introduces no new lint errors. Issues already recorded in `lint-baseline.xml`
-   are allowed.
+4. **Definition of done.** Write and review the code, push it, and monitor GitHub
+   Actions for that commit. GitHub Actions runs the repository checks, builds,
+   unit tests, lint, signing and packaging. Do not run builds, tests, lint or
+   packaging on the coding machine. If CI fails, read the failure output, fix the
+   cause and push again until it succeeds. Issues already recorded in
+   `lint-baseline.xml` are allowed. For `master`, completion also requires the
+   dev release to be published successfully. Then report the result to the owner.
 5. **Branches.** Only extremely large work — replacing or removing an
    entire subsystem, completely changing an architecture, or adding a
    major new subsystem — goes through a branch and a pull request, created
@@ -33,7 +38,7 @@ exceptions.
 ## Working agreements
 
 - Small and normal fixes and features are pushed directly to `master`.
-  Run `scripts/pre-push-check.sh` before pushing. When a `master` build
+  Review the code and diff before pushing, then monitor CI. When a `master` build
   fails, read the failed run's `gradle-log-tail` artifact before
   diagnosing further, and fix forward on `master`; the dev channel stays
   paused until `master` is green again. Emergency reverts that restore a
@@ -50,8 +55,10 @@ exceptions.
   build job's `apks` artifact) with the owner, who tests it on a device
   and approves the merge. On a borderline case, the owner is the final
   judge of whether work counts as extremely large.
-- Before pushing a large change, run `scripts/pre-push-check.sh` and fix what
-  it reports.
+- GitHub Actions runs `scripts/pre-push-check.sh` and
+  `scripts/check_settings_key_contract.py` for pushes to `master` and pull
+  requests. These checks are not required on the coding machine. Fix failures
+  reported by CI and push the correction.
 - Reading the failure log is automatic, never optional, on every failed
   build — on a branch or on `master`. Before diagnosing or changing
   anything, read the run's full error output: the automatic failure
@@ -63,9 +70,10 @@ exceptions.
   instead of speculating. Never add temporary hooks or workflow steps to
   extract logs; the artifact is the standing route.
 - When removing a string resource, delete it from every locale file (all
-  `values-*` directories), or the `ExtraTranslation` lint fails. New strings
-  only need English and Vietnamese; record the other languages in
-  `lint-baseline.xml`.
+  `values-*` directories), or the `ExtraTranslation` lint fails. New or changed
+  interface strings only need Vietnamese. Keep default resources valid and
+  satisfy the Vietnamese coverage check without requiring English wording;
+  record missing translations for other languages in `lint-baseline.xml`.
 - When counting or auditing settings rows, reconcile the XML with the runtime
   `TalkBackPreferenceFilter`: some rows are hidden at runtime, so XML alone
   gives the wrong count.
@@ -77,7 +85,9 @@ exceptions.
 
 ## Syncing with upstream
 
-- Sync upstream regularly, in small steps rather than one large jump.
+- Review upstream changes and sync only when the owner requests it. Do not
+  initiate upstream syncs automatically. When requested, prefer small steps
+  rather than one large jump.
 - After every sync, verify that `.github/workflows/build.yml` still carries this
   fork's own `SANDFLY_CERT_SHA256` value, and that the Actions secrets
   `SANDFLY_KEYSTORE_BASE64` and `SANDFLY_KEY_PASSWORD` are still set.
@@ -87,6 +97,8 @@ exceptions.
 
 - Pushing to `master` builds the app in GitHub Actions and updates the rolling
   `dev` pre-release. Tagging `v<version>` creates a stable release.
+- A successful normal task delivers the dev build. Create a stable release only
+  when the owner explicitly requests it.
 - The dev build number is a cumulative counter and can jump between releases;
   a jump is normal, not a missing build.
 - Builds are signed with this fork's own signing key (stored as Actions secrets),

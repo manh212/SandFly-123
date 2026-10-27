@@ -83,52 +83,36 @@ Answers take several seconds and use battery, more than the cloud on a mid-range
 
 ## Languages
 
-This fork's APK is in English and Vietnamese only. Its own strings are translated into both, and strings that come from TalkBack use Google's translations into those two languages.
+The APK retains its existing English and Vietnamese resources. From now on, new or changed interface text is written in Vietnamese; an English translation is not required. Existing text outside the scope of a change does not need to be converted. Code identifiers, commit messages and documentation remain in English.
 
-## Build
+## Development workflow
 
-You need JDK 25, the Android SDK with platform 37, and NDK 27.3.13750724. The Gradle wrapper downloads the correct Gradle version.
+The coding agent writes and reviews code, pushes it to GitHub, follows CI and reports the result. GitHub Actions handles repository checks, builds, unit tests, lint, signing, packaging and publication. The coding agent does not run builds, tests, lint or packaging on the coding machine.
 
-### Linux or macOS
+1. Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing code, and follow [the interface guidelines](docs/ux-guidelines.md) for interface work. Write clear code without adding comments, and review the code and diff before pushing.
+2. Push normal fixes and features directly to `master`. Only extremely large work uses a branch and pull request, with the owner's approval before either is created and before code is written. Keep one branch per feature.
+3. Follow the GitHub Actions run for the pushed commit. CI runs `scripts/pre-push-check.sh`, `scripts/check_settings_key_contract.py`, the APK build, unit tests and lint. Existing issues in `lint-baseline.xml` are allowed; new lint errors fail CI.
+4. If a check or build fails, read its failure output before diagnosing it. Use the run's `gradle-log-tail` artifact, the pull request failure summary when applicable, and the full job log or annotations when needed. Fix the cause, push the correction and follow CI again until it succeeds. If required logs cannot be accessed, report that limitation instead of guessing or rerunning blindly.
+5. For `master`, wait for both the build job and the publication job to succeed for the pushed commit. Confirm that the rolling [dev release](https://github.com/manh212/SandFly-123/releases/tag/dev) has been updated, then report the change and the CI and release links to the owner. A green build alone does not complete the task if publication has failed.
+6. The owner tests the dev build on a phone, including focus order and screen reader behavior. For extremely large work on a branch, share the CI job's `apks` artifact after CI succeeds; the owner tests it and approves the merge. Branches are never auto-merged.
 
-Set `ANDROID_SDK` to your SDK path, then run `./build.sh`. This builds the phone APK, and keeps anything else that's in `local.properties`, such as a Gemini API key.
+Upstream changes are reviewed and synchronized only when the owner requests it.
 
-### Windows
+### Releases and dependencies
 
-Set `ANDROID_HOME` to your SDK path, then run:
+Normal work delivers a dev build. Create a stable release only when the owner explicitly requests it. Stable release tags use `v<version>` and must match `sandflyVersion` in `version.gradle`. Release notes belong in `release-notes/<version>.md`; their list items start with `* ` because the updater reads lines starting with `- ` as commits.
 
-```
-.\gradlew.bat assemblePhoneDebug
-```
+GitHub Actions signs published APKs with this fork's signing key stored in Actions secrets, so they update existing installations in place. The signing keystore and password are never committed. The dev build number counts commits since `buildNumberBase` in `version.gradle`; jumps between releases are normal.
 
-`.\deploy.ps1` builds the APK and installs it with adb. This script needs PowerShell 7. To install the last build without building again, use `-SkipBuild`.
+Library and plugin versions are in `gradle/libs.versions.toml`.
 
-### Signing
+### Diagnostics
 
-Android only installs an update that is signed with the same key as the installed app. Builds from GitHub are signed with this fork's key. A build you make yourself is signed with your own debug key, so it can't update a build from GitHub, or be updated by one. Uninstall one before installing the other.
-
-### A built-in Gemini key
-
-If you build SandFly yourself, you can also build a key into the APK instead. Add `gemini.api.key=YOUR_KEY` to `local.properties` in the project folder, then build and install SandFly again. A key entered in settings takes the place of the built-in key. Git ignores `local.properties`, so your key is not committed, but do not share an APK that contains your key. To use a different model, add `gemini.model=MODEL_NAME`. The default is `gemini-flash-latest`.
-
-### Dependencies
-
-Library and plugin versions are in `gradle/libs.versions.toml`. GitHub Actions builds pushes to `master` and each pull request.
-
-### Debug tools
-
-Debug builds include tools to find lag:
+Tools available in debug builds help investigate problems reported during device testing:
 
 *   The `BacktalkStall` logcat tag logs each time the main thread is blocked for more than 100 ms, with the code that was running.
 *   The `BacktalkGesture` logcat tag logs touch state changes and each gesture that SandFly detects.
 *   Event processing has trace sections, which show in [Perfetto](https://perfetto.dev) system traces.
-
-### Making a release
-
-1.  Set `sandflyVersion` in `version.gradle` to the new version, such as `0.2.0`, write the release notes in `release-notes/0.2.0.md`, and push to master. List items in the notes start with `* `: the in-app updater reads lines that start with `- ` as commits.
-2.  Tag the commit `v0.2.0` and push the tag. GitHub Actions builds it and creates the release, with the changes since the last release.
-
-The build number is the number of commits since `buildNumberBase` in `version.gradle`. The version code is 100000000 plus the build number: Gboard leaves typing to the screen reader only when its version code is at least 60105832.
 
 ## History and license
 

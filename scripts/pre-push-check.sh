@@ -1,7 +1,4 @@
 #!/usr/bin/env bash
-# Pre-push checks for this fork. Run before pushing a large change; the script
-# exits non-zero if any check finds a problem. The XML analysis uses python3,
-# which is available on the dev machines and on GitHub's runners.
 set -u
 cd "$(dirname "$0")/.." || exit 2
 fail=0

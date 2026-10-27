@@ -14,11 +14,11 @@ SandFly. A feature that breaks them is not done, even if it builds.
 
 Examples:
 
-- Right: a button named "Send message".
-- Wrong: a button named "Paper plane" — the name describes the icon, not the
+- Right: a button named "Gửi tin nhắn".
+- Wrong: a button named "Máy bay giấy" — the name describes the icon, not the
   function.
-- Wrong: a button named "Send message" plus a description "Send message button,
-  tap to send your message" — the description only repeats the name.
+- Wrong: a button named "Gửi tin nhắn" plus a description "Nút gửi tin nhắn,
+  chạm để gửi tin nhắn" — the description only repeats the name.
 
 ## Spoken announcements
 
@@ -30,26 +30,19 @@ Examples:
 
 - Moving through a screen sequentially must follow the screen's logical reading
   order.
-- Walk through every new or changed screen in order before calling it done.
+- Review the source of every new or changed screen for logical focus order.
+- The owner checks focus order and screen reader behavior on a phone after the
+  dev build is available. The coding agent does not perform device testing.
 
 ## Gestures
 
 - New gestures may be added freely.
-- Every added gesture must be recorded in the registry below, with a plain
-  description of what it does, in the same change that adds it.
-- Removed gestures are recorded in [differences.md](../differences.md), in the
-  same change that removes them.
-
-### Gesture registry
-
-| Gesture | Action | Added in |
-| --- | --- | --- |
-| _(none yet)_ | | |
 
 ## Checklist for interface work
 
 - [ ] Every interactive element has a name-only label that fully states its function.
 - [ ] No redundant descriptions or hints anywhere.
 - [ ] Announcements are minimal and short.
-- [ ] Focus order walked through and logical.
-- [ ] New gestures entered in the registry above.
+- [ ] Source reviewed for logical focus order.
+
+The owner performs the on-device checks after receiving the dev build.

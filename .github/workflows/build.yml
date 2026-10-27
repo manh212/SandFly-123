@@ -26,6 +26,16 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Run repository checks
+        run: |
+          set -o pipefail
+          bash scripts/pre-push-check.sh 2>&1 | tee "$RUNNER_TEMP/repository-checks.log"
+
+      - name: Check the settings key contract
+        run: |
+          set -o pipefail
+          python3 scripts/check_settings_key_contract.py 2>&1 | tee "$RUNNER_TEMP/settings-key-contract.log"
+
       - uses: actions/setup-java@v6
         with:
           distribution: temurin
@@ -216,7 +226,7 @@ jobs:
           blocked='password|secret|keystore'
           out=gradle-log-tail.txt
           : > "$out"
-          for pair in assemble:assemble.log tests:tests.log lint:lint.log; do
+          for pair in repository-checks:repository-checks.log settings-key-contract:settings-key-contract.log assemble:assemble.log tests:tests.log lint:lint.log; do
             log="$RUNNER_TEMP/${pair#*:}"
             if [ -f "$log" ]; then
               {
