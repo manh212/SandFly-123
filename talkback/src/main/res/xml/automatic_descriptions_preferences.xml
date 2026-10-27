@@ -24,6 +24,17 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_text_recognition_key"
       android:title="@string/title_pref_text_recognition" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:defaultValue="@string/pref_ocr_engine_default"
+      android:dialogTitle="@string/title_pref_ocr_engine"
+      android:entries="@array/pref_ocr_engine_entries"
+      android:entryValues="@array/pref_ocr_engine_values"
+      android:key="@string/pref_ocr_engine_key"
+      android:summary="%s"
+      android:title="@string/title_pref_ocr_engine" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_ocr_data_download_key"
+      android:title="@string/title_pref_ocr_data_download" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_ai_services"
       android:title="@string/title_pref_category_ai_services">
