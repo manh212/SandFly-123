@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="title_pref_translation_and_ai" translatable="false">Dịch thuật và AI</string>
+  <string name="title_pref_tools_and_system" translatable="false">Công cụ và hệ thống</string>
+</resources>
