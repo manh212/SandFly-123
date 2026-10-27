@@ -173,17 +173,24 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
     }
   }
 
-  private static @Nullable PreferenceFragmentCompat getFragmentByName(String fragmentName) {
+  private static PreferenceFragmentCompat getFragmentByName(@Nullable String fragmentName) {
     if (TextUtils.isEmpty(fragmentName)) {
       return new TalkBackPreferenceFragment();
     }
 
     try {
-      return (PreferenceFragmentCompat) Class.forName(fragmentName).newInstance();
-    } catch (ClassNotFoundException | InstantiationException | IllegalAccessException ex) {
-      LogUtils.d(TAG, "Failed to load class: %s", fragmentName);
-      return null;
+      Class<?> fragmentClass =
+          Class.forName(
+              fragmentName,
+              TalkBackPreferencesActivity.class.getClassLoader());
+      if (PreferenceFragmentCompat.class.isAssignableFrom(fragmentClass)) {
+        return (PreferenceFragmentCompat) fragmentClass.getDeclaredConstructor().newInstance();
+      }
+      LogUtils.w(TAG, "Not a settings screen: %s", fragmentName);
+    } catch (ReflectiveOperationException | LinkageError | RuntimeException ex) {
+      LogUtils.w(TAG, "Failed to load class: %s", fragmentName);
     }
+    return new TalkBackPreferenceFragment();
   }
 
   // We try to fill the default fragment name for WearPreferenceActivity to initiate it for Wear.

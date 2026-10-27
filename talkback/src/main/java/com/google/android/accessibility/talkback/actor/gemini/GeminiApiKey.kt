@@ -32,20 +32,23 @@ object GeminiApiKey {
   const val GET_KEY_URL = "https://aistudio.google.com/apikey"
 
   /** The key the user entered, or an empty string. */
-  fun userKey(prefs: SharedPreferences): String = prefs.getString(PREF_KEY, null)?.trim() ?: ""
+  fun userKey(prefs: SharedPreferences): String = clean(prefs.getString(PREF_KEY, null))
 
   /** Saves the [key], or removes the user's key when it is blank. */
   fun setUserKey(prefs: SharedPreferences, key: String) {
-    val trimmed = key.trim()
-    if (trimmed.isEmpty()) {
+    val cleaned = clean(key)
+    if (cleaned.isEmpty()) {
       prefs.edit().remove(PREF_KEY).apply()
     } else {
-      prefs.edit().putString(PREF_KEY, trimmed).apply()
+      prefs.edit().putString(PREF_KEY, cleaned).apply()
     }
   }
+
+  @JvmStatic
+  fun clean(key: String?): String = key.orEmpty().filter { it in '!'..'~' }
 
   /** The key to use: the user's, or else the [builtInKey], which may be empty. */
   @JvmStatic
   fun effectiveKey(prefs: SharedPreferences, builtInKey: String): String =
-    userKey(prefs).ifEmpty { builtInKey.trim() }
+    userKey(prefs).ifEmpty { clean(builtInKey) }
 }
