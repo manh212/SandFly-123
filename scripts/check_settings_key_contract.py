@@ -69,16 +69,24 @@ def build_fragment_xml_map():
                 path = os.path.join(dirpath, filename)
                 with open(path, encoding="utf-8", errors="ignore") as handle:
                     text = handle.read()
-                xml_refs = re.findall(r"R\.xml\.(\w+)", text)
-                if not xml_refs:
-                    continue
                 package = re.search(r"^\s*package\s+([\w.]+)", text, re.MULTILINE)
                 if not package:
                     continue
-                for class_name in re.findall(r"\bclass\s+(\w+)", text):
-                    mapping.setdefault(
-                        package.group(1) + "." + class_name, xml_refs[0] + ".xml"
-                    )
+                declarations = list(re.finditer(
+                    r"^(?:(?:public|private|internal|abstract|open|final|data|sealed)\s+)*"
+                    r"(?:class|object)\s+(\w+)",
+                    text,
+                    re.MULTILINE,
+                ))
+                for index, declaration in enumerate(declarations):
+                    end = declarations[index + 1].start() if index + 1 < len(declarations) else len(text)
+                    body = text[declaration.start():end]
+                    xml_ref = re.search(r"R\.xml\.(\w+)", body)
+                    if xml_ref:
+                        mapping.setdefault(
+                            package.group(1) + "." + declaration.group(1),
+                            xml_ref.group(1) + ".xml",
+                        )
     return mapping
 
 
