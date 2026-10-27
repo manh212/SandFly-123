@@ -19,6 +19,9 @@ dependencies {
     implementation libs.mlkit.translate
     // WebSockets, for Rambler live transcription.
     implementation libs.okhttp
+    implementation libs.camera.camera2
+    implementation libs.camera.lifecycle
+    implementation libs.camera.view
     // Dictation with Whisper on the phone.
     phoneImplementation project(':whisper')
     // Grants the permissions that settings need through Shizuku, when it is installed and running.

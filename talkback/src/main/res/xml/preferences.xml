@@ -37,6 +37,13 @@
       android:key="@string/pref_settings_group_screen_info_key"
       android:title="@string/title_pref_descriptions_ai" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_live_recognition_screen"
+      android:title="@string/live_recognition_title">
+    <intent
+        android:targetPackage="@string/app_id"
+        android:targetClass="com.google.android.accessibility.talkback.recognition.LiveRecognitionActivity" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.AppsGroupFragment"
       android:key="@string/pref_settings_group_apps_key"
       android:title="@string/title_pref_group_apps" />

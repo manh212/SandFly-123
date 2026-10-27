@@ -1868,4 +1868,7 @@
   <item type="id" name="group_voice_profile" />
   <item type="id" name="voice_profile_menu" />
     <string name="shortcut_value_write_app_name">WRITE_APP_NAME</string>
+    <string name="pref_selector_live_recognition_key" translatable="false">pref_selector_live_recognition_key</string>
+    <bool name="pref_selector_live_recognition_default">true</bool>
+    <string name="selector_live_recognition" translatable="false">SELECTOR_LIVE_RECOGNITION</string>
 </resources>
