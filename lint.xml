@@ -45,5 +45,15 @@
         <ignore regexp="phonetic_letters_mode_after_letter_delay" />
         <ignore regexp="phonetic_letters_mode_after_letter_no_delay" />
         <ignore regexp="phonetic_letters_mode_instead_of_letter" />
+        <ignore regexp="shortcut_media_previous" />
+        <ignore regexp="shortcut_media_next" />
+        <ignore regexp="shortcut_copy_focused" />
+        <ignore regexp="shortcut_clear_all_text" />
+        <ignore regexp="shortcut_direct_tap" />
+        <ignore regexp="shortcut_take_screenshot" />
+        <ignore regexp="shortcut_toggle_touch_exploration" />
+        <ignore regexp="copy_focused_nothing_to_copy" />
+        <ignore regexp="touch_exploration_on" />
+        <ignore regexp="touch_exploration_off" />
     </issue>
 </lint>
