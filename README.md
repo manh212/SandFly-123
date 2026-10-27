@@ -87,20 +87,27 @@ The APK retains its existing English and Vietnamese resources. From now on, new 
 
 ## Development workflow
 
-The coding agent writes and reviews code, pushes it to GitHub, follows CI and reports the result. GitHub Actions handles repository checks, builds, unit tests, lint, signing, packaging and publication. The coding agent does not run builds, tests, lint or packaging on the coding machine.
+The coding agent first clarifies requested features with the owner, one question
+at a time. After explicit approval of the agreed behavior, the agent writes and
+reviews code, pushes it to GitHub, follows CI and reports the result. GitHub
+Actions handles repository checks, builds, relevant tests, lint, signing,
+packaging and publication. The agent does not run builds, tests, lint or
+packaging on the coding machine.
 
-1. Read [CONTRIBUTING.md](CONTRIBUTING.md) before changing code, and follow [the interface guidelines](docs/ux-guidelines.md) for interface work. Write clear code without adding comments, and review the code and diff before pushing.
-2. Commit and push all fixes and features directly to `master`, including large reorganizations. Do not create feature branches or pull requests.
-3. Follow the GitHub Actions run for the pushed commit. CI runs `scripts/pre-push-check.sh`, `scripts/check_settings_key_contract.py`, the APK build, unit tests and lint. Existing issues in `lint-baseline.xml` are allowed; new lint errors fail CI.
-4. If a check or build fails, read its failure output before diagnosing it. Use the run's `gradle-log-tail` artifact, the pull request failure summary when applicable, and the full job log or annotations when needed. Fix the cause, push the correction and follow CI again until it succeeds. If required logs cannot be accessed, report that limitation instead of guessing or rerunning blindly.
-5. For `master`, wait for both the build job and the publication job to succeed for the pushed commit. Confirm that the rolling [dev release](https://github.com/manh212/SandFly-123/releases/tag/dev) has been updated, then report the change and the CI and release links to the owner. A green build alone does not complete the task if publication has failed.
-6. The owner tests the published dev build on a phone, including focus order and screen reader behavior.
+1. Read [CONTRIBUTING.md](CONTRIBUTING.md) before starting and follow [the interface guidelines](docs/ux-guidelines.md) for interface work.
+2. Before implementing a requested feature, ask about its relevant behavior and interactions. Ask one question at a time and wait for each answer. Summarize the agreed behavior, scope, acceptance criteria and relevant tests, then wait for explicit approval before implementing. Read-only research may support the questions. Clarify material changes to the agreed scope before implementing them.
+3. Write clear code without adding comments. Review the source and diff, then commit and push directly to `master`, including large reorganizations. Do not create feature branches or pull requests.
+4. Run only tests related to the change, including affected shared behavior. Select specific CI tests before pushing application changes; do not run the full suite automatically. If the workflow forces all tests, arrange scoped execution first. Report the tests actually run and the limits of that coverage. Existing issues in `lint-baseline.xml` are allowed; new lint errors fail CI.
+5. If a check or build fails, read its failure output before diagnosing it. Use the run's `gradle-log-tail` artifact, the pull request failure summary when applicable, and the full job log or annotations when needed. Fix the cause within the approved scope, push the correction and follow CI again until it succeeds. If required logs cannot be accessed, report that limitation instead of guessing or rerunning blindly.
+6. For application changes on `master`, wait for both the build job and the publication job to succeed for the pushed commit. Confirm that the rolling [dev release](https://github.com/manh212/SandFly-123/releases/tag/dev) has been updated, then report the change and the CI and release links to the owner.
+7. Documentation-only changes need content, link and diff review and verification of the published files on `master`. Use `[skip ci]` when the workflow would otherwise run unrelated application checks; no application tests, APK build or dev release is needed.
+8. The owner tests application changes in the published dev build on a phone, including focus order and screen reader behavior.
 
 Upstream changes are reviewed and synchronized only when the owner requests it.
 
 ### Releases and dependencies
 
-Normal work delivers a dev build. Create a stable release only when the owner explicitly requests it. Stable release tags use `v<version>` and must match `sandflyVersion` in `version.gradle`. Release notes belong in `release-notes/<version>.md`; their list items start with `* ` because the updater reads lines starting with `- ` as commits.
+Application changes deliver a dev build. Create a stable release only when the owner explicitly requests it. Stable release tags use `v<version>` and must match `sandflyVersion` in `version.gradle`. Release notes belong in `release-notes/<version>.md`; their list items start with `* ` because the updater reads lines starting with `- ` as commits.
 
 GitHub Actions signs published APKs with this fork's signing key stored in Actions secrets, so they update existing installations in place. The signing keystore and password are never committed. The dev build number counts commits since `buildNumberBase` in `version.gradle`; jumps between releases are normal.
 

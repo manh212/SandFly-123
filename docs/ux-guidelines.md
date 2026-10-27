@@ -3,6 +3,15 @@
 These rules govern every new or changed piece of user interface in this fork of
 SandFly. A feature that breaks them is not done, even if it builds.
 
+## Clarify behavior before implementation
+
+For a requested feature, ask the owner about the relevant actions, navigation,
+feedback, defaults, accessibility and failure behavior one question at a time.
+Wait for each answer, then summarize the agreed behavior and acceptance criteria.
+Begin implementation only after explicit approval, as required by
+[CONTRIBUTING.md](../CONTRIBUTING.md#feature-clarification-and-approval).
+Choose only tests relevant to the approved change and its affected interactions.
+
 ## Settings organization
 
 - Keep Updates first on the main settings screen.
@@ -49,7 +58,7 @@ Examples:
 
 ## Gestures
 
-- New gestures may be added freely.
+- Add new gestures only within the behavior explicitly approved by the owner.
 
 ## Checklist for interface work
 
