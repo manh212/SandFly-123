@@ -28,7 +28,6 @@ import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.output.FeedbackItem
 import com.google.android.accessibility.utils.output.SpeechController
 import com.google.android.accessibility.utils.FormFactorUtils
-import com.google.android.accessibility.utils.gestures.GestureManifold
 import java.lang.ref.WeakReference
 
 /** Connects the Live recognition reading control to [LiveRecognitionActivity]. Main thread only. */
@@ -90,7 +89,6 @@ object LiveRecognition {
     if (!current.canUseRotor()) return false
     return when (gestureId) {
       AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP -> { current.skipResult(); true }
-      GestureManifold.GESTURE_2_FINGER_SCRUB -> { current.stopAndFinish(); true }
       else -> false
     }
   }
