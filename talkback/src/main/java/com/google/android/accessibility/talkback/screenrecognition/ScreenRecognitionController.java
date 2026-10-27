@@ -200,7 +200,6 @@ public class ScreenRecognitionController {
     overlay =
         new ScreenRecognitionOverlay(
             service, this::activate, item -> announcer.announce(item.text));
-    overlay.setItems(items);
     WindowManager.LayoutParams params = new WindowManager.LayoutParams();
     params.setTitle(service.getString(R.string.title_screen_recognition));
     params.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
@@ -220,6 +219,7 @@ public class ScreenRecognitionController {
       announcer.announce(service.getString(R.string.screen_recognition_failed));
       return;
     }
+    overlay.setItems(items);
     active = true;
   }
 

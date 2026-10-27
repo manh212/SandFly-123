@@ -139,14 +139,21 @@ public class ScreenRecognitionOverlay extends View {
     @Override
     protected void onPopulateNodeForVirtualView(
         int virtualViewId, AccessibilityNodeInfoCompat node) {
-      if (virtualViewId < 0 || virtualViewId >= items.size()) {
-        return;
+      try {
+        if (virtualViewId < 0 || virtualViewId >= items.size()) {
+          node.setText(" ");
+          node.setBoundsInScreen(new android.graphics.Rect());
+          return;
+        }
+        RecognizedItem item = items.get(virtualViewId);
+        node.setText(item.text);
+        node.setBoundsInScreen(item.bounds);
+        node.setClickable(true);
+        node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+      } catch (RuntimeException e) {
+        node.setText(" ");
+        node.setBoundsInScreen(new android.graphics.Rect());
       }
-      RecognizedItem item = items.get(virtualViewId);
-      node.setText(item.text);
-      node.setBoundsInScreen(item.bounds);
-      node.setClickable(true);
-      node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
     }
 
     @Override
