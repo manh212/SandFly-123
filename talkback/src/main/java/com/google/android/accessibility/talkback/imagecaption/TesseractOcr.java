@@ -50,21 +50,22 @@ public final class TesseractOcr {
   private static final Handler IDLE_HANDLER = new Handler(Looper.getMainLooper());
   private static TessBaseAPI engine;
   private static long lastUsedMs;
-  private static final Runnable IDLE_RELEASE =
-      () -> {
-        synchronized (ENGINE_LOCK) {
-          if (engine == null) {
-            return;
-          }
-          long idleMs = SystemClock.elapsedRealtime() - lastUsedMs;
-          if (idleMs >= IDLE_TIMEOUT_MS) {
-            engine.recycle();
-            engine = null;
-          } else {
-            IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS - idleMs);
-          }
-        }
-      };
+  private static final Runnable IDLE_RELEASE = TesseractOcr::onIdleTimeout;
+
+  private static void onIdleTimeout() {
+    synchronized (ENGINE_LOCK) {
+      if (engine == null) {
+        return;
+      }
+      long idleMs = SystemClock.elapsedRealtime() - lastUsedMs;
+      if (idleMs >= IDLE_TIMEOUT_MS) {
+        engine.recycle();
+        engine = null;
+      } else {
+        IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS - idleMs);
+      }
+    }
+  }
 
   public interface DownloadListener {
     void onDownloadFinished(boolean success);
