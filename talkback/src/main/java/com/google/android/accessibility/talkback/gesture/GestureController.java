@@ -463,6 +463,9 @@ public class GestureController {
                 monitoring ? R.string.monitor_started : R.string.monitor_stopped));
         result = true;
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_task_assistant))) {
+      com.google.android.accessibility.talkback.taskassistant.TaskAssistant.show(service);
+      result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_screen_recognition))) {
       screenRecognitionController.toggle();
       result = true;

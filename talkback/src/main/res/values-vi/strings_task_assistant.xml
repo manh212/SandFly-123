@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="task_title">Giao việc cho SandFly</string>
+    <string name="task_goal">Việc cần thực hiện</string>
+    <string name="task_goal_too_long">Yêu cầu tối đa 4.000 ký tự</string>
+    <string name="task_speak">Nói yêu cầu</string>
+    <string name="task_start">Thực hiện</string>
+    <string name="task_close">Đóng</string>
+    <string name="task_ai">AI cho giao việc</string>
+    <string name="task_ai_missing">Chọn một dịch vụ AI đã cấu hình hoặc mô hình đã tải</string>
+    <string name="task_data_notice">Nội dung màn hình được gửi đến AI đã chọn để thực hiện yêu cầu.</string>
+    <string name="task_voice_unavailable">Không mở được nhận dạng giọng nói</string>
+    <string name="task_paused">Tác vụ đã tạm dừng</string>
+    <string name="task_resume">Tiếp tục</string>
+    <string name="task_new">Giao việc mới</string>
+    <string name="task_cancel">Hủy tác vụ</string>
+    <string name="task_pause">Tạm dừng</string>
+    <string name="task_interrupted">Bạn muốn tạm dừng hay hủy tác vụ?</string>
+    <string name="task_confirm">Xác nhận hành động</string>
+    <string name="task_confirm_action">Đồng ý thực hiện</string>
+    <string name="task_question">SandFly cần bạn trả lời</string>
+    <string name="task_answer">Câu trả lời</string>
+    <string name="task_result">Kết quả tác vụ</string>
+</resources>

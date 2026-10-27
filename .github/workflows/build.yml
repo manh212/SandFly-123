@@ -2,7 +2,7 @@ name: Build
 
 on:
   push:
-    branches: [master]
+    branches: [master, feat/vietnamese-task-assistant]
     tags: ['v*']
   pull_request:
   workflow_dispatch:
@@ -399,7 +399,7 @@ jobs:
 
   publish:
     needs: [plan, tests, build, lint]
-    if: github.event_name == 'push' && needs.plan.outputs.application == 'true'
+    if: github.event_name == 'push' && needs.plan.outputs.application == 'true' && (github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/v'))
     runs-on: ubuntu-latest
     permissions:
       contents: write

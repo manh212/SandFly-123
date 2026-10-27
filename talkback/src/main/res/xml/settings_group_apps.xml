@@ -6,6 +6,10 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_group_apps_key">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.taskassistant.TaskAssistantFragment"
+        android:key="task_assistant"
+        android:title="@string/task_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.scripting.ScriptsFragment"
         android:key="@string/pref_scripts_key"
         android:summary="@string/summary_pref_scripts"

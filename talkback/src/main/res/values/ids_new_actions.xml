@@ -12,4 +12,5 @@
     <item name="copy_more_menu" type="id" />
     <item name="take_focus_screenshot_menu" type="id" />
     <item name="screen_recognition_menu" type="id" />
+    <item name="task_assistant_menu" type="id" />
 </resources>

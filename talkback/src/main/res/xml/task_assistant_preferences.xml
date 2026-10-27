@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="task_assistant_ai"
+        android:persistent="false"
+        android:title="@string/task_ai" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="task_assistant_open"
+        android:persistent="false"
+        android:title="@string/task_title" />
+</PreferenceScreen>

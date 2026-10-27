@@ -124,6 +124,12 @@
         android:supportsRtl="true">
 
         <activity
+            android:name="com.google.android.accessibility.talkback.taskassistant.TaskVoiceInputActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:theme="@style/BlankActivityTheme" />
+
+        <activity
             android:name="com.google.android.accessibility.talkback.recognition.LiveRecognitionActivity"
             android:exported="false"
             android:label="@string/live_recognition_title"

@@ -537,3 +537,6 @@ pref_window_names
 pref_window_navigation_menu_setting_key
 pref_words_navigation_menu_setting_key
 pref_wrap_around_key
+task_assistant
+task_assistant_ai
+task_assistant_open
