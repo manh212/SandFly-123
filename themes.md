@@ -322,6 +322,20 @@ vibration when you preview it.
 *   To make a theme file from sounds on your phone, choose them in **Sounds** and use **Save as a
     theme file**. Its `theme.json` has the theme's settings.
 
+## Themes in this repository
+
+The `themes/` folder holds two ready-made themes built from sound packs sent in by users,
+so that both packs stay available as choices next to SandFly's own sounds:
+
+*   `goi-am-thanh-moi.zip` — "Gói âm thanh mới", the newer pack, which SandFly's defaults
+    are built from. Where this pack has no sound for an event, the default stays in place.
+*   `goi-am-thanh-cu.zip` — "Gói âm thanh cũ", the earlier pack. Install it to hear the
+    earlier pack's sounds instead, and switch back to **SandFly** at any time to return to
+    the defaults.
+
+Either file installs like any other theme file, from a file manager or from **From a file**
+in **Sound themes**.
+
 ## Limitations
 
 *   Watches have no file picker, so themes can only be installed from a link there, and single

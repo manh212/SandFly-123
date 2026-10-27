@@ -407,12 +407,32 @@ public class FeedbackController {
     playSound(resId, rate, volume, /* ignoreVolumeAdjustment= */ false, eventId);
   }
 
+  private int ownSoundResId(int resId) {
+    if (customSoundPath(resId) != null) {
+      return resId;
+    }
+    try {
+      if ("raw".equals(mResources.getResourceTypeName(resId))) {
+        return resId;
+      }
+    } catch (NotFoundException e) {
+      return resId;
+    }
+    String name = resourceName(resId);
+    if (name == null) {
+      return resId;
+    }
+    int rawId = mResources.getIdentifier(name, "raw", mContext.getPackageName());
+    return rawId != 0 ? rawId : resId;
+  }
+
   private void playSound(
       int resId,
       final float rate,
       float volume,
       boolean ignoreVolumeAdjustment,
       @Nullable EventId eventId) {
+    resId = ownSoundResId(resId);
     if (!mAuditoryEnabled
         || resId == 0
         || isMuted(mMutedAuditoryNames, resId)
@@ -457,6 +477,7 @@ public class FeedbackController {
 
   private void playPlacedSound(
       int resId, float rate, float volume, float x, float y, @Nullable EventId eventId) {
+    resId = ownSoundResId(resId);
     if (!mAuditoryEnabled
         || resId == 0
         || isMuted(mMutedAuditoryNames, resId)

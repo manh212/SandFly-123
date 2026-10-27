@@ -26,7 +26,6 @@ import com.google.android.accessibility.talkback.controlsounds.ControlSounds
 import com.google.android.accessibility.talkback.controlsounds.ControlSoundsSettings
 import com.google.android.accessibility.talkback.individualfeedback.FeedbackItem
 import com.google.android.accessibility.talkback.individualfeedback.IndividualFeedbackSettings
-import com.google.android.accessibility.talkback.individualfeedback.NavigationSounds
 import com.google.android.accessibility.talkback.individualfeedback.SoundVibrations
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.File
@@ -209,15 +208,13 @@ object SoundThemes {
   fun theme(context: Context, id: String): SoundTheme? =
     if (id == BACKTALK) backtalk(context) else read(File(themesDirectory(context), id))
 
-  /** The key of the screen on sound, which plays only if the theme gives it a sound. */
-  const val SCREEN_ON = "screen_on"
-
   /**
-   * Whether the sound [key] has no sound of SandFly's own, so that it plays only a theme's: screen
-   * on and the navigation sounds.
+   * Whether the sound [key] has a sound of SandFly's own: a raw file of its name. Sounds without
+   * one play only a theme's sound, or nothing.
    */
   @JvmStatic
-  fun hasNoOwnSound(key: String): Boolean = key == SCREEN_ON || key in NavigationSounds.SOUNDS
+  fun hasOwnSound(context: Context, key: String): Boolean =
+    context.resources.getIdentifier(key, "raw", context.packageName) != 0
 
   /** The sound files of [theme], by item key. */
   @JvmStatic
@@ -238,16 +235,16 @@ object SoundThemes {
   /** Whether [item] plays no sound in the theme in use. */
   @JvmStatic
   fun isNone(context: Context, prefs: SharedPreferences, item: FeedbackItem): Boolean =
-    isNone(active(context, prefs), item)
+    isNone(context, active(context, prefs), item)
 
   /**
    * Whether [item] plays no sound in [theme]: it is set to "none", or it has no sound of SandFly's
    * own and so plays nothing without a file.
    */
   @JvmStatic
-  fun isNone(theme: SoundTheme, item: FeedbackItem): Boolean =
+  fun isNone(context: Context, theme: SoundTheme, item: FeedbackItem): Boolean =
     theme.manifest.sounds[item.key] == SoundThemeManifest.NONE ||
-      (hasNoOwnSound(item.key) && soundFiles(theme)[item.key] == null)
+      (!hasOwnSound(context, item.key) && soundFiles(theme)[item.key] == null)
 
   /**
    * The sounds and vibrations of the theme in use. An item with several sounds, like the circle
