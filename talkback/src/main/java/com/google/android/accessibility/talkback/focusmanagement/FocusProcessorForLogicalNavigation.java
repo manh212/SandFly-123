@@ -380,7 +380,8 @@ public class FocusProcessorForLogicalNavigation {
    *   <li>Otherwise return the root node of active window.
    * </ol>
    */
-  private AccessibilityNodeInfoCompat getPivotNodeForNavigationAction(
+  @VisibleForTesting
+  AccessibilityNodeInfoCompat getPivotNodeForNavigationAction(
       NavigationAction navigationAction) {
     // While the saved reading order holds the focused node, Android's cached copy of the node is
     // current: nothing that could change the window has happened since the order was read from the
@@ -398,12 +399,30 @@ public class FocusProcessorForLogicalNavigation {
       pivot = null;
     }
 
+    boolean skipKeyboard =
+        navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION
+            && navigationAction.targetType != NavigationTarget.TARGET_WINDOW
+            && TraversalStrategyUtils.isLogicalDirection(navigationAction.searchDirection);
+    if (skipKeyboard && AccessibilityNodeInfoUtils.isKeyboard(pivot)) {
+      pivot = accessibilityFocusMonitor.getInputFocus();
+      if (AccessibilityNodeInfoUtils.isKeyboard(pivot)) {
+        pivot = null;
+      }
+    }
+
     // If we cannot find a pivot, or the pivot is not accessible, choose the root node of the active
     // window.
     if (pivot == null) {
       // TODO: We might need to define our own "active window" in TalkBack side.
       AccessibilityNodeInfoCompat root =
           AccessibilityServiceCompatUtils.getRootInActiveWindow(service);
+      if (skipKeyboard && AccessibilityNodeInfoUtils.isKeyboard(root)) {
+        ScreenState stableScreenState = screenState.getStableScreenState();
+        root =
+            stableScreenState == null
+                ? null
+                : AccessibilityWindowInfoUtils.getRootCompat(stableScreenState.getActiveWindow());
+      }
       // The focused node was removed from the window — an app re-laying-out its content, such as a
       // blocked ad slot collapsing, does this. Starting from the window root would send the user
       // back to the top of the page, so carry on from the node nearest where the last navigation
@@ -416,7 +435,7 @@ public class FocusProcessorForLogicalNavigation {
         pivot = root;
       }
     }
-    return pivot;
+    return skipKeyboard && AccessibilityNodeInfoUtils.isKeyboard(pivot) ? null : pivot;
   }
 
   /**
@@ -1198,7 +1217,8 @@ public class FocusProcessorForLogicalNavigation {
    * Builds the node filter for a navigation target type, composing the list-item collapse rule
    * into default-target searches so every search path skips collapsed child buttons alike.
    */
-  private Filter<AccessibilityNodeInfoCompat> composeNodeFilter(
+  @VisibleForTesting
+  Filter<AccessibilityNodeInfoCompat> composeNodeFilter(
       @TargetType int targetType,
       @Nullable Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache) {
     Filter<AccessibilityNodeInfoCompat> nodeFilter =
@@ -1206,7 +1226,9 @@ public class FocusProcessorForLogicalNavigation {
     if (targetType != NavigationTarget.TARGET_DEFAULT || nodeFilter == null) {
       return nodeFilter;
     }
-    return CollapseEngine.composeNodeFilter(service, nodeFilter);
+    return Filter.<AccessibilityNodeInfoCompat>node(
+            node -> !AccessibilityNodeInfoUtils.isKeyboard(node))
+        .and(CollapseEngine.composeNodeFilter(service, nodeFilter));
   }
 
   /**
@@ -3792,7 +3814,8 @@ public class FocusProcessorForLogicalNavigation {
   }
 
   /** Filters target window when performing directional navigation across windows. */
-  private static class DirectionalNavigationWindowFilter extends Filter<AccessibilityWindowInfo> {
+  @VisibleForTesting
+  static class DirectionalNavigationWindowFilter extends Filter<AccessibilityWindowInfo> {
     final Context context;
     final UniversalSearchActor.State searchState;
 
@@ -3807,6 +3830,9 @@ public class FocusProcessorForLogicalNavigation {
         return false;
       }
       int type = AccessibilityWindowInfoUtils.getType(window);
+      if (type == AccessibilityWindowInfo.TYPE_INPUT_METHOD) {
+        return false;
+      }
       if (searchState.isUiVisible()) {
         return (isSearchOverlay(context, window)
             || (type == AccessibilityWindowInfo.TYPE_SYSTEM
@@ -3814,7 +3840,6 @@ public class FocusProcessorForLogicalNavigation {
                     || !SettingsUtils.allowLinksOutOfSettings(
                         context))) // System bar in SUW is navigable.
             || (type == AccessibilityWindowInfo.TYPE_MAGNIFICATION_OVERLAY)
-            || (type == AccessibilityWindowInfo.TYPE_INPUT_METHOD)
             || (Role.getRole(window.getRoot()) == ROLE_FLOATING_ACTION_BUTTON));
       } else {
         boolean focusContainedInApplicationWindow =
@@ -3830,7 +3855,6 @@ public class FocusProcessorForLogicalNavigation {
                     || !SettingsUtils.allowLinksOutOfSettings(
                         context))) // System bar in SUW is navigable.
             || (type == AccessibilityWindowInfo.TYPE_MAGNIFICATION_OVERLAY)
-            || (type == AccessibilityWindowInfo.TYPE_INPUT_METHOD)
             || (Role.getRole(window.getRoot()) == ROLE_FLOATING_ACTION_BUTTON));
       }
     }
