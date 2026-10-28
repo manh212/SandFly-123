@@ -71,8 +71,8 @@ class VerboseDiagnosticsControllerTest {
     )
 
   @Test
-  fun belowVerboseFromColdStart_writesNothing() {
-    controller.syncWithLogLevel(verbose = false)
+  fun debugOffFromColdStart_writesNothing() {
+    controller.syncEnabled(enabled = false)
 
     assertFalse(controller.isActive)
     assertEquals(0, snapshotWrites)
@@ -81,8 +81,8 @@ class VerboseDiagnosticsControllerTest {
   }
 
   @Test
-  fun verbose_writesSnapshotAndStatsOnce_andSchedulesTheCadence() {
-    controller.syncWithLogLevel(verbose = true)
+  fun debugOn_writesSnapshotAndStatsOnce_andSchedulesTheCadence() {
+    controller.syncEnabled(enabled = true)
 
     assertTrue(controller.isActive)
     assertEquals(1, snapshotWrites)
@@ -92,10 +92,10 @@ class VerboseDiagnosticsControllerTest {
   }
 
   @Test
-  fun verboseAgainWhileActive_writesNothingMore_andKeepsOneSchedule() {
-    controller.syncWithLogLevel(verbose = true)
-    controller.syncWithLogLevel(verbose = true)
-    controller.syncWithLogLevel(verbose = true)
+  fun debugOnAgainWhileActive_writesNothingMore_andKeepsOneSchedule() {
+    controller.syncEnabled(enabled = true)
+    controller.syncEnabled(enabled = true)
+    controller.syncEnabled(enabled = true)
 
     assertEquals(1, snapshotWrites)
     assertEquals(1, statsWrites)
@@ -105,7 +105,7 @@ class VerboseDiagnosticsControllerTest {
 
   @Test
   fun cadenceTick_writesStatsAgain_andReschedulesExactlyOnce() {
-    controller.syncWithLogLevel(verbose = true)
+    controller.syncEnabled(enabled = true)
 
     scheduler.pendingTasks()[0].fire()
 
@@ -116,11 +116,11 @@ class VerboseDiagnosticsControllerTest {
   }
 
   @Test
-  fun leavingVerbose_cancelsThePendingWrite() {
-    controller.syncWithLogLevel(verbose = true)
+  fun leavingDebugLog_cancelsThePendingWrite() {
+    controller.syncEnabled(enabled = true)
     val pending = scheduler.pendingTasks()[0]
 
-    controller.syncWithLogLevel(verbose = false)
+    controller.syncEnabled(enabled = false)
 
     assertFalse(controller.isActive)
     assertTrue(pending.cancelled)
@@ -132,11 +132,11 @@ class VerboseDiagnosticsControllerTest {
 
   @Test
   fun togglingLevels_reactivatesCleanly_withASingleCadence() {
-    controller.syncWithLogLevel(verbose = true)
-    controller.syncWithLogLevel(verbose = false)
-    controller.syncWithLogLevel(verbose = true)
-    controller.syncWithLogLevel(verbose = false)
-    controller.syncWithLogLevel(verbose = true)
+    controller.syncEnabled(enabled = true)
+    controller.syncEnabled(enabled = false)
+    controller.syncEnabled(enabled = true)
+    controller.syncEnabled(enabled = false)
+    controller.syncEnabled(enabled = true)
 
     // One snapshot per activation, one immediate stats write per activation, one live schedule.
     assertEquals(3, snapshotWrites)

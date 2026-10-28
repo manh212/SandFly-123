@@ -640,7 +640,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     }
 
     SharedPreferences preferences = SharedPreferencesUtils.getSharedPreferences(getContext());
-    if (preferences.getBoolean(resources.getString(R.string.pref_tree_debug_key), false)) {
+    if (LogUtils.isEnabled()) {
       builder.add(
           new ActionItem(
               resources.getString(R.string.shortcut_print_node_tree),

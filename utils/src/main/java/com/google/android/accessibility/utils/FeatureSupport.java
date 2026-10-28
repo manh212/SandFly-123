@@ -410,7 +410,7 @@ public final class FeatureSupport {
    * logcat.
    */
   public static boolean logcatIncludePsi() {
-    return BuildConfig.DEBUG || (LogUtils.getLogLevel() < Log.ERROR);
+    return BuildConfig.DEBUG || LogUtils.isEnabled();
   }
 
   /** Returns {@code true} if the device is running at least API 32 */

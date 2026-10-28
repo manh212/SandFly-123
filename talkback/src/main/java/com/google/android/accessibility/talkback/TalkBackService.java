@@ -213,7 +213,6 @@ import com.google.android.accessibility.talkback.notifications.NotificationReade
 import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.pause.PauseController;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.report.VerboseDiagnosticsLogger;
 import com.google.android.accessibility.talkback.quicksettings.SystemPanelClicker;
 import com.google.android.accessibility.talkback.recognition.LiveRecognition;
@@ -1190,10 +1189,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     accessibilityEventProcessor.onAccessibilityEvent(event, eventId);
     perf.onHandlerDone(eventId);
-
-    // Re-apply diagnosis-mode logging, in case other accessibility-services changed the shared
-    // log-level preference.
-    enforceDiagnosisModeLogging();
 
     if (diagnosticOverlayController != null) {
       diagnosticOverlayController.displayEvent(event);
@@ -2996,9 +2991,10 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   private void resumeInfrastructure() {
 
-    // Load log-level preference early, so that we can log it and use it during startup.
-    reloadPreferenceLogLevel();
-    // Log meta-data about service, disregarding log-level pref, in 1 line for easy log filtering.
+    LogUtils.setLogFile(LogUtils.defaultLogFile(this));
+    // Load debug-log preference early, so that we can log it and use it during startup.
+    reloadDebugLog();
+    // Log meta-data about service, disregarding debug-log pref, in 1 line for easy log filtering.
     if (Log.isLoggable(TAG, Log.INFO)) {
       Log.i(
           TAG,
@@ -3006,8 +3002,8 @@ public class TalkBackService extends AccessibilityServiceCompat
               + Build.VERSION.SDK_INT
               + " talkback getVersionName="
               + PackageManagerUtils.getVersionName(this)
-              + " LogUtils.getLogLevel="
-              + LogUtils.getLogLevel()
+              + " debugLog="
+              + getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default)
               + " System preload="
               + com.google.android.accessibility.utils.BuildConfig.IS_SYSTEM_PRELOAD
               + " utils.BuildConfig.DEBUG="
@@ -3472,8 +3468,8 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     LogUtils.v(
         TAG,
-        "TalkBackService.reloadPreferences() diagnostic mode=%s, key=%s",
-        PreferencesActivityUtils.isDiagnosisModeOn(prefs, res),
+        "TalkBackService.reloadPreferences() debugLog=%s, key=%s",
+        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default),
         key);
 
     // Preference to turn off animations, so that windows are announced sooner.
@@ -3504,7 +3500,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =
-        getBooleanPref(R.string.pref_performance_stats_key, R.bool.pref_performance_stats_default);
+        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default);
     Performance performance = Performance.getInstance();
     if (performance.getComputeStatsEnabled() != performanceEnabled) {
       performance.clearRecentEvents();
@@ -3512,18 +3508,18 @@ public class TalkBackService extends AccessibilityServiceCompat
       performance.setComputeStatsEnabled(performanceEnabled);
     }
 
-    boolean logOverlayEnabled =
-        PreferencesActivityUtils.getDiagnosticPref(
-            prefs, res, R.string.pref_log_overlay_key, R.bool.pref_log_overlay_default);
-    diagnosticOverlayController.setLogOverlayEnabled(logOverlayEnabled);
+    diagnosticOverlayController.setLogOverlayEnabled(
+        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default));
 
     accessibilityEventProcessor.setSpeakWhenScreenOff(NotificationSettings.readsWhenScreenOff(prefs));
 
     accessibilityEventProcessor.setDumpEventMask(
-        prefs.getInt(res.getString(R.string.pref_dump_event_mask_key), 0));
+        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default)
+            ? AccessibilityEvent.TYPES_ALL_MASK
+            : 0);
 
     proximitySensorMonitor.reloadSilenceOnProximity();
-    reloadPreferenceLogLevel();
+    reloadDebugLog();
 
     globalVariables.setIsDndEnabled(SettingsUtils.getDoNotDisturbState(this) > 0);
     globalVariables.setSpeakNotifications(
@@ -3564,15 +3560,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     voiceCommandProcessor.setEchoRecognizedTextEnabled(
-        PreferencesActivityUtils.getDiagnosticPref(
-            this,
+        getBooleanPref(
             R.string.pref_echo_recognized_text_speech_key,
             R.bool.pref_echo_recognized_text_default));
 
     // Reload speech preferences.
     pipeline.setOverlayEnabled(
-        PreferencesActivityUtils.getDiagnosticPref(
-            this, R.string.pref_tts_overlay_key, R.bool.pref_tts_overlay_default));
+        getBooleanPref(R.string.pref_tts_overlay_key, R.bool.pref_tts_overlay_default));
 
     pipeline.setUseIntonation(
         VerbosityPreferences.getPreferenceValueBool(
@@ -3925,23 +3919,14 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
-  private void reloadPreferenceLogLevel() {
-    LogUtils.setLogLevel(
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs, getResources(), R.string.pref_log_level_key, R.string.pref_log_level_default));
-    enforceDiagnosisModeLogging();
-    MainThreadStallLogger.setEnabled(LogUtils.shouldLog(Log.DEBUG));
-    // At VERBOSE the log itself carries the diagnostics snapshot and the performance
-    // statistics; below VERBOSE this stops again.
-    VerboseDiagnosticsLogger.syncWithLogLevel(this);
-  }
-
-  private void enforceDiagnosisModeLogging() {
-    if ((LogUtils.getLogLevel() != Log.VERBOSE)
-        && PreferencesActivityUtils.isDiagnosisModeOn(prefs, getResources())) {
-      LogUtils.setLogLevel(Log.VERBOSE);
-      MainThreadStallLogger.setEnabled(true);
-    }
+  private void reloadDebugLog() {
+    boolean debugLog =
+        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default);
+    LogUtils.setEnabled(debugLog);
+    MainThreadStallLogger.setEnabled(debugLog);
+    // While the debug log is on, the log itself carries the diagnostics snapshot and the
+    // performance statistics; while it is off, this stops again.
+    VerboseDiagnosticsLogger.syncWithDebugLog(this);
   }
 
   @DescriptionOrder
@@ -4679,7 +4664,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     dumpLogger.log("TalkBackService basic information: ");
     dumpLogger.log("  versionName=" + PackageManagerUtils.getVersionName(this));
     dumpLogger.log("  versionCode=" + PackageManagerUtils.getVersionCode(this));
-    dumpLogger.log("  LogUtils.getLogLevel=" + LogUtils.getLogLevelName());
+    dumpLogger.log("  Debug log=" + LogUtils.isEnabled());
     dumpLogger.log("  Build.VERSION.SDK_INT=" + VERSION.SDK_INT);
     dumpLogger.log(
         "  BuildConfig.DEBUG=" + com.google.android.accessibility.utils.BuildConfig.DEBUG);
@@ -4697,12 +4682,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       return;
     }
     Resources res = getResources();
-    dumpLogger.log(
-        String.format(
-            "  %s=%b",
-            res.getString(R.string.title_pref_diagnosis_mode),
-            SharedPreferencesUtils.getBooleanPref(
-                prefs, res, R.string.pref_diagnosis_mode_key, R.bool.pref_diagnosis_mode_default)));
+
     dumpLogger.log(
         String.format(
             "  %s=%b",
@@ -4727,15 +4707,7 @@ public class TalkBackService extends AccessibilityServiceCompat
                 res,
                 R.string.pref_echo_recognized_text_speech_key,
                 R.bool.pref_echo_recognized_text_default)));
-    dumpLogger.log(
-        String.format(
-            "  %s=%b",
-            res.getString(R.string.title_pref_performance_stats),
-            SharedPreferencesUtils.getBooleanPref(
-                prefs,
-                res,
-                R.string.pref_performance_stats_reflect_key,
-                R.bool.pref_performance_stats_default)));
+
     dumpLogger.log(
         String.format(
             "  %s=%b",
@@ -4748,15 +4720,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     dumpLogger.log(
         String.format(
             "  %s=%b",
-            res.getString(R.string.title_pref_tree_debug),
+            res.getString(R.string.title_pref_debug_log),
             SharedPreferencesUtils.getBooleanPref(
-                prefs, res, R.string.pref_tree_debug_reflect_key, R.bool.pref_tree_debug_default)));
-    dumpLogger.log(
-        String.format(
-            "  %s=%b",
-            res.getString(R.string.title_pref_log_overlay),
-            SharedPreferencesUtils.getBooleanPref(
-                prefs, res, R.string.pref_log_overlay_key, R.bool.pref_log_overlay_default)));
+                prefs, res, R.string.pref_debug_log_key, R.bool.pref_debug_log_default)));
+
     dumpLogger.log("");
   }
 }

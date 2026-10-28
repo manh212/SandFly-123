@@ -799,6 +799,8 @@ public class FailoverTextToSpeech {
       return;
     }
 
+    LogUtils.i(TAG, "Speak: %s", text);
+
     int result;
 
     volume *= calculateVolumeAdjustment();

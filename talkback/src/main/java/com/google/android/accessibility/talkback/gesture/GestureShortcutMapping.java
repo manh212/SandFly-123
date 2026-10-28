@@ -33,7 +33,6 @@ import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.compositor.GestureShortcutProvider;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Logger;
@@ -972,9 +971,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
         String keyId = getPrefKeyWithGestureSet(context.getString(gesture.keyId), index);
         String action = prefs.getString(keyId, context.getString(gesture.defaultActionId));
-        // When diagnosis-mode is on, override a gesture to dump node-tree to logs.
-        if ((gesture == TalkBackGesture.FOUR_FINGER_SINGLE_TAP)
-            && PreferencesActivityUtils.isDiagnosisModeOn(prefs, context.getResources())) {
+        // When the debug log is on, override a gesture to dump node-tree to logs.
+        if ((gesture == TalkBackGesture.FOUR_FINGER_SINGLE_TAP) && LogUtils.isEnabled()) {
           action = context.getString(R.string.shortcut_value_print_node_tree);
         }
 

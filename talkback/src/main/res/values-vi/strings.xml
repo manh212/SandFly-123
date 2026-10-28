@@ -300,7 +300,7 @@
   <string name="pref_reduce_window_delay_title">Tắt hiệu ứng động</string>
   <string name="title_pref_log_level">Mức đầu ra của nhật ký</string>
   <string name="title_pref_diagnosis_mode">Chế độ chẩn đoán</string>
-  <string name="title_pref_export_diagnostics">Xuất chẩn đoán</string>
+  <string name="title_pref_export_diagnostics">Xuất nhật ký</string>
   <string name="title_pref_export_diagnostics_to_downloads">Xuất nhật ký vào Tải xuống</string>
   <string name="title_pref_copy_diagnostics">Sao chép nhật ký</string>
   <string name="message_diagnostics_saved_to_downloads">Đã lưu chẩn đoán vào Tải xuống</string>
@@ -1752,4 +1752,5 @@
     <string name="first_run_tutorial_question">Bạn có cần hướng dẫn không?</string>
     <string name="first_run_tutorial_yes">Có</string>
     <string name="first_run_tutorial_no">Không</string>
+    <string name="title_pref_debug_log">Nhật ký gỡ lỗi</string>
 </resources>

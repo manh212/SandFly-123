@@ -34,7 +34,6 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
 import com.google.android.accessibility.talkback.migration.MigrationFiles
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
 import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -50,10 +49,10 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicReference
 
 /**
- * Builds one diagnostics text out of everything SandFly itself can know: the phone and the app,
- * SandFly's state and audio path, the last crash, a digest of the stored preferences, the
- * performance statistics, and SandFly's recent log. The user saves it to Downloads or copies it,
- * and sends it to whoever is helping. SandFly sends it nowhere itself.
+ * Builds one diagnostics text out of everything Meridian itself can know: the phone and the app,
+ * Meridian's state and audio path, the last crash, a digest of the stored preferences, the
+ * performance statistics, and Meridian's recent log. The user saves it to Downloads or copies it,
+ * and sends it to whoever is helping. Meridian sends it nowhere itself.
  */
 object DiagnosticsExport {
   private const val TAG = "DiagnosticsExport"
@@ -65,14 +64,14 @@ object DiagnosticsExport {
   private const val LOG_MAX_CHARS = 2_000_000
   private const val LOG_TIMEOUT_SECONDS = 15L
 
-  /** The whole diagnostics text. Slow: it runs logcat. */
+  /** The whole diagnostics text. Slow: it reads the debug log file, or runs logcat. */
   @WorkerThread
   fun build(context: Context): String {
     val appContext = context.applicationContext
     val out = StringBuilder()
-    out.append("SandFly diagnostics\n")
+    out.append("Meridian diagnostics\n")
     out.append(
-      "Privacy: this file can contain text SandFly has spoken, content from your screen, and" +
+      "Privacy: this file can contain text Meridian has spoken, content from your screen, and" +
         " other personal information. Share it only with people you trust.\n"
     )
     out.append(
@@ -82,14 +81,13 @@ object DiagnosticsExport {
     )
     out.append(buildSnapshotSections(appContext))
     out.append(buildPerformanceStatsSection())
-    val log = readLog()
-    out.append("== Recent log of the SandFly process ==\n")
+    val log = readLog(appContext)
+    out.append("== Recent log of the Meridian process ==\n")
     if (log == null) {
       out.append("The log could not be read.\n")
     } else {
       out.append(
-        "Lines captured: ${log.count { it == '\n' }} (at most $LOG_LINES lines," +
-          " $LOG_MAX_CHARS characters)\n"
+        "Lines captured: ${log.count { it == '\n' }} (at most $LOG_MAX_CHARS characters)\n"
       )
       out.append(log)
       if (!log.endsWith("\n")) out.append("\n")
@@ -98,10 +96,10 @@ object DiagnosticsExport {
   }
 
   /**
-   * The snapshot sections of [build] — device and app, SandFly state, audio, last crash,
+   * The snapshot sections of [build] — device and app, Meridian state, audio, last crash,
    * preferences digest — without the recent log. This is the single source of truth for those
    * sections: [build] assembles the export file from it, and [VerboseDiagnosticsLogger] writes
-   * it into the log itself at the VERBOSE log level.
+   * it into the log itself while the debug log is on.
    */
   @WorkerThread
   fun buildSnapshotSections(context: Context): String {
@@ -207,7 +205,7 @@ object DiagnosticsExport {
   /**
    * Saves [text] as a file in the public Downloads folder, and returns whether it was saved.
    * Downloads through MediaStore needs Android 10 or later; before that there is no way to write
-   * there without a storage permission SandFly does not hold.
+   * there without a storage permission Meridian does not hold.
    */
   @WorkerThread
   fun saveToDownloads(context: Context, text: String): Boolean {
@@ -255,9 +253,9 @@ object DiagnosticsExport {
       val code =
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) info.longVersionCode
         else info.versionCode.toLong()
-      out.append("SandFly: ${info.versionName} (version code $code)\n")
+      out.append("Meridian: ${info.versionName} (version code $code)\n")
     } catch (e: PackageManager.NameNotFoundException) {
-      out.append("SandFly: version unknown\n")
+      out.append("Meridian: version unknown\n")
     }
     out.append("\n")
   }
@@ -265,10 +263,8 @@ object DiagnosticsExport {
   private fun sandFlyState(context: Context, out: StringBuilder) {
     val res = context.resources
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-    out.append("== SandFly state ==\n")
-    out.append("Log level: ${LogUtils.getLogLevelName()}\n")
-    val diagnosis = PreferencesActivityUtils.isDiagnosisModeOn(prefs, res)
-    out.append("Diagnosis mode: ${if (diagnosis) "on" else "off"}\n")
+    out.append("== Meridian state ==\n")
+    out.append("Debug log: ${if (LogUtils.isEnabled()) "on" else "off"}\n")
     val typingMethod =
       SharedPreferencesUtils.getIntFromStringPref(
         prefs,
@@ -431,9 +427,30 @@ object DiagnosticsExport {
       else -> "type $type"
     }
 
-  /** The last lines of this process's log, or null if logcat cannot be run. */
+  /** The debug log file's content, newest last, capped like the logcat fallback, or null. */
   @WorkerThread
-  private fun readLog(): String? {
+  private fun readDebugLogFile(context: Context): String? {
+    val deviceProtected = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
+    val dir = deviceProtected.filesDir
+    val parts =
+      listOf(File(dir, LogUtils.LOG_OLD_FILE_NAME), File(dir, LogUtils.LOG_FILE_NAME))
+        .filter { it.isFile }
+    if (parts.isEmpty()) return null
+    val text =
+      try {
+        parts.joinToString("") { it.bufferedReader().use { reader -> reader.readText() } }
+      } catch (e: IOException) {
+        LogUtils.w(TAG, "Cannot read the debug log file: %s", e)
+        return null
+      }
+    if (text.length <= LOG_MAX_CHARS) return text
+    return text.takeLast(LOG_MAX_CHARS).substringAfter('\n')
+  }
+
+  /** The last lines of this process's log, or null if neither the file nor logcat can be read. */
+  @WorkerThread
+  private fun readLog(context: Context): String? {
+    readDebugLogFile(context)?.let { return it }
     val process =
       try {
         ProcessBuilder(

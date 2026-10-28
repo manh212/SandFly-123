@@ -35,28 +35,6 @@ public class PreferencesActivityUtils {
 
   private PreferencesActivityUtils() {} // Not instantiable
 
-  /** Returns a boolean-preference-value that may be overridden by diagnosis-mode. */
-  public static boolean getDiagnosticPref(Context context, int prefKeyResId, int prefDefaultResId) {
-    SharedPreferences preferences = SharedPreferencesUtils.getSharedPreferences(context);
-    Resources resources = context.getResources();
-    return getDiagnosticPref(preferences, resources, prefKeyResId, prefDefaultResId);
-  }
-
-  public static boolean getDiagnosticPref(
-      SharedPreferences preferences, Resources resources, int prefKeyResId, int prefDefaultResId) {
-    return isDiagnosisModeOn(preferences, resources)
-        || SharedPreferencesUtils.getBooleanPref(
-            preferences, resources, prefKeyResId, prefDefaultResId);
-  }
-
-  public static boolean isDiagnosisModeOn(SharedPreferences preferences, Resources resources) {
-    return SharedPreferencesUtils.getBooleanPref(
-        preferences,
-        resources,
-        R.string.pref_diagnosis_mode_key,
-        R.bool.pref_diagnosis_mode_default);
-  }
-
   /**
    * Utility method for announcing text via accessibility event.
    *

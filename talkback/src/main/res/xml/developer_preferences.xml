@@ -7,9 +7,9 @@
       android:title="@string/title_pref_version_code"
       android:selectable="false" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_diagnosis_mode_default"
-      android:key="@string/pref_diagnosis_mode_key"
-      android:title="@string/title_pref_diagnosis_mode" />
+      android:defaultValue="@bool/pref_debug_log_default"
+      android:key="@string/pref_debug_log_key"
+      android:title="@string/title_pref_debug_log" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tts_overlay_default"
       android:key="@string/pref_tts_overlay_key"
@@ -28,33 +28,9 @@
       android:key="@string/pref_echo_recognized_text_speech_key"
       android:title="@string/title_pref_echo_recognized_text_speech" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_performance_stats_default"
-      android:key="@string/pref_performance_stats_reflect_key"
-      android:title="@string/title_pref_performance_stats" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_explore_by_touch_default"
       android:key="@string/pref_explore_by_touch_reflect_key"
       android:title="@string/title_pref_explore_by_touch" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_tree_debug_default"
-      android:key="@string/pref_tree_debug_reflect_key"
-      android:title="@string/title_pref_tree_debug" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_log_overlay_default"
-      android:key="@string/pref_log_overlay_key"
-      android:title="@string/title_pref_log_overlay" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
-      android:defaultValue="@string/pref_log_level_default"
-      android:dialogTitle="@string/title_pref_log_level"
-      android:entries="@array/pref_log_level_entries"
-      android:entryValues="@array/pref_log_level_values"
-      android:key="@string/pref_log_level_key"
-      android:summary="%s"
-      android:title="@string/title_pref_log_level" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_dump_a11y_event_key"
-      android:title="@string/title_pref_dump_a11y_event"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackDumpAccessibilityEventFragment" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_export_diagnostics_key"
       android:title="@string/title_pref_export_diagnostics"

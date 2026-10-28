@@ -1526,7 +1526,7 @@
       Source: Preference title.
       Description: This preference opens the screen that exports Meridian's diagnostics.
     -->
-    <string name="title_pref_export_diagnostics">Export diagnostics</string>
+    <string name="title_pref_export_diagnostics">Export debug log</string>
     <!--
       Source: Preference title.
       Description: This preference saves Meridian's diagnostics as a file in Downloads.
@@ -4488,4 +4488,5 @@
     <string name="first_run_tutorial_question">Do you need a tutorial?</string>
     <string name="first_run_tutorial_yes">Yes</string>
     <string name="first_run_tutorial_no">No</string>
+    <string name="title_pref_debug_log">Debug log</string>
 </resources>

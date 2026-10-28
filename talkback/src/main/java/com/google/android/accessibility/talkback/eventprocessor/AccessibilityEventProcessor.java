@@ -629,7 +629,7 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
    */
   private void processEvent(AccessibilityEvent event, EventId eventId) {
     // Log the listeners for this event type.
-    if (LogUtils.getLogLevel() <= Log.VERBOSE) {
+    if (LogUtils.isEnabled()) {
       StringBuilder handlerNames = new StringBuilder();
       Iterator<AccessibilityEventListener> iterator = accessibilityEventListeners.iterator();
       while (iterator.hasNext()) {

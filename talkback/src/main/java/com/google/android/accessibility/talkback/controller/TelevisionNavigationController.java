@@ -56,7 +56,6 @@ import com.google.android.accessibility.talkback.TvNavigation;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.monitor.InputMethodMonitor;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
@@ -165,7 +164,7 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
 
     final SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
     prefs.registerOnSharedPreferenceChangeListener(treeDebugChangeListener);
-    treeDebugPrefKey = service.getString(R.string.pref_tree_debug_key);
+    treeDebugPrefKey = service.getString(R.string.pref_debug_log_key);
     treeDebugChangeListener.onSharedPreferenceChanged(prefs, treeDebugPrefKey);
     letSystemHandleDpadCenterWhenFocusNotInSync =
         TvNavigation.letSystemHandleDpadCenterWhenFocusNotInSync(this.service);
@@ -600,11 +599,11 @@ public class TelevisionNavigationController implements ServiceKeyEventListener {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
           if (key != null && key.equals(treeDebugPrefKey)) {
             treeDebugEnabled =
-                PreferencesActivityUtils.getDiagnosticPref(
+                SharedPreferencesUtils.getBooleanPref(
                     sharedPreferences,
                     service.getResources(),
-                    R.string.pref_tree_debug_key,
-                    R.bool.pref_tree_debug_default);
+                    R.string.pref_debug_log_key,
+                    R.bool.pref_debug_log_default);
             if (treeDebugEnabled) {
               ContextCompat.registerReceiver(
                   service,

@@ -140,5 +140,6 @@
         <ignore regexp="first_run_tutorial_question" />
         <ignore regexp="first_run_tutorial_yes" />
         <ignore regexp="first_run_tutorial_no" />
+            <ignore regexp="title_pref_debug_log" />
     </issue>
 </lint>

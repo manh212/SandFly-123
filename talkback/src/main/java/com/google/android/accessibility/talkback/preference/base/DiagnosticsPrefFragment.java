@@ -30,9 +30,9 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * A screen with two actions: save SandFly's diagnostics to Downloads, or copy them, so the user
+ * A screen with two actions: save Meridian's diagnostics to Downloads, or copy them, so the user
  * can send them to whoever is helping. The diagnostics are built off the main thread, since
- * building them runs logcat.
+ * building them reads the debug log.
  */
 public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
 

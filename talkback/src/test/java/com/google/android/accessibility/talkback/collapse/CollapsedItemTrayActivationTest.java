@@ -178,7 +178,7 @@ public class CollapsedItemTrayActivationTest {
         .commit();
     returner = new PerformingReturner();
     provider = new FakeRootProvider();
-    LogUtils.setLogLevel(Log.VERBOSE);
+    LogUtils.setEnabled(true);
     actions = new CollapsedItemActions(returner, /* analytics= */ null);
     list = CollapseTestTrees.list(CollapseTestTrees.FACEBOOK_PACKAGE);
     tree = CollapseTestTrees.facebookComment(list);
@@ -191,7 +191,7 @@ public class CollapsedItemTrayActivationTest {
     CollapsedItemActions.resetFocusNodeProviderForTest();
     CollapsedItemActions.resetSimulatedTapperForTest();
     MenuAutomation.resetForTest();
-    LogUtils.setLogLevel(Log.ERROR);
+    LogUtils.setEnabled(false);
   }
 
   /** Stands on the comment and lets its live body shell expose the long press. */

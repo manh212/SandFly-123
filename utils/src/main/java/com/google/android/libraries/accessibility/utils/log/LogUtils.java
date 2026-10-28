@@ -16,9 +16,18 @@
 
 package com.google.android.libraries.accessibility.utils.log;
 
+import android.content.Context;
 import android.util.Log;
+import androidx.core.content.ContextCompat;
 import com.google.common.base.Strings;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.IllegalFormatException;
+import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Handles logging formatted strings. */
@@ -38,11 +47,21 @@ public class LogUtils {
 
   private static final String TAG = "LogUtils";
 
-  /**
-   * The minimum log level that will be printed to the console. Set this to {@link Log#ERROR} for
-   * release or {@link Log#VERBOSE} for debugging.
-   */
-  private static int minLogLevel = Log.ERROR;
+  private static boolean debugLogEnabled = false;
+
+  private static @Nullable File logFile = null;
+
+  private static @Nullable File logOldFile = null;
+
+  private static @Nullable FileOutputStream logStream = null;
+
+  private static final Object LOG_FILE_LOCK = new Object();
+
+  public static final String LOG_FILE_NAME = "debug-log.txt";
+
+  public static final String LOG_OLD_FILE_NAME = "debug-log-old.txt";
+
+  public static final long LOG_MAX_BYTES = 20L * 1024 * 1024;
 
   private static String logTagPrefix = "";
 
@@ -236,7 +255,7 @@ public class LogUtils {
       @Nullable Throwable throwable,
       @Nullable String format,
       @Nullable Object... args) {
-    if (priority < minLogLevel) {
+    if (!debugLogEnabled) {
       return;
     }
 
@@ -251,14 +270,11 @@ public class LogUtils {
 
     try {
       String message = String.format(Strings.nullToEmpty(format), args);
-      if (throwable == null) {
-        Log.println(priority, prefixedTag, message);
-      } else {
-        Log.println(
-            priority,
-            prefixedTag,
-            String.format("%s\n%s", message, Log.getStackTraceString(throwable)));
+      if (throwable != null) {
+        message = String.format("%s\n%s", message, Log.getStackTraceString(throwable));
       }
+      Log.println(priority, prefixedTag, message);
+      writeToLogFile(priority, prefixedTag, message);
     } catch (IllegalFormatException e) {
       Log.e(TAG, "Bad formatting string: \"" + format + "\"", e);
     }
@@ -287,42 +303,119 @@ public class LogUtils {
     parameterCustomizer = parameterCustomizerArg;
   }
 
-  /**
-   * Sets the log display level.
-   *
-   * @param logLevel The minimum log level that will be printed to the console.
-   */
-  public static void setLogLevel(int logLevel) {
-    minLogLevel = logLevel;
+  public static void setEnabled(boolean enabled) {
+    debugLogEnabled = enabled;
+    if (!enabled) {
+      closeLogFile();
+    }
   }
 
-  /** Gets the log display level. */
-  public static int getLogLevel() {
-    return minLogLevel;
+  public static boolean isEnabled() {
+    return debugLogEnabled;
   }
 
-  /** Returns the name of the current min log level. */
-  public static String getLogLevelName() {
-    return switch (minLogLevel) {
-      case Log.VERBOSE -> "VERBOSE";
-      case Log.DEBUG -> "DEBUG";
-      case Log.INFO -> "INFO";
-      case Log.WARN -> "WARN";
-      case Log.ERROR -> "ERROR";
-      case Log.ASSERT -> "ASSERT";
-      default -> "UNKNOWN";
-    };
-  }
-
-  /**
-   * Tells if the current settings are at or above the specified level of verboseness. This
-   * indicates whether or not a log statement at the provided level will actually result in logging.
-   *
-   * @param logLevel The log level to compare the current setting to.
-   */
   public static boolean shouldLog(int logLevel) {
-    // Higher levels of verbosity correspond with lower int values.
-    // https://developer.android.com/reference/android/util/Log.html#ASSERT
-    return minLogLevel <= logLevel;
+    return debugLogEnabled;
+  }
+
+  public static void setLogFile(@Nullable File file) {
+    synchronized (LOG_FILE_LOCK) {
+      closeLogFileLocked();
+      logFile = file;
+      logOldFile = file == null ? null : new File(file.getParentFile(), LOG_OLD_FILE_NAME);
+    }
+  }
+
+  public static @Nullable File getLogFile() {
+    synchronized (LOG_FILE_LOCK) {
+      return logFile;
+    }
+  }
+
+  public static @Nullable File getLogOldFile() {
+    synchronized (LOG_FILE_LOCK) {
+      return logOldFile;
+    }
+  }
+
+  public static File defaultLogFile(Context context) {
+    Context deviceProtected = ContextCompat.createDeviceProtectedStorageContext(context);
+    if (deviceProtected == null) {
+      deviceProtected = context;
+    }
+    return new File(deviceProtected.getFilesDir(), LOG_FILE_NAME);
+  }
+
+  private static void writeToLogFile(int priority, String tag, String message) {
+    synchronized (LOG_FILE_LOCK) {
+      if (logFile == null) {
+        return;
+      }
+      try {
+        if (logStream == null) {
+          File parent = logFile.getParentFile();
+          if (parent != null) {
+            parent.mkdirs();
+          }
+          logStream = new FileOutputStream(logFile, true);
+        }
+        if (logFile.length() > LOG_MAX_BYTES) {
+          closeLogFileLocked();
+          if (logOldFile != null) {
+            logOldFile.delete();
+            logFile.renameTo(logOldFile);
+          }
+          logStream = new FileOutputStream(logFile, true);
+        }
+        String line =
+            String.format(
+                "%s %c/%s: %s\n",
+                new SimpleDateFormat("HH:mm:ss.SSS", Locale.ROOT).format(new Date()),
+                priorityLetter(priority),
+                tag,
+                message);
+        logStream.write(line.getBytes(StandardCharsets.UTF_8));
+        logStream.flush();
+      } catch (IOException e) {
+        Log.e(TAG, "Cannot write the debug log file", e);
+        closeLogFileLocked();
+      }
+    }
+  }
+
+  private static char priorityLetter(int priority) {
+    switch (priority) {
+      case Log.VERBOSE:
+        return 'V';
+      case Log.DEBUG:
+        return 'D';
+      case Log.INFO:
+        return 'I';
+      case Log.WARN:
+        return 'W';
+      case Log.ERROR:
+        return 'E';
+      case Log.ASSERT:
+        return 'A';
+      default:
+        return '?';
+    }
+  }
+
+  private static void closeLogFile() {
+    synchronized (LOG_FILE_LOCK) {
+      closeLogFileLocked();
+    }
+  }
+
+  private static void closeLogFileLocked() {
+    if (logStream != null) {
+      try {
+        logStream.close();
+      } catch (IOException e) {
+        Log.e(TAG, "Cannot close the debug log file", e);
+      }
+      logStream = null;
+    }
   }
 }

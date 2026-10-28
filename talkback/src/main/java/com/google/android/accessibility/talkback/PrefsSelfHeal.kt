@@ -21,8 +21,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.pm.PackageManager
 import android.os.Build
-import android.util.Log
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
 import com.google.android.accessibility.talkback.report.DiagnosticsExport
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
@@ -186,27 +184,27 @@ object PrefsSelfHeal {
 
   /**
    * Writes the diagnostics snapshot into the log, exactly as [VerboseDiagnosticsLogger] does
-   * when the service starts at VERBOSE — same sections from the same builder, same tag, one
-   * log call per line — but synchronously, so the preferences digest inside it still shows
-   * the file as the update left it.
+   * when the service starts with the debug log on — same sections from the same builder, same
+   * tag, one log call per line — but synchronously, so the preferences digest inside it still
+   * shows the file as the update left it.
    *
-   * The gate is the one the service applies moments later in `reloadPreferenceLogLevel`:
-   * LogUtils' own level is not loaded yet at this point in startup, so the level is read from
-   * the very preferences being healed, together with the diagnosis-mode override.
+   * The gate is the one the service applies moments later in `reloadDebugLog`:
+   * LogUtils' own flag is not loaded yet at this point in startup, so the switch is read from
+   * the very preferences being healed.
    */
   private fun logPreHealSnapshot(context: Context, prefs: SharedPreferences) {
-    val verbose =
+    val debugLog =
       try {
-        SharedPreferencesUtils.getIntFromStringPref(
+        SharedPreferencesUtils.getBooleanPref(
           prefs,
           context.resources,
-          R.string.pref_log_level_key,
-          R.string.pref_log_level_default,
-        ) == Log.VERBOSE || PreferencesActivityUtils.isDiagnosisModeOn(prefs, context.resources)
+          R.string.pref_debug_log_key,
+          R.bool.pref_debug_log_default,
+        )
       } catch (t: Throwable) {
         false
       }
-    if (!verbose) return
+    if (!debugLog) return
     try {
       LogUtils.v(SNAPSHOT_TAG, "== Diagnostics snapshot in the log ==")
       LogUtils.v(SNAPSHOT_TAG, "%s", DiagnosticsExport.performanceStatsStatusLine())

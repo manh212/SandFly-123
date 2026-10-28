@@ -29,7 +29,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 import androidx.fragment.app.FragmentManager;
-import android.util.Log;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
@@ -37,7 +36,6 @@ import androidx.preference.TwoStatePreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityMessageFormat;
 import com.google.android.accessibility.utils.FeatureSupport;
@@ -59,22 +57,8 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
   private Context context;
   private FragmentManager fragmentManager;
 
-  /** AlertDialog to ask if user really wants to enable node tree debugging. */
-  private A11yAlertDialogWrapper treeDebugDialog;
-
-  /** AlertDialog to ask if user really wants to enable node tree debugging and assign a gesture. */
-  private A11yAlertDialogWrapper treeDebugGestureDialog;
-
-  /** AlertDialog to ask if user really wants to enable performance statistics. */
-  private A11yAlertDialogWrapper performanceStatsDialog;
-
   /** AlertDialog to ask if user really wants to disable explore by touch. */
   private A11yAlertDialogWrapper exploreByTouchDialog;
-
-  /** AlertDialog to ask if user is willing to opt in the debug support. */
-  private A11yAlertDialogWrapper logLevelOptInDialog;
-
-  private int logOptInLevel = Log.ERROR;
 
   /** Flag whether content-observer is watching system touch-explore setting. */
   private boolean contentObserverRegistered = false;
@@ -103,7 +87,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     initVersionInfo();
 
     // Remove preferences for features that are not supported by device.
-    checkTelevision();
     initTouchExplorationPreference();
 
     final @Nullable Preference prefVersion =
@@ -112,123 +95,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
       prefVersion.setSummary(versionInfo);
     } else {
       getPreferenceScreen().removePreference(prefVersion);
-    }
-
-    // Initialize preference dialogs.
-    final @Nullable TwoStatePreference prefTreeDebug =
-        findPreference(getString(R.string.pref_tree_debug_reflect_key));
-    if (prefTreeDebug != null) {
-      prefTreeDebug.setOnPreferenceChangeListener(treeDebugChangeListener);
-      treeDebugDialog =
-          A11yAlertDialogWrapper.materialDialogBuilder(context, fragmentManager)
-              .setNegativeButton(android.R.string.cancel, null)
-              .setOnCancelListener(null)
-              .setTitle(R.string.dialog_title_enable_tree_debug)
-              .setMessage(R.string.dialog_message_enable_tree_debug)
-              .setPositiveButton(
-                  android.R.string.ok,
-                  (DialogInterface dialog, int which) -> {
-                    SharedPreferencesUtils.storeBooleanAsync(
-                        prefs, getString(R.string.pref_tree_debug_key), true);
-                    prefTreeDebug.setChecked(true);
-                    treeDebugGestureDialog.show();
-                  })
-              .create();
-
-      treeDebugGestureDialog =
-          A11yAlertDialogWrapper.materialDialogBuilder(context, fragmentManager)
-              .setNegativeButton(android.R.string.cancel, null)
-              .setOnCancelListener(null)
-              .setTitle(R.string.dialog_title_enable_tree_debug_gesture)
-              .setMessage(R.string.dialog_message_enable_tree_debug_gesture)
-              .setPositiveButton(
-                  android.R.string.ok,
-                  (DialogInterface dialog, int which) -> {
-                    SharedPreferencesUtils.putStringPref(
-                        prefs,
-                        getResources(),
-                        R.string.pref_shortcut_4finger_3tap_key,
-                        getString(R.string.shortcut_value_print_node_tree));
-                  })
-              .create();
-    }
-
-    final TwoStatePreference prefPerformanceStats =
-        findPreference(getString(R.string.pref_performance_stats_reflect_key));
-    if (prefPerformanceStats != null) {
-      prefPerformanceStats.setOnPreferenceChangeListener(performanceStatsChangeListener);
-      performanceStatsDialog =
-          A11yAlertDialogWrapper.materialDialogBuilder(context, fragmentManager)
-              .setNegativeButton(android.R.string.cancel, null)
-              .setOnCancelListener(null)
-              .setTitle(R.string.dialog_title_enable_performance_stats)
-              .setMessage(R.string.dialog_message_enable_performance_stats)
-              .setPositiveButton(
-                  android.R.string.ok,
-                  (DialogInterface dialog, int which) -> {
-                    SharedPreferencesUtils.storeBooleanAsync(
-                        prefs, getString(R.string.pref_performance_stats_key), true);
-                    prefPerformanceStats.setChecked(true);
-                  })
-              .create();
-    }
-
-    final @Nullable ListPreference logLevelPref =
-        findPreference(getString(R.string.pref_log_level_key));
-    if (logLevelPref != null) {
-      logLevelPref.setOnPreferenceChangeListener(logLevelChangeListener);
-      logLevelOptInDialog =
-          A11yAlertDialogWrapper.materialDialogBuilder(context, fragmentManager)
-              .setNegativeButton(android.R.string.cancel, null)
-              .setOnCancelListener(null)
-              .setTitle(R.string.dialog_title_extend_log_level)
-              .setMessage(R.string.dialog_message_extend_log_level)
-              .setPositiveButton(
-                  R.string.dialog_ok_buggon_extend_log_level,
-                  (DialogInterface dialog, int which) -> {
-                    SharedPreferencesUtils.putStringPref(
-                        prefs,
-                        getResources(),
-                        R.string.pref_log_level_key,
-                        Integer.toString(logOptInLevel));
-                    logLevelPref.setValue(Integer.toString(logOptInLevel));
-                    LogUtils.setLogLevel(logOptInLevel);
-                  })
-              .create();
-    }
-
-    final @Nullable TwoStatePreference diagnosisModePref =
-        findPreference(getString(R.string.pref_diagnosis_mode_key));
-    if (diagnosisModePref != null) {
-
-      // Create confirmation-dialog.
-      A11yAlertDialogWrapper diagnosisOptInDialog =
-          A11yAlertDialogWrapper.materialDialogBuilder(context, fragmentManager)
-              .setNegativeButton(android.R.string.cancel, null)
-              .setOnCancelListener(null)
-              .setTitle(R.string.dialog_title_diagnosis_mode)
-              .setMessage(R.string.dialog_message_diagnosis_mode)
-              .setPositiveButton(
-                  android.R.string.ok,
-                  (DialogInterface dialog, int which) -> {
-                    SharedPreferencesUtils.storeBooleanAsync(
-                        prefs, getString(R.string.pref_diagnosis_mode_key), true);
-                    diagnosisModePref.setChecked(true);
-                    updateDisplayForDiagnosisModeOn();
-                  })
-              .create();
-
-      // When diagnosis-mode preference is turned on, show confirmation-dialog.
-      diagnosisModePref.setOnPreferenceChangeListener(
-          (preference, newValue) -> {
-            if (Boolean.TRUE.equals(newValue)) {
-              diagnosisOptInDialog.show();
-              return false;
-            } else {
-              updateDisplayForDiagnosisModeOff();
-              return true;
-            }
-          });
     }
 
     final @Nullable TwoStatePreference multipleGestureSetPref =
@@ -250,7 +116,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
       }
     }
 
-    updateDisplayForDiagnosisMode();
   }
 
   private static boolean shouldShowVersionInSubtitle() {
@@ -259,32 +124,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     return !FeatureSupport.supportSettingsTheme()
         && !FormFactorUtils.isAndroidWear()
         && !FormFactorUtils.isAndroidTv();
-  }
-
-  private void updateDisplayForDiagnosisMode() {
-    if (PreferencesActivityUtils.isDiagnosisModeOn(prefs, context.getResources())) {
-      updateDisplayForDiagnosisModeOn();
-    } else {
-      updateDisplayForDiagnosisModeOff();
-    }
-  }
-
-  // Turn on diagnosis-mode sub-preferences.
-  private void updateDisplayForDiagnosisModeOn() {
-    setEnabled(context, R.string.pref_tts_overlay_key, /* enable= */ false);
-    setEnabled(context, R.string.pref_echo_recognized_text_speech_key, /* enable= */ false);
-    setEnabled(context, R.string.pref_tree_debug_reflect_key, /* enable= */ false);
-    setEnabled(context, R.string.pref_log_overlay_key, /* enable= */ false);
-    setEnabled(context, R.string.pref_log_level_key, /* enable= */ false);
-  }
-
-  // Turn off diagnosis-mode sub-preferences.
-  private void updateDisplayForDiagnosisModeOff() {
-    setEnabled(context, R.string.pref_tts_overlay_key, /* enable= */ true);
-    setEnabled(context, R.string.pref_echo_recognized_text_speech_key, /* enable= */ true);
-    setEnabled(context, R.string.pref_tree_debug_reflect_key, /* enable= */ true);
-    setEnabled(context, R.string.pref_log_overlay_key, /* enable= */ true);
-    setEnabled(context, R.string.pref_log_level_key, /* enable= */ true);
   }
 
   private void initVersionInfo() {
@@ -309,20 +148,9 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     }
   }
 
-  /** Checks if the device is Android TV and changes preferences where necessary. */
-  private void checkTelevision() {
-    if (FormFactorUtils.isAndroidTv()) {
-      // Add TV-specific explanation for node tree debugging.
-      final Preference treeDebugPreference =
-          findPreference(getString(R.string.pref_tree_debug_reflect_key));
-      treeDebugPreference.setSummary(getString(R.string.summary_pref_tree_debug_tv));
-    }
-  }
-
   @Override
   public void onResume() {
     super.onResume();
-    updateDumpA11yEventPreferenceSummary();
 
     // Monitor the touch-explore system-setting.
     @Nullable TalkBackService talkBackService = TalkBackService.getInstance();
@@ -490,104 +318,9 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     return Settings.Secure.getInt(resolver, Settings.Secure.TOUCH_EXPLORATION_ENABLED, 0) == 1;
   }
 
-  //////////////////////////////////////////////////////////////////////////////////////////////
-  // Methods
-
-  private void updateDumpA11yEventPreferenceSummary() {
-    final Preference prefDumpA11yEvent =
-        findPreference(getString(R.string.pref_dump_a11y_event_key));
-
-    if (prefDumpA11yEvent == null || prefs == null) {
-      return;
-    }
-
-    int count = 0;
-    int[] eventTypes = AccessibilityEventUtils.getAllEventTypes();
-
-    int dumpEventMask = prefs.getInt(getString(R.string.pref_dump_event_mask_key), 0);
-
-    for (int eventType : eventTypes) {
-      if ((eventType & dumpEventMask) != 0) {
-        count++;
-      }
-    }
-
-    prefDumpA11yEvent.setSummary(
-        AccessibilityMessageFormat.formatNamedArgs(
-            context, context.getString(R.string.template_dump_event_count), "count", count));
-  }
+  // TODO: Separate function for duplicate OnPreferenceChangeListener code.
 
   // TODO: Separate function for duplicate OnPreferenceChangeListener code.
-  private final OnPreferenceChangeListener treeDebugChangeListener =
-      new OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
 
-          // If the user is trying to turn node tree debugging on, show
-          // a confirmation dialog and don't change anything.
-          if (Boolean.TRUE.equals(newValue)) {
-            treeDebugDialog.show();
-            return false;
-          }
 
-          // If the user is turning node tree debugging off, then any
-          // gestures currently set to print the node tree should be
-          // made unassigned.
-          disableAndRemoveGesture(
-              R.string.pref_tree_debug_key, R.string.shortcut_value_print_node_tree);
-
-          return true;
-        }
-      };
-
-  // TODO: Separate function for duplicate OnPreferenceChangeListener code.
-  private final OnPreferenceChangeListener performanceStatsChangeListener =
-      new OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-          // If the user is enabling performance statistics... show confirmation dialog.
-          if (Boolean.TRUE.equals(newValue)) {
-            performanceStatsDialog.show();
-            return false;
-          }
-
-          return true;
-        }
-      };
-
-  private final OnPreferenceChangeListener logLevelChangeListener =
-      new OnPreferenceChangeListener() {
-        @Override
-        public boolean onPreferenceChange(Preference preference, Object newValue) {
-          // If the user is trying to extend log level, shows a confirmation dialog and don't change
-          // anything.
-          logOptInLevel = Integer.parseInt((String) newValue);
-          if (logOptInLevel < Log.ERROR) {
-            logLevelOptInDialog.show();
-            return false;
-          }
-
-          LogUtils.setLogLevel(logOptInLevel);
-          return true;
-        }
-      };
-
-  protected void disableAndRemoveGesture(int prefKeyRes, int shortcutRes) {
-    // Set preference to false
-    final SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
-    final SharedPreferences.Editor prefEditor = prefs.edit();
-    prefEditor.putBoolean(getString(prefKeyRes), false);
-    // Gestures may need to be reassigned if disabling developer options, like node tree
-    // debugging and performance tracking.
-    final String[] gesturePrefKeys = getResources().getStringArray(R.array.pref_shortcut_keys);
-
-    // For each gesture that matches shortcut... unassign gesture.
-    for (String prefKey : gesturePrefKeys) {
-      final String currentValue = prefs.getString(prefKey, null);
-      if (getString(shortcutRes).equals(currentValue)) {
-        prefEditor.putString(prefKey, getString(R.string.shortcut_value_unassigned));
-      }
-    }
-    prefEditor.apply();
-  }
 }

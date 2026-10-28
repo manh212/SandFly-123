@@ -24,7 +24,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.RemoteException;
-import android.util.Log;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
@@ -752,7 +751,7 @@ public class LabelProviderClient {
    * @param result The labels to log.
    */
   private void logResult(Iterable<Label> result) {
-    if (LogUtils.getLogLevel() >= Log.VERBOSE) {
+    if (LogUtils.isEnabled()) {
       final StringBuilder logMessageBuilder = new StringBuilder("Query result: [");
       for (Label label : result) {
         logMessageBuilder.append("\n  ");

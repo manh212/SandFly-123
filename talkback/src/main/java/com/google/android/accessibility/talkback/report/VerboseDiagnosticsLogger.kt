@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.report
 import android.content.Context
 import android.os.Handler
 import android.os.HandlerThread
-import android.util.Log
 import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
 import com.google.android.libraries.accessibility.utils.log.LogUtils
@@ -50,10 +49,10 @@ internal class VerboseDiagnosticsController(
   var isActive: Boolean = false
     private set
 
-  /** Starts when [verbose] and stops otherwise; a no-op when the state already matches. */
+  /** Starts when [enabled] and stops otherwise; a no-op when the state already matches. */
   @Synchronized
-  fun syncWithLogLevel(verbose: Boolean) {
-    if (verbose) {
+  fun syncEnabled(enabled: Boolean) {
+    if (enabled) {
       if (isActive) return
       isActive = true
       writeSnapshot()
@@ -79,7 +78,7 @@ internal class VerboseDiagnosticsController(
 
   companion object {
     /**
-     * How often performance statistics are written to the log while VERBOSE. The statistics are
+     * How often performance statistics are written to the log while the debug log is on. The statistics are
      * cumulative, so a fresh copy every two minutes tracks how they evolve without flooding the
      * log: one copy is a few hundred lines at most, and only while statistics collection is
      * enabled in developer settings.
@@ -89,12 +88,12 @@ internal class VerboseDiagnosticsController(
 }
 
 /**
- * While the log level is VERBOSE, writes diagnostics into the log itself, so an exported log
+ * While the debug log is on, writes diagnostics into the log itself, so an exported log
  * carries them without anyone having to capture them at exactly the right moment: the snapshot
  * sections of the diagnostics export (the very text [DiagnosticsExport.buildSnapshotSections]
- * builds) are written when VERBOSE takes effect — the level is raised, or the service starts
- * with the level already VERBOSE — and the performance statistics are written every
- * [VerboseDiagnosticsController.STATS_INTERVAL_MS]. Below VERBOSE this does nothing at all.
+ * builds) are written when the debug log takes effect — the switch is turned on, or the service
+ * starts with it already on — and the performance statistics are written every
+ * [VerboseDiagnosticsController.STATS_INTERVAL_MS]. While it is off this does nothing at all.
  */
 object VerboseDiagnosticsLogger {
   private const val TAG = "VerboseDiagnostics"
@@ -105,18 +104,18 @@ object VerboseDiagnosticsLogger {
   private var controller: VerboseDiagnosticsController? = null
 
   /**
-   * Starts or stops the VERBOSE log enrichment to match the log level now in effect. Called
-   * whenever the service (re)loads the log-level preference, including at startup.
+   * Starts or stops the debug-log enrichment to match the debug-log switch now in effect. Called
+   * whenever the service (re)loads the debug-log preference, including at startup.
    */
   @JvmStatic
-  fun syncWithLogLevel(context: Context) {
+  fun syncWithDebugLog(context: Context) {
     appContext = context.applicationContext
-    val verbose = LogUtils.getLogLevel() == Log.VERBOSE
-    if (!verbose && controller == null) {
+    val enabled = LogUtils.isEnabled()
+    if (!enabled && controller == null) {
       // Never activated in this process: do not even create the worker thread.
       return
     }
-    controller().syncWithLogLevel(verbose)
+    controller().syncEnabled(enabled)
   }
 
   private val snapshotRunnable = Runnable { logSnapshotSections() }
@@ -133,7 +132,7 @@ object VerboseDiagnosticsLogger {
         HandlerTaskScheduler(handler),
         writeSnapshot = { handler.post(snapshotRunnable) },
         writeStats = { handler.post(statsRunnable) },
-        // A write posted but not yet run when VERBOSE ends is dropped, not run late.
+        // A write posted but not yet run when the debug log ends is dropped, not run late.
         onStop = {
           handler.removeCallbacks(snapshotRunnable)
           handler.removeCallbacks(statsRunnable)
