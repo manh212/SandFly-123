@@ -27,11 +27,11 @@ import java.io.File
 import java.io.IOException
 
 /**
- * Copies the settings and custom labels of Backtalk Aaron on SandFly's first start.
+ * Copies the settings and custom labels of SandFly on Meridian's first start.
  *
  * It runs from the Application, before anything loads the preferences or the labels database, so
- * no stale copy of them is cached. The files come from [SettingsExportProvider] in Backtalk
- * Aaron, which must be signed with Backtalk Aaron's key.
+ * no stale copy of them is cached. The files come from [SettingsExportProvider] in SandFly,
+ * which must be signed with SandFly's key.
  */
 object SettingsImporter {
   private const val TAG = "SettingsImporter"
@@ -69,14 +69,14 @@ object SettingsImporter {
     state.edit().putInt(KEY_ATTEMPTS, attempts).putBoolean(KEY_DONE, done).commit()
   }
 
-  /** Returns true if Backtalk Aaron is installed, signed with its own key. */
+  /** Returns true if SandFly is installed, signed with its own key. */
   @JvmStatic
   fun isOldAppInstalled(context: Context): Boolean =
     AppIdMove.isSignedBy(context.packageManager, AppIdMove.OLD_PACKAGE, AppIdMove.OLD_CERT_SHA256)
 
   private fun importFromOldApp(context: Context) {
     if (!isOldAppInstalled(context)) {
-      LogUtils.i(TAG, "Backtalk Aaron is not installed, so there are no settings to import")
+      LogUtils.i(TAG, "SandFly is not installed, so there are no settings to import")
       return
     }
     val authority = AppIdMove.authority(AppIdMove.OLD_PACKAGE)

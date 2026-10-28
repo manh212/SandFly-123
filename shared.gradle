@@ -4,7 +4,7 @@
 apply plugin: 'org.jetbrains.kotlin.plugin.compose'
 
 ext {
-    talkbackApplicationId = "io.github.aaron_gh.sandfly"
+    talkbackApplicationId = "io.github.aaron_gh.meridian"
 }
 
 android {

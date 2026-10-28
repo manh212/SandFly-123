@@ -24,8 +24,8 @@ class AppIdMoveTest {
   private val old = AppIdMove.OLD_PACKAGE
   private val new = AppIdMove.NEW_PACKAGE
 
-  private fun kind(apk: String?, own: String, same: Boolean = true, sandFly: Boolean = true) =
-    AppIdMove.installKind(apk, own, sameSigner = same, newSigner = sandFly)
+  private fun kind(apk: String?, own: String, same: Boolean = true, newKey: Boolean = true) =
+    AppIdMove.installKind(apk, own, sameSigner = same, newSigner = newKey)
 
   @Test
   fun samePackageUpdates() {
@@ -39,13 +39,13 @@ class AppIdMoveTest {
   }
 
   @Test
-  fun sandFlyMoves() {
+  fun meridianMoves() {
     assertEquals(InstallKind.MOVE, kind(new, old, same = false))
   }
 
   @Test
-  fun sandFlyWithoutItsKeyIsRefused() {
-    assertEquals(InstallKind.REFUSE, kind(new, old, sandFly = false))
+  fun meridianWithoutItsKeyIsRefused() {
+    assertEquals(InstallKind.REFUSE, kind(new, old, newKey = false))
   }
 
   @Test
@@ -59,9 +59,9 @@ class AppIdMoveTest {
 
   @Test
   fun authorityAndServiceFollowThePackage() {
-    assertEquals("io.github.aaron_gh.backtalk.migration", AppIdMove.authority(old))
+    assertEquals("io.github.aaron_gh.sandfly.migration", AppIdMove.authority(old))
     assertEquals(
-      "io.github.aaron_gh.sandfly/com.google.android.marvin.talkback.TalkBackService",
+      "io.github.aaron_gh.meridian/com.google.android.marvin.talkback.TalkBackService",
       AppIdMove.serviceName(new),
     )
   }
