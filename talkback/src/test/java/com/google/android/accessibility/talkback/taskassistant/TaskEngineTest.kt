@@ -14,17 +14,13 @@ class TaskEngineTest {
     var question: ((String?) -> Unit)? = null
     var performed = 0
     var cancellations = 0
-    var interruptions = 0
-    var time = 0L
     override fun observe(done: (Result<TaskScreen>) -> Unit) { observation = done }
     override fun plan(prompt: String, done: (Result<String>) -> Unit) { answer = done }
     override fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit) { performed++; execution = done }
     override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) { confirmation = done }
     override fun ask(question: String, done: (String?) -> Unit) { this.question = done }
-    override fun interrupted() { interruptions++ }
     override fun changed(state: TaskState, message: String) { }
     override fun cancelOperations() { cancellations++ }
-    override fun now() = time
     fun screen(value: TaskScreen) { val next = observation!!; observation = null; next(Result.success(value)) }
     fun reply(value: String) { val next = answer!!; answer = null; next(Result.success(value)) }
   }
@@ -60,20 +56,15 @@ class TaskEngineTest {
     assertEquals(TaskState.OBSERVING, engine.state)
   }
 
-  @Test fun userInterventionStopsTheLoopAndIgnoresTheLateAiReply() {
+  @Test fun userCancellationStopsTheLoopAndIgnoresTheLateAiReply() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
     engine.start("Bật phụ đề")
     host.screen(screen)
-    engine.interrupt()
+    engine.cancel()
     host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
     assertEquals(0, host.performed)
-    assertEquals(1, host.interruptions)
-    assertEquals(TaskState.INTERRUPTED, engine.state)
-    engine.pause()
-    host.time = 3_600_000
-    engine.resume()
-    assertEquals(TaskState.OBSERVING, engine.state)
+    assertEquals(TaskState.CANCELLED, engine.state)
   }
 
   @Test fun cancellingAConfirmationNeverExecutesThePendingSend() {
@@ -95,9 +86,9 @@ class TaskEngineTest {
     engine.start("Bật phụ đề")
     host.screen(screen)
     host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
-    engine.interrupt()
+    engine.cancel()
     host.execution!!(TaskExecution.PERFORMED)
-    assertEquals(TaskState.INTERRUPTED, engine.state)
+    assertEquals(TaskState.CANCELLED, engine.state)
     assertFalse(engine.busy)
   }
 
@@ -117,29 +108,48 @@ class TaskEngineTest {
     assertEquals(TaskState.OBSERVING, engine.state)
   }
 
-  @Test fun anAiReplyAfterTheTimeBudgetCannotExecuteAnAction() {
-    val host = Host()
-    val engine = TaskEngine(host, emptyList())
-    engine.start("Bật phụ đề")
-    host.screen(screen)
-    host.time = TaskEngine.MAX_ACTIVE_MS + 1
-    host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
-    assertEquals(TaskState.FAILED, engine.state)
-    assertEquals(0, host.performed)
-  }
-
-  @Test fun theStepLimitStopsEvenWhenEveryScreenAndDecisionIsDifferent() {
+  @Test fun theLoopContinuesPastTheOldStepLimit() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
     engine.start("Chờ kết quả")
-    repeat(TaskEngine.MAX_STEPS) { index ->
+    repeat(45) { index ->
       val id = index + 1L
       host.screen(screen.copy(id = id, fingerprint = "screen-$index"))
       host.reply("""{"snapshot":$id,"action":"wait"}""")
       host.execution!!(TaskExecution.PERFORMED)
     }
-    assertEquals(TaskState.FAILED, engine.state)
-    assertEquals(TaskEngine.MAX_STEPS, host.performed)
+    assertEquals(45, host.performed)
+    assertEquals(TaskState.OBSERVING, engine.state)
+  }
+
+  @Test fun aSequenceExecutesItsStepsInOrderThenReplanningContinues() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Mở phần phụ đề")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Phụ đề"},{"action":"click","label":"Cài đặt"}]}""")
+    assertEquals(1, host.performed)
+    host.execution!!(TaskExecution.PERFORMED)
+    host.screen(screen.copy(id = 2, fingerprint = "after-1"))
+    assertEquals(2, host.performed)
+    host.execution!!(TaskExecution.PERFORMED)
+    host.screen(screen.copy(id = 3, fingerprint = "after-2"))
+    assertEquals(TaskState.PLANNING, engine.state)
+  }
+
+  @Test fun aRiskySequenceStepWaitsForConfirmationBeforeExecuting() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Gửi tin")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Gửi"}]}""")
+    assertNotNull(host.confirmation)
+    assertEquals(0, host.performed)
+    host.confirmation!!(true)
+    assertEquals(1, host.performed)
+    host.execution!!(TaskExecution.PERFORMED)
+    host.screen(screen.copy(id = 2, fingerprint = "after"))
+    assertEquals(TaskState.PLANNING, engine.state)
   }
 
   @Test fun staleTargetsAreObservedAgainWithoutRepeatingTheOldDecision() {

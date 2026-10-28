@@ -5,7 +5,6 @@ import android.app.KeyguardManager
 import android.content.Intent
 import android.os.Handler
 import android.os.Looper
-import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
 import android.widget.Button
@@ -34,8 +33,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   private var ai: TaskAiChoice? = null
   private var dialog: AlertDialog? = null
   private var draft = ""
-  private var touchDown = false
-  private var showInterruption = false
   private var closed = false
   private var voicePending = false
   private var voiceGeneration = 0L
@@ -53,8 +50,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     if (closed || dialog?.isShowing == true) return
     voicePending = false
     voiceGeneration++
-    if (engine?.busy == true) engine?.interrupt()
-    if (engine?.state == TaskState.INTERRUPTED) { showInterruptionDialog(); return }
+    if (engine?.busy == true) engine?.cancel()
     if (engine?.state == TaskState.PAUSED) { showPaused(); return }
     showEntry()
   }
@@ -122,16 +118,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       .setNegativeButton(R.string.task_cancel) { _, _ -> engine?.cancel() })
   }
 
-  private fun showInterruptionDialog() {
-    if (engine?.state != TaskState.INTERRUPTED || touchDown || dialog != null) return
-    showInterruption = false
-    display(MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_interrupted).setMessage(engine?.goal)
-      .setPositiveButton(R.string.task_pause) { _, _ -> engine?.pause() }
-      .setNegativeButton(R.string.task_cancel) { _, _ -> engine?.cancel() }) {
-      if (engine?.state == TaskState.INTERRUPTED) engine?.pause()
-    }
-  }
-
   private fun display(builder: AlertDialog.Builder, onDismiss: () -> Unit = {}): AlertDialog {
     dismissDialog()
     val created = builder.create()
@@ -152,9 +138,8 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
 
   private fun userInput(): Boolean {
     if (dialog != null) return false
-    if (engine?.state == TaskState.INTERRUPTED) return true
     if (engine?.busy != true) return false
-    engine?.interrupt()
+    engine?.cancel()
     return true
   }
 
@@ -167,13 +152,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
 
   private fun event(event: AccessibilityEvent) {
     if (engine?.busy == true && !canOperate()) { engine?.pause(); return }
-    when (event.eventType) {
-      AccessibilityEvent.TYPE_TOUCH_INTERACTION_START -> { touchDown = true; userInput() }
-      AccessibilityEvent.TYPE_TOUCH_INTERACTION_END -> {
-        touchDown = false
-        if (showInterruption) main.postDelayed({ showInterruptionDialog() }, 100)
-      }
-    }
+    if (event.eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) userInput()
   }
 
   private fun canOperate(): Boolean = TalkBackService.isServiceActive() && !PauseController.isPaused() &&
@@ -210,6 +189,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
         if (closed || epoch.get() != token || !canOperate()) TaskExecution.STALE
         else {
           val effective: TaskStep? = when {
+            step.node.isBlank() && step.label.isNotBlank() -> resolveLabeled(fresh, step)?.let { step.copy(node = it) }
             fresh.screen.fingerprint == screen.fingerprint -> step
             TaskProtocol.needsConfirmation(step, screen) -> null
             step.operation in setOf(TaskOperation.BACK, TaskOperation.HOME, TaskOperation.WAIT, TaskOperation.OPEN_APP) -> step
@@ -236,6 +216,15 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     }
   }
 
+  private fun resolveLabeled(fresh: CapturedTaskScreen, step: TaskStep): String? {
+    val matches = fresh.screen.nodes.filter {
+      matchesName(it.label, step.label) && (step.viewId.isEmpty() || it.viewId == step.viewId || it.viewId.isEmpty()) &&
+        (step.role.isEmpty() || it.role == step.role) && step.operation.wire in it.actions &&
+        (step.checked == null || it.checked == step.checked)
+    }
+    return if (matches.size == 1) matches[0].id else null
+  }
+
   private fun resolveTarget(planned: TaskScreen, step: TaskStep, fresh: CapturedTaskScreen): String? {
     val target = planned.nodes.firstOrNull { it.id == step.node } ?: return null
     val matches = fresh.screen.nodes.filter {
@@ -258,7 +247,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   }
 
   override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) {
-    val label = screen.nodes.firstOrNull { it.id == step.node }?.label.orEmpty()
+    val label = screen.nodes.firstOrNull { it.id == step.node }?.label.orEmpty().ifBlank { step.label }
     val action = when (step.operation) {
       TaskOperation.SET_TEXT -> "Nhập nội dung: ${step.text}"
       TaskOperation.LONG_CLICK -> "Nhấn giữ: $label"
@@ -293,11 +282,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     }
   }
 
-  override fun interrupted() {
-    showInterruption = true
-    if (!touchDown) main.post { showInterruptionDialog() }
-  }
-
   override fun changed(state: TaskState, message: String) {
     if (closed || state == lastState) return
     lastState = state
@@ -318,8 +302,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     planner.cancel()
     dismissDialog()
   }
-
-  override fun now(): Long = SystemClock.uptimeMillis()
 
   private fun close() {
     closed = true

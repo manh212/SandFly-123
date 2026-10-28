@@ -1,6 +1,6 @@
 package com.google.android.accessibility.talkback.taskassistant
 
-enum class TaskState { IDLE, OBSERVING, PLANNING, EXECUTING, CONFIRMING, ASKING, INTERRUPTED, PAUSED, FINISHED, FAILED, CANCELLED }
+enum class TaskState { IDLE, OBSERVING, PLANNING, EXECUTING, CONFIRMING, ASKING, PAUSED, FINISHED, FAILED, CANCELLED }
 
 enum class TaskExecution { PERFORMED, STALE, FAILED }
 
@@ -12,10 +12,8 @@ interface TaskHost {
   fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit)
   fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit)
   fun ask(question: String, done: (String?) -> Unit)
-  fun interrupted()
   fun changed(state: TaskState, message: String)
   fun cancelOperations()
-  fun now(): Long
 }
 
 class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
@@ -26,12 +24,11 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   var message = ""
     private set
   private var generation = 0L
-  private var started = 0L
-  private var pausedAt = 0L
   private var steps = 0
   private var failures = 0
   private var unchanged = 0
   private var pendingChange: String? = null
+  private var pendingSteps: ArrayDeque<TaskStep>? = null
   private val history = ArrayDeque<String>()
   private val repeated = HashMap<String, Int>()
 
@@ -39,7 +36,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     get() = state in setOf(TaskState.OBSERVING, TaskState.PLANNING, TaskState.EXECUTING)
 
   val active: Boolean
-    get() = busy || state in setOf(TaskState.CONFIRMING, TaskState.ASKING, TaskState.INTERRUPTED, TaskState.PAUSED)
+    get() = busy || state in setOf(TaskState.CONFIRMING, TaskState.ASKING, TaskState.PAUSED)
 
   fun start(request: String) {
     require(request.isNotBlank() && request.length <= 4000)
@@ -47,40 +44,33 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     goal = request.trim()
     history.clear()
     repeated.clear()
-    started = host.now()
     steps = 0
     failures = 0
     unchanged = 0
     pendingChange = null
+    pendingSteps = null
     observe()
-  }
-
-  fun interrupt() {
-    if (!busy) return
-    invalidate()
-    pausedAt = host.now()
-    setState(TaskState.INTERRUPTED, "Đã ngừng thao tác")
-    host.interrupted()
   }
 
   fun pause() {
     if (!active) return
     invalidate()
-    pausedAt = host.now()
+    pendingSteps = null
     setState(TaskState.PAUSED, "Đã tạm dừng")
   }
 
   fun resume() {
     if (state != TaskState.PAUSED) return
-    started += (host.now() - pausedAt).coerceAtLeast(0L)
     addHistory("User resumed after manual interaction. Re-evaluate the current screen and goal.")
     pendingChange = null
     unchanged = 0
+    pendingSteps = null
     observe()
   }
 
   fun cancel() {
     invalidate()
+    pendingSteps = null
     setState(TaskState.CANCELLED, "Đã hủy tác vụ")
   }
 
@@ -97,14 +87,11 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
 
   private fun fail(text: String) {
     invalidate()
+    pendingSteps = null
     setState(TaskState.FAILED, text)
   }
 
   private fun observe() {
-    if (steps >= MAX_STEPS || host.now() - started > MAX_ACTIVE_MS) {
-      fail("Đã dừng vì tác vụ vượt giới hạn thời gian hoặc số bước")
-      return
-    }
     setState(TaskState.OBSERVING, "Đang đọc màn hình")
     val token = ++generation
     host.observe { result ->
@@ -115,6 +102,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
         if (unchanged < 3) { observe(); return@observe }
         pendingChange = null
         unchanged = 0
+        if (pendingSteps != null) { executeNextSequence(screen); return@observe }
         addHistory("The last action did not change the screen. Try another way: a different node, wait for loading, scroll, or ask the user.")
         plan(screen)
         return@observe
@@ -122,7 +110,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
       if (pendingChange != null) addHistory("Observed a changed screen after the last action.")
       pendingChange = null
       unchanged = 0
-      plan(screen)
+      if (pendingSteps != null) executeNextSequence(screen) else plan(screen)
     }
   }
 
@@ -136,27 +124,48 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     host.plan(prompt) { result ->
       if (token != generation || state != TaskState.PLANNING) return@plan
       val answer = result.getOrElse { fail("AI không trả lời được. ${it.message.orEmpty()}"); return@plan }
-      val step = try { TaskProtocol.parse(answer, screen, apps) } catch (e: Exception) {
+      val plan = try { TaskProtocol.parsePlan(answer, screen, apps) } catch (e: Exception) {
         fail("AI trả lời không hợp lệ. ${e.message.orEmpty()}"); return@plan
       }
-      when (step.operation) {
-        TaskOperation.DONE -> {
-          host.observe verified@ { latest ->
-            if (generation != token || state != TaskState.PLANNING) return@verified
-            val current = latest.getOrElse { fail("Không kiểm chứng được kết quả tác vụ"); return@verified }
-            if (current.fingerprint != screen.fingerprint) {
-              addHistory("Screen changed before completion was verified. Re-evaluate the goal.")
-              observe()
-            } else {
-              invalidate()
-              setState(TaskState.FINISHED, "Đã đối chiếu kết quả: ${step.message}")
+      when (plan) {
+        is TaskProtocol.TaskPlan.Single -> {
+          val step = plan.step
+          when (step.operation) {
+            TaskOperation.DONE -> {
+              host.observe verified@ { latest ->
+                if (generation != token || state != TaskState.PLANNING) return@verified
+                val current = latest.getOrElse { fail("Không kiểm chứng được kết quả tác vụ"); return@verified }
+                if (current.fingerprint != screen.fingerprint) {
+                  addHistory("Screen changed before completion was verified. Re-evaluate the goal.")
+                  observe()
+                } else {
+                  invalidate()
+                  setState(TaskState.FINISHED, "Đã đối chiếu kết quả: ${step.message}")
+                }
+              }
             }
+            TaskOperation.ASK -> ask(step.message)
+            else -> if (TaskProtocol.needsConfirmation(step, screen)) confirm(screen, step) else execute(screen, step)
           }
         }
-        TaskOperation.ASK -> ask(step.message)
-        else -> if (TaskProtocol.needsConfirmation(step, screen)) confirm(screen, step) else execute(screen, step)
+        is TaskProtocol.TaskPlan.Sequence -> {
+          pendingSteps = ArrayDeque(plan.steps)
+          addHistory("Chuỗi ${plan.steps.size} bước đã nhận. Thực hiện lần lượt, đối chiếu từng mục trên màn hình mới.")
+          executeNextSequence(screen)
+        }
       }
     }
+  }
+
+  private fun executeNextSequence(screen: TaskScreen) {
+    val step = pendingSteps?.removeFirstOrNull()
+    if (step == null) {
+      pendingSteps = null
+      addHistory("Đã thực hiện xong chuỗi.")
+      plan(screen)
+      return
+    }
+    if (TaskProtocol.needsConfirmationLabel(step)) confirm(screen, step) else execute(screen, step)
   }
 
   private fun confirm(screen: TaskScreen, step: TaskStep) {
@@ -164,7 +173,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     val token = generation
     host.confirm(screen, step) { accepted ->
       if (token != generation || state != TaskState.CONFIRMING) return@confirm
-      if (accepted) execute(screen, step) else pause()
+      if (accepted) execute(screen, step) else { pendingSteps = null; pause() }
     }
   }
 
@@ -180,14 +189,11 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   }
 
   private fun execute(screen: TaskScreen, step: TaskStep) {
-    if (steps >= MAX_STEPS || host.now() - started > MAX_ACTIVE_MS) {
-      fail("Đã dừng vì tác vụ vượt giới hạn thời gian hoặc số bước")
-      return
-    }
-    val signature = "${screen.fingerprint}:${step.operation}:${step.node}:${step.packageName}"
+    val target = if (step.node.isNotBlank()) step.node else step.label
+    val signature = "${screen.fingerprint}:${step.operation}:$target:${step.packageName}"
     val attempts = (repeated[signature] ?: 0) + 1
     repeated[signature] = attempts
-    if (attempts > 3) { fail("Đã dừng vì tác vụ đang lặp lại cùng một thao tác"); return }
+    if (attempts > 3) { pendingSteps = null; fail("Đã dừng vì tác vụ đang lặp lại cùng một thao tác"); return }
     setState(TaskState.EXECUTING, "Đang thực hiện bước ${steps + 1}")
     val token = generation
     host.execute(screen, step) { outcome ->
@@ -197,14 +203,16 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
         TaskExecution.PERFORMED -> {
           failures = 0
           pendingChange = if (step.operation == TaskOperation.WAIT) null else screen.fingerprint
-          addHistory("Action ${step.operation.wire} on ${screen.packageName}: ${screen.nodes.firstOrNull { it.id == step.node }?.label.orEmpty().take(160)}. Await observable result.")
+          addHistory("Action ${step.operation.wire} on ${screen.packageName}: ${screen.nodes.firstOrNull { it.id == step.node }?.label.orEmpty().take(160)}${step.label.take(160)}. Await observable result.")
         }
         TaskExecution.STALE -> {
           failures++
+          pendingSteps = null
           addHistory("Screen changed before action. No action was executed. Reconsider using a fresh snapshot.")
         }
         TaskExecution.FAILED -> {
           failures++
+          pendingSteps = null
           addHistory("Action failed. Do not repeat the same action blindly.")
         }
       }
@@ -215,10 +223,5 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   private fun addHistory(text: String) {
     history.addLast(text)
     while (history.size > 12) history.removeFirst()
-  }
-
-  companion object {
-    const val MAX_STEPS = 40
-    const val MAX_ACTIVE_MS = 10 * 60 * 1000L
   }
 }

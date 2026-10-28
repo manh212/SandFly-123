@@ -54,6 +54,35 @@ class TaskProtocolTest {
     assertEquals(TaskOperation.DONE, step.operation)
   }
 
+  @Test fun sequenceStepsAreMatchedByLabelAndOpenAppPackagesAreValidated() {
+    val plan = TaskProtocol.parsePlan(
+      """{"snapshot":7,"steps":[{"action":"open_app","package":"example.player"},{"action":"click","label":"Phụ đề"}]}""", screen, apps)
+    assertTrue(plan is TaskProtocol.TaskPlan.Sequence)
+    val steps = (plan as TaskProtocol.TaskPlan.Sequence).steps
+    assertEquals(2, steps.size)
+    assertEquals(TaskOperation.OPEN_APP, steps[0].operation)
+    assertEquals("example.player", steps[0].packageName)
+    assertEquals(TaskOperation.CLICK, steps[1].operation)
+    assertEquals("Phụ đề", steps[1].label)
+    assertTrue(TaskProtocol.parsePlan("""{"snapshot":7,"action":"click","node":"n0"}""", screen, apps) is TaskProtocol.TaskPlan.Single)
+  }
+
+  @Test fun sequenceRejectsDoneAskMissingLabelsAndUnlistedPackages() {
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"done","node":"n0","evidence":"Phụ đề","message":"x"}]}""")
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"ask","message":"?"}]}""")
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"click"}]}""")
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"open_app","package":"other.app"}]}""")
+    rejectPlan("""{"snapshot":7,"steps":[]}""")
+    rejectPlan("""{"snapshot":6,"steps":[{"action":"click","label":"Phụ đề"}]}""")
+  }
+
+  @Test fun riskySequenceLabelsNeedConfirmationButNavigationLabelsDoNot() {
+    assertTrue(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Gửi")))
+    assertTrue(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.PRESS_ENTER, label = "Tìm kiếm")))
+    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Tìm kiếm")))
+    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Cài đặt")))
+    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.OPEN_APP, packageName = "example.player")))
+  }
   @Test fun vietnameseToneMarksDoNotHideDangerousButtonLabels() {
     val dangerous = screen.copy(nodes = listOf(TaskNode("n0", "XÓA dữ liệu", "", "Button", setOf("click"))))
     assertTrue(TaskProtocol.needsConfirmation(TaskStep(7, TaskOperation.CLICK, "n0"), dangerous))
@@ -110,6 +139,10 @@ class TaskProtocolTest {
   }
 
   private fun parse(json: String) = TaskProtocol.parse(json, screen, apps)
+
+  private fun rejectPlan(json: String) {
+    try { TaskProtocol.parsePlan(json, screen, apps); fail("The sequence must not be executable") } catch (_: IllegalArgumentException) { }
+  }
 
   private fun reject(json: String) {
     try { parse(json); fail("The response must not be executable") } catch (_: IllegalArgumentException) { }
