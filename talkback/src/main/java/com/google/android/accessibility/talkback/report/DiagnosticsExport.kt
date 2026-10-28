@@ -61,13 +61,13 @@ object DiagnosticsExport {
   private val OTHER_NAMED_PREFS =
     listOf("braille_keyboard", "braille_display", MigrationFiles.STATE_PREFS)
   private const val LOG_LINES = 10_000
-  private const val LOG_MAX_CHARS = 2_000_000
+  private const val LOG_MAX_CHARS_COPY = 100_000
   private const val LOG_MAX_CHARS_EXPORT = 20_000_000
   private const val LOG_TIMEOUT_SECONDS = 15L
 
   /** The whole diagnostics text. Slow: it reads the debug log file, or runs logcat. */
   @WorkerThread
-  fun build(context: Context): String = buildWithLogCap(context, LOG_MAX_CHARS)
+  fun build(context: Context): String = buildWithLogCap(context, LOG_MAX_CHARS_COPY)
 
   /** The whole diagnostics text for the Downloads export, with the full debug log. */
   @WorkerThread

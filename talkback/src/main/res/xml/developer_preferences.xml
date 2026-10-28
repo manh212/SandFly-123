@@ -10,6 +10,15 @@
       android:defaultValue="@bool/pref_debug_log_default"
       android:key="@string/pref_debug_log_key"
       android:title="@string/title_pref_debug_log" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_export_diagnostics_to_downloads_key"
+      android:title="@string/title_pref_export_diagnostics_to_downloads" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_copy_diagnostics_key"
+      android:title="@string/title_pref_copy_diagnostics" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_delete_debug_log_key"
+      android:title="@string/title_pref_delete_debug_log" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tts_overlay_default"
       android:key="@string/pref_tts_overlay_key"
@@ -31,8 +40,4 @@
       android:defaultValue="@bool/pref_explore_by_touch_default"
       android:key="@string/pref_explore_by_touch_reflect_key"
       android:title="@string/title_pref_explore_by_touch" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_export_diagnostics_key"
-      android:title="@string/title_pref_export_diagnostics"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.DiagnosticsPrefFragment" />
 </PreferenceScreen>
