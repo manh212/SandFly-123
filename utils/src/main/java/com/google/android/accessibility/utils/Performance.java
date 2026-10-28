@@ -226,6 +226,16 @@ public class Performance {
   /** How often queued speech waited behind each class of utterance, by blocker class label. */
   private final HashMap<String, Long> speechWaitBlockerCounts = new HashMap<>();
 
+  private long navigationSpeechInterrupts;
+
+  private long windowFocusSpeechInterrupts;
+
+  private long focusEventQueueJumps;
+
+  private long speechWaitCapFlushes;
+
+  private long speechWaitCapHeld;
+
   /** How often focus was spoken from an announcement prepared before the swipe, and how often not. */
   private long preparedSpeechHits;
 
@@ -1068,6 +1078,81 @@ public class Performance {
     }
   }
 
+  public void onNavigationSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      navigationSpeechInterrupts++;
+    }
+  }
+
+  public long getNavigationSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return navigationSpeechInterrupts;
+    }
+  }
+
+  public void onWindowFocusSpeechInterrupt() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      windowFocusSpeechInterrupts++;
+    }
+  }
+
+  public long getWindowFocusSpeechInterruptCount() {
+    synchronized (lockLabelToStats) {
+      return windowFocusSpeechInterrupts;
+    }
+  }
+
+  public void onFocusEventQueueJump(int queueDepth) {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      focusEventQueueJumps++;
+    }
+  }
+
+  public long getFocusEventQueueJumpCount() {
+    synchronized (lockLabelToStats) {
+      return focusEventQueueJumps;
+    }
+  }
+
+  public void onSpeechWaitCapFlush() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapFlushes++;
+    }
+  }
+
+  public long getSpeechWaitCapFlushCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapFlushes;
+    }
+  }
+
+  public void onSpeechWaitCapHeld() {
+    if (!computeStatsEnabled) {
+      return;
+    }
+    synchronized (lockLabelToStats) {
+      speechWaitCapHeld++;
+    }
+  }
+
+  public long getSpeechWaitCapHeldCount() {
+    synchronized (lockLabelToStats) {
+      return speechWaitCapHeld;
+    }
+  }
+
   /** Counts one focus spoken from a prepared announcement. */
   public void onPreparedSpeechHit() {
     if (!computeStatsEnabled) {
@@ -1102,6 +1187,11 @@ public class Performance {
     synchronized (lockLabelToStats) {
       labelToStats.clear();
       speechWaitBlockerCounts.clear();
+      navigationSpeechInterrupts = 0;
+      windowFocusSpeechInterrupts = 0;
+      focusEventQueueJumps = 0;
+      speechWaitCapFlushes = 0;
+      speechWaitCapHeld = 0;
       preparedSpeechHits = 0;
       preparedSpeechMisses = 0;
     }

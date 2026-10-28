@@ -47,6 +47,7 @@ import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
 import android.text.style.TtsSpan;
 import android.util.Range;
+import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
@@ -73,11 +74,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Locale;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.function.Function;
@@ -164,6 +167,20 @@ public class SpeechControllerImpl implements SpeechController {
 
   /** The list of items to be spoken. */
   private List<FeedbackItem> feedbackQueue = Collections.synchronizedList(new ArrayList<>());
+
+  public static volatile boolean navigationSpeechInterruptsAnnouncements = true;
+
+  public static volatile boolean windowFocusSpeechInterruptsAnnouncements = true;
+
+  public static volatile boolean speechWaitCapEnabled = true;
+
+  static final long SPEECH_WAIT_CAP_MS = 100;
+
+  private static final class SpeechWait {
+    @Nullable FeedbackItem capSparedBlocker;
+  }
+
+  private final Map<FeedbackItem, SpeechWait> speechWaits = new IdentityHashMap<>();
 
   /** The list for stopping or resuming voice feedback. */
   private ArrayList<FeedbackItem> savedFeedbackQueue;
@@ -1445,6 +1462,30 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
+    if (!currentFeedbackInterrupted
+        && currentFeedbackItem != null
+        && speechMayCutAnnouncement(item)
+        && !currentFeedbackItem.isInterruptibleByNewSpeech()
+        && !currentFeedbackItem.isGloballyUninterruptible()) {
+      ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
+      while (iterator.hasNext()) {
+        FeedbackItem queuedItem = iterator.next();
+        if (!queuedItem.isInterruptibleByNewSpeech()
+            && !queuedItem.isGloballyUninterruptible()) {
+          iterator.remove();
+          notifyItemInterrupted(queuedItem);
+        }
+      }
+      item.setFlushGlobalTtsQueue(true);
+      notifyItemInterrupted(currentFeedbackItem);
+      currentFeedbackInterrupted = true;
+      if (item.getEventId().getEventType() == Performance.EVENT_TYPE_GESTURE) {
+        Performance.getInstance().onNavigationSpeechInterrupt();
+      } else {
+        Performance.getInstance().onWindowFocusSpeechInterrupt();
+      }
+    }
+
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
     feedbackQueue.add(item);
     if (speechListener != null) {
@@ -1466,7 +1507,69 @@ public class SpeechControllerImpl implements SpeechController {
           TAG, "Queued speech item, waiting for \"%s\"", currentFeedbackItem.getUtteranceId());
       Performance.getInstance()
           .recordSpeechWaitBlocker(speechWaitBlockerClass(item, currentFeedbackItem));
+      speechWaits.put(item, new SpeechWait());
+      if (speechWaitCapEnabled && speechMayCutAnnouncement(item)) {
+        mHandler.postDelayed(() -> enforceSpeechWaitCap(item), SPEECH_WAIT_CAP_MS);
+      }
     }
+  }
+
+  private void enforceSpeechWaitCap(FeedbackItem waiting) {
+    SpeechWait wait = speechWaits.get(waiting);
+    if (wait == null
+        || !feedbackQueue.contains(waiting)
+        || currentFeedbackItem == null
+        || currentFeedbackItem == waiting) {
+      return;
+    }
+    FeedbackItem blocker = currentFeedbackItem;
+    if (blocker.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+      if (wait.capSparedBlocker != blocker) {
+        wait.capSparedBlocker = blocker;
+        Performance.getInstance().onSpeechWaitCapHeld();
+      }
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
+      return;
+    }
+    for (FeedbackItem queued : new ArrayList<>(feedbackQueue)) {
+      if (queued == waiting) {
+        break;
+      }
+      if (!queued.isInterruptibleByNewSpeech()
+          && !queued.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+        notifyItemInterrupted(queued);
+      }
+    }
+    waiting.setFlushGlobalTtsQueue(true);
+    notifyItemInterrupted(blocker);
+    currentFragmentIterator = null;
+    Performance.getInstance().onSpeechWaitCapFlush();
+    LogUtils.v(TAG, "Speech wait cap cut the utterance ahead of a waiting navigation item.");
+    speakNextItem();
+    if (speechWaits.containsKey(waiting)
+        && currentFeedbackItem != null
+        && currentFeedbackItem != waiting) {
+      mHandler.postDelayed(() -> enforceSpeechWaitCap(waiting), SPEECH_WAIT_CAP_MS);
+    }
+  }
+
+  static boolean speechMayCutAnnouncement(FeedbackItem item) {
+    EventId eventId = item.getEventId();
+    if (eventId == null) {
+      return false;
+    }
+    if (navigationSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE) {
+      return true;
+    }
+    if (windowFocusSpeechInterruptsAnnouncements
+        && eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY) {
+      int subtype = eventId.getEventSubtype();
+      return subtype == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+          || subtype == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+          || subtype == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+    }
+    return false;
   }
 
   private void tryNotifyFullScreenReaderCallback() {
@@ -1551,6 +1654,7 @@ public class SpeechControllerImpl implements SpeechController {
       LogUtils.w(TAG, "notifyItemInterrupted: FeedbackItem is null");
       return;
     }
+    speechWaits.remove(item);
 
     final UtteranceCompleteRunnable queuedItemCompletedAction = item.getCompletedAction();
     if (queuedItemCompletedAction != null) {
@@ -2013,6 +2117,7 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void speakNextItemInternal(FeedbackItem item) {
+    speechWaits.remove(item);
     final int utteranceIndex = getNextUtteranceId();
     final String utteranceId = UTTERANCE_ID_PREFIX + utteranceIndex;
     item.setUtteranceId(utteranceId);

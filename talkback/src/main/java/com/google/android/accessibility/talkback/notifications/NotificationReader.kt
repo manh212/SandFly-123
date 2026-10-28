@@ -929,7 +929,8 @@ object NotificationReader {
         .setUtteranceGroup(SpeechController.UTTERANCE_GROUP_NOTIFICATIONS)
         .setFlags(
           (if (overMedia) FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE else 0) or
-            (if (duringCalls) FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE else 0)
+            (if (duringCalls) FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE else 0) or
+            FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP
         )
     feedback?.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(text, options))
   }

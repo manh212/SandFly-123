@@ -20,17 +20,21 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
+import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
@@ -118,6 +122,9 @@ public class SpeechControllerImplTest {
   @After
   public void tearDown() {
     setAlwaysInterruptPreference(false);
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
+    SpeechControllerImpl.speechWaitCapEnabled = true;
     Performance.getInstance().setComputeStatsEnabled(false);
     Performance.getInstance().clearAllStats();
   }
@@ -151,6 +158,199 @@ public class SpeechControllerImplTest {
   private void speak(SpeechControllerImpl controller, String text, int queueMode) {
     controller.speak(text, queueMode, 0 /* flags */, null /* speechParams */,
         Performance.EVENT_ID_UNTRACKED);
+  }
+
+  private void speakGesture(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_GESTURE, 1));
+  }
+
+  private void speakAnnouncement(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_ANNOUNCEMENT));
+  }
+
+  private void speakWindowChange(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(
+            0, Performance.EVENT_TYPE_ACCESSIBILITY, AccessibilityEvent.TYPE_WINDOWS_CHANGED));
+  }
+
+  private void speakFocusFlush(SpeechControllerImpl controller, String text) {
+    controller.speak(
+        text,
+        SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0 /* flags */,
+        null /* speechParams */,
+        new EventId(
+            0,
+            Performance.EVENT_TYPE_ACCESSIBILITY,
+            AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED));
+  }
+
+  @Test
+  public void gestureSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "swipe target"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getNavigationSpeechInterruptCount());
+  }
+
+  @Test
+  public void gestureSpeech_switchOff_waitsBehindAnnouncement() {
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = false;
+
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void gestureSpeech_neverInterruptsGloballyUninterruptible() {
+    speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakGesture(speechController, "swipe target");
+
+    assertEquals(List.of("critical utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void nonGestureSpeech_stillWaitsBehindAnnouncement() {
+    speak(
+        speechController,
+        "an uninterruptible announcement",
+        SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH);
+    speak(speechController, "waiting utterance", SpeechController.QUEUE_MODE_FLUSH_ALL);
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void windowChangeSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "the new window"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getWindowFocusSpeechInterruptCount());
+    assertEquals(0, Performance.getInstance().getNavigationSpeechInterruptCount());
+  }
+
+  @Test
+  public void focusSpeech_interruptsUninterruptibleAnnouncement() {
+    enablePerformanceStats();
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakFocusFlush(speechController, "the focused item");
+
+    assertEquals(
+        List.of("an uninterruptible announcement", "the focused item"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getWindowFocusSpeechInterruptCount());
+  }
+
+  @Test
+  public void windowChangeSpeech_switchOff_waitsBehindAnnouncement() {
+    SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = false;
+
+    speakAnnouncement(speechController, "an uninterruptible announcement");
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(List.of("an uninterruptible announcement"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void windowChangeSpeech_neverInterruptsGloballyUninterruptible() {
+    speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakWindowChange(speechController, "the new window");
+
+    assertEquals(List.of("critical utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void waitCap_cutsGloballyUninterruptibleBlocker_afterCap() {
+    enablePerformanceStats();
+
+    speak(speechController, "a globally protected utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakGesture(speechController, "the swiped item");
+    assertEquals(List.of("a globally protected utterance"), failoverTts.spokenTexts);
+
+    Robolectric.getForegroundThreadScheduler().advanceBy(200, TimeUnit.MILLISECONDS);
+
+    assertEquals(
+        List.of("a globally protected utterance", "the swiped item"), failoverTts.spokenTexts);
+    assertEquals(1, Performance.getInstance().getSpeechWaitCapFlushCount());
+    assertEquals(0, Performance.getInstance().getSpeechWaitCapHeldCount());
+  }
+
+  @Test
+  public void waitCap_neverCutsExemptSpeech() {
+    enablePerformanceStats();
+
+    speechController.speak(
+        "the speaking clock",
+        SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED,
+        FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP,
+        null /* speechParams */,
+        null /* eventId */);
+    speakGesture(speechController, "the swiped item");
+
+    Robolectric.getForegroundThreadScheduler().advanceBy(400, TimeUnit.MILLISECONDS);
+
+    assertEquals(List.of("the speaking clock"), failoverTts.spokenTexts);
+    assertEquals(0, Performance.getInstance().getSpeechWaitCapFlushCount());
+    assertEquals(1, Performance.getInstance().getSpeechWaitCapHeldCount());
+  }
+
+  @Test
+  public void waitCap_switchOff_leavesTheWaitAlone() {
+    SpeechControllerImpl.speechWaitCapEnabled = false;
+    enablePerformanceStats();
+
+    speak(speechController, "a globally protected utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakGesture(speechController, "the swiped item");
+
+    Robolectric.getForegroundThreadScheduler().advanceBy(400, TimeUnit.MILLISECONDS);
+
+    assertEquals(List.of("a globally protected utterance"), failoverTts.spokenTexts);
+    assertEquals(0, Performance.getInstance().getSpeechWaitCapFlushCount());
+  }
+
+  @Test
+  public void waitCap_waiterGoneBeforeCap_noFlushNoCrash() {
+    enablePerformanceStats();
+
+    speak(speechController, "a globally protected utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speakGesture(speechController, "the swiped item");
+    speechController.interrupt(true);
+
+    Robolectric.getForegroundThreadScheduler().advanceBy(400, TimeUnit.MILLISECONDS);
+
+    assertEquals(List.of("a globally protected utterance"), failoverTts.spokenTexts);
+    assertEquals(0, Performance.getInstance().getSpeechWaitCapFlushCount());
   }
 
   @Test

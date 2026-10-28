@@ -85,6 +85,8 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   @Volatile private var underruns = 0
   // The fast path's buffer size, once it has had to grow, kept for new tracks and outputs.
   @Volatile private var fastFrames = 0
+  private var smallShortfalls = 0
+  @Volatile private var outgrewSmallBuffer = false
   // Set when the track starts, until its first write completes. Running short before that is only
   // the track starting, not a buffer too small.
   @Volatile private var starting = false
@@ -896,7 +898,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
       output.setBufferSizeInFrames(
-        if (fast) maxOf(burstFrames * QUEUED_BURSTS, fastFrames)
+        if (fast) fastBufferFrames(burstFrames, smallBufferEnabled && !outgrewSmallBuffer, fastFrames)
         else sampleRate * SLOW_BUFFER_MS / 1000
       )
       underruns = output.underrunCount
@@ -958,6 +960,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     }
     if (count <= underruns) return
     underruns = count
+    if (fastPath && smallBufferEnabled && !outgrewSmallBuffer) {
+      smallShortfalls++
+      if (smallShortfalls < SMALL_BUFFER_SHORTFALL_LIMIT) return
+      outgrewSmallBuffer = true
+    }
     val size = output.bufferSizeInFrames
     if (size >= output.bufferCapacityInFrames) return
     val grown = if (fastPath) size + burstFrames else size * 2
@@ -972,6 +979,14 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     private const val DEFAULT_RATE = 48_000
     private const val DEFAULT_BURST = 192
     private const val QUEUED_BURSTS = 2
+    @JvmStatic
+    var smallBufferEnabled: Boolean = true
+    const val SMALL_BUFFER_SHORTFALL_LIMIT = 3
+
+    @JvmStatic
+    fun fastBufferFrames(burstFrames: Int, smallBuffer: Boolean, rememberedFrames: Int): Int =
+      if (smallBuffer) burstFrames else maxOf(burstFrames * QUEUED_BURSTS, rememberedFrames)
+
     // Two periods of a typical mixer without the fast path.
     private const val SLOW_BUFFER_MS = 40
     // How long the audio thread waits for the engine's speech at a time, well within WRITE_STUCK_MS.

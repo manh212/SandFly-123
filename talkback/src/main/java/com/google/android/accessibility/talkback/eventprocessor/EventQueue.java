@@ -20,6 +20,7 @@ import android.util.SparseIntArray;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.core.view.accessibility.AccessibilityEventCompat;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
+import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -54,6 +55,12 @@ class EventQueue {
    */
   private final SparseIntArray qualifyingEvents = new SparseIntArray();
 
+  static final int MAX_CONSECUTIVE_FOCUS_JUMPS = 3;
+
+  static volatile boolean focusPriorityEnabled = true;
+
+  private int consecutiveFocusJumps;
+
   /**
    * Adds an {@link AccessibilityEvent} to the queue for processing. If this addition causes the
    * queue to exceed the maximum allowable events for an event's type, earlier events of this type
@@ -84,7 +91,21 @@ class EventQueue {
       return null;
     }
 
-    final AccessibilityEvent event = eventQueue.remove(0);
+    int index = 0;
+    if (focusPriorityEnabled && consecutiveFocusJumps < MAX_CONSECUTIVE_FOCUS_JUMPS) {
+      index =
+          jumpIndex(
+              eventQueue.get(0).getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
+              oldestFocusEventIndex());
+    }
+    final AccessibilityEvent event = eventQueue.remove(index);
+
+    if (index > 0) {
+      consecutiveFocusJumps++;
+      Performance.getInstance().onFocusEventQueueJump(eventQueue.size() + 1);
+    } else {
+      consecutiveFocusJumps = 0;
+    }
 
     if (event != null
         && AccessibilityEventUtils.eventMatchesAnyType(event, MASK_LIMITED_EVENT_TYPES)) {
@@ -95,10 +116,25 @@ class EventQueue {
     return event;
   }
 
+  static int jumpIndex(boolean headIsFocusEvent, int oldestFocusIndex) {
+    return !headIsFocusEvent && oldestFocusIndex > 0 ? oldestFocusIndex : 0;
+  }
+
+  private int oldestFocusEventIndex() {
+    for (int i = 1; i < eventQueue.size(); i++) {
+      if (eventQueue.get(i).getEventType()
+          == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   /** Clears the event queue and discards all events waiting for processing. */
   public void clear() {
     eventQueue.clear();
     qualifyingEvents.clear();
+    consecutiveFocusJumps = 0;
   }
 
   /**

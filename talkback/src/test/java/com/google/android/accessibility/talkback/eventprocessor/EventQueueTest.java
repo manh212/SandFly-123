@@ -19,8 +19,10 @@ package com.google.android.accessibility.talkback.eventprocessor;
 import static org.junit.Assert.assertEquals;
 
 import android.view.accessibility.AccessibilityEvent;
+import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
 import java.util.List;
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -39,6 +41,11 @@ public class EventQueueTest {
 
   private final EventQueue queue = new EventQueue();
 
+  @After
+  public void tearDown() {
+    EventQueue.focusPriorityEnabled = true;
+  }
+
   private static AccessibilityEvent event(int type, String tag) {
     AccessibilityEvent event = AccessibilityEvent.obtain(type);
     event.setPackageName(tag);
@@ -52,6 +59,10 @@ public class EventQueueTest {
       events.add(event);
     }
     return events;
+  }
+
+  private static String tagOf(AccessibilityEvent event) {
+    return event.getPackageName().toString();
   }
 
   private static List<String> tagsOfType(List<AccessibilityEvent> events, int type) {
@@ -98,6 +109,49 @@ public class EventQueueTest {
     assertEquals(
         List.of("wcc2", "wcc3"),
         tagsOfType(events, AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED));
+  }
+
+  @Test
+  public void focusEvent_jumpsAheadOfTheEventsInFrontOfIt() {
+    EventQueue.focusPriorityEnabled = true;
+    Performance performance = Performance.getInstance();
+    performance.setComputeStatsEnabled(true);
+    long jumpsBefore = performance.getFocusEventQueueJumpCount();
+
+    queue.enqueue(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "wcc1"));
+    queue.enqueue(event(AccessibilityEvent.TYPE_ANNOUNCEMENT, "ann1"));
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus1"));
+
+    assertEquals("focus1", tagOf(queue.dequeue()));
+    assertEquals("wcc1", tagOf(queue.dequeue()));
+    assertEquals("ann1", tagOf(queue.dequeue()));
+    assertEquals(jumpsBefore + 1, performance.getFocusEventQueueJumpCount());
+  }
+
+  @Test
+  public void focusJumps_stopAtTheCap_soTheHeadIsServedBeforeAnyMoreJump() {
+    EventQueue.focusPriorityEnabled = true;
+    queue.enqueue(event(AccessibilityEvent.TYPE_ANNOUNCEMENT, "head"));
+
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus1"));
+    assertEquals("focus1", tagOf(queue.dequeue()));
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus2"));
+    assertEquals("focus2", tagOf(queue.dequeue()));
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus3"));
+    assertEquals("focus3", tagOf(queue.dequeue()));
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus4"));
+    assertEquals("head", tagOf(queue.dequeue()));
+    assertEquals("focus4", tagOf(queue.dequeue()));
+  }
+
+  @Test
+  public void focusPriorityOff_eventsAreServedInTheOrderTheyCame() {
+    EventQueue.focusPriorityEnabled = false;
+    queue.enqueue(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "wcc1"));
+    queue.enqueue(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "focus1"));
+
+    assertEquals("wcc1", tagOf(queue.dequeue()));
+    assertEquals("focus1", tagOf(queue.dequeue()));
   }
 
   @Test

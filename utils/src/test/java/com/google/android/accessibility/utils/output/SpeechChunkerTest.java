@@ -104,6 +104,48 @@ public class SpeechChunkerTest {
   }
 
   @Test
+  public void firstCutSplitsShortTextAtTheCut() {
+    String text = "Wi-Fi, On, Connected to Home network, Button";
+    int cut = "Wi-Fi, ".length();
+    assertEquals(
+        Arrays.asList(0, cut),
+        SpeechChunker.chunkStartsFromFirstCut(text, Locale.US, cut, /* usePhrases= */ false));
+  }
+
+  @Test
+  public void firstCutAtOrPastTheEndIsIgnored() {
+    String text = "Wi-Fi, On";
+    assertEquals(
+        Collections.singletonList(0),
+        SpeechChunker.chunkStartsFromFirstCut(
+            text, Locale.US, text.length(), /* usePhrases= */ false));
+    assertEquals(
+        Collections.singletonList(0),
+        SpeechChunker.chunkStartsFromFirstCut(text, Locale.US, 0, /* usePhrases= */ false));
+  }
+
+  @Test
+  public void firstCutWithNothingWorthHearingAloneIsIgnored() {
+    String text = ", On, Connected to Home network, Button";
+    assertEquals(
+        Collections.singletonList(0),
+        SpeechChunker.chunkStartsFromFirstCut(text, Locale.US, 1, /* usePhrases= */ false));
+  }
+
+  @Test
+  public void firstCutKeepsPhrasePiecesOfTheTail() {
+    String head = "Label, ";
+    String text = head + SENTENCE.repeat(3);
+    List<Integer> starts =
+        SpeechChunker.chunkStartsFromFirstCut(
+            text, Locale.US, head.length(), /* usePhrases= */ true);
+    assertEquals(
+        Arrays.asList(
+            0, head.length(), head.length() + SENTENCE.length(), head.length() + 2 * SENTENCE.length()),
+        starts);
+  }
+
+  @Test
   public void piecesCoverTextInOrderWithinLimit() {
     String text = SENTENCE.repeat(3) + "word ".repeat(70) + SENTENCE;
     List<Integer> starts = SpeechChunker.chunkStarts(text, Locale.US);

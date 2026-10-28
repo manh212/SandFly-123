@@ -49,6 +49,33 @@ public final class SpeechChunker {
    * {@link #MIN_CHUNK}. A sentence still longer than {@link #MAX_CHUNK} is cut at a space, and only
    * cuts a word when there is none.
    */
+  public static List<Integer> chunkStartsFromFirstCut(
+      CharSequence text, Locale locale, int firstCut, boolean usePhrases) {
+    if (firstCut <= 0 || firstCut >= text.length() || !hasLetterOrDigit(text, 0, firstCut)) {
+      return usePhrases ? chunkStarts(text, locale) : List.of(0);
+    }
+    List<Integer> starts = new ArrayList<>();
+    starts.add(0);
+    starts.add(firstCut);
+    if (usePhrases) {
+      List<Integer> tailStarts =
+          chunkStarts(text.subSequence(firstCut, text.length()), locale);
+      for (int i = 1; i < tailStarts.size(); i++) {
+        starts.add(firstCut + tailStarts.get(i));
+      }
+    }
+    return starts;
+  }
+
+  private static boolean hasLetterOrDigit(CharSequence text, int start, int end) {
+    for (int i = start; i < end; i++) {
+      if (Character.isLetterOrDigit(text.charAt(i))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   public static List<Integer> chunkStarts(CharSequence text, Locale locale) {
     List<Integer> starts = new ArrayList<>();
     starts.add(0);
