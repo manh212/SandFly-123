@@ -75,10 +75,10 @@ object PlayInstaller {
 
   /** The adb command that a user without Shizuku can run themselves to do the same thing. */
   fun command(context: Context, play: Boolean): String =
-    if (play) "adb install -r -i $PLAY sandfly.apk" else "adb install -r sandfly.apk"
+    if (play) "adb install -r -i $PLAY meridian.apk" else "adb install -r meridian.apk"
 
   /**
-   * Reinstalls SandFly through Shizuku so that Android records Google Play as the installer, or
+   * Reinstalls Meridian through Shizuku so that Android records Google Play as the installer, or
    * the real one again. [onDone] gets whether it worked, and false at once without Shizuku. The
    * real installer is kept the first time, so that turning the setting off restores it.
    *

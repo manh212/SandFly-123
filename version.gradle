@@ -1,10 +1,10 @@
 ext { talkbackVersionName = "TfPu_release_16_2" }
 
-// SandFly's version. A stable release is built with -Psandfly.release=true and tagged
+// Meridian's version. A stable release is built with -Pmeridian.release=true and tagged
 // v<version>; other builds are <version>-dev. Raise it after each stable release.
 ext {
-    sandflyVersion = "1.1"
-    sandflyVersionName = sandflyVersion + (providers.gradleProperty("sandfly.release").getOrElse("false") == "true" ? "" : "-dev")
+    meridianVersion = "1.1"
+    meridianVersionName = meridianVersion + (providers.gradleProperty("meridian.release").getOrElse("false") == "true" ? "" : "-dev")
 }
 
 // Git details for the in-app updater. Builds outside a git checkout fall back to build 1 and no hash.
@@ -18,7 +18,7 @@ def gitOutput = { List<String> args ->
         return ''
     }
 }
-// SandFly's build number is the number of commits since the last commit before SandFly numbered
+// Meridian's build number is the number of commits since the last commit before Meridian numbered
 // its own builds, so the first one is build 1. The publish job in .github/workflows/build.yml
 // counts the same way.
 def buildNumberBase = "699e30f8e359e5e047e15149ddc407ea9ca13107"

@@ -32,7 +32,7 @@ enum class ScriptPermission(val key: String, val sensitive: Boolean, @StringRes 
   NOTIFICATIONS("notifications", true, R.string.script_permission_notifications),
   EVENTS("events", true, R.string.script_permission_events),
   DIALOGS("dialogs", true, R.string.script_permission_dialogs),
-  // LuaJava's java module: the script can do anything SandFly can, and no other permission limits it.
+  // LuaJava's java module: the script can do anything Meridian can, and no other permission limits it.
   JAVA("java", true, R.string.script_permission_java);
 
   companion object {
@@ -211,7 +211,7 @@ data class ScriptCommand(
 
 enum class ApiCompatibility {
   COMPATIBLE,
-  SANDFLY_TOO_OLD,
+  MERIDIAN_TOO_OLD,
   UNTESTED,
 }
 
@@ -238,7 +238,7 @@ data class ScriptManifest(
   val compatibility: ApiCompatibility
     get() =
       when {
-        API_VERSION < minApiVersion -> ApiCompatibility.SANDFLY_TOO_OLD
+        API_VERSION < minApiVersion -> ApiCompatibility.MERIDIAN_TOO_OLD
         API_VERSION > testedApiVersion -> ApiCompatibility.UNTESTED
         else -> ApiCompatibility.COMPATIBLE
       }
@@ -277,7 +277,7 @@ data class ScriptManifest(
   fun compatibilityWarning(context: Context): String? =
     when (compatibility) {
       ApiCompatibility.COMPATIBLE -> null
-      ApiCompatibility.SANDFLY_TOO_OLD ->
+      ApiCompatibility.MERIDIAN_TOO_OLD ->
         context.getString(R.string.script_api_too_old, minApiVersion, API_VERSION)
       ApiCompatibility.UNTESTED ->
         context.getString(R.string.script_api_untested, testedApiVersion, API_VERSION)

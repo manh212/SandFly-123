@@ -3334,7 +3334,7 @@
 
   <!-- For training on TV -->
   <string name="tv_training_overview_step_title">How Meridian works</string>
-  <string name="tv_training_overview_step_summary">Meridian is a screen reader based on Google\'s TalkBack. It reads aloud the text on the screen and gives you spoken feedback, so that you can use your device without looking at the screen.\n\nWith Meridian on, a selected item on the screen is spoken aloud, sometimes with additional information or context added.\n\nPress Select to continue. The Select button is located at the center of the directional pad, which is the large, circular button at the top of your remote.</string>
+  <string name="tv_training_overview_step_summary">Meridian is a screen reader. It reads aloud the text on the screen and gives you spoken feedback, so that you can use your device without looking at the screen.\n\nWith Meridian on, a selected item on the screen is spoken aloud, sometimes with additional information or context added.\n\nPress Select to continue. The Select button is located at the center of the directional pad, which is the large, circular button at the top of your remote.</string>
   <string name="tv_training_remote_step_title">Using your remote</string>
   <string name="tv_training_remote_step_summary">Move around the screen using the circle-shaped directional button at the top of your remote. To select, press the center of the directional button at the top of your remote.\n\nIn the second row on the left, you have the back button. On the right you have the voice Assistant button.\n\nIn the third row on the left, you have the home button. On the right is the mute button.\n\nIn the fourth row on the left, you have the YouTube shortcut. On the right is the Netflix shortcut.\n\nIn the bottom row there are two small buttons. The left button is the power button. The right will open your TV’s input menu.\n\nThe volume buttons are located at the right side of the remote.\n\nPress Select to continue.</string>
   <string name="tv_training_shortcut_step_title">Meridian shortcut</string>
@@ -4464,7 +4464,7 @@
     <!-- Message after Meridian's settings were replaced with those in a file. [CHAR_LIMIT=NONE] -->
     <string name="settings_import_done">Settings imported</string>
     <!-- Message when a file could not be read as Meridian settings. [CHAR_LIMIT=NONE] -->
-    <string name="settings_import_failed">This file is not a Meridian or Backtalk settings file, or could not be read</string>
+    <string name="settings_import_failed">This file is not a settings file, or could not be read</string>
     <string name="title_pref_ocr_engine">Công cụ nhận dạng văn bản</string>
     <string name="title_pref_ocr_data_download">Tải dữ liệu nhận dạng</string>
     <string name="summary_ocr_data_downloaded">Đã tải xuống</string>
@@ -4483,6 +4483,9 @@
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
     <string name="meridian_intro_title">About Meridian</string>
-    <string name="meridian_intro">Meridian is a screen reader for blind users: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly. If you find any bug while using it, you can contact the developer at: https://www.facebook.com/share/1Bscgg2MPs/</string>
+    <string name="meridian_intro">Meridian is a fast, lightweight screen reader with many features, developed by Vietnamese people: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly.</string>
     <string name="meridian_contact_title">Contact the developer</string>
+    <string name="first_run_tutorial_question">Do you need a tutorial?</string>
+    <string name="first_run_tutorial_yes">Yes</string>
+    <string name="first_run_tutorial_no">No</string>
 </resources>

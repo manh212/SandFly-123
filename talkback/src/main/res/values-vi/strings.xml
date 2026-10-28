@@ -868,7 +868,7 @@
   <string name="training_navigate_up">Di chuyển lên</string>
   <string name="training_tip">Mẹo</string>
   <string name="tv_training_overview_step_title">Cách thức hoạt động của Meridian</string>
-  <string name="tv_training_overview_step_summary">Meridian là một trình đọc màn hình dựa trên TalkBack của Google. Ứng dụng này đọc thành tiếng văn bản trên màn hình và cung cấp phản hồi bằng giọng nói để bạn có thể sử dụng thiết bị mà không cần nhìn vào màn hình.\n\nKhi Meridian đang bật, một mục được chọn trên màn hình sẽ được đọc thành tiếng, đôi khi còn có thêm ngữ cảnh hoặc thông tin bổ sung.\n\nHãy nhấn Chọn để tiếp tục. Nút Chọn nằm ở chính giữa bàn phím di chuyển. Nút này là nút lớn hình tròn nằm ở phần đầu điều khiển từ xa.</string>
+  <string name="tv_training_overview_step_summary">Meridian là một trình đọc màn hình. Ứng dụng này đọc thành tiếng văn bản trên màn hình và cung cấp phản hồi bằng giọng nói để bạn có thể sử dụng thiết bị mà không cần nhìn vào màn hình.\n\nKhi Meridian đang bật, một mục được chọn trên màn hình sẽ được đọc thành tiếng, đôi khi còn có thêm ngữ cảnh hoặc thông tin bổ sung.\n\nHãy nhấn Chọn để tiếp tục. Nút Chọn nằm ở chính giữa bàn phím di chuyển. Nút này là nút lớn hình tròn nằm ở phần đầu điều khiển từ xa.</string>
   <string name="tv_training_remote_step_title">Sử dụng thiết bị điều khiển từ xa của bạn</string>
   <string name="tv_training_remote_step_summary">Di chuyển quanh màn hình bằng nút di chuyển hình tròn nằm ở phần đầu điều khiển từ xa. Để chọn, hãy nhấn vào giữa nút di chuyển ở phần đầu điều khiển từ xa.\n\nNút quay lại nằm ở hàng thứ hai phía bên trái. Nút Trợ lý thoại nằm ở bên phải.\n\nNút màn hình chính nằm ở hàng thứ ba phía bên trái. Nút tắt tiếng nằm ở bên phải.\n\nPhím tắt YouTube nằm ở hàng thứ tư bên trái. Bên phải là phím tắt Netflix.\n\nỞ hàng dưới cùng có 2 nút nhỏ. Nút nguồn nằm ở phía bên trái. Nút ở bên phải dùng để mở trình đơn cổng vào của TV.\n\nCác nút âm lượng nằm ở bên phải điều khiển từ xa.\n\nHãy nhấn Chọn để tiếp tục.</string>
   <string name="tv_training_shortcut_step_title">Phím tắt Meridian</string>
@@ -1664,7 +1664,7 @@
     <string name="settings_export_done">Đã xuất chế độ cài đặt. Không bao gồm khoá API</string>
     <string name="settings_export_failed">Không xuất được chế độ cài đặt</string>
     <string name="settings_import_done">Đã nhập chế độ cài đặt</string>
-    <string name="settings_import_failed">Tệp này không phải là tệp cài đặt Meridian hoặc Backtalk, hoặc không đọc được</string>
+    <string name="settings_import_failed">Tệp này không phải là tệp cài đặt, hoặc không đọc được</string>
     <string name="title_selector_vertical_navigation">Điều hướng dọc</string>
     <string name="summary_selector_vertical_navigation">Di chuyển đến mục ở dưới hoặc ở trên, bỏ qua các mục khác trong hàng</string>
     <string name="title_pref_speech_stream">Âm lượng lời nói</string>
@@ -1747,6 +1747,9 @@
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>
     <string name="title_pref_whisper_models">Mô hình Whisper</string>
     <string name="meridian_intro_title">Giới thiệu về Meridian</string>
-    <string name="meridian_intro">Meridian là trình đọc màn hình cho người khiếm thị: đọc to nội dung trên màn hình, duyệt bằng cảm ứng và giao việc cho AI thực hiện. Meridian có tham khảo mã nguồn từ các trình đọc màn hình: Google TalkBack, BackTalk và SandFly. Nếu sử dụng thấy bất kỳ lỗi nào, bạn có thể liên hệ với nhà phát triển qua đường dẫn sau: https://www.facebook.com/share/1Bscgg2MPs/</string>
+    <string name="meridian_intro">Meridian là trình đọc màn hình nhanh, nhẹ, nhiều tính năng, được phát triển bởi người Việt Nam: đọc to nội dung trên màn hình, duyệt bằng cảm ứng và giao việc cho AI thực hiện. Meridian có tham khảo mã nguồn từ các trình đọc màn hình: Google TalkBack, BackTalk và SandFly.</string>
     <string name="meridian_contact_title">Liên hệ nhà phát triển</string>
+    <string name="first_run_tutorial_question">Bạn có cần hướng dẫn không?</string>
+    <string name="first_run_tutorial_yes">Có</string>
+    <string name="first_run_tutorial_no">Không</string>
 </resources>

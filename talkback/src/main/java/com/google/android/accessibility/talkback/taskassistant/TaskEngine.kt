@@ -115,7 +115,8 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
         if (unchanged < 3) { observe(); return@observe }
         pendingChange = null
         unchanged = 0
-        fail("Chưa xác nhận được kết quả thao tác. Bạn có thể kiểm tra màn hình và giao việc lại")
+        addHistory("The last action did not change the screen. Try another way: a different node, wait for loading, scroll, or ask the user.")
+        plan(screen)
         return@observe
       }
       if (pendingChange != null) addHistory("Observed a changed screen after the last action.")

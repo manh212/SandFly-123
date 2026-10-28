@@ -75,7 +75,7 @@ class SettingsExportProvider : ContentProvider() {
     return ParcelFileDescriptor.open(file, ParcelFileDescriptor.MODE_READ_ONLY)
   }
 
-  /** Refuses every app but SandFly, and refuses everyone when this app is not Backtalk Aaron. */
+  /** Refuses every app but Meridian, and refuses everyone when this app is not SandFly. */
   private fun checkCaller(context: Context) {
     val caller = callingPackage
     if (
@@ -83,7 +83,7 @@ class SettingsExportProvider : ContentProvider() {
         caller != AppIdMove.NEW_PACKAGE ||
         !AppIdMove.isSignedBy(context.packageManager, caller, AppIdMove.NEW_CERT_SHA256)
     ) {
-      throw SecurityException("Settings are shared only with SandFly, not with $caller")
+      throw SecurityException("Settings are shared only with Meridian, not with $caller")
     }
   }
 

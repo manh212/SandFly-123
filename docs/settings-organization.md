@@ -10,14 +10,14 @@ not by an arbitrary limit on the number of levels.
 | Speech | Put reading style, spoken item information, characters, punctuation, emoji and text formatting directly on this page. Keep engine controls and individual voice profiles as specialized editors. Remove the Verbosity page. |
 | Navigation | Show topic links only: movement and window changes, touch activation, app-specific direct touch, volume keys and spoken navigation information. Controls live in these five specific pages. |
 | Gestures and shortcuts | Keep gesture assignment and keyboard shortcut assignment separate because each contains a substantial, distinct action list. |
-| Menus and reading controls | Open SandFly menu, navigation menu and reading control customization as siblings. Put the quick settings switch and panel customization here. |
+| Menus and reading controls | Open Meridian menu, navigation menu and reading control customization as siblings. Put the quick settings switch and panel customization here. |
 | Sound and vibration | Keep output, volume, ducking, vibration and theme access together. Theme and individual feedback editors configure a selected sound or theme. |
 | Notifications | Keep reading format, application filters, conditions, rules, schedules and history within notification settings. Select an existing voice profile here; manage global voice profiles under Speech. |
 | Typing | Show keyboard echo, interruption behavior and typing method access directly. Keep dictation models and typing method details as specific editors. Remove the Keyboard echo and On-screen keyboard landing pages. |
 | Descriptions and AI | Keep automatic description behavior, cloud providers and on-device models together. Provider credentials and individual model management remain dedicated editors. |
 | Apps | Keep scripts and custom labels as app-specific customization. A script's own configurable schema remains controlled by that script. |
 | Tools | Keep timer and offline translation configuration as separate tools. |
-| Backup and reset | Group settings backup, restore, application reset and response-settings reset in a dedicated main entry. Application reset asks for confirmation before Android clears application data and stops SandFly. |
+| Backup and reset | Group settings backup, restore, application reset and response-settings reset in a dedicated main entry. Application reset asks for confirmation before Android clears application data and stops Meridian. |
 | System and help | Show setup, resume behavior, installation identity and developer access here. Remove the Advanced settings and Reduce delay landing pages. |
 
 ## Specific relocations

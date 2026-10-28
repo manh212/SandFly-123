@@ -207,24 +207,54 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     worker.execute {
       val outcome = runCatching {
         val fresh = reader.read()
-        if (fresh.screen.fingerprint != screen.fingerprint || closed || epoch.get() != token || !canOperate()) TaskExecution.STALE
+        if (closed || epoch.get() != token || !canOperate()) TaskExecution.STALE
         else {
-          val performed = when (step.operation) {
-            TaskOperation.OPEN_APP -> service.packageManager.getLaunchIntentForPackage(step.packageName)?.let {
-              if (epoch.get() != token || !canOperate()) false else {
-                service.startActivity(it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); true
-              }
-            } ?: false
-            TaskOperation.BACK -> if (epoch.get() == token && canOperate()) service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK) else false
-            TaskOperation.HOME -> if (epoch.get() == token && canOperate()) service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME) else false
-            TaskOperation.WAIT -> true
-            else -> if (epoch.get() == token && canOperate()) reader.perform(fresh, step) else false
+          val effective: TaskStep? = when {
+            fresh.screen.fingerprint == screen.fingerprint -> step
+            TaskProtocol.needsConfirmation(step, screen) -> null
+            step.operation in setOf(TaskOperation.BACK, TaskOperation.HOME, TaskOperation.WAIT, TaskOperation.OPEN_APP) -> step
+            else -> resolveTarget(screen, step, fresh)?.let { step.copy(node = it) }
           }
-          if (performed) TaskExecution.PERFORMED else TaskExecution.FAILED
+          if (effective == null) TaskExecution.STALE
+          else {
+            val performed = when (effective.operation) {
+              TaskOperation.OPEN_APP -> service.packageManager.getLaunchIntentForPackage(effective.packageName)?.let {
+                if (epoch.get() != token || !canOperate()) false else {
+                  service.startActivity(it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)); true
+                }
+              } ?: false
+              TaskOperation.BACK -> if (epoch.get() == token && canOperate()) service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_BACK) else false
+              TaskOperation.HOME -> if (epoch.get() == token && canOperate()) service.performGlobalAction(AccessibilityService.GLOBAL_ACTION_HOME) else false
+              TaskOperation.WAIT -> true
+              else -> if (epoch.get() == token && canOperate()) reader.perform(fresh, effective) else false
+            }
+            if (performed) TaskExecution.PERFORMED else TaskExecution.FAILED
+          }
         }
       }.getOrDefault(TaskExecution.FAILED)
       main.post { if (!closed && epoch.get() == token) done(outcome) }
     }
+  }
+
+  private fun resolveTarget(planned: TaskScreen, step: TaskStep, fresh: CapturedTaskScreen): String? {
+    val target = planned.nodes.firstOrNull { it.id == step.node } ?: return null
+    val matches = fresh.screen.nodes.filter {
+      matchesName(it.label, target.label) && (it.viewId == target.viewId || it.viewId.isEmpty() || target.viewId.isEmpty()) &&
+        it.role == target.role && step.operation.wire in it.actions &&
+        (target.checked == null || it.checked == target.checked)
+    }
+    return if (matches.size == 1) matches[0].id else null
+  }
+
+  private fun matchesName(fresh: String, planned: String): Boolean {
+    val a = TaskProtocol.normalize(fresh)
+    val b = TaskProtocol.normalize(planned)
+    if (a.isEmpty() || b.isEmpty()) return a == b
+    if (a == b || a.contains(b) || b.contains(a)) return true
+    val compactA = a.filter { it.isLetterOrDigit() }
+    val compactB = b.filter { it.isLetterOrDigit() }
+    return compactA.isNotEmpty() && compactB.isNotEmpty() &&
+      (compactA == compactB || compactA.contains(compactB) || compactB.contains(compactA))
   }
 
   override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) {

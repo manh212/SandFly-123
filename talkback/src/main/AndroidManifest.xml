@@ -331,6 +331,13 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name="com.google.android.accessibility.talkback.tutorial.FirstRunActivity"
+            android:theme="@style/DialogStyle"
+            android:exported="false"
+            android:excludeFromRecents="true">
+        </activity>
+
         <!-- Absolutely same with TrainingActivity for onboarding link to tutorial without breaking the singleTop launch mode.
              To prevent slowdown of talkback event-handlers, arrange to run on a separate process. -->
         <activity
@@ -536,12 +543,12 @@
             android:exported="true"
             android:directBootAware="true" />
 
-        <!-- Turns Backtalk Aaron off when SandFly is on. The receiver checks that SandFly is on. -->
+        <!-- Turns SandFly off when Meridian is on. The receiver checks that Meridian is on. -->
         <receiver
             android:name="com.google.android.accessibility.talkback.migration.HandOverReceiver"
             android:exported="true">
             <intent-filter>
-                <action android:name="io.github.aaron_gh.sandfly.action.HAND_OVER" />
+                <action android:name="io.github.aaron_gh.meridian.action.HAND_OVER" />
             </intent-filter>
         </receiver>
 

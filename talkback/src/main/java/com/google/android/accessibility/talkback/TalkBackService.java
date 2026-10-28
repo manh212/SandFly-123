@@ -236,6 +236,7 @@ import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig;
 import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageId;
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
+import com.google.android.accessibility.talkback.tutorial.FirstRunActivity;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
 import com.google.android.accessibility.talkback.update.Updater;
@@ -2136,7 +2137,9 @@ public class TalkBackService extends AccessibilityServiceCompat
         // The method of requestPhonePermissionIfNeeded, which is triggered after the tutorial is
         // finished, is dependent on hasOnboardingForNewFeaturesBeenShown, so we move it at the rear
         // of markAllOnboardingAsShown.
-        showTutorial();
+        startActivity(
+            new Intent(this, FirstRunActivity.class)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
       }
     } else {
       if (Settings.Secure.getInt(getContentResolver(), Settings.Global.DEVICE_PROVISIONED, 1)

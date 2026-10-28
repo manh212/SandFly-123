@@ -1,6 +1,6 @@
-# Writing SandFly scripts
+# Writing Meridian scripts
 
-A script is a Lua file that changes how SandFly works in one app, or in every app. This document describes the whole script API, version 1.
+A script is a Lua file that changes how Meridian works in one app, or in every app. This document describes the whole script API, version 1.
 
 Scripts run on phones and tablets. Watches and TVs can't run them.
 
@@ -11,7 +11,7 @@ A script is one of these:
 *   A `.lua` file, up to 1 MB.
 *   A `.zip` file with a `main.lua` in it, plus anything `main.lua` uses: other Lua files, sounds, and translations. The zip can be up to 5 MB, up to 5 MB unpacked, and hold up to 200 files.
 
-To install a script, go to **Apps** > **Scripts** in SandFly settings and choose **Import script**. SandFly lists what the script asks to do before it installs it. Importing a file with the id of a script that's already installed updates that script and keeps its data and settings; SandFly always asks first, and says so if the author changed.
+To install a script, go to **Apps** > **Scripts** in Meridian settings and choose **Import script**. Meridian lists what the script asks to do before it installs it. Importing a file with the id of a script that's already installed updates that script and keeps its data and settings; Meridian always asks first, and says so if the author changed.
 
 To find scripts, choose **Script sources** on the Scripts screen and **Add source**. A source is the address of a repository, or of a branch or folder in one, on GitHub, GitLab, Codeberg, Gitea (gitea.com) or Bitbucket:
 
@@ -23,7 +23,7 @@ To find scripts, choose **Script sources** on the Scripts screen and **Add sourc
 
 Only public repositories on these services work. The source's `.lua` and `.zip` files are listed. Choosing one downloads it and shows the same install dialog as **Import script**. **Remove source** on a source's screen removes it from the list; scripts already installed from it stay installed.
 
-SandFly checks installed scripts for a newer `version` in the source they came from once a day, and **Check for updates** on the Scripts screen checks now. With **Update scripts automatically** on, a newer version is installed without asking when it is by the same author, asks for no new permissions, is made for this SandFly, and comes from the script's own source; scripts installed before SandFly kept their source are updated this way only from SandFly's own scripts. Any other newer version is listed under **Updates** on the Scripts screen, and installs after the usual dialog. A script is found in a source by the file it came from, or, if SandFly doesn't know it, by a file named after its `id`.
+Meridian checks installed scripts for a newer `version` in the source they came from once a day, and **Check for updates** on the Scripts screen checks now. With **Update scripts automatically** on, a newer version is installed without asking when it is by the same author, asks for no new permissions, is made for this Meridian, and comes from the script's own source; scripts installed before Meridian kept their source are updated this way only from Meridian's own scripts. Any other newer version is listed under **Updates** on the Scripts screen, and installs after the usual dialog. A script is found in a source by the file it came from, or, if Meridian doesn't know it, by a file named after its `id`.
 
 Scripts run in [Lua 5.4](https://www.lua.org/manual/5.4/) through [LuaJava](https://github.com/gudzpoz/luajava). A script has the `string`, `table`, `math`, `utf8` and `coroutine` libraries, `os.time`, `os.clock`, `os.date` and `os.difftime`, `json` for JSON text, and the `sf` table described below. It has no `io`, `debug` or `package`, no access to files, and loads only Lua text, not compiled Lua. Unless it has the [`java` permission](#java), it can't reach Android or Java; everything goes through `sf`.
 
@@ -46,11 +46,11 @@ sf.onAppEnter(function()
 end)
 ```
 
-[examples/example-plugin.lua](scripting/examples/example-plugin.lua) is a longer one. It also comes with SandFly: choose **Add the example script** on the Scripts screen.
+[examples/example-plugin.lua](scripting/examples/example-plugin.lua) is a longer one. It also comes with Meridian: choose **Add the example script** on the Scripts screen.
 
 ## The manifest
 
-`main.lua` must contain `local manifest = { ... }` before its code. SandFly reads it without running the script, so it can only hold plain values: text, numbers, `true`, `false` and tables. No variables, function calls or `..`.
+`main.lua` must contain `local manifest = { ... }` before its code. Meridian reads it without running the script, so it can only hold plain values: text, numbers, `true`, `false` and tables. No variables, function calls or `..`.
 
 A table with only listed values, such as `{ 'speech', 'screen' }`, is a list. A table with only named fields, such as `{ id = 'x' }`, is a record. A table can't have both.
 
@@ -60,15 +60,15 @@ A table with only listed values, such as `{ 'speech', 'screen' }`, is a list. A 
 | `name` | Required. Shown in the Scripts list, and at the start of the title of every dialog the script shows. |
 | `author` | Required. |
 | `minApiVersion` | Required. The lowest script API version the script works with. This document describes version 1. |
-| `testedApiVersion` | Required. The highest script API version you tested with. SandFly warns before installing a script tested only with an older version. |
-| `version` | The script's own version, as text, such as `'1.2'`. The default is `'1'`. SandFly updates installed scripts from their source when this is higher, compared number by number, so raise it with each change. |
+| `testedApiVersion` | Required. The highest script API version you tested with. Meridian warns before installing a script tested only with an older version. |
+| `version` | The script's own version, as text, such as `'1.2'`. The default is `'1'`. Meridian updates installed scripts from their source when this is higher, compared number by number, so raise it with each change. |
 | `description` | Shown on the script's page and before it's installed. |
 | `homepage` | An `http` or `https` address. The script's page has a button that opens it. |
 | `apps` | Where the script runs. Leave it out for a script that runs in every app. See [Where a script runs](#where-a-script-runs). |
 | `permissions` | A list of the [permissions](#permissions) the script needs. |
 | `settings` | [Settings](#settings) the user can change on the script's page. |
 | `rules` | [Rules](#rules) that change items without running any code. |
-| `commands` | [Commands](#commands) the user can run with a gesture, keys, the SandFly menu or reading controls. |
+| `commands` | [Commands](#commands) the user can run with a gesture, keys, the Meridian menu or reading controls. |
 | `navigation` | [Reading controls](#navigation) that move between items of a kind. |
 
 ### Where a script runs
@@ -83,16 +83,16 @@ apps = {
 },
 ```
 
-*   `activity` limits the script to one screen. It's the activity's full class name, or the end of it. SandFly learns the activity from the app's window changes. Until it has seen one, such as just after SandFly is updated or the phone restarts with the app open, the script runs in all of the app's screens.
+*   `activity` limits the script to one screen. It's the activity's full class name, or the end of it. Meridian learns the activity from the app's window changes. Until it has seen one, such as just after Meridian is updated or the phone restarts with the app open, the script runs in all of the app's screens.
 *   `window` limits it to windows whose title contains the text.
 
 A script with `apps` is loaded when one of its apps comes to the front and unloaded when it leaves, so anything it keeps in variables is lost then. Use [`sf.storage`](#storage) for what should last.
 
 A script without `apps` runs in every app and is loaded as long as it's turned on.
 
-Scripts never change SandFly's own screens. Rules, speech changes, gestures, keys, menu items and reading controls from scripts don't apply there, and a script can't name SandFly in `apps`. While a SandFly screen is in front, calls that need the `screen`, `actions`, `system` or `dialogs` permission raise an error, `sf.speak` doesn't interrupt, and scripts get no events from SandFly itself. This is so that **Apps** > **Scripts** always works, whatever a script does. A script with the `java` permission can get past all of this.
+Scripts never change Meridian's own screens. Rules, speech changes, gestures, keys, menu items and reading controls from scripts don't apply there, and a script can't name Meridian in `apps`. While a Meridian screen is in front, calls that need the `screen`, `actions`, `system` or `dialogs` permission raise an error, `sf.speak` doesn't interrupt, and scripts get no events from Meridian itself. This is so that **Apps** > **Scripts** always works, whatever a script does. A script with the `java` permission can get past all of this.
 
-Scripts are also unloaded while the screen is off, while SandFly is paused, and while **Turn off all scripts** is on. Timers and requests end when a script is unloaded.
+Scripts are also unloaded while the screen is off, while Meridian is paused, and while **Turn off all scripts** is on. Timers and requests end when a script is unloaded.
 
 ### Permissions
 
@@ -113,18 +113,18 @@ A script can only use what its manifest asks for. The user sees the list before 
 | `dialogs` | `sf.ui`. |
 | `java` | LuaJava's `java` module. See [Java](#java). |
 
-SandFly marks `passwords`, `network`, `clipboard`, `system`, `notifications`, `events`, `dialogs` and `java` as ones to allow only for trusted scripts.
+Meridian marks `passwords`, `network`, `clipboard`, `system`, `notifications`, `events`, `dialogs` and `java` as ones to allow only for trusted scripts.
 
 ### Java
 
-With the `java` permission, a script gets LuaJava's [`java` module](https://luajava.iroiro.party/api.html): `java.import`, `java.new`, `java.proxy` and the rest. It can call any Java class in SandFly, with all of SandFly's access, in every app, and no other permission limits it. Install such a script only from someone you trust.
+With the `java` permission, a script gets LuaJava's [`java` module](https://luajava.iroiro.party/api.html): `java.import`, `java.new`, `java.proxy` and the rest. It can call any Java class in Meridian, with all of Meridian's access, in every app, and no other permission limits it. Install such a script only from someone you trust.
 
 ```lua
 local Build = java.import('android.os.Build')
 sf.speak('This is a ' .. Build.MODEL)
 ```
 
-Calls into the script hold the script's Lua state, so a Java object made with `java.proxy` and called from another thread waits until the script's current call ends. Don't wait in the script for something that needs SandFly's main thread.
+Calls into the script hold the script's Lua state, so a Java object made with `java.proxy` and called from another thread waits until the script's current call ends. Don't wait in the script for something that needs Meridian's main thread.
 
 ## Rules
 
@@ -150,9 +150,9 @@ A rule can set any of these:
 | Field | Effect |
 |---|---|
 | `label` | The item's name, used where the app gave none or a poor one. |
-| `speak` | Everything SandFly says for the item, in place of its name, role and state. |
+| `speak` | Everything Meridian says for the item, in place of its name, role and state. |
 | `hide` | `true` hides the item: swiping skips it. `'all'` hides what's inside it too. A hidden item is still there, so a script can click it. |
-| `silence` | `true` stops SandFly speaking the item's changes, selections and announcements, such as a progress bar's updates. `'all'` silences what's inside it too, such as the seek bar in a grouped row. Focusing the item still speaks it. |
+| `silence` | `true` stops Meridian speaking the item's changes, selections and announcements, such as a progress bar's updates. `'all'` silences what's inside it too, such as the seek bar in a grouped row. Focusing the item still speaks it. |
 | `role` | The item's role, such as `'button'`. An unknown role is an error that lists the roles. |
 | `state` | The item's state, such as `'Selected'`. |
 | `hint` | The usage hint. |
@@ -166,7 +166,7 @@ A rule can set any of these:
 
 When several rules match an item, the first one that sets a field wins for that field. Rules from scripts for the app come before rules from scripts for all apps, and `sf.rules.add` comes before the manifest.
 
-To find an item's id, class and role, assign **Inspect focused item** to a gesture, or add it to the SandFly menu in **SandFly menu**, under **Controls**. **Copy screen tree** copies every item on screen as JSON.
+To find an item's id, class and role, assign **Inspect focused item** to a gesture, or add it to the Meridian menu in **Meridian menu**, under **Controls**. **Copy screen tree** copies every item on screen as JSON.
 
 ### Actions in rules
 
@@ -182,7 +182,7 @@ To find an item's id, class and role, assign **Inspect focused item** to a gestu
 
 Each action has a `title` and one of `click`, `longClick`, `focus`, `scrollForward`, `scrollBackward` or `speak`. All but `speak` take the item to act on, as an id or a query, and need the `actions` permission. `speak` takes text, or `{ textOf = item }`, which needs `screen`. Actions in rules need the `input` permission.
 
-SandFly looks for the item inside the focused item first, and then on the whole screen. In a list where every row has the same button, the second search finds the first row's button, so use the [`onActions` hook](#hooks) there and search from the row yourself.
+Meridian looks for the item inside the focused item first, and then on the whole screen. In a list where every row has the same button, the second search finds the first row's button, so use the [`onActions` hook](#hooks) there and search from the row yourself.
 
 ## Queries
 
@@ -215,17 +215,17 @@ Fields: `text`, `contentDescription`, `hint`, `stateDescription`, `id`, `classNa
 | `item:click()`, `item:longClick()`, `item:scrollForward()`, `item:scrollBackward()` | Performs the action, and gives whether it worked. |
 | `item:perform(action, args)` | Performs `click`, `longClick`, `scrollForward`, `scrollBackward`, `expand`, `collapse`, `dismiss`, `copy`, `cut`, `paste`, `select`, a custom action by its label, or any action by its number. |
 | `item:setText(text)` | Replaces the text of an edit field. |
-| `item:focus()` | Moves SandFly's focus to the item. |
+| `item:focus()` | Moves Meridian's focus to the item. |
 
 `a == b` is true when two snapshots are the same item, and `tostring(item)` gives its text, description, id or class.
 
 The actions and `focus()` [wait](#waiting) for the result. Where a call can't wait, such as in a speech hook, they still act, and give `nil`.
 
-SandFly keeps the last 500 items a script was given. Using an older one raises "That item is no longer available".
+Meridian keeps the last 500 items a script was given. Using an older one raises "That item is no longer available".
 
 ## Waiting
 
-Some calls wait for an answer: dialogs, `sf.fetch`, `sf.sleep`, and an item's actions. A script waits only where SandFly runs it as a task: the main file, hooks other than the four speech hooks and `onActions`, commands, actions, timers, dialog callbacks, and functions given to `sf.run`. While one task waits, others run. The script's own coroutines can wait too, inside a task.
+Some calls wait for an answer: dialogs, `sf.fetch`, `sf.sleep`, and an item's actions. A script waits only where Meridian runs it as a task: the main file, hooks other than the four speech hooks and `onActions`, commands, actions, timers, dialog callbacks, and functions given to `sf.run`. While one task waits, others run. The script's own coroutines can wait too, inside a task.
 
 ```lua
 sf.onCommand('delete', function()
@@ -245,10 +245,10 @@ Each of these takes a function and returns a function that removes it again.
 
 | Hook | Called | Arguments |
 |---|---|---|
-| `sf.onFocus` | Before SandFly speaks a focused item. | The item, and the text SandFly will say. |
-| `sf.onSpeech` | Before SandFly says anything. | The text. |
-| `sf.onNotification` | Before SandFly speaks a notification or toast. | `{ package, toast, title, text, category }`, and the text. |
-| `sf.onAnnouncement` | Before SandFly speaks an app's announcement. | `{ package, text }`, and the text. |
+| `sf.onFocus` | Before Meridian speaks a focused item. | The item, and the text Meridian will say. |
+| `sf.onSpeech` | Before Meridian says anything. | The text. |
+| `sf.onNotification` | Before Meridian speaks a notification or toast. | `{ package, toast, title, text, category }`, and the text. |
+| `sf.onAnnouncement` | Before Meridian speaks an app's announcement. | `{ package, text }`, and the text. |
 | `sf.onAppEnter`, `sf.onAppLeave` | When the app in front changes, or the script loads or unloads. | `{ package, activity, window }`. |
 | `sf.onWindowChange` | When a window opens or changes. | `{ package, activity, window }`. |
 | `sf.onTextChange` | When text in an edit field changes. | `{ package, node, text, before, from, added, removed, password }`. |
@@ -256,7 +256,7 @@ Each of these takes a function and returns a function that removes it again.
 | `sf.onEvent` | For every accessibility event. | `{ type, package, className, text, contentDescription, beforeText, password, windowId, time }`. |
 | `sf.onSettingChange` | When the user changes one of the script's settings. | The key and the new value. |
 | `sf.onButton` | When the user presses a button setting. | The key. |
-| `sf.onActions` | When SandFly builds the Actions menu for an item. | The item. Return a list of `{ title, run }`; `run` is called with the item, and can wait. |
+| `sf.onActions` | When Meridian builds the Actions menu for an item. | The item. Return a list of `{ title, run }`; `run` is called with the item, and can wait. |
 
 The first four can change what's said. Return:
 
@@ -265,7 +265,7 @@ The first four can change what's said. Return:
 *   `false` or `{ silent = true }` to say nothing.
 *   Nothing, to leave it alone.
 
-Changing speech needs the `speech` permission. SandFly waits 30 milliseconds for these hooks, then speaks without them, so keep them fast. They can't [wait](#waiting). Speech hooks take priority over queued background work, and all listeners share that deadline, including queue time. A hook cannot interrupt Lua already running. If the script is in the middle of something that takes longer, such as a command, SandFly doesn't wait at all.
+Changing speech needs the `speech` permission. Meridian waits 30 milliseconds for these hooks, then speaks without them, so keep them fast. They can't [wait](#waiting). Speech hooks take priority over queued background work, and all listeners share that deadline, including queue time. A hook cannot interrupt Lua already running. If the script is in the middle of something that takes longer, such as a command, Meridian doesn't wait at all.
 
 ### Commands
 
@@ -280,11 +280,11 @@ commands = {
 ```
 
 *   `gesture` is a gesture name or a list of them. The names are in [Gestures](#gestures).
-*   `keys` is keys or a list. Keys start with `sf`, SandFly's modifier key, then any of `shift`, `ctrl`, `alt` and `meta`, then a key: `'sf+shift+n'`. A second key can follow a comma: `'sf+t, s'`.
-*   `menu = true` adds the command to the SandFly menu.
+*   `keys` is keys or a list. Keys start with `sf`, Meridian's modifier key, then any of `shift`, `ctrl`, `alt` and `meta`, then a key: `'sf+shift+n'`. A second key can follow a comma: `'sf+t, s'`.
+*   `menu = true` adds the command to the Meridian menu.
 *   `control = true` adds it to the reading controls. Swiping up or down with the control selected runs the command with `direction` set to `'previous'` or `'next'`.
 
-Commands need the `input` permission. The user can turn each gesture and key off on the script's page, or assign others. While a script runs, its gestures and keys come before SandFly's own, except for the gesture assigned to **Turn all scripts on or off**.
+Commands need the `input` permission. The user can turn each gesture and key off on the script's page, or assign others. While a script runs, its gestures and keys come before Meridian's own, except for the gesture assigned to **Turn all scripts on or off**.
 
 ```lua
 sf.onCommand('unread', function(event)
@@ -292,7 +292,7 @@ sf.onCommand('unread', function(event)
 end)
 ```
 
-`event.node` is the focused item. Return `false`, before waiting for anything, to have SandFly do what the gesture or keys normally do.
+`event.node` is the focused item. Return `false`, before waiting for anything, to have Meridian do what the gesture or keys normally do.
 
 `sf.bind(command, { gesture = name })` or `sf.bind(command, { keys = keys })` adds a gesture or keys to a declared command, and `sf.unbind` removes one.
 
@@ -307,7 +307,7 @@ Each entry becomes a reading control that moves to the next or previous item mat
 ### Speech, sound and vibration
 
 *   `sf.speak(text, { interrupt, rate, pitch, language })`. `rate` and `pitch` are from 0.25 to 4, where 1 is the user's own setting. `language` is a tag such as `'de'`.
-*   `sf.playSound(name)` plays one of SandFly's sounds (`focus`, `actionable`, `click`, `longClick`, `scroll`, `listEnter`, `listExit`, `end`, `enter`, `typo`, `beep`) or a sound file in the script's zip, such as `'sounds/chime.wav'`.
+*   `sf.playSound(name)` plays one of Meridian's sounds (`focus`, `actionable`, `click`, `longClick`, `scroll`, `listEnter`, `listExit`, `end`, `enter`, `typo`, `beep`) or a sound file in the script's zip, such as `'sounds/chime.wav'`.
 *   `sf.playTone(frequency, ms, { volume })` plays a tone. `ms` is 100 if left out.
 *   `sf.playAudio(samples, { sampleRate, volume })` plays a list of samples from -1 to 1, up to 10 seconds.
 *   `sf.vibrate(pattern)` vibrates for a number of milliseconds, or a list of up to 20 that alternates vibration and pause, up to 5 seconds.
@@ -316,10 +316,10 @@ Sounds and vibration follow the user's **Sound feedback** and **Vibration feedba
 
 ### Screen
 
-*   `sf.screen.focused()` is the item with SandFly's focus.
+*   `sf.screen.focused()` is the item with Meridian's focus.
 *   `sf.screen.root()` is the top item of the active window.
 *   `sf.screen.find(query)` and `sf.screen.findAll(query, limit)` search the active window. A search looks at up to 3,000 items, returns up to 200, and stops when the script runs out of [time](#limits).
-*   `sf.app()` is `{ package, activity, window, meta }` for the app in front. `activity` is `nil` until SandFly has seen the app change window. `meta` holds the meta-data in the app's manifest that has a true or false, number or text value, such as `sf.app().meta['com.example.flag']`.
+*   `sf.app()` is `{ package, activity, window, meta }` for the app in front. `activity` is `nil` until Meridian has seen the app change window. `meta` holds the meta-data in the app's manifest that has a true or false, number or text value, such as `sf.app().meta['com.example.flag']`.
 
 ### Rules from code
 
@@ -370,7 +370,7 @@ Each form item has a `type`, an `id`, and usually a `label`:
 *   `sf.clipboard.get()` and `sf.clipboard.set(text)`.
 *   `sf.system.back()`, `home()`, `recents()`, `notifications()`, `quickSettings()`, `powerDialog()`, `lockScreen()`, `takeScreenshot()` and `allApps()`.
 *   `sf.system.openApp(packageName)`.
-*   `sf.resume()` resumes a paused SandFly. It needs the `system` permission.
+*   `sf.resume()` resumes a paused Meridian. It needs the `system` permission.
 *   `sf.fetch(url, { method, headers, body, timeout })` [waits](#waiting) for an `https` address and gives the response. `method` is `GET`, `POST`, `PUT`, `DELETE`, `HEAD` or `OPTIONS`. A `body` that isn't text is sent as JSON. The response has `status`, `statusText`, `ok`, `url`, `headers` (with lowercase names), `body`, and `response:json()`. A request body can be 1 MB and a response 5 MB, the timeout is at most 60 seconds, and a script can have 8 requests going at once.
 
 ### Translations
@@ -384,7 +384,7 @@ Put a file for each language in the zip's `locales` folder, named by language ta
 }
 ```
 
-SandFly translates the manifest's names, titles, labels and hints with it. In code:
+Meridian translates the manifest's names, titles, labels and hints with it. In code:
 
 *   `sf._(text, params)` translates text and fills in `{name}` placeholders.
 *   `sf.ngettext(singular, plural, count, params)` picks the plural form for the language.
@@ -392,9 +392,9 @@ SandFly translates the manifest's names, titles, labels and hints with it. In co
 
 ### Everything else
 
-*   `sf.apiVersion` is the script API version of this SandFly.
+*   `sf.apiVersion` is the script API version of this Meridian.
 *   `sf.manifest()` is the script's manifest.
-*   `print(...)` and `sf.log(...)` write to the script's **Log**, as do `sf.log.debug`, `sf.log.info`, `sf.log.warn` and `sf.log.error`. They reach Android's log only at the level set in SandFly's developer settings.
+*   `print(...)` and `sf.log(...)` write to the script's **Log**, as do `sf.log.debug`, `sf.log.info`, `sf.log.warn` and `sf.log.error`. They reach Android's log only at the level set in Meridian's developer settings.
 *   `sf.setTimeout(fn, ms, ...)` and `sf.setInterval(fn, ms, ...)` run a function later, or again and again, and give a number for `sf.clearTimer`. `sf.sleep(ms)` [waits](#waiting). A script can have 100 timers at once.
 *   `sf.run(fn, ...)` runs a function as a task, so that it can wait.
 *   `json.encode(value)` and `json.decode(text)`, also as `sf.json`. An empty table is encoded as `[]`, and `json.null` stands for `null`.
@@ -408,12 +408,12 @@ SandFly translates the manifest's names, titles, labels and hints with it. In co
 
 *   A script has 2 seconds to load, and 2 seconds for each call into it. Hooks that change speech have 250 milliseconds. Searching the screen counts toward that time.
 *   A script can use 32 MB of memory. `string.rep` can make text up to 8 MB.
-*   SandFly checks the time and memory every 10,000 Lua instructions, and stops the call with an error that `pcall` can't catch. A single library call, such as a pattern match on long text with several `.-` or `.*`, runs to its end, so keep patterns simple on long text.
-*   SandFly turns a script off after 5 errors in a minute, or after it runs out of time 3 times in 5 minutes, and says so.
+*   Meridian checks the time and memory every 10,000 Lua instructions, and stops the call with an error that `pcall` can't catch. A single library call, such as a pattern match on long text with several `.-` or `.*`, runs to its end, so keep patterns simple on long text.
+*   Meridian turns a script off after 5 errors in a minute, or after it runs out of time 3 times in 5 minutes, and says so.
 
 ## If a script goes wrong
 
 *   The script's page has its **Log**, with what it wrote and every error.
 *   **Turn off all scripts** on the Scripts screen stops every script without changing which ones are on.
 *   **Turn all scripts on or off** does the same from a gesture. Assign it in gesture settings before trying a script you don't trust yet. Scripts can't take over the gesture it's assigned to.
-*   Scripts change nothing in SandFly's own settings, so you can always get to the Scripts screen. A script with the `java` permission can.
+*   Scripts change nothing in Meridian's own settings, so you can always get to the Scripts screen. A script with the `java` permission can.

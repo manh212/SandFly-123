@@ -206,7 +206,7 @@ class WindowNodePrefetcherTest {
   private fun backgroundWindowId(): Int = root("com.example.app").windowId
 
   private companion object {
-    const val OWN_PACKAGE = "io.github.aaron_gh.sandfly"
+    const val OWN_PACKAGE = "io.github.aaron_gh.meridian"
     const val WINDOW_ID = 1
     const val WAIT_MS = 5_000L
   }

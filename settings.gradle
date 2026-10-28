@@ -15,7 +15,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'sandfly'
+rootProject.name = 'meridian'
 
 include ':talkback'
 include ':utils'

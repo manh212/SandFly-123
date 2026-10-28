@@ -22,29 +22,29 @@ import android.os.Build
 import java.security.MessageDigest
 
 /**
- * The move from Backtalk Aaron, app ID io.github.aaron_gh.backtalk, to SandFly, app ID
- * io.github.aaron_gh.sandfly.
+ * The move from SandFly, app ID io.github.aaron_gh.sandfly, to Meridian, app ID
+ * io.github.aaron_gh.meridian.
  *
  * The old app installs the new one, shares its settings with it through [SettingsExportProvider],
- * and turns itself off when the new one tells it through [HandOverReceiver]. The two apps are
- * signed with different keys, so each checks that the other is signed with the certificate named
- * here.
+ * and turns itself off when the new one tells it through [HandOverReceiver]. Both apps are
+ * signed with the fork's key, so each checks that the other is signed with the certificate
+ * named here.
  */
 object AppIdMove {
-  /** The app ID of Backtalk Aaron. */
-  const val OLD_PACKAGE = "io.github.aaron_gh.backtalk"
-
   /** The app ID of SandFly. */
-  const val NEW_PACKAGE = "io.github.aaron_gh.sandfly"
+  const val OLD_PACKAGE = "io.github.aaron_gh.sandfly"
 
-  /** SHA-256 of the certificate that Backtalk Aaron is signed with. */
-  const val OLD_CERT_SHA256 = "dab34c182d6f17df819cebf20854dcf38189b3414d363465dd6ce0fefc43616c"
+  /** The app ID of Meridian. */
+  const val NEW_PACKAGE = "io.github.aaron_gh.meridian"
 
   /** SHA-256 of the certificate that SandFly is signed with. */
-  const val NEW_CERT_SHA256 = "bd5fd3c56cabfb69fdbc851aae7ba1e955c9e971caab1a8115c61243d46f576a"
+  const val OLD_CERT_SHA256 = "7fde506fa8d1652fb21f1bc8f9fd98666f7a92187636340f4b95672d4068f3f8"
+
+  /** SHA-256 of the certificate that Meridian is signed with. */
+  const val NEW_CERT_SHA256 = "7fde506fa8d1652fb21f1bc8f9fd98666f7a92187636340f4b95672d4068f3f8"
 
   /** Sent by the new app to the old one when the new screen reader is on. */
-  const val ACTION_HAND_OVER = "io.github.aaron_gh.sandfly.action.HAND_OVER"
+  const val ACTION_HAND_OVER = "io.github.aaron_gh.meridian.action.HAND_OVER"
 
   /** The class of the screen reader service, the same in both apps. */
   const val SERVICE_CLASS = "com.google.android.marvin.talkback.TalkBackService"
@@ -68,7 +68,7 @@ object AppIdMove {
   enum class InstallKind {
     /** The APK is a newer build of this app. */
     UPDATE,
-    /** The APK is SandFly, which installs next to this app. */
+    /** The APK is Meridian, which installs next to this app. */
     MOVE,
     /** The APK is something else. */
     REFUSE,
@@ -77,7 +77,7 @@ object AppIdMove {
   /**
    * Decides how to install an APK whose app ID is [apkPackage] while this app is [ownPackage].
    * [sameSigner] is false only when the APK is known to be signed with a different key than this
-   * app, and [newSigner] only when it is known not to be signed with SandFly's key.
+   * app, and [newSigner] only when it is known not to be signed with Meridian's key.
    */
   fun installKind(
     apkPackage: String?,

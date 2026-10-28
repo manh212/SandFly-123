@@ -26,7 +26,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class UpdateCheckerTest {
-  private fun release(build: Int, vararg commits: String, apk: String = "sandfly.apk"): String =
+  private fun release(build: Int, vararg commits: String, apk: String = "meridian.apk"): String =
     JSONObject()
       .put("body", (listOf("build: $build", "") + commits.map { "- $it" }).joinToString("\n"))
       .put(
@@ -76,12 +76,12 @@ class UpdateCheckerTest {
 
   @Test
   fun moveIsOfferedWhateverTheBuild() {
-    val json = release(5, "bbbbbbb SandFly", "aaaaaaa Old", apk = "sandfly.apk")
+    val json = release(5, "bbbbbbb Meridian", "aaaaaaa Old", apk = "meridian.apk")
     val move = UpdateChecker.parseMove(json, "aaaaaaa0")
     assertTrue(move!!.move)
     assertEquals(5, move.build)
-    assertEquals("https://example.com/sandfly.apk", move.downloadUrl)
-    assertEquals(listOf("SandFly"), move.changes)
+    assertEquals("https://example.com/meridian.apk", move.downloadUrl)
+    assertEquals(listOf("Meridian"), move.changes)
   }
 
   @Test(expected = JSONException::class)
@@ -109,8 +109,8 @@ class UpdateCheckerTest {
       .getJSONArray("assets")
       .put(
         JSONObject()
-          .put("name", "sandfly-wear.apk")
-          .put("browser_download_url", "https://example.com/sandfly-wear.apk")
+          .put("name", "meridian-wear.apk")
+          .put("browser_download_url", "https://example.com/meridian-wear.apk")
       )
     return release.toString()
   }
@@ -119,11 +119,11 @@ class UpdateCheckerTest {
   fun eachDeviceGetsItsOwnBuild() {
     val json = releaseWithBothBuilds(11)
     assertEquals(
-      "https://example.com/sandfly.apk",
+      "https://example.com/meridian.apk",
       UpdateChecker.parseRelease(json, 10, "", UpdateChecker.PHONE_APK_NAME)!!.downloadUrl,
     )
     assertEquals(
-      "https://example.com/sandfly-wear.apk",
+      "https://example.com/meridian-wear.apk",
       UpdateChecker.parseRelease(json, 10, "", UpdateChecker.WATCH_APK_NAME)!!.downloadUrl,
     )
   }

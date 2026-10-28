@@ -5,6 +5,18 @@
       android:key="pref_updates_screen"
       android:title="@string/title_pref_updates" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenInfoGroupFragment"
+      android:key="@string/pref_settings_group_screen_info_key"
+      android:title="@string/title_pref_descriptions_ai" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.ToolsGroupFragment"
+      android:key="pref_settings_group_tools"
+      android:title="@string/title_pref_tools" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.AppsGroupFragment"
+      android:key="@string/pref_settings_group_apps_key"
+      android:title="@string/title_pref_group_apps" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.SpeechGroupFragment"
       android:key="@string/pref_settings_group_speech_key"
       android:title="@string/title_pref_group_speech" />
@@ -32,18 +44,6 @@
       android:fragment="com.google.android.accessibility.talkback.preference.base.TypingGroupFragment"
       android:key="@string/pref_settings_group_typing_key"
       android:title="@string/title_pref_group_typing" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenInfoGroupFragment"
-      android:key="@string/pref_settings_group_screen_info_key"
-      android:title="@string/title_pref_descriptions_ai" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.AppsGroupFragment"
-      android:key="@string/pref_settings_group_apps_key"
-      android:title="@string/title_pref_group_apps" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.ToolsGroupFragment"
-      android:key="pref_settings_group_tools"
-      android:title="@string/title_pref_tools" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.BackupResetFragment"
       android:key="pref_backup_reset_screen"

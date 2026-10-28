@@ -1,7 +1,7 @@
 # Interface and experience guidelines
 
 These rules govern every new or changed piece of user interface in this fork of
-SandFly. A feature that breaks them is not done, even if it builds.
+Meridian. A feature that breaks them is not done, even if it builds.
 
 ## Clarify behavior before implementation
 

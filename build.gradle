@@ -51,7 +51,7 @@ android {
         // screen reader's package has the support_lift_to_type meta-data and a version code of
         // at least 60105832.
         versionCode = 100000200 + gitCommitCount
-        versionName = sandflyVersionName
+        versionName = meridianVersionName
         minSdk = 26
         targetSdk = 36
         testInstrumentationRunner = 'android.test.InstrumentationTestRunner'

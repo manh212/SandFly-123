@@ -51,7 +51,7 @@ data class UpdateInfo(
  *
  * Stable releases are the latest release, and development builds the rolling "dev" pre-release.
  * Whichever has the higher build number is offered, so a development build is offered the next
- * stable release. Backtalk Aaron first checks SandFly's latest release, and offers it as a move
+ * stable release. SandFly first checks Meridian's latest release, and offers it as a move
  * whenever there is one.
  *
  * CI writes the release notes as a line "build: <build number>". A development build's notes go on
@@ -69,14 +69,14 @@ object UpdateChecker {
   /** The rolling pre-release of development builds. */
   private const val DEV_RELEASE_URL = RELEASES_URL + "tags/dev"
 
-  /** SandFly's latest stable release, which Backtalk Aaron moves to. */
+  /** Meridian's latest stable release, which SandFly moves to. */
   private const val MOVE_RELEASE_URL = STABLE_RELEASE_URL
 
   /** The phone build. */
-  @VisibleForTesting const val PHONE_APK_NAME = "sandfly.apk"
+  @VisibleForTesting const val PHONE_APK_NAME = "meridian.apk"
   /** The watch build, so that a watch never installs the phone app. */
-  @VisibleForTesting const val WATCH_APK_NAME = "sandfly-wear.apk"
-  /** SandFly's phone and watch builds, for the move from Backtalk Aaron. */
+  @VisibleForTesting const val WATCH_APK_NAME = "meridian-wear.apk"
+  /** Meridian's phone and watch builds, for the move from SandFly. */
   @VisibleForTesting const val MOVE_PHONE_APK_NAME = PHONE_APK_NAME
   @VisibleForTesting const val MOVE_WATCH_APK_NAME = WATCH_APK_NAME
   private const val SHORT_HASH_LENGTH = 7
@@ -119,8 +119,8 @@ object UpdateChecker {
     }
 
   /**
-   * Returns SandFly's latest release, whatever its build number, since SandFly is always the way
-   * forward. Returns null if there is none yet or it cannot be read, so Backtalk Aaron still gets
+   * Returns Meridian's latest release, whatever its build number, since Meridian is always the way
+   * forward. Returns null if there is none yet or it cannot be read, so SandFly still gets
    * updates of its own.
    */
   @WorkerThread
@@ -170,7 +170,7 @@ object UpdateChecker {
       (network?.openConnection(URL(url)) ?: URL(url).openConnection()) as HttpURLConnection
     connection.connectTimeout = TIMEOUT_MS
     connection.readTimeout = TIMEOUT_MS
-    connection.setRequestProperty("User-Agent", "SandFly/${versionName(context)}")
+    connection.setRequestProperty("User-Agent", "Meridian/${versionName(context)}")
     return connection
   }
 

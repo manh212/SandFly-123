@@ -1,8 +1,8 @@
 <adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
-  <background android:drawable="@color/colorTalkBackIcon" />
+  <background android:drawable="@color/colorMeridianIcon" />
   <foreground>
       <inset
-        android:drawable="@drawable/talkback_round"
+        android:drawable="@drawable/meridian_mark"
         android:inset="21.88%" />
   </foreground>
 </adaptive-icon>

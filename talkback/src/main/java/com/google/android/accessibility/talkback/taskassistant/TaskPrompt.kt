@@ -12,6 +12,7 @@ object TaskPrompt {
       Return exactly one JSON object: {"snapshot":${screen.id},"action":"click","node":"n0","sensitive":false}.
       Allowed actions: ${TaskOperation.entries.joinToString { it.wire }}.
       Use only listed node ids with supported actions, and listed app packages. Never use coordinates, code or URLs.
+      Names may appear in Vietnamese or English (Cài đặt = Settings); match by meaning, not exact wording.
       open_app needs package. set_text needs text with the complete requested value. Do not overwrite unrelated content.
       For sending, posting, deleting, paying, installing, granting permissions or other important changes set sensitive=true.
       ask needs a Vietnamese message when uncertain. Never enter passwords, OTPs or credentials; ask for private manual entry.

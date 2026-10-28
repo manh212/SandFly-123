@@ -64,7 +64,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  * Automatic checks run when the service starts, and then about once a day while it runs, or once an
  * hour with development builds, which are tried as soon as they are pushed.
  *
- * Backtalk Aaron installs SandFly next to itself. The accessibility settings for SandFly then
+ * SandFly installs Meridian next to itself. The accessibility settings for Meridian then
  * open, so the user can turn it on.
  */
 object Updater {
@@ -76,8 +76,8 @@ object Updater {
   private val CONFIRM_NOTIFICATION_TIMEOUT_MS = TimeUnit.MINUTES.toMillis(10)
   internal const val PREF_LAST_CHECK_TIME = "update_last_check_time"
   internal const val PREF_LAST_NOTIFIED_BUILD = "update_last_notified_build"
-  private const val APK_FILE_NAME = "sandfly.apk"
-  /** How long to wait for the shell install before falling back; SandFly usually restarts first. */
+  private const val APK_FILE_NAME = "meridian.apk"
+  /** How long to wait for the shell install before falling back; Meridian usually restarts first. */
   private const val INSTALL_TIMEOUT_SECONDS = 150L
   private val CHECK_INTERVAL_MS = TimeUnit.DAYS.toMillis(1)
   private val DEV_CHECK_INTERVAL_MS = TimeUnit.HOURS.toMillis(1)
@@ -137,7 +137,7 @@ object Updater {
     preference.summary =
       fragment.getString(
         R.string.summary_pref_check_for_updates_version,
-        BuildConfig.SANDFLY_VERSION,
+        BuildConfig.MERIDIAN_VERSION,
         BuildConfig.COMMIT_COUNT,
       )
     preference.setOnPreferenceClickListener {
@@ -297,7 +297,7 @@ object Updater {
   @JvmStatic
   fun install(context: Context, downloadUrl: String) {
     val appContext = context.applicationContext
-    // With the Play-installer setting on and Shizuku, the shell installs the update, so SandFly
+    // With the Play-installer setting on and Shizuku, the shell installs the update, so Meridian
     // doesn't need permission to install apps itself.
     val throughShizuku = PlayInstaller.isEnabled(appContext) && ShizukuShell.isAllowed()
     if (!throughShizuku && !appContext.packageManager.canRequestPackageInstalls()) {
@@ -446,13 +446,13 @@ object Updater {
         apkPackage,
         context.packageName,
         isSameSigner(context, info),
-        isSignedBySandFly(info),
+        isSignedByMeridian(info),
       )
     when (kind) {
       AppIdMove.InstallKind.REFUSE ->
         throw WrongPackageException("The APK is $apkPackage, and this app is ${context.packageName}")
       AppIdMove.InstallKind.MOVE -> {
-        LogUtils.i(TAG, "Installing SandFly")
+        LogUtils.i(TAG, "Installing Meridian")
         mainHandler.post { toast(context, R.string.update_move_installing, Toast.LENGTH_LONG) }
       }
       AppIdMove.InstallKind.UPDATE -> {}
@@ -473,7 +473,7 @@ object Updater {
           installed.countDown()
         },
       )
-      // On success SandFly restarts before this returns, so the await just times out.
+      // On success Meridian restarts before this returns, so the await just times out.
       installed.await(INSTALL_TIMEOUT_SECONDS, TimeUnit.SECONDS)
       if (worked.get()) {
         return
@@ -545,10 +545,10 @@ object Updater {
   }
 
   /**
-   * Returns false only if the APK is known not to be signed with SandFly's key. When Android cannot
+   * Returns false only if the APK is known not to be signed with Meridian's key. When Android cannot
    * read the APK's certificates, each app checks the other's key before any settings are shared.
    */
-  private fun isSignedBySandFly(info: PackageInfo?): Boolean {
+  private fun isSignedByMeridian(info: PackageInfo?): Boolean {
     if (info == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
       return true
     }
@@ -579,7 +579,7 @@ object Updater {
           toast(appContext, R.string.update_install_failed)
         }
       }
-      // For an update, the system stops Backtalk to replace it, and restarts the service if it
+      // For an update, the system stops Meridian to replace it, and restarts the service if it
       // was on. A move installs a new app, and this one keeps running until that one is on.
       PackageInstaller.STATUS_SUCCESS -> {
         val installed = intent.getStringExtra(UpdateReceiver.EXTRA_INSTALLED_PACKAGE)
@@ -600,9 +600,9 @@ object Updater {
     }
   }
 
-  /** Opens the accessibility settings for the newly installed SandFly, so the user turns it on. */
+  /** Opens the accessibility settings for the newly installed Meridian, so the user turns it on. */
   private fun onMoved(context: Context, packageName: String) {
-    LogUtils.i(TAG, "Installed SandFly, %s", packageName)
+    LogUtils.i(TAG, "Installed Meridian, %s", packageName)
     val component = ComponentName(packageName, AppIdMove.SERVICE_CLASS)
     val intents = buildList {
       // The screen for a single service is on Android 12 and later, but Android lets only the
