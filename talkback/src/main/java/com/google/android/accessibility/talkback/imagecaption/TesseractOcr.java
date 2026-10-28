@@ -197,7 +197,7 @@ public final class TesseractOcr {
   }
 
   @Nullable
-  public static List<TextLine> recognizeLines(Context context, Bitmap bitmap) {
+  public static List<TextLine> recognizeWords(Context context, Bitmap bitmap) {
     synchronized (ENGINE_LOCK) {
       try {
         if (engine == null) {
@@ -216,16 +216,46 @@ public final class TesseractOcr {
         if (hocr == null) {
           return null;
         }
-        List<TextLine> lines = parseHocrLines(hocr);
+        List<TextLine> words = parseHocrWords(hocr);
+        if (words.isEmpty()) {
+          words = parseHocrLines(hocr);
+        }
         lastUsedMs = SystemClock.elapsedRealtime();
         IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
         IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS);
-        return lines;
+        return words;
       } catch (RuntimeException e) {
-        LogUtils.w(TAG, "Line recognition failed: " + e.getMessage());
+        LogUtils.w(TAG, "Word recognition failed: " + e.getMessage());
         return null;
       }
     }
+  }
+
+  private static List<TextLine> parseHocrWords(String hocr) {
+    List<TextLine> words = new ArrayList<>();
+    int pos = 0;
+    while (true) {
+      int wordStart = hocr.indexOf("ocrx_word", pos);
+      if (wordStart < 0) {
+        break;
+      }
+      int tagEnd = hocr.indexOf('>', wordStart);
+      if (tagEnd < 0) {
+        break;
+      }
+      Rect bounds = parseHocrBbox(hocr.substring(wordStart, tagEnd));
+      int wordEnd = hocr.indexOf("</span", tagEnd);
+      if (wordEnd < 0) {
+        break;
+      }
+      String word =
+          unescapeHocr(hocr.substring(tagEnd + 1, wordEnd).replaceAll("<[^>]*>", "")).trim();
+      pos = wordEnd + 7;
+      if (bounds != null && !bounds.isEmpty() && !word.isEmpty()) {
+        words.add(new TextLine(word, bounds));
+      }
+    }
+    return words;
   }
 
   private static List<TextLine> parseHocrLines(String hocr) {

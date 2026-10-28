@@ -149,10 +149,10 @@ public class ScreenRecognitionController {
     Handler mainHandler = new Handler(Looper.getMainLooper());
     new Thread(
             () -> {
-              List<TesseractOcr.TextLine> lines = TesseractOcr.recognizeLines(service, bitmap);
+              List<TesseractOcr.TextLine> words = TesseractOcr.recognizeWords(service, bitmap);
               mainHandler.post(
                   () -> {
-                    if (lines == null) {
+                    if (words == null) {
                       if (allowFallback) {
                         recognizeWithMlKit(bitmap, /* allowFallback= */ false);
                       } else {
@@ -161,7 +161,7 @@ public class ScreenRecognitionController {
                       }
                       return;
                     }
-                    List<RecognizedItem> items = toItems(lines, bitmap);
+                    List<RecognizedItem> items = toItems(words, bitmap);
                     if (items.isEmpty()) {
                       announcer.announce(
                           service.getString(R.string.screen_recognition_empty));
@@ -185,28 +185,54 @@ public class ScreenRecognitionController {
         && TesseractOcr.isDataDownloaded(service);
   }
 
-  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> lines, Bitmap bitmap) {
+  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> words, Bitmap bitmap) {
     int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
     int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
     float scaleX = (float) displayWidth / bitmap.getWidth();
     float scaleY = (float) displayHeight / bitmap.getHeight();
-    List<RecognizedItem> items = new ArrayList<>();
-    for (TesseractOcr.TextLine line : lines) {
-      Rect box = line.bounds;
-      if (box == null || line.text == null || line.text.trim().isEmpty()) {
+    List<RecognizedItem> scaledWords = new ArrayList<>();
+    for (TesseractOcr.TextLine word : words) {
+      Rect box = word.bounds;
+      if (box == null || word.text == null || word.text.trim().isEmpty()) {
         continue;
       }
-      items.add(
-          new RecognizedItem(
-              line.text,
-              new Rect(
-                  Math.round(box.left * scaleX),
-                  Math.round(box.top * scaleY),
-                  Math.round(box.right * scaleX),
-                  Math.round(box.bottom * scaleY)),
-              false));
+      scaledWords.add(new RecognizedItem(word.text, scaleBox(box, scaleX, scaleY), false));
     }
-    sortItems(items);
+    sortItems(scaledWords);
+    return groupWords(scaledWords);
+  }
+
+  private static Rect scaleBox(Rect box, float scaleX, float scaleY) {
+    return new Rect(
+        Math.round(box.left * scaleX),
+        Math.round(box.top * scaleY),
+        Math.round(box.right * scaleX),
+        Math.round(box.bottom * scaleY));
+  }
+
+  private static List<RecognizedItem> groupWords(List<RecognizedItem> words) {
+    List<RecognizedItem> items = new ArrayList<>();
+    StringBuilder text = new StringBuilder();
+    Rect bounds = null;
+    int row = Integer.MIN_VALUE;
+    for (RecognizedItem word : words) {
+      int wordRow = Math.round(word.bounds.centerY() / (float) ROW_TOLERANCE_PX);
+      int gap = bounds == null ? 0 : word.bounds.left - bounds.right;
+      if (bounds == null || wordRow != row || gap > bounds.height()) {
+        if (bounds != null) {
+          items.add(new RecognizedItem(text.toString(), bounds, false));
+        }
+        text = new StringBuilder(word.text);
+        bounds = new Rect(word.bounds);
+        row = wordRow;
+      } else {
+        text.append(' ').append(word.text);
+        bounds.union(word.bounds);
+      }
+    }
+    if (bounds != null) {
+      items.add(new RecognizedItem(text.toString(), bounds, false));
+    }
     return items;
   }
 
@@ -215,25 +241,31 @@ public class ScreenRecognitionController {
     int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
     float scaleX = (float) displayWidth / bitmap.getWidth();
     float scaleY = (float) displayHeight / bitmap.getHeight();
-    List<RecognizedItem> items = new ArrayList<>();
+    List<RecognizedItem> words = new ArrayList<>();
     for (Text.TextBlock block : text.getTextBlocks()) {
       for (Text.Line line : block.getLines()) {
-        Rect box = line.getBoundingBox();
-        String lineText = line.getText();
-        if (box == null || lineText == null || lineText.trim().isEmpty()) {
-          continue;
+        List<Text.Element> elements = line.getElements();
+        if (elements.isEmpty()) {
+          Rect box = line.getBoundingBox();
+          String lineText = line.getText();
+          if (box == null || lineText == null || lineText.trim().isEmpty()) {
+            continue;
+          }
+          words.add(new RecognizedItem(lineText, scaleBox(box, scaleX, scaleY), false));
+        } else {
+          for (Text.Element element : elements) {
+            Rect box = element.getBoundingBox();
+            String wordText = element.getText();
+            if (box == null || wordText == null || wordText.trim().isEmpty()) {
+              continue;
+            }
+            words.add(new RecognizedItem(wordText, scaleBox(box, scaleX, scaleY), false));
+          }
         }
-        Rect screenBox =
-            new Rect(
-                Math.round(box.left * scaleX),
-                Math.round(box.top * scaleY),
-                Math.round(box.right * scaleX),
-                Math.round(box.bottom * scaleY));
-        items.add(new RecognizedItem(lineText, screenBox, false));
       }
     }
-    sortItems(items);
-    return items;
+    sortItems(words);
+    return groupWords(words);
   }
 
   private static void sortItems(List<RecognizedItem> items) {
@@ -276,6 +308,18 @@ public class ScreenRecognitionController {
     }
     overlay.setItems(items);
     active = true;
+  }
+
+  public boolean stop() {
+    boolean wasActive = active || pendingRefresh != null;
+    cancelPendingRefresh();
+    if (active) {
+      hide();
+      announcer.announce(service.getString(R.string.screen_recognition_off));
+    } else if (wasActive) {
+      announcer.announce(service.getString(R.string.screen_recognition_off));
+    }
+    return wasActive;
   }
 
   private void hide() {

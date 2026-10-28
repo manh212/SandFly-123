@@ -257,6 +257,10 @@ public class GestureController {
     dictation.shutdown();
   }
 
+  public boolean stopScreenRecognition() {
+    return screenRecognitionController.stop();
+  }
+
   /** Stops scrolling to the top or bottom when the user touches the screen or presses a key. */
   public void onUserInputStarted() {
     listEdgeScroller.cancel();
@@ -588,6 +592,7 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_stopwatch))) {
       NotificationReader.toggleStopwatch();
     } else if (action.equals(service.getString(R.string.shortcut_value_back))) {
+      screenRecognitionController.stop();
       result =
           pipeline.returnFeedback(
               eventId, Feedback.systemAction(AccessibilityService.GLOBAL_ACTION_BACK));

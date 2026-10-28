@@ -1489,6 +1489,11 @@ public class TalkBackService extends AccessibilityServiceCompat
       // ignore these KeyEvents since they're unused in TalkBack.
       return false;
     }
+    if (keyAction == KeyEvent.ACTION_DOWN
+        && keyCode == KeyEvent.KEYCODE_BACK
+        && gestureController != null) {
+      gestureController.stopScreenRecognition();
+    }
     boolean passThroughThisKey = false;
     boolean triggerModifierPressed =
         FeatureFlagReader.enableSpeechVolumeKeyboard(this)
