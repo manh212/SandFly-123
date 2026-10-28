@@ -310,6 +310,7 @@ import com.google.android.accessibility.utils.output.ThemeVibrations;
 import com.google.android.accessibility.utils.output.VoiceProfiles;
 import com.google.android.accessibility.utils.output.VoiceProfiles.VoiceProfile;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
+import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.android.libraries.accessibility.utils.servicecompat.AccessibilityServiceCompat;
 import com.google.common.collect.ImmutableList;
@@ -3522,6 +3523,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
     TraversalTreeCache.setRegionGraceEnabled(pinnedLatencyEnabled);
     TraversalTreeCache.setBurstLiveAnswerEnabled(pinnedLatencyEnabled);
+    TraversalStrategyUtils.setSpeakingNodesCacheFilterEnabled(pinnedLatencyEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =

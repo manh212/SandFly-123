@@ -22,6 +22,7 @@ import com.google.android.accessibility.utils.ScrollableNodeInfo;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -29,6 +30,12 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class TraversalStrategyUtils {
 
   private static final String TAG = "TraversalStrategyUtils";
+
+  private static boolean speakingNodesCacheFilterEnabled = true;
+
+  public static void setSpeakingNodesCacheFilterEnabled(boolean enabled) {
+    speakingNodesCacheFilterEnabled = enabled;
+  }
 
   private TraversalStrategyUtils() {
     // Prevent utility class from being instantiated.
@@ -309,8 +316,21 @@ public class TraversalStrategyUtils {
       return false;
     }
 
-    Filter<AccessibilityNodeInfoCompat> focusNodeFilter =
-        AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS;
+    Filter<AccessibilityNodeInfoCompat> focusNodeFilter;
+    Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache =
+        speakingNodesCacheFilterEnabled ? traversalStrategy.getSpeakingNodesCache() : null;
+    if (speakingNodesCache != null) {
+      focusNodeFilter =
+          new Filter<AccessibilityNodeInfoCompat>() {
+            @Override
+            public boolean accept(AccessibilityNodeInfoCompat node) {
+              return node != null
+                  && AccessibilityNodeInfoUtils.shouldFocusNode(node, speakingNodesCache);
+            }
+          };
+    } else {
+      focusNodeFilter = AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS;
+    }
     if (ignoreDescendantsOfCursor) {
       focusNodeFilter =
           focusNodeFilter.and(

@@ -4504,5 +4504,5 @@
     <string name="title_pref_disable_latency_extras">Turn off latency extras</string>
     <string name="summary_pref_disable_latency_extras">Stops prepared announcements, window prefetching and other background work so swipes speak sooner.</string>
     <string name="title_pref_disable_latency_pinned">Turn off pinned latency mechanisms</string>
-    <string name="summary_pref_disable_latency_pinned">Stops navigation answers cutting announcements, the 100 ms speech wait cap, first-chunk speech, focus priority, the small audio buffer, focused-node reuse within one swipe, region-grained order freshness and live-tree answers in swipe bursts.</string>
+    <string name="summary_pref_disable_latency_pinned">Stops navigation answers cutting announcements, the 100 ms speech wait cap, first-chunk speech, focus priority, the small audio buffer, focused-node reuse within one swipe, region-grained order freshness and live-tree answers in swipe bursts, and the speaking-nodes cache for edge checks.</string>
 </resources>
