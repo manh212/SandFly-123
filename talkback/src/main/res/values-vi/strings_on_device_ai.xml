@@ -48,7 +48,7 @@
     <string name="on_device_ai_import_done">Đã cài đặt mô hình</string>
     <string name="on_device_ai_import_failed">Tệp đó không phải là tệp mô hình Gemma 4 được hỗ trợ.</string>
     <string name="pref_on_device_ai_timeout">Giới hạn thời gian trả lời</string>
-    <string name="pref_on_device_ai_timeout_summary">%1$s. SandFly ngừng chờ sau khoảng thời gian này. Mô tả màn hình mất nhiều thời gian hơn mô tả hình ảnh.</string>
+    <string name="pref_on_device_ai_timeout_summary">%1$s. Meridian ngừng chờ sau khoảng thời gian này. Mô tả màn hình mất nhiều thời gian hơn mô tả hình ảnh.</string>
     <string name="on_device_ai_choose_timeout">Giới hạn thời gian trả lời</string>
     <plurals name="on_device_ai_timeout_minutes">
         <item quantity="other">%1$d phút</item>

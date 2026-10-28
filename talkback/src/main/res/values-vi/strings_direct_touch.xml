@@ -5,7 +5,7 @@
     <string name="direct_touch_tile_label">Chạm trực tiếp</string>
     <string name="title_pref_direct_touch">Chạm trực tiếp</string>
     <string name="pref_direct_touch_master">Chạm trực tiếp</string>
-    <string name="pref_direct_touch_master_summary">Chuyển thao tác chạm thẳng đến các ứng dụng bạn chọn bên dưới, và trả lại cho SandFly khi có hộp thoại, trường văn bản, bàn phím và màn hình hệ thống.</string>
+    <string name="pref_direct_touch_master_summary">Chuyển thao tác chạm thẳng đến các ứng dụng bạn chọn bên dưới, và trả lại cho Meridian khi có hộp thoại, trường văn bản, bàn phím và màn hình hệ thống.</string>
     <string name="pref_direct_touch_speech">Đọc khi chạm trực tiếp thay đổi</string>
     <string name="pref_direct_touch_haptics">Rung khi chạm trực tiếp thay đổi</string>
     <string name="pref_direct_touch_backup">Sao lưu chế độ cài đặt</string>

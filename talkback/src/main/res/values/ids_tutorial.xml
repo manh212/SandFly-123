@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Actions of the message in the SandFly tutorial's Actions lesson. -->
+    <!-- Actions of the message in the Meridian tutorial's Actions lesson. -->
     <item name="sandfly_tutorial_action_reply" type="id" />
     <item name="sandfly_tutorial_action_archive" type="id" />
     <item name="sandfly_tutorial_action_delete" type="id" />

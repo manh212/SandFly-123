@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="task_title">Giao việc cho SandFly</string>
+    <string name="task_title">Giao việc cho Meridian</string>
     <string name="task_goal">Việc cần thực hiện</string>
     <string name="task_goal_too_long">Yêu cầu tối đa 4.000 ký tự</string>
     <string name="task_speak">Nói yêu cầu</string>
@@ -18,7 +18,7 @@
     <string name="task_interrupted">Bạn muốn tạm dừng hay hủy tác vụ?</string>
     <string name="task_confirm">Xác nhận hành động</string>
     <string name="task_confirm_action">Đồng ý thực hiện</string>
-    <string name="task_question">SandFly cần bạn trả lời</string>
+    <string name="task_question">Meridian cần bạn trả lời</string>
     <string name="task_answer">Câu trả lời</string>
     <string name="task_result">Kết quả tác vụ</string>
     <string name="task_processing_mode">Cách xử lý</string>

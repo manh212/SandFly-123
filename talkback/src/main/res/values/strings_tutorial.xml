@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string translatable="false" name="sandfly_tutorial_title">Hướng dẫn SandFly</string>
+    <string translatable="false" name="sandfly_tutorial_title">Hướng dẫn Meridian</string>
     <string translatable="false" name="sandfly_tutorial_lesson_heading"><xliff:g id="lesson" example="Moving between items">%1$s</xliff:g>, bài <xliff:g id="number" example="3">%2$d</xliff:g> trong <xliff:g id="count" example="17">%3$d</xliff:g></string>
     <string translatable="false" name="sandfly_tutorial_step">Bước <xliff:g id="number" example="1">%1$d</xliff:g> trong <xliff:g id="count" example="2">%2$d</xliff:g>: <xliff:g id="instruction" example="Swipe right to move to the next item.">%3$s</xliff:g></string>
     <string translatable="false" name="sandfly_tutorial_progress"><xliff:g id="done" example="2">%1$d</xliff:g> trong <xliff:g id="count" example="4">%2$d</xliff:g>.</string>
@@ -24,7 +24,7 @@
     <string translatable="false" name="sandfly_tutorial_chapter_getting_around">Điều hướng</string>
     <string translatable="false" name="sandfly_tutorial_chapter_practice">Thực hành</string>
     <string translatable="false" name="sandfly_tutorial_welcome_title">Chào mừng</string>
-    <string translatable="false" name="sandfly_tutorial_welcome_intro">Hướng dẫn này giúp bạn học các cử chỉ của SandFly. Mỗi bài đưa ra yêu cầu, chờ bạn thực hiện cử chỉ rồi chuyển sang bước tiếp theo. Yêu cầu là mục đầu tiên sau tên bài. Mục lục liệt kê các bài và hướng dẫn sẽ mở lại tại bài bạn đang học.</string>
+    <string translatable="false" name="sandfly_tutorial_welcome_intro">Hướng dẫn này giúp bạn học các cử chỉ của Meridian. Mỗi bài đưa ra yêu cầu, chờ bạn thực hiện cử chỉ rồi chuyển sang bước tiếp theo. Yêu cầu là mục đầu tiên sau tên bài. Mục lục liệt kê các bài và hướng dẫn sẽ mở lại tại bài bạn đang học.</string>
     <string translatable="false" name="sandfly_tutorial_welcome_start"><xliff:g id="gesture" example="Double-tap">%1$s</xliff:g> ở bất kỳ đâu trên màn hình để bắt đầu.</string>
     <string translatable="false" name="sandfly_tutorial_explore_title">Khám phá bằng cảm ứng</string>
     <string translatable="false" name="sandfly_tutorial_explore_intro">Chạm vào màn hình để nghe tên mục dưới ngón tay. Chạm vào mục chưa kích hoạt mục đó.</string>
@@ -75,10 +75,10 @@
     <string translatable="false" name="sandfly_tutorial_forecast_weekend">Cuối tuần</string>
     <string translatable="false" name="sandfly_tutorial_forecast_weekend_text">Thứ Bảy có gió, Chủ nhật trời quang.</string>
     <string translatable="false" name="sandfly_tutorial_continuous_title">Đọc liên tục</string>
-    <string translatable="false" name="sandfly_tutorial_continuous_intro">SandFly có thể đọc từ mục đang được lấy nét đến cuối màn hình mà không cần vuốt. Chạm vào màn hình để dừng đọc.</string>
+    <string translatable="false" name="sandfly_tutorial_continuous_intro">Meridian có thể đọc từ mục đang được lấy nét đến cuối màn hình mà không cần vuốt. Chạm vào màn hình để dừng đọc.</string>
     <string translatable="false" name="sandfly_tutorial_continuous_move">Chuyển đến dòng đầu tiên của công thức.</string>
     <string translatable="false" name="sandfly_tutorial_continuous_read"><xliff:g id="gesture" example="Swipe down then right">%1$s</xliff:g> để đọc từ mục đang được lấy nét.</string>
-    <string translatable="false" name="sandfly_tutorial_continuous_read_from_menu"><xliff:g id="gesture" example="Tap with 3 fingers">%1$s</xliff:g> để mở trình đơn SandFly rồi chọn <xliff:g id="command" example="Read from focused item">%2$s</xliff:g>.</string>
+    <string translatable="false" name="sandfly_tutorial_continuous_read_from_menu"><xliff:g id="gesture" example="Tap with 3 fingers">%1$s</xliff:g> để mở trình đơn Meridian rồi chọn <xliff:g id="command" example="Read from focused item">%2$s</xliff:g>.</string>
     <string translatable="false" name="sandfly_tutorial_recipe_1">Bánh kếp: trộn bột mì, trứng và sữa thành hỗn hợp mịn.</string>
     <string translatable="false" name="sandfly_tutorial_recipe_2">Đun nóng một ít bơ trong chảo.</string>
     <string translatable="false" name="sandfly_tutorial_recipe_3">Đổ một lớp bột mỏng phủ mặt chảo.</string>
@@ -114,14 +114,14 @@
     <string translatable="false" name="sandfly_tutorial_system_home"><xliff:g id="gesture" example="Swipe up then left">%1$s</xliff:g> để về Màn hình chính.</string>
     <string translatable="false" name="sandfly_tutorial_system_overview"><xliff:g id="gesture" example="Swipe left then up">%1$s</xliff:g> để hiển thị ứng dụng gần đây.</string>
     <string translatable="false" name="sandfly_tutorial_system_notifications"><xliff:g id="gesture" example="Swipe right then down">%1$s</xliff:g> để mở thông báo.</string>
-    <string translatable="false" name="sandfly_tutorial_menu_title">Trình đơn SandFly</string>
-    <string translatable="false" name="sandfly_tutorial_menu_intro">Trình đơn SandFly chứa các lệnh cho mục đang được lấy nét và màn hình hiện tại.</string>
-    <string translatable="false" name="sandfly_tutorial_menu_open"><xliff:g id="gesture" example="Tap with 3 fingers">%1$s</xliff:g> để mở trình đơn SandFly. Vuốt qua các lệnh. <xliff:g id="gesture" example="Swipe down then left">%2$s</xliff:g> để đóng trình đơn.</string>
+    <string translatable="false" name="sandfly_tutorial_menu_title">Trình đơn Meridian</string>
+    <string translatable="false" name="sandfly_tutorial_menu_intro">Trình đơn Meridian chứa các lệnh cho mục đang được lấy nét và màn hình hiện tại.</string>
+    <string translatable="false" name="sandfly_tutorial_menu_open"><xliff:g id="gesture" example="Tap with 3 fingers">%1$s</xliff:g> để mở trình đơn Meridian. Vuốt qua các lệnh. <xliff:g id="gesture" example="Swipe down then left">%2$s</xliff:g> để đóng trình đơn.</string>
     <string translatable="false" name="sandfly_tutorial_menu_close"><xliff:g id="gesture" example="Swipe down then left">%1$s</xliff:g> để đóng trình đơn.</string>
     <string translatable="false" name="sandfly_tutorial_commands_title">Lệnh hữu ích</string>
     <string translatable="false" name="sandfly_tutorial_commands_intro">Các lệnh này hoạt động trên mọi màn hình.</string>
     <string translatable="false" name="sandfly_tutorial_commands_status"><xliff:g id="gesture" example="Triple-tap with 2 fingers">%1$s</xliff:g> để nghe giờ, mức pin và các thông tin trạng thái khác.</string>
-    <string translatable="false" name="sandfly_tutorial_commands_copy"><xliff:g id="gesture" example="Triple-tap with 3 fingers">%1$s</xliff:g> để sao chép nội dung SandFly vừa đọc vào bộ nhớ tạm.</string>
+    <string translatable="false" name="sandfly_tutorial_commands_copy"><xliff:g id="gesture" example="Triple-tap with 3 fingers">%1$s</xliff:g> để sao chép nội dung Meridian vừa đọc vào bộ nhớ tạm.</string>
     <string translatable="false" name="sandfly_tutorial_commands_search"><xliff:g id="gesture" example="Swipe left then down">%1$s</xliff:g> để tìm văn bản trên màn hình. Trong bài này, hướng dẫn sẽ nói tác dụng thay vì thực hiện.</string>
     <string translatable="false" name="sandfly_tutorial_commands_speech_off"><xliff:g id="gesture" example="Double-tap with 3 fingers">%1$s</xliff:g> để tắt giọng đọc và làm lại để bật. Trong bài này, hướng dẫn sẽ nói tác dụng thay vì thực hiện.</string>
     <string translatable="false" name="sandfly_tutorial_practice_title">Thực hành cử chỉ</string>

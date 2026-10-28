@@ -13,7 +13,7 @@ class TaskVoiceInputActivity : Activity() {
       startActivityForResult(Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
         putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         putExtra(RecognizerIntent.EXTRA_LANGUAGE, "vi-VN")
-        putExtra(RecognizerIntent.EXTRA_PROMPT, "Nói việc bạn muốn SandFly thực hiện")
+        putExtra(RecognizerIntent.EXTRA_PROMPT, "Nói việc bạn muốn Meridian thực hiện")
       }, 1)
     } catch (_: Exception) {
       finish()

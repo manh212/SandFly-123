@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Accessibility actions of an item in SandFly's quick settings panel, such as a sound mode. -->
+    <!-- Accessibility actions of an item in Meridian's quick settings panel, such as a sound mode. -->
     <item name="quick_settings_action_1" type="id" />
     <item name="quick_settings_action_2" type="id" />
     <item name="quick_settings_action_3" type="id" />
-    <!-- Tag on a row of SandFly's quick settings panel holding its accessibility delegate. -->
+    <!-- Tag on a row of Meridian's quick settings panel holding its accessibility delegate. -->
     <item name="quick_settings_row_delegate" type="id" />
-    <!-- Tag on a slider of SandFly's quick settings panel holding what it controls. -->
+    <!-- Tag on a slider of Meridian's quick settings panel holding what it controls. -->
     <item name="quick_settings_slider" type="id" />
-    <!-- Tag on a cell of SandFly's quick settings panel holding its row and column. -->
+    <!-- Tag on a cell of Meridian's quick settings panel holding its row and column. -->
     <item name="quick_settings_cell" type="id" />
-    <!-- Tag on a row of SandFly's quick settings panel holding the empty cells it can show. -->
+    <!-- Tag on a row of Meridian's quick settings panel holding the empty cells it can show. -->
     <item name="quick_settings_spacers" type="id" />
 </resources>

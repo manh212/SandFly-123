@@ -8,7 +8,7 @@
     <string name="theme_create_name_required">Hãy nhập tên.</string>
     <string name="theme_create_duplicate">Đã có chủ đề có tên này. Hãy chọn tên khác.</string>
     <string name="theme_create_save">Lưu</string>
-    <string name="theme_create_save_failed">SandFly không lưu được chủ đề.</string>
+    <string name="theme_create_save_failed">Meridian không lưu được chủ đề.</string>
     <string name="theme_create_discard_title">Huỷ chủ đề này?</string>
     <string name="theme_create_discard">Huỷ</string>
     <string name="theme_create_keep_editing">Tiếp tục chỉnh sửa</string>

@@ -184,7 +184,7 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     main.postDelayed({
       if (closed || epoch.get() != token) return@postDelayed
       if (!canOperate()) {
-        done(Result.failure(IllegalStateException("Điện thoại đang khóa hoặc SandFly đang tạm dừng")))
+        done(Result.failure(IllegalStateException("Điện thoại đang khóa hoặc Meridian đang tạm dừng")))
         return@postDelayed
       }
       worker.execute {

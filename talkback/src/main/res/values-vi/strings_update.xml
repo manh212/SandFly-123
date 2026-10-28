@@ -6,18 +6,18 @@
     <string name="title_pref_auto_update_check">Tự động kiểm tra bản cập nhật</string>
     <string name="summary_pref_auto_update_check">Kiểm tra mỗi ngày một lần và hiện thông báo khi có bản dựng mới</string>
     <string name="title_pref_dev_builds">Bản dựng phát triển</string>
-    <string name="update_notification_title">Đã có bản cập nhật SandFly</string>
+    <string name="update_notification_title">Đã có bản cập nhật Meridian</string>
     <string name="update_notification_text">Bản dựng <xliff:g id="build" example="97">%1$d</xliff:g>. Nhấn để cài đặt.</string>
-    <string name="update_dialog_title">Đã có bản dựng SandFly <xliff:g id="build" example="97">%1$d</xliff:g></string>
+    <string name="update_dialog_title">Đã có bản dựng Meridian <xliff:g id="build" example="97">%1$d</xliff:g></string>
     <string name="update_dialog_install">Cài đặt</string>
     <string name="update_checking">Đang kiểm tra bản cập nhật</string>
-    <string name="update_up_to_date">SandFly là phiên bản mới nhất</string>
+    <string name="update_up_to_date">Meridian là phiên bản mới nhất</string>
     <string name="update_check_failed">Không kiểm tra được bản cập nhật</string>
     <string name="update_downloading">Đang tải bản cập nhật xuống</string>
     <string name="update_already_downloading">Bản cập nhật đang được tải xuống</string>
-    <string name="update_ready_title">Đã tải bản cập nhật SandFly xuống</string>
+    <string name="update_ready_title">Đã tải bản cập nhật Meridian xuống</string>
     <string name="update_ready_text">Nhấn để cài đặt.</string>
     <string name="update_install_failed">Không cài đặt được bản cập nhật</string>
     <string name="update_install_canceled">Đã huỷ cập nhật</string>
-    <string name="update_allow_install">Hãy cho phép SandFly cài đặt ứng dụng rồi thử cập nhật lại</string>
+    <string name="update_allow_install">Hãy cho phép Meridian cài đặt ứng dụng rồi thử cập nhật lại</string>
 </resources>

@@ -26,7 +26,7 @@
   <string name="title_pref_backup_settings" translatable="false">Sao lưu cài đặt</string>
   <string name="title_pref_restore_settings" translatable="false">Khôi phục cài đặt từ bản sao lưu</string>
   <string name="title_pref_reset_application" translatable="false">Đặt lại ứng dụng</string>
-  <string name="message_reset_application" translatable="false">Xóa toàn bộ dữ liệu của SandFly trên điện thoại, gồm cài đặt, hồ sơ giọng nói, khóa API, nhãn, tập lệnh, chủ đề âm thanh và mô hình đã tải? SandFly sẽ dừng. Bạn cần bật lại SandFly trong phần Trợ năng của Android. Bản sao lưu đã lưu ra tệp không bị xóa.</string>
+  <string name="message_reset_application" translatable="false">Xóa toàn bộ dữ liệu của Meridian trên điện thoại, gồm cài đặt, hồ sơ giọng nói, khóa API, nhãn, tập lệnh, chủ đề âm thanh và mô hình đã tải? Meridian sẽ dừng. Bạn cần bật lại Meridian trong phần Trợ năng của Android. Bản sao lưu đã lưu ra tệp không bị xóa.</string>
   <string name="reset_application_confirm" translatable="false">Xóa dữ liệu và đặt lại</string>
   <string name="reset_application_failed" translatable="false">Không thể đặt lại ứng dụng</string>
   <string name="title_pref_read_unlabelled_identifiers" translatable="false">Đọc mã nhận dạng của nút chưa có nhãn</string>

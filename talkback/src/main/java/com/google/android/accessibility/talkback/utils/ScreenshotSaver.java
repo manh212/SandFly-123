@@ -42,7 +42,7 @@ public class ScreenshotSaver {
     ContentValues values = new ContentValues();
     values.put(MediaStore.Images.Media.DISPLAY_NAME, name);
     values.put(MediaStore.Images.Media.MIME_TYPE, "image/png");
-    values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/SandFly");
+    values.put(MediaStore.Images.Media.RELATIVE_PATH, Environment.DIRECTORY_PICTURES + "/Meridian");
     Uri uri;
     try {
       uri = context.getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values);
