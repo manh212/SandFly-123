@@ -24,6 +24,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   private var generation = 0L
   private var steps = 0
   private var failures = 0
+  private var parseFailures = 0
   private var unchanged = 0
   private var pendingChange: String? = null
   private var pendingSteps: ArrayDeque<TaskStep>? = null
@@ -44,6 +45,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     repeated.clear()
     steps = 0
     failures = 0
+    parseFailures = 0
     unchanged = 0
     pendingChange = null
     pendingSteps = null
@@ -122,8 +124,17 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     host.plan(prompt) { result ->
       if (token != generation || state != TaskState.PLANNING) return@plan
       val answer = result.getOrElse { fail("AI không trả lời được. ${it.message.orEmpty()}"); return@plan }
-      val plan = try { TaskProtocol.parsePlan(answer, screen, apps) } catch (e: Exception) {
-        fail("AI trả lời không hợp lệ. ${e.message.orEmpty()}"); return@plan
+      val plan = try {
+        TaskProtocol.parsePlan(answer, screen, apps).also { parseFailures = 0 }
+      } catch (e: Exception) {
+        if (parseFailures < 1) {
+          parseFailures++
+          addHistory("AI trả lời sai định dạng: ${e.message.orEmpty()}. Hãy trả lại đúng định dạng: mỗi bước trong chuỗi phải có nhãn hiển thị, bước set_text phải có cả nhãn và nội dung.")
+          plan(screen)
+        } else {
+          fail("AI trả lời thiếu tên mục cần ấn nên không thực hiện được. Hãy giao lại việc.")
+        }
+        return@plan
       }
       when (plan) {
         is TaskProtocol.TaskPlan.Single -> {

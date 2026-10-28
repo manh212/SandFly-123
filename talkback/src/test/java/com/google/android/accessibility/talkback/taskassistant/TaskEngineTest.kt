@@ -2,17 +2,19 @@ package com.google.android.accessibility.talkback.taskassistant
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class TaskEngineTest {
   private class Host : TaskHost {
     var observation: ((Result<TaskScreen>) -> Unit)? = null
     var answer: ((Result<String>) -> Unit)? = null
+    var lastPrompt = ""
     var execution: ((TaskExecution) -> Unit)? = null
     var performed = 0
     var cancellations = 0
     override fun observe(done: (Result<TaskScreen>) -> Unit) { observation = done }
-    override fun plan(prompt: String, done: (Result<String>) -> Unit) { answer = done }
+    override fun plan(prompt: String, done: (Result<String>) -> Unit) { lastPrompt = prompt; answer = done }
     override fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit) { performed++; execution = done }
     override fun changed(state: TaskState, message: String) { }
     override fun cancelOperations() { cancellations++ }
@@ -149,6 +151,30 @@ class TaskEngineTest {
     host.reply("""{"snapshot":1,"action":"ask","message":"Bạn muốn gì?"}""")
     assertEquals(TaskState.FAILED, engine.state)
     assertEquals("Bạn muốn gì?", engine.message)
+  }
+
+  @Test fun invalidReplyIsRetriedOnceWithFormatFeedbackThenExecutes() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Mở YouTube tìm kiếm")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Phụ đề"},{"action":"set_text","text":"x"}]}""")
+    assertEquals(TaskState.PLANNING, engine.state)
+    assertTrue(host.lastPrompt.contains("nhãn hiển thị"))
+    host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
+    assertEquals(1, host.performed)
+  }
+
+  @Test fun twoInvalidRepliesInARowFailTheTask() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Mở YouTube tìm kiếm")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"steps":[{"action":"set_text","text":"x"}]}""")
+    assertEquals(TaskState.PLANNING, engine.state)
+    host.reply("""{"snapshot":1,"steps":[{"action":"set_text","text":"x"}]}""")
+    assertEquals(TaskState.FAILED, engine.state)
+    assertEquals("AI trả lời thiếu tên mục cần ấn nên không thực hiện được. Hãy giao lại việc.", engine.message)
   }
 
   @Test fun staleTargetsAreObservedAgainWithoutRepeatingTheOldDecision() {

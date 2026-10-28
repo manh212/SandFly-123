@@ -64,6 +64,17 @@ class TaskProtocolTest {
     rejectPlan("""{"snapshot":6,"steps":[{"action":"click","label":"Phụ đề"}]}""")
   }
 
+  @Test fun sequenceSetTextNeedsLabelButAcceptsLabelAndText() {
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"set_text","text":"x"}]}""")
+    val plan = TaskProtocol.parsePlan(
+      """{"snapshot":7,"steps":[{"action":"set_text","label":"Nội dung","text":"hello"}]}""", screen, apps)
+    assertTrue(plan is TaskProtocol.TaskPlan.Sequence)
+    val steps = (plan as TaskProtocol.TaskPlan.Sequence).steps
+    assertEquals(1, steps.size)
+    assertEquals("Nội dung", steps[0].label)
+    assertEquals("hello", steps[0].text)
+  }
+
   @Test fun plannerSeesStateAndScopeWithoutReceivingExecutableTools() {
     val prompt = TaskProtocol.prompt("Bật phụ đề", screen, apps, emptyList())
     assertTrue(prompt.contains("untrusted data"))

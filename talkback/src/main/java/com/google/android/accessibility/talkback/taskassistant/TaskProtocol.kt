@@ -158,7 +158,13 @@ object TaskProtocol {
     and wait for the next snapshot when the following steps are already clear (for example open an app,
     tap search, then tap voice search). A single action is only for a step whose target cannot be known yet.
     The host validates and executes the reply, then supplies a NEW snapshot.
-    A multi-step reply looks like {"snapshot":${screen.id},"steps":[{"action":"open_app","package":""},{"action":"click","label":""},{"action":"click","label":""}]}.
+    A multi-step reply looks like {"snapshot":${screen.id},"steps":[{"action":"open_app","package":""},{"action":"click","label":""},{"action":"set_text","label":"","text":""},{"action":"click","label":""}]}.
+    Every step in steps MUST have a label: the exact visible text of its target. A step without a label
+    is rejected and the whole reply fails. A set_text step needs BOTH label (the field to type into)
+    and text (what to type). Never use node inside steps.
+    Only include steps whose label you can already state. If a later target cannot be known yet
+    (for example the first search result, whose title appears only after searching), END the sequence
+    before that step; the host will plan the remaining steps on the new screen by itself.
     In steps, identify each target by its visible label, never by a node id, because later steps run
     on screens not in this snapshot; add "view_id" or "role" only when the label alone is ambiguous.
     The host matches each label on the fresh screen and taps it; a missing or ambiguous label stops
@@ -170,6 +176,7 @@ object TaskProtocol {
     keep going; never return ask. Every step is executed immediately, without confirmation, exactly as asked.
     Never enter passwords, OTPs or credentials.
     For open_app select a package from apps. For set_text supply the complete desired text, preserving unrelated content.
+    In steps a set_text step also needs the label of the field to type into.
     Use press_enter only on a node exposing that action.
     Scroll only a listed scrollable node. Use wait for loading. Avoid loops and repeated clicks.
     A truncated snapshot is incomplete: absence does not prove an element is not in the app.
