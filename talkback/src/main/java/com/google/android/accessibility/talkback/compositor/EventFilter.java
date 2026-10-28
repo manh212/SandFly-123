@@ -115,6 +115,8 @@ public class EventFilter {
    */
   private static volatile boolean speakItemsBeforeScroll = false;
 
+  private static volatile boolean latencyExtrasEnabled = true;
+
   /** The directions of the swipes whose targets are prepared: to the next and previous node. */
   private static final int[] SWIPE_DIRECTIONS = {
     TraversalStrategy.SEARCH_FOCUS_FORWARD, TraversalStrategy.SEARCH_FOCUS_BACKWARD
@@ -426,6 +428,10 @@ public class EventFilter {
     speakItemsBeforeScroll = speak;
   }
 
+  public static void setLatencyExtrasEnabled(boolean enabled) {
+    latencyExtrasEnabled = enabled;
+  }
+
   /**
    * Works out what focusing {@code node} by a swipe says. This comes before the swipe has scrolled
    * the node into view, so its children still off screen are described as they will be once it has.
@@ -512,7 +518,7 @@ public class EventFilter {
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
     handler.removeCallbacks(prepareSwipeTargets);
-    if (targetPredictor != null) {
+    if (latencyExtrasEnabled && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }
@@ -524,6 +530,9 @@ public class EventFilter {
    * finds them already fetched.
    */
   private void prepareSwipeTargets() {
+    if (!latencyExtrasEnabled) {
+      return;
+    }
     @Nullable AccessibilityNodeInfoCompat pivot = lastFocusedNode;
     if (pivot == null || targetPredictor == null || fingerDown.getAsBoolean()) {
       // A swipe may be starting, and must not wait for this.

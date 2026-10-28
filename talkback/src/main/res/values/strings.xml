@@ -4501,4 +4501,6 @@
     <string name="clipboard_history_paste_failed">Could not paste</string>
     <string name="clipboard_history_deleted">Entry deleted</string>
     <string name="clipboard_history_cleared">History cleared</string>
+    <string name="title_pref_disable_latency_extras">Turn off latency extras</string>
+    <string name="summary_pref_disable_latency_extras">Stops prepared announcements, window prefetching and other background work so swipes speak sooner.</string>
 </resources>

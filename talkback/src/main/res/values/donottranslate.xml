@@ -1901,5 +1901,7 @@
     <string name="selector_live_recognition" translatable="false">SELECTOR_LIVE_RECOGNITION</string>
     <string name="pref_debug_log_key" translatable="false">pref_debug_log</string>
     <bool name="pref_debug_log_default">false</bool>
+    <string name="pref_disable_latency_extras_key" translatable="false">pref_disable_latency_extras</string>
+    <bool name="pref_disable_latency_extras_default">false</bool>
     <string name="pref_delete_debug_log_key" translatable="false">pref_delete_debug_log</string>
 </resources>

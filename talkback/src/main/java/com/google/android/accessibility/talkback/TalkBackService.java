@@ -754,6 +754,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** The app of the last window that came up, for the turn-off log. */
   private @Nullable CharSequence lastWindowPackage;
 
+  private volatile boolean latencyExtrasEnabled = true;
+
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
 
@@ -1147,7 +1149,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
       prefetchWindowOfClearedOrder(event);
     }
-    PreparedFocusSpeech.onAccessibilityEvent(event);
+    if (latencyExtrasEnabled) {
+      PreparedFocusSpeech.onAccessibilityEvent(event);
+    }
     if (directTouchController != null) {
       directTouchController.onAccessibilityEvent(event);
     }
@@ -1239,7 +1243,9 @@ public class TalkBackService extends AccessibilityServiceCompat
    * root costs binder calls, so the prefetcher does it on its own executor.
    */
   private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
-    prefetchWindowNodesInBackground(event.getWindowId());
+    if (latencyExtrasEnabled) {
+      prefetchWindowNodesInBackground(event.getWindowId());
+    }
   }
 
   /**
@@ -3499,6 +3505,11 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(
             R.string.pref_speak_items_before_scroll_key,
             R.bool.pref_speak_items_before_scroll_default));
+    latencyExtrasEnabled =
+        !getBooleanPref(
+            R.string.pref_disable_latency_extras_key,
+            R.bool.pref_disable_latency_extras_default);
+    EventFilter.setLatencyExtrasEnabled(latencyExtrasEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =

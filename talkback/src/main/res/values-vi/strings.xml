@@ -1765,4 +1765,6 @@
     <string name="clipboard_history_paste_failed">Không dán được</string>
     <string name="clipboard_history_deleted">Đã xóa mục</string>
     <string name="clipboard_history_cleared">Đã xóa hết lịch sử</string>
+    <string name="title_pref_disable_latency_extras">Tắt việc phụ gây trễ</string>
+    <string name="summary_pref_disable_latency_extras">Dừng đọc chuẩn bị trước, tải trước cửa sổ và các việc chạy nền khác để vuốt đọc nhanh hơn.</string>
 </resources>
