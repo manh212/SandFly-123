@@ -42,7 +42,6 @@ import com.google.android.accessibility.talkback.actor.ImageCaptioner;
 import com.google.android.accessibility.talkback.preference.base.PreferenceActionHelper.WebPage;
 import com.google.android.accessibility.talkback.recognition.LiveRecognition;
 import com.google.android.accessibility.talkback.training.OnboardingInitiator;
-import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.tv.TvTutorialInitiator;
 import com.google.android.accessibility.talkback.trainingcommon.tv.VendorConfigReader;
 import com.google.android.accessibility.utils.FeatureSupport;
@@ -168,7 +167,7 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
   private void updateTutorialAndHelpPreferencesForPhoneOrTablet() {
     Preference preference = findPreferenceByResId(R.string.pref_tutorial_and_help_key);
     if (preference != null) {
-      preference.setIntent(TutorialInitiator.createTutorialIntent(getActivity()));
+      preference.setFragment(TutorialAndHelpFragment.class.getName());
     }
     preference = findPreferenceByResId(R.string.pref_help_and_feedback_key);
     if (preference != null) {
