@@ -4483,6 +4483,6 @@
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
     <string name="meridian_intro_title">About Meridian</string>
-    <string name="meridian_intro">Meridian is a screen reader for blind users: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references code from other screen readers: Google TalkBack, BackTalk and SandFly, and has since been changed to be different. If you find a bug, contact the developer: https://www.facebook.com/share/1Bscgg2MPs/</string>
+    <string name="meridian_intro">Meridian is a screen reader for blind users: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly. If you find any bug while using it, you can contact the developer at: https://www.facebook.com/share/1Bscgg2MPs/</string>
     <string name="meridian_contact_title">Contact the developer</string>
 </resources>
