@@ -37,7 +37,7 @@ jobs:
       - name: Select related tests
         id: selection
         env:
-          SANDFLY_DEV_RELEASE_NAME_FILE: ${{ runner.temp }}/published-dev-name.txt
+          MERIDIAN_DEV_RELEASE_NAME_FILE: ${{ runner.temp }}/published-dev-name.txt
         run: |
           set -o pipefail
           python3 scripts/select_ci_tests.py 2>&1 | tee "$RUNNER_TEMP/test-selection.log"
@@ -187,12 +187,12 @@ jobs:
       - name: Check the release version
         if: startsWith(github.ref, 'refs/tags/v')
         run: |
-          version=$(sed -n 's/^ *sandflyVersion = "\(.*\)"/\1/p' version.gradle)
+          version=$(sed -n 's/^ *meridianVersion = "\(.*\)"/\1/p' version.gradle)
           if [ "v$version" != "$GITHUB_REF_NAME" ]; then
             echo "The tag is $GITHUB_REF_NAME, but version.gradle says $version." >&2
             exit 1
           fi
-          echo "GRADLE_RELEASE_FLAG=-Psandfly.release=true" >> "$GITHUB_ENV"
+          echo "GRADLE_RELEASE_FLAG=-Pmeridian.release=true" >> "$GITHUB_ENV"
 
       # AGP downloads the SDK platform and NDK it needs if the runner lacks them.
       - name: Build debug APKs
@@ -444,7 +444,7 @@ jobs:
           hash=$(git rev-parse HEAD)
           short=${hash:0:7}
           # The phone build is meridian.apk, which the updater on phones looks for.
-          apk=$(find apks -name "sandfly-phone-debug.apk" | head -n 1)
+          apk=$(find apks -name "meridian-phone-debug.apk" | head -n 1)
           if [ -z "$apk" ]; then
             echo "The phone APK was not found." >&2
             exit 1
