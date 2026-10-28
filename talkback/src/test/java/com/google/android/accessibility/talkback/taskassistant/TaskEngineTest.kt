@@ -101,7 +101,7 @@ class TaskEngineTest {
     assertFalse(engine.busy)
   }
 
-  @Test fun unchangedScreenDoesNotCauseRepeatedClicks() {
+  @Test fun unchangedScreenIsReportedForReplanningInsteadOfFailing() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
     engine.start("Bật phụ đề")
@@ -110,7 +110,11 @@ class TaskEngineTest {
     host.execution!!(TaskExecution.PERFORMED)
     repeat(3) { host.screen(screen.copy(id = it + 2L)) }
     assertEquals(1, host.performed)
-    assertEquals(TaskState.FAILED, engine.state)
+    assertEquals(TaskState.PLANNING, engine.state)
+    host.reply("""{"snapshot":4,"action":"wait"}""")
+    host.execution!!(TaskExecution.PERFORMED)
+    assertEquals(2, host.performed)
+    assertEquals(TaskState.OBSERVING, engine.state)
   }
 
   @Test fun anAiReplyAfterTheTimeBudgetCannotExecuteAnAction() {
