@@ -21,6 +21,8 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
@@ -180,31 +182,56 @@ class DirectTouchFragment : TalkbackBaseFragment() {
   }
 
   private fun writeBackup(uri: Uri) {
-    val context = requireContext()
-    val written =
-      try {
-        context.contentResolver.openOutputStream(uri)?.use {
-          it.write(DirectTouchSettings.exportJson(prefs).toByteArray())
-        } != null
-      } catch (_: java.io.IOException) {
-        false
+    val context = requireContext().applicationContext
+    val preferences = prefs
+    executor.execute {
+      val written =
+        try {
+          context.contentResolver.openOutputStream(uri)?.use {
+            it.write(DirectTouchSettings.exportJson(preferences).toByteArray())
+          } != null
+        } catch (_: java.io.IOException) {
+          false
+        } catch (_: SecurityException) {
+          false
+        }
+      mainHandler.post {
+        if (isAdded) toast(if (written) R.string.direct_touch_backup_done else R.string.direct_touch_backup_failed)
       }
-    toast(if (written) R.string.direct_touch_backup_done else R.string.direct_touch_backup_failed)
+    }
   }
 
   private fun readBackup(uri: Uri) {
-    val context = requireContext()
-    val json =
-      try {
-        context.contentResolver.openInputStream(uri)?.use { it.readBytes().decodeToString() }
-      } catch (_: java.io.IOException) {
-        null
+    val context = requireContext().applicationContext
+    val preferences = prefs
+    executor.execute {
+      val json =
+        try {
+          context.contentResolver.openInputStream(uri)?.use { input ->
+            val buffer = ByteArray(MAX_BACKUP_BYTES + 1)
+            var length = 0
+            while (length < buffer.size) {
+              val count = input.read(buffer, length, buffer.size - length)
+              if (count < 0) break
+              length += count
+            }
+            if (length > MAX_BACKUP_BYTES) null else buffer.copyOf(length).decodeToString()
+          }
+        } catch (_: java.io.IOException) {
+          null
+        } catch (_: SecurityException) {
+          null
+        }
+      val imported = json != null && DirectTouchSettings.importJson(preferences, json)
+      mainHandler.post {
+        if (!isAdded) return@post
+        if (imported) {
+          toast(R.string.direct_touch_restore_done)
+          buildScreen()
+        } else {
+          toast(R.string.direct_touch_restore_failed)
+        }
       }
-    if (json != null && DirectTouchSettings.importJson(prefs, json)) {
-      toast(R.string.direct_touch_restore_done)
-      buildScreen()
-    } else {
-      toast(R.string.direct_touch_restore_failed)
     }
   }
 
@@ -264,7 +291,12 @@ class DirectTouchFragment : TalkbackBaseFragment() {
 
   private companion object {
     const val BACKUP_FILE_NAME = "backtalk-direct-touch.json"
+    const val MAX_BACKUP_BYTES = 5 * 1024 * 1024
     val ACTION_TYPING = R.id.accessibility_custom_action_0
-    val executor = Executors.newSingleThreadExecutor()
+    val executor =
+      Executors.newSingleThreadExecutor { runnable ->
+        Thread(runnable, "direct-touch-backup").apply { isDaemon = true }
+      }
+    val mainHandler = Handler(Looper.getMainLooper())
   }
 }

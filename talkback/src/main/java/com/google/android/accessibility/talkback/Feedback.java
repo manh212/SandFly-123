@@ -1480,6 +1480,7 @@ public abstract class Feedback {
     public enum Action {
       SELECT_ALL,
       SELECT_SEGMENT,
+      CLEAR_ALL,
       START_SELECT,
       END_SELECT,
       COPY,

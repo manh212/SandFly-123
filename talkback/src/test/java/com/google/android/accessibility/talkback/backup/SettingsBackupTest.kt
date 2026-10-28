@@ -82,6 +82,37 @@ class SettingsBackupTest {
   }
 
   @Test
+  fun everyProviderKeyStaysLocalWhenExportingAndImportingOlderOrUntrustedFiles() {
+    val keys =
+      listOf(
+        "pref_gemini_api_key",
+        "pref_ai_service_api_key",
+        "pref_ai_openai_api_key",
+        "pref_ai_claude_api_key",
+        "pref_ai_groq_api_key",
+        "pref_ai_other_api_key",
+      )
+    val editor = prefs.edit()
+    keys.forEachIndexed { index, key -> editor.putString(key, "local-$index") }
+    editor.commit()
+
+    val olderBackup = SettingsBackup.export(context)
+    keys.forEachIndexed { index, key ->
+      assertFalse(olderBackup.contains(key))
+      assertFalse(olderBackup.contains("local-$index"))
+    }
+    assertTrue(SettingsBackup.import(context, olderBackup))
+    keys.forEachIndexed { index, key -> assertEquals("local-$index", prefs.getString(key, null)) }
+
+    val incomingKeys =
+      keys.joinToString(",") { "\"$it\":{\"type\":\"string\",\"value\":\"incoming\"}" }
+    val untrustedBackup =
+      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{$incomingKeys}},"credential":{"default":{$incomingKeys}}}}"""
+    assertTrue(SettingsBackup.import(context, untrustedBackup))
+    keys.forEachIndexed { index, key -> assertEquals("local-$index", prefs.getString(key, null)) }
+  }
+
+  @Test
   fun otherFilesAreRefusedAndChangeNothing() {
     prefs.edit().putBoolean("kept", true).commit()
     assertFalse(SettingsBackup.import(context, "{}"))

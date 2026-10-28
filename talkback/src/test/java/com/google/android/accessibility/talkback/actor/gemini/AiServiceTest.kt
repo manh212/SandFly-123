@@ -60,6 +60,28 @@ class AiServiceTest {
   }
 
   @Test
+  fun finishingModelSelectionActivatesTheNewlyReadyProvider() {
+    val prefs = FakeSharedPreferences()
+    AiProvider.setActive(prefs, AiProvider.NONE)
+    AiProvider.OPENAI.setApiKey(prefs, "key")
+    AiProvider.OPENAI.setModel(prefs, "model")
+
+    AiProvider.afterSetUpChanged(prefs, AiProvider.OPENAI)
+
+    assertEquals(AiProvider.OPENAI, AiProvider.active(prefs))
+  }
+
+  @Test
+  fun modelListUrlHandlesAFullChatEndpoint() {
+    assertEquals("https://api.example/v1/models", AiModels.modelsUrl("https://api.example/v1/"))
+    assertEquals(
+      "https://api.example/v1/models",
+      AiModels.modelsUrl("https://api.example/v1/chat/completions"),
+    )
+    assertEquals("https://api.example/v1/models", AiModels.modelsUrl("https://api.example/v1/models"))
+  }
+
+  @Test
   fun aChosenServiceThatIsSetUpStaysChosen() {
     val prefs = FakeSharedPreferences()
     AiProvider.GEMINI.setApiKey(prefs, "gemini-key")

@@ -1642,6 +1642,7 @@
     <item name="edittext_breakout_copy" type="id" />
     <item name="edittext_breakout_paste" type="id" />
     <item name="edittext_breakout_select_all" type="id" />
+    <item name="edittext_breakout_clear_all" type="id" />
     <item name="edittext_breakout_granular_editing" type="id" />
     <item name="edittext_breakout_start_selection_mode" type="id" />
     <item name="edittext_breakout_end_selection_mode" type="id" />

@@ -110,6 +110,7 @@ import com.google.android.accessibility.talkback.focusmanagement.action.Navigati
 import com.google.android.accessibility.talkback.labeling.TalkBackLabelManager;
 import com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
+import com.google.android.accessibility.talkback.translation.AutoTranslationController;
 import com.google.android.accessibility.talkback.translation.LastUtteranceTranslator;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryDialog;
 import com.google.android.accessibility.talkback.translation.SpeechHistoryDialog;
@@ -482,6 +483,7 @@ class Actors {
           switch (edit.action()) {
             case SELECT_ALL -> editor.selectAll(edit.node(), eventId);
             case SELECT_SEGMENT -> editor.selectSegment(edit.node(), eventId);
+            case CLEAR_ALL -> editor.clearAll(edit.node(), eventId);
             case START_SELECT -> editor.startSelect(edit.node(), eventId);
             case END_SELECT -> editor.endSelect(edit.node(), eventId);
             case COPY -> editor.copy(edit.node(), eventId);
@@ -993,6 +995,7 @@ class Actors {
   }
 
   public void interruptAllFeedback(boolean stopTtsSpeechCompletely) {
+    AutoTranslationController.cancelPending();
     speaker.interrupt(stopTtsSpeechCompletely);
     soundAndVibration.interrupt();
   }

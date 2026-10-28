@@ -621,7 +621,16 @@ public class Compositor {
       } else if (AutoTranslationController.isEnabled()) {
         SpeakOptions translatedSpeakOptions = speakOptions;
         AutoTranslationController.translate(
-            ttsOutput, translated -> speak(translated, eventId, translatedSpeakOptions));
+            ttsOutput,
+            translated -> {
+              if (TextUtils.isEmpty(translated)) {
+                if (translatedSpeakOptions.mCompletedAction != null) {
+                  translatedSpeakOptions.mCompletedAction.run(SpeechController.STATUS_NOT_SPOKEN);
+                }
+              } else {
+                speak(translated, eventId, translatedSpeakOptions);
+              }
+            });
       } else {
         speak(ttsOutput, eventId, speakOptions);
       }

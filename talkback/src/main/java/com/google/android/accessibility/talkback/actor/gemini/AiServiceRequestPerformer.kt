@@ -23,12 +23,24 @@ import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.android.accessibility.talkback.actor.gemini.GeminiRestRequestPerformer.GeminiRestResponseCallback
+import java.util.Collections
+import java.util.IdentityHashMap
+import java.util.concurrent.atomic.AtomicReference
 import org.json.JSONException
 import org.json.JSONObject
 
 /** Sends Gemini requests to the [AiService] the user set up, as chat requests. */
-internal class AiServiceRequestPerformer(context: Context) {
-  private val requestQueue: RequestQueue = Volley.newRequestQueue(context)
+internal class AiServiceRequestPerformer(private val requestQueue: RequestQueue) {
+  constructor(context: Context) : this(Volley.newRequestQueue(context))
+  private val sessionsLock = Any()
+  private var currentSession: RequestSession? = null
+
+  private class RequestSession(val callback: GeminiRestResponseCallback) {
+    val requests: MutableSet<Request<*>> =
+      Collections.newSetFromMap(IdentityHashMap<Request<*>, Boolean>())
+    var cancelled = false
+    var finished = false
+  }
 
   fun performRequest(
     address: String,
@@ -37,18 +49,20 @@ internal class AiServiceRequestPerformer(context: Context) {
     geminiRequest: JSONObject,
     callback: GeminiRestResponseCallback,
   ) {
+    val session = startSession(callback)
     if (!AiService.isValidAddress(address)) {
-      callback.onFailure(GeminiFailure.other("The AI service address must start with https"))
+      finishFailure(session, GeminiFailure.other("The AI service address must start with https"))
       return
     }
     val chatRequest =
       try {
         AiService.toChatRequest(geminiRequest, model)
       } catch (e: JSONException) {
-        callback.onFailure(GeminiFailure.other("Could not make the request: $e"))
+        finishFailure(session, GeminiFailure.other("Could not make the request: $e"))
         return
       }
     val wantsJson = AiService.wantsJson(geminiRequest)
+    val requestReference = AtomicReference<Request<*>?>()
     val request =
       object :
         JsonObjectRequest(
@@ -56,13 +70,19 @@ internal class AiServiceRequestPerformer(context: Context) {
           AiService.chatUrl(address),
           chatRequest,
           { response ->
-            try {
-              callback.onResponse(AiService.parseChatResponse(response, wantsJson))
-            } catch (e: JSONException) {
-              callback.onFailure(GeminiFailure.other("Could not read the answer: $e"))
+            removeRequest(session, requestReference.get())
+            if (isActive(session)) {
+              try {
+                finishResponse(session, AiService.parseChatResponse(response, wantsJson))
+              } catch (e: JSONException) {
+                finishFailure(session, GeminiFailure.other("Could not read the answer: $e"))
+              }
             }
           },
-          { error -> callback.onFailure(GeminiFailure.fromVolleyError(error).fromAiService()) },
+          { error ->
+            removeRequest(session, requestReference.get())
+            finishFailure(session, GeminiFailure.fromVolleyError(error).fromAiService())
+          },
         ) {
         override fun getHeaders(): MutableMap<String, String> {
           val headers = HashMap(super.getHeaders())
@@ -73,7 +93,93 @@ internal class AiServiceRequestPerformer(context: Context) {
       }
     request.retryPolicy =
       DefaultRetryPolicy(TIMEOUT_MS, MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT)
-    requestQueue.add(request)
+    requestReference.set(request)
+    if (!trackRequest(session, request)) {
+      request.cancel()
+      return
+    }
+    try {
+      requestQueue.add(request)
+    } catch (e: RuntimeException) {
+      removeRequest(session, request)
+      finishFailure(session, GeminiFailure.other("Could not start the request: $e"))
+    }
+  }
+
+  private fun startSession(callback: GeminiRestResponseCallback): RequestSession {
+    val next = RequestSession(callback)
+    val previous = synchronized(sessionsLock) {
+      currentSession.also {
+        it?.cancelled = true
+        currentSession = next
+      }
+    }
+    cancelSession(previous)
+    return next
+  }
+
+  private fun isActive(session: RequestSession): Boolean =
+    synchronized(sessionsLock) {
+      currentSession === session && !session.cancelled && !session.finished
+    }
+
+  private fun trackRequest(session: RequestSession, request: Request<*>): Boolean =
+    synchronized(sessionsLock) {
+      if (currentSession !== session || session.cancelled || session.finished) {
+        false
+      } else {
+        session.requests.add(request)
+      }
+    }
+
+  private fun removeRequest(session: RequestSession, request: Request<*>?) {
+    if (request != null) synchronized(sessionsLock) { session.requests.remove(request) }
+  }
+
+  private fun finish(session: RequestSession): Boolean = synchronized(sessionsLock) {
+    if (currentSession !== session || session.cancelled || session.finished) {
+      false
+    } else {
+      session.finished = true
+      currentSession = null
+      true
+    }
+  }
+
+  private fun finishResponse(session: RequestSession, response: DataFieldUtils.GeminiResponse) {
+    if (finish(session)) session.callback.onResponse(response)
+  }
+
+  private fun finishFailure(session: RequestSession, failure: GeminiFailure) {
+    if (finish(session)) session.callback.onFailure(failure)
+  }
+
+  private fun cancelSession(session: RequestSession?) {
+    if (session == null) return
+    val cancellation = synchronized(sessionsLock) {
+      val notify = !session.finished
+      session.cancelled = true
+      session.finished = true
+      val requests = session.requests.toList()
+      session.requests.clear()
+      requests to notify
+    }
+    cancellation.first.forEach { it.cancel() }
+    if (cancellation.second) session.callback.onCancelled()
+  }
+
+  fun cancelExistingRequestIfNeeded() {
+    val previous = synchronized(sessionsLock) {
+      currentSession.also {
+        currentSession = null
+        it?.cancelled = true
+      }
+    }
+    cancelSession(previous)
+  }
+
+  fun hasPendingTransaction(): Boolean = synchronized(sessionsLock) {
+    currentSession?.let { !it.cancelled && !it.finished } == true
   }
 
   private companion object {

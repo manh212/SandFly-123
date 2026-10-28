@@ -23,17 +23,33 @@ class ScreenRecognitionTargetsTest {
 
   @Test fun selectsTheClickableParentOfRecognizedText() {
     val controller = ScreenRecognitionController(TalkBackService()) {}
+    val active = controller.javaClass.getDeclaredField("active").apply { isAccessible = true }
+    active.setBoolean(controller, true)
+    val generation = controller.javaClass.getDeclaredField("generation").apply { isAccessible = true }.getInt(controller)
     val root = node(Rect(0, 0, 500, 800), false)
     val button = node(Rect(10, 100, 200, 160), true)
     val label = node(Rect(30, 115, 150, 140), false)
     shadowOf(root).addChild(button)
     shadowOf(button).addChild(label)
     val find = controller.javaClass.getDeclaredMethod("findClickTarget", AccessibilityNodeInfo::class.java,
-      Rect::class.java, Int::class.javaPrimitiveType).apply { isAccessible = true }
-    val target = find.invoke(controller, root, Rect(30, 115, 150, 140), 0) as AccessibilityNodeInfo
+      Rect::class.java, Int::class.javaPrimitiveType, Long::class.javaPrimitiveType, IntArray::class.java,
+      Int::class.javaPrimitiveType).apply { isAccessible = true }
+    val target = find.invoke(controller, root, Rect(30, 115, 150, 140), 0, Long.MAX_VALUE, intArrayOf(0), generation) as AccessibilityNodeInfo
     assertEquals(button, target)
     button.isEnabled = false
-    assertNull(find.invoke(controller, root, Rect(30, 115, 150, 140), 0))
+    assertNull(find.invoke(controller, root, Rect(30, 115, 150, 140), 0, Long.MAX_VALUE, intArrayOf(0), generation))
+  }
+
+  @Test fun stoppingForPauseInvalidatesRecognitionWithoutAnnouncing() {
+    val messages = mutableListOf<String>()
+    val controller = ScreenRecognitionController(TalkBackService()) { messages.add(it) }
+    val active = controller.javaClass.getDeclaredField("active").apply { isAccessible = true }
+    active.setBoolean(controller, true)
+
+    assertTrue(controller.stopSilently())
+    assertFalse(active.getBoolean(controller))
+    assertEquals(1, controller.javaClass.getDeclaredField("generation").apply { isAccessible = true }.getInt(controller))
+    assertTrue(messages.isEmpty())
   }
 
   @Test fun tesseractKeepsScreenPixelsAndUsesTheSharedWordSplitter() {

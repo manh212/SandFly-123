@@ -212,7 +212,12 @@ class AiProviderFragment : TalkbackBaseFragment() {
           { models -> showModels(models) },
           { error ->
             val reason = (error as? IOException)?.message ?: error.javaClass.simpleName
-            Toast.makeText(context, getString(R.string.gemini_model_list_failed, reason), Toast.LENGTH_LONG).show()
+            AlertDialog.Builder(requireContext())
+              .setTitle(getString(R.string.title_pref_gemini_model_of, getString(provider.label)))
+              .setMessage(getString(R.string.gemini_model_list_failed, reason))
+              .setPositiveButton(R.string.ai_provider_enter_model) { _, _ -> askModel() }
+              .setNegativeButton(android.R.string.cancel, null)
+              .show()
           },
         )
       }
@@ -232,6 +237,7 @@ class AiProviderFragment : TalkbackBaseFragment() {
           askModel()
         } else {
           provider.setModel(prefs, models[which - 1].id)
+          AiProvider.afterSetUpChanged(prefs, provider)
           build()
         }
       }
