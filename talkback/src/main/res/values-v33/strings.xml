@@ -2,12 +2,14 @@
 <resources>
 
   <!-- Talkback service detail intro for Android T and above. [CHAR_LIMIT=NONE] -->
-  <string name="talkback_service_intro">SandFly provides spoken feedback so that you can use your device without looking at the screen. SandFly can be helpful for people who have difficulty seeing the screen.</string>
+  <string name="talkback_service_intro">Meridian provides spoken feedback so that you can use your device without looking at the screen. Meridian can be helpful for people who have difficulty seeing the screen.</string>
 
   <!--
-      Source: A html description of SandFly for Android T and above.
+      Source: A html description of Meridian for Android T and above.
       Description: This is presented in html to the user on the accessibility settings view. [CHAR_LIMIT=NONE]
     -->
-  <string name="talkback_service_html_description"><![CDATA[<b>How to use SandFly</b><br>• Swipe right or left to move between items<br>• Double-tap to activate an item<br>• Drag 2 fingers to scroll<br><br><b>How to turn off SandFly</b><br>1. In Settings, tap <b>Use SandFly</b>. There will be an outline. Double-tap it.<br>2. On the confirmation message, tap <b>Stop</b>. There will be an outline. Double-tap it.]]></string>
+  <string name="talkback_service_html_description">
+      <![CDATA[When Meridian is on, it provides spoken feedback so that you can use your device without looking at the screen. Meridian is intended for situations or people who have difficulty seeing the screen.<br><br><b>How to use Meridian</b><br>• Swipe right or left to move between items<br>• Double-tap to activate an item<br>• Drag 2 fingers to scroll<br><b>How to turn off Meridian</b><br>1. In Settings, tap <b>Use Meridian</b>. There will be an outline. Double-tap it.<br>2. On the confirmation message, tap <b>Stop</b>. There will be an outline. Double-tap it.]]>
+    </string>
 
 </resources>
