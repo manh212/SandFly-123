@@ -134,5 +134,8 @@
         <ignore regexp="task_not_downloaded" />
         <ignore regexp="task_model_incompatible" />
         <ignore regexp="task_download_confirm" />
+        <ignore regexp="meridian_intro_title" />
+        <ignore regexp="meridian_intro" />
+        <ignore regexp="meridian_contact_title" />
     </issue>
 </lint>

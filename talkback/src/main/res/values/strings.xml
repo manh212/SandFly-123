@@ -3,14 +3,14 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
 
     <!--The human-readable name of this service. Do not translate. -->
-    <string name="talkback_title" translatable="false">SandFly</string>
+    <string name="talkback_title" translatable="false">Meridian</string>
 
     <!--
       Source: A brief description of TalkBack.
       Description: This is presented to the user on the accessibility settings view. [CHAR LIMIT=NONE]
     -->
     <string name="talkback_service_description">
-      When SandFly is on, it provides spoken feedback so that you can use your device without looking at the screen. This can be helpful for people who are blind or have low vision.\n\nTo navigate using SandFly:\n•  Swipe right or left to move between items\n•  Double-tap to activate an item\n•  Drag two fingers to scroll\n\nTo turn off SandFly:\n•  Tap the switch. You’ll see an outline. Double-tap the switch.\n•  On the confirmation message, tap OK. Then double-tap OK.
+      When Meridian is on, it provides spoken feedback so that you can use your device without looking at the screen. This can be helpful for people who are blind or have low vision.\n\nTo navigate using Meridian:\n•  Swipe right or left to move between items\n•  Double-tap to activate an item\n•  Drag two fingers to scroll\n\nTo turn off Meridian:\n•  Tap the switch. You’ll see an outline. Double-tap the switch.\n•  On the confirmation message, tap OK. Then double-tap OK.
     </string>
 
     <!-- TODO: Try to remove nbsp following li. -->
@@ -19,7 +19,7 @@
       Description: This is presented in html to the user on the accessibility settings view. [CHAR_LIMIT=NONE]
     -->
     <string name="talkback_service_html_description">
-      <![CDATA[When SandFly is on, it provides spoken feedback so that you can use your device without looking at the screen. SandFly is intended for situations or people who have difficulty seeing the screen.<br><br><b>How to use SandFly</b><br>• Swipe right or left to move between items<br>• Double-tap to activate an item<br>• Drag 2 fingers to scroll<br><b>How to turn off SandFly</b><br>1. In Settings, tap <b>Use SandFly</b>. There will be an outline. Double-tap it.<br>2. On the confirmation message, tap <b>Stop</b>. There will be an outline. Double-tap it.]]>
+      <![CDATA[When Meridian is on, it provides spoken feedback so that you can use your device without looking at the screen. Meridian is intended for situations or people who have difficulty seeing the screen.<br><br><b>How to use Meridian</b><br>• Swipe right or left to move between items<br>• Double-tap to activate an item<br>• Drag 2 fingers to scroll<br><b>How to turn off Meridian</b><br>1. In Settings, tap <b>Use Meridian</b>. There will be an outline. Double-tap it.<br>2. On the confirmation message, tap <b>Stop</b>. There will be an outline. Double-tap it.]]>
     </string>
 
     <!--
@@ -32,7 +32,7 @@
       Source: Title for the activity that manages TalkBack settings.
       Description: This is presented to the user when managing TalkBack settings. [CHAR_LIMIT=NONE]
     -->
-    <string name="talkback_preferences_title">SandFly settings</string>
+    <string name="talkback_preferences_title">Meridian settings</string>
 
     <!--
       Source: Title for the activity that manages Text to speech settings.
@@ -65,7 +65,7 @@
     -->
     <string name="title_pref_voice_profiles">Voice profiles</string>
     <!-- Name of the voice profile that uses the text-to-speech settings. It can't be removed. [CHAR LIMIT=NONE] -->
-    <string name="voice_profile_default">SandFly default</string>
+    <string name="voice_profile_default">Meridian default</string>
     <!--
       Summary under Voice profiles in the text-to-speech settings, naming the voice profile in use.
       Shown only while one is, as the other text-to-speech settings then don't change how it sounds.
@@ -83,7 +83,7 @@
     -->
     <string name="speech_engine_unavailable_with_profile">Speech engine unavailable while using a voice profile</string>
     <!--
-      Item in the menu of voice profiles for the profile in use, opened from the SandFly menu, a
+      Item in the menu of voice profiles for the profile in use, opened from the Meridian menu, a
       gesture or a keyboard shortcut. [CHAR LIMIT=NONE]
     -->
     <string name="voice_profile_menu_item_in_use"><xliff:g id="name" example="Reading">%1$s</xliff:g>, in use</string>
@@ -102,7 +102,7 @@
     <!-- Name given to a new voice profile, with a number to tell it apart. [CHAR LIMIT=NONE] -->
     <string name="voice_profile_new_name">Voice profile <xliff:g id="number" example="2">%1$d</xliff:g></string>
     <!--
-      Error on the name field when the name entered is already another voice profile's, or SandFly
+      Error on the name field when the name entered is already another voice profile's, or Meridian
       default's. [CHAR LIMIT=NONE]
     -->
     <string name="voice_profile_name_taken">A voice profile is already called <xliff:g id="name" example="Reading">%1$s</xliff:g></string>
@@ -171,7 +171,7 @@
     </string-array>
     <!--
       Source: Title for the "speak long text in phrases" toggle.
-      Description: When on, SandFly sends long text to the speech engine as separate phrases. [CHAR LIMIT=NONE]
+      Description: When on, Meridian sends long text to the speech engine as separate phrases. [CHAR LIMIT=NONE]
     -->
     <string name="title_pref_speak_in_phrases">Send long text a sentence at a time</string>
     <!--
@@ -179,14 +179,14 @@
       Description: Explains what sending long text as phrases does, and why to turn it off. [CHAR LIMIT=NONE]
     -->
     <string name="summary_pref_speak_in_phrases">For speech engines that are slow to stop, such as Gryphon, so swiping away stops long text at once. Many engines pause longer between sentences sent separately, so leave this off if yours stops quickly.</string>
-    <!-- Title of the notification shown once on phones whose battery saver can stop SandFly, when battery optimization is on for it. [CHAR LIMIT=NONE] -->
-    <string name="battery_optimization_notification_title">Battery optimization can stop SandFly</string>
-    <!-- Text of the notification shown once on phones whose battery saver can stop SandFly. Tapping it opens the system list of battery optimization. [CHAR LIMIT=NONE] -->
-    <string name="battery_optimization_notification_text">On this phone, the battery saver can stop SandFly after the screen turns off, so it falls silent until it is restarted. Tap to open battery optimization, choose All apps, find SandFly and choose Don\'t optimize.</string>
+    <!-- Title of the notification shown once on phones whose battery saver can stop Meridian, when battery optimization is on for it. [CHAR LIMIT=NONE] -->
+    <string name="battery_optimization_notification_title">Battery optimization can stop Meridian</string>
+    <!-- Text of the notification shown once on phones whose battery saver can stop Meridian. Tapping it opens the system list of battery optimization. [CHAR LIMIT=NONE] -->
+    <string name="battery_optimization_notification_text">On this phone, the battery saver can stop Meridian after the screen turns off, so it falls silent until it is restarted. Tap to open battery optimization, choose All apps, find Meridian and choose Don\'t optimize.</string>
     <!-- Title of the setting that keeps speech the user did not ask for, such as notifications, quiet while another app records with the microphone. [CHAR LIMIT=NONE] -->
     <string name="title_pref_mute_speech_while_recording">Quiet while recording</string>
     <!-- Summary of the setting that keeps speech the user did not ask for quiet while another app records with the microphone. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_mute_speech_while_recording">While an app records without headphones connected, SandFly only speaks in answer to your gestures, keys and typing, and stays quiet for things such as notifications, so that they are not recorded.</string>
+    <string name="summary_pref_mute_speech_while_recording">While an app records without headphones connected, Meridian only speaks in answer to your gestures, keys and typing, and stays quiet for things such as notifications, so that they are not recorded.</string>
     <!--
       Source: Title for the "switch languages" toggle.
       Description: When on, text that an app marks as another language is spoken in that language. [CHAR LIMIT=NONE]
@@ -238,7 +238,7 @@
     <string name="manage_label">Manage label</string>
 
     <!-- A message on the label manager package summary screen when there are no packages with labels. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 305927220428084385]-->
-    <string name="label_manager_no_packages_message">There are currently no custom labels\n\n<b>How to create a custom label</b>\nNavigate to an unlabeled image and add a label from the SandFly menu</string>
+    <string name="label_manager_no_packages_message">There are currently no custom labels\n\n<b>How to create a custom label</b>\nNavigate to an unlabeled image and add a label from the Meridian menu</string>
     <!-- A label for the timestamp of when a custom label was stored or last modified. -->
     <string name="label_manager_timestamp_text">Last modified <xliff:g id="timestamp" example="1/1/11 11:11 AM">%1$s</xliff:g></string>
     <!-- Spoken when the search is canceled. -->
@@ -325,10 +325,10 @@
     -->
     <string name="value_device_unlocked">Device unlocked.</string>
 
-    <!-- Settings for what SandFly says when the screen turns off or on and when the phone is unlocked. [CHAR LIMIT=NONE] -->
+    <!-- Settings for what Meridian says when the screen turns off or on and when the phone is unlocked. [CHAR LIMIT=NONE] -->
     <string name="title_pref_screen_announcements">Screen on and off</string>
     <!-- [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_screen_announcements">Choose what SandFly says when the screen turns off or on, and when the phone is unlocked</string>
+    <string name="summary_pref_screen_announcements">Choose what Meridian says when the screen turns off or on, and when the phone is unlocked</string>
     <!-- Heading for the settings used when the screen turns off. [CHAR LIMIT=NONE] -->
     <string name="title_screen_announcements_screen_off">When the screen turns off</string>
     <!-- Heading for the settings used when the screen turns on. [CHAR LIMIT=NONE] -->
@@ -347,7 +347,7 @@
     <string name="summary_pref_announce_ringer_mode">Say when the ringer is set to vibrate or silent</string>
     <!-- Settings category for speech, sound, vibration, and the focus indicator. [CHAR LIMIT=40] -->
     <string name="title_pref_category_feedback">Feedback</string>
-    <!-- Settings category for scripts, custom labels and other apps that speak through SandFly, which change how other apps work with SandFly. [CHAR LIMIT=40] -->
+    <!-- Settings category for scripts, custom labels and other apps that speak through Meridian, which change how other apps work with Meridian. [CHAR LIMIT=40] -->
     <string name="title_pref_category_apps">Apps</string>
     <!-- Title of the settings screen for how touches focus and activate items: focus delay, lift to activate, single tap and the like. [CHAR LIMIT=40] -->
     <string name="title_pref_touch_activation">Touch and activation</string>
@@ -361,7 +361,7 @@
     <string name="title_pref_group_navigation">Navigation</string>
     <!-- Main settings group for the gesture and keyboard shortcut assignments. [CHAR LIMIT=40] -->
     <string name="title_pref_group_gestures_shortcuts">Gestures and shortcuts</string>
-    <!-- Main settings group for the SandFly menu and the reading controls. [CHAR LIMIT=40] -->
+    <!-- Main settings group for the Meridian menu and the reading controls. [CHAR LIMIT=40] -->
     <string name="title_pref_group_menu_controls">Menus and reading controls</string>
     <!-- Main settings group for typing and keyboards. [CHAR LIMIT=40] -->
     <string name="title_pref_group_typing">Typing</string>
@@ -392,30 +392,30 @@
     <string name="title_pref_cover_proximity_sensor">Cover proximity sensor to stop speech</string>
     <!-- Title of a switch in Advanced Settings on Wear OS watches. Reserves two-finger single and double taps for Samsung's Vibration Watch feature, which tells the time through vibrations. [CHAR LIMIT=NONE] -->
     <string name="title_pref_reserve_vibration_watch_gestures">Reserve gestures for Vibration Watch</string>
-    <!-- Summary of the Vibration Watch gesture switch. SandFly stops handling the two gestures; the user must separately enable Samsung's Vibration Watch feature in the watch's accessibility settings. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_reserve_vibration_watch_gestures">Stops SandFly handling two-finger single and double taps so Samsung Vibration Watch can use them. Enable Vibration Watch in your watch’s accessibility settings.</string>
-    <!-- Explanation shown instead of a gesture's assigned action when the Vibration Watch switch in Advanced Settings makes its two-finger single or double tap unavailable to SandFly. [CHAR LIMIT=NONE] -->
+    <!-- Summary of the Vibration Watch gesture switch. Meridian stops handling the two gestures; the user must separately enable Samsung's Vibration Watch feature in the watch's accessibility settings. [CHAR LIMIT=NONE] -->
+    <string name="summary_pref_reserve_vibration_watch_gestures">Stops Meridian handling two-finger single and double taps so Samsung Vibration Watch can use them. Enable Vibration Watch in your watch’s accessibility settings.</string>
+    <!-- Explanation shown instead of a gesture's assigned action when the Vibration Watch switch in Advanced Settings makes its two-finger single or double tap unavailable to Meridian. [CHAR LIMIT=NONE] -->
     <string name="shortcut_reserved_for_vibration_watch">Reserved for Vibration Watch in Advanced Settings</string>
     <!-- Title of the setting that moves calls to the speaker when the phone is away from the ear. [CHAR LIMIT=NONE] -->
     <string name="title_pref_speakerphone_away_from_ear">Speaker when away from your ear</string>
     <!-- Summary of that setting. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_speakerphone_away_from_ear">During a call, switches to the speaker when you take the phone away from your ear, and back to the earpiece when you hold it up again.</string>
-    <!-- Summary of that setting when SandFly does not have the permission. %1$s is the adb command that grants it. [CHAR LIMIT=NONE] -->
+    <!-- Summary of that setting when Meridian does not have the permission. %1$s is the adb command that grants it. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_speakerphone_needs_permission">Needs a permission that Android does not give to screen readers. To grant it, run this command with adb or Shizuku, then come back to this screen: %1$s</string>
     <!-- Action on a setting that needs a permission granted with adb. Copies the adb command to the clipboard. [CHAR LIMIT=NONE] -->
     <string name="action_copy_command">Copy command</string>
     <!-- Shown after the adb command was copied to the clipboard. [CHAR LIMIT=NONE] -->
     <string name="command_copied">Command copied</string>
-    <!-- Title of the setting that lets other apps speak through SandFly. [CHAR LIMIT=NONE] -->
+    <!-- Title of the setting that lets other apps speak through Meridian. [CHAR LIMIT=NONE] -->
     <!-- Summary of that setting. [CHAR LIMIT=NONE] -->
-    <!-- Title of the setting that plays a sound before each thing another app says through SandFly. [CHAR LIMIT=NONE] -->
-    <!-- Heading of the list of apps that asked to speak through SandFly. [CHAR LIMIT=NONE] -->
+    <!-- Title of the setting that plays a sound before each thing another app says through Meridian. [CHAR LIMIT=NONE] -->
+    <!-- Heading of the list of apps that asked to speak through Meridian. [CHAR LIMIT=NONE] -->
     <!-- Shown in that list before any app has asked to speak. [CHAR LIMIT=NONE] -->
-    <!-- Title of the notification that asks whether an app may speak through SandFly. The app's name is filled in. [CHAR LIMIT=NONE] -->
+    <!-- Title of the notification that asks whether an app may speak through Meridian. The app's name is filled in. [CHAR LIMIT=NONE] -->
     <!-- Text of that notification. [CHAR LIMIT=NONE] -->
     <!-- Button in that notification that lets the app speak. [CHAR LIMIT=30] -->
     <!-- Button in that notification that stops the app from speaking. [CHAR LIMIT=30] -->
-    <!-- Name of the permission that apps ask for to speak through SandFly, shown in the app's permission list. [CHAR LIMIT=NONE] -->
+    <!-- Name of the permission that apps ask for to speak through Meridian, shown in the app's permission list. [CHAR LIMIT=NONE] -->
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
     <!-- Description of that permission. [CHAR LIMIT=NONE] -->
 
@@ -465,21 +465,21 @@
     -->
     <string name="emoji_speech_engine">Read by speech engine</string>
     <!--
-      Source: Emoji preference choice: SandFly sends the speech engine each emoji's name. [CHAR LIMIT=45]
+      Source: Emoji preference choice: Meridian sends the speech engine each emoji's name. [CHAR LIMIT=45]
     -->
-    <string name="emoji_speech_names">Read by SandFly</string>
+    <string name="emoji_speech_names">Read by Meridian</string>
     <!--
       Source: Emoji preference choice: emoji are left out of speech. [CHAR LIMIT=45]
     -->
     <string name="emoji_speech_none">None</string>
     <!--
-      Source: Summary of the Emoji reading control, and of the Emoji item in the list of SandFly menu items. [CHAR LIMIT=NONE]
+      Source: Summary of the Emoji reading control, and of the Emoji item in the list of Meridian menu items. [CHAR LIMIT=NONE]
     -->
     <string name="summary_selector_menu_emoji">Change how emoji are read</string>
     <!--
-      Source: Spoken when the Emoji reading control or menu changes how emoji are read, like "Emoji: Read by SandFly". [CHAR LIMIT=NONE]
+      Source: Spoken when the Emoji reading control or menu changes how emoji are read, like "Emoji: Read by Meridian". [CHAR LIMIT=NONE]
     -->
-    <string name="emoji_speech_state">Emoji: <xliff:g example="Read by SandFly" id="state">%1$s</xliff:g></string>
+    <string name="emoji_speech_state">Emoji: <xliff:g example="Read by Meridian" id="state">%1$s</xliff:g></string>
     <!--
       Source: Preference for saying how many times an emoji repeats, like "3 grinning face", instead of naming it each time. [CHAR LIMIT=45]
     -->
@@ -667,7 +667,7 @@
     <!-- Category for tutorial & help. [CHAR LIMIT=40] -->
     <string name="title_pref_category_tutorial_and_help">Tutorial &#38; help</string>
     <!-- Category summary for reduce latency. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_category_reduce_latency_summary">These settings make SandFly respond faster after you touch the screen</string>
+    <string name="title_pref_category_reduce_latency_summary">These settings make Meridian respond faster after you touch the screen</string>
     <!-- Label for the reset latency settings. [CHAR LIMIT=NONE]-->
     <string name="reset_latency_settings_title">Reset all delay settings</string>
     <!-- Preference for single-tap activation. When enabled, the user can place accessibility focus on an item and activate it using a single tap, rather than the default double-tap. [CHAR LIMIT=NONE]-->
@@ -687,7 +687,7 @@
     <!-- Label for the button to launch an activity for managing TalkBack's custom view labels. [CHAR LIMIT=70] -->
     <string name="title_pref_manage_labels">Custom labels</string>
     <!-- Label for the button to launch an activity for managing TalkBack's custom menus. [CHAR LIMIT=100] -->
-    <string name="title_pref_category_context_menu">SandFly menu</string>
+    <string name="title_pref_category_context_menu">Meridian menu</string>
     <!-- Label for the button to launch an activity for managing TalkBack's custom menus. [CHAR LIMIT=100] -->
     <string name="title_pref_category_selector_menu">Reading controls</string>
     <!-- Label for the button to launch an activity for managing TalkBack's navigation options menus. [CHAR LIMIT=100] -->
@@ -706,7 +706,7 @@
     <!-- Category for assigning shortcuts to fingerprint sensor gestures. [CHAR LIMIT=40] -->
     <string name="title_pref_category_fingerprint_touch_shortcuts">Fingerprint gestures</string>
     <!-- Category for tutorial, the tutorial page contains help and feedback. [CHAR LIMIT=60] -->
-    <string name="title_pref_category_tutorial">SandFly tutorial</string>
+    <string name="title_pref_category_tutorial">Meridian tutorial</string>
     <!-- Category for helping page or feedback. [CHAR LIMIT=60] -->
     <string name="title_pref_category_help_no_tutorial">Help</string>
     <!-- Category for advanced settings. [CHAR LIMIT=60] -->
@@ -719,223 +719,223 @@
       Source: Summary subtext for showing mis-trigger prevention watermark on screen.
       Description: Explains whether to show the banner. [CHAR LIMIT=NONE]
     -->
-    <!-- Title of the switch that makes the Notifications action open SandFly's own list of notifications instead of the system's notification shade. [CHAR_LIMIT=NONE] -->
-    <string name="title_pref_notification_list">Use SandFly\'s notification list</string>
-    <!-- Title of the screen that chooses which parts of a notification SandFly's notification list speaks, and their order. [CHAR_LIMIT=NONE] -->
+    <!-- Title of the switch that makes the Notifications action open Meridian's own list of notifications instead of the system's notification shade. [CHAR_LIMIT=NONE] -->
+    <string name="title_pref_notification_list">Use Meridian\'s notification list</string>
+    <!-- Title of the screen that chooses which parts of a notification Meridian's notification list speaks, and their order. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_notification_parts">Notification details</string>
-    <!-- Title of the switch that makes Android record Google Play as having installed SandFly. [CHAR_LIMIT=NONE] -->
+    <!-- Title of the switch that makes Android record Google Play as having installed Meridian. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_play_installer">Appear installed from Google Play</string>
     <!-- Summary of that switch. [CHAR_LIMIT=NONE] -->
-    <string name="summary_pref_play_installer">Tell other apps that Google Play installed SandFly. Some apps, such as some banking apps, turn off accessibility services that were installed from anywhere else. Needs Shizuku, and changes only what apps are told about where SandFly came from.</string>
+    <string name="summary_pref_play_installer">Tell other apps that Google Play installed Meridian. Some apps, such as some banking apps, turn off accessibility services that were installed from anywhere else. Needs Shizuku, and changes only what apps are told about where Meridian came from.</string>
     <!-- Summary of that switch when it is on but Android doesn't record Google Play yet, because Shizuku isn't available. [CHAR_LIMIT=NONE] -->
-    <string name="summary_pref_play_installer_pending">On, but Google Play isn\'t recorded as the installer yet. SandFly sets it when Shizuku is available.</string>
-    <!-- A part of a notification that SandFly's notification list can speak: its title. [CHAR_LIMIT=NONE] -->
+    <string name="summary_pref_play_installer_pending">On, but Google Play isn\'t recorded as the installer yet. Meridian sets it when Shizuku is available.</string>
+    <!-- A part of a notification that Meridian's notification list can speak: its title. [CHAR_LIMIT=NONE] -->
     <string name="notification_part_title">Title</string>
-    <!-- A part of a notification that SandFly's notification list can speak: its text. [CHAR_LIMIT=NONE] -->
+    <!-- A part of a notification that Meridian's notification list can speak: its text. [CHAR_LIMIT=NONE] -->
     <string name="notification_part_text">Text</string>
-    <!-- A part of a notification that SandFly's notification list can speak: the name of the app that posted it. [CHAR_LIMIT=NONE] -->
+    <!-- A part of a notification that Meridian's notification list can speak: the name of the app that posted it. [CHAR_LIMIT=NONE] -->
     <string name="notification_part_app">App name</string>
-    <!-- A part of a notification that SandFly's notification list can speak: when it was posted. [CHAR_LIMIT=NONE] -->
+    <!-- A part of a notification that Meridian's notification list can speak: when it was posted. [CHAR_LIMIT=NONE] -->
     <string name="notification_part_time">Time</string>
-    <!-- A part of a media notification that SandFly's notification list can speak: whether its media is playing or paused. [CHAR_LIMIT=NONE] -->
+    <!-- A part of a media notification that Meridian's notification list can speak: whether its media is playing or paused. [CHAR_LIMIT=NONE] -->
     <string name="notification_part_playback">Playing or paused</string>
-    <!-- Title of SandFly's own list of notifications. [CHAR_LIMIT=NONE] -->
+    <!-- Title of Meridian's own list of notifications. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_title">Notifications</string>
-    <!-- Shown in SandFly's notification list when there are no notifications. [CHAR_LIMIT=NONE] -->
+    <!-- Shown in Meridian's notification list when there are no notifications. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_empty">No notifications</string>
-    <!-- Shown in SandFly's notification list when SandFly does not have notification access. [CHAR_LIMIT=NONE] -->
+    <!-- Shown in Meridian's notification list when Meridian does not have notification access. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_no_access">Notification access is off</string>
-    <!-- Button that opens the system setting for SandFly's notification access. [CHAR_LIMIT=NONE] -->
+    <!-- Button that opens the system setting for Meridian's notification access. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_grant_access">Turn on notification access</string>
-    <!-- Button in SandFly's notification list that opens the system's quick settings. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's notification list that opens the system's quick settings. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_quick_settings">Quick settings</string>
-    <!-- Accessibility action that removes a notification from SandFly's notification list. [CHAR_LIMIT=NONE] -->
+    <!-- Accessibility action that removes a notification from Meridian's notification list. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_dismiss">Dismiss</string>
-    <!-- Accessibility action that shows the whole text of a long notification in SandFly's notification list. [CHAR_LIMIT=NONE] -->
+    <!-- Accessibility action that shows the whole text of a long notification in Meridian's notification list. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_show_all">Show all</string>
-    <!-- Accessibility action that shortens a long notification again in SandFly's notification list. [CHAR_LIMIT=NONE] -->
+    <!-- Accessibility action that shortens a long notification again in Meridian's notification list. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_show_less">Show less</string>
-    <!-- Button in SandFly's notification list that removes every notification that can be removed. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's notification list that removes every notification that can be removed. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_clear_all">Clear all</string>
-    <!-- Button that sends a reply typed in SandFly's notification list. [CHAR_LIMIT=NONE] -->
+    <!-- Button that sends a reply typed in Meridian's notification list. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_send">Send</string>
-    <!-- State of a media notification in SandFly's notification list whose media is playing. [CHAR_LIMIT=NONE] -->
+    <!-- State of a media notification in Meridian's notification list whose media is playing. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_playing">Playing</string>
-    <!-- State of a media notification in SandFly's notification list whose media is paused. [CHAR_LIMIT=NONE] -->
+    <!-- State of a media notification in Meridian's notification list whose media is paused. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_paused">Paused</string>
-    <!-- Action on a media notification in SandFly's notification list that starts playback. [CHAR_LIMIT=NONE] -->
+    <!-- Action on a media notification in Meridian's notification list that starts playback. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_play">Play</string>
-    <!-- Action on a media notification in SandFly's notification list that pauses playback. [CHAR_LIMIT=NONE] -->
+    <!-- Action on a media notification in Meridian's notification list that pauses playback. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_pause">Pause</string>
-    <!-- Action on a media notification in SandFly's notification list that skips to the previous item. [CHAR_LIMIT=NONE] -->
+    <!-- Action on a media notification in Meridian's notification list that skips to the previous item. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_previous">Previous</string>
-    <!-- Action on a media notification in SandFly's notification list that skips to the next item. [CHAR_LIMIT=NONE] -->
+    <!-- Action on a media notification in Meridian's notification list that skips to the next item. [CHAR_LIMIT=NONE] -->
     <string name="notification_list_next">Next</string>
-    <!-- Number of notifications in a group in SandFly's notification list. [CHAR_LIMIT=NONE] -->
+    <!-- Number of notifications in a group in Meridian's notification list. [CHAR_LIMIT=NONE] -->
     <plurals name="notification_list_group_count">
         <item quantity="one">%d notification</item>
         <item quantity="other">%d notifications</item>
     </plurals>
-    <!-- Title of the switch that makes the Quick settings action open SandFly's own quick settings panel instead of the system's quick settings. [CHAR_LIMIT=NONE] -->
-    <string name="title_pref_quick_settings">Use SandFly\'s quick settings</string>
-    <!-- Title of the screen that chooses the controls and app tiles in SandFly's quick settings panel, and their order. [CHAR_LIMIT=NONE] -->
+    <!-- Title of the switch that makes the Quick settings action open Meridian's own quick settings panel instead of the system's quick settings. [CHAR_LIMIT=NONE] -->
+    <string name="title_pref_quick_settings">Use Meridian\'s quick settings</string>
+    <!-- Title of the screen that chooses the controls and app tiles in Meridian's quick settings panel, and their order. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_quick_settings_items">Quick settings panel</string>
-    <!-- Title of SandFly's own quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- Title of Meridian's own quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_title">Quick settings</string>
-    <!-- Switch in SandFly's quick settings panel that turns Wi-Fi on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns Wi-Fi on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_wifi">Wi-Fi</string>
-    <!-- Switch in SandFly's quick settings panel that turns Bluetooth on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns Bluetooth on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_bluetooth">Bluetooth</string>
-    <!-- Switch in SandFly's quick settings panel that turns mobile data on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns mobile data on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_mobile_data">Mobile data</string>
-    <!-- Switch in SandFly's quick settings panel that turns the Wi-Fi hotspot on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns the Wi-Fi hotspot on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_hotspot">Hotspot</string>
-    <!-- Switch in SandFly's quick settings panel that turns airplane mode on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns airplane mode on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_airplane_mode">Airplane mode</string>
-    <!-- Switch in SandFly's quick settings panel that turns Do Not Disturb on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns Do Not Disturb on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_do_not_disturb">Do Not Disturb</string>
-    <!-- Control in SandFly's quick settings panel that moves the ringer between sound, vibrate and mute. [CHAR_LIMIT=NONE] -->
+    <!-- Control in Meridian's quick settings panel that moves the ringer between sound, vibrate and mute. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_sound_mode">Sound mode</string>
-    <!-- Switch in SandFly's quick settings panel that turns the flashlight on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns the flashlight on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_flashlight">Flashlight</string>
-    <!-- Slider in SandFly's quick settings panel that sets how bright the flashlight is. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets how bright the flashlight is. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_flashlight_brightness">Flashlight brightness</string>
-    <!-- Switch in SandFly's quick settings panel that turns location on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns location on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_location">Location</string>
-    <!-- Switch in SandFly's quick settings panel that turns screen auto-rotation on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns screen auto-rotation on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_auto_rotate">Auto-rotate</string>
-    <!-- Switch in SandFly's quick settings panel that turns battery saver on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns battery saver on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_battery_saver">Battery saver</string>
-    <!-- Switch in SandFly's quick settings panel that turns the system's dark theme on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns the system's dark theme on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_dark_theme">Dark theme</string>
-    <!-- Switch in SandFly's quick settings panel that turns NFC on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns NFC on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_nfc">NFC</string>
-    <!-- Slider in SandFly's quick settings panel that sets the screen brightness. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the screen brightness. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_brightness">Brightness</string>
-    <!-- Switch in SandFly's quick settings panel that turns adaptive brightness on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns adaptive brightness on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_adaptive_brightness">Adaptive brightness</string>
-    <!-- Slider in SandFly's quick settings panel that sets the media volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the media volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_media_volume">Media volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the call volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the call volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_call_volume">Call volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the ring volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the ring volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_ring_volume">Ring volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the notification volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the notification volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_notification_volume">Notification volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the alarm volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the alarm volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_alarm_volume">Alarm volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the accessibility volume, which screen readers use. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the accessibility volume, which screen readers use. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_accessibility_volume">Accessibility volume</string>
-    <!-- Slider in SandFly's quick settings panel that sets the system sounds volume. [CHAR_LIMIT=NONE] -->
+    <!-- Slider in Meridian's quick settings panel that sets the system sounds volume. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_system_volume">System volume</string>
-    <!-- Switch in SandFly's quick settings panel that turns data saver on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns data saver on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_data_saver">Data saver</string>
-    <!-- Switch in SandFly's quick settings panel that turns Night Light on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns Night Light on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_night_light">Night Light</string>
-    <!-- Switch in SandFly's quick settings panel that turns Extra dim on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns Extra dim on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_extra_dim">Extra dim</string>
-    <!-- Switch in SandFly's quick settings panel that turns color inversion on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns color inversion on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_color_inversion">Color inversion</string>
-    <!-- Switch in SandFly's quick settings panel that turns color correction on or off. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that turns color correction on or off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_color_correction">Color correction</string>
-    <!-- Switch in SandFly's quick settings panel that lets apps use the microphone, or blocks it. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that lets apps use the microphone, or blocks it. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_microphone_access">Microphone access</string>
-    <!-- Switch in SandFly's quick settings panel that lets apps use the camera, or blocks it. [CHAR_LIMIT=NONE] -->
+    <!-- Switch in Meridian's quick settings panel that lets apps use the camera, or blocks it. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_camera_access">Camera access</string>
-    <!-- Control in SandFly's quick settings panel that moves between screen timeouts, such as 30 seconds. [CHAR_LIMIT=NONE] -->
+    <!-- Control in Meridian's quick settings panel that moves between screen timeouts, such as 30 seconds. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_screen_timeout">Screen timeout</string>
-    <!-- Control in SandFly's quick settings panel that moves between font sizes. [CHAR_LIMIT=NONE] -->
+    <!-- Control in Meridian's quick settings panel that moves between font sizes. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_font_size">Font size</string>
-    <!-- Item in SandFly's quick settings panel that shows what media plays, and plays or pauses it. [CHAR_LIMIT=NONE] -->
+    <!-- Item in Meridian's quick settings panel that shows what media plays, and plays or pauses it. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_media">Media</string>
-    <!-- Shown under Media in SandFly's quick settings panel when no app has media to play. [CHAR_LIMIT=NONE] -->
+    <!-- Shown under Media in Meridian's quick settings panel when no app has media to play. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_no_media">No media</string>
-    <!-- Button in SandFly's quick settings panel that opens the system's choice of device that plays media. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's quick settings panel that opens the system's choice of device that plays media. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_media_output">Media output</string>
-    <!-- Item in SandFly's quick settings panel that shows when the next alarm goes off, and opens the alarms. [CHAR_LIMIT=NONE] -->
+    <!-- Item in Meridian's quick settings panel that shows when the next alarm goes off, and opens the alarms. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_next_alarm">Next alarm</string>
-    <!-- Shown under Next alarm in SandFly's quick settings panel when no alarm is set. [CHAR_LIMIT=NONE] -->
+    <!-- Shown under Next alarm in Meridian's quick settings panel when no alarm is set. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_no_alarm">No alarm</string>
-    <!-- Button in SandFly's quick settings panel that opens the system's settings. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's quick settings panel that opens the system's settings. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_settings">Settings</string>
-    <!-- Button in SandFly's quick settings panel that opens the power menu. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's quick settings panel that opens the power menu. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_power_menu">Power menu</string>
-    <!-- Button that lists the system's own quick settings tiles, such as Hotspot, that can be added to SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- Button that lists the system's own quick settings tiles, such as Hotspot, that can be added to Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_add_system_tile">Add system tile</string>
-    <!-- Spoken when Add system tile finds no tile of the system's own that isn't in SandFly's quick settings panel already. [CHAR_LIMIT=NONE] -->
+    <!-- Spoken when Add system tile finds no tile of the system's own that isn't in Meridian's quick settings panel already. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_no_system_tiles">No system tiles to add</string>
-    <!-- Spoken when SandFly can't find a tile in the system's quick settings to use it. %1$s is the tile's name. [CHAR_LIMIT=NONE] -->
+    <!-- Spoken when Meridian can't find a tile in the system's quick settings to use it. %1$s is the tile's name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_tile_not_found">%1$s isn\'t in the system\'s quick settings</string>
-    <!-- A screen timeout in SandFly's quick settings panel: the screen never turns off by itself. [CHAR_LIMIT=NONE] -->
+    <!-- A screen timeout in Meridian's quick settings panel: the screen never turns off by itself. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_never">Never</string>
-    <!-- A screen timeout in SandFly's quick settings panel, in seconds. [CHAR_LIMIT=NONE] -->
+    <!-- A screen timeout in Meridian's quick settings panel, in seconds. [CHAR_LIMIT=NONE] -->
     <plurals name="quick_settings_seconds">
         <item quantity="one">%d second</item>
         <item quantity="other">%d seconds</item>
     </plurals>
-    <!-- A screen timeout in SandFly's quick settings panel, in minutes. [CHAR_LIMIT=NONE] -->
+    <!-- A screen timeout in Meridian's quick settings panel, in minutes. [CHAR_LIMIT=NONE] -->
     <plurals name="quick_settings_minutes">
         <item quantity="one">%d minute</item>
         <item quantity="other">%d minutes</item>
     </plurals>
-    <!-- Shown under Wi-Fi in SandFly's quick settings panel when it is connected to a network whose name Android doesn't give SandFly. [CHAR_LIMIT=NONE] -->
+    <!-- Shown under Wi-Fi in Meridian's quick settings panel when it is connected to a network whose name Android doesn't give Meridian. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_connected">Connected</string>
-    <!-- Item in SandFly's quick settings panel that shows the battery level. [CHAR_LIMIT=NONE] -->
+    <!-- Item in Meridian's quick settings panel that shows the battery level. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_battery">Battery</string>
-    <!-- Battery level while charging, in SandFly's quick settings panel. %1$s is a percentage, such as 84%. [CHAR_LIMIT=NONE] -->
+    <!-- Battery level while charging, in Meridian's quick settings panel. %1$s is a percentage, such as 84%. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_battery_charging">%1$s, charging</string>
-    <!-- Battery level when fully charged, in SandFly's quick settings panel. %1$s is a percentage, such as 100%. [CHAR_LIMIT=NONE] -->
+    <!-- Battery level when fully charged, in Meridian's quick settings panel. %1$s is a percentage, such as 100%. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_battery_full">%1$s, charged</string>
-    <!-- Sound mode in SandFly's quick settings panel: the phone rings. [CHAR_LIMIT=NONE] -->
+    <!-- Sound mode in Meridian's quick settings panel: the phone rings. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_sound">Sound</string>
-    <!-- Sound mode in SandFly's quick settings panel: the phone vibrates instead of ringing. [CHAR_LIMIT=NONE] -->
+    <!-- Sound mode in Meridian's quick settings panel: the phone vibrates instead of ringing. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_vibrate">Vibrate</string>
-    <!-- Sound mode in SandFly's quick settings panel: the phone neither rings nor vibrates. [CHAR_LIMIT=NONE] -->
+    <!-- Sound mode in Meridian's quick settings panel: the phone neither rings nor vibrates. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_mute">Mute</string>
-    <!-- State of a switch or tile in SandFly's quick settings panel that is on. [CHAR_LIMIT=NONE] -->
+    <!-- State of a switch or tile in Meridian's quick settings panel that is on. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_on">On</string>
-    <!-- State of a switch or tile in SandFly's quick settings panel that is off. [CHAR_LIMIT=NONE] -->
+    <!-- State of a switch or tile in Meridian's quick settings panel that is off. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_off">Off</string>
-    <!-- State of an app's tile in SandFly's quick settings panel that cannot be used now. [CHAR_LIMIT=NONE] -->
+    <!-- State of an app's tile in Meridian's quick settings panel that cannot be used now. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_unavailable">Unavailable</string>
-    <!-- Button in SandFly's quick settings panel that opens the screen that chooses what the panel shows. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's quick settings panel that opens the screen that chooses what the panel shows. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_edit">Edit</string>
-    <!-- Button in SandFly's quick settings panel that opens the system's quick settings. [CHAR_LIMIT=NONE] -->
+    <!-- Button in Meridian's quick settings panel that opens the system's quick settings. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_system">System quick settings</string>
-    <!-- Accessibility action (long press) on an item in SandFly's quick settings panel that opens the system's settings for it. [CHAR_LIMIT=NONE] -->
+    <!-- Accessibility action (long press) on an item in Meridian's quick settings panel that opens the system's settings for it. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_open_settings">Open settings</string>
-    <!-- Button that lists the controls that can be added to SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- Button that lists the controls that can be added to Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_add_control">Add control</string>
-    <!-- Button that lists the quick settings tiles of installed apps that can be added to SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- Button that lists the quick settings tiles of installed apps that can be added to Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_add_tile">Add app tile</string>
     <!-- An app's tile in a list. %1$s is the tile's name, %2$s the app's name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_tile_name">%1$s, %2$s</string>
-    <!-- Setting in the editor of SandFly's quick settings panel: how many columns its grid has. [CHAR_LIMIT=NONE] -->
+    <!-- Setting in the editor of Meridian's quick settings panel: how many columns its grid has. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_columns">Columns</string>
-    <!-- Action that lists the cells of SandFly's quick settings panel to move an item to one of them. [CHAR_LIMIT=NONE] -->
+    <!-- Action that lists the cells of Meridian's quick settings panel to move an item to one of them. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_move">Move</string>
-    <!-- Title of the list of cells to move an item to in SandFly's quick settings panel. %1$s is the item's name. [CHAR_LIMIT=NONE] -->
+    <!-- Title of the list of cells to move an item to in Meridian's quick settings panel. %1$s is the item's name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_move_title">Move %1$s</string>
-    <!-- A cell of the grid of SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- A cell of the grid of Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_cell">Row %1$d, column %2$d</string>
-    <!-- A cell of SandFly's quick settings panel in the list of cells to move an item to. %1$s is the cell, such as "Row 2, column 1", %2$s the item in it. [CHAR_LIMIT=NONE] -->
+    <!-- A cell of Meridian's quick settings panel in the list of cells to move an item to. %1$s is the cell, such as "Row 2, column 1", %2$s the item in it. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_cell_with_item">%1$s, %2$s</string>
-    <!-- An item's cell and how many other items moved to make room, said by an item just moved in SandFly's quick settings panel. %1$s is the cell, such as "Row 2, column 1", %2$s how many moved. [CHAR_LIMIT=NONE] -->
+    <!-- An item's cell and how many other items moved to make room, said by an item just moved in Meridian's quick settings panel. %1$s is the cell, such as "Row 2, column 1", %2$s how many moved. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_moved_and_displaced">%1$s. %2$s</string>
-    <!-- How many other items moved one cell to make room for an item moved in SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- How many other items moved one cell to make room for an item moved in Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <plurals name="quick_settings_others_moved">
         <item quantity="one">%d other item moved</item>
         <item quantity="other">%d other items moved</item>
     </plurals>
-    <!-- Action that removes an item from SandFly's quick settings panel. [CHAR_LIMIT=NONE] -->
+    <!-- Action that removes an item from Meridian's quick settings panel. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_remove">Remove</string>
-    <!-- Spoken after an item is added to SandFly's quick settings panel. %1$s is its name. [CHAR_LIMIT=NONE] -->
+    <!-- Spoken after an item is added to Meridian's quick settings panel. %1$s is its name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_added">%1$s added</string>
-    <!-- Spoken after an item is removed from SandFly's quick settings panel. %1$s is its name. [CHAR_LIMIT=NONE] -->
+    <!-- Spoken after an item is removed from Meridian's quick settings panel. %1$s is its name. [CHAR_LIMIT=NONE] -->
     <string name="quick_settings_removed">%1$s removed</string>
     <!-- The text of TalkBack mis-trigger-prevention watermark. [CHAR_LIMIT=NONE]-->
     <!-- The hint text of TalkBack mis-trigger-prevention watermark. [CHAR_LIMIT=NONE]-->
-    <!-- The text of the SandFly-on banner when no 3-finger tap opens the SandFly menu. [CHAR_LIMIT=NONE]-->
+    <!-- The text of the Meridian-on banner when no 3-finger tap opens the Meridian menu. [CHAR_LIMIT=NONE]-->
 
     <!-- Label for the reset gesture settings. [CHAR_LIMIT=66] -->
     <string name="reset_gesture_settings_title">Reset gesture settings</string>
@@ -974,7 +974,7 @@
 
     <!-- Keyboard key map changes items. -->
     <!-- TalkBack keyboard shortcut keymap changes. The title for Activity and Notification to notify user there is another keymap support more shortcut actions worth to try. [CHAR LIMIT=60] -->
-    <string name="keycombo_keymap_changes_instruction_title">Update your SandFly keymap</string>
+    <string name="keycombo_keymap_changes_instruction_title">Update your Meridian keymap</string>
     <!-- TalkBack keyboard shortcut keymap changes. The content for Activity and Notification to notify user there is another keymap support more shortcut actions worth to try. [CHAR LIMIT=200] -->
     <string name="keycombo_keymap_changes_activity_content"><![CDATA[To keep using keyboard shortcuts, go to Settings and switch from the classic keymap to the default keymap.
       <br><br><b>What\'s different about the default keymap?</b>
@@ -995,12 +995,12 @@
     <!-- Title of the dialog to notify classic keymap users. [CHAR LIMIT=60] -->
     <string name="keycombo_new_keymap_notification_dialog_title_for_classic_keymap">Classic keymap is no longer supported</string>
     <!-- Message of the dialog to notify classic keymap users. [CHAR LIMIT=200] -->
-    <string name="keycombo_new_keymap_notification_dialog_message_for_classic_keymap">You\'re now using the SandFly default keymap. There is also a new enhanced keymap that has many new commands. Learn more in the help center or switch to the new keymap in Settings.</string>
+    <string name="keycombo_new_keymap_notification_dialog_message_for_classic_keymap">You\'re now using the Meridian default keymap. There is also a new enhanced keymap that has many new commands. Learn more in the help center or switch to the new keymap in Settings.</string>
     <!-- Keyboard new key map notification dialog for default keymap users. -->
     <!-- Title of the dialog to notify default keymap users. [CHAR LIMIT=60] -->
     <string name="keycombo_new_keymap_notification_dialog_title_for_default_keymap">New keymap available</string>
     <!-- Message of the dialog to notify default keymap users. [CHAR LIMIT=200] -->
-    <string name="keycombo_new_keymap_notification_dialog_message_for_default_keymap">The new SandFly enhanced keymap adds many new commands. Learn more in the help center or switch to the new keymap in Settings.</string>
+    <string name="keycombo_new_keymap_notification_dialog_message_for_default_keymap">The new Meridian enhanced keymap adds many new commands. Learn more in the help center or switch to the new keymap in Settings.</string>
     <!-- TalkBack keyboard update modifier key dialog. -->
     <!-- Content description of an icon to open TalkBack keyboard update modifier key dialog. [CHAR LIMIT=80] -->
     <string name="keycombo_warning_content_description">More information about your modifier key</string>
@@ -1019,7 +1019,7 @@
     <!-- Title of alert dialog to reset keymap for changing trigger modifier [CHAR LIMIT=60] -->
     <string name="keycombo_menu_alert_title_trigger_modifier">Use <xliff:g id="new_trigger_modifier" example="Action">%1$s</xliff:g> as your modifier key?</string>
     <!-- Message of alert dialog to reset keymap for changing trigger modifier [CHAR LIMIT=200] -->
-    <string name="keycombo_menu_alert_message_trigger_modifier">SandFly currently uses <xliff:g id="current_trigger_modifier" example="Alt">%1$s</xliff:g> as the modifier key.</string>
+    <string name="keycombo_menu_alert_message_trigger_modifier">Meridian currently uses <xliff:g id="current_trigger_modifier" example="Alt">%1$s</xliff:g> as the modifier key.</string>
     <!-- Button of alert dialog to reset keymap for changing trigger modifier [CHAR LIMIT=40] -->
     <string name="keycombo_menu_alert_button_trigger_modifier">Use <xliff:g id="new_trigger_modifier" example="Action">%1$s</xliff:g></string>
     <!-- Announce that modifier key is changed -->
@@ -1162,7 +1162,7 @@
     <string name="keycombo_menu_other_show_table_list">Show tables list</string>
     <!-- Keyboard key combination assignment for Show TalkBack Menu action
     TalkBack menu actions are related to whole application [CHAR LIMIT=130] [BACKUP_MESSAGE_ID: 8053375494161376217] -->
-    <string name="keycombo_menu_other_talkback_context_menu">Show SandFly menu</string>
+    <string name="keycombo_menu_other_talkback_context_menu">Show Meridian menu</string>
     <!-- Keyboard key combination assignment for opening the list of custom actions [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_custom_actions">Show actions</string>
     <!-- Keyboard key combination assignment for opening the list of TTS languages installed by the user. [CHAR LIMIT=60] -->
@@ -1175,7 +1175,7 @@
     <!-- Keyboard key combination assignment for opening the TTS settings. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_open_tts_settings">Open text-to-speech settings</string>
     <!-- Keyboard key combination assignment for opening TalkBack settings. [CHAR LIMIT=60] -->
-    <string name="keycombo_menu_other_open_talkback_settings">Open SandFly settings</string>
+    <string name="keycombo_menu_other_open_talkback_settings">Open Meridian settings</string>
     <!-- Keyboard key combination assignment for opening the Tutorial page. [CHAR LIMIT=60] -->
     <string name="keycombo_menu_other_show_tutorial" translatable="false">@string/shortcut_show_tutorial</string>
     <!-- Keyboard key combination assignment for cycling among the available character/word echo levels when typing. [CHAR LIMIT=60] -->
@@ -1389,7 +1389,7 @@
       Source: Summary subtext for the "Reduce latency" setting.
       Description: go to a sub-page which contains settings for TalkBack latency. [CHAR LIMIT=NONE]
     -->
-    <string name="talkback_latency_reduction_summary">Make SandFly respond faster after you touch the screen</string>
+    <string name="talkback_latency_reduction_summary">Make Meridian respond faster after you touch the screen</string>
     <!--
       Source: Summary subtext for the "Use pitch changes" setting.
       Description: Explains that feedback from the keyboard, e.g. when a user deletes an "A" and the phone speaks "A deleted", will be spoken in a higer pitched voice. [CHAR LIMIT=NONE]
@@ -1405,7 +1405,7 @@
       Description: The user can check or not check this. [CHAR LIMIT=25]
     -->
     <string name="title_pref_vibration">Vibration feedback</string>
-    <!-- Title of the slider that sets how strong SandFly's vibrations are, in percent. [CHAR LIMIT=40] -->
+    <!-- Title of the slider that sets how strong Meridian's vibrations are, in percent. [CHAR LIMIT=40] -->
     <string name="title_pref_vibration_strength">Vibration strength</string>
     <!--
       Source: Preference for whether to provide sound feedback in response to system events.
@@ -1431,7 +1431,7 @@
       Source: Dialog title when choosing the audio output device.
       Description: Dialog title for selecting audio output target. [CHAR LIMIT=45]
     -->
-    <string name="dialog_title_audio_output_device">Choose where to play SandFly sound</string>
+    <string name="dialog_title_audio_output_device">Choose where to play Meridian sound</string>
     <!--
       Source: Entry in the audio output device list for using system default.
       Description: Follows Android system default audio routing. [CHAR LIMIT=30]
@@ -1477,7 +1477,7 @@
       Description: Fallback name for USB audio device. [CHAR LIMIT=30]
     -->
     <string name="value_audio_output_device_usb_device">USB audio device</string>
-    <!-- Title of the setting that lists the Bluetooth, wired and USB outputs, such as a Bluetooth speaker, that move SandFly's audio to the phone speaker while they are connected. [CHAR LIMIT=NONE] -->
+    <!-- Title of the setting that lists the Bluetooth, wired and USB outputs, such as a Bluetooth speaker, that move Meridian's audio to the phone speaker while they are connected. [CHAR LIMIT=NONE] -->
     <string name="title_pref_speaker_devices">Phone speaker with these devices</string>
     <!-- Summary of the phone speaker devices setting when no output is chosen. [CHAR LIMIT=NONE] -->
     <string name="summary_pref_speaker_devices_none">None</string>
@@ -1504,8 +1504,8 @@
       Description: This preference reduces window title announcement delay.
     -->
     <string name="pref_reduce_window_delay_title">Turn off animations</string>
-    <!-- Summary of the setting that turns off animations so that SandFly reads new screens faster. [CHAR LIMIT=NONE] -->
-    <string name="pref_reduce_window_delay_summary">SandFly reads new screens faster when animations are off. This turns off animations for the whole phone.</string>
+    <!-- Summary of the setting that turns off animations so that Meridian reads new screens faster. [CHAR LIMIT=NONE] -->
+    <string name="pref_reduce_window_delay_summary">Meridian reads new screens faster when animations are off. This turns off animations for the whole phone.</string>
 
     <!--
       Source: Preference title.
@@ -1524,17 +1524,17 @@
     <string name="title_pref_diagnosis_mode">Diagnosis mode</string>
     <!--
       Source: Preference title.
-      Description: This preference opens the screen that exports SandFly's diagnostics.
+      Description: This preference opens the screen that exports Meridian's diagnostics.
     -->
     <string name="title_pref_export_diagnostics">Export diagnostics</string>
     <!--
       Source: Preference title.
-      Description: This preference saves SandFly's diagnostics as a file in Downloads.
+      Description: This preference saves Meridian's diagnostics as a file in Downloads.
     -->
     <string name="title_pref_export_diagnostics_to_downloads">Export log to Downloads</string>
     <!--
       Source: Preference title.
-      Description: This preference copies SandFly's diagnostics to the clipboard.
+      Description: This preference copies Meridian's diagnostics to the clipboard.
     -->
     <string name="title_pref_copy_diagnostics">Copy log</string>
     <!-- Message shown when the diagnostics file has been saved to Downloads. [CHAR LIMIT=NONE] -->
@@ -1609,7 +1609,7 @@
       Source: Message for the preference that allows user to type focus latency.
       Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
      -->
-    <string name="message_pref_touch_explore_latency">A shorter delay makes SandFly speak sooner after you touch the keyboard.\n\nChoose a delay</string>
+    <string name="message_pref_touch_explore_latency">A shorter delay makes Meridian speak sooner after you touch the keyboard.\n\nChoose a delay</string>
     <!--
       Source: Preference title.
       Description: This preference that shows current touch focus time out to exploration. [CHAR_LIMIT=35]
@@ -1669,7 +1669,7 @@
   Source: Preference title.
   Description: This preference to download icon detection module and enable/disable the feature. [CHAR_LIMIT=NONE]
 -->
-  <string name="title_pref_category_automatic_description_summary">Get detailed AI image descriptions when you select \“Describe image\” from the SandFly menu.\n\nYou can also get automatic descriptions when you focus on an image or icon. Automatic descriptions work without an internet connection.
+  <string name="title_pref_category_automatic_description_summary">Get detailed AI image descriptions when you select \“Describe image\” from the Meridian menu.\n\nYou can also get automatic descriptions when you focus on an image or icon. Automatic descriptions work without an internet connection.
 </string>
 
   <!--
@@ -1811,7 +1811,7 @@
   -->
   <string name="title_pref_disable_auto_icon_detection">Don\'t describe icons</string>
   <!-- Message for dialog shown when a user wants to enable detailed image description. [CHAR LIMIT=NONE]  -->
-  <string name="dialog_message_detailed_ai_promotion">Detailed image descriptions are powered by generative AI. Selected images are sent to Google\'s Gemini API to be described. With On-device AI turned on, they\'re described on this phone instead and aren\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. You can turn off detailed image descriptions anytime in SandFly settings.\n\nThe <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>
+  <string name="dialog_message_detailed_ai_promotion">Detailed image descriptions are powered by generative AI. Selected images are sent to Google\'s Gemini API to be described. With On-device AI turned on, they\'re described on this phone instead and aren\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. You can turn off detailed image descriptions anytime in Meridian settings.\n\nThe <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>
 
   <!-- Message for dialog shown when a user wants to enable screen description. [CHAR LIMIT=NONE]  -->
   <string name="dialog_message_screen_overview_promotion">A screenshot of the screen is sent to Google\'s Gemini API to be described, which takes several seconds. With On-device AI turned on, it\'s described on this phone instead and isn\'t sent.\n\nWith a free API key, Google may keep what it receives, use it to improve its products, and have people review it. Generative AI is experimental, so it will make mistakes. The <xliff:g id="Gemini API terms" example="Gemini API Additional Terms of Service">%1$s</xliff:g> apply.</string>
@@ -1855,11 +1855,11 @@
     <!--
       Text that is temporary displayed on the screen when user chose screen dimming option. [CHAR_LIMIT=NONE]
     -->
-    <string name="screen_dimming_exit_instruction_line1">SandFly accessibility service has hidden the screen</string>
+    <string name="screen_dimming_exit_instruction_line1">Meridian accessibility service has hidden the screen</string>
     <!--
       Text that is temporary displayed on the screen for showing the screen from hidden mode. [CHAR_LIMIT=NONE]
     -->
-    <string name="screen_dimming_exit_instruction_line2">To change this, <xliff:g id="gesture" example="tap with 3 fingers">%1$s</xliff:g> to open the SandFly menu, select \"<xliff:g id="menu item" example="show screen">%2$s</xliff:g>\", then double-tap.</string>
+    <string name="screen_dimming_exit_instruction_line2">To change this, <xliff:g id="gesture" example="tap with 3 fingers">%1$s</xliff:g> to open the Meridian menu, select \"<xliff:g id="menu item" example="show screen">%2$s</xliff:g>\", then double-tap.</string>
 
     <!-- Category for shortcuts related to basic navigation. [CHAR_LIMIT=40] -->
     <string name="shortcut_title_basic_navigation">Basic Navigation</string>
@@ -1926,11 +1926,11 @@
     <string name="shortcut_overview">Overview</string>
     <!-- Label for the shortcut that opens the notifications shade. [CHAR_LIMIT=40] -->
     <string name="shortcut_notifications">Notifications</string>
-    <!-- Label for the shortcut that opens the system's notification shade, even when the Notifications shortcut opens SandFly's own notification list. [CHAR_LIMIT=40] -->
+    <!-- Label for the shortcut that opens the system's notification shade, even when the Notifications shortcut opens Meridian's own notification list. [CHAR_LIMIT=40] -->
     <string name="shortcut_system_notifications">System notification shade</string>
     <!-- Label for the shortcut that opens the quick settings. [CHAR_LIMIT=50] -->
     <string name="shortcut_quick_settings">Quick Settings</string>
-    <!-- Label for the shortcut that opens the system's quick settings, even when the Quick Settings shortcut opens SandFly's own quick settings panel. [CHAR_LIMIT=40] -->
+    <!-- Label for the shortcut that opens the system's quick settings, even when the Quick Settings shortcut opens Meridian's own quick settings panel. [CHAR_LIMIT=40] -->
     <string name="shortcut_system_quick_settings">System quick settings</string>
     <!-- Label for the shortcut that locks the screen. [CHAR_LIMIT=40] -->
     <string name="shortcut_lock_screen">Lock screen</string>
@@ -1939,7 +1939,7 @@
     <!-- Label for the shortcut that opens the custom action menu. [CHAR_LIMIT=40] -->
     <string name="shortcut_show_custom_actions">Show custom actions</string>
     <!-- Label for the shortcut that opens the TalkBack context breakout menu [CHAR_LIMIT=100] -->
-    <string name="shortcut_talkback_breakout">Open SandFly menu</string>
+    <string name="shortcut_talkback_breakout">Open Meridian menu</string>
     <!-- Label for the shortcut that pauses all feedback from TalkBack. [CHAR_LIMIT=69] -->
     <string name="shortcut_pause_or_resume_feedback">Pause or resume speech</string>
     <!-- Label for the shortcut that toggle voice feedback from TalkBack. [CHAR_LIMIT=72] -->
@@ -1983,13 +1983,13 @@
     <!-- Label for the shortcut that performs long click on focused item action. [CHAR_LIMIT=60] -->
     <string name="shortcut_perform_long_click_action">Touch and hold</string>
     <!-- Title for dialog with general TalkBack actions and focused node actions [CHAR_LIMIT=40] -->
-    <string name="talkback_menu_title">SandFly menu</string>
+    <string name="talkback_menu_title">Meridian menu</string>
     <!-- Text of TalkBack menu Close button. [CHAR_LIMIT=40] -->
     <string name="talkback_menu_close_button_text">@string/close_string</string>
     <!-- Text of TalkBack menu more options. [CHAR_LIMIT=NONE] -->
     <string name="talkback_menu_more_options_text">More menu options are available after you finish setup or unlock your device</string>
   <!-- Title content description for dialog with general TalkBack actions and focused node actions [CHAR_LIMIT=200] -->
-  <string name="talkback_menu_title_content_description">SandFly menu. Swipe right to explore options in the SandFly menu.\n\nTo go back to the tutorial, use 2 fingers to swipe left or right from the edge of your screen.</string>
+  <string name="talkback_menu_title_content_description">Meridian menu. Swipe right to explore options in the Meridian menu.\n\nTo go back to the tutorial, use 2 fingers to swipe left or right from the edge of your screen.</string>
   <!-- Label for the shortcut that opens the language option menu. [CHAR_LIMIT=40] -->
   <string name="shortcut_show_language_options">Change spoken language</string>
   <!--Label for the shortcut that selects the next setting [CHAR_LIMIT=100]-->
@@ -2193,7 +2193,7 @@
     <!-- Label for the context menu containing keyboard shortcuts. [CHAR_LIMIT=100] -->
     <string name="title_show_keyboard_shortcuts">Keyboard shortcuts</string>
     <!-- Label for the context menu containing TalkBack settings. [CHAR_LIMIT=70] -->
-    <string name="talkback_show_talkback_settings">SandFly settings</string>
+    <string name="talkback_show_talkback_settings">Meridian settings</string>
 
     <!-- Label for the navigation menu containing default granularity. [CHAR_LIMIT=100] -->
     <string name="title_granularity_default">Default navigation</string>
@@ -2242,17 +2242,17 @@
     <!-- Summary for the menu item that lets the user change the read from cursor position. [CHAR_LIMIT=NONE] -->
     <string name="summary_read_from_current">Starting from the focused item, read all items on the screen</string>
     <!-- Summary for the menu item that lets the user copies the last spoken phrase. [CHAR_LIMIT=NONE] -->
-    <string name="summary_copy_last_spoken_phrase">Copy the last phrase SandFly said to the clipboard so you can paste the text</string>
+    <string name="summary_copy_last_spoken_phrase">Copy the last phrase Meridian said to the clipboard so you can paste the text</string>
     <!-- Summary for the menu item that lets the user spells the last spoken phrase. [CHAR_LIMIT=NONE] -->
-    <string name="summary_spell_last_spoken_phrase">Spell each letter of the last phrase that SandFly said</string>
+    <string name="summary_spell_last_spoken_phrase">Spell each letter of the last phrase that Meridian said</string>
     <!-- Summary for the menu item that lets the user repeats the last spoken phrase. [CHAR_LIMIT=NONE] -->
-    <string name="summary_repeat_last_spoken_phrase">Hear the last phrase that SandFly said again</string>
+    <string name="summary_repeat_last_spoken_phrase">Hear the last phrase that Meridian said again</string>
     <!-- Summary for the menu item that lets the user translate the last spoken phrase. [CHAR_LIMIT=NONE] -->
-    <string name="summary_translate_last_spoken_phrase">Translate the last phrase that SandFly said</string>
+    <string name="summary_translate_last_spoken_phrase">Translate the last phrase that Meridian said</string>
     <!-- Summary for user to performs screen search keyword. [CHAR_LIMIT=NONE] -->
     <string name="summary_perform_screen_search">Enter a search term to find that text on the screen</string>
     <!-- Summary for user to control TalkBack by voice. [CHAR_LIMIT=NONE] -->
-    <string name="summary_voice_commands">Control SandFly with your voice</string>
+    <string name="summary_voice_commands">Control Meridian with your voice</string>
     <!-- Summary for the context menu containing show or hide screen. [CHAR_LIMIT=NONE] -->
     <string name="summary_show_hide_screen">Hide the display so your screen is not visible to others in public places. After hiding your screen, return it to a normal state.</string>
     <!-- Summary for user to control speaking time while waking up the device. [CHAR_LIMIT=NONE] -->
@@ -2260,7 +2260,7 @@
     <!-- Summary for the menu item that open TalkBack keyboard shortcuts dialog. [CHAR_LIMIT=NONE] -->
     <string name="summary_show_keyboard_shortcuts_preferences">Open list of keyboard shortcuts</string>
     <!-- Summary for the activity that manages TalkBack settings. [CHAR_LIMIT=NONE] -->
-    <string name="summary_talkback_preferences">Open SandFly settings</string>
+    <string name="summary_talkback_preferences">Open Meridian settings</string>
     <!-- Summary for the menu item that opens the dialog with system actions available on device from R. [CHAR_LIMIT=NONE] -->
     <string name="summary_system_actions">Go to all apps and Quick Settings</string>
     <!-- Summary for user to adjust Text to Speech settings. [CHAR_LIMIT=NONE] -->
@@ -2340,7 +2340,7 @@
     <!-- Summary for the navigation options menu containing default granularity. [CHAR_LIMIT=NONE] -->
     <string name="summary_granularity_default">Read one item at a time</string>
     <!-- Summary for the quick menu containing speech rate. [CHAR_LIMIT=70] -->
-    <string name="summary_speech_rate">Change how quickly SandFly speaks</string>
+    <string name="summary_speech_rate">Change how quickly Meridian speaks</string>
     <!-- Summary for the quick menu containing verbosity. [CHAR_LIMIT=70] -->
     <string name="summary_selector_menu_verbosity">Change whether keys, usage hints, and more are read aloud</string>
     <!-- Summary for the quick menu containing punctuation. [CHAR_LIMIT=70] -->
@@ -2354,7 +2354,7 @@
     <!-- Summary for the quick menu containing hide screen. [CHAR_LIMIT=70] -->
     <string name="summary_hide_screen">Hide the display so your screen isn\'t visible to others</string>
     <!-- Summary for the quick menu containing audio ducking. [CHAR_LIMIT=70] -->
-    <string name="summary_audio_ducking">Lower volume of other audio playing when SandFly speaks</string>
+    <string name="summary_audio_ducking">Lower volume of other audio playing when Meridian speaks</string>
     <!-- Summary for the quick menu containing scrolling. [CHAR_LIMIT=NONE] -->
     <string name="summary_support_scroll_seq">Scroll forward or backward</string>
     <!-- Summary for the quick menu containing Accessibility volume change. [CHAR_LIMIT=70] -->
@@ -2374,7 +2374,7 @@
     <!-- Summary for the menu item to provide spelling suggestion for the misspelled word. [CHAR_LIMIT=70] -->
     <string name="summary_typo_suggestions">Shows when the cursor is on a typo</string>
 
-    <string name="summary_cache_keyboard_keys">SandFly pre-loads announcements to reduce delay when you type</string>
+    <string name="summary_cache_keyboard_keys">Meridian pre-loads announcements to reduce delay when you type</string>
     <string name="summary_cache_keyboard_keys_disabled">Use Google Text-to-Speech to use this feature</string>
 
 
@@ -2623,7 +2623,7 @@
     <!-- Reduce delays: switch that plays sounds and speech through the fastest audio path. [CHAR LIMIT=50] -->
     <string name="title_pref_low_latency_audio">Low-latency audio</string>
     <!-- Reduce delays: summary of the low-latency audio switch. [CHAR LIMIT=NONE] -->
-    <string name="summary_pref_low_latency_audio">Play SandFly\'s sounds and speech through the phone\'s fastest audio path, so you hear them sooner. Turn it off if speech or sounds break up or sound wrong.</string>
+    <string name="summary_pref_low_latency_audio">Play Meridian\'s sounds and speech through the phone\'s fastest audio path, so you hear them sooner. Turn it off if speech or sounds break up or sound wrong.</string>
 
     <!-- Reduce delays: switch that makes new speech interrupt the speech in progress. [CHAR LIMIT=50] -->
     <string name="title_pref_always_interrupt_speech">Always interrupt speech</string>
@@ -2684,18 +2684,18 @@
     <string name="title_collapse_menu_not_available">Not available</string>
     <!-- Title of the setting that notices when touch exploration stops responding because of an Android bug, and fixes it. [CHAR LIMIT=NONE]-->
     <string name="title_pref_fix_stuck_touch_exploration">Fix stuck touch exploration</string>
-    <!-- Summary of the fix stuck touch exploration setting while SandFly doesn't have the DUMP permission. Leave "DUMP" and the command untranslated. [CHAR LIMIT=NONE]-->
-    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Without the DUMP permission, SandFly can only say that touch exploration may be stuck. To let it fix it, run: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
-    <!-- Spoken before SandFly briefly turns explore by touch off to fix stuck touch exploration. [CHAR LIMIT=NONE]-->
+    <!-- Summary of the fix stuck touch exploration setting while Meridian doesn't have the DUMP permission. Leave "DUMP" and the command untranslated. [CHAR LIMIT=NONE]-->
+    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Without the DUMP permission, Meridian can only say that touch exploration may be stuck. To let it fix it, run: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
+    <!-- Spoken before Meridian briefly turns explore by touch off to fix stuck touch exploration. [CHAR LIMIT=NONE]-->
     <string name="stuck_touch_exploration_fixing">Fixing touch exploration</string>
-    <!-- Spoken when SandFly has fixed stuck touch exploration. [CHAR LIMIT=NONE]-->
+    <!-- Spoken when Meridian has fixed stuck touch exploration. [CHAR LIMIT=NONE]-->
     <string name="stuck_touch_exploration_fixed">Touch exploration fixed</string>
-    <!-- Spoken when SandFly tried to fix stuck touch exploration and it is still stuck. [CHAR LIMIT=NONE]-->
+    <!-- Spoken when Meridian tried to fix stuck touch exploration and it is still stuck. [CHAR LIMIT=NONE]-->
     <string name="stuck_touch_exploration_not_fixed">Touch exploration is still stuck. Restart the phone to fix it.</string>
-    <!-- Spoken when touch exploration seems to have stopped and SandFly can't fix it on this phone. [CHAR LIMIT=NONE]-->
+    <!-- Spoken when touch exploration seems to have stopped and Meridian can't fix it on this phone. [CHAR LIMIT=NONE]-->
     <string name="stuck_touch_exploration_restart">Touch exploration may be stuck. Restart the phone to fix it.</string>
-    <!-- Spoken when touch exploration seems to have stopped and SandFly needs the DUMP permission, granted with ADB, to fix it. Leave "DUMP" and "ADB" untranslated. [CHAR LIMIT=NONE]-->
-    <string name="stuck_touch_exploration_grant_dump">Touch exploration may be stuck. Restart the phone to fix it, or grant SandFly the DUMP permission with ADB so that it can fix it.</string>
+    <!-- Spoken when touch exploration seems to have stopped and Meridian needs the DUMP permission, granted with ADB, to fix it. Leave "DUMP" and "ADB" untranslated. [CHAR LIMIT=NONE]-->
+    <string name="stuck_touch_exploration_grant_dump">Touch exploration may be stuck. Restart the phone to fix it, or grant Meridian the DUMP permission with ADB so that it can fix it.</string>
     <!-- Title of the setting for whether and how window names, such as an app's or a dialog's name, are spoken when a window opens or focus moves into one. [CHAR LIMIT=NONE] -->
     <string name="title_pref_window_names">Window names</string>
     <!-- Window names choice: speak a window's name when the window opens and when focus moves into it from another window, before the first item in the window. [CHAR LIMIT=NONE] -->
@@ -2728,10 +2728,10 @@
     <string name="summary_pref_volume_keys_move_cursor">When a text field has focus, volume up moves the cursor back a character and volume down moves it on</string>
     <!-- Title of the volume key settings, and of the screen they open. [CHAR LIMIT=NONE] -->
     <string name="volume_key_settings_title">Volume key settings</string>
-    <!-- Title of the switch that gives SandFly the volume keys to handle itself. [CHAR LIMIT=NONE] -->
-    <string name="volume_keys_managed_title">SandFly manages volume keys</string>
-    <!-- Summary of the switch that gives SandFly the volume keys to handle itself. [CHAR LIMIT=NONE] -->
-    <string name="volume_keys_managed_summary">SandFly handles the volume keys itself, without showing the system volume panel.</string>
+    <!-- Title of the switch that gives Meridian the volume keys to handle itself. [CHAR LIMIT=NONE] -->
+    <string name="volume_keys_managed_title">Meridian manages volume keys</string>
+    <!-- Summary of the switch that gives Meridian the volume keys to handle itself. [CHAR LIMIT=NONE] -->
+    <string name="volume_keys_managed_summary">Meridian handles the volume keys itself, without showing the system volume panel.</string>
     <!-- Heading of the actions of the volume up key. [CHAR LIMIT=NONE] -->
     <string name="volume_key_up_category">Volume up</string>
     <!-- Heading of the actions of the volume down key. [CHAR LIMIT=NONE] -->
@@ -2770,11 +2770,11 @@
     <string name="title_pref_on_screen_keyboard">On-screen keyboard</string>
     <!-- Label for preference specifying that TalkBack physical keyboard settings. [CHAR_LIMIT=75] -->
     <string name="title_pref_physical_keyboard">Physical keyboard</string>
-    <!-- Name of the on-screen keyboard's keyboard echo setting, in the reading controls and the SandFly menu. [CHAR_LIMIT=NONE] -->
+    <!-- Name of the on-screen keyboard's keyboard echo setting, in the reading controls and the Meridian menu. [CHAR_LIMIT=NONE] -->
     <string name="title_keyboard_echo_on_screen">On-screen keyboard echo</string>
-    <!-- Name of the physical keyboard's keyboard echo setting, in the reading controls and the SandFly menu. [CHAR_LIMIT=NONE] -->
+    <!-- Name of the physical keyboard's keyboard echo setting, in the reading controls and the Meridian menu. [CHAR_LIMIT=NONE] -->
     <string name="title_keyboard_echo_physical">Physical keyboard echo</string>
-    <!-- A keyboard echo setting and its value, spoken when it changes and shown in the SandFly menu, such as "Physical keyboard echo: Words". [CHAR_LIMIT=NONE] -->
+    <!-- A keyboard echo setting and its value, spoken when it changes and shown in the Meridian menu, such as "Physical keyboard echo: Words". [CHAR_LIMIT=NONE] -->
     <string name="template_keyboard_echo_state"><xliff:g example="Physical keyboard echo" id="setting">%1$s</xliff:g>: <xliff:g example="Words" id="value">%2$s</xliff:g></string>
     <!-- Title of the setting for whether typing a character on a physical keyboard stops speech. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_interrupt_typing">Interrupt speech when typing</string>
@@ -2801,11 +2801,11 @@
     <string name="pref_node_desc_order_entry_role_name_state_pos">Type, name, state</string>
     <!-- Label for preference specifying that TalkBack should describe elements in order: name, type, state. -->
     <string name="pref_node_desc_order_entry_name_role_state_pos">Name, type, state</string>
-    <!-- Label for preference specifying that SandFly should describe elements in order: name, state, type. -->
+    <!-- Label for preference specifying that Meridian should describe elements in order: name, state, type. -->
     <string name="pref_node_desc_order_entry_name_state_role_pos">Name, state, type</string>
-    <!-- Label for preference specifying that SandFly should describe elements in order: type, state, name. -->
+    <!-- Label for preference specifying that Meridian should describe elements in order: type, state, name. -->
     <string name="pref_node_desc_order_entry_role_state_name_pos">Type, state, name</string>
-    <!-- Label for preference specifying that SandFly should describe elements in order: state, type, name. -->
+    <!-- Label for preference specifying that Meridian should describe elements in order: state, type, name. -->
     <string name="pref_node_desc_order_entry_state_role_name_pos">State, type, name</string>
     <!-- Order of item details settings: the item's name, such as the text of a button. [CHAR LIMIT=30] -->
     <string name="item_detail_name">Name</string>
@@ -2824,7 +2824,7 @@
     <!-- Order of item details settings: spoken when the user lets go of a dragged detail. The position is template_list_position. [CHAR LIMIT=NONE] -->
     <string name="template_item_details_order_dropped">Dropped <xliff:g id="detail" example="Name">%1$s</xliff:g>. <xliff:g id="position" example="Position 2 of 3">%2$s</xliff:g></string>
     <!-- Order of item details settings: text below the list that explains how to reorder it. [CHAR LIMIT=NONE] -->
-    <string name="item_details_order_footer">SandFly says an item\'s details in this order. To change it, touch and hold a detail, then drag it up or down. With SandFly on, double-tap and hold, then drag. You can also use the Move up and Move down actions.</string>
+    <string name="item_details_order_footer">Meridian says an item\'s details in this order. To change it, touch and hold a detail, then drag it up or down. With Meridian on, double-tap and hold, then drag. You can also use the Move up and Move down actions.</string>
 
     <!-- Label for preference specifying that TalkBack should announce time in the format used by the paired device. [CHAR LIMIT=120] -->
     <string name="pref_time_feedback_format_entries_default">Use device time format</string>
@@ -2853,7 +2853,7 @@
     <string name="label_dialog_edit_hint">Label text</string>
     <!-- Text that appears in the label management menu item, that allow user to import custom labels to TalkBack -->
     <string name="label_import">Import custom labels</string>
-    <string name="label_import_dialog_title">Import custom labels to SandFly</string>
+    <string name="label_import_dialog_title">Import custom labels to Meridian</string>
     <string name="label_import_dialog_message">Choose whether you want to override or skip existing labels in the case of conflict</string>
     <string name="label_import_dialog_skip">Skip</string>
     <string name="label_import_dialog_override">Override</string>
@@ -2873,7 +2873,7 @@
     <!-- Title for the alert shown when a user attempts to set option that turns the phone screen dark to provide provide privacy. [CHAR_LIMIT=50] -->
     <string name="dialog_title_dim_screen">Hide screen?</string>
     <!-- Message for the alert shown when a user attempts to set option that turns the phone screen dark to provide provide privacy. [CHAR_LIMIT=NONE] -->
-    <string name="dialog_message_dim_screen">This turns off the display to improve privacy. Some content may still be shown, like messages for turning the display back on, or menus for accessibility features like SandFly.</string>
+    <string name="dialog_message_dim_screen">This turns off the display to improve privacy. Some content may still be shown, like messages for turning the display back on, or menus for accessibility features like Meridian.</string>
 
 
 
@@ -2922,7 +2922,7 @@
   <!-- Title for requesting phone permission in TalkBack. [CHAR LIMIT=NONE] -->
     <string name="title_request_phone_permission">Allow phone access?</string>
     <!-- Message for requesting phone permission in TalkBack. It tells the reason for the users. [CHAR LIMIT=NONE] -->
-    <string name="message_request_phone_permission">This helps SandFly reduce announcements when you\'re on a call</string>
+    <string name="message_request_phone_permission">This helps Meridian reduce announcements when you\'re on a call</string>
     <!-- Label for continue button. [CHAR_LIMIT=30] -->
     <string name="continue_button">Continue</string>
 
@@ -3093,7 +3093,7 @@
     Source: Message for the preference that allows user to focus latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
    -->
-  <string name="message_pref_touch_focus_latency">A shorter delay makes SandFly speak sooner after you touch the screen</string>
+  <string name="message_pref_touch_focus_latency">A shorter delay makes Meridian speak sooner after you touch the screen</string>
   <!--
     Source: Message for the preference that allows user to focus latency.
     Description: The user can check or not check this. In another seekbar preference, the user can adjust the slider to change latency value. [CHAR LIMIT=NONE]
@@ -3212,21 +3212,21 @@
   <!-- Title for continuous reading mode tutorial read from top/next -->
   <string name="dialog_title_continuous_reading_mode">How continuous reading works</string>
   <!-- Message for continuous reading mode tutorial, lists available gestures. -->
-  <string name="dialog_message_continuous_reading_mode">After selecting \"Read from top\" or \"Read from focused item\", you can still navigate to the previous or next item while the text is being read. This lets you go back or skip ahead with ease.\n\nTo adjust the volume while SandFly speaks, press the volume up or volume down key.</string>
+  <string name="dialog_message_continuous_reading_mode">After selecting \"Read from top\" or \"Read from focused item\", you can still navigate to the previous or next item while the text is being read. This lets you go back or skip ahead with ease.\n\nTo adjust the volume while Meridian speaks, press the volume up or volume down key.</string>
   <!-- Checkbox text for always displaying the dialog -->
   <string name="always_show_this_message_label">Always show this message</string>
 
   <!-- Title for voice commands, first-time use dialog [CHAR_LIMIT=80] -->
-  <string name="dialog_title_voice_commands">Use voice commands to control SandFly</string>
+  <string name="dialog_title_voice_commands">Use voice commands to control Meridian</string>
   <!-- Message for voice commands, first-time use dialog [CHAR_LIMIT=NONE] -->
-  <string name="dialog_message_voice_commands">Here are some things you can say:\n\n• Copy\n• Read from focused item\n• Find [save]\n• Speak [faster]\n• SandFly settings\n\nSay \"<xliff:g example="help" id="voice_help_cmd">%1$s</xliff:g>\" for a list of all voice commands</string>
+  <string name="dialog_message_voice_commands">Here are some things you can say:\n\n• Copy\n• Read from focused item\n• Find [save]\n• Speak [faster]\n• Meridian settings\n\nSay \"<xliff:g example="help" id="voice_help_cmd">%1$s</xliff:g>\" for a list of all voice commands</string>
   <!-- Label for use voice commands, first-time use dialog [CHAR_LIMIT=40] -->
   <string name="start_voice_command">Use voice commands</string>
 
   <!-- Title for pass through mode, first-time use dialog. [CHAR_LIMIT=NONE] -->
-  <string name="dialog_title_pass_through_mode">Skip SandFly gestures to use system gestures</string>
+  <string name="dialog_title_pass_through_mode">Skip Meridian gestures to use system gestures</string>
   <!-- Message for pass-through mode tutorial. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 2757739143933456348]-->
-  <string name="dialog_message_pass_through_mode">When you hear a chime, you can use a system gesture that isn\'t supported by SandFly. This is known as a pass-through gesture.</string>
+  <string name="dialog_message_pass_through_mode">When you hear a chime, you can use a system gesture that isn\'t supported by Meridian. This is known as a pass-through gesture.</string>
 
   <!-- Title for voice input download dialog. [CHAR_LIMIT=NONE] -->
   <string name="dialog_title_voice_input_download">Update Gboard to use voice input</string>
@@ -3256,7 +3256,7 @@
   <!-- Notification channel name of TalkBack. [CHAR_LIMIT=40] -->
   <string name="talkback_notification_channel_name">@string/talkback_label</string>
   <!-- Notification channel description of TalkBack. [CHAR_LIMIT=42] -->
-  <string name="talkback_notification_channel_description">The Notification Channel of SandFly</string>
+  <string name="talkback_notification_channel_description">The Notification Channel of Meridian</string>
 
 
   <!-- Announces speech pitch increases. This is spoken to the user. [CHAR_LIMIT=100] -->
@@ -3291,17 +3291,17 @@
   <!-- Usage hint for how to use the selected action. This is spoken to the user. [CHAR_LIMIT=150] -->
   <string name="use_action_hint">Double-tap to perform the action</string>
   <!-- Usage hint for how to assign gesture for the quick menu. This is spoken to the user. [CHAR_LIMIT=280] -->
-  <string name="no_adjust_setting_gesture">To use this, go to SandFly settings and add a gesture for \'<xliff:g example="selected setting next action">%1$s</xliff:g>\'</string>
+  <string name="no_adjust_setting_gesture">To use this, go to Meridian settings and add a gesture for \'<xliff:g example="selected setting next action">%1$s</xliff:g>\'</string>
   <!-- Usage hint for how to assign gesture for the navigate typo. This is spoken to the user. [CHAR_LIMIT=280] -->
-  <string name="no_navigate_typo_gesture">To use this, go to SandFly settings and add a gesture for spell check</string>
+  <string name="no_navigate_typo_gesture">To use this, go to Meridian settings and add a gesture for spell check</string>
   <!-- Usage hint for how to use the selected spelling suggestions. This is spoken to the user. [CHAR_LIMIT=NONE] -->
   <string name="use_spelling_suggestion_hint">Double-tap to replace text</string>
   <!-- Usage hint for screen-search keyword. [CHAR_LIMIT=NONE] -->
   <string name="screen_search_keyword_hint">keyword is <xliff:g example="keyword">%1$s</xliff:g></string>
   <!-- Usage hint for no screen-search keyword. [CHAR_LIMIT=NONE] -->
-  <string name="screen_search_no_keyword_hint">No keyword yet. To start a new search, tap and hold with 3 fingers or open screen search from the SandFly menu.</string>
+  <string name="screen_search_no_keyword_hint">No keyword yet. To start a new search, tap and hold with 3 fingers or open screen search from the Meridian menu.</string>
   <!-- Usage hint for no screen-search keyword. [CHAR_LIMIT=NONE] -->
-  <string name="screen_search_no_keyword_hint_pre_r">No keyword yet. To start a new search, swipe left then down or open screen search from the SandFly menu.</string>
+  <string name="screen_search_no_keyword_hint_pre_r">No keyword yet. To start a new search, swipe left then down or open screen search from the Meridian menu.</string>
 
   <!-- Announced when the popup window is shown. [CHAR_LIMIT=50]-->
   <string name="suggestions_window_available">Suggestions available</string>
@@ -3333,27 +3333,27 @@
   <string name="training_tip">Tip</string>
 
   <!-- For training on TV -->
-  <string name="tv_training_overview_step_title">How SandFly works</string>
-  <string name="tv_training_overview_step_summary">SandFly is a screen reader based on Google\'s TalkBack. It reads aloud the text on the screen and gives you spoken feedback, so that you can use your device without looking at the screen.\n\nWith SandFly on, a selected item on the screen is spoken aloud, sometimes with additional information or context added.\n\nPress Select to continue. The Select button is located at the center of the directional pad, which is the large, circular button at the top of your remote.</string>
+  <string name="tv_training_overview_step_title">How Meridian works</string>
+  <string name="tv_training_overview_step_summary">Meridian is a screen reader based on Google\'s TalkBack. It reads aloud the text on the screen and gives you spoken feedback, so that you can use your device without looking at the screen.\n\nWith Meridian on, a selected item on the screen is spoken aloud, sometimes with additional information or context added.\n\nPress Select to continue. The Select button is located at the center of the directional pad, which is the large, circular button at the top of your remote.</string>
   <string name="tv_training_remote_step_title">Using your remote</string>
   <string name="tv_training_remote_step_summary">Move around the screen using the circle-shaped directional button at the top of your remote. To select, press the center of the directional button at the top of your remote.\n\nIn the second row on the left, you have the back button. On the right you have the voice Assistant button.\n\nIn the third row on the left, you have the home button. On the right is the mute button.\n\nIn the fourth row on the left, you have the YouTube shortcut. On the right is the Netflix shortcut.\n\nIn the bottom row there are two small buttons. The left button is the power button. The right will open your TV’s input menu.\n\nThe volume buttons are located at the right side of the remote.\n\nPress Select to continue.</string>
-  <string name="tv_training_shortcut_step_title">SandFly shortcut</string>
-  <string name="tv_training_shortcut_step_summary">To access the SandFly shortcut, press the down and back buttons at the same time and hold them down for 3 seconds. This will either turn on or turn off SandFly.\n\nYou can also access this shortcut within your TV settings.\n\nPress Select to continue.</string>
+  <string name="tv_training_shortcut_step_title">Meridian shortcut</string>
+  <string name="tv_training_shortcut_step_summary">To access the Meridian shortcut, press the down and back buttons at the same time and hold them down for 3 seconds. This will either turn on or turn off Meridian.\n\nYou can also access this shortcut within your TV settings.\n\nPress Select to continue.</string>
 
   <!-- For on-boarding. -->
   <!-- A item in settings page to introduce TalkBack new features. [CHAR_LIMIT=NONE]-->
-  <string name="new_feature_in_talkback_title">New features in SandFly</string>
+  <string name="new_feature_in_talkback_title">New features in Meridian</string>
   <!-- The title of a dialog that is shown when exiting the tutorial. [CHAR_LIMIT=45]-->
   <string name="exit_tutorial_title">Finished reviewing?</string>
   <!-- The content of the exit tutorial page dialog. [CHAR_LIMIT=NONE]-->
-  <string name="exit_tutorial_content">You can come back to the tutorial anytime in SandFly settings.</string>
+  <string name="exit_tutorial_content">You can come back to the tutorial anytime in Meridian settings.</string>
   <!-- The content of the exit the onboarding page dialog. [CHAR_LIMIT=NONE]-->
-  <string name="exit_onboarding_content">You can come back to review new features anytime in SandFly settings.</string>
+  <string name="exit_onboarding_content">You can come back to review new features anytime in Meridian settings.</string>
   <!-- The text of the button that is for keep reviewing the tutorial. [CHAR_LIMIT=50]-->
   <string name="keep_reviewing_tutorial_button">Keep reviewing</string>
   <!-- For welcome to the update TalkBack page in on-boarding. -->
   <!-- The page title of welcome to updated TalkBack. [CHAR_LIMIT=NONE]-->
-  <string name="welcome_to_updated_talkback_title">Welcome to the updated SandFly</string>
+  <string name="welcome_to_updated_talkback_title">Welcome to the updated Meridian</string>
   <!-- For navigation and setting selector page in on-boarding. -->
   <!-- Navigation subtitle. The translation should be the same as "navigation" in jump_between_headings_text and jump_between_headings_text_pre_r.[CHAR_LIMIT=NONE]-->
   <string name="navigation_heading">Navigation</string>
@@ -3370,12 +3370,12 @@
   -->
   <string name="new_shortcut_gesture_pause_media_announcement">Media paused or playing. Usually, this will pause or play the current video or music. Swipe right to continue.</string>
   <!-- The text to introduce how to stop TalkBack speech. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_stop_speech_text">To stop SandFly from talking temporarily, tap with 2 fingers.</string>
+  <string name="new_shortcut_gesture_stop_speech_text">To stop Meridian from talking temporarily, tap with 2 fingers.</string>
   <!--
   Source: Announces when TalkBack speech stopped.
   Description: This is spoken to the user. In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE]
   -->
-  <string name="new_shortcut_gesture_stop_speech_announcement">SandFly speech stopped. Usually, this will stop the current phrase that SandFly is saying. Swipe right to continue.</string>
+  <string name="new_shortcut_gesture_stop_speech_announcement">Meridian speech stopped. Usually, this will stop the current phrase that Meridian is saying. Swipe right to continue.</string>
   <!-- The text to introduce how to copy text. This is spoken to the user. [CHAR_LIMIT=NONE]-->
   <string name="new_shortcut_gesture_copy_text_text">To copy text, use the Copy action in the context menu, or assign a gesture to Copy.</string>
   <!--
@@ -3398,7 +3398,7 @@
   -->
   <string name="new_shortcut_gesture_cut_text_announcement">Cut text. Usually, this will cut the text you have selected. Swipe right to continue.</string>
   <!-- The text to introduce how to start or end text selection mode. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_selection_mode_text">To start or end text selection mode, use the Start selection mode action in the context menu, or assign it to a gesture in SandFly settings > Gestures.</string>
+  <string name="new_shortcut_gesture_selection_mode_text">To start or end text selection mode, use the Start selection mode action in the context menu, or assign it to a gesture in Meridian settings > Gestures.</string>
   <!--
   Source: Announces when selection mode turned on or off.
   Description: This is spoken to the user. In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE] TODO: The resource name can be changed to new_shortcut_gesture_selection_mode_on_or_off_announcement
@@ -3407,13 +3407,13 @@
   <!-- The text to introduce how to use reading controls. [CHAR_LIMIT=NONE]-->
   <string name="new_shortcut_gesture_reading_menu_text">To use the reading controls, swipe left or right with 3 fingers. You can also swipe up or down with 3 fingers.</string>
   <!-- A text to notify that gestures might not be correct because some gestures are customized. [CHAR_LIMIT=NONE]-->
-  <string name="new_shortcut_gesture_note">Note: You have customized some of your gestures, so this information may not be accurate. To review your gestures, go to SandFly settings.</string>
+  <string name="new_shortcut_gesture_note">Note: You have customized some of your gestures, so this information may not be accurate. To review your gestures, go to Meridian settings.</string>
   <!-- The text about what's new in TalkBack on Android 11. [CHAR_LIMIT=NONE]-->
-  <string name="welcome_to_android11_text">New gestures have been added to make SandFly faster and easier to use.\n\nOn this screen, you can try the new gestures. You can review this information in SandFly settings at any time.</string>
+  <string name="welcome_to_android11_text">New gestures have been added to make Meridian faster and easier to use.\n\nOn this screen, you can try the new gestures. You can review this information in Meridian settings at any time.</string>
   <!-- The title of notification that to notify TalkBack supports new gestures. [CHAR_LIMIT=NONE]-->
-  <string name="new_gesture_notification_title">New gestures in SandFly</string>
+  <string name="new_gesture_notification_title">New gestures in Meridian</string>
   <!-- The content text of notification that to notify TalkBack supports new gestures. [CHAR_LIMIT=NONE]-->
-  <string name="new_gesture_notification_content">Tap to learn how to use SandFly faster with new gestures.</string>
+  <string name="new_gesture_notification_content">Tap to learn how to use Meridian faster with new gestures.</string>
   <!-- Announces when user dump the node tree log. This is spoken to the user. [CHAR_LIMIT=NONE]-->
   <string name="dump_node_tree_description">Node tree has been printed to logs.</string>
   <!-- The hint description provided to users to report gesture issues. [CHAR_LIMIT=NONE]-->
@@ -3424,9 +3424,9 @@
   <!-- The first item of the welcome to the updated TalkBack page. [CHAR_LIMIT=NONE]-->
 
   <!-- The text about what's new in TalkBack 16.1. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_talkback_16.1">This SandFly update introduces support for Describe screen in more languages and other quality improvements that make SandFly easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings > New features in SandFly.</string>
+  <string name="update_welcome_talkback_16.1">This Meridian update introduces support for Describe screen in more languages and other quality improvements that make Meridian easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in Meridian settings > New features in Meridian.</string>
   <!-- The speech of the text about what's new in TalkBack 16.1. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_talkback_16.1_tts">This SandFly update introduces support for Describe screen in more languages and other quality improvements that make SandFly easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings then New features in SandFly.</string>
+  <string name="update_welcome_talkback_16.1_tts">This Meridian update introduces support for Describe screen in more languages and other quality improvements that make Meridian easier to use.\n\nYou\'ll learn more about these changes in the next few screens.\n\nYou can review this information later in Meridian settings then New features in Meridian.</string>
   <!-- The title of the Shortcut for dictation page. [CHAR_LIMIT=NONE]-->
   <string name="shortcut_for_dictation_title">Shortcut for voice typing</string>
   <!-- The content of the Shortcut for dictation page. [CHAR_LIMIT=NONE]-->
@@ -3438,29 +3438,29 @@
   <!-- The title of the Keyboard page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_title">Keyboard</string>
   <!-- The content of the Keyboard page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_content">SandFly now has an \"Enhanced keymap\" for its keyboard, with a variety of new commands and shortcuts. This enhancement, which includes \"browse mode\" for more efficient web navigation, streamlines navigation and interaction for SandFly users who rely on physical keyboards. You can switch to \"Enhanced keymap\" in SandFly settings > Advanced settings > Keyboard shortcuts.</string>
+  <string name="keyboard_content">Meridian now has an \"Enhanced keymap\" for its keyboard, with a variety of new commands and shortcuts. This enhancement, which includes \"browse mode\" for more efficient web navigation, streamlines navigation and interaction for Meridian users who rely on physical keyboards. You can switch to \"Enhanced keymap\" in Meridian settings > Advanced settings > Keyboard shortcuts.</string>
   <!-- The speech of the text about the Keyboard page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_content_tts">SandFly now has an \"Enhanced keymap\" for its keyboard, with a variety of new commands and shortcuts. This enhancement, which includes \"browse mode\" for more efficient web navigation, streamlines navigation and interaction for SandFly users who rely on physical keyboards. You can switch to \"Enhanced keymap\" in SandFly settings then Advanced settings then Keyboard shortcuts.</string>
+  <string name="keyboard_content_tts">Meridian now has an \"Enhanced keymap\" for its keyboard, with a variety of new commands and shortcuts. This enhancement, which includes \"browse mode\" for more efficient web navigation, streamlines navigation and interaction for Meridian users who rely on physical keyboards. You can switch to \"Enhanced keymap\" in Meridian settings then Advanced settings then Keyboard shortcuts.</string>
   <!-- The title of the Reduce delay page. [CHAR_LIMIT=NONE]-->
   <string name="reduce_delay_title">Reduce delay</string>
   <!-- The content of the Reduce delay page. [CHAR_LIMIT=NONE]-->
-  <string name="reduce_delay_content">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings > Advanced settings > Reduce delay.</string>
+  <string name="reduce_delay_content">You can now reduce Meridian announcement delays for touch exploration and typing. To view these settings, go to Meridian settings > Advanced settings > Reduce delay.</string>
   <!-- The speech of the text about the Reduce delay page. [CHAR_LIMIT=NONE]-->
-  <string name="reduce_delay_content_tts">You can now reduce SandFly announcement delays for touch exploration and typing. To view these settings, go to SandFly settings then Advanced settings then Reduce delay.</string>
+  <string name="reduce_delay_content_tts">You can now reduce Meridian announcement delays for touch exploration and typing. To view these settings, go to Meridian settings then Advanced settings then Reduce delay.</string>
   <!-- The title of the Other changes page. [CHAR_LIMIT=NONE]-->
   <string name="other_changes_title">Other changes</string>
   <!-- The content of the Other changes page. [CHAR_LIMIT=NONE]-->
-  <string name="other_changes_content">An on-screen message now helps you quickly turn off SandFly if it\'s accidentally turned on. You can turn this off in SandFly settings > Show instructions for turning off SandFly.</string>
+  <string name="other_changes_content">An on-screen message now helps you quickly turn off Meridian if it\'s accidentally turned on. You can turn this off in Meridian settings > Show instructions for turning off Meridian.</string>
   <!-- The speech of the text of the Other changes page. [CHAR_LIMIT=NONE]-->
-  <string name="other_changes_content_tts">An on-screen message now helps you quickly turn off SandFly if it\'s accidentally turned on. You can turn this off in SandFly settings then Show instructions for turning off SandFly.</string>
+  <string name="other_changes_content_tts">An on-screen message now helps you quickly turn off Meridian if it\'s accidentally turned on. You can turn this off in Meridian settings then Show instructions for turning off Meridian.</string>
   <!-- The speech of the text of the keymap page. [CHAR_LIMIT=NONE]-->
   <string name="keymap_changes_content">Classic keymap has been switched to default keymap, which includes more shortcuts.</string>
   <!-- The title of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
   <string name="announcing_text_formatting_title">Announcing text formatting</string>
   <!-- The header content of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
-  <string name="announcing_text_formatting_header">SandFly can now announce changes in text formatting, like bold, italics, and text color. To get started:</string>
+  <string name="announcing_text_formatting_header">Meridian can now announce changes in text formatting, like bold, italics, and text color. To get started:</string>
   <!-- The first instruction of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
-  <string name="announcing_text_formatting_option1">Focus on the item with formatting, open the SandFly menu, and select \"Describe text formatting\", or</string>
+  <string name="announcing_text_formatting_option1">Focus on the item with formatting, open the Meridian menu, and select \"Describe text formatting\", or</string>
   <!-- The second instruction of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
   <string name="announcing_text_formatting_option2">Add a reading control for text formatting that will turn on or off the announcement of formatting changes.</string>
   <!-- The middle content of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
@@ -3468,9 +3468,9 @@
   <!-- The tail content of the Announcing text formatting page. [CHAR_LIMIT=NONE]-->
   <string name="announcing_text_formatting_tail">If you want to change how formatted text is announced, you can go to <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <!-- The path of the text formatting options in TalkBack Settings.  [CHAR_LIMIT=NONE]-->
-  <string name="text_formatting_options_settings_path">SandFly settings > Verbosity > Text formatting options</string>
+  <string name="text_formatting_options_settings_path">Meridian settings > Verbosity > Text formatting options</string>
   <!-- The speech of the path of the text formatting options in TalkBack Settings.  [CHAR_LIMIT=NONE]-->
-  <string name="text_formatting_options_settings_path_tts">SandFly settings then Verbosity then Text formatting options</string>
+  <string name="text_formatting_options_settings_path_tts">Meridian settings then Verbosity then Text formatting options</string>
   <!-- An example to test announcing text formatting feature. [CHAR_LIMIT=NONE]-->
   <string name="announcing_text_formatiing_sample"><![CDATA[This text is in <b>bold</b>, a confident shout,
 <br>While this is <u>underlined</u>, a whisper, no doubt.<br>
@@ -3483,9 +3483,9 @@
 <br>Colors can splash, a vibrant display,
 <br>From <font color="#db372d">fiery red</font> to <font color="#128937">verdant green\'s</font> gentle sway.]]></string>
   <!-- The text about what's new in TalkBack 16.2. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_talkback_16.2">This SandFly update introduces a new \"Enhanced keymap\" for physical keyboards, support for text formatting announcements, and a redesigned settings layout, along with other improvements to make SandFly easier to use.\n\nYou will learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings > New features in SandFly.</string>
+  <string name="update_welcome_talkback_16.2">This Meridian update introduces a new \"Enhanced keymap\" for physical keyboards, support for text formatting announcements, and a redesigned settings layout, along with other improvements to make Meridian easier to use.\n\nYou will learn more about these changes in the next few screens.\n\nYou can review this information later in Meridian settings > New features in Meridian.</string>
   <!-- The sppech about what's new in TalkBack 16.2. [CHAR_LIMIT=NONE]-->
-  <string name="update_welcome_talkback_16.2_tts">This SandFly update introduces a new \"Enhanced keymap\" for physical keyboards, support for text formatting announcements, and a redesigned settings layout, along with other improvements to make SandFly easier to use.\n\nYou will learn more about these changes in the next few screens.\n\nYou can review this information later in SandFly settings then New features in SandFly.</string>
+  <string name="update_welcome_talkback_16.2_tts">This Meridian update introduces a new \"Enhanced keymap\" for physical keyboards, support for text formatting announcements, and a redesigned settings layout, along with other improvements to make Meridian easier to use.\n\nYou will learn more about these changes in the next few screens.\n\nYou can review this information later in Meridian settings then New features in Meridian.</string>
   <!-- The title about new settings layout page. [CHAR_LIMIT=NONE]-->
   <string name="new_settings_layout_title">New settings layout</string>
   <!-- The text about new settings layout page. [CHAR_LIMIT=NONE]-->
@@ -3497,52 +3497,52 @@
   <!-- The title about enhanced keymap for keyboard page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_enhanced_keymap_title">Keyboard: Enhanced keymap</string>
   <!-- The text about enhanced keymap for keyboard page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_enhanced_keymap_text">SandFly now has an \"Enhanced keymap\" for physical keyboards, featuring a variety of new commands and shortcuts. This enhancement includes a \"browse mode\" for more efficient web navigation, streamlining navigation and interaction for SandFly users who rely on physical keyboards. You can switch to the \"Enhanced keymap\" in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
+  <string name="keyboard_enhanced_keymap_text">Meridian now has an \"Enhanced keymap\" for physical keyboards, featuring a variety of new commands and shortcuts. This enhancement includes a \"browse mode\" for more efficient web navigation, streamlining navigation and interaction for Meridian users who rely on physical keyboards. You can switch to the \"Enhanced keymap\" in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <!-- The path of keyboard shortcuts in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_shortcuts_link">SandFly settings > Keyboard shortcuts</string>
+  <string name="keyboard_shortcuts_link">Meridian settings > Keyboard shortcuts</string>
   <!-- The speech of the path of keyboard shortcuts in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_shortcuts_link_tts">SandFly settings then Keyboard shortcuts</string>
+  <string name="keyboard_shortcuts_link_tts">Meridian settings then Keyboard shortcuts</string>
   <!-- The title about smart browse mode for keyboard page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_smart_browse_mode_title">Keyboard: Smart browse mode</string>
   <!-- The text about smart browse mode for keyboard page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_smart_browse_mode_text">SandFly smart browse mode turns off browse mode on an edit field to help you type with a physical keyboard when you browse the web. It then turns it back on when you jump to a non-edit field on the web so that you can continue browsing efficiently. You can turn \"Smart browse mode\" on or off in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
+  <string name="keyboard_smart_browse_mode_text">Meridian smart browse mode turns off browse mode on an edit field to help you type with a physical keyboard when you browse the web. It then turns it back on when you jump to a non-edit field on the web so that you can continue browsing efficiently. You can turn \"Smart browse mode\" on or off in <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <!-- The path of advanced settings in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="advanced_settings_link">SandFly settings > Advanced settings</string>
+  <string name="advanced_settings_link">Meridian settings > Advanced settings</string>
   <!-- The speech of the path of advanced settings  in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="advanced_settings_link_tts">SandFly settings then Advanced settings</string>
+  <string name="advanced_settings_link_tts">Meridian settings then Advanced settings</string>
   <!-- The title about keyboard tutorial page. [CHAR_LIMIT=NONE]-->
   <string name="keyboard_tutorial_title">Keyboard tutorial</string>
   <!-- The text about keyboard tutorial page. [CHAR_LIMIT=NONE]-->
-  <string name="keyboard_tutorial_text">SandFly now includes a Keyboard Tutorial designed to help you learn the keyboard shortcuts and commands for the Enhanced keymap when using a physical keyboard. To access the tutorial, navigate to: <xliff:g id="settings_path">%1$s</xliff:g>.</string>
+  <string name="keyboard_tutorial_text">Meridian now includes a Keyboard Tutorial designed to help you learn the keyboard shortcuts and commands for the Enhanced keymap when using a physical keyboard. To access the tutorial, navigate to: <xliff:g id="settings_path">%1$s</xliff:g>.</string>
   <!-- The path of TalkBack tutorial in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="tutorial_link">SandFly settings > SandFly tutorial</string>
+  <string name="tutorial_link">Meridian settings > Meridian tutorial</string>
   <!-- The speech of the path of TalkBack tutorial in TalkBack Settings. [CHAR_LIMIT=NONE]-->
-  <string name="tutorial_link_tts">SandFly settings then SandFly tutorial</string>
+  <string name="tutorial_link_tts">Meridian settings then Meridian tutorial</string>
 
   <!-- For tutorial. -->
   <!-- An item in settings page to explain how to use TalkBack. [CHAR_LIMIT=25]-->
   <string name="tutorial_entry_point_title">Tutorial</string>
   <!-- For welcome page in tutorial. -->
   <!-- The title of welcoming to use TalkBack. [CHAR_LIMIT=NONE]-->
-  <string name="welcome_to_talkback_title">Welcome to SandFly</string>
+  <string name="welcome_to_talkback_title">Welcome to Meridian</string>
   <!-- The title of TalkBack is on. [CHAR_LIMIT=NONE]-->
-  <string name="talkback_is_on">SandFly is on</string>
+  <string name="talkback_is_on">Meridian is on</string>
   <!-- The description of TalkBack is on. [CHAR_LIMIT=NONE]-->
-  <string name="talkback_turn_off_description">SandFly reads content on your screen aloud and changes how navigation works on your device. To turn it off, tap “Turn off SandFly” 2 times.</string>
+  <string name="talkback_turn_off_description">Meridian reads content on your screen aloud and changes how navigation works on your device. To turn it off, tap “Turn off Meridian” 2 times.</string>
   <!-- The text of TalkBack exit button. [CHAR_LIMIT=NONE]-->
-  <string name="turn_off_talkback">Turn off SandFly</string>
+  <string name="turn_off_talkback">Turn off Meridian</string>
   <!-- The text of TalkBack exit button that taps again to turn off TalkBack. [CHAR_LIMIT=NONE]-->
   <string name="tap_again_to_turn_off">Tap again to turn off</string>
   <!-- The description of TalkBack is on with both touch screen and pointer. [CHAR_LIMIT=NONE]-->
-  <string name="talkback_turn_off_description_pointer_and_touch">SandFly reads content on your screen aloud and changes how navigation works on your device. To turn it off, select \"Turn off SandFly\" or tap it 2 times.</string>
+  <string name="talkback_turn_off_description_pointer_and_touch">Meridian reads content on your screen aloud and changes how navigation works on your device. To turn it off, select \"Turn off Meridian\" or tap it 2 times.</string>
 
   <!--
   Source: The text of introducing TalkBack.
   Description: In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE]
   -->
-  <string name="welcome_to_talkback_text">SandFly provides spoken feedback so that you can use your device without looking at the screen. SandFly can be helpful for people who have difficulty seeing the screen. \n\nIf you want to quickly turn SandFly on or off using your volume keys, you can set up a shortcut in SandFly settings > SandFly shortcut.\n\nWhen SandFly is on, the focused item on the screen is spoken out loud.\n\nSwiping right will move to the next item, and swiping left will move to the previous item.\n\nSwipe right now to find the next button.</string>
+  <string name="welcome_to_talkback_text">Meridian provides spoken feedback so that you can use your device without looking at the screen. Meridian can be helpful for people who have difficulty seeing the screen. \n\nIf you want to quickly turn Meridian on or off using your volume keys, you can set up a shortcut in Meridian settings > Meridian shortcut.\n\nWhen Meridian is on, the focused item on the screen is spoken out loud.\n\nSwiping right will move to the next item, and swiping left will move to the previous item.\n\nSwipe right now to find the next button.</string>
   <!-- Source: The text of introducing TalkBack for TTS span. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 943803475813273517]-->
-  <string name="welcome_to_talkback_text_tts">SandFly provides spoken feedback so that you can use your device without looking at the screen. SandFly can be helpful for people who have difficulty seeing the screen. \n\nIf you want to quickly turn SandFly on or off using your volume keys, you can set up a shortcut in SandFly settings then SandFly shortcut.\n\nWhen SandFly is on, the focused item on the screen is spoken out loud.\n\nSwiping right will move to the next item, and swiping left will move to the previous item.\n\nSwipe right now to find the next button.</string>
+  <string name="welcome_to_talkback_text_tts">Meridian provides spoken feedback so that you can use your device without looking at the screen. Meridian can be helpful for people who have difficulty seeing the screen. \n\nIf you want to quickly turn Meridian on or off using your volume keys, you can set up a shortcut in Meridian settings then Meridian shortcut.\n\nWhen Meridian is on, the focused item on the screen is spoken out loud.\n\nSwiping right will move to the next item, and swiping left will move to the previous item.\n\nSwipe right now to find the next button.</string>
   <!-- The idle announcement talkback tutorial welcome page. [CHAR_LIMIT=NONE] -->
   <string name="welcome_to_talkback_page_idle_announcement">Swipe right now to find the next button</string>
   <!-- For touch explore page in tutorial. -->
@@ -3563,7 +3563,7 @@
   <!-- The title of system gestures page. [CHAR_LIMIT=NONE]-->
   <string name="system_gestures_title">Add 1 finger to system gestures</string>
   <!-- The text to introduce some useful gestures in TalkBack. [CHAR_LIMIT=NONE]-->
-  <string name="system_gestures_text">This means when using SandFly, you can go to the home screen by swiping up from the bottom with 2 fingers instead of 1.\n\nTrying these gestures now will close the tutorial. You may want to wait until you have completed the tutorial.</string>
+  <string name="system_gestures_text">This means when using Meridian, you can go to the home screen by swiping up from the bottom with 2 fingers instead of 1.\n\nTrying these gestures now will close the tutorial. You may want to wait until you have completed the tutorial.</string>
   <!-- The text to explain how to go Home via gesture. [CHAR_LIMIT=NONE]-->
   <string name="system_gestures_home_text">To go to your home screen, swipe up from the bottom of your screen with 2 fingers.</string>
   <!-- The text to explain how to go to the recent apps via gesture. [CHAR_LIMIT=NONE]-->
@@ -3580,29 +3580,29 @@
   <!-- The title of adjusting volume page. [CHAR_LIMIT=NONE]-->
   <string name="adjusting_volume_title">Adjust the volume</string>
   <!-- The head text introduce TalkBack how to adjust volume. [CHAR_LIMIT=NONE]-->
-  <string name="adjusting_volume_head">The volume for SandFly speech is called the accessibility volume. It\'s adjusted separately from the media volume.\n\nTo adjust the accessibility volume:</string>
+  <string name="adjusting_volume_head">The volume for Meridian speech is called the accessibility volume. It\'s adjusted separately from the media volume.\n\nTo adjust the accessibility volume:</string>
   <!-- The first instruction text introduce TalkBack how to adjust volume append after the head text. [CHAR_LIMIT=NONE]-->
   <string name="adjusting_volume_first_instruction">Hold 1 finger on the screen</string>
   <!-- The second instruction text introduce TalkBack how to adjust volume append after the first instruction. [CHAR_LIMIT=NONE]-->
   <string name="adjusting_volume_second_instruction">While holding, press the volume up or volume down key on the side of your device</string>
   <!-- The tail text introduce TalkBack how to adjust volume append after the second instruction. [CHAR_LIMIT=NONE]-->
-  <string name="adjusting_volume_tail">You\'ll hear the new accessibility volume after a few seconds.\n\nTry adjusting the accessibility volume now.\n\nYou can also choose what the volume keys do in SandFly settings > Volume key settings.</string>
+  <string name="adjusting_volume_tail">You\'ll hear the new accessibility volume after a few seconds.\n\nTry adjusting the accessibility volume now.\n\nYou can also choose what the volume keys do in Meridian settings > Volume key settings.</string>
 
   <!-- For menus page in tutorial. -->
   <!-- The title of menus page. [CHAR_LIMIT=NONE]-->
   <string name="menus_title">Use menus and controls</string>
   <!-- The text to introduce TalkBack menu and how to open it via multi-fingers gestures. [CHAR_LIMIT=NONE]-->
-  <string name="menus_talkback_menu_text">The SandFly menu includes settings and controls that you may need often.\n\nOpen the SandFly menu now by tapping the screen with 3 fingers.</string>
+  <string name="menus_talkback_menu_text">The Meridian menu includes settings and controls that you may need often.\n\nOpen the Meridian menu now by tapping the screen with 3 fingers.</string>
   <!-- The text to introduce TalkBack menu and how to open it via single finger gestures. [CHAR_LIMIT=NONE]-->
-  <string name="menus_talkback_menu_text_pre_r">The SandFly menu includes settings and controls that you may need often.\n\nOpen the SandFly menu now by swiping down then right.</string>
+  <string name="menus_talkback_menu_text_pre_r">The Meridian menu includes settings and controls that you may need often.\n\nOpen the Meridian menu now by swiping down then right.</string>
   <!-- The text to introduce how to adjust reading settings quickly via multi-fingers gestures. [CHAR_LIMIT=NONE]-->
-  <string name="menus_selector_text">These shortcuts can help you quickly change settings, like switching your navigation from characters to words or changing SandFly\'s speech rate.\n\nTo quickly change your reading controls, swipe left with 3 fingers or swipe right with 3 fingers.\n\nYou can customize the SandFly menu and your reading controls later in SandFly settings.</string>
+  <string name="menus_selector_text">These shortcuts can help you quickly change settings, like switching your navigation from characters to words or changing Meridian\'s speech rate.\n\nTo quickly change your reading controls, swipe left with 3 fingers or swipe right with 3 fingers.\n\nYou can customize the Meridian menu and your reading controls later in Meridian settings.</string>
   <!-- The text to introduce how to adjust reading settings quickly via single finger gestures. [CHAR_LIMIT=NONE]-->
-  <string name="menus_selector_text_pre_r">These shortcuts can help you quickly change settings, like switching your navigation from characters to words or changing SandFly\'s speech rate.\n\nTo quickly change your reading controls, swipe down and then back up.\n\nYou can customize the SandFly menu and your reading controls later in SandFly settings.</string>
+  <string name="menus_selector_text_pre_r">These shortcuts can help you quickly change settings, like switching your navigation from characters to words or changing Meridian\'s speech rate.\n\nTo quickly change your reading controls, swipe down and then back up.\n\nYou can customize the Meridian menu and your reading controls later in Meridian settings.</string>
   <!-- The title of all set page. [CHAR_LIMIT=NONE]-->
   <string name="all_set_title">All set!</string>
   <!-- The text to notify user tutorial is finished. [CHAR_LIMIT=NONE]-->
-  <string name="all_set_text">You are ready to use SandFly.\n\nKeep learning about other topics now, or review this info anytime in SandFly settings.</string>
+  <string name="all_set_text">You are ready to use Meridian.\n\nKeep learning about other topics now, or review this info anytime in Meridian settings.</string>
   <!-- For tutorial index page. -->
   <!-- The title of talkback tutorial. [CHAR_LIMIT=NONE] -->
   <string name="talkback_tutorial_title" translatable="false">@string/title_pref_category_tutorial</string>
@@ -3610,7 +3610,7 @@
   Source: The description on the tutorial index page.
   Description: In RTL language, "right" and "left" should be translated reverse. [CHAR_LIMIT=NONE]
   -->
-  <string name="talkback_tutorial_text">Swipe right to select a topic. For the best experience, turn on SandFly before getting started.</string>
+  <string name="talkback_tutorial_text">Swipe right to select a topic. For the best experience, turn on Meridian before getting started.</string>
   <!-- The text of basic navigation on the index page. [CHAR_LIMIT=NONE]-->
   <string name="basic_navigation_link_text">Basic navigation</string>
   <!-- The subtext of basic navigation on the index page. [CHAR_LIMIT=NONE]-->
@@ -3632,7 +3632,7 @@
   <!-- The text of voice commands on the index page. [CHAR_LIMIT=NONE]-->
   <string name="voice_commands_link_text">Voice commands</string>
   <!-- The subtext of voice commands on the index page. [CHAR_LIMIT=NONE]-->
-  <string name="voice_commands_link_subtext">Control SandFly with your voice</string>
+  <string name="voice_commands_link_subtext">Control Meridian with your voice</string>
   <!-- The text of "Find on screen" on the index page. [CHAR_LIMIT=NONE]-->
   <string name="screen_search_link_text">Find on screen</string>
   <!-- The subtext of "Find on screen" search on the index page. [CHAR_LIMIT=NONE]-->
@@ -3647,7 +3647,7 @@
   <string name="practice_gestures_link_subtext">Try different gestures to learn what they do</string>
 
   <!-- The title of the keyboard tutorial choose tutorial page. [CHAR_LIMIT=NONE]-->
-  <string name="choose_tutorial_title">Choose how you would like to interact with SandFly</string>
+  <string name="choose_tutorial_title">Choose how you would like to interact with Meridian</string>
   <!-- The button of the touch tutorial. [CHAR_LIMIT=NONE]-->
   <string name="touch_tutorial_button">Touch tutorial</string>
   <!-- The button of the keyboard tutorial. [CHAR_LIMIT=NONE]-->
@@ -3672,11 +3672,11 @@
   <!-- The sub title of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
   <string name="other_ways_to_type_title">Other ways to type</string>
   <!-- The description of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
-  <string name="other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can also enter text by dictating it.</string>
+  <string name="other_ways_to_type_text">There are other ways to type in Meridian. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can also enter text by dictating it.</string>
   <!-- The description of other ways to type in typing text page. [CHAR_LIMIT=NONE]-->
-  <string name="basic_other_ways_to_type_text">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in SandFly settings > On-screen keyboard > Typing method.</string>
+  <string name="basic_other_ways_to_type_text">There are other ways to type in Meridian. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in Meridian settings > On-screen keyboard > Typing method.</string>
   <!-- Source: The text of introducing TalkBack for TTS span. [CHAR_LIMIT=NONE] [BACKUP_MESSAGE_ID: 380750154623317254]-->
-  <string name="basic_other_ways_to_type_text_tts">There are other ways to type in SandFly. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in SandFly settings then On-screen keyboard then Typing method.</string>
+  <string name="basic_other_ways_to_type_text_tts">There are other ways to type in Meridian. For example, you can use double tap to enter a letter, or Direct key input, where you slide across the keys and lift your finger to type the key you stop on. You can change this later in Meridian settings then On-screen keyboard then Typing method.</string>
   <!-- The text of change typing preference button in typing text page. [CHAR_LIMIT=NONE]-->
   <string name="change_typing_preference_text">Change typing preference</string>
   <!-- The title of moving cursor page. [CHAR_LIMIT=NONE]-->
@@ -3684,23 +3684,23 @@
   <!-- The description about how to move cursor. [CHAR_LIMIT=NONE]-->
   <string name="moving_cursor_text">When you have activated a text box, you can move the cursor between letters by swiping up or down.\n\nTry it in the text box below.</string>
   <!-- The text in edit box to try some editing actions, like copy and paste. [CHAR_LIMIT=NONE]-->
-  <string name="edit_box_text">Welcome to SandFly</string>
+  <string name="edit_box_text">Welcome to Meridian</string>
   <!-- The title of selecting text from edit box. [CHAR_LIMIT=NONE]-->
   <string name="selecting_text_title">Selecting text</string>
   <!-- The description about how to select the text via gesture. [CHAR_LIMIT=NONE]-->
-  <string name="selecting_text_text">In a text box, move the cursor to the beginning of the text you want to select.\n\nStart selection mode with the Start selection mode action. It is in the text box\'s context menu, and you can also assign it to a gesture in SandFly settings > Gestures. Then move the cursor to the end of the text to select it. Use the same action again to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
+  <string name="selecting_text_text">In a text box, move the cursor to the beginning of the text you want to select.\n\nStart selection mode with the Start selection mode action. It is in the text box\'s context menu, and you can also assign it to a gesture in Meridian settings > Gestures. Then move the cursor to the end of the text to select it. Use the same action again to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
   <!-- The description about how to select the text via gesture. [CHAR_LIMIT=NONE]-->
-  <string name="selecting_text_text_pre_r">In a text box, move the cursor to the beginning of the text you want to select.\n\nSwipe down and then right to open the SandFly menu. Double-tap actions and then start selection mode. Move the cursor to the end of the text.\n\nOpen the SandFly menu again, then double-tap actions to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
+  <string name="selecting_text_text_pre_r">In a text box, move the cursor to the beginning of the text you want to select.\n\nSwipe down and then right to open the Meridian menu. Double-tap actions and then start selection mode. Move the cursor to the end of the text.\n\nOpen the Meridian menu again, then double-tap actions to end selection mode.\n\nTry to select the word \"Welcome\" in the text box below.</string>
   <!-- The title of coping, cutting and pasting text. [CHAR_LIMIT=NONE]-->
   <string name="copy_cut_paste_title">Copy, cut, and paste</string>
   <!-- The description about how to copy text. [CHAR_LIMIT=NONE]-->
-  <string name="copy_text">After selecting text, copy it with the Copy action in the text box\'s context menu, or with a gesture you assign to Copy in SandFly settings > Gestures. Copy has no gesture by default. Double-tapping with 3 fingers turns voice feedback on or off instead.\n\nTry to copy a word in the text box below.</string>
+  <string name="copy_text">After selecting text, copy it with the Copy action in the text box\'s context menu, or with a gesture you assign to Copy in Meridian settings > Gestures. Copy has no gesture by default. Double-tapping with 3 fingers turns voice feedback on or off instead.\n\nTry to copy a word in the text box below.</string>
   <!-- The description about how to cut or paste text. [CHAR_LIMIT=NONE]-->
   <string name="cut_paste_text">To cut text, double-tap and hold with 3 fingers.\n\nTo paste text, triple-tap and hold with 3 fingers. Triple-tapping with 3 fingers without holding copies the last spoken phrase instead.\n\nTry to paste a word in the text box below.</string>
   <!-- The description about how to copy text. [CHAR_LIMIT=NONE]-->
-  <string name="copy_text_pre_r">After selecting text, you can copy it in the SandFly menu. Swipe down and then right to open the SandFly menu. Double-tap actions and then copy.\n\nTry to copy a word in the text box below.</string>
+  <string name="copy_text_pre_r">After selecting text, you can copy it in the Meridian menu. Swipe down and then right to open the Meridian menu. Double-tap actions and then copy.\n\nTry to copy a word in the text box below.</string>
   <!-- The description about how to cut or paste text. [CHAR_LIMIT=NONE]-->
-  <string name="cut_paste_text_pre_r">To cut or paste text, open the SandFly menu and double-tap actions.\n\nTry to paste a word in the text box below.</string>
+  <string name="cut_paste_text_pre_r">To cut or paste text, open the Meridian menu and double-tap actions.\n\nTry to paste a word in the text box below.</string>
   <!-- The text in edit box to give a hint to the user. [CHAR_LIMIT=140]-->
   <string name="edit_box_hint_paste_text">Paste text here</string>
   <!-- The title of typo correction tutorial text. [CHAR_LIMIT=NONE]-->
@@ -3714,7 +3714,7 @@
   <!-- The content of typo correction tutorial text for supported locale but none English for pre R. [CHAR_LIMIT=NONE]-->
   <string name="typo_correction_text_supported_but_not_english_pre_r">You can use proofreading to check the spelling or grammar within a text box.\n\nTo try it, focus on the text box below and type a misspelled word. After focusing, swipe down and then up until you find \"Proofread\".</string>
   <!-- The content of typo correction edit box typos example. [CHAR_LIMIT=NONE]-->
-  <string name="typo_correction_typo_example" translatable="false">Wellcome too SandFly.</string>
+  <string name="typo_correction_typo_example" translatable="false">Wellcome too Meridian.</string>
   <!-- The content of typo correction edit box hint. [CHAR_LIMIT=NONE]-->
   <string name="typo_correction_editbox_hint">Type here</string>
 
@@ -3818,13 +3818,13 @@
   <!-- The title of voice commands page. [CHAR_LIMIT=NONE] -->
   <string name="voice_commands_title">Voice commands</string>
   <!-- The description about how to use voice command. [CHAR_LIMIT=NONE]-->
-  <string name="voice_commands_text">You can use your voice to control SandFly quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text, and more.\n\nTo try it now, swipe right and then up.\n\nTo dictate text instead of typing, assign the Dictate action to a gesture in SandFly settings > Gestures. Dictate has no gesture by default.</string>
+  <string name="voice_commands_text">You can use your voice to control Meridian quickly.\n\nFor example, say a command to change navigation, jump to the next heading, copy text, and more.\n\nTo try it now, swipe right and then up.\n\nTo dictate text instead of typing, assign the Dictate action to a gesture in Meridian settings > Gestures. Dictate has no gesture by default.</string>
 
   <!-- For screen search pages in tutorial. -->
   <!-- The title of using screen search page. [CHAR_LIMIT=NONE] -->
   <string name="using_screen_search_title">Using screen search</string>
   <!-- The description about how to use screen search. [CHAR_LIMIT=NONE]-->
-  <string name="using_screen_search_text">The screen search feature allows you to look for specific content on the screen.\n\nTo try it, open the SandFly menu by tapping with 3 fingers, and find “screen search” in the menu. Type in a keyword, like “next”, to find items with that text on the screen.\n\nTry searching for “next” now to find the next button.</string>
+  <string name="using_screen_search_text">The screen search feature allows you to look for specific content on the screen.\n\nTo try it, open the Meridian menu by tapping with 3 fingers, and find “screen search” in the menu. Type in a keyword, like “next”, to find items with that text on the screen.\n\nTry searching for “next” now to find the next button.</string>
   <!-- The title of navigate by screen search page. [CHAR_LIMIT=NONE] -->
   <string name="screen_search_navigation_title">Navigate by screen search</string>
   <!-- The description about how to use screen search navigation. [CHAR_LIMIT=NONE]-->
@@ -3852,41 +3852,41 @@
   <!-- The title of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_title">Checking notifications</string>
   <!-- The head description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
-  <string name="checking_notifications_text_head">SandFly will announce when you get a new notification.</string>
+  <string name="checking_notifications_text_head">Meridian will announce when you get a new notification.</string>
   <!-- The first bullet point description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_step_one">First, swipe down with 4 fingers to access the notification.</string>
   <!-- The Second bullet point description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_step_two">Then, swipe left or right to navigate within the notification.</string>
   <!-- The tail description of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
-  <string name="checking_notifications_text_tail">You can check which apps have notifications turned on in Settings > Notifications. On the Notifications screen, you can also turn on SandFly\'s notification list to browse recent notifications.</string>
+  <string name="checking_notifications_text_tail">You can check which apps have notifications turned on in Settings > Notifications. On the Notifications screen, you can also turn on Meridian\'s notification list to browse recent notifications.</string>
   <!-- The tail description of the "Checking notifications" page's text-to-speech text. [CHAR_LIMIT=NONE] -->
-  <string name="checking_notifications_text_tail_tts">You can check which apps have notifications turned on in Settings then Notifications. On the Notifications screen, you can also turn on SandFly\'s notification list to browse recent notifications.</string>
+  <string name="checking_notifications_text_tail_tts">You can check which apps have notifications turned on in Settings then Notifications. On the Notifications screen, you can also turn on Meridian\'s notification list to browse recent notifications.</string>
   <!-- The tip of the "Checking notifications" page. [CHAR_LIMIT=NONE] -->
   <string name="checking_notifications_tips">To check your notification history, swipe down with 2 fingers from the top of your screen</string>
 
   <!-- For more pages in tutorial. -->
   <string name="tutorial_sandfly_direct_key_input_title">Direct key input</string>
-  <string name="tutorial_sandfly_direct_key_input_text">With Direct key input, you type by sliding across the keyboard. Move your finger to the key you want, then lift your finger to type it. Keep your finger on a key to use its long-press action, such as an accented letter.\n\nTo turn it on, go to SandFly settings > On-screen keyboard > Typing method and choose Direct key input.</string>
+  <string name="tutorial_sandfly_direct_key_input_text">With Direct key input, you type by sliding across the keyboard. Move your finger to the key you want, then lift your finger to type it. Keep your finger on a key to use its long-press action, such as an accented letter.\n\nTo turn it on, go to Meridian settings > On-screen keyboard > Typing method and choose Direct key input.</string>
   <string name="tutorial_sandfly_timer_stopwatch_title">Timer and stopwatch</string>
-  <string name="tutorial_sandfly_timer_stopwatch_text">SandFly settings > Timer settings gathers the time announcements and the stopwatch. From there, open the Stopwatch screen to set its sounds, vibration, and how often it reminds you how long it has run.\n\nThe Toggle stopwatch action starts or stops the stopwatch. By default, holding the volume up key while the screen is locked does this.</string>
-  <string name="tutorial_sandfly_volume_keys_text">Turn on "SandFly manages volume keys" to choose what the volume keys do. There are six actions to assign: a press, a hold, and a hold while the screen is locked, for volume up and for volume down.\n\nBy default, a press changes the volume, and holding volume up while the screen is locked starts or stops the stopwatch.</string>
-  <string name="tutorial_sandfly_translate_text">SandFly can translate the last phrase it spoke, using translation that runs on your device. Assign the Translate last spoken utterance action to a gesture in SandFly settings > Gestures, then use that gesture right after SandFly speaks.\n\nYou can choose the languages in SandFly settings > Feedback > Offline translation.</string>
-  <string name="tutorial_sandfly_dictate_text">With Dictate, you speak and SandFly writes your words into the current text box.\n\nDictate has no gesture by default. To use it, assign the Dictate action to a gesture in SandFly settings > Gestures. You can choose the speech recognition service in SandFly settings > Dictation.</string>
-  <string name="tutorial_sandfly_web_selection_text">On web pages, SandFly can change the reading control by itself, for example to Headings or to Actions, based on what you focus on.\n\nIf you want the reading control to stay where you put it on web pages, turn off "Change reading control in selection mode" in SandFly settings > Reading controls. While it is off, the reading control never changes by itself in web content.</string>
-  <string name="tutorial_sandfly_export_diagnostics_text">If something goes wrong, export a diagnostics log and send it to whoever is helping you. Go to SandFly settings > Developer settings > Export diagnostics, then choose "Export log to Downloads" or "Copy log".\n\nThe log has your device and app details, SandFly\'s recent activity, and information about crashes.</string>
-  <string name="tutorial_sandfly_notifications_text">The Notifications screen in SandFly settings shows which apps have notifications turned on.\n\nYou can also turn on "Use SandFly\'s notification list" there. With the list on, you can browse recent notifications and hear each one with its app, time, and text.</string>
+  <string name="tutorial_sandfly_timer_stopwatch_text">Meridian settings > Timer settings gathers the time announcements and the stopwatch. From there, open the Stopwatch screen to set its sounds, vibration, and how often it reminds you how long it has run.\n\nThe Toggle stopwatch action starts or stops the stopwatch. By default, holding the volume up key while the screen is locked does this.</string>
+  <string name="tutorial_sandfly_volume_keys_text">Turn on "Meridian manages volume keys" to choose what the volume keys do. There are six actions to assign: a press, a hold, and a hold while the screen is locked, for volume up and for volume down.\n\nBy default, a press changes the volume, and holding volume up while the screen is locked starts or stops the stopwatch.</string>
+  <string name="tutorial_sandfly_translate_text">Meridian can translate the last phrase it spoke, using translation that runs on your device. Assign the Translate last spoken utterance action to a gesture in Meridian settings > Gestures, then use that gesture right after Meridian speaks.\n\nYou can choose the languages in Meridian settings > Feedback > Offline translation.</string>
+  <string name="tutorial_sandfly_dictate_text">With Dictate, you speak and Meridian writes your words into the current text box.\n\nDictate has no gesture by default. To use it, assign the Dictate action to a gesture in Meridian settings > Gestures. You can choose the speech recognition service in Meridian settings > Dictation.</string>
+  <string name="tutorial_sandfly_web_selection_text">On web pages, Meridian can change the reading control by itself, for example to Headings or to Actions, based on what you focus on.\n\nIf you want the reading control to stay where you put it on web pages, turn off "Change reading control in selection mode" in Meridian settings > Reading controls. While it is off, the reading control never changes by itself in web content.</string>
+  <string name="tutorial_sandfly_export_diagnostics_text">If something goes wrong, export a diagnostics log and send it to whoever is helping you. Go to Meridian settings > Developer settings > Export diagnostics, then choose "Export log to Downloads" or "Copy log".\n\nThe log has your device and app details, Meridian\'s recent activity, and information about crashes.</string>
+  <string name="tutorial_sandfly_notifications_text">The Notifications screen in Meridian settings shows which apps have notifications turned on.\n\nYou can also turn on "Use Meridian\'s notification list" there. With the list on, you can browse recent notifications and hear each one with its app, time, and text.</string>
 
   <!-- For image descriptions pages in tutorial. -->
   <!-- General image description tutorial playground page title. [CHAR_LIMIT=NONE] -->
   <string name="image_description_playground_title">Try getting image descriptions</string>
   <!-- General image description tutorial playground page content one. [CHAR_LIMIT=NONE] -->
-  <string name="image_description_playground_content_one">When you’re focused on an image, open the SandFly menu and select “Describe image”.\n\nThere’s one photo below. Try getting a description for it.</string>
+  <string name="image_description_playground_content_one">When you’re focused on an image, open the Meridian menu and select “Describe image”.\n\nThere’s one photo below. Try getting a description for it.</string>
   <!-- General image description tutorial playground page content two. [CHAR_LIMIT=NONE] -->
-  <string name="image_description_playground_content_two">You can change image description settings anytime in SandFly settings > Automatic descriptions.</string>
+  <string name="image_description_playground_content_two">You can change image description settings anytime in Meridian settings > Automatic descriptions.</string>
   <!-- General image description tutorial playground page content two for TTS. [CHAR_LIMIT=NONE] -->
-  <string name="image_description_playground_content_two_tts">You can change image description settings anytime in SandFly settings then Automatic descriptions.</string>
+  <string name="image_description_playground_content_two_tts">You can change image description settings anytime in Meridian settings then Automatic descriptions.</string>
   <!-- Image description tutorial playground image content description. [CHAR_LIMIT=NONE] -->
-  <string name="image_description_sample_image_content_description">Sample image; tap with 3 fingers to open the SandFly menu and select \"Describe image\" to hear a description.</string>
+  <string name="image_description_sample_image_content_description">Sample image; tap with 3 fingers to open the Meridian menu and select \"Describe image\" to hear a description.</string>
 
   <!-- For practice gestures pages in tutorial. -->
   <!-- The title of practicing gesture page. [CHAR_LIMIT=NONE]-->
@@ -3896,11 +3896,11 @@
   <!-- The title of practicing gesture page. [CHAR_LIMIT=NONE]-->
   <string name="pref_gesture_set_key_title">Gesture set</string>
   <!-- The description about how to try gestures. [CHAR_LIMIT=NONE]-->
-  <string name="practice_gestures_text">Try any SandFly gesture on this screen to hear what that gesture does.\n\nTap the screen with 2 fingers. Keep practicing by tapping once, twice, or three times with 2, 3, or 4 fingers.\n\nYou can also double-tap and hold with 2, 3, or 4 fingers.</string>
+  <string name="practice_gestures_text">Try any Meridian gesture on this screen to hear what that gesture does.\n\nTap the screen with 2 fingers. Keep practicing by tapping once, twice, or three times with 2, 3, or 4 fingers.\n\nYou can also double-tap and hold with 2, 3, or 4 fingers.</string>
   <!-- The description about how to try gestures. [CHAR_LIMIT=NONE]-->
-  <string name="practice_gestures_text_pre_r">Try any SandFly gesture on this screen to hear what that gesture does.\n\nTry any gesture where two swipes form a right angle. For example, swipe down and then right, without lifting your finger in between.</string>
+  <string name="practice_gestures_text_pre_r">Try any Meridian gesture on this screen to hear what that gesture does.\n\nTry any gesture where two swipes form a right angle. For example, swipe down and then right, without lifting your finger in between.</string>
   <!-- The description about how to try keyboard shortcuts and gestures. [CHAR_LIMIT=NONE]-->
-  <string name="practice_keyboard_gestures_text">Press a physical keyboard key or key combination to hear what it does. Press Ctrl + W, or Escape to exit.\n\nYou can also practice SandFly gestures here.</string>
+  <string name="practice_keyboard_gestures_text">Press a physical keyboard key or key combination to hear what it does. Press Ctrl + W, or Escape to exit.\n\nYou can also practice Meridian gestures here.</string>
   <!-- The text of the first button which lets users try jumping between controls in tutorial. [CHAR_LIMIT=NONE]-->
   <string name="button_1">Button 1</string>
   <!-- The text of the second button which lets users try jumping between controls in tutorial. [CHAR_LIMIT=NONE]-->
@@ -3912,9 +3912,9 @@
   <!-- The text is shown on the Toast when the view, like button or link, is clicked. The toast is to notify users that they activate a button or a link. [CHAR_LIMIT=NONE]-->
   <string name="activated_view">Activated <xliff:g example="button">%1$s</xliff:g></string>
   <!-- Alert dialog title when the user starts the TalkBack tutorial but TalkBack is inactive. [CHAR_LIMIT=60] -->
-  <string name="talkback_inactive_title">SandFly is off</string>
+  <string name="talkback_inactive_title">Meridian is off</string>
   <!-- Alert dialog warning message when the user starts the TalkBack tutorial but TalkBack is inactive. [CHAR_LIMIT=NONE] -->
-  <string name="talkback_inactive_warning_message">This tutorial works best with SandFly on. You can make this change in Settings.\n\nIf you continue with SandFly off, some of the tutorial may not work as intended.</string>
+  <string name="talkback_inactive_warning_message">This tutorial works best with Meridian on. You can make this change in Settings.\n\nIf you continue with Meridian off, some of the tutorial may not work as intended.</string>
   <!-- The checkbox text of the dialog to reject showing the dialog again. [CHAR_LIMIT=60]-->
   <string name="do_not_show_again_check_box">Do not show this again</string>
   <!-- The button when the user starts the TalkBack tutorial but TalkBack is inactive, tap it can keep reviewing talkback tutorial. [CHAR_LIMIT=30] -->
@@ -3928,9 +3928,9 @@
   <!-- The button when the user starts the TalkBack tutorial but TalkBack is inactive, tap it cancel the dialog. [CHAR_LIMIT=30] -->
   <string name="talkback_inactive_not_now_button">Not now</string>
   <!-- Alert dialog message when the user starts the TalkBack practice gestures tutorial but TalkBack is inactive, user has to turn on talkback in advance. [CHAR_LIMIT=NONE] -->
-  <string name="talkback_inactive_message_practice_gestures">To practice gestures, first turn on SandFly</string>
+  <string name="talkback_inactive_message_practice_gestures">To practice gestures, first turn on Meridian</string>
   <!-- Alert dialog message when the user starts the TalkBack image description tutorial but TalkBack is inactive, user has to turn on talkback in advance. [CHAR_LIMIT=NONE] -->
-  <string name="talkback_inactive_message_image_description">To try getting image descriptions, first turn on SandFly</string>
+  <string name="talkback_inactive_message_image_description">To try getting image descriptions, first turn on Meridian</string>
 
   <!-- The button when the user starts the TalkBack tutorial but TalkBack is inactive, tap it to close tutorial. [CHAR_LIMIT=30] -->
   <string name="talkback_inactive_close_tutorial_button">Close tutorial</string>
@@ -3959,7 +3959,7 @@
   <!-- The title of End of tutorial page for Wear. [CHAR_LIMIT=180] -->
 
   <!-- The title for the What's new page. [CHAR_LIMIT=150] -->
-  <string name="wear_new_feature_page_title">Welcome to the updated SandFly</string>
+  <string name="wear_new_feature_page_title">Welcome to the updated Meridian</string>
   <!-- The content for the What's new page. [CHAR_LIMIT=NONE] -->
   <string name="wear_new_feature_page_content">You\'ll notice some bug fixes and changes to how the focus moves</string>
   <!-- The content description for the action button in the What's new page. [CHAR_LIMIT=NONE] -->
@@ -4158,7 +4158,7 @@
   <!-- The button text of the dialog to confirm downloading of a module. [CHAR_LIMIT=NONE]-->
   <string name="confirm_download_positive_button_text">Download</string>
   <!-- The hint of rejecting the download of the module. [CHAR_LIMIT=NONE]-->
-  <string name="confirm_download_negative_button_hint">SandFly can still describe text in images</string>
+  <string name="confirm_download_negative_button_hint">Meridian can still describe text in images</string>
   <!-- The hint to notify the icon-detection is downloading. [CHAR_LIMIT=NONE]-->
   <string name="downloading_icon_detection_hint">Downloading automatic icon descriptions</string>
   <!-- The hint to notify the icon-detection has been downloaded successfully. [CHAR_LIMIT=NONE]-->
@@ -4202,9 +4202,9 @@
   <!-- The title of the dialog to confirm the deletion of all image-captioning modules. [CHAR_LIMIT=NONE]-->
   <string name="delete_all_image_captioning_dialog_title">Delete automatic image &amp; icon descriptions?</string>
   <!-- The message of the dialog to confirm the deletion of a module. [CHAR_LIMIT=NONE]-->
-  <string name="delete_dialog_message">To get descriptions again later, you can download this feature from SandFly settings</string>
+  <string name="delete_dialog_message">To get descriptions again later, you can download this feature from Meridian settings</string>
   <!-- The message of the dialog to confirm the deletion of all modules. [CHAR_LIMIT=NONE]-->
-  <string name="delete_all_dialog_message">This deletes automatic descriptions for both icons and images.\n\nTo get descriptions again later, you can download these features from SandFly settings.</string>
+  <string name="delete_all_dialog_message">This deletes automatic descriptions for both icons and images.\n\nTo get descriptions again later, you can download these features from Meridian settings.</string>
   <!-- The button text of the dialog to accept a module deletion. [CHAR_LIMIT=NONE]-->
   <string name="delete_dialog_positive_button_text">Delete</string>
   <!-- The button text of the dialog to reject a module deletion. [CHAR_LIMIT=NONE]-->
@@ -4216,7 +4216,7 @@
   <!-- The hint of the image-description module has been deleted. [CHAR_LIMIT=NONE]-->
   <string name="delete_all_image_captioning_hint">Automatic image &amp; icon descriptions deleted</string>
   <!-- The title of the dialog to disable/enable of the Gemini support. [CHAR_LIMIT=NONE]-->
-  <string name="gemini_enable_dialog_title">Use Gemini in SandFly</string>
+  <string name="gemini_enable_dialog_title">Use Gemini in Meridian</string>
   <!-- The message of the dialog to disable/enable of the Gemini support. [CHAR_LIMIT=NONE]-->
   <string name="gemini_disable_dialog_message">Screen understanding with Gemini</string>
   <!-- The subtext of the dialog to disable Gemini feature. [CHAR_LIMIT=NONE]-->
@@ -4398,7 +4398,7 @@
   <string name="dictation_field_gone">Text field closed. Nothing typed.</string>
   <!-- Spoken when recorded speech could not be turned into text for dictation. [CHAR_LIMIT=NONE] -->
   <string name="dictation_transcription_failed">Speech not transcribed. Nothing typed.</string>
-  <!-- Title of the Dictation settings screen and its entry in SandFly settings. [CHAR_LIMIT=NONE] -->
+  <!-- Title of the Dictation settings screen and its entry in Meridian settings. [CHAR_LIMIT=NONE] -->
   <string name="title_pref_dictation">Dictation</string>
   <!-- Dictation switch: Rambler transcribes while the user speaks, so that the text is typed sooner after recording stops. Rambler is a product name. [CHAR_LIMIT=NONE] -->
   <string name="title_pref_dictation_rambler_live">Rambler live transcription</string>
@@ -4431,7 +4431,7 @@
   <!-- Switch that keeps browse mode on or off in each app as the user last left it there. [CHAR_LIMIT=NONE] -->
   <string name="title_pref_browse_mode_per_app">Remember browse mode in each app</string>
   <!-- Smart Browse Mode toggle's summary in the settings. [CHAR_LIMIT=NONE] -->
-  <string name="summary_smart_browse_mode">Automatically turns browse mode on or off based on the item you\'re on. This syncs input focus with SandFly focus.</string>
+  <string name="summary_smart_browse_mode">Automatically turns browse mode on or off based on the item you\'re on. This syncs input focus with Meridian focus.</string>
 
   <!-- Visual feedback for a new typing echo setting. Only displayed after the keyboard shortcut is pressed. [CHAR_LIMIT=100] -->
   <string name="typing_echo_change_visual_feedback">Physical keyboard echo: <xliff:g example="Characters" id="echoValue">%1$s</xliff:g></string>
@@ -4439,7 +4439,7 @@
 
   <!-- Speech bubble dialog strings. -->
   <!-- The title of the dialog to turn off TalkBack. [CHAR_LIMIT=NONE]-->
-  <string name="talkback_turn_off_title">Turn off SandFly?</string>
+  <string name="talkback_turn_off_title">Turn off Meridian?</string>
   <!-- The button text of the dialog to turn off TalkBack. [CHAR_LIMIT=NONE]-->
   <string name="talkback_turn_off_button">Turn off</string>
   <!-- The button text of the dialog to keep TalkBack on. [CHAR_LIMIT=NONE]-->
@@ -4450,21 +4450,21 @@
   <!-- Label for close. [CHAR_LIMIT=NONE] -->
   <string name="close_string">Close</string>
   <!-- TalkBack label. [CHAR_LIMIT=NONE]-->
-  <string name="talkback_label">SandFly</string>
+  <string name="talkback_label">Meridian</string>
 
 
-    <!-- Settings entry that saves all of SandFly's settings to a file. [CHAR_LIMIT=NONE] -->
+    <!-- Settings entry that saves all of Meridian's settings to a file. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_export_settings">Export settings</string>
-    <!-- Settings entry that replaces SandFly's settings with those in a file exported before. [CHAR_LIMIT=NONE] -->
+    <!-- Settings entry that replaces Meridian's settings with those in a file exported before. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_import_settings">Import settings</string>
-    <!-- Message after SandFly's settings were saved to a file. [CHAR_LIMIT=NONE] -->
+    <!-- Message after Meridian's settings were saved to a file. [CHAR_LIMIT=NONE] -->
     <string name="settings_export_done">Settings exported. API keys are not included</string>
-    <!-- Message when SandFly's settings could not be saved to a file. [CHAR_LIMIT=NONE] -->
+    <!-- Message when Meridian's settings could not be saved to a file. [CHAR_LIMIT=NONE] -->
     <string name="settings_export_failed">Settings could not be exported</string>
-    <!-- Message after SandFly's settings were replaced with those in a file. [CHAR_LIMIT=NONE] -->
+    <!-- Message after Meridian's settings were replaced with those in a file. [CHAR_LIMIT=NONE] -->
     <string name="settings_import_done">Settings imported</string>
-    <!-- Message when a file could not be read as SandFly settings. [CHAR_LIMIT=NONE] -->
-    <string name="settings_import_failed">This file is not a SandFly or Backtalk settings file, or could not be read</string>
+    <!-- Message when a file could not be read as Meridian settings. [CHAR_LIMIT=NONE] -->
+    <string name="settings_import_failed">This file is not a Meridian or Backtalk settings file, or could not be read</string>
     <string name="title_pref_ocr_engine">Công cụ nhận dạng văn bản</string>
     <string name="title_pref_ocr_data_download">Tải dữ liệu nhận dạng</string>
     <string name="summary_ocr_data_downloaded">Đã tải xuống</string>
@@ -4482,4 +4482,7 @@
     <string name="title_pref_category_typing">Typing</string>
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
+    <string name="meridian_intro_title">About Meridian</string>
+    <string name="meridian_intro">Meridian is a screen reader for blind users: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references code from other screen readers: Google TalkBack, BackTalk and SandFly, and has since been changed to be different. If you find a bug, contact the developer: https://www.facebook.com/share/1Bscgg2MPs/</string>
+    <string name="meridian_contact_title">Contact the developer</string>
 </resources>
