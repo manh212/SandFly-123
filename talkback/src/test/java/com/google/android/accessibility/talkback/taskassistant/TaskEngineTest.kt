@@ -2,23 +2,18 @@ package com.google.android.accessibility.talkback.taskassistant
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
-import org.junit.Assert.assertNotNull
 import org.junit.Test
 
 class TaskEngineTest {
   private class Host : TaskHost {
     var observation: ((Result<TaskScreen>) -> Unit)? = null
     var answer: ((Result<String>) -> Unit)? = null
-    var confirmation: ((Boolean) -> Unit)? = null
     var execution: ((TaskExecution) -> Unit)? = null
-    var question: ((String?) -> Unit)? = null
     var performed = 0
     var cancellations = 0
     override fun observe(done: (Result<TaskScreen>) -> Unit) { observation = done }
     override fun plan(prompt: String, done: (Result<String>) -> Unit) { answer = done }
     override fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit) { performed++; execution = done }
-    override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) { confirmation = done }
-    override fun ask(question: String, done: (String?) -> Unit) { this.question = done }
     override fun changed(state: TaskState, message: String) { }
     override fun cancelOperations() { cancellations++ }
     fun screen(value: TaskScreen) { val next = observation!!; observation = null; next(Result.success(value)) }
@@ -67,17 +62,14 @@ class TaskEngineTest {
     assertEquals(TaskState.CANCELLED, engine.state)
   }
 
-  @Test fun cancellingAConfirmationNeverExecutesThePendingSend() {
+  @Test fun aRiskySingleStepExecutesImmediatelyWithoutAsking() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
     engine.start("Gửi tin")
     host.screen(screen)
     host.reply("""{"snapshot":1,"action":"click","node":"n1","sensitive":false}""")
-    assertNotNull(host.confirmation)
-    engine.cancel()
-    host.confirmation!!(true)
-    assertEquals(0, host.performed)
-    assertEquals(TaskState.CANCELLED, engine.state)
+    assertEquals(1, host.performed)
+    assertEquals(TaskState.EXECUTING, engine.state)
   }
 
   @Test fun cancelledActionCallbacksCannotStartAnotherObservation() {
@@ -137,19 +129,26 @@ class TaskEngineTest {
     assertEquals(TaskState.PLANNING, engine.state)
   }
 
-  @Test fun aRiskySequenceStepWaitsForConfirmationBeforeExecuting() {
+  @Test fun aRiskySequenceStepExecutesImmediatelyWithoutAsking() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
     engine.start("Gửi tin")
     host.screen(screen)
     host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Gửi"}]}""")
-    assertNotNull(host.confirmation)
-    assertEquals(0, host.performed)
-    host.confirmation!!(true)
     assertEquals(1, host.performed)
     host.execution!!(TaskExecution.PERFORMED)
     host.screen(screen.copy(id = 2, fingerprint = "after"))
     assertEquals(TaskState.PLANNING, engine.state)
+  }
+
+  @Test fun anAskReplyFailsWithItsMessageInsteadOfAsking() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Làm gì đó")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"action":"ask","message":"Bạn muốn gì?"}""")
+    assertEquals(TaskState.FAILED, engine.state)
+    assertEquals("Bạn muốn gì?", engine.message)
   }
 
   @Test fun staleTargetsAreObservedAgainWithoutRepeatingTheOldDecision() {

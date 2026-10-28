@@ -191,7 +191,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
           val effective: TaskStep? = when {
             step.node.isBlank() && step.label.isNotBlank() -> resolveLabeled(fresh, step)?.let { step.copy(node = it) }
             fresh.screen.fingerprint == screen.fingerprint -> step
-            TaskProtocol.needsConfirmation(step, screen) -> null
             step.operation in setOf(TaskOperation.BACK, TaskOperation.HOME, TaskOperation.WAIT, TaskOperation.OPEN_APP) -> step
             else -> resolveTarget(screen, step, fresh)?.let { step.copy(node = it) }
           }
@@ -244,42 +243,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
     val compactB = b.filter { it.isLetterOrDigit() }
     return compactA.isNotEmpty() && compactB.isNotEmpty() &&
       (compactA == compactB || compactA.contains(compactB) || compactB.contains(compactA))
-  }
-
-  override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) {
-    val label = screen.nodes.firstOrNull { it.id == step.node }?.label.orEmpty().ifBlank { step.label }
-    val action = when (step.operation) {
-      TaskOperation.SET_TEXT -> "Nhập nội dung: ${step.text}"
-      TaskOperation.LONG_CLICK -> "Nhấn giữ: $label"
-      TaskOperation.PRESS_ENTER -> "Xác nhận bằng phím nhập: $label"
-      else -> "Chọn: $label"
-    }
-    var answered = false
-    display(MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_confirm)
-      .setMessage("${engine?.goal}\n\n${screen.packageName}\n$action")
-      .setPositiveButton(R.string.task_confirm_action) { _, _ -> answered = true; dismissDialog(); done(true) }
-      .setNegativeButton(R.string.task_pause) { _, _ -> answered = true; dismissDialog(); done(false) }) {
-      if (!answered) done(false)
-    }
-  }
-
-  override fun ask(question: String, done: (String?) -> Unit) {
-    if (TaskProtocol.isCredentialRequest(question)) {
-      display(MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_question)
-        .setMessage("Hãy tạm dừng và tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng. Sau đó mở Giao việc và chọn Tiếp tục.")
-        .setPositiveButton(R.string.task_pause) { _, _ -> dismissDialog(); done(null) }) { done(null) }
-      return
-    }
-    val input = KeyboardSafeEditText(service).apply {
-      hint = service.getString(R.string.task_answer)
-      maxLines = 5
-    }
-    var answered = false
-    display(MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_question).setMessage(question).setView(input)
-      .setPositiveButton(R.string.task_resume) { _, _ -> answered = true; dismissDialog(); done(input.text.toString()) }
-      .setNegativeButton(R.string.task_pause) { _, _ -> answered = true; dismissDialog(); done(null) }) {
-      if (!answered) done(null)
-    }
   }
 
   override fun changed(state: TaskState, message: String) {

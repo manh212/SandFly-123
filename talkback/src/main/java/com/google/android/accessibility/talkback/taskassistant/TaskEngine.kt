@@ -1,6 +1,6 @@
 package com.google.android.accessibility.talkback.taskassistant
 
-enum class TaskState { IDLE, OBSERVING, PLANNING, EXECUTING, CONFIRMING, ASKING, PAUSED, FINISHED, FAILED, CANCELLED }
+enum class TaskState { IDLE, OBSERVING, PLANNING, EXECUTING, PAUSED, FINISHED, FAILED, CANCELLED }
 
 enum class TaskExecution { PERFORMED, STALE, FAILED }
 
@@ -10,8 +10,6 @@ interface TaskHost {
     TaskProtocol.prompt(goal, screen, apps, history)
   fun plan(prompt: String, done: (Result<String>) -> Unit)
   fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit)
-  fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit)
-  fun ask(question: String, done: (String?) -> Unit)
   fun changed(state: TaskState, message: String)
   fun cancelOperations()
 }
@@ -36,7 +34,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
     get() = state in setOf(TaskState.OBSERVING, TaskState.PLANNING, TaskState.EXECUTING)
 
   val active: Boolean
-    get() = busy || state in setOf(TaskState.CONFIRMING, TaskState.ASKING, TaskState.PAUSED)
+    get() = busy || state == TaskState.PAUSED
 
   fun start(request: String) {
     require(request.isNotBlank() && request.length <= 4000)
@@ -103,7 +101,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
         pendingChange = null
         unchanged = 0
         if (pendingSteps != null) { executeNextSequence(screen); return@observe }
-        addHistory("The last action did not change the screen. Try another way: a different node, wait for loading, scroll, or ask the user.")
+        addHistory("The last action did not change the screen. Try another way: a different node, wait for loading, scroll, or try a different target.")
         plan(screen)
         return@observe
       }
@@ -144,8 +142,8 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
                 }
               }
             }
-            TaskOperation.ASK -> ask(step.message)
-            else -> if (TaskProtocol.needsConfirmation(step, screen)) confirm(screen, step) else execute(screen, step)
+            TaskOperation.ASK -> fail(step.message)
+            else -> execute(screen, step)
           }
         }
         is TaskProtocol.TaskPlan.Sequence -> {
@@ -165,27 +163,7 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
       plan(screen)
       return
     }
-    if (TaskProtocol.needsConfirmationLabel(step)) confirm(screen, step) else execute(screen, step)
-  }
-
-  private fun confirm(screen: TaskScreen, step: TaskStep) {
-    setState(TaskState.CONFIRMING, "Chờ xác nhận")
-    val token = generation
-    host.confirm(screen, step) { accepted ->
-      if (token != generation || state != TaskState.CONFIRMING) return@confirm
-      if (accepted) execute(screen, step) else { pendingSteps = null; pause() }
-    }
-  }
-
-  private fun ask(question: String) {
-    setState(TaskState.ASKING, question)
-    val token = generation
-    host.ask(question) { answer ->
-      if (generation != token || state != TaskState.ASKING) return@ask
-      if (answer.isNullOrBlank()) { pause(); return@ask }
-      addHistory("User clarification: ${answer.take(4000)}")
-      observe()
-    }
+    execute(screen, step)
   }
 
   private fun execute(screen: TaskScreen, step: TaskStep) {

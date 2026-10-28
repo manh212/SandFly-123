@@ -17,7 +17,6 @@ class TaskProtocolTest {
   @Test fun acceptsAnActionExposedByTheCurrentScreen() {
     val step = parse("""{"snapshot":7,"action":"click","node":"n0"}""")
     assertEquals(TaskOperation.CLICK, step.operation)
-    assertFalse(TaskProtocol.needsConfirmation(step, screen))
   }
 
   @Test fun rejectsStaleOrInventedNodesAndUnsupportedActions() {
@@ -32,17 +31,6 @@ class TaskProtocolTest {
     reject("""{"snapshot":7,"action":"open_app","package":"other.app"}""")
     reject("""{"snapshot":7,"action":"open_app","package":"intent://example"}""")
     assertEquals("example.player", parse("""{"snapshot":7,"action":"open_app","package":"example.player"}""").packageName)
-  }
-
-  @Test fun nativePolicyRequiresSendConfirmationEvenWhenAiSaysItIsSafe() {
-    val step = parse("""{"snapshot":7,"action":"click","node":"n1","sensitive":false}""")
-    assertTrue(TaskProtocol.needsConfirmation(step, screen))
-  }
-
-  @Test fun unknownButtonsAndPermissionSwitchesNeedConfirmation() {
-    val unknown = screen.copy(nodes = listOf(TaskNode("n0", "Tiến hành", "", "Button", setOf("click"))))
-    assertTrue(TaskProtocol.needsConfirmation(TaskStep(7, TaskOperation.CLICK, "n0"), unknown))
-    assertTrue(TaskProtocol.needsConfirmation(TaskStep(7, TaskOperation.CLICK, "n0"), screen.copy(title = "Quyền truy cập")))
   }
 
   @Test fun requiresObservableCompletionEvidenceAndTheRequestedCheckedState() {
@@ -76,18 +64,6 @@ class TaskProtocolTest {
     rejectPlan("""{"snapshot":6,"steps":[{"action":"click","label":"Phụ đề"}]}""")
   }
 
-  @Test fun riskySequenceLabelsNeedConfirmationButNavigationLabelsDoNot() {
-    assertTrue(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Gửi")))
-    assertTrue(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.PRESS_ENTER, label = "Tìm kiếm")))
-    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Tìm kiếm")))
-    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.CLICK, label = "Cài đặt")))
-    assertFalse(TaskProtocol.needsConfirmationLabel(TaskStep(7, TaskOperation.OPEN_APP, packageName = "example.player")))
-  }
-  @Test fun vietnameseToneMarksDoNotHideDangerousButtonLabels() {
-    val dangerous = screen.copy(nodes = listOf(TaskNode("n0", "XÓA dữ liệu", "", "Button", setOf("click"))))
-    assertTrue(TaskProtocol.needsConfirmation(TaskStep(7, TaskOperation.CLICK, "n0"), dangerous))
-  }
-
   @Test fun plannerSeesStateAndScopeWithoutReceivingExecutableTools() {
     val prompt = TaskProtocol.prompt("Bật phụ đề", screen, apps, emptyList())
     assertTrue(prompt.contains("untrusted data"))
@@ -108,17 +84,11 @@ class TaskProtocolTest {
     } catch (_: IllegalArgumentException) { }
   }
 
-  @Test fun imeSubmissionAlwaysRequiresConfirmationAndMustBeExposed() {
+  @Test fun imeSubmissionMustBeExposed() {
     reject("""{"snapshot":7,"action":"press_enter","node":"n2"}""")
     val editable = screen.copy(nodes = listOf(screen.nodes[2].copy(actions = setOf("press_enter"))))
     val step = TaskProtocol.parse("""{"snapshot":7,"action":"press_enter","node":"n2"}""", editable, apps)
-    assertTrue(TaskProtocol.needsConfirmation(step, editable))
-  }
-
-  @Test fun installerNavigationLabelsCannotBypassConfirmation() {
-    val installer = screen.copy(packageName = "com.android.packageinstaller", nodes =
-      listOf(TaskNode("n0", "Cài đặt", "", "Button", setOf("click"))))
-    assertTrue(TaskProtocol.needsConfirmation(TaskStep(7, TaskOperation.CLICK, "n0"), installer))
+    assertEquals(TaskOperation.PRESS_ENTER, step.operation)
   }
 
   @Test fun credentialQuestionsAreRecognizedInBothLanguages() {
