@@ -37,7 +37,7 @@
     <string name="notification_private_format_message">Được đọc thay cho nội dung của thông báo riêng tư. Phần giữ chỗ: {app}, {category} và {time}.</string>
     <string name="notification_category_voice">Giọng nói</string>
     <string name="notification_voice_title">Giọng nói</string>
-    <string name="notification_voice_sandfly">Giọng của SandFly</string>
+    <string name="notification_voice_sandfly">Giọng của Meridian</string>
     <string name="notification_detect_language_title">Phát hiện ngôn ngữ</string>
     <string name="notification_detect_language_summary">Đọc mỗi thông báo bằng ngôn ngữ của thông báo đó. Cần bật Tự động chuyển ngôn ngữ trong cài đặt Chuyển văn bản thành giọng nói.</string>
     <string name="notification_sound_before_title">Âm thanh trước thông báo</string>
@@ -117,7 +117,7 @@
     <string name="notification_summary_newest_first_title">Mới nhất trước</string>
     <string name="notification_summary_name_title">Tên của bạn</string>
     <string name="notification_summary_gap_title">Khoảng dừng giữa các thông báo</string>
-    <string name="notification_summary_needs_sandfly">Hãy bật SandFly để đọc thông báo</string>
+    <string name="notification_summary_needs_sandfly">Hãy bật Meridian để đọc thông báo</string>
     <string name="notification_summary_no_access">Quyền truy cập thông báo đang tắt</string>
     <string name="notification_summary_morning">Chào buổi sáng.</string>
     <string name="notification_summary_afternoon">Chào buổi chiều.</string>
@@ -141,18 +141,18 @@
     <string name="timer_setup_status_missing">Chưa cấp</string>
     <string name="timer_setup_status_unknown">Không kiểm tra được</string>
     <string name="timer_setup_battery_title">Tiết kiệm pin</string>
-    <string name="timer_setup_battery_granted">SandFly đã được miễn trừ: máy không hạn chế SandFly khi nghỉ.</string>
-    <string name="timer_setup_battery_missing">Chưa được miễn trừ: máy vẫn có thể hạn chế SandFly khi nghỉ, và thông báo hẹn giờ có thể bị lỡ.</string>
+    <string name="timer_setup_battery_granted">Meridian đã được miễn trừ: máy không hạn chế Meridian khi nghỉ.</string>
+    <string name="timer_setup_battery_missing">Chưa được miễn trừ: máy vẫn có thể hạn chế Meridian khi nghỉ, và thông báo hẹn giờ có thể bị lỡ.</string>
     <string name="timer_setup_battery_open">Xin miễn trừ tiết kiệm pin</string>
     <string name="timer_setup_access_title">Quyền đọc thông báo</string>
-    <string name="timer_setup_access_granted">Đã cấp: SandFly đọc được thông báo cho bản tóm tắt hằng ngày.</string>
+    <string name="timer_setup_access_granted">Đã cấp: Meridian đọc được thông báo cho bản tóm tắt hằng ngày.</string>
     <string name="timer_setup_access_missing">Chưa cấp: bản tóm tắt hằng ngày được đọc từ các thông báo.</string>
     <string name="timer_setup_access_open">Mở quyền đọc thông báo</string>
-    <string name="timer_setup_notifications_title">Thông báo của SandFly</string>
-    <string name="timer_setup_notifications_granted">Đang bật: SandFly gửi được thông báo của chính mình.</string>
-    <string name="timer_setup_notifications_missing">Đang tắt: SandFly không gửi được thông báo của chính mình.</string>
+    <string name="timer_setup_notifications_title">Thông báo của Meridian</string>
+    <string name="timer_setup_notifications_granted">Đang bật: Meridian gửi được thông báo của chính mình.</string>
+    <string name="timer_setup_notifications_missing">Đang tắt: Meridian không gửi được thông báo của chính mình.</string>
     <string name="timer_setup_notifications_open">Mở cài đặt thông báo</string>
-    <string name="timer_setup_service_title">Dịch vụ SandFly</string>
+    <string name="timer_setup_service_title">Dịch vụ Meridian</string>
     <string name="timer_setup_service_granted">Đang bật: trình đọc màn hình đang chạy.</string>
     <string name="timer_setup_service_missing">Đang tắt: trình đọc màn hình chưa chạy.</string>
     <string name="timer_setup_service_open">Mở cài đặt trợ năng</string>
@@ -161,8 +161,8 @@
     <string name="timer_setup_microphone_missing">Chưa cấp: nhập bằng giọng nói không nghe được bạn.</string>
     <string name="timer_setup_microphone_open">Xin quyền micro</string>
     <string name="timer_setup_phone_title">Trạng thái cuộc gọi</string>
-    <string name="timer_setup_phone_granted">Đã cấp: SandFly theo dõi được khi cuộc gọi đổ chuông, đang diễn ra và khi kết thúc.</string>
-    <string name="timer_setup_phone_missing">Chưa cấp: SandFly không phân biệt được cuộc gọi đang đổ chuông với cuộc gọi đã kết thúc.</string>
+    <string name="timer_setup_phone_granted">Đã cấp: Meridian theo dõi được khi cuộc gọi đổ chuông, đang diễn ra và khi kết thúc.</string>
+    <string name="timer_setup_phone_missing">Chưa cấp: Meridian không phân biệt được cuộc gọi đang đổ chuông với cuộc gọi đã kết thúc.</string>
     <string name="timer_setup_phone_open">Xin quyền trạng thái cuộc gọi</string>
     <string name="timer_setup_install_title">Cài đặt bản cập nhật</string>
     <string name="timer_setup_install_granted">Đã cho phép: trình cập nhật cài được các bản nó tải về.</string>
@@ -299,7 +299,7 @@
     <string name="notification_time_end">Đến</string>
     <string name="notification_time_days">Các ngày</string>
     <string name="notification_time_range"><xliff:g id="start" example="22:00">%1$s</xliff:g> đến <xliff:g id="end" example="07:00">%2$s</xliff:g></string>
-    <string name="notification_permission_needed">SandFly cần quyền đó cho điều kiện này</string>
+    <string name="notification_permission_needed">Meridian cần quyền đó cho điều kiện này</string>
     <string name="notification_cond_bluetooth"><xliff:g id="device" example="Pixel Buds">%1$s</xliff:g> đã kết nối</string>
     <string name="notification_cond_bluetooth_not"><xliff:g id="device" example="Pixel Buds">%1$s</xliff:g> chưa kết nối</string>
     <string name="notification_cond_bluetooth_any">Một thiết bị âm thanh Bluetooth đã kết nối</string>
@@ -346,7 +346,7 @@
     <string name="notification_action_max_words_value">đọc tối đa <xliff:g id="words" example="10 words">%1$s</xliff:g></string>
     <string name="notification_off">Tắt</string>
     <string name="notification_on">Bật</string>
-    <string name="notification_never_again">Cho đến khi SandFly khởi động lại</string>
+    <string name="notification_never_again">Cho đến khi Meridian khởi động lại</string>
     <string name="notification_percent"><xliff:g id="percent" example="100">%1$d</xliff:g>%%</string>
     <string name="notification_speech_tile_label">Giọng đọc thông báo</string>
     <string name="notification_speech_now_on">Đã bật giọng đọc thông báo</string>
@@ -357,8 +357,8 @@
     <string name="shortcut_read_last_notification">Đọc lại thông báo gần nhất</string>
     <string name="shortcut_stop_notification">Dừng đọc thông báo</string>
     <string name="notification_test_posting">Một thông báo kiểm tra sẽ xuất hiện sau 5 giây</string>
-    <string name="notification_test_not_allowed">Hãy cho phép SandFly hiển thị thông báo trước</string>
-    <string name="notification_test_content_title">Kiểm tra SandFly</string>
+    <string name="notification_test_not_allowed">Hãy cho phép Meridian hiển thị thông báo trước</string>
+    <string name="notification_test_content_title">Kiểm tra Meridian</string>
     <string name="notification_test_content_text">Đây là thông báo kiểm tra, được đọc theo cài đặt thông báo của bạn. 123456</string>
     <string name="notification_automation_on">Bật giọng đọc thông báo</string>
     <string name="notification_automation_off">Tắt giọng đọc thông báo</string>
@@ -428,6 +428,6 @@
     <string name="notification_outcome_call">Đã đọc dưới dạng cuộc gọi</string>
     <string name="notification_action_voice">đọc bằng một hồ sơ giọng nói</string>
     <string name="notification_action_voice_value">đọc bằng <xliff:g id="profile" example="DECtalk">%1$s</xliff:g></string>
-    <string name="notification_action_voice_sandfly">đọc bằng giọng của SandFly</string>
+    <string name="notification_action_voice_sandfly">đọc bằng giọng của Meridian</string>
     <string name="notification_voice_removed">Đã xóa hồ sơ giọng nói</string>
 </resources>

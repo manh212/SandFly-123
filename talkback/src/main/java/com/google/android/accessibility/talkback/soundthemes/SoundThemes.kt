@@ -209,7 +209,7 @@ object SoundThemes {
     if (id == BACKTALK) backtalk(context) else read(File(themesDirectory(context), id))
 
   /**
-   * Whether the sound [key] has a sound of SandFly's own: a raw file of its name. Sounds without
+   * Whether the sound [key] has a sound of Meridian's own: a raw file of its name. Sounds without
    * one play only a theme's sound, or nothing.
    */
   @JvmStatic
@@ -238,7 +238,7 @@ object SoundThemes {
     isNone(context, active(context, prefs), item)
 
   /**
-   * Whether [item] plays no sound in [theme]: it is set to "none", or it has no sound of SandFly's
+   * Whether [item] plays no sound in [theme]: it is set to "none", or it has no sound of Meridian's
    * own and so plays nothing without a file.
    */
   @JvmStatic
@@ -546,7 +546,7 @@ object SoundThemes {
         }
         if (layout.manifest == null && sounds.isEmpty()) {
           throw NotAThemeException(
-            "it has no theme.json and no sounds named after SandFly's, such as focus.wav"
+            "it has no theme.json and no sounds named after Meridian's, such as focus.wav"
           )
         }
         File(staging, SoundThemeManifest.FILE_NAME).writeText(manifest.toJson())

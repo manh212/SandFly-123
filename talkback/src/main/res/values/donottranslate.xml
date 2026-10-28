@@ -73,7 +73,7 @@
     <string name="pref_keyboard_echo_screen_key" translatable="false">pref_keyboard_echo_screen</string>
     <string name="pref_echo_on_screen_keyboard_key" translatable="false">pref_echo_on_screen_keyboard</string>
     <string name="pref_echo_physical_keyboard_key" translatable="false">pref_echo_physical_keyboard</string>
-    <!-- Reading controls and SandFly menu items for each keyboard echo setting, off by default. -->
+    <!-- Reading controls and Meridian menu items for each keyboard echo setting, off by default. -->
     <string name="pref_selector_keyboard_echo_on_screen_key" translatable="false">pref_selector_keyboard_echo_on_screen_key</string>
     <string name="pref_selector_keyboard_echo_physical_key" translatable="false">pref_selector_keyboard_echo_physical_key</string>
     <string name="selector_keyboard_echo_on_screen" translatable="false">KEYBOARD_ECHO_ON_SCREEN</string>
@@ -1837,7 +1837,7 @@
     <bool name="pref_has_performed_restore_default">false</bool>
 
 
-  <!-- Pause SandFly. -->
+  <!-- Pause Meridian. -->
   <string name="keycombo_shortcut_global_pause_backtalk">keycombo_shortcut_global_pause_backtalk</string>
   <string name="shortcut_value_pause_backtalk" translatable="false">PAUSE_BACKTALK</string>
   <string name="pref_show_pause_confirmation_dialog">pref_show_pause_confirmation_dialog</string>
