@@ -42,5 +42,5 @@
     <string name="update_allow_install">Allow Meridian to install apps, then try the update again</string>
 
     <!-- Title of the settings screen that holds the update settings. [CHAR LIMIT=40] -->
-    <string name="title_pref_updates">Updates</string>
+    <string name="title_pref_updates">Cập nhật</string>
 </resources>

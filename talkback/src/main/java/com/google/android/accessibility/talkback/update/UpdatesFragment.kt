@@ -28,5 +28,8 @@ class UpdatesFragment : TalkbackBaseFragment(R.xml.updates_preferences) {
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
     Updater.setUpPreferences(this)
+    if (savedInstanceState == null) {
+      activity?.let { Updater.checkManually(it) }
+    }
   }
 }
