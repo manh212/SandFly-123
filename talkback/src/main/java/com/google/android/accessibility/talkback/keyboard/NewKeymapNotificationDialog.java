@@ -22,7 +22,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import androidx.annotation.StringRes;
@@ -38,11 +37,6 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 public class NewKeymapNotificationDialog extends BaseDialog {
   private static final String TAG = "NewKeymapNotificationDialog";
 
-  /** The URL to open when the user clicks the neutral button. */
-  // TODO: b/410892855 - Update the URL to the final one.
-  public static final Uri NEW_KEYMAP_HELP_PAGE_URI =
-      Uri.parse("https://support.google.com/accessibility/android/answer/6110948");
-
   @StringRes private int messageResId = ID_NULL;
 
   public NewKeymapNotificationDialog(
@@ -51,7 +45,6 @@ public class NewKeymapNotificationDialog extends BaseDialog {
     this.messageResId = messageResId;
     setPositiveButtonStringRes(R.string.keycombo_new_keymap_notification_dialog_positive_button);
     setNegativeButtonStringRes(R.string.keycombo_new_keymap_notification_dialog_negative_button);
-    setNeutralButtonStringRes(R.string.keycombo_new_keymap_notification_dialog_neutral_button);
   }
 
   @Override
@@ -65,12 +58,6 @@ public class NewKeymapNotificationDialog extends BaseDialog {
         intent.putExtra(
             PreferencesActivity.FRAGMENT_NAME,
             TalkBackKeyboardShortcutPreferenceFragment.class.getName());
-        context.startActivity(intent);
-      }
-      case DialogInterface.BUTTON_NEUTRAL -> {
-        // Open the help center page for the new keymap.
-        intent = new Intent(Intent.ACTION_VIEW, NEW_KEYMAP_HELP_PAGE_URI);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
       }
       default -> {
