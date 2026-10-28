@@ -161,7 +161,7 @@ class RadialMenuController(
       EVENT_ID_UNTRACKED,
       Feedback.speech(text, speakOptions(SpeechController.QUEUE_MODE_INTERRUPT))
         .vibration(R.array.view_actionable_pattern)
-        .sound(R.raw.focus_actionable),
+        .sound(R.raw.lib_new_focus1),
     )
   }
 

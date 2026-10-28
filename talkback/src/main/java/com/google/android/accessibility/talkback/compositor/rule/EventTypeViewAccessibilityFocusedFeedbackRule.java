@@ -136,8 +136,8 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
     boolean earconVibrates = true;
     float[] earconPosition = null;
     int secondEarcon = -1;
-    boolean isFocusSound = earcon == R.raw.focus || earcon == R.raw.focus_actionable;
-    boolean isListSound = earcon == R.raw.chime_up || earcon == R.raw.chime_down;
+    boolean isFocusSound = earcon == R.raw.focus || earcon == R.raw.lib_new_focus1;
+    boolean isListSound = earcon == R.raw.lib_new_focus4 || earcon == R.raw.lib_new_focus0;
     if (globalVariables.areControlSoundsOn() && (isFocusSound || isListSound)) {
       earconPosition = ControlSounds.screenPosition(srcNode, context);
     }
@@ -493,10 +493,10 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
 
     if (globalVariables.lastFocusInScrollableNode()
         != globalVariables.currentFocusInScrollableNode()) {
-      return globalVariables.currentFocusInScrollableNode() ? R.raw.chime_up : R.raw.chime_down;
+      return globalVariables.currentFocusInScrollableNode() ? R.raw.lib_new_focus4 : R.raw.lib_new_focus0;
     } else {
       return AccessibilityNodeInfoUtils.isActionableForAccessibility(node)
-          ? R.raw.focus_actionable
+          ? R.raw.lib_new_focus1
           : R.raw.focus;
     }
   }

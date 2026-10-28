@@ -39,13 +39,16 @@ object IndividualFeedbackSettings {
   val SOUNDS =
     listOf(
       FeedbackItem("focus", R.string.individual_sound_focus),
-      FeedbackItem("focus_actionable", R.string.individual_sound_focus_actionable),
+      FeedbackItem(
+        "focus_actionable",
+        R.string.individual_sound_focus_actionable,
+        listOf("lib_new_focus1", "focus_actionable")),
       FeedbackItem("view_entered", R.string.individual_sound_view_entered),
       FeedbackItem("tick", R.string.individual_sound_tick),
       FeedbackItem("long_clicked", R.string.individual_sound_long_clicked),
       FeedbackItem("scroll_tone", R.string.individual_sound_scroll_tone),
-      FeedbackItem("chime_up", R.string.individual_sound_chime_up),
-      FeedbackItem("chime_down", R.string.individual_sound_chime_down),
+      FeedbackItem("chime_up", R.string.individual_sound_chime_up, listOf("lib_new_focus4", "chime_up")),
+      FeedbackItem("chime_down", R.string.individual_sound_chime_down, listOf("lib_new_focus0", "chime_down")),
       FeedbackItem("complete", R.string.individual_sound_complete),
       FeedbackItem("window_state", R.string.individual_sound_window_state),
       FeedbackItem("next_reading_control", R.string.individual_sound_next_reading_control),

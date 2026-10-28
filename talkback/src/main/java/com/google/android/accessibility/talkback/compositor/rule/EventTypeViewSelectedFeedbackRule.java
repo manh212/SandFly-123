@@ -187,7 +187,7 @@ public final class EventTypeViewSelectedFeedbackRule {
             AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
                 event, preferredLocale))
         ? -1
-        : R.raw.focus_actionable;
+        : R.raw.lib_new_focus1;
   }
 
   private static int haptic(int role, AccessibilityEvent event, Locale preferredLocale) {

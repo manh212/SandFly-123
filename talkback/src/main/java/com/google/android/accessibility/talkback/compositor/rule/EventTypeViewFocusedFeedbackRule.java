@@ -59,7 +59,7 @@ public final class EventTypeViewFocusedFeedbackRule {
         (eventOptions) -> {
           CharSequence ttsOutput = getTtsOutput(eventOptions, globalVariables);
           boolean sourceNodeIsNull = (eventOptions.sourceNode == null);
-          int earcon = sourceNodeIsNull ? R.raw.focus_actionable : -1;
+          int earcon = sourceNodeIsNull ? R.raw.lib_new_focus1 : -1;
           int haptic = sourceNodeIsNull ? R.array.view_focused_or_selected_pattern : -1;
 
           LogUtils.v(
