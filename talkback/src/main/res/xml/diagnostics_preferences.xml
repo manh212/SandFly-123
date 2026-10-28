@@ -6,4 +6,7 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="@string/pref_copy_diagnostics_key"
       android:title="@string/title_pref_copy_diagnostics"/>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_delete_debug_log_key"
+      android:title="@string/title_pref_delete_debug_log"/>
 </PreferenceScreen>

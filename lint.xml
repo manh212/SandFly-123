@@ -141,5 +141,8 @@
         <ignore regexp="first_run_tutorial_yes" />
         <ignore regexp="first_run_tutorial_no" />
             <ignore regexp="title_pref_debug_log" />
+            <ignore regexp="title_pref_delete_debug_log" />
+            <ignore regexp="message_debug_log_deleted" />
+            <ignore regexp="message_debug_log_nothing_to_delete" />
     </issue>
 </lint>

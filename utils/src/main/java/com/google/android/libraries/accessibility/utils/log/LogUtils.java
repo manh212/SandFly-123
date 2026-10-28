@@ -418,4 +418,18 @@ public class LogUtils {
       logStream = null;
     }
   }
+
+  public static boolean clearLogFiles() {
+    synchronized (LOG_FILE_LOCK) {
+      closeLogFileLocked();
+      boolean deleted = false;
+      if (logFile != null && logFile.delete()) {
+        deleted = true;
+      }
+      if (logOldFile != null && logOldFile.delete()) {
+        deleted = true;
+      }
+      return deleted;
+    }
+  }
 }

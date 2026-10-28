@@ -4489,4 +4489,7 @@
     <string name="first_run_tutorial_yes">Yes</string>
     <string name="first_run_tutorial_no">No</string>
     <string name="title_pref_debug_log">Debug log</string>
+    <string name="title_pref_delete_debug_log">Delete debug log</string>
+    <string name="message_debug_log_deleted">Debug log deleted</string>
+    <string name="message_debug_log_nothing_to_delete">No debug log to delete</string>
 </resources>

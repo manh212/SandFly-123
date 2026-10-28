@@ -26,6 +26,7 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.report.DiagnosticsExport;
+import com.google.android.accessibility.utils.log.LogUtils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -67,6 +68,14 @@ public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
             return true;
           });
     }
+    Preference delete = findPreference(getString(R.string.pref_delete_debug_log_key));
+    if (delete != null) {
+      delete.setOnPreferenceClickListener(
+          preference -> {
+            deleteDebugLog();
+            return true;
+          });
+    }
   }
 
   @Override
@@ -79,7 +88,7 @@ public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
     Context context = requireContext().getApplicationContext();
     executor.execute(
         () -> {
-          String text = DiagnosticsExport.INSTANCE.build(context);
+          String text = DiagnosticsExport.INSTANCE.buildForExport(context);
           boolean saved = DiagnosticsExport.INSTANCE.saveToDownloads(context, text);
           mainHandler.post(
               () ->
@@ -109,6 +118,23 @@ public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
                 Toast.makeText(context, R.string.message_diagnostics_copied, Toast.LENGTH_LONG)
                     .show();
               });
+        });
+  }
+
+  private void deleteDebugLog() {
+    Context context = requireContext().getApplicationContext();
+    executor.execute(
+        () -> {
+          boolean deleted = LogUtils.clearLogFiles();
+          mainHandler.post(
+              () ->
+                  Toast.makeText(
+                          context,
+                          deleted
+                              ? R.string.message_debug_log_deleted
+                              : R.string.message_debug_log_nothing_to_delete,
+                          Toast.LENGTH_LONG)
+                      .show());
         });
   }
 }

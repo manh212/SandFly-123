@@ -62,11 +62,19 @@ object DiagnosticsExport {
     listOf("braille_keyboard", "braille_display", MigrationFiles.STATE_PREFS)
   private const val LOG_LINES = 10_000
   private const val LOG_MAX_CHARS = 2_000_000
+  private const val LOG_MAX_CHARS_EXPORT = 20_000_000
   private const val LOG_TIMEOUT_SECONDS = 15L
 
   /** The whole diagnostics text. Slow: it reads the debug log file, or runs logcat. */
   @WorkerThread
-  fun build(context: Context): String {
+  fun build(context: Context): String = buildWithLogCap(context, LOG_MAX_CHARS)
+
+  /** The whole diagnostics text for the Downloads export, with the full debug log. */
+  @WorkerThread
+  fun buildForExport(context: Context): String = buildWithLogCap(context, LOG_MAX_CHARS_EXPORT)
+
+  @WorkerThread
+  private fun buildWithLogCap(context: Context, logMaxChars: Int): String {
     val appContext = context.applicationContext
     val out = StringBuilder()
     out.append("Meridian diagnostics\n")
@@ -81,13 +89,13 @@ object DiagnosticsExport {
     )
     out.append(buildSnapshotSections(appContext))
     out.append(buildPerformanceStatsSection())
-    val log = readLog(appContext)
+    val log = readLog(appContext, logMaxChars)
     out.append("== Recent log of the Meridian process ==\n")
     if (log == null) {
       out.append("The log could not be read.\n")
     } else {
       out.append(
-        "Lines captured: ${log.count { it == '\n' }} (at most $LOG_MAX_CHARS characters)\n"
+        "Lines captured: ${log.count { it == '\n' }} (at most $logMaxChars characters)\n"
       )
       out.append(log)
       if (!log.endsWith("\n")) out.append("\n")
@@ -212,7 +220,7 @@ object DiagnosticsExport {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) return false
     val resolver = context.contentResolver
     val name =
-      "sandfly-diagnostics-" +
+      "meridian-diagnostics-" +
         SimpleDateFormat("yyyyMMdd-HHmmss", Locale.ROOT).format(Date()) +
         ".txt"
     val values =
@@ -429,7 +437,7 @@ object DiagnosticsExport {
 
   /** The debug log file's content, newest last, capped like the logcat fallback, or null. */
   @WorkerThread
-  private fun readDebugLogFile(context: Context): String? {
+  private fun readDebugLogFile(context: Context, logMaxChars: Int): String? {
     val deviceProtected = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
     val dir = deviceProtected.filesDir
     val parts =
@@ -443,14 +451,14 @@ object DiagnosticsExport {
         LogUtils.w(TAG, "Cannot read the debug log file: %s", e)
         return null
       }
-    if (text.length <= LOG_MAX_CHARS) return text
-    return text.takeLast(LOG_MAX_CHARS).substringAfter('\n')
+    if (text.length <= logMaxChars) return text
+    return text.takeLast(logMaxChars).substringAfter('\n')
   }
 
   /** The last lines of this process's log, or null if neither the file nor logcat can be read. */
   @WorkerThread
-  private fun readLog(context: Context): String? {
-    readDebugLogFile(context)?.let { return it }
+  private fun readLog(context: Context, logMaxChars: Int): String? {
+    readDebugLogFile(context, logMaxChars)?.let { return it }
     val process =
       try {
         ProcessBuilder(
@@ -491,8 +499,8 @@ object DiagnosticsExport {
         null
       } else {
         read.get()?.let { log ->
-          if (log.length <= LOG_MAX_CHARS) log
-          else log.takeLast(LOG_MAX_CHARS).substringAfter('\n')
+          if (log.length <= logMaxChars) log
+          else log.takeLast(logMaxChars).substringAfter('\n')
         }
       }
     } catch (e: InterruptedException) {

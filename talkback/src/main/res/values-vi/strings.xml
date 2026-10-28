@@ -1753,4 +1753,7 @@
     <string name="first_run_tutorial_yes">Có</string>
     <string name="first_run_tutorial_no">Không</string>
     <string name="title_pref_debug_log">Nhật ký gỡ lỗi</string>
+    <string name="title_pref_delete_debug_log">Xóa nhật ký</string>
+    <string name="message_debug_log_deleted">Đã xóa nhật ký</string>
+    <string name="message_debug_log_nothing_to_delete">Không có nhật ký để xóa</string>
 </resources>
