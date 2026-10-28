@@ -1747,7 +1747,7 @@
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>
     <string name="title_pref_whisper_models">Mô hình Whisper</string>
     <string name="meridian_intro_title">Giới thiệu về Meridian</string>
-    <string name="meridian_intro">Meridian là trình đọc màn hình nhanh, nhẹ, nhiều tính năng, được phát triển ở Việt Nam: đọc to nội dung trên màn hình, duyệt bằng cảm ứng và giao việc cho AI thực hiện. Meridian có tham khảo mã nguồn từ các trình đọc màn hình: Google TalkBack, BackTalk và SandFly.</string>
+    <string name="meridian_intro">Meridian là trình đọc màn hình nhanh, nhẹ, nhiều tính năng, được phát triển bởi người Việt Nam: đọc to nội dung trên màn hình, duyệt bằng cảm ứng và giao việc cho AI thực hiện. Meridian có tham khảo mã nguồn từ các trình đọc màn hình: Google TalkBack, BackTalk và SandFly.</string>
     <string name="meridian_contact_title">Liên hệ nhà phát triển</string>
     <string name="first_run_tutorial_question">Bạn có cần hướng dẫn không?</string>
     <string name="first_run_tutorial_yes">Có</string>
