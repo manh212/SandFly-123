@@ -158,7 +158,7 @@ class TaskEngineTest {
     val engine = TaskEngine(host, emptyList())
     engine.start("Mở YouTube tìm kiếm")
     host.screen(screen)
-    host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Phụ đề"},{"action":"set_text","text":"x"}]}""")
+    host.reply("""{"snapshot":1,"steps":[{"action":"set_text","text":"x"}]}""")
     assertEquals(TaskState.PLANNING, engine.state)
     assertTrue(host.lastPrompt.contains("nhãn hiển thị"))
     host.reply("""{"snapshot":1,"action":"click","node":"n0"}""")
