@@ -163,6 +163,7 @@ pref_dim_or_brighten_menu_setting_key
 pref_direct_input_tap_delay
 pref_direct_touch
 pref_disable_latency_extras
+pref_disable_latency_pinned
 pref_echo_on_screen_keyboard
 pref_echo_physical_keyboard
 pref_echo_recognized_text_speech_key

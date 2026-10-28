@@ -174,6 +174,12 @@ public class SpeechControllerImpl implements SpeechController {
 
   public static volatile boolean speechWaitCapEnabled = true;
 
+  public static volatile boolean pinnedLatencyEnabled = true;
+
+  public static void setPinnedLatencyEnabled(boolean enabled) {
+    pinnedLatencyEnabled = enabled;
+  }
+
   static final long SPEECH_WAIT_CAP_MS = 100;
 
   private static final class SpeechWait {
@@ -1515,6 +1521,9 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   private void enforceSpeechWaitCap(FeedbackItem waiting) {
+    if (!pinnedLatencyEnabled) {
+      return;
+    }
     SpeechWait wait = speechWaits.get(waiting);
     if (wait == null
         || !feedbackQueue.contains(waiting)
@@ -1554,6 +1563,9 @@ public class SpeechControllerImpl implements SpeechController {
   }
 
   static boolean speechMayCutAnnouncement(FeedbackItem item) {
+    if (!pinnedLatencyEnabled) {
+      return false;
+    }
     EventId eventId = item.getEventId();
     if (eventId == null) {
       return false;

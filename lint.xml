@@ -143,6 +143,8 @@
             <ignore regexp="title_pref_debug_log" />
             <ignore regexp="title_pref_disable_latency_extras" />
             <ignore regexp="summary_pref_disable_latency_extras" />
+            <ignore regexp="title_pref_disable_latency_pinned" />
+            <ignore regexp="summary_pref_disable_latency_pinned" />
             <ignore regexp="title_pref_delete_debug_log" />
             <ignore regexp="message_debug_log_deleted" />
             <ignore regexp="message_debug_log_nothing_to_delete" />

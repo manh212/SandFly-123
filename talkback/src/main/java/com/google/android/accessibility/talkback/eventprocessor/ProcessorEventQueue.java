@@ -60,6 +60,10 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
     textEventInterpreter.addListener(eventFilter::accept);
   }
 
+  public static void setFocusPriorityEnabled(boolean enabled) {
+    EventQueue.focusPriorityEnabled = enabled;
+  }
+
   @Override
   public int getEventTypes() {
     return MASK_EVENTS_HANDLED_BY_PROCESSOR_EVENT_QUEUE;

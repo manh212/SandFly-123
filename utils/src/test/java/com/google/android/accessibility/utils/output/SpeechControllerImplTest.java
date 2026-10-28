@@ -125,6 +125,7 @@ public class SpeechControllerImplTest {
     SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
     SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
     SpeechControllerImpl.speechWaitCapEnabled = true;
+    SpeechControllerImpl.pinnedLatencyEnabled = true;
     Performance.getInstance().setComputeStatsEnabled(false);
     Performance.getInstance().clearAllStats();
   }

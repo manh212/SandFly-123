@@ -1903,5 +1903,7 @@
     <bool name="pref_debug_log_default">false</bool>
     <string name="pref_disable_latency_extras_key" translatable="false">pref_disable_latency_extras</string>
     <bool name="pref_disable_latency_extras_default">false</bool>
+    <string name="pref_disable_latency_pinned_key" translatable="false">pref_disable_latency_pinned</string>
+    <bool name="pref_disable_latency_pinned_default">false</bool>
     <string name="pref_delete_debug_log_key" translatable="false">pref_delete_debug_log</string>
 </resources>

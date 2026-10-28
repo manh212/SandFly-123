@@ -297,6 +297,7 @@ import com.google.android.accessibility.utils.output.FailoverTextToSpeech;
 import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FeedbackProcessingUtils;
+import com.google.android.accessibility.utils.output.LowLatencyAudio;
 import com.google.android.accessibility.utils.output.ScrollActionRecord;
 import com.google.android.accessibility.utils.output.SelectionStateReader;
 import com.google.android.accessibility.utils.output.SpeechController;
@@ -3510,6 +3511,14 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_disable_latency_extras_key,
             R.bool.pref_disable_latency_extras_default);
     EventFilter.setLatencyExtrasEnabled(latencyExtrasEnabled);
+    boolean pinnedLatencyEnabled =
+        !getBooleanPref(
+            R.string.pref_disable_latency_pinned_key,
+            R.bool.pref_disable_latency_pinned_default);
+    SpeechControllerImpl.setPinnedLatencyEnabled(pinnedLatencyEnabled);
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = pinnedLatencyEnabled;
+    ProcessorEventQueue.setFocusPriorityEnabled(pinnedLatencyEnabled);
+    LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =

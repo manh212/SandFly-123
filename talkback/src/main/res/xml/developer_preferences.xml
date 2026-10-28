@@ -25,6 +25,11 @@
       android:title="@string/title_pref_disable_latency_extras"
       android:summary="@string/summary_pref_disable_latency_extras" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_disable_latency_pinned_default"
+      android:key="@string/pref_disable_latency_pinned_key"
+      android:title="@string/title_pref_disable_latency_pinned"
+      android:summary="@string/summary_pref_disable_latency_pinned" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tts_overlay_default"
       android:key="@string/pref_tts_overlay_key"
       android:title="@string/title_pref_tts_overlay" />

@@ -894,6 +894,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
    * much larger period at a time, so the buffer starts at SLOW_BUFFER_MS there. Both grow in
    * [keepUp] until the mixer stops running short.
    */
+  private fun refitBuffer() {
+    val output = track ?: return
+    fitBuffer(output)
+  }
+
   private fun fitBuffer(output: AudioTrack) {
     try {
       val fast = output.performanceMode == AudioTrack.PERFORMANCE_MODE_LOW_LATENCY
@@ -981,6 +986,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     private const val QUEUED_BURSTS = 2
     @JvmStatic
     var smallBufferEnabled: Boolean = true
+      set(value) {
+        if (field == value) return
+        field = value
+        for (player in players()) player.refitBuffer()
+      }
     const val SMALL_BUFFER_SHORTFALL_LIMIT = 3
 
     @JvmStatic
