@@ -219,6 +219,27 @@ jobs:
             fi
           done
 
+      - name: Check task branch APK version
+        if: github.ref == 'refs/heads/feat/vietnamese-task-assistant'
+        run: |
+          set -euo pipefail
+          base=$(sed -n 's/^def buildNumberBase = "\([0-9a-f]*\)"/\1/p' version.gradle)
+          master_count=$(git rev-list --count "$base..refs/remotes/origin/master")
+          minimum=$((100000200 + master_count + 1))
+          aapt=$(ls -d "$ANDROID_HOME"/build-tools/*/aapt | sort -V | tail -n 1)
+          for apk in build/outputs/apk/*/debug/*.apk; do
+            code=$("$aapt" dump badging "$apk" | sed -n "s/.*versionCode='\([0-9]*\)'.*/\1/p")
+            if [[ ! "$code" =~ ^[0-9]+$ ]]; then
+              echo "Could not read versionCode from $apk." >&2
+              exit 1
+            fi
+            echo "$apk: versionCode $code; minimum $minimum (master build $master_count)"
+            if (( code < minimum )); then
+              echo "The task branch APK must be newer than master." >&2
+              exit 1
+            fi
+          done
+
       - uses: actions/upload-artifact@v7
         with:
           name: apks

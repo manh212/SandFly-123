@@ -5,6 +5,13 @@ this repository's usual master-only workflow for this task. It is a working
 implementation that executes Android accessibility actions, not a simulated demo.
 Do not merge or publish it as the rolling dev build without the owner's request.
 
+Branch APKs use a build number at least one greater than the fetched
+`origin/master` commit count, with the branch's own count retained if higher.
+The same effective number feeds Android's `versionCode` and the app's build
+metadata. CI verifies the version in every generated branch APK before uploading
+artifacts. This prevents Android rejecting the task build as a downgrade from a
+current master build. The branch requires a fetched `origin/master` reference.
+
 ## Entry and input
 
 Open **Giao việc cho SandFly** from the SandFly menu or Apps settings. Users can
