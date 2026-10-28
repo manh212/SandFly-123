@@ -50,6 +50,33 @@ public class AccessibilityFocusMonitor {
   private final FocusFinder focusFinder;
   private final AccessibilityFocusActionHistory.Reader history;
 
+  public static volatile boolean focusFetchReuseEnabled = true;
+
+  public static void setFocusFetchReuseEnabled(boolean enabled) {
+    focusFetchReuseEnabled = enabled;
+  }
+
+  private boolean focusFetchReuseActive;
+  private boolean focusFetchReuseFetched;
+  private boolean focusFetchReuseUseInputFocusIfEmpty;
+  private boolean focusFetchReuseRequireEditable;
+  private @Nullable AccessibilityNodeInfoCompat focusFetchReuseNode;
+
+  public void beginFocusFetchReuse() {
+    if (!focusFetchReuseEnabled) {
+      return;
+    }
+    focusFetchReuseActive = true;
+    focusFetchReuseFetched = false;
+    focusFetchReuseNode = null;
+  }
+
+  public void endFocusFetchReuse() {
+    focusFetchReuseActive = false;
+    focusFetchReuseFetched = false;
+    focusFetchReuseNode = null;
+  }
+
   private static final Filter<AccessibilityNodeInfoCompat> FILTER_VISIBLE_EDIT_TEXT_ROLE =
       new Filter<AccessibilityNodeInfoCompat>() {
         @Override
@@ -108,6 +135,27 @@ public class AccessibilityFocusMonitor {
    * still there, when {@code isCurrent} accepts the copy.
    */
   public @Nullable AccessibilityNodeInfoCompat getAccessibilityFocus(
+      boolean useInputFocusIfEmpty,
+      boolean requireEditable,
+      @Nullable Filter<AccessibilityNodeInfoCompat> isCurrent) {
+    if (focusFetchReuseActive && isCurrent == null) {
+      if (focusFetchReuseFetched
+          && useInputFocusIfEmpty == focusFetchReuseUseInputFocusIfEmpty
+          && requireEditable == focusFetchReuseRequireEditable) {
+        return focusFetchReuseNode;
+      }
+      AccessibilityNodeInfoCompat result =
+          getAccessibilityFocusUncached(useInputFocusIfEmpty, requireEditable, null);
+      focusFetchReuseNode = result;
+      focusFetchReuseFetched = true;
+      focusFetchReuseUseInputFocusIfEmpty = useInputFocusIfEmpty;
+      focusFetchReuseRequireEditable = requireEditable;
+      return result;
+    }
+    return getAccessibilityFocusUncached(useInputFocusIfEmpty, requireEditable, isCurrent);
+  }
+
+  private @Nullable AccessibilityNodeInfoCompat getAccessibilityFocusUncached(
       boolean useInputFocusIfEmpty,
       boolean requireEditable,
       @Nullable Filter<AccessibilityNodeInfoCompat> isCurrent) {

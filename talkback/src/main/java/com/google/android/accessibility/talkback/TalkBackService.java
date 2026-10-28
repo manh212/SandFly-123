@@ -3519,6 +3519,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     FailoverTextToSpeech.splitAtFirstSeparatorEnabled = pinnedLatencyEnabled;
     ProcessorEventQueue.setFocusPriorityEnabled(pinnedLatencyEnabled);
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
+    AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =

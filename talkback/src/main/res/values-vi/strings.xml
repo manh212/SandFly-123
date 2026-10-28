@@ -1768,5 +1768,5 @@
     <string name="title_pref_disable_latency_extras">Tắt việc phụ gây trễ</string>
     <string name="summary_pref_disable_latency_extras">Dừng đọc chuẩn bị trước, tải trước cửa sổ và các việc chạy nền khác để vuốt đọc nhanh hơn.</string>
     <string name="title_pref_disable_latency_pinned">Tắt cơ chế ghim độ trễ</string>
-    <string name="summary_pref_disable_latency_pinned">Tắt việc lời đáp điều hướng cắt thông báo, giới hạn chờ giọng nói 100 ms, nói mảnh đầu trước, ưu tiên focus và bộ đệm âm thanh nhỏ.</string>
+    <string name="summary_pref_disable_latency_pinned">Tắt việc lời đáp điều hướng cắt thông báo, giới hạn chờ giọng nói 100 ms, nói mảnh đầu trước, ưu tiên focus, bộ đệm âm thanh nhỏ và dùng lại nút focus trong một lần vuốt.</string>
 </resources>
