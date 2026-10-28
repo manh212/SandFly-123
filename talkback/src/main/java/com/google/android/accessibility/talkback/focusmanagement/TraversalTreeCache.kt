@@ -119,6 +119,14 @@ object TraversalTreeCache {
       firstIgnoredChangeTime = 0L
     }
 
+  @JvmStatic
+  var burstLiveAnswerEnabled: Boolean = true
+
+  @Volatile private var lastNavigationMs: Long = 0L
+  @Volatile private var previousNavigationMs: Long = 0L
+
+  private const val NAVIGATION_BURST_WINDOW_MS = 300L
+
   private val gracedChangeRegions = ArrayList<Pair<Int, Rect>>()
   private var gracedChangeUnknown = false
 
@@ -248,6 +256,33 @@ object TraversalTreeCache {
     lastPivotTop = bounds.top
     lastPivotWindowId = pivot.windowId
   }
+
+  @JvmStatic
+  @JvmOverloads
+  fun noteNavigationActivity(nowMs: Long = SystemClock.uptimeMillis()) {
+    previousNavigationMs = lastNavigationMs
+    lastNavigationMs = nowMs
+  }
+
+  @JvmStatic
+  fun lastNavigationTimeMs(): Long = lastNavigationMs
+
+  @JvmStatic
+  fun previousNavigationTimeMs(): Long = previousNavigationMs
+
+  @JvmStatic
+  fun isNavigationBurst(previousMs: Long, lastMs: Long, nowMs: Long): Boolean {
+    if (previousMs <= 0L || lastMs <= previousMs) {
+      return false
+    }
+    return lastMs - previousMs < NAVIGATION_BURST_WINDOW_MS &&
+      nowMs - lastMs < NAVIGATION_BURST_WINDOW_MS
+  }
+
+  @JvmStatic
+  @JvmOverloads
+  fun inNavigationBurst(nowMs: Long = SystemClock.uptimeMillis()): Boolean =
+    isNavigationBurst(previousNavigationMs, lastNavigationMs, nowMs)
 
   /**
    * The node to search on from when the focused node has been removed: the last node above the

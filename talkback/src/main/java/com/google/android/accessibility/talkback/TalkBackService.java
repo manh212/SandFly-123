@@ -3521,6 +3521,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
     TraversalTreeCache.setRegionGraceEnabled(pinnedLatencyEnabled);
+    TraversalTreeCache.setBurstLiveAnswerEnabled(pinnedLatencyEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
     boolean performanceEnabled =

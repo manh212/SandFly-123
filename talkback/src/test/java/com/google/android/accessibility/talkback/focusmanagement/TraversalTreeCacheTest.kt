@@ -49,6 +49,7 @@ class TraversalTreeCacheTest {
   fun tearDown() {
     TraversalTreeCache.setOrderClearedListener(null)
     TraversalTreeCache.regionGraceEnabled = true
+    TraversalTreeCache.burstLiveAnswerEnabled = true
     TraversalTreeCache.clear("test")
   }
 
@@ -289,5 +290,45 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
 
     assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun burst_singleNavigation_isNotBurst() {
+    TraversalTreeCache.noteNavigationActivity(100000L)
+
+    assertFalse(TraversalTreeCache.inNavigationBurst(100100L))
+  }
+
+  @Test
+  fun burst_twoCloseNavigations_isBurst() {
+    TraversalTreeCache.noteNavigationActivity(1000L)
+    TraversalTreeCache.noteNavigationActivity(1100L)
+
+    assertTrue(TraversalTreeCache.inNavigationBurst(1200L))
+  }
+
+  @Test
+  fun burst_firstGapTooLong_isNotBurst() {
+    TraversalTreeCache.noteNavigationActivity(1000L)
+    TraversalTreeCache.noteNavigationActivity(1400L)
+
+    assertFalse(TraversalTreeCache.inNavigationBurst(1500L))
+  }
+
+  @Test
+  fun burst_secondGapTooLong_isNotBurst() {
+    TraversalTreeCache.noteNavigationActivity(1000L)
+    TraversalTreeCache.noteNavigationActivity(1100L)
+
+    assertFalse(TraversalTreeCache.inNavigationBurst(1500L))
+  }
+
+  @Test
+  fun burst_disabledFlag_doesNotChangeBurstSignal() {
+    TraversalTreeCache.noteNavigationActivity(1000L)
+    TraversalTreeCache.noteNavigationActivity(1100L)
+    TraversalTreeCache.burstLiveAnswerEnabled = false
+
+    assertTrue(TraversalTreeCache.inNavigationBurst(1200L))
   }
 }

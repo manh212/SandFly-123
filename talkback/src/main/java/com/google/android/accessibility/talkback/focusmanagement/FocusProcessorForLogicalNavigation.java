@@ -115,6 +115,7 @@ import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.traversal.GridTraversalManager;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategyConfig;
+import com.google.android.accessibility.utils.traversal.SimpleTraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirection;
 import com.google.android.accessibility.utils.traversal.TraversalStrategy.SearchDirectionOrUnknown;
@@ -244,6 +245,9 @@ public class FocusProcessorForLogicalNavigation {
     if (navigationAction == null || navigationAction.actionType == NavigationAction.UNKNOWN) {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
+    }
+    if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION) {
+      TraversalTreeCache.noteNavigationActivity();
     }
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);
     if (pivot == null) {
@@ -1355,22 +1359,26 @@ public class FocusProcessorForLogicalNavigation {
     }
     boolean usedSavedTree = traversalStrategy != null;
     if (traversalStrategy == null) {
-      boolean trace = LogUtils.shouldLog(Log.DEBUG);
-      long buildStart = trace ? SystemClock.uptimeMillis() : 0;
-      if (trace) {
-        Trace.beginSection("BuildTraversalStrategy");
-      }
-      WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
-      traversalStrategy =
-          TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
-      if (trace) {
-        Trace.endSection();
-        Log.d(
-            "BacktalkTreeCache",
-            "Built order in " + (SystemClock.uptimeMillis() - buildStart) + " ms");
-      }
-      if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
-        TraversalTreeCache.put(rootNode, orderedStrategy);
+      if (TraversalTreeCache.getBurstLiveAnswerEnabled() && TraversalTreeCache.inNavigationBurst()) {
+        traversalStrategy = new SimpleTraversalStrategy();
+      } else {
+        boolean trace = LogUtils.shouldLog(Log.DEBUG);
+        long buildStart = trace ? SystemClock.uptimeMillis() : 0;
+        if (trace) {
+          Trace.beginSection("BuildTraversalStrategy");
+        }
+        WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
+        traversalStrategy =
+            TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
+        if (trace) {
+          Trace.endSection();
+          Log.d(
+              "BacktalkTreeCache",
+              "Built order in " + (SystemClock.uptimeMillis() - buildStart) + " ms");
+        }
+        if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
+          TraversalTreeCache.put(rootNode, orderedStrategy);
+        }
       }
     }
 
