@@ -895,6 +895,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public boolean onUnbind(Intent intent) {
+    com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     LogUtils.d(TAG, "onUnbind start");
     final long turningOffTime = System.currentTimeMillis();
     interruptAllFeedback(/* stopTtsSpeechCompletely= */ false);
@@ -933,6 +934,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
+    com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     unlockedBootHandler.removeCallbacks(checkUnlockedBoot);
     if (userInterface != null) {
       userInterface.unregisterAllListeners();
@@ -1095,6 +1097,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
+    com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onAccessibilityEvent(event);
     // Paused Backtalk drops events, except the end of a touch that started before the pause, so
     // that nothing still thinks a finger is down after resuming. Its feedback is dropped too.
     if (PauseController.isPaused()
@@ -1466,6 +1469,9 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Handles a key event and returns whether it should be considered consumed. */
   protected boolean onKeyEventInternal(KeyEvent keyEvent) {
+    if (com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onKeyEvent(keyEvent)) {
+      return true;
+    }
     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
       RecentUserInput.mark();
       if (gestureController != null) {
@@ -1782,6 +1788,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private boolean handleOnGestureById(int displayId, int gestureId) {
+    if (com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onGesture()) {
+      return true;
+    }
     if (!isServiceActive() || PauseController.isPaused()) {
       return false;
     }

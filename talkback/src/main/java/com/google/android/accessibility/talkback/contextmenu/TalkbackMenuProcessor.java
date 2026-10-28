@@ -673,6 +673,14 @@ public class TalkbackMenuProcessor {
                 service.getString(R.string.shortcut_value_take_focus_screenshot)));
     addAfterMenuCloses(
         menu,
+        R.id.task_assistant_menu,
+        28,
+        service.getString(R.string.task_title),
+        node ->
+            service.performCatalogAction(
+                service.getString(R.string.shortcut_value_task_assistant)));
+    addAfterMenuCloses(
+        menu,
         R.id.screen_recognition_menu,
         28,
         service.getString(R.string.shortcut_screen_recognition),
