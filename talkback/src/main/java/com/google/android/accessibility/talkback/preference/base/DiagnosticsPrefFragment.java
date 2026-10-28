@@ -26,7 +26,7 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.report.DiagnosticsExport;
-import com.google.android.accessibility.utils.log.LogUtils;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
