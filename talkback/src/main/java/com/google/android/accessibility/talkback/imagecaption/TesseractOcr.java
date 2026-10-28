@@ -18,11 +18,14 @@ package com.google.android.accessibility.talkback.imagecaption;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.googlecode.tesseract.android.PageIteratorLevel;
+import com.googlecode.tesseract.android.ResultIterator;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -31,6 +34,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public final class TesseractOcr {
 
@@ -69,6 +74,16 @@ public final class TesseractOcr {
 
   public interface DownloadListener {
     void onDownloadFinished(boolean success);
+  }
+
+  public static final class TextLine {
+    public final String text;
+    public final Rect bounds;
+
+    public TextLine(String text, Rect bounds) {
+      this.text = text;
+      this.bounds = bounds;
+    }
   }
 
   private TesseractOcr() {}
@@ -178,6 +193,53 @@ public final class TesseractOcr {
         return text;
       } catch (RuntimeException e) {
         LogUtils.w(TAG, "Recognition failed: " + e.getMessage());
+        return null;
+      }
+    }
+  }
+
+  @Nullable
+  public static List<TextLine> recognizeLines(Context context, Bitmap bitmap) {
+    synchronized (ENGINE_LOCK) {
+      try {
+        if (engine == null) {
+          engine = new TessBaseAPI();
+          if (!engine.init(getDataDir(context).getAbsolutePath(), LANGUAGE)) {
+            engine.recycle();
+            engine = null;
+            return null;
+          }
+        }
+        engine.setImage(bitmap);
+        if (engine.getUTF8Text() == null) {
+          return null;
+        }
+        ResultIterator iterator = engine.getResultIterator();
+        if (iterator == null) {
+          return null;
+        }
+        List<TextLine> lines = new ArrayList<>();
+        try {
+          iterator.begin();
+          do {
+            String lineText = iterator.getUTF8Text(PageIteratorLevel.RIL_TEXTLINE);
+            Rect bounds = iterator.getBoundingRect(PageIteratorLevel.RIL_TEXTLINE);
+            if (lineText != null
+                && !lineText.trim().isEmpty()
+                && bounds != null
+                && !bounds.isEmpty()) {
+              lines.add(new TextLine(lineText, bounds));
+            }
+          } while (iterator.next(PageIteratorLevel.RIL_TEXTLINE));
+        } finally {
+          iterator.delete();
+        }
+        lastUsedMs = SystemClock.elapsedRealtime();
+        IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
+        IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS);
+        return lines;
+      } catch (RuntimeException e) {
+        LogUtils.w(TAG, "Line recognition failed: " + e.getMessage());
         return null;
       }
     }

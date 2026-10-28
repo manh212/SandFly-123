@@ -17,16 +17,21 @@
 package com.google.android.accessibility.talkback.screenrecognition;
 
 import android.accessibilityservice.GestureDescription;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Path;
 import android.graphics.PixelFormat;
 import android.graphics.Rect;
 import android.os.Build;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.imagecaption.TesseractOcr;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.screencapture.ScreenshotCapture;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.android.libraries.accessibility.utils.screencapture.ScreenCaptureController.CaptureListener;
@@ -91,6 +96,14 @@ public class ScreenRecognitionController {
   }
 
   private void recognize(Bitmap bitmap) {
+    if (useTesseract(service)) {
+      recognizeWithTesseract(bitmap, /* allowFallback= */ true);
+    } else {
+      recognizeWithMlKit(bitmap, /* allowFallback= */ true);
+    }
+  }
+
+  private void recognizeWithMlKit(Bitmap bitmap, boolean allowFallback) {
     TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
     recognizer
         .process(InputImage.fromBitmap(bitmap, 0))
@@ -107,10 +120,79 @@ public class ScreenRecognitionController {
             })
         .addOnFailureListener(
             e -> {
-              LogUtils.w(TAG, "Recognition failed: " + e.getMessage());
-              announcer.announce(service.getString(R.string.screen_recognition_failed));
+              LogUtils.w(TAG, "ML Kit recognition failed: " + e.getMessage());
+              if (allowFallback && TesseractOcr.isDataDownloaded(service)) {
+                recognizeWithTesseract(bitmap, /* allowFallback= */ false);
+              } else {
+                announcer.announce(service.getString(R.string.screen_recognition_failed));
+              }
             })
         .addOnCompleteListener(task -> recognizer.close());
+  }
+
+  private void recognizeWithTesseract(Bitmap bitmap, boolean allowFallback) {
+    Handler mainHandler = new Handler(Looper.getMainLooper());
+    new Thread(
+            () -> {
+              List<TesseractOcr.TextLine> lines = TesseractOcr.recognizeLines(service, bitmap);
+              mainHandler.post(
+                  () -> {
+                    if (lines == null) {
+                      if (allowFallback) {
+                        recognizeWithMlKit(bitmap, /* allowFallback= */ false);
+                      } else {
+                        announcer.announce(
+                            service.getString(R.string.screen_recognition_failed));
+                      }
+                      return;
+                    }
+                    List<RecognizedItem> items = toItems(lines, bitmap);
+                    if (items.isEmpty()) {
+                      announcer.announce(
+                          service.getString(R.string.screen_recognition_empty));
+                      return;
+                    }
+                    show(items);
+                    announcer.announce(
+                        service.getString(R.string.screen_recognition_done, items.size()));
+                  });
+            })
+        .start();
+  }
+
+  private static boolean useTesseract(TalkBackService service) {
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    String engine =
+        prefs.getString(
+            service.getString(R.string.pref_ocr_engine_key),
+            service.getString(R.string.ocr_engine_mlkit_value));
+    return service.getString(R.string.ocr_engine_tesseract_value).equals(engine)
+        && TesseractOcr.isDataDownloaded(service);
+  }
+
+  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> lines, Bitmap bitmap) {
+    int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
+    int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
+    float scaleX = (float) displayWidth / bitmap.getWidth();
+    float scaleY = (float) displayHeight / bitmap.getHeight();
+    List<RecognizedItem> items = new ArrayList<>();
+    for (TesseractOcr.TextLine line : lines) {
+      Rect box = line.bounds;
+      if (box == null || line.text == null || line.text.trim().isEmpty()) {
+        continue;
+      }
+      items.add(
+          new RecognizedItem(
+              line.text,
+              new Rect(
+                  Math.round(box.left * scaleX),
+                  Math.round(box.top * scaleY),
+                  Math.round(box.right * scaleX),
+                  Math.round(box.bottom * scaleY)),
+              false));
+    }
+    sortItems(items);
+    return items;
   }
 
   private List<RecognizedItem> merge(Bitmap bitmap, Text text) {
@@ -135,6 +217,11 @@ public class ScreenRecognitionController {
         items.add(new RecognizedItem(lineText, screenBox, false));
       }
     }
+    sortItems(items);
+    return items;
+  }
+
+  private static void sortItems(List<RecognizedItem> items) {
     Collections.sort(
         items,
         (first, second) -> {
@@ -145,7 +232,6 @@ public class ScreenRecognitionController {
           }
           return first.bounds.centerX() - second.bounds.centerX();
         });
-    return items;
   }
 
   private void show(List<RecognizedItem> items) {
