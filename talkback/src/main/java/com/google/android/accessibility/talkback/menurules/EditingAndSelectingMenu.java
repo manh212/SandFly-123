@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.menurules;
 
+import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CLEAR_ALL;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.COPY;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CURSOR_TO_BEGINNING;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CURSOR_TO_END;
@@ -111,6 +112,20 @@ public class EditingAndSelectingMenu implements NodeMenu {
    */
   private void populateEditingAndSelectingMenuItemsForNode(
       Context context, AccessibilityNodeInfoCompat node, List<ContextMenuItem> items) {
+    if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        && !AccessibilityNodeInfoUtils.isEmptyEditTextRegardlessOfHint(node)
+        && AccessibilityNodeInfoUtils.supportsAnyAction(
+            node, AccessibilityNodeInfoCompat.ACTION_SET_TEXT)) {
+      ContextMenuItem clearAll =
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_clear_all,
+              Menu.NONE,
+              context.getString(R.string.shortcut_clear_all_text));
+      items.add(clearAll);
+    }
+
     if (Role.getRole(node) == Role.ROLE_EDIT_TEXT
         && AccessibilityNodeInfoUtils.supportsAnyAction(
             node,
@@ -276,6 +291,8 @@ public class EditingAndSelectingMenu implements NodeMenu {
         } else if (itemId == R.id.edittext_breakout_select_all
             && !TextUtils.isEmpty(AccessibilityNodeInfoUtils.getText(node))) {
           result = pipeline.returnFeedback(eventId, Feedback.edit(node, SELECT_ALL));
+        } else if (itemId == R.id.edittext_breakout_clear_all) {
+          result = pipeline.returnFeedback(eventId, Feedback.edit(node, CLEAR_ALL));
         } else if (itemId == R.id.edittext_breakout_granular_editing) {
           TalkBackService service = TalkBackService.getInstance();
           result = service != null && GranularEditing.open(service, node);

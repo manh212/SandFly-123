@@ -675,6 +675,7 @@ public class SelectorController implements UserInputEventListener {
       };
 
   private Setting settingToRestore;
+  private boolean actionsSettingActivatedForEditText;
 
   private @Nullable String scriptControlKey;
   // Whether double-tap toggles the chosen live recognition mode.
@@ -1304,20 +1305,33 @@ public class SelectorController implements UserInputEventListener {
       // must not replace it with a contextual setting, or restore a cached one, either.
       return;
     }
+    AccessibilityNodeInfoCompat focusedNode = AccessibilityNodeInfoCompat.wrap(nodeInfo);
+    if (actionsSettingActivatedForEditText
+        && currentSetting == ACTIONS
+        && !isEditingContext(focusedNode)) {
+      restoreSetting();
+      return;
+    }
     boolean autoSwitch =
         prefs.getBoolean(
             context.getString(R.string.pref_selector_auto_switch_key),
             context.getResources().getBoolean(R.bool.pref_selector_auto_switch_default));
     Optional<ContextualSetting> contextualMenu =
         autoSwitch
-            ? getMatchedContextualSettingForActivation(
-                context, AccessibilityNodeInfoCompat.wrap(nodeInfo), hiddenSettings)
+            ? getMatchedContextualSettingForActivation(context, focusedNode, hiddenSettings)
             : Optional.empty();
     if (contextualMenu.isPresent()) {
       // If a matched contextual setting is available, switch to that setting automatically.
       Setting newSetting = contextualMenu.get().getSetting();
+      if (newSetting == ACTIONS
+          && Role.getRole(focusedNode) == Role.ROLE_EDIT_TEXT
+          && settingToRestore != null) {
+        actionsSettingActivatedForEditText = true;
+      }
       if (newSetting != currentSetting) {
         settingToRestore = currentSetting;
+        actionsSettingActivatedForEditText =
+            newSetting == ACTIONS && Role.getRole(focusedNode) == Role.ROLE_EDIT_TEXT;
         setCurrentSetting(
             EVENT_ID_UNTRACKED,
             newSetting,
@@ -1326,8 +1340,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
     }
-    if (isContextualSettingNotSupported(
-        currentSetting, AccessibilityNodeInfoCompat.wrap(nodeInfo))) {
+    if (isContextualSettingNotSupported(currentSetting, focusedNode)) {
       // If the current setting is a contextual setting and no longer allowed by the new focused
       // node, then restore to the cached setting or move the setting to the first available
       // item if the cached setting is also unavailable.
@@ -1367,6 +1380,7 @@ public class SelectorController implements UserInputEventListener {
 
   private boolean selectPreviousOrNext(
       EventId eventId, AnnounceType announceType, boolean isNext, boolean showOverlay) {
+    clearEditTextActionsRestore();
     List<Setting> settings = getFilteredSettings();
     List<ScriptReadingControl> controls = Scripts.readingControls();
 
@@ -1474,22 +1488,38 @@ public class SelectorController implements UserInputEventListener {
 
     // Clear the cache setting.
     settingToRestore = null;
+    actionsSettingActivatedForEditText = false;
+  }
+
+  private boolean isEditingContext(AccessibilityNodeInfoCompat node) {
+    return Role.getRole(node) == Role.ROLE_EDIT_TEXT
+        || accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(node) != null;
+  }
+
+  private void clearEditTextActionsRestore() {
+    if (actionsSettingActivatedForEditText) {
+      actionsSettingActivatedForEditText = false;
+      settingToRestore = null;
+    }
   }
 
   /** Selects setting silently. For selecting setting automatically. */
   public boolean selectSettingSilently(@Nullable Setting setting) {
+    clearEditTextActionsRestore();
     return selectSetting(
         setting, /* announceType= */ AnnounceType.SILENCE, /* showOverlay= */ false);
   }
 
   /** Selects setting and announces selected setting. For selecting setting via voice-shortcut. */
   public boolean selectSetting(@Nullable Setting setting) {
+    clearEditTextActionsRestore();
     return selectSetting(
         setting, /* announceType= */ AnnounceType.DESCRIPTION_AND_HINT, /* showOverlay= */ true);
   }
 
   /** Selects setting and announces selected setting. For selecting setting via voice-shortcut. */
   public boolean selectSetting(@Nullable Setting setting, boolean showOverlay) {
+    clearEditTextActionsRestore();
     return selectSetting(
         setting, /* announceType= */ AnnounceType.DESCRIPTION_AND_HINT, showOverlay);
   }
@@ -1799,6 +1829,7 @@ public class SelectorController implements UserInputEventListener {
 
   /** Change the value of the selected setting or scroll forward/backard of the seeker. */
   public void adjustSelectedSetting(EventId eventId, boolean isNext) {
+    clearEditTextActionsRestore();
     @Nullable ScriptReadingControl scriptControl = currentScriptControl(Scripts.readingControls());
     if (scriptControl != null) {
       scriptControl.adjust(isNext);

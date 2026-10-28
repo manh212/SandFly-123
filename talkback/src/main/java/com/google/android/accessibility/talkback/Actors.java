@@ -483,6 +483,7 @@ class Actors {
           switch (edit.action()) {
             case SELECT_ALL -> editor.selectAll(edit.node(), eventId);
             case SELECT_SEGMENT -> editor.selectSegment(edit.node(), eventId);
+            case CLEAR_ALL -> editor.clearAll(edit.node(), eventId);
             case START_SELECT -> editor.startSelect(edit.node(), eventId);
             case END_SELECT -> editor.endSelect(edit.node(), eventId);
             case COPY -> editor.copy(edit.node(), eventId);

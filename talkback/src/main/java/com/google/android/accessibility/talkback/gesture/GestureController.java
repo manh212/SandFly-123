@@ -24,6 +24,7 @@ import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.
 import static com.google.android.accessibility.talkback.Feedback.ContinuousRead.Action.START_AT_TOP;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.BRIGHTEN;
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.DIM;
+import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CLEAR_ALL;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CLEAR_SELECTION;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.COPY;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CURSOR_TO_BEGINNING;
@@ -82,14 +83,12 @@ import android.graphics.Path;
 import android.graphics.Rect;
 import android.media.AudioManager;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.ViewConfiguration;
-import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
@@ -417,10 +416,7 @@ public class GestureController {
       if (node == null || !node.isEditable()) {
         result = false;
       } else {
-        Bundle arguments = new Bundle();
-        arguments.putCharSequence(
-            AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE, "");
-        result = node.performAction(AccessibilityNodeInfo.ACTION_SET_TEXT, arguments);
+        result = pipeline.returnFeedback(eventId, Feedback.edit(node, CLEAR_ALL));
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_direct_tap))) {
       AccessibilityNodeInfoCompat node =
