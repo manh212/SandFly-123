@@ -1,8 +1,6 @@
 package com.google.android.accessibility.talkback.taskassistant
 
 import android.content.Context
-import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import com.android.volley.DefaultRetryPolicy
@@ -15,54 +13,14 @@ import com.google.android.accessibility.talkback.actor.gemini.AiService
 import com.google.android.accessibility.talkback.actor.gemini.GeminiApiKey
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelManager
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalLlm
+import com.google.android.accessibility.talkback.actor.gemini.local.RemoteLocalLlm
+import com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiSettings
+import com.google.android.accessibility.talkback.actor.gemini.local.LocalModel
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicLong
 import org.json.JSONArray
 import org.json.JSONObject
-
-data class TaskAiChoice(val id: String, val label: String, val model: String, val provider: AiProvider?)
-
-object TaskAiCatalog {
-  const val PREF_CHOICE = "pref_task_assistant_ai"
-  const val PREF_MODEL = "pref_task_assistant_model"
-
-  fun choices(context: Context): List<TaskAiChoice> {
-    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-    val cloud = AiProvider.entries.filter { it != AiProvider.NONE && it.isReady(prefs) }.map {
-      TaskAiChoice(it.id, "${context.getString(it.label)} — ${it.model(prefs)}", it.model(prefs), it)
-    }
-    val savedProvider = cloud.firstOrNull { it.id == prefs.getString(PREF_CHOICE, null) }
-    val savedModel = prefs.getString(PREF_MODEL, null)?.takeIf { it.isNotBlank() }
-    val retained = if (savedProvider != null && savedModel != null && savedProvider.model != savedModel) {
-      listOf(savedProvider.copy(model = savedModel,
-        label = "${context.getString(savedProvider.provider!!.label)} — $savedModel"))
-    } else emptyList()
-    val local = LocalModelManager.get(context).activeModel()?.takeIf { it.writesJson }?.let {
-      listOf(TaskAiChoice("local:${it.id}", "Trên thiết bị — ${it.name}", it.id, null))
-    }.orEmpty()
-    return cloud + retained + local
-  }
-
-  fun selected(context: Context): TaskAiChoice? {
-    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
-    return selected(prefs, choices(context))
-  }
-
-  fun selected(prefs: SharedPreferences, choices: List<TaskAiChoice>): TaskAiChoice? {
-    val id = prefs.getString(PREF_CHOICE, null)
-    val model = prefs.getString(PREF_MODEL, null)
-    return choices.firstOrNull { it.id == id && (model == null || it.model == model) }
-  }
-
-  fun select(context: Context, choice: TaskAiChoice) {
-    select(SharedPreferencesUtils.getSharedPreferences(context), choice)
-  }
-
-  fun select(prefs: SharedPreferences, choice: TaskAiChoice) {
-    prefs.edit().putString(PREF_CHOICE, choice.id).putString(PREF_MODEL, choice.model).apply()
-  }
-}
 
 class TaskPlanner(private val context: Context) {
   private val queue = Volley.newRequestQueue(context.applicationContext)
@@ -72,6 +30,8 @@ class TaskPlanner(private val context: Context) {
   private val tag = Any()
   private var timeout: Runnable? = null
   @Volatile private var localModel: LocalLlm? = null
+  private var localClient: RemoteLocalLlm? = null
+  private var localKey = ""
 
   fun request(prompt: String, choice: TaskAiChoice, done: (Result<String>) -> Unit) {
     cancel()
@@ -92,8 +52,18 @@ class TaskPlanner(private val context: Context) {
       worker.execute {
         val result = runCatching {
           val manager = LocalModelManager.get(context)
-          check(manager.activeModel()?.id == choice.model) { "Mô hình trên thiết bị đã thay đổi. Vui lòng chọn AI lại" }
-          val model = checkNotNull(manager.llm()) { "Mô hình chưa sẵn sàng" }
+          val selected = LocalModel.entries.firstOrNull { it.id == choice.model && it.writesJson }
+            ?: error("Mô hình không hỗ trợ giao việc")
+          check(manager.store.isInstalled(selected)) { "Mô hình chưa tải xong hoặc đã bị xóa" }
+          val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+          val gpu = OnDeviceAiSettings.useGpu(prefs)
+          val key = "${selected.id}:$gpu:${manager.store.file(selected).lastModified()}"
+          if (localKey != key || localClient == null) {
+            localClient?.close()
+            localClient = RemoteLocalLlm(context, selected, manager.store.file(selected), gpu)
+            localKey = key
+          }
+          val model = checkNotNull(localClient)
           check(generation.get() == token)
           localModel = model
           try { model.generate(prompt, null) } finally { if (localModel === model) localModel = null }
@@ -104,42 +74,28 @@ class TaskPlanner(private val context: Context) {
     }
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
     val provider = choice.provider
-    if (!provider.isReady(prefs)) {
+    if (!TaskAiCatalog.canConnect(prefs, provider)) {
       complete(Result.failure(IllegalStateException("Dịch vụ AI đã chọn chưa sẵn sàng")))
+      return
+    }
+    if (choice.model.isBlank()) {
+      complete(Result.failure(IllegalStateException("Chưa chọn mô hình. Hãy tải danh sách và chọn mô hình")))
       return
     }
     val gemini = provider == AiProvider.GEMINI
     val address = if (gemini) {
-      "https://generativelanguage.googleapis.com/v1beta/models/${Uri.encode(choice.model.removePrefix("models/"))}:generateContent"
+      TaskApiProtocol.geminiUrl(choice.model)
     } else AiService.chatUrl(provider.addressOf(prefs))
-    val body = if (gemini) JSONObject()
-      .put("contents", JSONArray().put(JSONObject().put("role", "user")
-        .put("parts", JSONArray().put(JSONObject().put("text", prompt)))))
-      .put("generationConfig", JSONObject().put("responseMimeType", "application/json").put("maxOutputTokens", 4096))
+    val body = if (gemini) TaskApiProtocol.geminiRequest(prompt, choice.model)
     else JSONObject().put("model", choice.model)
       .put("messages", JSONArray().put(JSONObject().put("role", "user").put("content", prompt)))
     val apiKey = if (gemini) GeminiApiKey.effectiveKey(prefs, BuildConfig.GEMINI_API_KEY) else provider.apiKey(prefs)
     val request = object : JsonObjectRequest(Request.Method.POST, address, body, { response ->
-      if (generation.get() == token) complete(runCatching {
-        if (gemini) {
-          val candidate = response.getJSONArray("candidates").getJSONObject(0)
-          check(candidate.optString("finishReason") == "STOP") { "AI chưa trả lời đầy đủ" }
-          val parts = candidate.getJSONObject("content").getJSONArray("parts")
-          (0 until parts.length()).map { parts.getJSONObject(it) }
-            .filterNot { it.optBoolean("thought") }.joinToString("") { it.optString("text") }
-        } else {
-          val candidate = response.getJSONArray("choices").getJSONObject(0)
-          check(candidate.optString("finish_reason") == "stop") { "AI chưa trả lời đầy đủ" }
-          val content = candidate.getJSONObject("message").get("content")
-          when (content) {
-            is String -> content
-            is JSONArray -> (0 until content.length()).joinToString("") { content.getJSONObject(it).optString("text") }
-            else -> error("AI không trả về văn bản")
-          }
-        }
-      })
-    }, {
-      if (generation.get() == token) complete(Result.failure(IllegalStateException("Không kết nối được AI hoặc dịch vụ từ chối yêu cầu")))
+      if (generation.get() == token) complete(runCatching { TaskApiProtocol.response(response, gemini) })
+    }, { error ->
+      val reason = error.networkResponse?.statusCode?.let(TaskAiErrors::http)
+        ?: if (error is com.android.volley.TimeoutError) "AI phản hồi quá lâu. Vui lòng thử lại" else "Không kết nối được dịch vụ AI. Hãy kiểm tra kết nối mạng"
+      if (generation.get() == token) complete(Result.failure(IllegalStateException("${choice.model}: $reason")))
     }) {
       override fun getHeaders(): MutableMap<String, String> = mutableMapOf(
         if (gemini) "x-goog-api-key" to apiKey else "Authorization" to "Bearer $apiKey"
@@ -161,7 +117,8 @@ class TaskPlanner(private val context: Context) {
   fun close() {
     cancel()
     queue.stop()
-    worker.shutdownNow()
+    worker.execute { localClient?.close(); localClient = null }
+    worker.shutdown()
   }
 
   companion object {

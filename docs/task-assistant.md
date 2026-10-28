@@ -13,12 +13,36 @@ Vietnamese goal or use the system speech recognizer, review the recognized text,
 choose an AI, then press **Thực hiện**. Speech recognition availability depends
 on the recognition service installed on the phone.
 
-The AI picker reuses configured services and their credentials. The task service
-and model are remembered separately from other AI features. A previously selected
-cloud model remains selected when the provider's general model setting changes.
-Only the active local model is offered, and only if it supports JSON output.
-Removing credentials or changing the active local model requires choosing again;
-there is no silent fallback to another provider.
+The shared picker in the entry form and task settings provides Online and Offline
+modes. Online mode exposes the service, selected model, configuration link and a
+refresh action. It retrieves eligible text-generation models from the service,
+including paginated Gemini and Claude lists, and caches their names against a
+hash of the service address and credentials. Changing credentials invalidates the
+cached list. No API key is stored in the model cache. Previously selected aliases
+remain visible even when they are absent from the returned list.
+
+The cloud model is remembered separately for each service. Gemini's global
+Automatic setting resolves to the build's concrete default instead of an empty
+model path. Gemini requests ask for a structured task object. Errors distinguish
+access rejection, missing endpoints or models, quota limits, connectivity and
+incomplete responses without showing raw server payloads.
+
+Offline mode lists the complete existing model catalog with file size and
+installed/compatibility status. Only models marked as supporting structured
+answers and compatible with the device can be selected. Download, pause and
+resume reuse SandFly's existing download manager and file verification. A download
+may continue when the picker closes. The default task candidate is Gemma 4 E2B;
+E4B is also available on compatible phones. These are not device performance or
+task-accuracy guarantees.
+
+The task local model is independent of the general AI model preference. A task
+client binds to the existing inference service with the selected model file;
+it does not replace the preferred model used by other features. GPU preference
+and existing memory safeguards remain shared. There is no silent cloud fallback.
+Local input uses a compact prompt capped at 16,000 UTF-8 bytes, prioritizes
+interactive nodes and relevant app names, and marks incomplete catalogs. This
+reduces prefill work but is not an exact tokenizer count. Goals that cannot fit
+are rejected rather than silently shortened.
 
 ## Execution
 

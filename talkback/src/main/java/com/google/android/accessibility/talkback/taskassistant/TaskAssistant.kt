@@ -8,10 +8,9 @@ import android.os.Looper
 import android.os.SystemClock
 import android.view.KeyEvent
 import android.view.accessibility.AccessibilityEvent
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Spinner
+import android.widget.ScrollView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import com.google.android.accessibility.talkback.R
@@ -67,7 +66,6 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   }
 
   private fun showEntry() {
-    val choices = TaskAiCatalog.choices(service)
     val content = column()
     val field = KeyboardSafeEditText(service).apply {
       hint = service.getString(R.string.task_goal)
@@ -88,23 +86,23 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
         }.onFailure { voicePending = false; announce(service.getString(R.string.task_voice_unavailable)); showEntry() }
       }
     })
-    val spinner = Spinner(service).apply {
-      contentDescription = service.getString(R.string.task_ai)
-      adapter = ArrayAdapter(service, android.R.layout.simple_spinner_dropdown_item,
-        if (choices.isEmpty()) listOf(service.getString(R.string.task_ai_missing)) else choices.map { it.label })
-      setSelection(choices.indexOf(TaskAiCatalog.selected(service)).coerceAtLeast(0))
+    val picker = TaskAiPicker(service) { provider ->
+      draft = field.text.toString()
+      dismissDialog()
+      TaskAiPicker.openSettings(service, provider)
     }
-    content.addView(spinner)
+    content.addView(picker)
     content.addView(TextView(service).apply { setText(R.string.task_data_notice) })
-    val builder = MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_title).setView(content)
+    val builder = MaterialComponentUtils.alertDialogBuilder(service).setTitle(R.string.task_title).setView(ScrollView(service).apply { addView(content) })
       .setPositiveButton(R.string.task_start, null).setNegativeButton(R.string.task_close, null)
     val shown = display(builder) { draft = field.text.toString() }
     shown.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
       val goal = field.text.toString().trim()
       if (goal.isEmpty()) { field.error = service.getString(R.string.task_goal); return@setOnClickListener }
       if (goal.length > 4000) { field.error = service.getString(R.string.task_goal_too_long); return@setOnClickListener }
-      val choice = choices.getOrNull(spinner.selectedItemPosition)
-      if (choice == null) { announce(service.getString(R.string.task_ai_missing)); return@setOnClickListener }
+      val choice = TaskAiCatalog.selected(service)
+      val problem = picker.problem()
+      if (choice == null || problem != null) { announce(problem ?: service.getString(R.string.task_ai_missing)); return@setOnClickListener }
       draft = goal
       TaskAiCatalog.select(service, choice)
       ai = choice
@@ -195,6 +193,9 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       }
     }, 700)
   }
+
+  override fun createPrompt(goal: String, screen: TaskScreen, apps: List<TaskApp>, history: List<String>): String =
+    if (ai?.provider == null) TaskPrompt.local(goal, screen, apps, history) else TaskProtocol.prompt(goal, screen, apps, history)
 
   override fun plan(prompt: String, done: (Result<String>) -> Unit) {
     val selected = ai ?: return done(Result.failure(IllegalStateException("Chưa chọn AI")))

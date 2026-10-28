@@ -6,6 +6,8 @@ enum class TaskExecution { PERFORMED, STALE, FAILED }
 
 interface TaskHost {
   fun observe(done: (Result<TaskScreen>) -> Unit)
+  fun createPrompt(goal: String, screen: TaskScreen, apps: List<TaskApp>, history: List<String>): String =
+    TaskProtocol.prompt(goal, screen, apps, history)
   fun plan(prompt: String, done: (Result<String>) -> Unit)
   fun execute(screen: TaskScreen, step: TaskStep, done: (TaskExecution) -> Unit)
   fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit)
@@ -126,7 +128,11 @@ class TaskEngine(private val host: TaskHost, private val apps: List<TaskApp>) {
   private fun plan(screen: TaskScreen) {
     setState(TaskState.PLANNING, "Đang chọn bước tiếp theo")
     val token = generation
-    host.plan(TaskProtocol.prompt(goal, screen, apps, history.toList())) { result ->
+    val prompt = runCatching { host.createPrompt(goal, screen, apps, history.toList()) }.getOrElse {
+      fail(it.message ?: "Không chuẩn bị được dữ liệu cho AI")
+      return
+    }
+    host.plan(prompt) { result ->
       if (token != generation || state != TaskState.PLANNING) return@plan
       val answer = result.getOrElse { fail("AI không trả lời được. ${it.message.orEmpty()}"); return@plan }
       val step = try { TaskProtocol.parse(answer, screen, apps) } catch (e: Exception) {
