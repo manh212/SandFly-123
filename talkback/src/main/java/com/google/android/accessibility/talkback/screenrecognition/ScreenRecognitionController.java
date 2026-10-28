@@ -52,12 +52,15 @@ public class ScreenRecognitionController {
 
   private static final String TAG = "ScreenRecognition";
   private static final int ROW_TOLERANCE_PX = 40;
+  private static final long REFRESH_AFTER_ACTIVATION_DELAY_MS = 700L;
 
   private final TalkBackService service;
   private final Announcer announcer;
+  private final Handler mainHandler = new Handler(Looper.getMainLooper());
   private ScreenRecognitionOverlay overlay;
   private boolean active;
   private boolean running;
+  private Runnable pendingRefresh;
 
   public ScreenRecognitionController(TalkBackService service, Announcer announcer) {
     this.service = service;
@@ -65,6 +68,7 @@ public class ScreenRecognitionController {
   }
 
   public void toggle() {
+    cancelPendingRefresh();
     if (active) {
       hide();
       announcer.announce(service.getString(R.string.screen_recognition_off));
@@ -73,6 +77,17 @@ public class ScreenRecognitionController {
     if (running) {
       return;
     }
+    startRecognition();
+  }
+
+  private void cancelPendingRefresh() {
+    if (pendingRefresh != null) {
+      mainHandler.removeCallbacks(pendingRefresh);
+      pendingRefresh = null;
+    }
+  }
+
+  private void startRecognition() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
       announcer.announce(service.getString(R.string.screen_recognition_failed));
       return;
@@ -286,5 +301,12 @@ public class ScreenRecognitionController {
                     path, 0, ViewConfiguration.getTapTimeout()))
             .build();
     service.dispatchGesture(gesture, null, null);
+    cancelPendingRefresh();
+    pendingRefresh =
+        () -> {
+          pendingRefresh = null;
+          startRecognition();
+        };
+    mainHandler.postDelayed(pendingRefresh, REFRESH_AFTER_ACTIVATION_DELAY_MS);
   }
 }

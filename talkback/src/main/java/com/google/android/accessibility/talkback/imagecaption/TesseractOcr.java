@@ -24,8 +24,6 @@ import android.os.Looper;
 import android.os.SystemClock;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
-import com.googlecode.tesseract.android.PageIteratorLevel;
-import com.googlecode.tesseract.android.ResultIterator;
 import com.googlecode.tesseract.android.TessBaseAPI;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -214,26 +212,11 @@ public final class TesseractOcr {
         if (engine.getUTF8Text() == null) {
           return null;
         }
-        ResultIterator iterator = engine.getResultIterator();
-        if (iterator == null) {
+        String hocr = engine.getHOCRText(0);
+        if (hocr == null) {
           return null;
         }
-        List<TextLine> lines = new ArrayList<>();
-        try {
-          iterator.begin();
-          do {
-            String lineText = iterator.getUTF8Text(PageIteratorLevel.RIL_TEXTLINE);
-            Rect bounds = iterator.getBoundingRect(PageIteratorLevel.RIL_TEXTLINE);
-            if (lineText != null
-                && !lineText.trim().isEmpty()
-                && bounds != null
-                && !bounds.isEmpty()) {
-              lines.add(new TextLine(lineText, bounds));
-            }
-          } while (iterator.next(PageIteratorLevel.RIL_TEXTLINE));
-        } finally {
-          iterator.delete();
-        }
+        List<TextLine> lines = parseHocrLines(hocr);
         lastUsedMs = SystemClock.elapsedRealtime();
         IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
         IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS);
@@ -243,6 +226,116 @@ public final class TesseractOcr {
         return null;
       }
     }
+  }
+
+  private static List<TextLine> parseHocrLines(String hocr) {
+    List<TextLine> lines = new ArrayList<>();
+    int searchFrom = 0;
+    while (true) {
+      int lineStart = hocr.indexOf("ocr_line", searchFrom);
+      if (lineStart < 0) {
+        break;
+      }
+      int tagEnd = hocr.indexOf('>', lineStart);
+      if (tagEnd < 0) {
+        break;
+      }
+      Rect bounds = parseHocrBbox(hocr.substring(lineStart, tagEnd));
+      int depth = 1;
+      int pos = tagEnd + 1;
+      int contentEnd = -1;
+      while (pos < hocr.length()) {
+        int tagStart = hocr.indexOf('<', pos);
+        if (tagStart < 0) {
+          break;
+        }
+        int tagClose = hocr.indexOf('>', tagStart);
+        if (tagClose < 0) {
+          break;
+        }
+        if (hocr.startsWith("</span", tagStart)) {
+          depth--;
+          if (depth == 0) {
+            contentEnd = tagStart;
+            break;
+          }
+        } else if (hocr.startsWith("<span", tagStart)) {
+          depth++;
+        }
+        pos = tagClose + 1;
+      }
+      if (contentEnd < 0) {
+        break;
+      }
+      String text = extractHocrLineText(hocr.substring(tagEnd + 1, contentEnd));
+      searchFrom = contentEnd + 7;
+      if (bounds != null && !bounds.isEmpty() && text != null && !text.trim().isEmpty()) {
+        lines.add(new TextLine(text, bounds));
+      }
+    }
+    return lines;
+  }
+
+  private static Rect parseHocrBbox(String tag) {
+    int bboxIndex = tag.indexOf("bbox");
+    if (bboxIndex < 0) {
+      return null;
+    }
+    String[] parts = tag.substring(bboxIndex + 4).trim().split("[\\s;]+");
+    if (parts.length < 4) {
+      return null;
+    }
+    try {
+      return new Rect(
+          Integer.parseInt(parts[0]),
+          Integer.parseInt(parts[1]),
+          Integer.parseInt(parts[2]),
+          Integer.parseInt(parts[3]));
+    } catch (NumberFormatException e) {
+      return null;
+    }
+  }
+
+  private static String extractHocrLineText(String content) {
+    StringBuilder builder = new StringBuilder();
+    int pos = 0;
+    while (true) {
+      int wordStart = content.indexOf("ocrx_word", pos);
+      if (wordStart < 0) {
+        break;
+      }
+      int tagEnd = content.indexOf('>', wordStart);
+      if (tagEnd < 0) {
+        break;
+      }
+      int wordEnd = content.indexOf("</span", tagEnd);
+      if (wordEnd < 0) {
+        break;
+      }
+      String word = unescapeHocr(content.substring(tagEnd + 1, wordEnd).replaceAll("<[^>]*>", "")).trim();
+      if (!word.isEmpty()) {
+        if (builder.length() > 0) {
+          builder.append(' ');
+        }
+        builder.append(word);
+      }
+      pos = wordEnd + 7;
+    }
+    if (builder.length() > 0) {
+      return builder.toString();
+    }
+    return unescapeHocr(content.replaceAll("<[^>]*>", "")).trim().replaceAll("\\s+", " ");
+  }
+
+  private static String unescapeHocr(String text) {
+    return text
+        .replace("&lt;", "<")
+        .replace("&gt;", ">")
+        .replace("&quot;", "\"")
+        .replace("&#39;", "'")
+        .replace("&apos;", "'")
+        .replace("&nbsp;", " ")
+        .replace("&amp;", "&");
   }
 
   public static void release() {
