@@ -239,10 +239,22 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
   private fun resolveTarget(planned: TaskScreen, step: TaskStep, fresh: CapturedTaskScreen): String? {
     val target = planned.nodes.firstOrNull { it.id == step.node } ?: return null
     val matches = fresh.screen.nodes.filter {
-      it.label == target.label && it.viewId == target.viewId && it.role == target.role &&
-        step.operation.wire in it.actions && (target.checked == null || it.checked == target.checked)
+      matchesName(it.label, target.label) && (it.viewId == target.viewId || it.viewId.isEmpty() || target.viewId.isEmpty()) &&
+        it.role == target.role && step.operation.wire in it.actions &&
+        (target.checked == null || it.checked == target.checked)
     }
     return if (matches.size == 1) matches[0].id else null
+  }
+
+  private fun matchesName(fresh: String, planned: String): Boolean {
+    val a = TaskProtocol.normalize(fresh)
+    val b = TaskProtocol.normalize(planned)
+    if (a.isEmpty() || b.isEmpty()) return a == b
+    if (a == b || a.contains(b) || b.contains(a)) return true
+    val compactA = a.filter { it.isLetterOrDigit() }
+    val compactB = b.filter { it.isLetterOrDigit() }
+    return compactA.isNotEmpty() && compactB.isNotEmpty() &&
+      (compactA == compactB || compactA.contains(compactB) || compactB.contains(compactA))
   }
 
   override fun confirm(screen: TaskScreen, step: TaskStep, done: (Boolean) -> Unit) {

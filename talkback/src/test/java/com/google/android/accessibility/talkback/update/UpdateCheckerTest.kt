@@ -81,7 +81,7 @@ class UpdateCheckerTest {
     assertTrue(move!!.move)
     assertEquals(5, move.build)
     assertEquals("https://example.com/meridian.apk", move.downloadUrl)
-    assertEquals(listOf("SandFly"), move.changes)
+    assertEquals(listOf("Meridian"), move.changes)
   }
 
   @Test(expected = JSONException::class)
