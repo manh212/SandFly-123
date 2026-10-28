@@ -3536,8 +3536,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       performance.setComputeStatsEnabled(performanceEnabled);
     }
 
-    diagnosticOverlayController.setLogOverlayEnabled(
-        getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default));
+    diagnosticOverlayController.setLogOverlayEnabled(false);
 
     accessibilityEventProcessor.setSpeakWhenScreenOff(NotificationSettings.readsWhenScreenOff(prefs));
 
