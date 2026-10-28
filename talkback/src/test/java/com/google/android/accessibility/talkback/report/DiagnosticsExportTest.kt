@@ -78,7 +78,7 @@ class DiagnosticsExportTest {
 
     val crashIndex = text.indexOf("== Last crash ==")
     val statsIndex = text.indexOf("== Performance statistics ==")
-    val logIndex = text.indexOf("== Recent log of the SandFly process ==")
+    val logIndex = text.indexOf("== Recent log of the Meridian process ==")
     assertTrue(crashIndex >= 0)
     assertTrue(statsIndex > crashIndex)
     assertTrue(logIndex > statsIndex)
