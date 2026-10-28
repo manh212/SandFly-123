@@ -149,10 +149,10 @@ public class ScreenRecognitionController {
     Handler mainHandler = new Handler(Looper.getMainLooper());
     new Thread(
             () -> {
-              List<TesseractOcr.TextLine> words = TesseractOcr.recognizeWords(service, bitmap);
+              List<TesseractOcr.TextLine> segments = TesseractOcr.recognizeSegments(service, bitmap);
               mainHandler.post(
                   () -> {
-                    if (words == null) {
+                    if (segments == null) {
                       if (allowFallback) {
                         recognizeWithMlKit(bitmap, /* allowFallback= */ false);
                       } else {
@@ -161,7 +161,7 @@ public class ScreenRecognitionController {
                       }
                       return;
                     }
-                    List<RecognizedItem> items = toItems(words, bitmap);
+                    List<RecognizedItem> items = toItems(segments, bitmap);
                     if (items.isEmpty()) {
                       announcer.announce(
                           service.getString(R.string.screen_recognition_empty));
@@ -185,21 +185,21 @@ public class ScreenRecognitionController {
         && TesseractOcr.isDataDownloaded(service);
   }
 
-  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> words, Bitmap bitmap) {
+  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> segments, Bitmap bitmap) {
     int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
     int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
     float scaleX = (float) displayWidth / bitmap.getWidth();
     float scaleY = (float) displayHeight / bitmap.getHeight();
-    List<RecognizedItem> scaledWords = new ArrayList<>();
-    for (TesseractOcr.TextLine word : words) {
-      Rect box = word.bounds;
-      if (box == null || word.text == null || word.text.trim().isEmpty()) {
+    List<RecognizedItem> items = new ArrayList<>();
+    for (TesseractOcr.TextLine segment : segments) {
+      Rect box = segment.bounds;
+      if (box == null || segment.text == null || segment.text.trim().isEmpty()) {
         continue;
       }
-      scaledWords.add(new RecognizedItem(word.text, scaleBox(box, scaleX, scaleY), false));
+      items.add(new RecognizedItem(segment.text, scaleBox(box, scaleX, scaleY), false));
     }
-    sortItems(scaledWords);
-    return groupWords(scaledWords);
+    sortItems(items);
+    return items;
   }
 
   private static Rect scaleBox(Rect box, float scaleX, float scaleY) {
@@ -210,62 +210,24 @@ public class ScreenRecognitionController {
         Math.round(box.bottom * scaleY));
   }
 
-  private static List<RecognizedItem> groupWords(List<RecognizedItem> words) {
-    List<RecognizedItem> items = new ArrayList<>();
-    StringBuilder text = new StringBuilder();
-    Rect bounds = null;
-    int row = Integer.MIN_VALUE;
-    for (RecognizedItem word : words) {
-      int wordRow = Math.round(word.bounds.centerY() / (float) ROW_TOLERANCE_PX);
-      int gap = bounds == null ? 0 : word.bounds.left - bounds.right;
-      if (bounds == null || wordRow != row || gap > bounds.height()) {
-        if (bounds != null) {
-          items.add(new RecognizedItem(text.toString(), bounds, false));
-        }
-        text = new StringBuilder(word.text);
-        bounds = new Rect(word.bounds);
-        row = wordRow;
-      } else {
-        text.append(' ').append(word.text);
-        bounds.union(word.bounds);
-      }
-    }
-    if (bounds != null) {
-      items.add(new RecognizedItem(text.toString(), bounds, false));
-    }
-    return items;
-  }
-
   private List<RecognizedItem> merge(Bitmap bitmap, Text text) {
     int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
     int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
     float scaleX = (float) displayWidth / bitmap.getWidth();
     float scaleY = (float) displayHeight / bitmap.getHeight();
-    List<RecognizedItem> words = new ArrayList<>();
+    List<RecognizedItem> items = new ArrayList<>();
     for (Text.TextBlock block : text.getTextBlocks()) {
       for (Text.Line line : block.getLines()) {
-        List<Text.Element> elements = line.getElements();
-        if (elements.isEmpty()) {
-          Rect box = line.getBoundingBox();
-          String lineText = line.getText();
-          if (box == null || lineText == null || lineText.trim().isEmpty()) {
-            continue;
-          }
-          words.add(new RecognizedItem(lineText, scaleBox(box, scaleX, scaleY), false));
-        } else {
-          for (Text.Element element : elements) {
-            Rect box = element.getBoundingBox();
-            String wordText = element.getText();
-            if (box == null || wordText == null || wordText.trim().isEmpty()) {
-              continue;
-            }
-            words.add(new RecognizedItem(wordText, scaleBox(box, scaleX, scaleY), false));
-          }
+        Rect box = line.getBoundingBox();
+        String lineText = line.getText();
+        if (box == null || lineText == null || lineText.trim().isEmpty()) {
+          continue;
         }
+        items.add(new RecognizedItem(lineText, scaleBox(box, scaleX, scaleY), false));
       }
     }
-    sortItems(words);
-    return groupWords(words);
+    sortItems(items);
+    return items;
   }
 
   private static void sortItems(List<RecognizedItem> items) {

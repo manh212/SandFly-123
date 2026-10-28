@@ -197,7 +197,7 @@ public final class TesseractOcr {
   }
 
   @Nullable
-  public static List<TextLine> recognizeWords(Context context, Bitmap bitmap) {
+  public static List<TextLine> recognizeSegments(Context context, Bitmap bitmap) {
     synchronized (ENGINE_LOCK) {
       try {
         if (engine == null) {
@@ -216,40 +216,37 @@ public final class TesseractOcr {
         if (hocr == null) {
           return null;
         }
-        List<TextLine> words = parseHocrWords(hocr);
-        if (words.isEmpty()) {
-          words = parseHocrLines(hocr);
-        }
+        List<TextLine> segments = parseHocrSegments(hocr);
         lastUsedMs = SystemClock.elapsedRealtime();
         IDLE_HANDLER.removeCallbacks(IDLE_RELEASE);
         IDLE_HANDLER.postDelayed(IDLE_RELEASE, IDLE_TIMEOUT_MS);
-        return words;
+        return segments;
       } catch (RuntimeException e) {
-        LogUtils.w(TAG, "Word recognition failed: " + e.getMessage());
+        LogUtils.w(TAG, "Segment recognition failed: " + e.getMessage());
         return null;
       }
     }
   }
 
-  private static List<TextLine> parseHocrWords(String hocr) {
+  private static List<TextLine> parseHocrLineWords(String content) {
     List<TextLine> words = new ArrayList<>();
     int pos = 0;
     while (true) {
-      int wordStart = hocr.indexOf("ocrx_word", pos);
+      int wordStart = content.indexOf("ocrx_word", pos);
       if (wordStart < 0) {
         break;
       }
-      int tagEnd = hocr.indexOf('>', wordStart);
+      int tagEnd = content.indexOf('>', wordStart);
       if (tagEnd < 0) {
         break;
       }
-      Rect bounds = parseHocrBbox(hocr.substring(wordStart, tagEnd));
-      int wordEnd = hocr.indexOf("</span", tagEnd);
+      Rect bounds = parseHocrBbox(content.substring(wordStart, tagEnd));
+      int wordEnd = content.indexOf("</span", tagEnd);
       if (wordEnd < 0) {
         break;
       }
       String word =
-          unescapeHocr(hocr.substring(tagEnd + 1, wordEnd).replaceAll("<[^>]*>", "")).trim();
+          unescapeHocr(content.substring(tagEnd + 1, wordEnd).replaceAll("<[^>]*>", "")).trim();
       pos = wordEnd + 7;
       if (bounds != null && !bounds.isEmpty() && !word.isEmpty()) {
         words.add(new TextLine(word, bounds));
@@ -258,8 +255,8 @@ public final class TesseractOcr {
     return words;
   }
 
-  private static List<TextLine> parseHocrLines(String hocr) {
-    List<TextLine> lines = new ArrayList<>();
+  private static List<TextLine> parseHocrSegments(String hocr) {
+    List<TextLine> segments = new ArrayList<>();
     int searchFrom = 0;
     while (true) {
       int lineStart = hocr.indexOf("ocr_line", searchFrom);
@@ -270,7 +267,7 @@ public final class TesseractOcr {
       if (tagEnd < 0) {
         break;
       }
-      Rect bounds = parseHocrBbox(hocr.substring(lineStart, tagEnd));
+      Rect lineBounds = parseHocrBbox(hocr.substring(lineStart, tagEnd));
       int depth = 1;
       int pos = tagEnd + 1;
       int contentEnd = -1;
@@ -297,13 +294,40 @@ public final class TesseractOcr {
       if (contentEnd < 0) {
         break;
       }
-      String text = extractHocrLineText(hocr.substring(tagEnd + 1, contentEnd));
+      String content = hocr.substring(tagEnd + 1, contentEnd);
       searchFrom = contentEnd + 7;
-      if (bounds != null && !bounds.isEmpty() && text != null && !text.trim().isEmpty()) {
-        lines.add(new TextLine(text, bounds));
+      List<TextLine> words = parseHocrLineWords(content);
+      if (words.isEmpty()) {
+        String text = extractHocrLineText(content);
+        if (lineBounds != null && !lineBounds.isEmpty() && text != null && !text.trim().isEmpty()) {
+          segments.add(new TextLine(text, lineBounds));
+        }
+        continue;
+      }
+      int threshold =
+          lineBounds != null && !lineBounds.isEmpty()
+              ? lineBounds.height()
+              : words.get(0).bounds.height();
+      StringBuilder text = new StringBuilder();
+      Rect bounds = null;
+      for (TextLine word : words) {
+        int gap = bounds == null ? 0 : word.bounds.left - bounds.right;
+        if (bounds == null || gap > threshold) {
+          if (bounds != null) {
+            segments.add(new TextLine(text.toString(), bounds));
+          }
+          text = new StringBuilder(word.text);
+          bounds = new Rect(word.bounds);
+        } else {
+          text.append(' ').append(word.text);
+          bounds.union(word.bounds);
+        }
+      }
+      if (bounds != null) {
+        segments.add(new TextLine(text.toString(), bounds));
       }
     }
-    return lines;
+    return segments;
   }
 
   private static Rect parseHocrBbox(String tag) {
