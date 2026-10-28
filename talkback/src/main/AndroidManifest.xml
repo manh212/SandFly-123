@@ -331,6 +331,13 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name="com.google.android.accessibility.talkback.tutorial.FirstRunActivity"
+            android:theme="@style/DialogStyle"
+            android:exported="false"
+            android:excludeFromRecents="true">
+        </activity>
+
         <!-- Absolutely same with TrainingActivity for onboarding link to tutorial without breaking the singleTop launch mode.
              To prevent slowdown of talkback event-handlers, arrange to run on a separate process. -->
         <activity

@@ -640,6 +640,8 @@ internal object TutorialLessons {
   /** The lesson whose gestures are said instead of done, apart from moving and activating. */
   const val PRACTICE_LESSON = "practice"
 
+  const val FIRST_LESSON = "welcome"
+
   /** The actions that gesture practice still performs, so that End practice can be reached. */
   val PRACTICE_PERFORMED =
     listOf(

@@ -4483,6 +4483,9 @@
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
     <string name="meridian_intro_title">About Meridian</string>
-    <string name="meridian_intro">Meridian is a fast, lightweight screen reader with many features, made by Vietnamese people for Vietnamese users: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly.</string>
+    <string name="meridian_intro">Meridian is a fast, lightweight screen reader with many features, developed in Vietnam: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly.</string>
     <string name="meridian_contact_title">Contact the developer</string>
+    <string name="first_run_tutorial_question">Do you need a tutorial?</string>
+    <string name="first_run_tutorial_yes">Yes</string>
+    <string name="first_run_tutorial_no">No</string>
 </resources>
