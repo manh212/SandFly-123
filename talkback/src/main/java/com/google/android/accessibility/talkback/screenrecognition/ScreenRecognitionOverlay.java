@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.screenrecognition;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.view.MotionEvent;
@@ -55,12 +56,16 @@ public class ScreenRecognitionOverlay extends View {
     super(context);
     this.activationListener = activationListener;
     this.touchListener = touchListener;
+    setFocusable(true);
+    setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
     helper = new RecognitionHelper(this, activationListener);
     ViewCompat.setAccessibilityDelegate(this, helper);
   }
 
   public void setItems(List<RecognizedItem> items) {
-    this.items = items;
+    this.items = new ArrayList<>(items);
+    touchedItem = null;
+    lastUpItem = null;
     helper.invalidateRoot();
   }
 
@@ -95,6 +100,10 @@ public class ScreenRecognitionOverlay extends View {
         lastUpItem = item;
         lastUpTimeMs = now;
       }
+      if (action == MotionEvent.ACTION_CANCEL) {
+        lastUpItem = null;
+        lastUpTimeMs = 0;
+      }
       touchedItem = null;
       return true;
     }
@@ -102,12 +111,10 @@ public class ScreenRecognitionOverlay extends View {
   }
 
   private RecognizedItem findItemAt(float x, float y) {
-    for (RecognizedItem item : items) {
-      if (item.bounds.contains((int) x, (int) y)) {
-        return item;
-      }
-    }
-    return null;
+    int[] location = new int[2];
+    getLocationOnScreen(location);
+    int index = RecognitionLayout.itemAt(items, (int) x + location[0], (int) y + location[1]);
+    return index < 0 ? null : items.get(index);
   }
 
   private class RecognitionHelper extends ExploreByTouchHelper {
@@ -121,12 +128,8 @@ public class ScreenRecognitionOverlay extends View {
 
     @Override
     protected int getVirtualViewAt(float x, float y) {
-      for (int i = 0; i < items.size(); i++) {
-        if (items.get(i).bounds.contains((int) x, (int) y)) {
-          return i;
-        }
-      }
-      return INVALID_ID;
+      RecognizedItem item = findItemAt(x, y);
+      return item == null ? INVALID_ID : items.indexOf(item);
     }
 
     @Override
@@ -139,20 +142,26 @@ public class ScreenRecognitionOverlay extends View {
     @Override
     protected void onPopulateNodeForVirtualView(
         int virtualViewId, AccessibilityNodeInfoCompat node) {
-      try {
-        if (virtualViewId < 0 || virtualViewId >= items.size()) {
-          node.setText(" ");
-          node.setBoundsInScreen(new android.graphics.Rect());
-          return;
-        }
-        RecognizedItem item = items.get(virtualViewId);
-        node.setText(item.text);
-        node.setBoundsInScreen(item.bounds);
-        node.setClickable(true);
-        node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
-      } catch (RuntimeException e) {
+      if (virtualViewId < 0 || virtualViewId >= items.size()) {
         node.setText(" ");
-        node.setBoundsInScreen(new android.graphics.Rect());
+        node.setBoundsInParent(new Rect());
+        node.setBoundsInScreen(new Rect());
+        return;
+      }
+      RecognizedItem item = items.get(virtualViewId);
+      int[] location = new int[2];
+      getLocationOnScreen(location);
+      Rect localBounds = new Rect(item.bounds);
+      localBounds.offset(-location[0], -location[1]);
+      node.setText(item.text);
+      node.setBoundsInParent(localBounds);
+      node.setBoundsInScreen(item.bounds);
+      node.setFocusable(true);
+      node.setScreenReaderFocusable(true);
+      node.setClickable(true);
+      node.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+      if (virtualViewId > 0) {
+        node.setTraversalAfter(ScreenRecognitionOverlay.this, virtualViewId - 1);
       }
     }
 

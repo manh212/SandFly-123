@@ -77,10 +77,16 @@ public final class TesseractOcr {
   public static final class TextLine {
     public final String text;
     public final Rect bounds;
+    public final List<TextLine> words;
 
     public TextLine(String text, Rect bounds) {
+      this(text, bounds, java.util.Collections.emptyList());
+    }
+
+    public TextLine(String text, Rect bounds, List<TextLine> words) {
       this.text = text;
-      this.bounds = bounds;
+      this.bounds = new Rect(bounds);
+      this.words = new ArrayList<>(words);
     }
   }
 
@@ -304,28 +310,16 @@ public final class TesseractOcr {
         }
         continue;
       }
-      int threshold =
-          lineBounds != null && !lineBounds.isEmpty()
-              ? lineBounds.height()
-              : words.get(0).bounds.height();
+      Rect bounds = new Rect(words.get(0).bounds);
       StringBuilder text = new StringBuilder();
-      Rect bounds = null;
       for (TextLine word : words) {
-        int gap = bounds == null ? 0 : word.bounds.left - bounds.right;
-        if (bounds == null || gap > threshold) {
-          if (bounds != null) {
-            segments.add(new TextLine(text.toString(), bounds));
-          }
-          text = new StringBuilder(word.text);
-          bounds = new Rect(word.bounds);
-        } else {
-          text.append(' ').append(word.text);
-          bounds.union(word.bounds);
+        if (text.length() > 0) {
+          text.append(' ');
         }
+        text.append(word.text);
+        bounds.union(word.bounds);
       }
-      if (bounds != null) {
-        segments.add(new TextLine(text.toString(), bounds));
-      }
+      segments.add(new TextLine(text.toString(), bounds, words));
     }
     return segments;
   }

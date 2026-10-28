@@ -255,6 +255,7 @@ public class GestureController {
     listEdgeScroller.cancel();
     pullToRefresh.cancel();
     dictation.shutdown();
+    screenRecognitionController.stop();
   }
 
   public boolean stopScreenRecognition() {

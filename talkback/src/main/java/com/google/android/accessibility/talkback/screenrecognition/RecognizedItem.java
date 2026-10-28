@@ -26,7 +26,7 @@ public final class RecognizedItem {
 
   public RecognizedItem(String text, Rect bounds, boolean fromAccessibilityTree) {
     this.text = text;
-    this.bounds = bounds;
+    this.bounds = new Rect(bounds);
     this.fromAccessibilityTree = fromAccessibilityTree;
   }
 }

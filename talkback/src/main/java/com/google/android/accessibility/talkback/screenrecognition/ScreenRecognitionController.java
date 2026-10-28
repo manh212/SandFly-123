@@ -19,14 +19,18 @@ package com.google.android.accessibility.talkback.screenrecognition;
 import android.accessibilityservice.GestureDescription;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Path;
 import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.Gravity;
 import android.view.ViewConfiguration;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityManager;
+import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -41,7 +45,6 @@ import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ScreenRecognitionController {
@@ -51,7 +54,7 @@ public class ScreenRecognitionController {
   }
 
   private static final String TAG = "ScreenRecognition";
-  private static final int ROW_TOLERANCE_PX = 40;
+  private static final long OVERLAY_REMOVAL_DELAY_MS = 150L;
   private static final long REFRESH_AFTER_ACTIVATION_DELAY_MS = 700L;
 
   private final TalkBackService service;
@@ -61,6 +64,13 @@ public class ScreenRecognitionController {
   private boolean active;
   private boolean running;
   private Runnable pendingRefresh;
+  private Runnable pendingActivation;
+  private int generation;
+  private int captureWidth;
+  private int captureHeight;
+  private int captureRotation;
+  private List<Rect> controls = new ArrayList<>();
+  private List<RecognizedItem> currentItems = new ArrayList<>();
 
   public ScreenRecognitionController(TalkBackService service, Announcer announcer) {
     this.service = service;
@@ -68,15 +78,11 @@ public class ScreenRecognitionController {
   }
 
   public void toggle() {
-    cancelPendingRefresh();
     if (active) {
-      hide();
-      announcer.announce(service.getString(R.string.screen_recognition_off));
+      stop();
       return;
     }
-    if (running) {
-      return;
-    }
+    active = true;
     startRecognition();
   }
 
@@ -89,10 +95,12 @@ public class ScreenRecognitionController {
 
   private void startRecognition() {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
-      announcer.announce(service.getString(R.string.screen_recognition_failed));
+      finishFailure();
       return;
     }
     running = true;
+    int request = ++generation;
+    captureRotation = service.getSystemService(WindowManager.class).getDefaultDisplay().getRotation();
     announcer.announce(service.getString(R.string.screen_recognition_starting));
     ScreenshotCapture.takeScreenshot(
         service,
@@ -100,76 +108,83 @@ public class ScreenRecognitionController {
           @Override
           public void onScreenCaptureFinished(
               @Nullable Bitmap bitmap, boolean isFormatSupported) {
-            running = false;
-            if (bitmap == null || !isFormatSupported) {
-              announcer.announce(service.getString(R.string.screen_recognition_failed));
+            if (!active || request != generation) {
+              if (bitmap != null) {
+                bitmap.recycle();
+              }
               return;
             }
-            recognize(bitmap);
+            if (bitmap == null || !isFormatSupported) {
+              if (bitmap != null) {
+                bitmap.recycle();
+              }
+              finishFailure();
+              return;
+            }
+            captureWidth = bitmap.getWidth();
+            captureHeight = bitmap.getHeight();
+            controls = collectControls();
+            recognize(bitmap, request);
           }
         });
   }
 
-  private void recognize(Bitmap bitmap) {
+  private void recognize(Bitmap bitmap, int request) {
     if (useTesseract(service)) {
-      recognizeWithTesseract(bitmap, /* allowFallback= */ true);
+      recognizeWithTesseract(bitmap, true, request);
     } else {
-      recognizeWithMlKit(bitmap, /* allowFallback= */ true);
+      recognizeWithMlKit(bitmap, true, request);
     }
   }
 
-  private void recognizeWithMlKit(Bitmap bitmap, boolean allowFallback) {
+  private void recognizeWithMlKit(Bitmap bitmap, boolean allowFallback, int request) {
     TextRecognizer recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS);
     recognizer
         .process(InputImage.fromBitmap(bitmap, 0))
         .addOnSuccessListener(
             text -> {
-              List<RecognizedItem> items = merge(bitmap, text);
-              if (items.isEmpty()) {
-                announcer.announce(service.getString(R.string.screen_recognition_empty));
-                return;
+              if (active && request == generation) {
+                finishRecognition(merge(text));
               }
-              show(items);
-              announcer.announce(
-                  service.getString(R.string.screen_recognition_done, items.size()));
+              bitmap.recycle();
             })
         .addOnFailureListener(
             e -> {
+              if (!active || request != generation) {
+                bitmap.recycle();
+                return;
+              }
               LogUtils.w(TAG, "ML Kit recognition failed: " + e.getMessage());
               if (allowFallback && TesseractOcr.isDataDownloaded(service)) {
-                recognizeWithTesseract(bitmap, /* allowFallback= */ false);
+                recognizeWithTesseract(bitmap, false, request);
               } else {
-                announcer.announce(service.getString(R.string.screen_recognition_failed));
+                bitmap.recycle();
+                finishFailure();
               }
             })
         .addOnCompleteListener(task -> recognizer.close());
   }
 
-  private void recognizeWithTesseract(Bitmap bitmap, boolean allowFallback) {
-    Handler mainHandler = new Handler(Looper.getMainLooper());
+  private void recognizeWithTesseract(Bitmap bitmap, boolean allowFallback, int request) {
     new Thread(
             () -> {
               List<TesseractOcr.TextLine> segments = TesseractOcr.recognizeSegments(service, bitmap);
               mainHandler.post(
                   () -> {
+                    if (!active || request != generation) {
+                      bitmap.recycle();
+                      return;
+                    }
+                    if (segments == null && allowFallback) {
+                      recognizeWithMlKit(bitmap, false, request);
+                      return;
+                    }
+                    bitmap.recycle();
                     if (segments == null) {
-                      if (allowFallback) {
-                        recognizeWithMlKit(bitmap, /* allowFallback= */ false);
-                      } else {
-                        announcer.announce(
-                            service.getString(R.string.screen_recognition_failed));
-                      }
-                      return;
+                      finishFailure();
+                    } else {
+                      finishRecognition(toItems(segments));
                     }
-                    List<RecognizedItem> items = toItems(segments, bitmap);
-                    if (items.isEmpty()) {
-                      announcer.announce(
-                          service.getString(R.string.screen_recognition_empty));
-                      return;
-                    }
-                    show(items);
-                    announcer.announce(
-                        service.getString(R.string.screen_recognition_done, items.size()));
                   });
             })
         .start();
@@ -185,65 +200,110 @@ public class ScreenRecognitionController {
         && TesseractOcr.isDataDownloaded(service);
   }
 
-  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> segments, Bitmap bitmap) {
-    int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
-    int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
-    float scaleX = (float) displayWidth / bitmap.getWidth();
-    float scaleY = (float) displayHeight / bitmap.getHeight();
+  private List<RecognizedItem> toItems(List<TesseractOcr.TextLine> segments) {
     List<RecognizedItem> items = new ArrayList<>();
     for (TesseractOcr.TextLine segment : segments) {
-      Rect box = segment.bounds;
-      if (box == null || segment.text == null || segment.text.trim().isEmpty()) {
-        continue;
+      List<RecognizedItem> words = new ArrayList<>();
+      for (TesseractOcr.TextLine word : segment.words) {
+        words.add(new RecognizedItem(word.text, word.bounds, false));
       }
-      items.add(new RecognizedItem(segment.text, scaleBox(box, scaleX, scaleY), false));
+      items.addAll(RecognitionLayout.splitLine(segment.text, segment.bounds, words, controls));
     }
-    sortItems(items);
+    RecognitionLayout.sort(items);
     return items;
   }
 
-  private static Rect scaleBox(Rect box, float scaleX, float scaleY) {
-    return new Rect(
-        Math.round(box.left * scaleX),
-        Math.round(box.top * scaleY),
-        Math.round(box.right * scaleX),
-        Math.round(box.bottom * scaleY));
-  }
-
-  private List<RecognizedItem> merge(Bitmap bitmap, Text text) {
-    int displayWidth = service.getResources().getDisplayMetrics().widthPixels;
-    int displayHeight = service.getResources().getDisplayMetrics().heightPixels;
-    float scaleX = (float) displayWidth / bitmap.getWidth();
-    float scaleY = (float) displayHeight / bitmap.getHeight();
+  private List<RecognizedItem> merge(Text text) {
     List<RecognizedItem> items = new ArrayList<>();
     for (Text.TextBlock block : text.getTextBlocks()) {
       for (Text.Line line : block.getLines()) {
         Rect box = line.getBoundingBox();
-        String lineText = line.getText();
-        if (box == null || lineText == null || lineText.trim().isEmpty()) {
+        if (box == null) {
           continue;
         }
-        items.add(new RecognizedItem(lineText, scaleBox(box, scaleX, scaleY), false));
+        List<RecognizedItem> words = new ArrayList<>();
+        for (Text.Element element : line.getElements()) {
+          Rect wordBox = element.getBoundingBox();
+          if (wordBox != null) {
+            words.add(new RecognizedItem(element.getText(), wordBox, false));
+          }
+        }
+        items.addAll(RecognitionLayout.splitLine(line.getText(), box, words, controls));
       }
     }
-    sortItems(items);
+    RecognitionLayout.sort(items);
     return items;
   }
 
-  private static void sortItems(List<RecognizedItem> items) {
-    Collections.sort(
-        items,
-        (first, second) -> {
-          int firstRow = Math.round(first.bounds.centerY() / (float) ROW_TOLERANCE_PX);
-          int secondRow = Math.round(second.bounds.centerY() / (float) ROW_TOLERANCE_PX);
-          if (firstRow != secondRow) {
-            return firstRow - secondRow;
-          }
-          return first.bounds.centerX() - second.bounds.centerX();
-        });
+  private void finishRecognition(List<RecognizedItem> items) {
+    running = false;
+    if (!sameDisplaySize()) {
+      stop();
+      announcer.announce(service.getString(R.string.screen_recognition_failed));
+      return;
+    }
+    Rect screen = new Rect(0, 0, captureWidth, captureHeight);
+    items.removeIf(item -> !item.bounds.intersect(screen));
+    if (items.isEmpty()) {
+      active = false;
+      announcer.announce(service.getString(R.string.screen_recognition_empty));
+      return;
+    }
+    currentItems = items;
+    if (show(items)) {
+      announcer.announce(service.getString(R.string.screen_recognition_done, items.size()));
+    }
   }
 
-  private void show(List<RecognizedItem> items) {
+  private void finishFailure() {
+    running = false;
+    active = false;
+    announcer.announce(service.getString(R.string.screen_recognition_failed));
+  }
+
+  private boolean sameDisplaySize() {
+    Point size = new Point();
+    service.getSystemService(WindowManager.class).getDefaultDisplay().getRealSize(size);
+    return size.x == captureWidth && size.y == captureHeight
+        && captureRotation == service.getSystemService(WindowManager.class).getDefaultDisplay().getRotation();
+  }
+
+  private List<Rect> collectControls() {
+    List<Rect> result = new ArrayList<>();
+    int[] visited = {0};
+    for (AccessibilityWindowInfo window : service.getWindows()) {
+      if (window.getType() == AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) {
+        continue;
+      }
+      AccessibilityNodeInfo root = window.getRoot();
+      if (root != null) {
+        collectControls(root, result, 0, visited);
+        root.recycle();
+      }
+    }
+    return result;
+  }
+
+  private void collectControls(
+      AccessibilityNodeInfo node, List<Rect> result, int depth, int[] visited) {
+    if (depth > 50 || ++visited[0] > 2000 || result.size() >= 500) {
+      return;
+    }
+    Rect bounds = new Rect();
+    node.getBoundsInScreen(bounds);
+    if (node.isVisibleToUser() && node.isClickable() && !bounds.isEmpty()) {
+      result.add(bounds);
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      AccessibilityNodeInfo child = node.getChild(i);
+      if (child != null) {
+        collectControls(child, result, depth + 1, visited);
+        child.recycle();
+      }
+    }
+  }
+
+  private boolean show(List<RecognizedItem> items) {
     hide();
     WindowManager windowManager = service.getSystemService(WindowManager.class);
     overlay =
@@ -256,6 +316,12 @@ public class ScreenRecognitionController {
         WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
             | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
             | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+    params.gravity = Gravity.TOP | Gravity.LEFT;
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+      params.setFitInsetsTypes(0);
+      params.layoutInDisplayCutoutMode =
+          WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
+    }
     params.width = WindowManager.LayoutParams.MATCH_PARENT;
     params.height = WindowManager.LayoutParams.MATCH_PARENT;
     params.format = PixelFormat.TRANSLUCENT;
@@ -266,19 +332,25 @@ public class ScreenRecognitionController {
       overlay = null;
       active = false;
       announcer.announce(service.getString(R.string.screen_recognition_failed));
-      return;
+      return false;
     }
     overlay.setItems(items);
-    active = true;
+    return true;
   }
 
   public boolean stop() {
-    boolean wasActive = active || pendingRefresh != null;
+    boolean wasActive = active;
+    active = false;
+    running = false;
+    generation++;
     cancelPendingRefresh();
-    if (active) {
-      hide();
-      announcer.announce(service.getString(R.string.screen_recognition_off));
-    } else if (wasActive) {
+    if (pendingActivation != null) {
+      mainHandler.removeCallbacks(pendingActivation);
+      pendingActivation = null;
+    }
+    hide();
+    currentItems = new ArrayList<>();
+    if (wasActive) {
       announcer.announce(service.getString(R.string.screen_recognition_off));
     }
     return wasActive;
@@ -293,26 +365,134 @@ public class ScreenRecognitionController {
       }
       overlay = null;
     }
-    active = false;
   }
 
   private void activate(RecognizedItem item) {
+    if (!active || running || pendingActivation != null || pendingRefresh != null) {
+      return;
+    }
+    if (!sameDisplaySize()) {
+      stop();
+      announcer.announce(service.getString(R.string.screen_recognition_failed));
+      return;
+    }
     hide();
-    Path path = new Path();
-    path.moveTo(item.bounds.centerX(), item.bounds.centerY());
-    GestureDescription gesture =
-        new GestureDescription.Builder()
-            .addStroke(
-                new GestureDescription.StrokeDescription(
-                    path, 0, ViewConfiguration.getTapTimeout()))
-            .build();
-    service.dispatchGesture(gesture, null, null);
-    cancelPendingRefresh();
+    int request = generation;
+    pendingActivation =
+        () -> {
+          pendingActivation = null;
+          if (!active || request != generation) {
+            return;
+          }
+          if (!sameDisplaySize()) {
+            stop();
+            announcer.announce(service.getString(R.string.screen_recognition_failed));
+            return;
+          }
+          if (clickNative(item.bounds)) {
+            scheduleRefresh(request);
+            return;
+          }
+          AccessibilityManager manager = service.getSystemService(AccessibilityManager.class);
+          GestureDescription gesture = RecognitionClick.gesture(
+              item.bounds, ViewConfiguration.getTapTimeout(), manager.isTouchExplorationEnabled());
+          boolean accepted = service.dispatchGesture(
+              gesture,
+              new android.accessibilityservice.AccessibilityService.GestureResultCallback() {
+                @Override
+                public void onCompleted(GestureDescription completed) {
+                  if (active && request == generation) {
+                    scheduleRefresh(request);
+                  }
+                }
+
+                @Override
+                public void onCancelled(GestureDescription cancelled) {
+                  restoreAfterFailedClick(request);
+                }
+              },
+              mainHandler);
+          if (!accepted) {
+            restoreAfterFailedClick(request);
+          }
+        };
+    mainHandler.postDelayed(pendingActivation, OVERLAY_REMOVAL_DELAY_MS);
+  }
+
+  private void scheduleRefresh(int request) {
     pendingRefresh =
         () -> {
           pendingRefresh = null;
-          startRecognition();
+          if (active && request == generation) {
+            startRecognition();
+          }
         };
     mainHandler.postDelayed(pendingRefresh, REFRESH_AFTER_ACTIVATION_DELAY_MS);
+  }
+
+  private void restoreAfterFailedClick(int request) {
+    if (active && request == generation) {
+      show(currentItems);
+      announcer.announce("Không thể nhấp vào mục này. Hãy thử lại.");
+    }
+  }
+
+  private boolean clickNative(Rect target) {
+    List<AccessibilityWindowInfo> windows = new ArrayList<>(service.getWindows());
+    windows.sort((first, second) -> Integer.compare(second.getLayer(), first.getLayer()));
+    for (AccessibilityWindowInfo window : windows) {
+      if (window.getType() == AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) {
+        continue;
+      }
+      Rect bounds = new Rect();
+      window.getBoundsInScreen(bounds);
+      if (!bounds.contains(target.centerX(), target.centerY())) {
+        continue;
+      }
+      AccessibilityNodeInfo root = window.getRoot();
+      if (root == null) {
+        continue;
+      }
+      try {
+        AccessibilityNodeInfo node = findClickTarget(root, target, 0);
+        if (node == null) {
+          return false;
+        }
+        try {
+          return node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
+        } finally {
+          node.recycle();
+        }
+      } catch (RuntimeException e) {
+        LogUtils.w(TAG, "Native click failed: " + e.getMessage());
+        return false;
+      } finally {
+        root.recycle();
+      }
+    }
+    return false;
+  }
+
+  @Nullable
+  private AccessibilityNodeInfo findClickTarget(AccessibilityNodeInfo node, Rect target, int depth) {
+    if (depth > 50 || !node.isVisibleToUser() || !node.isEnabled()) {
+      return null;
+    }
+    Rect bounds = new Rect();
+    node.getBoundsInScreen(bounds);
+    if (!bounds.contains(target.centerX(), target.centerY())) {
+      return null;
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      AccessibilityNodeInfo child = node.getChild(i);
+      if (child != null) {
+        AccessibilityNodeInfo result = findClickTarget(child, target, depth + 1);
+        child.recycle();
+        if (result != null) {
+          return result;
+        }
+      }
+    }
+    return node.isClickable() ? AccessibilityNodeInfo.obtain(node) : null;
   }
 }
