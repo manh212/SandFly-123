@@ -19,13 +19,15 @@
 
   <string name="title_pref_event_processing_level" translatable="false">Event processing level</string>
   <string name="summary_pref_event_processing_level" translatable="false">
-    Lower levels discard more repeated screen updates and favor focus events. Higher levels retain
-    more event detail. Medium matches the current behavior.
+    Lower levels coalesce more repeated noncritical events across event types and favor focus.
+    Very low/low keep one pending event per coalescible type, medium two, high four, and very high
+    eight. Announcements, notifications, window changes, clicks, text/input, and touch-state events
+    are always kept.
   </string>
   <string-array name="pref_event_processing_level_entries">
     <item>Very low</item>
     <item>Low</item>
-    <item>Medium (current)</item>
+    <item>Medium</item>
     <item>High</item>
     <item>Very high</item>
   </string-array>

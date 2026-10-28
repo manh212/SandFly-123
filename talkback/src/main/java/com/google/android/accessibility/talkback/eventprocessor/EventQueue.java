@@ -18,7 +18,6 @@ package com.google.android.accessibility.talkback.eventprocessor;
 
 import android.util.SparseIntArray;
 import android.view.accessibility.AccessibilityEvent;
-import androidx.core.view.accessibility.AccessibilityEventCompat;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
@@ -26,33 +25,50 @@ import java.util.Iterator;
 import java.util.Locale;
 
 /**
- * This class is a queue that tracks events that TalkBack will process. This queue self-prunes
- * events that exceed a maximum threshold for certain event types.
+ * This class is a queue that tracks events that TalkBack will process. This queue coalesces
+ * replaceable events so stale updates do not hold up newer focus feedback.
  */
 class EventQueue {
 
   /**
-   * The maximum number of events for each type included in {@code MASK_LIMITED_EVENT_TYPES} that
-   * may remain in the queue.
+   * The maximum number of coalescible events of each type that may remain in the queue.
    */
   private static volatile int maximumQualifyingEvents = 2;
 
   /**
-   * The types of events that should be pruned if there are more than the current per-type event
-   * limit in the queue.
+   * Events that represent discrete user-facing feedback or input state must not be discarded by
+   * queue coalescing. Repeated updates of all other event types can be replaced by newer updates.
    */
-  private static final int MASK_LIMITED_EVENT_TYPES =
-      AccessibilityEventCompat.TYPE_VIEW_HOVER_ENTER
-          | AccessibilityEventCompat.TYPE_VIEW_ACCESSIBILITY_FOCUSED
-          | AccessibilityEventCompat.TYPE_VIEW_SCROLLED
-          | AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED;
+  private static final int MASK_PRESERVED_EVENT_TYPES =
+      AccessibilityEvent.TYPE_ANNOUNCEMENT
+          | AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED
+          | AccessibilityEvent.TYPE_WINDOWS_CHANGED
+          | AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+          | AccessibilityEvent.TYPE_VIEW_CLICKED
+          | AccessibilityEvent.TYPE_VIEW_LONG_CLICKED
+          | AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED
+          | AccessibilityEvent.TYPE_VIEW_FOCUSED
+          | AccessibilityEvent.TYPE_VIEW_SELECTED
+          | AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED
+          | AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED
+          | AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY
+          | AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED
+          | AccessibilityEvent.TYPE_TOUCH_INTERACTION_START
+          | AccessibilityEvent.TYPE_TOUCH_INTERACTION_END
+          | AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_START
+          | AccessibilityEvent.TYPE_TOUCH_EXPLORATION_GESTURE_END
+          | AccessibilityEvent.TYPE_GESTURE_DETECTION_START
+          | AccessibilityEvent.TYPE_GESTURE_DETECTION_END;
+
+  /** Repeatable event types subject to the selected per-type queue limit. */
+  private static final int MASK_COALESCIBLE_EVENT_TYPES =
+      AccessibilityEvent.TYPES_ALL_MASK & ~MASK_PRESERVED_EVENT_TYPES;
 
   /** The list responsible for maintaining events in the event queue. */
   private final ArrayList<AccessibilityEvent> eventQueue = new ArrayList<>();
 
   /**
-   * The current number of events in the queue for each event type that match a type defined in
-   * {@code MASK_LIMITED_EVENT_TYPES}.
+   * The current number of coalescible events in the queue for each event type.
    */
   private final SparseIntArray qualifyingEvents = new SparseIntArray();
 
@@ -66,9 +82,10 @@ class EventQueue {
   private int consecutiveFocusJumps;
 
   /**
-   * Sets how much low-priority event detail is retained. Medium matches the original queue policy.
-   * Lower levels prune redundant changes more aggressively and give queued focus events more
-   * opportunities to jump ahead. Higher levels retain more event detail and yield less often.
+   * Sets how much replaceable event detail is retained. Lower levels keep fewer updates per event
+   * type and give queued focus events more opportunities to jump ahead. Higher levels retain more
+   * event detail and yield less often. Discrete feedback, text/input, and touch-state events are
+   * always kept.
    */
   static void setProcessingLevel(String level) {
     String normalized = level == null ? "medium" : level.trim().toLowerCase(Locale.ROOT);
@@ -131,8 +148,8 @@ class EventQueue {
 
   /**
    * Adds an {@link AccessibilityEvent} to the queue for processing. If this addition causes the
-   * queue to exceed the maximum allowable events for an event's type, earlier events of this type
-   * will be pruned from the queue.
+   * queue to exceed the maximum allowable coalescible events for an event's type, earlier events
+   * of this type will be pruned from the queue.
    *
    * @param event The event to add to the queue
    */
@@ -140,7 +157,7 @@ class EventQueue {
     final AccessibilityEvent clone = AccessibilityEvent.obtain(event);
     final int eventType = clone.getEventType();
 
-    if (AccessibilityEventUtils.eventMatchesAnyType(clone, MASK_LIMITED_EVENT_TYPES)) {
+    if (AccessibilityEventUtils.eventMatchesAnyType(clone, MASK_COALESCIBLE_EVENT_TYPES)) {
       final int eventCountOfType = qualifyingEvents.get(eventType, 0);
       qualifyingEvents.put(eventType, (eventCountOfType + 1));
     }
@@ -177,7 +194,7 @@ class EventQueue {
     }
 
     if (event != null
-        && AccessibilityEventUtils.eventMatchesAnyType(event, MASK_LIMITED_EVENT_TYPES)) {
+        && AccessibilityEventUtils.eventMatchesAnyType(event, MASK_COALESCIBLE_EVENT_TYPES)) {
       final int eventType = event.getEventType();
       final int eventCountOfType = qualifyingEvents.get(eventType, 0);
       qualifyingEvents.put(eventType, (eventCountOfType - 1));
@@ -201,6 +218,9 @@ class EventQueue {
 
   /** Clears the event queue and discards all events waiting for processing. */
   public void clear() {
+    for (AccessibilityEvent event : eventQueue) {
+      event.recycle();
+    }
     eventQueue.clear();
     qualifyingEvents.clear();
     consecutiveFocusJumps = 0;
@@ -217,8 +237,8 @@ class EventQueue {
 
   /**
    * Enforces that the event queue has no more than {@code maximumQualifyingEvents} events of each
-   * type defined by {@code MASK_LIMITED_EVENT_TYPES}. The excessive events are pruned by removing
-   * the oldest event first.
+   * coalescible type. The excessive events are pruned by removing the oldest event first, retaining
+   * the newest state for that type.
    */
   private void enforceEventLimits() {
     int eventTypesToPrune = 0;
@@ -242,6 +262,7 @@ class EventQueue {
         eventCountOfType--;
         qualifyingEvents.put(eventType, eventCountOfType);
         iterator.remove();
+        next.recycle();
 
         // Stop pruning further events of this type if the number of
         // events is below the limit

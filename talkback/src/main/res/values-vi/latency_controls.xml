@@ -19,13 +19,15 @@
 
   <string name="title_pref_event_processing_level">Mức xử lý sự kiện</string>
   <string name="summary_pref_event_processing_level">
-    Mức thấp loại bỏ nhiều cập nhật màn hình lặp hơn và ưu tiên sự kiện focus. Mức cao giữ lại nhiều
-    chi tiết sự kiện hơn. Mức trung bình giữ chính sách hiện tại.
+    Mức thấp gom nhiều sự kiện lặp không thiết yếu trên các loại sự kiện có thể gộp và ưu tiên
+    focus. Rất thấp/Thấp giữ một sự kiện chờ cho mỗi loại; Trung bình giữ hai, Cao giữ bốn và Rất
+    cao giữ tám. Lời thông báo trợ năng, thông báo hệ thống, chuyển cửa sổ, nhấn, văn bản/nhập liệu
+    và trạng thái chạm luôn được giữ.
   </string>
   <string-array name="pref_event_processing_level_entries">
     <item>Rất thấp</item>
     <item>Thấp</item>
-    <item>Trung bình (hiện tại)</item>
+    <item>Trung bình</item>
     <item>Cao</item>
     <item>Rất cao</item>
   </string-array>
