@@ -26,10 +26,11 @@ import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCa
  * The announcements of the nodes that a swipe from the focused node would most likely reach,
  * worked out while the user listens, so that a swipe can speak one without working it out then.
  *
- * They hold for the focused node only, and are thrown away when the focus moves, when anything in
- * the window changes, even text, and after [MAX_AGE_MS]. An announcement is kept per node and per
- * kind of swipe target it was worked out for, so the announcement of a node as the next plain
- * target does not stand in for it as the next heading, or the other way round.
+ * They are thrown away when anything in the window changes, even text, and after [MAX_AGE_MS]. An
+ * announcement is kept per node and per kind of swipe target it was worked out for, so the
+ * announcement of a node as the next plain target does not stand in for it as the next heading, or
+ * the other way round. Keeping other still-valid targets after one hit allows optional multi-item
+ * lookahead to help a short burst of swipes.
  */
 object PreparedFocusSpeech {
   /** How long a prepared announcement is kept, in case a change came without an event. */
@@ -42,6 +43,7 @@ object PreparedFocusSpeech {
   const val MIN_AGE_MS = 100L
 
   private const val NO_WINDOW_ID = -1
+  private const val MAX_PREPARED_ANNOUNCEMENTS = 8
 
   /** Wasted preparation rounds in a row after which a window's preparation pauses. */
   private const val MAX_WASTED_STREAK = 3
@@ -68,7 +70,7 @@ object PreparedFocusSpeech {
       node == other && targetType == otherTargetType
   }
 
-  private val prepared = ArrayList<Prepared>(4)
+  private val prepared = ArrayList<Prepared>(MAX_PREPARED_ANNOUNCEMENTS)
   private var windowId = NO_WINDOW_ID
 
   /** Preparations thrown away unused in a row, and the window they were made for. */
@@ -98,6 +100,10 @@ object PreparedFocusSpeech {
       }
     }
     prepared.removeAll { it.isFor(node, targetType) }
+    if (prepared.size >= MAX_PREPARED_ANNOUNCEMENTS) {
+      val oldest = prepared.minByOrNull { it.time }
+      if (oldest != null) prepared.remove(oldest)
+    }
     prepared += Prepared(node, feedback, containerTitle, targetType)
   }
 
@@ -108,21 +114,22 @@ object PreparedFocusSpeech {
     find(node, targetType) != null
 
   /**
-   * Returns the announcement of focusing [node], or null if there is none or it was prepared less
-   * than [MIN_AGE_MS] ago, and forgets them all, since the focus is moving.
+   * Returns an old-enough announcement of focusing [node]. Other still-valid targets are retained
+   * for subsequent swipes; content-changing events and age limits still invalidate the cache.
    */
   @JvmStatic
   fun take(node: AccessibilityNodeInfoCompat): Prepared? {
     val found = find(node, null)
-    if (found != null) {
-      // A preparation was used: the window is earning its preparations again.
-      wastedStreak = 0
-      if (windowId == suppressedWindowId) {
-        suppressedWindowId = NO_WINDOW_ID
-      }
+    if (found == null || !isOldEnough(found.time, SystemClock.uptimeMillis())) {
+      return null
     }
-    clear()
-    return found?.takeIf { isOldEnough(it.time, SystemClock.uptimeMillis()) }
+    prepared.remove(found)
+    // A preparation was used: the window is earning its preparations again.
+    wastedStreak = 0
+    if (windowId == suppressedWindowId) {
+      suppressedWindowId = NO_WINDOW_ID
+    }
+    return found
   }
 
   /** Whether an announcement prepared at [preparedTime] may be used at [now]; see [MIN_AGE_MS]. */

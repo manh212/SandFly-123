@@ -32,6 +32,7 @@ import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
+import com.google.android.accessibility.talkback.eventprocessor.ProcessorEventQueue
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
 import com.google.android.accessibility.talkback.migration.MigrationFiles
@@ -121,7 +122,35 @@ object DiagnosticsExport {
     out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")
     out.append("\n\n")
     preferencesDigest(appContext, out)
+    latencyControls(appContext, out)
     return out.toString()
+  }
+
+  /** Human-readable values for the developer controls used during swipe-latency experiments. */
+  private fun latencyControls(context: Context, out: StringBuilder) {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    val extrasDisabled =
+      prefs.getBoolean(
+        context.getString(R.string.pref_disable_latency_extras_key),
+        context.resources.getBoolean(R.bool.pref_disable_latency_extras_default))
+    val pinnedLatencyEnabled =
+      !prefs.getBoolean(
+        context.getString(R.string.pref_disable_latency_pinned_key),
+        context.resources.getBoolean(R.bool.pref_disable_latency_pinned_default))
+    val prepareAdjacent = prefs.getBoolean("pref_prepare_adjacent_speech", false)
+    val prepareSecondAhead = prefs.getBoolean("pref_prepare_second_ahead_speech", false)
+    val selectedProcessingLevel = prefs.getString("pref_event_processing_level", "medium")
+    val prepareSpeechActive =
+      !extrasDisabled && (prepareAdjacent || prepareSecondAhead)
+    out.append("== Latency controls ==\n")
+    out.append("Latency extras disabled: $extrasDisabled\n")
+    out.append("Pinned latency optimizations: $pinnedLatencyEnabled\n")
+    out.append("Speech preparation for adjacent item: $prepareAdjacent\n")
+    out.append("Speech preparation for second-ahead item: $prepareSecondAhead\n")
+    out.append("Speech preparation enabled by settings: $prepareSpeechActive\n")
+    out.append("Split announcements: ${FailoverTextToSpeech.splitAtFirstSeparatorEnabled}\n")
+    out.append("Event processing level selected: $selectedProcessingLevel\n")
+    out.append("Event processing level effective: ${ProcessorEventQueue.getProcessingLevel()}\n\n")
   }
 
   /**

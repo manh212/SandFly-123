@@ -102,12 +102,16 @@ public class EventFilter {
   private @Nullable AccessibilityNodeInfoCompat lastFocusedNode;
   private final Handler handler = new Handler(Looper.getMainLooper());
   private final Runnable prepareSwipeTargets = this::prepareSwipeTargets;
+  private final Runnable prepareNextSwipeTarget = this::prepareNextSwipeTarget;
+  private @Nullable PreparationPass preparationPass;
 
   /**
    * How long after focus moves the announcements of the next and previous nodes are prepared: after
    * the app's focus event has been handled, and usually before the next swipe starts.
    */
   private static final long PREPARE_DELAY_MS = 30;
+  /** Yield between target preparations so a swipe is not queued behind a whole prefetch pass. */
+  private static final long PREPARE_STEP_DELAY_MS = 8;
 
   /**
    * Whether a swipe's target that is only partly on screen is spoken before the swipe has scrolled
@@ -116,11 +120,35 @@ public class EventFilter {
   private static volatile boolean speakItemsBeforeScroll = false;
 
   private static volatile boolean latencyExtrasEnabled = true;
+  private static volatile boolean prepareAdjacentSpeechEnabled;
+  private static volatile boolean prepareSecondAheadSpeechEnabled;
 
   /** The directions of the swipes whose targets are prepared: to the next and previous node. */
   private static final int[] SWIPE_DIRECTIONS = {
     TraversalStrategy.SEARCH_FOCUS_FORWARD, TraversalStrategy.SEARCH_FOCUS_BACKWARD
   };
+
+  /** Incremental, main-thread cursor for a cooperative speech-preparation pass. */
+  private static final class PreparationPass {
+    final AccessibilityNodeInfoCompat focusedNode;
+    final int maximumDistance;
+    final int controlTargetType;
+    int targetTypeIndex;
+    int directionIndex;
+    int distance = 1;
+    @Nullable AccessibilityNodeInfoCompat pivot;
+
+    PreparationPass(
+        AccessibilityNodeInfoCompat focusedNode, int maximumDistance, int controlTargetType) {
+      this.focusedNode = focusedNode;
+      this.maximumDistance = maximumDistance;
+      this.controlTargetType = controlTargetType;
+    }
+
+    @TargetType int targetType() {
+      return targetTypeIndex == 0 ? NavigationTarget.TARGET_DEFAULT : controlTargetType;
+    }
+  }
 
   // /////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -430,6 +458,18 @@ public class EventFilter {
 
   public static void setLatencyExtrasEnabled(boolean enabled) {
     latencyExtrasEnabled = enabled;
+    if (!enabled) {
+      PreparedFocusSpeech.clear();
+    }
+  }
+
+  /** Enables independently selectable preparation of the adjacent and second-ahead targets. */
+  public static void setPreparedSpeechOptions(boolean adjacent, boolean secondAhead) {
+    prepareAdjacentSpeechEnabled = adjacent;
+    prepareSecondAheadSpeechEnabled = secondAhead;
+    if (!adjacent && !secondAhead) {
+      PreparedFocusSpeech.clear();
+    }
   }
 
   /**
@@ -517,8 +557,12 @@ public class EventFilter {
   /** Prepares the announcements of the nodes next to {@code node}, which focus just moved to. */
   private void onFocusMoved(AccessibilityNodeInfoCompat node) {
     lastFocusedNode = node;
+    preparationPass = null;
     handler.removeCallbacks(prepareSwipeTargets);
-    if (latencyExtrasEnabled && targetPredictor != null) {
+    handler.removeCallbacks(prepareNextSwipeTarget);
+    if (latencyExtrasEnabled
+        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled)
+        && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }
@@ -530,7 +574,8 @@ public class EventFilter {
    * finds them already fetched.
    */
   private void prepareSwipeTargets() {
-    if (!latencyExtrasEnabled) {
+    if (!latencyExtrasEnabled
+        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled)) {
       return;
     }
     @Nullable AccessibilityNodeInfoCompat pivot = lastFocusedNode;
@@ -542,36 +587,70 @@ public class EventFilter {
       // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
-    for (int direction : SWIPE_DIRECTIONS) {
-      @Nullable AccessibilityNodeInfoCompat target;
-      try {
-        target = targetPredictor.predictTarget(pivot, direction);
-      } catch (RuntimeException e) {
-        LogUtils.e(TAG, "Cannot predict swipe target: %s", e);
-        return;
-      }
-      if (target != null && !PreparedFocusSpeech.has(target)) {
-        prepareFocusSpeech(target);
-      }
-    }
-    // A swipe at the reading control now in effect reaches a different node than a plain swipe
-    // (the next heading, say, rather than the next node), so its targets are prepared too.
-    @TargetType int targetType = targetPredictor.currentTargetType();
-    if (targetType == NavigationTarget.TARGET_DEFAULT) {
+    int maximumDistance = prepareSecondAheadSpeechEnabled ? 2 : 1;
+    preparationPass =
+        new PreparationPass(pivot, maximumDistance, targetPredictor.currentTargetType());
+    prepareNextSwipeTarget.run();
+  }
+
+  /** Prepares one predicted node at a time, yielding to input between synchronous app queries. */
+  private void prepareNextSwipeTarget() {
+    PreparationPass pass = preparationPass;
+    TargetPredictor predictor = targetPredictor;
+    if (pass == null
+        || !latencyExtrasEnabled
+        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled)
+        || predictor == null
+        || fingerDown.getAsBoolean()
+        || !Objects.equals(pass.focusedNode, lastFocusedNode)
+        || !PreparedFocusSpeech.shouldPrepare(pass.focusedNode)) {
+      preparationPass = null;
       return;
     }
-    for (int direction : SWIPE_DIRECTIONS) {
-      @Nullable AccessibilityNodeInfoCompat target;
-      try {
-        target = targetPredictor.predictTarget(pivot, direction, targetType);
-      } catch (RuntimeException e) {
-        LogUtils.e(TAG, "Cannot predict reading-control swipe target: %s", e);
-        return;
-      }
-      if (target != null && !PreparedFocusSpeech.has(target, targetType)) {
+
+    int targetType = pass.targetType();
+    int direction = SWIPE_DIRECTIONS[pass.directionIndex];
+    AccessibilityNodeInfoCompat currentPivot =
+        pass.pivot == null ? pass.focusedNode : pass.pivot;
+    @Nullable AccessibilityNodeInfoCompat target;
+    try {
+      target =
+          targetType == NavigationTarget.TARGET_DEFAULT
+              ? predictor.predictTarget(currentPivot, direction)
+              : predictor.predictTarget(currentPivot, direction, targetType);
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "Cannot predict swipe target: %s", e);
+      preparationPass = null;
+      return;
+    }
+
+    if (target != null) {
+      boolean shouldPrepareSpeech =
+          (pass.distance == 1 && prepareAdjacentSpeechEnabled)
+              || (pass.distance == 2 && prepareSecondAheadSpeechEnabled);
+      if (shouldPrepareSpeech && !PreparedFocusSpeech.has(target, targetType)) {
         prepareFocusSpeech(target, targetType);
       }
+      pass.pivot = target;
     }
+
+    if (target == null || pass.distance >= pass.maximumDistance) {
+      pass.pivot = null;
+      pass.distance = 1;
+      if (pass.directionIndex + 1 < SWIPE_DIRECTIONS.length) {
+        pass.directionIndex++;
+      } else if (pass.targetTypeIndex == 0
+          && pass.controlTargetType != NavigationTarget.TARGET_DEFAULT) {
+        pass.targetTypeIndex++;
+        pass.directionIndex = 0;
+      } else {
+        preparationPass = null;
+        return;
+      }
+    } else {
+      pass.distance++;
+    }
+    handler.postDelayed(prepareNextSwipeTarget, PREPARE_STEP_DELAY_MS);
   }
 
   /**
@@ -579,8 +658,13 @@ public class EventFilter {
    * swipe would reach changed with it: prepare them around the focused node again.
    */
   public void onGranularityChanged() {
+    preparationPass = null;
     handler.removeCallbacks(prepareSwipeTargets);
-    if (lastFocusedNode != null && targetPredictor != null) {
+    handler.removeCallbacks(prepareNextSwipeTarget);
+    if (latencyExtrasEnabled
+        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled)
+        && lastFocusedNode != null
+        && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
   }

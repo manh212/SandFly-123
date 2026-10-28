@@ -23,6 +23,7 @@ import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 /**
  * This class is a queue that tracks events that TalkBack will process. This queue self-prunes
@@ -34,11 +35,11 @@ class EventQueue {
    * The maximum number of events for each type included in {@code MASK_LIMITED_EVENT_TYPES} that
    * may remain in the queue.
    */
-  private static final int MAXIMUM_QUALIFYING_EVENTS = 2;
+  private static volatile int maximumQualifyingEvents = 2;
 
   /**
-   * The types of events that should be pruned if there are more than {@code
-   * MAXIMUM_QUALIFYING_EVENTS} of these events in the queue.
+   * The types of events that should be pruned if there are more than the current per-type event
+   * limit in the queue.
    */
   private static final int MASK_LIMITED_EVENT_TYPES =
       AccessibilityEventCompat.TYPE_VIEW_HOVER_ENTER
@@ -55,11 +56,78 @@ class EventQueue {
    */
   private final SparseIntArray qualifyingEvents = new SparseIntArray();
 
-  static final int MAX_CONSECUTIVE_FOCUS_JUMPS = 3;
+  private static volatile int maxConsecutiveFocusJumps = 3;
+  private static volatile long processingSliceMs = 16;
+  private static volatile String processingLevel = "medium";
 
   static volatile boolean focusPriorityEnabled = true;
+  private static volatile boolean focusPriorityEnabledByProcessingLevel;
 
   private int consecutiveFocusJumps;
+
+  /**
+   * Sets how much low-priority event detail is retained. Medium matches the original queue policy.
+   * Lower levels prune redundant changes more aggressively and give queued focus events more
+   * opportunities to jump ahead. Higher levels retain more event detail and yield less often.
+   */
+  static void setProcessingLevel(String level) {
+    String normalized = level == null ? "medium" : level.trim().toLowerCase(Locale.ROOT);
+    normalized = normalized.replace('-', '_').replace(' ', '_');
+    switch (normalized) {
+      case "very_low":
+        processingLevel = "very_low";
+        focusPriorityEnabledByProcessingLevel = true;
+        maximumQualifyingEvents = 1;
+        maxConsecutiveFocusJumps = 6;
+        processingSliceMs = 8;
+        break;
+      case "low":
+        processingLevel = "low";
+        focusPriorityEnabledByProcessingLevel = true;
+        maximumQualifyingEvents = 1;
+        maxConsecutiveFocusJumps = 4;
+        processingSliceMs = 12;
+        break;
+      case "high":
+        processingLevel = "high";
+        focusPriorityEnabledByProcessingLevel = false;
+        maximumQualifyingEvents = 4;
+        maxConsecutiveFocusJumps = 2;
+        processingSliceMs = 24;
+        break;
+      case "very_high":
+        processingLevel = "very_high";
+        focusPriorityEnabledByProcessingLevel = false;
+        maximumQualifyingEvents = 8;
+        maxConsecutiveFocusJumps = 1;
+        processingSliceMs = 32;
+        break;
+      case "medium":
+      default:
+        processingLevel = "medium";
+        focusPriorityEnabledByProcessingLevel = false;
+        maximumQualifyingEvents = 2;
+        maxConsecutiveFocusJumps = 3;
+        processingSliceMs = 16;
+        break;
+    }
+  }
+
+  static String processingLevel() {
+    return processingLevel;
+  }
+
+  static long processingSliceMs() {
+    return processingSliceMs;
+  }
+
+  static int maximumQualifyingEvents() {
+    return maximumQualifyingEvents;
+  }
+
+  static int maxConsecutiveFocusJumps() {
+    return maxConsecutiveFocusJumps;
+  }
 
   /**
    * Adds an {@link AccessibilityEvent} to the queue for processing. If this addition causes the
@@ -92,7 +160,8 @@ class EventQueue {
     }
 
     int index = 0;
-    if (focusPriorityEnabled && consecutiveFocusJumps < MAX_CONSECUTIVE_FOCUS_JUMPS) {
+    if ((focusPriorityEnabled || focusPriorityEnabledByProcessingLevel)
+        && consecutiveFocusJumps < maxConsecutiveFocusJumps) {
       index =
           jumpIndex(
               eventQueue.get(0).getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
@@ -147,7 +216,7 @@ class EventQueue {
   }
 
   /**
-   * Enforces that the event queue has no more than {@code MAXIMUM_QUALIFYING_EVENTS} events of each
+   * Enforces that the event queue has no more than {@code maximumQualifyingEvents} events of each
    * type defined by {@code MASK_LIMITED_EVENT_TYPES}. The excessive events are pruned by removing
    * the oldest event first.
    */
@@ -157,7 +226,7 @@ class EventQueue {
     for (int i = 0; i < qualifyingEvents.size(); i++) {
       final int eventType = qualifyingEvents.keyAt(i);
       final int eventsOfType = qualifyingEvents.valueAt(i);
-      if (eventsOfType > MAXIMUM_QUALIFYING_EVENTS) {
+      if (eventsOfType > maximumQualifyingEvents) {
         eventTypesToPrune |= eventType;
       }
     }
@@ -176,7 +245,7 @@ class EventQueue {
 
         // Stop pruning further events of this type if the number of
         // events is below the limit
-        if (eventCountOfType <= MAXIMUM_QUALIFYING_EVENTS) {
+        if (eventCountOfType <= maximumQualifyingEvents) {
           eventTypesToPrune &= ~eventType;
         }
       }

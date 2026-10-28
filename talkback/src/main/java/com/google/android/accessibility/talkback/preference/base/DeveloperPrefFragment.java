@@ -98,6 +98,7 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
 
     // Remove preferences for features that are not supported by device.
     initTouchExplorationPreference();
+    initLatencyPreparationPreferences();
 
     final @Nullable Preference prefVersion =
         findPreference(getString(R.string.pref_developer_version_code_key));
@@ -153,6 +154,40 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
             return true;
           });
     }
+  }
+
+  /** Keeps the speech-preparation switches available only while latency extras are enabled. */
+  private void initLatencyPreparationPreferences() {
+    final @Nullable TwoStatePreference disableLatencyExtras =
+        findPreference(getString(R.string.pref_disable_latency_extras_key));
+    final @Nullable Preference prepareAdjacent = findPreference("pref_prepare_adjacent_speech");
+    final @Nullable Preference prepareSecondAhead =
+        findPreference("pref_prepare_second_ahead_speech");
+    if (disableLatencyExtras == null) {
+      return;
+    }
+    final Runnable updatePreparationEnabled =
+        () -> {
+          boolean enabled = !disableLatencyExtras.isChecked();
+          if (prepareAdjacent != null) {
+            prepareAdjacent.setEnabled(enabled);
+          }
+          if (prepareSecondAhead != null) {
+            prepareSecondAhead.setEnabled(enabled);
+          }
+        };
+    updatePreparationEnabled.run();
+    disableLatencyExtras.setOnPreferenceChangeListener(
+        (preference, newValue) -> {
+          boolean enabled = !((Boolean) newValue);
+          if (prepareAdjacent != null) {
+            prepareAdjacent.setEnabled(enabled);
+          }
+          if (prepareSecondAhead != null) {
+            prepareSecondAhead.setEnabled(enabled);
+          }
+          return true;
+        });
   }
 
   @Override

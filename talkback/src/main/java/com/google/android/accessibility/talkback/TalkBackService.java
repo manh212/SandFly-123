@@ -3512,13 +3512,20 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_disable_latency_extras_key,
             R.bool.pref_disable_latency_extras_default);
     EventFilter.setLatencyExtrasEnabled(latencyExtrasEnabled);
+    EventFilter.setPreparedSpeechOptions(
+        prefs.getBoolean("pref_prepare_adjacent_speech", /* defValue= */ false),
+        prefs.getBoolean("pref_prepare_second_ahead_speech", /* defValue= */ false));
     boolean pinnedLatencyEnabled =
         !getBooleanPref(
             R.string.pref_disable_latency_pinned_key,
             R.bool.pref_disable_latency_pinned_default);
     SpeechControllerImpl.setPinnedLatencyEnabled(pinnedLatencyEnabled);
-    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = pinnedLatencyEnabled;
+    // Keep the formatted announcement together: a control's state/role and its label are one
+    // utterance. This split is no longer part of the pinned-latency bundle.
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = false;
     ProcessorEventQueue.setFocusPriorityEnabled(pinnedLatencyEnabled);
+    ProcessorEventQueue.setProcessingLevel(
+        prefs.getString("pref_event_processing_level", "medium"));
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
     TraversalTreeCache.setRegionGraceEnabled(pinnedLatencyEnabled);

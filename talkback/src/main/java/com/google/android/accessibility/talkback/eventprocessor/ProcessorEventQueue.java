@@ -64,6 +64,16 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
     EventQueue.focusPriorityEnabled = enabled;
   }
 
+  /** Sets the developer-controlled balance between retaining event detail and swipe response. */
+  public static void setProcessingLevel(String level) {
+    EventQueue.setProcessingLevel(level);
+  }
+
+  /** Returns the effective developer-controlled event processing level. */
+  public static String getProcessingLevel() {
+    return EventQueue.processingLevel();
+  }
+
   @Override
   public int getEventTypes() {
     return MASK_EVENTS_HANDLED_BY_PROCESSOR_EVENT_QUEUE;
@@ -99,8 +109,6 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
   }
 
   private static final int WHAT_SPEAK = 1;
-  private static final long TIME_SLICE_MS = 16;
-
   private static class ProcessorEventHandler extends WeakReferenceHandler<ProcessorEventQueue> {
     /** Speak action. */
 
@@ -117,13 +125,13 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
     }
 
     /**
-     * Processes the events in the queue, in order, for about {@link #TIME_SLICE_MS}. A busy app can
-     * queue events faster than they are handled, and each takes a round trip to the app to read its
-     * source, so handling them all in one message kept gestures waiting behind the whole backlog.
-     * The rest of the queue is handled in a later message, after the ones already waiting.
+     * Processes the events in the queue, in order, for about the configured time slice. A busy app
+     * can queue events faster than they are handled, and each takes a round trip to the app to read
+     * its source, so handling them all in one message kept gestures waiting behind the whole
+     * backlog. The rest of the queue is handled in a later message, after the ones already waiting.
      */
     private void processAllEvents(ProcessorEventQueue parent) {
-      long sliceEnd = SystemClock.uptimeMillis() + TIME_SLICE_MS;
+      long sliceEnd = SystemClock.uptimeMillis() + EventQueue.processingSliceMs();
       while (true) {
         final AccessibilityEvent event;
 

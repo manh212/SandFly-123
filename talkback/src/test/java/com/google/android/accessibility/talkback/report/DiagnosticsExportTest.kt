@@ -17,7 +17,10 @@
 package com.google.android.accessibility.talkback.report
 
 import android.content.Context
+import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.eventprocessor.ProcessorEventQueue
 import com.google.android.accessibility.utils.Performance
+import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import org.junit.After
 import org.junit.Assert.assertFalse
@@ -45,6 +48,15 @@ class DiagnosticsExportTest {
   fun tearDown() {
     performance.setComputeStatsEnabled(false)
     performance.clearAllStats()
+    SharedPreferencesUtils.getSharedPreferences(context)
+      .edit()
+      .remove(context.getString(R.string.pref_disable_latency_extras_key))
+      .remove(context.getString(R.string.pref_disable_latency_pinned_key))
+      .remove("pref_prepare_adjacent_speech")
+      .remove("pref_prepare_second_ahead_speech")
+      .remove("pref_event_processing_level")
+      .commit()
+    ProcessorEventQueue.setProcessingLevel("medium")
     LogUtils.setEnabled(false)
     LogUtils.flushLogFile()
     LogUtils.clearLogFiles()
@@ -87,6 +99,44 @@ class DiagnosticsExportTest {
     assertTrue(crashIndex >= 0)
     assertTrue(statsIndex > crashIndex)
     assertTrue(logIndex > statsIndex)
+  }
+
+  @Test
+  fun snapshot_exposesLatencyControlsAsReadableValues() {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    prefs
+      .edit()
+      .putBoolean(context.getString(R.string.pref_disable_latency_extras_key), false)
+      .putBoolean("pref_prepare_adjacent_speech", true)
+      .putBoolean("pref_prepare_second_ahead_speech", true)
+      .putString("pref_event_processing_level", "high")
+      .commit()
+    ProcessorEventQueue.setProcessingLevel("high")
+
+    val snapshot = DiagnosticsExport.buildSnapshotSections(context)
+
+    assertTrue(snapshot.contains("== Latency controls ==\n"))
+    assertTrue(snapshot.contains("Speech preparation for adjacent item: true\n"))
+    assertTrue(snapshot.contains("Speech preparation for second-ahead item: true\n"))
+    assertTrue(snapshot.contains("Speech preparation enabled by settings: true\n"))
+    assertTrue(snapshot.contains("Event processing level selected: high\n"))
+    assertTrue(snapshot.contains("Event processing level effective: high\n"))
+    ProcessorEventQueue.setProcessingLevel("medium")
+  }
+
+  @Test
+  fun snapshot_defaultsToExtrasOffAndPinnedOptimizationsOn() {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    prefs
+      .edit()
+      .remove(context.getString(R.string.pref_disable_latency_extras_key))
+      .remove(context.getString(R.string.pref_disable_latency_pinned_key))
+      .commit()
+
+    val snapshot = DiagnosticsExport.buildSnapshotSections(context)
+
+    assertTrue(snapshot.contains("Latency extras disabled: true\n"))
+    assertTrue(snapshot.contains("Pinned latency optimizations: true\n"))
   }
 
   @Test

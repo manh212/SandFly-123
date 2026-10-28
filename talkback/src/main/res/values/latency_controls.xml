@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="summary_pref_disable_latency_pinned_no_split">
+    Stops navigation answers cutting announcements, the 100 ms speech wait cap, focus priority, the
+    small audio buffer, focused-node reuse within one swipe, region-grained order freshness and
+    live-tree answers in swipe bursts, and the speaking-nodes cache for edge checks.
+  </string>
+
+  <string name="title_pref_prepare_adjacent_speech">Prepare adjacent items</string>
+  <string name="summary_pref_prepare_adjacent_speech">
+    Work out speech for the next and previous swipe targets while the current item is being read.
+    Available only while Turn off latency extras is off.
+  </string>
+  <string name="title_pref_prepare_second_ahead_speech">Prepare items two steps ahead</string>
+  <string name="summary_pref_prepare_second_ahead_speech">
+    Also work out speech for the item after the adjacent target in each swipe direction. This can
+    use more processing.
+  </string>
+
+  <string name="title_pref_event_processing_level">Event processing level</string>
+  <string name="summary_pref_event_processing_level">
+    Lower levels discard more repeated screen updates and favor focus events. Higher levels retain
+    more event detail. Medium matches the current behavior.
+  </string>
+  <string-array name="pref_event_processing_level_entries">
+    <item>Very low</item>
+    <item>Low</item>
+    <item>Medium (current)</item>
+    <item>High</item>
+    <item>Very high</item>
+  </string-array>
+  <string-array name="pref_event_processing_level_values">
+    <item>very_low</item>
+    <item>low</item>
+    <item>medium</item>
+    <item>high</item>
+    <item>very_high</item>
+  </string-array>
+</resources>

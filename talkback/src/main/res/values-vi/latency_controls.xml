@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="summary_pref_disable_latency_pinned_no_split">
+    Tắt các tối ưu gồm phản hồi điều hướng cắt lời đọc, giới hạn chờ giọng nói 100 ms, ưu tiên
+    focus, bộ đệm âm thanh nhỏ, dùng lại nút focus trong một lần vuốt, làm mới thứ tự theo vùng,
+    trả lời từ cây live khi vuốt dồn và bộ đệm nút để kiểm tra mép.
+  </string>
+
+  <string name="title_pref_prepare_adjacent_speech">Chuẩn bị lời đọc các mục liền kề</string>
+  <string name="summary_pref_prepare_adjacent_speech">
+    Tính trước lời đọc cho mục kế tiếp và mục trước đó trong lúc đang đọc mục hiện tại. Chỉ hoạt
+    động khi tắt “Tắt việc phụ gây trễ”.
+  </string>
+  <string name="title_pref_prepare_second_ahead_speech">Chuẩn bị thêm hai bước phía trước</string>
+  <string name="summary_pref_prepare_second_ahead_speech">
+    Tính trước cả lời đọc của mục sau mục kế tiếp ở mỗi hướng vuốt. Tùy chọn này có thể dùng thêm
+    tài nguyên xử lý.
+  </string>
+
+  <string name="title_pref_event_processing_level">Mức xử lý sự kiện</string>
+  <string name="summary_pref_event_processing_level">
+    Mức thấp loại bỏ nhiều cập nhật màn hình lặp hơn và ưu tiên sự kiện focus. Mức cao giữ lại nhiều
+    chi tiết sự kiện hơn. Mức trung bình giữ chính sách hiện tại.
+  </string>
+  <string-array name="pref_event_processing_level_entries">
+    <item>Rất thấp</item>
+    <item>Thấp</item>
+    <item>Trung bình (hiện tại)</item>
+    <item>Cao</item>
+    <item>Rất cao</item>
+  </string-array>
+  <string-array name="pref_event_processing_level_values">
+    <item>very_low</item>
+    <item>low</item>
+    <item>medium</item>
+    <item>high</item>
+    <item>very_high</item>
+  </string-array>
+</resources>
