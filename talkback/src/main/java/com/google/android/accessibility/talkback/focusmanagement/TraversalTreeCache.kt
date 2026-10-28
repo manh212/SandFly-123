@@ -63,6 +63,11 @@ object TraversalTreeCache {
     AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT or
       AccessibilityEvent.CONTENT_CHANGE_TYPE_STATE_DESCRIPTION
 
+  private const val NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION =
+    NON_STRUCTURAL_CHANGES or AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION
+
+  private const val MAX_GRACED_CHANGE_REGIONS = 8
+
   /**
    * How long the order is kept after one of those changes. A text change can, rarely, make a node
    * speak that did not before, so the order is not trusted for long after one.
@@ -102,6 +107,20 @@ object TraversalTreeCache {
   private var firstIgnoredChangeTime = 0L
   private var hits = 0
   private var misses = 0
+
+  @JvmStatic
+  var regionGraceEnabled: Boolean = true
+    set(value) {
+      if (field == value) {
+        return
+      }
+      field = value
+      resetGracedChanges()
+      firstIgnoredChangeTime = 0L
+    }
+
+  private val gracedChangeRegions = ArrayList<Pair<Int, Rect>>()
+  private var gracedChangeUnknown = false
 
   /** Where the last navigation started, so a removed node does not send the user to the top. */
   private var lastPivotTop = Int.MIN_VALUE
@@ -154,7 +173,58 @@ object TraversalTreeCache {
    */
   @JvmStatic
   fun holdsCurrent(node: AccessibilityNodeInfoCompat): Boolean =
-    firstIgnoredChangeTime == 0L && holds(node)
+    if (regionGraceEnabled) {
+      holds(node) && !gracedChangesTouch(node)
+    } else {
+      firstIgnoredChangeTime == 0L && holds(node)
+    }
+
+  internal fun noteGracedChange(windowId: Int, sourceBounds: Rect?) {
+    if (firstIgnoredChangeTime == 0L) {
+      firstIgnoredChangeTime = SystemClock.uptimeMillis()
+    }
+    if (sourceBounds == null || sourceBounds.isEmpty || gracedChangeUnknown) {
+      gracedChangeUnknown = true
+      return
+    }
+    if (gracedChangeRegions.size >= MAX_GRACED_CHANGE_REGIONS) {
+      gracedChangeUnknown = true
+      return
+    }
+    gracedChangeRegions += windowId to Rect(sourceBounds)
+  }
+
+  private fun resetGracedChanges() {
+    gracedChangeRegions.clear()
+    gracedChangeUnknown = false
+  }
+
+  private fun sourceBounds(event: AccessibilityEvent): Rect? {
+    val source = runCatching { event.source }.getOrNull() ?: return null
+    try {
+      val bounds = Rect()
+      source.getBoundsInScreen(bounds)
+      return bounds.takeIf { !it.isEmpty }
+    } catch (e: Exception) {
+      return null
+    } finally {
+      source.recycle()
+    }
+  }
+
+  private fun gracedChangesTouch(node: AccessibilityNodeInfoCompat): Boolean {
+    if (firstIgnoredChangeTime == 0L) {
+      return false
+    }
+    if (gracedChangeUnknown) {
+      return true
+    }
+    val bounds = Rect()
+    node.getBoundsInScreen(bounds)
+    return gracedChangeRegions.any { (windowId, region) ->
+      windowId == node.windowId && Rect.intersects(region, bounds)
+    }
+  }
 
   /**
    * The root of the window that [node] is in, if the saved order holds [node]: the root the order
@@ -220,6 +290,7 @@ object TraversalTreeCache {
     this.root = root
     this.strategy = strategy
     firstIgnoredChangeTime = 0L
+    resetGracedChanges()
   }
 
   /**
@@ -246,6 +317,7 @@ object TraversalTreeCache {
     root = null
     strategy = null
     firstIgnoredChangeTime = 0L
+    resetGracedChanges()
     lastClearReason = reason
     if (notifyListener) {
       orderClearedListener?.accept(windowId)
@@ -284,12 +356,17 @@ object TraversalTreeCache {
         windowId == savedRoot.windowId
     ) {
       val changes = event.contentChangeTypes
+      val nonStructuralChanges =
+        if (regionGraceEnabled) NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION
+        else NON_STRUCTURAL_CHANGES
       if (
         type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED &&
           changes != 0 &&
-          changes and NON_STRUCTURAL_CHANGES.inv() == 0
+          changes and nonStructuralChanges.inv() == 0
       ) {
-        if (firstIgnoredChangeTime == 0L) {
+        if (regionGraceEnabled) {
+          noteGracedChange(windowId, sourceBounds(event))
+        } else if (firstIgnoredChangeTime == 0L) {
           firstIgnoredChangeTime = SystemClock.uptimeMillis()
         }
         return false

@@ -48,6 +48,7 @@ class TraversalTreeCacheTest {
   @After
   fun tearDown() {
     TraversalTreeCache.setOrderClearedListener(null)
+    TraversalTreeCache.regionGraceEnabled = true
     TraversalTreeCache.clear("test")
   }
 
@@ -218,5 +219,75 @@ class TraversalTreeCacheTest {
     assertNull(TraversalTreeCache.get(root, child))
 
     assertTrue(reported.isEmpty())
+  }
+
+  @Test
+  fun windowContentChanged_contentDescriptionChange_keepsSavedOrderWhenGraceEnabled() {
+    val (_, child) = savedOrder()
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(
+        event(
+          AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+          contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION,
+        )
+      )
+
+    assertFalse(cleared)
+    assertTrue(TraversalTreeCache.holds(child))
+  }
+
+  @Test
+  fun windowContentChanged_contentDescriptionChange_clearsSavedOrderWhenGraceDisabled() {
+    val (_, child) = savedOrder()
+    TraversalTreeCache.regionGraceEnabled = false
+
+    val cleared =
+      TraversalTreeCache.onAccessibilityEvent(
+        event(
+          AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+          contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_CONTENT_DESCRIPTION,
+        )
+      )
+
+    assertTrue(cleared)
+    assertFalse(TraversalTreeCache.holds(child))
+  }
+
+  @Test
+  fun gracedChange_regionNotContainingNode_holdsCurrentStaysTrue() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
+
+    assertTrue(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionContainingNode_holdsCurrentIsFalse() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(0, 0, 200, 200))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionInsideNode_holdsCurrentIsFalse() {
+    val (_, child) = savedOrder()
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(10, 10, 50, 50))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
+  }
+
+  @Test
+  fun gracedChange_regionNotContainingNode_holdsCurrentIsFalseWhenGraceDisabled() {
+    val (_, child) = savedOrder()
+    TraversalTreeCache.regionGraceEnabled = false
+
+    TraversalTreeCache.noteGracedChange(child.windowId, Rect(200, 200, 300, 300))
+
+    assertFalse(TraversalTreeCache.holdsCurrent(child))
   }
 }
