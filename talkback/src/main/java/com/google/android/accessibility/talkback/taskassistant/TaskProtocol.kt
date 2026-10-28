@@ -70,14 +70,14 @@ object TaskProtocol {
     val json = JSONObject(body)
     val snapshot = json.opt("snapshot")
     require(snapshot is Number && snapshot.toDouble() == screen.id.toDouble()) { "AI trả lời cho màn hình đã cũ" }
-    val steps = json.optJSONArray("steps") ?: return Single(parse(raw, screen, apps))
+    val steps = json.optJSONArray("steps") ?: return TaskPlan.Single(parse(raw, screen, apps))
     require(steps.length() >= 1) { "Chuỗi bước đang trống" }
     val parsed = (0 until steps.length()).map { index ->
       val item = steps.opt(index)
       require(item is JSONObject) { "Bước ${index + 1} không hợp lệ" }
       parseSequenceStep(item, screen, apps)
     }
-    return Sequence(parsed)
+    return TaskPlan.Sequence(parsed)
   }
 
   private fun parseSequenceStep(json: JSONObject, screen: TaskScreen, apps: List<TaskApp>): TaskStep {
