@@ -14,7 +14,7 @@ current master build. The branch requires a fetched `origin/master` reference.
 
 ## Entry and input
 
-Open **Giao việc cho SandFly** from the SandFly menu or Apps settings. Users can
+Open **Giao việc cho Meridian** from the Meridian menu or Apps settings. Users can
 also assign the action to a gesture; no default gesture is replaced. Type a
 Vietnamese goal or use the system speech recognizer, review the recognized text,
 choose an AI, then press **Thực hiện**. Speech recognition availability depends
@@ -37,7 +37,7 @@ incomplete responses without showing raw server payloads.
 Offline mode lists the complete existing model catalog with file size and
 installed/compatibility status. Only models marked as supporting structured
 answers and compatible with the device can be selected. Download, pause and
-resume reuse SandFly's existing download manager and file verification. A download
+resume reuse Meridian's existing download manager and file verification. A download
 may continue when the picker closes. The default task candidate is Gemma 4 E2B;
 E4B is also available on compatible phones. These are not device performance or
 task-accuracy guarantees.
@@ -72,10 +72,10 @@ for unknown buttons, long presses, IME submission and sensitive screen contexts,
 even if the AI marks them safe. Confirmation is conservative; it is not a proof
 that arbitrary third-party labels correctly describe their effects.
 
-Manual touch, gestures or key presses invalidate pending work. SandFly asks each
+Manual touch, gestures or key presses invalidate pending work. Meridian asks each
 time whether to pause or cancel. Resume captures the current screen and replans.
 Late responses and callbacks cannot resume a stopped task. Locking the phone or
-pausing SandFly prevents further execution. Stale screens are not acted upon.
+pausing Meridian prevents further execution. Stale screens are not acted upon.
 
 Completion requires visible evidence in the current snapshot and a further fresh
 observation. An action returning success alone does not complete the goal. The

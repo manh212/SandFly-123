@@ -267,7 +267,7 @@ def main():
     root = Path(__file__).resolve().parent.parent
     event_path = os.environ.get("GITHUB_EVENT_PATH")
     event = json.loads(Path(event_path).read_text()) if event_path else {}
-    published_path = os.environ.get("SANDFLY_DEV_RELEASE_NAME_FILE")
+    published_path = os.environ.get("MERIDIAN_DEV_RELEASE_NAME_FILE")
     published_name = Path(published_path).read_text() if published_path and Path(published_path).is_file() else None
     plan = create_plan(root, event, os.environ.get("GITHUB_EVENT_NAME", "workflow_dispatch"), os.environ.get("GITHUB_REF", ""), published_name)
     Path(args.output).write_text(json.dumps(plan, indent=2) + "\n")
