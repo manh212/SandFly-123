@@ -61,6 +61,8 @@ object TaskProtocol {
     data class Sequence(val steps: List<TaskStep>) : TaskPlan
   }
 
+  class CredentialRejectedException(message: String) : IllegalArgumentException(message)
+
   fun parsePlan(raw: String, screen: TaskScreen, apps: List<TaskApp>): TaskPlan {
     require(raw.length <= 32_768) { "Câu trả lời AI quá dài" }
     val body = raw.trim().removePrefix("```json").removePrefix("```").removeSuffix("```").trim()
@@ -69,10 +71,18 @@ object TaskProtocol {
     require(snapshot is Number && snapshot.toDouble() == screen.id.toDouble()) { "AI trả lời cho màn hình đã cũ" }
     val steps = json.optJSONArray("steps") ?: return TaskPlan.Single(parse(raw, screen, apps))
     require(steps.length() >= 1) { "Chuỗi bước đang trống" }
-    val parsed = (0 until steps.length()).map { index ->
+    val parsed = mutableListOf<TaskStep>()
+    for (index in 0 until steps.length()) {
       val item = steps.opt(index)
-      require(item is JSONObject) { "Bước ${index + 1} không hợp lệ" }
-      parseSequenceStep(item, screen, apps)
+      try {
+        require(item is JSONObject) { "Bước ${index + 1} không hợp lệ" }
+        parsed += parseSequenceStep(item, screen, apps)
+      } catch (e: CredentialRejectedException) {
+        throw e
+      } catch (e: IllegalArgumentException) {
+        if (parsed.isEmpty()) throw e
+        break
+      }
     }
     return TaskPlan.Sequence(parsed)
   }
@@ -96,8 +106,8 @@ object TaskProtocol {
       TaskOperation.CLICK, TaskOperation.LONG_CLICK, TaskOperation.SET_TEXT,
       TaskOperation.PRESS_ENTER, TaskOperation.SCROLL_FORWARD, TaskOperation.SCROLL_BACKWARD -> {
         require(label.isNotBlank()) { "Bước trong chuỗi cần nhãn hiển thị để đối chiếu" }
-        require(operation != TaskOperation.SET_TEXT || !isCredentialRequest(label)) {
-          "Hãy tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng"
+        if (operation == TaskOperation.SET_TEXT && isCredentialRequest(label)) {
+          throw CredentialRejectedException("Hãy tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng")
         }
       }
       else -> Unit
@@ -128,8 +138,8 @@ object TaskProtocol {
       TaskOperation.CLICK, TaskOperation.LONG_CLICK, TaskOperation.SET_TEXT,
       TaskOperation.PRESS_ENTER, TaskOperation.SCROLL_FORWARD, TaskOperation.SCROLL_BACKWARD -> {
         require(target != null && operation.wire in target.actions) { "Phần tử không hỗ trợ hành động này" }
-        require(operation != TaskOperation.SET_TEXT || !isCredentialRequest(target.label + " " + target.viewId)) {
-          "Hãy tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng"
+        if (operation == TaskOperation.SET_TEXT && isCredentialRequest(target.label + " " + target.viewId)) {
+          throw CredentialRejectedException("Hãy tự nhập thông tin đăng nhập hoặc mã xác thực trong ứng dụng")
         }
       }
       TaskOperation.DONE -> {

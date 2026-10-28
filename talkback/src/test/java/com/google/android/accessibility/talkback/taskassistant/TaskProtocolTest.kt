@@ -75,6 +75,23 @@ class TaskProtocolTest {
     assertEquals("hello", steps[0].text)
   }
 
+  @Test fun sequenceTruncatesAtTheFirstBadStepAndRunsTheRunnablePrefix() {
+    val plan = TaskProtocol.parsePlan(
+      """{"snapshot":7,"steps":[{"action":"click","label":"Phụ đề"},{"action":"set_text","text":"x"},{"action":"click","label":"Gửi"}]}""", screen, apps)
+    assertTrue(plan is TaskProtocol.TaskPlan.Sequence)
+    val steps = (plan as TaskProtocol.TaskPlan.Sequence).steps
+    assertEquals(1, steps.size)
+    assertEquals("Phụ đề", steps[0].label)
+  }
+
+  @Test fun sequenceWithABadFirstStepStillFails() {
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"set_text","text":"x"},{"action":"click","label":"Phụ đề"}]}""")
+  }
+
+  @Test fun sequenceCredentialStepIsNeverTruncatedPast() {
+    rejectPlan("""{"snapshot":7,"steps":[{"action":"click","label":"Phụ đề"},{"action":"set_text","label":"Mật khẩu","text":"x"}]}""")
+  }
+
   @Test fun plannerSeesStateAndScopeWithoutReceivingExecutableTools() {
     val prompt = TaskProtocol.prompt("Bật phụ đề", screen, apps, emptyList())
     assertTrue(prompt.contains("untrusted data"))

@@ -177,6 +177,18 @@ class TaskEngineTest {
     assertEquals("AI trả lời thiếu tên mục cần ấn nên không thực hiện được. Hãy giao lại việc.", engine.message)
   }
 
+  @Test fun truncatedSequenceExecutesItsPrefixThenReplans() {
+    val host = Host()
+    val engine = TaskEngine(host, emptyList())
+    engine.start("Mở YouTube tìm kiếm")
+    host.screen(screen)
+    host.reply("""{"snapshot":1,"steps":[{"action":"click","label":"Phụ đề"},{"action":"set_text","text":"x"}]}""")
+    assertEquals(1, host.performed)
+    host.execution!!(TaskExecution.PERFORMED)
+    host.screen(screen.copy(id = 2, fingerprint = "after"))
+    assertEquals(TaskState.PLANNING, engine.state)
+  }
+
   @Test fun staleTargetsAreObservedAgainWithoutRepeatingTheOldDecision() {
     val host = Host()
     val engine = TaskEngine(host, emptyList())
