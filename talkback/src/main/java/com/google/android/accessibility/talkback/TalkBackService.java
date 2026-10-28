@@ -3532,6 +3532,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (performance.getComputeStatsEnabled() != performanceEnabled) {
       performance.clearRecentEvents();
       performance.clearAllStats();
+      TraversalTreeCache.resetOrderCacheStats();
       performance.setComputeStatsEnabled(performanceEnabled);
     }
 
@@ -4587,6 +4588,7 @@ public class TalkBackService extends AccessibilityServiceCompat
           getConditionGivenArgs(),
           dumpLogger -> {
             Performance.getInstance().clearAllStatsAndRecords(dumpLogger);
+            TraversalTreeCache.resetOrderCacheStats();
             return Unit.INSTANCE;
           });
   final DumpComponent componentSpeechCache =

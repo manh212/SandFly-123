@@ -33,6 +33,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
+import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
 import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
@@ -208,6 +209,16 @@ object DiagnosticsExport {
     performance.displayStatToLabelCompare(logger)
     performance.displayAllEventStats(logger)
     performance.displayPreparedSpeechStats(logger)
+    val orderReused = TraversalTreeCache.orderCacheReused()
+    val orderMissed = TraversalTreeCache.orderCacheMissed()
+    val orderLive = TraversalTreeCache.orderCacheLiveAnswers()
+    if (orderReused + orderMissed + orderLive > 0) {
+      logger.log(
+        "Order cache: %d reused, %d built, %d live answers",
+        orderReused,
+        maxOf(0, orderMissed - orderLive),
+        orderLive)
+    }
   }
 
   /**

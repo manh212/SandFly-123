@@ -107,6 +107,30 @@ object TraversalTreeCache {
   private var firstIgnoredChangeTime = 0L
   private var hits = 0
   private var misses = 0
+  private var liveAnswers = 0
+
+  @JvmStatic
+  fun noteLiveAnswer() {
+    if (LogUtils.shouldLog(Log.DEBUG)) {
+      liveAnswers++
+    }
+  }
+
+  @JvmStatic
+  fun orderCacheReused(): Int = hits
+
+  @JvmStatic
+  fun orderCacheMissed(): Int = misses
+
+  @JvmStatic
+  fun orderCacheLiveAnswers(): Int = liveAnswers
+
+  @JvmStatic
+  fun resetOrderCacheStats() {
+    hits = 0
+    misses = 0
+    liveAnswers = 0
+  }
 
   @JvmStatic
   var regionGraceEnabled: Boolean = true

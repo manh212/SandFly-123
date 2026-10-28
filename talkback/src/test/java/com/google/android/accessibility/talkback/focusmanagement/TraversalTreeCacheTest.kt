@@ -21,10 +21,12 @@ import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
+import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.time.Duration
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
 import org.junit.Test
@@ -51,6 +53,8 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.regionGraceEnabled = true
     TraversalTreeCache.burstLiveAnswerEnabled = true
     TraversalTreeCache.clear("test")
+    TraversalTreeCache.resetOrderCacheStats()
+    LogUtils.setEnabled(false)
   }
 
   /** Registers a listener that records the windows it is told about, and returns the record. */
@@ -330,5 +334,47 @@ class TraversalTreeCacheTest {
     TraversalTreeCache.burstLiveAnswerEnabled = false
 
     assertTrue(TraversalTreeCache.inNavigationBurst(1200L))
+  }
+
+  @Test
+  fun orderCacheStats_hitCountsAsReused() {
+    LogUtils.setEnabled(true)
+    val (root, child) = savedOrder()
+    TraversalTreeCache.resetOrderCacheStats()
+
+    assertNotNull(TraversalTreeCache.get(root, child))
+    assertEquals(1, TraversalTreeCache.orderCacheReused())
+    assertEquals(0, TraversalTreeCache.orderCacheMissed())
+    assertEquals(0, TraversalTreeCache.orderCacheLiveAnswers())
+  }
+
+  @Test
+  fun orderCacheStats_missCountsAsMissed() {
+    LogUtils.setEnabled(true)
+    TraversalTreeCache.resetOrderCacheStats()
+    val root = AccessibilityNodeInfoCompat.wrap(node(null))
+    val pivot = AccessibilityNodeInfoCompat.wrap(node(null))
+
+    assertNull(TraversalTreeCache.get(root, pivot))
+    assertEquals(0, TraversalTreeCache.orderCacheReused())
+    assertEquals(1, TraversalTreeCache.orderCacheMissed())
+  }
+
+  @Test
+  fun orderCacheStats_liveAnswerCountsOnlyWhenLogging() {
+    TraversalTreeCache.resetOrderCacheStats()
+    TraversalTreeCache.noteLiveAnswer()
+
+    assertEquals(0, TraversalTreeCache.orderCacheLiveAnswers())
+
+    LogUtils.setEnabled(true)
+    TraversalTreeCache.noteLiveAnswer()
+
+    assertEquals(1, TraversalTreeCache.orderCacheLiveAnswers())
+
+    TraversalTreeCache.resetOrderCacheStats()
+    assertEquals(0, TraversalTreeCache.orderCacheReused())
+    assertEquals(0, TraversalTreeCache.orderCacheMissed())
+    assertEquals(0, TraversalTreeCache.orderCacheLiveAnswers())
   }
 }

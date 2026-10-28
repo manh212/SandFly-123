@@ -1361,6 +1361,7 @@ public class FocusProcessorForLogicalNavigation {
     if (traversalStrategy == null) {
       if (TraversalTreeCache.getBurstLiveAnswerEnabled() && TraversalTreeCache.inNavigationBurst()) {
         traversalStrategy = new SimpleTraversalStrategy();
+        TraversalTreeCache.noteLiveAnswer();
       } else {
         boolean trace = LogUtils.shouldLog(Log.DEBUG);
         long buildStart = trace ? SystemClock.uptimeMillis() : 0;
