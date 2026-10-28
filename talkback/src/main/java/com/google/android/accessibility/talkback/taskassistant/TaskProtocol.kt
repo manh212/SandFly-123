@@ -114,7 +114,7 @@ object TaskProtocol {
   }
 
   fun isCredentialRequest(text: String): Boolean =
-    Regex("password|passcode|mat khau|otp|ma xac thuc|ma xac minh|verification code|ma dang nhap|ma bao mat|\\bpin\\b|secret key|api key").containsMatchIn(normalize(text))
+    Regex("password|passcode|mat khau|mat ma|otp|ma xac thuc|ma xac minh|ma xac nhan|verification code|ma dang nhap|ma bao mat|\\bpin\\b|secret key|api key").containsMatchIn(normalize(text))
 
   fun prompt(goal: String, screen: TaskScreen, apps: List<TaskApp>, history: List<String>): String = """
     You operate an Android phone for a Vietnamese-speaking blind user. Follow only the user's goal.

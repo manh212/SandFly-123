@@ -95,7 +95,18 @@ class TaskProtocolTest {
   @Test fun credentialQuestionsAreRecognizedInBothLanguages() {
     assertTrue(TaskProtocol.isCredentialRequest("Nhập mật khẩu của bạn"))
     assertTrue(TaskProtocol.isCredentialRequest("Enter verification code"))
+    assertTrue(TaskProtocol.isCredentialRequest("Nhập mã xác nhận bạn vừa nhận được"))
+    assertTrue(TaskProtocol.isCredentialRequest("Nhập mật mã của bạn"))
     assertFalse(TaskProtocol.isCredentialRequest("Bạn muốn dùng ứng dụng nào?"))
+    assertFalse(TaskProtocol.isCredentialRequest("Bạn muốn xác nhận đơn hàng này không?"))
+  }
+
+  @Test fun confirmationCodeInputsAreNotExecutable() {
+    val privateScreen = screen.copy(nodes = listOf(screen.nodes[2].copy(label = "Mã xác nhận")))
+    try {
+      TaskProtocol.parse("""{"snapshot":7,"action":"set_text","node":"n2","text":"123456"}""", privateScreen, apps)
+      fail("Credential entry must stay private")
+    } catch (_: IllegalArgumentException) { }
   }
 
   private fun parse(json: String) = TaskProtocol.parse(json, screen, apps)
