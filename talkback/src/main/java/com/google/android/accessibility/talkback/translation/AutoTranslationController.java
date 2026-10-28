@@ -43,14 +43,15 @@ public class AutoTranslationController {
   }
 
   public static void toggle(Context context, Consumer<Boolean> result) {
-    int requestGeneration = 0;
-    boolean turningOff = false;
+    final int requestGeneration;
+    final boolean turningOff;
     synchronized (AutoTranslationController.class) {
       if (enabled) {
         enabled = false;
-        toggleGeneration++;
         turningOff = true;
+        requestGeneration = ++toggleGeneration;
       } else {
+        turningOff = false;
         requestGeneration = ++toggleGeneration;
       }
     }
