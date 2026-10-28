@@ -89,8 +89,12 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
   public void performRequest(
       List<String> urls, String apiKey, JSONObject postData, GeminiRestResponseCallback callback) {
     if (useOnDevice()) {
+      aiService.cancelExistingRequestIfNeeded();
+      super.cancelExistingRequestIfNeeded();
       runner.run(postData, loggingFailures(callback));
     } else if (AiService.isSetUp(prefs)) {
+      runner.cancel();
+      super.cancelExistingRequestIfNeeded();
       aiService.performRequest(
           AiService.INSTANCE.address(prefs),
           AiService.INSTANCE.model(prefs),
@@ -98,6 +102,8 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
           postData,
           loggingFailures(callback));
     } else {
+      runner.cancel();
+      aiService.cancelExistingRequestIfNeeded();
       super.performRequest(urls, apiKey, postData, callback);
     }
   }
@@ -105,11 +111,14 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
   @Override
   public void cancelExistingRequestIfNeeded() {
     runner.cancel();
+    aiService.cancelExistingRequestIfNeeded();
     super.cancelExistingRequestIfNeeded();
   }
 
   @Override
   public boolean hasPendingTransaction() {
-    return runner.getHasPending() || super.hasPendingTransaction();
+    return runner.getHasPending()
+        || aiService.hasPendingTransaction()
+        || super.hasPendingTransaction();
   }
 }

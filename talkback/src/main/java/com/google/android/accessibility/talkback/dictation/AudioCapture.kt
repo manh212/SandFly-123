@@ -35,8 +35,10 @@ class AudioCapture(
   private val onChunk: ((ByteArray) -> Unit)? = null,
 ) {
   private val audio = ByteArrayOutputStream()
+  private val stateLock = Any()
   @Volatile private var recording = false
-  private var thread: Thread? = null
+  private var completedAudio: ByteArray? = null
+  private var stopCallback: ((ByteArray) -> Unit)? = null
 
   /** Starts recording. Returns false when the microphone can't be used. */
   @SuppressLint("MissingPermission") // Dictation checks the permission before it starts.
@@ -71,13 +73,16 @@ class AudioCapture(
       record.release()
       return false
     }
-    audio.reset()
+    synchronized(audio) { audio.reset() }
+    synchronized(stateLock) {
+      completedAudio = null
+      stopCallback = null
+    }
     recording = true
-    thread =
-      Thread({ readUntilStopped(record) }, "dictation-recording").apply {
-        isDaemon = true
-        start()
-      }
+    Thread({ readUntilStopped(record) }, "dictation-recording").apply {
+      isDaemon = true
+      start()
+    }
     return true
   }
 
@@ -98,17 +103,45 @@ class AudioCapture(
         }
       }
     } finally {
-      record.stop()
-      record.release()
+      try {
+        record.stop()
+      } catch (e: IllegalStateException) {
+        LogUtils.w(TAG, "Recorder was already stopped: %s", e)
+      } finally {
+        try {
+          record.release()
+        } finally {
+          complete()
+        }
+      }
     }
   }
 
-  /** Stops recording and returns the 16-bit samples recorded, little-endian. */
-  fun stop(): ByteArray {
+  fun stop(onStopped: (ByteArray) -> Unit) {
     recording = false
-    thread?.join(STOP_WAIT_MS)
-    thread = null
-    return synchronized(audio) { audio.toByteArray().also { audio.reset() } }
+    val completed =
+      synchronized(stateLock) {
+        completedAudio ?: run {
+          if (stopCallback == null) stopCallback = onStopped
+          null
+        }
+      }
+    if (completed != null) onStopped(completed)
+  }
+
+  fun cancel() {
+    recording = false
+    synchronized(stateLock) { stopCallback = null }
+  }
+
+  private fun complete() {
+    val pcm = synchronized(audio) { audio.toByteArray().also { audio.reset() } }
+    val callback =
+      synchronized(stateLock) {
+        completedAudio = pcm
+        stopCallback.also { stopCallback = null }
+      }
+    callback?.invoke(pcm)
   }
 
   companion object {
@@ -117,7 +150,6 @@ class AudioCapture(
     /** Fifteen minutes. Gemini 3.5 Transcribe takes up to an hour; longer would be slow to send. */
     const val MAX_SECONDS = 15 * 60
     private const val MAX_BYTES = MAX_SECONDS * SAMPLE_RATE * 2
-    private const val STOP_WAIT_MS = 1_000L
 
     /** Whether [pcm] is long enough to hold a word: a quarter of a second. */
     fun hasSpeechLength(pcm: ByteArray) = pcm.size >= SAMPLE_RATE / 2

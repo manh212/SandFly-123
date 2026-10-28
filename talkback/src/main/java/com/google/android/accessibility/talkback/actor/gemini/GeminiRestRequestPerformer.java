@@ -21,6 +21,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.text.TextUtils;
+import androidx.annotation.Nullable;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -30,12 +31,16 @@ import com.android.volley.toolbox.Volley;
 import com.google.android.accessibility.talkback.actor.gemini.DataFieldUtils.GeminiResponse;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.IdentityHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,11 +86,27 @@ public class GeminiRestRequestPerformer {
 
   private final RequestQueue requestQueue;
   private final Handler handler = new Handler(Looper.getMainLooper());
-  /** Marks the retries waiting to be sent, so that cancelling drops them. */
-  private final Object retryToken = new Object();
+  private final Object sessionsLock = new Object();
+  private @Nullable RequestSession currentSession;
+
+  private static final class RequestSession {
+    final GeminiRestResponseCallback callback;
+    final Set<Request<?>> requests =
+        Collections.newSetFromMap(new IdentityHashMap<Request<?>, Boolean>());
+    boolean cancelled;
+    boolean finished;
+
+    RequestSession(GeminiRestResponseCallback callback) {
+      this.callback = callback;
+    }
+  }
 
   public GeminiRestRequestPerformer(Context context) {
-    requestQueue = Volley.newRequestQueue(context);
+    this(Volley.newRequestQueue(context));
+  }
+
+  GeminiRestRequestPerformer(RequestQueue requestQueue) {
+    this.requestQueue = requestQueue;
   }
 
   public boolean isKeylessInitialized() {
@@ -113,18 +134,21 @@ public class GeminiRestRequestPerformer {
       String apiKey,
       JSONObject postData,
       GeminiRestResponseCallback unloggedCallback) {
-    send(
-        urls, apiKey, postData, loggingFailures(unloggedCallback), 0, 0, SystemClock.uptimeMillis());
+    RequestSession session = startSession(loggingFailures(unloggedCallback));
+    send(session, urls, apiKey, postData, 0, 0, SystemClock.uptimeMillis());
   }
 
   private void send(
+      RequestSession session,
       List<String> urls,
       String apiKey,
       JSONObject postData,
-      GeminiRestResponseCallback callback,
       int model,
       int round,
       long firstAt) {
+    if (!isActive(session)) {
+      return;
+    }
     String url = urls.get(model);
     String modelName = modelOf(url);
     boolean thinkingSetting = !modelsWithoutThinkingSetting.contains(modelName);
@@ -137,20 +161,31 @@ public class GeminiRestRequestPerformer {
       }
     }
     boolean sentThinkingSetting = thinkingSetting && body != postData;
+    AtomicReference<Request<?>> requestReference = new AtomicReference<>();
     JsonObjectRequest stringRequest =
         new JsonObjectRequest(
             Request.Method.POST,
             url,
             body,
             response -> {
+              removeRequest(session, requestReference.get());
+              if (!isActive(session)) {
+                return;
+              }
               try {
                 GeminiResponse result = DataFieldUtils.parseGeminiResponse(response);
-                callback.onResponse(result);
+                if (finishSession(session)) {
+                  session.callback.onResponse(result);
+                }
               } catch (JSONException e) {
-                callback.onFailure(GeminiFailure.other("Could not read the answer: " + e));
+                finishFailure(session, GeminiFailure.other("Could not read the answer: " + e));
               }
             },
             error -> {
+              removeRequest(session, requestReference.get());
+              if (!isActive(session)) {
+                return;
+              }
               GeminiFailure failure = GeminiFailure.fromVolleyError(error);
               long now = SystemClock.uptimeMillis();
               GeminiFailure.Kind kind = failure.getKind();
@@ -161,7 +196,7 @@ public class GeminiRestRequestPerformer {
                     modelName,
                     failure.getLogMessage());
                 modelsWithoutThinkingSetting.add(modelName);
-                send(urls, apiKey, postData, callback, model, round, firstAt);
+                send(session, urls, apiKey, postData, model, round, firstAt);
                 return;
               }
               boolean busy = kind == GeminiFailure.Kind.BUSY;
@@ -172,18 +207,18 @@ public class GeminiRestRequestPerformer {
               if (another && model + 1 < urls.size() && now - firstAt < RETRY_WINDOW_MS) {
                 LogUtils.w(
                     TAG, "%s, asking the next model: %s", modelName, failure.getLogMessage());
-                send(urls, apiKey, postData, callback, model + 1, round, firstAt);
+                send(session, urls, apiKey, postData, model + 1, round, firstAt);
                 return;
               }
               if (busy && round < BUSY_RETRY_DELAYS_MS.length && now - firstAt < RETRY_WINDOW_MS) {
                 LogUtils.w(TAG, "Gemini is busy, asking again: %s", failure.getLogMessage());
                 handler.postAtTime(
-                    () -> send(urls, apiKey, postData, callback, 0, round + 1, firstAt),
-                    retryToken,
+                    () -> send(session, urls, apiKey, postData, 0, round + 1, firstAt),
+                    session,
                     now + BUSY_RETRY_DELAYS_MS[round]);
                 return;
               }
-              callback.onFailure(failure);
+              finishFailure(session, failure);
             }) {
           @Override
           public Map<String, String> getHeaders() throws AuthFailureError {
@@ -201,7 +236,17 @@ public class GeminiRestRequestPerformer {
             timeoutMs(model + 1 < urls.size(), SystemClock.uptimeMillis() - firstAt),
             MAX_RETRIES,
             DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-    requestQueue.add(stringRequest);
+    requestReference.set(stringRequest);
+    if (!trackRequest(session, stringRequest)) {
+      stringRequest.cancel();
+      return;
+    }
+    try {
+      requestQueue.add(stringRequest);
+    } catch (RuntimeException e) {
+      removeRequest(session, stringRequest);
+      finishFailure(session, GeminiFailure.other("Could not start the request: " + e));
+    }
   }
 
   /**
@@ -280,12 +325,100 @@ public class GeminiRestRequestPerformer {
     return end > start ? url.substring(start, end) : url;
   }
 
+  private RequestSession startSession(GeminiRestResponseCallback callback) {
+    RequestSession previous;
+    RequestSession next = new RequestSession(callback);
+    synchronized (sessionsLock) {
+      previous = currentSession;
+      if (previous != null) {
+        previous.cancelled = true;
+      }
+      currentSession = next;
+    }
+    cancelSession(previous);
+    return next;
+  }
+
+  private boolean isActive(RequestSession session) {
+    synchronized (sessionsLock) {
+      return currentSession == session && !session.cancelled && !session.finished;
+    }
+  }
+
+  private boolean trackRequest(RequestSession session, Request<?> request) {
+    synchronized (sessionsLock) {
+      if (currentSession != session || session.cancelled || session.finished) {
+        return false;
+      }
+      session.requests.add(request);
+      return true;
+    }
+  }
+
+  private void removeRequest(RequestSession session, @Nullable Request<?> request) {
+    if (request == null) {
+      return;
+    }
+    synchronized (sessionsLock) {
+      session.requests.remove(request);
+    }
+  }
+
+  private boolean finishSession(RequestSession session) {
+    synchronized (sessionsLock) {
+      if (currentSession != session || session.cancelled || session.finished) {
+        return false;
+      }
+      session.finished = true;
+      currentSession = null;
+      return true;
+    }
+  }
+
+  private void finishFailure(RequestSession session, GeminiFailure failure) {
+    if (finishSession(session)) {
+      session.callback.onFailure(failure);
+    }
+  }
+
+  private void cancelSession(@Nullable RequestSession session) {
+    if (session == null) {
+      return;
+    }
+    handler.removeCallbacksAndMessages(session);
+    List<Request<?>> requests;
+    boolean notify;
+    synchronized (sessionsLock) {
+      notify = !session.finished;
+      session.cancelled = true;
+      session.finished = true;
+      requests = new ArrayList<>(session.requests);
+      session.requests.clear();
+    }
+    for (Request<?> request : requests) {
+      request.cancel();
+    }
+    if (notify) {
+      session.callback.onCancelled();
+    }
+  }
+
   /** Drops the retries waiting to be sent, when the request is given up. */
   public void cancelExistingRequestIfNeeded() {
-    handler.removeCallbacksAndMessages(retryToken);
+    RequestSession previous;
+    synchronized (sessionsLock) {
+      previous = currentSession;
+      currentSession = null;
+      if (previous != null) {
+        previous.cancelled = true;
+      }
+    }
+    cancelSession(previous);
   }
 
   public boolean hasPendingTransaction() {
-    return false;
+    synchronized (sessionsLock) {
+      return currentSession != null && !currentSession.cancelled && !currentSession.finished;
+    }
   }
 }

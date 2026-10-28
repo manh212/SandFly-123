@@ -92,19 +92,31 @@ public class CopyMoreCollector {
     if (!started) {
       if (node.equals(focusNode)) {
         started = true;
-      } else {
-        for (int i = 0; i < node.getChildCount(); i++) {
-          collectFrom(node.getChild(i));
-          if (started) {
-            break;
-          }
-        }
+        collectSubtree(node);
         return;
       }
+      int childCount = node.getChildCount();
+      for (int i = 0; i < childCount; i++) {
+        collectFrom(node.getChild(i));
+        if (started) {
+          for (int next = i + 1; next < childCount && items.size() < MAX_ITEMS; next++) {
+            collectSubtree(node.getChild(next));
+          }
+          return;
+        }
+      }
+      return;
+    }
+    collectSubtree(node);
+  }
+
+  private void collectSubtree(AccessibilityNodeInfoCompat node) {
+    if (node == null || items.size() >= MAX_ITEMS) {
+      return;
     }
     addText(node);
     for (int i = 0; i < node.getChildCount(); i++) {
-      collectFrom(node.getChild(i));
+      collectSubtree(node.getChild(i));
       if (items.size() >= MAX_ITEMS) {
         return;
       }

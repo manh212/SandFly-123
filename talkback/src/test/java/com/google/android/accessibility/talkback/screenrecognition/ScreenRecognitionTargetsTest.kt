@@ -36,6 +36,18 @@ class ScreenRecognitionTargetsTest {
     assertNull(find.invoke(controller, root, Rect(30, 115, 150, 140), 0))
   }
 
+  @Test fun stoppingForPauseInvalidatesRecognitionWithoutAnnouncing() {
+    val messages = mutableListOf<String>()
+    val controller = ScreenRecognitionController(TalkBackService()) { messages.add(it) }
+    val active = controller.javaClass.getDeclaredField("active").apply { isAccessible = true }
+    active.setBoolean(controller, true)
+
+    assertTrue(controller.stopSilently())
+    assertFalse(active.getBoolean(controller))
+    assertEquals(1, controller.javaClass.getDeclaredField("generation").apply { isAccessible = true }.getInt(controller))
+    assertTrue(messages.isEmpty())
+  }
+
   @Test fun tesseractKeepsScreenPixelsAndUsesTheSharedWordSplitter() {
     val controller = ScreenRecognitionController(TalkBackService()) {}
     val words = listOf(TesseractOcr.TextLine("Lưu", Rect(100, 1800, 150, 1830)),

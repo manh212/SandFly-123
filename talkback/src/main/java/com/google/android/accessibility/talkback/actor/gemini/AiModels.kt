@@ -40,7 +40,7 @@ object AiModels {
    */
   @Throws(IOException::class)
   fun list(provider: AiProvider, address: String, apiKey: String): List<GeminiModel.Choice> {
-    val connection = URL(address.trim().trimEnd('/') + "/models").openConnection() as HttpURLConnection
+    val connection = URL(modelsUrl(address)).openConnection() as HttpURLConnection
     try {
       connection.connectTimeout = TIMEOUT_MS
       connection.readTimeout = TIMEOUT_MS
@@ -69,6 +69,15 @@ object AiModels {
       return parse(body)
     } finally {
       connection.disconnect()
+    }
+  }
+
+  internal fun modelsUrl(address: String): String {
+    val base = address.trim().trimEnd('/')
+    return when {
+      base.endsWith("/models") -> base
+      base.endsWith("/chat/completions") -> base.removeSuffix("/chat/completions") + "/models"
+      else -> "$base/models"
     }
   }
 

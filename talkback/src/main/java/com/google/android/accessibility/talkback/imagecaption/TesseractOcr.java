@@ -20,7 +20,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.os.Handler;
-import android.os.Looper;
+import android.os.HandlerThread;
 import android.os.SystemClock;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -54,10 +54,17 @@ public final class TesseractOcr {
 
   private static final Object ENGINE_LOCK = new Object();
   private static final long IDLE_TIMEOUT_MS = 180000L;
-  private static final Handler IDLE_HANDLER = new Handler(Looper.getMainLooper());
+  private static final Handler IDLE_HANDLER;
   private static TessBaseAPI engine;
   private static long lastUsedMs;
   private static final Runnable IDLE_RELEASE = TesseractOcr::onIdleTimeout;
+
+  static {
+    HandlerThread idleThread = new HandlerThread("tesseract-idle");
+    idleThread.setDaemon(true);
+    idleThread.start();
+    IDLE_HANDLER = new Handler(idleThread.getLooper());
+  }
 
   private static void onIdleTimeout() {
     synchronized (ENGINE_LOCK) {

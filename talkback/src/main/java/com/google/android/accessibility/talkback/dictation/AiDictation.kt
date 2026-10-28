@@ -83,6 +83,7 @@ class AiDictation(
       {},
     )
   private var phase = Phase.IDLE
+  private var speechSilenced = false
   private var field: AccessibilityNodeInfoCompat? = null
   private var recognition = Recognition.ANDROID
   private var capture: AudioCapture? = null
@@ -133,7 +134,7 @@ class AiDictation(
     phase = Phase.RECORDING
     pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_up))
     // Speech would be recorded with the user's.
-    pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(SILENCE))
+    speechSilenced = pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(SILENCE))
     return true
   }
 
@@ -146,7 +147,14 @@ class AiDictation(
         ContinuousRecognition(
           service,
           if (used == Recognition.GOOGLE) DictationSettings.GOOGLE_SERVICE else null,
-          onDone = { text -> if (request == generation) recognized(text, cleaned = false) },
+          onDone = { text ->
+            if (request == generation) {
+              continuous = null
+              phase = Phase.WORKING
+              restoreSpeech()
+              recognized(text, cleaned = false)
+            }
+          },
           onFailed = { error -> if (request == generation) recognitionFailed(used, error) },
         )
       if (!recognizer.start()) return false
@@ -176,23 +184,37 @@ class AiDictation(
 
   private fun stopRecording() {
     phase = Phase.WORKING
-    pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(UNSILENCE))
+    restoreSpeech()
     pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
     continuous?.let {
       continuous = null
       it.stop()
       return
     }
-    val pcm = capture?.stop() ?: ByteArray(0)
+    val recorder = capture
     capture = null
+    val request = ++generation
+    val used = recognition
+    if (recorder == null) {
+      processRecording(request, used, ByteArray(0))
+      return
+    }
+    recorder.stop { pcm ->
+      handler.post {
+        if (request == generation && phase == Phase.WORKING) {
+          processRecording(request, used, pcm)
+        }
+      }
+    }
+  }
+
+  private fun processRecording(request: Int, used: Recognition, pcm: ByteArray) {
     if (!AudioCapture.hasSpeechLength(pcm)) {
       live?.cancel()
       live = null
       recognized("", cleaned = false)
       return
     }
-    val request = ++generation
-    val used = recognition
     tones.play(/* playTone= */ true, /* delayPlayTone= */ true)
     live?.let { session ->
       live = null
@@ -277,7 +299,7 @@ class AiDictation(
       return
     }
     if (phase == Phase.RECORDING) {
-      pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(UNSILENCE))
+      restoreSpeech()
       pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
     }
     finish()
@@ -383,6 +405,7 @@ class AiDictation(
     if (corrector == DictationSettings.AI_DEVICE) DEVICE_CORRECTION_TIMEOUT_MS else CORRECTION_TIMEOUT_MS
 
   private fun finish() {
+    restoreSpeech()
     // For the next dictation: a language pack downloaded since the last one is used from then on.
     if (phase != Phase.IDLE) GoogleSpeechLanguages.refresh(service)
     phase = Phase.IDLE
@@ -396,14 +419,20 @@ class AiDictation(
     giveUp?.let { handler.removeCallbacks(it) }
     continuous?.cancel()
     continuous = null
-    capture?.stop()
+    capture?.cancel()
     capture = null
     live?.cancel()
     live = null
     transcriber?.cancel()
-    if (phase == Phase.RECORDING) pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(UNSILENCE))
+    restoreSpeech()
     field = null
     finish()
+  }
+
+  private fun restoreSpeech() {
+    if (speechSilenced && pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(UNSILENCE))) {
+      speechSilenced = false
+    }
   }
 
   /** The language Whisper is told the speech is in: the phone's. */

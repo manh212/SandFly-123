@@ -262,6 +262,10 @@ public class GestureController {
     return screenRecognitionController.stop();
   }
 
+  public boolean stopScreenRecognitionForPause() {
+    return screenRecognitionController.stopSilently();
+  }
+
   /** Stops scrolling to the top or bottom when the user touches the screen or presses a key. */
   public void onUserInputStarted() {
     listEdgeScroller.cancel();
@@ -397,7 +401,7 @@ public class GestureController {
       result = dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_NEXT);
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_focused))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
       CharSequence text = node == null ? null : node.getText();
       if (TextUtils.isEmpty(text) && node != null) {
         text = node.getContentDescription();

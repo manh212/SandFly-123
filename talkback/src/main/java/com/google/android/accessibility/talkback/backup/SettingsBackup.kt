@@ -19,6 +19,8 @@ package com.google.android.accessibility.talkback.backup
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
@@ -31,6 +33,7 @@ import com.google.android.accessibility.utils.FormFactorUtils
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.Executors
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -56,6 +59,10 @@ object SettingsBackup {
   private const val DEFAULT_PREFS = "default"
   private const val DEVICE = "device"
   private const val CREDENTIAL = "credential"
+  private val ioExecutor = Executors.newSingleThreadExecutor { runnable ->
+    Thread(runnable, "settings-backup").apply { isDaemon = true }
+  }
+  private val mainHandler = Handler(Looper.getMainLooper())
 
   /** API keys stay on the phone, since the file can be shared or synced anywhere. */
   @VisibleForTesting
@@ -103,41 +110,51 @@ object SettingsBackup {
   }
 
   private fun write(context: Context, uri: Uri) {
-    val written =
-      try {
-        context.contentResolver.openOutputStream(uri, "wt")?.use {
-          it.write(export(context).toByteArray())
-        } != null
-      } catch (e: IOException) {
-        false
-      } catch (e: SecurityException) {
-        false
+    val appContext = context.applicationContext
+    ioExecutor.execute {
+      val written =
+        try {
+          appContext.contentResolver.openOutputStream(uri, "wt")?.use {
+            it.write(export(appContext).toByteArray())
+          } != null
+        } catch (e: IOException) {
+          false
+        } catch (e: SecurityException) {
+          false
+        }
+      mainHandler.post {
+        toast(appContext, if (written) R.string.settings_export_done else R.string.settings_export_failed)
       }
-    toast(context, if (written) R.string.settings_export_done else R.string.settings_export_failed)
+    }
   }
 
   private fun read(context: Context, uri: Uri) {
-    val imported =
-      try {
-        val bytes =
-          context.contentResolver.openInputStream(uri)?.use { input ->
-            val buffer = ByteArray(MAX_BYTES + 1)
-            var length = 0
-            while (length < buffer.size) {
-              val count = input.read(buffer, length, buffer.size - length)
-              if (count < 0) break
-              length += count
+    val appContext = context.applicationContext
+    ioExecutor.execute {
+      val imported =
+        try {
+          val bytes =
+            appContext.contentResolver.openInputStream(uri)?.use { input ->
+              val buffer = ByteArray(MAX_BYTES + 1)
+              var length = 0
+              while (length < buffer.size) {
+                val count = input.read(buffer, length, buffer.size - length)
+                if (count < 0) break
+                length += count
+              }
+              if (length > MAX_BYTES) throw IOException("The file is too large")
+              buffer.copyOf(length)
             }
-            if (length > MAX_BYTES) throw IOException("The file is too large")
-            buffer.copyOf(length)
-          }
-        bytes != null && import(context, bytes.decodeToString())
-      } catch (e: IOException) {
-        false
-      } catch (e: SecurityException) {
-        false
+          bytes != null && import(appContext, bytes.decodeToString())
+        } catch (e: IOException) {
+          false
+        } catch (e: SecurityException) {
+          false
+        }
+      mainHandler.post {
+        toast(appContext, if (imported) R.string.settings_import_done else R.string.settings_import_failed)
       }
-    toast(context, if (imported) R.string.settings_import_done else R.string.settings_import_failed)
+    }
   }
 
   /** Returns every exported setting as JSON. */
@@ -149,7 +166,7 @@ object SettingsBackup {
         val prefs = storageContext.getSharedPreferences(name, Context.MODE_PRIVATE)
         val values = JSONObject()
         for ((key, value) in prefs.all) {
-          if (key in SECRET_KEYS || isSkipped(context, name, key)) continue
+          if (isSecretKey(key) || isSkipped(context, name, key)) continue
           encode(value)?.let { values.put(key, it) }
         }
         storageFiles.put(exportedName(context, name), values)
@@ -188,7 +205,7 @@ object SettingsBackup {
         val values = storageFiles.optJSONObject(file) ?: return false
         val decoded = mutableMapOf<String, Any>()
         for (key in values.keys()) {
-          if (key in SECRET_KEYS || isSkipped(context, name, key)) continue
+          if (isSecretKey(key) || isSkipped(context, name, key)) continue
           decoded[key] = decode(values.optJSONObject(key)) ?: return false
         }
         edits += storageContext.getSharedPreferences(name, Context.MODE_PRIVATE) to decoded
@@ -197,7 +214,7 @@ object SettingsBackup {
     for ((prefs, values) in edits) {
       val editor = prefs.edit()
       for (key in prefs.all.keys) {
-        if (key !in values && key !in SECRET_KEYS && !isSkipped(context, null, key)) {
+        if (key !in values && !isSecretKey(key) && !isSkipped(context, null, key)) {
           editor.remove(key)
         }
       }
@@ -290,7 +307,8 @@ object SettingsBackup {
   }
 
   private fun isBacktalkSettingKept(key: String) =
-    key !in SECRET_KEYS &&
+    !isSecretKey(key) &&
+      key !in SECRET_KEYS &&
       key !in BACKTALK_SKIPPED_KEYS &&
       key !in MigrationFiles.SKIPPED_PREF_KEYS &&
       BACKTALK_SKIPPED_FRAGMENTS.none { key.contains(it) }
@@ -352,6 +370,8 @@ object SettingsBackup {
   /** The updater's state stays as it is on this phone. Null [name] means any file. */
   private fun isSkipped(context: Context, name: String?, key: String) =
     (name == null || name == defaultName(context)) && key in MigrationFiles.SKIPPED_PREF_KEYS
+
+  private fun isSecretKey(key: String) = key.contains("api_key", ignoreCase = true)
 
   @VisibleForTesting
   fun encode(value: Any?): JSONObject? =

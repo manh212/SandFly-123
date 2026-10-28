@@ -4028,6 +4028,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Turns off, or back on, what pausing Backtalk turns off besides events and feedback. */
   private void onPauseChanged(boolean paused) {
     if (paused) {
+      if (gestureController != null) {
+        gestureController.stopScreenRecognitionForPause();
+      }
       if (supportsTouchScreen) {
         requestTouchExploration(false);
       }

@@ -43,6 +43,7 @@ internal class ContinuousRecognition(
 ) : RecognitionListener {
   private var recognizer: SpeechRecognizer? = null
   private val parts = mutableListOf<String>()
+  private var partial = ""
   private var stopping = false
   private var finished = false
   private val handler = Handler(Looper.getMainLooper())
@@ -107,8 +108,10 @@ internal class ContinuousRecognition(
   private fun finish() {
     if (finished) return
     finished = true
+    val text = combineRecognitionParts(parts, partial)
+    partial = ""
     release()
-    onDone(parts.joinToString(" "))
+    onDone(text)
   }
 
   private fun release() {
@@ -118,9 +121,6 @@ internal class ContinuousRecognition(
     recognizer?.destroy()
     recognizer = null
   }
-
-  /** The partial text of the part being recognized, kept in case the recognizer ends without it. */
-  private var partial = ""
 
   override fun onResults(results: Bundle?) {
     val text =
@@ -144,30 +144,26 @@ internal class ContinuousRecognition(
       // Silence: wait for more speech, unless the user has stopped.
       SpeechRecognizer.ERROR_NO_MATCH,
       SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> {
-        if (partial.isNotBlank()) parts.add(partial.trim())
-        partial = ""
+        keepPartial()
         if (stopping) finish() else listen()
       }
       SpeechRecognizer.ERROR_RECOGNIZER_BUSY,
       SpeechRecognizer.ERROR_CLIENT ->
         when {
           stopping -> {
-            if (partial.isNotBlank()) parts.add(partial.trim())
-            partial = ""
+            keepPartial()
             finish()
           }
           // Out of restarts: end with what was recognized, as the other errors do.
           ++errors > MAX_ERRORS -> {
-            if (partial.isNotBlank()) parts.add(partial.trim())
-            partial = ""
+            keepPartial()
             if (parts.isNotEmpty()) finish() else fail(error)
           }
           else -> handler.postDelayed(listenAgain, RETRY_DELAYS_MS[errors - 1])
         }
       else -> {
         LogUtils.w(TAG, "Speech recognition error %d", error)
-        if (partial.isNotBlank()) parts.add(partial.trim())
-        partial = ""
+        keepPartial()
         if (parts.isNotEmpty()) finish() else fail(error)
       }
     }
@@ -177,6 +173,11 @@ internal class ContinuousRecognition(
     finished = true
     release()
     onFailed(error)
+  }
+
+  private fun keepPartial() {
+    partial.trim().takeIf { it.isNotEmpty() }?.let(parts::add)
+    partial = ""
   }
 
   override fun onReadyForSpeech(params: Bundle?) {}
@@ -201,3 +202,8 @@ internal class ContinuousRecognition(
     val RETRY_DELAYS_MS = longArrayOf(300L, 600L, 1_000L, 1_500L, 2_000L)
   }
 }
+
+internal fun combineRecognitionParts(parts: List<String>, partial: String): String =
+  (parts + listOfNotNull(partial.trim().takeIf { it.isNotEmpty() }))
+    .filter { it.isNotBlank() }
+    .joinToString(" ")

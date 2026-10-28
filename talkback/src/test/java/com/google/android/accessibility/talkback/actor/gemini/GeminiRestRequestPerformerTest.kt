@@ -16,6 +16,13 @@
 
 package com.google.android.accessibility.talkback.actor.gemini
 
+import com.android.volley.Request
+import com.android.volley.RequestQueue
+import com.android.volley.toolbox.BasicNetwork
+import com.android.volley.toolbox.HurlStack
+import com.android.volley.toolbox.NoCache
+import com.google.android.accessibility.talkback.actor.gemini.GeminiRestRequestPerformer.GeminiRestResponseCallback
+import org.json.JSONArray
 import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -36,6 +43,30 @@ class GeminiRestRequestPerformerTest {
     GeminiRestRequestPerformer.withLeastThinking(postData, model)
       .optJSONObject("generationConfig")
       ?.optJSONObject("thinkingConfig")
+
+  private class RecordingRequestQueue : RequestQueue(NoCache(), BasicNetwork(HurlStack())) {
+    val requests = mutableListOf<Request<*>>()
+
+    override fun <T> add(request: Request<T>): Request<T> {
+      requests.add(request)
+      return request
+    }
+  }
+
+  private class RecordingCallback : GeminiRestResponseCallback {
+    var cancelled = 0
+    var failures = 0
+
+    override fun onResponse(response: DataFieldUtils.GeminiResponse) {}
+
+    override fun onFailure(failure: GeminiFailure) {
+      failures++
+    }
+
+    override fun onCancelled() {
+      cancelled++
+    }
+  }
 
   @Test
   fun latestAndNewerModelsGetTheMinimalThinkingLevel() {
@@ -83,5 +114,55 @@ class GeminiRestRequestPerformerTest {
     assertEquals(30_000, GeminiRestRequestPerformer.timeoutMs(false, 0))
     assertEquals(17_000, GeminiRestRequestPerformer.timeoutMs(false, 15_000))
     assertEquals(8_000, GeminiRestRequestPerformer.timeoutMs(false, 30_000))
+  }
+
+  @Test
+  fun cancellingRestRequestCancelsNetworkWorkAndClearsPendingState() {
+    val queue = RecordingRequestQueue()
+    val performer = GeminiRestRequestPerformer(queue)
+    val callback = RecordingCallback()
+    performer.performRequest(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-3:generateContent",
+      "key",
+      postData,
+      callback,
+    )
+
+    assertTrue(performer.hasPendingTransaction())
+    assertEquals(1, queue.requests.size)
+    performer.cancelExistingRequestIfNeeded()
+
+    assertTrue(queue.requests.single().isCanceled)
+    assertFalse(performer.hasPendingTransaction())
+    assertEquals(1, callback.cancelled)
+    performer.cancelExistingRequestIfNeeded()
+    assertEquals(1, callback.cancelled)
+  }
+
+  @Test
+  fun cancellingConfiguredAiServiceRequestClearsItsPendingState() {
+    val queue = RecordingRequestQueue()
+    val performer = AiServiceRequestPerformer(queue)
+    val callback = RecordingCallback()
+    val request =
+      JSONObject()
+        .put(
+          "contents",
+          JSONArray().put(
+            JSONObject()
+              .put("role", "user")
+              .put("parts", JSONArray().put(JSONObject().put("text", "Describe this screen"))),
+          ),
+        )
+        .put("generationConfig", JSONObject())
+    performer.performRequest("https://api.example/v1", "model", "key", request, callback)
+
+    assertTrue(performer.hasPendingTransaction())
+    assertEquals(1, queue.requests.size)
+    performer.cancelExistingRequestIfNeeded()
+
+    assertTrue(queue.requests.single().isCanceled)
+    assertFalse(performer.hasPendingTransaction())
+    assertEquals(1, callback.cancelled)
   }
 }
