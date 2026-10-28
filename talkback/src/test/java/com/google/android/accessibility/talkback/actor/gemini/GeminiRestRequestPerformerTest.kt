@@ -18,9 +18,10 @@ package com.google.android.accessibility.talkback.actor.gemini
 
 import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.toolbox.BasicNetwork
-import com.android.volley.toolbox.HurlStack
+import com.android.volley.Network
+import com.android.volley.NetworkResponse
 import com.android.volley.toolbox.NoCache
+import com.android.volley.VolleyError
 import com.google.android.accessibility.talkback.actor.gemini.GeminiRestRequestPerformer.GeminiRestResponseCallback
 import org.json.JSONArray
 import org.json.JSONObject
@@ -44,7 +45,14 @@ class GeminiRestRequestPerformerTest {
       .optJSONObject("generationConfig")
       ?.optJSONObject("thinkingConfig")
 
-  private class RecordingRequestQueue : RequestQueue(NoCache(), BasicNetwork(HurlStack())) {
+  private class RecordingRequestQueue :
+    RequestQueue(
+      NoCache(),
+      object : Network {
+        override fun performRequest(request: Request<*>): NetworkResponse =
+          throw VolleyError("The test queue does not perform network requests")
+      },
+    ) {
     val requests = mutableListOf<Request<*>>()
 
     override fun <T> add(request: Request<T>): Request<T> {

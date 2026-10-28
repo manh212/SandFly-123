@@ -1,7 +1,6 @@
 package com.google.android.accessibility.talkback.translation;
 
 import android.content.Context;
-import android.text.TextUtils;
 import androidx.annotation.Nullable;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayDeque;
@@ -84,7 +83,7 @@ public class AutoTranslationController {
   public static void translate(CharSequence text, Consumer<String> onTranslated) {
     String original = text == null ? "" : text.toString();
     synchronized (AutoTranslationController.class) {
-      if (!enabled || translator == null || TextUtils.isEmpty(text)) {
+      if (!enabled || translator == null || text == null || text.length() == 0) {
         onTranslated.accept(original);
         return;
       }
@@ -161,7 +160,9 @@ public class AutoTranslationController {
             public void onSuccess(String translatedText) {
               complete(
                   request,
-                  TextUtils.isEmpty(translatedText) ? request.original : translatedText);
+                  translatedText == null || translatedText.isEmpty()
+                      ? request.original
+                      : translatedText);
             }
 
             @Override
