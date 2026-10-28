@@ -6,19 +6,19 @@
     live-tree answers in swipe bursts, and the speaking-nodes cache for edge checks.
   </string>
 
-  <string name="title_pref_prepare_adjacent_speech">Prepare adjacent items</string>
-  <string name="summary_pref_prepare_adjacent_speech">
+  <string name="title_pref_prepare_adjacent_speech" translatable="false">Prepare adjacent items</string>
+  <string name="summary_pref_prepare_adjacent_speech" translatable="false">
     Work out speech for the next and previous swipe targets while the current item is being read.
     Available only while Turn off latency extras is off.
   </string>
-  <string name="title_pref_prepare_second_ahead_speech">Prepare items two steps ahead</string>
-  <string name="summary_pref_prepare_second_ahead_speech">
+  <string name="title_pref_prepare_second_ahead_speech" translatable="false">Prepare items two steps ahead</string>
+  <string name="summary_pref_prepare_second_ahead_speech" translatable="false">
     Also work out speech for the item after the adjacent target in each swipe direction. This can
     use more processing.
   </string>
 
-  <string name="title_pref_event_processing_level">Event processing level</string>
-  <string name="summary_pref_event_processing_level">
+  <string name="title_pref_event_processing_level" translatable="false">Event processing level</string>
+  <string name="summary_pref_event_processing_level" translatable="false">
     Lower levels discard more repeated screen updates and favor focus events. Higher levels retain
     more event detail. Medium matches the current behavior.
   </string>
