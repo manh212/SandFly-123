@@ -1,9 +1,9 @@
 /*
  * Copyright (C) 2026 The SandFly Authors
  *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
  *
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -17,22 +17,52 @@
 package com.google.android.accessibility.talkback.clipboard;
 
 import android.text.TextUtils;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
+import org.json.JSONArray;
+import org.json.JSONException;
 
-/**
- * The texts the user has copied, newest first. Kept in memory only, like the speech history:
- * nothing is written to disk, and the list is gone when the service restarts.
- */
 public final class ClipboardHistory {
 
-  private static final int MAX_ENTRIES = 50;
+  private static final String STORE_FILE_NAME = "clipboard-history.json";
 
   private static final Deque<String> entries = new ArrayDeque<>();
 
+  private static File storeFile;
+
   private ClipboardHistory() {}
+
+  public static void init(File directory) {
+    synchronized (entries) {
+      storeFile = null;
+      if (directory == null) {
+        return;
+      }
+      try {
+        storeFile = new File(directory, STORE_FILE_NAME);
+        entries.clear();
+        if (storeFile.exists()) {
+          String content = new String(Files.readAllBytes(storeFile.toPath()), StandardCharsets.UTF_8);
+          JSONArray stored = new JSONArray(content);
+          for (int i = 0; i < stored.length(); i++) {
+            String value = stored.optString(i, null);
+            if (value != null) {
+              entries.addLast(value);
+            }
+          }
+        }
+      } catch (IOException | JSONException | RuntimeException e) {
+        entries.clear();
+        storeFile = null;
+      }
+    }
+  }
 
   /** Records {@code text} as the newest entry, moving an existing copy of it to the front. */
   public static void record(CharSequence text) {
@@ -43,8 +73,17 @@ public final class ClipboardHistory {
     synchronized (entries) {
       entries.remove(value);
       entries.addFirst(value);
-      while (entries.size() > MAX_ENTRIES) {
-        entries.removeLast();
+      saveLocked();
+    }
+  }
+
+  public static void remove(String text) {
+    if (text == null) {
+      return;
+    }
+    synchronized (entries) {
+      if (entries.remove(text)) {
+        saveLocked();
       }
     }
   }
@@ -60,6 +99,21 @@ public final class ClipboardHistory {
   public static void clear() {
     synchronized (entries) {
       entries.clear();
+      saveLocked();
+    }
+  }
+
+  private static void saveLocked() {
+    if (storeFile == null) {
+      return;
+    }
+    try {
+      JSONArray stored = new JSONArray();
+      for (String entry : entries) {
+        stored.put(entry);
+      }
+      Files.write(storeFile.toPath(), stored.toString().getBytes(StandardCharsets.UTF_8));
+    } catch (IOException | RuntimeException e) {
     }
   }
 }

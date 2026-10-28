@@ -20,6 +20,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextUtils;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 
 /** Utility class to copy text to clipboard. */
 public final class ClipboardUtils {
@@ -51,6 +52,21 @@ public final class ClipboardUtils {
 
     ClipData clipData = ClipData.newPlainText(null, text);
     clipboard.setPrimaryClip(clipData);
+    ClipboardHistory.record(text);
+    return true;
+  }
+
+  public static boolean copyToClipboardWithoutRecording(Context context, CharSequence text) {
+    if (TextUtils.isEmpty(text)) {
+      return false;
+    }
+
+    final ClipboardManager clipboard =
+        (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    if (clipboard == null) {
+      return false;
+    }
+    clipboard.setPrimaryClip(ClipData.newPlainText(null, text));
     return true;
   }
 }

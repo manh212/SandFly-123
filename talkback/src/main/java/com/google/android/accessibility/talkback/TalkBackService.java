@@ -237,6 +237,7 @@ import com.google.android.accessibility.talkback.trainingcommon.PageConfig.PageI
 import com.google.android.accessibility.talkback.trainingcommon.TutorialShortcuts;
 import com.google.android.accessibility.talkback.tutorial.FirstRunActivity;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
@@ -2108,6 +2109,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     dimScreenController.resume();
 
     clipboardHistoryCapture = new ClipboardHistoryCapture(this);
+    ClipboardHistory.init(getFilesDir());
     clipboardHistoryCapture.start();
 
     // If the locked-boot-completed intent was fired before onServiceConnected, we queued it,

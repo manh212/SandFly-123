@@ -144,5 +144,14 @@
             <ignore regexp="title_pref_delete_debug_log" />
             <ignore regexp="message_debug_log_deleted" />
             <ignore regexp="message_debug_log_nothing_to_delete" />
+            <ignore regexp="clipboard_history_search_hint" />
+            <ignore regexp="clipboard_history_clear_all" />
+            <ignore regexp="clipboard_history_clear_confirm" />
+            <ignore regexp="clipboard_history_clear" />
+            <ignore regexp="clipboard_history_pasted" />
+            <ignore regexp="clipboard_history_no_target" />
+            <ignore regexp="clipboard_history_paste_failed" />
+            <ignore regexp="clipboard_history_deleted" />
+            <ignore regexp="clipboard_history_cleared" />
     </issue>
 </lint>

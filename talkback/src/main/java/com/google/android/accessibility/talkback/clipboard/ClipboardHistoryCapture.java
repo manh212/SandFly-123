@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.clipboard;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.os.PersistableBundle;
 
 /**
  * Feeds {@link ClipboardHistory} from the system clipboard: every time the primary clip changes,
@@ -27,12 +26,9 @@ import android.os.PersistableBundle;
  *
  * <p>Since Android 10 the system lets an app read the clipboard only in limited situations, and
  * an accessibility service is not always one of them; a read the system refuses simply records
- * nothing. Clips the copying app marked sensitive (a password, typically) are never recorded.
+ * nothing.
  */
 public final class ClipboardHistoryCapture {
-
-  /** The extras key apps use to mark a clip sensitive; read by name, it exists on every API. */
-  private static final String EXTRA_IS_SENSITIVE = "android.content.extra.IS_SENSITIVE";
 
   private final ClipboardManager clipboard;
   private final ClipboardManager.OnPrimaryClipChangedListener listener = this::captureCurrent;
@@ -79,17 +75,14 @@ public final class ClipboardHistoryCapture {
       // The system refused the read; there is nothing to record.
       return;
     }
-    if (clip == null || clip.getItemCount() == 0 || isSensitive(clip)) {
+    if (clip == null || clip.getItemCount() == 0) {
       return;
     }
-    CharSequence text = clip.getItemAt(0).getText();
-    if (text != null) {
-      ClipboardHistory.record(text);
+    for (int i = clip.getItemCount() - 1; i >= 0; i--) {
+      CharSequence text = clip.getItemAt(i).getText();
+      if (text != null) {
+        ClipboardHistory.record(text);
+      }
     }
-  }
-
-  private static boolean isSensitive(ClipData clip) {
-    PersistableBundle extras = clip.getDescription().getExtras();
-    return extras != null && extras.getBoolean(EXTRA_IS_SENSITIVE, false);
   }
 }

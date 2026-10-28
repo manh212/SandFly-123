@@ -4492,4 +4492,13 @@
     <string name="title_pref_delete_debug_log">Delete debug log</string>
     <string name="message_debug_log_deleted">Debug log deleted</string>
     <string name="message_debug_log_nothing_to_delete">No debug log to delete</string>
+    <string name="clipboard_history_search_hint">Search history</string>
+    <string name="clipboard_history_clear_all">Clear all history</string>
+    <string name="clipboard_history_clear_confirm">Clear all clipboard history?</string>
+    <string name="clipboard_history_clear">Delete</string>
+    <string name="clipboard_history_pasted">Pasted</string>
+    <string name="clipboard_history_no_target">No input field to paste into</string>
+    <string name="clipboard_history_paste_failed">Could not paste</string>
+    <string name="clipboard_history_deleted">Entry deleted</string>
+    <string name="clipboard_history_cleared">History cleared</string>
 </resources>

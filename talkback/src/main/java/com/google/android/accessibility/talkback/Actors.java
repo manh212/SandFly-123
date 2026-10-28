@@ -376,7 +376,7 @@ class Actors {
         case TRANSLATE_SAVED -> lastUtteranceTranslator.translateSavedUtterance(eventId);
         case TRANSLATE_LAST -> lastUtteranceTranslator.translateLastUtterance(eventId);
         case SHOW_HISTORY -> speechHistoryDialog.show(eventId);
-        case SHOW_CLIPBOARD_HISTORY -> clipboardHistoryDialog.show(eventId);
+        case SHOW_CLIPBOARD_HISTORY -> clipboardHistoryDialog.show(eventId, getPasteTarget());
         case PAUSE_OR_RESUME -> {
           boolean doPause = speaker.readyToPause();
           continuousReader.pauseOrResumeContinuousReadingState(doPause);
@@ -1040,6 +1040,19 @@ class Actors {
     } else {
       interruptAllFeedback(/* stopTtsSpeechCompletely= */ false);
     }
+  }
+
+  public @Nullable AccessibilityNodeInfoCompat getPasteTarget() {
+    AccessibilityNodeInfoCompat target =
+        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+    if (target != null && target.isEditable()) {
+      return target;
+    }
+    target = accessibilityFocusMonitor.getInputFocus();
+    if (target != null && target.isEditable()) {
+      return target;
+    }
+    return null;
   }
 
   public void shutdown() {
