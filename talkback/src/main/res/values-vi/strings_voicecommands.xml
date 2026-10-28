@@ -49,8 +49,8 @@
   <string name="voice_commands_dictate">Đọc chính tả</string>
   <string name="voice_commands_write">Viết</string>
   <string name="voice_commands_Spell">Đánh vần</string>
-  <string name="voice_commands_talkback_settings">Cài đặt TalkBack</string>
-  <string name="voice_commands_talkback_setting">Cài đặt TalkBack</string>
+  <string name="voice_commands_talkback_settings">Cài đặt Meridian</string>
+  <string name="voice_commands_talkback_setting">Cài đặt Meridian</string>
   <string name="voice_commands_screen_search">Tìm kiếm trên màn hình</string>
   <string name="voice_commands_search_on_screen">Tìm kiếm trên màn hình</string>
   <string name="voice_commands_copy">@android:string/copy</string>
