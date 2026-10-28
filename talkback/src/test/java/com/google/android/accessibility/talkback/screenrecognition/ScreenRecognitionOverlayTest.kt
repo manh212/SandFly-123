@@ -4,7 +4,6 @@ import android.app.Activity
 import android.graphics.Rect
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
-import androidx.core.view.ViewCompat
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -26,7 +25,7 @@ class ScreenRecognitionOverlayTest {
     val bounds = Rect(20 + location[0], 50 + location[1], 120 + location[0], 80 + location[1])
     overlay.setItems(listOf(RecognizedItem("Mục một", bounds, false),
       RecognizedItem("Mục hai", Rect(150, 100, 250, 130), false)))
-    val provider = ViewCompat.getAccessibilityNodeProvider(overlay)!!
+    val provider = overlay.accessibilityNodeProvider!!
     val node = provider.createAccessibilityNodeInfo(0)!!
     val local = Rect()
     node.getBoundsInParent(local)

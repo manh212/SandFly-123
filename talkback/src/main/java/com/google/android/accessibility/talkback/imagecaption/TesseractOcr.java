@@ -34,6 +34,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class TesseractOcr {
 
@@ -41,6 +43,8 @@ public final class TesseractOcr {
       "https://github.com/tesseract-ocr/tessdata_best/raw/main/";
 
   private static final String TAG = "TesseractOcr";
+  private static final Pattern HOCR_BOUNDING_BOX =
+      Pattern.compile("\\bbbox\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)\\s+(-?\\d+)\\b");
   private static final String DATA_DIR_NAME = "tesseract";
   private static final String DATA_SUBDIR_NAME = "tessdata";
   private static final String LANGUAGE = "vie+eng";
@@ -325,20 +329,17 @@ public final class TesseractOcr {
   }
 
   private static Rect parseHocrBbox(String tag) {
-    int bboxIndex = tag.indexOf("bbox");
-    if (bboxIndex < 0) {
-      return null;
-    }
-    String[] parts = tag.substring(bboxIndex + 4).trim().split("[\\s;]+");
-    if (parts.length < 4) {
+    Matcher match = HOCR_BOUNDING_BOX.matcher(tag);
+    if (!match.find()) {
       return null;
     }
     try {
-      return new Rect(
-          Integer.parseInt(parts[0]),
-          Integer.parseInt(parts[1]),
-          Integer.parseInt(parts[2]),
-          Integer.parseInt(parts[3]));
+      Rect bounds = new Rect(
+          Integer.parseInt(match.group(1)),
+          Integer.parseInt(match.group(2)),
+          Integer.parseInt(match.group(3)),
+          Integer.parseInt(match.group(4)));
+      return bounds.isEmpty() ? null : bounds;
     } catch (NumberFormatException e) {
       return null;
     }

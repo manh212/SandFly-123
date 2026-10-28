@@ -23,4 +23,13 @@ class TesseractSegmentsTest {
     assertEquals(listOf("Đăng", "nhập", "Hủy"), lines.single().words.map { it.text })
     assertEquals(Rect(220, 20, 280, 50), lines.single().words.last().bounds)
   }
+
+  @Test fun readsBoundingBoxesWithMetadataAndRejectsInvalidRegions() {
+    val parse = TesseractOcr::class.java.getDeclaredMethod("parseHocrBbox", String::class.java)
+      .apply { isAccessible = true }
+    assertEquals(Rect(10, 20, 70, 50), parse.invoke(null, "title='bbox 10 20 70 50; x_wconf 95'"))
+    assertEquals(Rect(10, 20, 70, 50), parse.invoke(null, "title='bbox 10 20 70 50'"))
+    assertNull(parse.invoke(null, "title='bbox 70 20 10 50'"))
+    assertNull(parse.invoke(null, "title='bbox invalid'"))
+  }
 }
