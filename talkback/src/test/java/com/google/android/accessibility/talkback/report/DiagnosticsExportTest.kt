@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.report
 
 import android.content.Context
 import com.google.android.accessibility.utils.Performance
+import com.google.android.libraries.accessibility.utils.log.LogUtils
 import org.junit.After
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -44,6 +45,10 @@ class DiagnosticsExportTest {
   fun tearDown() {
     performance.setComputeStatsEnabled(false)
     performance.clearAllStats()
+    LogUtils.setEnabled(false)
+    LogUtils.flushLogFile()
+    LogUtils.clearLogFiles()
+    LogUtils.setLogFile(null)
   }
 
   @Test
@@ -83,4 +88,31 @@ class DiagnosticsExportTest {
     assertTrue(statsIndex > crashIndex)
     assertTrue(logIndex > statsIndex)
   }
+
+  @Test
+  fun buildForExport_includesTheLastQueuedDebugLogLine() {
+    assertQueuedLogIsIncluded(export = true)
+  }
+
+  @Test
+  fun buildForCopy_includesTheLastQueuedDebugLogLine() {
+    assertQueuedLogIsIncluded(export = false)
+  }
+
+  private fun assertQueuedLogIsIncluded(export: Boolean) {
+    LogUtils.setLogFile(LogUtils.defaultLogFile(context))
+    LogUtils.clearLogFiles()
+    LogUtils.setEnabled(true)
+    repeat(300) { LogUtils.d("ExportFlush", "queued line %d", it) }
+
+    val text =
+      if (export) DiagnosticsExport.buildForExport(context) else DiagnosticsExport.build(context)
+
+    assertTrue(text.contains("D/ExportFlush: queued line 0"))
+    assertTrue(text.contains("D/ExportFlush: queued line 299"))
+    assertTrue(
+      text.indexOf("D/ExportFlush: queued line 0") < text.indexOf("D/ExportFlush: queued line 299")
+    )
+  }
 }
+

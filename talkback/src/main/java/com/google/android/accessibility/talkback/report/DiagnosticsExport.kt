@@ -449,6 +449,7 @@ object DiagnosticsExport {
   /** The debug log file's content, newest last, capped like the logcat fallback, or null. */
   @WorkerThread
   private fun readDebugLogFile(context: Context, logMaxChars: Int): String? {
+    if (!LogUtils.flushLogFile()) return null
     val deviceProtected = ContextCompat.createDeviceProtectedStorageContext(context) ?: context
     val dir = deviceProtected.filesDir
     val parts =
@@ -522,3 +523,4 @@ object DiagnosticsExport {
     }
   }
 }
+

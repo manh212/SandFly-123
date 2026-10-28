@@ -18,16 +18,12 @@ package com.google.android.libraries.accessibility.utils.log;
 
 import android.content.Context;
 import android.util.Log;
+import androidx.annotation.WorkerThread;
 import androidx.core.content.ContextCompat;
 import com.google.common.base.Strings;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.IllegalFormatException;
-import java.util.Locale;
+import java.util.concurrent.Executors;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Handles logging formatted strings. */
@@ -47,21 +43,24 @@ public class LogUtils {
 
   private static final String TAG = "LogUtils";
 
-  private static boolean debugLogEnabled = false;
-
-  private static @Nullable File logFile = null;
-
-  private static @Nullable File logOldFile = null;
-
-  private static @Nullable FileOutputStream logStream = null;
-
-  private static final Object LOG_FILE_LOCK = new Object();
+  private static volatile boolean debugLogEnabled = false;
 
   public static final String LOG_FILE_NAME = "debug-log.txt";
 
   public static final String LOG_OLD_FILE_NAME = "debug-log-old.txt";
 
   public static final long LOG_MAX_BYTES = 20L * 1024 * 1024;
+
+  private static final AsyncLogFileWriter logFileWriter =
+      new AsyncLogFileWriter(
+          LOG_MAX_BYTES,
+          Executors.newSingleThreadScheduledExecutor(
+              runnable -> {
+                Thread thread = new Thread(runnable, "MeridianDebugLog");
+                thread.setDaemon(true);
+                return thread;
+              }),
+          error -> Log.e(TAG, "Cannot write the debug log file", error));
 
   private static String logTagPrefix = "";
 
@@ -274,7 +273,7 @@ public class LogUtils {
         message = String.format("%s\n%s", message, Log.getStackTraceString(throwable));
       }
       Log.println(priority, prefixedTag, message);
-      writeToLogFile(priority, prefixedTag, message);
+      logFileWriter.append(System.currentTimeMillis(), priorityLetter(priority), prefixedTag, message);
     } catch (IllegalFormatException e) {
       Log.e(TAG, "Bad formatting string: \"" + format + "\"", e);
     }
@@ -305,9 +304,7 @@ public class LogUtils {
 
   public static void setEnabled(boolean enabled) {
     debugLogEnabled = enabled;
-    if (!enabled) {
-      closeLogFile();
-    }
+    logFileWriter.setEnabled(enabled);
   }
 
   public static boolean isEnabled() {
@@ -319,23 +316,20 @@ public class LogUtils {
   }
 
   public static void setLogFile(@Nullable File file) {
-    synchronized (LOG_FILE_LOCK) {
-      closeLogFileLocked();
-      logFile = file;
-      logOldFile = file == null ? null : new File(file.getParentFile(), LOG_OLD_FILE_NAME);
-    }
+    logFileWriter.setFile(file);
   }
 
   public static @Nullable File getLogFile() {
-    synchronized (LOG_FILE_LOCK) {
-      return logFile;
-    }
+    return logFileWriter.getFile();
   }
 
   public static @Nullable File getLogOldFile() {
-    synchronized (LOG_FILE_LOCK) {
-      return logOldFile;
-    }
+    return logFileWriter.getOldFile();
+  }
+
+  @WorkerThread
+  public static boolean flushLogFile() {
+    return logFileWriter.flush();
   }
 
   public static File defaultLogFile(Context context) {
@@ -344,43 +338,6 @@ public class LogUtils {
       deviceProtected = context;
     }
     return new File(deviceProtected.getFilesDir(), LOG_FILE_NAME);
-  }
-
-  private static void writeToLogFile(int priority, String tag, String message) {
-    synchronized (LOG_FILE_LOCK) {
-      if (logFile == null) {
-        return;
-      }
-      try {
-        if (logStream == null) {
-          File parent = logFile.getParentFile();
-          if (parent != null) {
-            parent.mkdirs();
-          }
-          logStream = new FileOutputStream(logFile, true);
-        }
-        if (logFile.length() > LOG_MAX_BYTES) {
-          closeLogFileLocked();
-          if (logOldFile != null) {
-            logOldFile.delete();
-            logFile.renameTo(logOldFile);
-          }
-          logStream = new FileOutputStream(logFile, true);
-        }
-        String line =
-            String.format(
-                "%s %c/%s: %s\n",
-                new SimpleDateFormat("HH:mm:ss.SSS", Locale.ROOT).format(new Date()),
-                priorityLetter(priority),
-                tag,
-                message);
-        logStream.write(line.getBytes(StandardCharsets.UTF_8));
-        logStream.flush();
-      } catch (IOException e) {
-        Log.e(TAG, "Cannot write the debug log file", e);
-        closeLogFileLocked();
-      }
-    }
   }
 
   private static char priorityLetter(int priority) {
@@ -402,34 +359,8 @@ public class LogUtils {
     }
   }
 
-  private static void closeLogFile() {
-    synchronized (LOG_FILE_LOCK) {
-      closeLogFileLocked();
-    }
-  }
-
-  private static void closeLogFileLocked() {
-    if (logStream != null) {
-      try {
-        logStream.close();
-      } catch (IOException e) {
-        Log.e(TAG, "Cannot close the debug log file", e);
-      }
-      logStream = null;
-    }
-  }
-
+  @WorkerThread
   public static boolean clearLogFiles() {
-    synchronized (LOG_FILE_LOCK) {
-      closeLogFileLocked();
-      boolean deleted = false;
-      if (logFile != null && logFile.delete()) {
-        deleted = true;
-      }
-      if (logOldFile != null && logOldFile.delete()) {
-        deleted = true;
-      }
-      return deleted;
-    }
+    return logFileWriter.clear();
   }
 }
