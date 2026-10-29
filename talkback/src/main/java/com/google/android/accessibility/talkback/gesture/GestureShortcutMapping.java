@@ -518,6 +518,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     MONITOR_FOCUS(R.string.shortcut_value_monitor_focus, R.string.shortcut_monitor_focus),
     AUTO_TRANSLATE(R.string.shortcut_value_auto_translate, R.string.shortcut_auto_translate),
     COPY_MORE(R.string.shortcut_value_copy_more, R.string.shortcut_copy_more),
+    COPY_FULL_SCREEN(
+        R.string.shortcut_value_copy_full_screen, R.string.shortcut_copy_full_screen),
     TAKE_FOCUS_SCREENSHOT(
         R.string.shortcut_value_take_focus_screenshot, R.string.shortcut_take_focus_screenshot),
     TASK_ASSISTANT(R.string.shortcut_value_task_assistant, R.string.task_title),

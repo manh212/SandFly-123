@@ -21,6 +21,7 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.text.TextUtils;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
+import java.util.List;
 
 /** Utility class to copy text to clipboard. */
 public final class ClipboardUtils {
@@ -37,7 +38,52 @@ public final class ClipboardUtils {
 
     final ClipboardManager clipboard =
         (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    if (clipboard == null) {
+      return false;
+    }
     return copyToClipboard(clipboard, text);
+  }
+
+  /** Appends {@code text} to the current plain-text clipboard contents. */
+  public static boolean appendToClipboard(Context context, CharSequence text) {
+    if (TextUtils.isEmpty(text)) {
+      return false;
+    }
+
+    final ClipboardManager clipboard =
+        (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    if (clipboard == null) {
+      return false;
+    }
+
+    String previousText = "";
+    try {
+      boolean hasPrimaryClip = clipboard.hasPrimaryClip();
+      ClipData clipData = clipboard.getPrimaryClip();
+      if (clipData != null) {
+        StringBuilder existingText = new StringBuilder();
+        for (int i = 0; i < clipData.getItemCount(); i++) {
+          CharSequence itemText = clipData.getItemAt(i).coerceToText(context);
+          if (!TextUtils.isEmpty(itemText)) {
+            if (existingText.length() > 0) {
+              existingText.append('\n');
+            }
+            existingText.append(itemText);
+          }
+        }
+        previousText = existingText.toString();
+      } else if (hasPrimaryClip) {
+        // Some Android versions deny a background accessibility service's clipboard read.
+        previousText = latestHistoryText();
+      }
+    } catch (RuntimeException e) {
+      // Preserve text captured by the clipboard history if Android denies this read.
+      previousText = latestHistoryText();
+    }
+
+    CharSequence combinedText =
+        TextUtils.isEmpty(previousText) ? text : previousText + "\n" + text;
+    return copyToClipboard(clipboard, combinedText);
   }
 
   /**
@@ -68,5 +114,10 @@ public final class ClipboardUtils {
     }
     clipboard.setPrimaryClip(ClipData.newPlainText(null, text));
     return true;
+  }
+
+  private static String latestHistoryText() {
+    List<String> entries = ClipboardHistory.getEntries();
+    return entries.isEmpty() ? "" : entries.get(0);
   }
 }

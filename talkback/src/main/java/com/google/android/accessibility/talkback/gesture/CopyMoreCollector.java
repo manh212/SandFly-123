@@ -1,6 +1,7 @@
 package com.google.android.accessibility.talkback.gesture;
 
 import android.content.Context;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
+/** Collects readable page content from the focused item through the end of its scrollable area. */
 public class CopyMoreCollector {
 
   public interface Callback {
@@ -20,8 +22,8 @@ public class CopyMoreCollector {
     void onNothing();
   }
 
-  private static final int MAX_PASSES = 30;
-  private static final int MAX_ITEMS = 2000;
+  private static final int MAX_PASSES = 100;
+  private static final int MAX_ITEMS = 10000;
   private static final long SCROLL_WAIT_MS = 600L;
 
   private final Context context;
@@ -31,9 +33,10 @@ public class CopyMoreCollector {
   private final ArrayList<String> items = new ArrayList<>();
   private @Nullable AccessibilityNodeInfoCompat focusNode;
   private @Nullable AccessibilityNodeInfoCompat scrollableNode;
-  private boolean started;
+  private boolean startedAtFocus;
   private int passes;
-  private int passesWithoutNewItems;
+  private int passesWithoutProgress;
+  private String lastContentSnapshot = "";
 
   public CopyMoreCollector(Context context, Callback callback) {
     this.context = context.getApplicationContext();
@@ -54,21 +57,26 @@ public class CopyMoreCollector {
     passes++;
     AccessibilityNodeInfoCompat root =
         focusNode == null ? null : AccessibilityNodeInfoUtils.getRoot(focusNode);
+    if (root == null && scrollableNode != null) {
+      root = AccessibilityNodeInfoUtils.getRoot(scrollableNode);
+    }
     int before = items.size();
     if (root != null) {
-      started = false;
-      collectFrom(root);
-      if (!started && passes > 1) {
-        started = true;
-        collectFrom(root);
+      if (startedAtFocus) {
+        collectSubtree(root);
+      } else {
+        startedAtFocus = collectFrom(root);
       }
     }
-    if (items.size() == before) {
-      passesWithoutNewItems++;
+    String contentSnapshot = root == null ? "" : createContentSnapshot(root);
+    boolean progressed = items.size() > before || !contentSnapshot.equals(lastContentSnapshot);
+    if (progressed) {
+      passesWithoutProgress = 0;
     } else {
-      passesWithoutNewItems = 0;
+      passesWithoutProgress++;
     }
-    if (passes >= MAX_PASSES || passesWithoutNewItems >= 2) {
+    lastContentSnapshot = contentSnapshot;
+    if (passes >= MAX_PASSES || passesWithoutProgress >= 2) {
       finish();
       return;
     }
@@ -85,33 +93,33 @@ public class CopyMoreCollector {
     handler.postDelayed(this::collectPass, SCROLL_WAIT_MS);
   }
 
-  private void collectFrom(AccessibilityNodeInfoCompat node) {
+  private boolean collectFrom(AccessibilityNodeInfoCompat node) {
     if (node == null || items.size() >= MAX_ITEMS) {
-      return;
+      return false;
     }
-    if (!started) {
-      if (node.equals(focusNode)) {
-        started = true;
-        collectSubtree(node);
-        return;
-      }
-      int childCount = node.getChildCount();
-      for (int i = 0; i < childCount; i++) {
-        collectFrom(node.getChild(i));
-        if (started) {
-          for (int next = i + 1; next < childCount && items.size() < MAX_ITEMS; next++) {
-            collectSubtree(node.getChild(next));
-          }
-          return;
+    if (node.equals(focusNode)) {
+      startedAtFocus = true;
+      collectSubtree(node);
+      return true;
+    }
+    if (CopyTextUtils.isControl(node)) {
+      return false;
+    }
+    markTextAsSeen(node);
+    int childCount = node.getChildCount();
+    for (int i = 0; i < childCount; i++) {
+      if (collectFrom(node.getChild(i))) {
+        for (int next = i + 1; next < childCount && items.size() < MAX_ITEMS; next++) {
+          collectSubtree(node.getChild(next));
         }
+        return true;
       }
-      return;
     }
-    collectSubtree(node);
+    return false;
   }
 
   private void collectSubtree(AccessibilityNodeInfoCompat node) {
-    if (node == null || items.size() >= MAX_ITEMS) {
+    if (node == null || items.size() >= MAX_ITEMS || CopyTextUtils.isControl(node)) {
       return;
     }
     addText(node);
@@ -124,22 +132,52 @@ public class CopyMoreCollector {
   }
 
   private void addText(AccessibilityNodeInfoCompat node) {
-    if (node.isPassword()) {
-      return;
-    }
-    CharSequence text = node.getText();
-    if (TextUtils.isEmpty(text)) {
-      text = node.getContentDescription();
-    }
-    if (TextUtils.isEmpty(text)) {
-      return;
-    }
-    String value = text.toString().trim();
+    String value = CopyTextUtils.getNodeText(node);
     if (value.isEmpty() || seen.contains(value)) {
       return;
     }
     seen.add(value);
     items.add(value);
+  }
+
+  private void markTextAsSeen(AccessibilityNodeInfoCompat node) {
+    String value = CopyTextUtils.getNodeText(node);
+    if (!value.isEmpty()) {
+      seen.add(value);
+    }
+  }
+
+  private String createContentSnapshot(AccessibilityNodeInfoCompat node) {
+    StringBuilder snapshot = new StringBuilder();
+    appendContentSnapshot(node, snapshot);
+    return snapshot.toString();
+  }
+
+  private void appendContentSnapshot(AccessibilityNodeInfoCompat node, StringBuilder snapshot) {
+    if (node == null || CopyTextUtils.isControl(node) || node.isPassword()) {
+      return;
+    }
+    String text = CopyTextUtils.getNodeText(node);
+    if (!text.isEmpty()) {
+      Rect bounds = new Rect();
+      node.getBoundsInScreen(bounds);
+      snapshot
+          .append(text.length())
+          .append(':')
+          .append(text)
+          .append('@')
+          .append(bounds.left)
+          .append(',')
+          .append(bounds.top)
+          .append(',')
+          .append(bounds.right)
+          .append(',')
+          .append(bounds.bottom)
+          .append(';');
+    }
+    for (int i = 0; i < node.getChildCount(); i++) {
+      appendContentSnapshot(node.getChild(i), snapshot);
+    }
   }
 
   private @Nullable AccessibilityNodeInfoCompat findScrollableAncestor(

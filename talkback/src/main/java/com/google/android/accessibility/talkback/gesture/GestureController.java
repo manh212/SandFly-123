@@ -155,6 +155,7 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableMap;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -400,11 +401,9 @@ public class GestureController {
       result = dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_NEXT);
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_focused))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-      CharSequence text = node == null ? null : node.getText();
-      if (TextUtils.isEmpty(text) && node != null) {
-        text = node.getContentDescription();
-      }
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      List<String> textItems = CopyTextUtils.getTextItems(node);
+      CharSequence text = TextUtils.join("\n", textItems);
       result = !TextUtils.isEmpty(text) && ClipboardUtils.copyToClipboard(service, text);
       if (result) {
         speak(service.getString(R.string.template_text_copied, text));
@@ -491,8 +490,24 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_more))) {
       AccessibilityNodeInfoCompat node =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-      if (node == null) {
+      List<String> textItems = CopyTextUtils.getTextItems(node);
+      if (textItems.isEmpty()) {
         speak(service.getString(R.string.copy_more_nothing));
+        result = false;
+      } else {
+        result =
+            ClipboardUtils.appendToClipboard(service, TextUtils.join("\n", textItems));
+        if (result) {
+          speak(service.getString(R.string.copy_more_added, textItems.size()));
+        } else {
+          speak(service.getString(R.string.copy_more_nothing));
+        }
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_copy_full_screen))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      if (node == null) {
+        speak(service.getString(R.string.copy_full_screen_nothing));
         result = false;
       } else {
         result = true;
@@ -501,12 +516,12 @@ public class GestureController {
                 new CopyMoreCollector.Callback() {
                   @Override
                   public void onCopied(int count) {
-                    speak(service.getString(R.string.copy_more_done, count));
+                    speak(service.getString(R.string.copy_full_screen_done, count));
                   }
 
                   @Override
                   public void onNothing() {
-                    speak(service.getString(R.string.copy_more_nothing));
+                    speak(service.getString(R.string.copy_full_screen_nothing));
                   }
                 })
             .start(node);

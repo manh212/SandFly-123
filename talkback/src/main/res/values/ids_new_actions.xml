@@ -10,6 +10,7 @@
     <item name="monitor_focus_menu" type="id" />
     <item name="auto_translate_menu" type="id" />
     <item name="copy_more_menu" type="id" />
+    <item name="copy_full_screen_menu" type="id" />
     <item name="take_focus_screenshot_menu" type="id" />
     <item name="screen_recognition_menu" type="id" />
     <item name="task_assistant_menu" type="id" />

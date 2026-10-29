@@ -665,6 +665,14 @@ public class TalkbackMenuProcessor {
         node -> service.performCatalogAction(service.getString(R.string.shortcut_value_copy_more)));
     addAfterMenuCloses(
         menu,
+        R.id.copy_full_screen_menu,
+        28,
+        service.getString(R.string.shortcut_copy_full_screen),
+        node ->
+            service.performCatalogAction(
+                service.getString(R.string.shortcut_value_copy_full_screen)));
+    addAfterMenuCloses(
+        menu,
         R.id.take_focus_screenshot_menu,
         28,
         service.getString(R.string.shortcut_take_focus_screenshot),

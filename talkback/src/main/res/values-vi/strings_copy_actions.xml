@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="shortcut_copy_full_screen">Sao chép toàn bộ trang</string>
+  <string name="copy_more_added">Đã nối thêm %1$d mục vào bảng tạm</string>
+  <string name="copy_full_screen_nothing">Không có nội dung trang để sao chép</string>
+  <string name="copy_full_screen_done">Đã sao chép %1$d mục trên trang</string>
+</resources>
