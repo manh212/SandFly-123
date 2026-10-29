@@ -17,6 +17,8 @@ import org.robolectric.RobolectricTestRunner
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
+import org.robolectric.util.ReflectionHelpers
+import org.robolectric.util.ReflectionHelpers.ClassParameter
 import java.time.Duration
 
 @RunWith(RobolectricTestRunner::class)
@@ -28,6 +30,8 @@ class SubtitleControllerTest {
     override fun getRootInActiveWindow(): AccessibilityNodeInfo = AccessibilityNodeInfo.obtain().apply {
       packageName = foregroundPackage
       setBoundsInScreen(Rect(0, 0, 1000, 1000))
+      ReflectionHelpers.callInstanceMethod<Any>(
+        this, "setSealed", ClassParameter.from(Boolean::class.javaPrimitiveType, true))
     }
     override fun onAccessibilityEvent(event: AccessibilityEvent) {}
     override fun onInterrupt() {}
@@ -52,6 +56,7 @@ class SubtitleControllerTest {
     speaker = Speaker()
     controller = SubtitleController(service, { announcements += it }, speaker)
     controller.toggle()
+    assertTrue(get("active") as Boolean)
     set("quietUntil", 0L)
     handlerRemoveCaptures()
   }
