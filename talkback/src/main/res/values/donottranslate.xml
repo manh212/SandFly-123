@@ -984,6 +984,7 @@
         <item>@string/shortcut_system_quick_settings</item>
         <item>@string/shortcut_lock_screen</item>
         <item>@string/shortcut_power_menu</item>
+        <item>@string/shortcut_take_screenshot</item>
     </string-array>
 
     <!-- Shortcut preference value of system actions -->
@@ -997,7 +998,7 @@
         <item>@string/shortcut_value_system_quick_settings</item>
         <item>@string/shortcut_value_lock_screen</item>
         <item>@string/shortcut_value_power_menu</item>
-        <item>@string/shortcut_value_write_app_name</item>
+        <item>@string/shortcut_value_take_screenshot</item>
     </string-array>
 
     <!-- Shortcut preference of reading control -->

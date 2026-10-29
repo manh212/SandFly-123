@@ -19,7 +19,9 @@ package com.google.android.accessibility.talkback.clipboard;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.robolectric.Shadows.shadowOf;
 import android.app.AlertDialog;
+import android.os.Looper;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -98,6 +100,7 @@ public class ClipboardHistoryDialogTest {
     add.performClick();
     AlertDialog editor = ShadowAlertDialog.getLatestAlertDialog();
     editor.getButton(AlertDialog.BUTTON_NEGATIVE).performClick();
+    shadowOf(Looper.getMainLooper()).idle();
     assertFalse(editor.isShowing());
     Button cancel = findButton(parent.getWindow().getDecorView(),
         context.getString(R.string.text_collection_cancel));
