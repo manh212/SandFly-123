@@ -23,6 +23,7 @@ import android.util.Log
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.RequiresApi
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import com.google.android.accessibility.utils.LatencyExperiments
 import com.google.android.accessibility.utils.WebInterfaceUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.concurrent.ConcurrentHashMap
@@ -53,6 +54,10 @@ import kotlin.concurrent.withLock
  */
 object WindowNodePrefetcher {
   private const val TAG = "BacktalkPrefetch"
+
+  @Volatile private var enabled = true
+
+  @JvmStatic fun setEnabled(value: Boolean) { enabled = value }
 
   private const val THREADS = 8
 
@@ -106,7 +111,8 @@ object WindowNodePrefetcher {
   @JvmStatic
   fun prefetch(root: AccessibilityNodeInfoCompat, ownPackage: String) {
     if (
-      Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+      !enabled || LatencyExperiments.Feature.NONBLOCKING_PREFETCH.enabled() ||
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
         TextUtils.equals(root.packageName, ownPackage)
     ) {
       return
@@ -152,7 +158,7 @@ object WindowNodePrefetcher {
     ownPackage: String,
   ) {
     if (
-      Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
+      !enabled || Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU ||
         running.get() >= THREADS ||
         !backgroundRunning.compareAndSet(false, true)
     ) {

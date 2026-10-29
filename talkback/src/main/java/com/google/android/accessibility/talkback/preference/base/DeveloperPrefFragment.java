@@ -41,6 +41,8 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.report.DiagnosticsExport;
+import com.google.android.accessibility.talkback.report.LatencyMeasurementSession;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityMessageFormat;
 import com.google.android.accessibility.utils.FeatureSupport;
@@ -99,6 +101,20 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     // Remove preferences for features that are not supported by device.
     initTouchExplorationPreference();
     initLatencyPreparationPreferences();
+    Preference session = findPreference("pref_latency_start_session");
+    if (session != null) {
+      session.setOnPreferenceClickListener(preference -> {
+        executor.execute(() -> {
+          LogUtils.clearLogFiles();
+          mainHandler.post(() -> {
+            LatencyMeasurementSession.reset();
+            Toast.makeText(context, R.string.message_latency_session_started, Toast.LENGTH_SHORT).show();
+          });
+        });
+        return true;
+      });
+    }
+
 
     final @Nullable Preference prefVersion =
         findPreference(getString(R.string.pref_developer_version_code_key));
@@ -169,6 +185,10 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     final Runnable updatePreparationEnabled =
         () -> {
           boolean enabled = !disableLatencyExtras.isChecked();
+          for (String key : new String[] {"pref_latency_pcm_adjacent", "pref_latency_pcm_second"}) {
+            Preference option = findPreference(key);
+            if (option != null) option.setEnabled(enabled);
+          }
           if (prepareAdjacent != null) {
             prepareAdjacent.setEnabled(enabled);
           }
@@ -180,6 +200,10 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     disableLatencyExtras.setOnPreferenceChangeListener(
         (preference, newValue) -> {
           boolean enabled = !((Boolean) newValue);
+          for (String key : new String[] {"pref_latency_pcm_adjacent", "pref_latency_pcm_second"}) {
+            Preference option = findPreference(key);
+            if (option != null) option.setEnabled(enabled);
+          }
           if (prepareAdjacent != null) {
             prepareAdjacent.setEnabled(enabled);
           }
@@ -294,6 +318,10 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     executor.execute(
         () -> {
           boolean deleted = LogUtils.clearLogFiles();
+          if (SharedPreferencesUtils.getSharedPreferences(appContext)
+              .getBoolean(LatencyExperiments.Feature.RESET_SESSION.key, false)) {
+            mainHandler.post(LatencyMeasurementSession::reset);
+          }
           mainHandler.post(
               () ->
                   Toast.makeText(

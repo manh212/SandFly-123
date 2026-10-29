@@ -30,6 +30,8 @@ import android.os.Process
 import android.os.SystemClock
 import androidx.annotation.VisibleForTesting
 import com.google.android.libraries.accessibility.utils.log.LogUtils
+import com.google.android.accessibility.utils.LatencyExperiments
+import com.google.android.accessibility.utils.Performance
 import java.nio.ByteBuffer
 import java.util.ArrayDeque
 import java.util.concurrent.Executor
@@ -64,9 +66,19 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   private val clips = ArrayList<PlayingClip>()
   private val streams = ArrayDeque<SpeechStream>()
   private val startingStreams = ArrayList<SpeechStream>()
+  private val soundStartingStreams = ArrayList<SpeechStream>()
   private val gapCounts = LongArray(SpeechGapTracker.Kind.values().size)
   private val gapTotalMs = LongArray(SpeechGapTracker.Kind.values().size)
   private val gapMaxMs = LongArray(SpeechGapTracker.Kind.values().size)
+
+  fun resetGapStatistics() {
+    synchronized(lock) {
+      gapCounts.fill(0)
+      gapTotalMs.fill(0)
+      gapMaxMs.fill(0)
+      streams.forEach { it.gaps.reset() }
+    }
+  }
 
   private fun recordGap(gap: SpeechGapTracker.Gap?) {
     if (gap == null) return
@@ -246,6 +258,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     private val listener: StreamListener,
   ) {
     private var resampler: SincResampler? = null
+    private val decodeLock = Any()
+    private val convertOutsideLock = LatencyExperiments.Feature.AUDIO_RESAMPLE.enabled()
+    private var soundStarted = false
     private var inChannels = 1
     private var inRate = 0
     private var inFrames = 0L
@@ -294,34 +309,63 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     /** A piece of the engine's audio. */
     fun write(audio: ByteArray) {
       if (resampler == null || finished) return
+      val availableAt = SystemClock.uptimeMillis()
       val samples = AudioDecoder.FloatList()
       AudioDecoder.toFloats(ByteBuffer.wrap(audio), inEncoding, samples)
       val floats = samples.toArray()
-      synchronized(lock) {
-        lastActivity = SystemClock.uptimeMillis()
-        val resampler = resampler ?: return
-        if (finished) return
-        if (held && heldFrames() >= sampleRate * MAX_HELD_MS / 1000) {
-          // A long pause would otherwise keep all the speech the engine goes on making.
-          if (!holdFull) {
-            holdFull = true
-            LogUtils.w(TAG, "Held speech %s is full", id)
-            callbacks.execute { listener.onHoldFull(id) }
-          }
-          return
+      val hasSound = floats.any { it != 0f }
+      val firstSound = if (convertOutsideLock) {
+        synchronized(decodeLock) {
+          val converted = resampler?.let { toStereo(it.process(floats), inChannels) } ?: return
+          synchronized(lock) { appendDecoded(floats, converted, hasSound) }
         }
-        if (framesWritten - framesPlayed >= sampleRate * MAX_QUEUED_MS / 1000) {
-          // The engine makes speech as fast as it plays, so this much waiting means the track or
-          // the engine is not behaving. Say it the usual way rather than keep it all.
-          LogUtils.e(TAG, "Speech %s has too much audio waiting", id)
-          if (streams.remove(this)) abandon(playerFailed = false)
-          return
+      } else {
+        synchronized(lock) {
+          val current = resampler ?: return
+          if (finished) return
+          appendDecoded(floats, toStereo(current.process(floats), inChannels), hasSound)
         }
-        inFrames += floats.size / inChannels
-        if (!heardSound && floats.any { it != 0f }) heardSound = true
-        if (!heardSound && inRate > 0 && inFrames * 1000 / inRate >= SILENT_MS) reportSilent()
-        add(toStereo(resampler.process(floats), inChannels))
       }
+      if (firstSound) Performance.getInstance().onFirstSoundPcm(id, availableAt)
+    }
+
+    private fun appendDecoded(floats: FloatArray, converted: FloatArray, hasSound: Boolean): Boolean {
+      if (finished) return false
+      lastActivity = SystemClock.uptimeMillis()
+      if (held && heldFrames() >= sampleRate * MAX_HELD_MS / 1000) {
+        if (!holdFull) {
+          holdFull = true
+          callbacks.execute { listener.onHoldFull(id) }
+        }
+        return false
+      }
+      if (framesWritten - framesPlayed >= sampleRate * MAX_QUEUED_MS / 1000) {
+        if (streams.remove(this)) abandon(playerFailed = false)
+        return false
+      }
+      inFrames += floats.size / inChannels
+      val firstSound = !heardSound && hasSound
+      if (hasSound) heardSound = true
+      if (!heardSound && inRate > 0 && inFrames * 1000 / inRate >= SILENT_MS) reportSilent()
+      add(converted)
+      return firstSound
+    }
+
+    fun writePrepared(stereo: FloatArray) {
+      val availableAt = SystemClock.uptimeMillis()
+      val hasSound = stereo.any { it != 0f }
+      synchronized(lock) {
+        if (finished) return
+        inChannels = 2
+        inRate = sampleRate
+        inFrames = stereo.size.toLong() / 2
+        heardSound = hasSound
+        lastActivity = availableAt
+        add(stereo)
+        ended = true
+        wake()
+      }
+      if (hasSound) Performance.getInstance().onFirstSoundPcm(id, availableAt)
     }
 
     /**
@@ -345,6 +389,19 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
 
     /** The engine finished making the audio. */
     fun end() {
+      if (convertOutsideLock) {
+        synchronized(decodeLock) {
+          val tail = resampler?.let { toStereo(it.flush(), inChannels) }
+          synchronized(lock) {
+            if (finished) return
+            recordGap(gaps.close(SpeechGapTracker.Kind.TAIL, SystemClock.uptimeMillis()))
+            if (tail != null) add(tail)
+            ended = true
+            wake()
+          }
+        }
+        return
+      }
       synchronized(lock) {
         if (finished) return
         recordGap(gaps.close(SpeechGapTracker.Kind.TAIL, SystemClock.uptimeMillis()))
@@ -383,6 +440,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     /** Mixes this stream's next frames into [out], and returns whether it has more to play. */
     internal fun mixInto(out: FloatArray, frames: Int): Boolean {
       var written = 0
+      val traceOnset = LatencyExperiments.Feature.TRACE.enabled()
       while (written < frames && pending.isNotEmpty()) {
         val head = pending.peekFirst()!!
         val available = head.size / 2 - headOffset
@@ -390,6 +448,12 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
         val left = volume * minOf(1f, 1 - pan)
         val right = volume * minOf(1f, 1 + pan)
         for (i in 0 until count) {
+          if (traceOnset && !soundStarted &&
+            (head[(headOffset + i) * 2] * left != 0f ||
+              head[(headOffset + i) * 2 + 1] * right != 0f)) {
+            soundStarted = true
+            soundStartingStreams += this
+          }
           out[(written + i) * 2] += head[(headOffset + i) * 2] * left
           out[(written + i) * 2 + 1] += head[(headOffset + i) * 2 + 1] * right
         }
@@ -709,8 +773,10 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     while (true) {
       val output: AudioTrack
       val starts: List<SpeechStream>
+      val soundStarts: List<SpeechStream>
       synchronized(lock) {
         startingStreams.clear()
+        soundStartingStreams.clear()
         val current = track
         val idle = clips.isEmpty() && (streams.isEmpty() || held)
         if (released || broken || current == null || (idle && idleFrames >= idleLimit())) {
@@ -744,12 +810,16 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
         }
         primed = true
         starts = startingStreams.toList()
+        soundStarts = soundStartingStreams.toList()
         if (idle) idleFrames += burstFrames
       }
       if (!remakeTrack && play(output) && write(output, buffer)) {
         val submittedAt = SystemClock.uptimeMillis()
         for (stream in starts) {
           callbacks.execute { stream.reportAudioSubmitted(submittedAt) }
+        }
+        for (stream in soundStarts) {
+          callbacks.execute { Performance.getInstance().onFirstSoundSubmitted(stream.id, submittedAt) }
         }
         continue
       }
@@ -858,7 +928,8 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   }
 
   private fun idleLimit(): Int =
-    sampleRate * (if (microphoneInUse) MICROPHONE_IDLE_MS else IDLE_MS) / 1000
+    sampleRate * (if (microphoneInUse) MICROPHONE_IDLE_MS
+      else if (LatencyExperiments.Feature.AUDIO_KEEP_WARM.enabled()) 10_000 else IDLE_MS) / 1000
 
   /** Mixes the next burst of every sound and the speech stream at the head of the queue. */
   private fun mix(out: FloatArray) {

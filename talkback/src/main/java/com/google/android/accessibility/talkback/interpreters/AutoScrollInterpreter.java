@@ -35,6 +35,7 @@ import com.google.android.accessibility.talkback.actor.search.UniversalSearchAct
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter.ScrollEventHandler;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter.ScrollEventInterpretation;
@@ -87,6 +88,7 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
       ScrollActionRecord record = getUnhandledAutoScrollRecord();
       if (record == null) return;
       Performance.getInstance().linkFeedbackEvent(eventId, record.originEventId);
+      Performance.getInstance().onNavigationStage(record.originEventId, "SCROLL_READY");
       autoScrollHandler.prepareScroll(
           record.scrollInstanceId, ScrollActionRecord.FOCUS.equals(record.scrollSource));
 
@@ -109,7 +111,9 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
             eventId,
             AccessibilityEventUtils.getScrollDeltaX(event),
             AccessibilityEventUtils.getScrollDeltaY(event),
-            TIMEOUT_MS_HANDLE_SCROLL_BY_GESTURE);
+            LatencyExperiments.Feature.FAST_SCROLL.enabled()
+                && ScrollActionRecord.FOCUS.equals(record.scrollSource)
+                ? (checker == null ? 0 : 16) : TIMEOUT_MS_HANDLE_SCROLL_BY_GESTURE);
       }
     }
   }

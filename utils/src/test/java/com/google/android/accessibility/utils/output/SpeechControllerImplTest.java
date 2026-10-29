@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import android.content.Context;
 import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -121,6 +122,7 @@ public class SpeechControllerImplTest {
 
   @After
   public void tearDown() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.IMMEDIATE_SPEECH, false);
     setAlwaysInterruptPreference(false);
     SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = true;
     SpeechControllerImpl.windowFocusSpeechInterruptsAnnouncements = true;
@@ -489,5 +491,39 @@ public class SpeechControllerImplTest {
     assertEquals(List.of("copied, hello world"), failoverTts.spokenTexts);
     assertEquals(List.of("hello world"), LastSpokenTextHolder.getSpokenHistory());
     assertEquals("hello world", LastSpokenTextHolder.getLastSpokenText());
+  }
+  private EventId trackedNavigation() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.IMMEDIATE_SPEECH, true);
+    EventId event = Performance.getInstance().onGestureEventReceived(1);
+    Performance.getInstance().onNavigationActionStarted(event);
+    return event;
+  }
+
+  @Test
+  public void immediateNavigationClearsOldNoncriticalQueuedAnnouncements() {
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = false;
+    speakAnnouncement(speechController, "current announcement");
+    speakAnnouncement(speechController, "older queued announcement");
+    speechController.speak("navigation", SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0, null, trackedNavigation());
+    assertEquals(List.of("current announcement", "navigation"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void immediateNavigationPreservesGloballyUninterruptibleSpeech() {
+    speak(speechController, "critical utterance", SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED);
+    speechController.speak("navigation", SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0, null, trackedNavigation());
+    assertEquals(List.of("critical utterance"), failoverTts.spokenTexts);
+  }
+
+  @Test
+  public void immediateNavigationPreservesWaitCapExemptSpeech() {
+    speechController.speak("protected utterance", SpeechController.QUEUE_MODE_UNINTERRUPTIBLE_BY_NEW_SPEECH,
+        FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP, null, Performance.EVENT_ID_UNTRACKED);
+    SpeechControllerImpl.navigationSpeechInterruptsAnnouncements = false;
+    speechController.speak("navigation", SpeechController.QUEUE_MODE_FLUSH_ALL,
+        0, null, trackedNavigation());
+    assertEquals(List.of("protected utterance"), failoverTts.spokenTexts);
   }
 }

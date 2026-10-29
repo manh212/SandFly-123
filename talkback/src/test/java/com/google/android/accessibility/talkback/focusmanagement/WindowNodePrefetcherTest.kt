@@ -26,6 +26,8 @@ import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Assert.fail
 import org.junit.Test
+import org.junit.After
+import com.google.android.accessibility.utils.LatencyExperiments
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -44,6 +46,32 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class WindowNodePrefetcherTest {
+
+  @After
+  fun restorePrefetchOptions() {
+    WindowNodePrefetcher.setEnabled(true)
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.NONBLOCKING_PREFETCH, false)
+  }
+
+  @Test
+  fun disabledPrefetchDoesNotResolveABackgroundRoot() {
+    WindowNodePrefetcher.setEnabled(false)
+    WindowNodePrefetcher.prefetchInBackground(WINDOW_ID,
+      { throw AssertionError("Disabled prefetch resolved a root") }, OWN_PACKAGE)
+    WindowNodePrefetcher.prefetch(unreadableRoot(), OWN_PACKAGE)
+  }
+
+  @Test
+  fun nonblockingModeNeverReadsTheRootOnTheNavigationThread() {
+    WindowNodePrefetcher.setEnabled(true)
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.NONBLOCKING_PREFETCH, true)
+    WindowNodePrefetcher.prefetch(unreadableRoot(), OWN_PACKAGE)
+  }
+
+  private fun unreadableRoot(): AccessibilityNodeInfoCompat =
+    object : AccessibilityNodeInfoCompat(AccessibilityNodeInfo.obtain()) {
+      override fun getPackageName(): CharSequence = throw AssertionError("Synchronous root read")
+    }
 
   private class RecordingRoot(info: AccessibilityNodeInfo) : AccessibilityNodeInfoCompat(info) {
     @Volatile var recycled = false

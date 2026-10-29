@@ -9,6 +9,7 @@ import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.Performance.EventId;
 import java.util.concurrent.atomic.AtomicLong;
 import org.junit.Test;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -93,5 +94,53 @@ public class NavigationLatencyTest {
     assertEquals(500, performance.getStatistics(
         AccessibilityEventUtils.typeToString(event.getEventType()), Performance.STAGE_INLINE_HANDLING).getMean());
     event.recycle();
+  }
+  @After
+  public void resetExperiments() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.TRACE, false);
+  }
+
+  @Test
+  public void traceReportsAllOutcomesAndBudgetsWithoutDroppingSlowSamples() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.TRACE, true);
+    latency.start(gesture);
+    latency.motionEnd(gesture, 990);
+    latency.queued(gesture, "first");
+    latency.audio("first#chunk0", NavigationLatency.Stage.FIRST_PCM, 1051);
+    latency.audio("first#chunk0", NavigationLatency.Stage.AUDIO_SUBMITTED, 1060);
+    latency.interrupted("first");
+    EventId cancelled = new EventId(1100, Performance.EVENT_TYPE_GESTURE,
+        AccessibilityService.GESTURE_SWIPE_RIGHT);
+    latency.start(cancelled);
+    latency.queued(cancelled, "cancelled");
+    latency.interrupted("cancelled");
+    EventId pending = new EventId(1200, Performance.EVENT_TYPE_GESTURE,
+        AccessibilityService.GESTURE_SWIPE_RIGHT);
+    latency.start(pending);
+    now.set(3000);
+    String output = report();
+    assertTrue(output.contains("max=51 ms, over20=1, over50=1"));
+    assertTrue(output.contains("outcome=interrupted_after_audio"));
+    assertTrue(output.contains("outcome=interrupted_before_audio"));
+    assertTrue(output.contains("outcome=pending overdue=true"));
+    assertTrue(output.contains("input_to_callback_ms=10"));
+    latency.reset();
+    output = report();
+    assertTrue(output.contains("Measurement session uptime: 3000"));
+    assertFalse(output.contains("gesture_uptime="));
+    assertFalse(output.contains("FIRST_PCM"));
+  }
+
+  @Test
+  public void onlyNavigationActionsAndTheirLinkedEventsGetImmediateSpeechPriority() {
+    latency.start(gesture);
+    assertFalse(latency.hasNavigation(gesture));
+    latency.navigationAction(gesture);
+    EventId focus = new EventId(1100, Performance.EVENT_TYPE_ACCESSIBILITY,
+        AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+    latency.link(focus, gesture);
+    assertTrue(latency.hasNavigation(focus));
+    assertFalse(latency.hasNavigation(new EventId(1100, Performance.EVENT_TYPE_ACCESSIBILITY,
+        AccessibilityEvent.TYPE_ANNOUNCEMENT)));
   }
 }

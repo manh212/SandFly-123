@@ -26,6 +26,9 @@ import android.widget.Toast;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.report.DiagnosticsExport;
+import com.google.android.accessibility.talkback.report.LatencyMeasurementSession;
+import com.google.android.accessibility.utils.LatencyExperiments;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -126,6 +129,10 @@ public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
     executor.execute(
         () -> {
           boolean deleted = LogUtils.clearLogFiles();
+          if (SharedPreferencesUtils.getSharedPreferences(context)
+              .getBoolean(LatencyExperiments.Feature.RESET_SESSION.key, false)) {
+            mainHandler.post(LatencyMeasurementSession::reset);
+          }
           mainHandler.post(
               () ->
                   Toast.makeText(

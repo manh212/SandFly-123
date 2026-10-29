@@ -244,6 +244,7 @@ public class ReorderedChildrenIterator implements Iterator<AccessibilityNodeInfo
   private void fillNodesFromParent() {
     int count = parent.getChildCount();
     for (int i = 0; i < count; i++) {
+      TraversalBudget.check();
       AccessibilityNodeInfoCompat node = parent.getChild(i);
       if (node != null) {
         nodes.add(node);

@@ -25,7 +25,10 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.function.IntConsumer
+import java.util.concurrent.atomic.AtomicLong
 import com.google.android.accessibility.utils.Statistics
+import com.google.android.accessibility.utils.LatencyExperiments
+import com.google.android.accessibility.utils.WindowCachePolicy
 
 /**
  * Keeps the reading order of the window that the user last swiped in, so that swiping through a
@@ -93,6 +96,12 @@ object TraversalTreeCache {
 
   private const val NO_WINDOW_ID = -1
 
+  private val revisionCounter = AtomicLong()
+  @Volatile private var buildingWindowId = NO_WINDOW_ID
+
+  @JvmStatic fun revision(): Long = revisionCounter.get()
+  @JvmStatic fun setBuildingWindow(windowId: Int) { buildingWindowId = windowId }
+
   private var root: AccessibilityNodeInfoCompat? = null
   private var strategy: OrderedTraversalStrategy? = null
 
@@ -105,6 +114,8 @@ object TraversalTreeCache {
   @Volatile private var orderClearedListener: IntConsumer? = null
 
   private var lastClearReason = "start"
+  private var clearedWindowId = NO_WINDOW_ID
+  @JvmStatic fun lastClearedWindowId(): Int = clearedWindowId
   private var firstIgnoredChangeTime = 0L
   private var hits = 0
   private var misses = 0
@@ -394,10 +405,12 @@ object TraversalTreeCache {
   }
 
   private fun clear(reason: String, notifyListener: Boolean) {
+    revisionCounter.incrementAndGet()
     if (strategy == null) {
       return
     }
     val windowId = root?.windowId ?: NO_WINDOW_ID
+    clearedWindowId = windowId
     root = null
     strategy = null
     firstIgnoredChangeTime = 0L
@@ -424,15 +437,27 @@ object TraversalTreeCache {
   @JvmStatic
   fun changesNodes(actionId: Int): Boolean = actionId !in FOCUS_ACTIONS && actionId != SHOW_ON_SCREEN
 
+  @JvmStatic
+  fun noteDeferredEvent(event: AccessibilityEvent) {
+    val saved = root ?: return
+    if (event.windowId >= 0 && event.windowId != saved.windowId) return
+    if (WindowCachePolicy.isNonStructuralContent(event)) {
+      noteGracedChange(event.windowId, null)
+    }
+  }
+
   /** Throws away the saved order if [event] can change its window. Returns whether it did. */
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
-    val savedRoot = root ?: return false
     val type = event.eventType
-    if (type and IGNORED_EVENT_TYPES != 0) {
-      return false
-    }
+    if (type and IGNORED_EVENT_TYPES != 0) return false
+    val trackedWindow = root?.windowId ?: buildingWindowId
+    if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() ||
+      WindowCachePolicy.affectsOrder(event, trackedWindow)) revisionCounter.incrementAndGet()
+    val savedRoot = root ?: return false
     val windowId = event.windowId
+    if (LatencyExperiments.Feature.SCOPED_CACHE.enabled() &&
+      !WindowCachePolicy.affectsOrder(event, savedRoot.windowId)) return false
     if (
       type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
         type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||

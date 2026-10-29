@@ -6,6 +6,9 @@ import android.os.Looper;
 import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 import java.util.function.Predicate;
+import java.util.function.Consumer;
+import com.google.android.accessibility.utils.LatencyExperiments;
+import com.google.android.accessibility.utils.WindowCachePolicy;
 
 public final class BackgroundEventGate {
   public interface Receiver {
@@ -19,6 +22,7 @@ public final class BackgroundEventGate {
   private final Handler handler = new Handler(Looper.getMainLooper());
   private final Receiver receiver;
   private final Predicate<AccessibilityEvent> inputResponse;
+  private final Consumer<AccessibilityEvent> deferredInvalidation;
   private final Runnable releasePending = this::releasePending;
   private boolean enabled;
   private boolean touching;
@@ -35,8 +39,14 @@ public final class BackgroundEventGate {
   }
 
   public BackgroundEventGate(Receiver receiver, Predicate<AccessibilityEvent> inputResponse) {
+    this(receiver, inputResponse, event -> {});
+  }
+
+  public BackgroundEventGate(Receiver receiver, Predicate<AccessibilityEvent> inputResponse,
+      Consumer<AccessibilityEvent> deferredInvalidation) {
     this.receiver = receiver;
     this.inputResponse = inputResponse;
+    this.deferredInvalidation = deferredInvalidation;
   }
 
   public void setProcessingLevel(String level) {
@@ -76,11 +86,14 @@ public final class BackgroundEventGate {
         || type == AccessibilityEvent.TYPE_VIEW_CLICKED
         || (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
             && event.getPackageName() != null
-            && !"com.android.systemui".contentEquals(event.getPackageName()))) {
+            && !"com.android.systemui".contentEquals(event.getPackageName())
+            && (!LatencyExperiments.Feature.SCOPED_CACHE.enabled()
+                || interactionWindowId < 0 || interactionWindowId == event.getWindowId()))) {
       interactionWindowId = event.getWindowId();
       interactionPackage = event.getPackageName() == null ? null : event.getPackageName().toString();
     }
-    if (!enabled || !isBackgroundUpdate(event)) {
+    if ((!enabled && !LatencyExperiments.Feature.INPUT_PRIORITY.enabled())
+        || !isBackgroundUpdate(event)) {
       EventProcessingStats.admitted(event, 0);
       return true;
     }
@@ -88,6 +101,7 @@ public final class BackgroundEventGate {
       EventProcessingStats.coalesced(pending);
       pending.recycle();
     }
+    if (LatencyExperiments.Feature.INPUT_PRIORITY.enabled()) deferredInvalidation.accept(event);
     pending = AccessibilityEvent.obtain(event);
     pendingSince = receivedAt;
     EventProcessingStats.deferred(event);
@@ -119,6 +133,9 @@ public final class BackgroundEventGate {
         return false;
       }
     }
+    if (LatencyExperiments.Feature.INPUT_PRIORITY.enabled()
+        && WindowCachePolicy.isNonStructuralContent(event)
+        && (touching || SystemClock.uptimeMillis() - lastInput < INPUT_GRACE_MS)) return true;
     CharSequence sourcePackage = event.getPackageName();
     boolean background;
     if (sourcePackage != null && "com.android.systemui".contentEquals(sourcePackage)
@@ -155,7 +172,8 @@ public final class BackgroundEventGate {
     pending = null;
     lastDispatch = SystemClock.uptimeMillis();
     try {
-      if (interactionWindowId >= 0 && event.getWindowId() == interactionWindowId) {
+      if (interactionWindowId >= 0 && event.getWindowId() == interactionWindowId
+          && !LatencyExperiments.Feature.INPUT_PRIORITY.enabled()) {
         EventProcessingStats.dropped(event);
         return;
       }

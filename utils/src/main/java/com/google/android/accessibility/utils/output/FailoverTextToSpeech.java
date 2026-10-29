@@ -63,6 +63,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.ChangeLocaleAction;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -160,6 +161,7 @@ public class FailoverTextToSpeech {
    * @param voice The voice to set.
    */
   public void setVoice(Voice voice) {
+    if (navigationPcmCache != null) navigationPcmCache.invalidate();
     if (isReady()) {
       synchronized (ttsLock) {
         tts.setVoice(voice);
@@ -231,6 +233,8 @@ public class FailoverTextToSpeech {
 
   /** The TTS engine. */
   private TextToSpeech tts;
+  private @Nullable NavigationPcmCache navigationPcmCache;
+  private final Set<String> preparedAudioUtterances = ConcurrentHashMap.newKeySet();
 
   /** The engine loaded into the current TTS. */
   private String ttsEngine;
@@ -1004,6 +1008,9 @@ public class FailoverTextToSpeech {
    * made to this object after calling this method.
    */
   public void shutdown() {
+    if (navigationPcmCache != null) navigationPcmCache.shutdown();
+    navigationPcmCache = null;
+    LatencyExperiments.setInputListener(null);
     // The player outlives this engine, so speech it holds or waits for must not block the next.
     releaseLowLatencyAudio();
     allowDeviceSleep();
@@ -1307,6 +1314,7 @@ public class FailoverTextToSpeech {
     VoiceProfile previous = VoiceProfiles.active();
     VoiceProfile profile = VoiceProfiles.readActive(prefs);
     VoiceProfiles.setActive(profile);
+    if (navigationPcmCache != null) navigationPcmCache.invalidate();
     if (profile == null ? previous == null : profile.sameVoiceAs(previous)) {
       return;
     }
@@ -1641,6 +1649,51 @@ public class FailoverTextToSpeech {
     return TextToSpeech.SUCCESS;
   }
 
+  public void refreshNavigationCache() {
+    if (navigationPcmCache == null) return;
+    if (LatencyExperiments.preparePcm()) navigationPcmCache.invalidate();
+    else {
+      navigationPcmCache.shutdown();
+      navigationPcmCache = null;
+      LatencyExperiments.setInputListener(null);
+    }
+  }
+
+  public String navigationCacheSummary() {
+    String state = !LatencyExperiments.preparePcm() ? "disabled by settings"
+        : VoiceProfiles.isProfileActive() ? "unavailable for voice profiles"
+        : lowLatencyPlayer() == null ? "requires local audio playback"
+        : navigationPcmCache == null ? "waiting for eligible preparation" : "active";
+    return "Navigation PCM availability: " + state + "\n"
+        + (navigationPcmCache == null ? "Navigation PCM cache: inactive" : navigationPcmCache.summary());
+  }
+
+  void prepareNavigationPcm(CharSequence text, @Nullable Locale locale, float pitch,
+      float rate, boolean absoluteRate) {
+    if (!LatencyExperiments.preparePcm() || !isReady() || VoiceProfiles.isProfileActive()
+        || TextUtils.isEmpty(text) || ttsEngine == null) return;
+    if (text instanceof android.text.Spanned spanned
+        && spanned.getSpans(0, text.length(), TtsSpan.class).length > 0) return;
+    LowLatencyAudio player = lowLatencyPlayer();
+    if (player == null) return;
+    if (navigationPcmCache == null) {
+      navigationPcmCache = new NavigationPcmCache(context);
+      LatencyExperiments.setInputListener(navigationPcmCache::cancelPreparation);
+    }
+    Locale spokenLocale = locale == null ? getUsedLocale() : locale;
+    if (spokenLocale == null) return;
+    Bundle params = new Bundle();
+    params.putInt(SpeechParam.PITCH, (int) (pitch * defaultPitch * 100));
+    params.putInt(SpeechParam.RATE, (int) ((absoluteRate ? rate : rate * defaultRate) * 100));
+    List<Integer> starts = speaksInPhrases()
+        ? SpeechChunker.chunkStarts(text, spokenLocale) : Collections.singletonList(0);
+    for (int i = 0; i < Math.min(starts.size(), 4); i++) {
+      int end = i + 1 < starts.size() ? starts.get(i + 1) : text.length();
+      navigationPcmCache.prepare(tts, ttsEngine, text.subSequence(starts.get(i), end),
+          spokenLocale, params, player.getSampleRate());
+    }
+  }
+
   /**
    * Speaks text with the engine, through {@link LowLatencyAudio} if the setting is on and it can.
    * Then the engine synthesizes the speech and Backtalk plays it, so that it reaches the speaker
@@ -1651,6 +1704,33 @@ public class FailoverTextToSpeech {
     @Nullable LowLatencyAudio player = lowLatencyPlayer();
     if (player == null || utteranceId == null || TextUtils.isEmpty(text)) {
       return tts.speak(text, queueMode, bundle, utteranceId);
+    }
+    NavigationPcmCache cache = navigationPcmCache;
+    if (cache != null && ttsEngine != null && LatencyExperiments.preparePcm() && !VoiceProfiles.isProfileActive()
+        && (!(text instanceof android.text.Spanned spanned)
+            || spanned.getSpans(0, text.length(), TtsSpan.class).length == 0)) {
+      float[] prepared = cache.find(text, ttsEngine, getUsedLocale(), bundle, player.getSampleRate());
+      Performance.getInstance().onNavigationPcmCacheResult(utteranceId, prepared != null);
+      cache.cancelPreparation();
+      if (prepared != null) {
+        if (queueMode != QUEUE_ADD) LowLatencyAudio.stopAllStreams();
+        LowLatencyAudio.SpeechStream stream = player.openStream(utteranceId,
+            floatParam(bundle, SpeechParam.VOLUME, 1f),
+            floatParam(bundle, Engine.KEY_PARAM_PAN, 0f), lowLatencyListener);
+        lowLatencyStreams.put(utteranceId, stream);
+        lowLatencyRequests.put(utteranceId, Pair.create(text, bundle));
+        Performance.getInstance().onFeedbackAudioAvailable(utteranceId, SystemClock.uptimeMillis());
+        preparedAudioUtterances.add(utteranceId);
+        stream.writePrepared(prepared);
+        if (queueMode != QUEUE_ADD) {
+          engineQuietSince = 0;
+          engineQuietUtteranceId = null;
+          mHandler.removeCallbacks(checkEngineHang);
+          unfinishedUtterances.clear();
+          tts.speak("", SPEECH_FLUSH_ALL, null, null);
+        }
+        return TextToSpeech.SUCCESS;
+      }
     }
     watchForEngineHang(queueMode, utteranceId);
     if (queueMode != QUEUE_ADD) {
@@ -1911,6 +1991,7 @@ public class FailoverTextToSpeech {
     heldUtteranceId = null;
     heldPlayer = null;
     lowLatencyStreams.clear();
+    preparedAudioUtterances.clear();
     lowLatencyRequests.clear();
     respokenUtterances.clear();
     mHandler.removeCallbacks(checkEngineHang);
@@ -1955,6 +2036,7 @@ public class FailoverTextToSpeech {
 
         @Override
         public void onFinished(String id, boolean completed) {
+          if (preparedAudioUtterances.remove(id)) lowLatencyStreams.remove(id);
           lowLatencyRequests.remove(id);
           if (completed) {
             utteranceProgressCallback.onDone(id);
@@ -2085,6 +2167,7 @@ public class FailoverTextToSpeech {
     heldUtteranceId = null;
     heldPlayer = null;
     lowLatencyStreams.clear();
+    preparedAudioUtterances.clear();
     LowLatencyAudio.stopAllStreams();
     lowLatencyRequests.clear();
     respokenUtterances.clear();
@@ -2118,6 +2201,7 @@ public class FailoverTextToSpeech {
       stream.discard();
     }
     lowLatencyStreams.remove(utteranceId);
+    preparedAudioUtterances.remove(utteranceId);
     if (engineAtFault) {
       stopUsingLowLatencyAudio(stream == null ? "no audio in time" : "engine error");
     } else {
@@ -2496,6 +2580,7 @@ public class FailoverTextToSpeech {
     heldUtteranceId = null;
     heldPlayer = null;
     lowLatencyStreams.clear();
+    preparedAudioUtterances.clear();
     lowLatencyRequests.clear();
     respokenUtterances.clear();
     LowLatencyAudio.stopAllStreams();
@@ -2506,6 +2591,7 @@ public class FailoverTextToSpeech {
     tts = newTts;
     tts.setOnUtteranceProgressListener(lowLatencyRouter);
 
+    if (navigationPcmCache != null) navigationPcmCache.invalidate();
     if (engine == null) {
       ttsEngine = TextToSpeechCompatUtils.getCurrentEngine(tts);
     } else {
@@ -2967,6 +3053,7 @@ public class FailoverTextToSpeech {
       LogUtils.w(TAG, "Cannot set null locale.");
       return null;
     }
+    if (navigationPcmCache != null && !locale.equals(cachedTtsLocale)) navigationPcmCache.invalidate();
     if (tts == null) {
       LogUtils.e(TAG, "mTts null when setting locale.");
       return null;

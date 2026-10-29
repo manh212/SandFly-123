@@ -16,6 +16,7 @@
 
 package com.google.android.libraries.accessibility.utils.log;
 
+import com.google.android.accessibility.utils.LatencyExperiments;
 import android.content.Context;
 import android.util.Log;
 import androidx.annotation.WorkerThread;
@@ -255,6 +256,12 @@ public class LogUtils {
       @Nullable String format,
       @Nullable Object... args) {
     if (!debugLogEnabled) {
+      return;
+    }
+    if (priority <= Log.DEBUG && LatencyExperiments.Feature.LIGHT_LOGGING.enabled()
+        && LatencyExperiments.inputIsActive(250)
+        && !tag.equals("GestureController") && !tag.equals("Performance")
+        && !tag.equals("LatencyTrace") && !tag.equals("BacktalkStall")) {
       return;
     }
 

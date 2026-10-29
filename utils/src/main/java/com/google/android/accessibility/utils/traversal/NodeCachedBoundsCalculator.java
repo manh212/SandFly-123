@@ -47,6 +47,7 @@ public class NodeCachedBoundsCalculator {
   }
 
   public @Nullable Rect getBounds(AccessibilityNodeInfoCompat node) {
+    TraversalBudget.check();
     Rect bounds = getBoundsInternal(node);
     if (bounds.equals(EMPTY_RECT)) {
       return null;

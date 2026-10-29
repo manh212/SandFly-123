@@ -30,6 +30,7 @@ public final class Statistics {
   private long count;
   private long sum;
   private long sumSquares;
+  private long maximum;
   private final Queue<Long> rawData;
 
   /** Bin start value = 2^(index-1) , except index=0 holds bin start value=0. */
@@ -45,6 +46,7 @@ public final class Statistics {
     count = 0;
     sum = 0;
     sumSquares = 0;
+    maximum = 0;
     histogram.clear();
     rawData.clear();
   }
@@ -58,6 +60,7 @@ public final class Statistics {
     ++count;
     sum += value;
     sumSquares += value * value;
+    maximum = Math.max(maximum, value);
 
     // Ensure histogram is big enough to hold this value.
     int binIndex = valueToHistogramBin(value);
@@ -79,6 +82,22 @@ public final class Statistics {
 
   public long getCount() {
     return count;
+  }
+
+  public synchronized long getMaximum() {
+    return maximum;
+  }
+
+  public synchronized Statistics snapshot() {
+    Statistics copy = new Statistics();
+    copy.numMissing = numMissing;
+    copy.count = count;
+    copy.sum = sum;
+    copy.sumSquares = sumSquares;
+    copy.maximum = maximum;
+    copy.rawData.addAll(rawData);
+    for (AtomicLong bin : histogram) copy.histogram.add(new AtomicLong(bin.get()));
+    return copy;
   }
 
   public long getMean() {

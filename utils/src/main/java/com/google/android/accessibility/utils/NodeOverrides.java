@@ -17,6 +17,8 @@
 package com.google.android.accessibility.utils;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.utils.traversal.TraversalBudget;
+import java.util.concurrent.CancellationException;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 public final class NodeOverrides {
@@ -50,32 +52,44 @@ public final class NodeOverrides {
   }
 
   static @Nullable Integer role(AccessibilityNodeInfoCompat node) {
-    Source current = source;
+    Source current = currentSource();
     return current == null ? null : current.role(node);
   }
 
   static @Nullable CharSequence state(AccessibilityNodeInfoCompat node) {
-    Source current = source;
+    Source current = currentSource();
     return current == null ? null : current.state(node);
   }
 
   static boolean hidden(AccessibilityNodeInfoCompat node) {
-    Source current = source;
+    Source current = currentSource();
     return current != null && current.hidden(node);
   }
 
   static @Nullable Boolean heading(AccessibilityNodeInfoCompat node) {
-    Source current = source;
+    Source current = currentSource();
     return current == null ? null : current.heading(node);
   }
 
   static boolean grouped(AccessibilityNodeInfoCompat node) {
-    Source current = source;
+    Source current = currentSource();
     return current != null && current.grouped(node);
   }
 
-  public static @Nullable Order order(AccessibilityNodeInfoCompat node) {
+  private static @Nullable Source currentSource() {
     Source current = source;
+    if (current != null && TraversalBudget.isActive()) {
+      throw new CancellationException("Script overrides require foreground traversal");
+    }
+    return current;
+  }
+
+  public static boolean hasSource() {
+    return source != null;
+  }
+
+  public static @Nullable Order order(AccessibilityNodeInfoCompat node) {
+    Source current = currentSource();
     return current == null ? null : current.order(node);
   }
 }

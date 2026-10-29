@@ -23,6 +23,7 @@ import com.google.android.accessibility.talkback.compositor.Compositor;
 import com.google.android.accessibility.talkback.compositor.EventFilter;
 import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
@@ -129,7 +130,8 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
      * backlog. The rest of the queue is handled in a later message, after the ones already waiting.
      */
     private void processAllEvents(ProcessorEventQueue parent) {
-      long sliceEnd = SystemClock.uptimeMillis() + EventQueue.processingSliceMs();
+      long sliceEnd = SystemClock.uptimeMillis()
+          + (LatencyExperiments.Feature.INPUT_PRIORITY.enabled() ? 2 : EventQueue.processingSliceMs());
       while (true) {
         final AccessibilityEvent event;
 

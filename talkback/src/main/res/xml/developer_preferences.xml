@@ -54,6 +54,90 @@
       android:key="pref_event_processing_level"
       android:title="@string/title_pref_event_processing_level"
       android:summary="@string/summary_pref_event_processing_level" />
+  <PreferenceCategory
+      android:key="pref_latency_experiment_category"
+      android:title="@string/title_latency_experiment_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_latency_start_session"
+        android:title="@string/title_latency_start_session" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_trace"
+        android:title="@string/title_latency_trace" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_reset_session"
+        android:title="@string/title_latency_reset_session" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_stall_capture"
+        android:title="@string/title_latency_stall_capture" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_light_logging"
+        android:title="@string/title_latency_light_logging" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_nonblocking_prefetch"
+        android:title="@string/title_latency_nonblocking_prefetch" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_async_order"
+        android:dependency="pref_order_cache"
+        android:title="@string/title_latency_async_order" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_scoped_cache"
+        android:title="@string/title_latency_scoped_cache" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_input_priority"
+        android:title="@string/title_latency_input_priority" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_toast_filter"
+        android:title="@string/title_latency_toast_filter" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_early_controls"
+        android:title="@string/title_latency_early_controls" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_cached_text"
+        android:title="@string/title_latency_cached_text" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_fresh_prepared"
+        android:title="@string/title_latency_fresh_prepared" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_pcm_adjacent"
+        android:title="@string/title_latency_pcm_adjacent" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_pcm_second"
+        android:title="@string/title_latency_pcm_second" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_immediate_speech"
+        android:title="@string/title_latency_immediate_speech" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_fast_scroll"
+        android:title="@string/title_latency_fast_scroll" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_live_edge_reuse"
+        android:title="@string/title_latency_live_edge_reuse" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_audio_resample"
+        android:title="@string/title_latency_audio_resample" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_latency_audio_keep_warm"
+        android:title="@string/title_latency_audio_keep_warm" />
+  </PreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="@bool/pref_tts_overlay_default"
       android:key="@string/pref_tts_overlay_key"

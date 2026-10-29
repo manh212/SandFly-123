@@ -98,6 +98,9 @@ import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.NodeActionFilter;
+import com.google.android.accessibility.utils.NodeOverrides;
+import com.google.android.accessibility.utils.LatencyExperiments;
+import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.Role.RoleName;
@@ -125,6 +128,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.HashMap;
+import java.util.ArrayDeque;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -193,6 +197,24 @@ public class FocusProcessorForLogicalNavigation {
 
   // Checks whether a page scroll has already moved the list, before its scroll event arrives.
   private final Handler earlyScrollCheckHandler = new Handler(Looper.getMainLooper());
+  private final ArrayDeque<PendingNavigation> orderQueue = new ArrayDeque<>();
+  private boolean orderPending;
+  private boolean resumingOrder;
+  private record PendingNavigation(NavigationAction action, EventId eventId) {}
+
+  private void drainOrderQueue() {
+    if (orderPending || orderQueue.isEmpty()) return;
+    PendingNavigation next = orderQueue.removeFirst();
+    onNavigationAction(next.action(), next.eventId());
+    if (!orderPending && !orderQueue.isEmpty()) earlyScrollCheckHandler.post(this::drainOrderQueue);
+  }
+
+  private void cancelOrderQueue() {
+    while (!orderQueue.isEmpty()) {
+      Performance.getInstance().onNavigationFailed(orderQueue.removeFirst().eventId(), "cancelled_order");
+    }
+  }
+
 
   // Target to put focus on on the next window navigation action
   private @Nullable AccessibilityNodeInfoCompat stealWindowNavigationTarget = null;
@@ -242,6 +264,17 @@ public class FocusProcessorForLogicalNavigation {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   // Methods
   public boolean onNavigationAction(NavigationAction navigationAction, EventId eventId) {
+    Performance.getInstance().onNavigationActionStarted(eventId);
+    if (orderPending) {
+      if (orderQueue.size() >= 256) {
+        Performance.getInstance().onNavigationFailed(eventId, "order_queue_full");
+        return false;
+      }
+      orderQueue.addLast(new PendingNavigation(navigationAction, eventId));
+      Performance.getInstance().onNavigationDetail(eventId, "order_queue_depth", orderQueue.size());
+      return true;
+    }
+
     if (navigationAction == null || navigationAction.actionType == NavigationAction.UNKNOWN) {
       LogUtils.w(TAG, "Cannot perform navigation action: action type undefined.");
       return false;
@@ -249,13 +282,17 @@ public class FocusProcessorForLogicalNavigation {
     if (navigationAction.actionType == NavigationAction.DIRECTIONAL_NAVIGATION) {
       TraversalTreeCache.noteNavigationActivity();
     }
+    long[] pivotWork = Performance.getInstance().beginNavigationWork();
     AccessibilityNodeInfoCompat pivot = getPivotNodeForNavigationAction(navigationAction);
+    Performance.getInstance().endNavigationWork(eventId, "pivot", pivotWork);
+    Performance.getInstance().onNavigationStage(eventId, "PIVOT_READY");
     if (pivot == null) {
       // Ideally the pivot should never be null. Do the null check in case of exception.
+      Performance.getInstance().onNavigationFailed(eventId, "no_pivot");
       LogUtils.w(TAG, "Cannot find pivot node for %s", navigationAction);
       return false;
     }
-    return switch (navigationAction.actionType) {
+    boolean handled = switch (navigationAction.actionType) {
       case NavigationAction.DIRECTIONAL_NAVIGATION ->
           onDirectionalNavigationAction(
               pivot, /* ignoreDescendantsOfPivot= */ false, navigationAction, eventId);
@@ -270,6 +307,8 @@ public class FocusProcessorForLogicalNavigation {
           onScrollOrPageAction(pivot, navigationAction, eventId);
       default -> false;
     };
+    if (!handled) Performance.getInstance().onNavigationFailed(eventId, "not_handled");
+    return handled;
   }
 
   @VisibleForTesting
@@ -1341,10 +1380,12 @@ public class FocusProcessorForLogicalNavigation {
 
     // Asking the window for its root waits for the app on every swipe, so take the root of the
     // saved reading order when that holds the pivot.
+    long[] rootWork = Performance.getInstance().beginNavigationWork();
     AccessibilityNodeInfoCompat rootNode = TraversalTreeCache.rootFor(pivot);
     if (rootNode == null) {
       rootNode = AccessibilityNodeInfoUtils.getRoot(pivot);
     }
+    Performance.getInstance().endNavigationWork(eventId, "root", rootWork);
     if (rootNode == null) {
       LogUtils.w(TAG, "Cannot perform navigation action: unable to find root node.");
       return false;
@@ -1358,6 +1399,38 @@ public class FocusProcessorForLogicalNavigation {
       traversalStrategy = TraversalTreeCache.get(rootNode, pivot);
     }
     boolean usedSavedTree = traversalStrategy != null;
+    Performance.getInstance().onNavigationDetail(eventId, "order_cache_hit", usedSavedTree ? 1 : 0);
+    if (traversalStrategy == null && LatencyExperiments.Feature.ASYNC_ORDER.enabled()
+        && TraversalTreeCache.getEnabled() && !NodeOverrides.hasSource()
+        && TraversalStrategyUtils.isLogicalDirection(searchDirection) && !resumingOrder) {
+      orderPending = true;
+      AccessibilityNodeInfoCompat savedPivot = AccessibilityNodeInfoCompat.obtain(pivot);
+      AsyncTraversalOrder.request(rootNode, eventId, result -> {
+        orderPending = false;
+        if (result == AsyncTraversalOrder.Result.CANCELLED) {
+          Performance.getInstance().onNavigationFailed(eventId, "cancelled_order");
+          savedPivot.recycle();
+          cancelOrderQueue();
+          return;
+        }
+        resumingOrder = true;
+        try {
+          Performance.getInstance().onNavigationDetail(eventId, "order_async_fallback",
+              result == AsyncTraversalOrder.Result.READY ? 0 : 1);
+          AccessibilityNodeInfoCompat resumePivot = result == AsyncTraversalOrder.Result.READY
+              ? savedPivot : getPivotNodeForNavigationAction(navigationAction);
+          if (resumePivot == null || !navigateToDefaultOrMacroGranularityTarget(
+              resumePivot, ignoreDescendantsOfPivot, navigationAction, eventId)) {
+            Performance.getInstance().onNavigationFailed(eventId, "no_target_after_order");
+          }
+        } finally {
+          resumingOrder = false;
+          savedPivot.recycle();
+          earlyScrollCheckHandler.post(this::drainOrderQueue);
+        }
+      });
+      return true;
+    }
     if (traversalStrategy == null) {
       if (TraversalTreeCache.getBurstLiveAnswerEnabled() && TraversalTreeCache.inNavigationBurst()) {
         traversalStrategy = new SimpleTraversalStrategy();
@@ -1368,9 +1441,11 @@ public class FocusProcessorForLogicalNavigation {
         if (trace) {
           Trace.beginSection("BuildTraversalStrategy");
         }
+        long[] orderWork = Performance.getInstance().beginNavigationWork();
         WindowNodePrefetcher.prefetch(rootNode, service.getPackageName());
         traversalStrategy =
             TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
+        Performance.getInstance().endNavigationWork(eventId, "order_sync", orderWork);
         if (trace) {
           Trace.endSection();
           TraversalTreeCache.noteBuild(SystemClock.uptimeMillis() - buildStart);
@@ -1381,6 +1456,7 @@ public class FocusProcessorForLogicalNavigation {
       }
     }
 
+    Performance.getInstance().onNavigationStage(eventId, "ORDER_READY");
     // In a scroll view the next item is already in the tree, just off screen. Show the next screen
     // at once and search again, rather than scrolling a page and waiting for the scroll event.
     if (!revealingOffscreen) {
@@ -1391,7 +1467,7 @@ public class FocusProcessorForLogicalNavigation {
               ignoreDescendantsOfPivot,
               navigationAction,
               logicalDirection,
-              reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
+              reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
               eventId);
       if (reveal == REVEAL_SHOWN) {
         // The saved order was read before the scroll, so it still has the next item off screen,
@@ -1419,7 +1495,7 @@ public class FocusProcessorForLogicalNavigation {
             pivot,
             ignoreDescendantsOfPivot,
             navigationAction,
-            reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
+            reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
             eventId)) {
       return true;
     }
@@ -1533,7 +1609,7 @@ public class FocusProcessorForLogicalNavigation {
           ensureOnScreen(
               target,
               navigationAction.searchDirection,
-              reusableOrderedStrategy(traversalStrategy, rootNode, target),
+              reusableWindowTraversalStrategy(traversalStrategy, rootNode, target),
               eventId);
       // REFERTO If ensureOnScreen caused scrolling, we need use the scroll callback
       // to set focus on the next node (from the pivot) inside scrollable parent. This is helpful
@@ -2344,7 +2420,7 @@ public class FocusProcessorForLogicalNavigation {
   private boolean ensureOnScreen(
       @NonNull AccessibilityNodeInfoCompat node,
       @SearchDirection int searchDirection,
-      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
+      @Nullable TraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     boolean isRtl = WindowUtils.isScreenLayoutRTL(service);
     ScrollableNodeInfo scrollableNodeInfo =
@@ -2646,15 +2722,13 @@ public class FocusProcessorForLogicalNavigation {
    * Navigation can find a target in another window, and the tree of one window can't answer edge
    * checks for another.
    */
-  private static @Nullable OrderedTraversalStrategy reusableOrderedStrategy(
+  private static @Nullable TraversalStrategy reusableWindowTraversalStrategy(
       TraversalStrategy strategy,
       @NonNull AccessibilityNodeInfoCompat root,
       @NonNull AccessibilityNodeInfoCompat node) {
-    if (!(strategy instanceof OrderedTraversalStrategy orderedStrategy)
-        || node.getWindowId() != root.getWindowId()) {
-      return null;
-    }
-    return orderedStrategy;
+    if (node.getWindowId() != root.getWindowId()) return null;
+    return strategy instanceof OrderedTraversalStrategy
+        || LatencyExperiments.Feature.LIVE_EDGE_REUSE.enabled() ? strategy : null;
   }
 
   /** What {@link #revealNextOffscreenItem} did. */
@@ -2689,7 +2763,7 @@ public class FocusProcessorForLogicalNavigation {
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
       @SearchDirection int logicalDirection,
-      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
+      @Nullable TraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!BuildVersionUtils.isAtLeastU()
         || !navigationAction.shouldScroll
@@ -2764,7 +2838,7 @@ public class FocusProcessorForLogicalNavigation {
       @NonNull AccessibilityNodeInfoCompat pivot,
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
-      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
+      @Nullable TraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!navigationAction.shouldScroll) {
       LogUtils.v(TAG, "autoScrollAtEdge returns due to shouldScroll is false");
@@ -2880,6 +2954,7 @@ public class FocusProcessorForLogicalNavigation {
     // Use SCROLL_TIMEOUT_LONG_MS since auto scroll may find some scrollable containers that request
     // a longer time to finish the scrolling action(like home screen), a short timeout will make
     // TalkBack detects the scroll action always fail, even through it's actually success.
+    Performance.getInstance().onNavigationStage(eventId, "SCROLL_REQUEST");
     boolean scrolled =
         performScrollActionInternal(
             ScrollActionRecord.ACTION_AUTO_SCROLL,
@@ -2932,7 +3007,7 @@ public class FocusProcessorForLogicalNavigation {
       if (retries > 0) {
         earlyScrollCheckHandler.postDelayed(
             () -> checkScrollEarly(callback, scrollable, pivotBefore, eventId, retries - 1),
-            EARLY_SCROLL_RETRY_MS);
+            LatencyExperiments.Feature.FAST_SCROLL.enabled() ? 8 : EARLY_SCROLL_RETRY_MS);
       }
       return;
     }

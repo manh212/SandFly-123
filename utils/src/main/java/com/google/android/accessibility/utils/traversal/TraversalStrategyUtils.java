@@ -263,7 +263,7 @@ public class TraversalStrategyUtils {
       boolean ignoreDescendantsOfPivot,
       @TraversalStrategy.SearchDirection int searchDirection,
       FocusFinder focusFinder,
-      @Nullable OrderedTraversalStrategy windowOrderedStrategy) {
+      @Nullable TraversalStrategy windowOrderedStrategy) {
 
     Integer supportedDirection = scrollableNodeInfo.getSupportedScrollDirection(searchDirection);
     if (supportedDirection == null) {

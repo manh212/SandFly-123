@@ -163,6 +163,7 @@ import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorF
 import com.google.android.accessibility.talkback.focusmanagement.SingleTapTypingController;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
+import com.google.android.accessibility.talkback.focusmanagement.AsyncTraversalOrder;
 import com.google.android.accessibility.talkback.eventprocessor.BackgroundEventGate;
 import com.google.android.accessibility.talkback.eventprocessor.EventProcessingStats;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor;
@@ -262,6 +263,8 @@ import com.google.android.accessibility.utils.KeyboardUtils;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
+import com.google.android.accessibility.utils.WindowCachePolicy;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Performance.StageId;
 import com.google.android.accessibility.utils.Role;
@@ -838,7 +841,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     ContextCompat.registerReceiver(this, bootReceiver, BootReceiver.getFilter(), RECEIVER_EXPORTED);
     super.onCreate();
     backgroundEventGate = new BackgroundEventGate(
-        this::handleAccessibilityEvent, this::isExpectedScrollResponse);
+        this::handleAccessibilityEvent, this::isExpectedScrollResponse,
+        event -> {
+          TraversalTreeCache.noteDeferredEvent(event);
+          PreparedFocusSpeech.onAccessibilityEvent(event);
+        });
 
     this.setTheme(R.style.TalkbackBaseTheme);
 
@@ -1112,6 +1119,11 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
+    if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
+      LatencyExperiments.onTouch(true);
+    } else if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
+      LatencyExperiments.onTouch(false);
+    }
     if (backgroundEventGate == null || backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
       handleAccessibilityEvent(event, receivedAt);
     }
@@ -1187,6 +1199,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         && HomeScreenPages.isHomePackage(this, event.getPackageName())) {
       clearCache();
     }
+    AsyncTraversalOrder.onEvent(event);
     if (TraversalTreeCache.onAccessibilityEvent(event)) {
       prefetchWindowOfClearedOrder(event);
     }
@@ -1269,6 +1282,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
         || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         || eventType == AccessibilityEvent.TYPE_WINDOWS_CHANGED) {
+      markRootDirtyForEvent(event);
+    }
+  }
+
+  public void markRootDirtyForEvent(AccessibilityEvent event) {
+    if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() || rootNode == null
+        || WindowCachePolicy.affectsRoot(event, rootNode.getWindowId())) {
       setRootDirty(true);
     }
   }
@@ -1286,7 +1306,8 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   private void prefetchWindowOfClearedOrder(AccessibilityEvent event) {
     if (latencyExtrasEnabled) {
-      prefetchWindowNodesInBackground(event.getWindowId());
+      prefetchWindowNodesInBackground(LatencyExperiments.Feature.ASYNC_ORDER.enabled()
+          ? TraversalTreeCache.lastClearedWindowId() : event.getWindowId());
     }
   }
 
@@ -1297,6 +1318,10 @@ public class TalkBackService extends AccessibilityServiceCompat
    * operation's throw from {@link TraversalTreeCache}'s cleared listener.
    */
   private void prefetchWindowNodesInBackground(int windowId) {
+    if (LatencyExperiments.Feature.ASYNC_ORDER.enabled()) {
+      AsyncTraversalOrder.warm(windowId, () -> rootOfWindow(windowId));
+      return;
+    }
     WindowNodePrefetcher.prefetchInBackground(
         windowId, () -> rootOfWindow(windowId), getPackageName());
   }
@@ -1825,7 +1850,10 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public boolean onGesture(AccessibilityGestureEvent accessibilityGestureEvent) {
     if (handleOnGestureById(
-        accessibilityGestureEvent.getDisplayId(), accessibilityGestureEvent.getGestureId())) {
+        accessibilityGestureEvent.getDisplayId(), accessibilityGestureEvent.getGestureId(),
+        accessibilityGestureEvent.getMotionEvents().isEmpty() ? -1
+            : accessibilityGestureEvent.getMotionEvents()
+                .get(accessibilityGestureEvent.getMotionEvents().size() - 1).getEventTime())) {
       pipeline
           .getFeedbackReturner()
           .returnFeedback(
@@ -1836,6 +1864,11 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private boolean handleOnGestureById(int displayId, int gestureId) {
+    return handleOnGestureById(displayId, gestureId, -1);
+  }
+
+  private boolean handleOnGestureById(int displayId, int gestureId, long motionEnd) {
+    LatencyExperiments.onInput();
     if (backgroundEventGate != null) {
       backgroundEventGate.onUserInput();
     }
@@ -1853,6 +1886,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     Performance perf = Performance.getInstance();
     EventId eventId = perf.onGestureEventReceived(gestureId);
+    perf.onNavigationMotionEnd(eventId, motionEnd);
     primesController.startTimer(TimerAction.GESTURE_EVENT);
 
     analytics.onGesture(gestureId);
@@ -3387,6 +3421,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // The saved reading order holds nodes, which would outlive the service and could be reused,
     // stale, when Backtalk is turned on again.
+    AsyncTraversalOrder.cancel();
     TraversalTreeCache.setOrderClearedListener(null);
     TraversalTreeCache.clear("shutdown");
 
@@ -3525,6 +3560,12 @@ public class TalkBackService extends AccessibilityServiceCompat
    * all the preferences.
    */
   protected void reloadPreferences(@Nullable String key) {
+    LatencyExperiments.load(prefs);
+    if (LatencyExperiments.Feature.TRACE.key.equals(key)) {
+      com.google.android.accessibility.talkback.report.LatencyMeasurementSession.reset();
+    }
+    if (!LatencyExperiments.Feature.ASYNC_ORDER.enabled()) AsyncTraversalOrder.cancel();
+    if (key != null && key.startsWith("pref_latency_")) PreparedFocusSpeech.clear();
     final Resources res = getResources();
 
     LogUtils.v(
@@ -3563,6 +3604,9 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_disable_latency_extras_key,
             R.bool.pref_disable_latency_extras_default);
     EventFilter.setLatencyExtrasEnabled(latencyExtrasEnabled);
+    LatencyExperiments.setPreparationAllowed(latencyExtrasEnabled);
+    WindowNodePrefetcher.setEnabled(latencyExtrasEnabled);
+    if (speechController != null) speechController.getFailoverTts().refreshNavigationCache();
     EventFilter.setPreparedSpeechOptions(
         prefs.getBoolean("pref_prepare_adjacent_speech", /* defValue= */ false),
         prefs.getBoolean("pref_prepare_second_ahead_speech", /* defValue= */ false));
@@ -4017,7 +4061,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     boolean debugLog =
         getBooleanPref(R.string.pref_debug_log_key, R.bool.pref_debug_log_default);
     LogUtils.setEnabled(debugLog);
-    MainThreadStallLogger.setEnabled(debugLog);
+    MainThreadStallLogger.setEnabled(
+        LatencyExperiments.Feature.STALL_CAPTURE.enabled()
+            || (debugLog && !LatencyExperiments.Feature.LIGHT_LOGGING.enabled()));
     // While the debug log is on, the log itself carries the diagnostics snapshot and the
     // performance statistics; while it is off, this stops again.
     VerboseDiagnosticsLogger.syncWithDebugLog(this);

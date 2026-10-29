@@ -1,6 +1,7 @@
 package com.google.android.accessibility.talkback.eventprocessor
 
 import android.os.Looper
+import com.google.android.accessibility.utils.LatencyExperiments
 import android.view.accessibility.AccessibilityEvent
 import com.google.android.accessibility.utils.Performance
 import java.time.Duration
@@ -37,6 +38,8 @@ class BackgroundEventGateTest {
 
   @After
   fun tearDown() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.INPUT_PRIORITY, false)
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, false)
     gate.clear()
     events.forEach { it.recycle() }
     EventProcessingStats.reset()
@@ -163,5 +166,34 @@ class BackgroundEventGateTest {
     advance(500)
     assertTrue(delivered.isEmpty())
     assertTrue(EventProcessingStats.snapshot().contains("coalesced dropped admitted"))
+  }
+  @Test
+  fun priorityModeDefersActiveTextWithImmediateInvalidationAndKeepsFocus() {
+    var invalidated = 0
+    gate.clear()
+    gate = BackgroundEventGate(
+      { event, _ -> delivered += event.packageName.toString() },
+      { false },
+      { invalidated++ },
+    )
+    gate.setProcessingLevel("default")
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.INPUT_PRIORITY, true)
+    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1))
+    gate.onUserInput()
+    val update = event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "foreground", 1)
+    update.contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT
+    assertFalse(gate.onAccessibilityEvent(update))
+    assertEquals(1, invalidated)
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1)))
+    advance(500)
+    assertEquals(listOf("foreground"), delivered)
+  }
+
+  @Test
+  fun scopedModeDoesNotLetHelperWindowStateReplaceTheInteractionWindow() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, true)
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED, "miui.helper", 8)))
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "foreground", 1)))
+    assertFalse(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "miui.helper", 8)))
   }
 }

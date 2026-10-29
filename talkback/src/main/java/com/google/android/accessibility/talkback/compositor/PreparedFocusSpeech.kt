@@ -21,6 +21,7 @@ import android.view.accessibility.AccessibilityEvent
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
+import com.google.android.accessibility.utils.LatencyExperiments
 
 /**
  * The announcements of the nodes that a swipe from the focused node would most likely reach,
@@ -63,6 +64,7 @@ object PreparedFocusSpeech {
     val targetType: Int,
   ) {
     internal val time = SystemClock.uptimeMillis()
+    internal val version = contentVersion
 
     internal fun isFor(other: AccessibilityNodeInfoCompat): Boolean = node == other
 
@@ -70,6 +72,7 @@ object PreparedFocusSpeech {
       node == other && targetType == otherTargetType
   }
 
+  private var contentVersion = 0L
   private val prepared = ArrayList<Prepared>(MAX_PREPARED_ANNOUNCEMENTS)
   private var windowId = NO_WINDOW_ID
 
@@ -118,9 +121,18 @@ object PreparedFocusSpeech {
    * for subsequent swipes; content-changing events and age limits still invalidate the cache.
    */
   @JvmStatic
-  fun take(node: AccessibilityNodeInfoCompat): Prepared? {
-    val found = find(node, null)
-    if (found == null || !isOldEnough(found.time, SystemClock.uptimeMillis())) {
+  fun peek(node: AccessibilityNodeInfoCompat, targetType: Int): Prepared? = find(node, targetType)
+
+  @JvmStatic
+  fun take(node: AccessibilityNodeInfoCompat): Prepared? = takeForType(node, null)
+
+  @JvmStatic
+  fun take(node: AccessibilityNodeInfoCompat, targetType: Int): Prepared? = takeForType(node, targetType)
+
+  private fun takeForType(node: AccessibilityNodeInfoCompat, targetType: Int?): Prepared? {
+    val found = find(node, targetType)
+    if (found == null || (!LatencyExperiments.Feature.FRESH_PREPARED.enabled() &&
+        !isOldEnough(found.time, SystemClock.uptimeMillis()))) {
       return null
     }
     prepared.remove(found)
@@ -139,6 +151,7 @@ object PreparedFocusSpeech {
   /** Forgets all announcements. */
   @JvmStatic
   fun clear() {
+    contentVersion++
     prepared.clear()
     windowId = NO_WINDOW_ID
   }
@@ -195,8 +208,9 @@ object PreparedFocusSpeech {
   @JvmStatic
   fun canChange(type: Int, eventWindowId: Int, preparedWindowId: Int): Boolean =
     type and TraversalTreeCache.IGNORED_EVENT_TYPES == 0 &&
-      (type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
-        type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
+      ((!LatencyExperiments.Feature.SCOPED_CACHE.enabled() &&
+        (type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
+          type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)) ||
         eventWindowId == NO_WINDOW_ID ||
         eventWindowId == preparedWindowId)
 
@@ -208,7 +222,7 @@ object PreparedFocusSpeech {
 
   private fun find(node: AccessibilityNodeInfoCompat, targetType: Int?): Prepared? {
     val now = SystemClock.uptimeMillis()
-    prepared.removeAll { now - it.time > MAX_AGE_MS }
+    prepared.removeAll { now - it.time > MAX_AGE_MS || it.version != contentVersion }
     return prepared.firstOrNull {
       if (targetType == null) it.isFor(node) else it.isFor(node, targetType)
     }

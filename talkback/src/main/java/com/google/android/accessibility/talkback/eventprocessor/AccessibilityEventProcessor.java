@@ -271,7 +271,7 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
         || event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         || event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED) {
-      service.setRootDirty(true);
+      service.markRootDirtyForEvent(event);
     }
 
     // We need to save the last focused event so that we can filter out related selected events.

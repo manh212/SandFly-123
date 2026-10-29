@@ -31,6 +31,8 @@ import android.provider.MediaStore
 import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.BuildConfig
+import com.google.android.accessibility.utils.LatencyExperiments
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorEventQueue
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
@@ -144,6 +146,14 @@ object DiagnosticsExport {
     val selectedProcessingLevel = prefs.getString("pref_event_processing_level", "medium")
     val prepareSpeechActive =
       !extrasDisabled && (prepareAdjacent || prepareSecondAhead)
+    out.append("Source commit: ${BuildConfig.COMMIT_HASH}\n")
+    out.append("== Latency experiments ==\n")
+    for (feature in LatencyExperiments.Feature.values()) {
+      out.append("${feature.key}: ${prefs.getBoolean(feature.key, false)}\n")
+    }
+    out.append("PCM preparation enabled by settings: ${!extrasDisabled && (prefs.getBoolean("pref_latency_pcm_adjacent", false) || prefs.getBoolean("pref_latency_pcm_second", false))}\n")
+    out.append(failoverTts()?.navigationCacheSummary() ?: "Navigation PCM cache: unavailable")
+    out.append("\n")
     out.append("== Latency controls ==\n")
     out.append("Latency extras disabled: $extrasDisabled\n")
     out.append("Pinned latency optimizations: $pinnedLatencyEnabled\n")
@@ -214,7 +224,7 @@ object DiagnosticsExport {
     val out = StringBuilder()
     out.append("== Performance statistics ==\n")
     out.append(performanceStatsStatusLine()).append("\n")
-    if (Performance.getInstance().computeStatsEnabled) {
+    if (Performance.getInstance().computeStatsEnabled || LatencyExperiments.Feature.TRACE.enabled()) {
       displayPerformanceStats(
         Logger { format, args ->
           val line =
@@ -246,6 +256,7 @@ object DiagnosticsExport {
     performance.displayNavigationStats(logger)
     logger.log("Timing: HEARD is first PCM callback, not physical speaker output. Stages overlap.")
     logger.log("AUDIO_SUBMITTED is the first successful AudioTrack write; TTS_START is the engine callback.")
+    logger.log("FIRST_SOUND_PCM is the first nonzero PCM block; SOUND_SUBMITTED is its successful write, not acoustic onset.")
     logger.log("NAVIGATION labels include linked focus and scroll responses; time starts after gesture recognition.")
     logger.log("Percentiles use the latest 300 samples; counts and means include all collected samples.")
     logger.log(TraversalTreeCache.buildTimingSummary())

@@ -20,6 +20,8 @@ import static com.google.android.accessibility.utils.Role.ROLE_SCROLL_VIEW;
 import static com.google.android.accessibility.utils.StringBuilderUtils.optionalTag;
 
 import android.accessibilityservice.AccessibilityService;
+import android.app.Notification;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import android.os.SystemClock;
 import android.util.SparseArray;
 import android.view.accessibility.AccessibilityEvent;
@@ -111,6 +113,8 @@ public class HeadsUpNotificationEventInterpreter implements AccessibilityEventLi
       return;
     }
     if (event.getEventType() == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED) {
+      if (LatencyExperiments.Feature.TOAST_FILTER.enabled()
+          && !(event.getParcelableData() instanceof Notification)) return;
       if (headsUpNotificationTracked) {
         return;
       }

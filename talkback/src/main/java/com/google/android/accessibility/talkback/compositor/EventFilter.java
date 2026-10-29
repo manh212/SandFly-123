@@ -40,6 +40,7 @@ import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.SettingsUtils;
@@ -370,7 +371,10 @@ public class EventFilter {
       @Nullable EventId eventId,
       long actionTime) {
     // The focus is moving, so the prepared announcements are used now or not at all.
-    PreparedFocusSpeech.@Nullable Prepared prepared = PreparedFocusSpeech.take(focusedNode);
+    int targetType = info.navigationAction == null
+        ? NavigationTarget.TARGET_DEFAULT : info.navigationAction.targetType;
+    PreparedFocusSpeech.@Nullable Prepared prepared =
+        PreparedFocusSpeech.take(focusedNode, targetType);
     if (!shouldSpeakFocusEarly(info)) {
       return false;
     }
@@ -402,8 +406,10 @@ public class EventFilter {
       preparedFeedback = null;
     }
     if (!shouldSpeakFocusEarly(node)) {
+      Performance.getInstance().onNavigationDetail(eventId, "early_focus", 0);
       return false;
     }
+    Performance.getInstance().onNavigationDetail(eventId, "early_focus", 1);
     AccessibilityEvent event = focusEventFor(node);
     EventInterpretation eventInterpreted = focusInterpretation(info);
 
@@ -418,6 +424,7 @@ public class EventFilter {
       if (preparedFeedback != null) {
         feedback = preparedFeedback;
         Performance.getInstance().onPreparedSpeechHit();
+        Performance.getInstance().onNavigationDetail(eventId, "prepared_text_hit", 1);
         LogUtils.v(TAG, "Prepared speech hit: %s", node);
         // Working the feedback out would have moved the container title to the node's, as
         // preparing it did before putting it back.
@@ -425,6 +432,7 @@ public class EventFilter {
             preparedContainerTitle;
       } else {
         Performance.getInstance().onPreparedSpeechMiss();
+        Performance.getInstance().onNavigationDetail(eventId, "prepared_text_hit", 0);
         // No node in this line: formatting it walks the node's properties on the swipe path.
         LogUtils.v(TAG, "Prepared speech miss");
         feedback = getSwipeTargetFeedback(event, node, eventInterpreted);
@@ -519,11 +527,13 @@ public class EventFilter {
       return false;
     }
     int role = Role.getRole(node);
+    boolean preparedControl = LatencyExperiments.Feature.EARLY_CONTROLS.enabled()
+        && (!TextUtils.isEmpty(node.getText()) || !TextUtils.isEmpty(node.getContentDescription())
+            || node.getRangeInfo() != null);
     if (role == Role.ROLE_TEXT_ENTRY_KEY
         || role == Role.ROLE_KEYBOARD_KEY
-        || role == Role.ROLE_SEEK_CONTROL
-        || role == Role.ROLE_PROGRESS_BAR
-        || AccessibilityNodeInfoUtils.isPage(node)
+        || (!preparedControl && (role == Role.ROLE_SEEK_CONTROL
+            || role == Role.ROLE_PROGRESS_BAR || AccessibilityNodeInfoUtils.isPage(node)))
         || WebInterfaceUtils.supportsWebActions(node)) {
       return false;
     }
@@ -561,7 +571,7 @@ public class EventFilter {
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(prepareNextSwipeTarget);
     if (latencyExtrasEnabled
-        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled)
+        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled || LatencyExperiments.preparePcm())
         && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
     }
@@ -575,7 +585,7 @@ public class EventFilter {
    */
   private void prepareSwipeTargets() {
     if (!latencyExtrasEnabled
-        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled)) {
+        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled && !LatencyExperiments.preparePcm())) {
       return;
     }
     @Nullable AccessibilityNodeInfoCompat pivot = lastFocusedNode;
@@ -587,7 +597,8 @@ public class EventFilter {
       // This window keeps throwing preparations away unused, so preparation is paused for it.
       return;
     }
-    int maximumDistance = prepareSecondAheadSpeechEnabled ? 2 : 1;
+    int maximumDistance = prepareSecondAheadSpeechEnabled
+        || LatencyExperiments.Feature.PCM_SECOND.enabled() ? 2 : 1;
     preparationPass =
         new PreparationPass(pivot, maximumDistance, targetPredictor.currentTargetType());
     prepareNextSwipeTarget.run();
@@ -599,7 +610,7 @@ public class EventFilter {
     TargetPredictor predictor = targetPredictor;
     if (pass == null
         || !latencyExtrasEnabled
-        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled)
+        || (!prepareAdjacentSpeechEnabled && !prepareSecondAheadSpeechEnabled && !LatencyExperiments.preparePcm())
         || predictor == null
         || fingerDown.getAsBoolean()
         || !Objects.equals(pass.focusedNode, lastFocusedNode)
@@ -608,6 +619,10 @@ public class EventFilter {
       return;
     }
 
+    if (LatencyExperiments.Feature.INPUT_PRIORITY.enabled() && LatencyExperiments.inputIsActive(80)) {
+      handler.postDelayed(prepareNextSwipeTarget, PREPARE_STEP_DELAY_MS);
+      return;
+    }
     int targetType = pass.targetType();
     int direction = SWIPE_DIRECTIONS[pass.directionIndex];
     AccessibilityNodeInfoCompat currentPivot =
@@ -626,10 +641,20 @@ public class EventFilter {
 
     if (target != null) {
       boolean shouldPrepareSpeech =
-          (pass.distance == 1 && prepareAdjacentSpeechEnabled)
-              || (pass.distance == 2 && prepareSecondAheadSpeechEnabled);
-      if (shouldPrepareSpeech && !PreparedFocusSpeech.has(target, targetType)) {
-        prepareFocusSpeech(target, targetType);
+          (pass.distance == 1 && (prepareAdjacentSpeechEnabled
+              || LatencyExperiments.Feature.PCM_ADJACENT.enabled()))
+              || (pass.distance == 2 && (prepareSecondAheadSpeechEnabled
+                  || LatencyExperiments.Feature.PCM_SECOND.enabled()));
+      if (shouldPrepareSpeech) {
+        boolean prepareAudio = pass.distance == 1
+            ? LatencyExperiments.Feature.PCM_ADJACENT.enabled()
+            : LatencyExperiments.Feature.PCM_SECOND.enabled();
+        PreparedFocusSpeech.Prepared cached = PreparedFocusSpeech.peek(target, targetType);
+        if (cached == null) {
+          prepareFocusSpeech(target, targetType, prepareAudio);
+        } else if (prepareAudio) {
+          compositor.prepareNavigationFeedback(cached.getFeedback());
+        }
       }
       pass.pivot = target;
     }
@@ -662,7 +687,7 @@ public class EventFilter {
     handler.removeCallbacks(prepareSwipeTargets);
     handler.removeCallbacks(prepareNextSwipeTarget);
     if (latencyExtrasEnabled
-        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled)
+        && (prepareAdjacentSpeechEnabled || prepareSecondAheadSpeechEnabled || LatencyExperiments.preparePcm())
         && lastFocusedNode != null
         && targetPredictor != null) {
       handler.postDelayed(prepareSwipeTargets, PREPARE_DELAY_MS);
@@ -680,11 +705,18 @@ public class EventFilter {
    */
   private void prepareFocusSpeech(
       AccessibilityNodeInfoCompat focusedNode, @TargetType int targetType) {
+    prepareFocusSpeech(focusedNode, targetType, false);
+  }
+
+  private void prepareFocusSpeech(
+      AccessibilityNodeInfoCompat focusedNode, @TargetType int targetType, boolean prepareAudio) {
     // Read the node again from the app, as a swipe to it would, rather than prepare from a copy
     // that the saved reading order may have kept since before its text or state changed.
     @SuppressWarnings("deprecation") // obtain(): copy, so that the saved node is left as it was.
     AccessibilityNodeInfoCompat node = AccessibilityNodeInfoCompat.obtain(focusedNode);
-    if (!node.refresh()) {
+    if (LatencyExperiments.Feature.CACHED_TEXT.enabled()) {
+      if (!TraversalTreeCache.holdsCurrent(focusedNode)) return;
+    } else if (!node.refresh()) {
       return;
     }
     if (globalVariables.hasSkipFocusProcessing() || !shouldSpeakFocusEarly(node)) {
@@ -710,6 +742,7 @@ public class EventFilter {
     }
     if (hasSpeech(feedback)) {
       PreparedFocusSpeech.put(node, feedback, containerTitle, targetType);
+      if (prepareAudio) compositor.prepareNavigationFeedback(feedback);
     }
   }
 

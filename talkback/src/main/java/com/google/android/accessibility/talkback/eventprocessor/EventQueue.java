@@ -21,6 +21,7 @@ import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.IdentityHashMap;
@@ -183,8 +184,10 @@ class EventQueue {
     }
 
     int index = 0;
-    if ((focusPriorityEnabled || focusPriorityEnabledByProcessingLevel)
-        && consecutiveFocusJumps < maxConsecutiveFocusJumps) {
+    if ((focusPriorityEnabled || focusPriorityEnabledByProcessingLevel
+            || LatencyExperiments.Feature.INPUT_PRIORITY.enabled())
+        && consecutiveFocusJumps < (LatencyExperiments.Feature.INPUT_PRIORITY.enabled()
+            ? 6 : maxConsecutiveFocusJumps)) {
       index =
           jumpIndex(
               eventQueue.get(0).getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
@@ -259,7 +262,7 @@ class EventQueue {
     for (int i = 0; i < qualifyingEvents.size(); i++) {
       final int eventType = qualifyingEvents.keyAt(i);
       final int eventsOfType = qualifyingEvents.valueAt(i);
-      if (eventsOfType > maximumQualifyingEvents) {
+      if (eventsOfType > (LatencyExperiments.Feature.INPUT_PRIORITY.enabled() ? 1 : maximumQualifyingEvents)) {
         eventTypesToPrune |= eventType;
       }
     }
@@ -281,7 +284,7 @@ class EventQueue {
 
         // Stop pruning further events of this type if the number of
         // events is below the limit
-        if (eventCountOfType <= maximumQualifyingEvents) {
+        if (eventCountOfType <= (LatencyExperiments.Feature.INPUT_PRIORITY.enabled() ? 1 : maximumQualifyingEvents)) {
           eventTypesToPrune &= ~eventType;
         }
       }

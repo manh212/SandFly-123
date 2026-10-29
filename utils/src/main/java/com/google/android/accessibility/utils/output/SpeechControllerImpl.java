@@ -56,6 +56,7 @@ import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.R;
 import com.google.android.accessibility.utils.SpannableUtils;
@@ -1085,6 +1086,10 @@ public class SpeechControllerImpl implements SpeechController {
       LoadSpeechResultNotifier resultNotifier,
       @Nullable Bundle speechParams,
       @Nullable EventId eventId) {
+    if (resultNotifier instanceof NavigationPcmCache.PreparationNotifier preparation) {
+      if (LatencyExperiments.preparePcm()) prepareNavigationSpeech(text, preparation.getFlags(), speechParams);
+      return;
+    }
     final HashMap<String, String> params = new HashMap<>();
 
     // Add all custom speech parameters.
@@ -1100,6 +1105,25 @@ public class SpeechControllerImpl implements SpeechController {
         speechRate * (mUseIntonation ? parseFloatParam(params, SpeechParam.RATE, 1) : 1);
 
     failoverTts.addSpeech(text, resultNotifier, pitch, rate, eventId);
+  }
+
+  private void prepareNavigationSpeech(CharSequence text, int flags, @Nullable Bundle speechParams) {
+    if (isMuteSpeech || TextUtils.isEmpty(text)) return;
+    CharSequence source = EmojiSpeech.process(mContext, replaceSpanByContentDescription(text));
+    FeedbackItem prepared = FeedbackProcessingUtils.generateFeedbackItemFromInput(
+        mContext, source, mUsePunctuation, cachedInlineFormattingHistory, formattingOptions,
+        formattingFeedbackMode, removeUnnecessarySpans, null, null, flags,
+        UTTERANCE_GROUP_DEFAULT, speechParams, null, null);
+    makeSpeakablePunctuation(prepared);
+    int count = 0;
+    for (FeedbackFragment fragment : prepared.getFragments()) {
+      if (++count > 4) break;
+      Bundle parameters = fragment.getSpeechParams();
+      float pitch = speechPitch * (mUseIntonation ? parameters.getFloat(SpeechParam.PITCH, 1f) : 1f);
+      float rate = speechRate * (mUseIntonation ? parameters.getFloat(SpeechParam.RATE, 1f) : 1f);
+      failoverTts.prepareNavigationPcm(fragment.getText(), fragment.getLocale(), pitch, rate,
+          prepared.hasFlag(FeedbackItem.FLAG_RATE_IS_ABSOLUTE));
+    }
   }
 
   @Override
@@ -1492,6 +1516,25 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
+    if (LatencyExperiments.Feature.IMMEDIATE_SPEECH.enabled()
+        && Performance.getInstance().isNavigationEvent(item.getEventId())) {
+      ListIterator<FeedbackItem> waiting = feedbackQueue.listIterator();
+      while (waiting.hasNext()) {
+        FeedbackItem older = waiting.next();
+        if (!older.isGloballyUninterruptible()
+            && !older.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+          waiting.remove();
+          notifyItemInterrupted(older);
+        }
+      }
+      if (!currentFeedbackInterrupted && currentFeedbackItem != null
+          && !currentFeedbackItem.isGloballyUninterruptible()
+          && !currentFeedbackItem.hasFlag(FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)) {
+        item.setFlushGlobalTtsQueue(true);
+        notifyItemInterrupted(currentFeedbackItem);
+        currentFeedbackInterrupted = true;
+      }
+    }
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
     feedbackQueue.add(item);
     if (speechListener != null) {
@@ -1667,6 +1710,7 @@ public class SpeechControllerImpl implements SpeechController {
       return;
     }
     speechWaits.remove(item);
+    Performance.getInstance().onNavigationInterrupted(item.getUtteranceId());
 
     final UtteranceCompleteRunnable queuedItemCompletedAction = item.getCompletedAction();
     if (queuedItemCompletedAction != null) {

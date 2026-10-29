@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="title_latency_experiment_category" translatable="false">Thử nghiệm độ trễ điều hướng</string>
+  <string name="title_latency_start_session" translatable="false">Bắt đầu phiên đo độ trễ</string>
+  <string name="message_latency_session_started" translatable="false">Đã bắt đầu phiên đo</string>
+  <string name="title_latency_trace" translatable="false">Ghi thời gian từng lượt vuốt</string>
+  <string name="title_latency_reset_session" translatable="false">Đặt lại số đo khi xóa nhật ký</string>
+  <string name="title_latency_stall_capture" translatable="false">Lưu dấu vết khi xử lý quá 50 ms</string>
+  <string name="title_latency_light_logging" translatable="false">Giảm ghi nhật ký chi tiết khi vuốt</string>
+  <string name="title_latency_nonblocking_prefetch" translatable="false">Không chờ tải cây trước khi điều hướng</string>
+  <string name="title_latency_async_order" translatable="false">Dựng thứ tự điều hướng ngoài luồng nhận vuốt</string>
+  <string name="title_latency_scoped_cache" translatable="false">Chỉ làm mới bộ đệm của cửa sổ thay đổi</string>
+  <string name="title_latency_input_priority" translatable="false">Nhường xử lý cập nhật nền cho thao tác vuốt</string>
+  <string name="title_latency_toast_filter" translatable="false">Bỏ quét thông báo nổi cho thông báo dạng toast</string>
+  <string name="title_latency_early_controls" translatable="false">Đọc sớm điều khiển đã có đủ nội dung</string>
+  <string name="title_latency_cached_text" translatable="false">Chỉ chuẩn bị lời đọc từ cây đã có sẵn</string>
+  <string name="title_latency_fresh_prepared" translatable="false">Kiểm tra lời đọc chuẩn bị theo phiên bản nội dung</string>
+  <string name="title_latency_pcm_adjacent" translatable="false">Chuẩn bị âm thanh cho mục liền trước và sau</string>
+  <string name="title_latency_pcm_second" translatable="false">Chuẩn bị âm thanh cho mục cách hai bước</string>
+  <string name="title_latency_immediate_speech" translatable="false">Ưu tiên phát lời điều hướng ngay</string>
+  <string name="title_latency_fast_scroll" translatable="false">Tiếp tục điều hướng ngay khi có dữ liệu sau cuộn</string>
+  <string name="title_latency_live_edge_reuse" translatable="false">Dùng lại cây live khi kiểm tra mép cuộn</string>
+  <string name="title_latency_audio_resample" translatable="false">Chuyển đổi âm thanh ngoài khóa luồng phát</string>
+  <string name="title_latency_audio_keep_warm" translatable="false">Giữ luồng âm thanh sẵn sàng lâu hơn</string>
+</resources>
+

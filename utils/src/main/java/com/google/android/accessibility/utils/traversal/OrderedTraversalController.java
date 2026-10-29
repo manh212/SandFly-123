@@ -94,6 +94,7 @@ public class OrderedTraversalController {
       @Nullable WorkingTree parent,
       @NonNull NodeCachedBoundsCalculator boundsCalculator,
       boolean includeChildrenOfNodesWithWebActions) {
+    TraversalBudget.check();
     if (nodeTreeMap.containsKey(rootNode)) {
       LogUtils.w(TAG, "creating node tree with looped nodes - break the loop edge");
       return null;
@@ -111,6 +112,7 @@ public class OrderedTraversalController {
     ReorderedChildrenIterator iterator =
         ReorderedChildrenIterator.createAscendingIterator(rootNode, boundsCalculator);
     while (iterator.hasNext()) {
+      TraversalBudget.check();
       AccessibilityNodeInfoCompat child = iterator.next();
       WorkingTree childSubTree =
           createWorkingTree(child, tree, boundsCalculator, includeChildrenOfNodesWithWebActions);
@@ -128,6 +130,7 @@ public class OrderedTraversalController {
   private void reorderTree(AccessibilityNodeInfoCompat compatRoot) {
     Map<WorkingTree, ScriptedMove> scriptedMoves = findScriptedMoves();
     for (WorkingTree subtree : nodeTreeMap.values()) {
+      TraversalBudget.check();
       AccessibilityNodeInfoCompat node = subtree.getNode();
       if (makeFabFirst && isFab(node)) {
         WorkingTree targetTree = nodeTreeMap.get(compatRoot).getNext();
@@ -163,6 +166,7 @@ public class OrderedTraversalController {
   private Map<WorkingTree, ScriptedMove> findScriptedMoves() {
     Map<WorkingTree, ScriptedMove> moves = new HashMap<>();
     for (WorkingTree subtree : nodeTreeMap.values()) {
+      TraversalBudget.check();
       NodeOverrides.Order order = NodeOverrides.order(subtree.getNode());
       if (order == null) {
         continue;

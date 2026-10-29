@@ -22,6 +22,9 @@ import android.os.Looper
 import android.os.SystemClock
 import android.util.Log
 import android.util.Printer
+import com.google.android.accessibility.utils.LatencyExperiments
+import com.google.android.accessibility.utils.Performance
+import com.google.android.libraries.accessibility.utils.log.LogUtils
 
 /**
  * Debug tool that logs the main thread stack while one message blocks it for too long. Filter
@@ -30,16 +33,19 @@ import android.util.Printer
 internal class MainThreadStallLogger private constructor(private val watchdog: Handler) : Printer {
   private val mainThread = Looper.getMainLooper().thread
   private val logStack = Runnable { logMainThreadStack() }
-  private var dispatchStartMs = 0L
+  @Volatile private var dispatchStartMs = 0L
+  private val thresholdMs: Long
+    get() = if (LatencyExperiments.Feature.STALL_CAPTURE.enabled()) 50L else STALL_THRESHOLD_MS
 
   override fun println(message: String) {
     if (message.startsWith(">>>>>")) {
       dispatchStartMs = SystemClock.uptimeMillis()
-      watchdog.postDelayed(logStack, STALL_THRESHOLD_MS)
+      watchdog.postDelayed(logStack, thresholdMs)
     } else if (message.startsWith("<<<<<")) {
       watchdog.removeCallbacks(logStack)
       val blockedMs = SystemClock.uptimeMillis() - dispatchStartMs
-      if (blockedMs >= STALL_THRESHOLD_MS) {
+      if (blockedMs >= thresholdMs) {
+        Performance.getInstance().onMainThreadStall(blockedMs, message)
         Log.w(TAG, "Main thread was blocked for $blockedMs ms by $message")
       }
     }
@@ -48,8 +54,9 @@ internal class MainThreadStallLogger private constructor(private val watchdog: H
   private fun logMainThreadStack() {
     val stack = mainThread.stackTrace.joinToString(separator = "") { "\n  at $it" }
     val blockedMs = SystemClock.uptimeMillis() - dispatchStartMs
-    Log.w(TAG, "Main thread blocked for $blockedMs ms so far:$stack")
-    watchdog.postDelayed(logStack, STALL_THRESHOLD_MS)
+    Performance.getInstance().onMainThreadStall(blockedMs, stack)
+    LogUtils.w(TAG, "Main thread blocked for %d ms so far:%s", blockedMs, stack)
+    watchdog.postDelayed(logStack, thresholdMs)
   }
 
   companion object {
