@@ -433,12 +433,7 @@ object TraversalTreeCache {
       return false
     }
     val windowId = event.windowId
-    if (
-      type == AccessibilityEvent.TYPE_WINDOWS_CHANGED ||
-        type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED ||
-        windowId == NO_WINDOW_ID ||
-        windowId == savedRoot.windowId
-    ) {
+    if (windowId == NO_WINDOW_ID || windowId == savedRoot.windowId) {
       val changes = event.contentChangeTypes
       val nonStructuralChanges =
         if (regionGraceEnabled) NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
+import java.util.function.IntSupplier;
 import java.util.function.Predicate;
 
 public final class BackgroundEventGate {
@@ -19,6 +20,7 @@ public final class BackgroundEventGate {
   private final Handler handler = new Handler(Looper.getMainLooper());
   private final Receiver receiver;
   private final Predicate<AccessibilityEvent> inputResponse;
+  private final IntSupplier activeWindowId;
   private final Runnable releasePending = this::releasePending;
   private boolean enabled;
   private boolean touching;
@@ -31,12 +33,18 @@ public final class BackgroundEventGate {
   private AccessibilityEvent pending;
 
   public BackgroundEventGate(Receiver receiver) {
-    this(receiver, event -> false);
+    this(receiver, event -> false, () -> -1);
   }
 
   public BackgroundEventGate(Receiver receiver, Predicate<AccessibilityEvent> inputResponse) {
+    this(receiver, inputResponse, () -> -1);
+  }
+
+  public BackgroundEventGate(
+      Receiver receiver, Predicate<AccessibilityEvent> inputResponse, IntSupplier activeWindowId) {
     this.receiver = receiver;
     this.inputResponse = inputResponse;
+    this.activeWindowId = activeWindowId;
   }
 
   public void setProcessingLevel(String level) {
@@ -73,12 +81,20 @@ public final class BackgroundEventGate {
     }
     if (type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
         || type == AccessibilityEvent.TYPE_VIEW_FOCUSED
-        || type == AccessibilityEvent.TYPE_VIEW_CLICKED
-        || (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
-            && event.getPackageName() != null
-            && !"com.android.systemui".contentEquals(event.getPackageName()))) {
+        || type == AccessibilityEvent.TYPE_VIEW_CLICKED) {
       interactionWindowId = event.getWindowId();
-      interactionPackage = event.getPackageName() == null ? null : event.getPackageName().toString();
+      interactionPackage =
+          event.getPackageName() == null ? null : event.getPackageName().toString();
+    } else if (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+        || isActiveWindowChange(event)) {
+      int activeId = activeWindowId.getAsInt();
+      if (activeId >= 0) {
+        interactionWindowId = activeId;
+        interactionPackage =
+            activeId == event.getWindowId() && event.getPackageName() != null
+                ? event.getPackageName().toString()
+                : null;
+      }
     }
     if (!enabled || !isBackgroundUpdate(event)) {
       EventProcessingStats.admitted(event, 0);
@@ -93,6 +109,17 @@ public final class BackgroundEventGate {
     EventProcessingStats.deferred(event);
     schedulePending();
     return false;
+  }
+
+  private boolean isActiveWindowChange(AccessibilityEvent event) {
+    if (event.getEventType() != AccessibilityEvent.TYPE_WINDOWS_CHANGED
+        || Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+      return false;
+    }
+    int changes = AccessibilityEvent.WINDOWS_CHANGE_ACTIVE
+        | AccessibilityEvent.WINDOWS_CHANGE_FOCUSED
+        | AccessibilityEvent.WINDOWS_CHANGE_ACCESSIBILITY_FOCUSED;
+    return (event.getWindowChanges() & changes) != 0;
   }
 
   private void schedulePending() {
@@ -121,11 +148,11 @@ public final class BackgroundEventGate {
     }
     CharSequence sourcePackage = event.getPackageName();
     boolean background;
-    if (sourcePackage != null && "com.android.systemui".contentEquals(sourcePackage)
+    if (interactionWindowId >= 0 && event.getWindowId() >= 0) {
+      background = event.getWindowId() != interactionWindowId;
+    } else if (sourcePackage != null && "com.android.systemui".contentEquals(sourcePackage)
         && !"com.android.systemui".equals(interactionPackage)) {
       background = true;
-    } else if (interactionWindowId >= 0 && event.getWindowId() >= 0) {
-      background = event.getWindowId() != interactionWindowId;
     } else {
       background = interactionPackage != null && sourcePackage != null
           && !interactionPackage.contentEquals(sourcePackage);

@@ -838,7 +838,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     ContextCompat.registerReceiver(this, bootReceiver, BootReceiver.getFilter(), RECEIVER_EXPORTED);
     super.onCreate();
     backgroundEventGate = new BackgroundEventGate(
-        this::handleAccessibilityEvent, this::isExpectedScrollResponse);
+        this::handleAccessibilityEvent,
+        this::isExpectedScrollResponse,
+        this::activeAccessibilityWindowId);
 
     this.setTheme(R.style.TalkbackBaseTheme);
 
@@ -1319,6 +1321,24 @@ public class TalkBackService extends AccessibilityServiceCompat
       root = super.getRootInActiveWindow();
     }
     return root == null ? null : AccessibilityNodeInfoCompat.wrap(root);
+  }
+
+  private int activeAccessibilityWindowId() {
+    int activeId = -1;
+    int focusedId = -1;
+    for (AccessibilityWindowInfo window : getWindows()) {
+      try {
+        if (activeId < 0 && window.isActive()) {
+          activeId = window.getId();
+        }
+        if (focusedId < 0 && window.isFocused()) {
+          focusedId = window.getId();
+        }
+      } finally {
+        window.recycle();
+      }
+    }
+    return activeId >= 0 ? activeId : focusedId;
   }
 
   private void setServiceState(int newState) {

@@ -245,17 +245,16 @@ public class TraversalStrategyUtils {
         ignoreDescendantsOfPivot,
         searchDirection,
         focusFinder,
-        /* windowOrderedStrategy= */ null);
+        /* windowTraversalStrategy= */ null);
   }
 
   /**
    * Same as {@link #isAutoScrollEdgeListItem(AccessibilityNodeInfoCompat, ScrollableNodeInfo,
-   * boolean, int, FocusFinder)}, but reuses {@code windowOrderedStrategy} when the scroll direction
-   * is logical. Building an ordered strategy walks the whole window, so reusing one the caller
-   * already built for the same window saves a full tree build.
+   * boolean, int, FocusFinder)}, but reuses {@code windowTraversalStrategy} when the scroll
+   * direction is logical.
    *
-   * @param windowOrderedStrategy An {@link OrderedTraversalStrategy} built from the root of the
-   *     window that contains the scrollable node, or {@code null} to build a new one.
+   * @param windowTraversalStrategy A traversal strategy built from the root of the window that
+   *     contains the scrollable node, or {@code null} to build a new one.
    */
   public static boolean isAutoScrollEdgeListItem(
       AccessibilityNodeInfoCompat pivot,
@@ -263,7 +262,7 @@ public class TraversalStrategyUtils {
       boolean ignoreDescendantsOfPivot,
       @TraversalStrategy.SearchDirection int searchDirection,
       FocusFinder focusFinder,
-      @Nullable OrderedTraversalStrategy windowOrderedStrategy) {
+      @Nullable TraversalStrategy windowTraversalStrategy) {
 
     Integer supportedDirection = scrollableNodeInfo.getSupportedScrollDirection(searchDirection);
     if (supportedDirection == null) {
@@ -271,8 +270,8 @@ public class TraversalStrategyUtils {
     }
 
     TraversalStrategy traversalStrategy =
-        (windowOrderedStrategy != null && isLogicalDirection(supportedDirection))
-            ? windowOrderedStrategy
+        (windowTraversalStrategy != null && isLogicalDirection(supportedDirection))
+            ? windowTraversalStrategy
             : scrollableNodeInfo.getSupportedTraversalStrategy(supportedDirection, focusFinder);
     return isMatchingEdgeListItem(
         pivot,
