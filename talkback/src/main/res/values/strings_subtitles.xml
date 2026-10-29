@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="subtitle_settings_title">Đọc phụ đề bằng OCR</string>
+  <string name="subtitle_toggle">Bật hoặc tắt đọc phụ đề</string>
+  <string name="subtitle_find_again">Tìm lại vùng phụ đề</string>
+  <string name="subtitle_engine_title">Bộ nhận dạng chữ</string>
+  <string name="subtitle_download_title">Tải mô hình Tesseract tiếng Việt và tiếng Anh</string>
+  <string name="subtitle_region_title">Vùng nhận dạng phụ đề</string>
+  <string name="subtitle_interval_title">Khoảng thời gian quét</string>
+  <string name="subtitle_speech_title">Khi có phụ đề mới trong lúc đang đọc</string>
+  <string name="subtitle_left">Cạnh trái, phần trăm chiều rộng</string>
+  <string name="subtitle_top">Cạnh trên, phần trăm chiều cao</string>
+  <string name="subtitle_right">Cạnh phải, phần trăm chiều rộng</string>
+  <string name="subtitle_bottom">Cạnh dưới, phần trăm chiều cao</string>
+  <string name="subtitle_invalid_region">Cạnh trái phải nhỏ hơn cạnh phải; cạnh trên phải nhỏ hơn cạnh dưới</string>
+  <string name="subtitle_started">Đã bật đọc phụ đề</string>
+  <string name="subtitle_stopped">Đã tắt đọc phụ đề</string>
+  <string name="subtitle_searching">Đang tìm lại vùng phụ đề</string>
+  <string name="subtitle_not_running">Hãy bật đọc phụ đề trước</string>
+  <string name="subtitle_requires_android">Đọc phụ đề cần Android 11 trở lên</string>
+  <string name="subtitle_model_missing">Hãy tải mô hình trong thiết lập Đọc phụ đề bằng OCR</string>
+  <string name="subtitle_no_window">Không xác định được cửa sổ cần đọc phụ đề</string>
+  <string name="subtitle_no_focus">Không xác định được vùng tiêu điểm hiện tại</string>
+  <string name="subtitle_failed">Đã dừng vì không nhận dạng được phụ đề</string>
+  <string name="subtitle_downloading">Đang tải mô hình</string>
+  <string name="subtitle_model_ready">Đã tải mô hình</string>
+  <string name="subtitle_model_not_downloaded">Chưa tải mô hình</string>
+  <string name="subtitle_download_done">Đã tải mô hình Tesseract</string>
+  <string name="subtitle_download_failed">Không tải được mô hình Tesseract</string>
+  <string name="update_save_downloads">Lưu vào Tải xuống</string>
+  <string name="update_saved_downloads">Đã lưu APK vào thư mục Tải xuống</string>
+  <string name="update_storage_permission">Cần quyền lưu tệp để tải APK vào thư mục Tải xuống</string>
+  <string-array name="subtitle_engine_labels">
+    <item>Tesseract — tiếng Việt và tiếng Anh</item>
+    <item>ML Kit — chữ Latin</item>
+  </string-array>
+  <string-array name="subtitle_region_labels">
+    <item>Tự động tìm và giữ vùng phụ đề</item>
+    <item>Phía trên màn hình</item>
+    <item>Giữa màn hình</item>
+    <item>Phía dưới màn hình</item>
+    <item>Tiêu điểm hiện tại</item>
+    <item>Vùng tùy chỉnh</item>
+    <item>Toàn màn hình</item>
+  </string-array>
+  <string-array name="subtitle_interval_labels">
+    <item>0,5 giây</item>
+    <item>0,75 giây</item>
+    <item>1 giây</item>
+    <item>1,5 giây</item>
+    <item>2 giây</item>
+  </string-array>
+  <string-array name="subtitle_speech_labels">
+    <item>Đọc hết câu hiện tại rồi đọc phụ đề mới nhất</item>
+    <item>Ngắt câu cũ để đọc phụ đề mới</item>
+  </string-array>
+</resources>

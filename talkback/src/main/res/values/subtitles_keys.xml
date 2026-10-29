@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="shortcut_value_subtitles" translatable="false">SUBTITLES</string>
+  <string name="shortcut_value_subtitle_find_again" translatable="false">SUBTITLE_FIND_AGAIN</string>
+  <string name="pref_show_context_menu_subtitles_key" translatable="false">pref_show_context_menu_subtitles</string>
+  <string name="pref_show_context_menu_subtitle_find_again_key" translatable="false">pref_show_context_menu_subtitle_find_again</string>
+  <string-array name="subtitle_engine_values" translatable="false">
+    <item>tesseract</item>
+    <item>mlkit</item>
+  </string-array>
+  <string-array name="subtitle_region_values" translatable="false">
+    <item>auto</item>
+    <item>top</item>
+    <item>middle</item>
+    <item>bottom</item>
+    <item>focus</item>
+    <item>custom</item>
+    <item>full</item>
+  </string-array>
+  <string-array name="subtitle_interval_values" translatable="false">
+    <item>500</item>
+    <item>750</item>
+    <item>1000</item>
+    <item>1500</item>
+    <item>2000</item>
+  </string-array>
+  <string-array name="subtitle_speech_values" translatable="false">
+    <item>finish</item>
+    <item>interrupt</item>
+  </string-array>
+  <item name="subtitles_menu" type="id" />
+  <item name="subtitle_find_again_menu" type="id" />
+</resources>

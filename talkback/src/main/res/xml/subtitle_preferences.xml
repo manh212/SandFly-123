@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="pref_subtitle_engine" android:title="@string/subtitle_engine_title"
+      android:defaultValue="tesseract" android:entries="@array/subtitle_engine_labels" android:entryValues="@array/subtitle_engine_values" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_subtitle_download" android:title="@string/subtitle_download_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="pref_subtitle_region" android:title="@string/subtitle_region_title"
+      android:defaultValue="auto" android:entries="@array/subtitle_region_labels" android:entryValues="@array/subtitle_region_values" />
+  <com.google.android.accessibility.talkback.preference.base.PercentSeekBarPreference android:key="pref_subtitle_left" android:title="@string/subtitle_left" android:defaultValue="0" android:max="100" app:showSeekBarValue="true" />
+  <com.google.android.accessibility.talkback.preference.base.PercentSeekBarPreference android:key="pref_subtitle_top" android:title="@string/subtitle_top" android:defaultValue="60" android:max="100" app:showSeekBarValue="true" />
+  <com.google.android.accessibility.talkback.preference.base.PercentSeekBarPreference android:key="pref_subtitle_right" android:title="@string/subtitle_right" android:defaultValue="100" android:max="100" app:showSeekBarValue="true" />
+  <com.google.android.accessibility.talkback.preference.base.PercentSeekBarPreference android:key="pref_subtitle_bottom" android:title="@string/subtitle_bottom" android:defaultValue="100" android:max="100" app:showSeekBarValue="true" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="pref_subtitle_interval" android:title="@string/subtitle_interval_title"
+      android:defaultValue="750" android:entries="@array/subtitle_interval_labels" android:entryValues="@array/subtitle_interval_values" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="pref_subtitle_speech" android:title="@string/subtitle_speech_title"
+      android:defaultValue="finish" android:entries="@array/subtitle_speech_labels" android:entryValues="@array/subtitle_speech_values" />
+</PreferenceScreen>

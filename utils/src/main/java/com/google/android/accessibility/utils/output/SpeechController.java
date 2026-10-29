@@ -147,6 +147,7 @@ public interface SpeechController {
   int UTTERANCE_GROUP_NOTIFICATIONS = 8;
   // Camera descriptions can be stopped without cutting off the newly focused screen.
   int UTTERANCE_GROUP_LIVE_RECOGNITION = 9;
+  int UTTERANCE_GROUP_SUBTITLES = 10;
 
   /** Enumeration of utterance-group values. */
   @IntDef({
@@ -159,7 +160,8 @@ public interface SpeechController {
     UTTERANCE_GROUP_CONTENT_HINTS,
     UTTERANCE_GROUP_OTHER_APPS,
     UTTERANCE_GROUP_NOTIFICATIONS,
-    UTTERANCE_GROUP_LIVE_RECOGNITION
+    UTTERANCE_GROUP_LIVE_RECOGNITION,
+    UTTERANCE_GROUP_SUBTITLES
   })
   @Retention(RetentionPolicy.SOURCE)
   public @interface UtteranceGroup {}
@@ -442,6 +444,7 @@ public interface SpeechController {
       case UTTERANCE_GROUP_OTHER_APPS -> "UTTERANCE_GROUP_OTHER_APPS";
       case UTTERANCE_GROUP_NOTIFICATIONS -> "UTTERANCE_GROUP_NOTIFICATIONS";
       case UTTERANCE_GROUP_LIVE_RECOGNITION -> "UTTERANCE_GROUP_LIVE_RECOGNITION";
+      case UTTERANCE_GROUP_SUBTITLES -> "UTTERANCE_GROUP_SUBTITLES";
       default -> "(unknown utterance group)";
     };
   }

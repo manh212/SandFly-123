@@ -9,5 +9,8 @@
         android:fragment="com.google.android.accessibility.talkback.translation.TranslationFragment"
         android:key="@string/pref_offline_translation_settings_key"
         android:title="@string/translation_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.subtitles.SubtitleSettingsFragment"
+        android:key="pref_subtitle_settings_screen" android:title="@string/subtitle_settings_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

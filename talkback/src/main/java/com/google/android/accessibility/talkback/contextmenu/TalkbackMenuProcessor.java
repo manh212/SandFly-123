@@ -322,6 +322,12 @@ public class TalkbackMenuProcessor {
     if (!showMenuItem(R.string.pref_show_context_menu_screen_recognition_key, R.bool.pref_show_context_menu_extra_default)) {
       menu.removeItem(R.id.screen_recognition_menu);
     }
+    if (!showMenuItem(R.string.pref_show_context_menu_subtitles_key, R.bool.pref_show_context_menu_extra_default)) {
+      menu.removeItem(R.id.subtitles_menu);
+    }
+    if (!showMenuItem(R.string.pref_show_context_menu_subtitle_find_again_key, R.bool.pref_show_context_menu_extra_default)) {
+      menu.removeItem(R.id.subtitle_find_again_menu);
+    }
     menu.sortItemsByOrder();
     applySavedOrder(menu);
 
@@ -411,6 +417,8 @@ public class TalkbackMenuProcessor {
     {R.string.pref_show_context_menu_focus_screenshot_key, R.id.take_focus_screenshot_menu},
     {R.string.pref_show_context_menu_task_assistant_key, R.id.task_assistant_menu},
     {R.string.pref_show_context_menu_screen_recognition_key, R.id.screen_recognition_menu},
+    {R.string.pref_show_context_menu_subtitles_key, R.id.subtitles_menu},
+    {R.string.pref_show_context_menu_subtitle_find_again_key, R.id.subtitle_find_again_menu},
   };
 
   public static List<String> defaultOrderKeys(Context context) {
@@ -897,6 +905,10 @@ public class TalkbackMenuProcessor {
         node ->
             service.performCatalogAction(
                 service.getString(R.string.shortcut_value_screen_recognition)));
+    addAfterMenuCloses(menu, R.id.subtitles_menu, 28, service.getString(R.string.subtitle_toggle),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_subtitles)));
+    addAfterMenuCloses(menu, R.id.subtitle_find_again_menu, 28, service.getString(R.string.subtitle_find_again),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_subtitle_find_again)));
   }
 
   private void addDimOrBrightenScreen(ContextMenu menu) {

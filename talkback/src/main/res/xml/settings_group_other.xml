@@ -13,5 +13,8 @@
         android:fragment="com.google.android.accessibility.talkback.preference.base.GeminiSettingsFragment"
         android:key="@string/pref_gemini_settings_key"
         android:title="@string/title_pref_gemini_settings" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.subtitles.SubtitleSettingsFragment"
+        android:key="pref_subtitle_settings_screen" android:title="@string/subtitle_settings_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

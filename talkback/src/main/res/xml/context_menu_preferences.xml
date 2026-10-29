@@ -303,5 +303,7 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference android:key="@string/pref_show_context_menu_focus_screenshot_key" android:defaultValue="@bool/pref_show_context_menu_extra_default" android:title="@string/shortcut_take_focus_screenshot" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference android:key="@string/pref_show_context_menu_task_assistant_key" android:defaultValue="@bool/pref_show_context_menu_extra_default" android:title="@string/task_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference android:key="@string/pref_show_context_menu_screen_recognition_key" android:defaultValue="@bool/pref_show_context_menu_extra_default" android:title="@string/shortcut_screen_recognition" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference android:key="@string/pref_show_context_menu_subtitles_key" android:defaultValue="@bool/pref_show_context_menu_extra_default" android:title="@string/subtitle_toggle" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference android:key="@string/pref_show_context_menu_subtitle_find_again_key" android:defaultValue="@bool/pref_show_context_menu_extra_default" android:title="@string/subtitle_find_again" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

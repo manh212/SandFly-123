@@ -41,6 +41,7 @@
 
     <!-- Required for sending data to Google Analytics. -->
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!-- Notification rules that check the Bluetooth device or Wi-Fi network connected. Asked
          for only when the user adds such a rule. -->
@@ -295,6 +296,9 @@
             android:label="@string/talkback_preferences_title"
             android:theme="@style/TalkBackSettings">
         </activity>
+
+        <activity android:name="com.google.android.accessibility.talkback.update.UpdateStoragePermissionActivity"
+            android:exported="false" android:excludeFromRecents="true" android:theme="@style/BlankActivityTheme" />
 
         <!-- TalkBack permission request activity proxy -->
         <activity

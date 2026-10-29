@@ -31,8 +31,10 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.provider.Settings
+import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.annotation.StringRes
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.content.IntentCompat
@@ -249,9 +251,20 @@ object Updater {
           .joinToString("\n")
           .ifEmpty { activity.getString(R.string.update_notification_text, update.build) }
     }
+    val saveDownload = SwitchCompat(activity).apply {
+      setText(R.string.update_save_downloads)
+      isChecked = UpdateDownloads.isEnabled(activity)
+      setOnCheckedChangeListener { _, checked -> UpdateDownloads.setEnabled(activity, checked) }
+    }
+    val padding = (24 * activity.resources.displayMetrics.density).toInt()
+    val options = FrameLayout(activity).apply {
+      setPadding(padding, 0, padding, 0)
+      addView(saveDownload)
+    }
     A11yAlertDialogWrapper.materialDialogBuilder(activity)
       .setTitle(title)
       .setMessage(message)
+      .setView(options)
       .setPositiveButton(R.string.update_dialog_install) { _, _ ->
         install(activity, update.downloadUrl)
       }
@@ -297,6 +310,12 @@ object Updater {
   @JvmStatic
   fun install(context: Context, downloadUrl: String) {
     val appContext = context.applicationContext
+    val saveDownload = UpdateDownloads.isEnabled(appContext)
+    if (saveDownload && UpdateDownloads.needsStoragePermission(appContext)) {
+      appContext.startActivity(Intent(appContext, UpdateStoragePermissionActivity::class.java)
+        .putExtra(UpdateReceiver.EXTRA_DOWNLOAD_URL, downloadUrl).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+      return
+    }
     // With the Play-installer setting on and Shizuku, the shell installs the update, so Meridian
     // doesn't need permission to install apps itself.
     val throughShizuku = PlayInstaller.isEnabled(appContext) && ShizukuShell.isAllowed()
@@ -325,15 +344,10 @@ object Updater {
     toast(appContext, R.string.update_downloading)
     downloadExecutor.execute {
       try {
-        val apk =
-          try {
-            download(appContext, downloadUrl)
-          } finally {
-            downloading.set(false)
-            cancelProgress(appContext)
-          }
+        val apk = download(appContext, downloadUrl)
+        cancelProgress(appContext)
         try {
-          installApk(appContext, apk)
+          installApk(appContext, apk, saveDownload)
         } finally {
           apk.delete()
         }
@@ -343,6 +357,9 @@ object Updater {
       } catch (e: Exception) {
         LogUtils.e(TAG, "Cannot install the update: %s", e)
         mainHandler.post { toast(appContext, R.string.update_install_failed) }
+      } finally {
+        downloading.set(false)
+        cancelProgress(appContext)
       }
     }
   }
@@ -380,11 +397,15 @@ object Updater {
                 showProgress(context, percent)
               }
             }
+            if (done == 0L || (total > 0L && done != total)) throw IOException("Incomplete update download")
           }
         }
       } finally {
         connection.disconnect()
       }
+    } catch (e: Exception) {
+      file.delete()
+      throw e
     } finally {
       fast?.release()
     }
@@ -438,7 +459,7 @@ object Updater {
 
   private class WrongPackageException(message: String) : Exception(message)
 
-  private fun installApk(context: Context, apk: File) {
+  private fun installApk(context: Context, apk: File, saveDownload: Boolean) {
     val info = readArchive(context, apk)
     val apkPackage = info?.packageName
     val kind =
@@ -456,6 +477,9 @@ object Updater {
         mainHandler.post { toast(context, R.string.update_move_installing, Toast.LENGTH_LONG) }
       }
       AppIdMove.InstallKind.UPDATE -> {}
+    }
+    if (UpdateDownloads.saveIfRequested(context, apk, saveDownload) != null) {
+      mainHandler.post { toast(context, R.string.update_saved_downloads, Toast.LENGTH_LONG) }
     }
     // An update to this app, with the Play-installer setting on and Shizuku, is installed by the
     // shell so that it keeps recording Google Play as the installer. If that fails, fall back to

@@ -1127,6 +1127,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
     touchVolumeState.onEvent(event.getEventType());
+    if (gestureController != null) {
+      gestureController.onSubtitleAccessibilityEvent(event);
+    }
     if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       recordingFocusGuard.onTouchStart();
     }

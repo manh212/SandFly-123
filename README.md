@@ -18,6 +18,8 @@ Go to **Settings** > **Accessibility**. Meridian is listed as **Meridian** and i
 
 Meridian checks for a new release when it starts and about once a day. When there is one, it shows a notification with the list of changes. Tap the notification to download and install it. The first time, Android asks you to allow Meridian to install apps.
 
+The update dialog has a **Save to Downloads** switch, off by default. Turn it on to keep a verified APK in the public Downloads folder after installation. With it off, the updater uses its cache and deletes the temporary APK as before. Android 8–9 asks for storage permission only when saving is enabled.
+
 To check now, go to **Check for updates** in Meridian settings, which also shows the version and build number. To stop automatic checks, turn off **Automatically check for updates**.
 
 There are stable releases and development builds:
@@ -80,6 +82,14 @@ If you do not want to use an API key, or you have hit the free tier limit, Merid
 **Detailed image descriptions** in **Automatic descriptions** must also be on. While **Use on-device AI** is on, Describe image and Describe screen use the model on your phone instead of the AI service. Turn it off to go back to the AI service.
 
 Answers take several seconds and use battery, more than the cloud on a mid-range phone. The model loads on the first request and unloads after two idle minutes to free memory. The model runs in its own process, so if the phone runs out of memory, Android stops the model and not Meridian, and Meridian says so. Before it loads a model, Meridian checks that the phone has at least as much free memory as the model's size, and if not, it says there is not enough free memory and does not load it. To test with a model that is too big for your phone, turn on **Ignore on-device AI memory limits** in **Advanced settings** > **Developer settings**. It lists every model, lets you choose any downloaded one, and skips the free memory check. If answers fail or the phone slows down, try the other model, or turn **Use the GPU** on or off. On-device AI needs a 64-bit ARM phone and adds about 22 MB to the app.
+
+## Subtitle reading
+
+On Android 11 or later, assign **Bật hoặc tắt đọc phụ đề** and **Tìm lại vùng phụ đề** to gestures, or use them in the menu. Configure the feature under Tools > **Đọc phụ đề bằng OCR**. Tesseract is the default; download its Vietnamese and English data there before starting, or select ML Kit for Latin text.
+
+Choose automatic detection, the top, middle or bottom of the app window, the current accessibility focus, a custom percentage rectangle, or the full app window. Automatic detection keeps the selected region through gaps in the subtitles and only searches again when requested. Recognition does not move accessibility focus. Repeated text and overlapping lines are filtered. Choose whether a newer subtitle interrupts the previous subtitle or waits for it to finish; waiting keeps only the newest pending text.
+
+Changing apps, turning the screen off or pausing Meridian stops the session completely. Returning to the video does not restart it. Screen capture restrictions, subtitle size, background motion and device speed affect recognition; the owner verifies results on a phone.
 
 ## Languages
 

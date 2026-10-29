@@ -110,6 +110,7 @@ import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.FocusMonitor;
 import com.google.android.accessibility.talkback.screenrecognition.ScreenRecognitionController;
+import com.google.android.accessibility.talkback.subtitles.SubtitleController;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.TalkbackAction;
@@ -194,6 +195,7 @@ public class GestureController {
   private final AiDictation dictation;
   private final FocusMonitor focusMonitor;
   private final ScreenRecognitionController screenRecognitionController;
+  private final SubtitleController subtitleController;
 
   private final @NonNull Map<Integer, Integer> captureGestureIdToAnnouncements = new HashMap<>();
   private final @NonNull Map<Integer, Integer> captureFingerprintGestureIdToAnnouncements =
@@ -250,6 +252,11 @@ public class GestureController {
     dictation = new AiDictation(service, pipeline);
     focusMonitor = new FocusMonitor(service, this::speak);
     screenRecognitionController = new ScreenRecognitionController(service, this::speak);
+    subtitleController = new SubtitleController(
+        service, text -> {
+          speak(text);
+          return kotlin.Unit.INSTANCE;
+        });
   }
 
   /** Stops what gestures started that is still going on. */
@@ -258,6 +265,7 @@ public class GestureController {
     pullToRefresh.cancel();
     dictation.shutdown();
     screenRecognitionController.stop();
+    subtitleController.shutdown();
   }
 
   public boolean stopScreenRecognition() {
@@ -265,13 +273,19 @@ public class GestureController {
   }
 
   public boolean stopScreenRecognitionForPause() {
+    subtitleController.stop(false);
     return screenRecognitionController.stopSilently();
   }
 
   /** Stops scrolling to the top or bottom when the user touches the screen or presses a key. */
   public void onUserInputStarted() {
+    subtitleController.onUserInput();
     listEdgeScroller.cancel();
     pullToRefresh.cancel();
+  }
+
+  public void onSubtitleAccessibilityEvent(android.view.accessibility.AccessibilityEvent event) {
+    subtitleController.onAccessibilityEvent(event);
   }
 
   public void onAccessibilityEvent(android.view.accessibility.AccessibilityEvent event) {
@@ -491,6 +505,12 @@ public class GestureController {
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_task_assistant))) {
       com.google.android.accessibility.talkback.taskassistant.TaskAssistant.show(service);
+      result = true;
+    } else if (action.equals(service.getString(R.string.shortcut_value_subtitles))) {
+      subtitleController.toggle();
+      result = true;
+    } else if (action.equals(service.getString(R.string.shortcut_value_subtitle_find_again))) {
+      subtitleController.findAgain();
       result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_screen_recognition))) {
       screenRecognitionController.toggle();
