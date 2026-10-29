@@ -145,6 +145,7 @@ class Actors {
   private final LastUtteranceTranslator lastUtteranceTranslator;
   private final SpeechHistoryDialog speechHistoryDialog;
   private final ClipboardHistoryDialog clipboardHistoryDialog;
+  private final ClipboardHistoryDialog favoritesDialog;
   private final FullScreenReadActor continuousReader;
   private final FeedbackController soundAndVibration;
   private final AutoScrollActor scroller;
@@ -217,6 +218,7 @@ class Actors {
     this.lastUtteranceTranslator = new LastUtteranceTranslator(context, speaker);
     this.speechHistoryDialog = new SpeechHistoryDialog(context, speaker);
     this.clipboardHistoryDialog = new ClipboardHistoryDialog(context, speaker);
+    this.favoritesDialog = new ClipboardHistoryDialog(context, speaker, true);
     this.continuousReader = continuousReader;
     this.soundAndVibration = soundAndVibration;
     this.scroller = scroller;
@@ -377,6 +379,7 @@ class Actors {
         case TRANSLATE_LAST -> lastUtteranceTranslator.translateLastUtterance(eventId);
         case SHOW_HISTORY -> speechHistoryDialog.show(eventId);
         case SHOW_CLIPBOARD_HISTORY -> clipboardHistoryDialog.show(eventId, getPasteTarget());
+        case SHOW_FAVORITES -> favoritesDialog.show(eventId, getPasteTarget());
         case PAUSE_OR_RESUME -> {
           boolean doPause = speaker.readyToPause();
           continuousReader.pauseOrResumeContinuousReadingState(doPause);

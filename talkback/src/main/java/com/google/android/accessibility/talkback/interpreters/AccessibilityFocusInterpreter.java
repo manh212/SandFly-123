@@ -311,6 +311,14 @@ public class AccessibilityFocusInterpreter
   @Override
   public @Nullable AccessibilityFocusEventInterpretation interpret(AccessibilityEvent event) {
     FocusActionInfo info = actorState.getFocusHistory().getFocusActionInfoFromEvent(event);
+    if (context instanceof com.google.android.accessibility.talkback.TalkBackService service
+        && service.shouldKeepRecordingFocus(
+            event.getWindowId(), info == null ? FocusActionInfo.UNKNOWN : info.sourceAction)) {
+      AccessibilityFocusEventInterpretation muted =
+          new AccessibilityFocusEventInterpretation(Compositor.toCompositorEvent(event));
+      muted.setShouldMuteFeedback(true);
+      return muted;
+    }
     boolean forceMuteFeedback = info != null && info.forceMuteFeedback;
 
     // For user interface interaction (such as quick menu to handle slider/number-picker) and image

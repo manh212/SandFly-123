@@ -81,6 +81,7 @@ public class VoiceActionMonitor implements VoiceActionDelegate {
       new MicrophoneStateChangedListener() {
         @Override
         public void onMicrophoneActivated() {
+          service.onRecordingStateChanged(true);
           if (isHeadphoneOn()) {
             return;
           }
@@ -93,7 +94,9 @@ public class VoiceActionMonitor implements VoiceActionDelegate {
         }
 
         @Override
-        public void onMicrophoneDeactivated() {}
+        public void onMicrophoneDeactivated() {
+          service.onRecordingStateChanged(false);
+        }
       };
 
   private final AudioPlaybackMonitor.AudioPlaybackStateChangedListener
@@ -221,6 +224,7 @@ public class VoiceActionMonitor implements VoiceActionDelegate {
 
   public void onResumeInfrastructure() {
     mediaRecorderMonitor.onResumeInfrastructure();
+    service.onRecordingStateChanged(mediaRecorderMonitor.isMicrophoneActive());
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       audioPlaybackMonitor.onResumeInfrastructure();
     }
@@ -228,6 +232,7 @@ public class VoiceActionMonitor implements VoiceActionDelegate {
 
   public void onSuspendInfrastructure() {
     mediaRecorderMonitor.onSuspendInfrastructure();
+    service.onRecordingStateChanged(false);
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
       audioPlaybackMonitor.onSuspendInfrastructure();
     }

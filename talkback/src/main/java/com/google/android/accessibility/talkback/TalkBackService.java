@@ -825,6 +825,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   private IpcClientCallbackImpl ipcClientCallback;
   private BootReceiver bootReceiver;
   private ClipboardHistoryCapture clipboardHistoryCapture;
+  private final com.google.android.accessibility.talkback.focusmanagement.RecordingFocusGuard
+      recordingFocusGuard =
+          new com.google.android.accessibility.talkback.focusmanagement.RecordingFocusGuard();
 
 
   private EventLatencyLogger eventLatencyLogger;
@@ -915,6 +918,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public boolean onUnbind(Intent intent) {
     touchVolumeState.reset();
+    recordingFocusGuard.stop();
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     LogUtils.d(TAG, "onUnbind start");
     final long turningOffTime = System.currentTimeMillis();
@@ -1122,6 +1126,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
     touchVolumeState.onEvent(event.getEventType());
+    if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
+      recordingFocusGuard.onTouchStart();
+    }
     if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       LatencyExperiments.onTouch(true);
     } else if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
@@ -1784,7 +1791,25 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
-  /** Whether a finger is on the screen now, from touch interaction start and end events. */
+  public void onRecordingStateChanged(boolean recording) {
+    if (!recording) {
+      recordingFocusGuard.stop();
+      return;
+    }
+    AccessibilityNodeInfoCompat focus = accessibilityFocusMonitor == null ? null
+        : accessibilityFocusMonitor.getAccessibilityFocus(false);
+    if (focus != null) {
+      recordingFocusGuard.start(focus.getWindowId());
+    } else {
+      AccessibilityNodeInfo root = getRootInActiveWindow();
+      recordingFocusGuard.start(root == null ? -1 : root.getWindowId());
+    }
+  }
+
+  public boolean shouldKeepRecordingFocus(int windowId, int sourceAction) {
+    return recordingFocusGuard.blocks(windowId, sourceAction);
+  }
+
   public boolean isTouchInteracting() {
     return touchVolumeState.isTouching();
   }
@@ -2205,6 +2230,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     clipboardHistoryCapture = new ClipboardHistoryCapture(this);
     ClipboardHistory.init(getFilesDir());
+    com.google.android.accessibility.talkback.clipboard.FavoriteTexts.init(getFilesDir());
     clipboardHistoryCapture.start();
 
     // If the locked-boot-completed intent was fired before onServiceConnected, we queued it,

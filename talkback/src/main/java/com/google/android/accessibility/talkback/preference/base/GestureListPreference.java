@@ -427,6 +427,11 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_text_statistics),
             resources.getString(R.string.shortcut_value_text_statistics),
             TYPE_ACTION_ITEM));
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.title_favorites),
+            resources.getString(R.string.shortcut_value_favorites),
+            TYPE_ACTION_ITEM));
     return builder.build();
   }
 

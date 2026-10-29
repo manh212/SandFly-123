@@ -114,7 +114,10 @@ public class FocusActionInfo {
   }
 
   public boolean forceFeedbackEvenIfMicrophoneActive() {
-    return sourceAction != UNKNOWN;
+    return sourceAction == TOUCH_EXPLORATION
+        || sourceAction == LOGICAL_NAVIGATION
+        || sourceAction == MANUAL_SCROLL
+        || sourceAction == KEYBOARD_SHORTCUT_REFOCUS;
   }
 
   // TODO: have better name for voice recognition/dictation than ssb

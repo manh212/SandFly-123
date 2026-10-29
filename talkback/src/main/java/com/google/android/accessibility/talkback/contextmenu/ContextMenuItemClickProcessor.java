@@ -96,6 +96,7 @@ public class ContextMenuItemClickProcessor {
         || (itemId == R.id.translate_last_utterance)
         || (itemId == R.id.copy_last_utterance_to_clipboard)
         || (itemId == R.id.speech_history)
+        || (itemId == R.id.favorites)
         || (itemId == R.id.clipboard_history)
         || (itemId == R.id.verbosity)
         || (itemId == R.id.audio_ducking)
@@ -141,6 +142,9 @@ public class ContextMenuItemClickProcessor {
     } else if (itemId == R.id.speech_history) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_HISTORY)));
+    } else if (itemId == R.id.favorites) {
+      pipeline.returnFeedback(eventId, Feedback.part().setSpeech(
+          Feedback.Speech.create(Feedback.Speech.Action.SHOW_FAVORITES)));
     } else if (itemId == R.id.clipboard_history) {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_CLIPBOARD_HISTORY)));

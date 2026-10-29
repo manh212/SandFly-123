@@ -20,6 +20,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -53,19 +54,29 @@ public class ClipboardHistoryDialog {
   private AlertDialog dialog;
   private ArrayAdapter<String> adapter;
   private String query = "";
+  private final boolean favorites;
+  private Button clearAll;
+  private TextView emptyText;
+  private AlertDialog childDialog;
 
   public ClipboardHistoryDialog(Context context, SpeechControllerImpl speaker) {
+    this(context, speaker, false);
+  }
+
+  public ClipboardHistoryDialog(
+      Context context, SpeechControllerImpl speaker, boolean favorites) {
     this.context = context;
     this.speaker = speaker;
+    this.favorites = favorites;
   }
 
   public void show(EventId eventId, @Nullable AccessibilityNodeInfoCompat pasteTarget) {
-    // A clip copied while the change listener could not read it may be readable now, with this
-    // dialog's window in front; recording it here keeps the list from missing it.
-    ClipboardHistoryCapture.captureCurrent(context);
-    if (ClipboardHistory.getEntries().isEmpty()) {
-      speak(context.getString(R.string.clipboard_history_empty), eventId);
-      return;
+    if (dialog != null && dialog.isShowing()) {
+      dialog.dismiss();
+    }
+    query = "";
+    if (!favorites) {
+      ClipboardHistoryCapture.captureCurrent(context);
     }
 
     LinearLayout layout = new LinearLayout(context);
@@ -74,20 +85,40 @@ public class ClipboardHistoryDialog {
         TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources().getDisplayMetrics());
     layout.setPadding(padding, padding, padding, padding);
 
+    if (favorites) {
+      Button add = new Button(context);
+      add.setText(R.string.favorites_add);
+      add.setOnClickListener(view -> showAddDialog(eventId));
+      layout.addView(add, new LinearLayout.LayoutParams(
+          ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    }
+
     EditText search = new EditText(context);
-    search.setHint(R.string.clipboard_history_search_hint);
+    search.setHint(favorites ? R.string.favorites_search : R.string.clipboard_history_search_hint);
     search.setSingleLine(true);
     layout.addView(search, new LinearLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
     ListView list = new ListView(context);
     layout.addView(list, new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
+        ViewGroup.LayoutParams.MATCH_PARENT, padding * 15, 1f));
+    emptyText = new TextView(context);
+    emptyText.setPadding(padding, padding, padding, padding);
+    layout.addView(emptyText);
+    list.setEmptyView(emptyText);
 
-    Button clearAll = new Button(context);
+    LinearLayout buttons = new LinearLayout(context);
+    buttons.setOrientation(LinearLayout.HORIZONTAL);
+    layout.addView(buttons);
+    clearAll = new Button(context);
     clearAll.setText(R.string.clipboard_history_clear_all);
-    layout.addView(clearAll, new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    buttons.addView(clearAll, new LinearLayout.LayoutParams(
+        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+    Button cancel = new Button(context);
+    cancel.setText(R.string.text_collection_cancel);
+    cancel.setOnClickListener(view -> dialog.dismiss());
+    buttons.addView(cancel, new LinearLayout.LayoutParams(
+        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
 
     adapter = new ArrayAdapter<String>(context, 0, new ArrayList<>()) {
       @Override
@@ -126,6 +157,13 @@ public class ClipboardHistoryDialog {
       if (entry == null) {
         return;
       }
+      if (favorites && pasteTarget == null) {
+        if (ClipboardUtils.copyToClipboard(context, entry)) {
+          speak(context.getString(R.string.favorites_copied), eventId);
+          dialog.dismiss();
+        }
+        return;
+      }
       if (pasteTarget == null) {
         speak(context.getString(R.string.clipboard_history_no_target), eventId);
         return;
@@ -134,7 +172,10 @@ public class ClipboardHistoryDialog {
         speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
         return;
       }
-      ClipboardUtils.copyToClipboardWithoutRecording(context, entry);
+      if (!ClipboardUtils.copyToClipboardWithoutRecording(context, entry)) {
+        speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
+        return;
+      }
       boolean pasted = PerformActionUtils.performAction(
           pasteTarget, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
       if (pasted) {
@@ -150,39 +191,108 @@ public class ClipboardHistoryDialog {
       if (entry == null) {
         return true;
       }
-      ClipboardHistory.remove(entry);
-      if (ClipboardHistory.getEntries().isEmpty()) {
-        speak(context.getString(R.string.clipboard_history_deleted), eventId);
-        dialog.dismiss();
-      } else {
-        refreshList();
-        speak(context.getString(R.string.clipboard_history_deleted), eventId);
-      }
+      CharSequence[] actions = favorites
+          ? new CharSequence[] {context.getString(R.string.text_collection_delete)}
+          : new CharSequence[] {
+              context.getString(R.string.text_collection_delete),
+              context.getString(R.string.favorites_add_from_clipboard)};
+      childDialog = new AlertDialog.Builder(context)
+          .setItems(actions, (clicked, which) -> {
+            if (which == 0) {
+              boolean removed = true;
+              if (favorites) {
+                removed = FavoriteTexts.remove(entry);
+              } else {
+                ClipboardHistory.remove(entry);
+              }
+              refreshList();
+              speak(context.getString(removed
+                  ? R.string.clipboard_history_deleted : R.string.favorites_save_failed), eventId);
+            } else {
+              boolean saved = FavoriteTexts.add(entry);
+              speak(context.getString(saved
+                  ? R.string.favorites_saved : R.string.favorites_save_failed), eventId);
+            }
+          })
+          .setNegativeButton(R.string.text_collection_cancel, null)
+          .create();
+      showOverlay(childDialog);
       return true;
     });
 
     clearAll.setOnClickListener(v -> {
       AlertDialog confirm =
           new AlertDialog.Builder(context)
-              .setMessage(R.string.clipboard_history_clear_confirm)
+              .setMessage(favorites ? R.string.favorites_clear_confirm : R.string.clipboard_history_clear_confirm)
               .setPositiveButton(R.string.clipboard_history_clear, (clicked, which) -> {
-                ClipboardHistory.clear();
-                dialog.dismiss();
-                speak(context.getString(R.string.clipboard_history_cleared), eventId);
+                boolean cleared = true;
+                if (favorites) {
+                  cleared = FavoriteTexts.clear();
+                } else {
+                  ClipboardHistory.clear();
+                }
+                refreshList();
+                speak(context.getString(cleared
+                    ? R.string.clipboard_history_cleared : R.string.favorites_save_failed), eventId);
               })
               .setNegativeButton(android.R.string.cancel, null)
               .create();
-      confirm.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
-      confirm.show();
+      childDialog = confirm;
+      showOverlay(confirm);
     });
 
     dialog =
         new AlertDialog.Builder(context)
-            .setTitle(R.string.title_clipboard_history)
+            .setTitle(favorites ? R.string.title_favorites : R.string.title_clipboard_history)
             .setView(layout)
             .create();
-    dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
-    dialog.show();
+    dialog.setOnDismissListener(dismissed -> {
+      if (childDialog != null) {
+        childDialog.dismiss();
+        childDialog = null;
+      }
+    });
+    dialog.getWindow().setSoftInputMode(
+        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    showOverlay(dialog);
+  }
+
+  private static void showOverlay(AlertDialog overlay) {
+    overlay.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
+    overlay.show();
+  }
+
+  private void showAddDialog(EventId eventId) {
+    EditText input = new EditText(context);
+    input.setHint(R.string.favorites_text);
+    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+    input.setMinLines(3);
+    childDialog = new AlertDialog.Builder(context)
+        .setTitle(R.string.favorites_add)
+        .setView(input)
+        .setPositiveButton(R.string.favorites_save, null)
+        .setNegativeButton(R.string.text_collection_cancel, null)
+        .create();
+    AlertDialog editor = childDialog;
+    input.requestFocus();
+    editor.getWindow().setSoftInputMode(
+        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    showOverlay(editor);
+    editor.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+      if (input.getText().toString().trim().isEmpty()) {
+        input.setError(context.getString(R.string.favorites_text_required));
+        return;
+      }
+      if (FavoriteTexts.add(input.getText())) {
+        refreshList();
+        editor.dismiss();
+        speak(context.getString(R.string.favorites_saved), eventId);
+      } else {
+        speak(context.getString(R.string.favorites_save_failed), eventId);
+      }
+    });
   }
 
   private void refreshList() {
@@ -190,7 +300,11 @@ public class ClipboardHistoryDialog {
       return;
     }
     adapter.clear();
-    adapter.addAll(filterEntries(ClipboardHistory.getEntries(), query));
+    List<String> entries = favorites ? FavoriteTexts.getEntries() : ClipboardHistory.getEntries();
+    adapter.addAll(filterEntries(entries, query));
+    clearAll.setEnabled(!entries.isEmpty());
+    emptyText.setText(!query.isEmpty() ? R.string.text_collection_no_results
+        : favorites ? R.string.favorites_empty : R.string.clipboard_history_empty);
     adapter.notifyDataSetChanged();
   }
 

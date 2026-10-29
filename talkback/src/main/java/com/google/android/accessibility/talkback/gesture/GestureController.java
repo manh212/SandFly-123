@@ -1023,6 +1023,10 @@ public class GestureController {
       result =
           pipeline.returnFeedback(
               eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_HISTORY)));
+    } else if (action.equals(service.getString(R.string.shortcut_value_favorites))) {
+      result = pipeline.returnFeedback(
+          eventId, Feedback.part().setSpeech(
+              Feedback.Speech.create(Feedback.Speech.Action.SHOW_FAVORITES)));
     } else if (action.equals(service.getString(R.string.shortcut_value_clipboard_history))) {
       result =
           pipeline.returnFeedback(

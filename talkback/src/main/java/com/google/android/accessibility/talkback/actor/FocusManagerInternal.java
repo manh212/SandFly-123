@@ -174,6 +174,9 @@ public class FocusManagerInternal {
       boolean forceRefocusIfAlreadyFocused,
       @NonNull FocusActionInfo focusActionInfo,
       @Nullable EventId eventId) {
+    if (shouldKeepRecordingFocus(node, focusActionInfo)) {
+      return false;
+    }
     if (isAccessibilityFocused(node)) {
       // The isAccessibilityFocused() method for a node inside a WebView sometimes does not work
       // correctly, so always clearing a11y focus then performing an a11y focused action on the node
@@ -534,6 +537,9 @@ public class FocusManagerInternal {
       @NonNull AccessibilityNodeInfoCompat node,
       @NonNull FocusActionInfo focusActionInfo,
       @Nullable EventId eventId) {
+    if (shouldKeepRecordingFocus(node, focusActionInfo)) {
+      return false;
+    }
     long currentTime = SystemClock.uptimeMillis();
     boolean result =
         pipeline.returnFeedback(
@@ -566,6 +572,12 @@ public class FocusManagerInternal {
         node,
         focusActionInfo);
     return result;
+  }
+
+  private boolean shouldKeepRecordingFocus(
+      AccessibilityNodeInfoCompat node, FocusActionInfo info) {
+    return service instanceof com.google.android.accessibility.talkback.TalkBackService talkBack
+        && talkBack.shouldKeepRecordingFocus(node.getWindowId(), info.sourceAction);
   }
 
   private FocusActionInfo updateFocusActionInfoIfNecessary(
