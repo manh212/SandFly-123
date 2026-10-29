@@ -8,6 +8,7 @@
         android:key="pref_initial_setup_screen"
         android:title="@string/timer_setup_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.TutorialAndHelpFragment"
         android:key="@string/pref_tutorial_and_help_key"
         android:title="@string/title_pref_category_tutorial" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
