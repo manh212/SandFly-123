@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="shortcut_text_statistics" tools:ignore="MissingTranslation">Thống kê văn bản</string>
+  <string name="text_statistics_result" tools:ignore="MissingTranslation,PluralsCandidate">%1$d dòng, %2$d từ, %3$d ký tự</string>
+  <string name="text_statistics_password" tools:ignore="MissingTranslation">Không thể thống kê ô mật khẩu</string>
+  <string name="shortcut_value_text_statistics" translatable="false">TEXT_STATISTICS</string>
+</resources>

@@ -205,8 +205,15 @@ public class VoiceProfilesTest {
     assertFalse(profile.phrases());
     assertEquals(1f, profile.rate(), 0f);
     assertEquals(0.2f, profile.pitch(), 0f);
-    assertEquals(100, profile.volume());
+    assertEquals(200, profile.volume());
     assertEquals("", VoiceProfiles.activeId(prefs));
+  }
+
+  @Test
+  public void amplifiedProfileVolumeSurvivesReload() {
+    String id = create("Louder", "e");
+    prefs.values.put(VoiceProfiles.key(id, VoiceProfiles.VOLUME), "175");
+    assertEquals(175, VoiceProfiles.read(prefs, id).volume());
   }
 
   @Test

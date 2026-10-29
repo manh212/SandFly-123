@@ -272,6 +272,7 @@ public class FailoverTextToSpeech {
   public static final String PREF_LOW_LATENCY_AUDIO_KEY = "pref_low_latency_audio";
 
   private volatile boolean lowLatencyAudio = false;
+  private boolean speechAmplificationAllowed = true;
 
   /** Makes each new utterance interrupt the one speaking and clear those waiting. */
   public static final String PREF_ALWAYS_INTERRUPT_SPEECH_KEY = "pref_always_interrupt_speech";
@@ -1705,9 +1706,17 @@ public class FailoverTextToSpeech {
    */
   private int ttsSpeak(
       CharSequence text, int queueMode, Bundle bundle, @Nullable String utteranceId) {
-    @Nullable LowLatencyAudio player = lowLatencyPlayer();
+    @Nullable LowLatencyAudio player =
+        lowLatencyPlayer(
+            floatParam(bundle, SpeechParam.VOLUME, 1f) > 1f || !lowLatencyRequests.isEmpty());
     if (player == null || utteranceId == null || TextUtils.isEmpty(text)) {
-      return tts.speak(text, queueMode, bundle, utteranceId);
+      if (queueMode != QUEUE_ADD) {
+        stopLowLatencySpeech();
+      }
+      Bundle nativeParams = new Bundle(bundle);
+      nativeParams.putFloat(SpeechParam.VOLUME,
+          Math.max(0f, Math.min(1f, floatParam(bundle, SpeechParam.VOLUME, 1f))));
+      return tts.speak(text, queueMode, nativeParams, utteranceId);
     }
     NavigationPcmCache cache = navigationPcmCache;
     if (cache != null && ttsEngine != null && LatencyExperiments.preparePcm() && !VoiceProfiles.isProfileActive()
@@ -1799,11 +1808,16 @@ public class FailoverTextToSpeech {
 
   /** The player for speech, or null if speech should play the usual way. */
   private @Nullable LowLatencyAudio lowLatencyPlayer() {
-    if (!lowLatencyAudio
+    return lowLatencyPlayer(false);
+  }
+
+  private @Nullable LowLatencyAudio lowLatencyPlayer(boolean amplify) {
+    if ((!lowLatencyAudio && !(amplify && speechAmplificationAllowed))
         || LowLatencyAudio.isMicrophoneInUse()
         || inCall()
         || (audioModeSettling() && !LowLatencyAudio.isAvoidingEarpiece())
-        || android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.R
+        || android.os.Build.VERSION.SDK_INT
+            < (amplify ? android.os.Build.VERSION_CODES.O : android.os.Build.VERSION_CODES.R)
         || (ttsEngine != null && enginesWithoutFileAudio.contains(ttsEngine))) {
       return null;
     }
@@ -1841,7 +1855,7 @@ public class FailoverTextToSpeech {
     if (heldUtteranceId != null) {
       return true;
     }
-    if (!lowLatencyAudio || (lowLatencyStreams.isEmpty() && lowLatencyRequests.isEmpty())) {
+    if (lowLatencyStreams.isEmpty() && lowLatencyRequests.isEmpty()) {
       return false;
     }
     // Whichever player has the speech, since the player for speech changes with the speech volume
@@ -1949,7 +1963,8 @@ public class FailoverTextToSpeech {
    * setting is read again.
    */
   public void speakWithoutLowLatencyAudio() {
-    if (lowLatencyAudio) {
+    speechAmplificationAllowed = false;
+    if (lowLatencyAudio || !lowLatencyStreams.isEmpty() || !lowLatencyRequests.isEmpty()) {
       lowLatencyAudio = false;
       turnOffLowLatencyAudio();
     }
@@ -2102,7 +2117,7 @@ public class FailoverTextToSpeech {
    * to do first, so it should respond at once.
    */
   private void watchForEngineHang(int queueMode, @Nullable String utteranceId) {
-    if (utteranceId == null || !lowLatencyAudio) {
+    if (utteranceId == null) {
       return;
     }
     boolean idle = queueMode != QUEUE_ADD || unfinishedUtterances.isEmpty();
@@ -2139,7 +2154,7 @@ public class FailoverTextToSpeech {
   /** Moves to another engine if the engine has said nothing about new speech in time. */
   private void checkEngineHang() {
     long since = engineQuietSince;
-    if (since == 0 || tts == null || !lowLatencyAudio) {
+    if (since == 0 || tts == null) {
       engineQuietSince = 0;
       return;
     }

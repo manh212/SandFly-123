@@ -410,6 +410,22 @@ public class GestureController {
       } else {
         speak(service.getString(R.string.copy_focused_nothing_to_copy));
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_text_statistics))) {
+      AccessibilityNodeInfoCompat node = getEditTextFocus();
+      if (node == null) {
+        result = false;
+      } else if (node.isPassword()) {
+        speak(service.getString(R.string.text_statistics_password));
+        result = false;
+      } else {
+        TextStatistics.Result statistics =
+            TextStatistics.count(node.isShowingHintText() ? "" : node.getText());
+        speak(
+            service.getString(
+                R.string.text_statistics_result,
+                statistics.lines(), statistics.words(), statistics.characters()));
+        result = true;
+      }
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_all_text))) {
       AccessibilityNodeInfoCompat node = getEditTextFocus();
       if (node == null || !node.isEditable()) {

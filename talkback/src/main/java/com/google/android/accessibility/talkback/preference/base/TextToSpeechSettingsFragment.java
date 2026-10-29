@@ -71,7 +71,7 @@ public class TextToSpeechSettingsFragment extends VerbosityPrefFragment {
     setUpSeekBar(
         R.string.pref_speech_volume_seekbar_key_int,
         getResources().getInteger(R.integer.pref_speech_volume_min),
-        /* max= */ 100,
+        VoiceProfiles.MAX_VOLUME,
         R.string.pref_speech_volume_key,
         Integer::toString);
     setUpSeekBar(

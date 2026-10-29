@@ -539,12 +539,18 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   }
 
   /**
-   * Opens a speech stream at [volume] from 0 to 1 and [pan] from -1, left, to 1, right. It plays
+   * Opens a speech stream at [volume] from 0 to 2 and [pan] from -1, left, to 1, right. It plays
    * once the streams before it have finished.
    */
   fun openStream(id: String, volume: Float, pan: Float, listener: StreamListener): SpeechStream {
     synchronized(lock) {
-      val stream = SpeechStream(id, volume.coerceIn(0f, 1f), pan.coerceIn(-1f, 1f), listener)
+      val stream =
+        SpeechStream(
+          id,
+          volume.coerceIn(0f, VoiceProfiles.MAX_VOLUME / 100f),
+          pan.coerceIn(-1f, 1f),
+          listener,
+        )
       if (released || broken) {
         // Shut down or given up on since it was got: said the usual way instead.
         stream.abandon(playerFailed = true)

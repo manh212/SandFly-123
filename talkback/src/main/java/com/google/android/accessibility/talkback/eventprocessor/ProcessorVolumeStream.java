@@ -82,6 +82,8 @@ public class ProcessorVolumeStream
   // 1. Removes the non Accessibility volume change logic.
   // 2. Stops implementing the AccessibilityEventListener
   private boolean isTouchInteracting = false;
+  private boolean volumeUpStartedDuringTouch;
+  private boolean volumeDownStartedDuringTouch;
 
   private final ActorState actorState;
   private final VolumeButtonPatternDetector patternDetector;
@@ -147,6 +149,14 @@ public class ProcessorVolumeStream
 
   @Override
   public boolean onKeyEvent(KeyEvent event, EventId eventId) {
+    if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+      boolean touching = isTouchInteracting || touchInteractingIndicator.isTouchInteracting();
+      if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP) {
+        volumeUpStartedDuringTouch = touching;
+      } else if (event.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN) {
+        volumeDownStartedDuringTouch = touching;
+      }
+    }
     boolean handled = patternDetector.onKeyEvent(event);
 
     if (handled) {
@@ -164,7 +174,7 @@ public class ProcessorVolumeStream
     return true;
   }
 
-  private void adjustVolumeFromKeyEvent(int button) {
+  private void adjustVolumeFromKeyEvent(int button, boolean startedDuringTouch) {
     final int direction =
         ((button == VolumeButtonPatternDetector.VOLUME_UP)
             ? AudioManager.ADJUST_RAISE
@@ -174,7 +184,8 @@ public class ProcessorVolumeStream
 
     // While continuous reading is active, we do not want to show the UI and interrupt continuous
     // reading.
-    if (isTouchInteracting
+    if (startedDuringTouch
+        || isTouchInteracting
         || actorState.getContinuousRead().isActive()
         || touchInteractingIndicator.isTouchInteracting()) {
       shouldRouteToTalkBackStream = true;
@@ -214,14 +225,19 @@ public class ProcessorVolumeStream
 
   @Override
   public void onPatternMatched(int patternCode, int buttonCombination, EventId eventId) {
-    handler.postPatternMatched(patternCode, buttonCombination, eventId);
+    boolean touching =
+        buttonCombination == VolumeButtonPatternDetector.VOLUME_UP
+            ? volumeUpStartedDuringTouch : volumeDownStartedDuringTouch;
+    handler.postPatternMatched(patternCode, buttonCombination, eventId, touching);
   }
 
-  public void onPatternMatchedInternal(int patternCode, int buttonCombination, EventId eventId) {
+  public void onPatternMatchedInternal(
+      int patternCode, int buttonCombination, EventId eventId, boolean startedDuringTouch) {
     switch (patternCode) {
       case VolumeButtonPatternDetector.SHORT_PRESS_PATTERN ->
-          handleSingleShortTap(buttonCombination);
-      case VolumeButtonPatternDetector.LONG_PRESS_PATTERN -> handleSingleLongTap(buttonCombination);
+          handleSingleShortTap(buttonCombination, startedDuringTouch);
+      case VolumeButtonPatternDetector.LONG_PRESS_PATTERN ->
+          handleSingleLongTap(buttonCombination, startedDuringTouch);
       default -> {}
     }
   }
@@ -234,20 +250,20 @@ public class ProcessorVolumeStream
         new KeyEvent(KeyEvent.ACTION_UP, VolumeButtonPatternDetector.PLAY_PAUSE));
   }
 
-  private void passThroughMediaButtonClick(int button) {
+  private void passThroughMediaButtonClick(int button, boolean startedDuringTouch) {
     if (button == VolumeButtonPatternDetector.PLAY_PAUSE) {
       dispatchPlayPauseSingleClick();
     } else {
-      adjustVolumeFromKeyEvent(button);
+      adjustVolumeFromKeyEvent(button, startedDuringTouch);
     }
   }
 
-  private void handleSingleShortTap(int button) {
-    passThroughMediaButtonClick(button);
+  private void handleSingleShortTap(int button, boolean startedDuringTouch) {
+    passThroughMediaButtonClick(button, startedDuringTouch);
   }
 
-  private void handleSingleLongTap(int button) {
-    passThroughMediaButtonClick(button);
+  private void handleSingleLongTap(int button, boolean startedDuringTouch) {
+    passThroughMediaButtonClick(button, startedDuringTouch);
   }
 
   /**
@@ -266,13 +282,14 @@ public class ProcessorVolumeStream
       int patternCode = msg.arg1;
       int buttonCombination = msg.arg2;
       EventId eventId = (EventId) msg.obj;
-      parent.onPatternMatchedInternal(patternCode, buttonCombination, eventId);
+      parent.onPatternMatchedInternal(patternCode, buttonCombination, eventId, msg.what == 1);
     }
 
-    public void postPatternMatched(int patternCode, int buttonCombination, EventId eventId) {
+    public void postPatternMatched(
+        int patternCode, int buttonCombination, EventId eventId, boolean startedDuringTouch) {
       Message msg =
           obtainMessage(
-              /* what= */ 0, /* arg1= */ patternCode, /* arg2= */ buttonCombination, eventId);
+              startedDuringTouch ? 1 : 0, patternCode, buttonCombination, eventId);
       sendMessage(msg);
     }
   }

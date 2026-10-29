@@ -802,7 +802,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   // ongoing or in continuous reading mode. isTouchInteracting denotes the occurrence of key
   // event is in the time window between TYPE_TOUCH_INTERACTION_START and
   // TYPE_TOUCH_INTERACTION_END will be considered as passthrough window.
-  private boolean isTouchInteracting = false;
+  private final com.google.android.accessibility.talkback.volume.TouchVolumeState touchVolumeState =
+      new com.google.android.accessibility.talkback.volume.TouchVolumeState();
   // In order to handle key action down/up in pair for the same functions.
   // Records whether the last keystroke of VolumeUp key occurred in the passthrough window.
   private boolean volumeUpKeyPressedInPassThroughWindow = false;
@@ -913,6 +914,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public boolean onUnbind(Intent intent) {
+    touchVolumeState.reset();
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     LogUtils.d(TAG, "onUnbind start");
     final long turningOffTime = System.currentTimeMillis();
@@ -1119,6 +1121,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
+    touchVolumeState.onEvent(event.getEventType());
     if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       LatencyExperiments.onTouch(true);
     } else if (event.getEventType() == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
@@ -1229,7 +1232,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
       // TODO: Could move the logic of TOUCH_INTERACTION related event handling out of
       // TalkBackService, and concentrated in a dedicated module such as ?
-      isTouchInteracting = true;
       if (globalVariables != null) {
         globalVariables.setTapToType(false);
       }
@@ -1242,7 +1244,6 @@ public class TalkBackService extends AccessibilityServiceCompat
               Performance.EVENT_ID_UNTRACKED,
               Feedback.speech(INVALIDATE_FREQUENT_CONTENT_CHANGE_CACHE));
     } else if (eventType == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
-      isTouchInteracting = false;
       NotificationReader.onTouchEnded();
     }
 
@@ -1589,17 +1590,21 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     if (keyAction == KeyEvent.ACTION_DOWN) {
       boolean handleVolumeKeyInTalkBack =
-          isTouchInteracting
+          isTouchInteracting()
               || triggerModifierPressed
               || pipeline.getActorState().getContinuousRead().isActive();
       switch (keyCode) {
         case KeyEvent.KEYCODE_VOLUME_DOWN -> {
-          passThroughThisKey = !handleVolumeKeyInTalkBack;
-          volumeDownKeyPressedInPassThroughWindow = passThroughThisKey;
+          if (keyEvent.getRepeatCount() == 0) {
+            volumeDownKeyPressedInPassThroughWindow = !handleVolumeKeyInTalkBack;
+          }
+          passThroughThisKey = volumeDownKeyPressedInPassThroughWindow;
         }
         case KeyEvent.KEYCODE_VOLUME_UP -> {
-          passThroughThisKey = !handleVolumeKeyInTalkBack;
-          volumeUpKeyPressedInPassThroughWindow = passThroughThisKey;
+          if (keyEvent.getRepeatCount() == 0) {
+            volumeUpKeyPressedInPassThroughWindow = !handleVolumeKeyInTalkBack;
+          }
+          passThroughThisKey = volumeUpKeyPressedInPassThroughWindow;
         }
         default -> {}
       }
@@ -1659,7 +1664,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         continue;
       }
 
-      if (!isTouchInteracting
+      if (!isTouchInteracting()
           && triggerModifierPressed
           && listener instanceof ProcessorVolumeStream) {
         // If either volume key is pressed with the modifier specified in the current keymap, we
@@ -1732,7 +1737,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     boolean canUse =
         (volumeKeysAdjustSliders || volumeKeysMoveCursor)
             && isServiceActive()
-            && !isTouchInteracting
+            && !isTouchInteracting()
             && !triggerModifierPressed
                 && !pipeline.getActorState().getContinuousRead().isActive()
             && ringerModeAndScreenMonitor != null
@@ -1781,7 +1786,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Whether a finger is on the screen now, from touch interaction start and end events. */
   public boolean isTouchInteracting() {
-    return isTouchInteracting;
+    return touchVolumeState.isTouching();
   }
 
   /** Runs an action from the gesture catalog, as if it had been assigned to a gesture. */
@@ -1798,7 +1803,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    * volume key SandFly manages.
    */
   public void adjustContextualVolume(boolean increase) {
-    adjustContextualVolume(increase, isTouchInteracting);
+    adjustContextualVolume(increase, isTouchInteracting());
   }
 
   /** As {@link #adjustContextualVolume(boolean)}, with the touch state given by the caller. */
@@ -3016,7 +3021,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       new TouchInteractingIndicator() {
         @Override
         public boolean isTouchInteracting() {
-          return false;
+          return TalkBackService.this.isTouchInteracting();
         }
       };
 

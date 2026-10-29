@@ -602,6 +602,12 @@ public class TalkbackMenuProcessor {
   private void addNewActionMenus(ContextMenu menu) {
     addAfterMenuCloses(
         menu,
+        R.id.text_statistics_menu,
+        28,
+        service.getString(R.string.shortcut_text_statistics),
+        node -> service.performCatalogAction(service.getString(R.string.shortcut_value_text_statistics)));
+    addAfterMenuCloses(
+        menu,
         R.id.lock_screen_menu,
         28,
         service.getString(R.string.shortcut_lock_screen),

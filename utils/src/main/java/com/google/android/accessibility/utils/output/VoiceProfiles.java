@@ -67,6 +67,7 @@ public final class VoiceProfiles {
   public static final String DEFAULT_RATE = "1.0";
   public static final String DEFAULT_PITCH = "1.0";
   public static final String DEFAULT_VOLUME = "100";
+  public static final int MAX_VOLUME = 200;
 
   /** The longest name a profile can have. */
   public static final int MAX_NAME_LENGTH = 100;
@@ -83,7 +84,7 @@ public final class VoiceProfiles {
    * @param engine the speech engine's package
    * @param language a language tag, or empty for the engine's default
    * @param voice the voice's name, or empty for the language's default voice
-   * @param volume the speech volume, from 0 to 100
+   * @param volume the speech volume, from 0 to 200
    */
   public record VoiceProfile(
       String id,
@@ -193,7 +194,7 @@ public final class VoiceProfiles {
         getString(prefs, key(id, LANGUAGE), ""),
         getString(prefs, key(id, VOICE), ""),
         Math.max(
-            0, Math.min(100, parseInt(getString(prefs, key(id, VOLUME), DEFAULT_VOLUME), 100))),
+            0, Math.min(MAX_VOLUME, parseInt(getString(prefs, key(id, VOLUME), DEFAULT_VOLUME), 100))),
         clamp(parseFloat(getString(prefs, key(id, RATE), DEFAULT_RATE), 1f), MIN_RATE, MAX_RATE),
         clamp(
             parseFloat(getString(prefs, key(id, PITCH), DEFAULT_PITCH), 1f), MIN_PITCH, MAX_PITCH),

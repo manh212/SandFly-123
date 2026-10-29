@@ -135,7 +135,7 @@ public class VoiceProfileFragment extends TalkbackBaseFragment {
         VoiceProfiles.VOLUME,
         R.string.title_pref_speech_volume,
         getResources().getInteger(R.integer.pref_speech_volume_min),
-        /* max= */ 100,
+        VoiceProfiles.MAX_VOLUME,
         Integer::toString);
     addSeekBar(
         new SpeechRatePreference(context),
