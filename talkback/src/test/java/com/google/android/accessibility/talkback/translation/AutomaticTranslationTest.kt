@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.translation
 import android.os.Looper
 import android.text.Spanned
 import android.text.style.LocaleSpan
+import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.SpeechController
 import java.time.Duration
@@ -268,7 +269,10 @@ class AutomaticTranslationTest {
     say("Bonjour tout le monde")
     assertEquals(listOf("Bonjour tout le monde"), spoken)
     engine.finishDownload()
-    assertEquals(listOf("Downloading French for on-device translation", "Hello everyone"), engine.said)
+    assertEquals(
+      listOf(context.getString(R.string.translation_downloading, TranslationLanguages.name("fr")), "Hello everyone"),
+      engine.said,
+    )
   }
 
   @Test
@@ -281,12 +285,16 @@ class AutomaticTranslationTest {
   }
 
   @Test
+  @Config(qualifiers = "vi")
   fun afterADownload_nothingIsSaidAgainOnceTheUserMovedOn() {
     engine.modelsDownloaded = false
     say("Bonjour tout le monde", SpeechController.QUEUE_MODE_INTERRUPT)
     say("Good morning", SpeechController.QUEUE_MODE_INTERRUPT)
     engine.finishDownload()
-    assertEquals(listOf("Downloading French for on-device translation"), engine.said)
+    assertEquals(
+      listOf(context.getString(R.string.translation_downloading, TranslationLanguages.name("fr"))),
+      engine.said,
+    )
   }
 
   @Test
