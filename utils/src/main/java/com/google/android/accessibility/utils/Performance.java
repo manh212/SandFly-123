@@ -193,7 +193,28 @@ public class Performance {
 
   /** Enable to track the latency and compute the statistics accordingly. */
   private volatile boolean computeStatsEnabled = false;
+  private volatile boolean navigationMeasurementActive = false;
   private final NavigationLatency navigationLatency = new NavigationLatency(this::getUptime);
+
+  public static final class NavigationGestureSample {
+    public final String gesture;
+    public final String outcome;
+    public final long actionResultMs;
+    public final long firstPcmMs;
+    public final long firstSoundPcmMs;
+    public final long audioSubmittedMs;
+    public final long soundSubmittedMs;
+
+    private NavigationGestureSample(NavigationLatency.GestureSample sample) {
+      gesture = sample.gesture;
+      outcome = sample.outcome;
+      actionResultMs = sample.actionResultMs;
+      firstPcmMs = sample.firstPcmMs;
+      firstSoundPcmMs = sample.firstSoundPcmMs;
+      audioSubmittedMs = sample.audioSubmittedMs;
+      soundSubmittedMs = sample.soundSubmittedMs;
+    }
+  }
 
   public void linkFeedbackEvent(@Nullable EventId feedback, @Nullable EventId origin) {
     if (navigationTrackingEnabled()) navigationLatency.link(feedback, origin);
@@ -211,6 +232,23 @@ public class Performance {
     navigationLatency.display(logger);
   }
 
+  public void startNavigationMeasurement() {
+    navigationLatency.reset();
+    navigationLatency.setMeasurementActive(true);
+    navigationMeasurementActive = true;
+  }
+
+  public List<NavigationGestureSample> finishNavigationMeasurement(int maxSamples) {
+    navigationMeasurementActive = false;
+    List<NavigationLatency.GestureSample> samples =
+        navigationLatency.finishMeasurement(maxSamples);
+    List<NavigationGestureSample> result = new ArrayList<>(samples.size());
+    for (NavigationLatency.GestureSample sample : samples) {
+      result.add(new NavigationGestureSample(sample));
+    }
+    return result;
+  }
+
   public void onFeedbackAudioAvailable(String utterance, long uptimeMs) {
     if (navigationTrackingEnabled() && utterance != null) {
       navigationLatency.audio(utterance, NavigationLatency.Stage.FIRST_PCM, uptimeMs);
@@ -219,7 +257,11 @@ public class Performance {
 
   private boolean navigationTrackingEnabled() {
     return computeStatsEnabled || LatencyExperiments.Feature.TRACE.enabled()
-        || LatencyExperiments.Feature.IMMEDIATE_SPEECH.enabled();
+        || LatencyExperiments.Feature.IMMEDIATE_SPEECH.enabled() || navigationMeasurementActive;
+  }
+
+  private boolean navigationTraceEnabled() {
+    return LatencyExperiments.Feature.TRACE.enabled() || navigationMeasurementActive;
   }
 
   public boolean isNavigationEvent(EventId eventId) {
@@ -231,7 +273,7 @@ public class Performance {
   }
 
   public void onNavigationPcmCacheResult(String utterance, boolean hit) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) navigationLatency.cacheResult(utterance, hit);
+    if (navigationTraceEnabled()) navigationLatency.cacheResult(utterance, hit);
   }
 
   public void onNavigationMotionEnd(EventId eventId, long uptimeMs) {
@@ -239,21 +281,21 @@ public class Performance {
   }
 
   public void onNavigationStage(EventId eventId, String stage) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) {
+    if (navigationTraceEnabled()) {
       navigationLatency.stage(eventId, NavigationLatency.Stage.valueOf(stage));
     }
   }
 
   public void onNavigationDetail(EventId eventId, String name, long value) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) navigationLatency.note(eventId, name, value);
+    if (navigationTraceEnabled()) navigationLatency.note(eventId, name, value);
   }
 
   public void onNavigationFailed(EventId eventId, String reason) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) navigationLatency.failed(eventId, reason);
+    if (navigationTraceEnabled()) navigationLatency.failed(eventId, reason);
   }
 
   public long[] beginNavigationWork() {
-    if (!LatencyExperiments.Feature.TRACE.enabled()) return null;
+    if (!navigationTraceEnabled()) return null;
     return new long[] {getUptime(), android.os.Debug.threadCpuTimeNanos()};
   }
 
@@ -269,13 +311,13 @@ public class Performance {
   }
 
   public void onFirstSoundPcm(String utterance, long uptimeMs) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) {
+    if (navigationTraceEnabled()) {
       navigationLatency.audio(utterance, NavigationLatency.Stage.FIRST_SOUND_PCM, uptimeMs);
     }
   }
 
   public void onFirstSoundSubmitted(String utterance, long uptimeMs) {
-    if (LatencyExperiments.Feature.TRACE.enabled()) {
+    if (navigationTraceEnabled()) {
       navigationLatency.audio(utterance, NavigationLatency.Stage.SOUND_SUBMITTED, uptimeMs);
     }
   }
@@ -1296,6 +1338,7 @@ public class Performance {
   }
 
   public void clearAllStats() {
+    navigationMeasurementActive = false;
     navigationLatency.reset();
     synchronized (lockLabelToStats) {
       labelToStats.clear();

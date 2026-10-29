@@ -103,14 +103,17 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
     initLatencyPreparationPreferences();
     Preference session = findPreference("pref_latency_start_session");
     if (session != null) {
+      session.setEnabled(!LatencyMeasurementSession.isRunning());
+      if (LatencyMeasurementSession.isRunning()) {
+        session.setSummary(R.string.message_latency_session_running);
+      }
       session.setOnPreferenceClickListener(preference -> {
-        executor.execute(() -> {
-          LogUtils.clearLogFiles();
-          mainHandler.post(() -> {
-            LatencyMeasurementSession.reset();
-            Toast.makeText(context, R.string.message_latency_session_started, Toast.LENGTH_SHORT).show();
-          });
-        });
+        if (LatencyMeasurementSession.isRunning()) {
+          return true;
+        }
+        preference.setEnabled(false);
+        preference.setSummary(R.string.message_latency_session_running);
+        LatencyMeasurementSession.startTimedMeasurement(context);
         return true;
       });
     }
@@ -253,6 +256,7 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
   @Override
   public void onResume() {
     super.onResume();
+    LatencyMeasurementSession.setCompletionListener(this::onLatencyMeasurementCompleted);
 
     // Monitor the touch-explore system-setting.
     @Nullable TalkBackService talkBackService = TalkBackService.getInstance();
@@ -267,12 +271,30 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
 
   @Override
   public void onPause() {
+    LatencyMeasurementSession.setCompletionListener(null);
     // Stop monitoring the touch-explore system-setting.
     if (contentObserverRegistered) {
       context.getContentResolver().unregisterContentObserver(touchExploreObserver);
     }
 
     super.onPause();
+  }
+
+  private void onLatencyMeasurementCompleted(String report) {
+    Preference session = findPreference("pref_latency_start_session");
+    if (session != null) {
+      session.setEnabled(true);
+      session.setSummary(null);
+    }
+    if (!isAdded() || !isResumed() || context == null) {
+      return;
+    }
+    A11yAlertDialogWrapper.materialDialogBuilder(context)
+        .setTitle(R.string.title_latency_session_results)
+        .setMessage(report)
+        .setPositiveButton(android.R.string.ok, null)
+        .create()
+        .show();
   }
 
   private void exportToDownloads() {

@@ -74,11 +74,16 @@ states while experimenting.
 
 1. Keep app content, TTS engine/voice/rate, speech splitting, old controls and event
    level unchanged. Record cold start, warm navigation and scrolling separately.
-2. Enable per-gesture trace and, when investigating stalls, explicit stall capture.
-   Compare logging modes separately because debug logging itself has a cost.
-3. Choose **Bắt đầu phiên đo độ trễ** after changing settings and before each run.
-   This clears raw files and measurement counters, preserving warm caches.
-   Turning on reset-on-clear makes the existing log-clear action reset counters too.
+2. Enable per-gesture trace only when the diagnostic log needs detailed stages; the
+   timed result dialog captures its summary independently. Enable explicit stall capture
+   when investigating stalls. Compare logging modes separately because debug logging
+   itself has a cost.
+3. Choose **Đo độ trễ trong 10 giây** after changing settings. It resets measurement
+   counters and records navigation gestures for ten seconds without clearing log files
+   or requiring the per-gesture trace switch. The result dialog reports average
+   navigation-result and audio timings for the whole capture, plus details for the latest
+   ten gestures. Turning on reset-on-clear keeps the existing log-clear action separate
+   and resets counters when logs are cleared.
 4. Repeat the same swipe sequence with the baseline, then one experiment at a time.
    Do not omit startup, cancellation, failure, missing audio or slow samples.
 5. Export diagnostics after each run. Verify source commit, raw preferences,

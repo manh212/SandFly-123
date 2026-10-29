@@ -1,8 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="title_latency_experiment_category" translatable="false">Thử nghiệm độ trễ điều hướng</string>
-  <string name="title_latency_start_session" translatable="false">Bắt đầu phiên đo độ trễ</string>
-  <string name="message_latency_session_started" translatable="false">Đã bắt đầu phiên đo</string>
+  <string name="title_latency_start_session" translatable="false">Đo độ trễ trong 10 giây</string>
+  <string name="message_latency_session_running" translatable="false">Đang đo trong 10 giây. Hãy vuốt như bình thường.</string>
+  <string name="title_latency_session_results" translatable="false">Kết quả đo độ trễ</string>
+  <string name="message_latency_report_count" translatable="false">Đã ghi nhận %1$d lượt vuốt điều hướng trong 10 giây.</string>
+  <string name="message_latency_report_no_gestures" translatable="false">Không ghi nhận lượt vuốt điều hướng nào trong 10 giây.</string>
+  <string name="message_latency_report_no_sound_pcm" translatable="false">Chưa ghi nhận PCM có tiếng.</string>
+  <string name="message_latency_report_first_sound_summary" translatable="false">Vuốt đến PCM có tiếng: %1$d/%2$d lượt; trung bình %3$d ms; chậm nhất %4$d ms.</string>
+  <string name="message_latency_report_no_submitted_sound" translatable="false">Chưa ghi nhận mẫu tiếng được gửi tới bộ phát.</string>
+  <string name="message_latency_report_submitted_summary" translatable="false">Vuốt đến lúc gửi mẫu tiếng tới bộ phát: %1$d/%2$d lượt; trung bình %3$d ms; chậm nhất %4$d ms; ≤50 ms: %5$d/%6$d lượt có mẫu gửi.</string>
+  <string name="message_latency_report_recent" translatable="false">Các lượt gần nhất (tối đa 10):</string>
+  <string name="message_latency_report_no_action_result" translatable="false">Chưa ghi nhận kết quả điều hướng.</string>
+  <string name="message_latency_report_action_summary" translatable="false">Vuốt đến kết quả điều hướng: %1$d/%2$d lượt; trung bình %3$d ms; chậm nhất %4$d ms; ≤50 ms: %5$d/%1$d.</string>
+  <string name="message_latency_report_row" translatable="false">%1$d. %2$s — %3$s</string>
+  <string name="message_latency_report_row_action" translatable="false">kết quả điều hướng %1$d ms</string>
+  <string name="message_latency_report_row_submitted" translatable="false">gửi PCM tiếng tới bộ phát %1$d ms</string>
+  <string name="message_latency_report_row_pcm_ready" translatable="false">PCM có tiếng %1$d ms</string>
+  <string name="message_latency_report_row_audio_submitted" translatable="false">gửi âm thanh tới bộ phát %1$d ms; chưa xác nhận mẫu có tiếng</string>
+  <string name="message_latency_report_row_pcm" translatable="false">PCM đầu tiên %1$d ms; chưa xác nhận mẫu có tiếng</string>
+  <string name="message_latency_report_row_pending" translatable="false">chưa hoàn tất trong thời gian đo</string>
+  <string name="message_latency_report_row_interrupted" translatable="false">lời đọc bị ngắt</string>
+  <string name="message_latency_report_row_no_sound" translatable="false">chưa ghi nhận âm thanh</string>
+  <string name="message_latency_report_caveat" translatable="false">Thời gian tính từ lúc TalkBack nhận diện vuốt. Mốc kết quả điều hướng không phải thời gian xử lý riêng bên trong hành động. Gửi tới bộ phát chưa xác nhận thời điểm loa phát âm thanh.</string>
   <string name="title_latency_trace" translatable="false">Ghi thời gian từng lượt vuốt</string>
   <string name="title_latency_reset_session" translatable="false">Đặt lại số đo khi xóa nhật ký</string>
   <string name="title_latency_stall_capture" translatable="false">Lưu dấu vết khi xử lý quá 50 ms</string>

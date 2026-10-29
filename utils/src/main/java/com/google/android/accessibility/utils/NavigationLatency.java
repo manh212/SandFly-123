@@ -25,6 +25,34 @@ final class NavigationLatency {
   private final ArrayDeque<Trace> traces = new ArrayDeque<>();
   private final ArrayDeque<String> stalls = new ArrayDeque<>();
   private long sessionStarted;
+  private boolean measurementActive;
+
+  static final class GestureSample {
+    final String gesture;
+    final String outcome;
+    final long actionResultMs;
+    final long firstPcmMs;
+    final long firstSoundPcmMs;
+    final long audioSubmittedMs;
+    final long soundSubmittedMs;
+
+    GestureSample(
+        String gesture,
+        String outcome,
+        long actionResultMs,
+        long firstPcmMs,
+        long firstSoundPcmMs,
+        long audioSubmittedMs,
+        long soundSubmittedMs) {
+      this.gesture = gesture;
+      this.outcome = outcome;
+      this.actionResultMs = actionResultMs;
+      this.firstPcmMs = firstPcmMs;
+      this.firstSoundPcmMs = firstSoundPcmMs;
+      this.audioSubmittedMs = audioSubmittedMs;
+      this.soundSubmittedMs = soundSubmittedMs;
+    }
+  }
 
   private static <K, V> Map<K, V> boundedMap() {
     return new LinkedHashMap<K, V>() {
@@ -58,7 +86,7 @@ final class NavigationLatency {
     if (eventId == null || eventId.getEventType() != Performance.EVENT_TYPE_GESTURE) return;
     Trace trace = new Trace(eventId);
     events.put(eventId, trace);
-    if (LatencyExperiments.Feature.TRACE.enabled()) {
+    if (LatencyExperiments.Feature.TRACE.enabled() || measurementActive) {
       if (traces.size() == MAX_LINKS) traces.removeFirst();
       traces.addLast(trace);
     }
@@ -245,7 +273,33 @@ final class NavigationLatency {
     violations.clear();
     traces.clear();
     stalls.clear();
+    measurementActive = false;
     sessionStarted = clock.getAsLong();
+  }
+
+  synchronized void setMeasurementActive(boolean active) {
+    measurementActive = active;
+  }
+
+  synchronized List<GestureSample> finishMeasurement(int maxSamples) {
+    measurementActive = false;
+    List<GestureSample> samples = new ArrayList<>();
+    for (Trace trace : traces) {
+      if (!trace.navigation) {
+        continue;
+      }
+      samples.add(
+          new GestureSample(
+              AccessibilityServiceCompatUtils.gestureIdToString(trace.origin.getEventSubtype()),
+              trace.outcome,
+              trace.elapsed[Stage.ACTION_RESULT.ordinal()],
+              trace.elapsed[Stage.FIRST_PCM.ordinal()],
+              trace.elapsed[Stage.FIRST_SOUND_PCM.ordinal()],
+              trace.elapsed[Stage.AUDIO_SUBMITTED.ordinal()],
+              trace.elapsed[Stage.SOUND_SUBMITTED.ordinal()]));
+    }
+    int start = Math.max(0, samples.size() - Math.max(0, maxSamples));
+    return new ArrayList<>(samples.subList(start, samples.size()));
   }
 }
 
