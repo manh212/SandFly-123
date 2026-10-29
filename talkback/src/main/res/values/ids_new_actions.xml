@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="lock_screen_menu" type="id" />
     <item name="media_previous_menu" type="id" />
     <item name="media_next_menu" type="id" />
     <item name="copy_focused_menu" type="id" />

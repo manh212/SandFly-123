@@ -49,7 +49,7 @@ class VolumeKeySettingsFragment : TalkbackBaseFragment(R.xml.volume_key_preferen
     if (preference is GestureListPreference) {
       // In createDialogFragment, we create PreferenceDialogFragmentCompat for Handset & Auto
       // and null for Wear.
-      val fragment: Fragment = preference.createDialogFragment()
+      val fragment: Fragment? = preference.createDialogFragment()
       if (fragment is PreferenceDialogFragmentCompat) {
         fragment.setTargetFragment(this, 0)
         fragment.show(parentFragmentManager, preference.key)

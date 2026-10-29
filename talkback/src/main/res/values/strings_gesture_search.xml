@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="gesture_search_actions" tools:ignore="MissingTranslation">Tìm chức năng</string>
+  <string name="gesture_search_no_results" tools:ignore="MissingTranslation">Không tìm thấy chức năng</string>
+  <string name="gesture_assign_action" tools:ignore="MissingTranslation">Gán %1$s cho cử chỉ</string>
+</resources>

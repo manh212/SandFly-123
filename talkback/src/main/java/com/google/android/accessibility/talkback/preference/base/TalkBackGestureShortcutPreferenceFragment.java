@@ -58,6 +58,7 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   private SharedPreferences prefs;
 
   private boolean shouldUpdatePreferenceOnResume = false;
+  private final List<GestureListPreference> searchableGestures = new ArrayList<>();
 
   public TalkBackGestureShortcutPreferenceFragment() {
     super(R.xml.gesture_preferences);
@@ -127,6 +128,41 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     }
   }
 
+  private void openActionSearch() {
+    List<GestureListPreference> gestures = new ArrayList<>();
+    for (GestureListPreference gesture : searchableGestures) {
+      if (gesture.isEnabled()) {
+        gestures.add(gesture);
+      }
+    }
+    if (gestures.isEmpty()) {
+      return;
+    }
+    shouldUpdatePreferenceOnResume = true;
+    Intent intent = new Intent(requireContext(), TalkBackSubSettings.class);
+    intent.putExtra(FRAGMENT_NAME, GesturePreferenceFragmentCompat.class.getCanonicalName());
+    intent.putExtra(
+        FRAGMENT_ARGS, GesturePreferenceFragmentCompat.createBundleForGestureSearch(gestures));
+    startActivity(intent);
+  }
+
+  private static void collectAssignableGestures(
+      PreferenceGroup group, List<GestureListPreference> gestures) {
+    for (int i = 0; i < group.getPreferenceCount(); i++) {
+      Preference preference = group.getPreference(i);
+      if (!preference.isVisible()) {
+        continue;
+      }
+      if (preference instanceof GestureListPreference gesture) {
+        if (gesture.isEnabled()) {
+          gestures.add(gesture);
+        }
+      } else if (preference instanceof PreferenceGroup child) {
+        collectAssignableGestures(child, gestures);
+      }
+    }
+  }
+
   @Override
   public CharSequence getTitle() {
     return getText(R.string.title_pref_category_manage_gestures);
@@ -138,6 +174,15 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     Context context = getContext();
 
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    Preference search = new Preference(context);
+    search.setTitle(R.string.gesture_search_actions);
+    search.setOrder(-1);
+    search.setOnPreferenceClickListener(
+        preference -> {
+          openActionSearch();
+          return true;
+        });
+    getPreferenceScreen().addPreference(search);
 
     // Launches Practice gestures page.
     @Nullable
@@ -193,6 +238,8 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
       }
     }
     getCustomizationMap().forEach(this::runPreferencesCustomization);
+    searchableGestures.clear();
+    collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     collapseCategories();
   }
 

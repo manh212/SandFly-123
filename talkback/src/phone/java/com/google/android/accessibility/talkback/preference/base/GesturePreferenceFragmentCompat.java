@@ -23,21 +23,26 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Parcelable;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.SearchView;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionInfoCompat;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.preference.Preference.OnPreferenceClickListener;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.RecyclerView.LayoutManager;
 import androidx.recyclerview.widget.RecyclerView.Recycler;
 import androidx.recyclerview.widget.RecyclerView.State;
-import android.text.TextUtils;
-import android.view.View;
-import androidx.annotation.NonNull;
-import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.CollectionInfoCompat;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceClickListener;
-import androidx.preference.PreferenceGroup;
-import androidx.preference.PreferenceScreen;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference;
 import com.google.android.accessibility.talkback.R;
@@ -45,8 +50,11 @@ import com.google.android.accessibility.talkback.preference.base.GestureListPref
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -56,6 +64,15 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  */
 public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
   private static final String TAG = "GesturePreferenceFragmentCompat";
+
+  private static final String SEARCH_QUERY = "SEARCH_QUERY";
+  private static final String GESTURE_KEYS = "GESTURE_KEYS";
+  private static final String GESTURE_LABELS = "GESTURE_LABELS";
+
+  private String searchQuery = "";
+  private String[] gestureKeys;
+  private CharSequence[] gestureLabels;
+  private AlertDialog assignmentDialog;
 
   private static final String GESTURE_TITLE = "GESTURE_TITLE";
   private static final String GESTURE_INITIAL_VALUE = "GESTURE_INITIAL_VALUE";
@@ -72,6 +89,10 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
         public boolean onPreferenceClick(Preference preference) {
 
           ActionItem item = (ActionItem) items[preference.getOrder()];
+          if (gestureKeys != null && gestureLabels != null) {
+            showGestureAssignment(item);
+            return true;
+          }
           boolean checked = TextUtils.equals(item.value, initialValue);
           if (checked) {
             // The selected action is clicked again and it is going to be unchecked. We should
@@ -103,6 +124,96 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
     bundle.putString(GESTURE_INITIAL_VALUE, preference.getCurrentValue());
     bundle.putParcelableArray(GESTURE_ACTION_ITEMS, preference.getActionItems());
     return bundle;
+  }
+
+  public static Bundle createBundleForGestureSearch(List<GestureListPreference> gestures) {
+    Bundle bundle = createBundleForFragmentArguments(gestures.get(0));
+    String[] keys = new String[gestures.size()];
+    CharSequence[] labels = new CharSequence[gestures.size()];
+    for (int i = 0; i < gestures.size(); i++) {
+      keys[i] = gestures.get(i).getKey();
+      labels[i] = gestures.get(i).getTitle();
+    }
+    bundle.putStringArray(GESTURE_KEYS, keys);
+    bundle.putCharSequenceArray(GESTURE_LABELS, labels);
+    bundle.putCharSequence(
+        GESTURE_TITLE, gestures.get(0).getContext().getString(R.string.gesture_search_actions));
+    bundle.putString(GESTURE_INITIAL_VALUE, "");
+    return bundle;
+  }
+
+  private void showGestureAssignment(ActionItem item) {
+    assignmentDialog =
+        new MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.gesture_assign_action, item.text))
+            .setItems(
+                gestureLabels,
+                (dialog, which) -> {
+                  SharedPreferencesUtils.getSharedPreferences(requireContext())
+                      .edit()
+                      .putString(gestureKeys[which], item.value)
+                      .apply();
+                  popBackStack();
+                })
+            .setNegativeButton(android.R.string.cancel, null)
+            .show();
+  }
+
+  @Override
+  public View onCreateView(
+      LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    View preferences = super.onCreateView(inflater, container, savedInstanceState);
+    LinearLayout layout = new LinearLayout(requireContext());
+    layout.setOrientation(LinearLayout.VERTICAL);
+    SearchView search = new SearchView(requireContext());
+    search.setIconifiedByDefault(false);
+    search.setQueryHint(getString(R.string.gesture_search_actions));
+    search.setQuery(searchQuery, false);
+    search.clearFocus();
+    search.setOnQueryTextListener(
+        new SearchView.OnQueryTextListener() {
+          @Override
+          public boolean onQueryTextSubmit(String query) {
+            search.clearFocus();
+            return true;
+          }
+
+          @Override
+          public boolean onQueryTextChange(String query) {
+            searchQuery = query;
+            setPreferenceScreen(createPreferenceScreen());
+            return true;
+          }
+        });
+    layout.addView(
+        search,
+        new LinearLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+    layout.addView(
+        preferences, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+    return layout;
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString(SEARCH_QUERY, searchQuery);
+  }
+
+  @Override
+  public void onDestroyView() {
+    if (assignmentDialog != null) {
+      assignmentDialog.dismiss();
+      assignmentDialog = null;
+    }
+    super.onDestroyView();
+  }
+
+  private static String normalizeSearch(String text) {
+    return Normalizer.normalize(text, Normalizer.Form.NFD)
+        .replaceAll("\\p{M}+", "")
+        .toLowerCase(Locale.ROOT)
+        .replace('đ', 'd');
   }
 
   @Override
@@ -150,6 +261,9 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
     if (bundle == null) {
       throw new IllegalArgumentException();
     }
+    searchQuery = savedInstanceState == null ? "" : savedInstanceState.getString(SEARCH_QUERY, "");
+    gestureKeys = bundle.getStringArray(GESTURE_KEYS);
+    gestureLabels = bundle.getCharSequenceArray(GESTURE_LABELS);
     title = bundle.getCharSequence(GESTURE_TITLE);
     initialValue = bundle.getString(GESTURE_INITIAL_VALUE);
     items = bundle.getParcelableArray(GESTURE_ACTION_ITEMS);
@@ -165,6 +279,7 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
     AccessibilitySuitePreferenceCategory category = null;
     @Nullable AccessibilitySuitePreferenceCategory selectedCategory = null;
     List<AccessibilitySuitePreferenceCategory> titledCategories = new ArrayList<>();
+    String query = normalizeSearch(searchQuery.trim());
     ActionItem item;
     for (int order = 0; order < items.length; order++) {
       item = (ActionItem) items[order];
@@ -176,6 +291,17 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
           titledCategories.add(category);
         }
         case TYPE_ACTION_ITEM -> {
+          String label = normalizeSearch(item.text);
+          boolean matches = true;
+          for (String word : query.split("\\s+")) {
+            if (!label.contains(word)) {
+              matches = false;
+              break;
+            }
+          }
+          if (!matches) {
+            continue;
+          }
           AccessibilitySuiteRadioButtonPreference radioButtonPreference =
               new AccessibilitySuiteRadioButtonPreference(context);
           radioButtonPreference.setTitle(item.text);
@@ -190,23 +316,35 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
             category = new AccessibilitySuitePreferenceCategory(getContext());
             preferenceScreen.addPreference(category);
           }
-          radioButtonPreference.setKey(item.text);
+          radioButtonPreference.setKey(item.value);
           category.addPreference(radioButtonPreference);
           if (checked) {
             selectedCategory = category;
           }
-          radioButtonPreference.setRequestInitialAccessibilityFocus(checked);
+          radioButtonPreference.setRequestInitialAccessibilityFocus(checked && query.isEmpty());
         }
         default -> {}
       }
     }
 
-    // Each category of actions starts collapsed, except the one with the action in use.
+    for (int i = preferenceScreen.getPreferenceCount() - 1; i >= 0; i--) {
+      Preference preference = preferenceScreen.getPreference(i);
+      if (preference instanceof PreferenceGroup group && group.getPreferenceCount() == 0) {
+        preferenceScreen.removePreference(preference);
+      }
+    }
+    if (preferenceScreen.getPreferenceCount() == 0) {
+      Preference empty = new Preference(context);
+      empty.setTitle(R.string.gesture_search_no_results);
+      empty.setSelectable(false);
+      preferenceScreen.addPreference(empty);
+    }
+
     for (AccessibilitySuitePreferenceCategory titled : titledCategories) {
       titled.setCollapsible(
           context.getString(R.string.category_collapsed),
           context.getString(R.string.category_expanded));
-      if (titled == selectedCategory) {
+      if (titled == selectedCategory || !query.isEmpty()) {
         titled.setCollapsed(false);
       }
     }
