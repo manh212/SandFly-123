@@ -437,8 +437,17 @@ object TraversalTreeCache {
   @JvmStatic
   fun changesNodes(actionId: Int): Boolean = actionId !in FOCUS_ACTIONS && actionId != SHOW_ON_SCREEN
 
+  private fun advanceRevision(event: AccessibilityEvent) {
+    if (event.eventType and IGNORED_EVENT_TYPES != 0) return
+    val trackedWindow = if (buildingWindowId != NO_WINDOW_ID) buildingWindowId
+      else root?.windowId ?: NO_WINDOW_ID
+    if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() ||
+      WindowCachePolicy.affectsOrder(event, trackedWindow)) revisionCounter.incrementAndGet()
+  }
+
   @JvmStatic
   fun noteDeferredEvent(event: AccessibilityEvent) {
+    advanceRevision(event)
     val saved = root ?: return
     if (event.windowId >= 0 && event.windowId != saved.windowId) return
     if (WindowCachePolicy.isNonStructuralContent(event)) {
@@ -451,9 +460,7 @@ object TraversalTreeCache {
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
     val type = event.eventType
     if (type and IGNORED_EVENT_TYPES != 0) return false
-    val trackedWindow = root?.windowId ?: buildingWindowId
-    if (!LatencyExperiments.Feature.SCOPED_CACHE.enabled() ||
-      WindowCachePolicy.affectsOrder(event, trackedWindow)) revisionCounter.incrementAndGet()
+    advanceRevision(event)
     val savedRoot = root ?: return false
     val windowId = event.windowId
     if (LatencyExperiments.Feature.SCOPED_CACHE.enabled() &&
