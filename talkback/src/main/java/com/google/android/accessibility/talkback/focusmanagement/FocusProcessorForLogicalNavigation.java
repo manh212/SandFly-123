@@ -1391,7 +1391,7 @@ public class FocusProcessorForLogicalNavigation {
               ignoreDescendantsOfPivot,
               navigationAction,
               logicalDirection,
-              reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
+              reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
               eventId);
       if (reveal == REVEAL_SHOWN) {
         // The saved order was read before the scroll, so it still has the next item off screen,
@@ -1419,7 +1419,7 @@ public class FocusProcessorForLogicalNavigation {
             pivot,
             ignoreDescendantsOfPivot,
             navigationAction,
-            reusableWindowTraversalStrategy(traversalStrategy, rootNode, pivot),
+            reusableOrderedStrategy(traversalStrategy, rootNode, pivot),
             eventId)) {
       return true;
     }
@@ -1533,7 +1533,7 @@ public class FocusProcessorForLogicalNavigation {
           ensureOnScreen(
               target,
               navigationAction.searchDirection,
-              reusableWindowTraversalStrategy(traversalStrategy, rootNode, target),
+              reusableOrderedStrategy(traversalStrategy, rootNode, target),
               eventId);
       // REFERTO If ensureOnScreen caused scrolling, we need use the scroll callback
       // to set focus on the next node (from the pivot) inside scrollable parent. This is helpful
@@ -2337,14 +2337,14 @@ public class FocusProcessorForLogicalNavigation {
       @NonNull AccessibilityNodeInfoCompat node,
       @SearchDirection int searchDirection,
       EventId eventId) {
-    return ensureOnScreen(node, searchDirection, /* windowTraversalStrategy= */ null, eventId);
+    return ensureOnScreen(node, searchDirection, /* windowOrderedStrategy= */ null, eventId);
   }
 
   @CanIgnoreReturnValue
   private boolean ensureOnScreen(
       @NonNull AccessibilityNodeInfoCompat node,
       @SearchDirection int searchDirection,
-      @Nullable TraversalStrategy windowTraversalStrategy,
+      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     boolean isRtl = WindowUtils.isScreenLayoutRTL(service);
     ScrollableNodeInfo scrollableNodeInfo =
@@ -2363,7 +2363,7 @@ public class FocusProcessorForLogicalNavigation {
                 /* ignoreDescendantsOfPivot= */ false,
                 searchDirection,
                 focusFinder,
-                windowTraversalStrategy)
+                windowOrderedStrategy)
             || isPositionAtEdge(service, node, scrollableNode, searchDirection);
 
     if (!needToEnsureOnScreen) {
@@ -2641,16 +2641,20 @@ public class FocusProcessorForLogicalNavigation {
   }
 
   /**
-   * Returns {@code strategy} for edge checks when {@code node} is in the same window as its root.
+   * Returns {@code strategy} if the edge checks can reuse it for {@code node}, namely if it is an
+   * {@link OrderedTraversalStrategy} built from {@code root} and {@code node} is in the same window.
+   * Navigation can find a target in another window, and the tree of one window can't answer edge
+   * checks for another.
    */
-  private static @Nullable TraversalStrategy reusableWindowTraversalStrategy(
+  private static @Nullable OrderedTraversalStrategy reusableOrderedStrategy(
       TraversalStrategy strategy,
       @NonNull AccessibilityNodeInfoCompat root,
       @NonNull AccessibilityNodeInfoCompat node) {
-    if (node.getWindowId() != root.getWindowId()) {
+    if (!(strategy instanceof OrderedTraversalStrategy orderedStrategy)
+        || node.getWindowId() != root.getWindowId()) {
       return null;
     }
-    return strategy;
+    return orderedStrategy;
   }
 
   /** What {@link #revealNextOffscreenItem} did. */
@@ -2685,7 +2689,7 @@ public class FocusProcessorForLogicalNavigation {
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
       @SearchDirection int logicalDirection,
-      @Nullable TraversalStrategy windowTraversalStrategy,
+      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!BuildVersionUtils.isAtLeastU()
         || !navigationAction.shouldScroll
@@ -2708,7 +2712,7 @@ public class FocusProcessorForLogicalNavigation {
             ignoreDescendantsOfPivot,
             navigationAction.searchDirection,
             focusFinder,
-            windowTraversalStrategy)) {
+            windowOrderedStrategy)) {
       return REVEAL_NONE;
     }
     AccessibilityNodeInfoCompat scrollable = scrollableNodeInfo.getNode();
@@ -2760,7 +2764,7 @@ public class FocusProcessorForLogicalNavigation {
       @NonNull AccessibilityNodeInfoCompat pivot,
       boolean ignoreDescendantsOfPivot,
       NavigationAction navigationAction,
-      @Nullable TraversalStrategy windowTraversalStrategy,
+      @Nullable OrderedTraversalStrategy windowOrderedStrategy,
       EventId eventId) {
     if (!navigationAction.shouldScroll) {
       LogUtils.v(TAG, "autoScrollAtEdge returns due to shouldScroll is false");
@@ -2799,7 +2803,7 @@ public class FocusProcessorForLogicalNavigation {
         ignoreDescendantsOfPivot,
         navigationAction.searchDirection,
         focusFinder,
-        windowTraversalStrategy)) {
+        windowOrderedStrategy)) {
       return false;
     }
 
