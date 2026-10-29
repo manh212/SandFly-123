@@ -1,17 +1,13 @@
 package com.google.android.accessibility.utils.input;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import android.accessibilityservice.AccessibilityService;
 import android.app.Notification;
-import android.util.SparseArray;
 import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityWindowInfo;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance;
-import java.util.Collections;
-import java.util.List;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,17 +17,19 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
 public class HeadsUpToastFilterTest {
-  public static class RecordingService extends AccessibilityService {
-    int reads;
+  private static final class RecordingService extends AccessibilityService {
     @Override public void onAccessibilityEvent(AccessibilityEvent event) {}
     @Override public void onInterrupt() {}
-    @Override public SparseArray<List<AccessibilityWindowInfo>> getWindowsOnAllDisplays() {
+  }
+
+  private static final class RecordingInterpreter extends HeadsUpNotificationEventInterpreter {
+    int reads;
+
+    RecordingInterpreter() { super(new RecordingService()); }
+
+    @Override AccessibilityNodeInfoCompat findHeadsUpNotification(int windowId, int displayId) {
       reads++;
-      return new SparseArray<>();
-    }
-    @Override public List<AccessibilityWindowInfo> getWindows() {
-      reads++;
-      return Collections.emptyList();
+      return null;
     }
   }
 
@@ -42,15 +40,24 @@ public class HeadsUpToastFilterTest {
 
   @Test
   public void toastSkipsTreeLookupButRealNotificationStillUsesIt() {
-    RecordingService service = new RecordingService();
-    HeadsUpNotificationEventInterpreter interpreter = new HeadsUpNotificationEventInterpreter(service);
+    RecordingInterpreter interpreter = new RecordingInterpreter();
     LatencyExperiments.setEnabled(LatencyExperiments.Feature.TOAST_FILTER, true);
     AccessibilityEvent event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED);
     interpreter.onAccessibilityEvent(event, Performance.EVENT_ID_UNTRACKED);
-    assertEquals(0, service.reads);
+    assertEquals(0, interpreter.reads);
     event.setParcelableData(new Notification());
     interpreter.onAccessibilityEvent(event, Performance.EVENT_ID_UNTRACKED);
-    assertTrue(service.reads > 0);
+    assertEquals(1, interpreter.reads);
+    event.recycle();
+  }
+
+  @Test
+  public void disabledFilterKeepsTheExistingToastLookupPath() {
+    RecordingInterpreter interpreter = new RecordingInterpreter();
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.TOAST_FILTER, false);
+    AccessibilityEvent event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED);
+    interpreter.onAccessibilityEvent(event, Performance.EVENT_ID_UNTRACKED);
+    assertEquals(1, interpreter.reads);
     event.recycle();
   }
 }

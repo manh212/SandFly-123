@@ -162,7 +162,7 @@ public class HeadsUpNotificationEventInterpreter implements AccessibilityEventLi
     }
   }
 
-  private @Nullable AccessibilityNodeInfoCompat findHeadsUpNotification(
+  @Nullable AccessibilityNodeInfoCompat findHeadsUpNotification(
       int addedWindowId, int addedWindowDisplayId) {
     AccessibilityNodeInfoCompat notificationGuess = null;
     SparseArray<List<AccessibilityWindowInfo>> windowsOnAllDisplays =
