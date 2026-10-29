@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback
 
+import com.google.android.accessibility.talkback.report.LatencyMeasurementSession
 import org.junit.Assert.assertNull
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -31,5 +32,11 @@ class TalkBackServiceBeforeConnectTest {
     val service = Robolectric.buildService(TalkBackService::class.java).create().get()
 
     assertNull(service.talkBackExitController)
+  }
+  @Test
+  fun measurementSessionCanStartBeforeSpeechInitialization() {
+    Robolectric.buildService(TalkBackService::class.java).create().get()
+
+    LatencyMeasurementSession.reset()
   }
 }

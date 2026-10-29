@@ -15,7 +15,12 @@ object LatencyMeasurementSession {
     TraversalTreeCache.resetOrderCacheStats()
     EventProcessingStats.reset()
     LowLatencyAudio.players().forEach { it.resetGapStatistics() }
-    TalkBackService.getInstance()?.speechController?.failoverTts?.resetNavigationCacheStatistics()
+    val speechController = try {
+      TalkBackService.getInstance()?.speechController
+    } catch (notReady: IllegalStateException) {
+      null
+    }
+    speechController?.failoverTts?.resetNavigationCacheStatistics()
     LogUtils.i("LatencyTrace", "Measurement session started")
   }
 }
