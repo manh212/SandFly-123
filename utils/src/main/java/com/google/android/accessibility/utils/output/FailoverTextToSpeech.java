@@ -198,7 +198,7 @@ public class FailoverTextToSpeech {
    */
   static final int SPEECH_FLUSH_ALL = 2;
 
-  public static volatile boolean splitAtFirstSeparatorEnabled = true;
+  public static volatile boolean splitAtFirstSeparatorEnabled = false;
 
   /**
    * What fraction of the volume seekbar corresponds to a doubling of audio volume.
@@ -1246,7 +1246,10 @@ public class FailoverTextToSpeech {
     int firstChunkEnd =
         splitAtFirstSeparatorEnabled
                 && eventId != null
-                && eventId.getEventType() == Performance.EVENT_TYPE_GESTURE
+                && (eventId.getEventType() == Performance.EVENT_TYPE_GESTURE
+                    || (eventId.getEventType() == Performance.EVENT_TYPE_ACCESSIBILITY
+                        && eventId.getEventSubtype()
+                            == android.view.accessibility.AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED))
                 && utteranceInfoCombo.flushGlobalTtsQueue()
             ? utteranceInfoCombo.firstSeparatorEnd()
             : 0;
@@ -1926,6 +1929,11 @@ public class FailoverTextToSpeech {
   private final LowLatencyAudio.StreamListener lowLatencyListener =
       new LowLatencyAudio.StreamListener() {
         @Override
+        public void onAudioSubmitted(String id, long uptimeMs) {
+          recordPlaybackStart(id, uptimeMs, true);
+        }
+
+        @Override
         public void onStarted(String id) {
           noAudioInARow = 0;
           utteranceProgressCallback.onStart(id);
@@ -2176,6 +2184,7 @@ public class FailoverTextToSpeech {
           }
           String reported = reportedId(utteranceId, /* finished= */ false);
           if (!lowLatencyStreams.containsKey(utteranceId)) {
+            recordPlaybackStart(reported, SystemClock.uptimeMillis(), false);
             utteranceProgressCallback.onStart(reported);
           }
         }
@@ -2199,11 +2208,15 @@ public class FailoverTextToSpeech {
 
         @Override
         public void onAudioAvailable(String utteranceId, byte[] audio) {
+          long availableAt = SystemClock.uptimeMillis();
           engineResponded(utteranceId, /* finished= */ false);
           if (isRespokenFirstTry(utteranceId)) {
             return;
           }
           String reported = reportedId(utteranceId, /* finished= */ false);
+          SpeechChunk timingChunk = toOriginal(reported);
+          Performance.getInstance().onFeedbackAudioAvailable(
+              timingChunk == null ? reported : timingChunk.utteranceId(), availableAt);
           LowLatencyAudio.@Nullable SpeechStream stream = lowLatencyStreams.get(utteranceId);
           if (stream != null) {
             stream.write(audio);
@@ -2292,6 +2305,21 @@ public class FailoverTextToSpeech {
           }
         }
       };
+
+  private void recordPlaybackStart(String id, long uptimeMs, boolean audioSubmitted) {
+    int separator = id.indexOf(CHUNK_ID_SEPARATOR);
+    if (separator >= 0) {
+      SpeechChunk chunk = speechChunks.get(id);
+      if (chunk != null) {
+        if (!chunk.first() || chunk.utteranceId() == null) return;
+        id = chunk.utteranceId();
+      } else {
+        if (!id.substring(separator).equals(CHUNK_ID_SEPARATOR + "0")) return;
+        id = id.substring(0, separator);
+      }
+    }
+    Performance.getInstance().onFeedbackPlaybackStarted(id, uptimeMs, audioSubmitted);
+  }
 
   /**
    * Returns the piece for a split utterance's progress callback, or {@code null} if {@code

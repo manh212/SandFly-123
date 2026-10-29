@@ -55,6 +55,8 @@ class DiagnosticsExportTest {
       .remove("pref_prepare_adjacent_speech")
       .remove("pref_prepare_second_ahead_speech")
       .remove("pref_event_processing_level")
+      .remove("pref_order_cache")
+      .remove("pref_split_control_speech")
       .commit()
     ProcessorEventQueue.setProcessingLevel("medium")
     LogUtils.setEnabled(false)
@@ -137,6 +139,8 @@ class DiagnosticsExportTest {
 
     assertTrue(snapshot.contains("Latency extras disabled: true\n"))
     assertTrue(snapshot.contains("Pinned latency optimizations: true\n"))
+    assertTrue(snapshot.contains("Order cache selected: true\n"))
+    assertTrue(snapshot.contains("Split control speech selected: false\n"))
   }
 
   @Test

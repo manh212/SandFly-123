@@ -236,13 +236,10 @@ public class AudioTrackSpeechCachePlayer extends SpeechCachePlayer {
 
   @Override
   public void stopSpeech() {
-    LogUtils.d(TAG, "stopSpeech");
     stopSpeechInternal(getAudioTrack());
-    LogUtils.d(TAG, "stopSpeech done");
   }
 
   private void stopSpeechInternal(@Nullable AudioTrack audioTrack) {
-    LogUtils.d(TAG, "stopSpeechInternal queue size=" + playbackQueue.size());
     Iterator<SpeechPlaybackItem> it = playbackQueue.iterator();
     while (it.hasNext()) {
       final SpeechPlaybackItem item = it.next();

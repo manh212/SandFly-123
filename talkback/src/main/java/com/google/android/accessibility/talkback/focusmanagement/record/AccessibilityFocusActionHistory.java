@@ -29,6 +29,8 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.Performance;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.auto.value.AutoValue;
@@ -173,6 +175,7 @@ public final class AccessibilityFocusActionHistory {
 
   private boolean focusOnTalkBackUiBeforeWindowTransition = false;
   private long pendingWebFocusActionTime = -1;
+  private @Nullable EventId pendingOriginEventId;
 
   //////////////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -199,8 +202,17 @@ public final class AccessibilityFocusActionHistory {
       @NonNull FocusActionInfo extraData,
       long actionTime,
       @Nullable ScreenState currentScreenState) {
+    onAccessibilityFocusAction(node, extraData, actionTime, currentScreenState, null);
+  }
+
+  public void onAccessibilityFocusAction(
+      @NonNull AccessibilityNodeInfoCompat node,
+      @NonNull FocusActionInfo extraData,
+      long actionTime,
+      @Nullable ScreenState currentScreenState,
+      @Nullable EventId originEventId) {
     // FocusActionRecord handles making a copy of 'node'. We don't nee to call obtain() here.
-    FocusActionRecord record = new FocusActionRecord(node, extraData, actionTime);
+    FocusActionRecord record = new FocusActionRecord(node, extraData, actionTime, originEventId);
 
     FocusActionRecord lastFocus = getLastFocusActionRecord();
     if (lastFocus != null) {
@@ -236,9 +248,16 @@ public final class AccessibilityFocusActionHistory {
    */
   public void onPendingAccessibilityFocusActionOnWebElement(
       FocusActionInfo extraData, long actionTime, ScreenState currentScreenState) {
+    onPendingAccessibilityFocusActionOnWebElement(extraData, actionTime, currentScreenState, null);
+  }
+
+  public void onPendingAccessibilityFocusActionOnWebElement(
+      FocusActionInfo extraData, long actionTime, ScreenState currentScreenState,
+      @Nullable EventId originEventId) {
     pendingWebFocusActionInfo = extraData;
     pendingScreenState = currentScreenState;
     pendingWebFocusActionTime = actionTime;
+    pendingOriginEventId = originEventId;
   }
 
   public @Nullable FocusActionRecord getLastFocusActionRecordInWindow(
@@ -327,6 +346,10 @@ public final class AccessibilityFocusActionHistory {
         }
       }
     }
+    if (result != null) {
+      Performance performance = Performance.getInstance();
+      performance.linkFeedbackEvent(performance.toEventId(event), result.getOriginEventId());
+    }
     return result;
   }
 
@@ -337,7 +360,8 @@ public final class AccessibilityFocusActionHistory {
         && WebInterfaceUtils.supportsWebActions(focusedNode)
         && (focusEventTime - pendingWebFocusActionTime < getTimeoutToleranceMs(focusedNode))) {
       onAccessibilityFocusAction(
-          focusedNode, pendingWebFocusActionInfo, pendingWebFocusActionTime, pendingScreenState);
+          focusedNode, pendingWebFocusActionInfo, pendingWebFocusActionTime, pendingScreenState,
+          pendingOriginEventId);
       clearPendingFocusAction();
     }
   }
@@ -375,6 +399,7 @@ public final class AccessibilityFocusActionHistory {
   private void clearPendingFocusAction() {
     pendingWebFocusActionInfo = null;
     pendingWebFocusActionTime = -1;
+    pendingOriginEventId = null;
   }
 
   private int getTimeoutToleranceMs(AccessibilityNodeInfoCompat node) {

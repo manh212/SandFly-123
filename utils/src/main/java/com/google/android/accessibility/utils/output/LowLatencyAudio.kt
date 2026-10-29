@@ -63,6 +63,23 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
   private val lock = java.lang.Object()
   private val clips = ArrayList<PlayingClip>()
   private val streams = ArrayDeque<SpeechStream>()
+  private val startingStreams = ArrayList<SpeechStream>()
+  private val gapCounts = LongArray(SpeechGapTracker.Kind.values().size)
+  private val gapTotalMs = LongArray(SpeechGapTracker.Kind.values().size)
+  private val gapMaxMs = LongArray(SpeechGapTracker.Kind.values().size)
+
+  private fun recordGap(gap: SpeechGapTracker.Gap?) {
+    if (gap == null) return
+    val index = gap.kind.ordinal
+    gapCounts[index]++
+    gapTotalMs[index] += gap.durationMs
+    gapMaxMs[index] = maxOf(gapMaxMs[index], gap.durationMs)
+  }
+
+  private fun gapSummary(kind: SpeechGapTracker.Kind): String {
+    val i = kind.ordinal
+    return "${gapCounts[i]} episodes, ${gapTotalMs[i]} ms total, ${gapMaxMs[i]} ms maximum"
+  }
   // Listener callbacks run here, in order, so that they never hold up the audio thread. Its thread
   // ends when there is nothing to report.
   private val callbacks = singleThreadExecutor("LowLatencyAudio callbacks")
@@ -180,6 +197,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
 
   /** Called on a callback thread as a speech stream plays. */
   interface StreamListener {
+    fun onAudioSubmitted(id: String, uptimeMs: Long)
     /** The stream's first sound reached the output. */
     fun onStarted(id: String)
 
@@ -239,7 +257,11 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     private var framesWritten = 0L
     private var framesPlayed = 0L
     private var started = false
-    private var ranDry = false
+    internal val gaps = SpeechGapTracker()
+
+    internal fun reportAudioSubmitted(uptimeMs: Long) {
+      listener.onAudioSubmitted(id, uptimeMs)
+    }
     private var ended = false
     private var finished = false
     // When the engine last gave this stream anything, or it reached the front of the queue.
@@ -325,6 +347,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     fun end() {
       synchronized(lock) {
         if (finished) return
+        recordGap(gaps.close(SpeechGapTracker.Kind.TAIL, SystemClock.uptimeMillis()))
         // A short utterance that is all silence, such as a pause or punctuation, says nothing
         // about whether the engine silenced its audio. Only SILENT_MS of silence does.
         resampler?.let { add(toStereo(it.flush(), inChannels)) }
@@ -377,13 +400,12 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
           headOffset = 0
         }
       }
-      if (started && !ended && written < frames && !ranDry) {
-        // The engine has not kept up, so the speech has a gap.
-        ranDry = true
-        LogUtils.d(TAG, "Speech %s ran dry after %d frames", id, framesPlayed + written)
+      if (started || written > 0) {
+        recordGap(gaps.mix(written, frames, !ended, SystemClock.uptimeMillis()))
       }
       if (written > 0 && !started) {
         started = true
+        startingStreams += this
         callbacks.execute { listener.onStarted(id) }
       }
       framesPlayed += written
@@ -413,6 +435,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
      * [playerFailed] tells whether the player, rather than the engine, is why.
      */
     internal fun abandon(playerFailed: Boolean) {
+      recordGap(gaps.close(SpeechGapTracker.Kind.INTERRUPTED, SystemClock.uptimeMillis()))
       finished = true
       pending.clear()
       callbacks.execute {
@@ -422,6 +445,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
 
     internal fun finish(completed: Boolean) {
       if (finished) return
+      recordGap(gaps.close(
+        if (completed) SpeechGapTracker.Kind.TAIL else SpeechGapTracker.Kind.INTERRUPTED,
+        SystemClock.uptimeMillis()))
       finished = true
       pending.clear()
       val noAudio = completed && framesWritten == 0L
@@ -440,6 +466,7 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     /** Removes this stream without reporting anything, as if it had never been opened. */
     fun discard() {
       synchronized(lock) {
+        recordGap(gaps.close(SpeechGapTracker.Kind.INTERRUPTED, SystemClock.uptimeMillis()))
         streams.remove(this)
         finished = true
         pending.clear()
@@ -535,6 +562,10 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     val playState: Int,
     val routedDeviceType: Int?,
     val routedDeviceName: String?,
+    val resumedShortages: String,
+    val tailWaits: String,
+    val interruptedShortages: String,
+    val pendingShortages: Int,
   )
 
   /** This player's state now, for diagnostics. */
@@ -577,6 +608,10 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
         playState = playState,
         routedDeviceType = deviceType,
         routedDeviceName = deviceName,
+        resumedShortages = gapSummary(SpeechGapTracker.Kind.RESUMED),
+        tailWaits = gapSummary(SpeechGapTracker.Kind.TAIL),
+        interruptedShortages = gapSummary(SpeechGapTracker.Kind.INTERRUPTED),
+        pendingShortages = streams.count { it.gaps.waiting },
       )
     }
 
@@ -673,7 +708,9 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
     val buffer = FloatArray(burstFrames * 2)
     while (true) {
       val output: AudioTrack
+      val starts: List<SpeechStream>
       synchronized(lock) {
+        startingStreams.clear()
         val current = track
         val idle = clips.isEmpty() && (streams.isEmpty() || held)
         if (released || broken || current == null || (idle && idleFrames >= idleLimit())) {
@@ -706,9 +743,16 @@ class LowLatencyAudio private constructor(context: Context, private val attribut
           mix(buffer)
         }
         primed = true
+        starts = startingStreams.toList()
         if (idle) idleFrames += burstFrames
       }
-      if (!remakeTrack && play(output) && write(output, buffer)) continue
+      if (!remakeTrack && play(output) && write(output, buffer)) {
+        val submittedAt = SystemClock.uptimeMillis()
+        for (stream in starts) {
+          callbacks.execute { stream.reportAudioSubmitted(submittedAt) }
+        }
+        continue
+      }
       if (released || broken) continue
       // Android stopped taking audio on this track, such as after its output changed. Make a new
       // one, or play the usual way from now on.

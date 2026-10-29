@@ -204,6 +204,8 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
         .setTtsOutput(Optional.of(ttsOutput))
         .setQueueMode(queueMode(isInitialFocus, isDeviceScreenNoTouch))
         .setTtsAddToHistory(true)
+        .setTtsSkipDuplicate(isInitialFocus
+            && TextUtils.equals(ttsOutput, globalVariables.getWindowTitle(srcNode.getWindowId())))
         .setAdvanceContinuousReading(true)
         .setForceFeedbackEvenIfAudioPlaybackActive(
             accessibilityFocusEventInterpretation.getForceFeedbackEvenIfAudioPlaybackActive())

@@ -22,6 +22,7 @@ import static com.google.android.accessibility.talkback.interpreters.AutoScrollI
 
 import android.os.Looper;
 import android.os.Message;
+import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
@@ -33,6 +34,7 @@ import com.google.android.accessibility.talkback.actor.search.SearchScreenOverla
 import com.google.android.accessibility.talkback.actor.search.UniversalSearchActor;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter.ScrollEventHandler;
 import com.google.android.accessibility.utils.input.ScrollEventInterpreter.ScrollEventInterpretation;
@@ -83,7 +85,10 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
         && (autoScrollRecordId() == interpretation.scrollInstanceId)
         && (event.getEventType() == AccessibilityEvent.TYPE_VIEW_SCROLLED)) {
       ScrollActionRecord record = getUnhandledAutoScrollRecord();
-      record.refresh();
+      if (record == null) return;
+      Performance.getInstance().linkFeedbackEvent(eventId, record.originEventId);
+      autoScrollHandler.prepareScroll(
+          record.scrollInstanceId, ScrollActionRecord.FOCUS.equals(record.scrollSource));
 
       // Cause AutoScrollActor.onScrollEvent() to cancel failure timeout.
       pipeline.input(eventId, event, new Interpretation.ID(SCROLL_CANCEL_TIMEOUT));
@@ -92,8 +97,6 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
       // animation behavior is supported in AndroidX it's available for before P as well. For the
       // use case of scroll by gesture, we have to wait until the scroll action finishes before
       // searching for next node.
-      autoScrollHandler.removeHandleAutoScrollSuccessMessages();
-
       AutoScrollSuccessChecker checker = record.getAutoScrollSuccessChecker();
       LogUtils.d(TAG, "onScrollEvent, checker = %s", checker);
       if (checker != null && checker.isAutoScrollSuccess(record.getScrolledNode(), event)) {
@@ -112,6 +115,7 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
   }
 
   public void handleAutoScrollFailed() {
+    autoScrollHandler.removeHandleAutoScrollSuccessMessages();
     @Nullable ScrollActionRecord record = getUnhandledAutoScrollFailRecord();
     if (record == null) {
       return;
@@ -187,25 +191,44 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
     // If it is bigger than SUBTREE_CHANGED_DELAY_MS, the ensuring method may already put a focus on
     // a node.
     static final int TIMEOUT_MS_HANDLE_SCROLL_BY_GESTURE = 110;
+    private static final long MAX_SCROLL_SETTLE_MS = 220;
     private static final int MSG_HANDLE_AUTO_SCROLL_SUCCESS = 0;
 
     // Due to animation, these variables are used to accumulate the scroll deltas from several
     // scroll events. Then, we use these variables to represent a single scroll action.
     private int scrollDeltaSumX = 0;
     private int scrollDeltaSumY = 0;
+    private long firstPendingAt = -1;
+    private int pendingInstanceId = UNKNOWN_SCROLL_INSTANCE_ID;
+    private boolean boundWait;
 
     AutoScrollHandler(AutoScrollInterpreter autoScrollInterpreter) {
       super(autoScrollInterpreter, Looper.myLooper());
     }
 
+    void prepareScroll(int instanceId, boolean boundWait) {
+      if (pendingInstanceId != instanceId) {
+        removeHandleAutoScrollSuccessMessages();
+        pendingInstanceId = instanceId;
+      }
+      this.boundWait = boundWait;
+    }
+
+    static long settleDelay(long firstPendingAt, long now, long quietDelay) {
+      return Math.max(0, Math.min(quietDelay, MAX_SCROLL_SETTLE_MS - (now - firstPendingAt)));
+    }
+
     public void delayHandleAutoScrollSuccess(
         EventId eventId, int scrollDeltaX, int scrollDeltaY, long delay) {
+      long now = SystemClock.uptimeMillis();
+      if (firstPendingAt < 0) firstPendingAt = now;
       scrollDeltaSumX += scrollDeltaX;
       scrollDeltaSumY += scrollDeltaY;
+      removeMessages(MSG_HANDLE_AUTO_SCROLL_SUCCESS);
 
       Message message =
           obtainMessage(MSG_HANDLE_AUTO_SCROLL_SUCCESS, scrollDeltaSumX, scrollDeltaSumY, eventId);
-      sendMessageDelayed(message, delay);
+      sendMessageDelayed(message, boundWait ? settleDelay(firstPendingAt, now, delay) : delay);
     }
 
     /** Handles auto-scroll success immediately. */
@@ -223,11 +246,19 @@ public class AutoScrollInterpreter implements ScrollEventHandler {
 
     public void removeHandleAutoScrollSuccessMessages() {
       removeMessages(MSG_HANDLE_AUTO_SCROLL_SUCCESS);
+      firstPendingAt = -1;
+      pendingInstanceId = UNKNOWN_SCROLL_INSTANCE_ID;
+      scrollDeltaSumX = 0;
+      scrollDeltaSumY = 0;
     }
 
     @Override
     protected void handleMessage(Message msg, AutoScrollInterpreter parent) {
       if (msg.what == MSG_HANDLE_AUTO_SCROLL_SUCCESS) {
+        if (pendingInstanceId != parent.autoScrollRecordId()) {
+          removeHandleAutoScrollSuccessMessages();
+          return;
+        }
         parent.handleAutoScrollSuccess(
             (EventId) msg.obj, /* scrollDeltaX= */ msg.arg1, /* scrollDeltaY= */ msg.arg2);
         scrollDeltaSumX = 0;

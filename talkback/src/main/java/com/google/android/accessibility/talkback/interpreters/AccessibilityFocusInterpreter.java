@@ -325,7 +325,7 @@ public class AccessibilityFocusInterpreter
                   context, node, actorState.getGeminiState().hasAiCore())
               && actorState.getLabelManagerState().getLabelIdForNode(node) == Label.NO_ID;
       pipelineInterpretations.input(
-          Performance.getInstance().onEventReceived(event),
+          Performance.getInstance().onEventReceivedIfAbsent(event),
           event,
           Interpretation.AccessibilityFocused.create(info, needsCaption),
           node);

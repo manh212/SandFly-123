@@ -229,8 +229,9 @@ public class FocusActor implements UserInputEventListener {
 
   /** Passes through to FocusManagerInternal.updateFocusHistory() */
   private void updateFocusHistory(
-      @NonNull AccessibilityNodeInfoCompat pivot, @NonNull FocusActionInfo focusActionInfo) {
-    focusManagerInternal.updateFocusHistory(pivot, focusActionInfo);
+      @NonNull AccessibilityNodeInfoCompat pivot, @NonNull FocusActionInfo focusActionInfo,
+      @Nullable EventId eventId) {
+    focusManagerInternal.updateFocusHistory(pivot, focusActionInfo, eventId);
   }
 
   /**

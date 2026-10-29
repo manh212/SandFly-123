@@ -249,15 +249,18 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
     }
 
     if ((dumpEventMask & event.getEventType()) != 0) {
-      final AccessibilityNodeInfo node = event.getSource();
-      LogUtils.v(TAG, DUMP_EVENT_LOG_FORMAT, event, node == null ? "null" : node.hashCode());
+      LogUtils.v(TAG, "event=%s package=%s window=%d time=%d changes=%x",
+          AccessibilityEvent.eventTypeToString(event.getEventType()), event.getPackageName(),
+          event.getWindowId(), event.getEventTime(), event.getContentChangeTypes());
     }
 
     if (shouldDropRefocusEvent(event)) {
+      EventProcessingStats.dropped(event);
       return;
     }
 
     if (shouldDropEvent(event)) {
+      EventProcessingStats.dropped(event);
       return;
     }
 
@@ -628,21 +631,6 @@ public class AccessibilityEventProcessor implements DisplayStateChangedListener 
    * @param event The current event.
    */
   private void processEvent(AccessibilityEvent event, EventId eventId) {
-    // Log the listeners for this event type.
-    if (LogUtils.isEnabled()) {
-      StringBuilder handlerNames = new StringBuilder();
-      Iterator<AccessibilityEventListener> iterator = accessibilityEventListeners.iterator();
-      while (iterator.hasNext()) {
-        AccessibilityEventListener eventListener = iterator.next();
-        int eventTypesHandled = eventListener.getEventTypes();
-        if (AccessibilityEventUtils.eventMatchesAnyType(event, eventTypesHandled)) {
-          handlerNames.append((handlerNames.length() == 0) ? "" : ","); // Delimiter
-          handlerNames.append(eventListener.getClass().getSimpleName());
-        }
-      }
-      LogUtils.v(TAG, "Event listeners: %s", handlerNames);
-    }
-
     // Send events to the only those processors which handle them.
     boolean trace = LogUtils.shouldLog(Log.DEBUG);
     if (trace) {

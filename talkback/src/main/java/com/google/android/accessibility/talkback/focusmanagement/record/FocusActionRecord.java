@@ -22,6 +22,7 @@ import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Filter;
 import com.google.android.accessibility.utils.FocusFinder;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Objects;
 import org.checkerframework.checker.nullness.qual.NonNull;
@@ -47,6 +48,24 @@ public class FocusActionRecord {
   private final @NonNull FocusActionInfo extraInfo;
   /** Unique id for the node */
   private final String uniqueId;
+  private final @Nullable EventId originEventId;
+
+  public @Nullable EventId getOriginEventId() {
+    return originEventId;
+  }
+
+  public FocusActionRecord(
+      @NonNull AccessibilityNodeInfoCompat focusedNode,
+      @NonNull FocusActionInfo extraInfo,
+      long actionTime,
+      @Nullable EventId originEventId) {
+    this.focusedNode = focusedNode;
+    nodePathDescription = NodePathDescription.obtain(focusedNode);
+    this.extraInfo = extraInfo;
+    this.actionTime = actionTime;
+    this.uniqueId = compoundPackageNameAndUniqueId(focusedNode);
+    this.originEventId = originEventId;
+  }
 
   private static @Nullable String compoundPackageNameAndUniqueId(
       @Nullable AccessibilityNodeInfoCompat nodeInfo) {
@@ -71,11 +90,7 @@ public class FocusActionRecord {
       @NonNull AccessibilityNodeInfoCompat focusedNode,
       @NonNull FocusActionInfo extraInfo,
       long actionTime) {
-    this.focusedNode = focusedNode;
-    nodePathDescription = NodePathDescription.obtain(focusedNode);
-    this.extraInfo = extraInfo;
-    this.actionTime = actionTime;
-    this.uniqueId = compoundPackageNameAndUniqueId(focusedNode);
+    this(focusedNode, extraInfo, actionTime, null);
   }
 
   /** Constructs FocusActionRecord. Used internally by {@link #copy(FocusActionRecord)}. */
@@ -84,12 +99,14 @@ public class FocusActionRecord {
       @NonNull NodePathDescription nodePathDescription,
       @NonNull FocusActionInfo extraInfo,
       long actionTime,
-      String uniqueId) {
+      String uniqueId,
+      @Nullable EventId originEventId) {
     this.focusedNode = focusedNode;
     this.nodePathDescription = new NodePathDescription(nodePathDescription);
     this.extraInfo = extraInfo;
     this.actionTime = actionTime;
     this.uniqueId = uniqueId;
+    this.originEventId = originEventId;
   }
 
   /** Returns an instance of the focused node. */
@@ -130,7 +147,8 @@ public class FocusActionRecord {
         record.nodePathDescription,
         record.extraInfo,
         record.actionTime,
-        record.uniqueId);
+        record.uniqueId,
+        record.originEventId);
   }
 
   /**

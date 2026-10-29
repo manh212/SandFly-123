@@ -17,19 +17,21 @@
     use more processing.
   </string>
 
-  <string name="title_pref_event_processing_level" translatable="false">Event processing level</string>
+  <string name="title_pref_order_cache" translatable="false">Dùng lại bộ đệm thứ tự điều hướng</string>
+  <string name="title_pref_split_control_speech" translatable="false">Tách lời đọc điều khiển và nội dung</string>
+  <string name="title_pref_event_processing_level" translatable="false">Mức xử lý sự kiện</string>
   <string name="summary_pref_event_processing_level" translatable="false">
-    Lower levels coalesce more repeated noncritical events across event types and favor focus.
-    Very low/low keep one pending event per coalescible type, medium two, high four, and very high
-    eight. Announcements, notifications, window changes, clicks, text/input, and touch-state events
-    are always kept.
+    Rất thấp chỉ xử lý một cập nhật nền mới nhất mỗi 500 ms, dùng chung cho mọi nguồn và loại,
+    đồng thời nhường khi đang thao tác và 150 ms sau đó. Phản hồi thao tác, nhập liệu, chuyển cửa
+    sổ cần thiết và thông báo mới vẫn được giữ. Các mức khác giữ lần lượt một, hai, bốn hoặc tám
+    cập nhật chờ cho mỗi loại có thể gộp.
   </string>
   <string-array name="pref_event_processing_level_entries">
-    <item>Very low</item>
-    <item>Low</item>
-    <item>Medium</item>
-    <item>High</item>
-    <item>Very high</item>
+    <item>Rất thấp</item>
+    <item>Thấp</item>
+    <item>Trung bình</item>
+    <item>Cao</item>
+    <item>Rất cao</item>
   </string-array>
   <string-array name="pref_event_processing_level_values">
     <item>very_low</item>

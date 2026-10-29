@@ -50,6 +50,7 @@ class TraversalTreeCacheTest {
   @After
   fun tearDown() {
     TraversalTreeCache.setOrderClearedListener(null)
+    TraversalTreeCache.enabled = true
     TraversalTreeCache.regionGraceEnabled = true
     TraversalTreeCache.burstLiveAnswerEnabled = true
     TraversalTreeCache.clear("test")
@@ -62,6 +63,34 @@ class TraversalTreeCacheTest {
     val reported = mutableListOf<Int>()
     TraversalTreeCache.setOrderClearedListener { reported.add(it) }
     return reported
+  }
+
+  @Test
+  fun disabledCache_dropsSavedOrderAndDoesNotKeepNewOrders() {
+    val (root, child) = savedOrder()
+    TraversalTreeCache.enabled = false
+    assertNull(TraversalTreeCache.get(root, child))
+    assertFalse(TraversalTreeCache.holds(child))
+    assertNull(TraversalTreeCache.rootFor(child))
+    TraversalTreeCache.put(root, OrderedTraversalStrategy(root))
+    assertNull(TraversalTreeCache.get(root, child))
+    TraversalTreeCache.enabled = true
+    assertNull(TraversalTreeCache.get(root, child))
+    TraversalTreeCache.put(root, OrderedTraversalStrategy(root))
+    assertNotNull(TraversalTreeCache.get(root, child))
+  }
+
+  @Test
+  fun buildCount_isSeparateFromLookupMissesAndLiveAnswers() {
+    LogUtils.setEnabled(true)
+    TraversalTreeCache.resetOrderCacheStats()
+    val root = AccessibilityNodeInfoCompat.wrap(node(null))
+    TraversalTreeCache.get(root, root)
+    TraversalTreeCache.noteLiveAnswer()
+    assertEquals(0L, TraversalTreeCache.orderCacheBuilt())
+    TraversalTreeCache.noteBuild(37)
+    assertEquals(1L, TraversalTreeCache.orderCacheBuilt())
+    assertTrue(TraversalTreeCache.buildTimingSummary().contains("mean=37 ms"))
   }
 
   private fun node(parent: AccessibilityNodeInfo?): AccessibilityNodeInfo {

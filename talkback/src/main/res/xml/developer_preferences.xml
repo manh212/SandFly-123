@@ -39,6 +39,14 @@
       android:key="pref_prepare_second_ahead_speech"
       android:title="@string/title_pref_prepare_second_ahead_speech"
       android:summary="@string/summary_pref_prepare_second_ahead_speech" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="true"
+      android:key="pref_order_cache"
+      android:title="@string/title_pref_order_cache" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="false"
+      android:key="pref_split_control_speech"
+      android:title="@string/title_pref_split_control_speech" />
   <androidx.preference.ListPreference
       android:defaultValue="medium"
       android:entries="@array/pref_event_processing_level_entries"

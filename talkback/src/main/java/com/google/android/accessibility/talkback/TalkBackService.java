@@ -163,6 +163,9 @@ import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorF
 import com.google.android.accessibility.talkback.focusmanagement.SingleTapTypingController;
 import com.google.android.accessibility.talkback.focusmanagement.HomeScreenPages;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
+import com.google.android.accessibility.talkback.eventprocessor.BackgroundEventGate;
+import com.google.android.accessibility.talkback.eventprocessor.EventProcessingStats;
+import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor;
 import com.google.android.accessibility.talkback.focusmanagement.WindowNodePrefetcher;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter;
@@ -757,6 +760,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   private @Nullable CharSequence lastWindowPackage;
 
   private volatile boolean latencyExtrasEnabled = true;
+  private BackgroundEventGate backgroundEventGate;
 
   private final DisableTalkBackCompleteAction disableTalkBackCompleteAction =
       new DisableTalkBackCompleteAction();
@@ -833,6 +837,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     bootReceiver = new BootReceiver();
     ContextCompat.registerReceiver(this, bootReceiver, BootReceiver.getFilter(), RECEIVER_EXPORTED);
     super.onCreate();
+    backgroundEventGate = new BackgroundEventGate(
+        this::handleAccessibilityEvent, this::isExpectedScrollResponse);
 
     this.setTheme(R.style.TalkbackBaseTheme);
 
@@ -939,6 +945,9 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
+    if (backgroundEventGate != null) {
+      backgroundEventGate.clear();
+    }
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     unlockedBootHandler.removeCallbacks(checkUnlockedBoot);
     if (userInterface != null) {
@@ -1102,6 +1111,36 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
+    long receivedAt = SystemClock.uptimeMillis();
+    if (backgroundEventGate == null || backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
+      handleAccessibilityEvent(event, receivedAt);
+    }
+  }
+
+  private boolean isExpectedScrollResponse(AccessibilityEvent event) {
+    if (pipeline == null) return false;
+    ScrollActionRecord record = pipeline.getActorState().getScrollerState().get();
+    if (record == null || event.getEventTime() < record.autoScrolledTime) return false;
+    AccessibilityNodeInfoCompat node = record.getScrolledNode();
+    if (node == null || node.getWindowId() != event.getWindowId()) return false;
+    AccessibilityNodeInfoCompat source = AccessibilityEventUtils.sourceCompat(event);
+    try {
+      return record.scrolledNodeMatches(source);
+    } finally {
+      if (source != null) source.recycle();
+    }
+  }
+
+  private void handleAccessibilityEvent(AccessibilityEvent event, long receivedAt) {
+    long startedAt = SystemClock.uptimeMillis();
+    try {
+      dispatchAccessibilityEvent(event, receivedAt);
+    } finally {
+      EventProcessingStats.handled(event, SystemClock.uptimeMillis() - startedAt);
+    }
+  }
+
+  private void dispatchAccessibilityEvent(AccessibilityEvent event, long receivedAt) {
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onAccessibilityEvent(event);
     // Paused Backtalk drops events, except the end of a touch that started before the pause, so
     // that nothing still thinks a finger is down after resuming. Its feedback is dropped too.
@@ -1131,7 +1170,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       audioDeviceRouter.ensureRouting();
     }
     Performance perf = Performance.getInstance();
-    EventId eventId = perf.onEventReceived(event);
+    EventId eventId = perf.onEventReceived(event, receivedAt);
     int eventType = event.getEventType();
     // Some launchers, such as Hyperion, don't report that their home screen is shown again after
     // the apps list, so Android's copy of its nodes keeps them hidden, and only the dock can be
@@ -1225,6 +1264,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    * the cached root dirty for window changes, so a dropped window event must do it here.
    */
   private void markRootDirtyForDroppedEvent(AccessibilityEvent event) {
+    EventProcessingStats.dropped(event);
     int eventType = event.getEventType();
     if (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
         || eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
@@ -1460,6 +1500,9 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   @Override
   protected final boolean onKeyEvent(KeyEvent keyEvent) {
+    if (backgroundEventGate != null) {
+      backgroundEventGate.onUserInput();
+    }
     boolean result = onKeyEventInternal(keyEvent);
 
     if (primesController != null) {
@@ -1793,6 +1836,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private boolean handleOnGestureById(int displayId, int gestureId) {
+    if (backgroundEventGate != null) {
+      backgroundEventGate.onUserInput();
+    }
     if (com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onGesture()) {
       return true;
     }
@@ -1812,6 +1858,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     analytics.onGesture(gestureId);
 
     gestureController.onGesture(gestureId, eventId);
+    if (backgroundEventGate != null) backgroundEventGate.onUserInput();
 
     // Measure latency.
     // Preceding event handling frequently initiates a framework action, which in turn
@@ -2232,6 +2279,7 @@ public class TalkBackService extends AccessibilityServiceCompat
           @Override
           public void onGestureDetected(int gesture) {
             if (isServiceActive() && !PauseController.isPaused() && gestureController != null) {
+              if (backgroundEventGate != null) backgroundEventGate.onUserInput();
               Performance perf = Performance.getInstance();
               EventId eventId = perf.onFingerprintGestureEventReceived(gesture);
 
@@ -3325,6 +3373,9 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Shuts down the infrastructure in case it has been initialized. */
   protected void shutdownInfrastructure() {
+    if (backgroundEventGate != null) {
+      backgroundEventGate.clear();
+    }
     setServiceState(ServiceStateListener.SERVICE_STATE_SHUTTING_DOWN);
     // we put it first to be sure that screen dimming would be removed even if code below
     // will crash by any reason. Because leaving user with dimmed screen is super bad
@@ -3520,16 +3571,24 @@ public class TalkBackService extends AccessibilityServiceCompat
             R.string.pref_disable_latency_pinned_key,
             R.bool.pref_disable_latency_pinned_default);
     SpeechControllerImpl.setPinnedLatencyEnabled(pinnedLatencyEnabled);
-    // Keep the formatted announcement together: a control's state/role and its label are one
-    // utterance. This split is no longer part of the pinned-latency bundle.
-    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = false;
+    boolean splitControlSpeech = prefs.getBoolean("pref_split_control_speech", false);
+    if (FailoverTextToSpeech.splitAtFirstSeparatorEnabled != splitControlSpeech) {
+      PreparedFocusSpeech.clear();
+    }
+    FailoverTextToSpeech.splitAtFirstSeparatorEnabled = splitControlSpeech;
+    RoleDescriptionExtractor.setSplitControlSpeechEnabled(splitControlSpeech);
     ProcessorEventQueue.setFocusPriorityEnabled(pinnedLatencyEnabled);
     ProcessorEventQueue.setProcessingLevel(
         prefs.getString("pref_event_processing_level", "medium"));
+    if (backgroundEventGate != null) {
+      backgroundEventGate.setProcessingLevel(ProcessorEventQueue.getProcessingLevel());
+    }
     LowLatencyAudio.setSmallBufferEnabled(pinnedLatencyEnabled);
     AccessibilityFocusMonitor.setFocusFetchReuseEnabled(pinnedLatencyEnabled);
-    TraversalTreeCache.setRegionGraceEnabled(pinnedLatencyEnabled);
-    TraversalTreeCache.setBurstLiveAnswerEnabled(pinnedLatencyEnabled);
+    boolean orderCacheEnabled = prefs.getBoolean("pref_order_cache", true);
+    TraversalTreeCache.setEnabled(orderCacheEnabled);
+    TraversalTreeCache.setRegionGraceEnabled(orderCacheEnabled && pinnedLatencyEnabled);
+    TraversalTreeCache.setBurstLiveAnswerEnabled(orderCacheEnabled && pinnedLatencyEnabled);
     TraversalStrategyUtils.setSpeakingNodesCacheFilterEnabled(pinnedLatencyEnabled);
 
     // If performance statistics changing enabled setting... clear collected stats.
@@ -3540,6 +3599,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       performance.clearRecentEvents();
       performance.clearAllStats();
       TraversalTreeCache.resetOrderCacheStats();
+      EventProcessingStats.reset();
       performance.setComputeStatsEnabled(performanceEnabled);
     }
 
@@ -4595,6 +4655,7 @@ public class TalkBackService extends AccessibilityServiceCompat
           dumpLogger -> {
             Performance.getInstance().clearAllStatsAndRecords(dumpLogger);
             TraversalTreeCache.resetOrderCacheStats();
+            EventProcessingStats.reset();
             return Unit.INSTANCE;
           });
   final DumpComponent componentSpeechCache =

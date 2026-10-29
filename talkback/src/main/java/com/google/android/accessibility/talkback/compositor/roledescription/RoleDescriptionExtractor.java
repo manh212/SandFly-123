@@ -31,6 +31,11 @@ import java.lang.annotation.RetentionPolicy;
 
 /** Class provides Compositor node role description text. */
 public class RoleDescriptionExtractor {
+  private static volatile boolean splitControlSpeechEnabled;
+
+  public static void setSplitControlSpeechEnabled(boolean enabled) {
+    splitControlSpeechEnabled = enabled;
+  }
 
   /** IDs of description orders in verbosity setting. */
   @IntDef({
@@ -67,6 +72,7 @@ public class RoleDescriptionExtractor {
       CharSequence name,
       CharSequence role,
       CharSequence state) {
+    if (splitControlSpeechEnabled) descriptionOrder = DESC_ORDER_ROLE_STATE_NAME_POSITION;
     return switch (descriptionOrder) {
       case DESC_ORDER_NAME_ROLE_STATE_POSITION -> CompositorUtils.dedupJoin(name, role, state);
       case DESC_ORDER_ROLE_NAME_STATE_POSITION -> CompositorUtils.dedupJoin(role, name, state);

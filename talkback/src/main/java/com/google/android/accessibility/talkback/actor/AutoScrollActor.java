@@ -179,7 +179,7 @@ public class AutoScrollActor {
           currentTime,
           scrollTimeout,
           autoScrollAttempt,
-          autoScrollChecker);
+          autoScrollChecker, eventId);
     }
     LogUtils.d(
         TAG,
@@ -216,7 +216,7 @@ public class AutoScrollActor {
           currentTime,
           scrollTimeout,
           /* autoScrollAttempt= */ 0,
-          new EnsureOnScreenSuccessChecker(actionNodeCompat));
+          new EnsureOnScreenSuccessChecker(actionNodeCompat), eventId);
     }
     LogUtils.d(
         TAG,
@@ -239,7 +239,8 @@ public class AutoScrollActor {
       long currentTime,
       ScrollTimeout scrollTimeout,
       int autoScrollAttempt,
-      @Nullable AutoScrollSuccessChecker autoScrollSuccessChecker) {
+      @Nullable AutoScrollSuccessChecker autoScrollSuccessChecker,
+      @Nullable EventId eventId) {
     int scrollInstanceId;
     if (autoScrollAttempt > 0 && scrollActionRecord != null) {
       scrollInstanceId = scrollActionRecord.scrollInstanceId;
@@ -261,7 +262,7 @@ public class AutoScrollActor {
             userAction,
             currentTime,
             scrollSource,
-            autoScrollSuccessChecker));
+            autoScrollSuccessChecker, eventId));
 
     postDelayHandler.removeMessages();
     postDelayHandler.delay(

@@ -236,6 +236,7 @@ public final class NavigationTarget {
   @SuppressWarnings("SwitchIntDef") // Only some values handled.
   public static String nativeTargetToDisplayName(Context context, @TargetType int type) {
     return switch (type) {
+      case TARGET_DEFAULT -> "";
       case TARGET_HEADING -> context.getString(R.string.display_name_heading);
       case TARGET_CONTROL -> context.getString(R.string.display_name_control);
       case TARGET_LINK -> context.getString(R.string.display_name_link);

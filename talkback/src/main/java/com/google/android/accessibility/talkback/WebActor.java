@@ -42,7 +42,8 @@ public class WebActor {
 
   /** Interface for a update history method, used to update focus history. */
   public interface UpdateFocusHistory {
-    void updateHistory(AccessibilityNodeInfoCompat start, FocusActionInfo focusActionInfo);
+    void updateHistory(AccessibilityNodeInfoCompat start, FocusActionInfo focusActionInfo,
+        Performance.EventId eventId);
   }
 
   private final UpdateFocusHistory focusHistory;
@@ -74,7 +75,7 @@ public class WebActor {
     boolean result =
         PerformActionUtils.performAction(
             webAction.target(), webAction.nodeAction(), webAction.nodeActionArgs(), eventId);
-    if (webAction.updateFocusHistory() && (focusHistory != null)) {
+    if (result && webAction.updateFocusHistory() && (focusHistory != null)) {
       // The source action of FocusActionInfo only has FocusActionInfo.LOGICAL_NAVIGATION since web
       // navigation only has navigation action.
       focusHistory.updateHistory(
@@ -82,7 +83,7 @@ public class WebActor {
           FocusActionInfo.builder()
               .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
               .setNavigationAction(webAction.navigationAction())
-              .build());
+              .build(), eventId);
     }
     return result;
   }
@@ -132,7 +133,7 @@ public class WebActor {
             FocusActionInfo.builder()
                 .setSourceAction(FocusActionInfo.LOGICAL_NAVIGATION)
                 .setNavigationAction(navigationAction)
-                .build());
+                .build(), eventId);
       }
       return true;
     } else {

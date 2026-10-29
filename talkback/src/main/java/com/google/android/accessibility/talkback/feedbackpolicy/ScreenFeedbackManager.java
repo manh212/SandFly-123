@@ -206,6 +206,16 @@ public class ScreenFeedbackManager
       boolean forceFeedbackEvenIfSsbActive,
       boolean sourceIsVolumeControl,
       int queueMode) {
+    speak(utterance, hint, eventId, forceFeedbackEvenIfAudioPlaybackActive,
+        forceFeedbackEvenIfMicrophoneActive, forceFeedbackEvenIfSsbActive,
+        sourceIsVolumeControl, queueMode, false);
+  }
+
+  private void speak(
+      CharSequence utterance, @Nullable CharSequence hint, EventId eventId,
+      boolean forceFeedbackEvenIfAudioPlaybackActive,
+      boolean forceFeedbackEvenIfMicrophoneActive, boolean forceFeedbackEvenIfSsbActive,
+      boolean sourceIsVolumeControl, int queueMode, boolean windowName) {
     if ((hint != null)) {
       pipeline.returnFeedback(
           eventId, ProcessorAccessibilityHints.screenEventToHint(hint, service, compositor));
@@ -222,8 +232,8 @@ public class ScreenFeedbackManager
             | (forceFeedbackEvenIfSsbActive
                 ? FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_SSB_ACTIVE
                 : 0)
-            | (sourceIsVolumeControl ? FeedbackItem.FLAG_SOURCE_IS_VOLUME_CONTROL : 0);
-    ;
+            | (sourceIsVolumeControl ? FeedbackItem.FLAG_SOURCE_IS_VOLUME_CONTROL : 0)
+            | (windowName ? FeedbackItem.FLAG_SKIP_DUPLICATE : 0);
 
     SpeechController.SpeakOptions speakOptions =
         SpeechController.SpeakOptions.create()
@@ -287,7 +297,7 @@ public class ScreenFeedbackManager
           feedbackPart.getForceFeedbackEvenIfMicrophoneActive(),
           feedbackPart.getForceFeedbackEvenIfSsbActive(),
           sourceIsVolumeControl,
-          queueMode);
+          queueMode, feedbackPart.isWindowName());
       firstPart = false;
     }
     // The window name was the only speech: still play the window sound and vibration.

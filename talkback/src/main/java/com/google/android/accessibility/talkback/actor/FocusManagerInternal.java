@@ -207,6 +207,12 @@ public class FocusManagerInternal {
 
   void updateFocusHistory(
       @NonNull AccessibilityNodeInfoCompat pivot, @NonNull FocusActionInfo focusActionInfo) {
+    updateFocusHistory(pivot, focusActionInfo, null);
+  }
+
+  void updateFocusHistory(
+      @NonNull AccessibilityNodeInfoCompat pivot, @NonNull FocusActionInfo focusActionInfo,
+      @Nullable EventId eventId) {
     // Cache the accessibility focus action history.
     long currentTime = SystemClock.uptimeMillis();
     AccessibilityNodeInfoCompat newFocus = focusFinder.findFocusCompat(FOCUS_ACCESSIBILITY);
@@ -226,10 +232,10 @@ public class FocusManagerInternal {
       // TYPE_VIEW_ACCESSIBILITY_FOCUSED event to get the correct focused node.
       // Usually this logic will not be invoked. A known case for this is navigating in Firefox.
       history.onPendingAccessibilityFocusActionOnWebElement(
-          updatedFocusActionInfo, currentTime, screenState.getStableScreenState());
+          updatedFocusActionInfo, currentTime, screenState.getStableScreenState(), eventId);
     } else {
       history.onAccessibilityFocusAction(
-          newFocus, updatedFocusActionInfo, currentTime, screenState.getStableScreenState());
+          newFocus, updatedFocusActionInfo, currentTime, screenState.getStableScreenState(), eventId);
     }
   }
 
@@ -551,7 +557,7 @@ public class FocusManagerInternal {
       historyHandler.post(
           () ->
               history.onAccessibilityFocusAction(
-                  nodeForRecord, infoForRecord, currentTime, stableScreenState));
+                  nodeForRecord, infoForRecord, currentTime, stableScreenState, eventId));
     }
     LogUtils.d(
         TAG,

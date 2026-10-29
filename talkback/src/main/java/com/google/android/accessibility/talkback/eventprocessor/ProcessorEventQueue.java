@@ -26,15 +26,12 @@ import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WeakReferenceHandler;
 import com.google.android.accessibility.utils.input.TextEventInterpreter;
-import com.google.android.libraries.accessibility.utils.log.LogUtils;
 
 /**
  * Manages the event feedback queue. Queued events are run through the {@link Compositor} to
  * generate spoken, haptic, and audible feedback.
  */
 public class ProcessorEventQueue implements AccessibilityEventListener {
-
-  private static final String TAG = "ProcessorEventQueue";
 
   /** Manages pending speech events. */
   private final ProcessorEventHandler handler = new ProcessorEventHandler(this);
@@ -90,6 +87,9 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
 
   public void clearQueue() {
     handler.removeMessages(WHAT_SPEAK);
+    synchronized (eventQueue) {
+      eventQueue.clear();
+    }
   }
 
   /**
@@ -102,8 +102,6 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
     if (event == null) {
       return;
     }
-    LogUtils.d(TAG, "Processing event: %s", event);
-
     eventFilter.sendEvent(event, eventId);
     textEventInterpreter.interpret(event, eventId);
   }
@@ -147,7 +145,13 @@ public class ProcessorEventQueue implements AccessibilityEventListener {
         // the EventQueue to hold event ids.
         EventId eventId = Performance.getInstance().toEventId(event);
 
-        parent.processEvent(event, eventId);
+        long startedAt = SystemClock.uptimeMillis();
+        try {
+          parent.processEvent(event, eventId);
+        } finally {
+          EventProcessingStats.compositorHandled(event, SystemClock.uptimeMillis() - startedAt);
+          event.recycle();
+        }
 
         if (SystemClock.uptimeMillis() >= sliceEnd) {
           synchronized (parent.eventQueue) {

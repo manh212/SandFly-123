@@ -25,6 +25,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
 import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.function.IntConsumer
+import com.google.android.accessibility.utils.Statistics
 
 /**
  * Keeps the reading order of the window that the user last swiped in, so that swiping through a
@@ -108,6 +109,27 @@ object TraversalTreeCache {
   private var hits = 0
   private var misses = 0
   private var liveAnswers = 0
+  private val buildTimes = Statistics()
+
+  @JvmStatic
+  var enabled: Boolean = true
+    set(value) {
+      if (field == value) return
+      field = value
+      clear("setting changed", notifyListener = false)
+    }
+
+  @JvmStatic
+  fun noteBuild(durationMs: Long) {
+    if (LogUtils.shouldLog(Log.DEBUG)) buildTimes.increment(durationMs)
+  }
+
+  @JvmStatic
+  fun buildTimingSummary(): String =
+    synchronized(buildTimes) {
+      "Order build time: count=${buildTimes.count}, mean=${buildTimes.mean} ms, " +
+        "p90=${buildTimes.getPercentile(90)} ms, p99=${buildTimes.getPercentile(99)} ms"
+    }
 
   @JvmStatic
   fun noteLiveAnswer() {
@@ -123,6 +145,9 @@ object TraversalTreeCache {
   fun orderCacheMissed(): Int = misses
 
   @JvmStatic
+  fun orderCacheBuilt(): Long = synchronized(buildTimes) { buildTimes.count }
+
+  @JvmStatic
   fun orderCacheLiveAnswers(): Int = liveAnswers
 
   @JvmStatic
@@ -130,6 +155,7 @@ object TraversalTreeCache {
     hits = 0
     misses = 0
     liveAnswers = 0
+    buildTimes.clear()
   }
 
   @JvmStatic
@@ -145,6 +171,7 @@ object TraversalTreeCache {
 
   @JvmStatic
   var burstLiveAnswerEnabled: Boolean = true
+    get() = field && enabled
 
   @Volatile private var lastNavigationMs: Long = 0L
   @Volatile private var previousNavigationMs: Long = 0L
@@ -165,6 +192,10 @@ object TraversalTreeCache {
     pivot: AccessibilityNodeInfoCompat,
   ): OrderedTraversalStrategy? {
     rememberPivot(pivot)
+    if (!enabled) {
+      if (LogUtils.shouldLog(Log.DEBUG)) misses++
+      return null
+    }
     if (
       firstIgnoredChangeTime != 0L &&
         SystemClock.uptimeMillis() - firstIgnoredChangeTime > MAX_AGE_AFTER_TEXT_CHANGE_MS
@@ -176,16 +207,8 @@ object TraversalTreeCache {
     if (LogUtils.shouldLog(Log.DEBUG)) {
       if (result != null) {
         hits++
-        Log.d(TAG, "Reused order ($hits reused, $misses built)")
       } else {
         misses++
-        val reason =
-          when {
-            saved == null -> "cleared by $lastClearReason"
-            root != this.root -> "different window"
-            else -> "focused node not in order"
-          }
-        Log.d(TAG, "Building order, $reason ($hits reused, $misses built)")
       }
     }
     return result
@@ -196,7 +219,8 @@ object TraversalTreeCache {
    * happened since the order was saved, so the node is still there.
    */
   @JvmStatic
-  fun holds(node: AccessibilityNodeInfoCompat): Boolean = strategy?.containsNode(node) == true
+  fun holds(node: AccessibilityNodeInfoCompat): Boolean =
+    enabled && strategy?.containsNode(node) == true
 
   /**
    * Whether the saved order holds [node] as the app has it now: nothing in its window has changed
@@ -346,6 +370,7 @@ object TraversalTreeCache {
   /** Saves the order of [root], replacing any saved order. */
   @JvmStatic
   fun put(root: AccessibilityNodeInfoCompat, strategy: OrderedTraversalStrategy) {
+    if (!enabled) return
     this.root = root
     this.strategy = strategy
     firstIgnoredChangeTime = 0L

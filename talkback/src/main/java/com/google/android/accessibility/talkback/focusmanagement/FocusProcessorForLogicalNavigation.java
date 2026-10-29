@@ -1373,9 +1373,7 @@ public class FocusProcessorForLogicalNavigation {
             TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
         if (trace) {
           Trace.endSection();
-          Log.d(
-              "BacktalkTreeCache",
-              "Built order in " + (SystemClock.uptimeMillis() - buildStart) + " ms");
+          TraversalTreeCache.noteBuild(SystemClock.uptimeMillis() - buildStart);
         }
         if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
           TraversalTreeCache.put(rootNode, orderedStrategy);
@@ -2923,17 +2921,20 @@ public class FocusProcessorForLogicalNavigation {
     }
     AccessibilityNodeInfoCompat pivotNow = AccessibilityNodeInfoCompat.obtain(callback.pivot);
     Rect pivotAfter = new Rect();
-    boolean pivotPresent = pivotNow.refresh();
-    if (pivotPresent) {
-      pivotNow.getBoundsInScreen(pivotAfter);
-      if (pivotAfter.equals(pivotBefore)) {
-        if (retries > 0) {
-          earlyScrollCheckHandler.postDelayed(
-              () -> checkScrollEarly(callback, scrollable, pivotBefore, eventId, retries - 1),
-              EARLY_SCROLL_RETRY_MS);
-        }
-        return;
+    boolean pivotPresent;
+    try {
+      pivotPresent = pivotNow.refresh();
+      if (pivotPresent) pivotNow.getBoundsInScreen(pivotAfter);
+    } finally {
+      pivotNow.recycle();
+    }
+    if (pivotPresent && pivotAfter.equals(pivotBefore)) {
+      if (retries > 0) {
+        earlyScrollCheckHandler.postDelayed(
+            () -> checkScrollEarly(callback, scrollable, pivotBefore, eventId, retries - 1),
+            EARLY_SCROLL_RETRY_MS);
       }
+      return;
     }
     int deltaX = pivotPresent ? pivotBefore.left - pivotAfter.left : DELTA_UNDEFINED;
     int deltaY = pivotPresent ? pivotBefore.top - pivotAfter.top : DELTA_UNDEFINED;

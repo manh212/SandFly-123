@@ -192,7 +192,35 @@ public class Performance {
   // Member data
 
   /** Enable to track the latency and compute the statistics accordingly. */
-  private boolean computeStatsEnabled = false;
+  private volatile boolean computeStatsEnabled = false;
+  private final NavigationLatency navigationLatency = new NavigationLatency(this::getUptime);
+
+  public void linkFeedbackEvent(@Nullable EventId feedback, @Nullable EventId origin) {
+    if (computeStatsEnabled) navigationLatency.link(feedback, origin);
+  }
+
+  public void onFeedbackPlaybackStarted(String utterance, long uptimeMs, boolean audioSubmitted) {
+    if (computeStatsEnabled) {
+      navigationLatency.audio(utterance,
+          audioSubmitted ? NavigationLatency.Stage.AUDIO_SUBMITTED : NavigationLatency.Stage.TTS_START,
+          uptimeMs);
+    }
+  }
+
+  public void displayNavigationStats(Logger logger) {
+    navigationLatency.display(logger);
+  }
+
+  public void onFeedbackAudioAvailable(String utterance, long uptimeMs) {
+    if (computeStatsEnabled && utterance != null) {
+      navigationLatency.audio(utterance, NavigationLatency.Stage.FIRST_PCM, uptimeMs);
+    }
+  }
+
+  public EventId onEventReceivedIfAbsent(AccessibilityEvent event) {
+    EventId eventId = toEventId(event);
+    return getRecentEvent(eventId) == null ? onEventReceived(event) : eventId;
+  }
 
   /** Recent events for which we are collecting stage latencies */
   protected static final int MAX_RECENT_EVENTS = 100;
@@ -290,6 +318,10 @@ public class Performance {
    * @return An event id that can be used to track performance through later stages.
    */
   public EventId onEventReceived(@NonNull AccessibilityEvent event) {
+    return onEventReceived(event, getUptime());
+  }
+
+  public EventId onEventReceived(@NonNull AccessibilityEvent event, long receivedAtUptime) {
     @NonNull EventId eventId = toEventId(event);
     if (!trackEvents()) {
       return eventId;
@@ -303,7 +335,7 @@ public class Performance {
     String label = AccessibilityEventUtils.typeToString(event.getEventType());
     String[] labels = {label};
 
-    onEventReceived(eventId, labels, event, /* enforceTrack= */ false);
+    onEventReceived(eventId, labels, event, false, receivedAtUptime);
     return eventId;
   }
 
@@ -355,12 +387,19 @@ public class Performance {
 
   protected void onEventReceived(
       @NonNull EventId eventId, String[] labels, AccessibilityEvent event, boolean enforceTrack) {
+    onEventReceived(eventId, labels, event, enforceTrack, getUptime());
+  }
+
+  private void onEventReceived(
+      @NonNull EventId eventId, String[] labels, AccessibilityEvent event, boolean enforceTrack,
+      long receivedAtUptime) {
     if (!enforceTrack && !trackEvents()) {
       return;
     }
 
     // Create event data.
-    EventData eventData = new EventData(getTime(), getUptime(), labels, eventId);
+    long receivedAtTime = getTime() - Math.max(0, getUptime() - receivedAtUptime);
+    EventData eventData = new EventData(receivedAtTime, receivedAtUptime, labels, eventId);
     if (event != null
         && ((event.getEventType() & eventMaskForLoggingAccessibilityAttributes) != 0)) {
       eventData.recordAccessibilityEventAttributes(event);
@@ -374,7 +413,7 @@ public class Performance {
       return;
     }
     @StageId int prevStage = STAGE_INLINE_HANDLING - 1;
-    long prevStageLatency = getUptime() - eventId.getEventTimeMs(); // Event times are uptime.
+    long prevStageLatency = Math.max(0, receivedAtUptime - eventId.getEventTimeMs());
     allEventStats.increment(prevStageLatency);
 
     // Increment statistics for each event label.
@@ -430,6 +469,7 @@ public class Performance {
     String[] labels = {label};
 
     onEventReceived(eventId, labels);
+    if (computeStatsEnabled) navigationLatency.start(eventId);
     return eventId;
   }
 
@@ -598,6 +638,7 @@ public class Performance {
    * @param firstSpokenText The text of the first fragment.
    */
   public void onFeedbackComposed(@NonNull EventId eventId, CharSequence firstSpokenText) {
+    if (computeStatsEnabled) navigationLatency.composed(eventId);
     if (!trackEvents()) {
       return;
     }
@@ -644,6 +685,7 @@ public class Performance {
    */
   public void onFeedbackQueued(
       @NonNull EventId eventId, @NonNull String utteranceId, UtteranceInfoCombo utteranceInfo) {
+    if (computeStatsEnabled) navigationLatency.queued(eventId, utteranceId);
     if (!trackEvents()) {
       return;
     }
@@ -689,6 +731,9 @@ public class Performance {
    * latency between queueing first piece of spoken feedback and hearing audio feedback.
    */
   public void onFeedbackOutput(@NonNull String utteranceId, boolean localCache) {
+    if (computeStatsEnabled) {
+      navigationLatency.audio(utteranceId, NavigationLatency.Stage.FIRST_PCM, getUptime());
+    }
     if (!trackEvents()) {
       return;
     }
@@ -747,7 +792,6 @@ public class Performance {
 
     // Clear the recent event, since we have no more use for it after tracking all stages.
     if (eventData.getTimeFeedbackReady() < 0) {
-      LogUtils.w(TAG, "onFeedbackReady is not set, clear the event later ");
       return;
     }
     if (!TRACKING_RANGE_START) {
@@ -1027,9 +1071,11 @@ public class Performance {
   }
 
   public void clearRecentEvents() {
+    navigationLatency.clearLinks();
     synchronized (lockRecentEvents) {
       eventIndex.clear();
       eventQueue.clear();
+      utteranceToEvent.clear();
     }
   }
 
@@ -1184,6 +1230,7 @@ public class Performance {
   }
 
   public void clearAllStats() {
+    navigationLatency.reset();
     synchronized (lockLabelToStats) {
       labelToStats.clear();
       speechWaitBlockerCounts.clear();

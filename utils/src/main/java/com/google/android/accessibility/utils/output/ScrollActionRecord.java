@@ -20,6 +20,7 @@ import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNode;
+import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.StringBuilderUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -87,6 +88,7 @@ public class ScrollActionRecord {
   public final long autoScrolledTime;
   public final @Nullable String scrollSource;
   public final @Nullable AutoScrollSuccessChecker autoScrollChecker;
+  public final @Nullable EventId originEventId;
 
   //////////////////////////////////////////////////////////////////////////////////////
   // Construction
@@ -117,6 +119,19 @@ public class ScrollActionRecord {
       long autoScrolledTime,
       @Nullable String scrollSource,
       @Nullable AutoScrollSuccessChecker autoScrollChecker) {
+    this(scrollInstanceId, scrolledNode, scrolledNodeCompat, userAction, autoScrolledTime,
+        scrollSource, autoScrollChecker, null);
+  }
+
+  public ScrollActionRecord(
+      int scrollInstanceId,
+      @Nullable AccessibilityNode scrolledNode,
+      @Nullable AccessibilityNodeInfoCompat scrolledNodeCompat,
+      @UserAction int userAction,
+      long autoScrolledTime,
+      @Nullable String scrollSource,
+      @Nullable AutoScrollSuccessChecker autoScrollChecker,
+      @Nullable EventId originEventId) {
     this.scrollInstanceId = scrollInstanceId;
     this.userAction = userAction;
     this.scrolledNode = scrolledNode;
@@ -124,6 +139,7 @@ public class ScrollActionRecord {
     this.autoScrolledTime = autoScrolledTime;
     this.scrollSource = scrollSource;
     this.autoScrollChecker = autoScrollChecker;
+    this.originEventId = originEventId;
   }
 
   //////////////////////////////////////////////////////////////////////////////////////

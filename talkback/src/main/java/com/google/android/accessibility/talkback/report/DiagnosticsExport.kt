@@ -35,6 +35,7 @@ import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorEventQueue
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
+import com.google.android.accessibility.talkback.eventprocessor.EventProcessingStats
 import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.utils.Logger
 import com.google.android.accessibility.utils.Performance
@@ -123,6 +124,7 @@ object DiagnosticsExport {
     out.append("\n\n")
     preferencesDigest(appContext, out)
     latencyControls(appContext, out)
+    out.append(EventProcessingStats.snapshot())
     return out.toString()
   }
 
@@ -149,6 +151,9 @@ object DiagnosticsExport {
     out.append("Speech preparation for second-ahead item: $prepareSecondAhead\n")
     out.append("Speech preparation enabled by settings: $prepareSpeechActive\n")
     out.append("Split announcements: ${FailoverTextToSpeech.splitAtFirstSeparatorEnabled}\n")
+    out.append("Order cache selected: ${prefs.getBoolean("pref_order_cache", true)}\n")
+    out.append("Order cache effective: ${TraversalTreeCache.enabled}\n")
+    out.append("Split control speech selected: ${prefs.getBoolean("pref_split_control_speech", false)}\n")
     out.append("Event processing level selected: $selectedProcessingLevel\n")
     out.append("Event processing level effective: ${ProcessorEventQueue.getProcessingLevel()}\n\n")
   }
@@ -238,14 +243,20 @@ object DiagnosticsExport {
     performance.displayStatToLabelCompare(logger)
     performance.displayAllEventStats(logger)
     performance.displayPreparedSpeechStats(logger)
+    performance.displayNavigationStats(logger)
+    logger.log("Timing: HEARD is first PCM callback, not physical speaker output. Stages overlap.")
+    logger.log("AUDIO_SUBMITTED is the first successful AudioTrack write; TTS_START is the engine callback.")
+    logger.log("NAVIGATION labels include linked focus and scroll responses; time starts after gesture recognition.")
+    logger.log("Percentiles use the latest 300 samples; counts and means include all collected samples.")
+    logger.log(TraversalTreeCache.buildTimingSummary())
     val orderReused = TraversalTreeCache.orderCacheReused()
-    val orderMissed = TraversalTreeCache.orderCacheMissed()
+    val orderBuilt = TraversalTreeCache.orderCacheBuilt()
     val orderLive = TraversalTreeCache.orderCacheLiveAnswers()
-    if (orderReused + orderMissed + orderLive > 0) {
+    if (orderReused + orderBuilt + orderLive > 0) {
       logger.log(
         "Order cache: %d reused, %d built, %d live answers",
         orderReused,
-        maxOf(0, orderMissed - orderLive),
+        orderBuilt,
         orderLive)
     }
   }
@@ -373,6 +384,12 @@ object DiagnosticsExport {
         out.append("  Sample rate: ${snapshot.sampleRate} Hz\n")
         out.append("  Burst: ${snapshot.burstFrames} frames\n")
         out.append("  Fast path: ${if (snapshot.fastPath) "yes" else "no"}\n")
+        out.append("  Resumed PCM shortages: ${snapshot.resumedShortages}\n")
+        out.append("  End-of-stream PCM waits: ${snapshot.tailWaits}\n")
+        out.append("  Interrupted PCM shortages: ${snapshot.interruptedShortages}\n")
+        out.append("  Open PCM shortages: ${snapshot.pendingShortages}\n")
+        out.append("  PCM shortage counters cover this player's lifetime.\n")
+        out.append("  PCM shortage duration is not a measured physical speaker gap.\n")
         if (snapshot.bufferSizeInFrames >= 0) {
           val ms = snapshot.bufferSizeInFrames * 1000.0 / snapshot.sampleRate
           out.append(

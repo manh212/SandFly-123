@@ -17,11 +17,13 @@
 package com.google.android.accessibility.talkback.eventprocessor;
 
 import android.util.SparseIntArray;
+import android.os.SystemClock;
 import android.view.accessibility.AccessibilityEvent;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.IdentityHashMap;
 import java.util.Locale;
 
 /**
@@ -66,6 +68,7 @@ class EventQueue {
 
   /** The list responsible for maintaining events in the event queue. */
   private final ArrayList<AccessibilityEvent> eventQueue = new ArrayList<>();
+  private final IdentityHashMap<AccessibilityEvent, Long> enqueueTimes = new IdentityHashMap<>();
 
   /**
    * The current number of coalescible events in the queue for each event type.
@@ -163,6 +166,9 @@ class EventQueue {
     }
 
     eventQueue.add(clone);
+    if (Performance.getInstance().getComputeStatsEnabled()) {
+      enqueueTimes.put(clone, SystemClock.uptimeMillis());
+    }
     enforceEventLimits();
   }
 
@@ -185,6 +191,11 @@ class EventQueue {
               oldestFocusEventIndex());
     }
     final AccessibilityEvent event = eventQueue.remove(index);
+    Long enqueuedAt = enqueueTimes.remove(event);
+    if (enqueuedAt != null) {
+      EventProcessingStats.dequeued(
+          event, SystemClock.uptimeMillis() - enqueuedAt, eventQueue.size() + 1);
+    }
 
     if (index > 0) {
       consecutiveFocusJumps++;
@@ -219,9 +230,11 @@ class EventQueue {
   /** Clears the event queue and discards all events waiting for processing. */
   public void clear() {
     for (AccessibilityEvent event : eventQueue) {
+      EventProcessingStats.dropped(event);
       event.recycle();
     }
     eventQueue.clear();
+    enqueueTimes.clear();
     qualifyingEvents.clear();
     consecutiveFocusJumps = 0;
   }
@@ -262,6 +275,8 @@ class EventQueue {
         eventCountOfType--;
         qualifyingEvents.put(eventType, eventCountOfType);
         iterator.remove();
+        enqueueTimes.remove(next);
+        EventProcessingStats.coalesced(next);
         next.recycle();
 
         // Stop pruning further events of this type if the number of
