@@ -359,6 +359,15 @@ public class ContextMenu implements Menu {
     return title;
   }
 
+  public List<ContextMenuItem> getItems() {
+    return new ArrayList<>(items);
+  }
+
+  public void setItems(List<ContextMenuItem> ordered) {
+    items.clear();
+    items.addAll(ordered);
+  }
+
   /** Sorts menu items by order. */
   public void sortItemsByOrder() {
     Collections.sort(

@@ -217,6 +217,7 @@ public class KeyComboManager
   private ScheduledExecutorService scheduler;
   private Future<Boolean> scheduleToOpenSearchApp;
   private NewKeymapNotificationDialog newKeymapNotificationDialog;
+  private final ArrowKeyNavKeyHandler arrowKeyNavKeyHandler;
 
   private enum KeyComboPassThroughState {
     // KeyComboPassThrough is not enabled and TalkBack will act on key events as normal.
@@ -238,6 +239,20 @@ public class KeyComboManager
     sharedPreferences = SharedPreferencesUtils.getSharedPreferences(context);
     initializeDefaultPreferenceValues();
     keyComboModel = createKeyComboModel();
+    arrowKeyNavKeyHandler =
+        new ArrowKeyNavKeyHandler(
+            context,
+            new ArrowKeyNavKeyHandler.Callbacks() {
+              @Override
+              public void perform(ArrowKeyNavCommand command) {
+                performArrowKeyNavCommand(command);
+              }
+
+              @Override
+              public boolean isEditingText() {
+                return isEditingTextWithAccessibilityFocus();
+              }
+            });
     // Create a set of commands that only work in Browse Mode.
     browseModeOnlyCommands =
         FeatureFlagReader.enableBrowseMode(context)
@@ -312,6 +327,7 @@ public class KeyComboManager
     // sent, causing the partially-matched key history to become inconsistent.
     // The following method will cause the key history to be reset.
     setMatchKeyCombo(matchKeyCombo);
+    arrowKeyNavKeyHandler.reset();
     serviceState = newState;
   }
 
@@ -325,8 +341,18 @@ public class KeyComboManager
   public boolean onKeyEvent(KeyEvent event, EventId eventId) {
     if (keyEventDelegate != null) {
       if (keyEventDelegate.onKeyEvent(event, eventId)) {
+        arrowKeyNavKeyHandler.onKeyEventConsumedElsewhere(event);
         return true;
       }
+    }
+
+    if (arrowKeyNavKeyHandler.onKeyEvent(
+        event,
+          serviceState == SERVICE_STATE_ACTIVE
+            && matchKeyCombo
+            && keyComboMapper != null
+            && keyComboPassThroughState != KeyComboPassThroughState.ACTIVE)) {
+      return true;
     }
 
     if (!hasPartialMatch && !performedCombo && !matchKeyCombo) {
@@ -542,6 +568,47 @@ public class KeyComboManager
       recordBrowseModeStateWhenOff(BROWSE_MODE_TURNED_OFF_BY_USER);
     }
     return true;
+  }
+
+  public void toggleArrowKeyNav() {
+    boolean on = !ArrowKeyNav.isOn(context);
+    ArrowKeyNav.setOn(context, on);
+    pipeline.returnFeedback(
+        EVENT_ID_UNTRACKED,
+        Feedback.speech(
+            context.getString(on ? R.string.arrow_key_nav_on : R.string.arrow_key_nav_off),
+            INTERRUPTIVE_SPEAK_OPTIONS));
+  }
+
+  private void performArrowKeyNavCommand(ArrowKeyNavCommand command) {
+    if (command == ArrowKeyNavCommand.TOGGLE) {
+      toggleArrowKeyNav();
+    } else if (keyComboMapper != null) {
+      keyComboMapper.performArrowKeyNavCommand(command);
+    }
+  }
+
+  private boolean isEditingTextWithAccessibilityFocus() {
+    if (accessibilityFocusMonitor == null) {
+      return false;
+    }
+    AccessibilityNodeInfoCompat inputFocus = accessibilityFocusMonitor.getInputFocus();
+    return inputFocus != null
+        && inputFocus.isFocused()
+        && inputFocus.isEditable()
+        && inputFocus.equals(
+            accessibilityFocusMonitor.getAccessibilityFocus(  false));
+  }
+
+  public String getArrowKeyNavKeysStringRepresentation(long keys) {
+    if (keys == ArrowKeyNav.UNASSIGNED) {
+      return context.getString(R.string.keycombo_unassigned);
+    }
+    StringBuilder sb = new StringBuilder();
+    appendModifiers(KeyCombo.extractModifiers(keys), sb);
+    appendKey(KeyCombo.extractPrefixKeyCode(keys), sb);
+    appendKey(KeyCombo.extractKeyCode(keys), sb);
+    return sb.toString();
   }
 
   /**

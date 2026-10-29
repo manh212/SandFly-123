@@ -66,7 +66,12 @@ public class VoiceCommandActor implements SpeechRecognizerRequester {
   public boolean onResult(String command, boolean isPartialResult) {
     LogUtils.v(
         TAG, "handleSpeechCommand with command: \"%s\", isPartial:%b", command, isPartialResult);
-    return voiceCommandProcessor.handleSpeechCommand(command.toLowerCase(), isPartialResult);
+    return voiceCommandProcessor.handleSpeechCommand(commandText(command), isPartialResult);
+  }
+
+  @VisibleForTesting
+  static String commandText(String speech) {
+    return speech.toLowerCase().replaceAll("^[\\p{P}\\s]+|[\\p{P}\\s]+$", "");
   }
 
   @Override

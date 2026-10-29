@@ -85,6 +85,27 @@ class AiDictation(
   private var phase = Phase.IDLE
   private var speechSilenced = false
   private var field: AccessibilityNodeInfoCompat? = null
+
+  @Volatile private var recordingStartedAt = 0L
+  @Volatile private var lastSpeechAt = 0L
+
+  @Volatile private var speechHeard = false
+  private val autoStop =
+    object : Runnable {
+      override fun run() {
+        if (phase != Phase.RECORDING) return
+        val wait = silenceLimitMs(onText != null, speechHeard, DictationSettings.autoStopMs(prefs))
+        if (wait <= 0) return
+        val silent = SystemClock.elapsedRealtime() - lastSpeechAt
+        if (silent >= wait) stopRecording() else handler.postDelayed(this, minOf(wait - silent, AUTO_STOP_CHECK_MS))
+      }
+    }
+
+  private var onText: ((String?) -> Unit)? = null
+
+  init {
+    SandflyDictation.instance = this
+  }
   private var recognition = Recognition.ANDROID
   private var capture: AudioCapture? = null
   private var continuous: ContinuousRecognition? = null
@@ -126,7 +147,9 @@ class AiDictation(
       PermissionUtils.requestPermissions(service, Manifest.permission.RECORD_AUDIO)
       return false
     }
+    onText = null
     if (!startRecording(DictationSettings.effectiveRecognition(service, prefs))) {
+      handler.removeCallbacks(autoStop)
       speak(service.getString(R.string.dictation_unavailable))
       return false
     }
@@ -138,9 +161,48 @@ class AiDictation(
     return true
   }
 
+  fun listen(callback: (String?) -> Unit): Boolean {
+    if (phase != Phase.IDLE) {
+      callback(null)
+      return false
+    }
+    if (
+      ContextCompat.checkSelfPermission(service, Manifest.permission.RECORD_AUDIO) !=
+        PackageManager.PERMISSION_GRANTED
+    ) {
+      PermissionUtils.requestPermissions(service, Manifest.permission.RECORD_AUDIO)
+      callback(null)
+      return false
+    }
+    field = null
+    onText = callback
+    if (!startRecording(DictationSettings.effectiveRecognition(service, prefs))) {
+      onText = null
+      handler.removeCallbacks(autoStop)
+      speak(service.getString(R.string.dictation_unavailable))
+      callback(null)
+      return false
+    }
+    phase = Phase.RECORDING
+    pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_up))
+    speechSilenced = pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(SILENCE))
+    return true
+  }
+
+  val isListening: Boolean
+    get() = phase != Phase.IDLE && onText != null
+
   /** Starts recording for [used]. Returns false when it can't. */
   private fun startRecording(used: Recognition): Boolean {
     recognition = used
+
+    recordingStartedAt = SystemClock.elapsedRealtime()
+    lastSpeechAt = recordingStartedAt
+    speechHeard = false
+    handler.removeCallbacks(autoStop)
+    if (silenceLimitMs(onText != null, false, DictationSettings.autoStopMs(prefs)) > 0) {
+      handler.postDelayed(autoStop, AUTO_STOP_CHECK_MS)
+    }
     if (used == Recognition.GOOGLE || used == Recognition.ANDROID) {
       val request = generation
       val recognizer =
@@ -151,11 +213,13 @@ class AiDictation(
             if (request == generation) {
               continuous = null
               phase = Phase.WORKING
+              handler.removeCallbacks(autoStop)
               restoreSpeech()
               recognized(text, cleaned = false)
             }
           },
           onFailed = { error -> if (request == generation) recognitionFailed(used, error) },
+          onSpeech = ::heardSpeech,
         )
       if (!recognizer.start()) return false
       continuous = recognizer
@@ -172,6 +236,7 @@ class AiDictation(
       AudioCapture(
         onLimit = { handler.post { if (phase == Phase.RECORDING) stopRecording() } },
         onChunk = session?.let { live -> { pcm -> live.send(pcm) } },
+        onSpeech = ::heardSpeech,
       )
     if (!recorder.start()) {
       session?.cancel()
@@ -182,7 +247,15 @@ class AiDictation(
     return true
   }
 
+  private fun heardSpeech() {
+    val now = SystemClock.elapsedRealtime()
+    lastSpeechAt = now
+
+    if (now - recordingStartedAt >= CHIME_MS) speechHeard = true
+  }
+
   private fun stopRecording() {
+    handler.removeCallbacks(autoStop)
     phase = Phase.WORKING
     restoreSpeech()
     pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
@@ -253,6 +326,7 @@ class AiDictation(
         if (result == null) {
           finish()
           speak(service.getString(R.string.dictation_transcription_failed))
+          deliver(null)
         } else {
           recognized(result.first, cleaned = result.second)
         }
@@ -313,20 +387,21 @@ class AiDictation(
         }
       )
     )
+    deliver(null)
   }
 
-  /** Types [text], recognized from the user's speech, after correcting it when that is on. */
   private fun recognized(text: String, cleaned: Boolean) {
     val target = field
     val heard = text.trim()
-    if (target == null || heard.isEmpty()) {
+    if ((target == null && onText == null) || heard.isEmpty()) {
       finish()
       speak(service.getString(R.string.dictation_nothing_recognized))
+      deliver(null)
       return
     }
     // A dictated password stays on the phone.
     val corrector =
-      if (cleaned || target.isPassword || !DictationSettings.correctsWithAi(service, prefs)) null
+      if (cleaned || target?.isPassword == true || !DictationSettings.correctsWithAi(service, prefs)) null
       else DictationSettings.correctingService(service, prefs)
     if (corrector == null) {
       finish()
@@ -345,7 +420,7 @@ class AiDictation(
     giveUp = fallback
     handler.postDelayed(fallback, correctionTimeoutMs(corrector))
     tones.play(/* playTone= */ true, /* delayPlayTone= */ false)
-    val prompt = prompt(textBeforeCursor(target), heard)
+    val prompt = prompt(target?.let { textBeforeCursor(it) }.orEmpty(), heard)
     worker.execute {
       val answer =
         try {
@@ -405,6 +480,7 @@ class AiDictation(
     if (corrector == DictationSettings.AI_DEVICE) DEVICE_CORRECTION_TIMEOUT_MS else CORRECTION_TIMEOUT_MS
 
   private fun finish() {
+    handler.removeCallbacks(autoStop)
     restoreSpeech()
     // For the next dictation: a language pack downloaded since the last one is used from then on.
     if (phase != Phase.IDLE) GoogleSpeechLanguages.refresh(service)
@@ -414,6 +490,22 @@ class AiDictation(
   }
 
   /** Stops recording and drops what was recorded, as when SandFly turns off. */
+  fun cancelListening() {
+    if (onText == null) return
+    generation++
+    giveUp?.let { handler.removeCallbacks(it) }
+    continuous?.cancel()
+    continuous = null
+    capture?.cancel()
+    capture = null
+    live?.cancel()
+    live = null
+    transcriber?.cancel()
+    field = null
+    finish()
+    deliver(null)
+  }
+
   fun shutdown() {
     generation++
     giveUp?.let { handler.removeCallbacks(it) }
@@ -427,6 +519,14 @@ class AiDictation(
     restoreSpeech()
     field = null
     finish()
+    deliver(null)
+    if (SandflyDictation.instance === this) SandflyDictation.instance = null
+  }
+
+  private fun deliver(text: String?) {
+    val callback = onText ?: return
+    onText = null
+    callback(text)
   }
 
   private fun restoreSpeech() {
@@ -446,9 +546,12 @@ class AiDictation(
       else -> language
     }
 
-  /** Types [text] at the cursor, with the spaces it needs beside the text around it. */
-  private fun type(target: AccessibilityNodeInfoCompat, text: String) {
+  private fun type(target: AccessibilityNodeInfoCompat?, text: String) {
     field = null
+    if (target == null) {
+      deliver(text.ifEmpty { null })
+      return
+    }
     if (text.isEmpty()) return
     if (
       !target.refresh() ||
@@ -477,6 +580,14 @@ class AiDictation(
 
   internal companion object {
     private const val TAG = "AiDictation"
+
+    private const val AUTO_STOP_CHECK_MS = 250L
+
+    const val LISTEN_PAUSE_MS = 2_000L
+
+    const val LISTEN_NOTHING_SAID_MS = 8_000L
+
+    private const val CHIME_MS = 600L
     /** How long progress tones play while speech is recognized or corrected. */
     private const val WORK_TONES_MS = 10 * 60_000L
     private const val HTTP_TOO_MANY_REQUESTS = 429
@@ -490,6 +601,13 @@ class AiDictation(
     /** A model on the phone is slower than one in the cloud. */
     private const val DEVICE_CORRECTION_TIMEOUT_MS = 60_000L
     private const val SPEECH_DELAY_MS = 100
+
+    fun silenceLimitMs(listening: Boolean, speechHeard: Boolean, setting: Long): Long =
+      when {
+        !listening -> setting
+        speechHeard -> LISTEN_PAUSE_MS
+        else -> LISTEN_NOTHING_SAID_MS
+      }
 
     fun textBeforeCursor(node: AccessibilityNodeInfoCompat): String {
       if (node.isShowingHintText || AccessibilityNodeInfoUtils.isEmptyEditTextRegardlessOfHint(node)) return ""

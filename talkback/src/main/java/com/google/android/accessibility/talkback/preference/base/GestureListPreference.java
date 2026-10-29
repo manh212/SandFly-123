@@ -438,6 +438,10 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   private ImmutableList<ActionItem> createSpecialFeatures() {
     ImmutableList.Builder<ActionItem> builder =
         createActionListBuilder(R.string.shortcut_title_special_features, 0, 0);
+    builder.add(new ActionItem(
+        getContext().getString(R.string.arrow_key_nav_toggle),
+        getContext().getString(R.string.shortcut_value_toggle_arrow_key_nav), TYPE_ACTION_ITEM));
+
     Resources resources = getContext().getResources();
 
     if (FeatureSupport.supportMediaControls()) {

@@ -84,6 +84,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Set;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import org.checkerframework.checker.initialization.qual.UnknownInitialization;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -121,6 +122,19 @@ public class SpeechControllerImpl implements SpeechController {
 
   public static void setSpeechFilter(@Nullable SpeechFilter filter) {
     speechFilter = filter;
+  }
+
+  public interface SpeechHold {
+
+    boolean hold(CharSequence text, int queueMode, int flags, Consumer<@Nullable CharSequence> release);
+  }
+
+  public static final String SPEECH_PARAM_RELEASED = "sandfly.released";
+
+  private static volatile @Nullable SpeechHold speechHold;
+
+  public static void setSpeechHold(@Nullable SpeechHold hold) {
+    speechHold = hold;
   }
 
   /** Prefix for utterance IDs. */
@@ -1247,6 +1261,46 @@ public class SpeechControllerImpl implements SpeechController {
       @Nullable CharSequence filtered = filter.filter(text);
       if (filtered != null) {
         text = filtered;
+      }
+    }
+
+    @Nullable SpeechHold hold = speechHold;
+    boolean released = speechParams != null && speechParams.containsKey(SPEECH_PARAM_RELEASED);
+    if (hold != null && !fromScript && !released && !TextUtils.isEmpty(text)) {
+      @Nullable Bundle heldParams = speechParams;
+      boolean held =
+          hold.hold(
+              text,
+              queueMode,
+              flags,
+              heldText -> {
+                if (heldText == null) {
+                  if (completedAction != null) {
+                    completedAction.run(STATUS_INTERRUPTED);
+                  }
+                  return;
+                }
+                Bundle releasedParams = heldParams == null ? new Bundle() : new Bundle(heldParams);
+                releasedParams.putBoolean(SPEECH_PARAM_RELEASED, true);
+
+                speak(
+                    heldText,
+                      null,
+                      null,
+                    queueMode,
+                    flags,
+                    utteranceGroup,
+                    releasedParams,
+                    nonSpeechParams,
+                    startAction,
+                    rangeStartCallback,
+                    completedAction,
+                    eventId);
+              });
+      if (held) {
+
+        playEarconsAndHaptics(earcons, haptics, nonSpeechParams, eventId);
+        return;
       }
     }
 

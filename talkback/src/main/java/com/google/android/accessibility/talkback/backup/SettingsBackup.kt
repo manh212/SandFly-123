@@ -342,7 +342,6 @@ object SettingsBackup {
 
   private fun isBacktalkSettingKept(key: String) =
     !isSecretKey(key) &&
-      key !in SECRET_KEYS &&
       key !in BACKTALK_SKIPPED_KEYS &&
       key !in MigrationFiles.SKIPPED_PREF_KEYS &&
       BACKTALK_SKIPPED_FRAGMENTS.none { key.contains(it) }

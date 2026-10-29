@@ -243,6 +243,7 @@ import com.google.android.accessibility.talkback.tutorial.FirstRunActivity;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryCapture;
+import com.google.android.accessibility.talkback.translation.AutomaticTranslation;
 import com.google.android.accessibility.talkback.update.Updater;
 import com.google.android.accessibility.talkback.updatetasks.TalkBackUpdateHelper;
 import com.google.android.accessibility.talkback.utils.DiagnosticOverlayControllerImpl;
@@ -829,7 +830,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       recordingFocusGuard =
           new com.google.android.accessibility.talkback.focusmanagement.RecordingFocusGuard();
 
-
   private EventLatencyLogger eventLatencyLogger;
 
   private UserInterface userInterface;
@@ -988,6 +988,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (gestureController != null) {
       gestureController.shutdown();
     }
+    AutomaticTranslation.stop();
 
     if (directTouchController != null) {
       directTouchController.shutdown();
@@ -3617,6 +3618,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     String windowNames = WindowNamesSetting.read(prefs, res);
     ScreenFeedbackManager.setWindowNames(windowNames);
 
+    AutomaticTranslation.update(this);
     FocusProcessorForLogicalNavigation.setWrapAround(
         getBooleanPref(R.string.pref_wrap_around_key, R.bool.pref_wrap_around_default));
     FocusFeedbackMapper.setTouchStopsSpeech(

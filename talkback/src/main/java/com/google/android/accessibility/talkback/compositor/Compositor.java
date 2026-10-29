@@ -32,7 +32,8 @@ import com.google.android.accessibility.talkback.compositor.roledescription.Role
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.imagecaption.ImageContents;
 import com.google.android.accessibility.talkback.scripting.Scripts;
-import com.google.android.accessibility.talkback.translation.AutoTranslationController;
+import com.google.android.accessibility.talkback.translation.TranslationSettings;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.input.TextEventInterpretation;
@@ -618,19 +619,6 @@ public class Compositor {
       speakOptions.mFlags |= flags;
       if (synthesizeResultNotifier != null) {
         addSpeech(ttsOutput, eventId, speechParams, synthesizeResultNotifier);
-      } else if (AutoTranslationController.isEnabled()) {
-        SpeakOptions translatedSpeakOptions = speakOptions;
-        AutoTranslationController.translate(
-            ttsOutput,
-            translated -> {
-              if (TextUtils.isEmpty(translated)) {
-                if (translatedSpeakOptions.mCompletedAction != null) {
-                  translatedSpeakOptions.mCompletedAction.run(SpeechController.STATUS_NOT_SPOKEN);
-                }
-              } else {
-                speak(translated, eventId, translatedSpeakOptions);
-              }
-            });
       } else {
         speak(ttsOutput, eventId, speakOptions);
       }
@@ -665,7 +653,7 @@ public class Compositor {
   }
 
   public void prepareNavigationFeedback(EventFeedback feedback) {
-    if (AutoTranslationController.isEnabled()) return;
+    if (TranslationSettings.INSTANCE.auto(SharedPreferencesUtils.getSharedPreferences(mContext))) return;
     CharSequence text = feedback.ttsOutput().orElse(null);
     if (TextUtils.isEmpty(text)) return;
     Bundle params = new Bundle();

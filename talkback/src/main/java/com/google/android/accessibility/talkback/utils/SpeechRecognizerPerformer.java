@@ -41,6 +41,7 @@ import android.text.TextUtils;
 import androidx.annotation.IntDef;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
+import com.google.android.accessibility.talkback.dictation.SandflyDictation;
 import com.google.android.accessibility.talkback.permission.PermissionUtils;
 import com.google.android.accessibility.utils.DelayHandler;
 import com.google.android.accessibility.utils.SettingsUtils;
@@ -48,6 +49,7 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.List;
+import kotlin.Unit;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -87,6 +89,12 @@ public class SpeechRecognizerPerformer {
       };
   public @Nullable SpeechRecognizer speechRecognizer;
   private boolean isListening = false;
+
+  private boolean dictating = false;
+  private long dictationGeneration;
+
+  private static final int MIN_DICTATION_MS = 60_000;
+  private final Runnable stopDictation = SandflyDictation::stop;
   private boolean sessionActive = false;
   private final boolean partialResultFastFeedback;
   private String cachedResult = "";
@@ -283,6 +291,10 @@ public class SpeechRecognizerPerformer {
       LogUtils.e(TAG, "doListening:Speech listener's not set.");
       return;
     }
+    if (SandflyDictation.isAvailable()) {
+      listenWithDictation();
+      return;
+    }
     if (!SpeechRecognizer.isRecognitionAvailable(context)) {
       LogUtils.e(TAG, "Platform does not support voice command.");
       speechRecognizerRequester.onFeedbackEvent(
@@ -310,6 +322,10 @@ public class SpeechRecognizerPerformer {
   }
 
   public void stopListening() {
+    if (dictating) {
+      SandflyDictation.stop();
+      return;
+    }
     sessionActive = false;
     if (speechRecognizer != null) {
       speechRecognizer.stopListening();
@@ -317,6 +333,32 @@ public class SpeechRecognizerPerformer {
     if (executeCommandDelayHandler.hasCallbacks(speechRecognitionDelayedSender)) {
       executeCommandDelayHandler.removeCallbacks(speechRecognitionDelayedSender);
     }
+  }
+
+  private void listenWithDictation() {
+    if (dictating) {
+      SandflyDictation.stop();
+      return;
+    }
+    dictating = true;
+    long generation = ++dictationGeneration;
+    SpeechRecognizerRequester requester = speechRecognizerRequester;
+    requester.onFeedbackEvent(SpeechRecognizerRequester.EVENT_START_LISTENING);
+    executeCommandDelayHandler.postDelayed(
+        stopDictation, Math.max(maxRecognitionDelayMs, MIN_DICTATION_MS));
+    SandflyDictation.listen(
+        text -> {
+          if (!dictating || generation != dictationGeneration) return Unit.INSTANCE;
+          dictating = false;
+          executeCommandDelayHandler.removeCallbacks(stopDictation);
+          requester.onFeedbackEvent(SpeechRecognizerRequester.EVENT_STOP_LISTENING);
+          if (text == null) {
+            requester.onError(SpeechRecognizer.ERROR_NO_MATCH);
+          } else {
+            requester.onResult(text, false);
+          }
+          return Unit.INSTANCE;
+        });
   }
 
   /** Start the speech recognition session. */
@@ -336,6 +378,12 @@ public class SpeechRecognizerPerformer {
   }
 
   public void reset() {
+    dictationGeneration++;
+    if (dictating) {
+      dictating = false;
+      executeCommandDelayHandler.removeCallbacks(stopDictation);
+      SandflyDictation.cancel();
+    }
     try {
       if (speechRecognizer != null) {
         speechRecognizer.setRecognitionListener(null);

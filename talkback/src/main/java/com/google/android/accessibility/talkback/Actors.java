@@ -1059,6 +1059,7 @@ class Actors {
   }
 
   public void shutdown() {
+    lastUtteranceTranslator.shutdown();
     speaker.shutdown();
   }
 

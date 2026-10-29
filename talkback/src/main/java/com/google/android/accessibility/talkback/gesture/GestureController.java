@@ -79,6 +79,7 @@ import android.accessibilityservice.FingerprintGestureController;
 import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.media.AudioManager;
@@ -129,7 +130,8 @@ import com.google.android.accessibility.talkback.selector.SelectorController.Set
 import com.google.android.accessibility.talkback.status.StatusReader;
 import com.google.android.accessibility.talkback.trainingcommon.TrainingActivity;
 import com.google.android.accessibility.talkback.trainingcommon.content.TutorialGestureUses;
-import com.google.android.accessibility.talkback.translation.AutoTranslationController;
+import com.google.android.accessibility.talkback.translation.TranslationSettings;
+import com.google.android.accessibility.talkback.translation.AutomaticTranslation;
 import com.google.android.accessibility.talkback.tutorial.TutorialHooks;
 import com.google.android.accessibility.talkback.utils.ClipboardUtils;
 import com.google.android.accessibility.talkback.utils.DateTimeUtils;
@@ -391,6 +393,10 @@ public class GestureController {
       result = keyComboManager != null && keyComboManager.toggleBrowseModeByUser();
     } else if (action.equals(service.getString(R.string.shortcut_value_refresh))) {
       result = pullToRefresh.refresh(eventId);
+    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_arrow_key_nav))) {
+      KeyComboManager manager = service.getKeyComboManager();
+      result = manager != null;
+      if (manager != null) manager.toggleArrowKeyNav();
     } else if (action.equals(service.getString(R.string.shortcut_value_media_control))) {
       result =
           pipeline.returnFeedback(
@@ -491,18 +497,11 @@ public class GestureController {
       result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_auto_translate))) {
       result = true;
-      boolean wasEnabled = AutoTranslationController.isEnabled();
-      AutoTranslationController.toggle(
-          service,
-          enabled -> {
-            if (enabled) {
-              speak(service.getString(R.string.auto_translate_on));
-            } else if (wasEnabled) {
-              speak(service.getString(R.string.auto_translate_off));
-            } else {
-              speak(service.getString(R.string.auto_translate_pack_not_downloaded));
-            }
-          });
+      SharedPreferences preferences = SharedPreferencesUtils.getSharedPreferences(service);
+      boolean enabled = !TranslationSettings.INSTANCE.auto(preferences);
+      TranslationSettings.INSTANCE.setAuto(preferences, enabled);
+      AutomaticTranslation.update(service);
+      speak(service.getString(enabled ? R.string.auto_translate_on : R.string.auto_translate_off));
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_more))) {
       AccessibilityNodeInfoCompat node =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);

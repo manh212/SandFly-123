@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string name="title_pref_dictation_auto_stop">Tự động dừng sau khoảng lặng</string>
+  <string-array name="pref_dictation_auto_stop_entries">
+        <item>Tắt</item>
+        <item>3 giây</item>
+        <item>5 giây</item>
+        <item>10 giây</item>
+        <item>15 giây</item>
+        <item>30 giây</item>
+        <item>1 phút</item>
+    </string-array>
+    <string name="shortcut_next_track">Bản nhạc tiếp theo</string>
+</resources>

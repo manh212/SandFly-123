@@ -48,6 +48,7 @@ import com.google.android.accessibility.talkback.compositor.rule.EventTypeNotifi
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService
 import com.google.android.accessibility.talkback.scripting.Scripts
 import com.google.android.accessibility.talkback.timer.StopwatchEngine
+import com.google.android.accessibility.talkback.translation.AutomaticTranslation
 import com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.FeedbackItem
@@ -160,8 +161,15 @@ object NotificationReader {
     var quietSince = 0L
     val speak = Runnable { NotificationReader.speak(this) }
 
-    fun copy() = Readout(info, decision, text, settings, recorded = false)
+    var translationChecked = false
+    var translated = false
+    fun copy() = Readout(info, decision, text, settings, recorded = false).also {
+      it.translationChecked = translationChecked
+      it.translated = translated
+    }
   }
+
+  private var translationEpoch = 0L
 
   private val stopAfterLimit = Runnable { stop() }
   private val checkSpeech = Runnable { checkSpeech() }
@@ -249,6 +257,7 @@ object NotificationReader {
   @JvmStatic
   @MainThread
   fun detach() {
+    translationEpoch++
     val app = context ?: return
     cancelAll()
     schedules?.stop()
@@ -507,9 +516,34 @@ object NotificationReader {
     }
     val readout = Readout(info, decision, text, settings)
     val next = { if (holdForTouch) holdForTouch(readout) else schedule(readout) }
+
+    val translated = {
+      if (decision.private) {
+        readout.translationChecked = true
+        next()
+      } else translate(context, readout, next)
+    }
     if (settings.detectLanguage && !decision.private) {
-      detectLanguage(context, readout) { next() }
+      detectLanguage(context, readout) { translated() }
     } else {
+      translated()
+    }
+  }
+
+  private fun translate(context: Context, readout: Readout, next: () -> Unit) {
+    if (!AutomaticTranslation.translatesNotifications()) return next()
+    val original = readout.text
+    val epoch = translationEpoch
+    AutomaticTranslation.translate(original) { text ->
+      if (epoch != translationEpoch || this.context == null) {
+        readout.cancelled = true
+        readout.done = true
+        record(readout, Outcome.CANCELLED)
+        return@translate
+      }
+      readout.translationChecked = true
+      readout.translated = text !== original
+      readout.text = text
       next()
     }
   }
@@ -615,6 +649,7 @@ object NotificationReader {
   @JvmStatic
   @MainThread
   fun stop() {
+    translationEpoch++
     val current = reading
     LogUtils.d(TAG, "Stopping notification speech")
     cancelAll()
@@ -627,6 +662,7 @@ object NotificationReader {
   @JvmStatic
   @MainThread
   fun onVoiceInputStarted() {
+    translationEpoch++
     val handed = listOfNotNull(reading) + queued
     if (handed.isEmpty()) return
     LogUtils.d(TAG, "Voice input started; silencing %d notifications", handed.size)
@@ -775,9 +811,9 @@ object NotificationReader {
           return@whenSandFlyIsQuiet
         }
         voice.speak(
-          readout.text,
+          if (readout.translated) readout.text.toString() else readout.text,
           flush = interrupt,
-          locale = localeOf(readout.text),
+          locale = if (readout.translated) null else localeOf(readout.text),
           listener =
             object : NotificationVoice.Listener {
               override fun onStart() = onStarted(readout)
@@ -825,6 +861,7 @@ object NotificationReader {
         .setUtteranceGroup(SpeechController.UTTERANCE_GROUP_NOTIFICATIONS)
         .setStartingAction { onStarted(readout) }
         .setCompletedAction { status -> onDone(readout, status) }
+    if (readout.translationChecked) options.setSpeechParams(AutomaticTranslation.untranslated())
     val speech = Feedback.speech(readout.text, options)
     if (sound) speech.sound(R.raw.chime_down)
     // Nothing is said while SandFly is paused.

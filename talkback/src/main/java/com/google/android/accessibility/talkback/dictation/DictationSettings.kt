@@ -35,6 +35,7 @@ object DictationSettings {
   const val PREF_AI_SERVICE = "pref_dictation_ai_service"
   const val PREF_WHISPER_MODEL = "pref_dictation_whisper_model"
   const val PREF_RAMBLER_LIVE = "pref_dictation_rambler_live"
+  const val PREF_AUTO_STOP_MS = "pref_dictation_auto_stop_ms"
 
   /** The AI service of automatic descriptions corrects dictation too. */
   const val AI_SAME = "same"
@@ -87,6 +88,9 @@ object DictationSettings {
 
   /** Whether Rambler transcribes while the user speaks, so that the text is ready sooner. */
   fun ramblerLive(prefs: SharedPreferences): Boolean = prefs.getBoolean(PREF_RAMBLER_LIVE, true)
+
+  fun autoStopMs(prefs: SharedPreferences): Long =
+    prefs.getString(PREF_AUTO_STOP_MS, null)?.toLongOrNull()?.coerceAtLeast(0) ?: 0
 
   /** Whether Rambler recognizes [locale]'s language. */
   fun ramblerSupports(locale: Locale): Boolean = locale.language in RAMBLER_LANGUAGES

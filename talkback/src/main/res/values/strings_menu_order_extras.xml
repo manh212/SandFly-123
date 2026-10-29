@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="menu_extra_actions" tools:ignore="MissingTranslation">Thao tác bổ sung</string>
+  <bool name="pref_show_context_menu_extra_default">true</bool>
+  <string name="pref_show_context_menu_speech_history_key" translatable="false">pref_show_context_menu_speech_history</string>
+  <string name="pref_show_context_menu_favorites_key" translatable="false">pref_show_context_menu_favorites</string>
+  <string name="pref_show_context_menu_clipboard_history_key" translatable="false">pref_show_context_menu_clipboard_history</string>
+  <string name="pref_show_context_menu_text_statistics_key" translatable="false">pref_show_context_menu_text_statistics</string>
+  <string name="pref_show_context_menu_lock_screen_key" translatable="false">pref_show_context_menu_lock_screen</string>
+  <string name="pref_show_context_menu_media_previous_key" translatable="false">pref_show_context_menu_media_previous</string>
+  <string name="pref_show_context_menu_media_next_key" translatable="false">pref_show_context_menu_media_next</string>
+  <string name="pref_show_context_menu_copy_focused_key" translatable="false">pref_show_context_menu_copy_focused</string>
+  <string name="pref_show_context_menu_clear_all_text_key" translatable="false">pref_show_context_menu_clear_all_text</string>
+  <string name="pref_show_context_menu_direct_tap_key" translatable="false">pref_show_context_menu_direct_tap</string>
+  <string name="pref_show_context_menu_take_screenshot_key" translatable="false">pref_show_context_menu_take_screenshot</string>
+  <string name="pref_show_context_menu_touch_exploration_key" translatable="false">pref_show_context_menu_touch_exploration</string>
+  <string name="pref_show_context_menu_monitor_focus_key" translatable="false">pref_show_context_menu_monitor_focus</string>
+  <string name="pref_show_context_menu_auto_translate_key" translatable="false">pref_show_context_menu_auto_translate</string>
+  <string name="pref_show_context_menu_copy_more_key" translatable="false">pref_show_context_menu_copy_more</string>
+  <string name="pref_show_context_menu_copy_full_screen_key" translatable="false">pref_show_context_menu_copy_full_screen</string>
+  <string name="pref_show_context_menu_focus_screenshot_key" translatable="false">pref_show_context_menu_focus_screenshot</string>
+  <string name="pref_show_context_menu_task_assistant_key" translatable="false">pref_show_context_menu_task_assistant</string>
+  <string name="pref_show_context_menu_screen_recognition_key" translatable="false">pref_show_context_menu_screen_recognition</string>
+</resources>

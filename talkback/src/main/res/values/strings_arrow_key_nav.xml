@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_assign_instruction">Nhấn một phím hoặc hai phím cùng lúc, có hoặc không có phím bổ trợ. Nhấn Backspace để xoá, Ctrl + Backspace để đặt lại về mặc định, Enter để lưu hoặc Escape để huỷ.</string>
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_off">Đã tắt điều hướng bằng phím mũi tên</string>
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_on">Đã bật điều hướng bằng phím mũi tên</string>
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_page_left">Trang bên trái</string>
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_page_right">Trang bên phải</string>
+  <string tools:ignore="MissingTranslation" name="arrow_key_nav_toggle">Bật hoặc tắt điều hướng bằng phím mũi tên</string>
+  <string name="shortcut_value_toggle_arrow_key_nav" translatable="false">TOGGLE_ARROW_KEY_NAV</string>
+</resources>
