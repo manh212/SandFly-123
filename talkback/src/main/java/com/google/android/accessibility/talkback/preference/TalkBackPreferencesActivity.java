@@ -31,6 +31,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import com.google.android.accessibility.talkback.HatsSurveyRequester;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.migration.MigrationFiles;
 import com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkBackPreferenceFragment;
