@@ -224,7 +224,8 @@ object DiagnosticsExport {
     val out = StringBuilder()
     out.append("== Performance statistics ==\n")
     out.append(performanceStatsStatusLine()).append("\n")
-    if (Performance.getInstance().computeStatsEnabled || LatencyExperiments.Feature.TRACE.enabled()) {
+    if (Performance.getInstance().computeStatsEnabled || LatencyExperiments.Feature.TRACE.enabled() ||
+      LatencyExperiments.Feature.STALL_CAPTURE.enabled()) {
       displayPerformanceStats(
         Logger { format, args ->
           val line =

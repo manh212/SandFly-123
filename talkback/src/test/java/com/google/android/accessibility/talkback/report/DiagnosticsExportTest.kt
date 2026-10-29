@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.report
 import android.content.Context
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorEventQueue
+import com.google.android.accessibility.utils.LatencyExperiments
 import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
@@ -40,12 +41,14 @@ class DiagnosticsExportTest {
 
   @Before
   fun setUp() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.STALL_CAPTURE, false)
     performance.clearAllStats()
     performance.setComputeStatsEnabled(false)
   }
 
   @After
   fun tearDown() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.STALL_CAPTURE, false)
     performance.setComputeStatsEnabled(false)
     performance.clearAllStats()
     SharedPreferencesUtils.getSharedPreferences(context)
@@ -167,6 +170,16 @@ class DiagnosticsExportTest {
     assertTrue(
       text.indexOf("D/ExportFlush: queued line 0") < text.indexOf("D/ExportFlush: queued line 299")
     )
+  }
+  @Test
+  fun capturedStallsAreExportedWithoutStatisticsOrGestureTrace() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.STALL_CAPTURE, true)
+    performance.onMainThreadStall(80, "captured-test-stack")
+
+    val section = DiagnosticsExport.buildPerformanceStatsSection()
+
+    assertTrue(section.contains("== Captured main-thread stalls =="))
+    assertTrue(section.contains("blocked_ms=80 captured-test-stack"))
   }
 }
 
