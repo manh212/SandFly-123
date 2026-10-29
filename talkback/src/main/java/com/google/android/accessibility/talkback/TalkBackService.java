@@ -1851,7 +1851,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   public boolean onGesture(AccessibilityGestureEvent accessibilityGestureEvent) {
     if (handleOnGestureById(
         accessibilityGestureEvent.getDisplayId(), accessibilityGestureEvent.getGestureId(),
-        accessibilityGestureEvent.getMotionEvents().isEmpty() ? -1
+        Build.VERSION.SDK_INT < Build.VERSION_CODES.S
+            || accessibilityGestureEvent.getMotionEvents().isEmpty() ? -1
             : accessibilityGestureEvent.getMotionEvents()
                 .get(accessibilityGestureEvent.getMotionEvents().size() - 1).getEventTime())) {
       pipeline
