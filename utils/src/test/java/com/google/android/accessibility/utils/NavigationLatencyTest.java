@@ -143,4 +143,18 @@ public class NavigationLatencyTest {
     assertFalse(latency.hasNavigation(new EventId(1100, Performance.EVENT_TYPE_ACCESSIBILITY,
         AccessibilityEvent.TYPE_ANNOUNCEMENT)));
   }
+  @Test
+  public void lateAudioSubmissionDoesNotEraseAnInterruptionOrCountItTwice() {
+    LatencyExperiments.setEnabled(LatencyExperiments.Feature.TRACE, true);
+    latency.start(gesture);
+    latency.queued(gesture, "speech");
+    latency.interrupted("speech");
+    assertTrue(report().contains("outcome=interrupted_before_audio"));
+    latency.audio("speech#chunk0", NavigationLatency.Stage.AUDIO_SUBMITTED, 1060);
+    latency.audio("speech#chunk0", NavigationLatency.Stage.AUDIO_SUBMITTED, 1070);
+    String output = report();
+    assertTrue(output.contains("outcome=interrupted_after_audio"));
+    assertFalse(output.contains("outcome=audio_submitted"));
+    assertTrue(output.contains("AUDIO_SUBMITTED\n    missing=0, count=1, mean=60ms"));
+  }
 }

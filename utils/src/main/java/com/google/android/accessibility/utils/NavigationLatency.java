@@ -40,6 +40,7 @@ final class NavigationLatency {
     final Map<String, Long> details = new LinkedHashMap<>();
     String utterance;
     String outcome = "pending";
+    boolean interrupted;
     boolean navigation;
     long motionEnd = -1;
     Trace(EventId origin) {
@@ -117,13 +118,18 @@ final class NavigationLatency {
   synchronized void audio(String utterance, Stage stage, long uptimeMs) {
     Trace trace = utteranceTrace(utterance);
     record(trace, stage, uptimeMs);
-    if (trace != null && stage == Stage.AUDIO_SUBMITTED) trace.outcome = "audio_submitted";
+    if (trace != null && stage == Stage.AUDIO_SUBMITTED) {
+      trace.outcome = trace.interrupted ? "interrupted_after_audio" : "audio_submitted";
+    }
   }
 
   synchronized void interrupted(String utterance) {
     Trace trace = utteranceTrace(utterance);
-    if (trace != null) trace.outcome = trace.elapsed[Stage.AUDIO_SUBMITTED.ordinal()] >= 0
-        ? "interrupted_after_audio" : "interrupted_before_audio";
+    if (trace != null) {
+      trace.interrupted = true;
+      trace.outcome = trace.elapsed[Stage.AUDIO_SUBMITTED.ordinal()] >= 0
+          ? "interrupted_after_audio" : "interrupted_before_audio";
+    }
   }
 
   synchronized void stage(EventId eventId, Stage stage) {
