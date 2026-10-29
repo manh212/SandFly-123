@@ -1,5 +1,6 @@
 package com.google.android.accessibility.talkback.report
 
+import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.eventprocessor.EventProcessingStats
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache
 import com.google.android.accessibility.utils.Logger
@@ -14,6 +15,7 @@ object LatencyMeasurementSession {
     TraversalTreeCache.resetOrderCacheStats()
     EventProcessingStats.reset()
     LowLatencyAudio.players().forEach { it.resetGapStatistics() }
+    TalkBackService.getInstance()?.speechController?.failoverTts?.resetNavigationCacheStatistics()
     LogUtils.i("LatencyTrace", "Measurement session started")
   }
 }

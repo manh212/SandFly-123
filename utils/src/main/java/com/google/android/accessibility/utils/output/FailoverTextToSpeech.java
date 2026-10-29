@@ -1659,6 +1659,10 @@ public class FailoverTextToSpeech {
     }
   }
 
+  public void resetNavigationCacheStatistics() {
+    if (navigationPcmCache != null) navigationPcmCache.resetStatistics();
+  }
+
   public String navigationCacheSummary() {
     String state = !LatencyExperiments.preparePcm() ? "disabled by settings"
         : VoiceProfiles.isProfileActive() ? "unavailable for voice profiles"

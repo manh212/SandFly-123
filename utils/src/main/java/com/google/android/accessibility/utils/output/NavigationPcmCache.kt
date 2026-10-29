@@ -145,6 +145,14 @@ class NavigationPcmCache(context: Context) {
     }
   }
 
+  fun resetStatistics() {
+    hits.set(0)
+    misses.set(0)
+    prepared.set(0)
+    cancelled.set(0)
+    failures.set(0)
+  }
+
   fun summary(): String =
     "Navigation PCM cache: hits=${hits.get()}, misses=${misses.get()}, " +
       "prepared=${prepared.get()}, cancelled=${cancelled.get()}, failures=${failures.get()}, bytes=${cache.byteCount()}"
@@ -157,7 +165,7 @@ class NavigationPcmCache(context: Context) {
   private fun startNext() {
     if (closed || active != null || !LatencyExperiments.preparePcm()) return
     if (SystemClock.uptimeMillis() < disabledUntil) { queue.clear(); return }
-    while (queue.isNotEmpty() && queue.peekFirst().epoch != epoch.get()) queue.removeFirst()
+    while (queue.peekFirst()?.let { it.epoch != epoch.get() } == true) queue.removeFirst()
     val request = queue.peekFirst() ?: return
     if (LatencyExperiments.inputIsActive(120)) { schedule(40); return }
     val foregroundBusy = try { request.foreground.isSpeaking } catch (failure: RuntimeException) { true }

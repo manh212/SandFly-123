@@ -26,7 +26,7 @@ object AsyncTraversalOrder {
     val callbacks: MutableList<Consumer<Result>> = ArrayList(),
     val discard: Runnable? = null,
   ) {
-    var cancelled = false
+    @Volatile var cancelled = false
   }
 
   private val handler = Handler(Looper.getMainLooper())
@@ -97,9 +97,12 @@ object AsyncTraversalOrder {
     warmTask?.let { handler.removeCallbacks(it) }
     warmTask = null
     val waiting = pending
+    val running = active
     pending = null
+    active = null
+    TraversalTreeCache.setBuildingWindow(-1)
     waiting?.discard?.run()
-    for (job in listOfNotNull(active, waiting)) {
+    for (job in listOfNotNull(running, waiting)) {
       job.cancelled = true
       val callbacks = job.callbacks.toList()
       job.callbacks.clear()
@@ -121,7 +124,11 @@ object AsyncTraversalOrder {
       val started = SystemClock.uptimeMillis()
       var root: AccessibilityNodeInfoCompat? = null
       val strategy = try {
-        root = job.root.get()
+        if (job.cancelled) {
+          job.discard?.run()
+        } else {
+          root = job.root.get()
+        }
         root?.let { value ->
           TraversalBudget.run(started + 200, Supplier { OrderedTraversalStrategy(value) })
         }
@@ -132,6 +139,10 @@ object AsyncTraversalOrder {
       val duration = SystemClock.uptimeMillis() - started
       if (job.eventId != null) perf.endNavigationWork(job.eventId, "order_async", token)
       handler.post {
+        if (active !== job) {
+          resolvedRoot?.recycle()
+          return@post
+        }
         TraversalTreeCache.noteBuild(duration)
         val result = when {
           job.cancelled || !LatencyExperiments.Feature.ASYNC_ORDER.enabled() -> Result.CANCELLED

@@ -81,4 +81,14 @@ class AsyncTraversalOrderTest {
     assertEquals(AsyncTraversalOrder.Result.CANCELLED, await(result))
     assertEquals(1, callbacks)
   }
+  @Test
+  fun newRequestCanCompleteImmediatelyAfterCancellation() {
+    val first = AtomicReference<AsyncTraversalOrder.Result?>()
+    val next = AtomicReference<AsyncTraversalOrder.Result?>()
+    AsyncTraversalOrder.request(root(), null) { first.set(it) }
+    AsyncTraversalOrder.cancel()
+    AsyncTraversalOrder.request(root(), null) { next.set(it) }
+    assertEquals(AsyncTraversalOrder.Result.CANCELLED, first.get())
+    assertEquals(AsyncTraversalOrder.Result.READY, await(next))
+  }
 }
