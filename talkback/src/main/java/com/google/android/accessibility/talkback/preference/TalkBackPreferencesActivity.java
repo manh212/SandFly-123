@@ -17,23 +17,29 @@
 package com.google.android.accessibility.talkback.preference;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentOnAttachListener;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentOnAttachListener;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import com.google.android.accessibility.talkback.HatsSurveyRequester;
+import com.google.android.accessibility.talkback.migration.MigrationFiles;
+import com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkBackPreferenceFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment;
 import com.google.android.accessibility.talkback.preference.search.TalkBackSearchIndexablesProvider;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.accessibility.utils.preference.PreferencesActivity;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.Locale;
@@ -52,6 +58,7 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
         FragmentOnAttachListener {
 
   private static final String TAG = "PreferencesActivity";
+  private static final String KEY_DEVELOPER_NOTICE_ACCEPTED = "developer_notice_accepted";
 
   private HatsSurveyRequester hatsSurveyRequester;
 
@@ -98,6 +105,11 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
 
   @Override
   public boolean onPreferenceStartFragment(PreferenceFragmentCompat caller, Preference pref) {
+    if (DeveloperPrefFragment.class.getName().equals(pref.getFragment())) {
+      openDeveloperSettings(pref);
+      return true;
+    }
+
     // Fall back to the default implementation in PreferenceFragmentCompat for other form factors.
     if (!FormFactorUtils.isAndroidWear()) {
       return false;
@@ -121,6 +133,44 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
       return true;
     }
     return false;
+  }
+
+  private void openDeveloperSettings(Preference preference) {
+    SharedPreferences appState =
+        SharedPreferencesUtils.getSharedPreferences(this, MigrationFiles.STATE_PREFS);
+    if (appState.getBoolean(KEY_DEVELOPER_NOTICE_ACCEPTED, false)) {
+      navigateToDeveloperSettings(preference);
+      return;
+    }
+    A11yAlertDialogWrapper.materialDialogBuilder(this, getSupportFragmentManager())
+        .setTitle(R.string.title_developer_settings_notice)
+        .setMessage(R.string.message_developer_settings_notice)
+        .setNegativeButton(R.string.action_developer_settings_not_now, null)
+        .setPositiveButton(
+            R.string.action_developer_settings_continue,
+            (dialog, which) -> {
+              appState.edit().putBoolean(KEY_DEVELOPER_NOTICE_ACCEPTED, true).apply();
+              navigateToDeveloperSettings(preference);
+            })
+        .create()
+        .show();
+  }
+
+  private void navigateToDeveloperSettings(Preference preference) {
+    if (FormFactorUtils.isAndroidWear()) {
+      Intent intent = new Intent(this, TalkBackSubSettings.class);
+      intent.putExtra(FRAGMENT_NAME, preference.getFragment());
+      intent.putExtra(FRAGMENT_ARGS, preference.getExtras());
+      startActivity(intent);
+      return;
+    }
+    PreferenceFragmentCompat fragment = getFragmentByName(preference.getFragment());
+    fragment.setArguments(preference.getExtras());
+    FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+    transaction
+        .replace(getContainerId(), fragment, getFragmentTag())
+        .addToBackStack(null)
+        .commit();
   }
 
   @Override

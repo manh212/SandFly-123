@@ -18,8 +18,9 @@ package com.google.android.accessibility.talkback;
 
 import android.app.Application;
 import android.os.Build;
-import com.google.android.accessibility.talkback.report.CrashLog;
+import com.google.android.accessibility.talkback.backup.SettingsBackup;
 import com.google.android.accessibility.talkback.migration.SettingsImporter;
+import com.google.android.accessibility.talkback.report.CrashLog;
 import com.google.android.accessibility.talkback.training.PageConfigMapperImpl;
 import com.google.android.accessibility.talkback.training.TalkBackDisabledWarmingDialogImpl;
 import com.google.android.accessibility.talkback.training.TrainingConfigMapperImpl;
@@ -42,6 +43,7 @@ public class TalkBackApplication extends Application {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P
         || getPackageName().equals(Application.getProcessName())) {
       SettingsImporter.importIfNeeded(this);
+      SettingsBackup.applyInitialDefaultsIfNeeded(this);
     }
 
     // Still before anything builds state on the preferences: on the first start after an

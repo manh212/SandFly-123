@@ -52,6 +52,7 @@ public class TutorialAndHelpFragment extends TalkbackBaseFragment {
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
 
+    DiagnosticsPreferenceActions.bind(this);
     assignTutorialIntent();
     assignPracticeGesturesIntent();
     assignFeedbackIntentToPreference();

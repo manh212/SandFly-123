@@ -16,22 +16,8 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
-import android.widget.Toast;
-import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.report.DiagnosticsExport;
-import com.google.android.accessibility.talkback.report.LatencyMeasurementSession;
-import com.google.android.accessibility.utils.LatencyExperiments;
-import com.google.android.accessibility.utils.SharedPreferencesUtils;
-import com.google.android.libraries.accessibility.utils.log.LogUtils;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 /**
  * A screen with two actions: save Meridian's diagnostics to Downloads, or copy them, so the user
@@ -39,9 +25,6 @@ import java.util.concurrent.Executors;
  * building them reads the debug log.
  */
 public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
-
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
-  private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
   public DiagnosticsPrefFragment() {
     super(R.xml.diagnostics_preferences);
@@ -55,93 +38,6 @@ public class DiagnosticsPrefFragment extends TalkbackBaseFragment {
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
-    Preference export = findPreference(getString(R.string.pref_export_diagnostics_to_downloads_key));
-    if (export != null) {
-      export.setOnPreferenceClickListener(
-          preference -> {
-            exportToDownloads();
-            return true;
-          });
-    }
-    Preference copy = findPreference(getString(R.string.pref_copy_diagnostics_key));
-    if (copy != null) {
-      copy.setOnPreferenceClickListener(
-          preference -> {
-            copyToClipboard();
-            return true;
-          });
-    }
-    Preference delete = findPreference(getString(R.string.pref_delete_debug_log_key));
-    if (delete != null) {
-      delete.setOnPreferenceClickListener(
-          preference -> {
-            deleteDebugLog();
-            return true;
-          });
-    }
-  }
-
-  @Override
-  public void onDestroy() {
-    executor.shutdownNow();
-    super.onDestroy();
-  }
-
-  private void exportToDownloads() {
-    Context context = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          String text = DiagnosticsExport.INSTANCE.buildForExport(context);
-          boolean saved = DiagnosticsExport.INSTANCE.saveToDownloads(context, text);
-          mainHandler.post(
-              () ->
-                  Toast.makeText(
-                          context,
-                          saved
-                              ? R.string.message_diagnostics_saved_to_downloads
-                              : R.string.message_diagnostics_save_failed,
-                          Toast.LENGTH_LONG)
-                      .show());
-        });
-  }
-
-  private void copyToClipboard() {
-    Context context = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          String text = DiagnosticsExport.INSTANCE.build(context);
-          mainHandler.post(
-              () -> {
-                ClipboardManager clipboard = context.getSystemService(ClipboardManager.class);
-                if (clipboard != null) {
-                  clipboard.setPrimaryClip(
-                      ClipData.newPlainText(
-                          context.getString(R.string.title_pref_export_diagnostics), text));
-                }
-                Toast.makeText(context, R.string.message_diagnostics_copied, Toast.LENGTH_LONG)
-                    .show();
-              });
-        });
-  }
-
-  private void deleteDebugLog() {
-    Context context = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          boolean deleted = LogUtils.clearLogFiles();
-          if (SharedPreferencesUtils.getSharedPreferences(context)
-              .getBoolean(LatencyExperiments.Feature.RESET_SESSION.key, false)) {
-            mainHandler.post(LatencyMeasurementSession::reset);
-          }
-          mainHandler.post(
-              () ->
-                  Toast.makeText(
-                          context,
-                          deleted
-                              ? R.string.message_debug_log_deleted
-                              : R.string.message_debug_log_nothing_to_delete,
-                          Toast.LENGTH_LONG)
-                      .show());
-        });
+    DiagnosticsPreferenceActions.bind(this);
   }
 }

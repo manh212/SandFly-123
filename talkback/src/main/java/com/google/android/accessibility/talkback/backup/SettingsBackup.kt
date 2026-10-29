@@ -31,6 +31,7 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.utils.FormFactorUtils
 import com.google.android.accessibility.utils.SharedPreferencesUtils
+import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
@@ -49,9 +50,12 @@ import org.json.JSONObject
  * A settings file exported from Backtalk can be imported too.
  */
 object SettingsBackup {
+  private const val TAG = "SettingsBackup"
   private const val FORMAT = "sandfly-settings"
   private const val VERSION = 1
   private const val FILE_NAME = "sandfly-settings.json"
+  private const val INITIAL_SETTINGS_FILE = "initial-settings.json"
+  private const val INITIAL_SETTINGS_APPLIED = "initial_settings_applied"
   private const val MAX_BYTES = 5 * 1024 * 1024
   private const val PREFS_SUFFIX = ".xml"
 
@@ -232,6 +236,36 @@ object SettingsBackup {
       editor.commit()
     }
     return true
+  }
+
+  @JvmStatic
+  fun applyInitialDefaultsIfNeeded(context: Context) {
+    val statePrefs =
+      SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+    if (statePrefs.getBoolean(INITIAL_SETTINGS_APPLIED, false)) return
+
+    val hasExistingSettings =
+      storages(context).any { (_, storageContext) ->
+        prefsNames(context, storageContext).any { name ->
+          val prefs = storageContext.getSharedPreferences(name, Context.MODE_PRIVATE)
+          prefs.all.keys.any { key -> !isSecretKey(key) && !isSkipped(context, name, key) }
+        }
+      }
+    if (!hasExistingSettings) {
+      val json =
+        try {
+          context.assets.open(INITIAL_SETTINGS_FILE).bufferedReader().use { it.readText() }
+        } catch (e: IOException) {
+          LogUtils.e(TAG, "Cannot read the bundled initial settings: %s", e)
+          return
+        }
+      if (!import(context, json)) {
+        LogUtils.e(TAG, "Cannot apply the bundled initial settings")
+        return
+      }
+    }
+
+    statePrefs.edit().putBoolean(INITIAL_SETTINGS_APPLIED, true).apply()
   }
 
   /** Backtalk's settings file: format 1, with a preference file for each store. */

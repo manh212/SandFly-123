@@ -16,8 +16,6 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -29,9 +27,7 @@ import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.provider.Settings;
-import android.widget.Toast;
 import androidx.fragment.app.FragmentManager;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -40,9 +36,7 @@ import androidx.preference.TwoStatePreference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
-import com.google.android.accessibility.talkback.report.DiagnosticsExport;
 import com.google.android.accessibility.talkback.report.LatencyMeasurementSession;
-import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityMessageFormat;
 import com.google.android.accessibility.utils.FeatureSupport;
@@ -50,8 +44,6 @@ import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Fragment holding a set of developer preferences. */
@@ -65,9 +57,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
 
   private Context context;
   private FragmentManager fragmentManager;
-
-  private final ExecutorService executor = Executors.newSingleThreadExecutor();
-  private final Handler mainHandler = new Handler(Looper.getMainLooper());
 
   /** AlertDialog to ask if user really wants to disable explore by touch. */
   private A11yAlertDialogWrapper exploreByTouchDialog;
@@ -118,7 +107,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
       });
     }
 
-
     final @Nullable Preference prefVersion =
         findPreference(getString(R.string.pref_developer_version_code_key));
     if (!shouldShowVersionInSubtitle() && (prefVersion != null) && (versionInfo != null)) {
@@ -144,34 +132,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
       } else {
         getPreferenceScreen().removePreference(multipleGestureSetPref);
       }
-    }
-
-    final @Nullable Preference export =
-        findPreference(getString(R.string.pref_export_diagnostics_to_downloads_key));
-    if (export != null) {
-      export.setOnPreferenceClickListener(
-          preference -> {
-            exportToDownloads();
-            return true;
-          });
-    }
-    final @Nullable Preference copy =
-        findPreference(getString(R.string.pref_copy_diagnostics_key));
-    if (copy != null) {
-      copy.setOnPreferenceClickListener(
-          preference -> {
-            copyToClipboard();
-            return true;
-          });
-    }
-    final @Nullable Preference delete =
-        findPreference(getString(R.string.pref_delete_debug_log_key));
-    if (delete != null) {
-      delete.setOnPreferenceClickListener(
-          preference -> {
-            deleteDebugLog();
-            return true;
-          });
     }
   }
 
@@ -215,12 +175,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
           }
           return true;
         });
-  }
-
-  @Override
-  public void onDestroy() {
-    executor.shutdownNow();
-    super.onDestroy();
   }
 
   private static boolean shouldShowVersionInSubtitle() {
@@ -295,65 +249,6 @@ public class DeveloperPrefFragment extends TalkbackBaseFragment {
         .setPositiveButton(android.R.string.ok, null)
         .create()
         .show();
-  }
-
-  private void exportToDownloads() {
-    Context appContext = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          String text = DiagnosticsExport.INSTANCE.buildForExport(appContext);
-          boolean saved = DiagnosticsExport.INSTANCE.saveToDownloads(appContext, text);
-          mainHandler.post(
-              () ->
-                  Toast.makeText(
-                          appContext,
-                          saved
-                              ? R.string.message_diagnostics_saved_to_downloads
-                              : R.string.message_diagnostics_save_failed,
-                          Toast.LENGTH_LONG)
-                      .show());
-        });
-  }
-
-  private void copyToClipboard() {
-    Context appContext = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          String text = DiagnosticsExport.INSTANCE.build(appContext);
-          mainHandler.post(
-              () -> {
-                ClipboardManager clipboard = appContext.getSystemService(ClipboardManager.class);
-                if (clipboard != null) {
-                  clipboard.setPrimaryClip(
-                      ClipData.newPlainText(
-                          appContext.getString(R.string.title_pref_export_diagnostics), text));
-                }
-                Toast.makeText(
-                        appContext, R.string.message_diagnostics_copied, Toast.LENGTH_LONG)
-                    .show();
-              });
-        });
-  }
-
-  private void deleteDebugLog() {
-    Context appContext = requireContext().getApplicationContext();
-    executor.execute(
-        () -> {
-          boolean deleted = LogUtils.clearLogFiles();
-          if (SharedPreferencesUtils.getSharedPreferences(appContext)
-              .getBoolean(LatencyExperiments.Feature.RESET_SESSION.key, false)) {
-            mainHandler.post(LatencyMeasurementSession::reset);
-          }
-          mainHandler.post(
-              () ->
-                  Toast.makeText(
-                          appContext,
-                          deleted
-                              ? R.string.message_debug_log_deleted
-                              : R.string.message_debug_log_nothing_to_delete,
-                          Toast.LENGTH_LONG)
-                      .show());
-        });
   }
 
   //////////////////////////////////////////////////////////////////////////////////////////////
