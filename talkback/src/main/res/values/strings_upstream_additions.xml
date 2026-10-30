@@ -196,4 +196,5 @@
   <string name="title_pref_green">Xanh lục</string>
   <string name="title_pref_blue">Xanh dương</string>
   <string name="title_pref_grey">Xám</string>
+  <string name="shortcut_next_track">Bài tiếp theo</string>
 </resources>

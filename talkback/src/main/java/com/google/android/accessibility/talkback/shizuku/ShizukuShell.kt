@@ -52,7 +52,9 @@ enum class ShizukuCommand {
   /** Adds an app's tile to the system's quick settings, which SystemUI needs to run it. */
   ADD_TILE,
   /** Clicks an app's tile in the system's quick settings, without opening them. */
-  CLICK_TILE;
+  CLICK_TILE,
+  INPUT_TEXT,
+  INPUT_KEYEVENT;
 
   /**
    * The command, as adb would run it after `adb shell`, or null if [argument] isn't one it takes.
@@ -80,6 +82,11 @@ enum class ShizukuCommand {
       CAMERA_BLOCKED -> sensorCommand(on, user, "camera")
       ADD_TILE -> component?.let { listOf("cmd", "statusbar", "add-tile", it) }
       CLICK_TILE -> component?.let { listOf("cmd", "statusbar", "click-tile", it) }
+      INPUT_TEXT ->
+        argument
+          .takeIf { it.isNotEmpty() && it.length <= MAX_TEXT && it.none { c -> c.isISOControl() } }
+          ?.let { listOf("input", "text", it.replace(" ", "%s")) }
+      INPUT_KEYEVENT -> KEY_CODES.matchEntire(argument)?.let { listOf("input", "keyevent") + argument.split(' ') }
     }
   }
 

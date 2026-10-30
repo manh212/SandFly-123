@@ -218,7 +218,6 @@ object Commands {
       media()
       notifications()
       descriptions()
-      braille()
       sandFly()
       developer()
       if (withApps) {
@@ -749,28 +748,6 @@ object Commands {
         }
       }
 
-    private fun braille() =
-      category(R.string.title_pref_braille) {
-        val display = FeatureSupport.supportBrailleDisplay(context)
-        gesture(
-          R.string.shortcut_value_braille_keyboard,
-          R.string.shortcut_braille_keyboard,
-          available = FeatureSupport.supportSwitchToInputMethod() && !wear,
-        )
-        gesture(
-          R.string.shortcut_value_toggle_braille_display,
-          R.string.shortcut_toggle_braille_display,
-          available = display && FeatureFlagReader.useGestureBrailleDisplayOnOff(context),
-        )
-        gesture(
-          R.string.shortcut_value_braille_display_settings,
-          R.string.shortcut_braille_display_settings,
-          available = display,
-        )
-        keyboard(Key.TOGGLE_BRAILLE_CONTRACTED_MODE, available = display)
-        keyboard(Key.TOGGLE_BRAILLE_ON_SCREEN_OVERLAY, available = display)
-      }
-
     private fun sandFly() =
       category(R.string.commands_category_sandfly) {
         gesture(
@@ -808,7 +785,6 @@ object Commands {
           available = FeatureFlagReader.enableKeyboardLearnModePage(context),
         )
         keyboard(Key.SHOW_KEYBOARD_SHORTCUTS_DIALOG)
-        keyboard(Key.REPORT_ISSUE)
       }
 
     private fun developer() =

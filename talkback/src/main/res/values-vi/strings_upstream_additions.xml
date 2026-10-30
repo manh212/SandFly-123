@@ -194,4 +194,5 @@
   <string name="keycombo_delete_keymap_title">Xóa <xliff:g id="keymap_name" example="Custom">%1$s</xliff:g>?</string>
   <string name="keycombo_delete_keymap_button">Xóa</string>
   <string name="keycombo_assign_dialog_custom_keymap_instruction">Nhấn các phím của phím tắt mới.</string>
+  <string name="shortcut_next_track">Bài tiếp theo</string>
 </resources>
