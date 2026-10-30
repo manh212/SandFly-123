@@ -96,12 +96,4 @@
         android:title="@string/title_pref_mute_speech_while_recording"
         android:summary="@string/summary_pref_mute_speech_while_recording" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
-      android:key="pref_speech_category_other_apps"
-      android:title="@string/speech_category_other_apps">
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.speechcontrol.SpeechControlFragment"
-        android:key="pref_speech_control_screen"
-        android:title="@string/title_pref_speech_control" />
-  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>
