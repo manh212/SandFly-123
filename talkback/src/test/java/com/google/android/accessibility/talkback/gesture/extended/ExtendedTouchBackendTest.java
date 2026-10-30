@@ -31,6 +31,8 @@ import org.robolectric.shadow.api.Shadow;
 public class ExtendedTouchBackendTest {
   public static class TestService extends TalkBackService {
     final List<Integer> gestures = new ArrayList<>();
+    final List<String> actions = new ArrayList<>();
+    @Override public void performCatalogAction(String action) { actions.add(action); }
     @Override public void onCreate() {}
     @Override public boolean onGesture(AccessibilityGestureEvent event) {
       gestures.add(event.getGestureId());
@@ -80,6 +82,45 @@ public class ExtendedTouchBackendTest {
     assertTrue(service.gestures.isEmpty());
     motion(MotionEvent.ACTION_UP, 520);
     assertEquals(List.of(AccessibilityService.GESTURE_SWIPE_UP), service.gestures);
+  }
+
+  @Test public void rotationDispatchesNextReadingControlWhenEnabled() {
+    backend.stop();
+    backend = new ExtendedTouchBackend(
+        service, () -> { throw new AssertionError("Rotation backend failed"); }, true, false);
+    backend.start();
+    touch.callback.onStateChanged(TouchInteractionController.STATE_TOUCH_INTERACTING);
+    multiMotion(MotionEvent.ACTION_DOWN, 0, 1);
+    multiMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 0, 2);
+    multiMotion(MotionEvent.ACTION_MOVE, 25, 2);
+    assertEquals(
+        List.of(service.getString(com.google.android.accessibility.talkback.R.string.shortcut_value_select_next_setting)),
+        service.actions);
+  }
+
+  private void multiMotion(int action, double degrees, int count) {
+    MotionEvent.PointerProperties[] properties = new MotionEvent.PointerProperties[count];
+    MotionEvent.PointerCoords[] coords = new MotionEvent.PointerCoords[count];
+    double radians = Math.toRadians(degrees);
+    float dx = (float) (50 * Math.cos(radians));
+    float dy = (float) (50 * Math.sin(radians));
+    for (int i = 0; i < count; i++) {
+      properties[i] = new MotionEvent.PointerProperties();
+      properties[i].id = i;
+      properties[i].toolType = MotionEvent.TOOL_TYPE_FINGER;
+      coords[i] = new MotionEvent.PointerCoords();
+      coords[i].x = i == 0 ? 150 - dx : 150 + dx;
+      coords[i].y = i == 0 ? 100 - dy : 100 + dy;
+      coords[i].pressure = 1;
+      coords[i].size = 1;
+    }
+    MotionEvent event = MotionEvent.obtain(
+        100, time += 20, action, count, properties, coords, 0, 0, 1, 1, 0, 0, 0, 0);
+    try {
+      touch.callback.onMotionEvent(event);
+    } finally {
+      event.recycle();
+    }
   }
 
   @Test public void stoppedBackendCannotDispatchAnotherGesture() {

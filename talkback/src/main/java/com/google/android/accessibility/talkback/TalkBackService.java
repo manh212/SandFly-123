@@ -174,6 +174,7 @@ import com.google.android.accessibility.talkback.focusmanagement.record.Accessib
 import com.google.android.accessibility.talkback.gesture.GestureController;
 import com.google.android.accessibility.talkback.gesture.GestureHistory;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
+import com.google.android.accessibility.talkback.gesture.TwoFingerRotationSettings;
 import com.google.android.accessibility.talkback.gesture.VibrationWatchGestureSettings;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionStorage;
 import com.google.android.accessibility.talkback.imagecaption.ImageCaptionUtils.CaptionType;
@@ -4273,7 +4274,8 @@ public class TalkBackService extends AccessibilityServiceCompat
   private void updateExtendedGestures() {
     if (prefs == null || gestureController == null) return;
     if (extendedGesturesController == null) {
-      if (!com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs)) return;
+      if (!com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs)
+          && !TwoFingerRotationSettings.isEnabled(prefs)) return;
       extendedGesturesController =
           new com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController(this);
     }

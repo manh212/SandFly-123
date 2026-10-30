@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.XmlResourceParser;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.gesture.TwoFingerRotationSettings;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,26 @@ public class ExtendedGesturesTest {
     context = RuntimeEnvironment.getApplication();
     prefs = SharedPreferencesUtils.getSharedPreferences(context);
     prefs.edit().clear().commit();
+  }
+
+  @Test public void rotationIsOffByDefaultAndIndependentOfExtendedGestures() {
+    assertFalse(TwoFingerRotationSettings.isEnabled(prefs));
+    prefs.edit().putBoolean(TwoFingerRotationSettings.ENABLED, true).commit();
+    assertTrue(TwoFingerRotationSettings.isEnabled(prefs));
+    assertFalse(ExtendedGestures.isEnabled(prefs));
+    prefs.edit().putBoolean(TwoFingerRotationSettings.ENABLED, false).commit();
+    assertFalse(TwoFingerRotationSettings.isEnabled(prefs));
+  }
+
+  @Test @Config(sdk = 32) public void rotationDoesNotEnableOnUnsupportedAndroid() {
+    prefs.edit().putBoolean(TwoFingerRotationSettings.ENABLED, true).commit();
+    assertFalse(TwoFingerRotationSettings.isEnabled(prefs));
+  }
+
+  @Test public void rotationSwitchBelongsToMovementSettings() throws Exception {
+    assertTrue(keys(R.xml.navigation_preferences).contains(TwoFingerRotationSettings.ENABLED));
+    assertFalse(keys(R.xml.settings_group_navigation).contains(TwoFingerRotationSettings.ENABLED));
+    assertFalse(keys(R.xml.touch_activation_preferences).contains(TwoFingerRotationSettings.ENABLED));
   }
 
   @Test public void isOffByDefaultAndDoesNotEraseAssignmentsWhenDisabled() {

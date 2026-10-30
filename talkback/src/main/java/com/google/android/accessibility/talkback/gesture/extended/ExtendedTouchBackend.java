@@ -13,6 +13,7 @@ import android.view.ViewConfiguration;
 import androidx.annotation.RequiresApi;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.gesture.TwoFingerRotationTracker;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.gestures.GestureManifold;
 import com.google.android.accessibility.utils.gestures.TwoFingerDirectionalGesture;
@@ -26,6 +27,9 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private final GestureManifold detector;
   private final Handler handler;
   private final Runnable failure;
+  private final boolean rotationEnabled;
+  private final boolean extendedEnabled;
+  private final TwoFingerRotationTracker rotationTracker;
   private final ArrayDeque<MotionEvent> queued = new ArrayDeque<>();
   private final float[] downY = new float[32];
   private final float[] downX = new float[32];
@@ -41,8 +45,26 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   };
 
   ExtendedTouchBackend(TalkBackService service, Runnable failure) {
+    this(service, failure, false, true);
+  }
+
+  ExtendedTouchBackend(
+      TalkBackService service, Runnable failure, boolean rotationEnabled, boolean extendedEnabled) {
     this.service = service;
     this.failure = failure;
+    this.rotationEnabled = rotationEnabled;
+    this.extendedEnabled = extendedEnabled;
+    float touchSlop = ViewConfiguration.get(service).getScaledTouchSlop();
+    rotationTracker =
+        new TwoFingerRotationTracker(
+            touchSlop * 2,
+            touchSlop,
+            clockwise ->
+                service.performCatalogAction(
+                    service.getString(
+                        clockwise
+                            ? R.string.shortcut_value_select_next_setting
+                            : R.string.shortcut_value_select_previous_setting)));
     handler = new Handler(service.getMainLooper());
     controller = service.getTouchInteractionController(Display.DEFAULT_DISPLAY);
     if (controller == null) throw new IllegalStateException("No touch controller");
@@ -52,9 +74,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
         ImmutableList.copyOf(service.getResources().getStringArray(R.array.extended_standard_gestures)));
     detector.setMultiFingerGesturesEnabled(true);
     detector.setTwoFingerPassthroughEnabled(false);
-    for (int id = ExtendedGestures.FIRST_ID; id <= ExtendedGestures.LAST_ID; id++) {
-      detector.addGestureMatcher(new TwoFingerDirectionalGesture(service, id,
-          ExtendedGestures.first(id), ExtendedGestures.second(id), detector, event -> {}));
+    if (extendedEnabled) {
+      for (int id = ExtendedGestures.FIRST_ID; id <= ExtendedGestures.LAST_ID; id++) {
+        detector.addGestureMatcher(new TwoFingerDirectionalGesture(service, id,
+            ExtendedGestures.first(id), ExtendedGestures.second(id), detector, event -> {}));
+      }
     }
   }
 
@@ -73,6 +97,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     active = false;
     handler.removeCallbacks(explore);
     detector.clear();
+    rotationTracker.clear();
     clearQueue();
     try { controller.unregisterCallback(this); } catch (RuntimeException ignored) {}
   }
@@ -107,7 +132,36 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
         downX[event.getPointerId(index)] = event.getX(index);
         if (state == TouchInteractionController.STATE_TOUCH_EXPLORING) detector.clear();
       }
-      if (event.getPointerCount() == 2 && event.getActionMasked() == MotionEvent.ACTION_MOVE && distorted(event)) {
+      if (rotationEnabled
+          && state != TouchInteractionController.STATE_DELEGATING
+          && state != TouchInteractionController.STATE_DRAGGING
+          && (rotationTracker.isRotating()
+              || state != TouchInteractionController.STATE_TOUCH_EXPLORING)) {
+        boolean wasRotating = rotationTracker.isRotating();
+        if (rotationTracker.onMotionEvent(event)) {
+          handler.removeCallbacks(explore);
+          if (!wasRotating) {
+            detector.clear();
+            gestureStarted = true;
+          }
+          if (event.getActionMasked() == MotionEvent.ACTION_UP
+              || event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
+            completedInteraction = true;
+            gestureStarted = false;
+          }
+          return;
+        }
+        if (!extendedEnabled
+            && rotationTracker.isScroll()
+            && state == TouchInteractionController.STATE_TOUCH_INTERACTING) {
+          delegate();
+          return;
+        }
+      }
+      if (event.getPointerCount() == 2
+          && event.getActionMasked() == MotionEvent.ACTION_MOVE
+          && !(rotationEnabled && rotationTracker.isPossibleRotation())
+          && distorted(event)) {
         delegate();
         return;
       }
@@ -121,6 +175,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       }
       if (event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
         detector.clear();
+        rotationTracker.clear();
         gestureStarted = false;
         handler.removeCallbacks(explore);
       }
@@ -138,8 +193,10 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     state = next;
     transitionPending = false;
     handler.removeCallbacks(explore);
-    if (next == TouchInteractionController.STATE_DELEGATING || next == TouchInteractionController.STATE_DRAGGING) {
+    if (next == TouchInteractionController.STATE_DELEGATING
+        || next == TouchInteractionController.STATE_DRAGGING) {
       detector.clear();
+      rotationTracker.clear();
       clearQueue();
       return;
     }
