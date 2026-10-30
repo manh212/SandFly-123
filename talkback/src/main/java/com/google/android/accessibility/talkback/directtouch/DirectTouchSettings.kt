@@ -36,9 +36,9 @@ object DirectTouchSettings {
   const val PREF_HAPTICS = "pref_direct_touch_haptics"
   /** Whether a tap on a navigation bar button that takes touches directly says the button. */
   const val PREF_NAV_BAR_SPEECH = "pref_speak_nav_bar_buttons"
-  private const val PREF_APPS = "pref_direct_touch_apps"
+  const val PREF_APPS = "pref_direct_touch_apps"
   private const val PREF_SEEN = "pref_direct_touch_seen"
-  private const val PREF_TYPING_PREFIX = "pref_direct_touch_typing_"
+  const val PREF_TYPING_PREFIX = "pref_direct_touch_typing_"
   private const val BACKUP_VERSION = 1
 
   /**

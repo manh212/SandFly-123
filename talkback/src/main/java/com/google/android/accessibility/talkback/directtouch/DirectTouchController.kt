@@ -86,6 +86,7 @@ class DirectTouchController(
   private var screenInteractive = true
   private var displayOn = true
   private var active = false
+  private var evaluating = false
   private var silentKeyboardIds = emptySet<Int>()
   private var silentDirectTyping = readSilentDirectTyping()
   // Whether the passthrough region now holds just the navigation bar or a keyboard in the list,
@@ -97,7 +98,11 @@ class DirectTouchController(
   private val prefsListener =
     SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
       if (key != null &&
-        (key.startsWith("pref_direct_touch") || key == liftToActivateKey || key == typingMethodKey)
+        (key == DirectTouchSettings.PREF_MASTER ||
+          key == DirectTouchSettings.PREF_APPS ||
+          key.startsWith(DirectTouchSettings.PREF_TYPING_PREFIX) ||
+          key == liftToActivateKey ||
+          key == typingMethodKey)
       ) {
         if (key == typingMethodKey) silentDirectTyping = readSilentDirectTyping()
         evaluate()
@@ -240,36 +245,41 @@ class DirectTouchController(
 
   private fun evaluate() {
     handler.removeCallbacks(reevaluate)
-    if (paused || !FeatureSupport.supportPassthrough()) {
+    if (evaluating || paused || !FeatureSupport.supportPassthrough()) {
       return
     }
-    if (!screenInteractive || !displayOn) {
-      silentKeyboardIds = emptySet()
-      return
-    }
-    val windows = service.windows.orEmpty()
-    silentKeyboardIds = if (isSilentDirectTyping()) {
-      windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }.map { it.id }.toSet()
-    } else emptySet()
-    val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
-    val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
-    val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
-    val navBarDirect = isNavBarDirect()
-    val keyboards = directKeyboards(windows)
-    if (shouldBeActive) {
-      partRegionSent = false
-      applyRegion(windows, directTyping, navBarDirect, keyboards)
-    }
-    if (shouldBeActive != active) {
-      active = shouldBeActive
-      if (!active) {
-        clearRegion()
-        partRegionSent = false
+    evaluating = true
+    try {
+      if (!screenInteractive || !displayOn) {
+        silentKeyboardIds = emptySet()
+        return
       }
-      announce(active)
-    }
-    if (!active) {
-      updatePartRegion(windows, navBarDirect, keyboards)
+      val windows = service.windows.orEmpty()
+      silentKeyboardIds = if (isSilentDirectTyping()) {
+        windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }.map { it.id }.toSet()
+      } else emptySet()
+      val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
+      val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
+      val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
+      val navBarDirect = isNavBarDirect()
+      val keyboards = directKeyboards(windows)
+      if (shouldBeActive) {
+        partRegionSent = false
+        applyRegion(windows, directTyping, navBarDirect, keyboards)
+      }
+      if (shouldBeActive != active) {
+        active = shouldBeActive
+        if (!active) {
+          clearRegion()
+          partRegionSent = false
+        }
+        announce(active)
+      }
+      if (!active) {
+        updatePartRegion(windows, navBarDirect, keyboards)
+      }
+    } finally {
+      evaluating = false
     }
   }
 
