@@ -281,6 +281,16 @@ class BackgroundEventGateTest {
     }
 
   @Test
+  @Config(sdk = [26])
+  fun oldAndroidDoesNotAccessUnavailableScrollDeltaMethods() {
+    advance(600)
+    val oldScroll = event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)
+    oldScroll.itemCount = Int.MAX_VALUE
+    // The ticker filter must not call getScrollDeltaX/Y on API 26.
+    assertTrue(gate.onAccessibilityEvent(oldScroll))
+  }
+
+  @Test
   fun passiveInfiniteCarouselRepeatedIndicesDoNotEnterFeedbackPipeline() {
     advance(600)
     assertTrue(gate.onAccessibilityEvent(idleTicker()))
