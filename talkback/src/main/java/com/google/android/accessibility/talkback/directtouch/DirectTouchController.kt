@@ -270,7 +270,7 @@ class DirectTouchController(
         if (!active) {
           updatePartRegion(windows, navBarDirect, keyboards)
         }
-    }
+      }
     } finally {
       evaluating = false
     }
