@@ -17,6 +17,8 @@
 package com.google.android.accessibility.talkback.directtouch
 
 import android.accessibilityservice.AccessibilityService
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -39,6 +41,7 @@ import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorF
 import com.google.android.accessibility.utils.input.WindowEventInterpreter
 import com.google.android.accessibility.utils.monitor.DisplayMonitor
 import java.time.Duration
+import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -132,7 +135,7 @@ class DirectTouchControllerTest {
   private lateinit var serviceWindows: WindowsShadow
   private lateinit var interpreter: WindowEventInterpreter
   private lateinit var controller: DirectTouchController
-  private val prefs = FakeSharedPreferences()
+  private lateinit var prefs: SharedPreferences
   private val transcript = mutableListOf<String>()
 
   @Before
@@ -140,6 +143,8 @@ class DirectTouchControllerTest {
     service = Robolectric.setupService(TestService::class.java)
     serviceWindows = Shadow.extract(service)
     interpreter = WindowEventInterpreter(service, DisplayMonitor(service))
+    prefs = service.getSharedPreferences("direct_touch_controller_test", Context.MODE_PRIVATE)
+    prefs.edit().clear().commit()
     controller =
       DirectTouchController(
         service,
@@ -155,6 +160,11 @@ class DirectTouchControllerTest {
     installApp(GAME2_PACKAGE, asksForDirectTouch = true)
     RootsShadow.rootRequests = 0
     ManifestsShadow.manifestRequests = 0
+  }
+
+  @After
+  fun tearDown() {
+    controller.shutdown()
   }
 
   @Test
