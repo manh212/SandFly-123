@@ -93,6 +93,7 @@ import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFo
 import com.google.android.accessibility.talkback.focusmanagement.LiftToActivateMode;
 import com.google.android.accessibility.talkback.focusmanagement.action.NavigationAction;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
+import com.google.android.accessibility.talkback.gesture.CopyTextUtils;
 import com.google.android.accessibility.talkback.gesture.GestureHints;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettings;
@@ -105,6 +106,7 @@ import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting.DescriptionAndHint;
 import com.google.android.accessibility.talkback.speech.VoiceProfileNames;
 import com.google.android.accessibility.talkback.translation.TranslationSettings;
+import com.google.android.accessibility.talkback.utils.ClipboardUtils;
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
@@ -240,6 +242,10 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_actions_key,
         R.string.selector_actions,
         R.bool.pref_selector_actions_default),
+    COPY_MODE(
+        R.string.pref_selector_copy_mode_key,
+        R.string.selector_copy_mode_value,
+        R.bool.pref_selector_copy_mode_default),
     GRANULARITY_HEADINGS(
         R.string.pref_selector_granularity_headings_key,
         R.string.selector_granularity_headings,
@@ -611,6 +617,7 @@ public class SelectorController implements UserInputEventListener {
       ImmutableList.of(
           Setting.GRANULARITY_TYPO,
           Setting.ACTIONS,
+          Setting.COPY_MODE,
           // Puts table navigation granularities on top of the selector.
           Setting.GRANULARITY_ROW_COLUMN,
           Setting.GRANULARITY_ROW,
@@ -1021,6 +1028,10 @@ public class SelectorController implements UserInputEventListener {
         actionDescription = context.getString(R.string.live_recognition_title) + ", "
             + LiveRecognition.selection(context);
         hint = context.getString(R.string.live_recognition_hint);
+      }
+      case COPY_MODE -> {
+        actionDescription = context.getString(R.string.selector_copy_mode_title);
+        hint = getAdjustSelectedSettingGestures();
       }
       case ACTIONS -> {
         // Reset currentActionId to the default action.
@@ -1907,6 +1918,26 @@ public class SelectorController implements UserInputEventListener {
     }
 
     switch (currentSetting) {
+      case COPY_MODE -> {
+        AccessibilityNodeInfoCompat node =
+            accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+        List<String> parts = CopyTextUtils.getTextItems(node);
+        String text = android.text.TextUtils.join("\n", parts);
+        boolean append = !isNext;
+        boolean copied = !text.isEmpty()
+            && (append
+                ? ClipboardUtils.appendToClipboard(context, text)
+                : ClipboardUtils.copyToClipboard(context, text));
+        pipeline.returnFeedback(
+            eventId,
+            Feedback.speech(
+                context.getString(
+                    copied
+                        ? (append ? R.string.selector_copy_mode_appended
+                            : R.string.selector_copy_mode_copied)
+                        : R.string.copy_focused_nothing_to_copy)));
+        return;
+      }
       case LIVE_RECOGNITION -> {
         liveRecognitionArmed = true;
         requestServiceHandlesDoubleTap(eventId, true);

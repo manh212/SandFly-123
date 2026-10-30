@@ -89,6 +89,7 @@ import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.ViewConfiguration;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.ActorState;
@@ -156,6 +157,7 @@ import com.google.android.accessibility.utils.output.SpeechController.SpeakOptio
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableMap;
+import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -337,6 +339,10 @@ public class GestureController {
     int menuAction = MenuGestureActions.menuId(service, action);
     if (menuAction != 0) {
       result = menuManager.showMenuAction(menuAction, eventId);
+    } else if (CustomMenus.isMenuAction(action)) {
+      CustomMenus.Menu menu = CustomMenus.find(
+          service, action.substring(CustomMenus.actionFor("").length()));
+      result = menuManager.showCustomMenu(menu, eventId);
     } else if (action.equals(service.getString(R.string.switch_gesture_set))) {
       speak(
           service.getString(
@@ -596,22 +602,23 @@ public class GestureController {
             });
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_input))) {
-      result = false;
-      AccessibilityNodeInfoCompat editor = getEditTextInputFocus();
-      if (FeatureFlagReader.enableVoiceDictationShortcut(service) && editor != null) {
-        result = pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
-      }
+      AccessibilityNodeInfoCompat editor = findDictationTarget();
+      result = FeatureFlagReader.enableVoiceDictationShortcut(service)
+          && editor != null
+          && pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
       if (!result) {
-        speak(service.getString(R.string.announcement_voice_input_when_gboard_not_onscreen));
+        result = dictation.start(editor);
       }
     } else if (action.equals(
         service.getString(R.string.shortcut_value_media_control_or_voice_input))) {
       result = false;
-      AccessibilityNodeInfoCompat editor = getEditTextInputFocus();
-      if (FeatureFlagReader.enableVoiceDictationShortcut(service)
-          && !service.isPhoneCallActive()
-          && editor != null) {
-        result = pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
+      if (!service.isPhoneCallActive()) {
+        AccessibilityNodeInfoCompat editor = findDictationTarget();
+        if (editor != null) {
+          result = FeatureFlagReader.enableVoiceDictationShortcut(service)
+              && pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
+          if (!result) result = dictation.start(editor);
+        }
       }
       if (!result) {
         LogUtils.d(LOG_TAG, "Voice input failed, try media control instead.");
@@ -854,11 +861,8 @@ public class GestureController {
           accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
       result = GranularEditing.open(service, editing != null ? editing : focus);
     } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
-      AccessibilityNodeInfoCompat focus =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-      AccessibilityNodeInfoCompat editing =
-          accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
-      result = dictation.start(editing != null ? editing : focus);
+      AccessibilityNodeInfoCompat target = findDictationTarget();
+      result = dictation.start(target);
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_selection))) {
       AccessibilityNodeInfoCompat node =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
@@ -1304,6 +1308,73 @@ public class GestureController {
       speak(service.getString(R.string.not_editable));
       return null;
     }
+  }
+
+  private @Nullable AccessibilityNodeInfoCompat findDictationTarget() {
+    AccessibilityNodeInfoCompat focused =
+        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+    if (Role.getRole(focused) == Role.ROLE_EDIT_TEXT
+        && focused.isEnabled()
+        && focused.isVisibleToUser()) {
+      return focused;
+    }
+    AccessibilityNodeInfoCompat keyboardEditor =
+        accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused);
+    if (keyboardEditor != null && keyboardEditor.isEnabled()) {
+      return keyboardEditor;
+    }
+    AccessibilityNodeInfoCompat input = accessibilityFocusMonitor.getInputFocus();
+    if (focused == null && Role.getRole(input) == Role.ROLE_EDIT_TEXT && input.isEnabled()) {
+      return input;
+    }
+    AccessibilityNodeInfoCompat root =
+        focused == null ? null : AccessibilityNodeInfoUtils.getRoot(focused);
+    if (root == null) {
+      AccessibilityNodeInfo active = service.getRootInActiveWindow();
+      if (active != null) {
+        root = AccessibilityNodeInfoCompat.wrap(active);
+      }
+    }
+    if (root == null) {
+      return null;
+    }
+    Rect origin = new Rect();
+    if (focused != null) {
+      focused.getBoundsInScreen(origin);
+    }
+    AccessibilityNodeInfoCompat nearest = null;
+    long bestDistance = Long.MAX_VALUE;
+    ArrayDeque<AccessibilityNodeInfoCompat> nodes = new ArrayDeque<>();
+    nodes.add(root);
+    while (!nodes.isEmpty()) {
+      AccessibilityNodeInfoCompat current = nodes.removeFirst();
+      if (Role.getRole(current) == Role.ROLE_EDIT_TEXT
+          && current.isEnabled()
+          && current.isVisibleToUser()) {
+        Rect bounds = new Rect();
+        current.getBoundsInScreen(bounds);
+        long distance = focused == null
+            ? 0
+            : (long) (bounds.centerX() - origin.centerX())
+                    * (bounds.centerX() - origin.centerX())
+                + (long) (bounds.centerY() - origin.centerY())
+                    * (bounds.centerY() - origin.centerY());
+        if (nearest == null || distance < bestDistance) {
+          nearest = current;
+          bestDistance = distance;
+        }
+      }
+      for (int i = 0; i < current.getChildCount(); i++) {
+        AccessibilityNodeInfoCompat child = current.getChild(i);
+        if (child != null) {
+          nodes.addLast(child);
+        }
+      }
+    }
+    if (nearest != null && !nearest.isFocused()) {
+      nearest.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+    }
+    return nearest;
   }
 
   private @Nullable AccessibilityNodeInfoCompat getEditTextInputFocus() {

@@ -1098,6 +1098,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   /** Returns the corresponding action resource Id of action key. */
   public static String getActionString(Context context, String actionKeyString) {
+    String customMenu = CustomMenus.label(context, actionKeyString);
+    if (customMenu != null) return customMenu;
     String menuLabel = MenuGestureActions.label(context, actionKeyString);
     if (menuLabel != null) return menuLabel;
     for (TalkbackAction action : TalkbackAction.values()) {

@@ -58,6 +58,7 @@ import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.gesture.CustomMenus;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem.DeferredType;
@@ -184,6 +185,31 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
 
   public boolean showMenuAction(int itemId, EventId eventId) {
     return openMenu(CONTEXT, eventId, INVALID_RES_ID, itemId);
+  }
+
+  public boolean showCustomMenu(CustomMenus.Menu menu, EventId eventId) {
+    if (menu == null || menu.items.isEmpty()) {
+      pipeline.returnFeedback(eventId, Feedback.speech(service.getString(R.string.custom_menu_empty)));
+      return false;
+    }
+    pipeline.returnFeedback(eventId, Feedback.speech(SAVE_LAST));
+    dismissAll();
+    pipeline.returnFeedback(eventId, Feedback.focus(CACHE));
+    menuId = null;
+    contextMenu = new ContextMenu(service);
+    contextMenu.setTitle(menu.name);
+    int index = 0;
+    for (CustomMenus.Item item : menu.items) {
+      String command = item.value;
+      contextMenu.add(0, 1000000 + index, index++, item.label)
+          .setOnMenuItemClickListener(
+              clicked -> {
+                service.performCatalogAction(command);
+                return true;
+              });
+    }
+    showDialogMenu(menu.name, getItemsFromMenu(contextMenu), contextMenu, eventId);
+    return true;
   }
 
   private boolean openMenu(MenuId menuId, EventId eventId, int failureStringResId, int requestedItemId) {

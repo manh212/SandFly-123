@@ -32,6 +32,7 @@ import com.google.android.accessibility.talkback.actor.GestureReporter;
 import com.google.android.accessibility.talkback.actor.ImageCaptioner;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
+import com.google.android.accessibility.talkback.gesture.CustomMenus;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.NavigationGestureActions;
 import com.google.android.accessibility.talkback.gesture.OpenAppActions;
@@ -120,6 +121,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
    * are looked up each time, since only one gesture's list is shown at a time.
    */
   public ActionItem[] getActionItems() {
+    populateActionItems();
     ImmutableList.Builder<ActionItem> builder = ImmutableList.builder();
     builder.addAll(items);
     if (!lockScreenActionsOnly) {
@@ -235,6 +237,10 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
       return summaryWhenDisabled;
     }
     String value = getCurrentValue();
+    @Nullable String customMenuLabel = CustomMenus.label(getContext(), value);
+    if (customMenuLabel != null) {
+      return customMenuLabel;
+    }
     @Nullable String openAppLabel = OpenAppActions.label(getContext(), value);
     if (openAppLabel != null) {
       return openAppLabel;
@@ -273,6 +279,13 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
       if (known.add(value)) menuActions.add(new ActionItem(getContext().getString(entry.label), value, TYPE_ACTION_ITEM));
     }
     addActionItemsToList(builder, menuActions.build());
+    ImmutableList.Builder<ActionItem> customMenuActions =
+        createActionListBuilder(R.string.custom_menus_title, 0, 0);
+    for (CustomMenus.Menu menu : CustomMenus.menus(getContext())) {
+      customMenuActions.add(
+          new ActionItem(menu.name, CustomMenus.actionFor(menu.id), TYPE_ACTION_ITEM));
+    }
+    addActionItemsToList(builder, customMenuActions.build());
     items = builder.build();
   }
 

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="pref_selector_copy_mode_key" translatable="false">pref_selector_copy_mode</string>
+  <string name="selector_copy_mode_value" translatable="false">selector_copy_mode</string>
+  <bool name="pref_selector_copy_mode_default">true</bool>
+  <string name="selector_copy_mode_title">Chế độ sao chép</string>
+  <string name="selector_copy_mode_appended">Đã nối thêm vào bộ nhớ tạm</string>
+  <string name="selector_copy_mode_copied">Đã sao chép vào bộ nhớ tạm</string>
+  <string name="custom_menus_title">Menu tùy chỉnh</string>
+  <string name="custom_menu_add">Thêm menu mới</string>
+  <string name="custom_menu_name">Tên menu</string>
+  <string name="custom_menu_name_required">Hãy nhập tên menu</string>
+  <string name="custom_menu_name_taken">Tên menu đã tồn tại</string>
+  <string name="custom_menu_item_count">Số lệnh: %1$d</string>
+  <string name="custom_menu_add_action">Thêm lệnh vào menu</string>
+  <string name="custom_menu_move_up">Chuyển lên</string>
+  <string name="custom_menu_move_down">Chuyển xuống</string>
+  <string name="custom_menu_remove_item">Xóa lệnh khỏi menu</string>
+  <string name="custom_menu_rename">Đổi tên menu</string>
+  <string name="custom_menu_delete">Xóa menu</string>
+  <string name="custom_menu_delete_confirm">Xóa menu này và các lệnh bên trong?</string>
+  <string name="custom_menu_empty">Menu không có lệnh nào</string>
+</resources>
