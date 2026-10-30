@@ -1136,7 +1136,10 @@ public class AccessibilityNodeInfoUtils {
       @Nullable Map<AccessibilityNodeInfoCompat, Boolean> speakingNodesCache,
       @NonNull Set<AccessibilityNodeInfoCompat> visitedNodes) {
     final int childCount = node.getChildCount();
-
+    // Retain the invisible nodes found by the first scan. Scanning the same children a
+    // second time sends another binder request per child on uncached, frequently changing
+    // windows and can stall both touch exploration and swipe navigation.
+    final List<AccessibilityNodeInfoCompat> invisibleChildren = new ArrayList<>();
     AccessibilityNodeInfoCompat child;
 
     for (int i = 0; i < childCount; i++) {
@@ -1153,6 +1156,7 @@ public class AccessibilityNodeInfoUtils {
 
       // Ignore invisible nodes.
       if (!isVisible(child)) {
+        invisibleChildren.add(child);
         LogUtils.v(TAG, "Child %d, %s is invisible, skipping it", i, printId(node));
         continue;
       }
@@ -1180,11 +1184,11 @@ public class AccessibilityNodeInfoUtils {
     }
 
     LogUtils.v(TAG, "Does not have non-actionable speaking children. Examining invisible children");
-    return hasInvisibleNonActionableSpeakingChildren(node, childCount);
+    return hasInvisibleNonActionableSpeakingChildren(node, invisibleChildren);
   }
 
   private static boolean hasInvisibleNonActionableSpeakingChildren(
-      AccessibilityNodeInfoCompat node, int childCount) {
+      AccessibilityNodeInfoCompat node, List<AccessibilityNodeInfoCompat> invisibleChildren) {
     // We don't want the presence of invisible children to lead to focus being set on a scrollable
     // parent that is capable of showing partially-visible data.
     if (FILTER_AUTO_SCROLL.accept(node)) {
@@ -1195,20 +1199,11 @@ public class AccessibilityNodeInfoUtils {
     // has associated text. Without this check, a parent would be considered unfocusable, and this
     // would cause ACTION_SHOW_ON_SCREEN to fail when the non-actionable/speakable child nodes of
     // a container are offscreen.
-    AccessibilityNodeInfoCompat child;
-    for (int i = 0; i < childCount; i++) {
-      child = node.getChild(i);
-
-      if (child == null) {
-        LogUtils.v(TAG, "Child %d is null, skipping it", i);
-        continue;
-      }
-
+    for (AccessibilityNodeInfoCompat child : invisibleChildren) {
       if (!child.isVisibleToUser()
           && hasText(child)
           && !(child.isScreenReaderFocusable() || isActionableForAccessibility(child))) {
-        LogUtils.v(
-            TAG, "Non-actionable invisible node with text found (child %d, %s)", i, printId(node));
+        LogUtils.v(TAG, "Non-actionable invisible node with text found: %s", printId(node));
         return true;
       }
     }
