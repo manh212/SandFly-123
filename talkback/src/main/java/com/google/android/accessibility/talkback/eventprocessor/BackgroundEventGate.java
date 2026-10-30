@@ -125,6 +125,14 @@ public final class BackgroundEventGate {
       scheduleActive();
       return false;
     }
+    if (pendingActive != null
+        && (type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
+            || type == AccessibilityEvent.TYPE_VIEW_CLICKED
+            || type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+            || type == AccessibilityEvent.TYPE_WINDOWS_CHANGED)) {
+      // A newer interaction/window transition supersedes any queued geometry update.
+      dropActivePending();
+    }
     if ((!enabled && !LatencyExperiments.Feature.INPUT_PRIORITY.enabled())
         || !isBackgroundUpdate(event)) {
       EventProcessingStats.admitted(event, 0);
@@ -157,6 +165,16 @@ public final class BackgroundEventGate {
     long now = SystemClock.uptimeMillis();
     return !touching && now - lastInput >= RECENT_SCROLL_INPUT_MS
         && !inputResponse.test(event);
+  }
+
+  private void dropActivePending() {
+    handler.removeCallbacks(releaseActive);
+    activeScheduled = false;
+    if (pendingActive != null) {
+      EventProcessingStats.dropped(pendingActive);
+      pendingActive.recycle();
+      pendingActive = null;
+    }
   }
 
   private void scheduleActive() {
@@ -273,13 +291,8 @@ public final class BackgroundEventGate {
   public void clear() {
     handler.removeCallbacks(releasePending);
     releaseScheduled = false;
-    handler.removeCallbacks(releaseActive);
-    activeScheduled = false;
-    if (pendingActive != null) {
-      EventProcessingStats.dropped(pendingActive);
-      pendingActive.recycle();
-      pendingActive = null;
-    }
+    dropActivePending();
+    TraversalTreeCache.resetChurnTracking();
     if (pending != null) {
       EventProcessingStats.dropped(pending);
       pending.recycle();
