@@ -4,9 +4,11 @@ import android.content.SharedPreferences
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
+import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE
 import com.google.android.accessibility.talkback.notifications.NotificationReadingFragment
 import com.google.android.accessibility.talkback.notifications.NotificationWhenFragment
@@ -116,6 +118,33 @@ class OrganizedSettingsTest {
     val value = activity.resources.getStringArray(R.array.pref_keyboard_echo_values).last()
     prefs.edit().putString(echoKey, value).commit()
     assertEquals(value, echo.value)
+  }
+
+  @Test
+  fun silentDirectTypingIsAnExplicitChoiceInsideTheExistingTypingMethods() {
+    val fragment = TypingMethodPrefFragment()
+    open(fragment)
+    val key = activity.getString(R.string.pref_typing_confirmation_key)
+    val category = requireNotNull(fragment.findPreference<PreferenceCategory>(key))
+    val row = (0 until category.preferenceCount).map { category.getPreference(it) }
+      .single { it.title == activity.getString(R.string.value_type_confirmation_direct_silent) }
+    assertTrue(row.isEnabled)
+    assertFalse(prefs.getString(key, null) == DIRECT_SILENT_TYPING.toString())
+    fragment.onPreferenceTreeClick(row)
+    assertEquals(DIRECT_SILENT_TYPING.toString(), prefs.getString(key, null))
+    assertTrue(fragment.findPreference<Preference>(activity.getString(R.string.pref_direct_input_tap_delay_key)) == null)
+  }
+
+  @Test
+  @Config(sdk = [29])
+  fun silentDirectTypingIsUnavailableBeforeAndroid11() {
+    val fragment = TypingMethodPrefFragment()
+    open(fragment)
+    val category = requireNotNull(fragment.findPreference<PreferenceCategory>(
+      activity.getString(R.string.pref_typing_confirmation_key)))
+    val row = (0 until category.preferenceCount).map { category.getPreference(it) }
+      .single { it.title == activity.getString(R.string.value_type_confirmation_direct_silent) }
+    assertFalse(row.isEnabled)
   }
 
   @Test

@@ -68,6 +68,7 @@ public class FocusProcessorForTapAndTouchExploration {
   // passthrough region, so touches there are not held for gesture classification and the key is
   // typed as soon as the finger lifts.
   public static final int SINGLE_TAP_TO_TYPE = 5;
+  public static final int DIRECT_SILENT_TYPING = 6;
 
   /**
    * Typing method options: can be DOUBLE_TAP, LIFT_TO_TYPE, FORCE_LIFT_TO_TYPE_ON_IME,
@@ -78,7 +79,8 @@ public class FocusProcessorForTapAndTouchExploration {
     LIFT_TO_TYPE,
     FORCE_LIFT_TO_TYPE_ON_IME,
     LIFT_TO_TYPE_EXCEPT_ACTION_KEY,
-    SINGLE_TAP_TO_TYPE
+    SINGLE_TAP_TO_TYPE,
+    DIRECT_SILENT_TYPING
   })
   public @interface TypingMethod {}
 

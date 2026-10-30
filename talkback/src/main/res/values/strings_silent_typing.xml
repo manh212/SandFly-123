@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="value_type_confirmation_direct_silent">Chạm trực tiếp, không phản hồi</string>
+  <string name="direct_silent_typing_requires_android_11">Cần Android 11 trở lên</string>
+  <string name="value_keyboard_echo_silent_typing">Không đọc khi nhập</string>
+</resources>

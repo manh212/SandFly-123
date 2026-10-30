@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
+import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING;
 import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP;
 import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.FORCE_LIFT_TO_TYPE_ON_IME;
 import static com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE;
@@ -33,6 +34,7 @@ import com.google.android.accessibility.material.preference.AccessibilitySeekBar
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Fragment to customize typing method. */
@@ -54,7 +56,9 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
         R.string.value_type_confirmation_lift_to_type_except_action_key,
         LIFT_TO_TYPE_EXCEPT_ACTION_KEY),
     METHOD_SINGLE_TAP_TO_TYPE(
-        R.string.value_type_confirmation_single_tap_to_type, SINGLE_TAP_TO_TYPE);
+        R.string.value_type_confirmation_single_tap_to_type, SINGLE_TAP_TO_TYPE),
+    METHOD_DIRECT_SILENT_TYPING(
+        R.string.value_type_confirmation_direct_silent, DIRECT_SILENT_TYPING);
 
     @StringRes private final int titleId;
     private final int method;
@@ -156,6 +160,15 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
     typingMethodPrefCategory =
         (AccessibilitySuitePreferenceCategory)
             findPreference(getString(R.string.pref_typing_confirmation_key));
+    if (!FeatureSupport.supportPassthrough()) {
+      for (int i = 0; i < typingMethodPrefCategory.getPreferenceCount(); i++) {
+        Preference row = typingMethodPrefCategory.getPreference(i);
+        if (TextUtils.equals(row.getTitle(), getString(R.string.value_type_confirmation_direct_silent))) {
+          row.setEnabled(false);
+          row.setSummary(R.string.direct_silent_typing_requires_android_11);
+        }
+      }
+    }
     int typingMethod = currentTypingMethod();
     for (TypingMethodPref source : TypingMethodPref.values()) {
       if (typingMethod == source.getMethod()) {

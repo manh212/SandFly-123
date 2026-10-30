@@ -35,12 +35,14 @@ import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.Feedback.PassThroughMode.Action.DIRECT_TOUCH_REGION
 import com.google.android.accessibility.talkback.Pipeline
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
 import com.google.android.accessibility.talkback.focusmanagement.LiftToActivateMode
 import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMonitor
 import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils.WINDOW_ID_NONE
 import com.google.android.accessibility.utils.FeatureSupport
 import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.Performance.EventId
+import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.input.WindowEventInterpreter
 import com.google.android.accessibility.utils.input.WindowEventInterpreter.EventInterpretation
 import com.google.android.accessibility.utils.monitor.DisplayMonitor
@@ -84,6 +86,8 @@ class DirectTouchController(
   private var screenInteractive = true
   private var displayOn = true
   private var active = false
+  private var silentKeyboardIds = emptySet<Int>()
+  private var silentDirectTyping = readSilentDirectTyping()
   // Whether the passthrough region now holds just the navigation bar or a keyboard in the list,
   // while direct touch is off.
   private var partRegionSent = false
@@ -92,12 +96,16 @@ class DirectTouchController(
   // The system holds preference listeners weakly, so this must stay a field.
   private val prefsListener =
     SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-      if (key != null && (key.startsWith("pref_direct_touch") || key == liftToActivateKey)) {
+      if (key != null &&
+        (key.startsWith("pref_direct_touch") || key == liftToActivateKey || key == typingMethodKey)
+      ) {
+        if (key == typingMethodKey) silentDirectTyping = readSilentDirectTyping()
         evaluate()
       }
     }
 
   private val liftToActivateKey = service.getString(R.string.pref_lift_to_activate_key)
+  private val typingMethodKey = service.getString(R.string.pref_typing_confirmation_key)
 
   // The last navigation bar button spoken, so that the same tap reported twice is said once.
   private var lastNavBarButton: CharSequence? = null
@@ -123,6 +131,14 @@ class DirectTouchController(
    * Raw events, before Backtalk drops any. Watches for window changes, on or off, and for a text
    * field taking focus.
    */
+  fun onRawAccessibilityEvent(event: AccessibilityEvent) {
+    if (!paused && isSilentDirectTyping() && DirectTouchRegions.reassertsRegion(event.eventType)) {
+      evaluate()
+      handler.removeCallbacks(recheck)
+      handler.postDelayed(recheck, DEBOUNCE_MS)
+    }
+  }
+
   fun onAccessibilityEvent(event: AccessibilityEvent) {
     if (!FeatureSupport.supportPassthrough()) {
       return
@@ -173,15 +189,15 @@ class DirectTouchController(
   private fun onScreenStateChanged() {
     if (!screenInteractive || !displayOn) {
       handler.removeCallbacks(reevaluate)
-      if (active) {
-        active = false
-        clearRegion()
-        partRegionSent = false
-        announce(false)
-      }
+      val wasActive = active
+      active = false
+      silentKeyboardIds = emptySet()
+      if (wasActive || partRegionSent) clearRegion()
+      partRegionSent = false
+      if (wasActive) announce(false)
       return
     }
-    if (isNavBarDirect() || DirectTouchSettings.hasEnabledApps(prefs)) {
+    if (isNavBarDirect() || DirectTouchSettings.hasEnabledApps(prefs) || isSilentDirectTyping()) {
       scheduleEvaluate()
     }
   }
@@ -194,7 +210,9 @@ class DirectTouchController(
     this.paused = paused
     handler.removeCallbacks(reevaluate)
     handler.removeCallbacks(recheck)
-    if (!paused) {
+    if (paused) {
+      silentKeyboardIds = emptySet()
+    } else {
       evaluate()
     }
   }
@@ -212,7 +230,7 @@ class DirectTouchController(
 
   private fun scheduleEvaluate() {
     handler.removeCallbacks(reevaluate)
-    if (active) {
+    if (active || isSilentDirectTyping()) {
       // Handing back must not wait, and neither must a region that changed under us.
       evaluate()
     } else {
@@ -225,7 +243,14 @@ class DirectTouchController(
     if (paused || !FeatureSupport.supportPassthrough()) {
       return
     }
+    if (!screenInteractive || !displayOn) {
+      silentKeyboardIds = emptySet()
+      return
+    }
     val windows = service.windows.orEmpty()
+    silentKeyboardIds = if (isSilentDirectTyping()) {
+      windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }.map { it.id }.toSet()
+    } else emptySet()
     val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
     val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
     val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
@@ -338,6 +363,9 @@ class DirectTouchController(
    * Their apps are asked for only while some app is in the list.
    */
   private fun directKeyboards(windows: List<AccessibilityWindowInfo>): List<AccessibilityWindowInfo> {
+    if (isSilentDirectTyping()) {
+      return windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }
+    }
     if (!DirectTouchSettings.hasEnabledApps(prefs)) {
       return emptyList()
     }
@@ -346,6 +374,36 @@ class DirectTouchController(
         rootPackage(window)?.let { DirectTouchSettings.isAppEnabled(prefs, it) } == true
     }
   }
+
+  private fun isSilentDirectTyping(): Boolean = silentDirectTyping
+
+  private fun readSilentDirectTyping(): Boolean =
+    FeatureSupport.supportPassthrough() &&
+      SharedPreferencesUtils.getIntFromStringPref(
+        prefs, service.resources, R.string.pref_typing_confirmation_key,
+        R.string.pref_typing_confirmation_default,
+      ) == DIRECT_SILENT_TYPING
+
+  fun shouldSilenceKeyboardEvent(event: AccessibilityEvent): Boolean =
+    !paused && isSilentDirectTyping() && event.windowId in silentKeyboardIds &&
+      when (event.eventType) {
+        AccessibilityEvent.TYPE_VIEW_HOVER_ENTER,
+        AccessibilityEvent.TYPE_VIEW_HOVER_EXIT,
+        AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
+        AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED,
+        AccessibilityEvent.TYPE_VIEW_FOCUSED,
+        AccessibilityEvent.TYPE_VIEW_CLICKED,
+        AccessibilityEvent.TYPE_VIEW_LONG_CLICKED,
+        AccessibilityEvent.TYPE_VIEW_SELECTED,
+        AccessibilityEvent.TYPE_VIEW_SCROLLED,
+        AccessibilityEvent.TYPE_VIEW_CONTEXT_CLICKED,
+        AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
+        AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED,
+        AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY,
+        AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED,
+        AccessibilityEvent.TYPE_ANNOUNCEMENT -> true
+        else -> false
+      }
 
   private fun boundsOf(window: AccessibilityWindowInfo): Rect =
     Rect().also { window.getBoundsInScreen(it) }

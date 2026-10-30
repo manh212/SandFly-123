@@ -83,6 +83,10 @@ If you do not want to use an API key, or you have hit the free tier limit, Merid
 
 Answers take several seconds and use battery, more than the cloud on a mid-range phone. The model loads on the first request and unloads after two idle minutes to free memory. The model runs in its own process, so if the phone runs out of memory, Android stops the model and not Meridian, and Meridian says so. Before it loads a model, Meridian checks that the phone has at least as much free memory as the model's size, and if not, it says there is not enough free memory and does not load it. To test with a model that is too big for your phone, turn on **Ignore on-device AI memory limits** in **Advanced settings** > **Developer settings**. It lists every model, lets you choose any downloaded one, and skips the free memory check. If answers fail or the phone slows down, try the other model, or turn **Use the GPU** on or off. On-device AI needs a 64-bit ARM phone and adds about 22 MB to the app.
 
+## Silent keyboard input
+
+Under Typing > Typing method, select **Chạm trực tiếp, không phản hồi** to give only the keyboard direct touch without Meridian feedback. This requires Android 11 or later; existing typing methods and the default remain unchanged. The existing on-screen and physical keyboard echo choices include **Không đọc khi nhập**, which suppresses typing feedback, including deletion, independently for the on-screen and physical keyboard. Physical keyboard shortcuts and cursor navigation still work. See [Silent keyboard input](docs/silent-keyboard-input.md).
+
 ## Extended two-finger gestures
 
 On Android 13 or later, turn on **Cử chỉ hai ngón mở rộng, thử nghiệm** under Navigation > Touch and activation. The switch is off by default. It does not add a new page or a control to the Navigation landing screen. After enabling it, assign commands to the twelve new rows in the existing Two-finger group in Gestures. All twelve start unassigned.

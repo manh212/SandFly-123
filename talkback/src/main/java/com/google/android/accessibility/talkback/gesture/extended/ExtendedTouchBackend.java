@@ -34,7 +34,6 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private boolean transitionPending;
   private boolean gestureStarted;
   private int state = TouchInteractionController.STATE_CLEAR;
-  private int epoch;
   private final Runnable explore = () -> {
     if (active && !gestureStarted && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
       requestExploration();
@@ -62,7 +61,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   void start() {
     active = true;
     try {
-      controller.registerCallback(service.getMainExecutor(), this);
+      controller.registerCallback(Runnable::run, this);
     } catch (RuntimeException error) {
       active = false;
       try { controller.unregisterCallback(this); } catch (RuntimeException ignored) {}
@@ -72,7 +71,6 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
 
   void stop() {
     active = false;
-    epoch++;
     handler.removeCallbacks(explore);
     detector.clear();
     clearQueue();
@@ -186,13 +184,9 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   }
 
   private void dispatch(AccessibilityGestureEvent event) {
-    int request = epoch;
-    int id = event.getGestureId();
-    handler.post(() -> {
-      if (active && request == epoch && !com.google.android.accessibility.talkback.pause.PauseController.isPaused()) {
-        service.onGesture(new AccessibilityGestureEvent(id, Display.DEFAULT_DISPLAY, java.util.Collections.emptyList()));
-      }
-    });
+    if (active && !com.google.android.accessibility.talkback.pause.PauseController.isPaused()) {
+      service.onGesture(event);
+    }
   }
 
   private int controllerState() { return controller.getState(); }

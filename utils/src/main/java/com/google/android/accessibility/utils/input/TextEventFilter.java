@@ -67,13 +67,20 @@ public class TextEventFilter {
    * @array/pref_keyboard_echo_entries in values/donottranslate.xml.
    */
   public static final int PREF_ECHO_NONE = 2;
+  public static final int PREF_ECHO_SILENT_TYPING = 4;
 
   public static final int PREF_ECHO_CHARACTERS = 1;
   public static final int PREF_ECHO_WORDS = 3;
   public static final int PREF_ECHO_CHARACTERS_AND_WORDS = 0;
 
   /** The options of keyboard echo type. */
-  @IntDef({PREF_ECHO_NONE, PREF_ECHO_CHARACTERS, PREF_ECHO_WORDS, PREF_ECHO_CHARACTERS_AND_WORDS})
+  @IntDef({
+    PREF_ECHO_NONE,
+    PREF_ECHO_CHARACTERS,
+    PREF_ECHO_WORDS,
+    PREF_ECHO_CHARACTERS_AND_WORDS,
+    PREF_ECHO_SILENT_TYPING
+  })
   @Retention(RetentionPolicy.SOURCE)
   public @interface KeyboardEchoType {}
 
@@ -217,6 +224,9 @@ public class TextEventFilter {
           }
           textEventHistory.setLastTextChangeTime(event.getEventTime());
           textEventHistory.setLastTextChangePackageName(event.getPackageName());
+          if (readKeyboardEcho(event.getEventTime()) == PREF_ECHO_SILENT_TYPING) {
+            return;
+          }
           if (voiceRecognitionActive) {
             LogUtils.d(TAG, "Drop TYPE_VIEW_TEXT_CHANGED event: Voice recognition is active.");
             return;

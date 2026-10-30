@@ -33,10 +33,15 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.view.accessibility.AccessibilityWindowInfo
 import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.Pipeline
+import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE
 import com.google.android.accessibility.utils.input.WindowEventInterpreter
 import com.google.android.accessibility.utils.monitor.DisplayMonitor
 import java.time.Duration
 import org.junit.Assert.assertEquals
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -212,6 +217,67 @@ class DirectTouchControllerTest {
     assertEquals(1, RootsShadow.rootRequests)
     assertEquals(1, ManifestsShadow.manifestRequests)
   }
+
+  @Test
+  fun silentTypingOnlyPassesTheKeyboardAndRestoresNormalTyping() {
+    val key = service.getString(R.string.pref_typing_confirmation_key)
+    prefs.edit().putString(key, DIRECT_SILENT_TYPING.toString()).apply()
+    val keyboard = window(20, AccessibilityWindowInfo.TYPE_INPUT_METHOD, "Keyboard",
+      Rect(0, 1400, 1080, 2220), "com.example.keyboard")
+    windowsChange(GAME, WINDOWS_CHANGE_ADDED, statusBar(), navigationBar(), game(), keyboard)
+
+    assertEquals("region [0,1400][1080,2220] complex=false", transcript.last())
+    assertTrue(transcript.none { it.startsWith("say") })
+    assertTrue(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+    assertFalse(controller.shouldSilenceKeyboardEvent(keyboardEvent(GAME)))
+
+    prefs.edit().putString(key, LIFT_TO_TYPE.toString()).apply()
+
+    assertEquals("region none", transcript.last())
+    assertFalse(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+  }
+
+  @Test
+  fun silentTypingUpdatesFloatingKeyboardBoundsWithoutWaiting() {
+    prefs.edit().putString(service.getString(R.string.pref_typing_confirmation_key),
+      DIRECT_SILENT_TYPING.toString()).apply()
+    val keyboard = window(20, AccessibilityWindowInfo.TYPE_INPUT_METHOD, "Keyboard",
+      Rect(200, 1000, 800, 1600), "com.example.keyboard")
+    serviceWindows.onScreen = listOf(game(), keyboard)
+
+    controller.onRawAccessibilityEvent(AccessibilityEvent(AccessibilityEvent.TYPE_WINDOWS_CHANGED))
+
+    assertEquals("region [200,1000][800,1600] complex=false", transcript.last())
+    serviceWindows.onScreen = listOf(game())
+    controller.onRawAccessibilityEvent(AccessibilityEvent(AccessibilityEvent.TYPE_WINDOWS_CHANGED))
+    assertEquals("region none", transcript.last())
+    assertFalse(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+  }
+
+  @Test
+  fun silentTypingStopsSilencingWhilePausedAndWhenTheScreenIsOff() {
+    prefs.edit().putString(service.getString(R.string.pref_typing_confirmation_key),
+      DIRECT_SILENT_TYPING.toString()).apply()
+    val keyboard = window(20, AccessibilityWindowInfo.TYPE_INPUT_METHOD, "Keyboard",
+      Rect(0, 1400, 1080, 2220), "com.example.keyboard")
+    serviceWindows.onScreen = listOf(game(), keyboard)
+    controller.onRawAccessibilityEvent(AccessibilityEvent(AccessibilityEvent.TYPE_WINDOWS_CHANGED))
+    assertTrue(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+
+    controller.setPaused(true)
+    assertFalse(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+    controller.setPaused(false)
+    assertTrue(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+    controller.onDisplayStateChanged(false)
+    assertEquals("region none", transcript.last())
+    assertFalse(controller.shouldSilenceKeyboardEvent(keyboardEvent(20)))
+  }
+
+  private fun keyboardEvent(windowId: Int): AccessibilityEvent =
+    AccessibilityEvent(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED).also {
+      ReflectionHelpers.callInstanceMethod<Any>(it, "setWindowId",
+        ClassParameter.from(Int::class.javaPrimitiveType, windowId))
+    }
 
   // Screens
 

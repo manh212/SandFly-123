@@ -25,6 +25,7 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.input.TextEventFilter.PREF_ECHO_CHARACTERS
 import com.google.android.accessibility.utils.input.TextEventFilter.PREF_ECHO_CHARACTERS_AND_WORDS
 import com.google.android.accessibility.utils.input.TextEventFilter.PREF_ECHO_NONE
+import com.google.android.accessibility.utils.input.TextEventFilter.PREF_ECHO_SILENT_TYPING
 import com.google.android.accessibility.utils.input.TextEventFilter.PREF_ECHO_WORDS
 import com.google.android.accessibility.utils.input.TextEventFilter.TypingInput
 import org.junit.Assert.assertEquals
@@ -133,6 +134,16 @@ class KeyboardEchoSettingsTest {
       KeyboardEchoSettings.cycle(prefs, res, TypingInput.PHYSICAL_KEYBOARD, /* next= */ false),
     )
     assertEquals(PREF_ECHO_CHARACTERS_AND_WORDS, read(TypingInput.PHYSICAL_KEYBOARD))
+  }
+
+  @Test
+  fun silentTypingIsAnIndependentChoiceAndSurvivesMigration() {
+    KeyboardEchoSettings.write(prefs, res, TypingInput.PHYSICAL_KEYBOARD, PREF_ECHO_SILENT_TYPING)
+    KeyboardEchoSettings.migrate(app, prefs)
+    assertEquals(PREF_ECHO_SILENT_TYPING, read(TypingInput.PHYSICAL_KEYBOARD))
+    assertEquals(PREF_ECHO_CHARACTERS_AND_WORDS, read(TypingInput.ON_SCREEN_KEYBOARD))
+    assertEquals("Không đọc khi nhập", KeyboardEchoSettings.choiceName(res, PREF_ECHO_SILENT_TYPING))
+    assertEquals(1, KeyboardEchoSettings.choices(res).count { it == PREF_ECHO_SILENT_TYPING })
   }
 
   @Test

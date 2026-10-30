@@ -1133,6 +1133,9 @@ public class TalkBackService extends AccessibilityServiceCompat
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
     touchVolumeState.onEvent(event.getEventType());
+    if (directTouchController != null) {
+      directTouchController.onRawAccessibilityEvent(event);
+    }
     if (gestureController != null) {
       gestureController.onSubtitleAccessibilityEvent(event);
     }
@@ -1178,6 +1181,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     // that nothing still thinks a finger is down after resuming. Its feedback is dropped too.
     if (PauseController.isPaused()
         && event.getEventType() != AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
+      markRootDirtyForDroppedEvent(event);
+      return;
+    }
+    if (directTouchController != null && directTouchController.shouldSilenceKeyboardEvent(event)) {
       markRootDirtyForDroppedEvent(event);
       return;
     }
@@ -3719,6 +3726,10 @@ public class TalkBackService extends AccessibilityServiceCompat
             res,
             R.string.pref_typing_confirmation_key,
             R.string.pref_typing_confirmation_default);
+    if (typingMethod == FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
+        && !FeatureSupport.supportPassthrough()) {
+      typingMethod = FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE;
+    }
     accessibilityFocusInterpreter.setTypingMethod(typingMethod);
     if (singleTapTypingController != null) {
       singleTapTypingController.setEnabled(
@@ -3870,7 +3881,11 @@ public class TalkBackService extends AccessibilityServiceCompat
                 prefs, res, R.string.pref_speech_rate_key, R.string.pref_speech_rate_default);
     pipeline.setSpeechRate(speechRate);
     for (TypingInput input : TypingInput.values()) {
-      textEventInterpreter.setKeyboardEcho(input, KeyboardEchoSettings.read(prefs, res, input));
+      int echo = input == TypingInput.ON_SCREEN_KEYBOARD
+              && typingMethod == FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
+          ? TextEventFilter.PREF_ECHO_SILENT_TYPING
+          : KeyboardEchoSettings.read(prefs, res, input);
+      textEventInterpreter.setKeyboardEcho(input, echo);
     }
     physicalKeyboardEcho = KeyboardEchoSettings.read(prefs, res, TypingInput.PHYSICAL_KEYBOARD);
     String typingValue =

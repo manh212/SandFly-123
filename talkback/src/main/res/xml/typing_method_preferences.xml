@@ -24,6 +24,9 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
         android:title="@string/value_type_confirmation_single_tap_to_type"
         app:singleLineTitle="false"/>
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteRadioButtonPreference
+        android:title="@string/value_type_confirmation_direct_silent"
+        app:singleLineTitle="false"/>
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference

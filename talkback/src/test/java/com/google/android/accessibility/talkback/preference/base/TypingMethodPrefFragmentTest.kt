@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.preference.base
 
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
+import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.FORCE_LIFT_TO_TYPE_ON_IME
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE_EXCEPT_ACTION_KEY
@@ -35,6 +36,7 @@ class TypingMethodPrefFragmentTest {
 
   @Test
   fun everyOtherMethod_hidesTheTapDelayRow() {
+    assertFalse(TypingMethodPrefFragment.isTapDelayRowVisible(DIRECT_SILENT_TYPING))
     assertFalse(TypingMethodPrefFragment.isTapDelayRowVisible(DOUBLE_TAP))
     assertFalse(TypingMethodPrefFragment.isTapDelayRowVisible(LIFT_TO_TYPE))
     assertFalse(TypingMethodPrefFragment.isTapDelayRowVisible(FORCE_LIFT_TO_TYPE_ON_IME))
