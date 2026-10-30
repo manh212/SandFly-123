@@ -21,15 +21,18 @@ import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import androidx.annotation.IntDef;
+import androidx.annotation.RequiresApi;
 import com.google.android.accessibility.utils.Performance.EventId;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.util.Arrays;
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 public class TwoFingerSecondFingerMultiTap extends GestureMatcher {
   @Retention(RetentionPolicy.SOURCE)
   @IntDef({ROTATE_DIRECTION_DONT_CARE, ROTATE_DIRECTION_FORWARD, ROTATE_DIRECTION_BACKWARD})

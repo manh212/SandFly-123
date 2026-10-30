@@ -21,11 +21,14 @@ import static android.util.Log.VERBOSE;
 import static android.view.MotionEvent.INVALID_POINTER_ID;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
+import androidx.annotation.RequiresApi;
 import com.google.android.accessibility.utils.Performance.EventId;
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class SecondFingerMultiTap extends GestureMatcher {
   private final int targetTaps;
   private int doubleTapSlop;

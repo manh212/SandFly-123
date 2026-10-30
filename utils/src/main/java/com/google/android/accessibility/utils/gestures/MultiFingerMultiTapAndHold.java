@@ -17,9 +17,12 @@
 package com.google.android.accessibility.utils.gestures;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.MotionEvent;
+import androidx.annotation.RequiresApi;
 import com.google.android.accessibility.utils.Performance.EventId;
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class MultiFingerMultiTapAndHold extends MultiFingerMultiTap {
 
   MultiFingerMultiTapAndHold(

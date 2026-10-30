@@ -18,14 +18,17 @@ package com.google.android.accessibility.utils.gestures;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.os.Build;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.ViewConfiguration;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import com.google.android.accessibility.utils.Performance.EventId;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+@RequiresApi(Build.VERSION_CODES.TIRAMISU)
 class MultiFingerMultiTap extends GestureMatcher {
 
   final int mTargetTapCount;
