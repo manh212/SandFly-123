@@ -110,15 +110,11 @@ object NavigationGestureActions {
             R.string.shortcut_previous_control,
             R.string.shortcut_next_control,
             Target.NativeOrWeb(CursorGranularity.CONTROL, NavigationTarget.TARGET_CONTROL),
-          ) +
-          web(
-            "LANDMARK",
-            R.string.shortcut_previous_landmark,
-            R.string.shortcut_next_landmark,
-            CursorGranularity.WEB_LANDMARK,
-            NavigationTarget.TARGET_HTML_ELEMENT_ARIA_LANDMARK,
-          ) +
-          web(
+          ),
+      ),
+      Category(
+        R.string.gesture_group_web_forms,
+        web(
             "BUTTON",
             R.string.shortcut_previous_button,
             R.string.shortcut_next_button,
@@ -159,6 +155,16 @@ object NavigationGestureActions {
             R.string.shortcut_next_focusable_item,
             CursorGranularity.WEB_FOCUSABLE,
             NavigationTarget.TARGET_HTML_ELEMENT_FOCUSABLE_ITEM,
+          ),
+      ),
+      Category(
+        R.string.gesture_group_web_structure,
+        web(
+            "LANDMARK",
+            R.string.shortcut_previous_landmark,
+            R.string.shortcut_next_landmark,
+            CursorGranularity.WEB_LANDMARK,
+            NavigationTarget.TARGET_HTML_ELEMENT_ARIA_LANDMARK,
           ) +
           web(
             "GRAPHIC",

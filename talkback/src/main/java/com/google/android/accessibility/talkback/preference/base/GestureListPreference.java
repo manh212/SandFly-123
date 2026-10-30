@@ -46,7 +46,11 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableList;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.HashSet;
 
 /**
  * A {@link DialogPreference} which contains a list for all TalkBack supported actions. It works
@@ -121,7 +125,9 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
    * are looked up each time, since only one gesture's list is shown at a time.
    */
   public ActionItem[] getActionItems() {
-    populateActionItems();
+    if (!lockScreenActionsOnly) {
+      populateActionItems();
+    }
     ImmutableList.Builder<ActionItem> builder = ImmutableList.builder();
     builder.addAll(items);
     if (!lockScreenActionsOnly) {
@@ -269,16 +275,14 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     addActionItemsToList(builder, createReadingControl());
     addActionItemsToList(builder, createMenuControl());
     addActionItemsToList(builder, createTextEditing());
-    addActionItemsToList(builder, createSpecialFeatures());
-    java.util.Set<String> known = new java.util.HashSet<>();
-    for (ActionItem item : builder.build()) known.add(item.value);
-    ImmutableList.Builder<ActionItem> menuActions = createActionListBuilder(R.string.menu_gesture_actions_title, 0, 0);
-    for (com.google.android.accessibility.talkback.gesture.MenuGestureActions.Entry entry :
-        com.google.android.accessibility.talkback.gesture.MenuGestureActions.ENTRIES) {
-      String value = entry.value(getContext());
-      if (known.add(value)) menuActions.add(new ActionItem(getContext().getString(entry.label), value, TYPE_ACTION_ITEM));
+    addActionItemsToList(builder, organizeSpecialFeatures());
+    Set<String> known = new HashSet<>();
+    for (ActionItem item : builder.build()) {
+      if (item.viewType == TYPE_ACTION_ITEM) {
+        known.add(item.value);
+      }
     }
-    addActionItemsToList(builder, menuActions.build());
+    addActionItemsToList(builder, organizeMenuActions(known));
     ImmutableList.Builder<ActionItem> customMenuActions =
         createActionListBuilder(R.string.custom_menus_title, 0, 0);
     for (CustomMenus.Menu menu : CustomMenus.menus(getContext())) {
@@ -287,6 +291,175 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     }
     addActionItemsToList(builder, customMenuActions.build());
     items = builder.build();
+  }
+
+
+  private ImmutableList<ActionItem> organizeSpecialFeatures() {
+    int[] titles = {
+      R.string.gesture_group_clipboard,
+      R.string.gesture_group_screen_recognition,
+      R.string.gesture_group_voice_input,
+      R.string.gesture_group_audio_media,
+      R.string.gesture_group_notifications_status,
+      R.string.gesture_group_touch_accessibility,
+      R.string.gesture_group_utilities,
+      R.string.shortcut_title_special_features
+    };
+    Map<Integer, ImmutableList.Builder<ActionItem>> groups = new LinkedHashMap<>();
+    for (int title : titles) {
+      groups.put(title, createActionListBuilder(title, 0, 0));
+    }
+    for (ActionItem item : createSpecialFeatures()) {
+      if (item.viewType == TYPE_ACTION_ITEM) {
+        groups.get(specialCategory(item.value)).add(item);
+      }
+    }
+    ImmutableList.Builder<ActionItem> result = ImmutableList.builder();
+    for (ImmutableList.Builder<ActionItem> group : groups.values()) {
+      addActionItemsToList(result, group.build());
+    }
+    return result.build();
+  }
+
+  private int specialCategory(String value) {
+    if (matchesAction(value,
+        R.string.shortcut_value_copy_focused,
+        R.string.shortcut_value_copy_more,
+        R.string.shortcut_value_copy_full_screen)) {
+      return R.string.gesture_group_clipboard;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_take_focus_screenshot,
+        R.string.shortcut_value_screen_recognition,
+        R.string.shortcut_value_subtitles,
+        R.string.shortcut_value_subtitle_find_again,
+        R.string.shortcut_value_auto_translate,
+        R.string.shortcut_value_screen_search,
+        R.string.shortcut_value_show_hide_screen,
+        R.string.shortcut_value_describe_image,
+        R.string.shortcut_value_screen_overview)) {
+      return R.string.gesture_group_screen_recognition;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_voice_input,
+        R.string.shortcut_value_media_control_or_voice_input,
+        R.string.shortcut_value_voice_commands)) {
+      return R.string.gesture_group_voice_input;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_media_control,
+        R.string.shortcut_value_increase_volume,
+        R.string.shortcut_value_decrease_volume,
+        R.string.shortcut_value_increase_media_volume,
+        R.string.shortcut_value_decrease_media_volume,
+        R.string.shortcut_value_increase_contextual_volume,
+        R.string.shortcut_value_decrease_contextual_volume,
+        R.string.shortcut_value_media_previous,
+        R.string.shortcut_value_media_next,
+        R.string.shortcut_value_speech_pitch_decrease,
+        R.string.shortcut_value_speech_pitch_increase,
+        R.string.shortcut_value_speech_rate_decrease,
+        R.string.shortcut_value_speech_rate_increase)) {
+      return R.string.gesture_group_audio_media;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_read_notifications,
+        R.string.shortcut_value_read_last_notification,
+        R.string.shortcut_value_stop_notification,
+        R.string.shortcut_value_toggle_notification_speech,
+        R.string.shortcut_value_toggle_stopwatch,
+        R.string.shortcut_value_control_telling_time,
+        R.string.shortcut_value_announce_battery_state,
+        R.string.shortcut_value_announce_status,
+        R.string.shortcut_value_announce_current_time_and_date,
+        R.string.shortcut_value_announce_current_title)) {
+      return R.string.gesture_group_notifications_status;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_toggle_arrow_key_nav,
+        R.string.shortcut_value_direct_tap,
+        R.string.shortcut_value_toggle_touch_exploration,
+        R.string.shortcut_value_monitor_focus,
+        R.string.shortcut_value_pass_through_next_gesture,
+        R.string.shortcut_value_pause_backtalk)) {
+      return R.string.gesture_group_touch_accessibility;
+    }
+    if (matchesAction(value,
+        R.string.shortcut_value_task_assistant,
+        R.string.shortcut_value_print_node_tree,
+        R.string.shortcut_value_inspect_item,
+        R.string.shortcut_value_copy_screen_tree,
+        R.string.shortcut_value_toggle_scripts,
+        R.string.shortcut_value_tutorial,
+        R.string.shortcut_value_practice_gestures,
+        R.string.shortcut_value_report_gesture)) {
+      return R.string.gesture_group_utilities;
+    }
+    return R.string.shortcut_title_special_features;
+  }
+
+  private boolean matchesAction(String value, int... actionIds) {
+    for (int id : actionIds) {
+      if (TextUtils.equals(value, getContext().getString(id))) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private ImmutableList<ActionItem> organizeMenuActions(Set<String> known) {
+    int[] titles = {
+      R.string.gesture_group_menu_navigation,
+      R.string.gesture_group_menu_speech,
+      R.string.gesture_group_menu_text,
+      R.string.gesture_group_menu_tools
+    };
+    Map<Integer, ImmutableList.Builder<ActionItem>> groups = new LinkedHashMap<>();
+    for (int title : titles) {
+      groups.put(title, createActionListBuilder(title, 0, 0));
+    }
+    for (com.google.android.accessibility.talkback.gesture.MenuGestureActions.Entry entry :
+        com.google.android.accessibility.talkback.gesture.MenuGestureActions.ENTRIES) {
+      String value = entry.value(getContext());
+      if (known.add(value)) {
+        groups.get(menuCategory(entry.menuId))
+            .add(new ActionItem(getContext().getString(entry.label), value, TYPE_ACTION_ITEM));
+      }
+    }
+    ImmutableList.Builder<ActionItem> result = ImmutableList.builder();
+    for (ImmutableList.Builder<ActionItem> group : groups.values()) {
+      addActionItemsToList(result, group.build());
+    }
+    return result.build();
+  }
+
+  private static int menuCategory(int menuId) {
+    if (menuId == R.id.typo_suggestions_menu
+        || menuId == R.id.viewpager_menu
+        || menuId == R.id.granularity_menu
+        || menuId == R.id.window_menu) {
+      return R.string.gesture_group_menu_navigation;
+    }
+    if (menuId == R.id.keyboard_echo_on_screen_menu
+        || menuId == R.id.keyboard_echo_physical_menu
+        || menuId == R.id.verbosity
+        || menuId == R.id.language_menu
+        || menuId == R.id.emoji_menu
+        || menuId == R.id.voice_profile_menu
+        || menuId == R.id.audio_ducking
+        || menuId == R.id.sound_feedback
+        || menuId == R.id.vibration_feedback
+        || menuId == R.id.tts_settings) {
+      return R.string.gesture_group_menu_speech;
+    }
+    if (menuId == R.id.labeling_breakout_add_label
+        || menuId == R.id.text_formatting
+        || menuId == R.id.clipboard_history
+        || menuId == R.id.speech_history
+        || menuId == R.id.favorites) {
+      return R.string.gesture_group_menu_text;
+    }
+    return R.string.gesture_group_menu_tools;
   }
 
   private static void addActionItemsToList(
@@ -426,15 +599,29 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               resources.getString(R.string.shortcut_value_describe_text_formatting),
               TYPE_ACTION_ITEM));
     }
+    if (FeatureFlagReader.enableAnnouncePhoneticPronunciation(getContext())) {
+      builder.add(
+          new ActionItem(
+              resources.getString(R.string.shortcut_announce_phonetic_pronunciation),
+              resources.getString(R.string.shortcut_value_announce_phonetic_pronunciation),
+              TYPE_ACTION_ITEM));
+    }
+
     return builder.build();
   }
 
   private ImmutableList<ActionItem> createMenuControl() {
-    return createActionListBuilder(
+    ImmutableList.Builder<ActionItem> builder =
+        createActionListBuilder(
             R.string.shortcut_title_menu_control,
             R.array.shortcut_menu_control,
-            R.array.shortcut_value_menu_control)
-        .build();
+            R.array.shortcut_value_menu_control);
+    builder.add(
+        new ActionItem(
+            getContext().getString(R.string.shortcut_show_custom_actions),
+            getContext().getString(R.string.shortcut_value_show_custom_actions),
+            TYPE_ACTION_ITEM));
+    return builder.build();
   }
 
   private ImmutableList<ActionItem> createTextEditing() {
@@ -451,8 +638,8 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             TYPE_ACTION_ITEM));
     builder.add(
         new ActionItem(
-            resources.getString(R.string.title_favorites),
-            resources.getString(R.string.shortcut_value_favorites),
+            resources.getString(R.string.shortcut_clear_all_text),
+            resources.getString(R.string.shortcut_value_clear_all_text),
             TYPE_ACTION_ITEM));
     return builder.build();
   }
@@ -579,11 +766,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_copy_focused),
             TYPE_ACTION_ITEM));
 
-    builder.add(
-        new ActionItem(
-            resources.getString(R.string.shortcut_clear_all_text),
-            resources.getString(R.string.shortcut_value_clear_all_text),
-            TYPE_ACTION_ITEM));
 
     builder.add(
         new ActionItem(
@@ -689,11 +871,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
-    builder.add(
-        new ActionItem(
-            resources.getString(R.string.shortcut_show_custom_actions),
-            resources.getString(R.string.shortcut_value_show_custom_actions),
-            TYPE_ACTION_ITEM));
 
     builder.add(
         new ActionItem(
@@ -760,13 +937,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
-    if (FeatureFlagReader.enableAnnouncePhoneticPronunciation(getContext())) {
-      builder.add(
-          new ActionItem(
-              resources.getString(R.string.shortcut_announce_phonetic_pronunciation),
-              resources.getString(R.string.shortcut_value_announce_phonetic_pronunciation),
-              TYPE_ACTION_ITEM));
-    }
 
     if (FeatureFlagReader.enableSpeechPitchKeyboard(getContext())) {
       builder

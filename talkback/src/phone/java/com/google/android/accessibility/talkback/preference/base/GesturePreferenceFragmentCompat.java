@@ -344,9 +344,7 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
       titled.setCollapsible(
           context.getString(R.string.category_collapsed),
           context.getString(R.string.category_expanded));
-      if (titled == selectedCategory || !query.isEmpty()) {
-        titled.setCollapsed(false);
-      }
+      titled.setCollapsed(titled != selectedCategory && query.isEmpty());
     }
     selectedPosition = findSelectedPosition(preferenceScreen);
 

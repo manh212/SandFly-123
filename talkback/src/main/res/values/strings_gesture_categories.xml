@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="gesture_group_clipboard">Sao chép và bộ nhớ tạm</string>
+  <string name="gesture_group_screen_recognition">Màn hình và nhận dạng</string>
+  <string name="gesture_group_voice_input">Nhập liệu và lệnh giọng nói</string>
+  <string name="gesture_group_audio_media">Âm lượng và phương tiện</string>
+  <string name="gesture_group_notifications_status">Thông báo và trạng thái</string>
+  <string name="gesture_group_touch_accessibility">Cảm ứng và điều khiển</string>
+  <string name="gesture_group_utilities">Công cụ và tiện ích</string>
+  <string name="gesture_group_menu_navigation">Menu điều hướng</string>
+  <string name="gesture_group_menu_speech">Menu giọng nói và phản hồi</string>
+  <string name="gesture_group_menu_text">Menu văn bản</string>
+  <string name="gesture_group_menu_tools">Menu cài đặt và công cụ</string>
+  <string name="gesture_group_web_forms">Biểu mẫu và điều khiển Web</string>
+  <string name="gesture_group_web_structure">Cấu trúc trang Web</string>
+</resources>

@@ -28,6 +28,13 @@ class NavigationGestureActionsTest {
   private val actions = NavigationGestureActions.CATEGORIES.flatMap { it.actions }
 
   @Test
+  fun navigationCategoriesRemainSmallAndKeepEveryAction() {
+    assertEquals(52, actions.size)
+    assertEquals(5, NavigationGestureActions.CATEGORIES.size)
+    assertTrue(NavigationGestureActions.CATEGORIES.all { it.actions.size <= 14 })
+  }
+
+  @Test
   fun valuesAreUnique() {
     assertEquals(actions.size, actions.map { it.value }.toSet().size)
   }
