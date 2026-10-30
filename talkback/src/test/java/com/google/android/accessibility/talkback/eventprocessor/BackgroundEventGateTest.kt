@@ -189,6 +189,88 @@ class BackgroundEventGateTest {
     assertEquals(listOf("foreground"), delivered)
   }
 
+  private fun structural(window: Int = 1, pkg: String = "foreground"): AccessibilityEvent =
+    event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, pkg, window).also {
+      it.contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_SUBTREE
+    }
+
+  @Test
+  fun repeatedActiveStructuralUpdates_keepOnlyLatestAfterChurnDetected() {
+    var invalidated = 0
+    gate.clear()
+    gate = BackgroundEventGate(
+      { event, _ -> delivered += event.packageName.toString() },
+      { false },
+      { invalidated++ },
+    )
+    gate.setProcessingLevel("very_low")
+    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1))
+    repeat(3) { assertTrue(gate.onAccessibilityEvent(structural())) }
+    repeat(20) { assertFalse(gate.onAccessibilityEvent(structural())) }
+    assertEquals(20, invalidated)
+    assertTrue(delivered.isEmpty())
+    advance(200)
+    assertEquals(listOf("foreground"), delivered)
+  }
+
+  @Test
+  fun activeFloodLeavesFocusAndClicksImmediate() {
+    repeat(4) { gate.onAccessibilityEvent(structural()) }
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1)))
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_CLICKED, "foreground", 1)))
+    advance(500)
+    assertTrue(delivered.isEmpty())
+  }
+
+  @Test
+  fun activeTextChangesNeverJoinStructuralThrottle() {
+    repeat(4) { gate.onAccessibilityEvent(structural()) }
+    val text = event(AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED, "foreground", 1)
+    text.contentChangeTypes = AccessibilityEvent.CONTENT_CHANGE_TYPE_TEXT
+    assertTrue(gate.onAccessibilityEvent(text))
+    assertTrue(gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED,
+      "foreground", 1)))
+  }
+
+  @Test
+  fun unsolicitedActiveScrollIsDeferredButExpectedScrollIsImmediate() {
+    gate.clear()
+    gate = BackgroundEventGate(
+      { event, _ -> delivered += event.packageName.toString() },
+      { event -> event.contentDescription == "expected" },
+      { },
+    )
+    gate.setProcessingLevel("very_low")
+    gate.onAccessibilityEvent(event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED,
+      "foreground", 1))
+    repeat(4) { gate.onAccessibilityEvent(structural()) }
+    advance(600)
+    delivered.clear()
+    val unsolicited = event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)
+    assertFalse(gate.onAccessibilityEvent(unsolicited))
+    val expected = event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1)
+    expected.contentDescription = "expected"
+    assertTrue(gate.onAccessibilityEvent(expected))
+  }
+
+  @Test
+  fun touchInteractionDefersStructuralRefreshButNotInputEvents() {
+    repeat(4) { gate.onAccessibilityEvent(structural()) }
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START, "foreground", 1)))
+    assertFalse(gate.onAccessibilityEvent(structural()))
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER, "foreground", 1)))
+    advance(1000)
+    assertTrue(delivered.isEmpty())
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_END, "foreground", 1)))
+    advance(150)
+    assertEquals(listOf("foreground"), delivered)
+  }
+
   @Test
   fun scopedModeDoesNotLetHelperWindowStateReplaceTheInteractionWindow() {
     LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, true)

@@ -462,17 +462,23 @@ object TraversalTreeCache {
   }
 
   /** Throws away the saved order if [event] can change its window. Returns whether it did. */
+  /** Forget rate observations when the early event gate is switched off. */
+  @JvmStatic
+  fun resetChurnTracking() = structuralChurn.clear()
+
+  /** Runs at service entry, including for updates later coalesced by the active-event gate. */
+  @JvmStatic
+  fun observeIncomingEvent(event: AccessibilityEvent) {
+    if (event.eventType != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) return
+    val changes = event.contentChangeTypes
+    if (changes == 0 || changes and NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION.inv() != 0) {
+      structuralChurn.record(event.windowId, SystemClock.uptimeMillis())
+    }
+  }
+
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
     val type = event.eventType
-    // A feed may constantly replace cards/ads; avoid rebuilding its complete traversal
-    // order on the UI thread after every structural change, even with cache disabled.
-    if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
-      val changes = event.contentChangeTypes
-      if (changes == 0 || changes and NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION.inv() != 0) {
-        structuralChurn.record(event.windowId, SystemClock.uptimeMillis())
-      }
-    }
     if (type and IGNORED_EVENT_TYPES != 0) return false
     advanceRevision(event)
     val savedRoot = root ?: return false

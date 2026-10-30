@@ -9,6 +9,7 @@ import java.util.function.Predicate;
 import java.util.function.Consumer;
 import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.WindowCachePolicy;
+import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
 
 public final class BackgroundEventGate {
   public interface Receiver {
@@ -16,6 +17,9 @@ public final class BackgroundEventGate {
   }
   private static final long INTERVAL_MS = 500;
   private static final long INPUT_GRACE_MS = 150;
+  // Busy active windows need the same protection from update floods as background windows.
+  private static final long ACTIVE_UPDATE_INTERVAL_MS = 200;
+  private static final long RECENT_SCROLL_INPUT_MS = 500;
   private static final int UPDATE_TYPES = AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
       | AccessibilityEvent.TYPE_VIEW_SELECTED | AccessibilityEvent.TYPE_VIEW_SCROLLED
       | AccessibilityEvent.TYPE_WINDOWS_CHANGED;
@@ -24,6 +28,7 @@ public final class BackgroundEventGate {
   private final Predicate<AccessibilityEvent> inputResponse;
   private final Consumer<AccessibilityEvent> deferredInvalidation;
   private final Runnable releasePending = this::releasePending;
+  private final Runnable releaseActive = this::releaseActive;
   private boolean enabled;
   private boolean touching;
   private boolean releaseScheduled;
@@ -33,6 +38,10 @@ public final class BackgroundEventGate {
   private int interactionWindowId = -1;
   private String interactionPackage;
   private AccessibilityEvent pending;
+  private AccessibilityEvent pendingActive;
+  private long pendingActiveSince;
+  private boolean activeScheduled;
+  private long lastActiveDispatch;
 
   public BackgroundEventGate(Receiver receiver) {
     this(receiver, event -> false);
@@ -69,6 +78,9 @@ public final class BackgroundEventGate {
   }
 
   public boolean onAccessibilityEvent(AccessibilityEvent event, long receivedAt) {
+    // Must observe the raw event before deciding to drop/defer it. An active feed can
+    // otherwise suppress its own churn detector and keep invalidating the reading order.
+    TraversalTreeCache.observeIncomingEvent(event);
     EventProcessingStats.received(event);
     int type = event.getEventType();
     if (type == AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
@@ -76,10 +88,13 @@ public final class BackgroundEventGate {
       onUserInput();
       handler.removeCallbacks(releasePending);
       releaseScheduled = false;
+      handler.removeCallbacks(releaseActive);
+      activeScheduled = false;
     } else if (type == AccessibilityEvent.TYPE_TOUCH_INTERACTION_END) {
       touching = false;
       onUserInput();
       schedulePending();
+      scheduleActive();
     }
     if (type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
         || type == AccessibilityEvent.TYPE_VIEW_FOCUSED
@@ -91,6 +106,32 @@ public final class BackgroundEventGate {
                 || interactionWindowId < 0 || interactionWindowId == event.getWindowId()))) {
       interactionWindowId = event.getWindowId();
       interactionPackage = event.getPackageName() == null ? null : event.getPackageName().toString();
+    }
+    // Structural changes and unsolicited scrolls from an active news feed may arrive
+    // many times a second. Once detected, keep just the latest update and deliver it
+    // between user interactions. Focus, clicks, text edits and expected scroll callbacks
+    // always take the original immediate path.
+    if (enabled && isChurningActiveUpdate(event)) {
+      // Invalidate the cached root and traversal immediately, not when the deferred
+      // event is replayed: a gesture between updates must never navigate a stale tree.
+      deferredInvalidation.accept(event);
+      if (pendingActive != null) {
+        EventProcessingStats.coalesced(pendingActive);
+        pendingActive.recycle();
+      }
+      pendingActive = AccessibilityEvent.obtain(event);
+      pendingActiveSince = receivedAt;
+      EventProcessingStats.deferred(event);
+      scheduleActive();
+      return false;
+    }
+    if (pendingActive != null
+        && (type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
+            || type == AccessibilityEvent.TYPE_VIEW_CLICKED
+            || type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+            || type == AccessibilityEvent.TYPE_WINDOWS_CHANGED)) {
+      // A newer interaction/window transition supersedes any queued geometry update.
+      dropActivePending();
     }
     if ((!enabled && !LatencyExperiments.Feature.INPUT_PRIORITY.enabled())
         || !isBackgroundUpdate(event)) {
@@ -107,6 +148,69 @@ public final class BackgroundEventGate {
     EventProcessingStats.deferred(event);
     schedulePending();
     return false;
+  }
+
+  private boolean isChurningActiveUpdate(AccessibilityEvent event) {
+    int type = event.getEventType();
+    if (type != AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        && type != AccessibilityEvent.TYPE_VIEW_SCROLLED) return false;
+    if (interactionWindowId < 0 || event.getWindowId() != interactionWindowId
+        || !TraversalTreeCache.shouldUseLiveTraversal(interactionWindowId)) return false;
+    if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+      // Text/state/content-description changes may be meaningful feedback.
+      return !WindowCachePolicy.isNonStructuralContent(event);
+    }
+    // Never postpone a scroll response while the user is touching/swiping, nor
+    // any delayed callback for a programmatic scroll that TalkBack is expecting.
+    long now = SystemClock.uptimeMillis();
+    return !touching && now - lastInput >= RECENT_SCROLL_INPUT_MS
+        && !inputResponse.test(event);
+  }
+
+  private void dropActivePending() {
+    handler.removeCallbacks(releaseActive);
+    activeScheduled = false;
+    if (pendingActive != null) {
+      EventProcessingStats.dropped(pendingActive);
+      pendingActive.recycle();
+      pendingActive = null;
+    }
+  }
+
+  private void scheduleActive() {
+    if (pendingActive == null || touching || activeScheduled) return;
+    activeScheduled = true;
+    handler.postDelayed(
+        releaseActive,
+        Math.max(0, Math.max(
+            lastActiveDispatch + ACTIVE_UPDATE_INTERVAL_MS - SystemClock.uptimeMillis(),
+            lastInput + INPUT_GRACE_MS - SystemClock.uptimeMillis())));
+  }
+
+  private void releaseActive() {
+    activeScheduled = false;
+    if (pendingActive == null || touching) return;
+    long now = SystemClock.uptimeMillis();
+    long delay = Math.max(lastActiveDispatch + ACTIVE_UPDATE_INTERVAL_MS - now,
+        lastInput + INPUT_GRACE_MS - now);
+    if (delay > 0) {
+      activeScheduled = true;
+      handler.postDelayed(releaseActive, delay);
+      return;
+    }
+    AccessibilityEvent event = pendingActive;
+    pendingActive = null;
+    lastActiveDispatch = now;
+    try {
+      if (event.getWindowId() != interactionWindowId) {
+        EventProcessingStats.dropped(event);
+        return;
+      }
+      EventProcessingStats.admitted(event, now - pendingActiveSince);
+      receiver.accept(event, pendingActiveSince);
+    } finally {
+      event.recycle();
+    }
   }
 
   private void schedulePending() {
@@ -187,6 +291,8 @@ public final class BackgroundEventGate {
   public void clear() {
     handler.removeCallbacks(releasePending);
     releaseScheduled = false;
+    dropActivePending();
+    TraversalTreeCache.resetChurnTracking();
     if (pending != null) {
       EventProcessingStats.dropped(pending);
       pending.recycle();
