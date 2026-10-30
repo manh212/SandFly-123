@@ -251,25 +251,26 @@ class DirectTouchController(
     }
     evaluating = true
     try {
-      // Leaving a text field doesn't always send a focus event, such as when the keyboard closes.
-    if (textFieldFocused) {
-      textFieldFocused = service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)?.isEditable == true
-    }
-    val windows = service.windows.orEmpty()
-    val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
-    val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
-    val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
-    val navBarDirect = isNavBarDirect()
-    val keyboards = directKeyboards(windows)
-    if (shouldBeActive) {
-      partRegionSent = false
-      applyRegion(windows, directTyping, navBarDirect, keyboards)
-    }
-    if (shouldBeActive != active) {
-      active = shouldBeActive
-      if (!active) {
-        updatePartRegion(windows, navBarDirect, keyboards)
+        // Leaving a text field doesn't always send a focus event, such as when the keyboard closes.
+      if (textFieldFocused) {
+        textFieldFocused = service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)?.isEditable == true
       }
+      val windows = service.windows.orEmpty()
+      val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
+      val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
+      val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
+      val navBarDirect = isNavBarDirect()
+      val keyboards = directKeyboards(windows)
+      if (shouldBeActive) {
+        partRegionSent = false
+        applyRegion(windows, directTyping, navBarDirect, keyboards)
+      }
+      if (shouldBeActive != active) {
+        active = shouldBeActive
+        if (!active) {
+          updatePartRegion(windows, navBarDirect, keyboards)
+        }
+    }
     } finally {
       evaluating = false
     }
