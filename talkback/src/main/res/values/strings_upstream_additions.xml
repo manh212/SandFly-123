@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
   <string name="title_pref_speech_dictionary">Từ điển giọng nói</string>
   <string name="speech_dictionary_all_apps">Tất cả ứng dụng</string>
   <string name="speech_dictionary_not_said">Không đọc <xliff:g id="text" example="#">%1$s</xliff:g></string>
