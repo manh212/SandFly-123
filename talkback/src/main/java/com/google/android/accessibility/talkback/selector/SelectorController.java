@@ -246,6 +246,10 @@ public class SelectorController implements UserInputEventListener {
         R.string.pref_selector_copy_mode_key,
         R.string.selector_copy_mode_value,
         R.bool.pref_selector_copy_mode_default),
+    REPEAT_AND_TRANSLATE(
+        R.string.pref_selector_repeat_translate_key,
+        R.string.selector_repeat_translate,
+        R.bool.pref_selector_repeat_translate_default),
     GRANULARITY_HEADINGS(
         R.string.pref_selector_granularity_headings_key,
         R.string.selector_granularity_headings,
@@ -618,6 +622,7 @@ public class SelectorController implements UserInputEventListener {
           Setting.GRANULARITY_TYPO,
           Setting.ACTIONS,
           Setting.COPY_MODE,
+          Setting.REPEAT_AND_TRANSLATE,
           // Puts table navigation granularities on top of the selector.
           Setting.GRANULARITY_ROW_COLUMN,
           Setting.GRANULARITY_ROW,
@@ -1031,6 +1036,10 @@ public class SelectorController implements UserInputEventListener {
       }
       case COPY_MODE -> {
         actionDescription = context.getString(R.string.selector_copy_mode_title);
+        hint = getAdjustSelectedSettingGestures();
+      }
+      case REPEAT_AND_TRANSLATE -> {
+        actionDescription = context.getString(R.string.title_selector_repeat_translate);
         hint = getAdjustSelectedSettingGestures();
       }
       case ACTIONS -> {
@@ -1898,6 +1907,10 @@ public class SelectorController implements UserInputEventListener {
     return adjustSelectedSettingGestureNames;
   }
 
+  static Speech.Action actionForRepeatAndTranslate(boolean isNext) {
+    return isNext ? Speech.Action.TRANSLATE_LAST : Speech.Action.REPEAT_LAST;
+  }
+
   /** Change the value of the selected setting or scroll forward/backard of the seeker. */
   public void adjustSelectedSetting(EventId eventId, boolean isNext) {
     clearEditTextActionsRestore();
@@ -1918,6 +1931,13 @@ public class SelectorController implements UserInputEventListener {
     }
 
     switch (currentSetting) {
+      case REPEAT_AND_TRANSLATE -> {
+        pipeline.returnFeedback(
+            eventId,
+            Feedback.part()
+                .setSpeech(Speech.create(actionForRepeatAndTranslate(isNext))));
+        return;
+      }
       case COPY_MODE -> {
         AccessibilityNodeInfoCompat node =
             accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);

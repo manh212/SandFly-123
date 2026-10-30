@@ -300,6 +300,7 @@
     <string name="pref_selector_voice_profile_moved_key" translatable="false">pref_selector_voice_profile_moved</string>
     <string name="pref_selector_control_telling_time" translatable="false">pref_selector_control_telling_time</string>
     <string name="pref_selector_actions_key" translatable="false">pref_selector_actions_key </string>
+    <string name="pref_selector_repeat_translate_key" translatable="false">pref_selector_repeat_translate_key</string>
 
     <string name="pref_selector_granularity_headings_key">pref_selector_granularity_headings_key</string>
     <string name="pref_selector_granularity_words_key">pref_selector_granularity_words_key</string>
@@ -1460,6 +1461,7 @@
     <bool name="pref_selector_control_telling_time_default">false</bool>
     <bool name="pref_selector_audio_focus_default">false</bool>
     <bool name="pref_selector_actions_default">true</bool>
+    <bool name="pref_selector_repeat_translate_default">true</bool>
     <bool name="pref_selector_granularity_headings_default">true</bool>
     <bool name="pref_selector_granularity_words_default">true</bool>
     <bool name="pref_selector_granularity_paragraphs_default">true</bool>
@@ -1763,6 +1765,7 @@
     <string name="selector_voice_profile" translatable="false">SELECTOR_VOICE_PROFILE</string>
     <string name="selector_control_telling_time" translatable="false">SELECTOR_CONTROL_TELLING_TIME</string>
     <string name="selector_actions" translatable="false">SELECTOR_ACTIONS</string>
+    <string name="selector_repeat_translate" translatable="false">SELECTOR_REPEAT_TRANSLATE</string>
     <string name="selector_granularity_headings">GRANULARITY_HEADINGS</string>
     <string name="selector_granularity_words">GRANULARITY_WORDS</string>
     <string name="selector_granularity_paragraphs">GRANULARITY_PARAGRAPHS</string>

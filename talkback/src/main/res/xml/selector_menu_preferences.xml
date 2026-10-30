@@ -26,6 +26,11 @@
             android:title="@string/selector_copy_mode_title" />
         <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
             android:layout="@layout/listitem_2texts"
+            android:defaultValue="@bool/pref_selector_repeat_translate_default"
+            android:key="@string/pref_selector_repeat_translate_key"
+            android:title="@string/title_selector_repeat_translate" />
+        <com.google.android.accessibility.material.preference.AccessibilitySuiteCheckBoxPreference
+            android:layout="@layout/listitem_2texts"
             android:defaultValue="@bool/pref_selector_granularity_typo_default"
             android:key="@string/pref_selector_granularity_typo_key"
             android:title="@string/title_pref_selector_typo_granularity"
