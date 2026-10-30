@@ -1485,6 +1485,7 @@ public abstract class Feedback {
       START_SELECT,
       END_SELECT,
       COPY,
+      APPEND_COPY,
       CLEAR_SELECTION,
       CUT,
       PASTE,

@@ -12,5 +12,9 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.subtitles.SubtitleSettingsFragment"
         android:key="pref_subtitle_settings_screen" android:title="@string/subtitle_settings_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.screenrecognition.ScreenRecognitionSettingsFragment"
+        android:key="pref_screen_recognition_settings"
+        android:title="@string/title_screen_recognition" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

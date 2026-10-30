@@ -31,6 +31,7 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.File
 import java.io.IOException
+import java.util.UUID
 import java.util.concurrent.Executors
 
 /**
@@ -49,10 +50,27 @@ class SoundThemeInstallActivity : AppCompatActivity() {
       fail(getString(R.string.sound_theme_install_nothing))
       return
     }
+    // A link another app sent is downloaded only once the user agrees: any app can send one,
+    // without the user choosing SandFly to share it with.
+    if (source is Source.FromLink && intent.component?.className != LINK_ALIAS) {
+      AlertDialog.Builder(this)
+        .setTitle(R.string.sound_theme_install_label)
+        .setMessage(source.link)
+        .setPositiveButton(R.string.confirm_download_positive_button_text) { _, _ -> read(source) }
+        .setNegativeButton(android.R.string.cancel) { _, _ -> finish() }
+        .setOnCancelListener { finish() }
+        .show()
+      return
+    }
+    read(source)
+  }
+
+  private fun read(source: Source) {
     Toast.makeText(this, R.string.sound_theme_install_reading, Toast.LENGTH_SHORT).show()
     val context = applicationContext
     executor.execute {
-      val download = File(cacheDir, "sound_theme.zip")
+      // A file of its own, as another install can run at the same time.
+      val download = File(cacheDir, "sound_theme_${UUID.randomUUID()}.zip")
       val result: Any =
         try {
           val name = fetch(context, source, download)
@@ -62,7 +80,10 @@ class SoundThemeInstallActivity : AppCompatActivity() {
         } catch (e: IOException) {
           LogUtils.w(TAG, "Cannot read sound theme: %s", e)
           getString(R.string.sound_theme_install_failed, e.message ?: "")
-        } catch (e: SecurityException) {
+        } catch (e: Throwable) {
+          // A theme file can be made to throw anything, such as a manifest nested deeply enough to
+          // overflow the stack, and this runs in the screen reader's process.
+          LogUtils.w(TAG, "Cannot install sound theme: %s", e)
           getString(R.string.sound_theme_install_failed, e.message ?: "")
         } finally {
           download.delete()

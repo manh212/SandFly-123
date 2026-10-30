@@ -17,7 +17,6 @@
 package com.google.android.accessibility.talkback.keyboard;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.KeyEvent;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
@@ -25,11 +24,13 @@ import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguratio
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
 import com.google.android.accessibility.utils.FeatureSupport;
-import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
 
-/** New key combo model. */
+/** The key combo model of the SandFly and VoiceOver keymaps. */
 public class NewKeyComboModel implements KeyComboModel {
   public static final String PREF_KEY_PREFIX = "new_key_combo_model";
 
@@ -38,41 +39,90 @@ public class NewKeyComboModel implements KeyComboModel {
   // structure; e.g., a static ImmutableMap.
   private final Map<String, KeyCombo> keyComboMap = new TreeMap<>();
   private final KeyComboPersister persister;
-  private final int triggerModifier = KeyEvent.META_META_ON;
+  private final Keymap keymap;
+  // The user's own keymap, or null for a built-in one.
+  @Nullable private final CustomKeymap customKeymap;
+  // A custom keymap's shortcuts as it was made, which are its defaults.
+  @Nullable private final KeyComboPersister originalPersister;
+  private final SandFlyKey sandFlyKey;
+  // Default shortcuts as pressed with the chosen SandFly key, by key, and the ones given out.
+  private final Map<String, KeyCombo> defaultKeyCombos = new HashMap<>();
+  private final Set<KeyCombo> givenDefaultKeyCombos = new HashSet<>();
+  // Shortcuts saved before this model was made.
+  private final Set<KeyCombo> savedKeyCombos = new HashSet<>();
 
   public NewKeyComboModel(Context context) {
-    this.context = context;
-    persister = new KeyComboPersister(context, PREF_KEY_PREFIX);
-
-    loadTriggerModifierFromPreferences();
-    addKeyCombos();
+    this(context, Keymap.SANDFLY);
   }
 
-  private void loadTriggerModifierFromPreferences() {
-    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+  public NewKeyComboModel(Context context, Keymap keymap) {
+    this(context, keymap, /* customKeymap= */ null);
+  }
 
-    if (!prefs.contains(getPreferenceKeyForTriggerModifier())) {
-      // Store default value in preferences to show it in preferences UI.
-      prefs
-          .edit()
-          .putString(getPreferenceKeyForTriggerModifier(), getDefaultTriggerModifier())
-          .apply();
+  /** Makes the model of [customKeymap], which any SandFly key can be used with. */
+  public NewKeyComboModel(Context context, CustomKeymap customKeymap) {
+    this(context, Keymap.SANDFLY, customKeymap);
+  }
+
+  private NewKeyComboModel(
+      Context context, Keymap keymap, @Nullable CustomKeymap customKeymap) {
+    this.context = context;
+    this.keymap = keymap;
+    this.customKeymap = customKeymap;
+    if (customKeymap != null) {
+      sandFlyKey = customKeymap.sandFlyKey(context);
+      persister = new KeyComboPersister(context, customKeymap.getPersisterPrefix());
+      originalPersister = new KeyComboPersister(context, customKeymap.getOriginalPersisterPrefix());
+    } else {
+      sandFlyKey = keymap.sandFlyKey(context);
+      persister = new KeyComboPersister(context, keymap.persisterPrefix(sandFlyKey));
+      originalPersister = null;
     }
+    // A default new to this version doesn't take keys the user or an earlier version gave a command.
+    for (String key : persister.keysStartingWith("")) {
+      KeyCombo keyCombo = persister.getKeyCombo(key);
+      if (keyCombo.getKeyComboCode() != KEY_COMBO_CODE_UNASSIGNED) {
+        savedKeyCombos.add(keyCombo);
+      }
+    }
+
+    addKeyCombos();
   }
 
   @Override
   public int getTriggerModifier() {
-    return triggerModifier;
+    return sandFlyKey.getModifiers();
+  }
+
+  /** Returns the key keymap shortcuts are pressed with. */
+  public SandFlyKey getSandFlyKey() {
+    return sandFlyKey;
+  }
+
+  /** Returns the built-in keymap, or the SandFly keymap for a custom one. */
+  public Keymap getKeymap() {
+    return keymap;
+  }
+
+  /** Returns the user's own keymap this model is, or null. */
+  @Nullable
+  public CustomKeymap getCustomKeymap() {
+    return customKeymap;
+  }
+
+  /** Returns whether SandFly key + R or O starts a shortcut of two keys one after the other. */
+  public boolean usesSequences() {
+    return customKeymap != null ? customKeymap.getUsesSequences() : keymap.getUsesSequences();
   }
 
   @Override
   public void notifyTriggerModifierChanged() {
-    loadTriggerModifierFromPreferences();
+    // KeyComboManager makes a new model for a new SandFly key, whose shortcuts are kept apart.
   }
 
   @Override
   public String getPreferenceKeyForTriggerModifier() {
-    return context.getString(R.string.pref_new_keymap_trigger_modifier_key);
+    return customKeymap != null ? customKeymap.getSandFlyKeyPref() : keymap.getSandFlyKeyPref();
   }
 
   @Override
@@ -110,10 +160,62 @@ public class NewKeyComboModel implements KeyComboModel {
     if (key == null) {
       return new KeyCombo();
     }
+    KeyCombo keyCombo = defaultKeyCombos.get(key);
+    if (keyCombo != null) {
+      return keyCombo;
+    }
+    return adaptedDefaultKeyCombo(key);
+  }
+
+  /** Returns the default shortcut of [key] as pressed with the chosen SandFly key. */
+  private KeyCombo adaptedDefaultKeyCombo(String key) {
+    // A custom keymap's defaults are its shortcuts as it was made, pressed as they were.
+    if (originalPersister != null) {
+      return originalPersister.contains(key) ? originalPersister.getKeyCombo(key) : new KeyCombo();
+    }
+    // Two keys held together, such as Ctrl + Alt, can't be pressed twice.
+    if (!sandFlyKey.getCanBePressedTwice()
+        && key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode))) {
+      return new KeyCombo();
+    }
+    return SandFlyKey.adapt(getNativeDefaultKeyCombo(key), keymap.getNativeKey(), sandFlyKey);
+  }
+
+  /**
+   * Returns the default shortcut of [key] as pressed with the chosen SandFly key. Where two
+   * defaults become the same keys with it, the first keeps them and the later one is unassigned.
+   */
+  private KeyCombo giveDefaultKeyCombo(String key) {
+    KeyCombo keyCombo = defaultKeyCombos.get(key);
+    if (keyCombo != null) {
+      return keyCombo;
+    }
+    keyCombo = adaptedDefaultKeyCombo(key);
+    if (keyCombo.getKeyComboCode() != KEY_COMBO_CODE_UNASSIGNED
+        && (!givenDefaultKeyCombos.add(keyCombo)
+            || (!persister.contains(key) && savedKeyCombos.contains(keyCombo)))) {
+      keyCombo = new KeyCombo();
+    }
+    defaultKeyCombos.put(key, keyCombo);
+    return keyCombo;
+  }
+
+  /** Returns the default shortcut of [key] as written for the keymap's own SandFly key. */
+  private KeyCombo getNativeDefaultKeyCombo(String key) {
+    if (keymap.getDefaults() != null) {
+      return keymap.getDefaults().defaultKeyCombo(context, key);
+    }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_click))) {
       return new KeyCombo(
           NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_SPACE, /* triggerModifierUsed= */ true);
+    }
+
+    // Browse mode also turns on and off with SandFly key + Q, for SandFly keys that can't be
+    // pressed twice, such as Ctrl + Alt.
+    if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra))) {
+      return new KeyCombo(
+          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_Q, /* triggerModifierUsed= */ true);
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_long_click))) {
@@ -370,6 +472,22 @@ public class NewKeyComboModel implements KeyComboModel {
       if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_line))) {
         return new KeyCombo(
             KeyComboModel.NO_MODIFIER,
+            NO_PREFIX_KEY_CODE,
+            KeyEvent.KEYCODE_DPAD_DOWN,
+            /* triggerModifierUsed= */ false);
+      }
+
+      if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_previous_paragraph))) {
+        return new KeyCombo(
+            KeyEvent.META_CTRL_ON,
+            NO_PREFIX_KEY_CODE,
+            KeyEvent.KEYCODE_DPAD_UP,
+            /* triggerModifierUsed= */ false);
+      }
+
+      if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_paragraph))) {
+        return new KeyCombo(
+            KeyEvent.META_CTRL_ON,
             NO_PREFIX_KEY_CODE,
             KeyEvent.KEYCODE_DPAD_DOWN,
             /* triggerModifierUsed= */ false);
@@ -1180,7 +1298,7 @@ public class NewKeyComboModel implements KeyComboModel {
       return true;
     }
 
-    if (FeatureFlagReader.enableSequenceKeyInfra(context)) {
+    if (FeatureFlagReader.enableSequenceKeyInfra(context) && usesSequences()) {
       // Check whether the key combo contains an eligible prefix key if it is a sequence key combo.
       int prefixKeyCode = keyCombo.getPrefixKeyCode();
       if (prefixKeyCode != NO_PREFIX_KEY_CODE
@@ -1192,8 +1310,10 @@ public class NewKeyComboModel implements KeyComboModel {
     }
 
     int keyCode = keyCombo.getKeyCode();
-    // Do not allow a key combo which consists of only modifiers.
-    if (KeyEvent.isModifierKey(keyCode) || keyCode == KeyEvent.KEYCODE_UNKNOWN) {
+    // Do not allow a key combo which consists of only modifiers, or of only the SandFly key.
+    if (KeyEvent.isModifierKey(keyCode)
+        || keyCode == KeyEvent.KEYCODE_UNKNOWN
+        || (sandFlyKey.isHeldKey() && keyCode == sandFlyKey.getKeyCode())) {
       return false;
     }
 
@@ -1202,31 +1322,21 @@ public class NewKeyComboModel implements KeyComboModel {
       return false;
     }
 
-    // In the new keymap, a key combo must contain the trigger modifier.
-    return keyCombo.isTriggerModifierUsed();
+    // A custom keymap takes any keys; the others' shortcuts are pressed with the SandFly key.
+    return customKeymap != null || keyCombo.isTriggerModifierUsed();
   }
 
   @Override
   public String getDescriptionOfEligibleKeyCombo() {
+    if (customKeymap != null) {
+      return context.getString(R.string.keycombo_assign_dialog_custom_keymap_instruction);
+    }
     return context.getString(
         R.string.keycombo_assign_dialog_default_keymap_instruction, getTriggerModifierName());
   }
 
   private String getTriggerModifierName() {
-    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
-    String triggerModifier =
-        prefs.getString(getPreferenceKeyForTriggerModifier(), getDefaultTriggerModifier());
-    String triggerModifierName = "";
-
-    if (triggerModifier.equals(context.getString(R.string.trigger_modifier_meta_entry_value))) {
-      triggerModifierName = context.getString(R.string.keycombo_key_modifier_meta);
-    }
-
-    return triggerModifierName;
-  }
-
-  private String getDefaultTriggerModifier() {
-    return context.getString(R.string.trigger_modifier_meta_entry_value);
+    return context.getString(sandFlyKey.getNameRes());
   }
 
   private void addKeyCombos() {
@@ -1254,6 +1364,8 @@ public class NewKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_word));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_line));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_line));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_paragraph));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_paragraph));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_button));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_button));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_control));
@@ -1443,8 +1555,8 @@ public class NewKeyComboModel implements KeyComboModel {
   }
 
   private void addKeyCombo(String key) {
+    KeyCombo defaultKeyCombo = giveDefaultKeyCombo(key);
     if (!persister.contains(key)) {
-      KeyCombo defaultKeyCombo = getDefaultKeyCombo(key);
       persister.saveKeyCombo(key, defaultKeyCombo);
     }
 

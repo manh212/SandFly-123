@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.screenrecognition;
 import android.accessibilityservice.GestureDescription;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import java.io.ByteArrayOutputStream;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -63,6 +64,7 @@ public class ScreenRecognitionController {
   private static final int MAX_CONTROL_NODES = 2000;
 
   private final TalkBackService service;
+  private final ScreenRecognitionAi screenRecognitionAi;
   private final Announcer announcer;
   private final Handler mainHandler = new Handler(Looper.getMainLooper());
   private final ExecutorService nodeTraversalExecutor =
@@ -87,6 +89,7 @@ public class ScreenRecognitionController {
   public ScreenRecognitionController(TalkBackService service, Announcer announcer) {
     this.service = service;
     this.announcer = announcer;
+    this.screenRecognitionAi = new ScreenRecognitionAi(service);
   }
 
   public void toggle() {
@@ -160,6 +163,40 @@ public class ScreenRecognitionController {
   }
 
   private void recognize(Bitmap bitmap, int request) {
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    if ("ai".equals(prefs.getString("pref_screen_recognition_method", "ocr"))) {
+      nodeTraversalExecutor.execute(
+          () -> {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            boolean compressed = bitmap.compress(Bitmap.CompressFormat.JPEG, 80, bytes);
+            bitmap.recycle();
+            mainHandler.post(
+                () -> {
+                  if (!active || request != generation) {
+                    return;
+                  }
+                  if (!compressed) {
+                    finishFailure();
+                    return;
+                  }
+                  screenRecognitionAi.recognize(
+                      bytes.toByteArray(),
+                      captureWidth,
+                      captureHeight,
+                      items -> {
+                        if (!active || request != generation) {
+                          return;
+                        }
+                        if (items == null) {
+                          finishFailure();
+                        } else {
+                          finishRecognition(items);
+                        }
+                      });
+                });
+          });
+      return;
+    }
     if (useTesseract(service)) {
       recognizeWithTesseract(bitmap, true, request);
     } else {
@@ -425,6 +462,7 @@ public class ScreenRecognitionController {
     active = false;
     running = false;
     generation++;
+    screenRecognitionAi.cancel();
     cancelPendingRefresh();
     if (pendingActivation != null) {
       mainHandler.removeCallbacks(pendingActivation);

@@ -22,6 +22,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 import java.util.List;
+import com.google.android.accessibility.utils.ClipboardHistory;
 
 /** Utility class to copy text to clipboard. */
 public final class ClipboardUtils {
@@ -36,12 +37,7 @@ public final class ClipboardUtils {
       return false;
     }
 
-    final ClipboardManager clipboard =
-        (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-    if (clipboard == null) {
-      return false;
-    }
-    return copyToClipboard(clipboard, text);
+    return ClipboardHistory.copy(context, text);
   }
 
   /** Appends {@code text} to the current plain-text clipboard contents. */

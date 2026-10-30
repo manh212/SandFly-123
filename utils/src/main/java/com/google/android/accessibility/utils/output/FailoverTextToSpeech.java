@@ -326,6 +326,8 @@ public class FailoverTextToSpeech {
   private final Map<String, LowLatencyAudio.SpeechStream> lowLatencyStreams =
       new ConcurrentHashMap<>();
 
+  private static final int MAX_LOW_LATENCY_STREAMS = 100;
+
   /**
    * The utterance whose low-latency speech is held, mid-word, since a touch interrupted it, or null.
    * If the pause gesture follows, it stays held until speech resumes, and carries on from exactly
@@ -355,6 +357,14 @@ public class FailoverTextToSpeech {
 
   private long phoneCallSeenAt;
 
+  /**
+   * Whether speech already waited out the call audio mode in place now, which stayed after the
+   * call: some phones keep MODE_IN_CALL with no call. Speech doesn't wait for it again until the
+   * mode changes or another call starts.
+   */
+  private boolean callModeOutlasted;
+
+  /** Speech waiting for the audio mode to leave a phone call that ended, in order. */
   private final List<Runnable> afterCallSpeech = new ArrayList<>();
 
   private long afterCallWaitSince;
@@ -457,6 +467,9 @@ public class FailoverTextToSpeech {
                   key, lowLatencyAudioDefault(FailoverTextToSpeech.this.context));
           if (wasOn && !lowLatencyAudio) {
             turnOffLowLatencyAudio();
+          } else if (!wasOn && lowLatencyAudio) {
+            // Turned on again: engines that failed it before get another chance.
+            enginesWithoutFileAudio.clear();
           }
         } else if (PREF_ALWAYS_INTERRUPT_SPEECH_KEY.equals(key)) {
           alwaysInterruptSpeech = sharedPrefs.getBoolean(key, false);
@@ -755,6 +768,10 @@ public class FailoverTextToSpeech {
           TAG,
           "Speech %s waits for the ended call's audio",
           params.get(Engine.KEY_PARAM_UTTERANCE_ID));
+      // Copies: the speech controller fills the same maps again for each later utterance, which
+      // would be spoken under this one's ID otherwise.
+      Map<String, String> paramsCopy = new HashMap<>(params);
+      Map<String, Integer> flagsCopy = customFlags == null ? null : new HashMap<>(customFlags);
       afterCallSpeech.add(
           () ->
               speakNow(
@@ -762,8 +779,8 @@ public class FailoverTextToSpeech {
                   locale,
                   pitch,
                   rate,
-                  params,
-                  customFlags,
+                  paramsCopy,
+                  flagsCopy,
                   stream,
                   volume,
                   preventDeviceSleep,
@@ -855,6 +872,7 @@ public class FailoverTextToSpeech {
   private boolean callAudioEnding() {
     int mode = audioManager.getMode();
     if (mode != AudioManager.MODE_IN_CALL && mode != AudioManager.MODE_IN_COMMUNICATION) {
+      callModeOutlasted = false;
       return false;
     }
     int callState;
@@ -867,6 +885,10 @@ public class FailoverTextToSpeech {
     long now = SystemClock.uptimeMillis();
     if (callState != TelephonyManager.CALL_STATE_IDLE) {
       phoneCallSeenAt = now;
+      callModeOutlasted = false;
+      return false;
+    }
+    if (callModeOutlasted) {
       return false;
     }
     return mode == AudioManager.MODE_IN_CALL
@@ -881,6 +903,7 @@ public class FailoverTextToSpeech {
     }
     if (inCall()) {
       phoneCallSeenAt = 0;
+      callModeOutlasted = true;
     }
     LogUtils.d(TAG, "Speaking %d utterances after %d ms for the ended call's audio", afterCallSpeech.size(), waited);
     List<Runnable> waiting = new ArrayList<>(afterCallSpeech);
@@ -1759,6 +1782,18 @@ public class FailoverTextToSpeech {
             lowLatencyListener);
     lowLatencyStreams.put(utteranceId, stream);
     lowLatencyRequests.put(utteranceId, Pair.create(text, bundle));
+    // A flush makes the engine drop queued pieces without a callback, so their finished streams
+    // would stay. They are kept for a while, so that late callbacks are still ignored.
+    if (lowLatencyStreams.size() > MAX_LOW_LATENCY_STREAMS) {
+      lowLatencyStreams.entrySet().removeIf(
+          entry -> {
+            if (!entry.getValue().isFinished()) {
+              return false;
+            }
+            lowLatencyRequests.remove(entry.getKey());
+            return true;
+          });
+    }
     // The engine speaks as usual but at no volume, and Backtalk plays the copy of its audio that
     // Android gives it. As the engine is still playing audio, Android and phone makers' battery
     // savers keep it running, which they do not do for an engine only making audio for an app.
@@ -2083,9 +2118,13 @@ public class FailoverTextToSpeech {
 
         @Override
         public void onStalled(String id) {
-          // Say it the usual way, and speak the usual way with this engine from now on.
+          // Say it the usual way. Only an engine that is idle and still sends nothing is at
+          // fault: one saying another app's speech, which shares it, or speech still ahead in its
+          // queue, just hasn't come to this yet, and low latency stays on for it.
           mHandler.post(
-              () -> speakAgainWithoutLowLatency(id, /* stream= */ null, /* engineAtFault= */ true));
+              () ->
+                  speakAgainWithoutLowLatency(
+                      id, /* stream= */ null, /* engineAtFault= */ !isEngineSpeaking()));
         }
 
         @Override

@@ -35,6 +35,9 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.File
 import java.io.IOException
 import java.util.concurrent.Executors
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.ThreadPoolExecutor
+import java.util.concurrent.TimeUnit
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
@@ -97,11 +100,17 @@ object SettingsBackup {
       fragment.registerForActivityResult(
         ActivityResultContracts.CreateDocument("application/json")
       ) { uri ->
-        uri?.let { write(fragment.requireContext(), it) }
+        uri?.let {
+          val context = fragment.requireContext().applicationContext
+          inBackground(context, R.string.settings_export_failed) { write(context, it) }
+        }
       }
     val open =
       fragment.registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
-        uri?.let { read(fragment.requireContext(), it) }
+        uri?.let {
+          val context = fragment.requireContext().applicationContext
+          inBackground(context, R.string.settings_import_failed) { read(context, it) }
+        }
       }
     export.setOnPreferenceClickListener {
       create.launch(FILE_NAME)
@@ -110,6 +119,23 @@ object SettingsBackup {
     import.setOnPreferenceClickListener {
       open.launch(arrayOf("application/json", "text/plain", "application/octet-stream"))
       true
+    }
+  }
+
+  /**
+   * Files can be on a cloud provider, which downloads or uploads before the stream returns, and the
+   * settings screen shares its main thread with the screen reader.
+   */
+  private val executor =
+    ThreadPoolExecutor(0, 1, 30, TimeUnit.SECONDS, LinkedBlockingQueue<Runnable>())
+
+  private fun inBackground(context: Context, @StringRes failed: Int, work: () -> Unit) {
+    executor.execute {
+      try {
+        work()
+      } catch (e: Throwable) {
+        toast(context, failed)
+      }
     }
   }
 
@@ -194,7 +220,7 @@ object SettingsBackup {
       try {
         val root = JSONObject(json)
         if (isBacktalkFile(root)) {
-          return importBacktalk(backtalkStores(context), root)
+          return importBacktalk(backtalkStores(context), root, context)
         }
         if (root.optString("format") != FORMAT || root.optInt("version") > VERSION) return false
         root.getJSONObject("files")
@@ -207,12 +233,15 @@ object SettingsBackup {
       for (file in storageFiles.keys()) {
         val name = importedName(context, file) ?: continue
         val values = storageFiles.optJSONObject(file) ?: return false
+        val prefs = storageContext.getSharedPreferences(name, Context.MODE_PRIVATE)
         val decoded = mutableMapOf<String, Any>()
         for (key in values.keys()) {
           if (isSecretKey(key) || isSkipped(context, name, key)) continue
-          decoded[key] = decode(values.optJSONObject(key)) ?: return false
+          val value = decode(values.optJSONObject(key)) ?: return false
+          // A value that doesn't fit keeps the phone's own.
+          decoded[key] = if (fits(context, prefs, key, value)) value else prefs.all[key] ?: continue
         }
-        edits += storageContext.getSharedPreferences(name, Context.MODE_PRIVATE) to decoded
+        edits += prefs to decoded
       }
     }
     for ((prefs, values) in edits) {
@@ -309,7 +338,11 @@ object SettingsBackup {
    * changes nothing.
    */
   @VisibleForTesting
-  fun importBacktalk(stores: Map<String, SharedPreferences>, root: JSONObject): Boolean {
+  fun importBacktalk(
+    stores: Map<String, SharedPreferences>,
+    root: JSONObject,
+    context: Context? = null,
+  ): Boolean {
     if (root.optInt("format") != BACKTALK_FORMAT) return false
     val storesJson = root.optJSONObject("stores") ?: return false
     val edits = mutableListOf<Pair<SharedPreferences, Map<String, Any>>>()
@@ -318,7 +351,8 @@ object SettingsBackup {
       val decoded = mutableMapOf<String, Any>()
       for (key in entries.keys()) {
         if (!isBacktalkSettingKept(key)) continue
-        decoded[key] = decodeBacktalk(entries.optJSONObject(key)) ?: return false
+        val value = decodeBacktalk(entries.optJSONObject(key)) ?: return false
+        if (fits(context, prefs, key, value)) decoded[key] = value
       }
       edits += prefs to decoded
     }
@@ -365,6 +399,34 @@ object SettingsBackup {
     } catch (e: JSONException) {
       null
     }
+  }
+
+  /**
+   * Whether [value] can be stored under [key] in [prefs]. SandFly reads each setting as one type, so
+   * a value of another type, or text where a number is stored as text, would throw when read. The
+   * type comes from the setting's current value, or else from its default resource.
+   */
+  private fun fits(context: Context?, prefs: SharedPreferences, key: String, value: Any): Boolean {
+    val expected = prefs.all[key] ?: context?.let { defaultValue(it, key) } ?: return true
+    if (expected is Set<*>) return value is Set<*>
+    if (expected.javaClass != value.javaClass) return false
+    return !(expected is String && expected.toFloatOrNull() != null && (value as String).toFloatOrNull() == null)
+  }
+
+  /** The default resource of the setting [key], named after the key with "_default" added. */
+  private fun defaultValue(context: Context, key: String): Any? {
+    val res = context.resources
+    for (type in listOf("bool", "integer", "string")) {
+      @Suppress("DiscouragedApi")
+      val id = res.getIdentifier(key + "_default", type, context.packageName)
+      if (id == 0) continue
+      return when (type) {
+        "bool" -> res.getBoolean(id)
+        "integer" -> res.getInteger(id)
+        else -> res.getString(id)
+      }
+    }
+    return null
   }
 
   private fun storages(context: Context): List<Pair<String, Context>> =
@@ -443,6 +505,8 @@ object SettingsBackup {
   }
 
   private fun toast(context: Context, @StringRes message: Int) {
-    Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    Handler(Looper.getMainLooper()).post {
+      Toast.makeText(context, message, Toast.LENGTH_LONG).show()
+    }
   }
 }

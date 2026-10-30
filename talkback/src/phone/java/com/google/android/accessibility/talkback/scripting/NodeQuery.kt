@@ -18,6 +18,7 @@ package com.google.android.accessibility.talkback.scripting
 
 import android.os.SystemClock
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
+import org.json.JSONArray
 import org.json.JSONObject
 
 typealias TextOf = (AccessibilityNodeInfoCompat) -> String?
@@ -31,12 +32,16 @@ data class NodeQuery(
   val role: String? = null,
   val clickable: Boolean? = null,
   val parentId: String? = null,
-  val inside: NodeQuery? = null,
+  /** Queries that each match one of the items around this one. */
+  val inside: List<NodeQuery> = emptyList(),
   val has: NodeQuery? = null,
+  /** Wanted values of the item's states, such as checked = true. */
+  val states: Map<String, Boolean> = emptyMap(),
 ) {
   fun matches(node: AccessibilityNodeInfoCompat, textOf: TextOf = PLAIN_TEXT): Boolean =
     (id == null || idMatches(id, node.viewIdResourceName)) &&
       (clickable == null || node.isClickable == clickable) &&
+      states.all { (state, wanted) -> STATES.getValue(state)(node) == wanted } &&
       (className == null || node.className?.toString()?.endsWith(className) == true) &&
       (contentDescription == null || node.contentDescription?.toString() == contentDescription) &&
       (text == null || textOf(node) == text) &&
@@ -44,7 +49,7 @@ data class NodeQuery(
       (role == null || ScriptRoles.appRole(node) == role) &&
       (parentId == null || idMatches(parentId, node.parent?.viewIdResourceName)) &&
       // Last, because every ancestor is a call to the app.
-      (inside == null || node.ancestors().any { inside.matches(it, textOf) }) &&
+      (inside.isEmpty() || isInside(node, textOf)) &&
       // After that, because it can look at many more items.
       (has == null || hasInside(node, has, textOf))
 
@@ -73,6 +78,16 @@ data class NodeQuery(
     root: AccessibilityNodeInfoCompat,
     deadline: Long = Long.MAX_VALUE,
   ): AccessibilityNodeInfoCompat? = findIn(root, deadline = deadline).firstOrNull()
+
+  /** Whether each query in [inside] matches one of the items around [node], walking them once. */
+  private fun isInside(node: AccessibilityNodeInfoCompat, textOf: TextOf): Boolean {
+    val left = inside.toMutableList()
+    for (ancestor in node.ancestors()) {
+      left.removeAll { it.matches(ancestor, textOf) }
+      if (left.isEmpty()) return true
+    }
+    return false
+  }
 
   /**
    * Whether an item inside [node], up to [MAX_HAS_DEPTH] levels down, matches [query]. It looks at
@@ -105,7 +120,24 @@ data class NodeQuery(
     private const val MAX_HAS_VISITED = 60
     private val PLAIN_TEXT: TextOf = { it.text?.toString() }
 
+    private val STATES: Map<String, (AccessibilityNodeInfoCompat) -> Boolean> =
+      mapOf(
+        "checkable" to { it.isCheckable },
+        "checked" to { it.isChecked },
+        "longClickable" to { it.isLongClickable },
+        "focusable" to { it.isFocusable },
+        "focused" to { it.isFocused },
+        "selected" to { it.isSelected },
+        "enabled" to { it.isEnabled },
+        "editable" to { it.isEditable },
+        "scrollable" to { it.isScrollable },
+        "visible" to { it.isVisibleToUser },
+        "heading" to { it.isHeading },
+        "password" to { it.isPassword },
+      )
+
     val KEYS =
+      STATES.keys +
       setOf(
         "id",
         "text",
@@ -131,11 +163,21 @@ data class NodeQuery(
         clickable = if (json.has("clickable")) json.getBoolean("clickable") else null,
         parentId = text("parentId"),
         // One level: each further level would walk every ancestor again for every ancestor.
-        inside = if (nested) null else json.optJSONObject("inside")?.let { of(it, nested = true) },
+        inside = if (nested) emptyList() else insideOf(json.opt("inside")),
         // One level too: a nested one would search everything inside every item it looks at.
         has = if (nested) null else json.optJSONObject("has")?.let { of(it, nested = true) },
+        states = STATES.keys.filter(json::has).associateWith(json::getBoolean),
       )
     }
+
+    /** inside is one query, or a list of them. */
+    private fun insideOf(value: Any?): List<NodeQuery> =
+      when (value) {
+        is JSONObject -> listOf(of(value, nested = true))
+        is JSONArray ->
+          (0 until value.length()).mapNotNull { value.optJSONObject(it)?.let { of(it, nested = true) } }
+        else -> emptyList()
+      }
 
     fun idMatches(wanted: String, actual: String?): Boolean =
       actual != null &&

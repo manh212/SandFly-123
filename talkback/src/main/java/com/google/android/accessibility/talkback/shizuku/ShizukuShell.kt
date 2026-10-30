@@ -98,6 +98,11 @@ enum class ShizukuCommand {
 
     private val SWITCH = Regex("""(on|off)(?:@(\d{1,6}))?""")
 
+    /** The most characters [INPUT_TEXT] types at once. */
+    const val MAX_TEXT = 1000
+
+    private val KEY_CODES = Regex("""KEYCODE_[A-Z0-9_]{1,30}( KEYCODE_[A-Z0-9_]{1,30}){0,99}""")
+
     private val COMPONENT =
       Regex(
         """[A-Za-z][A-Za-z0-9_]*(\.[A-Za-z][A-Za-z0-9_]*)+/\.?[A-Za-z_$][A-Za-z0-9_$]*(\.[A-Za-z_$][A-Za-z0-9_$]*)*"""
@@ -130,6 +135,7 @@ object ShizukuShell {
   private var args: Shizuku.UserServiceArgs? = null
   private var connection: ServiceConnection? = null
   private var holders = 0
+  private val connectListeners = ArrayList<(IShizukuGrants) -> Unit>()
   private var running = 0
 
   private val timeout = Runnable {
@@ -146,6 +152,27 @@ object ShizukuShell {
     holders++
     if (isAllowed()) {
       bind(context.applicationContext)
+    }
+  }
+
+  /**
+   * Calls [listener] on the commands thread each time the service connects, while it is added, and
+   * at once if it is connected. [hold] keeps the service connected.
+   */
+  fun addConnectListener(listener: (IShizukuGrants) -> Unit) {
+    connectListeners += listener
+    service?.let { connected -> executor.execute { tell(listener, connected) } }
+  }
+
+  fun removeConnectListener(listener: (IShizukuGrants) -> Unit) {
+    connectListeners -= listener
+  }
+
+  private fun tell(listener: (IShizukuGrants) -> Unit, connected: IShizukuGrants) {
+    try {
+      listener(connected)
+    } catch (e: Throwable) {
+      LogUtils.w(TAG, "Shizuku call failed: %s", e)
     }
   }
 
@@ -252,6 +279,11 @@ object ShizukuShell {
    * [onResult] on the main thread: null if the call failed or the service didn't start.
    */
   private fun <T> call(context: Context, work: (IShizukuGrants) -> T?, onResult: (T?) -> Unit) {
+    // The connection's state is the main thread's; scripts and the updater call from their own.
+    if (Looper.myLooper() != Looper.getMainLooper()) {
+      mainHandler.post { call(context, work, onResult) }
+      return
+    }
     val request =
       Pending(
         call = { connected ->
@@ -284,7 +316,8 @@ object ShizukuShell {
     executor.execute { request.call(service) }
   }
 
-  private fun bind(context: Context) {
+  private fun bind(anyContext: Context) {
+    val context = anyContext.applicationContext
     if (connection != null) {
       return
     }
@@ -308,6 +341,9 @@ object ShizukuShell {
             return
           }
           service = connected
+          for (listener in ArrayList(connectListeners)) {
+            executor.execute { tell(listener, connected) }
+          }
           val requests = ArrayList(pending)
           pending.clear()
           requests.forEach { execute(connected, it) }
@@ -315,8 +351,15 @@ object ShizukuShell {
         }
 
         override fun onServiceDisconnected(name: ComponentName?) {
-          if (connection === this) {
-            service = null
+          if (connection !== this) {
+            return
+          }
+          // Shizuku forgets a connection whose service died, so only a new bind brings it back,
+          // and calls waiting for this one would wait forever.
+          unbind()
+          failPending()
+          if (holders > 0 && isAllowed()) {
+            bind(context)
           }
         }
       }

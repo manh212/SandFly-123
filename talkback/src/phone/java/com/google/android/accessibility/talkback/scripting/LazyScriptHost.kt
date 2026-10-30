@@ -39,6 +39,7 @@ class LazyScriptHost(
   private val service: AccessibilityService,
   private val feedback: Pipeline.FeedbackReturner,
   private val resume: Runnable,
+  private val services: ScriptServices,
 ) : ScriptHost, ScriptStore.Listener {
   private val store = ScriptStore.get(service)
   // Outlives the engine, so that a restart still knows which activity is in front.
@@ -59,6 +60,7 @@ class LazyScriptHost(
     }
 
   init {
+    ScriptThread.onStuck = ::onStuck
     store.addListener(this)
     val screenChanges =
       IntentFilter().apply {
@@ -95,8 +97,31 @@ class LazyScriptHost(
 
   override fun shutdown() {
     closed = true
+    if (ScriptThread.onStuck == ::onStuck) ScriptThread.onStuck = null
     store.removeListener(this)
     service.unregisterReceiver(screenReceiver)
+    update()
+  }
+
+  /**
+   * Gives up on a script thread that one call has held up for too long: its script is turned off
+   * and logged, and the other scripts run on a new thread. The old thread ends if the call does.
+   */
+  private fun onStuck(scriptId: String?, thread: Thread) {
+    val running = manager ?: return
+    if (!running.runsOn(thread)) return
+    LogUtils.e(TAG, "Script thread held up by %s; starting a new one", scriptId)
+    manager = null
+    running.shutdown()
+    TraversalTreeCache.clear("scripts restarted")
+    if (scriptId != null) {
+      ScriptLog.add(
+        scriptId,
+        ScriptLog.Level.ERROR,
+        "Turned off: one call ran for more than ${ScriptThread.STUCK_MS / 1000} seconds",
+      )
+      store.setEnabled(scriptId, false)
+    }
     update()
   }
 
@@ -116,7 +141,7 @@ class LazyScriptHost(
   private fun start() {
     try {
       LuaEngine.checkAvailable()
-      manager = ScriptManager(service, ScriptFeedback(service, feedback, resume), activation)
+      manager = ScriptManager(service, ScriptFeedback(service, feedback, resume, services), activation)
     } catch (e: LinkageError) {
       LogUtils.e(TAG, "Scripts are unavailable: %s", e)
       unavailable = true
@@ -162,8 +187,10 @@ class LazyScriptHost(
     modifiers: Int,
     keyCode: Int,
     withBacktalkModifier: Boolean,
+    repeated: Boolean,
     fallback: Runnable,
-  ): Boolean = manager?.onKeys(modifiers, keyCode, withBacktalkModifier, fallback) == true
+  ): Boolean =
+    manager?.onKeys(modifiers, keyCode, withBacktalkModifier, repeated, fallback) == true
 
   override fun menuItems(): List<ScriptMenuItem> = manager?.menuItems().orEmpty()
 

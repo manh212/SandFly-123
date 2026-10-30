@@ -76,6 +76,12 @@ class AiDictation(
   private val handler = Handler(Looper.getMainLooper())
   private val worker =
     Executors.newSingleThreadExecutor { Thread(it, "dictation").apply { isDaemon = true } }
+  /**
+   * AI correction runs apart from recognition: a correction that outlasts its timeout keeps going
+   * until its request ends, and the next dictation would wait behind it.
+   */
+  private val correctors =
+    Executors.newCachedThreadPool { Thread(it, "dictation-correction").apply { isDaemon = true } }
   private val tones =
     ProgressTonePlayer(
       DefaultProgressToneProvider(),
@@ -148,8 +154,7 @@ class AiDictation(
       PermissionUtils.requestPermissions(service, Manifest.permission.RECORD_AUDIO)
       return false
     }
-    onText = null
-    if (!startRecording(DictationSettings.effectiveRecognition(service, prefs))) {
+    if (!startRecording(DictationSettings.effectiveRecognition(service, prefs, skip(node)))) {
       handler.removeCallbacks(autoStop)
       speak(service.getString(R.string.dictation_unavailable))
       return false
@@ -164,6 +169,9 @@ class AiDictation(
 
   fun listen(callback: (String?) -> Unit): Boolean {
     if (phase != Phase.IDLE) {
+      // A dictation into a field goes on; an earlier listen stops. Either way this caller is
+      // answered, or it would wait for good.
+      if (onText != null) start(null)
       callback(null)
       return false
     }
@@ -192,6 +200,13 @@ class AiDictation(
 
   val isListening: Boolean
     get() = phase != Phase.IDLE && onText != null
+
+  /**
+   * A dictated password stays on the phone, so Rambler, which sends the audio to Gemini, isn't used
+   * for one.
+   */
+  private fun skip(node: AccessibilityNodeInfoCompat?): Set<Recognition> =
+    if (node?.isPassword == true) setOf(Recognition.RAMBLER) else emptySet()
 
   /** Starts recording for [used]. Returns false when it can't. */
   private fun startRecording(used: Recognition): Boolean {
@@ -368,15 +383,18 @@ class AiDictation(
       used == Recognition.GOOGLE &&
         phase == Phase.RECORDING &&
         error in LANGUAGE_ERRORS &&
-        startRecording(DictationSettings.effectiveRecognition(service, prefs, skip = Recognition.GOOGLE))
+        startRecording(
+          DictationSettings.effectiveRecognition(
+            service,
+            prefs,
+            skip(field) + Recognition.GOOGLE,
+          )
+        )
     ) {
       LogUtils.w(TAG, "Google on-device recognition has no language pack, using %s", recognition)
       return
     }
-    if (phase == Phase.RECORDING) {
-      restoreSpeech()
-      pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
-    }
+    // While recording, finish() unsilences speech and plays the stop chime.
     finish()
     speak(
       service.getString(
@@ -422,7 +440,7 @@ class AiDictation(
     handler.postDelayed(fallback, correctionTimeoutMs(corrector))
     tones.play(/* playTone= */ true, /* delayPlayTone= */ false)
     val prompt = prompt(target?.let { textBeforeCursor(it) }.orEmpty(), heard)
-    worker.execute {
+    correctors.execute {
       val answer =
         try {
           correct(corrector, prompt)
@@ -483,6 +501,13 @@ class AiDictation(
   private fun finish() {
     handler.removeCallbacks(autoStop)
     restoreSpeech()
+    // Recognition can end by itself while recording, such as Google's after a pause.
+    if (phase == Phase.RECORDING) {
+      handler.removeCallbacks(autoStop)
+      continuous = null
+      pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.speech(UNSILENCE))
+      pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
+    }
     // For the next dictation: a language pack downloaded since the last one is used from then on.
     if (phase != Phase.IDLE) GoogleSpeechLanguages.refresh(service)
     phase = Phase.IDLE
@@ -518,9 +543,13 @@ class AiDictation(
     live = null
     transcriber?.cancel()
     restoreSpeech()
+    // Not finish()'s chime and unsilencing, as SandFly is turning off.
+    phase = Phase.IDLE
     field = null
     finish()
     deliver(null)
+    worker.shutdown()
+    correctors.shutdown()
     if (SandflyDictation.instance === this) SandflyDictation.instance = null
   }
 

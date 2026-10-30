@@ -94,6 +94,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.os.UserManagerCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.material.flags.MaterialFlags;
+import com.google.android.accessibility.talkback.sandflyai.SandflyAi;
 import com.google.android.accessibility.talkback.Feedback.DeviceInfo.Action;
 import com.google.android.accessibility.talkback.PrimesController.TimerAction;
 import com.google.android.accessibility.talkback.TalkBackExitController.TrainingState;
@@ -143,6 +144,7 @@ import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.controller.TelevisionNavigationController;
 import com.google.android.accessibility.talkback.controlsounds.ControlSoundsSettings;
 import com.google.android.accessibility.talkback.directtouch.DirectTouchController;
+import com.google.android.accessibility.talkback.directtouch.DirectTouchSettings;
 import com.google.android.accessibility.talkback.eventprocessor.AccessibilityEventProcessor;
 import com.google.android.accessibility.talkback.eventprocessor.AccessibilityEventProcessor.TalkBackListener;
 import com.google.android.accessibility.talkback.eventprocessor.PhoneticLetterMode;
@@ -218,15 +220,20 @@ import com.google.android.accessibility.talkback.notificationlist.NotificationLi
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
 import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
+import com.google.android.accessibility.talkback.speechdictionary.SpeechDictionary;
+import com.google.android.accessibility.talkback.gesture.AppGestures;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.report.VerboseDiagnosticsLogger;
 import com.google.android.accessibility.talkback.quicksettings.SystemPanelClicker;
 import com.google.android.accessibility.talkback.recognition.LiveRecognition;
 import com.google.android.accessibility.talkback.scripting.ScriptHost;
 import com.google.android.accessibility.talkback.scripting.ScriptHostFactory;
+import com.google.android.accessibility.talkback.scripting.ScriptServices;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SelectorController.SelectorEventNotifier;
+import com.google.android.accessibility.talkback.screenelements.ScreenElements;
+import com.google.android.accessibility.talkback.shizuku.ShizukuClipboard;
 import com.google.android.accessibility.talkback.shizuku.ShizukuGrants;
 import com.google.android.accessibility.talkback.soundthemes.SoundThemes;
 import com.google.android.accessibility.talkback.soundthemes.ThemeFeedback;
@@ -258,11 +265,11 @@ import com.google.android.accessibility.utils.AccessibilityEventListener;
 import com.google.android.accessibility.utils.monitor.RecentUserInput;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.FormFactorUtils;
-import com.google.android.accessibility.utils.KeyboardUtils;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.PackageManagerUtils;
 import com.google.android.accessibility.utils.Performance;
@@ -275,6 +282,7 @@ import com.google.android.accessibility.utils.ServiceKeyEventListener;
 import com.google.android.accessibility.utils.ServiceStateListener;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.SpellChecker;
 import com.google.android.accessibility.utils.Statistics;
 import com.google.android.accessibility.utils.TreeDebug;
@@ -302,6 +310,7 @@ import com.google.android.accessibility.utils.monitor.TouchMonitor;
 import com.google.android.accessibility.utils.output.ActorStateProvider;
 import com.google.android.accessibility.utils.output.EditTextActionHistory;
 import com.google.android.accessibility.utils.output.EmojiSpeech;
+import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech;
 import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.FeedbackItem;
@@ -1066,6 +1075,11 @@ public class TalkBackService extends AccessibilityServiceCompat
       Updater.stopAutomaticChecks();
     ExitAfterTurnOff.schedule(getApplication());
     ShizukuGrants.onServiceDestroyed();
+    ScreenElements.detach();
+    if (SandflyAi.getFeatures() != null) {
+      SandflyAi.getFeatures().onServiceDestroyed(this);
+    }
+    TutorialHooks.setFeedback(null);
     instance = null;
     // Shutdown and unregister all components.
     shutdownInfrastructure();
@@ -1218,9 +1232,15 @@ public class TalkBackService extends AccessibilityServiceCompat
       markRootDirtyForDroppedEvent(event);
       return;
     }
+    // Android says that the shell pasted from the clipboard each time SandFly reads a copy through
+    // Shizuku for the clipboard history.
+    if (ShizukuClipboard.isReadToast(event)) {
+      return;
+    }
     if (scriptHost != null) {
       scriptHost.onAccessibilityEvent(event);
     }
+    ScreenElements.onAccessibilityEvent(event);
     if (audioDeviceRouter != null) {
       audioDeviceRouter.ensureRouting();
     }
@@ -1236,6 +1256,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED) {
       lastWindowPackage = event.getPackageName();
+      // The app in front decides which app's gestures, keys and dictionary entries apply. The
+      // keyboard, the volume panel and the notification shade send this event too, and closing
+      // them sends none for the app under them.
+      if (isAppWindowEvent(event)) {
+        SpeechDictionary.onWindowShown(lastWindowPackage);
+        AppGestures.onWindowShown(lastWindowPackage);
+      }
     }
     if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
         && Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
@@ -1617,8 +1644,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     boolean passThroughThisKey = false;
     boolean triggerModifierPressed =
         FeatureFlagReader.enableSpeechVolumeKeyboard(this)
-            && (keyEvent.getModifiers() & keyComboManager.getKeyComboModel().getTriggerModifier())
-                != 0;
+            && keyComboManager.isSandFlyKeyPressed(keyEvent);
     if (NotificationReader.onKeyEvent(keyEvent)) {
       return true;
     }
@@ -2273,6 +2299,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     new TalkBackUpdateHelper(this).checkUpdate();
     Updater.startAutomaticChecks(this);
     ShizukuGrants.onServiceConnected(this);
+    ScreenElements.attach(this, () -> pipeline == null ? null : pipeline.getFeedbackReturner());
+    if (SandflyAi.getFeatures() != null) {
+      SandflyAi.getFeatures().onServiceConnected(this);
+    }
     // Turns Backtalk under its old app ID off, before this one says it is on.
     AppIdHandOver.onServiceConnected(this, () -> {});
 
@@ -2323,15 +2353,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     if (shouldShowTutorial || FormFactorUtils.isAndroidTv()) {
       setFirstTimeUser(false);
-    }
-
-    // If TalkBack shows the tutorial for users (e.g. first time users), don't show the new keymap
-    // notification dialog. In this case, the new keymap notification will be shown next time
-    // TalkBack is on (e.g. restart TalkBack or a device).
-    if (KeyboardUtils.isHardKeyboardActive(this) && !shouldShowTutorial) {
-      // `keyComboManager` must not be null here as it is initialized in
-      // `initializeInfrastructure()` above.
-      keyComboManager.maybeSwitchKeymapAndShowNewKeymapNotificationDialog();
     }
 
     updateTalkBackEnabledCount();
@@ -3678,6 +3699,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     AutomaticTranslation.update(this);
     FocusProcessorForLogicalNavigation.setWrapAround(
         getBooleanPref(R.string.pref_wrap_around_key, R.bool.pref_wrap_around_default));
+    SpeechDictionary.load(this, prefs);
+    AppGestures.load(prefs);
     FocusFeedbackMapper.setTouchStopsSpeech(
         getBooleanPref(
             R.string.pref_touch_stops_speech_key, R.bool.pref_touch_stops_speech_default));
@@ -4496,7 +4519,8 @@ public class TalkBackService extends AccessibilityServiceCompat
             || getString(R.string.talkback_enabled_count).equals(key)
             || getString(R.string.talkback_off_timestamp).equals(key)
             || PREF_HAS_TRAINING_FINISHED.equals(key)
-            || PREF_HAS_ONBOARDING_FINISHED.equals(key)) {
+            || PREF_HAS_ONBOARDING_FINISHED.equals(key)
+            || DirectTouchSettings.PREF_SEEN.equals(key)) {
           return;
         }
         reloadPreferences(key);
@@ -4571,15 +4595,22 @@ public class TalkBackService extends AccessibilityServiceCompat
           this,
           pipeline.getFeedbackReturner(),
           () -> speechController.stopUtteranceGroup(SpeechController.UTTERANCE_GROUP_NOTIFICATIONS),
+          completedAction -> {
+            speechController.stopItem(completedAction);
+            return kotlin.Unit.INSTANCE;
+          },
           () -> speechController.isSpeaking(),
-          // What silences SandFly's own speech silences the notification voice too.
+          // What silences SandFly's own speech silences the notification voice too, and nothing is
+          // said while SandFly is paused.
           (overMedia, duringCalls) ->
               speechController.isMute()
                   || speechController.getShouldSilentSpeech()
+                  || PauseController.isPaused()
                   || (!duringCalls && isPhoneCallActive())
                   || isMicrophoneActiveAndHeadphoneOff()
                   || isSsbActive()
-                  || (!overMedia && isAudioPlaybackActive()));
+                  || (!overMedia && isAudioPlaybackActive()),
+          () -> isTouchInteracting);
       NotificationListService.onSandFlyStarted(this);
     }
     if (scriptHost != null || pipeline == null || !UserManagerCompat.isUserUnlocked(this)) {
@@ -4593,10 +4624,59 @@ public class TalkBackService extends AccessibilityServiceCompat
               if (pauseController != null) {
                 pauseController.resume();
               }
-            });
+            },
+            new ScriptServicesImpl());
     Scripts.setHost(scriptHost);
     if (scriptHost != null) {
       scriptHost.onPausedChanged(PauseController.isPaused());
+    }
+  }
+
+  /** What scripts reach in SandFly beyond feedback. */
+  private class ScriptServicesImpl implements ScriptServices {
+    @Override
+    public boolean runCommand(String value) {
+      if (gestureController == null) {
+        return false;
+      }
+      gestureController.performAction(value, EVENT_ID_UNTRACKED);
+      return true;
+    }
+
+    @Override
+    public void stopSpeech() {
+      if (speechController != null) {
+        speechController.interrupt(/* stopTtsSpeechCompletely= */ true);
+      }
+    }
+
+    @Override
+    public boolean isSpeaking() {
+      return speechController != null && speechController.isSpeaking();
+    }
+
+    @Override
+    public @Nullable String lastSpeech() {
+      FeedbackItem last = speechController == null ? null : speechController.getLastUtterance();
+      if (last == null) {
+        return null;
+      }
+      CharSequence text =
+          EmojiSpeech.restoreOriginalText(SpannableUtils.getCopyableText(last.getAggregateText()));
+      return text == null ? null : text.toString().trim();
+    }
+
+    @Override
+    public void showBraille(CharSequence text) {
+      if (brailleDisplay == null) {
+        return;
+      }
+      @SuppressWarnings("deprecation") // The constructor that replaces it needs Android 11.
+      AccessibilityEvent event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_ANNOUNCEMENT);
+      event.setPackageName(getPackageName());
+      event.setEventTime(SystemClock.uptimeMillis());
+      event.getText().add(text);
+      brailleDisplay.onAccessibilityEvent(event);
     }
   }
 
@@ -4982,5 +5062,22 @@ public class TalkBackService extends AccessibilityServiceCompat
                 prefs, res, R.string.pref_debug_log_key, R.bool.pref_debug_log_default)));
 
     dumpLogger.log("");
+  }
+
+  /**
+   * Whether [event] comes from an app's window, or from SandFly's own overlays, rather than from
+   * the keyboard or a system window. When its window can't be told, only the system UI's events
+   * count as not an app's.
+   */
+  private static boolean isAppWindowEvent(AccessibilityEvent event) {
+    switch (AccessibilityEventUtils.getWindowType(event)) {
+      case AccessibilityWindowInfo.TYPE_APPLICATION:
+      case AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY:
+        return true;
+      case AccessibilityWindowInfoUtils.WINDOW_TYPE_NONE:
+        return !"com.android.systemui".contentEquals(String.valueOf(event.getPackageName()));
+      default:
+        return false;
+    }
   }
 }

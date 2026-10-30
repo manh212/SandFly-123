@@ -41,6 +41,8 @@ import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettin
 import com.google.android.accessibility.talkback.menurules.NodeMenuRuleProcessor;
 import com.google.android.accessibility.talkback.scripting.ItemInspector;
 import com.google.android.accessibility.talkback.scripting.ScriptMenuItem;
+import com.google.android.accessibility.talkback.sandflyai.SandflyAi;
+import com.google.android.accessibility.talkback.sandflyai.SandflyAiFeatures;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -58,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
+import kotlin.Pair;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /** Configure dynamic menu items on the talkback context menu. */
@@ -214,6 +217,7 @@ public class TalkbackMenuProcessor {
     // System Action
     addWindowActionMenu(menu);
     addScriptCommands(menu);
+    addSandflyProItems(menu);
     addScriptTool(
         menu,
         R.id.inspect_item,
@@ -353,6 +357,11 @@ public class TalkbackMenuProcessor {
     {R.string.pref_show_context_menu_labeling_setting_key, R.id.labeling_breakout_add_label},
     {R.string.pref_show_context_menu_image_caption_setting_key, R.id.image_caption_menu},
     {R.string.pref_show_context_menu_summarize_view_setting_key, R.id.summarize_view_menu},
+    {R.string.pref_show_context_menu_recognize_screen_setting_key, R.id.recognize_screen_menu},
+    {
+      R.string.pref_show_context_menu_screen_recognition_app_setting_key,
+      R.id.screen_recognition_app_menu
+    },
     {R.string.pref_show_context_menu_granularity_setting_key, R.id.granularity_menu},
     {R.string.pref_show_context_menu_read_from_top_setting_key, R.id.read_from_top},
     {R.string.pref_show_context_menu_read_from_current_setting_key, R.id.read_from_current},
@@ -402,7 +411,8 @@ public class TalkbackMenuProcessor {
       R.id.show_keyboard_shortcuts
     },
     {R.string.pref_show_context_menu_talkback_settings_setting_key, R.id.talkback_settings},
-
+    {R.string.pref_show_context_menu_clipboard_history_setting_key, R.id.clipboard_history},
+    {R.string.pref_show_context_menu_send_feedback_setting_key, R.id.send_feedback},
     {R.string.pref_show_context_menu_tts_settings_setting_key, R.id.tts_settings},
     {R.string.pref_show_context_menu_system_action_setting_key, R.id.window_menu},
 
@@ -563,6 +573,34 @@ public class TalkbackMenuProcessor {
             R.string.pref_show_context_menu_talkback_settings_setting_key,
             R.bool.pref_show_context_menu_talkback_settings_default)) {
       menu.removeItem(R.id.talkback_settings);
+    }
+
+    // The history can hold private text, so it isn't shown on the lock screen.
+    if (ScreenMonitor.isDeviceLocked(service)
+        || !showMenuItem(
+            R.string.pref_show_context_menu_clipboard_history_setting_key,
+            R.bool.pref_show_context_menu_clipboard_history_default)) {
+      menu.removeItem(R.id.clipboard_history);
+    }
+
+    if (ScreenMonitor.isDeviceLocked(service)
+        || !SettingsUtils.allowLinksOutOfSettings(service)
+        || !showMenuItem(
+            R.string.pref_show_context_menu_send_feedback_setting_key,
+            R.bool.pref_show_context_menu_send_feedback_default)) {
+      menu.removeItem(R.id.send_feedback);
+    }
+
+    // Removes braille display settings if braille display isn't supported, phone is locked, Setup
+    // Wizard isn't completed or the preference of showing item is unchecked.
+    if (!FeatureSupport.supportBrailleDisplay(service)
+        || ScreenMonitor.isDeviceLocked(service)
+        || !SettingsUtils.allowLinksOutOfSettings(service)
+        || FormFactorUtils.isAndroidXr()
+        || !showMenuItem(
+            R.string.pref_show_context_menu_braille_display_settings_setting_key,
+            R.bool.pref_show_context_menu_braille_display_settings_default)) {
+      menu.removeItem(R.id.braille_display_settings);
     }
 
     if (!FeatureFlagReader.enableShowKeyboardShortcutsDialog(service)
@@ -1046,6 +1084,34 @@ public class TalkbackMenuProcessor {
             /* title= */ service.getString(R.string.system_actions));
     if (!WindowNavigationMenuProcessor.prepareWindowSubMenu(service, subMenu, pipeline)) {
       menu.removeItem(R.id.window_menu);
+    }
+  }
+
+  private void addSandflyProItems(ContextMenu menu) {
+    addSandflyProItem(
+        menu,
+        R.id.recognize_screen_menu,
+        R.string.pref_show_context_menu_recognize_screen_setting_key,
+        R.bool.pref_show_context_menu_recognize_screen_default,
+        SandflyAi.COMMAND_RECOGNIZE_SCREEN);
+    addSandflyProItem(
+        menu,
+        R.id.screen_recognition_app_menu,
+        R.string.pref_show_context_menu_screen_recognition_app_setting_key,
+        R.bool.pref_show_context_menu_screen_recognition_app_default,
+        SandflyAi.COMMAND_SCREEN_RECOGNITION_IN_APP);
+  }
+
+  private void addSandflyProItem(
+      ContextMenu menu, int itemId, @StringRes int showKey, @BoolRes int showDefault, String command) {
+    SandflyAiFeatures features = SandflyAi.getFeatures();
+    if (features == null || !showMenuItem(showKey, showDefault)) {
+      return;
+    }
+    @Nullable Pair<CharSequence, Runnable> item = features.menuItem(service, command);
+    if (item != null) {
+      addAfterMenuCloses(
+          menu, itemId, ORDER_IMAGE_CAPTION, item.getFirst(), node -> item.getSecond().run());
     }
   }
 

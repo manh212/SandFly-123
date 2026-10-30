@@ -19,12 +19,14 @@ package com.google.android.accessibility.talkback.scripting
 import android.accessibilityservice.AccessibilityService
 import android.annotation.SuppressLint
 import android.content.ClipboardManager
+import android.graphics.Rect
 import android.os.Handler
 import android.os.SystemClock
-import android.view.accessibility.AccessibilityNodeInfo
-import androidx.core.os.bundleOf
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.commands.Commands
+import com.google.android.accessibility.talkback.gesture.OpenAppActions
+import com.google.android.accessibility.talkback.translation.Translator
 import com.google.android.accessibility.talkback.scripting.ScriptPermission.ACTIONS
 import com.google.android.accessibility.talkback.scripting.ScriptPermission.CLIPBOARD
 import com.google.android.accessibility.talkback.scripting.ScriptPermission.DIALOGS
@@ -73,6 +75,7 @@ class ScriptRuntime(
   private val fetches = HashSet<Future<*>>()
   private val warned = HashSet<String>()
   private var nextPromise = 1
+  private var recognizing = 0
   // When the script's current call runs out of time. The prelude's hook only stops Lua, so host
   // calls that walk the screen stop at this themselves.
   private var deadline = Long.MAX_VALUE
@@ -84,7 +87,7 @@ class ScriptRuntime(
     val main =
       store.readFile(id, ScriptPackage.MAIN)
         ?: throw LuaEngine.ScriptError("${ScriptPackage.MAIN} is missing")
-    ScriptThread.busy {
+    ScriptThread.busy(id) {
       timed(LOAD_LIMIT_MS) { engine.start(prelude, MEMORY_LIMIT) }
       timed(LOAD_LIMIT_MS) { engine.runMain(main.decodeToString(), ScriptPackage.MAIN) }
     }
@@ -94,7 +97,7 @@ class ScriptRuntime(
     val runtime = lua?.takeUnless { it.isClosed || manager.isClosed } ?: return null
     return try {
       val event = jsonObject("type" to type, "data" to data).toString()
-      ScriptThread.busy { timed(timeLimitMs) { runtime.dispatch(event) } }
+      ScriptThread.busy(id) { timed(timeLimitMs) { runtime.dispatch(event) } }
     } catch (e: LuaEngine.ScriptError) {
       manager.onScriptError(this, "$type: ${e.message}", e.interrupted)
       null
@@ -166,7 +169,8 @@ class ScriptRuntime(
     apiCheck(call.permission !in REFUSED_IN_BACKTALK || !manager.inBacktalk) {
       "Scripts can't use ${call.permission?.key} on SandFly's own screens"
     }
-    val result = call.handle(json?.let { JSONObject(it) } ?: JSONObject())
+    // An empty Lua table is encoded as [].
+    val result = call.handle(json?.takeUnless { it == "[]" }?.let { JSONObject(it) } ?: JSONObject())
     return result.takeUnless { it == Unit }?.let(::jsonOf)
   }
 
@@ -193,12 +197,92 @@ class ScriptRuntime(
     }
     on("app") {
       if (script.manifest.isGlobal) requirePermission(SCREEN)
-      manager.appInfo()
+      JSONObject(manager.appInfo().toString()).apply {
+        put("label", manager.device.appLabel(optString("package").ifEmpty { null }))
+      }
     }
-    on("speak", SPEECH) {
-      val interrupt = it.optBoolean("interrupt") && !manager.inBacktalk
-      manager.feedback.speak(it.optString("text"), interrupt, voice(it))
+    on("speak", SPEECH) { args ->
+      val interrupt = args.optBoolean("interrupt") && !manager.inBacktalk
+      if (args.optBoolean("wait")) {
+        promise { settle ->
+          manager.feedback.speak(args.text("text"), interrupt, voice(args)) { settle(true, it) }
+        }
+      } else {
+        manager.feedback.speak(args.text("text"), interrupt, voice(args))
+      }
     }
+    on("speech.stop", SPEECH) { if (!manager.inBacktalk) manager.feedback.stopSpeech() }
+    on("speech.isSpeaking") { manager.feedback.services.isSpeaking() }
+    on("speech.last", SCREEN) {
+      promise { settle -> manager.feedback.lastSpeech { settle(true, it) } }
+    }
+    on("braille.show", SPEECH) {
+      manager.feedback.showBraille(it.optString("text").take(MAX_BRAILLE_CHARS))
+    }
+    on("commands.list") { commandList() }
+    on("commands.run", INPUT) { args ->
+      apiCheck(!manager.inBacktalk) { "Scripts can't run commands on SandFly's own screens" }
+      val value = args.optString("id")
+      apiCheck(commandList().items().any { (it as JSONObject).optString("id") == value }) {
+        "Unknown command $value. sf.commands.list() gives the commands."
+      }
+      promise { settle -> manager.feedback.runCommand(value) { settle(true, it) } }
+    }
+    on("screen.inputFocused", SCREEN) { nodes.snapshot(manager.inputFocusedNode()) }
+    on("screen.windows", SCREEN) { manager.screen.windows(nodes::snapshot) }
+    on("screen.at", SCREEN) { args ->
+      nodes.snapshot(manager.screen.itemAt(args.optInt("x"), args.optInt("y"), deadline))
+    }
+    on("screen.recognizeText", SCREEN) { args ->
+      val bounds = if (args.has("handle")) Rect().also(node(args)::getBoundsInScreen) else null
+      apiCheck(recognizing < MAX_RECOGNITIONS) {
+        "A script can recognize text $MAX_RECOGNITIONS times at once"
+      }
+      recognizing++
+      promise { settle ->
+        manager.screen.recognizeText(bounds) { result, error ->
+          handler.post { recognizing-- }
+          if (result != null) settle(true, result) else settle(false, error)
+        }
+      }
+    }
+    on("node.labeledBy", SCREEN) { nodes.labeledBy(handle(it)) }
+    on("node.labelFor", SCREEN) { nodes.labelFor(handle(it)) }
+    on("touch.gesture", ACTIONS) { args ->
+      val strokes = args.optJSONArray("strokes")
+      promise { settle -> manager.touch.gesture(strokes) { settle(true, it) } }
+    }
+    on("keys.press", ACTIONS) { args ->
+      val keys = args.optJSONArray("keys").strings()
+      promise { settle -> manager.touch.pressKeys(keys) { settle(true, it) } }
+    }
+    on("keys.type", ACTIONS) { args ->
+      val text = args.optString("text")
+      val focused = manager.inputFocusedNode()
+      promise { settle -> manager.touch.type(text, focused) { settle(true, it) } }
+    }
+    on("device.info") { manager.device.info() }
+    on("device.battery") { manager.device.battery() }
+    on("device.network") { manager.device.network() }
+    on("device.volume") { manager.device.volume(it) }
+    on("device.setVolume", SYSTEM) { manager.device.setVolume(it) }
+    on("device.ringerMode") { manager.device.ringerMode() }
+    on("device.setRingerMode", SYSTEM) { manager.device.setRingerMode(it) }
+    on("system.openUrl", SYSTEM) { manager.device.openUrl(it) }
+    on("system.share", SYSTEM) { manager.device.share(it) }
+    on("system.openSettings", SYSTEM) { manager.device.openSettings(it) }
+    on("system.startActivity", SYSTEM) { manager.device.startActivity(it) }
+    on("system.sendBroadcast", SYSTEM) { manager.device.sendBroadcast(it) }
+    on("system.apps", SYSTEM) { manager.device.apps() }
+    on("translate", NETWORK) { args -> translate(args) }
+    on("files.read") { args ->
+      val path = args.optString("path")
+      apiCheck(path.isNotEmpty() && !path.startsWith("/")) { "readFile needs a path in the script" }
+      val file = store.file(id, path) ?: return@on JSONObject.NULL
+      apiCheck(file.length() <= MAX_FILE_BYTES) { "readFile reads files up to 1 MB" }
+      file.readBytes().decodeToString()
+    }
+    on("clock") { SystemClock.uptimeMillis() }
     on("audio") { playAudio(it) }
     on("sound") { args ->
       val name = args.optString("name")
@@ -318,20 +402,20 @@ class ScriptRuntime(
       promise { settle -> dialogs.choose(id, title(args), options, selected) { settle(true, it) } }
     }
     on("ui.prompt", DIALOGS) { args ->
-      val text = args.optString("text")
-      val hint = args.optString("hint")
+      val text = args.text("text")
+      val hint = args.text("hint")
       promise { settle -> dialogs.prompt(id, title(args), text, hint) { settle(true, it) } }
     }
     on("ui.confirm", DIALOGS) { args ->
-      val message = args.optString("message")
-      val ok = args.optString("ok").ifEmpty { null }
-      val cancel = args.optString("cancel").ifEmpty { null }
+      val message = args.text("message")
+      val ok = args.text("ok").ifEmpty { null }
+      val cancel = args.text("cancel").ifEmpty { null }
       promise { settle ->
         dialogs.confirm(id, title(args), message, ok, cancel) { settle(true, it) }
       }
     }
     on("ui.alert", DIALOGS) { args ->
-      val message = args.optString("message")
+      val message = args.text("message")
       promise { settle -> dialogs.alert(id, title(args), message) { settle(true, null) } }
     }
     on("ui.dialog", DIALOGS) { args ->
@@ -340,10 +424,19 @@ class ScriptRuntime(
         "A dialog has 1 to $MAX_DIALOG_ITEMS items"
       }
       ScriptForm.check(items)
-      dialogs.form(id, args.getInt("dialog"), title(args), items) { event ->
+      dialogs.form(id, args.getInt("dialog"), title(args), items, args.optBoolean("fullScreen")) {
+        event ->
         handler.post { dispatch("dialogEvent", event) }
       }
     }
+    on("ui.add", DIALOGS) { args ->
+      val item = args.optJSONObject("item")
+      ScriptForm.checkItem(item)
+      dialogs.add(id, args.getInt("dialog"), item!!, args.optString("after").ifEmpty { null })
+    }
+    on("ui.remove", DIALOGS) { dialogs.remove(id, it.getInt("dialog"), it.optString("item")) }
+    on("ui.focus", DIALOGS) { dialogs.focus(id, it.getInt("dialog"), it.optString("item")) }
+    on("ui.setTitle", DIALOGS) { dialogs.setTitle(id, it.getInt("dialog"), title(it)) }
     on("ui.update", DIALOGS) { args ->
       val props = args.optJSONObject("props") ?: JSONObject()
       apiCheck(props.optJSONArray("items").items().size <= MAX_OPTIONS) {
@@ -358,13 +451,56 @@ class ScriptRuntime(
 
   // Every dialog starts with the script's name. A dialog is drawn over whatever app is in front,
   // and someone who can't see it has only the title to tell it from the app's own dialogs.
+  private fun JSONObject.text(name: String): String = optString(name).take(MAX_TEXT_CHARS)
+
   private fun title(args: JSONObject): String {
     val name = script.manifest.name
-    val title = args.optString("title")
+    val title = args.text("title")
     return if (title.isEmpty() || title == name) {
       name
     } else {
       manager.service.getString(R.string.script_dialog_title, name, title)
+    }
+  }
+
+  private var commandListCache: JSONArray? = null
+
+  /** SandFly's commands that a script may run: all but Open app and turning scripts off. */
+  private fun commandList(): JSONArray =
+    commandListCache
+      ?: JSONArray(
+          Commands.categories(manager.service).flatMap { category ->
+            val title = manager.service.getString(category.titleRes)
+            category.commands
+              .filter { !OpenAppActions.isAction(it.value) && it.value !in REFUSED_COMMANDS }
+              .map { jsonObject("id" to it.value, "title" to it.label, "category" to title) }
+          }
+        )
+        .also { commandListCache = it }
+
+  private fun translate(args: JSONObject): JSONObject {
+    val text = args.optString("text")
+    apiCheck(text.isNotBlank()) { "translate needs text" }
+    val from = args.optString("from").ifEmpty { null }
+    val to = args.optString("to").ifEmpty { null }
+    return promise { settle ->
+      manager.feedback.onMain {
+        manager.translator.translateTo(text, from, to) { result ->
+          when (result) {
+            is Translator.Result.Done ->
+              settle(
+                true,
+                jsonObject(
+                  "text" to result.translation.text,
+                  "from" to result.translation.from,
+                  "to" to result.translation.to,
+                ),
+              )
+            is Translator.Result.Failed -> settle(false, "Translation failed: ${result.failure.kind}")
+            is Translator.Result.Downloading -> {}
+          }
+        }
+      }
     }
   }
 
@@ -459,17 +595,9 @@ class ScriptRuntime(
   }
 
   private fun performAction(node: AccessibilityNodeInfoCompat, action: Any?, args: JSONObject?) =
-    if (action == "setText") {
-      node.performAction(
-        AccessibilityNodeInfo.ACTION_SET_TEXT,
-        bundleOf(
-          AccessibilityNodeInfo.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE to
-            args?.optString("text").orEmpty()
-        ),
-      )
-    } else {
-      node.performAction(NodeBridge.actionId(node, action))
-    }
+    NodeBridge.ARGUMENT_ACTIONS[action]?.let { id ->
+      node.performAction(id, NodeBridge.arguments(action as String, args))
+    } ?: node.performAction(NodeBridge.actionId(node, action))
 
   private fun requirePermission(permission: ScriptPermission) =
     apiCheck(script.has(permission)) {
@@ -506,6 +634,11 @@ class ScriptRuntime(
     const val CALL_LIMIT_MS = 2000L
     private const val MEMORY_LIMIT = 32L * 1024 * 1024
     private const val MAX_FIND = 200
+    /**
+     * The most characters of text a script speaks or shows in a dialog at once. Laying out or
+     * speaking megabytes of text holds up the main thread, which the screen reader shares.
+     */
+    private const val MAX_TEXT_CHARS = 20_000
     private const val MAX_KEY_LENGTH = 200
     private const val MAX_PATTERN = 20
     private const val MAX_VIBRATION_PART_MS = 2000L
@@ -522,6 +655,10 @@ class ScriptRuntime(
     private const val MAX_SAMPLE_RATE = 48000
     private const val MIN_SPEECH_SCALE = 0.25f
     private const val MAX_SPEECH_SCALE = 4f
+    private const val MAX_BRAILLE_CHARS = 1000
+    private const val MAX_RECOGNITIONS = 2
+    private const val MAX_FILE_BYTES = 1024L * 1024
+    private val REFUSED_COMMANDS = setOf("TOGGLE_SCRIPTS")
 
     private val SOUNDS: Map<String, Int> =
       mapOf(

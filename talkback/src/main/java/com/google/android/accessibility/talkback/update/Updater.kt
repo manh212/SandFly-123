@@ -103,6 +103,9 @@ object Updater {
   @JvmStatic
   val isBusy: Boolean
     get() = downloading.get()
+  private val installing = AtomicBoolean(false)
+  /** Whether an update is downloading or being handed to the installer. */
+    get() = downloading.get() || installing.get()
   private var serviceContext: Context? = null
 
   private val startupCheck = Runnable { serviceContext?.let { checkAutomatically(it, true) } }
@@ -348,8 +351,15 @@ object Updater {
     toast(appContext, R.string.update_downloading)
     downloadExecutor.execute {
       try {
-        val apk = download(appContext, downloadUrl)
-        cancelProgress(appContext)
+        val apk =
+          try {
+            download(appContext, downloadUrl)
+          } finally {
+            // Set before downloading ends, so that the update counts as busy throughout.
+            installing.set(true)
+            downloading.set(false)
+            cancelProgress(appContext)
+          }
         try {
           installApk(appContext, apk, saveDownload)
         } finally {
@@ -364,6 +374,7 @@ object Updater {
       } finally {
         downloading.set(false)
         cancelProgress(appContext)
+        installing.set(false)
       }
     }
   }

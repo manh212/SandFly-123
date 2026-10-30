@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="pref_speech_control_key" translatable="false">pref_speech_control</string>
+  <string name="pref_problem_report_key" translatable="false">pref_problem_report</string>
+  <string name="pref_privacy_policy_key" translatable="false">pref_privacy_policy</string>
+  <string name="pref_problem_report_type_key" translatable="false">pref_problem_report_type</string>
+  <string name="pref_problem_report_area_key" translatable="false">pref_problem_report_area</string>
+  <string name="pref_problem_report_title_key" translatable="false">pref_problem_report_title</string>
+  <string name="pref_problem_report_app_key" translatable="false">pref_problem_report_app</string>
+  <string name="pref_problem_report_description_key" translatable="false">pref_problem_report_description</string>
+  <string name="pref_problem_report_steps_key" translatable="false">pref_problem_report_steps</string>
+  <string name="pref_problem_report_email_key" translatable="false">pref_problem_report_email</string>
+  <string name="pref_problem_report_device_key" translatable="false">pref_problem_report_device</string>
+  <string name="pref_problem_report_log_key" translatable="false">pref_problem_report_log</string>
+  <string name="pref_problem_report_send_key" translatable="false">pref_problem_report_send</string>
+  <string name="pref_problem_report_clear_key" translatable="false">pref_problem_report_clear</string>
+  <string-array name="problem_report_type_values" translatable="false">
+          <item>Incorrect behavior</item>
+          <item>Crash</item>
+          <item>Slow or unresponsive</item>
+          <item>Suggestion</item>
+      </string-array>
+      <!-- English names written into the GitHub issue. Must match problem_report_area_entries. -->
+      <string-array name="problem_report_area_values" translatable="false">
+          <item>Speech</item>
+          <item>Gestures</item>
+          <item>Touch exploration</item>
+          <item>Reading controls and menus</item>
+          <item>Typing and keyboards</item>
+          <item>Braille keyboard</item>
+          <item>Braille display</item>
+          <item>Sounds and vibration</item>
+          <item>Notifications</item>
+          <item>Web content</item>
+          <item>Scripts</item>
+          <item>Settings</item>
+          <item>Updates</item>
+          <item>Other</item>
+      </string-array>
+      <string name="pref_show_exit_watermark_key">pref_show_exit_watermark</string>
+  <string name="pref_brailleime_key">pref_brailleime</string>
+  <string name="pref_brailledisplay_key">pref_brailledisplay</string>
+  <string name="pref_echo_braille_keyboard_key" translatable="false">pref_echo_braille_keyboard</string>
+  <string name="pref_echo_braille_display_key" translatable="false">pref_echo_braille_display</string>
+  <string name="pref_echo_handwriting_keyboard_key" translatable="false">pref_echo_handwriting_keyboard</string>
+  <string name="pref_selector_keyboard_echo_braille_keyboard_key" translatable="false">pref_selector_keyboard_echo_braille_keyboard_key</string>
+  <string name="pref_selector_keyboard_echo_braille_display_key" translatable="false">pref_selector_keyboard_echo_braille_display_key</string>
+  <string name="pref_selector_keyboard_echo_handwriting_keyboard_key" translatable="false">pref_selector_keyboard_echo_handwriting_keyboard_key</string>
+  <string name="selector_keyboard_echo_braille_keyboard" translatable="false">KEYBOARD_ECHO_BRAILLE_KEYBOARD</string>
+  <string name="selector_keyboard_echo_braille_display" translatable="false">KEYBOARD_ECHO_BRAILLE_DISPLAY</string>
+  <string name="selector_keyboard_echo_handwriting_keyboard" translatable="false">KEYBOARD_ECHO_HANDWRITING_KEYBOARD</string>
+  <string name="pref_show_context_menu_keyboard_echo_braille_keyboard_setting_key" translatable="false">pref_keyboard_echo_braille_keyboard_menu_setting_key</string>
+  <string name="pref_show_context_menu_keyboard_echo_braille_display_setting_key" translatable="false">pref_keyboard_echo_braille_display_menu_setting_key</string>
+  <string name="pref_show_context_menu_keyboard_echo_handwriting_keyboard_setting_key" translatable="false">pref_keyboard_echo_handwriting_keyboard_menu_setting_key</string>
+  <item type="id" name="keyboard_echo_braille_keyboard_menu" />
+  <item type="id" name="keyboard_echo_braille_display_menu" />
+  <item type="id" name="keyboard_echo_handwriting_keyboard_menu" />
+  <string name="pref_multi_tap_timeout_key" translatable="false">pref_multi_tap_timeout</string>
+  <string name="pref_typing_focus_time_out_key" translatable="false">pref_typing_focus_time_out_key</string>
+  <string name="pref_typing_focus_time_out_first_update_key" translatable="false">pref_typing_focus_time_out_first_update_key</string>
+  <string name="pref_touch_focus_time_out_key" translatable="false">pref_touch_focus_time_out_key</string>
+  <string name="pref_touch_focus_time_out_first_update_key" translatable="false">pref_touch_focus_time_out_first_update_key</string>
+  <string name="pref_typing_method_postfix_key" translatable="false">pref_typing_method_postfix_key</string>
+  <string name="pref_thick_border_key" translatable="false">pref_thick_border_key</string>
+  <string name="pref_border_color_category_key" translatable="false">pref_border_color_category_key</string>
+  <string name="pref_border_color_key" translatable="false">pref_border_color_key</string>
+  <string name="pref_selector_change_touch_focus_latency_key" translatable="false">pref_selector_change_touch_focus_latency_key</string>
+  <string name="pref_selector_change_typing_focus_latency_key" translatable="false">pref_selector_change_typing_focus_latency_key</string>
+  <string name="pref_category_manage_focus_indicator_key">pref_category_manage_focus_indicator_key</string>
+  <string name="pref_shortcut_3finger_4tap_key" translatable="false">pref_shortcut_three_finger_quadruple_tap</string>
+  <string name="pref_shortcut_2finger_1tap_hold_key">pref_shortcut_two_finger_single_tap_and_hold</string>
+  <string name="pref_shortcut_2finger_rotate_clockwise_key" translatable="false">pref_shortcut_two_finger_rotate_clockwise</string>
+  <string name="pref_shortcut_2finger_scrub_key" translatable="false">pref_shortcut_two_finger_scrub</string>
+  <string name="pref_shortcut_2finger_pinch_key" translatable="false">pref_shortcut_two_finger_pinch</string>
+  <string name="pref_shortcut_2finger_spread_key" translatable="false">pref_shortcut_two_finger_spread</string>
+  <string name="pref_shortcut_3finger_pinch_key" translatable="false">pref_shortcut_three_finger_pinch</string>
+  <string name="pref_shortcut_3finger_spread_key" translatable="false">pref_shortcut_three_finger_spread</string>
+  <string name="pref_shortcut_4finger_pinch_key" translatable="false">pref_shortcut_four_finger_pinch</string>
+  <string name="pref_shortcut_4finger_spread_key" translatable="false">pref_shortcut_four_finger_spread</string>
+  <string name="pref_shortcut_edge_bottom_up_key" translatable="false">pref_shortcut_edge_bottom_up</string>
+  <string name="pref_shortcut_edge_bottom_long_up_key" translatable="false">pref_shortcut_edge_bottom_long_up</string>
+  <string name="pref_shortcut_edge_top_left_down_key" translatable="false">pref_shortcut_edge_top_left_down</string>
+  <string name="pref_shortcut_edge_top_right_down_key" translatable="false">pref_shortcut_edge_top_right_down</string>
+  <string name="pref_shortcut_edge_top_left_long_down_key" translatable="false">pref_shortcut_edge_top_left_long_down</string>
+  <string name="pref_shortcut_edge_top_right_long_down_key" translatable="false">pref_shortcut_edge_top_right_long_down</string>
+  <string name="pref_shortcut_edge_left_top_right_key" translatable="false">pref_shortcut_edge_left_top_right</string>
+  <string name="pref_shortcut_edge_left_top_long_right_key" translatable="false">pref_shortcut_edge_left_top_long_right</string>
+  <string name="pref_shortcut_edge_left_bottom_right_key" translatable="false">pref_shortcut_edge_left_bottom_right</string>
+  <string name="pref_shortcut_edge_left_bottom_long_right_key" translatable="false">pref_shortcut_edge_left_bottom_long_right</string>
+  <string name="pref_shortcut_edge_right_top_left_key" translatable="false">pref_shortcut_edge_right_top_left</string>
+  <string name="pref_shortcut_edge_right_top_long_left_key" translatable="false">pref_shortcut_edge_right_top_long_left</string>
+  <string name="pref_shortcut_edge_right_bottom_left_key" translatable="false">pref_shortcut_edge_right_bottom_left</string>
+  <string name="pref_shortcut_edge_right_bottom_long_left_key" translatable="false">pref_shortcut_edge_right_bottom_long_left</string>
+  <string name="pref_category_edge_shortcuts_key" translatable="false">pref_category_edge_shortcuts</string>
+  <string name="pref_shortcut_2finger_rotate_counterclockwise_key" translatable="false">pref_shortcut_two_finger_rotate_counterclockwise</string>
+  <string name="voiceover_keymap_entry_value">voiceover_keymap</string>
+  <string name="nvda_keymap_entry_value">nvda_keymap</string>
+  <string name="jaws_keymap_entry_value">jaws_keymap</string>
+  <string name="orca_keymap_entry_value">orca_keymap</string>
+  <string name="trigger_modifier_ctrl_alt_entry_value">trigger_modifier_ctrl_alt</string>
+  <string name="trigger_modifier_ctrl_meta_entry_value">trigger_modifier_ctrl_meta</string>
+  <string name="trigger_modifier_insert_entry_value">trigger_modifier_insert</string>
+  <string name="trigger_modifier_numpad_insert_entry_value">trigger_modifier_numpad_insert</string>
+  <string name="keycombo_shortcut_other_report_issue">keycombo_shortcut_other_report_issue</string>
+  <string name="keycombo_shortcut_navigate_next_paragraph">keycombo_shortcut_navigate_next_paragraph</string>
+  <string name="keycombo_shortcut_navigate_previous_paragraph">keycombo_shortcut_navigate_previous_paragraph</string>
+  <string name="keycombo_shortcut_other_toggle_braille_contracted_mode">keycombo_shortcut_other_toggle_braille_contracted_mode</string>
+  <string name="keycombo_shortcut_other_toggle_braille_on_screen_overlay">keycombo_shortcut_other_toggle_braille_on_screen_overlay</string>
+  <string-array name="pref_multi_tap_timeout_entries">
+        <item>@string/value_multi_tap_timeout_100ms</item>
+        <item>@string/value_multi_tap_timeout_150ms</item>
+        <item>@string/value_multi_tap_timeout_200ms</item>
+        <item>@string/value_multi_tap_timeout_250ms</item>
+        <!-- Longer times for slower taps, with the same text as the handwriting waits. -->
+        <item>@string/value_handwriting_wait_300</item>
+        <item>@string/value_handwriting_wait_400</item>
+        <item>@string/value_handwriting_wait_500</item>
+      </string-array>
+  
+    <!-- Multi-tap timeout values -->
+      <string-array name="pref_multi_tap_timeout_values">
+        <item>100</item>
+        <item>150</item>
+        <item>200</item>
+        <item>250</item>
+        <item>300</item>
+        <item>400</item>
+        <item>500</item>
+      </string-array>
+  
+      <string name="pref_multi_tap_timeout_default" translatable="false">250</string>
+  <string name="pref_rotor_step_degrees_key" translatable="false">pref_rotor_step_degrees</string>
+  <string-array name="pref_rotor_step_degrees_entries">
+        <item>@string/value_rotor_step_15</item>
+        <item>@string/value_rotor_step_20</item>
+        <item>@string/value_rotor_step_30</item>
+        <item>@string/value_rotor_step_45</item>
+        <item>@string/value_rotor_step_60</item>
+      </string-array>
+    <!-- Rotor turn per step values, in degrees -->
+      <string-array name="pref_rotor_step_degrees_values">
+        <item>15</item>
+        <item>20</item>
+        <item>30</item>
+        <item>45</item>
+        <item>60</item>
+      </string-array>
+      <string name="pref_rotor_step_degrees_default" translatable="false">30</string>
+  <string name="pref_edge_first_click_mm_key" translatable="false">pref_edge_first_click_mm</string>
+  <string name="pref_edge_first_click_mm_default" translatable="false">10</string>
+  <string-array name="pref_edge_first_click_mm_entries">
+        <item>@string/value_distance_5mm</item>
+        <item>@string/value_distance_10mm</item>
+        <item>@string/value_distance_15mm</item>
+        <item>@string/value_distance_20mm</item>
+      </string-array>
+      <string-array name="pref_edge_first_click_mm_values">
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+        <item>20</item>
+      </string-array>
+      <!-- How far an edge gesture slides on from its first click to its second, in millimeters. -->
+      <string name="pref_edge_second_click_mm_key" translatable="false">pref_edge_second_click_mm</string>
+  <string name="pref_edge_second_click_mm_default" translatable="false">40</string>
+  <string-array name="pref_edge_second_click_mm_entries">
+        <item>@string/value_distance_10mm</item>
+        <item>@string/value_distance_20mm</item>
+        <item>@string/value_distance_30mm</item>
+        <item>@string/value_distance_40mm</item>
+        <item>@string/value_distance_50mm</item>
+      </string-array>
+      <string-array name="pref_edge_second_click_mm_values">
+        <item>10</item>
+        <item>20</item>
+        <item>30</item>
+        <item>40</item>
+        <item>50</item>
+      </string-array>
+  
+    <!-- Touch explore time entries -->
+    <string-array name="pref_touch_explore_time_out_entries">
+      <item>@string/value_touch_explore_time_out_150ms</item>
+      <item>@string/value_touch_explore_time_out_200ms</item>
+      <item>@string/value_touch_explore_time_out_250ms</item>
+      <item>@string/value_touch_explore_time_out_300ms</item>
+    </string-array>
+  
+    <!-- Touch explore time out values -->
+    <string-array name="pref_touch_explore_time_out_values">
+      <item>150</item>
+      <item>200</item>
+      <item>250</item>
+      <item>300</item>
+    </string-array>
+  <string-array name="pref_touch_focus_time_out_entries">
+      <item>@string/value_touch_explore_time_out_150ms</item>
+      <item>@string/value_touch_explore_time_out_200ms</item>
+      <item>@string/value_touch_explore_time_out_250ms</item>
+      <item>@string/value_touch_explore_time_out_300ms</item>
+    </string-array>
+  
+    <!-- Touch focus time out values -->
+    <string-array name="pref_touch_focus_time_out_values">
+      <item>150</item>
+      <item>200</item>
+      <item>250</item>
+      <item>300</item>
+    </string-array>
+  <string name="processor_cpu" translatable="false">CPU</string>
+  <string name="processor_gpu" translatable="false">GPU</string>
+  <string name="processor_npu" translatable="false">NPU</string>
+  <string name="shortcut_value_print_performance_stats">PRINT_PERFORMANCE_STATS</string>
+  <string name="shortcut_value_write_reading_control">WRITE_READING_CONTROL</string>
+  <string name="pref_handwriting_keyboard_key" translatable="false">pref_handwriting_keyboard</string>
+  <string name="pref_handwriting_wait_key" translatable="false">pref_handwriting_wait</string>
+  <string name="pref_handwriting_wait_default" translatable="false">600</string>
+  <string-array name="pref_handwriting_wait_entries">
+      <item>@string/value_handwriting_wait_200</item>
+      <item>@string/value_handwriting_wait_300</item>
+      <item>@string/value_handwriting_wait_400</item>
+      <item>@string/value_handwriting_wait_500</item>
+      <item>@string/value_handwriting_wait_600</item>
+      <item>@string/value_handwriting_wait_800</item>
+      <item>@string/value_handwriting_wait_1000</item>
+    </string-array>
+    <string-array name="pref_handwriting_wait_values">
+      <item>200</item>
+      <item>300</item>
+      <item>400</item>
+      <item>500</item>
+      <item>600</item>
+      <item>800</item>
+      <item>1000</item>
+    </string-array>
+  <string name="shortcut_value_next_track">NEXT_TRACK</string>
+  <string name="shortcut_value_previous_track">PREVIOUS_TRACK</string>
+  <string name="shortcut_value_rewind">REWIND</string>
+  <string name="shortcut_value_fast_forward">FAST_FORWARD</string>
+  <string name="shortcut_value_add_to_clipboard" translatable="false">ADD_TO_CLIPBOARD</string>
+  <string name="shortcut_value_braille_keyboard" translatable="false">BRAILLE_KEYBOARD</string>
+  <string name="shortcut_value_braille_display_settings" translatable="false">BRAILLE_DISPLAY_SETTINGS</string>
+  <string name="shortcut_value_toggle_braille_display" translatable="false">TOGGLE_BRAILLE_DISPLAY</string>
+  <string name="shortcut_value_ai_agent" translatable="false">AI_AGENT</string>
+  <string-array name="service_detected_gesture_list">
+        <!-- Start with double tap. -->
+        <item>MAPPER_GESTURE_DOUBLE_TAP</item>
+        <item>MAPPER_GESTURE_DOUBLE_TAP_AND_HOLD</item>
+        <!-- Second-finger tap. -->
+        <item>MAPPER_GESTURE_FAKED_SPLIT_TYPING</item>
+        <item>MAPPER_GESTURE_FAKED_SPLIT_TYPING_AND_HOLD</item>
+        <!-- One-direction swipes. -->
+        <item>MAPPER_GESTURE_SWIPE_RIGHT</item>
+        <item>MAPPER_GESTURE_SWIPE_LEFT</item>
+        <item>MAPPER_GESTURE_SWIPE_UP</item>
+        <item>MAPPER_GESTURE_SWIPE_DOWN</item>
+        <!-- Two-direction swipes. -->
+        <item>MAPPER_GESTURE_SWIPE_LEFT_AND_RIGHT</item>
+        <item>MAPPER_GESTURE_SWIPE_LEFT_AND_UP</item>
+        <item>MAPPER_GESTURE_SWIPE_LEFT_AND_DOWN</item>
+        <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_UP</item>
+        <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_DOWN</item>
+        <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_LEFT</item>
+        <item>MAPPER_GESTURE_SWIPE_DOWN_AND_UP</item>
+        <item>MAPPER_GESTURE_SWIPE_DOWN_AND_LEFT</item>
+        <item>MAPPER_GESTURE_SWIPE_DOWN_AND_RIGHT</item>
+        <item>MAPPER_GESTURE_SWIPE_UP_AND_DOWN</item>
+        <item>MAPPER_GESTURE_SWIPE_UP_AND_LEFT</item>
+        <item>MAPPER_GESTURE_SWIPE_UP_AND_RIGHT</item>
+        <!--> Two-finger taps. -->
+        <item>MAPPER_GESTURE_2_FINGER_SINGLE_TAP</item>
+        <item>MAPPER_GESTURE_2_FINGER_SINGLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_2_FINGER_DOUBLE_TAP</item>
+        <item>MAPPER_GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_2_FINGER_TRIPLE_TAP</item>
+        <item>MAPPER_GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD</item>
+        <!-- Three-finger taps. -->
+        <item>MAPPER_GESTURE_3_FINGER_SINGLE_TAP</item>
+        <item>MAPPER_GESTURE_3_FINGER_DOUBLE_TAP</item>
+        <item>MAPPER_GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_3_FINGER_TRIPLE_TAP</item>
+        <item>MAPPER_GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_3_FINGER_QUADRUPLE_TAP</item>
+        <!-- Four-finger taps. -->
+        <item>MAPPER_GESTURE_4_FINGER_SINGLE_TAP</item>
+        <item>MAPPER_GESTURE_4_FINGER_DOUBLE_TAP</item>
+        <item>MAPPER_GESTURE_4_FINGER_DOUBLE_TAP_AND_HOLD</item>
+        <item>MAPPER_GESTURE_4_FINGER_TRIPLE_TAP</item>
+        <!-- Two-finger swipes. -->
+        <item>MAPPER_GESTURE_2_FINGER_SWIPE_DOWN</item>
+        <item>MAPPER_GESTURE_2_FINGER_SWIPE_LEFT</item>
+        <item>MAPPER_GESTURE_2_FINGER_SWIPE_RIGHT</item>
+        <item>MAPPER_GESTURE_2_FINGER_SWIPE_UP</item>
+        <!-- Three-finger swipes. -->
+        <item>MAPPER_GESTURE_3_FINGER_SWIPE_DOWN</item>
+        <item>MAPPER_GESTURE_3_FINGER_SWIPE_LEFT</item>
+        <item>MAPPER_GESTURE_3_FINGER_SWIPE_RIGHT</item>
+        <item>MAPPER_GESTURE_3_FINGER_SWIPE_UP</item>
+        <!-- Four-finger swipes. -->
+        <item>MAPPER_GESTURE_4_FINGER_SWIPE_DOWN</item>
+        <item>MAPPER_GESTURE_4_FINGER_SWIPE_LEFT</item>
+        <item>MAPPER_GESTURE_4_FINGER_SWIPE_RIGHT</item>
+        <item>MAPPER_GESTURE_4_FINGER_SWIPE_UP</item>
+      </string-array>
+  
+  
+      <!-- Default preferences -->
+  <bool name="pref_show_exit_watermark_default">true</bool>
+  <bool name="pref_talkback_gesture_detection_default">true</bool>
+  <string name="pref_touch_explore_time_out_default">@string/touch_explore_time_out_default</string>
+  <string name="pref_touch_focus_time_out_default">@string/touch_focus_time_out_default</string>
+  <bool name="pref_selector_typing_focus_latency_default">false</bool>
+  <bool name="pref_selector_touch_focus_latency_default">false</bool>
+  <bool name="pref_show_context_menu_send_feedback_default">true</bool>
+  <bool name="pref_show_context_menu_clipboard_history_default">false</bool>
+  <bool name="pref_show_context_menu_recognize_screen_default">true</bool>
+  <bool name="pref_show_context_menu_screen_recognition_app_default">true</bool>
+  <bool name="pref_show_context_menu_braille_display_settings_default">false</bool>
+  <bool name="pref_thick_border_key_default">false</bool>
+  <string name="pref_shortcut_3finger_4tap_default">@string/shortcut_value_show_hide_screen</string>
+  <string name="pref_shortcut_2finger_1tap_hold_default">@string/shortcut_long_press_talkback_exit</string>
+  <string name="pref_shortcut_2finger_rotate_clockwise_default">@string/shortcut_value_select_next_setting</string>
+  <string name="pref_shortcut_2finger_scrub_default">@string/shortcut_value_back</string>
+  <string name="pref_shortcut_2finger_pinch_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_2finger_spread_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_3finger_pinch_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_3finger_spread_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_4finger_pinch_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_4finger_spread_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_bottom_up_default">@string/shortcut_value_home</string>
+  <string name="pref_shortcut_edge_bottom_long_up_default">@string/shortcut_value_overview</string>
+  <string name="pref_shortcut_edge_top_left_down_default">@string/shortcut_value_notifications</string>
+  <string name="pref_shortcut_edge_top_right_down_default">@string/shortcut_value_quick_settings</string>
+  <string name="pref_shortcut_edge_top_left_long_down_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_top_right_long_down_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_left_top_right_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_left_top_long_right_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_left_bottom_right_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_left_bottom_long_right_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_right_top_left_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_right_top_long_left_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_right_bottom_left_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_edge_right_bottom_long_left_default">@string/shortcut_value_unassigned</string>
+  <string name="pref_shortcut_2finger_rotate_counterclockwise_default">@string/shortcut_value_select_previous_setting</string>
+  <string name="pref_show_context_menu_send_feedback_setting_key" translatable="false">pref_send_feedback_menu_setting_key</string>
+  <string name="pref_show_context_menu_clipboard_history_setting_key" translatable="false">pref_clipboard_history_menu_setting_key</string>
+  <string name="pref_show_context_menu_recognize_screen_setting_key" translatable="false">pref_recognize_screen_menu_setting_key</string>
+  <string name="pref_show_context_menu_screen_recognition_app_setting_key" translatable="false">pref_screen_recognition_app_menu_setting_key</string>
+  <string name="pref_show_context_menu_braille_display_settings_setting_key" translatable="false">pref_braille_dispaly_settings_menu_setting_key</string>
+  <string name="selector_typing_focus_latency_change" translatable="false">SELECTOR_TYPING_FOCUS_LATENCY_CHANGE</string>
+  <string name="selector_tablet_held_up_faces_away" translatable="false">SELECTOR_TABLET_HELD_UP_FACES_AWAY</string>
+  <string name="selector_touch_focus_latency_change" translatable="false">SELECTOR_TOUCH_FOCUS_LATENCY_CHANGE</string>
+  <string name="pref_update_welcome_sandfly_0_2_0_shown_key" translatable="false">pref_update_welcome_sandfly_0_2_0_shown_key</string>
+  <item type="id" name="recognize_screen_menu" />
+  <item type="id" name="screen_recognition_app_menu" />
+</resources>

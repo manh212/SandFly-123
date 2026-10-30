@@ -110,6 +110,8 @@ object NotificationReader {
   private var context: Context? = null
   private var feedback: Pipeline.FeedbackReturner? = null
   private var stopSpeech: Runnable? = null
+  /** Stops one notification in SandFly's speech, by its completed action. */
+  private var stopSpeechItem: ((SpeechController.UtteranceCompleteRunnable) -> Unit)? = null
   private var stateReader: DeviceStateReader? = null
   private var sensors: StopSensors? = null
   private var languageIdentifier: LanguageIdentifier? = null
@@ -119,6 +121,7 @@ object NotificationReader {
   private val voices = HashMap<String, NotificationVoice>()
   private var isSandFlySpeaking: () -> Boolean = { false }
   private var isSilenced: (Boolean, Boolean) -> Boolean = { _, _ -> false }
+  private var isTouching: () -> Boolean = { false }
   private var cachedSettings: NotificationSettings? = null
   private val decider = NotificationDecider()
   private val appNames = LruCache<String, String>(100)
@@ -163,10 +166,17 @@ object NotificationReader {
 
     var translationChecked = false
     var translated = false
-    fun copy() = Readout(info, decision, text, settings, recorded = false).also {
-      it.translationChecked = translationChecked
-      it.translated = translated
-    }
+    /** Its completed action in SandFly's speech, which identifies it there. */
+    var speechAction: SpeechController.UtteranceCompleteRunnable? = null
+    /** Its listener in its voice profile's engine, which identifies it there. */
+    var voiceListener: NotificationVoice.Listener? = null
+    val speak = Runnable { NotificationReader.speak(this) }
+
+    fun copy() =
+      Readout(info, decision, text, settings, recorded = false).also {
+        it.translationChecked = translationChecked
+        it.translated = translated
+      }
   }
 
   private var translationEpoch = 0L
@@ -210,6 +220,11 @@ object NotificationReader {
       ) {
         updateVoices(prefs)
       }
+      // Turned back on, by any of its switches: the listener may have been released while it was
+      // off.
+      if (key == NotificationSettings.Companion.Keys.ENABLED && prefs.getBoolean(key, true)) {
+        context?.let { NotificationListService.onSandFlyStarted(it) }
+      }
     }
 
   /**
@@ -224,16 +239,20 @@ object NotificationReader {
     context: Context,
     feedback: Pipeline.FeedbackReturner,
     stopSpeech: Runnable,
+    stopSpeechItem: (SpeechController.UtteranceCompleteRunnable) -> Unit,
     isSandFlySpeaking: () -> Boolean,
     isSilenced: (overMedia: Boolean, duringCalls: Boolean) -> Boolean,
+    isTouching: () -> Boolean,
   ) {
     if (this.context != null) detach()
     val app = context.applicationContext
     this.context = app
     this.feedback = feedback
     this.stopSpeech = stopSpeech
+    this.stopSpeechItem = stopSpeechItem
     this.isSandFlySpeaking = isSandFlySpeaking
     this.isSilenced = isSilenced
+    this.isTouching = isTouching
     cachedSettings = null
     stateReader = DeviceStateReader(app)
     sensors = StopSensors(app) { stop() }
@@ -268,6 +287,7 @@ object NotificationReader {
     voices.clear()
     isSandFlySpeaking = { false }
     isSilenced = { _, _ -> false }
+    isTouching = { false }
     cachedSettings = null
     runCatching { app.unregisterReceiver(screenOnReceiver) }
     SharedPreferencesUtils.getSharedPreferences(app).unregisterOnSharedPreferenceChangeListener(settingsListener)
@@ -278,6 +298,7 @@ object NotificationReader {
     stateReader = null
     feedback = null
     stopSpeech = null
+    stopSpeechItem = null
     context = null
   }
 
@@ -419,7 +440,7 @@ object NotificationReader {
         if (readsFromListener() || recentEvents.none { it.first == key }) {
           LogUtils.d(TAG, "No accessibility event for a notification of %s; handling it", packageName)
           val dnd = SettingsUtils.getDoNotDisturbState(context) > 0
-          handle(packageName, null, notification, touching = false, dnd = dnd)
+          handle(packageName, null, notification, touching = isTouching(), dnd = dnd)
         }
       },
       EVENT_WAIT_MS,
@@ -495,8 +516,18 @@ object NotificationReader {
       decider.decide(info, settings, stateReader.read(settings), System.currentTimeMillis(), categoryName, time)
     var text: CharSequence = decision.text
     if (decision.read) {
-      // Scripts that change spoken notifications see the text the settings made.
-      Scripts.rewriteSpeech(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED, event, null, text)
+      // Scripts that change spoken notifications see the text the settings made, also for one
+      // from the notification listener, which comes without an event.
+      @Suppress("DEPRECATION")
+      val scriptEvent =
+        event
+          ?: AccessibilityEvent.obtain(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED).apply {
+            setPackageName(packageName)
+            className = Notification::class.java.name
+            parcelableData = notification
+            notification.extras?.getCharSequence(Notification.EXTRA_TEXT)?.let { this.text.add(it) }
+          }
+      Scripts.rewriteSpeech(AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED, scriptEvent, null, text)
         ?.let { text = it }
     }
     if (settings.history) {
@@ -550,7 +581,13 @@ object NotificationReader {
 
   private fun holdForTouch(readout: Readout) {
     while (heldForTouch.size >= MAX_WAITING) record(heldForTouch.removeAt(0), Outcome.TOO_MANY)
-    if (heldForTouch.isEmpty()) handler.postDelayed(releaseHeld, TOUCH_WAIT_MS)
+    if (!isTouching()) {
+      // The touch ended while the language, a translation or Do Not Disturb was looked up.
+      handler.removeCallbacks(releaseHeld)
+      handler.postDelayed(releaseHeld, AFTER_TOUCH_MS)
+    } else if (heldForTouch.isEmpty()) {
+      handler.postDelayed(releaseHeld, TOUCH_WAIT_MS)
+    }
     heldForTouch += readout
     LogUtils.d(TAG, "Holding a notification of %s until the touch ends", readout.info.packageName)
   }
@@ -701,9 +738,24 @@ object NotificationReader {
       heldForVoice.remove(it)
       record(it, Outcome.CANCELLED)
     }
-    queued.filter(::matches).forEach { it.cancelled = true }
+    queued.filter(::matches).forEach(::stopOne)
     repeating.removeAll(::matches)
-    if (reading?.let(::matches) == true) stop()
+    // Only the notification that went; the others waiting are still read.
+    reading?.takeIf(::matches)?.let {
+      record(it, Outcome.STOPPED)
+      stopOne(it)
+    }
+  }
+
+  /** Stops [readout] alone, waiting in speech or being read, and goes on with the others. */
+  private fun stopOne(readout: Readout) {
+    readout.cancelled = true
+    if (readout.voiceKey.isEmpty()) {
+      readout.speechAction?.let { stopSpeechItem?.invoke(it) }
+    } else {
+      // One the engine hasn't been given yet ends when it would be given.
+      readout.voiceListener?.let { voices[readout.voiceKey]?.stop(it) }
+    }
   }
 
   /**
@@ -790,6 +842,9 @@ object NotificationReader {
         heldForVoice += readout
         return
       }
+      // Queued first: stopping them ends them at once, and what they held back would go ahead.
+      queued += readout
+      readout.handedAt = SystemClock.uptimeMillis()
       for (key in others.map { it.voiceKey }.toSet()) {
         if (key.isEmpty()) stopSpeech?.run() else voices[key]?.stop()
       }
@@ -799,8 +854,10 @@ object NotificationReader {
     if (overMedia) flags = flags or FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE
     val duringCalls = settings.duringCalls
     if (duringCalls) flags = flags or FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE
-    queued += readout
-    readout.handedAt = SystemClock.uptimeMillis()
+    if (readout !in queued) {
+      queued += readout
+      readout.handedAt = SystemClock.uptimeMillis()
+    }
     watchSpeech()
     if (voice != null && !isSilenced(overMedia, duringCalls)) {
       if (settings.soundBefore) feedback.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_down))
@@ -816,6 +873,10 @@ object NotificationReader {
           locale = if (readout.translated) null else localeOf(readout.text),
           listener =
             object : NotificationVoice.Listener {
+              init {
+                readout.voiceListener = this
+              }
+
               override fun onStart() = onStarted(readout)
 
               override fun onDone(spoken: Boolean) =
@@ -860,7 +921,10 @@ object NotificationReader {
         .setFlags(flags)
         .setUtteranceGroup(SpeechController.UTTERANCE_GROUP_NOTIFICATIONS)
         .setStartingAction { onStarted(readout) }
-        .setCompletedAction { status -> onDone(readout, status) }
+        .setCompletedAction(
+          SpeechController.UtteranceCompleteRunnable { status -> onDone(readout, status) }
+            .also { readout.speechAction = it }
+        )
     if (readout.translationChecked) options.setSpeechParams(AutomaticTranslation.untranslated())
     val speech = Feedback.speech(readout.text, options)
     if (sound) speech.sound(R.raw.chime_down)
@@ -874,6 +938,12 @@ object NotificationReader {
 
   private fun onStarted(readout: Readout) {
     if (readout.done) return
+    if (readout.cancelled) {
+      // Dismissed after it was handed to speech. SandFly's speech is starting it, so it's stopped
+      // once that is done.
+      if (readout.voiceKey.isEmpty()) handler.post { stopOne(readout) } else stopOne(readout)
+      return
+    }
     queued.remove(readout)
     LogUtils.d(TAG, "Reading a notification of %s", readout.info.packageName)
     reading = readout

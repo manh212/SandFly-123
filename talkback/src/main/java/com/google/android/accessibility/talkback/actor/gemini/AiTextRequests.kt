@@ -18,10 +18,12 @@ package com.google.android.accessibility.talkback.actor.gemini
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.util.Base64
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelManager
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import java.util.function.Consumer
+import java.util.concurrent.atomic.AtomicBoolean
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -57,7 +59,67 @@ class AiTextRequests(context: Context, announce: Consumer<String>) {
     )
   }
 
-  fun cancel() = performer.cancelExistingRequestIfNeeded()
+  private var imageRequestActive: AtomicBoolean? = null
+
+  fun askImage(prompt: String, jpeg: ByteArray, done: (String?, GeminiFailure?) -> Unit) {
+    imageRequestActive?.set(false)
+    val active = AtomicBoolean(true)
+    imageRequestActive = active
+    val parts = JSONArray()
+      .put(JSONObject().put("text", prompt))
+      .put(
+        JSONObject().put(
+          "inlineData",
+          JSONObject()
+            .put("mimeType", "image/jpeg")
+            .put("data", Base64.encodeToString(jpeg, Base64.NO_WRAP))
+        )
+      )
+    val request = JSONObject()
+      .put("contents", JSONArray().put(JSONObject().put("role", "user").put("parts", parts)))
+      .put("generationConfig", JSONObject().put("responseMimeType", "application/json"))
+    val urls = GeminiModel.chain(prefs).map { GEMINI_URL + it + ":generateContent" }
+    val key = geminiKey(prefs)
+    val usingLocal = LocalModelManager.get(appContext).answersRequests()
+    val cloudReady = AiService.isSetUp(prefs) || key.isNotEmpty()
+    var triedCloud = false
+
+    val callback = object : GeminiRestRequestPerformer.GeminiRestResponseCallback {
+      private fun finish(text: String?, failure: GeminiFailure?) {
+        if (active.compareAndSet(true, false)) done(text, failure)
+      }
+
+      private fun fallback(failure: GeminiFailure?) {
+        if (!active.get()) return
+        if (usingLocal && cloudReady && !triedCloud) {
+          triedCloud = true
+          performer.performCloudRequest(urls, key, request, this)
+        } else {
+          finish(null, failure)
+        }
+      }
+
+      override fun onResponse(response: DataFieldUtils.GeminiResponse) {
+        val text = response.text()?.trim().orEmpty()
+        val json = text.substringAfter('{', "").substringBeforeLast('}', "")
+        val structured = if (json.isEmpty()) false else runCatching {
+          JSONObject("{$json}").optJSONArray("elements") != null
+        }.getOrDefault(false)
+        if (structured) finish(text, null)
+        else fallback(GeminiFailure.other("The model did not locate screen elements"))
+      }
+
+      override fun onFailure(failure: GeminiFailure) = fallback(failure)
+
+      override fun onCancelled() = fallback(null)
+    }
+    performer.performRequest(urls, key, request, callback)
+  }
+
+  fun cancel() {
+    imageRequestActive?.set(false)
+    performer.cancelExistingRequestIfNeeded()
+  }
 
   companion object {
     private const val GEMINI_URL = "https://generativelanguage.googleapis.com/v1beta/models/"

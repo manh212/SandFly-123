@@ -26,6 +26,7 @@ import static com.google.android.accessibility.talkback.Feedback.DimScreen.Actio
 import static com.google.android.accessibility.talkback.Feedback.DimScreen.Action.DIM;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CLEAR_ALL;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CLEAR_SELECTION;
+import static com.google.android.accessibility.talkback.Feedback.EditText.Action.APPEND_COPY;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.COPY;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CURSOR_TO_BEGINNING;
 import static com.google.android.accessibility.talkback.Feedback.EditText.Action.CURSOR_TO_END;
@@ -93,6 +94,7 @@ import android.view.KeyEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.ViewConfiguration;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.sandflyai.SandflyAi;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Feedback.GeminiRequest;
@@ -126,6 +128,7 @@ import com.google.android.accessibility.talkback.recognition.LiveRecognition;
 import com.google.android.accessibility.talkback.scripting.ItemInspector;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.dictation.AiDictation;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryFragment;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
@@ -681,6 +684,10 @@ public class GestureController {
       service.adjustContextualVolume(/* increase= */ false);
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_stopwatch))) {
       NotificationReader.toggleStopwatch();
+    } else if (action.equals(service.getString(R.string.shortcut_value_rewind))) {
+      result = MediaSeek.seek(service, /* forward= */ false);
+    } else if (action.equals(service.getString(R.string.shortcut_value_fast_forward))) {
+      result = MediaSeek.seek(service, /* forward= */ true);
     } else if (action.equals(service.getString(R.string.shortcut_value_back))) {
       screenRecognitionController.stop();
       result =
@@ -897,6 +904,12 @@ public class GestureController {
       AccessibilityNodeInfoCompat node =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
       result = pipeline.returnFeedback(eventId, Feedback.edit(node, COPY));
+    } else if (action.equals(service.getString(R.string.shortcut_value_add_to_clipboard))) {
+      AccessibilityNodeInfoCompat node =
+          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      result = pipeline.returnFeedback(eventId, Feedback.edit(node, APPEND_COPY));
+    } else if (action.equals(service.getString(R.string.shortcut_value_clipboard_history))) {
+      result = ClipboardHistoryFragment.open(service);
     } else if (action.equals(service.getString(R.string.shortcut_value_cut))) {
       AccessibilityNodeInfoCompat node = getEditTextFocus();
       if (node == null) {
@@ -1071,21 +1084,15 @@ public class GestureController {
               eventId, Feedback.part().setSpeech(Feedback.Speech.create(SPELL_LAST)));
     } else if (action.equals(
         service.getString(R.string.shortcut_value_translate_last_spoken_phrase))) {
-      result =
-          pipeline.returnFeedback(
-              eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_LAST)));
-    } else if (action.equals(service.getString(R.string.shortcut_value_speech_history))) {
-      result =
-          pipeline.returnFeedback(
-              eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_HISTORY)));
-    } else if (action.equals(service.getString(R.string.shortcut_value_favorites))) {
-      result = pipeline.returnFeedback(
-          eventId, Feedback.part().setSpeech(
-              Feedback.Speech.create(Feedback.Speech.Action.SHOW_FAVORITES)));
-    } else if (action.equals(service.getString(R.string.shortcut_value_clipboard_history))) {
-      result =
-          pipeline.returnFeedback(
-              eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_CLIPBOARD_HISTORY)));
+      translateCommand.translateLast();
+      result = true;
+    } else if (SandflyAi.getFeatures() != null
+        && action.equals(service.getString(R.string.shortcut_value_ai_agent))) {
+      SandflyAi.getFeatures().startAgent(service);
+      result = true;
+    } else if (SandflyAi.getFeatures() != null
+        && SandflyAi.getFeatures().runCommand(service, action)) {
+      result = true;
     } else if (FeatureFlagReader.enableSpeechPitchKeyboard(service)
         && action.equals(service.getString(R.string.shortcut_value_speech_pitch_decrease))) {
       result = speechRateAndPitchActor.changeSpeechPitch(false);

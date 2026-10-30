@@ -108,6 +108,20 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
     }
   }
 
+  public void performCloudRequest(
+      List<String> urls, String apiKey, JSONObject postData, GeminiRestResponseCallback callback) {
+    if (AiService.isSetUp(prefs)) {
+      aiService.performRequest(
+          AiService.INSTANCE.address(prefs),
+          AiService.INSTANCE.model(prefs),
+          AiService.INSTANCE.apiKey(prefs),
+          postData,
+          loggingFailures(callback));
+    } else {
+      super.performRequest(urls, apiKey, postData, callback);
+    }
+  }
+
   @Override
   public void cancelExistingRequestIfNeeded() {
     runner.cancel();

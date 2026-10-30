@@ -51,8 +51,9 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
 
   private val translations = LruCache<String, String>(MAX_TRANSLATIONS)
   private val pending = ArrayDeque<Held>()
-  private var closed = false
-
+  /** The timeouts of the translations under way, which end them untranslated. */
+  private val inFlight = LinkedHashSet<Runnable>()
+  /** Texts identified less surely in each language, up to [DOWNLOAD_AFTER_TEXTS], by hash. */
   private val sightings = mutableMapOf<String, MutableSet<Int>>()
 
   private var lastSeen: String? = null
@@ -102,20 +103,26 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
   private fun process(text: CharSequence, notification: Boolean, done: (CharSequence) -> Unit) {
     val plain = text.toString()
     var finished = false
-    val timeout = Runnable {
-      if (!finished) {
-        finished = true
-        done(text)
+    val timeout =
+      object : Runnable {
+        override fun run() {
+          inFlight.remove(this)
+          if (!finished) {
+            finished = true
+            done(text)
+          }
+        }
       }
-    }
     val finish = { result: CharSequence ->
       if (!finished) {
         finished = true
         handler.removeCallbacks(timeout)
+        inFlight.remove(timeout)
         done(result)
       }
     }
     if (letters(plain) < MIN_LETTERS) return finish(text)
+    inFlight += timeout
     handler.postDelayed(timeout, MAX_WAIT_MS)
     val waitForDownload = {
       handler.removeCallbacks(timeout)
@@ -265,6 +272,10 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
       if (!item.dropped) item.release.accept(item.result ?: item.text)
       item.dropped = true
     }
+    // Translations under way end untranslated too, such as notifications, which are read then.
+    val translating = inFlight.toList()
+    inFlight.clear()
+    translating.forEach { it.run() }
     engine.close()
   }
 

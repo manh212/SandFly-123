@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.scripting
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.ContentResolver
 import android.content.Intent
 import android.net.Uri
@@ -47,6 +48,22 @@ class ScriptImportActivity : Activity() {
       if (!isFinishing) failed(getString(R.string.script_import_nothing))
       return
     }
+    // A link another app sent is downloaded only once the user agrees: any app can send one,
+    // without the user choosing SandFly to share it with.
+    if (source is Source.FromLink) {
+      AlertDialog.Builder(this, android.R.style.Theme_DeviceDefault_Dialog_Alert)
+        .setTitle(R.string.script_import)
+        .setMessage(source.url)
+        .setPositiveButton(R.string.confirm_download_positive_button_text) { _, _ -> read(source) }
+        .setNegativeButton(android.R.string.cancel) { _, _ -> finish() }
+        .setOnCancelListener { finish() }
+        .show()
+      return
+    }
+    read(source)
+  }
+
+  private fun read(source: Source) {
     val context = applicationContext
     executor.execute {
       val file = File(cacheDir, SHARED_FILE)
@@ -66,8 +83,9 @@ class ScriptImportActivity : Activity() {
           null
         } catch (e: IOException) {
           e.message.orEmpty()
-        } catch (e: SecurityException) {
-          e.message.orEmpty()
+        } catch (e: RuntimeException) {
+          // Another app's provider can throw anything, such as SecurityException.
+          e.message ?: e.javaClass.simpleName
         }
       // Not what a download that stopped at the limit left behind.
       if (error != null) file.delete()
@@ -80,7 +98,10 @@ class ScriptImportActivity : Activity() {
               .putExtra(FRAGMENT_NAME, ScriptsFragment::class.java.name)
               .putExtra(
                 FRAGMENT_ARGS,
-                Bundle().apply { putString(ScriptsFragment.ARG_IMPORT_FILE, file.path) },
+                Bundle().apply {
+                  putString(ScriptsFragment.ARG_IMPORT_FILE, file.path)
+                  if (source is Source.FromLink) putString(ScriptsFragment.ARG_IMPORT_LINK, source.url)
+                },
               )
               .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP)
           )

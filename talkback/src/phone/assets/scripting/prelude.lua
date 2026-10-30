@@ -656,10 +656,72 @@ function Node:focus()
   return await(call('node.focus', { handle = self.handle }), true)
 end
 
-for _, action in ipairs({ 'click', 'longClick', 'scrollForward', 'scrollBackward' }) do
+for _, action in ipairs({
+  'click', 'longClick', 'scrollForward', 'scrollBackward', 'showOnScreen', 'expand', 'collapse',
+  'dismiss',
+}) do
   Node[action] = function(self)
     return self:perform(action)
   end
+end
+
+function Node:labeledBy()
+  return node(call('node.labeledBy', { handle = self.handle }))
+end
+
+function Node:labelFor()
+  return node(call('node.labelFor', { handle = self.handle }))
+end
+
+function Node:setSelection(start, finish)
+  start = tonumber(start) or 0
+  return self:perform('setSelection', { start = start, ['end'] = tonumber(finish) or start })
+end
+
+function Node:setProgress(value)
+  return self:perform('setProgress', { value = tonumber(value) or 0 })
+end
+
+function Node:scrollTo(row, column)
+  return self:perform('scrollToPosition', { row = tonumber(row) or 1, column = tonumber(column) or 1 })
+end
+
+-- Moves the cursor of an edit field, or reads on in other text, by a unit such as 'word'.
+function Node:moveCursor(unit, direction, extend)
+  local action = direction == 'previous' and 'previousAtGranularity' or 'nextAtGranularity'
+  return self:perform(action, { unit = unit or 'character', extend = extend == true })
+end
+
+function Node:nextHtmlElement(element, direction)
+  local action = direction == 'previous' and 'previousHtmlElement' or 'nextHtmlElement'
+  return self:perform(action, { element = element or '' })
+end
+
+local function center(item)
+  local b = item.bounds
+  if not b or b.right <= b.left or b.bottom <= b.top then
+    error('The item has no place on screen', 3)
+  end
+  return floor((b.left + b.right) / 2), floor((b.top + b.bottom) / 2)
+end
+
+local touch -- Set below.
+
+function Node:tap()
+  return touch.tap(center(self))
+end
+
+function Node:doubleTap()
+  return touch.doubleTap(center(self))
+end
+
+function Node:longPress(ms)
+  local x, y = center(self)
+  return touch.longPress(x, y, ms)
+end
+
+function Node:recognizeText()
+  return await(call('screen.recognizeText', { handle = self.handle }))
 end
 
 ---------------------------------------------------------------------------------------------------
@@ -667,7 +729,8 @@ end
 
 local HOOKS = {
   'focus', 'speech', 'notification', 'announcement', 'windowChange', 'appEnter', 'appLeave',
-  'settingChange', 'button', 'textChange', 'contentChange', 'event', 'actions',
+  'settingChange', 'button', 'textChange', 'contentChange', 'event', 'actions', 'scroll',
+  'selectionChange', 'click', 'longClick', 'inputFocus',
 }
 local handlers = {}
 for _, name in ipairs(HOOKS) do
@@ -944,6 +1007,7 @@ local function form_item(item, index)
   end
   sent.id = tostring(item.id or ('item' .. index))
   sent.notify = type(item.onChange) == 'function'
+  sent.submit = type(item.onSubmit) == 'function'
   if type(item.items) == 'table' then
     sent.items = options_of(item.items)
   end
@@ -958,7 +1022,7 @@ local function copy(t)
   return result
 end
 
-local function open_form(spec)
+local function open_form(spec, full_screen)
   spec = spec or {}
   local id = next_form
   next_form = next_form + 1
@@ -973,6 +1037,7 @@ local function open_form(spec)
     end
   end
   local form = { closed = false }
+  local added = 0
   function form:get(item)
     return values[item]
   end
@@ -992,6 +1057,29 @@ local function open_form(spec)
   function form:close()
     send('ui.close', { dialog = id })
   end
+  -- Adds an item at the end, or after the item with the id in opts.after.
+  function form:add(item, opts)
+    added = added + 1
+    local s = form_item(item, 'added' .. added)
+    by_id[s.id] = item
+    if s.value ~= nil then
+      values[s.id] = s.value
+    end
+    send('ui.add', { dialog = id, item = s, after = text_or_nil((opts or {}).after) })
+    return s.id
+  end
+  function form:remove(item)
+    item = tostring(item)
+    by_id[item] = nil
+    values[item] = nil
+    send('ui.remove', { dialog = id, item = item })
+  end
+  function form:focus(item)
+    send('ui.focus', { dialog = id, item = tostring(item) })
+  end
+  function form:setTitle(title)
+    send('ui.setTitle', { dialog = id, title = text_or_nil(title) })
+  end
   function form:wait()
     if self.closed then
       return copy(values)
@@ -999,7 +1087,9 @@ local function open_form(spec)
     return wait_for('form:' .. id)
   end
   forms[id] = { form = form, by_id = by_id, values = values, on_close = spec.onClose }
-  send('ui.dialog', { dialog = id, title = text_or_nil(spec.title), items = sent })
+  send('ui.dialog', {
+    dialog = id, title = text_or_nil(spec.title), items = sent, fullScreen = full_screen == true,
+  })
   return form
 end
 
@@ -1021,10 +1111,23 @@ local function form_event(data)
     return
   end
   local item = open.by_id[data.item]
-  if data.event == 'click' and item and type(item.onClick) == 'function' then
-    spawn('onClick ' .. data.item, item.onClick, open.form)
-  elseif data.event == 'change' and item and type(item.onChange) == 'function' then
-    spawn('onChange ' .. data.item, item.onChange, data.value, open.form)
+  if not item then
+    return
+  end
+  local handlers_of = {
+    click = { item.onClick, open.form },
+    change = { item.onChange, data.value, open.form },
+    select = { item.onSelect, data.value, open.form },
+    longPress = { item.onLongPress, data.value, open.form },
+    submit = { item.onSubmit, data.value, open.form },
+  }
+  if data.event == 'action' and type(item.onAction) == 'function' and type(data.value) == 'table' then
+    spawn('onAction ' .. data.item, item.onAction, data.value.action, data.value.value, open.form)
+    return
+  end
+  local h = handlers_of[data.event]
+  if h and type(h[1]) == 'function' then
+    spawn(data.event .. ' ' .. data.item, h[1], unpack(h, 2, 3))
   end
 end
 
@@ -1033,7 +1136,8 @@ local function dialog(method, args)
 end
 
 local ui = {
-  dialog = open_form,
+  dialog = function(spec) return open_form(spec, false) end,
+  window = function(spec) return open_form(spec, true) end,
   choose = function(title, options, opts)
     opts = opts or {}
     return dialog('ui.choose', {
@@ -1058,6 +1162,18 @@ local ui = {
     dialog('ui.alert', { message = tostring(message), title = text_or_nil(opts.title) })
   end,
 }
+
+-- Shows text that can be read line by line and selected, and waits until it's closed.
+function ui.text(title, text)
+  local form = open_form({
+    title = title,
+    items = {
+      { type = 'edit', id = 'text', value = tostring(text or ''), multiline = true, readOnly = true },
+      { type = 'button', id = 'close', label = 'Close', close = true },
+    },
+  })
+  form:wait()
+end
 
 ---------------------------------------------------------------------------------------------------
 -- Network.
@@ -1278,6 +1394,133 @@ end
 function system.openApp(package_name)
   return await(call('system.openApp', { package = tostring(package_name) }), true)
 end
+function system.openUrl(url)
+  return call('system.openUrl', { url = tostring(url) })
+end
+function system.share(text, opts)
+  opts = opts or {}
+  return call('system.share', {
+    text = tostring(text), title = text_or_nil(opts.title), subject = text_or_nil(opts.subject),
+  })
+end
+function system.openSettings(page, package_name)
+  return call('system.openSettings', { page = page or 'settings', package = text_or_nil(package_name) })
+end
+function system.startActivity(intent)
+  return call('system.startActivity', intent or {})
+end
+function system.sendBroadcast(intent)
+  send('system.sendBroadcast', intent or {})
+end
+function system.apps()
+  return call('system.apps')
+end
+
+local function point(x, y)
+  x, y = tonumber(x), tonumber(y)
+  if not x or not y then
+    error('A point needs x and y', 3)
+  end
+  return { x = x, y = y }
+end
+
+local function gesture(strokes)
+  return await(call('touch.gesture', { strokes = strokes }), true)
+end
+
+touch = {
+  gesture = gesture,
+  tap = function(x, y)
+    return gesture({ { points = { point(x, y) }, duration = 50 } })
+  end,
+  doubleTap = function(x, y)
+    local p = point(x, y)
+    return gesture({ { points = { p }, duration = 50 }, { points = { p }, start = 150, duration = 50 } })
+  end,
+  longPress = function(x, y, ms)
+    return gesture({ { points = { point(x, y) }, duration = tonumber(ms) or 1000 } })
+  end,
+  swipe = function(x1, y1, x2, y2, ms)
+    return gesture({ { points = { point(x1, y1), point(x2, y2) }, duration = tonumber(ms) or 300 } })
+  end,
+}
+
+local function key_list(keys)
+  if type(keys) == 'table' then
+    local list = {}
+    for i, k in ipairs(keys) do
+      list[i] = tostring(k)
+    end
+    return list
+  end
+  local list = {}
+  for k in string.gmatch(tostring(keys), '%S+') do
+    list[#list + 1] = k
+  end
+  return list
+end
+
+local function find_item(query)
+  if getmetatable(query) == Node then
+    return query
+  end
+  return node(find_nodes(query, 1)[1])
+end
+
+-- Waits until an item matching the query is on screen, and gives it, or nil after timeout ms.
+local function wait_for(query, timeout, interval)
+  if not can_wait() then
+    error('sf.screen.waitFor waits, so call it from an event handler, a command, a timer or sf.run', 2)
+  end
+  local started = call('clock')
+  timeout = tonumber(timeout) or 5000
+  interval = math.max(100, tonumber(interval) or 250)
+  while true do
+    local found = node(find_nodes(query, 1)[1])
+    if found then
+      return found
+    end
+    if call('clock') - started >= timeout then
+      return nil
+    end
+    sleep(interval)
+  end
+end
+
+-- Clicks an item, or taps it where it has no click action. Gives whether that worked.
+local function click_item(query)
+  local item = find_item(query)
+  if not item then
+    return false
+  end
+  local clicked = item:click()
+  if clicked == false then
+    return item:tap()
+  end
+  return clicked ~= nil and clicked or true
+end
+
+local speech = {
+  stop = function() send('speech.stop') end,
+  isSpeaking = function() return call('speech.isSpeaking') end,
+  last = function() return await(call('speech.last')) end,
+}
+
+local braille = {
+  show = function(text) send('braille.show', { text = tostring(text) }) end,
+}
+
+local device = {
+  info = function() return call('device.info') end,
+  battery = function() return call('device.battery') end,
+  network = function() return call('device.network') end,
+  volume = function(stream) return call('device.volume', { stream = stream }) end,
+  setVolume = function(stream, level)
+    send('device.setVolume', { stream = stream, level = tonumber(level) or 0 })
+  end,
+  ringerMode = function() return call('device.ringerMode') end,
+  setRingerMode = function(mode) send('device.setRingerMode', { mode = tostring(mode) }) end,
+}
 
 local sf_log = setmetatable({
   debug = function(...) log('debug', ...) end,
@@ -1316,11 +1559,43 @@ local sf = {
   clearTimer = clear_timer,
   speak = function(text, opts)
     opts = opts or {}
-    send('speak', {
+    local wait = opts.wait == true
+    local result = call('speak', {
       text = tostring(text), interrupt = opts.interrupt == true, rate = opts.rate, pitch = opts.pitch,
-      language = opts.language,
+      language = opts.language, wait = wait,
     })
+    if wait then
+      return await(result)
+    end
   end,
+  message = function(text, opts)
+    opts = opts or {}
+    text = tostring(text)
+    send('speak', { text = text, interrupt = opts.interrupt ~= false })
+    send('braille.show', { text = text })
+  end,
+  speech = speech,
+  braille = braille,
+  touch = touch,
+  keys = {
+    press = function(keys)
+      return await(call('keys.press', { keys = key_list(keys) }), true)
+    end,
+    type = function(text)
+      return await(call('keys.type', { text = tostring(text) }), true)
+    end,
+  },
+  commands = {
+    list = function() return call('commands.list') end,
+    run = function(id) return await(call('commands.run', { id = tostring(id) }), true) end,
+  },
+  device = device,
+  translate = function(text, opts)
+    opts = opts or {}
+    return await(call('translate', { text = tostring(text), from = text_or_nil(opts.from), to = text_or_nil(opts.to) }))
+  end,
+  readFile = function(path) return call('files.read', { path = tostring(path) }) end,
+  clock = function() return call('clock') end,
   playAudio = play_audio,
   playTone = function(frequency, ms, opts)
     play_audio(tone(tonumber(frequency) or 440, tonumber(ms) or 100), { volume = (opts or {}).volume or 0.5 })
@@ -1344,9 +1619,21 @@ local sf = {
   unbind = binding('bindings.remove'),
   screen = {
     focused = function() return node(call('screen.focused')) end,
+    inputFocused = function() return node(call('screen.inputFocused')) end,
     root = function() return node(call('screen.root')) end,
     find = function(query) return node(find_nodes(query, 1)[1]) end,
     findAll = function(query, limit) return nodes(find_nodes(query, limit or 50)) end,
+    at = function(x, y) return node(call('screen.at', point(x, y))) end,
+    windows = function()
+      local list = call('screen.windows') or {}
+      for _, window in ipairs(list) do
+        window.root = node(window.root)
+      end
+      return list
+    end,
+    waitFor = wait_for,
+    click = click_item,
+    recognizeText = function() return await(call('screen.recognizeText', {})) end,
   },
   storage = {
     get = function(key, fallback)
@@ -1414,6 +1701,11 @@ local dispatchers = {
   announcement = with_info('announcement'),
   textChange = with_node('textChange'),
   contentChange = with_node('contentChange'),
+  scroll = with_node('scroll'),
+  selectionChange = with_node('selectionChange'),
+  click = with_node('click'),
+  longClick = with_node('longClick'),
+  inputFocus = with_node('inputFocus'),
   event = plain('event'),
   windowChange = plain('windowChange'),
   appEnter = plain('appEnter'),

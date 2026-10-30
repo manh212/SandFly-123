@@ -52,10 +52,17 @@ interface ScriptHost {
 
   fun onGesture(name: String, fallback: Runnable): Boolean
 
+  /**
+   * Offers a key press to scripts, and returns whether a script took it. [fallback] runs SandFly's
+   * own command for keys pressed with the SandFly modifier when the script's command hands them
+   * back. Keys pressed without it that a script hands back in time are not taken, so they go on as
+   * if no script ran. [repeated] is true for key repeats of a key held down.
+   */
   fun onKeys(
     modifiers: Int,
     keyCode: Int,
     withBacktalkModifier: Boolean,
+    repeated: Boolean,
     fallback: Runnable,
   ): Boolean
 
@@ -112,6 +119,22 @@ class NodeRule(
 ) {
   val hidesDescendants: Boolean
     get() = hideInside || group
+}
+
+/** What scripts can do with the running SandFly beyond giving feedback. Called on the main thread. */
+interface ScriptServices {
+  /** Runs the command saved as [value], as a gesture assigned to it would. */
+  fun runCommand(value: String): Boolean
+
+  fun stopSpeech()
+
+  fun isSpeaking(): Boolean
+
+  /** The text of the last thing SandFly said, as Copy last spoken phrase copies it. */
+  fun lastSpeech(): String?
+
+  /** Shows [text] on a connected braille display for a while, as an announcement. */
+  fun showBraille(text: CharSequence)
 }
 
 class ScriptMenuItem(
@@ -226,12 +249,13 @@ object Scripts {
     modifiers: Int,
     keyCode: Int,
     withBacktalkModifier: Boolean,
+    repeated: Boolean,
     fallback: Runnable,
   ): Boolean =
     (withBacktalkModifier &&
       !KeyEvent.isModifierKey(keyCode) &&
       captured(ScriptInput.keysBinding(ScriptInput.Keys(modifiers, keyCode)))) ||
-      host?.onKeys(modifiers, keyCode, withBacktalkModifier, fallback) == true
+      host?.onKeys(modifiers, keyCode, withBacktalkModifier, repeated, fallback) == true
 
   fun captureNext(listener: ((String) -> Unit)?) {
     capture = listener

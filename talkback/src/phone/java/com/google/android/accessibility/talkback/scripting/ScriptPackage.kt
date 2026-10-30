@@ -19,8 +19,14 @@ package com.google.android.accessibility.talkback.scripting
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.util.zip.ZipInputStream
+import org.json.JSONException
 
-class ScriptPackage(val files: Map<String, ByteArray>, val manifest: ScriptManifest) {
+class ScriptPackage(
+  val files: Map<String, ByteArray>,
+  val manifest: ScriptManifest,
+  /** Whether SandFly signed the script. */
+  val signature: ScriptSignature.Status = ScriptSignature.Status.UNSIGNED,
+) {
 
   companion object {
     const val MAIN = "main.lua"
@@ -38,7 +44,13 @@ class ScriptPackage(val files: Map<String, ByteArray>, val manifest: ScriptManif
       }
       val files = if (zip) unzip(bytes) else mapOf(MAIN to bytes)
       val main = files[MAIN] ?: manifestError("The zip has no main.lua")
-      return ScriptPackage(files, ScriptManifest.parse(ManifestReader.read(main.decodeToString())))
+      val manifest =
+        try {
+          ScriptManifest.parse(ManifestReader.read(main.decodeToString()))
+        } catch (e: JSONException) {
+          manifestError("The manifest has a bad value: ${e.message}")
+        }
+      return ScriptPackage(files, manifest, ScriptSignature.check(files))
     }
 
     /** The most a file can be, by its name: a .zip, or otherwise a .lua. */

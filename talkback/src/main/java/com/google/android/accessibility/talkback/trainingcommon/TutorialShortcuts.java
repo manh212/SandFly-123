@@ -19,7 +19,6 @@ package com.google.android.accessibility.talkback.trainingcommon;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import androidx.annotation.Nullable;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
@@ -28,7 +27,9 @@ import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.keyboard.KeyCombo;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
+import com.google.android.accessibility.talkback.keyboard.Keymap;
 import com.google.android.accessibility.talkback.keyboard.NewKeyComboModel;
+import com.google.android.accessibility.talkback.keyboard.SandFlyKey;
 import com.google.android.accessibility.utils.WindowUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableSet;
@@ -48,7 +49,7 @@ public final class TutorialShortcuts {
   /** Followed by a gesture ID, the key of that gesture's action. */
   private static final String GESTURE_ACTION_PREFIX = "gesture_action:";
 
-  /** Whether the keymap is the enhanced one with the Action key, as the keyboard tutorial says. */
+  /** Whether the keymap is the enhanced one with the Meta key, as the keyboard tutorial says. */
   private static final String KEYMAP_AS_WRITTEN = "keymap_as_written";
 
   /** Followed by a keyboard shortcut's key, the text of its keys. */
@@ -79,7 +80,10 @@ public final class TutorialShortcuts {
     }
     data.putBoolean(
         KEYMAP_AS_WRITTEN,
-        model instanceof NewKeyComboModel && model.getTriggerModifier() == KeyEvent.META_META_ON);
+        model instanceof NewKeyComboModel newModel
+            && newModel.getKeymap() == Keymap.SANDFLY
+            && newModel.getCustomKeymap() == null
+            && newModel.getSandFlyKey() == SandFlyKey.META);
     for (String key : model.getKeyComboMap().keySet()) {
       KeyCombo combo = model.getKeyComboForKey(key);
       data.putString(
@@ -155,7 +159,7 @@ public final class TutorialShortcuts {
 
   /**
    * Returns whether the keyboard shortcut {@code key} has the keys the keyboard tutorial names: the
-   * enhanced keymap's default keys with the Action key. Returns true before the service has sent
+   * enhanced keymap's default keys with the Meta key. Returns true before the service has sent
    * its shortcuts.
    */
   public boolean isKeyComboAsWritten(String key) {

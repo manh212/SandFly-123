@@ -52,6 +52,7 @@ import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.utils.BuildVersionUtils;
+import com.google.android.accessibility.utils.ClipboardHistory;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Logger;
@@ -124,6 +125,17 @@ public class SpeechControllerImpl implements SpeechController {
     speechFilter = filter;
   }
 
+  // SandFly: the speech dictionary, which says text the user chose differently.
+  private static volatile @Nullable SpeechFilter dictionaryFilter;
+
+  public static void setDictionaryFilter(@Nullable SpeechFilter filter) {
+    dictionaryFilter = filter;
+  }
+
+  /**
+   * SandFly: takes speech to change it before it is spoken, such as Automatic translation, which
+   * translates it. Called on the main thread for each utterance, in order.
+   */
   public interface SpeechHold {
 
     boolean hold(CharSequence text, int queueMode, int flags, Consumer<@Nullable CharSequence> release);
@@ -835,6 +847,7 @@ public class SpeechControllerImpl implements SpeechController {
         (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
     ClipData clip = ClipData.newPlainText(null, text);
     clipboard.setPrimaryClip(clip);
+    ClipboardHistory.record(mContext, copyableText);
 
     // Verify that we actually have the utterance on the clipboard
     if (FeatureSupport.supportReadClipboard()) {
@@ -1264,8 +1277,17 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
 
-    @Nullable SpeechHold hold = speechHold;
     boolean released = speechParams != null && speechParams.containsKey(SPEECH_PARAM_RELEASED);
+    // Speech a hold released has been through the dictionary already.
+    @Nullable SpeechFilter dictionary = dictionaryFilter;
+    if (dictionary != null && !released && !TextUtils.isEmpty(text)) {
+      @Nullable CharSequence said = dictionary.filter(text);
+      if (said != null) {
+        text = said;
+      }
+    }
+
+    @Nullable SpeechHold hold = speechHold;
     if (hold != null && !fromScript && !released && !TextUtils.isEmpty(text)) {
       @Nullable Bundle heldParams = speechParams;
       boolean held =
@@ -1989,6 +2011,34 @@ public class SpeechControllerImpl implements SpeechController {
     if (currentFeedbackItem == null || currentFeedbackItem.getUtteranceGroup() != utteranceGroup) {
       return;
     }
+    stopCurrentItem();
+  }
+
+  /**
+   * Stops the one item whose completed action is {@code completedAction}, waiting or being spoken,
+   * and goes on with the rest of the queue. The action gets {@link #STATUS_INTERRUPTED}.
+   */
+  public void stopItem(UtteranceCompleteRunnable completedAction) {
+    if (!mHandler.getLooper().isCurrentThread()) {
+      mHandler.post(() -> stopItem(completedAction));
+      return;
+    }
+    ListIterator<FeedbackItem> iterator = feedbackQueue.listIterator(0);
+    while (iterator.hasNext()) {
+      FeedbackItem item = iterator.next();
+      if (item.getCompletedAction() == completedAction) {
+        iterator.remove();
+        notifyItemInterrupted(item);
+        return;
+      }
+    }
+    if (currentFeedbackItem != null && currentFeedbackItem.getCompletedAction() == completedAction) {
+      stopCurrentItem();
+    }
+  }
+
+  /** Stops the item being spoken and starts the next. */
+  private void stopCurrentItem() {
     notifyItemInterrupted(currentFeedbackItem);
     currentFragmentIterator = null;
     // Stopped before the next item starts, which would otherwise queue behind it.

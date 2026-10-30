@@ -23,6 +23,11 @@ import androidx.core.content.edit
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
+/**
+ * Arrow key navigation: while it is on, the arrow keys, alone, two pressed together, or with Control
+ * or Alt, run commands without the Meta key. Each of these [ArrowKeys] runs a command, as a gesture
+ * does, saved as the command's value; the defaults are VoiceOver's keys on iOS.
+ */
 object ArrowKeyNav {
   private const val PREF_ON = "pref_arrow_key_nav_on"
   const val PREF_KEYS_PREFIX = "arrow_key_nav_keys_"

@@ -302,7 +302,8 @@ class TwoFingerRotationTracker(
 
     @JvmStatic
     fun setStepDegrees(degrees: Float) {
-      stepDegrees = degrees
+      // A step of 0 or less, such as from an imported settings file, would count steps forever.
+      stepDegrees = if (degrees >= 1f) degrees else DEFAULT_STEP_DEGREES
     }
 
     private const val COMMIT_DEGREES = 15f

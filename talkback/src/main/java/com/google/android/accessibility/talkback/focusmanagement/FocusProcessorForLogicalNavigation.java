@@ -81,6 +81,7 @@ import com.google.android.accessibility.talkback.eventprocessor.ProcessorAccessi
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
 import com.google.android.accessibility.talkback.focusmanagement.action.NavigationAction;
+import com.google.android.accessibility.talkback.screenelements.ScreenElements;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenState;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
@@ -127,8 +128,10 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ArrayDeque;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -1340,6 +1343,105 @@ public class FocusProcessorForLogicalNavigation {
         || targetType == NavigationTarget.TARGET_LINK;
   }
 
+  /** The app node whose recognised screen elements a swipe has just left, going forward. */
+  private @Nullable AccessibilityNodeInfoCompat leavingScreenElementsOf;
+  /**
+   * Moves through recognised screen elements, which sit in the reading order after the app node
+   * each is anchored to. Returns null when the swipe is the app's own.
+   */
+  private @Nullable Boolean navigateAroundScreenElements(
+      AccessibilityNodeInfoCompat pivot,
+      boolean ignoreDescendantsOfPivot,
+      NavigationAction navigationAction,
+      @SearchDirection int logicalDirection,
+      EventId eventId) {
+    if (ScreenElements.getNeedsOrder()) {
+      orderScreenElements();
+    }
+    boolean forward = logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD;
+    int index = ScreenElements.indexOf(pivot);
+    if (index >= 0) {
+      @Nullable AccessibilityNodeInfoCompat next = ScreenElements.neighbour(index, forward);
+      if (next != null) {
+        return setAccessibilityFocusInternal(next, navigationAction, eventId);
+      }
+      @Nullable AccessibilityNodeInfoCompat anchor = ScreenElements.anchor(index);
+      if (anchor != null && ScreenElements.isCoveredHost(anchor)) {
+        // A view the elements cover is passed over, also a WebView, which would otherwise take the
+        // swipe into its own web navigation.
+        @Nullable AccessibilityNodeInfoCompat past = ScreenElements.pastCoveredHost(anchor, forward);
+        // At the window's edge, the swipe goes on as SandFly's own: to the next window, or around.
+        return past == null ? null : setAccessibilityFocusInternal(past, navigationAction, eventId);
+      }
+      if (!forward) {
+        return anchor != null && setAccessibilityFocusInternal(anchor, navigationAction, eventId);
+      }
+      if (anchor == null) {
+        @Nullable AccessibilityNodeInfoCompat first = ScreenElements.firstAppNodeOrNull();
+        return first != null && setAccessibilityFocusInternal(first, navigationAction, eventId);
+      }
+      // Carry on from the anchor as if the swipe had started there.
+      leavingScreenElementsOf = anchor;
+      try {
+        return navigateToDefaultOrMacroGranularityTarget(
+            anchor, ignoreDescendantsOfPivot, navigationAction, eventId);
+      } finally {
+        leavingScreenElementsOf = null;
+      }
+    }
+    if (pivot.getWindowId() != ScreenElements.getHostWindow()) {
+      return null;
+    }
+    if (forward) {
+      if (pivot.equals(leavingScreenElementsOf)) {
+        return null;
+      }
+      @Nullable AccessibilityNodeInfoCompat element = ScreenElements.firstAfter(pivot);
+      return element == null ? null : setAccessibilityFocusInternal(element, navigationAction, eventId);
+    }
+    if (ScreenElements.isFirstAppNode(pivot)) {
+      @Nullable AccessibilityNodeInfoCompat element = ScreenElements.lastBefore(null);
+      if (element != null) {
+        return setAccessibilityFocusInternal(element, navigationAction, eventId);
+      }
+    }
+    return null;
+  /** Gives each recognised screen element its anchor among the host window's nodes. */
+  private void orderScreenElements() {
+    List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+    @Nullable AccessibilityWindowInfo host = null;
+    for (AccessibilityWindowInfo window : AccessibilityServiceCompatUtils.getWindows(service)) {
+      if (window.getId() == ScreenElements.getHostWindow()) {
+        host = window;
+        break;
+      }
+    }
+    @Nullable AccessibilityNodeInfoCompat root =
+        host == null ? null : AccessibilityWindowInfoUtils.getRootCompat(host);
+    if (root != null) {
+      TraversalStrategy strategy =
+          TraversalStrategyUtils.getTraversalStrategy(
+              root, focusFinder, TraversalStrategy.SEARCH_FOCUS_FORWARD);
+      Filter<AccessibilityNodeInfoCompat> filter =
+          NavigationTarget.createNodeFilter(
+              NavigationTarget.TARGET_DEFAULT, strategy.getSpeakingNodesCache());
+      @Nullable AccessibilityNodeInfoCompat node =
+          filter.accept(root)
+              ? root
+              : TraversalStrategyUtils.searchFocus(
+                  strategy, root, TraversalStrategy.SEARCH_FOCUS_FORWARD, filter);
+      while (node != null && nodes.size() < MAX_ORDERED_NODES) {
+        if (nodes.contains(node)) {
+          break;
+        }
+        nodes.add(node);
+        node =
+            TraversalStrategyUtils.searchFocus(
+                strategy, node, TraversalStrategy.SEARCH_FOCUS_FORWARD, filter);
+      }
+    }
+    ScreenElements.setOrder(nodes);
+  private static final int MAX_ORDERED_NODES = 2000;
   private boolean navigateToDefaultOrMacroGranularityTarget(
       @NonNull AccessibilityNodeInfoCompat pivot,
       boolean ignoreDescendantsOfPivot,
@@ -1378,6 +1480,14 @@ public class FocusProcessorForLogicalNavigation {
       return true;
     }
 
+    if (ScreenElements.isShowing()
+        && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+        && TraversalStrategyUtils.isLogicalDirection(searchDirection)) {
+      @Nullable Boolean handled =
+          navigateAroundScreenElements(
+              pivot, ignoreDescendantsOfPivot, navigationAction, logicalDirection, eventId);
+      if (handled != null) {
+        return handled;
     // Asking the window for its root waits for the app on every swipe, so take the root of the
     // saved reading order when that holds the pivot.
     long[] rootWork = Performance.getInstance().beginNavigationWork();
@@ -1620,6 +1730,27 @@ public class FocusProcessorForLogicalNavigation {
 
     AccessibilityNodeInfoCompat target = navigationResult.getNode();
 
+    // Recognised screen elements anchored to the target come between it and the pivot, and a view
+    // they cover is passed over for its elements.
+    if (target != null
+        && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+        && ScreenElements.isShowing()
+        && target.getWindowId() == ScreenElements.getHostWindow()) {
+      @Nullable AccessibilityNodeInfoCompat element = null;
+      if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_BACKWARD) {
+        element = ScreenElements.lastBefore(target);
+      } else if (logicalDirection == TraversalStrategy.SEARCH_FOCUS_FORWARD
+          && ScreenElements.isCoveredHost(target)) {
+        if (ScreenElements.getNeedsOrder()) {
+          orderScreenElements();
+        }
+        element = ScreenElements.firstAfter(target);
+      }
+      if (element != null) {
+        return setAccessibilityFocusInternal(element, navigationAction, eventId);
+      }
+    }
+
     if ((target != null) && navigationAction.shouldScroll) {
       boolean scrolled =
           ensureOnScreen(
@@ -1787,6 +1918,25 @@ public class FocusProcessorForLogicalNavigation {
     AccessibilityNodeInfoCompat middlePivot =
         TraversalStrategyUtils.searchFocus(
             traversalStrategy, nativePivot, navigationAction.searchDirection, nodeFilterOrWebView);
+    // A view that recognised screen elements cover, such as a game's view or a WebView with only a
+    // canvas, is passed over for its elements, before a WebView would take over navigation.
+    if (middlePivot != null
+        && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+        && ScreenElements.isShowing()
+        && ScreenElements.isCoveredHost(middlePivot)) {
+      if (ScreenElements.getNeedsOrder()) {
+        orderScreenElements();
+      }
+      boolean forward =
+          TraversalStrategyUtils.getLogicalDirection(
+                  navigationAction.searchDirection, WindowUtils.isScreenLayoutRTL(service))
+              == TraversalStrategy.SEARCH_FOCUS_FORWARD;
+      @Nullable AccessibilityNodeInfoCompat element =
+          forward ? ScreenElements.firstAfter(middlePivot) : ScreenElements.lastBefore(middlePivot);
+      if (element != null) {
+        return NavigationResult.create(element);
+      }
+    }
     return findTargetFromMiddlePivot(
         middlePivot, navigationAction, nodeFilter, traversalStrategy, eventId);
   }

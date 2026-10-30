@@ -159,7 +159,8 @@ class DirectTouchController(
       handler.removeCallbacks(recheck)
       handler.postDelayed(recheck, DEBOUNCE_MS)
     }
-    if (!active) {
+    // Also while a text field holds direct touch off, to see it lose focus.
+    if (!active && !textFieldFocused) {
       return
     }
     when (event.eventType) {
@@ -248,33 +249,22 @@ class DirectTouchController(
     if (evaluating || paused || !FeatureSupport.supportPassthrough()) {
       return
     }
-    evaluating = true
-    try {
-      if (!screenInteractive || !displayOn) {
-        silentKeyboardIds = emptySet()
-        return
-      }
-      val windows = service.windows.orEmpty()
-      silentKeyboardIds = if (isSilentDirectTyping()) {
-        windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }.map { it.id }.toSet()
-      } else emptySet()
-      val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
-      val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
-      val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
-      val navBarDirect = isNavBarDirect()
-      val keyboards = directKeyboards(windows)
-      if (shouldBeActive) {
-        partRegionSent = false
-        applyRegion(windows, directTyping, navBarDirect, keyboards)
-      }
-      if (shouldBeActive != active) {
-        active = shouldBeActive
-        if (!active) {
-          clearRegion()
-          partRegionSent = false
-        }
-        announce(active)
-      }
+    // Leaving a text field doesn't always send a focus event, such as when the keyboard closes.
+    if (textFieldFocused) {
+      textFieldFocused = service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)?.isEditable == true
+    }
+    val windows = service.windows.orEmpty()
+    val mainPackage = windows.firstOrNull { it.id == mainWindowId }?.let { rootPackage(it) }
+    val directTyping = mainPackage != null && DirectTouchSettings.isDirectTyping(prefs, mainPackage)
+    val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
+    val navBarDirect = isNavBarDirect()
+    val keyboards = directKeyboards(windows)
+    if (shouldBeActive) {
+      partRegionSent = false
+      applyRegion(windows, directTyping, navBarDirect, keyboards)
+    }
+    if (shouldBeActive != active) {
+      active = shouldBeActive
       if (!active) {
         updatePartRegion(windows, navBarDirect, keyboards)
       }
@@ -455,7 +445,8 @@ class DirectTouchController(
     windows: List<AccessibilityWindowInfo>,
     mainPackage: String,
   ): Boolean {
-    if (mainPackage in IGNORED_PACKAGES) {
+    // Off means off: not even the package manager lookups for apps seen for the first time.
+    if (mainPackage in IGNORED_PACKAGES || !DirectTouchSettings.isMasterEnabled(prefs)) {
       return false
     }
     // Only the first sight of an app uses its manifest, which the package manager has to read.

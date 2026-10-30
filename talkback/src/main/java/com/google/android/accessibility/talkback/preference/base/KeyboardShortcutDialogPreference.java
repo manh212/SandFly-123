@@ -37,12 +37,14 @@ import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.keyboard.KeyCombo;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
+import com.google.android.accessibility.talkback.keyboard.SandFlyKey;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.ServiceKeyEventListener;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.accessibility.utils.material.MaterialComponentUtils;
 import com.google.common.collect.ImmutableSet;
+import java.util.function.Consumer;
 
 /**
  * A {@link Preference} which contains two dialogs, setUpKeyComboDialog and keyAlreadyInUseDialog.
@@ -107,6 +109,25 @@ public class KeyboardShortcutDialogPreference extends Preference
     init(null);
   }
 
+  /** Creates the preference for the keyboard shortcut kept under {@code key}. */
+  public KeyboardShortcutDialogPreference(Context context, String key, CharSequence title) {
+    super(context);
+    setKey(key);
+    setTitle(title);
+    init(null);
+  }
+
+  /** Returns the name of the command whose keyboard shortcut is kept under {@code key}. */
+  private CharSequence titleOf(String key) {
+    Preference preference =
+        getPreferenceManager() == null ? null : getPreferenceManager().findPreference(key);
+    if (preference != null && preference.getTitle() != null) {
+      return preference.getTitle();
+    }
+    CharSequence title = Commands.labelOfKeyboardKey(getContext(), key);
+    return title == null ? key : title;
+  }
+
   static KeyComboManager getKeyComboManager(Context context) {
     KeyComboManager keyComboManager;
     if (TalkBackService.getInstance() != null) {
@@ -129,6 +150,29 @@ public class KeyboardShortcutDialogPreference extends Preference
     updateKeyComboManager();
     supportedSequenceKeyInfra = keyComboManager.isSequenceKeyInfraSupported();
     setTemporaryKeyCombo(getKeyComboForKey(getKey()));
+  }
+
+  @Nullable private Runnable keyComboChangeListener;
+
+  // Takes the keys recorded in place of the keymap, for keyboard shortcuts kept elsewhere.
+  @Nullable private Consumer<KeyCombo> recordListener;
+
+  /**
+   * Makes the dialog give the keys recorded to {@code listener}, which keeps them, instead of
+   * saving them in the keymap as the shortcut of this preference's key.
+   */
+  public void setRecordListener(@Nullable Consumer<KeyCombo> listener) {
+    recordListener = listener;
+  }
+
+  /** Shows the dialog that records keys. */
+  public void showRecordDialog() {
+    showSetUpKeyComboDialog();
+  }
+
+  /** Sets what runs after this or another shortcut changes through this preference's dialogs. */
+  public void setKeyComboChangeListener(@Nullable Runnable listener) {
+    keyComboChangeListener = listener;
   }
 
   public void updateKeyComboManager() {
@@ -197,12 +241,16 @@ public class KeyboardShortcutDialogPreference extends Preference
     // won't be used and must not be used in this function.
     KeyCombo keyCombo = new KeyCombo(keyComboCode, /* triggerModifierUsed= */ false);
     int triggerModifier = getTriggerModifier();
+    // The SandFly key is used only when all of it is pressed: Ctrl alone isn't Ctrl + Alt.
+    boolean triggerModifierUsed =
+        triggerModifier != KeyComboModel.NO_MODIFIER
+            && (keyCombo.getModifiers() & triggerModifier) == triggerModifier;
     this.tempKeyCombo =
         new KeyCombo(
-            keyCombo.getModifiers() & ~triggerModifier,
+            keyCombo.getModifiers() & ~(triggerModifierUsed ? triggerModifier : 0),
             keyCombo.getPrefixKeyCode(),
             keyCombo.getKeyCode(),
-            (keyCombo.getModifiers() & triggerModifier) != 0);
+            triggerModifierUsed);
   }
 
   /** Sets temporary key combo. */
@@ -222,6 +270,23 @@ public class KeyboardShortcutDialogPreference extends Preference
 
   private int getTriggerModifier() {
     return keyComboManager.getKeyComboModel().getTriggerModifier();
+  }
+
+  /** Returns whether [event] has no modifiers, a held SandFly key such as Insert among them. */
+  private boolean hasNoModifiers(KeyEvent event) {
+    return keyComboManager.modifiersOf(event) == KeyComboModel.NO_MODIFIER;
+  }
+
+  /** Returns whether [event] releases the SandFly key, or a key of it. */
+  private boolean isSandFlyKeyRelease(KeyEvent event) {
+    if (event.getAction() != KeyEvent.ACTION_UP) {
+      return false;
+    }
+    @Nullable SandFlyKey sandFlyKey = keyComboManager.getSandFlyKey();
+    if (sandFlyKey == null) {
+      return false;
+    }
+    return sandFlyKey.hasKey(event.getKeyCode());
   }
 
   private void setKeyEventSource(int keyEventSource) {
@@ -288,7 +353,7 @@ public class KeyboardShortcutDialogPreference extends Preference
       return false;
     }
 
-    if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && event.hasNoModifiers()) {
+    if (event.getKeyCode() == KeyEvent.KEYCODE_DEL && hasNoModifiers(event)) {
       clearTemporaryKeyCombo();
       if (supportedSequenceKeyInfra) {
         currentSequenceKeyState = STATE_PREFIX_KEY_NOT_PRESSED;
@@ -298,7 +363,7 @@ public class KeyboardShortcutDialogPreference extends Preference
     }
 
     if (supportedSequenceKeyInfra
-        && (event.getModifiers() & KeyCombo.KEY_EVENT_MODIFIER_MASK) == KeyEvent.META_CTRL_ON
+        && keyComboManager.modifiersOf(event) == KeyEvent.META_CTRL_ON
         && event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
       this.tempKeyCombo = keyComboManager.getKeyComboModel().getDefaultKeyCombo(getKey());
       currentSequenceKeyState = STATE_PREFIX_KEY_NOT_PRESSED;
@@ -308,7 +373,7 @@ public class KeyboardShortcutDialogPreference extends Preference
 
     if (supportedSequenceKeyInfra) {
       int currentKeyCode = event.getKeyCode();
-      int eventEffectiveModifiers = event.getModifiers() & KeyCombo.KEY_EVENT_MODIFIER_MASK;
+      int eventEffectiveModifiers = keyComboManager.modifiersOf(event);
       int triggerModifier = keyComboManager.getKeyComboModel().getTriggerModifier();
       if (currentSequenceKeyState == STATE_PREFIX_KEY_NOT_PRESSED) {
         boolean onlyTriggerModifierPressed = eventEffectiveModifiers == triggerModifier;
@@ -326,7 +391,7 @@ public class KeyboardShortcutDialogPreference extends Preference
           currentSequenceKeyState = STATE_PREFIX_KEY_PRESSED;
           triggerModifierUp = false;
         } else {
-          setTemporaryKeyCombo(KeyComboManager.getKeyComboCode(event));
+          setTemporaryKeyCombo(keyComboManager.getKeyComboCodeWithSandFlyKey(event));
         }
         updateKeyAssignmentText();
         return true;
@@ -381,13 +446,13 @@ public class KeyboardShortcutDialogPreference extends Preference
         } else {
           // Scenario 4: Abort the sequence key assignment and treat the keyevent as a normal key
           // combo.
-          setTemporaryKeyCombo(KeyComboManager.getKeyComboCode(event));
+          setTemporaryKeyCombo(keyComboManager.getKeyComboCodeWithSandFlyKey(event));
           currentSequenceKeyState = STATE_PREFIX_KEY_NOT_PRESSED;
         }
         updateKeyAssignmentText();
       }
     } else {
-      setTemporaryKeyCombo(KeyComboManager.getKeyComboCode(event));
+      setTemporaryKeyCombo(keyComboManager.getKeyComboCodeWithSandFlyKey(event));
       updateKeyAssignmentText();
     }
 
@@ -404,9 +469,7 @@ public class KeyboardShortcutDialogPreference extends Preference
     }
 
     // Check if a key up event is trigger modifier.
-    if (keyComboManager.getKeyComboModel().getTriggerModifier() == KeyEvent.META_META_ON
-        && keyComboManager.isMetaKey(event.getKeyCode())
-        && event.getAction() == KeyEvent.ACTION_UP) {
+    if (isSandFlyKeyRelease(event)) {
       triggerModifierUp = true;
     }
 
@@ -419,8 +482,9 @@ public class KeyboardShortcutDialogPreference extends Preference
     }
 
     // Let the system handle the shift + tab key event and the tab key event when sequence key infra
-    // is supported.
-    if (supportedSequenceKeyInfra) {
+    // is supported, unless a held SandFly key such as Insert makes it a shortcut.
+    if (supportedSequenceKeyInfra
+        && (keyComboManager.modifiersOf(event) & KeyComboModel.HELD_KEY_MODIFIER) == 0) {
       if (event.getKeyCode() == KeyEvent.KEYCODE_TAB
           && (event.getModifiers() & KeyEvent.META_SHIFT_ON) != 0) {
         return false;
@@ -435,7 +499,7 @@ public class KeyboardShortcutDialogPreference extends Preference
     // keyAlreadyInUseDialog will be null when this dialog dismisses. If the sequence key infra
     // is supported, it won't save invalid key combo and only save valid key combo when the dialog
     // view is accessibility focused and the event action is ACTION_DOWN.
-    if (event.hasNoModifiers()
+    if (hasNoModifiers(event)
         && (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
         && (keyAlreadyInUseDialog == null)) {
       LinearLayout dialogView = setUpKeyComboDialog.findViewById(R.id.dialog_view);
@@ -459,7 +523,7 @@ public class KeyboardShortcutDialogPreference extends Preference
     boolean isDialogNavigation =
         event.getKeyCode() == KeyEvent.KEYCODE_ENTER
             || event.getKeyCode() == KeyEvent.KEYCODE_ESCAPE;
-    if (isDialogNavigation && event.hasNoModifiers()) {
+    if (isDialogNavigation && hasNoModifiers(event)) {
       return false;
     }
 
@@ -663,6 +727,14 @@ public class KeyboardShortcutDialogPreference extends Preference
     if (!isValidKeyCombo(this.tempKeyCombo)) {
       instructionText.setTextColor(Color.RED);
       PreferencesActivityUtils.announceText(instructionText.getText().toString(), getContext());
+      return;
+    }
+
+    if (recordListener != null) {
+      recordListener.accept(this.tempKeyCombo);
+      if (setUpKeyComboDialog != null) {
+        setUpKeyComboDialog.dismiss();
+      }
       return;
     }
 
