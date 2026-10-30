@@ -75,6 +75,10 @@ class LazyScriptHost(
     if (store.all().isNotEmpty()) ScriptUpdater.checkIfDue(service)
   }
 
+  // Only a running engine can supply node-level rules. The lazy wrapper exists even
+  // when the user has no scripts enabled; treating it as active disables fast traversal.
+  override fun hasActiveNodeOverrides(): Boolean = manager != null
+
   override fun onScriptsChanged() = update()
 
   override fun onPausedChanged(paused: Boolean) {
