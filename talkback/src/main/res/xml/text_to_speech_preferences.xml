@@ -28,6 +28,12 @@
         android:key="@string/pref_system_tts_settings_key"
         android:title="@string/title_pref_system_tts_settings"
         android:summary="@string/summary_tts_settings" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:key="@string/pref_speech_stream_key"
+        android:title="@string/title_pref_speech_stream"
+        android:entries="@array/pref_speech_stream_entries"
+        android:entryValues="@array/pref_speech_stream_values"
+        android:summary="%s" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_speech_category_languages"
