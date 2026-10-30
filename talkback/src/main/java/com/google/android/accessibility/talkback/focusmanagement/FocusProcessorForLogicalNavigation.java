@@ -1492,6 +1492,9 @@ public class FocusProcessorForLogicalNavigation {
               pivot, ignoreDescendantsOfPivot, navigationAction, logicalDirection, eventId);
       if (handled != null) {
         return handled;
+      }
+    }
+
     // Asking the window for its root waits for the app on every swipe, so take the root of the
     // saved reading order when that holds the pivot.
     long[] rootWork = Performance.getInstance().beginNavigationWork();
