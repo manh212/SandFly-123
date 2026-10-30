@@ -462,6 +462,10 @@ object TraversalTreeCache {
   }
 
   /** Throws away the saved order if [event] can change its window. Returns whether it did. */
+  /** Forget rate observations when the early event gate is switched off. */
+  @JvmStatic
+  fun resetChurnTracking() = structuralChurn.clear()
+
   /** Runs at service entry, including for updates later coalesced by the active-event gate. */
   @JvmStatic
   fun observeIncomingEvent(event: AccessibilityEvent) {
