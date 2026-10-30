@@ -109,7 +109,10 @@ public class ZaloCollapseScriptTest {
     list.setViewIdResourceName("com.zing.zalo:id/tab_recycler_view");
     assertFalse(actions.accept(context, conversation));
     list.setViewIdResourceName(ZaloCollapseScript.CONVERSATION_LIST_ID);
-    CollapseTestTrees.applyPackage(root, "com.example.other");
+    conversation.setPackageName("com.example.other");
+    assertFalse(actions.accept(context, conversation));
+    conversation.setPackageName(ZaloCollapseScript.PACKAGE_NAME);
+    list.setPackageName("com.example.other");
     assertFalse(actions.accept(context, conversation));
   }
 
