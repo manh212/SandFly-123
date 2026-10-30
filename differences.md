@@ -130,7 +130,7 @@ TalkBack always plays speech at the accessibility volume. In Meridian, **Text-to
 - **Ring volume**: speech plays as a ringtone does, so it stays on the phone when media is cast to another device. Like a ringtone, it can also play on the phone's speaker while headphones are connected, and it is silent when the ringer is.
 - **Call volume, earpiece**: speech plays as a call does, on the earpiece when no headset is connected.
 
-The **Speech volume** reading control, which you can turn on in **Reading controls**, switches between them. While **Audio output device** sends speech to a device other than the system default, speech uses the accessibility volume.
+The **Speech volume** reading control, which you can turn on in **Reading controls**, changes speech gain by 10 percentage points between 25% and 200%. It updates the active voice profile when one is selected. Choose the audio stream separately in Text-to-speech settings. While **Audio output device** sends speech to a device other than the system default, speech uses the accessibility volume.
 
 ### Automatic language and dialect changes
 

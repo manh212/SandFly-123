@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search-index>
+  <screen fragment="com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiFragment" title="@string/title_pref_on_device_ai">
+    <item title="@string/pref_on_device_ai_enable" />
+    <item title="@string/pref_on_device_ai_model" />
+    <item title="@string/pref_on_device_ai_download" />
+    <item title="@string/pref_on_device_ai_manage" />
+    <item title="@string/pref_on_device_ai_import" />
+    <item title="@string/pref_on_device_ai_timeout" />
+    <item title="@string/pref_on_device_ai_short_prompts" />
+    <item title="@string/pref_on_device_ai_gpu" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.directtouch.DirectTouchFragment" title="@string/title_pref_direct_touch">
+    <item title="@string/pref_direct_touch_master" />
+    <item title="@string/pref_direct_touch_speech" />
+    <item title="@string/pref_direct_touch_haptics" />
+    <item title="@string/pref_direct_touch_backup" />
+    <item title="@string/pref_direct_touch_restore" />
+    <item title="@string/direct_touch_apps_category" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.individualfeedback.IndividualFeedbackFragment" title="@string/title_pref_individual_feedback">
+    <item title="@string/individual_feedback_sounds_category" />
+    <item title="@string/individual_feedback_vibrations_category" />
+    <item title="@string/individual_feedback_action_preview" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment" title="@string/timer_setup_title">
+    <item title="@string/timer_setup_service_title" />
+    <item title="@string/timer_setup_battery_title" />
+    <item title="@string/timer_setup_microphone_title" />
+    <item title="@string/timer_setup_phone_title" />
+    <item title="@string/timer_setup_access_title" />
+    <item title="@string/timer_setup_notifications_title" />
+    <item title="@string/timer_setup_install_title" />
+    <item title="@string/timer_setup_brightness_title" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.preference.base.CustomMenusFragment" title="@string/custom_menus_title">
+    <item title="@string/custom_menu_add" />
+    <item title="@string/custom_menu_name" />
+    <item title="@string/custom_menu_rename" />
+    <item title="@string/custom_menu_delete" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.preference.base.ItemDetailsOrderFragment" title="@string/pref_node_desc_order_title">
+    <item title="@string/item_detail_name" />
+    <item title="@string/item_detail_type" />
+    <item title="@string/item_detail_state" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment" title="@string/title_pref_voice_profiles">
+    <item title="@string/title_pref_voice_profile_in_use" />
+    <item title="@string/title_pref_add_voice_profile" />
+    <item title="@string/voice_profile_rename" />
+    <item title="@string/voice_profile_delete" />
+    <item title="@string/voice_profile_move_up" />
+    <item title="@string/voice_profile_move_down" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.quicksettings.QuickSettingsItemsFragment" title="@string/title_pref_quick_settings_items">
+    <item title="@string/quick_settings_add_control" />
+    <item title="@string/quick_settings_add_tile" />
+    <item title="@string/quick_settings_add_system_tile" />
+    <item title="@string/quick_settings_columns" />
+    <item title="@string/quick_settings_move" />
+    <item title="@string/quick_settings_remove" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.soundthemes.SoundThemesFragment" title="@string/title_pref_sound_themes">
+    <item title="@string/theme_create" />
+    <item title="@string/title_pref_sound_theme_install_file" />
+    <item title="@string/title_pref_sound_theme_install_link" />
+    <item title="@string/title_pref_sound_theme_install_source" />
+    <item title="@string/title_pref_control_sounds" />
+    <item title="@string/title_pref_control_sounds_3d" />
+    <item title="@string/title_pref_theme_sounds" />
+    <item title="@string/sound_theme_use" />
+    <item title="@string/sound_theme_about" />
+    <item title="@string/sound_theme_export" />
+    <item title="@string/sound_theme_remove" />
+  </screen>
+</search-index>

@@ -36,6 +36,9 @@ import com.google.android.accessibility.talkback.migration.MigrationFiles;
 import com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkBackPreferenceFragment;
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment;
+import com.google.android.accessibility.talkback.preference.base.SettingsSearchIndex;
+import com.google.android.accessibility.talkback.preference.base.SettingsSearchNavigation;
+import com.google.android.accessibility.talkback.preference.base.TalkBackGestureShortcutPreferenceFragment;
 import com.google.android.accessibility.talkback.preference.search.TalkBackSearchIndexablesProvider;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.PackageManagerUtils;
@@ -137,10 +140,14 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   }
 
   private void openDeveloperSettings(Preference preference) {
+    ensureDeveloperAccess(() -> navigateToDeveloperSettings(preference));
+  }
+
+  private void ensureDeveloperAccess(Runnable navigate) {
     SharedPreferences appState =
         SharedPreferencesUtils.getSharedPreferences(this, MigrationFiles.STATE_PREFS);
     if (appState.getBoolean(KEY_DEVELOPER_NOTICE_ACCEPTED, false)) {
-      navigateToDeveloperSettings(preference);
+      navigate.run();
       return;
     }
     A11yAlertDialogWrapper.materialDialogBuilder(this, getSupportFragmentManager())
@@ -151,10 +158,35 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
             R.string.action_developer_settings_continue,
             (dialog, which) -> {
               appState.edit().putBoolean(KEY_DEVELOPER_NOTICE_ACCEPTED, true).apply();
-              navigateToDeveloperSettings(preference);
+              navigate.run();
             })
         .create()
         .show();
+  }
+
+  public void openSearchResult(SettingsSearchIndex.Entry entry) {
+    Runnable navigate =
+        () -> {
+          Bundle arguments = new Bundle(entry.arguments);
+          if (!entry.key.isEmpty()) {
+            arguments.putString(SettingsSearchNavigation.TARGET_KEY, entry.key);
+          }
+          if (!entry.actionQuery.isEmpty()) {
+            arguments.putString(TalkBackGestureShortcutPreferenceFragment.ACTION_SEARCH_QUERY, entry.actionQuery);
+          }
+          PreferenceFragmentCompat destination = getFragmentByName(entry.fragment);
+          destination.setArguments(arguments);
+          getSupportFragmentManager()
+              .beginTransaction()
+              .replace(getContainerId(), destination, getFragmentTag())
+              .addToBackStack(null)
+              .commit();
+        };
+    if (entry.developer) {
+      ensureDeveloperAccess(navigate);
+    } else {
+      navigate.run();
+    }
   }
 
   private void navigateToDeveloperSettings(Preference preference) {

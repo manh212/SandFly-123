@@ -5,6 +5,7 @@ import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.TouchInteractionController;
 import android.content.res.Configuration;
+import android.graphics.Path;
 import android.os.Build;
 import android.os.Handler;
 import android.view.Display;
@@ -38,6 +39,12 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private boolean transitionPending;
   private boolean gestureStarted;
   private int state = TouchInteractionController.STATE_CLEAR;
+  private Path scrollPath = new Path();
+  private int scrollPointerId = -1;
+  private long scrollStartTime;
+  private long scrollEndTime;
+  private boolean scrollPaired;
+  private boolean scrollPointerLifted;
   private final Runnable explore = () -> {
     if (active && !gestureStarted && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
       requestExploration();
@@ -115,6 +122,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
     try {
       if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+        scrollPath = new Path();
+        scrollPointerId = event.getPointerId(0);
+        scrollStartTime = scrollEndTime = event.getEventTime();
+        scrollPaired = scrollPointerLifted = false;
+        scrollPath.moveTo(event.getX(), event.getY());
         if (completedInteraction || state == TouchInteractionController.STATE_CLEAR) {
           detector.clear();
           gestureStarted = completedInteraction = false;
@@ -126,11 +138,30 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
           handler.postDelayed(explore, Math.max(150, ViewConfiguration.getDoubleTapTimeout() - 50));
         }
       } else if (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
+        if (event.getPointerCount() == 2) {
+          scrollPaired = true;
+        } else {
+          scrollPaired = false;
+        }
         handler.removeCallbacks(explore);
         int index = event.getActionIndex();
         downY[event.getPointerId(index)] = event.getY(index);
         downX[event.getPointerId(index)] = event.getX(index);
         if (state == TouchInteractionController.STATE_TOUCH_EXPLORING) detector.clear();
+      }
+      if (scrollPaired && !scrollPointerLifted) {
+        int index = event.findPointerIndex(scrollPointerId);
+        if (index >= 0) {
+          for (int history = 0; history < event.getHistorySize(); history++) {
+            scrollPath.lineTo(event.getHistoricalX(index, history), event.getHistoricalY(index, history));
+          }
+          scrollPath.lineTo(event.getX(index), event.getY(index));
+          scrollEndTime = event.getEventTime();
+        }
+        if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP
+            && event.getPointerId(event.getActionIndex()) == scrollPointerId) {
+          scrollPointerLifted = true;
+        }
       }
       if (rotationEnabled
           && state != TouchInteractionController.STATE_DELEGATING
@@ -226,7 +257,12 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       return;
     }
     completedInteraction = true;
-    if (id == AccessibilityService.GESTURE_DOUBLE_TAP) {
+    if (isStandardTwoFingerSwipe(id) && scrollPaired) {
+      long duration = Math.max(100, Math.min(800, scrollEndTime - scrollStartTime));
+      if (!service.performTwoFingerScroll(new Path(scrollPath), duration)) {
+        dispatch(event);
+      }
+    } else if (id == AccessibilityService.GESTURE_DOUBLE_TAP) {
       AccessibilityServiceInfo info = service.getServiceInfo();
       if (info != null && (info.flags & AccessibilityServiceInfo.FLAG_SERVICE_HANDLES_DOUBLE_TAP) != 0) dispatch(event);
       else controller.performClick();
@@ -238,6 +274,13 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       dispatch(event);
     }
     gestureStarted = false;
+  }
+
+  private static boolean isStandardTwoFingerSwipe(int id) {
+    return id == AccessibilityService.GESTURE_2_FINGER_SWIPE_UP
+        || id == AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN
+        || id == AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT
+        || id == AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT;
   }
 
   private void dispatch(AccessibilityGestureEvent event) {

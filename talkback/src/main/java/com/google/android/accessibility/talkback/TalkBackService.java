@@ -67,6 +67,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Path;
 import android.content.res.Resources;
 import android.media.AudioManager;
 import android.os.Build;
@@ -1846,6 +1847,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (gestureController != null) {
       gestureController.performAction(action, EVENT_ID_UNTRACKED);
     }
+  }
+
+  public boolean performTwoFingerScroll(Path path, long duration) {
+    return isServiceActive()
+        && !PauseController.isPaused()
+        && gestureController != null
+        && gestureController.replayTwoFingerScroll(path, duration);
   }
 
   public void performCatalogMenuAction(

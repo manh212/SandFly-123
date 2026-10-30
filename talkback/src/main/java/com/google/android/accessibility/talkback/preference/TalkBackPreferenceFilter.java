@@ -310,9 +310,17 @@ public class TalkBackPreferenceFilter {
   }
 
   private boolean hide(Preference preference) {
+    return hideKey(preference.getKey());
+  }
+
+  public boolean isSearchable(String key) {
+    return !hideKey(key);
+  }
+
+  private boolean hideKey(String key) {
     Optional<TalkBackPreference> pref =
         Stream.of(TalkBackPreference.values())
-            .filter(p -> TextUtils.equals(preference.getKey(), context.getString(p.resId)))
+            .filter(p -> TextUtils.equals(key, context.getString(p.resId)))
             .findFirst();
 
     if (pref.isEmpty()) {

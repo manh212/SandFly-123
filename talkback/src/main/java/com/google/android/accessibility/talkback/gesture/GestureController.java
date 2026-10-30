@@ -158,7 +158,6 @@ import com.google.android.accessibility.utils.output.SpeechController.SpeakOptio
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableMap;
-import java.util.ArrayDeque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -331,6 +330,11 @@ public class GestureController {
     performAction(action, eventId, null, false);
   }
 
+  public boolean replayTwoFingerScroll(android.graphics.Path path, long duration) {
+    RecentUserInput.mark();
+    return pullToRefresh.replayScroll(path, duration);
+  }
+
   static Feedback.Speech.Action lastUtteranceCopyAction(boolean fromCustomMenu) {
     return fromCustomMenu ? COPY_SAVED : COPY_LAST;
   }
@@ -476,7 +480,7 @@ public class GestureController {
         result = true;
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_all_text))) {
-      AccessibilityNodeInfoCompat node = getEditTextFocus();
+      AccessibilityNodeInfoCompat node = findEditorTarget();
       if (node == null || !node.isEditable()) {
         result = false;
       } else {
@@ -624,7 +628,7 @@ public class GestureController {
             });
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_input))) {
-      AccessibilityNodeInfoCompat editor = findDictationTarget();
+      AccessibilityNodeInfoCompat editor = findEditorTarget();
       result = FeatureFlagReader.enableVoiceDictationShortcut(service)
           && editor != null
           && pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
@@ -635,7 +639,7 @@ public class GestureController {
         service.getString(R.string.shortcut_value_media_control_or_voice_input))) {
       result = false;
       if (!service.isPhoneCallActive()) {
-        AccessibilityNodeInfoCompat editor = findDictationTarget();
+        AccessibilityNodeInfoCompat editor = findEditorTarget();
         if (editor != null) {
           result = FeatureFlagReader.enableVoiceDictationShortcut(service)
               && pipeline.returnFeedback(eventId, Feedback.edit(editor, TOGGLE_VOICE_DICTATION));
@@ -883,7 +887,7 @@ public class GestureController {
           accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
       result = GranularEditing.open(service, editing != null ? editing : focus);
     } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
-      AccessibilityNodeInfoCompat target = findDictationTarget();
+      AccessibilityNodeInfoCompat target = findEditorTarget();
       result = dictation.start(target);
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_selection))) {
       AccessibilityNodeInfoCompat node =
@@ -1335,23 +1339,9 @@ public class GestureController {
     }
   }
 
-  private @Nullable AccessibilityNodeInfoCompat findDictationTarget() {
+  private @Nullable AccessibilityNodeInfoCompat findEditorTarget() {
     AccessibilityNodeInfoCompat focused =
-        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-    if (Role.getRole(focused) == Role.ROLE_EDIT_TEXT
-        && focused.isEnabled()
-        && focused.isVisibleToUser()) {
-      return focused;
-    }
-    AccessibilityNodeInfoCompat keyboardEditor =
-        accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused);
-    if (keyboardEditor != null && keyboardEditor.isEnabled()) {
-      return keyboardEditor;
-    }
-    AccessibilityNodeInfoCompat input = accessibilityFocusMonitor.getInputFocus();
-    if (focused == null && Role.getRole(input) == Role.ROLE_EDIT_TEXT && input.isEnabled()) {
-      return input;
-    }
+        accessibilityFocusMonitor.getAccessibilityFocus(true);
     AccessibilityNodeInfoCompat root =
         focused == null ? null : AccessibilityNodeInfoUtils.getRoot(focused);
     if (root == null) {
@@ -1360,46 +1350,16 @@ public class GestureController {
         root = AccessibilityNodeInfoCompat.wrap(active);
       }
     }
-    if (root == null) {
-      return null;
+    AccessibilityNodeInfoCompat target =
+        EditorTargetResolver.find(
+            focused,
+            accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused),
+            accessibilityFocusMonitor.getInputFocus(),
+            root);
+    if (target != null && !target.isFocused()) {
+      target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
     }
-    Rect origin = new Rect();
-    if (focused != null) {
-      focused.getBoundsInScreen(origin);
-    }
-    AccessibilityNodeInfoCompat nearest = null;
-    long bestDistance = Long.MAX_VALUE;
-    ArrayDeque<AccessibilityNodeInfoCompat> nodes = new ArrayDeque<>();
-    nodes.add(root);
-    while (!nodes.isEmpty()) {
-      AccessibilityNodeInfoCompat current = nodes.removeFirst();
-      if (Role.getRole(current) == Role.ROLE_EDIT_TEXT
-          && current.isEnabled()
-          && current.isVisibleToUser()) {
-        Rect bounds = new Rect();
-        current.getBoundsInScreen(bounds);
-        long distance = focused == null
-            ? 0
-            : (long) (bounds.centerX() - origin.centerX())
-                    * (bounds.centerX() - origin.centerX())
-                + (long) (bounds.centerY() - origin.centerY())
-                    * (bounds.centerY() - origin.centerY());
-        if (nearest == null || distance < bestDistance) {
-          nearest = current;
-          bestDistance = distance;
-        }
-      }
-      for (int i = 0; i < current.getChildCount(); i++) {
-        AccessibilityNodeInfoCompat child = current.getChild(i);
-        if (child != null) {
-          nodes.addLast(child);
-        }
-      }
-    }
-    if (nearest != null && !nearest.isFocused()) {
-      nearest.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
-    }
-    return nearest;
+    return target;
   }
 
   private @Nullable AccessibilityNodeInfoCompat getEditTextInputFocus() {

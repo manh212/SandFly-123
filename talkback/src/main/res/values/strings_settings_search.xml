@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="settings_search_title">Tìm kiếm cài đặt</string>
+  <string name="settings_search_loading">Đang tải danh sách cài đặt</string>
+  <string name="settings_search_empty">Không tìm thấy kết quả</string>
+</resources>

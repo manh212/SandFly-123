@@ -40,6 +40,14 @@ public abstract class TalkbackBaseFragment extends BasePreferencesFragment {
     this.xmlResId = xmlResId;
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+    if (getView() != null) {
+      getView().post(() -> SettingsSearchNavigation.focusTarget(this));
+    }
+  }
+
   /**
    * This function is used to get the sub title which the fragment likes to show on app bar. The
    * child class implements this function and will show sub title on app bar. If the child class

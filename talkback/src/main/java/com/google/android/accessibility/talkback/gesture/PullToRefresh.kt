@@ -90,6 +90,12 @@ class PullToRefresh(
     }
   }
 
+  fun replayScroll(path: Path, duration: Long): Boolean {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R || path.isEmpty) return false
+    cancel()
+    return sendSwipe(EVENT_ID_UNTRACKED, path, duration.coerceIn(100L, 800L), 100L)
+  }
+
   private fun scrollOnce() {
     val current = list ?: return
     val scrolled =
@@ -133,17 +139,21 @@ class PullToRefresh(
         moveTo(bounds.exactCenterX(), startY)
         lineTo(bounds.exactCenterX(), endY)
       }
+    return sendSwipe(eventId, path, PULL_DURATION_MS, PASS_THROUGH_WAIT_MS)
+  }
+
+  private fun sendSwipe(eventId: EventId?, path: Path, duration: Long, wait: Long): Boolean {
     val gesture =
       GestureDescription.Builder()
-        .addStroke(GestureDescription.StrokeDescription(path, 0, PULL_DURATION_MS))
+        .addStroke(GestureDescription.StrokeDescription(path, 0, duration))
         .build()
     // Touch exploration would take the swipe as a SandFly gesture, so the screen passes touch
     // through to the app until the swipe ends.
     val metrics = service.resources.displayMetrics
-    pipeline.returnFeedback(
-      eventId,
-      Feedback.passThroughMode(LOCK_PASS_THROUGH, Region(0, 0, metrics.widthPixels, metrics.heightPixels)),
-    )
+    if (!pipeline.returnFeedback(
+        eventId,
+        Feedback.passThroughMode(LOCK_PASS_THROUGH, Region(0, 0, metrics.widthPixels, metrics.heightPixels)),
+      )) return false
     val ended =
       object : AccessibilityService.GestureResultCallback() {
         override fun onCompleted(description: GestureDescription) = endPassThrough()
@@ -157,7 +167,7 @@ class PullToRefresh(
       if (!service.dispatchGesture(gesture, ended, handler)) endPassThrough()
     }
     pendingPull = send
-    handler.postDelayed(send, PASS_THROUGH_WAIT_MS)
+    handler.postDelayed(send, wait)
     pipeline.returnFeedback(eventId, Feedback.sound(R.raw.scroll_tone))
     return true
   }

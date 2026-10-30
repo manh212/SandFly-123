@@ -6,7 +6,7 @@ On Android 13+, the optional backend registers a TouchInteractionController call
 
 The standard matchers are adapted from Google's Apache-2.0 TalkBack sources at commit `229212fdf5842191d0a93fc95d9ca1423b346866`, under `utils/src/main/java/com/google/android/accessibility/utils/gestures/`. Their license headers are retained. The full TouchInteractionMonitor is not imported. The fork's existing gesture engine remains the default.
 
-The added matcher tracks both pointer IDs independently, requires two clear movements of at least six millimetres, rejects pinching, rotation, extra fingers, delayed second contact and long release gaps, and only completes after both fingers lift. Four reversals and eight perpendicular combinations are recognized. The winning extended matcher suppresses the competing straight-swipe matcher. Ordinary straight swipes still use their existing scroll actions, but are recognized before executing, so they do not provide the same continuous dragging feedback as framework passthrough. Actual accuracy and device-specific touch behavior require phone testing.
+The added matcher tracks both pointer IDs independently, requires two clear movements of at least six millimetres, rejects pinching, rotation, extra fingers, delayed second contact and long release gaps, and only completes after both fingers lift. Four reversals and eight perpendicular combinations are recognized. The winning extended matcher suppresses the competing straight-swipe matcher. The four ordinary straight swipes remain reserved for scrolling and page navigation. Once recognized, they replay the recorded finger path as an app drag through temporary touch passthrough, including horizontal pagers. They complete after the fingers lift rather than providing continuous dragging feedback. Actual accuracy and device-specific touch behavior require phone testing.
 
 ## One-finger latency
 
@@ -35,7 +35,7 @@ New routes open the existing submenu or invoke the existing menu action. They do
 - TwoFingerDirectionalGestureTest: twelve combinations, completion timing, straight and short movements, pinch, rotation, third fingers, cancellation, mismatched directions and delayed contacts/releases.
 - GestureManifoldCompatibilityTest: one-finger swipes, straight two-finger swipes and an extended reversal competing with the standard recognizer.
 - ExtendedGesturesTest: default-off behavior, saved assignments, unsupported Android versions and placement inside existing settings/categories.
-- ExtendedTouchBackendTest: inline callback execution, immediate one-finger swipe dispatch and stopped-backend rejection.
+- ExtendedTouchBackendTest: inline callback execution, immediate one-finger swipe dispatch, native drag replay for all four straight two-finger directions, extended-action preservation and stopped-backend rejection.
 - MenuGestureActionsTest: configured menu coverage, clipboard and speech history visibility, duplicate prevention and stable identifiers.
 
-Builds, lint and tests run only in GitHub Actions. The owner requested that the coding agent stop after pushing rather than monitor the next CI run. The owner validates the APK's real gesture behavior, scrolling, focus order and accessibility labels on a phone.
+Builds, lint and tests run only in GitHub Actions. The owner validates the APK's real gesture behavior, scrolling, focus order and accessibility labels on a phone.

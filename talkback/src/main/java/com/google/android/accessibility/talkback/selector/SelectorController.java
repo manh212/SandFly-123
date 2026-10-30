@@ -1018,7 +1018,7 @@ public class SelectorController implements UserInputEventListener {
         hint = getAdjustSelectedSettingGestures();
       }
       case SPEECH_STREAM -> {
-        actionDescription = context.getString(R.string.title_pref_speech_stream);
+        actionDescription = context.getString(R.string.selector_speech_volume_title);
         hint = getAdjustSelectedSettingGestures();
       }
       case VERTICAL_NAVIGATION -> {
@@ -2043,7 +2043,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case SPEECH_STREAM -> {
-        changeSpeechStream(eventId, isNext);
+        changeSpeechVolume(eventId, !isNext);
         return;
       }
       case VERTICAL_NAVIGATION -> {
@@ -2294,15 +2294,10 @@ public class SelectorController implements UserInputEventListener {
     verticalNavigator.move(eventId, isNext);
   }
 
-  /** Changes the volume speech and sounds play at to the next or previous of the four. */
-  private void changeSpeechStream(EventId eventId, boolean isNext) {
-    List<String> streams = FailoverTextToSpeech.STREAM_VALUES;
-    int index = streams.indexOf(FailoverTextToSpeech.chosenSpeechStream(prefs));
-    String stream = streams.get(Math.floorMod(index + (isNext ? 1 : -1), streams.size()));
-    prefs.edit().putString(FailoverTextToSpeech.PREF_SPEECH_STREAM_KEY, stream).apply();
-    String[] names = context.getResources().getStringArray(R.array.pref_speech_stream_entries);
-    String displayText = names[streams.indexOf(stream)];
-    announceSetting(eventId, displayText, getSelectSettingGestures());
+  private void changeSpeechVolume(EventId eventId, boolean increase) {
+    int volume = SpeechVolumeControl.change(context, prefs, increase);
+    String displayText = context.getString(R.string.selector_speech_volume_value, volume);
+    announceSetting(eventId, displayText, getAdjustSelectedSettingGestures());
     showQuickMenuActionOverlay(eventId, displayText);
   }
 

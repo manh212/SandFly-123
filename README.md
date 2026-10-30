@@ -45,6 +45,12 @@ Meridian speaks sooner after each swipe and screen change, and can play its soun
 
 Scripts written in Lua can change how Meridian works in one app or in every app. See [Writing Meridian scripts](docs/scripting.md).
 
+## Find settings and commands
+
+The search field at the top of Meridian settings finds settings, gesture commands and keyboard shortcuts, including nested pages. Results appear while typing, with no minimum length or result limit. A partial word or a single letter matches anywhere in a name or setting summary; case and Vietnamese accents do not matter. Multiple words must all match. Selecting a result opens its settings page; commands open the gesture action picker. Going back preserves the query, and clearing it restores the main settings list. Gesture action search uses the same matching rules.
+
+The **Speech volume** reading control changes speech gain by 10 percentage points, from 25% to 200%. It adjusts the active voice profile when one is selected. **Clear all text** can find an editable field on the current screen while accessibility focus is on another item, using the same target selection as voice input.
+
 ## Permissions through Shizuku or adb
 
 Two settings need permissions that Android only grants through adb:

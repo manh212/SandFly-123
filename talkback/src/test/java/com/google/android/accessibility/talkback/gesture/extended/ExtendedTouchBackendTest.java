@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import android.accessibilityservice.AccessibilityGestureEvent;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.TouchInteractionController;
+import android.graphics.Path;
+import android.graphics.RectF;
 import android.view.Display;
 import android.view.MotionEvent;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -32,6 +34,11 @@ public class ExtendedTouchBackendTest {
   public static class TestService extends TalkBackService {
     final List<Integer> gestures = new ArrayList<>();
     final List<String> actions = new ArrayList<>();
+    final List<Path> scrolls = new ArrayList<>();
+    @Override public boolean performTwoFingerScroll(Path path, long duration) {
+      scrolls.add(path);
+      return true;
+    }
     @Override public void performCatalogAction(String action) { actions.add(action); }
     @Override public void onCreate() {}
     @Override public boolean onGesture(AccessibilityGestureEvent event) {
@@ -128,6 +135,58 @@ public class ExtendedTouchBackendTest {
     backend.onGestureCompleted(new AccessibilityGestureEvent(
       AccessibilityService.GESTURE_SWIPE_UP, Display.DEFAULT_DISPLAY, List.of()));
     assertTrue(service.gestures.isEmpty());
+  }
+
+  @Test public void fourStraightTwoFingerSwipesReplayTheOriginalDrag() {
+    int[] ids = {
+      AccessibilityService.GESTURE_2_FINGER_SWIPE_UP,
+      AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN,
+      AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT,
+      AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT
+    };
+    float[][] ends = {{400, 300}, {400, 700}, {200, 500}, {600, 500}};
+    for (int i = 0; i < ids.length; i++) {
+      touch.callback.onStateChanged(TouchInteractionController.STATE_CLEAR);
+      touch.callback.onStateChanged(TouchInteractionController.STATE_TOUCH_INTERACTING);
+      dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
+      dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
+      dragMotion(MotionEvent.ACTION_MOVE, 2, ends[i][0], ends[i][1]);
+      backend.onGestureCompleted(new AccessibilityGestureEvent(ids[i], Display.DEFAULT_DISPLAY, List.of()));
+      assertEquals(i + 1, service.scrolls.size());
+      RectF bounds = new RectF();
+      service.scrolls.get(i).computeBounds(bounds, true);
+      assertEquals(Math.min(400, ends[i][0]), bounds.left, .01f);
+      assertEquals(Math.max(400, ends[i][0]), bounds.right, .01f);
+      assertEquals(Math.min(500, ends[i][1]), bounds.top, .01f);
+      assertEquals(Math.max(500, ends[i][1]), bounds.bottom, .01f);
+    }
+    assertTrue(service.gestures.isEmpty());
+  }
+
+  @Test public void extendedGestureKeepsItsAssignedAction() {
+    dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
+    dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
+    backend.onGestureCompleted(new AccessibilityGestureEvent(ExtendedGestures.FIRST_ID, Display.DEFAULT_DISPLAY, List.of()));
+    assertEquals(List.of(ExtendedGestures.FIRST_ID), service.gestures);
+    assertTrue(service.scrolls.isEmpty());
+  }
+
+  private void dragMotion(int action, int count, float x, float y) {
+    MotionEvent.PointerProperties[] properties = new MotionEvent.PointerProperties[count];
+    MotionEvent.PointerCoords[] coords = new MotionEvent.PointerCoords[count];
+    for (int i = 0; i < count; i++) {
+      properties[i] = new MotionEvent.PointerProperties();
+      properties[i].id = i;
+      properties[i].toolType = MotionEvent.TOOL_TYPE_FINGER;
+      coords[i] = new MotionEvent.PointerCoords();
+      coords[i].x = x + i * 60;
+      coords[i].y = y;
+      coords[i].pressure = 1;
+      coords[i].size = 1;
+    }
+    MotionEvent event = MotionEvent.obtain(100, time += 20, action, count, properties, coords,
+        0, 0, 1, 1, 0, 0, 0, 0);
+    try { touch.callback.onMotionEvent(event); } finally { event.recycle(); }
   }
 
   private long time = 100;

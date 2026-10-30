@@ -51,10 +51,8 @@ import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -142,6 +140,12 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
     return bundle;
   }
 
+  public static Bundle createBundleForGestureSearch(List<GestureListPreference> gestures, String query) {
+    Bundle bundle = createBundleForGestureSearch(gestures);
+    bundle.putString(SEARCH_QUERY, query);
+    return bundle;
+  }
+
   private void showGestureAssignment(ActionItem item) {
     assignmentDialog =
         new MaterialAlertDialogBuilder(requireContext())
@@ -210,10 +214,7 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
   }
 
   private static String normalizeSearch(String text) {
-    return Normalizer.normalize(text, Normalizer.Form.NFD)
-        .replaceAll("\\p{M}+", "")
-        .toLowerCase(Locale.ROOT)
-        .replace('đ', 'd');
+    return SearchMatcher.normalize(text);
   }
 
   @Override
@@ -261,7 +262,9 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
     if (bundle == null) {
       throw new IllegalArgumentException();
     }
-    searchQuery = savedInstanceState == null ? "" : savedInstanceState.getString(SEARCH_QUERY, "");
+    searchQuery = savedInstanceState == null
+        ? bundle.getString(SEARCH_QUERY, "")
+        : savedInstanceState.getString(SEARCH_QUERY, "");
     gestureKeys = bundle.getStringArray(GESTURE_KEYS);
     gestureLabels = bundle.getCharSequenceArray(GESTURE_LABELS);
     title = bundle.getCharSequence(GESTURE_TITLE);
@@ -291,15 +294,7 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
           titledCategories.add(category);
         }
         case TYPE_ACTION_ITEM -> {
-          String label = normalizeSearch(item.text);
-          boolean matches = true;
-          for (String word : query.split("\\s+")) {
-            if (!label.contains(word)) {
-              matches = false;
-              break;
-            }
-          }
-          if (!matches) {
+          if (!SearchMatcher.matches(searchQuery, item.text)) {
             continue;
           }
           AccessibilitySuiteRadioButtonPreference radioButtonPreference =

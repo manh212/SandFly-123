@@ -54,6 +54,7 @@ import java.util.List;
 /** Panel holding a set of shortcut preferences. Recreated when preset value changes. */
 public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragment {
   private static final String TAG = "TalkBackGestureShortcutPreferenceFragment";
+  public static final String ACTION_SEARCH_QUERY = "settings_action_search_query";
 
   /** Preferences managed by this activity. */
   private SharedPreferences prefs;
@@ -130,6 +131,10 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   }
 
   private void openActionSearch() {
+    openActionSearch("");
+  }
+
+  private void openActionSearch(String query) {
     List<GestureListPreference> gestures = new ArrayList<>();
     for (GestureListPreference gesture : searchableGestures) {
       if (gesture.isEnabled()) {
@@ -143,7 +148,7 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     Intent intent = new Intent(requireContext(), TalkBackSubSettings.class);
     intent.putExtra(FRAGMENT_NAME, GesturePreferenceFragmentCompat.class.getCanonicalName());
     intent.putExtra(
-        FRAGMENT_ARGS, GesturePreferenceFragmentCompat.createBundleForGestureSearch(gestures));
+        FRAGMENT_ARGS, GesturePreferenceFragmentCompat.createBundleForGestureSearch(gestures, query));
     startActivity(intent);
   }
 
@@ -313,6 +318,18 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     searchableGestures.clear();
     collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     updatePreferencesForVibrationWatchIfNeeded();
+    Bundle arguments = getArguments();
+    if (arguments != null && arguments.containsKey(ACTION_SEARCH_QUERY)) {
+      String query = arguments.getString(ACTION_SEARCH_QUERY, "");
+      arguments.remove(ACTION_SEARCH_QUERY);
+      if (getView() != null) {
+        getView().post(() -> {
+          if (isAdded()) {
+            openActionSearch(query);
+          }
+        });
+      }
+    }
   }
 
   private void updatePreferencesOnResume() {

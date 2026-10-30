@@ -23,12 +23,16 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.provider.Settings;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.Preference.OnPreferenceChangeListener;
 import androidx.preference.PreferenceGroup;
+import androidx.preference.PreferenceScreen;
 import androidx.preference.TwoStatePreference;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity.HatsRequesterViewModel;
@@ -58,6 +62,9 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
   private Context context;
   private SharedPreferences prefs;
   private SettingsMetricStore settingsMetricStore;
+  private SettingsSearchController settingsSearch;
+  private String searchQuery = "";
+  private PreferenceScreen rootSearchScreen;
 
   private Optional<HatsSurveyRequester> hatsSurveyRequester;
 
@@ -74,6 +81,28 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
     return getText(R.string.talkback_preferences_title);
   }
 
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    if (getXmlResId() == R.xml.preferences && rootSearchScreen != null) {
+      setPreferenceScreen(rootSearchScreen);
+    }
+    View preferences = super.onCreateView(inflater, container, savedInstanceState);
+    if (getXmlResId() != R.xml.preferences) {
+      return preferences;
+    }
+    if (savedInstanceState != null) {
+      searchQuery = savedInstanceState.getString("settings_search_query", searchQuery);
+    }
+    settingsSearch = new SettingsSearchController(this, searchQuery);
+    return settingsSearch.wrap(preferences);
+  }
+
+  @Override
+  public void onSaveInstanceState(Bundle outState) {
+    super.onSaveInstanceState(outState);
+    outState.putString("settings_search_query", settingsSearch == null ? searchQuery : settingsSearch.query());
+  }
+
   /**
    * Loads the preferences from the XML preference definition and defines an
    * onPreferenceChangeListener
@@ -81,6 +110,9 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
+    if (getXmlResId() == R.xml.preferences) {
+      rootSearchScreen = getPreferenceScreen();
+    }
 
     context = getContext();
     if (context == null) {
@@ -228,6 +260,11 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
 
   @Override
   public void onDestroyView() {
+    if (settingsSearch != null) {
+      searchQuery = settingsSearch.query();
+      settingsSearch.stop();
+      settingsSearch = null;
+    }
     super.onDestroyView();
     hatsSurveyRequester.ifPresent(requester -> requester.setOnSurveyAvailableListener(null));
   }
