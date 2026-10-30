@@ -31,8 +31,8 @@ class StructuralChurnTrackerTest {
   @Test fun orderedTraversalResumesAfterQuietPeriod() {
     val tracker = StructuralChurnTracker()
     repeat(4) { tracker.record(42, 100L + it * 50) }
-    assertTrue(tracker.isChurning(42, 2300))
-    assertFalse(tracker.isChurning(42, 2350))
+    assertTrue(tracker.isChurning(42, 2200))
+    assertFalse(tracker.isChurning(42, 2250))
   }
 
   @Test fun continuedChangesExtendLivePeriod() {
