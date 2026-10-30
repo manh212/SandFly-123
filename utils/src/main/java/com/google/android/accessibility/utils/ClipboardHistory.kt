@@ -39,6 +39,7 @@ object ClipboardHistory {
 
   private const val FILE = "clipboard_history"
   private const val KEY = "entries"
+  private const val LEGACY_IMPORTED = "legacy_imported"
   /** ClipDescription.EXTRA_IS_SENSITIVE, which apps set before Android 13 too. */
   private const val EXTRA_IS_SENSITIVE = "android.content.extra.IS_SENSITIVE"
 
@@ -158,13 +159,33 @@ object ClipboardHistory {
     context.createDeviceProtectedStorageContext().getSharedPreferences(FILE, Context.MODE_PRIVATE)
 
   private fun read(context: Context): List<String> {
-    val json = prefs(context).getString(KEY, null) ?: return emptyList()
-    return try {
-      val array = JSONArray(json)
-      (0 until array.length()).mapNotNull { array.optString(it).takeIf(String::isNotEmpty) }
-    } catch (e: JSONException) {
-      emptyList()
-    }
+    val storage = prefs(context)
+    val current =
+      try {
+        val json = storage.getString(KEY, null)
+        if (json == null) emptyList()
+        else {
+          val array = JSONArray(json)
+          (0 until array.length()).mapNotNull { array.optString(it).takeIf(String::isNotEmpty) }
+        }
+      } catch (e: JSONException) {
+        emptyList()
+      }
+    if (storage.getBoolean(LEGACY_IMPORTED, false)) return current
+    val legacy =
+      try {
+        val file = java.io.File(context.filesDir, "clipboard-history.json")
+        if (!file.isFile || file.length() > 1_000_000L) emptyList()
+        else {
+          val array = JSONArray(file.readText())
+          (0 until array.length()).mapNotNull { array.optString(it).takeIf(String::isNotBlank) }
+        }
+      } catch (e: Exception) {
+        emptyList()
+      }
+    val merged = (current + legacy).map { it.take(MAX_LENGTH) }.distinct().take(MAX_ENTRIES)
+    storage.edit().putString(KEY, JSONArray(merged).toString()).putBoolean(LEGACY_IMPORTED, true).apply()
+    return merged
   }
 
   private fun write(context: Context, entries: List<String>) {

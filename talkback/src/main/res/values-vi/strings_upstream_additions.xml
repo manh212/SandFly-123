@@ -163,7 +163,6 @@
   <string name="title_pref_shortcut_edge_right_bottom_long_left">Vuốt dài sang trái từ nửa dưới của cạnh phải</string>
   <string name="title_pref_edge_first_click_mm">Khoảng cách đến tiếng tách đầu tiên</string>
   <string name="title_pref_edge_second_click_mm">Khoảng cách từ tiếng tách thứ nhất đến thứ hai</string>
-  <string name="title_pref_selector_auto_switch">Tự động đổi chế độ điều khiển chức năng đọc</string>
   <string name="title_keyboard_echo_handwriting_keyboard">Phản hồi khi dùng bàn phím viết tay</string>
   <string name="shortcut_previous_track">Bản nhạc trước</string>
   <string name="shortcut_rewind">Tua lại</string>

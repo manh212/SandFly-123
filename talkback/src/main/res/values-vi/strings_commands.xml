@@ -26,10 +26,6 @@
     <string name="commands_category_speech">Lời nói</string>
     <string name="commands_category_tables">Bảng</string>
     <string name="commands_category_web">Web</string>
-    <string name="item_list_current">Hiện tại</string>
-    <string name="item_list_not_in_reading_controls">Không có trong Chế độ điều khiển chức năng đọc</string>
-    <string name="item_list_not_in_sandfly_menu">Không có trong Trình đơn SandFly</string>
-    <string name="item_list_options">Tuỳ chọn</string>
     <string name="sounds_category_sounds">Âm thanh</string>
     <string name="sounds_category_vibration">Rung</string>
     <string name="speech_category_languages">Ngôn ngữ</string>
@@ -49,7 +45,6 @@
     <string name="title_pref_speech_stream_control">Điều khiển âm lượng cho lời nói</string>
     <string name="title_pref_touch">Chạm</string>
     <string name="title_pref_typing">Nhập</string>
-    <string name="title_pref_updates">Cập nhật và cài đặt</string>
     <string name="title_pref_volume_keys">Phím âm lượng</string>
     <string name="typing_category_other_input">Cách nhập khác</string>
     <string name="verbosity_category_announcements">Thông báo bằng lời nói</string>

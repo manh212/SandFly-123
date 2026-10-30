@@ -61,13 +61,9 @@
     <!-- Group of verbosity settings for what is spoken when the screen changes: window names, scrolling, volume. [CHAR LIMIT=40] -->
     <string name="verbosity_category_announcements">Announcements</string>
     <!-- Heading of the reading controls or SandFly menu items that are in the list, in its order; each can be moved or removed. [CHAR LIMIT=40] -->
-    <string name="item_list_current">Current</string>
     <!-- Heading of the other settings of the Reading controls or SandFly menu screen. [CHAR LIMIT=40] -->
-    <string name="item_list_options">Options</string>
     <!-- Heading above the groups of reading controls that aren't in the reading controls; tapping one adds it. [CHAR LIMIT=60] -->
-    <string name="item_list_not_in_reading_controls">Not in reading controls</string>
     <!-- Heading above the groups of SandFly menu items that aren't in the menu; tapping one adds it. [CHAR LIMIT=60] -->
-    <string name="item_list_not_in_sandfly_menu">Not in SandFly menu</string>
     <!-- Group of Speech settings: engine, voice profile, rate, pitch and volume. [CHAR LIMIT=40] -->
     <string name="speech_category_voice">Voice</string>
     <!-- Group of Speech settings for switching languages and dialects. [CHAR LIMIT=40] -->
@@ -99,7 +95,6 @@
     <!-- Title of the settings screen with Export settings and Import settings. [CHAR LIMIT=40] -->
     <string name="title_pref_backup">Back up and restore</string>
     <!-- Title of the settings screen for checking for SandFly updates and how SandFly appears installed. [CHAR LIMIT=40] -->
-    <string name="title_pref_updates">Updates and installation</string>
     <!-- Audio output setting: which volume control, such as Accessibility volume or Media volume, sets how loud speech is. [CHAR LIMIT=60] -->
     <string name="title_pref_speech_stream_control">Volume control for speech</string>
     <!-- Shown in place of the arrow keys of a command that no arrow keys run. [CHAR LIMIT=40] -->
