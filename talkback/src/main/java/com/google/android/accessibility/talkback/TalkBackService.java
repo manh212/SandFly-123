@@ -851,7 +851,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     backgroundEventGate = new BackgroundEventGate(
         this::handleAccessibilityEvent, this::isExpectedScrollResponse,
         event -> {
-          TraversalTreeCache.noteDeferredEvent(event);
+          // Deferred active-window changes must invalidate the reading order *now*, not
+          // only when their latest copy is delivered. Otherwise gestures can follow
+          // nodes that vanished while a feed was refreshing its cards.
+          AsyncTraversalOrder.onEvent(event);
+          TraversalTreeCache.onAccessibilityEvent(event);
+          markRootDirtyForEvent(event);
           PreparedFocusSpeech.onAccessibilityEvent(event);
         });
 
