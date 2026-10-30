@@ -1400,6 +1400,18 @@ public class FocusProcessorForLogicalNavigation {
     }
     boolean usedSavedTree = traversalStrategy != null;
     Performance.getInstance().onNavigationDetail(eventId, "order_cache_hit", usedSavedTree ? 1 : 0);
+    // In a frequently changing feed, rebuilding a complete traversal order on the UI
+    // thread after every swipe blocks touch exploration as well. Prefer local traversal
+    // for ordinary next/previous gestures until the feed becomes quiet.
+    if (traversalStrategy == null
+        && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+        && isMoveToNextOrPreviousItem(navigationAction)
+        && !NodeOverrides.hasSource()
+        && TraversalTreeCache.shouldUseLiveTraversal(rootNode.getWindowId())) {
+      traversalStrategy = new SimpleTraversalStrategy();
+      TraversalTreeCache.noteLiveAnswer();
+      Performance.getInstance().onNavigationDetail(eventId, "adaptive_live_order", 1);
+    }
     if (traversalStrategy == null && LatencyExperiments.Feature.ASYNC_ORDER.enabled()
         && TraversalTreeCache.getEnabled() && !NodeOverrides.hasSource()
         && TraversalStrategyUtils.isLogicalDirection(searchDirection) && !resumingOrder) {
@@ -2727,7 +2739,11 @@ public class FocusProcessorForLogicalNavigation {
       @NonNull AccessibilityNodeInfoCompat root,
       @NonNull AccessibilityNodeInfoCompat node) {
     if (node.getWindowId() != root.getWindowId()) return null;
+    // Reuse the local strategy during churn. Otherwise a scroll-edge probe would
+    // construct a full ordered tree, undoing the fast path above.
     return strategy instanceof OrderedTraversalStrategy
+        || (strategy instanceof SimpleTraversalStrategy
+            && TraversalTreeCache.shouldUseLiveTraversal(root.getWindowId()))
         || LatencyExperiments.Feature.LIVE_EDGE_REUSE.enabled() ? strategy : null;
   }
 
