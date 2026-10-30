@@ -50,6 +50,20 @@ class StructuralChurnTrackerTest {
     assertFalse(tracker.isChurning(42, 400))
   }
 
+  @Test fun expensiveTreeBuildEnablesLocalNavigationWithoutAnEventBurst() {
+    val tracker = StructuralChurnTracker()
+    tracker.noteSlowBuild(42, 1000L, 733L)
+    assertTrue(tracker.isChurning(42, 8900L))
+    assertFalse(tracker.isChurning(42, 9000L))
+    assertFalse(tracker.isChurning(43, 2000L))
+  }
+
+  @Test fun normalTreeBuildDoesNotChangeNavigationMode() {
+    val tracker = StructuralChurnTracker()
+    tracker.noteSlowBuild(42, 1000L, 80L)
+    assertFalse(tracker.isChurning(42, 1100L))
+  }
+
   @Test fun clockResetDiscardsOldRateWindow() {
     val tracker = StructuralChurnTracker()
     repeat(3) { tracker.record(42, 5000L + it * 10) }
