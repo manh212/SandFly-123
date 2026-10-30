@@ -287,7 +287,11 @@ class BackgroundEventGateTest {
     assertFalse(gate.onAccessibilityEvent(idleTicker()))
     assertFalse(gate.onAccessibilityEvent(idleTicker()))
     assertTrue(delivered.isEmpty())
-    assertTrue(gate.onAccessibilityEvent(idleTicker(8, 11)))
+    // Index changes must not be discarded. The active-window flood gate may defer
+    // the meaningful update after four observations, then deliver its latest copy.
+    assertFalse(gate.onAccessibilityEvent(idleTicker(8, 11)))
+    advance(200)
+    assertEquals(listOf("foreground"), delivered)
   }
 
   @Test
