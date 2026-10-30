@@ -153,8 +153,10 @@ class PullToRefresh(
     // Touch exploration would take the swipe as a SandFly gesture, so touch passes through to the
     // app where the swipe starts, which decides, until it ends. Elsewhere the user's touches are
     // still explored.
-    val x = bounds.exactCenterX().toInt()
-    val y = startY.toInt()
+    val start = FloatArray(2)
+    if (!android.graphics.PathMeasure(path, false).getPosTan(0f, start, null)) return false
+    val x = start[0].toInt()
+    val y = start[1].toInt()
     passingThrough = true
     pipeline.returnFeedback(
       eventId,

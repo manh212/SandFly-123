@@ -25,7 +25,6 @@ import android.os.Looper
 import android.os.Process
 import android.provider.Settings
 import com.google.android.accessibility.talkback.update.Updater
-import com.google.android.accessibility.talkback.update.Updater
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 
 /**
@@ -90,7 +89,7 @@ object ExitAfterTurnOff {
       cancel()
       return
     }
-    if (ProblemReportSender.isSending || Updater.isBusy) {
+    if (Updater.isBusy) {
       later()
       return
     }

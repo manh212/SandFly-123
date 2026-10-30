@@ -46,6 +46,7 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
   private val appContext = context.applicationContext
   private val prefs = SharedPreferencesUtils.getSharedPreferences(appContext)
   private val handler = Handler(Looper.getMainLooper())
+  private var closed = false
 
   private val languages = LruCache<String, Detection>(MAX_LANGUAGES)
 

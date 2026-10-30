@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.translation
 
+import android.content.Context
 import android.icu.text.ListFormatter
 import android.text.SpannableString
 import android.text.SpannableStringBuilder
@@ -91,7 +92,7 @@ class TranslateCommand(private val context: Context, private val speaker: Speech
     original = source
     spoken = speech.toString()
     if (TranslationSettings.copy(prefs)) {
-      ClipboardHistory.copy(service, translation.text)
+      ClipboardHistory.copy(context, translation.text)
     }
 
     speaker.speak(speech, EVENT_ID_UNTRACKED, options(FeedbackItem.FLAG_FORCE_FEEDBACK_ALL))

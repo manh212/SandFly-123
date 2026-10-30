@@ -299,6 +299,5 @@ class DirectTouchFragment : TalkbackBaseFragment() {
       }
     val mainHandler = Handler(Looper.getMainLooper())
     val main = Handler(Looper.getMainLooper())
-    const val MAX_BACKUP_BYTES = 1024 * 1024
   }
 }

@@ -32,6 +32,16 @@ import org.json.JSONObject
 internal class AiServiceRequestPerformer(private val requestQueue: RequestQueue) {
   constructor(context: Context) : this(GeminiRestRequestPerformer.sharedQueue(context))
 
+  private val sessionsLock = Any()
+  private var currentSession: RequestSession? = null
+
+  private class RequestSession(val callback: GeminiRestResponseCallback) {
+    val requests: MutableSet<Request<*>> =
+      Collections.newSetFromMap(IdentityHashMap<Request<*>, Boolean>())
+    var cancelled = false
+    var finished = false
+  }
+
   fun performRequest(
     address: String,
     model: String,

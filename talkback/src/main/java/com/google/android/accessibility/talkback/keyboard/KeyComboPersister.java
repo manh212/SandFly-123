@@ -17,6 +17,8 @@
 package com.google.android.accessibility.talkback.keyboard;
 
 import android.content.Context;
+import java.util.ArrayList;
+import java.util.List;
 import android.content.SharedPreferences;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.utils.TalkBackSharedPreferencesUtils;
@@ -66,6 +68,20 @@ public class KeyComboPersister {
   public boolean contains(String key) {
     return prefs.contains(
         TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(this.keyPrefix, key));
+  }
+
+  public List<String> keysStartingWith(String start) {
+    String codeSuffix = TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(null, "");
+    String keyStart = TalkBackSharedPreferencesUtils.getKeyForKeyComboCode(keyPrefix, start);
+    keyStart = keyStart.substring(0, keyStart.length() - codeSuffix.length());
+    List<String> keys = new ArrayList<>();
+    for (String prefKey : prefs.getAll().keySet()) {
+      if (prefKey.startsWith(keyStart) && prefKey.endsWith(codeSuffix)) {
+        String key = prefKey.substring(keyStart.length() - start.length());
+        keys.add(key.substring(0, key.length() - codeSuffix.length()));
+      }
+    }
+    return keys;
   }
 
   public KeyCombo getKeyCombo(String key) {

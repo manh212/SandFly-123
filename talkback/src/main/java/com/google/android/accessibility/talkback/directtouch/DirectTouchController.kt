@@ -249,7 +249,9 @@ class DirectTouchController(
     if (evaluating || paused || !FeatureSupport.supportPassthrough()) {
       return
     }
-    // Leaving a text field doesn't always send a focus event, such as when the keyboard closes.
+    evaluating = true
+    try {
+      // Leaving a text field doesn't always send a focus event, such as when the keyboard closes.
     if (textFieldFocused) {
       textFieldFocused = service.findFocus(AccessibilityNodeInfo.FOCUS_INPUT)?.isEditable == true
     }

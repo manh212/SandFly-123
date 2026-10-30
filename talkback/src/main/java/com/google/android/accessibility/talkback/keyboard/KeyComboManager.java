@@ -515,6 +515,20 @@ public class KeyComboManager
     return assignedShortcut.toString();
   }
 
+  public String getArrowKeysStringRepresentation(long code) {
+    if (code == KeyComboModel.KEY_COMBO_CODE_UNASSIGNED) {
+      return context.getString(R.string.keycombo_unassigned);
+    }
+    KeyCombo combo = new KeyCombo(code, false);
+    StringBuilder result = new StringBuilder();
+    appendModifiers(combo.getModifiers(), result);
+    if (combo.getPrefixKeyCode() != KeyComboModel.NO_PREFIX_KEY_CODE) {
+      appendKey(combo.getPrefixKeyCode(), result);
+    }
+    appendKey(combo.getKeyCode(), result);
+    return result.toString();
+  }
+
   /** Notifies configuration changed. */
   public void onConfigurationChanged(Configuration newConfig) {
     if (newConfig.hardKeyboardHidden != hardwareKeyboardStatus) {

@@ -282,12 +282,6 @@ class AudioDeviceRouter @JvmOverloads constructor(
     return am.mode == AudioManager.MODE_IN_CALL || am.mode == AudioManager.MODE_RINGTONE
   }
 
-  /**
-   * Whether a phone call is ringing or on now. Without the phone permission, from the audio mode.
-   */
-    val state =
-        @Suppress("DEPRECATION") context.getSystemService(TelephonyManager::class.java)?.callState
-    if (state != null) return state != TelephonyManager.CALL_STATE_IDLE
   /** Re-evaluates and applies audio routing according to the selected target. */
   fun applyRouting() {
     val am = audioManager ?: return

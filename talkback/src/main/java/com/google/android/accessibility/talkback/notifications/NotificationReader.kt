@@ -170,7 +170,6 @@ object NotificationReader {
     var speechAction: SpeechController.UtteranceCompleteRunnable? = null
     /** Its listener in its voice profile's engine, which identifies it there. */
     var voiceListener: NotificationVoice.Listener? = null
-    val speak = Runnable { NotificationReader.speak(this) }
 
     fun copy() =
       Readout(info, decision, text, settings, recorded = false).also {
