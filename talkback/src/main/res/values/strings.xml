@@ -4510,5 +4510,5 @@
     <string name="message_developer_settings_notice">Đây là khu vực dành cho nhà phát triển. Các tính năng ở đây có thể chưa ổn định, gây lỗi hoặc làm tăng độ trễ và khiến Meridian phản hồi chậm hơn. Chỉ tiếp tục nếu bạn muốn thử nghiệm.</string>
     <string name="action_developer_settings_not_now">Không đồng ý</string>
     <string name="action_developer_settings_continue">Đồng ý và tiếp tục</string>
-    <string name="title_selector_repeat_translate">Nhắc lại và dịch lời đọc</string>
+    <string name="title_selector_repeat_translate" tools:ignore="MissingTranslation">Nhắc lại và dịch lời đọc</string>
 </resources>
