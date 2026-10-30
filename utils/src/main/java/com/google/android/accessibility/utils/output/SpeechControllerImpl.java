@@ -847,7 +847,7 @@ public class SpeechControllerImpl implements SpeechController {
         (ClipboardManager) mContext.getSystemService(Context.CLIPBOARD_SERVICE);
     ClipData clip = ClipData.newPlainText(null, text);
     clipboard.setPrimaryClip(clip);
-    ClipboardHistory.record(mContext, copyableText);
+    ClipboardHistory.record(mContext, text);
 
     // Verify that we actually have the utterance on the clipboard
     if (FeatureSupport.supportReadClipboard()) {

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" xmlns:tools="http://schemas.android.com/tools">
   <string name="title_pref_category_manage_focus_indicator">Chỉ báo lấy tiêu điểm</string>
   <string name="title_pref_show_exit_watermark">Hiện hướng dẫn tắt SandFly</string>
   <string name="summary_pref_show_exit_watermark">Khi SandFly bật, hiện cách tắt SandFly</string>

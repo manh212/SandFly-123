@@ -540,7 +540,12 @@ public class ScreenRecognitionController {
         () -> {
           pendingRefresh = null;
           if (active && request == generation) {
-            startRecognition();
+            SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+            if ("ai".equals(prefs.getString("pref_screen_recognition_method", "ocr"))) {
+              stopSilently();
+            } else {
+              startRecognition();
+            }
           }
         };
     mainHandler.postDelayed(pendingRefresh, REFRESH_AFTER_ACTIVATION_DELAY_MS);
