@@ -21,7 +21,6 @@ import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.google.android.accessibility.talkback.actor.gemini.GeminiRestRequestPerformer.GeminiRestResponseCallback
 import java.util.Collections
 import java.util.IdentityHashMap
@@ -31,7 +30,7 @@ import org.json.JSONObject
 
 /** Sends Gemini requests to the [AiService] the user set up, as chat requests. */
 internal class AiServiceRequestPerformer(private val requestQueue: RequestQueue) {
-  constructor(context: Context) : this(Volley.newRequestQueue(context))
+  constructor(context: Context) : this(GeminiRestRequestPerformer.sharedQueue(context))
   private val sessionsLock = Any()
   private var currentSession: RequestSession? = null
 
