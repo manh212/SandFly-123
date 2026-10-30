@@ -1,6 +1,8 @@
 package com.google.android.accessibility.utils;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import android.os.SystemClock;
@@ -18,7 +20,9 @@ import org.robolectric.annotation.Config;
 @Config(sdk = 34)
 public class NodeOverridesBudgetTest {
   private int calls;
+  private boolean sourceActive = true;
   private final NodeOverrides.Source source = new NodeOverrides.Source() {
+    @Override public boolean isActive() { return sourceActive; }
     @Override public Integer role(AccessibilityNodeInfoCompat node) { return null; }
     @Override public CharSequence state(AccessibilityNodeInfoCompat node) { return null; }
     @Override public boolean hidden(AccessibilityNodeInfoCompat node) { return false; }
@@ -28,7 +32,27 @@ public class NodeOverridesBudgetTest {
   };
 
   @After
-  public void reset() { NodeOverrides.set(null); }
+  public void reset() {
+    NodeOverrides.set(null);
+    sourceActive = true;
+  }
+
+  @Test
+  public void registeredButIdleScriptAdapterAllowsLocalAndWorkerTraversal() {
+    AccessibilityNodeInfoCompat node =
+        AccessibilityNodeInfoCompat.wrap(AccessibilityNodeInfo.obtain());
+    NodeOverrides.set(source);
+    sourceActive = false;
+    assertFalse(NodeOverrides.hasSource());
+    TraversalBudget.run(
+        SystemClock.uptimeMillis() + 1000,
+        () -> NodeOverrides.order(node));
+    assertEquals(0, calls);
+    sourceActive = true;
+    assertTrue(NodeOverrides.hasSource());
+    NodeOverrides.order(node);
+    assertEquals(1, calls);
+  }
 
   @Test
   public void newlyActivatedScriptCancelsWorkerTraversalBeforeCallingTheHost() {
