@@ -42,6 +42,12 @@ public final class BackgroundEventGate {
   private long pendingActiveSince;
   private boolean activeScheduled;
   private long lastActiveDispatch;
+  // A looping horizontal RecyclerView (e.g. a news ticker) can emit hundreds of
+  // almost identical scroll events without a user gesture.
+  private int lastTickerWindow = -1;
+  private int lastTickerFrom = -1;
+  private int lastTickerTo = -1;
+  private long lastTickerMs;
 
   public BackgroundEventGate(Receiver receiver) {
     this(receiver, event -> false);
@@ -107,6 +113,10 @@ public final class BackgroundEventGate {
       interactionWindowId = event.getWindowId();
       interactionPackage = event.getPackageName() == null ? null : event.getPackageName().toString();
     }
+    if (enabled && isRepeatedPassiveTickerScroll(event)) {
+      EventProcessingStats.dropped(event);
+      return false;
+    }
     // Structural changes and unsolicited scrolls from an active news feed may arrive
     // many times a second. Once detected, keep just the latest update and deliver it
     // between user interactions. Focus, clicks, text edits and expected scroll callbacks
@@ -148,6 +158,38 @@ public final class BackgroundEventGate {
     EventProcessingStats.deferred(event);
     schedulePending();
     return false;
+  }
+
+  /**
+   * An infinite horizontal carousel may report a 10-12px scroll every frame while the
+   * user is idle. Repeated updates with the SAME visible item indices do not represent
+   * a navigation target changing, so do not treat them as user scroll feedback or
+   * invalidate the entire reading order. Index changes still follow the normal path.
+   */
+  private boolean isRepeatedPassiveTickerScroll(AccessibilityEvent event) {
+    if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_SCROLLED
+        || touching || event.getWindowId() < 0
+        || event.getWindowId() != interactionWindowId
+        || SystemClock.uptimeMillis() - lastInput < 600L
+        || event.getItemCount() != Integer.MAX_VALUE
+        || event.getScrollDeltaY() != 0) {
+      return false;
+    }
+    int dx = event.getScrollDeltaX();
+    if (dx < 4 || dx > 32 || inputResponse.test(event)) return false;
+    long now = SystemClock.uptimeMillis();
+    boolean repeated = lastTickerWindow == event.getWindowId()
+        && lastTickerFrom == event.getFromIndex()
+        && lastTickerTo == event.getToIndex()
+        && now - lastTickerMs < 1200L;
+    lastTickerWindow = event.getWindowId();
+    lastTickerFrom = event.getFromIndex();
+    lastTickerTo = event.getToIndex();
+    lastTickerMs = now;
+    // Unlike the old detection this also triggers from a purely animated carousel,
+    // even if the app coalesces its CONTENT_CHANGE_TYPE_SUBTREE notifications.
+    TraversalTreeCache.notePassiveScroll(event.getWindowId());
+    return repeated;
   }
 
   private boolean isChurningActiveUpdate(AccessibilityEvent event) {
@@ -292,6 +334,10 @@ public final class BackgroundEventGate {
     handler.removeCallbacks(releasePending);
     releaseScheduled = false;
     dropActivePending();
+    lastTickerWindow = -1;
+    lastTickerFrom = -1;
+    lastTickerTo = -1;
+    lastTickerMs = 0L;
     TraversalTreeCache.resetChurnTracking();
     if (pending != null) {
       EventProcessingStats.dropped(pending);
