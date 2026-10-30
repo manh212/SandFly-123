@@ -35,6 +35,11 @@ public final class NodeOverrides {
     boolean grouped(AccessibilityNodeInfoCompat node);
 
     @Nullable Order order(AccessibilityNodeInfoCompat node);
+
+    /** A lazy script adapter may exist even when the script engine is not running. */
+    default boolean isActive() {
+      return true;
+    }
   }
 
   public interface Order {
@@ -78,14 +83,18 @@ public final class NodeOverrides {
 
   private static @Nullable Source currentSource() {
     Source current = source;
-    if (current != null && TraversalBudget.isActive()) {
+    if (current == null || !current.isActive()) {
+      return null;
+    }
+    if (TraversalBudget.isActive()) {
       throw new CancellationException("Script overrides require foreground traversal");
     }
     return current;
   }
 
   public static boolean hasSource() {
-    return source != null;
+    Source current = source;
+    return current != null && current.isActive();
   }
 
   public static @Nullable Order order(AccessibilityNodeInfoCompat node) {
