@@ -121,6 +121,8 @@ object TraversalTreeCache {
   private var misses = 0
   private var liveAnswers = 0
   private val buildTimes = Statistics()
+  // Keep churn detection independent of the user-selected order cache.
+  private val structuralChurn = StructuralChurnTracker()
 
   @JvmStatic
   var enabled: Boolean = true
@@ -148,6 +150,10 @@ object TraversalTreeCache {
       liveAnswers++
     }
   }
+
+  @JvmStatic
+  fun shouldUseLiveTraversal(windowId: Int): Boolean =
+    structuralChurn.isChurning(windowId, SystemClock.uptimeMillis())
 
   @JvmStatic
   fun orderCacheReused(): Int = hits
@@ -459,6 +465,14 @@ object TraversalTreeCache {
   @JvmStatic
   fun onAccessibilityEvent(event: AccessibilityEvent): Boolean {
     val type = event.eventType
+    // A feed may constantly replace cards/ads; avoid rebuilding its complete traversal
+    // order on the UI thread after every structural change, even with cache disabled.
+    if (type == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED) {
+      val changes = event.contentChangeTypes
+      if (changes == 0 || changes and NON_STRUCTURAL_CHANGES_WITH_DESCRIPTION.inv() != 0) {
+        structuralChurn.record(event.windowId, SystemClock.uptimeMillis())
+      }
+    }
     if (type and IGNORED_EVENT_TYPES != 0) return false
     advanceRevision(event)
     val savedRoot = root ?: return false
