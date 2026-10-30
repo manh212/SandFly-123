@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="pref_extended_gesture_up_down_key" translatable="false">pref_extended_gesture_up_down</string>
+  <string name="pref_extended_gesture_down_up_key" translatable="false">pref_extended_gesture_down_up</string>
+  <string name="pref_extended_gesture_left_right_key" translatable="false">pref_extended_gesture_left_right</string>
+  <string name="pref_extended_gesture_right_left_key" translatable="false">pref_extended_gesture_right_left</string>
+  <string name="pref_extended_gesture_up_left_key" translatable="false">pref_extended_gesture_up_left</string>
+  <string name="pref_extended_gesture_up_right_key" translatable="false">pref_extended_gesture_up_right</string>
+  <string name="pref_extended_gesture_down_left_key" translatable="false">pref_extended_gesture_down_left</string>
+  <string name="pref_extended_gesture_down_right_key" translatable="false">pref_extended_gesture_down_right</string>
+  <string name="pref_extended_gesture_left_up_key" translatable="false">pref_extended_gesture_left_up</string>
+  <string name="pref_extended_gesture_left_down_key" translatable="false">pref_extended_gesture_left_down</string>
+  <string name="pref_extended_gesture_right_up_key" translatable="false">pref_extended_gesture_right_up</string>
+  <string name="pref_extended_gesture_right_down_key" translatable="false">pref_extended_gesture_right_down</string>
+  <string-array name="extended_standard_gestures" translatable="false">
+    <item>MAPPER_GESTURE_DOUBLE_TAP</item>
+    <item>MAPPER_GESTURE_DOUBLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_FAKED_SPLIT_TYPING</item>
+    <item>MAPPER_GESTURE_SWIPE_RIGHT</item>
+    <item>MAPPER_GESTURE_SWIPE_LEFT</item>
+    <item>MAPPER_GESTURE_SWIPE_UP</item>
+    <item>MAPPER_GESTURE_SWIPE_DOWN</item>
+    <item>MAPPER_GESTURE_SWIPE_LEFT_AND_RIGHT</item>
+    <item>MAPPER_GESTURE_SWIPE_LEFT_AND_UP</item>
+    <item>MAPPER_GESTURE_SWIPE_LEFT_AND_DOWN</item>
+    <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_UP</item>
+    <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_DOWN</item>
+    <item>MAPPER_GESTURE_SWIPE_RIGHT_AND_LEFT</item>
+    <item>MAPPER_GESTURE_SWIPE_DOWN_AND_UP</item>
+    <item>MAPPER_GESTURE_SWIPE_DOWN_AND_LEFT</item>
+    <item>MAPPER_GESTURE_SWIPE_DOWN_AND_RIGHT</item>
+    <item>MAPPER_GESTURE_SWIPE_UP_AND_DOWN</item>
+    <item>MAPPER_GESTURE_SWIPE_UP_AND_LEFT</item>
+    <item>MAPPER_GESTURE_SWIPE_UP_AND_RIGHT</item>
+    <item>MAPPER_GESTURE_2_FINGER_SINGLE_TAP</item>
+    <item>MAPPER_GESTURE_2_FINGER_DOUBLE_TAP</item>
+    <item>MAPPER_GESTURE_2_FINGER_DOUBLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_2_FINGER_TRIPLE_TAP</item>
+    <item>MAPPER_GESTURE_2_FINGER_TRIPLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_3_FINGER_SINGLE_TAP</item>
+    <item>MAPPER_GESTURE_3_FINGER_DOUBLE_TAP</item>
+    <item>MAPPER_GESTURE_3_FINGER_SINGLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_3_FINGER_DOUBLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_3_FINGER_TRIPLE_TAP</item>
+    <item>MAPPER_GESTURE_3_FINGER_TRIPLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_4_FINGER_SINGLE_TAP</item>
+    <item>MAPPER_GESTURE_4_FINGER_DOUBLE_TAP</item>
+    <item>MAPPER_GESTURE_4_FINGER_DOUBLE_TAP_AND_HOLD</item>
+    <item>MAPPER_GESTURE_4_FINGER_TRIPLE_TAP</item>
+    <item>MAPPER_GESTURE_2_FINGER_SWIPE_DOWN</item>
+    <item>MAPPER_GESTURE_2_FINGER_SWIPE_LEFT</item>
+    <item>MAPPER_GESTURE_2_FINGER_SWIPE_RIGHT</item>
+    <item>MAPPER_GESTURE_2_FINGER_SWIPE_UP</item>
+    <item>MAPPER_GESTURE_3_FINGER_SWIPE_DOWN</item>
+    <item>MAPPER_GESTURE_3_FINGER_SWIPE_LEFT</item>
+    <item>MAPPER_GESTURE_3_FINGER_SWIPE_RIGHT</item>
+    <item>MAPPER_GESTURE_3_FINGER_SWIPE_UP</item>
+    <item>MAPPER_GESTURE_4_FINGER_SWIPE_DOWN</item>
+    <item>MAPPER_GESTURE_4_FINGER_SWIPE_LEFT</item>
+    <item>MAPPER_GESTURE_4_FINGER_SWIPE_RIGHT</item>
+    <item>MAPPER_GESTURE_4_FINGER_SWIPE_UP</item>
+  </string-array>
+</resources>

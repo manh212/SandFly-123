@@ -691,6 +691,18 @@
       <item>@string/pref_shortcut_fingerprint_down_key</item>
       <item>@string/pref_shortcut_fingerprint_left_key</item>
       <item>@string/pref_shortcut_fingerprint_right_key</item>
+      <item>@string/pref_extended_gesture_up_down_key</item>
+      <item>@string/pref_extended_gesture_down_up_key</item>
+      <item>@string/pref_extended_gesture_left_right_key</item>
+      <item>@string/pref_extended_gesture_right_left_key</item>
+      <item>@string/pref_extended_gesture_up_left_key</item>
+      <item>@string/pref_extended_gesture_up_right_key</item>
+      <item>@string/pref_extended_gesture_down_left_key</item>
+      <item>@string/pref_extended_gesture_down_right_key</item>
+      <item>@string/pref_extended_gesture_left_up_key</item>
+      <item>@string/pref_extended_gesture_left_down_key</item>
+      <item>@string/pref_extended_gesture_right_up_key</item>
+      <item>@string/pref_extended_gesture_right_down_key</item>
     </string-array>
 
     <!-- Array of 2-finger pass-through gesture shortcut keys -->

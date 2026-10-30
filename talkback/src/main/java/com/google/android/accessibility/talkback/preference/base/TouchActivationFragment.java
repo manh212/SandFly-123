@@ -54,6 +54,13 @@ public class TouchActivationFragment extends TalkbackBaseFragment {
   @Override
   public void onResume() {
     super.onResume();
+    Preference extended = findPreference("pref_extended_two_finger_gestures");
+    if (extended != null) {
+      extended.setEnabled(android.os.Build.VERSION.SDK_INT >= 33);
+      if (android.os.Build.VERSION.SDK_INT < 33) {
+        extended.setSummary(R.string.extended_gestures_unsupported);
+      }
+    }
     updateSingleTap();
     updateStuckTouchPreference();
   }

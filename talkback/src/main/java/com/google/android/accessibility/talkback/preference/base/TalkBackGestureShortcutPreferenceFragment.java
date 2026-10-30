@@ -237,10 +237,27 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
         }
       }
     }
+    updateExtendedGestureVisibility();
     getCustomizationMap().forEach(this::runPreferencesCustomization);
     searchableGestures.clear();
     collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     collapseCategories();
+  }
+
+  private void updateExtendedGestureVisibility() {
+    boolean gestureSetEnabled = GestureShortcutMapping.isGestureSetEnabled(requireContext(), prefs,
+        R.string.pref_multiple_gesture_set_key, R.bool.pref_multiple_gesture_set_default);
+    for (int id = com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.FIRST_ID;
+        id <= com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.LAST_ID; id++) {
+      String key = GestureShortcutMapping.getPrefKeyWithGestureSet(
+          getString(com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.key(id)),
+          gestureSetEnabled ? SharedPreferencesUtils.getIntFromStringPref(prefs, getResources(),
+              R.string.pref_gesture_set_key, R.string.pref_gesture_set_value_default) : 0);
+      Preference extended = findPreference(key);
+      if (extended != null) {
+        extended.setVisible(com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs));
+      }
+    }
   }
 
   private HashMap<List<Integer>, Consumer<Preference>> getCustomizationMap() {
@@ -275,6 +292,9 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     super.onResume();
     prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     updatePreferencesOnResume();
+    updateExtendedGestureVisibility();
+    searchableGestures.clear();
+    collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     updatePreferencesForVibrationWatchIfNeeded();
   }
 

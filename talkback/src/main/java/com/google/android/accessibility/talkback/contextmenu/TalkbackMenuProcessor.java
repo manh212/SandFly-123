@@ -64,6 +64,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class TalkbackMenuProcessor {
 
   private static final String TAG = "TalkbackMenuProcessor";
+  private int requestedItemId;
 
   /*
    * Talkback context menu items order
@@ -125,6 +126,17 @@ public class TalkbackMenuProcessor {
     this.pipeline = pipeline;
     this.nodeMenuRuleProcessor = nodeMenuRuleProcessor;
     this.currentNode = currentNode;
+  }
+
+  public boolean prepareMenuForGesture(ContextMenu menu, int itemId) {
+    requestedItemId = itemId;
+    try { return prepareMenu(menu); } finally { requestedItemId = 0; }
+  }
+
+  public static java.util.Set<Integer> menuItemIds() {
+    java.util.Set<Integer> ids = new java.util.HashSet<>();
+    for (int[] group : MENU_ITEMS) for (int index = 1; index < group.length; index++) ids.add(group[index]);
+    return ids;
   }
 
   /**
@@ -462,6 +474,12 @@ public class TalkbackMenuProcessor {
   }
 
   private boolean showMenuItem(@StringRes int prefKeyId, @BoolRes int defaultValueResId) {
+    if (requestedItemId != 0) {
+      for (int[] group : MENU_ITEMS) {
+        if (group[0] != prefKeyId) continue;
+        for (int index = 1; index < group.length; index++) if (group[index] == requestedItemId) return true;
+      }
+    }
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
     return prefs.getBoolean(
         service.getString(prefKeyId), service.getResources().getBoolean(defaultValueResId));
@@ -642,6 +660,15 @@ public class TalkbackMenuProcessor {
       menu.removeItem(R.id.labeling_breakout_edit_label);
     }
 
+    if (requestedItemId == itemId && currentNode != null) {
+      ContextMenu choices = new ContextMenu(service);
+      nodeMenuRuleProcessor.prepareRuleMenuForNode(choices, currentNode, itemId);
+      if (choices.size() > 0) {
+        ListSubMenu subMenu = menu.addSubMenu(0, itemId, itemOrder, service.getString(titleId));
+        for (ContextMenuItem choice : choices.getItems()) subMenu.add(choice);
+      }
+      return;
+    }
     if (!nodeMenuRuleProcessor.isEnabled(itemId)) {
       return;
     }
@@ -1023,6 +1050,17 @@ public class TalkbackMenuProcessor {
   }
 
   private void addScriptCommands(ContextMenu menu) {
+    if (requestedItemId == R.id.script_command) {
+      List<ScriptMenuItem> scripts = Scripts.menuItems();
+      if (!scripts.isEmpty()) {
+        ListSubMenu subMenu = menu.addSubMenu(0, R.id.script_command, ORDER_SCRIPT_COMMANDS,
+            service.getString(R.string.menu_gesture_script_command));
+        for (ScriptMenuItem script : scripts) {
+          addAfterMenuCloses(subMenu, R.id.script_command, ORDER_SCRIPT_COMMANDS, script.getTitle(), script::run);
+        }
+      }
+      return;
+    }
     for (ScriptMenuItem scriptItem : Scripts.menuItems()) {
       addAfterMenuCloses(
           menu, R.id.script_command, ORDER_SCRIPT_COMMANDS, scriptItem.getTitle(), scriptItem::run);

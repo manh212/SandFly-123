@@ -611,6 +611,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Controller for speech feedback. */
   private SpeechControllerImpl speechController;
+  private com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController extendedGesturesController;
 
   /** Controller for diagnostic overlay (developer mode). */
   private DiagnosticOverlayControllerImpl diagnosticOverlayController;
@@ -985,6 +986,10 @@ public class TalkBackService extends AccessibilityServiceCompat
       pauseController.shutdown();
     }
 
+    if (extendedGesturesController != null) {
+      extendedGesturesController.stop();
+      extendedGesturesController = null;
+    }
     if (gestureController != null) {
       gestureController.shutdown();
     }
@@ -1057,6 +1062,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onConfigurationChanged(Configuration newConfig) {
+    if (extendedGesturesController != null) extendedGesturesController.configurationChanged(newConfig);
     this.getTheme().applyStyle(R.style.TalkbackBaseTheme, /* force= */ true);
 
     // onConfigurationChanged may be called before TalkBack initialization. To avoid crash, each
@@ -3193,6 +3199,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       LogUtils.v(TAG, "Accessibility Service flag set: 0x%X", info.flags);
       setServiceInfo(info);
     }
+    updateExtendedGestures();
 
     if (callStateMonitor != null) {
       // If we need to show the tutorial, we will ask permission after completing it.
@@ -3340,6 +3347,7 @@ public class TalkBackService extends AccessibilityServiceCompat
    * {@link #onDestroy}.
    */
   private void suspendInfrastructure() {
+    if (extendedGesturesController != null) extendedGesturesController.stop();
     if (!isServiceActive()) {
       LogUtils.e(TAG, "Attempted to suspend while already suspended");
       return;
@@ -3733,6 +3741,8 @@ public class TalkBackService extends AccessibilityServiceCompat
           /* newValue= */ true);
       resetTouchExplorePassThrough();
     }
+
+    updateExtendedGestures();
 
     voiceCommandProcessor.setEchoRecognizedTextEnabled(
         getBooleanPref(
@@ -4167,6 +4177,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     requestServiceFlag(
         AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE, requestedState);
+    updateExtendedGestures();
     return isTouchExplorationEnabled();
   }
 
@@ -4241,6 +4252,17 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     LogUtils.v(TAG, "Accessibility Service flag changed: 0x%X", info.flags);
     setServiceInfo(info);
+    updateExtendedGestures();
+  }
+
+  private void updateExtendedGestures() {
+    if (prefs == null || gestureController == null) return;
+    if (extendedGesturesController == null) {
+      if (!com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs)) return;
+      extendedGesturesController =
+          new com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController(this);
+    }
+    extendedGesturesController.update(isServiceActive() && !PauseController.isPaused());
   }
 
   /**

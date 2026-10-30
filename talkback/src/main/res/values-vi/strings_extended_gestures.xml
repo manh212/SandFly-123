@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="extended_gestures_title">Cử chỉ hai ngón mở rộng, thử nghiệm</string>
+  <string name="extended_gestures_summary">Android 13 trở lên. Khi bật, vuốt hai ngón được nhận dạng trước khi thực hiện lệnh; cuộn có thể phản hồi khác. Gán lệnh trong Cử chỉ.</string>
+  <string name="extended_gestures_unsupported">Cần Android 13 trở lên</string>
+  <string name="extended_gestures_failed">Không bật được cử chỉ hai ngón mở rộng</string>
+  <string name="extended_gesture_up_down">Vuốt lên rồi xuống bằng hai ngón tay</string>
+  <string name="extended_gesture_down_up">Vuốt xuống rồi lên bằng hai ngón tay</string>
+  <string name="extended_gesture_left_right">Vuốt trái rồi phải bằng hai ngón tay</string>
+  <string name="extended_gesture_right_left">Vuốt phải rồi trái bằng hai ngón tay</string>
+  <string name="extended_gesture_up_left">Vuốt lên rồi trái bằng hai ngón tay</string>
+  <string name="extended_gesture_up_right">Vuốt lên rồi phải bằng hai ngón tay</string>
+  <string name="extended_gesture_down_left">Vuốt xuống rồi trái bằng hai ngón tay</string>
+  <string name="extended_gesture_down_right">Vuốt xuống rồi phải bằng hai ngón tay</string>
+  <string name="extended_gesture_left_up">Vuốt trái rồi lên bằng hai ngón tay</string>
+  <string name="extended_gesture_left_down">Vuốt trái rồi xuống bằng hai ngón tay</string>
+  <string name="extended_gesture_right_up">Vuốt phải rồi lên bằng hai ngón tay</string>
+  <string name="extended_gesture_right_down">Vuốt phải rồi xuống bằng hai ngón tay</string>
+</resources>

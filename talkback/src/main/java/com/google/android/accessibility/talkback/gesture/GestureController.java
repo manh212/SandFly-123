@@ -334,7 +334,10 @@ public class GestureController {
 
     maybeInterruptAllFeedback(action);
     boolean result = true;
-    if (action.equals(service.getString(R.string.switch_gesture_set))) {
+    int menuAction = MenuGestureActions.menuId(service, action);
+    if (menuAction != 0) {
+      result = menuManager.showMenuAction(menuAction, eventId);
+    } else if (action.equals(service.getString(R.string.switch_gesture_set))) {
       speak(
           service.getString(
               R.string.switch_gesture_set_to,

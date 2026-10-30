@@ -31,4 +31,7 @@
       android:key="@string/pref_reserve_vibration_watch_gestures_key"
       android:title="@string/title_pref_reserve_vibration_watch_gestures"
       android:summary="@string/summary_pref_reserve_vibration_watch_gestures" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:key="pref_extended_two_finger_gestures" android:defaultValue="false"
+      android:title="@string/extended_gestures_title" android:summary="@string/extended_gestures_summary" />
 </PreferenceScreen>

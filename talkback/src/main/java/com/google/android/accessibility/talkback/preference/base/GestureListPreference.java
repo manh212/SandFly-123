@@ -264,6 +264,15 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     addActionItemsToList(builder, createMenuControl());
     addActionItemsToList(builder, createTextEditing());
     addActionItemsToList(builder, createSpecialFeatures());
+    java.util.Set<String> known = new java.util.HashSet<>();
+    for (ActionItem item : builder.build()) known.add(item.value);
+    ImmutableList.Builder<ActionItem> menuActions = createActionListBuilder(R.string.menu_gesture_actions_title, 0, 0);
+    for (com.google.android.accessibility.talkback.gesture.MenuGestureActions.Entry entry :
+        com.google.android.accessibility.talkback.gesture.MenuGestureActions.ENTRIES) {
+      String value = entry.value(getContext());
+      if (known.add(value)) menuActions.add(new ActionItem(getContext().getString(entry.label), value, TYPE_ACTION_ITEM));
+    }
+    addActionItemsToList(builder, menuActions.build());
     items = builder.build();
   }
 

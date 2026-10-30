@@ -179,6 +179,14 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
 
   @CanIgnoreReturnValue
   public boolean showMenu(MenuId menuId, EventId eventId, int failureStringResId) {
+    return openMenu(menuId, eventId, failureStringResId, 0);
+  }
+
+  public boolean showMenuAction(int itemId, EventId eventId) {
+    return openMenu(CONTEXT, eventId, INVALID_RES_ID, itemId);
+  }
+
+  private boolean openMenu(MenuId menuId, EventId eventId, int failureStringResId, int requestedItemId) {
     if (FormFactorUtils.isAndroidXr() && this.menuId == menuId && this.menuId == CONTEXT) {
       // If a request to show context menu is triggered while the menu is already showing, dismiss
       // the menu. This is to prevent the user from having to navigate through the whole menu just
@@ -229,9 +237,10 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     clearCurrentNode();
     currentNode = accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
 
-    prepareMenu(contextMenu, menuId);
+    prepareMenu(contextMenu, menuId, requestedItemId);
+    ContextMenuItem requested = requestedItemId == 0 ? null : (ContextMenuItem) contextMenu.findItem(requestedItemId);
 
-    if (contextMenu.size() == 0) {
+    if (contextMenu.size() == 0 || (requestedItemId != 0 && (requested == null || !requested.isEnabled()))) {
       String text =
           (failureStringResId == INVALID_RES_ID)
               ? service.getString(R.string.title_local_breakout_no_items)
@@ -245,7 +254,16 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
                   .setFlags(
                       FeedbackItem.FLAG_NO_HISTORY
                           | FeedbackItem.FLAG_FORCE_FEEDBACK_ALL)));
+      if (requestedItemId != 0) clearMenu();
       return false;
+    }
+    if (requested != null) {
+      if (menuClickProcessor.isItemSupported(requested) && !requested.hasSubMenu()) {
+        boolean performed = menuClickProcessor.onMenuItemClicked(requested);
+        clearMenu();
+        return performed;
+      }
+      return requested.onClickPerformed();
     }
     if (menuId == CONTEXT) {
       analytics.onGlobalContextMenuOpen(/* isListStyle= */ true);
@@ -284,12 +302,13 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
         + GestureHints.actionLine(service, mapping, R.string.shortcut_value_next);
   }
 
-  private void prepareMenu(ContextMenu menu, MenuId menuId) {
+  private void prepareMenu(ContextMenu menu, MenuId menuId, int requestedItemId) {
     if (menuId == CONTEXT) {
       TalkbackMenuProcessor talkbackMenuProcessor =
           new TalkbackMenuProcessor(
               service, actorState, pipeline, nodeMenuRuleProcessor, currentNode);
-      talkbackMenuProcessor.prepareMenu(menu);
+      if (requestedItemId == 0) talkbackMenuProcessor.prepareMenu(menu);
+      else talkbackMenuProcessor.prepareMenuForGesture(menu, requestedItemId);
       menu.setTitle(service.getString(R.string.talkback_menu_title));
     } else if (menuId == CUSTOM_ACTION) {
       final AccessibilityNodeInfoCompat currentNode =

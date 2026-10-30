@@ -201,6 +201,18 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         MULTI_FINGER,
         R.string.pref_shortcut_1finger_2tap_hold_key,
         R.string.pref_shortcut_1finger_2tap_hold_default),
+    EXTENDED_UP_DOWN(10001, MULTI_FINGER, R.string.pref_extended_gesture_up_down_key, R.string.shortcut_value_unassigned),
+    EXTENDED_DOWN_UP(10002, MULTI_FINGER, R.string.pref_extended_gesture_down_up_key, R.string.shortcut_value_unassigned),
+    EXTENDED_LEFT_RIGHT(10003, MULTI_FINGER, R.string.pref_extended_gesture_left_right_key, R.string.shortcut_value_unassigned),
+    EXTENDED_RIGHT_LEFT(10004, MULTI_FINGER, R.string.pref_extended_gesture_right_left_key, R.string.shortcut_value_unassigned),
+    EXTENDED_UP_LEFT(10005, MULTI_FINGER, R.string.pref_extended_gesture_up_left_key, R.string.shortcut_value_unassigned),
+    EXTENDED_UP_RIGHT(10006, MULTI_FINGER, R.string.pref_extended_gesture_up_right_key, R.string.shortcut_value_unassigned),
+    EXTENDED_DOWN_LEFT(10007, MULTI_FINGER, R.string.pref_extended_gesture_down_left_key, R.string.shortcut_value_unassigned),
+    EXTENDED_DOWN_RIGHT(10008, MULTI_FINGER, R.string.pref_extended_gesture_down_right_key, R.string.shortcut_value_unassigned),
+    EXTENDED_LEFT_UP(10009, MULTI_FINGER, R.string.pref_extended_gesture_left_up_key, R.string.shortcut_value_unassigned),
+    EXTENDED_LEFT_DOWN(10010, MULTI_FINGER, R.string.pref_extended_gesture_left_down_key, R.string.shortcut_value_unassigned),
+    EXTENDED_RIGHT_UP(10011, MULTI_FINGER, R.string.pref_extended_gesture_right_up_key, R.string.shortcut_value_unassigned),
+    EXTENDED_RIGHT_DOWN(10012, MULTI_FINGER, R.string.pref_extended_gesture_right_down_key, R.string.shortcut_value_unassigned),
     // Multi-finger Gestures
     TWO_FINGER_SINGLE_TAP(
         AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP,
@@ -949,6 +961,10 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
       HashMap<String, GestureCollector> actionToGestureMap = new HashMap<>();
       // Load TalkBack gestures.
       for (TalkBackGesture gesture : TalkBackGesture.values()) {
+        if (com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.contains(gesture.gestureId)
+            && !com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs)) {
+          continue;
+        }
         // For some gestures, we have different behavior if the device is RTL. Skip the value of
         // non-RTL if it's RTL, and vice versa.
         if (skipGestureForRTL(gesture)) {
@@ -1055,6 +1071,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   /** Returns the corresponding action resource Id of action key. */
   public static String getActionString(Context context, String actionKeyString) {
+    String menuLabel = MenuGestureActions.label(context, actionKeyString);
+    if (menuLabel != null) return menuLabel;
     for (TalkbackAction action : TalkbackAction.values()) {
       if (action.actionKeyResId != -1
           && TextUtils.equals(context.getString(action.actionKeyResId), actionKeyString)) {
@@ -1118,6 +1136,9 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   @Nullable
   @SuppressLint("NullTernary") // existing logic
   public static String getGestureString(Context context, int gestureId) {
+    if (com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.contains(gestureId)) {
+      return com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.name(context, gestureId);
+    }
 
     if (FormFactorUtils.isAndroidXr()) {
       return getGestureStringForXR(context, gestureId);
