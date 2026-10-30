@@ -247,6 +247,7 @@ class AudioDeviceRouter @JvmOverloads constructor(
     registerCommunicationDeviceListener(am)
     registerBroadcastReceiver()
     am.registerAudioPlaybackCallback(playbackCallback, mainHandler)
+    isPhoneCallActive = phoneCallNow(am)
     isVoiceInputActive = isVoiceInput(am.activeRecordingConfigurations)
     am.registerAudioRecordingCallback(recordingCallback, mainHandler)
 
@@ -255,6 +256,18 @@ class AudioDeviceRouter @JvmOverloads constructor(
     updateSpeakerDeviceConnected()
     applyRouting()
     scheduleReassertion()
+  }
+
+  private fun phoneCallNow(am: AudioManager): Boolean {
+    val callState =
+      try {
+        @Suppress("DEPRECATION")
+        context.getSystemService(TelephonyManager::class.java)?.callState
+      } catch (e: SecurityException) {
+        null
+      }
+    if (callState != null) return callState != TelephonyManager.CALL_STATE_IDLE
+    return am.mode == AudioManager.MODE_IN_CALL || am.mode == AudioManager.MODE_RINGTONE
   }
 
   /** Re-evaluates and applies audio routing according to the selected target. */
@@ -314,9 +327,7 @@ class AudioDeviceRouter @JvmOverloads constructor(
     if (currentTarget == AudioTarget.SystemDefault) return
     if (stepsAside) return
     val now = SystemClock.uptimeMillis()
-    // If routing is actively verified, throttle to avoid redundant queries.
-    // If routing was dropped, bypass throttle immediately!
-    if (isRoutingActive && (now - lastEnsureRoutingTimeMs < 500)) return
+    if (now - lastEnsureRoutingTimeMs < 500) return
     lastEnsureRoutingTimeMs = now
     ensureRoutingInternal(force = false)
   }
