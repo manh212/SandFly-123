@@ -24,6 +24,7 @@ import android.os.Handler
 import android.os.Looper
 import android.os.Process
 import android.provider.Settings
+import com.google.android.accessibility.talkback.update.Updater
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 
 /**
@@ -86,6 +87,10 @@ object ExitAfterTurnOff {
     val app = application ?: return
     if (TalkBackService.getInstance() != null) {
       cancel()
+      return
+    }
+    if (Updater.isBusy) {
+      later()
       return
     }
     // A SandFly screen, the SandFly keyboard while it shows, or a download in the foreground. Checked
