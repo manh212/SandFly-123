@@ -660,6 +660,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   private Context context;
   private boolean gestureSetEnabled;
+  private boolean reverseSwipes;
   // Specify which gesture set (0/1) is activated. Default value is 0.
   private int currentGestureSet;
   private final SharedPreferences prefs;
@@ -813,6 +814,30 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     return GestureHints.screenSearchNoKeywordHint(context, this);
   }
 
+  public int getActionGestureId(int gestureId) {
+    return ReverseSwipeSettings.mapTouchGesture(gestureId, reverseSwipes);
+  }
+
+  @Nullable
+  public static String getSwipePreferenceTitle(Context context, String key, boolean reverse) {
+    String baseKey = getPrefKeyWithGestureSet(key, 0);
+    boolean rtl = reverse && WindowUtils.isScreenLayoutRTL(context);
+    for (TalkBackGesture gesture : TalkBackGesture.values()) {
+      if (gesture.gestureType != SINGLE_FINGER
+          || !ReverseSwipeSettings.isOneFingerSwipe(gesture.gestureId)
+          || !context.getString(gesture.keyId).equals(baseKey)) {
+        continue;
+      }
+      if ((gesture.rtlType == LTR_GESTURE && rtl)
+          || (gesture.rtlType == RTL_GESTURE && !rtl)) {
+        continue;
+      }
+      return getGestureString(
+          context, ReverseSwipeSettings.mapTouchGesture(gesture.gestureId, reverse));
+    }
+    return null;
+  }
+
   /**
    * Gets corresponding action from gesture-action mappings.
    *
@@ -878,7 +903,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
       return getFingerprintGestureString(context, gesture.gestureId);
     }
 
-    return getGestureString(context, gesture.gestureId);
+    return getGestureString(context, getActionGestureId(gesture.gestureId));
   }
 
   /**
@@ -924,7 +949,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
                 actionKeyToGestureText.put(
                     action, getFingerprintGestureString(context, gesture.gestureId));
               } else {
-                actionKeyToGestureText.put(action, getGestureString(context, gesture.gestureId));
+                actionKeyToGestureText.put(
+                    action, getGestureString(context, getActionGestureId(gesture.gestureId)));
               }
             });
     return actionKeyToGestureText;
@@ -945,6 +971,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   }
 
   private void loadGestureIdToActionKeyMap(boolean isMultiFingerOn, boolean isFingerprintOn) {
+    reverseSwipes = ReverseSwipeSettings.isEnabled(prefs);
     LogUtils.d(
         TAG,
         "loadActionToGestureIdMap - isMultiFingerOn : "
@@ -1022,7 +1049,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
               prefs.getString(
                   context.getString(gesture.keyId), context.getString(gesture.defaultActionId)));
         } else {
-          gestureIdToActionKeyMap.put(gesture.gestureId, action);
+          gestureIdToActionKeyMap.put(getActionGestureId(gesture.gestureId), action);
         }
       }
 

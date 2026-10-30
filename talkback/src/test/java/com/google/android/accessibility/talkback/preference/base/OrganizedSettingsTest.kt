@@ -1,5 +1,6 @@
 package com.google.android.accessibility.talkback.preference.base
 
+import android.accessibilityservice.AccessibilityService
 import android.content.SharedPreferences
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
@@ -7,6 +8,8 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping
+import com.google.android.accessibility.talkback.gesture.ReverseSwipeSettings
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DIRECT_SILENT_TYPING
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.LIFT_TO_TYPE
@@ -65,6 +68,39 @@ class OrganizedSettingsTest {
     VerbosityPreferences.toVerbosityPrefKey(
       activity.getString(preset), activity.getString(key),
     )
+
+  @Test
+  fun reverseSwipeSwitchStaysInsideNavigationAndGestureRowsUseCurrentDirections() {
+    val navigation = NavigationGroupFragment()
+    open(navigation)
+    assertTrue(navigation.findPreference<Preference>(ReverseSwipeSettings.KEY) == null)
+    val movement = NavigationPrefFragment()
+    open(movement)
+    val toggle = requireNotNull(movement.findPreference<TwoStatePreference>(ReverseSwipeSettings.KEY))
+    assertFalse(toggle.isChecked)
+    toggle.isChecked = true
+
+    val gestures = TalkBackGestureShortcutPreferenceFragment()
+    open(gestures)
+    val key = activity.getString(R.string.pref_shortcut_left_key)
+    val row = requireNotNull(gestures.findPreference<GestureListPreference>(key))
+    assertEquals(activity.getString(R.string.title_pref_shortcut_up), row.title)
+    val multi = requireNotNull(gestures.findPreference<GestureListPreference>(
+      activity.getString(R.string.pref_shortcut_3finger_swipe_right_key)))
+    assertEquals(activity.getString(R.string.title_pref_shortcut_3finger_swipe_right), multi.title)
+    val action = activity.getString(R.string.shortcut_value_copy_focused)
+    row.setValue(action)
+    val mapping = GestureShortcutMapping(activity)
+    try {
+      assertEquals(action, mapping.getActionKeyFromGestureId(AccessibilityService.GESTURE_SWIPE_UP))
+      prefs.edit().putBoolean(ReverseSwipeSettings.KEY, false).commit()
+      assertEquals(activity.getString(R.string.title_pref_shortcut_left), row.title)
+      assertEquals(action, mapping.getActionKeyFromGestureId(AccessibilityService.GESTURE_SWIPE_LEFT))
+      assertEquals(action, prefs.getString(key, null))
+    } finally {
+      mapping.onUnbind()
+    }
+  }
 
   @Test
   fun navigationControlsKeepExistingCustomValuesAndWriteToTheSameKeys() {

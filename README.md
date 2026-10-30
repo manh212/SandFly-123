@@ -87,6 +87,10 @@ Answers take several seconds and use battery, more than the cloud on a mid-range
 
 Under Typing > Typing method, select **Chạm trực tiếp, không phản hồi** to give only the keyboard direct touch without Meridian feedback. This requires Android 11 or later; existing typing methods and the default remain unchanged. The existing on-screen and physical keyboard echo choices include **Không đọc khi nhập**, which suppresses typing feedback, including deletion, independently for the on-screen and physical keyboard. Physical keyboard shortcuts and cursor navigation still work. See [Silent keyboard input](docs/silent-keyboard-input.md).
 
+## Reverse swipe gestures
+
+Under Navigation > Movement and window navigation, **Đảo ngược cử chỉ vuốt** exchanges up with left and down with right for one-finger swipes, including both segments of angle and reversal gestures. It is off by default, preserves saved commands, and leaves multi-finger gestures separate. Gesture assignment labels and action hints show the active directions. See [Reverse swipe gestures](docs/reverse-swipe-gestures.md).
+
 ## Extended two-finger gestures
 
 On Android 13 or later, turn on **Cử chỉ hai ngón mở rộng, thử nghiệm** under Navigation > Touch and activation. The switch is off by default. It does not add a new page or a control to the Navigation landing screen. After enabling it, assign commands to the twelve new rows in the existing Two-finger group in Gestures. All twelve start unassigned.

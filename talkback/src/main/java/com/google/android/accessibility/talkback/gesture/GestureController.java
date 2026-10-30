@@ -1094,16 +1094,17 @@ public class GestureController {
       return;
     }
 
-    if (LiveRecognition.onGesture(gestureId)) {
+    int actionGestureId = gestureShortcutMapping.getActionGestureId(gestureId);
+    if (LiveRecognition.onGesture(actionGestureId)) {
       return;
     }
     String action = gestureShortcutMapping.getActionKeyFromGestureId(gestureId);
     // Override the action if the current granularity is row/column.
     if (actorState.getDirectionNavigation().getCurrentGranularity()
         == CursorGranularity.ROW_COLUMN) {
-      if (gestureId == AccessibilityService.GESTURE_SWIPE_LEFT) {
+      if (actionGestureId == AccessibilityService.GESTURE_SWIPE_LEFT) {
         action = service.getString(R.string.shortcut_value_column_left);
-      } else if (gestureId == AccessibilityService.GESTURE_SWIPE_RIGHT) {
+      } else if (actionGestureId == AccessibilityService.GESTURE_SWIPE_RIGHT) {
         action = service.getString(R.string.shortcut_value_column_right);
       }
     }
@@ -1118,7 +1119,7 @@ public class GestureController {
     }
     String fallbackAction = action;
     if (!turnsScriptsOff(action)
-        && Scripts.onGesture(gestureId, () -> performAction(fallbackAction, eventId))) {
+        && Scripts.onGesture(actionGestureId, () -> performAction(fallbackAction, eventId))) {
       return;
     }
     performAction(action, eventId);

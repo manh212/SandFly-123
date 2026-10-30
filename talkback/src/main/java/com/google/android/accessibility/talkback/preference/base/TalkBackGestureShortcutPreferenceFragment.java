@@ -36,6 +36,7 @@ import com.google.android.accessibility.talkback.preference.TalkBackPreferencesA
 import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
+import com.google.android.accessibility.talkback.gesture.ReverseSwipeSettings;
 import com.google.android.accessibility.talkback.gesture.VibrationWatchGestureSettings;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
@@ -238,10 +239,25 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
       }
     }
     updateExtendedGestureVisibility();
+    updateSwipeTitles(getPreferenceScreen());
     getCustomizationMap().forEach(this::runPreferencesCustomization);
     searchableGestures.clear();
     collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     collapseCategories();
+  }
+
+  private void updateSwipeTitles(PreferenceGroup group) {
+    boolean reverse = ReverseSwipeSettings.isEnabled(prefs);
+    for (int i = 0; i < group.getPreferenceCount(); i++) {
+      Preference preference = group.getPreference(i);
+      if (preference instanceof GestureListPreference) {
+        String title = GestureShortcutMapping.getSwipePreferenceTitle(
+            requireContext(), preference.getKey(), reverse);
+        if (title != null) preference.setTitle(title);
+      } else if (preference instanceof PreferenceGroup child) {
+        updateSwipeTitles(child);
+      }
+    }
   }
 
   private void updateExtendedGestureVisibility() {
@@ -293,6 +309,7 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     prefs.registerOnSharedPreferenceChangeListener(onSharedPreferenceChangeListener);
     updatePreferencesOnResume();
     updateExtendedGestureVisibility();
+    updateSwipeTitles(getPreferenceScreen());
     searchableGestures.clear();
     collectAssignableGestures(getPreferenceScreen(), searchableGestures);
     updatePreferencesForVibrationWatchIfNeeded();
@@ -371,6 +388,8 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
 
           updatePreferenceKey(Integer.parseInt(newValueString));
           updatePreferencesForVibrationWatchIfNeeded();
+        } else if (key == null || TextUtils.equals(key, ReverseSwipeSettings.KEY)) {
+          updateSwipeTitles(getPreferenceScreen());
         } else if (TextUtils.equals(key, VibrationWatchGestureSettings.PREF_RESERVED)) {
           updatePreferencesForVibrationWatchIfNeeded();
         }

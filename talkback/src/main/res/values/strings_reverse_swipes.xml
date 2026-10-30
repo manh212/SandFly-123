@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="reverse_swipe_gestures_title">Đảo ngược cử chỉ vuốt</string>
+  <string name="reverse_swipe_gestures_summary">Chỉ một ngón: lên đổi với trái, xuống đổi với phải. Áp dụng cả vuốt hai đoạn.</string>
+</resources>

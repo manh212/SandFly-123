@@ -333,6 +333,7 @@ pref_reset_gesture_settings
 pref_reset_keymap
 pref_reset_latency_settings_key
 pref_resume_talkback
+pref_reverse_swipe_gestures
 pref_row_column_navigation_menu_setting_key
 pref_row_navigation_menu_setting_key
 pref_screen_announcements
