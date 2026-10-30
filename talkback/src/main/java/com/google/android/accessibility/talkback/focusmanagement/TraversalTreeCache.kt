@@ -156,6 +156,16 @@ object TraversalTreeCache {
     structuralChurn.isChurning(windowId, SystemClock.uptimeMillis())
 
   @JvmStatic
+  fun noteSlowBuild(windowId: Int, durationMs: Long) {
+    structuralChurn.noteSlowBuild(windowId, SystemClock.uptimeMillis(), durationMs)
+  }
+
+  @JvmStatic
+  fun notePassiveScroll(windowId: Int) {
+    structuralChurn.record(windowId, SystemClock.uptimeMillis())
+  }
+
+  @JvmStatic
   fun orderCacheReused(): Int = hits
 
   @JvmStatic
