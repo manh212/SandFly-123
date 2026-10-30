@@ -5,6 +5,8 @@ internal class StructuralChurnTracker {
   private data class Window(var firstMs: Long, var count: Int, var liveUntilMs: Long)
   private val windows = LinkedHashMap<Int, Window>(4, 0.75f, true)
 
+  @Synchronized fun clear() { windows.clear() }
+
   @Synchronized fun record(windowId: Int, nowMs: Long) {
     if (windowId < 0) return
     var state = windows[windowId]
