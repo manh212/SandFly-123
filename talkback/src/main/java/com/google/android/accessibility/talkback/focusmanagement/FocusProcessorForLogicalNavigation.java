@@ -1449,7 +1449,9 @@ public class FocusProcessorForLogicalNavigation {
         TraversalTreeCache.noteLiveAnswer();
       } else {
         boolean trace = LogUtils.shouldLog(Log.DEBUG);
-        long buildStart = trace ? SystemClock.uptimeMillis() : 0;
+        // Measure this even with debug logging off. An expensive full traversal is
+        // sufficient evidence to avoid another full-window walk on the next swipe.
+        long buildStart = SystemClock.uptimeMillis();
         if (trace) {
           Trace.beginSection("BuildTraversalStrategy");
         }
@@ -1458,9 +1460,11 @@ public class FocusProcessorForLogicalNavigation {
         traversalStrategy =
             TraversalStrategyUtils.getTraversalStrategy(rootNode, focusFinder, searchDirection);
         Performance.getInstance().endNavigationWork(eventId, "order_sync", orderWork);
+        long buildDuration = SystemClock.uptimeMillis() - buildStart;
+        TraversalTreeCache.noteSlowBuild(rootNode.getWindowId(), buildDuration);
         if (trace) {
           Trace.endSection();
-          TraversalTreeCache.noteBuild(SystemClock.uptimeMillis() - buildStart);
+          TraversalTreeCache.noteBuild(buildDuration);
         }
         if (traversalStrategy instanceof OrderedTraversalStrategy orderedStrategy) {
           TraversalTreeCache.put(rootNode, orderedStrategy);
