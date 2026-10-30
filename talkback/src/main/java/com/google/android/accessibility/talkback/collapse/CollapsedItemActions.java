@@ -569,6 +569,9 @@ public class CollapsedItemActions implements NodeMenu {
     private final String[] targetVariants;
     private final String[] targetCores;
     private final String sheetItemLabelViewId;
+    private final @Nullable String sheetContainerViewId;
+    private final boolean longClick;
+    private final boolean restoreFocusOnClose;
     private final String originLabel;
     private final Rect originBounds;
 
@@ -585,6 +588,9 @@ public class CollapsedItemActions implements NodeMenu {
       this.targetVariants = action.menuStateVariants;
       this.targetCores = action.menuStateCores;
       this.sheetItemLabelViewId = action.sheetItemLabelViewId;
+      this.sheetContainerViewId = action.sheetContainerViewId;
+      this.longClick = action.longClick;
+      this.restoreFocusOnClose = action.menuRestoreFocus;
       CharSequence label = ItemScan.spokenLabel(item.representative());
       this.originLabel = label == null ? "" : label.toString();
       this.originBounds = new Rect();
@@ -606,7 +612,10 @@ public class CollapsedItemActions implements NodeMenu {
             targetCores,
             sheetItemLabelViewId,
             originLabel,
-            originBounds);
+            originBounds,
+            sheetContainerViewId,
+            longClick,
+            restoreFocusOnClose);
       } finally {
         clear();
       }

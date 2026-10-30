@@ -89,6 +89,7 @@ public final class MenuAutomation {
     /** Toggle targets only: the stable cores of the target label; null if plain. */
     final @Nullable String[] targetCores;
     final @Nullable String sheetLabelViewId;
+    final @Nullable String sheetContainerViewId;
     final String originLabel;
     final Rect originBounds;
     // Tray mode only: how the sheet is recognised and what happens inside it.
@@ -120,7 +121,9 @@ public final class MenuAutomation {
         @Nullable String[] targetCores,
         String sheetLabelViewId,
         String originLabel,
-        Rect originBounds) {
+        Rect originBounds,
+        @Nullable String sheetContainerViewId,
+        boolean restoreFocusOnClose) {
       this.pipeline = pipeline;
       this.context = context;
       this.packageName = packageName;
@@ -128,13 +131,14 @@ public final class MenuAutomation {
       this.targetVariants = targetVariants;
       this.targetCores = targetCores;
       this.sheetLabelViewId = sheetLabelViewId;
+      this.sheetContainerViewId = sheetContainerViewId;
       this.originLabel = originLabel;
       this.originBounds = originBounds;
       this.trayMode = false;
       this.trayHeaderText = null;
       this.trayAuthorName = null;
       this.trayTargetLabels = null;
-      this.restoreFocusOnClose = true;
+      this.restoreFocusOnClose = restoreFocusOnClose;
       this.failureAnnouncer = null;
       this.beginTimeMs = SystemClock.uptimeMillis();
     }
@@ -157,6 +161,7 @@ public final class MenuAutomation {
       this.targetVariants = null;
       this.targetCores = null;
       this.sheetLabelViewId = null;
+      this.sheetContainerViewId = null;
       this.originLabel = originLabel;
       this.originBounds = originBounds;
       this.trayMode = true;
@@ -217,6 +222,34 @@ public final class MenuAutomation {
       String sheetLabelViewId,
       String originLabel,
       Rect originBounds) {
+    return begin(
+        pipeline,
+        context,
+        menuButton,
+        targetLabel,
+        targetVariants,
+        targetCores,
+        sheetLabelViewId,
+        originLabel,
+        originBounds,
+        null,
+        false,
+        true);
+  }
+
+  public static boolean begin(
+      Pipeline.FeedbackReturner pipeline,
+      Context context,
+      AccessibilityNodeInfoCompat menuButton,
+      String targetLabel,
+      @Nullable String[] targetVariants,
+      @Nullable String[] targetCores,
+      String sheetLabelViewId,
+      String originLabel,
+      Rect originBounds,
+      @Nullable String sheetContainerViewId,
+      boolean longClick,
+      boolean restoreFocusOnClose) {
     if (pending != null || menuButton.getPackageName() == null || sheetLabelViewId == null) {
       return false;
     }
@@ -230,15 +263,22 @@ public final class MenuAutomation {
             targetCores,
             sheetLabelViewId,
             originLabel,
-            new Rect(originBounds));
+            new Rect(originBounds),
+            sheetContainerViewId,
+            restoreFocusOnClose);
     pending = session;
     session.masterTimeout = () -> onMasterTimeout(session);
     session.handler.postDelayed(session.masterTimeout, MASTER_TIMEOUT_MS);
     boolean clicked =
         pipeline.returnFeedback(
             EVENT_ID_UNTRACKED,
-            Feedback.nodeAction(menuButton, AccessibilityNodeInfoCompat.ACTION_CLICK)
-                .vibration(R.array.view_clicked_pattern));
+            Feedback.nodeAction(
+                    menuButton,
+                    longClick
+                        ? AccessibilityNodeInfoCompat.ACTION_LONG_CLICK
+                        : AccessibilityNodeInfoCompat.ACTION_CLICK)
+                .vibration(
+                    longClick ? R.array.view_long_clicked_pattern : R.array.view_clicked_pattern));
     if (!clicked) {
       finish(session);
       return false;
@@ -372,7 +412,8 @@ public final class MenuAutomation {
         finish(session);
         return true;
       }
-      if (session.windowEventSeen
+      if (session.sheetContainerViewId == null
+          && session.windowEventSeen
           && (type == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
               || type == AccessibilityEvent.TYPE_WINDOWS_CHANGED
               || type == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED)) {
@@ -399,7 +440,7 @@ public final class MenuAutomation {
       Pending session, RootProvider provider, AccessibilityEvent event, int type) {
     if (isScanType(type)) {
       boolean sheetGone = findSheet(session, scanRoots(provider, event)) == null;
-      if (sheetGone && !session.restoreFocusOnClose) {
+      if (sheetGone && !session.restoreFocusOnClose && !session.failureSpeechPending) {
         // The sheet closed onto its follow-up UI (the reply composer), which is the
         // intended result: end silently and let the new UI be announced, without
         // pulling focus back to the row.
@@ -475,7 +516,7 @@ public final class MenuAutomation {
     RootProvider provider = session.lastProvider;
     if (provider != null && findSheet(session, provider.windowRoots()) == null) {
       AccessibilityNodeInfoCompat active = provider.activeWindowRoot();
-      if (session.restoreFocusOnClose
+      if ((session.restoreFocusOnClose || session.failureSpeechPending)
           && active != null
           && resolveOriginRepresentative(active, session) != null) {
         tryRestore(session, provider, session.failureSpeechPending);
@@ -495,7 +536,13 @@ public final class MenuAutomation {
                     session.sheetLabelViewId,
                     session.targetVariants,
                     session.targetCores)
-                : sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
+                : session.sheetContainerViewId != null
+                    ? sheetToggleTargetRow(
+                        sheetRoot,
+                        session.sheetLabelViewId,
+                        new String[] {session.targetLabel},
+                        new String[0])
+                    : sheetTargetRow(sheetRoot, session.sheetLabelViewId, session.targetLabel);
     if (row == null) {
       return false;
     }
@@ -511,6 +558,9 @@ public final class MenuAutomation {
         // that will never come.
         return false;
       }
+    }
+    if (!clicked && session.sheetContainerViewId != null) {
+      return false;
     }
     session.stage = Stage.AWAIT_CLOSE;
     cancel(session, session.sheetGrace);
@@ -608,6 +658,9 @@ public final class MenuAutomation {
   /** The session's sheet: by view id for menus, by anchors for the tray. */
   private static @Nullable AccessibilityNodeInfoCompat findSheet(
       Pending session, List<AccessibilityNodeInfoCompat> roots) {
+    if (session.sheetContainerViewId != null) {
+      return findPopoverRoot(session, roots);
+    }
     if (!session.trayMode) {
       return findSheetRoot(roots, session.sheetLabelViewId);
     }
@@ -624,6 +677,46 @@ public final class MenuAutomation {
       }
     }
     return null;
+  }
+
+  private static @Nullable AccessibilityNodeInfoCompat findPopoverRoot(
+      Pending session, List<AccessibilityNodeInfoCompat> roots) {
+    AccessibilityNodeInfoCompat found = null;
+    for (AccessibilityNodeInfoCompat root : roots) {
+      List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
+      collect(root, nodes);
+      for (AccessibilityNodeInfoCompat node : nodes) {
+        if (!session.sheetContainerViewId.equals(node.getViewIdResourceName())
+            || !session.packageName.contentEquals(
+                node.getPackageName() == null ? "" : node.getPackageName())
+            || !node.isVisibleToUser()) {
+          continue;
+        }
+        AccessibilityNodeInfoCompat parent = node.getParent();
+        if (parent == null) {
+          continue;
+        }
+        boolean originMatches = false;
+        for (int i = 0; i < parent.getChildCount(); i++) {
+          AccessibilityNodeInfoCompat sibling = parent.getChild(i);
+          if (sibling != null
+              && !sibling.equals(node)
+              && sibling.isVisibleToUser()
+              && session.originLabel.contentEquals(ItemScan.spokenLabel(sibling))) {
+            originMatches = true;
+            break;
+          }
+        }
+        if (!originMatches) {
+          continue;
+        }
+        if (found != null && !found.equals(node)) {
+          return null;
+        }
+        found = node;
+      }
+    }
+    return found;
   }
 
   /**

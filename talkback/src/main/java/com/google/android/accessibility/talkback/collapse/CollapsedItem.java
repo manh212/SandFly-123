@@ -61,6 +61,8 @@ public final class CollapsedItem {
     public final @Nullable String[] menuStateVariants;
     /** Toggle {@link Kind#MENU_ITEM} only: the stable match cores; null for plain items. */
     public final @Nullable String[] menuStateCores;
+    public final @Nullable String sheetContainerViewId;
+    public final boolean menuRestoreFocus;
     /**
      * {@link Kind#TRAY_ITEM} only: the tray button's recorded labels, Vietnamese then
      * English; the sequence clicks the tray button carrying either. Null otherwise.
@@ -81,6 +83,8 @@ public final class CollapsedItem {
       this.sheetItemLabelViewId = null;
       this.menuStateVariants = null;
       this.menuStateCores = null;
+      this.sheetContainerViewId = null;
+      this.menuRestoreFocus = true;
       this.trayLabels = null;
       this.trayRestoreFocus = false;
     }
@@ -91,15 +95,20 @@ public final class CollapsedItem {
         @StringRes int labelResId,
         @Nullable String sheetItemLabelViewId,
         @Nullable String[] menuStateVariants,
-        @Nullable String[] menuStateCores) {
+        @Nullable String[] menuStateCores,
+        @Nullable String sheetContainerViewId,
+        boolean longClick,
+        boolean menuRestoreFocus) {
       this.node = node;
-      this.longClick = false;
+      this.longClick = longClick;
       this.label = "";
       this.kind = kind;
       this.labelResId = labelResId;
       this.sheetItemLabelViewId = sheetItemLabelViewId;
       this.menuStateVariants = menuStateVariants;
       this.menuStateCores = menuStateCores;
+      this.sheetContainerViewId = sheetContainerViewId;
+      this.menuRestoreFocus = menuRestoreFocus;
       this.trayLabels = null;
       this.trayRestoreFocus = false;
     }
@@ -117,6 +126,8 @@ public final class CollapsedItem {
       this.sheetItemLabelViewId = null;
       this.menuStateVariants = null;
       this.menuStateCores = null;
+      this.sheetContainerViewId = null;
+      this.menuRestoreFocus = true;
       this.trayLabels = trayLabels;
       this.trayRestoreFocus = trayRestoreFocus;
     }
@@ -132,14 +143,17 @@ public final class CollapsedItem {
     static ChildAction menuItem(
         AccessibilityNodeInfoCompat menuButton,
         CollapseScript.MenuCatalog.Item item,
-        String sheetItemLabelViewId) {
+        CollapseScript.MenuCatalog catalog) {
       return new ChildAction(
           menuButton,
           Kind.MENU_ITEM,
           item.labelResId,
-          sheetItemLabelViewId,
+          catalog.sheetItemLabelViewId,
           item.stateVariants,
-          item.stateCores);
+          item.stateCores,
+          catalog.sheetContainerViewId,
+          catalog.longClick,
+          item.restoreFocusOnClose);
     }
 
     static ChildAction menuOpen(AccessibilityNodeInfoCompat menuButton, @StringRes int labelResId) {
@@ -149,7 +163,10 @@ public final class CollapsedItem {
           labelResId,
           /* sheetItemLabelViewId= */ null,
           /* menuStateVariants= */ null,
-          /* menuStateCores= */ null);
+          /* menuStateCores= */ null,
+          null,
+          false,
+          true);
     }
   }
 

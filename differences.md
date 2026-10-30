@@ -765,7 +765,9 @@ In some apps, each list item carries its own small buttons, and swiping stops on
 
 On YouTube, a video's menu button is expanded into the items of the video's own menu — play next, save to Watch later, share, not interested, and the rest — presented in the **Actions** reading control just like actions the video natively supports, so there is no separate menu to open and browse. An **Open menu** action at the end still opens the menu as usual. An item the menu does not have for a particular video is reported as not available, and focus stays on the video either way.
 
-This applies only in apps Meridian has a built-in script for, and only to items whose structure the script recognises; anything else is left exactly as it was. The scripts currently cover YouTube video items and Facebook comments. Facebook feed posts are already a single stop with their own actions, so they are unchanged. The setting is off by default.
+In Zalo's conversation list, the same setting adds seven actions to each conversation: mark read or unread, pin or unpin, turn notifications on or off, move between Priority and Other, hide, delete, and select multiple. Activating one long-presses the conversation and selects the matching option inside Zalo's popover menu. Toggle titles stay neutral, as on YouTube. Normal activation still opens the conversation. Confirmation dialogs and follow-up screens remain in Zalo; an unavailable option is reported without choosing another one. Messages inside a conversation are unchanged.
+
+This applies only in apps Meridian has a built-in script for, and only to items whose structure the script recognises; anything else is left exactly as it was. The scripts currently cover YouTube video items, Facebook comments and Zalo conversations. Facebook feed posts are unchanged. The setting is off by default.
 
 ### App icon that opens the settings
 

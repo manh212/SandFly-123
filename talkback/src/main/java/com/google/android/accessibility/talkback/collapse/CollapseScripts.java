@@ -28,6 +28,7 @@ public final class CollapseScripts {
   static {
     register(new YouTubeCollapseScript());
     register(new FacebookCollapseScript());
+    register(new ZaloCollapseScript());
   }
 
   private CollapseScripts() {}

@@ -33,7 +33,8 @@ public abstract class CollapseScript {
     /** The item has one primary child button that already speaks for the whole item. */
     PRIMARY_CHILD,
     /** The item root itself is the stop; its spoken label is composed from content fields. */
-    COMPOSITE_ROOT
+    COMPOSITE_ROOT,
+    ROOT_MENU
   }
 
   /** Where a double-tap on the representative goes. */
@@ -73,6 +74,7 @@ public abstract class CollapseScript {
        * state wording nobody has recorded yet still matches. Null for a plain item.
        */
       public final @Nullable String[] stateCores;
+      public final boolean restoreFocusOnClose;
 
       public Item(@StringRes int labelResId) {
         this(labelResId, /* stateVariants= */ null, /* stateCores= */ null);
@@ -82,9 +84,18 @@ public abstract class CollapseScript {
           @StringRes int labelResId,
           @Nullable String[] stateVariants,
           @Nullable String[] stateCores) {
+        this(labelResId, stateVariants, stateCores, true);
+      }
+
+      public Item(
+          @StringRes int labelResId,
+          @Nullable String[] stateVariants,
+          @Nullable String[] stateCores,
+          boolean restoreFocusOnClose) {
         this.labelResId = labelResId;
         this.stateVariants = stateVariants;
         this.stateCores = stateCores;
+        this.restoreFocusOnClose = restoreFocusOnClose;
       }
 
       public boolean isToggle() {
@@ -98,11 +109,24 @@ public abstract class CollapseScript {
     public final String sheetItemLabelViewId;
     /** Label resource of the trailing fallback action that opens the menu as usual. */
     public final @StringRes int openMenuLabelResId;
+    public final @Nullable String sheetContainerViewId;
+    public final boolean longClick;
 
     public MenuCatalog(Item[] items, String sheetItemLabelViewId, @StringRes int openMenuLabelResId) {
+      this(items, sheetItemLabelViewId, openMenuLabelResId, null, false);
+    }
+
+    public MenuCatalog(
+        Item[] items,
+        String sheetItemLabelViewId,
+        @StringRes int openMenuLabelResId,
+        @Nullable String sheetContainerViewId,
+        boolean longClick) {
       this.items = items;
       this.sheetItemLabelViewId = sheetItemLabelViewId;
       this.openMenuLabelResId = openMenuLabelResId;
+      this.sheetContainerViewId = sheetContainerViewId;
+      this.longClick = longClick;
     }
   }
 
@@ -271,6 +295,10 @@ public abstract class CollapseScript {
   /** The overflow-menu expansion for items matched by this script, or null for none. */
   public @Nullable MenuCatalog menuCatalog() {
     return null;
+  }
+
+  public boolean isMenuItemRoot(AccessibilityNodeInfoCompat node) {
+    return false;
   }
 
   /** The action-tray expansion for items matched by this script, or null for none. */

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="title_collapse_zalo_read">Đánh dấu đã đọc hoặc chưa đọc</string>
+  <string name="title_collapse_zalo_pin">Ghim hoặc bỏ ghim</string>
+  <string name="title_collapse_zalo_notifications">Bật hoặc tắt thông báo</string>
+  <string name="title_collapse_zalo_priority">Chuyển giữa Ưu tiên và Khác</string>
+  <string name="title_collapse_zalo_hide">Ẩn</string>
+  <string name="title_collapse_zalo_delete">Xóa</string>
+  <string name="title_collapse_zalo_select">Chọn nhiều</string>
+</resources>

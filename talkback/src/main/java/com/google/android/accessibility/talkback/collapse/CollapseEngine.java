@@ -176,6 +176,7 @@ public final class CollapseEngine {
     return switch (script.pattern()) {
       case PRIMARY_CHILD -> matchPrimaryChild(script, itemRoot, scan);
       case COMPOSITE_ROOT -> matchCompositeRoot(script, itemRoot, scan);
+      case ROOT_MENU -> matchRootMenu(script, itemRoot);
     };
   }
 
@@ -261,7 +262,7 @@ public final class CollapseEngine {
         continue;
       }
       for (CollapseScript.MenuCatalog.Item item : catalog.items) {
-        expanded.add(ChildAction.menuItem(menuButton, item, catalog.sheetItemLabelViewId));
+        expanded.add(ChildAction.menuItem(menuButton, item, catalog));
       }
     }
     expanded.add(ChildAction.menuOpen(menuButton, catalog.openMenuLabelResId));
@@ -346,6 +347,20 @@ public final class CollapseEngine {
         activationTarget,
         fieldNode(fields, script.selectionFieldId()),
         script.pattern());
+  }
+
+  private static @Nullable CollapsedItem matchRootMenu(
+      CollapseScript script, AccessibilityNodeInfoCompat itemRoot) {
+    CollapseScript.MenuCatalog catalog = script.menuCatalog();
+    if (catalog == null || !script.isMenuItemRoot(itemRoot)) {
+      return null;
+    }
+    List<ChildAction> actions = new ArrayList<>();
+    for (CollapseScript.MenuCatalog.Item item : catalog.items) {
+      actions.add(ChildAction.menuItem(itemRoot, item, catalog));
+    }
+    return new CollapsedItem(
+        itemRoot, itemRoot, actions, null, null, null, script.pattern());
   }
 
   /**
