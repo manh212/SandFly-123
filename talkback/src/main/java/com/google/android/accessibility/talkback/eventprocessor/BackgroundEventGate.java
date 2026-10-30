@@ -167,7 +167,10 @@ public final class BackgroundEventGate {
    * invalidate the entire reading order. Index changes still follow the normal path.
    */
   private boolean isRepeatedPassiveTickerScroll(AccessibilityEvent event) {
-    if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_SCROLLED
+    // Scroll deltas were added in Android 9 (API 28). Older devices still
+    // receive ordinary scroll events, but cannot identify this ticker pattern.
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+        || event.getEventType() != AccessibilityEvent.TYPE_VIEW_SCROLLED
         || touching || event.getWindowId() < 0
         || event.getWindowId() != interactionWindowId
         || SystemClock.uptimeMillis() - lastInput < 600L
