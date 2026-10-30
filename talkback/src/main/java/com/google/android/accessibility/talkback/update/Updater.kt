@@ -99,6 +99,10 @@ object Updater {
   // Downloads have a thread of their own, so a check made meanwhile is answered.
   private val downloadExecutor = Executors.newSingleThreadExecutor()
   private val downloading = AtomicBoolean(false)
+
+  @JvmStatic
+  val isBusy: Boolean
+    get() = downloading.get()
   private var serviceContext: Context? = null
 
   private val startupCheck = Runnable { serviceContext?.let { checkAutomatically(it, true) } }
