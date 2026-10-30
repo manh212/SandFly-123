@@ -73,6 +73,7 @@ public final class CollapsedItem {
      * the tray closes, or hands over to the app's follow-up UI.
      */
     public final boolean trayRestoreFocus;
+    public final @Nullable String traySignatureText;
 
     public ChildAction(AccessibilityNodeInfoCompat node, boolean longClick, CharSequence label) {
       this.node = node;
@@ -87,6 +88,7 @@ public final class CollapsedItem {
       this.menuRestoreFocus = true;
       this.trayLabels = null;
       this.trayRestoreFocus = false;
+      this.traySignatureText = null;
     }
 
     private ChildAction(
@@ -111,13 +113,15 @@ public final class CollapsedItem {
       this.menuRestoreFocus = menuRestoreFocus;
       this.trayLabels = null;
       this.trayRestoreFocus = false;
+      this.traySignatureText = null;
     }
 
     private ChildAction(
         AccessibilityNodeInfoCompat node,
         CharSequence label,
         @Nullable String[] trayLabels,
-        boolean trayRestoreFocus) {
+        boolean trayRestoreFocus,
+        @Nullable String traySignatureText) {
       this.node = node;
       this.longClick = false;
       this.label = label;
@@ -130,6 +134,7 @@ public final class CollapsedItem {
       this.menuRestoreFocus = true;
       this.trayLabels = trayLabels;
       this.trayRestoreFocus = trayRestoreFocus;
+      this.traySignatureText = traySignatureText;
     }
 
     static ChildAction trayItem(
@@ -137,7 +142,16 @@ public final class CollapsedItem {
         CharSequence label,
         String[] trayLabels,
         boolean trayRestoreFocus) {
-      return new ChildAction(node, label, trayLabels, trayRestoreFocus);
+      return new ChildAction(node, label, trayLabels, trayRestoreFocus, null);
+    }
+
+    static ChildAction trayItem(
+        AccessibilityNodeInfoCompat node,
+        CharSequence label,
+        String[] trayLabels,
+        boolean trayRestoreFocus,
+        @Nullable String signatureText) {
+      return new ChildAction(node, label, trayLabels, trayRestoreFocus, signatureText);
     }
 
     static ChildAction menuItem(

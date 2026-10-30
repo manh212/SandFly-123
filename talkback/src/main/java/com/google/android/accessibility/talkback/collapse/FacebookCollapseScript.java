@@ -52,18 +52,21 @@ import org.checkerframework.checker.nullness.qual.Nullable;
  *
  * <p>The action cap covers the heaviest recorded combination: a photo comment with a follow
  * button and a reactions block reaches eleven actions after de-duplication.
- *
- * <p>Feed posts intentionally do not match: their root is not clickable and one child already
- * carries the full description plus Facebook's own custom actions.
  */
 final class FacebookCollapseScript extends CollapseScript {
   static final String PACKAGE_NAME = "com.facebook.katana";
   private static final String FIELD_AUTHOR = "author";
   private static final String FIELD_TIME = "time";
   private static final String FIELD_BODY = "body";
+  private static final CollapseScript FEED_SCRIPT = new FacebookFeedCollapseScript();
 
   FacebookCollapseScript() {
     super(PACKAGE_NAME, Pattern.COMPOSITE_ROOT, /* maxActions= */ 12);
+  }
+
+  @Override
+  public CollapseScript fallbackScript() {
+    return FEED_SCRIPT;
   }
 
   /**
@@ -138,6 +141,9 @@ final class FacebookCollapseScript extends CollapseScript {
 
   @Override
   protected @Nullable List<Field> resolveFields(ItemScan scan) {
+    if (FacebookFeedCollapseScript.isFeedItem(scan)) {
+      return null;
+    }
     ResolvedFields resolved = fieldsFor(scan);
     AccessibilityNodeInfoCompat author = resolved.author;
     AccessibilityNodeInfoCompat time = resolved.time;

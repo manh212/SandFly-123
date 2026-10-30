@@ -767,7 +767,9 @@ On YouTube, a video's menu button is expanded into the items of the video's own 
 
 In Zalo's conversation list, the same setting adds seven actions to each conversation: mark read or unread, pin or unpin, turn notifications on or off, move between Priority and Other, hide, delete, and select multiple. Activating one long-presses the conversation and selects the matching option inside Zalo's popover menu. Toggle titles stay neutral, as on YouTube. Normal activation still opens the conversation. Confirmation dialogs and follow-up screens remain in Zalo; an unavailable option is reported without choosing another one. Messages inside a conversation are unchanged.
 
-This applies only in apps Meridian has a built-in script for, and only to items whose structure the script recognises; anything else is left exactly as it was. The scripts currently cover YouTube video items, Facebook comments and Zalo conversations. Facebook feed posts are unchanged. The setting is off by default.
+Facebook feed posts with separate author, metadata and text fields are also a single stop. Their Actions include the six choices from the post's long-press menu: Like, React, Comment, Share, more post options and image description. Each opens the post's own tray with a long press on its live text, then activates the real button. Like returns focus to the post; the other choices hand over to Facebook's next screen. Other named buttons, such as the author, photo and Hide post, remain available as actions. Double-tapping the post activates its text, and text selection uses that text. Posts that already provide a complete label and native actions remain unchanged, as do unsupported layouts.
+
+This applies only in apps Meridian has a built-in script for, and only to items whose structure the script recognises; anything else is left exactly as it was. The scripts currently cover YouTube video items, Facebook comments and feed posts, and Zalo conversations. The setting is off by default.
 
 ### App icon that opens the settings
 

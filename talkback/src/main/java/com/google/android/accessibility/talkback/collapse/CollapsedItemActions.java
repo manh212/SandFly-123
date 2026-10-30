@@ -120,11 +120,13 @@ public class CollapsedItemActions implements NodeMenu {
                   action.node,
                   title,
                   action.longClick,
-                  item.pattern() == CollapseScript.Pattern.COMPOSITE_ROOT,
+                  item.pattern() == CollapseScript.Pattern.COMPOSITE_ROOT
+                      || item.pattern() == CollapseScript.Pattern.COMPOSITE_TRAY,
                   item.composedLabel(),
                   action.label,
                   action.kind == ChildAction.Kind.TRAY_ITEM ? action.trayLabels : null,
                   action.trayRestoreFocus,
+                  action.traySignatureText,
                   pipeline,
                   analytics));
       menuItem.setCheckable(false);
@@ -156,6 +158,7 @@ public class CollapsedItemActions implements NodeMenu {
     private final @Nullable String[] trayLabels;
     /** Whether the tray sequence restores focus to the item when the tray closes. */
     private final boolean trayRestoreFocus;
+    private final @Nullable String traySignatureText;
 
     CollapseActionClickListener(
         Context context,
@@ -167,6 +170,7 @@ public class CollapsedItemActions implements NodeMenu {
         CharSequence actionLabel,
         @Nullable String[] trayLabels,
         boolean trayRestoreFocus,
+        @Nullable String traySignatureText,
         Pipeline.FeedbackReturner pipeline,
         TalkBackAnalytics analytics) {
       super(node, pipeline, analytics);
@@ -178,6 +182,7 @@ public class CollapsedItemActions implements NodeMenu {
       this.actionLabel = actionLabel;
       this.trayLabels = trayLabels;
       this.trayRestoreFocus = trayRestoreFocus;
+      this.traySignatureText = traySignatureText;
     }
 
     @Override
@@ -340,8 +345,8 @@ public class CollapsedItemActions implements NodeMenu {
               shellForTray,
               trayLabels,
               trayRestoreFocus,
-              TRAY_HEADER_TEXT,
-              authorOf(liveItem.composedLabel()),
+              traySignatureText == null ? TRAY_HEADER_TEXT : traySignatureText,
+              traySignatureText == null ? authorOf(liveItem.composedLabel()) : null,
               itemComposedLabel == null ? "" : itemComposedLabel.toString(),
               originBounds,
               this::announceActionNotSupported);

@@ -673,10 +673,22 @@ public final class MenuAutomation {
       }
       if (findTrayRoot(List.of(root), session.trayHeaderText, session.trayAuthorName)
           != null) {
+        if (FacebookFeedCollapseScript.TRAY_SIGNATURE.equals(session.trayHeaderText)
+            && !hasPostTraySignature(root)) {
+          continue;
+        }
         return root;
       }
     }
     return null;
+  }
+
+  private static boolean hasPostTraySignature(AccessibilityNodeInfoCompat root) {
+    return trayTargetButton(root, new String[] {"Thích", "Bỏ thích"}) != null
+        && trayTargetButton(root, new String[] {"Bày tỏ cảm xúc"}) != null
+        && trayTargetButton(root, new String[] {"Bình luận"}) != null
+        && trayTargetButton(root, new String[] {"Chia sẻ"}) != null
+        && trayTargetButton(root, new String[] {FacebookFeedCollapseScript.TRAY_SIGNATURE}) != null;
   }
 
   private static @Nullable AccessibilityNodeInfoCompat findPopoverRoot(

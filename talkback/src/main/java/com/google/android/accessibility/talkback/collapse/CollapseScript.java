@@ -34,7 +34,8 @@ public abstract class CollapseScript {
     PRIMARY_CHILD,
     /** The item root itself is the stop; its spoken label is composed from content fields. */
     COMPOSITE_ROOT,
-    ROOT_MENU
+    ROOT_MENU,
+    COMPOSITE_TRAY
   }
 
   /** Where a double-tap on the representative goes. */
@@ -158,21 +159,38 @@ public abstract class CollapseScript {
        * tray set replaces: such actions are absorbed into the set, never duplicated by it.
        */
       public final boolean absorbsScanned;
+      public final String[] targetLabels;
 
       public Entry(
           String labelVi, String labelEn, boolean restoreFocusOnClose, boolean absorbsScanned) {
+        this(labelVi, labelEn, restoreFocusOnClose, absorbsScanned, new String[] {labelVi, labelEn});
+      }
+
+      public Entry(
+          String labelVi,
+          String labelEn,
+          boolean restoreFocusOnClose,
+          boolean absorbsScanned,
+          String[] targetLabels) {
         this.labelVi = labelVi;
         this.labelEn = labelEn;
         this.restoreFocusOnClose = restoreFocusOnClose;
         this.absorbsScanned = absorbsScanned;
+        this.targetLabels = targetLabels;
       }
     }
 
     /** The catalog's entries, in the order the app's tray shows them. */
     public final Entry[] entries;
+    public final @Nullable String signatureText;
 
     public TrayCatalog(Entry[] entries) {
+      this(entries, null);
+    }
+
+    public TrayCatalog(Entry[] entries, @Nullable String signatureText) {
       this.entries = entries;
+      this.signatureText = signatureText;
     }
   }
 
@@ -298,6 +316,14 @@ public abstract class CollapseScript {
   }
 
   public boolean isMenuItemRoot(AccessibilityNodeInfoCompat node) {
+    return false;
+  }
+
+  public @Nullable CollapseScript fallbackScript() {
+    return null;
+  }
+
+  protected boolean isTrayCounterpart(AccessibilityNodeInfoCompat node) {
     return false;
   }
 

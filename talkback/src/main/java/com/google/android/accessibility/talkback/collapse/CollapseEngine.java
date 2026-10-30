@@ -173,11 +173,15 @@ public final class CollapseEngine {
     if (scan == null || scan.hasEssentialDescendant() || scan.hasScrollableDescendant()) {
       return null;
     }
-    return switch (script.pattern()) {
-      case PRIMARY_CHILD -> matchPrimaryChild(script, itemRoot, scan);
-      case COMPOSITE_ROOT -> matchCompositeRoot(script, itemRoot, scan);
-      case ROOT_MENU -> matchRootMenu(script, itemRoot);
-    };
+    CollapsedItem item =
+        switch (script.pattern()) {
+          case PRIMARY_CHILD -> matchPrimaryChild(script, itemRoot, scan);
+          case COMPOSITE_ROOT -> matchCompositeRoot(script, itemRoot, scan);
+          case ROOT_MENU -> matchRootMenu(script, itemRoot);
+          case COMPOSITE_TRAY -> matchCompositeTray(script, itemRoot, scan);
+        };
+    CollapseScript fallback = script.fallbackScript();
+    return item != null || fallback == null ? item : match(fallback, itemRoot);
   }
 
   private static @Nullable CollapsedItem matchPrimaryChild(
@@ -361,6 +365,59 @@ public final class CollapseEngine {
     }
     return new CollapsedItem(
         itemRoot, itemRoot, actions, null, null, null, script.pattern());
+  }
+
+  private static @Nullable CollapsedItem matchCompositeTray(
+      CollapseScript script, AccessibilityNodeInfoCompat itemRoot, ItemScan scan) {
+    if (!itemRoot.isFocusable() || !TextUtils.isEmpty(ItemScan.spokenLabel(itemRoot))) {
+      return null;
+    }
+    List<Field> fields = script.resolveFields(scan);
+    CollapseScript.TrayCatalog catalog = script.trayCatalog();
+    if (fields == null || fields.isEmpty() || catalog == null) {
+      return null;
+    }
+    AccessibilityNodeInfoCompat body = fieldNode(fields, script.selectionFieldId());
+    if (body == null || !body.isClickable() || !body.isLongClickable()) {
+      return null;
+    }
+    StringBuilder label = new StringBuilder();
+    for (Field field : fields) {
+      if (TextUtils.isEmpty(field.label)) {
+        return null;
+      }
+      if (label.length() > 0) {
+        label.append(CompositorUtils.getSeparator());
+      }
+      label.append(field.label);
+    }
+    List<ChildAction> actions = new ArrayList<>();
+    for (AccessibilityNodeInfoCompat node : scan.clickables()) {
+      if (node.equals(body)
+          || AccessibilityNodeInfoUtils.hasAncestor(node, body)
+          || script.isTrayCounterpart(node)) {
+        continue;
+      }
+      CharSequence actionLabel = actionLabel(script, node);
+      if (!TextUtils.isEmpty(actionLabel)) {
+        actions.add(new ChildAction(node, false, actionLabel));
+      }
+    }
+    actions = dedupNestedSameLabel(actions);
+    for (CollapseScript.TrayCatalog.Entry entry : catalog.entries) {
+      actions.add(
+          ChildAction.trayItem(
+              body,
+              entry.labelVi,
+              entry.targetLabels,
+              entry.restoreFocusOnClose,
+              catalog.signatureText));
+    }
+    if (actions.size() > script.maxActions()) {
+      return null;
+    }
+    return new CollapsedItem(
+        itemRoot, itemRoot, actions, label.toString(), body, body, script.pattern());
   }
 
   /**
