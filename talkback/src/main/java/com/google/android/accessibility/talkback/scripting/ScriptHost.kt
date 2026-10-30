@@ -24,6 +24,12 @@ import com.google.android.accessibility.utils.output.SpeechControllerImpl
 import com.google.android.accessibility.utils.output.SpeechControllerImpl.SpeechFilter
 
 interface ScriptHost {
+  /**
+   * The host may be a lazy wrapper with no running script engine. Do not disable
+   * background/local traversal just because that wrapper was registered.
+   */
+  fun hasActiveNodeOverrides(): Boolean = true
+
   fun onAccessibilityEvent(event: AccessibilityEvent)
 
   fun rewriteFocusSpeech(node: AccessibilityNodeInfoCompat, speech: CharSequence): CharSequence?
@@ -258,6 +264,8 @@ object Scripts {
 }
 
 private class RuleOverrides(private val host: ScriptHost) : NodeOverrides.Source {
+  override fun isActive(): Boolean = host.hasActiveNodeOverrides()
+
   override fun role(node: AccessibilityNodeInfoCompat): Int? =
     host.rule(node, RuleAspect.ROLE)?.role
 
