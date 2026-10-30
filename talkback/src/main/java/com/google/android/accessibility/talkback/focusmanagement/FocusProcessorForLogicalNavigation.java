@@ -1406,6 +1406,8 @@ public class FocusProcessorForLogicalNavigation {
       }
     }
     return null;
+  }
+
   /** Gives each recognised screen element its anchor among the host window's nodes. */
   private void orderScreenElements() {
     List<AccessibilityNodeInfoCompat> nodes = new ArrayList<>();
@@ -1441,6 +1443,8 @@ public class FocusProcessorForLogicalNavigation {
       }
     }
     ScreenElements.setOrder(nodes);
+  }
+
   private static final int MAX_ORDERED_NODES = 2000;
   private boolean navigateToDefaultOrMacroGranularityTarget(
       @NonNull AccessibilityNodeInfoCompat pivot,
