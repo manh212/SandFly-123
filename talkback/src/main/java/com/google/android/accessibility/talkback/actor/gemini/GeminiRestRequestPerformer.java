@@ -101,8 +101,17 @@ public class GeminiRestRequestPerformer {
     }
   }
 
+  private static @Nullable RequestQueue sharedQueue;
+
+  static synchronized RequestQueue sharedQueue(Context context) {
+    if (sharedQueue == null) {
+      sharedQueue = Volley.newRequestQueue(context.getApplicationContext());
+    }
+    return sharedQueue;
+  }
+
   public GeminiRestRequestPerformer(Context context) {
-    this(Volley.newRequestQueue(context));
+    this(sharedQueue(context));
   }
 
   GeminiRestRequestPerformer(RequestQueue requestQueue) {
