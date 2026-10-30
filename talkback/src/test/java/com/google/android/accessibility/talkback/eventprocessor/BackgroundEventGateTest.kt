@@ -271,6 +271,52 @@ class BackgroundEventGateTest {
     assertEquals(listOf("foreground"), delivered)
   }
 
+  private fun idleTicker(from: Int = 7, to: Int = 10): AccessibilityEvent =
+    event(AccessibilityEvent.TYPE_VIEW_SCROLLED, "foreground", 1).also {
+      it.itemCount = Int.MAX_VALUE
+      it.fromIndex = from
+      it.toIndex = to
+      it.scrollDeltaX = 12
+      it.scrollDeltaY = 0
+    }
+
+  @Test
+  fun passiveInfiniteCarouselRepeatedIndicesDoNotEnterFeedbackPipeline() {
+    advance(600)
+    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+    assertFalse(gate.onAccessibilityEvent(idleTicker()))
+    assertFalse(gate.onAccessibilityEvent(idleTicker()))
+    assertTrue(delivered.isEmpty())
+    assertTrue(gate.onAccessibilityEvent(idleTicker(8, 11)))
+  }
+
+  @Test
+  fun passiveTickerIsNeverDroppedDuringTouchExploration() {
+    advance(600)
+    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+    assertTrue(gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_TOUCH_INTERACTION_START, "foreground", 1)))
+    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+  }
+
+  @Test
+  fun expectedTickerScrollResponseIsPreserved() {
+    gate.clear()
+    gate = BackgroundEventGate(
+      { event, _ -> delivered += event.packageName.toString() },
+      { event -> event.contentDescription == "expected" },
+      { },
+    )
+    gate.setProcessingLevel("very_low")
+    gate.onAccessibilityEvent(
+      event(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED, "foreground", 1))
+    advance(600)
+    assertTrue(gate.onAccessibilityEvent(idleTicker()))
+    val expected = idleTicker()
+    expected.contentDescription = "expected"
+    assertTrue(gate.onAccessibilityEvent(expected))
+  }
+
   @Test
   fun scopedModeDoesNotLetHelperWindowStateReplaceTheInteractionWindow() {
     LatencyExperiments.setEnabled(LatencyExperiments.Feature.SCOPED_CACHE, true)
