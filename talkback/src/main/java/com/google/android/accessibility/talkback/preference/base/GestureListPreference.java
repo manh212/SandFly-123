@@ -602,8 +602,8 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     if (FeatureFlagReader.enableAnnouncePhoneticPronunciation(getContext())) {
       builder.add(
           new ActionItem(
-              resources.getString(R.string.shortcut_announce_phonetic_pronunciation),
-              resources.getString(R.string.shortcut_value_announce_phonetic_pronunciation),
+              getContext().getString(R.string.shortcut_announce_phonetic_pronunciation),
+              getContext().getString(R.string.shortcut_value_announce_phonetic_pronunciation),
               TYPE_ACTION_ITEM));
     }
 
