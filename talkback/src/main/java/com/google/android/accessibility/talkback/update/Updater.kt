@@ -99,12 +99,10 @@ object Updater {
   // Downloads have a thread of their own, so a check made meanwhile is answered.
   private val downloadExecutor = Executors.newSingleThreadExecutor()
   private val downloading = AtomicBoolean(false)
+  private val installing = AtomicBoolean(false)
 
   @JvmStatic
   val isBusy: Boolean
-    get() = downloading.get()
-  private val installing = AtomicBoolean(false)
-  /** Whether an update is downloading or being handed to the installer. */
     get() = downloading.get() || installing.get()
   private var serviceContext: Context? = null
 
