@@ -36,6 +36,26 @@ public final class CopyTextUtils {
     return new ArrayList<>(items);
   }
 
+  public static List<String> getFocusedTextItems(
+      @Nullable AccessibilityNodeInfoCompat node) {
+    if (node == null || node.isPassword()) {
+      return new ArrayList<>();
+    }
+    CharSequence text = node.getText();
+    if (TextUtils.isEmpty(text)) {
+      text = node.getContentDescription();
+    }
+    String value = TextUtils.isEmpty(text) ? "" : text.toString().trim();
+    if (!value.isEmpty()) {
+      return java.util.Collections.singletonList(value);
+    }
+    LinkedHashSet<String> items = new LinkedHashSet<>();
+    for (int i = 0; i < node.getChildCount(); i++) {
+      collectText(node.getChild(i), items);
+    }
+    return new ArrayList<>(items);
+  }
+
   /** Returns the node's own plain text or content description, excluding passwords and controls. */
   public static String getNodeText(@Nullable AccessibilityNodeInfoCompat node) {
     if (node == null || node.isPassword() || isControl(node)) {

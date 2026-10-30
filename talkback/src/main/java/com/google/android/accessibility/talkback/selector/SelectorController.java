@@ -1921,7 +1921,7 @@ public class SelectorController implements UserInputEventListener {
       case COPY_MODE -> {
         AccessibilityNodeInfoCompat node =
             accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-        List<String> parts = CopyTextUtils.getTextItems(node);
+        List<String> parts = CopyTextUtils.getFocusedTextItems(node);
         String text = android.text.TextUtils.join("\n", parts);
         boolean append = !isNext;
         boolean copied = !text.isEmpty()

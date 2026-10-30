@@ -193,6 +193,8 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       return false;
     }
     pipeline.returnFeedback(eventId, Feedback.speech(SAVE_LAST));
+    AccessibilityNodeInfoCompat originalFocus =
+        accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
     dismissAll();
     pipeline.returnFeedback(eventId, Feedback.focus(CACHE));
     menuId = null;
@@ -201,12 +203,15 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     int index = 0;
     for (CustomMenus.Item item : menu.items) {
       String command = item.value;
-      contextMenu.add(0, 1000000 + index, index++, item.label)
-          .setOnMenuItemClickListener(
-              clicked -> {
-                service.performCatalogAction(command);
-                return true;
-              });
+      ContextMenuItem menuItem = contextMenu.add(0, 1000000 + index, index++, item.label);
+      menuItem.setOnMenuItemClickListener(
+          clicked -> {
+            service.performCatalogMenuAction(command, originalFocus);
+            return true;
+          });
+      menuItem.setDeferredType(DeferredType.WINDOWS_STABLE);
+      menuItem.setSkipRefocusEvents(true);
+      menuItem.setSkipWindowEvents(true);
     }
     showDialogMenu(menu.name, getItemsFromMenu(contextMenu), contextMenu, eventId);
     return true;

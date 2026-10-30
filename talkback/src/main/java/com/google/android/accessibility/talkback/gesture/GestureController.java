@@ -48,6 +48,7 @@ import static com.google.android.accessibility.talkback.Feedback.FocusDirection.
 import static com.google.android.accessibility.talkback.Feedback.FocusDirection.Action.SCROLL_UP;
 import static com.google.android.accessibility.talkback.Feedback.PassThroughMode.Action.PASSTHROUGH_CONFIRM_DIALOG;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_LAST;
+import static com.google.android.accessibility.talkback.Feedback.Speech.Action.COPY_SAVED;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.REPEAT_LAST;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SHOW_CLIPBOARD_HISTORY;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SHOW_HISTORY;
@@ -327,6 +328,23 @@ public class GestureController {
   }
 
   public void performAction(String action, EventId eventId) {
+    performAction(action, eventId, null, false);
+  }
+
+  static Feedback.Speech.Action lastUtteranceCopyAction(boolean fromCustomMenu) {
+    return fromCustomMenu ? COPY_SAVED : COPY_LAST;
+  }
+
+  public void performMenuAction(
+      String action, EventId eventId, AccessibilityNodeInfoCompat menuTarget) {
+    performAction(action, eventId, menuTarget, true);
+  }
+
+  private void performAction(
+      String action,
+      EventId eventId,
+      AccessibilityNodeInfoCompat menuTarget,
+      boolean fromCustomMenu) {
     RecentUserInput.mark();
     Performance.getInstance().onPerformAction(eventId, action);
     TalkbackAction actionEvent = gestureShortcutMapping.getActionEvent(action);
@@ -430,8 +448,10 @@ public class GestureController {
       result = dispatchMediaKey(KeyEvent.KEYCODE_MEDIA_NEXT);
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_focused))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-      List<String> textItems = CopyTextUtils.getTextItems(node);
+          fromCustomMenu
+              ? menuTarget
+              : accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      List<String> textItems = CopyTextUtils.getFocusedTextItems(node);
       CharSequence text = TextUtils.join("\n", textItems);
       result = !TextUtils.isEmpty(text) && ClipboardUtils.copyToClipboard(service, text);
       if (result) {
@@ -533,8 +553,10 @@ public class GestureController {
       speak(service.getString(enabled ? R.string.auto_translate_on : R.string.auto_translate_off));
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_more))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-      List<String> textItems = CopyTextUtils.getTextItems(node);
+          fromCustomMenu
+              ? menuTarget
+              : accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+      List<String> textItems = CopyTextUtils.getFocusedTextItems(node);
       if (textItems.isEmpty()) {
         speak(service.getString(R.string.copy_more_nothing));
         result = false;
@@ -890,8 +912,11 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_voice_feedback))) {
       pipeline.returnFeedback(eventId, Feedback.speech(TOGGLE_VOICE_FEEDBACK));
     } else if (action.equals(service.getString(R.string.shortcut_value_copy_last_spoken_phrase))) {
-      pipeline.returnFeedback(
-          eventId, Feedback.part().setSpeech(Feedback.Speech.create(COPY_LAST)));
+      result =
+          pipeline.returnFeedback(
+              eventId,
+              Feedback.part()
+                  .setSpeech(Feedback.Speech.create(lastUtteranceCopyAction(fromCustomMenu))));
     } else if (action.equals(service.getString(R.string.shortcut_value_tutorial))) {
       pipeline.returnFeedback(eventId, Feedback.triggerIntent(Action.TRIGGER_TUTORIAL));
     } else if (action.equals(service.getString(R.string.shortcut_value_practice_gestures))) {

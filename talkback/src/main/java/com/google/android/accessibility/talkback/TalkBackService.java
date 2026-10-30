@@ -612,6 +612,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Controller for speech feedback. */
   private SpeechControllerImpl speechController;
+  private OtherScreenReaderMonitor otherScreenReaderMonitor;
   private com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController extendedGesturesController;
 
   /** Controller for diagnostic overlay (developer mode). */
@@ -919,6 +920,10 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public boolean onUnbind(Intent intent) {
+    if (otherScreenReaderMonitor != null) {
+      otherScreenReaderMonitor.stop();
+      otherScreenReaderMonitor = null;
+    }
     touchVolumeState.reset();
     recordingFocusGuard.stop();
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
@@ -960,6 +965,10 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
+    if (otherScreenReaderMonitor != null) {
+      otherScreenReaderMonitor.stop();
+      otherScreenReaderMonitor = null;
+    }
     if (backgroundEventGate != null) {
       backgroundEventGate.clear();
     }
@@ -1839,6 +1848,13 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
+  public void performCatalogMenuAction(
+      String action, @Nullable AccessibilityNodeInfoCompat originalFocus) {
+    if (gestureController != null) {
+      gestureController.performMenuAction(action, EVENT_ID_UNTRACKED, originalFocus);
+    }
+  }
+
   /**
    * Changes the volume a step and says the new volume as a percent, right away: the
    * accessibility volume while a finger is on the screen, the media volume otherwise. No system
@@ -2233,6 +2249,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     initializeFingerprintGestureCallback();
 
     resumeInfrastructure();
+    if (otherScreenReaderMonitor != null) {
+      otherScreenReaderMonitor.stop();
+    }
+    otherScreenReaderMonitor =
+        new OtherScreenReaderMonitor(this, this::applyTouchExplorationPreference);
+    otherScreenReaderMonitor.start();
 
     // Handle any update actions.
     new TalkBackUpdateHelper(this).checkUpdate();
@@ -3191,8 +3213,11 @@ public class TalkBackService extends AccessibilityServiceCompat
       // Ensure the initial touch exploration request mode is correct.
       if (supportsTouchScreen
           && getBooleanPref(
-              R.string.pref_explore_by_touch_key, R.bool.pref_explore_by_touch_default)) {
+              R.string.pref_explore_by_touch_key, R.bool.pref_explore_by_touch_default)
+          && !OtherScreenReaderMonitor.isCompetingScreenReaderEnabled(this)) {
         info.flags |= AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE;
+      } else {
+        info.flags &= ~AccessibilityServiceInfo.FLAG_REQUEST_TOUCH_EXPLORATION_MODE;
       }
 
       // Required for the "read current URL" keyboard shortcut. It uses getViewIdResourceName() in
@@ -4187,8 +4212,9 @@ public class TalkBackService extends AccessibilityServiceCompat
    *     no change to touch exploration state occurred.
    */
   private @Nullable Boolean requestTouchExploration(boolean requestedState) {
-    if (requestedState && PauseController.isPaused()) {
-      // Touch works as if no screen reader is on until Backtalk resumes.
+    if (requestedState
+        && (PauseController.isPaused()
+            || OtherScreenReaderMonitor.isCompetingScreenReaderEnabled(this))) {
       requestedState = false;
     }
     requestServiceFlag(
