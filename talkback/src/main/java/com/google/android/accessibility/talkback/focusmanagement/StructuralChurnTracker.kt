@@ -29,6 +29,18 @@ internal class StructuralChurnTracker {
     if (state.count >= 4) state.liveUntilMs = nowMs + 2000L
   }
 
+  /**
+   * The Android IPC calls required for a full ordered tree cannot be interrupted on the
+   * service thread. After one demonstrably slow build, use the local next/previous search
+   * for a short period even if the app's refresh events were already coalesced.
+   */
+  @Synchronized fun noteSlowBuild(windowId: Int, nowMs: Long, durationMs: Long) {
+    if (windowId < 0 || durationMs < 250L) return
+    record(windowId, nowMs)
+    val state = windows[windowId] ?: return
+    state.liveUntilMs = maxOf(state.liveUntilMs, nowMs + 8_000L)
+  }
+
   @Synchronized fun isChurning(windowId: Int, nowMs: Long): Boolean =
     windowId >= 0 && (windows[windowId]?.liveUntilMs ?: 0L) > nowMs
 }
