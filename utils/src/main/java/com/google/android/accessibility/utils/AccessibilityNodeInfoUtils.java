@@ -1056,8 +1056,20 @@ public class AccessibilityNodeInfoUtils {
    */
   public static AccessibilityNodeInfoCompat findFocusFromHover(
       @Nullable AccessibilityNodeInfoCompat touched) {
+    // A single hover can test the same descendants repeatedly while climbing ancestors.
+    // Keep speaking decisions only for this hover, not across content-change events. On
+    // frequently updating feeds this avoids redundant child lookups without stale focus.
+    final Map<AccessibilityNodeInfoCompat, Boolean> speaking = new HashMap<>();
     return AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
-        touched, FILTER_SHOULD_FOCUS_EXCEPT_WEB_VIEW);
+        touched,
+        new Filter<AccessibilityNodeInfoCompat>() {
+          @Override
+          public boolean accept(AccessibilityNodeInfoCompat node) {
+            return node != null
+                && shouldFocusNode(node, speaking)
+                && Role.getRole(node) != Role.ROLE_WEB_VIEW;
+          }
+        });
   }
 
   /**
