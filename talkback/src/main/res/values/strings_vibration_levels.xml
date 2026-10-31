@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="vibration_level_very_light">Rất nhẹ</string>
-    <string name="vibration_level_light">Nhẹ</string>
-    <string name="vibration_level_strong">Mạnh</string>
-    <string name="vibration_level_very_strong">Rất mạnh</string>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string tools:ignore="MissingTranslation" name="vibration_level_very_light">Rất nhẹ</string>
+    <string tools:ignore="MissingTranslation" name="vibration_level_light">Nhẹ</string>
+    <string tools:ignore="MissingTranslation" name="vibration_level_strong">Mạnh</string>
+    <string tools:ignore="MissingTranslation" name="vibration_level_very_strong">Rất mạnh</string>
 </resources>
