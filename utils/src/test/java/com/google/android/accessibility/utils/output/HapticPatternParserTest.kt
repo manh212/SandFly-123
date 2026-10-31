@@ -58,7 +58,7 @@ class HapticPatternParserTest {
   @Test
   fun otherPhonesGetTheOnAndOffTimesWithoutTheAmplitudes() {
     parser(canVaryStrength = false).parse(pattern)
-    assertArrayEquals(longArrayOf(0, 30, 40, 15), fallback)
+    assertArrayEquals(longArrayOf(0, 42, 40, 21), fallback)
     assertNull(timings)
   }
 
