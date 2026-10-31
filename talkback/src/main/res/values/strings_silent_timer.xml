@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="shortcut_toggle_silent_mode" tools:ignore="MissingTranslation">Bật hoặc tắt chế độ im lặng</string>
+  <string name="shortcut_value_toggle_silent_mode" translatable="false">toggle_silent_mode</string>
+  <string name="silent_sounds_title" tools:ignore="MissingTranslation">Tắt âm báo của trình đọc màn hình khi ở chế độ im lặng</string>
+  <string name="silent_sounds_summary" tools:ignore="MissingTranslation">Khi điện thoại ở chế độ im lặng, không phát các âm báo hiệu ứng của trình đọc màn hình; vẫn giữ giọng nói.</string>
+  <string name="timer_speech_category" tools:ignore="MissingTranslation">Giọng nói và kênh phát của hẹn giờ</string>
+  <string name="timer_voice_title" tools:ignore="MissingTranslation">Hồ sơ giọng nói hẹn giờ</string>
+  <string name="timer_voice_default" tools:ignore="MissingTranslation">Theo giọng đọc mặc định</string>
+  <string name="timer_stream_title" tools:ignore="MissingTranslation">Kênh phát âm thanh hẹn giờ</string>
+  <string name="timer_stream_accessibility" tools:ignore="MissingTranslation">Kênh trợ năng</string>
+  <string name="timer_stream_media" tools:ignore="MissingTranslation">Kênh phương tiện</string>
+  <string name="timer_stream_ring" tools:ignore="MissingTranslation">Kênh nhạc chuông</string>
+  <string-array name="timer_stream_entries">
+    <item>@string/timer_stream_accessibility</item>
+    <item>@string/timer_stream_media</item>
+    <item>@string/timer_stream_ring</item>
+  </string-array>
+  <string-array name="timer_stream_values" translatable="false">
+    <item>accessibility</item>
+    <item>media</item>
+    <item>ring</item>
+  </string-array>
+</resources>

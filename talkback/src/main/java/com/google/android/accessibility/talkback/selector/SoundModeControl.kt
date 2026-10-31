@@ -22,12 +22,43 @@ import android.content.Intent
 import android.media.AudioManager
 import android.os.Vibrator
 import android.provider.Settings
+import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.quicksettings.SoundMode
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 
 internal object SoundModeControl {
   private const val TAG = "SoundModeControl"
+  private const val PREVIOUS_MODE = "pref_silent_gesture_previous_ringer_mode"
+
+  @JvmStatic
+  fun toggleSilent(context: Context): String {
+    val audio = context.getSystemService(AudioManager::class.java)
+      ?: return context.getString(R.string.sound_mode_needs_access)
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    val previous = audio.ringerMode
+    val target = if (previous == AudioManager.RINGER_MODE_SILENT) {
+      prefs.getInt(PREVIOUS_MODE, AudioManager.RINGER_MODE_NORMAL)
+        .takeIf { it == AudioManager.RINGER_MODE_NORMAL || it == AudioManager.RINGER_MODE_VIBRATE }
+        ?: AudioManager.RINGER_MODE_NORMAL
+    } else AudioManager.RINGER_MODE_SILENT
+    if (context.getSystemService(NotificationManager::class.java)
+        ?.isNotificationPolicyAccessGranted != true) return needsAccess(context)
+    try {
+      audio.ringerMode = target
+    } catch (e: SecurityException) {
+      LogUtils.w(TAG, "Cannot toggle silent mode: %s", e)
+      return needsAccess(context)
+    }
+    if (previous != AudioManager.RINGER_MODE_SILENT) {
+      prefs.edit().putInt(PREVIOUS_MODE, previous).apply()
+    }
+    return context.getString(
+      if (target == AudioManager.RINGER_MODE_SILENT) R.string.quick_settings_mute
+      else if (target == AudioManager.RINGER_MODE_VIBRATE) R.string.quick_settings_vibrate
+      else R.string.quick_settings_sound
+    )
+  }
 
   @JvmStatic
   fun change(context: Context, next: Boolean): String {

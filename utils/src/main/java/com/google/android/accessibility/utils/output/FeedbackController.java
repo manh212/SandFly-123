@@ -407,6 +407,16 @@ public class FeedbackController {
     playSound(resId, rate, volume, /* ignoreVolumeAdjustment= */ false, eventId);
   }
 
+  /** The ringer can mute sound effects without silencing screen-reader speech. */
+  public static boolean muteSoundsWhileRingerSilent(Context context) {
+    if (!SharedPreferencesUtils.getSharedPreferences(context)
+        .getBoolean("pref_mute_screen_reader_sounds_in_silent", false)) {
+      return false;
+    }
+    AudioManager audio = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+    return audio != null && audio.getRingerMode() == AudioManager.RINGER_MODE_SILENT;
+  }
+
   private int ownSoundResId(int resId) {
     if (customSoundPath(resId) != null) {
       return resId;
@@ -434,6 +444,7 @@ public class FeedbackController {
       @Nullable EventId eventId) {
     resId = ownSoundResId(resId);
     if (!mAuditoryEnabled
+        || muteSoundsWhileRingerSilent(mContext)
         || resId == 0
         || isMuted(mMutedAuditoryNames, resId)
         || !hasSound(resId)) {
@@ -479,6 +490,7 @@ public class FeedbackController {
       int resId, float rate, float volume, float x, float y, @Nullable EventId eventId) {
     resId = ownSoundResId(resId);
     if (!mAuditoryEnabled
+        || muteSoundsWhileRingerSilent(mContext)
         || resId == 0
         || isMuted(mMutedAuditoryNames, resId)
         || !hasSound(resId)) {

@@ -45,6 +45,22 @@ class SoundModeControlTest {
   }
 
   @Test
+  fun toggleSilent_restoresPreviousVibrationMode() {
+    audio.ringerMode = AudioManager.RINGER_MODE_VIBRATE
+    SoundModeControl.toggleSilent(context)
+    assertEquals(AudioManager.RINGER_MODE_SILENT, audio.ringerMode)
+    SoundModeControl.toggleSilent(context)
+    assertEquals(AudioManager.RINGER_MODE_VIBRATE, audio.ringerMode)
+  }
+
+  @Test
+  fun toggleSilent_withoutAccessDoesNotChangeState() {
+    setAccess(false)
+    SoundModeControl.toggleSilent(context)
+    assertEquals(AudioManager.RINGER_MODE_NORMAL, audio.ringerMode)
+  }
+
+  @Test
   fun next_goesFromSoundToVibrateToMuteAndWraps() {
     assertEquals(context.getString(R.string.quick_settings_vibrate), change(next = true))
     assertEquals(AudioManager.RINGER_MODE_VIBRATE, audio.ringerMode)

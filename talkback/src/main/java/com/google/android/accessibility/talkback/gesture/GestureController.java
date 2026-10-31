@@ -131,6 +131,7 @@ import com.google.android.accessibility.talkback.dictation.AiDictation;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryDialog;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
 import com.google.android.accessibility.talkback.selector.SelectorController;
+import com.google.android.accessibility.talkback.selector.SoundModeControl;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting;
 import com.google.android.accessibility.talkback.status.StatusReader;
@@ -661,6 +662,8 @@ public class GestureController {
             pipeline.returnFeedback(
                 eventId, Feedback.systemAction(GLOBAL_ACTION_KEYCODE_HEADSETHOOK));
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_toggle_silent_mode))) {
+      speak(SoundModeControl.toggleSilent(service));
     } else if (action.equals(service.getString(R.string.shortcut_value_increase_volume))) {
       changeAccessibilityVolume(eventId, /* decrease= */ false);
     } else if (action.equals(service.getString(R.string.shortcut_value_decrease_volume))) {
