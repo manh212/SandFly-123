@@ -8,7 +8,6 @@ import android.accessibilityservice.AccessibilityGestureEvent;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.TouchInteractionController;
 import android.graphics.Path;
-import android.graphics.RectF;
 import android.view.Display;
 import android.view.MotionEvent;
 import com.google.android.accessibility.talkback.TalkBackService;
@@ -144,7 +143,7 @@ public class ExtendedTouchBackendTest {
     assertTrue(service.gestures.isEmpty());
   }
 
-  @Test public void fourStraightTwoFingerSwipesReplayTheOriginalDrag() {
+  @Test public void fourStraightTwoFingerSwipesUseTheSavedGestureMapping() {
     int[] ids = {
       AccessibilityService.GESTURE_2_FINGER_SWIPE_UP,
       AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN,
@@ -159,26 +158,12 @@ public class ExtendedTouchBackendTest {
       dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
       dragMotion(MotionEvent.ACTION_MOVE, 2, ends[i][0], ends[i][1]);
       backend.onGestureCompleted(new AccessibilityGestureEvent(ids[i], Display.DEFAULT_DISPLAY, List.of()));
-      assertEquals(i + 1, service.scrolls.size());
-      assertEquals(i + 1, service.secondScrolls.size());
-      RectF firstBounds = new RectF();
-      service.scrolls.get(i).computeBounds(firstBounds, true);
-      assertEquals(Math.min(400, ends[i][0]), firstBounds.left, .01f);
-      assertEquals(Math.max(400, ends[i][0]), firstBounds.right, .01f);
-      assertEquals(Math.min(500, ends[i][1]), firstBounds.top, .01f);
-      assertEquals(Math.max(500, ends[i][1]), firstBounds.bottom, .01f);
-      RectF secondBounds = new RectF();
-      service.secondScrolls.get(i).computeBounds(secondBounds, true);
-      assertEquals(Math.min(460, ends[i][0] + 60), secondBounds.left, .01f);
-      assertEquals(Math.max(460, ends[i][0] + 60), secondBounds.right, .01f);
-      assertEquals(Math.min(500, ends[i][1]), secondBounds.top, .01f);
-      assertEquals(Math.max(500, ends[i][1]), secondBounds.bottom, .01f);
+      assertEquals(ids[i], service.gestures.get(i).intValue());
     }
-    assertTrue(service.gestures.isEmpty());
+    assertTrue(service.scrolls.isEmpty());
   }
 
-  @Test public void standardTwoFingerSwipeDoesNotFallBackToOneFingerGesture() {
-    service.replayScrolls = false;
+  @Test public void standardTwoFingerSwipeNeverBecomesOneFingerGesture() {
     dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
     dragMotion(
         MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT),
@@ -189,8 +174,8 @@ public class ExtendedTouchBackendTest {
     backend.onGestureCompleted(
         new AccessibilityGestureEvent(
             AccessibilityService.GESTURE_2_FINGER_SWIPE_UP, Display.DEFAULT_DISPLAY, List.of()));
-    assertEquals(1, service.scrolls.size());
-    assertTrue(service.gestures.isEmpty());
+    assertEquals(List.of(AccessibilityService.GESTURE_2_FINGER_SWIPE_UP), service.gestures);
+    assertTrue(service.scrolls.isEmpty());
   }
 
   @Test public void extendedGestureKeepsItsAssignedAction() {

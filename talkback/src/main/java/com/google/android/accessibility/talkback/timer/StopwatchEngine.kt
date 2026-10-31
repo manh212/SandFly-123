@@ -22,9 +22,10 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
+import android.os.VibrationEffect
+import android.os.Vibrator
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
-import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.notifications.AlarmClockIntents
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -40,8 +41,7 @@ class StopwatchEngine(
   private val context: Context,
   /** Says a text, interrupting what notifications are saying when the second value is true. */
   private val say: (CharSequence, Boolean) -> Unit,
-  /** Plays sound and vibration feedback through SandFly's pipeline. */
-  private val feedback: (Feedback.Part.Builder) -> Unit,
+  private val playSound: (Int) -> Unit,
 ) {
   private val alarms = context.getSystemService(AlarmManager::class.java)
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
@@ -170,18 +170,37 @@ class StopwatchEngine(
     if (milestone <= 0) return
     if (milestone <= prefs.getLong(Stopwatch.KEY_LAST_ANNOUNCED, 0)) return
     prefs.edit().putLong(Stopwatch.KEY_LAST_ANNOUNCED, milestone).apply()
-    signal(R.raw.chime_up)
+    signal(R.raw.chime_up, Stopwatch.pulsesForMilestone(milestone / 60_000L))
     say(Stopwatch.formatElapsed(context, milestone), false)
   }
 
-  /** The sound and vibration of a start, a stop or a reminder, as the settings choose. */
-  private fun signal(soundResource: Int) {
-    val sound = prefs.getBoolean(Stopwatch.KEY_SOUND, true)
-    val vibration = prefs.getBoolean(Stopwatch.KEY_VIBRATION, true)
-    if (!sound && !vibration) return
-    val builder = Feedback.part()
-    if (sound) builder.sound(soundResource)
-    if (vibration) builder.vibration(R.array.view_clicked_pattern)
-    feedback(builder)
+  private fun signal(soundResource: Int, pulses: Int = 1) {
+    if (prefs.getBoolean(Stopwatch.KEY_SOUND, true)) playSound(soundResource)
+    if (prefs.getBoolean(Stopwatch.KEY_VIBRATION, true)) vibrate(pulses)
+  }
+
+  private fun vibrate(pulses: Int) {
+    val vibrator = context.getSystemService(Vibrator::class.java) ?: return
+    if (!vibrator.hasVibrator()) return
+    val strength =
+      prefs.getInt(
+        context.getString(R.string.pref_vibration_strength_key),
+        context.resources.getInteger(R.integer.pref_vibration_strength_default),
+      ).coerceIn(0, 100)
+    if (strength == 0) return
+    val count = pulses.coerceIn(1, 6)
+    val timings =
+      LongArray(count * 2) { index ->
+        if (index == 0) 0L else if (index % 2 == 0) 140L else 60L
+      }
+    val effect =
+      if (vibrator.hasAmplitudeControl()) {
+        val amplitude = (255 * strength / 100f).toInt().coerceAtLeast(1)
+        val amplitudes = IntArray(count * 2) { index -> if (index % 2 == 0) 0 else amplitude }
+        VibrationEffect.createWaveform(timings, amplitudes, -1)
+      } else {
+        VibrationEffect.createWaveform(timings, -1)
+      }
+    runCatching { vibrator.vibrate(effect) }
   }
 }

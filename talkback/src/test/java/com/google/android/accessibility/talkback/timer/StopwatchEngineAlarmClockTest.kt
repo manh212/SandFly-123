@@ -152,6 +152,16 @@ class StopwatchEngineAlarmClockTest {
     assertNull(alarmManager.nextAlarmClock)
   }
 
+  @Test
+  fun vibrationMilestones_resetAfterEveryHour() {
+    assertEquals(1, Stopwatch.pulsesForMilestone(10))
+    assertEquals(2, Stopwatch.pulsesForMilestone(20))
+    assertEquals(6, Stopwatch.pulsesForMilestone(60))
+    assertEquals(1, Stopwatch.pulsesForMilestone(70))
+    assertEquals(2, Stopwatch.pulsesForMilestone(80))
+    assertEquals(6, Stopwatch.pulsesForMilestone(120))
+  }
+
   private fun startEngine(startedAt: Long) {
     prefs
       .edit()

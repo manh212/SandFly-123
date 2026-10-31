@@ -45,6 +45,7 @@ import java.util.Date
  */
 class SpokenSchedules(
   private val context: Context,
+  private val clockSound: () -> Unit = {},
   /** Says a text, interrupting what notifications are saying when the second value is true. */
   private val say: (CharSequence, Boolean) -> Unit,
 ) {
@@ -132,6 +133,7 @@ class SpokenSchedules(
     schedule()
     catchUpSummary()
     val text = clockText(context, prefs.getString(KEY_CLOCK_FORMAT, null).orEmpty())
+    if (text.isNotBlank()) clockSound()
     speak(text)
   }
 

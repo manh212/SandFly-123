@@ -51,12 +51,14 @@ class SpokenSchedulesAlarmClockTest {
   private val alarmManager = context.getSystemService(AlarmManager::class.java)
   private val shadowAlarms: ShadowAlarmManager = Shadows.shadowOf(alarmManager)
   private val said = mutableListOf<CharSequence>()
+  private var playedClockSounds = 0
   private val stoppers = mutableListOf<() -> Unit>()
 
   @Before
   fun setUp() {
     prefs.edit().clear().commit()
     said.clear()
+    playedClockSounds = 0
   }
 
   @After
@@ -138,6 +140,7 @@ class SpokenSchedulesAlarmClockTest {
     Shadows.shadowOf(Looper.getMainLooper()).idle()
 
     assertTrue("the clock speaks when its alarm fires", said.isNotEmpty())
+    assertEquals(1, playedClockSounds)
     assertEquals(1, shadowAlarms.scheduledAlarms.size)
     assertNotNull(alarmManager.nextAlarmClock)
   }
@@ -153,6 +156,7 @@ class SpokenSchedulesAlarmClockTest {
     // Without notification access the summary reads its no-access line; what matters here is
     // that the missed summary is read at all, and marked read for today.
     assertEquals(1, said.size)
+    assertEquals(0, playedClockSounds)
     assertEquals(
       context.getString(R.string.notification_summary_no_access),
       said[0].toString(),
@@ -206,7 +210,7 @@ class SpokenSchedulesAlarmClockTest {
 
   private fun startSchedules(seed: android.content.SharedPreferences.Editor.() -> Unit): SpokenSchedules {
     prefs.edit().apply { seed() }.commit()
-    return SpokenSchedules(context) { text, _ -> said += text }
+    return SpokenSchedules(context, { playedClockSounds++ }) { text, _ -> said += text }
       .also {
         it.start()
         stoppers += { it.stop() }

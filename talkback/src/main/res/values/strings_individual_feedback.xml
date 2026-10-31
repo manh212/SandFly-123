@@ -31,6 +31,7 @@
     <string name="individual_sound_complete">Action done or end reached</string>
     <!-- Sound played when a new window or screen opens. [CHAR LIMIT=60] -->
     <string name="individual_sound_window_state">Window change</string>
+    <string name="individual_sound_clock_announcement">Âm báo giờ</string>
     <!-- Sound played when the next reading control is selected. [CHAR LIMIT=60] -->
     <string name="individual_sound_next_reading_control">Next reading control</string>
     <!-- Sound played when the previous reading control is selected. [CHAR LIMIT=60] -->

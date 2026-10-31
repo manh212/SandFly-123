@@ -31,6 +31,12 @@ object Stopwatch {
   const val MAX_HISTORY = 50
   val INTERVAL_CHOICES = listOf(5, 10, 15, 20, 30, 60)
 
+  fun pulsesForMilestone(elapsedMinutes: Long): Int {
+    if (elapsedMinutes <= 0) return 1
+    val minuteInHour = elapsedMinutes % 60
+    return if (minuteInHour == 0L) 6 else (minuteInHour / 10).toInt().coerceAtLeast(1)
+  }
+
   /** One finished run of the stopwatch. */
   data class Entry(val startedAtMillis: Long, val durationMillis: Long)
 

@@ -554,7 +554,11 @@ public class FeedbackController {
         (pool, sampleId, status) -> {
           float @Nullable [] play = mPendingPlays.get(sampleId);
           mPendingPlays.remove(sampleId);
-          if (play != null && pool == mSoundPool && mAuditoryEnabled && status == 0) {
+          if (play != null
+              && pool == mSoundPool
+              && mAuditoryEnabled
+              && !muteSoundsWhileRingerSilent(mContext)
+              && status == 0) {
             new EarconsPlayTask(pool, sampleId, play[0], play[1], play[2]).execute();
           }
         });

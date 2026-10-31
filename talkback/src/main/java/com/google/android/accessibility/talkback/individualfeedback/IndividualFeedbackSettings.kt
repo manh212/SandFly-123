@@ -51,6 +51,7 @@ object IndividualFeedbackSettings {
       FeedbackItem("chime_down", R.string.individual_sound_chime_down, listOf("lib_new_focus0", "chime_down")),
       FeedbackItem("complete", R.string.individual_sound_complete),
       FeedbackItem("window_state", R.string.individual_sound_window_state),
+      FeedbackItem("clock_announcement", R.string.individual_sound_clock_announcement, listOf("lib_new_clock")),
       FeedbackItem("next_reading_control", R.string.individual_sound_next_reading_control),
       FeedbackItem(
         "previous_reading_control",

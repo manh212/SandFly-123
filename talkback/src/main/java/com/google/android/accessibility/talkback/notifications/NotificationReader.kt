@@ -44,6 +44,7 @@ import androidx.core.content.ContextCompat
 import com.google.android.accessibility.talkback.Feedback
 import com.google.android.accessibility.talkback.Pipeline
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.compositor.rule.EventTypeNotificationStateChangedFeedbackRule
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService
 import com.google.android.accessibility.talkback.scripting.Scripts
@@ -264,10 +265,16 @@ object NotificationReader {
       ContextCompat.RECEIVER_NOT_EXPORTED,
     )
     SharedPreferencesUtils.getSharedPreferences(app).registerOnSharedPreferenceChangeListener(settingsListener)
-    schedules = SpokenSchedules(app) { text, interrupt -> announceTimer(text, interrupt) }.also { it.start() }
+    schedules =
+      SpokenSchedules(
+        app,
+        { this.feedback?.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.lib_new_clock)) },
+      ) { text, interrupt -> announceTimer(text, interrupt) }
+        .also { it.start() }
     stopwatch =
-      StopwatchEngine(app, { text, interrupt -> announceTimer(text, interrupt) }) { builder ->
-          this.feedback?.returnFeedback(EVENT_ID_UNTRACKED, builder)
+      StopwatchEngine(app, { text, interrupt -> announceTimer(text, interrupt) }) { sound ->
+          (context as? TalkBackService)?.feedbackController?.playAuditoryWithoutHaptic(
+            sound, EVENT_ID_UNTRACKED)
         }
         .also { it.start() }
     updateVoices(SharedPreferencesUtils.getSharedPreferences(app))

@@ -21,6 +21,7 @@ import android.content.SharedPreferences
 import android.media.AudioAttributes
 import android.media.MediaPlayer
 import com.google.android.accessibility.talkback.soundthemes.SoundThemes
+import com.google.android.accessibility.utils.output.FeedbackController
 import com.google.android.accessibility.utils.output.FailoverTextToSpeech
 import java.io.IOException
 
@@ -30,7 +31,7 @@ class SoundPreview {
 
   fun play(context: Context, prefs: SharedPreferences, item: FeedbackItem) {
     stop()
-    if (SoundThemes.isNone(context, prefs, item)) {
+    if (FeedbackController.muteSoundsWhileRingerSilent(context) || SoundThemes.isNone(context, prefs, item)) {
       return
     }
     val attributes =
