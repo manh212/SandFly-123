@@ -129,6 +129,19 @@ class RadialMenuController(
       }
     } catch (e: RuntimeException) {
       LogUtils.w(TAG, "Could not remove the circle menu window: %s", e)
+      // If removal failed while still attached, stop this full-screen view from consuming touches
+      // immediately, then request normal (asynchronous) removal as a fallback.
+      if (menuView != null && menuView.isAttachedToWindow) {
+        try {
+          (menuView.layoutParams as? WindowManager.LayoutParams)?.let { params ->
+            params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            windowManager.updateViewLayout(menuView, params)
+          }
+          windowManager.removeView(menuView)
+        } catch (fallbackError: RuntimeException) {
+          LogUtils.e(TAG, "Could not release the stuck circle menu window: %s", fallbackError)
+        }
+      }
     } finally {
       // The region may still be locked even if the view has already disappeared or removal fails.
       clearPassthroughRegion()
@@ -251,6 +264,9 @@ class RadialMenuController(
     @Suppress("DEPRECATION") display.getRealMetrics(metrics)
     // Through pass-through mode, which keeps direct touch's region from replacing it and puts that
     // back when the menu closes.
+    // Mark before dispatching feedback. If the actor throws after applying the region,
+    // the addView() failure path still knows it has to unlock the region.
+    passthroughRegionSet = true
     pipeline.returnFeedback(
       EVENT_ID_UNTRACKED,
       Feedback.passThroughMode(
@@ -258,7 +274,6 @@ class RadialMenuController(
         Region(0, 0, metrics.widthPixels, metrics.heightPixels),
       ),
     )
-    passthroughRegionSet = true
   }
 
   private fun clearPassthroughRegion() {
