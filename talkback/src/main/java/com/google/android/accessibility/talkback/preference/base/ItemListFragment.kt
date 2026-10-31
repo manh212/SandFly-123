@@ -214,7 +214,7 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
     )
     wrapper.addView(
       preferences,
-      LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1),
+      LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f),
     )
     filterItems()
     return wrapper
@@ -306,7 +306,9 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
       }
     focusAfterChange(
       if (searchQuery.isNotBlank()) {
-        items[key]?.let { groups[it.group].findPreference("${orderKey}_available_${it.key}") }
+        items[key]?.takeIf { it.group >= 0 }?.let {
+          groups[it.group].findPreference("${orderKey}_available_${it.key}")
+        }
       } else {
         next ?: currentCategory
       },
