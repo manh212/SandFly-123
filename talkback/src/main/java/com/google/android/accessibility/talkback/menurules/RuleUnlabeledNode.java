@@ -30,6 +30,7 @@ import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenu;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem;
 import com.google.android.accessibility.talkback.labeling.LabelDialogManager;
+import com.google.android.accessibility.talkback.labeling.LabelNodeId;
 import com.google.android.accessibility.talkback.labeling.LabelSuggester;
 import com.google.android.accessibility.talkback.labeling.LabelSuggestionSettings;
 import com.google.android.accessibility.utils.labeling.Label;
@@ -68,7 +69,7 @@ class RuleUnlabeledNode extends NodeMenuRule {
       Context context, AccessibilityNodeInfoCompat node, boolean includeAncestors) {
     final long viewLabelId = actorState.getLabelManagerState().getLabelIdForNode(node);
     List<ContextMenuItem> menuList = new ArrayList<>();
-    String resourceName = node.getViewIdResourceName();
+    String resourceName = LabelNodeId.resourceName(node);
     ContextMenuItem item;
 
     if (viewLabelId == Label.NO_ID) {

@@ -88,7 +88,7 @@ public class CustomLabelManager extends TalkBackLabelManager {
     @Override
     public long getLabelIdForNode(AccessibilityNodeInfoCompat node) {
       Label label =
-          (node == null) ? null : getLabelForViewIdFromCache(node.getViewIdResourceName());
+          (node == null) ? null : getLabelForViewIdFromCache(LabelNodeId.resourceName(node));
       if (label == null) {
         return Label.NO_ID;
       }
@@ -345,7 +345,7 @@ public class CustomLabelManager extends TalkBackLabelManager {
       return false;
     }
 
-    @Nullable String resourceName = node.getViewIdResourceName();
+    @Nullable String resourceName = LabelNodeId.resourceName(node);
     if (resourceName == null) {
       return false;
     }
@@ -372,7 +372,7 @@ public class CustomLabelManager extends TalkBackLabelManager {
       return false;
     }
 
-    @Nullable String resourceName = node.getViewIdResourceName();
+    @Nullable String resourceName = LabelNodeId.resourceName(node);
     if (resourceName == null) {
       return false;
     }

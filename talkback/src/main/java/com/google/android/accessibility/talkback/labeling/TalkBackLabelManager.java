@@ -70,12 +70,14 @@ public abstract class TalkBackLabelManager implements LabelManager, Accessibilit
     // REFERTO. ImageView without content description, which isn't focusable and in a
     // actionable ViewGroup, can't be labelled because it is not in the accessibility node tree but
     // in the hierarchy viewer. The actionable ViewGroup should be labelled.
+    boolean button =
+        Role.getRole(node) == Role.ROLE_BUTTON || Role.getRole(node) == Role.ROLE_IMAGE_BUTTON;
     return node.isEnabled()
         && (AccessibilityNodeInfoUtils.isClickable(node)
             || AccessibilityNodeInfoUtils.isLongClickable(node)
             || (AccessibilityNodeInfoUtils.isFocusable(node) && canAddLabel(node)))
-        && node.getChildCount() == 0
-        && TextUtils.isEmpty(AccessibilityNodeInfoUtils.getNodeText(node));
+        && (node.getChildCount() == 0 || button)
+        && !LabelNodeId.hasSpokenLabel(node);
   }
 
   /**
@@ -95,7 +97,7 @@ public abstract class TalkBackLabelManager implements LabelManager, Accessibilit
     }
 
     if (labelManager != null && labelManager.isInitialized()) {
-      Label label = labelManager.getLabelForViewIdFromCache(node.getViewIdResourceName());
+      Label label = labelManager.getLabelForViewIdFromCache(LabelNodeId.resourceName(node));
       if (label != null) {
         return label.getText();
       }
