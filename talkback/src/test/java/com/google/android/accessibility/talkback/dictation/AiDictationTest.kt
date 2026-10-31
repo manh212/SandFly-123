@@ -42,16 +42,19 @@ class AiDictationTest {
   }
 
   @Test
-  fun speechInputStopsAfterSilenceWhateverTheSetting() {
-    assertEquals(AiDictation.LISTEN_NOTHING_SAID_MS, AiDictation.silenceLimitMs(true, false, 0))
-    assertEquals(AiDictation.LISTEN_PAUSE_MS, AiDictation.silenceLimitMs(true, true, 0))
-    assertEquals(AiDictation.LISTEN_PAUSE_MS, AiDictation.silenceLimitMs(true, true, 30_000))
+  fun configuredSilenceLimitAppliesAfterSpeechAndDuringDictation() {
+    assertEquals(
+        AiDictation.LISTEN_NOTHING_SAID_MS, AiDictation.silenceLimitMs(true, false, 3_000))
+    assertEquals(3_000L, AiDictation.silenceLimitMs(true, true, 3_000))
+    assertEquals(3_000L, AiDictation.silenceLimitMs(false, true, 3_000))
+    assertEquals(3_000L, AiDictation.silenceLimitMs(false, false, 3_000))
   }
 
   @Test
-  fun dictateStopsAfterSilenceOnlyAsSet() {
+  fun defaultSpeechInputTimeoutsApplyWhenNoLimitIsSet() {
+    assertEquals(
+        AiDictation.LISTEN_NOTHING_SAID_MS, AiDictation.silenceLimitMs(true, false, 0))
+    assertEquals(AiDictation.LISTEN_PAUSE_MS, AiDictation.silenceLimitMs(true, true, 0))
     assertEquals(0L, AiDictation.silenceLimitMs(false, true, 0))
-    assertEquals(5_000L, AiDictation.silenceLimitMs(false, true, 5_000))
-    assertEquals(5_000L, AiDictation.silenceLimitMs(false, false, 5_000))
   }
 }

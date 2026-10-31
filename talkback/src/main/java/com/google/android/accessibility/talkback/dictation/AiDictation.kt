@@ -634,9 +634,10 @@ class AiDictation(
 
     fun silenceLimitMs(listening: Boolean, speechHeard: Boolean, setting: Long): Long =
       when {
-        !listening -> setting
-        speechHeard -> LISTEN_PAUSE_MS
-        else -> LISTEN_NOTHING_SAID_MS
+        listening && !speechHeard -> LISTEN_NOTHING_SAID_MS
+        setting > 0 -> setting
+        listening -> LISTEN_PAUSE_MS
+        else -> 0
       }
 
     fun textBeforeCursor(node: AccessibilityNodeInfoCompat): String {

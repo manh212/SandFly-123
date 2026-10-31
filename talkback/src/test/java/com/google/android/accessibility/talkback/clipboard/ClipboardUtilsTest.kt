@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.clipboard
 
+import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import com.google.android.accessibility.talkback.utils.ClipboardUtils
@@ -65,6 +66,16 @@ class ClipboardUtilsTest {
 
     assertEquals("first\nsecond\nthird", clip())
     assertEquals("first\nsecond\nthird", ClipboardHistory.getEntries().get(0))
+  }
+
+  @Test
+  fun addedTextFallsBackToHistoryWhenTheCurrentClipHasNoText() {
+    ClipboardHistory.record("previous")
+    clipboard.setPrimaryClip(ClipData.newPlainText(null, ""))
+
+    assertTrue(ClipboardUtils.appendToClipboard(context, "added"))
+
+    assertEquals("previous\nadded", clip())
   }
 
   @Test

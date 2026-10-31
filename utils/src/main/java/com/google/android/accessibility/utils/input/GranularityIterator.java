@@ -29,8 +29,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Implements text segment iterators for accessibility support. Contains only character, word and
- * paragraph iterators.
+ * Implements character, word, line and paragraph text segment iterators for accessibility support.
  *
  * <p>Note: Such iterators are needed in Talkback since we want to be able to iterator over content
  * description or hint text in case of edit texts and that is not supported by framework.

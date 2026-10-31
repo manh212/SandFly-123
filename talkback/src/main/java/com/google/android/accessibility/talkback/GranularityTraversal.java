@@ -47,7 +47,7 @@ import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * Performs granularity traversal within Talkback. Supports only character, word and paragraph
+ * Performs granularity traversal within Talkback. Supports character, word, line and paragraph
  * granularity.
  */
 public final class GranularityTraversal {
@@ -59,6 +59,7 @@ public final class GranularityTraversal {
   static final int TALKBACK_SUPPORTED_GRANULARITIES =
       AccessibilityNodeInfo.MOVEMENT_GRANULARITY_CHARACTER
           | AccessibilityNodeInfo.MOVEMENT_GRANULARITY_WORD
+          | AccessibilityNodeInfo.MOVEMENT_GRANULARITY_LINE
           | AccessibilityNodeInfo.MOVEMENT_GRANULARITY_PARAGRAPH;
 
   private static final int ACCESSIBILITY_CURSOR_POSITION_UNDEFINED = -1;
@@ -166,12 +167,18 @@ public final class GranularityTraversal {
   public boolean traverseAtGranularity(
       AccessibilityNodeInfoCompat node, int granularity, boolean forward, EventId eventId) {
 
-    CharSequence text = getIterableTextForAccessibility(node);
+    CharSequence text =
+        granularity == AccessibilityNodeInfo.MOVEMENT_GRANULARITY_LINE
+            ? getLineTraversalText(node)
+            : getIterableTextForAccessibility(node);
     LogUtils.d(TAG, "Text to be traversed: " + text);
     if (text == null || text.length() == 0) {
       return false;
     }
-    TextSegmentIterator iterator = getIteratorForGranularity(node, granularity);
+    TextSegmentIterator iterator =
+        granularity == AccessibilityNodeInfo.MOVEMENT_GRANULARITY_LINE
+            ? GranularityIterator.getLineIterator(lineIteratorMode, node, text)
+            : GranularityIterator.getIteratorForGranularity(text, granularity);
     if (iterator == null) {
       LogUtils.v(TAG, "Iterator for granularity traversal is null.");
       return false;
@@ -200,22 +207,26 @@ public final class GranularityTraversal {
   /**
    * Returns {@code true} if TalkBack should handle line granularity traversal.
    *
-   * <p>Only line granularity traversal at {@link android.widget.EditText} is handled by TalkBack.
-   *
    * @param forward {@code true} if move has to be in the forward direction.
    */
   public static boolean shouldHandleLineGranularityTraversalInTalkback(
       AccessibilityNodeInfoCompat node, boolean forward) {
-    // WebViews and non-EditText are handled by the framework.
-    if (WebInterfaceUtils.isWebContainer(node) || Role.getRole(node) != Role.ROLE_EDIT_TEXT) {
-      LogUtils.v(
-          TAG,
-          "Line granularity traversal not handled by Talkback since it is a WebView or not an"
-              + " EditText");
+    if (WebInterfaceUtils.isWebContainer(node)
+        || AccessibilityNodeInfoUtils.isNonEditableSelectableText(node)) {
+      LogUtils.v(TAG, "Line granularity traversal is handled by the framework");
       return false;
     }
 
-    if (TextUtils.isEmpty(getIterableTextForAccessibility(node))) {
+    if (Role.getRole(node) != Role.ROLE_EDIT_TEXT) {
+      if ((node.getMovementGranularities()
+              & AccessibilityNodeInfoCompat.MOVEMENT_GRANULARITY_LINE)
+          != 0) {
+        return false;
+      }
+      return !TextUtils.isEmpty(getLineTraversalText(node));
+    }
+
+    if (TextUtils.isEmpty(getLineTraversalText(node))) {
       LogUtils.v(
           TAG,
           "Line granularity traversal not handled by Talkback as iterable text is null or empty"
@@ -243,11 +254,15 @@ public final class GranularityTraversal {
    */
   public boolean traverseAtLineGranularity(
       AccessibilityNodeInfoCompat node, boolean forward, EventId eventId) {
+    if (Role.getRole(node) != Role.ROLE_EDIT_TEXT) {
+      return traverseAtGranularity(
+          node, AccessibilityNodeInfoCompat.MOVEMENT_GRANULARITY_LINE, forward, eventId);
+    }
     if (!node.refresh()) {
       return false;
     }
 
-    CharSequence text = getIterableTextForAccessibility(node);
+    CharSequence text = getLineTraversalText(node);
     LogUtils.d(TAG, "Text to be traversed: " + text);
     if (TextUtils.isEmpty(text)) {
       return false;
@@ -352,26 +367,9 @@ public final class GranularityTraversal {
     return true;
   }
 
-  /**
-   * Gets the iterator for granularity traversal. Talkback can handle only character, word and
-   * paragraph granularity movements. If the granularity is not supported by Talkback or the text is
-   * null, it returns {@code null}.
-   *
-   * @param node on which granularity traversal has to be performed.
-   * @param granularity that has been requested by the user.
-   * @return the iterator for text traversal or {@code null}.
-   */
-  @Nullable
-  private static TextSegmentIterator getIteratorForGranularity(
-      AccessibilityNodeInfoCompat node, int granularity) {
-
+  private static CharSequence getLineTraversalText(AccessibilityNodeInfoCompat node) {
     CharSequence text = getIterableTextForAccessibility(node);
-    if (TextUtils.isEmpty(text)) {
-      LogUtils.v(TAG, "Iterator is null as the text is an empty string or null.");
-      return null;
-    }
-
-    return GranularityIterator.getIteratorForGranularity(text, granularity);
+    return TextUtils.isEmpty(text) ? AccessibilityNodeInfoUtils.getText(node) : text;
   }
 
   /**
@@ -443,8 +441,9 @@ public final class GranularityTraversal {
   }
 
   /**
-   * Gets the text that moving through {@code node} by character, word and paragraph moves through:
-   * what {@link #traverseAtGranularity} moves over, or else what the framework moves over.
+   * Gets the text that moving through {@code node} by character, word, line and paragraph moves
+   * through: what {@link #traverseAtGranularity} moves over, or else what the framework moves
+   * over.
    */
   static CharSequence getTraversedText(AccessibilityNodeInfoCompat node) {
     if (shouldHandleGranularityTraversalInTalkback(node)) {

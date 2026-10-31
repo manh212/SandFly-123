@@ -6,6 +6,7 @@
   <string name="selector_copy_mode_title">Chế độ sao chép</string>
   <string name="selector_copy_mode_appended">Đã nối thêm vào bộ nhớ tạm</string>
   <string name="selector_copy_mode_copied">Đã sao chép vào bộ nhớ tạm</string>
+  <string name="selector_copy_mode_hint">Thao tác lùi nối thêm vào nội dung hiện có; thao tác tiến thay thế nội dung bằng văn bản mới.</string>
   <string name="custom_menus_title">Menu tùy chỉnh</string>
   <string name="custom_menu_add">Thêm menu mới</string>
   <string name="custom_menu_name">Tên menu</string>

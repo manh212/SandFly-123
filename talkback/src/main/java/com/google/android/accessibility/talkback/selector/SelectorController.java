@@ -1036,7 +1036,10 @@ public class SelectorController implements UserInputEventListener {
       }
       case COPY_MODE -> {
         actionDescription = context.getString(R.string.selector_copy_mode_title);
-        hint = getAdjustSelectedSettingGestures();
+        hint =
+            getAdjustSelectedSettingGestures()
+                + "\n"
+                + context.getString(R.string.selector_copy_mode_hint);
       }
       case REPEAT_AND_TRANSLATE -> {
         actionDescription = context.getString(R.string.title_selector_repeat_translate);
@@ -1914,6 +1917,19 @@ public class SelectorController implements UserInputEventListener {
     return isNext ? Speech.Action.TRANSLATE_LAST : Speech.Action.REPEAT_LAST;
   }
 
+  @VisibleForTesting
+  static boolean performCopyModeAction(
+      Context context, AccessibilityNodeInfoCompat node, boolean isNext) {
+    List<String> parts = CopyTextUtils.getFocusedTextItems(node);
+    String text = TextUtils.join("\n", parts);
+    if (TextUtils.isEmpty(text)) {
+      return false;
+    }
+    return isNext
+        ? ClipboardUtils.copyToClipboard(context, text)
+        : ClipboardUtils.appendToClipboard(context, text);
+  }
+
   /** Change the value of the selected setting or scroll forward/backard of the seeker. */
   public void adjustSelectedSetting(EventId eventId, boolean isNext) {
     clearEditTextActionsRestore();
@@ -1944,13 +1960,8 @@ public class SelectorController implements UserInputEventListener {
       case COPY_MODE -> {
         AccessibilityNodeInfoCompat node =
             accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
-        List<String> parts = CopyTextUtils.getFocusedTextItems(node);
-        String text = android.text.TextUtils.join("\n", parts);
         boolean append = !isNext;
-        boolean copied = !text.isEmpty()
-            && (append
-                ? ClipboardUtils.appendToClipboard(context, text)
-                : ClipboardUtils.copyToClipboard(context, text));
+        boolean copied = performCopyModeAction(context, node, isNext);
         pipeline.returnFeedback(
             eventId,
             Feedback.speech(

@@ -760,6 +760,11 @@ public class CursorGranularityManager {
         nodes.add(root);
       }
       supportedGranularities |= root.getMovementGranularities();
+      if (GranularityTraversal.shouldHandleLineGranularityTraversalInTalkback(
+          root, /* forward= */ true)) {
+        supportedGranularities |=
+            AccessibilityNodeInfoCompat.MOVEMENT_GRANULARITY_LINE;
+      }
     }
 
     if (!TextUtils.isEmpty(root.getContentDescription())) {

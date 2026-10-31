@@ -51,6 +51,7 @@ internal class ContinuousRecognition(
   private val handler = Handler(Looper.getMainLooper())
   /** Errors since the last result, so that a recognizer that keeps failing isn't restarted forever. */
   private var errors = 0
+  private val speechActivity = SpeechActivityDetector()
   private val listenAgain = Runnable { if (!finished && !stopping) listen() }
 
   /** Starts recognizing. Returns false when Android has no speech recognition. */
@@ -132,14 +133,13 @@ internal class ContinuousRecognition(
     errors = 0
     if (text.isNotEmpty()) {
       parts.add(text)
-      onSpeech()
     }
     if (stopping) finish() else listen()
   }
 
   override fun onPartialResults(partialResults: Bundle?) {
     partialResults?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)?.firstOrNull()?.let {
-      if (it.isNotBlank()) {
+      if (it.isNotBlank() && it != partial) {
         partial = it
         onSpeech()
       }
@@ -190,13 +190,18 @@ internal class ContinuousRecognition(
 
   override fun onReadyForSpeech(params: Bundle?) {}
 
-  override fun onBeginningOfSpeech() = onSpeech()
+  override fun onBeginningOfSpeech() {
+    speechActivity.beginningOfSpeech()
+    onSpeech()
+  }
 
-  override fun onRmsChanged(rmsdB: Float) {}
+  override fun onRmsChanged(rmsdB: Float) {
+    if (speechActivity.isSpeechLevel(rmsdB)) onSpeech()
+  }
 
   override fun onBufferReceived(buffer: ByteArray?) {}
 
-  override fun onEndOfSpeech() = onSpeech()
+  override fun onEndOfSpeech() {}
 
   override fun onEvent(eventType: Int, params: Bundle?) {}
 
@@ -215,3 +220,39 @@ internal fun combineRecognitionParts(parts: List<String>, partial: String): Stri
   (parts + listOfNotNull(partial.trim().takeIf { it.isNotEmpty() }))
     .filter { it.isNotBlank() }
     .joinToString(" ")
+
+internal class SpeechActivityDetector {
+  private var noiseFloorDb: Float? = null
+  private var calibrateNextLevelAsSpeech = false
+
+  fun beginningOfSpeech() {
+    if (noiseFloorDb == null) calibrateNextLevelAsSpeech = true
+  }
+
+  fun isSpeechLevel(rmsdB: Float): Boolean {
+    if (!rmsdB.isFinite()) return false
+    val noiseFloor = noiseFloorDb
+    if (noiseFloor == null) {
+      if (calibrateNextLevelAsSpeech) {
+        noiseFloorDb = rmsdB - SPEECH_LEVEL_MARGIN_DB
+        calibrateNextLevelAsSpeech = false
+        return true
+      }
+      noiseFloorDb = rmsdB
+      return false
+    }
+
+    val speech = rmsdB - noiseFloor >= SPEECH_LEVEL_MARGIN_DB
+    if (!speech) {
+      noiseFloorDb =
+        if (rmsdB < noiseFloor) rmsdB
+        else noiseFloor + (rmsdB - noiseFloor) * NOISE_FLOOR_RISE_FACTOR
+    }
+    return speech
+  }
+
+  private companion object {
+    const val SPEECH_LEVEL_MARGIN_DB = 6.0f
+    const val NOISE_FLOOR_RISE_FACTOR = 0.02f
+  }
+}

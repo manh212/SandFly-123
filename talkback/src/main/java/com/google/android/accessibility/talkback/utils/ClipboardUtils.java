@@ -69,8 +69,8 @@ public final class ClipboardUtils {
           }
         }
         previousText = existingText.toString();
-      } else if (hasPrimaryClip) {
-        // Some Android versions deny a background accessibility service's clipboard read.
+      }
+      if (TextUtils.isEmpty(previousText) && hasPrimaryClip) {
         previousText = latestHistoryText();
       }
     } catch (RuntimeException e) {
