@@ -21,10 +21,7 @@ import android.content.Context;
 import android.view.WindowManager;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.Performance.EventId;
-import com.google.android.accessibility.utils.output.FeedbackItem;
 import com.google.android.accessibility.utils.output.LastSpokenTextHolder;
-import com.google.android.accessibility.utils.output.SpeechController;
-import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.List;
@@ -46,13 +43,13 @@ public class SpeechHistoryDialog {
     List<String> history = LastSpokenTextHolder.getSpokenHistory();
     LogUtils.d(TAG, "SHOW_HISTORY received, entries=%d", history.size());
     if (history.isEmpty()) {
-      LogUtils.d(TAG, "History dialog not opened: no entries");
-      speaker.speak(
-          context.getString(R.string.speech_history_empty),
-          eventId,
-          SpeakOptions.create()
-              .setQueueMode(SpeechController.QUEUE_MODE_INTERRUPT)
-              .setFlags(FeedbackItem.FLAG_NO_HISTORY | FeedbackItem.FLAG_FORCE_FEEDBACK_ALL));
+      AlertDialog emptyDialog =
+          new AlertDialog.Builder(context)
+              .setTitle(R.string.title_speech_history)
+              .setMessage(R.string.speech_history_empty)
+              .setPositiveButton(R.string.talkback_menu_close_button_text, null)
+              .create();
+      showDialog(emptyDialog, 0);
       return;
     }
     AlertDialog dialog =
@@ -62,11 +59,15 @@ public class SpeechHistoryDialog {
                 history.toArray(new CharSequence[0]),
                 (clicked, which) -> speaker.copyTextToClipboard(history.get(which), eventId))
             .create();
+    showDialog(dialog, history.size());
+  }
+
+  private void showDialog(AlertDialog dialog, int entryCount) {
     dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
     dialog.setOnDismissListener(ignored -> LogUtils.d(TAG, "History dialog dismissed"));
     try {
       dialog.show();
-      LogUtils.d(TAG, "History dialog show completed, showing=%s, entries=%d", dialog.isShowing(), history.size());
+      LogUtils.d(TAG, "History dialog show completed, showing=%s, entries=%d", dialog.isShowing(), entryCount);
     } catch (RuntimeException e) {
       LogUtils.e(TAG, "History dialog show failed: %s", e);
     }
