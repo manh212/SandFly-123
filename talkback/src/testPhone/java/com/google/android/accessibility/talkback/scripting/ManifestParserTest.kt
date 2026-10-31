@@ -137,7 +137,10 @@ class ManifestParserTest {
   @Test
   fun aMatchCanNameAnItemTheItemIsInside() {
     assertEquals(
-      NodeQuery(className = "Button", inside = NodeQuery(textContains = "play video")),
+      NodeQuery(
+        className = "Button",
+        inside = listOf(NodeQuery(textContains = "play video")),
+      ),
       rule("""{"match":{"className":"Button","inside":{"textContains":"play video"}},"hide":true}""")
         .match,
     )

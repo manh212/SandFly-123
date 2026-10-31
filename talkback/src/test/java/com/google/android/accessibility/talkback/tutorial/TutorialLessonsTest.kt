@@ -125,7 +125,7 @@ class TutorialLessonsTest {
   @Test
   fun choosingWordsNeedsTheWordsReadingControl() {
     val step = step("reading_controls", 1)
-    val gesture = TutorialInput.Gesture(0, context.getString(R.string.shortcut_value_select_next_setting))
+    val gesture = TutorialInput.Command(context.getString(R.string.shortcut_value_select_next_setting))
     assertNull(step.check(gesture, FakeContext(context)))
     assertNotNull(
       step.check(gesture, FakeContext(context, readingControl = Setting.GRANULARITY_WORDS))
