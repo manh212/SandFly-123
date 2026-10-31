@@ -165,6 +165,21 @@ class RadialMenuControllerTest {
   }
 
   @Test
+  fun disablingSettingWhileOpenRejectsQueuedShowAndReleasesTouchRegion() {
+    showMenu()
+    setEnabled(false)
+    val menu = ContextMenu(service)
+    menu.add(0, 2, 0, "Queued action")
+
+    // A queued show must not resurrect the overlay after the setting changes.
+    controller.show("Queued menu", menu)
+
+    assertFalse(controller.isShowing)
+    assertFalse(passThroughActor.state.isPassThroughModeActive)
+    assertEquals(Rect(), service.regions.last())
+  }
+
+  @Test
   fun disablingSettingPreventsOverlayFromReopening() {
     setEnabled(false)
     val menu = ContextMenu(service)
