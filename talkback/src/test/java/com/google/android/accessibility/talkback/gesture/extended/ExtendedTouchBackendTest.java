@@ -102,6 +102,42 @@ public class ExtendedTouchBackendTest {
     assertEquals(List.of(AccessibilityService.GESTURE_SWIPE_UP), service.gestures);
   }
 
+  @Test public void simpleOneFingerSwipesCompleteInAllDirectionsWhenExtendedGesturesAreOn() {
+    int[] ids = {
+      AccessibilityService.GESTURE_SWIPE_UP,
+      AccessibilityService.GESTURE_SWIPE_DOWN,
+      AccessibilityService.GESTURE_SWIPE_LEFT,
+      AccessibilityService.GESTURE_SWIPE_RIGHT
+    };
+    float[][] destinations = {{400, 520}, {400, 880}, {220, 700}, {580, 700}};
+    for (int index = 0; index < ids.length; index++) {
+      touch.callback.onStateChanged(TouchInteractionController.STATE_CLEAR);
+      touch.callback.onStateChanged(TouchInteractionController.STATE_TOUCH_INTERACTING);
+      motionAt(MotionEvent.ACTION_DOWN, 400, 700);
+      for (int step = 1; step <= 6; step++) {
+        motionAt(
+            MotionEvent.ACTION_MOVE,
+            400 + (destinations[index][0] - 400) * step / 6,
+            700 + (destinations[index][1] - 700) * step / 6);
+      }
+      motionAt(MotionEvent.ACTION_UP, destinations[index][0], destinations[index][1]);
+      assertEquals(ids[index], service.gestures.get(index).intValue());
+    }
+    assertEquals(4, service.gestures.size());
+  }
+
+  @Test public void oneFingerTwoSegmentGestureStillUsesFullRecognizer() {
+    motionAt(MotionEvent.ACTION_DOWN, 400, 700);
+    for (int step = 1; step <= 6; step++) {
+      motionAt(MotionEvent.ACTION_MOVE, 400, 700 - 30 * step);
+    }
+    for (int step = 1; step <= 6; step++) {
+      motionAt(MotionEvent.ACTION_MOVE, 400, 520 + 30 * step);
+    }
+    motionAt(MotionEvent.ACTION_UP, 400, 700);
+    assertEquals(List.of(AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN), service.gestures);
+  }
+
   @Test public void rotationDispatchesNextReadingControlWhenEnabled() {
     backend.stop();
     backend = new ExtendedTouchBackend(
@@ -217,7 +253,11 @@ public class ExtendedTouchBackendTest {
 
   private long time = 100;
   private void motion(int action, float y) {
-    MotionEvent event = MotionEvent.obtain(100, time += 20, action, 400, y, 0);
+    motionAt(action, 400, y);
+  }
+
+  private void motionAt(int action, float x, float y) {
+    MotionEvent event = MotionEvent.obtain(100, time += 20, action, x, y, 0);
     try { touch.callback.onMotionEvent(event); } finally { event.recycle(); }
   }
 }

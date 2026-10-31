@@ -195,7 +195,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       if (event.getActionMasked() == MotionEvent.ACTION_MOVE && trackTwoFingerScroll(event)) return;
       if (state == TouchInteractionController.STATE_TOUCH_INTERACTING ||
           state == TouchInteractionController.STATE_TOUCH_EXPLORING || state == TouchInteractionController.STATE_CLEAR) {
-        detector.onMotionEvent(Performance.EVENT_ID_UNTRACKED, event);
+        if (extendedEnabled && event.getPointerCount() == 1) {
+          detector.onSingleFingerMotionEvent(Performance.EVENT_ID_UNTRACKED, event);
+        } else {
+          detector.onMotionEvent(Performance.EVENT_ID_UNTRACKED, event);
+        }
       }
       if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
         handler.removeCallbacks(armExtendedAfterHold);

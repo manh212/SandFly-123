@@ -20,6 +20,10 @@ import static android.accessibilityservice.AccessibilityService.GESTURE_2_FINGER
 import static android.accessibilityservice.AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT;
 import static android.accessibilityservice.AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT;
 import static android.accessibilityservice.AccessibilityService.GESTURE_2_FINGER_SWIPE_UP;
+import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_DOWN;
+import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_LEFT;
+import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_RIGHT;
+import static android.accessibilityservice.AccessibilityService.GESTURE_SWIPE_UP;
 import static com.google.android.accessibility.utils.gestures.TwoFingerSecondFingerMultiTap.ROTATE_DIRECTION_BACKWARD;
 import static com.google.android.accessibility.utils.gestures.TwoFingerSecondFingerMultiTap.ROTATE_DIRECTION_FORWARD;
 
@@ -172,6 +176,54 @@ public class GestureManifold implements GestureMatcher.StateChangeListener {
       }
     }
     return false;
+  }
+
+  public boolean onSingleFingerMotionEvent(EventId eventId, MotionEvent event) {
+    int action = event.getActionMasked();
+    if (event.getPointerCount() != 1
+        || (action != MotionEvent.ACTION_MOVE && action != MotionEvent.ACTION_UP)) {
+      return onMotionEvent(eventId, event);
+    }
+    if (action == MotionEvent.ACTION_UP) {
+      for (GestureMatcher matcher : gestures) {
+        if (isSimpleSwipe(matcher.getGestureId())
+            && processSingleFingerMatcher(matcher, eventId, event)) {
+          return true;
+        }
+      }
+    }
+    for (GestureMatcher matcher : gestures) {
+      if (action == MotionEvent.ACTION_MOVE && matcher instanceof TwoFingerDirectionalGesture) {
+        continue;
+      }
+      if (action == MotionEvent.ACTION_UP && isSimpleSwipe(matcher.getGestureId())) {
+        continue;
+      }
+      if (processSingleFingerMatcher(matcher, eventId, event)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isSimpleSwipe(int id) {
+    return id == GESTURE_SWIPE_LEFT || id == GESTURE_SWIPE_RIGHT
+        || id == GESTURE_SWIPE_UP || id == GESTURE_SWIPE_DOWN;
+  }
+
+  private boolean processSingleFingerMatcher(
+      GestureMatcher matcher, EventId eventId, MotionEvent event) {
+    if (matcher.getState() == GestureMatcher.STATE_GESTURE_CANCELED) {
+      return false;
+    }
+    if (logMotionEvent) {
+      LogUtils.v(LOG_TAG, matcher.toString());
+    }
+    matcher.onMotionEvent(eventId, event);
+    if (logMotionEvent) {
+      LogUtils.v(LOG_TAG, matcher.toString());
+    }
+    return matcher.getState() == GestureMatcher.STATE_GESTURE_COMPLETED;
   }
 
   public void addGestureMatcher(GestureMatcher matcher) {
