@@ -46,11 +46,13 @@ import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
 import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.BrowseModeLogTrigger;
+import com.google.android.accessibility.talkback.commands.Commands;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
 import com.google.android.accessibility.talkback.eventprocessor.ProcessorPhoneticLetters;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
@@ -256,16 +258,8 @@ public class KeyComboManager
             context,
             new ArrowKeyNavKeyHandler.Callbacks() {
               @Override
-              public void perform(String command) {
-                if (TutorialHooks.onKeys(/* keys= */ null, command)) {
-                  return;
-                }
-                performCommandFromKeyboard(
-                    command,
-                    Performance.getInstance()
-                        .onKeyComboEventReceived(
-                            TalkBackPhysicalKeyboardShortcut.ACTION_UNKNOWN
-                                .getKeyboardShortcutOrdinal()));
+              public void perform(ArrowKeyNavCommand command) {
+                performArrowKeyNavCommand(command);
               }
 
               @Override
@@ -1192,7 +1186,7 @@ public class KeyComboManager
       if (match == EXACT_MATCH) {
         String commandValue = appKey.getSecond();
         // Unassigned in the app: the keys go to the app.
-        if (commandPerformer == null
+        if (!(context instanceof TalkBackService)
             || context.getString(R.string.shortcut_value_unassigned).equals(commandValue)) {
           return false;
         }
@@ -1218,7 +1212,7 @@ public class KeyComboManager
       }
       if (match == EXACT_MATCH) {
         @Nullable String commandValue = Commands.valueOfShortcutKey(key);
-        if (commandValue != null && commandPerformer == null) {
+        if (commandValue != null && !(context instanceof TalkBackService)) {
           continue;
         }
         if (TutorialHooks.onKeys(
@@ -1234,7 +1228,7 @@ public class KeyComboManager
         }
         if (commandValue != null) {
           // A command without a keyboard action of its own runs as a gesture would run it.
-          if (commandPerformer == null) {
+          if (!(context instanceof TalkBackService)) {
             continue;
           }
           performCommandFromKeyboard(
@@ -1285,6 +1279,19 @@ public class KeyComboManager
     }
 
     return false;
+  }
+
+  private void performCommandFromKeyboard(String command, EventId eventId) {
+    TalkBackPhysicalKeyboardShortcut keyboardAction = Commands.keyboardActionOf(context, command);
+    if (keyboardAction != null) {
+      if (keyComboMapper != null) {
+        keyComboMapper.performKeyComboAction(keyboardAction, eventId);
+      }
+      return;
+    }
+    if (context instanceof TalkBackService service) {
+      service.performCatalogAction(command, eventId);
+    }
   }
 
   private boolean isBasicLinearNavigation(String key) {

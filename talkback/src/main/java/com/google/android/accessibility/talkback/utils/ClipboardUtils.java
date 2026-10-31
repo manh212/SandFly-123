@@ -22,7 +22,6 @@ import android.content.Context;
 import android.text.TextUtils;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 import java.util.List;
-import com.google.android.accessibility.utils.ClipboardHistory;
 
 /** Utility class to copy text to clipboard. */
 public final class ClipboardUtils {

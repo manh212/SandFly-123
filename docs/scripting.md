@@ -104,7 +104,7 @@ A script can only use what its manifest asks for. The user sees the list before 
 |---|---|
 | `screen` | Reading the screen: `sf.screen`, the items given to hooks, commands and actions, `sf.speech.last()`, recognizing text, and the `onFocus`, `onAnnouncement`, `onTextChange`, `onContentChange`, `onScroll`, `onSelectionChange`, `onClick`, `onLongClick` and `onInputFocus` hooks. A script for all apps also needs it to learn which app is in front: `sf.app()`, `onAppEnter`, `onAppLeave` and `onWindowChange`. |
 | `actions` | Clicking, scrolling, typing and moving focus: `item:click()`, `item:perform()`, `item:focus()`, `item:setText()` and the other item actions, `sf.touch`, `sf.keys`, and rule actions other than `speak`. |
-| `speech` | Speaking with `sf.speak` and `sf.message`, `sf.speech.stop()`, `sf.braille`, rules that change an item, `sf.rules`, changing what a hook was given to say, and the `onSpeech` hook. |
+| `speech` | Speaking with `sf.speak` and `sf.message`, `sf.speech.stop()`, rules that change an item, `sf.rules`, changing what a hook was given to say, and the `onSpeech` hook. |
 | `passwords` | The text of password fields. Without it, that text is left out. |
 | `input` | Commands, `sf.bind`, `navigation`, `sf.commands.run`, the `onActions` hook, and actions in rules. |
 | `network` | `sf.fetch` and `sf.translate`. |
@@ -340,11 +340,10 @@ Each entry becomes a reading control that moves to the next or previous item mat
 ### Speech, sound and vibration
 
 *   `sf.speak(text, { interrupt, rate, pitch, language, wait })`. `rate` and `pitch` are from 0.25 to 4, where 1 is the user's own setting. `language` is a tag such as `'de'`. With `wait = true`, it [waits](#waiting) until the text is said, and gives `true`, or `false` if it was interrupted or not said within 2 minutes.
-*   `sf.message(text, { interrupt })` *Version 2.* Says the text, interrupting by default, and shows it on a connected braille display.
+*   `sf.message(text, { interrupt })` *Version 2.* Says the text, interrupting by default.
 *   `sf.speech.stop()` *Version 2.* Stops what SandFly is saying.
 *   `sf.speech.isSpeaking()` *Version 2.* Whether SandFly is speaking.
 *   `sf.speech.last()` *Version 2.* [Waits](#waiting), and gives the text of the last thing SandFly said. Needs `screen`.
-*   `sf.braille.show(text)` *Version 2.* Shows text on a connected braille display for a while, as SandFly shows an app's announcements. Needs `speech`.
 *   `sf.playSound(name)` plays one of Meridian's sounds (`focus`, `actionable`, `click`, `longClick`, `scroll`, `listEnter`, `listExit`, `end`, `enter`, `typo`, `beep`) or a sound file in the script's zip, such as `'sounds/chime.wav'`.
 *   `sf.playTone(frequency, ms, { volume })` plays a tone. `ms` is 100 if left out.
 *   `sf.playAudio(samples, { sampleRate, volume })` plays a list of samples from -1 to 1, up to 10 seconds.

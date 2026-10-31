@@ -1880,6 +1880,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
+  public void performCatalogAction(String action, EventId eventId) {
+    if (gestureController != null) {
+      gestureController.performAction(action, eventId);
+    }
+  }
+
   public boolean performTwoFingerScroll(Path path, long duration) {
     return isServiceActive()
         && !PauseController.isPaused()
@@ -4610,7 +4616,7 @@ public class TalkBackService extends AccessibilityServiceCompat
                   || isMicrophoneActiveAndHeadphoneOff()
                   || isSsbActive()
                   || (!overMedia && isAudioPlaybackActive()),
-          () -> isTouchInteracting);
+          this::isTouchInteracting);
       NotificationListService.onSandFlyStarted(this);
     }
     if (scriptHost != null || pipeline == null || !UserManagerCompat.isUserUnlocked(this)) {
@@ -4666,18 +4672,6 @@ public class TalkBackService extends AccessibilityServiceCompat
       return text == null ? null : text.toString().trim();
     }
 
-    @Override
-    public void showBraille(CharSequence text) {
-      if (brailleDisplay == null) {
-        return;
-      }
-      @SuppressWarnings("deprecation") // The constructor that replaces it needs Android 11.
-      AccessibilityEvent event = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_ANNOUNCEMENT);
-      event.setPackageName(getPackageName());
-      event.setEventTime(SystemClock.uptimeMillis());
-      event.getText().add(text);
-      brailleDisplay.onAccessibilityEvent(event);
-    }
   }
 
   public void onShutDown() {

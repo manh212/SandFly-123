@@ -37,7 +37,6 @@ import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.commands.CommandBindings;
 import com.google.android.accessibility.talkback.commands.Commands;
 import com.google.android.accessibility.talkback.keyboard.ArrowKeyNav;
-import com.google.android.accessibility.talkback.keyboard.ArrowKeys;
 import com.google.android.accessibility.talkback.keyboard.CustomKeymap;
 import com.google.android.accessibility.talkback.keyboard.CustomKeymaps;
 import com.google.android.accessibility.talkback.keyboard.KeyCombo;

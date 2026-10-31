@@ -132,9 +132,6 @@ interface ScriptServices {
 
   /** The text of the last thing SandFly said, as Copy last spoken phrase copies it. */
   fun lastSpeech(): String?
-
-  /** Shows [text] on a connected braille display for a while, as an announcement. */
-  fun showBraille(text: CharSequence)
 }
 
 class ScriptMenuItem(
