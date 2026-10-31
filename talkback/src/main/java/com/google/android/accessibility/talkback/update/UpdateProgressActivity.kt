@@ -80,8 +80,7 @@ class UpdateProgressActivity : Activity() {
       AlertDialog.Builder(this)
         .setTitle(R.string.update_progress_title)
         .setView(content)
-        .setNegativeButton(R.string.update_progress_dismiss, null)
-        .setCancelable(true)
+        .setNegativeButton(R.string.update_dialog_close, null)
         .create()
     dialog = progressDialog
     progressDialog.setOnDismissListener {
