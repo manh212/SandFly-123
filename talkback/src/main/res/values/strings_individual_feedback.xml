@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Title of the screen with a switch for each sound and each vibration. [CHAR LIMIT=50] -->
     <string name="title_pref_individual_feedback">Individual sounds and vibrations</string>
     <!-- Summary of the entry that opens the individual sounds and vibrations screen. [CHAR LIMIT=NONE] -->
@@ -31,7 +31,7 @@
     <string name="individual_sound_complete">Action done or end reached</string>
     <!-- Sound played when a new window or screen opens. [CHAR LIMIT=60] -->
     <string name="individual_sound_window_state">Window change</string>
-    <string name="individual_sound_clock_announcement">Âm báo giờ</string>
+    <string name="individual_sound_clock_announcement" tools:ignore="MissingTranslation">Âm báo giờ</string>
     <!-- Sound played when the next reading control is selected. [CHAR LIMIT=60] -->
     <string name="individual_sound_next_reading_control">Next reading control</string>
     <!-- Sound played when the previous reading control is selected. [CHAR LIMIT=60] -->
