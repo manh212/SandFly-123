@@ -26,6 +26,22 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private final TouchInteractionController controller;
   private final GestureManifold detector;
   private final Handler handler;
+  private final float dragSlop;
+  private int dragPointerId = -1;
+  private int otherPointerId = -1;
+  private float dragStartX;
+  private float dragStartY;
+  private float otherStartX;
+  private float otherStartY;
+  private boolean twoFingerTracking;
+  private boolean twoFingerMoved;
+  private boolean heldTwoFingerGesture;
+  private final Runnable armExtendedAfterHold = () -> {
+    if (active && twoFingerTracking && !twoFingerMoved && !completedInteraction
+        && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
+      heldTwoFingerGesture = true;
+    }
+  };
   private final Runnable failure;
   private final boolean rotationEnabled;
   private final boolean extendedEnabled;
@@ -66,6 +82,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
                             ? R.string.shortcut_value_select_next_setting
                             : R.string.shortcut_value_select_previous_setting)));
     handler = new Handler(service.getMainLooper());
+    dragSlop = touchSlop;
     controller = service.getTouchInteractionController(Display.DEFAULT_DISPLAY);
     if (controller == null) throw new IllegalStateException("No touch controller");
     detector = new GestureManifold(service, this, new GestureManifold.GestureConfigProvider() {
@@ -73,7 +90,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }, event -> {}, Display.DEFAULT_DISPLAY,
         ImmutableList.copyOf(service.getResources().getStringArray(R.array.extended_standard_gestures)));
     detector.setMultiFingerGesturesEnabled(true);
-    detector.setTwoFingerPassthroughEnabled(false);
+    detector.setTwoFingerPassthroughEnabled(true);
     if (extendedEnabled) {
       for (int id = ExtendedGestures.FIRST_ID; id <= ExtendedGestures.LAST_ID; id++) {
         detector.addGestureMatcher(new TwoFingerDirectionalGesture(service, id,
@@ -96,6 +113,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   void stop() {
     active = false;
     handler.removeCallbacks(explore);
+    resetTwoFingerTracking();
     detector.clear();
     rotationTracker.clear();
     clearQueue();
@@ -115,6 +133,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
     try {
       if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+        resetTwoFingerTracking();
         if (completedInteraction || state == TouchInteractionController.STATE_CLEAR) {
           detector.clear();
           gestureStarted = completedInteraction = false;
@@ -131,6 +150,8 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
         downY[event.getPointerId(index)] = event.getY(index);
         downX[event.getPointerId(index)] = event.getX(index);
         if (state == TouchInteractionController.STATE_TOUCH_EXPLORING) detector.clear();
+        if (event.getPointerCount() == 2) beginTwoFingerTracking(event);
+        else resetTwoFingerTracking();
       }
       if (rotationEnabled
           && state != TouchInteractionController.STATE_DELEGATING
@@ -140,6 +161,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
         boolean wasRotating = rotationTracker.isRotating();
         if (rotationTracker.onMotionEvent(event)) {
           handler.removeCallbacks(explore);
+          resetTwoFingerTracking();
           if (!wasRotating) {
             detector.clear();
             gestureStarted = true;
@@ -151,10 +173,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
           }
           return;
         }
-        if (!extendedEnabled
-            && rotationTracker.isScroll()
-            && state == TouchInteractionController.STATE_TOUCH_INTERACTING) {
-          delegate();
+        if (rotationTracker.isScroll()
+            && !heldTwoFingerGesture
+            && state == TouchInteractionController.STATE_TOUCH_INTERACTING
+            && event.getPointerCount() == 2) {
+          requestDrag(event.getPointerId(0));
           return;
         }
       }
@@ -169,11 +192,18 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
         delegate();
         return;
       }
+      if (event.getActionMasked() == MotionEvent.ACTION_MOVE && trackTwoFingerScroll(event)) return;
       if (state == TouchInteractionController.STATE_TOUCH_INTERACTING ||
           state == TouchInteractionController.STATE_TOUCH_EXPLORING || state == TouchInteractionController.STATE_CLEAR) {
         detector.onMotionEvent(Performance.EVENT_ID_UNTRACKED, event);
       }
+      if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP) {
+        handler.removeCallbacks(armExtendedAfterHold);
+        twoFingerTracking = false;
+      }
+      if (event.getActionMasked() == MotionEvent.ACTION_UP) resetTwoFingerTracking();
       if (event.getActionMasked() == MotionEvent.ACTION_CANCEL) {
+        resetTwoFingerTracking();
         detector.clear();
         rotationTracker.clear();
         gestureStarted = false;
@@ -192,9 +222,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
     state = next;
     transitionPending = false;
+    if (next == TouchInteractionController.STATE_CLEAR) resetTwoFingerTracking();
     handler.removeCallbacks(explore);
     if (next == TouchInteractionController.STATE_DELEGATING
         || next == TouchInteractionController.STATE_DRAGGING) {
+      resetTwoFingerTracking();
       detector.clear();
       rotationTracker.clear();
       clearQueue();
@@ -220,6 +252,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private void completeGesture(AccessibilityGestureEvent event) {
     if (!active || completedInteraction || state == TouchInteractionController.STATE_DELEGATING || state == TouchInteractionController.STATE_DRAGGING) return;
     int id = event.getGestureId();
+    if (ExtendedGestures.contains(id) && !heldTwoFingerGesture) return;
     handler.removeCallbacks(explore);
     if (id == GestureManifold.GESTURE_TOUCH_EXPLORE || id == GestureManifold.GESTURE_TAP_UP_TOUCH_EXPLORE) {
       requestExploration();
@@ -246,6 +279,61 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
   }
 
+  private void beginTwoFingerTracking(MotionEvent event) {
+    resetTwoFingerTracking();
+    if (controllerState() != TouchInteractionController.STATE_TOUCH_INTERACTING) return;
+    twoFingerTracking = true;
+    dragPointerId = event.getPointerId(0);
+    otherPointerId = event.getPointerId(1);
+    dragStartX = event.getX(0);
+    dragStartY = event.getY(0);
+    otherStartX = event.getX(1);
+    otherStartY = event.getY(1);
+    if (extendedEnabled) {
+      handler.postDelayed(armExtendedAfterHold, ViewConfiguration.getLongPressTimeout());
+    }
+  }
+
+  private boolean trackTwoFingerScroll(MotionEvent event) {
+    if (!twoFingerTracking || heldTwoFingerGesture || event.getPointerCount() != 2
+        || controllerState() != TouchInteractionController.STATE_TOUCH_INTERACTING) return false;
+    int first = event.findPointerIndex(dragPointerId);
+    int second = event.findPointerIndex(otherPointerId);
+    if (first < 0 || second < 0) return false;
+    float dx1 = event.getX(first) - dragStartX;
+    float dy1 = event.getY(first) - dragStartY;
+    float dx2 = event.getX(second) - otherStartX;
+    float dy2 = event.getY(second) - otherStartY;
+    float distance1 = (float) Math.hypot(dx1, dy1);
+    float distance2 = (float) Math.hypot(dx2, dy2);
+    if (distance1 >= dragSlop || distance2 >= dragSlop) {
+      twoFingerMoved = true;
+      handler.removeCallbacks(armExtendedAfterHold);
+    }
+    if (distance1 < dragSlop || distance2 < dragSlop) return false;
+    if ((dx1 * dx2 + dy1 * dy2) / (distance1 * distance2) < .7f) return false;
+    requestDrag(dragPointerId);
+    return true;
+  }
+
+  private void requestDrag(int pointerId) {
+    if (!active || transitionPending
+        || controllerState() != TouchInteractionController.STATE_TOUCH_INTERACTING) return;
+    transitionPending = true;
+    resetTwoFingerTracking();
+    detector.clear();
+    try { controller.requestDragging(pointerId); } catch (RuntimeException error) { fail(); }
+  }
+
+  private void resetTwoFingerTracking() {
+    handler.removeCallbacks(armExtendedAfterHold);
+    twoFingerTracking = false;
+    twoFingerMoved = false;
+    heldTwoFingerGesture = false;
+    dragPointerId = -1;
+    otherPointerId = -1;
+  }
+
   private int controllerState() { return controller.getState(); }
 
   private void requestExploration() {
@@ -259,6 +347,7 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private void delegate() {
     if (!active || transitionPending || controllerState() != TouchInteractionController.STATE_TOUCH_INTERACTING) return;
     transitionPending = true;
+    resetTwoFingerTracking();
     try { controller.requestDelegating(); } catch (RuntimeException error) { fail(); }
   }
 

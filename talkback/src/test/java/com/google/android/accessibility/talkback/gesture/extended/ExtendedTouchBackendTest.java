@@ -8,11 +8,13 @@ import android.accessibilityservice.AccessibilityGestureEvent;
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.TouchInteractionController;
 import android.graphics.Path;
+import android.os.Looper;
 import android.view.Display;
 import android.view.MotionEvent;
 import com.google.android.accessibility.talkback.TalkBackService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executor;
 import org.junit.After;
 import org.junit.Before;
@@ -25,6 +27,7 @@ import org.robolectric.annotation.Implementation;
 import org.robolectric.annotation.Implements;
 import org.robolectric.annotation.LooperMode;
 import org.robolectric.shadow.api.Shadow;
+import org.robolectric.Shadows;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34, qualifiers = "mdpi", shadows = ExtendedTouchBackendTest.TouchShadow.class)
@@ -58,6 +61,7 @@ public class ExtendedTouchBackendTest {
     Executor executor;
     TouchInteractionController.Callback callback;
     int state = TouchInteractionController.STATE_TOUCH_INTERACTING;
+    final List<Integer> draggedPointers = new ArrayList<>();
     @Implementation protected void registerCallback(Executor executor, TouchInteractionController.Callback callback) {
       this.executor = executor;
       this.callback = callback;
@@ -67,6 +71,7 @@ public class ExtendedTouchBackendTest {
       return true;
     }
     @Implementation protected int getState() { return state; }
+    @Implementation protected void requestDragging(int pointerId) { draggedPointers.add(pointerId); }
   }
 
   private TestService service;
@@ -143,47 +148,53 @@ public class ExtendedTouchBackendTest {
     assertTrue(service.gestures.isEmpty());
   }
 
-  @Test public void fourStraightTwoFingerSwipesUseTheSavedGestureMapping() {
-    int[] ids = {
-      AccessibilityService.GESTURE_2_FINGER_SWIPE_UP,
-      AccessibilityService.GESTURE_2_FINGER_SWIPE_DOWN,
-      AccessibilityService.GESTURE_2_FINGER_SWIPE_LEFT,
-      AccessibilityService.GESTURE_2_FINGER_SWIPE_RIGHT
-    };
+  @Test public void ordinaryTwoFingerSwipesUseNativeDraggingInEveryDirection() {
     float[][] ends = {{400, 300}, {400, 700}, {200, 500}, {600, 500}};
-    for (int i = 0; i < ids.length; i++) {
+    for (int i = 0; i < ends.length; i++) {
       touch.callback.onStateChanged(TouchInteractionController.STATE_CLEAR);
       touch.callback.onStateChanged(TouchInteractionController.STATE_TOUCH_INTERACTING);
       dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
       dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
       dragMotion(MotionEvent.ACTION_MOVE, 2, ends[i][0], ends[i][1]);
-      backend.onGestureCompleted(new AccessibilityGestureEvent(ids[i], Display.DEFAULT_DISPLAY, List.of()));
-      assertEquals(ids[i], service.gestures.get(i).intValue());
+      assertEquals(i + 1, touch.draggedPointers.size());
+      assertEquals(0, touch.draggedPointers.get(i).intValue());
     }
+    assertTrue(service.gestures.isEmpty());
     assertTrue(service.scrolls.isEmpty());
   }
 
-  @Test public void standardTwoFingerSwipeNeverBecomesOneFingerGesture() {
-    dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
-    dragMotion(
-        MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT),
-        2,
-        400,
-        500);
-    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 300);
-    backend.onGestureCompleted(
-        new AccessibilityGestureEvent(
-            AccessibilityService.GESTURE_2_FINGER_SWIPE_UP, Display.DEFAULT_DISPLAY, List.of()));
-    assertEquals(List.of(AccessibilityService.GESTURE_2_FINGER_SWIPE_UP), service.gestures);
-    assertTrue(service.scrolls.isEmpty());
-  }
-
-  @Test public void extendedGestureKeepsItsAssignedAction() {
+  @Test public void normalTwoFingerSwipeCannotDispatchAsAnExtendedGesture() {
     dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
     dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
-    backend.onGestureCompleted(new AccessibilityGestureEvent(ExtendedGestures.FIRST_ID, Display.DEFAULT_DISPLAY, List.of()));
+    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 300);
+    backend.onGestureCompleted(new AccessibilityGestureEvent(
+        ExtendedGestures.FIRST_ID, Display.DEFAULT_DISPLAY, List.of()));
+    assertEquals(List.of(0), touch.draggedPointers);
+    assertTrue(service.gestures.isEmpty());
+  }
+
+  @Test public void holdingTwoFingersBeforeTurningDispatchesExtendedGestureWithoutDragging() {
+    dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
+    dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
+    Shadows.shadowOf(Looper.getMainLooper()).idleFor(
+        android.view.ViewConfiguration.getLongPressTimeout() + 50L, TimeUnit.MILLISECONDS);
+    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 400);
+    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 500);
+    dragMotion(MotionEvent.ACTION_POINTER_UP | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
+    dragMotion(MotionEvent.ACTION_UP, 1, 400, 500);
     assertEquals(List.of(ExtendedGestures.FIRST_ID), service.gestures);
-    assertTrue(service.scrolls.isEmpty());
+    assertTrue(touch.draggedPointers.isEmpty());
+  }
+
+  @Test public void movingBeforeHoldTimeoutStillDragsWhenTheHoldTimerExpires() {
+    dragMotion(MotionEvent.ACTION_DOWN, 1, 400, 500);
+    dragMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 2, 400, 500);
+    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 480);
+    Shadows.shadowOf(Looper.getMainLooper()).idleFor(
+        android.view.ViewConfiguration.getLongPressTimeout() + 50L, TimeUnit.MILLISECONDS);
+    dragMotion(MotionEvent.ACTION_MOVE, 2, 400, 420);
+    assertEquals(List.of(0), touch.draggedPointers);
+    assertTrue(service.gestures.isEmpty());
   }
 
   private void dragMotion(int action, int count, float x, float y) {
