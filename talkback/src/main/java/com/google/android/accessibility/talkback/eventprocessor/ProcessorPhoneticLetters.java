@@ -359,6 +359,20 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
   }
 
   // Map a character to a phonetic letter. If the locale cannot be parsed, falls back to english.
+  public static CharSequence normalizeKeyboardKeyDescription(CharSequence description) {
+    String original = description.toString();
+    String withoutAlpha = original.replaceAll("(?i)\\bAlpha\\b", "");
+    if (original.equals(withoutAlpha)) {
+      return description;
+    }
+    String normalized = withoutAlpha.replaceAll("[\\s,;:]+", " ").trim();
+    return normalized.isEmpty() ? "A" : normalized;
+  }
+
+  static boolean isAlphaPhoneticWord(@Nullable CharSequence word) {
+    return word != null && "alpha".equalsIgnoreCase(word.toString().trim());
+  }
+
   private @Nullable CharSequence getPhoneticLetter(String locale, String letter) {
     Locale parsedLocale = LocaleUtils.parseLocaleString(locale);
     if (parsedLocale == null) {
@@ -366,6 +380,9 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
     }
     String normalizedLetter = letter.toLowerCase(parsedLocale);
     String value = getPhoneticLetterMap(locale).get(normalizedLetter);
+    if (isAlphaPhoneticWord(value)) {
+      return null;
+    }
     if (value == null) {
       if (parsedLocale.getCountry().isEmpty()) {
         // As a last resort, fall back to English.
@@ -377,6 +394,9 @@ public class ProcessorPhoneticLetters implements AccessibilityEventListener {
             letter.toLowerCase(Objects.requireNonNull(LocaleUtils.parseLocaleString(baseLanguage)));
         value = getPhoneticLetterMap(parsedLocale.getLanguage()).get(normalizedLetter);
       }
+    }
+    if (isAlphaPhoneticWord(value)) {
+      return null;
     }
     // Attaching the locale to the phonetic letter
     SpannableString ss = null;

@@ -39,12 +39,13 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private boolean transitionPending;
   private boolean gestureStarted;
   private int state = TouchInteractionController.STATE_CLEAR;
-  private Path scrollPath = new Path();
-  private int scrollPointerId = -1;
+  private Path firstScrollPath = new Path();
+  private Path secondScrollPath = new Path();
+  private int firstScrollPointerId = -1;
+  private int secondScrollPointerId = -1;
   private long scrollStartTime;
   private long scrollEndTime;
   private boolean scrollPaired;
-  private boolean scrollPointerLifted;
   private final Runnable explore = () -> {
     if (active && !gestureStarted && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
       requestExploration();
@@ -122,11 +123,13 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
     try {
       if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-        scrollPath = new Path();
-        scrollPointerId = event.getPointerId(0);
+        firstScrollPath = new Path();
+        secondScrollPath = new Path();
+        firstScrollPointerId = event.getPointerId(0);
+        secondScrollPointerId = -1;
         scrollStartTime = scrollEndTime = event.getEventTime();
-        scrollPaired = scrollPointerLifted = false;
-        scrollPath.moveTo(event.getX(), event.getY());
+        scrollPaired = false;
+        firstScrollPath.moveTo(event.getX(), event.getY());
         if (completedInteraction || state == TouchInteractionController.STATE_CLEAR) {
           detector.clear();
           gestureStarted = completedInteraction = false;
@@ -138,30 +141,31 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
           handler.postDelayed(explore, Math.max(150, ViewConfiguration.getDoubleTapTimeout() - 50));
         }
       } else if (event.getActionMasked() == MotionEvent.ACTION_POINTER_DOWN) {
+        int index = event.getActionIndex();
         if (event.getPointerCount() == 2) {
-          scrollPaired = true;
+          secondScrollPointerId = event.getPointerId(index);
+          if (secondScrollPointerId == firstScrollPointerId) {
+            secondScrollPointerId = event.getPointerId(index == 0 ? 1 : 0);
+          }
+          int secondIndex = event.findPointerIndex(secondScrollPointerId);
+          if (secondIndex >= 0) {
+            secondScrollPath.moveTo(event.getX(secondIndex), event.getY(secondIndex));
+            scrollPaired = true;
+          } else {
+            scrollPaired = false;
+          }
         } else {
           scrollPaired = false;
         }
         handler.removeCallbacks(explore);
-        int index = event.getActionIndex();
         downY[event.getPointerId(index)] = event.getY(index);
         downX[event.getPointerId(index)] = event.getX(index);
         if (state == TouchInteractionController.STATE_TOUCH_EXPLORING) detector.clear();
       }
-      if (scrollPaired && !scrollPointerLifted) {
-        int index = event.findPointerIndex(scrollPointerId);
-        if (index >= 0) {
-          for (int history = 0; history < event.getHistorySize(); history++) {
-            scrollPath.lineTo(event.getHistoricalX(index, history), event.getHistoricalY(index, history));
-          }
-          scrollPath.lineTo(event.getX(index), event.getY(index));
-          scrollEndTime = event.getEventTime();
-        }
-        if (event.getActionMasked() == MotionEvent.ACTION_POINTER_UP
-            && event.getPointerId(event.getActionIndex()) == scrollPointerId) {
-          scrollPointerLifted = true;
-        }
+      if (scrollPaired) {
+        appendPointerPath(firstScrollPath, firstScrollPointerId, event);
+        appendPointerPath(secondScrollPath, secondScrollPointerId, event);
+        scrollEndTime = event.getEventTime();
       }
       if (rotationEnabled
           && state != TouchInteractionController.STATE_DELEGATING
@@ -257,10 +261,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       return;
     }
     completedInteraction = true;
-    if (isStandardTwoFingerSwipe(id) && scrollPaired) {
-      long duration = Math.max(100, Math.min(800, scrollEndTime - scrollStartTime));
-      if (!service.performTwoFingerScroll(new Path(scrollPath), duration)) {
-        dispatch(event);
+    if (isStandardTwoFingerSwipe(id)) {
+      if (scrollPaired) {
+        long duration = Math.max(100, Math.min(800, scrollEndTime - scrollStartTime));
+        service.performTwoFingerScroll(
+            new Path(firstScrollPath), new Path(secondScrollPath), duration);
       }
     } else if (id == AccessibilityService.GESTURE_DOUBLE_TAP) {
       AccessibilityServiceInfo info = service.getServiceInfo();
@@ -274,6 +279,17 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
       dispatch(event);
     }
     gestureStarted = false;
+  }
+
+  private static void appendPointerPath(Path path, int pointerId, MotionEvent event) {
+    int index = event.findPointerIndex(pointerId);
+    if (index < 0) {
+      return;
+    }
+    for (int history = 0; history < event.getHistorySize(); history++) {
+      path.lineTo(event.getHistoricalX(index, history), event.getHistoricalY(index, history));
+    }
+    path.lineTo(event.getX(index), event.getY(index));
   }
 
   private static boolean isStandardTwoFingerSwipe(int id) {

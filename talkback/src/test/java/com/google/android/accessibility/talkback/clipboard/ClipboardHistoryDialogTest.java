@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.clipboard;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 import android.app.AlertDialog;
 import android.os.Looper;
@@ -33,6 +34,7 @@ import org.robolectric.shadows.ShadowAlertDialog;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -107,6 +109,37 @@ public class ClipboardHistoryDialogTest {
     assertNotNull(cancel);
     cancel.performClick();
     assertFalse(parent.isShowing());
+  }
+
+  @Test
+  public void historySelectionPastesAfterDialogClosesEvenWithoutInitialTarget() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    android.content.ClipboardManager clipboard =
+        (android.content.ClipboardManager)
+            context.getSystemService(android.content.Context.CLIPBOARD_SERVICE);
+    clipboard.setPrimaryClip(android.content.ClipData.newPlainText("", ""));
+    ClipboardHistory.clear();
+    ClipboardHistory.record("paste this");
+    boolean[] pasted = {false};
+    new ClipboardHistoryDialog(context, null)
+        .show(
+            Performance.EVENT_ID_UNTRACKED,
+            null,
+            (eventId, originalTarget) -> {
+              assertEquals(null, originalTarget);
+              pasted[0] = true;
+              return true;
+            });
+    AlertDialog dialog = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(dialog.getWindow().getDecorView());
+    assertNotNull(list);
+    list.getOnItemClickListener().onItemClick(list, null, 0, 0);
+    assertFalse(dialog.isShowing());
+    assertFalse(pasted[0]);
+    shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS);
+    assertTrue(pasted[0]);
+    assertEquals("paste this", clipboard.getPrimaryClip().getItemAt(0).coerceToText(context));
+    assertEquals(Arrays.asList("paste this"), ClipboardHistory.getEntries());
   }
 
   @Test

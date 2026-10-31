@@ -18,6 +18,8 @@ package com.google.android.accessibility.talkback.clipboard;
 
 import android.app.AlertDialog;
 import android.content.Context;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.InputType;
@@ -48,7 +50,13 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 
 public class ClipboardHistoryDialog {
 
+  @FunctionalInterface
+  public interface PasteAction {
+    boolean paste(EventId eventId, @Nullable AccessibilityNodeInfoCompat originalTarget);
+  }
+
   private final Context context;
+  private final Handler handler = new Handler(Looper.getMainLooper());
   private final SpeechControllerImpl speaker;
 
   private AlertDialog dialog;
@@ -71,6 +79,13 @@ public class ClipboardHistoryDialog {
   }
 
   public void show(EventId eventId, @Nullable AccessibilityNodeInfoCompat pasteTarget) {
+    show(eventId, pasteTarget, null);
+  }
+
+  public void show(
+      EventId eventId,
+      @Nullable AccessibilityNodeInfoCompat pasteTarget,
+      @Nullable PasteAction pasteAction) {
     if (dialog != null && dialog.isShowing()) {
       dialog.dismiss();
     }
@@ -157,18 +172,18 @@ public class ClipboardHistoryDialog {
       if (entry == null) {
         return;
       }
-      if (favorites && pasteTarget == null) {
+      if (favorites && pasteTarget == null && pasteAction == null) {
         if (ClipboardUtils.copyToClipboard(context, entry)) {
           speak(context.getString(R.string.favorites_copied), eventId);
           dialog.dismiss();
         }
         return;
       }
-      if (pasteTarget == null) {
+      if (pasteAction == null && pasteTarget == null) {
         speak(context.getString(R.string.clipboard_history_no_target), eventId);
         return;
       }
-      if (!pasteTarget.refresh() || !pasteTarget.isEditable()) {
+      if (pasteAction == null && (!pasteTarget.refresh() || !pasteTarget.isEditable())) {
         speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
         return;
       }
@@ -176,8 +191,24 @@ public class ClipboardHistoryDialog {
         speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
         return;
       }
-      boolean pasted = PerformActionUtils.performAction(
-          pasteTarget, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
+      if (pasteAction != null) {
+        dialog.dismiss();
+        handler.postDelayed(
+            () -> {
+              boolean pasted = pasteAction.paste(eventId, pasteTarget);
+              speak(
+                  context.getString(
+                      pasted
+                          ? R.string.clipboard_history_pasted
+                          : R.string.clipboard_history_paste_failed),
+                  eventId);
+            },
+            100);
+        return;
+      }
+      boolean pasted =
+          PerformActionUtils.performAction(
+              pasteTarget, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
       if (pasted) {
         speak(context.getString(R.string.clipboard_history_pasted), eventId);
         dialog.dismiss();
@@ -309,6 +340,9 @@ public class ClipboardHistoryDialog {
   }
 
   private void speak(String text, EventId eventId) {
+    if (speaker == null) {
+      return;
+    }
     speaker.speak(
         text,
         eventId,

@@ -99,6 +99,23 @@ class PullToRefresh(
     return sendSwipe(EVENT_ID_UNTRACKED, path, duration.coerceIn(100L, 800L), 100L)
   }
 
+  fun replayTwoFingerScroll(firstPath: Path, secondPath: Path, duration: Long): Boolean {
+    if (
+      Build.VERSION.SDK_INT < Build.VERSION_CODES.R ||
+        firstPath.isEmpty ||
+        secondPath.isEmpty
+    ) {
+      return false
+    }
+    cancel()
+    return sendSwipe(
+      EVENT_ID_UNTRACKED,
+      listOf(firstPath, secondPath),
+      duration.coerceIn(100L, 800L),
+      100L,
+    )
+  }
+
   private fun scrollOnce() {
     val current = list ?: return
     val scrolled =
@@ -145,25 +162,39 @@ class PullToRefresh(
     return sendSwipe(eventId, path, PULL_DURATION_MS, PASS_THROUGH_WAIT_MS)
   }
 
-  private fun sendSwipe(eventId: EventId?, path: Path, duration: Long, wait: Long): Boolean {
-    val gesture =
-      GestureDescription.Builder()
-        .addStroke(GestureDescription.StrokeDescription(path, 0, duration))
-        .build()
+  private fun sendSwipe(eventId: EventId?, path: Path, duration: Long, wait: Long): Boolean =
+    sendSwipe(eventId, listOf(path), duration, wait)
+
+  private fun sendSwipe(eventId: EventId?, paths: List<Path>, duration: Long, wait: Long): Boolean {
+    if (paths.isEmpty() || paths.any { it.isEmpty }) return false
+    val gestureBuilder = GestureDescription.Builder()
+    paths.forEach { path ->
+      gestureBuilder.addStroke(GestureDescription.StrokeDescription(path, 0, duration))
+    }
+    val gesture = gestureBuilder.build()
     // Touch exploration would take the swipe as a SandFly gesture, so touch passes through to the
-    // app where the swipe starts, which decides, until it ends. Elsewhere the user's touches are
+    // app where the fingers start, which decides, until they end. Elsewhere the user's touches are
     // still explored.
+    val passThroughRegion = Region()
     val start = FloatArray(2)
-    if (!android.graphics.PathMeasure(path, false).getPosTan(0f, start, null)) return false
-    val x = start[0].toInt()
-    val y = start[1].toInt()
+    for (path in paths) {
+      if (!android.graphics.PathMeasure(path, false).getPosTan(0f, start, null)) return false
+      val x = start[0].toInt()
+      val y = start[1].toInt()
+      passThroughRegion.op(
+        Rect(
+          x - PASS_THROUGH_RADIUS,
+          y - PASS_THROUGH_RADIUS,
+          x + PASS_THROUGH_RADIUS,
+          y + PASS_THROUGH_RADIUS,
+        ),
+        Region.Op.UNION,
+      )
+    }
     passingThrough = true
     pipeline.returnFeedback(
       eventId,
-      Feedback.passThroughMode(
-        LOCK_PASS_THROUGH,
-        Region(x - PASS_THROUGH_RADIUS, y - PASS_THROUGH_RADIUS, x + PASS_THROUGH_RADIUS, y + PASS_THROUGH_RADIUS),
-      ),
+      Feedback.passThroughMode(LOCK_PASS_THROUGH, passThroughRegion),
     )
     val ended =
       object : AccessibilityService.GestureResultCallback() {

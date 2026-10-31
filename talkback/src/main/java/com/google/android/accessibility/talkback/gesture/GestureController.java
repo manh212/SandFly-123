@@ -128,7 +128,7 @@ import com.google.android.accessibility.talkback.recognition.LiveRecognition;
 import com.google.android.accessibility.talkback.scripting.ItemInspector;
 import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.dictation.AiDictation;
-import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryFragment;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryDialog;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
@@ -336,6 +336,12 @@ public class GestureController {
   public boolean replayTwoFingerScroll(android.graphics.Path path, long duration) {
     RecentUserInput.mark();
     return pullToRefresh.replayScroll(path, duration);
+  }
+
+  public boolean replayTwoFingerScroll(
+      android.graphics.Path firstPath, android.graphics.Path secondPath, long duration) {
+    RecentUserInput.mark();
+    return pullToRefresh.replayTwoFingerScroll(firstPath, secondPath, duration);
   }
 
   static Feedback.Speech.Action lastUtteranceCopyAction(boolean fromCustomMenu) {
@@ -909,7 +915,13 @@ public class GestureController {
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
       result = pipeline.returnFeedback(eventId, Feedback.edit(node, APPEND_COPY));
     } else if (action.equals(service.getString(R.string.shortcut_value_clipboard_history))) {
-      result = ClipboardHistoryFragment.open(service);
+      ClipboardHistoryDialog clipboardDialog = new ClipboardHistoryDialog(service, speaker);
+      clipboardDialog.show(
+          eventId,
+          findEditorTarget(),
+          (pasteEventId, originalTarget) ->
+              pasteFromClipboardHistory(pasteEventId, originalTarget));
+      result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_cut))) {
       AccessibilityNodeInfoCompat node = getEditTextFocus();
       if (node == null) {
@@ -1345,6 +1357,21 @@ public class GestureController {
       speak(service.getString(R.string.not_editable));
       return null;
     }
+  }
+
+  private boolean pasteFromClipboardHistory(
+      EventId eventId, @Nullable AccessibilityNodeInfoCompat originalTarget) {
+    AccessibilityNodeInfoCompat target = findEditorTarget();
+    if (target == null || !target.isEditable()) {
+      target = originalTarget;
+    }
+    if (target == null || !target.refresh() || !target.isEditable()) {
+      return false;
+    }
+    if (!target.isFocused()) {
+      target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+    }
+    return pipeline.returnFeedback(eventId, Feedback.edit(target, PASTE));
   }
 
   private @Nullable AccessibilityNodeInfoCompat findEditorTarget() {

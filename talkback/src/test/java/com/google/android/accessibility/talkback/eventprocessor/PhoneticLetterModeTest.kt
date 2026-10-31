@@ -22,6 +22,7 @@ import com.google.android.accessibility.talkback.directtouch.FakeSharedPreferenc
 import com.google.android.accessibility.talkback.utils.VerbosityPreferences
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,6 +49,19 @@ class PhoneticLetterModeTest {
 
   private fun setPreset(preset: String) {
     prefs.edit().putString(res.getString(R.string.pref_verbosity_preset_key), preset).apply()
+  }
+
+  @Test
+  fun alphaPhoneticFeedbackIsNormalizedToTheLetterName() {
+    assertEquals("A", ProcessorPhoneticLetters.normalizeKeyboardKeyDescription("Alpha"))
+    assertEquals("A", ProcessorPhoneticLetters.normalizeKeyboardKeyDescription(" alpha "))
+    assertEquals(
+      "A",
+      ProcessorPhoneticLetters.normalizeKeyboardKeyDescription("A, Alpha"),
+    )
+    assertEquals("B", ProcessorPhoneticLetters.normalizeKeyboardKeyDescription("B"))
+    assertTrue(ProcessorPhoneticLetters.isAlphaPhoneticWord("Alpha"))
+    assertFalse(ProcessorPhoneticLetters.isAlphaPhoneticWord("Bravo"))
   }
 
   @Test

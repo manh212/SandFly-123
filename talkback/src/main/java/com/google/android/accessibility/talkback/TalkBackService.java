@@ -1893,6 +1893,13 @@ public class TalkBackService extends AccessibilityServiceCompat
         && gestureController.replayTwoFingerScroll(path, duration);
   }
 
+  public boolean performTwoFingerScroll(Path firstPath, Path secondPath, long duration) {
+    return isServiceActive()
+        && !PauseController.isPaused()
+        && gestureController != null
+        && gestureController.replayTwoFingerScroll(firstPath, secondPath, duration);
+  }
+
   public void performCatalogMenuAction(
       String action, @Nullable AccessibilityNodeInfoCompat originalFocus) {
     if (gestureController != null) {

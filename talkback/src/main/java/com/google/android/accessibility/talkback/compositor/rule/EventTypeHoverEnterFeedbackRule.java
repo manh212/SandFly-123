@@ -120,13 +120,15 @@ public class EventTypeHoverEnterFeedbackRule {
       CharSequence nodeTreeDescription =
           treeNodesDescription.aggregateNodeTreeDescription(node, event);
       if (!TextUtils.isEmpty(nodeTreeDescription)) {
-        outputJoinList.add(nodeTreeDescription);
+        outputJoinList.add(
+            ProcessorPhoneticLetters.normalizeKeyboardKeyDescription(nodeTreeDescription));
       } else {
         Locale preferredLocale = globalVariables.getPreferredLocaleByNode(node);
         CharSequence eventDescription =
             AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
                 event, preferredLocale);
-        outputJoinList.add(eventDescription);
+        outputJoinList.add(
+            ProcessorPhoneticLetters.normalizeKeyboardKeyDescription(eventDescription));
       }
       Optional<CharSequence> phoneticExample =
           processorPhoneticLetters.getPhoneticLetterForKeyboardFocusEvent(event);
@@ -137,7 +139,11 @@ public class EventTypeHoverEnterFeedbackRule {
             outputJoinList, CompositorUtils.getSeparator(), PRUNE_EMPTY);
       }
     }
-    return AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
-        event, globalVariables.getUserPreferredLocale());
+    CharSequence output =
+        AccessibilityEventFeedbackUtils.getEventContentDescriptionOrEventAggregateText(
+            event, globalVariables.getUserPreferredLocale());
+    return AccessibilityEventFeedbackUtils.isEventRelatedToKeyboardKey(event)
+        ? ProcessorPhoneticLetters.normalizeKeyboardKeyDescription(output)
+        : output;
   }
 }
