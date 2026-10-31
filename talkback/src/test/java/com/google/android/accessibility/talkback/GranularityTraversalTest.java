@@ -69,6 +69,7 @@ public class GranularityTraversalTest {
   public void leavesWebContentToFramework() {
     AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
     info.setClassName("android.webkit.WebView");
+    info.addAction(AccessibilityNodeInfo.ACTION_NEXT_HTML_ELEMENT);
     info.setContentDescription("first line\nsecond line");
     AccessibilityNodeInfoCompat node = AccessibilityNodeInfoCompat.wrap(info);
 
