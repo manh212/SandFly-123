@@ -11,6 +11,7 @@ import java.util.Locale;
 import java.util.Set;
 import java.util.function.Consumer;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public final class ScreenRecognitionAi {
@@ -103,7 +104,7 @@ public final class ScreenRecognitionAi {
       }
       RecognitionLayout.sort(items);
       return items;
-    } catch (RuntimeException e) {
+    } catch (JSONException | RuntimeException e) {
       return null;
     }
   }
