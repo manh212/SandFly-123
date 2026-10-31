@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.CheckedTextView;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.Performance;
 import org.robolectric.RuntimeEnvironment;
@@ -143,7 +144,7 @@ public class ClipboardHistoryDialogTest {
   }
 
   @Test
-  public void longPressOffersTwoActionsWithoutDeletingText() {
+  public void longPressOffersMultiSelectWithoutDeletingText() {
     android.content.Context context = RuntimeEnvironment.getApplication();
     ((android.content.ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
         .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
@@ -155,9 +156,39 @@ public class ClipboardHistoryDialogTest {
     assertNotNull(list);
     list.getOnItemLongClickListener().onItemLongClick(list, null, 0, 0);
     AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
-    assertEquals(2, actions.getListView().getAdapter().getCount());
+    assertEquals(3, actions.getListView().getAdapter().getCount());
     assertEquals(Arrays.asList("keep this"), ClipboardHistory.getEntries());
     actions.dismiss();
+    parent.dismiss();
+  }
+
+  @Test
+  public void multipleSelectionRemovesOnlyChosenClipboardEntries() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    ((android.content.ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
+        .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
+    ClipboardHistory.clear();
+    for (int i = 1; i <= 5; i++) {
+      ClipboardHistory.record("entry " + i);
+    }
+    new ClipboardHistoryDialog(context, null).show(Performance.EVENT_ID_UNTRACKED, null);
+    AlertDialog parent = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(parent.getWindow().getDecorView());
+    assertNotNull(list);
+    list.getOnItemLongClickListener().onItemLongClick(list, null, 0, 0);
+    AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
+    actions.getListView().performItemClick(null, 2, 2);
+    assertTrue(parent.isShowing());
+    assertTrue(list.getAdapter().getView(0, null, list) instanceof CheckedTextView);
+    list.getOnItemClickListener().onItemClick(list, null, 2, 2);
+    list.getOnItemClickListener().onItemClick(list, null, 4, 4);
+    Button delete = findButton(parent.getWindow().getDecorView(),
+        context.getString(R.string.clipboard_history_delete_selected_count, 3));
+    assertNotNull(delete);
+    delete.performClick();
+    AlertDialog confirmation = ShadowAlertDialog.getLatestAlertDialog();
+    confirmation.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+    assertEquals(Arrays.asList("entry 4", "entry 2"), ClipboardHistory.getEntries());
     parent.dismiss();
   }
 

@@ -90,6 +90,19 @@ public class ClipboardHistoryTest {
   }
 
   @Test
+  public void removeAllDeletesSelectedEntriesAndPersists() throws Exception {
+    File dir = folder.newFolder();
+    ClipboardHistory.init(dir);
+    for (int i = 1; i <= 5; i++) {
+      ClipboardHistory.record("entry " + i);
+    }
+    assertEquals(3, ClipboardHistory.removeAll(Arrays.asList("entry 1", "entry 3", "entry 5")));
+    assertEquals(Arrays.asList("entry 4", "entry 2"), ClipboardHistory.getEntries());
+    ClipboardHistory.init(dir);
+    assertEquals(Arrays.asList("entry 4", "entry 2"), ClipboardHistory.getEntries());
+  }
+
+  @Test
   public void init_reloadsStoredEntriesAndRemovals() throws Exception {
     File dir = folder.newFolder();
     ClipboardHistory.init(dir);

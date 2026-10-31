@@ -32,6 +32,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.CheckedTextView;
+import android.view.LayoutInflater;
 import android.widget.TextView;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
@@ -45,6 +47,9 @@ import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Locale;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -66,6 +71,11 @@ public class ClipboardHistoryDialog {
   private Button clearAll;
   private TextView emptyText;
   private AlertDialog childDialog;
+  private final Set<String> selectedEntries = new LinkedHashSet<>();
+  private boolean multipleSelection;
+  private Button deleteSelected;
+  private Button cancelSelection;
+  private ListView listView;
 
   public ClipboardHistoryDialog(Context context, SpeechControllerImpl speaker) {
     this(context, speaker, false);
@@ -90,6 +100,8 @@ public class ClipboardHistoryDialog {
       dialog.dismiss();
     }
     query = "";
+    multipleSelection = false;
+    selectedEntries.clear();
     if (!favorites) {
       ClipboardHistoryCapture.captureCurrent(context);
     }
@@ -115,12 +127,31 @@ public class ClipboardHistoryDialog {
         ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
     ListView list = new ListView(context);
+    listView = list;
     layout.addView(list, new LinearLayout.LayoutParams(
         ViewGroup.LayoutParams.MATCH_PARENT, padding * 15, 1f));
     emptyText = new TextView(context);
     emptyText.setPadding(padding, padding, padding, padding);
     layout.addView(emptyText);
     list.setEmptyView(emptyText);
+
+    if (!favorites) {
+      LinearLayout selectionButtons = new LinearLayout(context);
+      selectionButtons.setOrientation(LinearLayout.HORIZONTAL);
+      layout.addView(selectionButtons);
+      deleteSelected = new Button(context);
+      deleteSelected.setText(R.string.clipboard_history_delete_selected);
+      deleteSelected.setVisibility(View.GONE);
+      selectionButtons.addView(deleteSelected, new LinearLayout.LayoutParams(
+          0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+      cancelSelection = new Button(context);
+      cancelSelection.setText(R.string.clipboard_history_cancel_selection);
+      cancelSelection.setVisibility(View.GONE);
+      cancelSelection.setOnClickListener(v -> exitMultipleSelection());
+      selectionButtons.addView(cancelSelection, new LinearLayout.LayoutParams(
+          0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+      deleteSelected.setOnClickListener(v -> confirmDeleteSelected(eventId));
+    }
 
     LinearLayout buttons = new LinearLayout(context);
     buttons.setOrientation(LinearLayout.HORIZONTAL);
@@ -138,8 +169,19 @@ public class ClipboardHistoryDialog {
     adapter = new ArrayAdapter<String>(context, 0, new ArrayList<>()) {
       @Override
       public View getView(int position, View convertView, ViewGroup parent) {
+        if (multipleSelection && !favorites) {
+          CheckedTextView checkbox =
+              convertView instanceof CheckedTextView
+                  ? (CheckedTextView) convertView
+                  : (CheckedTextView) LayoutInflater.from(context).inflate(
+                      android.R.layout.simple_list_item_multiple_choice, parent, false);
+          String entry = getItem(position);
+          checkbox.setText(entry);
+          checkbox.setChecked(selectedEntries.contains(entry));
+          return checkbox;
+        }
         TextView row;
-        if (convertView instanceof TextView) {
+        if (convertView instanceof TextView && !(convertView instanceof CheckedTextView)) {
           row = (TextView) convertView;
         } else {
           row = new TextView(context);
@@ -170,6 +212,10 @@ public class ClipboardHistoryDialog {
     list.setOnItemClickListener((parent, view, position, id) -> {
       String entry = adapter.getItem(position);
       if (entry == null) {
+        return;
+      }
+      if (multipleSelection && !favorites) {
+        toggleSelected(entry);
         return;
       }
       if (favorites && pasteTarget == null && pasteAction == null) {
@@ -222,11 +268,16 @@ public class ClipboardHistoryDialog {
       if (entry == null) {
         return true;
       }
+      if (multipleSelection && !favorites) {
+        toggleSelected(entry);
+        return true;
+      }
       CharSequence[] actions = favorites
           ? new CharSequence[] {context.getString(R.string.text_collection_delete)}
           : new CharSequence[] {
               context.getString(R.string.text_collection_delete),
-              context.getString(R.string.favorites_add_from_clipboard)};
+              context.getString(R.string.favorites_add_from_clipboard),
+              context.getString(R.string.clipboard_history_select_multiple)};
       childDialog = new AlertDialog.Builder(context)
           .setItems(actions, (clicked, which) -> {
             if (which == 0) {
@@ -239,10 +290,12 @@ public class ClipboardHistoryDialog {
               refreshList();
               speak(context.getString(removed
                   ? R.string.clipboard_history_deleted : R.string.favorites_save_failed), eventId);
-            } else {
+            } else if (which == 1) {
               boolean saved = FavoriteTexts.add(entry);
               speak(context.getString(saved
                   ? R.string.favorites_saved : R.string.favorites_save_failed), eventId);
+            } else {
+              startMultipleSelection(entry);
             }
           })
           .setNegativeButton(R.string.text_collection_cancel, null)
@@ -262,6 +315,7 @@ public class ClipboardHistoryDialog {
                 } else {
                   ClipboardHistory.clear();
                 }
+                exitMultipleSelection();
                 refreshList();
                 speak(context.getString(cleared
                     ? R.string.clipboard_history_cleared : R.string.favorites_save_failed), eventId);
@@ -278,6 +332,8 @@ public class ClipboardHistoryDialog {
             .setView(layout)
             .create();
     dialog.setOnDismissListener(dismissed -> {
+      selectedEntries.clear();
+      multipleSelection = false;
       if (childDialog != null) {
         childDialog.dismiss();
         childDialog = null;
@@ -287,6 +343,65 @@ public class ClipboardHistoryDialog {
         WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
             | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     showOverlay(dialog);
+  }
+
+  private void startMultipleSelection(String firstEntry) {
+    if (favorites) {
+      return;
+    }
+    multipleSelection = true;
+    selectedEntries.clear();
+    selectedEntries.add(firstEntry);
+    updateSelectionButtons();
+    adapter.notifyDataSetChanged();
+  }
+
+  private void toggleSelected(String entry) {
+    if (!selectedEntries.add(entry)) {
+      selectedEntries.remove(entry);
+    }
+    updateSelectionButtons();
+    adapter.notifyDataSetChanged();
+  }
+
+  private void updateSelectionButtons() {
+    if (deleteSelected == null || cancelSelection == null) {
+      return;
+    }
+    deleteSelected.setVisibility(multipleSelection ? View.VISIBLE : View.GONE);
+    cancelSelection.setVisibility(multipleSelection ? View.VISIBLE : View.GONE);
+    deleteSelected.setEnabled(!selectedEntries.isEmpty());
+    deleteSelected.setText(context.getString(
+        R.string.clipboard_history_delete_selected_count, selectedEntries.size()));
+  }
+
+  private void exitMultipleSelection() {
+    multipleSelection = false;
+    selectedEntries.clear();
+    updateSelectionButtons();
+    if (adapter != null) {
+      adapter.notifyDataSetChanged();
+    }
+  }
+
+  private void confirmDeleteSelected(EventId eventId) {
+    if (selectedEntries.isEmpty()) {
+      return;
+    }
+    int count = selectedEntries.size();
+    AlertDialog confirmation =
+        new AlertDialog.Builder(context)
+            .setMessage(context.getString(R.string.clipboard_history_confirm_delete_selected, count))
+            .setPositiveButton(R.string.clipboard_history_delete_selected, (clicked, which) -> {
+              int removed = ClipboardHistory.removeAll(new ArrayList<>(selectedEntries));
+              exitMultipleSelection();
+              refreshList();
+              speak(context.getString(R.string.clipboard_history_deleted_count, removed), eventId);
+            })
+            .setNegativeButton(android.R.string.cancel, null)
+            .create();
+    childDialog = confirmation;
+    showOverlay(confirmation);
   }
 
   private static void showOverlay(AlertDialog overlay) {
@@ -333,6 +448,10 @@ public class ClipboardHistoryDialog {
     adapter.clear();
     List<String> entries = favorites ? FavoriteTexts.getEntries() : ClipboardHistory.getEntries();
     adapter.addAll(filterEntries(entries, query));
+    if (multipleSelection) {
+      selectedEntries.retainAll(new HashSet<>(entries));
+      updateSelectionButtons();
+    }
     clearAll.setEnabled(!entries.isEmpty());
     emptyText.setText(!query.isEmpty() ? R.string.text_collection_no_results
         : favorites ? R.string.favorites_empty : R.string.clipboard_history_empty);

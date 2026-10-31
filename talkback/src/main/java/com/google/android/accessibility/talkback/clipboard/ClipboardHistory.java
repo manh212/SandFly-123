@@ -152,6 +152,28 @@ public final class ClipboardHistory {
     }
   }
 
+  /** Removes the selected entries as one saved operation, notifying listeners only once. */
+  public static int removeAll(java.util.Collection<String> selected) {
+    if (selected == null || selected.isEmpty()) {
+      return 0;
+    }
+    int removed = 0;
+    synchronized (entries) {
+      for (String text : selected) {
+        if (text != null && entries.remove(text)) {
+          removed++;
+        }
+      }
+      if (removed > 0) {
+        saveLocked();
+      }
+    }
+    if (removed > 0) {
+      notifyListeners();
+    }
+    return removed;
+  }
+
   /** The recorded texts, newest first. */
   public static List<String> getEntries() {
     synchronized (entries) {

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="clipboard_history_select_multiple" tools:ignore="MissingTranslation">Chọn nhiều mục</string>
+  <string name="clipboard_history_delete_selected" tools:ignore="MissingTranslation">Xóa mục đã chọn</string>
+  <string name="clipboard_history_delete_selected_count" tools:ignore="MissingTranslation">Xóa mục đã chọn (%1$d)</string>
+  <string name="clipboard_history_cancel_selection" tools:ignore="MissingTranslation">Hủy chọn</string>
+  <string name="clipboard_history_confirm_delete_selected" tools:ignore="MissingTranslation">Xóa %1$d mục đã chọn khỏi lịch sử bộ nhớ tạm?</string>
+  <string name="clipboard_history_deleted_count" tools:ignore="MissingTranslation">Đã xóa %1$d mục</string>
+</resources>
