@@ -32,6 +32,7 @@ public final class LastSpokenTextHolder {
   private static final AtomicReference<String> lastSpokenText = new AtomicReference<>();
   private static final AtomicReference<String> savedSpokenText = new AtomicReference<>();
   private static final Deque<String> spokenHistory = new ArrayDeque<>();
+  private static volatile boolean menuSpeechSuppressed;
 
   private LastSpokenTextHolder() {}
 
@@ -41,11 +42,18 @@ public final class LastSpokenTextHolder {
     }
     lastSpokenText.set(text.toString());
     synchronized (spokenHistory) {
+      if (menuSpeechSuppressed) {
+        return;
+      }
       spokenHistory.addFirst(text.toString());
       while (spokenHistory.size() > MAX_SPOKEN_HISTORY_SIZE) {
         spokenHistory.removeLast();
       }
     }
+  }
+
+  public static void setMenuSpeechSuppressed(boolean suppressed) {
+    menuSpeechSuppressed = suppressed;
   }
 
   public static @Nullable String getLastSpokenText() {
@@ -60,6 +68,7 @@ public final class LastSpokenTextHolder {
   }
 
   static void clearSpokenHistoryForTest() {
+    menuSpeechSuppressed = false;
     synchronized (spokenHistory) {
       spokenHistory.clear();
     }

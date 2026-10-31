@@ -24,6 +24,8 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.math.abs
+import kotlin.math.sqrt
 
 /**
  * Records the microphone as 16 kHz mono 16-bit audio, the format Whisper and Gemini 3.5 Transcribe
@@ -38,7 +40,7 @@ class AudioCapture(
   private val onSpeech: (() -> Unit)? = null,
 ) {
 
-  private var noiseFloor = 0.0
+  private val speechDetector = AudioSpeechDetector()
   private val audio = ByteArrayOutputStream()
   private val stateLock = Any()
   @Volatile private var recording = false
@@ -137,14 +139,7 @@ class AudioCapture(
       i += 2
     }
     if (count == 0) return false
-    val level = Math.sqrt(sum / count)
-    noiseFloor =
-      when {
-        noiseFloor == 0.0 -> level
-        level < noiseFloor -> noiseFloor * 0.7 + level * 0.3
-        else -> noiseFloor * 0.98 + level * 0.02
-      }
-    return level > maxOf(noiseFloor * SPEECH_OVER_NOISE, MIN_SPEECH_LEVEL)
+    return speechDetector.isSpeechLevel(sqrt(sum / count))
   }
 
   fun stop(onStopped: (ByteArray) -> Unit) {
@@ -176,9 +171,6 @@ class AudioCapture(
 
   companion object {
 
-    private const val SPEECH_OVER_NOISE = 3.0
-
-    private const val MIN_SPEECH_LEVEL = 300.0
     private const val TAG = "AudioCapture"
     const val SAMPLE_RATE = 16_000
     /** Fifteen minutes. Gemini 3.5 Transcribe takes up to an hour; longer would be slow to send. */
@@ -213,5 +205,29 @@ class AudioCapture(
     }
 
     private const val WAV_HEADER_BYTES = 44
+  }
+}
+
+internal class AudioSpeechDetector {
+  private var noiseFloor = 0.0
+  private var previousLevel = 0.0
+  private var loudFrames = 0
+  private var steadyFrames = 0
+
+  fun isSpeechLevel(level: Double): Boolean {
+    if (!level.isFinite() || level < 0.0) return false
+    if (noiseFloor == 0.0) {
+      noiseFloor = maxOf(level, 1.0)
+      previousLevel = level
+      return false
+    }
+    val loud = level > maxOf(noiseFloor * 3.0, 300.0)
+    val steady = abs(level - previousLevel) < maxOf(80.0, previousLevel * 0.12)
+    loudFrames = if (loud) loudFrames + 1 else 0
+    steadyFrames = if (loud && steady) steadyFrames + 1 else 0
+    val adaptation = if (!loud || steadyFrames >= 4) 0.2 else 0.01
+    noiseFloor += (level - noiseFloor) * adaptation
+    previousLevel = level
+    return loudFrames >= 3 && steadyFrames < 4
   }
 }

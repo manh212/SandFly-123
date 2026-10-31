@@ -69,6 +69,35 @@ class DictationTest {
   }
 
   @Test
+  fun steadyBackgroundNoiseStopsTriggeringSpeechActivity() {
+    val detector = AudioSpeechDetector()
+    repeat(10) { assertFalse(detector.isSpeechLevel(100.0)) }
+    val detections = (1..40).count { detector.isSpeechLevel(1500.0) }
+    assertTrue(detections <= 2)
+    repeat(10) { assertFalse(detector.isSpeechLevel(1500.0)) }
+  }
+
+  @Test
+  fun changingSpeechLevelsAreDetectedAfterConsecutiveFrames() {
+    val detector = AudioSpeechDetector()
+    repeat(10) { detector.isSpeechLevel(100.0) }
+    assertFalse(detector.isSpeechLevel(1200.0))
+    assertFalse(detector.isSpeechLevel(1700.0))
+    assertTrue(detector.isSpeechLevel(1300.0))
+    assertTrue(detector.isSpeechLevel(1800.0))
+    assertFalse(detector.isSpeechLevel(100.0))
+  }
+
+  @Test
+  fun shortNoiseSpikeDoesNotResetSilence() {
+    val detector = AudioSpeechDetector()
+    repeat(10) { detector.isSpeechLevel(80.0) }
+    assertFalse(detector.isSpeechLevel(2500.0))
+    assertFalse(detector.isSpeechLevel(80.0))
+    assertFalse(detector.isSpeechLevel(80.0))
+  }
+
+  @Test
   fun ramblerLanguages() {
     assertTrue(DictationSettings.ramblerSupports(Locale.US))
     assertTrue(DictationSettings.ramblerSupports(Locale.forLanguageTag("vi-VN")))

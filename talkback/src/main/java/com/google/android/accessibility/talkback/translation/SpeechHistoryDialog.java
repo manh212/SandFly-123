@@ -26,10 +26,13 @@ import com.google.android.accessibility.utils.output.LastSpokenTextHolder;
 import com.google.android.accessibility.utils.output.SpeechController;
 import com.google.android.accessibility.utils.output.SpeechController.SpeakOptions;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
+import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.List;
 
 /** Shows the recent spoken utterances, newest first; tapping one copies it to the clipboard. */
 public class SpeechHistoryDialog {
+
+  private static final String TAG = "SpeechHistory";
 
   private final Context context;
   private final SpeechControllerImpl speaker;
@@ -41,7 +44,9 @@ public class SpeechHistoryDialog {
 
   public void show(EventId eventId) {
     List<String> history = LastSpokenTextHolder.getSpokenHistory();
+    LogUtils.d(TAG, "SHOW_HISTORY received, entries=%d", history.size());
     if (history.isEmpty()) {
+      LogUtils.d(TAG, "History dialog not opened: no entries");
       speaker.speak(
           context.getString(R.string.speech_history_empty),
           eventId,
@@ -58,6 +63,12 @@ public class SpeechHistoryDialog {
                 (clicked, which) -> speaker.copyTextToClipboard(history.get(which), eventId))
             .create();
     dialog.getWindow().setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
-    dialog.show();
+    dialog.setOnDismissListener(ignored -> LogUtils.d(TAG, "History dialog dismissed"));
+    try {
+      dialog.show();
+      LogUtils.d(TAG, "History dialog show completed, showing=%s, entries=%d", dialog.isShowing(), history.size());
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "History dialog show failed: %s", e);
+    }
   }
 }

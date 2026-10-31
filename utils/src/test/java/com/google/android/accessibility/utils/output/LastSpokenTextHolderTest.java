@@ -58,6 +58,18 @@ public class LastSpokenTextHolderTest {
   }
 
   @Test
+  public void menuFeedbackIsExcludedWhileOrdinarySpeechIsPreserved() {
+    LastSpokenTextHolder.setLastSpokenText("before menu");
+    LastSpokenTextHolder.setMenuSpeechSuppressed(true);
+    LastSpokenTextHolder.setLastSpokenText("Menu item");
+    assertEquals("Menu item", LastSpokenTextHolder.getLastSpokenText());
+    assertEquals(List.of("before menu"), LastSpokenTextHolder.getSpokenHistory());
+    LastSpokenTextHolder.setMenuSpeechSuppressed(false);
+    LastSpokenTextHolder.setLastSpokenText("after menu");
+    assertEquals(List.of("after menu", "before menu"), LastSpokenTextHolder.getSpokenHistory());
+  }
+
+  @Test
   public void history_ignoresEmptyText_likeTheLastSpokenCell() {
     LastSpokenTextHolder.setLastSpokenText("");
     LastSpokenTextHolder.setLastSpokenText("   ");

@@ -140,8 +140,9 @@ public class ContextMenuItemClickProcessor {
       pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_SAVED)));
     } else if (itemId == R.id.speech_history) {
-      pipeline.returnFeedback(
+      boolean delivered = pipeline.returnFeedback(
           eventId, Feedback.part().setSpeech(Feedback.Speech.create(SHOW_HISTORY)));
+      LogUtils.d("SpeechHistory", "SHOW_HISTORY dispatched=%s", delivered);
     } else if (itemId == R.id.favorites) {
       pipeline.returnFeedback(eventId, Feedback.part().setSpeech(
           Feedback.Speech.create(Feedback.Speech.Action.SHOW_FAVORITES)));

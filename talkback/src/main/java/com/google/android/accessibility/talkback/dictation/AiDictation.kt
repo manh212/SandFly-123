@@ -97,14 +97,22 @@ class AiDictation(
   @Volatile private var lastSpeechAt = 0L
 
   @Volatile private var speechHeard = false
+  private var lastSilenceLogAt = 0L
+  @Volatile private var lastSpeechLogAt = 0L
   private val autoStop =
     object : Runnable {
       override fun run() {
         if (phase != Phase.RECORDING) return
         val wait = silenceLimitMs(onText != null, speechHeard, DictationSettings.autoStopMs(prefs))
         if (wait <= 0) return
-        val silent = SystemClock.elapsedRealtime() - lastSpeechAt
-        if (silent >= wait) stopRecording() else handler.postDelayed(this, minOf(wait - silent, AUTO_STOP_CHECK_MS))
+        val now = SystemClock.elapsedRealtime()
+        val silent = now - lastSpeechAt
+        if (lastSilenceLogAt == 0L || now - lastSilenceLogAt >= 1_000L || silent >= wait) {
+          LogUtils.d(TAG, "Auto-stop check: silentMs=%d, limitMs=%d, lastSpeechAt=%d, heard=%s", silent, wait, lastSpeechAt, speechHeard)
+          lastSilenceLogAt = now
+        }
+        if (silent >= wait) stopRecording("silence_timeout")
+        else handler.postDelayed(this, minOf(wait - silent, AUTO_STOP_CHECK_MS))
       }
     }
 
@@ -215,6 +223,9 @@ class AiDictation(
     recordingStartedAt = SystemClock.elapsedRealtime()
     lastSpeechAt = recordingStartedAt
     speechHeard = false
+    lastSilenceLogAt = 0L
+    lastSpeechLogAt = 0L
+    LogUtils.d(TAG, "Recording started: engine=%s, startedAt=%d, autoStopMs=%d", used, recordingStartedAt, DictationSettings.autoStopMs(prefs))
     handler.removeCallbacks(autoStop)
     if (silenceLimitMs(onText != null, false, DictationSettings.autoStopMs(prefs)) > 0) {
       handler.postDelayed(autoStop, AUTO_STOP_CHECK_MS)
@@ -228,6 +239,7 @@ class AiDictation(
           onDone = { text ->
             if (request == generation) {
               continuous = null
+              LogUtils.d(TAG, "Recording stopped: reason=recognizer_completed, elapsedMs=%d, lastSpeechAt=%d", SystemClock.elapsedRealtime() - recordingStartedAt, lastSpeechAt)
               phase = Phase.WORKING
               handler.removeCallbacks(autoStop)
               restoreSpeech()
@@ -250,7 +262,7 @@ class AiDictation(
       }
     val recorder =
       AudioCapture(
-        onLimit = { handler.post { if (phase == Phase.RECORDING) stopRecording() } },
+        onLimit = { handler.post { if (phase == Phase.RECORDING) stopRecording("recording_limit_or_failure") } },
         onChunk = session?.let { live -> { pcm -> live.send(pcm) } },
         onSpeech = ::heardSpeech,
       )
@@ -266,11 +278,17 @@ class AiDictation(
   private fun heardSpeech() {
     val now = SystemClock.elapsedRealtime()
     lastSpeechAt = now
-
+    if (lastSpeechLogAt == 0L || now - lastSpeechLogAt >= 1_000L) {
+      LogUtils.d(TAG, "Speech activity: lastSpeechAt=%d, elapsedMs=%d", now, now - recordingStartedAt)
+      lastSpeechLogAt = now
+    }
     if (now - recordingStartedAt >= CHIME_MS) speechHeard = true
   }
 
-  private fun stopRecording() {
+  private fun stopRecording(reason: String = "manual") {
+    if (phase != Phase.RECORDING) return
+    val now = SystemClock.elapsedRealtime()
+    LogUtils.d(TAG, "Recording stopped: reason=%s, elapsedMs=%d, silentMs=%d, lastSpeechAt=%d, engine=%s", reason, now - recordingStartedAt, now - lastSpeechAt, lastSpeechAt, recognition)
     handler.removeCallbacks(autoStop)
     phase = Phase.WORKING
     restoreSpeech()

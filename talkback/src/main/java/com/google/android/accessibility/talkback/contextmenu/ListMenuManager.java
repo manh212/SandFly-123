@@ -77,6 +77,7 @@ import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.input.WindowEventInterpreter.EventInterpretation;
 import com.google.android.accessibility.utils.input.WindowEventInterpreter.WindowEventHandler;
+import com.google.android.accessibility.utils.output.LastSpokenTextHolder;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.accessibility.utils.monitor.ScreenMonitor;
 import com.google.android.accessibility.utils.output.FeedbackItem;
@@ -168,6 +169,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
                 }
                 lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
                 pipeline.returnFeedback(radialMenuEventId, Feedback.focus(CLEAR_CACHED));
+                LastSpokenTextHolder.setMenuSpeechSuppressed(false);
                 clearMenu();
               }
             });
@@ -366,6 +368,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       return;
     }
 
+    LastSpokenTextHolder.setMenuSpeechSuppressed(true);
     if (RadialMenuController.isEnabled(service)) {
       radialMenuEventId = eventId;
       radialMenu.show(title, menu);
@@ -470,13 +473,23 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       } else {
         radialMenu.dismiss();
         lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
+        LastSpokenTextHolder.setMenuSpeechSuppressed(false);
       }
     }
 
     // Perform the action last (i.e. we want to make it almost like we're performing the
     // deferred action with a 0-ms delay).
     if (deferredAction == null) {
-      menuItem.onClickPerformed();
+      if (menuItem.getItemId() == R.id.speech_history && dialogShowing) {
+        new Handler(Looper.getMainLooper())
+            .post(
+                () -> {
+                  LogUtils.d(TAG, "Opening speech history after menu dismissal, menuShowing=%s", isMenuShowing());
+                  menuItem.onClickPerformed();
+                });
+      } else {
+        menuItem.onClickPerformed();
+      }
     } else if (fromRadialMenu) {
       // Focus and windows do not change when the circle menu closes, so run the action after a
       // short delay instead of waiting for them.
@@ -500,6 +513,9 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
           menuShown--;
           if (menuShown == 0) {
             currentDialog = null;
+            if (!radialMenu.isShowing()) {
+              LastSpokenTextHolder.setMenuSpeechSuppressed(false);
+            }
           }
         });
 
@@ -729,6 +745,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
     }
     dismissCurrentDialog();
+    LastSpokenTextHolder.setMenuSpeechSuppressed(false);
     clearMenu();
   }
 
