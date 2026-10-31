@@ -1,43 +1,30 @@
 package com.google.android.accessibility.talkback.screenrecognition
 
 import android.graphics.Rect
-import android.view.accessibility.AccessibilityNodeInfo
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.imagecaption.TesseractOcr
+import com.google.android.accessibility.talkback.screenelements.ScreenElement
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
-import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class ScreenRecognitionTargetsTest {
-  private fun node(bounds: Rect, clickable: Boolean) = AccessibilityNodeInfo.obtain().apply {
-    setBoundsInScreen(bounds)
-    isVisibleToUser = true
-    isEnabled = true
-    isClickable = clickable
-  }
+  @Test fun recognizedButtonsKeepTheirScreenBoundsAndCanBeActivated() {
+    val bounds = Rect(10, 100, 200, 160)
+    val element =
+      ScreenRecognitionElements.from(
+          listOf(RecognizedItem("Save", bounds, false, "button")),
+        )
+        .single()
 
-  @Test fun selectsTheClickableParentOfRecognizedText() {
-    val controller = ScreenRecognitionController(TalkBackService()) {}
-    val active = controller.javaClass.getDeclaredField("active").apply { isAccessible = true }
-    active.setBoolean(controller, true)
-    val generation = controller.javaClass.getDeclaredField("generation").apply { isAccessible = true }.getInt(controller)
-    val root = node(Rect(0, 0, 500, 800), false)
-    val button = node(Rect(10, 100, 200, 160), true)
-    val label = node(Rect(30, 115, 150, 140), false)
-    shadowOf(root).addChild(button)
-    shadowOf(button).addChild(label)
-    val find = controller.javaClass.getDeclaredMethod("findClickTarget", AccessibilityNodeInfo::class.java,
-      Rect::class.java, Int::class.javaPrimitiveType, Long::class.javaPrimitiveType, IntArray::class.java,
-      Int::class.javaPrimitiveType).apply { isAccessible = true }
-    val target = find.invoke(controller, root, Rect(30, 115, 150, 140), 0, Long.MAX_VALUE, intArrayOf(0), generation) as AccessibilityNodeInfo
-    assertEquals(button, target)
-    button.isEnabled = false
-    assertNull(find.invoke(controller, root, Rect(30, 115, 150, 140), 0, Long.MAX_VALUE, intArrayOf(0), generation))
+    assertEquals("Save", element.label)
+    assertEquals(ScreenElement.Role.BUTTON, element.role)
+    assertEquals(bounds, element.bounds)
+    assertTrue(element.isActionable)
   }
 
   @Test fun stoppingForPauseInvalidatesRecognitionWithoutAnnouncing() {
