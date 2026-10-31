@@ -2318,7 +2318,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     dimScreenController.resume();
 
     clipboardHistoryCapture = new ClipboardHistoryCapture(this);
-    ClipboardHistory.init(this);
+    ClipboardHistory.init(getFilesDir());
+    ClipboardHistory.restoreLegacyHistory(this);
     com.google.android.accessibility.talkback.clipboard.FavoriteTexts.init(getFilesDir());
     clipboardHistoryCapture.start();
 

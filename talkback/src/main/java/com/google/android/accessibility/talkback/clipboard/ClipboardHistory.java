@@ -70,9 +70,9 @@ public final class ClipboardHistory {
     }
   }
 
-  public static void init(Context context) {
+  /** Imports entries from the newer preference store into the original file-backed history. */
+  public static void restoreLegacyHistory(Context context) {
     if (context == null) {
-      init((File) null);
       return;
     }
     init(context.getFilesDir());
