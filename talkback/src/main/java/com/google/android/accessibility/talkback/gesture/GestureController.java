@@ -1084,8 +1084,9 @@ public class GestureController {
               eventId, Feedback.part().setSpeech(Feedback.Speech.create(SPELL_LAST)));
     } else if (action.equals(
         service.getString(R.string.shortcut_value_translate_last_spoken_phrase))) {
-      translateCommand.translateLast();
-      result = true;
+      result =
+          pipeline.returnFeedback(
+              eventId, Feedback.part().setSpeech(Feedback.Speech.create(TRANSLATE_LAST)));
     } else if (SandflyAi.getFeatures() != null
         && action.equals(service.getString(R.string.shortcut_value_ai_agent))) {
       SandflyAi.getFeatures().startAgent(service);

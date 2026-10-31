@@ -412,7 +412,6 @@ public class TalkbackMenuProcessor {
     },
     {R.string.pref_show_context_menu_talkback_settings_setting_key, R.id.talkback_settings},
     {R.string.pref_show_context_menu_clipboard_history_setting_key, R.id.clipboard_history},
-    {R.string.pref_show_context_menu_send_feedback_setting_key, R.id.send_feedback},
     {R.string.pref_show_context_menu_tts_settings_setting_key, R.id.tts_settings},
     {R.string.pref_show_context_menu_system_action_setting_key, R.id.window_menu},
 
@@ -581,26 +580,6 @@ public class TalkbackMenuProcessor {
             R.string.pref_show_context_menu_clipboard_history_setting_key,
             R.bool.pref_show_context_menu_clipboard_history_default)) {
       menu.removeItem(R.id.clipboard_history);
-    }
-
-    if (ScreenMonitor.isDeviceLocked(service)
-        || !SettingsUtils.allowLinksOutOfSettings(service)
-        || !showMenuItem(
-            R.string.pref_show_context_menu_send_feedback_setting_key,
-            R.bool.pref_show_context_menu_send_feedback_default)) {
-      menu.removeItem(R.id.send_feedback);
-    }
-
-    // Removes braille display settings if braille display isn't supported, phone is locked, Setup
-    // Wizard isn't completed or the preference of showing item is unchecked.
-    if (!FeatureSupport.supportBrailleDisplay(service)
-        || ScreenMonitor.isDeviceLocked(service)
-        || !SettingsUtils.allowLinksOutOfSettings(service)
-        || FormFactorUtils.isAndroidXr()
-        || !showMenuItem(
-            R.string.pref_show_context_menu_braille_display_settings_setting_key,
-            R.bool.pref_show_context_menu_braille_display_settings_default)) {
-      menu.removeItem(R.id.braille_display_settings);
     }
 
     if (!FeatureFlagReader.enableShowKeyboardShortcutsDialog(service)

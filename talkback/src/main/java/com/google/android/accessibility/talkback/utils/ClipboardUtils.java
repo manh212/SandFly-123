@@ -36,7 +36,9 @@ public final class ClipboardUtils {
       return false;
     }
 
-    return ClipboardHistory.copy(context, text);
+    final ClipboardManager clipboard =
+        (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+    return clipboard != null && copyToClipboard(clipboard, text);
   }
 
   /** Appends {@code text} to the current plain-text clipboard contents. */
