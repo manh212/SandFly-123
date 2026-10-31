@@ -61,7 +61,6 @@
       android:title="@string/title_pref_vibration" />
   <com.google.android.accessibility.talkback.preference.base.PercentSeekBarPreference
       android:defaultValue="@integer/pref_vibration_strength_default"
-      android:dependency="@string/pref_vibration_key"
       android:key="@string/pref_vibration_strength_key"
       android:title="@string/title_pref_vibration_strength" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
