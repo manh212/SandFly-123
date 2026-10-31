@@ -738,10 +738,22 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     clearCurrentNode();
   }
 
+  /** Closes an open circle menu when its preference is switched off. */
+  public void dismissRadialMenu() {
+    if (radialMenu.isShowing()) {
+      dismissAll();
+    } else {
+      // Also clear any pass-through lock left behind by a detached window.
+      radialMenu.dismiss();
+    }
+  }
+
   /** Dismisses all TalkBack menus. */
   public void dismissAll() {
-    if (radialMenu.isShowing()) {
-      radialMenu.dismiss();
+    boolean wasRadialMenuShowing = radialMenu.isShowing();
+    // Always run cleanup, even when the window was removed outside this controller.
+    radialMenu.dismiss();
+    if (wasRadialMenuShowing) {
       lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
     }
     dismissCurrentDialog();
