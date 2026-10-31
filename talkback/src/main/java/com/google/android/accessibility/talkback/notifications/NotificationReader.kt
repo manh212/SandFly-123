@@ -28,6 +28,7 @@ import android.content.pm.PackageManager
 import android.media.AudioAttributes
 import android.media.AudioFocusRequest
 import android.media.AudioManager
+import android.media.AudioManager
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
@@ -117,6 +118,8 @@ object NotificationReader {
   private var languageIdentifier: LanguageIdentifier? = null
   private var schedules: SpokenSchedules? = null
   private var stopwatch: StopwatchEngine? = null
+  private var timerVoice: NotificationVoice? = null
+  private var timerVoiceKey = ""
   /** The voices of the voice profiles that notifications are read with, by profile ID. */
   private val voices = HashMap<String, NotificationVoice>()
   private var isSandFlySpeaking: () -> Boolean = { false }
@@ -262,9 +265,9 @@ object NotificationReader {
       ContextCompat.RECEIVER_NOT_EXPORTED,
     )
     SharedPreferencesUtils.getSharedPreferences(app).registerOnSharedPreferenceChangeListener(settingsListener)
-    schedules = SpokenSchedules(app) { text, interrupt -> announce(text, interrupt) }.also { it.start() }
+    schedules = SpokenSchedules(app) { text, interrupt -> announceTimer(text, interrupt) }.also { it.start() }
     stopwatch =
-      StopwatchEngine(app, { text, interrupt -> announce(text, interrupt) }) { builder ->
+      StopwatchEngine(app, { text, interrupt -> announceTimer(text, interrupt) }) { builder ->
           this.feedback?.returnFeedback(EVENT_ID_UNTRACKED, builder)
         }
         .also { it.start() }
@@ -282,6 +285,9 @@ object NotificationReader {
     schedules = null
     stopwatch?.stop()
     stopwatch = null
+    timerVoice?.shutdown()
+    timerVoice = null
+    timerVoiceKey = ""
     voices.values.forEach { it.shutdown() }
     voices.clear()
     isSandFlySpeaking = { false }
@@ -1016,6 +1022,38 @@ object NotificationReader {
    * Says [text] in the notification voice, or SandFly's when there is none: summaries and time
    * announcements.
    */
+  /** Reads timer and stopwatch announcements with their own selected profile and audio stream. */
+  private fun announceTimer(text: CharSequence, interrupt: Boolean) {
+    val ctx = context ?: return
+    val prefs = SharedPreferencesUtils.getSharedPreferences(ctx)
+    val profileId = com.google.android.accessibility.talkback.timer.TimerSpeechSettings.profileId(prefs)
+    val stream = com.google.android.accessibility.talkback.timer.TimerSpeechSettings.stream(prefs)
+    if (profileId.isEmpty() && stream == AudioManager.STREAM_ACCESSIBILITY) {
+      timerVoice?.shutdown()
+      timerVoice = null
+      timerVoiceKey = ""
+      announce(text, interrupt)
+      return
+    }
+    val profile = VoiceProfiles.read(prefs, profileId)
+    val key = "${profileId}:${stream}"
+    if (timerVoice == null || timerVoiceKey != key) {
+      timerVoice?.shutdown()
+      timerVoice = NotificationVoice(ctx, stream)
+      timerVoiceKey = key
+    }
+    val selectedVoice = timerVoice ?: return
+    if (selectedVoice.currentProfile != profile) selectedVoice.use(profile)
+    val settings = settings(ctx)
+    val overMedia = settings.media != MediaBehavior.SKIP
+    val duringCalls = settings.duringCalls
+    whenSandFlyIsQuiet(SystemClock.uptimeMillis()) {
+      if (!isSilenced(overMedia, duringCalls)) {
+        selectedVoice.speak(text, interrupt, null, null)
+      }
+    }
+  }
+
   private fun announce(text: CharSequence, interrupt: Boolean) {
     val context = context ?: return
     val settings = settings(context)

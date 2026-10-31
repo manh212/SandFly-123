@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.notifications
 
 import android.content.Context
+import android.media.AudioManager
 import android.media.AudioAttributes
 import android.os.Bundle
 import android.os.Handler
@@ -44,7 +45,10 @@ import java.util.Locale
  * connection doesn't come back. Text the engine fails, or takes without starting to say it, is said
  * in SandFly's voice instead, and text it stops saying without reporting it is ended.
  */
-class NotificationVoice(private val context: Context) {
+class NotificationVoice(
+  private val context: Context,
+  private val audioStream: Int = AudioManager.STREAM_ACCESSIBILITY,
+) {
   /** Told when an utterance starts and when it ends, on the main thread. */
   interface Listener {
     fun onStart()
@@ -182,12 +186,13 @@ class NotificationVoice(private val context: Context) {
       return
     }
     ready = true
-    tts.setAudioAttributes(
-      AudioAttributes.Builder()
-        .setUsage(FailoverTextToSpeech.speechUsage(context))
-        .setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
-        .build()
-    )
+    val attributes = AudioAttributes.Builder().setContentType(AudioAttributes.CONTENT_TYPE_SPEECH)
+    when (audioStream) {
+      AudioManager.STREAM_MUSIC -> attributes.setUsage(AudioAttributes.USAGE_MEDIA)
+      AudioManager.STREAM_RING -> attributes.setLegacyStreamType(AudioManager.STREAM_RING)
+      else -> attributes.setUsage(FailoverTextToSpeech.speechUsage(context))
+    }
+    tts.setAudioAttributes(attributes.build())
     tts.setOnUtteranceProgressListener(
       object : UtteranceProgressListener() {
         override fun onStart(utteranceId: String) {

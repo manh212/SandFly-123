@@ -20,6 +20,9 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.preference.ListPreference
 import androidx.preference.PreferenceGroup
+import com.google.android.accessibility.talkback.speech.VoiceProfileNames
+import com.google.android.accessibility.utils.output.VoiceProfiles
+import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.notifications.NotificationCodeFragment
 import com.google.android.accessibility.talkback.notifications.NotificationXmlFragment
@@ -34,6 +37,23 @@ class TimerSettingsFragment :
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
+    val prefs = SharedPreferencesUtils.getSharedPreferences(requireContext())
+    findPreference<ListPreference>(TimerSpeechSettings.KEY_PROFILE)?.let { voiceChoice ->
+      val ids = VoiceProfiles.ids(prefs)
+      voiceChoice.entries =
+        (listOf(getString(R.string.timer_voice_default)) +
+          ids.map { VoiceProfileNames.nameOf(requireContext(), prefs, it) }).toTypedArray()
+      voiceChoice.entryValues = (listOf("") + ids).toTypedArray()
+      voiceChoice.value = TimerSpeechSettings.profileId(prefs)
+      voiceChoice.summary = voiceChoice.entry ?: getString(R.string.timer_voice_default)
+      voiceChoice.setOnPreferenceChangeListener { preference, value ->
+        val id = value as String
+        preference.summary =
+          if (id.isEmpty()) getString(R.string.timer_voice_default)
+          else VoiceProfileNames.nameOf(requireContext(), prefs, id)
+        true
+      }
+    }
     val interval = findPreference<ListPreference>(Stopwatch.KEY_INTERVAL_MINUTES) ?: return
     interval.entries =
       Stopwatch.INTERVAL_CHOICES

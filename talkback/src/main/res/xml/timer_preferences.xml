@@ -14,6 +14,21 @@
         android:key="pref_notification_clock_format"
         android:title="@string/notification_clock_format_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/timer_speech_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:key="pref_timer_voice_profile"
+        android:defaultValue=""
+        android:title="@string/timer_voice_title"
+        android:dialogTitle="@string/timer_voice_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:key="pref_timer_audio_stream"
+        android:defaultValue="accessibility"
+        android:title="@string/timer_stream_title"
+        android:dialogTitle="@string/timer_stream_title"
+        android:entries="@array/timer_stream_entries"
+        android:entryValues="@array/timer_stream_values"
+        android:summary="%s" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/stopwatch_title">
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="true"
