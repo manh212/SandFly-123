@@ -194,11 +194,11 @@ class DirectTouchControllerTest {
     // that look alone turns direct touch on for the game; the shade changes keep their counts.
     assertTranscript(
       "region [0,80][1080,2220] complex=false",
-      "say \"Direct touch on\"",
+      say(R.string.direct_touch_on),
       "region none",
-      "say \"Direct touch off\"",
+      say(R.string.direct_touch_off),
       "region [0,80][1080,2220] complex=false",
-      "say \"Direct touch on\"",
+      say(R.string.direct_touch_on),
       "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
     )
@@ -218,7 +218,7 @@ class DirectTouchControllerTest {
     // that look alone turns direct touch on; the toast changes that follow keep their counts.
     assertTranscript(
       "region [0,80][1080,2220] complex=false",
-      "say \"Direct touch on\"",
+      say(R.string.direct_touch_on),
       "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
       "region [0,80][1080,2220] complex=false",
@@ -371,6 +371,8 @@ class DirectTouchControllerTest {
   private fun assertTranscript(vararg expected: String) {
     assertEquals(expected.joinToString("\n"), transcript.joinToString("\n"))
   }
+
+  private fun say(stringRes: Int) = "say \"${service.getString(stringRes)}\""
 
   private fun describe(feedback: Feedback): String {
     val part = feedback.failovers().first()

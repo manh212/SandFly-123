@@ -56,6 +56,8 @@
   <string name="menu_gesture_take_focus_screenshot_menu">Chụp vùng tiêu điểm</string>
   <string name="menu_gesture_task_assistant_menu">Trợ lý tác vụ</string>
   <string name="menu_gesture_screen_recognition_menu">Nhận dạng màn hình</string>
+  <string name="menu_gesture_recognize_screen_menu">Nhận dạng màn hình qua AI</string>
+  <string name="menu_gesture_screen_recognition_app_menu">Nhận dạng nội dung ứng dụng qua AI</string>
   <string name="menu_gesture_subtitles_menu">Bật hoặc tắt đọc phụ đề</string>
   <string name="menu_gesture_subtitle_find_again_menu">Tìm lại vùng phụ đề</string>
   <string name="menu_gesture_script_command">Mở các lệnh kịch bản</string>

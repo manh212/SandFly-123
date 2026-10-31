@@ -61,7 +61,7 @@ public class ScreenRecognitionController {
   private static final int MAX_CONTROL_NODES = 2000;
 
   private final TalkBackService service;
-  private final ScreenRecognitionAi screenRecognitionAi;
+  @Nullable private ScreenRecognitionAi screenRecognitionAi;
   private final Announcer announcer;
   private final Handler mainHandler = new Handler(Looper.getMainLooper());
   private final ExecutorService nodeTraversalExecutor =
@@ -85,7 +85,13 @@ public class ScreenRecognitionController {
   public ScreenRecognitionController(TalkBackService service, Announcer announcer) {
     this.service = service;
     this.announcer = announcer;
-    this.screenRecognitionAi = new ScreenRecognitionAi(service);
+  }
+
+  private ScreenRecognitionAi screenRecognitionAi() {
+    if (screenRecognitionAi == null) {
+      screenRecognitionAi = new ScreenRecognitionAi(service);
+    }
+    return screenRecognitionAi;
   }
 
   public void toggle() {
@@ -179,7 +185,7 @@ public class ScreenRecognitionController {
                     finishFailure();
                     return;
                   }
-                  screenRecognitionAi.recognize(
+                  screenRecognitionAi().recognize(
                       bytes.toByteArray(),
                       captureWidth,
                       captureHeight,
@@ -532,7 +538,9 @@ public class ScreenRecognitionController {
     boolean wasActive = active;
     active = false;
     generation++;
-    screenRecognitionAi.cancel();
+    if (screenRecognitionAi != null) {
+      screenRecognitionAi.cancel();
+    }
     cancelPendingRefresh();
     hide();
     if (wasActive && announce) {

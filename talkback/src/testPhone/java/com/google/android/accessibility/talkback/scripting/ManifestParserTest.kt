@@ -269,9 +269,13 @@ class ManifestParserTest {
       "Unknown gesture wiggle" in
         rejects(""",$permission,"commands":[{"id":"go","title":"Go","gesture":"wiggle"}]""")
     )
-    assertTrue(
-      "must start with sf" in
-        rejects(""",$permission,"commands":[{"id":"go","title":"Go","keys":"shift+n"}]""")
+    val plainKeys =
+      parse(""",$permission,"commands":[{"id":"go","title":"Go","keys":"shift+n"}]""")
+        .commands[0]
+        .keys
+    assertEquals(
+      listOf(ScriptInput.Keys(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_N, plain = true)),
+      plainKeys,
     )
 
     val keys =

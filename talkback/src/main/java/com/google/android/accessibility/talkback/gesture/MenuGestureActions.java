@@ -72,6 +72,8 @@ public final class MenuGestureActions {
       new Entry(R.id.take_focus_screenshot_menu, R.string.menu_gesture_take_focus_screenshot_menu, "take_focus_screenshot_menu", R.string.shortcut_value_take_focus_screenshot),
       new Entry(R.id.task_assistant_menu, R.string.menu_gesture_task_assistant_menu, "task_assistant_menu", R.string.shortcut_value_task_assistant),
       new Entry(R.id.screen_recognition_menu, R.string.menu_gesture_screen_recognition_menu, "screen_recognition_menu", R.string.shortcut_value_screen_recognition),
+      new Entry(R.id.recognize_screen_menu, R.string.menu_gesture_recognize_screen_menu, "recognize_screen_menu", 0),
+      new Entry(R.id.screen_recognition_app_menu, R.string.menu_gesture_screen_recognition_app_menu, "screen_recognition_app_menu", 0),
       new Entry(R.id.subtitles_menu, R.string.menu_gesture_subtitles_menu, "subtitles_menu", R.string.shortcut_value_subtitles),
       new Entry(R.id.subtitle_find_again_menu, R.string.menu_gesture_subtitle_find_again_menu, "subtitle_find_again_menu", R.string.shortcut_value_subtitle_find_again),
       new Entry(R.id.script_command, R.string.menu_gesture_script_command, "script_command", 0)

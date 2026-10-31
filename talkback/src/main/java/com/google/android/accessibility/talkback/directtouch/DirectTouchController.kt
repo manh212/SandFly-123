@@ -261,15 +261,19 @@ class DirectTouchController(
       val shouldBeActive = mainPackage != null && shouldBeActive(windows, mainPackage)
       val navBarDirect = isNavBarDirect()
       val keyboards = directKeyboards(windows)
+      val wasActive = active
       if (shouldBeActive) {
         partRegionSent = false
         applyRegion(windows, directTyping, navBarDirect, keyboards)
+      } else {
+        if (wasActive) partRegionSent = true
+        updatePartRegion(windows, navBarDirect, keyboards)
       }
+      silentKeyboardIds =
+        if (isSilentDirectTyping()) keyboards.mapTo(mutableSetOf()) { it.id } else emptySet()
       if (shouldBeActive != active) {
         active = shouldBeActive
-        if (!active) {
-          updatePartRegion(windows, navBarDirect, keyboards)
-        }
+        announce(active)
       }
     } finally {
       evaluating = false

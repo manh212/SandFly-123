@@ -60,7 +60,10 @@ class ScriptKeysTest {
 
   @Test
   fun onlyTheFirstKeysIncludeTheSandFlyModifier() {
-    rejects("shift+n")
+    assertEquals(
+      ScriptInput.Keys(KeyEvent.META_SHIFT_ON, KeyEvent.KEYCODE_N, plain = true),
+      ScriptInput.parseKeys("shift+n"),
+    )
     rejects("sf+t, sf+s")
   }
 

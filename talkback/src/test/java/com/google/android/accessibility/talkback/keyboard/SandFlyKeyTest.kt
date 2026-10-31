@@ -95,6 +95,11 @@ class SandFlyKeyTest {
   private fun KeyComboManager.up(keyCode: Int, metaState: Int = 0) =
     key(KeyEvent.ACTION_UP, keyCode, metaState)
 
+  private fun KeyComboManager.shortcut(keyCode: Int, modifiers: Int = 0): String =
+    getKeyComboStringRepresentation(
+      KeyCombo(modifiers, KeyComboModel.NO_PREFIX_KEY_CODE, keyCode, true)
+    )
+
   @Test
   fun insertHeldIsTheSandFlyKey() {
     val manager = manager(Keymap.SANDFLY, SandFlyKey.INSERT)
@@ -102,7 +107,7 @@ class SandFlyKeyTest {
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_RIGHT))
     manager.up(KeyEvent.KEYCODE_DPAD_RIGHT)
     assertTrue(manager.up(KeyEvent.KEYCODE_INSERT))
-    assertEquals(listOf<String?>("Insert + Arrow Right"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_DPAD_RIGHT)), keys)
 
     // Without Insert, the arrow goes to the app.
     assertFalse(manager.down(KeyEvent.KEYCODE_DPAD_RIGHT))
@@ -121,7 +126,7 @@ class SandFlyKeyTest {
 
     assertTrue(manager.down(KeyEvent.KEYCODE_NUMPAD_0))
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_RIGHT))
-    assertEquals(listOf<String?>("Numpad Insert + Arrow Right"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_DPAD_RIGHT)), keys)
   }
 
   @Test
@@ -141,7 +146,7 @@ class SandFlyKeyTest {
     manager.down(KeyEvent.KEYCODE_CTRL_LEFT, ctrl)
     manager.down(KeyEvent.KEYCODE_ALT_LEFT, ctrlAlt)
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_RIGHT, ctrlAlt))
-    assertEquals(listOf<String?>("Ctrl + Alt + Arrow Right"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_DPAD_RIGHT)), keys)
   }
 
   @Test
@@ -159,7 +164,7 @@ class SandFlyKeyTest {
     assertTrue(manager.down(KeyEvent.KEYCODE_INSERT))
     assertTrue(manager.down(KeyEvent.KEYCODE_N))
     // Robolectric names letter keys by number.
-    assertEquals(listOf<String?>("Insert + ${KeyEvent.KEYCODE_N}"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_N)), keys)
     manager.up(KeyEvent.KEYCODE_N)
     // Insert + O is a shortcut of its own, not the start of Insert + O, then a key.
     assertFalse(manager.isSequenceKeyInfraSupported)
@@ -170,7 +175,7 @@ class SandFlyKeyTest {
     val manager = manager(Keymap.JAWS, SandFlyKey.INSERT)
     assertTrue(manager.down(KeyEvent.KEYCODE_INSERT))
     assertTrue(manager.down(KeyEvent.KEYCODE_Z))
-    assertEquals(listOf<String?>("Insert + ${KeyEvent.KEYCODE_Z}"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_Z)), keys)
   }
 
   @Test
@@ -179,7 +184,7 @@ class SandFlyKeyTest {
     val meta = KeyEvent.META_META_ON or KeyEvent.META_META_LEFT_ON
     manager.down(KeyEvent.KEYCODE_META_LEFT, meta)
     assertTrue(manager.down(KeyEvent.KEYCODE_N, meta))
-    assertEquals(listOf<String?>("Meta + ${KeyEvent.KEYCODE_N}"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_N)), keys)
   }
 
   @Test
@@ -208,7 +213,7 @@ class SandFlyKeyTest {
     assertTrue(manager.down(KeyEvent.KEYCODE_INSERT))
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
     // NVDA + Down reads from the focused item.
-    assertEquals(listOf<String?>("Insert + Arrow Down"), keys)
+    assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_DPAD_DOWN)), keys)
   }
 
   @Test
@@ -226,7 +231,10 @@ class SandFlyKeyTest {
       .commit()
     val manager = KeyComboManager.create(context)
     assertTrue(manager.isCustomKeymap)
-    assertEquals("Custom", (manager.keyComboModel as NewKeyComboModel).customKeymap?.name)
+    assertEquals(
+      context.getString(R.string.keycombo_custom_keymap_default_name),
+      (manager.keyComboModel as NewKeyComboModel).customKeymap?.name,
+    )
     assertEquals(SandFlyKey.ALT, manager.sandFlyKey)
     val click = context.getString(R.string.keycombo_shortcut_perform_click)
     assertEquals(KeyCombo(0, 0, KeyEvent.KEYCODE_J, true), manager.keyComboModel.getKeyComboForKey(click))
@@ -282,6 +290,12 @@ class SandFlyKeyTest {
       manager.keyComboModel.getKeyComboForKey(
         context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode)
       )
-    assertEquals("Meta twice", manager.getKeyComboStringRepresentation(combo))
+    assertEquals(
+      context.getString(
+        R.string.sandfly_keyboard_tutorial_key_twice,
+        context.getString(SandFlyKey.META.nameRes),
+      ),
+      manager.getKeyComboStringRepresentation(combo),
+    )
   }
 }

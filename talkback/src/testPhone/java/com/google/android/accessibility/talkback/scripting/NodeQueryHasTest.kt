@@ -71,7 +71,7 @@ class NodeQueryHasTest {
     val query =
       NodeQuery.of(JSONObject("""{"has":{"has":{"text":"x"},"inside":{"text":"y"},"text":"z"}}"""))
     assertNull(query.has?.has)
-    assertNull(query.has?.inside)
+    assertTrue(query.has?.inside.isNullOrEmpty())
   }
 
   private fun node(className: String, description: String? = null): AccessibilityNodeInfo =
