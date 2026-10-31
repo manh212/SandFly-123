@@ -638,6 +638,8 @@ public class GestureController {
               }
             });
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_translate_dictation))) {
+      result = dictation.startTranslation(findEditorTarget());
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_input))) {
       AccessibilityNodeInfoCompat editor = findEditorTarget();
       result = FeatureFlagReader.enableVoiceDictationShortcut(service)

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="dictation_ai_emoji_title" tools:ignore="MissingTranslation">Tự thêm biểu tượng cảm xúc bằng AI trực tuyến</string>
+  <string name="dictation_ai_emoji_summary" tools:ignore="MissingTranslation">Khi nhập bằng giọng nói, AI trực tuyến có thể thêm emoji phù hợp với nội dung. Mặc định tắt; không áp dụng với mô hình AI trên thiết bị hoặc trường mật khẩu.</string>
+  <string name="dictation_translation_category" tools:ignore="MissingTranslation">Chế độ dịch khi nhập bằng giọng nói</string>
+  <string name="dictation_translation_source" tools:ignore="MissingTranslation">Ngôn ngữ nguồn</string>
+  <string name="dictation_translation_target" tools:ignore="MissingTranslation">Ngôn ngữ đích</string>
+  <string name="dictation_translation_note" tools:ignore="MissingTranslation">Gán hành động “Dịch bằng giọng nói” trong phần Cử chỉ. Cần kết nối Internet và dịch vụ AI trực tuyến đã cấu hình. Nhập bằng giọng nói thông thường sẽ không tự dịch.</string>
+  <string name="shortcut_translate_dictation" tools:ignore="MissingTranslation">Dịch bằng giọng nói</string>
+  <string name="shortcut_value_translate_dictation" translatable="false">translate_dictation</string>
+  <string name="dictation_translation_password" tools:ignore="MissingTranslation">Không thể dịch bằng giọng nói trong trường mật khẩu.</string>
+  <string name="dictation_translation_needs_online_ai" tools:ignore="MissingTranslation">Cần cấu hình AI trực tuyến để dịch bằng giọng nói.</string>
+  <string name="dictation_translation_failed" tools:ignore="MissingTranslation">Không dịch được giọng nói. Nội dung gốc chưa được nhập.</string>
+  <string-array name="dictation_translation_language_names">
+    <item>Tiếng Việt</item>
+    <item>Tiếng Anh</item>
+    <item>Tiếng Pháp</item>
+    <item>Tiếng Tây Ban Nha</item>
+    <item>Tiếng Đức</item>
+    <item>Tiếng Nhật</item>
+    <item>Tiếng Hàn</item>
+    <item>Tiếng Trung</item>
+    <item>Tiếng Thái</item>
+    <item>Tiếng Indonesia</item>
+    <item>Tiếng Nga</item>
+    <item>Tiếng Bồ Đào Nha</item>
+    <item>Tiếng Hindi</item>
+    <item>Tiếng Ả Rập</item>
+  </string-array>
+  <string-array name="dictation_translation_language_codes" translatable="false">
+    <item>vi</item>
+    <item>en</item>
+    <item>fr</item>
+    <item>es</item>
+    <item>de</item>
+    <item>ja</item>
+    <item>ko</item>
+    <item>zh</item>
+    <item>th</item>
+    <item>id</item>
+    <item>ru</item>
+    <item>pt</item>
+    <item>hi</item>
+    <item>ar</item>
+  </string-array>
+</resources>

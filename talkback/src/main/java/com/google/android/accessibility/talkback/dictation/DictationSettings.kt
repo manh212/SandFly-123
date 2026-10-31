@@ -37,6 +37,23 @@ object DictationSettings {
   const val PREF_RAMBLER_LIVE = "pref_dictation_rambler_live"
   const val PREF_AUTO_STOP_MS = "pref_dictation_auto_stop_ms"
   const val PREF_SPEECH_THRESHOLD = "pref_dictation_speech_threshold"
+  const val PREF_AI_EMOJI = "pref_dictation_online_ai_emoji"
+  const val PREF_TRANSLATION_SOURCE = "pref_dictation_translation_source"
+  const val PREF_TRANSLATION_TARGET = "pref_dictation_translation_target"
+
+  private val TRANSLATION_LANGUAGES =
+    setOf("vi", "en", "fr", "es", "de", "ja", "ko", "zh", "th", "id", "ru", "pt", "hi", "ar")
+
+  fun translationSource(prefs: SharedPreferences): String =
+    prefs.getString(PREF_TRANSLATION_SOURCE, "vi")
+      ?.takeIf { it in TRANSLATION_LANGUAGES } ?: "vi"
+
+  fun translationTarget(prefs: SharedPreferences): String =
+    prefs.getString(PREF_TRANSLATION_TARGET, "en")
+      ?.takeIf { it in TRANSLATION_LANGUAGES } ?: "en"
+
+  fun addOnlineEmoji(prefs: SharedPreferences): Boolean =
+    prefs.getBoolean(PREF_AI_EMOJI, false)
 
   /** The AI service of automatic descriptions corrects dictation too. */
   const val AI_SAME = "same"
@@ -161,6 +178,15 @@ object DictationSettings {
     if (chosen == AI_DEVICE) return AI_DEVICE.takeIf { LocalModelManager.get(context).isReady() }
     val provider = AiProvider.of(chosen) ?: return null
     return provider.id.takeIf { provider != AiProvider.NONE && provider.isReady(prefs) }
+  }
+
+  /** A cloud AI provider for translation and opt-in emoji rewriting; never uses on-device AI. */
+  fun onlineService(prefs: SharedPreferences): String? {
+    val chosen = AiProvider.of(aiService(prefs))
+    if (chosen != null && chosen != AiProvider.NONE && chosen.isReady(prefs)) return chosen.id
+    val active = AiProvider.active(prefs)
+    if (active != AiProvider.NONE && active.isReady(prefs)) return active.id
+    return AiProvider.entries.firstOrNull { it != AiProvider.NONE && it.isReady(prefs) }?.id
   }
 
   /** The languages of Gemini 3.5 Transcribe, by ISO 639 code as Java's [Locale] gives them. */

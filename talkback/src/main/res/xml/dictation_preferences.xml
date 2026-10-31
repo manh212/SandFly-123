@@ -45,6 +45,38 @@
         android:key="pref_dictation_ai_service_choice"
         android:persistent="false"
         android:title="@string/title_pref_dictation_ai_service" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_dictation_online_ai_emoji"
+        android:title="@string/dictation_ai_emoji_title"
+        android:summary="@string/dictation_ai_emoji_summary" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="pref_dictation_translation"
+      android:order="6"
+      android:title="@string/dictation_translation_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:key="pref_dictation_translation_source"
+        android:defaultValue="vi"
+        android:title="@string/dictation_translation_source"
+        android:dialogTitle="@string/dictation_translation_source"
+        android:entries="@array/dictation_translation_language_names"
+        android:entryValues="@array/dictation_translation_language_codes"
+        android:summary="%s" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:key="pref_dictation_translation_target"
+        android:defaultValue="en"
+        android:title="@string/dictation_translation_target"
+        android:dialogTitle="@string/dictation_translation_target"
+        android:entries="@array/dictation_translation_language_names"
+        android:entryValues="@array/dictation_translation_language_codes"
+        android:summary="%s" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_dictation_translation_note"
+        android:persistent="false"
+        android:selectable="false"
+        android:title="@string/dictation_translation_note" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
 </PreferenceScreen>

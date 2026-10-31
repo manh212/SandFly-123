@@ -43,6 +43,7 @@ internal class ContinuousRecognition(
 
   private val onSpeech: () -> Unit = {},
   private val speechLevelMarginDb: Float = 6.0f,
+  private val localeTag: String = Locale.getDefault().toLanguageTag(),
 ) : RecognitionListener {
   private var recognizer: SpeechRecognizer? = null
   private val parts = mutableListOf<String>()
@@ -75,6 +76,7 @@ internal class ContinuousRecognition(
         .putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, context.packageName)
         .putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
         .putExtra(RecognizerIntent.EXTRA_PARTIAL_RESULTS, true)
+        .putExtra(RecognizerIntent.EXTRA_LANGUAGE, localeTag)
         // Asks for long pauses before the recognizer ends; not every recognizer follows it.
         .putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_COMPLETE_SILENCE_LENGTH_MILLIS, PAUSE_MS)
         .putExtra(RecognizerIntent.EXTRA_SPEECH_INPUT_POSSIBLY_COMPLETE_SILENCE_LENGTH_MILLIS, PAUSE_MS)
@@ -82,8 +84,7 @@ internal class ContinuousRecognition(
       // On the phone, with punctuation and capital letters where the recognizer can add them.
       intent
         .putExtra(RecognizerIntent.EXTRA_PREFER_OFFLINE, true)
-        .putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault().toLanguageTag())
-      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         intent.putExtra(
           RecognizerIntent.EXTRA_ENABLE_FORMATTING,
           RecognizerIntent.FORMATTING_OPTIMIZE_QUALITY,
