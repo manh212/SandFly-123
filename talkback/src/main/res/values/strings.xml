@@ -2047,9 +2047,9 @@
     <!-- Label for the shortcut that plays/pauses or start/stop voice input [CHAR_LIMIT=90]-->
     <string name="shortcut_media_control_or_voice_input">Play or pause media, start or end Gboard voice input</string>
     <!-- Label for the shortcut that turns up the volume. [CHAR_LIMIT=60]-->
-    <string name="shortcut_increase_volume">Increase volume</string>
+    <string name="shortcut_increase_volume">Tăng âm lượng trợ năng</string>
     <!-- Label for the shortcut that turns down the volume. [CHAR_LIMIT=60]-->
-    <string name="shortcut_decrease_volume">Decrease volume</string>
+    <string name="shortcut_decrease_volume">Giảm âm lượng trợ năng</string>
     <!-- Label for the shortcut that raises the media volume a step. [CHAR_LIMIT=40] -->
     <string name="shortcut_increase_media_volume">Increase media volume</string>
     <!-- Label for the shortcut that lowers the media volume a step. [CHAR_LIMIT=40] -->

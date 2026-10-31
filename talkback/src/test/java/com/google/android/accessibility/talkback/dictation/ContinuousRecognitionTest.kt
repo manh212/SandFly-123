@@ -31,10 +31,14 @@ class ContinuousRecognitionTest {
   fun dbfsThresholdControlsPcmSpeechSensitivity() {
     val sensitive = AudioSpeechDetector(-50.0)
     val strict = AudioSpeechDetector(-25.0)
+    repeat(10) {
+      assertFalse(sensitive.isSpeechLevel(100.0))
+      assertFalse(strict.isSpeechLevel(100.0))
+    }
+    assertFalse(sensitive.isSpeechLevel(328.0))
     assertFalse(sensitive.isSpeechLevel(328.0))
     assertTrue(sensitive.isSpeechLevel(328.0))
-    assertFalse(strict.isSpeechLevel(328.0))
-    assertFalse(strict.isSpeechLevel(328.0))
+    repeat(3) { assertFalse(strict.isSpeechLevel(328.0)) }
     assertFalse(sensitive.isSpeechLevel(0.0))
   }
 

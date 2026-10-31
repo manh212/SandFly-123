@@ -24,6 +24,7 @@ import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import kotlin.math.abs
 import kotlin.math.log10
 import kotlin.math.sqrt
 
@@ -210,15 +211,30 @@ class AudioCapture(
 }
 
 internal class AudioSpeechDetector(private val thresholdDbfs: Double = -48.0) {
+  private var noiseFloor = 0.0
+  private var previousLevel = 0.0
   private var loudFrames = 0
+  private var steadyFrames = 0
 
   fun isSpeechLevel(level: Double): Boolean {
     if (!level.isFinite() || level <= 0.0) {
       loudFrames = 0
+      steadyFrames = 0
+      return false
+    }
+    if (noiseFloor == 0.0) {
+      noiseFloor = maxOf(level, 1.0)
+      previousLevel = level
       return false
     }
     val dbfs = 20.0 * log10(level / 32768.0)
-    loudFrames = if (dbfs >= thresholdDbfs) (loudFrames + 1).coerceAtMost(2) else 0
-    return loudFrames >= 2
+    val loud = dbfs >= thresholdDbfs && level > maxOf(noiseFloor * 3.0, 300.0)
+    val steady = abs(level - previousLevel) < maxOf(80.0, previousLevel * 0.12)
+    loudFrames = if (loud) loudFrames + 1 else 0
+    steadyFrames = if (loud && steady) steadyFrames + 1 else 0
+    val adaptation = if (!loud || steadyFrames >= 4) 0.2 else 0.01
+    noiseFloor += (level - noiseFloor) * adaptation
+    previousLevel = level
+    return loudFrames >= 3 && steadyFrames < 4
   }
 }

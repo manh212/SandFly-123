@@ -19,6 +19,10 @@ package com.google.android.accessibility.talkback.preference.base
 import android.content.Context
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.SearchView
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import androidx.annotation.StringRes
@@ -64,6 +68,8 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
   private var fullOrder: List<String> = emptyList()
   private lateinit var currentCategory: AccessibilitySuitePreferenceCategory
   private val groups = ArrayList<AccessibilitySuitePreferenceCategory>()
+  private var searchQuery = ""
+  private var searchView: SearchView? = null
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
@@ -161,6 +167,93 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
       getString(R.string.category_collapsed),
       getString(R.string.category_expanded),
     )
+    screen.addPreference(
+      Preference(context).apply {
+        key = "${orderKey}_empty_search"
+        title = getString(R.string.menu_item_search_empty)
+        isSelectable = false
+        isVisible = false
+      }
+    )
+  }
+
+  override fun onCreateView(
+    inflater: LayoutInflater,
+    container: ViewGroup?,
+    savedInstanceState: Bundle?,
+  ): View {
+    val preferences = super.onCreateView(inflater, container, savedInstanceState)
+    if (FormFactorUtils.isAndroidWear()) return preferences
+    searchQuery = savedInstanceState?.getString("menu_item_search_query") ?: searchQuery
+    val wrapper = LinearLayout(requireContext()).apply { orientation = LinearLayout.VERTICAL }
+    val search =
+      SearchView(requireContext()).apply {
+        isIconifiedByDefault = false
+        queryHint = getString(R.string.menu_item_search_hint)
+        setQuery(searchQuery, false)
+        clearFocus()
+        setOnQueryTextListener(
+          object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+              clearFocus()
+              return true
+            }
+
+            override fun onQueryTextChange(query: String): Boolean {
+              searchQuery = query
+              filterItems()
+              return true
+            }
+          }
+        )
+      }
+    searchView = search
+    wrapper.addView(
+      search,
+      LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT),
+    )
+    wrapper.addView(
+      preferences,
+      LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 0, 1),
+    )
+    filterItems()
+    return wrapper
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    super.onSaveInstanceState(outState)
+    outState.putString("menu_item_search_query", searchQuery)
+  }
+
+  override fun onDestroyView() {
+    searchView = null
+    super.onDestroyView()
+  }
+
+  private fun filterItems() {
+    if (!::currentCategory.isInitialized) return
+    val searching = SearchMatcher.normalize(searchQuery).isNotEmpty()
+    for (index in 0 until preferenceScreen.preferenceCount) {
+      val category = preferenceScreen.getPreference(index)
+      if (category !is PreferenceGroup) continue
+      var matches = 0
+      for (rowIndex in 0 until category.preferenceCount) {
+        val row = category.getPreference(rowIndex)
+        val visible =
+          !searching || SearchMatcher.matches(searchQuery, "${row.title} ${row.summary ?: ""}")
+        row.isVisible = visible
+        if (visible) matches++
+      }
+      category.isVisible = !searching || matches > 0
+      if (searching && category is AccessibilitySuitePreferenceCategory) {
+        category.setCollapsed(false)
+      }
+    }
+    preferenceScreen.findPreference<Preference>("${orderKey}_empty_search")?.isVisible =
+      searching && (0 until preferenceScreen.preferenceCount).none {
+        val category = preferenceScreen.getPreference(it)
+        category is PreferenceGroup && category.isVisible
+      }
   }
 
   private fun title(key: String): CharSequence = items[key]?.title ?: key
@@ -180,9 +273,13 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
     onMembershipChanged(item.key, true)
     addRow(currentCategory, CurrentRow(requireContext(), item.key, current.size - 1))
     val announcement = getString(R.string.quick_settings_added, item.title)
+    filterItems()
 
     val next = group?.takeIf { it.preferenceCount > 0 }?.getPreference(minOf(index, group.preferenceCount - 1))
-    focusAfterChange(next ?: group, announcement)
+    focusAfterChange(
+      if (searchQuery.isNotBlank()) currentCategory.findPreference(rowKey(item.key)) else next ?: group,
+      announcement,
+    )
   }
 
   private fun remove(key: String) {
@@ -202,11 +299,19 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
       }
     }
     val announcement = getString(R.string.quick_settings_removed, title(key))
+    filterItems()
     val next =
       current.getOrNull(minOf(index, current.size - 1))?.let {
         currentCategory.findPreference<Preference>(rowKey(it))
       }
-    focusAfterChange(next ?: currentCategory, announcement)
+    focusAfterChange(
+      if (searchQuery.isNotBlank()) {
+        items[key]?.let { groups[it.group].findPreference("${orderKey}_available_${it.key}") }
+      } else {
+        next ?: currentCategory
+      },
+      announcement,
+    )
   }
 
   private fun move(key: String, offset: Int): Boolean {
@@ -303,7 +408,7 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
       title = title(itemKey)
       summary = items[itemKey]?.summary
       setOnPreferenceClickListener {
-        showActions(itemKey)
+        if (searchQuery.isNotBlank()) remove(itemKey) else showActions(itemKey)
         true
       }
     }

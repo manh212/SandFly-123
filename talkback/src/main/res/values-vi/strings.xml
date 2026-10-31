@@ -454,8 +454,8 @@
   <string name="share_screenshot">Chia sẻ ảnh chụp màn hình</string>
   <string name="shortcut_voice_input">Bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
   <string name="shortcut_media_control_or_voice_input">Phát/tạm dừng nội dung nghe nhìn, bắt đầu hoặc kết thúc nhập bằng giọng nói của Gboard</string>
-  <string name="shortcut_increase_volume">Tăng âm lượng</string>
-  <string name="shortcut_decrease_volume">Giảm âm lượng</string>
+  <string name="shortcut_increase_volume">Tăng âm lượng trợ năng</string>
+  <string name="shortcut_decrease_volume">Giảm âm lượng trợ năng</string>
   <string name="shortcut_increase_contextual_volume">Tăng âm lượng (phương tiện hoặc trợ năng)</string>
   <string name="shortcut_decrease_contextual_volume">Giảm âm lượng (phương tiện hoặc trợ năng)</string>
   <string name="shortcut_all_apps">Tất cả ứng dụng</string>

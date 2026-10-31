@@ -25,5 +25,9 @@
         android:fragment="com.google.android.accessibility.talkback.quicksettings.QuickSettingsItemsFragment"
         android:key="@string/pref_quick_settings_items_key"
         android:title="@string/title_pref_quick_settings_items" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_menu_controls_reset"
+        android:title="@string/menu_controls_reset_title"
+        android:summary="@string/menu_controls_reset_summary" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>
