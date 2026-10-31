@@ -36,6 +36,7 @@ object DictationSettings {
   const val PREF_WHISPER_MODEL = "pref_dictation_whisper_model"
   const val PREF_RAMBLER_LIVE = "pref_dictation_rambler_live"
   const val PREF_AUTO_STOP_MS = "pref_dictation_auto_stop_ms"
+  const val PREF_SPEECH_THRESHOLD = "pref_dictation_speech_threshold"
 
   /** The AI service of automatic descriptions corrects dictation too. */
   const val AI_SAME = "same"
@@ -91,6 +92,12 @@ object DictationSettings {
 
   fun autoStopMs(prefs: SharedPreferences): Long =
     prefs.getString(PREF_AUTO_STOP_MS, null)?.toLongOrNull()?.coerceAtLeast(0) ?: 0
+
+  fun speechThresholdDbfs(prefs: SharedPreferences): Int =
+    -60 + prefs.getInt(PREF_SPEECH_THRESHOLD, 12).coerceIn(0, 45)
+
+  fun recognizerSpeechMarginDb(prefs: SharedPreferences): Float =
+    2f + (speechThresholdDbfs(prefs) + 60) * 0.25f
 
   /** Whether Rambler recognizes [locale]'s language. */
   fun ramblerSupports(locale: Locale): Boolean = locale.language in RAMBLER_LANGUAGES

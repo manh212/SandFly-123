@@ -42,6 +42,7 @@ internal class ContinuousRecognition(
   private val onFailed: (Int) -> Unit,
 
   private val onSpeech: () -> Unit = {},
+  private val speechLevelMarginDb: Float = 6.0f,
 ) : RecognitionListener {
   private var recognizer: SpeechRecognizer? = null
   private val parts = mutableListOf<String>()
@@ -51,7 +52,7 @@ internal class ContinuousRecognition(
   private val handler = Handler(Looper.getMainLooper())
   /** Errors since the last result, so that a recognizer that keeps failing isn't restarted forever. */
   private var errors = 0
-  private val speechActivity = SpeechActivityDetector()
+  private val speechActivity = SpeechActivityDetector(speechLevelMarginDb)
   private val listenAgain = Runnable { if (!finished && !stopping) listen() }
 
   /** Starts recognizing. Returns false when Android has no speech recognition. */
@@ -221,7 +222,7 @@ internal fun combineRecognitionParts(parts: List<String>, partial: String): Stri
     .filter { it.isNotBlank() }
     .joinToString(" ")
 
-internal class SpeechActivityDetector {
+internal class SpeechActivityDetector(private val speechLevelMarginDb: Float = 6.0f) {
   private var noiseFloorDb: Float? = null
   private var calibrateNextLevelAsSpeech = false
 
@@ -234,7 +235,7 @@ internal class SpeechActivityDetector {
     val noiseFloor = noiseFloorDb
     if (noiseFloor == null) {
       if (calibrateNextLevelAsSpeech) {
-        noiseFloorDb = rmsdB - SPEECH_LEVEL_MARGIN_DB
+        noiseFloorDb = rmsdB - speechLevelMarginDb
         calibrateNextLevelAsSpeech = false
         return true
       }
@@ -242,7 +243,7 @@ internal class SpeechActivityDetector {
       return false
     }
 
-    val speech = rmsdB - noiseFloor >= SPEECH_LEVEL_MARGIN_DB
+    val speech = rmsdB - noiseFloor >= speechLevelMarginDb
     if (!speech) {
       noiseFloorDb =
         if (rmsdB < noiseFloor) rmsdB
@@ -252,7 +253,6 @@ internal class SpeechActivityDetector {
   }
 
   private companion object {
-    const val SPEECH_LEVEL_MARGIN_DB = 6.0f
     const val NOISE_FLOOR_RISE_FACTOR = 0.02f
   }
 }

@@ -66,6 +66,11 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
       onClick("pref_dictation_google_download") {
         GoogleSpeechLanguages.download(requireContext())
       }
+    findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.onPreferenceChangeListener =
+      Preference.OnPreferenceChangeListener { preference, value ->
+        preference.summary = speechThresholdSummary((value as Int) - 60)
+        true
+      }
     if (!WhisperEngines.isAvailable()) return
     // Made here, since the settings filter removes categories that are empty in the XML.
     val category =
@@ -106,6 +111,8 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
   private fun refresh() {
     val context = requireContext()
     recognitionPref.summary = recognitionSummary(context)
+    findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.summary =
+      speechThresholdSummary(DictationSettings.speechThresholdDbfs(prefs))
     googleDownloadPref.title =
       getString(R.string.dictation_google_download, Locale.getDefault().displayLanguage)
     // Only with a Gemini API key, which Rambler needs.
@@ -132,6 +139,9 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
     aiServicePref.summary = aiServiceSummary(context)
     announceProgress(state)
   }
+
+  private fun speechThresholdSummary(dbfs: Int): String =
+    getString(R.string.dictation_speech_threshold_summary, dbfs)
 
   private fun recognitionSummary(context: Context): String {
     val chosen = DictationSettings.recognition(prefs)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:key="pref_dictation_recognition_choice"
@@ -24,9 +25,16 @@
       android:order="3"
       android:summary="%s"
       android:title="@string/title_pref_dictation_auto_stop" />
+  <com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference
+      android:key="pref_dictation_speech_threshold"
+      android:order="4"
+      android:defaultValue="12"
+      android:max="45"
+      android:title="@string/title_pref_dictation_speech_threshold"
+      app:showSeekBarValue="false" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_dictation_ai"
-      android:order="4"
+      android:order="5"
       android:title="@string/title_pref_category_ai_services">
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_ai_dictation_default"

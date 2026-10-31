@@ -56,9 +56,12 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.KeyboardUtils;
 import com.google.android.accessibility.utils.Logger;
+import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.TimedFlags;
 import com.google.android.accessibility.utils.input.WindowsDelegate;
 import com.google.android.accessibility.utils.monitor.CollectionState;
+import com.google.android.accessibility.utils.monitor.CollectionStateUtils;
 import com.google.android.accessibility.utils.monitor.InputModeTracker;
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.apps.common.proguard.UsedByReflection;
@@ -1034,6 +1037,27 @@ public class GlobalVariables extends TimedFlags implements ParseTree.VariableDel
 
   public int getCollectionRole() {
     return collectionState.getCollectionRole();
+  }
+
+  public boolean getSpeakListItemOrdinals() {
+    return SharedPreferencesUtils.getSharedPreferences(mContext)
+        .getBoolean("pref_speak_list_item_ordinals", false);
+  }
+
+  public int getFocusedListItemOrdinal() {
+    if (collectionState.getCollectionRole() == Role.ROLE_LIST) {
+      CollectionState.ListItemState item = collectionState.getListItemState();
+      return item == null || item.getIndex() < 0 ? -1 : item.getIndex() + 1;
+    }
+    if (collectionState.getCollectionRole() == Role.ROLE_GRID) {
+      int columns = collectionState.getCollectionColumnCount();
+      int row = CollectionStateUtils.getCollectionTableItemRowIndex(collectionState);
+      int column = CollectionStateUtils.getCollectionTableItemColumnIndex(collectionState);
+      if (columns > 0 && row >= 0 && column >= 0 && column < columns) {
+        return row * columns + column + 1;
+      }
+    }
+    return -1;
   }
 
   /** Returns if the reading menu has actions settings. */

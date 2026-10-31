@@ -9,6 +9,11 @@
         android:summary="@string/summary_speak_container_element_positions"
         android:title="@string/pref_speak_container_element_positions_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_speak_list_item_ordinals"
+        android:summary="@string/summary_speak_list_item_ordinals"
+        android:title="@string/title_speak_list_item_ordinals" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_table_speak_row_column_numbers_default"
         android:key="@string/pref_table_speak_row_column_numbers_key"
         android:summary="@string/pref_table_speak_row_column_numbers_summary"

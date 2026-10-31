@@ -58,6 +58,7 @@ public class SpeechHistoryDialog {
             .setItems(
                 history.toArray(new CharSequence[0]),
                 (clicked, which) -> speaker.copyTextToClipboard(history.get(which), eventId))
+            .setNegativeButton(R.string.talkback_menu_close_button_text, null)
             .create();
     showDialog(dialog, history.size());
   }

@@ -248,6 +248,7 @@ class AiDictation(
           },
           onFailed = { error -> if (request == generation) recognitionFailed(used, error) },
           onSpeech = ::heardSpeech,
+          speechLevelMarginDb = DictationSettings.recognizerSpeechMarginDb(prefs),
         )
       if (!recognizer.start()) return false
       continuous = recognizer
@@ -265,6 +266,7 @@ class AiDictation(
         onLimit = { handler.post { if (phase == Phase.RECORDING) stopRecording("recording_limit_or_failure") } },
         onChunk = session?.let { live -> { pcm -> live.send(pcm) } },
         onSpeech = ::heardSpeech,
+        speechThresholdDbfs = DictationSettings.speechThresholdDbfs(prefs),
       )
     if (!recorder.start()) {
       session?.cancel()
@@ -631,7 +633,7 @@ class AiDictation(
 
     private const val AUTO_STOP_CHECK_MS = 250L
 
-    const val LISTEN_PAUSE_MS = 2_000L
+    const val LISTEN_PAUSE_MS = 4_000L
 
     const val LISTEN_NOTHING_SAID_MS = 8_000L
 

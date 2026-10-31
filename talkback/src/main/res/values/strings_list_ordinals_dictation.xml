@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="title_pref_dictation_speech_threshold" tools:ignore="MissingTranslation">Ngưỡng âm thanh nhận giọng nói</string>
+  <string name="dictation_speech_threshold_summary" tools:ignore="MissingTranslation">Ngưỡng %1$d dBFS. Kéo thấp để nhận tiếng nói nhỏ, kéo cao để giảm nhiễu. Google/Android dùng độ nhạy tương ứng.</string>
+  <string name="title_speak_list_item_ordinals" tools:ignore="MissingTranslation">Đọc số thứ tự mục trong danh sách</string>
+  <string name="summary_speak_list_item_ordinals" tools:ignore="MissingTranslation">Đọc số trước tên mỗi mục, ví dụ: 1 Cài đặt, 2 Chrome, 3 Cửa hàng Play.</string>
+  <string name="speak_list_item_ordinal" tools:ignore="MissingTranslation">%1$d</string>
+</resources>

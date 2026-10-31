@@ -300,13 +300,22 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
       }
     }
 
+    int itemOrdinal = globalVariables.getFocusedListItemOrdinal();
+    boolean speakItemOrdinal = globalVariables.getSpeakListItemOrdinals() && itemOrdinal > 0;
+    if (speakItemOrdinal) {
+      outputJoinList.add(context.getString(R.string.speak_list_item_ordinal, itemOrdinal));
+    }
+
     boolean speakCollectionInfo = globalVariables.getSpeakCollectionInfo();
     boolean speakRoles = globalVariables.getSpeakRoles();
     logString
         .append(String.format("\n Verbosity speakCollectionInfo=%s", speakCollectionInfo))
         .append(String.format(", speakRoles=%s", speakRoles));
     CharSequence collectionItemTransition =
-        speakCollectionInfo ? globalVariables.getCollectionItemTransitionDescription(node) : "";
+        speakCollectionInfo
+                && !(speakItemOrdinal && globalVariables.getCollectionRole() == Role.ROLE_LIST)
+            ? globalVariables.getCollectionItemTransitionDescription(node)
+            : "";
 
     // In a table, the row and column can be spoken before the cell's contents.
     boolean transitionBeforeContent =
