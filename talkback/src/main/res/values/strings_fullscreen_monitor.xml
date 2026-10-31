@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <string name="full_screen_monitor_title" tools:ignore="MissingTranslation">Giám sát toàn màn hình</string>
+  <string name="shortcut_value_full_screen_monitor" translatable="false">toggle_full_screen_monitor</string>
+  <string name="full_screen_monitor_summary" tools:ignore="MissingTranslation">Tự động đọc các nội dung mới khi ứng dụng thay đổi, ưu tiên bình luận và tin nhắn. Chọn ứng dụng luôn giám sát hoặc bật tắt bằng cử chỉ.</string>
+  <string name="full_screen_monitor_note" tools:ignore="MissingTranslation">Chỉ đọc thay đổi mà ứng dụng cung cấp cho dịch vụ trợ năng. Một số bình luận trong video hoặc nội dung đồ họa có thể không được cung cấp.</string>
+  <string name="full_screen_monitor_manual_title" tools:ignore="MissingTranslation">Bật hoặc tắt giám sát tạm thời bằng cử chỉ</string>
+  <string name="full_screen_monitor_apps" tools:ignore="MissingTranslation">Các ứng dụng luôn được giám sát</string>
+  <string name="full_screen_monitor_enabled" tools:ignore="MissingTranslation">Đã bật giám sát toàn màn hình</string>
+  <string name="full_screen_monitor_disabled" tools:ignore="MissingTranslation">Đã tắt giám sát toàn màn hình tạm thời</string>
+</resources>

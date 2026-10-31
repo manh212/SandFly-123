@@ -351,6 +351,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
         R.string.shortcut_value_increase_volume,
         R.string.shortcut_value_decrease_volume,
         R.string.shortcut_value_toggle_silent_mode,
+        R.string.shortcut_value_full_screen_monitor,
         R.string.shortcut_value_increase_media_volume,
         R.string.shortcut_value_decrease_media_volume,
         R.string.shortcut_value_increase_contextual_volume,
@@ -685,6 +686,12 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               resources.getString(R.string.shortcut_value_voice_input),
               TYPE_ACTION_ITEM));
     }
+
+    builder.add(
+        new ActionItem(
+            resources.getString(R.string.full_screen_monitor_title),
+            resources.getString(R.string.shortcut_value_full_screen_monitor),
+            TYPE_ACTION_ITEM));
 
     builder.add(
         new ActionItem(

@@ -132,6 +132,7 @@ import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryDialo
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SoundModeControl;
+import com.google.android.accessibility.talkback.monitor.FullScreenMonitor;
 import com.google.android.accessibility.talkback.selector.SelectorController.AnnounceType;
 import com.google.android.accessibility.talkback.selector.SelectorController.Setting;
 import com.google.android.accessibility.talkback.status.StatusReader;
@@ -662,6 +663,11 @@ public class GestureController {
             pipeline.returnFeedback(
                 eventId, Feedback.systemAction(GLOBAL_ACTION_KEYCODE_HEADSETHOOK));
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_full_screen_monitor))) {
+      speak(service.getString(
+          FullScreenMonitor.toggle(service)
+              ? R.string.full_screen_monitor_enabled
+              : R.string.full_screen_monitor_disabled));
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_silent_mode))) {
       speak(SoundModeControl.toggleSilent(service));
     } else if (action.equals(service.getString(R.string.shortcut_value_increase_volume))) {

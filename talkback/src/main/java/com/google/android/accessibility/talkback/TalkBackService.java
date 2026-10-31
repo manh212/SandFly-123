@@ -1314,6 +1314,10 @@ public class TalkBackService extends AccessibilityServiceCompat
       NotificationReader.onTouchEnded();
     }
 
+    if (pipeline != null) {
+      com.google.android.accessibility.talkback.monitor.FullScreenMonitor.onEvent(
+          this, event, pipeline.getFeedbackReturner());
+    }
     accessibilityEventProcessor.onAccessibilityEvent(event, eventId);
     perf.onHandlerDone(eventId);
 

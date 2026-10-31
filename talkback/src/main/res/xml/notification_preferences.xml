@@ -11,6 +11,11 @@
       android:key="pref_notification_reading_screen"
       android:title="@string/notification_reading_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.monitor.FullScreenMonitorSettingsFragment"
+      android:key="pref_full_screen_monitor"
+      android:title="@string/full_screen_monitor_title"
+      android:summary="@string/full_screen_monitor_summary" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationAppsFragment"
       android:key="pref_notification_apps_screen"
       android:title="@string/notification_apps_title" />

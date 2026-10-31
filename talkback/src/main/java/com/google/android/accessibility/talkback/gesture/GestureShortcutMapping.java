@@ -548,6 +548,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         R.string.shortcut_media_control_or_voice_input),
     TOGGLE_SILENT_MODE(
         R.string.shortcut_value_toggle_silent_mode, R.string.shortcut_toggle_silent_mode),
+    FULL_SCREEN_MONITOR(
+        R.string.shortcut_value_full_screen_monitor, R.string.full_screen_monitor_title),
     INCREASE_VOLUME(R.string.shortcut_value_increase_volume, R.string.shortcut_increase_volume),
     DECREASE_VOLUME(R.string.shortcut_value_decrease_volume, R.string.shortcut_decrease_volume),
     READ_NOTIFICATIONS(
