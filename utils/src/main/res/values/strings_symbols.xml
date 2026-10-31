@@ -284,19 +284,19 @@
     <!-- Spoken description for the "\2018" (Left single quotation mark). [CHAR LIMIT=NONE] -->
     <string name="symbol_left_single_quotation_mark">Left single quotation mark</string>
     <!-- Spoken description for the Arabic diacritic fatha keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_fatha">فَتْحَة</string>
+    <string name="symbol_fatha" translatable="false">فَتْحَة</string>
     <!-- Spoken description for the Arabic diacritic kasra keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_kasra">كَسْرَة</string>
+    <string name="symbol_kasra" translatable="false">كَسْرَة</string>
     <!-- Spoken description for the Arabic diacritic damma keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_damma">ضَمَّة</string>
+    <string name="symbol_damma" translatable="false">ضَمَّة</string>
     <!-- Spoken description for the Arabic diacritic fathatan keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_fathatan">فتحَة تنوين</string>
+    <string name="symbol_fathatan" translatable="false">فتحَة تنوين</string>
     <!-- Spoken description for the Arabic diacritic kasratan keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_kasratan">كَسْرَة تَنْوِين</string>
+    <string name="symbol_kasratan" translatable="false">كَسْرَة تَنْوِين</string>
     <!-- Spoken description for the Arabic diacritic dammatan keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_dammatan">ضَمَّة تَنْوِين</string>
+    <string name="symbol_dammatan" translatable="false">ضَمَّة تَنْوِين</string>
     <!-- Spoken description for the Arabic diacritic shadda keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_shadda">شَدّة‎</string>
+    <string name="symbol_shadda" translatable="false">شَدّة‎</string>
     <!-- Spoken description for the Arabic diacritic sukun keyboard key. [CHAR_LIMIT=30] -->
-    <string name="symbol_sukun">سُكُونْ</string>
+    <string name="symbol_sukun" translatable="false">سُكُونْ</string>
 </resources>
