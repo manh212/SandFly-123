@@ -20,7 +20,7 @@ import android.content.Context
 import android.content.res.Resources
 import android.os.SystemClock
 import android.view.accessibility.AccessibilityEvent
-import com.google.android.accessibility.utils.ClipboardHistory
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistory
 import java.util.Locale
 
 /**
@@ -45,7 +45,7 @@ object ShizukuClipboard {
       override fun onClipText(text: String?) {
         lastRead = SystemClock.uptimeMillis()
         val context = context ?: return
-        ClipboardHistory.record(context, text)
+        ClipboardHistory.record(text)
       }
     }
 

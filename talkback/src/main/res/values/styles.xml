@@ -29,6 +29,11 @@
     <item name="colorAccent">@color/colorAccent</item>
   </style>
 
+  <style name="UpdateProgressDialogTheme" parent="Theme.MaterialComponents.Light.Dialog.Alert">
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="android:windowCloseOnTouchOutside">true</item>
+  </style>
+
   <!-- Keymap -->
   <style name="KeymapTheme" parent="TalkBackSettings">
     <item name="materialButtonStyle">@style/KeymapButtonStyle</item>

@@ -20,4 +20,17 @@
     <string name="update_install_failed">Không cài đặt được bản cập nhật</string>
     <string name="update_install_canceled">Đã huỷ cập nhật</string>
     <string name="update_allow_install">Hãy cho phép Meridian cài đặt ứng dụng rồi thử cập nhật lại</string>
+
+    <string name="update_dialog_summary">Bản dựng %1$d đã sẵn sàng. Chọn xem nhật ký để biết những thay đổi.</string>
+    <string name="update_dialog_changelog">Xem nhật ký cập nhật</string>
+    <string name="update_dialog_close">Đóng</string>
+    <string name="update_changelog_title">Nhật ký cập nhật</string>
+    <string name="update_changelog_empty">Bản dựng này không có ghi chú cập nhật.</string>
+    <string name="update_progress_title">Tiến trình tải bản cập nhật</string>
+    <string name="update_progress_notification_tap">Nhấn để xem tiến trình tải xuống.</string>
+    <string name="update_progress_indeterminate">Đang tải bản cập nhật…</string>
+    <string name="update_progress_percent">Đã tải xuống %1$d%%</string>
+    <string name="update_progress_installing">Đã tải xong. Đang chuẩn bị cài đặt.</string>
+    <string name="update_progress_finished">Quá trình tải xuống đã kết thúc.</string>
+    <string name="update_dialog_cancel">Hủy</string>
 </resources>

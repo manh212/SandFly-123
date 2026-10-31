@@ -1775,4 +1775,6 @@
     <string name="action_developer_settings_not_now">Không đồng ý</string>
     <string name="action_developer_settings_continue">Đồng ý và tiếp tục</string>
     <string name="title_selector_repeat_translate">Nhắc lại và dịch lời đọc</string>
+  <string name="typo_correction_typo_example">Chào mừng đên Meridian.</string>
+  <string name="clipboard_history_copy">Sao chép</string>
 </resources>

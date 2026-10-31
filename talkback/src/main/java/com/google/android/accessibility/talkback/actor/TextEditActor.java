@@ -22,6 +22,8 @@ import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.ACTIO
 import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.FOCUS_INPUT;
 import static com.google.android.accessibility.talkback.Feedback.FocusDirection.Action.SELECTION_MODE_OFF;
 import static com.google.android.accessibility.talkback.compositor.CompositorUtils.joinCharSequences;
+import static com.google.android.accessibility.talkback.utils.ClipboardUtils.appendToClipboard;
+import static com.google.android.accessibility.talkback.utils.ClipboardUtils.copyToClipboard;
 import static com.google.android.accessibility.utils.output.FeedbackItem.FLAG_FORCE_FEEDBACK_ALL;
 import static com.google.android.accessibility.utils.output.FeedbackItem.FLAG_NO_HISTORY;
 import static com.google.android.accessibility.utils.output.SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH;
@@ -46,7 +48,6 @@ import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.monitor.InputMethodMonitor;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
-import com.google.android.accessibility.utils.ClipboardHistory;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils.SpellingSuggestion;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FocusFinder;
@@ -433,7 +434,7 @@ public class TextEditActor implements VoiceDictationDelegate {
   private boolean copySelected(EventId eventId) {
     CopySelection copySelection = stateReader.copySelection();
     CharSequence selected = copySelection.allText();
-    if (!ClipboardHistory.copy(service, selected)) {
+    if (!copyToClipboard(clipboard, selected)) {
       return false;
     }
     copySelection.clear();
@@ -497,7 +498,7 @@ public class TextEditActor implements VoiceDictationDelegate {
           PerformActionUtils.performAction(node, AccessibilityNodeInfoCompat.ACTION_COPY, eventId);
     } else {
       copyData = TextUtils.isEmpty(nodeText) ? childrenText(node) : nodeText;
-      result = ClipboardHistory.copy(service, copyData);
+      result = copyToClipboard(clipboard, copyData);
     }
     turnOffSelectionMode(node, eventId, /* clearSelection= */ true);
     CharSequence copiedText = CompositorUtils.refineInputText(service, copyData);
@@ -539,7 +540,12 @@ public class TextEditActor implements VoiceDictationDelegate {
           Feedback.speech(service.getString(R.string.cannot_copy_feedback), SPEAK_OPTIONS));
       return false;
     }
-    ClipboardHistory.append(service, added);
+    if (!appendToClipboard(service, added)) {
+      pipeline.returnFeedback(
+          eventId,
+          Feedback.speech(service.getString(R.string.cannot_copy_feedback), SPEAK_OPTIONS));
+      return false;
+    }
     if (fromCopySelection) {
       copySelection.clear();
       pipeline.returnFeedback(eventId, Feedback.focusDirection(SELECTION_MODE_OFF));

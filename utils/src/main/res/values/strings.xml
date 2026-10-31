@@ -157,7 +157,7 @@
     <!-- Label for close button for the speech bubble overlay.[CHAR_LIMIT=NONE] -->
     <string name="close_button_description">Close</string>
     <!-- Label for menu button for the speech bubble overlay.[CHAR_LIMIT=NONE] -->
-    <string name="menu_button_description" translatable="false">Menu</string>
+    <string name="menu_button_description">Menu</string>
 
     <!-- Announced when the window shows.[CHAR_LIMIT=NONE]-->
     <string name="show_keyboard_window">Showing <xliff:g id="window_title" example="Gboard">%1$s</xliff:g></string>

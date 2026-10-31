@@ -25,27 +25,30 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.notifications.NotificationCodeFragment
 import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity
 import com.google.android.accessibility.talkback.shizuku.ShizukuClipboard
-import com.google.android.accessibility.utils.ClipboardHistory
+import com.google.android.accessibility.talkback.utils.ClipboardUtils
 import com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME
 
 /** The texts copied, newest first: each can be copied again or removed. */
 class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboard_history) {
 
-  private val onChange: () -> Unit = { if (isResumed) rebuild() }
+  private val onChange = Runnable { if (isResumed) rebuild() }
 
   // The clipboard can be read once the screen has focus, which it doesn't have yet on resume.
   // While Shizuku adds each copy, the history has the clipboard's text already.
   private val onFocus =
     ViewTreeObserver.OnWindowFocusChangeListener { hasFocus ->
-      if (hasFocus && !ShizukuClipboard.isWatching()) context?.let(ClipboardHistory::recordClipboard)
+      if (hasFocus && !ShizukuClipboard.isWatching()) {
+        context?.let { ClipboardHistoryCapture.captureCurrent(it) }
+      }
     }
 
   override fun onResume() {
     super.onResume()
+    ClipboardHistory.init(requireContext())
     ClipboardHistory.addListener(onChange)
     view?.viewTreeObserver?.addOnWindowFocusChangeListener(onFocus)
     if (view?.hasWindowFocus() == true && !ShizukuClipboard.isWatching()) {
-      ClipboardHistory.recordClipboard(requireContext())
+      ClipboardHistoryCapture.captureCurrent(requireContext())
     }
   }
 
@@ -57,7 +60,7 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
 
   override fun build(screen: PreferenceGroup) {
     val context = requireContext()
-    val entries = ClipboardHistory.entries(context)
+    val entries = ClipboardHistory.getEntries()
     if (entries.isEmpty()) {
       screen.addPreference(
         Preference(context).apply {
@@ -72,12 +75,16 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
     entries.forEach { text ->
       val title = if (text.length > TITLE_LENGTH) text.take(TITLE_LENGTH) + "…" else text
       screen.action(title) {
-        choose(title, listOf(getString(android.R.string.copy), getString(R.string.notification_remove))) {
-          if (it == 0) ClipboardHistory.copy(context, text) else ClipboardHistory.remove(context, text)
+        choose(title, listOf(getString(R.string.clipboard_history_copy), getString(R.string.notification_remove))) {
+          if (it == 0) {
+            ClipboardUtils.copyToClipboard(context, text)
+          } else {
+            ClipboardHistory.remove(text)
+          }
         }
       }
     }
-    screen.action(getString(R.string.clipboard_history_clear)) { ClipboardHistory.clear(context) }
+    screen.action(getString(R.string.clipboard_history_clear)) { ClipboardHistory.clear() }
   }
 
   companion object {

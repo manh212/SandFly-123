@@ -43,4 +43,17 @@
 
     <!-- Title of the settings screen that holds the update settings. [CHAR LIMIT=40] -->
     <string name="title_pref_updates">Cập nhật</string>
+
+    <string name="update_dialog_summary">Build %1$d is ready. View the update log to see what has changed.</string>
+    <string name="update_dialog_changelog">View update log</string>
+    <string name="update_dialog_close">Close</string>
+    <string name="update_changelog_title">Update log</string>
+    <string name="update_changelog_empty">There are no notes for this build.</string>
+    <string name="update_progress_title">Update download progress</string>
+    <string name="update_progress_notification_tap">Tap to view download progress.</string>
+    <string name="update_progress_indeterminate">Downloading the update…</string>
+    <string name="update_progress_percent">Downloaded %1$d%%</string>
+    <string name="update_progress_installing">Download complete. Preparing to install.</string>
+    <string name="update_progress_finished">The download has finished.</string>
+    <string name="update_dialog_cancel">Cancel</string>
 </resources>

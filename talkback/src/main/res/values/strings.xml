@@ -3714,7 +3714,7 @@
   <!-- The content of typo correction tutorial text for supported locale but none English for pre R. [CHAR_LIMIT=NONE]-->
   <string name="typo_correction_text_supported_but_not_english_pre_r">You can use proofreading to check the spelling or grammar within a text box.\n\nTo try it, focus on the text box below and type a misspelled word. After focusing, swipe down and then up until you find \"Proofread\".</string>
   <!-- The content of typo correction edit box typos example. [CHAR_LIMIT=NONE]-->
-  <string name="typo_correction_typo_example" translatable="false">Wellcome too Meridian.</string>
+  <string name="typo_correction_typo_example">Wellcome too Meridian.</string>
   <!-- The content of typo correction edit box hint. [CHAR_LIMIT=NONE]-->
   <string name="typo_correction_editbox_hint">Type here</string>
 
@@ -4511,4 +4511,5 @@
     <string name="action_developer_settings_not_now">Không đồng ý</string>
     <string name="action_developer_settings_continue">Đồng ý và tiếp tục</string>
     <string name="title_selector_repeat_translate" tools:ignore="MissingTranslation">Nhắc lại và dịch lời đọc</string>
+  <string name="clipboard_history_copy">Copy</string>
 </resources>

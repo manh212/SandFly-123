@@ -11,7 +11,7 @@
   </string-array>
   <string name="screen_recognition_ocr_engine_title">Bộ nhận dạng văn bản OCR</string>
   <string name="screen_recognition_ai_privacy_title">Quyền riêng tư khi nhận dạng bằng AI</string>
-  <string name="screen_recognition_ai_privacy_summary">Ưu tiên AI trên điện thoại. Nếu xử lý thất bại, ảnh màn hình có thể được gửi tới nhà cung cấp AI trực tuyến đã cấu hình.</string>
+  <string name="screen_recognition_ai_privacy_summary">Khi nhận dạng bằng AI trên điện thoại thất bại, Meridian không tự động gửi ảnh màn hình lên dịch vụ AI trực tuyến. Nếu muốn gửi ảnh, hãy chọn dịch vụ trực tuyến.</string>
   <string name="screen_recognition_ai_model_settings">Mô hình AI trên điện thoại</string>
   <string name="screen_recognition_ai_provider_settings">Dịch vụ AI trực tuyến</string>
 </resources>

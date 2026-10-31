@@ -137,6 +137,14 @@
             android:launchMode="singleTop"
             android:theme="@style/TalkBackSettings" />
 
+        <activity
+            android:name="com.google.android.accessibility.talkback.update.UpdateProgressActivity"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="@string/update_progress_title"
+            android:launchMode="singleTop"
+            android:theme="@style/UpdateProgressDialogTheme" />
+
         <!-- Keeps the on-device model download running and shows its progress. -->
         <service
             android:name="com.google.android.accessibility.talkback.actor.gemini.local.ModelDownloadService"

@@ -100,10 +100,23 @@ object Updater {
   private val downloadExecutor = Executors.newSingleThreadExecutor()
   private val downloading = AtomicBoolean(false)
   private val installing = AtomicBoolean(false)
+  @Volatile private var currentDownloadPercent = -1
 
   @JvmStatic
   val isBusy: Boolean
     get() = downloading.get() || installing.get()
+
+  @JvmStatic
+  val isDownloading: Boolean
+    get() = downloading.get()
+
+  @JvmStatic
+  val isInstalling: Boolean
+    get() = installing.get()
+
+  @JvmStatic
+  val downloadPercent: Int
+    get() = currentDownloadPercent
   private var serviceContext: Context? = null
 
   private val startupCheck = Runnable { serviceContext?.let { checkAutomatically(it, true) } }
@@ -241,7 +254,7 @@ object Updater {
     }
 
   private fun describe(context: Context, update: UpdateInfo): String =
-    (listOf(notificationText(context, update)) + update.changes).joinToString("\n")
+    notificationText(context, update)
 
   private fun showUpdateDialog(activity: Activity, update: UpdateInfo) {
     val title: String
@@ -251,10 +264,7 @@ object Updater {
       message = activity.getString(R.string.update_move_dialog_message)
     } else {
       title = activity.getString(R.string.update_dialog_title, update.build)
-      message =
-        update.changes
-          .joinToString("\n")
-          .ifEmpty { activity.getString(R.string.update_notification_text, update.build) }
+      message = activity.getString(R.string.update_dialog_summary, update.build)
     }
     val saveDownload = SwitchCompat(activity).apply {
       setText(R.string.update_save_downloads)
@@ -266,14 +276,37 @@ object Updater {
       setPadding(padding, 0, padding, 0)
       addView(saveDownload)
     }
-    A11yAlertDialogWrapper.materialDialogBuilder(activity)
-      .setTitle(title)
-      .setMessage(message)
-      .setView(options)
-      .setPositiveButton(R.string.update_dialog_install) { _, _ ->
-        install(activity, update.downloadUrl)
+    val builder =
+      A11yAlertDialogWrapper.materialDialogBuilder(activity)
+        .setTitle(title)
+        .setMessage(message)
+        .setView(options)
+        .setPositiveButton(R.string.update_dialog_install) { _, _ ->
+          install(activity, update.downloadUrl)
+        }
+        .setNegativeButton(R.string.update_dialog_cancel) { dialog, _ -> dialog.dismiss() }
+        .setCancelable(true)
+    if (!update.move) {
+      builder.setNeutralButton(R.string.update_dialog_changelog) { _, _ ->
+        mainHandler.post {
+          if (!activity.isFinishing && !activity.isDestroyed) {
+            showChangelogDialog(activity, update)
+          }
+        }
       }
-      .setNegativeButton(android.R.string.cancel) { dialog, _ -> dialog.dismiss() }
+    }
+    builder.create().show()
+  }
+
+  private fun showChangelogDialog(activity: Activity, update: UpdateInfo) {
+    val changes =
+      update.changes.joinToString("\n").ifEmpty {
+        activity.getString(R.string.update_changelog_empty)
+      }
+    A11yAlertDialogWrapper.materialDialogBuilder(activity)
+      .setTitle(R.string.update_changelog_title)
+      .setMessage(changes)
+      .setPositiveButton(R.string.update_dialog_close, null)
       .setCancelable(true)
       .create()
       .show()
@@ -346,6 +379,7 @@ object Updater {
       toast(appContext, R.string.update_already_downloading)
       return
     }
+    currentDownloadPercent = -1
     toast(appContext, R.string.update_downloading)
     downloadExecutor.execute {
       try {
@@ -426,10 +460,23 @@ object Updater {
   }
 
   private fun showProgress(context: Context, percent: Int) {
+    currentDownloadPercent = percent
     if (!NotificationManagerCompat.from(context).areNotificationsEnabled()) return
+    val progressIntent =
+      Intent(context, UpdateProgressActivity::class.java)
+        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_SINGLE_TOP)
+    val progressPendingIntent =
+      PendingIntent.getActivity(
+        context,
+        PROGRESS_NOTIFICATION_ID,
+        progressIntent,
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+      )
     val notification =
       NotificationUtils.createDefaultNotificationBuilder(context)
         .setContentTitle(context.getString(R.string.update_downloading))
+        .setContentText(context.getString(R.string.update_progress_notification_tap))
+        .setContentIntent(progressPendingIntent)
         .setProgress(100, percent.coerceAtLeast(0), percent < 0)
         .setOngoing(true)
         .setOnlyAlertOnce(true)

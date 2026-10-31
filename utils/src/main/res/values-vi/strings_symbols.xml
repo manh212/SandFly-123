@@ -141,4 +141,13 @@
   <string name="symbol_full_width_less_than_sign">Dấu nhỏ hơn có độ rộng đầy đủ</string>
   <string name="symbol_full_width_greater_than_sign">Dấu lớn hơn có độ rộng đầy đủ</string>
   <string name="symbol_left_single_quotation_mark">Dấu ngoặc đơn trái</string>
+
+  <string name="symbol_fatha">Dấu fat-ha (a ngắn)</string>
+  <string name="symbol_kasra">Dấu kas-ra (i ngắn)</string>
+  <string name="symbol_damma">Dấu dam-ma (u ngắn)</string>
+  <string name="symbol_fathatan">Dấu tanwin fat-ha</string>
+  <string name="symbol_kasratan">Dấu tanwin kas-ra</string>
+  <string name="symbol_dammatan">Dấu tanwin dam-ma</string>
+  <string name="symbol_shadda">Dấu shadda (phụ âm đôi)</string>
+  <string name="symbol_sukun">Dấu sukun (không có nguyên âm)</string>
 </resources>
