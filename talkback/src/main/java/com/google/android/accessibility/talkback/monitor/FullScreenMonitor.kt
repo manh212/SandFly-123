@@ -6,8 +6,6 @@ package com.google.android.accessibility.talkback.monitor
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.SystemClock
-import android.text.TextUtils
 import android.view.accessibility.AccessibilityEvent
 import android.view.accessibility.AccessibilityNodeInfo
 import com.google.android.accessibility.talkback.Feedback
@@ -27,11 +25,9 @@ object FullScreenMonitor {
   const val KEY_APPS = "pref_full_screen_monitor_apps"
   const val KEY_MANUAL = "pref_full_screen_monitor_manual"
 
-  private const val MIN_GAP_MS = 350L
   private const val MAX_SNAPSHOT = 100
   private const val MAX_RECENT = 200
   private val recentByApp = mutableMapOf<String, LinkedHashSet<String>>()
-  private val lastAtByApp = mutableMapOf<String, Long>()
 
   @JvmStatic
   fun enabled(prefs: SharedPreferences, packageName: String): Boolean =
@@ -45,7 +41,6 @@ object FullScreenMonitor {
     val enabled = !prefs.getBoolean(KEY_MANUAL, false)
     prefs.edit().putBoolean(KEY_MANUAL, enabled).apply()
     recentByApp.clear()
-    lastAtByApp.clear()
     return enabled
   }
 
@@ -64,7 +59,6 @@ object FullScreenMonitor {
         eventType != AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED &&
         eventType != AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
     ) return
-    val now = SystemClock.uptimeMillis()
     val source = event.source
     if (source?.isPassword == true || source?.isEditable == true) return
 
@@ -88,14 +82,15 @@ object FullScreenMonitor {
     if (unseen.isEmpty()) return
     val priority =
       eventType == AccessibilityEvent.TYPE_NOTIFICATION_STATE_CHANGED ||
+        eventType == AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED ||
+        eventType == AccessibilityEvent.TYPE_VIEW_SCROLLED ||
+        (eventType == AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED && unseen.size > 1) ||
         unseen.any {
           it.contains("comment", ignoreCase = true) ||
             it.contains("bình luận", ignoreCase = true) ||
             it.contains("tin nhắn", ignoreCase = true) ||
             it.contains("message", ignoreCase = true)
         }
-    if (!priority && now - (lastAtByApp[pkg] ?: 0L) < MIN_GAP_MS) return
-    lastAtByApp[pkg] = now
     val spoken = unseen.takeLast(if (priority) 3 else 2).joinToString(". ").take(300)
     if (spoken.isBlank()) return
     pipeline.returnFeedback(
@@ -104,7 +99,10 @@ object FullScreenMonitor {
         spoken,
         SpeakOptions.create()
           .setQueueMode(if (priority) SpeechController.QUEUE_MODE_INTERRUPT else SpeechController.QUEUE_MODE_QUEUE)
-          .setFlags(FeedbackItem.FLAG_NO_HISTORY),
+          .setFlags(
+            FeedbackItem.FLAG_NO_HISTORY or
+              FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE
+          ),
       ),
     )
   }
