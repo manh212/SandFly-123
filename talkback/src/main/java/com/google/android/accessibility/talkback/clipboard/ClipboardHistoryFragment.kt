@@ -19,6 +19,8 @@ package com.google.android.accessibility.talkback.clipboard
 import android.content.Context
 import android.content.Intent
 import android.view.ViewTreeObserver
+import androidx.preference.CheckBoxPreference
+import androidx.preference.PreferenceViewHolder
 import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
 import com.google.android.accessibility.talkback.R
@@ -31,7 +33,49 @@ import com.google.android.accessibility.utils.preference.PreferencesActivity.FRA
 /** The texts copied, newest first: each can be copied again or removed. */
 class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboard_history) {
 
-  private val onChange = Runnable { if (isResumed) rebuild() }
+  private val selected = LinkedHashSet<String>()
+  private var multiSelection = false
+  private var deleteSelected: Preference? = null
+  private val onChange = Runnable {
+    if (isResumed) {
+      selected.retainAll(ClipboardHistory.getEntries().toSet())
+      rebuild()
+    }
+  }
+
+  private fun beginSelection(text: String) {
+    selected.clear()
+    selected.add(text)
+    multiSelection = true
+    rebuild()
+  }
+
+  private fun exitSelection() {
+    multiSelection = false
+    selected.clear()
+    deleteSelected = null
+    rebuild()
+  }
+
+  private fun deleteSelection() {
+    if (selected.isEmpty()) return
+    val count = selected.size
+    dialog()
+      .setMessage(getString(R.string.clipboard_history_confirm_delete_selected, count))
+      .setPositiveButton(R.string.clipboard_history_delete_selected) { _, _ ->
+        ClipboardHistory.removeAll(selected.toList())
+        exitSelection()
+      }
+      .setNegativeButton(android.R.string.cancel, null)
+      .show()
+  }
+
+  private fun updateDeleteButton() {
+    deleteSelected?.apply {
+      title = getString(R.string.clipboard_history_delete_selected_count, selected.size)
+      isEnabled = selected.isNotEmpty()
+    }
+  }
 
   // The clipboard can be read once the screen has focus, which it doesn't have yet on resume.
   // While Shizuku adds each copy, the history has the clipboard's text already.
@@ -74,19 +118,73 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
       )
       return
     }
+    if (multiSelection) {
+      deleteSelected = screen.action(
+        getString(R.string.clipboard_history_delete_selected_count, selected.size)
+      ) { deleteSelection() }
+      updateDeleteButton()
+      screen.action(getString(R.string.clipboard_history_cancel_selection)) { exitSelection() }
+    } else {
+      deleteSelected = null
+    }
+
     entries.forEach { text ->
       val title = if (text.length > TITLE_LENGTH) text.take(TITLE_LENGTH) + "…" else text
-      screen.action(title) {
-        choose(title, listOf(getString(R.string.clipboard_history_copy), getString(R.string.notification_remove))) {
-          if (it == 0) {
-            ClipboardUtils.copyToClipboard(context, text)
-          } else {
-            ClipboardHistory.remove(text)
+      if (multiSelection) {
+        screen.addPreference(
+          CheckBoxPreference(context).apply {
+            this.title = title
+            isPersistent = false
+            isIconSpaceReserved = false
+            isChecked = selected.contains(text)
+            setOnPreferenceChangeListener { _, value ->
+              if (value as Boolean) selected.add(text) else selected.remove(text)
+              updateDeleteButton()
+              true
+            }
           }
-        }
+        )
+      } else {
+        screen.addPreference(
+          object : Preference(context) {
+            override fun onBindViewHolder(holder: PreferenceViewHolder) {
+              super.onBindViewHolder(holder)
+              holder.itemView.setOnLongClickListener {
+                choose(title, listOf(getString(R.string.clipboard_history_select_multiple))) {
+                  beginSelection(text)
+                }
+                true
+              }
+            }
+          }.apply {
+            this.title = title
+            isPersistent = false
+            isIconSpaceReserved = false
+            layoutResource = R.layout.listitem_2texts
+            setOnPreferenceClickListener {
+              choose(
+                title,
+                listOf(
+                  getString(R.string.clipboard_history_copy),
+                  getString(R.string.notification_remove),
+                  getString(R.string.clipboard_history_select_multiple),
+                )
+              ) { choice ->
+                when (choice) {
+                  0 -> ClipboardUtils.copyToClipboard(context, text)
+                  1 -> ClipboardHistory.remove(text)
+                  2 -> beginSelection(text)
+                }
+              }
+              true
+            }
+          }
+        )
       }
     }
-    screen.action(getString(R.string.clipboard_history_clear)) { ClipboardHistory.clear() }
+    if (!multiSelection) {
+      screen.action(getString(R.string.clipboard_history_clear)) { ClipboardHistory.clear() }
+    }
   }
 
   companion object {
