@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.backup
 
 import android.content.Context
+import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.talkback.update.Updater
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import org.junit.Assert.assertEquals
@@ -35,6 +36,30 @@ class SettingsBackupTest {
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val extra = SharedPreferencesUtils.getSharedPreferences(context, "extra_settings")
   private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
+
+  @Test
+  fun factoryDefaultsApplyOnlyToFreshInstall() {
+    val state = SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+    state.edit().clear().commit()
+    prefs.edit().clear().commit()
+    extra.edit().clear().commit()
+    braille.edit().clear().commit()
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
+    assertEquals("UEB", braille.getString("pref_brailleime_translator_code", null))
+    assertFalse(prefs.contains("pref_problem_report_email"))
+    assertFalse(prefs.contains("pref_stopwatch_history"))
+    assertTrue(state.getBoolean("initial_settings_applied", false))
+
+    state.edit().clear().commit()
+    prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertFalse(prefs.getBoolean("pref_speak_items_before_scroll_key", true))
+    assertTrue(state.getBoolean("initial_settings_applied", false))
+  }
 
   @Test
   fun settingsComeBackAsTheyWere() {
