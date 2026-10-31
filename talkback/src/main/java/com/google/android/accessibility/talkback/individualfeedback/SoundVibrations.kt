@@ -26,7 +26,7 @@ import com.google.android.accessibility.talkback.controlsounds.ControlSounds
  */
 object SoundVibrations {
   /** Sounds that play without a vibration: screen on. */
-  val WITHOUT_VIBRATION: Set<String> = setOf("screen_on")
+  val WITHOUT_VIBRATION: Set<String> = setOf("screen_on", "lib_new_clock")
 
   /**
    * The switches of vibrations that only sound themes give, by sound resource name: each kind of
