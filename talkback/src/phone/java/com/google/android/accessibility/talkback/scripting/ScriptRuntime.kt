@@ -216,9 +216,6 @@ class ScriptRuntime(
     on("speech.last", SCREEN) {
       promise { settle -> manager.feedback.lastSpeech { settle(true, it) } }
     }
-    on("braille.show", SPEECH) {
-      manager.feedback.showBraille(it.optString("text").take(MAX_BRAILLE_CHARS))
-    }
     on("commands.list") { commandList() }
     on("commands.run", INPUT) { args ->
       apiCheck(!manager.inBacktalk) { "Scripts can't run commands on SandFly's own screens" }
@@ -655,7 +652,6 @@ class ScriptRuntime(
     private const val MAX_SAMPLE_RATE = 48000
     private const val MIN_SPEECH_SCALE = 0.25f
     private const val MAX_SPEECH_SCALE = 4f
-    private const val MAX_BRAILLE_CHARS = 1000
     private const val MAX_RECOGNITIONS = 2
     private const val MAX_FILE_BYTES = 1024L * 1024
     private val REFUSED_COMMANDS = setOf("TOGGLE_SCRIPTS")

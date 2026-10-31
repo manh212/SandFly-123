@@ -89,8 +89,6 @@ class ScriptFeedback(
 
   fun stopSpeech() = onMain { services.stopSpeech() }
 
-  fun showBraille(text: String) = onMain { services.showBraille(text) }
-
   fun runCommand(value: String, done: (Boolean) -> Unit) = onMain { done(services.runCommand(value)) }
 
   fun lastSpeech(done: (String?) -> Unit) = onMain { done(services.lastSpeech()) }

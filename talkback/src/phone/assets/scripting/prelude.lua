@@ -1506,10 +1506,6 @@ local speech = {
   last = function() return await(call('speech.last')) end,
 }
 
-local braille = {
-  show = function(text) send('braille.show', { text = tostring(text) }) end,
-}
-
 local device = {
   info = function() return call('device.info') end,
   battery = function() return call('device.battery') end,
@@ -1572,10 +1568,8 @@ local sf = {
     opts = opts or {}
     text = tostring(text)
     send('speak', { text = text, interrupt = opts.interrupt ~= false })
-    send('braille.show', { text = text })
   end,
   speech = speech,
-  braille = braille,
   touch = touch,
   keys = {
     press = function(keys)
