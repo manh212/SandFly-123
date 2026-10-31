@@ -55,7 +55,6 @@ public final class ClipboardUtils {
 
     String previousText = "";
     try {
-      boolean hasPrimaryClip = clipboard.hasPrimaryClip();
       ClipData clipData = clipboard.getPrimaryClip();
       if (clipData != null) {
         StringBuilder existingText = new StringBuilder();
@@ -70,7 +69,9 @@ public final class ClipboardUtils {
         }
         previousText = existingText.toString();
       }
-      if (TextUtils.isEmpty(previousText) && hasPrimaryClip) {
+      if (TextUtils.isEmpty(previousText)) {
+        // Android may hide the primary clip from an accessibility service. Use the last copy
+        // captured by SandFly so appending does not silently replace the clipboard with new text.
         previousText = latestHistoryText();
       }
     } catch (RuntimeException e) {

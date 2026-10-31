@@ -79,6 +79,17 @@ class ClipboardUtilsTest {
   }
 
   @Test
+  fun addedTextFallsBackToHistoryWhenTheClipboardCannotBeRead() {
+    ClipboardHistory.record("previous copy")
+    clipboard.clearPrimaryClip()
+
+    assertTrue(ClipboardUtils.appendToClipboard(context, "added text"))
+
+    assertEquals("previous copy\nadded text", clip())
+    assertEquals("previous copy\nadded text", ClipboardHistory.getEntries().first())
+  }
+
+  @Test
   fun addedTextIsUsedWhenTheClipboardIsEmpty() {
     assertTrue(ClipboardUtils.appendToClipboard(context, "only"))
 

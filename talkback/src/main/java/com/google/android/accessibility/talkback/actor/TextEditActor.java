@@ -44,6 +44,7 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline.FeedbackReturner;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor.StateReader;
+import com.google.android.accessibility.talkback.clipboard.ClipboardHistory;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.monitor.InputMethodMonitor;
@@ -496,6 +497,10 @@ public class TextEditActor implements VoiceDictationDelegate {
       copyData = selectedNodeText;
       result =
           PerformActionUtils.performAction(node, AccessibilityNodeInfoCompat.ACTION_COPY, eventId);
+      if (result && copyData != null) {
+        // Android may prevent an accessibility service from reading the clipboard after a copy.
+        ClipboardHistory.record(copyData);
+      }
     } else {
       copyData = TextUtils.isEmpty(nodeText) ? childrenText(node) : nodeText;
       result = copyToClipboard(clipboard, copyData);
