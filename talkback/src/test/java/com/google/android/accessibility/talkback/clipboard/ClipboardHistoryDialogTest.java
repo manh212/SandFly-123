@@ -188,6 +188,7 @@ public class ClipboardHistoryDialogTest {
     delete.performClick();
     AlertDialog confirmation = ShadowAlertDialog.getLatestAlertDialog();
     confirmation.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+    shadowOf(Looper.getMainLooper()).idle();
     assertEquals(Arrays.asList("entry 4", "entry 2"), ClipboardHistory.getEntries());
     parent.dismiss();
   }
