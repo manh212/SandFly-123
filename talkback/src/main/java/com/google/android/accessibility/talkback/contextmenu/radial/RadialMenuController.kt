@@ -73,12 +73,26 @@ class RadialMenuController(
   private var items: List<ContextMenuItem> = emptyList()
   private var passthroughRegionSet = false
   private val hintRunnable = Runnable { speakHint() }
+  // A full-screen accessibility overlay must never be left intercepting touches indefinitely.
+  private val timeoutRunnable = Runnable {
+    if (isShowing) {
+      LogUtils.w(TAG, "Closing a circle menu that exceeded its maximum open time.")
+      cancel()
+    } else {
+      dismiss()
+    }
+  }
 
   val isShowing: Boolean
     get() = view != null
 
   /** Shows the visible items of [menu], replacing the items of a menu that is already showing. */
   fun show(title: CharSequence?, menu: ContextMenu) {
+    // A queued menu request must not reopen the overlay after the setting is switched off.
+    if (!isEnabled(service)) {
+      dismiss()
+      return
+    }
     items = (0 until menu.size()).map { menu.getItem(it) }.filter { it.isVisible }
     if (items.isEmpty()) {
       dismiss()
@@ -105,14 +119,32 @@ class RadialMenuController(
   /** Closes the menu without any feedback. */
   fun dismiss() {
     handler.removeCallbacks(hintRunnable)
-    val menuView = view ?: return
+    handler.removeCallbacks(timeoutRunnable)
+    val menuView = view
     view = null
     items = emptyList()
-    clearPassthroughRegion()
     try {
-      windowManager.removeViewImmediate(menuView)
-    } catch (e: IllegalArgumentException) {
-      LogUtils.w(TAG, "Circle menu was not attached: %s", e)
+      if (menuView != null) {
+        windowManager.removeViewImmediate(menuView)
+      }
+    } catch (e: RuntimeException) {
+      LogUtils.w(TAG, "Could not remove the circle menu window: %s", e)
+      // If removal failed while still attached, stop this full-screen view from consuming touches
+      // immediately, then request normal (asynchronous) removal as a fallback.
+      if (menuView != null && menuView.isAttachedToWindow) {
+        try {
+          (menuView.layoutParams as? WindowManager.LayoutParams)?.let { params ->
+            params.flags = params.flags or WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE
+            windowManager.updateViewLayout(menuView, params)
+          }
+          windowManager.removeView(menuView)
+        } catch (fallbackError: RuntimeException) {
+          LogUtils.e(TAG, "Could not release the stuck circle menu window: %s", fallbackError)
+        }
+      }
+    } finally {
+      // The region may still be locked even if the view has already disappeared or removal fails.
+      clearPassthroughRegion()
     }
   }
 
@@ -205,7 +237,14 @@ class RadialMenuController(
       return null
     }
     view = menuView
-    setPassthroughRegion()
+    try {
+      setPassthroughRegion()
+      handler.postDelayed(timeoutRunnable, MAX_OPEN_TIME_MS)
+    } catch (e: RuntimeException) {
+      LogUtils.e(TAG, "Could not initialize the circle menu: %s", e)
+      dismiss()
+      return null
+    }
     return menuView
   }
 
@@ -225,6 +264,9 @@ class RadialMenuController(
     @Suppress("DEPRECATION") display.getRealMetrics(metrics)
     // Through pass-through mode, which keeps direct touch's region from replacing it and puts that
     // back when the menu closes.
+    // Mark before dispatching feedback. If the actor throws after applying the region,
+    // the addView() failure path still knows it has to unlock the region.
+    passthroughRegionSet = true
     pipeline.returnFeedback(
       EVENT_ID_UNTRACKED,
       Feedback.passThroughMode(
@@ -232,7 +274,6 @@ class RadialMenuController(
         Region(0, 0, metrics.widthPixels, metrics.heightPixels),
       ),
     )
-    passthroughRegionSet = true
   }
 
   private fun clearPassthroughRegion() {
@@ -268,6 +309,9 @@ class RadialMenuController(
 
     /** How long after the menu opens to speak the usage hint, if the user has not touched it. */
     private const val HINT_DELAY_MS = 2000L
+
+    /** Absolute safety limit, even if the menu keeps receiving touch events. */
+    internal const val MAX_OPEN_TIME_MS = 120_000L
 
     /**
      * How long to wait after the menu closes before running an item's deferred action, so that the

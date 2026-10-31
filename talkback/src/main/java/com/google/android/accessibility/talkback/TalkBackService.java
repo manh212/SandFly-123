@@ -141,6 +141,7 @@ import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.compositor.PreparedFocusSpeech;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DescriptionOrder;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
+import com.google.android.accessibility.talkback.contextmenu.radial.RadialMenuController;
 import com.google.android.accessibility.talkback.controller.TelevisionNavigationController;
 import com.google.android.accessibility.talkback.controlsounds.ControlSoundsSettings;
 import com.google.android.accessibility.talkback.directtouch.DirectTouchController;
@@ -943,6 +944,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     recordingFocusGuard.stop();
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.closeService();
     LogUtils.d(TAG, "onUnbind start");
+    // Release the full-screen circle menu before the feedback pipeline is disconnected.
+    if (menuManager != null) {
+      menuManager.dismissAll();
+    }
     final long turningOffTime = System.currentTimeMillis();
     interruptAllFeedback(/* stopTtsSpeechCompletely= */ false);
     storeTalkBackUserUsage();
@@ -980,6 +985,10 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
+    // onDestroy can run without a preceding onUnbind (or after a partial startup).
+    if (menuManager != null) {
+      menuManager.dismissAll();
+    }
     if (otherScreenReaderMonitor != null) {
       otherScreenReaderMonitor.stop();
       otherScreenReaderMonitor = null;
@@ -3432,6 +3441,9 @@ public class TalkBackService extends AccessibilityServiceCompat
    * {@link #onDestroy}.
    */
   private void suspendInfrastructure() {
+    if (menuManager != null) {
+      menuManager.dismissAll();
+    }
     if (extendedGesturesController != null) extendedGesturesController.stop();
     if (!isServiceActive()) {
       LogUtils.e(TAG, "Attempted to suspend while already suspended");
@@ -4528,6 +4540,12 @@ public class TalkBackService extends AccessibilityServiceCompat
   private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
       (prefs, key) -> {
         LogUtils.d(TAG, "A shared preference changed: %s", key);
+        if (getString(R.string.pref_radial_menu_key).equals(key)
+            && !RadialMenuController.isEnabled(this)
+            && menuManager != null) {
+          // Do this before the potentially lengthy preference reload so touches are unblocked.
+          menuManager.dismissRadialMenu();
+        }
         // The prepared announcements may have been worked out with the setting as it was, such as
         // a verbosity setting changed from the reading controls.
         PreparedFocusSpeech.clear();
