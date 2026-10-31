@@ -36,12 +36,6 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private boolean twoFingerTracking;
   private boolean twoFingerMoved;
   private boolean heldTwoFingerGesture;
-  private final Runnable armExtendedAfterHold = () -> {
-    if (active && twoFingerTracking && !twoFingerMoved && !completedInteraction
-        && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
-      heldTwoFingerGesture = true;
-    }
-  };
   private final Runnable failure;
   private final boolean rotationEnabled;
   private final boolean extendedEnabled;
@@ -54,6 +48,12 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
   private boolean transitionPending;
   private boolean gestureStarted;
   private int state = TouchInteractionController.STATE_CLEAR;
+  private final Runnable armExtendedAfterHold = () -> {
+    if (active && twoFingerTracking && !twoFingerMoved && !completedInteraction
+        && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
+      heldTwoFingerGesture = true;
+    }
+  };
   private final Runnable explore = () -> {
     if (active && !gestureStarted && controllerState() == TouchInteractionController.STATE_TOUCH_INTERACTING) {
       requestExploration();
