@@ -4,7 +4,11 @@ import android.content.Context;
 import android.graphics.Rect;
 import com.google.android.accessibility.talkback.actor.gemini.AiTextRequests;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import java.util.function.Consumer;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -14,9 +18,24 @@ public final class ScreenRecognitionAi {
       "Identify visible interactive controls and meaningful text on this screenshot. "
       + "Return only JSON: {\"elements\":[{\"label\":\"short readable name\","
       + "\"role\":\"button\",\"bounds\":[left,top,right,bottom]}]}. "
+      + "Choose one role for each element from button, text, heading, image, text_field, "
+      + "check_box, switch, slider, tab, or link. "
       + "Coordinates must be integers from 0 to 1000 relative to the image. "
       + "Use visible screen locations only. Do not invent elements or labels. "
       + "Use the language shown on screen. Limit results to 80 elements.";
+  private static final Set<String> ROLES =
+      new HashSet<>(
+          Arrays.asList(
+              "button",
+              "text",
+              "heading",
+              "image",
+              "text_field",
+              "check_box",
+              "switch",
+              "slider",
+              "tab",
+              "link"));
 
   private final AiTextRequests requests;
 
@@ -43,7 +62,7 @@ public final class ScreenRecognitionAi {
     requests.cancel();
   }
 
-  private static List<RecognizedItem> parse(String raw, int screenWidth, int screenHeight) {
+  static List<RecognizedItem> parse(String raw, int screenWidth, int screenHeight) {
     if (raw == null || screenWidth <= 0 || screenHeight <= 0) {
       return null;
     }
@@ -64,6 +83,10 @@ public final class ScreenRecognitionAi {
           continue;
         }
         String label = element.optString("label", "").trim();
+        String role = element.optString("role", "text").trim().toLowerCase(Locale.ROOT);
+        if (!ROLES.contains(role)) {
+          role = "text";
+        }
         JSONArray bounds = element.optJSONArray("bounds");
         if (label.isEmpty() || bounds == null || bounds.length() != 4) {
           continue;
@@ -76,7 +99,7 @@ public final class ScreenRecognitionAi {
           continue;
         }
         String name = label.length() > 180 ? label.substring(0, 180) : label;
-        items.add(new RecognizedItem(name, new Rect(left, top, right, bottom), false));
+        items.add(new RecognizedItem(name, new Rect(left, top, right, bottom), false, role));
       }
       RecognitionLayout.sort(items);
       return items;

@@ -21,16 +21,39 @@ import android.content.SharedPreferences
 import android.util.Base64
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelManager
+import com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiSettings
 import com.google.android.accessibility.utils.SharedPreferencesUtils
-import java.util.function.Consumer
 import java.util.concurrent.atomic.AtomicBoolean
+import java.util.function.Consumer
 import org.json.JSONArray
 import org.json.JSONObject
 
-class AiTextRequests(context: Context, announce: Consumer<String>) {
+internal interface AiTextRequestPerformer {
+  fun performRequest(
+    urls: List<String>,
+    apiKey: String,
+    postData: JSONObject,
+    callback: GeminiRestRequestPerformer.GeminiRestResponseCallback,
+  )
+
+  fun performOnDeviceRequest(
+    postData: JSONObject,
+    callback: GeminiRestRequestPerformer.GeminiRestResponseCallback,
+  )
+
+  fun cancelExistingRequestIfNeeded()
+}
+
+class AiTextRequests internal constructor(
+  context: Context,
+  announce: Consumer<String>,
+  private val performer: AiTextRequestPerformer,
+) {
+  constructor(context: Context, announce: Consumer<String>) :
+    this(context, announce, LocalGemmaRequestPerformer(context, announce))
+
   private val appContext = context.applicationContext
   private val prefs = SharedPreferencesUtils.getSharedPreferences(appContext)
-  private val performer = LocalGemmaRequestPerformer(appContext, announce)
 
   fun ask(prompt: String, json: Boolean, done: (String?, GeminiFailure?) -> Unit) {
     val request =
@@ -80,23 +103,10 @@ class AiTextRequests(context: Context, announce: Consumer<String>) {
       .put("generationConfig", JSONObject().put("responseMimeType", "application/json"))
     val urls = GeminiModel.chain(prefs).map { GEMINI_URL + it + ":generateContent" }
     val key = geminiKey(prefs)
-    val usingLocal = LocalModelManager.get(appContext).answersRequests()
-    val cloudReady = AiService.isSetUp(prefs) || key.isNotEmpty()
-    var triedCloud = false
 
     val callback = object : GeminiRestRequestPerformer.GeminiRestResponseCallback {
       private fun finish(text: String?, failure: GeminiFailure?) {
         if (active.compareAndSet(true, false)) done(text, failure)
-      }
-
-      private fun fallback(failure: GeminiFailure?) {
-        if (!active.get()) return
-        if (usingLocal && cloudReady && !triedCloud) {
-          triedCloud = true
-          performer.performCloudRequest(urls, key, request, this)
-        } else {
-          finish(null, failure)
-        }
       }
 
       override fun onResponse(response: DataFieldUtils.GeminiResponse) {
@@ -106,14 +116,18 @@ class AiTextRequests(context: Context, announce: Consumer<String>) {
           JSONObject("{$json}").optJSONArray("elements") != null
         }.getOrDefault(false)
         if (structured) finish(text, null)
-        else fallback(GeminiFailure.other("The model did not locate screen elements"))
+        else finish(null, GeminiFailure.other("The model did not locate screen elements"))
       }
 
-      override fun onFailure(failure: GeminiFailure) = fallback(failure)
+      override fun onFailure(failure: GeminiFailure) = finish(null, failure)
 
-      override fun onCancelled() = fallback(null)
+      override fun onCancelled() = finish(null, null)
     }
-    performer.performRequest(urls, key, request, callback)
+    if (OnDeviceAiSettings.isOnDevice(prefs)) {
+      performer.performOnDeviceRequest(request, callback)
+    } else {
+      performer.performRequest(urls, key, request, callback)
+    }
   }
 
   fun cancel() {

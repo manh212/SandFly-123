@@ -16,27 +16,23 @@
 
 package com.google.android.accessibility.talkback.screenrecognition;
 
-import android.accessibilityservice.GestureDescription;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import java.io.ByteArrayOutputStream;
-import android.graphics.PixelFormat;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-import android.view.Gravity;
-import android.view.ViewConfiguration;
 import android.view.WindowManager;
-import android.view.accessibility.AccessibilityManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.imagecaption.TesseractOcr;
+import com.google.android.accessibility.talkback.screenelements.ScreenElement;
+import com.google.android.accessibility.talkback.screenelements.ScreenElements;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.screencapture.ScreenshotCapture;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
@@ -46,7 +42,9 @@ import com.google.mlkit.vision.text.Text;
 import com.google.mlkit.vision.text.TextRecognition;
 import com.google.mlkit.vision.text.TextRecognizer;
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -58,7 +56,6 @@ public class ScreenRecognitionController {
   }
 
   private static final String TAG = "ScreenRecognition";
-  private static final long OVERLAY_REMOVAL_DELAY_MS = 150L;
   private static final long REFRESH_AFTER_ACTIVATION_DELAY_MS = 700L;
   private static final long CONTROL_TRAVERSAL_BUDGET_MS = 100L;
   private static final int MAX_CONTROL_NODES = 2000;
@@ -74,17 +71,16 @@ public class ScreenRecognitionController {
             thread.setDaemon(true);
             return thread;
           });
-  private ScreenRecognitionOverlay overlay;
   private volatile boolean active;
-  private boolean running;
   private Runnable pendingRefresh;
-  private Runnable pendingActivation;
   private volatile int generation;
+  private int captureWindowId = -1;
+  private String capturePackageName;
+  private boolean showingElements;
   private int captureWidth;
   private int captureHeight;
   private int captureRotation;
   private List<Rect> controls = new ArrayList<>();
-  private List<RecognizedItem> currentItems = new ArrayList<>();
 
   public ScreenRecognitionController(TalkBackService service, Announcer announcer) {
     this.service = service;
@@ -113,7 +109,11 @@ public class ScreenRecognitionController {
       finishFailure();
       return;
     }
-    running = true;
+    hide();
+    if (!captureHostWindow()) {
+      finishFailure();
+      return;
+    }
     int request = ++generation;
     captureRotation = service.getSystemService(WindowManager.class).getDefaultDisplay().getRotation();
     announcer.announce(service.getString(R.string.screen_recognition_starting));
@@ -303,9 +303,8 @@ public class ScreenRecognitionController {
   }
 
   private void finishRecognition(List<RecognizedItem> items) {
-    running = false;
-    if (!sameDisplaySize()) {
-      stop();
+    if (!sameDisplaySize() || !isCaptureHostCurrent()) {
+      stopSilently();
       announcer.announce(service.getString(R.string.screen_recognition_failed));
       return;
     }
@@ -316,14 +315,12 @@ public class ScreenRecognitionController {
       announcer.announce(service.getString(R.string.screen_recognition_empty));
       return;
     }
-    currentItems = items;
     if (show(items)) {
       announcer.announce(service.getString(R.string.screen_recognition_done, items.size()));
     }
   }
 
   private void finishFailure() {
-    running = false;
     active = false;
     announcer.announce(service.getString(R.string.screen_recognition_failed));
   }
@@ -333,6 +330,85 @@ public class ScreenRecognitionController {
     service.getSystemService(WindowManager.class).getDefaultDisplay().getRealSize(size);
     return size.x == captureWidth && size.y == captureHeight
         && captureRotation == service.getSystemService(WindowManager.class).getDefaultDisplay().getRotation();
+  }
+
+  private boolean captureHostWindow() {
+    List<AccessibilityWindowInfo> windows;
+    try {
+      windows = service.getWindows();
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Could not find the app window: " + e.getMessage());
+      return false;
+    }
+    if (windows == null) return false;
+    try {
+      AccessibilityWindowInfo host = null;
+      for (AccessibilityWindowInfo window : windows) {
+        if (window.getType() != AccessibilityWindowInfo.TYPE_APPLICATION) continue;
+        if (window.isActive()) {
+          host = window;
+          break;
+        }
+        if (host == null || window.getLayer() > host.getLayer()) host = window;
+      }
+      if (host == null) return false;
+      AccessibilityNodeInfo root = host.getRoot();
+      if (root == null) return false;
+      try {
+        CharSequence packageName = root.getPackageName();
+        if (packageName == null || packageName.length() == 0) return false;
+        captureWindowId = host.getId();
+        capturePackageName = packageName.toString();
+        return true;
+      } finally {
+        root.recycle();
+      }
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Could not read the app window: " + e.getMessage());
+      return false;
+    } finally {
+      for (AccessibilityWindowInfo window : windows) {
+        window.recycle();
+      }
+    }
+  }
+
+  private boolean isCaptureHostCurrent() {
+    List<AccessibilityWindowInfo> windows;
+    try {
+      windows = service.getWindows();
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Could not verify the app window: " + e.getMessage());
+      return false;
+    }
+    if (windows == null) return false;
+    try {
+      AccessibilityWindowInfo host = null;
+      for (AccessibilityWindowInfo window : windows) {
+        if (window.getType() != AccessibilityWindowInfo.TYPE_APPLICATION) continue;
+        if (window.isActive()) {
+          host = window;
+          break;
+        }
+        if (host == null || window.getLayer() > host.getLayer()) host = window;
+      }
+      if (host == null || host.getId() != captureWindowId) return false;
+      AccessibilityNodeInfo root = host.getRoot();
+      if (root == null) return false;
+      try {
+        CharSequence packageName = root.getPackageName();
+        return packageName != null && capturePackageName.contentEquals(packageName);
+      } finally {
+        root.recycle();
+      }
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Could not verify the app window: " + e.getMessage());
+      return false;
+    } finally {
+      for (AccessibilityWindowInfo window : windows) {
+        window.recycle();
+      }
+    }
   }
 
   private List<Rect> collectControls(int request) {
@@ -351,13 +427,16 @@ public class ScreenRecognitionController {
             || result.size() >= 500) {
           break;
         }
-        if (window.getType() == AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) {
+        if (window.getType() != AccessibilityWindowInfo.TYPE_APPLICATION) {
           continue;
         }
         AccessibilityNodeInfo root = window.getRoot();
         if (root != null) {
           try {
-            collectControls(root, result, 0, visited, deadline, request);
+            CharSequence packageName = root.getPackageName();
+            if (packageName != null && capturePackageName.contentEquals(packageName)) {
+              collectControls(root, result, 0, visited, deadline, request);
+            }
           } finally {
             root.recycle();
           }
@@ -415,38 +494,30 @@ public class ScreenRecognitionController {
   }
 
   private boolean show(List<RecognizedItem> items) {
-    hide();
-    WindowManager windowManager = service.getSystemService(WindowManager.class);
-    overlay =
-        new ScreenRecognitionOverlay(
-            service, this::activate, item -> announcer.announce(item.text));
-    WindowManager.LayoutParams params = new WindowManager.LayoutParams();
-    params.setTitle(service.getString(R.string.title_screen_recognition));
-    params.type = WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY;
-    params.flags =
-        WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-            | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN
-            | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-    params.gravity = Gravity.TOP | Gravity.LEFT;
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-      params.setFitInsetsTypes(0);
-      params.layoutInDisplayCutoutMode =
-          WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_ALWAYS;
-    }
-    params.width = WindowManager.LayoutParams.MATCH_PARENT;
-    params.height = WindowManager.LayoutParams.MATCH_PARENT;
-    params.format = PixelFormat.TRANSLUCENT;
+    List<ScreenElement> elements = ScreenRecognitionElements.from(items);
+    int request = generation;
     try {
-      windowManager.addView(overlay, params);
+      ScreenElements.show(
+          captureWindowId,
+          capturePackageName,
+          elements,
+          Collections.emptyMap(),
+          false,
+          () -> {
+            if (active && request == generation) scheduleRefresh(request);
+          });
     } catch (RuntimeException e) {
-      LogUtils.w(TAG, "Overlay could not be shown: " + e.getMessage());
-      overlay = null;
+      LogUtils.w(TAG, "Screen elements could not be shown: " + e.getMessage());
       active = false;
       announcer.announce(service.getString(R.string.screen_recognition_failed));
       return false;
     }
-    overlay.setItems(items);
-    return true;
+    showingElements = ScreenElements.isShowing();
+    if (!showingElements) {
+      active = false;
+      announcer.announce(service.getString(R.string.screen_recognition_failed));
+    }
+    return showingElements;
   }
 
   public boolean stop() {
@@ -460,16 +531,10 @@ public class ScreenRecognitionController {
   private boolean stop(boolean announce) {
     boolean wasActive = active;
     active = false;
-    running = false;
     generation++;
     screenRecognitionAi.cancel();
     cancelPendingRefresh();
-    if (pendingActivation != null) {
-      mainHandler.removeCallbacks(pendingActivation);
-      pendingActivation = null;
-    }
     hide();
-    currentItems = new ArrayList<>();
     if (wasActive && announce) {
       announcer.announce(service.getString(R.string.screen_recognition_off));
     }
@@ -477,62 +542,10 @@ public class ScreenRecognitionController {
   }
 
   private void hide() {
-    if (overlay != null) {
-      try {
-        service.getSystemService(WindowManager.class).removeView(overlay);
-      } catch (IllegalArgumentException e) {
-        LogUtils.w(TAG, "Overlay already removed: " + e.getMessage());
-      }
-      overlay = null;
+    if (showingElements) {
+      ScreenElements.clear("screen recognition closed");
+      showingElements = false;
     }
-  }
-
-  private void activate(RecognizedItem item) {
-    if (!active || running || pendingActivation != null || pendingRefresh != null) {
-      return;
-    }
-    if (!sameDisplaySize()) {
-      stop();
-      announcer.announce(service.getString(R.string.screen_recognition_failed));
-      return;
-    }
-    hide();
-    int request = generation;
-    pendingActivation =
-        () -> {
-          pendingActivation = null;
-          if (!active || request != generation) {
-            return;
-          }
-          if (!sameDisplaySize()) {
-            stop();
-            announcer.announce(service.getString(R.string.screen_recognition_failed));
-            return;
-          }
-          nodeTraversalExecutor.execute(
-              () -> {
-                boolean clicked;
-                try {
-                  clicked = clickNative(item.bounds, request);
-                } catch (RuntimeException e) {
-                  LogUtils.w(TAG, "Native click traversal failed: " + e.getMessage());
-                  clicked = false;
-                }
-                boolean result = clicked;
-                mainHandler.post(
-                    () -> {
-                      if (!active || request != generation) {
-                        return;
-                      }
-                      if (result) {
-                        scheduleRefresh(request);
-                      } else {
-                        dispatchRecognizedClick(item.bounds, request);
-                      }
-                    });
-              });
-        };
-    mainHandler.postDelayed(pendingActivation, OVERLAY_REMOVAL_DELAY_MS);
   }
 
   private void scheduleRefresh(int request) {
@@ -551,142 +564,7 @@ public class ScreenRecognitionController {
     mainHandler.postDelayed(pendingRefresh, REFRESH_AFTER_ACTIVATION_DELAY_MS);
   }
 
-  private void restoreAfterFailedClick(int request) {
-    if (active && request == generation) {
-      show(currentItems);
-      announcer.announce("Không thể nhấp vào mục này. Hãy thử lại.");
-    }
-  }
-
-  private void dispatchRecognizedClick(Rect bounds, int request) {
-    if (!active || request != generation) {
-      return;
-    }
-    AccessibilityManager manager = service.getSystemService(AccessibilityManager.class);
-    GestureDescription gesture =
-        RecognitionClick.gesture(
-            bounds, ViewConfiguration.getTapTimeout(), manager.isTouchExplorationEnabled());
-    boolean accepted =
-        service.dispatchGesture(
-            gesture,
-            new android.accessibilityservice.AccessibilityService.GestureResultCallback() {
-              @Override
-              public void onCompleted(GestureDescription completed) {
-                if (active && request == generation) {
-                  scheduleRefresh(request);
-                }
-              }
-
-              @Override
-              public void onCancelled(GestureDescription cancelled) {
-                restoreAfterFailedClick(request);
-              }
-            },
-            mainHandler);
-    if (!accepted) {
-      restoreAfterFailedClick(request);
-    }
-  }
-
-  private boolean clickNative(Rect target, int request) {
-    long deadline = SystemClock.uptimeMillis() + CONTROL_TRAVERSAL_BUDGET_MS;
-    int[] visited = {0};
-    List<AccessibilityWindowInfo> serviceWindows = service.getWindows();
-    if (serviceWindows == null) {
-      return false;
-    }
-    List<AccessibilityWindowInfo> windows = new ArrayList<>(serviceWindows);
-    try {
-      windows.sort((first, second) -> Integer.compare(second.getLayer(), first.getLayer()));
-      for (AccessibilityWindowInfo window : windows) {
-        if (!isCurrent(request)
-            || SystemClock.uptimeMillis() >= deadline
-            || visited[0] >= MAX_CONTROL_NODES) {
-          return false;
-        }
-        if (window.getType() == AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) {
-          continue;
-        }
-        Rect bounds = new Rect();
-        window.getBoundsInScreen(bounds);
-        if (!bounds.contains(target.centerX(), target.centerY())) {
-          continue;
-        }
-        AccessibilityNodeInfo root = window.getRoot();
-        if (root == null) {
-          continue;
-        }
-        try {
-          AccessibilityNodeInfo node =
-              findClickTarget(root, target, 0, deadline, visited, request);
-          if (node == null) {
-            continue;
-          }
-          try {
-            return isCurrent(request) && node.performAction(AccessibilityNodeInfo.ACTION_CLICK);
-          } finally {
-            node.recycle();
-          }
-        } catch (RuntimeException e) {
-          LogUtils.w(TAG, "Native click failed: " + e.getMessage());
-          return false;
-        } finally {
-          root.recycle();
-        }
-      }
-    } finally {
-      for (AccessibilityWindowInfo window : windows) {
-        window.recycle();
-      }
-    }
-    return false;
-  }
-
   private boolean isCurrent(int request) {
     return active && request == generation;
-  }
-
-  @Nullable
-  private AccessibilityNodeInfo findClickTarget(
-      AccessibilityNodeInfo node,
-      Rect target,
-      int depth,
-      long deadline,
-      int[] visited,
-      int request) {
-    if (!isCurrent(request)
-        || depth > 50
-        || ++visited[0] > MAX_CONTROL_NODES
-        || SystemClock.uptimeMillis() >= deadline
-        || !node.isVisibleToUser()
-        || !node.isEnabled()) {
-      return null;
-    }
-    Rect bounds = new Rect();
-    node.getBoundsInScreen(bounds);
-    if (!bounds.contains(target.centerX(), target.centerY())) {
-      return null;
-    }
-    int childCount = node.getChildCount();
-    for (int i = 0; i < childCount; i++) {
-      if (!isCurrent(request)
-          || SystemClock.uptimeMillis() >= deadline
-          || visited[0] >= MAX_CONTROL_NODES) {
-        return null;
-      }
-      AccessibilityNodeInfo child = node.getChild(i);
-      if (child != null) {
-        AccessibilityNodeInfo result;
-        try {
-          result = findClickTarget(child, target, depth + 1, deadline, visited, request);
-        } finally {
-          child.recycle();
-        }
-        if (result != null) {
-          return result;
-        }
-      }
-    }
-    return isCurrent(request) && node.isClickable() ? AccessibilityNodeInfo.obtain(node) : null;
   }
 }

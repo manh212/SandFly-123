@@ -54,6 +54,7 @@ data class ScreenElement(
   val role: Role,
   val bounds: Rect,
   val state: String? = null,
+  val actionable: Boolean = role != Role.TEXT && role != Role.HEADING && role != Role.IMAGE,
 ) {
   enum class Role(val className: String) {
     BUTTON("android.widget.Button"),
@@ -69,7 +70,7 @@ data class ScreenElement(
   }
 
   val isActionable: Boolean
-    get() = role != Role.TEXT && role != Role.HEADING && role != Role.IMAGE
+    get() = actionable
 }
 
 /**
@@ -108,6 +109,7 @@ object ScreenElements {
   private var hostWindowId = -1
   private var hostPackage: String? = null
   private val labels = HashMap<AccessibilityNodeInfoCompat, CharSequence>()
+  private var afterTap: Runnable? = null
 
   /** Accessibility window IDs of the element windows, by element index. */
   private val elementWindowIds = HashMap<Int, Int>()
@@ -135,7 +137,10 @@ object ScreenElements {
 
   @JvmStatic
   fun attach(service: AccessibilityService, pipeline: () -> Pipeline.FeedbackReturner?) {
-    windows = ScreenElementWindows(service, pipeline) { scheduleChange(hostPackage, Change.CONTENT) }
+    windows = ScreenElementWindows(service, pipeline) {
+      scheduleChange(hostPackage, Change.CONTENT)
+      afterTap?.run()
+    }
   }
 
   @JvmStatic
@@ -167,9 +172,11 @@ object ScreenElements {
     elements: List<ScreenElement>,
     labels: Map<AccessibilityNodeInfoCompat, CharSequence>,
     keepFocus: Boolean,
+    afterTap: Runnable? = null,
   ) {
     val focused = if (keepFocus) focusedBounds else null
     clear()
+    this.afterTap = afterTap
     hostWindowId = windowId
     hostPackage = packageName
     this.labels.putAll(labels)
@@ -199,6 +206,7 @@ object ScreenElements {
     handler.removeCallbacksAndMessages(REFOCUS_TOKEN)
     windows?.clear()
     labels.clear()
+    afterTap = null
     elementWindowIds.clear()
     anchors = null
     firstAppNode = null

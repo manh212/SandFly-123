@@ -50,6 +50,46 @@ class MigrationFilesTest {
   }
 
   @Test
+  fun installedScriptFilesAreAllowed() {
+    assertEquals(
+      MigrationFiles.SCRIPTS_DIR to "example-plugin/main.lua",
+      MigrationFiles.parse("scripts/example-plugin/main.lua"),
+    )
+    assertEquals(
+      MigrationFiles.SCRIPTS_DIR to "reader/assets/labels.json",
+      MigrationFiles.parse("scripts/reader/assets/labels.json"),
+    )
+  }
+
+  @Test
+  fun userFilesAndSoundThemesAreAllowed() {
+    assertEquals(
+      MigrationFiles.FILES_DIR to "clipboard-history.json",
+      MigrationFiles.parse("files/clipboard-history.json"),
+    )
+    assertEquals(
+      MigrationFiles.FILES_DIR to "favorite-texts.json",
+      MigrationFiles.parse("files/favorite-texts.json"),
+    )
+    assertEquals(
+      MigrationFiles.DEVICE_FILES_DIR to "sound_themes/custom-theme/theme.json",
+      MigrationFiles.parse("device_files/sound_themes/custom-theme/theme.json"),
+    )
+    assertNull(MigrationFiles.parse("files/models.bin"))
+  }
+
+  @Test
+  fun unsafeScriptPathsAreRejected() {
+    assertNull(MigrationFiles.parse("scripts/../main.lua"))
+    assertNull(MigrationFiles.parse("scripts/reader/../main.lua"))
+    assertNull(MigrationFiles.parse("scripts/Reader/main.lua"))
+    assertNull(MigrationFiles.parse("scripts/reader/main\\lua"))
+    assertNull(MigrationFiles.parse("scripts/reader"))
+    assertNull(MigrationFiles.parse("device_files/sound_themes/../theme.json"))
+    assertNull(MigrationFiles.parse("device_files/models/model.bin"))
+  }
+
+  @Test
   fun otherDirectoriesAndFilesAreRejected() {
     assertNull(MigrationFiles.parse("files/models/model.bin"))
     assertNull(MigrationFiles.parse("files/debug.properties"))

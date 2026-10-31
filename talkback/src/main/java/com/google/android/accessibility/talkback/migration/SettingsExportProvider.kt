@@ -34,8 +34,9 @@ import java.io.FileNotFoundException
  *
  * Only SandFly, signed with its own key, can use it, and only from Backtalk Aaron. It
  * lists the files at content://<authority>/files and opens one at
- * content://<authority>/file/<directory>/<name>. Only the files that [MigrationFiles] allows are
- * served, and only from their own directories.
+ * content://<authority>/file/<directory>/<relative path>. Script paths have one segment for the ID
+ * and one for each file path component. Only the files that [MigrationFiles] allows are served,
+ * and only from their own directories.
  */
 class SettingsExportProvider : ContentProvider() {
   override fun onCreate(): Boolean = true
@@ -64,10 +65,10 @@ class SettingsExportProvider : ContentProvider() {
       throw SecurityException("Settings are shared read-only")
     }
     val segments = uri.pathSegments
-    if (segments.size != 3 || segments[0] != AppIdMove.PATH_FILE) {
+    if (segments.size < 3 || segments[0] != AppIdMove.PATH_FILE) {
       throw FileNotFoundException(uri.toString())
     }
-    val path = MigrationFiles.path(segments[1], segments[2])
+    val path = MigrationFiles.path(segments[1], segments.drop(2).joinToString("/"))
     val context = context ?: throw FileNotFoundException(path)
     checkCaller(context)
     val file =
@@ -127,12 +128,82 @@ class SettingsExportProvider : ContentProvider() {
             }
           }
         }
+        for (name in MigrationFiles.USER_FILES) {
+          addIfAllowed(files, MigrationFiles.FILES_DIR, context.filesDir, File(context.filesDir, name))
+        }
+        addNestedFiles(
+          files,
+          MigrationFiles.SCRIPTS_DIR,
+          File(context.filesDir, MigrationFiles.SCRIPTS_DIR),
+          { MigrationFiles.isSafeScriptId(it) },
+          "",
+        )
+        addNestedFiles(
+          files,
+          MigrationFiles.DEVICE_FILES_DIR,
+          File(deContext.filesDir, MigrationFiles.SOUND_THEMES_DIR),
+          { MigrationFiles.isSafeName(it) },
+          MigrationFiles.SOUND_THEMES_DIR,
+        )
       }
       return files
     }
 
+    private fun addNestedFiles(
+      files: MutableMap<String, File>,
+      directory: String,
+      root: File,
+      isSafeRootName: (String) -> Boolean,
+      pathPrefix: String,
+    ) {
+      val roots = root.listFiles()?.filter { it.isDirectory && isSafeRootName(it.name) }.orEmpty()
+      val pending = ArrayList<File>(roots)
+      val canonicalRoot = root.canonicalFile
+      while (pending.isNotEmpty()) {
+        val entry = pending.removeAt(pending.lastIndex)
+        addNestedFile(files, directory, canonicalRoot, root, entry, pending, pathPrefix)
+      }
+    }
+
+    private fun addNestedFile(
+      files: MutableMap<String, File>,
+      directory: String,
+      canonicalRoot: File,
+      root: File,
+      file: File,
+      pending: MutableList<File>,
+      pathPrefix: String,
+    ) {
+      val canonicalFile = file.canonicalFile
+      if (!canonicalFile.path.startsWith(canonicalRoot.path + File.separator)) return
+      if (canonicalFile != file.absoluteFile.toPath().normalize().toFile()) return
+      if (file.isDirectory) {
+        pending.addAll(
+          file.listFiles()
+            ?.filter { MigrationFiles.isSafeName(it.name) }
+            ?.sortedByDescending { it.name }
+            .orEmpty()
+        )
+        return
+      }
+      if (!file.isFile) return
+      val name = file.relativeTo(root).invariantSeparatorsPath
+      val relative = listOf(pathPrefix, name).filter { it.isNotEmpty() }.joinToString("/")
+      val path = MigrationFiles.path(directory, relative)
+      if (MigrationFiles.parse(path) != null) files[path] = file
+    }
+
     private fun addIfAllowed(files: MutableMap<String, File>, directory: File, file: File) {
-      val path = MigrationFiles.path(directory.name, file.name)
+      addIfAllowed(files, directory.name, directory, file)
+    }
+
+    private fun addIfAllowed(
+      files: MutableMap<String, File>,
+      directoryName: String,
+      directory: File,
+      file: File,
+    ) {
+      val path = MigrationFiles.path(directoryName, file.name)
       if (!file.isFile || MigrationFiles.parse(path) == null) {
         return
       }

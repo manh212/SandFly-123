@@ -23,10 +23,16 @@ public final class RecognizedItem {
   public final String text;
   public final Rect bounds;
   public final boolean fromAccessibilityTree;
+  public final String role;
 
   public RecognizedItem(String text, Rect bounds, boolean fromAccessibilityTree) {
+    this(text, bounds, fromAccessibilityTree, fromAccessibilityTree ? "button" : "text");
+  }
+
+  public RecognizedItem(String text, Rect bounds, boolean fromAccessibilityTree, String role) {
     this.text = text;
     this.bounds = new Rect(bounds);
     this.fromAccessibilityTree = fromAccessibilityTree;
+    this.role = role;
   }
 }

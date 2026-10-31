@@ -52,7 +52,7 @@ object AppIdMove {
   /** Lists the exported files, with the columns [COLUMN_PATH] and [COLUMN_SIZE]. */
   const val PATH_FILES = "files"
 
-  /** Opens one exported file: content://<authority>/file/<directory>/<name>. */
+  /** Opens one exported file: content://<authority>/file/<directory>/<relative path>. */
   const val PATH_FILE = "file"
 
   const val COLUMN_PATH = "path"

@@ -111,6 +111,10 @@ object SettingsImporter {
             File(prefsDir, "$targetName.bak").delete()
             File(prefsDir, targetName)
           }
+          MigrationFiles.SCRIPTS_DIR -> scriptTarget(context, name)
+          MigrationFiles.FILES_DIR -> targetIn(context.filesDir, name)
+          MigrationFiles.DEVICE_FILES_DIR ->
+            targetIn(context.createDeviceProtectedStorageContext().filesDir, name)
           else -> File(database.parentFile, name)
         }
       val uri =
@@ -118,7 +122,7 @@ object SettingsImporter {
           .buildUpon()
           .appendPath(AppIdMove.PATH_FILE)
           .appendPath(directory)
-          .appendPath(name)
+          .apply { name.split('/').forEach { appendPath(it) } }
           .build()
       copy(context, uri, target)
       imported.add("$path (${target.length()} bytes)")
@@ -168,6 +172,24 @@ object SettingsImporter {
     } finally {
       temp.delete()
     }
+  }
+
+  private fun scriptTarget(context: Context, name: String): File {
+    val files = context.filesDir.canonicalFile
+    val root = File(files, MigrationFiles.SCRIPTS_DIR).canonicalFile
+    if (!root.path.startsWith(files.path + File.separator)) {
+      throw IOException("The scripts directory leaves app storage")
+    }
+    return targetIn(root, name)
+  }
+
+  private fun targetIn(root: File, name: String): File {
+    val base = root.canonicalFile
+    val target = File(base, name)
+    if (!target.canonicalPath.startsWith(base.path + File.separator)) {
+      throw IOException("The file leaves its storage directory")
+    }
+    return target
   }
 
   private fun isMainProcess(context: Context): Boolean {

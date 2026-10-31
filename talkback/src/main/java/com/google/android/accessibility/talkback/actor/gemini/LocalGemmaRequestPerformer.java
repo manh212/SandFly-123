@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelManager;
-import com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiSettings;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -34,7 +33,8 @@ import org.json.JSONObject;
  * to another AI service the user set up. The choice is read for each request, so changing it needs
  * no restart.
  */
-public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
+public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer
+    implements AiTextRequestPerformer {
 
   private final Context context;
   private final SharedPreferences prefs;
@@ -108,18 +108,12 @@ public class LocalGemmaRequestPerformer extends GeminiRestRequestPerformer {
     }
   }
 
-  public void performCloudRequest(
-      List<String> urls, String apiKey, JSONObject postData, GeminiRestResponseCallback callback) {
-    if (AiService.isSetUp(prefs)) {
-      aiService.performRequest(
-          AiService.INSTANCE.address(prefs),
-          AiService.INSTANCE.model(prefs),
-          AiService.INSTANCE.apiKey(prefs),
-          postData,
-          loggingFailures(callback));
-    } else {
-      super.performRequest(urls, apiKey, postData, callback);
-    }
+  @Override
+  public void performOnDeviceRequest(
+      JSONObject postData, GeminiRestResponseCallback callback) {
+    aiService.cancelExistingRequestIfNeeded();
+    super.cancelExistingRequestIfNeeded();
+    runner.run(postData, loggingFailures(callback));
   }
 
   @Override
