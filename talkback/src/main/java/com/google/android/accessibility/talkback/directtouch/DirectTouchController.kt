@@ -25,7 +25,8 @@ import android.media.AudioAttributes
 import android.os.Handler
 import android.os.Looper
 import android.os.SystemClock
-import android.os.VibrationEffect
+import com.google.android.accessibility.utils.output.FeedbackController
+import com.google.android.accessibility.utils.output.VibrationIntensity
 import android.os.Vibrator
 import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
@@ -564,7 +565,10 @@ class DirectTouchController(
       return
     }
     @Suppress("DEPRECATION") // The attributes overload is the one that reaches API 26.
-    vibrator.vibrate(VibrationEffect.createWaveform(pattern, -1), VIBRATION_ATTRIBUTES)
+    vibrator.vibrate(
+      VibrationIntensity.createWaveform(vibrator, pattern, FeedbackController.getHapticStrength()),
+      VIBRATION_ATTRIBUTES,
+    )
   }
 
   private companion object {

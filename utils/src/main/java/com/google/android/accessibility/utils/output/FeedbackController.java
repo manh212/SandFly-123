@@ -148,6 +148,7 @@ public class FeedbackController {
   private Map<String, int[]> mThemeVibrations = Collections.emptyMap();
 
   private final HapticPatternParser parser;
+  private static volatile float currentHapticStrength = 1f;
 
   /** The volume adjustment for sound feedback. */
   private float mVolumeAdjustment = 1.0f;
@@ -741,7 +742,12 @@ public class FeedbackController {
 
   /** Sets how strong vibrations are, from 0 to 1 of their full strength. */
   public void setHapticStrength(float strength) {
-    parser.setStrength(strength);
+    currentHapticStrength = Math.max(0f, Math.min(1f, strength));
+    parser.setStrength(currentHapticStrength);
+  }
+
+  public static float getHapticStrength() {
+    return currentHapticStrength;
   }
 
   /**

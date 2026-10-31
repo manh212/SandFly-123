@@ -50,7 +50,9 @@ object ThemeVibrations {
     FeedbackController.VIBRATION_EXECUTOR.execute {
       try {
         if (!vibrator.hasVibrator()) return@execute
-        val effect = HapticPatternParser(vibrator).parse(pattern)
+        val parser = HapticPatternParser(vibrator)
+        parser.setStrength(FeedbackController.getHapticStrength())
+        val effect = parser.parse(pattern)
         @Suppress("DEPRECATION") // The attributes overload is the one that reaches API 26.
         if (attributes != null) vibrator.vibrate(effect, attributes) else vibrator.vibrate(effect)
       } catch (e: RuntimeException) {

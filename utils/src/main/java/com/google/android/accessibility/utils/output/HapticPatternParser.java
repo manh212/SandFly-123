@@ -102,7 +102,7 @@ public class HapticPatternParser {
    */
   public VibrationEffect parse(int[] pattern) {
     int splitIndex = indexOf(pattern, SENTINEL_SEPARATOR);
-    if (splitIndex >= 0 && BuildVersionUtils.isAtLeastR()) {
+    if (splitIndex >= 0 && amplitudeWaveformCreator != null && BuildVersionUtils.isAtLeastR()) {
       @Nullable VibrationEffect effect = parseComposition(pattern, splitIndex + 1);
       if (effect == null) {
         LogUtils.v(TAG, "Haptic primitive unsupported on this device");
@@ -174,6 +174,9 @@ public class HapticPatternParser {
       }
       return amplitudeWaveformCreator.apply(pattern, amplitudes);
     }
-    return waveformCreator.apply(pattern);
+    return waveformCreator.apply(
+        amplitudeWaveformCreator == null
+            ? VibrationIntensity.scaleOnDurations(pattern, strength)
+            : pattern);
   }
 }

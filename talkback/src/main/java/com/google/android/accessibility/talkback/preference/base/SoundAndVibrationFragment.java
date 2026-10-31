@@ -29,6 +29,7 @@ import android.os.Vibrator;
 import android.text.TextUtils;
 import androidx.fragment.app.FragmentActivity;
 import androidx.preference.ListPreference;
+import com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference;
 import androidx.preference.MultiSelectListPreference;
 import androidx.preference.Preference;
 import androidx.preference.SeekBarPreference;
@@ -41,6 +42,7 @@ import com.google.android.accessibility.talkback.speakerphone.SpeakerphoneSettin
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.utils.output.VibrationIntensity;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -54,6 +56,7 @@ public class SoundAndVibrationFragment extends TalkbackBaseFragment {
 
   /** Preferences managed by this activity. */
   private SharedPreferences prefs;
+  private @Nullable ListPreference fallbackVibrationLevel;
 
   public SoundAndVibrationFragment() {
     super(R.xml.sound_and_vibration_preferences);
@@ -85,6 +88,8 @@ public class SoundAndVibrationFragment extends TalkbackBaseFragment {
             updateTwoStatePreferenceStatus(
                 activity, R.string.pref_vibration_key, R.bool.pref_vibration_default);
           }
+        } else if (TextUtils.equals(key, getString(R.string.pref_vibration_strength_key))) {
+          updateFallbackVibrationLevel();
         } else if (TextUtils.equals(key, getString(R.string.pref_audio_output_device_key))) {
           updateAudioOutputPreference();
         } else if (TextUtils.equals(key, getString(R.string.pref_speaker_devices_key))) {
@@ -211,12 +216,54 @@ public class SoundAndVibrationFragment extends TalkbackBaseFragment {
           });
     }
     setUpPercentSlider(R.string.pref_vibration_strength_key);
-    // Only vibrators that vary their strength can play a weaker vibration.
     Vibrator vibrator = getContext().getSystemService(Vibrator.class);
-    if (vibrator == null || !vibrator.hasVibrator() || !vibrator.hasAmplitudeControl()) {
+    if (vibrator == null || !vibrator.hasVibrator()) {
       PreferenceSettingsUtils.hidePreference(
           getContext(), getPreferenceScreen(), R.string.pref_vibration_strength_key);
+    } else if (!vibrator.hasAmplitudeControl()) {
+      showFallbackVibrationLevel();
     }
+  }
+
+  private void showFallbackVibrationLevel() {
+    Preference slider = findPreference(getString(R.string.pref_vibration_strength_key));
+    if (slider == null) return;
+    int order = slider.getOrder();
+    getPreferenceScreen().removePreference(slider);
+    AccessibilitySuiteListPreference level = new AccessibilitySuiteListPreference(requireContext());
+    level.setKey("pref_vibration_strength_duration_level");
+    level.setPersistent(false);
+    level.setTitle(R.string.title_pref_vibration_strength);
+    level.setDialogTitle(R.string.title_pref_vibration_strength);
+    level.setIconSpaceReserved(false);
+    level.setOrder(order);
+    level.setEntries(new CharSequence[] {
+      getString(R.string.vibration_level_very_light),
+      getString(R.string.vibration_level_light),
+      getString(R.string.vibration_level_strong),
+      getString(R.string.vibration_level_very_strong)
+    });
+    level.setEntryValues(new CharSequence[] {"15", "35", "65", "100"});
+    level.setOnPreferenceChangeListener(
+        (preference, newValue) -> {
+          prefs.edit()
+              .putInt(getString(R.string.pref_vibration_strength_key), Integer.parseInt((String) newValue))
+              .apply();
+          return true;
+        });
+    fallbackVibrationLevel = level;
+    getPreferenceScreen().addPreference(level);
+    updateFallbackVibrationLevel();
+  }
+
+  private void updateFallbackVibrationLevel() {
+    if (fallbackVibrationLevel == null) return;
+    int strength = prefs.getInt(
+        getString(R.string.pref_vibration_strength_key),
+        getResources().getInteger(R.integer.pref_vibration_strength_default));
+    int level = VibrationIntensity.levelForPercentage(strength);
+    fallbackVibrationLevel.setValue(Integer.toString(VibrationIntensity.percentageForLevel(level)));
+    fallbackVibrationLevel.setSummary(fallbackVibrationLevel.getEntries()[level]);
   }
 
   /** Sets a slider to go from 5 to 100 percent in steps of 5. */
@@ -246,6 +293,7 @@ public class SoundAndVibrationFragment extends TalkbackBaseFragment {
     FragmentActivity activity = this.getActivity();
     prefs.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     updateSoundVolumeSlider();
+    updateFallbackVibrationLevel();
 
     updateTwoStatePreferenceStatus(
         activity, R.string.pref_use_audio_focus_key, R.bool.pref_use_audio_focus_default);

@@ -22,7 +22,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.SharedPreferences
-import android.os.VibrationEffect
+import com.google.android.accessibility.utils.output.VibrationIntensity
 import android.os.Vibrator
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
@@ -193,14 +193,7 @@ class StopwatchEngine(
       LongArray(count * 2) { index ->
         if (index == 0) 0L else if (index % 2 == 0) 140L else 60L
       }
-    val effect =
-      if (vibrator.hasAmplitudeControl()) {
-        val amplitude = (255 * strength / 100f).toInt().coerceAtLeast(1)
-        val amplitudes = IntArray(count * 2) { index -> if (index % 2 == 0) 0 else amplitude }
-        VibrationEffect.createWaveform(timings, amplitudes, -1)
-      } else {
-        VibrationEffect.createWaveform(timings, -1)
-      }
+    val effect = VibrationIntensity.createWaveform(vibrator, timings, strength / 100f)
     runCatching { vibrator.vibrate(effect) }
   }
 }
