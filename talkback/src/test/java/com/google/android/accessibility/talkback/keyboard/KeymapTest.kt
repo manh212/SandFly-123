@@ -153,12 +153,16 @@ class KeymapTest {
   }
 
   @Test
-  fun browseModeTogglesWithTheSandFlyKeyTwiceOnlyWhereAssigned() {
-    val key = context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode)
-    val unassigned = KeyComboModel.KEY_COMBO_CODE_UNASSIGNED.toLong()
-    assertTrue(NewKeyComboModel(context, Keymap.SANDFLY).getKeyComboForKey(key).keyComboCode != unassigned)
-    assertEquals(unassigned, NewKeyComboModel(context, Keymap.NVDA).getKeyComboForKey(key).keyComboCode)
-    assertEquals(unassigned, NewKeyComboModel(context, Keymap.VOICEOVER).getKeyComboForKey(key).keyComboCode)
+  fun browseModeUsesTheSingleModifierTwiceAndAChordModifierWithQ() {
+    val key = context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra)
+    for (keymap in listOf(Keymap.SANDFLY, Keymap.NVDA, Keymap.JAWS, Keymap.ORCA)) {
+      assertTrue("$keymap", NewKeyComboModel(context, keymap).getKeyComboForKey(key).isSandFlyKeyPressedTwice)
+    }
+    val voiceOver = NewKeyComboModel(context, Keymap.VOICEOVER)
+    assertFalse(voiceOver.getKeyComboForKey(key).isSandFlyKeyPressedTwice)
+    assertEquals(KeyEvent.KEYCODE_Q, voiceOver.getKeyComboForKey(key).keyCode)
+    choose(Keymap.VOICEOVER, SandFlyKey.INSERT)
+    assertTrue(NewKeyComboModel(context, Keymap.VOICEOVER).getKeyComboForKey(key).isSandFlyKeyPressedTwice)
   }
 
   @Test

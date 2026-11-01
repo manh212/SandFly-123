@@ -155,7 +155,7 @@ class SoundThemeManifestTest {
   }
 
   @Test
-  fun vibrationsWithoutASoundCanBeReplacedButNotSoundlessOnes() {
+  fun vibrationOverridesIncludeTheNewScreenOnPattern() {
     val manifest =
       parse(
         """
@@ -164,8 +164,8 @@ class SoundThemeManifestTest {
                         "screen_on": {"pattern": [0, 20]}}}
         """
       )
-    assertEquals(setOf("announcement", "direct_touch_on"), manifest.vibrations.keys)
-    assertEquals(1, manifest.warnings.size)
+    assertEquals(setOf("announcement", "direct_touch_on", "screen_on"), manifest.vibrations.keys)
+    assertTrue(manifest.warnings.isEmpty())
   }
 
   @Test

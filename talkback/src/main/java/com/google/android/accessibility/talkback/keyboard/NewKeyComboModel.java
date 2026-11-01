@@ -211,6 +211,9 @@ public class NewKeyComboModel implements KeyComboModel {
 
   /** Returns the default shortcut of [key] as written for the keymap's own SandFly key. */
   private KeyCombo getNativeDefaultKeyCombo(String key) {
+    if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra))) {
+      return KeyCombo.sandFlyKeyPressedTwice();
+    }
     if (keymap.getDefaults() != null) {
       return keymap.getDefaults().defaultKeyCombo(context, key);
     }
@@ -220,9 +223,6 @@ public class NewKeyComboModel implements KeyComboModel {
           NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_SPACE, /* triggerModifierUsed= */ true);
     }
 
-    if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra))) {
-      return KeyCombo.sandFlyKeyPressedTwice();
-    }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_long_click))) {
       return new KeyCombo(

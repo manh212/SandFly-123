@@ -965,6 +965,7 @@ public class KeyComboManager
 
   /** Returns true if the active window is training activity. */
   private boolean isOnTrainingPage() {
+    if (accessibilityFocusMonitor == null) return false;
     // Compares resource ID with all child nodes on the active window if navigate-up arrow is
     // shown because the first child node is the navigate-up arrow which is no resource ID.
     AccessibilityNodeInfoCompat root = accessibilityFocusMonitor.getAccessibilityFocus(false);

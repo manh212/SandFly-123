@@ -190,8 +190,12 @@ class SandFlyKeyTest {
   }
 
   @Test
-  fun jawsKeymapTurnsBrowseModeOnWithInsertZ() {
+  fun jawsKeymapCanUseACustomBrowseShortcut() {
     val manager = manager(Keymap.JAWS, SandFlyKey.INSERT)
+    manager.keyComboModel.saveKeyCombo(
+      context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra),
+      KeyCombo(0, 0, KeyEvent.KEYCODE_Z, true),
+    )
     assertTrue(manager.down(KeyEvent.KEYCODE_INSERT))
     assertTrue(manager.down(KeyEvent.KEYCODE_Z))
     assertEquals(listOf<String?>(manager.shortcut(KeyEvent.KEYCODE_Z)), keys)
