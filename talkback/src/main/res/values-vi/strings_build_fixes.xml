@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Tên riêng Gemini được giữ nguyên để nhận dạng lệnh thoại. -->
+    <string name="voice_commands_gemini">Gemini</string>
+
+    <!-- Nút xác nhận trong hộp thoại cài đặt mô tả hình ảnh tự động. -->
+    <string name="switch_auto_image_caption_dialog_positive_button_text">Đồng ý</string>
+</resources>
