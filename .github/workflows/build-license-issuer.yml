@@ -1,0 +1,38 @@
+name: Build SandFly License Issuer APK
+on:
+  push:
+    branches: [master]
+    paths:
+      - 'tools/sandfly-license-issuer/**'
+      - '.github/workflows/build-license-issuer.yml'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+      - name: Install Android SDK
+        uses: android-actions/setup-android@v3
+      - name: Install Android 35
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
+      - name: Install Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.11.1'
+      - name: Build issuer APK
+        run: gradle -p tools/sandfly-license-issuer :app:assembleDebug --no-daemon --stacktrace
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: SandFly-License-Issuer-APK
+          path: tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
