@@ -18,7 +18,7 @@ public final class ActivationActivity extends Activity {
     int p = (int)(20 * getResources().getDisplayMetrics().density);
     layout.setPadding(p,p,p,p); outer.addView(layout); setContentView(outer);
     TextView title = new TextView(this);
-    title.setText("Kích hoạt cập nhật SandFly"); title.setTextSize(22); layout.addView(title);
+    title.setText("Đăng ký Meridian"); title.setTextSize(22); layout.addView(title);
     status = new TextView(this); status.setTextSize(17); layout.addView(status);
     TextView help = new TextView(this);
     help.setText("Gửi yêu cầu SFREQ1 cho người quản lý. Nhận mã SFLIC1 và dán vào đây. Kích hoạt không cần Internet.");
@@ -56,7 +56,7 @@ public final class ActivationActivity extends Activity {
   }
   private void refresh() {
     status.setText(!DeviceLicenseManager.configured() ? "Bản dựng chưa cấu hình khóa cấp phép."
-      : DeviceLicenseManager.isLicensed(this) ? "Thiết bị đã kích hoạt cập nhật."
-      : "Cần kích hoạt thiết bị để nhận và cài bản cập nhật.");
+      : DeviceLicenseManager.isLicensed(this) ? "Thiết bị đã đăng ký. Meridian sẽ tiếp tục hoạt động bình thường."
+      : "Chưa đăng ký. Trình đọc màn hình sẽ tự tắt khi hết thời gian đếm ngược 60 giây.");
   }
 }
