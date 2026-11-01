@@ -17,6 +17,9 @@
 package com.google.android.accessibility.talkback.update
 
 import android.os.Bundle
+import android.content.Intent
+import androidx.preference.Preference
+import com.google.android.accessibility.talkback.licensing.ActivationActivity
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 
@@ -27,6 +30,18 @@ class UpdatesFragment : TalkbackBaseFragment(R.xml.updates_preferences) {
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
+    // Put activation next to update controls, not in every settings screen.
+    preferenceScreen.addPreference(
+      Preference(requireContext()).apply {
+        key = "sandfly_license_activation"
+        setTitle(R.string.title_sandfly_license_activation)
+        setSummary(R.string.summary_sandfly_license_activation)
+        setOnPreferenceClickListener {
+          startActivity(Intent(requireContext(), ActivationActivity::class.java))
+          true
+        }
+      },
+    )
     Updater.setUpPreferences(this)
     if (savedInstanceState == null) {
       activity?.let { Updater.checkManually(it) }
