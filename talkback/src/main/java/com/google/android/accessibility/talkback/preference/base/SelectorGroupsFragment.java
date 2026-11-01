@@ -228,7 +228,7 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     AccessibilityNodeInfoCompat.AccessibilityActionCompat compatAction =
         new AccessibilityNodeInfoCompat.AccessibilityActionCompat(actionId, label);
     ViewCompat.replaceAccessibilityAction(
-        view, compatAction, label, arguments -> handler.perform());
+        view, compatAction, label, (commandView, arguments) -> handler.perform());
   }
 
   private static void bindScreenReaderActions(View view, List<ScreenReaderAction> actions) {
