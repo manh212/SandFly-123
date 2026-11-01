@@ -59,6 +59,11 @@ android {
     }
     // Robolectric tests read the module's strings.
     testOptions.unitTests.includeAndroidResources = true
+    // Robolectric's default repo1.maven.org endpoint returned HTTP 429 in GitHub CI.
+    // Keep the unit tests enabled and use the canonical Maven Central host instead.
+    testOptions.unitTests.all {
+        systemProperty "robolectric.dependency.repo.url", "https://repo.maven.apache.org/maven2"
+    }
     buildFeatures {
         aidl = true
     }
