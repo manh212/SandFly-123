@@ -17,11 +17,13 @@
 package com.google.android.accessibility.talkback.notifications
 
 import android.Manifest
+import android.app.NotificationManager
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.os.PowerManager
 import android.provider.Settings
 import androidx.core.app.NotificationManagerCompat
@@ -65,6 +67,14 @@ object TimerPermissionChecks {
   fun appNotificationsStatus(context: Context): Status =
     if (NotificationManagerCompat.from(context).areNotificationsEnabled()) Status.GRANTED
     else Status.MISSING
+
+  fun notificationPolicyStatus(context: Context): Status {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return Status.GRANTED
+    val notificationManager =
+      context.getSystemService(NotificationManager::class.java) ?: return Status.UNKNOWN
+    return if (notificationManager.isNotificationPolicyAccessGranted) Status.GRANTED
+    else Status.MISSING
+  }
 
   /** Whether SandFly's screen reader service is switched on. */
   fun serviceStatus(context: Context): Status {
@@ -188,6 +198,18 @@ object TimerPermissionChecks {
       ScreenBrightness.requestWritePermission(context)
     } catch (e: ActivityNotFoundException) {
       // No page to open on this phone.
+    }
+  }
+
+  fun openNotificationPolicySettings(context: Context) {
+    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) return
+    try {
+      context.startActivity(
+        Intent(Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS)
+          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+      )
+    } catch (_: ActivityNotFoundException) {
+      return
     }
   }
 

@@ -29,6 +29,13 @@
         android:key="@string/pref_echo_physical_keyboard_key"
         android:summary="%s"
         android:title="@string/title_pref_echo_hardware_keyboard" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="@string/pref_keyboard_echo_default"
+        android:entries="@array/pref_keyboard_echo_entries"
+        android:entryValues="@array/pref_keyboard_echo_values"
+        android:key="@string/pref_echo_braille_keyboard_key"
+        android:summary="%s"
+        android:title="@string/title_pref_braille_keyboard_echo" />
     <ListPreference
         android:defaultValue="@string/pref_interrupt_typing_default"
         android:entries="@array/pref_interrupt_typing_entries"

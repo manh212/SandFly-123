@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_setup_dnd_title">Do Not Disturb access</string>
+    <string name="timer_setup_dnd_granted">Granted: Meridian can enable Do Not Disturb and silent mode from the reading controls.</string>
+    <string name="timer_setup_dnd_missing">Not granted: Meridian cannot enable Do Not Disturb or silent mode from the reading controls.</string>
+    <string name="timer_setup_dnd_open">Open Do Not Disturb access settings</string>
+</resources>

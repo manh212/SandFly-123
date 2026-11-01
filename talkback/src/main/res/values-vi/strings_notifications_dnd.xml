@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_setup_dnd_title">Quyền truy cập chế độ không làm phiền</string>
+    <string name="timer_setup_dnd_granted">Đã cấp: Meridian có thể bật chế độ không làm phiền và chế độ im lặng từ điều khiển đọc.</string>
+    <string name="timer_setup_dnd_missing">Chưa cấp: Meridian chưa thể bật chế độ không làm phiền hoặc im lặng từ điều khiển đọc.</string>
+    <string name="timer_setup_dnd_open">Mở cài đặt quyền không làm phiền</string>
+</resources>

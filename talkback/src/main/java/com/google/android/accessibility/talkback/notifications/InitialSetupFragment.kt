@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.notifications
 
 import android.content.Context
+import android.os.Build
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceGroup
 import com.google.android.accessibility.talkback.R
@@ -181,6 +182,15 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
         R.string.timer_setup_notifications_open,
         { TimerPermissionChecks.appNotificationsStatus(it) },
         { TimerPermissionChecks.openAppNotificationSettings(it) },
+      ),
+      Step(
+        R.string.timer_setup_dnd_title,
+        R.string.timer_setup_dnd_granted,
+        R.string.timer_setup_dnd_missing,
+        R.string.timer_setup_dnd_open,
+        { TimerPermissionChecks.notificationPolicyStatus(it) },
+        { TimerPermissionChecks.openNotificationPolicySettings(it) },
+        { Build.VERSION.SDK_INT >= Build.VERSION_CODES.M },
       ),
       Step(
         R.string.timer_setup_install_title,
