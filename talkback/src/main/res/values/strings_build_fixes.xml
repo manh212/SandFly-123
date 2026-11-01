@@ -25,4 +25,9 @@
     <string name="summary_sandfly_registration_reminder" tools:ignore="MissingTranslation">Meridian will continue reading your screen. Register this device to complete activation.</string>
     <string name="action_sandfly_registration_later" tools:ignore="MissingTranslation">Later</string>
     <string name="action_sandfly_registration_open" tools:ignore="MissingTranslation">Register</string>
+
+    <string name="title_sandfly_countdown" tools:ignore="MissingTranslation">Meridian will turn off in one minute</string>
+    <string name="summary_sandfly_countdown_channel" tools:ignore="MissingTranslation">Registration countdown while Meridian is active</string>
+    <string name="summary_sandfly_countdown_remaining" tools:ignore="MissingTranslation">Screen reader turns off in %1$d seconds. Register now.</string>
+    <string name="summary_sandfly_trial_dialog" tools:ignore="MissingTranslation">This screen reader will turn off in %1$d seconds unless you register this device. You can continue to use it during the countdown.</string>
 </resources>
