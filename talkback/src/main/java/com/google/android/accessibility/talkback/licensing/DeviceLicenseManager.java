@@ -35,19 +35,46 @@ public final class DeviceLicenseManager {
   private static SharedPreferences prefs(Context context) {
     return context.getSharedPreferences("sandfly_offline_license", Context.MODE_PRIVATE);
   }
-  public static boolean isLicensed(Context context) {
+  private static boolean ownsDeviceKey() {
     try {
-      return configured() && LicenseProtocol.verify(request(context),
-          prefs(context).getString("license", ""), LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY));
-    } catch (Exception e) { return false; }
+      KeyStore store = KeyStore.getInstance("AndroidKeyStore");
+      store.load(null);
+      Key key = store.getKey(DEVICE_ALIAS, null);
+      java.security.cert.Certificate certificate = store.getCertificate(DEVICE_ALIAS);
+      return key instanceof PrivateKey
+          && certificate != null
+          && LicenseProtocol.provesPossession((PrivateKey) key, certificate.getPublicKey());
+    } catch (Exception e) {
+      return false;
+    }
   }
+
+  public static boolean isLicensed(Context context) {
+    if (!configured()) return false;
+    String license = prefs(context).getString("license", "");
+    if (license == null || license.isEmpty()) return false;
+    try {
+      return LicenseProtocol.verify(
+              request(context),
+              license,
+              LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY))
+          && ownsDeviceKey();
+    } catch (Exception e) {
+      return false;
+    }
+  }
+
   public static void activate(Context context, String license) throws Exception {
     if (!configured()) throw new IllegalStateException("Khóa cấp phép của nhà phát hành chưa được cấu hình");
-    if (!LicenseProtocol.verify(request(context), license.trim(),
-          LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY)))
-      throw new IllegalArgumentException("Mã không đúng cho thiết bị này");
-    if (!prefs(context).edit().putString("license", license.trim()).commit())
+    if (!LicenseProtocol.verify(
+            request(context), license.trim(),
+            LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY))
+        || !ownsDeviceKey()) {
+      throw new IllegalArgumentException("Mã hoặc định danh thiết bị không hợp lệ");
+    }
+    if (!prefs(context).edit().putString("license", license.trim()).commit()) {
       throw new IllegalStateException("Không lưu được giấy phép");
+    }
   }
   /** Existing users are not blocked until an actual issuer public key is configured. */
   public static boolean mayUpdate(Context context) {
