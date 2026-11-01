@@ -6,6 +6,7 @@ import android.content.res.Resources;
 import android.content.res.XmlResourceParser;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.preference.ItemOrder;
+import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.HashSet;
 import java.util.Set;
@@ -27,6 +28,9 @@ public final class MenuControlsReset {
       editor.remove(key);
     }
     editor.apply();
+    if (SelectorGroupManager.isSupported()) {
+      SelectorGroupManager.resetGroups(context);
+    }
   }
 
   static Set<String> keysForReset(Resources resources) {

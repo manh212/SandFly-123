@@ -23,6 +23,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
+import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Main settings group holding the choices for the SandFly menu and the reading controls. */
@@ -35,6 +36,13 @@ public class MenuControlsGroupFragment extends TalkBackPreferenceFragment {
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
+    Preference selector =
+        findPreference(getString(R.string.pref_category_manage_selector_menu_key));
+    if (selector != null && SelectorGroupManager.isSupported()) {
+      SelectorGroupManager.ensureInitialized(requireContext());
+      selector.setTitle(R.string.selector_groups_title);
+      selector.setFragment(SelectorGroupsFragment.class.getName());
+    }
     Preference reset = findPreference("pref_menu_controls_reset");
     if (reset != null) {
       reset.setOnPreferenceClickListener(

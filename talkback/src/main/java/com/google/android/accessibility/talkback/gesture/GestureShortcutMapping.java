@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 16294)
+Total output lines: 1419
+
 /*
  * Copyright (C) 2019 Google Inc.
  *
@@ -489,6 +492,10 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
         R.string.shortcut_value_select_previous_setting, R.string.shortcut_select_previous_setting),
     SELECT_NEXT_SETTING(
         R.string.shortcut_value_select_next_setting, R.string.shortcut_select_next_setting),
+    SELECT_PREVIOUS_GROUP(
+        R.string.shortcut_value_select_previous_group, R.string.shortcut_select_previous_group),
+    SELECT_NEXT_GROUP(
+        R.string.shortcut_value_select_next_group, R.string.shortcut_select_next_group),
     SELECTED_SETTING_PREVIOUS_ACTION(
         R.string.shortcut_value_selected_setting_previous_action,
         R.string.shortcut_selected_setting_previous_action),
@@ -628,38 +635,7 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     @StringRes final int actionKeyResId;
     @StringRes final int actionNameResId;
 
-    TalkbackAction(@StringRes int actionKeyResId, @StringRes int actionNameResId) {
-      this.actionKeyResId = actionKeyResId;
-      this.actionNameResId = actionNameResId;
-    }
-  }
-
-  ///////////////////////////////////////////////////////////////////////////
-  // Constants
-
-  // Copies hidden constants from framework.
-  /**
-   * The user has performed a touch-exploration gesture on the touch screen without ever triggering
-   * gesture detection. This gesture is only dispatched when {@link
-   * FeatureSupport#FLAG_SEND_MOTION_EVENTS} is set.
-   */
-  public static final int GESTURE_TOUCH_EXPLORATION = -2;
-
-  /**
-   * The user has performed a passthrough gesture on the touch screen without ever triggering
-   * gesture detection. This gesture is only dispatched when {@link
-   * FeatureSupport#FLAG_SEND_MOTION_EVENTS} is set.
-   */
-  public static final int GESTURE_PASSTHROUGH = -1;
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////
-  // Member variables
-
-  protected String actionUnassigned;
-  protected String actionTalkbackContextMenu;
-  protected String actionNextReadingMenuSetting;
-  protected String actionReadingMenuUp;
-  protected String actionReadingMenuDown;
+    TalkbackAction(@String…294 tokens truncated…String actionReadingMenuDown;
   protected String actionShortcut;
   protected String nextWindowShortcut;
   protected String mediaControlShortcut;

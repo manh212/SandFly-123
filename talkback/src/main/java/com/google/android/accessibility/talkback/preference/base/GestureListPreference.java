@@ -36,6 +36,7 @@ import com.google.android.accessibility.talkback.gesture.CustomMenus;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.NavigationGestureActions;
 import com.google.android.accessibility.talkback.gesture.OpenAppActions;
+import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
 import com.google.android.accessibility.talkback.utils.TalkbackFeatureSupport;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -624,6 +625,18 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             getContext().getString(R.string.shortcut_show_custom_actions),
             getContext().getString(R.string.shortcut_value_show_custom_actions),
             TYPE_ACTION_ITEM));
+    if (SelectorGroupManager.isSupported()) {
+      builder.add(
+          new ActionItem(
+              getContext().getString(R.string.shortcut_select_previous_group),
+              getContext().getString(R.string.shortcut_value_select_previous_group),
+              TYPE_ACTION_ITEM));
+      builder.add(
+          new ActionItem(
+              getContext().getString(R.string.shortcut_select_next_group),
+              getContext().getString(R.string.shortcut_value_select_next_group),
+              TYPE_ACTION_ITEM));
+    }
     return builder.build();
   }
 
