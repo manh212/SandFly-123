@@ -68,19 +68,51 @@ class TimerSettingsStructureTest {
   fun mainScreen_startsWithUpdates_andKeepsSetupInsideSystemSettings() {
     val topLevel = mutableListOf<Pair<String?, String?>>()
     val parser = context.resources.getXml(R.xml.preferences)
+    var currentKey: String? = null
+    var accessibilityIntentAction: String? = null
     var event = parser.eventType
     while (event != XmlPullParser.END_DOCUMENT) {
       if (event == XmlPullParser.START_TAG && parser.depth == 2) {
-        topLevel +=
-          parser.getAttributeValue(ANDROID_NS, "key") to
-            parser.getAttributeValue(ANDROID_NS, "fragment")
+        currentKey = parser.getAttributeValue(ANDROID_NS, "key")
+        topLevel += currentKey to parser.getAttributeValue(ANDROID_NS, "fragment")
+      }
+      if (
+        event == XmlPullParser.START_TAG &&
+          parser.name == "intent" &&
+          currentKey == ACCESSIBILITY_SETTINGS_KEY
+      ) {
+        accessibilityIntentAction = parser.getAttributeValue(ANDROID_NS, "action")
       }
       event = parser.next()
     }
 
     assertEquals("pref_updates_screen", topLevel[0].first)
     assertTrue(topLevel[0].second?.contains("UpdatesFragment") == true)
-    assertTrue(topLevel.all { !it.second.isNullOrBlank() })
+    assertEquals(
+      listOf(
+        "UpdatesFragment",
+        "SpeechGroupFragment",
+        "GesturesShortcutsGroupFragment",
+        "NavigationGroupFragment",
+        "MenuControlsGroupFragment",
+        "SoundAndVibrationFragment",
+        "NotificationsFragment",
+        "TypingGroupFragment",
+        "AppsGroupFragment",
+        "ToolsGroupFragment",
+        "ScreenInfoGroupFragment",
+        null,
+        "BackupResetFragment",
+        "SystemHelpGroupFragment",
+      ),
+      topLevel.map { it.second?.substringAfterLast('.') },
+    )
+    assertTrue(
+      topLevel.all {
+        !it.second.isNullOrBlank() || it.first == ACCESSIBILITY_SETTINGS_KEY
+      }
+    )
+    assertEquals("android.settings.ACCESSIBILITY_SETTINGS", accessibilityIntentAction)
     assertFalse(topLevel.any { it.first == SETUP_KEY })
     assertEquals(
       1,
@@ -114,5 +146,6 @@ class TimerSettingsStructureTest {
   private companion object {
     const val ANDROID_NS = "http://schemas.android.com/apk/res/android"
     const val SETUP_KEY = "pref_initial_setup_screen"
+    const val ACCESSIBILITY_SETTINGS_KEY = "pref_open_accessibility_settings"
   }
 }
