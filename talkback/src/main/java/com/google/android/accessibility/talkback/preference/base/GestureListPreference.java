@@ -318,6 +318,16 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             getContext().getResources().getString(R.string.shortcut_value_unassigned),
             TYPE_ACTION_ITEM));
     addActionItemsToList(builder, createBasicNavigation());
+    for (com.google.android.accessibility.talkback.commands.Commands.Category category :
+        Commands.categories(getContext())) {
+      if (category.getTitleRes() == R.string.commands_category_object_navigation
+          || category.getTitleRes() == R.string.commands_category_screen_review) {
+        builder.add(new ActionItem(getContext().getString(category.getTitleRes()), TYPE_TITLE));
+        for (com.google.android.accessibility.talkback.commands.Commands.Command command : category.getCommands()) {
+          builder.add(new ActionItem(command.getLabel(), command.getValue(), TYPE_ACTION_ITEM));
+        }
+      }
+    }
     for (NavigationGestureActions.Category category : NavigationGestureActions.CATEGORIES) {
       addActionItemsToList(builder, createNavigationCategory(category));
     }

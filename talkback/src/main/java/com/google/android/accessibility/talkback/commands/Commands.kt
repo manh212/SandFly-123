@@ -216,6 +216,8 @@ object Commands {
 
     fun build(): List<Category> {
       navigation()
+      objectNavigation()
+      screenReview()
       activation()
       scrolling()
       textNavigation()
@@ -448,6 +450,37 @@ object Commands {
         keyboard(Key.READ_LINK_URL)
         keyboard(Key.READ_CURRENT_URL)
       }
+
+    private fun objectNavigation() = category(R.string.commands_category_object_navigation) {
+      keyboard(Key.NAVIGATE_NEXT_FOCUSABLE)
+      keyboard(Key.NAVIGATE_PREVIOUS_FOCUSABLE)
+      keyboard(Key.OBJECT_PARENT)
+      keyboard(Key.OBJECT_FIRST_CHILD)
+      keyboard(Key.OBJECT_NEXT)
+      keyboard(Key.OBJECT_PREVIOUS)
+    }
+
+    private fun screenReview() = category(R.string.commands_category_screen_review) {
+      keyboard(Key.REVIEW_PREVIOUS_LINE)
+      keyboard(Key.REVIEW_CURRENT_LINE)
+      keyboard(Key.REVIEW_NEXT_LINE)
+      keyboard(Key.REVIEW_PREVIOUS_WORD)
+      keyboard(Key.REVIEW_CURRENT_WORD)
+      keyboard(Key.REVIEW_NEXT_WORD)
+      keyboard(Key.REVIEW_PREVIOUS_CHARACTER)
+      keyboard(Key.REVIEW_CURRENT_CHARACTER)
+      keyboard(Key.REVIEW_NEXT_CHARACTER)
+      keyboard(Key.REVIEW_TOP)
+      keyboard(Key.REVIEW_BOTTOM)
+      keyboard(Key.REVIEW_LINE_START)
+      keyboard(Key.REVIEW_LINE_END)
+      keyboard(Key.REVIEW_CLICK)
+      keyboard(Key.REVIEW_LONG_CLICK)
+      keyboard(Key.REVIEW_MOVE_TO_FOCUS)
+      keyboard(Key.REVIEW_CURSOR_ON)
+      keyboard(Key.REVIEW_CURSOR_OFF)
+      keyboard(Key.FOCUS_REVIEW_CURSOR)
+    }
 
     private fun reading() =
       category(R.string.shortcut_title_reading_control) {

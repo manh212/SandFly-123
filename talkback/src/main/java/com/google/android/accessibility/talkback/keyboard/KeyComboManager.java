@@ -46,6 +46,7 @@ import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.review.ScreenReview;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
@@ -332,6 +333,7 @@ public class KeyComboManager
       recordBrowseModeStateWhenOff(BROWSE_MODE_TURNED_OFF_ON_SERVICE_STOP);
     }
     dismissUpdateModifierKeysDialog();
+    if (keyComboMapper != null) keyComboMapper.getScreenReview().shutdown();
   }
 
   @Override
@@ -342,6 +344,7 @@ public class KeyComboManager
     // The following method will cause the key history to be reset.
     setMatchKeyCombo(matchKeyCombo);
     arrowKeyNavKeyHandler.reset();
+    if (keyComboMapper != null) keyComboMapper.getScreenReview().resetKeys();
     // The up event of a held SandFly key may be lost the same way.
     sandFlyKeyHeld = false;
     serviceState = newState;
@@ -365,7 +368,16 @@ public class KeyComboManager
 
     // Arrow keys pressed with a held SandFly key are SandFly key shortcuts, not arrow key
     // navigation; the held key itself is a modifier to arrow key navigation.
-    if (!isHeldSandFlyKey(event)
+    ScreenReview review = keyComboMapper == null ? null : keyComboMapper.getScreenReview();
+    if (review != null
+        && (event.getAction() == KeyEvent.ACTION_UP || (serviceState == SERVICE_STATE_ACTIVE
+            && matchKeyCombo && isBrowseModeEnabled()
+            && keyComboPassThroughState != KeyComboPassThroughState.ACTIVE && !sandFlyKeyHeld))
+        && review.onKeyEvent(event)) {
+      arrowKeyNavKeyHandler.onKeyEventConsumedElsewhere(event);
+      return true;
+    }
+    if (!arrowsNavigate() && !isHeldSandFlyKey(event)
         && arrowKeyNavKeyHandler.onKeyEvent(
             event,
             /* canAct= */ serviceState == SERVICE_STATE_ACTIVE
@@ -396,7 +408,11 @@ public class KeyComboManager
   @Override
   public int getEventTypes() {
     return AccessibilityEvent.TYPE_VIEW_FOCUSED
-        | AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+        | AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED
+        | AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+        | AccessibilityEvent.TYPE_WINDOW_CONTENT_CHANGED
+        | AccessibilityEvent.TYPE_WINDOWS_CHANGED
+        | AccessibilityEvent.TYPE_VIEW_SCROLLED;
   }
 
   /**
@@ -409,11 +425,14 @@ public class KeyComboManager
    */
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
+    if (keyComboMapper != null) keyComboMapper.getScreenReview().onAccessibilityEvent(event);
+    if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_FOCUSED
+        && event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) return;
     if (isBrowseModeSupported()
         && event.getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
       applyRememberedBrowseMode(event);
     }
-    if (!KeyComboManagerHelper.isSmartBrowseModeEnabled(context) || !isBrowseModeSupported()) {
+    if (arrowsNavigate() || !KeyComboManagerHelper.isSmartBrowseModeEnabled(context) || !isBrowseModeSupported()) {
       LogUtils.d(TAG, "Smart browse mode is not enabled, or browse mode is not supported");
       return;
     }
@@ -1385,11 +1404,14 @@ public class KeyComboManager
   }
 
   /** Returns whether the keymap turns browse mode on and off with the SandFly key pressed twice. */
+  private boolean arrowsNavigate() {
+    return keyComboModel instanceof NewKeyComboModel model && model.arrowsNavigate();
+  }
+
   private boolean isBrowseModeToggleAssigned() {
-    return keyComboModel
-            .getKeyComboForKey(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode))
-            .getKeyComboCode()
-        != KeyComboModel.KEY_COMBO_CODE_UNASSIGNED;
+    return keyComboModel.getKeyComboForKey(
+        context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra))
+        .isSandFlyKeyPressedTwice();
   }
 
   /** Returns whether [event] presses or releases the SandFly key where it's a held key. */

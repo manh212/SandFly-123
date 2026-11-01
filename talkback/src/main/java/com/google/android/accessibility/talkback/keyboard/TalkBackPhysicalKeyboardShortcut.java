@@ -14,11 +14,11 @@ public enum TalkBackPhysicalKeyboardShortcut {
   NAVIGATE_NEXT(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_NEXT_ITEM */ 0,
       R.string.keycombo_shortcut_navigate_next,
-      R.string.keycombo_menu_navigate_next),
+      R.string.keycombo_menu_navigate_next_by_setting),
   NAVIGATE_PREVIOUS(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_PREVIOUS_ITEM */ 1,
       R.string.keycombo_shortcut_navigate_previous,
-      R.string.keycombo_menu_navigate_previous),
+      R.string.keycombo_menu_navigate_previous_by_setting),
   NAVIGATE_ABOVE(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_ABOVE_ITEM */ 2,
       R.string.keycombo_shortcut_navigate_up,
@@ -133,7 +133,7 @@ public enum TalkBackPhysicalKeyboardShortcut {
   TOGGLE_BROWSE_MODE_EXTRA(
       /* KEYBOARD_SHORTCUT_TOGGLE_BROWSE_MODE_EXTRA */ 1006,
       R.string.keycombo_shortcut_other_toggle_browse_mode_extra,
-      R.string.keycombo_menu_other_toggle_browse_mode_extra),
+      R.string.keycombo_menu_other_toggle_browse_mode),
   SEARCH_SCREEN_FOR_ITEM(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_SEARCH_SCREEN_FOR_ITEM */ 25,
       R.string.keycombo_shortcut_other_toggle_search,
@@ -618,7 +618,111 @@ public enum TalkBackPhysicalKeyboardShortcut {
   TOGGLE_BROWSE_MODE(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_TOGGLE_BROWSE_MODE */ 142,
       R.string.keycombo_shortcut_other_toggle_browse_mode,
-      R.string.keycombo_menu_other_toggle_browse_mode);
+      R.string.keycombo_menu_other_toggle_browse_mode),
+  NAVIGATE_NEXT_FOCUSABLE(
+                                                      1007,
+      R.string.keycombo_shortcut_navigate_next_focusable,
+      R.string.keycombo_menu_navigate_next_focusable),
+  NAVIGATE_PREVIOUS_FOCUSABLE(
+                                                          1008,
+      R.string.keycombo_shortcut_navigate_previous_focusable,
+      R.string.keycombo_menu_navigate_previous_focusable),
+  OBJECT_PARENT(
+                                            1009,
+      R.string.keycombo_shortcut_object_parent,
+      R.string.keycombo_menu_object_parent),
+  OBJECT_FIRST_CHILD(
+                                                 1010,
+      R.string.keycombo_shortcut_object_first_child,
+      R.string.keycombo_menu_object_first_child),
+  OBJECT_NEXT(
+                                          1011,
+      R.string.keycombo_shortcut_object_next,
+      R.string.keycombo_menu_object_next),
+  OBJECT_PREVIOUS(
+                                              1012,
+      R.string.keycombo_shortcut_object_previous,
+      R.string.keycombo_menu_object_previous),
+  REVIEW_PREVIOUS_LINE(
+                                                   1013,
+      R.string.keycombo_shortcut_review_previous_line,
+      R.string.keycombo_menu_review_previous_line),
+  REVIEW_CURRENT_LINE(
+                                                  1014,
+      R.string.keycombo_shortcut_review_current_line,
+      R.string.keycombo_menu_review_current_line),
+  REVIEW_NEXT_LINE(
+                                               1015,
+      R.string.keycombo_shortcut_review_next_line,
+      R.string.keycombo_menu_review_next_line),
+  REVIEW_PREVIOUS_WORD(
+                                                   1016,
+      R.string.keycombo_shortcut_review_previous_word,
+      R.string.keycombo_menu_review_previous_word),
+  REVIEW_CURRENT_WORD(
+                                                  1017,
+      R.string.keycombo_shortcut_review_current_word,
+      R.string.keycombo_menu_review_current_word),
+  REVIEW_NEXT_WORD(
+                                               1018,
+      R.string.keycombo_shortcut_review_next_word,
+      R.string.keycombo_menu_review_next_word),
+  REVIEW_PREVIOUS_CHARACTER(
+                                                        1019,
+      R.string.keycombo_shortcut_review_previous_character,
+      R.string.keycombo_menu_review_previous_character),
+  REVIEW_CURRENT_CHARACTER(
+                                                       1020,
+      R.string.keycombo_shortcut_review_current_character,
+      R.string.keycombo_menu_review_current_character),
+  REVIEW_NEXT_CHARACTER(
+                                                    1021,
+      R.string.keycombo_shortcut_review_next_character,
+      R.string.keycombo_menu_review_next_character),
+  REVIEW_TOP(
+                                         1022,
+      R.string.keycombo_shortcut_review_top,
+      R.string.keycombo_menu_review_top),
+  REVIEW_BOTTOM(
+                                            1023,
+      R.string.keycombo_shortcut_review_bottom,
+      R.string.keycombo_menu_review_bottom),
+  REVIEW_LINE_START(
+                                                1024,
+      R.string.keycombo_shortcut_review_line_start,
+      R.string.keycombo_menu_review_line_start),
+  REVIEW_LINE_END(
+                                              1025,
+      R.string.keycombo_shortcut_review_line_end,
+      R.string.keycombo_menu_review_line_end),
+  REVIEW_CLICK(
+                                           1026,
+      R.string.keycombo_shortcut_review_click,
+      R.string.keycombo_menu_review_click),
+  REVIEW_LONG_CLICK(
+                                                1027,
+      R.string.keycombo_shortcut_review_long_click,
+      R.string.keycombo_menu_review_long_click),
+  REVIEW_MOVE_TO_FOCUS(
+                                                   1028,
+      R.string.keycombo_shortcut_review_move_to_focus,
+      R.string.keycombo_menu_review_move_to_focus),
+  FOCUS_REVIEW_CURSOR(
+                                                  1029,
+      R.string.keycombo_shortcut_focus_review_cursor,
+      R.string.keycombo_menu_focus_review_cursor),
+  REVIEW_CURSOR_ON(
+                                               1030,
+      R.string.keycombo_shortcut_review_cursor_on,
+      R.string.keycombo_menu_review_cursor_on),
+  REVIEW_CURSOR_OFF(
+                                                1031,
+      R.string.keycombo_shortcut_review_cursor_off,
+      R.string.keycombo_menu_review_cursor_off),
+  TOGGLE_PASS_KEYS_TO_APP(
+                                                      1033,
+      R.string.keycombo_shortcut_toggle_pass_keys_to_app,
+      R.string.keycombo_menu_toggle_pass_keys_to_app);
 
   private static Map<String, TalkBackPhysicalKeyboardShortcut> keyShortcutMap;
   private static Map<Integer, TalkBackPhysicalKeyboardShortcut> ordinalShortcutMap;

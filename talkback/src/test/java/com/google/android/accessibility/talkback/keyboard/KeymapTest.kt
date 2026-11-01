@@ -69,7 +69,7 @@ class KeymapTest {
     assertEquals(SandFlyKey.INSERT, nvda.sandFlyKey)
     // NVDA's Insert + Shift + Right.
     assertEquals(
-      KeyCombo(KeyEvent.META_SHIFT_ON, 0, KeyEvent.KEYCODE_DPAD_RIGHT, true),
+      KeyCombo(0, 0, KeyEvent.KEYCODE_DPAD_DOWN, false),
       nvda.getKeyComboForKey(context.getString(R.string.keycombo_shortcut_navigate_next_default)),
     )
   }

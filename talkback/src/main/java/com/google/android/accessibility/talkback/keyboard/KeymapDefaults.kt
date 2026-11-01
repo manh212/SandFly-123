@@ -53,6 +53,8 @@ abstract class KeymapDefaults {
     fun browse(modifiers: Int, keyCode: Int) =
       KeyCombo(modifiers, KeyComboModel.NO_PREFIX_KEY_CODE, keyCode, /* triggerModifierUsed= */ false)
 
+    fun plain(modifiers: Int, keyCode: Int) = browse(modifiers, keyCode)
+
     /** Puts the SandFly key with the volume keys for speech volume, with Shift pitch, Ctrl rate. */
     fun MutableMap<Int, KeyCombo>.putSpeechKeys() {
       put(
@@ -78,40 +80,46 @@ abstract class KeymapDefaults {
       )
     }
 
-    /**
-     * Puts the reading controls on the SandFly key with Ctrl and the arrows: left and right choose
-     * one, up and down move by it or change it, as NVDA's synth settings ring.
-     */
-    fun MutableMap<Int, KeyCombo>.putReadingControlKeys() {
+    fun MutableMap<Int, KeyCombo>.putReadingControlKeys(modifiers: Int = CTRL) {
       put(
         R.string.keycombo_shortcut_global_scroll_forward_reading_menu,
-        sandFly(CTRL, KeyEvent.KEYCODE_DPAD_RIGHT),
+        sandFly(modifiers, KeyEvent.KEYCODE_DPAD_RIGHT),
       )
       put(
         R.string.keycombo_shortcut_global_scroll_backward_reading_menu,
-        sandFly(CTRL, KeyEvent.KEYCODE_DPAD_LEFT),
+        sandFly(modifiers, KeyEvent.KEYCODE_DPAD_LEFT),
       )
       put(
         R.string.keycombo_shortcut_global_adjust_reading_setting_next,
-        sandFly(CTRL, KeyEvent.KEYCODE_DPAD_DOWN),
+        sandFly(modifiers, KeyEvent.KEYCODE_DPAD_DOWN),
       )
       put(
         R.string.keycombo_shortcut_global_adjust_reading_settings_previous,
-        sandFly(CTRL, KeyEvent.KEYCODE_DPAD_UP),
+        sandFly(modifiers, KeyEvent.KEYCODE_DPAD_UP),
       )
     }
 
-    /** Puts the caret keys of a desktop browser in browse mode: arrows, and Ctrl + arrows by word. */
-    fun MutableMap<Int, KeyCombo>.putCaretKeys() {
-      put(R.string.keycombo_shortcut_navigate_next_character, browse(NONE, KeyEvent.KEYCODE_DPAD_RIGHT))
+    fun MutableMap<Int, KeyCombo>.putDesktopKeys() {
+      put(R.string.keycombo_shortcut_navigate_next_default, plain(NONE, KeyEvent.KEYCODE_DPAD_DOWN))
+      put(R.string.keycombo_shortcut_navigate_previous_default, plain(NONE, KeyEvent.KEYCODE_DPAD_UP))
+      put(R.string.keycombo_shortcut_navigate_next_character, plain(NONE, KeyEvent.KEYCODE_DPAD_RIGHT))
       put(
         R.string.keycombo_shortcut_navigate_previous_character,
-        browse(NONE, KeyEvent.KEYCODE_DPAD_LEFT),
+        plain(NONE, KeyEvent.KEYCODE_DPAD_LEFT),
       )
-      put(R.string.keycombo_shortcut_navigate_next_line, browse(NONE, KeyEvent.KEYCODE_DPAD_DOWN))
-      put(R.string.keycombo_shortcut_navigate_previous_line, browse(NONE, KeyEvent.KEYCODE_DPAD_UP))
-      put(R.string.keycombo_shortcut_navigate_next_word, browse(CTRL, KeyEvent.KEYCODE_DPAD_RIGHT))
-      put(R.string.keycombo_shortcut_navigate_previous_word, browse(CTRL, KeyEvent.KEYCODE_DPAD_LEFT))
+      put(R.string.keycombo_shortcut_navigate_next_word, plain(CTRL, KeyEvent.KEYCODE_DPAD_RIGHT))
+      put(R.string.keycombo_shortcut_navigate_previous_word, plain(CTRL, KeyEvent.KEYCODE_DPAD_LEFT))
+      put(R.string.keycombo_shortcut_navigate_next_paragraph, plain(CTRL, KeyEvent.KEYCODE_DPAD_DOWN))
+      put(R.string.keycombo_shortcut_navigate_previous_paragraph, plain(CTRL, KeyEvent.KEYCODE_DPAD_UP))
+      put(R.string.keycombo_shortcut_navigate_first, plain(CTRL, KeyEvent.KEYCODE_MOVE_HOME))
+      put(R.string.keycombo_shortcut_navigate_last, plain(CTRL, KeyEvent.KEYCODE_MOVE_END))
+      put(R.string.keycombo_shortcut_navigate_next_focusable, plain(NONE, KeyEvent.KEYCODE_TAB))
+      put(R.string.keycombo_shortcut_navigate_previous_focusable, plain(SHIFT, KeyEvent.KEYCODE_TAB))
+    }
+
+    fun MutableMap<Int, KeyCombo>.putSystemKeys(homeModifiers: Int) {
+      put(R.string.keycombo_shortcut_global_back, plain(NONE, KeyEvent.KEYCODE_ESCAPE))
+      put(R.string.keycombo_shortcut_global_home, plain(homeModifiers, KeyEvent.KEYCODE_D))
     }
 
     /** Puts the number keys 1 to 6 for headings at those levels, in browse mode. */

@@ -76,9 +76,11 @@ public class NewKeyComboModel implements KeyComboModel {
       originalPersister = new KeyComboPersister(context, customKeymap.getOriginalPersisterPrefix());
     } else {
       sandFlyKey = keymap.sandFlyKey(context);
+      KeymapDefaultsUpdate.update(context, keymap, sandFlyKey, keymap.persisterPrefix(sandFlyKey));
       persister = new KeyComboPersister(context, keymap.persisterPrefix(sandFlyKey));
       originalPersister = null;
     }
+    moveBrowseModeToggle();
     // A default new to this version doesn't take keys the user or an earlier version gave a command.
     for (String key : persister.keysStartingWith("")) {
       KeyCombo keyCombo = persister.getKeyCombo(key);
@@ -110,6 +112,10 @@ public class NewKeyComboModel implements KeyComboModel {
   @Nullable
   public CustomKeymap getCustomKeymap() {
     return customKeymap;
+  }
+
+  public boolean arrowsNavigate() {
+    return customKeymap != null ? customKeymap.getArrowsNavigate() : keymap.getArrowsNavigate();
   }
 
   /** Returns whether SandFly key + R or O starts a shortcut of two keys one after the other. */
@@ -175,12 +181,13 @@ public class NewKeyComboModel implements KeyComboModel {
     if (originalPersister != null) {
       return originalPersister.contains(key) ? originalPersister.getKeyCombo(key) : new KeyCombo();
     }
-    // Two keys held together, such as Ctrl + Alt, can't be pressed twice.
-    if (!sandFlyKey.getCanBePressedTwice()
-        && key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode))) {
-      return new KeyCombo();
+    KeyCombo keyCombo = getNativeDefaultKeyCombo(key);
+
+    if (keyCombo.isSandFlyKeyPressedTwice() && !sandFlyKey.getCanBePressedTwice()) {
+      return new KeyCombo(
+          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_Q, /* triggerModifierUsed= */ true);
     }
-    return SandFlyKey.adapt(getNativeDefaultKeyCombo(key), keymap.getNativeKey(), sandFlyKey);
+    return SandFlyKey.adapt(keyCombo, keymap.getNativeKey(), sandFlyKey);
   }
 
   /**
@@ -213,11 +220,8 @@ public class NewKeyComboModel implements KeyComboModel {
           NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_SPACE, /* triggerModifierUsed= */ true);
     }
 
-    // Browse mode also turns on and off with SandFly key + Q, for SandFly keys that can't be
-    // pressed twice, such as Ctrl + Alt.
     if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra))) {
-      return new KeyCombo(
-          NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_Q, /* triggerModifierUsed= */ true);
+      return KeyCombo.sandFlyKeyPressedTwice();
     }
 
     if (key.equals(context.getString(R.string.keycombo_shortcut_perform_long_click))) {
@@ -416,21 +420,6 @@ public class NewKeyComboModel implements KeyComboModel {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Beginning of the Browse Mode only commands.
     if (FeatureFlagReader.enableBrowseMode(context)) {
-      // Note that the default key combo for the browse mode toggle is added only to display it in
-      // the keyboard shortcut settings page. `KeyComboManager.matchAndPerformKeyCombo()` should
-      // not handle this key combo as `KeyComboManager.onKeyDown()` handles it separately. Also,
-      // `KeyboardShortcutDialogPreference` does not use this `KeyCombo` to show its key shortcut;
-      // instead, it references the android:summary attribute defined in the xml directly.
-      // TODO: b/440094156 - Dynamically update the key combo for the browse mode toggle based on
-      // the chosen trigger modifier.
-      if (key.equals(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode))) {
-        return new KeyCombo(
-            NO_MODIFIER,
-            KeyEvent.KEYCODE_META_RIGHT,
-            KEY_COMBO_CODE_UNASSIGNED,
-            /* triggerModifierUsed= */ true);
-      }
-
       if (key.equals(context.getString(R.string.keycombo_shortcut_navigate_next_character))) {
         return new KeyCombo(
             KeyComboModel.NO_MODIFIER,
@@ -1442,10 +1431,6 @@ public class NewKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_refresh));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra));
 
-    if (FeatureFlagReader.enableBrowseMode(context)) {
-      addKeyCombo(context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode));
-    }
-
     if (FeatureFlagReader.enableAnnounceCurrentTimeAndDate(context)) {
       addKeyCombo(
           context.getString(R.string.keycombo_shortcut_global_announce_current_time_and_date));
@@ -1554,6 +1539,32 @@ public class NewKeyComboModel implements KeyComboModel {
         && TalkbackFeatureSupport.supportSpeechRecognize()) {
       addKeyCombo(context.getString(R.string.keycombo_shortcut_other_open_voice_commands));
     }
+
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_next_focusable));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_navigate_previous_focusable));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_object_parent));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_object_first_child));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_object_next));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_object_previous));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_previous_line));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_current_line));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_next_line));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_previous_word));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_current_word));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_next_word));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_previous_character));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_current_character));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_next_character));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_top));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_bottom));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_line_start));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_line_end));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_click));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_long_click));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_move_to_focus));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_focus_review_cursor));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_cursor_on));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_review_cursor_off));
   }
 
   private void addKeyCombo(String key) {
@@ -1564,6 +1575,20 @@ public class NewKeyComboModel implements KeyComboModel {
 
     KeyCombo keyCombo = persister.getKeyCombo(key);
     keyComboMap.put(key, keyCombo);
+  }
+
+  private void moveBrowseModeToggle() {
+    if (customKeymap != null) return;
+    String oldKey = context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode);
+    String key = context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra);
+    KeyCombo plusQ = new KeyCombo(NO_MODIFIER, NO_PREFIX_KEY_CODE, KeyEvent.KEYCODE_Q, true);
+    if (persister.contains(key) && persister.getKeyCombo(key).equals(plusQ)) persister.remove(key);
+    if (!persister.contains(oldKey)) return;
+    KeyCombo legacy = persister.getKeyCombo(oldKey);
+    if (!persister.contains(key) && legacy.getKeyComboCode() == KEY_COMBO_CODE_UNASSIGNED) {
+      persister.saveKeyCombo(key, new KeyCombo());
+    }
+    persister.remove(oldKey);
   }
 
   private void addCommandShortcuts() {

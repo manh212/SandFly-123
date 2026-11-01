@@ -101,6 +101,23 @@ class SandFlyKeyTest {
     )
 
   @Test
+  fun desktopArrowsAndTabBelongToBrowseModeUntilTheUserTurnsItOff() {
+    val manager = manager(Keymap.NVDA)
+    manager.setBrowseModeEnabled(true)
+    assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
+    manager.up(KeyEvent.KEYCODE_DPAD_DOWN)
+    assertTrue(manager.down(KeyEvent.KEYCODE_TAB))
+    manager.up(KeyEvent.KEYCODE_TAB)
+    assertEquals(2, keys.size)
+    manager.setBrowseModeEnabled(false)
+    assertFalse(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
+    manager.up(KeyEvent.KEYCODE_DPAD_DOWN)
+    assertFalse(manager.down(KeyEvent.KEYCODE_TAB))
+    manager.up(KeyEvent.KEYCODE_TAB)
+    assertEquals(2, keys.size)
+  }
+
+  @Test
   fun insertHeldIsTheSandFlyKey() {
     val manager = manager(Keymap.SANDFLY, SandFlyKey.INSERT)
     assertTrue(manager.down(KeyEvent.KEYCODE_INSERT))

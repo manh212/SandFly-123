@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="keycombo_menu_navigate_next_focusable">Chuyển đến mục có thể nhận tiêu điểm tiếp theo</string>
+  <string name="keycombo_menu_navigate_previous_focusable">Chuyển đến mục có thể nhận tiêu điểm trước</string>
+  <string name="keycombo_menu_object_parent">Xem đối tượng cha</string>
+  <string name="keycombo_menu_object_first_child">Xem đối tượng con đầu tiên</string>
+  <string name="keycombo_menu_object_next">Xem đối tượng cùng cấp tiếp theo</string>
+  <string name="keycombo_menu_object_previous">Xem đối tượng cùng cấp trước</string>
+  <string name="keycombo_menu_review_previous_line">Đọc dòng trước bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_current_line">Đọc dòng hiện tại bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_next_line">Đọc dòng tiếp theo bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_previous_word">Đọc từ trước bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_current_word">Đọc từ hiện tại bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_next_word">Đọc từ tiếp theo bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_previous_character">Đọc ký tự trước bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_current_character">Đọc ký tự hiện tại bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_next_character">Đọc ký tự tiếp theo bằng con trỏ riêng</string>
+  <string name="keycombo_menu_review_top">Đưa con trỏ đọc đến đầu</string>
+  <string name="keycombo_menu_review_bottom">Đưa con trỏ đọc đến cuối</string>
+  <string name="keycombo_menu_review_line_start">Đưa con trỏ đọc đến đầu dòng</string>
+  <string name="keycombo_menu_review_line_end">Đưa con trỏ đọc đến cuối dòng</string>
+  <string name="keycombo_menu_review_click">Kích hoạt mục đang đọc</string>
+  <string name="keycombo_menu_review_long_click">Nhấn giữ mục đang đọc</string>
+  <string name="keycombo_menu_review_move_to_focus">Đưa con trỏ đọc đến tiêu điểm Meridian</string>
+  <string name="keycombo_menu_focus_review_cursor">Đưa tiêu điểm Meridian đến mục đang đọc</string>
+  <string name="keycombo_menu_review_cursor_on">Bật con trỏ đọc riêng</string>
+  <string name="keycombo_menu_review_cursor_off">Tắt con trỏ đọc riêng</string>
+  <string name="commands_category_object_navigation">Điều hướng đối tượng</string>
+  <string name="commands_category_screen_review">Con trỏ đọc riêng</string>
+  <string name="review_top">Đầu</string>
+  <string name="review_bottom">Cuối</string>
+  <string name="review_blank">Trống</string>
+  <string name="review_no_text">Không có văn bản</string>
+  <string name="review_no_item">Không có mục đang đọc</string>
+  <string name="review_cannot_click">Không thể kích hoạt</string>
+  <string name="review_cursor_on">Đã bật con trỏ đọc</string>
+  <string name="review_cursor_off">Đã tắt con trỏ đọc</string>
+  <string name="object_navigation_no_parent">Không có đối tượng cha</string>
+  <string name="object_navigation_no_child">Không có đối tượng con</string>
+  <string name="object_navigation_no_next">Không có đối tượng cùng cấp tiếp theo</string>
+  <string name="object_navigation_no_previous">Không có đối tượng cùng cấp trước</string>
+  <string name="no_focusable_item">Không có mục nhận tiêu điểm</string>
+  <string name="review_object">Đối tượng, %1$d mục con</string>
+  <plurals name="object_navigation_group"><item quantity="other">Nhóm, %d mục</item></plurals>
+</resources>

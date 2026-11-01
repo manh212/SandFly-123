@@ -183,6 +183,18 @@ public final class KeyCombo {
     return NO_MATCH;
   }
 
+  public static KeyCombo sandFlyKeyPressedTwice() {
+    return new KeyCombo(
+        KeyComboModel.NO_MODIFIER,
+        KeyEvent.KEYCODE_META_RIGHT,
+        KeyComboModel.KEY_COMBO_CODE_UNASSIGNED,
+                                   true);
+  }
+
+  public boolean isSandFlyKeyPressedTwice() {
+    return equals(sandFlyKeyPressedTwice());
+  }
+
   public boolean isSequenceKeyPrefixCombo() {
     // Check if it matches with Modifier + R or Modifier + O. Note that the prefix key code will be
     // stored in the key code field when the prefix key combo is pressed.

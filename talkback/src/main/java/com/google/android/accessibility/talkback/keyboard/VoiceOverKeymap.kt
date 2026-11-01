@@ -145,7 +145,6 @@ object VoiceOverKeymap : KeymapDefaults() {
       put(R.string.keycombo_shortcut_other_report_issue, sequence(KeyEvent.KEYCODE_O, KeyEvent.KEYCODE_I))
 
       // Browse mode is VoiceOver's single-key Quick Nav, which VO + Q turns on and off.
-      put(R.string.keycombo_shortcut_other_toggle_browse_mode_extra, vo(NONE, KeyEvent.KEYCODE_Q))
       fun pair(next: Int, previous: Int, keyCode: Int) {
         put(next, browse(NONE, keyCode))
         put(previous, browse(SHIFT, keyCode))
