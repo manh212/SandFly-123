@@ -1996,45 +1996,45 @@
   <string name="shortcut_select_next_setting">Next reading control</string>
   <!--Label for the shortcut that selects the previous setting [CHAR_LIMIT=100]-->
   <string name="shortcut_select_previous_setting">Previous reading control</string>
-  <string name="shortcut_select_next_group">Next navigation group</string>
-  <string name="shortcut_select_previous_group">Previous navigation group</string>
-  <string name="selector_group_reading">Reading controls</string>
-  <string name="selector_group_web">Web navigation</string>
-  <string name="selector_group_special">Special features</string>
-  <string name="selector_group_user">User group</string>
-  <string name="selector_group_adjustable_widget">Adjustable widgets</string>
-  <string name="selector_group_telling_time">Time</string>
-  <string name="selector_groups_title">Navigation groups</string>
-  <string name="selector_group_options">Reading control options</string>
-  <string name="selector_groups_add">Add navigation group</string>
-  <string name="selector_groups_add_title">Create navigation group</string>
-  <string name="selector_group_edit">Edit group: %1$s</string>
-  <string name="selector_group_name">Group name</string>
-  <string name="selector_group_enabled">Enable group</string>
-  <string name="selector_group_edit_items">Choose group items</string>
-  <string name="selector_group_choose_items">Choose items</string>
-  <string name="selector_group_items_selected">%1$d items selected</string>
-  <string name="selector_group_no_items_selected">No items selected</string>
-  <string name="selector_group_toggle_title">Enable or disable %1$s</string>
-  <string name="selector_group_sort_items">Reorder group items</string>
-  <string name="selector_group_move_up">Move %1$s up</string>
-  <string name="selector_group_move_down">Move %1$s down</string>
-  <string name="selector_group_item_move_up">Move selected item up</string>
-  <string name="selector_group_item_move_down">Move selected item down</string>
-  <string name="selector_group_delete">Delete group</string>
-  <string name="selector_group_create_confirm">Create group</string>
-  <string name="selector_group_save">Save group</string>
-  <string name="selector_group_done">Done</string>
-  <string name="selector_group_move_confirm">Move item</string>
-  <string name="selector_group_delete_confirm">Delete %1$s?</string>
-  <string name="selector_group_item_move_confirm">Move this item from %1$s to %2$s?</string>
-  <string name="selector_group_empty_error">Enter a group name and select at least one item.</string>
-  <string name="selector_group_minimum_item_error">Each group must have at least one item.</string>
-  <string name="selector_group_minimum_group_error">At least one navigation group must remain.</string>
-  <string name="selector_group_minimum_enabled_error">At least one navigation group must be enabled.</string>
-  <string name="selector_group_move_last_item_error">The last item cannot be moved out of a group.</string>
-  <string name="selector_group_item_count">%1$d items</string>
-  <string name="selector_group_item_announcement">%1$s, %2$s</string>
+  <string name="shortcut_select_next_group" tools:ignore="MissingTranslation">Next navigation group</string>
+  <string name="shortcut_select_previous_group" tools:ignore="MissingTranslation">Previous navigation group</string>
+  <string name="selector_group_reading" tools:ignore="MissingTranslation">Reading controls</string>
+  <string name="selector_group_web" tools:ignore="MissingTranslation">Web navigation</string>
+  <string name="selector_group_special" tools:ignore="MissingTranslation">Special features</string>
+  <string name="selector_group_user" tools:ignore="MissingTranslation">User group</string>
+  <string name="selector_group_adjustable_widget" tools:ignore="MissingTranslation">Adjustable widgets</string>
+  <string name="selector_group_telling_time" tools:ignore="MissingTranslation">Time</string>
+  <string name="selector_groups_title" tools:ignore="MissingTranslation">Navigation groups</string>
+  <string name="selector_group_options" tools:ignore="MissingTranslation">Reading control options</string>
+  <string name="selector_groups_add" tools:ignore="MissingTranslation">Add navigation group</string>
+  <string name="selector_groups_add_title" tools:ignore="MissingTranslation">Create navigation group</string>
+  <string name="selector_group_edit" tools:ignore="MissingTranslation">Edit group: %1$s</string>
+  <string name="selector_group_name" tools:ignore="MissingTranslation">Group name</string>
+  <string name="selector_group_enabled" tools:ignore="MissingTranslation">Enable group</string>
+  <string name="selector_group_edit_items" tools:ignore="MissingTranslation">Choose group items</string>
+  <string name="selector_group_choose_items" tools:ignore="MissingTranslation">Choose items</string>
+  <string name="selector_group_items_selected" tools:ignore="MissingTranslation">%1$d items selected</string>
+  <string name="selector_group_no_items_selected" tools:ignore="MissingTranslation">No items selected</string>
+  <string name="selector_group_toggle_title" tools:ignore="MissingTranslation">Enable or disable %1$s</string>
+  <string name="selector_group_sort_items" tools:ignore="MissingTranslation">Reorder group items</string>
+  <string name="selector_group_move_up" tools:ignore="MissingTranslation">Move %1$s up</string>
+  <string name="selector_group_move_down" tools:ignore="MissingTranslation">Move %1$s down</string>
+  <string name="selector_group_item_move_up" tools:ignore="MissingTranslation">Move selected item up</string>
+  <string name="selector_group_item_move_down" tools:ignore="MissingTranslation">Move selected item down</string>
+  <string name="selector_group_delete" tools:ignore="MissingTranslation">Delete group</string>
+  <string name="selector_group_create_confirm" tools:ignore="MissingTranslation">Create group</string>
+  <string name="selector_group_save" tools:ignore="MissingTranslation">Save group</string>
+  <string name="selector_group_done" tools:ignore="MissingTranslation">Done</string>
+  <string name="selector_group_move_confirm" tools:ignore="MissingTranslation">Move item</string>
+  <string name="selector_group_delete_confirm" tools:ignore="MissingTranslation">Delete %1$s?</string>
+  <string name="selector_group_item_move_confirm" tools:ignore="MissingTranslation">Move this item from %1$s to %2$s?</string>
+  <string name="selector_group_empty_error" tools:ignore="MissingTranslation">Enter a group name and select at least one item.</string>
+  <string name="selector_group_minimum_item_error" tools:ignore="MissingTranslation">Each group must have at least one item.</string>
+  <string name="selector_group_minimum_group_error" tools:ignore="MissingTranslation">At least one navigation group must remain.</string>
+  <string name="selector_group_minimum_enabled_error" tools:ignore="MissingTranslation">At least one navigation group must be enabled.</string>
+  <string name="selector_group_move_last_item_error" tools:ignore="MissingTranslation">The last item cannot be moved out of a group.</string>
+  <string name="selector_group_item_count" tools:ignore="MissingTranslation">%1$d items</string>
+  <string name="selector_group_item_announcement" tools:ignore="MissingTranslation">%1$s, %2$s</string>
   <!--Label for the shortcut that enables pass-through [CHAR_LIMIT=NONE] -->
   <string name="shortcut_pass_through_next">Pass through system gesture</string>
   <!--Label for the shortcut that triggers clicking the Accessibility button -->
