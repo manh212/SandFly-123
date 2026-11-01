@@ -3271,6 +3271,9 @@ public class SelectorController implements UserInputEventListener {
   private void showQuickMenuOverlay(EventId eventId, @Nullable CharSequence message) {
     String selectPreviousGroup = context.getString(R.string.shortcut_value_select_previous_group);
     String selectNextGroup = context.getString(R.string.shortcut_value_select_next_group);
+    String selectPreviousSetting =
+        context.getString(R.string.shortcut_value_select_previous_setting);
+    String selectNextSetting = context.getString(R.string.shortcut_value_select_next_setting);
 
     if (FormFactorUtils.isAndroidWear()) {
       // Watch never uses multi-finger and won't show surrounding icons.
