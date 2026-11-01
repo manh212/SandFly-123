@@ -155,7 +155,7 @@ Tools available in debug builds help investigate problems reported during device
 
 ## History and license
 
-Meridian is maintained by manh212. This guide documents Meridian's features and behavior. Required copyright and license notices remain with the source code.
+Meridian is maintained by manh212 and references source code from Google TalkBack, BackTalk and SandFly. This guide documents Meridian's features and behavior. Required copyright and license notices remain with the source code.
 
 Meridian is licensed under the Apache License 2.0. See [LICENSE](LICENSE).
 
