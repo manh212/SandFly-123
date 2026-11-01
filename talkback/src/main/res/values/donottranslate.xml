@@ -72,7 +72,6 @@
          keyboard echo were verbosity preset settings, under the two keys above. -->
     <string name="pref_keyboard_echo_screen_key" translatable="false">pref_keyboard_echo_screen</string>
     <string name="pref_echo_on_screen_keyboard_key" translatable="false">pref_echo_on_screen_keyboard</string>
-    <string name="pref_echo_braille_keyboard_key" translatable="false">pref_echo_braille_keyboard</string>
     <string name="pref_echo_physical_keyboard_key" translatable="false">pref_echo_physical_keyboard</string>
     <!-- Reading controls and Meridian menu items for each keyboard echo setting, off by default. -->
     <string name="pref_selector_keyboard_echo_on_screen_key" translatable="false">pref_selector_keyboard_echo_on_screen_key</string>
