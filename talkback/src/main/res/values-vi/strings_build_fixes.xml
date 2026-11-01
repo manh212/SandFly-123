@@ -14,4 +14,9 @@
     <string name="summary_pref_gemini_support_enabled">Gemini đã được bật</string>
     <string name="gemini_enable_dialog_title">Sử dụng Gemini trong SandFly</string>
     <string name="gemini_disable_dialog_message">Nhận biết nội dung màn hình bằng Gemini</string>
+
+    <string name="title_sandfly_registration_reminder">Kích hoạt Meridian</string>
+    <string name="summary_sandfly_registration_reminder">Meridian vẫn tiếp tục đọc màn hình bình thường. Hãy đăng ký thiết bị này để hoàn tất kích hoạt.</string>
+    <string name="action_sandfly_registration_later">Để sau</string>
+    <string name="action_sandfly_registration_open">Đăng ký</string>
 </resources>
