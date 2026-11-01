@@ -471,14 +471,13 @@ jobs:
                 cat "$notes"
                 echo
               fi
-              if [ -n "$previous" ]; then
-                echo "Changes since $previous:"
+              # Keep user-facing notes concise and curated. The commit history remains
+              # available in the public GitHub repository for technical review.
+              if [ ! -f "$notes" ]; then
+                echo "## Cải thiện chất lượng"
                 echo
-                changes "$previous..HEAD"
-              else
-                echo "The first release of Meridian. Latest changes:"
-                echo
-                changes -n 50 HEAD
+                echo "* Khắc phục các lỗi được người dùng báo cáo."
+                echo "* Cải thiện hiệu suất và độ ổn định trên các thiết bị Android được hỗ trợ."
               fi
             } > release-notes.md
             gh release create "$tag" meridian.apk --verify-tag --latest \
