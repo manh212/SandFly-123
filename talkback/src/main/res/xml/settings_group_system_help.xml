@@ -20,6 +20,9 @@
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="@string/pref_survey_setting_entry_point_key"
         android:title="@string/survey_setting_title" />
+    <com.google.android.accessibility.talkback.wallpaper.MeridianWallpaperPreference
+        android:key="pref_meridian_wallpaper"
+        android:title="@string/meridian_wallpaper_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
         android:defaultValue="@string/pref_resume_backtalk_default"
         android:dialogTitle="@string/title_pref_resume_backtalk"

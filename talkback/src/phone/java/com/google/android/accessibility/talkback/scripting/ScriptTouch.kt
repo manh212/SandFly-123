@@ -170,7 +170,7 @@ class ScriptTouch(private val service: AccessibilityService, private val feedbac
 
   private fun requireShizuku(what: String) =
     apiCheck(ShizukuShell.isAllowed()) {
-      "$what needs Shizuku running and allowed for SandFly"
+      "$what needs Shizuku running and allowed for Meridian"
     }
 
   private fun keyCodeName(name: String): String {

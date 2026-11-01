@@ -1715,7 +1715,7 @@
     <string name="image_qna_ask_by_voice">Hỏi bằng giọng nói</string>
     <string name="image_qna_stop_listening">Dừng nghe</string>
     <string name="image_qna_type_question">Nhập câu hỏi</string>
-    <string name="keycombo_menu_other_toggle_browse_mode_extra">Phím tắt khác để bật hoặc tắt chế độ duyệt</string>
+    <string name="keycombo_menu_other_toggle_browse_mode_extra">Bật hoặc tắt chế độ duyệt</string>
     <string name="shortcut_dictate">Nhập bằng giọng nói</string>
     <string name="title_pref_ai_dictation">Sửa nội dung nhập bằng giọng nói bằng AI</string>
     <string name="title_pref_browse_mode_per_app">Ghi nhớ chế độ duyệt trong từng ứng dụng</string>

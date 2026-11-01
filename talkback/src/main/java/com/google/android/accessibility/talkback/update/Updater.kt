@@ -229,7 +229,7 @@ object Updater {
     if (DeviceLicenseManager.mayUpdate(context)) return true
     mainHandler.post {
       Toast.makeText(context.applicationContext,
-        "Cần kích hoạt thiết bị trước khi cập nhật SandFly.", Toast.LENGTH_LONG).show()
+        "Cần kích hoạt thiết bị trước khi cập nhật Meridian.", Toast.LENGTH_LONG).show()
       context.applicationContext.startActivity(
         Intent(context.applicationContext, ActivationActivity::class.java)
           .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))

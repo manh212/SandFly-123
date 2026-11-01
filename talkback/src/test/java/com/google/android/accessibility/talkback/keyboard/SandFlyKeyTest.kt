@@ -103,6 +103,8 @@ class SandFlyKeyTest {
   @Test
   fun desktopArrowsAndTabBelongToBrowseModeUntilTheUserTurnsItOff() {
     val manager = manager(Keymap.NVDA)
+    manager.javaClass.getDeclaredField("pipeline").apply { isAccessible = true }
+      .set(manager, com.google.android.accessibility.talkback.Pipeline.FeedbackReturner { true })
     manager.setBrowseModeEnabled(true)
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
     manager.up(KeyEvent.KEYCODE_DPAD_DOWN)
@@ -305,7 +307,7 @@ class SandFlyKeyTest {
     val manager = manager(Keymap.SANDFLY, SandFlyKey.META)
     val combo =
       manager.keyComboModel.getKeyComboForKey(
-        context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode)
+        context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra)
       )
     assertEquals(
       context.getString(

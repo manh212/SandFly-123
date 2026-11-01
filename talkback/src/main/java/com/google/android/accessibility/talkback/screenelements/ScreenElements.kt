@@ -677,7 +677,7 @@ class ScreenElementWindows(
     private const val TAG = "ScreenElements"
 
     /** The title of every element window. */
-    const val WINDOW_TITLE = "SandFly screen elements"
+    const val WINDOW_TITLE = "Phần tử màn hình Meridian"
 
     private const val PASS_THROUGH_WAIT_MS = 350L
     private const val SETTLE_MS = 600L

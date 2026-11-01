@@ -14,11 +14,11 @@ public enum TalkBackPhysicalKeyboardShortcut {
   NAVIGATE_NEXT(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_NEXT_ITEM */ 0,
       R.string.keycombo_shortcut_navigate_next,
-      R.string.keycombo_menu_navigate_next_by_setting),
+      R.string.keycombo_menu_navigate_next),
   NAVIGATE_PREVIOUS(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_PREVIOUS_ITEM */ 1,
       R.string.keycombo_shortcut_navigate_previous,
-      R.string.keycombo_menu_navigate_previous_by_setting),
+      R.string.keycombo_menu_navigate_previous),
   NAVIGATE_ABOVE(
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_NAVIGATE_TO_ABOVE_ITEM */ 2,
       R.string.keycombo_shortcut_navigate_up,
@@ -718,11 +718,7 @@ public enum TalkBackPhysicalKeyboardShortcut {
   REVIEW_CURSOR_OFF(
                                                 1031,
       R.string.keycombo_shortcut_review_cursor_off,
-      R.string.keycombo_menu_review_cursor_off),
-  TOGGLE_PASS_KEYS_TO_APP(
-                                                      1033,
-      R.string.keycombo_shortcut_toggle_pass_keys_to_app,
-      R.string.keycombo_menu_toggle_pass_keys_to_app);
+      R.string.keycombo_menu_review_cursor_off);
 
   private static Map<String, TalkBackPhysicalKeyboardShortcut> keyShortcutMap;
   private static Map<Integer, TalkBackPhysicalKeyboardShortcut> ordinalShortcutMap;

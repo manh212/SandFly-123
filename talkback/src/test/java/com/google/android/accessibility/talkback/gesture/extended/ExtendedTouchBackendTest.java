@@ -61,6 +61,12 @@ public class ExtendedTouchBackendTest {
     Executor executor;
     TouchInteractionController.Callback callback;
     int state = TouchInteractionController.STATE_TOUCH_INTERACTING;
+    int clicks;
+    boolean failClick;
+    @Implementation protected void performClick() {
+      if (failClick) throw new IllegalStateException();
+      clicks++;
+    }
     final List<Integer> draggedPointers = new ArrayList<>();
     @Implementation protected void registerCallback(Executor executor, TouchInteractionController.Callback callback) {
       this.executor = executor;
@@ -86,6 +92,20 @@ public class ExtendedTouchBackendTest {
   }
 
   @After public void tearDown() { backend.stop(); }
+
+  @Test public void touchClickUsesControllerAndReportsUnavailableStates() {
+    assertTrue(backend.performClick());
+    assertEquals(1, touch.clicks);
+    touch.failClick = true;
+    assertFalse(backend.performClick());
+    touch.failClick = false;
+    touch.state = TouchInteractionController.STATE_DELEGATING;
+    assertFalse(backend.performClick());
+    touch.state = TouchInteractionController.STATE_TOUCH_INTERACTING;
+    backend.stop();
+    assertFalse(backend.performClick());
+    assertEquals(1, touch.clicks);
+  }
 
   @Test public void callbackExecutorDoesNotPostAnotherMainThreadTask() {
     assertNotNull(touch.executor);
@@ -138,7 +158,7 @@ public class ExtendedTouchBackendTest {
     assertEquals(List.of(AccessibilityService.GESTURE_SWIPE_UP_AND_DOWN), service.gestures);
   }
 
-  @Test public void rotationDispatchesNextReadingControlWhenEnabled() {
+  @Test public void rotationDispatchesConfigurableGestureWhenEnabled() {
     backend.stop();
     backend = new ExtendedTouchBackend(
         service, () -> { throw new AssertionError("Rotation backend failed"); }, true, false);
@@ -147,9 +167,10 @@ public class ExtendedTouchBackendTest {
     multiMotion(MotionEvent.ACTION_DOWN, 0, 1);
     multiMotion(MotionEvent.ACTION_POINTER_DOWN | (1 << MotionEvent.ACTION_POINTER_INDEX_SHIFT), 0, 2);
     multiMotion(MotionEvent.ACTION_MOVE, 25, 2);
-    assertEquals(
-        List.of(service.getString(com.google.android.accessibility.talkback.R.string.shortcut_value_select_next_setting)),
-        service.actions);
+    assertEquals(List.of(
+        com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.ROTATE_CLOCKWISE),
+        service.gestures);
+    assertTrue(service.actions.isEmpty());
   }
 
   private void multiMotion(int action, double degrees, int count) {

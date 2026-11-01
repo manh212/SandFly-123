@@ -529,3 +529,13 @@ Meridian translates the manifest's names, titles, labels and hints with it. In c
 *   **Turn off all scripts** on the Scripts screen stops every script without changing which ones are on.
 *   **Turn all scripts on or off** does the same from a gesture. Assign it in gesture settings before trying a script you don't trust yet. Scripts can't take over the gesture it's assigned to.
 *   Scripts change nothing in Meridian's own settings, so you can always get to the Scripts screen. A script with the `java` permission can.
+
+## Touch activation rules
+
+An individual node rule can set `touchToActivate: true`. For example:
+
+```json
+{"id":"send_button","touchToActivate":true}
+```
+
+Meridian tries the touch controller for ordinary activation of that node, with the ordinary click action as fallback when the controller is unavailable. This does not change touch exploration or enable the optional touch backend by itself.

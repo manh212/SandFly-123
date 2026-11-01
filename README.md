@@ -51,6 +51,24 @@ The search field at the top of Meridian settings finds settings, gesture command
 
 The **Speech volume** reading control changes speech gain by 10 percentage points, from 25% to 200%. It adjusts the active voice profile when one is selected. **Clear all text** can find an editable field on the current screen while accessibility focus is on another item, using the same target selection as voice input.
 
+## Gesture profiles and desktop keyboards
+
+Under Gestures, **Hồ sơ cử chỉ** creates named sets of assignments. A new profile inherits all existing assignments. Application and script assignments take priority; the profile applies when neither has an assignment. Every service restart selects **Mặc định** without deleting saved profiles. Profiles can be selected in settings, through assignable commands or through the reading control. Settings export includes the profiles but does not restore an active profile.
+
+The NVDA, JAWS and Orca layouts now use arrows and Tab to navigate while browse mode is enabled. Entering a text field does not turn browse mode off. Press the selected modifier twice to toggle browse mode, or change that assignment in keyboard settings. Turning browse mode off passes the plain navigation keys to the application. A pass-next-key command also passes the next key or combination through. Old default assignments are updated while custom shortcuts and deliberately unassigned commands are retained.
+
+Object navigation changes the object being reviewed without moving accessibility focus. Review commands read lines, words and characters independently. Separate commands focus, activate or hold the reviewed item. The review cursor follows normal focus changes. This review feature reads the accessibility tree and does not use screen OCR.
+
+**Nhấn trực tiếp** uses Android's touch controller when it is available and falls back to the ordinary click action. The touch controller currently requires Android 13 or later and the optional rotation or extended gesture backend to be active. A script can request this activation for individual nodes with `touchToActivate: true` in its rule. Existing gesture assignments keep their command value.
+
+**Gửi văn bản** uses the same editor selection as voice input. It sends immediately through a clearly identified nearby Send button, or a keyboard action positively identified as Send. It does not guess Enter, Search, Done or Next. Ambiguous or missing targets leave the text unsent.
+
+## Wallpaper, sound themes and vibration
+
+System and help settings include **Dùng hình nền đen Meridian**, which opens Android's live wallpaper chooser. Selecting it replaces the current wallpaper with black. The wallpaper does not start or enable the accessibility service or bypass device activation. Whether it helps a particular phone keep the process alive requires device testing.
+
+The sound theme list includes **Meridian mới**. Existing default sounds remain selected until another theme is chosen. Control type speech remains a global preference. Updated common vibration patterns apply across sound themes while retaining vibration switches, strength, hardware fallbacks and explicitly supplied theme patterns.
+
 ## Permissions through Shizuku or adb
 
 Two settings need permissions that Android only grants through adb:

@@ -316,7 +316,7 @@ public class KeyComboManager
             collectionState,
             gestureShortcutMapping);
     this.pipeline = pipeline;
-    this.browseModeEnabled = false;
+    this.browseModeEnabled = arrowsNavigate();
     this.scheduler = Executors.newScheduledThreadPool(1);
   }
 
@@ -469,6 +469,10 @@ public class KeyComboManager
   /** Refreshes key combo model after key map changes. */
   public void refreshKeyComboModel() {
     keyComboModel = createKeyComboModel();
+    if (arrowsNavigate()) {
+      browseModeEnabled = true;
+      browseModeTurnedOffByUser = false;
+    }
     sandFlyKeyHeld = false;
   }
 
@@ -689,6 +693,7 @@ public class KeyComboManager
       return;
     }
     Boolean remembered = BrowseModeApps.remembered(context, app);
+    if (arrowsNavigate() && remembered == null) return;
     LogUtils.i(TAG, "Browse mode remembered in %s: %s", app, remembered);
     browseModeTurnedOffByUser = Boolean.FALSE.equals(remembered);
     if (remembered == null

@@ -32,5 +32,13 @@
                 <data android:mimeType="text/plain" />
             </intent-filter>
         </activity>
+        <service
+            android:name="com.google.android.accessibility.talkback.wallpaper.MeridianWallpaperService"
+            android:label="@string/talkback_title"
+            android:exported="true"
+            android:permission="android.permission.BIND_WALLPAPER">
+            <intent-filter><action android:name="android.service.wallpaper.WallpaperService" /></intent-filter>
+            <meta-data android:name="android.service.wallpaper" android:resource="@xml/meridian_wallpaper" />
+        </service>
     </application>
 </manifest>

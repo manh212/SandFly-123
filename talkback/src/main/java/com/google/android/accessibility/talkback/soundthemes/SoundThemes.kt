@@ -41,9 +41,14 @@ import java.util.zip.ZipOutputStream
 import org.json.JSONException
 
 /** An installed sound theme. */
-data class SoundTheme(val id: String, val manifest: SoundThemeManifest, val directory: File) {
+data class SoundTheme(
+  val id: String,
+  val manifest: SoundThemeManifest,
+  val directory: File,
+  val builtInSounds: Map<String, File> = emptyMap(),
+) {
   val isBuiltIn: Boolean
-    get() = id == SoundThemes.BACKTALK
+    get() = id == SoundThemes.BACKTALK || id == SoundThemes.MERIDIAN_NEW
 }
 
 /** A theme unpacked from a theme file, waiting for the person to install it or not. */
@@ -106,6 +111,7 @@ object SoundThemes {
   const val PREF_CHANGED = "pref_sound_theme_changed"
 
   const val BACKTALK = "backtalk"
+  const val MERIDIAN_NEW = "meridian-new"
 
   /** Sounds are short, so a larger file is a mistake, and a theme cannot fill the storage. */
   const val MAX_SOUND_BYTES = 5L * 1024 * 1024
@@ -158,7 +164,7 @@ object SoundThemes {
       themesDirectory(context)
         .listFiles()
         .orEmpty()
-        .filter { it.isDirectory && it.name != BACKTALK }
+        .filter { it.isDirectory && it.name != BACKTALK && it.name != MERIDIAN_NEW }
         .mapNotNull { directory ->
           if (directory.name.startsWith(STAGING_PREFIX)) {
             // Left over from an install that never finished, or a draft no longer edited, unless one
@@ -174,7 +180,7 @@ object SoundThemes {
           }
         }
         .sortedBy { it.manifest.name.lowercase(Locale.getDefault()) }
-    return listOf(backtalk(context)) + themes
+    return listOf(backtalk(context), newMeridian(context)) + themes
   }
 
   @JvmStatic fun activeId(prefs: SharedPreferences): String = prefs.getString(PREF_ACTIVE, BACKTALK)!!
@@ -207,7 +213,11 @@ object SoundThemes {
 
   @JvmStatic
   fun theme(context: Context, id: String): SoundTheme? =
-    if (id == BACKTALK) backtalk(context) else read(File(themesDirectory(context), id))
+    when (id) {
+      BACKTALK -> backtalk(context)
+      MERIDIAN_NEW -> newMeridian(context)
+      else -> read(File(themesDirectory(context), id))
+    }
 
   /**
    * Whether the sound [key] has a sound of Meridian's own: a raw file of its name. Sounds without
@@ -219,7 +229,13 @@ object SoundThemes {
 
   /** The sound files of [theme], by item key. */
   @JvmStatic
-  fun soundFiles(theme: SoundTheme): Map<String, File> {
+  fun soundFiles(theme: SoundTheme): Map<String, File> =
+    SOUNDS.mapNotNull { item ->
+      (theme.builtInSounds[item.key] ?: item.resourceNames.firstNotNullOfOrNull { theme.builtInSounds[it] })
+        ?.let { item.key to it }
+    }.toMap() + customSoundFiles(theme)
+
+  private fun customSoundFiles(theme: SoundTheme): Map<String, File> {
     val keys = SOUND_KEYS
     return theme.directory
       .listFiles()
@@ -256,7 +272,13 @@ object SoundThemes {
     val theme = active(context, prefs)
     val items = SOUNDS.associateBy { it.key }
     val paths = HashMap<String, String>()
-    for ((key, file) in soundFiles(theme)) {
+    paths.putAll(theme.builtInSounds.mapValues { it.value.path })
+    for (item in SOUNDS) {
+      theme.builtInSounds[item.key]?.let { file ->
+        item.resourceNames.forEach { paths[it] = file.path }
+      }
+    }
+    for ((key, file) in customSoundFiles(theme)) {
       items[key]?.resourceNames?.forEach { paths[it] = file.path }
     }
     for ((key, value) in theme.manifest.sounds) {
@@ -382,7 +404,7 @@ object SoundThemes {
   /** Removes the theme [id], and puts Backtalk's theme in use if it was in use. */
   @JvmStatic
   fun delete(context: Context, prefs: SharedPreferences, id: String) {
-    if (id == BACKTALK) return
+    if (id == BACKTALK || id == MERIDIAN_NEW) return
     if (activeId(prefs) == id) activate(context, prefs, BACKTALK, saveCurrent = false)
     File(themesDirectory(context), id).deleteRecursively()
   }
@@ -400,7 +422,7 @@ object SoundThemes {
   ): Result {
     val theme = edited(context, prefs)
     theme.directory.mkdirs()
-    val old = soundFiles(theme)[item.key]
+    val old = customSoundFiles(theme)[item.key]
     val file = File(theme.directory, fileName(item.key, extension, System.currentTimeMillis()))
     val result = copySound(input, file, MAX_SOUND_BYTES)
     if (result != Result.OK) return result
@@ -416,7 +438,7 @@ object SoundThemes {
   fun setNone(context: Context, prefs: SharedPreferences, item: FeedbackItem) {
     val theme = edited(context, prefs)
     theme.directory.mkdirs()
-    soundFiles(theme)[item.key]?.delete()
+    customSoundFiles(theme)[item.key]?.delete()
     val updated = theme.manifest.copy(sounds = theme.manifest.sounds + (item.key to SoundThemeManifest.NONE))
     write(theme.copy(manifest = updated))
     changed(prefs)
@@ -425,7 +447,7 @@ object SoundThemes {
   /** Makes [item] play Backtalk's sound again in the theme in use. */
   fun removeSound(context: Context, prefs: SharedPreferences, item: FeedbackItem) {
     val theme = edited(context, prefs)
-    soundFiles(theme)[item.key]?.delete()
+    customSoundFiles(theme)[item.key]?.delete()
     if (item.key in theme.manifest.sounds) {
       write(theme.copy(manifest = theme.manifest.copy(sounds = theme.manifest.sounds - item.key)))
     }
@@ -435,7 +457,7 @@ object SoundThemes {
   /** Makes every item play Backtalk's sound again in the theme in use. */
   fun removeAllSounds(context: Context, prefs: SharedPreferences) {
     val theme = edited(context, prefs)
-    soundFiles(theme).values.forEach { it.delete() }
+    customSoundFiles(theme).values.forEach { it.delete() }
     if (theme.manifest.sounds.isNotEmpty()) {
       write(theme.copy(manifest = theme.manifest.copy(sounds = emptyMap())))
     }
@@ -644,11 +666,37 @@ object SoundThemes {
       name.lowercase(Locale.ROOT).replace(Regex("[^a-z0-9]+"), "-").trim('-').take(60).ifEmpty {
         "theme"
       }
-    return if (slug == BACKTALK) "$slug-theme" else slug
+    return if (slug == BACKTALK || slug == MERIDIAN_NEW) "$slug-theme" else slug
   }
 
   // ---------------------------------------------------------------------------------------------
   // Storage
+
+  @Synchronized
+  private fun newMeridian(context: Context): SoundTheme {
+    val base = File(context.createDeviceProtectedStorageContext().filesDir, "meridian_sounds_c3a26d67")
+    base.mkdirs()
+    val sounds = LinkedHashMap<String, File>()
+    for (name in context.assets.list("meridian_sounds").orEmpty()) {
+      if (!name.endsWith(".wav")) continue
+      val file = File(base, name)
+      try {
+        if (!file.isFile) {
+          val temporary = File(base, "$name.tmp")
+          context.assets.open("meridian_sounds/$name").use { input ->
+            temporary.outputStream().use { input.copyTo(it) }
+          }
+          if (!temporary.renameTo(file)) temporary.delete()
+        }
+        if (file.isFile) sounds[name.removeSuffix(".wav")] = file
+      } catch (error: IOException) {
+        LogUtils.w(TAG, "Cannot prepare built-in sound %s: %s", name, error)
+      }
+    }
+    val directory = File(themesDirectory(context), MERIDIAN_NEW)
+    val manifest = read(directory)?.manifest ?: SoundThemeManifest(name = "Meridian mới", controlSounds = true)
+    return SoundTheme(MERIDIAN_NEW, manifest.copy(name = "Meridian mới"), directory, sounds)
+  }
 
   private fun backtalk(context: Context): SoundTheme {
     val directory = File(themesDirectory(context), BACKTALK)
@@ -656,7 +704,7 @@ object SoundThemes {
     val manifest = stored?.manifest ?: SoundThemeManifest(name = BACKTALK_NAME)
     return SoundTheme(
       BACKTALK,
-      manifest,
+      manifest.copy(name = BACKTALK_NAME),
       directory,
     )
   }
@@ -762,7 +810,7 @@ object SoundThemes {
   }
 
   /** The name of Backtalk's theme in theme files, which the settings show translated. */
-  private const val BACKTALK_NAME = "Backtalk"
+  private const val BACKTALK_NAME = "Meridian"
 }
 
 /**

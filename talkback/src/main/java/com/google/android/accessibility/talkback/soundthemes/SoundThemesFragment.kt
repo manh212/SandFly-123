@@ -420,13 +420,13 @@ class SoundThemesFragment : TalkbackBaseFragment() {
     /** The name to show for [theme]: Backtalk's own is translated. */
     @JvmStatic
     fun nameOf(context: Context, theme: SoundTheme): String =
-      if (theme.isBuiltIn) context.getString(R.string.sound_theme_backtalk)
+      if (theme.id == SoundThemes.BACKTALK) context.getString(R.string.sound_theme_backtalk)
       else theme.manifest.name
 
     private fun summaryOf(context: Context, theme: SoundTheme, inUse: Boolean): String {
       val parts = ArrayList<String>()
       if (inUse) parts += context.getString(R.string.sound_theme_in_use)
-      if (theme.isBuiltIn) {
+      if (theme.id == SoundThemes.BACKTALK) {
         parts += context.getString(R.string.sound_theme_backtalk_description)
       } else {
         theme.manifest.author?.let { parts += context.getString(R.string.sound_theme_by, it) }

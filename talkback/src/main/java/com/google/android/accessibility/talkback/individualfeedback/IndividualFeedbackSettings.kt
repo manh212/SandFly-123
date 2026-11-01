@@ -150,6 +150,7 @@ object IndividualFeedbackSettings {
       FeedbackItem("typo_pattern", R.string.individual_vibration_typo),
       FeedbackItem("hyperlink_pattern", R.string.individual_sound_hyperlink),
       FeedbackItem("formatting_pattern", R.string.individual_sound_formatting),
+      FeedbackItem("screen_on_pattern", R.string.individual_vibration_screen_on),
       FeedbackItem("screen_off_pattern", R.string.individual_sound_screen_off),
       FeedbackItem("loading_pattern", R.string.individual_sound_loading),
       FeedbackItem("browse_mode_on_pattern", R.string.individual_sound_browse_mode_on),

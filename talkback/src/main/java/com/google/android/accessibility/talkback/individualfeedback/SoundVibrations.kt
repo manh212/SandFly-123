@@ -26,7 +26,7 @@ import com.google.android.accessibility.talkback.controlsounds.ControlSounds
  */
 object SoundVibrations {
   /** Sounds that play without a vibration: screen on. */
-  val WITHOUT_VIBRATION: Set<String> = setOf("screen_on", "lib_new_clock")
+  val WITHOUT_VIBRATION: Set<String> = setOf("lib_new_clock")
 
   /**
    * The switches of vibrations that only sound themes give, by sound resource name: each kind of
@@ -35,12 +35,7 @@ object SoundVibrations {
    * vibration have them too.
    */
   val THEME_ONLY_SWITCHES: Map<String, String> =
-    ControlSounds.SOUNDS.keys.associateWith {
-      if (it == "control_link") "hyperlink_pattern" else "${it}_pattern"
-    } +
-      NavigationSounds.SOUNDS.keys
-        .filter { it !in NavigationSounds.PATTERNS }
-        .associateWith { "${it}_pattern" }
+    emptyMap()
 
   /** The name of the switch that turns off the vibration of a sound, by its resource name. */
   @JvmStatic
@@ -84,7 +79,7 @@ object SoundVibrations {
       soundResources[name]?.forEach { sound ->
         if (sound in WITHOUT_VIBRATION) return@forEach
         played[sound] = pattern
-        PATTERNS[sound]?.let { played[it] = pattern }
+        if (sound != "control_link") PATTERNS[sound]?.let { played[it] = pattern }
       }
       ALSO_PLAYED_AS[name]?.forEach { played[it] = pattern }
     }
@@ -125,6 +120,7 @@ object SoundVibrations {
       "hyperlink" to "hyperlink_pattern",
       "formatting" to "formatting_pattern",
       "screen_off" to "screen_off_pattern",
+      "screen_on" to "screen_on_pattern",
       // The loading tone repeats while waiting, such as for an image description, so its
       // vibration is a heartbeat that shows the work goes on even with sounds off.
       "loading" to "loading_pattern",
@@ -132,7 +128,9 @@ object SoundVibrations {
       "browse_mode_off_v4_2" to "browse_mode_off_pattern",
     ) +
       (1..8).associate { "radial_menu_$it" to "radial_menu_${it}_pattern" } +
-      NavigationSounds.PATTERNS
+      NavigationSounds.PATTERNS + ControlSounds.SOUNDS.keys.associateWith {
+        if (it == "control_link") "hyperlink_pattern" else "${it}_pattern"
+      }
 
   /**
    * Vibration pattern resource IDs, by sound resource names, for the feedback controller. By name,

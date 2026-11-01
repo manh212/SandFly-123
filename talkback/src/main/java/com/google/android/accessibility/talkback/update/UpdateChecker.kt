@@ -101,7 +101,7 @@ object UpdateChecker {
     val urls = listOfNotNull(STABLE_RELEASE_URL, DEV_RELEASE_URL.takeIf { Updater.isDevBuildsEnabled(context) })
     val releases = urls.mapNotNull { fetchRelease(context, it) }
     if (releases.isEmpty()) {
-      throw IOException("GitHub has no SandFly release")
+      throw IOException("GitHub chưa có bản phát hành Meridian")
     }
     return newest(releases, BuildConfig.COMMIT_COUNT, BuildConfig.COMMIT_HASH, apkName())
   }

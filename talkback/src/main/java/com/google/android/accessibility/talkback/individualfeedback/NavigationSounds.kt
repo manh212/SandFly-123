@@ -40,10 +40,7 @@ object NavigationSounds {
 
   /** The sounds with a SandFly vibration, by sound name, with the vibration's resource name. */
   val PATTERNS: Map<String, String> =
-    mapOf(
-      "edge_gesture_middle" to "edge_gesture_middle_pattern",
-      "edge_gesture_top" to "edge_gesture_top_pattern",
-    )
+    SOUNDS.keys.associateWith { "${it}_pattern" }
 
   /** The edge gesture sounds, which watches, having no edge gestures, leave out. */
   val EDGE_GESTURES: Set<String> =
