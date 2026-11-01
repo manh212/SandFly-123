@@ -45,11 +45,6 @@
       android:key="@string/pref_settings_group_screen_info_key"
       android:title="@string/title_pref_descriptions_ai" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_open_accessibility_settings"
-      android:title="@string/title_open_accessibility_settings">
-    <intent android:action="android.settings.ACCESSIBILITY_SETTINGS" />
-  </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.BackupResetFragment"
       android:key="pref_backup_reset_screen"
       android:title="@string/title_pref_backup_reset" />
@@ -57,4 +52,9 @@
       android:fragment="com.google.android.accessibility.talkback.preference.base.SystemHelpGroupFragment"
       android:key="@string/pref_settings_group_system_help_key"
       android:title="@string/title_pref_group_system_help" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_open_accessibility_settings"
+      android:title="@string/title_open_accessibility_settings">
+    <intent android:action="android.settings.ACCESSIBILITY_SETTINGS" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
 </PreferenceScreen>
