@@ -38,6 +38,8 @@ import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Interpretation;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.utils.AccessibilityWindowInfoUtils;
 import com.google.android.accessibility.talkback.UserInterface.UserInputEventListener;
 import com.google.android.accessibility.talkback.WebActor;
 import com.google.android.accessibility.talkback.actor.helper.FocusActorHelper;
@@ -137,7 +139,21 @@ public class FocusActor implements UserInputEventListener {
     if (currentFocus != null && pipeline != null) {
       pipeline.returnFeedback(eventId, Feedback.part().setInterruptGentle(true));
     }
+    if (Scripts.touchesToActivate(currentFocus) && touchFocus(currentFocus, eventId)) return true;
     return clickNode(currentFocus, eventId);
+  }
+
+  public boolean touchClickCurrentFocus(EventId eventId) {
+    AccessibilityNodeInfoCompat currentFocus = accessibilityFocusMonitor.getAccessibilityFocus(false);
+    if (currentFocus == null || pipeline == null) return false;
+    pipeline.returnFeedback(eventId, Feedback.part().setInterruptGentle(true));
+    return touchFocus(currentFocus, eventId) || clickNode(currentFocus, eventId);
+  }
+
+  private boolean touchFocus(AccessibilityNodeInfoCompat focus, EventId eventId) {
+    if (focus == null || pipeline == null || !(service instanceof TalkBackService meridian)) return false;
+    pipeline.returnFeedback(eventId, Feedback.interrupt(Feedback.HINT, 2));
+    return meridian.performTouchClick(AccessibilityWindowInfoUtils.getDisplayId(focus.getWindow()));
   }
 
   public boolean clickNode(AccessibilityNodeInfoCompat node, EventId eventId) {

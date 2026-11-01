@@ -177,6 +177,12 @@ class ManifestParserTest {
   }
 
   @Test
+  fun touchToActivateCanBeTheOnlyChangeInARule() {
+    assertTrue(rule("""{"id":"send","touchToActivate":true}""").touchToActivate)
+    assertFalse(rule("""{"id":"send","label":"Gửi"}""").touchToActivate)
+  }
+
+  @Test
   fun liftToActivateTakesALongPressTime() {
     val parsed = rule("""{"id":"a","liftToActivate":true,"longPressAfter":800}""")
     assertTrue(parsed.liftToActivate)

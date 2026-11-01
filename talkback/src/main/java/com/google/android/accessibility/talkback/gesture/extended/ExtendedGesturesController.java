@@ -39,6 +39,11 @@ public final class ExtendedGesturesController {
     }
   }
 
+  public boolean performClick(int displayId) {
+    return Build.VERSION.SDK_INT >= 33 && displayId == android.view.Display.DEFAULT_DISPLAY
+        && backend != null && backend.performClick();
+  }
+
   public void stop() {
     if (Build.VERSION.SDK_INT >= 33 && backend != null) {
       backend.stop();

@@ -500,10 +500,10 @@ public class GestureController {
       } else {
         result = pipeline.returnFeedback(eventId, Feedback.edit(node, CLEAR_ALL));
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_submit_text))) {
+      result = SubmitText.submit(service, findEditorTarget());
     } else if (action.equals(service.getString(R.string.shortcut_value_direct_tap))) {
-      AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
-      result = node != null && directTap(node);
+      result = pipeline.returnFeedback(eventId, Feedback.focus(Feedback.Focus.Action.TOUCH_CLICK_CURRENT));
     } else if (action.equals(service.getString(R.string.shortcut_value_take_screenshot))) {
       result = true;
       ScreenshotActions.takeFullScreenshot(
@@ -1440,23 +1440,6 @@ public class GestureController {
     audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
     audioManager.dispatchMediaKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
     return true;
-  }
-
-  private boolean directTap(AccessibilityNodeInfoCompat node) {
-    Rect rect = new Rect();
-    node.getBoundsInScreen(rect);
-    if (rect.isEmpty()) {
-      return false;
-    }
-    Path path = new Path();
-    path.moveTo(rect.centerX(), rect.centerY());
-    int durationMs = ViewConfiguration.getTapTimeout();
-    GestureDescription gesture =
-        new GestureDescription.Builder()
-            .addStroke(
-                new GestureDescription.StrokeDescription(path, 0, durationMs))
-            .build();
-    return service.dispatchGesture(gesture, null, null);
   }
 
   /** voice feedback function */

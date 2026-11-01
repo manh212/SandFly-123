@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="shortcut_submit_text">Gửi văn bản</string>
+  <string name="shortcut_value_submit_text" translatable="false">SUBMIT_TEXT</string>
+</resources>

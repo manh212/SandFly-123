@@ -4394,6 +4394,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     updateExtendedGestures();
   }
 
+  public boolean performTouchClick(int displayId) {
+    return isServiceActive() && !PauseController.isPaused()
+        && extendedGesturesController != null
+        && extendedGesturesController.performClick(displayId);
+  }
+
   private void updateExtendedGestures() {
     if (prefs == null || gestureController == null) return;
     if (extendedGesturesController == null) {

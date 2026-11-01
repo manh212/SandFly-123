@@ -110,6 +110,18 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
     }
   }
 
+  boolean performClick() {
+    if (!active || transitionPending
+        || controllerState() == TouchInteractionController.STATE_DELEGATING
+        || controllerState() == TouchInteractionController.STATE_DRAGGING) return false;
+    try {
+      controller.performClick();
+      return true;
+    } catch (RuntimeException error) {
+      return false;
+    }
+  }
+
   void stop() {
     active = false;
     handler.removeCallbacks(explore);
