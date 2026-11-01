@@ -198,6 +198,8 @@ jobs:
       - name: Build debug APKs
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
+          # Only the public signing key. Set this repository variable before release.
+          SANDFLY_ISSUER_PUBLIC_KEY: ${{ vars.SANDFLY_ISSUER_PUBLIC_KEY }}
         run: |
           set -o pipefail
           ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee "$RUNNER_TEMP/assemble.log"
@@ -487,7 +489,7 @@ jobs:
           {
             echo "build: $count"
             echo
-            changes -n 50 HEAD
+            echo "Khắc phục các lỗi được người dùng báo cáo và cải thiện hiệu suất, độ ổn định."
           } > release-notes.md
           title="Development build $count ($short)"
           tag=dev
