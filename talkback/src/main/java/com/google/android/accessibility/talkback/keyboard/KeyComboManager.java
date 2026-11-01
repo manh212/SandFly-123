@@ -1076,7 +1076,7 @@ public class KeyComboManager
     if (triggerModifierNotPressedWhenNeeded) {
       // A custom keymap's shortcuts without the SandFly key work anywhere. Modifier keys pressed on
       // their own always go to the app.
-      if (isCustomKeymap() && !KeyEvent.isModifierKey(event.getKeyCode())) {
+      if (isCustomKeymap() && !arrowsNavigate() && !KeyEvent.isModifierKey(event.getKeyCode())) {
         KeyCombo plainKeyCombo =
             new KeyCombo(
                 otherModifiers,

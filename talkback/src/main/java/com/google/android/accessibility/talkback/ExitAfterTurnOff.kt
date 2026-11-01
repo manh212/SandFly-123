@@ -89,6 +89,7 @@ object ExitAfterTurnOff {
       cancel()
       return
     }
+    if (com.google.android.accessibility.talkback.wallpaper.MeridianWallpaperService.isRunning()) return
     if (Updater.isBusy) {
       later()
       return

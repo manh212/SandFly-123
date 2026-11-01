@@ -101,6 +101,24 @@ class SandFlyKeyTest {
     )
 
   @Test
+  fun copiedDesktopLayoutAlsoPassesPlainKeysWhenBrowseModeIsOff() {
+    val custom = CustomKeymaps.create(
+      context, "Desktop copy", false, SandFlyKey.INSERT,
+      mapOf(context.getString(R.string.keycombo_shortcut_navigate_next_default) to
+        KeyCombo(0, 0, KeyEvent.KEYCODE_DPAD_DOWN, false)),
+      true,
+    )
+    SharedPreferencesUtils.getSharedPreferences(context).edit()
+      .putString(context.getString(R.string.pref_select_keymap_key), custom.value).commit()
+    val manager = KeyComboManager.create(context).apply {
+      onServiceStateChanged(ServiceStateListener.SERVICE_STATE_ACTIVE)
+    }
+    assertFalse(manager.isBrowseModeEnabled)
+    assertFalse(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
+    assertTrue(keys.isEmpty())
+  }
+
+  @Test
   fun desktopArrowsAndTabBelongToBrowseModeUntilTheUserTurnsItOff() {
     val manager = manager(Keymap.NVDA)
     manager.javaClass.getDeclaredField("pipeline").apply { isAccessible = true }

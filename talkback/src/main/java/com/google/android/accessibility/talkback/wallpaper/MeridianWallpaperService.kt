@@ -23,8 +23,21 @@ import android.content.Intent
 import android.graphics.Color
 import android.service.wallpaper.WallpaperService
 import android.view.SurfaceHolder
+import com.google.android.accessibility.talkback.ExitAfterTurnOff
+import com.google.android.accessibility.talkback.TalkBackService
 
 class MeridianWallpaperService : WallpaperService() {
+  override fun onCreate() {
+    super.onCreate()
+    running = true
+  }
+
+  override fun onDestroy() {
+    running = false
+    super.onDestroy()
+    if (TalkBackService.getInstance() == null) ExitAfterTurnOff.schedule(application)
+  }
+
   override fun onCreateEngine(): Engine = BlackEngine()
 
   private inner class BlackEngine : Engine() {
@@ -55,6 +68,10 @@ class MeridianWallpaperService : WallpaperService() {
   }
 
   companion object {
+    private var running = false
+
+    @JvmStatic fun isRunning(): Boolean = running
+
     @JvmStatic
     fun intentToSet(context: Context): Intent =
       Intent(WallpaperManager.ACTION_CHANGE_LIVE_WALLPAPER).putExtra(
