@@ -55,7 +55,7 @@ android {
         buildConfigField("int", "COMMIT_COUNT", String.valueOf(rootProject.gitCommitCount))
         buildConfigField("String", "MERIDIAN_VERSION", '"' + rootProject.meridianVersionName + '"')
         // Only the public verification key is bundled, never the private issuer key.
-        buildConfigField("String", "SANDFLY_ISSUER_PUBLIC_KEY", '"' + (System.getenv("SANDFLY_ISSUER_PUBLIC_KEY") ?: "") + '"')
+        buildConfigField("String", "SANDFLY_ISSUER_PUBLIC_KEY", '"' + (System.getenv("SANDFLY_ISSUER_PUBLIC_KEY")?.trim() ?: "SFPUB1.MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEX_2A5BEv5GUZYbT0L9WHesmH5nVKCoCtHL9Dvm8IuWTxUEcYYaLsTQH7tNeuHeJQMJ_3Tmb7HKCHXJoYzTzWtQ") + '"')
     }
     // Robolectric tests read the module's strings.
     testOptions.unitTests.includeAndroidResources = true
