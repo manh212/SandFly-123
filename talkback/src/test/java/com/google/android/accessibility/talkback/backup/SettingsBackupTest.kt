@@ -17,9 +17,10 @@
 package com.google.android.accessibility.talkback.backup
 
 import android.content.Context
+import android.content.ContextWrapper
+import android.content.SharedPreferences
 import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.talkback.preference.ItemOrder
-import com.google.android.accessibility.talkback.selector.SelectorController
 import com.google.android.accessibility.talkback.update.Updater
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import org.json.JSONObject
@@ -50,14 +51,12 @@ class SettingsBackupTest {
 
     SettingsBackup.applyInitialDefaultsIfNeeded(context)
 
-    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
-    assertEquals("GRANULARITY_HEADINGS", prefs.getString("pref_current_selector_setting_key", null))
-    assertEquals(bundledReadingControlOrder(), prefs.getString(ItemOrder.READING_CONTROLS_KEY, null))
-    assertEquals("UEB", braille.getString("pref_brailleime_translator_code", null))
+    assertBundledDefaults()
     assertFalse(prefs.contains("pref_problem_report_email"))
     assertFalse(prefs.contains("pref_stopwatch_history"))
-    assertTrue(state.getBoolean("initial_settings_applied", false))
-    assertTrue(!state.getString("initial_settings_snapshot", null).isNullOrBlank())
+    assertTrue(state.getBoolean("bundled_defaults_applied", false))
+    assertFalse(state.contains("initial_settings_applied"))
+    assertFalse(state.contains("initial_settings_snapshot"))
 
     prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
     SettingsBackup.applyInitialDefaultsIfNeeded(context)
@@ -66,60 +65,133 @@ class SettingsBackupTest {
   }
 
   @Test
-  fun upgradeMigratesOldDefaultsAndPreservesUserChanges() {
+  fun upgradeReplacesOldDefaultsOnceEvenWhenTheirSnapshotMatchesTheBundle() {
     val state = SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
-    state.edit().clear().putBoolean("initial_settings_applied", true).commit()
-    prefs.edit().clear().commit()
-    extra.edit().clear().commit()
-    braille.edit().clear().commit()
-    prefs
+    state
       .edit()
-      .putBoolean("pref_speak_items_before_scroll_key", false)
-      .putString("pref_current_selector_setting_key", "GRANULARITY_CHARACTERS")
-      .putString(
-        ItemOrder.READING_CONTROLS_KEY,
-        SelectorController.defaultOrderKeys(context).joinToString(","),
-      )
-      .putString("custom_user_setting", "keep")
+      .clear()
+      .putBoolean("initial_settings_applied", true)
+      .putString("initial_settings_snapshot", bundledSettings())
       .commit()
-
-    SettingsBackup.applyInitialDefaultsIfNeeded(context)
-
-    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
-    assertEquals("GRANULARITY_CHARACTERS", prefs.getString("pref_current_selector_setting_key", null))
-    assertEquals(bundledReadingControlOrder(), prefs.getString(ItemOrder.READING_CONTROLS_KEY, null))
-    assertEquals("keep", prefs.getString("custom_user_setting", null))
-    assertTrue(state.getBoolean("initial_settings_applied", false))
-    assertTrue(!state.getString("initial_settings_snapshot", null).isNullOrBlank())
-
-    prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
-    SettingsBackup.applyInitialDefaultsIfNeeded(context)
-
-    assertFalse(prefs.getBoolean("pref_speak_items_before_scroll_key", true))
-  }
-
-  @Test
-  fun laterDefaultChangesUpdateOnlyValuesThatStillMatchTheirPreviousDefaults() {
-    val oldSettings =
-      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{"pref_speak_items_before_scroll_key":{"type":"boolean","value":false},"pref_current_selector_setting_key":{"type":"string","value":"GRANULARITY_WORDS"},"removed_default":{"type":"string","value":"old"}}}}}"""
-    val newSettings =
-      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{"pref_speak_items_before_scroll_key":{"type":"boolean","value":true},"pref_current_selector_setting_key":{"type":"string","value":"GRANULARITY_HEADINGS"},"new_default":{"type":"boolean","value":true}}}}}"""
     prefs
       .edit()
       .clear()
       .putBoolean("pref_speak_items_before_scroll_key", false)
       .putString("pref_current_selector_setting_key", "GRANULARITY_CHARACTERS")
-      .putString("removed_default", "old")
-      .putString("custom_user_setting", "keep")
+      .putString(ItemOrder.READING_CONTROLS_KEY, "old-order")
+      .putString("pref_problem_report_email", "local@example.invalid")
+      .putString("pref_stopwatch_history", "local-history")
+      .putString("pref_gemini_api_key", "local-key")
+      .putLong(Updater.PREF_LAST_CHECK_TIME, 42L)
+      .putBoolean("first_time_user", false)
       .commit()
+    extra.edit().clear().putString("custom_user_setting", "keep").commit()
+    braille.edit().clear().putString("pref_brailleime_translator_code", "VIETNAMESE").commit()
 
-    assertTrue(SettingsBackup.applyInitialSettingsChanges(context, oldSettings, newSettings))
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
 
-    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
-    assertEquals("GRANULARITY_CHARACTERS", prefs.getString("pref_current_selector_setting_key", null))
-    assertTrue(prefs.getBoolean("new_default", false))
-    assertFalse(prefs.contains("removed_default"))
-    assertEquals("keep", prefs.getString("custom_user_setting", null))
+    assertBundledDefaults()
+    assertEquals("local@example.invalid", prefs.getString("pref_problem_report_email", null))
+    assertEquals("local-history", prefs.getString("pref_stopwatch_history", null))
+    assertEquals("local-key", prefs.getString("pref_gemini_api_key", null))
+    assertEquals(42L, prefs.getLong(Updater.PREF_LAST_CHECK_TIME, 0L))
+    assertFalse(prefs.getBoolean("first_time_user", true))
+    assertEquals("keep", extra.getString("custom_user_setting", null))
+    assertTrue(state.getBoolean("bundled_defaults_applied", false))
+    assertFalse(state.contains("initial_settings_applied"))
+    assertFalse(state.contains("initial_settings_snapshot"))
+
+    prefs
+      .edit()
+      .putBoolean("pref_speak_items_before_scroll_key", false)
+      .putString(ItemOrder.READING_CONTROLS_KEY, "user-order")
+      .remove("pref_current_selector_setting_key")
+      .commit()
+    braille.edit().putString("pref_brailleime_translator_code", "VIETNAMESE").commit()
+    val expected = prefs.all.toMap()
+    val expectedBraille = braille.all.toMap()
+
+    repeat(3) { SettingsBackup.applyInitialDefaultsIfNeeded(context) }
+
+    assertEquals(expected, prefs.all)
+    assertEquals(expectedBraille, braille.all)
+  }
+
+  @Test
+  fun existingSettingsWithoutLegacyMarkersAlsoReceiveTheReplacement() {
+    SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+      .edit().clear().commit()
+    prefs.edit().clear().putBoolean("pref_speak_items_before_scroll_key", false).commit()
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertBundledDefaults()
+  }
+
+  @Test
+  fun aManualImportAfterTheReplacementSurvivesStartup() {
+    SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+      .edit().clear().commit()
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+    val customSettings =
+      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{"pref_speak_items_before_scroll_key":{"type":"boolean","value":false},"pref_current_selector_setting_key":{"type":"string","value":"GRANULARITY_CHARACTERS"}}}}}"""
+
+    assertTrue(SettingsBackup.import(context, customSettings))
+    val expected = prefs.all.toMap()
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertEquals(expected, prefs.all)
+  }
+
+  @Test
+  fun staleCredentialSettingsCannotOverwriteExistingDeviceSettingsOnStartup() {
+    SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+      .edit().clear().commit()
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+    prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
+    context.getSharedPreferences(context.packageName + "_preferences", Context.MODE_PRIVATE)
+      .edit().clear().putBoolean("pref_speak_items_before_scroll_key", true).commit()
+    val expected = prefs.all.toMap()
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertEquals(expected, prefs.all)
+  }
+
+  @Test
+  fun failedSettingsCommitDoesNotMarkTheReplacementAsAppliedAndCanRetry() {
+    val state = SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+    state.edit().clear().putBoolean("initial_settings_applied", true).commit()
+    val failingDeviceContext =
+      object : ContextWrapper(context.createDeviceProtectedStorageContext()) {
+        override fun getSharedPreferences(name: String, mode: Int): SharedPreferences {
+          val stored = super.getSharedPreferences(name, mode)
+          if (name != context.packageName + "_preferences") return stored
+          return object : SharedPreferences by stored {
+            override fun edit(): SharedPreferences.Editor {
+              val editor = stored.edit()
+              return object : SharedPreferences.Editor by editor {
+                override fun commit(): Boolean = false
+              }
+            }
+          }
+        }
+      }
+    val failingContext =
+      object : ContextWrapper(context) {
+        override fun createDeviceProtectedStorageContext(): Context = failingDeviceContext
+      }
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(failingContext)
+
+    assertFalse(state.getBoolean("bundled_defaults_applied", false))
+    assertTrue(state.getBoolean("initial_settings_applied", false))
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertBundledDefaults()
+    assertTrue(state.getBoolean("bundled_defaults_applied", false))
   }
 
   @Test
@@ -261,15 +333,20 @@ class SettingsBackupTest {
     assertFalse(SettingsBackup.import(context, damaged))
     assertFalse(prefs.getBoolean("a_switch", true))
   }
-  private fun bundledReadingControlOrder(): String {
-    val settings =
-      JSONObject(context.assets.open("initial-settings.json").bufferedReader().use { it.readText() })
-    return settings
-      .getJSONObject("files")
-      .getJSONObject("device")
-      .getJSONObject("default")
-      .getJSONObject(ItemOrder.READING_CONTROLS_KEY)
-      .getString("value")
-  }
 
+  private fun bundledSettings(): String =
+    context.assets.open("initial-settings.json").bufferedReader().use { it.readText() }
+
+  private fun assertBundledDefaults() {
+    val files = JSONObject(bundledSettings()).getJSONObject("files").getJSONObject("device")
+    val deviceContext = context.createDeviceProtectedStorageContext()
+    for (file in files.keys()) {
+      val name = if (file == "default") context.packageName + "_preferences" else file
+      val stored = deviceContext.getSharedPreferences(name, Context.MODE_PRIVATE)
+      val entries = files.getJSONObject(file)
+      for (key in entries.keys()) {
+        assertEquals(key, SettingsBackup.decode(entries.getJSONObject(key)), stored.all[key])
+      }
+    }
+  }
 }

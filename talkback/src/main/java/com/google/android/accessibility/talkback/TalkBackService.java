@@ -2282,7 +2282,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     primesController.initialize(getApplication());
     primesController.startTimer(TimerAction.START_UP);
 
-    SharedPreferencesUtils.migrateSharedPreferences(this);
     prefs = SharedPreferencesUtils.getSharedPreferences(this);
     VolumeKeyManager.migrate(this);
 

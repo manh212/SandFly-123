@@ -25,12 +25,11 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.StringRes
 import androidx.annotation.VisibleForTesting
+import androidx.core.os.UserManagerCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.migration.MigrationFiles
-import com.google.android.accessibility.talkback.preference.ItemOrder
-import com.google.android.accessibility.talkback.selector.SelectorController
 import com.google.android.accessibility.utils.FormFactorUtils
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
@@ -60,9 +59,7 @@ object SettingsBackup {
   private const val VERSION = 1
   private const val FILE_NAME = "sandfly-settings.json"
   private const val INITIAL_SETTINGS_FILE = "initial-settings.json"
-  private const val PREVIOUS_INITIAL_SETTINGS_FILE = "initial-settings-previous.json"
-  private const val INITIAL_SETTINGS_APPLIED = "initial_settings_applied"
-  private const val INITIAL_SETTINGS_SNAPSHOT = "initial_settings_snapshot"
+  private const val BUNDLED_DEFAULTS_APPLIED = "bundled_defaults_applied"
   private const val MAX_BYTES = 5 * 1024 * 1024
   private const val PREFS_SUFFIX = ".xml"
 
@@ -219,7 +216,10 @@ object SettingsBackup {
    * doesn't hold, API keys and the updater's state are kept. Returns false if [json] is not a
    * SandFly settings file, and then changes nothing.
    */
-  fun import(context: Context, json: String): Boolean {
+  fun import(context: Context, json: String): Boolean =
+    importSettings(context, json, replaceMissing = true)
+
+  private fun importSettings(context: Context, json: String, replaceMissing: Boolean): Boolean {
     val files =
       try {
         val root = JSONObject(json)
@@ -251,7 +251,7 @@ object SettingsBackup {
     for ((prefs, values) in edits) {
       val editor = prefs.edit()
       for (key in prefs.all.keys) {
-        if (key !in values && !isSecretKey(key) && !isSkipped(context, null, key)) {
+        if (replaceMissing && key !in values && !isSecretKey(key) && !isSkipped(context, null, key)) {
           editor.remove(key)
         }
       }
@@ -266,62 +266,40 @@ object SettingsBackup {
           is Set<*> -> editor.putStringSet(key, value as Set<String>)
         }
       }
-      editor.commit()
+      if (!editor.commit()) return false
     }
     return true
   }
 
   @JvmStatic
   fun applyInitialDefaultsIfNeeded(context: Context) {
+    val deviceContext = context.createDeviceProtectedStorageContext()
+    val devicePreferences =
+      File(deviceContext.dataDir, "${MigrationFiles.PREFS_DIR}/${defaultName(context)}$PREFS_SUFFIX")
+    if (!devicePreferences.exists() && UserManagerCompat.isUserUnlocked(context)) {
+      SharedPreferencesUtils.migrateSharedPreferences(context)
+    }
+
     val statePrefs =
       SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+    if (statePrefs.getBoolean(BUNDLED_DEFAULTS_APPLIED, false)) return
+
     val currentSettings = readInitialSettings(context, INITIAL_SETTINGS_FILE) ?: return
-    if (settingsFiles(currentSettings) == null) {
-      LogUtils.e(TAG, "The bundled initial settings are invalid")
-      return
-    }
-
-    if (!statePrefs.getBoolean(INITIAL_SETTINGS_APPLIED, false)) {
-      if (!hasExistingSettings(context) && !import(context, currentSettings)) {
-        LogUtils.e(TAG, "Cannot apply the bundled initial settings")
-        return
-      }
-      if (!statePrefs.edit().putBoolean(INITIAL_SETTINGS_APPLIED, true).commit()) {
-        LogUtils.e(TAG, "Cannot record that the initial settings were applied")
-        return
-      }
-    }
-
-    val savedSettings = statePrefs.getString(INITIAL_SETTINGS_SNAPSHOT, null)
-    val previousSettings =
-      savedSettings?.takeIf { settingsFiles(it) != null }
-        ?: readInitialSettings(context, PREVIOUS_INITIAL_SETTINGS_FILE)
-    if (previousSettings == null) {
-      LogUtils.e(TAG, "Cannot read the previous bundled initial settings")
+    if (!importSettings(context, currentSettings, replaceMissing = false)) {
+      LogUtils.e(TAG, "Cannot apply the bundled initial settings")
       return
     }
     if (
-      previousSettings != currentSettings &&
-        !applyInitialSettingsChanges(context, previousSettings, currentSettings)
+      !statePrefs
+        .edit()
+        .putBoolean(BUNDLED_DEFAULTS_APPLIED, true)
+        .remove("initial_settings_applied")
+        .remove("initial_settings_snapshot")
+        .commit()
     ) {
-      LogUtils.e(TAG, "Cannot migrate the bundled initial settings")
-      return
-    }
-    if (
-      savedSettings != currentSettings &&
-        !statePrefs.edit().putString(INITIAL_SETTINGS_SNAPSHOT, currentSettings).commit()
-    ) {
-      LogUtils.e(TAG, "Cannot record the bundled initial settings")
+      LogUtils.e(TAG, "Cannot record that the bundled initial settings were applied")
     }
   }
-
-  private fun hasExistingSettings(context: Context): Boolean =
-    storages(context).any { (_, storageContext) ->
-      prefsNames(context, storageContext).any { name ->
-        val prefs = storageContext.getSharedPreferences(name, Context.MODE_PRIVATE)
-        prefs.all.keys.any { key -> !isSecretKey(key) && !isSkipped(context, name, key) }
-      }
-    }
 
   private fun readInitialSettings(context: Context, fileName: String): String? =
     try {
@@ -329,107 +307,6 @@ object SettingsBackup {
     } catch (e: IOException) {
       LogUtils.e(TAG, "Cannot read bundled settings %s: %s", fileName, e)
       null
-    }
-
-  private fun settingsFiles(json: String): JSONObject? =
-    try {
-      val root = JSONObject(json)
-      if (root.optString("format") != FORMAT || root.optInt("version") > VERSION) {
-        null
-      } else {
-        root.optJSONObject("files")
-      }
-    } catch (e: JSONException) {
-      null
-    }
-
-  @VisibleForTesting
-  internal fun applyInitialSettingsChanges(
-    context: Context,
-    previousSettings: String,
-    currentSettings: String,
-  ): Boolean {
-    val previousFiles = settingsFiles(previousSettings) ?: return false
-    val currentFiles = settingsFiles(currentSettings) ?: return false
-    for ((storage, storageContext) in storages(context)) {
-      val previousStorage = previousFiles.optJSONObject(storage) ?: JSONObject()
-      val currentStorage = currentFiles.optJSONObject(storage) ?: JSONObject()
-      val fileNames = linkedSetOf<String>()
-      val previousFilesIterator = previousStorage.keys()
-      while (previousFilesIterator.hasNext()) {
-        fileNames.add(previousFilesIterator.next())
-      }
-      val currentFilesIterator = currentStorage.keys()
-      while (currentFilesIterator.hasNext()) {
-        fileNames.add(currentFilesIterator.next())
-      }
-      for (fileName in fileNames) {
-        val preferenceName = importedName(context, fileName) ?: continue
-        val previousValues = previousStorage.optJSONObject(fileName)
-        val currentValues = currentStorage.optJSONObject(fileName)
-        val keys = linkedSetOf<String>()
-        val previousKeys = previousValues?.keys()
-        while (previousKeys?.hasNext() == true) {
-          keys.add(previousKeys.next())
-        }
-        val currentKeys = currentValues?.keys()
-        while (currentKeys?.hasNext() == true) {
-          keys.add(currentKeys.next())
-        }
-        if (keys.isEmpty()) continue
-
-        val prefs = storageContext.getSharedPreferences(preferenceName, Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-        var changed = false
-        for (key in keys) {
-          if (isSecretKey(key) || isSkipped(context, preferenceName, key)) {
-            continue
-          }
-          val previousValue =
-            previousValues?.optJSONObject(key)?.let(::decode)
-              ?: previousDefault(context, preferenceName, key)
-          val currentEntry = currentValues?.optJSONObject(key)
-          val currentValue = currentEntry?.let(::decode)
-          if (currentEntry != null && currentValue == null) return false
-          if (prefs.contains(key) && (previousValue == null || prefs.all[key] != previousValue)) {
-            continue
-          }
-          if (currentEntry == null) {
-            if (previousValue != null && prefs.contains(key)) {
-              editor.remove(key)
-              changed = true
-            }
-            continue
-          }
-          val value = currentValue ?: return false
-          if (!fits(context, prefs, key, value) || prefs.all[key] == value) continue
-          when (value) {
-            is Boolean -> editor.putBoolean(key, value)
-            is Int -> editor.putInt(key, value)
-            is Long -> editor.putLong(key, value)
-            is Float -> editor.putFloat(key, value)
-            is String -> editor.putString(key, value)
-            is Set<*> -> {
-              @Suppress("UNCHECKED_CAST")
-              editor.putStringSet(key, value as Set<String>)
-            }
-          }
-          changed = true
-        }
-        if (changed && !editor.commit()) {
-          LogUtils.e(TAG, "Cannot update defaults in preference file %s", preferenceName)
-          return false
-        }
-      }
-    }
-    return true
-  }
-
-  private fun previousDefault(context: Context, preferenceName: String, key: String): Any? =
-    if (preferenceName == defaultName(context) && key == ItemOrder.READING_CONTROLS_KEY) {
-      SelectorController.defaultOrderKeys(context).joinToString(",")
-    } else {
-      defaultValue(context, key)
     }
 
   /** Backtalk's settings file: format 1, with a preference file for each store. */
