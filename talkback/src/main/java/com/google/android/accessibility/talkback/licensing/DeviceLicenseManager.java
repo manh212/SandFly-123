@@ -53,7 +53,7 @@ public final class DeviceLicenseManager {
     if (!configured()) return false;
     try {
       String license = prefs(context).getString("license", "");
-      if (license == null || license.isEmpty()) return false;
+      if (license == null || license.isEmpty() || !ApkSignatureVerifier.isOfficial(context)) return false;
       return LicenseProtocol.verify(
               request(context),
               license,
@@ -65,6 +65,9 @@ public final class DeviceLicenseManager {
   }
 
   public static void activate(Context context, String license) throws Exception {
+    if (!ApkSignatureVerifier.isOfficial(context)) {
+      throw new IllegalStateException("Bản cài đặt Meridian không có chữ ký chính thức. Hãy cài APK từ nguồn phát hành chính thức.");
+    }
     if (!configured()) throw new IllegalStateException("Khóa cấp phép của nhà phát hành chưa được cấu hình");
     if (!LicenseProtocol.verify(
             request(context), license.trim(),
