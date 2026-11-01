@@ -41,6 +41,7 @@ they do not maintain a second copy of its controls.
 
 - Container positions, list counts, table coordinates and headers, window names and progress announcements belong to Navigation.
 - Text-to-speech engine and output controls belong to Giọng đọc; reading verbosity and content options belong to Nội dung đọc.
+- Phonetic letter mode belongs to the reading-text options in Nội dung đọc; the Giọng đọc page owns speech output, engine and voice profiles.
 - Keyboard interruption, echo, method and timing controls belong to Nhập liệu. Dictation model selection stays with dictation.
 - Reading identifiers for unlabelled buttons belong to spoken item information.
 - Text-formatting announcement mode is a choice on its formatting page rather than a separate one-option screen.

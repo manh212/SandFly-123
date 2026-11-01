@@ -69,6 +69,14 @@
         android:key="@string/pref_capital_letters_key"
         android:summary="%s"
         android:title="@string/title_pref_capital_letters" />
+    <ListPreference
+        android:defaultValue="@string/pref_phonetic_letters_mode_default"
+        android:dialogTitle="@string/title_pref_phonetic_letters_mode"
+        android:entries="@array/pref_phonetic_letters_mode_entries"
+        android:entryValues="@array/pref_phonetic_letters_mode_values"
+        android:key="@string/pref_phonetic_letters_mode_key"
+        android:summary="%s"
+        android:title="@string/title_pref_phonetic_letters_mode" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_formatting_inline_default"
         android:key="@string/pref_formatting_inline_key"

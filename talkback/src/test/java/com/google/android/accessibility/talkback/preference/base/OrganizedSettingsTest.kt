@@ -144,6 +144,18 @@ class OrganizedSettingsTest {
   }
 
   @Test
+  fun phoneticLetterModeLivesWithReadingTextOptions() {
+    val key = activity.getString(R.string.pref_phonetic_letters_mode_key)
+    val reading = SpeechGroupFragment()
+    open(reading)
+    assertTrue(reading.findPreference<ListPreference>(key) != null)
+
+    val voice = TextToSpeechSettingsFragment()
+    open(voice)
+    assertTrue(voice.findPreference<Preference>(key) == null)
+  }
+
+  @Test
   fun typingSwitchesAndExternalKeyboardEchoChangesStayUsable() {
     val fragment = TypingGroupFragment()
     open(fragment)
