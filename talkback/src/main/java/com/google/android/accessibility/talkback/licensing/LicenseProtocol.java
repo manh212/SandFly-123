@@ -27,6 +27,22 @@ public final class LicenseProtocol {
   public static String fingerprint(PublicKey key) throws Exception {
     return enc(MessageDigest.getInstance("SHA-256").digest(key.getEncoded()));
   }
+  static boolean provesPossession(PrivateKey privateKey, PublicKey publicKey) {
+    try {
+      byte[] challenge = new byte[32];
+      new SecureRandom().nextBytes(challenge);
+      Signature signer = Signature.getInstance("SHA256withECDSA");
+      signer.initSign(privateKey);
+      signer.update(challenge);
+      byte[] proof = signer.sign();
+      Signature verifier = Signature.getInstance("SHA256withECDSA");
+      verifier.initVerify(publicKey);
+      verifier.update(challenge);
+      return verifier.verify(proof);
+    } catch (GeneralSecurityException | RuntimeException e) {
+      return false;
+    }
+  }
   public static boolean verify(String request, String license, PublicKey issuer) {
     try {
       if (license == null || license.length() > 6000 || !license.startsWith("SFLIC1.")) return false;
