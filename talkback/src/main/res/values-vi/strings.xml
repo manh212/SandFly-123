@@ -1596,7 +1596,7 @@
     <string name="title_collapse_menu_open">Mở trình đơn</string>
     <string name="title_collapse_menu_not_available">Không khả dụng</string>
     <string name="title_pref_fix_stuck_touch_exploration">Sửa lỗi khám phá bằng cách chạm bị treo</string>
-    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Khi không có quyền DUMP, Meridian chỉ có thể báo rằng tính năng khám phá bằng cách chạm có thể bị treo. Để Meridian sửa lỗi, hãy chạy: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
+    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Khi không có quyền DUMP, Meridian chỉ có thể báo rằng tính năng khám phá bằng cách chạm có thể bị treo. Để Meridian sửa lỗi, hãy chạy: adb shell pm grant <xliff:g id="package" example="io.github.aaron_gh.meridian">%1$s</xliff:g> android.permission.DUMP</string>
     <string name="stuck_touch_exploration_fixing">Đang sửa lỗi khám phá bằng cách chạm</string>
     <string name="stuck_touch_exploration_fixed">Đã sửa lỗi khám phá bằng cách chạm</string>
     <string name="stuck_touch_exploration_not_fixed">Tính năng khám phá bằng cách chạm vẫn bị treo. Hãy khởi động lại điện thoại để khắc phục.</string>
@@ -1747,7 +1747,7 @@
     <string name="title_pref_dictation_recognition">Nhận dạng giọng nói</string>
     <string name="title_pref_whisper_models">Mô hình Whisper</string>
     <string name="meridian_intro_title">Giới thiệu về Meridian</string>
-    <string name="meridian_intro">Meridian là trình đọc màn hình nhanh, nhẹ, nhiều tính năng, được phát triển bởi người Việt Nam: đọc to nội dung trên màn hình, duyệt bằng cảm ứng và giao việc cho AI thực hiện. Meridian có tham khảo mã nguồn từ các trình đọc màn hình: Google TalkBack, BackTalk và SandFly.</string>
+    <string name="meridian_intro">Meridian là trình đọc màn hình nhanh, nhẹ, do người Việt phát triển. Ứng dụng đọc to nội dung trên màn hình, hỗ trợ khám phá bằng cách chạm và có thể giao một số tác vụ cho trí tuệ nhân tạo.</string>
     <string name="meridian_contact_title">Liên hệ nhà phát triển</string>
     <string name="first_run_tutorial_question">Bạn có cần hướng dẫn không?</string>
     <string name="first_run_tutorial_yes">Có</string>

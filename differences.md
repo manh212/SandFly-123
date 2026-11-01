@@ -1,6 +1,6 @@
-# Differences from TalkBack
+# Meridian features
 
-Meridian is built from Backtalk, which is built from Google's TalkBack source releases. This document describes how Meridian differs from TalkBack: features that TalkBack doesn't have, defaults that Meridian changes, and problems in TalkBack that Meridian fixes. To learn how to install Meridian, see the [README](README.md).
+This document describes how Meridian works, including its features, settings, defaults, and behavior. To learn how to install Meridian, see the [README](README.md).
 
 Each section names the settings involved as they appear in Meridian. Unless a section says otherwise, each setting is in Meridian settings.
 
@@ -8,7 +8,7 @@ Each section names the settings involved as they appear in Meridian. Unless a se
 
 ### Faster speech after a swipe
 
-When you swiped to an item, TalkBack waited for the app to confirm the new focus before it put together what to say. Meridian speaks the item as soon as it has set focus, and does less other work around each swipe. On a Galaxy Z Fold7, the median time from lifting your finger to hearing speech went from about 68 ms to about 39 ms.
+When you swiped to an item, the previous screen reader waited for the app to confirm the new focus before it put together what to say. Meridian speaks the item as soon as it has set focus, and does less other work around each swipe. On a Galaxy Z Fold7, the median time from lifting your finger to hearing speech went from about 68 ms to about 39 ms.
 
 This doesn't apply when focus moves to another window, when the screen changes, or during continuous reading. Keys on the keyboard, sliders, progress bars, pages in a pager, and web content still wait for the app.
 
@@ -20,15 +20,15 @@ Meridian doesn't prepare anything for the first swipe on a screen or after the s
 
 ### Items that a swipe scrolls into view
 
-When a swipe moves to a list item that is only partly on screen, the list scrolls it into view. By default, Meridian then waits for the app to confirm the new focus, as TalkBack does, so these swipes don't get the faster speech above. Speaking straight away would come before the list had scrolled, when the item's text can still be off screen, and only its place in the list, such as "20 of 80", would be said.
+When a swipe moves to a list item that is only partly on screen, the list scrolls it into view. By default, Meridian then waits for the app to confirm the new focus, as the previous screen reader does, so these swipes don't get the faster speech above. Speaking straight away would come before the list had scrolled, when the item's text can still be off screen, and only its place in the list, such as "20 of 80", would be said.
 
 When you turn on **Controls** > **Touch and activation** > **Reduce delay** > **Speak items before they scroll into view**, Meridian speaks these items straight away too, including the parts that are still past the edge of the list, since they will be on screen once it has scrolled. Parts the app has hidden are still left out. Apps that follow Android's conventions work correctly with this setting on. It is off by default to protect you from apps that don't: in those, a part that the app keeps out of sight by moving it outside the item, instead of hiding it, is read even though it isn't shown, and so is a part that stays off screen when the list can't scroll the whole item into view.
 
 ### Reading order kept between swipes
 
-TalkBack asked the app for every item on the screen on each swipe, and waited for each answer. Meridian keeps the reading order between swipes, and builds it again only when the screen changes, or when Meridian scrolls or clicks. Changes to text or state, such as a clock that ticks or a progress bar that moves, don't discard the order.
+The previous screen reader asked the app for every item on the screen on each swipe, and waited for each answer. Meridian keeps the reading order between swipes, and builds it again only when the screen changes, or when Meridian scrolls or clicks. Changes to text or state, such as a clock that ticks or a progress bar that moves, don't discard the order.
 
-To find the next item in a list, TalkBack also built the reading order of the whole screen three times for one swipe: once to check whether focus was at the end of the list, once to find the item, and once to check whether the item needed to be scrolled into view. Meridian builds it once and reuses it.
+To find the next item in a list, the previous screen reader also built the reading order of the whole screen three times for one swipe: once to check whether focus was at the end of the list, once to find the item, and once to check whether the item needed to be scrolled into view. Meridian builds it once and reuses it.
 
 In a test on a Realme phone, three in four swipes reused the reading order, and the longest pause during swiping went from about 450 ms to about 150 ms.
 
@@ -48,7 +48,7 @@ Ordinarily, speech is queued: an announcement waits until the ones before it hav
 
 ### Less lag while scrolling
 
-After each scroll event, TalkBack searched the list for a new item to focus. The search blocked touch exploration and could make gestures fail. Meridian searches once, after scrolling stops.
+After each scroll event, the previous screen reader searched the list for a new item to focus. The search blocked touch exploration and could make gestures fail. Meridian searches once, after scrolling stops.
 
 ### Less stalling in busy apps
 
@@ -56,28 +56,28 @@ In busy apps, a backlog of accessibility events could block gestures for almost 
 
 ### Faster response on empty space
 
-When you touched an empty part of the screen, TalkBack waited 100 ms after the focus delay before it played the sound. Meridian waits 40 ms.
+When you touched an empty part of the screen, the previous screen reader waited 100 ms after the focus delay before it played the sound. Meridian waits 40 ms.
 
 ### Faster screen changes
 
-After a window changes, TalkBack waits for the window to settle before it says the title. TalkBack counted that wait in a way that made 550 ms last about 900 ms. Meridian counts the real time.
+After a window changes, the previous screen reader waits for the window to settle before it says the title. The previous screen reader counted that wait in a way that made 550 ms last about 900 ms. Meridian counts the real time.
 
-The **Turn off animations** setting in **Controls** > **Touch and activation** > **Reduce delay** turns off animations for the whole phone, so screens change immediately and the wait is only 50 ms. TalkBack called this setting **Reduce window announcement delay**, and had disabled the code that turns animations off, so the setting did nothing. Meridian makes the setting work, and turns animations back on when you turn Meridian off. On Android 12 and earlier, which don't let Meridian turn animations off, the setting only shortens the wait. The setting is on by default.
+The **Turn off animations** setting in **Controls** > **Touch and activation** > **Reduce delay** turns off animations for the whole phone, so screens change immediately and the wait is only 50 ms. The previous screen reader called this setting **Reduce window announcement delay**, and had disabled the code that turns animations off, so the setting did nothing. Meridian makes the setting work, and turns animations back on when you turn Meridian off. On Android 12 and earlier, which don't let Meridian turn animations off, the setting only shortens the wait. The setting is on by default.
 
 The wait also ends early when it can. While waiting, Meridian looks at the windows every 10 ms or so, and if two looks in a row see the same windows and every changed window already has a title in the window list, the title is said at once — after about 20 ms — instead of waiting out the whole delay. Windows appear in the list with their titles right away in modern apps, so this is the usual case. The full delay stays as the limit for a window that has no title yet, and placing the first focus in the new window ends with the same early announcement instead of the full delay. A pane title that only arrives after the early announcement is announced when it comes, so such a window can be named twice: once by its own title, then by the pane's.
 
-When you activated an item, or pressed a key, while the item was being spoken or just after, TalkBack still spoke its usage hint, such as "Double-tap to activate", and the name of the new window waited for the hint. Meridian drops the hint.
+When you activated an item, or pressed a key, while the item was being spoken or just after, the previous screen reader still spoke its usage hint, such as "Double-tap to activate", and the name of the new window waited for the hint. Meridian drops the hint.
 
-TalkBack speaks the window name only after the speech before it, and the first item in the new window only after the window name. **Verbosity** > **Window names** chooses when window names are spoken:
+The previous screen reader speaks the window name only after the speech before it, and the first item in the new window only after the window name. **Verbosity** > **Window names** chooses when window names are spoken:
 
-*   **Always**, the default, as TalkBack does.
+*   **Always**, the default, as the previous screen reader does.
 *   **Always, cut off by the first item**: the window name interrupts the speech before it, and the first item interrupts the window name as soon as it is focused, so usually only the window sound is heard before the first item.
 *   **Only when a window opens**: no window name when focus moves into another window, such as the keyboard.
 *   **Never**: a screen change plays only the window sound.
 
 ### Swiping into the next part of a list
 
-When the next item was only partly on screen, TalkBack scrolled it into view, waited for the scroll before it spoke, and then waited another 110 ms in case more scroll events arrived. Meridian speaks the item immediately and lets the scroll finish while it speaks.
+When the next item was only partly on screen, the previous screen reader scrolled it into view, waited for the scroll before it spoke, and then waited another 110 ms in case more scroll events arrived. Meridian speaks the item immediately and lets the scroll finish while it speaks.
 
 When the next item is off screen, Meridian checks once per frame whether the list has moved, rather than wait for the scroll event, which Android sends at most every 100 ms. On a Samsung phone, swipes that scroll went from about 310 ms to about 60 ms when the item was partly on screen, and from about 320 ms to about 140 ms when the list had to scroll a page.
 
@@ -85,13 +85,13 @@ Meridian also finds the end of a list that's laid out in reverse, such as a chat
 
 ### Scroll views that show the next screen immediately
 
-Some screens are one long page rather than a list, and keep all of their content in the accessibility tree. On these screens, when you swipe past the last item on screen, Meridian scrolls straight to the next screen without the animation, so that the next item is at the top, and searches again immediately. An item that was cut off at the edge of the screen is read rather than scrolled past, as TalkBack's page scroll did.
+Some screens are one long page rather than a list, and keep all of their content in the accessibility tree. On these screens, when you swipe past the last item on screen, Meridian scrolls straight to the next screen without the animation, so that the next item is at the top, and searches again immediately. An item that was cut off at the edge of the screen is read rather than scrolled past, as the previous screen reader's page scroll did.
 
 This requires Android 14 or later. Lists, grids, pagers, and Compose screens still scroll a page at a time, because they create only the items on screen or they animate their scrolling.
 
 ### Focus that stays where a swipe's scroll put it
 
-A list can keep scrolling for a moment after a swipe has moved focus to the next item. TalkBack treated the rest of that scroll as a scroll that you made, and moved focus on to the next item by itself. Meridian counts it as part of its own scroll. As a result, if you scroll the same list yourself within a second of a swipe's scroll, focus doesn't move.
+A list can keep scrolling for a moment after a swipe has moved focus to the next item. The previous screen reader treated the rest of that scroll as a scroll that you made, and moved focus on to the next item by itself. Meridian counts it as part of its own scroll. As a result, if you scroll the same list yourself within a second of a swipe's scroll, focus doesn't move.
 
 ### Swiping away from long paragraphs
 
@@ -105,7 +105,7 @@ The setting is off by default, because many engines, such as RHVoice, already st
 
 ### Text-to-speech settings
 
-In TalkBack, **Text-to-speech** opens Android's system speech settings. Meridian has its own **Text-to-speech** screen, under **Feedback** in Meridian settings. On this screen, you can choose a speech engine for Meridian that's separate from Android's default engine, and set the speech volume, rate, and pitch with sliders. It also links to Android's system settings, and holds the speech settings that are described in the following sections.
+In the previous screen reader, **Text-to-speech** opens Android's system speech settings. Meridian has its own **Text-to-speech** screen, under **Feedback** in Meridian settings. On this screen, you can choose a speech engine for Meridian that's separate from Android's default engine, and set the speech volume, rate, and pitch with sliders. It also links to Android's system settings, and holds the speech settings that are described in the following sections.
 
 ### Speech engine reading control
 
@@ -123,7 +123,7 @@ The reading control goes through the profiles in the order of the **Voice profil
 
 ### Speech volume
 
-TalkBack always plays speech at the accessibility volume. In Meridian, **Text-to-speech** > **Speech volume** chooses the volume that speech and Meridian's sounds play at:
+The previous screen reader always plays speech at the accessibility volume. In Meridian, **Text-to-speech** > **Speech volume** chooses the volume that speech and Meridian's sounds play at:
 
 - **Accessibility volume**, the default.
 - **Media volume**.
@@ -134,7 +134,7 @@ The **Speech volume** reading control, which you can turn on in **Reading contro
 
 ### Automatic language and dialect changes
 
-When text is marked as another language, TalkBack switches the voice to that language. Meridian lets you turn this off. In **Text-to-speech**, **Switch language automatically** controls changes to another language, and **Switch dialect automatically** controls changes to another country's form of the voice's language, such as US English text with a British English voice. Both are on by default.
+When text is marked as another language, the previous screen reader switches the voice to that language. Meridian lets you turn this off. In **Text-to-speech**, **Switch language automatically** controls changes to another language, and **Switch dialect automatically** controls changes to another country's form of the voice's language, such as US English text with a British English voice. Both are on by default.
 
 When you turn a change off, Meridian no longer splits the text or pauses around it. Text marked as the voice's own language and country, such as US English for a US English voice, isn't split either, whatever the settings, since the voice doesn't change. Meridian compares languages by their codes only, so Serbian in Latin and in Cyrillic script counts as two dialects, and Norwegian marked as `no` and as `nb` counts as two languages.
 
@@ -142,7 +142,7 @@ When you turn a change off, Meridian no longer splits the text or pauses around 
 
 Some speech engines read emoji badly, use names of their own, or don't read them at all. **Verbosity** > **Emoji** chooses how they're spoken:
 
-*   **Read by speech engine**, the default, gives the engine the emoji as TalkBack did.
+*   **Read by speech engine**, the default, gives the engine the emoji as the previous screen reader did.
 *   **Read by Meridian** replaces each emoji with its name from the [Unicode CLDR](https://cldr.unicode.org/), in the language the text is spoken in, for 138 languages and regional variants. A skin tone, a family, a flag or a keycap is one emoji with one name.
 *   **None** leaves emoji out, except in text that is only emoji, such as a reaction button or a character, which is still named.
 
@@ -152,17 +152,17 @@ With **None**, moving by word skips emoji, as moving by character still names th
 
 ### Resume speech where you paused it
 
-With speech engines that don't report word positions, such as RHVoice and Gryphon, TalkBack started the text over when you resumed speech. Meridian learns how fast your engine speaks from the items that it finishes, works out how far the engine got when you paused, and resumes from the start of that sentence or phrase. It can repeat a few words, but it never skips any. Engines that report word positions still resume from the word, and with [low-latency audio](#low-latency-audio) on, speech resumes mid-word.
+With speech engines that don't report word positions, such as RHVoice and Gryphon, the previous screen reader started the text over when you resumed speech. Meridian learns how fast your engine speaks from the items that it finishes, works out how far the engine got when you paused, and resumes from the start of that sentence or phrase. It can repeat a few words, but it never skips any. Engines that report word positions still resume from the word, and with [low-latency audio](#low-latency-audio) on, speech resumes mid-word.
 
 When speech resumes, Meridian doesn't play the item's sound and vibration again.
 
 ### Two-finger tap right after a swipe
 
-TalkBack didn't recognize a two-finger tap made right after a swipe, or it paused older speech instead of the current item. Meridian recognizes the tap and pauses the speech for the item that you swiped to.
+The previous screen reader didn't recognize a two-finger tap made right after a swipe, or it paused older speech instead of the current item. Meridian recognizes the tap and pauses the speech for the item that you swiped to.
 
 ### Keys that stop speech
 
-In TalkBack, only Ctrl on a physical keyboard stops speech, so a window name or an announcement held up the item that a key moved to. In Meridian, every key on a physical keyboard stops speech, except modifier keys such as Shift. Ctrl, Alt and Meta shortcuts always stop it. In **Verbosity**:
+In the previous screen reader, only Ctrl on a physical keyboard stops speech, so a window name or an announcement held up the item that a key moved to. In Meridian, every key on a physical keyboard stops speech, except modifier keys such as Shift. Ctrl, Alt and Meta shortcuts always stop it. In **Verbosity**:
 
 *   **Interrupt speech when typing** chooses when typed characters stop speech: **Always**, the default, **In edit fields**, or **On keyboard echo**, only when the keyboard echo says what you typed.
 *   **Interrupt speech on Enter**, on by default.
@@ -171,7 +171,7 @@ A window name that a key stopped isn't spoken later. Pressing Ctrl alone pauses 
 
 ### Speech while an app records
 
-While another app records from the microphone without headphones, and during calls, TalkBack dropped announcements that you asked for with a gesture or key. Meridian speaks them: the time and date, the battery, the status, the window title, phonetic letters, **Inspect focused item**, and turning scripts on or off.
+While another app records from the microphone without headphones, and during calls, the previous screen reader dropped announcements that you asked for with a gesture or key. Meridian speaks them: the time and date, the battery, the status, the window title, phonetic letters, **Inspect focused item**, and turning scripts on or off.
 
 With **Text-to-speech** > **Quiet while recording** on, Meridian stays quiet while an app records without headphones, except for speech within two seconds of a touch, gesture or key, so that notifications and other speech you didn't ask for aren't recorded. It's off by default.
 
@@ -181,25 +181,25 @@ To stop Meridian from saying the new volume after you press the volume keys, tur
 
 ### Keyboard echo
 
-**Keyboard echo**, under **Typing**, sets the echo for each way of typing: **On-screen keyboard** and **Physical keyboard**, each with **None**, **Characters**, **Words**, or **Characters and words**. In TalkBack, keyboard echo is in **Verbosity**. Each echo setting is also a reading control and a Meridian menu item, which you can turn on in **Reading controls** and **Meridian menu**. Keyboard echo isn't part of the verbosity presets. When you update, Meridian copies your earlier echo settings once.
+**Keyboard echo**, under **Typing**, sets the echo for each way of typing: **On-screen keyboard** and **Physical keyboard**, each with **None**, **Characters**, **Words**, or **Characters and words**. In the previous screen reader, keyboard echo is in **Verbosity**. Each echo setting is also a reading control and a Meridian menu item, which you can turn on in **Reading controls** and **Meridian menu**. Keyboard echo isn't part of the verbosity presets. When you update, Meridian copies your earlier echo settings once.
 
-Word echo says the whole word, back to the last space, as it is in the field. TalkBack said only the part typed since the last punctuation, such as "normal" for "non-normal", and only the changed letters of a corrected word. Words with apostrophes or hyphens, such as "don't", are one word, and a web or email address is one word. When a keyboard adds a word, its punctuation, and a space all at once, Meridian echoes the word rather than just the space.
+Word echo says the whole word, back to the last space, as it is in the field. The previous screen reader said only the part typed since the last punctuation, such as "normal" for "non-normal", and only the changed letters of a corrected word. Words with apostrophes or hyphens, such as "don't", are one word, and a web or email address is one word. When a keyboard adds a word, its punctuation, and a space all at once, Meridian echoes the word rather than just the space.
 
 ### Order of item details
 
-**Verbosity** > **Order of item details** sets the order in which Meridian says an item's name, type, and state. TalkBack has this setting in **Advanced settings** and offers three orders to choose from. Meridian lists the name, type, and state, and you put them in any of the six orders: touch and hold a detail and drag it up or down, or use its **Move up** and **Move down** actions. With Meridian on, double-tap and hold a detail, then drag it. Meridian says the detail's position as you pick it up, move it, and drop it.
+**Verbosity** > **Order of item details** sets the order in which Meridian says an item's name, type, and state. The previous screen reader has this setting in **Advanced settings** and offers three orders to choose from. Meridian lists the name, type, and state, and you put them in any of the six orders: touch and hold a detail and drag it up or down, or use its **Move up** and **Move down** actions. With Meridian on, double-tap and hold a detail, then drag it. Meridian says the detail's position as you pick it up, move it, and drop it.
 
-TalkBack ignored the order for a row whose checkbox or switch has no text of its own, such as the rows in **Reading controls**, and always read the checkbox's type and state before the row's text. Meridian reads such a row as one control, with the row's text as its name, in the order that you chose. A button or tab whose label is a separate view inside it, as in the Pixel power menu, also follows the order, with the label as its name.
+The previous screen reader ignored the order for a row whose checkbox or switch has no text of its own, such as the rows in **Reading controls**, and always read the checkbox's type and state before the row's text. Meridian reads such a row as one control, with the row's text as its name, in the order that you chose. A button or tab whose label is a separate view inside it, as in the Pixel power menu, also follows the order, with the label as its name.
 
 ### "Meridian off" at the right volume
 
-When you turn Meridian off, it says "Meridian off" at the accessibility volume, using your device's real volume levels. TalkBack only approximated that volume.
+When you turn Meridian off, it says "Meridian off" at the accessibility volume, using your device's real volume levels. The previous screen reader only approximated that volume.
 
 ### Table column headers
 
 In **Verbosity**, you can choose whether Meridian reads table column headers before or after the cell's data, or leaves them out:
 
-*   **After cell data**, the default, keeps TalkBack's order: the cell's contents, then the row and column headers or numbers.
+*   **After cell data**, the default, keeps the previous screen reader's order: the cell's contents, then the row and column headers or numbers.
 *   **Before cell data** speaks the row and column headers or numbers before the cell's contents, along with "Column heading" or "Row heading" for a header cell. This applies to grids as well as tables, so an item in a photo grid says its row and column first.
 *   **Do not read** leaves column headers out, and reads column numbers only when row and column numbers are on.
 
@@ -209,14 +209,14 @@ Both settings only apply while **Speak container info** is on, because rows and 
 
 ### Speak letters phonetically
 
-TalkBack's **Speak letters with examples** switch is called **Speak letters phonetically** in Meridian, in **Verbosity** under preset settings, and in on-screen keyboard settings. It has four choices:
+The previous screen reader's **Speak letters with examples** switch is called **Speak letters phonetically** in Meridian, in **Verbosity** under preset settings, and in on-screen keyboard settings. It has four choices:
 
 *   **Off** says only the letter.
 *   **After the letter, delayed**, the default, is what the switch did when it was on. Keyboard keys say the letter, then its phonetic word, as in "h, hotel". Moving by character, the word comes a quarter of a second after the letter, and moving on before then skips it.
 *   **After the letter, no delay** says the letter and its word together, as in "h hotel".
 *   **Instead of the letter** says only the word, as in "hotel".
 
-With **After the letter, no delay** and **Instead of the letter**, Meridian says it in all of these places. **After the letter, delayed** still ignores **Spell last spoken phrase**, deleting a letter, and inserting a letter with a touch keyboard like Gboard, just as TalkBack did when **Speak letters with examples** was turned on.
+With **After the letter, no delay** and **Instead of the letter**, Meridian says it in all of these places. **After the letter, delayed** still ignores **Spell last spoken phrase**, deleting a letter, and inserting a letter with a touch keyboard like Gboard, just as the previous screen reader did when **Speak letters with examples** was turned on.
 
 The **High** preset uses **After the letter, delayed** and the **Low** preset uses **Off**. Your choice from the switch carries over.
 
@@ -234,7 +234,7 @@ This fork has no watch version, so there are no watch notification cards to read
 
 ### Reading notifications
 
-TalkBack reads each new notification with a fixed format and has no settings for it. In Meridian, **Notifications** is a category of its own in Meridian settings. **Speak notifications** turns reading new notifications on or off, and is on by default. Incoming calls are always read. The other screens are:
+The previous screen reader reads each new notification with a fixed format and has no settings for it. In Meridian, **Notifications** is a category of its own in Meridian settings. **Speak notifications** turns reading new notifications on or off, and is on by default. Incoming calls are always read. The other screens are:
 
 *   **Reading notifications**: **Speech format**, with the placeholders `{app}`, `{title}`, `{text}`, `{content}`, `{bigtext}`, `{subtext}`, `{ticker}`, `{category}` and `{time}`, and what private notifications say. **Voice** reads notifications with one of your [voice profiles](#voice-profiles), with all of its settings, instead of Meridian's voice. **Detect language** reads each notification in the language it's written in. When notifications for different voices arrive together, each waits for the one before it, so that two voices don't speak at once. Also a sound before notifications, emoji, capitals, long numbers, links, length limits in words, sentences, characters or seconds, a wait before reading, and what happens when a notification arrives while another is read.
 *   **Apps**: for each app, **As other apps**, **Read**, **App name only**, **Read first** or **Don't read**, and a name, minimum time between notifications, speech format and **Voice** of its own. **Voice** reads the app's notifications with one of your voice profiles, such as one with another speech engine, or with Meridian's voice.
@@ -256,11 +256,11 @@ With **Notifications** > **Use Meridian's notification list** on, the **Notifica
 
 ### Notifications that Android doesn't announce
 
-Android tells screen readers about a new notification only when it alerts. A notification that Do Not Disturb holds back, or an update that an app posts without alerting again, such as a doorbell app replacing its last motion alert, never reaches TalkBack. When Meridian has notification access, it also receives these from its notification listener, and reads them as its notification settings say, so **Do Not Disturb** in the notification settings applies to them too. While the phone is locked, Android gives screen readers only the public version of a private notification, which many apps don't have, so TalkBack reads nothing; with notification access, Meridian reads the whole notification from its listener instead. Progress and ongoing notifications are left out. Incoming calls are listed in the notification history as announced.
+Android tells screen readers about a new notification only when it alerts. A notification that Do Not Disturb holds back, or an update that an app posts without alerting again, such as a doorbell app replacing its last motion alert, never reaches the previous screen reader. When Meridian has notification access, it also receives these from its notification listener, and reads them as its notification settings say, so **Do Not Disturb** in the notification settings applies to them too. While the phone is locked, Android gives screen readers only the public version of a private notification, which many apps don't have, so the previous screen reader reads nothing; with notification access, Meridian reads the whole notification from its listener instead. Progress and ongoing notifications are left out. Incoming calls are listed in the notification history as announced.
 
 ### Toasts in Do Not Disturb
 
-While Do Not Disturb was on, TalkBack didn't speak toasts, the short messages that apps show at the bottom of the screen. Meridian speaks toasts, and stays silent only for notifications.
+While Do Not Disturb was on, the previous screen reader didn't speak toasts, the short messages that apps show at the bottom of the screen. Meridian speaks toasts, and stays silent only for notifications.
 
 ### No "collapsed" on each notification
 
@@ -268,7 +268,7 @@ Meridian doesn't say "collapsed" for each notification on the lock screen and in
 
 ### Notices that you can dismiss
 
-TalkBack marked its notices that it was updated, or that gestures changed, as ongoing, so you couldn't swipe them away or dismiss them. In Meridian, you can dismiss these notices, including on the lock screen. The notifications for pausing Meridian and for downloading an on-device model stay ongoing while those continue.
+The previous screen reader marked its notices that it was updated, or that gestures changed, as ongoing, so you couldn't swipe them away or dismiss them. In Meridian, you can dismiss these notices, including on the lock screen. The notifications for pausing Meridian and for downloading an on-device model stay ongoing while those continue.
 
 ### Meridian's quick settings panel
 
@@ -282,7 +282,7 @@ Android only lets the system and the shell change some settings, and only lets t
 
 ### Timer settings
 
-**Timer settings**, in the main settings, gathers the time announcements that TalkBack keeps in its notification settings: how often Meridian says the time, the words it says it with, and **Exact times**, which says the time on the minute and needs the Alarms and reminders permission. Without that permission, the time can be said up to a minute late.
+**Timer settings**, in the main settings, gathers the time announcements that the previous screen reader keeps in its notification settings: how often Meridian says the time, the words it says it with, and **Exact times**, which says the time on the minute and needs the Alarms and reminders permission. Without that permission, the time can be said up to a minute late.
 
 ### Stopwatch
 
@@ -312,7 +312,7 @@ Progress bar tones and the sound for capital letters don't vibrate. Phones that 
 
 ### Ticks while you scroll with two fingers
 
-TalkBack played its scroll sound and vibration at most every 250 ms while you scrolled. Meridian plays the scroll sound and one light tick for each item that scrolls past, so a slow drag ticks slowly and a fast drag ticks quickly. Lists that don't number their items tick once for every 48 dp of scrolling. You feel the first tick as soon as the drag reaches the app, and Meridian hands the drag to the app sooner than TalkBack did. Scrolls that Meridian makes itself keep the usual sound.
+The previous screen reader played its scroll sound and vibration at most every 250 ms while you scrolled. Meridian plays the scroll sound and one light tick for each item that scrolls past, so a slow drag ticks slowly and a fast drag ticks quickly. Lists that don't number their items tick once for every 48 dp of scrolling. You feel the first tick as soon as the drag reaches the app, and Meridian hands the drag to the app sooner than the previous screen reader did. Scrolls that Meridian makes itself keep the usual sound.
 
 ### Individual sounds and vibrations
 
@@ -336,7 +336,7 @@ To keep hearing the kind of control as well, turn on **Still say the kind of con
 
 ### Navigation sounds
 
-TalkBack plays a sound and vibration when a gesture starts and another when it ends. Meridian plays neither. In their place, a sound theme can give a sound and a vibration to each of these:
+The previous screen reader plays a sound and vibration when a gesture starts and another when it ends. Meridian plays neither. In their place, a sound theme can give a sound and a vibration to each of these:
 
 - **Next reading control** and **Previous reading control**: selecting another reading control, with a gesture, the rotor or a keyboard shortcut.
 - **Edge gesture bottom**, **Edge gesture middle** and **Edge gesture top**: a finger touching an edge where an edge gesture starts, the gesture reaching its first click, and the gesture reaching its second click. Sliding back plays the sound of the place the finger is back at. Lifting plays nothing.
@@ -359,7 +359,7 @@ On Android 13 and later, Meridian uses 3D when its audio plays on wired or USB h
 
 Meridian changes these default gestures:
 
-| Gesture | Meridian | TalkBack |
+| Gesture | Meridian | the previous screen reader |
 |---|---|---|
 | Tap with four fingers | Back | Practice gestures |
 | Double-tap with four fingers | Home | Tutorial |
@@ -397,7 +397,7 @@ When you choose an action for a gesture, the categories of actions are collapsed
 
 Triple-tap with two fingers to hear what the status bar shows: the time, the battery, the Wi-Fi network and its signal, and the mobile carrier, network type, and signal. Meridian also says the ringer, Do Not Disturb, and airplane mode when they aren't in their usual state. To hear the name of the Wi-Fi network, allow location access when Meridian asks the first time.
 
-To choose what the gesture says and in what order, go to **Status readout**. Each item has **Move up** and **Move down** actions. In gesture settings, this action is called **Speak status**. To read from the current item, which was the gesture's action in TalkBack, choose **Read from focused item** in the Meridian menu.
+To choose what the gesture says and in what order, go to **Status readout**. Each item has **Move up** and **Move down** actions. In gesture settings, this action is called **Speak status**. To read from the current item, which was the gesture's action in the previous screen reader, choose **Read from focused item** in the Meridian menu.
 
 ### Rotor
 
@@ -413,7 +413,7 @@ Pinch and spread gestures were removed so that two-finger movements reach apps w
 
 ### Lift to activate
 
-Meridian can activate the item under your finger when you lift your finger after exploring by touch, as TalkBack already does for keys on the keyboard. In **Controls** > **Touch and activation** > **Lift to activate**, choose **Only on navigation bar** to use it for the Back, Home, and Overview buttons only, or **Entire screen** to use it everywhere. It's **Disabled** by default. With **Only on navigation bar**, a single tap presses the button, and Meridian says which one, such as "Back" or "Home". To stop this, turn off **Controls** > **Touch and activation** > **Speak navigation bar buttons**.
+Meridian can activate the item under your finger when you lift your finger after exploring by touch, as the previous screen reader already does for keys on the keyboard. In **Controls** > **Touch and activation** > **Lift to activate**, choose **Only on navigation bar** to use it for the Back, Home, and Overview buttons only, or **Entire screen** to use it everywhere. It's **Disabled** by default. With **Only on navigation bar**, a single tap presses the button, and Meridian says which one, such as "Back" or "Home". To stop this, turn off **Controls** > **Touch and activation** > **Speak navigation bar buttons**.
 
 With **Only on navigation bar** on Android 11 and later, touches on the navigation bar go straight to Android, so a single tap presses a button and holding Home holds it, as without a screen reader. Meridian doesn't say the buttons as you touch them.
 
@@ -421,11 +421,11 @@ With **Only on navigation bar** on Android 11 and later, touches on the navigati
 
 ### Speech kept while you touch the screen
 
-TalkBack stops speech when a finger touches the screen. To keep speech going until touch focuses an item, turn off **Controls** > **Touch and activation** > **Stop speech when touching the screen**. Speech of the item that touch focuses still interrupts, as do gestures that speak. It's on by default.
+The previous screen reader stops speech when a finger touches the screen. To keep speech going until touch focuses an item, turn off **Controls** > **Touch and activation** > **Stop speech when touching the screen**. Speech of the item that touch focuses still interrupts, as do gestures that speak. It's on by default.
 
 ### Wrap around
 
-When you swipe past the last item on the screen, TalkBack stops once and then goes back to the first item. To stop at the end instead, turn off **Controls** > **Navigation** > **Wrap around**. Each swipe past the end then plays the end sound. This also applies to moving by heading, link, or control in apps, and to moving with a keyboard. Web pages can still wrap by themselves.
+When you swipe past the last item on the screen, the previous screen reader stops once and then goes back to the first item. To stop at the end instead, turn off **Controls** > **Navigation** > **Wrap around**. Each swipe past the end then plays the end sound. This also applies to moving by heading, link, or control in apps, and to moving with a keyboard. Web pages can still wrap by themselves.
 
 **Wrap around** is also a reading control, so you can turn it on or off with a swipe up or down. It's on by default.
 
@@ -445,7 +445,7 @@ This needs a phone whose `dumpsys input` lists the touches that Android holds fo
 
 ### Focus in new windows
 
-When a window opens, or you go back, TalkBack moves focus into it: back to the item you were on, to the text field with the cursor, or to the first item. To leave focus alone, turn off **Controls** > **Navigation** > **Move focus to new windows**. Meridian then speaks only the window name, and the next swipe moves to the first item. This applies to Meridian's own menus and dialogs too, when they open and when they close. Focus follows input focus only when you move it with a key, such as an arrow key or Tab, not when an app moves it by itself. When the item you focused disappears and the windows haven't changed, focus is placed again.
+When a window opens, or you go back, the previous screen reader moves focus into it: back to the item you were on, to the text field with the cursor, or to the first item. To leave focus alone, turn off **Controls** > **Navigation** > **Move focus to new windows**. Meridian then speaks only the window name, and the next swipe moves to the first item. This applies to Meridian's own menus and dialogs too, when they open and when they close. Focus follows input focus only when you move it with a key, such as an arrow key or Tab, not when an app moves it by itself. When the item you focused disappears and the windows haven't changed, focus is placed again.
 
 ### Gestures recognized by Android
 
@@ -458,11 +458,11 @@ Tap to type, which typed a key as soon as you touched it, also needed Meridian's
 
 ### Reading place kept when an item disappears
 
-When an app removed the item that had focus, such as an ad that collapses, TalkBack jumped back to the top of the page. Meridian carries on from where you were.
+When an app removed the item that had focus, such as an ad that collapses, the previous screen reader jumped back to the top of the page. Meridian carries on from where you were.
 
 ### Moving by character and word in drawn text
 
-Some apps draw their text themselves and give it to screen readers without letting them move through it, as Telegram does for messages. In such text, TalkBack could move by character, word, or paragraph only through a content description, so it couldn't move through these messages, only through reply previews. Meridian moves through the text itself when the app doesn't.
+Some apps draw their text themselves and give it to screen readers without letting them move through it, as Telegram does for messages. In such text, the previous screen reader could move by character, word, or paragraph only through a content description, so it couldn't move through these messages, only through reply previews. Meridian moves through the text itself when the app doesn't.
 
 ### Double tap with the actions reading control on Android 11
 
@@ -470,7 +470,7 @@ On Android 11, when you picked an action with the **Actions** reading control, a
 
 ### Sliders that report themselves as unfocusable
 
-realme UI reports some volume sliders as not focusable and unlabeled, so TalkBack skipped them. Meridian can focus them.
+realme UI reports some volume sliders as not focusable and unlabeled, so the previous screen reader skipped them. Meridian can focus them.
 
 ### Vertical navigation
 
@@ -478,7 +478,7 @@ The **Vertical navigation** reading control, which you can turn on in **Reading 
 
 ### Reading control kept when focus moves
 
-When focus moves onto an item with actions, a slider, a table or a spelling mistake, TalkBack changes the reading control to the one for that item, such as Actions, Adjust slider or Proofread, and changes it back afterwards. On web pages, where many items have actions, this replaces a reading control you chose, such as Headings. To keep the reading control you chose, turn off **Reading controls** > **Change reading control automatically**.
+When focus moves onto an item with actions, a slider, a table or a spelling mistake, the previous screen reader changes the reading control to the one for that item, such as Actions, Adjust slider or Proofread, and changes it back afterwards. On web pages, where many items have actions, this replaces a reading control you chose, such as Headings. To keep the reading control you chose, turn off **Reading controls** > **Change reading control automatically**.
 
 The fork adds **Reading controls** > **Change reading control in selection mode**, on by default, which keeps your reading control when selection mode starts in web content instead of switching it to Characters. It covers focus moves in web content too: with this switch off, focus moving within a web page no longer replaces your reading control with the one for the item under focus, and no longer changes it back afterwards. Outside web content, and whenever the switch is on, reading controls change as described above.
 
@@ -516,11 +516,11 @@ Touching between the icons of the home screen no longer says the page, such as "
 
 These items are off by default in the Meridian menu: **Actions**, **Screen search**, **Add or edit labels**, **Describe text formatting**, **Copy last spoken phrase**, **Spoken language**, **Voice commands**, and **Keyboard shortcuts**. You can still use actions with the **Actions** reading control. **Text-to-speech** stays on, so that you can reach speech settings if your speech engine crashes, and Meridian adds a **Pause Meridian** item.
 
-To change the items, go to **Meridian menu**, under **Controls** in Meridian settings. In TalkBack, this screen is under **Customize menus**.
+To change the items, go to **Meridian menu**, under **Controls** in Meridian settings. In the previous screen reader, this screen is under **Customize menus**.
 
 ### Circle menu
 
-The Meridian menu can show as a circle in the middle of the screen, as it did in TalkBack 8.1 and earlier. Each item is a slice of the screen around the middle. Slide to an item and lift your finger to select it, or lift in the middle of the circle to close the menu. Items that open more items show them in a new circle. When the menu opens, you hear a rising note and feel a tick for each item.
+The Meridian menu can show as a circle in the middle of the screen, as it did in earlier versions. Each item is a slice of the screen around the middle. Slide to an item and lift your finger to select it, or lift in the middle of the circle to close the menu. Items that open more items show them in a new circle. When the menu opens, you hear a rising note and feel a tick for each item.
 
 If you open the menu with a gesture that ends with your fingers still on the screen, such as a double-tap and hold, you can slide those fingers out to an item and lift them to select it. The place where your fingers were counts as the middle of the circle.
 
@@ -534,7 +534,7 @@ Use the **Brightness** reading control to change the screen brightness in steps 
 
 ### Hide screen
 
-For 3 minutes after you hid the screen, TalkBack set the screen to full brightness. Meridian keeps your brightness. The screen also turns fully black, including around the camera cutout. On some Pixel phones with Android 17, TalkBack's curtain only dimmed the screen.
+For 3 minutes after you hid the screen, the previous screen reader set the screen to full brightness. Meridian keeps your brightness. The screen also turns fully black, including around the camera cutout. On some Pixel phones with Android 17, the previous screen reader's curtain only dimmed the screen.
 
 If you turn off **Always show this** in the hide screen dialog, Meridian says only "Screen hidden" and skips the instructions for showing the screen again. When Meridian starts with the screen hidden, it says "Screen hidden" after "Meridian on".
 
@@ -552,7 +552,7 @@ These switches are separate from **Status readout**, so the status gesture can s
 
 ### Pause Meridian
 
-Pausing turns off Meridian's speech, sounds, vibration, gestures, and explore by touch, so the phone works as if no screen reader were on. Meridian stays on, so it resumes immediately. TalkBack 8.1 and earlier had this feature as suspend.
+Pausing turns off Meridian's speech, sounds, vibration, gestures, and explore by touch, so the phone works as if no screen reader were on. Meridian stays on, so it resumes immediately. older versions of the previous screen reader had this feature as suspend.
 
 To pause, choose **Pause Meridian** in the Meridian menu, assign the **Pause Meridian** action to a gesture, or assign a key to the **Pause or resume Meridian** keyboard shortcut. The first time, Meridian asks you to confirm and says how to resume.
 
@@ -682,7 +682,7 @@ This fork is speech-only, so braille displays aren't supported, and there are no
 
 ### AI services
 
-Google's source release doesn't include working Gemini support, so **Describe image** only reads text in images and **Describe screen** doesn't work. Meridian adds its own Describe screen with follow-up questions, and sends both to an AI service with your own API key. The services are Gemini, Claude, OpenAI (ChatGPT), Mistral, Groq, OpenRouter, Ollama Cloud and any other service with an OpenAI-compatible API. Each has its own settings screen in **Automatic descriptions**, with its API key and model. **AI service** chooses among the services that are set up, or **None**. A service that has just been set up is used when no other is, and when the service in use loses its key or model, the next one that is set up takes over. Questions about an image or screen, spoken or typed, go to the same service. For more information, see [AI services](README.md#ai-services).
+Without an AI service or an on-device model, **Describe image** only reads text in images and **Describe screen** is unavailable. Meridian adds its own Describe screen with follow-up questions, and sends both to an AI service with your own API key. The services are Gemini, Claude, OpenAI (ChatGPT), Mistral, Groq, OpenRouter, Ollama Cloud and any other service with an OpenAI-compatible API. Each has its own settings screen in **Automatic descriptions**, with its API key and model. **AI service** chooses among the services that are set up, or **None**. A service that has just been set up is used when no other is, and when the service in use loses its key or model, the next one that is set up takes over. Questions about an image or screen, spoken or typed, go to the same service. For more information, see [AI services](README.md#ai-services).
 
 With Gemini, Meridian asks the model to think as little as it can, and asks Gemini Flash-Lite when the chosen model is busy or takes more than 15 seconds.
 
@@ -692,7 +692,7 @@ Meridian can describe images and screens with a model that runs on your phone, s
 
 ### Clear error messages
 
-When Gemini can't describe something, TalkBack says "Something went wrong". Meridian says what failed: the key wasn't accepted, the usage limit was reached, the service is busy, it took too long, or there's no internet connection. For other errors, Meridian says the error code and the first sentence of the service's message, in English. Describe screen speaks its errors instead of showing them in a toast.
+When Gemini can't describe something, the previous screen reader says "Something went wrong". Meridian says what failed: the key wasn't accepted, the usage limit was reached, the service is busy, it took too long, or there's no internet connection. For other errors, Meridian says the error code and the first sentence of the service's message, in English. Describe screen speaks its errors instead of showing them in a toast.
 
 ## Scripts
 
@@ -729,7 +729,7 @@ Scripts run on phones and tablets only. [Writing Meridian scripts](docs/scriptin
 
 ### Layout and wording
 
-Meridian lays out its main settings screen in this order: **Updates**, **Initial setup** and **Timer settings** stand on their own, then **Speech** (text-to-speech and verbosity), **Notifications** on its own, **Navigation** (navigation, touch and activation, direct touch, and volume key settings), **Sound and vibration** on its own, **Gestures and shortcuts**, **Menus and reading controls** (the Meridian menu and the reading controls), **Typing**, **On-screen information** (automatic descriptions, status readout, and screen announcements — the last moved out of **Verbosity**), **Apps** (scripts and custom labels), **System and help** (advanced settings, export and import settings, and the tutorial), and **Other settings** (offline translation, and Gemini settings when they are enabled). Only items that genuinely belong together share a group. Many settings have clearer names, such as **Speak item type** and **Order of item details**. Meridian removes the links to the Play Store, the privacy policy, the terms of service, Disability Support, and Google's TalkBack help, and the pages about new features in TalkBack. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
+Meridian lays out its main settings screen in this order: **Updates**, **Initial setup** and **Timer settings** stand on their own, then **Speech** (text-to-speech and verbosity), **Notifications** on its own, **Navigation** (navigation, touch and activation, direct touch, and volume key settings), **Sound and vibration** on its own, **Gestures and shortcuts**, **Menus and reading controls** (the Meridian menu and the reading controls), **Typing**, **On-screen information** (automatic descriptions, status readout, and screen announcements — the last moved out of **Verbosity**), **Apps** (scripts and custom labels), **System and help** (advanced settings, export and import settings, and the tutorial), and **Other settings** (offline translation, and Gemini settings when they are enabled). Only items that genuinely belong together share a group. Many settings have clearer names, such as **Speak item type** and **Order of item details**. Meridian removes links to the Play Store, the privacy policy, the terms of service, Disability Support, and help pages for the previous screen reader, along with its pages about new features. **Display speech output** is only in **Developer settings**. **Time format** is in **Verbosity**, **Turn off animations** is in **Reduce delay**, and **Cover proximity sensor to stop speech** is in **Sound and vibration**, instead of in **Advanced settings**.
 
 Three upstream settings are removed entirely, with the features behind them:
 
@@ -753,7 +753,7 @@ This fork removes upstream's **Send feedback** entirely: the settings item, the 
 
 ### Export and import settings
 
-**Export settings** saves Meridian's settings to a file, and **Import settings** replaces them with a file's, such as one from another phone. API keys stay on the phone. Import settings also reads a settings file exported from Backtalk: the settings in it replace Meridian's, and Meridian's own settings that Backtalk doesn't have are kept.
+**Export settings** saves Meridian's settings to a file, and **Import settings** replaces them with a file's, such as one from another phone. API keys stay on the phone. Import settings also reads settings files from an earlier screen reader: settings in the file replace Meridian's, and Meridian's own settings without a match in the file are kept.
 
 ### Export diagnostics
 
@@ -773,13 +773,13 @@ This applies only in apps Meridian has a built-in script for, and only to items 
 
 ### App icon that opens the settings
 
-Meridian has an app icon in the launcher, labelled Meridian, that opens its settings. TalkBack's settings open only from the accessibility settings, which need TalkBack to be on. Meridian's settings open from the icon whether Meridian is on or off, so you can set it up, or change a setting, without turning it on first.
+Meridian has an app icon in the launcher, labelled Meridian, that opens its settings. The previous screen reader's settings open only from the accessibility settings, which need the previous screen reader to be on. Meridian's settings open from the icon whether Meridian is on or off, so you can set it up, or change a setting, without turning it on first.
 
 ## Updates and installing
 
 ### Separate app
 
-Meridian installs as `io.github.aaron_gh.meridian`, so it installs next to Google's TalkBack, with settings of its own. For more information, see [Install](README.md#install).
+Meridian installs as `io.github.aaron_gh.meridian` and can coexist with other accessibility services. It has its own settings. For more information, see [Install](README.md#install).
 
 ### Built-in updates
 

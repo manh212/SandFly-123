@@ -21,7 +21,7 @@
     <string name="command_replace_gesture"><xliff:g id="gesture" example="Swipe up then right">%1$s</xliff:g> đang chạy lệnh <xliff:g id="old_command" example="Read from top">%2$s</xliff:g>. Dùng cử chỉ này cho <xliff:g id="new_command" example="Describe image">%3$s</xliff:g>?</string>
     <string name="commands_category_activation">Kích hoạt</string>
     <string name="commands_category_media">Nội dung nghe nhìn và âm lượng</string>
-    <string name="commands_category_sandfly">SandFly</string>
+    <string name="commands_category_sandfly">Meridian</string>
     <string name="commands_category_scrolling">Cuộn</string>
     <string name="commands_category_speech">Lời nói</string>
     <string name="commands_category_tables">Bảng</string>

@@ -1,6 +1,6 @@
 # Emoji names
 
-When Verbosity > Emoji is set to "Read by Backtalk", Backtalk replaces each emoji with its name
+When **Verbosity** > **Emoji** is set to **Read by Meridian**, Meridian replaces each emoji with its name
 before the speech engine gets the text. The names are the text-to-speech names from the
 [Unicode CLDR](https://cldr.unicode.org/) emoji annotations, in every CLDR language that names
 at least half the emoji (138 languages and regional variants). They cover every emoji sequence:

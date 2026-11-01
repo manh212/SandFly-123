@@ -2729,7 +2729,7 @@
     <!-- Title of the setting that notices when touch exploration stops responding because of an Android bug, and fixes it. [CHAR LIMIT=NONE]-->
     <string name="title_pref_fix_stuck_touch_exploration">Fix stuck touch exploration</string>
     <!-- Summary of the fix stuck touch exploration setting while Meridian doesn't have the DUMP permission. Leave "DUMP" and the command untranslated. [CHAR LIMIT=NONE]-->
-    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Without the DUMP permission, Meridian can only say that touch exploration may be stuck. To let it fix it, run: adb shell pm grant <xliff:g id="package" example="fyi.quin.backtalk">%1$s</xliff:g> android.permission.DUMP</string>
+    <string name="summary_pref_fix_stuck_touch_exploration_no_dump">Without the DUMP permission, Meridian can only say that touch exploration may be stuck. To let it fix it, run: adb shell pm grant <xliff:g id="package" example="io.github.aaron_gh.meridian">%1$s</xliff:g> android.permission.DUMP</string>
     <!-- Spoken before Meridian briefly turns explore by touch off to fix stuck touch exploration. [CHAR LIMIT=NONE]-->
     <string name="stuck_touch_exploration_fixing">Fixing touch exploration</string>
     <!-- Spoken when Meridian has fixed stuck touch exploration. [CHAR LIMIT=NONE]-->
@@ -4527,7 +4527,7 @@
     <!-- Title of the setting to perform a swipe as soon as its direction is clear. [CHAR LIMIT=40] -->
     <!-- Summary of the setting to perform a swipe as soon as its direction is clear. [CHAR_LIMIT=NONE] -->
     <string name="meridian_intro_title">About Meridian</string>
-    <string name="meridian_intro">Meridian is a fast, lightweight screen reader with many features, developed by Vietnamese people: it speaks the screen aloud, supports touch exploration, and lets you assign tasks to AI. Meridian references source code from other screen readers: Google TalkBack, BackTalk and SandFly.</string>
+    <string name="meridian_intro">Meridian is a fast, lightweight screen reader developed in Vietnam. It reads screen content aloud, supports touch exploration, and lets you delegate tasks to artificial intelligence.</string>
     <string name="meridian_contact_title">Contact the developer</string>
     <string name="first_run_tutorial_question">Do you need a tutorial?</string>
     <string name="first_run_tutorial_yes">Yes</string>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="update_move_title">Backtalk Aaron giờ là Meridian</string>
+    <string name="update_move_title">Chuyển sang Meridian</string>
     <string name="update_move_notification_text">Cài đặt Meridian. Chế độ cài đặt và nhãn tuỳ chỉnh sẽ được sao chép sang ứng dụng này. Nhấn để cài đặt.</string>
-    <string name="update_move_dialog_message">Backtalk Aaron giờ là một trình đọc màn hình riêng, Meridian, và không còn được cập nhật. Hãy cài đặt Meridian; chế độ cài đặt và nhãn tuỳ chỉnh sẽ được sao chép sang. Sau đó, hãy bật Meridian, và Backtalk Aaron sẽ tắt.</string>
+    <string name="update_move_dialog_message">Hãy cài đặt Meridian để tiếp tục nhận bản cập nhật. Chế độ cài đặt và nhãn tuỳ chỉnh sẽ được sao chép. Sau đó, hãy bật Meridian; ứng dụng cũ sẽ tự tắt.</string>
     <string name="update_move_installing">Đang cài đặt Meridian. Chế độ cài đặt và nhãn tuỳ chỉnh sẽ được sao chép sang ứng dụng này.</string>
-    <string name="update_move_turn_on">Hãy bật Meridian. Sau đó, Backtalk Aaron sẽ tắt.</string>
+    <string name="update_move_turn_on">Hãy bật Meridian. Sau đó, ứng dụng cũ sẽ tắt.</string>
     <string name="update_wrong_package">Tệp đã tải xuống không phải là bản dựng của ứng dụng này nên chưa được cài đặt</string>
-    <string name="migration_moved_title">Đã sao chép chế độ cài đặt từ Backtalk Aaron</string>
-    <string name="migration_moved_text">Nhấn để gỡ cài đặt Backtalk Aaron.</string>
+    <string name="migration_moved_title">Đã sao chép chế độ cài đặt sang Meridian</string>
+    <string name="migration_moved_text">Nhấn để gỡ cài đặt ứng dụng cũ.</string>
 </resources>

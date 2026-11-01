@@ -1,6 +1,6 @@
 # Contributing to this fork
 
-This repository is a development fork of [SandFly](https://github.com/aaron-gh/SandFly),
+This repository contains the Meridian Android screen reader.
 the open-source Android screen reader. The rules below govern all work in this fork.
 They were set by the fork's owner; change them by editing this file, not by making
 exceptions.
