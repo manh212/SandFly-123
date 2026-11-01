@@ -7,4 +7,11 @@
     <string name="switch_auto_image_caption_dialog_positive_button_text">Đồng ý</string>
     <string name="title_sandfly_license_activation">Kích hoạt cập nhật SandFly</string>
     <string name="summary_sandfly_license_activation">Đăng ký thiết bị bằng mã kích hoạt do người quản lý cấp</string>
+    <string name="title_pref_gemini_settings">Cài đặt Gemini</string>
+    <string name="title_pref_gemini_enabled">Lệnh thoại Gemini</string>
+    <string name="title_pref_enable_gemini_support">Bật</string>
+    <string name="title_pref_disable_gemini_support">Tắt</string>
+    <string name="summary_pref_gemini_support_enabled">Gemini đã được bật</string>
+    <string name="gemini_enable_dialog_title">Sử dụng Gemini trong SandFly</string>
+    <string name="gemini_disable_dialog_message">Nhận biết nội dung màn hình bằng Gemini</string>
 </resources>
