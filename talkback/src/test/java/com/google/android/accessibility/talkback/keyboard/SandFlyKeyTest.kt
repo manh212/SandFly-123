@@ -123,6 +123,8 @@ class SandFlyKeyTest {
     val manager = manager(Keymap.NVDA)
     manager.javaClass.getDeclaredField("pipeline").apply { isAccessible = true }
       .set(manager, com.google.android.accessibility.talkback.Pipeline.FeedbackReturner { true })
+    manager.javaClass.getDeclaredField("analytics").apply { isAccessible = true }
+      .set(manager, object : com.google.android.accessibility.talkback.analytics.TalkBackAnalytics { })
     manager.setBrowseModeEnabled(true)
     assertTrue(manager.down(KeyEvent.KEYCODE_DPAD_DOWN))
     manager.up(KeyEvent.KEYCODE_DPAD_DOWN)

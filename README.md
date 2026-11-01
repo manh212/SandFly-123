@@ -67,7 +67,7 @@ Object navigation changes the object being reviewed without moving accessibility
 
 System and help settings include **Dùng hình nền đen Meridian**, which opens Android's live wallpaper chooser. Selecting it replaces the current wallpaper with black. The wallpaper does not start or enable the accessibility service or bypass device activation. Whether it helps a particular phone keep the process alive requires device testing.
 
-The sound theme list includes **Meridian mới**. Existing default sounds remain selected until another theme is chosen. Control type speech remains a global preference. Updated common vibration patterns apply across sound themes while retaining vibration switches, strength, hardware fallbacks and explicitly supplied theme patterns.
+The integration keeps the existing sound sets and does not add the proposed new sound theme, following the owner's later decision. Control type speech remains a global preference. Updated common vibration patterns apply across sound themes while retaining vibration switches, strength, hardware fallbacks and explicitly supplied theme patterns.
 
 ## Permissions through Shizuku or adb
 

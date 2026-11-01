@@ -10,7 +10,7 @@ Included behavior:
 - Desktop keyboard layouts, configurable double-modifier browse toggle, manual browse mode in editors, pass-next-key, object navigation without implicit focus movement, and an accessibility-tree review cursor that follows normal focus.
 - Touch-controller activation under the existing direct tap command, normal-click fallback and per-node script rules.
 - Immediate Send text using the dictation target resolver and conservative Send detection.
-- An opt-in black live wallpaper, a separate new sound theme and common updated vibration defaults.
+- An opt-in black live wallpaper and common updated vibration defaults. The owner later excluded the new sound set, so all new audio assets and theme integration were removed.
 - Selected audio routing, microphone, scrolling, column navigation, click feedback, notification yielding, selector timing, cache cleanup, clock, app picker, settings command and Quick Settings fixes.
 
 Excluded behavior remains excluded: swipe-and-hold, external service shortcut commands, magnification commands, independent Bluetooth volume, review OCR, forced script speech during calls or recording, and removed product/platform modules.
