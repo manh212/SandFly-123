@@ -1,3 +1,6 @@
 -keepattributes *
 -keep class !com.google.android.accessibility.talkback.licensing.** { *; }
 -keep class com.google.android.accessibility.talkback.licensing.ActivationActivity { *; }
+-dontwarn java.lang.invoke.MethodHandleProxies
+-dontwarn javax.script.ScriptEngine
+-dontwarn javax.script.ScriptEngineManager
