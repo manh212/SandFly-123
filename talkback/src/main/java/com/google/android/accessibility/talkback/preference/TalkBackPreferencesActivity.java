@@ -102,6 +102,18 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   }
 
   @Override
+  protected void onResume() {
+    super.onResume();
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.resumeSettings(this);
+  }
+
+  @Override
+  protected void onPause() {
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.pauseSettings(this);
+    super.onPause();
+  }
+
+  @Override
   protected void onDestroy() {
     super.onDestroy();
     getSupportFragmentManager().removeFragmentOnAttachListener(this);
