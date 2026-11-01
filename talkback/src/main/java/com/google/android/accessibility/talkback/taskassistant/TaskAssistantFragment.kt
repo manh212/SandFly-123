@@ -10,7 +10,7 @@ import com.google.android.accessibility.talkback.preference.base.TalkBackPrefere
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
 class TaskAssistantFragment : TalkBackPreferenceFragment(R.xml.task_assistant_preferences) {
-  override fun getTitle(): CharSequence = getText(R.string.task_title)
+  override fun getTitle(): CharSequence = getText(R.string.title_pref_task_assistant)
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)

@@ -289,7 +289,28 @@ abstract class NotificationXmlFragment(@XmlRes xml: Int, @StringRes private val 
 }
 
 class NotificationReadingFragment :
-  NotificationXmlFragment(R.xml.notification_reading_preferences, R.string.notification_reading_title)
+  NotificationXmlFragment(R.xml.notification_reading_preferences, R.string.notification_reading_title) {
+  override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    super.onCreatePreferences(savedInstanceState, rootKey)
+    NotificationSettingsEntries.setUpPreferences(this)
+  }
+}
+
+class NotificationFilterFragment :
+  NotificationXmlFragment(R.xml.notification_filter_preferences, R.string.notification_filter_title)
+
+class NotificationListSettingsFragment :
+  TalkbackBaseFragment(R.xml.notification_list_preferences) {
+  override fun getTitle(): CharSequence = getText(R.string.title_pref_notification_list_settings)
+}
+
+class NotificationAutomationFragment :
+  NotificationXmlFragment(R.xml.notification_automation_preferences, R.string.notification_automation_title) {
+  override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
+    super.onCreatePreferences(savedInstanceState, rootKey)
+    NotificationSettingsEntries.setUpPreferences(this)
+  }
+}
 
 class NotificationKindsFragment :
   NotificationXmlFragment(R.xml.notification_kinds_preferences, R.string.notification_kinds_title)
@@ -305,4 +326,3 @@ class NotificationStopFragment :
 
 class NotificationSchedulesFragment :
   NotificationXmlFragment(R.xml.notification_schedules_preferences, R.string.notification_schedules_title)
-

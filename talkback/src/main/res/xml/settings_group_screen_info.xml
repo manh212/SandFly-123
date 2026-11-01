@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:key="@string/pref_category_group_screen_info_key">
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="@string/pref_category_group_screen_info_key">
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.AutomaticDescriptionsFragment"
         android:key="@string/pref_auto_image_captioning_key"
@@ -12,9 +13,17 @@
         android:summary="@string/summary_pref_on_device_ai"
         android:title="@string/title_pref_on_device_ai" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.GeminiSettingsFragment"
-        android:key="@string/pref_gemini_settings_key"
-        android:title="@string/title_pref_gemini_settings" />
+        android:fragment="com.google.android.accessibility.talkback.screenrecognition.ScreenRecognitionSettingsFragment"
+        android:key="pref_screen_recognition_settings"
+        android:title="@string/title_screen_recognition" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.subtitles.SubtitleSettingsFragment"
+        android:key="pref_subtitle_settings_screen"
+        android:title="@string/subtitle_settings_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.OcrSettingsFragment"
+        android:key="pref_ocr_settings_screen"
+        android:title="@string/title_pref_ocr_settings" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:key="pref_live_recognition_screen"
         android:title="@string/live_recognition_title">

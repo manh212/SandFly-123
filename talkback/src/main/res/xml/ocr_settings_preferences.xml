@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="@string/pref_ocr_engine_key"
+      android:title="@string/title_pref_ocr_engine"
+      android:defaultValue="@string/pref_ocr_engine_default"
+      android:entries="@array/pref_ocr_engine_entries"
+      android:entryValues="@array/pref_ocr_engine_values" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_ocr_data_download_key"
+      android:title="@string/title_pref_ocr_data_download" />
+</PreferenceScreen>

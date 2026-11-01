@@ -105,7 +105,7 @@ public final class SelectorGroupManager {
       String currentItem = selectedItemId(context, prefs);
       String currentGroup = groupContaining(groups, currentItem);
       if (currentGroup == null) {
-        currentGroup = USER_GROUP_ID;
+        currentGroup = firstEnabledId(groups);
       }
       prefs.edit()
           .putString(context.getString(GROUPS_KEY_RES), serialize(groups))
@@ -117,16 +117,21 @@ public final class SelectorGroupManager {
       }
       resetThreeFingerGestures(context, prefs);
     } else {
-      appendNewScriptControls(context, prefs);
       List<Group> groups = getGroups(context);
       if (groups.isEmpty()) {
         groups = defaultGroups(context, prefs);
         prefs.edit().putString(context.getString(GROUPS_KEY_RES), serialize(groups)).apply();
+      } else {
+        migrateDuplicateItems(context, prefs, groups);
       }
+      appendNewScriptControls(context, prefs);
+      groups = getGroups(context);
       String currentGroup = prefs.getString(context.getString(CURRENT_GROUP_KEY_RES), "");
       Group selectedGroup = findGroup(groups, currentGroup);
-      if (selectedGroup == null || !selectedGroup.enabled) {
-        String selectedItem = selectedItemId(context, prefs);
+      String selectedItem = selectedItemId(context, prefs);
+      if (selectedGroup == null
+          || !selectedGroup.enabled
+          || !selectedGroup.items.contains(selectedItem)) {
         currentGroup = null;
         for (Group group : groups) {
           if (group.enabled && group.items.contains(selectedItem)) {
@@ -139,7 +144,6 @@ public final class SelectorGroupManager {
         }
         prefs.edit().putString(context.getString(CURRENT_GROUP_KEY_RES), currentGroup).apply();
       }
-      String selectedItem = selectedItemId(context, prefs);
       Group activeGroup = findGroup(groups, currentGroup);
       if (activeGroup != null && activeGroup.items.contains(selectedItem)) {
         rememberItem(context, currentGroup, selectedItem);
@@ -189,7 +193,7 @@ public final class SelectorGroupManager {
     }
     ArrayList<Group> valid = new ArrayList<>();
     Set<String> ids = new HashSet<>();
-    Set<String> assignedRegularItems = new HashSet<>();
+    Set<String> assignedItems = new HashSet<>();
     int enabledCount = 0;
     for (Group group : groups) {
       String name = group.name == null ? "" : group.name.trim();
@@ -203,11 +207,9 @@ public final class SelectorGroupManager {
       if (group.enabled) {
         enabledCount++;
       }
-      if (!USER_GROUP_ID.equals(group.id)) {
-        for (String item : distinctItems) {
-          if (!assignedRegularItems.add(item)) {
-            return false;
-          }
+      for (String item : distinctItems) {
+        if (!assignedItems.add(item)) {
+          return false;
         }
       }
       valid.add(new Group(group.id, name, group.enabled, new ArrayList<>(distinctItems)));
@@ -397,14 +399,12 @@ public final class SelectorGroupManager {
     Set<String> selected = new LinkedHashSet<>(itemIds);
     for (String itemId : selected) {
       for (Group group : groups) {
-        if (!USER_GROUP_ID.equals(group.id) && group.items.contains(itemId)) {
-          if (group.items.size() <= 1) {
-            return false;
-          }
-          group.items.remove(itemId);
+        if (group.items.remove(itemId)) {
+          break;
         }
       }
     }
+    groups.removeIf(group -> group.items.isEmpty());
     groups.add(new Group(UUID.randomUUID().toString(), normalizedName, true, new ArrayList<>(selected)));
     return saveGroups(context, groups);
   }
@@ -415,17 +415,13 @@ public final class SelectorGroupManager {
     if (target == null || target.items.contains(itemId)) {
       return false;
     }
-    if (!USER_GROUP_ID.equals(target.id)) {
-      for (Group group : groups) {
-        if (!USER_GROUP_ID.equals(group.id) && group.items.contains(itemId)) {
-          if (group.items.size() <= 1) {
-            return false;
-          }
-          group.items.remove(itemId);
-        }
+    for (Group group : groups) {
+      if (group != target && group.items.remove(itemId)) {
+        break;
       }
     }
     target.items.add(itemId);
+    groups.removeIf(group -> group != target && group.items.isEmpty());
     return saveGroups(context, groups);
   }
 
@@ -478,14 +474,18 @@ public final class SelectorGroupManager {
     for (ScriptReadingControl control : Scripts.readingControls()) {
       userItems.add(SCRIPT_ITEM_PREFIX + control.getKey());
     }
-    if (userItems.isEmpty() && !reading.isEmpty()) {
-      userItems.add(reading.get(0));
-    }
+    Set<String> userItemsSet = new HashSet<>(userItems);
+    reading.removeIf(userItemsSet::contains);
+    web.removeIf(userItemsSet::contains);
+    special.removeIf(userItemsSet::contains);
     ArrayList<Group> groups = new ArrayList<>();
     groups.add(new Group(GROUP_READING, context.getString(R.string.selector_group_reading), true, reading));
     groups.add(new Group(GROUP_WEB, context.getString(R.string.selector_group_web), true, web));
     groups.add(new Group(GROUP_SPECIAL, context.getString(R.string.selector_group_special), true, special));
-    groups.add(new Group(USER_GROUP_ID, context.getString(R.string.selector_group_user), true, userItems));
+    if (!userItems.isEmpty()) {
+      groups.add(
+          new Group(USER_GROUP_ID, context.getString(R.string.selector_group_user), true, userItems));
+    }
     groups.removeIf(group -> group.items.isEmpty());
     return groups;
   }
@@ -595,16 +595,48 @@ public final class SelectorGroupManager {
     editor.apply();
   }
 
+  private static void migrateDuplicateItems(
+      Context context, SharedPreferences prefs, List<Group> groups) {
+    String stored = prefs.getString(context.getString(GROUPS_KEY_RES), "");
+    boolean changed = !TextUtils.equals(stored, serialize(groups));
+    Set<String> assigned = new HashSet<>();
+    Group userGroup = findGroup(groups, USER_GROUP_ID);
+    if (userGroup != null) {
+      assigned.addAll(userGroup.items);
+    }
+    for (Group group : groups) {
+      if (group == userGroup) continue;
+      if (group.items.removeIf(item -> !assigned.add(item))) {
+        changed = true;
+      }
+    }
+    if (groups.removeIf(group -> group.items.isEmpty())) {
+      changed = true;
+    }
+    if (changed) {
+      if (groups.isEmpty()) {
+        groups = new ArrayList<>(defaultGroups(context, prefs));
+      }
+      saveGroups(context, groups);
+    }
+  }
+
   private static void appendNewScriptControls(Context context, SharedPreferences prefs) {
     ArrayList<Group> groups = mutableGroups(context);
     Group userGroup = findGroup(groups, USER_GROUP_ID);
-    if (userGroup == null) {
-      return;
-    }
     boolean changed = false;
     for (ScriptReadingControl control : Scripts.readingControls()) {
       String id = SCRIPT_ITEM_PREFIX + control.getKey();
       if (!containsItem(groups, id)) {
+        if (userGroup == null) {
+          userGroup =
+              new Group(
+                  USER_GROUP_ID,
+                  context.getString(R.string.selector_group_user),
+                  true,
+                  new ArrayList<>());
+          groups.add(userGroup);
+        }
         userGroup.items.add(id);
         changed = true;
       }

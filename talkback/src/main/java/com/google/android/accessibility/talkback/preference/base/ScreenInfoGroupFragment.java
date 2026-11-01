@@ -26,6 +26,6 @@ public class ScreenInfoGroupFragment extends TalkBackPreferenceFragment {
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_descriptions_ai);
+    return getText(R.string.title_pref_recognition_ai);
   }
 }

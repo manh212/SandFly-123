@@ -3,7 +3,7 @@
   <string name="subtitle_settings_title">Đọc phụ đề bằng OCR</string>
   <string name="subtitle_toggle">Bật hoặc tắt đọc phụ đề</string>
   <string name="subtitle_find_again">Tìm lại vùng phụ đề</string>
-  <string name="subtitle_engine_title">Bộ nhận dạng chữ</string>
+  <string name="subtitle_engine_title">Công cụ OCR cho phụ đề</string>
   <string name="subtitle_download_title">Tải mô hình Tesseract tiếng Việt và tiếng Anh</string>
   <string name="subtitle_region_title">Vùng nhận dạng phụ đề</string>
   <string name="subtitle_interval_title">Khoảng thời gian quét</string>

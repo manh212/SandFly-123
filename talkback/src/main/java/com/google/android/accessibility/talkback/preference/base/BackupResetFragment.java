@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.widget.Toast;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.directtouch.DirectTouchFragment;
+import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 
 public class BackupResetFragment extends TalkBackPreferenceFragment {
@@ -22,6 +24,32 @@ public class BackupResetFragment extends TalkBackPreferenceFragment {
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
     ResponseSettingsReset.bind(this);
+    GestureSettingsReset.bind(this);
+    Preference menuReset = findPreference("pref_menu_controls_reset");
+    if (menuReset != null) {
+      menuReset.setOnPreferenceClickListener(
+          preference -> {
+            A11yAlertDialogWrapper.materialDialogBuilder(requireContext(), getParentFragmentManager())
+                .setTitle(R.string.menu_controls_reset_title)
+                .setMessage(R.string.menu_controls_reset_message)
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(
+                    R.string.menu_controls_reset_confirm,
+                    (dialog, which) -> {
+                      Context context = requireContext();
+                      MenuControlsReset.reset(context);
+                      PreferencesActivityUtils.announceText(
+                          getString(R.string.menu_controls_reset_finished), context);
+                    })
+                .create()
+                .show();
+            return true;
+          });
+    }
+    Preference directTouchBackup = findPreference("pref_direct_touch_backup");
+    if (directTouchBackup != null) {
+      directTouchBackup.getExtras().putBoolean(DirectTouchFragment.ARG_BACKUP_ONLY, true);
+    }
     Preference reset = findPreference("pref_reset_application");
     if (reset != null) {
       reset.setOnPreferenceClickListener(

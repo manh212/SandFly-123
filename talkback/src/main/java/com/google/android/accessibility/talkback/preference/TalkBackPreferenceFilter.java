@@ -59,7 +59,6 @@ public class TalkBackPreferenceFilter {
     HIDDEN_ON_RELEASE_BUILD,
     HIDE_ICON_DETECTION,
     HIDE_MULTIPLE_GESTURE_SET,
-    HIDE_GEMINI_SETTINGS,
     HIDE_SERVER_SIDE_GEMINI,
     HIDE_FEATURE_TABLE_NAVIGATION_ROW_OR_COLUMN,
     HIDE_FEATURE_TABLE_NAVIGATION_ROW_AND_COLUMN,
@@ -107,7 +106,6 @@ public class TalkBackPreferenceFilter {
   private static final int HIDE_ICON_DETECTION = 0x200000;
 
   private static final int HIDE_MULTIPLE_GESTURE_SET = 0x400000;
-  private static final int HIDE_GEMINI_SETTINGS = 0x800000;
   private static final int HIDE_SERVER_SIDE_GEMINI = 0x1000000;
   private static final int HIDE_SCREEN_OVERVIEW = 0x2000000;
   public static final boolean DISABLE_FREQUENT_UPDATE_UI = true;
@@ -232,8 +230,6 @@ public class TalkBackPreferenceFilter {
     CUSTOMIZE_GESTURE_3FINGER_3TAP_HOLD(
         R.string.pref_shortcut_3finger_3tap_hold_key, SHOW_IF_MULTI_FINGER_TAP_AND_HOLD),
     AUTOMATIC_DESCRIPTIONS(R.string.pref_auto_image_captioning_key, HIDDEN_ON_TV | HIDDEN_ON_XR),
-    GEMINI_SUPPORT(
-        R.string.pref_gemini_settings_key, HIDDEN_ON_WATCH | HIDDEN_ON_TV | HIDE_GEMINI_SETTINGS),
     ICON_DETECTION(R.string.pref_icon_detection_key, HIDDEN_ON_WATCH | HIDE_ICON_DETECTION),
     // A watch cannot hold an on-device model, so descriptions there use the Gemini API.
     ON_DEVICE_AI(R.string.pref_on_device_ai_key, HIDDEN_ON_WATCH),
@@ -400,11 +396,6 @@ public class TalkBackPreferenceFilter {
     if (hasFlag(pref.get(), HIDE_MULTIPLE_GESTURE_SET)
         && !(FeatureSupport.supportMultipleGestureSet()
             && FeatureFlagReader.useMultipleGestureSet(context))) {
-      return true;
-    }
-
-    if (hasFlag(pref.get(), HIDE_GEMINI_SETTINGS)
-        && !GeminiConfiguration.isGeminiVoiceCommandEnabled(context)) {
       return true;
     }
 

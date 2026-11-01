@@ -67,6 +67,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class TalkbackMenuProcessor {
 
   private static final String TAG = "TalkbackMenuProcessor";
+  private static final String CLIPBOARD_HISTORY_MIGRATED = "pref_context_menu_clipboard_history_migrated";
   private int requestedItemId;
 
   /*
@@ -151,6 +152,7 @@ public class TalkbackMenuProcessor {
   public boolean prepareMenu(ContextMenu menu) {
     // Apply attributes to menu items.
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    migrateClipboardHistoryPreference(prefs);
 
     // Typo suggestions
     addItemOrSubMenuForCurrentNode(
@@ -287,9 +289,6 @@ public class TalkbackMenuProcessor {
     if (!showMenuItem(R.string.pref_show_context_menu_favorites_key, R.bool.pref_show_context_menu_extra_default)) {
       menu.removeItem(R.id.favorites);
     }
-    if (!showMenuItem(R.string.pref_show_context_menu_clipboard_history_key, R.bool.pref_show_context_menu_extra_default)) {
-      menu.removeItem(R.id.clipboard_history);
-    }
     if (!showMenuItem(R.string.pref_show_context_menu_text_statistics_key, R.bool.pref_show_context_menu_extra_default)) {
       menu.removeItem(R.id.text_statistics_menu);
     }
@@ -380,7 +379,6 @@ public class TalkbackMenuProcessor {
     {R.string.pref_show_context_menu_translate_last_spoken_phrase_setting_key, R.id.translate_last_utterance},
     {R.string.pref_show_context_menu_speech_history_key, R.id.speech_history},
     {R.string.pref_show_context_menu_favorites_key, R.id.favorites},
-    {R.string.pref_show_context_menu_clipboard_history_key, R.id.clipboard_history},
     {R.string.pref_show_context_menu_text_formatting_setting_key, R.id.text_formatting},
     {
       R.string.pref_show_context_menu_keyboard_echo_on_screen_setting_key,
@@ -480,6 +478,34 @@ public class TalkbackMenuProcessor {
       result.add(rankById.containsKey(item.getItemId()) ? ranked.get(next++) : item);
     }
     menu.setItems(result);
+  }
+
+  private void migrateClipboardHistoryPreference(SharedPreferences prefs) {
+    if (prefs.getBoolean(CLIPBOARD_HISTORY_MIGRATED, false)) {
+      return;
+    }
+    String legacyKey = service.getString(R.string.pref_show_context_menu_clipboard_history_key);
+    String settingKey =
+        service.getString(R.string.pref_show_context_menu_clipboard_history_setting_key);
+    if (prefs.contains(legacyKey)) {
+      boolean legacyEnabled =
+          prefs.getBoolean(
+              legacyKey,
+              service.getResources().getBoolean(R.bool.pref_show_context_menu_extra_default));
+      boolean settingEnabled =
+          prefs.getBoolean(
+              settingKey,
+              service
+                  .getResources()
+                  .getBoolean(R.bool.pref_show_context_menu_clipboard_history_default));
+      prefs.edit()
+          .putBoolean(settingKey, legacyEnabled && settingEnabled)
+          .remove(legacyKey)
+          .putBoolean(CLIPBOARD_HISTORY_MIGRATED, true)
+          .apply();
+    } else {
+      prefs.edit().putBoolean(CLIPBOARD_HISTORY_MIGRATED, true).apply();
+    }
   }
 
   private boolean showMenuItem(@StringRes int prefKeyId, @BoolRes int defaultValueResId) {

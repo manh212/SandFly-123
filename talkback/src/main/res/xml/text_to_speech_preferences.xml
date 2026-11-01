@@ -55,14 +55,6 @@
         android:key="@string/pref_intonation_key"
         android:summary="@string/summary_pref_intonation"
         android:title="@string/title_pref_intonation" />
-    <ListPreference
-        android:defaultValue="@string/pref_phonetic_letters_mode_default"
-        android:dialogTitle="@string/title_pref_phonetic_letters_mode"
-        android:entries="@array/pref_phonetic_letters_mode_entries"
-        android:entryValues="@array/pref_phonetic_letters_mode_values"
-        android:key="@string/pref_phonetic_letters_mode_key"
-        android:summary="%s"
-        android:title="@string/title_pref_phonetic_letters_mode" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_speak_in_phrases_default"
         android:key="@string/pref_speak_in_phrases_key"
@@ -81,21 +73,6 @@
         android:defaultValue="@bool/pref_touch_stops_speech_default"
         android:key="@string/pref_touch_stops_speech_key"
         android:title="@string/title_pref_touch_stops_speech" />
-    <ListPreference
-        android:defaultValue="@string/pref_interrupt_typing_default"
-        android:entries="@array/pref_interrupt_typing_entries"
-        android:entryValues="@array/pref_interrupt_typing_values"
-        android:key="@string/pref_interrupt_typing_key"
-        android:summary="%s"
-        android:title="@string/title_pref_interrupt_typing" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-        android:defaultValue="@bool/pref_interrupt_enter_default"
-        android:key="@string/pref_interrupt_enter_key"
-        android:title="@string/title_pref_interrupt_enter" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-        android:defaultValue="@bool/pref_proximity_default"
-        android:key="@string/pref_proximity_key"
-        android:title="@string/title_pref_cover_proximity_sensor" />
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_mute_speech_while_recording_default"
         android:key="@string/pref_mute_speech_while_recording_key"

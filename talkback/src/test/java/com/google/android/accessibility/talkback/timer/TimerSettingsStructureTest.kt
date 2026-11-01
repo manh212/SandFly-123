@@ -68,20 +68,11 @@ class TimerSettingsStructureTest {
   fun mainScreen_startsWithUpdates_andKeepsSetupInsideSystemSettings() {
     val topLevel = mutableListOf<Pair<String?, String?>>()
     val parser = context.resources.getXml(R.xml.preferences)
-    var currentKey: String? = null
-    var accessibilityIntentAction: String? = null
     var event = parser.eventType
     while (event != XmlPullParser.END_DOCUMENT) {
       if (event == XmlPullParser.START_TAG && parser.depth == 2) {
-        currentKey = parser.getAttributeValue(ANDROID_NS, "key")
+        val currentKey = parser.getAttributeValue(ANDROID_NS, "key")
         topLevel += currentKey to parser.getAttributeValue(ANDROID_NS, "fragment")
-      }
-      if (
-        event == XmlPullParser.START_TAG &&
-          parser.name == "intent" &&
-          currentKey == ACCESSIBILITY_SETTINGS_KEY
-      ) {
-        accessibilityIntentAction = parser.getAttributeValue(ANDROID_NS, "action")
       }
       event = parser.next()
     }
@@ -91,28 +82,26 @@ class TimerSettingsStructureTest {
     assertEquals(
       listOf(
         "UpdatesFragment",
+        "TextToSpeechSettingsFragment",
         "SpeechGroupFragment",
-        "GesturesShortcutsGroupFragment",
         "NavigationGroupFragment",
+        "GesturesShortcutsGroupFragment",
         "MenuControlsGroupFragment",
         "SoundAndVibrationFragment",
         "NotificationsFragment",
         "TypingGroupFragment",
-        "AppsGroupFragment",
-        "ToolsGroupFragment",
         "ScreenInfoGroupFragment",
-        null,
+        "TranslationFragment",
+        "TimerSettingsFragment",
+        "TaskAssistantFragment",
+        "AppsGroupFragment",
         "BackupResetFragment",
         "SystemHelpGroupFragment",
       ),
       topLevel.map { it.second?.substringAfterLast('.') },
     )
-    assertTrue(
-      topLevel.all {
-        !it.second.isNullOrBlank() || it.first == ACCESSIBILITY_SETTINGS_KEY
-      }
-    )
-    assertEquals("android.settings.ACCESSIBILITY_SETTINGS", accessibilityIntentAction)
+    assertTrue(topLevel.all { !it.second.isNullOrBlank() })
+    assertEquals(16, topLevel.size)
     assertFalse(topLevel.any { it.first == SETUP_KEY })
     assertEquals(
       1,
@@ -124,6 +113,11 @@ class TimerSettingsStructureTest {
       rowsOf(R.xml.settings_group_system_help).count {
         it.first == SETUP_KEY && it.second?.contains("SetupFragment") == true
       },
+    )
+    assertTrue(
+      rowsOf(R.xml.settings_group_system_help).any {
+        it.first == ACCESSIBILITY_SETTINGS_KEY && it.second == null
+      }
     )
   }
 

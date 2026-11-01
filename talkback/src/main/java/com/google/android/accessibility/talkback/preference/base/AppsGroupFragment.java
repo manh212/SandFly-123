@@ -27,6 +27,6 @@ public class AppsGroupFragment extends TalkBackPreferenceFragment {
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_group_apps);
+    return getText(R.string.title_pref_scripts_labels);
   }
 }

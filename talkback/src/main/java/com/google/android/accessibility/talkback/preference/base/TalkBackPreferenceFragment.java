@@ -173,27 +173,7 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
       removePreference(
           R.string.pref_category_group_screen_info_key, R.string.pref_on_device_ai_key);
     }
-    updateGeminiPreferenceState();
     SettingsBackup.setUpPreferences(this);
-  }
-
-  private void updateGeminiPreferenceState() {
-    Preference geminiSupport = findPreferenceByResId(R.string.pref_gemini_settings_key);
-    if (geminiSupport != null) {
-      boolean hasOptIn =
-          SharedPreferencesUtils.getBooleanPref(
-              prefs,
-              context.getResources(),
-              R.string.pref_gemini_enabled_key,
-              R.bool.pref_gemini_opt_in_default);
-      geminiSupport.setSummary(
-          hasOptIn
-              ? R.string.summary_pref_gemini_support_enabled
-              : R.string.summary_pref_gemini_support_disabled);
-    } else {
-      removePreference(
-          R.string.pref_category_group_other_key, R.string.pref_gemini_settings_key);
-    }
   }
 
   private void updateTutorialAndHelpPreferencesForPhoneOrTablet() {
@@ -253,7 +233,6 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
   public void onResume() {
     super.onResume();
     updateSurveyOption();
-    updateGeminiPreferenceState();
     updatePhysicalKeyboardPreference();
     updateTtsOverlay();
   }

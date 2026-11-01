@@ -14,17 +14,17 @@ class ScreenRecognitionSettingsFragment : TalkbackBaseFragment(R.xml.screen_reco
     super.onCreatePreferences(savedInstanceState, rootKey)
     val method = findPreference<ListPreference>("pref_screen_recognition_method")
     method?.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
-    val ocr = findPreference<ListPreference>(getString(R.string.pref_ocr_engine_key))
-    ocr?.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
+    val ocrSettings = findPreference<Preference>("pref_screen_recognition_ocr_settings")
     method?.setOnPreferenceChangeListener { _, value ->
-      val showOcr = value == "ocr"
-      ocr?.isVisible = showOcr
-      findPreference<Preference>("screen_recognition_privacy")?.isVisible = !showOcr
+      val useAi = value == "ai"
+      ocrSettings?.isVisible = !useAi
+      findPreference<Preference>("screen_recognition_privacy")?.isVisible = useAi
       true
     }
-    val current = SharedPreferencesUtils.getSharedPreferences(requireContext())
-      .getString("pref_screen_recognition_method", "ocr")
-    ocr?.isVisible = current != "ai"
-    findPreference<Preference>("screen_recognition_privacy")?.isVisible = current == "ai"
+    val useAi =
+      SharedPreferencesUtils.getSharedPreferences(requireContext())
+        .getString("pref_screen_recognition_method", "ocr") == "ai"
+    ocrSettings?.isVisible = !useAi
+    findPreference<Preference>("screen_recognition_privacy")?.isVisible = useAi
   }
 }

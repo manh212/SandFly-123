@@ -8,8 +8,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
 import com.google.android.accessibility.utils.FormFactorUtils;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +57,23 @@ public class SettingsSearchIndexTest {
     assertTrue(entries.stream().anyMatch(entry -> entry.fragment.endsWith("AiProviderFragment") && entry.arguments.getString("provider", "").equals("openai")));
     assertFalse(SettingsSearchIndex.search(entries, "màn").isEmpty());
     assertTrue(entries.stream().filter(entry -> !entry.actionQuery.isEmpty()).anyMatch(entry -> SearchMatcher.matches("màn hình chính", entry.title)));
+  }
+
+  @Test
+  public void selectorGroupsAreIndexedAtTheirCanonicalOwnerWhenSupported() {
+    Context context = RuntimeEnvironment.getApplication();
+    FormFactorUtils.initialize(context);
+    List<SettingsSearchIndex.Entry> entries = build(context);
+    if (SelectorGroupManager.isSupported()) {
+      assertTrue(
+          entries.stream()
+              .anyMatch(
+                  entry ->
+                      entry.fragment.endsWith("SelectorGroupsFragment")
+                          && entry.title.equals(context.getString(R.string.selector_groups_title))));
+      assertFalse(
+          entries.stream().anyMatch(entry -> entry.fragment.endsWith("SelectorMenuFragment")));
+    }
   }
 
   @Test

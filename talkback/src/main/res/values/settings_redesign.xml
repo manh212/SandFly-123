@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="title_pref_descriptions_ai" translatable="false">Mô tả và AI</string>
-  <string name="title_pref_tools" translatable="false">Công cụ</string>
   <string name="title_pref_reading_style" translatable="false">Kiểu đọc</string>
   <string name="title_pref_reading_text" translatable="false">Đọc chữ và ký hiệu</string>
   <string name="title_pref_navigation_spoken_feedback" translatable="false">Thông tin khi điều hướng</string>
@@ -30,4 +29,20 @@
   <string name="reset_application_confirm" translatable="false">Xóa dữ liệu và đặt lại</string>
   <string name="reset_application_failed" translatable="false">Không thể đặt lại ứng dụng</string>
   <string name="title_pref_read_unlabelled_identifiers" translatable="false">Đọc mã nhận dạng của nút chưa có nhãn</string>
+  <string name="title_pref_voice_settings" translatable="false">Giọng đọc</string>
+  <string name="title_pref_reading_content" translatable="false">Nội dung đọc</string>
+  <string name="title_pref_menu_panels" translatable="false">Menu và bảng điều khiển</string>
+  <string name="title_pref_recognition_ai" translatable="false">Nhận dạng và AI</string>
+  <string name="title_pref_translation" translatable="false">Dịch</string>
+  <string name="title_pref_clock_stopwatch" translatable="false">Đồng hồ và bấm giờ</string>
+  <string name="title_pref_task_assistant" translatable="false">Giao việc cho Meridian</string>
+  <string name="title_pref_scripts_labels" translatable="false">Tập lệnh và nhãn</string>
+  <string name="title_pref_ocr_settings" translatable="false">Công cụ và dữ liệu OCR</string>
+  <string name="title_pref_notification_list_settings" translatable="false">Danh sách thông báo</string>
+  <string name="notification_filter_title" translatable="false">Lọc thông báo trùng</string>
+  <string name="title_pref_direct_touch_backup" translatable="false">Sao lưu và khôi phục chạm trực tiếp</string>
+  <string name="backup_reset_backup_category" translatable="false">Sao lưu</string>
+  <string name="backup_reset_reset_category" translatable="false">Đặt lại</string>
+  <string name="notification_add_blocked_pattern" translatable="false">Thêm quy tắc chặn: %1$s</string>
+  <string name="notification_history_mode_action" translatable="false">Đặt ứng dụng thành %1$s</string>
 </resources>

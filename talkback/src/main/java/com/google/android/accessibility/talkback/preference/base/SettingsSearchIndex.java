@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.actor.gemini.AiProvider;
+import com.google.android.accessibility.talkback.directtouch.DirectTouchFragment;
 import com.google.android.accessibility.talkback.gesture.CustomMenus;
 import com.google.android.accessibility.talkback.individualfeedback.FeedbackItem;
 import com.google.android.accessibility.talkback.individualfeedback.IndividualFeedbackSettings;
 import com.google.android.accessibility.talkback.notificationlist.NotificationPart;
 import com.google.android.accessibility.talkback.preference.TalkBackPreferenceFilter;
 import com.google.android.accessibility.talkback.quicksettings.QuickControl;
+import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
 import com.google.android.accessibility.talkback.status.StatusItem;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -125,6 +127,20 @@ public final class SettingsSearchIndex {
           String title = text(xml, "title");
           String summary = text(xml, "summary");
           String childFragment = xml.getAttributeValue(ANDROID, "fragment");
+          if (
+              childFragment != null
+                  && childFragment.endsWith(".SelectorMenuFragment")
+                  && SelectorGroupManager.isSupported()) {
+            childFragment = BASE + "SelectorGroupsFragment";
+            title = resources.getString(R.string.selector_groups_title);
+          }
+          Bundle arguments = new Bundle(screen.arguments);
+          if (
+              childFragment != null
+                  && childFragment.endsWith(".DirectTouchFragment")
+                  && "pref_direct_touch_backup".equals(key)) {
+            arguments.putBoolean(DirectTouchFragment.ARG_BACKUP_ONLY, true);
+          }
           boolean available = parent.available && filter.isSearchable(key);
           boolean category = xml.getName().endsWith("PreferenceCategory");
           String path = category && !title.isEmpty() ? join(parent.path, title) : parent.path;
@@ -141,7 +157,7 @@ public final class SettingsSearchIndex {
                     parent.path,
                     childFragment == null ? screen.fragment : childFragment,
                     childFragment == null ? key : "",
-                    screen.arguments,
+                    arguments,
                     developer,
                     ""));
             int options = xml.getAttributeResourceValue(ANDROID, "entries", 0);
@@ -216,6 +232,7 @@ public final class SettingsSearchIndex {
     private void addSupplemental() {
       String fragment = "";
       String path = "";
+      Bundle supplementalArguments = new Bundle();
       try (XmlResourceParser xml = resources.getXml(R.xml.settings_search_extra)) {
         int event;
         while ((event = xml.next()) != XmlPullParser.END_DOCUMENT) {
@@ -226,6 +243,10 @@ public final class SettingsSearchIndex {
             fragment = xml.getAttributeValue(null, "fragment");
             int title = xml.getAttributeResourceValue(null, "title", 0);
             path = title == 0 ? "" : resources.getString(title);
+            supplementalArguments = new Bundle();
+            if (Boolean.parseBoolean(xml.getAttributeValue(null, "backup_only"))) {
+              supplementalArguments.putBoolean(DirectTouchFragment.ARG_BACKUP_ONLY, true);
+            }
           } else if (xml.getName().equals("item")) {
             int title = xml.getAttributeResourceValue(null, "title", 0);
             String key = xml.getAttributeValue(null, "key");
@@ -237,7 +258,7 @@ public final class SettingsSearchIndex {
                       path,
                       fragment,
                       key == null ? "" : key,
-                      new Bundle(),
+                      new Bundle(supplementalArguments),
                       false,
                       ""));
             }
@@ -342,6 +363,18 @@ public final class SettingsSearchIndex {
                 args,
                 false,
                 ""));
+        for (int action : new int[] {R.string.voice_profile_rename, R.string.voice_profile_delete}) {
+          add(
+              new Entry(
+                  resources.getString(action),
+                  "",
+                  profile.name(),
+                  BASE + "VoiceProfileFragment",
+                  "",
+                  args,
+                  false,
+                  ""));
+        }
       }
       for (CustomMenus.Menu menu : CustomMenus.menus(context)) {
         Bundle args = new Bundle();

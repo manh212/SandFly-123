@@ -4,7 +4,9 @@
       android:key="pref_subtitle_engine" android:title="@string/subtitle_engine_title"
       android:defaultValue="tesseract" android:entries="@array/subtitle_engine_labels" android:entryValues="@array/subtitle_engine_values" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_subtitle_download" android:title="@string/subtitle_download_title" />
+      android:key="pref_subtitle_ocr_settings"
+      android:fragment="com.google.android.accessibility.talkback.preference.base.OcrSettingsFragment"
+      android:title="@string/title_pref_ocr_settings" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
       android:key="pref_subtitle_region" android:title="@string/subtitle_region_title"
       android:defaultValue="auto" android:entries="@array/subtitle_region_labels" android:entryValues="@array/subtitle_region_values" />

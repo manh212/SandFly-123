@@ -10,21 +10,13 @@
         android:entryValues="@array/pref_resume_backtalk_values"
         android:key="@string/pref_resume_backtalk_key"
         android:summary="%s"
-        android:title="@string/title_pref_resume_backtalk"/>
-    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-        android:defaultValue="@bool/pref_quick_settings_default"
-        android:key="@string/pref_quick_settings_key"
-        android:title="@string/title_pref_quick_settings"/>
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.quicksettings.QuickSettingsItemsFragment"
-        android:key="@string/pref_quick_settings_items_key"
-        android:title="@string/title_pref_quick_settings_items"/>
+        android:title="@string/title_pref_resume_backtalk" />
     <com.google.android.accessibility.talkback.preference.base.CommandSwitchPreference
         android:defaultValue="false"
         android:key="@string/pref_play_installer_key"
         android:persistent="false"
         android:summary="@string/summary_pref_play_installer"
-        android:title="@string/title_pref_play_installer"/>
+        android:title="@string/title_pref_play_installer" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="@string/pref_category_others_key">
@@ -32,6 +24,6 @@
         android:fragment="com.google.android.accessibility.talkback.preference.base.DeveloperPrefFragment"
         android:key="@string/pref_category_developer_key"
         android:title="@string/title_pref_category_developer_settings"
-        app:allowDividerAbove="true"/>
+        app:allowDividerAbove="true" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 </PreferenceScreen>

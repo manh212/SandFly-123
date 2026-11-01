@@ -6,23 +6,13 @@
       android:defaultValue="ocr"
       android:entries="@array/screen_recognition_method_entries"
       android:entryValues="@array/screen_recognition_method_values" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
-      android:key="@string/pref_ocr_engine_key"
-      android:title="@string/screen_recognition_ocr_engine_title"
-      android:defaultValue="@string/ocr_engine_mlkit_value"
-      android:entries="@array/pref_ocr_engine_entries"
-      android:entryValues="@array/pref_ocr_engine_values" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_screen_recognition_ocr_settings"
+      android:fragment="com.google.android.accessibility.talkback.preference.base.OcrSettingsFragment"
+      android:title="@string/title_pref_ocr_settings" />
   <Preference
       android:key="screen_recognition_privacy"
       android:selectable="false"
       android:title="@string/screen_recognition_ai_privacy_title"
       android:summary="@string/screen_recognition_ai_privacy_summary" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="screen_recognition_local_model"
-      android:fragment="com.google.android.accessibility.talkback.actor.gemini.local.OnDeviceAiFragment"
-      android:title="@string/screen_recognition_ai_model_settings" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="screen_recognition_ai_provider"
-      android:fragment="com.google.android.accessibility.talkback.preference.base.GeminiSettingsFragment"
-      android:title="@string/screen_recognition_ai_provider_settings" />
 </PreferenceScreen>

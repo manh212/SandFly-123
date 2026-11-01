@@ -23,6 +23,7 @@ public final class MenuControlsReset {
     keys.add(ItemOrder.SANDFLY_MENU_KEY);
     keys.add(ItemOrder.READING_CONTROLS_KEY);
     keys.add(context.getString(R.string.pref_quick_settings_key));
+    keys.add(context.getString(R.string.pref_show_context_menu_clipboard_history_key));
     SharedPreferences.Editor editor = prefs.edit();
     for (String key : keys) {
       editor.remove(key);

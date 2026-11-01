@@ -26,6 +26,6 @@ public class SpeechGroupFragment extends VerbosityPrefFragment {
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_group_speech);
+    return getText(R.string.title_pref_reading_content);
   }
 }

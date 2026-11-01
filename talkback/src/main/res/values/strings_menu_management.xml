@@ -2,9 +2,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
   <string name="menu_item_search_hint" tools:ignore="MissingTranslation">Tìm mục menu hoặc điều khiển đọc</string>
   <string name="menu_item_search_empty" tools:ignore="MissingTranslation">Không tìm thấy mục phù hợp</string>
-  <string name="menu_controls_reset_title" tools:ignore="MissingTranslation">Đặt lại menu và điều khiển đọc</string>
+  <string name="menu_controls_reset_title" tools:ignore="MissingTranslation">Đặt lại tùy chỉnh menu và bộ chọn</string>
   <string name="menu_controls_reset_summary" tools:ignore="MissingTranslation">Khôi phục các mục, trạng thái bật tắt và thứ tự mặc định</string>
-  <string name="menu_controls_reset_message" tools:ignore="MissingTranslation">Đặt lại toàn bộ mục menu và điều khiển đọc, bao gồm thứ tự và các lựa chọn bật tắt, về mặc định? Các menu tự tạo sẽ được giữ lại.</string>
+  <string name="menu_controls_reset_message" tools:ignore="MissingTranslation">Đặt lại các mục menu, điều khiển điều hướng, nhóm bộ chọn, thứ tự và trạng thái bật tắt, gồm cả bật/tắt bảng cài đặt nhanh, về mặc định? Các menu tự tạo sẽ được giữ lại.</string>
   <string name="menu_controls_reset_confirm" tools:ignore="MissingTranslation">Đặt lại</string>
-  <string name="menu_controls_reset_finished" tools:ignore="MissingTranslation">Đã đặt lại menu và điều khiển đọc về mặc định</string>
+  <string name="menu_controls_reset_finished" tools:ignore="MissingTranslation">Đã đặt lại tùy chỉnh menu và bộ chọn về mặc định</string>
 </resources>

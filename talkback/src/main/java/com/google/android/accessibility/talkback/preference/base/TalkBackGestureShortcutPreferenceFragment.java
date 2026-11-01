@@ -20,7 +20,6 @@ import static com.google.android.accessibility.utils.preference.PreferencesActiv
 import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
@@ -38,14 +37,12 @@ import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.ReverseSwipeSettings;
 import com.google.android.accessibility.talkback.gesture.VibrationWatchGestureSettings;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.training.TutorialInitiator;
 import com.google.android.accessibility.utils.Consumer;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.SettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
-import com.google.android.accessibility.utils.material.A11yAlertDialogWrapper;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,43 +62,6 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
   public TalkBackGestureShortcutPreferenceFragment() {
     super(R.xml.gesture_preferences);
   }
-
-  private final DialogInterface.OnClickListener resetGestureConfirmDialogPositive =
-      (dialogInterface, i) -> {
-        PreferencesActivityUtils.announceText(
-            getString(R.string.gestures_announce_reset_gesture_settings), getContext());
-        // Reset logic here
-        resetGestureShortcut();
-        dialogInterface.dismiss();
-      };
-
-  private final Preference.OnPreferenceClickListener resetGesturePreferenceClickListener =
-      (preference) -> {
-        boolean gestureSetEnabled =
-            GestureShortcutMapping.isGestureSetEnabled(
-                getContext(),
-                prefs,
-                R.string.pref_multiple_gesture_set_key,
-                R.bool.pref_multiple_gesture_set_default);
-
-        // Show confirm dialog.
-        A11yAlertDialogWrapper.materialDialogBuilder(
-                getContext(), getActivity().getSupportFragmentManager())
-            .setTitle(
-                getString(
-                    gestureSetEnabled
-                        ? R.string.Reset_gesture_settings_set_dialog_title
-                        : R.string.Reset_gesture_settings_dialog_title))
-            .setMessage(getString(R.string.message_reset_gesture_settings_confirm_dialog))
-            .setPositiveButton(
-                R.string.reset_button_in_reset_gesture_settings_confirm_dialog,
-                resetGestureConfirmDialogPositive)
-            .setNegativeButton(android.R.string.cancel, (dialog, i) -> dialog.cancel())
-            .create()
-            .show();
-
-        return true;
-      };
 
   @Override
   public void onDisplayPreferenceDialog(Preference preference) {
@@ -220,10 +180,6 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     } else if (gestureSetPreference != null) {
       getPreferenceScreen().removePreference(gestureSetPreference);
     }
-
-    Preference resetGesturePreferenceScreen =
-        (Preference) findPreference(getString(R.string.pref_reset_gesture_settings_key));
-    resetGesturePreferenceScreen.setOnPreferenceClickListener(resetGesturePreferenceClickListener);
 
     // Disable 2-finger swipe gestures which are reserved as 2-finger pass-through.
     if (FeatureSupport.isMultiFingerGestureSupported()) {
@@ -442,31 +398,5 @@ public class TalkBackGestureShortcutPreferenceFragment extends TalkbackBaseFragm
     }
   }
 
-  private void resetGestureShortcut() {
-    // Reset preference to default
-    final SharedPreferences.Editor prefEditor = prefs.edit();
-    final String[] gesturePrefKeys = getResources().getStringArray(R.array.pref_shortcut_keys);
-    int gestureSet =
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            getResources(),
-            R.string.pref_gesture_set_key,
-            R.string.pref_gesture_set_value_default);
 
-    PreferenceGroup root = getPreferenceScreen();
-
-    for (String defaultKey : gesturePrefKeys) {
-      String prefKey = GestureShortcutMapping.getPrefKeyWithGestureSet(defaultKey, gestureSet);
-      if (prefs.contains(prefKey)) {
-        GestureListPreference preference = (GestureListPreference) root.findPreference(prefKey);
-        if (preference != null) {
-          // for multi-finger gestures which are not supported before R, the preference may not be
-          // found. We don't need to reset the relative preferences.
-          preference.updateSummaryToDefaultValue();
-        }
-        prefEditor.remove(prefKey);
-      }
-    }
-    prefEditor.apply();
-  }
 }

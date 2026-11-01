@@ -16,15 +16,10 @@
 
 package com.google.android.accessibility.talkback.preference.base;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
-import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils;
 import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
-import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Main settings group holding the choices for the SandFly menu and the reading controls. */
 public class MenuControlsGroupFragment extends TalkBackPreferenceFragment {
@@ -43,30 +38,11 @@ public class MenuControlsGroupFragment extends TalkBackPreferenceFragment {
       selector.setTitle(R.string.selector_groups_title);
       selector.setFragment(SelectorGroupsFragment.class.getName());
     }
-    Preference reset = findPreference("pref_menu_controls_reset");
-    if (reset != null) {
-      reset.setOnPreferenceClickListener(
-          preference -> {
-            new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.menu_controls_reset_title)
-                .setMessage(R.string.menu_controls_reset_message)
-                .setPositiveButton(
-                    R.string.menu_controls_reset_confirm,
-                    (dialog, which) -> {
-                      Context context = requireContext();
-                      MenuControlsReset.reset(context);
-                      PreferencesActivityUtils.announceText(
-                          getString(R.string.menu_controls_reset_finished), context);
-                    })
-                .setNegativeButton(android.R.string.cancel, null)
-                .show();
-            return true;
-          });
-    }
+
   }
 
   @Override
   public CharSequence getTitle() {
-    return getText(R.string.title_pref_group_menu_controls);
+    return getText(R.string.title_pref_menu_panels);
   }
 }

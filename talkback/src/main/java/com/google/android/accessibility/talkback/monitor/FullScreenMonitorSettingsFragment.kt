@@ -32,11 +32,11 @@ class FullScreenMonitorSettingsFragment :
       FullScreenMonitor.toggle(context)
       rebuild()
     }
-    screen.action(getString(R.string.full_screen_monitor_note)) {}
+    screen.information(getString(R.string.full_screen_monitor_note))
     val category = screen.category(R.string.full_screen_monitor_apps)
     val apps = installed
     if (apps == null) {
-      category.action(getString(R.string.notification_apps_loading)) {}
+      category.information(getString(R.string.notification_apps_loading))
       loadApps(context)
       return
     }

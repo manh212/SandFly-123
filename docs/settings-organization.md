@@ -1,103 +1,58 @@
 # Settings organization
 
-The main screen has thirteen navigation entries. Updates stays first. Controls and
-actions stay inside their related pages. Page depth is justified by the task,
-not by an arbitrary limit on the number of levels.
+The main settings screen has sixteen entries. Each stored choice has one owning
+page. Related pages may link to that owner when a task naturally leads there;
+they do not maintain a second copy of its controls.
 
-| Main entry | Organization |
+## Main navigation
+
+| Main entry | Owner and contents |
 | --- | --- |
-| Updates | Keep version checks, automatic checks and the dev channel together. |
-| Speech | Put reading style, spoken item information, characters, punctuation, emoji and text formatting directly on this page. Keep engine controls and individual voice profiles as specialized editors. Remove the Verbosity page. |
-| Navigation | Show topic links only: movement and window changes, touch activation, app-specific direct touch, volume keys and spoken navigation information. Controls live in these five specific pages. |
-| Gestures and shortcuts | Keep gesture assignment and keyboard shortcut assignment separate because each contains a substantial, distinct action list. |
-| Menus and reading controls | Open Meridian menu, navigation menu and reading control customization as siblings. Put the quick settings switch and panel customization here. |
-| Sound and vibration | Keep output, volume, ducking, vibration and theme access together. Theme and individual feedback editors configure a selected sound or theme. |
-| Notifications | Keep reading format, application filters, conditions, rules, schedules and history within notification settings. Select an existing voice profile here; manage global voice profiles under Speech. |
-| Typing | Show keyboard echo, interruption behavior and typing method access directly. Keep dictation models and typing method details as specific editors. Remove the Keyboard echo and On-screen keyboard landing pages. |
-| Descriptions and AI | Keep automatic description behavior, cloud providers and on-device models together. Provider credentials and individual model management remain dedicated editors. |
-| Apps | Keep scripts and custom labels as app-specific customization. A script's own configurable schema remains controlled by that script. |
-| Tools | Keep timer and offline translation configuration as separate tools. |
-| Backup and reset | Group settings backup, restore, application reset and response-settings reset in a dedicated main entry. Application reset asks for confirmation before Android clears application data and stops Meridian. |
-| System and help | Show setup, resume behavior, installation identity and developer access here. Remove the Advanced settings and Reduce delay landing pages. |
+| Updates | Version, channel and update checks. |
+| Giọng đọc | Speech engine, output options and voice profiles. |
+| Nội dung đọc | Reading style, spoken item information, screen announcements and text reading options. |
+| Điều hướng | Movement, touch activation, direct touch, volume keys and spoken navigation feedback. |
+| Cử chỉ và phím tắt | Gesture and keyboard shortcut assignment. |
+| Menu và bảng điều khiển | Meridian menus, selector groups, navigation menu and quick settings panel. |
+| Âm thanh và rung | Sound, vibration, latency and sound themes. |
+| Thông báo | Reading, apps, words, filters, conditions, rules, schedules, list behavior and history. |
+| Nhập liệu | Keyboard echo, typing methods, interruption, keyboard timing and dictation. |
+| Nhận dạng và AI | Image descriptions, on-device AI, screen recognition, subtitles and OCR. |
+| Dịch | Translation providers and translation behavior. |
+| Đồng hồ và bấm giờ | Spoken clock and stopwatch settings and history. |
+| Giao việc cho Meridian | Task assistant and its AI/model choices. |
+| Tập lệnh và nhãn | Scripts and custom labels. |
+| Sao lưu và đặt lại | Settings backup and restore, direct-touch backup, and reset actions. |
+| Hệ thống và trợ giúp | Initial setup, Android accessibility settings, help, resume behavior, installer identity and developer tools. |
 
-## Specific relocations
+## Ownership and duplicate rules
 
-- Container positions, list counts, table coordinates and headers, window names
-  and progress announcements belong to Navigation.
-- Intonation belongs with text-to-speech engine and output controls.
-- Keyboard interruption choices belong to Typing.
-- Reading identifiers for unlabelled buttons belongs to Speech, under spoken item information.
-- Text formatting announcement mode is a list dialog on the formatting page,
-  rather than a separate screen for a single selection.
-- Remove the Reduce delay screen. Low-latency audio belongs to Sound and
-  vibration; always interrupting speech belongs to Speech; window delay and
-  preparing items before scrolling belong to Navigation; keyboard caching and
-  long-press timing belong to Typing.
-- Preserve the response-settings reset action under Backup and reset. Its
-  confirmation lists its scope, and unrelated settings are retained.
-- Notification delay and queue handling belong to When to read; re-reading until
-  the screen wakes belongs to Repeats; the duration limit belongs to Stop reading.
+- **Speech and voice profiles:** The reading-content page owns what is spoken. The voice page owns speech output and profile editing. App-specific voice choices only select an existing profile; profile rename and deletion happen in the profile editor.
+- **Navigation and shortcuts:** Navigation owns navigation behavior. The gestures page owns gesture assignments. Navigation links to direct touch for that task; the direct-touch backup route opens the same feature in backup-only mode.
+- **Menus and selector groups:** Menu customization has one home. On supported devices the selector row opens the selector-group editor. Existing duplicate selector items migrate to the user's group when one exists, and subsequent saves reject the same item appearing in multiple groups.
+- **Quick settings:** The panel screen owns both the panel switch and its item order. The old copy in Advanced settings is removed.
+- **Notifications:** The notification landing screen is a topic index. Reading, app rules, word rules, filters, list composition, automation and timing options are each owned by their specific page. History actions open the app or blocked-word owner with a suggested change; history itself does not save those settings.
+- **OCR and subtitles:** Screen recognition's OCR engine and the shared Tesseract data download have one OCR owner. Subtitles keep their own engine choice, recognition region and speech behavior because those options control subtitle scanning; they can link to the shared OCR page for the data download.
+- **Backup and reset:** Export, import and reset actions are grouped together. Gesture and menu resets are invoked here, and keep their existing reset scopes.
+- **Initial setup:** The setup entry is under System and help, separate from timer configuration.
+- **AI integrations:** The obsolete Gemini voice-command integration is removed. Current provider/model settings and on-device AI remain available from the recognition and assistant tasks that use them.
 
-## State and visibility
+## Relocated settings
 
-Keep stored setting names and values unchanged. Reading presets still determine
-their controlled options even though the controls are now distributed across
-pages. Custom values must survive switching between presets. Shared settings
-changed through reading controls or shortcuts must remain synchronized with the
-visible page.
+- Container positions, list counts, table coordinates and headers, window names and progress announcements belong to Navigation.
+- Text-to-speech engine and output controls belong to Giọng đọc; reading verbosity and content options belong to Nội dung đọc.
+- Keyboard interruption, echo, method and timing controls belong to Nhập liệu. Dictation model selection stays with dictation.
+- Reading identifiers for unlabelled buttons belong to spoken item information.
+- Text-formatting announcement mode is a choice on its formatting page rather than a separate one-option screen.
+- Low-latency audio belongs to Âm thanh và rung; speech interruption belongs to Nội dung đọc; window delay and preparation before scrolling belong to Điều hướng; keyboard caching and long-press timing belong to Nhập liệu.
+- Notification delay and queue handling belong to When to read; repeating belongs to Repeats; the duration limit belongs to Stop reading.
 
-Keep device, API level, permission and feature filtering. XML keys are not a count
-of visible settings: categories, aliases, dynamically created application and
-profile lists, provider availability and hidden options affect that count.
+## Preserved behavior and data
 
-CI checks the settings contract, builds, unit tests and lint. The owner verifies
-the resulting dev build's screen reader focus and navigation on a phone.
+Stored setting keys and values stay unchanged except where an old duplicate is explicitly migrated to its canonical key. Existing reading preset values remain intact when controls move between pages. Reset confirmation keeps its established scope and preserves unrelated settings. Selector migration keeps the user-group copy of any duplicate item and removes copies from other groups.
 
-## Source audit coverage
+Runtime device, API level, permission and feature filters still determine which rows are visible. Dynamic lists and object editors—apps, notification rules, profiles, models, scripts, labels, menus and sound themes—remain within the feature that owns those objects. Related shortcuts are routes to the canonical page, not additional settings owners.
 
-The follow-up source pass covers all thirteen main entries and the 40 XML screens
-reachable through their explicit fragment links. This is a source inventory,
-not a count of screens or rows visible on a particular phone. Runtime filtering,
-alternative keyboard keymaps and dynamically generated editors also affect the
-interface.
+## Regression coverage
 
-| Main entry XML | Linked XML screens reviewed |
-| --- | --- |
-| `updates_preferences` | `updates_preferences` |
-| `settings_group_speech` | `screen_announcement_preferences`, `settings_group_speech`, `text_formatting_detail_preferences`, `text_to_speech_preferences` |
-| `settings_group_navigation` | `navigation_feedback_preferences`, `navigation_preferences`, `settings_group_navigation`, `touch_activation_preferences`, `volume_key_preferences` |
-| `settings_group_gestures_shortcuts` | `default_key_combo_preferences`, `gesture_preferences`, `settings_group_gestures_shortcuts` |
-| `settings_group_menu_controls` | `context_menu_preferences`, `navigation_menu_preferences`, `selector_menu_preferences`, `settings_group_menu_controls` |
-| `sound_and_vibration_preferences` | `sound_and_vibration_preferences` |
-| `notification_preferences` | `notification_kinds_preferences`, `notification_preferences`, `notification_reading_preferences`, `notification_repeats_preferences`, `notification_schedules_preferences`, `notification_stop_preferences`, `notification_when_preferences` |
-| `settings_group_typing` | `dictation_preferences`, `settings_group_typing`, `typing_method_preferences` |
-| `settings_group_screen_info` | `automatic_descriptions_preferences`, `gemini_settings`, `settings_group_screen_info` |
-| `settings_group_apps` | `settings_group_apps` |
-| `settings_group_tools` | `offline_translation_preferences`, `settings_group_tools`, `timer_preferences` |
-| `backup_reset_preferences` | `backup_reset_preferences` |
-| `settings_group_system_help` | `developer_preferences`, `diagnostics_preferences`, `dump_events_preferences`, `settings_group_system_help` |
-
-The only repeated row key in this static traversal is `pref_notification_access`
-on When to read, Stop reading and Schedules. These are conditional permission
-shortcuts for features that need notification access, rather than duplicate
-stored choices.
-
-Generated screens are assessed separately: voice profile lists and editors,
-notification app filters, substitutions, rules and history, direct-touch app
-lists, dictation models, sound themes and individual feedback, AI providers and
-models, quick settings items, status ordering, scripts and custom labels. Their
-object editors remain nested because they configure the selected profile, app,
-rule, model, theme, script or label. Script-defined settings can supply their own
-schema and are not fixed rows in the application's XML.
-
-The relocated typing controls retain the engine and feature checks for keyboard
-caching, and long-press timing is disabled for double-tap typing. Notification
-numeric choices are initialized by the same shared settings implementation on
-their new pages. CI regression tests cover these behaviors and reset scope.
-
-The navigation landing page has no direct switches or lists. Its five destinations
-are separate topics rather than a mixture of inline controls and deeper editors.
-Direct touch uses its actual class in the `directtouch` package. CI verifies all
-five destination classes and opens the direct-touch page, checks that backups and
-reset actions stay together, verifies cancellation of application reset, and
-checks the relocated unlabelled-button reading setting.
+CI selects the relevant settings tests from the changed paths. Coverage checks main navigation and page destinations, the settings search index, selector settings, direct-touch backup/import behavior, subtitle options, and the exact response/reset scopes. GitHub Actions runs builds, selected tests and lint; the owner checks screen-reader focus and navigation on a phone using the published dev build.

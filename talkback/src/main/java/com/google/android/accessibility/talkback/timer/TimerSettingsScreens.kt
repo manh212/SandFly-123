@@ -33,7 +33,7 @@ import java.util.Date
  * the notification schedules screen they were on, and the stopwatch below them.
  */
 class TimerSettingsFragment :
-  NotificationXmlFragment(R.xml.timer_preferences, R.string.timer_settings_title) {
+  NotificationXmlFragment(R.xml.timer_preferences, R.string.title_pref_clock_stopwatch) {
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
@@ -77,17 +77,17 @@ class StopwatchHistoryFragment : NotificationCodeFragment(R.string.stopwatch_his
     }
     val list = screen.category(R.string.stopwatch_history_title)
     if (entries.isEmpty()) {
-      list.action(getString(R.string.stopwatch_history_empty)) {}
+      list.information(getString(R.string.stopwatch_history_empty))
       return
     }
     val date = DateFormat.getDateFormat(context)
     val time = DateFormat.getTimeFormat(context)
     for (entry in entries) {
       val started = Date(entry.startedAtMillis)
-      list.action(
+      list.information(
         "${date.format(started)}, ${time.format(started)}",
         Stopwatch.formatElapsed(context, entry.durationMillis),
-      ) {}
+      )
     }
   }
 }

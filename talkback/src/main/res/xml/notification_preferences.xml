@@ -1,20 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Settings > Notifications. -->
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_speak_notifications_default"
-      android:key="@string/pref_speak_notifications_key"
-      android:summary="@string/summary_pref_speak_notifications"
-      android:title="@string/title_pref_speak_notifications" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationReadingFragment"
       android:key="pref_notification_reading_screen"
       android:title="@string/notification_reading_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.monitor.FullScreenMonitorSettingsFragment"
-      android:key="pref_full_screen_monitor"
-      android:title="@string/full_screen_monitor_title"
-      android:summary="@string/full_screen_monitor_summary" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationAppsFragment"
       android:key="pref_notification_apps_screen"
@@ -23,6 +12,10 @@
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationWordsFragment"
       android:key="pref_notification_words_screen"
       android:title="@string/notification_words_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationFilterFragment"
+      android:key="pref_notification_filter_screen"
+      android:title="@string/notification_filter_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationKindsFragment"
       android:key="pref_notification_kinds_screen"
@@ -51,23 +44,12 @@
       android:fragment="com.google.android.accessibility.talkback.notifications.NotificationHistoryFragment"
       android:key="pref_notification_history_screen"
       android:title="@string/notification_history_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_notification_list_default"
-      android:key="@string/pref_notification_list_key"
-      android:title="@string/title_pref_notification_list"/>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.notificationlist.NotificationPartsFragment"
-      android:key="@string/pref_notification_parts_key"
-      android:title="@string/title_pref_notification_parts"/>
+      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationListSettingsFragment"
+      android:key="pref_notification_list_settings"
+      android:title="@string/title_pref_notification_list_settings" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_notification_test"
-      android:title="@string/notification_test_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="false"
-      android:key="pref_notification_automation_allowed"
-      android:title="@string/notification_automation_allowed_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_notification_automation"
-      android:dependency="pref_notification_automation_allowed"
+      android:fragment="com.google.android.accessibility.talkback.notifications.NotificationAutomationFragment"
+      android:key="pref_notification_automation_settings"
       android:title="@string/notification_automation_title" />
 </PreferenceScreen>

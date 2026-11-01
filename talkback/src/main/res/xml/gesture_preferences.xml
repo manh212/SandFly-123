@@ -5,10 +5,6 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:title="@string/practice_gestures_title"
       android:key="@string/pref_practice_gestures_entry_point_key" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:title="@string/reset_gesture_settings_title"
-      android:key="@string/pref_reset_gesture_settings_key"
-      app:allowDividerBelow="true"/>
   <ListPreference
       android:key="@string/pref_gesture_set_key"
       android:title="@string/pref_gesture_set_key_title"

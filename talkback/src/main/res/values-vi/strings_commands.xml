@@ -4,7 +4,7 @@
     <string name="command_add_gesture">Thêm cử chỉ</string>
     <string name="command_choose_arrow_keys">Chọn phím mũi tên</string>
     <string name="command_choose_gesture">Chọn cử chỉ</string>
-    <string name="title_pref_app_gestures">Cử chỉ trong ứng dụng</string>
+    <string name="title_pref_app_gestures">Gán lệnh theo ứng dụng</string>
     <string name="app_gestures_add_app">Thêm ứng dụng</string>
     <string name="app_gestures_remove_app">Xóa ứng dụng</string>
     <string name="app_gestures_choose_command">Chọn lệnh</string>

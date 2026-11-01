@@ -2,6 +2,11 @@
 <PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="@bool/pref_speak_notifications_default"
+      android:key="@string/pref_speak_notifications_key"
+      android:summary="@string/summary_pref_speak_notifications"
+      android:title="@string/title_pref_speak_notifications" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/notification_category_said">
     <EditTextPreference
         android:dialogMessage="@string/notification_format_message"
@@ -82,4 +87,7 @@
         android:summary="%s"
         android:title="@string/notification_max_characters_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_notification_test"
+      android:title="@string/notification_test_title" />
 </PreferenceScreen>

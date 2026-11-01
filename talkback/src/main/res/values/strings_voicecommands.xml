@@ -231,10 +231,6 @@
   <string name="voice_commands_decrease_speech_rate">decrease speech rate</string>
   <!-- Voice-shortcut command word that is homophone of high and hi.  [CHAR_LIMIT=30] -->
   <string name="voice_commands_homophone_high_and_hi" translatable="false">Hi</string>
-  <!-- Voice-shortcut command word to start Gemini.  [CHAR_LIMIT=30] -->
-  <string name="voice_commands_gemini" translatable="false">Gemini</string>
-
-
     <!-- Dialog message that explains to user the requested action is not supported yet. [CHAR_LIMIT=100] -->
     <string name="voice_commands_no_action">Voice shortcut not supported</string>
     <!-- Dialog message that explains to user that they do not have mic permissions on. [CHAR_LIMIT=100] -->

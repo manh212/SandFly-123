@@ -26,8 +26,6 @@ import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.shizuku.ShizukuGrants;
-import com.google.android.accessibility.utils.FormFactorUtils;
-import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 
 /** Settings for how touches focus and activate items. */
@@ -45,10 +43,6 @@ public class TouchActivationFragment extends TalkbackBaseFragment {
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
-    if (!FormFactorUtils.isAndroidWear()) {
-      PreferenceSettingsUtils.hidePreference(
-          getContext(), getPreferenceScreen(), R.string.pref_reserve_vibration_watch_gestures_key);
-    }
   }
 
   @Override

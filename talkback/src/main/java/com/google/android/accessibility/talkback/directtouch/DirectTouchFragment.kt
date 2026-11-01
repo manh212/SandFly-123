@@ -40,14 +40,12 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 import java.io.InputStream
 import java.util.concurrent.Executors
 
-/**
- * Settings for direct touch: the master switch, what Backtalk reports when it changes, the apps
- * that get raw touch, and backup and restore. Each app has an action that turns direct typing on
- * or off for it, which screen reader users reach from the actions menu.
- */
 class DirectTouchFragment : TalkbackBaseFragment() {
   private lateinit var prefs: SharedPreferences
   private var appsCategory: PreferenceCategory? = null
+  private val backupOnly: Boolean by lazy {
+    arguments?.getBoolean(ARG_BACKUP_ONLY, false) == true
+  }
 
   private val createBackup =
     registerForActivityResult(ActivityResultContracts.CreateDocument("application/json")) { uri ->
@@ -63,7 +61,8 @@ class DirectTouchFragment : TalkbackBaseFragment() {
       }
     }
 
-  public override fun getTitle(): CharSequence = getText(R.string.title_pref_direct_touch)
+  public override fun getTitle(): CharSequence =
+    getText(if (backupOnly) R.string.title_pref_direct_touch_backup else R.string.title_pref_direct_touch)
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     prefs = SharedPreferencesUtils.getSharedPreferences(requireContext())
@@ -73,52 +72,58 @@ class DirectTouchFragment : TalkbackBaseFragment() {
   private fun buildScreen() {
     val context = requireContext()
     val screen = preferenceManager.createPreferenceScreen(context)
-    screen.addPreference(
-      switchPreference(
-        context,
-        DirectTouchSettings.PREF_MASTER,
-        R.string.pref_direct_touch_master,
-        R.string.pref_direct_touch_master_summary,
-        DirectTouchSettings.isMasterEnabled(prefs),
+    if (!backupOnly) {
+      screen.addPreference(
+        switchPreference(
+          context,
+          DirectTouchSettings.PREF_MASTER,
+          R.string.pref_direct_touch_master,
+          R.string.pref_direct_touch_master_summary,
+          DirectTouchSettings.isMasterEnabled(prefs),
+        )
       )
-    )
-    screen.addPreference(
-      switchPreference(
-        context,
-        DirectTouchSettings.PREF_SPEECH,
-        R.string.pref_direct_touch_speech,
-        null,
-        DirectTouchSettings.isSpeechEnabled(prefs),
+      screen.addPreference(
+        switchPreference(
+          context,
+          DirectTouchSettings.PREF_SPEECH,
+          R.string.pref_direct_touch_speech,
+          null,
+          DirectTouchSettings.isSpeechEnabled(prefs),
+        )
       )
-    )
-    screen.addPreference(
-      switchPreference(
-        context,
-        DirectTouchSettings.PREF_HAPTICS,
-        R.string.pref_direct_touch_haptics,
-        null,
-        DirectTouchSettings.isHapticsEnabled(prefs),
+      screen.addPreference(
+        switchPreference(
+          context,
+          DirectTouchSettings.PREF_HAPTICS,
+          R.string.pref_direct_touch_haptics,
+          null,
+          DirectTouchSettings.isHapticsEnabled(prefs),
+        )
       )
-    )
-    screen.addPreference(
-      actionPreference(context, R.string.pref_direct_touch_backup) {
-        createBackup.launch(BACKUP_FILE_NAME)
-      }
-    )
-    screen.addPreference(
-      actionPreference(context, R.string.pref_direct_touch_restore) {
-        openBackup.launch(arrayOf("application/json", "text/plain"))
-      }
-    )
-    val category =
-      PreferenceCategory(context).apply {
-        setTitle(R.string.direct_touch_apps_category)
-        isIconSpaceReserved = false
-      }
-    screen.addPreference(category)
-    appsCategory = category
+    }
+    if (backupOnly) {
+      screen.addPreference(
+        actionPreference(context, R.string.pref_direct_touch_backup) {
+          createBackup.launch(BACKUP_FILE_NAME)
+        }
+      )
+      screen.addPreference(
+        actionPreference(context, R.string.pref_direct_touch_restore) {
+          openBackup.launch(arrayOf("application/json", "text/plain"))
+        }
+      )
+    }
+    if (!backupOnly) {
+      val category =
+        PreferenceCategory(context).apply {
+          setTitle(R.string.direct_touch_apps_category)
+          isIconSpaceReserved = false
+        }
+      screen.addPreference(category)
+      appsCategory = category
+    }
     preferenceScreen = screen
-    loadApps(context)
+    if (!backupOnly) loadApps(context)
   }
 
   private fun switchPreference(
@@ -289,7 +294,8 @@ class DirectTouchFragment : TalkbackBaseFragment() {
     }
   }
 
-  private companion object {
+  companion object {
+    const val ARG_BACKUP_ONLY = "backup_only"
     const val BACKUP_FILE_NAME = "backtalk-direct-touch.json"
     const val MAX_BACKUP_BYTES = 5 * 1024 * 1024
     val ACTION_TYPING = R.id.accessibility_custom_action_0

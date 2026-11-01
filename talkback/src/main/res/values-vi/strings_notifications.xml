@@ -177,7 +177,7 @@
     <string name="stopwatch_sound_title">Âm thanh</string>
     <string name="stopwatch_vibration_title">Rung</string>
     <string name="stopwatch_interval_title">Nhắc lại mỗi</string>
-    <string name="stopwatch_history_title">Lịch sử hẹn giờ</string>
+    <string name="stopwatch_history_title">Lịch sử bấm giờ</string>
     <string name="stopwatch_history_clear">Xóa lịch sử</string>
     <string name="stopwatch_history_empty">Chưa có lần bấm giờ nào</string>
     <string name="stopwatch_started">Đã bắt đầu bấm giờ</string>

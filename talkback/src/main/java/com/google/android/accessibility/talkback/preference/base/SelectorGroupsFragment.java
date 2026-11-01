@@ -535,21 +535,11 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     List<Group> groups = SelectorGroupManager.getGroups(context);
     if (isChecked) {
       Group source = null;
-      if (!SelectorGroupManager.USER_GROUP_ID.equals(groupId)) {
-        for (Group group : groups) {
-          if (!SelectorGroupManager.USER_GROUP_ID.equals(group.id)
-              && !group.id.equals(groupId)
-              && group.items.contains(itemId)) {
-            source = group;
-            break;
-          }
+      for (Group group : groups) {
+        if (!group.id.equals(groupId) && group.items.contains(itemId)) {
+          source = group;
+          break;
         }
-      }
-      if (source != null && source.items.size() <= 1) {
-        list.setItemChecked(index, false);
-        showMessage(R.string.selector_group_move_last_item_error);
-        adapter.notifyDataSetChanged();
-        return;
       }
       if (source == null) {
         if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
@@ -708,11 +698,9 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     for (int index = 0; index < items.size(); index++) {
       ItemInfo item = items.get(index);
       Group source = null;
-      if (groups != null && !SelectorGroupManager.USER_GROUP_ID.equals(targetGroupId)) {
+      if (groups != null) {
         for (Group group : groups) {
-          if (!SelectorGroupManager.USER_GROUP_ID.equals(group.id)
-              && !group.id.equals(targetGroupId)
-              && group.items.contains(item.id)) {
+          if (!group.id.equals(targetGroupId) && group.items.contains(item.id)) {
             source = group;
             break;
           }

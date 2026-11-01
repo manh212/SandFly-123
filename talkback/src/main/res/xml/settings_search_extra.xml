@@ -14,9 +14,11 @@
     <item title="@string/pref_direct_touch_master" />
     <item title="@string/pref_direct_touch_speech" />
     <item title="@string/pref_direct_touch_haptics" />
+    <item title="@string/direct_touch_apps_category" />
+  </screen>
+  <screen fragment="com.google.android.accessibility.talkback.directtouch.DirectTouchFragment" title="@string/title_pref_direct_touch_backup" backup_only="true">
     <item title="@string/pref_direct_touch_backup" />
     <item title="@string/pref_direct_touch_restore" />
-    <item title="@string/direct_touch_apps_category" />
   </screen>
   <screen fragment="com.google.android.accessibility.talkback.individualfeedback.IndividualFeedbackFragment" title="@string/title_pref_individual_feedback">
     <item title="@string/individual_feedback_sounds_category" />
@@ -47,8 +49,6 @@
   <screen fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment" title="@string/title_pref_voice_profiles">
     <item title="@string/title_pref_voice_profile_in_use" />
     <item title="@string/title_pref_add_voice_profile" />
-    <item title="@string/voice_profile_rename" />
-    <item title="@string/voice_profile_delete" />
     <item title="@string/voice_profile_move_up" />
     <item title="@string/voice_profile_move_down" />
   </screen>

@@ -9,15 +9,6 @@
         android:entries="@array/pref_verbosity_preset_entries"
         android:entryValues="@array/pref_verbosity_preset_values" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.TextToSpeechSettingsFragment"
-        android:key="@string/pref_tts_settings_key"
-        android:title="@string/tts_preferences_title" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-        android:fragment="com.google.android.accessibility.talkback.preference.base.VoiceProfilesFragment"
-        android:key="@string/pref_voice_profiles_screen_key"
-        android:persistent="false"
-        android:title="@string/title_pref_voice_profiles" />
-    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.status.StatusReadoutFragment"
         android:key="@string/pref_status_readout_key"
         android:title="@string/title_pref_status_readout" />
@@ -39,6 +30,11 @@
         android:title="@string/title_pref_always_interrupt_speech"
         android:summary="@string/summary_pref_always_interrupt_speech"
         android:key="pref_always_interrupt_speech" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.monitor.FullScreenMonitorSettingsFragment"
+        android:key="pref_full_screen_monitor"
+        android:summary="@string/full_screen_monitor_summary"
+        android:title="@string/full_screen_monitor_title" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_spoken_item_information"
@@ -66,14 +62,6 @@
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_speech_text_options"
       android:title="@string/title_pref_reading_text">
-    <ListPreference
-        android:defaultValue="@string/pref_phonetic_letters_mode_default"
-        android:dialogTitle="@string/title_pref_phonetic_letters_mode"
-        android:entries="@array/pref_phonetic_letters_mode_entries"
-        android:entryValues="@array/pref_phonetic_letters_mode_values"
-        android:key="@string/pref_phonetic_letters_mode_key"
-        android:summary="%s"
-        android:title="@string/title_pref_phonetic_letters_mode" />
     <ListPreference
         android:defaultValue="@string/pref_capital_letters_default"
         android:entries="@array/pref_capital_letters_entries"

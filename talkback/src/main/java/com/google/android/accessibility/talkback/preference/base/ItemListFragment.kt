@@ -410,7 +410,7 @@ abstract class ItemListFragment(xmlResId: Int) : TalkbackBaseFragment(xmlResId) 
       title = title(itemKey)
       summary = items[itemKey]?.summary
       setOnPreferenceClickListener {
-        if (searchQuery.isNotBlank()) remove(itemKey) else showActions(itemKey)
+        showActions(itemKey)
         true
       }
     }

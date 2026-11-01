@@ -8,6 +8,12 @@
         android:key="pref_initial_setup_screen"
         android:title="@string/timer_setup_title" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_open_accessibility_settings"
+        android:title="@string/title_open_accessibility_settings">
+      <intent android:action="android.settings.ACCESSIBILITY_SETTINGS" />
+    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.preference.base.TutorialAndHelpFragment"
         android:key="@string/pref_tutorial_and_help_key"
         android:title="@string/title_pref_category_tutorial" />

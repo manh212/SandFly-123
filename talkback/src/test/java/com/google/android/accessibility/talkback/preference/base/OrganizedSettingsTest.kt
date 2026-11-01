@@ -2,12 +2,14 @@ package com.google.android.accessibility.talkback.preference.base
 
 import android.accessibilityservice.AccessibilityService
 import android.content.SharedPreferences
+import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.TwoStatePreference
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.directtouch.DirectTouchFragment
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping
 import com.google.android.accessibility.talkback.gesture.ReverseSwipeSettings
 import com.google.android.accessibility.talkback.focusmanagement.FocusProcessorForTapAndTouchExploration.DOUBLE_TAP
@@ -255,10 +257,27 @@ class OrganizedSettingsTest {
     val row = requireNotNull(fragment.findPreference<Preference>(activity.getString(R.string.pref_direct_touch_key)))
     val directTouch = activity.supportFragmentManager.fragmentFactory.instantiate(
       activity.classLoader, requireNotNull(row.fragment),
-    ) as TalkbackBaseFragment
+    ) as DirectTouchFragment
     assertEquals("com.google.android.accessibility.talkback.directtouch.DirectTouchFragment", directTouch.javaClass.name)
     open(directTouch)
     assertTrue(directTouch.preferenceScreen.preferenceCount > 0)
+    val directTouchTitles = (0 until directTouch.preferenceScreen.preferenceCount)
+      .map { directTouch.preferenceScreen.getPreference(it).title.toString() }
+    assertFalse(directTouchTitles.contains(activity.getString(R.string.pref_direct_touch_backup)))
+    assertFalse(directTouchTitles.contains(activity.getString(R.string.pref_direct_touch_restore)))
+
+    val backupOnly = DirectTouchFragment().apply {
+      arguments = Bundle().apply { putBoolean(DirectTouchFragment.ARG_BACKUP_ONLY, true) }
+    }
+    open(backupOnly)
+    assertEquals(
+      listOf(
+        activity.getString(R.string.pref_direct_touch_backup),
+        activity.getString(R.string.pref_direct_touch_restore),
+      ),
+      (0 until backupOnly.preferenceScreen.preferenceCount)
+        .map { backupOnly.preferenceScreen.getPreference(it).title.toString() },
+    )
   }
 
   @Test

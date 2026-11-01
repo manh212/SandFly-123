@@ -372,7 +372,6 @@
     <!-- Main settings group for system options, updates and help. [CHAR LIMIT=40] -->
     <string name="title_pref_group_system_help">System and help</string>
     <!-- Main settings group for items that belong to no other group. [CHAR LIMIT=40] -->
-    <string name="title_pref_group_other">Other settings</string>
     <!-- Title for preference that controls the volume of TalkBack's speech output. [CHAR LIMIT=25] -->
     <string name="title_pref_speech_volume">Speech volume</string>
     <!--
@@ -1629,11 +1628,6 @@
     -->
     <string name="title_pref_auto_image_captioning">Automatic descriptions</string>
 
-  <!--
-  Source: Preference title.
-  Description: This preference to control Gemini feature. [CHAR_LIMIT=NONE]
-  -->
-    <string name="title_pref_gemini_settings">Gemini settings</string>
     <!-- Title for the offline translation settings screen. [CHAR_LIMIT=NONE] -->
     <string name="title_pref_offline_translation_settings">Offline translation</string>
     <!-- Title for the source language preference of offline translation. [CHAR_LIMIT=NONE] -->
@@ -1658,12 +1652,6 @@
     <string name="offline_translation_pack_not_downloaded_announcement">Language pack not downloaded</string>
     <!-- Announcement when a translation fails. [CHAR_LIMIT=NONE] -->
     <string name="offline_translation_failed">Translation failed</string>
-
-    <!--
-    Source: Preference title.
-    Description: This preference to control Gemini feature. [CHAR_LIMIT=NONE]
-    -->
-    <string name="title_pref_gemini_enabled">Gemini voice commands</string>
 
   <!--
   Source: Preference title.
@@ -1821,25 +1809,21 @@
     Source: Option text for the "Gemini support" setting.
     Description: To turn on the feature. [CHAR LIMIT=NONE]
   -->
-  <string name="title_pref_enable_gemini_support">On</string>
 
   <!--
     Source: Option text for the "Gemini support" setting.
     Description: To turn off the feature. [CHAR LIMIT=NONE]
   -->
-  <string name="title_pref_disable_gemini_support">Off</string>
 
   <!--
     Source: Summary subtext for the "Gemini support" setting.
     Description: Explains whether user has opted in Gemini . [CHAR LIMIT=NONE]
   -->
-    <string name="summary_pref_gemini_support_enabled">Gemini is enabled</string>
 
   <!--
     Source: Summary subtext for the "Gemini support" setting.
     Description: Explains whether user has opted in Gemini . [CHAR LIMIT=NONE]
   -->
-  <string name="summary_pref_gemini_support_disabled">Gemini is disabled</string>
 
   <!--
     Source: A value for announcing screen has been dimmed.
@@ -4236,7 +4220,6 @@
   <!-- The subtitle of the dialog to disable/enable of the icon-detection module. [CHAR_LIMIT=NONE]-->
   <string name="switch_auto_image_caption_dialog_subtitle">Downloaded</string>
   <!-- The button text of the dialog to accept to enable/disable of a module. [CHAR_LIMIT=NONE]-->
-  <string name="switch_auto_image_caption_dialog_positive_button_text">OK</string>
   <!-- The button text of the dialog to delete of a module. [CHAR_LIMIT=NONE]-->
   <string name="switch_auto_image_caption_dialog_negative_button_text">Delete download</string>
   <!-- The title of the dialog to confirm the deletion of the icon-detection module. [CHAR_LIMIT=NONE]-->
@@ -4260,9 +4243,7 @@
   <!-- The hint of the image-description module has been deleted. [CHAR_LIMIT=NONE]-->
   <string name="delete_all_image_captioning_hint">Automatic image &amp; icon descriptions deleted</string>
   <!-- The title of the dialog to disable/enable of the Gemini support. [CHAR_LIMIT=NONE]-->
-  <string name="gemini_enable_dialog_title">Use Gemini in Meridian</string>
   <!-- The message of the dialog to disable/enable of the Gemini support. [CHAR_LIMIT=NONE]-->
-  <string name="gemini_disable_dialog_message">Screen understanding with Gemini</string>
   <!-- The subtext of the dialog to disable Gemini feature. [CHAR_LIMIT=NONE]-->
   <string name="disable_gemini_dialog_subtext">Turn on to enable screen understanding with Gemini</string>
 

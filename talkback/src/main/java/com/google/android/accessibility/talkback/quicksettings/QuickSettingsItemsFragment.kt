@@ -28,6 +28,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.view.ViewCompat
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat.AccessibilityActionCompat
 import androidx.preference.Preference
+import androidx.preference.SwitchPreferenceCompat
 import androidx.preference.PreferenceViewHolder
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.notificationlist.NotificationReplyActivity.Companion.keepButtonCase
@@ -68,6 +69,15 @@ class QuickSettingsItemsFragment : TalkbackBaseFragment() {
     items.addAll(saved.filter { isAvailable(it) })
     unavailable = saved.filterNot { isAvailable(it) }
     val screen = preferenceManager.createPreferenceScreen(context)
+    screen.addPreference(
+      SwitchPreferenceCompat(context).apply {
+        key = getString(R.string.pref_quick_settings_key)
+        setDefaultValue(resources.getBoolean(R.bool.pref_quick_settings_default))
+        setTitle(R.string.title_pref_quick_settings)
+        order = -1
+        isIconSpaceReserved = false
+      }
+    )
     items.forEachIndexed { index, item ->
       screen.addPreference(ItemPreference(context, item).apply { order = index })
     }

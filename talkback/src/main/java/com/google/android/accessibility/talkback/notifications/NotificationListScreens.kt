@@ -82,6 +82,20 @@ abstract class NotificationCodeFragment(@StringRes private val title: Int) : Tal
       addPreference(it)
     }
 
+  protected fun PreferenceGroup.information(
+    title: CharSequence,
+    summary: CharSequence? = null,
+  ): Preference =
+    Preference(context).also {
+      it.title = title
+      it.summary = summary
+      it.isPersistent = false
+      it.isSelectable = false
+      it.isIconSpaceReserved = false
+      it.layoutResource = R.layout.listitem_2texts
+      addPreference(it)
+    }
+
   protected fun PreferenceGroup.action(
     title: CharSequence,
     summary: CharSequence? = null,
@@ -239,6 +253,7 @@ abstract class NotificationCodeFragment(@StringRes private val title: Int) : Tal
 
   companion object {
     const val ARG_PACKAGE = "package"
+    const val ARG_SUGGESTED_MODE = "suggested_mode"
 
     fun modeText(context: Context, mode: AppMode): String =
       context.getString(
@@ -312,7 +327,7 @@ class NotificationAppsFragment : NotificationCodeFragment(R.string.notification_
     val apps = screen.category(R.string.notification_apps_category)
     val list = installed
     if (list == null) {
-      apps.action(getString(R.string.notification_apps_loading)) {}
+      apps.information(getString(R.string.notification_apps_loading))
       loadApps(context)
       return
     }
@@ -370,6 +385,19 @@ class NotificationAppFragment : NotificationCodeFragment(R.string.notification_a
   override fun build(screen: PreferenceGroup) {
     val context = requireContext()
     val app = settings.app(packageName)
+    arguments?.getString(ARG_SUGGESTED_MODE)?.let { requested ->
+      val mode = AppMode.entries.firstOrNull { it.name == requested }
+      if (mode != null && mode != app.mode) {
+        screen.action(
+          getString(R.string.notification_history_mode_action, modeText(context, mode))
+        ) {
+          setApp(packageName) { it.copy(mode = mode) }
+          arguments?.remove(ARG_SUGGESTED_MODE)
+          rebuild()
+          toast(R.string.notification_saved)
+        }
+      }
+    }
     val modes = AppMode.entries
     screen.action(getString(R.string.notification_app_mode_title), modeText(context, app.mode)) {
       choose(getString(R.string.notification_app_mode_title), modes.map { modeText(context, it) }, modes.indexOf(app.mode)) { index ->
@@ -441,7 +469,13 @@ class NotificationWordsFragment : NotificationCodeFragment(R.string.notification
   override fun build(screen: PreferenceGroup) {
     val settings = settings
     matchList(screen, R.string.notification_required_title, NotificationSettings.Companion.Keys.REQUIRED, settings.requiredWords)
-    matchList(screen, R.string.notification_blocked_title, NotificationSettings.Companion.Keys.BLOCKED, settings.blockedWords)
+    matchList(
+      screen,
+      R.string.notification_blocked_title,
+      NotificationSettings.Companion.Keys.BLOCKED,
+      settings.blockedWords,
+      arguments?.getString(ARG_PREFILL_BLOCKED_PATTERN),
+    )
     matchList(screen, R.string.notification_private_title, NotificationSettings.Companion.Keys.PRIVATE, settings.privateWords)
     val replacements = screen.category(R.string.notification_replacements_title)
     replacements.action(getString(R.string.notification_add_replacement)) { editReplacement(settings.replacements, -1) }
@@ -456,8 +490,19 @@ class NotificationWordsFragment : NotificationCodeFragment(R.string.notification
     }
   }
 
-  private fun matchList(screen: PreferenceGroup, @StringRes title: Int, key: String, list: List<TextMatch>) {
+  private fun matchList(
+    screen: PreferenceGroup,
+    @StringRes title: Int,
+    key: String,
+    list: List<TextMatch>,
+    prefillPattern: String? = null,
+  ) {
     val category = screen.category(title)
+    if (prefillPattern != null && list.none { it.text == prefillPattern && it.regex }) {
+      category.action(getString(R.string.notification_add_blocked_pattern, prefillPattern)) {
+        saveMatches(key, list + TextMatch(prefillPattern, regex = true))
+      }
+    }
     category.action(getString(R.string.notification_add_word)) { editMatch(key, list, -1) }
     list.forEachIndexed { index, match ->
       category.action(match.text, if (match.regex) getString(R.string.notification_regex) else null) {
@@ -513,6 +558,10 @@ class NotificationWordsFragment : NotificationCodeFragment(R.string.notification
     prefs.edit().putString(NotificationSettings.Companion.Keys.REPLACEMENTS, NotificationSettings.replacementsToJson(list)).apply()
     rebuild()
   }
+
+  companion object {
+    const val ARG_PREFILL_BLOCKED_PATTERN = "prefill_blocked_pattern"
+  }
 }
 
 /**
@@ -546,7 +595,7 @@ class NotificationHistoryFragment : NotificationCodeFragment(R.string.notificati
     }
     val list = screen.category(R.string.notification_history_category)
     if (entries.isEmpty()) {
-      list.action(getString(R.string.notification_history_empty)) {}
+      list.information(getString(R.string.notification_history_empty))
       return
     }
     val time = DateFormat.getTimeFormat(context)
@@ -566,35 +615,70 @@ class NotificationHistoryFragment : NotificationCodeFragment(R.string.notificati
     val packageName = entry.info.packageName
     val similar = entry.info.text.ifBlank { entry.info.title }
     val actions =
-      listOf<Pair<CharSequence, () -> Unit>>(
-        getString(R.string.notification_history_ignore_app, app) to {
-          setApp(packageName) { it.copy(mode = AppMode.IGNORE) }
-          toast(R.string.notification_saved)
-        },
-        getString(R.string.notification_history_private_app, app) to {
-          setApp(packageName) { it.copy(mode = AppMode.PRIVATE) }
-          toast(R.string.notification_saved)
-        },
-        getString(R.string.notification_history_priority_app, app) to {
-          setApp(packageName) { it.copy(mode = AppMode.PRIORITY) }
-          toast(R.string.notification_saved)
-        },
-        getString(R.string.notification_history_block_similar) to {
-          val pattern = NotificationText.similarPattern(similar)
-          val blocked = settings.blockedWords + TextMatch(pattern, regex = true)
-          prefs.edit().putString(NotificationSettings.Companion.Keys.BLOCKED, NotificationSettings.matchesToJson(blocked)).apply()
-          toast(R.string.notification_saved)
-        },
-        getString(R.string.notification_history_copy) to {
-          context.getSystemService(ClipboardManager::class.java)
-            ?.setPrimaryClip(ClipData.newPlainText(app, listOf(entry.info.title, entry.info.content).filter { it.isNotBlank() }.joinToString("\n")))
-          toast(R.string.notification_copied)
-        },
-      )
-    choose(listOf(app, entry.info.title).filter { it.isNotBlank() }.joinToString(": "), actions.map { it.first }) {
+      buildList<Pair<CharSequence, () -> Unit>> {
+        add(
+          getString(R.string.notification_history_ignore_app, app) to {
+            openAppSettings(packageName, AppMode.IGNORE)
+          }
+        )
+        add(
+          getString(R.string.notification_history_private_app, app) to {
+            openAppSettings(packageName, AppMode.PRIVATE)
+          }
+        )
+        add(
+          getString(R.string.notification_history_priority_app, app) to {
+            openAppSettings(packageName, AppMode.PRIORITY)
+          }
+        )
+        if (similar.isNotBlank()) {
+          add(
+            getString(R.string.notification_history_block_similar) to {
+              val preference =
+                Preference(requireContext()).apply {
+                  fragment = NotificationWordsFragment::class.java.name
+                  extras.putString(
+                    NotificationWordsFragment.ARG_PREFILL_BLOCKED_PATTERN,
+                    NotificationText.similarPattern(similar),
+                  )
+                }
+              onPreferenceTreeClick(preference)
+            }
+          )
+        }
+        add(
+          getString(R.string.notification_history_copy) to {
+            context.getSystemService(ClipboardManager::class.java)
+              ?.setPrimaryClip(
+                ClipData.newPlainText(
+                  app,
+                  listOf(entry.info.title, entry.info.content)
+                    .filter { it.isNotBlank() }
+                    .joinToString("\n"),
+                )
+              )
+            toast(R.string.notification_copied)
+          }
+        )
+      }
+    choose(
+      listOf(app, entry.info.title).filter { it.isNotBlank() }.joinToString(": "),
+      actions.map { it.first },
+    ) {
       actions[it].second()
     }
   }
+
+  private fun openAppSettings(packageName: String, mode: AppMode) {
+    val preference =
+      Preference(requireContext()).apply {
+        fragment = NotificationAppFragment::class.java.name
+        extras.putString(NotificationCodeFragment.ARG_PACKAGE, packageName)
+        extras.putString(NotificationCodeFragment.ARG_SUGGESTED_MODE, mode.name)
+      }
+    onPreferenceTreeClick(preference)
+  }
+
 }
 
 /** The names of the voice profiles, by ID, as the voice profile settings show them. */

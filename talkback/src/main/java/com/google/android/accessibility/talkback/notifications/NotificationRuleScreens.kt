@@ -55,7 +55,7 @@ class NotificationRulesFragment : NotificationCodeFragment(R.string.notification
     }
     val list = screen.category(R.string.notification_rules_category)
     val rules = settings.rules
-    if (rules.isEmpty()) list.action(getString(R.string.notification_rules_empty)) {}
+    if (rules.isEmpty()) list.information(getString(R.string.notification_rules_empty))
     for (rule in rules) {
       val summary =
         listOf(

@@ -16,7 +16,6 @@
 
 package com.google.android.accessibility.talkback.notifications
 
-import android.os.Bundle
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 
@@ -24,8 +23,4 @@ import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFra
 class NotificationsFragment : TalkbackBaseFragment(R.xml.notification_preferences) {
   override fun getTitle(): CharSequence = getString(R.string.notification_category_title)
 
-  override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
-    super.onCreatePreferences(savedInstanceState, rootKey)
-    NotificationSettingsEntries.setUpPreferences(this)
-  }
 }

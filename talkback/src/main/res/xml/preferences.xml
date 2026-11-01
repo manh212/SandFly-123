@@ -5,21 +5,25 @@
       android:key="pref_updates_screen"
       android:title="@string/title_pref_updates" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.TextToSpeechSettingsFragment"
+      android:key="@string/pref_tts_settings_key"
+      android:title="@string/title_pref_voice_settings" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.SpeechGroupFragment"
       android:key="@string/pref_settings_group_speech_key"
-      android:title="@string/title_pref_group_speech" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.GesturesShortcutsGroupFragment"
-      android:key="@string/pref_settings_group_gestures_shortcuts_key"
-      android:title="@string/title_pref_group_gestures_shortcuts" />
+      android:title="@string/title_pref_reading_content" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.NavigationGroupFragment"
       android:key="@string/pref_settings_group_navigation_key"
       android:title="@string/title_pref_group_navigation" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.GesturesShortcutsGroupFragment"
+      android:key="@string/pref_settings_group_gestures_shortcuts_key"
+      android:title="@string/title_pref_group_gestures_shortcuts" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.MenuControlsGroupFragment"
       android:key="@string/pref_settings_group_menu_controls_key"
-      android:title="@string/title_pref_group_menu_controls" />
+      android:title="@string/title_pref_menu_panels" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.SoundAndVibrationFragment"
       android:key="@string/pref_sound_and_vibration_key"
@@ -33,22 +37,25 @@
       android:key="@string/pref_settings_group_typing_key"
       android:title="@string/title_pref_group_typing" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.AppsGroupFragment"
-      android:key="@string/pref_settings_group_apps_key"
-      android:title="@string/title_pref_group_apps" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:fragment="com.google.android.accessibility.talkback.preference.base.ToolsGroupFragment"
-      android:key="pref_settings_group_tools"
-      android:title="@string/title_pref_tools" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.ScreenInfoGroupFragment"
       android:key="@string/pref_settings_group_screen_info_key"
-      android:title="@string/title_pref_descriptions_ai" />
+      android:title="@string/title_pref_recognition_ai" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_open_accessibility_settings"
-      android:title="@string/title_open_accessibility_settings">
-    <intent android:action="android.settings.ACCESSIBILITY_SETTINGS" />
-  </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
+      android:fragment="com.google.android.accessibility.talkback.translation.TranslationFragment"
+      android:key="@string/pref_offline_translation_settings_key"
+      android:title="@string/title_pref_translation" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.timer.TimerSettingsFragment"
+      android:key="pref_timer_settings_screen"
+      android:title="@string/title_pref_clock_stopwatch" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.taskassistant.TaskAssistantFragment"
+      android:key="task_assistant"
+      android:title="@string/title_pref_task_assistant" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.AppsGroupFragment"
+      android:key="@string/pref_settings_group_apps_key"
+      android:title="@string/title_pref_scripts_labels" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.BackupResetFragment"
       android:key="pref_backup_reset_screen"

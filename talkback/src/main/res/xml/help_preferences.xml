@@ -8,9 +8,6 @@
       android:key="@string/pref_tutorial_entry_point_key"
       android:title="@string/tutorial_entry_point_title" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_practice_gestures_entry_point_key"
-      android:title="@string/practice_gestures_title" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:title="@string/meridian_contact_title">
     <intent
         android:action="android.intent.action.VIEW"

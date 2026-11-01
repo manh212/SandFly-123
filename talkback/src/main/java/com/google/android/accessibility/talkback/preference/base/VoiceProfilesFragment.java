@@ -28,7 +28,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -37,7 +36,6 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.PopupMenu;
 import androidx.core.view.ViewCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
@@ -251,21 +249,6 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
         this::add);
   }
 
-  private void askForRename(String id) {
-    askForName(
-        requireContext(),
-        prefs,
-        R.string.voice_profile_rename,
-        id,
-        nameOf(id),
-        name -> {
-          if (VoiceProfiles.rename(prefs, id, name, getString(R.string.voice_profile_default))) {
-            reloadRows();
-            updateInUse();
-          }
-        });
-  }
-
   /** Receives a name from {@link #askForName}, never blank and never another profile's. */
   interface NameListener {
     void onName(String name);
@@ -376,44 +359,6 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
     reloadRows();
     updateInUse();
     open(id);
-  }
-
-  private void confirmDelete(String id) {
-    String name = nameOf(id);
-    new AlertDialog.Builder(requireContext())
-        .setMessage(getString(R.string.voice_profile_delete_confirm, name))
-        .setPositiveButton(
-            R.string.voice_profile_delete,
-            (dialog, which) -> {
-              VoiceProfiles.delete(prefs, id);
-              if (wear) {
-                addWatchRows();
-              } else {
-                profiles.remove(id);
-              }
-              updateInUse();
-              getListView()
-                  .announceForAccessibility(getString(R.string.voice_profile_deleted, name));
-            })
-        .setNegativeButton(android.R.string.cancel, null)
-        .show();
-  }
-
-  /** The menu a long press shows, for those who don't use a screen reader's actions. */
-  private void showMenu(View anchor, String id) {
-    PopupMenu menu = new PopupMenu(requireContext(), anchor);
-    menu.getMenu().add(Menu.NONE, R.string.voice_profile_rename, 0, R.string.voice_profile_rename);
-    menu.getMenu().add(Menu.NONE, R.string.voice_profile_delete, 1, R.string.voice_profile_delete);
-    menu.setOnMenuItemClickListener(
-        item -> {
-          if (item.getItemId() == R.string.voice_profile_rename) {
-            askForRename(id);
-          } else {
-            confirmDelete(id);
-          }
-          return true;
-        });
-    menu.show();
   }
 
   /** Lines a dialog's text field up with its title. */
@@ -573,26 +518,7 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
                 getString(R.string.voice_profile_move_down),
                 (host, arguments) -> moveByAction(holder, 1)));
       }
-      holder.actionIds.add(
-          ViewCompat.addAccessibilityAction(
-              view,
-              getString(R.string.voice_profile_rename),
-              (host, arguments) -> {
-                if (holder.isProfile()) {
-                  askForRename(holder.id);
-                }
-                return true;
-              }));
-      holder.actionIds.add(
-          ViewCompat.addAccessibilityAction(
-              view,
-              getString(R.string.voice_profile_delete),
-              (host, arguments) -> {
-                if (holder.isProfile()) {
-                  confirmDelete(holder.id);
-                }
-                return true;
-              }));
+
     }
 
     private boolean moveByAction(RowHolder holder, int step) {
@@ -622,10 +548,7 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
     }
   }
 
-  /**
-   * Moves a profile when it is held and dragged. Holding one and letting go without moving it shows
-   * its menu instead.
-   */
+  /** Moves a profile when it is held and dragged. */
   private final class DragCallback extends ItemTouchHelper.Callback {
     private boolean moved;
 
@@ -708,8 +631,6 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
         moved = false;
         profiles.saveOrder();
         profiles.updateActions();
-      } else if (row.isProfile() && isAdded()) {
-        showMenu(row.itemView, row.id);
       }
     }
   }

@@ -1,15 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_export_settings_key"
-      android:title="@string/title_pref_backup_settings" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="@string/pref_import_settings_key"
-      android:title="@string/title_pref_restore_settings" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-    android:key="pref_reset_application"
-    android:title="@string/title_pref_reset_application" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:title="@string/title_pref_reset_responsiveness"
-      android:key="@string/pref_reset_latency_settings_key" />
+  <PreferenceCategory android:title="@string/backup_reset_backup_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_export_settings_key"
+        android:title="@string/title_pref_backup_settings" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_import_settings_key"
+        android:title="@string/title_pref_restore_settings" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.directtouch.DirectTouchFragment"
+        android:key="pref_direct_touch_backup"
+        android:title="@string/title_pref_direct_touch_backup" />
+  </PreferenceCategory>
+  <PreferenceCategory android:title="@string/backup_reset_reset_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:title="@string/title_pref_reset_responsiveness"
+        android:key="@string/pref_reset_latency_settings_key" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_menu_controls_reset"
+        android:title="@string/menu_controls_reset_title"
+        android:summary="@string/menu_controls_reset_summary" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="@string/pref_reset_gesture_settings_key"
+        android:title="@string/reset_gesture_settings_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_reset_application"
+        android:title="@string/title_pref_reset_application" />
+  </PreferenceCategory>
 </PreferenceScreen>
