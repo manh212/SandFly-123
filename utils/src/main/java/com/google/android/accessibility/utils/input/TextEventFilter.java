@@ -18,6 +18,7 @@ package com.google.android.accessibility.utils.input;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
@@ -36,6 +37,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
 /**
@@ -45,6 +49,7 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public class TextEventFilter {
 
   private static final String TAG = "TextEventFilter";
+  private static final String BRAILLE_KEYBOARD_PACKAGE_NAME = "abk.keyboard";
 
   ///////////////////////////////////////////////////////////////////////////////////
   // Constants
@@ -99,6 +104,8 @@ public class TextEventFilter {
   private @Nullable VoiceActionDelegate voiceActionDelegate;
   private @Nullable VoiceDictationDelegate voiceDictationDelegate;
   private final EnumMap<TypingInput, Integer> keyboardEcho = new EnumMap<>(TypingInput.class);
+  private final Map<String, Boolean> brailleKeyboardPackageCache = new HashMap<>();
+  private @KeyboardEchoType int brailleKeyboardEcho = PREF_ECHO_CHARACTERS_AND_WORDS;
 
   private final TextEventHistory textEventHistory;
   private long lastKeyEventTime = -1;
@@ -133,6 +140,10 @@ public class TextEventFilter {
 
   public void setKeyboardEcho(TypingInput input, @KeyboardEchoType int value) {
     keyboardEcho.put(input, value);
+  }
+
+  public void setBrailleKeyboardEcho(@KeyboardEchoType int value) {
+    brailleKeyboardEcho = value;
   }
 
   public void setLastKeyEventTime(long time) {
@@ -224,7 +235,7 @@ public class TextEventFilter {
           }
           textEventHistory.setLastTextChangeTime(event.getEventTime());
           textEventHistory.setLastTextChangePackageName(event.getPackageName());
-          if (readKeyboardEcho(event.getEventTime()) == PREF_ECHO_SILENT_TYPING) {
+          if (readKeyboardEcho(event) == PREF_ECHO_SILENT_TYPING) {
             return;
           }
           if (voiceRecognitionActive) {
@@ -330,13 +341,62 @@ public class TextEventFilter {
     return echo == null ? PREF_ECHO_CHARACTERS_AND_WORDS : echo;
   }
 
+  @KeyboardEchoType
+  private int readKeyboardEcho(AccessibilityEvent event) {
+    if (isBrailleKeyboardEvent(event)) {
+      return brailleKeyboardEcho;
+    }
+    return readKeyboardEcho(event.getEventTime());
+  }
+
+  private boolean isBrailleKeyboardEvent(AccessibilityEvent event) {
+    CharSequence packageName = event.getPackageName();
+    if (packageName == null) {
+      return false;
+    }
+    String packageNameString = packageName.toString();
+    Boolean cached = brailleKeyboardPackageCache.get(packageNameString);
+    if (cached != null) {
+      return cached;
+    }
+    boolean isBrailleKeyboard =
+        BRAILLE_KEYBOARD_PACKAGE_NAME.equals(packageNameString)
+            || packageNameString.toLowerCase(Locale.ROOT).contains("braille");
+    if (!isBrailleKeyboard) {
+      try {
+        CharSequence label =
+            context
+                .getPackageManager()
+                .getApplicationLabel(
+                    context.getPackageManager().getApplicationInfo(packageNameString, 0));
+        String normalizedLabel = label.toString().toLowerCase(Locale.ROOT);
+        isBrailleKeyboard =
+            normalizedLabel.contains("braille") || normalizedLabel.contains("chữ nổi");
+      } catch (PackageManager.NameNotFoundException e) {
+        isBrailleKeyboard = false;
+      }
+    }
+    brailleKeyboardPackageCache.put(packageNameString, isBrailleKeyboard);
+    return isBrailleKeyboard;
+  }
+
   public boolean shouldEchoAddedText(long eventTime) {
     int echo = readKeyboardEcho(eventTime);
     return echo == PREF_ECHO_CHARACTERS || echo == PREF_ECHO_CHARACTERS_AND_WORDS;
   }
 
+  public boolean shouldEchoAddedText(AccessibilityEvent event) {
+    int echo = readKeyboardEcho(event);
+    return echo == PREF_ECHO_CHARACTERS || echo == PREF_ECHO_CHARACTERS_AND_WORDS;
+  }
+
   public boolean shouldEchoInitialWords(long eventTime) {
     int echo = readKeyboardEcho(eventTime);
+    return echo == PREF_ECHO_WORDS || echo == PREF_ECHO_CHARACTERS_AND_WORDS;
+  }
+
+  public boolean shouldEchoInitialWords(AccessibilityEvent event) {
+    int echo = readKeyboardEcho(event);
     return echo == PREF_ECHO_WORDS || echo == PREF_ECHO_CHARACTERS_AND_WORDS;
   }
 

@@ -189,6 +189,10 @@ public class TextEventInterpreter {
     filter.setKeyboardEcho(input, value);
   }
 
+  public void setBrailleKeyboardEcho(@KeyboardEchoType int value) {
+    filter.setBrailleKeyboardEcho(value);
+  }
+
   public void setLastKeyEventTime(long time) {
     filter.setLastKeyEventTime(time);
   }
@@ -312,8 +316,8 @@ public class TextEventInterpreter {
 
   private void interpretInternal(@NonNull AccessibilityEvent event, @Nullable EventId eventId) {
     filter.updateTextCursorTracker(event, eventId);
-    boolean shouldEchoAddedText = filter.shouldEchoAddedText(event.getEventTime());
-    boolean shouldEchoInitialWords = filter.shouldEchoInitialWords(event.getEventTime());
+    boolean shouldEchoAddedText = filter.shouldEchoAddedText(event);
+    boolean shouldEchoInitialWords = filter.shouldEchoInitialWords(event);
 
     @Nullable TextEventInterpretation interpretation =
         interpret(event, shouldEchoAddedText, shouldEchoInitialWords);

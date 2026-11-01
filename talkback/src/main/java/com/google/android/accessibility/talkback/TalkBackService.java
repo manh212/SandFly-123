@@ -3979,6 +3979,12 @@ public class TalkBackService extends AccessibilityServiceCompat
           : KeyboardEchoSettings.read(prefs, res, input);
       textEventInterpreter.setKeyboardEcho(input, echo);
     }
+    textEventInterpreter.setBrailleKeyboardEcho(
+        SharedPreferencesUtils.getIntFromStringPref(
+            prefs,
+            res,
+            R.string.pref_echo_braille_keyboard_key,
+            R.string.pref_keyboard_echo_default));
     physicalKeyboardEcho = KeyboardEchoSettings.read(prefs, res, TypingInput.PHYSICAL_KEYBOARD);
     String typingValue =
         SharedPreferencesUtils.getStringPref(
