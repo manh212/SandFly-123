@@ -196,7 +196,7 @@ public final class ActivationReminder {
               : new Notification.Builder(service);
       builder
           .setSmallIcon(android.R.drawable.ic_dialog_alert)
-          .setContentTitle(R.string.title_sandfly_countdown)
+          .setContentTitle(service.getString(R.string.title_sandfly_countdown))
           .setContentText(
               service.getString(
                   R.string.summary_sandfly_countdown_remaining,
