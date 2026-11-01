@@ -1598,10 +1598,8 @@ public class NewKeyComboModel implements KeyComboModel {
       if (value != null && value.startsWith(Commands.KEYBOARD_PREFIX)) {
         String actionKey = value.substring(Commands.KEYBOARD_PREFIX.length());
         if (keyComboMap.containsKey(actionKey)) {
-          if (keyCombo.getKeyComboCode() != KEY_COMBO_CODE_UNASSIGNED) {
-            persister.saveKeyCombo(actionKey, keyCombo);
-            keyComboMap.put(actionKey, keyCombo);
-          }
+          persister.saveKeyCombo(actionKey, keyCombo);
+          keyComboMap.put(actionKey, keyCombo);
           persister.remove(key);
           continue;
         }

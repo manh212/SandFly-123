@@ -209,6 +209,7 @@ class ScreenReview(
       speak(service.getString(if (forward) R.string.review_bottom else R.string.review_top))
       return
     }
+    objectTarget = null
     speak(cursor, spoken)
   }
 
@@ -320,9 +321,9 @@ class ScreenReview(
   }
 
   private fun focusReviewCursor() {
-    val source = currentObject() ?: currentCursor()?.currentWord?.item?.source as? AccessibilityNodeInfoCompat
-    val target =
-      source?.let {
+    val selectedObject = currentObject()
+    val source = selectedObject ?: currentCursor()?.currentWord?.item?.source as? AccessibilityNodeInfoCompat
+    val target = selectedObject ?: source?.let {
         AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(it, AccessibilityNodeInfoUtils.FILTER_SHOULD_FOCUS)
       } ?: source
     if (target == null) {

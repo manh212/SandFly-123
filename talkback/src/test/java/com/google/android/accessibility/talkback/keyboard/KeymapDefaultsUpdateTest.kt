@@ -45,6 +45,17 @@ class KeymapDefaultsUpdateTest {
   }
 
   @Test
+  fun legacyCommandUnassignmentRemainsUnassignedAfterMigration() {
+    val keymap = Keymap.NVDA
+    val saved = KeyComboPersister(context, keymap.persisterPrefix(keymap.nativeKey))
+    val key = context.getString(R.string.keycombo_shortcut_review_next_line)
+    val commandKey = com.google.android.accessibility.talkback.commands.Commands.shortcutKey(
+      com.google.android.accessibility.talkback.commands.Commands.KEYBOARD_PREFIX + key)
+    saved.saveKeyCombo(commandKey, KeyCombo())
+    assertEquals(KeyCombo(), NewKeyComboModel(context, keymap).getKeyComboForKey(key))
+  }
+
+  @Test
   fun desktopLayoutsStartWithConfigurableDoubleModifier() {
     val toggle = context.getString(R.string.keycombo_shortcut_other_toggle_browse_mode_extra)
     for (keymap in listOf(Keymap.NVDA, Keymap.JAWS, Keymap.ORCA)) {
