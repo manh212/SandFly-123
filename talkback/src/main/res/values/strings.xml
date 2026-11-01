@@ -4249,6 +4249,7 @@
 
 
   <!-- The Gemini service unavailable . [CHAR_LIMIT=NONE]-->
+  <string name="summary_pref_gemini_support_disabled">Gemini is disabled</string>
   <string name="gemini_error_message">Something went wrong. Try again.</string>
   <!-- The Gemini service blocked . [CHAR_LIMIT=NONE]-->
   <string name="gemini_block_message">Can\'t process this image</string>

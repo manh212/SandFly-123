@@ -1225,6 +1225,7 @@
   <string name="delete_image_description_hint">Đã xoá tính năng tự động mô tả hình ảnh</string>
   <string name="delete_all_image_captioning_hint">Đã xoá tính năng tự động mô tả hình ảnh và biểu tượng</string>
   <string name="disable_gemini_dialog_subtext">Bật để kích hoạt tính năng Tìm hiểu nội dung trên màn hình với Gemini</string>
+  <string name="summary_pref_gemini_support_disabled">Đã tắt Gemini</string>
   <string name="gemini_error_message">Đã xảy ra lỗi. Hãy thử lại.</string>
   <string name="gemini_block_message">Không xử lý được hình ảnh này</string>
   <string name="gemini_network_error">Không có kết nối Internet. Hãy kiểm tra Wi-Fi hoặc mạng di động rồi thử lại.</string>
