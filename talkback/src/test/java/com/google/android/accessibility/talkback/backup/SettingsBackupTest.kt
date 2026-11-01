@@ -18,8 +18,11 @@ package com.google.android.accessibility.talkback.backup
 
 import android.content.Context
 import com.google.android.accessibility.talkback.migration.MigrationFiles
+import com.google.android.accessibility.talkback.preference.ItemOrder
+import com.google.android.accessibility.talkback.selector.SelectorController
 import com.google.android.accessibility.talkback.update.Updater
 import com.google.android.accessibility.utils.SharedPreferencesUtils
+import org.json.JSONObject
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -38,7 +41,7 @@ class SettingsBackupTest {
   private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
 
   @Test
-  fun factoryDefaultsApplyOnlyToFreshInstall() {
+  fun factoryDefaultsApplyToFreshInstallAndPreserveLaterChanges() {
     val state = SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
     state.edit().clear().commit()
     prefs.edit().clear().commit()
@@ -48,17 +51,75 @@ class SettingsBackupTest {
     SettingsBackup.applyInitialDefaultsIfNeeded(context)
 
     assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
+    assertEquals("GRANULARITY_HEADINGS", prefs.getString("pref_current_selector_setting_key", null))
+    assertEquals(bundledReadingControlOrder(), prefs.getString(ItemOrder.READING_CONTROLS_KEY, null))
     assertEquals("UEB", braille.getString("pref_brailleime_translator_code", null))
     assertFalse(prefs.contains("pref_problem_report_email"))
     assertFalse(prefs.contains("pref_stopwatch_history"))
     assertTrue(state.getBoolean("initial_settings_applied", false))
+    assertTrue(!state.getString("initial_settings_snapshot", null).isNullOrBlank())
 
-    state.edit().clear().commit()
     prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
     SettingsBackup.applyInitialDefaultsIfNeeded(context)
 
     assertFalse(prefs.getBoolean("pref_speak_items_before_scroll_key", true))
+  }
+
+  @Test
+  fun upgradeMigratesOldDefaultsAndPreservesUserChanges() {
+    val state = SharedPreferencesUtils.getSharedPreferences(context, MigrationFiles.STATE_PREFS)
+    state.edit().clear().putBoolean("initial_settings_applied", true).commit()
+    prefs.edit().clear().commit()
+    extra.edit().clear().commit()
+    braille.edit().clear().commit()
+    prefs
+      .edit()
+      .putBoolean("pref_speak_items_before_scroll_key", false)
+      .putString("pref_current_selector_setting_key", "GRANULARITY_CHARACTERS")
+      .putString(
+        ItemOrder.READING_CONTROLS_KEY,
+        SelectorController.defaultOrderKeys(context).joinToString(","),
+      )
+      .putString("custom_user_setting", "keep")
+      .commit()
+
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
+    assertEquals("GRANULARITY_CHARACTERS", prefs.getString("pref_current_selector_setting_key", null))
+    assertEquals(bundledReadingControlOrder(), prefs.getString(ItemOrder.READING_CONTROLS_KEY, null))
+    assertEquals("keep", prefs.getString("custom_user_setting", null))
     assertTrue(state.getBoolean("initial_settings_applied", false))
+    assertTrue(!state.getString("initial_settings_snapshot", null).isNullOrBlank())
+
+    prefs.edit().putBoolean("pref_speak_items_before_scroll_key", false).commit()
+    SettingsBackup.applyInitialDefaultsIfNeeded(context)
+
+    assertFalse(prefs.getBoolean("pref_speak_items_before_scroll_key", true))
+  }
+
+  @Test
+  fun laterDefaultChangesUpdateOnlyValuesThatStillMatchTheirPreviousDefaults() {
+    val oldSettings =
+      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{"pref_speak_items_before_scroll_key":{"type":"boolean","value":false},"pref_current_selector_setting_key":{"type":"string","value":"GRANULARITY_WORDS"},"removed_default":{"type":"string","value":"old"}}}}}"""
+    val newSettings =
+      """{"format":"sandfly-settings","version":1,"files":{"device":{"default":{"pref_speak_items_before_scroll_key":{"type":"boolean","value":true},"pref_current_selector_setting_key":{"type":"string","value":"GRANULARITY_HEADINGS"},"new_default":{"type":"boolean","value":true}}}}}"""
+    prefs
+      .edit()
+      .clear()
+      .putBoolean("pref_speak_items_before_scroll_key", false)
+      .putString("pref_current_selector_setting_key", "GRANULARITY_CHARACTERS")
+      .putString("removed_default", "old")
+      .putString("custom_user_setting", "keep")
+      .commit()
+
+    assertTrue(SettingsBackup.applyInitialSettingsChanges(context, oldSettings, newSettings))
+
+    assertTrue(prefs.getBoolean("pref_speak_items_before_scroll_key", false))
+    assertEquals("GRANULARITY_CHARACTERS", prefs.getString("pref_current_selector_setting_key", null))
+    assertTrue(prefs.getBoolean("new_default", false))
+    assertFalse(prefs.contains("removed_default"))
+    assertEquals("keep", prefs.getString("custom_user_setting", null))
   }
 
   @Test
@@ -200,4 +261,15 @@ class SettingsBackupTest {
     assertFalse(SettingsBackup.import(context, damaged))
     assertFalse(prefs.getBoolean("a_switch", true))
   }
+  private fun bundledReadingControlOrder(): String {
+    val settings =
+      JSONObject(context.assets.open("initial-settings.json").bufferedReader().use { it.readText() })
+    return settings
+      .getJSONObject("files")
+      .getJSONObject("device")
+      .getJSONObject("default")
+      .getJSONObject(ItemOrder.READING_CONTROLS_KEY)
+      .getString("value")
+  }
+
 }
