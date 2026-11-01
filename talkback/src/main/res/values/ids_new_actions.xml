@@ -16,4 +16,16 @@
     <item name="take_focus_screenshot_menu" type="id" />
     <item name="screen_recognition_menu" type="id" />
     <item name="task_assistant_menu" type="id" />
+    <item name="selector_group_action_add" type="id" />
+    <item name="selector_group_action_edit" type="id" />
+    <item name="selector_group_action_edit_items" type="id" />
+    <item name="selector_group_action_sort_items" type="id" />
+    <item name="selector_group_action_toggle" type="id" />
+    <item name="selector_group_action_move_up" type="id" />
+    <item name="selector_group_action_move_down" type="id" />
+    <item name="selector_group_action_delete" type="id" />
+    <item name="selector_group_action_move_item_up" type="id" />
+    <item name="selector_group_action_move_item_down" type="id" />
+    <item name="selector_group_action_add_item" type="id" />
+    <item name="selector_group_action_remove_item" type="id" />
 </resources>

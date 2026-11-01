@@ -1539,7 +1539,7 @@ public class SelectorController implements UserInputEventListener {
       SelectorGroupManager.setCurrentGroup(context, group.id);
       selectGroupItem(eventId, group, selectedItem, AnnounceType.SILENCE, false);
       if (announceType != AnnounceType.SILENCE) {
-        String announcement = groupItemAnnouncement(group.id, selectedItem);
+        String announcement = group.name;
         announceSetting(eventId, announcement, null);
         showQuickMenuOverlay(eventId, announcement);
       }

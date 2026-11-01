@@ -1802,6 +1802,11 @@
   <string name="selector_group_move_down">Đưa nhóm %1$s xuống sau</string>
   <string name="selector_group_item_move_up">Đưa mục đã chọn lên trước</string>
   <string name="selector_group_item_move_down">Đưa mục đã chọn xuống sau</string>
+  <string name="selector_group_add_item_action">Thêm mục vào nhóm</string>
+  <string name="selector_group_remove_item_action">Xóa mục khỏi nhóm</string>
+  <string name="selector_group_status_enabled">Đang bật</string>
+  <string name="selector_group_status_disabled">Đang tắt</string>
+  <string name="selector_group_summary">%1$d mục · %2$s</string>
   <string name="selector_group_delete">Xóa nhóm</string>
   <string name="selector_group_create_confirm">Tạo nhóm</string>
   <string name="selector_group_save">Lưu nhóm</string>

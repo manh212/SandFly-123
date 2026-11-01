@@ -19,7 +19,7 @@ package com.google.android.accessibility.talkback.preference.base;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.InputType;
-import android.view.Gravity;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,9 +30,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceCategory;
 import androidx.preference.PreferenceScreen;
+import androidx.preference.PreferenceViewHolder;
 import androidx.preference.SwitchPreferenceCompat;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.selector.SelectorGroupManager;
@@ -68,83 +71,94 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     Context context = requireContext();
     PreferenceScreen screen = getPreferenceScreen();
     screen.removeAll();
+
     PreferenceCategory groupsCategory = new PreferenceCategory(context);
     groupsCategory.setTitle(R.string.selector_groups_title);
     groupsCategory.setKey("selector_navigation_groups");
     screen.addPreference(groupsCategory);
-    List<Group> groups = SelectorGroupManager.getGroups(context);
-    for (Group group : groups) {
-      SwitchPreferenceCompat enabled = new SwitchPreferenceCompat(context);
-      enabled.setKey("selector_group_enabled_" + group.id);
-      enabled.setPersistent(false);
-      enabled.setTitle(getString(R.string.selector_group_toggle_title, group.name));
-      enabled.setSummary(getString(R.string.selector_group_item_count, group.items.size()));
-      enabled.setChecked(group.enabled);
-      enabled.setOnPreferenceChangeListener(
-          (preference, newValue) -> {
-            boolean isEnabled = (Boolean) newValue;
-            if (!isEnabled && !SelectorGroupManager.canDisableGroup(context, group.id)) {
-              showMessage(R.string.selector_group_minimum_enabled_error);
-              return false;
-            }
-            ArrayList<Group> updated = mutableGroups();
-            Group updatedGroup = findGroup(updated, group.id);
-            if (updatedGroup == null) {
-              return false;
-            }
-            updatedGroup.enabled = isEnabled;
-            if (SelectorGroupManager.saveGroups(context, updated)) {
-              refresh();
-            }
-            return false;
-          });
-      groupsCategory.addPreference(enabled);
 
-      Preference edit = new Preference(context);
-      edit.setKey("selector_group_edit_" + group.id);
-      edit.setTitle(getString(R.string.selector_group_edit, group.name));
-      edit.setSummary(getString(R.string.selector_group_item_count, group.items.size()));
-      edit.setOnPreferenceClickListener(
+    List<Group> groups = SelectorGroupManager.getGroups(context);
+    for (int index = 0; index < groups.size(); index++) {
+      Group group = groups.get(index);
+      ActionPreference groupPreference = new ActionPreference(context);
+      groupPreference.setKey("selector_group_" + group.id);
+      groupPreference.setTitle(group.name);
+      groupPreference.setSummary(
+          getString(
+              R.string.selector_group_summary,
+              group.items.size(),
+              getString(
+                  group.enabled
+                      ? R.string.selector_group_status_enabled
+                      : R.string.selector_group_status_disabled)));
+      groupPreference.setOnPreferenceClickListener(
           preference -> {
             editGroup(group.id);
             return true;
           });
-      groupsCategory.addPreference(edit);
-
-      Preference moveUp = new Preference(context);
-      moveUp.setKey("selector_group_move_up_" + group.id);
-      moveUp.setTitle(getString(R.string.selector_group_move_up, group.name));
-      moveUp.setEnabled(groups.indexOf(group) > 0);
-      moveUp.setOnPreferenceClickListener(
-          preference -> {
-            SelectorGroupManager.moveGroup(context, group.id, -1);
-            refresh();
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_add,
+          getString(R.string.selector_groups_add),
+          () -> {
+            addGroup();
             return true;
           });
-      groupsCategory.addPreference(moveUp);
-
-      Preference moveDown = new Preference(context);
-      moveDown.setKey("selector_group_move_down_" + group.id);
-      moveDown.setTitle(getString(R.string.selector_group_move_down, group.name));
-      moveDown.setEnabled(groups.indexOf(group) < groups.size() - 1);
-      moveDown.setOnPreferenceClickListener(
-          preference -> {
-            SelectorGroupManager.moveGroup(context, group.id, 1);
-            refresh();
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_edit,
+          getString(R.string.selector_group_edit, group.name),
+          () -> {
+            editGroup(group.id);
             return true;
           });
-      groupsCategory.addPreference(moveDown);
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_edit_items,
+          getString(R.string.selector_group_edit_items),
+          () -> {
+            editItems(group.id);
+            return true;
+          });
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_sort_items,
+          getString(R.string.selector_group_sort_items),
+          () -> {
+            sortItems(group.id);
+            return true;
+          });
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_toggle,
+          getString(R.string.selector_group_toggle_title, group.name),
+          () -> toggleGroup(group.id));
+      if (index > 0) {
+        groupPreference.addAccessibilityAction(
+            R.id.selector_group_action_move_up,
+            getString(R.string.selector_group_move_up, group.name),
+            () -> {
+              if (SelectorGroupManager.moveGroup(context, group.id, -1)) {
+                refresh();
+              }
+              return true;
+            });
+      }
+      if (index < groups.size() - 1) {
+        groupPreference.addAccessibilityAction(
+            R.id.selector_group_action_move_down,
+            getString(R.string.selector_group_move_down, group.name),
+            () -> {
+              if (SelectorGroupManager.moveGroup(context, group.id, 1)) {
+                refresh();
+              }
+              return true;
+            });
+      }
+      groupPreference.addAccessibilityAction(
+          R.id.selector_group_action_delete,
+          getString(R.string.selector_group_delete),
+          () -> {
+            confirmDelete(group.id);
+            return true;
+          });
+      groupsCategory.addPreference(groupPreference);
     }
-
-    Preference add = new Preference(context);
-    add.setKey("selector_group_add");
-    add.setTitle(R.string.selector_groups_add);
-    add.setOnPreferenceClickListener(
-        preference -> {
-          addGroup();
-          return true;
-        });
-    screen.addPreference(add);
 
     PreferenceCategory options = new PreferenceCategory(context);
     options.setKey("selector_group_options");
@@ -169,6 +183,96 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
         R.string.title_pref_selector_links_controls_web_only,
         0);
   }
+
+  private boolean toggleGroup(String groupId) {
+    Context context = requireContext();
+    Group group = findGroup(SelectorGroupManager.getGroups(context), groupId);
+    if (group == null) {
+      return false;
+    }
+    if (group.enabled && !SelectorGroupManager.canDisableGroup(context, groupId)) {
+      showMessage(R.string.selector_group_minimum_enabled_error);
+      return false;
+    }
+    ArrayList<Group> updated = mutableGroups();
+    Group updatedGroup = findGroup(updated, groupId);
+    if (updatedGroup == null) {
+      return false;
+    }
+    updatedGroup.enabled = !updatedGroup.enabled;
+    if (SelectorGroupManager.saveGroups(context, updated)) {
+      refresh();
+    }
+    return true;
+  }
+
+  private interface AccessibilityActionHandler {
+    boolean perform();
+  }
+
+  private static final class ScreenReaderAction {
+    final int actionId;
+    final CharSequence label;
+    final AccessibilityActionHandler handler;
+
+    ScreenReaderAction(
+        int actionId, CharSequence label, AccessibilityActionHandler handler) {
+      this.actionId = actionId;
+      this.label = label;
+      this.handler = handler;
+    }
+  }
+
+  private static void addAccessibilityAction(
+      View view, int actionId, CharSequence label, AccessibilityActionHandler handler) {
+    AccessibilityNodeInfoCompat.AccessibilityActionCompat compatAction =
+        new AccessibilityNodeInfoCompat.AccessibilityActionCompat(actionId, label);
+    ViewCompat.replaceAccessibilityAction(
+        view, compatAction, label, arguments -> handler.perform());
+  }
+
+  private static void bindScreenReaderActions(View view, List<ScreenReaderAction> actions) {
+    int[] actionIds = {
+      R.id.selector_group_action_add,
+      R.id.selector_group_action_edit,
+      R.id.selector_group_action_edit_items,
+      R.id.selector_group_action_sort_items,
+      R.id.selector_group_action_toggle,
+      R.id.selector_group_action_move_up,
+      R.id.selector_group_action_move_down,
+      R.id.selector_group_action_delete,
+      R.id.selector_group_action_move_item_up,
+      R.id.selector_group_action_move_item_down,
+      R.id.selector_group_action_add_item,
+      R.id.selector_group_action_remove_item
+    };
+    for (int actionId : actionIds) {
+      ViewCompat.removeAccessibilityAction(view, actionId);
+    }
+    for (ScreenReaderAction action : actions) {
+      addAccessibilityAction(view, action.actionId, action.label, action.handler);
+    }
+  }
+
+  private static final class ActionPreference extends Preference {
+    private final ArrayList<ScreenReaderAction> actions = new ArrayList<>();
+
+    ActionPreference(Context context) {
+      super(context);
+    }
+
+    void addAccessibilityAction(
+        int actionId, CharSequence label, AccessibilityActionHandler handler) {
+      actions.add(new ScreenReaderAction(actionId, label, handler));
+    }
+
+    @Override
+    public void onBindViewHolder(PreferenceViewHolder holder) {
+      super.onBindViewHolder(holder);
+      bindScreenReaderActions(holder.itemView, actions);
+    }
+  }
+
 
   private void addExistingSwitch(
       PreferenceCategory category,
@@ -231,27 +335,33 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
   private void showNewGroupItemPicker(Set<String> selectedItems, TextView selectionSummary) {
     Context context = requireContext();
     List<ItemInfo> items = SelectorGroupManager.availableItems(context);
-    String[] titles = itemTitles(items, SelectorGroupManager.getGroups(context), null);
-    boolean[] checked = new boolean[items.size()];
+    ListView list = new ListView(context);
+    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    int listHeight = (int) (280 * context.getResources().getDisplayMetrics().density);
+    list.setLayoutParams(
+        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, listHeight));
+    ArrayAdapter<String> adapter =
+        createItemPickerAdapter(context, items, list, selectedItems, null, selectionSummary);
+    list.setAdapter(adapter);
     for (int index = 0; index < items.size(); index++) {
-      checked[index] = selectedItems.contains(items.get(index).id);
+      list.setItemChecked(index, selectedItems.contains(items.get(index).id));
     }
-    new AlertDialog.Builder(requireContext())
+    list.setOnItemClickListener(
+        (parent, view, index, id) -> {
+          ItemInfo item = items.get(index);
+          if (list.isItemChecked(index)) {
+            selectedItems.add(item.id);
+          } else {
+            selectedItems.remove(item.id);
+          }
+          updateSelectionSummary(selectionSummary, selectedItems.size());
+          adapter.notifyDataSetChanged();
+        });
+    new AlertDialog.Builder(context)
         .setTitle(R.string.selector_group_choose_items)
-        .setMultiChoiceItems(
-            titles,
-            checked,
-            (dialog, index, isChecked) -> {
-              if (isChecked) {
-                selectedItems.add(items.get(index).id);
-              } else {
-                selectedItems.remove(items.get(index).id);
-              }
-              updateSelectionSummary(selectionSummary, selectedItems.size());
-            })
+        .setView(list)
         .setPositiveButton(R.string.selector_group_done, null)
         .show();
-    updateSelectionSummary(selectionSummary, selectedItems.size());
   }
 
   private void editGroup(String groupId) {
@@ -264,15 +374,9 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     SwitchCompat enabled = new SwitchCompat(context);
     enabled.setText(R.string.selector_group_enabled);
     enabled.setChecked(group.enabled);
-    Button editItems = createButton(context, R.string.selector_group_edit_items);
-    Button sortItems = createButton(context, R.string.selector_group_sort_items);
-    Button delete = createButton(context, R.string.selector_group_delete);
     LinearLayout layout = verticalLayout(context);
     layout.addView(name, matchWrap());
     layout.addView(enabled, matchWrap());
-    layout.addView(editItems, matchWrap());
-    layout.addView(sortItems, matchWrap());
-    layout.addView(delete, matchWrap());
     AlertDialog dialog =
         new AlertDialog.Builder(context)
             .setTitle(getString(R.string.selector_group_edit, group.name))
@@ -280,9 +384,6 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
             .setPositiveButton(R.string.selector_group_save, null)
             .setNegativeButton(android.R.string.cancel, null)
             .create();
-    editItems.setOnClickListener(view -> editItems(groupId));
-    sortItems.setOnClickListener(view -> sortItems(groupId));
-    delete.setOnClickListener(view -> confirmDelete(groupId, dialog));
     dialog.setOnShowListener(
         ignored ->
             dialog.getButton(AlertDialog.BUTTON_POSITIVE)
@@ -322,34 +423,113 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
       return;
     }
     List<ItemInfo> items = SelectorGroupManager.availableItems(context);
-    String[] titles = itemTitles(items, SelectorGroupManager.getGroups(context), groupId);
-    boolean[] checked = new boolean[items.size()];
+    ListView list = new ListView(context);
+    list.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
+    int listHeight = (int) (280 * context.getResources().getDisplayMetrics().density);
+    list.setLayoutParams(
+        new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, listHeight));
+    ArrayAdapter<String> adapter =
+        createItemPickerAdapter(context, items, list, null, groupId, null);
+    list.setAdapter(adapter);
     for (int index = 0; index < items.size(); index++) {
-      checked[index] = target.items.contains(items.get(index).id);
+      list.setItemChecked(index, target.items.contains(items.get(index).id));
     }
-    AlertDialog dialog =
-        new AlertDialog.Builder(context)
-            .setTitle(getString(R.string.selector_group_edit, target.name))
-            .setMultiChoiceItems(
-                titles,
-                checked,
-                (multiChoiceDialog, index, isChecked) ->
-                    onItemMembershipChanged(
-                        (AlertDialog) multiChoiceDialog,
-                        groupId,
-                        items.get(index).id,
-                        index,
-                        isChecked))
-            .setPositiveButton(R.string.selector_group_done, null)
-            .create();
-    dialog.show();
+    list.setOnItemClickListener(
+        (parent, view, index, id) ->
+            onItemMembershipChanged(
+                adapter,
+                list,
+                groupId,
+                items.get(index).id,
+                index,
+                list.isItemChecked(index)));
+    new AlertDialog.Builder(context)
+        .setTitle(getString(R.string.selector_group_edit, target.name))
+        .setView(list)
+        .setPositiveButton(R.string.selector_group_done, null)
+        .show();
+  }
+
+  private ArrayAdapter<String> createItemPickerAdapter(
+      Context context,
+      List<ItemInfo> items,
+      ListView list,
+      Set<String> selectedItems,
+      String groupId,
+      TextView selectionSummary) {
+    ArrayList<String> titles = new ArrayList<>();
+    String[] itemLabels =
+        itemTitles(items, SelectorGroupManager.getGroups(context), groupId);
+    for (String label : itemLabels) {
+      titles.add(label);
+    }
+    return new ArrayAdapter<String>(
+        context, android.R.layout.simple_list_item_multiple_choice, titles) {
+      @Override
+      public View getView(int position, View convertView, ViewGroup parent) {
+        View row = super.getView(position, convertView, parent);
+        ViewCompat.removeAccessibilityAction(row, R.id.selector_group_action_add_item);
+        ViewCompat.removeAccessibilityAction(row, R.id.selector_group_action_remove_item);
+        ItemInfo item = items.get(position);
+        boolean selected =
+            groupId == null
+                ? selectedItems.contains(item.id)
+                : isItemInGroup(groupId, item.id);
+        if (selected) {
+          addAccessibilityAction(
+              row,
+              R.id.selector_group_action_remove_item,
+              getString(R.string.selector_group_remove_item_action),
+              () -> {
+                if (groupId == null) {
+                  selectedItems.remove(item.id);
+                  list.setItemChecked(position, false);
+                  updateSelectionSummary(selectionSummary, selectedItems.size());
+                  notifyDataSetChanged();
+                } else {
+                  onItemMembershipChanged(this, list, groupId, item.id, position, false);
+                }
+                return true;
+              });
+        } else {
+          addAccessibilityAction(
+              row,
+              R.id.selector_group_action_add_item,
+              getString(R.string.selector_group_add_item_action),
+              () -> {
+                if (groupId == null) {
+                  selectedItems.add(item.id);
+                  list.setItemChecked(position, true);
+                  updateSelectionSummary(selectionSummary, selectedItems.size());
+                  notifyDataSetChanged();
+                } else {
+                  onItemMembershipChanged(this, list, groupId, item.id, position, true);
+                }
+                return true;
+              });
+        }
+        return row;
+      }
+    };
+  }
+
+  private boolean isItemInGroup(String groupId, String itemId) {
+    Group group = findGroup(SelectorGroupManager.getGroups(requireContext()), groupId);
+    return group != null && group.items.contains(itemId);
   }
 
   private void onItemMembershipChanged(
-      AlertDialog dialog, String groupId, String itemId, int index, boolean isChecked) {
+      ArrayAdapter<String> adapter,
+      ListView list,
+      String groupId,
+      String itemId,
+      int index,
+      boolean isChecked) {
     Context context = requireContext();
     Group target = findGroup(SelectorGroupManager.getGroups(context), groupId);
     if (target == null) {
+      list.setItemChecked(index, !isChecked);
+      adapter.notifyDataSetChanged();
       return;
     }
     List<Group> groups = SelectorGroupManager.getGroups(context);
@@ -366,37 +546,47 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
         }
       }
       if (source != null && source.items.size() <= 1) {
-        dialog.getListView().setItemChecked(index, false);
+        list.setItemChecked(index, false);
         showMessage(R.string.selector_group_move_last_item_error);
+        adapter.notifyDataSetChanged();
         return;
       }
       if (source == null) {
         if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
-          dialog.getListView().setItemChecked(index, false);
+          list.setItemChecked(index, false);
         }
+        adapter.notifyDataSetChanged();
         return;
       }
       new AlertDialog.Builder(context)
           .setTitle(R.string.selector_group_edit_items)
-          .setMessage(getString(R.string.selector_group_item_move_confirm, source.name, target.name))
+          .setMessage(
+              getString(R.string.selector_group_item_move_confirm, source.name, target.name))
           .setPositiveButton(
               R.string.selector_group_move_confirm,
               (confirmDialog, which) -> {
                 if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
-                  dialog.getListView().setItemChecked(index, false);
+                  list.setItemChecked(index, false);
                   showMessage(R.string.selector_group_move_last_item_error);
+                } else {
+                  list.setItemChecked(index, true);
                 }
+                adapter.notifyDataSetChanged();
               })
           .setNegativeButton(
               android.R.string.cancel,
-              (confirmDialog, which) -> dialog.getListView().setItemChecked(index, false))
+              (confirmDialog, which) -> {
+                list.setItemChecked(index, false);
+                adapter.notifyDataSetChanged();
+              })
           .show();
       return;
     }
     if (!SelectorGroupManager.removeItem(context, groupId, itemId)) {
-      dialog.getListView().setItemChecked(index, true);
+      list.setItemChecked(index, true);
       showMessage(R.string.selector_group_minimum_item_error);
     }
+    adapter.notifyDataSetChanged();
   }
 
   private void sortItems(String groupId) {
@@ -410,8 +600,44 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     ArrayList<String> itemIds = new ArrayList<>(group.items);
     ArrayList<String> labels = itemTitlesForIds(context, itemIds);
+    final int[] selectedIndex = {itemIds.isEmpty() ? -1 : 0};
     ArrayAdapter<String> adapter =
-        new ArrayAdapter<>(context, android.R.layout.simple_list_item_single_choice, labels);
+        new ArrayAdapter<String>(
+            context, android.R.layout.simple_list_item_single_choice, labels) {
+          @Override
+          public View getView(int position, View convertView, ViewGroup parent) {
+            View row = super.getView(position, convertView, parent);
+            ViewCompat.removeAccessibilityAction(row, R.id.selector_group_action_move_item_up);
+            ViewCompat.removeAccessibilityAction(row, R.id.selector_group_action_move_item_down);
+            if (position > 0) {
+              addAccessibilityAction(
+                  row,
+                  R.id.selector_group_action_move_item_up,
+                  getString(R.string.selector_group_item_move_up),
+                  () -> {
+                    selectedIndex[0] = position;
+                    list.setItemChecked(position, true);
+                    moveSelectedItem(
+                        groupId, itemIds, labels, this, list, selectedIndex, -1);
+                    return true;
+                  });
+            }
+            if (position < itemIds.size() - 1) {
+              addAccessibilityAction(
+                  row,
+                  R.id.selector_group_action_move_item_down,
+                  getString(R.string.selector_group_item_move_down),
+                  () -> {
+                    selectedIndex[0] = position;
+                    list.setItemChecked(position, true);
+                    moveSelectedItem(
+                        groupId, itemIds, labels, this, list, selectedIndex, 1);
+                    return true;
+                  });
+            }
+            return row;
+          }
+        };
     list.setAdapter(adapter);
     if (!itemIds.isEmpty()) {
       list.setItemChecked(0, true);
@@ -420,15 +646,6 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     layout.addView(
         list,
         new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, listHeight));
-    LinearLayout actions = new LinearLayout(context);
-    actions.setOrientation(LinearLayout.HORIZONTAL);
-    actions.setGravity(Gravity.CENTER);
-    Button up = createButton(context, R.string.selector_group_item_move_up);
-    Button down = createButton(context, R.string.selector_group_item_move_down);
-    actions.addView(up, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-    actions.addView(down, new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
-    layout.addView(actions, matchWrap());
-    final int[] selectedIndex = {itemIds.isEmpty() ? -1 : 0};
     list.setOnItemClickListener(
         (parent, view, position, id) -> selectedIndex[0] = position);
     AlertDialog dialog =
@@ -437,8 +654,6 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
             .setView(layout)
             .setPositiveButton(R.string.selector_group_done, null)
             .create();
-    up.setOnClickListener(view -> moveSelectedItem(groupId, itemIds, labels, adapter, list, selectedIndex, -1));
-    down.setOnClickListener(view -> moveSelectedItem(groupId, itemIds, labels, adapter, list, selectedIndex, 1));
     dialog.show();
   }
 
@@ -463,9 +678,10 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     selectedIndex[0] = to;
     adapter.notifyDataSetChanged();
     list.setItemChecked(to, true);
+    list.announceForAccessibility(labels.get(to));
   }
 
-  private void confirmDelete(String groupId, AlertDialog editorDialog) {
+  private void confirmDelete(String groupId) {
     Context context = requireContext();
     Group group = findGroup(SelectorGroupManager.getGroups(context), groupId);
     if (group == null) {
@@ -481,7 +697,6 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
                 showMessage(R.string.selector_group_minimum_group_error);
                 return;
               }
-              editorDialog.dismiss();
               refresh();
             })
         .setNegativeButton(android.R.string.cancel, null)
