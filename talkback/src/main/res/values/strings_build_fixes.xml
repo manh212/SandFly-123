@@ -19,4 +19,10 @@
     <string name="summary_pref_gemini_support_enabled" tools:ignore="MissingTranslation">Gemini is enabled</string>
     <string name="gemini_enable_dialog_title" tools:ignore="MissingTranslation">Use Gemini in SandFly</string>
     <string name="gemini_disable_dialog_message" tools:ignore="MissingTranslation">Screen understanding with Gemini</string>
+
+    <!-- Accessible reminder strings; Vietnamese has localized copies. -->
+    <string name="title_sandfly_registration_reminder" tools:ignore="MissingTranslation">Activate Meridian</string>
+    <string name="summary_sandfly_registration_reminder" tools:ignore="MissingTranslation">Meridian will continue reading your screen. Register this device to complete activation.</string>
+    <string name="action_sandfly_registration_later" tools:ignore="MissingTranslation">Later</string>
+    <string name="action_sandfly_registration_open" tools:ignore="MissingTranslation">Register</string>
 </resources>
