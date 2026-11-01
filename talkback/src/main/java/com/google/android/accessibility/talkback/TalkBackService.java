@@ -936,6 +936,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public boolean onUnbind(Intent intent) {
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.stopService(this);
     if (otherScreenReaderMonitor != null) {
       otherScreenReaderMonitor.stop();
       otherScreenReaderMonitor = null;
@@ -985,6 +986,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.stopService(this);
     // onDestroy can run without a preceding onUnbind (or after a partial startup).
     if (menuManager != null) {
       menuManager.dismissAll();
@@ -2323,6 +2325,8 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Handle any update actions.
     new TalkBackUpdateHelper(this).checkUpdate();
     Updater.startAutomaticChecks(this);
+    // Schedule dismissible reminders without interrupting accessibility speech.
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.startService(this);
     ShizukuGrants.onServiceConnected(this);
     ScreenElements.attach(this, () -> pipeline == null ? null : pipeline.getFeedbackReturner());
     if (SandflyAi.getFeatures() != null) {
