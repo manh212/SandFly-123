@@ -3,12 +3,15 @@ package com.google.android.accessibility.talkback.licensing;
 import android.accessibilityservice.AccessibilityService;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.KeyguardManager;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PowerManager;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.Window;
@@ -17,15 +20,18 @@ import com.google.android.accessibility.talkback.R;
 import java.lang.ref.WeakReference;
 
 /**
- * Non-blocking, dismissible registration reminder, shared between Settings and the
- * running accessibility service. The screen reader and its speech are never disabled.
+ * Offers registration immediately, then enforces a one-minute trial whenever the
+ * accessibility service connects. Notifications are informative, not a clock source:
+ * the deadline is based on elapsed realtime even when notification permission is denied.
  *
- * All lifecycle methods are called on the main thread. No timer runs if both Settings
- * and the accessibility service are gone, and only one dialog may be shown at a time.
+ * A valid offline registration cancels the deadline. If the issuer is not configured,
+ * do not disable accessibility, because registration would be impossible.
  */
 public final class ActivationReminder {
   private static final String TAG = "ActivationReminder";
-  private static final long INTERVAL_MS = 60_000L;
+  private static final String CHANNEL = "meridian_activation_countdown";
+  private static final int NOTIFICATION_ID = 0x4d4552;
+  private static final long PERIOD_MS = 60_000L;
   private static final Handler MAIN = new Handler(Looper.getMainLooper());
 
   private static WeakReference<AccessibilityService> serviceRef = new WeakReference<>(null);
@@ -33,8 +39,9 @@ public final class ActivationReminder {
   private static AlertDialog dialog;
   private static Context dialogContext;
   private static boolean activationVisible;
+  private static long deadlineElapsed;
+  private static long lastDialogElapsed = -PERIOD_MS;
   private static boolean scheduled;
-  private static long lastShownElapsed = -INTERVAL_MS;
 
   private ActivationReminder() {}
 
@@ -43,40 +50,68 @@ public final class ActivationReminder {
         @Override
         public void run() {
           scheduled = false;
-          if (!hasOwner()) {
+          AccessibilityService service = serviceRef.get();
+          if (service != null) {
+            if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
+              stopCountdown();
+              return;
+            }
+            long remaining = deadlineElapsed - SystemClock.elapsedRealtime();
+            if (remaining <= 0) {
+              // Do not make notification permission a condition for expiry.
+              stopCountdown();
+              try {
+                service.disableSelf();
+              } catch (RuntimeException e) {
+                Log.e(TAG, "Could not disable accessibility service", e);
+              }
+              return;
+            }
+            showNotification(service, remaining);
+            maybeShowDialog(false);
+            schedule(1_000L);
+          } else if (settingsRef.get() != null) {
+            maybeShowDialog(false);
+            schedule(PERIOD_MS);
+          } else {
             closeDialog();
-            return;
           }
-          maybeShow();
-          schedule();
         }
       };
 
-  /** Called once the accessibility service is ready to offer overlays. */
   public static void startService(AccessibilityService service) {
+    if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
+      stopCountdown();
+      return;
+    }
     serviceRef = new WeakReference<>(service);
-    schedule();
+    deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
+    lastDialogElapsed = -PERIOD_MS;
+    showNotification(service, PERIOD_MS);
+    MAIN.postDelayed(() -> {
+      if (serviceRef.get() == service) maybeShowDialog(true);
+    }, 250L);
+    schedule(1_000L);
   }
 
-  /** Called on both normal and early service shutdown paths. */
   public static void stopService(AccessibilityService service) {
     if (serviceRef.get() == service) {
       serviceRef.clear();
+      deadlineElapsed = 0L;
+      cancelNotification(service);
       if (dialogContext == service) closeDialog();
     }
     stopIfUnused();
   }
 
-  /** Opens a prompt promptly when Settings becomes visible. */
+  /** Settings may show the dialog even before the screen reader service is enabled. */
   public static void resumeSettings(Activity activity) {
     settingsRef = new WeakReference<>(activity);
     if (dialog != null && dialogContext != activity) closeDialog();
-    schedule();
-    MAIN.postDelayed(
-        () -> {
-          if (settingsRef.get() == activity && !activity.isFinishing()) maybeShow();
-        },
-        400L);
+    MAIN.postDelayed(() -> {
+      if (settingsRef.get() == activity && !activity.isFinishing()) maybeShowDialog(true);
+    }, 250L);
+    schedule(serviceRef.get() != null ? 1_000L : PERIOD_MS);
   }
 
   public static void pauseSettings(Activity activity) {
@@ -87,29 +122,92 @@ public final class ActivationReminder {
     stopIfUnused();
   }
 
-  /** Do not cover the entry form while the user is activating. */
+  /** Keep the activation form usable throughout the remaining trial period. */
   public static void setActivationVisible(boolean visible) {
     activationVisible = visible;
     if (visible) closeDialog();
   }
 
-  private static boolean hasOwner() {
-    Activity a = settingsRef.get();
-    return (a != null && !a.isFinishing()) || serviceRef.get() != null;
+  /** Called after successfully storing a verified, device-bound registration. */
+  public static void onActivated() {
+    stopCountdown();
   }
 
-  private static void schedule() {
-    if (!scheduled && hasOwner()) {
+  private static void stopCountdown() {
+    AccessibilityService service = serviceRef.get();
+    if (service != null) cancelNotification(service);
+    serviceRef.clear();
+    deadlineElapsed = 0L;
+    closeDialog();
+    MAIN.removeCallbacks(TICK);
+    scheduled = false;
+  }
+
+  private static void schedule(long delay) {
+    if (!scheduled && (serviceRef.get() != null || settingsRef.get() != null)) {
       scheduled = true;
-      MAIN.postDelayed(TICK, INTERVAL_MS);
+      MAIN.postDelayed(TICK, delay);
     }
   }
 
   private static void stopIfUnused() {
-    if (!hasOwner()) {
+    if (serviceRef.get() == null && settingsRef.get() == null) {
       MAIN.removeCallbacks(TICK);
       scheduled = false;
       closeDialog();
+    }
+  }
+
+  private static void cancelNotification(Context context) {
+    NotificationManager manager =
+        (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+    if (manager != null) manager.cancel(NOTIFICATION_ID);
+  }
+
+  private static void showNotification(AccessibilityService service, long remainingMs) {
+    NotificationManager manager =
+        (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
+    if (manager == null) return;
+    try {
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        NotificationChannel channel =
+            new NotificationChannel(
+                CHANNEL,
+                service.getString(R.string.title_sandfly_countdown),
+                NotificationManager.IMPORTANCE_DEFAULT);
+        channel.setDescription(service.getString(R.string.summary_sandfly_countdown_channel));
+        manager.createNotificationChannel(channel);
+      }
+      Intent intent = new Intent(service, ActivationActivity.class);
+      intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+      PendingIntent pendingIntent =
+          PendingIntent.getActivity(
+              service, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+      Notification.Builder builder =
+          Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+              ? new Notification.Builder(service, CHANNEL)
+              : new Notification.Builder(service);
+      builder
+          .setSmallIcon(android.R.drawable.ic_dialog_alert)
+          .setContentTitle(R.string.title_sandfly_countdown)
+          .setContentText(
+              service.getString(
+                  R.string.summary_sandfly_countdown_remaining,
+                  Math.max(1L, (remainingMs + 999L) / 1000L)))
+          .setContentIntent(pendingIntent)
+          .setOngoing(true)
+          .setOnlyAlertOnce(true)
+          .setCategory(Notification.CATEGORY_REMINDER)
+          .setShowWhen(true)
+          .setWhen(System.currentTimeMillis() + remainingMs)
+          .setUsesChronometer(true);
+      if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+        builder.setChronometerCountDown(true);
+      }
+      manager.notify(NOTIFICATION_ID, builder.build());
+    } catch (RuntimeException e) {
+      // The user may deny Android 13+ notification permission. The deadline still applies.
+      Log.w(TAG, "Registration countdown notification unavailable", e);
     }
   }
 
@@ -118,74 +216,56 @@ public final class ActivationReminder {
     dialog = null;
     dialogContext = null;
     if (old != null) {
-      try {
-        old.dismiss();
-      } catch (RuntimeException e) {
-        Log.w(TAG, "Unable to close reminder", e);
+      try { old.dismiss(); } catch (RuntimeException e) {
+        Log.w(TAG, "Could not dismiss registration dialog", e);
       }
     }
   }
 
-  private static void maybeShow() {
+  private static void maybeShowDialog(boolean force) {
     if (activationVisible || (dialog != null && dialog.isShowing())) return;
-    long now = SystemClock.elapsedRealtime();
-    if (now - lastShownElapsed < INTERVAL_MS) return;
-
     Activity activity = settingsRef.get();
     boolean inSettings = activity != null && !activity.isFinishing();
     AccessibilityService service = serviceRef.get();
-    Context owner = inSettings ? activity : service;
-    if (owner == null) return;
-    if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(owner)) {
-      closeDialog();
-      return;
-    }
+    Context context = inSettings ? activity : service;
+    if (context == null || !DeviceLicenseManager.configured()
+        || DeviceLicenseManager.isLicensed(context)) return;
 
-    // Avoid covering the lock screen or waking the phone solely for a prompt.
-    if (!inSettings) {
-      PowerManager power = (PowerManager) owner.getSystemService(Context.POWER_SERVICE);
-      KeyguardManager keyguard = (KeyguardManager) owner.getSystemService(Context.KEYGUARD_SERVICE);
-      if ((power != null && !power.isInteractive())
-          || (keyguard != null && keyguard.isKeyguardLocked())) {
-        return;
-      }
-    }
+    long now = SystemClock.elapsedRealtime();
+    if (!force && now - lastDialogElapsed < PERIOD_MS) return;
+    long remaining = service == null
+        ? PERIOD_MS : Math.max(0L, deadlineElapsed - now);
+    if (service != null && remaining <= 0) return;
 
     try {
-      AlertDialog next =
-          new AlertDialog.Builder(owner)
-              .setTitle(R.string.title_sandfly_registration_reminder)
-              .setMessage(R.string.summary_sandfly_registration_reminder)
-              .setNegativeButton(R.string.action_sandfly_registration_later, (d, which) -> {})
-              .setPositiveButton(
-                  R.string.action_sandfly_registration_open,
-                  (d, which) -> {
-                    Intent intent = new Intent(owner, ActivationActivity.class);
-                    if (!inSettings) intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    owner.startActivity(intent);
-                  })
-              .create();
+      AlertDialog next = new AlertDialog.Builder(context)
+          .setTitle(R.string.title_sandfly_registration_reminder)
+          .setMessage(
+              context.getString(
+                  R.string.summary_sandfly_trial_dialog,
+                  Math.max(1L, (remaining + 999L) / 1000L)))
+          .setNegativeButton(R.string.action_sandfly_registration_later, (d, w) -> {})
+          .setPositiveButton(R.string.action_sandfly_registration_open, (d, w) -> {
+            Intent open = new Intent(context, ActivationActivity.class);
+            if (!inSettings) open.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(open);
+          })
+          .create();
       if (!inSettings) {
-        // Accessibility services may present their own accessible windows without
-        // requesting the SYSTEM_ALERT_WINDOW permission.
         Window window = next.getWindow();
         if (window == null) return;
         window.setType(WindowManager.LayoutParams.TYPE_ACCESSIBILITY_OVERLAY);
       }
-      next.setOnDismissListener(
-          d -> {
-            if (dialog == next) {
-              dialog = null;
-              dialogContext = null;
-            }
-          });
+      next.setOnDismissListener(d -> {
+        if (dialog == next) { dialog = null; dialogContext = null; }
+      });
       next.show();
       dialog = next;
-      dialogContext = owner;
-      lastShownElapsed = now;
+      dialogContext = context;
+      lastDialogElapsed = now;
     } catch (RuntimeException e) {
-      // An overlay can be rejected by some device firmware. Do not crash speech.
-      Log.w(TAG, "Could not display reminder", e);
+      // Do not crash the screen reader if a device forbids accessibility overlays.
+      Log.w(TAG, "Could not show immediate registration dialog", e);
     }
   }
 }
