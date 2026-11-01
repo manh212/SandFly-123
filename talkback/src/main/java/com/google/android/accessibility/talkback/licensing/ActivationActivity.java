@@ -24,8 +24,12 @@ public final class ActivationActivity extends Activity {
     help.setText("Gửi yêu cầu SFREQ1 cho người quản lý. Nhận mã SFLIC1 và dán vào đây. Kích hoạt không cần Internet.");
     layout.addView(help);
     TextView requestText = new TextView(this); requestText.setTextIsSelectable(true); layout.addView(requestText);
-    try { request = DeviceLicenseManager.request(this); requestText.setText(request); }
-    catch (Exception e) { requestText.setText(e.getMessage()); }
+    if (ApkSignatureVerifier.isOfficial(this)) {
+      try { request = DeviceLicenseManager.request(this); requestText.setText(request); }
+      catch (Exception e) { requestText.setText(e.getMessage()); }
+    } else {
+      requestText.setText("Không thể tạo yêu cầu đăng ký từ bản cài đặt chưa được xác thực.");
+    }
     addButton(layout, "Sao chép yêu cầu kích hoạt", v -> {
       ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
       if (clipboard != null && request != null) {
@@ -55,7 +59,8 @@ public final class ActivationActivity extends Activity {
     button.setOnClickListener(listener); layout.addView(button);
   }
   private void refresh() {
-    status.setText(!DeviceLicenseManager.configured() ? "Bản dựng chưa cấu hình khóa cấp phép."
+    status.setText(!ApkSignatureVerifier.isOfficial(this) ? "Bản cài đặt Meridian chưa được xác thực. Vui lòng cài APK do nhà phát hành ký chính thức."
+      : !DeviceLicenseManager.configured() ? "Bản dựng chưa cấu hình khóa cấp phép."
       : DeviceLicenseManager.isLicensed(this) ? "Thiết bị đã đăng ký. Meridian sẽ tiếp tục hoạt động bình thường."
       : "Chưa đăng ký. Trình đọc màn hình sẽ tự tắt khi hết thời gian đếm ngược 60 giây.");
   }
