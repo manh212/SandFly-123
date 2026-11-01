@@ -67,6 +67,7 @@ import static com.google.android.accessibility.talkback.contextmenu.ListMenuMana
 import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.CUSTOM_ACTION;
 import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.LANGUAGE;
 import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.VOICE_PROFILE;
+import static com.google.android.accessibility.talkback.contextmenu.ListMenuManager.MenuId.GESTURE_PROFILE;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.ANNOUNCE_REAL_ACTION;
 import static com.google.android.accessibility.talkback.trainingcommon.PageConfig.UNKNOWN_ANNOUNCEMENT;
 import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED;
@@ -784,6 +785,14 @@ public class GestureController {
       selectorController.changeVoiceProfile(eventId, /* isNext= */ false);
     } else if (action.equals(service.getString(R.string.shortcut_value_next_voice_profile))) {
       selectorController.changeVoiceProfile(eventId, /* isNext= */ true);
+    } else if (action.equals(service.getString(R.string.shortcut_value_gesture_profiles))) {
+      result = menuManager.showMenu(GESTURE_PROFILE, eventId, R.string.no_gesture_profiles);
+    } else if (action.equals(service.getString(R.string.shortcut_value_previous_gesture_profile))) {
+      selectorController.changeGestureProfile(eventId, false);
+    } else if (action.equals(service.getString(R.string.shortcut_value_next_gesture_profile))) {
+      selectorController.changeGestureProfile(eventId, true);
+    } else if (GestureProfiles.isAction(action)) {
+      result = selectorController.selectGestureProfile(eventId, GestureProfiles.idOf(action));
     } else if (action.equals(service.getString(R.string.shortcut_value_previous_granularity))) {
       result = pipeline.returnFeedback(eventId, Feedback.focusDirection(PREVIOUS_GRANULARITY));
     } else if (action.equals(service.getString(R.string.shortcut_value_next_granularity))) {
@@ -1170,8 +1179,8 @@ public class GestureController {
     }
     String action = gestureShortcutMapping.getActionKeyFromGestureId(gestureId);
     // Override the action if the current granularity is row/column.
-    if (actorState.getDirectionNavigation().getCurrentGranularity()
-        == CursorGranularity.ROW_COLUMN) {
+    if (!gestureShortcutMapping.hasGestureOverride(gestureId)
+        && actorState.getDirectionNavigation().getCurrentGranularity() == CursorGranularity.ROW_COLUMN) {
       if (actionGestureId == AccessibilityService.GESTURE_SWIPE_LEFT) {
         action = service.getString(R.string.shortcut_value_column_left);
       } else if (actionGestureId == AccessibilityService.GESTURE_SWIPE_RIGHT) {

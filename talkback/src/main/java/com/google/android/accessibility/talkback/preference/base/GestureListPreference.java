@@ -33,6 +33,15 @@ import com.google.android.accessibility.talkback.actor.ImageCaptioner;
 import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.talkback.gesture.CustomMenus;
+import com.google.android.accessibility.talkback.gesture.GestureProfiles;
+import com.google.android.accessibility.talkback.commands.Commands;
+import android.content.Intent;
+import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceDialogFragmentCompat;
+import androidx.preference.PreferenceFragmentCompat;
+import com.google.android.accessibility.talkback.preference.TalkBackPreferencesActivity.TalkBackSubSettings;
+import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_ARGS;
+import static com.google.android.accessibility.utils.preference.PreferencesActivity.FRAGMENT_NAME;
 import com.google.android.accessibility.talkback.gesture.GestureShortcutMapping;
 import com.google.android.accessibility.talkback.gesture.NavigationGestureActions;
 import com.google.android.accessibility.talkback.gesture.OpenAppActions;
@@ -86,6 +95,26 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
     // Change preference title to multi-line style.
     setSingleLineTitle(false);
     populateActionItems();
+  }
+
+  public GestureListPreference(Context context, String key, CharSequence title, String defaultValue) {
+    this(context, (AttributeSet) null);
+    setKey(key);
+    setTitle(title);
+    initialValue = defaultValue;
+  }
+
+  public static void showCommandList(PreferenceFragmentCompat fragment, GestureListPreference preference) {
+    Fragment target = preference.createDialogFragment();
+    if (target instanceof PreferenceDialogFragmentCompat dialog) {
+      dialog.setTargetFragment(fragment, 0);
+      dialog.show(fragment.getParentFragmentManager(), preference.getKey());
+      return;
+    }
+    Intent intent = new Intent(fragment.getContext(), TalkBackSubSettings.class);
+    intent.putExtra(FRAGMENT_NAME, GesturePreferenceFragmentCompat.class.getCanonicalName());
+    intent.putExtra(FRAGMENT_ARGS, GesturePreferenceFragmentCompat.createBundleForFragmentArguments(preference));
+    fragment.startActivity(intent);
   }
 
   @Override
@@ -204,8 +233,14 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
 
   /** The setter of the preference value. */
   public void setValue(String value) {
-    SharedPreferences sharedPreferences = SharedPreferencesUtils.getSharedPreferences(getContext());
-    sharedPreferences.edit().putString(getKey(), value).apply();
+    save(getContext(), getKey(), value);
+  }
+
+  public static void save(Context context, String key, String value) {
+    SharedPreferences sharedPreferences = SharedPreferencesUtils.getSharedPreferences(context);
+    if (!GestureProfiles.setRowValue(sharedPreferences, key, value)) {
+      sharedPreferences.edit().putString(key, value).apply();
+    }
   }
 
   /** The setter of the summary for disabled case. */
@@ -218,8 +253,12 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
    * pointed to the action "Read from top".
    */
   public String getCurrentValue() {
-    String targetValue =
-        SharedPreferencesUtils.getSharedPreferences(getContext()).getString(getKey(), initialValue);
+    SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(getContext());
+    @Nullable String profileValue = GestureProfiles.rowValue(prefs, getKey());
+    if (profileValue != null) {
+      return profileValue;
+    }
+    String targetValue = prefs.getString(getKey(), initialValue);
 
     // returns "TALKBACK_BREAKOUT" if targetText is "LOCAL_BREAKOUT"
     if (TextUtils.equals(
@@ -244,6 +283,9 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
       return summaryWhenDisabled;
     }
     String value = getCurrentValue();
+    if (TextUtils.equals(value, GestureProfiles.DEFAULT_VALUE)) return getContext().getString(R.string.gesture_profile_default);
+    String profileLabel = GestureProfiles.label(getContext(), SharedPreferencesUtils.getSharedPreferences(getContext()), value);
+    if (profileLabel != null) return profileLabel;
     @Nullable String customMenuLabel = CustomMenus.label(getContext(), value);
     if (customMenuLabel != null) {
       return customMenuLabel;
@@ -263,6 +305,13 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
 
   private void populateActionItems() {
     ImmutableList.Builder<ActionItem> builder = ImmutableList.builder();
+    if (GestureProfiles.isRowKey(getKey())) {
+      builder.add(
+          new ActionItem(
+              getContext().getString(R.string.gesture_profile_default),
+              GestureProfiles.DEFAULT_VALUE,
+              TYPE_ACTION_ITEM));
+    }
     builder.add(
         new ActionItem(
             getContext().getResources().getString(R.string.shortcut_unassigned),
@@ -291,9 +340,21 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
           new ActionItem(menu.name, CustomMenus.actionFor(menu.id), TYPE_ACTION_ITEM));
     }
     addActionItemsToList(builder, customMenuActions.build());
+    ImmutableList.Builder<ActionItem> profiles = createActionListBuilder(R.string.title_pref_gesture_profiles, 0, 0);
+    int[][] profileActions = {
+      {R.string.shortcut_gesture_profiles, R.string.shortcut_value_gesture_profiles},
+      {R.string.shortcut_next_gesture_profile, R.string.shortcut_value_next_gesture_profile},
+      {R.string.shortcut_previous_gesture_profile, R.string.shortcut_value_previous_gesture_profile}
+    };
+    for (int[] action : profileActions) profiles.add(new ActionItem(getContext().getString(action[0]), getContext().getString(action[1]), TYPE_ACTION_ITEM));
+    if (!GestureProfiles.read(SharedPreferencesUtils.getSharedPreferences(getContext())).isEmpty()) {
+      for (kotlin.Pair<String, String> profile : GestureProfiles.choices(getContext(), SharedPreferencesUtils.getSharedPreferences(getContext()))) {
+        profiles.add(new ActionItem(getContext().getString(R.string.shortcut_use_gesture_profile, profile.getSecond()), GestureProfiles.valueOf(profile.getFirst()), TYPE_ACTION_ITEM));
+      }
+    }
+    addActionItemsToList(builder, profiles.build());
     items = builder.build();
   }
-
 
   private ImmutableList<ActionItem> organizeSpecialFeatures() {
     int[] titles = {
@@ -800,7 +861,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_value_copy_focused),
             TYPE_ACTION_ITEM));
 
-
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_direct_tap),
@@ -905,7 +965,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
-
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_tutorial),
@@ -970,7 +1029,6 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               resources.getString(R.string.shortcut_value_announce_current_title),
               TYPE_ACTION_ITEM));
     }
-
 
     if (FeatureFlagReader.enableSpeechPitchKeyboard(getContext())) {
       builder

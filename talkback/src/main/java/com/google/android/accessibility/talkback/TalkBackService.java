@@ -224,6 +224,7 @@ import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.speechdictionary.SpeechDictionary;
 import com.google.android.accessibility.talkback.gesture.AppGestures;
+import com.google.android.accessibility.talkback.gesture.GestureProfiles;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.report.VerboseDiagnosticsLogger;
 import com.google.android.accessibility.talkback.quicksettings.SystemPanelClicker;
@@ -2291,6 +2292,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   protected void onServiceConnected() {
     ExitAfterTurnOff.cancel();
       super.onServiceConnected();
+    GestureProfiles.reset(prefs);
     EventId talkbackOnEventId =
         Performance.getInstance().onHintEventReceived(Performance.HINT_SUB_TYPE_TALKBACK_ON);
 
@@ -3753,6 +3755,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         getBooleanPref(R.string.pref_wrap_around_key, R.bool.pref_wrap_around_default));
     SpeechDictionary.load(this, prefs);
     AppGestures.load(prefs);
+    GestureProfiles.load(prefs);
     FocusFeedbackMapper.setTouchStopsSpeech(
         getBooleanPref(
             R.string.pref_touch_stops_speech_key, R.bool.pref_touch_stops_speech_default));

@@ -314,6 +314,9 @@ public class TalkBackPreferenceFilter {
   }
 
   private boolean hideKey(String key) {
+    if (android.os.Build.VERSION.SDK_INT < 33
+        && (TextUtils.equals(key, context.getString(R.string.pref_shortcut_2finger_rotate_clockwise_key))
+            || TextUtils.equals(key, context.getString(R.string.pref_shortcut_2finger_rotate_counterclockwise_key)))) return true;
     Optional<TalkBackPreference> pref =
         Stream.of(TalkBackPreference.values())
             .filter(p -> TextUtils.equals(key, context.getString(p.resId)))

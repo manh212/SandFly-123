@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+  <string name="title_pref_gesture_profiles">Hồ sơ cử chỉ</string>
+  <string name="title_gesture_profile">Hồ sơ cử chỉ</string>
+  <string name="gesture_profile_default">Mặc định</string>
+  <string name="gesture_profile_menu_item_in_use">%1$s, đang dùng</string>
+  <string name="no_gesture_profiles">Chưa có hồ sơ cử chỉ</string>
+  <string name="shortcut_gesture_profiles">Chọn hồ sơ cử chỉ</string>
+  <string name="shortcut_previous_gesture_profile">Hồ sơ cử chỉ trước</string>
+  <string name="shortcut_next_gesture_profile">Hồ sơ cử chỉ tiếp theo</string>
+  <string name="shortcut_use_gesture_profile">Dùng hồ sơ cử chỉ %1$s</string>
+  <string name="title_pref_gesture_profile_in_use">Hồ sơ cử chỉ đang dùng</string>
+  <string name="title_pref_add_gesture_profile">Thêm hồ sơ cử chỉ</string>
+  <string name="gesture_profile_new_name">Hồ sơ cử chỉ %1$d</string>
+  <string name="gesture_profile_name_taken">Đã có hồ sơ cử chỉ tên %1$s</string>
+  <string name="title_pref_delete_gesture_profile">Xóa hồ sơ cử chỉ</string>
+  <string name="pref_selector_gesture_profile_key" translatable="false">pref_selector_gesture_profile_key</string>
+  <string name="selector_gesture_profile" translatable="false">SELECTOR_GESTURE_PROFILE</string>
+  <string name="shortcut_value_gesture_profiles" translatable="false">GESTURE_PROFILES</string>
+  <string name="shortcut_value_previous_gesture_profile" translatable="false">PREVIOUS_GESTURE_PROFILE</string>
+  <string name="shortcut_value_next_gesture_profile" translatable="false">NEXT_GESTURE_PROFILE</string>
+  <bool name="pref_selector_gesture_profile_default">true</bool>
+  <item type="id" name="group_gesture_profile" />
+</resources>

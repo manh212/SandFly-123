@@ -79,6 +79,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   // The number of gesture sets to be provided.
   private static final int NUMBER_OF_GESTURE_SET = 2;
+  public static final int ROTATE_CLOCKWISE = 11001;
+  public static final int ROTATE_COUNTERCLOCKWISE = 11002;
 
   /** List all of supported gestures. */
   private enum TalkBackGesture {
@@ -213,6 +215,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     EXTENDED_LEFT_DOWN(10010, MULTI_FINGER, R.string.pref_extended_gesture_left_down_key, R.string.shortcut_value_unassigned),
     EXTENDED_RIGHT_UP(10011, MULTI_FINGER, R.string.pref_extended_gesture_right_up_key, R.string.shortcut_value_unassigned),
     EXTENDED_RIGHT_DOWN(10012, MULTI_FINGER, R.string.pref_extended_gesture_right_down_key, R.string.shortcut_value_unassigned),
+    ROTATION_CLOCKWISE(ROTATE_CLOCKWISE, MULTI_FINGER, R.string.pref_shortcut_2finger_rotate_clockwise_key, R.string.shortcut_value_select_next_setting),
+    ROTATION_COUNTERCLOCKWISE(ROTATE_COUNTERCLOCKWISE, MULTI_FINGER, R.string.pref_shortcut_2finger_rotate_counterclockwise_key, R.string.shortcut_value_select_previous_setting),
     // Multi-finger Gestures
     TWO_FINGER_SINGLE_TAP(
         AccessibilityService.GESTURE_2_FINGER_SINGLE_TAP,
@@ -477,6 +481,9 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     SHOW_LANGUAGE_OPTIONS(
         R.string.shortcut_value_show_language_options, R.string.shortcut_show_language_options),
     VOICE_PROFILES(R.string.shortcut_value_voice_profiles, R.string.shortcut_voice_profiles),
+    GESTURE_PROFILES(R.string.shortcut_value_gesture_profiles, R.string.shortcut_gesture_profiles),
+    PREVIOUS_GESTURE_PROFILE(R.string.shortcut_value_previous_gesture_profile, R.string.shortcut_previous_gesture_profile),
+    NEXT_GESTURE_PROFILE(R.string.shortcut_value_next_gesture_profile, R.string.shortcut_next_gesture_profile),
     PREVIOUS_VOICE_PROFILE(
         R.string.shortcut_value_previous_voice_profile, R.string.shortcut_previous_voice_profile),
     NEXT_VOICE_PROFILE(
@@ -863,11 +870,17 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
    * @return action key string
    */
   public String getActionKeyFromGestureId(int gestureId) {
-    @Nullable String appAction = AppGestures.action(gestureIdToKey.get(gestureId));
+    @Nullable String appAction = AppGestures.action(gestureIdToKey.get(getActionGestureId(gestureId)));
     if (appAction != null) {
       return appAction;
     }
-    return getActionKeyFromGestureId(currentGestureSet, gestureId);
+    String profile = GestureProfiles.action(gestureIdToKey.get(getActionGestureId(gestureId)));
+    return profile != null ? profile : getActionKeyFromGestureId(currentGestureSet, gestureId);
+  }
+
+  public boolean hasGestureOverride(int gestureId) {
+    String key = gestureIdToKey.get(getActionGestureId(gestureId));
+    return AppGestures.action(key) != null || GestureProfiles.action(key) != null;
   }
 
   private void loadGestureKeys() {
@@ -921,6 +934,26 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
    */
   @Nullable
   public String getGestureFromActionKey(String action) {
+    if (GestureProfiles.isActive() || AppGestures.hasGestures()) {
+      GestureCollector matches = new GestureCollector();
+      for (TalkBackGesture gesture : TalkBackGesture.values()) {
+        if (skipGestureForRTL(gesture)) continue;
+        int id = getActionGestureId(gesture.gestureId);
+        String assigned;
+        if (gesture.gestureType == FINGERPRINT) {
+          assigned = fingerprintGestureIdToActionKey.get(gesture.gestureId);
+        } else {
+          if (!gestureIdToActionKey.get(currentGestureSet).containsKey(id)) continue;
+          assigned = getActionKeyFromGestureId(id);
+        }
+        if (TextUtils.equals(action, assigned)) matches.addCustomizedGesture(gesture);
+      }
+      TalkBackGesture gesture = matches.getPrioritizedGesture();
+      if (gesture == null) return null;
+      return gesture.gestureType == FINGERPRINT
+          ? getFingerprintGestureString(context, gesture.gestureId)
+          : getGestureString(context, getActionGestureId(gesture.gestureId));
+    }
     if (TextUtils.isEmpty(action) || !actionToGesture.get(currentGestureSet).containsKey(action)) {
       return null;
     }
@@ -1022,6 +1055,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
       HashMap<String, GestureCollector> actionToGestureMap = new HashMap<>();
       // Load TalkBack gestures.
       for (TalkBackGesture gesture : TalkBackGesture.values()) {
+        if ((gesture.gestureId == ROTATE_CLOCKWISE || gesture.gestureId == ROTATE_COUNTERCLOCKWISE)
+            && !prefs.getBoolean(context.getString(R.string.pref_two_finger_rotation_key), false)) continue;
         if (com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.contains(gesture.gestureId)
             && !com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.isEnabled(prefs)) {
           continue;
@@ -1132,6 +1167,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
 
   /** Returns the corresponding action resource Id of action key. */
   public static String getActionString(Context context, String actionKeyString) {
+    String profileLabel = GestureProfiles.label(context, SharedPreferencesUtils.getSharedPreferences(context), actionKeyString);
+    if (profileLabel != null) return profileLabel;
     String customMenu = CustomMenus.label(context, actionKeyString);
     if (customMenu != null) return customMenu;
     String menuLabel = MenuGestureActions.label(context, actionKeyString);
@@ -1199,6 +1236,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
   @Nullable
   @SuppressLint("NullTernary") // existing logic
   public static String getGestureString(Context context, int gestureId) {
+    if (gestureId == ROTATE_CLOCKWISE) return context.getString(R.string.title_pref_shortcut_2finger_rotate_clockwise);
+    if (gestureId == ROTATE_COUNTERCLOCKWISE) return context.getString(R.string.title_pref_shortcut_2finger_rotate_counterclockwise);
     if (com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.contains(gestureId)) {
       return com.google.android.accessibility.talkback.gesture.extended.ExtendedGestures.name(context, gestureId);
     }

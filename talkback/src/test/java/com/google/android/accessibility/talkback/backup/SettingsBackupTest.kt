@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.backup
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
+import com.google.android.accessibility.talkback.gesture.GestureProfiles
 import com.google.android.accessibility.talkback.migration.MigrationFiles
 import com.google.android.accessibility.talkback.preference.ItemOrder
 import com.google.android.accessibility.talkback.update.Updater
@@ -40,6 +41,23 @@ class SettingsBackupTest {
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val extra = SharedPreferencesUtils.getSharedPreferences(context, "extra_settings")
   private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
+
+  @Test
+  fun gestureProfilesRoundTripWithoutRestoringTheActiveSelection() {
+    prefs.edit().clear().commit()
+    val profiles = listOf(GestureProfiles.Profile("a", "Đọc sách", mapOf("pref_shortcut_up" to "NEXT")))
+    GestureProfiles.write(prefs, profiles)
+    GestureProfiles.select(context, prefs, "a")
+    val backup = SettingsBackup.export(context)
+    assertTrue(backup.contains(GestureProfiles.KEY))
+    assertFalse(backup.contains("\"" + GestureProfiles.ACTIVE_KEY + "\""))
+    prefs.edit().clear().commit()
+    assertTrue(SettingsBackup.import(context, backup))
+    assertEquals(profiles, GestureProfiles.read(prefs))
+    assertEquals("", GestureProfiles.activeId(prefs))
+    prefs.edit().clear().commit()
+    GestureProfiles.load(prefs)
+  }
 
   @Test
   fun factoryDefaultsApplyToFreshInstallAndPreserveLaterChanges() {

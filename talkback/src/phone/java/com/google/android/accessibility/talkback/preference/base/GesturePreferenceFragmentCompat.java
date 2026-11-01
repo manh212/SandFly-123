@@ -99,8 +99,7 @@ public class GesturePreferenceFragmentCompat extends TalkbackBaseFragment {
             return false;
           }
 
-          SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(getContext());
-          prefs.edit().putString(preferenceKey, item.value).apply();
+          GestureListPreference.save(getContext(), preferenceKey, item.value);
           popBackStack();
           return true;
         }

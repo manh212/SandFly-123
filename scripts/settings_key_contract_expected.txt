@@ -753,3 +753,7 @@ screen_recognition_privacy
 task_assistant
 task_assistant_ai
 task_assistant_open
+pref_gesture_profiles_screen
+pref_selector_gesture_profile_key
+pref_shortcut_two_finger_rotate_clockwise
+pref_shortcut_two_finger_rotate_counterclockwise

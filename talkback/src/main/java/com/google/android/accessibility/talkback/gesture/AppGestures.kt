@@ -86,6 +86,8 @@ object AppGestures {
    * Returns the command that the gesture of preference key [gestureKey] runs in the app shown, or
    * null when it runs what it runs everywhere.
    */
+  @JvmStatic fun hasGestures(): Boolean = apps[app]?.gestures?.isNotEmpty() == true
+
   @JvmStatic
   fun action(gestureKey: String?): String? {
     if (gestureKey == null) return null

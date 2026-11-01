@@ -476,7 +476,8 @@ object SettingsBackup {
 
   /** The updater's state stays as it is on this phone. Null [name] means any file. */
   private fun isSkipped(context: Context, name: String?, key: String) =
-    (name == null || name == defaultName(context)) && key in MigrationFiles.SKIPPED_PREF_KEYS
+    (name == null || name == defaultName(context)) &&
+      (key in MigrationFiles.SKIPPED_PREF_KEYS || key == "pref_gesture_profile")
 
   private fun isSecretKey(key: String) = key.contains("api_key", ignoreCase = true)
 

@@ -76,11 +76,11 @@ final class ExtendedTouchBackend implements TouchInteractionController.Callback,
             touchSlop * 2,
             touchSlop,
             clockwise ->
-                service.performCatalogAction(
-                    service.getString(
-                        clockwise
-                            ? R.string.shortcut_value_select_next_setting
-                            : R.string.shortcut_value_select_previous_setting)));
+                service.onGesture(new AccessibilityGestureEvent(
+                    clockwise
+                        ? com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.ROTATE_CLOCKWISE
+                        : com.google.android.accessibility.talkback.gesture.GestureShortcutMapping.ROTATE_COUNTERCLOCKWISE,
+                    Display.DEFAULT_DISPLAY, java.util.Collections.emptyList())));
     handler = new Handler(service.getMainLooper());
     dragSlop = touchSlop;
     controller = service.getTouchInteractionController(Display.DEFAULT_DISPLAY);

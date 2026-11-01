@@ -125,6 +125,7 @@ public final class SelectorGroupManager {
         migrateDuplicateItems(context, prefs, groups);
       }
       appendNewScriptControls(context, prefs);
+      appendGestureProfileControl(context, prefs);
       groups = getGroups(context);
       String currentGroup = prefs.getString(context.getString(CURRENT_GROUP_KEY_RES), "");
       Group selectedGroup = findGroup(groups, currentGroup);
@@ -619,6 +620,22 @@ public final class SelectorGroupManager {
       }
       saveGroups(context, groups);
     }
+  }
+
+  public static void appendGestureProfileControl(Context context, SharedPreferences prefs) {
+    if (!isSupported() || !com.google.android.accessibility.talkback.gesture.GestureProfiles.hasProfiles()
+        || prefs.getBoolean("pref_gesture_profile_control_added", false)) return;
+    prefs.edit().putBoolean("pref_gesture_profile_control_added", true).apply();
+    ArrayList<Group> groups = mutableGroups(context);
+    String id = itemId(context, SelectorController.Setting.GESTURE_PROFILE);
+    if (containsItem(groups, id)) return;
+    Group target = findGroup(groups, GROUP_SPECIAL);
+    if (target == null) {
+      target = new Group(GROUP_SPECIAL, context.getString(R.string.selector_group_special), true, new ArrayList<>());
+      groups.add(target);
+    }
+    target.items.add(id);
+    saveGroups(context, groups);
   }
 
   private static void appendNewScriptControls(Context context, SharedPreferences prefs) {
