@@ -51,9 +51,9 @@ public final class DeviceLicenseManager {
 
   public static boolean isLicensed(Context context) {
     if (!configured()) return false;
-    String license = prefs(context).getString("license", "");
-    if (license == null || license.isEmpty()) return false;
     try {
+      String license = prefs(context).getString("license", "");
+      if (license == null || license.isEmpty()) return false;
       return LicenseProtocol.verify(
               request(context),
               license,
