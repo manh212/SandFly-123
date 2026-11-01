@@ -125,6 +125,10 @@
 
     <application
         android:supportsRtl="true">
+        <activity
+            android:name="com.google.android.accessibility.talkback.licensing.ActivationActivity"
+            android:exported="false"
+            android:label="Kích hoạt SandFly" />
 
         <activity
             android:name="com.google.android.accessibility.talkback.taskassistant.TaskVoiceInputActivity"
