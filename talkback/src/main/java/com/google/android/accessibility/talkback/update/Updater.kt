@@ -41,6 +41,8 @@ import androidx.core.content.IntentCompat
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import com.google.android.accessibility.talkback.BuildConfig
+import com.google.android.accessibility.talkback.licensing.ActivationActivity
+import com.google.android.accessibility.talkback.licensing.DeviceLicenseManager
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.migration.AppIdMove
 import com.google.android.accessibility.talkback.utils.NotificationUtils
@@ -185,6 +187,7 @@ object Updater {
     )
 
   private fun checkAutomatically(context: Context, ignoreInterval: Boolean) {
+    if (!DeviceLicenseManager.mayUpdate(context)) return
     if (!isAutomaticCheckEnabled(context)) {
       return
     }
@@ -218,10 +221,27 @@ object Updater {
     }
   }
 
+  /**
+   * Only gate the update channel. Never disable the screen reader, speech or accessibility
+   * service when the user has not activated or has temporarily lost their licence.
+   */
+  private fun requireUpdateLicense(context: Context): Boolean {
+    if (DeviceLicenseManager.mayUpdate(context)) return true
+    mainHandler.post {
+      Toast.makeText(context.applicationContext,
+        "Cần kích hoạt thiết bị trước khi cập nhật SandFly.", Toast.LENGTH_LONG).show()
+      context.applicationContext.startActivity(
+        Intent(context.applicationContext, ActivationActivity::class.java)
+          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+    }
+    return false
+  }
+
   /** Checks now, and offers to install a newer build. */
   @JvmStatic
   fun checkManually(activity: Activity) {
     val context = activity.applicationContext
+    if (!requireUpdateLicense(context)) return
     toast(context, R.string.update_checking)
     executor.execute {
       val update =
@@ -348,6 +368,7 @@ object Updater {
   @JvmStatic
   fun install(context: Context, downloadUrl: String) {
     val appContext = context.applicationContext
+    if (!requireUpdateLicense(appContext)) return
     val saveDownload = UpdateDownloads.isEnabled(appContext)
     if (saveDownload && UpdateDownloads.needsStoragePermission(appContext)) {
       appContext.startActivity(Intent(appContext, UpdateStoragePermissionActivity::class.java)
