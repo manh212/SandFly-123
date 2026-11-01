@@ -207,6 +207,11 @@ jobs:
       - name: Check the signing key
         if: github.event_name == 'push'
         run: |
+          verifier=talkback/src/main/java/com/google/android/accessibility/talkback/licensing/ApkSignatureVerifier.java
+          if ! grep -Fq "\"$SANDFLY_CERT_SHA256\"" "$verifier"; then
+            echo "The runtime activation certificate does not match the release signing key." >&2
+            exit 1
+          fi
           apksigner=$(ls -d "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -n 1)
           for apk in build/outputs/apk/*/debug/*.apk; do
             certs=$("$apksigner" verify --print-certs "$apk" 2>&1) || {
