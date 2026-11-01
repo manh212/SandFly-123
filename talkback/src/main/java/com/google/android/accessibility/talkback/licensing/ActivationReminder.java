@@ -168,6 +168,13 @@ public final class ActivationReminder {
     NotificationManager manager =
         (NotificationManager) service.getSystemService(Context.NOTIFICATION_SERVICE);
     if (manager == null) return;
+    // Android 13+ may hide non-exempt notifications when the user denies permission.
+    // The countdown is kept independently of this visibility setting.
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU
+        && service.checkSelfPermission(android.Manifest.permission.POST_NOTIFICATIONS)
+            != android.content.pm.PackageManager.PERMISSION_GRANTED) {
+      return;
+    }
     try {
       if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
         NotificationChannel channel =
