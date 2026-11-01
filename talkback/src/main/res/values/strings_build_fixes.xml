@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Preference identifiers are stable internal storage keys, not UI text. -->
+    <string name="pref_gemini_repeat_opt_in_count_key" translatable="false">pref_gemini_repeat_opt_in_count</string>
+    <string name="pref_gemini_repeat_opt_in_pop_key" translatable="false">pref_gemini_repeat_opt_in_pop</string>
+
+    <!-- The spoken keyword that starts the Gemini voice command. -->
+    <string name="voice_commands_gemini">Gemini</string>
+
+    <!-- Confirm selection in the automatic image caption feature dialog. -->
+    <string name="switch_auto_image_caption_dialog_positive_button_text">OK</string>
+</resources>
