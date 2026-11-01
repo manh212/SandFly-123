@@ -16,13 +16,20 @@
 
 package com.google.android.accessibility.utils.monitor;
 
+import static android.media.MediaRecorder.AudioSource.CAMCORDER;
+import static android.media.MediaRecorder.AudioSource.DEFAULT;
 import static android.media.MediaRecorder.AudioSource.MIC;
+import static android.media.MediaRecorder.AudioSource.UNPROCESSED;
+import static android.media.MediaRecorder.AudioSource.VOICE_COMMUNICATION;
+import static android.media.MediaRecorder.AudioSource.VOICE_PERFORMANCE;
 import static android.media.MediaRecorder.AudioSource.VOICE_RECOGNITION;
 
 import android.content.Context;
 import android.media.AudioManager;
 import android.media.AudioManager.AudioRecordingCallback;
 import android.media.AudioRecordingConfiguration;
+import android.os.Build;
+import androidx.annotation.VisibleForTesting;
 import com.google.android.accessibility.utils.output.LowLatencyAudio;
 import java.util.List;
 import org.checkerframework.checker.nullness.qual.Nullable;
@@ -99,14 +106,32 @@ public class MediaRecorderMonitor {
     if (configs == null) {
       return false;
     }
-    // Try to find a target audio source in the recording configurations.
     for (AudioRecordingConfiguration config : configs) {
-      if ((VOICE_RECOGNITION == config.getClientAudioSource())
-          || (MIC == config.getClientAudioSource())) {
+      boolean silenced =
+          Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && config.isClientSilenced();
+      if (recordsMicrophone(config.getClientAudioSource(), silenced)) {
         return true;
       }
     }
     return false;
+  }
+
+  @VisibleForTesting
+  static boolean recordsMicrophone(int source, boolean silenced) {
+    if (silenced) {
+      return false;
+    }
+    return switch (source) {
+      case DEFAULT,
+          MIC,
+          CAMCORDER,
+          VOICE_RECOGNITION,
+          VOICE_COMMUNICATION,
+          UNPROCESSED,
+          VOICE_PERFORMANCE ->
+          true;
+      default -> false;
+    };
   }
 
   private static boolean containsAudioSourceVoiceRecognition(

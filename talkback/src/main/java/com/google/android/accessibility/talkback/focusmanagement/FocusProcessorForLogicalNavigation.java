@@ -200,6 +200,9 @@ public class FocusProcessorForLogicalNavigation {
 
   // Checks whether a page scroll has already moved the list, before its scroll event arrives.
   private final Handler earlyScrollCheckHandler = new Handler(Looper.getMainLooper());
+  private static final long SETTLE_CHECK_MS = 16;
+  private static final int SETTLE_CHECKS = 20;
+  private int navigationSerial;
   private final ArrayDeque<PendingNavigation> orderQueue = new ArrayDeque<>();
   private boolean orderPending;
   private boolean resumingOrder;
@@ -217,7 +220,6 @@ public class FocusProcessorForLogicalNavigation {
       Performance.getInstance().onNavigationFailed(orderQueue.removeFirst().eventId(), "cancelled_order");
     }
   }
-
 
   // Target to put focus on on the next window navigation action
   private @Nullable AccessibilityNodeInfoCompat stealWindowNavigationTarget = null;
@@ -267,6 +269,7 @@ public class FocusProcessorForLogicalNavigation {
   ///////////////////////////////////////////////////////////////////////////////////////////////
   // Methods
   public boolean onNavigationAction(NavigationAction navigationAction, EventId eventId) {
+    navigationSerial++;
     Performance.getInstance().onNavigationActionStarted(eventId);
     if (orderPending) {
       if (orderQueue.size() >= 256) {
@@ -3192,7 +3195,16 @@ public class FocusProcessorForLogicalNavigation {
     int deltaY = pivotPresent ? pivotBefore.top - pivotAfter.top : DELTA_UNDEFINED;
     LogUtils.d(TAG, "checkScrollEarly: scrolled, deltaX=%s deltaY=%s", deltaX, deltaY);
     scrollable.refresh();
+    readListAgain(scrollable);
     onAutoScrolled(scrollable, eventId, deltaX, deltaY);
+  }
+
+  private void readListAgain(AccessibilityNodeInfoCompat scrollable) {
+    if (!BuildVersionUtils.isAtLeastT()) {
+      return;
+    }
+    service.clearCachedSubtree(scrollable.unwrap());
+    WindowNodePrefetcher.prefetch(scrollable, service.getPackageName());
   }
 
   /**
@@ -3568,6 +3580,41 @@ public class FocusProcessorForLogicalNavigation {
       @NonNull AccessibilityNodeInfoCompat focusBeforeScroll,
       NavigationAction sourceAction,
       EventId eventId) {
+    handleViewAutoScrolledForDirectionalNavigationWithDefaultTarget(
+        scrolledNode, focusBeforeScroll, sourceAction, eventId, SETTLE_CHECKS);
+  }
+
+  private void searchAgainWhenListMoves(
+      @NonNull AccessibilityNodeInfoCompat scrolledNode,
+      @NonNull AccessibilityNodeInfoCompat focusBeforeScroll,
+      NavigationAction sourceAction,
+      EventId eventId,
+      int settleChecksLeft) {
+    int serial = navigationSerial;
+    earlyScrollCheckHandler.postDelayed(
+        () -> {
+          if (serial != navigationSerial) {
+            return;
+          }
+          AccessibilityNodeInfoCompat focus =
+              accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+          if (focus != null && !focus.equals(focusBeforeScroll)) {
+            return;
+          }
+          scrolledNode.refresh();
+          readListAgain(scrolledNode);
+          handleViewAutoScrolledForDirectionalNavigationWithDefaultTarget(
+              scrolledNode, focusBeforeScroll, sourceAction, eventId, settleChecksLeft);
+        },
+        SETTLE_CHECK_MS);
+  }
+
+  private void handleViewAutoScrolledForDirectionalNavigationWithDefaultTarget(
+      @NonNull AccessibilityNodeInfoCompat scrolledNode,
+      @NonNull AccessibilityNodeInfoCompat focusBeforeScroll,
+      NavigationAction sourceAction,
+      EventId eventId,
+      int settleChecksLeft) {
     // Prior to focus on position for scroll in grid.
     if (sourceAction.positionForScroll != null) {
       AccessibilityNodeInfoCompat grid =
@@ -3609,6 +3656,13 @@ public class FocusProcessorForLogicalNavigation {
               localTraversalStrategy, focusBeforeScroll, sourceAction.searchDirection, nodeFilter);
       if (nodeToFocus == null) {
         Rect newRect = getBoundsAfterScroll(focusBeforeScroll);
+
+        if (!previousRect.equals(newRect) && settleChecksLeft > 0 && sourceAction.shouldScroll) {
+          LogUtils.d(TAG, "List still moving; searching again on the next frame.");
+          searchAgainWhenListMoves(
+              scrolledNode, focusBeforeScroll, sourceAction, eventId, settleChecksLeft - 1);
+          return;
+        }
         if (previousRect.equals(newRect) && sourceAction.shouldScroll) {
           if (sourceAction.isPrevScrolled) {
             LogUtils.d(TAG, "Pivot didn't move but has scrolls. Repeat until to find the next.");

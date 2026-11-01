@@ -39,6 +39,10 @@ public final class RecentUserInput {
     lastInputUptimeMs = SystemClock.uptimeMillis();
   }
 
+  public static boolean isRecentAfter(long uptimeMs) {
+    return isRecent() && uptimeMs < lastInputUptimeMs;
+  }
+
   /** Whether the user did something within the last couple of seconds. */
   public static boolean isRecent() {
     return SystemClock.uptimeMillis() - lastInputUptimeMs < WINDOW_MS;

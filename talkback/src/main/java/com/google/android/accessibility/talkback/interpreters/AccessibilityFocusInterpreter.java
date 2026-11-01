@@ -47,10 +47,13 @@ import com.google.android.accessibility.talkback.focusmanagement.interpreter.Scr
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.ScreenStateMonitor.ScreenStateChangeListener;
 import com.google.android.accessibility.talkback.focusmanagement.interpreter.TouchExplorationInterpreter.TouchExplorationActionListener;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
+import com.google.android.accessibility.talkback.focusmanagement.record.NodePathDescription;
 import com.google.android.accessibility.talkback.interpreters.InputFocusInterpreter.TargetViewChangeListener;
 import com.google.android.accessibility.talkback.interpreters.ManualScrollInterpreter.ManualScrollInterpretation;
 import com.google.android.accessibility.talkback.interpreters.ManualScrollInterpreter.ScrolledViewChangeListener;
+import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
+import com.google.android.accessibility.utils.BuildVersionUtils;
 import com.google.android.accessibility.utils.DisplayUtils;
 import com.google.android.accessibility.utils.FeatureSupport;
 import com.google.android.accessibility.utils.FormFactorUtils;
@@ -215,6 +218,20 @@ public class AccessibilityFocusInterpreter
     AccessibilityNodeInfoCompat currentA11yFocusedNode =
         accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
     if (shouldMoveFocus(currentA11yFocusedNode, interpretation.direction())) {
+
+      if (!FormFactorUtils.isAndroidWear()) {
+        AccessibilityNodeInfoCompat scrolled =
+            AccessibilityEventUtils.sourceCompat(interpretation.event());
+
+        if (scrolled != null && !BuildVersionUtils.isAtLeastOMR1()) {
+          scrolled.refresh();
+        }
+        NodePathDescription focusPath =
+            actorState.getFocusHistory().getLastFocusNodePathDescription();
+        if (focusPath == null || !focusPath.containsNodeByHashAndIdentity(scrolled)) {
+          return;
+        }
+      }
 
       ManualScroll.Builder builder =
           ManualScroll.builder()

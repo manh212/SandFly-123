@@ -25,6 +25,7 @@ import android.content.SharedPreferences
 import android.os.BatteryManager
 import android.os.Handler
 import android.os.Looper
+import android.os.SystemClock
 import android.text.format.DateFormat
 import androidx.annotation.MainThread
 import androidx.core.content.ContextCompat
@@ -35,6 +36,7 @@ import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.libraries.accessibility.utils.log.LogUtils
 import java.util.Calendar
 import java.util.Date
+import java.util.TimeZone
 
 /**
  * Speech at set times: the time, every so often, and a summary of the notifications once a day.
@@ -63,6 +65,7 @@ class SpokenSchedules(
       }
     }
   private var started = false
+  private var lastClockAt = 0L
 
   private val settingsListener =
     SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
@@ -132,6 +135,9 @@ class SpokenSchedules(
   private fun onClock() {
     schedule()
     catchUpSummary()
+    val elapsed = SystemClock.elapsedRealtime()
+    if (lastClockAt != 0L && elapsed - lastClockAt < MIN_CLOCK_GAP_MS) return
+    lastClockAt = elapsed
     val text = clockText(context, prefs.getString(KEY_CLOCK_FORMAT, null).orEmpty())
     if (text.isNotBlank()) clockSound()
     speak(text)
@@ -175,6 +181,9 @@ class SpokenSchedules(
 
   companion object {
     private const val TAG = "SpokenSchedules"
+    private const val MINUTE_MS = 60_000L
+    private const val MINUTES_PER_DAY = 24 * 60
+    private const val MIN_CLOCK_GAP_MS = 60_000L
     private const val KEEP_FOR_SUMMARY_MS = 60_000L
     private const val RETRY_MS = 1_500L
     private const val CLOCK_PREFIX = "pref_notification_clock"
@@ -190,17 +199,15 @@ class SpokenSchedules(
     const val KEY_SUMMARY_NAME = "pref_notification_summary_name"
     const val KEY_SUMMARY_GAP = "pref_notification_summary_gap"
 
-    /** The next time on a boundary of [intervalMinutes] from midnight, after [now]. */
-    fun nextClockTime(now: Long, intervalMinutes: Int): Long {
-      val calendar = Calendar.getInstance().apply { timeInMillis = now }
-      val minute = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE)
-      val next = (minute / intervalMinutes + 1) * intervalMinutes
-      calendar.set(Calendar.HOUR_OF_DAY, 0)
-      calendar.set(Calendar.MINUTE, 0)
-      calendar.set(Calendar.SECOND, 0)
-      calendar.set(Calendar.MILLISECOND, 0)
-      calendar.add(Calendar.MINUTE, next)
-      return calendar.timeInMillis
+    fun nextClockTime(now: Long, intervalMinutes: Int, zone: TimeZone = TimeZone.getDefault()): Long {
+      val interval = intervalMinutes.coerceAtLeast(1)
+      var at = Math.floorDiv(now, MINUTE_MS) * MINUTE_MS + MINUTE_MS
+      repeat(2 * MINUTES_PER_DAY) {
+        val minuteOfDay = Math.floorMod(Math.floorDiv(at + zone.getOffset(at), MINUTE_MS), MINUTES_PER_DAY.toLong())
+        if (minuteOfDay % interval == 0L) return at
+        at += MINUTE_MS
+      }
+      return now + interval * MINUTE_MS
     }
 
     /** The next time it is [minuteOfDay] minutes past midnight, after [now]. */

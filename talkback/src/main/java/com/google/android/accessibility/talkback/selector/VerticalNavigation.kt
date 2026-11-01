@@ -39,6 +39,7 @@ import com.google.android.accessibility.utils.traversal.OrderedTraversalStrategy
 import com.google.android.accessibility.utils.traversal.TraversalStrategy
 import com.google.android.accessibility.utils.traversal.TraversalStrategyUtils
 import com.google.android.accessibility.utils.monitor.InputModeTracker.INPUT_MODE_TOUCH
+import kotlin.math.abs
 
 /**
  * Moves accessibility focus to the item below or above the focused one for the Vertical navigation
@@ -194,11 +195,6 @@ class VerticalNavigator(
  */
 object VerticalNavigation {
 
-  /**
-   * Returns the first item after [focus], in reading order, whose middle is below [focus], or the
-   * first item of the row above [focus], or null when there is none on screen. With [within], only
-   * items in it are found.
-   */
   @JvmStatic
   @JvmOverloads
   fun target(
@@ -226,11 +222,41 @@ object VerticalNavigation {
         },
       ) ?: return null
     val target = wholeItem(found, root, focus, focusable) { isOnOtherRow(bounds(it), from, forward) }
-    if (forward) {
-      return target
+
+    val start = rowStart(strategy, focusable, target, root)
+    val row = rowItems(strategy, focusable, start, root)
+    return row[columnItem(row.map { bounds(it) }, from)]
+  }
+
+  private fun rowItems(
+    strategy: OrderedTraversalStrategy,
+    focusable: Filter<AccessibilityNodeInfoCompat>?,
+    start: AccessibilityNodeInfoCompat,
+    root: AccessibilityNodeInfoCompat,
+  ): List<AccessibilityNodeInfoCompat> {
+    val row = bounds(start)
+    val items = mutableListOf(start)
+    while (items.size < MAX_ROW_ITEMS) {
+      val last = items.last()
+      val after =
+        TraversalStrategyUtils.searchFocus(
+          strategy,
+          last,
+          TraversalStrategy.SEARCH_FOCUS_FORWARD,
+          filter { focusable?.accept(it) == true },
+        ) ?: break
+      val item = wholeItem(after, root, last, focusable)
+      if (item == last || item in items || !isOnSameRow(bounds(item), row)) break
+      items.add(item)
     }
-    // Going up lands on the start of the row, as going down does.
-    return rowStart(strategy, focusable, target, root)
+    return items
+  }
+
+  @JvmStatic
+  fun columnItem(items: List<Rect>, from: Rect): Int {
+    val overlapping = items.indexOfFirst { it.left < from.right && it.right > from.left }
+    if (overlapping >= 0) return overlapping
+    return items.indices.minBy { abs(items[it].centerX() - from.centerX()) }
   }
 
   /**
@@ -330,6 +356,8 @@ object VerticalNavigation {
     }
     return start
   }
+
+  private const val MAX_ROW_ITEMS = 50
 
   private fun strategy(root: AccessibilityNodeInfoCompat) =
     OrderedTraversalStrategy(

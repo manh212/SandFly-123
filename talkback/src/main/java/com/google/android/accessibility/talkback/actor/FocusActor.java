@@ -133,6 +133,10 @@ public class FocusActor implements UserInputEventListener {
   public boolean clickCurrentFocus(EventId eventId) {
     AccessibilityNodeInfoCompat currentFocus =
         accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+
+    if (currentFocus != null && pipeline != null) {
+      pipeline.returnFeedback(eventId, Feedback.part().setInterruptGentle(true));
+    }
     return clickNode(currentFocus, eventId);
   }
 

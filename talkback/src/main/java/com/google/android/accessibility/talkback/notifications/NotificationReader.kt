@@ -758,6 +758,15 @@ object NotificationReader {
     }
   }
 
+  @JvmStatic
+  @MainThread
+  fun onUserAction() {
+    val handed = (listOfNotNull(reading) + queued).filter { it.voiceKey.isNotEmpty() }
+    if (handed.isEmpty()) return
+    LogUtils.d(TAG, "User action; stopping %d notifications in voice profiles", handed.size)
+    handed.forEach { stopOne(it) }
+  }
+
   /** Stops [readout] alone, waiting in speech or being read, and goes on with the others. */
   private fun stopOne(readout: Readout) {
     readout.cancelled = true

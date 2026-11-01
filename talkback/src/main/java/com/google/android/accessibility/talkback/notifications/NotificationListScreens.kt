@@ -36,6 +36,7 @@ import androidx.preference.Preference
 import androidx.preference.PreferenceCategory
 import androidx.preference.PreferenceGroup
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.preference.base.SearchMatcher
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.VoiceProfiles
@@ -165,6 +166,34 @@ abstract class NotificationCodeFragment(@StringRes private val title: Int) : Tal
     builder.setNegativeButton(android.R.string.cancel, null).show()
   }
 
+  protected fun chooseApp(first: CharSequence? = null, then: (String, String) -> Unit) {
+    val context = requireContext().applicationContext
+    APP_LOADER.execute {
+      val apps = installedApps(context)
+      activity?.runOnUiThread {
+        if (!isAdded) return@runOnUiThread
+        val choices = listOfNotNull(first?.let { Triple("", "", it.toString()) }) + apps
+        val search = getString(android.R.string.search_go)
+        choose(getString(R.string.notification_choose_app), listOf(search) + choices.map { it.third }) { index ->
+          if (index > 0) {
+            choices[index - 1].let { then(it.first, it.second) }
+            return@choose
+          }
+          askText(search) { text, _, _ ->
+            val query = SearchMatcher.normalize(text)
+            val found = apps.filter { SearchMatcher.matchesNormalized(query, SearchMatcher.normalize(it.third + " " + it.first)) }
+            if (found.isEmpty()) {
+              getString(R.string.keyboard_shortcuts_no_results)
+            } else {
+              choose(getString(R.string.notification_choose_app), found.map { it.third }) { then(found[it].first, found[it].second) }
+              null
+            }
+          }
+        }
+      }
+    }
+  }
+
   /**
    * Asks for a text, with [text] filled in, and an optional switch such as "Regular expression".
    * [onDone] gets the text and the switch, and returns an error to show, or null to close.
@@ -252,6 +281,20 @@ abstract class NotificationCodeFragment(@StringRes private val title: Int) : Tal
   }
 
   companion object {
+    private val APP_LOADER = Executors.newSingleThreadExecutor()
+
+    fun installedApps(context: Context): List<Triple<String, String, String>> {
+      val apps =
+        context.packageManager
+          .getInstalledApplications(0)
+          .map { it.packageName to NotificationReader.appName(context, it.packageName) }
+          .sortedWith(compareBy({ it.second.lowercase() }, { it.first }))
+      val repeated = apps.groupingBy { it.second }.eachCount().filterValues { it > 1 }.keys
+      return apps.map { (packageName, name) ->
+        Triple(packageName, name, if (name in repeated && name != packageName) "$name ($packageName)" else name)
+      }
+    }
+
     const val ARG_PACKAGE = "package"
     const val ARG_SUGGESTED_MODE = "suggested_mode"
 

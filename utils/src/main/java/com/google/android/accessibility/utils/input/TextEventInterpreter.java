@@ -215,7 +215,20 @@ public class TextEventInterpreter {
   // Methods to interpret event based on event content and event history
 
   /** Extract text event interpretation data from event, and send to listeners. */
+
+  @VisibleForTesting
+  static final int EVENT_TYPES_USED =
+      AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED
+          | AccessibilityEvent.TYPE_VIEW_TEXT_SELECTION_CHANGED
+          | AccessibilityEvent.TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY
+          | AccessibilityEvent.TYPE_VIEW_FOCUSED
+          | AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED;
+
   public void interpret(@NonNull AccessibilityEvent event, @Nullable EventId eventId) {
+    if ((event.getEventType() & EVENT_TYPES_USED) == 0) {
+
+      return;
+    }
     AccessibilityNodeInfo nodeInfo = event.getSource();
     if (nodeInfo != null && !nodeInfo.isVisibleToUser()) {
       // For wearOS, we will receive 2 same text events from the real invisible EditText and the

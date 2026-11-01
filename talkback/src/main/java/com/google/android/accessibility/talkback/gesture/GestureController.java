@@ -361,6 +361,8 @@ public class GestureController {
       AccessibilityNodeInfoCompat menuTarget,
       boolean fromCustomMenu) {
     RecentUserInput.mark();
+    NotificationReader.onUserAction();
+    selectorController.applyPendingSwitch();
     Performance.getInstance().onPerformAction(eventId, action);
     TalkbackAction actionEvent = gestureShortcutMapping.getActionEvent(action);
     if (actionEvent != null) {

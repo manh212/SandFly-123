@@ -134,6 +134,7 @@ import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics.Per
 import com.google.android.accessibility.talkback.audio.AudioDeviceRouter;
 import com.google.android.accessibility.talkback.collapse.MenuAutomation;
 import com.google.android.accessibility.talkback.compositor.Compositor;
+import com.google.android.accessibility.talkback.compositor.ClickFeedback;
 import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EarlyFocusSpeech;
 import com.google.android.accessibility.talkback.compositor.EventFilter;
@@ -1173,6 +1174,20 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
+    if (!PauseController.isPaused()
+        && event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+        && (Build.VERSION.SDK_INT < Build.VERSION_CODES.P
+            || (event.getWindowChanges()
+                & (AccessibilityEvent.WINDOWS_CHANGE_ADDED
+                    | AccessibilityEvent.WINDOWS_CHANGE_REMOVED
+                    | AccessibilityEvent.WINDOWS_CHANGE_ACTIVE
+                    | AccessibilityEvent.WINDOWS_CHANGE_FOCUSED)) != 0)) {
+      CharSequence frontApp = frontAppPackage();
+      if (frontApp != null) {
+        SpeechDictionary.onWindowShown(frontApp);
+        AppGestures.onWindowShown(frontApp);
+      }
+    }
     touchVolumeState.onEvent(event.getEventType());
     if (directTouchController != null) {
       directTouchController.onRawAccessibilityEvent(event);
@@ -2759,7 +2774,7 @@ public class TalkBackService extends AccessibilityServiceCompat
                 directionNavigationActor,
                 editor,
                 labelManager,
-                new NodeActionPerformer(),
+                new NodeActionPerformer(compositor.clickFeedback()),
                 new SystemActionPerformer(this),
                 languageActor,
                 passThroughModeActor,
@@ -3568,6 +3583,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     AsyncTraversalOrder.cancel();
     TraversalTreeCache.setOrderClearedListener(null);
     TraversalTreeCache.clear("shutdown");
+    ClickFeedback.clear();
+    if (selectorController != null) {
+      selectorController.shutdown();
+    }
 
     if (fullScreenReadActor != null) {
       fullScreenReadActor.shutdown();
@@ -5111,6 +5130,28 @@ public class TalkBackService extends AccessibilityServiceCompat
         return !"com.android.systemui".contentEquals(String.valueOf(event.getPackageName()));
       default:
         return false;
+    }
+  }
+
+  @Nullable
+  private CharSequence frontAppPackage() {
+    AccessibilityWindowInfo front = null;
+    for (AccessibilityWindowInfo window : getWindows()) {
+      int type = window.getType();
+      if (type != AccessibilityWindowInfo.TYPE_APPLICATION
+          && type != AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) continue;
+      if (window.isActive()) {
+        front = window;
+        break;
+      }
+      if (front == null && window.isFocused()) front = window;
+    }
+    AccessibilityNodeInfo root = front == null ? null : front.getRoot();
+    if (root == null) return null;
+    try {
+      return root.getPackageName();
+    } finally {
+      root.recycle();
     }
   }
 }

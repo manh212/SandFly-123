@@ -59,6 +59,7 @@ import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.Performance;
 import com.google.android.accessibility.utils.LatencyExperiments;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.monitor.RecentUserInput;
 import com.google.android.accessibility.utils.R;
 import com.google.android.accessibility.utils.SpannableUtils;
 import com.google.android.accessibility.utils.SpannableUtils.SourceTextSpan;
@@ -1751,6 +1752,10 @@ public class SpeechControllerImpl implements SpeechController {
     FeedbackItemFilter filter = new FeedbackItemFilter();
     if (SpeechController.hasQueueModeFlagSet(queueMode, QUEUE_MODE_BIT_INTERRUPT)) {
       filter.addFeedbackItemPredicate(new FeedbackItemInterruptiblePredicate());
+
+      if (RecentUserInput.isRecent()) {
+        filter.addFeedbackItemPredicate(new NotificationBeforeUserInputPredicate());
+      }
     }
 
     if (item.getUtteranceGroup() != UTTERANCE_GROUP_DEFAULT
@@ -3191,6 +3196,18 @@ public class SpeechControllerImpl implements SpeechController {
     @Override
     public boolean accept(FeedbackItem item) {
       return mPredicate1.accept(item) && mPredicate2.accept(item);
+    }
+  }
+
+  private static class NotificationBeforeUserInputPredicate implements FeedbackItemPredicate {
+    @Override
+    public boolean accept(FeedbackItem item) {
+      if (item == null || item.getUtteranceGroup() != UTTERANCE_GROUP_NOTIFICATIONS) {
+        return false;
+      }
+
+      long age = System.currentTimeMillis() - item.getCreationTime();
+      return RecentUserInput.isRecentAfter(SystemClock.uptimeMillis() - age);
     }
   }
 

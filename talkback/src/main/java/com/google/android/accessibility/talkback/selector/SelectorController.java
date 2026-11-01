@@ -157,6 +157,9 @@ public class SelectorController implements UserInputEventListener {
   // Accompanying the 'touchActive' flag, this variable avoids the reassign of the same node.
   private AccessibilityNodeInfo lastFocusedNode = null;
 
+  private static final long SWITCH_AFTER_TOUCH_MS = 200;
+  private final Runnable switchAfterTouch = this::applyPendingSwitch;
+
   /** Audial feedback announce types. */
   public enum AnnounceType {
     SILENCE,
@@ -1130,6 +1133,7 @@ public class SelectorController implements UserInputEventListener {
    * automatically that make user easier to use screen search navigation.
    */
   public void searchActionPerformed() {
+    applyPendingSwitch();
     settingToRestore = GRANULARITY_SEARCH;
     setCurrentSetting(
         EVENT_ID_UNTRACKED,
@@ -1243,6 +1247,7 @@ public class SelectorController implements UserInputEventListener {
    */
   @Override
   public void editTextOrSelectableTextSelected(boolean isSelected) {
+    applyPendingSwitch();
     if (isSelected) {
       if (!prefs.getBoolean(
           context.getString(R.string.pref_selection_mode_reading_control_key),
@@ -1304,8 +1309,10 @@ public class SelectorController implements UserInputEventListener {
       return;
     }
     if (touchActive) {
+      handler.removeCallbacks(switchAfterTouch);
       lastFocusedNode = nodeInfo;
     } else {
+      handler.removeCallbacks(switchAfterTouch);
       switchCurrentSetting(nodeInfo);
     }
   }
@@ -1418,11 +1425,22 @@ public class SelectorController implements UserInputEventListener {
     if (active) {
       verticalNavigator.cancel();
     }
-    if (!touchActive) {
-      if (lastFocusedNode != null) {
-        switchCurrentSetting(lastFocusedNode);
-      }
+    handler.removeCallbacks(switchAfterTouch);
+    if (!touchActive && lastFocusedNode != null) {
+      handler.postDelayed(switchAfterTouch, SWITCH_AFTER_TOUCH_MS);
     }
+  }
+
+  public void applyPendingSwitch() {
+    handler.removeCallbacks(switchAfterTouch);
+    if (lastFocusedNode != null) {
+      switchCurrentSetting(lastFocusedNode);
+    }
+  }
+
+  public void shutdown() {
+    handler.removeCallbacks(switchAfterTouch);
+    lastFocusedNode = null;
   }
 
   /** Selects the previous or next setting. For selecting setting via gesture. */
@@ -1444,6 +1462,7 @@ public class SelectorController implements UserInputEventListener {
 
   private boolean selectPreviousOrNext(
       EventId eventId, AnnounceType announceType, boolean isNext, boolean showOverlay) {
+    applyPendingSwitch();
     clearEditTextActionsRestore();
     if (SelectorGroupManager.isSupported()) {
       return selectPreviousOrNextGroupItem(eventId, announceType, isNext, showOverlay);
@@ -1783,6 +1802,7 @@ public class SelectorController implements UserInputEventListener {
   /** Selects setting and announces selected setting. For selecting setting via voice-shortcut. */
   private boolean selectSetting(
       @Nullable Setting setting, AnnounceType announceType, boolean showOverlay) {
+    applyPendingSwitch();
     if (setting == null || !allowedSetting(setting)) {
       return false;
     }
@@ -2170,6 +2190,7 @@ public class SelectorController implements UserInputEventListener {
 
   /** Change the value of the selected setting or scroll forward/backard of the seeker. */
   public void adjustSelectedSetting(EventId eventId, boolean isNext) {
+    applyPendingSwitch();
     clearEditTextActionsRestore();
     @Nullable ScriptReadingControl scriptControl = currentScriptControl(Scripts.readingControls());
     if (scriptControl != null) {
@@ -2410,6 +2431,7 @@ public class SelectorController implements UserInputEventListener {
 
   /** Activate the currently selected action in the actions setting. */
   public void activateCurrentAction(EventId eventId) {
+    applyPendingSwitch();
     if (!accessibilityFocusMonitor.hasAccessibilityFocus(/* useInputFocusIfEmpty= */ false)) {
       return;
     }

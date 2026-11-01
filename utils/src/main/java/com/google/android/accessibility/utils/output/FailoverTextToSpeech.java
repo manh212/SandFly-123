@@ -1096,7 +1096,7 @@ public class FailoverTextToSpeech {
     try {
       File tempFile = File.createTempFile("tmpsynthesize", null, context.getCacheDir());
       tts.synthesizeToFile("1 2 3", null, tempFile, "tmpsynthesize");
-      tempFile.deleteOnExit();
+      tempFile.delete();
     } catch (IOException e) {
       LogUtils.w(TAG, "Exception during TTS init:", e);
     }

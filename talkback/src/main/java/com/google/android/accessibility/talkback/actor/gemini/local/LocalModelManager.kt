@@ -219,10 +219,21 @@ class LocalModelManager private constructor(context: Context) {
     stopDownload.compareAndSet(null, State.Failed(ModelFiles.Failure.TIME_LIMIT))
   }
 
+  fun setUseGpu(useGpu: Boolean) {
+    val previous = OnDeviceAiSettings.useGpu(prefs)
+    OnDeviceAiSettings.setUseGpu(prefs, useGpu)
+    if (previous == useGpu) return
+    worker.execute {
+      releaseLlm()
+      closer.execute { LiteRtCaches.deleteAll(appContext.cacheDir) }
+    }
+  }
+
   fun delete(model: LocalModel) {
     worker.execute {
       if (activeModel() == model) releaseLlm()
       store.delete(model)
+      closer.execute { LiteRtCaches.deleteUnused(appContext.cacheDir, store.installedModels()) }
       // With no model left there is nothing to answer, so go back to the cloud.
       if (!isReady()) OnDeviceAiSettings.setOnDevice(prefs, false)
       setState(State.Idle)

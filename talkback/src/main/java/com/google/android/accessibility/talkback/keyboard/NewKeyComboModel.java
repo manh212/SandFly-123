@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.keyboard;
 
 import android.content.Context;
+import com.google.android.accessibility.talkback.commands.Commands;
 import android.view.KeyEvent;
 import androidx.annotation.Nullable;
 import com.google.android.accessibility.talkback.R;
@@ -87,6 +88,7 @@ public class NewKeyComboModel implements KeyComboModel {
     }
 
     addKeyCombos();
+    addCommandShortcuts();
   }
 
   @Override
@@ -1562,6 +1564,25 @@ public class NewKeyComboModel implements KeyComboModel {
 
     KeyCombo keyCombo = persister.getKeyCombo(key);
     keyComboMap.put(key, keyCombo);
+  }
+
+  private void addCommandShortcuts() {
+    for (String key : persister.keysStartingWith(Commands.SHORTCUT_KEY_PREFIX)) {
+      KeyCombo keyCombo = persister.getKeyCombo(key);
+      @Nullable String value = Commands.valueOfShortcutKey(key);
+      if (value != null && value.startsWith(Commands.KEYBOARD_PREFIX)) {
+        String actionKey = value.substring(Commands.KEYBOARD_PREFIX.length());
+        if (keyComboMap.containsKey(actionKey)) {
+          if (keyCombo.getKeyComboCode() != KEY_COMBO_CODE_UNASSIGNED) {
+            persister.saveKeyCombo(actionKey, keyCombo);
+            keyComboMap.put(actionKey, keyCombo);
+          }
+          persister.remove(key);
+          continue;
+        }
+      }
+      keyComboMap.put(key, keyCombo);
+    }
   }
 
   private boolean isScreenOverviewFeatureEnabled() {

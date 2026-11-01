@@ -113,7 +113,7 @@ class OnDeviceAiFragment : TalkbackBaseFragment() {
     shortPromptsPref.setSummary(R.string.pref_on_device_ai_short_prompts_summary)
     gpuPref =
       checkBox(context, OnDeviceAiSettings.PREF_GPU, R.string.pref_on_device_ai_gpu) { useGpu ->
-        OnDeviceAiSettings.setUseGpu(prefs, useGpu)
+        manager.setUseGpu(useGpu)
         true
       }
     gpuPref.setSummary(R.string.pref_on_device_ai_gpu_summary)
