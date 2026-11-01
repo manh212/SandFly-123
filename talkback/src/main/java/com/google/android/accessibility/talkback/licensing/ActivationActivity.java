@@ -42,6 +42,14 @@ public final class ActivationActivity extends Activity {
     });
     refresh();
   }
+  @Override protected void onResume() {
+    super.onResume();
+    ActivationReminder.setActivationVisible(true);
+  }
+  @Override protected void onPause() {
+    ActivationReminder.setActivationVisible(false);
+    super.onPause();
+  }
   private void addButton(LinearLayout layout, String title, View.OnClickListener listener) {
     Button button = new Button(this); button.setAllCaps(false); button.setText(title);
     button.setOnClickListener(listener); layout.addView(button);
