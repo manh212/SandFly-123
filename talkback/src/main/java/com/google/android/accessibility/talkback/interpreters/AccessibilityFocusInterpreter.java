@@ -219,7 +219,8 @@ public class AccessibilityFocusInterpreter
         accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
     if (shouldMoveFocus(currentA11yFocusedNode, interpretation.direction())) {
 
-      if (!FormFactorUtils.isAndroidWear()) {
+      if (!FormFactorUtils.isAndroidWear() && currentA11yFocusedNode != null) {
+        if (actorState == null) return;
         AccessibilityNodeInfoCompat scrolled =
             AccessibilityEventUtils.sourceCompat(interpretation.event());
 
