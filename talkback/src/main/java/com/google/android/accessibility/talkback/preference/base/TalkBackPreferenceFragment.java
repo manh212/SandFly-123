@@ -173,6 +173,18 @@ public class TalkBackPreferenceFragment extends TalkbackBaseFragment {
       removePreference(
           R.string.pref_category_group_screen_info_key, R.string.pref_on_device_ai_key);
     }
+    // Accessible offline activation entry, available even when updates are restricted.
+    Preference sandflyActivation = new Preference(context);
+    sandflyActivation.setKey("sandfly_license_activation");
+    sandflyActivation.setTitle("Kích hoạt cập nhật SandFly");
+    sandflyActivation.setSummary("Đăng ký một thiết bị bằng mã do người quản lý cấp");
+    sandflyActivation.setOnPreferenceClickListener(preference -> {
+      startActivity(new Intent(context,
+          com.google.android.accessibility.talkback.licensing.ActivationActivity.class));
+      return true;
+    });
+    getPreferenceScreen().addPreference(sandflyActivation);
+
     SettingsBackup.setUpPreferences(this);
   }
 
