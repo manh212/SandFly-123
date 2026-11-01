@@ -66,6 +66,9 @@ android {
         // a watch, so they are not debuggable. Debug logging in the libraries stays on.
         debug {
             debuggable = false
+            minifyEnabled = true
+            shrinkResources = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'meridian-activation-r8.pro'
             if (signWithSandflyKey) {
                 signingConfig = signingConfigs.sandfly
             }
