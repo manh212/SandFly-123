@@ -5,4 +5,6 @@
 
     <!-- Nút xác nhận trong hộp thoại cài đặt mô tả hình ảnh tự động. -->
     <string name="switch_auto_image_caption_dialog_positive_button_text">Đồng ý</string>
+    <string name="title_sandfly_license_activation">Kích hoạt cập nhật SandFly</string>
+    <string name="summary_sandfly_license_activation">Đăng ký thiết bị bằng mã kích hoạt do người quản lý cấp</string>
 </resources>
