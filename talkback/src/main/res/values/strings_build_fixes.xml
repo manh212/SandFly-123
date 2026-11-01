@@ -9,4 +9,6 @@
 
     <!-- Confirm selection in the automatic image caption feature dialog. -->
     <string name="switch_auto_image_caption_dialog_positive_button_text">OK</string>
+    <string name="title_sandfly_license_activation">Activate SandFly updates</string>
+    <string name="summary_sandfly_license_activation">Register this device with an activation code</string>
 </resources>
