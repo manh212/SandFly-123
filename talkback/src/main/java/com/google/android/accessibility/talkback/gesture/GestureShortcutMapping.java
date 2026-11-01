@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 16294)
-Total output lines: 1419
-
 /*
  * Copyright (C) 2019 Google Inc.
  *
@@ -635,7 +632,38 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     @StringRes final int actionKeyResId;
     @StringRes final int actionNameResId;
 
-    TalkbackAction(@String…294 tokens truncated…String actionReadingMenuDown;
+    TalkbackAction(@StringRes int actionKeyResId, @StringRes int actionNameResId) {
+      this.actionKeyResId = actionKeyResId;
+      this.actionNameResId = actionNameResId;
+    }
+  }
+
+  ///////////////////////////////////////////////////////////////////////////
+  // Constants
+
+  // Copies hidden constants from framework.
+  /**
+   * The user has performed a touch-exploration gesture on the touch screen without ever triggering
+   * gesture detection. This gesture is only dispatched when {@link
+   * FeatureSupport#FLAG_SEND_MOTION_EVENTS} is set.
+   */
+  public static final int GESTURE_TOUCH_EXPLORATION = -2;
+
+  /**
+   * The user has performed a passthrough gesture on the touch screen without ever triggering
+   * gesture detection. This gesture is only dispatched when {@link
+   * FeatureSupport#FLAG_SEND_MOTION_EVENTS} is set.
+   */
+  public static final int GESTURE_PASSTHROUGH = -1;
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////
+  // Member variables
+
+  protected String actionUnassigned;
+  protected String actionTalkbackContextMenu;
+  protected String actionNextReadingMenuSetting;
+  protected String actionReadingMenuUp;
+  protected String actionReadingMenuDown;
   protected String actionShortcut;
   protected String nextWindowShortcut;
   protected String mediaControlShortcut;
