@@ -37,7 +37,7 @@ public final class ActivationActivity extends Activity {
     input.setHint("Dán mã SFLIC1"); input.setContentDescription("Mã kích hoạt");
     layout.addView(input, new LinearLayout.LayoutParams(-1, -2));
     addButton(layout, "Xác nhận kích hoạt", v -> {
-      try { DeviceLicenseManager.activate(this, input.getText().toString()); input.setText(""); refresh(); }
+      try { DeviceLicenseManager.activate(this, input.getText().toString()); ActivationReminder.onActivated(); input.setText(""); refresh(); }
       catch (Exception e) { status.setText("Không thể kích hoạt: " + e.getMessage()); }
     });
     refresh();
