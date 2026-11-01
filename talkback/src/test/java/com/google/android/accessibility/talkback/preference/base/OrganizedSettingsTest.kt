@@ -148,7 +148,12 @@ class OrganizedSettingsTest {
     val key = activity.getString(R.string.pref_phonetic_letters_mode_key)
     val reading = SpeechGroupFragment()
     open(reading)
-    assertTrue(reading.findPreference<ListPreference>(key) != null)
+    // Reading preferences are scoped to the active verbosity preset.
+    val customKey = presetKey(
+      R.string.pref_verbosity_preset_value_custom,
+      R.string.pref_phonetic_letters_mode_key,
+    )
+    assertTrue(reading.findPreference<ListPreference>(customKey) != null)
 
     val voice = TextToSpeechSettingsFragment()
     open(voice)
