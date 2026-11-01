@@ -693,18 +693,7 @@ public class SelectorController implements UserInputEventListener {
   /** Selector event notifier. */
   private final SelectorEventNotifier selectorEventNotifier;
 
-  private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
-      (prefs, key) -> {
-        // Clears selector gestures but doesn't update them now because GestureShortcutMapping
-        // hasn't finished reloading yet.
-        cachedAdjustSelectedSettingGestureNames = null;
-        if (SelectorGroupManager.isSupported()
-            && (TextUtils.equals(key, context.getString(SelectorGroupManager.GROUPS_KEY_RES))
-                || TextUtils.equals(
-                    key, context.getString(SelectorGroupManager.CURRENT_GROUP_KEY_RES)))) {
-          ensureCurrentGroupSelection();
-        }
-      };
+  private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener;
 
   private Setting settingToRestore;
   private boolean actionsSettingActivatedForEditText;
@@ -757,6 +746,16 @@ public class SelectorController implements UserInputEventListener {
       VolumeMonitor volumeMonitor,
       CollectionState collectionState) {
     this.context = context;
+    sharedPreferenceChangeListener =
+        (prefs, key) -> {
+          cachedAdjustSelectedSettingGestureNames = null;
+          if (SelectorGroupManager.isSupported()
+              && (TextUtils.equals(key, context.getString(SelectorGroupManager.GROUPS_KEY_RES))
+                  || TextUtils.equals(
+                      key, context.getString(SelectorGroupManager.CURRENT_GROUP_KEY_RES)))) {
+            ensureCurrentGroupSelection();
+          }
+        };
     this.pipeline = pipeline;
     this.actorState = actorState;
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
