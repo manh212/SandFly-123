@@ -435,7 +435,6 @@ pref_proximity
 pref_punctuation
 pref_punctuation_verbosity
 pref_quick_settings_items_screen
-pref_radial_menu
 pref_radios_navigation_menu_setting_key
 pref_read_from_current_menu_setting_key
 pref_read_from_top_menu_setting_key
