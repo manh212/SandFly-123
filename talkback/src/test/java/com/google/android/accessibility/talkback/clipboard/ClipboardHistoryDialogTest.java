@@ -143,6 +143,45 @@ public class ClipboardHistoryDialogTest {
     assertEquals(Arrays.asList("paste this"), ClipboardHistory.getEntries());
   }
 
+
+  @Test
+  public void historySelectionWithTargetDismissesBeforePaste() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    ((android.content.ClipboardManager)
+            context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
+        .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
+    ClipboardHistory.clear();
+    ClipboardHistory.record("paste after closing");
+    android.view.accessibility.AccessibilityNodeInfo node =
+        android.view.accessibility.AccessibilityNodeInfo.obtain();
+    node.setClassName("android.widget.EditText");
+    node.setEditable(true);
+    boolean[] pasted = {false};
+    AlertDialog[] visibleDialog = {null};
+    shadowOf(node)
+        .setOnPerformActionListener(
+            (action, args) -> {
+              if (action == android.view.accessibility.AccessibilityNodeInfo.ACTION_PASTE) {
+                assertFalse(visibleDialog[0].isShowing());
+                pasted[0] = true;
+                return true;
+              }
+              return false;
+            });
+    new ClipboardHistoryDialog(context, null)
+        .show(
+            Performance.EVENT_ID_UNTRACKED,
+            androidx.core.view.accessibility.AccessibilityNodeInfoCompat.wrap(node));
+    visibleDialog[0] = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(visibleDialog[0].getWindow().getDecorView());
+    assertNotNull(list);
+    list.getOnItemClickListener().onItemClick(list, null, 0, 0);
+    assertFalse(visibleDialog[0].isShowing());
+    assertFalse(pasted[0]);
+    shadowOf(Looper.getMainLooper()).idleFor(100, TimeUnit.MILLISECONDS);
+    assertTrue(pasted[0]);
+  }
+
   @Test
   public void longPressOffersMultiSelectWithoutDeletingText() {
     android.content.Context context = RuntimeEnvironment.getApplication();

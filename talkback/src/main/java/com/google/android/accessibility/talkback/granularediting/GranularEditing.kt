@@ -16,12 +16,16 @@
 
 package com.google.android.accessibility.talkback.granularediting
 
+import android.accessibilityservice.AccessibilityService
 import android.content.Context
+import android.graphics.Rect
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.widget.Toast
+import java.lang.ref.WeakReference
+import java.util.ArrayDeque
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.ClipboardHistory
@@ -35,6 +39,7 @@ import com.google.android.accessibility.utils.Role
 object GranularEditing {
   /** The text field the text came from, or null when the text isn't editable. */
   private var target: AccessibilityNodeInfoCompat? = null
+  private var sourceService: WeakReference<AccessibilityService>? = null
 
   /** The text when the screen opened. */
   var text: String = ""
@@ -62,8 +67,8 @@ object GranularEditing {
         else -> AccessibilityNodeInfoUtils.getText(node)?.toString().orEmpty()
       }
     if (!editable && nodeText.isBlank()) return refuse(context, R.string.granular_editing_no_text)
-    handler.removeCallbacksAndMessages(null)
     target = if (editable) AccessibilityNodeInfoCompat.obtain(node) else null
+    sourceService = (context as? AccessibilityService)?.let { WeakReference(it) }
     text = nodeText
     context.startActivity(
       Intent(context, GranularEditingActivity::class.java)
@@ -80,13 +85,14 @@ object GranularEditing {
   fun save(context: Context, newText: String) {
     val appContext = context.applicationContext
     val field = target ?: return
+    val service = sourceService?.get()
     target = null
     var tries = 0
     val attempt =
       object : Runnable {
         override fun run() {
           // The field is spoken with its new text once it has focus again.
-          if (write(field, newText)) return
+          if (write(field, newText, service)) return
           if (++tries < SAVE_TRIES) {
             handler.postDelayed(this, SAVE_INTERVAL_MS)
             return
@@ -107,20 +113,75 @@ object GranularEditing {
     ClipboardHistory.copy(context, copied)
   }
 
-  private fun write(field: AccessibilityNodeInfoCompat, newText: String): Boolean {
-    if (!field.refresh()) return false
+  private fun write(
+    field: AccessibilityNodeInfoCompat,
+    newText: String,
+    service: AccessibilityService?,
+  ): Boolean {
+    if (field.refresh() && setText(field, newText)) return true
+    val root =
+      service?.windows?.firstOrNull { it.id == field.windowId }?.root ?: return false
+    val replacement =
+      findMatchingField(AccessibilityNodeInfoCompat.wrap(root), field) ?: return false
+    return setText(replacement, newText)
+  }
+
+  private fun setText(field: AccessibilityNodeInfoCompat, newText: String): Boolean {
     val arguments = Bundle()
     arguments.putCharSequence(
       AccessibilityNodeInfoCompat.ACTION_ARGUMENT_SET_TEXT_CHARSEQUENCE,
       newText,
     )
     if (!field.performAction(AccessibilityNodeInfoCompat.ACTION_SET_TEXT, arguments)) return false
-    // The cursor goes to the end, as after typing.
+    field.refresh()
     val selection = Bundle()
     selection.putInt(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_SELECTION_START_INT, newText.length)
     selection.putInt(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_SELECTION_END_INT, newText.length)
     field.performAction(AccessibilityNodeInfoCompat.ACTION_SET_SELECTION, selection)
     return true
+  }
+
+  internal fun findMatchingField(
+    root: AccessibilityNodeInfoCompat,
+    original: AccessibilityNodeInfoCompat,
+  ): AccessibilityNodeInfoCompat? {
+    val sourceId = original.viewIdResourceName
+    val sourcePackage = original.packageName?.toString()
+    val sourceClass = original.className?.toString()
+    val sourceBounds = Rect()
+    original.getBoundsInScreen(sourceBounds)
+    val pending = ArrayDeque<AccessibilityNodeInfoCompat>()
+    pending.add(root)
+    var match: AccessibilityNodeInfoCompat? = null
+    var visited = 0
+    while (pending.isNotEmpty() && visited++ < 4096) {
+      val node = pending.removeFirst()
+      if (
+        node.isEditable &&
+          node.isEnabled &&
+          node.isVisibleToUser &&
+          !node.isPassword &&
+          node.packageName?.toString() == sourcePackage &&
+          node.className?.toString() == sourceClass
+      ) {
+        val bounds = Rect()
+        node.getBoundsInScreen(bounds)
+        val sameField =
+          if (!sourceId.isNullOrEmpty()) {
+            node.viewIdResourceName == sourceId
+          } else {
+            !sourceBounds.isEmpty && bounds == sourceBounds
+          }
+        if (sameField) {
+          if (match != null) return null
+          match = node
+        }
+      }
+      for (index in 0 until node.childCount) {
+        node.getChild(index)?.let { pending.addLast(it) }
+      }
+    }
+    return match
   }
 
   /**

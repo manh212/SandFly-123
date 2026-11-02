@@ -229,38 +229,28 @@ public class ClipboardHistoryDialog {
         speak(context.getString(R.string.clipboard_history_no_target), eventId);
         return;
       }
-      if (pasteAction == null && (!pasteTarget.refresh() || !pasteTarget.isEditable())) {
-        speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
-        return;
-      }
       if (!ClipboardUtils.copyToClipboardWithoutRecording(context, entry)) {
         speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
         return;
       }
-      if (pasteAction != null) {
-        dialog.dismiss();
-        handler.postDelayed(
-            () -> {
-              boolean pasted = pasteAction.paste(eventId, pasteTarget);
-              speak(
-                  context.getString(
-                      pasted
-                          ? R.string.clipboard_history_pasted
-                          : R.string.clipboard_history_paste_failed),
-                  eventId);
-            },
-            100);
-        return;
-      }
-      boolean pasted =
-          PerformActionUtils.performAction(
-              pasteTarget, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
-      if (pasted) {
-        speak(context.getString(R.string.clipboard_history_pasted), eventId);
-        dialog.dismiss();
-      } else {
-        speak(context.getString(R.string.clipboard_history_paste_failed), eventId);
-      }
+      dialog.dismiss();
+      handler.postDelayed(
+          () -> {
+            boolean pasted =
+                pasteAction != null
+                    ? pasteAction.paste(eventId, pasteTarget)
+                    : pasteTarget != null
+                        && pasteTarget.isEditable()
+                        && PerformActionUtils.performAction(
+                            pasteTarget, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
+            speak(
+                context.getString(
+                    pasted
+                        ? R.string.clipboard_history_pasted
+                        : R.string.clipboard_history_paste_failed),
+                eventId);
+          },
+          100);
     });
 
     list.setOnItemLongClickListener((parent, view, position, id) -> {

@@ -1387,9 +1387,9 @@ public class GestureController {
 
   private boolean pasteFromClipboardHistory(
       EventId eventId, @Nullable AccessibilityNodeInfoCompat originalTarget) {
-    AccessibilityNodeInfoCompat target = findEditorTarget();
-    if (target == null || !target.isEditable()) {
-      target = originalTarget;
+    AccessibilityNodeInfoCompat target = originalTarget;
+    if (target == null || !target.refresh() || !target.isEditable()) {
+      target = findEditorTarget();
     }
     if (target == null || !target.refresh() || !target.isEditable()) {
       return false;
@@ -1397,7 +1397,7 @@ public class GestureController {
     if (!target.isFocused()) {
       target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
     }
-    return pipeline.returnFeedback(eventId, Feedback.edit(target, PASTE));
+    return target.performAction(AccessibilityNodeInfoCompat.ACTION_PASTE);
   }
 
   private @Nullable AccessibilityNodeInfoCompat findEditorTarget() {

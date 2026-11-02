@@ -118,6 +118,7 @@ import com.google.android.accessibility.utils.AccessibilityNode;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.monitor.InputDeviceMonitor;
 import com.google.android.accessibility.utils.output.FeedbackController;
 import com.google.android.accessibility.utils.output.SpeechCleanupUtils.PunctuationVerbosity;
@@ -378,8 +379,13 @@ class Actors {
         case TRANSLATE_SAVED -> lastUtteranceTranslator.translateSavedUtterance(eventId);
         case TRANSLATE_LAST -> lastUtteranceTranslator.translateLastUtterance(eventId);
         case SHOW_HISTORY -> speechHistoryDialog.show(eventId);
-        case SHOW_CLIPBOARD_HISTORY -> clipboardHistoryDialog.show(eventId, getPasteTarget());
-        case SHOW_FAVORITES -> favoritesDialog.show(eventId, getPasteTarget());
+        case SHOW_CLIPBOARD_HISTORY ->
+            clipboardHistoryDialog.show(eventId, getPasteTarget(), this::pasteClipboardHistory);
+        case SHOW_FAVORITES -> {
+          AccessibilityNodeInfoCompat target = getPasteTarget();
+          favoritesDialog.show(
+              eventId, target, target == null ? null : this::pasteClipboardHistory);
+        }
         case PAUSE_OR_RESUME -> {
           boolean doPause = speaker.readyToPause();
           continuousReader.pauseOrResumeContinuousReadingState(doPause);
@@ -1047,17 +1053,40 @@ class Actors {
     }
   }
 
+  private boolean pasteClipboardHistory(
+      EventId eventId, @Nullable AccessibilityNodeInfoCompat originalTarget) {
+    AccessibilityNodeInfoCompat target = originalTarget;
+    if (target == null || !target.refresh() || !target.isEditable()) {
+      target = getPasteTarget();
+    }
+    if (target == null || !target.refresh() || !target.isEditable()) {
+      return false;
+    }
+    if (!target.isFocused()) {
+      target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
+    }
+    return PerformActionUtils.performAction(
+        target, AccessibilityNodeInfoCompat.ACTION_PASTE, eventId);
+  }
+
   public @Nullable AccessibilityNodeInfoCompat getPasteTarget() {
-    AccessibilityNodeInfoCompat target =
+    AccessibilityNodeInfoCompat focused =
         accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
+    if (focused != null && focused.isEditable()) {
+      return focused;
+    }
+    AccessibilityNodeInfoCompat target = accessibilityFocusMonitor.getInputFocus();
     if (target != null && target.isEditable()) {
       return target;
     }
-    target = accessibilityFocusMonitor.getInputFocus();
-    if (target != null && target.isEditable()) {
-      return target;
+    if (focused != null) {
+      target = accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused);
+      if (target != null && target.isEditable()) {
+        return target;
+      }
     }
-    return null;
+    target = accessibilityFocusMonitor.getAccessibilityFocus(true);
+    return target != null && target.isEditable() ? target : null;
   }
 
   public void shutdown() {
