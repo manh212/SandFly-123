@@ -60,6 +60,25 @@ public class SelectorGroupManagerTest {
   }
 
   @Test
+  public void modeTwoKeepsSelectedGroupWhenStartingFromDefaultNavigation() {
+    assertTrue(SelectorGroupManager.isSupported());
+    SelectorGroupManager.ensureInitialized(context);
+    String readingGroup = "reading";
+    String defaultNavigation = context.getString(
+        SelectorController.Setting.GRANULARITY_DEFAULT.prefKeyResId);
+    prefs.edit()
+        .putString(context.getString(SelectorGroupManager.CURRENT_GROUP_KEY_RES), readingGroup)
+        .putString(context.getString(R.string.pref_current_selector_setting_key),
+            context.getString(SelectorController.Setting.GRANULARITY_DEFAULT.prefValueResId))
+        .putString(NavigationMode.PREF_KEY, "2")
+        .commit();
+
+    assertFalse(SelectorGroupManager.currentGroupItems(context).contains(defaultNavigation));
+    SelectorGroupManager.ensureInitialized(context);
+    assertEquals(readingGroup, SelectorGroupManager.currentGroupId(context));
+  }
+
+  @Test
   public void migrationKeepsDuplicateItemsInTheUserGroup() {
     assertTrue(SelectorGroupManager.isSupported());
     String item = context.getString(R.string.pref_selector_granularity_characters_key);

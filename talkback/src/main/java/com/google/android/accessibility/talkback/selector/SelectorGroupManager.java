@@ -132,7 +132,11 @@ public final class SelectorGroupManager {
       String selectedItem = selectedItemId(context, prefs);
       if (selectedGroup == null
           || !selectedGroup.enabled
-          || !selectedGroup.items.contains(selectedItem)) {
+          || (!selectedGroup.items.contains(selectedItem)
+              && !(NavigationMode.isModeTwo(context)
+                  && TextUtils.equals(
+                      selectedItem,
+                      itemId(context, SelectorController.Setting.GRANULARITY_DEFAULT))))) {
         currentGroup = null;
         for (Group group : groups) {
           if (group.enabled && group.items.contains(selectedItem)) {
