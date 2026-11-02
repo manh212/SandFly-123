@@ -135,7 +135,7 @@ class GranularEditingActivity : AppCompatActivity() {
     super.onResume()
     for (result in GranularEditing.takeChildResults(sessionId)) {
       val field = promptFields.getOrNull(result.fieldIndex)
-      if (field != null && field.isAttachedToWindow) {
+      if (field != null) {
         field.setText(result.text)
         field.setSelection(result.text.length)
       } else {
