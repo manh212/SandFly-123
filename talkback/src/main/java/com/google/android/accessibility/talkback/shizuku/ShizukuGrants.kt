@@ -31,6 +31,7 @@ import android.os.Process
 import android.provider.Settings
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.quicksettings.QuickSettingsItems
 import com.google.android.accessibility.talkback.quicksettings.SystemTiles
 import com.google.android.accessibility.talkback.speakerphone.SpeakerphoneSettings
@@ -127,6 +128,7 @@ object ShizukuGrants {
       callbacks.forEach { it(grantResult == PackageManager.PERMISSION_GRANTED) }
       if (grantResult == PackageManager.PERMISSION_GRANTED) {
         serviceContext?.let(ShizukuClipboard::start)
+        TalkBackService.getInstance()?.keyComboManager?.prepareKeyboardScheme()
       }
     }
 
@@ -225,6 +227,7 @@ object ShizukuGrants {
     withShizukuPermission { allowed ->
       if (allowed) {
         ShizukuClipboard.start(context)
+        TalkBackService.getInstance()?.keyComboManager?.prepareKeyboardScheme()
         requestAll(context, wantedAtStart(context, prefs)) { granted ->
           LogUtils.i(TAG, "Granted at start through Shizuku: %s", granted)
         }

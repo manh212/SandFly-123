@@ -29,6 +29,10 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
 
   fun prepare() = bridge?.prepare()
 
+  fun prepareForCapture(onReady: java.util.function.Consumer<Boolean>) {
+    if (bridge == null) onReady.accept(false) else bridge.prepare { onReady.accept(it) }
+  }
+
   fun filter(event: KeyEvent): Boolean {
     if (bridge?.filter(event) == true) return true
     if (KeyboardCapsBridge.isPhysical(event) && event.keyCode != KeyEvent.KEYCODE_CAPS_LOCK) {

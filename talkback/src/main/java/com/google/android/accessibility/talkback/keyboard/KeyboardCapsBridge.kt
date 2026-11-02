@@ -36,13 +36,27 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   private var draining = false
   private var closed = false
   private val queued = ArrayDeque<KeyEvent>()
+  private val readyCallbacks = ArrayList<(Boolean) -> Unit>()
   private var logicalCaps: Boolean? = null
 
   val isReady: Boolean
     get() = ready && backend.isAllowed
 
   fun prepare() {
-    if (closed || preparing || isReady || !backend.isAllowed) return
+    if (!preparing && !isReady) prepare {}
+  }
+
+  fun prepare(onResult: (Boolean) -> Unit) {
+    if (closed || !backend.isAllowed) {
+      onResult(false)
+      return
+    }
+    if (isReady) {
+      onResult(true)
+      return
+    }
+    readyCallbacks += onResult
+    if (preparing) return
     if (!held) {
       held = true
       backend.hold()
@@ -51,6 +65,9 @@ class KeyboardCapsBridge @JvmOverloads constructor(
     backend.available {
       preparing = false
       ready = it && !closed
+      val callbacks = ArrayList(readyCallbacks)
+      readyCallbacks.clear()
+      callbacks.forEach { callback -> callback(isReady) }
     }
   }
 
@@ -123,6 +140,9 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   fun close() {
     closed = true
     ready = false
+    val callbacks = ArrayList(readyCallbacks)
+    readyCallbacks.clear()
+    callbacks.forEach { it(false) }
     drain()
     releaseIfClosed()
   }

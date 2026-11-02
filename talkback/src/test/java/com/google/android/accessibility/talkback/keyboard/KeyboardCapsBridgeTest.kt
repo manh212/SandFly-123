@@ -26,11 +26,15 @@ class KeyboardCapsBridgeTest {
   private class Backend : KeyboardCapsBridge.Backend {
     override var isAllowed = true
     var holders = 0
+    var deferAvailability = false
+    var availability: ((Boolean) -> Unit)? = null
     val injections = ArrayList<List<KeyEvent>>()
     val pending = ArrayDeque<(Boolean) -> Unit>()
     override fun hold() { holders++ }
     override fun release() { holders-- }
-    override fun available(onResult: (Boolean) -> Unit) = onResult(true)
+    override fun available(onResult: (Boolean) -> Unit) {
+      if (deferAvailability) availability = onResult else onResult(true)
+    }
     override fun inject(events: Array<KeyEvent>, onResult: (Boolean) -> Unit) {
       injections += events.toList()
       pending.addLast(onResult)
@@ -116,5 +120,16 @@ class KeyboardCapsBridgeTest {
     backend.complete(false)
     assertTrue(backend.injections[1].single().isCapsLockOn)
     backend.complete()
+  }
+
+  @Test fun captureWaitsUntilTheBridgeIsReady() {
+    backend.deferAvailability = true
+    var result: Boolean? = null
+    bridge.prepare { result = it }
+    assertNull(result)
+    assertFalse(bridge.isReady)
+    backend.availability!!(true)
+    assertEquals(true, result)
+    assertTrue(bridge.isReady)
   }
 }

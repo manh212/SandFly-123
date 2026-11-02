@@ -2380,6 +2380,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Schedule dismissible reminders without interrupting accessibility speech.
     com.google.android.accessibility.talkback.licensing.ActivationReminder.startService(this);
     ShizukuGrants.onServiceConnected(this);
+    keyComboManager.prepareKeyboardScheme();
     ScreenElements.attach(this, () -> pipeline == null ? null : pipeline.getFeedbackReturner());
     if (SandflyAi.getFeatures() != null) {
       SandflyAi.getFeatures().onServiceConnected(this);

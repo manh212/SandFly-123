@@ -479,6 +479,11 @@ public class KeyComboManager
     if (isFixedKeyboardScheme()) fixedKeyboardScheme.prepare();
   }
 
+  public void prepareKeyboardScheme(java.util.function.Consumer<Boolean> onReady) {
+    if (isFixedKeyboardScheme()) fixedKeyboardScheme.prepareForCapture(onReady);
+    else onReady.accept(false);
+  }
+
   public boolean filterSchemeKeyboardEvent(KeyEvent event) {
     if (isFixedKeyboardScheme()) fixedKeyboardScheme.prepare();
     return fixedKeyboardScheme.filter(event);

@@ -11,7 +11,6 @@ import com.google.android.accessibility.talkback.commands.Commands
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 import com.google.android.accessibility.talkback.shizuku.ShizukuGrants
-import com.google.android.accessibility.talkback.shizuku.ShizukuShell
 import com.google.android.accessibility.utils.Performance.EventId
 import com.google.android.accessibility.utils.ServiceKeyEventListener
 
@@ -109,10 +108,9 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
         PreferencesActivityUtils.announceText(getString(R.string.scheme_keyboard_permission_needed), context)
         return@withShizukuPermission
       }
-      ShizukuShell.keyboardAvailable(context) { available ->
-        if (!isResumed) return@keyboardAvailable
+      manager()?.prepareKeyboardScheme { available ->
+        if (!isResumed) return@prepareKeyboardScheme
         if (available) {
-          manager()?.prepareKeyboardScheme()
           record()
         } else {
           AlertDialog.Builder(context)
