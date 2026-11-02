@@ -135,6 +135,8 @@ def reachable_keys():
 # the three removed features and the keys of the rows inside their screens, so a sync
 # that brings back a single deleted row fails the check too, not just the whole screen.
 FORBIDDEN_KEYS = {
+    "pref_category_group_gestures_shortcuts_key",
+    "pref_settings_group_gestures_shortcuts_key",
     "pref_category_manage_focus_indicator_key",
     "pref_thick_border_key",
     "pref_border_color_category_key",
