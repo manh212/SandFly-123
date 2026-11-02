@@ -372,12 +372,6 @@
   <string name="script_storage_cleared">Zapisane dane wyczyszczone</string>
   <string name="script_remove">Usuń</string>
   <string xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" name="script_remove_title">Usunąć skrypt <xliff:g id="name">%1$s</xliff:g>?</string>
-  <string name="title_pref_radial_menu">Menu kołowe</string>
-  <string name="summary_pref_radial_menu">Wyświetlaj menu SandFly w formie koła na środku ekranu. Przesuń palec do wybranej pozycji i unieś go, aby ją wybrać.</string>
-  <string xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" name="template_radial_menu_submenu">Menu: <xliff:g id="title" example="Navigation">%1$s</xliff:g></string>
-  <string name="radial_menu_cancel">Anuluj</string>
-  <string name="radial_menu_closed">Menu zamknięte</string>
-  <string name="hint_radial_menu">Dotknij środka ekranu i przesuń palec w stronę wybranej pozycji. Unieś go, aby ją wybrać. Aby zamknąć menu, unieś palec na środku.</string>
   <string name="script_remove_message">Zostaną usunięte kod, dane i ustawienia skryptu.</string>
   <string xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2" name="script_removed">Usunięto skrypt <xliff:g id="name">%1$s</xliff:g></string>
   <string name="script_log_empty">Dziennik jest pusty</string>
