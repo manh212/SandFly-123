@@ -55,10 +55,15 @@ public final class NavigationMode {
     String restoredAction = prefs.getString(
         restoreKey, MODE_TWO.equals(next) ? unassigned : originalDefault);
 
-    prefs.edit()
+    SharedPreferences.Editor editor = prefs.edit()
         .putString(saveKey, activeAction)
         .putString(gestureKey, restoredAction)
-        .putString(PREF_KEY, next)
-        .apply();
+        .putString(PREF_KEY, next);
+    if (MODE_TWO.equals(next)) {
+      editor.putString(
+          context.getString(R.string.pref_current_selector_setting_key),
+          context.getString(SelectorController.Setting.GRANULARITY_DEFAULT.prefValueResId));
+    }
+    editor.apply();
   }
 }

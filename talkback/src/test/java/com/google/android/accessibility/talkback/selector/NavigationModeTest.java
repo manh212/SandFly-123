@@ -41,6 +41,9 @@ public class NavigationModeTest {
     prefs.edit().putString(upDownKey, "mode-one-action").commit();
     NavigationMode.setMode(context, "2");
     assertTrue(NavigationMode.isModeTwo(context));
+    assertEquals(
+        context.getString(SelectorController.Setting.GRANULARITY_DEFAULT.prefValueResId),
+        prefs.getString(context.getString(R.string.pref_current_selector_setting_key), null));
     assertEquals(context.getString(R.string.shortcut_value_unassigned),
         prefs.getString(upDownKey, null));
 

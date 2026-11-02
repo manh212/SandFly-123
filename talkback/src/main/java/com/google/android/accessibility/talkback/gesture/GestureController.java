@@ -1200,21 +1200,19 @@ public class GestureController {
     if (NavigationMode.isModeTwo(service)) {
       switch (NavigationMode.swipeAction(actionGestureId)) {
         case SELECT_PREVIOUS -> {
-          selectorController.selectPreviousOrNextSetting(
-              eventId, AnnounceType.DESCRIPTION_AND_HINT, false);
+          performAction(service.getString(R.string.shortcut_value_select_previous_setting), eventId);
           return;
         }
         case SELECT_NEXT -> {
-          selectorController.selectPreviousOrNextSetting(
-              eventId, AnnounceType.DESCRIPTION_AND_HINT, true);
+          performAction(service.getString(R.string.shortcut_value_select_next_setting), eventId);
           return;
         }
         case ADJUST_PREVIOUS -> {
-          selectorController.adjustSelectedSetting(eventId, false);
+          performAction(service.getString(R.string.shortcut_value_selected_setting_previous_action), eventId);
           return;
         }
         case ADJUST_NEXT -> {
-          selectorController.adjustSelectedSetting(eventId, true);
+          performAction(service.getString(R.string.shortcut_value_selected_setting_next_action), eventId);
           return;
         }
         case NONE -> {}
