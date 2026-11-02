@@ -215,12 +215,6 @@ public class FocusProcessorForLogicalNavigation {
     if (!orderPending && !orderQueue.isEmpty()) earlyScrollCheckHandler.post(this::drainOrderQueue);
   }
 
-  private void cancelOrderQueue() {
-    while (!orderQueue.isEmpty()) {
-      Performance.getInstance().onNavigationFailed(orderQueue.removeFirst().eventId(), "cancelled_order");
-    }
-  }
-
   // Target to put focus on on the next window navigation action
   private @Nullable AccessibilityNodeInfoCompat stealWindowNavigationTarget = null;
   private @SearchDirectionOrUnknown int stealWindowNavigationTargetDirection =
@@ -1540,10 +1534,7 @@ public class FocusProcessorForLogicalNavigation {
       AsyncTraversalOrder.request(rootNode, eventId, result -> {
         orderPending = false;
         if (result == AsyncTraversalOrder.Result.CANCELLED) {
-          Performance.getInstance().onNavigationFailed(eventId, "cancelled_order");
-          savedPivot.recycle();
-          cancelOrderQueue();
-          return;
+          Performance.getInstance().onNavigationDetail(eventId, "order_async_cancelled_fallback", 1);
         }
         resumingOrder = true;
         try {
@@ -2218,9 +2209,9 @@ public class FocusProcessorForLogicalNavigation {
         AccessibilityNodeInfoUtils.getWindow(pivot.unwrap());
 
     if (currentWindow == null) {
-      // Ideally currentWindow should never be null. Do the null check in case of exception.
       LogUtils.w(TAG, "Cannot navigate across window: unable to identify current window");
-      return NavigationResult.create(NavigationResult.Type.EXCEPTION);
+      reachEdge = true;
+      return NavigationResult.create(NavigationResult.Type.EMPTY);
     }
 
     // Skip one swipe if it's the last element in the last window. Without wrapping, stop there on every swipe, rather than going on to the first window.
