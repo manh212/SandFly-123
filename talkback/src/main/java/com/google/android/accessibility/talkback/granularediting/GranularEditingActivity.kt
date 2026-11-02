@@ -51,6 +51,7 @@ import com.google.android.accessibility.utils.widget.KeyboardSafeEditText
 class GranularEditingActivity : AppCompatActivity() {
   private var sessionId = -1
   private var promptFields: List<EditText> = emptyList()
+  private var commitNestedInput: (() -> Unit)? = null
   private var text = ""
   private var granularity = Granularity.WORDS
   private var pieces: List<Piece> = emptyList()
@@ -138,6 +139,9 @@ class GranularEditingActivity : AppCompatActivity() {
       if (field != null) {
         field.setText(result.text)
         field.setSelection(result.text.length)
+        // An edit made inside a single-input prompt returns to the parent editor's
+        // text list immediately. The parent Save button still controls the final write.
+        commitNestedInput?.invoke()
       } else {
         // If Android recreated the parent's dialog, preserve the user's changes.
         GranularEditing.copy(this, result.text)
@@ -172,10 +176,18 @@ class GranularEditingActivity : AppCompatActivity() {
     return null
   }
 
-  private fun trackDialogInputs(dialog: AlertDialog, fields: List<EditText>) {
+  private fun trackDialogInputs(
+    dialog: AlertDialog,
+    fields: List<EditText>,
+    onNestedSave: (() -> Unit)? = null,
+  ) {
     promptFields = fields
+    commitNestedInput = onNestedSave
     dialog.setOnDismissListener {
-      if (promptFields === fields) promptFields = emptyList()
+      if (promptFields === fields) {
+        promptFields = emptyList()
+        commitNestedInput = null
+      }
     }
   }
 
@@ -436,7 +448,10 @@ class GranularEditingActivity : AppCompatActivity() {
       .setPositiveButton(android.R.string.ok) { _, _ -> onDone(field.text.toString()) }
       .setNegativeButton(android.R.string.cancel, null)
       .show()
-    trackDialogInputs(dialog, listOf(field))
+    trackDialogInputs(dialog, listOf(field)) {
+      onDone(field.text.toString())
+      dialog.dismiss()
+    }
     field.requestFocus()
   }
 
