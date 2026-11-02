@@ -1700,6 +1700,10 @@ public class SelectorController implements UserInputEventListener {
   }
 
   private void ensureCurrentGroupSelection() {
+    if (NavigationMode.isModeTwo(context)
+        && getCurrentSetting(context, prefs) == Setting.GRANULARITY_DEFAULT) {
+      return;
+    }
     SelectorGroupManager.Group group = SelectorGroupManager.currentGroup(context);
     if (group == null || !group.enabled) {
       return;

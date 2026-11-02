@@ -1198,7 +1198,7 @@ public class GestureController {
       return;
     }
     if (NavigationMode.isModeTwo(service)) {
-      switch (NavigationMode.swipeAction(actionGestureId)) {
+      switch (NavigationMode.swipeAction(gestureId)) {
         case SELECT_PREVIOUS -> {
           performAction(service.getString(R.string.shortcut_value_select_previous_setting), eventId);
           return;
