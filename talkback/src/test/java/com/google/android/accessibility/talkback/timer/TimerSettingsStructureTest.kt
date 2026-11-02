@@ -85,7 +85,6 @@ class TimerSettingsStructureTest {
         "TextToSpeechSettingsFragment",
         "SpeechGroupFragment",
         "NavigationGroupFragment",
-        "GesturesShortcutsGroupFragment",
         "MenuControlsGroupFragment",
         "SoundAndVibrationFragment",
         "NotificationsFragment",
@@ -101,7 +100,7 @@ class TimerSettingsStructureTest {
       topLevel.map { it.second?.substringAfterLast('.') },
     )
     assertTrue(topLevel.all { !it.second.isNullOrBlank() })
-    assertEquals(16, topLevel.size)
+    assertEquals(15, topLevel.size)
     assertFalse(topLevel.any { it.first == SETUP_KEY })
     assertEquals(
       1,
