@@ -53,6 +53,8 @@ access is needed. Other assigned modifier chords remain usable.
 Unit tests cover blank creation, persistence, deletion, older scheme preservation,
 reserved modifiers, the 400 ms boundary, cancellation, cross-device presses,
 modifier release order, held Caps Lock, and plain Telex input in editable fields.
+Bridge tests cover ordered key replay, corrected Caps Lock metadata, consumed
+shortcuts, injection markers, failure and shutdown with pending events.
 They do not establish OEM input-policy compatibility or physical keyboard latency.
 CI also validates affected shared code, builds, lint and dev publication.
 

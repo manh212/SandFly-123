@@ -1650,11 +1650,11 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Handles a key event and returns whether it should be considered consumed. */
   protected boolean onKeyEventInternal(KeyEvent keyEvent) {
     if (KeyboardCapsBridge.isInjected(keyEvent)) return false;
-    if (keyComboManager != null && keyComboManager.filterSchemeKeyboardEvent(keyEvent)) return true;
-    if (keyComboManager != null && keyComboManager.handleSchemeCapsEvent(keyEvent)) return true;
     if (keyComboManager != null && keyComboManager.isFixedKeyboardScheme()) {
       handleCtrlTap(keyEvent, Performance.EVENT_ID_UNTRACKED);
     }
+    if (keyComboManager != null && keyComboManager.filterSchemeKeyboardEvent(keyEvent)) return true;
+    if (keyComboManager != null && keyComboManager.handleSchemeCapsEvent(keyEvent)) return true;
     if (com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onKeyEvent(keyEvent)) {
       return true;
     }

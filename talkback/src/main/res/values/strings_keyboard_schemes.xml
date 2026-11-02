@@ -17,4 +17,5 @@
     <string name="scheme_keyboard_permission_unavailable">Android chưa cho phép Meridian điều khiển trạng thái Caps Lock qua Shizuku trên thiết bị này.</string>
     <string name="scheme_caps_on">Caps Lock đang bật</string>
     <string name="scheme_caps_off">Caps Lock đang tắt</string>
+    <string name="scheme_caps_location">Caps Lock thường nằm bên trái bàn phím, phía trên phím Shift.</string>
 </resources>

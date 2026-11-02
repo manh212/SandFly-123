@@ -142,10 +142,6 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
       override fun processWhenServiceSuspended(): Boolean = false
       override fun onKeyEvent(event: KeyEvent, eventId: EventId?): Boolean {
         if (!KeyboardCapsBridge.isPhysical(event)) return false
-        if (event.keyCode == KeyEvent.KEYCODE_ESCAPE && event.action == KeyEvent.ACTION_UP) {
-          capture?.dismiss()
-          return true
-        }
         if (event.keyCode == KeyEvent.KEYCODE_CAPS_LOCK) {
           capsHeld = event.action != KeyEvent.ACTION_UP
         }

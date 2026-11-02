@@ -9,7 +9,7 @@ import com.google.android.accessibility.utils.Performance.EventId
 import com.google.android.accessibility.utils.ServiceKeyEventListener
 
 class FixedKeyboardScheme(private val context: Context, private val manager: KeyComboManager) {
-  private val bridge = (context as? TalkBackService)?.let(::KeyboardCapsBridge)
+  private val bridge = (context as? TalkBackService)?.let { KeyboardCapsBridge(it) }
   private val caps = CapsLockPressState()
   private val passedCaps = HashSet<Int>()
   private val consumedCaps = HashSet<Int>()

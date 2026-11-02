@@ -594,6 +594,7 @@ class TutorialActivity : AppCompatActivity() {
       getString(key.nameRes),
       getString(
         when (key) {
+          SandFlyKey.CAPS_LOCK -> R.string.scheme_caps_location
           SandFlyKey.META -> R.string.sandfly_keyboard_tutorial_action_key_location
           SandFlyKey.ALT -> R.string.sandfly_keyboard_tutorial_alt_key_location
           SandFlyKey.CTRL_ALT -> R.string.sandfly_keyboard_tutorial_ctrl_alt_key_location

@@ -7,7 +7,27 @@ import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.shizuku.ShizukuShell
 import java.util.ArrayDeque
 
-class KeyboardCapsBridge(private val service: TalkBackService) {
+class KeyboardCapsBridge @JvmOverloads constructor(
+  private val service: TalkBackService,
+  private val backend: Backend = ShizukuBackend(service),
+  private val physicalKeyboard: (KeyEvent) -> Boolean = { isPhysical(it) },
+) {
+  interface Backend {
+    val isAllowed: Boolean
+    fun hold()
+    fun release()
+    fun available(onResult: (Boolean) -> Unit)
+    fun inject(events: Array<KeyEvent>, onResult: (Boolean) -> Unit)
+  }
+
+  private class ShizukuBackend(private val service: TalkBackService) : Backend {
+    override val isAllowed: Boolean get() = ShizukuShell.isAllowed()
+    override fun hold() = ShizukuShell.hold(service)
+    override fun release() = ShizukuShell.release()
+    override fun available(onResult: (Boolean) -> Unit) = ShizukuShell.keyboardAvailable(service, onResult)
+    override fun inject(events: Array<KeyEvent>, onResult: (Boolean) -> Unit) =
+      ShizukuShell.injectKeyboardEvents(service, events, onResult)
+  }
   private var held = false
   private var preparing = false
   private var ready = false
@@ -18,23 +38,23 @@ class KeyboardCapsBridge(private val service: TalkBackService) {
   private var logicalCaps: Boolean? = null
 
   val isReady: Boolean
-    get() = ready && ShizukuShell.isAllowed()
+    get() = ready && backend.isAllowed
 
   fun prepare() {
-    if (closed || preparing || isReady || !ShizukuShell.isAllowed()) return
+    if (closed || preparing || isReady || !backend.isAllowed) return
     if (!held) {
       held = true
-      ShizukuShell.hold(service)
+      backend.hold()
     }
     preparing = true
-    ShizukuShell.keyboardAvailable(service) {
+    backend.available {
       preparing = false
       ready = it && !closed
     }
   }
 
   fun filter(event: KeyEvent): Boolean {
-    if (!busy || replaying || !isPhysical(event)) return false
+    if (!busy || replaying || !physicalKeyboard(event)) return false
     queued.addLast(KeyEvent(event))
     return true
   }
@@ -55,7 +75,7 @@ class KeyboardCapsBridge(private val service: TalkBackService) {
       injected(now, now + 2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ALT_LEFT, meta, deviceId),
       injected(now, now + 3, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_META_LEFT, 0, deviceId),
     )
-    ShizukuShell.injectKeyboardEvents(service, events) { worked ->
+    backend.inject(events) { worked ->
       ready = worked && !closed
       busy = false
       onDone(worked)
@@ -82,7 +102,7 @@ class KeyboardCapsBridge(private val service: TalkBackService) {
       if (!consumed) {
         busy = true
         val forwarded = KeyEvent.changeFlags(event, event.flags or INJECTED_FLAGS)
-        ShizukuShell.injectKeyboardEvents(service, arrayOf(forwarded)) { worked ->
+        backend.inject(arrayOf(forwarded)) { worked ->
           busy = false
           if (!worked && !closed) service.announceKeyboardBridgeFailure()
           drain()
@@ -102,7 +122,7 @@ class KeyboardCapsBridge(private val service: TalkBackService) {
   private fun releaseIfClosed() {
     if (closed && !busy && queued.isEmpty() && held) {
       held = false
-      ShizukuShell.release()
+      backend.release()
     }
   }
 
