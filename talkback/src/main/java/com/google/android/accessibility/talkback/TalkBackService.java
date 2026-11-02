@@ -2369,6 +2369,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       onLockedBootCompletedInternal();
       lockedBootCompletedPending = false;
     }
+    checkUnlockedBoot();
 
     boolean shouldShowTutorial = shouldShowTutorial();
 
@@ -4637,7 +4638,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   public void onUnlockedBootCompleted() {
-    if (unlockedBootCompleted) {
+    if (unlockedBootCompleted || !isServiceActive() || pipeline == null) {
       return;
     }
     unlockedBootCompleted = true;
