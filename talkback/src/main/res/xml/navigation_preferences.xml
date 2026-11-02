@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:key="pref_navigation_mode"
+      android:title="@string/navigation_mode_title"
+      android:entries="@array/navigation_mode_entries"
+      android:entryValues="@array/navigation_mode_values"
+      android:defaultValue="1" />
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="false"
       android:key="@string/pref_reverse_swipe_gestures_key"

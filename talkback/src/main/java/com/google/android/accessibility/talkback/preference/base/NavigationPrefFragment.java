@@ -18,8 +18,10 @@ package com.google.android.accessibility.talkback.preference.base;
 
 import android.os.Build;
 import android.os.Bundle;
+import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.selector.NavigationMode;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
 
@@ -42,6 +44,15 @@ public class NavigationPrefFragment extends VerbosityPrefFragment {
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
+    ListPreference mode = findPreference(NavigationMode.PREF_KEY);
+    if (mode != null) {
+      mode.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
+      mode.setOnPreferenceChangeListener(
+          (preference, value) -> {
+            NavigationMode.setMode(requireContext(), String.valueOf(value));
+            return true;
+          });
+    }
     if (!FeatureFlagReader.enableSmartBrowseMode(getContext())) {
       PreferenceSettingsUtils.hidePreference(
           getContext(), getPreferenceScreen(), R.string.pref_smart_browse_mode_key);

@@ -758,6 +758,18 @@ public class SelectorController implements UserInputEventListener {
     sharedPreferenceChangeListener =
         (prefs, key) -> {
           cachedAdjustSelectedSettingGestureNames = null;
+          if (TextUtils.equals(key, NavigationMode.PREF_KEY)
+              && NavigationMode.isModeTwo(context)) {
+            handler.removeCallbacks(switchAfterTouch);
+            lastFocusedNode = null;
+            settingToRestore = null;
+            actionsSettingActivatedForEditText = false;
+            setCurrentSetting(
+                EVENT_ID_UNTRACKED,
+                Setting.GRANULARITY_DEFAULT,
+                AnnounceType.SILENCE,
+                false);
+          }
           if (TextUtils.equals(key, GestureProfiles.KEY)) {
             GestureProfiles.load(prefs);
             SelectorGroupManager.appendGestureProfileControl(context, prefs);
@@ -1261,6 +1273,9 @@ public class SelectorController implements UserInputEventListener {
    */
   @Override
   public void editTextOrSelectableTextSelected(boolean isSelected) {
+    if (NavigationMode.isModeTwo(context)) {
+      return;
+    }
     applyPendingSwitch();
     if (isSelected) {
       if (!prefs.getBoolean(
@@ -1380,6 +1395,10 @@ public class SelectorController implements UserInputEventListener {
   }
 
   private void switchCurrentSetting(AccessibilityNodeInfo nodeInfo) {
+    if (NavigationMode.isModeTwo(context)) {
+      lastFocusedNode = null;
+      return;
+    }
     Setting currentSetting = getCurrentSetting(context, prefs);
     if (nodeInfo == null) {
       return;
@@ -1608,6 +1627,9 @@ public class SelectorController implements UserInputEventListener {
     for (String itemId : group.items) {
       Setting setting = SelectorGroupManager.settingForItem(context, itemId);
       if (setting != null) {
+        if (NavigationMode.isModeTwo(context) && setting == ACTIONS) {
+          continue;
+        }
         if (!hiddenSettings.contains(setting) && allowedSetting(setting, node)) {
           availableItems.add(itemId);
         }
@@ -1640,6 +1662,9 @@ public class SelectorController implements UserInputEventListener {
       boolean showOverlay) {
     Setting setting = SelectorGroupManager.settingForItem(context, itemId);
     if (setting != null) {
+      if (NavigationMode.isModeTwo(context) && setting == ACTIONS) {
+        return false;
+      }
       setCurrentSetting(eventId, setting, announceType, showOverlay);
       return true;
     }
@@ -1817,7 +1842,9 @@ public class SelectorController implements UserInputEventListener {
   private boolean selectSetting(
       @Nullable Setting setting, AnnounceType announceType, boolean showOverlay) {
     applyPendingSwitch();
-    if (setting == null || !allowedSetting(setting)) {
+    if (setting == null
+        || (NavigationMode.isModeTwo(context) && setting == ACTIONS)
+        || !allowedSetting(setting)) {
       return false;
     }
 
@@ -2001,7 +2028,10 @@ public class SelectorController implements UserInputEventListener {
     if (SelectorGroupManager.isSupported()) {
       for (String itemId : SelectorGroupManager.currentGroupItems(context)) {
         Setting setting = SelectorGroupManager.settingForItem(context, itemId);
-        if (setting != null && !hiddenSettings.contains(setting) && allowedSetting(setting, node)) {
+        if (setting != null
+            && !(NavigationMode.isModeTwo(context) && setting == ACTIONS)
+            && !hiddenSettings.contains(setting)
+            && allowedSetting(setting, node)) {
           filteredSettingsBuilder.add(setting);
         }
       }
@@ -2166,6 +2196,9 @@ public class SelectorController implements UserInputEventListener {
 
   @NonNull
   private String getAdjustSelectedSettingGestureNames() {
+    if (NavigationMode.isModeTwo(context)) {
+      return context.getString(R.string.navigation_mode_two_adjust_hint);
+    }
     String adjustSelectedSettingGestureNames = cachedAdjustSelectedSettingGestureNames;
     if (adjustSelectedSettingGestureNames == null) {
       List<String> rawNames =
@@ -2215,6 +2248,10 @@ public class SelectorController implements UserInputEventListener {
       return;
     }
     Setting currentSetting = getCurrentSetting(context, prefs);
+    if (NavigationMode.isModeTwo(context) && currentSetting == ACTIONS) {
+      setCurrentSetting(EVENT_ID_UNTRACKED, Setting.GRANULARITY_DEFAULT, AnnounceType.SILENCE, false);
+      currentSetting = Setting.GRANULARITY_DEFAULT;
+    }
     if (isContextualSetting(currentSetting)
         && !accessibilityFocusMonitor.hasAccessibilityFocus(/* useInputFocusIfEmpty= */ false)) {
       restoreSetting();
@@ -2258,7 +2295,7 @@ public class SelectorController implements UserInputEventListener {
       case SPEECH_RATE -> {
         // TODO: Increase speech rate when swipe-up is assigned to the selected setting's
         // previous action, which will be the default assignment.
-        changeSpeechRate(eventId, !isNext);
+        changeSpeechRate(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
         return;
       }
       case LANGUAGE -> {
@@ -2295,11 +2332,11 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case SCROLLING_SEQUENTIAL -> {
-        scrollForwardBackward(eventId, isNext);
+        scrollForwardBackward(eventId, NavigationMode.isModeTwo(context) ? !isNext : isNext);
         return;
       }
       case CHANGE_ACCESSIBILITY_VOLUME -> {
-        changeAccessibilityVolume(eventId, isNext);
+        changeAccessibilityVolume(eventId, NavigationMode.isModeTwo(context) ? !isNext : isNext);
         return;
       }
       case SOUND_MODE -> {
@@ -2313,7 +2350,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case CHANGE_BRIGHTNESS -> {
-        changeBrightness(eventId, /* increase= */ !isNext);
+        changeBrightness(eventId, /* increase= */ NavigationMode.isModeTwo(context) ? isNext : !isNext);
         return;
       }
       case CHANGE_LIFT_TO_ACTIVATE -> {
@@ -2333,7 +2370,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case SPEECH_STREAM -> {
-        changeSpeechVolume(eventId, !isNext);
+        changeSpeechVolume(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
         return;
       }
       case VERTICAL_NAVIGATION -> {
@@ -2405,11 +2442,13 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case ACTIONS -> {
-        changeAction(eventId, isNext);
+        if (!NavigationMode.isModeTwo(context)) {
+          changeAction(eventId, isNext);
+        }
         return;
       }
       case ADJUSTABLE_WIDGET -> {
-        handleAdjustable(eventId, isNext);
+        handleAdjustable(eventId, NavigationMode.isModeTwo(context) ? !isNext : isNext);
         return;
       }
       case GRANULARITY_TYPO -> {

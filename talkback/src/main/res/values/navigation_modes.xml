@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="navigation_mode_title" translatable="false">Chế độ điều hướng</string>
+    <string name="navigation_mode_one" translatable="false">Chế độ điều hướng 1</string>
+    <string name="navigation_mode_two" translatable="false">Chế độ điều hướng 2</string>
+    <string name="navigation_mode_two_adjust_hint" translatable="false">Vuốt trái hoặc phải</string>
+    <string-array name="navigation_mode_entries" translatable="false">
+        <item>@string/navigation_mode_one</item>
+        <item>@string/navigation_mode_two</item>
+    </string-array>
+    <string-array name="navigation_mode_values" translatable="false">
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+</resources>

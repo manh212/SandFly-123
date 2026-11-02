@@ -131,6 +131,7 @@ import com.google.android.accessibility.talkback.scripting.Scripts;
 import com.google.android.accessibility.talkback.dictation.AiDictation;
 import com.google.android.accessibility.talkback.clipboard.ClipboardHistoryDialog;
 import com.google.android.accessibility.talkback.granularediting.GranularEditing;
+import com.google.android.accessibility.talkback.selector.NavigationMode;
 import com.google.android.accessibility.talkback.selector.SelectorController;
 import com.google.android.accessibility.talkback.selector.SoundModeControl;
 import com.google.android.accessibility.talkback.monitor.FullScreenMonitor;
@@ -1195,6 +1196,29 @@ public class GestureController {
         action);
     if (TutorialHooks.onGesture(gestureId, action)) {
       return;
+    }
+    if (NavigationMode.isModeTwo(service)) {
+      switch (NavigationMode.swipeAction(actionGestureId)) {
+        case SELECT_PREVIOUS -> {
+          selectorController.selectPreviousOrNextSetting(
+              eventId, AnnounceType.DESCRIPTION_AND_HINT, false);
+          return;
+        }
+        case SELECT_NEXT -> {
+          selectorController.selectPreviousOrNextSetting(
+              eventId, AnnounceType.DESCRIPTION_AND_HINT, true);
+          return;
+        }
+        case ADJUST_PREVIOUS -> {
+          selectorController.adjustSelectedSetting(eventId, false);
+          return;
+        }
+        case ADJUST_NEXT -> {
+          selectorController.adjustSelectedSetting(eventId, true);
+          return;
+        }
+        case NONE -> {}
+      }
     }
     String fallbackAction = action;
     if (!turnsScriptsOff(action)
