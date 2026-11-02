@@ -2291,8 +2291,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   protected void onServiceConnected() {
     ExitAfterTurnOff.cancel();
-      super.onServiceConnected();
-    GestureProfiles.reset(prefs);
+    super.onServiceConnected();
     EventId talkbackOnEventId =
         Performance.getInstance().onHintEventReceived(Performance.HINT_SUB_TYPE_TALKBACK_ON);
 
@@ -2302,6 +2301,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     primesController.startTimer(TimerAction.START_UP);
 
     prefs = SharedPreferencesUtils.getSharedPreferences(this);
+    GestureProfiles.reset(prefs);
     VolumeKeyManager.migrate(this);
 
     if (FeatureFlagReader.usePeriodAsSeparator(getBaseContext())) {
@@ -2498,7 +2498,8 @@ public class TalkBackService extends AccessibilityServiceCompat
    * Initializes the controllers, managers, and processors. This should only be called once from
    * {@link #onServiceConnected()}.
    */
-  private void initializeInfrastructure() {
+  @VisibleForTesting(otherwise = VisibleForTesting.PRIVATE)
+  protected void initializeInfrastructure() {
     // TODO: we still need it keep true for TV until TouchExplore and Accessibility focus is
     // not unpaired
     // supportsTouchScreen = packageManager.hasSystemFeature(PackageManager.FEATURE_TOUCHSCREEN);
