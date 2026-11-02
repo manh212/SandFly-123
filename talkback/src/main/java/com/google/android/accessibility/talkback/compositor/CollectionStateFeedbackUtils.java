@@ -28,8 +28,10 @@ import android.content.Context;
 import android.text.TextUtils;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.utils.VerbosityPreferences;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.Role;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import com.google.android.accessibility.utils.monitor.CollectionState;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.ArrayList;
@@ -42,6 +44,18 @@ public final class CollectionStateFeedbackUtils {
   private static final String TAG = "CollectionStateDescriptionProvider";
 
   private CollectionStateFeedbackUtils() {}
+
+  /**
+   * Enforce the effective verbosity setting at the source of generated coordinates, including
+   * legacy/deferred announcements that may bypass the compositor's state.
+   */
+  static boolean shouldSpeakRowColumnNumbers(Context context) {
+    return VerbosityPreferences.getPreferenceValueBool(
+        SharedPreferencesUtils.getSharedPreferences(context),
+        context.getResources(),
+        context.getString(R.string.pref_table_speak_row_column_numbers_key),
+        context.getResources().getBoolean(R.bool.pref_table_speak_row_column_numbers_default));
+  }
 
   /**
    * Returns the collection role description when it is transitioned to a node inside a collection.
@@ -226,6 +240,8 @@ public final class CollectionStateFeedbackUtils {
       boolean speakTableRowColumnNumbers) {
     boolean isRowTransition = getCollectionIsRowTransition(collectionState);
     boolean isColumnTransition = getCollectionIsColumnTransition(collectionState);
+    boolean announceRowColumnNumbers =
+        speakTableRowColumnNumbers && shouldSpeakRowColumnNumbers(context);
     if (isRowTransition || isColumnTransition) {
       List<CharSequence> joinList = new ArrayList<>();
       switch (collectionState.getCollectionRole()) {
@@ -249,7 +265,7 @@ public final class CollectionStateFeedbackUtils {
               && headingType != CollectionState.TYPE_ROW) {
             CharSequence rowDesc =
                 getCollectionTableItemRowName(
-                    collectionState, tableItemRowIndex, context, speakTableRowColumnNumbers);
+                    collectionState, tableItemRowIndex, context, announceRowColumnNumbers);
             if (!TextUtils.isEmpty(rowDesc)) {
               joinList.add(rowDesc);
             }
@@ -265,7 +281,7 @@ public final class CollectionStateFeedbackUtils {
                     tableItemColumnIndex,
                     context,
                     tableColumnHeaders,
-                    speakTableRowColumnNumbers);
+                    announceRowColumnNumbers);
             if (!TextUtils.isEmpty(colDesc)) {
               joinList.add(colDesc);
             }
@@ -368,7 +384,8 @@ public final class CollectionStateFeedbackUtils {
 
   private static CharSequence getCollectionTableItemRowName(
       CollectionState collectionState, int tableItemRowIndex, Context context) {
-    return getCollectionTableItemRowName(collectionState, tableItemRowIndex, context, true);
+    return getCollectionTableItemRowName(
+        collectionState, tableItemRowIndex, context, shouldSpeakRowColumnNumbers(context));
   }
 
   private static CharSequence getCollectionTableItemColumnName(CollectionState collectionState) {
@@ -400,7 +417,11 @@ public final class CollectionStateFeedbackUtils {
   private static CharSequence getCollectionTableItemColumnName(
       CollectionState collectionState, int tableItemColumnIndex, Context context) {
     return getCollectionTableItemColumnName(
-        collectionState, tableItemColumnIndex, context, GlobalVariables.TABLE_HEADERS_AFTER, true);
+        collectionState,
+        tableItemColumnIndex,
+        context,
+        GlobalVariables.TABLE_HEADERS_AFTER,
+        shouldSpeakRowColumnNumbers(context));
   }
 
   private static CharSequence getCollectionTableItemRoleDescription(
@@ -454,6 +475,10 @@ public final class CollectionStateFeedbackUtils {
 
   private static CharSequence getCollectionGridItemCount(
       CollectionState collectionState, Context context) {
+    if (!shouldSpeakRowColumnNumbers(context)) {
+      // Preserve useful item counts while excluding row and column dimensions.
+      return quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context);
+    }
     if (hasBothCount(collectionState)) {
       return CompositorUtils.joinCharSequences(
           quantityCharSequenceForTotalCountWithIgnoredItems(collectionState, context),
@@ -555,6 +580,15 @@ public final class CollectionStateFeedbackUtils {
 
   private static CharSequence getCollectionGridPagerEnter(
       CollectionState collectionState, Context context) {
+    if (!shouldSpeakRowColumnNumbers(context)) {
+      return CompositorUtils.joinCharSequences(
+          getCollectionName(
+              R.string.in_grid_pager,
+              R.string.in_grid_pager_with_name,
+              collectionState.getCollectionName(),
+              context),
+          getCollectionLevel(collectionState, context));
+    }
     return CompositorUtils.joinCharSequences(
         getCollectionName(
             R.string.in_grid_pager,
