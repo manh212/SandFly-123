@@ -77,8 +77,8 @@ class SpokenSchedulesAlarmClockTest {
       "trigger ${info!!.triggerTime} is a next hourly boundary",
       info.triggerTime in
         setOf(
-          SpokenSchedules.nextClockTime(System.currentTimeMillis() - 5_000L, 60),
-          SpokenSchedules.nextClockTime(System.currentTimeMillis() + 5_000L, 60),
+          SpokenSchedules.nextClockTime(System.currentTimeMillis() - 5_000L, SpokenSchedules.ALL_CLOCK_HOURS),
+          SpokenSchedules.nextClockTime(System.currentTimeMillis() + 5_000L, SpokenSchedules.ALL_CLOCK_HOURS),
         ),
     )
     assertNotNull(info.showIntent)
