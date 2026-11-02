@@ -91,11 +91,16 @@ object GranularEditing {
     try {
       // NEW_TASK reuses the dedicated editor task and stacks the new activity.
       // CLEAR_TASK would destroy its parent and the dialog waiting for this text.
-      context.startActivity(
+      val intent =
         Intent(context, GranularEditingActivity::class.java)
           .putExtra(EXTRA_SESSION_ID, sessionId)
-          .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-      )
+      val parentActivity = parent?.first?.let { activities[it]?.get() }
+      if (parentActivity != null) {
+        // Launch from the parent activity so Android keeps it underneath this editor.
+        parentActivity.startActivity(intent)
+      } else {
+        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+      }
     } catch (exception: RuntimeException) {
       sessions.remove(sessionId)
       throw exception
