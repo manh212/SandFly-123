@@ -41,6 +41,7 @@ import com.google.android.accessibility.talkback.keyboard.ArrowKeyNav;
 import com.google.android.accessibility.talkback.keyboard.ArrowKeyNavCommand;
 import com.google.android.accessibility.talkback.keyboard.CustomKeymap;
 import com.google.android.accessibility.talkback.keyboard.CustomKeymaps;
+import com.google.android.accessibility.talkback.keyboard.KeyboardSchemeFragment;
 import com.google.android.accessibility.talkback.keyboard.KeyCombo;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
 import com.google.android.accessibility.talkback.keyboard.KeyComboModel;
@@ -273,6 +274,10 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
     updateSelectKeymapPreferenceWithAvailableKeymaps();
     // The keymap's actions come after its other settings, which the SandFly key goes between.
     addCustomKeymapActions();
+    if (getKeyComboManager().isFixedKeyboardScheme()) {
+      showFixedSchemePreferences();
+      return;
+    }
     addSandFlyKeyPreference();
 
     resetKeymapPreference = findPreference(getString(R.string.pref_reset_keymap_key));
@@ -325,7 +330,8 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
     @Nullable CustomKeymap custom = CustomKeymaps.of(context, keymap);
     Keymap builtIn = Keymap.of(context, keymap);
     List<SandFlyKey> sandFlyKeys =
-        custom != null ? Arrays.asList(SandFlyKey.values()) : builtIn.getSandFlyKeys();
+        custom != null ? new ArrayList<>(Arrays.asList(SandFlyKey.values())) : builtIn.getSandFlyKeys();
+    if (custom != null) sandFlyKeys.remove(SandFlyKey.CAPS_LOCK);
     SandFlyKey used = custom != null ? custom.sandFlyKey(context) : builtIn.sandFlyKey(context);
     List<CharSequence> entries = new ArrayList<>();
     List<CharSequence> entryValues = new ArrayList<>();
@@ -374,7 +380,7 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
           askForKeymapName(
               R.string.keycombo_menu_new_keymap,
               "",
-              getString(R.string.keycombo_new_keymap_default_name, getKeymapName(keymap)),
+              getString(R.string.scheme_new_name),
               this::createKeymap);
           return true;
         });
@@ -448,24 +454,44 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
     field.requestFocus();
   }
 
-  /** Makes a keymap named [name] from the shortcuts of the keymap in use, and uses it. */
   private void createKeymap(String name) {
-    KeyComboModel model = getKeyComboManager().getKeyComboModel();
-    boolean usesSequences =
-        model instanceof NewKeyComboModel sequenceModel && sequenceModel.usesSequences();
-    // The copy keeps the keymap's SandFly key, which its shortcuts are pressed with.
-    @Nullable SandFlyKey sandFlyKey = getKeyComboManager().getSandFlyKey();
-    CustomKeymap custom =
-        CustomKeymaps.create(
-            getContext(),
-            name,
-            usesSequences,
-            sandFlyKey != null ? sandFlyKey : SandFlyKey.META,
-            model.getKeyComboMap(),
-            model instanceof NewKeyComboModel newModel && newModel.arrowsNavigate());
+    CustomKeymap custom = CustomKeymaps.createBlank(getContext(), name);
     prefs.edit().putString(getString(R.string.pref_select_keymap_key), custom.getValue()).apply();
+    getKeyComboManager().refreshKeyComboModel();
+    keymap = custom.getValue();
+    openSchemeEditor();
     PreferencesActivityUtils.announceText(
         getString(R.string.keycombo_menu_announce_active_keymap, name), getActivity());
+  }
+
+  private Preference schemeEditorPreference() {
+    Preference editor = new Preference(requireContext());
+    editor.setKey("pref_keyboard_scheme_editor");
+    editor.setTitle(R.string.scheme_edit_shortcuts);
+    editor.setIconSpaceReserved(false);
+    editor.setFragment(KeyboardSchemeFragment.class.getName());
+    editor.getExtras().putString(KeyboardSchemeFragment.ARG_SCHEME, keymap);
+    return editor;
+  }
+
+  private void openSchemeEditor() {
+    onPreferenceTreeClick(schemeEditorPreference());
+  }
+
+  private void showFixedSchemePreferences() {
+    PreferenceScreen screen = getPreferenceScreen();
+    PreferenceCategory category = findPreference(getString(R.string.pref_keymap_category_key));
+    for (int i = screen.getPreferenceCount() - 1; i >= 0; i--) {
+      if (screen.getPreference(i) != category) screen.removePreference(screen.getPreference(i));
+    }
+    if (category != null) {
+      Preference reset = category.findPreference(getString(R.string.pref_reset_keymap_key));
+      if (reset != null) category.removePreference(reset);
+      Preference system = category.findPreference(getString(R.string.pref_view_system_keyboard_shortcuts_key));
+      if (system != null) category.removePreference(system);
+      category.addPreference(schemeEditorPreference());
+    }
+    resetKeymapPreference = null;
   }
 
   /** Forgets [custom] and uses the SandFly keymap where it was in use. */
@@ -573,7 +599,7 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
           new TalkBackServiceStateChangeListener() {
             @Override
             public void onServiceStateChange(boolean isServiceActive) {
-              resetKeymapPreference.setEnabled(isServiceActive);
+              if (resetKeymapPreference != null) resetKeymapPreference.setEnabled(isServiceActive);
               setUpDialogPreference(
                   preference -> {
                     preference.setEnabled(isServiceActive);

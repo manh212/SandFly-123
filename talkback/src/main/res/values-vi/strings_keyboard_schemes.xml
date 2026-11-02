@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="keycombo_key_modifier_caps_lock">Caps Lock (Meridian)</string>
+    <string name="scheme_new_name">Sơ đồ mới</string>
+    <string name="scheme_edit_shortcuts">Chỉnh sửa phím tắt</string>
+    <string name="scheme_add_shortcut">Thêm phím tắt</string>
+    <string name="scheme_change_action">Đổi hành động</string>
+    <string name="scheme_remove_shortcut">Xóa phím tắt</string>
+    <string name="scheme_capture_title">Nhấn phím tắt</string>
+    <string name="scheme_capture_instruction">Hãy nhấn phím hoặc tổ hợp phím trên bàn phím ngoài mà bạn muốn gán. Nếu không dùng phím bổ trợ, vui lòng nhấn phím đó hai lần.</string>
+    <string name="scheme_choose_action">Chọn hành động</string>
+    <string name="scheme_binding">%1$s: %2$s</string>
+    <string name="scheme_double_press">Nhấn hai lần %1$s</string>
+    <string name="scheme_replace_shortcut">Phím này đã được gán cho %1$s. Thay thế phím tắt này?</string>
+    <string name="scheme_keyboard_permission_needed">Cần khởi động Shizuku và cho phép Meridian truy cập để dùng Caps Lock làm phím bổ trợ. Sau đó thử lại.</string>
+    <string name="scheme_keyboard_permission_unavailable">Android chưa cho phép Meridian điều khiển trạng thái Caps Lock qua Shizuku trên thiết bị này.</string>
+    <string name="scheme_caps_on">Caps Lock đang bật</string>
+    <string name="scheme_caps_off">Caps Lock đang tắt</string>
+</resources>

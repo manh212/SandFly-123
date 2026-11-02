@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.shizuku;
 
 import com.google.android.accessibility.talkback.shizuku.IClipboardWatcher;
+import android.view.KeyEvent;
 
 /**
  * Runs as the shell user through Shizuku. Grants SandFly one of a few fixed permissions, and runs
@@ -56,4 +57,8 @@ interface IShizukuGrants {
         String installer) = 4;
 
     void watchClipboard(IClipboardWatcher watcher) = 5;
+
+    boolean keyboardBridgeAvailable() = 6;
+
+    boolean injectKeyboardEvents(in KeyEvent[] events) = 7;
 }

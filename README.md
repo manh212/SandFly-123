@@ -53,6 +53,16 @@ The **Speech volume** reading control changes speech gain by 10 percentage point
 
 ## Gesture profiles and desktop keyboards
 
+New keyboard schemes start empty. **Thêm phím tắt** records the keys first, then
+offers the shared command categories, including opening an installed launcher app.
+Caps Lock is the fixed Meridian modifier in these schemes. Pressing it alone
+reports its current state; pressing it twice within 400 ms changes the system's
+Caps Lock state. Ctrl stops current speech on key down. Plain shortcuts require
+two presses within 400 ms and pass through while an input-focused field is editable.
+Existing layouts and older custom schemes retain their assignments and modifier.
+Caps Lock requires a running Shizuku with Meridian authorized. See
+[Keyboard schemes](docs/keyboard-schemes.md) for setup and device validation.
+
 Under Gestures, **Hồ sơ cử chỉ** creates named sets of assignments. A new profile inherits all existing assignments. Application and script assignments take priority; the profile applies when neither has an assignment. Every service restart selects **Mặc định** without deleting saved profiles. Profiles can be selected in settings, through assignable commands or through the reading control. Settings export includes the profiles but does not restore an active profile.
 
 The NVDA, JAWS and Orca layouts now use arrows and Tab to navigate while browse mode is enabled. Entering a text field does not turn browse mode off. Press the selected modifier twice to toggle browse mode, or change that assignment in keyboard settings. Turning browse mode off passes the plain navigation keys to the application. A pass-next-key command also passes the next key or combination through. Old default assignments are updated while custom shortcuts and deliberately unassigned commands are retained.

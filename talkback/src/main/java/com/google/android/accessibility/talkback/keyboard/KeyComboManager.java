@@ -233,6 +233,7 @@ public class KeyComboManager
   private ScheduledExecutorService scheduler;
   private Future<Boolean> scheduleToOpenSearchApp;
   private final ArrowKeyNavKeyHandler arrowKeyNavKeyHandler;
+  private final FixedKeyboardScheme fixedKeyboardScheme;
 
   private enum KeyComboPassThroughState {
     // KeyComboPassThrough is not enabled and TalkBack will act on key events as normal.
@@ -254,6 +255,7 @@ public class KeyComboManager
     sharedPreferences = SharedPreferencesUtils.getSharedPreferences(context);
     initializeDefaultPreferenceValues();
     keyComboModel = createKeyComboModel();
+    fixedKeyboardScheme = new FixedKeyboardScheme(context, this);
     arrowKeyNavKeyHandler =
         new ArrowKeyNavKeyHandler(
             context,
@@ -322,6 +324,7 @@ public class KeyComboManager
 
   /** Terminates instances to prevent leakage. */
   public void shutdown() {
+    fixedKeyboardScheme.close();
     if (hardwareKeyboardStatus == HARDKEYBOARDHIDDEN_NO) {
       analytics.onKeymapTypeUsed(keyComboModel);
       analytics.onModifierKeyUsed(keyComboModel.getTriggerModifier());
@@ -338,6 +341,7 @@ public class KeyComboManager
 
   @Override
   public void onServiceStateChanged(int newState) {
+    fixedKeyboardScheme.reset();
     // Unfortunately, key events are lost when the TalkBackService becomes active. If a key-down
     // occurs that triggers TalkBack to resume, the corresponding key-up event will not be
     // sent, causing the partially-matched key history to become inconsistent.
@@ -358,6 +362,10 @@ public class KeyComboManager
    */
   @Override
   public boolean onKeyEvent(KeyEvent event, EventId eventId) {
+    if (isFixedKeyboardScheme()) {
+      return fixedKeyboardScheme.onKeyEvent(
+          event, eventId, keyEventDelegate, matchKeyCombo && serviceState == SERVICE_STATE_ACTIVE);
+    }
     trackSandFlyKey(event);
     if (keyEventDelegate != null) {
       if (keyEventDelegate.onKeyEvent(event, eventId)) {
@@ -425,6 +433,11 @@ public class KeyComboManager
    */
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event, EventId eventId) {
+    if (isFixedKeyboardScheme()
+        && (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED
+            || event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)) {
+      fixedKeyboardScheme.cancelPending();
+    }
     if (keyComboMapper != null) keyComboMapper.getScreenReview().onAccessibilityEvent(event);
     if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_FOCUSED
         && event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) return;
@@ -453,7 +466,38 @@ public class KeyComboManager
    * KeyComboManager does. Sets null to remove current one.
    */
   public void setKeyEventDelegate(ServiceKeyEventListener delegate) {
+    fixedKeyboardScheme.cancelPending();
     keyEventDelegate = delegate;
+  }
+
+  public boolean isFixedKeyboardScheme() {
+    return keyComboModel instanceof NewKeyComboModel model
+        && model.getCustomKeymap() != null && model.getCustomKeymap().getFixedKeys();
+  }
+
+  public void prepareKeyboardScheme() {
+    if (isFixedKeyboardScheme()) fixedKeyboardScheme.prepare();
+  }
+
+  public boolean filterSchemeKeyboardEvent(KeyEvent event) {
+    if (isFixedKeyboardScheme()) fixedKeyboardScheme.prepare();
+    return fixedKeyboardScheme.filter(event);
+  }
+
+  public boolean handleSchemeCapsEvent(KeyEvent event) {
+    return event.getKeyCode() == KeyEvent.KEYCODE_CAPS_LOCK
+        && (isFixedKeyboardScheme() || fixedKeyboardScheme.hasHeldCaps(event.getDeviceId()))
+        && fixedKeyboardScheme.onKeyEvent(event, EVENT_ID_UNTRACKED, keyEventDelegate, false);
+  }
+
+  public boolean isKeyboardInputEditable() {
+    if (accessibilityFocusMonitor == null) return false;
+    AccessibilityNodeInfoCompat inputFocus = accessibilityFocusMonitor.getInputFocus();
+    return inputFocus != null && inputFocus.isFocused() && inputFocus.isEditable();
+  }
+
+  public void performSchemeShortcut(KeyCombo combo) {
+    matchAndPerformKeyCombo(combo, keyComboModel.getTriggerModifier());
   }
 
   /**
@@ -468,12 +512,14 @@ public class KeyComboManager
 
   /** Refreshes key combo model after key map changes. */
   public void refreshKeyComboModel() {
+    fixedKeyboardScheme.reset();
     keyComboModel = createKeyComboModel();
     if (arrowsNavigate()) {
       browseModeEnabled = true;
       browseModeTurnedOffByUser = false;
     }
     sandFlyKeyHeld = false;
+    prepareKeyboardScheme();
   }
 
   /** Returns key combo model. */
@@ -563,7 +609,8 @@ public class KeyComboManager
 
   /** Returns true if browse mode is supported and it's using the new key combo model. */
   public boolean isBrowseModeSupported() {
-    return FeatureFlagReader.enableBrowseMode(context) && keyComboModel instanceof NewKeyComboModel;
+    return FeatureFlagReader.enableBrowseMode(context) && keyComboModel instanceof NewKeyComboModel
+        && !isFixedKeyboardScheme();
   }
 
   /**

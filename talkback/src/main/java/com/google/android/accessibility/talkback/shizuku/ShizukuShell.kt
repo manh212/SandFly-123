@@ -154,6 +154,22 @@ object ShizukuShell {
   /** Whether Shizuku runs and allows SandFly, so that commands run without asking the user. */
   fun isAllowed(): Boolean = ShizukuGrants.isReady() && ShizukuGrants.hasShizukuPermission()
 
+  fun keyboardAvailable(context: Context, onResult: (Boolean) -> Unit) {
+    if (!isAllowed()) {
+      onResult(false)
+      return
+    }
+    call(context, { it.keyboardBridgeAvailable() }) { onResult(it == true) }
+  }
+
+  fun injectKeyboardEvents(context: Context, events: Array<android.view.KeyEvent>, onResult: (Boolean) -> Unit) {
+    if (!isAllowed()) {
+      onResult(false)
+      return
+    }
+    call(context, { it.injectKeyboardEvents(events) }) { onResult(it == true) }
+  }
+
   /** Starts the service if Shizuku already allows SandFly, and keeps it until [release]. */
   fun hold(context: Context) {
     holders++

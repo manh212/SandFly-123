@@ -25,6 +25,8 @@ import android.os.Handler
 import android.os.HandlerThread
 import android.os.IBinder
 import android.os.ParcelFileDescriptor
+import android.view.InputEvent
+import android.view.KeyEvent
 import java.io.InputStream
 import java.lang.reflect.InvocationTargetException
 import java.lang.reflect.Proxy
@@ -44,6 +46,39 @@ import kotlin.system.exitProcess
  * in the same kind of process, so they are open to it too.
  */
 class ShizukuGrantService(private val context: Context?) : IShizukuGrants.Stub() {
+
+  private val keyboardInjector by lazy {
+    val type = try {
+      Class.forName("android.hardware.input.InputManagerGlobal")
+    } catch (e: ClassNotFoundException) {
+      Class.forName("android.hardware.input.InputManager")
+    }
+    val instance = type.getMethod("getInstance").invoke(null)
+    instance to type.getMethod("injectInputEvent", InputEvent::class.java, Int::class.javaPrimitiveType)
+  }
+
+  override fun keyboardBridgeAvailable(): Boolean = try {
+    keyboardInjector
+    val token = Binder.clearCallingIdentity()
+    try {
+      context?.checkPermission("android.permission.INJECT_EVENTS", android.os.Process.myPid(), android.os.Process.myUid()) == android.content.pm.PackageManager.PERMISSION_GRANTED
+    } finally {
+      Binder.restoreCallingIdentity(token)
+    }
+  } catch (e: Exception) {
+    false
+  }
+
+  override fun injectKeyboardEvents(events: Array<out KeyEvent>?): Boolean = try {
+    if (events == null || events.size > 64 || events.any { !it.isFromSource(android.view.InputDevice.SOURCE_KEYBOARD) }) {
+      false
+    } else {
+      val (instance, method) = keyboardInjector
+      events.all { method.invoke(instance, it, 2) == true }
+    }
+  } catch (e: Exception) {
+    false
+  }
 
   /** For Shizuku versions that don't give user services a context. */
   constructor() : this(null)

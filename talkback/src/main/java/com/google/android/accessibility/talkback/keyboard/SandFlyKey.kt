@@ -36,6 +36,12 @@ enum class SandFlyKey(
   /** The key code of a held key, or [KeyEvent.KEYCODE_UNKNOWN] for modifiers. */
   val keyCode: Int,
 ) {
+  CAPS_LOCK(
+    R.string.trigger_modifier_caps_lock_entry_value,
+    R.string.keycombo_key_modifier_caps_lock,
+    KeyComboModel.HELD_KEY_MODIFIER,
+    KeyEvent.KEYCODE_CAPS_LOCK,
+  ),
   META(
     R.string.trigger_modifier_meta_entry_value,
     R.string.keycombo_key_modifier_meta,
@@ -75,7 +81,7 @@ enum class SandFlyKey(
 
   /** Whether this is one key, which can be pressed twice, as two held together can't. */
   val canBePressedTwice: Boolean
-    get() = this != CTRL_ALT && this != CTRL_META
+    get() = this != CTRL_ALT && this != CTRL_META && this != CAPS_LOCK
 
   /** Whether [keyCode] is a key of this SandFly key, such as left or right Alt for Alt. */
   fun hasKey(keyCode: Int): Boolean =
@@ -92,6 +98,7 @@ enum class SandFlyKey(
           keyCode == KeyEvent.KEYCODE_CTRL_RIGHT ||
           keyCode == KeyEvent.KEYCODE_META_LEFT ||
           keyCode == KeyEvent.KEYCODE_META_RIGHT
+      CAPS_LOCK,
       INSERT,
       NUMPAD_INSERT -> keyCode == this.keyCode
     }

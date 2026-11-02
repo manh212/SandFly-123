@@ -202,6 +202,7 @@ import com.google.android.accessibility.talkback.ipc.IpcService;
 import com.google.android.accessibility.talkback.ipc.IpcService.IpcClientCallback;
 import com.google.android.accessibility.talkback.ipc.IpcService.ServerOnDestroyListener;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
+import com.google.android.accessibility.talkback.keyboard.KeyboardCapsBridge;
 import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettings;
 import com.google.android.accessibility.talkback.labeling.CustomLabelManager;
 import com.google.android.accessibility.talkback.labeling.StoragelessLabelManager;
@@ -1521,6 +1522,14 @@ public class TalkBackService extends AccessibilityServiceCompat
     int keyCode = keyEvent.getKeyCode();
     boolean isCtrl =
         keyCode == KeyEvent.KEYCODE_CTRL_LEFT || keyCode == KeyEvent.KEYCODE_CTRL_RIGHT;
+    if (keyComboManager != null && keyComboManager.isFixedKeyboardScheme()) {
+      ctrlTapPending = false;
+      if (isCtrl && keyEvent.getAction() == KeyEvent.ACTION_DOWN
+          && keyEvent.getRepeatCount() == 0 && isFromPhysicalKeyboard(keyEvent)) {
+        interruptAllFeedback(true);
+      }
+      return;
+    }
     if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
       if (!isCtrl) {
         ctrlTapPending = false;
@@ -1640,6 +1649,12 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Handles a key event and returns whether it should be considered consumed. */
   protected boolean onKeyEventInternal(KeyEvent keyEvent) {
+    if (KeyboardCapsBridge.isInjected(keyEvent)) return false;
+    if (keyComboManager != null && keyComboManager.filterSchemeKeyboardEvent(keyEvent)) return true;
+    if (keyComboManager != null && keyComboManager.handleSchemeCapsEvent(keyEvent)) return true;
+    if (keyComboManager != null && keyComboManager.isFixedKeyboardScheme()) {
+      handleCtrlTap(keyEvent, Performance.EVENT_ID_UNTRACKED);
+    }
     if (com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onKeyEvent(keyEvent)) {
       return true;
     }
@@ -1736,7 +1751,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     EventId eventId = perf.onEventReceived(keyEvent);
 
     if (isServiceActive()) {
-      handleCtrlTap(keyEvent, eventId);
+      if (!keyComboManager.isFixedKeyboardScheme()) handleCtrlTap(keyEvent, eventId);
       if (keyAction == KeyEvent.ACTION_DOWN
           && shouldInterruptByAnyKeyEvent()
           && isFromPhysicalKeyboard(keyEvent)) {
@@ -1779,6 +1794,27 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     return keepCtrlFromApps(keyEvent);
+  }
+
+  private long lastKeyboardBridgeFailure;
+
+  public boolean replayKeyboardSchemeEvent(KeyEvent event) {
+    return isServiceActive() && onKeyEventInternal(event);
+  }
+
+  public void announceKeyboardScheme(String text) {
+    if (pipeline != null) {
+      pipeline.getFeedbackReturner().returnFeedback(
+          Performance.EVENT_ID_UNTRACKED,
+          Feedback.speech(text, SpeakOptions.create().setQueueMode(SpeechController.QUEUE_MODE_QUEUE)));
+    }
+  }
+
+  public void announceKeyboardBridgeFailure() {
+    long now = SystemClock.uptimeMillis();
+    if (now - lastKeyboardBridgeFailure < 5000) return;
+    lastKeyboardBridgeFailure = now;
+    announceKeyboardScheme(getString(R.string.scheme_keyboard_permission_needed));
   }
 
   /**

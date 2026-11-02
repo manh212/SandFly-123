@@ -27,6 +27,7 @@ data class CustomKeymap(
   val usesSequences: Boolean,
 
   val arrowsNavigate: Boolean = false,
+  val fixedKeys: Boolean = false,
 ) {
   /** The keymap preference's value for this keymap. */
   val value: String
@@ -46,7 +47,7 @@ data class CustomKeymap(
 
   /** The SandFly key chosen for this keymap, or Meta. */
   fun sandFlyKey(context: Context): SandFlyKey =
-    SandFlyKey.fromValue(
+    if (fixedKeys) SandFlyKey.CAPS_LOCK else SandFlyKey.fromValue(
       context,
       SharedPreferencesUtils.getSharedPreferences(context).getString(sandFlyKeyPref, null),
     ) ?: SandFlyKey.META
@@ -64,6 +65,7 @@ object CustomKeymaps {
   private const val NAME = "pref_custom_keymap_name_"
   private const val SEQUENCES = "pref_custom_keymap_sequences_"
   private const val ARROWS_NAVIGATE = "pref_custom_keymap_arrows_navigate_"
+  private const val FIXED_KEYS = "pref_custom_keymap_fixed_keys_"
 
   private fun prefs(context: Context): SharedPreferences =
     SharedPreferencesUtils.getSharedPreferences(context)
@@ -82,6 +84,7 @@ object CustomKeymaps {
       name,
       prefs.getBoolean(SEQUENCES + id, false),
       prefs.getBoolean(ARROWS_NAVIGATE + id, false),
+      prefs.getBoolean(FIXED_KEYS + id, false),
     )
   }
 
@@ -106,10 +109,11 @@ object CustomKeymaps {
     sandFlyKey: SandFlyKey,
     shortcuts: Map<String, KeyCombo>,
     arrowsNavigate: Boolean = false,
+    fixedKeys: Boolean = false,
   ): CustomKeymap {
     val ids = ids(context)
     val id = ((ids.mapNotNull { it.toIntOrNull() }.maxOrNull() ?: 0) + 1).toString()
-    val keymap = CustomKeymap(id, name, usesSequences, arrowsNavigate)
+    val keymap = CustomKeymap(id, name, usesSequences, arrowsNavigate, fixedKeys)
     val current = KeyComboPersister(context, keymap.persisterPrefix)
     val original = KeyComboPersister(context, keymap.originalPersisterPrefix)
     for ((key, keyCombo) in shortcuts) {
@@ -120,11 +124,16 @@ object CustomKeymaps {
       putString(NAME + id, name)
       putBoolean(SEQUENCES + id, usesSequences)
       putBoolean(ARROWS_NAVIGATE + id, arrowsNavigate)
+      putBoolean(FIXED_KEYS + id, fixedKeys)
       putString(keymap.sandFlyKeyPref, context.getString(sandFlyKey.valueRes))
       putString(IDS, (ids + id).joinToString(","))
     }
     return keymap
   }
+
+  @JvmStatic
+  fun createBlank(context: Context, name: String): CustomKeymap =
+    create(context, name, false, SandFlyKey.CAPS_LOCK, emptyMap(), fixedKeys = true)
 
   @JvmStatic
   fun rename(context: Context, keymap: CustomKeymap, name: String) {
@@ -145,6 +154,7 @@ object CustomKeymaps {
       remove(NAME + keymap.id)
       remove(SEQUENCES + keymap.id)
       remove(ARROWS_NAVIGATE + keymap.id)
+      remove(FIXED_KEYS + keymap.id)
       remove(keymap.sandFlyKeyPref)
       putString(IDS, remaining.joinToString(","))
     }
