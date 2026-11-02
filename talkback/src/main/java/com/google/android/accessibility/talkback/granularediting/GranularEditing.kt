@@ -99,7 +99,10 @@ object GranularEditing {
         // Launch from the parent activity so Android keeps it underneath this editor.
         parentActivity.startActivity(intent)
       } else {
-        context.startActivity(intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK))
+        // Independent editing starts fresh, while nested editing preserves its parent task.
+        context.startActivity(
+          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        )
       }
     } catch (exception: RuntimeException) {
       sessions.remove(sessionId)

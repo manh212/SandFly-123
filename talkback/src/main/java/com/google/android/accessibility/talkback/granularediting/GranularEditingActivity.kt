@@ -148,6 +148,7 @@ class GranularEditingActivity : AppCompatActivity() {
 
   override fun onDestroy() {
     GranularEditing.unregisterActivity(sessionId, this)
+    if (isFinishing) GranularEditing.close(sessionId)
     super.onDestroy()
   }
 
