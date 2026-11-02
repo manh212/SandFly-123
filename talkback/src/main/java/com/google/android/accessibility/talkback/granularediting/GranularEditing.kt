@@ -178,10 +178,12 @@ object GranularEditing {
     service: AccessibilityService?,
   ): Boolean {
     if (field.refresh() && setText(field, newText)) return true
-    val root =
-      service?.windows?.firstOrNull { it.id == field.windowId }?.root ?: return false
-    val replacement =
-      findMatchingField(AccessibilityNodeInfoCompat.wrap(root), field) ?: return false
+    // Android may assign a new window ID when the original app returns from the editor.
+    // Search visible windows, and write only when there is exactly one matching field.
+    val roots =
+      service?.windows?.mapNotNull { it.root?.let(AccessibilityNodeInfoCompat::wrap) }
+        ?: return false
+    val replacement = findMatchingFieldAcrossRoots(roots, field) ?: return false
     return setText(replacement, newText)
   }
 
@@ -198,6 +200,19 @@ object GranularEditing {
     selection.putInt(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_SELECTION_END_INT, newText.length)
     field.performAction(AccessibilityNodeInfoCompat.ACTION_SET_SELECTION, selection)
     return true
+  }
+
+  internal fun findMatchingFieldAcrossRoots(
+    roots: List<AccessibilityNodeInfoCompat>,
+    original: AccessibilityNodeInfoCompat,
+  ): AccessibilityNodeInfoCompat? {
+    var result: AccessibilityNodeInfoCompat? = null
+    for (root in roots) {
+      val candidate = findMatchingField(root, original) ?: continue
+      if (result != null) return null
+      result = candidate
+    }
+    return result
   }
 
   internal fun findMatchingField(

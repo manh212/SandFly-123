@@ -35,6 +35,33 @@ class GranularEditingSaveTargetTest {
   }
 
   @Test
+  fun findsOriginalEditorAfterItsWindowIdChanges() {
+    val unrelatedRoot = node(null, false, null, 0)
+    node(unrelatedRoot, true, "unrelated", 100)
+    val original = node(null, true, "message", 100)
+    val newWindow = node(null, false, null, 0)
+    val replacement = node(newWindow, true, "message", 175)
+
+    assertEquals(
+      replacement,
+      GranularEditing.findMatchingFieldAcrossRoots(listOf(unrelatedRoot, newWindow), original),
+    )
+  }
+
+  @Test
+  fun rejectsDuplicateEditorsAcrossWindows() {
+    val original = node(null, true, "message", 100)
+    val windowOne = node(null, false, null, 0)
+    val windowTwo = node(null, false, null, 0)
+    node(windowOne, true, "message", 105)
+    node(windowTwo, true, "message", 110)
+
+    assertNull(
+      GranularEditing.findMatchingFieldAcrossRoots(listOf(windowOne, windowTwo), original),
+    )
+  }
+
+  @Test
   fun refusesAnAmbiguousOrDifferentEditor() {
     val root = node(null, false, null, 0)
     val original = node(null, true, "message", 100)
