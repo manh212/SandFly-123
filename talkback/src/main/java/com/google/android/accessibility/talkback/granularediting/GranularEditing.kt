@@ -123,6 +123,13 @@ object GranularEditing {
   internal fun takeChildResults(id: Int): List<ChildResult> =
     childResults.remove(id)?.toList().orEmpty()
 
+  /** Child edits are staged here; they never write to the outer application's input. */
+  internal fun queueChildResult(parentId: Int, fieldIndex: Int, newText: String): Boolean {
+    if (!sessions.containsKey(parentId)) return false
+    childResults.getOrPut(parentId) { mutableListOf() }.add(ChildResult(fieldIndex, newText))
+    return true
+  }
+
   /**
    * Saving a nested editor returns text to its parent's input dialog. Only the outermost
    * editor writes to the original app, after the user explicitly presses Save there.
@@ -132,9 +139,7 @@ object GranularEditing {
     val parentId = session.parentId
     val parentIndex = session.parentFieldIndex
     if (parentId != null && parentIndex != null) {
-      if (sessions.containsKey(parentId)) {
-        childResults.getOrPut(parentId) { mutableListOf() }.add(ChildResult(parentIndex, newText))
-      } else {
+      if (!queueChildResult(parentId, parentIndex, newText)) {
         copy(context, newText)
         Toast.makeText(context, R.string.granular_editing_not_saved, Toast.LENGTH_LONG).show()
       }
