@@ -202,7 +202,6 @@ import com.google.android.accessibility.talkback.ipc.IpcService;
 import com.google.android.accessibility.talkback.ipc.IpcService.IpcClientCallback;
 import com.google.android.accessibility.talkback.ipc.IpcService.ServerOnDestroyListener;
 import com.google.android.accessibility.talkback.keyboard.KeyComboManager;
-import com.google.android.accessibility.talkback.keyboard.KeyboardCapsBridge;
 import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettings;
 import com.google.android.accessibility.talkback.labeling.CustomLabelManager;
 import com.google.android.accessibility.talkback.labeling.StoragelessLabelManager;
@@ -1649,7 +1648,7 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   /** Handles a key event and returns whether it should be considered consumed. */
   protected boolean onKeyEventInternal(KeyEvent keyEvent) {
-    if (KeyboardCapsBridge.isInjected(keyEvent)) return false;
+    if (keyComboManager != null && keyComboManager.isKeyboardBridgeInjection(keyEvent)) return false;
     if (keyComboManager != null && keyComboManager.isFixedKeyboardScheme()) {
       handleCtrlTap(keyEvent, Performance.EVENT_ID_UNTRACKED);
     }

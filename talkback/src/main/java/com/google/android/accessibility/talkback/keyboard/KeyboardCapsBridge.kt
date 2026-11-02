@@ -37,7 +37,33 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   private var closed = false
   private val queued = ArrayDeque<KeyEvent>()
   private val readyCallbacks = ArrayList<(Boolean) -> Unit>()
+  private data class InjectionKey(
+    val downTime: Long,
+    val time: Long,
+    val action: Int,
+    val key: Int,
+    val repeat: Int,
+    val device: Int,
+    val scanCode: Int,
+  )
+  private val injectedKeys = HashSet<InjectionKey>()
   private var logicalCaps: Boolean? = null
+
+  private fun injectionKey(event: KeyEvent) = InjectionKey(
+    event.downTime, event.eventTime, event.action, event.keyCode, event.repeatCount,
+    event.deviceId, event.scanCode,
+  )
+
+  fun isInjected(event: KeyEvent): Boolean = injectedKeys.remove(injectionKey(event))
+
+  private fun inject(events: Array<KeyEvent>, onResult: (Boolean) -> Unit) {
+    val keys = events.map(::injectionKey).toSet()
+    injectedKeys.addAll(keys)
+    backend.inject(events) { worked ->
+      injectedKeys.removeAll(keys)
+      onResult(worked)
+    }
+  }
 
   val isReady: Boolean
     get() = ready && backend.isAllowed
@@ -93,7 +119,7 @@ class KeyboardCapsBridge @JvmOverloads constructor(
       injected(now, now + 2, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_ALT_LEFT, meta, deviceId),
       injected(now, now + 3, KeyEvent.ACTION_UP, KeyEvent.KEYCODE_META_LEFT, 0, deviceId),
     )
-    backend.inject(events) { worked ->
+    inject(events) { worked ->
       ready = worked && !closed
       if (!worked) logicalCaps = null
       busy = false
@@ -123,8 +149,7 @@ class KeyboardCapsBridge @JvmOverloads constructor(
         }
         if (!consumed) {
           busy = true
-          val forwarded = KeyEvent.changeFlags(event, event.flags or INJECTED_FLAGS)
-          backend.inject(arrayOf(forwarded)) { worked ->
+          inject(arrayOf(event)) { worked ->
             busy = false
             if (!worked && !closed) service.announceKeyboardBridgeFailure()
             drain()
@@ -155,17 +180,12 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   }
 
   companion object {
-    private const val INJECTED_FLAGS = KeyEvent.FLAG_SOFT_KEYBOARD or KeyEvent.FLAG_KEEP_TOUCH_MODE or KeyEvent.FLAG_VIRTUAL_HARD_KEY
-
-    @JvmStatic
-    fun isInjected(event: KeyEvent): Boolean = event.flags and INJECTED_FLAGS == INJECTED_FLAGS
-
     @JvmStatic
     fun isPhysical(event: KeyEvent): Boolean = event.device?.let {
       !it.isVirtual && it.keyboardType == InputDevice.KEYBOARD_TYPE_ALPHABETIC
     } == true
 
     private fun injected(down: Long, time: Long, action: Int, key: Int, meta: Int, device: Int): KeyEvent =
-      KeyEvent(down, time, action, key, 0, meta, device, 0, INJECTED_FLAGS, InputDevice.SOURCE_KEYBOARD)
+      KeyEvent(down, time, action, key, 0, meta, device, 0, 0, InputDevice.SOURCE_KEYBOARD)
   }
 }

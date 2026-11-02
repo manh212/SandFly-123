@@ -54,7 +54,8 @@ class KeyboardCapsBridgeTest {
     bridge.restore(3, false, true) {}
     val chord = backend.injections.single()
     assertEquals(listOf(KeyEvent.KEYCODE_META_LEFT, KeyEvent.KEYCODE_ALT_LEFT, KeyEvent.KEYCODE_ALT_LEFT, KeyEvent.KEYCODE_META_LEFT), chord.map { it.keyCode })
-    assertTrue(chord.all { it.deviceId == 3 && KeyboardCapsBridge.isInjected(it) })
+    assertTrue(chord.all { it.deviceId == 3 && bridge.isInjected(it) })
+    assertFalse(bridge.isInjected(chord.first()))
     backend.complete()
     assertTrue(bridge.isReady)
   }
@@ -69,7 +70,8 @@ class KeyboardCapsBridgeTest {
     val down = backend.injections[1].single()
     assertEquals(KeyEvent.ACTION_DOWN, down.action)
     assertFalse(down.isCapsLockOn)
-    assertTrue(KeyboardCapsBridge.isInjected(down))
+    assertTrue(bridge.isInjected(down))
+    assertEquals(0, down.flags)
     backend.complete()
     val up = backend.injections[2].single()
     assertEquals(KeyEvent.ACTION_UP, up.action)

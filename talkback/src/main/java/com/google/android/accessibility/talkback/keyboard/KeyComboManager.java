@@ -489,6 +489,10 @@ public class KeyComboManager
     return fixedKeyboardScheme.filter(event);
   }
 
+  public boolean isKeyboardBridgeInjection(KeyEvent event) {
+    return fixedKeyboardScheme.isInjected(event);
+  }
+
   public boolean handleSchemeCapsEvent(KeyEvent event) {
     return event.getKeyCode() == KeyEvent.KEYCODE_CAPS_LOCK
         && (isFixedKeyboardScheme() || fixedKeyboardScheme.hasHeldCaps(event.getDeviceId()))

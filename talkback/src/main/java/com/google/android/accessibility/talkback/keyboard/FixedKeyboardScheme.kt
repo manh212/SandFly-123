@@ -29,6 +29,8 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
 
   fun prepare() = bridge?.prepare()
 
+  fun isInjected(event: KeyEvent): Boolean = bridge?.isInjected(event) == true
+
   fun prepareForCapture(onReady: java.util.function.Consumer<Boolean>) {
     if (bridge == null) onReady.accept(false) else bridge.prepare { onReady.accept(it) }
   }
