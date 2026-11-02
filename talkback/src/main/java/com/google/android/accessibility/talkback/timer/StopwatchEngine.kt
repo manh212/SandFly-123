@@ -57,7 +57,7 @@ class StopwatchEngine(
 
   private val settingsListener =
     SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
-      if (key == Stopwatch.KEY_INTERVAL_MINUTES) schedule()
+      if (key == Stopwatch.KEY_INTERVAL_SLIDER || key == Stopwatch.KEY_INTERVAL_MINUTES) schedule()
     }
 
   @MainThread

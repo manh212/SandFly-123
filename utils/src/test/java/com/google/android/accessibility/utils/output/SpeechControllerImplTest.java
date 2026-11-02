@@ -294,6 +294,45 @@ public class SpeechControllerImplTest {
   }
 
   @Test
+  public void screenOnTimePreemptsWindowAndKeepsEarlierSpeechQueued() throws Exception {
+    speak(speechController, "window name", SpeechController.QUEUE_MODE_QUEUE);
+    speak(speechController, "first item", SpeechController.QUEUE_MODE_QUEUE);
+    speechController.speak(
+        "seven o'clock",
+        SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED,
+        FeedbackItem.FLAG_PRIORITY_SCREEN_ON_TIME
+            | FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP,
+        null,
+        Performance.EVENT_ID_UNTRACKED);
+
+    assertEquals(List.of("window name", "seven o'clock"), failoverTts.spokenTexts);
+
+    java.lang.reflect.Field field = SpeechControllerImpl.class.getDeclaredField("feedbackQueue");
+    field.setAccessible(true);
+    @SuppressWarnings("unchecked")
+    List<FeedbackItem> remaining = (List<FeedbackItem>) field.get(speechController);
+    assertEquals("window name", remaining.get(0).getAggregateText().toString());
+    assertEquals("first item", remaining.get(1).getAggregateText().toString());
+  }
+
+  @Test
+  public void screenOnTimeIsNotCutByWindowChangesOrTheWaitCap() {
+    speechController.speak(
+        "seven o'clock",
+        SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED,
+        FeedbackItem.FLAG_PRIORITY_SCREEN_ON_TIME
+            | FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP,
+        null,
+        Performance.EVENT_ID_UNTRACKED);
+    speakWindowChange(speechController, "lock screen");
+    speakFocusFlush(speechController, "first item");
+
+    Robolectric.getForegroundThreadScheduler().advanceBy(400, TimeUnit.MILLISECONDS);
+
+    assertEquals(List.of("seven o'clock"), failoverTts.spokenTexts);
+  }
+
+  @Test
   public void waitCap_cutsGloballyUninterruptibleBlocker_afterCap() {
     enablePerformanceStats();
 

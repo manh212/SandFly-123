@@ -77,8 +77,6 @@ internal object NotificationChoices {
       k.COOLDOWN -> seconds(0, 5, 10, 30, 60, 300, 900)
       k.PREFIX_MEMORY -> seconds(30, 60, 300, 900)
       SpokenSchedules.KEY_SUMMARY_GAP -> seconds(0, 1, 2, 3, 5)
-      SpokenSchedules.KEY_CLOCK_INTERVAL ->
-        listOf(0 to context.getString(R.string.notification_off)) + minutes(15, 30, 60, 180).drop(0)
       else -> null
     }
   }
@@ -105,9 +103,8 @@ abstract class NotificationXmlFragment(@XmlRes xml: Int, @StringRes private val 
             askForSummaryPermissions()
           }
         }
-        SpokenSchedules.KEY_CLOCK_INTERVAL -> {
-          // A spoken time needs nothing but to be left running: ask for that at once.
-          if (NotificationSettings.int(prefs, key, 0) > 0) {
+        SpokenSchedules.KEY_CLOCK_HOURS -> {
+          if (SpokenSchedules.selectedHours(prefs).isNotEmpty()) {
             TimerPermissionChecks.promptForBatteryExemption(requireContext())
           }
         }

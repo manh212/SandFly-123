@@ -106,10 +106,9 @@ class SpokenSchedules(
     val alarms = alarms ?: return
     cancelAlarm(alarms, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
     cancelAlarm(alarms, AlarmClockIntents.ACTION_SPOKEN_SUMMARY)
-    val interval = NotificationSettings.int(prefs, KEY_CLOCK_INTERVAL, 0)
     val now = System.currentTimeMillis()
-    if (interval > 0) {
-      set(alarms, nextClockTime(now, interval), AlarmClockIntents.ACTION_SPOKEN_CLOCK)
+    nextClockTime(now, selectedHours(prefs))?.let {
+      set(alarms, it, AlarmClockIntents.ACTION_SPOKEN_CLOCK)
     }
     if (prefs.getBoolean(KEY_SUMMARY_DAILY, false)) {
       val minutes = NotificationSettings.int(prefs, KEY_SUMMARY_TIME, 8 * 60)
@@ -135,6 +134,7 @@ class SpokenSchedules(
   private fun onClock() {
     schedule()
     catchUpSummary()
+    if (Calendar.getInstance().get(Calendar.HOUR_OF_DAY) !in selectedHours(prefs)) return
     val elapsed = SystemClock.elapsedRealtime()
     if (lastClockAt != 0L && elapsed - lastClockAt < MIN_CLOCK_GAP_MS) return
     lastClockAt = elapsed
@@ -191,7 +191,19 @@ class SpokenSchedules(
     /** Runs the summary's later lines, so that stopping notification speech drops them. */
     private val summaryHandler = Handler(Looper.getMainLooper())
     const val KEY_CLOCK_INTERVAL = "pref_notification_clock_interval"
+    const val KEY_CLOCK_HOURS = "pref_notification_clock_hours"
     const val KEY_CLOCK_FORMAT = "pref_notification_clock_format"
+    val ALL_CLOCK_HOURS: Set<Int> = (0..23).toSet()
+
+    fun selectedHours(prefs: SharedPreferences): Set<Int> {
+      if (!prefs.contains(KEY_CLOCK_HOURS)) {
+        return if (NotificationSettings.int(prefs, KEY_CLOCK_INTERVAL, 0) > 0) ALL_CLOCK_HOURS
+        else emptySet()
+      }
+      return prefs.getStringSet(KEY_CLOCK_HOURS, emptySet()).orEmpty()
+        .mapNotNull { it.toIntOrNull()?.takeIf { hour -> hour in 0..23 } }
+        .toSet()
+    }
     const val KEY_SUMMARY_DAILY = "pref_notification_summary_daily"
     const val KEY_SUMMARY_LAST_DAY = "pref_notification_summary_last_day"
     const val KEY_SUMMARY_TIME = "pref_notification_summary_time"
@@ -199,15 +211,16 @@ class SpokenSchedules(
     const val KEY_SUMMARY_NAME = "pref_notification_summary_name"
     const val KEY_SUMMARY_GAP = "pref_notification_summary_gap"
 
-    fun nextClockTime(now: Long, intervalMinutes: Int, zone: TimeZone = TimeZone.getDefault()): Long {
-      val interval = intervalMinutes.coerceAtLeast(1)
+    fun nextClockTime(now: Long, hours: Set<Int>, zone: TimeZone = TimeZone.getDefault()): Long? {
+      if (hours.isEmpty()) return null
       var at = Math.floorDiv(now, MINUTE_MS) * MINUTE_MS + MINUTE_MS
-      repeat(2 * MINUTES_PER_DAY) {
-        val minuteOfDay = Math.floorMod(Math.floorDiv(at + zone.getOffset(at), MINUTE_MS), MINUTES_PER_DAY.toLong())
-        if (minuteOfDay % interval == 0L) return at
+      repeat(2 * MINUTES_PER_DAY + 120) {
+        val minuteOfDay =
+          Math.floorMod(Math.floorDiv(at + zone.getOffset(at), MINUTE_MS), MINUTES_PER_DAY.toLong()).toInt()
+        if (minuteOfDay % 60 == 0 && minuteOfDay / 60 in hours) return at
         at += MINUTE_MS
       }
-      return now + interval * MINUTE_MS
+      return null
     }
 
     /** The next time it is [minuteOfDay] minutes past midnight, after [now]. */

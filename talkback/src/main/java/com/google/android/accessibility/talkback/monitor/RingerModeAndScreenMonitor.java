@@ -281,7 +281,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
         SpeakOptions speakOptions =
             SpeakOptions.create()
                 .setQueueMode(
-                    SpeechController.QUEUE_MODE_INTERRUPT_AND_UNINTERRUPTIBLE_BY_NEW_SPEECH)
+                    SpeechController.QUEUE_MODE_QUEUE)
                 .setFlags(FeedbackItem.FLAG_SKIP_DUPLICATE);
         if (ttsText.length() > 0) {
           pipeline.returnFeedback(eventId, Feedback.speech(ttsText, speakOptions));
@@ -437,7 +437,10 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
             // interrupt DeviceUnlocked speech and REFERTO won't be interrupted by the
             // following selected text.
             .setQueueMode(SpeechController.QUEUE_MODE_GLOBALLY_UNINTERRUPTED)
-            .setFlags(FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE);
+            .setFlags(
+                FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE
+                    | FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP
+                    | FeedbackItem.FLAG_PRIORITY_SCREEN_ON_TIME);
 
     pipeline.returnFeedback(eventId, Feedback.speech(ttsText, speakOptions));
   }

@@ -18,8 +18,12 @@ package com.google.android.accessibility.talkback.timer
 
 import android.os.Bundle
 import android.text.format.DateFormat
+import androidx.appcompat.app.AlertDialog
 import androidx.preference.ListPreference
+import androidx.preference.Preference
 import androidx.preference.PreferenceGroup
+import androidx.preference.SeekBarPreference
+import com.google.android.accessibility.talkback.notifications.SpokenSchedules
 import com.google.android.accessibility.talkback.speech.VoiceProfileNames
 import com.google.android.accessibility.utils.output.VoiceProfiles
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -34,6 +38,14 @@ import java.util.Date
  */
 class TimerSettingsFragment :
   NotificationXmlFragment(R.xml.timer_preferences, R.string.title_pref_clock_stopwatch) {
+
+  override fun onCreate(savedInstanceState: Bundle?) {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(requireContext())
+    if (!prefs.contains(Stopwatch.KEY_INTERVAL_SLIDER)) {
+      prefs.edit().putInt(Stopwatch.KEY_INTERVAL_SLIDER, Stopwatch.intervalMinutes(requireContext())).apply()
+    }
+    super.onCreate(savedInstanceState)
+  }
 
   override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
     super.onCreatePreferences(savedInstanceState, rootKey)
@@ -54,12 +66,52 @@ class TimerSettingsFragment :
         true
       }
     }
-    val interval = findPreference<ListPreference>(Stopwatch.KEY_INTERVAL_MINUTES) ?: return
-    interval.entries =
-      Stopwatch.INTERVAL_CHOICES
-        .map { minutes -> resources.getQuantityString(R.plurals.notification_minutes, minutes, minutes) }
-        .toTypedArray()
-    interval.entryValues = Stopwatch.INTERVAL_CHOICES.map { it.toString() }.toTypedArray()
+    findPreference<Preference>("pref_notification_clock_hours_screen")?.let { hours ->
+      fun updateSummary() {
+        val selected = SpokenSchedules.selectedHours(prefs)
+        hours.summary =
+          when (selected.size) {
+            0 -> getString(R.string.timer_clock_hours_off)
+            24 -> getString(R.string.timer_clock_hours_all)
+            else -> getString(R.string.timer_clock_hours_count, selected.size)
+          }
+      }
+      updateSummary()
+      hours.setOnPreferenceClickListener {
+        val labels = (0..23).map { getString(R.string.timer_clock_hour_label, it) }.toTypedArray()
+        val selected =
+          if (prefs.contains(SpokenSchedules.KEY_CLOCK_HOURS))
+            SpokenSchedules.selectedHours(prefs)
+          else SpokenSchedules.ALL_CLOCK_HOURS
+        val checked = BooleanArray(24) { it in selected }
+        AlertDialog.Builder(requireContext())
+          .setTitle(R.string.timer_clock_hours_title)
+          .setMultiChoiceItems(labels, checked) { _, position, isChecked ->
+            checked[position] = isChecked
+          }
+          .setNegativeButton(android.R.string.cancel, null)
+          .setPositiveButton(android.R.string.ok) { _, _ ->
+            prefs.edit().putStringSet(
+              SpokenSchedules.KEY_CLOCK_HOURS,
+              (0..23).filter { checked[it] }.map { it.toString() }.toSet()
+            ).apply()
+            updateSummary()
+          }
+          .show()
+        true
+      }
+    }
+    findPreference<SeekBarPreference>(Stopwatch.KEY_INTERVAL_SLIDER)?.let { interval ->
+      fun updateSummary(minutes: Int) {
+        interval.summary =
+          resources.getQuantityString(R.plurals.notification_minutes, minutes, minutes)
+      }
+      updateSummary(interval.value)
+      interval.setOnPreferenceChangeListener { _, value ->
+        updateSummary((value as Int).coerceIn(1, 60))
+        true
+      }
+    }
   }
 }
 

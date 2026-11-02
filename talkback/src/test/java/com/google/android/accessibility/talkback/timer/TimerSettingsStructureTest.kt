@@ -39,13 +39,13 @@ class TimerSettingsStructureTest {
 
     assertEquals(
       listOf(
-        "pref_notification_clock_interval",
+        "pref_notification_clock_hours_screen",
         "pref_notification_clock_format",
         "pref_timer_voice_profile",
         "pref_timer_audio_stream",
         "pref_stopwatch_sound",
         "pref_stopwatch_vibration",
-        "pref_stopwatch_interval_minutes",
+        "pref_stopwatch_interval_slider",
         "pref_stopwatch_history_screen",
       ),
       rows.map { it.first },

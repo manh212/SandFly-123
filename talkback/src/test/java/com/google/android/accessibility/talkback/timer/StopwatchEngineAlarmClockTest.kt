@@ -62,6 +62,21 @@ class StopwatchEngineAlarmClockTest {
   }
 
   @Test
+  fun sliderIntervalOverridesTheOldSavedValue() {
+    prefs.edit().putString(Stopwatch.KEY_INTERVAL_MINUTES, "10")
+      .putInt(Stopwatch.KEY_INTERVAL_SLIDER, 1).commit()
+    assertEquals(1, Stopwatch.intervalMinutes(context))
+    prefs.edit().putInt(Stopwatch.KEY_INTERVAL_SLIDER, 60).commit()
+    assertEquals(60, Stopwatch.intervalMinutes(context))
+  }
+
+  @Test
+  fun legacyIntervalSurvivesUntilTheSliderIsSaved() {
+    prefs.edit().putString(Stopwatch.KEY_INTERVAL_MINUTES, "15").commit()
+    assertEquals(15, Stopwatch.intervalMinutes(context))
+  }
+
+  @Test
   fun start_setsAnAlarmClockAtTheNextMultiple() {
     val startedAt = System.currentTimeMillis() - 60_000L
     startEngine(startedAt)

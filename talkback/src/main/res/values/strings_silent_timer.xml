@@ -21,4 +21,9 @@
     <item>media</item>
     <item>ring</item>
   </string-array>
+  <string name="timer_clock_hours_title" tools:ignore="MissingTranslation">Tùy chỉnh giờ báo</string>
+  <string name="timer_clock_hour_label" tools:ignore="MissingTranslation">%1$d giờ</string>
+  <string name="timer_clock_hours_off" tools:ignore="MissingTranslation">Đang tắt</string>
+  <string name="timer_clock_hours_all" tools:ignore="MissingTranslation">Đã chọn tất cả 24 giờ</string>
+  <string name="timer_clock_hours_count" tools:ignore="MissingTranslation">Đã chọn %1$d giờ</string>
 </resources>

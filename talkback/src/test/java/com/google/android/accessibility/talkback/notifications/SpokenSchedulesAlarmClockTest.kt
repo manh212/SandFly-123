@@ -69,7 +69,7 @@ class SpokenSchedulesAlarmClockTest {
 
   @Test
   fun clock_setsAnAlarmClockAtTheNextBoundary() {
-    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60") }
+    startSchedules { putStringSet(SpokenSchedules.KEY_CLOCK_HOURS, SpokenSchedules.ALL_CLOCK_HOURS.map { it.toString() }.toSet()) }
 
     val info = alarmManager.nextAlarmClock
     assertNotNull(info)
@@ -111,7 +111,7 @@ class SpokenSchedulesAlarmClockTest {
   fun stop_cancelsTheAlarmClocks() {
     val minutes = minuteOfDay(System.currentTimeMillis()) + 2
     val schedules = startSchedules {
-      putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60")
+      putStringSet(SpokenSchedules.KEY_CLOCK_HOURS, SpokenSchedules.ALL_CLOCK_HOURS.map { it.toString() }.toSet())
       putBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, true)
       putString(SpokenSchedules.KEY_SUMMARY_TIME, minutes.toString())
     }
@@ -125,7 +125,7 @@ class SpokenSchedulesAlarmClockTest {
 
   @Test
   fun clockBroadcast_speaksTheTimeAndReschedules() {
-    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "30") }
+    startSchedules { putStringSet(SpokenSchedules.KEY_CLOCK_HOURS, SpokenSchedules.ALL_CLOCK_HOURS.map { it.toString() }.toSet()) }
     val operation = shadowAlarms.scheduledAlarms.single().operation
     assertNotNull(operation)
     assertEquals(
@@ -186,7 +186,7 @@ class SpokenSchedulesAlarmClockTest {
   @Test
   fun theTwoEngines_neverCancelEachOthersAlarm() {
     val before = System.currentTimeMillis()
-    startSchedules { putString(SpokenSchedules.KEY_CLOCK_INTERVAL, "60") }
+    startSchedules { putStringSet(SpokenSchedules.KEY_CLOCK_HOURS, SpokenSchedules.ALL_CLOCK_HOURS.map { it.toString() }.toSet()) }
     val spokenTrigger = alarmManager.nextAlarmClock!!.triggerTime
     val stopwatch =
       StopwatchEngine(context, { _, _ -> }, {}).also {

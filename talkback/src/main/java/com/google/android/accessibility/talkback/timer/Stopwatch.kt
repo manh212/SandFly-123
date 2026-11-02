@@ -25,6 +25,7 @@ object Stopwatch {
   const val KEY_SOUND = "pref_stopwatch_sound"
   const val KEY_VIBRATION = "pref_stopwatch_vibration"
   const val KEY_INTERVAL_MINUTES = "pref_stopwatch_interval_minutes"
+  const val KEY_INTERVAL_SLIDER = "pref_stopwatch_interval_slider"
   const val KEY_STARTED_AT = "pref_stopwatch_started_at"
   const val KEY_LAST_ANNOUNCED = "pref_stopwatch_last_announced"
   const val KEY_HISTORY = "pref_stopwatch_history"
@@ -46,10 +47,12 @@ object Stopwatch {
 
   @JvmStatic fun isRunning(context: Context): Boolean = startedAt(context) > 0
 
-  fun intervalMinutes(context: Context): Int =
-    SharedPreferencesUtils.getSharedPreferences(context)
-      .getString(KEY_INTERVAL_MINUTES, null)
-      ?.toIntOrNull() ?: 10
+  fun intervalMinutes(context: Context): Int {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    val saved = if (prefs.contains(KEY_INTERVAL_SLIDER)) prefs.getInt(KEY_INTERVAL_SLIDER, 10)
+      else prefs.getString(KEY_INTERVAL_MINUTES, null)?.toIntOrNull() ?: 10
+    return saved.coerceIn(1, 60)
+  }
 
   /** How long the stopwatch has run, as it is said, or null while it is not running. */
   @JvmStatic

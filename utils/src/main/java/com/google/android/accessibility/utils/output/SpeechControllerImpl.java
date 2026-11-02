@@ -1613,7 +1613,17 @@ public class SpeechControllerImpl implements SpeechController {
       }
     }
     Performance.getInstance().onFeedbackComposed(item.getEventId(), item.getFirstSpokenText());
-    feedbackQueue.add(item);
+    if (item.hasFlag(FeedbackItem.FLAG_PRIORITY_SCREEN_ON_TIME)) {
+      feedbackQueue.add(0, item);
+      if (currentFeedbackItem != null && !currentFeedbackItem.isGloballyUninterruptible()) {
+        feedbackQueue.add(1, currentFeedbackItem);
+        currentFeedbackItem = null;
+        currentFragmentIterator = null;
+        item.setFlushGlobalTtsQueue(true);
+      }
+    } else {
+      feedbackQueue.add(item);
+    }
     if (speechListener != null) {
       speechListener.onUtteranceQueued(item);
     }

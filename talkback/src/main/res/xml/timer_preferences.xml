@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory android:title="@string/notification_category_clock">
-    <ListPreference
-        android:defaultValue="0"
-        android:key="pref_notification_clock_interval"
-        android:summary="%s"
-        android:title="@string/notification_clock_interval_title" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_notification_clock_hours_screen"
+        android:title="@string/timer_clock_hours_title" />
     <EditTextPreference
         android:dialogMessage="@string/notification_clock_format_message"
         android:key="pref_notification_clock_format"
@@ -35,11 +34,14 @@
         android:defaultValue="true"
         android:key="pref_stopwatch_vibration"
         android:title="@string/stopwatch_vibration_title" />
-    <ListPreference
+    <androidx.preference.SeekBarPreference
         android:defaultValue="10"
-        android:key="pref_stopwatch_interval_minutes"
-        android:summary="%s"
-        android:title="@string/stopwatch_interval_title" />
+        android:key="pref_stopwatch_interval_slider"
+        android:max="60"
+        android:title="@string/stopwatch_interval_title"
+        app:min="1"
+        app:seekBarIncrement="1"
+        app:showSeekBarValue="true" />
     <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
         android:fragment="com.google.android.accessibility.talkback.timer.StopwatchHistoryFragment"
         android:key="pref_stopwatch_history_screen"

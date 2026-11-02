@@ -112,6 +112,7 @@ public class FeedbackItem {
   public static final int FLAG_RATE_IS_ABSOLUTE = 0x10000;
 
   public static final int FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP = 0x20000;
+  public static final int FLAG_PRIORITY_SCREEN_ON_TIME = 0x40000;
 
   /** Unique ID defining this generated feedback */
   private String mUtteranceId = "";
@@ -485,6 +486,7 @@ public class FeedbackItem {
       case FLAG_INLINE_FORMATTING -> "FLAG_INLINE_FORMATTING";
       case FLAG_RATE_IS_ABSOLUTE -> "FLAG_RATE_IS_ABSOLUTE";
       case FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP -> "FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP";
+      case FLAG_PRIORITY_SCREEN_ON_TIME -> "FLAG_PRIORITY_SCREEN_ON_TIME";
       default -> null;
     };
   }
