@@ -304,7 +304,7 @@ Meridian keeps your choice when devices connect or disconnect, or when other app
 
 Like VoiceOver, Meridian can tell you what happened by touch alone. Every sound has its own vibration, which plays even when **Sound feedback** is off, so you can turn all sounds off and still feel each action. No two actions share a vibration.
 
-Frequent actions are a single hit: a soft tap when focus lands on an item, a firm click on an item that you can activate, and a softer tap over an empty area. Others have a rhythm of their own. The end of a list, or a completed action, is two firm knocks. Entering a list is two light taps with the second one stronger, and leaving a list is two light taps with the second one weaker. A window change is three soft taps with the middle one strongest. When Meridian scrolls a list, you feel three quick ticks. When the circle menu opens, you feel one tick for each item. The loading tone, which repeats while you wait for an image or screen description, has a short heartbeat that's firm enough to feel through a case.
+Frequent actions are a single hit: a soft tap when focus lands on an item, a firm click on an item that you can activate, and a softer tap over an empty area. Others have a rhythm of their own. The end of a list, or a completed action, is two firm knocks. Entering a list is two light taps with the second one stronger, and leaving a list is two light taps with the second one weaker. A window change is three soft taps with the middle one strongest. When Meridian scrolls a list, you feel three quick ticks. The loading tone, which repeats while you wait for an image or screen description, has a short heartbeat that's firm enough to feel through a case.
 
 Progress bar tones and the sound for capital letters don't vibrate. Phones that support rich haptics play the vibrations as composed effects. Phones without them play softer and shorter forms of the same patterns.
 
@@ -517,14 +517,6 @@ Touching between the icons of the home screen no longer says the page, such as "
 These items are off by default in the Meridian menu: **Actions**, **Screen search**, **Add or edit labels**, **Describe text formatting**, **Copy last spoken phrase**, **Spoken language**, **Voice commands**, and **Keyboard shortcuts**. You can still use actions with the **Actions** reading control. **Text-to-speech** stays on, so that you can reach speech settings if your speech engine crashes, and Meridian adds a **Pause Meridian** item.
 
 To change the items, go to **Meridian menu**, under **Controls** in Meridian settings. In the previous screen reader, this screen is under **Customize menus**.
-
-### Circle menu
-
-The Meridian menu can show as a circle in the middle of the screen, as it did in earlier versions. Each item is a slice of the screen around the middle. Slide to an item and lift your finger to select it, or lift in the middle of the circle to close the menu. Items that open more items show them in a new circle. When the menu opens, you hear a rising note and feel a tick for each item.
-
-If you open the menu with a gesture that ends with your fingers still on the screen, such as a double-tap and hold, you can slide those fingers out to an item and lift them to select it. The place where your fingers were counts as the middle of the circle.
-
-To turn the circle menu on, go to **Meridian menu** and turn on **Circle menu**. It's off by default.
 
 ## Screen and brightness
 

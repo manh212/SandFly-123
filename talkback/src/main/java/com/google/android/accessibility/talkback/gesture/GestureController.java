@@ -1170,9 +1170,6 @@ public class GestureController {
     if (disabledGestures.contains(gestureId)) {
       return;
     }
-    if (menuManager.consumeGestureForRadialMenu()) {
-      return;
-    }
 
     int actionGestureId = gestureShortcutMapping.getActionGestureId(gestureId);
     if (LiveRecognition.onGesture(actionGestureId)) {

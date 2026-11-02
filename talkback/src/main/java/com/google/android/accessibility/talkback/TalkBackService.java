@@ -142,7 +142,6 @@ import com.google.android.accessibility.talkback.compositor.GlobalVariables;
 import com.google.android.accessibility.talkback.compositor.PreparedFocusSpeech;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor.DescriptionOrder;
 import com.google.android.accessibility.talkback.contextmenu.ListMenuManager;
-import com.google.android.accessibility.talkback.contextmenu.radial.RadialMenuController;
 import com.google.android.accessibility.talkback.controller.TelevisionNavigationController;
 import com.google.android.accessibility.talkback.controlsounds.ControlSoundsSettings;
 import com.google.android.accessibility.talkback.directtouch.DirectTouchController;
@@ -669,7 +668,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Controller for manage keyboard commands */
   private KeyComboManager keyComboManager;
 
-  /** Manager for showing radial menus. */
+  /** Manager for showing list menus. */
   private ListMenuManager menuManager;
 
   /** Manager for detecting missing labels and handling custom labels. */
@@ -2474,7 +2473,6 @@ public class TalkBackService extends AccessibilityServiceCompat
               LogUtils.v(TAG, "Recognized fingerprint gesture %s", gesture);
 
               // TODO: Update analytics data.
-              // TODO: Check if we should dismiss radial menu.
               gestureController.onFingerprintGesture(gesture, eventId);
 
               // Measure latency.
@@ -4579,12 +4577,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   private final OnSharedPreferenceChangeListener sharedPreferenceChangeListener =
       (prefs, key) -> {
         LogUtils.d(TAG, "A shared preference changed: %s", key);
-        if (getString(R.string.pref_radial_menu_key).equals(key)
-            && !RadialMenuController.isEnabled(this)
-            && menuManager != null) {
-          // Do this before the potentially lengthy preference reload so touches are unblocked.
-          menuManager.dismissRadialMenu();
-        }
         // The prepared announcements may have been worked out with the setting as it was, such as
         // a verbosity setting changed from the reading controls.
         PreparedFocusSpeech.clear();

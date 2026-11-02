@@ -41,7 +41,7 @@ If you use an accessibility shortcut, grant Meridian permission to change secure
 
 ## Meridian features
 
-Meridian speaks sooner after each swipe and screen change, and can play its sounds and speech through a low-latency audio path. It includes direct key input, a circle menu, Pause Meridian, direct touch for audio games, sound themes with control sounds in 3D, a vibration for every sound, a status gesture, voice profiles, settings for how notifications are read, its own notification list and quick settings panel, image and screen descriptions from several AI services or a model on the phone. It also changes default settings and fixes problems inherited from earlier versions. For the full list, see [Meridian features](differences.md).
+Meridian speaks sooner after each swipe and screen change, and can play its sounds and speech through a low-latency audio path. It includes direct key input, Pause Meridian, direct touch for audio games, sound themes with control sounds in 3D, a vibration for every sound, a status gesture, voice profiles, settings for how notifications are read, its own notification list and quick settings panel, image and screen descriptions from several AI services or a model on the phone. It also changes default settings and fixes problems inherited from earlier versions. For the full list, see [Meridian features](differences.md).
 
 Scripts written in Lua can change how Meridian works in one app or in every app. See [Writing Meridian scripts](docs/scripting.md).
 

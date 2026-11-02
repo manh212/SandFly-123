@@ -20,7 +20,6 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import static android.widget.LinearLayout.HORIZONTAL;
 import static android.widget.LinearLayout.VERTICAL;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.CACHE;
-import static com.google.android.accessibility.talkback.Feedback.Focus.Action.CLEAR_CACHED;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.MUTE_NEXT_FOCUS;
 import static com.google.android.accessibility.talkback.Feedback.Focus.Action.RESTORE_ON_NEXT_WINDOW;
 import static com.google.android.accessibility.talkback.Feedback.Speech.Action.SAVE_LAST;
@@ -63,7 +62,6 @@ import com.google.android.accessibility.talkback.gesture.CustomMenus;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
 import com.google.android.accessibility.talkback.contextmenu.ContextMenuItem.DeferredType;
-import com.google.android.accessibility.talkback.contextmenu.radial.RadialMenuController;
 import com.google.android.accessibility.talkback.eventprocessor.EventState;
 import com.google.android.accessibility.talkback.focusmanagement.AccessibilityFocusMonitor;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionRecord;
@@ -127,8 +125,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
   private AccessibilityNodeInfoCompat currentNode;
   private ContextMenu contextMenu;
   private @Nullable MenuId menuId;
-  private final RadialMenuController radialMenu;
-  private @Nullable EventId radialMenuEventId;
 
   /** Id to identify the menu content. */
   public enum MenuId {
@@ -153,28 +149,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     this.accessibilityFocusMonitor = accessibilityFocusMonitor;
     this.analytics = analytics;
     menuClickProcessor = new ContextMenuItemClickProcessor(service, pipeline, analytics);
-    radialMenu =
-        new RadialMenuController(
-            service,
-            pipeline,
-            actorState,
-            new RadialMenuController.Listener() {
-              @Override
-              public void onItemSelected(ContextMenuItem item) {
-                onMenuItemClicked(item, radialMenuEventId);
-              }
 
-              @Override
-              public void onCancelled() {
-                if (menuActionInterceptor != null) {
-                  menuActionInterceptor.onCancelButtonClicked();
-                }
-                lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
-                pipeline.returnFeedback(radialMenuEventId, Feedback.focus(CLEAR_CACHED));
-                LastSpokenTextHolder.setMenuSpeechSuppressed(false);
-                clearMenu();
-              }
-            });
   }
 
   @CanIgnoreReturnValue
@@ -374,12 +349,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     }
 
     LastSpokenTextHolder.setMenuSpeechSuppressed(true);
-    if (RadialMenuController.isEnabled(service)) {
-      radialMenuEventId = eventId;
-      radialMenu.show(title, menu);
-      return;
-    }
-
     // TODO Get displayId by GestureEvent or else, or explicitly choose displayId
     // Support multi-display
     final Context displayContext =
@@ -423,7 +392,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     }
   }
 
-  /** Runs the item that the user selected in the list or circle menu. */
+  /** Runs the item that the user selected in the list menu. */
   private void onMenuItemClicked(ContextMenuItem menuItem, EventId eventId) {
     if (!menuItem.isEnabled()) {
       return;
@@ -437,32 +406,25 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       }
     }
 
-    // The circle menu does not take accessibility focus, so there is no focus to restore or mute.
-    boolean fromRadialMenu = radialMenu.isShowing();
-
-    if (menuItem.shouldRestoreFocusOnScreenChange() && !fromRadialMenu) {
+    if (menuItem.shouldRestoreFocusOnScreenChange()) {
       pipeline.returnFeedback(eventId, Feedback.focus(RESTORE_ON_NEXT_WINDOW));
     }
 
     DeferredType deferredType = menuItem.getDeferActionType();
     if (deferredType != DeferredType.NONE) {
       // Defer the action only if we are about to close the menu.
-      deferredAction =
-          fromRadialMenu
-              ? new DeferredAction(menuItem, deferredType)
-              : createDeferredAction(menuItem, deferredType);
+      deferredAction = createDeferredAction(menuItem, deferredType);
     } else {
       deferredAction = null;
     }
     analytics.onGlobalContextMenuAction(menuItem.getItemId());
 
-    if (menuItem.needToSkipNextFocusAnnouncement() && !fromRadialMenu) {
+    if (menuItem.needToSkipNextFocusAnnouncement()) {
       pipeline.returnFeedback(eventId, Feedback.focus(MUTE_NEXT_FOCUS));
     }
 
     boolean dialogShowing = currentDialog != null && currentDialog.isShowing();
-    // A submenu replaces the items of the circle menu, so the circle stays open for it.
-    if (dialogShowing || (fromRadialMenu && !menuItem.hasSubMenu())) {
+    if (dialogShowing) {
       // Skip the window state announcements if a skip is requested...
       // - whether or not there is any saved node to restore
       // - but only if the action doesn't pop up a new dialog (we don't want to
@@ -473,13 +435,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
         EventState.getInstance()
             .setFlag(EventState.EVENT_SKIP_WINDOW_STATE_CHANGED_PROCESSING_AFTER_CURSOR_CONTROL);
       }
-      if (dialogShowing) {
-        currentDialog.dismiss();
-      } else {
-        radialMenu.dismiss();
-        lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
-        LastSpokenTextHolder.setMenuSpeechSuppressed(false);
-      }
+      currentDialog.dismiss();
     }
 
     // Perform the action last (i.e. we want to make it almost like we're performing the
@@ -495,18 +451,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
       } else {
         menuItem.onClickPerformed();
       }
-    } else if (fromRadialMenu) {
-      // Focus and windows do not change when the circle menu closes, so run the action after a
-      // short delay instead of waiting for them.
-      final DeferredAction action = deferredAction;
-      new Handler(Looper.getMainLooper())
-          .postDelayed(
-              () -> {
-                if (deferredAction == action) {
-                  executeDeferredAction();
-                }
-              },
-              RadialMenuController.DEFERRED_ACTION_DELAY_MS);
     }
   }
 
@@ -518,9 +462,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
           menuShown--;
           if (menuShown == 0) {
             currentDialog = null;
-            if (!radialMenu.isShowing()) {
-              LastSpokenTextHolder.setMenuSpeechSuppressed(false);
-            }
+            LastSpokenTextHolder.setMenuSpeechSuppressed(false);
           }
         });
 
@@ -685,33 +627,11 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
   }
 
   public boolean isMenuShowing() {
-    return (currentDialog != null && currentDialog.isShowing()) || radialMenu.isShowing();
-  }
-
-  /**
-   * Moves the circle menu's focus with fingers that were still down when it opened, as after a
-   * double tap and hold. Does nothing if the menu is not open.
-   */
-  public void followHeldTouch(float x, float y, boolean lifted) {
-    if (radialMenu.isShowing()) {
-      radialMenu.followHeldTouch(x, y, lifted);
-    }
-  }
-
-  /**
-   * Closes the circle menu when a gesture is detected while it is open, so that sliding in the
-   * circle does not also perform gestures. Returns whether the gesture should be ignored.
-   */
-  public boolean consumeGestureForRadialMenu() {
-    if (!radialMenu.isShowing()) {
-      return false;
-    }
-    radialMenu.cancel();
-    return true;
+    return currentDialog != null && currentDialog.isShowing();
   }
 
   public boolean isMenuExist() {
-    if (currentDialog != null || radialMenu.isShowing() || deferredAction != null) {
+    if (currentDialog != null || deferredAction != null) {
       return true;
     }
 
@@ -743,24 +663,8 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
     clearCurrentNode();
   }
 
-  /** Closes an open circle menu when its preference is switched off. */
-  public void dismissRadialMenu() {
-    if (radialMenu.isShowing()) {
-      dismissAll();
-    } else {
-      // Also clear any pass-through lock left behind by a detached window.
-      radialMenu.dismiss();
-    }
-  }
-
   /** Dismisses all TalkBack menus. */
   public void dismissAll() {
-    boolean wasRadialMenuShowing = radialMenu.isShowing();
-    // Always run cleanup, even when the window was removed outside this controller.
-    radialMenu.dismiss();
-    if (wasRadialMenuShowing) {
-      lastMenuDismissUptimeMs = SystemClock.uptimeMillis();
-    }
     dismissCurrentDialog();
     LastSpokenTextHolder.setMenuSpeechSuppressed(false);
     clearMenu();
@@ -768,8 +672,7 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
 
   /** Dismisses TalkBack menu for orientation change if needed. */
   public void dismissForOrientationChange() {
-    // The circle menu is laid out for the old screen size.
-    if (radialMenu.isShowing() || currentNode == null || !currentNode.refresh()) {
+    if (currentNode == null || !currentNode.refresh()) {
       LogUtils.e(TAG, "dismiss menu due to source node is gone.");
       dismissAll();
     }
@@ -790,13 +693,6 @@ public class ListMenuManager implements WindowEventHandler, AccessibilityEventLi
 
   @Override
   public void handle(EventInterpretation interpretation, @Nullable EventId eventId) {
-    // Close the circle menu when the screen under it changes, but not when the menu itself appears,
-    // which comes a moment after it opens and would close it under the user's finger.
-    if (radialMenu.isShowing()
-        && interpretation.getMainWindowsChanged()
-        && !radialMenu.isOwnWindow(interpretation.getEventSourceWindow().getTitle())) {
-      dismissAll();
-    }
     if (deferredAction != null) {
       if (interpretation.areWindowsStable()) {
         executeDeferredActionByType(DeferredType.WINDOWS_STABLE);

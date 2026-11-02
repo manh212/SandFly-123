@@ -53,19 +53,6 @@
     <dimen name="customize_menus_settings_layout_margin_end_6">6dp</dimen>
     <!-- end customize menus settings -->
 
-    <!-- Quick menu overlays -->
-    <dimen name="quick_menu_overlay_text_size">24sp</dimen>
-    <dimen name="quick_menu_overlay_margin">24dp</dimen>
-    <dimen name="quick_menu_overlay_margin_start">24dp</dimen>
-    <dimen name="quick_menu_overlay_margin_end">24dp</dimen>
-    <dimen name="quick_menu_overlay_padding">24dp</dimen>
-    <dimen name="quick_menu_overlay_padding_start">24dp</dimen>
-    <dimen name="quick_menu_overlay_padding_end">24dp</dimen>
-    <dimen name="quick_menu_overlay_padding_top">16dp</dimen>
-    <dimen name="quick_menu_overlay_padding_bottom">16dp</dimen>
-    <dimen name="quick_menu_overlay_corner_radius">16dp</dimen>
-    <dimen name="quick_menu_overlay_border">1dp</dimen>
-
     <!-- Diagnostic + highlight overlay -->
     <dimen name="diagnostic_overlay_text_padding">8dp</dimen>
     <dimen name="diagnostic_overlay_text_bottom_margin">12dp</dimen>
