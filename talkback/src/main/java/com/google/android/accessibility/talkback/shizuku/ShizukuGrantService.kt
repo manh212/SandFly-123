@@ -74,7 +74,15 @@ class ShizukuGrantService(private val context: Context?) : IShizukuGrants.Stub()
       false
     } else {
       val (instance, method) = keyboardInjector
-      events.all { method.invoke(instance, it, 2) == true }
+      var worked = true
+      for (event in events) {
+        val next = if (!worked && event.action == KeyEvent.ACTION_UP) {
+          KeyEvent.changeFlags(event, event.flags or KeyEvent.FLAG_CANCELED)
+        } else event
+        val injected = try { method.invoke(instance, next, 2) == true } catch (e: Exception) { false }
+        worked = worked && injected
+      }
+      worked
     }
   } catch (e: Exception) {
     false

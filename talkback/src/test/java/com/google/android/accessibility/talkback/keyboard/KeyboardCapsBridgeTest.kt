@@ -7,15 +7,22 @@ import java.util.ArrayDeque
 import org.junit.Assert.*
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.ArgumentCaptor
-import org.mockito.ArgumentMatchers.any
-import org.mockito.Mockito.*
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [34])
 class KeyboardCapsBridgeTest {
+  private class RecordingService : TalkBackService() {
+    val received = ArrayList<KeyEvent>()
+    var consume = false
+    override fun replayKeyboardSchemeEvent(event: KeyEvent): Boolean {
+      received += KeyEvent(event)
+      return consume
+    }
+    override fun announceKeyboardBridgeFailure() {}
+  }
+
   private class Backend : KeyboardCapsBridge.Backend {
     override var isAllowed = true
     var holders = 0
@@ -31,7 +38,7 @@ class KeyboardCapsBridgeTest {
     fun complete(worked: Boolean = true) = pending.removeFirst()(worked)
   }
 
-  private val service = mock(TalkBackService::class.java)
+  private val service = RecordingService()
   private val backend = Backend()
   private val bridge = KeyboardCapsBridge(service, backend) { true }
 
@@ -65,20 +72,18 @@ class KeyboardCapsBridgeTest {
     assertFalse(up.isCapsLockOn)
     backend.complete()
     assertFalse(bridge.filter(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_B, 200)))
-    val received = ArgumentCaptor.forClass(KeyEvent::class.java)
-    verify(service, times(2)).replayKeyboardSchemeEvent(received.capture())
-    assertEquals(listOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP), received.allValues.map { it.action })
+    assertEquals(listOf(KeyEvent.ACTION_DOWN, KeyEvent.ACTION_UP), service.received.map { it.action })
   }
 
   @Test fun consumedQueuedShortcutsAreNotInjectedIntoTheApplication() {
-    `when`(service.replayKeyboardSchemeEvent(any(KeyEvent::class.java))).thenReturn(true)
+    service.consume = true
     bridge.prepare()
     bridge.restore(3, false, true) {}
     bridge.filter(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_T, 100))
     bridge.filter(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_T, 110))
     backend.complete()
     assertEquals(1, backend.injections.size)
-    verify(service, times(2)).replayKeyboardSchemeEvent(any(KeyEvent::class.java))
+    assertEquals(2, service.received.size)
   }
 
   @Test fun shutdownWaitsForQueuedKeysBeforeReleasingTheBackend() {
@@ -102,5 +107,14 @@ class KeyboardCapsBridgeTest {
     assertFalse(result)
     assertFalse(bridge.isReady)
     assertFalse(bridge.filter(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_A, 100)))
+  }
+
+  @Test fun failedCorrectionPreservesOriginalTypingMetadata() {
+    bridge.prepare()
+    bridge.restore(3, false, true) {}
+    bridge.filter(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_A, 100, caps = true))
+    backend.complete(false)
+    assertTrue(backend.injections[1].single().isCapsLockOn)
+    backend.complete()
   }
 }

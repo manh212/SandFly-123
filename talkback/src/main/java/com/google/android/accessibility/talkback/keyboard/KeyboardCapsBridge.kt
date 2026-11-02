@@ -33,6 +33,7 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   private var ready = false
   private var busy = false
   private var replaying = false
+  private var draining = false
   private var closed = false
   private val queued = ArrayDeque<KeyEvent>()
   private var logicalCaps: Boolean? = null
@@ -77,6 +78,7 @@ class KeyboardCapsBridge @JvmOverloads constructor(
     )
     backend.inject(events) { worked ->
       ready = worked && !closed
+      if (!worked) logicalCaps = null
       busy = false
       onDone(worked)
       drain()
@@ -84,30 +86,36 @@ class KeyboardCapsBridge @JvmOverloads constructor(
   }
 
   private fun drain() {
-    while (!busy && queued.isNotEmpty()) {
-      val original = queued.removeFirst()
-      val caps = logicalCaps
-      val event = if (caps == null) original else KeyEvent(
-        original.downTime, original.eventTime, original.action, original.keyCode,
-        original.repeatCount,
-        (original.metaState and KeyEvent.META_CAPS_LOCK_ON.inv()) or if (caps) KeyEvent.META_CAPS_LOCK_ON else 0,
-        original.deviceId, original.scanCode, original.flags, original.source,
-      )
-      replaying = true
-      val consumed = try {
-        service.replayKeyboardSchemeEvent(event)
-      } finally {
-        replaying = false
-      }
-      if (!consumed) {
-        busy = true
-        val forwarded = KeyEvent.changeFlags(event, event.flags or INJECTED_FLAGS)
-        backend.inject(arrayOf(forwarded)) { worked ->
-          busy = false
-          if (!worked && !closed) service.announceKeyboardBridgeFailure()
-          drain()
+    if (draining) return
+    draining = true
+    try {
+      while (!busy && queued.isNotEmpty()) {
+        val original = queued.removeFirst()
+        val caps = logicalCaps
+        val event = if (caps == null) original else KeyEvent(
+          original.downTime, original.eventTime, original.action, original.keyCode,
+          original.repeatCount,
+          (original.metaState and KeyEvent.META_CAPS_LOCK_ON.inv()) or if (caps) KeyEvent.META_CAPS_LOCK_ON else 0,
+          original.deviceId, original.scanCode, original.flags, original.source,
+        )
+        replaying = true
+        val consumed = try {
+          service.replayKeyboardSchemeEvent(event)
+        } finally {
+          replaying = false
+        }
+        if (!consumed) {
+          busy = true
+          val forwarded = KeyEvent.changeFlags(event, event.flags or INJECTED_FLAGS)
+          backend.inject(arrayOf(forwarded)) { worked ->
+            busy = false
+            if (!worked && !closed) service.announceKeyboardBridgeFailure()
+            drain()
+          }
         }
       }
+    } finally {
+      draining = false
     }
     releaseIfClosed()
   }
