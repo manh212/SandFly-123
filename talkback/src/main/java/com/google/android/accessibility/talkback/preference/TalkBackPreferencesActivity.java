@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentOnAttachListener;
@@ -79,6 +80,10 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
     fillDefaultFragmentNameIfNecessary();
     getSupportFragmentManager().addFragmentOnAttachListener(this);
     super.onCreate(savedInstanceState);
+    getWindow()
+        .setSoftInputMode(
+            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
+                | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
     // Check RTL.
     boolean isLocaleRTL =

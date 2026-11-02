@@ -36,7 +36,7 @@ final class SettingsSearchController {
     LinearLayout layout = new LinearLayout(context);
     layout.setOrientation(LinearLayout.VERTICAL);
     search = new SearchView(context);
-    search.setIconifiedByDefault(false);
+    search.setIconifiedByDefault(true);
     search.setQueryHint(context.getString(R.string.settings_search_title));
     search.setQuery(query, false);
     search.clearFocus();

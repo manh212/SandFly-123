@@ -14,6 +14,14 @@
       android:key="@string/pref_direct_touch_key"
       android:title="@string/title_pref_direct_touch" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackGestureShortcutPreferenceFragment"
+      android:key="@string/pref_category_manage_gestures_key"
+      android:title="@string/title_pref_category_manage_gestures" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.TalkBackKeyboardShortcutPreferenceFragment"
+      android:key="@string/pref_category_manage_keyboard_shortcut_key"
+      android:title="@string/title_pref_manage_keyboard_shortcuts" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.volume.VolumeKeySettingsFragment"
       android:key="pref_volume_key_settings_screen"
       android:title="@string/volume_key_settings_title" />

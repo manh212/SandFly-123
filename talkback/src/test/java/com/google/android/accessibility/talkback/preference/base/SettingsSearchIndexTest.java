@@ -51,6 +51,9 @@ public class SettingsSearchIndexTest {
     assertFalse(entries.isEmpty());
     assertTrue(entries.stream().anyMatch(entry -> entry.key.equals("pref_reverse_swipe_gestures")));
     assertTrue(entries.stream().anyMatch(entry -> entry.fragment.endsWith("TalkBackKeyboardShortcutPreferenceFragment") && !entry.key.isEmpty()));
+    assertTrue(entries.stream().anyMatch(entry -> entry.title.equals("Cử chỉ") && entry.path.equals("Điều hướng")));
+    assertTrue(entries.stream().anyMatch(entry -> entry.title.equals("Phím tắt") && entry.path.equals("Điều hướng")));
+    assertFalse(entries.stream().anyMatch(entry -> entry.fragment.endsWith("GesturesShortcutsGroupFragment")));
     assertTrue(entries.stream().anyMatch(entry -> entry.fragment.endsWith("TalkBackGestureShortcutPreferenceFragment") && !entry.actionQuery.isEmpty()));
     assertTrue(entries.stream().anyMatch(entry -> entry.fragment.endsWith("OnDeviceAiFragment")));
     assertTrue(entries.stream().anyMatch(entry -> entry.fragment.endsWith("StatusReadoutFragment") && entry.key.equals("BATTERY")));
