@@ -63,9 +63,11 @@ public class SelectorGroupManagerTest {
   public void modeTwoKeepsSelectedGroupWhenStartingFromDefaultNavigation() {
     assertTrue(SelectorGroupManager.isSupported());
     SelectorGroupManager.ensureInitialized(context);
-    String readingGroup = "reading";
     String defaultNavigation = context.getString(
         SelectorController.Setting.GRANULARITY_DEFAULT.prefKeyResId);
+    String readingGroup = SelectorGroupManager.getGroups(context).stream()
+        .filter(group -> group.enabled && !group.items.contains(defaultNavigation))
+        .findFirst().orElseThrow().id;
     prefs.edit()
         .putString(context.getString(SelectorGroupManager.CURRENT_GROUP_KEY_RES), readingGroup)
         .putString(context.getString(R.string.pref_current_selector_setting_key),
