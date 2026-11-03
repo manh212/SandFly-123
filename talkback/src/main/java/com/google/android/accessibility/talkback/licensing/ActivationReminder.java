@@ -16,6 +16,7 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import androidx.core.os.UserManagerCompat;
 import com.google.android.accessibility.talkback.R;
 import java.lang.ref.WeakReference;
 
@@ -52,6 +53,10 @@ public final class ActivationReminder {
           scheduled = false;
           AccessibilityService service = serviceRef.get();
           if (service != null) {
+            if (!UserManagerCompat.isUserUnlocked(service)) {
+              stopCountdown();
+              return;
+            }
             if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
               stopCountdown();
               return;
@@ -80,6 +85,10 @@ public final class ActivationReminder {
       };
 
   public static void startService(AccessibilityService service) {
+    if (!UserManagerCompat.isUserUnlocked(service)) {
+      stopCountdown();
+      return;
+    }
     if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
       stopCountdown();
       return;
@@ -235,7 +244,8 @@ public final class ActivationReminder {
     boolean inSettings = activity != null && !activity.isFinishing();
     AccessibilityService service = serviceRef.get();
     Context context = inSettings ? activity : service;
-    if (context == null || !DeviceLicenseManager.configured()
+    if (context == null || !UserManagerCompat.isUserUnlocked(context)
+        || !DeviceLicenseManager.configured()
         || DeviceLicenseManager.isLicensed(context)) return;
 
     long now = SystemClock.elapsedRealtime();

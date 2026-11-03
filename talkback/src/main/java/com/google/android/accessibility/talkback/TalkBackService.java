@@ -2376,8 +2376,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     // Handle any update actions.
     new TalkBackUpdateHelper(this).checkUpdate();
     Updater.startAutomaticChecks(this);
-    // Schedule dismissible reminders without interrupting accessibility speech.
-    com.google.android.accessibility.talkback.licensing.ActivationReminder.startService(this);
     ShizukuGrants.onServiceConnected(this);
     keyComboManager.prepareKeyboardScheme();
     ScreenElements.attach(this, () -> pipeline == null ? null : pipeline.getFeedbackReturner());
@@ -2391,12 +2389,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
     // Hides the screen after announcing that TalkBack is on, so "Screen hidden" is spoken second.
     dimScreenController.resume();
-
-    clipboardHistoryCapture = new ClipboardHistoryCapture(this);
-    ClipboardHistory.init(getFilesDir());
-    ClipboardHistory.restoreLegacyHistory(this);
-    com.google.android.accessibility.talkback.clipboard.FavoriteTexts.init(getFilesDir());
-    clipboardHistoryCapture.start();
 
     // If the locked-boot-completed intent was fired before onServiceConnected, we queued it,
     // so now we need to run it.
@@ -4666,11 +4658,16 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   public void onUnlockedBootCompleted() {
-    if (unlockedBootCompleted || !isServiceActive() || pipeline == null) {
+    if (unlockedBootCompleted
+        || !UserManagerCompat.isUserUnlocked(this)
+        || !isServiceActive()
+        || pipeline == null) {
       return;
     }
     unlockedBootCompleted = true;
     unlockedBootHandler.removeCallbacks(checkUnlockedBoot);
+    com.google.android.accessibility.talkback.licensing.ActivationReminder.startService(this);
+    initializeClipboardHistory();
     // Update TTS and allow announcement.
     // If the TTS changes here, it is probably a non-FBE TTS that is available after the user
     // unlocks their phone. In this case, the user heard Google TTS at the lock screen, so we
@@ -4690,6 +4687,17 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     startScripts();
+  }
+
+  private void initializeClipboardHistory() {
+    try {
+      ClipboardHistory.restoreLegacyHistory(this);
+      com.google.android.accessibility.talkback.clipboard.FavoriteTexts.init(getFilesDir());
+      clipboardHistoryCapture = new ClipboardHistoryCapture(this);
+      clipboardHistoryCapture.start();
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Could not initialize clipboard history after unlock: %s", e);
+    }
   }
 
   private void startScripts() {

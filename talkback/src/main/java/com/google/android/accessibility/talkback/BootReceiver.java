@@ -41,7 +41,8 @@ public class BootReceiver extends BroadcastReceiver {
       case Intent.ACTION_LOCKED_BOOT_COMPLETED ->
           // Only N+ devices will get this intent (even if they don't have FBE enabled).
           service.onLockedBootCompleted(eventId);
-      case Intent.ACTION_BOOT_COMPLETED -> service.onUnlockedBootCompleted();
+      case Intent.ACTION_USER_UNLOCKED, Intent.ACTION_BOOT_COMPLETED ->
+          service.onUnlockedBootCompleted();
       case Intent.ACTION_SHUTDOWN -> service.onShutDown();
       default -> {}
     }
@@ -50,6 +51,7 @@ public class BootReceiver extends BroadcastReceiver {
   public static IntentFilter getFilter() {
     final IntentFilter intentFilter = new IntentFilter();
     intentFilter.addAction(Intent.ACTION_LOCKED_BOOT_COMPLETED);
+    intentFilter.addAction(Intent.ACTION_USER_UNLOCKED);
     intentFilter.addAction(Intent.ACTION_BOOT_COMPLETED);
     intentFilter.addAction(Intent.ACTION_SHUTDOWN);
     intentFilter.addCategory(Intent.CATEGORY_DEFAULT);

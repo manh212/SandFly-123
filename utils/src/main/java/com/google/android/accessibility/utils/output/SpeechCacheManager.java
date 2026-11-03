@@ -25,6 +25,7 @@ import android.os.Looper;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
+import androidx.core.os.UserManagerCompat;
 import com.google.android.accessibility.utils.Logger;
 import com.google.android.accessibility.utils.output.SpeechCachePlayer.PlaybackStateListener;
 import com.google.android.accessibility.utils.output.SpeechCachePlayer.SpeechInfo;
@@ -53,39 +54,51 @@ public class SpeechCacheManager {
 
   private final Map<String, LoadSpeechFileRequest> utteranceIdToRequest = new ConcurrentHashMap<>();
   private final Map<String, Runnable> utteranceIdToTimeoutAction = new ConcurrentHashMap<>();
-  private final File speechFilesRootDirectory;
+  private final Context context;
+  private @Nullable File speechFilesRootDirectory;
 
   private final Handler workerHandler;
   private final SpeechCachePlayer speechCachePlayer;
   private int synthesisCacheIndex = 0;
 
   public SpeechCacheManager(Context context, Looper workerlooper) {
+    this.context = context;
     workerHandler = new Handler(workerlooper);
     speechCachePlayer =
         new AudioTrackSpeechCachePlayer(
             new HandlerExecutor(workerHandler), () -> FailoverTextToSpeech.speechUsage(context));
-    speechFilesRootDirectory = new File(context.getFilesDir().getPath(), DIRECTORY_CACHE);
-    if (speechFilesRootDirectory.exists()) {
-      // In case the file is not deleted accidentally,always delete the files.
-      workerHandler.post(() -> deleteAllSubFiles(speechFilesRootDirectory));
-
-    } else {
-      if (!speechFilesRootDirectory.mkdir()) {
-        LogUtils.e(TAG, "create speechFilesRootDirectory failed");
-      }
-    }
+    workerHandler.post(this::initializeStorage);
   }
 
-  private void deleteAllSubFiles(File directory) {
-    workerHandler.post(
-        () -> {
-          File[] dirs = directory.listFiles();
-          if (dirs != null) {
-            for (File file : dirs) {
-              deleteDirectory(file);
-            }
-          }
-        });
+  private boolean initializeStorage() {
+    if (!UserManagerCompat.isUserUnlocked(context)) {
+      return false;
+    }
+    if (speechFilesRootDirectory != null) {
+      return true;
+    }
+    try {
+      File filesDirectory = context.getFilesDir();
+      if (filesDirectory == null) {
+        return false;
+      }
+      File directory = new File(filesDirectory, DIRECTORY_CACHE);
+      if (!directory.isDirectory() && !directory.mkdirs()) {
+        LogUtils.w(TAG, "Could not create speech cache directory");
+        return false;
+      }
+      File[] oldFiles = directory.listFiles();
+      if (oldFiles != null) {
+        for (File file : oldFiles) {
+          deleteDirectory(file);
+        }
+      }
+      speechFilesRootDirectory = directory;
+      return true;
+    } catch (RuntimeException e) {
+      LogUtils.w(TAG, "Speech cache storage is unavailable: %s", e);
+      return false;
+    }
   }
 
   private void deleteDirectory(File dir) {
@@ -169,20 +182,15 @@ public class SpeechCacheManager {
       return;
     }
 
-    File speechFile = createSpeechFile(cacheUtteranceId, simpleSpeechInfo, engineName);
-    if (speechFile == null) {
-      LogUtils.w(TAG, "create speechFile failed");
-      workerHandler.post(
-          () -> {
-            statusNotifier.onFinished(simpleSpeechInfo, false);
-          });
-      return;
-    }
-
-    final SpeechInfo speechInfo =
-        new SpeechInfo(cacheUtteranceId, text, spokenLocale, speechParameters, speechFile);
     workerHandler.post(
         () -> {
+          File speechFile = createSpeechFile(cacheUtteranceId, simpleSpeechInfo, engineName);
+          if (speechFile == null) {
+            statusNotifier.onFinished(simpleSpeechInfo, false);
+            return;
+          }
+          final SpeechInfo speechInfo =
+              new SpeechInfo(cacheUtteranceId, text, spokenLocale, speechParameters, speechFile);
           if (tts.synthesizeToFile(
               text, spokenLocale, speechParameters, speechFile, cacheUtteranceId)) {
             utteranceIdToRequest.put(
@@ -214,6 +222,9 @@ public class SpeechCacheManager {
 
   @Nullable
   private File getEngineDirectory(String engineName) {
+    if (!initializeStorage()) {
+      return null;
+    }
     File engineDirectory = new File(speechFilesRootDirectory, engineName);
     if (!engineDirectory.exists()) {
       if (!engineDirectory.mkdirs()) {
