@@ -1,6 +1,7 @@
 -keepattributes *
 -keep class !com.google.android.accessibility.talkback.licensing.** { *; }
--keep class com.google.android.accessibility.talkback.licensing.ActivationActivity { *; }
+-repackageclasses p
+-renamesourcefileattribute SourceFile
 -dontwarn java.lang.invoke.MethodHandleProxies
 -dontwarn javax.script.ScriptEngine
 -dontwarn javax.script.ScriptEngineManager

@@ -5,6 +5,7 @@ on:
     paths:
       - 'tools/sandfly-license-issuer/**'
       - '.github/workflows/build-license-issuer.yml'
+      - 'scripts/check_activation_obfuscation.py'
   workflow_dispatch:
 
 jobs:
@@ -27,10 +28,47 @@ jobs:
         with:
           gradle-version: '8.11.1'
       - name: Build issuer APK
-        run: gradle -p tools/sandfly-license-issuer :app:assembleDebug --no-daemon --stacktrace
+        run: |
+          set -o pipefail
+          gradle -p tools/sandfly-license-issuer :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-build.log"
+      - name: Verify issuer obfuscation in the APK
+        run: |
+          set -o pipefail
+          python3 scripts/check_activation_obfuscation.py \
+            --apk tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk \
+            --mapping tools/sandfly-license-issuer/app/build/outputs/mapping/debug/mapping.txt \
+            --namespace com.sandfly.offlinelicenser \
+            --entrypoint com.sandfly.offlinelicenser.MainActivity \
+            --member 'com.sandfly.offlinelicenser.MainActivity#authenticate' \
+            --member 'com.sandfly.offlinelicenser.MainActivity#createKey' \
+            --member 'com.sandfly.offlinelicenser.MainActivity#refresh' \
+            --member 'com.sandfly.offlinelicenser.MainActivity#pendingRequest' \
+            --member 'com.sandfly.offlinelicenser.MainActivity#issued' 2>&1 | tee "$RUNNER_TEMP/issuer-obfuscation.log"
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: SandFly-License-Issuer-APK
           path: tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+      - name: Collect issuer failure logs
+        if: always()
+        run: |
+          python3 - <<'PYEOF'
+          import os
+          from pathlib import Path
+          import re
+          lines = []
+          blocked = re.compile(r'password|secret|keystore', re.I)
+          for name in ['issuer-build.log', 'issuer-obfuscation.log']:
+              path = Path(os.environ['RUNNER_TEMP']) / name
+              if path.exists():
+                  lines.append('===== ' + name + ' =====')
+                  lines.extend(line for line in path.read_text().splitlines()[-200:] if not blocked.search(line))
+          Path('gradle-log-tail.txt').write_text('\n'.join(lines) + '\n')
+          PYEOF
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: gradle-log-tail
+          path: gradle-log-tail.txt
+          if-no-files-found: ignore

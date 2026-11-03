@@ -214,6 +214,23 @@ jobs:
           set -o pipefail
           ./gradlew assembleDebug $GRADLE_RELEASE_FLAG --console=plain 2>&1 | tee "$RUNNER_TEMP/assemble.log"
 
+      - name: Verify activation obfuscation in the APK
+        run: |
+          set -o pipefail
+          {
+          for apk in build/outputs/apk/*/debug/*.apk; do
+            python3 scripts/check_activation_obfuscation.py \
+              --apk "$apk" \
+              --mapping build/outputs/mapping/phoneDebug/mapping.txt \
+              --namespace com.google.android.accessibility.talkback.licensing \
+              --entrypoint com.google.android.accessibility.talkback.licensing.ActivationActivity \
+              --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#status' \
+              --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#request' \
+              --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#refresh' \
+              --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#addButton'
+          done
+          } 2>&1 | tee "$RUNNER_TEMP/activation-obfuscation.log"
+
       - name: Check the signing key
         if: github.event_name == 'push'
         run: |
@@ -364,7 +381,7 @@ jobs:
           blocked='password|secret|keystore'
           out=gradle-log-tail.txt
           : > "$out"
-          for pair in assemble:assemble.log; do
+          for pair in assemble:assemble.log obfuscation:activation-obfuscation.log; do
             log="$RUNNER_TEMP/${pair#*:}"
             if [ -f "$log" ]; then
               {

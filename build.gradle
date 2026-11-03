@@ -61,6 +61,10 @@ android {
         resConfigs "en", "vi"
     }
     buildTypes {
+        release {
+            minifyEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'meridian-activation-r8.pro'
+        }
         // The published builds are debug builds, signed with SandFly's key. Android runs a
         // debuggable app without compiling it, which makes navigation several times slower on
         // a watch, so they are not debuggable. Debug logging in the libraries stays on.

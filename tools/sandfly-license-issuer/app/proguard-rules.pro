@@ -1,0 +1,2 @@
+-repackageclasses p
+-renamesourcefileattribute SourceFile
