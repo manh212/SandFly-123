@@ -45,6 +45,16 @@ class LiveRecognitionActivityTest {
     controller.pause().stop().destroy()
   }
 
+  @Test fun currencyWithoutOfflineModelCannotStartOrRequestCameraPermission() {
+    val controller = Robolectric.buildActivity(LiveRecognitionActivity::class.java).setup()
+    val activity = controller.get()
+    assertFalse(CurrencyRecognizer.isAvailable(activity))
+    activity.toggle(RecognitionMode.CURRENCY)
+    assertFalse(activity.isEnabled(RecognitionMode.CURRENCY))
+    assertNull(shadowOf(activity).lastRequestedPermission)
+    controller.pause().stop().destroy()
+  }
+
   @Test fun permissionRequestDoesNotTurnTheModeOnPrematurely() {
     val controller = Robolectric.buildActivity(LiveRecognitionActivity::class.java).setup()
     val activity = controller.get()

@@ -1,0 +1,76 @@
+package com.google.android.accessibility.talkback.recognition
+
+import org.junit.Assert.*
+import org.junit.Test
+
+class CurrencyRecognizerTest {
+  private val order = CurrencyModelOutput.denominations
+
+  @Test fun supportsAllNineRoboflowDenominations() {
+    assertArrayEquals(intArrayOf(1000, 10000, 100000, 2000, 20000, 200000, 5000, 50000, 500000), order)
+    assertEquals("Năm trăm nghìn đồng", CurrencyModelOutput.speak(500000))
+    assertEquals("Một nghìn đồng", CurrencyModelOutput.speak(1000))
+  }
+
+  @Test fun channelsFirstOutputSelectsHighestConfidenceBanknote() {
+    val scores = FloatArray(13 * 2)
+    scores[2 * 2] = 60f
+    scores[3 * 2] = 30f
+    scores[2 * 2 + 1] = 90f
+    scores[3 * 2 + 1] = 50f
+    scores[(4 + 0) * 2] = 0.86f
+    scores[(4 + 8) * 2 + 1] = 0.93f
+    assertEquals(500000, CurrencyModelOutput.best(scores, intArrayOf(1, 13, 2))?.denomination)
+  }
+
+  @Test fun channelsLastOutputIsAlsoSupported() {
+    val scores = FloatArray(2 * 13)
+    scores[2] = 30f
+    scores[3] = 20f
+    scores[13 + 2] = 50f
+    scores[13 + 3] = 30f
+    scores[4 + 3] = 0.82f
+    scores[13 + 4 + 5] = 0.95f
+    assertEquals(200000, CurrencyModelOutput.best(scores, intArrayOf(1, 2, 13))?.denomination)
+  }
+
+  @Test fun ignoresWeakOrInvalidDetections() {
+    val scores = FloatArray(13)
+    scores[2] = 90f
+    scores[3] = 40f
+    scores[4] = 0.6f
+    assertNull(CurrencyModelOutput.best(scores, intArrayOf(1, 13, 1)))
+    scores[4] = 0.99f
+    scores[2] = 0f
+    assertNull(CurrencyModelOutput.best(scores, intArrayOf(1, 13, 1)))
+  }
+
+  @Test fun speaksOnlyAfterTwoMatchingFramesAndNotAgainForSameNote() {
+    val tracker = CurrencyTracker()
+    val note = CurrencyPrediction(100000, 0.94f)
+    assertNull(tracker.observe(note))
+    assertEquals("Một trăm nghìn đồng", tracker.observe(note))
+    assertNull(tracker.observe(note))
+    assertNull(tracker.observe(note))
+    assertNull(tracker.observe(CurrencyPrediction(200000, 0.84f)))
+    assertEquals("Hai trăm nghìn đồng", tracker.observe(CurrencyPrediction(200000, 0.9f)))
+  }
+
+  @Test fun reannouncesAfterBanknoteLeavesView() {
+    val tracker = CurrencyTracker()
+    val note = CurrencyPrediction(50000, 0.96f)
+    tracker.observe(note)
+    assertNotNull(tracker.observe(note))
+    repeat(3) { assertNull(tracker.observe(null)) }
+    assertNull(tracker.observe(note))
+    assertEquals("Năm mươi nghìn đồng", tracker.observe(note))
+  }
+
+  @Test fun unstablePredictionsAreNeverSpoken() {
+    val tracker = CurrencyTracker()
+    repeat(6) {
+      assertNull(tracker.observe(CurrencyPrediction(10000, 0.91f)))
+      assertNull(tracker.observe(CurrencyPrediction(20000, 0.91f)))
+    }
+  }
+}

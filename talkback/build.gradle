@@ -25,6 +25,7 @@ dependencies {
     implementation libs.camera.camera2
     implementation libs.camera.lifecycle
     implementation libs.camera.view
+    implementation libs.tensorflow.lite
     // Dictation with Whisper on the phone.
     phoneImplementation project(':whisper')
     // Grants the permissions that settings need through Shizuku, when it is installed and running.

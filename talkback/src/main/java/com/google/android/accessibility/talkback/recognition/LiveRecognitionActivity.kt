@@ -90,6 +90,9 @@ class LiveRecognitionActivity : ComponentActivity() {
   )
   private val worker = Executors.newSingleThreadExecutor()
   private val processing = AtomicBoolean(false)
+  private val currencyProcessing = AtomicBoolean(false)
+  private val currencyTracker = CurrencyTracker()
+  private var currencyRecognizer: CurrencyRecognizer? = null
   private val announcements = RecognitionAnnouncements()
   private val pendingResults = linkedMapOf<String, Pair<String, Long>>()
   private val prefs by lazy { SharedPreferencesUtils.getSharedPreferences(this) }
@@ -202,6 +205,7 @@ class LiveRecognitionActivity : ComponentActivity() {
 
   override fun onDestroy() {
     loadingFeedback.stop()
+    worker.execute { currencyRecognizer?.close(); currencyRecognizer = null }
     describer?.close()
     if (recognizerUsed) recognizer.close()
     worker.shutdown()
@@ -217,6 +221,11 @@ class LiveRecognitionActivity : ComponentActivity() {
       enabled.remove(mode)
       reconcile()
       speakMode(mode)
+      return
+    }
+    if (mode == RecognitionMode.CURRENCY && !CurrencyRecognizer.isAvailable(this)) {
+      updateSwitches()
+      report(R.string.live_recognition_currency_model_missing)
       return
     }
     if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -300,6 +309,7 @@ class LiveRecognitionActivity : ComponentActivity() {
     preview = null
     announcements.clear()
     pendingResults.clear()
+    currencyTracker.reset()
     updateSwitches()
     handler.removeCallbacks(runningCheck)
     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -377,13 +387,14 @@ class LiveRecognitionActivity : ComponentActivity() {
             ResolutionStrategy(Size(1280, 720), ResolutionStrategy.FALLBACK_RULE_CLOSEST_LOWER_THEN_HIGHER)).build())
           .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()
         val text = RecognitionMode.TEXT in enabled
+        val currency = RecognitionMode.CURRENCY in enabled
         var lastFrame = -FRAME_INTERVAL_MS
         newAnalysis.setAnalyzer(worker) { frame ->
           val now = SystemClock.elapsedRealtime()
           // Gemini takes a frame every few seconds at most, so most frames are only read for text.
           val ai = describer?.canRequest() == true
-          if (generation != token || now - lastFrame < FRAME_INTERVAL_MS || !(text || ai) ||
-              !processing.compareAndSet(false, true)) {
+          if (generation != token || now - lastFrame < FRAME_INTERVAL_MS ||
+              !(text || ai || currency) || !processing.compareAndSet(false, true)) {
             frame.close()
             return@setAnalyzer
           }
@@ -428,6 +439,37 @@ class LiveRecognitionActivity : ComponentActivity() {
     fun release() { bitmap.recycle(); processing.set(false) }
     if (generation != token || !resumed) { release(); return }
     if (jpeg != null) describer?.describe(jpeg, enabled.toSet(), pointAbove)
+    if (RecognitionMode.CURRENCY in enabled && currencyProcessing.compareAndSet(false, true)) {
+      val currencyFrame = try { bitmap.copy(Bitmap.Config.ARGB_8888, false) } catch (_: Exception) { null }
+      if (currencyFrame == null) {
+        currencyProcessing.set(false)
+      } else {
+        worker.execute {
+          var failed = false
+          val prediction = try {
+            val model = currencyRecognizer ?: CurrencyRecognizer(this).also { currencyRecognizer = it }
+            model.detect(currencyFrame)
+          } catch (error: Exception) {
+            LogUtils.e(TAG, "Currency recognition failed: %s", error.javaClass.simpleName)
+            failed = true
+            null
+          } finally {
+            currencyFrame.recycle()
+          }
+          handler.post {
+            currencyProcessing.set(false)
+            if (generation != token || !resumed || RecognitionMode.CURRENCY !in enabled) return@post
+            if (failed) {
+              enabled.remove(RecognitionMode.CURRENCY)
+              reconcile()
+              report(R.string.live_recognition_currency_error)
+            } else {
+              currencyTracker.observe(prediction)?.let { announceResult(SOURCE_CURRENCY, it) }
+            }
+          }
+        }
+      }
+    }
     if (RecognitionMode.TEXT !in enabled) { release(); return }
     try {
       recognizerUsed = true
@@ -498,6 +540,7 @@ class LiveRecognitionActivity : ComponentActivity() {
     private const val CLOUD_CONSENT_PREF = "pref_live_recognition_cloud_consent"
     private const val SOURCE_TEXT = "text"
     private const val SOURCE_AI = "ai"
+    private const val SOURCE_CURRENCY = "currency"
     /** The first part of the key that says the user agreed to images going to an AI service. */
     private const val SERVICE_CONSENT_PREF = "pref_live_recognition_consent_"
     /** How old an answer from the on-device model or an AI service can be when it comes. */
