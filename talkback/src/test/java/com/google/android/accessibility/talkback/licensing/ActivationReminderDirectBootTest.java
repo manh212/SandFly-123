@@ -52,6 +52,8 @@ public final class ActivationReminderDirectBootTest {
     shadowOf(users).setUserUnlocked(false);
 
     ActivationReminder.startService(service);
+    assertEquals(0L, deadline());
+    assertFalse(scheduled());
     shadowOf(Looper.getMainLooper()).idleFor(65, TimeUnit.SECONDS);
 
     assertEquals(0L, deadline());
@@ -72,7 +74,7 @@ public final class ActivationReminderDirectBootTest {
     assertTrue(scheduled());
 
     shadowOf(users).setUserUnlocked(false);
-    shadowOf(Looper.getMainLooper()).idleFor(65, TimeUnit.SECONDS);
+    shadowOf(Looper.getMainLooper()).idleFor(1, TimeUnit.SECONDS);
 
     assertEquals(0L, deadline());
     assertFalse(scheduled());
