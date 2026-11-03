@@ -1,7 +1,7 @@
 plugins { id 'com.android.application' }
 android {
   namespace 'com.sandfly.offlinelicenser'
-  compileSdk 35
+  compileSdk 36
   defaultConfig {
     applicationId 'com.sandfly.offlinelicenser.v2'
     minSdk 26
@@ -35,7 +35,7 @@ android {
   }
   sourceSets {
     main.java.srcDir('../../../activation/src/main/java')
-    test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile])
+    test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile, 'src/test/java'])
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
@@ -43,6 +43,8 @@ android {
   }
 }
 dependencies {
+  implementation 'androidx.activity:activity:1.10.1'
+  implementation 'androidx.browser:browser:1.9.0'
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.json:json:20240303'
 }

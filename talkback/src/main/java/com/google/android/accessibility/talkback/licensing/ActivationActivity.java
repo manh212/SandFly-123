@@ -20,9 +20,6 @@ public final class ActivationActivity extends Activity {
     TextView title = new TextView(this);
     title.setText("Đăng ký Meridian"); title.setTextSize(22); layout.addView(title);
     status = new TextView(this); status.setTextSize(17); layout.addView(status);
-    TextView help = new TextView(this);
-    help.setText("Gửi mã yêu cầu cho người quản trị để cấp phép lần đầu. Khi cài lại trên cùng máy, Meridian tự tìm giấy phép đã lưu trên GitHub khi có Internet. Định danh đã băm được dùng để tra cứu, không gửi tên người dùng.");
-    layout.addView(help);
     TextView requestText = new TextView(this); requestText.setTextIsSelectable(true); layout.addView(requestText);
     if (ApkSignatureVerifier.isOfficial(this)) {
       try { request = DeviceLicenseManager.recoveryRequest(this); requestText.setText(request); }

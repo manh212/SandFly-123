@@ -1,6 +1,5 @@
 package com.sandfly.offlinelicenser;
 
-import android.app.Activity;
 import android.app.KeyguardManager;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -11,7 +10,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CancellationSignal;
-import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -19,19 +17,30 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import androidx.activity.ComponentActivity;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.browser.auth.AuthTabIntent;
 import io.meridian.licensing.RecoveryProtocol;
 import java.security.Signature;
 import java.util.Iterator;
 import org.json.JSONObject;
 
-public final class MainActivity extends Activity {
+public final class MainActivity extends ComponentActivity {
   private static final int AUTH_REQUEST = 501;
   private TextView state, publicKeyText, licenseText, deviceCount;
-  private EditText requestInput, nameInput, tokenInput;
-  private Button issueButton;
+  private EditText requestInput, nameInput;
+  private Button issueButton, loginButton;
   private String pendingRequest, pendingName, issued;
   private boolean authBusy;
   private CancellationSignal authentication;
+  private final ActivityResultLauncher<Intent> browserLauncher =
+      AuthTabIntent.registerActivityResultLauncher(this, result -> {
+        if (result.resultCode == AuthTabIntent.RESULT_OK) completeLogin(result.resultUri);
+        else {
+          if (loginButton != null) loginButton.setEnabled(true);
+          refresh();
+        }
+      });
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
@@ -58,22 +67,8 @@ public final class MainActivity extends Activity {
       catch (Exception e) { error(e); }
     }));
     title(column, "Kết nối GitHub");
-    label(column, "Tạo fine-grained token cho riêng manh212/SandFly-123, quyền Contents: Read and write. Token được mã hóa trên điện thoại và không được đưa lên GitHub.");
-    button(column, "Tạo token GitHub", view -> startActivity(new Intent(Intent.ACTION_VIEW,
-        Uri.parse("https://github.com/settings/personal-access-tokens/new"))));
-    tokenInput = input(column, "Token GitHub");
-    tokenInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-    tokenInput.setImportantForAutofill(View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
-    button(column, "Lưu token và kết nối", view -> {
-      String token = tokenInput.getText().toString().trim();
-      SyncCoordinator.WORKER.execute(() -> {
-        try {
-          new IssuerStore(this).token(token);
-          onUi(() -> { tokenInput.setText(""); state.setText("Đã lưu token trên điện thoại."); });
-          synchronize();
-        } catch (Exception e) { error(e); }
-      });
-    });
+    label(column, "Đăng nhập tài khoản manh212 một lần trong trình duyệt. Xác nhận tạo kết nối và chỉ chọn SandFly-123 khi GitHub hỏi quyền truy cập. Xong ứng dụng tự trở về và tự đồng bộ giấy phép; không cần tạo hoặc nhập token.");
+    loginButton = button(column, "Đăng nhập GitHub", view -> login());
     button(column, "Đồng bộ lại GitHub", view -> synchronize());
     title(column, "Cấp phép thiết bị");
     requestInput = input(column, "Mã yêu cầu SFREQ2");
@@ -90,6 +85,49 @@ public final class MainActivity extends Activity {
     deviceCount = label(column, "Đang đọc danh sách…");
     label(column, "Không gỡ hoặc xóa dữ liệu công cụ này. Khóa riêng trong phần cứng không thể xuất hoặc khôi phục từ GitHub. Tệp công khai chỉ có giấy phép đã ký và định danh đã băm.");
     refresh();
+    if (getIntent().getData() != null) completeLogin(getIntent().getData());
+  }
+
+  @Override protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    if (intent.getData() != null && OfficialInstall.verified(this)) completeLogin(intent.getData());
+  }
+
+  private void login() {
+    loginButton.setEnabled(false);
+    state.setText("Đang mở đăng nhập GitHub…");
+    SyncCoordinator.WORKER.execute(() -> {
+      try {
+        Uri start = BrowserConnection.begin(getApplicationContext());
+        onUi(() -> {
+          try {
+            new AuthTabIntent.Builder().build().launch(browserLauncher, start, GitHubAppProtocol.RETURN_SCHEME);
+          } catch (RuntimeException e) {
+            BrowserConnection.close();
+            loginButton.setEnabled(true);
+            state.setText("Không mở được trình duyệt. Hãy cài hoặc bật trình duyệt rồi thử lại.");
+          }
+        });
+      } catch (Exception e) {
+        onUi(() -> {
+          loginButton.setEnabled(true);
+          state.setText("Chưa mở được phiên đăng nhập. Hãy đóng phiên cũ và thử lại.");
+        });
+      }
+    });
+  }
+
+  private void completeLogin(Uri uri) {
+    getIntent().setData(null);
+    SyncCoordinator.WORKER.execute(() -> {
+      try {
+        BrowserConnection.finish(getApplicationContext(), uri);
+        SyncCoordinator.schedule(getApplicationContext());
+        synchronize();
+      } catch (Exception e) { error(e); }
+      finally { onUi(() -> loginButton.setEnabled(true)); }
+    });
   }
 
   @Override protected void onResume() {
@@ -162,7 +200,7 @@ public final class MainActivity extends Activity {
   private void synchronize() {
     SyncCoordinator.WORKER.execute(() -> {
       try {
-        if (IssuerKeys.exists() && !new IssuerStore(this).token().isEmpty()) {
+        if (IssuerKeys.exists() && new IssuerStore(this).connected()) {
           boolean retry = SyncCoordinator.sync(getApplicationContext(), () -> false);
           if (retry) SyncCoordinator.schedule(getApplicationContext());
         }

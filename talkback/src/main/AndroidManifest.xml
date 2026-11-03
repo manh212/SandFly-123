@@ -128,7 +128,7 @@
         <activity
             android:name="com.google.android.accessibility.talkback.licensing.ActivationActivity"
             android:exported="false"
-            android:label="Kích hoạt SandFly" />
+            android:label="Kích hoạt Meridian" />
 
         <activity
             android:name="com.google.android.accessibility.talkback.taskassistant.TaskVoiceInputActivity"

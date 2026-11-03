@@ -33,8 +33,8 @@ jobs:
         with:
           distribution: temurin
           java-version: '17'
-      - name: Install Android 35
-        run: echo "y" | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-35" "build-tools;35.0.0"
+      - name: Install Android 36
+        run: echo "y" | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-36" "build-tools;35.0.0"
       - name: Install Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
@@ -48,12 +48,12 @@ jobs:
           printf '%s' "$KEYSTORE" | base64 --decode > "$RUNNER_TEMP/meridian-admin.jks"
           echo "SANDFLY_KEYSTORE=$RUNNER_TEMP/meridian-admin.jks" >> "$GITHUB_ENV"
           echo "MERIDIAN_ADMIN_VERSION_CODE=$(git rev-list --count HEAD)" >> "$GITHUB_ENV"
-      - name: Test protocol and GitHub conflict handling
+      - name: Test protocols, browser session validation and GitHub conflict handling
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: |
           set -o pipefail
-          gradle -p tools/sandfly-license-issuer :app:testDebugUnitTest --tests 'com.google.android.accessibility.talkback.licensing.RecoveryProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.CatalogPublisherTest' --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-tests.log"
+          gradle -p tools/sandfly-license-issuer :app:testDebugUnitTest --tests 'com.google.android.accessibility.talkback.licensing.RecoveryProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.CatalogPublisherTest' --tests 'com.sandfly.offlinelicenser.GitHubAppProtocolTest' --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-tests.log"
       - name: Build admin APK
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}

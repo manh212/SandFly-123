@@ -32,8 +32,8 @@ final class SyncCoordinator {
   static boolean sync(Context context, BooleanSupplier stopped) {
     IssuerStore store = new IssuerStore(context);
     try {
-      if (!OfficialInstall.verified(context) || !IssuerKeys.exists() || store.token().isEmpty()) return false;
-      CatalogPublisher publisher = new CatalogPublisher(CatalogPublisher.github(store.token()));
+      if (!OfficialInstall.verified(context) || !IssuerKeys.exists() || !store.connected()) return false;
+      CatalogPublisher publisher = new CatalogPublisher(CatalogPublisher.github(GitHubConnection.token(store)));
       String publicKey = IssuerKeys.publicKey();
       publisher.register(publicKey);
       JSONObject records = store.records();
@@ -52,7 +52,7 @@ final class SyncCoordinator {
       boolean retry = e instanceof IOException
           && (!(e instanceof CatalogPublisher.SyncException)
               || ((CatalogPublisher.SyncException) e).retryable);
-      String message = e instanceof CatalogPublisher.SyncException
+      String message = e instanceof CatalogPublisher.SyncException || e instanceof IllegalStateException
           ? e.getMessage() : "Chưa đồng bộ được GitHub. Dữ liệu vẫn được giữ trên máy.";
       try { store.status(message); } catch (Exception ignored) {}
       return retry;
