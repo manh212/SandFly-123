@@ -42,6 +42,24 @@ class LiveRecognitionActivityTest {
     RecognitionMode.entries.forEach { mode ->
       assertTrue(checkboxes.any { it.text == activity.getString(mode.label) && !it.isChecked })
     }
+    assertTrue(checkboxes.any {
+      it.text == activity.getString(R.string.live_recognition_flash) && !it.isChecked
+    })
+    assertFalse(activity.isFlashEnabled())
+    controller.pause().stop().destroy()
+  }
+
+  @Test fun standaloneFlashRequestsCameraPermissionWithoutEnablingAnyMode() {
+    val controller = Robolectric.buildActivity(LiveRecognitionActivity::class.java).setup()
+    val activity = controller.get()
+    val flash = descendants(activity.window.decorView)
+      .filterIsInstance<CheckBox>()
+      .first { it.text == activity.getString(R.string.live_recognition_flash) }
+    flash.performClick()
+    assertArrayEquals(arrayOf(Manifest.permission.CAMERA),
+      shadowOf(activity).lastRequestedPermission.requestedPermissions)
+    assertFalse(activity.isFlashEnabled())
+    assertTrue(RecognitionMode.entries.none { activity.isEnabled(it) })
     controller.pause().stop().destroy()
   }
 

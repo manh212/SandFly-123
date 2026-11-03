@@ -38,6 +38,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.CameraState
 import androidx.camera.core.ImageAnalysis
@@ -101,11 +102,15 @@ class LiveRecognitionActivity : ComponentActivity() {
   // Read by the camera thread, to encode a frame only when it can be described.
   @Volatile private var describer: FrameDescriber? = null
   private var cameraProvider: ProcessCameraProvider? = null
+  private var boundCamera: Camera? = null
   private var analysis: ImageAnalysis? = null
   private var preview: Preview? = null
   private var cameraState: LiveData<CameraState>? = null
   private lateinit var previewView: PreviewView
   private lateinit var status: TextView
+  private lateinit var flashSwitch: CheckBox
+  private var flashOn = false
+  private var pendingFlashPermission = false
   private var resumed = false
   private var dialogOpen = false
   private var pendingPermission: RecognitionMode? = null
@@ -114,10 +119,16 @@ class LiveRecognitionActivity : ComponentActivity() {
   @Volatile private var generation = 0
   private val cameraPermission = registerForActivityResult(ActivityResultContracts.RequestPermission()) { granted ->
     val mode = pendingPermission
+    val flashRequested = pendingFlashPermission
     pendingPermission = null
+    pendingFlashPermission = false
     if (granted && mode != null) {
       if (resumed) toggle(mode) else initialMode = mode
-    } else report(R.string.live_recognition_camera_permission)
+    } else if (granted && flashRequested && resumed) {
+      toggleFlash()
+    } else if (!granted) {
+      report(R.string.live_recognition_camera_permission)
+    }
   }
 
   /** While a mode is on: speaks a result that waited for speech or navigation to end. */
@@ -153,6 +164,14 @@ class LiveRecognitionActivity : ComponentActivity() {
     column.addView(previewView, LinearLayout.LayoutParams(-1, (180 * resources.displayMetrics.density).toInt()))
     status = TextView(this).apply { text = getString(R.string.live_recognition_camera_off); textSize = 20f }
     column.addView(status)
+    flashSwitch = CheckBox(this).apply {
+      text = getString(R.string.live_recognition_flash)
+      textSize = 20f
+      minHeight = (48 * resources.displayMetrics.density).toInt()
+      setOnClickListener { toggleFlash() }
+    }
+    // Flash is a standalone control, not one of the recognition modes.
+    column.addView(flashSwitch)
     RecognitionMode.entries.forEach { mode ->
       val button = CheckBox(this).apply {
         text = getString(mode.label)
@@ -198,6 +217,9 @@ class LiveRecognitionActivity : ComponentActivity() {
 
   override fun onPause() {
     resumed = false
+    flashOn = false
+    updateFlashSwitch()
+    boundCamera?.cameraControl?.enableTorch(false)
     stopRecognition()
     LiveRecognition.detach(this)
     super.onPause()
@@ -212,8 +234,59 @@ class LiveRecognitionActivity : ComponentActivity() {
     super.onDestroy()
   }
 
-  internal fun canUseRotor(): Boolean = resumed && !dialogOpen && pendingPermission == null
+  internal fun canUseRotor(): Boolean = resumed && !dialogOpen && pendingPermission == null && !pendingFlashPermission
   internal fun isEnabled(mode: RecognitionMode): Boolean = mode in enabled
+  internal fun isFlashEnabled(): Boolean = flashOn
+
+  /** A flashlight toggle independent of recognition modes and their AI settings. */
+  internal fun toggleFlash() {
+    if (!canUseRotor()) { updateFlashSwitch(); return }
+    if (flashOn) {
+      flashOn = false
+      updateFlashSwitch()
+      boundCamera?.cameraControl?.enableTorch(false)
+      if (enabled.isEmpty()) reconcile()
+      return
+    }
+    if (checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+      pendingFlashPermission = true
+      updateFlashSwitch()
+      cameraPermission.launch(Manifest.permission.CAMERA)
+      return
+    }
+    flashOn = true
+    updateFlashSwitch()
+    if (boundCamera == null && enabled.isEmpty()) reconcile() else applyTorch()
+  }
+
+  private fun updateFlashSwitch() { flashSwitch.isChecked = flashOn }
+
+  /** Torch is owned by CameraX and remains on when users switch recognition modes. */
+  private fun applyTorch() {
+    val camera = boundCamera ?: return
+    if (flashOn && !camera.cameraInfo.hasFlashUnit()) {
+      flashOn = false
+      updateFlashSwitch()
+      report(R.string.live_recognition_flash_unavailable)
+      if (enabled.isEmpty()) reconcile()
+      return
+    }
+    val operation = camera.cameraControl.enableTorch(flashOn)
+    if (flashOn) {
+      operation.addListener({
+        try {
+          operation.get()
+        } catch (error: Exception) {
+          if (!resumed || boundCamera !== camera || !flashOn) return@addListener
+          LogUtils.e(TAG, "Flash failed: %s", error.javaClass.simpleName)
+          flashOn = false
+          updateFlashSwitch()
+          report(R.string.live_recognition_flash_unavailable)
+          if (enabled.isEmpty()) reconcile()
+        }
+      }, ContextCompat.getMainExecutor(this))
+    }
+  }
 
   internal fun toggle(mode: RecognitionMode) {
     if (!canUseRotor()) { updateSwitches(); return }
@@ -302,6 +375,7 @@ class LiveRecognitionActivity : ComponentActivity() {
     describer = null
     cameraState?.removeObservers(this)
     cameraState = null
+    boundCamera = null
     analysis?.clearAnalyzer()
     val bound = listOfNotNull(preview, analysis).toTypedArray()
     if (bound.isNotEmpty()) cameraProvider?.unbind(*bound)
@@ -313,16 +387,22 @@ class LiveRecognitionActivity : ComponentActivity() {
     updateSwitches()
     handler.removeCallbacks(runningCheck)
     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    if (!resumed || enabled.isEmpty()) {
+    if (!resumed || (enabled.isEmpty() && !flashOn)) {
       loadingFeedback.stop()
       status.setText(R.string.live_recognition_camera_off)
       return
     }
-    loadingFeedback.start()
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
-    handler.post(runningCheck)
-    status.setText(R.string.live_recognition_camera_on)
-    if (enabled.any { it.usesAi }) describer = createDescriber(token)
+    if (enabled.isNotEmpty()) {
+      loadingFeedback.start()
+      handler.post(runningCheck)
+      status.setText(R.string.live_recognition_camera_on)
+      if (enabled.any { it.usesAi }) describer = createDescriber(token)
+    } else {
+      // With all modes disabled, only the camera preview/torch is active.
+      loadingFeedback.stop()
+      status.setText(R.string.live_recognition_flash_only)
+    }
     startCamera(token)
   }
 
@@ -418,8 +498,14 @@ class LiveRecognitionActivity : ComponentActivity() {
           } finally { frame.close() }
         }
         preview = newPreview
-        analysis = newAnalysis
-        val camera = provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, newPreview, newAnalysis)
+        analysis = if (enabled.isNotEmpty()) newAnalysis else null
+        val camera = if (enabled.isEmpty()) {
+          provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, newPreview)
+        } else {
+          provider.bindToLifecycle(this, CameraSelector.DEFAULT_BACK_CAMERA, newPreview, newAnalysis)
+        }
+        boundCamera = camera
+        if (flashOn) applyTorch()
         cameraState = camera.cameraInfo.cameraState
         cameraState?.observe(this) { state ->
           if (generation == token && state.error != null) {
@@ -434,7 +520,12 @@ class LiveRecognitionActivity : ComponentActivity() {
     }, ContextCompat.getMainExecutor(this))
   }
 
-  private fun cameraFailed() { stopRecognition(); report(R.string.live_recognition_camera_error) }
+  private fun cameraFailed() {
+    flashOn = false
+    updateFlashSwitch()
+    stopRecognition()
+    report(R.string.live_recognition_camera_error)
+  }
 
   private fun processFrame(bitmap: Bitmap, jpeg: String?, token: Int, capturedAt: Long) {
     fun release() { bitmap.recycle(); processing.set(false) }
@@ -465,7 +556,8 @@ class LiveRecognitionActivity : ComponentActivity() {
               reconcile()
               report(R.string.live_recognition_currency_error)
             } else {
-              currencyTracker.observe(prediction)?.let { announceResult(SOURCE_CURRENCY, it) }
+              currencyTracker.observe(prediction, SystemClock.elapsedRealtime())
+                ?.let { announceResult(SOURCE_CURRENCY, it) }
             }
           }
         }
@@ -520,7 +612,10 @@ class LiveRecognitionActivity : ComponentActivity() {
       iterator.remove()
       val age = now - result.second
       if (age <= GeminiLiveSession.MAX_RESULT_AGE_MS &&
-          announcements.shouldSpeak(source, result.first, now)) {
+          announcements.shouldSpeak(
+            source, result.first, now,
+            repeatIntervalMs = if (source == SOURCE_CURRENCY) CURRENCY_REPEAT_INTERVAL_MS
+              else RecognitionAnnouncements.REPEAT_INTERVAL_MS)) {
         LogUtils.d(TAG, "Speaking %s result, %d ms after it came", source, age)
         status.text = result.first
         speak(result.first, false)
@@ -548,6 +643,7 @@ class LiveRecognitionActivity : ComponentActivity() {
     private const val REQUEST_MAX_RESULT_AGE_MS = 30_000L
     private const val FRAME_INTERVAL_MS = 1_000L
     private const val CURRENCY_FRAME_INTERVAL_MS = 450L
+    private const val CURRENCY_REPEAT_INTERVAL_MS = CurrencyTracker.REPEAT_INTERVAL_MS
     private const val CHECK_INTERVAL_MS = 500L
     private const val JPEG_QUALITY = 70
     private const val MAX_TEXT_LENGTH = 1_200

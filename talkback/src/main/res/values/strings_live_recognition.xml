@@ -14,6 +14,9 @@
     <string translatable="false" name="live_recognition_instructions">Hướng camera sau vào thứ bạn muốn được mô tả. Với Chỉ và đọc, hãy dùng ngón tay chỉ vào văn bản trong hình ảnh camera. Mô tả có thể sai. Đừng dựa vào mô tả để di chuyển an toàn.</string>
     <string translatable="false" name="live_recognition_camera_off">Camera tắt</string>
     <string translatable="false" name="live_recognition_camera_on">Camera bật</string>
+    <string translatable="false" name="live_recognition_flash">Đèn flash</string>
+    <string translatable="false" name="live_recognition_flash_only">Đèn flash đang bật, chưa bật chế độ nhận dạng</string>
+    <string translatable="false" name="live_recognition_flash_unavailable">Không bật được đèn flash trên camera này</string>
     <string translatable="false" name="live_recognition_connecting">Đang kết nối với Gemini…</string>
     <string translatable="false" name="live_recognition_cloud_title">Gửi hình ảnh camera tới Gemini?</string>
     <string translatable="false" name="live_recognition_cloud_message">Cảnh, Chỉ và đọc, Phát hiện người và Phát hiện cửa gửi một hình ảnh từ camera tới Gemini API của Google sau mỗi vài giây. Văn bản được nhận dạng trên điện thoại này.\n\nVới khóa API miễn phí, Google có thể lưu giữ những gì nhận được, dùng để cải thiện sản phẩm và cho người xem xét. AI tạo sinh đang trong giai đoạn thử nghiệm nên sẽ mắc lỗi.</string>
