@@ -104,7 +104,8 @@ def prepareCurrencyModel = tasks.register("prepareCurrencyModel") {
 }
 android.sourceSets.main.assets.srcDir(currencyAssetDir.get().asFile)
 tasks.configureEach {
-    if (name.startsWith("merge") && name.endsWith("Assets")) {
+    if ((name.startsWith("merge") && name.endsWith("Assets")) ||
+        (name.startsWith("generate") && name.endsWith("LintModel"))) {
         dependsOn(prepareCurrencyModel)
     }
 }
