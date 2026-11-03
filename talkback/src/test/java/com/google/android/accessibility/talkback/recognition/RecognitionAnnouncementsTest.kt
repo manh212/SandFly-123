@@ -52,12 +52,15 @@ class RecognitionAnnouncementsTest {
     assertTrue(results.shouldSpeak("text", "New label", 5000))
   }
 
-  @Test fun currencyCanRepeatSoonerWithoutChangingOtherRecognitionModes() {
+  @Test fun currencyCanRepeatEverySecondWithoutChangingOtherRecognitionModes() {
     val results = RecognitionAnnouncements()
-    assertTrue(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 1000L, 5_000L))
-    assertFalse(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 5999L, 5_000L))
-    assertTrue(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 6000L, 5_000L))
+    assertTrue(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 1000L, 1_000L))
+    assertFalse(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 1999L, 1_000L))
+    assertTrue(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 2000L, 1_000L))
+    assertFalse(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 2999L, 1_000L))
+    assertTrue(results.shouldSpeak("currency", "Năm mươi nghìn đồng", 3000L, 1_000L))
     assertTrue(results.shouldSpeak("text", "Năm mươi nghìn đồng", 1000L))
+    assertFalse(results.shouldSpeak("text", "Năm mươi nghìn đồng", 3000L))
     assertFalse(results.shouldSpeak("text", "Năm mươi nghìn đồng", 6000L))
   }
 

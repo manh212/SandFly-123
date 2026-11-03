@@ -113,7 +113,7 @@ internal class CurrencyTracker {
   }
 
   companion object {
-    const val REPEAT_INTERVAL_MS = 5_000L
+    const val REPEAT_INTERVAL_MS = 1_000L
   }
 }
 

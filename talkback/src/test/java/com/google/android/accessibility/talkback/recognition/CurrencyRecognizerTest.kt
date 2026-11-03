@@ -75,14 +75,15 @@ class CurrencyRecognizerTest {
     assertEquals("Hai trăm nghìn đồng", observe(tracker, CurrencyPrediction(200000, 0.9f)))
   }
 
-  @Test fun repeatsUnchangedBanknoteAfterFiveSecondsOfStableRecognition() {
+  @Test fun repeatsUnchangedBanknoteEverySecondWhileStable() {
     val tracker = CurrencyTracker()
     val note = CurrencyPrediction(100000, 0.95f)
     assertNull(tracker.observe(note, 1_000L))
     assertEquals("Một trăm nghìn đồng", tracker.observe(note, 1_450L))
-    assertNull(tracker.observe(note, 5_999L))
-    assertEquals("Một trăm nghìn đồng", tracker.observe(note, 6_450L))
-    assertNull(tracker.observe(note, 6_900L))
+    assertNull(tracker.observe(note, 2_449L))
+    assertEquals("Một trăm nghìn đồng", tracker.observe(note, 2_450L))
+    assertNull(tracker.observe(note, 3_449L))
+    assertEquals("Một trăm nghìn đồng", tracker.observe(note, 3_450L))
   }
 
   @Test fun doesNotRepeatWhilePredictionsAreUnstable() {
