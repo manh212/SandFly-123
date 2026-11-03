@@ -125,6 +125,7 @@ public class LauncherPositionDescriptionFilterTest {
     assertFiltered("Hướng dẫn di chuyển từ Hàng 3, Cột 1 đến Hàng 4",
         "Hướng dẫn di chuyển từ Hàng 3, Cột 1 đến Hàng 4");
     assertFiltered("Hàng 3, Cột 1", "Hàng 3, Cột 1");
+    assertFiltered("Row 2, Column 4", "Row 2, Column 4");
     assertFiltered("Công việc, Hàng 2 để chuẩn bị", "Công việc, Hàng 2 để chuẩn bị");
   }
 

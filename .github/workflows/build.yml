@@ -111,6 +111,16 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v6
 
+      # Robolectric downloads 100+ MB Android runtime jars outside Gradle's own cache.
+      # Preserve them between CI runs to avoid Maven Central HTTP 429 rate limits.
+      - name: Cache Robolectric Android runtime jars
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository/org/robolectric/android-all-instrumented
+          key: robolectric-android-runtime-${{ runner.os }}-v1
+          restore-keys: |
+            robolectric-android-runtime-${{ runner.os }}-
+
       - name: Run selected unit tests
         run: |
           set -o pipefail

@@ -52,6 +52,11 @@ public final class LauncherPositionDescriptionFilter {
               + "(?:,\\s*(?:cột|column)\\s*\\d+)?"
               + "|(?:cột|column)\\s*\\d+)(?=\\s*(?:,|$))");
 
+  // A description consisting entirely of coordinates is content, not a suffix of an icon name.
+  private static final Pattern COORDINATE_ONLY =
+      Pattern.compile(
+          "(?iu)^\\s*(?:hàng|row)\\s*\\d+(?:,\\s*(?:cột|column)\\s*\\d+)?\\s*$");
+
   private LauncherPositionDescriptionFilter() {}
 
   /**
@@ -61,7 +66,8 @@ public final class LauncherPositionDescriptionFilter {
   public static CharSequence filter(
       CharSequence description, CharSequence sourcePackage, Context context) {
     if (TextUtils.isEmpty(description)
-        || !TextUtils.equals(SAMSUNG_LAUNCHER_PACKAGE, sourcePackage)) {
+        || !TextUtils.equals(SAMSUNG_LAUNCHER_PACKAGE, sourcePackage)
+        || COORDINATE_ONLY.matcher(description).matches()) {
       return description;
     }
 

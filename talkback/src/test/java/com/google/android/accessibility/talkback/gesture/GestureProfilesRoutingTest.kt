@@ -2,6 +2,7 @@ package com.google.android.accessibility.talkback.gesture
 
 import android.accessibilityservice.AccessibilityService
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.utils.FormFactorUtils
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import org.junit.After
 import org.junit.Assert.assertEquals
@@ -21,6 +22,7 @@ class GestureProfilesRoutingTest {
   private lateinit var mapping: GestureShortcutMapping
 
   @Before fun start() {
+    FormFactorUtils.initialize(context)
     prefs.edit().clear().commit()
     GestureProfiles.reset(prefs)
     AppGestures.load(prefs)
