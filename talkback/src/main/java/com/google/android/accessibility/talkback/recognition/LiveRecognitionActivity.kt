@@ -111,6 +111,7 @@ class LiveRecognitionActivity : ComponentActivity() {
   private lateinit var flashSwitch: CheckBox
   private var flashOn = false
   private var pendingFlashPermission = false
+  private var flashAfterResume = false
   private var resumed = false
   private var dialogOpen = false
   private var pendingPermission: RecognitionMode? = null
@@ -124,8 +125,8 @@ class LiveRecognitionActivity : ComponentActivity() {
     pendingFlashPermission = false
     if (granted && mode != null) {
       if (resumed) toggle(mode) else initialMode = mode
-    } else if (granted && flashRequested && resumed) {
-      toggleFlash()
+    } else if (granted && flashRequested) {
+      if (resumed) toggleFlash() else flashAfterResume = true
     } else if (!granted) {
       report(R.string.live_recognition_camera_permission)
     }
@@ -213,6 +214,10 @@ class LiveRecognitionActivity : ComponentActivity() {
     resumed = true
     LiveRecognition.attach(this)
     initialMode?.let { initialMode = null; toggle(it) }
+    if (flashAfterResume) {
+      flashAfterResume = false
+      toggleFlash()
+    }
   }
 
   override fun onPause() {
