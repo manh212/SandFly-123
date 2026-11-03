@@ -33,7 +33,16 @@ public final class LabelNodeId {
       return node.getViewIdResourceName();
     }
     int role = Role.getRole(node);
-    if (role != Role.ROLE_BUTTON && role != Role.ROLE_IMAGE_BUTTON) {
+    if (role != Role.ROLE_BUTTON
+        && role != Role.ROLE_IMAGE_BUTTON
+        && role != Role.ROLE_IMAGE) {
+      return null;
+    }
+    if (role == Role.ROLE_IMAGE
+        && !AccessibilityNodeInfoUtils.isClickable(node)
+        && !AccessibilityNodeInfoUtils.isLongClickable(node)
+        && !AccessibilityNodeInfoUtils.isFocusable(node)
+        && !node.isScreenReaderFocusable()) {
       return null;
     }
     String packageName = node.getPackageName() == null ? "" : node.getPackageName().toString();

@@ -8,6 +8,8 @@ import static org.junit.Assert.assertTrue;
 
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import org.junit.Test;
@@ -25,6 +27,88 @@ public class LabelNodeIdTest {
     node.setClickable(true);
     node.setEnabled(true);
     return AccessibilityNodeInfoCompat.wrap(node);
+  }
+
+  private static AccessibilityNodeInfoCompat zaloImage() {
+    AccessibilityNodeInfo node = AccessibilityNodeInfo.obtain();
+    node.setClassName(ImageView.class.getName());
+    node.setPackageName("com.zing.zalo");
+    node.setClickable(true);
+    node.setEnabled(true);
+    return AccessibilityNodeInfoCompat.wrap(node);
+  }
+
+  @Test
+  public void clickableZaloImageWithoutIdHasStableSyntheticResourceName() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    String id = LabelNodeId.resourceName(node);
+    assertTrue(id.startsWith("com.zing.zalo:id/sandfly_unlabeled_"));
+    assertEquals(id, LabelNodeId.resourceName(node));
+    assertFalse(LabelNodeId.hasSpokenLabel(node));
+  }
+
+  @Test
+  public void imageViewWithResourceIdKeepsOriginalId() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setViewIdResourceName("com.zing.zalo:id/icon_action");
+    assertEquals("com.zing.zalo:id/icon_action", LabelNodeId.resourceName(node));
+  }
+
+  @Test
+  public void focusableImageViewCanBeLabeledWithoutClickAction() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setClickable(false);
+    node.setFocusable(true);
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.zing.zalo:id/sandfly_unlabeled_"));
+  }
+
+  @Test
+  public void longClickableImageViewCanBeLabeled() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setClickable(false);
+    node.setLongClickable(true);
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.zing.zalo:id/sandfly_unlabeled_"));
+  }
+
+  @Test
+  public void screenReaderFocusableImageViewCanBeLabeled() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setClickable(false);
+    node.setFocusable(false);
+    node.setScreenReaderFocusable(true);
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.zing.zalo:id/sandfly_unlabeled_"));
+  }
+
+  @Test
+  public void decorativeImageViewWithoutActionHasNoSyntheticId() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setClickable(false);
+    node.setLongClickable(false);
+    node.setFocusable(false);
+    assertNull(LabelNodeId.resourceName(node));
+  }
+
+  @Test
+  public void imageLabelsDoNotLeakAcrossApplications() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    String zaloId = LabelNodeId.resourceName(node);
+    node.setPackageName("com.example.photo");
+    assertNotEquals(zaloId, LabelNodeId.resourceName(node));
+  }
+
+  @Test
+  public void labeledImageViewReportsExistingDescription() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    assertFalse(LabelNodeId.hasSpokenLabel(node));
+    node.setContentDescription("Mở ảnh");
+    assertTrue(LabelNodeId.hasSpokenLabel(node));
+  }
+
+  @Test
+  public void idlessImageButtonStillCanBeLabeled() {
+    AccessibilityNodeInfoCompat node = zaloImage();
+    node.setClassName(ImageButton.class.getName());
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.zing.zalo:id/sandfly_unlabeled_"));
   }
 
   @Test
