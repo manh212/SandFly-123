@@ -35,10 +35,7 @@ android {
   }
   sourceSets {
     main.java.srcDir('../../../activation/src/main/java')
-    test.java {
-      srcDir('../../../talkback/src/test/java/com/google/android/accessibility/talkback/licensing')
-      include '**/RecoveryProtocolTest.java', '**/CatalogPublisherTest.java'
-    }
+    test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile])
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
@@ -48,4 +45,13 @@ android {
 dependencies {
   testImplementation 'junit:junit:4.13.2'
   testImplementation 'org.json:json:20240303'
+}
+def protocolTests = tasks.register('prepareProtocolTests', Sync) {
+  from(file('../../../talkback/src/test/java/com/google/android/accessibility/talkback/licensing')) {
+    include 'RecoveryProtocolTest.java', 'CatalogPublisherTest.java'
+  }
+  into layout.buildDirectory.dir('generated/protocol-tests')
+}
+tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach {
+  if (name.contains('UnitTest')) dependsOn(protocolTests)
 }
