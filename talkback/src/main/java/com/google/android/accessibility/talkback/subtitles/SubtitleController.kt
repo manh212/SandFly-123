@@ -96,6 +96,10 @@ class SubtitleController internal constructor(
 
   fun toggle() {
     if (active) { stop(true); return }
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      announce("Giấy phép hiện tại không có tính năng nhận dạng chữ OCR.")
+      return
+    }
     if (closed) return
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
       announce(service.getString(R.string.subtitle_requires_android))
@@ -209,6 +213,10 @@ class SubtitleController internal constructor(
   }
 
   private fun captureFrame() {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      stop(false)
+      return
+    }
     if (!active || closed || capturePending) return
     if (service.getSystemService(PowerManager::class.java)?.isInteractive != true || !sameApplication()) {
       stop(false)
@@ -315,6 +323,10 @@ class SubtitleController internal constructor(
   }
 
   private fun deliverPending() {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      stop(false)
+      return
+    }
     val text = pendingText ?: return
     pendingText = null
     if (!active || !sameApplication()) { stop(false); return }

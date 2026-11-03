@@ -32,7 +32,7 @@ Select a device in the admin list to see its request, hash, private name and des
 - Revoke denies use and offers no resume action. Explicitly issue a new license to permit the device again.
 - Reissue, renew or change package creates a new signed revision. The selected duration starts when that revision is prepared for signing.
 - Create or edit named package templates by selecting AI, OCR, translation, voice input and Lua scripting. A valid issued package always includes basic screen reading. Templates are stored encrypted on the admin phone; template edits affect future issuance only. Existing feature snapshots are immutable until explicitly reissued for that device.
-- Runtime checks cover AI text, image and screen requests, ML Kit and Tesseract caption OCR, translation including automatic translation, voice input and Lua loading, dispatch and host calls. A compound action needs each involved group; for example AI translation needs translation and AI.
+- Runtime checks cover AI text, image and screen requests, ML Kit and Tesseract caption OCR, live subtitle OCR, script screenshot OCR, translation including automatic translation, voice input and Lua loading, dispatch and host calls. A compound action needs each involved group; for example AI translation needs translation and AI, and script screenshot OCR needs scripting and OCR.
 
 An outstanding change whose revision is older than GitHub cannot overwrite the newer record. Open device details, fetch the latest GitHub state and reopen the details before signing a fresh change. Unsynced older changes are replaced only by a verified newer signed revision during this explicit reconciliation.
 

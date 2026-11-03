@@ -97,6 +97,9 @@ class ScriptScreen(private val service: AccessibilityService) {
    * and its blocks, or null and why it failed.
    */
   fun recognizeText(bounds: Rect?, done: (JSONObject?, String?) -> Unit) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      return done(null, "Giấy phép hiện tại không có tính năng nhận dạng chữ OCR.")
+    }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) {
       return done(null, "Recognizing text needs Android 11 or later")
     }
@@ -104,6 +107,9 @@ class ScriptScreen(private val service: AccessibilityService) {
   }
 
   private fun capture(bounds: Rect?, retries: Int, done: (JSONObject?, String?) -> Unit) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      return done(null, "Giấy phép hiện tại không có tính năng nhận dạng chữ OCR.")
+    }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.R) return
     service.takeScreenshot(
       Display.DEFAULT_DISPLAY,
@@ -215,3 +221,4 @@ class ScriptScreen(private val service: AccessibilityService) {
       )
   }
 }
+

@@ -100,4 +100,15 @@ public final class LicensePolicyTest {
     KeyPair issuer = key();
     assertTrue(RecoveryProtocol.verify(REQUEST, RecoveryProtocol.issue(REQUEST, issuer.getPrivate(), 1000), issuer.getPublic()));
   }
+
+  @Test public void eachFeatureRequiresAnExplicitSignedGrant() throws Exception {
+    KeyPair issuer = key();
+    for (String selected : LicensePolicy.FEATURES) {
+      LicensePolicy single = new LicensePolicy(REQUEST, 1, 1000, 0, "active", "standard",
+          "custom", "Gói cá nhân", Collections.singleton(selected));
+      LicensePolicy restored = LicensePolicy.verify(REQUEST, sign(single, issuer), issuer.getPublic());
+      assertEquals("Gói cá nhân", restored.packageName);
+      for (String feature : LicensePolicy.FEATURES) assertEquals(selected.equals(feature), restored.allows(feature, 1500));
+    }
+  }
 }
