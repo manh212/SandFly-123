@@ -55,6 +55,7 @@ import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.actor.gemini.AiService
 import com.google.android.accessibility.talkback.actor.gemini.GeminiApiKey
 import com.google.android.accessibility.talkback.pause.PauseController
+import com.google.android.accessibility.utils.Performance
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.monitor.RecentUserInput
 import com.google.android.accessibility.utils.output.SpeechController
@@ -72,6 +73,21 @@ class LiveRecognitionActivity : ComponentActivity() {
   private val enabled = mutableSetOf<RecognitionMode>()
   private val switches = mutableMapOf<RecognitionMode, CheckBox>()
   private val handler = Handler(Looper.getMainLooper())
+  private val loadingFeedback = LiveRecognitionLoadingFeedback(
+    handler,
+    onSound = {
+      if (resumed && enabled.isNotEmpty() && TalkBackService.isServiceActive() && !PauseController.isPaused()) {
+        TalkBackService.getInstance()?.feedbackController?.playAuditoryWithoutHaptic(
+          R.raw.loading, Performance.EVENT_ID_UNTRACKED)
+      }
+    },
+    onVibration = {
+      if (resumed && enabled.isNotEmpty() && TalkBackService.isServiceActive() && !PauseController.isPaused()) {
+        TalkBackService.getInstance()?.feedbackController?.playHaptic(
+          R.array.loading_pattern, Performance.EVENT_ID_UNTRACKED)
+      }
+    },
+  )
   private val worker = Executors.newSingleThreadExecutor()
   private val processing = AtomicBoolean(false)
   private val announcements = RecognitionAnnouncements()
@@ -185,6 +201,7 @@ class LiveRecognitionActivity : ComponentActivity() {
   }
 
   override fun onDestroy() {
+    loadingFeedback.stop()
     describer?.close()
     if (recognizerUsed) recognizer.close()
     worker.shutdown()
@@ -287,9 +304,11 @@ class LiveRecognitionActivity : ComponentActivity() {
     handler.removeCallbacks(runningCheck)
     window.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     if (!resumed || enabled.isEmpty()) {
+      loadingFeedback.stop()
       status.setText(R.string.live_recognition_camera_off)
       return
     }
+    loadingFeedback.start()
     window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
     handler.post(runningCheck)
     status.setText(R.string.live_recognition_camera_on)
@@ -488,5 +507,36 @@ class LiveRecognitionActivity : ComponentActivity() {
     private const val JPEG_QUALITY = 70
     private const val MAX_TEXT_LENGTH = 1_200
     private const val TAG = "LiveRecognition"
+  }
+}
+
+internal class LiveRecognitionLoadingFeedback(
+  private val handler: Handler,
+  private val onSound: () -> Unit,
+  private val onVibration: () -> Unit,
+) {
+  private var active = false
+  private val repeatSound = object : Runnable {
+    override fun run() {
+      if (!active) return
+      onSound()
+      if (active) handler.postDelayed(this, REPEAT_INTERVAL_MS)
+    }
+  }
+
+  fun start() {
+    if (active) return
+    active = true
+    onVibration()
+    handler.post(repeatSound)
+  }
+
+  fun stop() {
+    active = false
+    handler.removeCallbacks(repeatSound)
+  }
+
+  companion object {
+    const val REPEAT_INTERVAL_MS = 1_440L
   }
 }
