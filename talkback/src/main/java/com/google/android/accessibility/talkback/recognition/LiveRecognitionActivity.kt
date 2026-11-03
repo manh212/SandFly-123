@@ -511,6 +511,8 @@ class LiveRecognitionActivity : ComponentActivity() {
         }
         boundCamera = camera
         if (flashOn) applyTorch()
+        // An unsupported torch can cause reconcile() to invalidate this binding.
+        if (generation != token) return@addListener
         cameraState = camera.cameraInfo.cameraState
         cameraState?.observe(this) { state ->
           if (generation == token && state.error != null) {
