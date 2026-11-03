@@ -114,11 +114,28 @@ complete natively even if GitHub's final setup-page redirect is blocked. The
 browser is opened for a result, allowing the administration activity to finish
 that browser activity after verification, without a background activity launch.
 Returning manually to the app resumes verification of encrypted pending setup.
-Polling stops when the browser closes, setup completes or the deadline expires.
+Polling stops when setup completes, is explicitly canceled or the deadline expires.
 Polling and callback paths share the same serialized verification and reject
 stale or canceled sessions. No callback installation ID grants access.
 Remove the GitHub App installation to revoke synchronization. Browser behavior
 and automatic return require testing on the owner's phone.
+
+The creation callback is also part of the authentication session. A temporary
+data-sync foreground service keeps its loopback receiver alive while the owner
+uses the browser. Pending state, port, route and deadline are saved encrypted
+before opening the browser and restored on a sticky service restart. A browser
+result callback alone does not end the session. The service notification and
+the tool provide **Hủy đăng nhập GitHub**; completion and expiry stop the service.
+No notification runtime permission is requested. OS force-stop still interrupts
+the flow and requires reopening the tool.
+
+For a blocked creation callback, **Tiếp tục từ liên kết đã sao chép** consumes
+the copied GitHub **this setup page** URL locally. It checks the loopback host,
+path, port, unexpired encrypted state and unique query parameters before sending
+only the creation code to GitHub's fixed HTTPS conversion endpoint. It never
+fetches the supplied URL. Earlier app versions lack saved endpoint metadata;
+their pending state still must match exactly. The callback URL, code and secrets
+are not included in source, status messages or logs. Expired setup must restart.
 
 Do not uninstall or clear the new administrator app. Its private signing key
 is non-exportable and cannot be recovered from GitHub. If it is lost, a new

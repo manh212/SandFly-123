@@ -1,6 +1,7 @@
 package com.sandfly.offlinelicenser;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.SystemClock;
 import java.io.ByteArrayOutputStream;
@@ -22,33 +23,94 @@ final class BrowserConnection {
   private final Context context;
   private final ServerSocket server;
   private final String route, state, base;
-  private final long deadline = SystemClock.elapsedRealtime() + 1_800_000L;
+  private final long deadline;
   private volatile boolean closed;
   private volatile boolean watching;
 
-  private BrowserConnection(Context context, JSONObject app) throws Exception {
+  private BrowserConnection(Context context, JSONObject app, JSONObject pending) throws Exception {
     this.context = context.getApplicationContext();
-    route = app.optString("route", "/" + GitHubAppProtocol.random());
-    state = GitHubAppProtocol.random();
+    long now = System.currentTimeMillis();
+    boolean restoring = BrowserSession.restorable(pending, now);
+    route = restoring ? pending.getString("route") : app.optString("route", "/" + GitHubAppProtocol.random());
+    state = restoring ? pending.getString("state") : GitHubAppProtocol.random();
+    long expires = restoring ? pending.getLong("expires") : now + BrowserSession.LIFETIME;
+    deadline = SystemClock.elapsedRealtime() + Math.max(1, expires - now);
     server = new ServerSocket();
     server.setReuseAddress(true);
-    server.bind(new InetSocketAddress(InetAddress.getByName("127.0.0.1"), app.optInt("port", 0)), 4);
-    server.setSoTimeout(1000);
-    base = "http://127.0.0.1:" + server.getLocalPort();
     try {
-      new IssuerStore(context).browser(new JSONObject().put("state", state)
-          .put("expires", System.currentTimeMillis() + 1_800_000L).put("ready", false));
+      server.bind(new InetSocketAddress(InetAddress.getByName("127.0.0.1"),
+          restoring ? pending.getInt("port") : app.optInt("port", 0)), 4);
+      server.setSoTimeout(1000);
+      base = "http://127.0.0.1:" + server.getLocalPort();
+      JSONObject session = restoring ? new JSONObject(pending.toString()) : new JSONObject();
+      session.put("state", state).put("expires", expires).put("port", server.getLocalPort()).put("route", route);
+      if (!restoring) session.put("ready", false);
+      IssuerStore store = new IssuerStore(context);
+      store.browser(session);
+      store.status(app.length() == 0 ? "Đang chờ GitHub trả mã tạo kết nối về điện thoại."
+          : "Đã lưu cấu hình kết nối. Đang chờ xác nhận quyền GitHub.");
     } catch (Exception e) { server.close(); throw e; }
   }
 
   static synchronized Uri begin(Context context) throws Exception {
     close();
-    BrowserConnection flow = new BrowserConnection(context, new IssuerStore(context).connection());
+    IssuerStore store = new IssuerStore(context);
+    BrowserConnection flow = new BrowserConnection(context, store.connection(), store.browser());
     active = flow;
-    Thread thread = new Thread(flow::listen, "meridian-browser-return");
+    try { context.startForegroundService(new Intent(context, BrowserConnectionService.class)); }
+    catch (Exception e) { close(); throw e; }
+    flow.start();
+    return Uri.parse(flow.base + flow.route + "/start");
+  }
+
+  private void start() {
+    Thread thread = new Thread(this::listen, "meridian-browser-return");
     thread.setDaemon(true);
     thread.start();
-    return Uri.parse(flow.base + flow.route + "/start");
+  }
+
+  static synchronized boolean restore(Context context) throws Exception {
+    if (active != null && !active.closed) return true;
+    IssuerStore store = new IssuerStore(context);
+    JSONObject pending = store.browser();
+    if (!BrowserSession.restorable(pending, System.currentTimeMillis())) return false;
+    active = new BrowserConnection(context, store.connection(), pending);
+    active.start();
+    watch();
+    return true;
+  }
+
+  static void stop(Context context) {
+    close();
+    context.stopService(new Intent(context, BrowserConnectionService.class));
+  }
+
+  static void cancel(Context context) throws Exception {
+    stop(context);
+    IssuerStore store = new IssuerStore(context);
+    store.browser(new JSONObject());
+    store.status("Đã hủy phiên đăng nhập GitHub.");
+  }
+
+  static Uri continueFromLink(Context context, String value) throws Exception {
+    IssuerStore store = new IssuerStore(context);
+    JSONObject pending = store.browser();
+    JSONObject callback = BrowserSession.created(value, pending, System.currentTimeMillis());
+    store.browser(pending.put("port", callback.getInt("port")).put("route", callback.getString("route")));
+    JSONObject app = convert(context, callback.getString("code"), callback.getInt("port"), callback.getString("route"));
+    begin(context);
+    return Uri.parse(installationUrl(app));
+  }
+
+  private static JSONObject convert(Context context, String code, int port, String route) throws Exception {
+    IssuerStore store = new IssuerStore(context);
+    JSONObject existing = store.connection();
+    if (existing.length() != 0) return existing;
+    JSONObject response = GitHubConnection.request("POST", "/app-manifests/" + code + "/conversions", null, new JSONObject());
+    JSONObject credentials = GitHubAppProtocol.credentials(response, port, route);
+    store.connection(credentials);
+    store.status("Đã nhận mã tạo kết nối. Hãy xác nhận quyền cho SandFly-123 trong GitHub.");
+    return credentials;
   }
 
   static synchronized void observe(MainActivity activity) {
@@ -98,7 +160,7 @@ final class BrowserConnection {
     store.browser(new JSONObject());
     store.clearLegacyToken();
     store.status("Đã kết nối GitHub. Giấy phép sẽ tự đồng bộ khi được cấp.");
-    close();
+    stop(context);
   }
 
   private void listen() {
@@ -109,10 +171,22 @@ final class BrowserConnection {
           handle(socket);
         } catch (SocketTimeoutException ignored) {
         } catch (Exception ignored) {
+          if (server.isClosed()) break;
         }
       }
     } finally {
       try { server.close(); } catch (Exception ignored) {}
+      if (!closed) SyncCoordinator.WORKER.execute(() -> {
+        synchronized (BrowserConnection.class) {
+          if (active != this) return;
+          try {
+            IssuerStore store = new IssuerStore(context);
+            store.browser(new JSONObject());
+            store.status("Phiên nhận mã GitHub đã kết thúc. Hãy đăng nhập GitHub lại.");
+          } catch (Exception ignored) {}
+          stop(context);
+        }
+      });
     }
   }
 
@@ -167,20 +241,10 @@ final class BrowserConnection {
             + "<script>document.getElementById('setup').submit()</script></html>");
       }
     } else if ((route + "/created").equals(path) && same(state, uri.getQueryParameter("state"))) {
-      String code = uri.getQueryParameter("code");
-      if (code == null || !code.matches("[A-Za-z0-9_\\-]{10,200}")) {
-        respond(socket, "400 Bad Request", null, "GitHub chưa trả về mã kết nối hợp lệ.");
-        return;
-      }
       try {
         JSONObject app = SyncCoordinator.WORKER.submit(() -> {
-          IssuerStore store = new IssuerStore(context);
-          JSONObject existing = store.connection();
-          if (existing.length() != 0) return existing;
-          JSONObject response = GitHubConnection.request("POST", "/app-manifests/" + code + "/conversions", null, new JSONObject());
-          JSONObject credentials = GitHubAppProtocol.credentials(response, server.getLocalPort(), route);
-          store.connection(credentials);
-          return credentials;
+          JSONObject callback = BrowserSession.created(uri.toString(), new IssuerStore(context).browser(), System.currentTimeMillis());
+          return convert(context, callback.getString("code"), callback.getInt("port"), callback.getString("route"));
         }).get(60, TimeUnit.SECONDS);
         redirect(socket, installationUrl(app));
       } catch (Exception e) {

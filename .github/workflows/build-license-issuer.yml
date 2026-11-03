@@ -70,6 +70,7 @@ jobs:
             --namespace io.meridian.licensing \
             --entrypoint com.sandfly.offlinelicenser.MainActivity \
             --entrypoint com.sandfly.offlinelicenser.SyncJobService \
+            --entrypoint com.sandfly.offlinelicenser.BrowserConnectionService \
             --member 'com.sandfly.offlinelicenser.MainActivity#authenticate' \
             --member 'com.sandfly.offlinelicenser.MainActivity#createKey' \
             --member 'com.sandfly.offlinelicenser.MainActivity#refresh' \

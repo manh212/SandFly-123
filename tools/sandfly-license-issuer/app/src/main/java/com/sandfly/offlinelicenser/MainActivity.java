@@ -63,6 +63,11 @@ public final class MainActivity extends ComponentActivity {
     title(column, "Kết nối GitHub");
     label(column, "Đăng nhập tài khoản manh212 một lần trong trình duyệt. Xác nhận tạo kết nối và chỉ chọn SandFly-123 khi GitHub hỏi quyền truy cập. Xong ứng dụng tự trở về và tự đồng bộ giấy phép; không cần tạo hoặc nhập token.");
     loginButton = button(column, "Đăng nhập GitHub", view -> login());
+    button(column, "Tiếp tục từ liên kết đã sao chép", view -> continueFromClipboard());
+    button(column, "Hủy đăng nhập GitHub", view -> SyncCoordinator.WORKER.execute(() -> {
+      try { BrowserConnection.cancel(getApplicationContext()); onUi(() -> loginButton.setEnabled(true)); refresh(); }
+      catch (Exception e) { error(e); }
+    }));
     button(column, "Đồng bộ lại GitHub", view -> synchronize());
     title(column, "Cấp phép thiết bị");
     requestInput = input(column, "Mã yêu cầu SFREQ2");
@@ -95,27 +100,48 @@ public final class MainActivity extends ComponentActivity {
     SyncCoordinator.WORKER.execute(() -> {
       try {
         Uri start = BrowserConnection.begin(getApplicationContext());
-        onUi(() -> {
-          try {
-            String provider = CustomTabsClient.getPackageName(this, null);
-            if (provider == null) throw new IllegalStateException();
-            CustomTabsIntent browser = new CustomTabsIntent.Builder().setShowTitle(true).build();
-            browser.intent.setPackage(provider);
-            browser.intent.setData(start);
-            startActivityForResult(browser.intent, BROWSER_REQUEST);
-            BrowserConnection.watch();
-          } catch (RuntimeException e) {
-            BrowserConnection.close();
-            loginButton.setEnabled(true);
-            state.setText("Không mở được trình duyệt. Hãy cài hoặc bật trình duyệt rồi thử lại.");
-          }
-        });
+        onUi(() -> launchBrowser(start));
       } catch (Exception e) {
         onUi(() -> {
           loginButton.setEnabled(true);
           state.setText("Chưa mở được phiên đăng nhập. Hãy đóng phiên cũ và thử lại.");
         });
       }
+    });
+  }
+
+  private void launchBrowser(Uri start) {
+    try {
+      String provider = CustomTabsClient.getPackageName(this, null);
+      if (provider == null) throw new IllegalStateException();
+      CustomTabsIntent browser = new CustomTabsIntent.Builder().setShowTitle(true).build();
+      browser.intent.setPackage(provider);
+      browser.intent.setData(start);
+      startActivityForResult(browser.intent, BROWSER_REQUEST);
+      BrowserConnection.watch();
+    } catch (RuntimeException e) {
+      BrowserConnection.stop(getApplicationContext());
+      loginButton.setEnabled(true);
+      state.setText("Không mở được trình duyệt. Hãy cài hoặc bật trình duyệt rồi thử lại.");
+    }
+  }
+
+  private void continueFromClipboard() {
+    ClipboardManager clipboard = getSystemService(ClipboardManager.class);
+    ClipData clip = clipboard == null ? null : clipboard.getPrimaryClip();
+    CharSequence value = clip == null || clip.getItemCount() == 0 ? null : clip.getItemAt(0).getText();
+    if (value == null || value.length() > 4096) {
+      state.setText("Hãy sao chép liên kết this setup page từ GitHub trước.");
+      return;
+    }
+    String link = value.toString().trim();
+    loginButton.setEnabled(false);
+    state.setText("Đang xác minh liên kết trở về từ GitHub…");
+    SyncCoordinator.WORKER.execute(() -> {
+      try {
+        Uri installation = BrowserConnection.continueFromLink(getApplicationContext(), link);
+        onUi(() -> launchBrowser(installation));
+      } catch (Exception e) { onUi(() -> loginButton.setEnabled(true)); error(e); }
     });
   }
 
@@ -322,7 +348,6 @@ public final class MainActivity extends ComponentActivity {
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == BROWSER_REQUEST) {
-      BrowserConnection.close();
       loginButton.setEnabled(true);
       resumeLogin();
       refresh();

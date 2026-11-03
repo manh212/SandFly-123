@@ -140,6 +140,49 @@ public class GitHubAppProtocolTest {
         .put("permissions", new JSONObject().put("contents", "write"));
   }
 
+  @Test public void receiverSessionPreservesPortRouteAndStateAcrossProcessRestart() throws Exception {
+    JSONObject session = browserSession();
+    JSONObject restored = new JSONObject(session.toString());
+    assertTrue(BrowserSession.restorable(restored, 1000));
+    assertEquals(session.getInt("port"), restored.getInt("port"));
+    assertEquals(session.getString("route"), restored.getString("route"));
+    assertEquals(session.getString("state"), restored.getString("state"));
+    assertFalse(BrowserSession.restorable(restored, 2000));
+    restored.put("expires", 1000 + BrowserSession.LIFETIME + 1);
+    assertFalse(BrowserSession.restorable(restored, 1000));
+    assertFalse(BrowserSession.restorable(new JSONObject(), 1000));
+  }
+
+  @Test public void copiedCreationCallbackIsBoundToEncryptedSession() throws Exception {
+    JSONObject pending = browserSession();
+    String code = "0123456789abcdef0123456789abcdef01234567";
+    String url = "http://127.0.0.1:40075" + pending.getString("route")
+        + "/created?code=" + code + "&state=" + pending.getString("state");
+    JSONObject callback = BrowserSession.created(url, pending, 1000);
+    assertEquals(code, callback.getString("code"));
+    assertEquals(40075, callback.getInt("port"));
+    assertEquals(pending.getString("route"), callback.getString("route"));
+    for (String invalid : new String[] {url.replace("127.0.0.1", "example.com"),
+        url.replace(":40075", ":40076"), url.replace("/created", "/installed"),
+        url.replace(pending.getString("route"), "/" + GitHubAppProtocol.random()),
+        url.replace(pending.getString("state"), GitHubAppProtocol.random()),
+        url + "&code=" + code, url + "&extra=1", url + "#fragment"}) {
+      assertThrows(Exception.class, () -> BrowserSession.created(invalid, pending, 1000));
+    }
+    assertThrows(Exception.class, () -> BrowserSession.created(url, pending, 2000));
+    assertThrows(Exception.class, () -> BrowserSession.created(url, new JSONObject(), 1000));
+    JSONObject oldVersion = new JSONObject(pending.toString());
+    oldVersion.remove("port");
+    oldVersion.remove("route");
+    assertEquals(code, BrowserSession.created(url, oldVersion, 1000).getString("code"));
+  }
+
+  private static JSONObject browserSession() throws Exception {
+    return new JSONObject().put("state", GitHubAppProtocol.random())
+        .put("route", "/" + GitHubAppProtocol.random()).put("port", 40075)
+        .put("expires", 2000).put("ready", false);
+  }
+
   private static JSONObject appCredentials() throws Exception {
     KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
     generator.initialize(2048);

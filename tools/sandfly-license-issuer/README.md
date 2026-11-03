@@ -34,6 +34,23 @@ HTTP-to-custom-scheme redirect. Returning manually to the app also resumes the
 same encrypted pending connection. All later uploads use the GitHub API in the
 background.
 
+A temporary data-sync foreground service owns the receiver's lifetime while the
+browser is in front. Its notification opens the tool or cancels setup; it stops
+after completion, explicit cancellation or expiry. The encrypted pending session
+includes its port, route, state and deadline, so a sticky service restart rebinds
+the original endpoint. A browser activity result alone no longer closes the
+receiver. Setup status distinguishes waiting for creation from waiting for
+installation. Android foreground-service permissions are normal manifest
+permissions; the tool does not request a notification runtime grant.
+
+If the browser cannot reach the receiver, copy its **this setup page** link,
+return to the tool and select **Tiếp tục từ liên kết đã sao chép**. This reads
+the clipboard only on that explicit action, validates the original unexpired
+state and endpoint, and exchanges the code directly with GitHub. It cannot
+complete another phone's session or accept arbitrary URLs. Old pending sessions
+without endpoint metadata require the same stored state. Expired sessions must
+be restarted. Do not publish these temporary callback links.
+
 GitHub App credentials are encrypted on the administrator phone, separate from
 the non-exportable license issuer key. Each synchronization requests a fresh,
 one-hour installation token limited to this repository and Contents: write.
