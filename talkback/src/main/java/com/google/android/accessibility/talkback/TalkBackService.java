@@ -58,6 +58,7 @@ import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.FingerprintGestureController;
 import android.accessibilityservice.FingerprintGestureController.FingerprintGestureCallback;
 import android.app.NotificationManager;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -625,6 +626,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Controller for speech feedback. */
   private SpeechControllerImpl speechController;
   private OtherScreenReaderMonitor otherScreenReaderMonitor;
+  private final StartupUiGate startupUiGate = new StartupUiGate();
   private com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController extendedGesturesController;
 
   /** Controller for diagnostic overlay (developer mode). */
@@ -2398,6 +2400,20 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     checkUnlockedBoot();
 
+    if (startupUiGate.onServiceConnected(UserManagerCompat.isUserUnlocked(this))) {
+      startStartupUi();
+    }
+
+    updateTalkBackEnabledCount();
+
+    Intent intent = new Intent(INTENT_TALKBACK_ENABLED);
+    intent.setPackage(getPackageName());
+    sendBroadcast(intent);
+
+    primesController.stopTimer(TimerAction.START_UP);
+  }
+
+  private void startStartupUi() {
     boolean shouldShowTutorial = shouldShowTutorial();
 
     if (shouldShowTutorial) {
@@ -2413,9 +2429,13 @@ public class TalkBackService extends AccessibilityServiceCompat
         // The method of requestPhonePermissionIfNeeded, which is triggered after the tutorial is
         // finished, is dependent on hasOnboardingForNewFeaturesBeenShown, so we move it at the rear
         // of markAllOnboardingAsShown.
-        startActivity(
-            new Intent(this, FirstRunActivity.class)
-                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        try {
+          startActivity(
+              new Intent(this, FirstRunActivity.class)
+                  .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        } catch (ActivityNotFoundException | SecurityException e) {
+          LogUtils.e(TAG, "Unable to start first-run tutorial: %s", e);
+        }
       }
     } else {
       if (Settings.Secure.getInt(getContentResolver(), Settings.Global.DEVICE_PROVISIONED, 1)
@@ -2429,14 +2449,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     if (shouldShowTutorial || FormFactorUtils.isAndroidTv()) {
       setFirstTimeUser(false);
     }
-
-    updateTalkBackEnabledCount();
-
-    Intent intent = new Intent(INTENT_TALKBACK_ENABLED);
-    intent.setPackage(getPackageName());
-    sendBroadcast(intent);
-
-    primesController.stopTimer(TimerAction.START_UP);
   }
 
   protected void setSupportClickableLinks(boolean supportClickableLinks) {
@@ -4687,6 +4699,9 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     startScripts();
+    if (startupUiGate.onUserUnlocked()) {
+      startStartupUi();
+    }
   }
 
   private void initializeClipboardHistory() {
