@@ -4,15 +4,23 @@ import android.content.SharedPreferences;
 import android.security.keystore.KeyGenParameterSpec;
 import android.security.keystore.KeyProperties;
 import com.google.android.accessibility.talkback.BuildConfig;
+import android.provider.Settings;
+import io.meridian.licensing.RecoveryProtocol;
 import java.security.*;
 import java.security.spec.ECGenParameterSpec;
 
-/** Grants offline permission to updater; never disables the accessibility service. */
 public final class DeviceLicenseManager {
   private static final String DEVICE_ALIAS = "sandfly.meridian.device.v1";
   private DeviceLicenseManager() {}
   public static boolean configured() {
-    return BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY.startsWith("SFPUB1.");
+    return BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY.startsWith("SFPUB1.") || recoveryConfigured();
+  }
+  public static boolean recoveryConfigured() {
+    return BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY.startsWith("SFPUB1.");
+  }
+  public static String recoveryRequest(Context context) throws Exception {
+    return RecoveryProtocol.request(context.getPackageName(),
+        Settings.Secure.getString(context.getContentResolver(), Settings.Secure.ANDROID_ID));
   }
   private static PublicKey deviceKey() throws Exception {
     KeyStore ks = KeyStore.getInstance("AndroidKeyStore");
@@ -54,6 +62,10 @@ public final class DeviceLicenseManager {
     try {
       String license = prefs(context).getString("license", "");
       if (license == null || license.isEmpty() || !ApkSignatureVerifier.isOfficial(context)) return false;
+      if (license.startsWith("SFLIC2.")) {
+        return verifiesRecovery(recoveryRequest(context), license,
+            BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY);
+      }
       return LicenseProtocol.verify(
               request(context),
               license,
@@ -69,13 +81,32 @@ public final class DeviceLicenseManager {
       throw new IllegalStateException("Bản cài đặt Meridian không có chữ ký chính thức. Hãy cài APK từ nguồn phát hành chính thức.");
     }
     if (!configured()) throw new IllegalStateException("Khóa cấp phép của nhà phát hành chưa được cấu hình");
+    if (license == null) throw new IllegalArgumentException("Chưa nhập mã kích hoạt");
+    if (license.trim().startsWith("SFLIC2.")) {
+      if (!verifiesRecovery(recoveryRequest(context), license.trim(),
+          BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY)) {
+        throw new IllegalArgumentException("Giấy phép không khớp thiết bị hoặc khóa cấp phép mới chưa được tích hợp. Hãy cài bản Meridian mới nhất.");
+      }
+      save(context, license.trim());
+      return;
+    }
     if (!LicenseProtocol.verify(
             request(context), license.trim(),
             LicenseProtocol.issuer(BuildConfig.SANDFLY_ISSUER_PUBLIC_KEY))
         || !ownsDeviceKey()) {
       throw new IllegalArgumentException("Mã hoặc định danh thiết bị không hợp lệ");
     }
-    if (!prefs(context).edit().putString("license", license.trim()).commit()) {
+    save(context, license.trim());
+  }
+  static boolean verifiesRecovery(String request, String license, String issuer) {
+    try {
+      return RecoveryProtocol.verify(request, license, RecoveryProtocol.publicKey(issuer));
+    } catch (Exception e) {
+      return false;
+    }
+  }
+  private static void save(Context context, String license) {
+    if (!prefs(context).edit().putString("license", license).commit()) {
       throw new IllegalStateException("Không lưu được giấy phép");
     }
   }

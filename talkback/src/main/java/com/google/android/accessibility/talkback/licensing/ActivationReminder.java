@@ -62,6 +62,7 @@ public final class ActivationReminder {
               return;
             }
             long remaining = deadlineElapsed - SystemClock.elapsedRealtime();
+            LicenseRecovery.start(service, false, null);
             if (remaining <= 0) {
               // Do not make notification permission a condition for expiry.
               stopCountdown();
@@ -94,6 +95,7 @@ public final class ActivationReminder {
       return;
     }
     serviceRef = new WeakReference<>(service);
+    LicenseRecovery.start(service, false, null);
     deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
     lastDialogElapsed = -PERIOD_MS;
     showNotification(service, PERIOD_MS);
@@ -115,6 +117,7 @@ public final class ActivationReminder {
 
   /** Settings may show the dialog even before the screen reader service is enabled. */
   public static void resumeSettings(Activity activity) {
+    LicenseRecovery.start(activity, false, null);
     settingsRef = new WeakReference<>(activity);
     if (dialog != null && dialogContext != activity) closeDialog();
     MAIN.postDelayed(() -> {

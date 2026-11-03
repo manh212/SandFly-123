@@ -1,9 +1,9 @@
 # Activation obfuscation
 
 Both Meridian build types enable R8 for the licensing package, including the
-device license manager, protocol verification, APK signature verification,
-activation reminder and activation screen implementation. Code outside that
-package retains the existing keep policy. The activation activity relies on
+device license manager, legacy and recovery protocol verification, APK signature verification,
+activation reminder and activation screen implementation. Code outside the
+licensing and shared protocol packages retains the existing keep policy. The activation activity relies on
 the Android component rules instead of a rule keeping all its members.
 
 Both debug and release builds of the issuer enable R8. The debug APK distributed
@@ -24,7 +24,7 @@ the APK or uploaded as public artifacts.
 Obfuscation does not encrypt string constants, public verification keys or
 network addresses, and does not make an APK impossible to modify. No issuer
 private key or account token belongs in the APK. This build change does not
-change the license format, registration behavior, APK signing identity or
-GitHub synchronization. In particular, the existing issuer still requires its
-original signing key for an in-place upgrade; do not uninstall it to install
-an APK signed by another key.
+make a modified APK impossible to run. The separate new administration app
+adds SFLIC2 and GitHub synchronization; see [Activation and recovery](activation-recovery.md).
+It has its own application ID and stable APK signing. Keep the previous issuer
+installed to retain its original private key and earlier issuance capability.

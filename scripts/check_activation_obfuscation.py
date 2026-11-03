@@ -51,6 +51,7 @@ def dex_classes(data):
 
 
 def verify(apk_path, mapping_path, namespace, entrypoints, members):
+    prefixes = tuple(name + "." for name in namespace)
     mapping = Path(mapping_path).read_text(encoding="utf-8")
     if not mapping.strip() or "compiler: R8" not in mapping:
         raise ValueError("An R8 mapping is required")
@@ -79,11 +80,11 @@ def verify(apk_path, mapping_path, namespace, entrypoints, members):
     if not set(entrypoints) <= defined:
         raise ValueError("An Android activation entry point is missing")
     protected = {name: target for name, target in class_map.items()
-                 if name.startswith(namespace + ".") and name not in entrypoints}
+                 if name.startswith(prefixes) and name not in entrypoints}
     if not protected:
         raise ValueError("No protected activation code was found in the R8 mapping")
     exposed = {name for name in defined
-               if name.startswith(namespace + ".") and name not in entrypoints}
+               if name.startswith(prefixes) and name not in entrypoints}
     if exposed:
         raise ValueError("Activation implementation class names remain in the APK: "
                          + ", ".join(sorted(exposed)))
@@ -99,7 +100,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--apk", required=True)
     parser.add_argument("--mapping", required=True)
-    parser.add_argument("--namespace", required=True)
+    parser.add_argument("--namespace", required=True, action="append")
     parser.add_argument("--entrypoint", action="append", default=[])
     parser.add_argument("--member", action="append", default=[])
     args = parser.parse_args()

@@ -1,21 +1,33 @@
-name: Build SandFly License Issuer APK
+name: Build Meridian Admin APK
 on:
   push:
     branches: [master]
     paths:
       - 'tools/sandfly-license-issuer/**'
+      - 'activation/**'
       - '.github/workflows/build-license-issuer.yml'
       - 'scripts/check_activation_obfuscation.py'
+      - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/RecoveryProtocolTest.java'
+      - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/CatalogPublisherTest.java'
   workflow_dispatch:
+
+concurrency:
+  group: meridian-admin-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  SANDFLY_CERT_SHA256: 7fde506fa8d1652fb21f1bc8f9fd98666f7a92187636340f4b95672d4068f3f8
 
 jobs:
   build:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: Install Java
         uses: actions/setup-java@v4
         with:
@@ -27,30 +39,59 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.11.1'
-      - name: Build issuer APK
+      - name: Install stable APK signing identity
+        env:
+          KEYSTORE: ${{ secrets.SANDFLY_KEYSTORE_BASE64 }}
+          SIGNING_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
+        run: |
+          test -n "$KEYSTORE" && test -n "$SIGNING_PASSWORD"
+          printf '%s' "$KEYSTORE" | base64 --decode > "$RUNNER_TEMP/meridian-admin.jks"
+          echo "SANDFLY_KEYSTORE=$RUNNER_TEMP/meridian-admin.jks" >> "$GITHUB_ENV"
+          echo "MERIDIAN_ADMIN_VERSION_CODE=$(git rev-list --count HEAD)" >> "$GITHUB_ENV"
+      - name: Test protocol and GitHub conflict handling
+        env:
+          SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
+        run: |
+          set -o pipefail
+          gradle -p tools/sandfly-license-issuer :app:testDebugUnitTest --tests 'com.google.android.accessibility.talkback.licensing.RecoveryProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.CatalogPublisherTest' --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-tests.log"
+      - name: Build admin APK
+        env:
+          SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: |
           set -o pipefail
           gradle -p tools/sandfly-license-issuer :app:assembleDebug --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-build.log"
-      - name: Verify issuer obfuscation in the APK
+      - name: Verify admin obfuscation in the APK
         run: |
           set -o pipefail
           python3 scripts/check_activation_obfuscation.py \
             --apk tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk \
             --mapping tools/sandfly-license-issuer/app/build/outputs/mapping/debug/mapping.txt \
             --namespace com.sandfly.offlinelicenser \
+            --namespace io.meridian.licensing \
             --entrypoint com.sandfly.offlinelicenser.MainActivity \
+            --entrypoint com.sandfly.offlinelicenser.SyncJobService \
             --member 'com.sandfly.offlinelicenser.MainActivity#authenticate' \
             --member 'com.sandfly.offlinelicenser.MainActivity#createKey' \
             --member 'com.sandfly.offlinelicenser.MainActivity#refresh' \
             --member 'com.sandfly.offlinelicenser.MainActivity#pendingRequest' \
             --member 'com.sandfly.offlinelicenser.MainActivity#issued' 2>&1 | tee "$RUNNER_TEMP/issuer-obfuscation.log"
+      - name: Verify stable APK signature
+        run: |
+          apksigner=$(ls -d "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -n 1)
+          "$apksigner" verify --print-certs tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk > "$RUNNER_TEMP/admin-certificate.txt"
+          grep -q "certificate SHA-256 digest: $SANDFLY_CERT_SHA256" "$RUNNER_TEMP/admin-certificate.txt"
+          cp tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk meridian-admin.apk
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: SandFly-License-Issuer-APK
-          path: tools/sandfly-license-issuer/app/build/outputs/apk/debug/app-debug.apk
+          name: Meridian-Admin-APK
+          path: meridian-admin.apk
           if-no-files-found: error
-      - name: Collect issuer failure logs
+      - name: Publish admin APK on the dev channel
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload dev meridian-admin.apk --clobber
+      - name: Collect admin failure logs
         if: always()
         run: |
           python3 - <<'PYEOF'
@@ -59,7 +100,7 @@ jobs:
           import re
           lines = []
           blocked = re.compile(r'password|secret|keystore', re.I)
-          for name in ['issuer-build.log', 'issuer-obfuscation.log']:
+          for name in ['issuer-tests.log', 'issuer-build.log', 'issuer-obfuscation.log']:
               path = Path(os.environ['RUNNER_TEMP']) / name
               if path.exists():
                   lines.append('===== ' + name + ' =====')

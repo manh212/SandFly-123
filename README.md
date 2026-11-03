@@ -27,6 +27,15 @@ There are stable releases and development builds:
 *   Stable releases are on the [releases](https://github.com/manh212/SandFly-123/releases) page, named by version, such as Meridian 0.1.0.
 *   Development builds are on the [dev release](https://github.com/manh212/SandFly-123/releases/tag/dev) page, which each change replaces. Turn on **Development builds** in Meridian settings to get them. Meridian then checks about once an hour, and offers whichever is newer, so a development build is offered the next stable release.
 
+## Device activation and recovery
+
+New device registrations can be restored automatically from signed GitHub
+records after clearing data or reinstalling on the same phone. The administrator
+uses the separate **Meridian Quản trị** app, with hardware-backed signing keys
+and an encrypted GitHub token. Existing registrations remain supported.
+See [Activation and recovery](docs/activation-recovery.md) for initial owner
+setup, migration, connectivity requirements and security limits.
+
 ## Moving an older Meridian installation
 
 An older installation may use the same Android app id, `io.github.aaron_gh.meridian`, but a different signing key. Android cannot install this build over it, so:

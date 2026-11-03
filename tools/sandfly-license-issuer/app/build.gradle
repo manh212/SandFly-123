@@ -3,11 +3,11 @@ android {
   namespace 'com.sandfly.offlinelicenser'
   compileSdk 35
   defaultConfig {
-    applicationId 'com.sandfly.offlinelicenser'
+    applicationId 'com.sandfly.offlinelicenser.v2'
     minSdk 26
     targetSdk 35
-    versionCode 1
-    versionName '1.0'
+    versionCode Integer.parseInt(System.getenv('MERIDIAN_ADMIN_VERSION_CODE') ?: '2')
+    versionName '2.0'
   }
   buildTypes {
     debug {
@@ -20,8 +20,32 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
     }
   }
+  def signingPath = System.getenv('SANDFLY_KEYSTORE')
+  if (signingPath) {
+    signingConfigs {
+      official {
+        storeFile file(signingPath)
+        storePassword System.getenv('SANDFLY_KEY_PASSWORD')
+        keyAlias 'sandfly'
+        keyPassword System.getenv('SANDFLY_KEY_PASSWORD')
+      }
+    }
+    buildTypes.debug.signingConfig = signingConfigs.official
+    buildTypes.release.signingConfig = signingConfigs.official
+  }
+  sourceSets {
+    main.java.srcDir('../../../activation/src/main/java')
+    test.java {
+      srcDir('../../../talkback/src/test/java/com/google/android/accessibility/talkback/licensing')
+      include '**/RecoveryProtocolTest.java', '**/CatalogPublisherTest.java'
+    }
+  }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
     targetCompatibility JavaVersion.VERSION_17
   }
+}
+dependencies {
+  testImplementation 'junit:junit:4.13.2'
+  testImplementation 'org.json:json:20240303'
 }

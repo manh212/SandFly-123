@@ -1,5 +1,5 @@
 -keepattributes *
--keep class !com.google.android.accessibility.talkback.licensing.** { *; }
+-keep class !com.google.android.accessibility.talkback.licensing.**,!io.meridian.licensing.** { *; }
 -repackageclasses p
 -renamesourcefileattribute SourceFile
 -dontwarn java.lang.invoke.MethodHandleProxies

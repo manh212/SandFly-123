@@ -223,6 +223,7 @@ jobs:
               --apk "$apk" \
               --mapping build/outputs/mapping/phoneDebug/mapping.txt \
               --namespace com.google.android.accessibility.talkback.licensing \
+              --namespace io.meridian.licensing \
               --entrypoint com.google.android.accessibility.talkback.licensing.ActivationActivity \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#status' \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#request' \

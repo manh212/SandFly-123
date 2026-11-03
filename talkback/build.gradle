@@ -44,6 +44,11 @@ if (localPropertiesFile.exists()) {
 }
 def geminiApiKey = localProperties.getProperty('gemini.api.key', '')
 def geminiModel = localProperties.getProperty('gemini.model', 'gemini-flash-latest')
+def distributionProfile = new groovy.json.JsonSlurper().parse(file('distribution-profile.json'))
+def recoveryPublicKey = distributionProfile.publicKey ?: ''
+if (distributionProfile.format != 2 || (recoveryPublicKey && !(recoveryPublicKey ==~ /SFPUB1\.[A-Za-z0-9_-]{60,700}/))) {
+    throw new GradleException('Invalid distribution verification profile')
+}
 
 android {
     namespace = "com.google.android.accessibility.talkback"
@@ -51,6 +56,7 @@ android {
         buildConfigField("String", "APPLICATION_ID", '"' + talkbackApplicationId + '"')
         buildConfigField("String", "GEMINI_API_KEY", '"' + geminiApiKey + '"')
         buildConfigField("String", "GEMINI_MODEL", '"' + geminiModel + '"')
+        buildConfigField("String", "SANDFLY_RECOVERY_PUBLIC_KEY", '"' + recoveryPublicKey + '"')
         // Used by the updater to compare this build with the latest development build.
         buildConfigField("String", "COMMIT_HASH", '"' + rootProject.gitCommitHash + '"')
         buildConfigField("int", "COMMIT_COUNT", String.valueOf(rootProject.gitCommitCount))
@@ -68,6 +74,7 @@ android {
     buildFeatures {
         aidl = true
     }
+    sourceSets.main.java.srcDir('../activation/src/main/java')
 }
 
 def currencyAssetDir = layout.buildDirectory.dir("generated/currency-model-assets")
