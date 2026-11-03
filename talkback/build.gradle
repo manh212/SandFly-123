@@ -75,6 +75,7 @@ android {
         aidl = true
     }
     sourceSets.main.java.srcDir('../activation/src/main/java')
+    sourceSets.main.assets.srcDir('../activation/assets')
 }
 
 def currencyAssetDir = layout.buildDirectory.dir("generated/currency-model-assets")

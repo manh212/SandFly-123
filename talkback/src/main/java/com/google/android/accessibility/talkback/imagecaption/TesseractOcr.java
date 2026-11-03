@@ -191,6 +191,7 @@ public final class TesseractOcr {
 
   @Nullable
   public static String recognizeText(Context context, Bitmap bitmap) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ocr")) return null;
     synchronized (ENGINE_LOCK) {
       try {
         if (engine == null) {
@@ -216,6 +217,7 @@ public final class TesseractOcr {
 
   @Nullable
   public static List<TextLine> recognizeSegments(Context context, Bitmap bitmap) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ocr")) return null;
     synchronized (ENGINE_LOCK) {
       try {
         if (engine == null) {

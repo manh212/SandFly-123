@@ -1,0 +1,51 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "admins": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": false
+      }
+    },
+    "requests": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).val() === true",
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('admins').child(auth.uid).val() === true)",
+        ".write": "auth != null && auth.uid === $uid && !data.exists() && !root.child('decisions').child($uid).exists() && newData.exists()",
+        ".validate": "newData.hasChildren(['request', 'name', 'description', 'createdAt'])",
+        "request": { ".validate": "newData.isString() && newData.val().matches(/^SFREQ2\\.[0-9a-f]{64}$/)" },
+        "name": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 80" },
+        "description": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 1000" },
+        "createdAt": { ".validate": "newData.isNumber() && newData.val() === now" },
+        "$other": { ".validate": false }
+      }
+    },
+    "decisions": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).val() === true",
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid",
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true && root.child('requests').child($uid).exists() && newData.exists()",
+        ".validate": "newData.hasChildren(['request', 'state', 'policy', 'decidedAt'])",
+        "request": { ".validate": "newData.val() === root.child('requests').child($uid).child('request').val()" },
+        "state": { ".validate": "newData.val() === 'approved' || newData.val() === 'rejected'" },
+        "policy": { ".validate": "newData.isString() && newData.val().length <= 2048 && (newData.parent().child('state').val() === 'rejected' || newData.val().beginsWith('SFLIC3.'))" },
+        "decidedAt": { ".validate": "newData.isNumber() && newData.val() === now" },
+        "$other": { ".validate": false }
+      }
+    },
+    "devices": {
+      ".read": "auth != null && root.child('admins').child(auth.uid).val() === true",
+      "$device": {
+        ".write": "auth != null && root.child('admins').child(auth.uid).val() === true",
+        ".validate": "$device.matches(/^[0-9a-f]{64}$/) && newData.hasChildren(['request', 'name', 'description', 'value'])",
+        "request": { ".validate": "newData.val() === 'SFREQ2.' + $device" },
+        "name": { ".validate": "newData.isString() && newData.val().length <= 80" },
+        "description": { ".validate": "newData.isString() && newData.val().length <= 1000" },
+        "value": { ".validate": "newData.isString() && newData.val().length <= 2048" },
+        "uid": { ".validate": "newData.isString() && newData.val().length <= 128" },
+        "$other": { ".validate": false }
+      }
+    }
+  }
+}

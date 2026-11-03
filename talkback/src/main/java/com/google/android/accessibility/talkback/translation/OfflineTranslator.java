@@ -154,6 +154,10 @@ public class OfflineTranslator {
   }
 
   public void translate(String text, TranslateCallback callback) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "translation")) {
+      callback.onFailure();
+      return;
+    }
     Translator client;
     synchronized (this) {
       translationsInFlight++;

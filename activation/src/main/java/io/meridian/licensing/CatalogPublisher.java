@@ -56,19 +56,28 @@ public final class CatalogPublisher {
   }
 
   public void publish(String request, String license, String publicKey) throws Exception {
-    if (!RecoveryProtocol.verify(request, license, RecoveryProtocol.publicKey(publicKey))) {
+    java.security.PublicKey issuer = RecoveryProtocol.publicKey(publicKey);
+    LicensePolicy policy = license.startsWith("SFLIC3.")
+        ? LicensePolicy.verify(request, license, issuer) : null;
+    if (policy == null && !RecoveryProtocol.verify(request, license, issuer)) {
       throw new SyncException("Không tải lên giấy phép sai chữ ký hoặc sai thiết bị.", false, false);
     }
     register(publicKey);
     String path = RecoveryProtocol.recordPath(request);
     JSONObject record = new JSONObject();
-    record.put("format", 2);
+    record.put("format", policy == null ? 2 : 3);
     record.put("value", license);
     for (int attempt = 0; attempt < 3; attempt++) {
       RemoteFile existing = client.get(path);
       if (existing != null) {
         JSONObject value = new JSONObject(existing.content);
-        if (value.optInt("format") == 2 && license.equals(value.optString("value"))) return;
+        if (license.equals(value.optString("value"))) return;
+        if (value.optInt("format") == 3) {
+          LicensePolicy previous = LicensePolicy.verify(request, value.getString("value"), issuer);
+          if (policy == null || policy.revision <= previous.revision) {
+            throw new SyncException("Giấy phép trên GitHub mới hơn. Mở thiết bị, tải trạng thái mới rồi ký lại thay đổi.", false, false);
+          }
+        }
       }
       try {
         client.put(path, record.toString(2) + "\n", existing == null ? null : existing.sha);

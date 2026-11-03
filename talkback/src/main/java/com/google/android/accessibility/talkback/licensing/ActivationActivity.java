@@ -10,6 +10,18 @@ import java.lang.ref.WeakReference;
 public final class ActivationActivity extends Activity {
   private TextView status;
   private String request;
+  private TextView enrollmentStatus;
+  private EditText fullName, description;
+  private Button submit;
+  private boolean visible, checking;
+  private final android.os.Handler handler = new android.os.Handler(android.os.Looper.getMainLooper());
+  private final Runnable poll = new Runnable() {
+    @Override public void run() {
+      if (!visible) return;
+      checkEnrollment(null, null);
+      handler.postDelayed(this, 15_000L);
+    }
+  };
   @Override public void onCreate(Bundle state) {
     super.onCreate(state);
     ScrollView outer = new ScrollView(this);
@@ -20,6 +32,17 @@ public final class ActivationActivity extends Activity {
     TextView title = new TextView(this);
     title.setText("Đăng ký Meridian"); title.setTextSize(22); layout.addView(title);
     status = new TextView(this); status.setTextSize(17); layout.addView(status);
+    fullName = new EditText(this); fullName.setHint("Họ và tên");
+    fullName.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(80)});
+    layout.addView(fullName);
+    description = new EditText(this); description.setHint("Mô tả yêu cầu đăng ký");
+    description.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+    description.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(1000)});
+    layout.addView(description);
+    enrollmentStatus = new TextView(this); layout.addView(enrollmentStatus);
+    submit = new Button(this); submit.setAllCaps(false); submit.setText("Gửi yêu cầu đăng ký");
+    submit.setOnClickListener(v -> checkEnrollment(fullName.getText().toString(), description.getText().toString()));
+    layout.addView(submit);
     TextView requestText = new TextView(this); requestText.setTextIsSelectable(true); layout.addView(requestText);
     if (ApkSignatureVerifier.isOfficial(this)) {
       try { request = DeviceLicenseManager.recoveryRequest(this); requestText.setText(request); }
@@ -39,18 +62,25 @@ public final class ActivationActivity extends Activity {
     input.setHint("Mã kích hoạt");
     layout.addView(input, new LinearLayout.LayoutParams(-1, -2));
     addButton(layout, "Xác nhận kích hoạt", v -> {
-      try { DeviceLicenseManager.activate(this, input.getText().toString()); ActivationReminder.onActivated(); input.setText(""); refresh(); }
-      catch (Exception e) { status.setText("Không thể kích hoạt: " + e.getMessage()); }
+      status.setText("Đang kiểm tra trạng thái giấy phép…");
+      LicenseRecovery.activateManual(this, input.getText().toString(), message -> {
+        if (isFinishing() || isDestroyed()) return;
+        status.setText(message); input.setText("");
+      });
     });
     refresh();
   }
   @Override protected void onResume() {
     super.onResume();
     ActivationReminder.setActivationVisible(true);
+    visible = true;
+    handler.post(poll);
     restore(false);
   }
   @Override protected void onPause() {
     ActivationReminder.setActivationVisible(false);
+    visible = false;
+    handler.removeCallbacks(poll);
     super.onPause();
   }
   private void addButton(LinearLayout layout, String title, View.OnClickListener listener) {
@@ -58,7 +88,6 @@ public final class ActivationActivity extends Activity {
     button.setOnClickListener(listener); layout.addView(button);
   }
   private void restore(boolean force) {
-    if (DeviceLicenseManager.isLicensed(this)) { refresh(); return; }
     if (!ApkSignatureVerifier.isOfficial(this)) { refresh(); return; }
     status.setText("Đang tìm giấy phép đã lưu…");
     WeakReference<ActivationActivity> reference = new WeakReference<>(this);
@@ -71,10 +100,11 @@ public final class ActivationActivity extends Activity {
           activity.refresh();
           break;
         case NOT_FOUND:
-          activity.status.setText("Chưa tìm thấy giấy phép. Hãy gửi mã yêu cầu để được cấp phép lần đầu.");
+          if (DeviceLicenseManager.isLicensed(activity)) activity.refresh();
+          else activity.status.setText("Chưa tìm thấy giấy phép đã lưu.");
           break;
         case OFFLINE:
-          activity.status.setText("Chưa kết nối được GitHub. Kết nối Internet rồi chọn Khôi phục kích hoạt.");
+          activity.status.setText(DeviceLicenseManager.status(activity) + "\nChưa kết nối được GitHub.");
           break;
         case NOT_CONFIGURED:
           activity.status.setText("Bản Meridian này chưa tích hợp khóa cấp phép mới. Hãy cài bản mới nhất sau khi quản trị viên kết nối công cụ với GitHub.");
@@ -87,7 +117,22 @@ public final class ActivationActivity extends Activity {
   private void refresh() {
     status.setText(!ApkSignatureVerifier.isOfficial(this) ? "Bản cài đặt Meridian chưa được xác thực. Vui lòng cài APK do nhà phát hành ký chính thức."
       : !DeviceLicenseManager.configured() ? "Bản dựng chưa cấu hình khóa cấp phép."
-      : DeviceLicenseManager.isLicensed(this) ? "Thiết bị đã đăng ký. Meridian sẽ tiếp tục hoạt động bình thường."
-      : "Chưa đăng ký. Trình đọc màn hình sẽ tự tắt khi hết thời gian đếm ngược 60 giây.");
+      : DeviceLicenseManager.status(this));
+  }
+  private void checkEnrollment(String name, String details) {
+    if (checking) return;
+    checking = true;
+    submit.setEnabled(false);
+    Enrollment.check(this, name, details, (message, locked, savedName, savedDescription) -> {
+      checking = false;
+      if (isFinishing() || isDestroyed()) return;
+      enrollmentStatus.setText(message);
+      if (locked) {
+        if (!fullName.getText().toString().equals(savedName)) fullName.setText(savedName);
+        if (!description.getText().toString().equals(savedDescription)) description.setText(savedDescription);
+      }
+      fullName.setEnabled(!locked); description.setEnabled(!locked); submit.setEnabled(!locked);
+      if (DeviceLicenseManager.isLicensed(this)) refresh();
+    });
   }
 }

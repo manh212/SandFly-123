@@ -19,12 +19,19 @@ final class IssuerStore {
   void status(String value) throws Exception { secrets.write("status", value); }
 
   void record(String request, String name, String license) throws Exception {
+    record(request, name, "", "", license);
+  }
+
+  void record(String request, String name, String description, String uid, String license) throws Exception {
     JSONObject records = records();
     JSONObject entry = new JSONObject();
     entry.put("request", request);
     entry.put("name", name);
+    entry.put("description", description);
+    entry.put("uid", uid);
     entry.put("value", license);
     entry.put("synced", false);
+    entry.put("privateSynced", false);
     records.put(RecoveryProtocol.deviceId(request), entry);
     secrets.write("records", records.toString());
   }
@@ -34,6 +41,52 @@ final class IssuerStore {
     JSONObject entry = records.getJSONObject(id);
     if (!entry.getString("value").equals(license)) return;
     entry.put("synced", true);
+    secrets.write("records", records.toString());
+  }
+
+  void privateSynced(String id, String license) throws Exception {
+    JSONObject records = records();
+    JSONObject entry = records.getJSONObject(id);
+    if (!entry.getString("value").equals(license)) return;
+    entry.put("privateSynced", true);
+    secrets.write("records", records.toString());
+  }
+
+  JSONObject packages() throws Exception {
+    JSONObject value = new JSONObject(secrets.read("packages", "{}"));
+    if (value.length() == 0) value.put("full", new JSONObject().put("name", "Đầy đủ tính năng")
+        .put("features", new org.json.JSONArray(io.meridian.licensing.LicensePolicy.FEATURES)));
+    return value;
+  }
+
+  void packages(JSONObject value) throws Exception { secrets.write("packages", value.toString()); }
+  String firebase() throws Exception { return secrets.read("firebase", "{}"); }
+  void firebase(String value) throws Exception { secrets.write("firebase", value); }
+
+  void importRecord(JSONObject entry) throws Exception {
+    String request = entry.getString("request");
+    String value = entry.getString("value");
+    String publicKey = IssuerKeys.publicKey();
+    if (value.startsWith("SFLIC3.")) {
+      io.meridian.licensing.LicensePolicy.verify(request, value, RecoveryProtocol.publicKey(publicKey));
+    } else if (!RecoveryProtocol.verify(request, value, RecoveryProtocol.publicKey(publicKey))) {
+      throw new IllegalArgumentException("Giấy phép không do khóa quản trị này cấp.");
+    }
+    JSONObject records = records();
+    String id = RecoveryProtocol.deviceId(request);
+    JSONObject old = records.optJSONObject(id);
+    if (old != null) {
+      String previous = old.optString("value");
+      if (previous.startsWith("SFLIC3.")) {
+        io.meridian.licensing.LicensePolicy before = io.meridian.licensing.LicensePolicy.verify(
+            request, previous, RecoveryProtocol.publicKey(publicKey));
+        if (!value.startsWith("SFLIC3.") || io.meridian.licensing.LicensePolicy.verify(
+            request, value, RecoveryProtocol.publicKey(publicKey)).revision <= before.revision) return;
+      }
+      if (!old.optBoolean("synced") && !value.startsWith("SFLIC3.")) return;
+    }
+    entry.put("synced", true).put("privateSynced", true);
+    records.put(id, entry);
     secrets.write("records", records.toString());
   }
 }

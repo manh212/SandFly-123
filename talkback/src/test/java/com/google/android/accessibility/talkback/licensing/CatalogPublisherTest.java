@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import io.meridian.licensing.CatalogPublisher;
 import io.meridian.licensing.RecoveryProtocol;
+import io.meridian.licensing.LicensePolicy;
+import java.security.Signature;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.spec.ECGenParameterSpec;
@@ -94,5 +96,29 @@ public final class CatalogPublisherTest {
         () -> publisher.register(publicKey));
     assertTrue(error.retryable);
     assertTrue(client.files.isEmpty());
+  }
+
+  @Test public void signedStateRevisionsRejectRollbackAndLegacyDowngrades() throws Exception {
+    FakeClient client = new FakeClient();
+    CatalogPublisher publisher = new CatalogPublisher(client);
+    KeyPair issuer = keyPair();
+    String publicKey = RecoveryProtocol.publicKey(issuer.getPublic());
+    String request = RecoveryProtocol.request("meridian", "123456789abcdef0");
+    Signature signer = Signature.getInstance("SHA256withECDSA");
+    signer.initSign(issuer.getPrivate());
+    String active = new LicensePolicy(request, 1, 1000, 2000, "active", "trial", "full", LicensePolicy.FEATURES).sign(signer);
+    signer.initSign(issuer.getPrivate());
+    String revoked = new LicensePolicy(request, 2, 1000, 2000, "revoked", "trial", "full", LicensePolicy.FEATURES).sign(signer);
+    publisher.publish(request, active, publicKey);
+    client.conflicts = 1;
+    publisher.publish(request, revoked, publicKey);
+    publisher.publish(request, revoked, publicKey);
+    assertThrows(CatalogPublisher.SyncException.class, () -> publisher.publish(request, active, publicKey));
+    String legacy = RecoveryProtocol.issue(request, issuer.getPrivate(), 1000);
+    assertThrows(CatalogPublisher.SyncException.class, () -> publisher.publish(request, legacy, publicKey));
+    JSONObject record = new JSONObject(client.files.get(RecoveryProtocol.recordPath(request)).content);
+    assertEquals(3, record.getInt("format"));
+    assertEquals(revoked, record.getString("value"));
+    assertEquals(2, record.length());
   }
 }

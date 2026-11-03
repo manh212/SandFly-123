@@ -42,11 +42,28 @@ final class SyncCoordinator {
         if (stopped.getAsBoolean()) return true;
         String id = ids.next();
         JSONObject entry = records.getJSONObject(id);
-        if (entry.optBoolean("synced")) continue;
-        publisher.publish(entry.getString("request"), entry.getString("value"), publicKey);
-        store.synced(id, entry.getString("value"));
+        if (!entry.optBoolean("synced")) {
+          publisher.publish(entry.getString("request"), entry.getString("value"), publicKey);
+          store.synced(id, entry.getString("value"));
+        }
       }
-      store.status("Đã đồng bộ GitHub. Lần thiết lập đầu tiên cần chờ bản Meridian mới được build xong.");
+      ids = store.records().keys();
+      while (ids.hasNext()) {
+        if (stopped.getAsBoolean()) return true;
+        String id = ids.next();
+        JSONObject entry = store.records().getJSONObject(id);
+        if (!entry.optBoolean("privateSynced")) {
+          try {
+            EnrollmentService.publish(context, id, entry);
+            store.privateSynced(id, entry.getString("value"));
+          } catch (Exception e) {
+            store.status("Đã lưu GitHub. Chưa lưu thông tin riêng hoặc gửi kết quả duyệt qua Firebase. "
+                + (e instanceof IllegalStateException ? e.getMessage() : "Sẽ tự thử lại khi có mạng."));
+            return e instanceof IOException;
+          }
+        }
+      }
+      store.status("Đã đồng bộ giấy phép lên GitHub và thông tin riêng lên Firebase.");
       return false;
     } catch (Exception e) {
       boolean retry = e instanceof IOException

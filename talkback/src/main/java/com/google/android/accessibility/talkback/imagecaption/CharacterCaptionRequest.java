@@ -68,6 +68,11 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
    */
   @Override
   public void perform() {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "ocr")) {
+      onCaptionStart();
+      onError(ERROR_TEXT_RECOGNITION_NO_RESULT);
+      return;
+    }
     onCaptionStart();
     if (useTesseract(service)) {
       recognizeWithTesseract();
@@ -136,3 +141,4 @@ public class CharacterCaptionRequest extends CaptionRequest implements OcrListen
     onCaptionFinish(Result.create(OCR, StringBuilderUtils.getAggregateText(texts)));
   }
 }
+

@@ -1,0 +1,9 @@
+{
+  "name": "meridian-enrollment-rules-tests",
+  "private": true,
+  "devDependencies": {
+    "@firebase/rules-unit-testing": "4.0.1",
+    "firebase": "11.10.0",
+    "firebase-tools": "15.34.2"
+  }
+}

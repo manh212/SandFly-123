@@ -56,6 +56,10 @@ class AiTextRequests internal constructor(
   private val prefs = SharedPreferencesUtils.getSharedPreferences(appContext)
 
   fun ask(prompt: String, json: Boolean, done: (String?, GeminiFailure?) -> Unit) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "ai")) {
+      done(null, GeminiFailure.other("Giấy phép hiện tại không có tính năng trí tuệ nhân tạo."))
+      return
+    }
     val request =
       JSONObject()
         .put(
@@ -85,6 +89,10 @@ class AiTextRequests internal constructor(
   private var imageRequestActive: AtomicBoolean? = null
 
   fun askImage(prompt: String, jpeg: ByteArray, done: (String?, GeminiFailure?) -> Unit) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "ai")) {
+      done(null, GeminiFailure.other("Giấy phép hiện tại không có tính năng trí tuệ nhân tạo."))
+      return
+    }
     imageRequestActive?.set(false)
     val active = AtomicBoolean(true)
     imageRequestActive = active
@@ -151,3 +159,4 @@ class AiTextRequests internal constructor(
       else GeminiApiKey.effectiveKey(prefs, BuildConfig.GEMINI_API_KEY)
   }
 }
+

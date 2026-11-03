@@ -35,6 +35,7 @@ android {
   }
   sourceSets {
     main.java.srcDir('../../../activation/src/main/java')
+    main.assets.srcDir('../../../activation/assets')
     test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile, 'protocol-tests'])
   }
   compileOptions {
@@ -50,7 +51,7 @@ dependencies {
 }
 def protocolTests = tasks.register('prepareProtocolTests', Sync) {
   from(file('../../../talkback/src/test/java/com/google/android/accessibility/talkback/licensing')) {
-    include 'RecoveryProtocolTest.java', 'CatalogPublisherTest.java'
+    include 'RecoveryProtocolTest.java', 'CatalogPublisherTest.java', 'LicensePolicyTest.java'
   }
   into layout.buildDirectory.dir('generated/protocol-tests')
 }

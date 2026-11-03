@@ -127,7 +127,8 @@ class LazyScriptHost(
 
   private fun update() {
     val wanted =
-      !closed && !paused && screenOn && !unavailable && !store.allOff && store.anyEnabled()
+      !closed && !paused && screenOn && !unavailable && !store.allOff && store.anyEnabled() &&
+        com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "scripts")
     val running = manager
     if (wanted && running == null) {
       start()
@@ -149,6 +150,7 @@ class LazyScriptHost(
   }
 
   override fun onAccessibilityEvent(event: AccessibilityEvent) {
+    update()
     val running = manager
     if (running != null) {
       running.onAccessibilityEvent(event)

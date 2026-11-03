@@ -86,6 +86,7 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
     flags: Int,
     release: Consumer<CharSequence?>,
   ): Boolean {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "translation")) return false
     if (queueMode and SpeechController.QUEUE_MODE_BIT_INTERRUPT != 0) dropPending()
     val plain = text.toString()
 
@@ -102,6 +103,10 @@ internal constructor(context: Context, private val engine: Engine) : SpeechContr
   }
 
   private fun process(text: CharSequence, notification: Boolean, done: (CharSequence) -> Unit) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "translation")) {
+      done(text)
+      return
+    }
     val plain = text.toString()
     var finished = false
     val timeout =

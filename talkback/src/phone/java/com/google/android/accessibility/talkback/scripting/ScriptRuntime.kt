@@ -83,6 +83,9 @@ class ScriptRuntime(
 
   @Throws(LuaEngine.ScriptError::class)
   fun load(prelude: String) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(manager.service, "scripts")) {
+      throw LuaEngine.ScriptError("Giấy phép hiện tại không có tính năng kịch bản Lua.")
+    }
     val engine = LuaEngine(this, script.has(JAVA)).also { lua = it }
     val main =
       store.readFile(id, ScriptPackage.MAIN)
@@ -94,6 +97,7 @@ class ScriptRuntime(
   }
 
   fun dispatch(type: String, data: Any?, timeLimitMs: Long = CALL_LIMIT_MS): String? {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(manager.service, "scripts")) return null
     val runtime = lua?.takeUnless { it.isClosed || manager.isClosed } ?: return null
     return try {
       val event = jsonObject("type" to type, "data" to data).toString()
@@ -162,6 +166,9 @@ class ScriptRuntime(
   override fun isOvertime(): Boolean = SystemClock.uptimeMillis() > deadline
 
   override fun call(method: String, json: String?): String? {
+    apiCheck(com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(manager.service, "scripts")) {
+      "Giấy phép hiện tại không có tính năng kịch bản Lua."
+    }
     val call = calls[method] ?: apiError("SandFly has no $method")
     call.permission?.let(::requirePermission)
     // Otherwise a script could keep Backtalk's settings from being used, or turn its own

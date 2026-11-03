@@ -29,13 +29,29 @@ final class LicenseRecovery {
 
   private LicenseRecovery() {}
 
+  static void activateManual(Context context, String value, java.util.function.Consumer<String> callback) {
+    Context app = context.getApplicationContext();
+    WORKER.execute(() -> {
+      String message;
+      try {
+        Result result = recover(app);
+        if (result == Result.RESTORED) {
+          message = DeviceLicenseManager.status(app);
+        } else if (result == Result.NOT_FOUND) {
+          DeviceLicenseManager.activate(app, value);
+          message = DeviceLicenseManager.status(app);
+        } else {
+          throw new IllegalStateException("Cần kết nối Internet để kiểm tra trạng thái khi nhập giấy phép lần đầu.");
+        }
+      } catch (Exception e) { message = e.getMessage(); }
+      String response = message;
+      MAIN.post(() -> { ActivationReminder.onPolicyChanged(); callback.accept(response); });
+    });
+  }
+
   static synchronized void start(Context context, boolean force, Callback callback) {
     Context app = context.getApplicationContext();
     if (!UserManagerCompat.isUserUnlocked(app) || !ApkSignatureVerifier.isOfficial(app)) return;
-    if (DeviceLicenseManager.isLicensed(app)) {
-      if (callback != null) callback.completed(Result.ALREADY_LICENSED);
-      return;
-    }
     if (!DeviceLicenseManager.recoveryConfigured()) {
       if (callback != null) callback.completed(Result.NOT_CONFIGURED);
       return;
@@ -62,7 +78,7 @@ final class LicenseRecovery {
           callbacks = new ArrayList<>(WAITING);
           WAITING.clear();
         }
-        if (result == Result.RESTORED) ActivationReminder.onActivated();
+        ActivationReminder.onPolicyChanged();
         for (Callback waiting : callbacks) waiting.completed(result);
       });
     });
@@ -94,13 +110,9 @@ final class LicenseRecovery {
         }
       }
       JSONObject record = new JSONObject(new String(bytes.toByteArray(), StandardCharsets.UTF_8));
-      if (record.optInt("format") != 2) return Result.INVALID;
+      if (record.optInt("format") != 2 && record.optInt("format") != 3) return Result.INVALID;
       String license = record.optString("value", "");
-      if (!DeviceLicenseManager.verifiesRecovery(request, license,
-          com.google.android.accessibility.talkback.BuildConfig.SANDFLY_RECOVERY_PUBLIC_KEY)) {
-        return Result.INVALID;
-      }
-      DeviceLicenseManager.activate(context, license);
+      DeviceLicenseManager.acceptRemote(context, license, connection.getDate());
       return Result.RESTORED;
     } catch (java.io.IOException e) {
       return Result.OFFLINE;

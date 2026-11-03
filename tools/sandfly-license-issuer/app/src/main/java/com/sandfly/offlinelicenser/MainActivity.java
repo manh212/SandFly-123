@@ -21,6 +21,7 @@ import androidx.activity.ComponentActivity;
 import androidx.browser.customtabs.CustomTabsClient;
 import androidx.browser.customtabs.CustomTabsIntent;
 import io.meridian.licensing.RecoveryProtocol;
+import io.meridian.licensing.LicensePolicy;
 import java.security.Signature;
 import java.util.Iterator;
 import org.json.JSONObject;
@@ -32,6 +33,9 @@ public final class MainActivity extends ComponentActivity {
   private EditText requestInput, nameInput;
   private Button issueButton, loginButton;
   private String pendingRequest, pendingName, issued;
+  private String pendingDescription, pendingUid;
+  private LicensePolicy pendingPolicy;
+  private AdminPanel panel;
   private boolean authBusy;
   private boolean loginCompleting;
   private CancellationSignal authentication;
@@ -72,8 +76,10 @@ public final class MainActivity extends ComponentActivity {
     title(column, "Cấp phép thiết bị");
     requestInput = input(column, "Mã yêu cầu SFREQ2");
     requestInput.setMinLines(3);
-    nameInput = input(column, "Tên người nhận, chỉ lưu trên điện thoại");
-    issueButton = button(column, "Cấp phép và lưu GitHub", view -> authenticate());
+    nameInput = input(column, "Tên người nhận");
+    panel = new AdminPanel(this);
+    issueButton = button(column, "Chọn gói và cấp phép", view -> panel.issue(
+        requestInput.getText().toString().trim(), nameInput.getText().toString().trim(), "", ""));
     licenseText = label(column, "Chưa cấp giấy phép trong phiên này.");
     licenseText.setTextIsSelectable(true);
     button(column, "Sao chép giấy phép", view -> {
@@ -82,6 +88,7 @@ public final class MainActivity extends ComponentActivity {
     });
     title(column, "Thiết bị đã cấp phép");
     deviceCount = label(column, "Đang đọc danh sách…");
+    panel.attach(column);
     label(column, "Không gỡ hoặc xóa dữ liệu công cụ này. Khóa riêng trong phần cứng không thể xuất hoặc khôi phục từ GitHub. Tệp công khai chỉ có giấy phép đã ký và định danh đã băm.");
     BrowserConnection.observe(this);
     refresh();
@@ -264,17 +271,10 @@ public final class MainActivity extends ComponentActivity {
         String status = store.status();
         JSONObject records = store.records();
         StringBuilder report = new StringBuilder("Số thiết bị: ").append(records.length());
-        Iterator<String> ids = records.keys();
-        while (ids.hasNext()) {
-          String id = ids.next();
-          JSONObject entry = records.getJSONObject(id);
-          report.append("\n").append(entry.optString("name")).append(" • ")
-              .append(id.substring(0, 12)).append(entry.optBoolean("synced")
-                  ? " • Đã lưu GitHub" : " • Chờ lưu GitHub");
-        }
         onUi(() -> {
           publicKeyText.setText(key);
           deviceCount.setText(report.toString());
+          panel.render(records);
           if (!authBusy) state.setText(status);
         });
       } catch (Exception e) { error(e); }
@@ -287,6 +287,7 @@ public final class MainActivity extends ComponentActivity {
       pendingRequest = requestInput.getText().toString().trim();
       pendingName = nameInput.getText().toString().trim();
       RecoveryProtocol.deviceId(pendingRequest);
+      if (pendingPolicy == null) throw new IllegalStateException("Chưa chọn nội dung giấy phép.");
       if (pendingName.length() > 80 || pendingName.chars().anyMatch(Character::isISOControl)) {
         throw new IllegalArgumentException("Tên người nhận không hợp lệ.");
       }
@@ -307,8 +308,8 @@ public final class MainActivity extends ComponentActivity {
         if (guard == null || !guard.isDeviceSecure()) {
           throw new IllegalStateException("Hãy đặt PIN hoặc mật khẩu điện thoại.");
         }
-        Intent intent = guard.createConfirmDeviceCredentialIntent("Xác nhận cấp phép",
-            "Ký giấy phép cho thiết bị đã chọn");
+        Intent intent = guard.createConfirmDeviceCredentialIntent(authorizationTitle(),
+            "Thiết bị " + pendingPolicy.device.substring(0, 12) + " · Gói " + pendingPolicy.packageId);
         if (intent == null) throw new IllegalStateException("Không mở được xác thực màn hình.");
         startActivityForResult(intent, AUTH_REQUEST);
       }
@@ -319,7 +320,7 @@ public final class MainActivity extends ComponentActivity {
     if (Build.VERSION.SDK_INT < 30) return;
     authentication = new CancellationSignal();
     new BiometricPrompt.Builder(this)
-        .setTitle("Xác nhận cấp phép")
+        .setTitle(authorizationTitle())
         .setSubtitle("Thiết bị " + RecoveryProtocol.deviceId(pendingRequest).substring(0, 12))
         .setAllowedAuthenticators(BiometricManager.Authenticators.BIOMETRIC_STRONG
             | BiometricManager.Authenticators.DEVICE_CREDENTIAL)
@@ -365,13 +366,23 @@ public final class MainActivity extends ComponentActivity {
   private void issue(Signature signer) {
     String request = pendingRequest;
     String name = pendingName;
+    String description = pendingDescription;
+    String uid = pendingUid;
+    LicensePolicy policy = pendingPolicy;
     SyncCoordinator.SIGNER.execute(() -> {
       try {
         Signature authenticatedSigner = signer == null ? IssuerKeys.signer() : signer;
-        String license = RecoveryProtocol.issue(request, authenticatedSigner, System.currentTimeMillis() / 1000L);
+        String license = policy.sign(authenticatedSigner);
         SyncCoordinator.WORKER.execute(() -> {
           try {
-            new IssuerStore(this).record(request, name, license);
+            IssuerStore store = new IssuerStore(this);
+            JSONObject previous = store.records().optJSONObject(RecoveryProtocol.deviceId(request));
+            if (previous != null && previous.optString("value").startsWith("SFLIC3.")) {
+              LicensePolicy old = LicensePolicy.verify(request, previous.getString("value"),
+                  RecoveryProtocol.publicKey(IssuerKeys.publicKey()));
+              if (policy.revision <= old.revision) throw new IllegalStateException("Thiết bị vừa được thay đổi. Mở lại chi tiết rồi ký lại.");
+            }
+            store.record(request, name, description, uid, license);
             onUi(() -> {
               issued = license;
               licenseText.setText(license);
@@ -391,7 +402,30 @@ public final class MainActivity extends ComponentActivity {
       authBusy = false;
       pendingRequest = null;
       pendingName = null;
+      pendingPolicy = null;
+      pendingDescription = null;
+      pendingUid = null;
       if (issueButton != null) issueButton.setEnabled(true);
     });
+  }
+
+  void preparePolicy(LicensePolicy policy, String request, String name, String description, String uid) {
+    if (authBusy) { state.setText("Hãy hoàn tất xác thực hiện tại trước."); return; }
+    panel.closeScreens();
+    pendingPolicy = policy;
+    pendingDescription = description;
+    pendingUid = uid;
+    requestInput.setText(request);
+    nameInput.setText(name);
+    authenticate();
+  }
+
+  void message(String value) { onUi(() -> state.setText(value)); }
+  void refreshPanel() { refresh(); }
+
+  private String authorizationTitle() {
+    return pendingPolicy.state.equals("revoked") ? "Xác nhận thu hồi giấy phép"
+        : pendingPolicy.state.equals("suspended") ? "Xác nhận tạm khóa thiết bị"
+        : "Xác nhận cấp phép hoặc mở lại";
   }
 }

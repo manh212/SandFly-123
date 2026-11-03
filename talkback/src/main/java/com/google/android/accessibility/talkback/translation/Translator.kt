@@ -124,6 +124,9 @@ class Translator(context: Context) {
     report: (Result) -> Unit,
   ) {
     val fail: (Kind, String) -> Unit = { kind, detail -> report(Result.Failed(TranslationFailure(kind, detail), service)) }
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(appContext, "translation")) {
+      return fail(Kind.OTHER, "Giấy phép hiện tại không có tính năng dịch văn bản.")
+    }
     if (!isSetUp(service)) return fail(Kind.NOT_SET_UP, "")
     val input = text.take(TranslationApis.MAX_TEXT)
     when (service) {

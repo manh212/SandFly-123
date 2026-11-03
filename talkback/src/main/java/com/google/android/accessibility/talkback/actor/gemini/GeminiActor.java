@@ -283,6 +283,10 @@ public class GeminiActor {
    * @param image The image to be associated with the Gemini session.
    */
   public void requestOnlineGeminiCommand(int requestId, Action action, String text, Bitmap image) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) {
+      handleImageCaptionErrorResponse(requestId, DISABLED, true);
+      return;
+    }
     if (requestIdMap.size() > REQUEST_ID_MAP_CAPACITY) {
       LogUtils.w(TAG, "The requestIdMap reaches its max capacity.");
       requestIdMap.clear();
@@ -328,6 +332,10 @@ public class GeminiActor {
    * @param request the request to be sent to Gemini.
    */
   public void requestScreenOverview(GeminiRequest request) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) {
+      handleImageCaptionErrorResponse(request.requestId(), DISABLED, true);
+      return;
+    }
     var requestId = request.requestId();
     var imageBytes = request.imageBytes();
     var focusedNode = request.focusedNode();
@@ -402,6 +410,7 @@ public class GeminiActor {
    * @param imageBytes The image to be associated with the Gemini session.
    */
   public void requestImageQna(Action action, String text, byte[] imageBytes) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) return;
     GeminiResponseListener responseListener =
         new GeminiResponseListener() {
           @Override
@@ -489,6 +498,10 @@ public class GeminiActor {
    * waits. The listener gets the answer, or an error.
    */
   public void requestText(String prompt, GeminiResponseListener listener) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) {
+      listener.onError(DISABLED);
+      return;
+    }
     GeminiResponseListener stopTones =
         new GeminiResponseListener() {
           @Override
@@ -520,6 +533,10 @@ public class GeminiActor {
    */
   public boolean requestLabelSuggestion(
       String prompt, Bitmap image, GeminiResponseListener listener) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) {
+      listener.onError(DISABLED);
+      return false;
+    }
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
     if (OnDeviceAiSettings.INSTANCE.isOnDevice(prefs)
         && !LocalModelManager.Companion.get(context).answersRequests()) {
@@ -558,6 +575,10 @@ public class GeminiActor {
    * @param manualTrigger Whether the request is triggered by user manually.
    */
   public void requestAiCoreImageCaptioning(int requestId, Bitmap image, boolean manualTrigger) {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(context, "ai")) {
+      handleImageCaptionErrorResponse(requestId, DISABLED, manualTrigger);
+      return;
+    }
     if (!manualTrigger
         && (aiCoreEndpoint.hasPendingTransaction() || geminiEndpoint.hasPendingTransaction())) {
       return;

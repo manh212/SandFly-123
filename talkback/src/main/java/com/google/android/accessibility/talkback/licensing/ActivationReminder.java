@@ -57,15 +57,18 @@ public final class ActivationReminder {
               stopCountdown();
               return;
             }
+            LicenseRecovery.start(service, false, null);
             if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
               stopCountdown();
+              schedule(PERIOD_MS);
               return;
             }
+            if (deadlineElapsed == 0L) deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
             long remaining = deadlineElapsed - SystemClock.elapsedRealtime();
-            LicenseRecovery.start(service, false, null);
             if (remaining <= 0) {
               // Do not make notification permission a condition for expiry.
               stopCountdown();
+              serviceRef.clear();
               try {
                 service.disableSelf();
               } catch (RuntimeException e) {
@@ -86,12 +89,15 @@ public final class ActivationReminder {
       };
 
   public static void startService(AccessibilityService service) {
+    serviceRef = new WeakReference<>(service);
     if (!UserManagerCompat.isUserUnlocked(service)) {
       stopCountdown();
       return;
     }
     if (!DeviceLicenseManager.configured() || DeviceLicenseManager.isLicensed(service)) {
       stopCountdown();
+      LicenseRecovery.start(service, false, null);
+      schedule(PERIOD_MS);
       return;
     }
     serviceRef = new WeakReference<>(service);
@@ -142,13 +148,27 @@ public final class ActivationReminder {
 
   /** Called after successfully storing a verified, device-bound registration. */
   public static void onActivated() {
-    stopCountdown();
+    onPolicyChanged();
+  }
+
+  static void onPolicyChanged() {
+    AccessibilityService service = serviceRef.get();
+    Context context = service == null ? settingsRef.get() : service;
+    if (context == null) return;
+    if (DeviceLicenseManager.isLicensed(context)) {
+      stopCountdown();
+      schedule(PERIOD_MS);
+    } else if (service != null) {
+      if (deadlineElapsed == 0L) deadlineElapsed = SystemClock.elapsedRealtime() + PERIOD_MS;
+      MAIN.removeCallbacks(TICK);
+      scheduled = false;
+      schedule(1_000L);
+    }
   }
 
   private static void stopCountdown() {
     AccessibilityService service = serviceRef.get();
     if (service != null) cancelNotification(service);
-    serviceRef.clear();
     deadlineElapsed = 0L;
     closeDialog();
     MAIN.removeCallbacks(TICK);

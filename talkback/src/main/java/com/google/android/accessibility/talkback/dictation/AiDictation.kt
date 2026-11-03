@@ -143,6 +143,11 @@ class AiDictation(
   fun startTranslation(node: AccessibilityNodeInfoCompat?): Boolean = startMode(node, true)
 
   private fun startMode(node: AccessibilityNodeInfoCompat?, translating: Boolean): Boolean {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "dictation")
+      || (translating && !com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "translation"))) {
+      speak("Giấy phép hiện tại không có tính năng này.")
+      return false
+    }
     when (phase) {
       Phase.RECORDING -> {
         stopRecording()
@@ -194,6 +199,10 @@ class AiDictation(
   }
 
   fun listen(callback: (String?) -> Unit): Boolean {
+    if (!com.google.android.accessibility.talkback.licensing.DeviceLicenseManager.allows(service, "dictation")) {
+      callback(null)
+      return false
+    }
     if (phase != Phase.IDLE) {
       // A dictation into a field goes on; an earlier listen stops. Either way this caller is
       // answered, or it would wait for good.
@@ -811,3 +820,4 @@ class AiDictation(
     private const val CLOSING = ".,;:!?)]}…'’”»\n"
   }
 }
+
