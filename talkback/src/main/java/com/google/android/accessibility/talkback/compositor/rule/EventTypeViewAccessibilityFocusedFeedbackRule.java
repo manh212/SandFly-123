@@ -43,6 +43,7 @@ import com.google.android.accessibility.talkback.compositor.CompositorUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
 import com.google.android.accessibility.talkback.compositor.EventInterpretation;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.compositor.LauncherPositionDescriptionFilter;
 import com.google.android.accessibility.talkback.compositor.roledescription.SamsungNotificationDescription;
 import com.google.android.accessibility.talkback.compositor.roledescription.TreeNodesDescription;
 import com.google.android.accessibility.talkback.controlsounds.ControlSounds;
@@ -299,6 +300,10 @@ public final class EventTypeViewAccessibilityFocusedFeedbackRule {
         }
       }
     }
+
+    contentDescription =
+        LauncherPositionDescriptionFilter.filter(
+            contentDescription, node.getPackageName(), context);
 
     int itemOrdinal = globalVariables.getFocusedListItemOrdinal();
     boolean speakItemOrdinal = globalVariables.getSpeakListItemOrdinals() && itemOrdinal > 0;

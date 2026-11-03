@@ -48,6 +48,7 @@ import com.google.android.accessibility.talkback.compositor.Compositor.HandleEve
 import com.google.android.accessibility.talkback.compositor.EarconFeedbackUtils;
 import com.google.android.accessibility.talkback.compositor.EventFeedback;
 import com.google.android.accessibility.talkback.compositor.GlobalVariables;
+import com.google.android.accessibility.talkback.compositor.LauncherPositionDescriptionFilter;
 import com.google.android.accessibility.talkback.compositor.WindowContentChangeAnnouncementFilter;
 import com.google.android.accessibility.talkback.compositor.roledescription.RoleDescriptionExtractor;
 import com.google.android.accessibility.talkback.compositor.roledescription.TreeNodesDescription;
@@ -167,6 +168,9 @@ public final class EventTypeWindowContentChangedFeedbackRule {
         queueMode = queueMode(liveRegionRootNode.get().getLiveRegion());
       }
     }
+
+    ttsOutput =
+        LauncherPositionDescriptionFilter.filter(ttsOutput, node.getPackageName(), context);
 
     boolean nodeNotFrequentAnnounced = true;
     if (!TextUtils.isEmpty(ttsOutput)) {

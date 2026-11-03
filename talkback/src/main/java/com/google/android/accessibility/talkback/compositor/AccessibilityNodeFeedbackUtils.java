@@ -80,7 +80,8 @@ public class AccessibilityNodeFeedbackUtils {
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
     CharSequence text =
         prepareSpans(
-            AccessibilityNodeInfoUtils.getText(node),
+            LauncherPositionDescriptionFilter.filter(
+                AccessibilityNodeInfoUtils.getText(node), node.getPackageName(), context),
             node,
             context,
             globalVariables.getPreferredLocaleByNode(node),
@@ -197,7 +198,8 @@ public class AccessibilityNodeFeedbackUtils {
   public static CharSequence getNodeContentDescription(
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
     return prepareSpans(
-        node.getContentDescription(),
+        LauncherPositionDescriptionFilter.filter(
+            node.getContentDescription(), node.getPackageName(), context),
         node,
         context,
         globalVariables.getPreferredLocaleByNode(node),
@@ -213,7 +215,8 @@ public class AccessibilityNodeFeedbackUtils {
   public static CharSequence getNodeSupplementalDescription(
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
     return prepareSpans(
-        getSupplementalDescription(node),
+        LauncherPositionDescriptionFilter.filter(
+            getSupplementalDescription(node), node.getPackageName(), context),
         node,
         context,
         globalVariables.getPreferredLocaleByNode(node),
@@ -223,8 +226,12 @@ public class AccessibilityNodeFeedbackUtils {
   /** Returns the node content and supplemental description. */
   public static CharSequence getNodeContentAndSupplementalDescription(
       AccessibilityNodeInfoCompat node, Context context, GlobalVariables globalVariables) {
-    CharSequence contentDescription = node.getContentDescription();
-    CharSequence supplementalDescription = getSupplementalDescription(node);
+    CharSequence contentDescription =
+        LauncherPositionDescriptionFilter.filter(
+            node.getContentDescription(), node.getPackageName(), context);
+    CharSequence supplementalDescription =
+        LauncherPositionDescriptionFilter.filter(
+            getSupplementalDescription(node), node.getPackageName(), context);
     // De-duplicated content and supplemental description.
     CharSequence text =
         TextUtils.equals(contentDescription, supplementalDescription)
