@@ -35,20 +35,25 @@ enum class RecognitionMode(val label: Int, val usesAi: Boolean) {
 internal class RecognitionAnnouncements {
   private val last = mutableMapOf<String, Pair<String, Long>>()
 
-  fun shouldSpeak(source: String, text: String, now: Long): Boolean {
+  fun shouldSpeak(
+    source: String,
+    text: String,
+    now: Long,
+    repeatIntervalMs: Long = REPEAT_INTERVAL_MS,
+  ): Boolean {
     val normalized = text.trim().replace(Regex("\\s+"), " ").lowercase(java.util.Locale.ROOT)
     if (normalized.isEmpty() || normalized.trimEnd('.', '!', '?') == "none") return false
     val previous = last[source]
     if (previous != null && (now - previous.second < MIN_INTERVAL_MS ||
-        (normalized == previous.first && now - previous.second < REPEAT_INTERVAL_MS))) return false
+        (normalized == previous.first && now - previous.second < repeatIntervalMs))) return false
     last[source] = normalized to now
     return true
   }
 
   fun clear() = last.clear()
 
-  private companion object {
-    const val MIN_INTERVAL_MS = 4_000L
+  companion object {
+    private const val MIN_INTERVAL_MS = 4_000L
     const val REPEAT_INTERVAL_MS = 30_000L
   }
 }

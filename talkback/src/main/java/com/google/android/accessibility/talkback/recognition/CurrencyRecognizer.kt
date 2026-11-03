@@ -75,13 +75,18 @@ internal class CurrencyTracker {
   private var consecutive = 0
   private var missing = 0
   private var spoken: Int? = null
+  private var lastSpokenAtMs = Long.MIN_VALUE
 
-  fun observe(prediction: CurrencyPrediction?): String? {
+  /** Repeat a stable denomination while it remains in the camera view. */
+  fun observe(prediction: CurrencyPrediction?, nowMs: Long): String? {
     if (prediction == null || prediction.confidence < 0.78f) {
       missing++
       candidate = null
       consecutive = 0
-      if (missing >= 3) spoken = null
+      if (missing >= 3) {
+        spoken = null
+        lastSpokenAtMs = Long.MIN_VALUE
+      }
       return null
     }
     missing = 0
@@ -91,8 +96,11 @@ internal class CurrencyTracker {
     } else {
       consecutive++
     }
-    if (consecutive < 2 || spoken == candidate) return null
+    if (consecutive < 2) return null
+    if (spoken == candidate && lastSpokenAtMs != Long.MIN_VALUE &&
+        nowMs - lastSpokenAtMs < REPEAT_INTERVAL_MS) return null
     spoken = candidate
+    lastSpokenAtMs = nowMs
     return CurrencyModelOutput.speak(prediction.denomination)
   }
 
@@ -101,6 +109,11 @@ internal class CurrencyTracker {
     consecutive = 0
     missing = 0
     spoken = null
+    lastSpokenAtMs = Long.MIN_VALUE
+  }
+
+  companion object {
+    const val REPEAT_INTERVAL_MS = 5_000L
   }
 }
 

@@ -5,6 +5,10 @@ import org.junit.Test
 
 class CurrencyRecognizerTest {
   private val order = CurrencyModelOutput.denominations
+  private var clock = 0L
+
+  private fun observe(tracker: CurrencyTracker, note: CurrencyPrediction?): String? =
+    tracker.observe(note, clock.also { clock += 450L })
 
   @Test fun acceptsChannelsFirstModelInput() {
     assertEquals(CurrencyInputLayout(640, 640, true),
@@ -63,29 +67,49 @@ class CurrencyRecognizerTest {
   @Test fun speaksOnlyAfterTwoMatchingFramesAndNotAgainForSameNote() {
     val tracker = CurrencyTracker()
     val note = CurrencyPrediction(100000, 0.94f)
-    assertNull(tracker.observe(note))
-    assertEquals("Một trăm nghìn đồng", tracker.observe(note))
-    assertNull(tracker.observe(note))
-    assertNull(tracker.observe(note))
-    assertNull(tracker.observe(CurrencyPrediction(200000, 0.84f)))
-    assertEquals("Hai trăm nghìn đồng", tracker.observe(CurrencyPrediction(200000, 0.9f)))
+    assertNull(observe(tracker, note))
+    assertEquals("Một trăm nghìn đồng", observe(tracker, note))
+    assertNull(observe(tracker, note))
+    assertNull(observe(tracker, note))
+    assertNull(observe(tracker, CurrencyPrediction(200000, 0.84f)))
+    assertEquals("Hai trăm nghìn đồng", observe(tracker, CurrencyPrediction(200000, 0.9f)))
+  }
+
+  @Test fun repeatsUnchangedBanknoteAfterFiveSecondsOfStableRecognition() {
+    val tracker = CurrencyTracker()
+    val note = CurrencyPrediction(100000, 0.95f)
+    assertNull(tracker.observe(note, 1_000L))
+    assertEquals("Một trăm nghìn đồng", tracker.observe(note, 1_450L))
+    assertNull(tracker.observe(note, 5_999L))
+    assertEquals("Một trăm nghìn đồng", tracker.observe(note, 6_450L))
+    assertNull(tracker.observe(note, 6_900L))
+  }
+
+  @Test fun doesNotRepeatWhilePredictionsAreUnstable() {
+    val tracker = CurrencyTracker()
+    val note = CurrencyPrediction(500000, 0.95f)
+    tracker.observe(note, 1_000L)
+    assertNotNull(tracker.observe(note, 1_450L))
+    assertNull(tracker.observe(null, 6_400L))
+    assertNull(tracker.observe(note, 6_450L))
+    assertEquals("Năm trăm nghìn đồng", tracker.observe(note, 6_900L))
   }
 
   @Test fun reannouncesAfterBanknoteLeavesView() {
     val tracker = CurrencyTracker()
     val note = CurrencyPrediction(50000, 0.96f)
-    tracker.observe(note)
-    assertNotNull(tracker.observe(note))
-    repeat(3) { assertNull(tracker.observe(null)) }
-    assertNull(tracker.observe(note))
-    assertEquals("Năm mươi nghìn đồng", tracker.observe(note))
+    observe(tracker, note)
+    assertNotNull(observe(tracker, note))
+    repeat(3) { assertNull(observe(tracker, null)) }
+    assertNull(observe(tracker, note))
+    assertEquals("Năm mươi nghìn đồng", observe(tracker, note))
   }
 
   @Test fun unstablePredictionsAreNeverSpoken() {
     val tracker = CurrencyTracker()
     repeat(6) {
-      assertNull(tracker.observe(CurrencyPrediction(10000, 0.91f)))
-      assertNull(tracker.observe(CurrencyPrediction(20000, 0.91f)))
+      assertNull(observe(tracker, CurrencyPrediction(10000, 0.91f)))
+      assertNull(observe(tracker, CurrencyPrediction(20000, 0.91f)))
     }
   }
 }
