@@ -18,8 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import androidx.activity.ComponentActivity;
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.browser.auth.AuthTabIntent;
+import androidx.browser.customtabs.CustomTabsClient;
+import androidx.browser.customtabs.CustomTabsIntent;
 import io.meridian.licensing.RecoveryProtocol;
 import java.security.Signature;
 import java.util.Iterator;
@@ -27,20 +27,14 @@ import org.json.JSONObject;
 
 public final class MainActivity extends ComponentActivity {
   private static final int AUTH_REQUEST = 501;
+  private static final int BROWSER_REQUEST = 502;
   private TextView state, publicKeyText, licenseText, deviceCount;
   private EditText requestInput, nameInput;
   private Button issueButton, loginButton;
   private String pendingRequest, pendingName, issued;
   private boolean authBusy;
+  private boolean loginCompleting;
   private CancellationSignal authentication;
-  private final ActivityResultLauncher<Intent> browserLauncher =
-      AuthTabIntent.registerActivityResultLauncher(this, result -> {
-        if (result.resultCode == AuthTabIntent.RESULT_OK) completeLogin(result.resultUri);
-        else {
-          if (loginButton != null) loginButton.setEnabled(true);
-          refresh();
-        }
-      });
 
   @Override public void onCreate(Bundle bundle) {
     super.onCreate(bundle);
@@ -84,6 +78,7 @@ public final class MainActivity extends ComponentActivity {
     title(column, "Thiết bị đã cấp phép");
     deviceCount = label(column, "Đang đọc danh sách…");
     label(column, "Không gỡ hoặc xóa dữ liệu công cụ này. Khóa riêng trong phần cứng không thể xuất hoặc khôi phục từ GitHub. Tệp công khai chỉ có giấy phép đã ký và định danh đã băm.");
+    BrowserConnection.observe(this);
     refresh();
     if (getIntent().getData() != null) completeLogin(getIntent().getData());
   }
@@ -102,7 +97,13 @@ public final class MainActivity extends ComponentActivity {
         Uri start = BrowserConnection.begin(getApplicationContext());
         onUi(() -> {
           try {
-            new AuthTabIntent.Builder().build().launch(browserLauncher, start, GitHubAppProtocol.RETURN_SCHEME);
+            String provider = CustomTabsClient.getPackageName(this, null);
+            if (provider == null) throw new IllegalStateException();
+            CustomTabsIntent browser = new CustomTabsIntent.Builder().setShowTitle(true).build();
+            browser.intent.setPackage(provider);
+            browser.intent.setData(start);
+            startActivityForResult(browser.intent, BROWSER_REQUEST);
+            BrowserConnection.watch();
           } catch (RuntimeException e) {
             BrowserConnection.close();
             loginButton.setEnabled(true);
@@ -119,20 +120,38 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void completeLogin(Uri uri) {
+    if (loginCompleting) return;
+    loginCompleting = true;
     getIntent().setData(null);
     SyncCoordinator.WORKER.execute(() -> {
       try {
         BrowserConnection.finish(getApplicationContext(), uri);
+        onUi(() -> finishActivity(BROWSER_REQUEST));
         SyncCoordinator.schedule(getApplicationContext());
         synchronize();
       } catch (Exception e) { error(e); }
-      finally { onUi(() -> loginButton.setEnabled(true)); }
+      finally { onUi(() -> { loginCompleting = false; loginButton.setEnabled(true); }); }
+    });
+  }
+
+  void browserReady(Uri uri) {
+    onUi(() -> completeLogin(uri));
+  }
+
+  private void resumeLogin() {
+    SyncCoordinator.WORKER.execute(() -> {
+      try { BrowserConnection.resume(getApplicationContext()); }
+      catch (Exception ignored) {}
     });
   }
 
   @Override protected void onResume() {
     super.onResume();
-    if (OfficialInstall.verified(this)) synchronize();
+    if (OfficialInstall.verified(this)) {
+      BrowserConnection.observe(this);
+      resumeLogin();
+      synchronize();
+    }
   }
 
   @Override protected void onDestroy() {
@@ -302,6 +321,13 @@ public final class MainActivity extends ComponentActivity {
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    if (requestCode == BROWSER_REQUEST) {
+      BrowserConnection.close();
+      loginButton.setEnabled(true);
+      resumeLogin();
+      refresh();
+      return;
+    }
     if (requestCode != AUTH_REQUEST) return;
     if (resultCode != RESULT_OK) {
       finishAuthentication();

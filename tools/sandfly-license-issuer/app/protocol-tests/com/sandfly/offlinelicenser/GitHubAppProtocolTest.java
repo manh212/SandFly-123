@@ -93,4 +93,58 @@ public class GitHubAppProtocolTest {
     signature.update((parts[0] + "." + parts[1]).getBytes(StandardCharsets.US_ASCII));
     assertTrue(signature.verify(Base64.getUrlDecoder().decode(parts[2])));
   }
+
+  @Test public void completionUsesVerifiedInstallationWithoutBrowserRedirect() throws Exception {
+    JSONObject app = appCredentials();
+    java.util.List<String> calls = new java.util.ArrayList<>();
+    String token = GitHubConnection.installationToken(app, (method, path, authorization, body) -> {
+      calls.add(method + " " + path);
+      assertNotNull(authorization);
+      if ("GET".equals(method)) return installation();
+      assertEquals("POST", method);
+      assertEquals("/app/installations/456/access_tokens", path);
+      assertEquals("SandFly-123", body.getJSONArray("repositories").getString(0));
+      assertEquals(1, body.getJSONArray("repositories").length());
+      assertEquals("write", body.getJSONObject("permissions").getString("contents"));
+      return new JSONObject().put("token", "ghs_example_installation_token");
+    });
+    assertEquals("ghs_example_installation_token", token);
+    assertEquals(java.util.Arrays.asList("GET /repos/manh212/SandFly-123/installation",
+        "POST /app/installations/456/access_tokens"), calls);
+  }
+
+  @Test public void completionRejectsWrongInstallationAndOfflineBeforeAcceptingConnection() throws Exception {
+    JSONObject app = appCredentials();
+    JSONObject wrongOwner = installation();
+    wrongOwner.getJSONObject("account").put("login", "someone-else");
+    JSONObject readOnly = installation();
+    readOnly.getJSONObject("permissions").put("contents", "read");
+    for (JSONObject invalid : new JSONObject[] {installation().put("app_id", 999),
+        installation().put("repository_selection", "all"), wrongOwner, readOnly}) {
+      assertThrows(IllegalStateException.class, () -> GitHubConnection.installationToken(app,
+          (method, path, authorization, body) -> {
+            assertEquals("GET", method);
+            return invalid;
+          }));
+    }
+    assertThrows(java.io.IOException.class, () -> GitHubConnection.installationToken(app,
+        (method, path, authorization, body) -> { throw new java.io.IOException("offline"); }));
+    assertThrows(IllegalStateException.class, () -> GitHubConnection.installationToken(app,
+        (method, path, authorization, body) -> "GET".equals(method) ? installation()
+            : new JSONObject().put("token", "")));
+  }
+
+  private static JSONObject installation() throws Exception {
+    return new JSONObject().put("app_id", 123).put("id", 456).put("repository_selection", "selected")
+        .put("account", new JSONObject().put("login", "manh212"))
+        .put("permissions", new JSONObject().put("contents", "write"));
+  }
+
+  private static JSONObject appCredentials() throws Exception {
+    KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+    generator.initialize(2048);
+    return new JSONObject().put("id", 123).put("pem", "-----BEGIN PRIVATE KEY-----\n"
+        + Base64.getEncoder().encodeToString(generator.generateKeyPair().getPrivate().getEncoded())
+        + "\n-----END PRIVATE KEY-----");
+  }
 }

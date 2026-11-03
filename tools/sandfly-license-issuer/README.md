@@ -24,13 +24,18 @@ GitHub credential or recipient name is committed to the public repository.
 The browser connection uses GitHub's App Manifest registration flow. The owner
 signs in, confirms creation of a private GitHub App, and installs it on only
 SandFly-123. Configuration returns directly to a temporary loopback listener
-on the phone; no hosted server or pasted token is needed. Auth Tab captures the
-final custom-scheme return and closes; older browsers use the Custom Tab
-callback to the existing administration activity. All later uploads use the
-GitHub API in the background.
+on the phone; no hosted server or pasted token is needed. A standard Custom Tab
+opens for a result in the administration activity's task. The phone checks the
+actual GitHub installation every five seconds while setup is open. Once GitHub
+confirms the owner, app, selected repository and write permission, the native
+activity finishes its browser activity and starts synchronization. Completion
+therefore does not depend on GitHub's final setup-page redirect or on a second
+HTTP-to-custom-scheme redirect. Returning manually to the app also resumes the
+same encrypted pending connection. All later uploads use the GitHub API in the
+background.
 
 GitHub App credentials are encrypted on the administrator phone, separate from
 the non-exportable license issuer key. Each synchronization requests a fresh,
 one-hour installation token limited to this repository and Contents: write.
 Registration cancellation, process termination during setup, GitHub consent,
-Auth Tab fallback and hardware-backed storage require phone testing.
+browser closure and hardware-backed storage require phone testing.

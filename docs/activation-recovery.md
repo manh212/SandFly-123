@@ -107,9 +107,18 @@ the phone; unlike the hardware license signing key, it is available in process
 memory during authentication. Unneeded client and webhook secrets are discarded.
 Installation tokens are requested with only this repository and Contents: write;
 this permission covers repository contents, not just the catalog directory.
-The app refuses an installation configured for all repositories. Remove the
-GitHub App installation to revoke synchronization. Browser behavior and automatic
-return on older browsers require testing on the owner's phone.
+The app refuses an installation configured for all repositories. While the
+temporary Custom Tab is open, it checks the actual installation every five
+seconds, within the same thirty-minute deadline. A verified installation can
+complete natively even if GitHub's final setup-page redirect is blocked. The
+browser is opened for a result, allowing the administration activity to finish
+that browser activity after verification, without a background activity launch.
+Returning manually to the app resumes verification of encrypted pending setup.
+Polling stops when the browser closes, setup completes or the deadline expires.
+Polling and callback paths share the same serialized verification and reject
+stale or canceled sessions. No callback installation ID grants access.
+Remove the GitHub App installation to revoke synchronization. Browser behavior
+and automatic return require testing on the owner's phone.
 
 Do not uninstall or clear the new administrator app. Its private signing key
 is non-exportable and cannot be recovered from GitHub. If it is lost, a new

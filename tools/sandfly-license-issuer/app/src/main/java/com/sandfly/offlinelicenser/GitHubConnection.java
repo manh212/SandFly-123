@@ -9,6 +9,9 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
 
 final class GitHubConnection {
+  interface Client {
+    JSONObject request(String method, String path, String token, JSONObject body) throws Exception;
+  }
   private GitHubConnection() {}
 
   static String token(IssuerStore store) throws Exception {
@@ -19,8 +22,12 @@ final class GitHubConnection {
   }
 
   static String installationToken(JSONObject app) throws Exception {
+    return installationToken(app, GitHubConnection::request);
+  }
+
+  static String installationToken(JSONObject app, Client client) throws Exception {
     String jwt = GitHubAppProtocol.jwt(app, System.currentTimeMillis() / 1000L);
-    JSONObject installation = request("GET", "/repos/" + GitHubAppProtocol.REPOSITORY
+    JSONObject installation = client.request("GET", "/repos/" + GitHubAppProtocol.REPOSITORY
         + "/installation", jwt, null);
     if (installation.getLong("app_id") != app.getLong("id")
         || !"manh212".equals(installation.getJSONObject("account").getString("login"))
@@ -28,7 +35,7 @@ final class GitHubConnection {
         || !"write".equals(installation.getJSONObject("permissions").optString("contents"))) {
       throw new IllegalStateException("Hãy chọn riêng SandFly-123 khi cấp quyền GitHub.");
     }
-    JSONObject result = request("POST", "/app/installations/" + installation.getLong("id")
+    JSONObject result = client.request("POST", "/app/installations/" + installation.getLong("id")
         + "/access_tokens", jwt, GitHubAppProtocol.tokenRequest());
     String token = result.getString("token");
     if (token.isEmpty() || token.length() > 16384 || token.chars().anyMatch(Character::isWhitespace)) {

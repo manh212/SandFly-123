@@ -12,16 +12,19 @@ import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
+import java.lang.ref.WeakReference;
 import java.util.concurrent.TimeUnit;
 import org.json.JSONObject;
 
 final class BrowserConnection {
   private static BrowserConnection active;
+  private static WeakReference<MainActivity> observer = new WeakReference<>(null);
   private final Context context;
   private final ServerSocket server;
   private final String route, state, base;
   private final long deadline = SystemClock.elapsedRealtime() + 1_800_000L;
   private volatile boolean closed;
+  private volatile boolean watching;
 
   private BrowserConnection(Context context, JSONObject app) throws Exception {
     this.context = context.getApplicationContext();
@@ -46,6 +49,36 @@ final class BrowserConnection {
     thread.setDaemon(true);
     thread.start();
     return Uri.parse(flow.base + flow.route + "/start");
+  }
+
+  static synchronized void observe(MainActivity activity) {
+    observer = new WeakReference<>(activity);
+  }
+
+  static synchronized void watch() {
+    if (active == null || active.watching) return;
+    active.watching = true;
+    Thread thread = new Thread(active::watchInstallation, "meridian-installation-check");
+    thread.setDaemon(true);
+    thread.start();
+  }
+
+  private static synchronized void completed(String state) {
+    MainActivity activity = observer.get();
+    if (activity != null) activity.browserReady(Uri.parse(GitHubAppProtocol.RETURN_URI + "?state=" + state));
+  }
+
+  static void resume(Context context) throws Exception {
+    IssuerStore store = new IssuerStore(context);
+    JSONObject pending = store.browser();
+    if (pending.optLong("expires") < System.currentTimeMillis()) return;
+    String state = pending.optString("state");
+    if (!state.matches("[A-Za-z0-9_-]{43}") || store.connection().length() == 0) return;
+    if (!pending.optBoolean("ready")) {
+      GitHubConnection.installationToken(store.connection());
+      store.browser(pending.put("ready", true));
+    }
+    completed(state);
   }
 
   static synchronized void close() {
@@ -83,6 +116,24 @@ final class BrowserConnection {
     }
   }
 
+  private void watchInstallation() {
+    while (!closed && SystemClock.elapsedRealtime() < deadline) {
+      try { Thread.sleep(5000); }
+      catch (InterruptedException e) { Thread.currentThread().interrupt(); return; }
+      if (closed) return;
+      try {
+        boolean available = SyncCoordinator.WORKER.submit(() -> {
+          if (closed || new IssuerStore(context).connection().length() == 0) return false;
+          markReady();
+          return true;
+        }).get(45, TimeUnit.SECONDS);
+        if (available && !closed) {
+          completed(state);
+        }
+      } catch (Exception ignored) {}
+    }
+  }
+
   private void handle(Socket socket) throws Exception {
     InputStream input = socket.getInputStream();
     String[] first = line(input).split(" ");
@@ -105,7 +156,7 @@ final class BrowserConnection {
       if (app.length() != 0) {
         try {
           ready();
-          redirect(socket, GitHubAppProtocol.RETURN_URI + "?state=" + state);
+          returnToApp(socket);
         } catch (Exception e) { redirect(socket, installationUrl(app)); }
       } else {
         String manifest = GitHubAppProtocol.manifest(base, route).toString();
@@ -138,7 +189,7 @@ final class BrowserConnection {
     } else if ((route + "/installed").equals(path)) {
       try {
         ready();
-        redirect(socket, GitHubAppProtocol.RETURN_URI + "?state=" + state);
+        returnToApp(socket);
       } catch (Exception e) {
         respond(socket, "200 OK", null, "<!doctype html><html lang=\"vi\"><meta charset=\"utf-8\">"
             + "<p>Chưa xác nhận được quyền. Hãy chọn riêng SandFly-123 hoặc kiểm tra kết nối mạng.</p>"
@@ -151,15 +202,30 @@ final class BrowserConnection {
 
   private void ready() throws Exception {
     SyncCoordinator.WORKER.submit(() -> {
-      IssuerStore store = new IssuerStore(context);
-      GitHubConnection.installationToken(store.connection());
-      JSONObject pending = store.browser();
-      if (!same(state, pending.optString("state")) || pending.optLong("expires") < System.currentTimeMillis()) {
-        throw new IllegalStateException();
-      }
-      store.browser(pending.put("ready", true));
+      markReady();
       return true;
     }).get(60, TimeUnit.SECONDS);
+  }
+
+  private void markReady() throws Exception {
+    if (closed) throw new IllegalStateException();
+    IssuerStore store = new IssuerStore(context);
+    JSONObject pending = store.browser();
+    if (!same(state, pending.optString("state")) || pending.optLong("expires") < System.currentTimeMillis()) {
+      throw new IllegalStateException();
+    }
+    if (pending.optBoolean("ready")) return;
+    GitHubConnection.installationToken(store.connection());
+    if (closed) throw new IllegalStateException();
+    store.browser(pending.put("ready", true));
+  }
+
+  private void returnToApp(Socket socket) throws Exception {
+    completed(state);
+    respond(socket, "200 OK", null, "<!doctype html><html lang=\"vi\"><meta charset=\"utf-8\">"
+        + "<title>Đã kết nối GitHub</title><p>Đã kết nối. Ứng dụng đang tự đồng bộ.</p>"
+        + "<a href=\"" + GitHubAppProtocol.RETURN_URI + "?state=" + state
+        + "\">Trở về Meridian Quản trị</a></html>");
   }
 
   private static String installationUrl(JSONObject app) throws Exception {
