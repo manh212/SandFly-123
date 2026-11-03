@@ -58,6 +58,7 @@ internal object GeminiLiveProtocol {
         RecognitionMode.DOORS -> "Doors: describe visible doors, left/center/right, open or closed if clear, handles and readable signs. Do not give directions to approach or open them."
         RecognitionMode.POINT_AND_SPEAK -> "Point and Speak: only if an actual pointing index finger is visible, read the text immediately ${if (pointAbove) "above" else "below"} its fingertip. If the target is ambiguous or unreadable, say NONE for this mode."
         RecognitionMode.TEXT -> null // OCR never needs to leave the phone.
+        RecognitionMode.CURRENCY -> null
       }
     }.joinToString(" ")
   }
@@ -79,6 +80,7 @@ internal object GeminiLiveProtocol {
         RecognitionMode.DOORS -> "Is there a door in this image? Where is it, and is it open?"
         RecognitionMode.POINT_AND_SPEAK -> "What text is ${if (pointAbove) "above" else "below"} the pointing finger?"
         RecognitionMode.TEXT -> null
+        RecognitionMode.CURRENCY -> null
       }
     }.joinToString(" ")
     return "$questions Answer in one short sentence, in $language."
