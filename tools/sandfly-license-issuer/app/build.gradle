@@ -35,7 +35,7 @@ android {
   }
   sourceSets {
     main.java.srcDir('../../../activation/src/main/java')
-    test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile, 'src/test/java'])
+    test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile, 'protocol-tests'])
   }
   compileOptions {
     sourceCompatibility JavaVersion.VERSION_17
