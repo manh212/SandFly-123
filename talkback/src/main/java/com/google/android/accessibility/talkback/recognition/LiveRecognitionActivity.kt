@@ -388,12 +388,13 @@ class LiveRecognitionActivity : ComponentActivity() {
           .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST).build()
         val text = RecognitionMode.TEXT in enabled
         val currency = RecognitionMode.CURRENCY in enabled
+        val captureInterval = if (enabled.size == 1 && currency) CURRENCY_FRAME_INTERVAL_MS else FRAME_INTERVAL_MS
         var lastFrame = -FRAME_INTERVAL_MS
         newAnalysis.setAnalyzer(worker) { frame ->
           val now = SystemClock.elapsedRealtime()
           // Gemini takes a frame every few seconds at most, so most frames are only read for text.
           val ai = describer?.canRequest() == true
-          if (generation != token || now - lastFrame < FRAME_INTERVAL_MS ||
+          if (generation != token || now - lastFrame < captureInterval ||
               !(text || ai || currency) || !processing.compareAndSet(false, true)) {
             frame.close()
             return@setAnalyzer
@@ -546,6 +547,7 @@ class LiveRecognitionActivity : ComponentActivity() {
     /** How old an answer from the on-device model or an AI service can be when it comes. */
     private const val REQUEST_MAX_RESULT_AGE_MS = 30_000L
     private const val FRAME_INTERVAL_MS = 1_000L
+    private const val CURRENCY_FRAME_INTERVAL_MS = 450L
     private const val CHECK_INTERVAL_MS = 500L
     private const val JPEG_QUALITY = 70
     private const val MAX_TEXT_LENGTH = 1_200

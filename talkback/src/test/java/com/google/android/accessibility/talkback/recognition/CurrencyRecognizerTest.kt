@@ -6,6 +6,21 @@ import org.junit.Test
 class CurrencyRecognizerTest {
   private val order = CurrencyModelOutput.denominations
 
+  @Test fun acceptsChannelsFirstModelInput() {
+    assertEquals(CurrencyInputLayout(640, 640, true),
+      CurrencyInputLayout.from(intArrayOf(1, 3, 640, 640)))
+  }
+
+  @Test fun acceptsChannelsLastModelInput() {
+    assertEquals(CurrencyInputLayout(320, 224, false),
+      CurrencyInputLayout.from(intArrayOf(1, 224, 320, 3)))
+  }
+
+  @Test(expected = IllegalArgumentException::class)
+  fun rejectsInvalidImageTensor() {
+    CurrencyInputLayout.from(intArrayOf(1, 4, 640, 640))
+  }
+
   @Test fun supportsAllNineRoboflowDenominations() {
     assertArrayEquals(intArrayOf(1000, 10000, 100000, 2000, 20000, 200000, 5000, 50000, 500000), order)
     assertEquals("Năm trăm nghìn đồng", CurrencyModelOutput.speak(500000))

@@ -69,3 +69,42 @@ android {
         aidl = true
     }
 }
+
+def currencyAssetDir = layout.buildDirectory.dir("generated/currency-model-assets")
+def currencyModelFile = currencyAssetDir.map { it.file("vn_currency_yolo11n.tflite") }
+def currencySourceCommit = "2c46d754c15f6739cb2467d29ebcb29ed1e4b4ec"
+def currencyModelSha256 = "b3d3727f9ca1fb41789071e5590f7677bca83e9dd61505b322580c52251fddd9"
+def prepareCurrencyModel = tasks.register("prepareCurrencyModel") {
+    inputs.property("sourceCommit", currencySourceCommit)
+    inputs.property("checksum", currencyModelSha256)
+    outputs.file(currencyModelFile)
+    doLast {
+        def output = currencyModelFile.get().asFile
+        output.parentFile.mkdirs()
+        def source = "https://raw.githubusercontent.com/hezioquan12/vietnamese-money-vision/${currencySourceCommit}/android/app/src/main/assets/models/yolo26_money_quant.tflite"
+        def temporary = new File(output.parentFile, output.name + ".tmp")
+        try {
+            def connection = new URI(source).toURL().openConnection()
+            connection.connectTimeout = 30000
+            connection.readTimeout = 120000
+            connection.inputStream.withCloseable { input ->
+                temporary.withOutputStream { stream -> stream << input }
+            }
+            def digest = java.security.MessageDigest.getInstance("SHA-256")
+            digest.update(java.nio.file.Files.readAllBytes(temporary.toPath()))
+            def observed = digest.digest().encodeHex().toString()
+            if (!observed.equalsIgnoreCase(currencyModelSha256)) {
+                throw new GradleException("Vietnamese currency model checksum mismatch: " + observed)
+            }
+            java.nio.file.Files.move(temporary.toPath(), output.toPath(), java.nio.file.StandardCopyOption.REPLACE_EXISTING)
+        } finally {
+            temporary.delete()
+        }
+    }
+}
+android.sourceSets.main.assets.srcDir(currencyAssetDir.get().asFile)
+tasks.configureEach {
+    if (name.startsWith("merge") && name.endsWith("Assets")) {
+        dependsOn(prepareCurrencyModel)
+    }
+}

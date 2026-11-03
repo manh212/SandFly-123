@@ -12,6 +12,21 @@ import kotlin.math.roundToInt
 
 internal data class CurrencyPrediction(val denomination: Int, val confidence: Float)
 
+internal data class CurrencyInputLayout(val width: Int, val height: Int, val channelsFirst: Boolean) {
+  companion object {
+    fun from(shape: IntArray): CurrencyInputLayout {
+      require(shape.size == 4 && shape[0] == 1)
+      val channelsFirst = shape[1] == 3 && shape[3] != 3
+      val channelsLast = shape[3] == 3 && shape[1] != 3
+      require(channelsFirst || channelsLast)
+      val width = if (channelsFirst) shape[3] else shape[2]
+      val height = if (channelsFirst) shape[2] else shape[1]
+      require(width in 160..1024 && height in 160..1024)
+      return CurrencyInputLayout(width, height, channelsFirst)
+    }
+  }
+}
+
 internal object CurrencyModelOutput {
   val denominations = intArrayOf(1000, 10000, 100000, 2000, 20000, 200000, 5000, 50000, 500000)
   private const val FEATURES = 13
@@ -93,6 +108,8 @@ internal class CurrencyRecognizer(private val context: Context) : Closeable {
   private val interpreter: Interpreter
   private val width: Int
   private val height: Int
+  private val channelsFirst: Boolean
+  private val floatInput: FloatArray?
   private val inputType: DataType
   private val outputType: DataType
   private val outputShape: IntArray
@@ -109,12 +126,12 @@ internal class CurrencyRecognizer(private val context: Context) : Closeable {
     model.put(bytes).rewind()
     interpreter = Interpreter(model, Interpreter.Options().setNumThreads(2))
     val input = interpreter.getInputTensor(0)
-    val shape = input.shape()
-    require(shape.size == 4 && shape[0] == 1 && shape[3] == 3)
-    height = shape[1]
-    width = shape[2]
-    require(height in 160..1024 && width in 160..1024)
+    val layout = CurrencyInputLayout.from(input.shape())
+    height = layout.height
+    width = layout.width
+    channelsFirst = layout.channelsFirst
     inputType = input.dataType()
+    floatInput = if (inputType == DataType.FLOAT32) FloatArray(width * height * 3) else null
     require(inputType == DataType.FLOAT32 || inputType == DataType.UINT8)
     inputScale = input.quantizationParams().scale
     inputZeroPoint = input.quantizationParams().zeroPoint
@@ -138,10 +155,35 @@ internal class CurrencyRecognizer(private val context: Context) : Closeable {
       val pixels = IntArray(width * height)
       scaled.getPixels(pixels, 0, width, 0, 0, width, height)
       inputBuffer.clear()
-      for (pixel in pixels) {
-        putChannel(Color.red(pixel))
-        putChannel(Color.green(pixel))
-        putChannel(Color.blue(pixel))
+      if (inputType == DataType.FLOAT32) {
+        val floats = requireNotNull(floatInput)
+        if (channelsFirst) {
+          val planeSize = pixels.size
+          for (index in pixels.indices) {
+            val pixel = pixels[index]
+            floats[index] = Color.red(pixel) / 255f
+            floats[planeSize + index] = Color.green(pixel) / 255f
+            floats[2 * planeSize + index] = Color.blue(pixel) / 255f
+          }
+        } else {
+          var index = 0
+          for (pixel in pixels) {
+            floats[index++] = Color.red(pixel) / 255f
+            floats[index++] = Color.green(pixel) / 255f
+            floats[index++] = Color.blue(pixel) / 255f
+          }
+        }
+        inputBuffer.asFloatBuffer().put(floats)
+      } else if (channelsFirst) {
+        for (pixel in pixels) putChannel(Color.red(pixel))
+        for (pixel in pixels) putChannel(Color.green(pixel))
+        for (pixel in pixels) putChannel(Color.blue(pixel))
+      } else {
+        for (pixel in pixels) {
+          putChannel(Color.red(pixel))
+          putChannel(Color.green(pixel))
+          putChannel(Color.blue(pixel))
+        }
       }
       inputBuffer.rewind()
       outputBuffer.clear()
