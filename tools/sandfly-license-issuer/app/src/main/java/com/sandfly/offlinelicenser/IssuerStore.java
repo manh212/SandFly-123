@@ -64,6 +64,10 @@ final class IssuerStore {
   void firebase(String value) throws Exception { secrets.write("firebase", value); }
 
   void importRecord(JSONObject entry) throws Exception {
+    importRecord(entry, true);
+  }
+
+  void importRecord(JSONObject entry, boolean privateSynced) throws Exception {
     String request = entry.getString("request");
     String value = entry.getString("value");
     String publicKey = IssuerKeys.publicKey();
@@ -85,7 +89,7 @@ final class IssuerStore {
       }
       if (!old.optBoolean("synced") && !value.startsWith("SFLIC3.")) return;
     }
-    entry.put("synced", true).put("privateSynced", true);
+    entry.put("synced", true).put("privateSynced", privateSynced);
     records.put(id, entry);
     secrets.write("records", records.toString());
   }

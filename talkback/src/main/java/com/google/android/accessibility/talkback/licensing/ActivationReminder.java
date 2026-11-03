@@ -52,6 +52,7 @@ public final class ActivationReminder {
         public void run() {
           scheduled = false;
           AccessibilityService service = serviceRef.get();
+          Activity settings = settingsRef.get();
           if (service != null) {
             if (!UserManagerCompat.isUserUnlocked(service)) {
               stopCountdown();
@@ -79,7 +80,8 @@ public final class ActivationReminder {
             showNotification(service, remaining);
             maybeShowDialog(false);
             schedule(1_000L);
-          } else if (settingsRef.get() != null) {
+          } else if (settings != null) {
+            LicenseRecovery.start(settings, false, null);
             maybeShowDialog(false);
             schedule(PERIOD_MS);
           } else {

@@ -106,7 +106,7 @@ final class AdminPanel {
   private EditText input(LinearLayout root, String title, String value, int limit) {
     TextView label = new TextView(activity); label.setText(title); root.addView(label);
     EditText field = new EditText(activity); field.setId(android.view.View.generateViewId());
-    label.setLabelFor(field.getId()); field.setText(value); field.setHint(title);
+    label.setLabelFor(field.getId()); field.setText(value);
     field.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(limit)});
     root.addView(field); return field;
   }
@@ -249,7 +249,8 @@ final class AdminPanel {
       if (remote == null) throw new IllegalStateException("Chưa tìm thấy trạng thái trên GitHub.");
       JSONObject copy = new JSONObject(entry.toString());
       copy.put("value", new JSONObject(remote.content).getString("value"));
-      store.importRecord(copy);
+      store.importRecord(copy, false);
+      SyncCoordinator.schedule(activity.getApplicationContext());
       activity.message("Đã tải trạng thái GitHub. Mở lại chi tiết thiết bị để xem.");
       activity.refreshPanel();
     });
@@ -363,7 +364,7 @@ final class AdminPanel {
         current.put(id, new JSONObject().put("name", label).put("features", features));
         store.packages(current);
         activity.message("Đã lưu mẫu gói. Giấy phép đã cấp giữ nguyên quyền.");
-        ui(dialog::dismiss);
+        ui(() -> { dialog.dismiss(); closeScreens(); packages(); });
       });
     }));
     dialog.show();
