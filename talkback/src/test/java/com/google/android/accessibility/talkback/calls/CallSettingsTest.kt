@@ -1,7 +1,5 @@
 package com.google.android.accessibility.talkback.calls
 
-import android.content.Context
-import androidx.test.core.app.ApplicationProvider
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -9,6 +7,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -33,7 +32,7 @@ class CallSettingsTest {
   }
 
   @Test fun callSettingsAreIndependentOfNotificationChoices() {
-    val context = ApplicationProvider.getApplicationContext<Context>()
+    val context = RuntimeEnvironment.getApplication()
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
     prefs.edit().clear().putBoolean("pref_speak_notifications", false)
       .putBoolean("pref_notification_quiet_hours", true)
@@ -50,7 +49,7 @@ class CallSettingsTest {
   }
 
   @Test fun storedNumbersAreBoundedAndBothStorageTypesAreAccepted() {
-    val context = ApplicationProvider.getApplicationContext<Context>()
+    val context = RuntimeEnvironment.getApplication()
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
     prefs.edit().clear().putString(CallSettings.REPEATS, "200")
       .putInt(CallSettings.INTERVAL, 30).putString(CallSettings.START, "-10").commit()

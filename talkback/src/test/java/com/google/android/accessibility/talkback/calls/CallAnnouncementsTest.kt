@@ -1,9 +1,7 @@
 package com.google.android.accessibility.talkback.calls
 
 import android.app.Notification
-import android.content.Context
 import android.os.Looper
-import androidx.test.core.app.ApplicationProvider
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 import com.google.android.accessibility.utils.output.SpeechController
 import java.time.Duration
@@ -14,6 +12,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows.shadowOf
 import org.robolectric.annotation.Config
 import org.robolectric.annotation.LooperMode
@@ -22,7 +21,7 @@ import org.robolectric.annotation.LooperMode
 @Config(sdk = [34])
 @LooperMode(LooperMode.Mode.PAUSED)
 class CallAnnouncementsTest {
-  private val context = ApplicationProvider.getApplicationContext<Context>()
+  private val context = RuntimeEnvironment.getApplication()
   private val prefs = SharedPreferencesUtils.getSharedPreferences(context)
   private val spoken = mutableListOf<String>()
   private val stopped = mutableListOf<SpeechController.UtteranceCompleteRunnable>()
