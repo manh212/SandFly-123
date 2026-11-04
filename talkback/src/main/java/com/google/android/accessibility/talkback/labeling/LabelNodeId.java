@@ -42,8 +42,11 @@ public final class LabelNodeId {
     if (node == null) {
       return null;
     }
-    if (!TextUtils.isEmpty(node.getViewIdResourceName())) {
-      return node.getViewIdResourceName();
+    String viewId = node.getViewIdResourceName();
+    CharSequence owner = node.getPackageName();
+    if (!TextUtils.isEmpty(viewId) && owner != null
+        && viewId.startsWith(owner.toString() + ":id/")) {
+      return viewId;
     }
     int role = Role.getRole(node);
     if (!isLabelableControl(node)) {

@@ -135,6 +135,18 @@ public class LabelNodeIdTest {
   }
 
   @Test
+  public void frameworkIdsAreScopedToTheApplicationInsteadOfAllAndroidDialogs() {
+    AccessibilityNodeInfoCompat node = button();
+    node.setViewIdResourceName("android:id/button1");
+    String firstApp = LabelNodeId.resourceName(node);
+    assertTrue(firstApp.startsWith("com.example.app:id/sandfly_unlabeled_"));
+    node.setPackageName("com.example.other");
+    String secondApp = LabelNodeId.resourceName(node);
+    assertTrue(secondApp.startsWith("com.example.other:id/sandfly_unlabeled_"));
+    assertNotEquals(firstApp, secondApp);
+  }
+
+  @Test
   public void unlabeledPlaceholderDoesNotPreventManualLabeling() {
     AccessibilityNodeInfoCompat node = button();
     node.setContentDescription("Chưa được gắn nhãn");

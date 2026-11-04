@@ -52,7 +52,9 @@ direct silent typing. Existing stored numeric values remain unchanged.
 Manual labeling is available for actionable controls even when the missing-label
 heuristic thinks text already exists. Custom labels take precedence over generic
 control descriptions. ID-less actionable controls use the same synthetic key in
-the editor, search and spoken output. Synthetic keys depend on tree position and
+the editor, search and spoken output. Shared framework IDs such as
+`android:id/button1` also receive app-scoped keys so a manual label cannot rename
+other apps' dialogs. Synthetic keys depend on tree position and
 may need relabeling when the target app changes its layout.
 
 ## Validation
