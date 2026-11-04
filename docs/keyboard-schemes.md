@@ -20,19 +20,22 @@ in the existing key-combo preference storage and settings backup includes them.
   Holding it with another key makes a chord, without a standalone announcement.
 - A chord is recorded and executed when its main key is released. Releasing the
   modifier first does not change the recorded chord.
-- Plain shortcuts require two separate presses. The interval is measured from
-  the first release to the second press and must be less than 400 ms. Key repeat
-  is not another press. Different keys or keyboard devices break the pair.
+- Plain shortcuts are recorded and executed with one press, on release. Holding
+  a key does not repeat the command. Cancellation and an editor taking input
+  focus before release cancel that plain shortcut. Releases from another keyboard
+  cannot execute a held shortcut.
 - Plain keys, including Telex sequences such as aa and dd, go to the input method
   while the input-focused node is editable, independently of accessibility focus.
   Explicit recording is exempt from that rule.
 
 ## Caps Lock access
 
-Start Shizuku and authorize Meridian. The recording flow requests Shizuku access
-and checks that the shell user can inject keyboard events before recording.
-This uses the existing Shizuku user service rather than requesting the
-signature-only INJECT_EVENTS permission for Meridian itself.
+Recording and ordinary shortcut execution do not request or require Shizuku.
+Caps Lock can be held as a modifier without the bridge, but Android retains its
+native Caps Lock toggle on release. This may change the next typed letters' case.
+With Shizuku already available and authorized, Meridian uses the existing shell
+bridge to preserve its special single/double Caps Lock behavior. It does not
+request the signature-only INJECT_EVENTS permission for Meridian itself.
 
 Android's input reader changes native Caps Lock on a physical key release before
 an accessibility service sees it. For a single tap or modifier chord, Meridian
@@ -45,13 +48,13 @@ ordered queue. They are processed after the correction; unconsumed events are
 injected with the intended Caps Lock metadata and still pass through the active
 input method. No editor text is rewritten and no persistent system key remapping
 is installed. Failure is announced instead of claiming that Caps Lock changed.
-Without the bridge, Caps Lock retains native behavior and Meridian reports that
-access is needed. Other assigned modifier chords remain usable.
+Without the bridge, Caps Lock retains native behavior. Plain shortcuts and
+assigned modifier chords remain usable, including while Shizuku is stopped.
 
 ## Validation
 
 Unit tests cover blank creation, persistence, deletion, older scheme preservation,
-reserved modifiers, the 400 ms boundary, cancellation, cross-device presses,
+reserved modifiers, single-press execution, cancellation, cross-device releases,
 modifier release order, held Caps Lock, and plain Telex input in editable fields.
 Bridge tests cover ordered key replay, corrected Caps Lock metadata, consumed
 shortcuts, injection markers, failure and shutdown with pending events.

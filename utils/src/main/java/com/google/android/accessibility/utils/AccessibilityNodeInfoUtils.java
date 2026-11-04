@@ -957,6 +957,10 @@ public class AccessibilityNodeInfoUtils {
       }
     }
 
+    if (RideAppAccessibility.isActionControl(node)) {
+      return true;
+    }
+
     HashSet<AccessibilityNodeInfoCompat> visitedNodes = new HashSet<>();
     // This checks if a node is clickable, focusable, screen reader focusable, or a direct
     // spekaing child of a scrollable container.

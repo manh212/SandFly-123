@@ -135,6 +135,22 @@ public class LabelNodeIdTest {
   }
 
   @Test
+  public void unlabeledPlaceholderDoesNotPreventManualLabeling() {
+    AccessibilityNodeInfoCompat node = button();
+    node.setContentDescription("Chưa được gắn nhãn");
+    assertTrue(LabelNodeId.isLabelableControl(node));
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.example.app:id/sandfly_unlabeled_"));
+  }
+
+  @Test
+  public void clickableCustomContainerCanHaveManualLabelWithoutId() {
+    AccessibilityNodeInfoCompat node = button();
+    node.setClassName("android.view.ViewGroup");
+    assertTrue(LabelNodeId.isLabelableControl(node));
+    assertTrue(LabelNodeId.resourceName(node).startsWith("com.example.app:id/sandfly_unlabeled_"));
+  }
+
+  @Test
   public void existingTextMakesButtonLabeled() {
     AccessibilityNodeInfoCompat node = button();
     assertFalse(LabelNodeId.hasSpokenLabel(node));

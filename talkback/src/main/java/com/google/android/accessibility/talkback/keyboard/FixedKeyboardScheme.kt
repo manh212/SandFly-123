@@ -8,10 +8,15 @@ import com.google.android.accessibility.talkback.gesture.AppGestures
 import com.google.android.accessibility.utils.Performance.EventId
 import com.google.android.accessibility.utils.ServiceKeyEventListener
 
-class FixedKeyboardScheme(private val context: Context, private val manager: KeyComboManager) {
+class FixedKeyboardScheme @JvmOverloads constructor(
+  private val context: Context,
+  private val manager: KeyComboManager,
+  private val physicalKeyboard: (KeyEvent) -> Boolean = { KeyboardCapsBridge.isPhysical(it) },
+) {
   private val bridge = (context as? TalkBackService)?.let { KeyboardCapsBridge(it) }
   private val caps = CapsLockPressState()
   private val passedCaps = HashSet<Int>()
+  private val nativeCapsHeld = HashSet<Int>()
   private val consumedCaps = HashSet<Int>()
   private val recognizer = SchemeKeyRecognizer(object : SchemeKeyRecognizer.Callbacks {
     override fun canHandle(combo: KeyCombo): Boolean {
@@ -37,7 +42,7 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
 
   fun filter(event: KeyEvent): Boolean {
     if (bridge?.filter(event) == true) return true
-    if (KeyboardCapsBridge.isPhysical(event) && event.keyCode != KeyEvent.KEYCODE_CAPS_LOCK) {
+    if (physicalKeyboard(event) && event.keyCode != KeyEvent.KEYCODE_CAPS_LOCK) {
       caps.onKeyEvent(event)
     }
     return false
@@ -56,7 +61,7 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
 
   fun onKeyEvent(event: KeyEvent, id: EventId?, delegate: ServiceKeyEventListener?, canAct: Boolean): Boolean {
     bridge?.prepare()
-    val physical = KeyboardCapsBridge.isPhysical(event)
+    val physical = physicalKeyboard(event)
     val isCaps = event.keyCode == KeyEvent.KEYCODE_CAPS_LOCK
     if (isCaps && event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) recognizer.cancelPending()
     if (isCaps) manager.trackSandFlyKey(event)
@@ -64,11 +69,13 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
       if (bridge?.isReady == true) consumedCaps.add(event.deviceId) else passedCaps.add(event.deviceId)
     }
     if (physical && isCaps && event.deviceId in passedCaps) {
+      if (event.action == KeyEvent.ACTION_DOWN) nativeCapsHeld.add(event.deviceId)
       if (event.action == KeyEvent.ACTION_UP) {
         passedCaps.remove(event.deviceId)
-        (context as? TalkBackService)?.announceKeyboardBridgeFailure()
+        nativeCapsHeld.remove(event.deviceId)
       }
-      return false
+      delegate?.onKeyEvent(event, id)
+      return true
     }
     val acceptedCaps = physical && isCaps && event.deviceId in consumedCaps
     val release = if (physical && (bridge?.isReady == true || acceptedCaps)) caps.onKeyEvent(event) else null
@@ -87,17 +94,15 @@ class FixedKeyboardScheme(private val context: Context, private val manager: Key
           }
         }
       }
-      if (bridge?.isReady != true && release == null && event.action == KeyEvent.ACTION_UP) {
-        (context as? TalkBackService)?.announceKeyboardBridgeFailure()
-      }
       return captured || acceptedCaps || release != null
     }
     if (captured) return true
     if (!physical) return false
+    val held = caps.isHeld(event.deviceId) || event.deviceId in nativeCapsHeld
     if (!canAct) {
       recognizer.cancelPending()
-      return event.action == KeyEvent.ACTION_UP && recognizer.onKeyEvent(event, caps.isHeld(event.deviceId))
+      return event.action == KeyEvent.ACTION_UP && recognizer.onKeyEvent(event, held)
     }
-    return recognizer.onKeyEvent(event, caps.isHeld(event.deviceId))
+    return recognizer.onKeyEvent(event, held)
   }
 }

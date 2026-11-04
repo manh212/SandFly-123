@@ -20,6 +20,7 @@ import static com.google.android.accessibility.talkback.imagecaption.ImageCaptio
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.utils.AccessibilityNode;
+import com.google.android.accessibility.talkback.labeling.LabelNodeId;
 import com.google.android.accessibility.utils.labeling.Label;
 import com.google.android.accessibility.utils.labeling.LabelManager;
 import java.util.Locale;
@@ -46,7 +47,7 @@ public class ImageContents {
     if (labelManager == null) {
       return null;
     }
-    final Label label = labelManager.getLabelForViewIdFromCache(node.getViewIdResourceName());
+    final Label label = labelManager.getLabelForViewIdFromCache(LabelNodeId.resourceName(node));
     return (label == null || label.getText() == null) ? null : label.getText();
   }
 

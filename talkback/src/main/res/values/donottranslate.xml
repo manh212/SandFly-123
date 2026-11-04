@@ -890,6 +890,7 @@
       <item>@string/value_type_confirmation_lift_to_type_for_any_key</item>
       <item>@string/value_type_confirmation_lift_to_type_except_action_key</item>
       <item>@string/value_type_confirmation_single_tap_to_type</item>
+      <item>@string/value_type_confirmation_direct_silent</item>
     </string-array>
 
     <string name="typing_type_lift_to_type" translatable="false">1</string>
@@ -902,6 +903,7 @@
       <item>2</item>
       <item>3</item>
       <item>5</item>
+      <item>6</item>
     </string-array>
 
   <!-- Typing method long press duration entries -->
@@ -1924,4 +1926,6 @@
     <string name="pref_disable_latency_pinned_key" translatable="false">pref_disable_latency_pinned</string>
     <bool name="pref_disable_latency_pinned_default">false</bool>
     <string name="pref_delete_debug_log_key" translatable="false">pref_delete_debug_log</string>
+    <string name="shortcut_value_next_engine_voice" translatable="false">NEXT_ENGINE_VOICE</string>
+    <string name="shortcut_value_previous_engine_voice" translatable="false">PREVIOUS_ENGINE_VOICE</string>
 </resources>

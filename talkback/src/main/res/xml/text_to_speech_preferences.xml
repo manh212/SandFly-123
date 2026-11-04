@@ -12,6 +12,11 @@
         android:key="@string/pref_voice_profiles_screen_key"
         android:persistent="false"
         android:title="@string/title_pref_voice_profiles" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:fragment="com.google.android.accessibility.talkback.preference.base.VoiceSwitchingFragment"
+        android:key="pref_voice_switching_screen"
+        android:persistent="false"
+        android:title="@string/voice_switch_title" />
     <com.google.android.accessibility.talkback.preference.base.SpeechRatePreference
         android:defaultValue="@integer/pref_speech_rate_default_int"
         android:key="@string/pref_speech_rate_seekbar_key_int"

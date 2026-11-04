@@ -116,17 +116,7 @@ public class OnScreenKeyboardFragment extends TalkBackPreferenceFragment {
                     R.string.pref_typing_confirmation_key,
                     R.string.pref_typing_confirmation_default);
 
-            String[] typingValues =
-                context.getResources().getStringArray(R.array.pref_typing_types_talkback_values);
-            int position = typingValues.length - 1;
-            for (int index = 0; index < typingValues.length; index++) {
-              if (method == Integer.parseInt(typingValues[index])) {
-                position = index;
-                break;
-              }
-            }
-            return context.getResources()
-                .getStringArray(R.array.pref_typing_types_talkback_entries)[position];
+            return context.getString(TypingMethodPrefFragment.titleForMethod(method));
           });
     }
 

@@ -23,6 +23,10 @@ import android.os.Looper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.graphics.Rect;
+import android.os.Bundle;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,7 +37,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.CheckedTextView;
-import android.view.LayoutInflater;
 import android.widget.TextView;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.R;
@@ -106,7 +109,16 @@ public class ClipboardHistoryDialog {
       ClipboardHistoryCapture.captureCurrent(context);
     }
 
-    LinearLayout layout = new LinearLayout(context);
+    LinearLayout layout = new LinearLayout(context) {
+      @Override
+      protected void onMeasure(int widthSpec, int heightSpec) {
+        int limit = (int) (getResources().getDisplayMetrics().heightPixels * 0.7f);
+        if (MeasureSpec.getMode(heightSpec) != MeasureSpec.UNSPECIFIED) {
+          limit = Math.min(limit, MeasureSpec.getSize(heightSpec));
+        }
+        super.onMeasure(widthSpec, MeasureSpec.makeMeasureSpec(limit, MeasureSpec.EXACTLY));
+      }
+    };
     layout.setOrientation(LinearLayout.VERTICAL);
     int padding = (int) TypedValue.applyDimension(
         TypedValue.COMPLEX_UNIT_DIP, 16, context.getResources().getDisplayMetrics());
@@ -128,8 +140,10 @@ public class ClipboardHistoryDialog {
 
     ListView list = new ListView(context);
     listView = list;
+    list.setItemsCanFocus(false);
+    list.setSmoothScrollbarEnabled(true);
     layout.addView(list, new LinearLayout.LayoutParams(
-        ViewGroup.LayoutParams.MATCH_PARENT, padding * 15, 1f));
+        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
     emptyText = new TextView(context);
     emptyText.setPadding(padding, padding, padding, padding);
     layout.addView(emptyText);
@@ -153,6 +167,19 @@ public class ClipboardHistoryDialog {
       deleteSelected.setOnClickListener(v -> confirmDeleteSelected(eventId));
     }
 
+    LinearLayout scrollButtons = new LinearLayout(context);
+    Button previousPage = new Button(context);
+    previousPage.setText(R.string.clipboard_history_scroll_up);
+    previousPage.setOnClickListener(v -> list.smoothScrollBy(-list.getHeight(), 200));
+    scrollButtons.addView(previousPage, new LinearLayout.LayoutParams(
+        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+    Button nextPage = new Button(context);
+    nextPage.setText(R.string.clipboard_history_scroll_down);
+    nextPage.setOnClickListener(v -> list.smoothScrollBy(list.getHeight(), 200));
+    scrollButtons.addView(nextPage, new LinearLayout.LayoutParams(
+        0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f));
+    layout.addView(scrollButtons);
+
     LinearLayout buttons = new LinearLayout(context);
     buttons.setOrientation(LinearLayout.HORIZONTAL);
     layout.addView(buttons);
@@ -173,10 +200,10 @@ public class ClipboardHistoryDialog {
           CheckedTextView checkbox =
               convertView instanceof CheckedTextView
                   ? (CheckedTextView) convertView
-                  : (CheckedTextView) LayoutInflater.from(context).inflate(
-                      android.R.layout.simple_list_item_multiple_choice, parent, false);
+                  : new HistoryCheckedRow();
           String entry = getItem(position);
           checkbox.setText(entry);
+          configureRow(checkbox, entry);
           checkbox.setChecked(selectedEntries.contains(entry));
           return checkbox;
         }
@@ -184,11 +211,13 @@ public class ClipboardHistoryDialog {
         if (convertView instanceof TextView && !(convertView instanceof CheckedTextView)) {
           row = (TextView) convertView;
         } else {
-          row = new TextView(context);
+          row = new HistoryRow();
           row.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
           row.setPadding(padding, padding, padding, padding);
         }
-        row.setText(getItem(position));
+        String entry = getItem(position);
+        row.setText(entry);
+        configureRow(row, entry);
         return row;
       }
     };
@@ -333,6 +362,89 @@ public class ClipboardHistoryDialog {
         WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN
             | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     showOverlay(dialog);
+  }
+
+  private void configureRow(TextView row, @Nullable String entry) {
+    int padding = (int) (context.getResources().getDisplayMetrics().density * 8);
+    row.setPadding(padding * 2, padding, padding * 2, padding);
+    row.setMaxLines(2);
+    row.setEllipsize(TextUtils.TruncateAt.END);
+    row.setMinHeight((int) (48 * context.getResources().getDisplayMetrics().density));
+    row.setContentDescription(entry);
+  }
+
+  private final class HistoryRow extends TextView {
+    HistoryRow() {
+      super(context);
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+      super.onInitializeAccessibilityNodeInfo(info);
+      addRowActions(info);
+    }
+
+    @Override
+    public boolean performAccessibilityAction(int action, Bundle args) {
+      if (performRowAction(this, action)) return true;
+      return revealFocusedRow(this, action, super.performAccessibilityAction(action, args));
+    }
+  }
+
+  private final class HistoryCheckedRow extends CheckedTextView {
+    HistoryCheckedRow() {
+      super(context);
+      android.content.res.TypedArray style = context.obtainStyledAttributes(
+          new int[] {android.R.attr.listChoiceIndicatorMultiple});
+      setCheckMarkDrawable(style.getDrawable(0));
+      style.recycle();
+      setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+      super.onInitializeAccessibilityNodeInfo(info);
+      addRowActions(info);
+    }
+
+    @Override
+    public boolean performAccessibilityAction(int action, Bundle args) {
+      if (performRowAction(this, action)) return true;
+      return revealFocusedRow(this, action, super.performAccessibilityAction(action, args));
+    }
+  }
+
+  private void addRowActions(AccessibilityNodeInfo info) {
+    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(
+        R.id.clipboard_history_preview, context.getString(R.string.clipboard_history_view_full)));
+    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(
+        R.id.clipboard_history_actions, context.getString(R.string.clipboard_history_item_actions)));
+  }
+
+  private boolean performRowAction(TextView row, int action) {
+    if (action == R.id.clipboard_history_preview) {
+      childDialog = new AlertDialog.Builder(context)
+          .setTitle(R.string.clipboard_history_view_full)
+          .setMessage(row.getText())
+          .setPositiveButton(R.string.text_collection_cancel, null)
+          .create();
+      showOverlay(childDialog);
+      return true;
+    }
+    if (action == R.id.clipboard_history_actions) {
+      int position = listView.getPositionForView(row);
+      return position != android.widget.AdapterView.INVALID_POSITION
+          && listView.getOnItemLongClickListener().onItemLongClick(
+              listView, row, position, listView.getItemIdAtPosition(position));
+    }
+    return false;
+  }
+
+  private static boolean revealFocusedRow(View row, int action, boolean handled) {
+    if (action == AccessibilityNodeInfoCompat.ACTION_ACCESSIBILITY_FOCUS && handled) {
+      row.requestRectangleOnScreen(new Rect(0, 0, row.getWidth(), row.getHeight()), true);
+    }
+    return handled;
   }
 
   private void startMultipleSelection(String firstEntry) {

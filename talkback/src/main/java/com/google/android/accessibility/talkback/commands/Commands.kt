@@ -592,6 +592,8 @@ object Commands {
           R.string.shortcut_voice_profiles,
           Key.SHOW_VOICE_PROFILES,
         )
+        gesture(R.string.shortcut_value_next_engine_voice, R.string.shortcut_next_engine_voice)
+        gesture(R.string.shortcut_value_previous_engine_voice, R.string.shortcut_previous_engine_voice)
         gesture(
           R.string.shortcut_value_next_voice_profile,
           R.string.shortcut_next_voice_profile,

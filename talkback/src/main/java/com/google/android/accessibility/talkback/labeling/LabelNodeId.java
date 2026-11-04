@@ -25,6 +25,19 @@ import org.checkerframework.checker.nullness.qual.Nullable;
 public final class LabelNodeId {
   private LabelNodeId() {}
 
+  public static boolean isLabelableControl(@Nullable AccessibilityNodeInfoCompat node) {
+    if (node == null) {
+      return false;
+    }
+    int role = Role.getRole(node);
+    return role == Role.ROLE_BUTTON
+        || role == Role.ROLE_IMAGE_BUTTON
+        || AccessibilityNodeInfoUtils.isClickable(node)
+        || AccessibilityNodeInfoUtils.isLongClickable(node)
+        || (role == Role.ROLE_IMAGE
+            && (AccessibilityNodeInfoUtils.isFocusable(node) || node.isScreenReaderFocusable()));
+  }
+
   public static @Nullable String resourceName(@Nullable AccessibilityNodeInfoCompat node) {
     if (node == null) {
       return null;
@@ -33,9 +46,7 @@ public final class LabelNodeId {
       return node.getViewIdResourceName();
     }
     int role = Role.getRole(node);
-    if (role != Role.ROLE_BUTTON
-        && role != Role.ROLE_IMAGE_BUTTON
-        && role != Role.ROLE_IMAGE) {
+    if (!isLabelableControl(node)) {
       return null;
     }
     if (role == Role.ROLE_IMAGE

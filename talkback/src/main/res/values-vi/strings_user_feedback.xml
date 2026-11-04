@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="clipboard_history_scroll_up">Cuộn lên</string>
+    <string name="clipboard_history_scroll_down">Cuộn xuống</string>
+    <string name="clipboard_history_view_full">Xem toàn bộ nội dung</string>
+    <string name="clipboard_history_item_actions">Thao tác với mục</string>
+    <string name="shortcut_next_engine_voice">Giọng tiếp theo trong bộ máy đọc</string>
+    <string name="shortcut_previous_engine_voice">Giọng trước trong bộ máy đọc</string>
+    <string name="voice_switch_unavailable">Không chuyển được giọng. Hãy kiểm tra các giọng đã cài và danh sách chuyển giọng.</string>
+    <string name="voice_switch_title">Chuyển giọng trong bộ máy đọc</string>
+    <string name="voice_switch_choose">Chọn giọng dùng khi chuyển</string>
+    <string name="voice_switch_default">Theo ngôn ngữ đang đọc</string>
+    <string name="voice_switch_reset">Dùng các giọng cùng ngôn ngữ đang đọc</string>
+    <string name="voice_switch_loading">Đang lấy danh sách giọng</string>
+    <string name="voice_switch_no_voices">Bộ máy đọc chưa cung cấp giọng nào đã cài đặt</string>
+    <string name="voice_switch_move_up">Đưa lên trước</string>
+    <string name="voice_switch_move_down">Đưa xuống sau</string>
+    <string name="voice_switch_remove">Bỏ khỏi danh sách chuyển</string>
+    <string name="voice_switch_ordered_name">%1$d. %2$s</string>
+    <string name="voice_switch_engine">Bộ máy đọc: %1$s</string>
+    <string name="voice_switch_choose_one">Hãy chọn ít nhất một giọng</string>
+</resources>

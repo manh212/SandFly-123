@@ -3,6 +3,10 @@ package com.google.android.accessibility.talkback.keyboard
 import android.view.KeyEvent
 
 class CapsLockPressState {
+  private companion object {
+    const val DOUBLE_PRESS_MS = 400L
+  }
+
   data class Release(val undoNativeToggle: Boolean, val announce: Boolean, val capsOn: Boolean)
   private data class Device(
     var held: Boolean = false,
@@ -30,7 +34,7 @@ class CapsLockPressState {
     if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
       val state = devices.getOrPut(event.deviceId) { Device(capsOn = event.isCapsLockOn) }
       val previous = state.lastRelease
-      state.doublePress = previous != null && event.eventTime - previous in 0 until SchemeKeyRecognizer.DOUBLE_PRESS_MS
+      state.doublePress = previous != null && event.eventTime - previous in 0 until DOUBLE_PRESS_MS
       if (!state.doublePress) state.capsOn = event.isCapsLockOn
       state.held = true
       state.used = false

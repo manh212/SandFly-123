@@ -75,10 +75,12 @@ New keyboard schemes start empty. **Thêm phím tắt** records the keys first, 
 offers the shared command categories, including opening an installed launcher app.
 Caps Lock is the fixed Meridian modifier in these schemes. Pressing it alone
 reports its current state; pressing it twice within 400 ms changes the system's
-Caps Lock state. Ctrl stops current speech on key down. Plain shortcuts require
-two presses within 400 ms and pass through while an input-focused field is editable.
-Existing layouts and older custom schemes retain their assignments and modifier.
-Caps Lock requires a running Shizuku with Meridian authorized. See
+Caps Lock state when the optional Shizuku bridge is available. Without that bridge,
+Caps Lock remains usable as a held modifier and keeps Android's native case toggle.
+Ctrl stops current speech on key down. Plain shortcuts require one press and pass
+through while an input-focused field is editable. Recording and shortcut execution
+do not require Shizuku. Existing layouts and older custom schemes retain their
+assignments and modifier. See
 [Keyboard schemes](docs/keyboard-schemes.md) for setup and device validation.
 
 Under Gestures, **Hồ sơ cử chỉ** creates named sets of assignments. A new profile inherits all existing assignments. Application and script assignments take priority; the profile applies when neither has an assignment. Every service restart selects **Mặc định** without deleting saved profiles. Profiles can be selected in settings, through assignable commands or through the reading control. Settings export includes the profiles but does not restore an active profile.

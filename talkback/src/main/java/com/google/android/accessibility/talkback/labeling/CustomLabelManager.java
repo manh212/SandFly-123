@@ -98,7 +98,10 @@ public class CustomLabelManager extends TalkBackLabelManager {
 
     @Override
     public boolean supportsLabel(@Nullable AccessibilityNodeInfoCompat node) {
-      return canAddLabel(node) && needsLabel(node);
+      return canAddLabel(node)
+          && (needsLabel(node)
+              || LabelNodeId.isLabelableControl(node)
+              || getLabelIdForNode(node) != Label.NO_ID);
     }
 
     @Override

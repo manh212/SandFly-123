@@ -169,6 +169,78 @@ public class FailoverTextToSpeech {
     }
   }
 
+  public @Nullable String cycleVoice(boolean next) {
+    if (!isReady() || !Objects.equals(ttsEngine, getTargetEngine())) return null;
+    synchronized (ttsLock) {
+      try {
+        SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+        Voice current = tts.getVoice();
+        VoiceProfile profile = VoiceProfiles.readActive(prefs);
+        String configured = profile == null
+            ? prefs.getString(VoiceSwitching.selectedKey(ttsEngine), "") : profile.voice();
+        Voice logical = findVoice(configured);
+        if (logical == null) logical = current;
+        Voice chosen = VoiceSwitching.adjacent(
+            VoiceSwitching.candidates(tts.getVoices(),
+                logical == null ? null : logical.getLocale(),
+                VoiceSwitching.readOrder(prefs, ttsEngine)),
+            logical == null ? null : logical.getName(), next);
+        if (chosen == null) return null;
+        if (tts.setVoice(chosen) != TextToSpeech.SUCCESS) {
+          if (current != null) tts.setVoice(current);
+          return null;
+        }
+        Voice actual = tts.getVoice();
+        if (actual == null || !chosen.getName().equals(actual.getName())) {
+          if (current != null) tts.setVoice(current);
+          return null;
+        }
+        if (navigationPcmCache != null) navigationPcmCache.invalidate();
+        if (speechCacheManager != null) speechCacheManager.stopSpeaking();
+        cachedTtsLocale = chosen.getLocale();
+        localeInUse = chosen.getLocale();
+        mLastUtteranceLocale = null;
+        missingVoice = null;
+        if (profile == null) {
+          prefs.edit().putString(VoiceSwitching.selectedKey(ttsEngine), chosen.getName()).apply();
+        } else {
+          prefs.edit().putString(VoiceProfiles.key(profile.id(), VoiceProfiles.VOICE), chosen.getName())
+              .putString(VoiceProfiles.key(profile.id(), VoiceProfiles.LANGUAGE),
+                  chosen.getLocale().toLanguageTag()).apply();
+        }
+        LanguageSwitch.setVoiceLanguage(chosen.getLocale());
+        return chosen.getName();
+      } catch (RuntimeException e) {
+        LogUtils.e(TAG, "Failed to switch voice: %s", e.toString());
+        return null;
+      }
+    }
+  }
+
+  private boolean hasSelectedEngineVoice() {
+    return ttsEngine != null && !SharedPreferencesUtils.getSharedPreferences(context)
+        .getString(VoiceSwitching.selectedKey(ttsEngine), "").isEmpty();
+  }
+
+  private @Nullable Locale restoreSelectedEngineVoice(@Nullable Locale requested) {
+    if (tts == null || ttsEngine == null) return null;
+    String name = SharedPreferencesUtils.getSharedPreferences(context)
+        .getString(VoiceSwitching.selectedKey(ttsEngine), "");
+    if (name.isEmpty()) return null;
+    try {
+      Voice chosen = findVoice(name);
+      if (chosen == null || (requested != null && !requested.equals(chosen.getLocale()))) return null;
+      if (tts.setVoice(chosen) != TextToSpeech.SUCCESS) return null;
+      cachedTtsLocale = chosen.getLocale();
+      mLastUtteranceLocale = null;
+      LanguageSwitch.setVoiceLanguage(chosen.getLocale());
+      return chosen.getLocale();
+    } catch (RuntimeException e) {
+      LogUtils.e(TAG, "Failed to restore selected voice: %s", e.toString());
+      return null;
+    }
+  }
+
   public long getCacheSizeMb() {
     if (speechCacheManager != null) {
       return speechCacheManager.getCacheSizeMb();
@@ -476,6 +548,11 @@ public class FailoverTextToSpeech {
         } else if (PREF_SWITCH_LANGUAGES_KEY.equals(key)
             || PREF_SWITCH_DIALECTS_KEY.equals(key)) {
           readLanguageSwitches(sharedPrefs);
+        } else if (key != null && key.startsWith(VoiceSwitching.SELECTED_PREFIX)) {
+          if (navigationPcmCache != null) navigationPcmCache.invalidate();
+          synchronized (ttsLock) {
+            localeInUse = ensureSupportedLocale();
+          }
         } else if (VoiceProfiles.isProfileKey(key)) {
           readVoiceProfile(sharedPrefs);
           updateWarmEngines();
@@ -1327,7 +1404,7 @@ public class FailoverTextToSpeech {
    * speech by language, not by voice, so it could play speech made in another voice.
    */
   private @Nullable SpeechCacheManager usableSpeechCache() {
-    return VoiceProfiles.isProfileActive() ? null : speechCacheManager;
+    return VoiceProfiles.isProfileActive() || hasSelectedEngineVoice() ? null : speechCacheManager;
   }
 
   /**
@@ -1689,7 +1766,7 @@ public class FailoverTextToSpeech {
 
   public String navigationCacheSummary() {
     String state = !LatencyExperiments.preparePcm() ? "disabled by settings"
-        : VoiceProfiles.isProfileActive() ? "unavailable for voice profiles"
+        : VoiceProfiles.isProfileActive() || hasSelectedEngineVoice() ? "unavailable for selected voices"
         : lowLatencyPlayer() == null ? "requires local audio playback"
         : navigationPcmCache == null ? "waiting for eligible preparation" : "active";
     return "Navigation PCM availability: " + state + "\n"
@@ -1698,7 +1775,7 @@ public class FailoverTextToSpeech {
 
   void prepareNavigationPcm(CharSequence text, @Nullable Locale locale, float pitch,
       float rate, boolean absoluteRate) {
-    if (!LatencyExperiments.preparePcm() || !isReady() || VoiceProfiles.isProfileActive()
+    if (!LatencyExperiments.preparePcm() || !isReady() || VoiceProfiles.isProfileActive() || hasSelectedEngineVoice()
         || TextUtils.isEmpty(text) || ttsEngine == null) return;
     if (text instanceof android.text.Spanned spanned
         && spanned.getSpans(0, text.length(), TtsSpan.class).length > 0) return;
@@ -1742,7 +1819,7 @@ public class FailoverTextToSpeech {
       return tts.speak(text, queueMode, nativeParams, utteranceId);
     }
     NavigationPcmCache cache = navigationPcmCache;
-    if (cache != null && ttsEngine != null && LatencyExperiments.preparePcm() && !VoiceProfiles.isProfileActive()
+    if (cache != null && ttsEngine != null && LatencyExperiments.preparePcm() && (!VoiceProfiles.isProfileActive() && !hasSelectedEngineVoice())
         && (!(text instanceof android.text.Spanned spanned)
             || spanned.getSpans(0, text.length(), TtsSpan.class).length == 0)) {
       float[] prepared = cache.find(text, ttsEngine, getUsedLocale(), bundle, player.getSampleRate());
@@ -3057,6 +3134,8 @@ public class FailoverTextToSpeech {
     if (profile != null) {
       return attemptSetProfileVoice(profile);
     }
+    Locale selected = restoreSelectedEngineVoice(null);
+    if (selected != null) return selected;
     if (needsFallbackLocale()) {
       return attemptSetFallbackLanguage();
     } else {
@@ -3110,6 +3189,10 @@ public class FailoverTextToSpeech {
     if (locale == null) {
       LogUtils.w(TAG, "Cannot set null locale.");
       return null;
+    }
+    if (!VoiceProfiles.isProfileActive()) {
+      Locale selected = restoreSelectedEngineVoice(locale);
+      if (selected != null) return selected;
     }
     if (navigationPcmCache != null && !locale.equals(cachedTtsLocale)) navigationPcmCache.invalidate();
     if (tts == null) {

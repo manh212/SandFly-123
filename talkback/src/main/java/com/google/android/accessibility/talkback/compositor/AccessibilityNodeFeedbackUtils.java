@@ -159,6 +159,10 @@ public class AccessibilityNodeFeedbackUtils {
       Context context,
       ImageContents imageContents,
       GlobalVariables globalVariables) {
+    CharSequence customLabel = getNodeLabelText(node, imageContents);
+    if (!TextUtils.isEmpty(customLabel)) {
+      return markCapital(node, customLabel, context, globalVariables);
+    }
     CharSequence nodeTextDescription = getNodeTextDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(nodeTextDescription)) {
       return nodeTextDescription;

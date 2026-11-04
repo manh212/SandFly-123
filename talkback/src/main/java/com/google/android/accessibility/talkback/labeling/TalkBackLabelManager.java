@@ -92,18 +92,13 @@ public abstract class TalkBackLabelManager implements LabelManager, Accessibilit
    */
   public static @Nullable CharSequence getNodeText(
       AccessibilityNodeInfoCompat node, TalkBackLabelManager labelManager) {
-    CharSequence text = AccessibilityNodeInfoUtils.getNodeText(node);
-    if (!TextUtils.isEmpty(text)) {
-      return text;
-    }
-
     if (labelManager != null && labelManager.isInitialized()) {
       Label label = labelManager.getLabelForViewIdFromCache(LabelNodeId.resourceName(node));
       if (label != null) {
         return label.getText();
       }
     }
-    return null;
+    return AccessibilityNodeInfoUtils.getNodeText(node);
   }
 
   /** Whether this manager is properly initialized and ready to store and retrieve labels. */

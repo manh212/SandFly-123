@@ -782,6 +782,12 @@ public class GestureController {
       result = menuManager.showMenu(LANGUAGE, eventId);
     } else if (action.equals(service.getString(R.string.shortcut_value_voice_profiles))) {
       result = menuManager.showMenu(VOICE_PROFILE, eventId, R.string.no_voice_profiles);
+    } else if (action.equals(service.getString(R.string.shortcut_value_next_engine_voice))
+        || action.equals(service.getString(R.string.shortcut_value_previous_engine_voice))) {
+      String name = service.getSpeechController().getFailoverTts().cycleVoice(
+          action.equals(service.getString(R.string.shortcut_value_next_engine_voice)));
+      result = pipeline.returnFeedback(eventId,
+          Feedback.speech(name == null ? service.getString(R.string.voice_switch_unavailable) : name));
     } else if (action.equals(service.getString(R.string.shortcut_value_previous_voice_profile))) {
       selectorController.changeVoiceProfile(eventId, /* isNext= */ false);
     } else if (action.equals(service.getString(R.string.shortcut_value_next_voice_profile))) {

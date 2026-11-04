@@ -10,7 +10,6 @@ import com.google.android.accessibility.talkback.commands.CommandBindings
 import com.google.android.accessibility.talkback.commands.Commands
 import com.google.android.accessibility.talkback.preference.PreferencesActivityUtils
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
-import com.google.android.accessibility.talkback.shizuku.ShizukuGrants
 import com.google.android.accessibility.utils.Performance.EventId
 import com.google.android.accessibility.utils.ServiceKeyEventListener
 
@@ -80,7 +79,7 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
       isIconSpaceReserved = false
       isEnabled = TalkBackService.isServiceActive() && this@KeyboardSchemeFragment.manager() != null
       setOnPreferenceClickListener {
-        ensurePermission()
+        record()
         true
       }
     })
@@ -88,38 +87,8 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
 
   private fun bindingName(manager: KeyComboManager, key: String, combo: KeyCombo): String {
     val keys = manager.getKeyComboStringRepresentation(combo)
-    val gesture = if (SchemeKeyRecognizer.isPlain(combo)) getString(R.string.scheme_double_press, keys) else keys
     val command = Commands.labelOfKeyboardKey(requireContext(), key) ?: key
-    return getString(R.string.scheme_binding, gesture, command)
-  }
-
-  private fun ensurePermission() {
-    val context = requireContext()
-    if (!ShizukuGrants.isReady()) {
-      AlertDialog.Builder(context)
-        .setMessage(R.string.scheme_keyboard_permission_needed)
-        .setPositiveButton(android.R.string.ok, null)
-        .show()
-      return
-    }
-    ShizukuGrants.withShizukuPermission { allowed ->
-      if (!isResumed) return@withShizukuPermission
-      if (!allowed) {
-        PreferencesActivityUtils.announceText(getString(R.string.scheme_keyboard_permission_needed), context)
-        return@withShizukuPermission
-      }
-      manager()?.prepareKeyboardScheme { available ->
-        if (!isResumed) return@prepareKeyboardScheme
-        if (available) {
-          record()
-        } else {
-          AlertDialog.Builder(context)
-            .setMessage(R.string.scheme_keyboard_permission_unavailable)
-            .setPositiveButton(android.R.string.ok, null)
-            .show()
-        }
-      }
-    }
+    return getString(R.string.scheme_binding, keys, command)
   }
 
   private fun record() {

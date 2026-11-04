@@ -78,6 +78,16 @@ public class TypingMethodPrefFragment extends TalkbackBaseFragment {
     }
   }
 
+  @StringRes
+  static int titleForMethod(int method) {
+    for (TypingMethodPref candidate : TypingMethodPref.values()) {
+      if (candidate.getMethod() == method) {
+        return candidate.getTitleId();
+      }
+    }
+    return TypingMethodPref.METHOD_LIFT_TO_TYPE_MOST.getTitleId();
+  }
+
   public TypingMethodPrefFragment() {
     super(R.xml.typing_method_preferences);
   }

@@ -1178,6 +1178,10 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
+    if (event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
+        || event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED) {
+      updateRideAppAccessibility();
+    }
     if (!PauseController.isPaused()
         && event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
         && (Build.VERSION.SDK_INT < Build.VERSION_CODES.P
@@ -3379,6 +3383,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       setServiceInfo(info);
     }
     updateExtendedGestures();
+    updateRideAppAccessibility();
 
     if (callStateMonitor != null) {
       callStateMonitor.startMonitoring();
@@ -5281,6 +5286,36 @@ public class TalkBackService extends AccessibilityServiceCompat
       default:
         return false;
     }
+  }
+
+  private void updateRideAppAccessibility() {
+    AccessibilityWindowInfo front = null;
+    for (AccessibilityWindowInfo window : getWindows()) {
+      if (window.getType() != AccessibilityWindowInfo.TYPE_APPLICATION) continue;
+      if (window.isActive()) {
+        front = window;
+        break;
+      }
+      if (window.isFocused()) front = window;
+    }
+    if (front == null) return;
+    AccessibilityNodeInfo root = front.getRoot();
+    if (root == null) return;
+    CharSequence packageName;
+    try {
+      packageName = root.getPackageName();
+    } finally {
+      root.recycle();
+    }
+    AccessibilityServiceInfo info = getServiceInfo();
+    if (info == null) return;
+    int flags = com.google.android.accessibility.utils.RideAppAccessibility.serviceFlags(
+        info.flags, packageName);
+    if (flags == info.flags) return;
+    info.flags = flags;
+    setServiceInfo(info);
+    TraversalTreeCache.clear("ride app accessibility views changed");
+    PreparedFocusSpeech.clear();
   }
 
   @Nullable

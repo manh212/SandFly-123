@@ -26,30 +26,29 @@ class SchemeKeyRecognizerTest {
     assertTrue(key(KeyEvent.ACTION_UP, code, time + 10, device = device))
   }
 
-  @Test fun plainKeyRequiresTwoPressesAndRunsOnlyOnce() {
-    tap(KeyEvent.KEYCODE_H, 100)
+  @Test fun plainKeyRunsOnceOnEachRelease() {
+    assertTrue(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 100))
     assertTrue(actions.isEmpty())
-    tap(KeyEvent.KEYCODE_H, 300)
+    assertTrue(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 110))
     assertEquals(listOf(KeyCombo(0, 0, KeyEvent.KEYCODE_H, false)), actions)
-    tap(KeyEvent.KEYCODE_H, 400)
-    assertEquals(1, actions.size)
+    tap(KeyEvent.KEYCODE_H, 300)
+    assertEquals(2, actions.size)
   }
 
-  @Test fun intervalAt400MillisecondsDoesNotConfirm() {
+  @Test fun longIntervalDoesNotRequireAnotherPress() {
     tap(KeyEvent.KEYCODE_H, 100)
-    tap(KeyEvent.KEYCODE_H, 510)
-    assertTrue(actions.isEmpty())
-    tap(KeyEvent.KEYCODE_H, 600)
-    assertEquals(1, actions.size)
+    tap(KeyEvent.KEYCODE_H, 2000)
+    assertEquals(2, actions.size)
   }
 
-  @Test fun repeatsAndCancellationDoNotConfirm() {
+  @Test fun repeatsRunOnceAndCancelledPressDoesNotRun() {
     key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 100)
     key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 120, repeat = 1)
     key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 150)
+    assertEquals(1, actions.size)
     key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 200)
     key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 210, flags = KeyEvent.FLAG_CANCELED)
-    assertTrue(actions.isEmpty())
+    assertEquals(1, actions.size)
   }
 
   @Test fun telexDoubleLettersPassWhileEditing() {
@@ -77,24 +76,31 @@ class SchemeKeyRecognizerTest {
     assertTrue(actions.single().isTriggerModifierUsed)
   }
 
-  @Test fun unrelatedKeysAndOtherDevicesBreakDoublePress() {
-    tap(KeyEvent.KEYCODE_H, 100)
-    assertFalse(key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_Z, 150))
-    assertFalse(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_Z, 160))
-    tap(KeyEvent.KEYCODE_H, 200)
-    tap(KeyEvent.KEYCODE_H, 250, device = 2)
+  @Test fun releaseFromAnotherDeviceCannotRunHeldAssignment() {
+    key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 100, device = 1)
+    assertFalse(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 110, device = 2))
     assertTrue(actions.isEmpty())
+    assertTrue(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 120, device = 1))
+    assertEquals(1, actions.size)
   }
 
   @Test fun focusChangeCancelsWithoutLeakingConsumedRelease() {
     key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 100)
     recognizer.cancelPending()
     assertTrue(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 110))
-    tap(KeyEvent.KEYCODE_H, 200)
     assertTrue(actions.isEmpty())
+    tap(KeyEvent.KEYCODE_H, 200)
+    assertEquals(1, actions.size)
     key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_T, 250, KeyEvent.META_CTRL_ON)
     recognizer.cancelPending()
     assertTrue(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_T, 260))
+    assertEquals(1, actions.size)
+  }
+
+  @Test fun enteringEditorBeforeReleaseCancelsPlainShortcut() {
+    key(KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_H, 100)
+    editing = true
+    assertTrue(key(KeyEvent.ACTION_UP, KeyEvent.KEYCODE_H, 110))
     assertTrue(actions.isEmpty())
   }
 
