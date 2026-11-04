@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:key="pref_category_diagnostics">
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:key="@string/pref_debug_log_key"
       android:title="@string/title_pref_debug_log"

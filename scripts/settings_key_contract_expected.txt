@@ -755,3 +755,8 @@ pref_selector_gesture_profile_key
 pref_shortcut_two_finger_rotate_clockwise
 pref_shortcut_two_finger_rotate_counterclockwise
 pref_meridian_wallpaper
+
+support_compose
+support_inbox
+support_latest_log
+support_screen
