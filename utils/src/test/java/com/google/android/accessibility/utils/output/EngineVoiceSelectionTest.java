@@ -13,6 +13,7 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 import org.junit.Test;
+import org.junit.After;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
@@ -28,6 +29,12 @@ public class EngineVoiceSelectionTest {
       Voice.QUALITY_NORMAL, Voice.LATENCY_NORMAL, false, Collections.emptySet());
   private final Voice second = new Voice("two", first.getLocale(),
       Voice.QUALITY_NORMAL, Voice.LATENCY_NORMAL, false, Collections.emptySet());
+
+  @After
+  public void clearProfileState() {
+    prefs.edit().clear().commit();
+    VoiceProfiles.setActive(null);
+  }
 
   private FailoverTextToSpeech engine(TextToSpeech backend) {
     FailoverTextToSpeech engine = new FailoverTextToSpeech(context, false);
