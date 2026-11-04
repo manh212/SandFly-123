@@ -43,6 +43,7 @@ public abstract class TalkbackBaseFragment extends BasePreferencesFragment {
   @Override
   public void onResume() {
     super.onResume();
+    if (getContext() != null) com.google.android.accessibility.talkback.licensing.SupportClient.opened(getContext());
     if (getView() != null) {
       getView().post(() -> SettingsSearchNavigation.focusTarget(this));
     }
@@ -114,3 +115,4 @@ public abstract class TalkbackBaseFragment extends BasePreferencesFragment {
     return findPreference(getString(resId));
   }
 }
+

@@ -207,6 +207,17 @@ final class AdminPanel {
           + "\nGói: " + current.packageName + " (" + current.packageId + ")\nQuyền: " + features(current)
           + "\nNgày cấp: " + date(current.issuedAt) + "\nHết hạn: " + date(current.expiresAt)
           + "\nPhiên bản trạng thái: " + current.revision;
+      long lastSeen = 0;
+      try {
+        JSONObject contacts = EnrollmentService.create(activity).matching("supportContacts", "request", entry.getString("request"));
+        for (String identity : io.meridian.licensing.SupportProtocol.keys(contacts)) {
+          JSONObject contact = contacts.optJSONObject(identity);
+          if (contact != null) lastSeen = Math.max(lastSeen, contact.optLong("lastSeen"));
+        }
+      } catch (Exception ignored) {}
+      report += "\nLần liên hệ gần nhất: " + (lastSeen == 0 ? "Chưa có dữ liệu"
+          : java.text.DateFormat.getDateTimeInstance().format(new java.util.Date(lastSeen)))
+          + "\nThời điểm này chỉ cho biết lần nhận dữ liệu gần nhất, không xác nhận thiết bị đang trực tuyến.";
       String info = report;
       ui(() -> {
         LinearLayout root = column(); text(root, info);

@@ -76,7 +76,7 @@ object SettingsBackup {
   @VisibleForTesting
   val SECRET_KEYS = setOf("pref_gemini_api_key", "pref_ai_service_api_key")
 
-  private val SKIPPED_FILES = setOf(MigrationFiles.STATE_PREFS)
+  private val SKIPPED_FILES = setOf(MigrationFiles.STATE_PREFS, "meridian_enrollment", "meridian_support_private")
 
   /** Files of libraries, such as Google Play services and WebView, which hold their own state. */
   private val LIBRARY_PREFIXES = listOf("com.google.", "androidx.", "WebView", "Firebase")
@@ -523,3 +523,4 @@ object SettingsBackup {
     }
   }
 }
+

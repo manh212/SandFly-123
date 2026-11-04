@@ -63,6 +63,19 @@ public class SettingsSearchIndexTest {
   }
 
   @Test
+  public void loggingAndFeedbackAreIndexedUnderTheirOwnSettingsPage() {
+    Context context = RuntimeEnvironment.getApplication();
+    List<SettingsSearchIndex.Entry> entries = build(context);
+    for (String key : new String[]{context.getString(R.string.pref_debug_log_key),
+        context.getString(R.string.pref_export_diagnostics_to_downloads_key), "support_compose", "support_latest_log", "support_inbox"}) {
+      assertTrue(key, entries.stream().anyMatch(entry -> entry.key.equals(key)
+          && entry.fragment.endsWith("LogAndReportsFragment")));
+      assertFalse(key, entries.stream().anyMatch(entry -> entry.key.equals(key)
+          && entry.fragment.endsWith("TutorialAndHelpFragment")));
+    }
+  }
+
+  @Test
   public void selectorGroupsAreIndexedAtTheirCanonicalOwnerWhenSupported() {
     Context context = RuntimeEnvironment.getApplication();
     FormFactorUtils.initialize(context);
@@ -100,3 +113,4 @@ public class SettingsSearchIndexTest {
     return builder.entries();
   }
 }
+

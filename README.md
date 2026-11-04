@@ -36,6 +36,15 @@ and an encrypted GitHub token. Existing registrations remain supported.
 See [Activation and recovery](docs/activation-recovery.md) for initial owner
 setup, migration, connectivity requirements and security limits.
 
+## Feedback and diagnostics
+
+Open **Nhật ký và báo lỗi** in Meridian settings to send feedback, report a bug,
+attach a manually selected diagnostic snapshot or read support replies. This is
+available even without an active license. Meridian Quản trị can reply, manage
+internal processing states and download received logs as text files. Helpers
+can support every conversation without licensing privileges. The owner must
+publish the updated Firebase rules once. See [Support setup and limits](docs/support-feedback.md).
+
 ## Moving an older Meridian installation
 
 An older installation may use the same Android app id, `io.github.aaron_gh.meridian`, but a different signing key. Android cannot install this build over it, so:

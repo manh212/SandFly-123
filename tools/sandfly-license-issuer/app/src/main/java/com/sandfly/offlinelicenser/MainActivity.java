@@ -36,6 +36,9 @@ public final class MainActivity extends ComponentActivity {
   private String pendingDescription, pendingUid;
   private LicensePolicy pendingPolicy;
   private AdminPanel panel;
+  private SupportDesk support;
+  private LinearLayout ownerSection;
+  private volatile boolean ownerAuthorized;
   private boolean authBusy;
   private boolean loginCompleting;
   private CancellationSignal authentication;
@@ -50,12 +53,19 @@ public final class MainActivity extends ComponentActivity {
     column.setPadding(padding, padding, padding, padding);
     scroll.addView(column);
     setContentView(scroll);
-    title(column, "Quản trị kích hoạt Meridian");
-    state = label(column, "Đang đọc trạng thái…");
+    title(column, "Meridian Quản trị");
+    state = label(column, "");
     if (!OfficialInstall.verified(this)) {
       state.setText("Công cụ chưa có chữ ký chính thức. Hãy cài APK Meridian Quản trị từ dự án.");
       return;
     }
+    support = new SupportDesk(this);
+    support.attach(column);
+    ownerSection = new LinearLayout(this);
+    ownerSection.setOrientation(LinearLayout.VERTICAL);
+    ownerSection.setVisibility(View.GONE);
+    column.addView(ownerSection);
+    column = ownerSection;
     label(column, "Công cụ này cài song song với bản cũ. Giữ nguyên bản cũ để bảo toàn khóa và giấy phép đã cấp trước đây.");
     button(column, "Tạo khóa cấp phép", view -> createKey());
     publicKeyText = label(column, "Chưa tạo khóa cấp phép.");
@@ -91,8 +101,6 @@ public final class MainActivity extends ComponentActivity {
     panel.attach(column);
     label(column, "Không gỡ hoặc xóa dữ liệu công cụ này. Khóa riêng trong phần cứng không thể xuất hoặc khôi phục từ GitHub. Tệp công khai chỉ có giấy phép đã ký và định danh đã băm.");
     BrowserConnection.observe(this);
-    refresh();
-    if (getIntent().getData() != null) completeLogin(getIntent().getData());
   }
 
   @Override protected void onNewIntent(Intent intent) {
@@ -102,6 +110,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void login() {
+    if (!ownerAuthorized) return;
     loginButton.setEnabled(false);
     state.setText("Đang mở đăng nhập GitHub…");
     SyncCoordinator.WORKER.execute(() -> {
@@ -134,6 +143,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void continueFromClipboard() {
+    if (!ownerAuthorized) return;
     ClipboardManager clipboard = getSystemService(ClipboardManager.class);
     ClipData clip = clipboard == null ? null : clipboard.getPrimaryClip();
     CharSequence value = clip == null || clip.getItemCount() == 0 ? null : clip.getItemAt(0).getText();
@@ -153,7 +163,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void completeLogin(Uri uri) {
-    if (loginCompleting) return;
+    if (!ownerAuthorized || loginCompleting) return;
     loginCompleting = true;
     getIntent().setData(null);
     SyncCoordinator.WORKER.execute(() -> {
@@ -182,8 +192,8 @@ public final class MainActivity extends ComponentActivity {
     super.onResume();
     if (OfficialInstall.verified(this)) {
       BrowserConnection.observe(this);
-      resumeLogin();
-      synchronize();
+      if (support != null) support.refreshRole();
+      if (ownerAuthorized) { resumeLogin(); synchronize(); }
     }
   }
 
@@ -239,6 +249,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void createKey() {
+    if (!ownerAuthorized) return;
     state.setText("Đang tạo khóa trong phần cứng bảo mật…");
     SyncCoordinator.WORKER.execute(() -> {
       try {
@@ -250,6 +261,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void synchronize() {
+    if (!ownerAuthorized) return;
     SyncCoordinator.WORKER.execute(() -> {
       try {
         if (IssuerKeys.exists() && new IssuerStore(this).connected()) {
@@ -262,6 +274,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void refresh() {
+    if (!ownerAuthorized) return;
     SyncCoordinator.WORKER.execute(() -> {
       try {
         boolean exists = IssuerKeys.exists();
@@ -282,6 +295,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void authenticate() {
+    if (!ownerAuthorized) return;
     if (authBusy) return;
     try {
       pendingRequest = requestInput.getText().toString().trim();
@@ -348,6 +362,8 @@ public final class MainActivity extends ComponentActivity {
 
   @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
+    if (support != null && support.result(requestCode, resultCode, data)) return;
+    if (!ownerAuthorized) return;
     if (requestCode == BROWSER_REQUEST) {
       loginButton.setEnabled(true);
       resumeLogin();
@@ -364,6 +380,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   private void issue(Signature signer) {
+    if (!ownerAuthorized) return;
     String request = pendingRequest;
     String name = pendingName;
     String description = pendingDescription;
@@ -410,6 +427,7 @@ public final class MainActivity extends ComponentActivity {
   }
 
   void preparePolicy(LicensePolicy policy, String request, String name, String description, String uid) {
+    if (!ownerAuthorized) return;
     if (authBusy) { state.setText("Hãy hoàn tất xác thực hiện tại trước."); return; }
     panel.closeScreens();
     pendingPolicy = policy;
@@ -418,6 +436,20 @@ public final class MainActivity extends ComponentActivity {
     requestInput.setText(request);
     nameInput.setText(name);
     authenticate();
+  }
+
+  void supportOwnerMode(boolean allowed) {
+    boolean changed = ownerAuthorized != allowed;
+    ownerAuthorized = allowed;
+    ownerSection.setVisibility(allowed ? View.VISIBLE : View.GONE);
+    if (!allowed) {
+      state.setText("");
+      if (authentication != null) authentication.cancel();
+    }
+    if (allowed) {
+      if (changed) { refresh(); synchronize(); resumeLogin(); }
+      if (getIntent().getData() != null) completeLogin(getIntent().getData());
+    }
   }
 
   void message(String value) { onUi(() -> state.setText(value)); }

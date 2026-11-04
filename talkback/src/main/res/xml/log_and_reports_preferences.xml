@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:key="@string/pref_debug_log_key"
+      android:title="@string/title_pref_debug_log"
+      android:defaultValue="@bool/pref_debug_log_default" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="support_latest_log"
+      android:title="@string/support_latest_log" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="support_compose"
+      android:title="@string/support_compose" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="support_inbox"
+      android:title="@string/support_inbox" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_export_diagnostics_to_downloads_key"
+      android:title="@string/title_pref_export_diagnostics_to_downloads" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_copy_diagnostics_key"
+      android:title="@string/title_pref_copy_diagnostics" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="@string/pref_delete_debug_log_key"
+      android:title="@string/title_pref_delete_debug_log" />
+</PreferenceScreen>

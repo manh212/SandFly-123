@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="support_title">Nhật ký và báo lỗi</string>
+  <string name="support_latest_log">Gửi nhật ký mới nhất</string>
+  <string name="support_compose">Gửi góp ý hoặc báo lỗi</string>
+  <string name="support_inbox">Hộp thư hỗ trợ và hàng chờ gửi</string>
+</resources>

@@ -43,6 +43,20 @@ class SettingsBackupTest {
   private val braille = SharedPreferencesUtils.getSharedPreferences(context, "braille_keyboard")
 
   @Test
+  fun supportIdentityAndQueuedLogsStayPrivateDuringSettingsExportAndImport() {
+    for (name in listOf("meridian_enrollment", "meridian_support_private")) {
+      val privatePrefs = context.getSharedPreferences(name, Context.MODE_PRIVATE)
+      privatePrefs.edit().clear().putString("data", "private-support-content").commit()
+      assertFalse(SettingsBackup.export(context).contains("private-support-content"))
+      val foreign = JSONObject().put("format", "sandfly-settings").put("version", 1)
+        .put("files", JSONObject().put("credential", JSONObject().put(name,
+          JSONObject().put("data", JSONObject().put("type", "string").put("value", "foreign-content")))))
+      assertTrue(SettingsBackup.import(context, foreign.toString()))
+      assertEquals("private-support-content", privatePrefs.getString("data", null))
+    }
+  }
+
+  @Test
   fun gestureProfilesRoundTripWithoutRestoringTheActiveSelection() {
     prefs.edit().clear().commit()
     val profiles = listOf(GestureProfiles.Profile("a", "Đọc sách", mapOf("pref_shortcut_up" to "NEXT")))
@@ -368,3 +382,4 @@ class SettingsBackupTest {
     }
   }
 }
+

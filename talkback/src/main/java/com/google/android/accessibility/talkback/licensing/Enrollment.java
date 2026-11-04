@@ -90,6 +90,7 @@ final class Enrollment {
           JSONObject body = new JSONObject().put("request", request).put("name", fullName)
               .put("description", details).put("createdAt", FirebaseRest.timestamp());
           service.put("requests/" + uid, body);
+          SupportClient.submittedRegistration(app, fullName);
           existing = body;
         }
         submitted = existing.length() > 0;

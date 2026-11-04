@@ -10,6 +10,8 @@ on:
       - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/RecoveryProtocolTest.java'
       - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/CatalogPublisherTest.java'
       - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/LicensePolicyTest.java'
+      - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/SupportProtocolTest.java'
+      - 'talkback/src/test/java/com/google/android/accessibility/talkback/licensing/FirebaseRestIdentityTest.java'
   workflow_dispatch:
 
 concurrency:
@@ -82,7 +84,7 @@ jobs:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}
         run: |
           set -o pipefail
-          gradle -p tools/sandfly-license-issuer :app:testDebugUnitTest --tests 'com.google.android.accessibility.talkback.licensing.RecoveryProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.CatalogPublisherTest' --tests 'com.google.android.accessibility.talkback.licensing.LicensePolicyTest' --tests 'com.sandfly.offlinelicenser.GitHubAppProtocolTest' --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-tests.log"
+          gradle -p tools/sandfly-license-issuer :app:testDebugUnitTest --tests 'com.google.android.accessibility.talkback.licensing.RecoveryProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.CatalogPublisherTest' --tests 'com.google.android.accessibility.talkback.licensing.LicensePolicyTest' --tests 'com.sandfly.offlinelicenser.GitHubAppProtocolTest' --tests 'com.sandfly.offlinelicenser.SupportLogDownloadTest' --tests 'com.google.android.accessibility.talkback.licensing.SupportProtocolTest' --tests 'com.google.android.accessibility.talkback.licensing.FirebaseRestIdentityTest' --no-daemon --stacktrace 2>&1 | tee "$RUNNER_TEMP/issuer-tests.log"
       - name: Build admin APK
         env:
           SANDFLY_KEY_PASSWORD: ${{ secrets.SANDFLY_KEY_PASSWORD }}

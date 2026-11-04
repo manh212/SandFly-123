@@ -11,6 +11,10 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 public final class FirebaseRest {
+  private static final Object AUTH_LOCK = new Object();
+  public interface Transport {
+    String request(String address, String method, String body, String contentType) throws Exception;
+  }
   public interface Storage {
     String read() throws Exception;
     void write(String value) throws Exception;
@@ -32,29 +36,40 @@ public final class FirebaseRest {
 
   private final Config config;
   private final Storage storage;
+  private final Transport transport;
   private JSONObject identity;
   private String token;
 
   public FirebaseRest(Config config, Storage storage) {
+    this(config, storage, FirebaseRest::http);
+  }
+
+  public FirebaseRest(Config config, Storage storage, Transport transport) {
     this.config = config;
     this.storage = storage;
+    this.transport = transport;
   }
 
   public String uid() throws Exception { authenticate(); return identity.getString("uid"); }
 
   private void authenticate() throws Exception {
+    synchronized (AUTH_LOCK) { authenticateLocked(); }
+  }
+
+  private void authenticateLocked() throws Exception {
     if (token != null) return;
     if (!config.enabled()) throw new IllegalStateException("Chưa cấu hình dịch vụ đăng ký Firebase.");
     identity = new JSONObject(storage.read());
     JSONObject result;
+    String nextToken;
     if (identity.length() == 0) {
-      result = new JSONObject(http("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
+      result = new JSONObject(transport.request("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
           + config.apiKey, "POST", "{\"returnSecureToken\":true}", "application/json"));
       identity.put("uid", result.getString("localId"));
       identity.put("refresh", result.getString("refreshToken"));
-      token = result.getString("idToken");
+      nextToken = result.getString("idToken");
     } else {
-      result = new JSONObject(http("https://securetoken.googleapis.com/v1/token?key=" + config.apiKey,
+      result = new JSONObject(transport.request("https://securetoken.googleapis.com/v1/token?key=" + config.apiKey,
           "POST", "grant_type=refresh_token&refresh_token="
               + URLEncoder.encode(identity.getString("refresh"), "UTF-8"),
           "application/x-www-form-urlencoded"));
@@ -62,13 +77,36 @@ public final class FirebaseRest {
         throw new IllegalStateException("Danh tính Firebase không khớp.");
       }
       identity.put("refresh", result.getString("refresh_token"));
-      token = result.getString("id_token");
+      nextToken = result.getString("id_token");
     }
     storage.write(identity.toString());
+    token = nextToken;
   }
 
   public JSONObject get(String path) throws Exception {
     String raw = database(path, "GET", null);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public boolean flag(String path) throws Exception {
+    return database(path, "GET", null).trim().equals("true");
+  }
+
+  public JSONObject recent(String path, String order, int limit, String before) throws Exception {
+    if (!order.matches("\\$key|lastAt|request") || limit < 1 || limit > 100) {
+      throw new IllegalArgumentException("Bộ lọc dữ liệu không hợp lệ.");
+    }
+    String query = "&orderBy=" + URLEncoder.encode(JSONObject.quote(order), "UTF-8")
+        + "&limitToLast=" + limit;
+    if (before != null) query += "&endAt=" + URLEncoder.encode(JSONObject.quote(before), "UTF-8");
+    String raw = database(path, "GET", null, query);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public JSONObject matching(String path, String field, String value) throws Exception {
+    if (!field.equals("request")) throw new IllegalArgumentException("Bộ lọc dữ liệu không hợp lệ.");
+    String raw = database(path, "GET", null, "&orderBy=" + URLEncoder.encode(JSONObject.quote(field), "UTF-8")
+        + "&equalTo=" + URLEncoder.encode(JSONObject.quote(value), "UTF-8") + "&limitToLast=50");
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
   }
 
@@ -77,11 +115,15 @@ public final class FirebaseRest {
   }
 
   private String database(String path, String method, String body) throws Exception {
-    if (!path.matches("(?:requests|decisions|devices|admins)(?:/[a-zA-Z0-9_-]{1,128})?")) {
+    return database(path, method, body, "");
+  }
+
+  private String database(String path, String method, String body, String query) throws Exception {
+    if (!path.matches("(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts)(?:/[a-zA-Z0-9_-]{1,128}){0,2}")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
     authenticate();
-    return http(config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8"),
+    return transport.request(config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8") + query,
         method, body, "application/json");
   }
 

@@ -225,6 +225,8 @@ jobs:
               --namespace com.google.android.accessibility.talkback.licensing \
               --namespace io.meridian.licensing \
               --entrypoint com.google.android.accessibility.talkback.licensing.ActivationActivity \
+              --entrypoint com.google.android.accessibility.talkback.licensing.SupportActivity \
+              --entrypoint com.google.android.accessibility.talkback.licensing.SupportJobService \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#status' \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#request' \
               --member 'com.google.android.accessibility.talkback.licensing.ActivationActivity#refresh' \

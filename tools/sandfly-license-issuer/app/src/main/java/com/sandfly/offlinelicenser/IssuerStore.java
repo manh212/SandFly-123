@@ -62,6 +62,10 @@ final class IssuerStore {
   void packages(JSONObject value) throws Exception { secrets.write("packages", value.toString()); }
   String firebase() throws Exception { return secrets.read("firebase", "{}"); }
   void firebase(String value) throws Exception { secrets.write("firebase", value); }
+  boolean ownerUiCached() throws Exception { return secrets.read("supportOwner", "false").equals("true"); }
+  void ownerUiCached(boolean value) throws Exception { secrets.write("supportOwner", Boolean.toString(value)); }
+  JSONObject supportDownload() throws Exception { return new JSONObject(secrets.read("supportDownload", "{}")); }
+  void supportDownload(JSONObject value) throws Exception { secrets.write("supportDownload", value.toString()); }
 
   void importRecord(JSONObject entry) throws Exception {
     importRecord(entry, true);

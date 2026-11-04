@@ -32,6 +32,7 @@ public final class ActivationActivity extends Activity {
     TextView title = new TextView(this);
     title.setText("Đăng ký Meridian"); title.setTextSize(22); layout.addView(title);
     status = new TextView(this); status.setTextSize(17); layout.addView(status);
+    addButton(layout, "Nhật ký và báo lỗi", v -> startActivity(new android.content.Intent(this, SupportActivity.class)));
     fullName = new EditText(this); fullName.setHint("Họ và tên");
     fullName.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(80)});
     layout.addView(fullName);
@@ -72,6 +73,7 @@ public final class ActivationActivity extends Activity {
   }
   @Override protected void onResume() {
     super.onResume();
+    SupportClient.opened(this);
     ActivationReminder.setActivationVisible(true);
     visible = true;
     handler.post(poll);
