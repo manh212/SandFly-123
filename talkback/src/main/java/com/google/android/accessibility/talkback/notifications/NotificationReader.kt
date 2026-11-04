@@ -69,7 +69,7 @@ import java.util.Locale
  * them. Every notification that would be spoken passes through [handle], which reads it, sets it
  * aside for a delay, or leaves it unread, and records it in [NotificationHistory].
  *
- * Calls are not handled here, so the caller is always said.
+ * Calls are handled by CallAnnouncements.
  */
 object NotificationReader {
   private const val TAG = "NotificationReader"
@@ -458,20 +458,6 @@ object NotificationReader {
     )
   }
 
-  /** Whether a call is announced while Do Not Disturb is on. */
-  @JvmStatic
-  @MainThread
-  fun callAllowedDuringDnd(event: AccessibilityEvent, notification: Notification): Boolean {
-    val context = context ?: return false
-    val packageName = event.packageName?.toString() ?: return false
-    return when (settings(context).dnd) {
-      DndMode.ALL -> true
-      DndMode.NONE -> false
-      DndMode.ALLOWED ->
-        NotificationListService.instance?.matchesInterruptionFilter(packageName, notification) == true
-    }
-  }
-
   /**
    * Tells [then] whether Do Not Disturb lets [notification] through. The listener can have the
    * notification's ranking a moment after the accessibility event, so it is asked again a few
@@ -619,22 +605,6 @@ object NotificationReader {
     if (notification.category == Notification.CATEGORY_CALL || !settings(context).history) return
     val info = NotificationInfo.from(packageName, appName(context, packageName), notification)
     NotificationHistory.add(NotificationHistory.Entry(info, System.currentTimeMillis(), outcome, info.content, emptyList()))
-  }
-
-  /**
-   * Records in the history an incoming call, which is announced as calls always are, whatever the
-   * notification settings say.
-   */
-  @JvmStatic
-  @MainThread
-  fun noteCall(event: AccessibilityEvent, notification: Notification) {
-    val context = context ?: return
-    if (!settings(context).history) return
-    val packageName = event.packageName?.toString() ?: return
-    val info = NotificationInfo.from(packageName, appName(context, packageName), notification)
-    NotificationHistory.add(
-      NotificationHistory.Entry(info, System.currentTimeMillis(), Outcome.CALL, info.content, emptyList())
-    )
   }
 
   /** Reads every notification in the shade. Returns false when SandFly isn't running. */

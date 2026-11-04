@@ -30,6 +30,7 @@ import android.telecom.InCallService
 import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.android.accessibility.talkback.TalkBackService
+import com.google.android.accessibility.talkback.calls.CallAnnouncements
 import com.google.android.accessibility.talkback.pause.PauseController
 import com.google.android.accessibility.talkback.speakerphone.SpeakerphonePolicy.Route
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -62,6 +63,7 @@ class SpeakerphoneInCallService : InCallService() {
   private val callCallback =
     object : Call.Callback() {
       override fun onStateChanged(call: Call, state: Int) {
+        CallAnnouncements.onTelecomCall(call, state)
         update()
       }
     }
@@ -96,6 +98,7 @@ class SpeakerphoneInCallService : InCallService() {
 
   override fun onCreate() {
     super.onCreate()
+    instance = this
     sensorManager = getSystemService(SensorManager::class.java)
     sensor =
       sensorManager.getDefaultSensor(Sensor.TYPE_PROXIMITY, /* wakeUp= */ true)
@@ -106,6 +109,8 @@ class SpeakerphoneInCallService : InCallService() {
   }
 
   override fun onDestroy() {
+    if (instance === this) instance = null
+    CallAnnouncements.onTelecomDisconnected()
     SharedPreferencesUtils.getSharedPreferences(this)
       .unregisterOnSharedPreferenceChangeListener(prefsListener)
     stopListening()
@@ -114,11 +119,13 @@ class SpeakerphoneInCallService : InCallService() {
 
   override fun onCallAdded(call: Call) {
     call.registerCallback(callCallback, main)
+    CallAnnouncements.onTelecomCall(call, call.details.state)
     update()
   }
 
   override fun onCallRemoved(call: Call) {
     call.unregisterCallback(callCallback)
+    CallAnnouncements.onTelecomRemoved(call)
     update()
   }
 
@@ -161,6 +168,16 @@ class SpeakerphoneInCallService : InCallService() {
     }
 
   companion object {
+    private var instance: SpeakerphoneInCallService? = null
+
+    @JvmStatic
+    fun refreshAnnouncements() {
+      if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
+      instance?.calls?.forEach {
+        CallAnnouncements.onTelecomCall(it, it.details.state)
+      }
+    }
+
     private const val TAG = "SpeakerphoneInCall"
 
     /** How long a reading must hold before the call switches. */

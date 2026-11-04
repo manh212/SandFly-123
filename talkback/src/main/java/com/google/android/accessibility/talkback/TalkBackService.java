@@ -57,6 +57,7 @@ import android.accessibilityservice.AccessibilityGestureEvent;
 import android.accessibilityservice.AccessibilityServiceInfo;
 import android.accessibilityservice.FingerprintGestureController;
 import android.accessibilityservice.FingerprintGestureController.FingerprintGestureCallback;
+import android.app.KeyguardManager;
 import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
@@ -76,6 +77,7 @@ import android.os.Build.VERSION;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.PowerManager;
 import android.os.SystemClock;
 import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
@@ -220,6 +222,8 @@ import com.google.android.accessibility.talkback.monitor.RingerModeAndScreenMoni
 import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
+import com.google.android.accessibility.talkback.calls.CallAnnouncements;
+import com.google.android.accessibility.talkback.volume.TouchExplorationResumePolicy;
 import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
 import com.google.android.accessibility.talkback.speechdictionary.SpeechDictionary;
@@ -500,12 +504,6 @@ public class TalkBackService extends AccessibilityServiceCompat
                 }
               }
             });
-      }
-      // Phone permission.
-      @Nullable CallStateMonitor callStateMonitor = talkBackService.callStateMonitor;
-      @Nullable SharedPreferences prefs = talkBackService.prefs;
-      if (callStateMonitor != null && prefs != null) {
-        callStateMonitor.requestPhonePermissionIfNeeded(prefs);
       }
     }
 
@@ -1055,6 +1053,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       scriptHost = null;
     }
     TutorialHooks.setFeedback(null);
+    CallAnnouncements.detach();
     NotificationReader.detach();
     NotificationListService.onSandFlyStopped();
 
@@ -1234,6 +1233,12 @@ public class TalkBackService extends AccessibilityServiceCompat
   }
 
   private void dispatchAccessibilityEvent(AccessibilityEvent event, long receivedAt) {
+    if (touchExplorationResumePolicy.isSuspended()
+        && (event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+            || event.getEventType() == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED)) {
+      PowerManager power = getSystemService(PowerManager.class);
+      onTouchExplorationScreenChanged(power != null && power.isInteractive());
+    }
     com.google.android.accessibility.talkback.taskassistant.TaskAssistant.onAccessibilityEvent(event);
     // Paused Backtalk drops events, except the end of a touch that started before the pause, so
     // that nothing still thinks a finger is down after resuming. Its feedback is dropped too.
@@ -1692,6 +1697,7 @@ public class TalkBackService extends AccessibilityServiceCompat
         FeatureFlagReader.enableSpeechVolumeKeyboard(this)
             && keyComboManager.isSandFlyKeyPressed(keyEvent);
     if (NotificationReader.onKeyEvent(keyEvent)) {
+      VolumeKeyManager.reset();
       return true;
     }
     if (VolumeKeyManager.onKeyEvent(this, keyEvent, triggerModifierPressed)) {
@@ -1936,6 +1942,10 @@ public class TalkBackService extends AccessibilityServiceCompat
     return recordingFocusGuard.blocks(windowId, sourceAction);
   }
 
+  public void refreshCallStateMonitoring() {
+    if (callStateMonitor != null) callStateMonitor.startMonitoring();
+  }
+
   public boolean isTouchInteracting() {
     return touchVolumeState.isTouching();
   }
@@ -1982,6 +1992,20 @@ public class TalkBackService extends AccessibilityServiceCompat
    */
   public void adjustContextualVolume(boolean increase) {
     adjustContextualVolume(increase, isTouchInteracting());
+  }
+
+  public void adjustUnmanagedVolumeKey(boolean increase, boolean touching) {
+    if (touching) {
+      adjustContextualVolume(increase, true);
+      return;
+    }
+    AudioManager audioManager = getSystemService(AudioManager.class);
+    if (audioManager != null) {
+      audioManager.adjustStreamVolume(
+          AudioManager.STREAM_MUSIC,
+          increase ? AudioManager.ADJUST_RAISE : AudioManager.ADJUST_LOWER,
+          AudioManager.FLAG_SHOW_UI);
+    }
   }
 
   /** As {@link #adjustContextualVolume(boolean)}, with the touch state given by the caller. */
@@ -2309,6 +2333,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   // Interrupts all Talkback feedback. Stops speech from other apps if stopTtsSpeechCompletely
   // is true.
   public void interruptAllFeedback(boolean stopTtsSpeechCompletely) {
+    CallAnnouncements.stopSpeech();
     if (fullScreenReadActor != null) {
       fullScreenReadActor.interrupt();
     }
@@ -2426,9 +2451,6 @@ public class TalkBackService extends AccessibilityServiceCompat
         // stage.
         ipcClientCallback.onTrainingFinish();
       } else {
-        // The method of requestPhonePermissionIfNeeded, which is triggered after the tutorial is
-        // finished, is dependent on hasOnboardingForNewFeaturesBeenShown, so we move it at the rear
-        // of markAllOnboardingAsShown.
         try {
           startActivity(
               new Intent(this, FirstRunActivity.class)
@@ -3356,10 +3378,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     updateExtendedGestures();
 
     if (callStateMonitor != null) {
-      // If we need to show the tutorial, we will ask permission after completing it.
-      if (!shouldShowTutorial()) {
-        callStateMonitor.requestPhonePermissionIfNeeded(prefs);
-      }
       callStateMonitor.startMonitoring();
     }
 
@@ -4360,11 +4378,33 @@ public class TalkBackService extends AccessibilityServiceCompat
     return isTouchExplorationEnabled();
   }
 
+  private final TouchExplorationResumePolicy touchExplorationResumePolicy =
+      new TouchExplorationResumePolicy();
+
+  public void onTouchExplorationScreenChanged(boolean interactive) {
+    if (prefs == null || !touchExplorationResumePolicy.isSuspended()) return;
+    KeyguardManager keyguard = getSystemService(KeyguardManager.class);
+    String mode = prefs.getString(
+        getString(R.string.pref_resume_backtalk_key), getString(R.string.pref_resume_backtalk_default));
+    if (touchExplorationResumePolicy.update(
+        mode == null ? "KEYGUARD" : mode, interactive,
+        keyguard != null && keyguard.isKeyguardLocked())) {
+      prefs.edit().putBoolean(getString(R.string.pref_explore_by_touch_key), true).apply();
+      applyTouchExplorationPreference();
+    }
+  }
+
   public @Nullable Boolean toggleTouchExploration() {
     Boolean current = isTouchExplorationEnabled();
     if (current == null) {
       return null;
     }
+    PowerManager power = getSystemService(PowerManager.class);
+    KeyguardManager keyguard = getSystemService(KeyguardManager.class);
+    touchExplorationResumePolicy.setSuspended(
+        current, power != null && power.isInteractive(),
+        keyguard != null && keyguard.isKeyguardLocked());
+    prefs.edit().putBoolean(getString(R.string.pref_explore_by_touch_key), !current).apply();
     return requestTouchExploration(!current);
   }
 
@@ -4376,6 +4416,13 @@ public class TalkBackService extends AccessibilityServiceCompat
           (FormFactorUtils.isAndroidTv()
               || getBooleanPref(
                   R.string.pref_explore_by_touch_key, R.bool.pref_explore_by_touch_default));
+      if (touchExplorationResumePolicy.isSuspended() == touchExploration) {
+        PowerManager power = getSystemService(PowerManager.class);
+        KeyguardManager keyguard = getSystemService(KeyguardManager.class);
+        touchExplorationResumePolicy.setSuspended(
+            !touchExploration, power != null && power.isInteractive(),
+            keyguard != null && keyguard.isKeyguardLocked());
+      }
       requestTouchExploration(touchExploration);
     }
   }
@@ -4383,6 +4430,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Turns off, or back on, what pausing Backtalk turns off besides events and feedback. */
   private void onPauseChanged(boolean paused) {
     if (paused) {
+      CallAnnouncements.stopSpeech();
       if (gestureController != null) {
         gestureController.stopScreenRecognitionForPause();
       }
@@ -4737,6 +4785,32 @@ public class TalkBackService extends AccessibilityServiceCompat
                   || isSsbActive()
                   || (!overMedia && isAudioPlaybackActive()),
           this::isTouchInteracting);
+      CallAnnouncements.attach(
+          this,
+          (text, completion) -> {
+            boolean accepted = pipeline.getFeedbackReturner().returnFeedback(
+                EVENT_ID_UNTRACKED,
+                Feedback.speech(
+                    text,
+                    SpeechController.SpeakOptions.create()
+                        .setQueueMode(SpeechController.QUEUE_MODE_QUEUE)
+                        .setFlags(
+                            FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_PHONE_CALL_ACTIVE
+                                | FeedbackItem.FLAG_FORCE_FEEDBACK_EVEN_IF_AUDIO_PLAYBACK_ACTIVE)
+                        .setCompletedAction(completion)));
+            if (!accepted) completion.run(SpeechController.STATUS_ERROR);
+            return kotlin.Unit.INSTANCE;
+          },
+          completion -> {
+            speechController.stopItem(completion);
+            return kotlin.Unit.INSTANCE;
+          },
+          () -> !speechController.isMute()
+              && !speechController.getShouldSilentSpeech()
+              && !PauseController.isPaused()
+              && !isMicrophoneActiveAndHeadphoneOff()
+              && !isSsbActive(),
+          () -> speechController.isSpeaking());
       NotificationListService.onSandFlyStarted(this);
     }
     if (scriptHost != null || pipeline == null || !UserManagerCompat.isUserUnlocked(this)) {

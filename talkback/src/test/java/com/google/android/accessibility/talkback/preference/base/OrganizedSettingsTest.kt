@@ -340,4 +340,38 @@ class OrganizedSettingsTest {
     assertTrue(developer.findPreference<Preference>(key) == null)
   }
 
+  @Test
+  fun callSettingsBelongToReadingContentAndStartWithIndependentDefaults() {
+    val reading = SpeechGroupFragment()
+    open(reading)
+    val link = reading.findPreference<Preference>("pref_call_settings")
+    assertEquals(
+      "com.google.android.accessibility.talkback.calls.CallSettingsFragment", link?.fragment)
+    val calls = com.google.android.accessibility.talkback.calls.CallSettingsFragment()
+    open(calls)
+    assertTrue(calls.findPreference<TwoStatePreference>("pref_call_announce")!!.isChecked)
+    assertFalse(calls.findPreference<TwoStatePreference>("pref_call_duration")!!.isChecked)
+    assertFalse(calls.findPreference<TwoStatePreference>("pref_call_quiet_hours")!!.isChecked)
+    assertEquals("0", calls.findPreference<ListPreference>("pref_call_repeats")!!.value)
+    assertEquals("0", calls.findPreference<ListPreference>("pref_call_duration_interval")!!.value)
+    assertEquals(
+      "com.google.android.accessibility.talkback.notifications.InitialSetupFragment",
+      calls.findPreference<Preference>("pref_call_permissions")!!.fragment)
+  }
+
+  @Test
+  fun volumeMultiPressSwitchStartsOffAndEachNewAssignmentStartsEmpty() {
+    val volume = com.google.android.accessibility.talkback.volume.VolumeKeySettingsFragment()
+    open(volume)
+    assertFalse(volume.findPreference<TwoStatePreference>("pref_volume_keys_multi_enabled")!!.isChecked)
+    assertEquals("TOGGLE_TOUCH_EXPLORATION",
+      volume.findPreference<GestureListPreference>("pref_volume_both_action")!!.currentValue)
+    for (direction in listOf("up", "down")) {
+      for (count in 2..4) {
+        val row = volume.findPreference<GestureListPreference>("pref_volume_${direction}_${count}_press_action")!!
+        assertEquals("UNASSIGNED", row.currentValue)
+        assertFalse(row.isEnabled)
+      }
+    }
+  }
 }

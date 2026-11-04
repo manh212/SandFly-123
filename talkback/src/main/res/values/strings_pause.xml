@@ -35,7 +35,7 @@
     <string name="message_resume_key_combo">You can also press <xliff:g id="key_combo" example="Alt + P">%1$s</xliff:g>.</string>
 
     <!-- Title of the setting for when Meridian resumes after a pause. [CHAR LIMIT=NONE] -->
-    <string name="title_pref_resume_backtalk">Resume Meridian</string>
+    <string name="title_pref_resume_backtalk">Tự bật lại Meridian và duyệt bằng cách chạm</string>
     <!-- Setting value: Meridian resumes when the lock screen shows. [CHAR LIMIT=NONE] -->
     <string name="value_resume_keyguard">When the lock screen shows</string>
     <!-- Setting value: Meridian resumes when the screen turns on. [CHAR LIMIT=NONE] -->

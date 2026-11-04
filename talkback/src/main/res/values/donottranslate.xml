@@ -1861,17 +1861,20 @@
   <bool name="pref_show_context_menu_pause_backtalk_default">true</bool>
   <string name="pref_resume_backtalk_key" translatable="false">pref_resume_talkback</string>
   <string name="resume_screen_keyguard" translatable="false">KEYGUARD</string>
+  <string name="resume_screen_off" translatable="false">SCREEN_OFF</string>
   <string name="resume_screen_on" translatable="false">SCREEN_ON</string>
   <string name="resume_screen_manual" translatable="false">MANUAL</string>
   <string name="pref_resume_backtalk_default" translatable="false">@string/resume_screen_keyguard</string>
   <string-array name="pref_resume_backtalk_entries">
     <item>@string/value_resume_keyguard</item>
     <item>@string/value_resume_screen_on</item>
+    <item>@string/value_resume_screen_off</item>
     <item>@string/value_resume_manual</item>
   </string-array>
   <string-array name="pref_resume_backtalk_values">
     <item>@string/resume_screen_keyguard</item>
     <item>@string/resume_screen_on</item>
+    <item>@string/resume_screen_off</item>
     <item>@string/resume_screen_manual</item>
   </string-array>
   <item type="id" name="pause_backtalk" />

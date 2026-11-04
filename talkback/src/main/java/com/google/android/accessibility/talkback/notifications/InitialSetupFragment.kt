@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceGroup
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.calls.CallPermissions
 import com.google.android.accessibility.talkback.notifications.TimerPermissionChecks.Status
 
 /**
@@ -86,7 +87,14 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
     if (status != Status.GRANTED) {
       category.action(getString(current.openLabel)) {
         flow.tapOpen()
-        current.open(context)
+        if (current.title == R.string.call_permission_manage_title) {
+          CallPermissions.requestManagement(context) {
+            if (isAdded) {
+              flow.completeOpen(steps.size)
+              rebuild()
+            }
+          }
+        } else current.open(context)
       }
     }
     if (flow.reviewing) {
@@ -166,6 +174,33 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
         { TimerPermissionChecks.phoneStateStatus(it) },
         { TimerPermissionChecks.requestPhoneState(it) },
         { TimerPermissionChecks.hasTelephony(it) },
+      ),
+      Step(
+        R.string.call_permission_contacts_title,
+        R.string.call_permission_contacts_granted,
+        R.string.call_permission_contacts_missing,
+        R.string.call_permission_contacts_open,
+        { CallPermissions.contactsStatus(it) },
+        { CallPermissions.requestContacts(it) },
+        { TimerPermissionChecks.hasTelephony(it) },
+      ),
+      Step(
+        R.string.call_permission_log_title,
+        R.string.call_permission_log_granted,
+        R.string.call_permission_log_missing,
+        R.string.call_permission_log_open,
+        { CallPermissions.logStatus(it) },
+        { CallPermissions.requestLog(it) },
+        { TimerPermissionChecks.hasTelephony(it) },
+      ),
+      Step(
+        R.string.call_permission_manage_title,
+        R.string.call_permission_manage_granted,
+        R.string.call_permission_manage_missing,
+        R.string.call_permission_manage_open,
+        { CallPermissions.managementStatus(it) },
+        {},
+        { TimerPermissionChecks.hasTelephony(it) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S },
       ),
       Step(
         R.string.timer_setup_access_title,

@@ -57,3 +57,10 @@ Runtime device, API level, permission and feature filters still determine which 
 ## Regression coverage
 
 CI selects the relevant settings tests from the changed paths. Coverage checks main navigation and page destinations, the settings search index, selector settings, direct-touch backup/import behavior, subtitle options, and the exact response/reset scopes. GitHub Actions runs builds, selected tests and lint; the owner checks screen-reader focus and navigation on a phone using the published dev build.
+
+## Call settings
+
+The reading-content page owns **Cài đặt cuộc gọi**: incoming-call speech,
+repetitions, final and periodic duration, a selected existing voice profile,
+independent quiet hours and a call-specific Do Not Disturb choice. Initial setup
+owns the related permission requests. See [Call and volume controls](call-and-volume-controls.md).

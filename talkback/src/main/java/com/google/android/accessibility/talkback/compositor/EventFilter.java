@@ -34,6 +34,7 @@ import com.google.android.accessibility.talkback.focusmanagement.NavigationTarge
 import com.google.android.accessibility.talkback.focusmanagement.NavigationTarget.TargetType;
 import com.google.android.accessibility.talkback.focusmanagement.TraversalTreeCache;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
+import com.google.android.accessibility.talkback.calls.CallAnnouncements;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
 import com.google.android.accessibility.talkback.notifications.Outcome;
 import com.google.android.accessibility.utils.AccessibilityEventUtils;
@@ -284,17 +285,11 @@ public class EventFilter {
       // Read now: the state kept in GlobalVariables changes only when a setting does.
       boolean dnd = SettingsUtils.getDoNotDisturbState(context) > 0;
       boolean touching = touchMonitor.isUserTouchingScreen();
-      // Do Not Disturb silences calls it doesn't let through. Toasts still answer what the user
-      // just did.
-      if (isCall && dnd && !NotificationReader.callAllowedDuringDnd(event, notification)) {
-        LogUtils.d(TAG, "Do not announce call: DND is enabled");
+      if (isCall) {
+        CallAnnouncements.onCallNotification(String.valueOf(event.getPackageName()), notification);
         return;
       }
-      if (isCall) {
-        NotificationReader.noteCall(event, notification);
-      }
-      // Incoming calls are still announced, so that the user hears who is calling.
-      if ((notification != null) && !isCall && !globalVariables.getSpeakNotifications()) {
+      if ((notification != null) && !globalVariables.getSpeakNotifications()) {
         LogUtils.d(TAG, "Do not announce notification: disabled in settings");
         NotificationReader.noteUnread(event, notification, Outcome.SPEECH_OFF);
         return;
@@ -304,7 +299,7 @@ public class EventFilter {
       if ((notification != null) && NotificationReader.handle(event, notification, touching, dnd)) {
         return;
       }
-      if ((notification != null) && (touching || (dnd && !isCall))) {
+      if ((notification != null) && (touching || dnd)) {
         LogUtils.d(TAG, "Do not announce notification: DND is enabled or the screen is touched");
         return;
       }

@@ -15,7 +15,7 @@
     <string name="message_resume_screen_on">Để tiếp tục, hãy nhấn vào thông báo Meridian đang tạm dừng, nhấn nút giảm âm lượng 3 lần thật nhanh, hoặc tắt rồi bật lại màn hình.</string>
     <string name="message_resume_manual">Để tiếp tục, hãy nhấn vào thông báo Meridian đang tạm dừng hoặc nhấn nút giảm âm lượng 3 lần thật nhanh.</string>
     <string name="message_resume_key_combo">Bạn cũng có thể nhấn <xliff:g id="key_combo" example="Alt + P">%1$s</xliff:g>.</string>
-    <string name="title_pref_resume_backtalk">Tiếp tục Meridian</string>
+    <string name="title_pref_resume_backtalk">Tự bật lại Meridian và duyệt bằng cách chạm</string>
     <string name="value_resume_keyguard">Khi màn hình khoá xuất hiện</string>
     <string name="value_resume_screen_on">Khi màn hình bật</string>
     <string name="value_resume_manual">Chỉ từ thông báo hoặc phím tắt</string>

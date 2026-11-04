@@ -49,7 +49,16 @@ class SetupFlow {
     openTapped = true
   }
 
-  /** The screen went away; only a screen that really went can bring the walk back moved on. */
+  fun completeOpen(stepCount: Int) {
+    if (!openTapped) return
+    openTapped = false
+    wentAway = false
+    if (reviewing) {
+      reviewing = false
+      step = stepCount
+    } else step++
+  }
+
   fun leaveScreen() {
     if (openTapped) wentAway = true
   }

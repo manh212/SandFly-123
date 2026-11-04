@@ -164,4 +164,32 @@ class InitialSetupFlowTest {
     assertEquals(0, flow.step)
     assertFalse(flow.reviewing)
   }
+  @Test
+  fun asynchronousGrantAdvancesWithoutLeavingTheSetupScreen() {
+    val flow = SetupFlow()
+    flow.tapOpen()
+    flow.completeOpen(3)
+    assertEquals(1, flow.step)
+    flow.returnToScreen(3)
+    assertEquals(1, flow.step)
+  }
+
+  @Test
+  fun asynchronousGrantReturnsToSummaryWhenReviewing() {
+    val flow = SetupFlow()
+    flow.review(1)
+    flow.tapOpen()
+    flow.completeOpen(3)
+    assertTrue(flow.atSummary(3))
+  }
+
+  @Test
+  fun delayedGrantCallbackDoesNotAdvanceAgainAfterReturningFromShizuku() {
+    val flow = SetupFlow()
+    flow.tapOpen()
+    flow.leaveScreen()
+    flow.returnToScreen(3)
+    flow.completeOpen(3)
+    assertEquals(1, flow.step)
+  }
 }

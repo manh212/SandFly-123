@@ -210,6 +210,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
               intent.getIntExtra(AudioManager.EXTRA_RINGER_MODE, AudioManager.RINGER_MODE_NORMAL));
       case Intent.ACTION_SCREEN_ON -> {
         isInteractive = true;
+        service.onTouchExplorationScreenChanged(true);
         AudioDeviceRouter router = AudioDeviceRouter.getInstance();
         if (router != null) {
           router.ensureRouting();
@@ -219,6 +220,7 @@ public class RingerModeAndScreenMonitor extends SameThreadBroadcastReceiver
       }
       case Intent.ACTION_SCREEN_OFF -> {
         isInteractive = false;
+        service.onTouchExplorationScreenChanged(false);
         VolumeKeyManager.reset();
         AudioDeviceRouter router = AudioDeviceRouter.getInstance();
         if (router != null) {

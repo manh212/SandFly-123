@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="true"
+      android:key="pref_call_announce"
+      android:title="@string/call_announce_title" />
+  <ListPreference
+      android:defaultValue="0"
+      android:dependency="pref_call_announce"
+      android:key="pref_call_repeats"
+      android:summary="%s"
+      android:title="@string/call_repeats_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="false"
+      android:key="pref_call_duration"
+      android:title="@string/call_duration_title" />
+  <ListPreference
+      android:defaultValue="0"
+      android:key="pref_call_duration_interval"
+      android:summary="%s"
+      android:title="@string/call_interval_title" />
+  <ListPreference
+      android:defaultValue=""
+      android:key="pref_call_voice_profile"
+      android:summary="%s"
+      android:title="@string/call_voice_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="false"
+      android:key="pref_call_during_dnd"
+      android:title="@string/call_dnd_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+      android:defaultValue="false"
+      android:key="pref_call_quiet_hours"
+      android:title="@string/call_quiet_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:dependency="pref_call_quiet_hours"
+      android:key="pref_call_quiet_start"
+      android:title="@string/call_quiet_start_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:dependency="pref_call_quiet_hours"
+      android:key="pref_call_quiet_end"
+      android:title="@string/call_quiet_end_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment"
+      android:key="pref_call_permissions"
+      android:title="@string/call_permissions_title" />
+</PreferenceScreen>

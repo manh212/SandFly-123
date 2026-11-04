@@ -99,6 +99,8 @@ class PauseController(
         when (intent.action) {
           ACTION_RESUME -> resume()
           Intent.ACTION_SCREEN_ON -> if (shouldResumeOnScreenOn()) resume()
+          Intent.ACTION_SCREEN_OFF ->
+            if (resumeMode() == service.getString(R.string.resume_screen_off)) resume()
         }
       }
     }
@@ -274,7 +276,8 @@ class PauseController(
   private fun shouldResumeOnScreenOn(): Boolean =
     when (resumeMode()) {
       service.getString(R.string.resume_screen_on) -> true
-      service.getString(R.string.resume_screen_manual) -> false
+      service.getString(R.string.resume_screen_manual),
+      service.getString(R.string.resume_screen_off) -> false
       else -> keyguardManager?.isKeyguardLocked == true
     }
 
@@ -283,6 +286,7 @@ class PauseController(
       service.getString(
         when (resumeMode()) {
           service.getString(R.string.resume_screen_on) -> R.string.message_resume_screen_on
+          service.getString(R.string.resume_screen_off) -> R.string.message_resume_screen_off
           service.getString(R.string.resume_screen_manual) -> R.string.message_resume_manual
           else -> R.string.message_resume_keyguard
         }
@@ -319,6 +323,7 @@ class PauseController(
       IntentFilter().apply {
         addAction(ACTION_RESUME)
         addAction(Intent.ACTION_SCREEN_ON)
+        addAction(Intent.ACTION_SCREEN_OFF)
       }
     // System broadcasts still arrive at a receiver that is not exported.
     ContextCompat.registerReceiver(service, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED)

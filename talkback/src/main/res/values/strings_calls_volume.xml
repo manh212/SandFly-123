@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="volume_both_action_title" translatable="false">Nhấn đồng thời hai phím âm lượng</string>
+  <string name="volume_multi_enabled_title" translatable="false">Bật hoặc tắt nhấn nhiều lần phím âm lượng</string>
+  <string name="value_resume_screen_off" translatable="false">Khi màn hình tắt</string>
+  <string name="message_resume_screen_off" translatable="false">Để tiếp tục, hãy nhấn vào thông báo Meridian đang tạm dừng, nhấn nhanh phím giảm âm lượng 3 lần hoặc tắt màn hình.</string>
+  <string name="call_settings_title" translatable="false">Cài đặt cuộc gọi</string>
+  <string name="call_announce_title" translatable="false">Thông báo cuộc gọi đến</string>
+  <string name="call_repeats_title" translatable="false">Số lần lặp lại thông báo cuộc gọi</string>
+  <string name="call_repeat_count" translatable="false">%1$d lần</string>
+  <string name="call_duration_title" translatable="false">Đọc thời lượng khi kết thúc cuộc gọi</string>
+  <string name="call_interval_title" translatable="false">Khoảng cách giữa các lần đọc thời lượng cuộc gọi</string>
+  <string name="call_interval_off" translatable="false">Tắt</string>
+  <string name="call_seconds" translatable="false">%1$d giây</string>
+  <string name="call_voice_title" translatable="false">Hồ sơ giọng nói cho cuộc gọi</string>
+  <string name="call_voice_default" translatable="false">Giọng đọc Meridian hiện tại</string>
+  <string name="call_dnd_title" translatable="false">Đọc thông báo cuộc gọi khi bật Không làm phiền</string>
+  <string name="call_quiet_title" translatable="false">Bật giờ im lặng cho cuộc gọi</string>
+  <string name="call_quiet_start_title" translatable="false">Bắt đầu im lặng cuộc gọi</string>
+  <string name="call_quiet_end_title" translatable="false">Kết thúc im lặng cuộc gọi</string>
+  <string name="call_duration_announcement" translatable="false">Thời lượng cuộc gọi: %1$d giây</string>
+  <string name="call_incoming" translatable="false">Cuộc gọi đến từ %1$s</string>
+  <string name="call_incoming_unknown" translatable="false">Có cuộc gọi đến</string>
+  <string name="call_permission_contacts_title" translatable="false">Quyền đọc danh bạ</string>
+  <string name="call_permission_contacts_granted" translatable="false">Có thể đọc tên người gọi trong danh bạ.</string>
+  <string name="call_permission_contacts_missing" translatable="false">Chưa thể tra tên người gọi trong danh bạ.</string>
+  <string name="call_permission_contacts_open" translatable="false">Cấp quyền đọc danh bạ</string>
+  <string name="call_permission_log_title" translatable="false">Quyền đọc nhật ký cuộc gọi</string>
+  <string name="call_permission_log_granted" translatable="false">Có thể đọc thời lượng cuộc gọi đã kết thúc.</string>
+  <string name="call_permission_log_missing" translatable="false">Chưa thể đọc thời lượng từ nhật ký cuộc gọi.</string>
+  <string name="call_permission_log_open" translatable="false">Cấp quyền đọc nhật ký cuộc gọi</string>
+  <string name="call_permission_manage_title" translatable="false">Quyền quản lý cuộc gọi</string>
+  <string name="call_permission_manage_granted" translatable="false">Có thể theo dõi kết nối và thời lượng cuộc gọi.</string>
+  <string name="call_permission_manage_missing" translatable="false">Chưa thể theo dõi chính xác thời lượng trong cuộc gọi. Cấp quyền qua Shizuku hoặc adb.</string>
+  <string name="call_permission_manage_open" translatable="false">Cấp quyền quản lý cuộc gọi</string>
+  <string name="call_permission_manage_command" translatable="false">Chạy lệnh này trên máy tính đã kết nối điện thoại:\n%1$s</string>
+  <string name="volume_up_2_press_title" translatable="false">Nhấn phím tăng âm lượng 2 lần</string>
+  <string name="volume_up_3_press_title" translatable="false">Nhấn phím tăng âm lượng 3 lần</string>
+  <string name="volume_up_4_press_title" translatable="false">Nhấn phím tăng âm lượng 4 lần</string>
+  <string name="volume_down_2_press_title" translatable="false">Nhấn phím giảm âm lượng 2 lần</string>
+  <string name="volume_down_3_press_title" translatable="false">Nhấn phím giảm âm lượng 3 lần</string>
+  <string name="volume_down_4_press_title" translatable="false">Nhấn phím giảm âm lượng 4 lần</string>
+  <string name="call_permissions_title" translatable="false">Thiết lập quyền cuộc gọi</string>
+</resources>

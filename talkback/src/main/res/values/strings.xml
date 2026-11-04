@@ -2781,7 +2781,7 @@
     <!-- Heading of the setting for pressing both volume keys together. [CHAR LIMIT=NONE] -->
     <string name="volume_key_both_category">Both keys</string>
     <!-- Note at the end of the volume key settings: which volume the keys change, and when they keep the system behavior. [CHAR LIMIT=NONE] -->
-    <string name="volume_keys_footer">With a finger on the screen, the volume keys change the accessibility volume. Otherwise, they change the media volume. During a call, or while an alarm is ringing, the volume keys keep their usual system behavior.</string>
+    <string name="volume_keys_footer">Mặc định, nhấn đồng thời hai phím âm lượng sẽ bật hoặc tắt duyệt bằng cách chạm. Khi bật nhấn nhiều lần, nhấn nhanh cùng một phím 2, 3 hoặc 4 lần để chạy chức năng đã gán. Trong cuộc gọi hoặc khi báo thức đang kêu, phím âm lượng giữ hành vi của hệ thống.</string>
     <!-- Summary of the wrap around setting in the reading controls list. [CHAR LIMIT=NONE]-->
     <string name="summary_support_wrap_around">Turn wrapping from the last item to the first on or off</string>
     <!-- Spoken when wrap around is turned on. [CHAR LIMIT=NONE]-->

@@ -1618,7 +1618,7 @@
     <string name="volume_down_hold_locked_title">Nhấn giữ phím giảm âm lượng ở màn hình khóa</string>
     <string name="volume_key_change_category">Khi một phím thay đổi âm lượng</string>
     <string name="volume_key_both_category">Cả hai phím</string>
-    <string name="volume_keys_footer">Khi một ngón tay đang ở trên màn hình, phím âm lượng thay đổi âm lượng trợ năng. Nếu không, phím thay đổi âm lượng phương tiện. Trong cuộc gọi, hoặc khi chuông báo thức đang kêu, phím âm lượng giữ hành vi thường lệ của hệ thống.</string>
+    <string name="volume_keys_footer">Mặc định, nhấn đồng thời hai phím âm lượng sẽ bật hoặc tắt duyệt bằng cách chạm. Khi bật nhấn nhiều lần, nhấn nhanh cùng một phím 2, 3 hoặc 4 lần để chạy chức năng đã gán. Trong cuộc gọi hoặc khi báo thức đang kêu, phím âm lượng giữ hành vi của hệ thống.</string>
     <string name="summary_support_wrap_around">Bật hoặc tắt chế độ quay vòng từ mục cuối cùng về mục đầu tiên</string>
     <string name="wrap_around_on">Đã bật quay vòng</string>
     <string name="wrap_around_off">Đã tắt quay vòng</string>

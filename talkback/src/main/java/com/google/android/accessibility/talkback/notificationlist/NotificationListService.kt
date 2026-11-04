@@ -30,6 +30,8 @@ import android.service.notification.StatusBarNotification
 import android.util.Log
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.TalkBackService
+import com.google.android.accessibility.talkback.calls.CallAnnouncements
+import com.google.android.accessibility.talkback.calls.CallSettings
 import com.google.android.accessibility.talkback.notifications.NotificationReader
 import com.google.android.accessibility.talkback.notifications.NotificationSettings
 import com.google.android.accessibility.talkback.notifications.SpokenSchedules
@@ -48,7 +50,8 @@ class NotificationListService : NotificationListenerService() {
         key == NotificationSettings.Companion.Keys.DISMISS ||
         key == NotificationSettings.Companion.Keys.APP_CANCEL ||
         key == NotificationSettings.Companion.Keys.DND ||
-        key == NotificationSettings.Companion.Keys.ENABLED) {
+        key == NotificationSettings.Companion.Keys.ENABLED ||
+        key == CallSettings.ANNOUNCE) {
         if (!isNeeded(this)) {
           unbind()
         } else if (key == getString(R.string.pref_notification_list_key) && listEnabled()) {
@@ -119,6 +122,10 @@ class NotificationListService : NotificationListenerService() {
   private val postedTexts = LinkedHashMap<String, Posted>()
 
   override fun onNotificationPosted(notification: StatusBarNotification, ranking: RankingMap?) {
+    if (notification.notification.category == Notification.CATEGORY_CALL) {
+      CallAnnouncements.onCallNotification(
+        notification.packageName, notification.notification)
+    }
     if (listEnabled()) NotificationList.onPosted(notification, ranking)
     val posted = Posted(textOf(notification.notification), notification.notification.`when`)
     val before = postedTexts.put(notification.key, posted)
@@ -144,6 +151,9 @@ class NotificationListService : NotificationListenerService() {
   }
 
   override fun onNotificationRemoved(notification: StatusBarNotification, ranking: RankingMap?) {
+    if (notification.notification.category == Notification.CATEGORY_CALL) {
+      CallAnnouncements.onCallNotificationRemoved(notification.packageName)
+    }
     postedTexts.remove(notification.key)
     if (listEnabled()) NotificationList.onRemoved(notification, ranking)
   }
@@ -213,6 +223,7 @@ class NotificationListService : NotificationListenerService() {
             // With notification speech on, it reads notifications that Android sends no
             // accessibility event for, such as those on silent channels.
             NotificationSettings.read(it).let { s -> s.needsListener || s.enabled } ||
+              CallSettings.read(it).announce ||
               it.getBoolean(SpokenSchedules.KEY_SUMMARY_DAILY, false)
           })
 
