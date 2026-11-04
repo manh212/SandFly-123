@@ -38,6 +38,8 @@ final class SupportDesk {
   private TextView status;
   private String uid = "", displayName = "Hỗ trợ";
   private boolean owner, loading, downloading;
+  private Button downloadButton;
+  private TextView downloadStatus;
   private final List<InboxView> inboxes = new ArrayList<>();
 
   private static final class InboxView {
@@ -79,8 +81,10 @@ final class SupportDesk {
   }
 
   private String error(Exception e) {
-    return e instanceof IllegalArgumentException || e instanceof IllegalStateException
-        || e instanceof java.io.IOException ? e.getMessage() : "Không đọc hoặc lưu được phản hồi. Hãy thử lại.";
+    String detail = e.getMessage();
+    return detail != null && !detail.trim().isEmpty()
+        && (e instanceof IllegalArgumentException || e instanceof IllegalStateException
+            || e instanceof java.io.IOException) ? detail : "Không đọc hoặc lưu được phản hồi. Hãy thử lại.";
   }
 
   private void message(String value) { ui(() -> { status.setText(value); activity.message(value); }); }
@@ -241,7 +245,11 @@ final class SupportDesk {
             button(list, "Xem nhật ký", () -> work(() -> {
               String file = loadLog(id, messageId, entry); ui(() -> showLog(file));
             }));
-            button(list, "Tải nhật ký về máy", () -> download(id, messageId, entry));
+            Button saveLog = button(list, "Tải nhật ký về máy", () -> {});
+            TextView saveStatus = text(list, "");
+            saveStatus.setVisibility(android.view.View.GONE);
+            saveStatus.setAccessibilityLiveRegion(android.view.View.ACCESSIBILITY_LIVE_REGION_POLITE);
+            saveLog.setOnClickListener(v -> download(id, messageId, entry, saveLog, saveStatus));
           }
         }
         if (ids.isEmpty()) text(list, "Chưa có nội dung tin nhắn. Nội dung có thể đang được gửi.");
@@ -349,13 +357,49 @@ final class SupportDesk {
     dialog.setOnDismissListener(d -> work(() -> new IssuerSecrets(activity).logs().delete(file))); load[0].run();
   }
 
-  private void download(String ticket, String id, JSONObject entry) {
-    if (downloading) { message("Hãy hoàn tất hoặc hủy lần lưu nhật ký đang mở trước."); return; }
+  private void downloadProgress(String value) {
+    ui(() -> {
+      if (downloadStatus != null) {
+        downloadStatus.setVisibility(android.view.View.VISIBLE);
+        downloadStatus.setText(value);
+      }
+      activity.message(value);
+    });
+  }
+
+  private void downloadFinished(String value) {
+    ui(() -> {
+      downloading = false;
+      if (downloadButton != null) downloadButton.setEnabled(true);
+      downloadProgress(value);
+      LinearLayout content = column();
+      text(content, value);
+      show("Tải nhật ký về máy", content);
+    });
+  }
+
+  private void download(String ticket, String id, JSONObject entry, Button button, TextView progress) {
+    if (downloading) {
+      LinearLayout content = column();
+      text(content, "Hãy hoàn tất hoặc hủy lần lưu nhật ký đang mở trước.");
+      show("Tải nhật ký về máy", content);
+      return;
+    }
     downloading = true;
+    downloadButton = button;
+    downloadStatus = progress;
+    button.setEnabled(false);
+    downloadProgress("Đang mở nơi lưu nhật ký…");
     IO.execute(() -> {
       try {
-        String file = loadLog(ticket, id, entry);
-        SupportLogDownload.prepare(downloadStore(), new IssuerSecrets(activity).logs(), file, System.currentTimeMillis());
+        PrivateLogFiles files = new IssuerSecrets(activity).logs();
+        if (entry.optLong("logBytes") > 0) {
+          SupportLogDownload.prepareRemote(downloadStore(), files, ticket, id, entry, System.currentTimeMillis());
+        } else {
+          String file = files.write(SupportAttachment.exact(entry.getString("log")));
+          try { SupportLogDownload.prepare(downloadStore(), files, file, System.currentTimeMillis()); }
+          catch (Exception e) { files.delete(file); throw e; }
+        }
         ui(() -> {
           Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
             .setType("text/plain").putExtra(Intent.EXTRA_TITLE, "Meridian-log-" + id + ".txt");
@@ -363,11 +407,14 @@ final class SupportDesk {
               DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Download"));
           try { activity.startActivityForResult(intent, DOWNLOAD); }
           catch (RuntimeException e) {
-            result(DOWNLOAD, Activity.RESULT_CANCELED, null);
-            message("Không mở được trình chọn nơi lưu tệp.");
+            IO.execute(() -> {
+              try { SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), null, System.currentTimeMillis()); }
+              catch (Exception ignored) {}
+              downloadFinished("Không mở được trình chọn nơi lưu tệp. Kiểm tra ứng dụng Tệp trên điện thoại rồi thử lại.");
+            });
           }
         });
-      } catch (Exception e) { ui(() -> downloading = false); message(error(e)); }
+      } catch (Exception e) { downloadFinished("Không chuẩn bị được nhật ký. " + error(e)); }
     });
   }
 
@@ -375,12 +422,16 @@ final class SupportDesk {
     if (request != DOWNLOAD) return false;
     Uri destination = data == null ? null : data.getData();
     downloading = true;
-    work(() -> {
+    boolean cancelled = result != Activity.RESULT_OK || destination == null;
+    downloadProgress(cancelled ? "Đã hủy tải nhật ký." : "Đang tải và lưu nhật ký…");
+    IO.execute(() -> {
       try {
-        boolean saved = SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), result != Activity.RESULT_OK || destination == null
-            ? null : () -> activity.getContentResolver().openOutputStream(destination, "w"), System.currentTimeMillis());
-        message(saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
-      } finally { ui(() -> downloading = false); }
+        boolean saved = SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), cancelled
+            ? null : () -> activity.getContentResolver().openOutputStream(destination, "w"), System.currentTimeMillis(), this::loadLog);
+        downloadFinished(saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
+      } catch (Exception e) {
+        downloadFinished("Không lưu được nhật ký. " + error(e) + " Chọn Tải nhật ký về máy để thử lại.");
+      }
     });
     return true;
   }

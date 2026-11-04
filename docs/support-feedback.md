@@ -82,10 +82,14 @@ Android backup/device transfer and Meridian's settings import/export.
 
 Open **Hộp thư phản hồi**, select a conversation and use **Trả lời phản hồi**.
 Received attachments have **Xem nhật ký** and **Tải nhật ký về máy** actions.
-Download opens Android's document picker. Choose Downloads or another destination
-and save `Meridian-log-<message-id>.txt`. The app writes the received UTF-8 content
-to that chosen document without requesting broad storage access. The pending
-save references a separately encrypted file and survives activity recreation.
+Download opens Android's document picker before fetching a remote attachment.
+Choose Downloads or another destination and save `Meridian-log-<message-id>.txt`.
+The app then downloads and writes the received UTF-8 content to that chosen
+document without requesting broad storage access. The attachment row shows the
+current operation, and a foreground dialog reports success, cancellation or
+failure instead of updating only the page behind the conversation. The pending
+save stores compact remote metadata or a reference to a separately encrypted
+legacy attachment and survives activity recreation.
 It expires after ten minutes and is cleared, together with its temporary file,
 after cancellation, success or a failed write. Retry the download from
 the conversation if necessary.

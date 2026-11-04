@@ -69,4 +69,78 @@ public final class SupportLogDownloadTest {
     assertEquals(0, store.read().length());
     assertThrows(IllegalStateException.class, () -> save(store, ByteArrayOutputStream::new, 1002));
   }
+
+  private JSONObject remoteEntry(String log) throws Exception {
+    JSONObject info = SupportAttachment.inspect(() -> new java.io.ByteArrayInputStream(log.getBytes(StandardCharsets.UTF_8)));
+    return new JSONObject().put("logBytes", info.getInt("bytes")).put("logSha256", info.getString("sha256"))
+        .put("text", "Unrelated message content").put("name", "Sender");
+  }
+
+  @Test public void remoteDownloadWaitsForDocumentSelectionAndSurvivesActivityRecreation() throws Exception {
+    Store store = new Store(); String log = "Nhật ký nguyên bản\nTiếng Việt\n";
+    JSONObject entry = remoteEntry(log);
+    SupportLogDownload.prepareRemote(store, files(), "ticket", "message", entry, 1000);
+    assertFalse(store.encryptedRecord.contains(log));
+    assertFalse(store.encryptedRecord.contains("Unrelated message content"));
+    assertFalse(store.read().has("file"));
+    Store recreated = new Store(); recreated.encryptedRecord = store.encryptedRecord;
+    ByteArrayOutputStream destination = new ByteArrayOutputStream();
+    String[] downloaded = {null};
+    assertTrue(SupportLogDownload.save(recreated, files(), () -> destination, 1100,
+        (ticket, message, metadata) -> {
+          assertEquals("ticket", ticket); assertEquals("message", message);
+          assertEquals(entry.getLong("logBytes"), metadata.getLong("logBytes"));
+          assertEquals(entry.getString("logSha256"), metadata.getString("logSha256"));
+          downloaded[0] = files().write(log); return downloaded[0];
+        }));
+    assertArrayEquals(log.getBytes(StandardCharsets.UTF_8), destination.toByteArray());
+    assertEquals(0, recreated.read().length());
+    assertFalse(files().exists(downloaded[0]));
+  }
+
+  @Test public void cancelledAndExpiredRemoteRequestsNeverFetchAttachments() throws Exception {
+    Store store = new Store();
+    SupportLogDownload.Loader unexpected = (ticket, message, metadata) -> {
+      throw new AssertionError("Attachment must not be fetched without a valid selected destination");
+    };
+    SupportLogDownload.prepareRemote(store, files(), "ticket", "message", remoteEntry("log"), 1000);
+    assertFalse(SupportLogDownload.save(store, files(), null, 1100, unexpected));
+    assertEquals(0, store.read().length());
+    SupportLogDownload.prepareRemote(store, files(), "ticket", "message", remoteEntry("log"), 1000);
+    ByteArrayOutputStream destination = new ByteArrayOutputStream();
+    assertThrows(IllegalStateException.class,
+        () -> SupportLogDownload.save(store, files(), () -> destination, 601001, unexpected));
+    assertEquals(0, destination.size()); assertEquals(0, store.read().length());
+  }
+
+  @Test public void failedRemoteDownloadClearsPendingRequestAndLeavesDestinationUntouched() throws Exception {
+    Store store = new Store();
+    SupportLogDownload.prepareRemote(store, files(), "ticket", "message", remoteEntry("log"), 1000);
+    ByteArrayOutputStream destination = new ByteArrayOutputStream();
+    assertThrows(IOException.class, () -> SupportLogDownload.save(store, files(), () -> destination, 1001,
+        (ticket, message, metadata) -> { throw new IOException("Network unavailable"); }));
+    assertEquals(0, destination.size()); assertEquals(0, store.read().length());
+  }
+
+  @Test public void failedRemoteWriteDeletesDownloadedTemporaryLog() throws Exception {
+    Store store = new Store();
+    SupportLogDownload.prepareRemote(store, files(), "ticket", "message", remoteEntry("log"), 1000);
+    String[] downloaded = {null};
+    OutputStream full = new OutputStream() {
+      @Override public void write(int value) throws IOException { throw new IOException("full"); }
+    };
+    assertThrows(IOException.class, () -> SupportLogDownload.save(store, files(), () -> full, 1001,
+        (ticket, message, metadata) -> { downloaded[0] = files().write("log"); return downloaded[0]; }));
+    assertEquals(0, store.read().length()); assertFalse(files().exists(downloaded[0]));
+  }
+
+  @Test public void malformedRemoteMetadataCannotReplaceAnExistingPendingSave() throws Exception {
+    Store store = new Store(); prepare(store, "existing log", 1000);
+    String previous = store.encryptedRecord;
+    JSONObject entry = new JSONObject().put("logBytes", SupportAttachment.MAX_BYTES + 1L).put("logSha256", "0".repeat(64));
+    assertThrows(IllegalStateException.class,
+        () -> SupportLogDownload.prepareRemote(store, files(), "ticket", "message", entry, 1100));
+    assertEquals(previous, store.encryptedRecord);
+    assertTrue(files().exists(store.read().getString("file")));
+  }
 }
