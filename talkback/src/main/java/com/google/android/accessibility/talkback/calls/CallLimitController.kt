@@ -158,8 +158,13 @@ object CallLimitController {
   @Suppress("DEPRECATION")
   private fun endLegacy(context: Context): Boolean {
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P || !canUseLegacy(context)) return false
-    return runCatching { context.getSystemService(TelecomManager::class.java)?.endCall() == true }
-      .getOrDefault(false)
+    return try {
+      context.getSystemService(TelecomManager::class.java)?.endCall() == true
+    } catch (_: SecurityException) {
+      false
+    } catch (_: RuntimeException) {
+      false
+    }
   }
 
   @JvmStatic

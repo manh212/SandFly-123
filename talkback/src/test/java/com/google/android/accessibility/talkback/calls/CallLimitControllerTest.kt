@@ -28,8 +28,15 @@ import org.robolectric.annotation.LooperMode
 class CallLimitControllerTest {
   @Implements(TelecomManager::class)
   class TelecomShadow {
-    @Implementation fun endCall(): Boolean { ended++; return true }
-    companion object { var ended = 0 }
+    @Implementation fun endCall(): Boolean {
+      if (rejectByPermission) throw SecurityException("Permission revoked")
+      ended++
+      return true
+    }
+    companion object {
+      var ended = 0
+      var rejectByPermission = false
+    }
   }
 
   private var warnings = 0
@@ -39,6 +46,7 @@ class CallLimitControllerTest {
   @Before fun setUp() {
     CallLimitController.detach()
     TelecomShadow.ended = 0
+    TelecomShadow.rejectByPermission = false
     warnings = 0
     shadowOf(app).grantPermissions(Manifest.permission.READ_PHONE_STATE, Manifest.permission.ANSWER_PHONE_CALLS)
     shadowOf(app.getSystemService(AppOpsManager::class.java)).setMode(
@@ -142,5 +150,13 @@ class CallLimitControllerTest {
     advance(60)
     assertEquals(1, warnings)
     assertEquals(2, TelecomShadow.ended)
+  }
+  @Test fun permissionRejectionAtDisconnectIsHandledWithoutCrashing() {
+    state(TelephonyManager.EXTRA_STATE_OFFHOOK)
+    TelecomShadow.rejectByPermission = true
+    advance(60)
+    assertEquals(0, TelecomShadow.ended)
+    advance(60)
+    assertEquals(0, TelecomShadow.ended)
   }
 }
