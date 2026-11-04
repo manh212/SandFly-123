@@ -37,24 +37,24 @@ import com.google.android.accessibility.utils.Role
  * that can be edited one at a time. Saving writes the text back to the text field it came from.
  */
 object GranularEditing {
-  /** One editing session per screen. Nested screens preserve their parent session. */
-  private data class Session(
-    val originalText: String,
-    val target: AccessibilityNodeInfoCompat?,
-    val sourceService: WeakReference<AccessibilityService>?,
-    val parentId: Int?,
-    val parentFieldIndex: Int?,
-  )
+  /** The text field the text came from, or null when the text isn't editable. */
+  private var target: AccessibilityNodeInfoCompat? = null
+  private var sourceService: WeakReference<AccessibilityService>? = null
 
-  internal data class ChildResult(val fieldIndex: Int, val text: String)
+  /** The text when the screen opened. */
+  var text: String = ""
+    private set
 
-  private val sessions = mutableMapOf<Int, Session>()
-  private val activities = mutableMapOf<Int, WeakReference<GranularEditingActivity>>()
-  private val childResults = mutableMapOf<Int, MutableList<ChildResult>>()
-  private var nextSessionId = 1
+  /** Whether saving can write the text back. */
+  val isEditable: Boolean
+    get() = target != null
 
   private val handler = Handler(Looper.getMainLooper())
 
+  /**
+   * Opens the screen for [node]'s text. Returns false, after saying why, when it has none or is a
+   * password field.
+   */
   @JvmStatic
   fun open(context: Context, node: AccessibilityNodeInfoCompat?): Boolean {
     if (node == null) return refuse(context, R.string.granular_editing_no_text)
@@ -67,95 +67,31 @@ object GranularEditing {
         else -> AccessibilityNodeInfoUtils.getText(node)?.toString().orEmpty()
       }
     if (!editable && nodeText.isBlank()) return refuse(context, R.string.granular_editing_no_text)
-
-    // The currently displayed editor may have an EditText in its own dialog.
-    // A child editor must return to that field, not replace the original app's target.
-    val parent =
-      if (editable) {
-        activities.entries.toList().asReversed().firstNotNullOfOrNull { (id, activityRef) ->
-          activityRef.get()?.nestedFieldIndex(node)?.let { id to it }
-        }
-      } else {
-        null
-      }
-
-    val sessionId = nextSessionId++
-    sessions[sessionId] =
-      Session(
-        originalText = nodeText,
-        target = if (editable) AccessibilityNodeInfoCompat.obtain(node) else null,
-        sourceService = (context as? AccessibilityService)?.let { WeakReference(it) },
-        parentId = parent?.first,
-        parentFieldIndex = parent?.second,
-      )
-    try {
-      // NEW_TASK reuses the dedicated editor task and stacks the new activity.
-      // CLEAR_TASK would destroy its parent and the dialog waiting for this text.
-      val intent =
-        Intent(context, GranularEditingActivity::class.java)
-          .putExtra(EXTRA_SESSION_ID, sessionId)
-      val parentActivity = parent?.first?.let { activities[it]?.get() }
-      if (parentActivity != null) {
-        // Launch from the parent activity so Android keeps it underneath this editor.
-        parentActivity.startActivity(intent)
-      } else {
-        // Independent editing starts fresh, while nested editing preserves its parent task.
-        context.startActivity(
-          intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-        )
-      }
-    } catch (exception: RuntimeException) {
-      sessions.remove(sessionId)
-      throw exception
-    }
-    return true
-  }
-
-  internal fun registerActivity(id: Int, activity: GranularEditingActivity) {
-    activities[id] = WeakReference(activity)
-  }
-
-  internal fun unregisterActivity(id: Int, activity: GranularEditingActivity) {
-    if (activities[id]?.get() === activity) activities.remove(id)
-  }
-
-  internal fun initialText(id: Int): String? = sessions[id]?.originalText
-
-  internal fun isEditable(id: Int): Boolean = sessions[id]?.target != null
-
-  internal fun takeChildResults(id: Int): List<ChildResult> =
-    childResults.remove(id)?.toList().orEmpty()
-
-  /** Child edits are staged here; they never write to the outer application's input. */
-  internal fun queueChildResult(parentId: Int, fieldIndex: Int, newText: String): Boolean {
-    if (!sessions.containsKey(parentId)) return false
-    childResults.getOrPut(parentId) { mutableListOf() }.add(ChildResult(fieldIndex, newText))
+    target = if (editable) AccessibilityNodeInfoCompat.obtain(node) else null
+    sourceService = (context as? AccessibilityService)?.let { WeakReference(it) }
+    text = nodeText
+    context.startActivity(
+      Intent(context, GranularEditingActivity::class.java)
+        .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+    )
     return true
   }
 
   /**
-   * Saving a nested editor returns text to its parent's input dialog. Only the outermost
-   * editor writes to the original app, after the user explicitly presses Save there.
+   * Writes [newText] to the text field once the screen has closed and the field's window is back,
+   * trying for a few seconds. When the field is gone, the text goes to the clipboard instead, so
+   * that it isn't lost.
    */
-  internal fun save(context: Context, id: Int, newText: String) {
-    val session = sessions.remove(id) ?: return
-    val parentId = session.parentId
-    val parentIndex = session.parentFieldIndex
-    if (parentId != null && parentIndex != null) {
-      if (!queueChildResult(parentId, parentIndex, newText)) {
-        copy(context, newText)
-        Toast.makeText(context, R.string.granular_editing_not_saved, Toast.LENGTH_LONG).show()
-      }
-      return
-    }
-
-    val field = session.target ?: return
-    val service = session.sourceService?.get()
+  fun save(context: Context, newText: String) {
     val appContext = context.applicationContext
+    val field = target ?: return
+    val service = sourceService?.get()
+    target = null
     var tries = 0
     val attempt =
       object : Runnable {
         override fun run() {
+          // The field is spoken with its new text once it has focus again.
           if (write(field, newText, service)) return
           if (++tries < SAVE_TRIES) {
             handler.postDelayed(this, SAVE_INTERVAL_MS)
@@ -168,17 +104,14 @@ object GranularEditing {
     handler.postDelayed(attempt, SAVE_INTERVAL_MS)
   }
 
-  /** Dismisses only this editor; enclosing editors and their source fields stay intact. */
-  internal fun close(id: Int) {
-    sessions.remove(id)
-    childResults.remove(id)
+  /** Forgets the text field, when the screen closes without saving. */
+  fun close() {
+    target = null
   }
 
   fun copy(context: Context, copied: String) {
     ClipboardHistory.copy(context, copied)
   }
-
-  internal const val EXTRA_SESSION_ID = "meridian_granular_session_id"
 
   private fun write(
     field: AccessibilityNodeInfoCompat,
@@ -186,12 +119,10 @@ object GranularEditing {
     service: AccessibilityService?,
   ): Boolean {
     if (field.refresh() && setText(field, newText)) return true
-    // Android may assign a new window ID when the original app returns from the editor.
-    // Search visible windows, and write only when there is exactly one matching field.
-    val roots =
-      service?.windows?.mapNotNull { it.root?.let(AccessibilityNodeInfoCompat::wrap) }
-        ?: return false
-    val replacement = findMatchingFieldAcrossRoots(roots, field) ?: return false
+    val root =
+      service?.windows?.firstOrNull { it.id == field.windowId }?.root ?: return false
+    val replacement =
+      findMatchingField(AccessibilityNodeInfoCompat.wrap(root), field) ?: return false
     return setText(replacement, newText)
   }
 
@@ -208,19 +139,6 @@ object GranularEditing {
     selection.putInt(AccessibilityNodeInfoCompat.ACTION_ARGUMENT_SELECTION_END_INT, newText.length)
     field.performAction(AccessibilityNodeInfoCompat.ACTION_SET_SELECTION, selection)
     return true
-  }
-
-  internal fun findMatchingFieldAcrossRoots(
-    roots: List<AccessibilityNodeInfoCompat>,
-    original: AccessibilityNodeInfoCompat,
-  ): AccessibilityNodeInfoCompat? {
-    var result: AccessibilityNodeInfoCompat? = null
-    for (root in roots) {
-      val candidate = findMatchingField(root, original) ?: continue
-      if (result != null) return null
-      result = candidate
-    }
-    return result
   }
 
   internal fun findMatchingField(
