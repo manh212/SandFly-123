@@ -47,6 +47,7 @@ final class SupportDesk {
 
   private static final class SaveOperation {
     final java.util.concurrent.atomic.AtomicBoolean cancelled = new java.util.concurrent.atomic.AtomicBoolean();
+    final java.util.concurrent.atomic.AtomicBoolean finished = new java.util.concurrent.atomic.AtomicBoolean();
     volatile FirebaseRest service;
     volatile java.io.OutputStream output;
     volatile String stage = "tải";
@@ -458,7 +459,7 @@ final class SupportDesk {
       }
     };
     operation.timeout = () -> {
-      if (activeSave != operation) return;
+      if (activeSave != operation || !operation.finished.compareAndSet(false, true)) return;
       operation.cancelled.set(true);
       if (operation.task != null) operation.task.cancel(true);
       DOWNLOAD_IO.execute(() -> {
@@ -466,7 +467,7 @@ final class SupportDesk {
         try { if (operation.output != null) operation.output.close(); } catch (Exception ignored) {}
         try { if (operation.target != null) operation.target.discard(); } catch (Exception ignored) {}
       });
-      finishSave(operation, operation.stage.equals("ghi")
+      showSaveResult(operation, operation.stage.equals("ghi")
           ? "Ghi tệp quá thời gian chờ. Hãy chọn thư mục Download trong bộ nhớ điện thoại rồi thử lại."
           : "Tải nhật ký quá thời gian chờ. Kiểm tra mạng rồi thử lại.");
     };
@@ -504,9 +505,14 @@ final class SupportDesk {
   }
 
   private void finishSave(SaveOperation operation, String value) {
+    if (!operation.finished.compareAndSet(false, true)) return;
+    showSaveResult(operation, value);
+  }
+
+  private void showSaveResult(SaveOperation operation, String value) {
+    downloadHandler.removeCallbacks(operation.timeout);
     ui(() -> {
       if (activeSave != operation) return;
-      downloadHandler.removeCallbacks(operation.timeout);
       activeSave = null;
       downloadFinished(value);
     });
