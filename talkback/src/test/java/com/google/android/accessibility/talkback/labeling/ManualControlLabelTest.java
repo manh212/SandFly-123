@@ -1,7 +1,6 @@
 package com.google.android.accessibility.talkback.labeling;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
 
 import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -11,6 +10,7 @@ import com.google.android.accessibility.utils.labeling.LabelManager;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 @RunWith(RobolectricTestRunner.class)
@@ -29,21 +29,35 @@ public class ManualControlLabelTest {
   @Test
   public void menuAllowsManualLabelEvenWhenAutomaticMissingLabelHeuristicRejectsIt() {
     AccessibilityNodeInfoCompat node = button();
-    CustomLabelManager manager = mock(CustomLabelManager.class, CALLS_REAL_METHODS);
-    doReturn(true).when(manager).canAddLabel(node);
-    doReturn(false).when(manager).needsLabel(node);
-    assertTrue(manager.new State().supportsLabel(node));
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    node.setPackageName(context.getPackageName());
+    CustomLabelManager manager = new CustomLabelManager(context);
+    try {
+      assertFalse(manager.stateReader().needsLabel(node));
+      assertTrue(manager.stateReader().supportsLabel(node));
+    } finally {
+      manager.shutdown();
+    }
   }
 
   @Test
   public void speechFindsSavedIdlessLabelUsingSameKeyAsTheEditor() {
     AccessibilityNodeInfoCompat node = button();
     String key = LabelNodeId.resourceName(node);
-    LabelManager manager = mock(LabelManager.class);
     Label label = new Label("com.example.app", "signature", key,
         "Gọi tài xế", "vi", 1, "", 0);
-    when(manager.getLabelForViewIdFromCache(key)).thenReturn(label);
+    LabelManager manager = new LabelManager() {
+      @Override
+      public Label getLabelForViewIdFromCache(String requested) {
+        assertEquals(key, requested);
+        return label;
+      }
+
+      @Override
+      public LabelManager.State stateReader() {
+        return null;
+      }
+    };
     assertEquals("Gọi tài xế", new ImageContents(manager, null).getLabel(node));
-    verify(manager).getLabelForViewIdFromCache(key);
   }
 }

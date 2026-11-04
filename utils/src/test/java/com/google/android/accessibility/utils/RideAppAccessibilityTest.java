@@ -1,7 +1,9 @@
 package com.google.android.accessibility.utils;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.robolectric.Shadows.shadowOf;
+
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import java.util.Collections;
@@ -14,12 +16,12 @@ import org.robolectric.annotation.Config;
 @Config(sdk = 34)
 public class RideAppAccessibilityTest {
   private AccessibilityNodeInfoCompat control(String app) {
-    AccessibilityNodeInfoCompat node = mock(AccessibilityNodeInfoCompat.class);
-    when(node.getPackageName()).thenReturn(app);
-    when(node.isEnabled()).thenReturn(true);
-    when(node.isVisibleToUser()).thenReturn(true);
-    when(node.getActionList()).thenReturn(Collections.singletonList(
-        AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK));
+    AccessibilityNodeInfoCompat node = AccessibilityNodeInfoCompat.wrap(AccessibilityNodeInfo.obtain());
+    node.setPackageName(app);
+    node.setClassName("android.widget.Button");
+    node.setEnabled(true);
+    node.setVisibleToUser(true);
+    node.addAction(AccessibilityNodeInfoCompat.AccessibilityActionCompat.ACTION_CLICK);
     return node;
   }
 
@@ -45,15 +47,14 @@ public class RideAppAccessibilityTest {
   public void visibleEnabledActionRemainsFocusableWithDecorativeChildren() {
     for (String app : new String[] {"xyz.be.customer", "com.grabtaxi.passenger"}) {
       AccessibilityNodeInfoCompat node = control(app);
-      AccessibilityNodeInfoCompat icon = mock(AccessibilityNodeInfoCompat.class);
-      when(icon.isVisibleToUser()).thenReturn(true);
-      when(node.getChildCount()).thenReturn(1);
-      when(node.getChild(0)).thenReturn(icon);
+      AccessibilityNodeInfoCompat icon = AccessibilityNodeInfoCompat.wrap(AccessibilityNodeInfo.obtain());
+      icon.setVisibleToUser(true);
+      shadowOf(node.unwrap()).addChild(icon.unwrap());
       assertTrue(RideAppAccessibility.isActionControl(node));
-      when(node.isVisibleToUser()).thenReturn(false);
+      node.setVisibleToUser(false);
       assertFalse(RideAppAccessibility.isActionControl(node));
-      when(node.isVisibleToUser()).thenReturn(true);
-      when(node.isEnabled()).thenReturn(false);
+      node.setVisibleToUser(true);
+      node.setEnabled(false);
       assertFalse(RideAppAccessibility.isActionControl(node));
     }
   }
@@ -61,20 +62,17 @@ public class RideAppAccessibilityTest {
   @Test
   public void parentDoesNotReplaceItsIndependentlyActionableButtons() {
     AccessibilityNodeInfoCompat parent = control("com.grabtaxi.passenger");
-    when(parent.getChildCount()).thenReturn(1);
-    when(parent.getChild(0)).thenReturn(control("com.grabtaxi.passenger"));
+    shadowOf(parent.unwrap()).addChild(control("com.grabtaxi.passenger").unwrap());
     assertFalse(RideAppAccessibility.isActionControl(parent));
   }
 
   @Test
   public void malformedCycleCannotHangNavigation() {
     AccessibilityNodeInfoCompat parent = control("xyz.be.customer");
-    AccessibilityNodeInfoCompat child = mock(AccessibilityNodeInfoCompat.class);
-    when(parent.getChildCount()).thenReturn(1);
-    when(parent.getChild(0)).thenReturn(child);
-    when(child.isVisibleToUser()).thenReturn(true);
-    when(child.getChildCount()).thenReturn(1);
-    when(child.getChild(0)).thenReturn(parent);
+    AccessibilityNodeInfoCompat child = AccessibilityNodeInfoCompat.wrap(AccessibilityNodeInfo.obtain());
+    child.setVisibleToUser(true);
+    shadowOf(parent.unwrap()).addChild(child.unwrap());
+    shadowOf(child.unwrap()).addChild(parent.unwrap());
     assertFalse(RideAppAccessibility.isActionControl(parent));
   }
 }

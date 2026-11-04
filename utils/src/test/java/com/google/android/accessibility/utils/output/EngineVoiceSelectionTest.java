@@ -1,8 +1,6 @@
 package com.google.android.accessibility.utils.output;
 
 import static org.junit.Assert.*;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -39,15 +37,35 @@ public class EngineVoiceSelectionTest {
     return engine;
   }
 
-  private TextToSpeech backend(AtomicReference<Voice> current) {
-    TextToSpeech backend = mock(TextToSpeech.class);
-    when(backend.getVoices()).thenReturn(new LinkedHashSet<>(Arrays.asList(first, second)));
-    when(backend.getVoice()).thenAnswer(call -> current.get());
-    when(backend.setVoice(any(Voice.class))).thenAnswer(call -> {
-      current.set(call.getArgument(0));
+  private final class Backend extends TextToSpeech {
+    final AtomicReference<Voice> current;
+    Voice rejected;
+
+    Backend(AtomicReference<Voice> current) {
+      super(context, status -> {});
+      this.current = current;
+    }
+
+    @Override
+    public java.util.Set<Voice> getVoices() {
+      return new LinkedHashSet<>(Arrays.asList(first, second));
+    }
+
+    @Override
+    public Voice getVoice() {
+      return current.get();
+    }
+
+    @Override
+    public int setVoice(Voice voice) {
+      if (voice.equals(rejected)) return TextToSpeech.ERROR;
+      current.set(voice);
       return TextToSpeech.SUCCESS;
-    });
-    return backend;
+    }
+  }
+
+  private Backend backend(AtomicReference<Voice> current) {
+    return new Backend(current);
   }
 
   @Test
@@ -71,8 +89,8 @@ public class EngineVoiceSelectionTest {
   @Test
   public void failureDoesNotReplaceSavedVoice() {
     prefs.edit().clear().commit();
-    TextToSpeech backend = backend(new AtomicReference<>(first));
-    when(backend.setVoice(second)).thenReturn(TextToSpeech.ERROR);
+    Backend backend = backend(new AtomicReference<>(first));
+    backend.rejected = second;
     FailoverTextToSpeech engine = engine(backend);
     try {
       assertNull(engine.cycleVoice(true));
