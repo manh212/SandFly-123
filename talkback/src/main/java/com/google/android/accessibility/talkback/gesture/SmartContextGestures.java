@@ -1,5 +1,6 @@
 package com.google.android.accessibility.talkback.gesture;
 
+import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -8,6 +9,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.Looper;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityNodeInfo;
 import com.google.android.accessibility.talkback.R;
@@ -37,6 +39,11 @@ public final class SmartContextGestures {
   private static final String RULE_PREFIX = "smart_context_rules_";
   private static final String MODE_PREFIX = "smart_context_mode_";
   private static final Handler MAIN = new Handler(Looper.getMainLooper());
+  private static final String LOG_TAG = "SmartContextGestures";
+  private static final String[] CALL_ANSWER = {"Trả lời", "Nhận cuộc gọi", "Answer", "Accept"};
+  private static final String[] CALL_DECLINE = {"Từ chối", "Reject", "Decline"};
+  private static final String[] CALL_END = {"Kết thúc", "Ngắt cuộc gọi", "End call", "Hang up"};
+  private static final String[] CALL_MUTE = {"Tắt tiếng", "Bật tiếng", "Mute", "Unmute"};
   private static Search activeSearch;
 
   private SmartContextGestures() {}
@@ -334,6 +341,60 @@ public final class SmartContextGestures {
     return choices.get(0);
   }
 
+  static boolean isCallUiPackage(String packageName) {
+    if (packageName == null) return false;
+    String normalized = packageName.toLowerCase(Locale.ROOT);
+    return normalized.contains("incallui")
+        || normalized.contains("dialer")
+        || normalized.equals("com.android.phone");
+  }
+
+  static boolean matchesBuiltinLabel(String candidate, String target) {
+    if (candidate == null || target == null || target.isEmpty()) return false;
+    String text = candidate.toLowerCase(Locale.ROOT);
+    String match = target.toLowerCase(Locale.ROOT);
+    int index = text.indexOf(match);
+    while (index >= 0) {
+      int end = index + match.length();
+      boolean startsAtBoundary = index == 0 || !Character.isLetterOrDigit(text.charAt(index - 1));
+      boolean endsAtBoundary = end == text.length() || !Character.isLetterOrDigit(text.charAt(end));
+      if (startsAtBoundary && endsAtBoundary) return true;
+      index = text.indexOf(match, index + 1);
+    }
+    return false;
+  }
+
+  private static Candidate findBuiltinMatch(AccessibilityNodeInfo root, String[] names) {
+    AccessibilityNodeInfo focus = root.findFocus(AccessibilityNodeInfo.FOCUS_ACCESSIBILITY);
+    Rect focusBounds = new Rect();
+    if (focus != null) focus.getBoundsInScreen(focusBounds);
+    List<Candidate> choices = new ArrayList<>();
+    int order = 0;
+    for (AccessibilityNodeInfo node : visibleNodes(root)) {
+      if (!node.isEnabled() || node.isEditable() || node.isPassword()) {
+        order++;
+        continue;
+      }
+      for (String name : names) {
+        if (!matchesBuiltinLabel(asText(node.getText()), name)
+            && !matchesBuiltinLabel(asText(node.getContentDescription()), name)
+            && (android.os.Build.VERSION.SDK_INT < 28
+                || !matchesBuiltinLabel(asText(node.getTooltipText()), name))) continue;
+        Rect bounds = new Rect();
+        node.getBoundsInScreen(bounds);
+        if (!bounds.isEmpty()) {
+          long distance = focusBounds.isEmpty() ? 0 : distance(bounds, focusBounds);
+          choices.add(new Candidate(node, distance, order));
+        }
+        break;
+      }
+      order++;
+    }
+    if (choices.isEmpty()) return null;
+    choices.sort(Comparator.comparingLong((Candidate c) -> c.distance).thenComparingInt(c -> c.order));
+    return choices.get(0);
+  }
+
   private static String asText(CharSequence text) {
     return text == null ? "" : text.toString();
   }
@@ -503,20 +564,55 @@ public final class SmartContextGestures {
               ? new String[]{"Hủy", "Huỷ", "Cancel", "Không", "No"}
               : new String[]{"Đồng ý", "OK", "Có", "Yes", "Xác nhận"})) return true;
         }
-        if ("call_incoming".equals(name) && phoneState() == TelephonyManager.CALL_STATE_RINGING) {
-          if (activateByNames(root, down
-              ? new String[]{"Trả lời", "Nhận cuộc gọi", "Answer", "Accept"}
-              : new String[]{"Từ chối", "Reject", "Decline"})) return true;
+        if ("call_incoming".equals(name)) {
+          boolean incomingUi = isCallUiPackage(packageName)
+              && (findBuiltinMatch(root, CALL_ANSWER) != null
+                  || findBuiltinMatch(root, CALL_DECLINE) != null);
+          if ((phoneState() == TelephonyManager.CALL_STATE_RINGING || incomingUi)
+              && activateByNames(root, down ? CALL_ANSWER : CALL_DECLINE)) {
+            return true;
+          }
         }
-        if ("call_active".equals(name) && phoneState() == TelephonyManager.CALL_STATE_OFFHOOK) {
-          if (activateByNames(root, down
-              ? new String[]{"Kết thúc", "Ngắt cuộc gọi", "End call", "Hang up"}
-              : new String[]{"Tắt tiếng", "Bật tiếng", "Mute", "Unmute"})) return true;
+        if ("call_active".equals(name)) {
+          boolean activeUi = isCallUiPackage(packageName)
+              && (findBuiltinMatch(root, CALL_END) != null
+                  || findBuiltinMatch(root, CALL_MUTE) != null);
+          if ((phoneState() == TelephonyManager.CALL_STATE_OFFHOOK || activeUi)
+              && activateByNames(root, down ? CALL_END : CALL_MUTE)) {
+            return true;
+          }
         }
         if ("short_video".equals(name) && isShortVideo(root)
-            && (swipeVideo(service, root, down) || scroll(root, down))) return true;
+            && (pageVideo(root, down) || swipeVideo(service, root, down)
+                || scroll(root, down))) return true;
         if ("media".equals(name) && activateByNames(root,
             new String[]{"Tạm dừng", "Phát", "Pause", "Play", "Tiếp tục"})) return true;
+      }
+      return false;
+    }
+
+    static boolean pageVideo(AccessibilityNodeInfo root, boolean next) {
+      int pageAction = 0;
+      if (android.os.Build.VERSION.SDK_INT >= 29) {
+        pageAction = next
+            ? AccessibilityNodeInfo.AccessibilityAction.ACTION_PAGE_DOWN.getId()
+            : AccessibilityNodeInfo.AccessibilityAction.ACTION_PAGE_UP.getId();
+      }
+      int scrollAction = next
+          ? AccessibilityNodeInfo.ACTION_SCROLL_FORWARD
+          : AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD;
+      for (AccessibilityNodeInfo node : visibleNodes(root)) {
+        CharSequence className = node.getClassName();
+        if (className == null || !className.toString().contains("ViewPager")) continue;
+        if (pageAction != 0 && runIfSupported(node, pageAction)) return true;
+        if (runIfSupported(node, scrollAction)) return true;
+      }
+      return false;
+    }
+
+    static boolean runIfSupported(AccessibilityNodeInfo node, int action) {
+      for (AccessibilityNodeInfo.AccessibilityAction available : node.getActionList()) {
+        if (available.getId() == action && node.performAction(action)) return true;
       }
       return false;
     }
@@ -524,19 +620,43 @@ public final class SmartContextGestures {
     static boolean swipeVideo(TalkBackService service, AccessibilityNodeInfo root, boolean next) {
       Rect bounds = new Rect();
       root.getBoundsInScreen(bounds);
+      for (AccessibilityNodeInfo node : visibleNodes(root)) {
+        CharSequence className = node.getClassName();
+        if (className == null || !className.toString().contains("ViewPager")) continue;
+        Rect pager = new Rect();
+        node.getBoundsInScreen(pager);
+        if (pager.width() >= bounds.width() / 2 && pager.height() >= bounds.height() / 2) {
+          bounds.set(pager);
+          break;
+        }
+      }
       if (bounds.height() < 240 || bounds.width() < 160) {
         bounds.set(0, 0, service.getResources().getDisplayMetrics().widthPixels,
             service.getResources().getDisplayMetrics().heightPixels);
       }
-      float x = bounds.exactCenterX();
-      float start = bounds.top + bounds.height() * (next ? 0.75f : 0.25f);
-      float end = bounds.top + bounds.height() * (next ? 0.25f : 0.75f);
-      Path path = new Path();
-      path.moveTo(x, start);
-      path.lineTo(x, end);
-      GestureDescription gesture = new GestureDescription.Builder()
-          .addStroke(new GestureDescription.StrokeDescription(path, 0, 280)).build();
-      return service.dispatchGesture(gesture, null, null);
+      float start = bounds.top + bounds.height() * (next ? 0.78f : 0.22f);
+      float end = bounds.top + bounds.height() * (next ? 0.22f : 0.78f);
+      GestureDescription.Builder builder = new GestureDescription.Builder();
+      for (float fraction : new float[]{0.42f, 0.58f}) {
+        float x = bounds.left + bounds.width() * fraction;
+        Path path = new Path();
+        path.moveTo(x, start);
+        path.lineTo(x, end);
+        builder.addStroke(new GestureDescription.StrokeDescription(path, 0, 380));
+      }
+      boolean dispatched = service.dispatchGesture(builder.build(), new AccessibilityService.GestureResultCallback() {
+        @Override
+        public void onCompleted(GestureDescription description) {
+          Log.d(LOG_TAG, "Video swipe gesture completed");
+        }
+
+        @Override
+        public void onCancelled(GestureDescription description) {
+          Log.w(LOG_TAG, "Video swipe gesture cancelled");
+        }
+      }, MAIN);
+      Log.d(LOG_TAG, "Video swipe submitted=" + dispatched + " next=" + next);
+      return dispatched;
     }
 
     int phoneState() {
@@ -572,10 +692,10 @@ public final class SmartContextGestures {
     }
 
     boolean activateByNames(AccessibilityNodeInfo root, String[] names) {
-      List<Rule> builtInRules = new ArrayList<>();
-      for (String name : names) builtInRules.add(new Rule(name, "exact", "", false, true));
-      Candidate match = findMatch(root, builtInRules);
-      return match != null && activate(service, match.node);
+      Candidate match = findBuiltinMatch(root, names);
+      boolean clicked = match != null && activate(service, match.node);
+      Log.d(LOG_TAG, "Built-in target found=" + (match != null) + " activated=" + clicked);
+      return clicked;
     }
 
     void beginRestore() {

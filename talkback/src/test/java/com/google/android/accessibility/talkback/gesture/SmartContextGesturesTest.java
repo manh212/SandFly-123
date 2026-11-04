@@ -61,4 +61,29 @@ public final class SmartContextGesturesTest {
   public void disabledRulesNeverMatch() {
     assertFalse(new Rule("Next", "exact", "", false, false).matches("Next"));
   }
+  @Test
+  public void inCallButtonsMatchLabelsWithStateDescriptions() {
+    assertTrue(SmartContextGestures.matchesBuiltinLabel(
+        "tắt, Tắt tiếng, Nút chuyển", "Tắt tiếng"));
+    assertTrue(SmartContextGestures.matchesBuiltinLabel(
+        "tắt, Kết thúc, Nút chuyển", "Kết thúc"));
+    assertTrue(SmartContextGestures.matchesBuiltinLabel(
+        "End call, button", "End call"));
+  }
+
+  @Test
+  public void builtinLabelsRequireWordBoundaries() {
+    assertTrue(SmartContextGestures.matchesBuiltinLabel("OK, Nút", "OK"));
+    assertFalse(SmartContextGestures.matchesBuiltinLabel("notification", "No"));
+    assertFalse(SmartContextGestures.matchesBuiltinLabel("Muted", "Mute"));
+    assertFalse(SmartContextGestures.matchesBuiltinLabel("Unmute", "Mute"));
+  }
+
+  @Test
+  public void callScreenIdentificationAcceptsInCallUiButNotOrdinaryApplications() {
+    assertTrue(SmartContextGestures.isCallUiPackage("com.android.incallui"));
+    assertTrue(SmartContextGestures.isCallUiPackage("com.google.android.dialer"));
+    assertFalse(SmartContextGestures.isCallUiPackage("com.ss.android.ugc.trill"));
+    assertFalse(SmartContextGestures.isCallUiPackage("com.android.contacts"));
+  }
 }
