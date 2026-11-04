@@ -88,11 +88,19 @@ The app then downloads and writes the received UTF-8 content to that chosen
 document without requesting broad storage access. The attachment row shows the
 current operation, and a foreground dialog reports success, cancellation or
 failure instead of updating only the page behind the conversation. The pending
-save stores compact remote metadata or a reference to a separately encrypted
-legacy attachment and survives activity recreation.
-It expires after ten minutes and is cleared, together with its temporary file,
-after cancellation, success or a failed write. Retry the download from
-the conversation if necessary.
+save stores compact remote metadata or the small legacy inline log in ordinary
+app-private preferences and survives activity recreation. The save path does
+not create an encrypted temporary log or decrypt the downloaded contents.
+Remote logs download at most four chunks concurrently, accept logs up to 10 MB,
+verify the final size and checksum, then write the plain
+UTF-8 bytes to the selected document. Progress distinguishes connecting,
+percentage received and writing the file. Network transfer has a 90-second
+overall deadline; a separate two-minute save deadline also covers a stalled
+document provider and restores the action without accepting late callbacks.
+Failed saves attempt to remove the unfinished document. Pending selections
+expire after ten minutes and are cleared after cancellation, success or failure;
+an old operation cannot clear a newer selection. Retry from the conversation
+if necessary. These changes do not alter license-key or account storage.
 
 The internal triage states are **Mới nhận**, **Đang xử lý**, **Cần thêm thông
 tin** and **Đã hoàn tất**. A conversation without a state record is new.

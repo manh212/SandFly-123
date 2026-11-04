@@ -14,6 +14,7 @@ public final class FirebaseRest {
   private static final Object AUTH_LOCK = new Object();
   public interface Transport {
     String request(String address, String method, String body, String contentType) throws Exception;
+    default void cancel() {}
   }
   public interface Storage {
     String read() throws Exception;
@@ -41,7 +42,7 @@ public final class FirebaseRest {
   private String token;
 
   public FirebaseRest(Config config, Storage storage) {
-    this(config, storage, FirebaseRest::http);
+    this(config, storage, new HttpTransport());
   }
 
   public FirebaseRest(Config config, Storage storage, Transport transport) {
@@ -51,6 +52,8 @@ public final class FirebaseRest {
   }
 
   public String uid() throws Exception { authenticate(); return identity.getString("uid"); }
+
+  public void cancelRequests() { transport.cancel(); }
 
   private void authenticate() throws Exception {
     synchronized (AUTH_LOCK) { authenticateLocked(); }
@@ -157,8 +160,36 @@ public final class FirebaseRest {
 
   public static JSONObject timestamp() throws Exception { return new JSONObject().put(".sv", "timestamp"); }
 
-  private static String http(String address, String method, String body, String contentType) throws Exception {
-    HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
+  private static final class HttpTransport implements Transport {
+    private final java.util.Set<HttpURLConnection> connections = new java.util.HashSet<>();
+    private boolean cancelled;
+
+    @Override public String request(String address, String method, String body, String contentType) throws Exception {
+      HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
+      synchronized (connections) {
+        if (cancelled) throw new java.io.InterruptedIOException("Đã hủy yêu cầu tải nhật ký.");
+        connections.add(connection);
+      }
+      try { return http(connection, address, method, body, contentType); }
+      finally {
+        synchronized (connections) { connections.remove(connection); }
+        connection.disconnect();
+      }
+    }
+
+    @Override public void cancel() {
+      java.util.List<HttpURLConnection> active;
+      synchronized (connections) {
+        cancelled = true;
+        active = new java.util.ArrayList<>(connections);
+      }
+      for (HttpURLConnection connection : active) {
+        try { connection.disconnect(); } catch (RuntimeException ignored) {}
+      }
+    }
+  }
+
+  private static String http(HttpURLConnection connection, String address, String method, String body, String contentType) throws Exception {
     try {
       connection.setConnectTimeout(8_000);
       connection.setReadTimeout(address.contains("/supportLogChunks/") ? 30_000 : 8_000);

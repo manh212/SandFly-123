@@ -32,6 +32,7 @@ import org.json.JSONObject;
 
 final class SupportDesk {
   private static final ExecutorService IO = Executors.newSingleThreadExecutor();
+  private static final ExecutorService DOWNLOAD_IO = Executors.newCachedThreadPool();
   private static final int DOWNLOAD = 503;
   private final MainActivity activity;
   private LinearLayout root;
@@ -40,7 +41,19 @@ final class SupportDesk {
   private boolean owner, loading, downloading;
   private Button downloadButton;
   private TextView downloadStatus;
+  private final android.os.Handler downloadHandler = new android.os.Handler(android.os.Looper.getMainLooper());
+  private SaveOperation activeSave;
   private final List<InboxView> inboxes = new ArrayList<>();
+
+  private static final class SaveOperation {
+    final java.util.concurrent.atomic.AtomicBoolean cancelled = new java.util.concurrent.atomic.AtomicBoolean();
+    volatile FirebaseRest service;
+    volatile java.io.OutputStream output;
+    volatile String stage = "tải";
+    SupportLogDownload.Target target;
+    java.util.concurrent.Future<?> task;
+    Runnable timeout;
+  }
 
   private static final class InboxView {
     final boolean history;
@@ -322,9 +335,12 @@ final class SupportDesk {
   }
 
   private SupportLogDownload.Store downloadStore() {
+    android.content.SharedPreferences preferences = activity.getSharedPreferences("support_log_download", Activity.MODE_PRIVATE);
     return new SupportLogDownload.Store() {
-      @Override public JSONObject read() throws Exception { return new IssuerStore(activity).supportDownload(); }
-      @Override public void write(JSONObject value) throws Exception { new IssuerStore(activity).supportDownload(value); }
+      @Override public JSONObject read() throws Exception { return new JSONObject(preferences.getString("pending", "{}")); }
+      @Override public void write(JSONObject value) throws Exception {
+        if (!preferences.edit().putString("pending", value.toString()).commit()) throw new java.io.IOException("Không lưu được phiên tải nhật ký.");
+      }
     };
   }
 
@@ -390,16 +406,9 @@ final class SupportDesk {
     downloadStatus = progress;
     button.setEnabled(false);
     downloadProgress("Đang mở nơi lưu nhật ký…");
-    IO.execute(() -> {
+    DOWNLOAD_IO.execute(() -> {
       try {
-        PrivateLogFiles files = new IssuerSecrets(activity).logs();
-        if (entry.optLong("logBytes") > 0) {
-          SupportLogDownload.prepareRemote(downloadStore(), files, ticket, id, entry, System.currentTimeMillis());
-        } else {
-          String file = files.write(SupportAttachment.exact(entry.getString("log")));
-          try { SupportLogDownload.prepare(downloadStore(), files, file, System.currentTimeMillis()); }
-          catch (Exception e) { files.delete(file); throw e; }
-        }
+        SupportLogDownload.prepare(downloadStore(), ticket, id, entry, System.currentTimeMillis());
         ui(() -> {
           Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
             .setType("text/plain").putExtra(Intent.EXTRA_TITLE, "Meridian-log-" + id + ".txt");
@@ -407,8 +416,8 @@ final class SupportDesk {
               DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Download"));
           try { activity.startActivityForResult(intent, DOWNLOAD); }
           catch (RuntimeException e) {
-            IO.execute(() -> {
-              try { SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), null, System.currentTimeMillis()); }
+            DOWNLOAD_IO.execute(() -> {
+              try { SupportLogDownload.save(downloadStore(), null, System.currentTimeMillis(), null); }
               catch (Exception ignored) {}
               downloadFinished("Không mở được trình chọn nơi lưu tệp. Kiểm tra ứng dụng Tệp trên điện thoại rồi thử lại.");
             });
@@ -423,16 +432,83 @@ final class SupportDesk {
     Uri destination = data == null ? null : data.getData();
     downloading = true;
     boolean cancelled = result != Activity.RESULT_OK || destination == null;
-    downloadProgress(cancelled ? "Đã hủy tải nhật ký." : "Đang tải và lưu nhật ký…");
-    IO.execute(() -> {
+    downloadProgress(cancelled ? "Đã hủy tải nhật ký." : "Đang kết nối để tải nhật ký…");
+    SaveOperation operation = new SaveOperation();
+    activeSave = operation;
+    operation.target = cancelled ? null : new SupportLogDownload.Target() {
+      @Override public java.io.OutputStream open() throws Exception {
+        if (operation.cancelled.get()) throw new java.io.InterruptedIOException("Đã dừng tải nhật ký.");
+        operation.stage = "ghi";
+        saveProgress(operation, "Đang ghi tệp nhật ký…");
+        java.io.OutputStream stream = activity.getContentResolver().openOutputStream(destination, "wt");
+        if (stream == null) throw new java.io.IOException("Không mở được tệp để ghi.");
+        operation.output = stream;
+        if (operation.cancelled.get()) { stream.close(); throw new java.io.InterruptedIOException("Đã dừng tải nhật ký."); }
+        return new java.io.FilterOutputStream(stream) {
+          @Override public void write(byte[] bytes, int offset, int length) throws java.io.IOException {
+            if (operation.cancelled.get()) throw new java.io.InterruptedIOException("Đã dừng tải nhật ký.");
+            out.write(bytes, offset, length);
+          }
+        };
+      }
+      @Override public void discard() throws Exception {
+        try { if (DocumentsContract.deleteDocument(activity.getContentResolver(), destination)) return; }
+        catch (Exception ignored) {}
+        try (java.io.OutputStream stream = activity.getContentResolver().openOutputStream(destination, "wt")) {}
+      }
+    };
+    operation.timeout = () -> {
+      if (activeSave != operation) return;
+      operation.cancelled.set(true);
+      if (operation.task != null) operation.task.cancel(true);
+      DOWNLOAD_IO.execute(() -> {
+        if (operation.service != null) operation.service.cancelRequests();
+        try { if (operation.output != null) operation.output.close(); } catch (Exception ignored) {}
+        try { if (operation.target != null) operation.target.discard(); } catch (Exception ignored) {}
+      });
+      finishSave(operation, operation.stage.equals("ghi")
+          ? "Ghi tệp quá thời gian chờ. Hãy chọn thư mục Download trong bộ nhớ điện thoại rồi thử lại."
+          : "Tải nhật ký quá thời gian chờ. Kiểm tra mạng rồi thử lại.");
+    };
+    operation.task = DOWNLOAD_IO.submit(() -> {
       try {
-        boolean saved = SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), cancelled
-            ? null : () -> activity.getContentResolver().openOutputStream(destination, "w"), System.currentTimeMillis(), this::loadLog);
-        downloadFinished(saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
+        boolean saved = SupportLogDownload.save(downloadStore(), operation.target, System.currentTimeMillis(),
+            (ticket, message, entry) -> {
+              FirebaseRest service = EnrollmentService.create(activity);
+              operation.service = service;
+              if (operation.cancelled.get()) { service.cancelRequests(); throw new java.io.InterruptedIOException("Đã dừng tải nhật ký."); }
+              SupportLogTransfer.Reader reader = new SupportLogTransfer.Reader() {
+                @Override public JSONObject get(String path) throws Exception { return service.get(path); }
+                @Override public void cancel() { service.cancelRequests(); }
+              };
+              int[] previous = {-1};
+              return SupportLogTransfer.download(reader, ticket, message, entry, (received, total) -> {
+                int percent = (int) (100L * received / total);
+                if (percent / 10 != previous[0] / 10 || previous[0] < 0 || received == total) {
+                  previous[0] = percent;
+                  saveProgress(operation, "Đang tải nhật ký: " + percent + "%");
+                }
+              }, operation.cancelled::get, 90_000L);
+            });
+        finishSave(operation, saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
       } catch (Exception e) {
-        downloadFinished("Không lưu được nhật ký. " + error(e) + " Chọn Tải nhật ký về máy để thử lại.");
+        finishSave(operation, "Không lưu được nhật ký. " + error(e) + " Chọn Tải nhật ký về máy để thử lại.");
       }
     });
+    downloadHandler.postDelayed(operation.timeout, 120_000L);
     return true;
+  }
+
+  private void saveProgress(SaveOperation operation, String value) {
+    ui(() -> { if (activeSave == operation) downloadProgress(value); });
+  }
+
+  private void finishSave(SaveOperation operation, String value) {
+    ui(() -> {
+      if (activeSave != operation) return;
+      downloadHandler.removeCallbacks(operation.timeout);
+      activeSave = null;
+      downloadFinished(value);
+    });
   }
 }

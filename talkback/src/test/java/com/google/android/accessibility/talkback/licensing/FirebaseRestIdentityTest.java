@@ -73,4 +73,17 @@ public final class FirebaseRestIdentityTest {
     assertThrows(IllegalArgumentException.class, () -> service.recent("supportIndex", "$key", 101, null));
     assertEquals(calls, addresses.size());
   }
+
+  @Test public void cancellingADownloadCancelsOnlyItsOwnTransport() throws Exception {
+    AtomicInteger cancellations = new AtomicInteger();
+    FirebaseRest.Transport transport = new FirebaseRest.Transport() {
+      @Override public String request(String address, String method, String body, String contentType) { return "null"; }
+      @Override public void cancel() { cancellations.incrementAndGet(); }
+    };
+    FirebaseRest service = new FirebaseRest(config(), new Storage(), transport);
+    FirebaseRest other = new FirebaseRest(config(), new Storage(), (a, b, c, d) ->
+        "{\"localId\":\"other\",\"refreshToken\":\"refresh\",\"idToken\":\"token\"}");
+    service.cancelRequests(); assertEquals(1, cancellations.get());
+    assertEquals("other", other.uid()); assertEquals(1, cancellations.get());
+  }
 }
