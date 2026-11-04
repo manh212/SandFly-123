@@ -42,6 +42,13 @@ public final class PrivateLogFilesTest {
     assertThrows(IllegalArgumentException.class, () -> files.source("../foreign"));
   }
 
+  @Test public void utf8EncodingFinishesWithTheSameReplacementBehaviorAsTheNormalExport() throws Exception {
+    PrivateLogFiles files = new PrivateLogFiles(temporary.newFolder(), key);
+    String raw = "original log\uD800";
+    String id = files.write(raw);
+    try (InputStream input = files.source(id).open()) { assertArrayEquals(raw.getBytes(StandardCharsets.UTF_8), input.readAllBytes()); }
+  }
+
   @Test public void changedCiphertextAndMissingCompletionRecordCannotBeSentAsValidLogs() throws Exception {
     File directory = temporary.newFolder(); PrivateLogFiles files = new PrivateLogFiles(directory, key);
     String first = files.write("private log");

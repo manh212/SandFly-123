@@ -48,8 +48,7 @@ public final class PrivateLogFiles {
 
   public String write(String text) throws Exception {
     return write(destination -> {
-      OutputStreamWriter writer = new OutputStreamWriter(destination, StandardCharsets.UTF_8);
-      writer.write(text); writer.flush();
+      try (OutputStreamWriter writer = new OutputStreamWriter(destination, StandardCharsets.UTF_8)) { writer.write(text); }
     });
   }
 
@@ -63,9 +62,10 @@ public final class PrivateLogFiles {
         stream.writeInt(MAGIC);
         OutputStream encrypted = new OutputStream() {
           final byte[] buffer = new byte[BLOCK];
-          int used, total, index;
+          int used, total, index; boolean closed;
           @Override public void write(int value) throws IOException { write(new byte[]{(byte) value}, 0, 1); }
           @Override public void write(byte[] bytes, int offset, int count) throws IOException {
+            if (closed) throw new IOException("Tệp nhật ký đã đóng.");
             if (count > SupportAttachment.MAX_BYTES - total) throw SupportAttachment.tooLarge();
             total += count;
             while (count > 0) {
@@ -83,7 +83,9 @@ public final class PrivateLogFiles {
               stream.writeInt(used); stream.write(cipher.getIV()); stream.write(bytes); used = 0;
             } catch (Exception e) { throw new IOException("Không mã hóa được nhật ký trên máy.", e); }
           }
-          @Override public void close() throws IOException { flushBlock(); stream.writeInt(0); }
+          @Override public void close() throws IOException {
+            if (!closed) { flushBlock(); stream.writeInt(0); closed = true; }
+          }
         };
         try (OutputStream output = encrypted) { writer.write(output); }
       }
