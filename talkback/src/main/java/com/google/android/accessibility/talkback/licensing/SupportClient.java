@@ -108,7 +108,9 @@ public final class SupportClient {
           SENDING.add(id);
         }
         try {
-          SupportProtocol.publishUser(Enrollment.service(context), draft);
+          String log = draft.optString("logFile");
+          SupportProtocol.publishUser(Enrollment.service(context), draft,
+              log.isEmpty() ? null : store.logs().source(log), stopped);
           store.remove(id);
         } catch (Exception e) {
           store.failed(id, error(e));

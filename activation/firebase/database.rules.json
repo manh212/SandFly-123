@@ -165,7 +165,7 @@
         ".read": "(auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) || (auth != null && (root.child('admins').child(auth.uid).val() === true || root.child('supportStaff').child(auth.uid).child('enabled').val() === true))",
         "$message": {
           ".write": "((auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) || (auth != null && (root.child('admins').child(auth.uid).val() === true || root.child('supportStaff').child(auth.uid).child('enabled').val() === true))) && !data.exists() && newData.exists() && root.child('supportIndex').child($ticket).exists()",
-          ".validate": "$message.matches(/^[0-9]{13}-[0-9a-f]{20}$/) && newData.hasChildren(['uid','name','kind','text','log','createdAt']) && (newData.child('text').val().length > 0 || newData.child('log').val().length > 0)",
+          ".validate": "$message.matches(/^[0-9]{13}-[0-9a-f]{20}$/) && newData.hasChildren(['uid','name','kind','text','log','createdAt']) && (newData.child('text').val().length > 0 || newData.child('log').val().length > 0 || newData.child('logBytes').val() > 0) && (newData.hasChild('logBytes') === newData.hasChild('logSha256')) && (!newData.hasChild('logBytes') || (root.child('supportAttachments').child($ticket).child($message).child('uid').val() === auth.uid && ((root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 0 || root.child('supportLogChunks').child($ticket).child($message).child('chunk0').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 1 || root.child('supportLogChunks').child($ticket).child($message).child('chunk1').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 2 || root.child('supportLogChunks').child($ticket).child($message).child('chunk2').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 3 || root.child('supportLogChunks').child($ticket).child($message).child('chunk3').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 4 || root.child('supportLogChunks').child($ticket).child($message).child('chunk4').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 5 || root.child('supportLogChunks').child($ticket).child($message).child('chunk5').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 6 || root.child('supportLogChunks').child($ticket).child($message).child('chunk6').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 7 || root.child('supportLogChunks').child($ticket).child($message).child('chunk7').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 8 || root.child('supportLogChunks').child($ticket).child($message).child('chunk8').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 9 || root.child('supportLogChunks').child($ticket).child($message).child('chunk9').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 10 || root.child('supportLogChunks').child($ticket).child($message).child('chunk10').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 11 || root.child('supportLogChunks').child($ticket).child($message).child('chunk11').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 12 || root.child('supportLogChunks').child($ticket).child($message).child('chunk12').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 13 || root.child('supportLogChunks').child($ticket).child($message).child('chunk13').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 14 || root.child('supportLogChunks').child($ticket).child($message).child('chunk14').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 15 || root.child('supportLogChunks').child($ticket).child($message).child('chunk15').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 16 || root.child('supportLogChunks').child($ticket).child($message).child('chunk16').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 17 || root.child('supportLogChunks').child($ticket).child($message).child('chunk17').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 18 || root.child('supportLogChunks').child($ticket).child($message).child('chunk18').exists()) && (root.child('supportAttachments').child($ticket).child($message).child('parts').val() <= 19 || root.child('supportLogChunks').child($ticket).child($message).child('chunk19').exists()))))",
           "uid": {
             ".validate": "newData.val() === auth.uid"
           },
@@ -186,6 +186,12 @@
           },
           "$other": {
             ".validate": "false"
+          },
+          "logBytes": {
+            ".validate": "newData.isNumber() && newData.val() >= 1 && newData.val() <= 10485760 && newData.val() === root.child('supportAttachments').child($ticket).child($message).child('bytes').val() && newData.parent().child('log').val() === ''"
+          },
+          "logSha256": {
+            ".validate": "newData.isString() && newData.val() === root.child('supportAttachments').child($ticket).child($message).child('sha256').val()"
           }
         }
       }
@@ -229,6 +235,56 @@
         },
         "$other": {
           ".validate": "false"
+        }
+      }
+    },
+    "supportAttachments": {
+      "$ticket": {
+        "$message": {
+          ".read": "(auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) || (auth != null && (root.child('admins').child(auth.uid).val() === true || root.child('supportStaff').child(auth.uid).child('enabled').val() === true))",
+          ".write": "(auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) && !data.exists() && newData.exists() && !root.child('supportMessages').child($ticket).child($message).exists()",
+          ".validate": "$message.matches(/^[0-9]{13}-[0-9a-f]{20}$/) && newData.hasChildren(['uid','bytes','sha256','parts','createdAt'])",
+          "uid": {
+            ".validate": "newData.val() === auth.uid"
+          },
+          "bytes": {
+            ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 1 && newData.val() <= 10485760"
+          },
+          "sha256": {
+            ".validate": "newData.isString() && newData.val().matches(/^[0-9a-f]{64}$/)"
+          },
+          "parts": {
+            ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 1 && newData.val() <= 20 && newData.parent().child('bytes').val() > (newData.val() - 1) * 524288 && newData.parent().child('bytes').val() <= newData.val() * 524288"
+          },
+          "createdAt": {
+            ".validate": "newData.isNumber() && newData.val() === now"
+          },
+          "$other": {
+            ".validate": false
+          }
+        }
+      }
+    },
+    "supportLogChunks": {
+      "$ticket": {
+        "$message": {
+          "$chunk": {
+            ".read": "(auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) || (auth != null && (root.child('admins').child(auth.uid).val() === true || root.child('supportStaff').child(auth.uid).child('enabled').val() === true))",
+            ".write": "(auth != null && root.child('supportIndex').child($ticket).child('owner').val() === auth.uid) && !data.exists() && newData.exists() && root.child('supportAttachments').child($ticket).child($message).child('uid').val() === auth.uid && !root.child('supportMessages').child($ticket).child($message).exists()",
+            ".validate": "newData.hasChildren(['index','bytes','data']) && $chunk === 'chunk' + newData.child('index').val()",
+            "index": {
+              ".validate": "newData.isNumber() && newData.val() % 1 === 0 && newData.val() >= 0 && newData.val() < root.child('supportAttachments').child($ticket).child($message).child('parts').val()"
+            },
+            "bytes": {
+              ".validate": "newData.isNumber() && newData.val() === (newData.parent().child('index').val() < root.child('supportAttachments').child($ticket).child($message).child('parts').val() - 1 ? 524288 : root.child('supportAttachments').child($ticket).child($message).child('bytes').val() - newData.parent().child('index').val() * 524288)"
+            },
+            "data": {
+              ".validate": "newData.isString() && newData.val().length === ((newData.parent().child('bytes').val() - newData.parent().child('bytes').val() % 3) / 3 + (newData.parent().child('bytes').val() % 3 === 0 ? 0 : 1)) * 4 && newData.val().length <= 699052"
+            },
+            "$other": {
+              ".validate": false
+            }
+          }
         }
       }
     }

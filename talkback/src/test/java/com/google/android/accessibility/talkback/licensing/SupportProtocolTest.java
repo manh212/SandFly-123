@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.SupportProtocol;
+import io.meridian.licensing.SupportAttachment;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
@@ -58,20 +59,13 @@ public final class SupportProtocolTest {
     assertTrue(SupportProtocol.id().matches("[0-9]{13}-[0-9a-f]{20}"));
   }
 
-  @Test public void diagnosticAttachmentExcludesCredentialsAndArbitraryScreenOrSpeechText() {
-    String filtered = SupportProtocol.diagnostic("Android: 14\nModel: Pixel 8\nDebug log: on\n"
-        + "pref_debug_log: true\nSample rate: 48000 Hz\n"
-        + "at io.meridian.Reader.read(Reader.java:42)\n"
-        + "Spoken: Bank account private text\nBearer abcdef\napi_key=abcdef\n"
-        + "SFLIC3.sensitive\nSFREQ2.secret\nContact test@example.com\nhttps://private.example\n"
-        + "Model: token-secret\nRaw screen words\n");
-    assertTrue(filtered.contains("Android: 14"));
-    assertTrue(filtered.contains("Reader.java:42"));
-    assertTrue(filtered.contains("Sample rate: 48000 Hz"));
-    for (String secret : new String[]{"Bank account", "abcdef", "SFLIC3", "SFREQ2", "test@example.com", "private.example", "token-secret", "Raw screen"}) {
-      assertFalse(secret, filtered.contains(secret));
-    }
-    assertTrue(SupportProtocol.diagnostic("at io.Reader.run(Reader.java:1)\n".repeat(5000)).length() <= 32000);
+  @Test public void attachmentSummaryAllowsLogOnlyMessagesAndDetectsDifferentContentOnRetry() throws Exception {
+    JSONObject info = SupportAttachment.inspect(() -> new java.io.ByteArrayInputStream("original log".getBytes(java.nio.charset.StandardCharsets.UTF_8)));
+    JSONObject message = SupportProtocol.message("alice", "", "user", "", "", info);
+    assertEquals("", message.getString("log")); assertEquals(12, message.getInt("logBytes"));
+    assertTrue(SupportProtocol.sameMessage(message, new JSONObject(message.toString())));
+    JSONObject changed = new JSONObject(message.toString()).put("logSha256", "a".repeat(64));
+    assertFalse(SupportProtocol.sameMessage(message, changed));
   }
 
   @Test public void lostAcknowledgementRetriesWithoutDuplicatingTheMessageOrChangingItsTime() throws Exception {

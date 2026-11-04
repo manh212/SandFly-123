@@ -64,6 +64,8 @@ public final class FirebaseRestIdentityTest {
     String query = addresses.get(addresses.size() - 1);
     assertTrue(query.contains("orderBy=%22%24key%22")); assertTrue(query.contains("limitToLast=21"));
     assertTrue(query.contains("endAt=%221700000000000-abcdef%22"));
+    service.get("supportLogChunks/ticket/message/chunk0");
+    service.get("supportAttachments/ticket/message");
     int calls = addresses.size();
     assertThrows(IllegalArgumentException.class, () -> service.get("supportIndex/../admins"));
     assertThrows(IllegalArgumentException.class, () -> service.get("supportUsers/alice/ticket/owner"));

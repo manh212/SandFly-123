@@ -66,6 +66,10 @@ final class IssuerSecrets {
     generator.generateKey();
   }
 
+  io.meridian.licensing.PrivateLogFiles logs() throws Exception {
+    return new io.meridian.licensing.PrivateLogFiles(new java.io.File(context.getNoBackupFilesDir(), "support_logs"), key());
+  }
+
   String read(String name, String fallback) throws Exception {
     String encoded = preferences.getString(name, null);
     if (encoded == null) return fallback;

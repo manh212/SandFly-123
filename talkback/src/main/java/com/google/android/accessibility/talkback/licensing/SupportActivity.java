@@ -18,6 +18,8 @@ import com.google.android.accessibility.talkback.BuildConfig;
 import com.google.android.accessibility.talkback.report.DiagnosticsExport;
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.SupportProtocol;
+import io.meridian.licensing.SupportAttachment;
+import io.meridian.licensing.PrivateLogFiles;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,9 +34,9 @@ public final class SupportActivity extends Activity {
   private CheckBox attach;
   private Spinner type;
   private Button send;
-  private String snapshot = "", replyTicket;
+  private String snapshotFile = "", replyTicket;
   private JSONObject replyHeader;
-  private boolean editing, preparing, logReady;
+  private boolean editing, preparing, logReady, submitting;
   private int screen, generation;
   private final ThreadLocal<Integer> sourceGeneration = new ThreadLocal<>();
 
@@ -43,7 +45,8 @@ public final class SupportActivity extends Activity {
     if (!ApkSignatureVerifier.isOfficial(this)) {
       page("Nhật ký và báo lỗi"); status.setText("Bản cài đặt chưa được xác thực."); return;
     }
-    if (saved != null && saved.getBoolean("editing")) {
+    if (saved != null && saved.getBoolean("submitting")) queue();
+    else if (saved != null && saved.getBoolean("editing")) {
       try {
         JSONObject header = saved.containsKey("replyHeader") ? new JSONObject(saved.getString("replyHeader")) : null;
         compose(saved.getBoolean("attached"), saved.getString("replyTicket"), header, saved);
@@ -57,19 +60,26 @@ public final class SupportActivity extends Activity {
     super.onResume();
     ActivationReminder.setActivationVisible(true);
     SupportClient.opened(this);
+    String active = snapshotFile;
+    SupportClient.LOCAL.execute(() -> { try { new SupportStore(this).pruneLogs(active); } catch (Exception ignored) {} });
   }
 
   @Override protected void onPause() {
     ActivationReminder.setActivationVisible(false); super.onPause();
   }
 
+  @Override protected void onDestroy() {
+    if (isFinishing() && editing && !submitting) discard(snapshotFile);
+    super.onDestroy();
+  }
+
   @Override protected void onSaveInstanceState(Bundle out) {
     super.onSaveInstanceState(out);
     if (!editing) return;
-    out.putBoolean("editing", true); out.putBoolean("attached", attach.isChecked());
+    out.putBoolean("editing", true); out.putBoolean("submitting", submitting); out.putBoolean("attached", attach.isChecked());
     out.putString("name", name.getText().toString()); out.putString("subject", subject.getText().toString());
     out.putString("description", description.getText().toString()); out.putString("steps", steps == null ? "" : steps.getText().toString());
-    out.putInt("type", type.getSelectedItemPosition()); out.putString("snapshot", snapshot);
+    out.putInt("type", type.getSelectedItemPosition()); out.putString("snapshotFile", snapshotFile);
     out.putString("replyTicket", replyTicket);
     if (replyHeader != null) out.putString("replyHeader", replyHeader.toString());
   }
@@ -94,8 +104,14 @@ public final class SupportActivity extends Activity {
     });
   }
 
+  private void discard(String id) {
+    if (id == null || id.isEmpty()) return;
+    SupportClient.LOCAL.execute(() -> { try { new SupportStore(this).discardLog(id); } catch (Exception ignored) {} });
+  }
+
   private void page(String title) {
-    generation++; editing = false;
+    if (editing && !submitting) discard(snapshotFile);
+    generation++; editing = false; snapshotFile = "";
     ScrollView scroll = new ScrollView(this);
     root = new LinearLayout(this); root.setOrientation(LinearLayout.VERTICAL);
     int padding = (int) (20 * getResources().getDisplayMetrics().density);
@@ -175,7 +191,7 @@ public final class SupportActivity extends Activity {
           JSONObject message = messages.optJSONObject(messageId); if (message == null) continue;
           String author = message.optString("kind").equals("staff") ? "Hỗ trợ: " + message.optString("name") : "Bạn";
           text(author + " · " + date(message.optLong("createdAt")) + "\n" + message.optString("text"));
-          if (!message.optString("log").isEmpty()) button("Xem nhật ký đã gửi", () -> preview(message.optString("log")));
+          if (SupportAttachment.present(message)) button("Xem nhật ký đã gửi", () -> receivedLog(id, messageId, message));
         }
         if (ids.isEmpty()) text("Nội dung đang được đồng bộ.");
         button("Trả lời", () -> compose(false, id, header, null));
@@ -189,7 +205,7 @@ public final class SupportActivity extends Activity {
   private void compose(boolean latestLog, String ticket, JSONObject header, Bundle saved) {
     page(ticket == null ? "Gửi góp ý, nhật ký hoặc báo lỗi" : "Trả lời hỗ trợ");
     editing = true; screen = 2; replyTicket = ticket; replyHeader = header;
-    snapshot = saved == null ? "" : saved.getString("snapshot", ""); logReady = !snapshot.isEmpty(); preparing = false;
+    snapshotFile = saved == null ? "" : saved.getString("snapshotFile", ""); logReady = !snapshotFile.isEmpty(); preparing = false; submitting = false;
     name = field("Tên hiển thị", saved == null ? "" : saved.getString("name", ""), 80, false);
     TextView kindLabel = text("Loại phản hồi"); kindLabel.setTextIsSelectable(false);
     type = new Spinner(this); type.setId(android.view.View.generateViewId()); kindLabel.setLabelFor(type.getId());
@@ -202,8 +218,12 @@ public final class SupportActivity extends Activity {
     description = field("Nội dung hoặc mô tả lỗi", saved == null ? "" : saved.getString("description", ""), 6000, true);
     steps = ticket == null ? field("Các bước tái hiện lỗi, nếu biết", saved == null ? "" : saved.getString("steps", ""), 1800, true) : null;
     attach = new CheckBox(this); attach.setText("Đính kèm nhật ký chẩn đoán mới nhất"); root.addView(attach);
-    text("Nhật ký gửi trực tiếp chỉ gồm thông tin chẩn đoán đã lọc, tối đa 32.000 ký tự. Bạn có thể xem trước khi gửi.");
-    button("Xem trước nhật ký đính kèm", () -> { if (logReady) preview(snapshot); else status.setText("Chọn đính kèm và chờ nhật ký được chuẩn bị."); });
+    text("Nhật ký được gửi nguyên nội dung bản xuất, tối đa 10 MB. Tệp có thể chứa văn bản đã đọc, nội dung màn hình và thông tin cá nhân. Hãy xem trước và chỉ bấm Gửi nếu bạn đồng ý.");
+    button("Xem trước nhật ký đính kèm", () -> { if (logReady) showLog(snapshotFile, false); else status.setText("Chọn đính kèm và chờ nhật ký được chuẩn bị."); });
+    button("Chuẩn bị lại nhật ký", () -> {
+      if (preparing || submitting) return;
+      logReady = false; send.setEnabled(!attach.isChecked()); prepareLog();
+    });
     send = button("Gửi", this::send);
     button("Hàng chờ gửi", this::queue); button("Về hộp thư", this::home);
     attach.setOnCheckedChangeListener((button, checked) -> {
@@ -220,17 +240,20 @@ public final class SupportActivity extends Activity {
   private void prepareLog() {
     if (preparing) return;
     preparing = true; status.setText("Đang chuẩn bị nhật ký mới nhất…");
-    work(() -> {
+    int expected = generation;
+    SupportClient.WORKER.execute(() -> {
       try {
-        String result = SupportProtocol.diagnostic(DiagnosticsExport.INSTANCE.build(getApplicationContext()));
-        ui(() -> {
-          snapshot = result; logReady = true; preparing = false; send.setEnabled(true);
-          status.setText("Đã chuẩn bị nhật ký. Bạn có thể xem trước rồi bấm Gửi.");
+        String result = new SupportStore(this).logs().write(DiagnosticsExport.INSTANCE.buildForExport(getApplicationContext()));
+        runOnUiThread(() -> {
+          if (isFinishing() || isDestroyed() || generation != expected) { discard(result); return; }
+          discard(snapshotFile); snapshotFile = result; logReady = true; preparing = false; send.setEnabled(true);
+          status.setText("Đã chuẩn bị nguyên bản nhật ký. Bạn có thể xem trước rồi bấm Gửi.");
         });
       } catch (Exception e) {
-        ui(() -> {
+        runOnUiThread(() -> {
+          if (isFinishing() || isDestroyed() || generation != expected) return;
           preparing = false; attach.setChecked(false); send.setEnabled(true);
-          status.setText("Chưa đọc được nhật ký. Chọn đính kèm để thử lại.");
+          status.setText(e instanceof IllegalArgumentException ? e.getMessage() : "Chưa đọc được nhật ký. Chọn đính kèm để thử lại.");
         });
       }
     });
@@ -240,8 +263,8 @@ public final class SupportActivity extends Activity {
     try {
       String body = description.getText().toString().trim();
       if (steps != null && !steps.getText().toString().trim().isEmpty()) body += "\n\nCác bước tái hiện:\n" + steps.getText().toString().trim();
-      String log = attach.isChecked() ? snapshot : "";
-      SupportProtocol.text(body, SupportProtocol.TEXT_LIMIT, log.isEmpty());
+      String logFile = attach.isChecked() ? snapshotFile : "";
+      SupportProtocol.text(body, SupportProtocol.TEXT_LIMIT, logFile.isEmpty());
       String title = SupportProtocol.text(subject.getText().toString(), 160, true);
       JSONObject draft = new JSONObject().put("ticket", replyTicket == null ? SupportProtocol.id() : replyTicket)
           .put("message", SupportProtocol.id()).put("name", name.getText().toString().trim())
@@ -249,11 +272,12 @@ public final class SupportActivity extends Activity {
               ? new String[]{"feedback", "bug", "log"}[type.getSelectedItemPosition()] : replyHeader.getString("type"))
           .put("request", DeviceLicenseManager.recoveryRequest(this)).put("appVersion", BuildConfig.MERIDIAN_VERSION)
           .put("androidVersion", Build.VERSION.RELEASE + " (SDK " + Build.VERSION.SDK_INT + ")")
-          .put("text", body).put("log", log);
-      send.setEnabled(false);
+          .put("text", body).put("log", "").put("logFile", logFile);
+      send.setEnabled(false); submitting = true;
       int expected = generation;
       SupportClient.enqueue(this, draft, (saved, message) -> ui(() -> {
-        if (generation != expected) return;
+        if (generation != expected) { if (!saved) discard(logFile); return; }
+        submitting = false;
         if (saved) queue(); else send.setEnabled(true);
         status.setText(message);
       }));
@@ -264,6 +288,49 @@ public final class SupportActivity extends Activity {
     ScrollView scroll = new ScrollView(this); TextView text = new TextView(this);
     text.setText(value); text.setTextIsSelectable(true); text.setPadding(20, 20, 20, 20); scroll.addView(text);
     new AlertDialog.Builder(this).setTitle("Nhật ký chẩn đoán").setView(scroll).setPositiveButton("Đóng", null).show();
+  }
+
+  private void receivedLog(String ticket, String message, JSONObject entry) {
+    if (entry.optInt("logBytes") == 0) { preview(entry.optString("log")); return; }
+    status.setText("Đang tải tệp nhật ký…");
+    int expected = generation;
+    work(() -> {
+      String file = new SupportStore(this).logs().write(destination ->
+          SupportAttachment.download(Enrollment.service(this), ticket, message, entry, destination));
+      runOnUiThread(() -> {
+        if (isFinishing() || isDestroyed() || generation != expected) { discard(file); return; }
+        status.setText(""); showLog(file, true);
+      });
+    });
+  }
+
+  private void showLog(String file, boolean temporary) {
+    LinearLayout column = new LinearLayout(this); column.setOrientation(LinearLayout.VERTICAL);
+    TextView label = new TextView(this); column.addView(label);
+    ScrollView scroll = new ScrollView(this); TextView content = new TextView(this);
+    content.setTextIsSelectable(true); content.setTextSize(16); content.setPadding(16, 16, 16, 16); scroll.addView(content);
+    column.addView(scroll, new LinearLayout.LayoutParams(-1, (int) (getResources().getDisplayMetrics().heightPixels * 0.45f)));
+    Button previous = new Button(this), next = new Button(this);
+    previous.setText("Trang nhật ký trước"); next.setText("Trang nhật ký tiếp theo"); column.addView(previous); column.addView(next);
+    AlertDialog dialog = new AlertDialog.Builder(this).setTitle("Nhật ký nguyên bản").setView(column).setPositiveButton("Đóng", null).create();
+    int[] page = {0}; Runnable[] load = new Runnable[1];
+    load[0] = () -> {
+      previous.setEnabled(false); next.setEnabled(false); label.setText("Đang đọc trang nhật ký…");
+      SupportClient.LOCAL.execute(() -> {
+        try {
+          String value = new SupportStore(this).logs().page(file, page[0]);
+          runOnUiThread(() -> {
+            if (!dialog.isShowing()) return;
+            label.setText("Trang nhật ký " + (page[0] + 1));
+            content.setText(value.substring(0, Math.min(value.length(), PrivateLogFiles.PAGE_CHARS)));
+            scroll.scrollTo(0, 0); previous.setEnabled(page[0] > 0); next.setEnabled(value.length() > PrivateLogFiles.PAGE_CHARS);
+          });
+        } catch (Exception e) { runOnUiThread(() -> { if (dialog.isShowing()) label.setText("Không đọc được nhật ký. Hãy chuẩn bị hoặc tải lại tệp."); }); }
+      });
+    };
+    previous.setOnClickListener(v -> { page[0]--; load[0].run(); }); next.setOnClickListener(v -> { page[0]++; load[0].run(); });
+    if (temporary) dialog.setOnDismissListener(d -> discard(file));
+    dialog.show(); load[0].run();
   }
 
   private void queue() {
@@ -280,6 +347,7 @@ public final class SupportActivity extends Activity {
           text(item.optString("subject") + (sending ? " · Đang gửi" : " · Chờ gửi")
               + (item.optString("error").isEmpty() ? "" : "\n" + item.optString("error")));
           button("Xem nội dung chờ gửi", () -> preview(item.optString("text") + "\n\n" + item.optString("log")));
+          if (!item.optString("logFile").isEmpty()) button("Xem nhật ký chờ gửi", () -> showLog(item.optString("logFile"), false));
           button("Hủy nội dung chờ gửi", () -> {
             int expected = generation;
             SupportClient.cancel(this, id, message -> ui(() -> {

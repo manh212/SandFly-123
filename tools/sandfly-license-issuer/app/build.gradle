@@ -51,7 +51,7 @@ dependencies {
 }
 def protocolTests = tasks.register('prepareProtocolTests', Sync) {
   from(file('../../../talkback/src/test/java/com/google/android/accessibility/talkback/licensing')) {
-    include 'RecoveryProtocolTest.java', 'CatalogPublisherTest.java', 'LicensePolicyTest.java', 'SupportProtocolTest.java', 'FirebaseRestIdentityTest.java'
+    include 'RecoveryProtocolTest.java', 'CatalogPublisherTest.java', 'LicensePolicyTest.java', 'SupportProtocolTest.java', 'FirebaseRestIdentityTest.java', 'SupportAttachmentTest.java', 'PrivateLogFilesTest.java'
   }
   into layout.buildDirectory.dir('generated/protocol-tests')
 }

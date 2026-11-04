@@ -17,6 +17,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.SupportProtocol;
+import io.meridian.licensing.SupportAttachment;
+import io.meridian.licensing.PrivateLogFiles;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +36,7 @@ final class SupportDesk {
   private LinearLayout root;
   private TextView status;
   private String uid = "", displayName = "Hỗ trợ";
-  private boolean owner, loading;
+  private boolean owner, loading, downloading;
 
   SupportDesk(MainActivity activity) { this.activity = activity; }
 
@@ -76,6 +78,9 @@ final class SupportDesk {
     IO.execute(() -> {
       try {
         FirebaseRest service = EnrollmentService.create(activity);
+        java.util.Set<String> retained = new java.util.HashSet<>();
+        retained.add(new IssuerStore(activity).supportDownload().optString("file"));
+        new IssuerSecrets(activity).logs().prune(retained, System.currentTimeMillis() - java.util.concurrent.TimeUnit.DAYS.toMillis(1));
         String identity = service.uid(); uid = identity;
         boolean isOwner = service.flag("admins/" + identity);
         JSONObject profile = isOwner ? new JSONObject() : service.get("supportStaff/" + identity);
@@ -207,10 +212,11 @@ final class SupportDesk {
           JSONObject entry = messages.optJSONObject(messageId); if (entry == null) continue;
           text(list, (entry.optString("kind").equals("staff") ? "Hỗ trợ" : "Người dùng") + ": " + entry.optString("name")
               + " · " + date(entry.optLong("createdAt")) + "\n" + entry.optString("text"));
-          String log = entry.optString("log");
-          if (!log.isEmpty()) {
-            button(list, "Xem nhật ký", () -> { LinearLayout content = column(); text(content, log); show("Nhật ký người dùng gửi", content); });
-            button(list, "Tải nhật ký về máy", () -> download(messageId, log));
+          if (SupportAttachment.present(entry)) {
+            button(list, "Xem nhật ký", () -> work(() -> {
+              String file = loadLog(id, messageId, entry); ui(() -> showLog(file));
+            }));
+            button(list, "Tải nhật ký về máy", () -> download(id, messageId, entry));
           }
         }
         if (ids.isEmpty()) text(list, "Chưa có nội dung tin nhắn. Nội dung có thể đang được gửi.");
@@ -293,30 +299,67 @@ final class SupportDesk {
     };
   }
 
-  private void download(String id, String log) {
-    work(() -> {
-      SupportLogDownload.prepare(downloadStore(), log, System.currentTimeMillis());
-      ui(() -> {
-        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
-            .setType("text/plain").putExtra(Intent.EXTRA_TITLE, "Meridian-log-" + id + ".txt");
-        intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
-            DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Download"));
-        try { activity.startActivityForResult(intent, DOWNLOAD); }
-        catch (RuntimeException e) {
-          work(() -> new IssuerStore(activity).supportDownload(new JSONObject()));
-          message("Không mở được trình chọn nơi lưu tệp.");
-        }
+  private String loadLog(String ticket, String id, JSONObject entry) throws Exception {
+    PrivateLogFiles files = new IssuerSecrets(activity).logs();
+    if (entry.optInt("logBytes") == 0) return files.write(SupportAttachment.exact(entry.getString("log")));
+    return files.write(destination -> SupportAttachment.download(EnrollmentService.create(activity), ticket, id, entry, destination));
+  }
+
+  private void showLog(String file) {
+    LinearLayout content = column(); TextView pageLabel = text(content, "Đang đọc nhật ký…");
+    TextView value = text(content, "");
+    Button previous = button(content, "Trang nhật ký trước", () -> {}), next = button(content, "Trang nhật ký tiếp theo", () -> {});
+    AlertDialog dialog = show("Nhật ký nguyên bản", content);
+    int[] page = {0}; Runnable[] load = new Runnable[1];
+    load[0] = () -> {
+      previous.setEnabled(false); next.setEnabled(false);
+      work(() -> {
+        String result = new IssuerSecrets(activity).logs().page(file, page[0]);
+        ui(() -> {
+          if (!dialog.isShowing()) return;
+          pageLabel.setText("Trang nhật ký " + (page[0] + 1));
+          value.setText(result.substring(0, Math.min(result.length(), PrivateLogFiles.PAGE_CHARS)));
+          if (content.getParent() instanceof ScrollView) ((ScrollView) content.getParent()).scrollTo(0, 0);
+          previous.setEnabled(page[0] > 0); next.setEnabled(result.length() > PrivateLogFiles.PAGE_CHARS);
+        });
       });
+    };
+    previous.setOnClickListener(v -> { page[0]--; load[0].run(); }); next.setOnClickListener(v -> { page[0]++; load[0].run(); });
+    dialog.setOnDismissListener(d -> work(() -> new IssuerSecrets(activity).logs().delete(file))); load[0].run();
+  }
+
+  private void download(String ticket, String id, JSONObject entry) {
+    if (downloading) { message("Hãy hoàn tất hoặc hủy lần lưu nhật ký đang mở trước."); return; }
+    downloading = true;
+    IO.execute(() -> {
+      try {
+        String file = loadLog(ticket, id, entry);
+        SupportLogDownload.prepare(downloadStore(), new IssuerSecrets(activity).logs(), file, System.currentTimeMillis());
+        ui(() -> {
+          Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE)
+            .setType("text/plain").putExtra(Intent.EXTRA_TITLE, "Meridian-log-" + id + ".txt");
+          intent.putExtra(DocumentsContract.EXTRA_INITIAL_URI,
+              DocumentsContract.buildDocumentUri("com.android.externalstorage.documents", "primary:Download"));
+          try { activity.startActivityForResult(intent, DOWNLOAD); }
+          catch (RuntimeException e) {
+            result(DOWNLOAD, Activity.RESULT_CANCELED, null);
+            message("Không mở được trình chọn nơi lưu tệp.");
+          }
+        });
+      } catch (Exception e) { ui(() -> downloading = false); message(error(e)); }
     });
   }
 
   boolean result(int request, int result, Intent data) {
     if (request != DOWNLOAD) return false;
     Uri destination = data == null ? null : data.getData();
+    downloading = true;
     work(() -> {
-      boolean saved = SupportLogDownload.save(downloadStore(), result != Activity.RESULT_OK || destination == null
-          ? null : () -> activity.getContentResolver().openOutputStream(destination, "w"), System.currentTimeMillis());
-      message(saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
+      try {
+        boolean saved = SupportLogDownload.save(downloadStore(), new IssuerSecrets(activity).logs(), result != Activity.RESULT_OK || destination == null
+            ? null : () -> activity.getContentResolver().openOutputStream(destination, "w"), System.currentTimeMillis());
+        message(saved ? "Đã tải nhật ký vào tệp bạn chọn." : "Đã hủy tải nhật ký.");
+      } finally { ui(() -> downloading = false); }
     });
     return true;
   }

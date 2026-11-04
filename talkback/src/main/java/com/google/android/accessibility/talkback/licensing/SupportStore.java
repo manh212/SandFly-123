@@ -11,6 +11,8 @@ import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.GCMParameterSpec;
 import org.json.JSONObject;
+import io.meridian.licensing.PrivateLogFiles;
+import java.io.File;
 
 final class SupportStore {
   private static final String ALIAS = "meridian.support.private.v1";
@@ -51,6 +53,35 @@ final class SupportStore {
     }
   }
 
+  PrivateLogFiles logs() throws Exception {
+    synchronized (SupportStore.class) {
+      return new PrivateLogFiles(new File(context.getNoBackupFilesDir(), "support_logs"), key());
+    }
+  }
+
+  void discardLog(String id) throws Exception {
+    synchronized (SupportStore.class) {
+      JSONObject queue = read().optJSONObject("queue");
+      if (queue != null) {
+        for (String message : io.meridian.licensing.SupportProtocol.keys(queue)) {
+          if (queue.getJSONObject(message).optString("logFile").equals(id)) return;
+        }
+      }
+      logs().delete(id);
+    }
+  }
+
+  void pruneLogs(String active) throws Exception {
+    synchronized (SupportStore.class) {
+      java.util.Set<String> retained = new java.util.HashSet<>(); retained.add(active);
+      JSONObject queue = read().optJSONObject("queue");
+      if (queue != null) {
+        for (String message : io.meridian.licensing.SupportProtocol.keys(queue)) retained.add(queue.getJSONObject(message).optString("logFile"));
+      }
+      logs().prune(retained, System.currentTimeMillis() - java.util.concurrent.TimeUnit.DAYS.toMillis(1));
+    }
+  }
+
   JSONObject queue() throws Exception {
     synchronized (SupportStore.class) {
       JSONObject queue = read().optJSONObject("queue");
@@ -63,6 +94,9 @@ final class SupportStore {
       JSONObject data = read(), queue = data.optJSONObject("queue");
       if (queue == null) queue = new JSONObject();
       if (queue.length() >= 20) throw new IllegalStateException("Hàng chờ đã có 20 nội dung. Hãy gửi hoặc hủy bớt trước.");
+      if (!item.optString("logFile").isEmpty() && !logs().exists(item.getString("logFile"))) {
+        throw new IllegalStateException("Tệp nhật ký không còn trên máy. Hãy tạo lại tệp đính kèm.");
+      }
       queue.put(item.getString("message"), item);
       data.put("queue", queue).put("name", item.optString("name")); write(data);
     }
@@ -72,7 +106,10 @@ final class SupportStore {
     synchronized (SupportStore.class) {
       JSONObject data = read(), queue = data.optJSONObject("queue");
       if (queue == null || !queue.has(id)) return false;
-      queue.remove(id); data.put("queue", queue); write(data); return true;
+      String log = queue.getJSONObject(id).optString("logFile");
+      queue.remove(id); data.put("queue", queue); write(data);
+      if (!log.isEmpty()) discardLog(log);
+      return true;
     }
   }
 

@@ -19,15 +19,25 @@ feedback. **Gửi nhật ký mới nhất** opens a composer with attachment sel
 it still requires the user to press **Gửi**. Users can preview the attachment.
 There are no automatic crash uploads or background log collection for support.
 
-The attachment is a filtered diagnostic snapshot, at most 32,000 characters.
-Only selected device/app metadata, stack frames and numeric or Boolean diagnostic
-fields survive the allowlist. Arbitrary spoken text, screen content and lines
-matching credential, email or URL patterns are omitted. The existing local full
-export and clipboard actions retain their original behavior and may contain
-personal information. Review any file before sharing it separately.
+The attachment is exactly the UTF-8 output of the existing full diagnostics
+export, without an additional content filter, trimming or silent truncation.
+The file limit is 10 MB (10,485,760 UTF-8 bytes), not a character count. A larger
+export is rejected with an explanation; the user can still use the existing
+local export action. Full diagnostics can include spoken text, screen content,
+identifiers, credentials appearing in log messages and other personal information.
+The composer explains this before the user chooses to send and offers a paginated
+preview. The existing export's own collection behavior remains unchanged.
+
+A larger unfiltered export retains the available diagnostic history; it cannot
+reconstruct an error that was never logged. For troubleshooting, enable debug
+logging, reproduce the issue and prepare/send diagnostics promptly. This change
+does not introduce automatic recording or uploading of new kinds of screen data.
 
 Pressing Send persists the explicitly selected content in an AES-GCM encrypted
-outbox protected by Android Keystore. It holds up to 20 pending messages. Android
+outbox protected by Android Keystore. Large attachments are encrypted in separate
+private files, while preferences and saved activity state contain only file IDs.
+It holds up to 20 pending messages. Abandoned temporary files older than one day
+are cleaned up, while queued attachments and the active composer file are retained. Android
 JobScheduler retries that content when a network becomes available, including
 after a restart. A user can cancel a waiting item; an attempt already sending
 cannot be cancelled. Cancelling a future retry does not recall data that the
@@ -38,6 +48,9 @@ Users see only their own conversations and may reply. Use **Tải tin nhắn m�
 nhất** to retrieve replies; there is no push notification service. Each thread
 loads ten messages per page and each inbox page loads twenty conversations.
 The administrator can browse recent activity and the complete paginated history.
+New attachment contents are fetched only when opening or downloading that log;
+loading message history does not load every attachment. Legacy inline attachments
+from the previous 32,000-character format remain readable.
 
 Clearing data or reinstalling creates a new anonymous Firebase identity and a new
 inbox. Old conversations remain available to authorized administrators and
@@ -50,9 +63,10 @@ Open **Hộp thư phản hồi**, select a conversation and use **Trả lời ph
 Received attachments have **Xem nhật ký** and **Tải nhật ký về máy** actions.
 Download opens Android's document picker. Choose Downloads or another destination
 and save `Meridian-log-<message-id>.txt`. The app writes the received UTF-8 content
-to that chosen document without requesting broad storage access. A pending save
-is encrypted, survives activity recreation, expires after ten minutes and is
-cleared after cancellation, success or a failed write. Retry the download from
+to that chosen document without requesting broad storage access. The pending
+save references a separately encrypted file and survives activity recreation.
+It expires after ten minutes and is cleared, together with its temporary file,
+after cancellation, success or a failed write. Retry the download from
 the conversation if necessary.
 
 The internal triage states are **Mới nhận**, **Đang xử lý**, **Cần thêm thông
@@ -91,10 +105,23 @@ or the Boolean owner entry under `admins/<uid>`. No signing key, admin token or
 service-account credential is needed in either APK.
 
 The new groups are `supportIndex`, `supportUsers`, `supportMessages`,
-`supportStates`, `supportStaff` and `supportContacts`. Anonymous authentication
+`supportStates`, `supportStaff`, `supportContacts`, `supportAttachments` and
+`supportLogChunks`. Anonymous authentication
 must remain enabled. Existing enrollment and license rules retain their access
 boundaries. Deploy these rules before using the new support features; the old
 rules correctly reject the new paths.
+
+Attachment metadata records a SHA-256 digest, byte size and part count. Uploads
+use immutable Base64 chunks of at most 512 KiB of original data and resume without
+rewriting acknowledged chunks. The client publishes the message only after
+uploading every part. Readers verify the decoded sizes and digest before exposing
+the completed local file. Rules restrict attachment reads to the conversation's
+owner and active support staff, deny bulk reads of chunk directories, prevent
+replacement and require all declared chunks before accepting an attached message.
+The 10 MB file limit is measured before Base64 encoding; transport/storage usage
+is larger. See [Firebase's database limits](https://firebase.google.com/docs/database/usage/limits).
+Publish the complete updated rules even if the previous feedback rules were
+already installed, and update both apps to handle the new attachment format.
 
 This uses Realtime Database text only, without Cloud Functions, Firebase Storage
 or FCM. Firebase quotas, availability and anonymous-auth limits still apply.
@@ -108,8 +135,9 @@ the file manager; a downloaded file is outside the app's encrypted storage.
 GitHub Actions tests Firebase access rules for customer inbox isolation, hidden
 triage, message immutability, attachment limits, contact access and helper
 revocation without licensing privileges. Shared Java tests cover identity
-concurrency, query validation, filtered diagnostics and idempotent retry after a
-lost response. Admin tests cover UTF-8 downloads, pending-save recreation,
+concurrency, query validation, exact 10 MB UTF-8 round trips, oversize rejection,
+chunk retry after a lost response, corruption detection, encrypted file integrity
+and cleanup that preserves queued attachments. Admin tests cover UTF-8 downloads, pending-save recreation,
 cancellation, expiry and storage failure. Settings tests cover diagnostics search
 placement and exclusion of support data from settings backup. R8 verification
 continues to cover the activation/shared and admin namespaces.

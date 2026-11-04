@@ -111,7 +111,7 @@ public final class FirebaseRest {
   }
 
   public void put(String path, JSONObject value) throws Exception {
-    database(path, "PUT", value.toString());
+    database(path, "PUT", value.toString(), "&print=silent");
   }
 
   private String database(String path, String method, String body) throws Exception {
@@ -119,7 +119,7 @@ public final class FirebaseRest {
   }
 
   private String database(String path, String method, String body, String query) throws Exception {
-    if (!path.matches("(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts)(?:/[a-zA-Z0-9_-]{1,128}){0,2}")) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
     authenticate();
@@ -133,7 +133,7 @@ public final class FirebaseRest {
     HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
     try {
       connection.setConnectTimeout(8_000);
-      connection.setReadTimeout(8_000);
+      connection.setReadTimeout(address.contains("/supportLogChunks/") ? 30_000 : 8_000);
       connection.setInstanceFollowRedirects(false);
       connection.setUseCaches(false);
       connection.setRequestMethod(method);

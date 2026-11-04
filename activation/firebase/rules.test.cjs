@@ -1,5 +1,6 @@
 const {before, after, beforeEach, test} = require('node:test');
 const {readFileSync} = require('node:fs');
+const {createHash} = require('node:crypto');
 const {initializeTestEnvironment, assertFails, assertSucceeds} = require('@firebase/rules-unit-testing');
 let env;
 const request = 'SFREQ2.' + 'a'.repeat(64);
@@ -171,4 +172,57 @@ test('contacts show event timestamps without leaking the global directory to hel
   for (const invalid of [{...contact, request: 'SFREQ2.' + 'f'.repeat(64)}, {...contact, lastSeen: 1},
     {...contact, online: true}]) await assertFails(db('alice').ref('supportContacts/alice').set(invalid));
   await assertFails(db('helper').ref('supportContacts/alice').set(contact));
+});
+
+const attachmentId = '1700000000009-' + 'f'.repeat(20);
+const attachmentPath = () => 'supportAttachments/' + ticket + '/' + attachmentId;
+const chunkPath = index => 'supportLogChunks/' + ticket + '/' + attachmentId + '/chunk' + index;
+const attachedMessagePath = () => 'supportMessages/' + ticket + '/' + attachmentId;
+const attachmentInfo = (bytes, sha256, parts = Math.ceil(bytes / 524288)) => ({
+  uid: 'alice', bytes, sha256, parts, createdAt: {'.sv': 'timestamp'}
+});
+
+test('a full ten megabyte log uses bounded private chunks and publishes only after upload', async () => {
+  await report(); await helper();
+  const raw = Buffer.alloc(524288, 'a');
+  const hash = createHash('sha256'); for (let i = 0; i < 20; i++) hash.update(raw);
+  const sha256 = hash.digest('hex');
+  await assertSucceeds(db('alice').ref(attachmentPath()).set(attachmentInfo(10485760, sha256)));
+  const summary = {...message(), text: '', logBytes: 10485760, logSha256: sha256};
+  await assertFails(db('alice').ref(attachedMessagePath()).set(summary));
+  for (let i = 0; i < 20; i++) {
+    await assertSucceeds(db('alice').ref(chunkPath(i)).set({index: i, bytes: raw.length, data: raw.toString('base64')}));
+  }
+  await assertSucceeds(db('alice').ref(attachedMessagePath()).set(summary));
+  await assertSucceeds(db('helper').ref(attachmentPath()).once('value'));
+  await assertSucceeds(db('helper').ref(chunkPath(19)).once('value'));
+  await assertFails(db('bob').ref(attachmentPath()).once('value'));
+  await assertFails(db('bob').ref(chunkPath(0)).once('value'));
+  await assertFails(env.unauthenticatedContext().database().ref(chunkPath(0)).once('value'));
+  await assertFails(db('alice').ref('supportLogChunks/' + ticket + '/' + attachmentId).once('value'));
+  await assertFails(db('alice').ref(chunkPath(0)).remove());
+  await assertFails(db('alice').ref(chunkPath(0)).set({index: 0, bytes: raw.length, data: raw.toString('base64')}));
+  await assertFails(db('alice').ref(attachmentPath()).set(attachmentInfo(10485760, sha256)));
+});
+
+test('attachment metadata sizes ownership and chunk schemas reject invalid uploads', async () => {
+  await report(); await helper();
+  const sha256 = 'a'.repeat(64);
+  for (const invalid of [attachmentInfo(10485761, sha256, 21), attachmentInfo(0, sha256, 0),
+    attachmentInfo(3, sha256, 2), {...attachmentInfo(3, sha256), uid: 'bob'},
+    {...attachmentInfo(3, sha256), extra: true}, attachmentInfo(3, 'invalid')]) {
+    await assertFails(db('alice').ref(attachmentPath()).set(invalid));
+  }
+  await assertSucceeds(db('alice').ref(attachmentPath()).set(attachmentInfo(3, sha256)));
+  for (const invalid of [{index: 0, bytes: 4, data: 'YWJj'}, {index: 0, bytes: 3, data: 'x'},
+    {index: 1, bytes: 3, data: 'YWJj'}, {index: 0, bytes: 3, data: 'YWJj', extra: true}]) {
+    await assertFails(db('alice').ref(chunkPath(0)).set(invalid));
+  }
+  await assertFails(db('helper').ref(chunkPath(0)).set({index: 0, bytes: 3, data: 'YWJj'}));
+  await assertSucceeds(db('alice').ref(chunkPath(0)).set({index: 0, bytes: 3, data: 'YWJj'}));
+  await assertFails(db('alice').ref(attachedMessagePath()).set({...message(), logBytes: 3, logSha256: 'b'.repeat(64)}));
+  await assertFails(db('alice').ref(attachedMessagePath()).set({...message(), logBytes: 3}));
+  await helper(false);
+  await assertFails(db('helper').ref(attachmentPath()).once('value'));
+  await assertFails(db('helper').ref(chunkPath(0)).once('value'));
 });

@@ -39,7 +39,7 @@ setup, migration, connectivity requirements and security limits.
 ## Feedback and diagnostics
 
 Open **Nhật ký và báo lỗi** in Meridian settings to send feedback, report a bug,
-attach a manually selected diagnostic snapshot or read support replies. This is
+attach a manually selected full diagnostic export of up to 10 MB or read support replies. This is
 available even without an active license. Meridian Quản trị can reply, manage
 internal processing states and download received logs as text files. Helpers
 can support every conversation without licensing privileges. The owner must
