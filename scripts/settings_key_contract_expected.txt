@@ -162,7 +162,7 @@ pref_auto_enter_table_navigation_key
 pref_auto_image_captioning_key
 pref_auto_update_check
 pref_backup_reset_screen
-pref_browse_mode_per_app
+pref_browse_mode_remember_mode
 pref_buttons_navigation_menu_setting_key
 pref_cache_keyboard_keys
 pref_capital_letters
