@@ -46,7 +46,32 @@ public final class SmartContextGestureSettingsFragment extends TalkbackBaseFragm
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
     super.onCreatePreferences(savedInstanceState, rootKey);
+    migrateLegacySettings(requireContext());
+    getPreferenceManager().setStorageDeviceProtected();
     refresh();
+  }
+
+  static void migrateLegacySettings(Context context) {
+    SharedPreferences target = SharedPreferencesUtils.getSharedPreferences(context);
+    String marker = "smart_context_device_storage_migrated";
+    if (target.getBoolean(marker, false)) return;
+    SharedPreferences original = androidx.preference.PreferenceManager.getDefaultSharedPreferences(context);
+    SharedPreferences.Editor editor = target.edit();
+    for (String builtin : SmartContextGestures.BUILTINS) {
+      String key = "smart_context_builtin_" + builtin;
+      if (original.contains(key) && !target.contains(key)) {
+        editor.putBoolean(key, original.getBoolean(key, false));
+      }
+    }
+    String selector = context.getString(R.string.pref_selector_smart_context_key);
+    if (original.contains(selector) && !target.contains(selector)) {
+      editor.putBoolean(selector, original.getBoolean(selector, false));
+    }
+    String maxScroll = SmartContextGestures.PREF_MAX_SCROLL;
+    if (original.contains(maxScroll) && !target.contains(maxScroll)) {
+      editor.putString(maxScroll, original.getString(maxScroll, "20"));
+    }
+    editor.putBoolean(marker, true).apply();
   }
 
   private void refresh() {

@@ -10,7 +10,6 @@ import android.os.Looper;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityNodeInfo;
-import android.view.accessibility.AccessibilityWindowInfo;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.utils.Performance;
@@ -514,11 +513,30 @@ public final class SmartContextGestures {
               ? new String[]{"Kết thúc", "Ngắt cuộc gọi", "End call", "Hang up"}
               : new String[]{"Tắt tiếng", "Bật tiếng", "Mute", "Unmute"})) return true;
         }
-        if ("short_video".equals(name) && isShortVideo(root) && scroll(root, down)) return true;
+        if ("short_video".equals(name) && isShortVideo(root)
+            && (swipeVideo(service, root, down) || scroll(root, down))) return true;
         if ("media".equals(name) && activateByNames(root,
             new String[]{"Tạm dừng", "Phát", "Pause", "Play", "Tiếp tục"})) return true;
       }
       return false;
+    }
+
+    static boolean swipeVideo(TalkBackService service, AccessibilityNodeInfo root, boolean next) {
+      Rect bounds = new Rect();
+      root.getBoundsInScreen(bounds);
+      if (bounds.height() < 240 || bounds.width() < 160) {
+        bounds.set(0, 0, service.getResources().getDisplayMetrics().widthPixels,
+            service.getResources().getDisplayMetrics().heightPixels);
+      }
+      float x = bounds.exactCenterX();
+      float start = bounds.top + bounds.height() * (next ? 0.75f : 0.25f);
+      float end = bounds.top + bounds.height() * (next ? 0.25f : 0.75f);
+      Path path = new Path();
+      path.moveTo(x, start);
+      path.lineTo(x, end);
+      GestureDescription gesture = new GestureDescription.Builder()
+          .addStroke(new GestureDescription.StrokeDescription(path, 0, 280)).build();
+      return service.dispatchGesture(gesture, null, null);
     }
 
     int phoneState() {
@@ -531,8 +549,6 @@ public final class SmartContextGestures {
     }
 
     boolean isDialog(AccessibilityNodeInfo root) {
-      List<AccessibilityWindowInfo> windows = service.getWindows();
-      if (windows == null || windows.size() < 2) return false;
       boolean positive = findMatch(root, Arrays.asList(
           new Rule("OK", "exact", "", false, true),
           new Rule("Đồng ý", "exact", "", false, true),
