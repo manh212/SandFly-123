@@ -113,6 +113,22 @@ final class SupportStore {
     }
   }
 
+  JSONObject notificationState(String uid) throws Exception {
+    synchronized (SupportStore.class) {
+      JSONObject data = read();
+      return uid.equals(data.optString("notificationsUid")) && data.optJSONObject("notifications") != null
+          ? data.getJSONObject("notifications") : new JSONObject();
+    }
+  }
+
+  void notificationState(String uid, JSONObject value) throws Exception {
+    synchronized (SupportStore.class) {
+      JSONObject data = read();
+      data.put("notificationsUid", uid).put("notifications", value);
+      write(data);
+    }
+  }
+
   String name() throws Exception {
     synchronized (SupportStore.class) { return read().optString("name"); }
   }

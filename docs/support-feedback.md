@@ -44,10 +44,31 @@ cannot be cancelled. Cancelling a future retry does not recall data that the
 server already accepted. Stable message IDs prevent duplicate messages after a
 lost response. A failed attempt keeps the local content and displays its error.
 
-Users see only their own conversations and may reply. Use **Tải tin nhắn mới
-nhất** to retrieve replies; there is no push notification service. Each thread
-loads ten messages per page and each inbox page loads twenty conversations.
-The administrator can browse recent activity and the complete paginated history.
+Users see only their own conversations and may reply. While the Meridian
+accessibility service is active, an authenticated Firebase REST event stream
+receives changes to the current installation's inbox. New staff replies and
+actual status transitions create high-importance Android notifications; tapping
+one opens that conversation. Notification permission and network availability
+remain required; the support screen links to Android notification settings when
+the app or channel is blocked. The stream closes when the service stops and reconnects with
+backoff after disconnection or authentication expiry. It is independent of
+settings/support activity visibility and of the send queue.
+
+The first snapshot establishes a baseline without announcing old history.
+Encrypted per-installation markers suppress duplicate delivery after reconnect
+or restart; a reconnect reports the newest unseen reply/status per conversation
+among the 100 most recently active requests. Multiple changes during a disconnect
+can be represented by their latest state rather than individual historical
+notifications. Full messages remain in the conversation. Opening a notification
+while composing asks before discarding the draft. Manual refresh remains available.
+
+The active inbox excludes completed requests. **Toàn bộ lịch sử phản hồi** retains
+all requests. Both lists sort by the latest reply, user message or status update,
+newest first. Admin pages contain twenty conversations and scan past completed
+requests so those cannot conceal older open requests. Numeric timestamp cursors
+and explicit boundary-tie queries avoid losing requests with equal update times.
+The user's installation index is loaded as metadata and paginated locally.
+Each thread loads ten messages per page in chronological reading order.
 New attachment contents are fetched only when opening or downloading that log;
 loading message history does not load every attachment. Legacy inline attachments
 from the previous 32,000-character format remain readable.
@@ -70,10 +91,13 @@ after cancellation, success or a failed write. Retry the download from
 the conversation if necessary.
 
 The internal triage states are **Mới nhận**, **Đang xử lý**, **Cần thêm thông
-tin** and **Đã giải quyết**. A conversation without a state record is new.
-These states are stored separately from user-readable messages. Firebase denies
-users access to the state records, including their own. Two-way messaging remains
-available regardless of triage state.
+tin** and **Đã hoàn tất**. A conversation without a state record is new.
+Internal state records remain staff-only. A validated public projection in the
+owner's `supportUsers` entry contains only the status, its timestamp and the latest
+staff reply ID/time. Staff identities and internal author fields are not exposed.
+Changing state refreshes open admin inbox/history dialogs immediately. Completed
+requests reappear in the inbox when staff change them to another status. Two-way
+messaging remains available regardless of status.
 
 The owner opens **Người hỗ trợ**, adds the other phone's Firebase UID and a
 display name, and enables support access. The other person installs Meridian
@@ -123,8 +147,16 @@ is larger. See [Firebase's database limits](https://firebase.google.com/docs/dat
 Publish the complete updated rules even if the previous feedback rules were
 already installed, and update both apps to handle the new attachment format.
 
-This uses Realtime Database text only, without Cloud Functions, Firebase Storage
-or FCM. Firebase quotas, availability and anonymous-auth limits still apply.
+Publish the updated rules before installing both updated APKs: clients now need
+validated staff writes to the public inbox projection, its `lastAt` index and
+staff-only aggregate reads of `supportStates`. The existing owner entry, messages
+and license data remain intact. No backend credentials are embedded or required
+for REST streaming. The APK publication workflow does not deploy production
+Firebase rules; the owner must publish `activation/firebase/database.rules.json`
+in the Firebase console.
+
+This uses Realtime Database text and authenticated event streaming, without Cloud
+Functions, Firebase Storage or FCM. Firebase quotas, availability and anonymous-auth limits still apply.
 There is no trusted-server rate limiter or automatic abuse moderation. An app
 signature check and obfuscation do not make a public client unpatchable. Reports
 and saved files are retained until the owner removes them through Firebase or
@@ -146,3 +178,10 @@ The owner must still test Android's document picker, offline retry/cancellation,
 TalkBack focus order and real-device messaging after publishing the database
 rules. Emulator/unit tests do not establish production Firebase configuration or
 device behavior.
+
+Additional CI coverage verifies streaming event framing, authentication expiry,
+notification deduplication/reconnection, direct notification navigation, status
+projection isolation, reply-marker validation, latest-activity ordering, filtering
+past completed pages and pagination across equal timestamps. On-device testing
+still needs both updated apps and the deployed rules, including screen-off
+connectivity, notification permission, offline reconnection and service stop.

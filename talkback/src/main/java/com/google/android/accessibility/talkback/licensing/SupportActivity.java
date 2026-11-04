@@ -2,6 +2,11 @@ package com.google.android.accessibility.talkback.licensing;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import androidx.core.content.ContextCompat;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -19,6 +24,7 @@ import com.google.android.accessibility.talkback.report.DiagnosticsExport;
 import io.meridian.licensing.FirebaseRest;
 import io.meridian.licensing.SupportProtocol;
 import io.meridian.licensing.SupportAttachment;
+import io.meridian.licensing.SupportInbox;
 import io.meridian.licensing.PrivateLogFiles;
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -38,6 +44,15 @@ public final class SupportActivity extends Activity {
   private JSONObject replyHeader;
   private boolean editing, preparing, logReady, submitting;
   private int screen, generation;
+  private boolean allHistory, listening;
+  private int inboxPage;
+  private final BroadcastReceiver updates = new BroadcastReceiver() {
+    @Override public void onReceive(Context context, Intent intent) {
+      if (editing || submitting) return;
+      if (screen == 0) home(allHistory, inboxPage);
+      else if (screen == 1) status.setText("Có cập nhật hỗ trợ mới. Chọn Tải tin nhắn mới nhất để xem.");
+    }
+  };
   private final ThreadLocal<Integer> sourceGeneration = new ThreadLocal<>();
 
   @Override public void onCreate(Bundle saved) {
@@ -51,6 +66,9 @@ public final class SupportActivity extends Activity {
         JSONObject header = saved.containsKey("replyHeader") ? new JSONObject(saved.getString("replyHeader")) : null;
         compose(saved.getBoolean("attached"), saved.getString("replyTicket"), header, saved);
       } catch (Exception e) { home(); }
+    } else if (getIntent().hasExtra(SupportNotifications.TICKET)) {
+      page("Trao đổi hỗ trợ");
+      thread(getIntent().getStringExtra(SupportNotifications.TICKET), null);
     } else if (getIntent().getBooleanExtra("compose", false)) {
       compose(getIntent().getBooleanExtra("latestLog", false), null, null, null);
     } else home();
@@ -60,12 +78,31 @@ public final class SupportActivity extends Activity {
     super.onResume();
     ActivationReminder.setActivationVisible(true);
     SupportClient.opened(this);
+    if (!listening) {
+      ContextCompat.registerReceiver(this, updates, new IntentFilter(SupportNotifications.UPDATED),
+          ContextCompat.RECEIVER_NOT_EXPORTED);
+      listening = true;
+    }
     String active = snapshotFile;
     SupportClient.LOCAL.execute(() -> { try { new SupportStore(this).pruneLogs(active); } catch (Exception ignored) {} });
   }
 
   @Override protected void onPause() {
+    if (listening) { unregisterReceiver(updates); listening = false; }
     ActivationReminder.setActivationVisible(false); super.onPause();
+  }
+
+  @Override protected void onNewIntent(Intent intent) {
+    super.onNewIntent(intent);
+    setIntent(intent);
+    String ticket = intent.getStringExtra(SupportNotifications.TICKET);
+    if (ticket != null && ticket.matches("[0-9]{13}-[0-9a-f]{20}")) {
+      if (editing) {
+        new AlertDialog.Builder(this).setMessage("Mở cập nhật hỗ trợ và bỏ nội dung đang soạn?")
+            .setPositiveButton("Mở cập nhật", (dialog, which) -> { editing = false; discard(snapshotFile); thread(ticket, null); })
+            .setNegativeButton("Tiếp tục soạn", null).show();
+      } else thread(ticket, null);
+    }
   }
 
   @Override protected void onDestroy() {
@@ -139,50 +176,66 @@ public final class SupportActivity extends Activity {
 
   private String date(long value) { return DateFormat.getDateTimeInstance().format(new Date(value)); }
 
-  private void home() {
-    page("Nhật ký và báo lỗi"); screen = 0;
+  private void home() { home(false, 0); }
+
+  private void home(boolean history, int pageNumber) {
+    allHistory = history;
+    inboxPage = pageNumber;
+    page(history ? "Toàn bộ lịch sử phản hồi" : "Hộp thư hỗ trợ"); screen = 0;
     button("Gửi góp ý hoặc báo lỗi", () -> compose(false, null, null, null));
     button("Gửi nhật ký mới nhất", () -> compose(true, null, null, null));
     button("Hàng chờ gửi", this::queue);
-    button("Làm mới hộp thư", this::home);
+    if (!SupportNotifications.enabled(this)) {
+      text("Thông báo hỗ trợ đang bị tắt trong Android.");
+      button("Mở cài đặt thông báo", () -> {
+        try {
+          startActivity(new Intent(android.provider.Settings.ACTION_APP_NOTIFICATION_SETTINGS)
+              .putExtra(android.provider.Settings.EXTRA_APP_PACKAGE, getPackageName()));
+        } catch (android.content.ActivityNotFoundException unavailable) {
+          status.setText("Hãy mở cài đặt Android và bật thông báo cho Meridian.");
+        }
+      });
+    }
+    button(history ? "Hộp thư hỗ trợ" : "Toàn bộ lịch sử phản hồi", () -> home(!history, 0));
+    button("Làm mới hộp thư", () -> home(history, 0));
     status.setText("Đang tải hộp thư…");
     work(() -> {
       FirebaseRest service = Enrollment.service(this);
-      JSONObject items = service.recent("supportUsers/" + service.uid(), "$key", 21, null);
-      ui(() -> { if (screen == 0 && !editing) { status.setText("Hộp thư của lần cài đặt này."); tickets(items, null); } });
+      JSONObject items = service.get("supportUsers/" + service.uid());
+      List<String> keys = SupportInbox.newest(items);
+      if (!history) keys.removeIf(key -> "resolved".equals(items.optJSONObject(key).optString("status")));
+      int visiblePage = Math.min(Math.max(0, pageNumber), Math.max(0, (keys.size() - 1) / 20));
+      int start = visiblePage * 20;
+      ui(() -> {
+        if (screen != 0 || editing) return;
+        inboxPage = visiblePage;
+        status.setText(history ? "Toàn bộ yêu cầu, mới nhất trước." : "Các yêu cầu chưa hoàn tất, mới nhất trước.");
+        for (int index = start; index < Math.min(start + 20, keys.size()); index++) {
+          String id = keys.get(index);
+          JSONObject item = items.optJSONObject(id);
+          button(SupportProtocol.typeName(item.optString("type")) + ": " + item.optString("subject")
+              + " · " + SupportProtocol.stateName(item.optString("status", "new"))
+              + " · " + date(SupportInbox.activityAt(item)), () -> thread(id, null));
+        }
+        if (keys.isEmpty()) text("Chưa có yêu cầu trong danh sách này.");
+        if (start > 0) button("Phản hồi mới hơn", () -> home(history, Math.max(0, visiblePage - 1)));
+        if (start + 20 < keys.size()) button("Phản hồi cũ hơn", () -> home(history, visiblePage + 1));
+      });
     });
   }
 
-  private void tickets(JSONObject items, String before) {
-    List<String> keys = SupportProtocol.keys(items);
-    if (before != null) keys.remove(before);
-    int count = Math.min(20, keys.size());
-    for (int i = 0; i < count; i++) {
-      String id = keys.get(i); JSONObject item = items.optJSONObject(id);
-      if (item == null) continue;
-      button(SupportProtocol.typeName(item.optString("type")) + ": " + item.optString("subject"), () -> thread(id, null));
-    }
-    if (count == 0) text("Chưa có phản hồi đã gửi trong hộp thư này.");
-    if (count == 20) {
-      String cursor = keys.get(count - 1);
-      button("Phản hồi cũ hơn", () -> { generation++; work(() -> {
-        FirebaseRest service = Enrollment.service(this);
-        JSONObject older = service.recent("supportUsers/" + service.uid(), "$key", 21, cursor);
-        ui(() -> { page("Phản hồi cũ hơn"); screen = 0; button("Về hộp thư", this::home); tickets(older, cursor); });
-      }); });
-    }
-  }
-
   private void thread(String id, String before) {
-    generation++; status.setText("Đang tải trao đổi…");
+    generation++; screen = 1; status.setText("Đang tải trao đổi…");
     work(() -> {
       FirebaseRest service = Enrollment.service(this);
       JSONObject header = service.get("supportIndex/" + id);
+      JSONObject publicState = service.get("supportUsers/" + service.uid() + "/" + id);
       JSONObject messages = service.recent("supportMessages/" + id, "$key", 11, before);
       ui(() -> {
         if (editing) return;
         page(header.optString("subject", "Trao đổi hỗ trợ")); screen = 1;
         text("Mã phản hồi: " + id);
+        text("Trạng thái: " + SupportProtocol.stateName(publicState.optString("status", "new")));
         List<String> ids = SupportProtocol.keys(messages); if (before != null) ids.remove(before);
         if (ids.size() > 10) ids = new ArrayList<>(ids.subList(0, 10));
         String oldest = ids.isEmpty() ? null : ids.get(ids.size() - 1);

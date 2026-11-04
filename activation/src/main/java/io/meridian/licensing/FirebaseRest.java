@@ -103,6 +103,30 @@ public final class FirebaseRest {
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
   }
 
+  public JSONObject activity(String path, int limit, Long before) throws Exception {
+    if (limit < 1 || limit > 100) throw new IllegalArgumentException("Trang dữ liệu không hợp lệ.");
+    String query = "&orderBy=%22lastAt%22&limitToLast=" + limit;
+    if (before != null) query += "&endAt=" + before;
+    String raw = database(path, "GET", null, query);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public JSONObject activityAt(String path, long time) throws Exception {
+    String raw = database(path, "GET", null, "&orderBy=%22lastAt%22&equalTo=" + time);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public void patch(String path, JSONObject value) throws Exception {
+    database(path, "PATCH", value.toString(), "&print=silent");
+  }
+
+  public String eventsAddress(String path) throws Exception {
+    validatePath(path);
+    authenticate();
+    return config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8")
+        + "&orderBy=%22lastAt%22&limitToLast=100";
+  }
+
   public JSONObject matching(String path, String field, String value) throws Exception {
     if (!field.equals("request")) throw new IllegalArgumentException("Bộ lọc dữ liệu không hợp lệ.");
     String raw = database(path, "GET", null, "&orderBy=" + URLEncoder.encode(JSONObject.quote(field), "UTF-8")
@@ -119,12 +143,16 @@ public final class FirebaseRest {
   }
 
   private String database(String path, String method, String body, String query) throws Exception {
-    if (!path.matches("(?:(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
-      throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
-    }
+    validatePath(path);
     authenticate();
     return transport.request(config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8") + query,
         method, body, "application/json");
+  }
+
+  private static void validatePath(String path) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
+      throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
+    }
   }
 
   public static JSONObject timestamp() throws Exception { return new JSONObject().put(".sv", "timestamp"); }

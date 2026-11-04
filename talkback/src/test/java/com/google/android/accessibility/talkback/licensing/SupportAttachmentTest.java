@@ -31,8 +31,13 @@ public final class SupportAttachmentTest {
       String path = URI.create(address).getPath().replaceFirst("^/", "").replaceFirst("\\.json$", "");
       if (method.equals("GET")) return records.containsKey(path) ? records.get(path).toString() : "null";
       JSONObject value = new JSONObject(body);
-      for (String field : new String[]{"createdAt", "lastAt", "lastSeen"}) {
+      for (String field : new String[]{"createdAt", "lastAt", "lastSeen", "changedAt", "lastReplyAt", "statusAt"}) {
         if (value.optJSONObject(field) != null) value.put(field, 1700000000123L);
+      }
+      if (method.equals("PATCH") && records.containsKey(path)) {
+        JSONObject merged = new JSONObject(records.get(path).toString());
+        for (String key : SupportProtocol.keys(value)) merged.put(key, value.get(key));
+        value = merged;
       }
       records.put(path, value); writes.merge(path, 1, Integer::sum);
       if (path.startsWith("supportLogChunks/") && loseChunkResponse) {

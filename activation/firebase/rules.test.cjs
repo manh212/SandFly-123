@@ -226,3 +226,38 @@ test('attachment metadata sizes ownership and chunk schemas reject invalid uploa
   await assertFails(db('helper').ref(attachmentPath()).once('value'));
   await assertFails(db('helper').ref(chunkPath(0)).once('value'));
 });
+
+test('support owners receive only their public status and staff reply markers', async () => {
+  await report(); await helper();
+  await assertSucceeds(db('helper').ref('supportStates/' + ticket).set(triage('resolved')));
+  const state = (await db('helper').ref('supportStates/' + ticket).once('value')).val();
+  const index = 'supportUsers/alice/' + ticket;
+  await assertSucceeds(db('helper').ref(index).update({status: 'resolved', statusAt: state.changedAt,
+    lastAt: {'.sv': 'timestamp'}}));
+  const visible = (await db('alice').ref(index).once('value')).val();
+  if (visible.status !== 'resolved' || 'by' in visible || 'name' in visible) throw new Error('Private staff data leaked');
+  await assertFails(db('bob').ref(index).once('value'));
+  await assertFails(db('alice').ref('supportStates').once('value'));
+  await assertSucceeds(db('alice').ref('supportUsers/alice').orderByChild('lastAt').limitToLast(100).once('value'));
+  await assertSucceeds(db('alice').ref(index).update({lastAt: {'.sv': 'timestamp'}}));
+  await assertFails(db('alice').ref(index).update({status: 'working', statusAt: state.changedAt}));
+  await assertFails(db('helper').ref(index).update({status: 'working', statusAt: state.changedAt}));
+  await assertFails(db('helper').ref(index).update({status: 'resolved', statusAt: state.changedAt + 1}));
+});
+
+test('staff reply markers must refer to an actual staff reply in the same conversation', async () => {
+  await report(); await helper();
+  const replyId = '1700000000002-' + 'd'.repeat(20);
+  const index = 'supportUsers/alice/' + ticket;
+  await assertFails(db('helper').ref(index).update({lastReplyId: messageId,
+    lastReplyAt: {'.sv': 'timestamp'}, lastAt: {'.sv': 'timestamp'}}));
+  await assertSucceeds(db('helper').ref('supportMessages/' + ticket + '/' + replyId).set(message('helper', 'staff')));
+  await assertSucceeds(db('helper').ref(index).update({lastReplyId: replyId,
+    lastReplyAt: {'.sv': 'timestamp'}, lastAt: {'.sv': 'timestamp'}}));
+  await assertFails(db('alice').ref(index).update({lastReplyId: replyId,
+    lastReplyAt: {'.sv': 'timestamp'}}));
+  await helper(false);
+  await assertFails(db('helper').ref(index).update({lastReplyId: replyId,
+    lastReplyAt: {'.sv': 'timestamp'}}));
+  await assertFails(db('helper').ref('supportStates').once('value'));
+});

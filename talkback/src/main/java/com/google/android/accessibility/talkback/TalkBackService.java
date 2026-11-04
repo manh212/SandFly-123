@@ -1464,6 +1464,11 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     serviceState = newState;
+    if (newState == ServiceStateListener.SERVICE_STATE_ACTIVE) {
+      com.google.android.accessibility.talkback.licensing.SupportNotifications.start(this);
+    } else {
+      com.google.android.accessibility.talkback.licensing.SupportNotifications.stop();
+    }
     if (newState != ServiceStateListener.SERVICE_STATE_ACTIVE) {
       LiveRecognition.stop();
     }

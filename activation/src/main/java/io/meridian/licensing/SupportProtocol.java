@@ -14,7 +14,7 @@ public final class SupportProtocol {
   public static final int TEXT_LIMIT = 8000;
   public static final int INLINE_LOG_LIMIT = 32000;
   public static final String[] STATES = {"new", "working", "need_info", "resolved"};
-  public static final String[] STATE_NAMES = {"Mới nhận", "Đang xử lý", "Cần thêm thông tin", "Đã giải quyết"};
+  public static final String[] STATE_NAMES = {"Mới nhận", "Đang xử lý", "Cần thêm thông tin", "Đã hoàn tất"};
   private static final SecureRandom RANDOM = new SecureRandom();
 
   private SupportProtocol() {}
@@ -88,6 +88,39 @@ public final class SupportProtocol {
     return keys;
   }
 
+  private static JSONObject publicHeader(JSONObject header) throws Exception {
+    return new JSONObject().put("subject", header.getString("subject"))
+        .put("type", header.getString("type")).put("createdAt", header.get("createdAt"));
+  }
+
+  public static void publishReply(FirebaseRest service, String ticket, String id, String name, String body) throws Exception {
+    JSONObject message = message(service.uid(), name, "staff", body, "");
+    String path = "supportMessages/" + ticket + "/" + id;
+    JSONObject old = service.get(path);
+    if (old.length() == 0) service.put(path, message);
+    else if (!sameMessage(old, message)) throw new IllegalStateException("Tin nhắn trước đã được gửi. Hãy tạo trả lời mới.");
+    service.put("supportIndex/" + ticket + "/lastAt", FirebaseRest.timestamp());
+    JSONObject header = service.get("supportIndex/" + ticket);
+    service.patch("supportUsers/" + header.getString("owner") + "/" + ticket,
+        publicHeader(header).put("lastReplyId", id).put("lastReplyAt", FirebaseRest.timestamp())
+            .put("lastAt", FirebaseRest.timestamp()));
+  }
+
+  public static void changeState(FirebaseRest service, String ticket, String state, String name) throws Exception {
+    if (!Arrays.asList(STATES).contains(state)) throw new IllegalArgumentException("Trạng thái không hợp lệ.");
+    JSONObject previous = service.get("supportStates/" + ticket);
+    if (!state.equals(previous.optString("state"))) {
+      service.put("supportStates/" + ticket, new JSONObject().put("state", state).put("by", service.uid())
+          .put("name", name).put("changedAt", FirebaseRest.timestamp()));
+    }
+    JSONObject current = service.get("supportStates/" + ticket);
+    service.put("supportIndex/" + ticket + "/lastAt", FirebaseRest.timestamp());
+    JSONObject header = service.get("supportIndex/" + ticket);
+    service.patch("supportUsers/" + header.getString("owner") + "/" + ticket,
+        publicHeader(header).put("status", state).put("statusAt", current.getLong("changedAt"))
+            .put("lastAt", FirebaseRest.timestamp()));
+  }
+
   public static void publishUser(FirebaseRest service, JSONObject draft) throws Exception {
     publishUser(service, draft, null, () -> false);
   }
@@ -118,6 +151,7 @@ public final class SupportProtocol {
     if (existing.length() == 0) service.put(messagePath, message);
     else if (!sameMessage(existing, message)) throw new IllegalStateException("Nội dung gửi trùng mã nhưng không khớp. Dữ liệu vẫn giữ trên máy.");
     service.put(path + "/lastAt", FirebaseRest.timestamp());
+    service.patch(indexPath, new JSONObject().put("lastAt", FirebaseRest.timestamp()));
     service.put("supportContacts/" + uid, new JSONObject().put("request", draft.getString("request"))
         .put("lastSeen", FirebaseRest.timestamp()));
   }
