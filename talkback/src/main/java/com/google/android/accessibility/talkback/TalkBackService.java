@@ -1178,20 +1178,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   @Override
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
-    if (!PauseController.isPaused()
-        && event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
-        && (Build.VERSION.SDK_INT < Build.VERSION_CODES.P
-            || (event.getWindowChanges()
-                & (AccessibilityEvent.WINDOWS_CHANGE_ADDED
-                    | AccessibilityEvent.WINDOWS_CHANGE_REMOVED
-                    | AccessibilityEvent.WINDOWS_CHANGE_ACTIVE
-                    | AccessibilityEvent.WINDOWS_CHANGE_FOCUSED)) != 0)) {
-      CharSequence frontApp = frontAppPackage();
-      if (frontApp != null) {
-        SpeechDictionary.onWindowShown(frontApp);
-        AppGestures.onWindowShown(frontApp);
-      }
-    }
     touchVolumeState.onEvent(event.getEventType());
     if (directTouchController != null) {
       directTouchController.onRawAccessibilityEvent(event);
@@ -1298,6 +1284,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       if (isAppWindowEvent(event)) {
         SpeechDictionary.onWindowShown(lastWindowPackage);
         AppGestures.onWindowShown(lastWindowPackage);
+        updateRideAppAccessibility(lastWindowPackage);
       }
     }
     if (eventType == AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED
@@ -5294,25 +5281,15 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
-  @Nullable
-  private CharSequence frontAppPackage() {
-    AccessibilityWindowInfo front = null;
-    for (AccessibilityWindowInfo window : getWindows()) {
-      int type = window.getType();
-      if (type != AccessibilityWindowInfo.TYPE_APPLICATION
-          && type != AccessibilityWindowInfo.TYPE_ACCESSIBILITY_OVERLAY) continue;
-      if (window.isActive()) {
-        front = window;
-        break;
-      }
-      if (front == null && window.isFocused()) front = window;
-    }
-    AccessibilityNodeInfo root = front == null ? null : front.getRoot();
-    if (root == null) return null;
-    try {
-      return root.getPackageName();
-    } finally {
-      root.recycle();
-    }
+  private void updateRideAppAccessibility(@Nullable CharSequence packageName) {
+    AccessibilityServiceInfo info = getServiceInfo();
+    if (info == null) return;
+    int flags = com.google.android.accessibility.utils.RideAppAccessibility.serviceFlags(
+        info.flags, packageName);
+    if (flags == info.flags) return;
+    info.flags = flags;
+    setServiceInfo(info);
+    TraversalTreeCache.clear("ride app accessibility views changed");
+    PreparedFocusSpeech.clear();
   }
 }

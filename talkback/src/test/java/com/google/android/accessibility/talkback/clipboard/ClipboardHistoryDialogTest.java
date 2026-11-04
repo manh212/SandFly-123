@@ -232,6 +232,31 @@ public class ClipboardHistoryDialogTest {
     parent.dismiss();
   }
 
+  @Test
+  public void longEntryIsCompactButAccessibleAndCanOpenFullText() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    ((android.content.ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
+        .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
+    ClipboardHistory.clear();
+    String content = "Nội dung dài\n".repeat(80);
+    ClipboardHistory.record(content);
+    new ClipboardHistoryDialog(context, null).show(Performance.EVENT_ID_UNTRACKED, null);
+    AlertDialog parent = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(parent.getWindow().getDecorView());
+    android.widget.TextView row = (android.widget.TextView) list.getAdapter().getView(0, null, list);
+    assertEquals(2, row.getMaxLines());
+    assertEquals(content, row.getContentDescription());
+    assertTrue(row.performAccessibilityAction(R.id.clipboard_history_preview, null));
+    AlertDialog preview = ShadowAlertDialog.getLatestAlertDialog();
+    assertEquals(content, ((android.widget.TextView) preview.findViewById(android.R.id.message)).getText().toString());
+    assertNotNull(findButton(parent.getWindow().getDecorView(),
+        context.getString(R.string.clipboard_history_scroll_up)));
+    assertNotNull(findButton(parent.getWindow().getDecorView(),
+        context.getString(R.string.clipboard_history_scroll_down)));
+    preview.dismiss();
+    parent.dismiss();
+  }
+
   private static Button findButton(View view, String text) {
     if (view instanceof Button button && text.contentEquals(button.getText())) {
       return button;

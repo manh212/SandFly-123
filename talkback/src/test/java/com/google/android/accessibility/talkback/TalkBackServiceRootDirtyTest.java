@@ -20,9 +20,11 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import android.view.accessibility.AccessibilityEvent;
+import android.view.accessibility.AccessibilityWindowInfo;
 import com.google.android.accessibility.talkback.pause.PauseController;
 import com.google.android.accessibility.talkback.quicksettings.SystemPanelClicker;
 import java.lang.reflect.Field;
+import java.util.List;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -30,6 +32,8 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 
 /**
  * Events that {@link TalkBackService#onAccessibilityEvent} drops before they can reach the event
@@ -42,11 +46,18 @@ import org.robolectric.annotation.Config;
 @Config(sdk = 34)
 public class TalkBackServiceRootDirtyTest {
 
+  public static class NoWindowScanService extends TalkBackService {
+    @Override
+    public List<AccessibilityWindowInfo> getWindows() {
+      throw new AssertionError("Window events must not synchronously scan window roots");
+    }
+  }
+
   private TalkBackService service;
 
   @Before
   public void setUp() {
-    service = Robolectric.buildService(TalkBackService.class).create().get();
+    service = Robolectric.buildService(NoWindowScanService.class).create().get();
     setPaused(false);
     setSystemPanelWorking(false);
   }
@@ -55,6 +66,26 @@ public class TalkBackServiceRootDirtyTest {
   public void tearDown() {
     setPaused(false);
     setSystemPanelWorking(false);
+  }
+
+  @Test
+  public void keyboardAdded_doesNotScanWindowsBeforeDispatch() {
+    setSystemPanelWorking(true);
+    AccessibilityEvent event =
+        event(AccessibilityEvent.TYPE_WINDOWS_CHANGED, "com.google.android.inputmethod.latin");
+    ReflectionHelpers.callInstanceMethod(event, "setWindowChanges",
+        ClassParameter.from(int.class, AccessibilityEvent.WINDOWS_CHANGE_ADDED
+            | AccessibilityEvent.WINDOWS_CHANGE_FOCUSED));
+
+    service.onAccessibilityEvent(event);
+  }
+
+  @Test
+  public void keyboardWindowStateChanged_doesNotScanWindowsBeforeDispatch() {
+    setSystemPanelWorking(true);
+
+    service.onAccessibilityEvent(
+        event(AccessibilityEvent.TYPE_WINDOW_STATE_CHANGED, "com.google.android.inputmethod.latin"));
   }
 
   @Test

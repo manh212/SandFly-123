@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.granularediting
 
+import android.graphics.Rect
 import android.os.Bundle
 import android.text.InputType
 import android.util.TypedValue
@@ -28,6 +29,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
@@ -47,6 +49,9 @@ import com.google.android.accessibility.utils.widget.KeyboardSafeEditText
  * together. Save writes the text back to the text field it came from.
  */
 class GranularEditingActivity : AppCompatActivity() {
+  private var sessionId = -1
+  private var promptFields: List<EditText> = emptyList()
+  private var commitNestedInput: (() -> Unit)? = null
   private var text = ""
   private var granularity = Granularity.WORDS
   private var pieces: List<Piece> = emptyList()
@@ -63,7 +68,14 @@ class GranularEditingActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setTitle(R.string.granular_editing_title)
-    text = savedInstanceState?.getString(STATE_TEXT) ?: GranularEditing.text
+    sessionId = intent.getIntExtra(GranularEditing.EXTRA_SESSION_ID, -1)
+    val initial = GranularEditing.initialText(sessionId)
+    if (initial == null) {
+      finish()
+      return
+    }
+    GranularEditing.registerActivity(sessionId, this)
+    text = savedInstanceState?.getString(STATE_TEXT) ?: initial
     savedInstanceState?.getString(STATE_GRANULARITY)?.let { granularity = Granularity.valueOf(it) }
 
     val title =
@@ -87,7 +99,7 @@ class GranularEditingActivity : AppCompatActivity() {
     val buttons =
       LinearLayout(this).apply {
         orientation = LinearLayout.HORIZONTAL
-        if (GranularEditing.isEditable) addView(button(R.string.granular_editing_save) { save() }, weight())
+        if (GranularEditing.isEditable(sessionId)) addView(button(R.string.granular_editing_save) { save() }, weight())
         addView(button(android.R.string.copy) { copy() }, weight())
         addView(button(R.string.granular_editing_more) { showMore(it) }, weight())
       }
@@ -118,6 +130,65 @@ class GranularEditingActivity : AppCompatActivity() {
       },
     )
     refresh()
+  }
+
+  override fun onResume() {
+    super.onResume()
+    for (result in GranularEditing.takeChildResults(sessionId)) {
+      val field = promptFields.getOrNull(result.fieldIndex)
+      if (field != null) {
+        field.setText(result.text)
+        field.setSelection(result.text.length)
+        // An edit made inside a single-input prompt returns to the parent editor's
+        // text list immediately. The parent Save button still controls the final write.
+        commitNestedInput?.invoke()
+      } else {
+        // If Android recreated the parent's dialog, preserve the user's changes.
+        GranularEditing.copy(this, result.text)
+        Toast.makeText(this, R.string.granular_editing_not_saved, Toast.LENGTH_LONG).show()
+      }
+    }
+  }
+
+  override fun onDestroy() {
+    GranularEditing.unregisterActivity(sessionId, this)
+    if (isFinishing) GranularEditing.close(sessionId)
+    super.onDestroy()
+  }
+
+  /** Finds the dialog input that the user invoked nested editing on. */
+  internal fun nestedFieldIndex(node: androidx.core.view.accessibility.AccessibilityNodeInfoCompat): Int? {
+    if (node.packageName?.toString() != packageName || !node.isEditable) return null
+    val bounds = Rect()
+    node.getBoundsInScreen(bounds)
+    if (bounds.isEmpty) return null
+    for ((index, field) in promptFields.withIndex()) {
+      if (!field.isAttachedToWindow || !field.isShown) continue
+      val xy = IntArray(2)
+      field.getLocationOnScreen(xy)
+      val fieldBounds = Rect(xy[0], xy[1], xy[0] + field.width, xy[1] + field.height)
+      if (Rect.intersects(bounds, fieldBounds) &&
+          bounds.centerX() in fieldBounds.left..fieldBounds.right &&
+          bounds.centerY() in fieldBounds.top..fieldBounds.bottom) {
+        return index
+      }
+    }
+    return null
+  }
+
+  private fun trackDialogInputs(
+    dialog: AlertDialog,
+    fields: List<EditText>,
+    onNestedSave: (() -> Unit)? = null,
+  ) {
+    promptFields = fields
+    commitNestedInput = onNestedSave
+    dialog.setOnDismissListener {
+      if (promptFields === fields) {
+        promptFields = emptyList()
+        commitNestedInput = null
+      }
+    }
   }
 
   override fun onSaveInstanceState(outState: Bundle) {
@@ -260,7 +331,7 @@ class GranularEditingActivity : AppCompatActivity() {
         addView(find)
         addView(replacement)
       }
-    AlertDialog.Builder(this)
+    val dialog = AlertDialog.Builder(this)
       .setTitle(R.string.granular_editing_replace)
       .setView(fields)
       .setPositiveButton(R.string.granular_editing_replace_all) { _, _ ->
@@ -274,6 +345,7 @@ class GranularEditingActivity : AppCompatActivity() {
       }
       .setNegativeButton(android.R.string.cancel, null)
       .show()
+    trackDialogInputs(dialog, listOf(find, replacement))
   }
 
   private fun undoLast() {
@@ -329,29 +401,29 @@ class GranularEditingActivity : AppCompatActivity() {
   }
 
   private fun save() {
-    GranularEditing.save(this, text)
+    GranularEditing.save(this, sessionId, text)
     finish()
   }
 
   /** Closes the screen, asking first when the text was changed. */
   private fun close() {
-    if (text == GranularEditing.text) {
-      GranularEditing.close()
+    if (text == GranularEditing.initialText(sessionId)) {
+      GranularEditing.close(sessionId)
       finish()
       return
     }
     val dialog =
       AlertDialog.Builder(this)
         .setTitle(
-          if (GranularEditing.isEditable) R.string.granular_editing_save_changes
+          if (GranularEditing.isEditable(sessionId)) R.string.granular_editing_save_changes
           else R.string.granular_editing_copy_changes
         )
         .setNegativeButton(R.string.granular_editing_discard) { _, _ ->
-          GranularEditing.close()
+          GranularEditing.close(sessionId)
           finish()
         }
         .setNeutralButton(R.string.granular_editing_keep_editing, null)
-    if (GranularEditing.isEditable) {
+    if (GranularEditing.isEditable(sessionId)) {
       dialog.setPositiveButton(R.string.granular_editing_save) { _, _ -> save() }
     } else {
       dialog.setPositiveButton(android.R.string.copy) { _, _ ->
@@ -370,12 +442,16 @@ class GranularEditingActivity : AppCompatActivity() {
         setPadding(dp(16), dp(8), dp(16), 0)
         addView(field, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
       }
-    AlertDialog.Builder(this)
+    val dialog = AlertDialog.Builder(this)
       .setTitle(title)
       .setView(box)
       .setPositiveButton(android.R.string.ok) { _, _ -> onDone(field.text.toString()) }
       .setNegativeButton(android.R.string.cancel, null)
       .show()
+    trackDialogInputs(dialog, listOf(field)) {
+      onDone(field.text.toString())
+      dialog.dismiss()
+    }
     field.requestFocus()
   }
 
