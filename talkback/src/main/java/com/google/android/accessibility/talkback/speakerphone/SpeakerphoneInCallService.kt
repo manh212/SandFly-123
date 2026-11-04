@@ -31,6 +31,7 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import com.google.android.accessibility.talkback.TalkBackService
 import com.google.android.accessibility.talkback.calls.CallAnnouncements
+import com.google.android.accessibility.talkback.calls.CallLimitController
 import com.google.android.accessibility.talkback.pause.PauseController
 import com.google.android.accessibility.talkback.speakerphone.SpeakerphonePolicy.Route
 import com.google.android.accessibility.utils.SharedPreferencesUtils
@@ -63,6 +64,7 @@ class SpeakerphoneInCallService : InCallService() {
   private val callCallback =
     object : Call.Callback() {
       override fun onStateChanged(call: Call, state: Int) {
+        CallLimitController.onTelecomCall(call, state)
         CallAnnouncements.onTelecomCall(call, state)
         update()
       }
@@ -110,6 +112,7 @@ class SpeakerphoneInCallService : InCallService() {
 
   override fun onDestroy() {
     if (instance === this) instance = null
+    CallLimitController.onTelecomDisconnected()
     CallAnnouncements.onTelecomDisconnected()
     SharedPreferencesUtils.getSharedPreferences(this)
       .unregisterOnSharedPreferenceChangeListener(prefsListener)
@@ -119,12 +122,14 @@ class SpeakerphoneInCallService : InCallService() {
 
   override fun onCallAdded(call: Call) {
     call.registerCallback(callCallback, main)
+    CallLimitController.onTelecomCall(call, call.details.state)
     CallAnnouncements.onTelecomCall(call, call.details.state)
     update()
   }
 
   override fun onCallRemoved(call: Call) {
     call.unregisterCallback(callCallback)
+    CallLimitController.onTelecomRemoved(call)
     CallAnnouncements.onTelecomRemoved(call)
     update()
   }
@@ -174,6 +179,7 @@ class SpeakerphoneInCallService : InCallService() {
     fun refreshAnnouncements() {
       if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) return
       instance?.calls?.forEach {
+        CallLimitController.onTelecomCall(it, it.details.state)
         CallAnnouncements.onTelecomCall(it, it.details.state)
       }
     }

@@ -59,4 +59,28 @@ class CallSettingsTest {
     assertEquals(0, settings.quietStart)
     prefs.edit().clear().commit()
   }
+  @Test fun callLimitDefaultsAndSavedScopeAreIndependentOfCallSpeech() {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(RuntimeEnvironment.getApplication())
+    prefs.edit().clear().commit()
+    assertFalse(CallLimitSettings.read(prefs).enabled)
+    assertEquals(10, CallLimitSettings.read(prefs).minutes)
+    assertEquals(CallLimitSettings.Scope.OUTGOING, CallLimitSettings.read(prefs).scope)
+    prefs.edit().putBoolean(CallLimitSettings.ENABLED, true)
+      .putString(CallLimitSettings.MINUTES, "15").putString(CallLimitSettings.SCOPE, "BOTH")
+      .putBoolean(CallSettings.ANNOUNCE, false).commit()
+    val saved = CallLimitSettings.read(prefs)
+    assertTrue(saved.appliesTo(true))
+    assertTrue(saved.appliesTo(false))
+    assertEquals(900_000L, saved.durationMillis)
+    prefs.edit().clear().commit()
+  }
+
+  @Test fun invalidCallLimitValuesFallBackToSafeDefaults() {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(RuntimeEnvironment.getApplication())
+    prefs.edit().clear().putString(CallLimitSettings.MINUTES, "-1")
+      .putString(CallLimitSettings.SCOPE, "unknown").commit()
+    assertEquals(10, CallLimitSettings.read(prefs).minutes)
+    assertEquals(CallLimitSettings.Scope.OUTGOING, CallLimitSettings.read(prefs).scope)
+    prefs.edit().clear().commit()
+  }
 }

@@ -89,3 +89,62 @@ after approval to push. Only the CI run can establish build and test success.
 The owner verifies physical volume keys, lock-screen transitions, permissions,
 caller identity, duration, voice engines and accessibility focus order on a phone
 after the dev release is published.
+
+## Automatic call duration limit
+
+Call settings now include an opt-in automatic disconnect switch, an integer
+minute limit from 1 through 1440 (initially 10), and a scope with exactly two
+choices: outgoing calls only (the default), or both outgoing and incoming calls.
+There is no permission-method selector. Existing settings remain unchanged and
+the new switch starts off.
+
+Permission handling prefers the ordinary READ_PHONE_STATE/ANSWER_PHONE_CALLS
+runtime request when ongoing-call management has not already been granted.
+Initial setup offers that ordinary permission first. The management-permission
+step is optional during the automatic walk and remains available for explicit
+review from the summary. When management access already exists, the ordinary
+ending-permission step is omitted and the managed backend is selected directly.
+Enabling the limit requests missing ordinary permissions when needed; denial
+leaves the switch off.
+
+On Android 12 and later with the existing MANAGE_ONGOING_CALLS app-op, individual
+Telecom calls are disconnected using Call.disconnect after the chosen elapsed
+connection duration. Incoming versus outgoing is taken from Telecom. Emergency,
+emergency-callback, conference, self-managed and external calls are excluded;
+unknown direction or unavailable emergency classification is not guessed.
+Held calls keep their original deadline.
+
+Without that access, Android 9 and later use TelecomManager.endCall with the
+ordinary permission. The API was deprecated in Android 10; the permission itself
+was not deprecated. Incoming timing begins when answered. Outgoing OFFHOOK can
+include dialing time, which is stated in the settings. Duplicate phone-state
+broadcasts do not restart the timer. Call waiting makes the legacy target
+ambiguous, so its timer is canceled until the phone returns to idle. Android
+rejects emergency-call termination through this API. No silent permission-method
+choice is exposed to the user, and compatibility on every device is not promised.
+The settings explain the newer-device limitation and point to Shizuku/adb for
+the current managed mechanism, without claiming that adb guarantees reliability.
+
+Every limit longer than one minute schedules a single warning exactly one minute
+before its deadline. The warning vibrates, plays a short tone on the accessibility
+stream and reads "Cuộc gọi sẽ kết thúc sau một phút nữa." A one-minute limit has
+no advance warning. Warning and end schedules are both canceled with their target;
+late callbacks cannot affect another call. If the system delivers the warning
+late, termination is postponed to preserve a full minute after the warning.
+Warning speech uses Meridian's active
+voice and is independent of the call-reading and call-quiet-hours switches.
+Device sound volume, vibrator availability and platform scheduling still apply.
+
+An elapsed-realtime alarm listener and a main-handler backup share a single-fire
+guard. The listener alarm does not require a new exact-alarm permission. Timers
+are canceled when Meridian stops, the call ends, its target becomes ambiguous, or
+the enabled/minutes/scope settings change. Changes apply to subsequent calls;
+existing calls at attachment or reconfiguration are not newly armed. No pending
+termination is restored after process death. A rejected legacy ending attempt
+reports that the call may still be ongoing; it is not retried against a later call.
+
+Additional CI coverage checks scope, normal-permission fallback, cancellation,
+permission revocation, call waiting, exact one-minute warnings, the one-minute
+exception, duplicate callbacks, saved defaults and input validation. Device
+verification remains necessary for actual disconnection, emergency exclusion,
+voice output, vibration, sound and screen-off scheduling on supported phones.

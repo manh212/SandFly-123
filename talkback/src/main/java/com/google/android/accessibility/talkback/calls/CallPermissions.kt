@@ -23,6 +23,15 @@ object CallPermissions {
       Status.GRANTED
     } else Status.MISSING
 
+  fun legacyStatus(context: Context): Status =
+    if (CallLimitController.canUseLegacy(context)) Status.GRANTED else Status.MISSING
+
+  fun requestLegacy(context: Context) {
+    val missing = listOf(Manifest.permission.READ_PHONE_STATE, Manifest.permission.ANSWER_PHONE_CALLS)
+      .filter { ContextCompat.checkSelfPermission(context, it) != PackageManager.PERMISSION_GRANTED }
+    if (missing.isNotEmpty()) PermissionUtils.requestPermissions(context, *missing.toTypedArray())
+  }
+
   fun requestContacts(context: Context) {
     PermissionUtils.requestPermissions(context, Manifest.permission.READ_CONTACTS)
   }

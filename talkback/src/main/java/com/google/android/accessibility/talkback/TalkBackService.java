@@ -223,6 +223,7 @@ import com.google.android.accessibility.talkback.monitor.VolumeMonitor;
 import com.google.android.accessibility.talkback.notificationlist.NotificationListService;
 import com.google.android.accessibility.talkback.notifications.NotificationReader;
 import com.google.android.accessibility.talkback.calls.CallAnnouncements;
+import com.google.android.accessibility.talkback.calls.CallLimitController;
 import com.google.android.accessibility.talkback.volume.TouchExplorationResumePolicy;
 import com.google.android.accessibility.talkback.volume.VolumeKeyManager;
 import com.google.android.accessibility.talkback.notifications.NotificationSettings;
@@ -964,6 +965,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       ringerModeAndScreenMonitor.clearListeners();
     }
     VolumeKeyManager.reset();
+    CallLimitController.detach();
     while (true) {
       synchronized (disableTalkBackCompleteAction) {
         try {
@@ -1053,6 +1055,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       scriptHost = null;
     }
     TutorialHooks.setFeedback(null);
+    CallLimitController.detach();
     CallAnnouncements.detach();
     NotificationReader.detach();
     NotificationListService.onSandFlyStopped();
@@ -4785,6 +4788,17 @@ public class TalkBackService extends AccessibilityServiceCompat
                   || isSsbActive()
                   || (!overMedia && isAudioPlaybackActive()),
           this::isTouchInteracting);
+      CallLimitController.attach(this, () -> {
+        CallAnnouncements.stopSpeech();
+        pipeline.getFeedbackReturner().returnFeedback(
+            EVENT_ID_UNTRACKED,
+            Feedback.speech(
+                getString(R.string.call_limit_one_minute_warning),
+                SpeakOptions.create()
+                    .setQueueMode(SpeechController.QUEUE_MODE_INTERRUPT)
+                    .setFlags(FeedbackItem.FLAG_FORCE_FEEDBACK_ALL
+                        | FeedbackItem.FLAG_EXEMPT_FROM_SPEECH_WAIT_CAP)));
+      });
       CallAnnouncements.attach(
           this,
           (text, completion) -> {

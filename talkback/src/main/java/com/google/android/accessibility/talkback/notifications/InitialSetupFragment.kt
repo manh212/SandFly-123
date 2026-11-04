@@ -21,6 +21,7 @@ import android.os.Build
 import androidx.annotation.StringRes
 import androidx.preference.PreferenceGroup
 import com.google.android.accessibility.talkback.R
+import com.google.android.accessibility.talkback.calls.CallLimitController
 import com.google.android.accessibility.talkback.calls.CallPermissions
 import com.google.android.accessibility.talkback.notifications.TimerPermissionChecks.Status
 
@@ -44,6 +45,7 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
     val status: (Context) -> Status,
     val open: (Context) -> Unit,
     val applicable: (Context) -> Boolean = { true },
+    val automatic: Boolean = true,
   )
 
   override fun onPause() {
@@ -61,7 +63,7 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
   override fun build(screen: PreferenceGroup) {
     val context = requireContext()
     val steps = steps().filter { it.applicable(context) }
-    flow.settle(steps.map { it.status(context) })
+    flow.settle(steps.map { if (it.automatic) it.status(context) else Status.GRANTED })
     if (flow.atSummary(steps.size)) {
       buildSummary(screen, steps)
       return
@@ -194,6 +196,16 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
         { TimerPermissionChecks.hasTelephony(it) },
       ),
       Step(
+        R.string.call_permission_legacy_title,
+        R.string.call_permission_legacy_granted,
+        R.string.call_permission_legacy_missing,
+        R.string.call_permission_legacy_open,
+        { CallPermissions.legacyStatus(it) },
+        { CallPermissions.requestLegacy(it) },
+        { TimerPermissionChecks.hasTelephony(it) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.P &&
+          !CallLimitController.hasManagedAccess(it) },
+      ),
+      Step(
         R.string.call_permission_manage_title,
         R.string.call_permission_manage_granted,
         R.string.call_permission_manage_missing,
@@ -201,6 +213,7 @@ class InitialSetupFragment : NotificationCodeFragment(R.string.timer_setup_title
         { CallPermissions.managementStatus(it) },
         {},
         { TimerPermissionChecks.hasTelephony(it) && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S },
+        automatic = false,
       ),
       Step(
         R.string.timer_setup_access_title,

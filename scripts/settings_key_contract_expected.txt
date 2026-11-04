@@ -779,3 +779,9 @@ pref_volume_up_2_press_action
 pref_volume_up_3_press_action
 pref_volume_up_4_press_action
 pref_call_permissions
+pref_call_limit_category
+pref_call_limit_enabled
+pref_call_limit_minutes
+pref_call_limit_scope
+pref_call_limit_notice
+pref_call_limit_behavior

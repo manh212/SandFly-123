@@ -374,4 +374,18 @@ class OrganizedSettingsTest {
       }
     }
   }
+  @Test fun callLimitOffersCallScopeWithoutAPermissionMethodSelector() {
+    val calls = com.google.android.accessibility.talkback.calls.CallSettingsFragment()
+    open(calls)
+    assertFalse(calls.findPreference<TwoStatePreference>("pref_call_limit_enabled")!!.isChecked)
+    assertEquals("10", calls.findPreference<androidx.preference.EditTextPreference>("pref_call_limit_minutes")!!.text)
+    val scope = calls.findPreference<ListPreference>("pref_call_limit_scope")!!
+    assertEquals(listOf("OUTGOING", "BOTH"), scope.entryValues.map { it.toString() })
+    assertEquals("OUTGOING", scope.value)
+    assertTrue(calls.findPreference<Preference>("pref_call_limit_method") == null)
+    val minutes = calls.findPreference<androidx.preference.EditTextPreference>("pref_call_limit_minutes")!!
+    assertFalse(minutes.callChangeListener("0"))
+    assertFalse(minutes.callChangeListener("1441"))
+    assertTrue(minutes.callChangeListener("15"))
+  }
 }

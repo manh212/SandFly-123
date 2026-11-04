@@ -31,7 +31,7 @@
   <string name="call_permission_log_open" translatable="false">Cấp quyền đọc nhật ký cuộc gọi</string>
   <string name="call_permission_manage_title" translatable="false">Quyền quản lý cuộc gọi</string>
   <string name="call_permission_manage_granted" translatable="false">Có thể theo dõi kết nối và thời lượng cuộc gọi.</string>
-  <string name="call_permission_manage_missing" translatable="false">Chưa thể theo dõi chính xác thời lượng trong cuộc gọi. Cấp quyền qua Shizuku hoặc adb.</string>
+  <string name="call_permission_manage_missing" translatable="false">Quyền nâng cao này là tùy chọn. Khi chưa cấp, tự kết thúc cuộc gọi dùng quyền thông thường; cách cũ có thể không hoạt động trên một số máy, đặc biệt là máy đời mới. Cấp qua Shizuku hoặc lệnh adb trên máy tính để dùng cơ chế hiện hành và theo dõi thời lượng trực tiếp.</string>
   <string name="call_permission_manage_open" translatable="false">Cấp quyền quản lý cuộc gọi</string>
   <string name="call_permission_manage_command" translatable="false">Chạy lệnh này trên máy tính đã kết nối điện thoại:\n%1$s</string>
   <string name="volume_up_2_press_title" translatable="false">Nhấn phím tăng âm lượng 2 lần</string>
@@ -41,4 +41,31 @@
   <string name="volume_down_3_press_title" translatable="false">Nhấn phím giảm âm lượng 3 lần</string>
   <string name="volume_down_4_press_title" translatable="false">Nhấn phím giảm âm lượng 4 lần</string>
   <string name="call_permissions_title" translatable="false">Thiết lập quyền cuộc gọi</string>
+  <string name="call_limit_category" translatable="false">Giới hạn thời lượng cuộc gọi</string>
+  <string name="call_limit_enabled_title" translatable="false">Tự kết thúc cuộc gọi</string>
+  <string name="call_limit_minutes_title" translatable="false">Thời lượng tối đa của cuộc gọi, tính bằng phút</string>
+  <string name="call_limit_minutes_value" translatable="false">%1$d phút</string>
+  <string name="call_limit_minutes_invalid" translatable="false">Nhập số phút từ 1 đến 1440.</string>
+  <string name="call_limit_scope_title" translatable="false">Áp dụng giới hạn cho</string>
+  <string name="call_limit_scope_outgoing" translatable="false">Chỉ cuộc gọi đi</string>
+  <string name="call_limit_scope_both" translatable="false">Cả cuộc gọi đi và cuộc gọi đến</string>
+  <string name="call_limit_managed_notice" translatable="false">Đã có quyền quản lý cuộc gọi. Meridian tự dùng cơ chế hiện hành và tính thời gian từ khi cuộc gọi kết nối. Khả năng hoạt động vẫn phụ thuộc điện thoại và hệ thống.</string>
+  <string name="call_limit_legacy_notice" translatable="false">Khi chưa có quyền quản lý cuộc gọi, Meridian xin quyền điện thoại thông thường và tự dùng cách kết thúc cuộc gọi cũ. Cách kết thúc cuộc gọi này đã bị Android đánh dấu lỗi thời; có thể không hoạt động trên một số máy, đặc biệt là máy đời mới. Để dùng cơ chế hiện hành, hãy cấp quyền quản lý cuộc gọi qua Shizuku hoặc lệnh adb trên máy tính trong phần thiết lập quyền cuộc gọi. Không bảo đảm hoạt động trên tất cả thiết bị. Với cách cũ, giới hạn cuộc gọi đi có thể tính cả thời gian chờ kết nối; cuộc gọi đến được tính từ khi nhận.</string>
+  <string name="call_limit_behavior_notice" translatable="false">Giới hạn chỉ hoạt động khi Meridian đang bật. Trước khi tự kết thúc 1 phút, Meridian rung, phát âm thanh và đọc cảnh báo. Giới hạn 1 phút không có cảnh báo trước. Nếu hệ thống báo muộn, thời điểm kết thúc được lùi để vẫn còn đủ 1 phút sau cảnh báo. Tắt hoặc đổi giới hạn sẽ hủy hẹn giờ của cuộc gọi đang diễn ra; giá trị mới áp dụng cho cuộc gọi tiếp theo. Cuộc gọi được giữ vẫn tính vào thời lượng. Không tự kết thúc cuộc gọi khẩn cấp. Cách cũ ngừng áp dụng khi phát hiện cuộc gọi chờ.</string>
+  <string name="call_limit_unsupported" translatable="false">Tự kết thúc cuộc gọi yêu cầu Android 9 trở lên.</string>
+  <string name="call_limit_permission_missing" translatable="false">Chưa đủ quyền để tự kết thúc cuộc gọi. Chức năng vẫn tắt.</string>
+  <string name="call_limit_failed" translatable="false">Không thể tự kết thúc cuộc gọi. Cuộc gọi vẫn có thể đang tiếp tục.</string>
+  <string-array name="call_limit_scope_entries" translatable="false">
+    <item>@string/call_limit_scope_outgoing</item>
+    <item>@string/call_limit_scope_both</item>
+  </string-array>
+  <string-array name="call_limit_scope_values" translatable="false">
+    <item>OUTGOING</item>
+    <item>BOTH</item>
+  </string-array>
+  <string name="call_limit_one_minute_warning" translatable="false">Cuộc gọi sẽ kết thúc sau một phút nữa.</string>
+  <string name="call_permission_legacy_title" translatable="false">Quyền kết thúc cuộc gọi thông thường</string>
+  <string name="call_permission_legacy_granted" translatable="false">Đã có quyền điện thoại thông thường. Cách kết thúc cuộc gọi cũ có thể không hoạt động trên một số máy, đặc biệt là máy đời mới.</string>
+  <string name="call_permission_legacy_missing" translatable="false">Chưa có quyền kết thúc cuộc gọi thông thường.</string>
+  <string name="call_permission_legacy_open" translatable="false">Cấp quyền kết thúc cuộc gọi thông thường</string>
 </resources>

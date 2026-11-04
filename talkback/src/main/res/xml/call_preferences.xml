@@ -40,6 +40,34 @@
       android:dependency="pref_call_quiet_hours"
       android:key="pref_call_quiet_end"
       android:title="@string/call_quiet_end_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="pref_call_limit_category"
+      android:title="@string/call_limit_category">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
+        android:defaultValue="false"
+        android:key="pref_call_limit_enabled"
+        android:title="@string/call_limit_enabled_title" />
+    <EditTextPreference
+        android:defaultValue="10"
+        android:dialogTitle="@string/call_limit_minutes_title"
+        android:key="pref_call_limit_minutes"
+        android:title="@string/call_limit_minutes_title" />
+    <ListPreference
+        android:defaultValue="OUTGOING"
+        android:entries="@array/call_limit_scope_entries"
+        android:entryValues="@array/call_limit_scope_values"
+        android:key="pref_call_limit_scope"
+        android:summary="%s"
+        android:title="@string/call_limit_scope_title" />
+    <com.google.android.accessibility.talkback.preference.base.AccessibilityFooterPreference
+        android:key="pref_call_limit_notice"
+        android:selectable="false"
+        android:title="@string/call_limit_legacy_notice" />
+    <com.google.android.accessibility.talkback.preference.base.AccessibilityFooterPreference
+        android:key="pref_call_limit_behavior"
+        android:selectable="false"
+        android:title="@string/call_limit_behavior_notice" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.notifications.InitialSetupFragment"
       android:key="pref_call_permissions"
