@@ -41,7 +41,7 @@ class CallLimitControllerTest {
     TelecomShadow.ended = 0
     warnings = 0
     shadowOf(app).grantPermissions(Manifest.permission.READ_PHONE_STATE, Manifest.permission.ANSWER_PHONE_CALLS)
-    app.getSystemService(AppOpsManager::class.java).setMode(
+    shadowOf(app.getSystemService(AppOpsManager::class.java)).setMode(
       "android:manage_ongoing_calls", Process.myUid(), app.packageName, AppOpsManager.MODE_IGNORED)
     prefs.edit().clear().putBoolean(CallLimitSettings.ENABLED, true)
       .putString(CallLimitSettings.MINUTES, "1").commit()
