@@ -6,6 +6,10 @@
       android:key="pref_navigation_movement"
       android:title="@string/title_pref_navigation_movement" />
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:fragment="com.google.android.accessibility.talkback.preference.base.SmartContextGestureSettingsFragment"
+      android:key="pref_smart_context_settings"
+      android:title="@string/smart_context_title" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
       android:fragment="com.google.android.accessibility.talkback.preference.base.TouchActivationFragment"
       android:key="@string/pref_touch_activation_key"
       android:title="@string/title_pref_touch_activation" />

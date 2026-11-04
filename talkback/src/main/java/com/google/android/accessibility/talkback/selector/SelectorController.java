@@ -79,6 +79,8 @@ import com.google.android.accessibility.talkback.Feedback.TalkBackUI.Item;
 import com.google.android.accessibility.talkback.Interpretation;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.gesture.SmartContextGestures;
 import com.google.android.accessibility.talkback.preference.ItemOrder;
 import com.google.android.accessibility.talkback.UserInterface.UserInputEventListener;
 import com.google.android.accessibility.talkback.analytics.TalkBackAnalytics;
@@ -421,7 +423,11 @@ public class SelectorController implements UserInputEventListener {
     GESTURE_PROFILE(
         R.string.pref_selector_gesture_profile_key,
         R.string.selector_gesture_profile,
-        R.bool.pref_selector_gesture_profile_default);
+        R.bool.pref_selector_gesture_profile_default),
+    SMART_CONTEXT_GESTURES(
+        R.string.pref_selector_smart_context_key,
+        R.string.smart_context_selector_value,
+        R.bool.pref_selector_smart_context_default);
 
     /** The preference key of the filter in the selector settings page. */
     final int prefKeyResId;
@@ -628,6 +634,7 @@ public class SelectorController implements UserInputEventListener {
   public static final ImmutableList<Setting> SELECTOR_SETTINGS =
       ImmutableList.of(
           Setting.GRANULARITY_TYPO,
+          Setting.SMART_CONTEXT_GESTURES,
           Setting.ACTIONS,
           Setting.COPY_MODE,
           Setting.REPEAT_AND_TRANSLATE,
@@ -1071,6 +1078,10 @@ public class SelectorController implements UserInputEventListener {
         actionDescription = context.getString(R.string.live_recognition_title) + ", "
             + LiveRecognition.selection(context);
         hint = context.getString(R.string.live_recognition_hint);
+      }
+      case SMART_CONTEXT_GESTURES -> {
+        actionDescription = context.getString(R.string.smart_context_title);
+        hint = getAdjustSelectedSettingGestures();
       }
       case COPY_MODE -> {
         actionDescription = context.getString(R.string.selector_copy_mode_title);
@@ -2267,6 +2278,11 @@ public class SelectorController implements UserInputEventListener {
     }
 
     switch (currentSetting) {
+      case SMART_CONTEXT_GESTURES -> {
+        TalkBackService service = TalkBackService.getInstance();
+        if (service != null) SmartContextGestures.perform(service, isNext);
+        return;
+      }
       case REPEAT_AND_TRANSLATE -> {
         pipeline.returnFeedback(
             eventId,

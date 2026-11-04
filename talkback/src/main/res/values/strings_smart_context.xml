@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_selector_smart_context_key">pref_selector_smart_context_key</string>
+    <string name="smart_context_selector_value">SMART_CONTEXT</string>
+    <string name="smart_context_title">Cử chỉ ngữ cảnh thông minh</string>
+    <string name="smart_context_enable">Bật trong bộ điều khiển đọc</string>
+    <string name="smart_context_common">Cử chỉ chung cho tất cả ứng dụng</string>
+    <string name="smart_context_applications">Cử chỉ riêng của từng ứng dụng</string>
+    <string name="smart_context_current_app">Ứng dụng hiện tại</string>
+    <string name="smart_context_integrations">Chức năng ngữ cảnh tích hợp</string>
+    <string name="smart_context_search">Tìm kiếm và cuộn</string>
+    <string name="smart_context_up">Vuốt lên</string>
+    <string name="smart_context_down">Vuốt xuống</string>
+    <string name="smart_context_empty">Chưa có văn bản</string>
+    <string name="smart_context_add">Thêm cử chỉ ngữ cảnh thông minh</string>
+    <string name="smart_context_read_app">Đọc các cử chỉ ngữ cảnh thông minh đã lưu cho ứng dụng hiện tại</string>
+    <string name="smart_context_app_rules_title">Cử chỉ ngữ cảnh thông minh của ứng dụng hiện tại</string>
+    <string name="smart_context_no_app_rules">Ứng dụng này chưa có cử chỉ ngữ cảnh thông minh được lưu</string>
+    <string name="smart_context_no_match">Không tìm thấy nút phù hợp</string>
+    <string name="smart_context_not_configured">Chưa thiết lập hành động cho cử chỉ này</string>
+    <string name="smart_context_builtin_dialog">Hộp thoại xác nhận</string>
+    <string name="smart_context_builtin_call_incoming">Cuộc gọi đến</string>
+    <string name="smart_context_builtin_call_active">Cuộc gọi đang diễn ra</string>
+    <string name="smart_context_builtin_short_video">Video ngắn</string>
+    <string name="smart_context_builtin_media">Phát và tạm dừng video</string>
+    <string name="smart_context_priority">Thứ tự ưu tiên</string>
+    <string name="smart_context_scroll_limit">Số lần cuộn tối đa</string>
+    <string name="smart_context_unlimited">Không giới hạn</string>
+    <string name="smart_context_mode_inherit">Kế thừa cấu hình chung</string>
+    <string name="smart_context_mode_own">Sử dụng cấu hình riêng</string>
+    <string name="smart_context_mode_off">Tắt quy tắc văn bản</string>
+    <string name="smart_context_edit_rules">Chỉnh sửa văn bản</string>
+    <string name="smart_context_move_up">Đưa lên trên</string>
+    <string name="smart_context_move_down">Đưa xuống dưới</string>
+    <string name="smart_context_text">Văn bản cần tìm</string>
+    <string name="smart_context_direction">Hướng vuốt</string>
+    <string name="smart_context_match">Kiểu tìm kiếm</string>
+    <string name="smart_context_match_exact">Khớp chính xác</string>
+    <string name="smart_context_match_contains">Chứa văn bản</string>
+    <string name="smart_context_match_starts">Bắt đầu bằng</string>
+    <string name="smart_context_match_ends">Kết thúc bằng</string>
+    <string name="smart_context_match_before">Đứng trước văn bản khác</string>
+    <string name="smart_context_match_after">Đứng sau văn bản khác</string>
+    <string name="smart_context_match_prefix">Có văn bản bất kỳ phía trước</string>
+    <string name="smart_context_match_suffix">Có văn bản bất kỳ phía sau</string>
+    <string name="smart_context_other_text">Văn bản đối chiếu</string>
+    <string name="smart_context_case_sensitive">Phân biệt chữ hoa và chữ thường</string>
+    <string name="smart_context_rule_enabled">Bật quy tắc này</string>
+    <string name="smart_context_disabled">đang tắt</string>
+    <string name="smart_context_save">Lưu</string>
+    <string name="smart_context_delete">Xóa quy tắc</string>
+    <string name="smart_context_text_required">Hãy nhập văn bản</string>
+    <string name="shortcut_value_smart_context_add" translatable="false">SMART_CONTEXT_ADD</string>
+    <string name="shortcut_value_smart_context_read" translatable="false">SMART_CONTEXT_READ_APP</string>
+</resources>

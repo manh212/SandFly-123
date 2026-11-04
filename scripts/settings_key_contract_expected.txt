@@ -786,3 +786,5 @@ pref_call_limit_scope
 pref_call_limit_notice
 pref_call_limit_behavior
 pref_voice_switching_screen
+pref_smart_context_settings
+pref_selector_smart_context_key

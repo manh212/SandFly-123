@@ -126,6 +126,7 @@ public final class SelectorGroupManager {
       }
       appendNewScriptControls(context, prefs);
       appendGestureProfileControl(context, prefs);
+      appendSmartContextControl(context);
       groups = getGroups(context);
       String currentGroup = prefs.getString(context.getString(CURRENT_GROUP_KEY_RES), "");
       Group selectedGroup = findGroup(groups, currentGroup);
@@ -624,6 +625,19 @@ public final class SelectorGroupManager {
       }
       saveGroups(context, groups);
     }
+  }
+
+  private static void appendSmartContextControl(Context context) {
+    ArrayList<Group> groups = mutableGroups(context);
+    String id = itemId(context, SelectorController.Setting.SMART_CONTEXT_GESTURES);
+    if (containsItem(groups, id)) return;
+    Group target = findGroup(groups, GROUP_READING);
+    if (target == null) {
+      target = new Group(GROUP_READING, context.getString(R.string.selector_group_reading), true, new ArrayList<>());
+      groups.add(target);
+    }
+    target.items.add(id);
+    saveGroups(context, groups);
   }
 
   public static void appendGestureProfileControl(Context context, SharedPreferences prefs) {

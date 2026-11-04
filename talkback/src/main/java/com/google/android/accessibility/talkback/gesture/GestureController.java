@@ -104,6 +104,7 @@ import com.google.android.accessibility.talkback.Feedback.TalkBackUI.Item;
 import com.google.android.accessibility.talkback.Feedback.TriggerIntent.Action;
 import com.google.android.accessibility.talkback.Pipeline;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.preference.base.SmartContextGestureSettingsFragment;
 import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.actor.SpeechRateAndPitchActor;
 import com.google.android.accessibility.talkback.actor.SystemActionPerformer;
@@ -298,6 +299,9 @@ public class GestureController {
   }
 
   public void onAccessibilityEvent(android.view.accessibility.AccessibilityEvent event) {
+    if (event.getEventType() == android.view.accessibility.AccessibilityEvent.TYPE_TOUCH_INTERACTION_START) {
+      SmartContextGestures.cancel();
+    }
     focusMonitor.onAccessibilityEvent(event);
   }
 
@@ -551,6 +555,12 @@ public class GestureController {
                 monitoring ? R.string.monitor_started : R.string.monitor_stopped));
         result = true;
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_smart_context_add))) {
+      SmartContextGestureSettingsFragment.quickAdd(service);
+      result = true;
+    } else if (action.equals(service.getString(R.string.shortcut_value_smart_context_read))) {
+      SmartContextGestures.readCurrentApplication(service);
+      result = true;
     } else if (action.equals(service.getString(R.string.shortcut_value_task_assistant))) {
       com.google.android.accessibility.talkback.taskassistant.TaskAssistant.show(service);
       result = true;
@@ -1169,6 +1179,7 @@ public class GestureController {
 
   @SuppressWarnings("NewApi")
   public void onGesture(int gestureId, EventId eventId) {
+    SmartContextGestures.cancel();
     RecentUserInput.mark();
     if (gestureHandledByTraining(gestureId, /* isFingerprintGesture= */ false)) {
       return;

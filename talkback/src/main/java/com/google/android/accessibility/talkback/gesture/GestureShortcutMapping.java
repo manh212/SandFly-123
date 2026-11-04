@@ -550,6 +550,8 @@ public class GestureShortcutMapping implements GestureShortcutProvider {
     TAKE_FOCUS_SCREENSHOT(
         R.string.shortcut_value_take_focus_screenshot, R.string.shortcut_take_focus_screenshot),
     TASK_ASSISTANT(R.string.shortcut_value_task_assistant, R.string.task_title),
+    SMART_CONTEXT_ADD(R.string.shortcut_value_smart_context_add, R.string.smart_context_add),
+    SMART_CONTEXT_READ(R.string.shortcut_value_smart_context_read, R.string.smart_context_read_app),
     SUBTITLES(R.string.shortcut_value_subtitles, R.string.subtitle_toggle),
     SUBTITLE_FIND_AGAIN(R.string.shortcut_value_subtitle_find_again, R.string.subtitle_find_again),
     SCREEN_RECOGNITION(

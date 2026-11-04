@@ -460,6 +460,8 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
       return R.string.gesture_group_touch_accessibility;
     }
     if (matchesAction(value,
+        R.string.shortcut_value_smart_context_add,
+        R.string.shortcut_value_smart_context_read,
         R.string.shortcut_value_task_assistant,
         R.string.shortcut_value_print_node_tree,
         R.string.shortcut_value_inspect_item,
@@ -930,6 +932,10 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.task_title),
             resources.getString(R.string.shortcut_value_task_assistant),
             TYPE_ACTION_ITEM));
+    builder.add(new ActionItem(resources.getString(R.string.smart_context_add),
+        resources.getString(R.string.shortcut_value_smart_context_add), TYPE_ACTION_ITEM));
+    builder.add(new ActionItem(resources.getString(R.string.smart_context_read_app),
+        resources.getString(R.string.shortcut_value_smart_context_read), TYPE_ACTION_ITEM));
 
     if (TalkbackFeatureSupport.supportSpeechRecognize()) {
       builder.add(
