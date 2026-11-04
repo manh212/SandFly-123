@@ -17,6 +17,8 @@
 package com.google.android.accessibility.talkback.clipboard;
 
 import android.app.AlertDialog;
+import androidx.appcompat.widget.AppCompatTextView;
+import androidx.appcompat.widget.AppCompatCheckedTextView;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
@@ -373,7 +375,7 @@ public class ClipboardHistoryDialog {
     row.setContentDescription(entry);
   }
 
-  private final class HistoryRow extends TextView {
+  private final class HistoryRow extends AppCompatTextView {
     HistoryRow() {
       super(context);
     }
@@ -391,7 +393,7 @@ public class ClipboardHistoryDialog {
     }
   }
 
-  private final class HistoryCheckedRow extends CheckedTextView {
+  private final class HistoryCheckedRow extends AppCompatCheckedTextView {
     HistoryCheckedRow() {
       super(context);
       android.content.res.TypedArray style = context.obtainStyledAttributes(
