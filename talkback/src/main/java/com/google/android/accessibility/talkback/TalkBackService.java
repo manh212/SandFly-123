@@ -1668,6 +1668,12 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Handles a key event and returns whether it should be considered consumed. */
   protected boolean onKeyEventInternal(KeyEvent keyEvent) {
     if (keyComboManager != null && keyComboManager.isKeyboardBridgeInjection(keyEvent)) return false;
+    if (volumeMonitor != null
+        && keyEvent.getAction() == KeyEvent.ACTION_DOWN
+        && (keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_UP
+            || keyEvent.getKeyCode() == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+      volumeMonitor.noteUserVolumeKeyPress();
+    }
     if (keyComboManager != null && keyComboManager.isFixedKeyboardScheme()) {
       handleCtrlTap(keyEvent, Performance.EVENT_ID_UNTRACKED);
     }

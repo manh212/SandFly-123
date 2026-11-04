@@ -96,19 +96,24 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       val goal = field.text.toString().trim()
       if (goal.isEmpty()) { field.error = service.getString(R.string.task_goal); return@setOnClickListener }
       if (goal.length > 4000) { field.error = service.getString(R.string.task_goal_too_long); return@setOnClickListener }
-      val choice = TaskAiCatalog.selected(service)
-      val problem = picker.problem()
-      if (choice == null || problem != null) { announce(problem ?: service.getString(R.string.task_ai_missing)); return@setOnClickListener }
-      draft = goal
-      TaskAiCatalog.select(service, choice)
-      ai = choice
-      dismissDialog()
-      voicePending = false
-      voiceGeneration++
-      if (engine?.active == true) engine?.cancel()
-      engine = TaskEngine(this, apps())
-      engine?.start(goal)
+      startGoal(goal, picker)?.let(::announce)
     }
+  }
+
+  private fun startGoal(goal: String, picker: TaskAiPicker? = null): String? {
+    val choice = TaskAiCatalog.selected(service)
+    val problem = (picker ?: TaskAiPicker(service)).problem()
+    if (choice == null || problem != null) return problem ?: service.getString(R.string.task_ai_missing)
+    draft = goal
+    TaskAiCatalog.select(service, choice)
+    ai = choice
+    dismissDialog()
+    voicePending = false
+    voiceGeneration++
+    if (engine?.active == true) engine?.cancel()
+    engine = TaskEngine(this, apps())
+    engine?.start(goal)
+    return null
   }
 
   private fun showPaused() {
@@ -295,7 +300,18 @@ class TaskAssistant private constructor(private val service: TalkBackService) : 
       if (!controller.voicePending || controller.voiceGeneration != token || controller.closed || controller.engine?.active == true) return
       controller.voicePending = false
       if (text != null) controller.draft = text
-      controller.main.postDelayed({ if (!controller.closed && controller.voiceGeneration == token && controller.engine?.active != true) controller.showEntry() }, 350)
+      controller.main.postDelayed({
+        if (controller.closed || controller.voiceGeneration != token || controller.engine?.active == true) return@postDelayed
+        val goal = text?.trim().orEmpty()
+        if (goal.isNotEmpty() && goal.length <= 4000) {
+          val problem = controller.startGoal(goal)
+          if (problem == null) return@postDelayed
+          controller.announce(problem)
+        } else if (goal.length > 4000) {
+          controller.announce(controller.service.getString(R.string.task_goal_too_long))
+        }
+        controller.showEntry()
+      }, 350)
     }
   }
 }

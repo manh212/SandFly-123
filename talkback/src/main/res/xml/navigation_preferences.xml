@@ -48,8 +48,11 @@
       android:key="@string/pref_smart_browse_mode_key"
       android:title="@string/title_smart_browse_mode"
       android:summary="@string/summary_smart_browse_mode" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
-      android:defaultValue="@bool/pref_browse_mode_per_app_default"
-      android:key="@string/pref_browse_mode_per_app_key"
-      android:title="@string/title_pref_browse_mode_per_app" />
+  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+      android:defaultValue="none"
+      android:key="pref_browse_mode_remember_mode"
+      android:title="@string/browse_mode_remember_title"
+      android:entries="@array/browse_mode_remember_entries"
+      android:entryValues="@array/browse_mode_remember_values"
+      android:summary="%s" />
 </PreferenceScreen>

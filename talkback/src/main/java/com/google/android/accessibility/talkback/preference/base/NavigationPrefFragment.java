@@ -21,6 +21,8 @@ import android.os.Bundle;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.talkback.keyboard.BrowseModeApps;
 import com.google.android.accessibility.talkback.selector.NavigationMode;
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader;
 import com.google.android.accessibility.utils.PreferenceSettingsUtils;
@@ -43,7 +45,23 @@ public class NavigationPrefFragment extends VerbosityPrefFragment {
 
   @Override
   public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+    BrowseModeApps.mode(requireContext());
     super.onCreatePreferences(savedInstanceState, rootKey);
+    ListPreference remember = findPreference(BrowseModeApps.PREF_MODE);
+    if (remember != null) {
+      remember.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
+      remember.setOnPreferenceChangeListener(
+          (preference, value) -> {
+            if (BrowseModeApps.ALWAYS.equals(value)) {
+              TalkBackService service = TalkBackService.getInstance();
+              if (service != null && service.getKeyComboManager() != null) {
+                BrowseModeApps.rememberGlobal(
+                    requireContext(), service.getKeyComboManager().isBrowseModeEnabled());
+              }
+            }
+            return true;
+          });
+    }
     ListPreference mode = findPreference(NavigationMode.PREF_KEY);
     if (mode != null) {
       mode.setSummaryProvider(ListPreference.SimpleSummaryProvider.getInstance());
@@ -57,9 +75,8 @@ public class NavigationPrefFragment extends VerbosityPrefFragment {
       PreferenceSettingsUtils.hidePreference(
           getContext(), getPreferenceScreen(), R.string.pref_smart_browse_mode_key);
     }
-    if (!FeatureFlagReader.enableBrowseMode(getContext())) {
-      PreferenceSettingsUtils.hidePreference(
-          getContext(), getPreferenceScreen(), R.string.pref_browse_mode_per_app_key);
+    if (!FeatureFlagReader.enableBrowseMode(getContext()) && remember != null) {
+      remember.setVisible(false);
     }
     if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
       Preference rotation =

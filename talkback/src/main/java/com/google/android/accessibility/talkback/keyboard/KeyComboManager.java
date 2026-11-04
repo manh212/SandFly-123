@@ -318,7 +318,11 @@ public class KeyComboManager
             collectionState,
             gestureShortcutMapping);
     this.pipeline = pipeline;
-    this.browseModeEnabled = arrowsNavigate();
+    Boolean globalBrowseMode = BrowseModeApps.rememberedGlobal(context);
+    this.browseModeEnabled =
+        BrowseModeApps.ALWAYS.equals(BrowseModeApps.mode(context)) && globalBrowseMode != null
+            ? globalBrowseMode
+            : arrowsNavigate();
     this.scheduler = Executors.newScheduledThreadPool(1);
   }
 
@@ -445,7 +449,8 @@ public class KeyComboManager
         && event.getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
       applyRememberedBrowseMode(event);
     }
-    if (arrowsNavigate() || !KeyComboManagerHelper.isSmartBrowseModeEnabled(context) || !isBrowseModeSupported()) {
+    if (BrowseModeApps.ALWAYS.equals(BrowseModeApps.mode(context))
+        || arrowsNavigate() || !KeyComboManagerHelper.isSmartBrowseModeEnabled(context) || !isBrowseModeSupported()) {
       LogUtils.d(TAG, "Smart browse mode is not enabled, or browse mode is not supported");
       return;
     }
@@ -523,7 +528,7 @@ public class KeyComboManager
   public void refreshKeyComboModel() {
     fixedKeyboardScheme.reset();
     keyComboModel = createKeyComboModel();
-    if (arrowsNavigate()) {
+    if (arrowsNavigate() && !BrowseModeApps.ALWAYS.equals(BrowseModeApps.mode(context))) {
       browseModeEnabled = true;
       browseModeTurnedOffByUser = false;
     }
@@ -665,7 +670,9 @@ public class KeyComboManager
     browseModeTurnedOffByUser = !enabled;
     setBrowseModeEnabledInternal(enabled, /* makeSpeechFeedbackInterruptive= */ true);
     TutorialHooks.onBrowseMode(isBrowseModeEnabled());
-    if (focusedPackage != null && isBrowseModeSupported()) {
+    if (isBrowseModeSupported() && BrowseModeApps.ALWAYS.equals(BrowseModeApps.mode(context))) {
+      BrowseModeApps.rememberGlobal(context, enabled);
+    } else if (focusedPackage != null && isBrowseModeSupported()) {
       BrowseModeApps.remember(context, focusedPackage, enabled);
     }
   }

@@ -91,11 +91,15 @@ public class VolumeMonitor extends SameThreadBroadcastReceiver {
   private final SparseLongArray selfAdjustedUntil = new SparseLongArray(10);
 
   private static final long SELF_ADJUSTMENT_MS = 1000;
+  private static final long CALL_MEDIA_CHANGE_GRACE_MS = 3000;
+  private static final long USER_VOLUME_KEY_GRACE_MS = 1800;
 
   private final Context context;
   private final FeedbackReturner pipeline;
   private final AudioManager audioManager;
   private final CallStateMonitor callStateMonitor;
+  private long callMediaQuietUntil;
+  private long explicitVolumeKeyUntil;
 
   private int cachedAccessibilityStreamVolume = -1;
   private int cachedAccessibilityStreamMaxVolume = -1;
@@ -123,6 +127,17 @@ public class VolumeMonitor extends SameThreadBroadcastReceiver {
     // TODO: See if many objects use the same system services and get them once
     audioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
     this.callStateMonitor = callStateMonitor;
+    if (callStateMonitor != null) {
+      callStateMonitor.addCallStateChangedListener(
+          (oldState, newState) -> {
+            if (oldState != newState) {
+              callMediaQuietUntil = SystemClock.uptimeMillis() + CALL_MEDIA_CHANGE_GRACE_MS;
+              if (currentStream == AudioManager.STREAM_MUSIC) {
+                releaseControl();
+              }
+            }
+          });
+    }
     this.hintA11yVolumeControl = FeatureSupport.hasAccessibilityAudioStream(context);
   }
 
@@ -199,6 +214,11 @@ public class VolumeMonitor extends SameThreadBroadcastReceiver {
     }
 
     notifyVolumeChangedListener(streamType, volume, prevVolume, getStreamVolume(streamType));
+
+    if (suppressCallMediaAnnouncement(streamType)) {
+      if (currentStream == streamType) releaseControl();
+      return;
+    }
 
     if (currentStream < 0) {
       // If the current stream hasn't been set, acquire control.
@@ -403,8 +423,7 @@ public class VolumeMonitor extends SameThreadBroadcastReceiver {
   private boolean shouldAnnounceStream(int streamType) {
     return switch (streamType) {
       case AudioManager.STREAM_MUSIC ->
-          // Only announce music stream if it's not being used.
-          !audioManager.isMusicActive();
+          !audioManager.isMusicActive() && !suppressCallMediaAnnouncement(streamType);
       default ->
           // Announce all other streams by default. The VOICE_CALL and
           // RING streams are handled by checking the telephony state in
@@ -561,6 +580,23 @@ public class VolumeMonitor extends SameThreadBroadcastReceiver {
   @VisibleForTesting
   SpeechController.UtteranceCompleteRunnable getUtteranceCompleteRunnable() {
     return utteranceCompleteRunnable;
+  }
+
+  public void noteUserVolumeKeyPress() {
+    explicitVolumeKeyUntil = SystemClock.uptimeMillis() + USER_VOLUME_KEY_GRACE_MS;
+  }
+
+  private boolean suppressCallMediaAnnouncement(int streamType) {
+    return shouldSuppressCallMediaChange(
+        streamType, SystemClock.uptimeMillis(), callMediaQuietUntil, explicitVolumeKeyUntil);
+  }
+
+  @VisibleForTesting
+  static boolean shouldSuppressCallMediaChange(
+      int streamType, long now, long quietUntil, long explicitUntil) {
+    return streamType == AudioManager.STREAM_MUSIC
+        && now < quietUntil
+        && now >= explicitUntil;
   }
 
   public void onVolumeKeyPressed() {

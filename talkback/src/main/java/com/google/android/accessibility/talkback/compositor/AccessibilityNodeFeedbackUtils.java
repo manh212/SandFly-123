@@ -140,11 +140,13 @@ public class AccessibilityNodeFeedbackUtils {
     CharSequence contentAndSupplementalDescription =
         getNodeContentAndSupplementalDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(contentAndSupplementalDescription)) {
-      return markCapital(node, contentAndSupplementalDescription, context, globalVariables);
+      return markCapital(
+          node, DialPadLabelFilter.filter(node, contentAndSupplementalDescription), context,
+          globalVariables);
     }
     // Fallbacks to node text.
     CharSequence nodeText = getNodeText(node, context, globalVariables);
-    return markCapital(node, nodeText, context, globalVariables);
+    return markCapital(node, DialPadLabelFilter.filter(node, nodeText), context, globalVariables);
   }
 
   /**

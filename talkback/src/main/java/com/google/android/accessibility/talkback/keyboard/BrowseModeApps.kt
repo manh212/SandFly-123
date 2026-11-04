@@ -21,24 +21,45 @@ import androidx.core.content.edit
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.utils.SharedPreferencesUtils
 
-/**
- * Navigation > Remember browse mode in each app: the apps where the user last turned browse mode
- * on, and those where they last turned it off.
- */
 object BrowseModeApps {
+  const val PREF_MODE = "pref_browse_mode_remember_mode"
+  const val ALWAYS = "always"
+  const val PER_APP = "per_app"
+  const val NONE = "none"
+
   private const val PREF_ON = "pref_browse_mode_on_apps"
   private const val PREF_OFF = "pref_browse_mode_off_apps"
+  private const val PREF_GLOBAL_ENABLED = "pref_browse_mode_global_enabled"
 
-  /** Whether Remember browse mode in each app is on. */
   @JvmStatic
-  fun isOn(context: Context): Boolean =
-    SharedPreferencesUtils.getSharedPreferences(context)
-      .getBoolean(
-        context.getString(R.string.pref_browse_mode_per_app_key),
-        context.resources.getBoolean(R.bool.pref_browse_mode_per_app_default),
-      )
+  fun mode(context: Context): String {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    prefs.getString(PREF_MODE, null)?.let {
+      if (it in setOf(ALWAYS, PER_APP, NONE)) return it
+    }
+    val previous = prefs.getBoolean(
+      context.getString(R.string.pref_browse_mode_per_app_key),
+      context.resources.getBoolean(R.bool.pref_browse_mode_per_app_default),
+    )
+    val selected = if (previous) PER_APP else NONE
+    prefs.edit { putString(PREF_MODE, selected) }
+    return selected
+  }
 
-  /** True or false for how the user last left browse mode in [app], or null if never. */
+  @JvmStatic
+  fun isOn(context: Context): Boolean = mode(context) == PER_APP
+
+  @JvmStatic
+  fun rememberedGlobal(context: Context): Boolean? {
+    val prefs = SharedPreferencesUtils.getSharedPreferences(context)
+    return if (prefs.contains(PREF_GLOBAL_ENABLED)) prefs.getBoolean(PREF_GLOBAL_ENABLED, false) else null
+  }
+
+  @JvmStatic
+  fun rememberGlobal(context: Context, on: Boolean) {
+    SharedPreferencesUtils.getSharedPreferences(context).edit { putBoolean(PREF_GLOBAL_ENABLED, on) }
+  }
+
   @JvmStatic
   fun remembered(context: Context, app: String): Boolean? {
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
@@ -49,7 +70,6 @@ object BrowseModeApps {
     }
   }
 
-  /** Remembers that the user turned browse mode on or off in [app]. */
   @JvmStatic
   fun remember(context: Context, app: String, on: Boolean) {
     if (!isOn(context)) return
