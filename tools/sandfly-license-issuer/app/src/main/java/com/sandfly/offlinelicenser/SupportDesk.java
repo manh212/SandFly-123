@@ -221,12 +221,15 @@ final class SupportDesk {
         selected.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, SupportProtocol.STATE_NAMES));
         selected.setSelection(Math.max(0, Arrays.asList(SupportProtocol.STATES).indexOf(state.optString("state", "new"))));
         list.addView(selected);
-        button(list, "Lưu trạng thái xử lý", () -> work(() -> {
-          FirebaseRest writer = EnrollmentService.create(activity);
-          SupportProtocol.changeState(writer, id, SupportProtocol.STATES[selected.getSelectedItemPosition()], displayName);
-          refreshInboxes();
-          message("Đã lưu trạng thái và cập nhật cho người gửi.");
-        }));
+        button(list, "Lưu trạng thái xử lý", () -> {
+          String chosenState = SupportProtocol.STATES[selected.getSelectedItemPosition()];
+          work(() -> {
+            FirebaseRest writer = EnrollmentService.create(activity);
+            SupportProtocol.changeState(writer, id, chosenState, displayName);
+            refreshInboxes();
+            message("Đã lưu trạng thái và cập nhật cho người gửi.");
+          });
+        });
         List<String> ids = SupportProtocol.keys(messages); if (before != null) ids.remove(before);
         if (ids.size() > 10) ids = new ArrayList<>(ids.subList(0, 10));
         String oldest = ids.isEmpty() ? null : ids.get(ids.size() - 1); Collections.reverse(ids);
