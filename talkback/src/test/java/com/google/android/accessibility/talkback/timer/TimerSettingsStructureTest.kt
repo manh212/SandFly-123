@@ -96,11 +96,12 @@ class TimerSettingsStructureTest {
         "AppsGroupFragment",
         "BackupResetFragment",
         "SystemHelpGroupFragment",
+        "LogAndReportsFragment",
       ),
       topLevel.map { it.second?.substringAfterLast('.') },
     )
     assertTrue(topLevel.all { !it.second.isNullOrBlank() })
-    assertEquals(15, topLevel.size)
+    assertEquals(16, topLevel.size)
     assertFalse(topLevel.any { it.first == SETUP_KEY })
     assertEquals(
       1,
@@ -142,3 +143,4 @@ class TimerSettingsStructureTest {
     const val ACCESSIBILITY_SETTINGS_KEY = "pref_open_accessibility_settings"
   }
 }
+
