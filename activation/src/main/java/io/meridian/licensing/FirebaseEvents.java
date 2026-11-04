@@ -82,7 +82,8 @@ public final class FirebaseEvents implements Closeable {
       } else if (value.startsWith("data:")) {
         if (data.length() + value.length() > 524288) throw new IOException("Cập nhật hỗ trợ vượt giới hạn.");
         if (data.length() > 0) data.append('\n');
-        data.append(value.substring(5).stripLeading());
+        String payload = value.substring(5);
+        data.append(payload.startsWith(" ") ? payload.substring(1) : payload);
       }
     }
   }
