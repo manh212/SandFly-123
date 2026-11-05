@@ -713,6 +713,7 @@ public class SelectorController implements UserInputEventListener {
 
   private Setting settingToRestore;
   private boolean actionsSettingActivatedForEditText;
+  private boolean smartContextAutomaticallySelected;
 
   private @Nullable String scriptControlKey;
   // Whether double-tap toggles the chosen live recognition mode.
@@ -777,6 +778,12 @@ public class SelectorController implements UserInputEventListener {
                 AnnounceType.SILENCE,
                 false);
           }
+          if (TextUtils.equals(key, context.getString(R.string.pref_selector_smart_context_key))
+              && !prefs.getBoolean(key, false)) {
+            smartContextAutomaticallySelected = false;
+            settingToRestore = null;
+            leaveDisabledSmartContext();
+          }
           if (TextUtils.equals(key, GestureProfiles.KEY)) {
             GestureProfiles.load(prefs);
             SelectorGroupManager.appendGestureProfileControl(context, prefs);
@@ -823,6 +830,7 @@ public class SelectorController implements UserInputEventListener {
     ImmutableList.Builder<ContextualSetting> contextualSettingsBuilder = ImmutableList.builder();
     contextualSettingsBuilder.add(new RowColumnGranularity(collectionState, actorState));
     contextualSettingsBuilder.add(new AdjustableWidgetSetting());
+    contextualSettingsBuilder.add(new SmartContextSetting());
     contextualSettingsBuilder.add(new ActionsSetting(nodeMenuCreator, accessibilityFocusMonitor));
     contextualSettingsBuilder.add(new TypoGranularity(accessibilityFocusMonitor));
     contextualSettings = contextualSettingsBuilder.build();
@@ -1431,9 +1439,12 @@ public class SelectorController implements UserInputEventListener {
         prefs.getBoolean(
             context.getString(R.string.pref_selector_auto_switch_key),
             context.getResources().getBoolean(R.bool.pref_selector_auto_switch_default));
+    boolean smartAutoSwitch =
+        prefs.getBoolean(com.google.android.accessibility.talkback.gesture.SmartContextGestures.PREF_AUTO_SWITCH, false);
     Optional<ContextualSetting> contextualMenu =
-        autoSwitch
-            ? getMatchedContextualSettingForActivation(context, focusedNode, hiddenSettings)
+        (autoSwitch || smartAutoSwitch)
+            ? getMatchedContextualSettingForActivation(
+                context, focusedNode, hiddenSettings, autoSwitch)
             : Optional.empty();
     if (contextualMenu.isPresent()) {
       // If a matched contextual setting is available, switch to that setting automatically.
@@ -1452,8 +1463,17 @@ public class SelectorController implements UserInputEventListener {
             newSetting,
             /* announceType= */ AnnounceType.SILENCE,
             /* showOverlay= */ false);
+        smartContextAutomaticallySelected = newSetting == Setting.SMART_CONTEXT_GESTURES;
         return;
       }
+    }
+    if (smartContextAutomaticallySelected
+        && currentSetting == Setting.SMART_CONTEXT_GESTURES
+        && !findContextualSetting(Setting.SMART_CONTEXT_GESTURES)
+            .map(setting -> setting.shouldActivateSetting(context, focusedNode)).orElse(false)) {
+      smartContextAutomaticallySelected = false;
+      restoreSetting();
+      return;
     }
     if (isContextualSettingNotSupported(currentSetting, focusedNode)) {
       // If the current setting is a contextual setting and no longer allowed by the new focused
@@ -1676,6 +1696,7 @@ public class SelectorController implements UserInputEventListener {
       if (NavigationMode.isModeTwo(context) && setting == ACTIONS) {
         return false;
       }
+      smartContextAutomaticallySelected = false;
       setCurrentSetting(eventId, setting, announceType, showOverlay);
       return true;
     }
@@ -1771,6 +1792,32 @@ public class SelectorController implements UserInputEventListener {
     }
   }
 
+  /** Leaves smart context immediately when its reading-control switch is turned off. */
+  private void leaveDisabledSmartContext() {
+    if (getCurrentSetting(context, prefs) != SMART_CONTEXT_GESTURES) return;
+    if (SelectorGroupManager.isSupported()) {
+      java.util.List<SelectorGroupManager.Group> groups = SelectorGroupManager.getGroups(context);
+      for (SelectorGroupManager.Group group : groups) {
+        if (!group.enabled || !group.id.equals(SelectorGroupManager.currentGroupId(context))) continue;
+        java.util.List<String> available = availableGroupItems(group);
+        if (!available.isEmpty()) {
+          selectGroupItem(EVENT_ID_UNTRACKED, group, available.get(0), AnnounceType.SILENCE, false);
+          return;
+        }
+      }
+      for (SelectorGroupManager.Group group : groups) {
+        if (!group.enabled) continue;
+        java.util.List<String> available = availableGroupItems(group);
+        if (!available.isEmpty()) {
+          SelectorGroupManager.setCurrentGroup(context, group.id);
+          selectGroupItem(EVENT_ID_UNTRACKED, group, available.get(0), AnnounceType.SILENCE, false);
+          return;
+        }
+      }
+    }
+    selectFirstAvailableSetting();
+  }
+
   /**
    * Selects the first setting from {@link #getFilteredSettings()} if trying to use an unavailable
    * setting.
@@ -1856,6 +1903,7 @@ public class SelectorController implements UserInputEventListener {
   /** Selects setting and announces selected setting. For selecting setting via voice-shortcut. */
   private boolean selectSetting(
       @Nullable Setting setting, AnnounceType announceType, boolean showOverlay) {
+    smartContextAutomaticallySelected = false;
     applyPendingSwitch();
     if (setting == null
         || (NavigationMode.isModeTwo(context) && setting == ACTIONS)
@@ -1900,8 +1948,8 @@ public class SelectorController implements UserInputEventListener {
   private boolean allowedSetting(Setting setting, @Nullable AccessibilityNodeInfoCompat node) {
     String preferenceKey = context.getString(setting.prefKeyResId);
 
-    // Check if the SwitchPreference is on for this setting.
-    if (!SelectorGroupManager.isSupported()
+    // Respect the smart context visibility switch even when reading-control groups are active.
+    if ((!SelectorGroupManager.isSupported() || setting == SMART_CONTEXT_GESTURES)
         && !prefs.getBoolean(
             preferenceKey, context.getResources().getBoolean(setting.defaultValueResId))) {
       return false;
@@ -3278,12 +3326,15 @@ public class SelectorController implements UserInputEventListener {
   }
 
   private Optional<ContextualSetting> getMatchedContextualSettingForActivation(
-      Context context, AccessibilityNodeInfoCompat node, List<Setting> hiddenSettings) {
+      Context context, AccessibilityNodeInfoCompat node, List<Setting> hiddenSettings,
+      boolean generalAutoSwitch) {
     Optional<ContextualSetting> matchedSetting =
         contextualSettings.stream()
             .filter(
                 (s) ->
                     !hiddenSettings.contains(s.getSetting())
+                        && (generalAutoSwitch || s.getSetting() == SMART_CONTEXT_GESTURES)
+                        && allowedSetting(s.getSetting(), node)
                         && s.shouldActivateSetting(context, node)
                         && s.isNodeSupportSetting(context, node))
             .findFirst();
