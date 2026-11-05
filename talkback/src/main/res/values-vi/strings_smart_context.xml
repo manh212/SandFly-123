@@ -4,6 +4,8 @@
     <string name="smart_context_selector_value">SMART_CONTEXT</string>
     <string name="smart_context_title">Cử chỉ ngữ cảnh thông minh</string>
     <string name="smart_context_enable">Bật trong bộ điều khiển đọc</string>
+    <string name="smart_context_auto_switch">Tự động chuyển sang cử chỉ ngữ cảnh</string>
+    <string name="smart_context_auto_switch_summary">Tự chọn cử chỉ ngữ cảnh thông minh khi màn hình có chức năng hoặc văn bản phù hợp đang được bật</string>
     <string name="smart_context_common">Cử chỉ chung cho tất cả ứng dụng</string>
     <string name="smart_context_applications">Cử chỉ riêng của từng ứng dụng</string>
     <string name="smart_context_current_app">Ứng dụng hiện tại</string>
@@ -21,6 +23,9 @@
     <string name="smart_context_builtin_dialog">Hộp thoại xác nhận</string>
     <string name="smart_context_builtin_call_incoming">Cuộc gọi đến</string>
     <string name="smart_context_builtin_call_active">Cuộc gọi đang diễn ra</string>
+    <string name="smart_context_builtin_call_speaker">Bật hoặc tắt loa ngoài khi gọi</string>
+    <string name="smart_context_text_rules_enabled">Cử chỉ theo văn bản</string>
+    <string name="smart_context_text_rules_summary">Bật hoặc tạm dừng các cử chỉ văn bản đã thiết lập mà không xóa chúng</string>
     <string name="smart_context_builtin_short_video">Video ngắn</string>
     <string name="smart_context_builtin_media">Phát và tạm dừng video</string>
     <string name="smart_context_priority">Thứ tự ưu tiên</string>
