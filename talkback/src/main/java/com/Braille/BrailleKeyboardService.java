@@ -1402,10 +1402,10 @@ public class BrailleKeyboardService extends InputMethodService {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             // A partial ExtractedText snapshot, even one starting at offset 0, may not
             // contain the end of the host document. Ask the editor for Ctrl+End instead.
-            long now = android.os.SystemClock.uptimeMillis();
-            boolean moved = ic.sendKeyEvent(new KeyEvent(now, now, KeyEvent.ACTION_DOWN,
+            long endKeyTime = android.os.SystemClock.uptimeMillis();
+            boolean moved = ic.sendKeyEvent(new KeyEvent(endKeyTime, endKeyTime, KeyEvent.ACTION_DOWN,
                     KeyEvent.KEYCODE_MOVE_END, 0, KeyEvent.META_CTRL_ON));
-            ic.sendKeyEvent(new KeyEvent(now, now, KeyEvent.ACTION_UP,
+            ic.sendKeyEvent(new KeyEvent(endKeyTime, endKeyTime, KeyEvent.ACTION_UP,
                     KeyEvent.KEYCODE_MOVE_END, 0, KeyEvent.META_CTRL_ON));
             speak(moved ? "Cuối văn bản" : "Không thể chuyển tới cuối văn bản", true);
 
