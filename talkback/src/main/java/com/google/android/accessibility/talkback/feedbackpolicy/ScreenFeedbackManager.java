@@ -112,6 +112,7 @@ public class ScreenFeedbackManager
 
   /** Event time of the last key press that stopped speech, in uptime milliseconds. */
   private long speechStoppedByKeyTime = 0;
+  private final java.util.Set<Integer> silencedNotificationWindows = new java.util.HashSet<>();
 
   /**
    * Set from the Window names setting's "cut off by the first item" choice. When on, the window
@@ -316,6 +317,30 @@ public class ScreenFeedbackManager
     // TYPE_WINDOW_STATE_CHANGED events will be fired. We should skip these two events to
     // avoid announcing the window title.
     boolean allowAnnounce = true;
+    if (com.google.android.accessibility.talkback.notifications.NotificationReader.speechEnabled(service)) {
+      silencedNotificationWindows.clear();
+    } else {
+      int id = event.getWindowId();
+      if (com.google.android.accessibility.talkback.notifications.NotificationWindowPolicy
+          .isAutomaticNotificationWindow(service, id)) {
+        silencedNotificationWindows.add(id);
+        allowAnnounce = false;
+      } else if (silencedNotificationWindows.contains(id)) {
+        for (AccessibilityWindowInfo window : service.getWindows()) {
+          if (window.getId() == id && (window.isFocused() || window.isAccessibilityFocused())) {
+            silencedNotificationWindows.remove(id);
+            break;
+          }
+        }
+        if (silencedNotificationWindows.contains(id)) {
+          allowAnnounce = false;
+          if (event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+              && (event.getWindowChanges() & AccessibilityEvent.WINDOWS_CHANGE_REMOVED) != 0) {
+            silencedNotificationWindows.remove(id);
+          }
+        }
+      }
+    }
     if (event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
         && EventState.getInstance()
             .checkAndClearRecentFlag(
@@ -336,6 +361,13 @@ public class ScreenFeedbackManager
   protected boolean customHandle(
       WindowEventInterpreter.EventInterpretation interpretation, @Nullable EventId eventId) {
     if (interpretation == null) {
+      return false;
+    }
+
+    if (!com.google.android.accessibility.talkback.notifications.NotificationReader.speechEnabled(service)
+        && com.google.android.accessibility.talkback.notifications.NotificationWindowPolicy
+            .isAutomaticNotificationWindow(service, interpretation.getWindowIdFromEvent())) {
+      if (interpretation.isOriginalEvent()) interpretation.setMainWindowsChanged(false);
       return false;
     }
 

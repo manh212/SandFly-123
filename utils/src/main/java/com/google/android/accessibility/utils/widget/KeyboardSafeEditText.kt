@@ -16,6 +16,12 @@
 
 package com.google.android.accessibility.utils.widget
 
+import android.graphics.Rect
+import android.icu.text.BreakIterator
+import android.text.Selection
+import android.view.KeyEvent
+import java.lang.ref.WeakReference
+import java.util.Locale
 import android.content.ComponentName
 import android.content.Context
 import android.os.Build
@@ -45,12 +51,66 @@ constructor(
   defStyleAttr: Int = androidx.appcompat.R.attr.editTextStyle,
 ) : AppCompatEditText(context, attrs, defStyleAttr) {
 
+  private val selectionKeys = HashSet<Int>()
+
+  override fun onFocusChanged(focused: Boolean, direction: Int, previouslyFocusedRect: Rect?) {
+    super.onFocusChanged(focused, direction, previouslyFocusedRect)
+    if (focused) currentEditor = WeakReference(this)
+    else if (currentEditor?.get() === this) currentEditor = null
+  }
+
+  override fun onKeyDown(keyCode: Int, event: KeyEvent): Boolean =
+    selectWithKey(event) || super.onKeyDown(keyCode, event)
+
+  override fun onKeyUp(keyCode: Int, event: KeyEvent): Boolean =
+    selectWithKey(event) || super.onKeyUp(keyCode, event)
+
+  private fun selectWithKey(event: KeyEvent): Boolean {
+    if (event.action == KeyEvent.ACTION_UP) return selectionKeys.remove(event.keyCode)
+    if (event.action != KeyEvent.ACTION_DOWN || !event.isCtrlPressed || !event.isShiftPressed ||
+        event.isAltPressed || event.isMetaPressed || !isEnabled) return false
+    if (event.keyCode !in intArrayOf(KeyEvent.KEYCODE_DPAD_LEFT, KeyEvent.KEYCODE_DPAD_RIGHT,
+        KeyEvent.KEYCODE_DPAD_UP, KeyEvent.KEYCODE_DPAD_DOWN)) return false
+    val editable = text ?: return false
+    if (selectionStart < 0 || selectionEnd < 0) Selection.setSelection(editable, editable.length)
+    when (event.keyCode) {
+      KeyEvent.KEYCODE_DPAD_UP -> layout?.let { Selection.extendUp(editable, it) }
+      KeyEvent.KEYCODE_DPAD_DOWN -> layout?.let { Selection.extendDown(editable, it) }
+      else -> {
+        val value = editable.toString()
+        val iterator = BreakIterator.getWordInstance(Locale.getDefault()).apply { setText(value) }
+        val forward = event.keyCode == KeyEvent.KEYCODE_DPAD_RIGHT
+        var position = selectionEnd
+        var boundary = if (forward) iterator.following(position) else iterator.preceding(position)
+        while (boundary != BreakIterator.DONE) {
+          val part = value.substring(minOf(position, boundary), maxOf(position, boundary))
+          if (part.any { it.isLetterOrDigit() }) break
+          position = boundary
+          boundary = if (forward) iterator.next() else iterator.previous()
+        }
+        Selection.extendSelection(editable, if (boundary == BreakIterator.DONE) {
+          if (forward) value.length else 0
+        } else boundary)
+      }
+    }
+    selectionKeys += event.keyCode
+    return true
+  }
+
   override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection? {
     val connection = super.onCreateInputConnection(outAttrs)
     return if (isOwnKeyboard(context)) connection else KeyboardCalls.wrap(connection)
   }
 
   companion object {
+    private var currentEditor: WeakReference<KeyboardSafeEditText>? = null
+
+    @JvmStatic
+    fun handleSelectionKey(event: KeyEvent): Boolean {
+      val field = currentEditor?.get() ?: return false
+      return field.isFocused && field.hasWindowFocus() && field.selectWithKey(event)
+    }
+
     /** Whether the keyboard in use belongs to this app, and so runs in its process. */
     @VisibleForTesting
     fun isOwnKeyboard(context: Context): Boolean = keyboardPackage(context) == context.packageName

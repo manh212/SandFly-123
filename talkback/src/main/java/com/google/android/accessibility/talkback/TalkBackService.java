@@ -3172,7 +3172,7 @@ public class TalkBackService extends AccessibilityServiceCompat
     deviceConfigurationMonitor.setMenuManager(menuManager);
 
     KeyboardLockMonitor keyboardLockMonitor = new KeyboardLockMonitor(compositor);
-    keyEventListeners.add(keyboardLockMonitor);
+    keyEventListeners.add(keyEventListeners.indexOf(keyComboManager), keyboardLockMonitor);
 
     ipcClientCallback = new IpcClientCallbackImpl(this);
 

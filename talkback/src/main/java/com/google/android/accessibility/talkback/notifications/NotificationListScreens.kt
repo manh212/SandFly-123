@@ -97,6 +97,14 @@ abstract class NotificationCodeFragment(@StringRes private val title: Int) : Tal
       addPreference(it)
     }
 
+  protected fun PreferenceGroup.createAction(
+    title: CharSequence,
+    summary: CharSequence? = null,
+    onClick: () -> Unit,
+  ): Preference = com.google.android.accessibility.talkback.preference.base.CreateNewShortcut.mark(
+    action(title, summary, onClick)
+  )
+
   protected fun PreferenceGroup.action(
     title: CharSequence,
     summary: CharSequence? = null,
@@ -521,7 +529,7 @@ class NotificationWordsFragment : NotificationCodeFragment(R.string.notification
     )
     matchList(screen, R.string.notification_private_title, NotificationSettings.Companion.Keys.PRIVATE, settings.privateWords)
     val replacements = screen.category(R.string.notification_replacements_title)
-    replacements.action(getString(R.string.notification_add_replacement)) { editReplacement(settings.replacements, -1) }
+    replacements.createAction(getString(R.string.notification_add_replacement)) { editReplacement(settings.replacements, -1) }
     settings.replacements.forEachIndexed { index, replacement ->
       val title = getString(R.string.notification_replacement_item, replacement.find, replacement.replace)
       replacements.action(title, if (replacement.regex) getString(R.string.notification_regex) else null) {
@@ -542,11 +550,11 @@ class NotificationWordsFragment : NotificationCodeFragment(R.string.notification
   ) {
     val category = screen.category(title)
     if (prefillPattern != null && list.none { it.text == prefillPattern && it.regex }) {
-      category.action(getString(R.string.notification_add_blocked_pattern, prefillPattern)) {
+      category.createAction(getString(R.string.notification_add_blocked_pattern, prefillPattern)) {
         saveMatches(key, list + TextMatch(prefillPattern, regex = true))
       }
     }
-    category.action(getString(R.string.notification_add_word)) { editMatch(key, list, -1) }
+    category.createAction(getString(R.string.notification_add_word)) { editMatch(key, list, -1) }
     list.forEachIndexed { index, match ->
       category.action(match.text, if (match.regex) getString(R.string.notification_regex) else null) {
         choose(match.text, listOf(getString(R.string.notification_edit), getString(R.string.notification_remove))) {

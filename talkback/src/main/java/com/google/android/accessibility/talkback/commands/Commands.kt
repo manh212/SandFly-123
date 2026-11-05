@@ -518,6 +518,8 @@ object Commands {
           Key.ANNOUNCE_RICH_TEXT_DESCRIPTION,
           available = FeatureFlagReader.enableTextFormattingSummary(context),
         )
+        gesture(R.string.shortcut_value_read_current_time, R.string.shortcut_read_current_time)
+        gesture(R.string.shortcut_value_read_current_location, R.string.shortcut_read_current_location)
         gesture(R.string.shortcut_value_announce_status, R.string.shortcut_announce_status)
         gesture(
           R.string.shortcut_value_announce_current_time_and_date,
@@ -673,6 +675,7 @@ object Commands {
           R.string.title_copy_last_spoken_phrase,
           Key.COPY_LAST_SPOKEN_PHRASE,
         )
+        gesture(R.string.shortcut_value_correct_text, R.string.correction_title)
         gesture(R.string.shortcut_value_granular_editing, R.string.granular_editing_title)
         gesture(R.string.shortcut_value_dictate, R.string.shortcut_dictate)
         gesture(

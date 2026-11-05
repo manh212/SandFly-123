@@ -212,3 +212,38 @@ The emoji names are from the [Unicode CLDR](https://cldr.unicode.org/) and the U
 Scripts run in [Lua 5.4](https://www.lua.org/), copyright Lua.org, PUC-Rio, through [LuaJava](https://github.com/gudzpoz/luajava), copyright gudzpoz, both used under the MIT License. The license texts are in `talkback/src/phone/assets/scripting/LICENSE-luajava`, which is in the APK.
 
 Dictation recognizes speech on the phone with [whisper.cpp](https://github.com/ggml-org/whisper.cpp) 1.9.5, copyright the ggml authors, used under the MIT License, which is in `whisper/src/main/cpp/whisper.cpp/LICENSE`. Its source is in `whisper/src/main/cpp/whisper.cpp`, with only the CPU backend. The Whisper models are downloaded from [Hugging Face](https://huggingface.co/ggerganov/whisper.cpp) when the user chooses one; they are OpenAI's Whisper models, under the MIT License.
+
+## Command and editing improvements
+
+Custom menu command lists include accent-insensitive search. The keyboard stays
+closed until the search field is selected. Ctrl+N activates the create or add
+operation on the current Meridian settings page; pages with multiple add
+operations offer a choice. The keyboard command picker returns to its category
+list with Back or **Quay lại**, retaining the captured keys.
+
+Assignable commands include **Đọc giờ hiện tại**, **Đọc vị trí hiện tại** and
+**Hiệu chỉnh văn bản**. Time reads hours and minutes. Location opens a bounded,
+foreground request, asks for location permission when needed, and stops updates
+after a result or cancellation. Address detail depends on Android's geocoder;
+unavailable addresses are reported without reading coordinates or cached places.
+
+Text correction uses the configured AI provider or on-device model. It operates
+on selected text, or the entire editable field when there is no selection.
+The nine styles include a custom instruction. A preview offers Apply, Retry and
+Cancel; Retry always uses the original text. Applying verifies the original field
+and unchanged source text before replacing only the selected range. Password
+fields are excluded. Online providers receive the chosen source text.
+
+Ctrl+Shift+Left/Right extends selection by word. Ctrl+Shift+Up/Down uses the
+editor's displayed-line traversal. Meridian's own editing dialogs handle words
+and displayed lines directly from their local text layout, independently of the
+source application. Other editors without that action report the limit
+instead of silently selecting paragraphs. Caps Lock speech is emitted only for
+state changes, not a standalone query in fixed modifier schemes.
+
+Turning notification speech off cancels pending automatic notification readouts
+and suppresses notification overlay introductions. Deliberately opening or
+navigating notifications remains accessible. Configured smart-context text rules
+use exact full-label matching by default and take precedence over built-in media
+actions. A missing configured target never falls back to another button; flexible
+matching remains opt-in. The proposed clear-all-text change is deferred.

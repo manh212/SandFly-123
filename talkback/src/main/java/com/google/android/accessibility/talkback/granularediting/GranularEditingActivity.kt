@@ -22,6 +22,8 @@ import android.text.InputType
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.view.ViewGroup
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.Button
@@ -453,6 +455,11 @@ class GranularEditingActivity : AppCompatActivity() {
       dialog.dismiss()
     }
     field.requestFocus()
+    dialog.window?.setSoftInputMode(
+      WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE or
+        WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
+    )
+    field.post { getSystemService(InputMethodManager::class.java)?.showSoftInput(field, InputMethodManager.SHOW_IMPLICIT) }
   }
 
   private fun editText(@StringRes hint: Int, initial: String): EditText =

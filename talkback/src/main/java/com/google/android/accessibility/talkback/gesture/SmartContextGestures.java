@@ -513,7 +513,7 @@ public final class SmartContextGestures {
         MAIN.postDelayed(this::step, 180);
         return;
       }
-      if (performBuiltins(root)) {
+      if (rules.isEmpty() && performBuiltins(root)) {
         activeSearch = null;
         return;
       }

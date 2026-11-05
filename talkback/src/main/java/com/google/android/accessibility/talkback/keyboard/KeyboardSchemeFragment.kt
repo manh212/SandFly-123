@@ -74,6 +74,7 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
       }
     screen.addPreference(Preference(context).apply {
       key = "scheme_add_shortcut"
+      com.google.android.accessibility.talkback.preference.base.CreateNewShortcut.mark(this)
       title = getString(R.string.scheme_add_shortcut)
       isPersistent = false
       isIconSpaceReserved = false
@@ -133,21 +134,36 @@ class KeyboardSchemeFragment : TalkbackBaseFragment() {
     manager.setKeyEventDelegate(listener)
   }
 
-  private fun chooseAction(then: (String) -> Unit) {
+  private fun chooseAction(selectedGroup: Int = -1, then: (String) -> Unit) {
     val context = requireContext()
     val categories = Commands.categories(context)
-    AlertDialog.Builder(context)
+    val dialog = AlertDialog.Builder(context)
       .setTitle(R.string.scheme_choose_action)
       .setItems(categories.map { getString(it.titleRes) }.toTypedArray()) { _, group ->
         val category = categories[group]
+        val back = { if (isAdded && isResumed) chooseAction(group, then) }
         AlertDialog.Builder(context)
           .setTitle(category.titleRes)
           .setItems(category.commands.map { it.label }.toTypedArray()) { _, action -> then(category.commands[action].value) }
+          .setNeutralButton(R.string.command_go_back) { _, _ -> back() }
           .setNegativeButton(android.R.string.cancel, null)
+          .setOnCancelListener { back() }
           .show()
       }
       .setNegativeButton(android.R.string.cancel, null)
-      .show()
+      .create()
+    dialog.setOnShowListener {
+      if (selectedGroup >= 0) dialog.listView.post {
+        dialog.listView.setSelection(selectedGroup)
+        dialog.listView.post {
+          val index = selectedGroup - dialog.listView.firstVisiblePosition
+          dialog.listView.getChildAt(index)?.performAccessibilityAction(
+            android.view.accessibility.AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS, null
+          )
+        }
+      }
+    }
+    dialog.show()
   }
 
   private fun save(combo: KeyCombo, command: String, previousKey: String? = null) {

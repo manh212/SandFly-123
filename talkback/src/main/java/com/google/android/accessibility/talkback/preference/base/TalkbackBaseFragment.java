@@ -102,6 +102,10 @@ public abstract class TalkbackBaseFragment extends BasePreferencesFragment {
     }
   }
 
+  public boolean createNewItem() {
+    return CreateNewShortcut.perform(this);
+  }
+
   /** Turns a preference on or off, selecting the preference by key-resource-ID. */
   public void setEnabled(Context context, int preferenceKeyResId, boolean enable) {
     Preference preference = findPreference(context.getString(preferenceKeyResId));

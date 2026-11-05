@@ -35,7 +35,7 @@ import java.util.Calendar
 class NotificationRulesFragment : NotificationCodeFragment(R.string.notification_rules_title) {
   override fun build(screen: PreferenceGroup) {
     val context = requireContext()
-    screen.action(getString(R.string.notification_rule_add)) {
+    screen.createAction(getString(R.string.notification_rule_add)) {
       askText(getString(R.string.notification_rule_add), hint = getString(R.string.notification_rule_name)) { name, _, _ ->
         val rule = NotificationRule(name = name.ifEmpty { getString(R.string.notification_rule_untitled) })
         save(settings.rules + rule)
@@ -222,7 +222,7 @@ class NotificationRuleFragment : NotificationCodeFragment(R.string.notification_
       }
     }
     val conditions = screen.category(R.string.notification_rule_conditions)
-    conditions.action(getString(R.string.notification_rule_add_condition)) { addCondition() }
+    conditions.createAction(getString(R.string.notification_rule_add_condition)) { addCondition() }
     rule.conditions.forEachIndexed { index, condition ->
       val text = NotificationRulesFragment.describeCondition(context, condition)
       conditions.action(text) {
@@ -235,7 +235,7 @@ class NotificationRuleFragment : NotificationCodeFragment(R.string.notification_
       }
     }
     val actions = screen.category(R.string.notification_rule_actions)
-    actions.action(getString(R.string.notification_rule_add_action)) { addAction() }
+    actions.createAction(getString(R.string.notification_rule_add_action)) { addAction() }
     rule.actions.forEachIndexed { index, action ->
       val text = NotificationRulesFragment.describeAction(context, action)
       actions.action(text) {

@@ -944,6 +944,8 @@ public class GestureController {
       } else {
         pipeline.returnFeedback(eventId, Feedback.edit(node, SELECT_ALL));
       }
+    } else if (action.equals(service.getString(R.string.shortcut_value_correct_text))) {
+      result = com.google.android.accessibility.talkback.textcorrection.TextCorrection.open(service, findEditorTarget());
     } else if (action.equals(service.getString(R.string.shortcut_value_granular_editing))) {
       AccessibilityNodeInfoCompat focus =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
@@ -1101,6 +1103,10 @@ public class GestureController {
       result =
           pipeline.returnFeedback(
               eventId, Feedback.requestedSpeech(batteryMonitor.getBatteryStateDescription()));
+    } else if (action.equals(service.getString(R.string.shortcut_value_read_current_time))) {
+      result = pipeline.returnFeedback(eventId, Feedback.requestedSpeech(DateTimeUtils.getCurrentTime(service)));
+    } else if (action.equals(service.getString(R.string.shortcut_value_read_current_location))) {
+      result = com.google.android.accessibility.talkback.status.CurrentLocationActivity.open(service);
     } else if (action.equals(service.getString(R.string.shortcut_value_announce_status))) {
       result =
           pipeline.returnFeedback(eventId, Feedback.requestedSpeech(statusReader.describe()));

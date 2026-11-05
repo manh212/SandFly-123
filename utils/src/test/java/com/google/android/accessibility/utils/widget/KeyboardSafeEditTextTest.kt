@@ -18,6 +18,9 @@ package com.google.android.accessibility.utils.widget
 
 import android.content.Context
 import android.provider.Settings
+import android.view.KeyEvent
+import android.view.View
+import org.junit.Assert.assertEquals
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.R
 import java.lang.reflect.Proxy
@@ -61,5 +64,34 @@ class KeyboardSafeEditTextTest {
     useKeyboard(context.packageName)
     assertTrue(KeyboardSafeEditText.isOwnKeyboard(context))
     assertFalse(connectionIsWrapped())
+  }
+  @Test fun selectsWordsInsideMeridiansOwnField() {
+    context.setTheme(R.style.Theme_AppCompat)
+    val field = KeyboardSafeEditText(context)
+    field.setText("Một hai ba")
+    field.setSelection(0)
+    val key = KeyEvent(0, 0, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_RIGHT, 0,
+      KeyEvent.META_CTRL_ON or KeyEvent.META_SHIFT_ON)
+    assertTrue(field.onKeyDown(key.keyCode, key))
+    assertEquals("Một", field.text!!.substring(field.selectionStart, field.selectionEnd))
+  }
+
+  @Test fun usesOwnDisplayedLinesWithoutDependingOnSourceApplication() {
+    context.setTheme(R.style.Theme_AppCompat)
+    val field = KeyboardSafeEditText(context)
+    field.setSingleLine(false)
+    field.setHorizontallyScrolling(false)
+    field.setText("Một đoạn văn bản dài được tự xuống hàng trong hộp sửa riêng của Meridian.")
+    field.measure(View.MeasureSpec.makeMeasureSpec(180, View.MeasureSpec.EXACTLY),
+      View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.AT_MOST))
+    field.layout(0, 0, 180, field.measuredHeight)
+    assertTrue(field.layout.lineCount > 1)
+    val secondLine = field.layout.getLineStart(1)
+    field.setSelection(secondLine)
+    val key = KeyEvent(0, 0, KeyEvent.ACTION_DOWN, KeyEvent.KEYCODE_DPAD_UP, 0,
+      KeyEvent.META_CTRL_ON or KeyEvent.META_SHIFT_ON)
+    assertTrue(field.onKeyDown(key.keyCode, key))
+    assertEquals(secondLine, field.selectionStart)
+    assertEquals(0, field.selectionEnd)
   }
 }

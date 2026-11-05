@@ -51,7 +51,7 @@ public final class CustomMenusFragment extends TalkbackBaseFragment {
           askForNewName();
           return true;
         });
-    screen.addPreference(add);
+    screen.addPreference(CreateNewShortcut.mark(add));
   }
 
   private void askForNewName() {

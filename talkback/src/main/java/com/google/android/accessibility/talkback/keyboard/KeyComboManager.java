@@ -234,6 +234,7 @@ public class KeyComboManager
   private Future<Boolean> scheduleToOpenSearchApp;
   private final ArrowKeyNavKeyHandler arrowKeyNavKeyHandler;
   private final FixedKeyboardScheme fixedKeyboardScheme;
+  private final EditableSelectionKeys editableSelectionKeys = new EditableSelectionKeys();
 
   private enum KeyComboPassThroughState {
     // KeyComboPassThrough is not enabled and TalkBack will act on key events as normal.
@@ -329,6 +330,7 @@ public class KeyComboManager
   /** Terminates instances to prevent leakage. */
   public void shutdown() {
     fixedKeyboardScheme.close();
+    editableSelectionKeys.reset();
     if (hardwareKeyboardStatus == HARDKEYBOARDHIDDEN_NO) {
       analytics.onKeymapTypeUsed(keyComboModel);
       analytics.onModifierKeyUsed(keyComboModel.getTriggerModifier());
@@ -377,6 +379,8 @@ public class KeyComboManager
         return true;
       }
     }
+
+    if (handleTextSelectionKey(event)) return true;
 
     // Arrow keys pressed with a held SandFly key are SandFly key shortcuts, not arrow key
     // navigation; the held key itself is a modifier to arrow key navigation.
@@ -502,6 +506,19 @@ public class KeyComboManager
     return event.getKeyCode() == KeyEvent.KEYCODE_CAPS_LOCK
         && (isFixedKeyboardScheme() || fixedKeyboardScheme.hasHeldCaps(event.getDeviceId()))
         && fixedKeyboardScheme.onKeyEvent(event, EVENT_ID_UNTRACKED, keyEventDelegate, false);
+  }
+
+  public boolean handleTextSelectionKey(KeyEvent event) {
+    if (serviceState != SERVICE_STATE_ACTIVE || !matchKeyCombo
+        || keyComboPassThroughState == KeyComboPassThroughState.ACTIVE) return false;
+    if (com.google.android.accessibility.utils.widget.KeyboardSafeEditText.handleSelectionKey(event)) return true;
+    return editableSelectionKeys.handle(event,
+        accessibilityFocusMonitor == null ? null : accessibilityFocusMonitor.getInputFocus(),
+        message -> {
+          if (context instanceof TalkBackService service) {
+            service.announceKeyboardScheme(context.getString(message));
+          }
+        });
   }
 
   public boolean isKeyboardInputEditable() {

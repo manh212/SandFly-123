@@ -44,7 +44,7 @@ class AppGesturesFragment : NotificationCodeFragment(R.string.title_pref_app_ges
 
   override fun build(screen: PreferenceGroup) {
     val apps = AppGestures.read(prefs)
-    screen.action(getString(R.string.app_gestures_add_app)) { chooseApp() }
+    screen.createAction(getString(R.string.app_gestures_add_app)) { chooseApp() }
     apps.entries
       .sortedBy { it.value.name.lowercase() }
       .forEach { (packageName, app) ->
@@ -98,7 +98,7 @@ class AppGestureFragment : NotificationCodeFragment(R.string.title_pref_app_gest
   override fun build(screen: PreferenceGroup) {
     val gestures = app?.gestures.orEmpty()
     val gestureCategory = screen.category(R.string.command_gestures)
-    gestureCategory.action(getString(R.string.command_add_gesture)) { chooseGesture() }
+    gestureCategory.createAction(getString(R.string.command_add_gesture)) { chooseGesture() }
     for (slot in slots) {
       val value = gestures[baseKey(slot)] ?: continue
       entry(gestureCategory, slot.name, value, { chooseCommand { assignGesture(slot, it) } }) {
@@ -108,7 +108,7 @@ class AppGestureFragment : NotificationCodeFragment(R.string.title_pref_app_gest
 
     val keys = app?.keys.orEmpty()
     val keyCategory = screen.category(R.string.title_pref_manage_keyboard_shortcuts)
-    keyCategory.action(getString(R.string.app_keys_add)) { recordKeys() }.apply {
+    keyCategory.createAction(getString(R.string.app_keys_add)) { recordKeys() }.apply {
       // Recording keys needs the screen reader's key events.
       isEnabled = TalkBackService.isServiceActive()
     }

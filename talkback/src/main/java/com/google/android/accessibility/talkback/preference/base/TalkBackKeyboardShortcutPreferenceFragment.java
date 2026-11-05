@@ -384,7 +384,7 @@ public class TalkBackKeyboardShortcutPreferenceFragment extends TalkbackBaseFrag
               this::createKeymap);
           return true;
         });
-    category.addPreference(create);
+    category.addPreference(CreateNewShortcut.mark(create));
     @Nullable CustomKeymap custom = CustomKeymaps.of(context, keymap);
     if (custom == null) {
       return;

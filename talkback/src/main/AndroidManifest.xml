@@ -464,6 +464,24 @@
             android:theme="@style/NotificationListTheme"
             android:windowSoftInputMode="adjustResize" />
 
+        <activity
+            android:name="com.google.android.accessibility.talkback.textcorrection.TextCorrectionActivity"
+            android:configChanges="orientation|screenSize|screenLayout|smallestScreenSize|keyboardHidden|uiMode|fontScale"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="@string/correction_title"
+            android:taskAffinity="com.google.android.accessibility.talkback.TextCorrectionAffinity"
+            android:theme="@style/NotificationListTheme"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name="com.google.android.accessibility.talkback.status.CurrentLocationActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden|uiMode"
+            android:excludeFromRecents="true"
+            android:exported="false"
+            android:label="@string/shortcut_read_current_location"
+            android:taskAffinity="com.google.android.accessibility.talkback.CurrentLocationAffinity"
+            android:theme="@style/NotificationListTheme" />
+
         <!-- SandFly's own quick settings panel, opened instead of the system's quick settings. -->
         <activity
             android:name="com.google.android.accessibility.talkback.quicksettings.QuickSettingsActivity"

@@ -47,6 +47,6 @@ class CapsLockPressState {
     val toggle = state.doublePress && !state.used && !event.isCanceled
     if (toggle) state.capsOn = !state.capsOn
     state.lastRelease = if (state.used || toggle || event.isCanceled) null else event.eventTime
-    return Release(!toggle, !state.used && !event.isCanceled, state.capsOn)
+    return Release(!toggle, toggle, state.capsOn)
   }
 }

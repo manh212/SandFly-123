@@ -123,7 +123,8 @@ class SoundThemesFragment : TalkbackBaseFragment() {
     screen.removeAll()
     val active = SoundThemes.active(context, prefs)
 
-    screen.addPreference(action(context, getString(R.string.theme_create), null) { createTheme() })
+    screen.addPreference(com.google.android.accessibility.talkback.preference.base.CreateNewShortcut.mark(
+      action(context, getString(R.string.theme_create), null) { createTheme() }))
 
     val installed = category(context, getString(R.string.sound_themes_installed_category))
     screen.addPreference(installed)

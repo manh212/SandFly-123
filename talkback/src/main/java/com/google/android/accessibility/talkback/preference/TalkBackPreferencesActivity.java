@@ -66,6 +66,7 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
   private static final String KEY_DEVELOPER_NOTICE_ACCEPTED = "developer_notice_accepted";
 
   private HatsSurveyRequester hatsSurveyRequester;
+  private boolean createShortcutDown;
 
   private void assignSearchFragment(Intent intent) {
     if (TalkBackSearchIndexablesProvider.isFromSearchIndexablesContract(intent)) {
@@ -225,6 +226,22 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
 
   @Override
   public boolean dispatchKeyEvent(KeyEvent keyEvent) {
+    if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_N) {
+      if (keyEvent.getAction() == KeyEvent.ACTION_UP && createShortcutDown) {
+        createShortcutDown = false;
+        return true;
+      }
+      if (keyEvent.getAction() == KeyEvent.ACTION_DOWN && keyEvent.isCtrlPressed()
+          && !keyEvent.isAltPressed() && !keyEvent.isShiftPressed() && !keyEvent.isMetaPressed()) {
+        if (createShortcutDown) return true;
+        Fragment current = getSupportFragmentManager().findFragmentById(getContainerId());
+        if (current instanceof TalkbackBaseFragment
+            && ((TalkbackBaseFragment) current).createNewItem()) {
+          createShortcutDown = true;
+          return true;
+        }
+      }
+    }
     if ((keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK)
         && (keyEvent.getAction() == KeyEvent.ACTION_UP)
         && (hatsSurveyRequester != null)
@@ -232,6 +249,12 @@ public class TalkBackPreferencesActivity extends PreferencesActivity
       return false;
     }
     return super.dispatchKeyEvent(keyEvent);
+  }
+
+  @Override
+  public void onWindowFocusChanged(boolean hasFocus) {
+    super.onWindowFocusChanged(hasFocus);
+    if (hasFocus) createShortcutDown = false;
   }
 
   @Override

@@ -445,6 +445,9 @@ class QuickSettingsItemsFragment : TalkbackBaseFragment() {
     Preference(context) {
     init {
       this.key = key
+      if (key in setOf(KEY_ADD_CONTROL, KEY_ADD_TILE, KEY_ADD_SYSTEM_TILE)) {
+        com.google.android.accessibility.talkback.preference.base.CreateNewShortcut.mark(this)
+      }
       isPersistent = false
       this.order = order
       setTitle(title)

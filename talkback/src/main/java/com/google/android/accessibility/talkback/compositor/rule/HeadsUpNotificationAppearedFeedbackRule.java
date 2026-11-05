@@ -72,6 +72,7 @@ public final class HeadsUpNotificationAppearedFeedbackRule {
           // listener, and the hint would come before it.
           if (!globalVariables.getUsageHintEnabled()
               || !globalVariables.getSpeakNotifications()
+              || !NotificationReader.speechEnabled(context)
               || NotificationReader.readsFromListener()
               || notificationCategory
                   .toString()

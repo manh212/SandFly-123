@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="command_search_empty">Không tìm thấy lệnh</string>
+  <string name="command_go_back">Quay lại</string>
+  <string name="command_create_new">Tạo mới</string>
+  <string name="shortcut_read_current_time">Đọc giờ hiện tại</string>
+  <string name="shortcut_read_current_location">Đọc vị trí hiện tại</string>
+  <string name="location_permission_needed">Cần quyền vị trí để đọc địa điểm.</string>
+  <string name="location_unavailable">Chưa xác định được vị trí.</string>
+  <string name="location_address_unavailable">Chưa lấy được địa chỉ</string>
+  <string name="location_disabled">Hãy bật vị trí trên điện thoại.</string>
+  <string name="selection_line_unavailable">Ô nhập này chưa hỗ trợ chọn theo dòng hiển thị.</string>
+  <string name="correction_title">Hiệu chỉnh văn bản</string>
+  <string name="correction_professional">Chuyên nghiệp hơn</string>
+  <string name="correction_friendly">Thân thiện hơn</string>
+  <string name="correction_formal">Trang trọng hơn</string>
+  <string name="correction_simple">Đơn giản hơn</string>
+  <string name="correction_shorter">Ngắn hơn</string>
+  <string name="correction_longer">Dài hơn</string>
+  <string name="correction_spelling">Sửa chính tả và dấu câu</string>
+  <string name="correction_coherent">Mạch lạc hơn</string>
+  <string name="correction_custom">Yêu cầu riêng</string>
+  <string name="correction_instruction">Yêu cầu hiệu chỉnh</string>
+  <string name="correction_preview">Bản xem trước</string>
+  <string name="correction_original">Văn bản gốc</string>
+  <string name="correction_result">Văn bản đã hiệu chỉnh</string>
+  <string name="correction_apply">Áp dụng</string>
+  <string name="correction_retry">Thử lại</string>
+  <string name="correction_working">Đang hiệu chỉnh…</string>
+  <string name="correction_failed">Chưa hiệu chỉnh được văn bản.</string>
+  <string name="correction_changed">Văn bản gốc đã thay đổi. Hãy hiệu chỉnh lại.</string>
+  <string name="correction_no_editor">Không tìm thấy ô nhập văn bản.</string>
+  <string name="correction_empty">Không có văn bản để hiệu chỉnh.</string>
+  <string name="correction_password">Không thể hiệu chỉnh ô mật khẩu.</string>
+  <string name="correction_applied">Đã áp dụng.</string>
+  <string name="correction_apply_failed">Chưa áp dụng được văn bản.</string>
+  <string name="location_working">Đang xác định vị trí…</string>
+</resources>

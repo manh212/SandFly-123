@@ -154,6 +154,7 @@ class CommandFragment : TalkbackBaseFragment() {
     category.addPreference(
       AccessibilitySuitePreference(context).apply {
         key = "pref_command_add_${section.name}"
+        com.google.android.accessibility.talkback.preference.base.CreateNewShortcut.mark(this)
         isPersistent = false
         isIconSpaceReserved = false
         title = getString(section.add)

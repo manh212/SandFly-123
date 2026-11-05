@@ -17,6 +17,8 @@ class FixedKeyboardScheme @JvmOverloads constructor(
   private val caps = CapsLockPressState()
   private val passedCaps = HashSet<Int>()
   private val nativeCapsHeld = HashSet<Int>()
+  private val nativeCapsUsed = HashSet<Int>()
+  private val nativeCapsBefore = HashMap<Int, Boolean>()
   private val consumedCaps = HashSet<Int>()
   private val recognizer = SchemeKeyRecognizer(object : SchemeKeyRecognizer.Callbacks {
     override fun canHandle(combo: KeyCombo): Boolean {
@@ -44,6 +46,7 @@ class FixedKeyboardScheme @JvmOverloads constructor(
     if (bridge?.filter(event) == true) return true
     if (physicalKeyboard(event) && event.keyCode != KeyEvent.KEYCODE_CAPS_LOCK) {
       caps.onKeyEvent(event)
+      if (event.action == KeyEvent.ACTION_DOWN && event.deviceId in nativeCapsHeld) nativeCapsUsed.add(event.deviceId)
     }
     return false
   }
@@ -69,10 +72,21 @@ class FixedKeyboardScheme @JvmOverloads constructor(
       if (bridge?.isReady == true) consumedCaps.add(event.deviceId) else passedCaps.add(event.deviceId)
     }
     if (physical && isCaps && event.deviceId in passedCaps) {
-      if (event.action == KeyEvent.ACTION_DOWN) nativeCapsHeld.add(event.deviceId)
+      if (event.action == KeyEvent.ACTION_DOWN && event.repeatCount == 0) {
+        nativeCapsHeld.add(event.deviceId)
+        nativeCapsUsed.remove(event.deviceId)
+        nativeCapsBefore[event.deviceId] = event.isCapsLockOn
+      }
       if (event.action == KeyEvent.ACTION_UP) {
         passedCaps.remove(event.deviceId)
         nativeCapsHeld.remove(event.deviceId)
+        val before = nativeCapsBefore.remove(event.deviceId)
+        val used = nativeCapsUsed.remove(event.deviceId)
+        if (!used && !event.isCanceled && before != null && before != event.isCapsLockOn && delegate == null) {
+          (context as? TalkBackService)?.announceKeyboardScheme(
+            context.getString(if (event.isCapsLockOn) R.string.scheme_caps_on else R.string.scheme_caps_off)
+          )
+        }
       }
       delegate?.onKeyEvent(event, id)
       return true
@@ -98,6 +112,7 @@ class FixedKeyboardScheme @JvmOverloads constructor(
     }
     if (captured) return true
     if (!physical) return false
+    if (manager.handleTextSelectionKey(event)) return true
     val held = caps.isHeld(event.deviceId) || event.deviceId in nativeCapsHeld
     if (!canAct) {
       recognizer.cancelPending()

@@ -223,6 +223,10 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               resources.getString(R.string.shortcut_value_announce_current_time_and_date),
               TYPE_ACTION_ITEM));
     }
+    builder.add(new ActionItem(resources.getString(R.string.shortcut_read_current_time),
+        resources.getString(R.string.shortcut_value_read_current_time), TYPE_ACTION_ITEM));
+    builder.add(new ActionItem(resources.getString(R.string.shortcut_read_current_location),
+        resources.getString(R.string.shortcut_value_read_current_location), TYPE_ACTION_ITEM));
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_announce_status),
@@ -445,6 +449,8 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
         R.string.shortcut_value_toggle_stopwatch,
         R.string.shortcut_value_control_telling_time,
         R.string.shortcut_value_announce_battery_state,
+        R.string.shortcut_value_read_current_time,
+        R.string.shortcut_value_read_current_location,
         R.string.shortcut_value_announce_status,
         R.string.shortcut_value_announce_current_time_and_date,
         R.string.shortcut_value_announce_current_title)) {
@@ -730,6 +736,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             resources.getString(R.string.shortcut_clear_all_text),
             resources.getString(R.string.shortcut_value_clear_all_text),
             TYPE_ACTION_ITEM));
+    builder.add(new ActionItem(resources.getString(R.string.correction_title), resources.getString(R.string.shortcut_value_correct_text), TYPE_ACTION_ITEM));
     builder.add(new ActionItem(resources.getString(R.string.shortcut_submit_text), resources.getString(R.string.shortcut_value_submit_text), TYPE_ACTION_ITEM));
     return builder.build();
   }
@@ -1007,6 +1014,10 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
               TYPE_ACTION_ITEM));
     }
 
+    builder.add(new ActionItem(resources.getString(R.string.shortcut_read_current_time),
+        resources.getString(R.string.shortcut_value_read_current_time), TYPE_ACTION_ITEM));
+    builder.add(new ActionItem(resources.getString(R.string.shortcut_read_current_location),
+        resources.getString(R.string.shortcut_value_read_current_location), TYPE_ACTION_ITEM));
     builder.add(
         new ActionItem(
             resources.getString(R.string.shortcut_announce_status),

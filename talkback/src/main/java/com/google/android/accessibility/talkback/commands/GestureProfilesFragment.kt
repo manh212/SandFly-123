@@ -40,7 +40,7 @@ class GestureProfilesFragment : NotificationCodeFragment(R.string.title_pref_ges
         rebuild()
       }
     }
-    screen.action(getString(R.string.title_pref_add_gesture_profile)) { add() }
+    screen.createAction(getString(R.string.title_pref_add_gesture_profile)) { add() }
     for (profile in profiles) {
       screen.link(profile.name, null, GestureProfileFragment::class.java) {
         putString(GestureProfileFragment.ARG_ID, profile.id)

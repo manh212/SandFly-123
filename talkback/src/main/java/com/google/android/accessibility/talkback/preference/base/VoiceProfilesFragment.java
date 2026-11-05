@@ -186,8 +186,8 @@ public class VoiceProfilesFragment extends TalkbackBaseFragment {
               () -> open(id)));
     }
     screen.addPreference(
-        watchRow(
-            context, getString(R.string.title_pref_add_voice_profile), null, this::askForNewName));
+        CreateNewShortcut.mark(watchRow(
+            context, getString(R.string.title_pref_add_voice_profile), null, this::askForNewName)));
   }
 
   private static Preference watchRow(

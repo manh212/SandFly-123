@@ -1,9 +1,17 @@
 package com.google.android.accessibility.talkback.gesture;
 
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import com.google.android.accessibility.talkback.gesture.SmartContextGestures.Rule;
+import com.google.android.accessibility.talkback.TalkBackService;
+import com.google.android.accessibility.utils.SharedPreferencesUtils;
+import android.graphics.Rect;
+import android.view.accessibility.AccessibilityNodeInfo;
+import java.util.Collections;
+import org.robolectric.Robolectric;
+import org.robolectric.Shadows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -86,4 +94,53 @@ public final class SmartContextGesturesTest {
     assertFalse(SmartContextGestures.isCallUiPackage("com.ss.android.ugc.trill"));
     assertFalse(SmartContextGestures.isCallUiPackage("com.android.contacts"));
   }
+  public static class TargetService extends TalkBackService {
+    AccessibilityNodeInfo root;
+    @Override public AccessibilityNodeInfo getRootInActiveWindow() { return root; }
+    @Override public void onCreate() {}
+  }
+
+  @Test
+  public void configuredRecordingRuleNeverFallsBackToPlaybackButton() {
+    TargetService service = Robolectric.buildService(TargetService.class).get();
+    android.content.SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    prefs.edit().clear().putBoolean("smart_context_builtin_media", true)
+        .putString(SmartContextGestures.PREF_MAX_SCROLL, "0").commit();
+    service.root = AccessibilityNodeInfo.obtain();
+    service.root.setPackageName("com.facebook.orca");
+    service.root.setVisibleToUser(true);
+    AccessibilityNodeInfo play = AccessibilityNodeInfo.obtain();
+    play.setPackageName("com.facebook.orca");
+    play.setText("Phát tin nhắn thoại");
+    play.setEnabled(true);
+    play.setVisibleToUser(true);
+    play.setClickable(true);
+    play.setBoundsInScreen(new Rect(0, 100, 100, 150));
+    Shadows.shadowOf(service.root).addChild(play);
+    int[] clicks = {0};
+    Shadows.shadowOf(play).setOnPerformActionListener((action, args) -> {
+      if (action == AccessibilityNodeInfo.ACTION_CLICK) clicks[0]++;
+      return true;
+    });
+    SmartContextGestures.addRule(service, "com.facebook.orca", true,
+        new Rule("Ghi âm tin nhắn thoại", "exact", "", false, true));
+    try {
+      SmartContextGestures.perform(service, true);
+      assertEquals(0, clicks[0]);
+    } finally {
+      SmartContextGestures.cancel();
+      prefs.edit().clear().commit();
+    }
+  }
+
+  @Test
+  public void recordingRuleRequiresEveryWordAndNoAdditionalWords() {
+    Rule rule = new Rule("Ghi âm tin nhắn thoại", "exact", "", false, true);
+    assertTrue(rule.matches("Ghi âm tin nhắn thoại"));
+    assertFalse(rule.matches("Tin nhắn thoại"));
+    assertFalse(rule.matches("Phát tin nhắn thoại"));
+    assertFalse(rule.matches("Ghi âm tin nhắn thoại mới"));
+    assertFalse(rule.matches("Ghi âm thoại"));
+  }
+
 }

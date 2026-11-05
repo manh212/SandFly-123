@@ -291,6 +291,12 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
     category.addPreference(preference);
   }
 
+  @Override
+  public boolean createNewItem() {
+    addGroup();
+    return true;
+  }
+
   private void addGroup() {
     Context context = requireContext();
     EditText name = createNameField(context, "");

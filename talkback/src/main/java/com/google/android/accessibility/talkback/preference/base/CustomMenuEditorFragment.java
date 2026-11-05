@@ -4,6 +4,13 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.SearchView;
+import android.widget.TextView;
+import android.view.View;
+import android.view.ViewGroup;
 import androidx.appcompat.app.AlertDialog;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceScreen;
@@ -56,7 +63,7 @@ public final class CustomMenuEditorFragment extends TalkbackBaseFragment {
       chooseAction();
       return true;
     });
-    screen.addPreference(add);
+    screen.addPreference(CreateNewShortcut.mark(add));
 
     Preference rename = new Preference(context);
     rename.setTitle(R.string.custom_menu_rename);
@@ -87,16 +94,65 @@ public final class CustomMenuEditorFragment extends TalkbackBaseFragment {
         actions.add(item);
       }
     }
-    CharSequence[] names = new CharSequence[actions.size()];
-    for (int i = 0; i < actions.size(); i++) names[i] = actions.get(i).text;
-    new AlertDialog.Builder(context)
+    List<GestureListPreference.ActionItem> visible = new ArrayList<>(actions);
+    ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1);
+    for (GestureListPreference.ActionItem item : visible) adapter.add(item.text);
+    LinearLayout content = new LinearLayout(context);
+    content.setOrientation(LinearLayout.VERTICAL);
+    content.setFocusableInTouchMode(true);
+    content.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+    SearchView search = new SearchView(context);
+    search.setIconifiedByDefault(false);
+    search.setQueryHint(getString(R.string.gesture_search_actions));
+    TextView empty = new TextView(context);
+    empty.setText(R.string.command_search_empty);
+    empty.setVisibility(View.GONE);
+    ListView list = new ListView(context);
+    list.setAdapter(adapter);
+    list.setEmptyView(empty);
+    content.addView(search);
+    content.addView(empty);
+    content.addView(list, new LinearLayout.LayoutParams(
+        ViewGroup.LayoutParams.MATCH_PARENT, 0, 1));
+    AlertDialog dialog = new AlertDialog.Builder(context)
         .setTitle(R.string.custom_menu_add_action)
-        .setItems(names, (dialog, selected) -> {
-          GestureListPreference.ActionItem choice = actions.get(selected);
-          if (CustomMenus.addItem(context, menuId, choice.text, choice.value)) refresh();
-        })
+        .setView(content)
         .setNegativeButton(android.R.string.cancel, null)
-        .show();
+        .create();
+    list.setOnItemClickListener((parent, view, position, id) -> {
+      GestureListPreference.ActionItem choice = visible.get(position);
+      if (CustomMenus.addItem(context, menuId, choice.text, choice.value)) refresh();
+      dialog.dismiss();
+    });
+    search.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+      @Override
+      public boolean onQueryTextSubmit(String query) {
+        search.clearFocus();
+        return true;
+      }
+
+      @Override
+      public boolean onQueryTextChange(String query) {
+        visible.clear();
+        adapter.setNotifyOnChange(false);
+        adapter.clear();
+        for (GestureListPreference.ActionItem item : actions) {
+          if (SearchMatcher.matches(query, item.text)) {
+            visible.add(item);
+            adapter.add(item.text);
+          }
+        }
+        adapter.notifyDataSetChanged();
+        return true;
+      }
+    });
+    dialog.setOnShowListener(shown -> {
+      search.clearFocus();
+      content.requestFocus();
+    });
+    dialog.show();
+    dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT,
+        (int) (getResources().getDisplayMetrics().heightPixels * 0.8f));
   }
 
   private void itemOptions(int index) {

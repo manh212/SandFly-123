@@ -155,6 +155,7 @@ object NotificationReader {
     var text: CharSequence,
     val settings: NotificationSettings,
     val recorded: Boolean = true,
+    val automatic: Boolean = true,
   ) {
     var started = false
     var cancelled = false
@@ -175,7 +176,7 @@ object NotificationReader {
     var voiceListener: NotificationVoice.Listener? = null
 
     fun copy() =
-      Readout(info, decision, text, settings, recorded = false).also {
+      Readout(info, decision, text, settings, recorded = false, automatic = automatic).also {
         it.translationChecked = translationChecked
         it.translated = translated
       }
@@ -224,8 +225,9 @@ object NotificationReader {
       }
       // Turned back on, by any of its switches: the listener may have been released while it was
       // off.
-      if (key == NotificationSettings.Companion.Keys.ENABLED && prefs.getBoolean(key, true)) {
-        context?.let { NotificationListService.onSandFlyStarted(it) }
+      if (key == NotificationSettings.Companion.Keys.ENABLED) {
+        if (prefs.getBoolean(key, true)) context?.let { NotificationListService.onSandFlyStarted(it) }
+        else stop()
       }
     }
 
@@ -349,6 +351,13 @@ object NotificationReader {
     noteEvent(packageName, notification)
     return handle(packageName, event, notification, touching, dnd)
   }
+
+  @JvmStatic
+  fun speechEnabled(context: Context): Boolean =
+    SharedPreferencesUtils.getSharedPreferences(context).getBoolean(
+      NotificationSettings.Companion.Keys.ENABLED,
+      context.resources.getBoolean(R.bool.pref_speak_notifications_default),
+    )
 
   /**
    * Whether notifications are read as the notification listener receives them, rather than from
@@ -657,6 +666,7 @@ object NotificationReader {
         entry.spoken,
         settings,
         recorded = false,
+        automatic = false,
       ),
       repeat = true,
     )
@@ -803,6 +813,11 @@ object NotificationReader {
   private fun speak(readout: Readout, repeat: Boolean = false) {
     waiting.remove(readout)
     if (readout.cancelled) return
+    if (readout.automatic && context?.let { settings(it).enabled } != true) {
+      readout.cancelled = true
+      record(readout, Outcome.SPEECH_OFF)
+      return
+    }
     val feedback = feedback ?: return
     val settings = readout.settings
     val voice = voiceFor(readout.decision.voiceProfile ?: settings.voiceProfile)

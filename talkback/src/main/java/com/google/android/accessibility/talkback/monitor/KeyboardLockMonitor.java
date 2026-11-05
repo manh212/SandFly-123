@@ -25,6 +25,8 @@ import com.google.android.accessibility.utils.ServiceKeyEventListener;
 public class KeyboardLockMonitor implements ServiceKeyEventListener {
 
   private final Compositor compositor;
+  private final java.util.Map<Integer, Boolean> capsBefore = new java.util.HashMap<>();
+  private final java.util.Set<Integer> capsUsed = new java.util.HashSet<>();
 
   public KeyboardLockMonitor(Compositor compositor) {
     this.compositor = compositor;
@@ -32,11 +34,23 @@ public class KeyboardLockMonitor implements ServiceKeyEventListener {
 
   @Override
   public boolean onKeyEvent(KeyEvent event, EventId eventId) {
+    int device = event.getDeviceId();
+    if (event.getAction() == KeyEvent.ACTION_DOWN && event.getRepeatCount() == 0) {
+      if (event.getKeyCode() == KeyEvent.KEYCODE_CAPS_LOCK) {
+        capsBefore.put(device, event.isCapsLockOn());
+        capsUsed.remove(device);
+      } else if (capsBefore.containsKey(device)) {
+        capsUsed.add(device);
+      }
+    }
     // Lock state changes should only occur on key up. If we don't check for key up, two events
     // will fire. This is especially noticeable if the user holds down the Caps Lock key for
     // a while before releasing.
     if (event.getAction() == KeyEvent.ACTION_UP) {
       if (event.getKeyCode() == KeyEvent.KEYCODE_CAPS_LOCK) {
+        Boolean before = capsBefore.remove(device);
+        boolean used = capsUsed.remove(device);
+        if (before == null || before == event.isCapsLockOn() || used || event.isCanceled()) return false;
         if (event.isCapsLockOn()) {
           compositor.handleEvent(Compositor.EVENT_CAPS_LOCK_ON, eventId);
         } else {

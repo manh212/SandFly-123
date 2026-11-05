@@ -27,7 +27,7 @@ class SpeechDictionaryFragment : NotificationCodeFragment(R.string.title_pref_sp
 
   override fun build(screen: PreferenceGroup) {
     val entries = SpeechDictionary.read(prefs)
-    screen.action(getString(R.string.notification_add_replacement)) { edit(entries, -1) }
+    screen.createAction(getString(R.string.notification_add_replacement)) { edit(entries, -1) }
     entries.forEachIndexed { index, entry ->
       val title = describe(entry.replacement)
       val summary =
