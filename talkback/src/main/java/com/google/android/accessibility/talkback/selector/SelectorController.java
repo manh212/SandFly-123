@@ -1458,7 +1458,12 @@ public class SelectorController implements UserInputEventListener {
         actionsSettingActivatedForEditText = true;
       }
       if (newSetting != currentSetting) {
-        settingToRestore = currentSetting;
+        // Preserve the user's original control when switching away from auto-selected smart context.
+        if (!(smartContextAutomaticallySelected
+            && currentSetting == Setting.SMART_CONTEXT_GESTURES
+            && settingToRestore != null)) {
+          settingToRestore = currentSetting;
+        }
         actionsSettingActivatedForEditText =
             newSetting == ACTIONS && Role.getRole(focusedNode) == Role.ROLE_EDIT_TEXT;
         setCurrentSetting(
