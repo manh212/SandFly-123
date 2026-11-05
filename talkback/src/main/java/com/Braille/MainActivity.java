@@ -3462,20 +3462,26 @@ return scroll;
 
         } else if (ACT_MOVE_CHAR_NEXT.equals(actionCode)) {
             if (cursorPos < textBuffer.length()) {
-                char c = textBuffer.charAt(cursorPos);
-                cursorPos++;
+                BrailleTextOperations.Range range =
+                        BrailleTextOperations.characterAt(textBuffer.toString(), cursorPos, false);
+                String character = textBuffer.substring(range.start, range.end);
+                cursorPos = range.end;
+                navigationState.recordCharacterMovement(cursorPos, true);
                 triggerFeedback(brailleCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(describeCharForSpeech(c), true);
+                speak(character.length() == 1 ? describeCharForSpeech(character.charAt(0)) : character, true);
             } else {
                 speak("Cuối văn bản", true);
             }
 
         } else if (ACT_MOVE_CHAR_PREV.equals(actionCode)) {
             if (cursorPos > 0) {
-                cursorPos--;
-                char c = textBuffer.charAt(cursorPos);
+                BrailleTextOperations.Range range =
+                        BrailleTextOperations.characterAt(textBuffer.toString(), cursorPos, true);
+                String character = textBuffer.substring(range.start, range.end);
+                cursorPos = range.start;
+                navigationState.recordCharacterMovement(cursorPos, false);
                 triggerFeedback(brailleCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(describeCharForSpeech(c), true);
+                speak(character.length() == 1 ? describeCharForSpeech(character.charAt(0)) : character, true);
             } else {
                 speak("Đầu văn bản", true);
             }
@@ -3527,6 +3533,18 @@ return scroll;
             } else {
                 speak("Dòng đầu tiên", true);
             }
+
+        } else if (ACT_MOVE_LINE_START.equals(actionCode)) {
+            cursorPos = BrailleTextOperations.lineStart(textBuffer.toString(), cursorPos);
+            speak("Đầu dòng", true);
+
+        } else if (ACT_MOVE_LINE_END.equals(actionCode)) {
+            cursorPos = BrailleTextOperations.lineEnd(textBuffer.toString(), cursorPos);
+            speak("Cuối dòng", true);
+
+        } else if (ACT_MOVE_LINE_BOUNDARY_NEXT.equals(actionCode)) {
+            cursorPos = navigationState.nextLineBoundary(textBuffer.toString(), cursorPos);
+            speak("Dòng: " + (getCurrentLineText().isEmpty() ? "trống" : getCurrentLineText()), true);
 
         } else if (ACT_MOVE_START.equals(actionCode)) {
             cursorPos = 0;
