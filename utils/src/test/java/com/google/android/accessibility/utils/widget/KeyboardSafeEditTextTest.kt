@@ -30,6 +30,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.GraphicsMode
 import org.robolectric.annotation.Config
 
 @RunWith(RobolectricTestRunner::class)
@@ -76,11 +77,13 @@ class KeyboardSafeEditTextTest {
     assertEquals("Một", field.text!!.substring(field.selectionStart, field.selectionEnd))
   }
 
+  @GraphicsMode(GraphicsMode.Mode.NATIVE)
   @Test fun usesOwnDisplayedLinesWithoutDependingOnSourceApplication() {
     context.setTheme(R.style.Theme_AppCompat)
     val field = KeyboardSafeEditText(context)
     field.setSingleLine(false)
     field.setHorizontallyScrolling(false)
+    field.textSize = 18f
     field.setText("Một đoạn văn bản dài được tự xuống hàng trong hộp sửa riêng của Meridian.")
     field.measure(View.MeasureSpec.makeMeasureSpec(180, View.MeasureSpec.EXACTLY),
       View.MeasureSpec.makeMeasureSpec(1000, View.MeasureSpec.AT_MOST))
