@@ -14,7 +14,7 @@ import org.junit.Test;
 public final class SupportLogDownloadTest {
   private static final class Store implements SupportLogDownload.Store {
     String record = "{}";
-    @Override public JSONObject read() { return new JSONObject(record); }
+    @Override public JSONObject read() throws Exception { return new JSONObject(record); }
     @Override public void write(JSONObject value) { record = value.toString(); }
   }
 

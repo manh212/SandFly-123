@@ -30,11 +30,11 @@ public final class SupportLogTransferTest {
     return SupportAttachment.inspect(() -> new ByteArrayInputStream(bytes));
   }
 
-  private JSONObject entry(JSONObject metadata) {
+  private JSONObject entry(JSONObject metadata) throws Exception {
     return new JSONObject().put("logBytes", metadata.getInt("bytes")).put("logSha256", metadata.getString("sha256"));
   }
 
-  private JSONObject part(byte[] bytes, String path) {
+  private JSONObject part(byte[] bytes, String path) throws Exception {
     int index = Integer.parseInt(path.substring(path.lastIndexOf("chunk") + 5));
     byte[] data = Arrays.copyOfRange(bytes, index * SupportAttachment.CHUNK_BYTES,
         Math.min(bytes.length, (index + 1) * SupportAttachment.CHUNK_BYTES));
