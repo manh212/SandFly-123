@@ -1542,25 +1542,36 @@ public class BrailleKeyboardService extends InputMethodService {
                 speak("Dòng đầu tiên", true);
             }
 
-        } else if (MainActivity.ACT_MOVE_START.equals(actionCode)) {
+        } else if (MainActivity.ACT_MOVE_LINE_START.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
-            if (snap.supportsDirectSelection) {
-                if (ic.setSelection(0, 0)) speak("Đầu văn bản", true);
-                else speak("Không thể chuyển tới đầu văn bản", true);
+            int position = BrailleTextOperations.lineStart(snap.text, snap.cursor);
+            speak(moveCursorTo(ic, snap, position) ? "Đầu dòng" : "Không thể di chuyển con trỏ", true);
+
+        } else if (MainActivity.ACT_MOVE_LINE_END.equals(actionCode)) {
+            DocumentSnapshot snap = readDocumentSnapshot(ic);
+            int position = BrailleTextOperations.lineEnd(snap.text, snap.cursor);
+            speak(moveCursorTo(ic, snap, position) ? "Cuối dòng" : "Không thể di chuyển con trỏ", true);
+
+        } else if (MainActivity.ACT_MOVE_LINE_BOUNDARY_NEXT.equals(actionCode)) {
+            DocumentSnapshot snap = readDocumentSnapshot(ic);
+            int position = navigationState.nextLineBoundary(snap.text, snap.cursor);
+            if (moveCursorTo(ic, snap, position)) {
+                int start = BrailleTextOperations.lineStart(snap.text, position);
+                int end = BrailleTextOperations.lineEnd(snap.text, position);
+                String line = snap.text.substring(start, end);
+                speak(line.isEmpty() ? "Dòng trống" : protectedText(line), true);
             } else {
-                moveCursorTo(ic, snap, 0);
-                speak("Đầu vùng văn bản hiện có", true);
+                navigationState.reset();
+                speak("Không thể di chuyển con trỏ", true);
             }
 
+        } else if (MainActivity.ACT_MOVE_START.equals(actionCode)) {
+            boolean moved = ic.setSelection(0, 0)
+                    || sendDocumentEdgeKey(ic, KeyEvent.KEYCODE_MOVE_HOME);
+            speak(moved ? "Đầu văn bản" : "Không thể chuyển tới đầu văn bản", true);
+
         } else if (MainActivity.ACT_MOVE_END.equals(actionCode)) {
-            DocumentSnapshot snap = readDocumentSnapshot(ic);
-            // A partial ExtractedText snapshot, even one starting at offset 0, may not
-            // contain the end of the host document. Ask the editor for Ctrl+End instead.
-            long endKeyTime = android.os.SystemClock.uptimeMillis();
-            boolean moved = ic.sendKeyEvent(new KeyEvent(endKeyTime, endKeyTime, KeyEvent.ACTION_DOWN,
-                    KeyEvent.KEYCODE_MOVE_END, 0, KeyEvent.META_CTRL_ON));
-            ic.sendKeyEvent(new KeyEvent(endKeyTime, endKeyTime, KeyEvent.ACTION_UP,
-                    KeyEvent.KEYCODE_MOVE_END, 0, KeyEvent.META_CTRL_ON));
+            boolean moved = sendDocumentEdgeKey(ic, KeyEvent.KEYCODE_MOVE_END);
             speak(moved ? "Cuối văn bản" : "Không thể chuyển tới cuối văn bản", true);
 
         } else if (MainActivity.ACT_READ_CHAR.equals(actionCode)) {
@@ -1646,6 +1657,7 @@ public class BrailleKeyboardService extends InputMethodService {
             triggerFeedback(imeCanvasView, 50L, ToneGenerator.TONE_PROP_BEEP2, 90);
 
             speak("Đã đóng bàn phím", true);
+            imeInputPolicy.onHidden();
             requestHideSelf(0);
         }
     }
