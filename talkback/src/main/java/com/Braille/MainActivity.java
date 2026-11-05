@@ -3094,6 +3094,7 @@ return scroll;
     }
 
     private void insertTextAtCursor(String str) {
+        navigationState.reset();
         cursorPos = Math.max(0, Math.min(cursorPos, textBuffer.length()));
         textBuffer.insert(cursorPos, str);
         cursorPos += str.length();
@@ -3325,6 +3326,12 @@ return scroll;
 
     private void executeAction(String actionCode) {
         cursorPos = Math.max(0, Math.min(cursorPos, textBuffer.length()));
+        if (!ACT_DELETE_CHAR_AT_CURSOR.equals(actionCode)
+                && !ACT_MOVE_CHAR_NEXT.equals(actionCode)
+                && !ACT_MOVE_CHAR_PREV.equals(actionCode)
+                && !ACT_MOVE_LINE_BOUNDARY_NEXT.equals(actionCode)) {
+            navigationState.reset();
+        }
         long now = System.currentTimeMillis();
         capitalSignCount = 0;
         carriedToneName = null;
@@ -3366,6 +3373,32 @@ return scroll;
             } else {
                 speak("Đầu văn bản, không có ký tự để xóa", true);
             }
+
+        } else if (ACT_DELETE_CHAR_AT_CURSOR.equals(actionCode)) {
+            BrailleTextOperations.Range range =
+                    navigationState.focusedCharacter(textBuffer.toString(), cursorPos);
+            if (!range.isEmpty()) {
+                String deleted = textBuffer.substring(range.start, range.end);
+                textBuffer.delete(range.start, range.end);
+                cursorPos = range.start;
+                speak("Đã xóa ký tự " + deleted, true);
+            } else {
+                speak("Không có ký tự để xóa", true);
+            }
+            navigationState.reset();
+
+        } else if (ACT_DELETE_WORD_AT_CURSOR.equals(actionCode)) {
+            BrailleTextOperations.Range range =
+                    BrailleTextOperations.wordAt(textBuffer.toString(), cursorPos);
+            if (!range.isEmpty()) {
+                String deleted = textBuffer.substring(range.start, range.end);
+                textBuffer.delete(range.start, range.end);
+                cursorPos = range.start;
+                speak("Đã xóa từ " + deleted, true);
+            } else {
+                speak("Không có từ để xóa", true);
+            }
+            navigationState.reset();
 
         } else if (ACT_DELETE_WORD.equals(actionCode)) {
             if (cursorPos > 0 && textBuffer.length() > 0) {
