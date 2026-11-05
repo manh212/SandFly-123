@@ -27,17 +27,24 @@ public final class CreateNewShortcut {
     List<Preference> actions = actions(fragment.getPreferenceScreen());
     if (actions.isEmpty()) return false;
     if (actions.size() == 1) {
-      actions.get(0).performClick();
+      invoke(actions.get(0));
     } else {
       CharSequence[] titles = new CharSequence[actions.size()];
       for (int i = 0; i < actions.size(); i++) titles[i] = actions.get(i).getTitle();
       new AlertDialog.Builder(fragment.requireContext())
           .setTitle(R.string.command_create_new)
-          .setItems(titles, (dialog, index) -> actions.get(index).performClick())
+          .setItems(titles, (dialog, index) -> invoke(actions.get(index)))
           .setNegativeButton(android.R.string.cancel, null)
           .show();
     }
     return true;
+  }
+
+  static boolean invoke(Preference preference) {
+    if (!preference.isVisible() || !preference.isEnabled()
+        || !preference.getExtras().getBoolean(CREATE_ACTION, false)) return false;
+    Preference.OnPreferenceClickListener listener = preference.getOnPreferenceClickListener();
+    return listener != null && listener.onPreferenceClick(preference);
   }
 
   private static void collect(PreferenceGroup group, List<Preference> result) {

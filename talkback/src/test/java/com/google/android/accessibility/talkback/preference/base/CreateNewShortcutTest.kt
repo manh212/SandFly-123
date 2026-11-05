@@ -47,4 +47,17 @@ class CreateNewShortcutTest {
     actions[2].isVisible = false
     assertEquals(listOf(actions[0]), CreateNewShortcut.actions(screen))
   }
+  @Test fun invokesRegisteredCreateHandlerAndRejectsDisabledAction() {
+    val context = RuntimeEnvironment.getApplication()
+    var calls = 0
+    val create = CreateNewShortcut.mark(Preference(context).apply {
+      isPersistent = false
+      setOnPreferenceClickListener { calls++; true }
+    })
+    assertTrue(CreateNewShortcut.invoke(create))
+    assertEquals(1, calls)
+    create.isEnabled = false
+    assertFalse(CreateNewShortcut.invoke(create))
+    assertEquals(1, calls)
+  }
 }

@@ -326,16 +326,21 @@ public class ScreenFeedbackManager
         silencedNotificationWindows.add(id);
         allowAnnounce = false;
       } else if (silencedNotificationWindows.contains(id)) {
+        boolean present = false;
         for (AccessibilityWindowInfo window : service.getWindows()) {
-          if (window.getId() == id && (window.isFocused() || window.isAccessibilityFocused())) {
-            silencedNotificationWindows.remove(id);
+          if (window.getId() == id) {
+            present = true;
+            if (window.isFocused() || window.isAccessibilityFocused()) {
+              silencedNotificationWindows.remove(id);
+            }
             break;
           }
         }
         if (silencedNotificationWindows.contains(id)) {
           allowAnnounce = false;
-          if (event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
-              && (event.getWindowChanges() & AccessibilityEvent.WINDOWS_CHANGE_REMOVED) != 0) {
+          if (!present || (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P
+              && event.getEventType() == AccessibilityEvent.TYPE_WINDOWS_CHANGED
+              && (event.getWindowChanges() & AccessibilityEvent.WINDOWS_CHANGE_REMOVED) != 0)) {
             silencedNotificationWindows.remove(id);
           }
         }
