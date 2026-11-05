@@ -828,9 +828,9 @@ public class SelectorController implements UserInputEventListener {
     // Initialize contextual Setting List by priority. The earlier the setting is added, the higher
     // the priority is.
     ImmutableList.Builder<ContextualSetting> contextualSettingsBuilder = ImmutableList.builder();
+    contextualSettingsBuilder.add(new SmartContextSetting());
     contextualSettingsBuilder.add(new RowColumnGranularity(collectionState, actorState));
     contextualSettingsBuilder.add(new AdjustableWidgetSetting());
-    contextualSettingsBuilder.add(new SmartContextSetting());
     contextualSettingsBuilder.add(new ActionsSetting(nodeMenuCreator, accessibilityFocusMonitor));
     contextualSettingsBuilder.add(new TypoGranularity(accessibilityFocusMonitor));
     contextualSettings = contextualSettingsBuilder.build();
@@ -1191,6 +1191,9 @@ public class SelectorController implements UserInputEventListener {
   private void setCurrentSetting(
       EventId eventId, Setting newSetting, AnnounceType announceType, boolean showOverlay) {
     scriptControlKey = null;
+    if (newSetting != Setting.SMART_CONTEXT_GESTURES) {
+      smartContextAutomaticallySelected = false;
+    }
     Setting previousSetting = getCurrentSetting(context, prefs);
     updateSettingPref(context, newSetting);
     if (SelectorGroupManager.isSupported()) {
@@ -1546,6 +1549,9 @@ public class SelectorController implements UserInputEventListener {
             ? settings.size() + controls.indexOf(currentControl)
             : settings.indexOf(getCurrentSetting(context, prefs));
 
+    // A manual selector change overrides an automatic contextual selection.
+    smartContextAutomaticallySelected = false;
+    settingToRestore = null;
     // Change the selected setting.
     // If the current settings is not valid, the index (-1) will fall-back to 0 or settingsSize - 1
     // depending on isNext
@@ -1582,6 +1588,8 @@ public class SelectorController implements UserInputEventListener {
 
   private boolean selectPreviousOrNextGroup(
       EventId eventId, AnnounceType announceType, boolean isNext) {
+    smartContextAutomaticallySelected = false;
+    settingToRestore = null;
     if (!SelectorGroupManager.isSupported()) {
       return false;
     }
@@ -1633,6 +1641,8 @@ public class SelectorController implements UserInputEventListener {
 
   private boolean selectPreviousOrNextGroupItem(
       EventId eventId, AnnounceType announceType, boolean isNext, boolean showOverlay) {
+    smartContextAutomaticallySelected = false;
+    settingToRestore = null;
     SelectorGroupManager.Group group = SelectorGroupManager.currentGroup(context);
     if (group == null || !group.enabled) {
       return false;
@@ -1794,7 +1804,7 @@ public class SelectorController implements UserInputEventListener {
 
   /** Leaves smart context immediately when its reading-control switch is turned off. */
   private void leaveDisabledSmartContext() {
-    if (getCurrentSetting(context, prefs) != SMART_CONTEXT_GESTURES) return;
+    if (getCurrentSetting(context, prefs) != Setting.SMART_CONTEXT_GESTURES) return;
     if (SelectorGroupManager.isSupported()) {
       java.util.List<SelectorGroupManager.Group> groups = SelectorGroupManager.getGroups(context);
       for (SelectorGroupManager.Group group : groups) {
@@ -1949,7 +1959,7 @@ public class SelectorController implements UserInputEventListener {
     String preferenceKey = context.getString(setting.prefKeyResId);
 
     // Respect the smart context visibility switch even when reading-control groups are active.
-    if ((!SelectorGroupManager.isSupported() || setting == SMART_CONTEXT_GESTURES)
+    if ((!SelectorGroupManager.isSupported() || setting == Setting.SMART_CONTEXT_GESTURES)
         && !prefs.getBoolean(
             preferenceKey, context.getResources().getBoolean(setting.defaultValueResId))) {
       return false;
@@ -3333,7 +3343,7 @@ public class SelectorController implements UserInputEventListener {
             .filter(
                 (s) ->
                     !hiddenSettings.contains(s.getSetting())
-                        && (generalAutoSwitch || s.getSetting() == SMART_CONTEXT_GESTURES)
+                        && (generalAutoSwitch || s.getSetting() == Setting.SMART_CONTEXT_GESTURES)
                         && allowedSetting(s.getSetting(), node)
                         && s.shouldActivateSetting(context, node)
                         && s.isNodeSupportSetting(context, node))
