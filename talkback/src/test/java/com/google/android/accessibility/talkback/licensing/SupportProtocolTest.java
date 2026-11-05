@@ -161,6 +161,34 @@ public final class SupportProtocolTest {
     assertEquals(java.util.Arrays.asList(key(2), key(1)), SupportInbox.newest(items));
   }
 
+  @Test public void freshInboxReadsBoundedStatesAndDoesNotLoseResolvedEntriesBeyondTheBound() throws Exception {
+    Backend identity = new Backend();
+    JSONObject items = new JSONObject().put(key(1), new JSONObject().put("lastAt", 1))
+        .put(key(1001), new JSONObject().put("lastAt", 1001));
+    JSONObject batch = new JSONObject();
+    for (int number = 1; number <= 1000; number++) batch.put(key(number), new JSONObject().put("state", "new"));
+    List<String> reads = new ArrayList<>();
+    FirebaseRest service = new FirebaseRest(new FirebaseRest.Config(
+        "{\"apiKey\":\"abcdefghijklmnopqrstuv\",\"databaseUrl\":\"https://demo.firebaseio.com\"}"), identity,
+        (address, method, body, type) -> {
+          if (address.contains("googleapis.com")) return identity.request(address, method, body, type);
+          reads.add(address);
+          if (address.contains("/supportIndex.json")) return items.toString();
+          if (address.contains("/supportStates.json")) {
+            assertTrue(address.contains("limitToFirst=1000"));
+            assertTrue(address.contains("startAt="));
+            assertTrue(address.contains("endAt="));
+            return batch.toString();
+          }
+          if (address.contains("/supportStates/" + key(1001))) return "{\"state\":\"resolved\"}";
+          throw new AssertionError(address);
+        });
+    SupportInbox.Page page = SupportInbox.load(service, false, null);
+    assertEquals(java.util.Collections.singletonList(key(1)), page.ids);
+    assertEquals("new", page.states.getJSONObject(key(1)).getString("state"));
+    assertEquals(3, reads.size());
+  }
+
   private static FirebaseRest listing(JSONObject items) throws Exception {
     Backend identity = new Backend();
     return new FirebaseRest(new FirebaseRest.Config("{\"apiKey\":\"abcdefghijklmnopqrstuv\",\"databaseUrl\":\"https://demo.firebaseio.com\"}"),

@@ -32,7 +32,10 @@ import org.json.JSONObject;
 
 final class SupportDesk {
   private static final ExecutorService IO = Executors.newSingleThreadExecutor();
+  private static final ExecutorService LIST_IO = Executors.newFixedThreadPool(2);
   private static final ExecutorService DOWNLOAD_IO = Executors.newCachedThreadPool();
+  private static final ExecutorService QUERIES = Executors.newFixedThreadPool(4);
+  private static final java.util.concurrent.atomic.AtomicLong LAST_PRUNE = new java.util.concurrent.atomic.AtomicLong();
   private static final int DOWNLOAD = 503;
   private final MainActivity activity;
   private LinearLayout root;
@@ -62,6 +65,8 @@ final class SupportDesk {
     final LinearLayout list;
     final AlertDialog dialog;
     int generation;
+    boolean loading, reload;
+    volatile FirebaseRest service;
     InboxView(boolean history, String cursor, LinearLayout list, AlertDialog dialog) {
       this.history = history; this.cursor = cursor; this.list = list; this.dialog = dialog;
     }
@@ -83,6 +88,12 @@ final class SupportDesk {
   }
 
   private interface Work { void run() throws Exception; }
+  private void read(Work action) {
+    LIST_IO.execute(() -> {
+      try { action.run(); }
+      catch (Exception e) { message(error(e)); }
+    });
+  }
   private void work(Work action) {
     IO.execute(() -> {
       try { action.run(); }
@@ -95,6 +106,8 @@ final class SupportDesk {
   }
 
   private String error(Exception e) {
+    while ((e instanceof java.util.concurrent.ExecutionException || e instanceof java.util.concurrent.CompletionException)
+        && e.getCause() instanceof Exception) e = (Exception) e.getCause();
     String detail = e.getMessage();
     return detail != null && !detail.trim().isEmpty()
         && (e instanceof IllegalArgumentException || e instanceof IllegalStateException
@@ -106,12 +119,9 @@ final class SupportDesk {
   void refreshRole() {
     if (loading) return;
     loading = true;
-    IO.execute(() -> {
+    LIST_IO.execute(() -> {
       try {
         FirebaseRest service = EnrollmentService.create(activity);
-        java.util.Set<String> retained = new java.util.HashSet<>();
-        retained.add(new IssuerStore(activity).supportDownload().optString("file"));
-        new IssuerSecrets(activity).logs().prune(retained, System.currentTimeMillis() - java.util.concurrent.TimeUnit.DAYS.toMillis(1));
         String identity = service.uid(); uid = identity;
         boolean isOwner = service.flag("admins/" + identity);
         JSONObject profile = isOwner ? new JSONObject() : service.get("supportStaff/" + identity);
@@ -131,6 +141,16 @@ final class SupportDesk {
           if (isOwner) button(root, "Người hỗ trợ", this::staff);
           activity.supportOwnerMode(isOwner);
         });
+        long now = System.currentTimeMillis(), previous = LAST_PRUNE.get();
+        if ((previous == 0 || now - previous > 86_400_000L) && LAST_PRUNE.compareAndSet(previous, now)) {
+          DOWNLOAD_IO.execute(() -> {
+            try {
+              java.util.Set<String> retained = new java.util.HashSet<>();
+              retained.add(new IssuerStore(activity).supportDownload().optString("file"));
+              new IssuerSecrets(activity).logs().prune(retained, now - 86_400_000L);
+            } catch (Exception ignored) {}
+          });
+        }
       } catch (Exception e) {
         boolean cached = false;
         try { cached = e instanceof java.io.IOException && new IssuerStore(activity).ownerUiCached(); }
@@ -187,7 +207,12 @@ final class SupportDesk {
     AlertDialog dialog = show(history ? "Toàn bộ lịch sử phản hồi" : "Hộp thư phản hồi", list);
     InboxView view = new InboxView(history, before, list, dialog);
     inboxes.add(view);
-    dialog.setOnDismissListener(closed -> inboxes.remove(view));
+    dialog.setOnDismissListener(closed -> {
+      inboxes.remove(view);
+      view.generation++;
+      FirebaseRest closing = view.service;
+      if (closing != null) DOWNLOAD_IO.execute(closing::cancelRequests);
+    });
     refreshInbox(view);
   }
 
@@ -196,82 +221,126 @@ final class SupportDesk {
   }
 
   private void refreshInbox(InboxView view) {
-    int generation = ++view.generation;
-    work(() -> {
-      FirebaseRest service = EnrollmentService.create(activity);
-      JSONObject states = service.get("supportStates");
-      SupportInbox.Page page = SupportInbox.load(service, states, view.history, view.cursor);
-      ui(() -> {
-        if (!view.dialog.isShowing() || view.generation != generation) return;
-        view.list.removeAllViews();
-        for (String id : page.ids) {
-          JSONObject header = page.items.optJSONObject(id);
-          JSONObject state = states.optJSONObject(id);
-          String label = SupportProtocol.stateName(state == null ? "new" : state.optString("state"));
-          button(view.list, header.optString("subject") + " · "
-              + (header.optString("name").isEmpty() ? "Người dùng" : header.optString("name"))
-              + " · " + label + " · " + date(SupportInbox.activityAt(header)), () -> thread(id, null));
-        }
-        if (page.ids.isEmpty()) text(view.list, "Chưa có phản hồi.");
-        if (page.next != null) button(view.list, "Phản hồi cũ hơn", () -> inbox(view.history, page.next));
-        button(view.list, "Làm mới", () -> refreshInbox(view));
-      });
+    view.generation++;
+    if (view.loading) { view.reload = true; return; }
+    if (!view.dialog.isShowing()) return;
+    int generation = view.generation;
+    view.loading = true;
+    view.list.removeAllViews();
+    text(view.list, "Đang tải phản hồi mới nhất…");
+    read(() -> {
+      try {
+        if (!view.dialog.isShowing()) return;
+        FirebaseRest service = EnrollmentService.create(activity);
+        view.service = service;
+        if (!view.dialog.isShowing()) { service.cancelRequests(); return; }
+        SupportInbox.Page page = SupportInbox.load(service, view.history, view.cursor);
+        ui(() -> {
+          if (!view.dialog.isShowing() || view.generation != generation) return;
+          view.list.removeAllViews();
+          for (String id : page.ids) {
+            JSONObject header = page.items.optJSONObject(id);
+            JSONObject state = page.states.optJSONObject(id);
+            String label = SupportProtocol.stateName(state == null ? "new" : state.optString("state"));
+            button(view.list, header.optString("subject") + " · "
+                + (header.optString("name").isEmpty() ? "Người dùng" : header.optString("name"))
+                + " · " + label + " · " + date(SupportInbox.activityAt(header)), () -> thread(id, null));
+          }
+          if (page.ids.isEmpty()) text(view.list, "Chưa có phản hồi.");
+          if (page.next != null) button(view.list, "Phản hồi cũ hơn", () -> inbox(view.history, page.next));
+          button(view.list, "Làm mới", () -> refreshInbox(view));
+        });
+      } catch (Exception e) {
+        ui(() -> {
+          if (!view.dialog.isShowing() || generation != view.generation) return;
+          view.list.removeAllViews();
+          text(view.list, "Chưa tải được phản hồi mới nhất. " + error(e));
+          button(view.list, "Thử lại", () -> refreshInbox(view));
+        });
+      } finally {
+        ui(() -> {
+          view.service = null;
+          view.loading = false;
+          if (view.reload && view.dialog.isShowing()) { view.reload = false; refreshInbox(view); }
+        });
+      }
     });
   }
 
   private void thread(String id, String before) {
-    work(() -> {
-      FirebaseRest service = EnrollmentService.create(activity);
-      JSONObject header = service.get("supportIndex/" + id);
-      JSONObject state = service.get("supportStates/" + id);
-      JSONObject messages = service.recent("supportMessages/" + id, "$key", 11, before);
-      long seen = 0;
-      try { seen = service.get("supportContacts/" + header.getString("owner")).optLong("lastSeen"); }
-      catch (Exception ignored) {}
-      long lastSeen = seen;
-      ui(() -> {
-        LinearLayout list = column();
-        text(list, "Tên: " + header.optString("name") + "\nLoại: " + SupportProtocol.typeName(header.optString("type"))
-            + "\nMeridian: " + header.optString("appVersion") + "\nAndroid: " + header.optString("androidVersion")
-            + "\nLần liên hệ gần nhất: " + date(lastSeen) + "\n" + header.optString("request") + "\nMã phản hồi: " + id);
-        TextView stateLabel = text(list, "Trạng thái yêu cầu");
-        Spinner selected = new Spinner(activity); selected.setId(android.view.View.generateViewId()); stateLabel.setLabelFor(selected.getId());
-        selected.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, SupportProtocol.STATE_NAMES));
-        selected.setSelection(Math.max(0, Arrays.asList(SupportProtocol.STATES).indexOf(state.optString("state", "new"))));
-        list.addView(selected);
-        button(list, "Lưu trạng thái xử lý", () -> {
-          String chosenState = SupportProtocol.STATES[selected.getSelectedItemPosition()];
-          work(() -> {
-            FirebaseRest writer = EnrollmentService.create(activity);
-            SupportProtocol.changeState(writer, id, chosenState, displayName);
-            refreshInboxes();
-            message("Đã lưu trạng thái và cập nhật cho người gửi.");
+    LinearLayout list = column();
+    text(list, "Đang tải hội thoại mới nhất…");
+    AlertDialog dialog = show("Chi tiết phản hồi", list);
+    java.util.concurrent.atomic.AtomicReference<FirebaseRest> connection = new java.util.concurrent.atomic.AtomicReference<>();
+    dialog.setOnDismissListener(closed -> {
+      FirebaseRest closing = connection.get();
+      if (closing != null) DOWNLOAD_IO.execute(closing::cancelRequests);
+    });
+    read(() -> {
+      try {
+        if (!dialog.isShowing()) return;
+        FirebaseRest service = EnrollmentService.create(activity);
+        connection.set(service);
+        if (!dialog.isShowing()) { service.cancelRequests(); return; }
+        java.util.concurrent.Future<JSONObject> headerRead = QUERIES.submit(() -> service.get("supportIndex/" + id));
+        java.util.concurrent.Future<JSONObject> stateRead = QUERIES.submit(() -> service.get("supportStates/" + id));
+        java.util.concurrent.Future<JSONObject> messagesRead = QUERIES.submit(() -> service.recent("supportMessages/" + id, "$key", 11, before));
+        JSONObject header = headerRead.get();
+        java.util.concurrent.Future<JSONObject> contactRead = QUERIES.submit(() -> service.get("supportContacts/" + header.getString("owner")));
+        JSONObject state = stateRead.get(), messages = messagesRead.get();
+        long lastSeen = contactRead.get().optLong("lastSeen");
+        ui(() -> {
+          if (!dialog.isShowing()) return;
+          list.removeAllViews();
+          dialog.setTitle(header.optString("subject", "Chi tiết phản hồi"));
+          text(list, "Tên: " + header.optString("name") + "\nLoại: " + SupportProtocol.typeName(header.optString("type"))
+              + "\nMeridian: " + header.optString("appVersion") + "\nAndroid: " + header.optString("androidVersion")
+              + "\nLần liên hệ gần nhất: " + date(lastSeen) + "\n" + header.optString("request") + "\nMã phản hồi: " + id);
+          TextView stateLabel = text(list, "Trạng thái yêu cầu");
+          Spinner selected = new Spinner(activity); selected.setId(android.view.View.generateViewId()); stateLabel.setLabelFor(selected.getId());
+          selected.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_spinner_dropdown_item, SupportProtocol.STATE_NAMES));
+          selected.setSelection(Math.max(0, Arrays.asList(SupportProtocol.STATES).indexOf(state.optString("state", "new"))));
+          list.addView(selected);
+          button(list, "Lưu trạng thái xử lý", () -> {
+            String chosenState = SupportProtocol.STATES[selected.getSelectedItemPosition()];
+            work(() -> {
+              FirebaseRest writer = EnrollmentService.create(activity);
+              SupportProtocol.changeState(writer, id, chosenState, displayName);
+              refreshInboxes();
+              message("Đã lưu trạng thái và cập nhật cho người gửi.");
+            });
           });
-        });
-        List<String> ids = SupportProtocol.keys(messages); if (before != null) ids.remove(before);
-        if (ids.size() > 10) ids = new ArrayList<>(ids.subList(0, 10));
-        String oldest = ids.isEmpty() ? null : ids.get(ids.size() - 1); Collections.reverse(ids);
-        for (String messageId : ids) {
-          JSONObject entry = messages.optJSONObject(messageId); if (entry == null) continue;
-          text(list, (entry.optString("kind").equals("staff") ? "Hỗ trợ" : "Người dùng") + ": " + entry.optString("name")
-              + " · " + date(entry.optLong("createdAt")) + "\n" + entry.optString("text"));
-          if (SupportAttachment.present(entry)) {
-            button(list, "Xem nhật ký", () -> work(() -> {
-              String file = loadLog(id, messageId, entry); ui(() -> showLog(file));
-            }));
-            Button saveLog = button(list, "Tải nhật ký về máy", () -> {});
-            TextView saveStatus = text(list, "");
-            saveStatus.setVisibility(android.view.View.GONE);
-            saveStatus.setAccessibilityLiveRegion(android.view.View.ACCESSIBILITY_LIVE_REGION_POLITE);
-            saveLog.setOnClickListener(v -> download(id, messageId, entry, saveLog, saveStatus));
+          List<String> ids = SupportProtocol.keys(messages); if (before != null) ids.remove(before);
+          if (ids.size() > 10) ids = new ArrayList<>(ids.subList(0, 10));
+          String oldest = ids.isEmpty() ? null : ids.get(ids.size() - 1); Collections.reverse(ids);
+          for (String messageId : ids) {
+            JSONObject entry = messages.optJSONObject(messageId); if (entry == null) continue;
+            text(list, (entry.optString("kind").equals("staff") ? "Hỗ trợ" : "Người dùng") + ": " + entry.optString("name")
+                + " · " + date(entry.optLong("createdAt")) + "\n" + entry.optString("text"));
+            if (SupportAttachment.present(entry)) {
+              button(list, "Xem nhật ký", () -> work(() -> {
+                String file = loadLog(id, messageId, entry); ui(() -> showLog(file));
+              }));
+              Button saveLog = button(list, "Tải nhật ký về máy", () -> {});
+              TextView saveStatus = text(list, "");
+              saveStatus.setVisibility(android.view.View.GONE);
+              saveStatus.setAccessibilityLiveRegion(android.view.View.ACCESSIBILITY_LIVE_REGION_POLITE);
+              saveLog.setOnClickListener(v -> download(id, messageId, entry, saveLog, saveStatus));
+            }
           }
-        }
-        if (ids.isEmpty()) text(list, "Chưa có nội dung tin nhắn. Nội dung có thể đang được gửi.");
-        button(list, "Trả lời phản hồi", () -> reply(id));
-        button(list, "Tải tin nhắn mới nhất", () -> thread(id, null));
-        if (oldest != null && ids.size() == 10) button(list, "Tin nhắn cũ hơn", () -> thread(id, oldest));
-        show(header.optString("subject", "Chi tiết phản hồi"), list);
-      });
+          if (ids.isEmpty()) text(list, "Chưa có nội dung tin nhắn. Nội dung có thể đang được gửi.");
+          button(list, "Trả lời phản hồi", () -> reply(id));
+          button(list, "Tải tin nhắn mới nhất", () -> thread(id, null));
+          if (oldest != null && ids.size() == 10) button(list, "Tin nhắn cũ hơn", () -> thread(id, oldest));
+        });
+      } catch (Exception e) {
+        ui(() -> {
+          if (!dialog.isShowing()) return;
+          list.removeAllViews();
+          text(list, "Chưa tải được hội thoại mới nhất. " + error(e));
+          button(list, "Thử lại", () -> { dialog.dismiss(); thread(id, before); });
+        });
+      }
     });
   }
 
@@ -299,7 +368,7 @@ final class SupportDesk {
 
   private void staff() {
     if (!owner) return;
-    work(() -> {
+    read(() -> {
       JSONObject people = EnrollmentService.create(activity).get("supportStaff");
       ui(() -> {
         LinearLayout list = column();

@@ -25,12 +25,14 @@ public final class SupportNotifications {
   private SupportNotifications() {}
 
   public static synchronized void start(Context context) {
+    LicenseNotifications.start(context);
     if (current != null) return;
     current = new Monitor(context.getApplicationContext());
     current.thread.start();
   }
 
   public static synchronized void stop() {
+    LicenseNotifications.stop();
     if (current == null) return;
     current.running = false;
     FirebaseEvents events = current.events;
@@ -54,13 +56,15 @@ public final class SupportNotifications {
 
     @Override public void run() {
       while (running) {
+        FirebaseRest service = null;
         try {
           if (!ApkSignatureVerifier.isOfficial(context)) return;
           if (!UserManagerCompat.isUserUnlocked(context)) {
             Thread.sleep(5_000);
             continue;
           }
-          FirebaseRest service = Enrollment.service(context);
+          service = Enrollment.service(context);
+          FirebaseRest connected = service;
           SupportStore store = new SupportStore(context);
           String uid = service.uid();
           SupportChanges changes = new SupportChanges(store.notificationState(uid));
@@ -76,7 +80,7 @@ public final class SupportNotifications {
               String identity;
               if (reply) {
                 String messageId = item.getString("lastReplyId");
-                JSONObject message = service.get("supportMessages/" + ticket + "/" + messageId);
+                JSONObject message = connected.get("supportMessages/" + ticket + "/" + messageId);
                 if (!"staff".equals(message.optString("kind"))) return;
                 text = message.optString("text");
                 identity = messageId;
@@ -96,6 +100,7 @@ public final class SupportNotifications {
           });
           stream.close();
         } catch (Exception ignored) {
+          if (service != null && ignored instanceof FirebaseEvents.AuthenticationExpired) service.invalidateAuthentication();
         } finally {
           FirebaseEvents stream = events;
           if (stream != null) stream.close();

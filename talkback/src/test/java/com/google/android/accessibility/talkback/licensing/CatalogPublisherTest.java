@@ -26,8 +26,10 @@ public final class CatalogPublisherTest {
     int writes;
     int conflicts;
     boolean offline;
+    int profileReads;
     @Override public CatalogPublisher.RemoteFile get(String path) throws Exception {
       if (offline) throw new java.io.IOException("offline");
+      if (path.equals(CatalogPublisher.PROFILE_PATH)) profileReads++;
       return files.get(path);
     }
     @Override public void put(String path, String content, String sha) throws Exception {
@@ -72,6 +74,7 @@ public final class CatalogPublisherTest {
     int writes = client.writes;
     publisher.publish(second, secondLicense, publicKey);
     assertEquals(writes, client.writes);
+    assertEquals(1, client.profileReads);
   }
 
   @Test public void unsignedOrWrongDeviceDataNeverReachesGitHub() throws Exception {

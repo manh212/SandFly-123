@@ -27,6 +27,10 @@ import java.util.Iterator;
 import org.json.JSONObject;
 
 public final class MainActivity extends ComponentActivity {
+  private final java.util.concurrent.atomic.AtomicBoolean syncBusy = new java.util.concurrent.atomic.AtomicBoolean();
+  private final java.util.concurrent.atomic.AtomicBoolean syncAgain = new java.util.concurrent.atomic.AtomicBoolean();
+  private final java.util.concurrent.atomic.AtomicBoolean refreshBusy = new java.util.concurrent.atomic.AtomicBoolean();
+  private final java.util.concurrent.atomic.AtomicInteger refreshGeneration = new java.util.concurrent.atomic.AtomicInteger();
   private static final int AUTH_REQUEST = 501;
   private static final int BROWSER_REQUEST = 502;
   private TextView state, publicKeyText, licenseText, deviceCount;
@@ -262,6 +266,7 @@ public final class MainActivity extends ComponentActivity {
 
   private void synchronize() {
     if (!ownerAuthorized) return;
+    if (!syncBusy.compareAndSet(false, true)) { syncAgain.set(true); return; }
     SyncCoordinator.WORKER.execute(() -> {
       try {
         if (IssuerKeys.exists() && new IssuerStore(this).connected()) {
@@ -269,28 +274,62 @@ public final class MainActivity extends ComponentActivity {
           if (retry) SyncCoordinator.schedule(getApplicationContext());
         }
       } catch (Exception e) { error(e); }
+      finally {
+        syncBusy.set(false);
+        if (syncAgain.getAndSet(false)) synchronize();
+      }
       refresh();
     });
   }
 
   private void refresh() {
     if (!ownerAuthorized) return;
-    SyncCoordinator.WORKER.execute(() -> {
+    refreshGeneration.incrementAndGet();
+    onUi(() -> {
+      deviceCount.setText("Đang tải danh sách thiết bị mới nhất…");
+      panel.clear();
+    });
+    loadFreshDevices();
+  }
+
+  private void loadFreshDevices() {
+    if (!refreshBusy.compareAndSet(false, true)) return;
+    int generation = refreshGeneration.get();
+    SyncCoordinator.READS.execute(() -> {
       try {
         boolean exists = IssuerKeys.exists();
-        String key = exists ? IssuerKeys.securityLevel() + "\n" + IssuerKeys.publicKey()
-            : "Chưa tạo khóa cấp phép.";
+        if (!exists) {
+          onUi(() -> {
+            if (generation != refreshGeneration.get()) return;
+            publicKeyText.setText("Chưa tạo khóa cấp phép.");
+            deviceCount.setText("Tạo khóa cấp phép trước khi tải danh sách thiết bị.");
+          });
+          return;
+        }
+        String key = IssuerKeys.securityLevel() + "\n" + IssuerKeys.publicKey();
         IssuerStore store = new IssuerStore(this);
+        JSONObject incoming = EnrollmentService.create(this).get("devices");
+        JSONObject records = store.importRecords(incoming);
         String status = store.status();
-        JSONObject records = store.records();
         StringBuilder report = new StringBuilder("Số thiết bị: ").append(records.length());
         onUi(() -> {
+          if (!ownerAuthorized || generation != refreshGeneration.get()) return;
           publicKeyText.setText(key);
           deviceCount.setText(report.toString());
           panel.render(records);
           if (!authBusy) state.setText(status);
         });
-      } catch (Exception e) { error(e); }
+      } catch (Exception e) {
+        onUi(() -> {
+          if (generation != refreshGeneration.get()) return;
+          deviceCount.setText("Chưa tải được danh sách mới nhất. Chọn Tải danh sách thiết bị từ Firebase để thử lại.");
+          panel.clear();
+        });
+        error(e);
+      } finally {
+        refreshBusy.set(false);
+        if (generation != refreshGeneration.get()) loadFreshDevices();
+      }
     });
   }
 
@@ -308,7 +347,7 @@ public final class MainActivity extends ComponentActivity {
       authBusy = true;
       issueButton.setEnabled(false);
       if (Build.VERSION.SDK_INT >= 30) {
-        SyncCoordinator.WORKER.execute(() -> {
+        SyncCoordinator.SIGNER.execute(() -> {
           try {
             Signature signer = IssuerKeys.signer();
             onUi(() -> {
@@ -390,27 +429,16 @@ public final class MainActivity extends ComponentActivity {
       try {
         Signature authenticatedSigner = signer == null ? IssuerKeys.signer() : signer;
         String license = policy.sign(authenticatedSigner);
-        SyncCoordinator.WORKER.execute(() -> {
-          try {
-            IssuerStore store = new IssuerStore(this);
-            JSONObject previous = store.records().optJSONObject(RecoveryProtocol.deviceId(request));
-            if (previous != null && previous.optString("value").startsWith("SFLIC3.")) {
-              LicensePolicy old = LicensePolicy.verify(request, previous.getString("value"),
-                  RecoveryProtocol.publicKey(IssuerKeys.publicKey()));
-              if (policy.revision <= old.revision) throw new IllegalStateException("Thiết bị vừa được thay đổi. Mở lại chi tiết rồi ký lại.");
-            }
-            store.record(request, name, description, uid, license);
-            onUi(() -> {
-              issued = license;
-              licenseText.setText(license);
-              state.setText("Đã cấp phép và lưu trên điện thoại. Đang đồng bộ GitHub…");
-            });
-            SyncCoordinator.schedule(getApplicationContext());
-            synchronize();
-          } catch (Exception e) { error(e); }
-          finally { finishAuthentication(); }
+        new IssuerStore(this).record(request, name, description, uid, license);
+        onUi(() -> {
+          issued = license;
+          licenseText.setText(license);
+          state.setText("Đã ký và lưu trên điện thoại. Đang đồng bộ giấy phép…");
         });
-      } catch (Exception e) { finishAuthentication(); error(e); }
+        SyncCoordinator.schedule(getApplicationContext());
+        synchronize();
+      } catch (Exception e) { error(e); }
+      finally { finishAuthentication(); }
     });
   }
 

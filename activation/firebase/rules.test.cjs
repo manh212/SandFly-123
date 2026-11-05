@@ -70,6 +70,39 @@ test('device names and descriptions are accessible only to the owner', async () 
 });
 
 const ticket = '1700000000000-' + 'b'.repeat(20);
+test('license events expose only signed public records and reject client writes', async () => {
+  const path = 'licenseEvents/' + 'a'.repeat(64);
+  const event = {request, value: 'SFLIC3.signed', updatedAt: {'.sv': 'timestamp'}};
+  await assertSucceeds(db('owner').ref(path).set(event));
+  await assertSucceeds(db('alice').ref(path).once('value'));
+  await assertFails(db('alice').ref('licenseEvents').once('value'));
+  await assertFails(env.unauthenticatedContext().database().ref(path).once('value'));
+  await assertFails(db('alice').ref(path).set(event));
+  await assertFails(db('helper').ref(path).set(event));
+  await assertFails(db('owner').ref(path).set({...event, name: 'Private name'}));
+  await assertFails(db('owner').ref(path).set({...event, request: 'SFREQ2.' + 'b'.repeat(64)}));
+  await assertFails(db('owner').ref(path).set({...event, value: 'SFLIC3.' + 'x'.repeat(2048)}));
+});
+
+test('license delivery updates private records decisions and events atomically', async () => {
+  await assertSucceeds(db('alice').ref('requests/alice').set(body()));
+  const id = 'a'.repeat(64), value = 'SFLIC3.revoked';
+  const changes = {
+    ['devices/' + id]: {request, name: 'Private', description: '', uid: 'alice', value},
+    'decisions/alice': {request, state: 'approved', policy: value, decidedAt: {'.sv': 'timestamp'}},
+    ['licenseEvents/' + id]: {request, value, updatedAt: {'.sv': 'timestamp'}}
+  };
+  await assertSucceeds(db('owner').ref().update(changes));
+  const event = (await db('alice').ref('licenseEvents/' + id).once('value')).val();
+  if (event.value !== value || 'name' in event) throw new Error('Invalid public projection');
+  await assertFails(db('alice').ref('devices/' + id).once('value'));
+  changes['licenseEvents/' + id].name = 'Must fail';
+  changes['devices/' + id].name = 'Must not be committed';
+  await assertFails(db('owner').ref().update(changes));
+  const saved = (await db('owner').ref('devices/' + id).once('value')).val();
+  if (saved.name !== 'Private') throw new Error('Partial publication escaped validation');
+});
+
 const messageId = '1700000000001-' + 'c'.repeat(20);
 const header = (uid = 'alice') => ({owner: uid, name: 'Người dùng', subject: 'Lỗi kích hoạt',
   type: 'bug', request, appVersion: 'dev', androidVersion: '14',

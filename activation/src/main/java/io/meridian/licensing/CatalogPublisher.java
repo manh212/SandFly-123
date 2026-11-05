@@ -31,9 +31,11 @@ public final class CatalogPublisher {
     }
   }
   private final Client client;
+  private String registeredKey;
   public CatalogPublisher(Client client) { this.client = client; }
 
   public void register(String publicKey) throws Exception {
+    if (publicKey.equals(registeredKey)) return;
     RecoveryProtocol.publicKey(publicKey);
     for (int attempt = 0; attempt < 3; attempt++) {
       RemoteFile existing = client.get(PROFILE_PATH);
@@ -41,7 +43,7 @@ public final class CatalogPublisher {
         JSONObject profile = new JSONObject(existing.content);
         if (profile.optInt("format") != 2) throw invalidProfile();
         String registered = profile.optString("publicKey", "");
-        if (registered.equals(publicKey)) return;
+        if (registered.equals(publicKey)) { registeredKey = publicKey; return; }
         if (!registered.isEmpty()) throw invalidProfile();
       }
       JSONObject profile = new JSONObject();
@@ -49,6 +51,7 @@ public final class CatalogPublisher {
       profile.put("publicKey", publicKey);
       try {
         client.put(PROFILE_PATH, profile.toString(2) + "\n", existing == null ? null : existing.sha);
+        registeredKey = publicKey;
         return;
       } catch (SyncException e) { if (!e.conflict) throw e; }
     }

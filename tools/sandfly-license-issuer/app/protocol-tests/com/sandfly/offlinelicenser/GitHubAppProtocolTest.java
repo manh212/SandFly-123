@@ -11,6 +11,51 @@ import org.json.JSONObject;
 import org.junit.Test;
 
 public class GitHubAppProtocolTest {
+  @Test public void licenseBatchDeliversSignedEventsAndDecisionsInOneWrite() throws Exception {
+    java.util.List<JSONObject> writes = new java.util.ArrayList<>();
+    io.meridian.licensing.FirebaseRest.Storage storage = new io.meridian.licensing.FirebaseRest.Storage() {
+      @Override public String read() { return "{\"uid\":\"owner\",\"refresh\":\"refresh\"}"; }
+      @Override public void write(String value) {}
+    };
+    io.meridian.licensing.FirebaseRest service = new io.meridian.licensing.FirebaseRest(
+        new io.meridian.licensing.FirebaseRest.Config("{\"apiKey\":\"abcdefghijklmnopqrstuv\",\"databaseUrl\":\"https://demo.firebaseio.com\"}"),
+        storage, (a, method, body, type) -> {
+          if (a.contains("googleapis.com")) return "{\"user_id\":\"owner\",\"refresh_token\":\"r\",\"id_token\":\"t\"}";
+          assertEquals("PATCH", method); writes.add(new JSONObject(body)); return "null";
+        });
+    String id = "a".repeat(64), request = "SFREQ2." + id;
+    JSONObject entry = new JSONObject().put("request", request).put("value", "SFLIC3.signed")
+        .put("name", "Private recipient").put("description", "Private details").put("uid", "alice");
+    assertTrue(EnrollmentService.publish(service, new JSONObject().put(id, entry)));
+    assertEquals(1, writes.size());
+    JSONObject changes = writes.get(0), event = changes.getJSONObject("licenseEvents/" + id);
+    assertEquals(3, event.length()); assertFalse(event.has("name")); assertFalse(event.has("uid"));
+    assertEquals("SFLIC3.signed", event.getString("value"));
+    assertEquals("SFLIC3.signed", changes.getJSONObject("decisions/alice").getString("policy"));
+    assertEquals("Private recipient", changes.getJSONObject("devices/" + id).getString("name"));
+  }
+
+  @Test public void oldRulesKeepEnrollmentWorkingWhileEventDeliveryWaitsForDeployment() throws Exception {
+    java.util.List<JSONObject> writes = new java.util.ArrayList<>();
+    io.meridian.licensing.FirebaseRest.Storage storage = new io.meridian.licensing.FirebaseRest.Storage() {
+      @Override public String read() { return "{\"uid\":\"owner\",\"refresh\":\"refresh\"}"; }
+      @Override public void write(String value) {}
+    };
+    io.meridian.licensing.FirebaseRest service = new io.meridian.licensing.FirebaseRest(
+        new io.meridian.licensing.FirebaseRest.Config("{\"apiKey\":\"abcdefghijklmnopqrstuv\",\"databaseUrl\":\"https://demo.firebaseio.com\"}"),
+        storage, (a, method, body, type) -> {
+          if (a.contains("googleapis.com")) return "{\"user_id\":\"owner\",\"refresh_token\":\"r\",\"id_token\":\"t\"}";
+          JSONObject changes = new JSONObject(body); writes.add(changes);
+          if (changes.has("licenseEvents/" + "a".repeat(64))) throw new io.meridian.licensing.FirebaseRest.PermissionDenied();
+          return "null";
+        });
+    JSONObject entry = new JSONObject().put("request", "SFREQ2." + "a".repeat(64)).put("value", "SFLIC3.signed").put("uid", "alice");
+    assertFalse(EnrollmentService.publish(service, new JSONObject().put("a".repeat(64), entry)));
+    assertEquals(2, writes.size());
+    assertTrue(writes.get(1).has("devices/" + "a".repeat(64)));
+    assertTrue(writes.get(1).has("decisions/alice"));
+    assertFalse(writes.get(1).has("licenseEvents/" + "a".repeat(64)));
+  }
   @Test public void manifestRequestsOnlyRepositoryContentsAndNoOAuthOrWebhook() throws Exception {
     JSONObject manifest = GitHubAppProtocol.manifest("http://127.0.0.1:12345", "/random");
     assertFalse(manifest.getBoolean("public"));

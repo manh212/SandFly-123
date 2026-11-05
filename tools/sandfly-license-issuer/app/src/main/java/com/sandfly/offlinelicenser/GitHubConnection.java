@@ -9,6 +9,8 @@ import javax.net.ssl.HttpsURLConnection;
 import org.json.JSONObject;
 
 final class GitHubConnection {
+  private static String credential, cachedToken;
+  private static long expiresAt;
   interface Client {
     JSONObject request(String method, String path, String token, JSONObject body) throws Exception;
   }
@@ -18,8 +20,19 @@ final class GitHubConnection {
     JSONObject app = store.connection();
     if (app.length() == 0) return store.legacyToken();
     if (!app.optBoolean("confirmed") && !store.legacyToken().isEmpty()) return store.legacyToken();
-    return installationToken(app);
+    synchronized (GitHubConnection.class) {
+      String identity = app.getLong("id") + ":" + app.getString("pem");
+      long now = System.currentTimeMillis();
+      if (identity.equals(credential) && cachedToken != null && now < expiresAt && now > expiresAt - 3_600_000L) return cachedToken;
+      String next = installationToken(app);
+      credential = identity;
+      cachedToken = next;
+      expiresAt = now + 3_300_000L;
+      return next;
+    }
   }
+
+  static synchronized void invalidate() { cachedToken = null; expiresAt = 0; }
 
   static String installationToken(JSONObject app) throws Exception {
     return installationToken(app, GitHubConnection::request);

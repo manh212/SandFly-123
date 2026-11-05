@@ -15,6 +15,16 @@ public final class FirebaseEvents implements Closeable {
   public interface Listener { void changed(String event, JSONObject value) throws Exception; }
   private volatile HttpURLConnection connection;
   private volatile boolean closed;
+  private volatile long serverMillis, serverNanos;
+
+  public static final class AuthenticationExpired extends IOException {
+    public AuthenticationExpired() { super("Phiên nhận cập nhật cần được làm mới."); }
+  }
+
+  public long serverTimeMillis() {
+    long anchor = serverMillis;
+    return anchor <= 0 ? 0 : anchor + java.util.concurrent.TimeUnit.NANOSECONDS.toMillis(System.nanoTime() - serverNanos);
+  }
 
   public void read(String address, Listener listener) throws Exception {
     URL target = new URL(address);
@@ -39,7 +49,23 @@ public final class FirebaseEvents implements Closeable {
           target = new URL(target, location);
           continue;
         }
+        if (status == 401) {
+          try (java.io.InputStream error = opened.getErrorStream()) {
+            if (error != null) {
+              java.io.ByteArrayOutputStream detail = new java.io.ByteArrayOutputStream();
+              byte[] buffer = new byte[1024];
+              int count;
+              while (detail.size() < 8192 && (count = error.read(buffer)) != -1) detail.write(buffer, 0, count);
+              if (detail.toString("UTF-8").toLowerCase(java.util.Locale.ROOT).contains("permission denied")) {
+                throw new IOException("Firebase chưa cho phép nhận cập nhật. Kiểm tra quy tắc cơ sở dữ liệu.");
+              }
+            }
+          }
+          throw new AuthenticationExpired();
+        }
         if (status != 200) throw new IOException("Chưa nhận được cập nhật hỗ trợ (HTTP " + status + ").");
+        serverMillis = opened.getDate();
+        serverNanos = System.nanoTime();
         try (Reader input = new InputStreamReader(opened.getInputStream(), StandardCharsets.UTF_8)) {
           parse(input, listener, () -> closed);
         }
@@ -69,7 +95,8 @@ public final class FirebaseEvents implements Closeable {
       String value = line.toString();
       line.setLength(0);
       if (value.isEmpty()) {
-        if (event.equals("cancel") || event.equals("auth_revoked")) {
+        if (event.equals("auth_revoked")) throw new AuthenticationExpired();
+        if (event.equals("cancel")) {
           throw new IOException("Kết nối cập nhật hỗ trợ cần được xác thực lại.");
         }
         if ((event.equals("put") || event.equals("patch")) && data.length() > 0) {

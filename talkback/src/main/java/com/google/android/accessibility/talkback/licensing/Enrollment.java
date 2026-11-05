@@ -32,6 +32,7 @@ final class Enrollment {
       json = new String(bytes.toByteArray(), StandardCharsets.UTF_8);
     }
     return new FirebaseRest(new FirebaseRest.Config(json), new FirebaseRest.Storage() {
+      @Override public String sessionKey() { return "meridian-client"; }
       private SecretKey key() throws Exception {
         KeyStore store = KeyStore.getInstance("AndroidKeyStore");
         store.load(null);

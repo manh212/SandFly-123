@@ -29,6 +29,15 @@ There are stable releases and development builds:
 
 ## Device activation and recovery
 
+While Meridian runs, signed license changes arrive through Firebase instead of
+polling the catalog every minute. A persistent daily catalog check provides a
+fallback, and explicit recovery still checks immediately. Live delivery requires
+the owner to publish the updated Firebase rules and use the updated admin APK.
+Offline devices apply changes after reconnecting; a saved license retains its
+existing expiry. Meridian Quản trị loads fresh device and inbox data on separate
+read queues, reuses valid authentication sessions and reports loading failures
+inside the affected screen.
+
 New device registrations can be restored automatically from signed GitHub
 records after clearing data or reinstalling on the same phone. The administrator
 uses the separate **Meridian Quản trị** app, with hardware-backed signing keys

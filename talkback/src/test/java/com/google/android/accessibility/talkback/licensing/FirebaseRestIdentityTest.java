@@ -39,7 +39,7 @@ public final class FirebaseRestIdentityTest {
       Future<String> one = executor.submit(() -> { start.await(); return first.uid(); });
       Future<String> two = executor.submit(() -> { start.await(); return second.uid(); });
       start.countDown(); assertEquals(one.get(), two.get()); assertEquals("uid1", first.uid());
-      assertEquals(1, registrations.get()); assertTrue(storage.read().contains("rotated"));
+      assertEquals(1, registrations.get()); assertTrue(storage.read().contains("refresh"));
     } finally { executor.shutdownNow(); }
   }
 
@@ -49,6 +49,71 @@ public final class FirebaseRestIdentityTest {
         "{\"user_id\":\"bob\",\"refresh_token\":\"new\",\"id_token\":\"token\"}");
     assertThrows(IllegalStateException.class, service::uid);
     assertTrue(storage.read().contains("alice"));
+  }
+
+  @Test public void separateClientsReuseTheSameUnexpiredSessionAndKeepScopesIsolated() throws Exception {
+    String[] saved = {"{}"};
+    String scope = java.util.UUID.randomUUID().toString();
+    java.util.function.Supplier<FirebaseRest.Storage> storage = () -> new FirebaseRest.Storage() {
+      @Override public String sessionKey() { return scope; }
+      @Override public String read() { return saved[0]; }
+      @Override public void write(String value) { saved[0] = value; }
+    };
+    AtomicInteger authentications = new AtomicInteger();
+    FirebaseRest.Transport network = (a, m, b, c) -> {
+      authentications.incrementAndGet();
+      return "{\"localId\":\"alice\",\"refreshToken\":\"refresh\",\"idToken\":\"token\",\"expiresIn\":3600}";
+    };
+    assertEquals("alice", new FirebaseRest(config(), storage.get(), network).uid());
+    assertEquals("alice", new FirebaseRest(config(), storage.get(), network).uid());
+    assertEquals(1, authentications.get());
+    FirebaseRest other = new FirebaseRest(config(), new Storage(), (a, m, b, c) ->
+        "{\"localId\":\"bob\",\"refreshToken\":\"other\",\"idToken\":\"other\"}");
+    assertEquals("bob", other.uid());
+  }
+
+  @Test public void expiredAuthenticationRetriesOnceAndPermissionFailuresDoNotRefresh() throws Exception {
+    AtomicInteger auth = new AtomicInteger(), reads = new AtomicInteger();
+    FirebaseRest service = new FirebaseRest(config(), new Storage(), (a, m, b, c) -> {
+      if (a.contains("googleapis.com")) {
+        int number = auth.incrementAndGet();
+        return number == 1
+            ? "{\"localId\":\"alice\",\"refreshToken\":\"refresh\",\"idToken\":\"one\"}"
+            : "{\"user_id\":\"alice\",\"refresh_token\":\"refresh\",\"id_token\":\"two\"}";
+      }
+      if (reads.incrementAndGet() == 1) throw new FirebaseRest.AuthenticationExpired();
+      return "{}";
+    });
+    service.get("devices");
+    assertEquals(2, auth.get()); assertEquals(2, reads.get());
+    AtomicInteger deniedCalls = new AtomicInteger();
+    FirebaseRest denied = new FirebaseRest(config(), new Storage(), (a, m, b, c) -> {
+      if (a.contains("googleapis.com")) return "{\"localId\":\"alice\",\"refreshToken\":\"r\",\"idToken\":\"t\"}";
+      deniedCalls.incrementAndGet(); throw new FirebaseRest.PermissionDenied();
+    });
+    assertThrows(FirebaseRest.PermissionDenied.class, () -> denied.get("devices"));
+    assertEquals(1, deniedCalls.get());
+  }
+
+  @Test public void boundedStateQueriesAndAtomicUpdatesValidateEveryPathBeforeSending() throws Exception {
+    List<String> calls = new ArrayList<>();
+    Storage storage = new Storage(); storage.value = "{\"uid\":\"alice\",\"refresh\":\"old\"}";
+    FirebaseRest service = new FirebaseRest(config(), storage, (a, m, b, c) -> {
+      calls.add(m + " " + a);
+      if (a.contains("googleapis.com")) return "{\"user_id\":\"alice\",\"refresh_token\":\"r\",\"id_token\":\"t\"}";
+      return "null";
+    });
+    service.keyRange("supportStates", "1700000000000-a", "1700000000001-b", 1000);
+    assertTrue(calls.get(calls.size() - 1).contains("limitToFirst=1000"));
+    assertTrue(calls.get(calls.size() - 1).contains("startAt=%22"));
+    org.json.JSONObject changes = new org.json.JSONObject().put("licenseEvents/" + "a".repeat(64), new org.json.JSONObject());
+    service.update(changes);
+    assertTrue(calls.get(calls.size() - 1).startsWith("PATCH https://demo.firebaseio.com/.json?"));
+    int before = calls.size();
+    changes.put("../admins/alice", true);
+    assertThrows(IllegalArgumentException.class, () -> service.update(changes));
+    assertThrows(IllegalArgumentException.class, () -> service.keyRange("supportStates", "z", "a", 1000));
+    assertEquals(before, calls.size());
   }
 
   @Test public void roleFlagsAndQueriesAreBoundedEncodedAndRejectUnapprovedPaths() throws Exception {

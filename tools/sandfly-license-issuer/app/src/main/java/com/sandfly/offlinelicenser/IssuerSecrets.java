@@ -18,6 +18,7 @@ import javax.crypto.spec.GCMParameterSpec;
 
 final class IssuerSecrets {
   private static final String ALIAS = "meridian.admin.storage.v2";
+  private static volatile SecretKey storageKey;
   private final Context context;
   private final SharedPreferences preferences;
 
@@ -27,30 +28,35 @@ final class IssuerSecrets {
   }
 
   private SecretKey key() throws Exception {
-    KeyStore store = KeyStore.getInstance("AndroidKeyStore");
-    store.load(null);
-    if (!store.containsAlias(ALIAS)) {
-      boolean strongBox = Build.VERSION.SDK_INT >= 28
-          && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE);
-      try { generate(strongBox); }
-      catch (Exception e) {
-        if (!strongBox) throw e;
-        store.deleteEntry(ALIAS);
-        generate(false);
+    if (storageKey != null) return storageKey;
+    synchronized (IssuerSecrets.class) {
+      if (storageKey != null) return storageKey;
+      KeyStore store = KeyStore.getInstance("AndroidKeyStore");
+      store.load(null);
+      if (!store.containsAlias(ALIAS)) {
+        boolean strongBox = Build.VERSION.SDK_INT >= 28
+            && context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_STRONGBOX_KEYSTORE);
+        try { generate(strongBox); }
+        catch (Exception e) {
+          if (!strongBox) throw e;
+          store.deleteEntry(ALIAS);
+          generate(false);
+        }
       }
+      SecretKey key = (SecretKey) store.getKey(ALIAS, null);
+      KeyInfo info = (KeyInfo) SecretKeyFactory.getInstance("AES", "AndroidKeyStore")
+          .getKeySpec(key, KeyInfo.class);
+      boolean hardware = Build.VERSION.SDK_INT >= 31
+          ? info.getSecurityLevel() == KeyProperties.SECURITY_LEVEL_STRONGBOX
+              || info.getSecurityLevel() == KeyProperties.SECURITY_LEVEL_TRUSTED_ENVIRONMENT
+          : info.isInsideSecureHardware();
+      if (!hardware) {
+        store.deleteEntry(ALIAS);
+        throw new IllegalStateException("Thiết bị không hỗ trợ mã hóa bằng khóa phần cứng.");
+      }
+      storageKey = key;
+      return key;
     }
-    SecretKey key = (SecretKey) store.getKey(ALIAS, null);
-    KeyInfo info = (KeyInfo) SecretKeyFactory.getInstance("AES", "AndroidKeyStore")
-        .getKeySpec(key, KeyInfo.class);
-    boolean hardware = Build.VERSION.SDK_INT >= 31
-        ? info.getSecurityLevel() == KeyProperties.SECURITY_LEVEL_STRONGBOX
-            || info.getSecurityLevel() == KeyProperties.SECURITY_LEVEL_TRUSTED_ENVIRONMENT
-        : info.isInsideSecureHardware();
-    if (!hardware) {
-      store.deleteEntry(ALIAS);
-      throw new IllegalStateException("Thiết bị không hỗ trợ mã hóa bằng khóa phần cứng.");
-    }
-    return key;
   }
 
   private void generate(boolean strongBox) throws Exception {

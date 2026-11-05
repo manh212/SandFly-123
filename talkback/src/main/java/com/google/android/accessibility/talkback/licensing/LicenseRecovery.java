@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.os.SystemClock;
 import androidx.core.os.UserManagerCompat;
 import io.meridian.licensing.RecoveryProtocol;
+import io.meridian.licensing.LicenseRefreshSchedule;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -23,11 +24,21 @@ final class LicenseRecovery {
   private static final ExecutorService WORKER = Executors.newSingleThreadExecutor();
   private static final Handler MAIN = new Handler(Looper.getMainLooper());
   private static boolean running;
-  private static long lastAttempt = -30_000L;
+  private static long lastAttempt = -LicenseRefreshSchedule.RETRY_MS;
   private static Result lastResult = Result.NOT_FOUND;
   private static final List<Callback> WAITING = new ArrayList<>();
 
   private LicenseRecovery() {}
+
+  private static int boot(Context context) {
+    return android.provider.Settings.Global.getInt(context.getContentResolver(), android.provider.Settings.Global.BOOT_COUNT, -1);
+  }
+
+  static void checked(Context context) {
+    context.getSharedPreferences("meridian_license_checks", Context.MODE_PRIVATE).edit()
+        .putLong("wall", System.currentTimeMillis()).putLong("elapsed", SystemClock.elapsedRealtime())
+        .putInt("boot", boot(context)).apply();
+  }
 
   static void activateManual(Context context, String value, java.util.function.Consumer<String> callback) {
     Context app = context.getApplicationContext();
@@ -61,7 +72,10 @@ final class LicenseRecovery {
       if (callback != null) WAITING.add(callback);
       return;
     }
-    if (!force && now - lastAttempt < 30_000L) {
+    android.content.SharedPreferences checks = app.getSharedPreferences("meridian_license_checks", Context.MODE_PRIVATE);
+    boolean due = LicenseRefreshSchedule.due(System.currentTimeMillis(), now, boot(app),
+        checks.getLong("wall", 0), checks.getLong("elapsed", 0), checks.getInt("boot", -2));
+    if (!force && (!due || now - lastAttempt < LicenseRefreshSchedule.RETRY_MS)) {
       if (callback != null) callback.completed(lastResult);
       return;
     }
@@ -70,6 +84,7 @@ final class LicenseRecovery {
     lastAttempt = now;
     WORKER.execute(() -> {
       Result result = recover(app);
+      if (result == Result.RESTORED || result == Result.NOT_FOUND) checked(app);
       MAIN.post(() -> {
         List<Callback> callbacks;
         synchronized (LicenseRecovery.class) {

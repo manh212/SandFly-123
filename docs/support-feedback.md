@@ -80,6 +80,15 @@ Android backup/device transfer and Meridian's settings import/export.
 
 ## Meridian Quản trị
 
+The inbox and conversation screens show loading until fresh server reads finish.
+Read operations run independently of licensing synchronization. Conversation
+headers, state, message pages and contact metadata are fetched concurrently where
+their dependencies allow it. Inbox state reads are restricted to bounded key
+ranges for the fetched headers instead of downloading the entire state table.
+Refresh requests for the same inbox are coalesced, closing a screen cancels its
+own requests, and failures replace the loading text with an in-dialog retry
+action. No previously loaded list is used as a substitute for a failed refresh.
+
 Open **Hộp thư phản hồi**, select a conversation and use **Trả lời phản hồi**.
 Received attachments have **Xem nhật ký** and **Tải nhật ký về máy** actions.
 Download opens Android's document picker before fetching a remote attachment.

@@ -51,8 +51,22 @@ final class AdminPanel {
       JSONObject entry = records.optJSONObject(id);
       if (entry == null) continue;
       String name = entry.optString("name");
-      button(devices, (name.isEmpty() ? "Thiết bị" : name) + " · " + id.substring(0, 12), () -> detail(id));
+      boolean pending = !entry.optBoolean("synced") || !entry.optBoolean("privateSynced");
+      button(devices, (name.isEmpty() ? "Thiết bị" : name) + " · " + id.substring(0, 12)
+          + (pending ? " · Chờ đồng bộ" : ""), () -> detail(id));
     }
+  }
+
+  void clear() { devices.removeAllViews(); }
+
+  private void read(Work work) {
+    SyncCoordinator.READS.execute(() -> {
+      try { work.run(); }
+      catch (Exception e) {
+        while (e instanceof java.util.concurrent.ExecutionException && e.getCause() instanceof Exception) e = (Exception) e.getCause();
+        activity.message(e.getMessage() == null ? "Chưa tải được dữ liệu mới nhất." : e.getMessage());
+      }
+    });
   }
 
   private void task(Work work) {
@@ -78,13 +92,14 @@ final class AdminPanel {
     return root;
   }
 
-  private void show(String title, LinearLayout root) {
+  private AlertDialog show(String title, LinearLayout root) {
     ScrollView scroll = new ScrollView(activity);
     scroll.addView(root);
     AlertDialog dialog = new AlertDialog.Builder(activity).setTitle(title).setView(scroll).setNegativeButton("Đóng", null).create();
     screens.add(dialog);
     dialog.setOnDismissListener(v -> screens.remove(dialog));
     dialog.show();
+    return dialog;
   }
 
   void closeScreens() {
@@ -131,7 +146,7 @@ final class AdminPanel {
   }
 
   void issue(String request, String name, String description, String uid) {
-    task(() -> {
+    read(() -> {
       RecoveryProtocol.deviceId(request);
       if (name.trim().isEmpty() || name.length() > 80 || name.chars().anyMatch(Character::isISOControl)) {
         throw new IllegalArgumentException("Nhập tên người nhận từ 1–80 ký tự.");
@@ -191,52 +206,76 @@ final class AdminPanel {
   }
 
   private void detail(String id) {
-    task(() -> {
-      JSONObject entry = new IssuerStore(activity).records().getJSONObject(id);
-      LicensePolicy current = policy(entry);
-      String description = entry.optString("description");
-      String report = "Họ tên: " + entry.optString("name") + "\nMô tả: " + description
-          + "\nĐịnh danh: " + id + "\nYêu cầu: " + entry.getString("request")
-          + "\nGitHub: " + (entry.optBoolean("synced") ? "Đã lưu" : "Chờ đồng bộ")
-          + "\nThông tin riêng và kết quả duyệt: " + (entry.optBoolean("privateSynced") ? "Đã lưu Firebase" : "Chờ lưu Firebase");
-      if (current == null) report += "\nGiấy phép cũ · Đầy đủ tính năng · Không thời hạn";
-      else report += "\nTrạng thái: " + (current.state.equals("revoked") ? "Đã thu hồi"
-          : current.state.equals("suspended") ? "Tạm khóa"
-          : current.expiresAt != 0 && current.expiresAt <= System.currentTimeMillis() / 1000L ? "Đã hết hạn" : "Đang hoạt động")
-          + "\nLoại: " + (current.kind.equals("trial") ? "Dùng thử" : "Chính thức")
-          + "\nGói: " + current.packageName + " (" + current.packageId + ")\nQuyền: " + features(current)
-          + "\nNgày cấp: " + date(current.issuedAt) + "\nHết hạn: " + date(current.expiresAt)
-          + "\nPhiên bản trạng thái: " + current.revision;
-      long lastSeen = 0;
+    LinearLayout root = column();
+    text(root, "Đang tải thông tin thiết bị mới nhất…");
+    AlertDialog dialog = show("Chi tiết thiết bị", root);
+    java.util.concurrent.atomic.AtomicReference<FirebaseRest> connection = new java.util.concurrent.atomic.AtomicReference<>();
+    dialog.setOnDismissListener(closed -> {
+      screens.remove(dialog);
+      FirebaseRest closing = connection.get();
+      if (closing != null) SyncCoordinator.NETWORK.execute(closing::cancelRequests);
+    });
+    read(() -> {
       try {
-        JSONObject contacts = EnrollmentService.create(activity).matching("supportContacts", "request", entry.getString("request"));
+        FirebaseRest service = EnrollmentService.create(activity);
+        connection.set(service);
+        if (!dialog.isShowing()) { service.cancelRequests(); return; }
+        java.util.concurrent.Future<JSONObject> contactRead = SyncCoordinator.NETWORK.submit(
+            () -> service.matching("supportContacts", "request", "SFREQ2." + id));
+        JSONObject remote = service.get("devices/" + id);
+        if (remote.length() == 0) throw new IllegalStateException("Thiết bị chưa có dữ liệu trên Firebase. Hoàn tất đồng bộ rồi thử lại.");
+        IssuerStore store = new IssuerStore(activity);
+        store.importRecord(remote);
+        JSONObject entry = store.records().getJSONObject(id);
+        LicensePolicy current = policy(entry);
+        String description = entry.optString("description");
+        String report = "Họ tên: " + entry.optString("name") + "\nMô tả: " + description
+            + "\nĐịnh danh: " + id + "\nYêu cầu: " + entry.getString("request")
+            + "\nGitHub: " + (entry.optBoolean("synced") ? "Đã lưu" : "Chờ đồng bộ")
+            + "\nThông tin riêng và kết quả duyệt: " + (entry.optBoolean("privateSynced") ? "Đã lưu Firebase" : "Chờ lưu Firebase");
+        if (current == null) report += "\nGiấy phép cũ · Đầy đủ tính năng · Không thời hạn";
+        else report += "\nTrạng thái: " + (current.state.equals("revoked") ? "Đã thu hồi"
+            : current.state.equals("suspended") ? "Tạm khóa"
+            : current.expiresAt != 0 && current.expiresAt <= System.currentTimeMillis() / 1000L ? "Đã hết hạn" : "Đang hoạt động")
+            + "\nLoại: " + (current.kind.equals("trial") ? "Dùng thử" : "Chính thức")
+            + "\nGói: " + current.packageName + " (" + current.packageId + ")\nQuyền: " + features(current)
+            + "\nNgày cấp: " + date(current.issuedAt) + "\nHết hạn: " + date(current.expiresAt)
+            + "\nPhiên bản trạng thái: " + current.revision;
+        long lastSeen = 0;
+        JSONObject contacts = contactRead.get();
         for (String identity : io.meridian.licensing.SupportProtocol.keys(contacts)) {
           JSONObject contact = contacts.optJSONObject(identity);
           if (contact != null) lastSeen = Math.max(lastSeen, contact.optLong("lastSeen"));
         }
-      } catch (Exception ignored) {}
-      report += "\nLần liên hệ gần nhất: " + (lastSeen == 0 ? "Chưa có dữ liệu"
-          : java.text.DateFormat.getDateTimeInstance().format(new java.util.Date(lastSeen)))
-          + "\nThời điểm này chỉ cho biết lần nhận dữ liệu gần nhất, không xác nhận thiết bị đang trực tuyến.";
-      String info = report;
-      ui(() -> {
-        LinearLayout root = column(); text(root, info);
-        button(root, "Cấp lại, gia hạn hoặc đổi gói", () -> issue(entry.optString("request"),
-            entry.optString("name"), description, entry.optString("uid")));
-        if (current == null || current.state.equals("active")) button(root, "Tạm khóa thiết bị", () -> change(entry, current, "suspended"));
-        if (current != null && current.state.equals("suspended")) button(root, "Mở lại thiết bị", () -> change(entry, current, "active"));
-        if (current == null || !current.state.equals("revoked")) button(root, "Thu hồi giấy phép", () ->
-            new AlertDialog.Builder(activity).setTitle("Thu hồi giấy phép?")
-                .setMessage("Thiết bị sẽ nhận lệnh khi có mạng. Muốn sử dụng lại phải cấp giấy phép mới.")
-                .setNegativeButton("Hủy", null).setPositiveButton("Thu hồi", (d, w) -> change(entry, current, "revoked")).show());
-        button(root, "Tải trạng thái mới nhất từ GitHub", () -> refreshRemote(entry));
-        text(root, entry.optString("value"));
-        button(root, "Sao chép giấy phép", () -> {
-          ClipboardManager clipboard = activity.getSystemService(ClipboardManager.class);
-          if (clipboard != null) clipboard.setPrimaryClip(ClipData.newPlainText("Giấy phép", entry.optString("value")));
+        report += "\nLần liên hệ gần nhất: " + (lastSeen == 0 ? "Chưa có dữ liệu"
+            : java.text.DateFormat.getDateTimeInstance().format(new java.util.Date(lastSeen)))
+            + "\nThời điểm này chỉ cho biết lần nhận dữ liệu gần nhất, không xác nhận thiết bị đang trực tuyến.";
+        String info = report;
+        ui(() -> {
+          if (!dialog.isShowing()) return;
+          root.removeAllViews(); text(root, info);
+          button(root, "Cấp lại, gia hạn hoặc đổi gói", () -> issue(entry.optString("request"),
+              entry.optString("name"), description, entry.optString("uid")));
+          if (current == null || current.state.equals("active")) button(root, "Tạm khóa thiết bị", () -> change(entry, current, "suspended"));
+          if (current != null && current.state.equals("suspended")) button(root, "Mở lại thiết bị", () -> change(entry, current, "active"));
+          if (current == null || !current.state.equals("revoked")) button(root, "Thu hồi giấy phép", () ->
+              new AlertDialog.Builder(activity).setTitle("Thu hồi giấy phép?")
+                  .setMessage("Thiết bị sẽ nhận lệnh khi có mạng. Muốn sử dụng lại phải cấp giấy phép mới.")
+                  .setNegativeButton("Hủy", null).setPositiveButton("Thu hồi", (d, w) -> change(entry, current, "revoked")).show());
+          button(root, "Tải trạng thái mới nhất từ GitHub", () -> refreshRemote(entry));
+          text(root, entry.optString("value"));
+          button(root, "Sao chép giấy phép", () -> {
+            ClipboardManager clipboard = activity.getSystemService(ClipboardManager.class);
+            if (clipboard != null) clipboard.setPrimaryClip(ClipData.newPlainText("Giấy phép", entry.optString("value")));
+          });
         });
-        show("Chi tiết thiết bị", root);
-      });
+      } catch (Exception e) {
+        ui(() -> {
+          if (!dialog.isShowing()) return;
+          root.removeAllViews(); text(root, "Chưa tải được thông tin thiết bị mới nhất. Hãy thử lại.");
+          button(root, "Thử lại", () -> { dialog.dismiss(); detail(id); });
+        });
+      }
     });
   }
 
@@ -253,7 +292,7 @@ final class AdminPanel {
   }
 
   private void refreshRemote(JSONObject entry) {
-    task(() -> {
+    read(() -> {
       IssuerStore store = new IssuerStore(activity);
       CatalogPublisher.RemoteFile remote = CatalogPublisher.github(GitHubConnection.token(store))
           .get(RecoveryProtocol.recordPath(entry.getString("request")));
@@ -268,7 +307,7 @@ final class AdminPanel {
   }
 
   private void setup() {
-    task(() -> {
+    read(() -> {
       FirebaseRest service = EnrollmentService.create(activity);
       String uid = service.uid();
       ui(() -> {
@@ -289,9 +328,10 @@ final class AdminPanel {
   }
 
   private void requests() {
-    task(() -> {
+    read(() -> {
       FirebaseRest service = EnrollmentService.create(activity);
-      JSONObject requests = service.get("requests"), decisions = service.get("decisions");
+      java.util.concurrent.Future<JSONObject> requestRead = SyncCoordinator.NETWORK.submit(() -> service.get("requests"));
+      JSONObject decisions = service.get("decisions"), requests = requestRead.get();
       ui(() -> {
         LinearLayout root = column();
         int pending = 0;
@@ -323,18 +363,11 @@ final class AdminPanel {
   }
 
   private void restoreDevices() {
-    task(() -> {
-      JSONObject records = EnrollmentService.create(activity).get("devices");
-      IssuerStore store = new IssuerStore(activity);
-      Iterator<String> ids = records.keys();
-      while (ids.hasNext()) store.importRecord(records.getJSONObject(ids.next()));
-      activity.message("Đã tải danh sách thiết bị. Khóa ký vẫn nằm trong phần cứng điện thoại này.");
-      activity.refreshPanel();
-    });
+    activity.refreshPanel();
   }
 
   private void packages() {
-    task(() -> {
+    read(() -> {
       JSONObject templates = new IssuerStore(activity).packages();
       ui(() -> {
         LinearLayout root = column();

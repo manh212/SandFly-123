@@ -16,6 +16,16 @@ There is no Cloud Function, billing account, web dashboard or additional login f
 
 Rules tests run against a demo database emulator in GitHub Actions before publishing the admin APK. Passing emulator tests does not deploy production rules. The owner must publish the rules above and provision the admin UID.
 
+For live license changes, publish the updated complete rules file before using
+the new builds. The new `licenseEvents/<device-hash>` path contains only the
+device request, signed policy and server update time. Authenticated clients can
+read a known device path but cannot list the directory or write policies.
+Names, descriptions and Firebase identities remain in the owner-only directory.
+The admin batches private records, enrollment decisions and license events into
+one atomic multi-path update. If production still has the older rules, it keeps
+publishing private records and decisions, reports that the rules need updating,
+and leaves event publication pending for the next synchronization.
+
 ## User registration
 
 Open Meridian settings, Updates, the Meridian activation entry. Enter both full name and description and submit the request. The application sends it directly; the user does not visit a website or copy a request to the owner. The fields become immutable after submission. Reopening this page checks the decision automatically. GitHub recovery also works independently of this page once an approved license is published.
@@ -26,7 +36,7 @@ Device identity is the SFREQ2 hash. Equal display names do not merge devices. Th
 
 ## Device actions and packages
 
-Select a device in the admin list to see its request, hash, private name and description, signed license, state, package, feature snapshot, issue date, expiry and both upload states. Existing local SFREQ2 records remain visible. Private records can be downloaded from Firebase by the authorized admin using the original issuer key.
+Select a device in the admin list to see its request, hash, private name and description, signed license, state, package, feature snapshot, issue date, expiry and both upload states. Pending local changes remain visible and clearly marked after a fresh directory read. Private records can be downloaded from Firebase by the authorized admin using the original issuer key.
 
 - Suspend denies use when the updated client receives the signed state. Resume preserves the original issue date, features and expiry, including an already elapsed expiry.
 - Revoke denies use and offers no resume action. Explicitly issue a new license to permit the device again.
@@ -34,13 +44,55 @@ Select a device in the admin list to see its request, hash, private name and des
 - Create or edit named package templates by selecting AI, OCR, translation, voice input and Lua scripting. A valid issued package always includes basic screen reading. Templates are stored encrypted on the admin phone; template edits affect future issuance only. Existing feature snapshots are immutable until explicitly reissued for that device.
 - Runtime checks cover AI text, image and screen requests, ML Kit and Tesseract caption OCR, live subtitle OCR, script screenshot OCR, translation including automatic translation, voice input and Lua loading, dispatch and host calls. A compound action needs each involved group; for example AI translation needs translation and AI, and script screenshot OCR needs scripting and OCR.
 
-An outstanding change whose revision is older than GitHub cannot overwrite the newer record. Open device details, fetch the latest GitHub state and reopen the details before signing a fresh change. Unsynced older changes are replaced only by a verified newer signed revision during this explicit reconciliation.
+An outstanding change whose revision is older than GitHub cannot overwrite the newer record. Open device details, fetch the latest GitHub state and reopen the details before signing a fresh change. Imports replace an older pending policy only with a verified newer signed revision.
 
 ## Compatibility and offline limits
 
 SFLIC1 and SFLIC2 licenses already stored on a device retain full rights and no expiry. Merely synchronizing the admin application does not migrate or restrict these licenses. SFLIC1 still depends on its original installation key. New policies use SFLIC3 and must not include a perpetual legacy fallback.
 
-An updated client checks GitHub while its accessibility service is running and when activation or settings opens. Offline use has no renewal deadline. The last verified active license works until its own expiry. Cached suspend and revoke states remain denied offline; missing, malformed, stale or unavailable remote data cannot restore an older grant. Initial manual activation checks current remote state to prevent using a pasted older grant after clearing app data. A signed record alone does not give a client permission to change policy or approve requests.
+While its accessibility service runs, Meridian receives signed changes through
+an authenticated Firebase REST event stream. New snapshots are verified against
+the pinned issuer, device identity and monotonic policy revision before they
+change local rights. Expiry and the existing unregistered countdown continue to
+be enforced locally. The stream reconnects with bounded backoff, renews expired
+authentication and uses the HTTPS response's server-time anchor for limited
+licenses. Reconnection receives the current stored policy, including a change
+made while the phone was offline.
+
+The catalog is checked once per 24 hours while the service or settings remain
+active, including startup when a check is due. Successful checks persist their
+wall time, elapsed time and boot identity; clock rollback after reboot makes a
+check due. Network or validation failures retry after fifteen minutes instead of
+every minute. Explicit recovery and initial manual activation still check the
+current remote state immediately. The activation form's existing pending-request
+checks remain available while that form is open.
+
+Offline use has no renewal deadline. The last verified active license works
+until its own expiry. Cached suspend and revoke states remain denied offline;
+missing, malformed, stale or unavailable remote data cannot restore an older
+grant. A signed record alone does not give a client permission to change policy
+or approve requests. The license stream is separate from support notifications;
+both consume Firebase connections and bandwidth. Spark's simultaneous connection
+allowance must cover both streams and administrator operations.
+
+## Administrator responsiveness
+
+Device and support lists wait for fresh server reads before displaying records.
+Failed refreshes show an error and retry action rather than cached lists. Device
+reads and support reads use bounded executors separate from write synchronization;
+independent detail queries run concurrently. Inbox status queries cover the keys
+in each page, cap range reads and fetch any truncated boundary records explicitly.
+Timestamp-tie pagination and scanning past completed requests remain intact.
+
+Firebase clients reuse an unexpired authenticated session within the same app
+and configuration. Permission checks still occur on server requests. Expired
+authentication retries once; permission failures remain failures. GitHub
+installation tokens are reused conservatively within their lifetime. Idle
+synchronization avoids unnecessary remote work, profile verification is shared
+within one publication batch, and imported device records are validated before
+one encrypted storage write. Concurrent signing and imports cannot overwrite a
+newer signed revision. Local pending changes remain explicitly pending until
+their corresponding remote writes succeed.
 
 Limited licenses use HTTPS server time, elapsed realtime within a boot and a persisted time floor. A significant backward clock change across a reboot requires correcting device time or reconnecting for a trusted time anchor. These checks do not provide a tamper-proof offline clock on a rooted or patched device. Fully offline clients cannot receive a new revoke command. Older APKs do not implement the new policy checks and must be updated to honor them. R8 renames the activation implementation in both APKs and CI verifies the resulting mappings and DEX; it cannot make client code impossible to patch.
 

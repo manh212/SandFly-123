@@ -11,7 +11,13 @@ import java.nio.charset.StandardCharsets;
 import org.json.JSONObject;
 
 public final class FirebaseRest {
-  private static final Object AUTH_LOCK = new Object();
+  private static final java.util.Map<String, Session> SESSIONS = new java.util.HashMap<>();
+  private static final java.util.Map<Storage, java.util.Map<String, Session>> LOCAL_SESSIONS = new java.util.WeakHashMap<>();
+  private static final class Session {
+    JSONObject identity;
+    String token;
+    long expiresAt;
+  }
   public interface Transport {
     String request(String address, String method, String body, String contentType) throws Exception;
     default void cancel() {}
@@ -19,6 +25,7 @@ public final class FirebaseRest {
   public interface Storage {
     String read() throws Exception;
     void write(String value) throws Exception;
+    default String sessionKey() { return ""; }
   }
 
   public static final class Config {
@@ -38,8 +45,9 @@ public final class FirebaseRest {
   private final Config config;
   private final Storage storage;
   private final Transport transport;
-  private JSONObject identity;
-  private String token;
+  private volatile JSONObject identity;
+  private volatile String token;
+  private final Session session;
 
   public FirebaseRest(Config config, Storage storage) {
     this(config, storage, new HttpTransport());
@@ -49,6 +57,19 @@ public final class FirebaseRest {
     this.config = config;
     this.storage = storage;
     this.transport = transport;
+    String scope = storage.sessionKey();
+    String configuration = config.database + "|" + config.apiKey;
+    if (scope.isEmpty()) {
+      synchronized (LOCAL_SESSIONS) {
+        session = LOCAL_SESSIONS.computeIfAbsent(storage, ignored -> new java.util.HashMap<>())
+            .computeIfAbsent(configuration, ignored -> new Session());
+      }
+    } else {
+      synchronized (SESSIONS) {
+        String key = configuration + "|" + scope;
+        session = SESSIONS.computeIfAbsent(key, ignored -> new Session());
+      }
+    }
   }
 
   public String uid() throws Exception { authenticate(); return identity.getString("uid"); }
@@ -56,11 +77,16 @@ public final class FirebaseRest {
   public void cancelRequests() { transport.cancel(); }
 
   private void authenticate() throws Exception {
-    synchronized (AUTH_LOCK) { authenticateLocked(); }
+    synchronized (session) { authenticateLocked(); }
   }
 
   private void authenticateLocked() throws Exception {
-    if (token != null) return;
+    long now = System.currentTimeMillis();
+    if (session.token != null && now < session.expiresAt && now > session.expiresAt - 3_600_000L) {
+      identity = session.identity;
+      token = session.token;
+      return;
+    }
     if (!config.enabled()) throw new IllegalStateException("Chưa cấu hình dịch vụ đăng ký Firebase.");
     identity = new JSONObject(storage.read());
     JSONObject result;
@@ -84,6 +110,35 @@ public final class FirebaseRest {
     }
     storage.write(identity.toString());
     token = nextToken;
+    session.identity = identity;
+    session.token = token;
+    long seconds = result.optLong("expiresIn", result.optLong("expires_in", 3600));
+    session.expiresAt = now + Math.max(0, Math.min(3600, seconds) - 60) * 1000;
+  }
+
+  public void invalidateAuthentication() {
+    invalidateAuthentication(token);
+  }
+
+  private void invalidateAuthentication(String rejectedToken) {
+    synchronized (session) {
+      if (rejectedToken == null || rejectedToken.equals(session.token)) {
+        session.token = null;
+        session.expiresAt = 0;
+      }
+    }
+  }
+
+  private String authorization() throws Exception {
+    synchronized (session) { authenticateLocked(); return token; }
+  }
+
+  public static final class AuthenticationExpired extends IllegalStateException {
+    public AuthenticationExpired() { super("Phiên Firebase cần được làm mới."); }
+  }
+
+  public static final class PermissionDenied extends IllegalStateException {
+    public PermissionDenied() { super("Firebase từ chối truy cập. Kiểm tra UID quản trị và quy tắc cơ sở dữ liệu."); }
   }
 
   public JSONObject get(String path) throws Exception {
@@ -119,15 +174,35 @@ public final class FirebaseRest {
     return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
   }
 
+  public JSONObject keyRange(String path, String first, String last, int limit) throws Exception {
+    if (limit < 1 || limit > 1000 || !first.matches("[a-zA-Z0-9_-]{1,128}")
+        || !last.matches("[a-zA-Z0-9_-]{1,128}") || first.compareTo(last) > 0) {
+      throw new IllegalArgumentException("Khoảng dữ liệu không hợp lệ.");
+    }
+    String query = "&orderBy=%22%24key%22&startAt=" + URLEncoder.encode(JSONObject.quote(first), "UTF-8")
+        + "&endAt=" + URLEncoder.encode(JSONObject.quote(last), "UTF-8") + "&limitToFirst=" + limit;
+    String raw = database(path, "GET", null, query);
+    return raw.trim().equals("null") ? new JSONObject() : new JSONObject(raw);
+  }
+
+  public void update(JSONObject changes) throws Exception {
+    java.util.Iterator<String> keys = changes.keys();
+    while (keys.hasNext()) validatePath(keys.next());
+    databaseRequest("", "PATCH", changes.toString(), "&print=silent");
+  }
+
   public void patch(String path, JSONObject value) throws Exception {
     database(path, "PATCH", value.toString(), "&print=silent");
   }
 
   public String eventsAddress(String path) throws Exception {
+    return eventsAddress(path, true);
+  }
+
+  public String eventsAddress(String path, boolean recent) throws Exception {
     validatePath(path);
-    authenticate();
-    return config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8")
-        + "&orderBy=%22lastAt%22&limitToLast=100";
+    return config.database + "/" + path + ".json?auth=" + URLEncoder.encode(authorization(), "UTF-8")
+        + (recent ? "&orderBy=%22lastAt%22&limitToLast=100" : "");
   }
 
   public JSONObject matching(String path, String field, String value) throws Exception {
@@ -147,13 +222,24 @@ public final class FirebaseRest {
 
   private String database(String path, String method, String body, String query) throws Exception {
     validatePath(path);
-    authenticate();
-    return transport.request(config.database + "/" + path + ".json?auth=" + URLEncoder.encode(token, "UTF-8") + query,
-        method, body, "application/json");
+    return databaseRequest(path, method, body, query);
+  }
+
+  private String databaseRequest(String path, String method, String body, String query) throws Exception {
+    for (int attempt = 0; ; attempt++) {
+      String authorization = authorization();
+      try {
+        return transport.request(config.database + "/" + path + ".json?auth=" + URLEncoder.encode(authorization, "UTF-8") + query,
+            method, body, "application/json");
+      } catch (AuthenticationExpired expired) {
+        if (attempt != 0) throw expired;
+        invalidateAuthentication(authorization);
+      }
+    }
   }
 
   private static void validatePath(String path) {
-    if (!path.matches("(?:(?:requests|decisions|devices|admins|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
+    if (!path.matches("(?:(?:requests|decisions|devices|admins|licenseEvents|supportIndex|supportUsers|supportMessages|supportStates|supportStaff|supportContacts|supportAttachments)(?:/[a-zA-Z0-9_-]{1,128}){0,2}|supportLogChunks(?:/[a-zA-Z0-9_-]{1,128}){3})")) {
       throw new IllegalArgumentException("Đường dẫn dịch vụ không hợp lệ.");
     }
   }
@@ -206,8 +292,21 @@ public final class FirebaseRest {
       int status = connection.getResponseCode();
       if (status < 200 || status >= 300) {
         if (status == 400) throw new IllegalStateException("Dịch vụ đăng ký từ chối yêu cầu. Kiểm tra cấu hình và danh tính Firebase.");
-        if (status == 401 || status == 403) throw new IllegalStateException(
-            "Firebase từ chối truy cập. Kiểm tra đăng nhập ẩn danh, UID quản trị và quy tắc cơ sở dữ liệu.");
+        if (status == 401) {
+          try (InputStream error = connection.getErrorStream()) {
+            if (error != null) {
+              ByteArrayOutputStream detail = new ByteArrayOutputStream();
+              byte[] buffer = new byte[1024];
+              int count;
+              while (detail.size() < 8192 && (count = error.read(buffer)) != -1) detail.write(buffer, 0, count);
+              if (detail.toString("UTF-8").toLowerCase(java.util.Locale.ROOT).contains("permission denied")) {
+                throw new PermissionDenied();
+              }
+            }
+          }
+          throw new AuthenticationExpired();
+        }
+        if (status == 403) throw new PermissionDenied();
         throw new IOException("Chưa kết nối được Firebase (HTTP " + status + ").");
       }
       ByteArrayOutputStream bytes = new ByteArrayOutputStream();
