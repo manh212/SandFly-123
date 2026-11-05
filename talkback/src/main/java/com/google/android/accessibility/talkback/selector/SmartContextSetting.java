@@ -35,7 +35,7 @@ public final class SmartContextSetting implements SelectorController.ContextualS
 
   @Override
   public boolean shouldActivateSetting(Context context, AccessibilityNodeInfoCompat node) {
-    if (!isNodeSupportSetting(context, node)) return false;
+    if (!isNodeSupportSetting(context, node) || node.isEditable() || node.isPassword()) return false;
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
     if (!prefs.getBoolean(SmartContextGestures.PREF_AUTO_SWITCH, false)) return false;
     TalkBackService service = TalkBackService.getInstance();
