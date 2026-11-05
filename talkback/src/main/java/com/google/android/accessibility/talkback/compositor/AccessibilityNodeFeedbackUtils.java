@@ -165,6 +165,13 @@ public class AccessibilityNodeFeedbackUtils {
     if (!TextUtils.isEmpty(customLabel)) {
       return markCapital(node, customLabel, context, globalVariables);
     }
+    // Grab places the visible "Đặt xe" text beside its real transportBookButton.
+    // Announce that sibling label while focusing the original button, not a substitute overlay.
+    CharSequence grabBookingLabel =
+        com.google.android.accessibility.utils.RideAppAccessibility.grabBookingButtonLabel(node);
+    if (!TextUtils.isEmpty(grabBookingLabel)) {
+      return markCapital(node, grabBookingLabel, context, globalVariables);
+    }
     CharSequence nodeTextDescription = getNodeTextDescription(node, context, globalVariables);
     if (!TextUtils.isEmpty(nodeTextDescription)) {
       return nodeTextDescription;
