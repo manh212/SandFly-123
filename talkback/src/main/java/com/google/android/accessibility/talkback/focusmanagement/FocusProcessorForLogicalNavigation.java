@@ -641,6 +641,25 @@ public class FocusProcessorForLogicalNavigation {
     } else if (navigationAction.targetType == NavigationTarget.TARGET_SEARCH) {
       return navigateToScreenSearchTarget(pivot, navigationAction, eventId);
     } else {
+      // Grab exposes its genuine transportBookButton without an accessible label.
+      // When normal swipe navigation would skip that nested native control, focus the original
+      // Android view itself from the preceding booking controls. No overlay or click is created.
+      if (!ignoreDescendantsOfPivot
+          && navigationAction.targetType == NavigationTarget.TARGET_DEFAULT
+          && TraversalStrategyUtils.getLogicalDirection(
+                  navigationAction.searchDirection, WindowUtils.isScreenLayoutRTL(service))
+              == TraversalStrategy.SEARCH_FOCUS_FORWARD
+          && com.google.android.accessibility.utils.RideAppAccessibility
+              .precedesGrabBookingButton(pivot)) {
+        AccessibilityNodeInfoCompat root = AccessibilityNodeInfoUtils.getRoot(pivot);
+        AccessibilityNodeInfoCompat bookingButton =
+            com.google.android.accessibility.utils.RideAppAccessibility
+                .findGrabBookingButton(root);
+        if (bookingButton != null && !bookingButton.equals(pivot)
+            && setAccessibilityFocusInternal(bookingButton, navigationAction, eventId)) {
+          return true;
+        }
+      }
       return navigateToDefaultOrMacroGranularityTarget(
           pivot, ignoreDescendantsOfPivot, navigationAction, eventId);
     }
