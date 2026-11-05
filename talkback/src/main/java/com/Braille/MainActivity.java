@@ -1207,7 +1207,25 @@ editor.apply();
     private LinearLayout buildMainScreen() {
         LinearLayout main = new LinearLayout(this);
         main.setOrientation(LinearLayout.VERTICAL);
-        main.setPadding(dp(10), dp(10), dp(10), dp(10));
+        final int basePadding = dp(10);
+        BrailleSettingsMenu.applySafePadding(main, basePadding, 0, 0);
+        main.setOnApplyWindowInsetsListener(new View.OnApplyWindowInsetsListener() {
+            @Override
+            public android.view.WindowInsets onApplyWindowInsets(View view, android.view.WindowInsets insets) {
+                int topInset;
+                int bottomInset;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                    android.graphics.Insets bars = insets.getInsets(android.view.WindowInsets.Type.systemBars());
+                    topInset = bars.top;
+                    bottomInset = bars.bottom;
+                } else {
+                    topInset = insets.getSystemWindowInsetTop();
+                    bottomInset = insets.getSystemWindowInsetBottom();
+                }
+                BrailleSettingsMenu.applySafePadding(view, basePadding, topInset, bottomInset);
+                return insets;
+            }
+        });
 
         LinearLayout tabRow = new LinearLayout(this);
         tabRow.setOrientation(LinearLayout.VERTICAL);
@@ -1216,6 +1234,14 @@ editor.apply();
         btnTabGesture = createTabButton("Cài đặt cử chỉ");
 btnTabAlphabet = createTabButton("Cài đặt bảng chữ");
 btnTabPhoneOptions = createTabButton("Cài đặt bàn phím");
+        final Button btnSpeedMenu = createTabButton("Tăng tốc khi nhập");
+        btnSpeedMenu.setContentDescription("Tăng tốc khi nhập. Điều chỉnh độ trễ chữ, độ nhạy vuốt và cử chỉ ngắn dài");
+        btnSpeedMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showTypingSpeedSettings();
+            }
+        });
 btnTabSound = createTabButton("Âm thanh và Rung");
         btnTabEmoji = createTabButton("Cài đặt biểu tượng");
 
@@ -1238,7 +1264,7 @@ btnTabSound = createTabButton("Âm thanh và Rung");
 @Override
 public void onClick(View v) {
 switchSettingsTab(3);
-speak("Cài đặt bàn phím và nhập liệu, gồm độ trễ viết chữ, độ trễ cử chỉ và các tùy chọn khác. Bấm nút quay lại để trở về menu.", true);
+speak("Cài đặt bàn phím và nhập liệu. Chọn Tăng tốc khi nhập để điều chỉnh tốc độ và cử chỉ. Bấm nút quay lại để trở về menu.", true);
 }
 });
 btnTabSound.setOnClickListener(new View.OnClickListener() {
@@ -1250,6 +1276,8 @@ speak("Âm thanh và Rung. Gồm hai mục: Thiết lập âm thanh và Chọn m
 });
 
         tabRow.addView(btnTabPhoneOptions, new LinearLayout.LayoutParams(
+ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        tabRow.addView(btnSpeedMenu, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 tabRow.addView(btnTabSound, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -1266,7 +1294,9 @@ tabRow.addView(btnTabGesture, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 tabRow.addView(btnTabAlphabet, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-main.addView(tabRow);
+        ScrollView menuScroll = BrailleSettingsMenu.wrap(this, tabRow);
+        main.addView(menuScroll, new LinearLayout.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, 0, 1f));
 
 
         sectionGestureLayout = buildSection2Gestures();
