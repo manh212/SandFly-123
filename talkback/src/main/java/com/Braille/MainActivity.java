@@ -79,6 +79,8 @@ public class MainActivity extends Activity {
     public static final String ACT_SPACE = "SPACE";
     public static final String ACT_BACKSPACE = "BACKSPACE";
     public static final String ACT_DELETE_WORD = "DELETE_WORD";
+    public static final String ACT_DELETE_CHAR_AT_CURSOR = "DELETE_CHAR_AT_CURSOR";
+    public static final String ACT_DELETE_WORD_AT_CURSOR = "DELETE_WORD_AT_CURSOR";
     public static final String ACT_DELETE_LINE = "DELETE_LINE";
     public static final String ACT_CLEAR_ALL = "CLEAR_ALL";
     public static final String ACT_ENTER = "ENTER";
@@ -89,6 +91,9 @@ public class MainActivity extends Activity {
     public static final String ACT_MOVE_WORD_PREV = "MOVE_WORD_PREV";
     public static final String ACT_MOVE_LINE_NEXT = "MOVE_LINE_NEXT";
     public static final String ACT_MOVE_LINE_PREV = "MOVE_LINE_PREV";
+    public static final String ACT_MOVE_LINE_START = "MOVE_LINE_START";
+    public static final String ACT_MOVE_LINE_END = "MOVE_LINE_END";
+    public static final String ACT_MOVE_LINE_BOUNDARY_NEXT = "MOVE_LINE_BOUNDARY_NEXT";
     public static final String ACT_MOVE_START = "MOVE_START";
     public static final String ACT_MOVE_END = "MOVE_END";
 
@@ -167,6 +172,8 @@ public class MainActivity extends Activity {
     private final StringBuilder textBuffer = new StringBuilder();
     private int cursorPos = 0;
     private int markPos = -1;
+    private final BrailleTextOperations.NavigationState navigationState =
+            new BrailleTextOperations.NavigationState();
 
     private final String[] selectionMenuOptions = new String[]{
             "Đọc vùng chọn",
@@ -421,6 +428,8 @@ toneGenerator.startTone(toneType, toneDurationMs);
         actionNameMap.put(ACT_SPACE, "Thêm dấu cách (Space)");
         actionNameMap.put(ACT_BACKSPACE, "Xóa 1 ký tự (Backspace)");
         actionNameMap.put(ACT_DELETE_WORD, "Xóa 1 từ trước con trỏ");
+        actionNameMap.put(ACT_DELETE_CHAR_AT_CURSOR, "Xóa ký tự đang trỏ tới");
+        actionNameMap.put(ACT_DELETE_WORD_AT_CURSOR, "Xóa từ đang trỏ tới");
         actionNameMap.put(ACT_DELETE_LINE, "Xóa dòng hiện tại (Vuốt 2 lần)");
         actionNameMap.put(ACT_CLEAR_ALL, "Xóa toàn bộ văn bản (Vuốt 2 lần)");
         actionNameMap.put(ACT_ENTER, "Xuống dòng (Enter)");
@@ -431,6 +440,9 @@ toneGenerator.startTone(toneType, toneDurationMs);
         actionNameMap.put(ACT_MOVE_WORD_PREV, "Di chuyển: Lùi 1 từ");
         actionNameMap.put(ACT_MOVE_LINE_NEXT, "Di chuyển: Tiến 1 dòng");
         actionNameMap.put(ACT_MOVE_LINE_PREV, "Di chuyển: Lùi 1 dòng");
+        actionNameMap.put(ACT_MOVE_LINE_START, "Di chuyển: Về đầu dòng hiện tại");
+        actionNameMap.put(ACT_MOVE_LINE_END, "Di chuyển: Về cuối dòng hiện tại");
+        actionNameMap.put(ACT_MOVE_LINE_BOUNDARY_NEXT, "Di chuyển: Lần lượt đầu và cuối từng dòng");
         actionNameMap.put(ACT_MOVE_START, "Di chuyển: Về đầu văn bản");
         actionNameMap.put(ACT_MOVE_END, "Di chuyển: Về cuối văn bản");
 
