@@ -33,7 +33,9 @@ public final class SmartContextGestures {
   public static final String MODE_INHERIT = "inherit";
   public static final String MODE_OWN = "own";
   public static final String MODE_OFF = "off";
-  public static final String[] BUILTINS = {"dialog", "call_incoming", "call_active", "short_video", "media"};
+  public static final String[] BUILTINS = {"dialog", "call_incoming", "call_speaker", "call_active", "short_video", "media"};
+  public static final String PREF_TEXT_RULES_ENABLED = "smart_context_text_rules_enabled";
+  public static final String PREF_AUTO_SWITCH = "smart_context_auto_switch";
   public static final String PREF_MAX_SCROLL = "smart_context_max_scroll";
   public static final String PREF_PRIORITIES = "smart_context_priorities";
   private static final String RULE_PREFIX = "smart_context_rules_";
@@ -44,6 +46,7 @@ public final class SmartContextGestures {
   private static final String[] CALL_DECLINE = {"Từ chối", "Reject", "Decline"};
   private static final String[] CALL_END = {"Kết thúc", "Ngắt cuộc gọi", "End call", "Hang up"};
   private static final String[] CALL_MUTE = {"Tắt tiếng", "Bật tiếng", "Mute", "Unmute"};
+  private static final String[] CALL_SPEAKER = {"Loa ngoài", "Bật loa", "Tắt loa", "Loa", "Speakerphone", "Speaker"};
   private static Search activeSearch;
 
   private SmartContextGestures() {}
@@ -154,6 +157,7 @@ public final class SmartContextGestures {
   }
 
   public static List<Rule> getEffectiveRules(Context context, String packageName, boolean down) {
+    if (!prefs(context).getBoolean(PREF_TEXT_RULES_ENABLED, true)) return Collections.emptyList();
     String mode = getMode(context, packageName, down);
     if (MODE_OFF.equals(mode)) return Collections.emptyList();
     return getRules(context, MODE_OWN.equals(mode) ? packageName : "", down);
@@ -200,6 +204,7 @@ public final class SmartContextGestures {
       case "dialog" -> R.string.smart_context_builtin_dialog;
       case "call_incoming" -> R.string.smart_context_builtin_call_incoming;
       case "call_active" -> R.string.smart_context_builtin_call_active;
+      case "call_speaker" -> R.string.smart_context_builtin_call_speaker;
       case "short_video" -> R.string.smart_context_builtin_short_video;
       default -> R.string.smart_context_builtin_media;
     };
@@ -226,6 +231,59 @@ public final class SmartContextGestures {
       current.cancelled = true;
       activeSearch = null;
     }
+  }
+
+  /**
+   * Returns whether the currently displayed window has an enabled contextual action.
+   * This only detects availability; it never clicks or scrolls the screen.
+   */
+  public static boolean hasMatchingContext(TalkBackService service) {
+    if (service == null) return false;
+    AccessibilityNodeInfo root = service.getRootInActiveWindow();
+    if (root == null || root.getPackageName() == null) return false;
+    String packageName = root.getPackageName().toString();
+    if (findMatch(root, getEffectiveRules(service, packageName, false)) != null
+        || findMatch(root, getEffectiveRules(service, packageName, true)) != null) return true;
+
+    boolean callUi = isCallUiPackage(packageName);
+    if (isBuiltinEnabled(service, "call_incoming") && callUi
+        && (findBuiltinMatch(root, CALL_ANSWER) != null
+            || findBuiltinMatch(root, CALL_DECLINE) != null)) return true;
+    if (isBuiltinEnabled(service, "call_active") && callUi
+        && (findBuiltinMatch(root, CALL_END) != null
+            || findBuiltinMatch(root, CALL_MUTE) != null)) return true;
+    if (isBuiltinEnabled(service, "call_speaker") && callUi
+        && findBuiltinMatch(root, CALL_SPEAKER) != null) return true;
+    if (isBuiltinEnabled(service, "short_video") && isShortVideoContext(packageName, root)) return true;
+    if (isBuiltinEnabled(service, "dialog") && isDialogContext(root)) return true;
+    return isBuiltinEnabled(service, "media")
+        && findBuiltinMatch(root, new String[]{"Tạm dừng", "Phát", "Pause", "Play", "Tiếp tục"}) != null;
+  }
+
+  private static boolean isShortVideoContext(String packageName, AccessibilityNodeInfo root) {
+    String lower = packageName.toLowerCase(Locale.ROOT);
+    if (lower.contains("musically") || lower.contains("ugc.trill") || lower.contains("tiktok")) {
+      return true;
+    }
+    for (AccessibilityNodeInfo node : visibleNodes(root)) {
+      String label = asText(node.getContentDescription()).toLowerCase(Locale.ROOT);
+      if (label.equals("shorts") || label.equals("reels") || label.equals("video ngắn")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private static boolean isDialogContext(AccessibilityNodeInfo root) {
+    return findMatch(root, Arrays.asList(
+        new Rule("OK", "exact", "", false, true),
+        new Rule("Đồng ý", "exact", "", false, true),
+        new Rule("Có", "exact", "", false, true))) != null
+        && findMatch(root, Arrays.asList(
+            new Rule("Hủy", "exact", "", false, true),
+            new Rule("Huỷ", "exact", "", false, true),
+            new Rule("Cancel", "exact", "", false, true),
+            new Rule("Không", "exact", "", false, true))) != null;
   }
 
   public static void perform(TalkBackService service, boolean down) {
@@ -573,6 +631,12 @@ public final class SmartContextGestures {
             return true;
           }
         }
+        if ("call_speaker".equals(name) && !down) {
+          boolean activeUi = isCallUiPackage(packageName)
+              && findBuiltinMatch(root, CALL_SPEAKER) != null;
+          if ((phoneState() == TelephonyManager.CALL_STATE_OFFHOOK || activeUi)
+              && activateByNames(root, CALL_SPEAKER)) return true;
+        }
         if ("call_active".equals(name)) {
           boolean activeUi = isCallUiPackage(packageName)
               && (findBuiltinMatch(root, CALL_END) != null
@@ -682,13 +746,7 @@ public final class SmartContextGestures {
     }
 
     boolean isShortVideo(AccessibilityNodeInfo root) {
-      String lower = packageName.toLowerCase(Locale.ROOT);
-      if (lower.contains("musically") || lower.contains("ugc.trill") || lower.contains("tiktok")) return true;
-      for (AccessibilityNodeInfo node : visibleNodes(root)) {
-        String label = asText(node.getContentDescription()).toLowerCase(Locale.ROOT);
-        if (label.equals("shorts") || label.equals("reels") || label.equals("video ngắn")) return true;
-      }
-      return false;
+      return isShortVideoContext(packageName, root);
     }
 
     boolean activateByNames(AccessibilityNodeInfo root, String[] names) {
