@@ -114,7 +114,13 @@ public class FocusActorForTapAndTouchExploration {
       return false;
     }
 
-    return pipeline.returnFeedback(eventId, Feedback.nodeAction(node, ACTION_CLICK.getId()));
+    // The displayed Grab "Đặt xe" label is a sibling of the clickable button.
+    // Single-tap activation must use the same safe target as double-tap.
+    AccessibilityNodeInfoCompat grabBookingButton = GrabBookingClickTarget.resolve(node);
+    return pipeline.returnFeedback(
+        eventId,
+        Feedback.nodeAction(
+            grabBookingButton != null ? grabBookingButton : node, ACTION_CLICK.getId()));
   }
 
 }
