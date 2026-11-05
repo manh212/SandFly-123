@@ -25,7 +25,6 @@ public class BrailleSettingsMenuTest {
         items.setOrientation(LinearLayout.VERTICAL);
         String[] titles = {
                 "Cài đặt bàn phím",
-                "Tăng tốc khi nhập",
                 "Âm thanh và Rung",
                 "Cài đặt biểu tượng",
                 "Cài đặt cử chỉ",

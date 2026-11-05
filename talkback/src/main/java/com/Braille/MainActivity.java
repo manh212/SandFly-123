@@ -1234,14 +1234,6 @@ editor.apply();
         btnTabGesture = createTabButton("Cài đặt cử chỉ");
 btnTabAlphabet = createTabButton("Cài đặt bảng chữ");
 btnTabPhoneOptions = createTabButton("Cài đặt bàn phím");
-        final Button btnSpeedMenu = createTabButton("Tăng tốc khi nhập");
-        btnSpeedMenu.setContentDescription("Tăng tốc khi nhập. Điều chỉnh độ trễ chữ, độ nhạy vuốt và cử chỉ ngắn dài");
-        btnSpeedMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showTypingSpeedSettings();
-            }
-        });
 btnTabSound = createTabButton("Âm thanh và Rung");
         btnTabEmoji = createTabButton("Cài đặt biểu tượng");
 
@@ -1276,8 +1268,6 @@ speak("Âm thanh và Rung. Gồm hai mục: Thiết lập âm thanh và Chọn m
 });
 
         tabRow.addView(btnTabPhoneOptions, new LinearLayout.LayoutParams(
-ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        tabRow.addView(btnSpeedMenu, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 tabRow.addView(btnTabSound, new LinearLayout.LayoutParams(
 ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

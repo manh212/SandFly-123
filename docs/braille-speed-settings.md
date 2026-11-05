@@ -18,8 +18,8 @@ slider adjustments. A 1 ms timer does not guarantee 1 ms hardware latency.
 
 ## Menu cài đặt có thể truy cập
 
-Ở menu chính của bàn phím chữ nổi có nút **Tăng tốc khi nhập** truy cập trực
-tiếp, và vẫn có thể mở trong **Cài đặt bàn phím**. Menu chính có thể cuộn
-và chừa khoảng an toàn cho thanh trạng thái và thanh điều hướng Android.
+Mục **Tăng tốc khi nhập** nằm bên trong **Cài đặt bàn phím**, không phải
+nút riêng ở menu chính. Menu chính có thể cuộn và chừa khoảng an toàn
+cho thanh trạng thái và thanh điều hướng Android.
 Vì vậy các nút đầu tiên và cuối cùng không bị khuất trên màn hình nhỏ
 hoặc khi dùng chữ lớn; TalkBack duyệt được các nút theo thứ tự.
