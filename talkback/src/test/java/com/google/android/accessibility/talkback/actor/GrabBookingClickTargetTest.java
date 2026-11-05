@@ -66,6 +66,24 @@ public final class GrabBookingClickTargetTest {
   }
 
   @Test
+  public void findsButtonFromWindowRootWithoutAnyAccessibilityFocus() {
+    BookingTree tree = bookingTree();
+    assertBookingButton(
+        GrabBookingClickTarget.findInWindow(AccessibilityNodeInfoCompat.wrap(tree.outer)));
+  }
+
+  @Test
+  public void doesNotFindButtonWhenBookingControlIsDisabledOrHasWrongLabel() {
+    BookingTree disabled = bookingTree("Đặt xe", false, true);
+    assertNull(
+        GrabBookingClickTarget.findInWindow(AccessibilityNodeInfoCompat.wrap(disabled.outer)));
+
+    BookingTree different = bookingTree("GrabNow", true, true);
+    assertNull(
+        GrabBookingClickTarget.findInWindow(AccessibilityNodeInfoCompat.wrap(different.outer)));
+  }
+
+  @Test
   public void refusesDisabledOrOffscreenBookingButton() {
     BookingTree disabled = bookingTree("Đặt xe", false, true);
     assertNull(GrabBookingClickTarget.resolve(AccessibilityNodeInfoCompat.wrap(disabled.label)));
