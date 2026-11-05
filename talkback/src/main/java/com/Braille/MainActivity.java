@@ -57,6 +57,8 @@ import java.util.Locale;
 import java.util.Map;
 
 public class MainActivity extends Activity {
+    /** Registered only on Android 13+, where predictive back bypasses onBackPressed(). */
+    private android.window.OnBackInvokedCallback brailleBackCallback;
 
     private static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
     private static final String ALPHABET_EXPORT_HEADER = "BRAILLE_ALPHABET_V1";
@@ -291,6 +293,12 @@ private BraillePhoneCanvasView brailleCanvasView;
             return;
         }
 
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU) {
+            brailleBackCallback = this::handleBrailleBack;
+            getOnBackInvokedDispatcher().registerOnBackInvokedCallback(
+                    android.window.OnBackInvokedDispatcher.PRIORITY_DEFAULT,
+                    brailleBackCallback);
+        }
         prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
         initFeedbackEngines();
         initDefaultMaps();
@@ -1999,8 +2007,15 @@ sectionEmojiLayout.setVisibility(index == 6 ? View.VISIBLE : View.GONE);
         }
     }
 
+    // Android 11-12 still dispatches onBackPressed(). On Android 13+ we
+    // register the equivalent predictive-back callback in onCreate().
+    @android.annotation.SuppressLint("GestureBackNavigation")
     @Override
-public void onBackPressed() {
+    public void onBackPressed() {
+        handleBrailleBack();
+    }
+
+    private void handleBrailleBack() {
 if (isKeyboardActive) {
 exitFullScreenKeyboardMode();
 return;
@@ -2015,7 +2030,7 @@ switchSettingsTab(0);
 speak("Đã quay lại menu chính", true);
 return;
 }
-super.onBackPressed();
+finish();
 }
 
 
@@ -4078,7 +4093,18 @@ return scroll;
     }
 
     @Override
+protected void onResume() {
+    super.onResume();
+    if (!BrailleMeridianBridge.isAvailable()) finish();
+}
+
+    @Override
 protected void onDestroy() {
+if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.TIRAMISU
+        && brailleBackCallback != null) {
+    getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback(brailleBackCallback);
+    brailleBackCallback = null;
+}
 mainHandler.removeCallbacks(singleFingerCommitRunnable);
 if (toneGenerator != null) {
 try {
