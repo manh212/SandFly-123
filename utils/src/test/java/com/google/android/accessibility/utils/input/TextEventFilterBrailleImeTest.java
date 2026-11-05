@@ -48,6 +48,9 @@ public final class TextEventFilterBrailleImeTest {
         TextEventFilter.isBrailleInputMethodId("com.Braille/.BrailleKeyboardService"));
     assertTrue(
         TextEventFilter.isBrailleInputMethodId("abk.keyboard/.BrailleKeyboard"));
+    assertTrue(
+        TextEventFilter.isBrailleInputMethodId(
+            "io.github.aaron_gh.meridian/com.Braille.BrailleKeyboardService"));
     assertFalse(
         TextEventFilter.isBrailleInputMethodId("com.google.android.inputmethod.latin/.LatinIME"));
     assertFalse(TextEventFilter.isBrailleInputMethodId(null));

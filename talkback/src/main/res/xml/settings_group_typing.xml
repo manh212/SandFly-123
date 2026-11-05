@@ -36,6 +36,11 @@
         android:key="@string/pref_echo_braille_keyboard_key"
         android:summary="%s"
         android:title="@string/title_pref_braille_keyboard_echo" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="meridian_braille_settings"
+        android:title="@string/meridian_braille_settings">
+      <intent android:action="com.android.talkback.action.BRAILLE_KEYBOARD_SETTINGS" />
+    </com.google.android.accessibility.material.preference.AccessibilitySuitePreference>
     <ListPreference
         android:defaultValue="@string/pref_interrupt_typing_default"
         android:entries="@array/pref_interrupt_typing_entries"

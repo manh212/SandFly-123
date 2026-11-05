@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="meridian_braille_settings">Bàn phím chữ nổi</string>
+    <string name="meridian_braille_keyboard_ime">Bàn phím chữ nổi Meridian</string>
+    <string name="meridian_braille_ime_subtype">Bàn phím chữ nổi tiếng Việt</string>
+</resources>

@@ -610,6 +610,25 @@
             </intent-filter>
         </receiver>
 
+        <!-- Braille is a bundled input method; Android controls enabling and selecting it. -->
+        <activity android:name="com.Braille.MainActivity"
+            android:exported="true"
+            android:label="@string/meridian_braille_settings">
+            <intent-filter>
+                <action android:name="com.android.talkback.action.BRAILLE_KEYBOARD_SETTINGS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <service android:name="com.Braille.BrailleKeyboardService"
+            android:label="@string/meridian_braille_keyboard_ime"
+            android:exported="true"
+            android:permission="android.permission.BIND_INPUT_METHOD">
+            <intent-filter>
+                <action android:name="android.view.InputMethod" />
+            </intent-filter>
+            <meta-data android:name="android.view.im"
+                android:resource="@xml/meridian_braille_method" />
+        </service>
     </application>
 </manifest>
 

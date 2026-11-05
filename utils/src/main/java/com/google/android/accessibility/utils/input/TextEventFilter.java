@@ -401,6 +401,11 @@ public class TextEventFilter {
     if (component == null) {
       return false;
     }
+    // The Meridian Braille IME shares the screen reader's application package,
+    // so identify it by the registered InputMethodService component.
+    if ("com.Braille.BrailleKeyboardService".equals(component.getClassName())) {
+      return true;
+    }
     String packageName = component.getPackageName().toLowerCase(Locale.ROOT);
     return BRAILLE_KEYBOARD_PACKAGE_NAME.equals(packageName)
         || packageName.contains("braille");

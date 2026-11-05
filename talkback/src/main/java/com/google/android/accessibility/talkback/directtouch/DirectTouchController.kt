@@ -371,6 +371,17 @@ class DirectTouchController(
    * Their apps are asked for only while some app is in the list.
    */
   private fun directKeyboards(windows: List<AccessibilityWindowInfo>): List<AccessibilityWindowInfo> {
+    // The bundled Braille IME needs raw multi-pointer touch on Android 11+.
+    // Only its selected Android input method gets this pass-through region.
+    val currentIme = runCatching {
+      android.provider.Settings.Secure.getString(
+        service.contentResolver, android.provider.Settings.Secure.DEFAULT_INPUT_METHOD)
+    }.getOrNull()
+    val component = currentIme?.let(android.content.ComponentName::unflattenFromString)
+    if (component?.packageName == service.packageName &&
+        component.className == "com.Braille.BrailleKeyboardService") {
+      return windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }
+    }
     if (isSilentDirectTyping()) {
       return windows.filter { it.type == AccessibilityWindowInfo.TYPE_INPUT_METHOD }
     }
