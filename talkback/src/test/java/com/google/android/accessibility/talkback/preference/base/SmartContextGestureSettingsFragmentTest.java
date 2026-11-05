@@ -59,6 +59,24 @@ public final class SmartContextGestureSettingsFragmentTest {
     dialog.setChecked(false);
     assertFalse(SmartContextGestures.isBuiltinEnabled(activity, "dialog"));
 
+    SwitchPreferenceCompat autoSwitch =
+        fragment.findPreference(SmartContextGestures.PREF_AUTO_SWITCH);
+    assertTrue(autoSwitch != null);
+    autoSwitch.setChecked(true);
+    assertTrue(device.getBoolean(SmartContextGestures.PREF_AUTO_SWITCH, false));
+    autoSwitch.setChecked(false);
+    assertFalse(device.getBoolean(SmartContextGestures.PREF_AUTO_SWITCH, true));
+
+    SwitchPreferenceCompat textRules =
+        fragment.findPreference(SmartContextGestures.PREF_TEXT_RULES_ENABLED);
+    assertTrue(textRules != null);
+    textRules.setChecked(false);
+    assertFalse(device.getBoolean(SmartContextGestures.PREF_TEXT_RULES_ENABLED, true));
+    textRules.setChecked(true);
+    assertTrue(device.getBoolean(SmartContextGestures.PREF_TEXT_RULES_ENABLED, false));
+
+    device.edit().remove(SmartContextGestures.PREF_AUTO_SWITCH)
+        .remove(SmartContextGestures.PREF_TEXT_RULES_ENABLED).commit();
     controller.pause().stop().destroy();
   }
 
