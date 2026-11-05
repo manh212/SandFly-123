@@ -67,19 +67,16 @@ public final class GrabBookingClickTargetTest {
 
   @Test
   public void refusesDisabledOrOffscreenBookingButton() {
-    BookingTree disabled = bookingTree();
-    disabled.button.setEnabled(false);
+    BookingTree disabled = bookingTree("Đặt xe", false, true);
     assertNull(GrabBookingClickTarget.resolve(AccessibilityNodeInfoCompat.wrap(disabled.label)));
 
-    BookingTree offscreen = bookingTree();
-    offscreen.button.setVisibleToUser(false);
+    BookingTree offscreen = bookingTree("Đặt xe", true, false);
     assertNull(GrabBookingClickTarget.resolve(AccessibilityNodeInfoCompat.wrap(offscreen.label)));
   }
 
   @Test
   public void refusesUnrelatedLabelTextEvenWithinBookingRow() {
-    BookingTree tree = bookingTree();
-    tree.label.setText("GrabNow");
+    BookingTree tree = bookingTree("GrabNow", true, true);
     assertNull(GrabBookingClickTarget.resolve(AccessibilityNodeInfoCompat.wrap(tree.label)));
   }
 
@@ -89,12 +86,19 @@ public final class GrabBookingClickTargetTest {
   }
 
   private static BookingTree bookingTree() {
+    return bookingTree("Đặt xe", true, true);
+  }
+
+  private static BookingTree bookingTree(
+      String labelText, boolean buttonEnabled, boolean buttonVisible) {
     BookingTree tree = new BookingTree();
     tree.outer = create("bookButtonContainer", null, true);
     AccessibilityNodeInfo group = create(null, null, false);
     tree.row = create("transportBookButtonContainer", null, false);
     tree.button = create("transportBookButton", null, true);
-    tree.label = create("transportBookButtonLabel", "Đặt xe", false);
+    tree.label = create("transportBookButtonLabel", labelText, false);
+    tree.button.setEnabled(buttonEnabled);
+    tree.button.setVisibleToUser(buttonVisible);
     tree.grabNow = create("transportGrabNowVariantBButton", null, true);
 
     Shadows.shadowOf(tree.outer).addChild(group);
