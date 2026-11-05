@@ -85,6 +85,13 @@ public final class SmartContextGestureSettingsFragment extends TalkbackBaseFragm
     enabled.setDefaultValue(false);
     screen.addPreference(enabled);
 
+    SwitchPreferenceCompat autoSwitch = new SwitchPreferenceCompat(context);
+    autoSwitch.setKey(SmartContextGestures.PREF_AUTO_SWITCH);
+    autoSwitch.setTitle(R.string.smart_context_auto_switch);
+    autoSwitch.setSummary(R.string.smart_context_auto_switch_summary);
+    autoSwitch.setDefaultValue(false);
+    screen.addPreference(autoSwitch);
+
     PreferenceCategory common = category(screen, R.string.smart_context_common);
     action(common, R.string.smart_context_up, ruleSummary(context, "", false),
         () -> showRules(context, "", false, this::refresh));
@@ -117,6 +124,12 @@ public final class SmartContextGestureSettingsFragment extends TalkbackBaseFragm
       toggle.setDefaultValue(false);
       builtins.addPreference(toggle);
     }
+    SwitchPreferenceCompat textRules = new SwitchPreferenceCompat(context);
+    textRules.setKey(SmartContextGestures.PREF_TEXT_RULES_ENABLED);
+    textRules.setTitle(R.string.smart_context_text_rules_enabled);
+    textRules.setSummary(R.string.smart_context_text_rules_summary);
+    textRules.setDefaultValue(true);
+    builtins.addPreference(textRules);
     action(builtins, R.string.smart_context_priority, null, () -> showPriorities(context));
 
     PreferenceCategory options = category(screen, R.string.smart_context_search);
