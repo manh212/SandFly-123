@@ -154,8 +154,8 @@ public class MainActivity extends Activity {
     private static final int FEEDBACK_SOUND_ONLY = 2;
     private static final int FEEDBACK_NONE = 3;
 
-    private static final int ECHO_CHAR_AND_WORD = 0;
-    private static final int ECHO_CHAR_ONLY = 1;
+    private static final int ECHO_CHAR_AND_WORD = TextEventFilter.PREF_ECHO_CHARACTERS_AND_WORDS;
+    private static final int ECHO_CHAR_ONLY = TextEventFilter.PREF_ECHO_CHARACTERS;
     private static final int ECHO_WORD_ONLY = TextEventFilter.PREF_ECHO_WORDS;
     private static final int ECHO_NONE = TextEventFilter.PREF_ECHO_NONE;
 
@@ -198,7 +198,7 @@ public class MainActivity extends Activity {
     private boolean speakPasswordChars = false;
     private boolean privacyScreenActive = false;
     private int feedbackMode = FEEDBACK_BOTH;
-    private int echoMode = ECHO_CHAR_AND_WORD;
+    @TextEventFilter.KeyboardEchoType private int echoMode = ECHO_CHAR_AND_WORD;
 
     private boolean useCalibratedPoints = false;
     private boolean calibrationDirty = false;

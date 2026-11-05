@@ -9,6 +9,7 @@ import com.google.android.accessibility.utils.input.TextEventFilter;
 public final class BrailleKeyboardEchoSettings {
   private BrailleKeyboardEchoSettings() {}
 
+  @TextEventFilter.KeyboardEchoType
   public static int read(Context context) {
     SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
     String key = context.getString(R.string.pref_echo_braille_keyboard_key);
@@ -27,6 +28,7 @@ public final class BrailleKeyboardEchoSettings {
     };
   }
 
+  @TextEventFilter.KeyboardEchoType
   public static int cycle(Context context) {
     int[] choices = KeyboardEchoSettings.choices(context.getResources());
     int current = read(context);
