@@ -174,6 +174,9 @@ public final class SmartContextGesturesTest {
     service.root = AccessibilityNodeInfo.obtain();
     service.root.setPackageName("com.zhiliaoapp.musically");
     service.root.setVisibleToUser(true);
+    // Robolectric accessibility nodes must be sealed before tree-search getters are used.
+    ReflectionHelpers.callInstanceMethod(
+        service.root, "setSealed", ClassParameter.from(boolean.class, true));
     try {
       prefs.edit().putBoolean("smart_context_builtin_short_video", false).commit();
       assertFalse(SmartContextGestures.hasMatchingContext(service));
