@@ -81,6 +81,42 @@ final class GrabBookingClickTarget {
     return button;
   }
 
+  /**
+   * Finds the real booking action in the visible Grab window, even when accessibility focus
+   * cannot reach any of its children. This is used to expose a separate accessible button.
+   *
+   * <p>Never accepts a matching label in another app or a different Grab panel.
+   */
+  static @Nullable AccessibilityNodeInfoCompat findInWindow(
+      @Nullable AccessibilityNodeInfoCompat root) {
+    if (!isGrabNode(root)) {
+      return null;
+    }
+    java.util.ArrayDeque<AccessibilityNodeInfoCompat> pending = new java.util.ArrayDeque<>();
+    pending.add(root);
+    int visited = 0;
+    // Bound the accessibility-tree scan to avoid stalling navigation on complex screens.
+    while (!pending.isEmpty() && visited++ < 800) {
+      AccessibilityNodeInfoCompat node = pending.removeFirst();
+      if (hasId(node, BOOKING_ROW)) {
+        AccessibilityNodeInfoCompat result = resolve(node);
+        if (result != null) {
+          return result;
+        }
+      }
+      if (node == null || !node.isVisibleToUser()) {
+        continue;
+      }
+      for (int index = 0; index < node.getChildCount(); index++) {
+        AccessibilityNodeInfoCompat child = node.getChild(index);
+        if (isGrabNode(child)) {
+          pending.addLast(child);
+        }
+      }
+    }
+    return null;
+  }
+
   private static boolean isGrabNode(@Nullable AccessibilityNodeInfoCompat node) {
     return node != null && node.getPackageName() != null
         && TextUtils.equals(PACKAGE, node.getPackageName());
