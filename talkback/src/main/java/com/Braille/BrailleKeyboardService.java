@@ -1459,10 +1459,17 @@ public class BrailleKeyboardService extends InputMethodService {
         } else if (MainActivity.ACT_MOVE_CHAR_NEXT.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             if (snap.cursor < snap.text.length()) {
-                char c = snap.text.charAt(snap.cursor);
-                moveCursorTo(ic, snap, snap.cursor + 1);
-                triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(protectedText(describeCharForSpeech(c)), true);
+                BrailleTextOperations.Range range =
+                        BrailleTextOperations.characterAt(snap.text, snap.cursor, false);
+                if (moveCursorTo(ic, snap, range.end)) {
+                    navigationState.recordCharacterMovement(range.end, true);
+                    String character = snap.text.substring(range.start, range.end);
+                    triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
+                    speak(protectedText(character.length() == 1
+                            ? describeCharForSpeech(character.charAt(0)) : character), true);
+                } else {
+                    speak("Không thể di chuyển con trỏ", true);
+                }
             } else {
                 speak("Cuối văn bản", true);
             }
@@ -1470,10 +1477,17 @@ public class BrailleKeyboardService extends InputMethodService {
         } else if (MainActivity.ACT_MOVE_CHAR_PREV.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             if (snap.cursor > 0) {
-                char c = snap.text.charAt(snap.cursor - 1);
-                moveCursorTo(ic, snap, snap.cursor - 1);
-                triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(protectedText(describeCharForSpeech(c)), true);
+                BrailleTextOperations.Range range =
+                        BrailleTextOperations.characterAt(snap.text, snap.cursor, true);
+                if (moveCursorTo(ic, snap, range.start)) {
+                    navigationState.recordCharacterMovement(range.start, false);
+                    String character = snap.text.substring(range.start, range.end);
+                    triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
+                    speak(protectedText(character.length() == 1
+                            ? describeCharForSpeech(character.charAt(0)) : character), true);
+                } else {
+                    speak("Không thể di chuyển con trỏ", true);
+                }
             } else {
                 speak("Đầu văn bản", true);
             }
