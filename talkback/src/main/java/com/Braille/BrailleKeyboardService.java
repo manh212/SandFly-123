@@ -1273,7 +1273,16 @@ public class BrailleKeyboardService extends InputMethodService {
         if (!BrailleMeridianBridge.isAvailable()) return;
         echoMode = BrailleKeyboardEchoSettings.read(this);
         InputConnection ic = getCurrentInputConnection();
-        if (ic == null) return;
+        if (ic == null) {
+            speak("Ô nhập liệu chưa sẵn sàng", true);
+            return;
+        }
+        if (!MainActivity.ACT_DELETE_CHAR_AT_CURSOR.equals(actionCode)
+                && !MainActivity.ACT_MOVE_CHAR_NEXT.equals(actionCode)
+                && !MainActivity.ACT_MOVE_CHAR_PREV.equals(actionCode)
+                && !MainActivity.ACT_MOVE_LINE_BOUNDARY_NEXT.equals(actionCode)) {
+            navigationState.reset();
+        }
 
         long now = System.currentTimeMillis();
         capitalSignCount = 0;
@@ -1330,6 +1339,35 @@ public class BrailleKeyboardService extends InputMethodService {
             } else {
                 speakEditFeedback("Đầu văn bản, không có ký tự để xóa", true);
             }
+
+        } else if (MainActivity.ACT_DELETE_CHAR_AT_CURSOR.equals(actionCode)) {
+            DocumentSnapshot snap = readDocumentSnapshot(ic);
+            BrailleTextOperations.Range range =
+                    navigationState.focusedCharacter(snap.text, snap.cursor);
+            if (range.isEmpty()) {
+                speakEditFeedback("Không có ký tự để xóa", true);
+            } else if (deleteTextRange(ic, snap, range)) {
+                String deleted = snap.text.substring(range.start, range.end);
+                triggerFeedback(imeCanvasView, 40L, ToneGenerator.TONE_PROP_NACK, 60);
+                speakEditFeedback("Đã xóa ký tự " + protectedText(deleted), true);
+            } else {
+                speakEditFeedback("Ô nhập liệu không hỗ trợ xóa ký tự tại con trỏ", true);
+            }
+            navigationState.reset();
+
+        } else if (MainActivity.ACT_DELETE_WORD_AT_CURSOR.equals(actionCode)) {
+            DocumentSnapshot snap = readDocumentSnapshot(ic);
+            BrailleTextOperations.Range range = BrailleTextOperations.wordAt(snap.text, snap.cursor);
+            if (range.isEmpty()) {
+                speakEditFeedback("Không có từ để xóa", true);
+            } else if (deleteTextRange(ic, snap, range)) {
+                String deleted = snap.text.substring(range.start, range.end);
+                triggerFeedback(imeCanvasView, 55L, ToneGenerator.TONE_PROP_NACK, 85);
+                speakEditFeedback("Đã xóa từ " + protectedText(deleted), true);
+            } else {
+                speakEditFeedback("Ô nhập liệu không hỗ trợ xóa từ tại con trỏ", true);
+            }
+            navigationState.reset();
 
         } else if (MainActivity.ACT_DELETE_WORD.equals(actionCode)) {
             CharSequence beforeSeq = ic.getTextBeforeCursor(64, 0);
