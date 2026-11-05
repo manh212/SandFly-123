@@ -4,6 +4,8 @@
     <string name="smart_context_selector_value" tools:ignore="MissingTranslation">SMART_CONTEXT</string>
     <string name="smart_context_title" tools:ignore="MissingTranslation">Cử chỉ ngữ cảnh thông minh</string>
     <string name="smart_context_enable" tools:ignore="MissingTranslation">Bật trong bộ điều khiển đọc</string>
+    <string name="smart_context_auto_switch" tools:ignore="MissingTranslation">Tự động chuyển sang cử chỉ ngữ cảnh</string>
+    <string name="smart_context_auto_switch_summary" tools:ignore="MissingTranslation">Tự chọn cử chỉ ngữ cảnh thông minh khi màn hình có chức năng hoặc văn bản phù hợp đang được bật</string>
     <string name="smart_context_common" tools:ignore="MissingTranslation">Cử chỉ chung cho tất cả ứng dụng</string>
     <string name="smart_context_applications" tools:ignore="MissingTranslation">Cử chỉ riêng của từng ứng dụng</string>
     <string name="smart_context_current_app" tools:ignore="MissingTranslation">Ứng dụng hiện tại</string>
@@ -21,6 +23,9 @@
     <string name="smart_context_builtin_dialog" tools:ignore="MissingTranslation">Hộp thoại xác nhận</string>
     <string name="smart_context_builtin_call_incoming" tools:ignore="MissingTranslation">Cuộc gọi đến</string>
     <string name="smart_context_builtin_call_active" tools:ignore="MissingTranslation">Cuộc gọi đang diễn ra</string>
+    <string name="smart_context_builtin_call_speaker" tools:ignore="MissingTranslation">Bật hoặc tắt loa ngoài khi gọi</string>
+    <string name="smart_context_text_rules_enabled" tools:ignore="MissingTranslation">Cử chỉ theo văn bản</string>
+    <string name="smart_context_text_rules_summary" tools:ignore="MissingTranslation">Bật hoặc tạm dừng các cử chỉ văn bản đã thiết lập mà không xóa chúng</string>
     <string name="smart_context_builtin_short_video" tools:ignore="MissingTranslation">Video ngắn</string>
     <string name="smart_context_builtin_media" tools:ignore="MissingTranslation">Phát và tạm dừng video</string>
     <string name="smart_context_priority" tools:ignore="MissingTranslation">Thứ tự ưu tiên</string>
