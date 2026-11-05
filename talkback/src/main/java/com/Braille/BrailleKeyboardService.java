@@ -1229,19 +1229,44 @@ public class BrailleKeyboardService extends InputMethodService {
         return snap;
     }
 
-    private void moveCursorTo(InputConnection ic, DocumentSnapshot snap, int newPos) {
-        if (ic == null) return;
+    private boolean moveCursorTo(InputConnection ic, DocumentSnapshot snap, int newPos) {
+        if (ic == null) return false;
         int clamped = Math.max(0, Math.min(newPos, snap.text.length()));
         if (snap.supportsDirectSelection) {
-            ic.setSelection(snap.startOffset + clamped, snap.startOffset + clamped);
-        } else {
-            int delta = clamped - snap.cursor;
-            int keyCode = (delta > 0) ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT;
-            int steps = Math.abs(delta);
-            for (int i = 0; i < steps; i++) {
-                sendDownUpKeyEvents(keyCode);
-            }
+            return ic.setSelection(snap.startOffset + clamped, snap.startOffset + clamped);
         }
+        int delta = clamped - snap.cursor;
+        int keyCode = delta > 0 ? KeyEvent.KEYCODE_DPAD_RIGHT : KeyEvent.KEYCODE_DPAD_LEFT;
+        for (int i = 0; i < Math.abs(delta); i++) {
+            boolean down = ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_DOWN, keyCode));
+            boolean up = ic.sendKeyEvent(new KeyEvent(KeyEvent.ACTION_UP, keyCode));
+            if (!down || !up) return false;
+        }
+        return true;
+    }
+
+    private boolean deleteTextRange(InputConnection ic, DocumentSnapshot snap,
+            BrailleTextOperations.Range range) {
+        if (range.isEmpty()) return false;
+        if (snap.supportsDirectSelection
+                && ic.setSelection(snap.startOffset + range.start,
+                        snap.startOffset + range.end)) {
+            return ic.commitText("", 1);
+        }
+        if (range.start <= snap.cursor && range.end >= snap.cursor) {
+            return ic.deleteSurroundingText(snap.cursor - range.start,
+                    range.end - snap.cursor);
+        }
+        return false;
+    }
+
+    private boolean sendDocumentEdgeKey(InputConnection ic, int keyCode) {
+        long time = android.os.SystemClock.uptimeMillis();
+        boolean down = ic.sendKeyEvent(new KeyEvent(time, time, KeyEvent.ACTION_DOWN,
+                keyCode, 0, KeyEvent.META_CTRL_ON));
+        boolean up = ic.sendKeyEvent(new KeyEvent(time, time, KeyEvent.ACTION_UP,
+                keyCode, 0, KeyEvent.META_CTRL_ON));
+        return down && up;
     }
 
     private void executeImeAction(String actionCode) {
