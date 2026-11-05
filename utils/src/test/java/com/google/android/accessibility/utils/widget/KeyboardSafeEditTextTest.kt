@@ -20,6 +20,7 @@ import android.content.Context
 import android.provider.Settings
 import android.view.KeyEvent
 import android.view.View
+import android.view.ViewGroup
 import org.junit.Assert.assertEquals
 import android.view.inputmethod.EditorInfo
 import androidx.appcompat.R
@@ -80,7 +81,9 @@ class KeyboardSafeEditTextTest {
   @GraphicsMode(GraphicsMode.Mode.NATIVE)
   @Test fun usesOwnDisplayedLinesWithoutDependingOnSourceApplication() {
     context.setTheme(R.style.Theme_AppCompat)
-    val field = KeyboardSafeEditText(context)
+    val field = KeyboardSafeEditText(context).apply {
+      layoutParams = ViewGroup.LayoutParams(180, ViewGroup.LayoutParams.WRAP_CONTENT)
+    }
     field.setSingleLine(false)
     field.setHorizontallyScrolling(false)
     field.textSize = 18f
