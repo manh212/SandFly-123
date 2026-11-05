@@ -160,6 +160,16 @@ public class FocusActor implements UserInputEventListener {
     if (node == null || pipeline == null) {
       return false;
     }
+
+    // Grab exposes "Đặt xe" beside the real button. Redirect only an explicit
+    // activation of that exact booking control; never initiate a booking on focus.
+    AccessibilityNodeInfoCompat grabBookingButton = GrabBookingClickTarget.resolve(node);
+    if (grabBookingButton != null) {
+      pipeline.returnFeedback(eventId, Feedback.interrupt(Feedback.HINT, /* level= */ 2));
+      return pipeline.returnFeedback(
+          eventId, Feedback.nodeAction(grabBookingButton, ACTION_CLICK.getId()));
+    }
+
     node = Scripts.actionTarget(node, false);
     AccessibilityNodeInfoCompat collapseTarget = CollapseEngine.activationTarget(service, node);
     if (collapseTarget != null) {
@@ -213,6 +223,11 @@ public class FocusActor implements UserInputEventListener {
         accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ false);
     if (currentFocus == null) {
       return false;
+    }
+    AccessibilityNodeInfoCompat grabBookingButton = GrabBookingClickTarget.resolve(currentFocus);
+    if (grabBookingButton != null) {
+      return pipeline.returnFeedback(
+          eventId, Feedback.nodeAction(grabBookingButton, ACTION_CLICK.getId()));
     }
     AccessibilityNodeInfoCompat nodeToClick =
         AccessibilityNodeInfoUtils.getSelfOrMatchingAncestor(
