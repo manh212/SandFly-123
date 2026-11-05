@@ -126,7 +126,6 @@ public final class SelectorGroupManager {
       }
       appendNewScriptControls(context, prefs);
       appendGestureProfileControl(context, prefs);
-      appendSmartContextControl(context);
       groups = getGroups(context);
       String currentGroup = prefs.getString(context.getString(CURRENT_GROUP_KEY_RES), "");
       Group selectedGroup = findGroup(groups, currentGroup);
