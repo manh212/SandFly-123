@@ -224,6 +224,11 @@ jobs:
               --mapping build/outputs/mapping/phoneDebug/mapping.txt \
               --namespace com.google.android.accessibility.talkback.licensing \
               --namespace io.meridian.licensing \
+              --namespace com.google.android.accessibility.talkback.update \
+              --entrypoint com.google.android.accessibility.talkback.update.UpdatesFragment \
+              --entrypoint com.google.android.accessibility.talkback.update.UpdateProgressActivity \
+              --entrypoint com.google.android.accessibility.talkback.update.UpdateStoragePermissionActivity \
+              --entrypoint com.google.android.accessibility.talkback.update.UpdateReceiver \
               --entrypoint com.google.android.accessibility.talkback.licensing.ActivationActivity \
               --entrypoint com.google.android.accessibility.talkback.licensing.SupportActivity \
               --entrypoint com.google.android.accessibility.talkback.licensing.SupportJobService \

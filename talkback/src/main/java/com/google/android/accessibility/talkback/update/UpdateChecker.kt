@@ -61,16 +61,16 @@ data class UpdateInfo(
  */
 object UpdateChecker {
   private const val TAG = "UpdateChecker"
-  private const val RELEASES_URL = "https://api.github.com/repos/manh212/SandFly-123/releases/"
+  private val RELEASES_URL = io.meridian.licensing.DistributionEndpoints.apiRepository() + "/releases/"
 
   /** The latest stable release. */
-  private const val STABLE_RELEASE_URL = RELEASES_URL + "latest"
+  private val STABLE_RELEASE_URL = RELEASES_URL + "latest"
 
   /** The rolling pre-release of development builds. */
-  private const val DEV_RELEASE_URL = RELEASES_URL + "tags/dev"
+  private val DEV_RELEASE_URL = RELEASES_URL + "tags/dev"
 
   /** Meridian's latest stable release, which SandFly moves to. */
-  private const val MOVE_RELEASE_URL = STABLE_RELEASE_URL
+  private val MOVE_RELEASE_URL = STABLE_RELEASE_URL
 
   /** The phone build. */
   @VisibleForTesting const val PHONE_APK_NAME = "meridian.apk"

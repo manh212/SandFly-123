@@ -100,7 +100,7 @@ public final class CatalogPublisher {
         if (!path.equals(PROFILE_PATH) && !path.matches("docs/catalog/[0-9a-f]{64}\\.json")) {
           throw new SyncException("Đường dẫn lưu trữ không hợp lệ.", false, false);
         }
-        String address = "https://api.github.com/repos/manh212/SandFly-123/contents/" + path
+        String address = DistributionEndpoints.apiRepository() + "/contents/" + path
             + (method.equals("GET") ? "?ref=master" : "");
         HttpURLConnection connection = (HttpURLConnection) new URL(address).openConnection();
         connection.setConnectTimeout(8_000);

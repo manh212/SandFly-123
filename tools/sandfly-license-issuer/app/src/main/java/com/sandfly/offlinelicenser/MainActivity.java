@@ -79,7 +79,7 @@ public final class MainActivity extends ComponentActivity {
       catch (Exception e) { error(e); }
     }));
     title(column, "Kết nối GitHub");
-    label(column, "Đăng nhập tài khoản manh212 một lần trong trình duyệt. Xác nhận tạo kết nối và chỉ chọn SandFly-123 khi GitHub hỏi quyền truy cập. Xong ứng dụng tự trở về và tự đồng bộ giấy phép; không cần tạo hoặc nhập token.");
+    label(column, "Đăng nhập tài khoản manh212 một lần trong trình duyệt. Xác nhận tạo kết nối và chỉ chọn " + io.meridian.licensing.DistributionEndpoints.repositoryName() + " khi GitHub hỏi quyền truy cập. Xong ứng dụng tự trở về và tự đồng bộ giấy phép; không cần tạo hoặc nhập token.");
     loginButton = button(column, "Đăng nhập GitHub", view -> login());
     button(column, "Tiếp tục từ liên kết đã sao chép", view -> continueFromClipboard());
     button(column, "Hủy đăng nhập GitHub", view -> SyncCoordinator.WORKER.execute(() -> {

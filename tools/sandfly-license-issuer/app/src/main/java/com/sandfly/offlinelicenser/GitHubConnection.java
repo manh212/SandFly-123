@@ -46,7 +46,7 @@ final class GitHubConnection {
         || !"manh212".equals(installation.getJSONObject("account").getString("login"))
         || !"selected".equals(installation.optString("repository_selection"))
         || !"write".equals(installation.getJSONObject("permissions").optString("contents"))) {
-      throw new IllegalStateException("Hãy chọn riêng SandFly-123 khi cấp quyền GitHub.");
+      throw new IllegalStateException("Hãy chọn riêng " + io.meridian.licensing.DistributionEndpoints.repositoryName() + " khi cấp quyền GitHub.");
     }
     JSONObject result = client.request("POST", "/app/installations/" + installation.getLong("id")
         + "/access_tokens", jwt, GitHubAppProtocol.tokenRequest());
@@ -61,7 +61,7 @@ final class GitHubConnection {
     if (!path.startsWith("/") || path.contains("?") || path.contains("#")) {
       throw new IllegalArgumentException("Đường dẫn GitHub không hợp lệ.");
     }
-    HttpsURLConnection connection = (HttpsURLConnection) new URL("https://api.github.com" + path).openConnection();
+    HttpsURLConnection connection = (HttpsURLConnection) new URL(io.meridian.licensing.DistributionEndpoints.apiOrigin() + path).openConnection();
     try {
       connection.setInstanceFollowRedirects(false);
       connection.setConnectTimeout(15_000);
@@ -80,7 +80,7 @@ final class GitHubConnection {
       }
       int status = connection.getResponseCode();
       if (status == 401 || status == 403 || status == 404 || status == 422) {
-        throw new IllegalStateException("Chưa có quyền đồng bộ. Hãy đăng nhập GitHub và chọn riêng SandFly-123.");
+        throw new IllegalStateException("Chưa có quyền đồng bộ. Hãy đăng nhập GitHub và chọn riêng " + io.meridian.licensing.DistributionEndpoints.repositoryName() + ".");
       }
       if (status < 200 || status >= 300) throw new IOException("GitHub chưa sẵn sàng.");
       try (InputStream input = connection.getInputStream(); ByteArrayOutputStream out = new ByteArrayOutputStream()) {

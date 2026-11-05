@@ -1,0 +1,26 @@
+def profileSource = new File(activationDirectory, 'assets/meridian-service.json')
+def profileAssets = layout.buildDirectory.dir('generated/service-assets')
+def prepareServiceAssets = tasks.register('prepareServiceAssets') {
+    inputs.file(profileSource)
+    outputs.dir(profileAssets)
+    doLast {
+        def profile = new groovy.json.JsonSlurper().parse(profileSource)
+        def bytes = groovy.json.JsonOutput.toJson(profile).getBytes('UTF-8')
+        int seed = 137
+        byte[] encoded = new byte[bytes.length]
+        for (int i = 0; i < bytes.length; i++) {
+            encoded[i] = (byte) ((bytes[i] & 255) ^ ((seed + i * 31) & 255))
+        }
+        def directory = profileAssets.get().asFile
+        directory.mkdirs()
+        new File(directory, 'meridian-service.json').setText(groovy.json.JsonOutput.toJson([
+            seed: seed,
+            payload: java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(encoded)
+        ]), 'UTF-8')
+    }
+}
+android.sourceSets.main.assets.srcDir(profileAssets.get().asFile)
+tasks.named('preBuild').configure { dependsOn(prepareServiceAssets) }
+tasks.configureEach {
+    if (name.startsWith('merge') && name.endsWith('Assets')) dependsOn(prepareServiceAssets)
+}

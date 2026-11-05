@@ -35,7 +35,6 @@ android {
   }
   sourceSets {
     main.java.srcDir('../../../activation/src/main/java')
-    main.assets.srcDir('../../../activation/assets')
     test.java.setSrcDirs([layout.buildDirectory.dir('generated/protocol-tests').get().asFile, 'protocol-tests'])
   }
   compileOptions {
@@ -58,3 +57,6 @@ def protocolTests = tasks.register('prepareProtocolTests', Sync) {
 tasks.withType(org.gradle.api.tasks.compile.JavaCompile).configureEach {
   if (name.contains('UnitTest')) dependsOn(protocolTests)
 }
+
+ext.activationDirectory = file('../../../activation')
+apply from: new File(activationDirectory, 'service-assets.gradle')

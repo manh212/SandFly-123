@@ -13,7 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 final class GitHubAppProtocol {
-  static final String REPOSITORY = "manh212/SandFly-123";
+  static final String REPOSITORY = io.meridian.licensing.DistributionEndpoints.repository();
   static final String RETURN_SCHEME = "io.meridian.admin";
   static final String RETURN_URI = RETURN_SCHEME + "://github/complete";
   private GitHubAppProtocol() {}
@@ -27,11 +27,11 @@ final class GitHubAppProtocol {
   static JSONObject manifest(String base, String route) throws Exception {
     return new JSONObject()
         .put("name", "Meridian Admin " + random().substring(0, 12))
-        .put("url", "https://github.com/" + REPOSITORY)
+        .put("url", io.meridian.licensing.DistributionEndpoints.webRepository())
         .put("description", "Đồng bộ giấy phép Meridian từ điện thoại quản trị.")
         .put("public", false)
         .put("hook_attributes", new JSONObject().put("active", false)
-            .put("url", "https://github.com/" + REPOSITORY))
+            .put("url", io.meridian.licensing.DistributionEndpoints.webRepository()))
         .put("default_permissions", new JSONObject().put("contents", "write"))
         .put("default_events", new JSONArray())
         .put("request_oauth_on_install", false)
@@ -82,7 +82,7 @@ final class GitHubAppProtocol {
   }
 
   static JSONObject tokenRequest() throws Exception {
-    return new JSONObject().put("repositories", new JSONArray().put("SandFly-123"))
+    return new JSONObject().put("repositories", new JSONArray().put(io.meridian.licensing.DistributionEndpoints.repositoryName()))
         .put("permissions", new JSONObject().put("contents", "write"));
   }
 

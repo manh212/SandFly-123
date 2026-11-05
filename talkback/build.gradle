@@ -75,7 +75,6 @@ android {
         aidl = true
     }
     sourceSets.main.java.srcDir('../activation/src/main/java')
-    sourceSets.main.assets.srcDir('../activation/assets')
 }
 
 def currencyAssetDir = layout.buildDirectory.dir("generated/currency-model-assets")
@@ -117,3 +116,6 @@ tasks.configureEach {
         dependsOn(prepareCurrencyModel)
     }
 }
+
+ext.activationDirectory = file('../activation')
+apply from: new File(activationDirectory, 'service-assets.gradle')

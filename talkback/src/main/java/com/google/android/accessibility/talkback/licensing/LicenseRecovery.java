@@ -103,7 +103,7 @@ final class LicenseRecovery {
     HttpURLConnection connection = null;
     try {
       String request = DeviceLicenseManager.recoveryRequest(context);
-      URL url = new URL("https://raw.githubusercontent.com/manh212/SandFly-123/master/"
+      URL url = new URL(io.meridian.licensing.DistributionEndpoints.catalogRoot()
           + RecoveryProtocol.recordPath(request) + "?v=" + System.currentTimeMillis());
       connection = (HttpURLConnection) url.openConnection();
       connection.setConnectTimeout(8_000);

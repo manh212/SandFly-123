@@ -22,7 +22,7 @@ or make a modified APK impossible to use.
    and rejects software-only signing keys.
 3. Select **Đăng nhập GitHub**. Sign in as `manh212` in the temporary browser
    window, confirm the preconfigured private GitHub App, and choose **Only
-   select repositories**, then **SandFly-123**, on GitHub's installation page.
+   select repositories**, then **pkg-7f3c9a2e**, on GitHub's installation page.
    GitHub requires this initial login and permission confirmation; the tool
    does not read passwords or approve access invisibly. No token is pasted.
 4. After confirmation, the browser returns automatically to the tool. It

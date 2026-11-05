@@ -1,7 +1,9 @@
 -keepattributes *
--keep class !com.google.android.accessibility.talkback.licensing.**,!io.meridian.licensing.** { *; }
+-keep class !com.google.android.accessibility.talkback.licensing.**,!io.meridian.licensing.**,!com.google.android.accessibility.talkback.update.** { *; }
 -repackageclasses p
 -renamesourcefileattribute SourceFile
 -dontwarn java.lang.invoke.MethodHandleProxies
 -dontwarn javax.script.ScriptEngine
 -dontwarn javax.script.ScriptEngineManager
+-keep class com.google.android.accessibility.talkback.update.UpdatesFragment { public <init>(); }
+-keepclassmembers,allowobfuscation class io.meridian.licensing.EndpointCodec { public static java.lang.String decode(java.lang.String, int); }

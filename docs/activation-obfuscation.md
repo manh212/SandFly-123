@@ -1,30 +1,11 @@
-# Activation obfuscation
+# Distribution hardening
 
-Both Meridian build types enable R8 for the licensing package, including the
-device license manager, legacy and recovery protocol verification, APK signature verification,
-activation reminder and activation screen implementation. Code outside the
-licensing and shared protocol packages retains the existing keep policy. The activation activity relies on
-the Android component rules instead of a rule keeping all its members.
+Both APKs enable R8 in debug and release builds. The distributed debug APKs are not debuggable. Licensing, shared protocol and administration implementation classes can be renamed, optimized or removed. The main APK also obfuscates its update implementation. Android entry points, framework callbacks and the settings fragment loaded by name are preserved. Existing keep rules outside these areas remain in place to protect reflection and native integrations.
 
-Both debug and release builds of the issuer enable R8. The debug APK distributed
-by its workflow is not debuggable. Issuer key handling, protocol signing and
-the implementation methods and fields of its activity can be renamed,
-optimized or removed by R8.
+The source profile at `activation/assets/meridian-service.json` remains editable. Both builds generate an encoded asset instead of packaging that plaintext profile. Repository and service addresses use a runtime decoder; its keep rule prevents optimization from folding decoded values into constants while allowing its name to change. The encoding is reversible XOR masking with Base64 transport, not secret-key encryption.
 
-Android manifest component names and required framework callbacks are retained.
-They are entry points, not exemptions for the implementation inside them.
-Movable implementation classes are repackaged, and source file metadata uses
-the neutral name `SourceFile`.
+CI inspects DEX mappings and rejects exposed implementation names, plaintext distribution addresses and an unencoded or mismatched service asset before publishing. R8 mapping files are not included in APKs or public artifacts. Tests cover endpoint reconstruction, service configuration validation and existing licensing protocols.
 
-Both workflows inspect the actual APK DEX classes and R8 mapping before
-publishing an APK. The check rejects retained implementation class names and
-selected private activity member names. R8 mapping files are not included in
-the APK or uploaded as public artifacts.
+The repository is public. Encoding increases the work needed for a static string search, but URLs remain observable at runtime and in network inspection. A repository rename does not erase Git history, upstream fork relationships, indexed copies or GitHub redirects. It does not provide authorization or replace signature verification. TLS validation, signed policy checks, administrator permissions and APK signing identities remain unchanged.
 
-Obfuscation does not encrypt string constants, public verification keys or
-network addresses, and does not make an APK impossible to modify. No issuer
-private key or account token belongs in the APK. This build change does not
-make a modified APK impossible to run. The separate new administration app
-adds SFLIC2 and GitHub synchronization; see [Activation and recovery](activation-recovery.md).
-It has its own application ID and stable APK signing. Keep the previous issuer
-installed to retain its original private key and earlier issuance capability.
+Update both APKs after a repository rename, especially the administrator app, whose credential-bearing API requests intentionally do not follow redirects. Already installed APKs cannot acquire new endpoint constants without an update. Do not reuse the old repository name while old links depend on GitHub redirects. See [owner setup](activation-recovery.md) and [device administration](device-license-management.md).

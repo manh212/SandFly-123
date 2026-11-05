@@ -51,6 +51,34 @@ public final class FirebaseRestIdentityTest {
     assertTrue(storage.read().contains("alice"));
   }
 
+  @Test public void encodedServiceProfilePreservesIdentityAndValidatesDecodedAddresses() throws Exception {
+    String packed = "{\"seed\":137,\"payload\":\"8oqmlmxvJhujmp2_n39fPx__37-ff18_H__fv59_Xz8fqovkgWVXIwPh7NuIjncYY1r_wqGEYAh-X-vLoIMlTCAa4sSkl2ZLLk4c8dD-hg\"}";
+    FirebaseRest.Config encoded = new FirebaseRest.Config(packed);
+    assertTrue(encoded.enabled());
+    java.util.List<String> addresses = new java.util.ArrayList<>();
+    FirebaseRest service = new FirebaseRest(encoded, new Storage(), (a, m, b, c) -> {
+      addresses.add(a);
+      if (a.contains("googleapis.com")) return "{\"localId\":\"alice\",\"refreshToken\":\"r\",\"idToken\":\"t\"}";
+      return "{}";
+    });
+    service.get("devices");
+    assertTrue(addresses.get(0).endsWith("key=abcdefghijklmnopqrstuv"));
+    assertTrue(addresses.get(1).startsWith("https://demo.firebaseio.com/devices.json?"));
+    assertThrows(IllegalArgumentException.class, () -> new FirebaseRest.Config(
+        "{\"payload\":\"bad!\",\"seed\":137}"));
+    assertThrows(IllegalArgumentException.class, () -> io.meridian.licensing.EndpointCodec.decode("", 256));
+  }
+
+  @Test public void distributionEndpointsKeepCatalogAndReleaseDestinationsConsistent() {
+    assertEquals("manh212/pkg-7f3c9a2e", io.meridian.licensing.DistributionEndpoints.repository());
+    assertEquals("https://api.github.com/repos/manh212/pkg-7f3c9a2e",
+        io.meridian.licensing.DistributionEndpoints.apiRepository());
+    assertEquals("https://github.com/manh212/pkg-7f3c9a2e",
+        io.meridian.licensing.DistributionEndpoints.webRepository());
+    assertEquals("https://raw.githubusercontent.com/manh212/pkg-7f3c9a2e/master/",
+        io.meridian.licensing.DistributionEndpoints.catalogRoot());
+  }
+
   @Test public void separateClientsReuseTheSameUnexpiredSessionAndKeepScopesIsolated() throws Exception {
     String[] saved = {"{}"};
     String scope = java.util.UUID.randomUUID().toString();

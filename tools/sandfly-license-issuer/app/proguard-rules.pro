@@ -1,2 +1,3 @@
 -repackageclasses p
 -renamesourcefileattribute SourceFile
+-keepclassmembers,allowobfuscation class io.meridian.licensing.EndpointCodec { public static java.lang.String decode(java.lang.String, int); }

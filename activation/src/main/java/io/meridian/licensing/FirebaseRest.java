@@ -32,6 +32,9 @@ public final class FirebaseRest {
     final String apiKey, database;
     public Config(String json) throws Exception {
       JSONObject value = new JSONObject(json);
+      if (value.has("payload")) {
+        value = new JSONObject(EndpointCodec.decode(value.getString("payload"), value.getInt("seed")));
+      }
       apiKey = value.optString("apiKey");
       database = value.optString("databaseUrl").replaceAll("/+$", "");
       if (!apiKey.isEmpty() && (!apiKey.matches("[A-Za-z0-9_-]{20,100}")

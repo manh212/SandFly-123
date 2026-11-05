@@ -109,7 +109,7 @@ final class BrowserConnection {
     JSONObject response = GitHubConnection.request("POST", "/app-manifests/" + code + "/conversions", null, new JSONObject());
     JSONObject credentials = GitHubAppProtocol.credentials(response, port, route);
     store.connection(credentials);
-    store.status("Đã nhận mã tạo kết nối. Hãy xác nhận quyền cho SandFly-123 trong GitHub.");
+    store.status("Đã nhận mã tạo kết nối. Hãy xác nhận quyền cho " + io.meridian.licensing.DistributionEndpoints.repositoryName() + " trong GitHub.");
     return credentials;
   }
 
@@ -256,7 +256,7 @@ final class BrowserConnection {
         returnToApp(socket);
       } catch (Exception e) {
         respond(socket, "200 OK", null, "<!doctype html><html lang=\"vi\"><meta charset=\"utf-8\">"
-            + "<p>Chưa xác nhận được quyền. Hãy chọn riêng SandFly-123 hoặc kiểm tra kết nối mạng.</p>"
+            + "<p>Chưa xác nhận được quyền. Hãy chọn riêng " + io.meridian.licensing.DistributionEndpoints.repositoryName() + " hoặc kiểm tra kết nối mạng.</p>"
             + "<a href=\"" + base + route + "/start\">Thử kết nối lại</a></html>");
       }
     } else {

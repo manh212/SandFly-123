@@ -1,4 +1,7 @@
 import argparse
+import base64
+import json
+import os
 from pathlib import Path
 import re
 import struct
@@ -6,6 +9,37 @@ import zipfile
 
 
 CLASS_MAPPING = re.compile(r"^(\S+) -> (\S+):$")
+
+
+def verify_endpoints(apk, profile):
+    packed = json.loads(apk.read("assets/meridian-service.json"))
+    if set(packed) != {"seed", "payload"}:
+        raise ValueError("The service profile must be encoded")
+    seed = packed["seed"]
+    if type(seed) is not int or not 0 <= seed <= 255:
+        raise ValueError("Invalid service profile encoding")
+    payload = packed["payload"]
+    encoded = base64.urlsafe_b64decode(payload + "=" * (-len(payload) % 4))
+    decoded = bytes(value ^ ((seed + index * 31) & 255)
+                    for index, value in enumerate(encoded))
+    if json.loads(decoded) != profile:
+        raise ValueError("The packaged service profile does not match its source")
+    forbidden = {b"SandFly-123", b"pkg-7f3c9a2e",
+                 b"https://api.github.com/repos/manh212/",
+                 b"https://raw.githubusercontent.com/manh212/"}
+    repository = os.environ.get("GITHUB_REPOSITORY", "")
+    if repository:
+        forbidden.add(repository.encode("utf-8"))
+    for field in ("databaseUrl", "apiKey"):
+        if profile.get(field):
+            forbidden.add(profile[field].encode("utf-8"))
+    forbidden.update(value.decode("utf-8").encode("utf-16-le") for value in tuple(forbidden))
+    for name in apk.namelist():
+        if re.fullmatch(r"classes(?:\d+)?\.dex", name) or name in {
+                "assets/meridian-service.json", "resources.arsc", "AndroidManifest.xml"}:
+            data = apk.read(name)
+            if any(value in data for value in forbidden):
+                raise ValueError("A distribution endpoint remains in plaintext: " + name)
 
 
 def dex_classes(data):
@@ -70,6 +104,8 @@ def verify(apk_path, mapping_path, namespace, entrypoints, members):
             member_map.setdefault((current_class, name), set()).add(target)
     defined = set()
     with zipfile.ZipFile(apk_path) as apk:
+        profile = json.loads(Path("activation/assets/meridian-service.json").read_text(encoding="utf-8"))
+        verify_endpoints(apk, profile)
         for name in apk.namelist():
             if re.fullmatch(r"classes(?:\d+)?\.dex", name):
                 defined.update(dex_classes(apk.read(name)))
@@ -94,6 +130,7 @@ def verify(apk_path, mapping_path, namespace, entrypoints, members):
             raise ValueError("An activation implementation member was not obfuscated: " + member)
     print(f"Verified {len(protected)} activation implementation classes were renamed or removed.")
     print("Android entry points are present; activation implementation member names are protected.")
+    print("Distribution addresses and the service profile are encoded in the APK.")
 
 
 def main():

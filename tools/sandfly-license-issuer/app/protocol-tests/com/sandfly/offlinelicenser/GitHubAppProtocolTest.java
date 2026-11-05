@@ -67,7 +67,7 @@ public class GitHubAppProtocolTest {
     assertEquals("http://127.0.0.1:12345/random/installed", manifest.getString("setup_url"));
     JSONObject token = GitHubAppProtocol.tokenRequest();
     assertEquals(1, token.getJSONArray("repositories").length());
-    assertEquals("SandFly-123", token.getJSONArray("repositories").getString(0));
+    assertEquals("pkg-7f3c9a2e", token.getJSONArray("repositories").getString(0));
     assertEquals(1, token.getJSONObject("permissions").length());
   }
 
@@ -148,13 +148,13 @@ public class GitHubAppProtocolTest {
       if ("GET".equals(method)) return installation();
       assertEquals("POST", method);
       assertEquals("/app/installations/456/access_tokens", path);
-      assertEquals("SandFly-123", body.getJSONArray("repositories").getString(0));
+      assertEquals("pkg-7f3c9a2e", body.getJSONArray("repositories").getString(0));
       assertEquals(1, body.getJSONArray("repositories").length());
       assertEquals("write", body.getJSONObject("permissions").getString("contents"));
       return new JSONObject().put("token", "ghs_example_installation_token");
     });
     assertEquals("ghs_example_installation_token", token);
-    assertEquals(java.util.Arrays.asList("GET /repos/manh212/SandFly-123/installation",
+    assertEquals(java.util.Arrays.asList("GET /repos/manh212/pkg-7f3c9a2e/installation",
         "POST /app/installations/456/access_tokens"), calls);
   }
 
