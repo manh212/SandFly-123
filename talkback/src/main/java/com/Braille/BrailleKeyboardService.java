@@ -656,6 +656,13 @@ public class BrailleKeyboardService extends InputMethodService {
         speak(emojiModeActive ? "Chế độ biểu tượng cảm xúc" : "Chế độ chữ cái", true);
     }
 
+    private boolean commitToEditor(InputConnection ic, String value) {
+        boolean committed = BrailleInputWriter.commit(ic, value,
+                BrailleImeInputPolicy.needsKeyEvents(getCurrentInputEditorInfo()));
+        if (!committed) speak("Ô nhập liệu không nhận ký tự", true);
+        return committed;
+    }
+
     private void processEmojiChord(String dotsKey, InputConnection ic) {
         String emoji = dotsToEmojiMap.get(dotsKey);
         if (emoji == null) {
@@ -667,7 +674,7 @@ public class BrailleKeyboardService extends InputMethodService {
         capitalSignCount = 0;
         carriedToneName = null;
         carriedToneUsed = false;
-        ic.commitText(emoji, 1);
+        if (!commitToEditor(ic, emoji)) return;
         if ((echoMode == ECHO_CHAR_AND_WORD || echoMode == ECHO_CHAR_ONLY) && !screenReaderEchoesTypedText()) {
             speak(hidePasswordInSpeech() ? "Sao" : describeEmoji(emoji), true);
         }
@@ -902,9 +909,13 @@ public class BrailleKeyboardService extends InputMethodService {
 
     private void processBrailleChordOnInputConnection(String dotsKey) {
         if (!BrailleMeridianBridge.isAvailable()) return;
+        navigationState.reset();
         echoMode = BrailleKeyboardEchoSettings.read(this);
         InputConnection ic = getCurrentInputConnection();
-        if (ic == null) return;
+        if (ic == null) {
+            speak("Ô nhập liệu chưa sẵn sàng", true);
+            return;
+        }
 
         if (emojiModeActive) {
             processEmojiChord(dotsKey, ic);
@@ -965,7 +976,7 @@ public class BrailleKeyboardService extends InputMethodService {
         if (numberModeActive) {
             String digit = convertDotsToDigit(dotsKey);
             if (digit != null) {
-                ic.commitText(digit, 1);
+                if (!commitToEditor(ic, digit)) return;
                 if ((echoMode == ECHO_CHAR_AND_WORD || echoMode == ECHO_CHAR_ONLY)
                         && !screenReaderEchoesTypedText()) {
                     speak(hidePasswordInSpeech() ? "Sao" : digit, true);
@@ -999,7 +1010,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 && outputChar.length() == 1
                 && Character.isLetter(outputChar.charAt(0));
 
-        ic.commitText(outputChar, 1);
+        if (!commitToEditor(ic, outputChar)) return;
 
         String echoText = outputChar;
         if (carryTone) {
@@ -1261,7 +1272,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 speakTyping("Chấm câu", true);
             } else {
                 String completedWord = getWordBeforeCursor(ic);
-                ic.commitText(" ", 1);
+                if (!commitToEditor(ic, " ")) return;
                 lastSpaceTimeMs = now;
                 triggerFeedback(imeCanvasView, 30L, ToneGenerator.TONE_PROP_ACK, 50, SOUND_SLOT_SPACE);
                 if (!screenReaderEchoesTypedText()) {
@@ -1378,7 +1389,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 ic.performEditorAction(actionId);
                 speakEditFeedback("Thực hiện lệnh", true);
             } else {
-                ic.commitText("\n", 1);
+                if (!commitToEditor(ic, "\n")) return;
                 speakEditFeedback("Xuống dòng", true);
             }
 
