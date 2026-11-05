@@ -170,6 +170,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Supplier;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
@@ -354,6 +355,13 @@ public class GestureController {
 
   static Feedback.Speech.Action lastUtteranceCopyAction(boolean fromCustomMenu) {
     return fromCustomMenu ? COPY_SAVED : COPY_LAST;
+  }
+
+  static @Nullable AccessibilityNodeInfoCompat copyTarget(
+      boolean fromCustomMenu,
+      @Nullable AccessibilityNodeInfoCompat menuTarget,
+      Supplier<AccessibilityNodeInfoCompat> currentFocus) {
+    return fromCustomMenu ? menuTarget : currentFocus.get();
   }
 
   public void performMenuAction(
@@ -951,11 +959,17 @@ public class GestureController {
       result = pipeline.returnFeedback(eventId, Feedback.edit(node, CLEAR_SELECTION));
     } else if (action.equals(service.getString(R.string.shortcut_value_copy))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+          copyTarget(
+              fromCustomMenu,
+              menuTarget,
+              () -> accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true));
       result = pipeline.returnFeedback(eventId, Feedback.edit(node, COPY));
     } else if (action.equals(service.getString(R.string.shortcut_value_add_to_clipboard))) {
       AccessibilityNodeInfoCompat node =
-          accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
+          copyTarget(
+              fromCustomMenu,
+              menuTarget,
+              () -> accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true));
       result = pipeline.returnFeedback(eventId, Feedback.edit(node, APPEND_COPY));
     } else if (action.equals(service.getString(R.string.shortcut_value_clipboard_history))) {
       ClipboardHistoryDialog clipboardDialog = new ClipboardHistoryDialog(service, speaker);
