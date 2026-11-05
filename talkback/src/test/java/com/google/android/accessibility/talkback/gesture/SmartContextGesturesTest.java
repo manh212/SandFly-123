@@ -147,4 +147,48 @@ public final class SmartContextGesturesTest {
     assertFalse(rule.matches("Ghi âm thoại"));
   }
 
+  @Test
+  public void textRuleSwitchKeepsSavedRulesButDisablesTheirActions() {
+    android.content.Context context = org.robolectric.RuntimeEnvironment.getApplication();
+    android.content.SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(context);
+    String packageName = "com.example.smartcontext";
+    SmartContextGestures.addRule(context, packageName, true,
+        new Rule("Tiếp theo", "exact", "", false, true));
+    try {
+      prefs.edit().putBoolean(SmartContextGestures.PREF_TEXT_RULES_ENABLED, false).commit();
+      assertTrue(SmartContextGestures.getEffectiveRules(context, packageName, true).isEmpty());
+      assertEquals(1, SmartContextGestures.getRules(context, packageName, true).size());
+      prefs.edit().putBoolean(SmartContextGestures.PREF_TEXT_RULES_ENABLED, true).commit();
+      assertEquals(1, SmartContextGestures.getEffectiveRules(context, packageName, true).size());
+    } finally {
+      prefs.edit().remove(SmartContextGestures.PREF_TEXT_RULES_ENABLED)
+          .remove("smart_context_rules_app_" + packageName + "_down")
+          .remove("smart_context_mode_" + packageName + "_down").commit();
+    }
+  }
+
+  @Test
+  public void shortVideoIsRecognizedOnlyWhenItsIntegrationIsEnabled() {
+    TargetService service = Robolectric.buildService(TargetService.class).get();
+    android.content.SharedPreferences prefs = SharedPreferencesUtils.getSharedPreferences(service);
+    service.root = AccessibilityNodeInfo.obtain();
+    service.root.setPackageName("com.zhiliaoapp.musically");
+    service.root.setVisibleToUser(true);
+    try {
+      prefs.edit().putBoolean("smart_context_builtin_short_video", false).commit();
+      assertFalse(SmartContextGestures.hasMatchingContext(service));
+      prefs.edit().putBoolean("smart_context_builtin_short_video", true).commit();
+      assertTrue(SmartContextGestures.hasMatchingContext(service));
+    } finally {
+      prefs.edit().remove("smart_context_builtin_short_video").commit();
+    }
+  }
+
+  @Test
+  public void speakerLabelsIncludeVietnameseAndEnglishAccessibilityDescriptions() {
+    assertTrue(SmartContextGestures.matchesBuiltinLabel("Bật, Loa ngoài, Nút", "Loa ngoài"));
+    assertTrue(SmartContextGestures.matchesBuiltinLabel("Speakerphone off", "Speakerphone"));
+    assertFalse(SmartContextGestures.matchesBuiltinLabel("Speak now", "Speaker"));
+  }
+
 }
