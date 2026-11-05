@@ -87,6 +87,9 @@ public class BrailleKeyboardService extends InputMethodService {
     };
 
     private SharedPreferences prefs;
+    private final BrailleImeInputPolicy imeInputPolicy = new BrailleImeInputPolicy();
+    private final BrailleTextOperations.NavigationState navigationState =
+            new BrailleTextOperations.NavigationState();
 
     private static final int SOUND_SLOT_TYPING = 0;
     private static final int SOUND_SLOT_CAPITAL = 1;
@@ -253,6 +256,8 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        imeInputPolicy.onStartInput(attribute);
+        navigationState.reset();
         cancelPendingInput();
         reloadAllSettings();
         if (!BrailleMeridianBridge.isAvailable()) {
@@ -299,7 +304,7 @@ public class BrailleKeyboardService extends InputMethodService {
             emojiModeActive = false;
         }
 
-        if (autoCapitalize) {
+        if (BrailleImeInputPolicy.shouldCapitalize(info, autoCapitalize)) {
             InputConnection ic = getCurrentInputConnection();
             if (ic != null) {
                 CharSequence before = ic.getTextBeforeCursor(2, 0);
@@ -325,6 +330,8 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onFinishInput() {
         cancelPendingInput();
+        navigationState.reset();
+        imeInputPolicy.onFinishInput();
         super.onFinishInput();
     }
 
@@ -335,6 +342,12 @@ public class BrailleKeyboardService extends InputMethodService {
     }
 
     @Override
+    public boolean onShowInputRequested(int flags, boolean configChange) {
+        return imeInputPolicy.shouldShow(getCurrentInputEditorInfo(), flags)
+                && super.onShowInputRequested(flags, configChange);
+    }
+
+    @Override
     public void onWindowShown() {
         super.onWindowShown();
     }
@@ -342,6 +355,8 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onWindowHidden() {
         cancelPendingInput();
+        navigationState.reset();
+        imeInputPolicy.onHidden();
         super.onWindowHidden();
     }
 
