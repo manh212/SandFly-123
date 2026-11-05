@@ -160,7 +160,11 @@ public final class SmartContextGestures {
     if (!prefs(context).getBoolean(PREF_TEXT_RULES_ENABLED, true)) return Collections.emptyList();
     String mode = getMode(context, packageName, down);
     if (MODE_OFF.equals(mode)) return Collections.emptyList();
-    return getRules(context, MODE_OWN.equals(mode) ? packageName : "", down);
+    List<Rule> enabled = new ArrayList<>();
+    for (Rule rule : getRules(context, MODE_OWN.equals(mode) ? packageName : "", down)) {
+      if (rule.enabled) enabled.add(rule);
+    }
+    return enabled;
   }
 
   public static void saveRules(Context context, String packageName, boolean down, List<Rule> rules) {
@@ -571,12 +575,18 @@ public final class SmartContextGestures {
         MAIN.postDelayed(this::step, 180);
         return;
       }
-      if (rules.isEmpty() && performBuiltins(root)) {
+      if (rules.isEmpty() && performBuiltins(root, false)) {
         activeSearch = null;
         return;
       }
       Candidate match = findMatch(root, rules);
       if (match != null && activate(service, match.node)) {
+        activeSearch = null;
+        return;
+      }
+      // Video and phone controls must work even when a general text rule is configured.
+      // Do not fall back to unrelated media/dialog actions from an unmatched text rule.
+      if (!rules.isEmpty() && performBuiltins(root, true)) {
         activeSearch = null;
         return;
       }
@@ -614,9 +624,12 @@ public final class SmartContextGestures {
       MAIN.postDelayed(this::step, 180);
     }
 
-    boolean performBuiltins(AccessibilityNodeInfo root) {
+    boolean performBuiltins(AccessibilityNodeInfo root, boolean essentialOnly) {
       for (String name : priorities(service)) {
         if (!isBuiltinEnabled(service, name)) continue;
+        if (essentialOnly && !("call_incoming".equals(name)
+            || "call_speaker".equals(name) || "call_active".equals(name)
+            || "short_video".equals(name))) continue;
         if ("dialog".equals(name) && isDialog(root)) {
           if (activateByNames(root, down
               ? new String[]{"Hủy", "Huỷ", "Cancel", "Không", "No"}
