@@ -118,6 +118,7 @@ public class SpeechCacheController
   private final Map<WindowKey, List<SpeechInfo>> synthesisFailureMap;
 
   private final Handler workerHandler;
+  private final Handler mainHandler = new Handler(Looper.getMainLooper());
   private final InterpretationReceiver pipeline;
   private final SpeechController speechController;
   private final AccessibilityEventHelper accessibilityEventHelper;
@@ -331,6 +332,7 @@ public class SpeechCacheController
     this.synthesisFailureMap.clear();
     this.ttsWindowId = UNDEFINED_WINDOW_ID;
     workerHandler.removeCallbacksAndMessages(/* token= */ null);
+    mainHandler.removeCallbacksAndMessages(/* token= */ null);
   }
 
   private boolean isActivated() {
@@ -338,6 +340,7 @@ public class SpeechCacheController
   }
 
   public void destroy() {
+    mainHandler.removeCallbacksAndMessages(/* token= */ null);
     workerHandler.getLooper().quit();
   }
 
@@ -504,11 +507,23 @@ public class SpeechCacheController
       AccessibilityNodeInfoCompat textEntryKeyNode,
       EventId eventId,
       LoadSpeechResultNotifier statusNotifier) {
-    pipeline.input(
-        eventId,
-        /* event= */ null,
-        new CompositorID(EVENT_SYNTHESIZE_SPEECH, statusNotifier),
-        textEntryKeyNode);
+    dispatchSynthesis(mainHandler, pipeline, textEntryKeyNode, eventId, statusNotifier);
+  }
+
+  @VisibleForTesting
+  static void dispatchSynthesis(
+      Handler mainHandler,
+      InterpretationReceiver pipeline,
+      AccessibilityNodeInfoCompat textEntryKeyNode,
+      EventId eventId,
+      LoadSpeechResultNotifier statusNotifier) {
+    mainHandler.post(
+        () ->
+            pipeline.input(
+                eventId,
+                /* event= */ null,
+                new CompositorID(EVENT_SYNTHESIZE_SPEECH, statusNotifier),
+                textEntryKeyNode));
   }
 
   @Override
