@@ -46,6 +46,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,11 +70,11 @@ public class MainActivity extends Activity {
     private static final String EMOJI_EXPORT_HEADER = "BRAILLE_EMOJI_V1";
 
     private static final long CALIBRATION_HOLD_MS = 1500L;
-    private static final long DEFAULT_LETTER_DELAY_MS = 500L;
+    private static final long DEFAULT_LETTER_DELAY_MS = BrailleSpeedSettings.DEFAULT_LETTER_DELAY_MS;
     private static final long EXPLORE_HOLD_DOT_MS = 230L;
     private static final long DOUBLE_SPACE_THRESHOLD_MS = 600L;
     private static final long DOUBLE_SWIPE_CONFIRM_MS = 2500L;
-    private static final long DEFAULT_GESTURE_DELAY_MS = 1000L;
+    private static final long DEFAULT_GESTURE_DELAY_MS = BrailleSpeedSettings.DEFAULT_GESTURE_DELAY_MS;
 
     public static final String ACT_SPACE = "SPACE";
     public static final String ACT_BACKSPACE = "BACKSPACE";
@@ -185,6 +186,9 @@ public class MainActivity extends Activity {
     private boolean carriedToneUsed = false;
     private long letterDelayMs = DEFAULT_LETTER_DELAY_MS;
     private long gestureDelayMs = DEFAULT_GESTURE_DELAY_MS;
+    private int swipeDistanceDp = BrailleSpeedSettings.DEFAULT_SWIPE_DISTANCE_DP;
+    private int longSwipeDistanceDp = BrailleSpeedSettings.DEFAULT_LONG_SWIPE_DISTANCE_DP;
+    private boolean distinguishSwipeLength = false;
     private boolean numberModeActive = false;
     private long lastSpaceTimeMs = 0L;
     private long lastDeleteLineRequestMs = 0L;
@@ -409,6 +413,9 @@ toneGenerator.startTone(toneType, toneDurationMs);
         gestureNameMap.put(GES_GLOBAL_UP_2, "Vuốt 2 ngón: Lên Trên");
         gestureNameMap.put(GES_GLOBAL_LEFT_2, "Vuốt 2 ngón: Sang Trái");
         gestureNameMap.put(GES_GLOBAL_RIGHT_2, "Vuốt 2 ngón: Sang Phải");
+        for (Map.Entry<String, String> entry : new ArrayList<Map.Entry<String, String>>(gestureNameMap.entrySet())) {
+            gestureNameMap.put(entry.getKey() + "_LONG", entry.getValue() + " (dài)");
+        }
 
         actionNameMap.clear();
         actionNameMap.put(ACT_SPACE, "Thêm dấu cách (Space)");
@@ -491,6 +498,9 @@ toneGenerator.startTone(toneType, toneDurationMs);
         gestureActionMap.put(GES_GLOBAL_UP_2, ACT_DELETE_WORD);
         gestureActionMap.put(GES_GLOBAL_LEFT_2, ACT_EXIT_KEYBOARD);
         gestureActionMap.put(GES_GLOBAL_RIGHT_2, ACT_START_CALIBRATION);
+        for (String key : gestureNameMap.keySet()) {
+            if (key.endsWith("_LONG")) gestureActionMap.remove(key);
+        }
     }
 
     private void resetDefaultVietnameseBraille() {
@@ -598,8 +608,11 @@ toneGenerator.startTone(toneType, toneDurationMs);
         privacyScreenActive = prefs.getBoolean("privacy_screen", false);
         feedbackMode = prefs.getInt("feedback_mode", FEEDBACK_BOTH);
         echoMode = BrailleKeyboardEchoSettings.read(this);
-        letterDelayMs = prefs.getInt("letter_delay_ms", (int) DEFAULT_LETTER_DELAY_MS);
-        gestureDelayMs = prefs.getInt("gesture_delay_ms", (int) DEFAULT_GESTURE_DELAY_MS);
+        letterDelayMs = BrailleSpeedSettings.letterDelay(prefs);
+        gestureDelayMs = BrailleSpeedSettings.gestureDelay(prefs);
+        swipeDistanceDp = BrailleSpeedSettings.swipeDistance(prefs);
+        longSwipeDistanceDp = BrailleSpeedSettings.longSwipeDistance(prefs);
+        distinguishSwipeLength = prefs.getBoolean(BrailleSpeedSettings.KEY_DISTINGUISH_SWIPE_LENGTH, false);
         useCustomSound = prefs.getBoolean("use_custom_sound", false);
         customSoundUri = prefs.getString("custom_sound_uri", "");
         if (customSoundUri == null) {
@@ -663,6 +676,9 @@ calDotY[i] = prefs.getFloat("cal_y_" + i, 0f);
         editor.putInt("feedback_mode", feedbackMode);
         editor.putInt("letter_delay_ms", (int) letterDelayMs);
         editor.putInt("gesture_delay_ms", (int) gestureDelayMs);
+        editor.putInt(BrailleSpeedSettings.KEY_SWIPE_DISTANCE, swipeDistanceDp);
+        editor.putInt(BrailleSpeedSettings.KEY_LONG_SWIPE_DISTANCE, longSwipeDistanceDp);
+        editor.putBoolean(BrailleSpeedSettings.KEY_DISTINGUISH_SWIPE_LENGTH, distinguishSwipeLength);
         if (calibrationDirty) {
             editor.putBoolean("use_calibrated_points", useCalibratedPoints);
             for (int i = 1; i <= 6; i++) {
@@ -680,8 +696,10 @@ editor.apply();
 
     private void saveGestureSettings() {
         SharedPreferences.Editor editor = prefs.edit();
-        for (Map.Entry<String, String> entry : gestureActionMap.entrySet()) {
-            editor.putString("ges_" + entry.getKey(), entry.getValue());
+        for (String key : gestureNameMap.keySet()) {
+            String action = gestureActionMap.get(key);
+            if (action == null) editor.remove("ges_" + key);
+            else editor.putString("ges_" + key, action);
         }
         editor.apply();
     }
@@ -2119,9 +2137,12 @@ finish();
         gestureDisplayList.clear();
         for (Map.Entry<String, String> entry : gestureNameMap.entrySet()) {
             String key = entry.getKey();
+            if (key.endsWith("_LONG") && !distinguishSwipeLength) continue;
             String gesName = entry.getValue();
             String actCode = gestureActionMap.get(key);
-            String actName = actionNameMap.containsKey(actCode) ? actionNameMap.get(actCode) : actCode;
+            String actName = key.endsWith("_LONG") && actCode == null
+                    ? "Giống vuốt ngắn"
+                    : (actionNameMap.containsKey(actCode) ? actionNameMap.get(actCode) : actCode);
             gestureKeysList.add(key);
             gestureDisplayList.add(gesName + "  ➔  " + actName);
         }
@@ -2133,13 +2154,14 @@ finish();
     private void showChangeGestureDialog(final String gestureKey) {
         final String gestureTitle = gestureNameMap.get(gestureKey);
         final List<String> actionCodes = new ArrayList<String>(actionNameMap.keySet());
+        if (gestureKey.endsWith("_LONG")) actionCodes.add(0, "FOLLOW_SHORT");
         final String[] actionLabels = new String[actionCodes.size()];
         int currentIdx = 0;
         String currentAction = gestureActionMap.get(gestureKey);
 
         for (int i = 0; i < actionCodes.size(); i++) {
             String code = actionCodes.get(i);
-            actionLabels[i] = actionNameMap.get(code);
+            actionLabels[i] = "FOLLOW_SHORT".equals(code) ? "Giống vuốt ngắn" : actionNameMap.get(code);
             if (code.equals(currentAction)) {
                 currentIdx = i;
             }
@@ -2152,7 +2174,8 @@ finish();
             public void onClick(DialogInterface dialog, int which) {
                 String chosenCode = actionCodes.get(which);
                 String chosenLabel = actionLabels[which];
-                gestureActionMap.put(gestureKey, chosenCode);
+                if ("FOLLOW_SHORT".equals(chosenCode)) gestureActionMap.remove(gestureKey);
+                else gestureActionMap.put(gestureKey, chosenCode);
                 saveGestureSettings();
                 refreshGestureListView();
                 speak("Đã gán " + gestureTitle + " thành " + chosenLabel, true);
@@ -2704,27 +2727,14 @@ finish();
                 });
         container.addView(cbPrivacy);
 
-        final Button btnLetterDelay = new Button(this);
-        btnLetterDelay.setAllCaps(false);
-        btnLetterDelay.setText("Độ trễ khi viết chữ: " + letterDelayMs + " ms (bấm để đổi)");
-        btnLetterDelay.setOnClickListener(new View.OnClickListener() {
+        Button btnSpeed = new Button(this);
+        btnSpeed.setAllCaps(false);
+        btnSpeed.setText("Tăng tốc khi nhập");
+        btnSpeed.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                showDelayDialog(true, btnLetterDelay);
-            }
+            public void onClick(View v) { showTypingSpeedSettings(); }
         });
-        container.addView(btnLetterDelay);
-
-        final Button btnGestureDelay = new Button(this);
-        btnGestureDelay.setAllCaps(false);
-        btnGestureDelay.setText("Độ trễ khi vuốt cử chỉ: " + gestureDelayMs + " ms (bấm để đổi)");
-        btnGestureDelay.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDelayDialog(false, btnGestureDelay);
-            }
-        });
-        container.addView(btnGestureDelay);
+        container.addView(btnSpeed);
 
         Button btnResetGrid = new Button(this);
 
@@ -2766,56 +2776,112 @@ return scroll;
         }
     }
 
-    private void showDelayDialog(final boolean forLetter, final Button target) {
 
-        final long minMs = forLetter ? 1L : 200L;
-        final long maxMs = forLetter ? 3000L : 5000L;
-        final long defaultMs = forLetter ? DEFAULT_LETTER_DELAY_MS : DEFAULT_GESTURE_DELAY_MS;
-        final String label = forLetter ? "Độ trễ khi viết chữ" : "Độ trễ khi vuốt cử chỉ";
-
-        final EditText input = new EditText(this);
-        input.setInputType(InputType.TYPE_CLASS_NUMBER);
-        input.setText(String.valueOf(forLetter ? letterDelayMs : gestureDelayMs));
-        input.setSelection(input.getText().length());
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(label + " (mili giây, từ " + minMs + " đến " + maxMs + ")");
-        if (forLetter) {
-            builder.setMessage("Giá trị nhỏ giúp gõ nhanh hơn, nhưng nếu bấm các chấm lần lượt (không đồng thời) thì dễ bị tách thành nhiều chữ. Nếu gõ nhanh bị mất chữ, hãy thử giảm; nếu một chữ bị tách đôi, hãy tăng lên.");
-        }
-        builder.setView(input);
-        builder.setPositiveButton("Lưu", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                long value = forLetter ? letterDelayMs : gestureDelayMs;
-                try {
-                    value = Long.parseLong(input.getText().toString().trim());
-                } catch (Throwable ignored) {
-                }
-                value = Math.max(minMs, Math.min(maxMs, value));
-                applyDelayValue(forLetter, value, target);
-            }
-        });
-        builder.setNeutralButton("Mặc định", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                applyDelayValue(forLetter, defaultMs, target);
-            }
-        });
-        builder.setNegativeButton("Hủy", null);
-        builder.show();
+    private interface SpeedSliderListener {
+        void onValueChanged(int value);
     }
 
-    private void applyDelayValue(boolean forLetter, long value, Button target) {
-        String label = forLetter ? "Độ trễ khi viết chữ" : "Độ trễ khi vuốt cử chỉ";
-        if (forLetter) {
-            letterDelayMs = value;
-        } else {
-            gestureDelayMs = value;
-        }
-        savePhoneOptions();
-        target.setText(label + ": " + value + " ms (bấm để đổi)");
-        speak(label + " " + value + " mili giây", true);
+    private SeekBar addSpeedSlider(LinearLayout parent, final String title, final String unit,
+            int minimum, int maximum, int value, final SpeedSliderListener listener) {
+        final TextView label = new TextView(this);
+        label.setTextColor(Color.WHITE);
+        label.setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
+        label.setPadding(dp(8), dp(12), dp(8), dp(2));
+        label.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        parent.addView(label);
+        SeekBar bar = new SeekBar(this);
+        bar.setMin(minimum);
+        bar.setMax(maximum);
+        bar.setProgress(value);
+        bar.setContentDescription(title);
+        bar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                label.setText(title + ": " + progress + " " + unit);
+                if (fromUser) {
+                    listener.onValueChanged(progress);
+                    savePhoneOptions();
+                }
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        label.setText(title + ": " + value + " " + unit);
+        parent.addView(bar);
+        return bar;
+    }
+
+    private void showTypingSpeedSettings() {
+        ScrollView scroll = new ScrollView(this);
+        LinearLayout content = new LinearLayout(this);
+        content.setOrientation(LinearLayout.VERTICAL);
+        content.setPadding(dp(12), dp(8), dp(12), dp(18));
+        scroll.addView(content);
+        final SeekBar letter = addSpeedSlider(content, "Độ trễ nhập chữ", "ms",
+                BrailleSpeedSettings.MIN_LETTER_DELAY_MS, BrailleSpeedSettings.MAX_LETTER_DELAY_MS,
+                (int) letterDelayMs, new SpeedSliderListener() {
+                    @Override
+                    public void onValueChanged(int value) { letterDelayMs = value; }
+                });
+        final SeekBar shortDistance = addSpeedSlider(content,
+                "Khoảng cách tối thiểu để nhận vuốt", "dp",
+                BrailleSpeedSettings.MIN_SWIPE_DISTANCE_DP, BrailleSpeedSettings.MAX_SWIPE_DISTANCE_DP,
+                swipeDistanceDp, new SpeedSliderListener() {
+                    @Override
+                    public void onValueChanged(int value) { swipeDistanceDp = value; }
+                });
+        final SeekBar time = addSpeedSlider(content, "Thời gian nhận cử chỉ", "ms",
+                BrailleSpeedSettings.MIN_GESTURE_DELAY_MS, BrailleSpeedSettings.MAX_GESTURE_DELAY_MS,
+                (int) gestureDelayMs, new SpeedSliderListener() {
+                    @Override
+                    public void onValueChanged(int value) { gestureDelayMs = value; }
+                });
+        final CheckBox distinct = createOptionCheckBox("Phân biệt vuốt ngắn và vuốt dài",
+                distinguishSwipeLength, new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean checked) {
+                        distinguishSwipeLength = checked;
+                        savePhoneOptions();
+                        refreshGestureListView();
+                    }
+                });
+        content.addView(distinct);
+        final SeekBar longDistance = addSpeedSlider(content, "Ngưỡng vuốt dài", "dp",
+                BrailleSpeedSettings.MIN_LONG_SWIPE_DISTANCE_DP,
+                BrailleSpeedSettings.MAX_LONG_SWIPE_DISTANCE_DP, longSwipeDistanceDp,
+                new SpeedSliderListener() {
+                    @Override
+                    public void onValueChanged(int value) { longSwipeDistanceDp = value; }
+                });
+        TextView explanation = new TextView(this);
+        explanation.setText("Vuốt ngắn dùng chức năng hiện có. Khi bật, gán chức năng vuốt dài ở Cài đặt cử chỉ. Vuốt dài chưa được gán sẽ hoạt động như vuốt ngắn.");
+        explanation.setTextColor(Color.WHITE);
+        explanation.setPadding(dp(8), dp(12), dp(8), dp(12));
+        content.addView(explanation);
+        Button reset = new Button(this);
+        reset.setAllCaps(false);
+        reset.setText("Khôi phục tốc độ mặc định");
+        reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                letterDelayMs = BrailleSpeedSettings.DEFAULT_LETTER_DELAY_MS;
+                gestureDelayMs = BrailleSpeedSettings.DEFAULT_GESTURE_DELAY_MS;
+                swipeDistanceDp = BrailleSpeedSettings.DEFAULT_SWIPE_DISTANCE_DP;
+                longSwipeDistanceDp = BrailleSpeedSettings.DEFAULT_LONG_SWIPE_DISTANCE_DP;
+                distinguishSwipeLength = false;
+                letter.setProgress((int) letterDelayMs);
+                shortDistance.setProgress(swipeDistanceDp);
+                time.setProgress((int) gestureDelayMs);
+                longDistance.setProgress(longSwipeDistanceDp);
+                distinct.setChecked(false);
+                savePhoneOptions();
+            }
+        });
+        content.addView(reset);
+        new AlertDialog.Builder(this).setTitle("Tăng tốc khi nhập")
+                .setView(scroll).setPositiveButton("Đóng", null).show();
     }
 
     private CheckBox createOptionCheckBox(String text, boolean checked, CompoundButton.OnCheckedChangeListener listener) {
@@ -3200,7 +3266,7 @@ return scroll;
         return false;
     }
 
-    private void dispatchSwipeGesture(int startDot, String direction, boolean twoFingers) {
+    private void dispatchSwipeGesture(int startDot, String direction, boolean twoFingers, boolean longSwipe) {
         clearPendingDots();
 
         String gestureKey;
@@ -3218,7 +3284,8 @@ return scroll;
             else gestureKey = GES_GLOBAL_RIGHT_1;
         }
 
-        String actionCode = gestureActionMap.get(gestureKey);
+        String actionCode = BrailleSpeedSettings.swipeAction(gestureActionMap, gestureKey,
+                distinguishSwipeLength, longSwipe);
         if (actionCode != null) {
             executeAction(actionCode);
         }
@@ -3658,22 +3725,6 @@ return scroll;
             }
         };
 
-        private final Runnable chordTouchCommitRunnable = new Runnable() {
-            @Override
-            public void run() {
-                if (calibrationStep != CAL_NONE || swipeDetected || chordCommittedOnTouch) return;
-                if (activeFingers.size() < 2) return;
-                for (FingerTrace trace : activeFingers.values()) {
-                    if (trace.startDot >= 1 && trace.startDot <= 6) {
-                        pendingChordDots[trace.startDot] = true;
-                    }
-                }
-                chordCommittedOnTouch = true;
-                mainHandler.removeCallbacks(exploreHoldRunnable);
-                commitPendingDotsNow();
-            }
-        };
-
         public BraillePhoneCanvasView(Context context) {
             super(context);
             setClickable(true);
@@ -3904,7 +3955,7 @@ return scroll;
                     swipeDetected = false;
                     dotCommittedDuringExplore = false;
                     chordCommittedOnTouch = false;
-                    mainHandler.removeCallbacks(chordTouchCommitRunnable);
+                    
 
                     FingerTrace f = createTrace(event, 0);
                     activeFingers.put(f.pointerId, f);
@@ -3945,8 +3996,8 @@ return scroll;
                         }
                         triggerFeedback(this, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
                         invalidate();
-                        mainHandler.removeCallbacks(chordTouchCommitRunnable);
-                        mainHandler.postDelayed(chordTouchCommitRunnable, letterDelayMs);
+                        
+                        
                     }
                     return true;
                 }
@@ -3961,15 +4012,15 @@ return scroll;
 
                             float dx = f.currentX - f.startX;
                             float dy = f.currentY - f.startY;
-                            long elapsed = System.currentTimeMillis() - f.downTime;
+                            long elapsed = android.os.SystemClock.uptimeMillis() - f.downTime;
 
                             if (calibrationStep == CAL_NONE && !chordCommittedOnTouch
                                     && (Math.abs(dx) > dp(24) || Math.abs(dy) > dp(24))) {
-                                mainHandler.removeCallbacks(chordTouchCommitRunnable);
+                                
                             }
 
                             if (calibrationStep == CAL_NONE && !dotCommittedDuringExplore
-                                    && elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68))) {
+                                    && BrailleSpeedSettings.isSwipe(dx, dy, elapsed, gestureDelayMs, dp(swipeDistanceDp))) {
                                 swipeDetected = true;
                                 mainHandler.removeCallbacks(exploreHoldRunnable);
                             }
@@ -4001,7 +4052,7 @@ return scroll;
                     if (calibrationStep != CAL_NONE) {
                         handleCalibrationFingerRelease();
                     } else {
-                        mainHandler.removeCallbacks(chordTouchCommitRunnable);
+                        
                         handleTypingFingerRelease();
                     }
 
@@ -4020,7 +4071,7 @@ return scroll;
             f.startY = event.getY(index);
             f.currentX = f.startX;
             f.currentY = f.startY;
-            f.downTime = System.currentTimeMillis();
+            f.downTime = android.os.SystemClock.uptimeMillis();
             f.startDot = resolveDotAt(f.startX, f.startY);
             return f;
         }
@@ -4058,9 +4109,9 @@ return scroll;
             FingerTrace primary = gestureFingers.get(0);
             float dx = primary.currentX - primary.startX;
             float dy = primary.currentY - primary.startY;
-            long elapsed = System.currentTimeMillis() - primary.downTime;
+            long elapsed = android.os.SystemClock.uptimeMillis() - primary.downTime;
 
-            if (swipeDetected || (!dotCommittedDuringExplore && elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68)))) {
+            if (swipeDetected || (BrailleSpeedSettings.isSwipe(dx, dy, elapsed, gestureDelayMs, dp(swipeDistanceDp)))) {
                 String direction;
                 if (Math.abs(dy) >= Math.abs(dx)) {
                     direction = (dy > 0) ? "DOWN" : "UP";
@@ -4068,7 +4119,8 @@ return scroll;
                     direction = (dx > 0) ? "RIGHT" : "LEFT";
                 }
                 boolean twoFingers = (maxPointersInChord >= 2);
-                dispatchSwipeGesture(primary.startDot, direction, twoFingers);
+                dispatchSwipeGesture(primary.startDot, direction, twoFingers,
+                        BrailleSpeedSettings.isLongSwipe(dx, dy, dp(longSwipeDistanceDp)));
                 return;
             }
 

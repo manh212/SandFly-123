@@ -55,8 +55,8 @@ public class BrailleKeyboardService extends InputMethodService {
     private static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
 
     private static final long CALIBRATION_HOLD_MS = 1500L;
-    private static final long DEFAULT_LETTER_DELAY_MS = 500L;
-    private static final long DEFAULT_GESTURE_DELAY_MS = 1000L;
+    private static final long DEFAULT_LETTER_DELAY_MS = BrailleSpeedSettings.DEFAULT_LETTER_DELAY_MS;
+    private static final long DEFAULT_GESTURE_DELAY_MS = BrailleSpeedSettings.DEFAULT_GESTURE_DELAY_MS;
     private static final long EXPLORE_HOLD_DOT_MS = 230L;
     private static final long DOUBLE_SPACE_THRESHOLD_MS = 600L;
     private static final long DOUBLE_SWIPE_CONFIRM_MS = 2500L;
@@ -121,6 +121,9 @@ public class BrailleKeyboardService extends InputMethodService {
     @TextEventFilter.KeyboardEchoType private int echoMode = ECHO_CHAR_AND_WORD;
     private long letterDelayMs = DEFAULT_LETTER_DELAY_MS;
     private long gestureDelayMs = DEFAULT_GESTURE_DELAY_MS;
+    private int swipeDistanceDp = BrailleSpeedSettings.DEFAULT_SWIPE_DISTANCE_DP;
+    private int longSwipeDistanceDp = BrailleSpeedSettings.DEFAULT_LONG_SWIPE_DISTANCE_DP;
+    private boolean distinguishSwipeLength = false;
 
     private boolean useCalibratedPoints = false;
     private final float[] calDotX = new float[7];
@@ -519,8 +522,11 @@ public class BrailleKeyboardService extends InputMethodService {
         updateSlotUri(typingSlot, useTypingSound ? typingUri : "");
         updateSlotUri(capitalSlot, prefs.getString("custom_sound_capital_uri", ""));
         updateSlotUri(spaceSlot, prefs.getString("custom_sound_space_uri", ""));
-        letterDelayMs = prefs.getInt("letter_delay_ms", (int) DEFAULT_LETTER_DELAY_MS);
-        gestureDelayMs = prefs.getInt("gesture_delay_ms", (int) DEFAULT_GESTURE_DELAY_MS);
+        letterDelayMs = BrailleSpeedSettings.letterDelay(prefs);
+        gestureDelayMs = BrailleSpeedSettings.gestureDelay(prefs);
+        swipeDistanceDp = BrailleSpeedSettings.swipeDistance(prefs);
+        longSwipeDistanceDp = BrailleSpeedSettings.longSwipeDistance(prefs);
+        distinguishSwipeLength = prefs.getBoolean(BrailleSpeedSettings.KEY_DISTINGUISH_SWIPE_LENGTH, false);
 
         useCalibratedPoints = prefs.getBoolean("use_calibrated_points", false);
         for (int i = 1; i <= 6; i++) {
@@ -542,8 +548,10 @@ public class BrailleKeyboardService extends InputMethodService {
         for (int i = 0; i < allGestureKeys.length; i++) {
             String key = allGestureKeys[i];
             String savedAct = prefs.getString("ges_" + key, null);
-            if (savedAct != null && savedAct.length() > 0) {
-                gestureActionMap.put(key, savedAct);
+            if (savedAct != null && savedAct.length() > 0) gestureActionMap.put(key, savedAct);
+            String longAct = prefs.getString("ges_" + key + "_LONG", null);
+            if (longAct != null && longAct.length() > 0) {
+                gestureActionMap.put(key + "_LONG", longAct);
             }
         }
 
@@ -1133,7 +1141,7 @@ public class BrailleKeyboardService extends InputMethodService {
         return true;
     }
 
-    private void dispatchSwipeGesture(int startDot, String direction, boolean twoFingers) {
+    private void dispatchSwipeGesture(int startDot, String direction, boolean twoFingers, boolean longSwipe) {
         clearPendingDots();
 
         String gestureKey;
@@ -1151,7 +1159,8 @@ public class BrailleKeyboardService extends InputMethodService {
             else gestureKey = MainActivity.GES_GLOBAL_RIGHT_1;
         }
 
-        String actionCode = gestureActionMap.get(gestureKey);
+        String actionCode = BrailleSpeedSettings.swipeAction(gestureActionMap, gestureKey,
+                distinguishSwipeLength, longSwipe);
         if (actionCode != null) {
             executeImeAction(actionCode);
         }
@@ -2005,10 +2014,10 @@ public class BrailleKeyboardService extends InputMethodService {
 
                             float dx = f.currentX - f.startX;
                             float dy = f.currentY - f.startY;
-                            long elapsed = System.currentTimeMillis() - f.downTime;
+                            long elapsed = android.os.SystemClock.uptimeMillis() - f.downTime;
 
                             if (calibrationStep == CAL_NONE
-                                    && elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68))) {
+                                    && BrailleSpeedSettings.isSwipe(dx, dy, elapsed, gestureDelayMs, dp(swipeDistanceDp))) {
                                 swipeDetected = true;
                                 mainHandler.removeCallbacks(exploreHoldRunnable);
                             }
@@ -2081,7 +2090,7 @@ public class BrailleKeyboardService extends InputMethodService {
             f.startY = event.getY(index);
             f.currentX = f.startX;
             f.currentY = f.startY;
-            f.downTime = System.currentTimeMillis();
+            f.downTime = android.os.SystemClock.uptimeMillis();
             f.startDot = resolveDotAt(f.startX, f.startY);
             return f;
         }
@@ -2126,9 +2135,9 @@ public class BrailleKeyboardService extends InputMethodService {
             FingerTrace primary = gestureFingers.get(0);
             float dx = primary.currentX - primary.startX;
             float dy = primary.currentY - primary.startY;
-            long elapsed = System.currentTimeMillis() - primary.downTime;
+            long elapsed = android.os.SystemClock.uptimeMillis() - primary.downTime;
 
-            if (swipeDetected || (elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68)))) {
+            if (swipeDetected || (BrailleSpeedSettings.isSwipe(dx, dy, elapsed, gestureDelayMs, dp(swipeDistanceDp)))) {
                 String direction;
                 if (Math.abs(dy) >= Math.abs(dx)) {
                     direction = (dy > 0) ? "DOWN" : "UP";
@@ -2136,7 +2145,8 @@ public class BrailleKeyboardService extends InputMethodService {
                     direction = (dx > 0) ? "RIGHT" : "LEFT";
                 }
                 boolean twoFingers = (maxPointersInChord >= 2);
-                dispatchSwipeGesture(primary.startDot, direction, twoFingers);
+                dispatchSwipeGesture(primary.startDot, direction, twoFingers,
+                        BrailleSpeedSettings.isLongSwipe(dx, dy, dp(longSwipeDistanceDp)));
                 return;
             }
 
