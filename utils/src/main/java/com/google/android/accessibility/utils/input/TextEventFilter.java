@@ -17,8 +17,10 @@
 package com.google.android.accessibility.utils.input;
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.view.accessibility.AccessibilityEvent;
 import androidx.annotation.IntDef;
@@ -350,6 +352,12 @@ public class TextEventFilter {
   }
 
   private boolean isBrailleKeyboardEvent(AccessibilityEvent event) {
+    // A keyboard commits text into another application's EditText. Android sends the resulting
+    // TYPE_VIEW_TEXT_CHANGED event from that host application, not from the keyboard package.
+    // Check the selected input method first, so Braille echo works in messaging apps and browsers.
+    if (isBrailleInputMethodSelected()) {
+      return true;
+    }
     CharSequence packageName = event.getPackageName();
     if (packageName == null) {
       return false;
@@ -378,6 +386,38 @@ public class TextEventFilter {
     }
     brailleKeyboardPackageCache.put(packageNameString, isBrailleKeyboard);
     return isBrailleKeyboard;
+  }
+
+  /**
+   * Recognizes the selected Braille input method by its component name rather than the text
+   * event's package, which usually belongs to the application receiving the text.
+   */
+  @VisibleForTesting
+  static boolean isBrailleInputMethodId(@Nullable String inputMethodId) {
+    if (TextUtils.isEmpty(inputMethodId)) {
+      return false;
+    }
+    ComponentName component = ComponentName.unflattenFromString(inputMethodId);
+    if (component == null) {
+      return false;
+    }
+    String packageName = component.getPackageName().toLowerCase(Locale.ROOT);
+    return BRAILLE_KEYBOARD_PACKAGE_NAME.equals(packageName)
+        || packageName.contains("braille");
+  }
+
+  private boolean isBrailleInputMethodSelected() {
+    if (context == null) {
+      return false;
+    }
+    try {
+      return isBrailleInputMethodId(
+          Settings.Secure.getString(
+              context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD));
+    } catch (SecurityException exception) {
+      // Some devices restrict access to the currently selected input method.
+      return false;
+    }
   }
 
   public boolean shouldEchoAddedText(long eventTime) {
