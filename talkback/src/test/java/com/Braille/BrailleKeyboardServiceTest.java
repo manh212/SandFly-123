@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedText;
+import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
@@ -193,6 +195,73 @@ public class BrailleKeyboardServiceTest {
         ClassParameter.from(String.class, MainActivity.ACT_BACKSPACE));
     assertTrue(BridgeShadow.spoken.isEmpty());
     assertEquals("", text.toString());
+  }
+
+  @Test
+  public void deletionAtCursorRemovesTheCharacterThatWasJustRead() {
+    text.append("ABC");
+    Selection.setSelection(text, 3);
+    BrailleTextOperations.NavigationState state =
+        ReflectionHelpers.getField(keyboard, "navigationState");
+    state.recordCharacterMovement(3, true);
+    ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+        ClassParameter.from(String.class, MainActivity.ACT_DELETE_CHAR_AT_CURSOR));
+    assertEquals("AB", text.toString());
+    assertEquals(2, Selection.getSelectionStart(text));
+  }
+
+  @Test
+  public void deletionAtCursorRemovesOnlySelectedWord() {
+    text.append("Tôi đang học chữ nổi");
+    Selection.setSelection(text, 9);
+    ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+        ClassParameter.from(String.class, MainActivity.ACT_DELETE_WORD_AT_CURSOR));
+    assertEquals("Tôi đang  chữ nổi", text.toString());
+    assertEquals(9, Selection.getSelectionStart(text));
+  }
+
+  @Test
+  public void repeatedLineBoundaryActionMovesTheRealEditorSelection() {
+    text.append("abc\nxy");
+    Selection.setSelection(text, 2);
+    Context context = RuntimeEnvironment.getApplication();
+    keyboard.connection = new BaseInputConnection(new View(context), true) {
+      @Override
+      public Editable getEditable() {
+        return text;
+      }
+
+      @Override
+      public ExtractedText getExtractedText(ExtractedTextRequest request, int flags) {
+        ExtractedText result = new ExtractedText();
+        result.text = text.toString();
+        result.startOffset = 0;
+        result.selectionStart = Selection.getSelectionStart(text);
+        result.selectionEnd = Selection.getSelectionEnd(text);
+        return result;
+      }
+
+      @Override
+      public boolean setSelection(int start, int end) {
+        Selection.setSelection(text, start, end);
+        return true;
+      }
+    };
+    int[] expected = {0, 3, 4, 6};
+    for (int position : expected) {
+      ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+          ClassParameter.from(String.class, MainActivity.ACT_MOVE_LINE_BOUNDARY_NEXT));
+      assertEquals(position, Selection.getSelectionStart(text));
+    }
+    ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+        ClassParameter.from(String.class, MainActivity.ACT_MOVE_LINE_START));
+    assertEquals(4, Selection.getSelectionStart(text));
+    ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+        ClassParameter.from(String.class, MainActivity.ACT_MOVE_LINE_END));
+    assertEquals(6, Selection.getSelectionStart(text));
+    ReflectionHelpers.callInstanceMethod(keyboard, "executeImeAction",
+        ClassParameter.from(String.class, MainActivity.ACT_MOVE_START));
+    assertEquals(0, Selection.getSelectionStart(text));
   }
 
   private boolean password(int inputType) {
