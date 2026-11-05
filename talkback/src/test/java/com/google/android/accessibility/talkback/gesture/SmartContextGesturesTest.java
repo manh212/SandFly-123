@@ -12,6 +12,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import java.util.Collections;
 import org.robolectric.Robolectric;
 import org.robolectric.Shadows;
+import org.robolectric.util.ReflectionHelpers;
+import org.robolectric.util.ReflectionHelpers.ClassParameter;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -122,6 +124,8 @@ public final class SmartContextGesturesTest {
       if (action == AccessibilityNodeInfo.ACTION_CLICK) clicks[0]++;
       return true;
     });
+    ReflectionHelpers.callInstanceMethod(service.root, "setSealed", ClassParameter.from(boolean.class, true));
+    ReflectionHelpers.callInstanceMethod(play, "setSealed", ClassParameter.from(boolean.class, true));
     SmartContextGestures.addRule(service, "com.facebook.orca", true,
         new Rule("Ghi âm tin nhắn thoại", "exact", "", false, true));
     try {
