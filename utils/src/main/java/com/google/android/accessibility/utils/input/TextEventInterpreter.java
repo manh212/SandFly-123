@@ -233,7 +233,9 @@ public class TextEventInterpreter {
     if (nodeInfo != null && !nodeInfo.isVisibleToUser()) {
       // For wearOS, we will receive 2 same text events from the real invisible EditText and the
       // gBoard visible EditText. We should skip the invisible one.
-      if (Build.VERSION.SDK_INT != Build.VERSION_CODES.P) {
+      if (Build.VERSION.SDK_INT != Build.VERSION_CODES.P
+          && !(nodeInfo.isEditable() && nodeInfo.isFocused()
+              && filter.isBrailleInputMethodSelected())) {
         // In Android P, when typing with braille keyboard, nodeInfo.isVisibleToUser is false.
         // Therefore add an exception here.
         return;

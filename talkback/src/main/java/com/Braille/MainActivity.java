@@ -16,6 +16,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
+import android.media.AudioAttributes;
+import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
+import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettings;
+import com.google.android.accessibility.utils.input.TextEventFilter;
 import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
@@ -152,8 +156,8 @@ public class MainActivity extends Activity {
 
     private static final int ECHO_CHAR_AND_WORD = 0;
     private static final int ECHO_CHAR_ONLY = 1;
-    private static final int ECHO_WORD_ONLY = 2;
-    private static final int ECHO_NONE = 3;
+    private static final int ECHO_WORD_ONLY = TextEventFilter.PREF_ECHO_WORDS;
+    private static final int ECHO_NONE = TextEventFilter.PREF_ECHO_NONE;
 
     private SharedPreferences prefs;
     private ToneGenerator toneGenerator;
@@ -319,7 +323,7 @@ private BraillePhoneCanvasView brailleCanvasView;
         }
 
         try {
-            toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 85);
+            toneGenerator = new ToneGenerator(AudioManager.STREAM_ACCESSIBILITY, 85);
         } catch (Throwable ignored) {
         }
 
@@ -358,47 +362,48 @@ toneGenerator.startTone(toneType, toneDurationMs);
     }
 
     private void speakTyping(String text, boolean flush) {
-        if (echoMode == ECHO_NONE) return;
+        echoMode = BrailleKeyboardEchoSettings.read(this);
+        if (echoMode == ECHO_NONE || BrailleKeyboardEchoSettings.isTypingSilent(echoMode)) return;
         speak(text, flush);
     }
 
     private void initDefaultMaps() {
         gestureNameMap.clear();
 
-        gestureNameMap.put(GES_DOT1_DOWN, "Chấm 1: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT1_UP, "Chấm 1: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT1_LEFT, "Chấm 1: Vuốt Lên");
-        gestureNameMap.put(GES_DOT1_RIGHT, "Chấm 1: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT1_DOWN, "Chấm 1: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT1_UP, "Chấm 1: Vuốt Lên");
+        gestureNameMap.put(GES_DOT1_LEFT, "Chấm 1: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT1_RIGHT, "Chấm 1: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_DOT2_DOWN, "Chấm 2: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT2_UP, "Chấm 2: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT2_LEFT, "Chấm 2: Vuốt Lên");
-        gestureNameMap.put(GES_DOT2_RIGHT, "Chấm 2: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT2_DOWN, "Chấm 2: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT2_UP, "Chấm 2: Vuốt Lên");
+        gestureNameMap.put(GES_DOT2_LEFT, "Chấm 2: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT2_RIGHT, "Chấm 2: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_DOT3_DOWN, "Chấm 3: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT3_UP, "Chấm 3: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT3_LEFT, "Chấm 3: Vuốt Lên");
-        gestureNameMap.put(GES_DOT3_RIGHT, "Chấm 3: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT3_DOWN, "Chấm 3: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT3_UP, "Chấm 3: Vuốt Lên");
+        gestureNameMap.put(GES_DOT3_LEFT, "Chấm 3: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT3_RIGHT, "Chấm 3: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_DOT4_DOWN, "Chấm 4: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT4_UP, "Chấm 4: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT4_LEFT, "Chấm 4: Vuốt Lên");
-        gestureNameMap.put(GES_DOT4_RIGHT, "Chấm 4: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT4_DOWN, "Chấm 4: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT4_UP, "Chấm 4: Vuốt Lên");
+        gestureNameMap.put(GES_DOT4_LEFT, "Chấm 4: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT4_RIGHT, "Chấm 4: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_DOT5_DOWN, "Chấm 5: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT5_UP, "Chấm 5: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT5_LEFT, "Chấm 5: Vuốt Lên");
-        gestureNameMap.put(GES_DOT5_RIGHT, "Chấm 5: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT5_DOWN, "Chấm 5: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT5_UP, "Chấm 5: Vuốt Lên");
+        gestureNameMap.put(GES_DOT5_LEFT, "Chấm 5: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT5_RIGHT, "Chấm 5: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_DOT6_DOWN, "Chấm 6: Vuốt Sang Phải");
-        gestureNameMap.put(GES_DOT6_UP, "Chấm 6: Vuốt Sang Trái");
-        gestureNameMap.put(GES_DOT6_LEFT, "Chấm 6: Vuốt Lên");
-        gestureNameMap.put(GES_DOT6_RIGHT, "Chấm 6: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT6_DOWN, "Chấm 6: Vuốt Xuống");
+        gestureNameMap.put(GES_DOT6_UP, "Chấm 6: Vuốt Lên");
+        gestureNameMap.put(GES_DOT6_LEFT, "Chấm 6: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT6_RIGHT, "Chấm 6: Vuốt Sang phải");
 
-        gestureNameMap.put(GES_GLOBAL_DOWN_1, "Toàn màn hình (1 ngón): Vuốt Sang Phải");
-        gestureNameMap.put(GES_GLOBAL_UP_1, "Toàn màn hình (1 ngón): Vuốt Sang Trái");
-        gestureNameMap.put(GES_GLOBAL_LEFT_1, "Toàn màn hình (1 ngón): Vuốt Lên");
-        gestureNameMap.put(GES_GLOBAL_RIGHT_1, "Toàn màn hình (1 ngón): Vuốt Xuống");
+        gestureNameMap.put(GES_GLOBAL_DOWN_1, "Toàn màn hình (1 ngón): Vuốt Xuống");
+        gestureNameMap.put(GES_GLOBAL_UP_1, "Toàn màn hình (1 ngón): Vuốt Lên");
+        gestureNameMap.put(GES_GLOBAL_LEFT_1, "Toàn màn hình (1 ngón): Vuốt Sang trái");
+        gestureNameMap.put(GES_GLOBAL_RIGHT_1, "Toàn màn hình (1 ngón): Vuốt Sang phải");
 
         gestureNameMap.put(GES_GLOBAL_DOWN_2, "Vuốt 2 ngón: Xuống Dưới");
         gestureNameMap.put(GES_GLOBAL_UP_2, "Vuốt 2 ngón: Lên Trên");
@@ -592,7 +597,7 @@ toneGenerator.startTone(toneType, toneDurationMs);
         speakPasswordChars = prefs.getBoolean("speak_password_chars", false);
         privacyScreenActive = prefs.getBoolean("privacy_screen", false);
         feedbackMode = prefs.getInt("feedback_mode", FEEDBACK_BOTH);
-        echoMode = prefs.getInt("echo_mode", ECHO_CHAR_AND_WORD);
+        echoMode = BrailleKeyboardEchoSettings.read(this);
         letterDelayMs = prefs.getInt("letter_delay_ms", (int) DEFAULT_LETTER_DELAY_MS);
         gestureDelayMs = prefs.getInt("gesture_delay_ms", (int) DEFAULT_GESTURE_DELAY_MS);
         useCustomSound = prefs.getBoolean("use_custom_sound", false);
@@ -656,7 +661,6 @@ calDotY[i] = prefs.getFloat("cal_y_" + i, 0f);
         editor.putBoolean("speak_password_chars", speakPasswordChars);
         editor.putBoolean("privacy_screen", privacyScreenActive);
         editor.putInt("feedback_mode", feedbackMode);
-        editor.putInt("echo_mode", echoMode);
         editor.putInt("letter_delay_ms", (int) letterDelayMs);
         editor.putInt("gesture_delay_ms", (int) gestureDelayMs);
         if (calibrationDirty) {
@@ -1710,7 +1714,9 @@ main.addView(tabRow);
         try {
             if (slot.player == null) {
                 newPlayer = new MediaPlayer();
-                newPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                newPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
                 newPlayer.setDataSource(this, Uri.parse(slot.uri));
                 newPlayer.prepare();
                 slot.player = newPlayer;
@@ -1894,7 +1900,9 @@ main.addView(tabRow);
         try {
             if (customSoundPlayer == null) {
                 newPlayer = new MediaPlayer();
-                newPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                newPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
                 newPlayer.setDataSource(this, Uri.parse(customSoundUri));
                 newPlayer.prepare();
                 customSoundPlayer = newPlayer;
@@ -3452,10 +3460,9 @@ return scroll;
             speak("Phản hồi bàn phím: " + names[feedbackMode], true);
 
         } else if (ACT_CYCLE_ECHO.equals(actionCode)) {
-            echoMode = (echoMode + 1) % 4;
-            savePhoneOptions();
-            String[] names = new String[]{"Đọc cả ký tự và từ", "Chỉ đọc ký tự", "Chỉ đọc từ", "Tắt đọc vọng"};
-            speak("Chế độ đọc vọng: " + names[echoMode], true);
+            echoMode = BrailleKeyboardEchoSettings.cycle(this);
+            speak("Chế độ đọc vọng: "
+                    + KeyboardEchoSettings.choiceName(getResources(), echoMode), true);
 
         } else if (ACT_START_CALIBRATION.equals(actionCode)) {
             if (brailleCanvasView != null) {

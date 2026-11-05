@@ -2,6 +2,7 @@ package com.Braille;
 
 import android.content.ClipData;
 import android.content.ClipboardManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.provider.Settings;
@@ -13,6 +14,10 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.inputmethodservice.InputMethodService;
 import android.media.AudioManager;
+import android.media.AudioAttributes;
+import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
+import com.google.android.accessibility.talkback.keyboardecho.KeyboardEchoSettings;
+import com.google.android.accessibility.utils.input.TextEventFilter;
 import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.net.Uri;
@@ -63,8 +68,8 @@ public class BrailleKeyboardService extends InputMethodService {
 
     private static final int ECHO_CHAR_AND_WORD = 0;
     private static final int ECHO_CHAR_ONLY = 1;
-    private static final int ECHO_WORD_ONLY = 2;
-    private static final int ECHO_NONE = 3;
+    private static final int ECHO_WORD_ONLY = TextEventFilter.PREF_ECHO_WORDS;
+    private static final int ECHO_NONE = TextEventFilter.PREF_ECHO_NONE;
 
     private static final String[][] VIET_VOWELS = new String[][]{
             {"a", "á", "à", "ả", "ã", "ạ"},
@@ -186,7 +191,14 @@ public class BrailleKeyboardService extends InputMethodService {
                     context.getContentResolver(),
                     Settings.Secure.ENABLED_INPUT_METHODS
             );
-            return enabled != null && enabled.contains(context.getPackageName());
+            if (enabled == null) return false;
+            ComponentName keyboard = new ComponentName(context, BrailleKeyboardService.class);
+            for (String entry : enabled.split(":")) {
+                if (keyboard.equals(ComponentName.unflattenFromString(entry.split(";")[0]))) {
+                    return true;
+                }
+            }
+            return false;
         } catch (Throwable ignored) {
             return false;
         }
@@ -198,7 +210,8 @@ public class BrailleKeyboardService extends InputMethodService {
                     context.getContentResolver(),
                     Settings.Secure.DEFAULT_INPUT_METHOD
             );
-            return current != null && current.contains(context.getPackageName());
+            return new ComponentName(context, BrailleKeyboardService.class)
+                    .equals(current == null ? null : ComponentName.unflattenFromString(current));
         } catch (Throwable ignored) {
             return false;
         }
@@ -237,6 +250,7 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onStartInput(EditorInfo attribute, boolean restarting) {
         super.onStartInput(attribute, restarting);
+        cancelPendingInput();
         reloadAllSettings();
         if (!BrailleMeridianBridge.isAvailable()) {
             mainHandler.removeCallbacks(singleFingerCommitRunnable);
@@ -251,6 +265,10 @@ public class BrailleKeyboardService extends InputMethodService {
         carriedToneUsed = false;
         markPos = -1;
         capitalSignCount = 0;
+        nextCharCapital = false;
+        lastSpaceTimeMs = 0L;
+        lastDeleteLineRequestMs = 0L;
+        lastClearAllRequestMs = 0L;
         if (!restarting) {
             capsLockSticky = false;
         }
@@ -301,6 +319,12 @@ public class BrailleKeyboardService extends InputMethodService {
         super.onFinishInputView(finishingInput);
     }
 
+    @Override
+    public void onFinishInput() {
+        cancelPendingInput();
+        super.onFinishInput();
+    }
+
     private void cancelPendingInput() {
         mainHandler.removeCallbacks(singleFingerCommitRunnable);
         if (imeCanvasView != null) imeCanvasView.cancelGesture();
@@ -324,11 +348,14 @@ public class BrailleKeyboardService extends InputMethodService {
 
     private boolean isEditorPassword(EditorInfo info) {
         if (info == null) return false;
+        int inputClass = info.inputType & InputType.TYPE_MASK_CLASS;
         int variation = info.inputType & InputType.TYPE_MASK_VARIATION;
-        return variation == InputType.TYPE_TEXT_VARIATION_PASSWORD
+        return inputClass == InputType.TYPE_CLASS_TEXT
+                && (variation == InputType.TYPE_TEXT_VARIATION_PASSWORD
                 || variation == InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-                || variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD
-                || variation == InputType.TYPE_NUMBER_VARIATION_PASSWORD;
+                || variation == InputType.TYPE_TEXT_VARIATION_WEB_PASSWORD)
+                || inputClass == InputType.TYPE_CLASS_NUMBER
+                && variation == InputType.TYPE_NUMBER_VARIATION_PASSWORD;
     }
 
     private void initFeedbackEngines() {
@@ -338,7 +365,7 @@ public class BrailleKeyboardService extends InputMethodService {
         }
 
         try {
-            toneGenerator = new ToneGenerator(AudioManager.STREAM_MUSIC, 85);
+            toneGenerator = new ToneGenerator(AudioManager.STREAM_ACCESSIBILITY, 85);
         } catch (Throwable ignored) {
         }
 
@@ -371,7 +398,9 @@ public class BrailleKeyboardService extends InputMethodService {
         try {
             if (slot.player == null) {
                 newPlayer = new MediaPlayer();
-                newPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+                newPlayer.setAudioAttributes(new AudioAttributes.Builder()
+                        .setUsage(AudioAttributes.USAGE_ASSISTANCE_ACCESSIBILITY)
+                        .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION).build());
                 newPlayer.setDataSource(this, Uri.parse(slot.uri));
                 newPlayer.prepare();
                 slot.player = newPlayer;
@@ -456,7 +485,18 @@ public class BrailleKeyboardService extends InputMethodService {
     }
 
     private void speakTyping(String text, boolean flush) {
+        echoMode = BrailleKeyboardEchoSettings.read(this);
+        if (echoMode == ECHO_NONE || BrailleKeyboardEchoSettings.isTypingSilent(echoMode)) return;
         speak(text, flush);
+    }
+
+    private void speakEditFeedback(String text, boolean flush) {
+        if (BrailleKeyboardEchoSettings.isTypingSilent(BrailleKeyboardEchoSettings.read(this))) return;
+        speak(text, flush);
+    }
+
+    private String protectedText(String text) {
+        return hidePasswordInSpeech() && !text.isEmpty() ? "Mật khẩu" : text;
     }
 
     private void reloadAllSettings() {
@@ -470,7 +510,7 @@ public class BrailleKeyboardService extends InputMethodService {
         doubleSpacePeriod = prefs.getBoolean("double_space_period", true);
         privacyScreenActive = prefs.getBoolean("privacy_screen", false);
         feedbackMode = prefs.getInt("feedback_mode", FEEDBACK_BOTH);
-        echoMode = prefs.getInt("echo_mode", ECHO_CHAR_AND_WORD);
+        echoMode = BrailleKeyboardEchoSettings.read(this);
         speakPasswordChars = prefs.getBoolean("speak_password_chars", false);
         vibrationLevel = prefs.getInt("vibration_level", 1);
 
@@ -650,7 +690,6 @@ public class BrailleKeyboardService extends InputMethodService {
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean("privacy_screen", privacyScreenActive);
         editor.putInt("feedback_mode", feedbackMode);
-        editor.putInt("echo_mode", echoMode);
         editor.putBoolean("use_calibrated_points", useCalibratedPoints);
         for (int i = 1; i <= 6; i++) {
             editor.putFloat("cal_x_" + i, calDotX[i]);
@@ -840,6 +879,7 @@ public class BrailleKeyboardService extends InputMethodService {
 
     private void processBrailleChordOnInputConnection(String dotsKey) {
         if (!BrailleMeridianBridge.isAvailable()) return;
+        echoMode = BrailleKeyboardEchoSettings.read(this);
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
 
@@ -903,7 +943,8 @@ public class BrailleKeyboardService extends InputMethodService {
             String digit = convertDotsToDigit(dotsKey);
             if (digit != null) {
                 ic.commitText(digit, 1);
-                if (!screenReaderEchoesTypedText()) {
+                if ((echoMode == ECHO_CHAR_AND_WORD || echoMode == ECHO_CHAR_ONLY)
+                        && !screenReaderEchoesTypedText()) {
                     speak(hidePasswordInSpeech() ? "Sao" : digit, true);
                 }
                 return;
@@ -1170,6 +1211,7 @@ public class BrailleKeyboardService extends InputMethodService {
 
     private void executeImeAction(String actionCode) {
         if (!BrailleMeridianBridge.isAvailable()) return;
+        echoMode = BrailleKeyboardEchoSettings.read(this);
         InputConnection ic = getCurrentInputConnection();
         if (ic == null) return;
 
@@ -1212,7 +1254,7 @@ public class BrailleKeyboardService extends InputMethodService {
             if (selected != null && selected.length() > 0) {
                 ic.commitText("", 1);
                 triggerFeedback(imeCanvasView, 40L, ToneGenerator.TONE_PROP_NACK, 60);
-                speak("Đã xóa vùng đang chọn", true);
+                speakEditFeedback("Đã xóa vùng đang chọn", true);
                 return;
             }
             CharSequence beforeChunk = ic.getTextBeforeCursor(16, 0);
@@ -1224,9 +1266,9 @@ public class BrailleKeyboardService extends InputMethodService {
                 String deletedSpeech = (deleteUnits == 1)
                         ? describeCharForSpeech(deletedText.charAt(0))
                         : describeEmoji(deletedText);
-                speak("Đã xóa " + (hidePasswordInSpeech() ? "ký tự" : deletedSpeech), true);
+                speakEditFeedback("Đã xóa " + (hidePasswordInSpeech() ? "ký tự" : deletedSpeech), true);
             } else {
-                speak("Đầu văn bản, không có ký tự để xóa", true);
+                speakEditFeedback("Đầu văn bản, không có ký tự để xóa", true);
             }
 
         } else if (MainActivity.ACT_DELETE_WORD.equals(actionCode)) {
@@ -1241,21 +1283,21 @@ public class BrailleKeyboardService extends InputMethodService {
                 String deletedWord = before.substring(start, end).trim();
                 ic.deleteSurroundingText(deleteLen, 0);
                 triggerFeedback(imeCanvasView, 55L, ToneGenerator.TONE_PROP_NACK, 85);
-                speak("Đã xóa từ " + (hidePasswordInSpeech() ? "" : deletedWord), true);
+                speakEditFeedback("Đã xóa từ " + (hidePasswordInSpeech() ? "" : deletedWord), true);
             } else {
-                speak("Không có từ để xóa", true);
+                speakEditFeedback("Không có từ để xóa", true);
             }
 
         } else if (MainActivity.ACT_DELETE_LINE.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             if (snap.text.length() == 0) {
-                speak("Ô nhập đang trống", true);
+                speakEditFeedback("Ô nhập đang trống", true);
                 return;
             }
             if (now - lastDeleteLineRequestMs > DOUBLE_SWIPE_CONFIRM_MS) {
                 lastDeleteLineRequestMs = now;
                 triggerFeedback(imeCanvasView, 50L, ToneGenerator.TONE_PROP_BEEP2, 90);
-                speak("Vuốt thêm 1 lần nữa để xác nhận xóa cả dòng", true);
+                speakEditFeedback("Vuốt thêm 1 lần nữa để xác nhận xóa cả dòng", true);
                 return;
             }
             lastDeleteLineRequestMs = 0L;
@@ -1269,32 +1311,32 @@ public class BrailleKeyboardService extends InputMethodService {
             }
             ic.deleteSurroundingText(Math.max(0, beforeDelete), Math.max(0, afterDelete));
             triggerFeedback(imeCanvasView, 80L, ToneGenerator.TONE_PROP_NACK, 110);
-            speak("Đã xóa dòng: " + deletedLine, true);
+            speakEditFeedback("Đã xóa dòng: " + protectedText(deletedLine), true);
 
         } else if (MainActivity.ACT_CLEAR_ALL.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             if (snap.text.length() == 0) {
-                speak("Ô nhập đang trống", true);
+                speakEditFeedback("Ô nhập đang trống", true);
                 return;
             }
             if (now - lastClearAllRequestMs > DOUBLE_SWIPE_CONFIRM_MS) {
                 lastClearAllRequestMs = now;
                 triggerFeedback(imeCanvasView, 50L, ToneGenerator.TONE_PROP_BEEP2, 90);
-                speak("Vuốt thêm 1 lần nữa để xóa toàn bộ văn bản", true);
+                speakEditFeedback("Vuốt thêm 1 lần nữa để xóa toàn bộ văn bản", true);
                 return;
             }
             lastClearAllRequestMs = 0L;
             ic.beginBatchEdit();
             if (!ic.performContextMenuAction(android.R.id.selectAll)) {
                 ic.endBatchEdit();
-                speak("Không thể chọn toàn bộ văn bản", true);
+                speakEditFeedback("Không thể chọn toàn bộ văn bản", true);
                 return;
             }
             ic.commitText("", 1);
             ic.endBatchEdit();
             markPos = -1;
             triggerFeedback(imeCanvasView, 90L, ToneGenerator.TONE_PROP_NACK, 120);
-            speak("Đã xóa toàn bộ văn bản", true);
+            speakEditFeedback("Đã xóa toàn bộ văn bản", true);
 
         } else if (MainActivity.ACT_ENTER.equals(actionCode)) {
             numberModeActive = false;
@@ -1310,10 +1352,10 @@ public class BrailleKeyboardService extends InputMethodService {
             triggerFeedback(imeCanvasView, 45L, ToneGenerator.TONE_PROP_ACK, 70);
             if (!isMultiLine && !noEnterAction && actionId != EditorInfo.IME_ACTION_NONE && actionId != EditorInfo.IME_ACTION_UNSPECIFIED) {
                 ic.performEditorAction(actionId);
-                speak("Thực hiện lệnh", true);
+                speakEditFeedback("Thực hiện lệnh", true);
             } else {
                 ic.commitText("\n", 1);
-                speak("Xuống dòng", true);
+                speakEditFeedback("Xuống dòng", true);
             }
 
         } else if (MainActivity.ACT_MOVE_CHAR_NEXT.equals(actionCode)) {
@@ -1322,7 +1364,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 char c = snap.text.charAt(snap.cursor);
                 moveCursorTo(ic, snap, snap.cursor + 1);
                 triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(describeCharForSpeech(c), true);
+                speak(protectedText(describeCharForSpeech(c)), true);
             } else {
                 speak("Cuối văn bản", true);
             }
@@ -1333,7 +1375,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 char c = snap.text.charAt(snap.cursor - 1);
                 moveCursorTo(ic, snap, snap.cursor - 1);
                 triggerFeedback(imeCanvasView, 20L, ToneGenerator.TONE_PROP_BEEP, 35);
-                speak(describeCharForSpeech(c), true);
+                speak(protectedText(describeCharForSpeech(c)), true);
             } else {
                 speak("Đầu văn bản", true);
             }
@@ -1347,7 +1389,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 moveCursorTo(ic, snap, p);
                 triggerFeedback(imeCanvasView, 25L, ToneGenerator.TONE_PROP_BEEP, 40);
                 String w = getWordAroundPos(snap.text, p);
-                speak(w.length() > 0 ? w : "Cuối văn bản", true);
+                speak(w.length() > 0 ? protectedText(w) : "Cuối văn bản", true);
             } else {
                 speak("Cuối văn bản", true);
             }
@@ -1361,7 +1403,7 @@ public class BrailleKeyboardService extends InputMethodService {
                 moveCursorTo(ic, snap, p);
                 triggerFeedback(imeCanvasView, 25L, ToneGenerator.TONE_PROP_BEEP, 40);
                 String w = getWordAroundPos(snap.text, p);
-                speak(w.length() > 0 ? w : "Đầu văn bản", true);
+                speak(w.length() > 0 ? protectedText(w) : "Đầu văn bản", true);
             } else {
                 speak("Đầu văn bản", true);
             }
@@ -1372,7 +1414,7 @@ public class BrailleKeyboardService extends InputMethodService {
             if (lineEnd < snap.text.length()) {
                 int newPos = lineEnd + 1;
                 moveCursorTo(ic, snap, newPos);
-                speak(getLineAtPos(snap.text, newPos), true);
+                speak(protectedText(getLineAtPos(snap.text, newPos)), true);
             } else {
                 speak("Dòng cuối cùng", true);
             }
@@ -1383,7 +1425,7 @@ public class BrailleKeyboardService extends InputMethodService {
             if (lineStart > 0) {
                 int newPos = getLineStart(snap.text, lineStart - 1);
                 moveCursorTo(ic, snap, newPos);
-                speak(getLineAtPos(snap.text, newPos), true);
+                speak(protectedText(getLineAtPos(snap.text, newPos)), true);
             } else {
                 speak("Dòng đầu tiên", true);
             }
@@ -1412,9 +1454,9 @@ public class BrailleKeyboardService extends InputMethodService {
         } else if (MainActivity.ACT_READ_CHAR.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             if (snap.cursor < snap.text.length()) {
-                speak(describeCharForSpeech(snap.text.charAt(snap.cursor)), true);
+                speak(protectedText(describeCharForSpeech(snap.text.charAt(snap.cursor))), true);
             } else if (snap.cursor > 0) {
-                speak(describeCharForSpeech(snap.text.charAt(snap.cursor - 1)), true);
+                speak(protectedText(describeCharForSpeech(snap.text.charAt(snap.cursor - 1))), true);
             } else {
                 speak("Trống", true);
             }
@@ -1422,17 +1464,17 @@ public class BrailleKeyboardService extends InputMethodService {
         } else if (MainActivity.ACT_READ_WORD.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             String w = getWordAroundPos(snap.text, snap.cursor);
-            speak(w.length() > 0 ? w : "Chưa có từ nào", true);
+            speak(w.length() > 0 ? protectedText(w) : "Chưa có từ nào", true);
 
         } else if (MainActivity.ACT_READ_LINE.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             String line = getLineAtPos(snap.text, snap.cursor);
-            speak(line.length() > 0 ? line : "Dòng trống", true);
+            speak(line.length() > 0 ? protectedText(line) : "Dòng trống", true);
 
         } else if (MainActivity.ACT_SPEAK_TEXT.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
             String all = snap.text.trim();
-            speak(all.length() > 0 ? all : "Ô nhập liệu đang trống", true);
+            speak(all.length() > 0 ? protectedText(all) : "Ô nhập liệu đang trống", true);
 
         } else if (MainActivity.ACT_SPEAK_STATS.equals(actionCode)) {
             DocumentSnapshot snap = readDocumentSnapshot(ic);
@@ -1476,7 +1518,9 @@ public class BrailleKeyboardService extends InputMethodService {
             speak("Phản hồi bàn phím: " + names[feedbackMode], true);
 
         } else if (MainActivity.ACT_CYCLE_ECHO.equals(actionCode)) {
-            speak("Hãy chỉnh phản hồi bàn phím chữ nổi trong mục Nhập liệu của Meridian", true);
+            echoMode = BrailleKeyboardEchoSettings.cycle(this);
+            speak("Chế độ đọc vọng: "
+                    + KeyboardEchoSettings.choiceName(getResources(), echoMode), true);
 
         } else if (MainActivity.ACT_START_CALIBRATION.equals(actionCode)) {
             if (imeCanvasView != null) {
@@ -1512,14 +1556,14 @@ public class BrailleKeyboardService extends InputMethodService {
         switch (menuIdx) {
             case 0: {
                 String sub = snap.text.substring(start, end);
-                speak(sub.length() > 0 ? ("Vùng chọn: " + sub) : "Chưa có văn bản trong vùng chọn", true);
+                speak(sub.length() > 0 ? ("Vùng chọn: " + protectedText(sub)) : "Chưa có văn bản trong vùng chọn", true);
                 break;
             }
             case 1: {
                 String sub = snap.text.substring(start, end);
                 if (sub.length() > 0 && clipboard != null) {
                     clipboard.setPrimaryClip(ClipData.newPlainText("BrailleText", sub));
-                    speak("Đã sao chép: " + sub, true);
+                    speak("Đã sao chép: " + protectedText(sub), true);
                 } else {
                     speak("Không có nội dung để sao chép", true);
                 }
@@ -1534,7 +1578,7 @@ public class BrailleKeyboardService extends InputMethodService {
                     ic.commitText("", 1);
                     ic.endBatchEdit();
                     markPos = -1;
-                    speak("Đã cắt: " + sub, true);
+                    speak("Đã cắt: " + protectedText(sub), true);
                 } else {
                     speak("Không có nội dung để cắt", true);
                 }
@@ -1545,7 +1589,7 @@ public class BrailleKeyboardService extends InputMethodService {
                     CharSequence pasted = clipboard.getPrimaryClip().getItemAt(0).coerceToText(this);
                     if (pasted != null && pasted.length() > 0) {
                         ic.commitText(pasted.toString(), 1);
-                        speak("Đã dán: " + pasted, true);
+                        speak("Đã dán: " + protectedText(pasted.toString()), true);
                         break;
                     }
                 }
@@ -1560,7 +1604,7 @@ public class BrailleKeyboardService extends InputMethodService {
                     ic.commitText("", 1);
                     ic.endBatchEdit();
                     markPos = -1;
-                    speak("Đã xóa vùng chọn: " + deleted, true);
+                    speak("Đã xóa vùng chọn: " + protectedText(deleted), true);
                 } else {
                     speak("Chưa chọn vùng văn bản nào", true);
                 }
@@ -1695,6 +1739,7 @@ public class BrailleKeyboardService extends InputMethodService {
             super(context);
             setClickable(true);
             setFocusable(true);
+            setContentDescription("Bàn phím chữ nổi");
 
             borderPaint.setStyle(Paint.Style.STROKE);
             borderPaint.setStrokeWidth(dp(3));
@@ -1962,11 +2007,7 @@ public class BrailleKeyboardService extends InputMethodService {
                             float dy = f.currentY - f.startY;
                             long elapsed = System.currentTimeMillis() - f.downTime;
 
-                            if (calibrationStep == CAL_NONE && !chordCommittedOnTouch
-                                    && (Math.abs(dx) > dp(24) || Math.abs(dy) > dp(24))) {
-                            }
-
-                            if (calibrationStep == CAL_NONE && !dotCommittedDuringExplore
+                            if (calibrationStep == CAL_NONE
                                     && elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68))) {
                                 swipeDetected = true;
                                 mainHandler.removeCallbacks(exploreHoldRunnable);
@@ -1987,6 +2028,7 @@ public class BrailleKeyboardService extends InputMethodService {
 
                 case MotionEvent.ACTION_POINTER_UP: {
                     int pid = event.getPointerId(actionIndex);
+                    updateTrace(event, actionIndex);
                     activeFingers.remove(pid);
                     return true;
                 }
@@ -1996,6 +2038,7 @@ public class BrailleKeyboardService extends InputMethodService {
                     return true;
                 }
                 case MotionEvent.ACTION_UP: {
+                    updateTrace(event, actionIndex);
                     mainHandler.removeCallbacks(calibrationHoldRunnable);
                     mainHandler.removeCallbacks(exploreHoldRunnable);
 
@@ -2024,6 +2067,8 @@ public class BrailleKeyboardService extends InputMethodService {
             dotCommittedDuringExplore = false;
             chordCommittedOnTouch = false;
             calHoldLocked = false;
+            calibrationStep = CAL_NONE;
+            calCountErrorSpoken = false;
             hoverCurrentDot = -1;
             clearPendingDots();
             invalidate();
@@ -2039,6 +2084,14 @@ public class BrailleKeyboardService extends InputMethodService {
             f.downTime = System.currentTimeMillis();
             f.startDot = resolveDotAt(f.startX, f.startY);
             return f;
+        }
+
+        private void updateTrace(MotionEvent event, int index) {
+            FingerTrace trace = activeFingers.get(event.getPointerId(index));
+            if (trace != null) {
+                trace.currentX = event.getX(index);
+                trace.currentY = event.getY(index);
+            }
         }
 
         private void handleCalibrationFingerRelease() {
@@ -2075,7 +2128,7 @@ public class BrailleKeyboardService extends InputMethodService {
             float dy = primary.currentY - primary.startY;
             long elapsed = System.currentTimeMillis() - primary.downTime;
 
-            if (swipeDetected || (!dotCommittedDuringExplore && elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68)))) {
+            if (swipeDetected || (elapsed < gestureDelayMs && (Math.abs(dx) > dp(68) || Math.abs(dy) > dp(68)))) {
                 String direction;
                 if (Math.abs(dy) >= Math.abs(dx)) {
                     direction = (dy > 0) ? "DOWN" : "UP";

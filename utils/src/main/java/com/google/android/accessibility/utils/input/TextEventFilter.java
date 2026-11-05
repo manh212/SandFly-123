@@ -286,6 +286,12 @@ public class TextEventFilter {
       }
     }
 
+    if (event.isPassword()
+        && getTypingInput(event.getEventTime()) != TypingInput.PHYSICAL_KEYBOARD
+        && isBundledBrailleInputMethodSelected()) {
+      return;
+    }
+
     TextEventInterpreter.Interpretation interpretation =
         new TextEventInterpreter.Interpretation(event, eventId, textEventInterpreted);
     // Send interpretation to listeners.
@@ -345,7 +351,8 @@ public class TextEventFilter {
 
   @KeyboardEchoType
   private int readKeyboardEcho(AccessibilityEvent event) {
-    if (isBrailleKeyboardEvent(event)) {
+    if (getTypingInput(event.getEventTime()) != TypingInput.PHYSICAL_KEYBOARD
+        && isBrailleKeyboardEvent(event)) {
       return brailleKeyboardEcho;
     }
     return readKeyboardEcho(event.getEventTime());
@@ -411,7 +418,7 @@ public class TextEventFilter {
         || packageName.contains("braille");
   }
 
-  private boolean isBrailleInputMethodSelected() {
+  boolean isBrailleInputMethodSelected() {
     if (context == null) {
       return false;
     }
@@ -421,6 +428,19 @@ public class TextEventFilter {
               context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD));
     } catch (SecurityException exception) {
       // Some devices restrict access to the currently selected input method.
+      return false;
+    }
+  }
+
+  private boolean isBundledBrailleInputMethodSelected() {
+    if (context == null) return false;
+    try {
+      String id = Settings.Secure.getString(
+          context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+      ComponentName component = id == null ? null : ComponentName.unflattenFromString(id);
+      return component != null && context.getPackageName().equals(component.getPackageName())
+          && "com.Braille.BrailleKeyboardService".equals(component.getClassName());
+    } catch (SecurityException exception) {
       return false;
     }
   }

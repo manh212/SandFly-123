@@ -4064,11 +4064,7 @@ public class TalkBackService extends AccessibilityServiceCompat
       textEventInterpreter.setKeyboardEcho(input, echo);
     }
     textEventInterpreter.setBrailleKeyboardEcho(
-        SharedPreferencesUtils.getIntFromStringPref(
-            prefs,
-            res,
-            R.string.pref_echo_braille_keyboard_key,
-            R.string.pref_keyboard_echo_default));
+        com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings.read(this));
     physicalKeyboardEcho = KeyboardEchoSettings.read(prefs, res, TypingInput.PHYSICAL_KEYBOARD);
     String typingValue =
         SharedPreferencesUtils.getStringPref(

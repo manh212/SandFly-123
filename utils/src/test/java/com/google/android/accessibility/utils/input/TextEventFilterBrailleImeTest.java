@@ -98,6 +98,16 @@ public final class TextEventFilterBrailleImeTest {
         context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD, inputMethodId);
   }
 
+  @Test
+  public void physicalKeyboardKeepsItsOwnEchoWhileBrailleImeIsSelected() {
+    selectInputMethod("io.github.aaron_gh.meridian/com.Braille.BrailleKeyboardService");
+    filter.setKeyboardEcho(TypingInput.PHYSICAL_KEYBOARD, PREF_ECHO_CHARACTERS);
+    filter.setBrailleKeyboardEcho(PREF_ECHO_WORDS);
+    filter.setLastKeyEventTime(9_999);
+    assertTrue(filter.shouldEchoAddedText(hostTextChange()));
+    assertFalse(filter.shouldEchoInitialWords(hostTextChange()));
+  }
+
   private static AccessibilityEvent hostTextChange() {
     AccessibilityEvent event =
         AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_TEXT_CHANGED);
