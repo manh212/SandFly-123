@@ -106,7 +106,6 @@ import com.google.android.accessibility.talkback.actor.DimScreenActor;
 import com.google.android.accessibility.talkback.actor.DimScreenActor.DimScreenNotifier;
 import com.google.android.accessibility.talkback.actor.DirectionNavigationActor;
 import com.google.android.accessibility.talkback.actor.FocusActor;
-import com.google.android.accessibility.talkback.actor.GrabBookingAccessibilityOverlay;
 import com.google.android.accessibility.talkback.actor.FocusActorForScreenStateChange;
 import com.google.android.accessibility.talkback.actor.FocusActorForTapAndTouchExploration;
 import com.google.android.accessibility.talkback.actor.FullScreenReadActor;
@@ -626,7 +625,6 @@ public class TalkBackService extends AccessibilityServiceCompat
   /** Controller for speech feedback. */
   private SpeechControllerImpl speechController;
   private OtherScreenReaderMonitor otherScreenReaderMonitor;
-  private @Nullable GrabBookingAccessibilityOverlay grabBookingOverlay;
   private final StartupUiGate startupUiGate = new StartupUiGate();
   private com.google.android.accessibility.talkback.gesture.extended.ExtendedGesturesController extendedGesturesController;
 
@@ -940,10 +938,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public boolean onUnbind(Intent intent) {
-    if (grabBookingOverlay != null) {
-      grabBookingOverlay.close();
-      grabBookingOverlay = null;
-    }
     com.google.android.accessibility.talkback.licensing.ActivationReminder.stopService(this);
     if (otherScreenReaderMonitor != null) {
       otherScreenReaderMonitor.stop();
@@ -995,10 +989,6 @@ public class TalkBackService extends AccessibilityServiceCompat
 
   @Override
   public void onDestroy() {
-    if (grabBookingOverlay != null) {
-      grabBookingOverlay.close();
-      grabBookingOverlay = null;
-    }
     com.google.android.accessibility.talkback.licensing.ActivationReminder.stopService(this);
     // onDestroy can run without a preceding onUnbind (or after a partial startup).
     if (menuManager != null) {
@@ -1205,10 +1195,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
     if (backgroundEventGate == null || backgroundEventGate.onAccessibilityEvent(event, receivedAt)) {
       handleAccessibilityEvent(event, receivedAt);
-    }
-    // Ensure inaccessible native Grab booking controls have a swipe-reachable companion button.
-    if (grabBookingOverlay != null) {
-      grabBookingOverlay.onAccessibilityEvent(event);
     }
   }
 
@@ -2385,8 +2371,6 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
 
     initializeInfrastructure();
-    grabBookingOverlay = new GrabBookingAccessibilityOverlay(this);
-    grabBookingOverlay.refresh();
 
     // Configure logs.
     LogUtils.setTagPrefix("talkback: ");
