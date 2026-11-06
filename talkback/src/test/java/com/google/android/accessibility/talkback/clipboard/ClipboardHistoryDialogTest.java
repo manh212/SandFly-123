@@ -280,7 +280,12 @@ public class ClipboardHistoryDialogTest {
     assertNotNull(list);
     list.getOnItemLongClickListener().onItemLongClick(list, null, 0, 0);
     AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
-    actions.getListView().performItemClick(null, 2, 2);
+    // The action menu is Delete, Edit, Add to favorites, Select multiple.
+    // Check the intended action before triggering it, so a future menu change is obvious.
+    assertEquals(
+        context.getString(R.string.clipboard_history_select_multiple),
+        actions.getListView().getAdapter().getItem(3));
+    actions.getListView().performItemClick(null, 3, 3);
     assertTrue(parent.isShowing());
     assertTrue(list.getAdapter().getView(0, null, list) instanceof CheckedTextView);
     list.getOnItemClickListener().onItemClick(list, null, 2, 2);
