@@ -1,39 +1,46 @@
 package com.Braille;
 
+import android.content.SharedPreferences;
 import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethod;
 
 public final class BrailleImeInputPolicy {
+    public static final String PREF_USER_DISMISSED = "braille_ime_user_dismissed";
+
     private String currentEditor;
     private boolean dismissed;
 
+    public void reloadFromPreferences(SharedPreferences prefs) {
+        dismissed = prefs.getBoolean(PREF_USER_DISMISSED, false);
+    }
+
     public void onStartInput(EditorInfo info) {
-        String editor = identifyEditor(info);
-        if (editor != null && !editor.equals(currentEditor)) dismissed = false;
-        if (editor != null) currentEditor = editor;
+        currentEditor = identifyEditor(info);
     }
 
     public void onHidden() {
-        if (currentEditor != null) dismissed = true;
+    }
+
+    public void onUserDismissed(SharedPreferences prefs) {
+        dismissed = true;
+        prefs.edit().putBoolean(PREF_USER_DISMISSED, true).apply();
+    }
+
+    public static void allowUserReopen(SharedPreferences prefs) {
+        prefs.edit().putBoolean(PREF_USER_DISMISSED, false).apply();
     }
 
     public void onFinishInput() {
         currentEditor = null;
-        dismissed = false;
+    }
+
+    public boolean isUserDismissed() {
+        return dismissed;
     }
 
     public boolean shouldShow(EditorInfo info, int flags) {
-        String editor = identifyEditor(info);
-        if (editor != null && !editor.equals(currentEditor)) {
-            currentEditor = editor;
-            dismissed = false;
-        }
-        if (!dismissed) return true;
-        boolean explicitlyRequested =
-                (flags & (InputMethod.SHOW_EXPLICIT | InputMethod.SHOW_FORCED)) != 0;
-        if (explicitlyRequested) dismissed = false;
-        return explicitlyRequested;
+        currentEditor = identifyEditor(info);
+        return !dismissed;
     }
 
     public static boolean shouldCapitalize(EditorInfo info, boolean enabled) {

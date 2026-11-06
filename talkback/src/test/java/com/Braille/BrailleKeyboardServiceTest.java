@@ -101,6 +101,19 @@ public class BrailleKeyboardServiceTest {
   }
 
   @Test
+  public void practiceModeReadsChordButNeverWritesIntoTheEditor() {
+    Context context = RuntimeEnvironment.getApplication();
+    context.getSharedPreferences("BraillePhoneBreakthroughV2Prefs", Context.MODE_PRIVATE)
+        .edit().putBoolean(BraillePracticeMode.PREF_KEY, true).commit();
+    keyboard.onStartInput(new EditorInfo(), false);
+    touch(MotionEvent.ACTION_DOWN, 100, 100);
+    touch(MotionEvent.ACTION_UP, 100, 100);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(501));
+    assertEquals("", text.toString());
+    assertEquals(List.of("Chấm 1"), BridgeShadow.spoken);
+  }
+
+  @Test
   public void tapCommitsOneCharacterAfterChordDelay() {
     touch(MotionEvent.ACTION_DOWN, 100, 100);
     touch(MotionEvent.ACTION_UP, 100, 100);
