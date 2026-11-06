@@ -246,6 +246,8 @@ class AiDictation(
 
   /** Starts recording for [used]. Returns false when it can't. */
   private fun startRecording(used: Recognition): Boolean {
+    if (used == Recognition.WHISPER && WhisperModels.get(service).activeModel() == null) return false
+    if (used == Recognition.RAMBLER && DictationSettings.ramblerKey(prefs).isEmpty()) return false
     recognition = used
 
     recordingStartedAt = SystemClock.elapsedRealtime()
@@ -258,12 +260,12 @@ class AiDictation(
     if (silenceLimitMs(onText != null, false, DictationSettings.autoStopMs(prefs)) > 0) {
       handler.postDelayed(autoStop, AUTO_STOP_CHECK_MS)
     }
-    if (used == Recognition.GOOGLE || used == Recognition.ANDROID) {
+    if (used == Recognition.ANDROID) {
       val request = generation
       val recognizer =
         ContinuousRecognition(
           service,
-          if (used == Recognition.GOOGLE) DictationSettings.GOOGLE_SERVICE else null,
+          null,
           onDone = { text ->
             if (request == generation) {
               continuous = null
@@ -431,23 +433,6 @@ class AiDictation(
 
   private fun recognitionFailed(used: Recognition, error: Int) {
     continuous = null
-    // Without a language pack for the phone's language, the next way of recognizing takes over,
-    // while recording is still on.
-    if (
-      used == Recognition.GOOGLE &&
-        phase == Phase.RECORDING &&
-        error in LANGUAGE_ERRORS &&
-        startRecording(
-          DictationSettings.effectiveRecognition(
-            service,
-            prefs,
-            skip(field) + Recognition.GOOGLE,
-          )
-        )
-    ) {
-      LogUtils.w(TAG, "Google on-device recognition has no language pack, using %s", recognition)
-      return
-    }
     // While recording, finish() unsilences speech and plays the stop chime.
     finish()
     speak(
@@ -481,7 +466,14 @@ class AiDictation(
         translating -> cloud
         target?.isPassword == true -> null
         // Rambler transcription is already cleaned, but may still receive emojis in the cloud.
-        cleaned -> if (emoji) cloud else null
+        cleaned ->
+          when {
+            recognition == Recognition.RAMBLER &&
+              DictationSettings.onlineRoute(prefs) == DictationSettings.OnlineRoute.DESCRIPTIONS ->
+                DictationSettings.descriptionService(service, prefs) ?: if (emoji) cloud else null
+            emoji -> cloud
+            else -> null
+          }
         DictationSettings.correctsWithAi(service, prefs) ->
           if (emoji && cloud != null) cloud else DictationSettings.correctingService(service, prefs)
         emoji -> cloud
@@ -714,7 +706,6 @@ class AiDictation(
     private const val HTTP_TOO_MANY_REQUESTS = 429
     private const val HTTP_UNAVAILABLE = 503
     /** SpeechRecognizer.ERROR_LANGUAGE_NOT_SUPPORTED and ERROR_LANGUAGE_UNAVAILABLE. */
-    private val LANGUAGE_ERRORS = setOf(12, 13)
     /** How much of the text before the cursor the AI service gets, for context. */
     private const val CONTEXT_CHARACTERS = 300
     /** The recognized text is typed when the correction takes longer than this. */

@@ -24,8 +24,6 @@ import android.os.Bundle
 import android.text.format.Formatter
 import androidx.appcompat.app.AlertDialog
 import androidx.preference.Preference
-import com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-import com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.actor.gemini.AiProvider
 import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelManager
@@ -46,8 +44,11 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
   private lateinit var models: WhisperModels
   private lateinit var recognitionPref: Preference
   private lateinit var aiServicePref: Preference
+  private lateinit var modelPref: Preference
+  private lateinit var onlineRoutePref: Preference
   private lateinit var googleDownloadPref: Preference
-  private val modelPrefs = mutableMapOf<Model, Preference>()
+  private lateinit var advancedPref: Preference
+  private var advancedExpanded = false
   private var announcedMilestone = -1
   private var downloading: Model? = null
 
@@ -60,40 +61,29 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
     val context = requireContext()
     prefs = SharedPreferencesUtils.getSharedPreferences(context)
     models = WhisperModels.get(context)
+    advancedExpanded = savedInstanceState?.getBoolean("dictation_advanced_expanded") ?: false
+
     recognitionPref = onClick("pref_dictation_recognition_choice") { chooseRecognition() }
+    modelPref = onClick("pref_dictation_whisper_model_choice") { chooseModel() }
+    onlineRoutePref = onClick("pref_dictation_online_route_choice") { chooseOnlineRoute() }
+    advancedPref = onClick("pref_dictation_advanced_toggle") {
+      advancedExpanded = !advancedExpanded
+      refresh()
+    }
     aiServicePref = onClick("pref_dictation_ai_service_choice") { chooseAiService() }
     googleDownloadPref =
-      onClick("pref_dictation_google_download") {
-        GoogleSpeechLanguages.download(requireContext())
-      }
+      onClick("pref_dictation_google_download") { GoogleSpeechLanguages.download(requireContext()) }
     findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.onPreferenceChangeListener =
       Preference.OnPreferenceChangeListener { preference, value ->
         preference.summary = speechThresholdSummary((value as Int) - 60)
         true
       }
-    if (!WhisperEngines.isAvailable()) return
-    // Made here, since the settings filter removes categories that are empty in the XML.
-    val category =
-      AccessibilitySuitePreferenceCategory(context).apply {
-        key = "pref_dictation_whisper_models"
-        order = 3
-        setTitle(R.string.title_pref_whisper_models)
-      }
-    preferenceScreen.addPreference(category)
-    for (model in Model.entries) {
-      val row =
-        AccessibilitySuitePreference(context).apply {
-          key = "pref_dictation_whisper_${model.id}"
-          isPersistent = false
-          title = model.label
-          setOnPreferenceClickListener {
-            onModelClicked(model)
-            true
-          }
-        }
-      category.addPreference(row)
-      modelPrefs[model] = row
-    }
+    refresh()
+  }
+
+  override fun onSaveInstanceState(outState: Bundle) {
+    outState.putBoolean("dictation_advanced_expanded", advancedExpanded)
+    super.onSaveInstanceState(outState)
   }
 
   override fun onStart() {
@@ -110,73 +100,114 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
 
   private fun refresh() {
     val context = requireContext()
-    recognitionPref.summary = recognitionSummary(context)
-    findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.summary =
-      speechThresholdSummary(DictationSettings.speechThresholdDbfs(prefs))
+    val chosen = DictationSettings.recognition(prefs)
+    recognitionPref.title =
+      getString(R.string.dictation_compact_service_selected, recognitionLabel(chosen))
+    recognitionPref.summary = null
+
+    modelPref.isVisible = chosen == Recognition.WHISPER && WhisperEngines.isAvailable()
+    val model = models.activeModel()
+    val downloading = (models.state as? State.Downloading)?.model
+    modelPref.title = getString(
+      R.string.dictation_compact_model_selected,
+      (model ?: downloading ?: Model.SMALL).label,
+    )
+    modelPref.summary = null
+
+    onlineRoutePref.isVisible = chosen == Recognition.RAMBLER
+    onlineRoutePref.title = getString(
+      R.string.dictation_compact_route_selected,
+      onlineRouteLabel(DictationSettings.onlineRoute(prefs)),
+    )
+    onlineRoutePref.summary = null
+    findPreference<Preference>(DictationSettings.PREF_RAMBLER_LIVE)?.isVisible =
+      chosen == Recognition.RAMBLER
+
+    advancedPref.title =
+      getString(R.string.dictation_compact_advanced) + if (advancedExpanded) " ▴" else " ▾"
+    advancedPref.summary = null
+    listOf(
+      "pref_dictation_advanced_recording",
+      "pref_dictation_ai",
+      "pref_dictation_translation",
+    ).forEach { key -> findPreference<Preference>(key)?.isVisible = advancedExpanded }
     googleDownloadPref.title =
       getString(R.string.dictation_google_download, Locale.getDefault().displayLanguage)
-    // Only with a Gemini API key, which Rambler needs.
-    findPreference<Preference>(DictationSettings.PREF_RAMBLER_LIVE)?.isVisible =
-      DictationSettings.ramblerKey(prefs).isNotEmpty()
     googleDownloadPref.isVisible =
-      Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+      advancedExpanded &&
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
         DictationSettings.googleInstalled(context) &&
         GoogleSpeechLanguages.hasPhoneLanguage() == false
-    val active = models.activeModel()
-    val state = models.state
-    for ((model, row) in modelPrefs) {
-      row.summary =
-        when {
-          state is State.Downloading && state.model == model ->
-            getString(R.string.pref_on_device_ai_downloading, models.percent(state))
-          state is State.Failed && state.model == model -> getString(errorText(state.failure))
-          model == active -> getString(R.string.ai_provider_in_use)
-          models.isInstalled(model) ->
-            "${size(model)}, ${getString(R.string.on_device_ai_tag_downloaded)}"
-          else -> size(model)
-        }
-    }
+
+    findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.summary =
+      speechThresholdSummary(DictationSettings.speechThresholdDbfs(prefs))
     aiServicePref.summary = aiServiceSummary(context)
-    announceProgress(state)
+    announceProgress(models.state)
   }
 
   private fun speechThresholdSummary(dbfs: Int): String =
     getString(R.string.dictation_speech_threshold_summary, dbfs)
 
-  private fun recognitionSummary(context: Context): String {
-    val chosen = DictationSettings.recognition(prefs)
-    val effective = DictationSettings.effectiveRecognition(context, prefs)
-    return when {
-      chosen == Recognition.AUTOMATIC ->
-        getString(R.string.dictation_recognition_automatic_using, recognitionLabel(effective))
-      chosen == effective -> recognitionLabel(chosen)
-      chosen == Recognition.GOOGLE -> getString(R.string.dictation_google_unavailable)
-      chosen == Recognition.RAMBLER -> getString(R.string.dictation_rambler_needs_key)
-      else -> getString(R.string.dictation_whisper_needs_model)
-    }
-  }
-
   private fun recognitionLabel(recognition: Recognition): String =
     getString(
       when (recognition) {
-        Recognition.AUTOMATIC -> R.string.dictation_recognition_automatic
-        Recognition.GOOGLE -> R.string.dictation_recognition_google
-        Recognition.RAMBLER -> R.string.dictation_recognition_rambler
+        Recognition.RAMBLER -> R.string.dictation_compact_gemini
         Recognition.WHISPER -> R.string.dictation_recognition_whisper
-        Recognition.ANDROID -> R.string.dictation_recognition_android
+        Recognition.ANDROID -> R.string.dictation_compact_android
+      }
+    )
+
+  private fun onlineRouteLabel(route: DictationSettings.OnlineRoute): String =
+    getString(
+      when (route) {
+        DictationSettings.OnlineRoute.GEMINI -> R.string.dictation_compact_gemini
+        DictationSettings.OnlineRoute.DESCRIPTIONS -> R.string.dictation_compact_descriptions
       }
     )
 
   private fun chooseRecognition() {
-    val choices = Recognition.entries.filter { it != Recognition.WHISPER || WhisperEngines.isAvailable() }
+    val choices =
+      listOf(Recognition.WHISPER, Recognition.RAMBLER, Recognition.ANDROID)
+        .filter { it != Recognition.WHISPER || WhisperEngines.isAvailable() }
     AlertDialog.Builder(requireContext())
-      .setTitle(R.string.title_pref_dictation_recognition)
+      .setTitle(R.string.dictation_compact_service)
       .setSingleChoiceItems(
         choices.map { recognitionLabel(it) }.toTypedArray(),
         choices.indexOf(DictationSettings.recognition(prefs)),
       ) { dialog, which ->
         dialog.dismiss()
         DictationSettings.setRecognition(prefs, choices[which])
+        refresh()
+      }
+      .setNegativeButton(R.string.on_device_ai_cancel, null)
+      .show()
+  }
+
+  private fun chooseModel() {
+    val choices = Model.entries.toList()
+    AlertDialog.Builder(requireContext())
+      .setTitle(R.string.dictation_compact_model)
+      .setSingleChoiceItems(
+        choices.map { it.label }.toTypedArray(),
+        choices.indexOf(models.activeModel()),
+      ) { dialog, which ->
+        dialog.dismiss()
+        onModelClicked(choices[which])
+      }
+      .setNegativeButton(R.string.on_device_ai_cancel, null)
+      .show()
+  }
+
+  private fun chooseOnlineRoute() {
+    val choices = DictationSettings.OnlineRoute.entries.toList()
+    AlertDialog.Builder(requireContext())
+      .setTitle(R.string.dictation_compact_route)
+      .setSingleChoiceItems(
+        choices.map { onlineRouteLabel(it) }.toTypedArray(),
+        choices.indexOf(DictationSettings.onlineRoute(prefs)),
+      ) { dialog, which ->
+        dialog.dismiss()
+        DictationSettings.setOnlineRoute(prefs, choices[which])
         refresh()
       }
       .setNegativeButton(R.string.on_device_ai_cancel, null)
