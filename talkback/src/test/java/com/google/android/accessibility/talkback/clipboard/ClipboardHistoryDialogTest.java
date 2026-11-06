@@ -208,6 +208,7 @@ public class ClipboardHistoryDialogTest {
   @Test
   public void editHistoryActionUpdatesSavedTextWithoutMovingOtherEntries() {
     android.content.Context context = RuntimeEnvironment.getApplication();
+    ClipboardHistory.init(context.getFilesDir());
     ((android.content.ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
         .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
     ClipboardHistory.clear();
