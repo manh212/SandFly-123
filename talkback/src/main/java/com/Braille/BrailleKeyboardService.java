@@ -5,6 +5,7 @@ import android.content.ClipboardManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.provider.Settings;
 import android.view.inputmethod.InputMethodManager;
 import android.content.SharedPreferences;
@@ -86,6 +87,9 @@ public class BrailleKeyboardService extends InputMethodService {
             {"y", "ý", "ỳ", "ỷ", "ỹ", "ỵ"}
     };
 
+    private static volatile BrailleKeyboardService activeService;
+    private static final long USER_ACTIVATION_SHOW_DELAY_MS = 180L;
+
     private SharedPreferences prefs;
     private final BrailleImeInputPolicy imeInputPolicy = new BrailleImeInputPolicy();
     private final BrailleTextOperations.NavigationState navigationState =
@@ -164,6 +168,38 @@ public class BrailleKeyboardService extends InputMethodService {
     private BrailleImeCanvasView imeCanvasView;
     private final boolean[] pendingChordDots = new boolean[7];
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable userActivationShowRunnable = () -> {
+        if (prefs == null || isInputViewShown() || getCurrentInputConnection() == null
+                || !BrailleMeridianBridge.isAvailable()) {
+            return;
+        }
+        imeInputPolicy.reloadFromPreferences(prefs);
+        if (!imeInputPolicy.isUserDismissed()) {
+            showInputForUserActivation();
+        }
+    };
+
+    public static void showFromUserActivation() {
+        BrailleKeyboardService keyboard = activeService;
+        if (keyboard == null) {
+            return;
+        }
+        keyboard.mainHandler.removeCallbacks(keyboard.userActivationShowRunnable);
+        keyboard.mainHandler.postDelayed(
+                keyboard.userActivationShowRunnable, USER_ACTIVATION_SHOW_DELAY_MS);
+    }
+
+    protected void showInputForUserActivation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            requestShowSelf(0);
+        } else {
+            InputMethodManager manager = getSystemService(InputMethodManager.class);
+            if (manager != null && getWindow() != null && getWindow().getWindow() != null) {
+                manager.showSoftInputFromInputMethod(
+                        getWindow().getWindow().getAttributes().token, 0);
+            }
+        }
+    }
     private final Runnable singleFingerCommitRunnable = new Runnable() {
         @Override
         public void run() {
@@ -231,6 +267,7 @@ public class BrailleKeyboardService extends InputMethodService {
         imeInputPolicy.reloadFromPreferences(prefs);
         initFeedbackEngines();
         reloadAllSettings();
+        activeService = this;
     }
 
     @Override
@@ -2302,6 +2339,10 @@ public class BrailleKeyboardService extends InputMethodService {
 
     @Override
     public void onDestroy() {
+        mainHandler.removeCallbacks(userActivationShowRunnable);
+        if (activeService == this) {
+            activeService = null;
+        }
         cancelPendingInput();
         if (toneGenerator != null) {
             try {

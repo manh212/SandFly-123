@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Looper;
 import android.os.SystemClock;
 import android.text.Editable;
@@ -20,6 +21,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.time.Duration;
@@ -60,10 +62,16 @@ public class BrailleKeyboardServiceTest {
 
   public static class Keyboard extends BrailleKeyboardService {
     InputConnection connection;
+    int userShowRequests;
 
     @Override
     public InputConnection getCurrentInputConnection() {
       return connection;
+    }
+
+    @Override
+    protected void showInputForUserActivation() {
+      userShowRequests++;
     }
   }
 
@@ -98,6 +106,40 @@ public class BrailleKeyboardServiceTest {
   public void tearDown() {
     keyboard.onDestroy();
     BridgeShadow.available = true;
+  }
+
+  @Test
+  public void tappingEditorRequestsShowingKeyboardAfterUserDismissal() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+    AccessibilityNodeInfoCompat editor = AccessibilityNodeInfoCompat.obtain();
+    editor.setClassName("android.widget.EditText");
+    editor.setEditable(true);
+    BrailleImeInputPolicy.allowUserReopenForEditor(keyboard, editor);
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+    assertEquals(0, keyboard.userShowRequests);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(1, keyboard.userShowRequests);
+    editor.recycle();
+  }
+
+  @Test
+  public void userDismissalCancelsPendingUserShow() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    BrailleKeyboardService.showFromUserActivation();
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(0, keyboard.userShowRequests);
+  }
+
+  @Test
+  public void noInputConnectionPreventsUserShow() {
+    keyboard.connection = null;
+    BrailleKeyboardService.showFromUserActivation();
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(0, keyboard.userShowRequests);
   }
 
   @Test

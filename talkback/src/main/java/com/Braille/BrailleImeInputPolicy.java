@@ -39,6 +39,7 @@ public final class BrailleImeInputPolicy {
         if (context != null && editor != null
                 && (editor.isEditable() || Role.getRole(editor) == Role.ROLE_EDIT_TEXT)) {
             allowUserReopen(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE));
+            BrailleKeyboardService.showFromUserActivation();
         }
     }
 
