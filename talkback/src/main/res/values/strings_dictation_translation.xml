@@ -43,4 +43,15 @@
     <item>hi</item>
     <item>ar</item>
   </string-array>
+  <string name="dictation_compact_service" tools:ignore="MissingTranslation">Dịch vụ</string>
+  <string name="dictation_compact_service_selected" tools:ignore="MissingTranslation">Dịch vụ: %1$s</string>
+  <string name="dictation_compact_model" tools:ignore="MissingTranslation">Mô hình</string>
+  <string name="dictation_compact_model_selected" tools:ignore="MissingTranslation">Mô hình: %1$s</string>
+  <string name="dictation_compact_route" tools:ignore="MissingTranslation">Xử lý văn bản</string>
+  <string name="dictation_compact_route_selected" tools:ignore="MissingTranslation">Xử lý văn bản: %1$s</string>
+  <string name="dictation_compact_gemini" tools:ignore="MissingTranslation">Gemini</string>
+  <string name="dictation_compact_android" tools:ignore="MissingTranslation">Android</string>
+  <string name="dictation_compact_descriptions" tools:ignore="MissingTranslation">Theo cài đặt mô tả hình ảnh</string>
+  <string name="dictation_compact_advanced" tools:ignore="MissingTranslation">Cài đặt nâng cao</string>
+  <string name="dictation_compact_recording" tools:ignore="MissingTranslation">Ghi âm</string>
 </resources>

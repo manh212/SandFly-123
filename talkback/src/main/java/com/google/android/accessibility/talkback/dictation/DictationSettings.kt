@@ -16,11 +16,8 @@
 
 package com.google.android.accessibility.talkback.dictation
 
-import android.content.ComponentName
 import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
-import android.speech.RecognitionService
 import androidx.core.content.edit
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.talkback.R
@@ -33,6 +30,7 @@ import java.util.Locale
 object DictationSettings {
   const val PREF_RECOGNITION = "pref_dictation_recognition"
   const val PREF_AI_SERVICE = "pref_dictation_ai_service"
+  const val PREF_ONLINE_ROUTE = "pref_dictation_online_route"
   const val PREF_WHISPER_MODEL = "pref_dictation_whisper_model"
   const val PREF_RAMBLER_LIVE = "pref_dictation_rambler_live"
   const val PREF_AUTO_STOP_MS = "pref_dictation_auto_stop_ms"
@@ -60,20 +58,10 @@ object DictationSettings {
   /** The on-device AI model corrects dictation. */
   const val AI_DEVICE = "device"
 
-  /** How speech becomes text. */
+  /** The three available speech recognizers. */
   enum class Recognition(val id: String) {
-    /** The first of these that can be used, in this order. */
-    AUTOMATIC("automatic"),
-    /**
-     * Google's speech recognition on the phone, from the Speech Recognition & Synthesis app, with
-     * the language packs downloaded there. Gboard's voice typing, Rambler included, runs on it.
-     */
-    GOOGLE("google"),
-    /** Google's Gemini 3.5 Transcribe through the Gemini API, the model behind Rambler's cleanup. */
     RAMBLER("rambler"),
-    /** Whisper on the phone, with a model downloaded in Dictation settings. */
     WHISPER("whisper"),
-    /** The speech recognition service chosen in Android's settings. */
     ANDROID("android");
 
     companion object {
@@ -81,24 +69,27 @@ object DictationSettings {
     }
   }
 
+  /** How online dictation text is post-processed after Gemini transcribes the audio. */
+  enum class OnlineRoute(val id: String) {
+    GEMINI("gemini"),
+    DESCRIPTIONS("descriptions");
+
+    companion object {
+      fun of(id: String?): OnlineRoute? = entries.firstOrNull { it.id == id }
+    }
+  }
+
   fun recognition(prefs: SharedPreferences): Recognition =
-    Recognition.of(prefs.getString(PREF_RECOGNITION, null)) ?: Recognition.AUTOMATIC
+    Recognition.of(prefs.getString(PREF_RECOGNITION, null)) ?: Recognition.ANDROID
 
   fun setRecognition(prefs: SharedPreferences, recognition: Recognition) =
     prefs.edit { putString(PREF_RECOGNITION, recognition.id) }
 
-  /** Google's on-device speech recognition service, in the Speech Recognition & Synthesis app. */
-  val GOOGLE_SERVICE =
-    ComponentName(
-      "com.google.android.tts",
-      "com.google.android.apps.speech.tts.googletts.service.GoogleTTSRecognitionService",
-    )
+  fun onlineRoute(prefs: SharedPreferences): OnlineRoute =
+    OnlineRoute.of(prefs.getString(PREF_ONLINE_ROUTE, null)) ?: OnlineRoute.GEMINI
 
-  /** Whether Google's on-device speech recognition is installed. */
-  fun googleInstalled(context: Context): Boolean =
-    context.packageManager
-      .queryIntentServices(Intent(RecognitionService.SERVICE_INTERFACE).setComponent(GOOGLE_SERVICE), 0)
-      .isNotEmpty()
+  fun setOnlineRoute(prefs: SharedPreferences, route: OnlineRoute) =
+    prefs.edit { putString(PREF_ONLINE_ROUTE, route.id) }
 
   /** The Gemini API key Rambler uses, or empty when there is none. */
   fun ramblerKey(prefs: SharedPreferences): String =
@@ -120,35 +111,18 @@ object DictationSettings {
   fun ramblerSupports(locale: Locale): Boolean = locale.language in RAMBLER_LANGUAGES
 
   /**
-   * The way speech is recognized now: the chosen one when it can be used, otherwise the first of
-   * Google on-device, Rambler, Whisper and Android speech recognition that can, other than [skip]:
-   * one that failed, such as Google on-device without a language pack for the phone's language, or
-   * Rambler for a password.
+   * Use the explicitly selected recognition service. A password field cannot send audio to
+   * Gemini, so only in that case use a downloaded Whisper model or Android recognition.
    */
   fun effectiveRecognition(
     context: Context,
     prefs: SharedPreferences,
     skip: Set<Recognition> = emptySet(),
   ): Recognition {
-    val usable = { recognition: Recognition ->
-      recognition !in skip &&
-        when (recognition) {
-          Recognition.GOOGLE ->
-            googleInstalled(context) && GoogleSpeechLanguages.hasPhoneLanguage() != false
-          Recognition.RAMBLER -> ramblerKey(prefs).isNotEmpty()
-          Recognition.WHISPER -> WhisperModels.get(context).activeModel() != null
-          Recognition.ANDROID -> true
-          Recognition.AUTOMATIC -> false
-        }
-    }
-    val chosen = recognition(prefs)
-    if (usable(chosen)) return chosen
-    return when {
-      usable(Recognition.GOOGLE) -> Recognition.GOOGLE
-      usable(Recognition.RAMBLER) && ramblerSupports(Locale.getDefault()) -> Recognition.RAMBLER
-      usable(Recognition.WHISPER) -> Recognition.WHISPER
-      else -> Recognition.ANDROID
-    }
+    val selected = recognition(prefs)
+    if (selected !in skip) return selected
+    return if (WhisperModels.get(context).activeModel() != null) Recognition.WHISPER
+    else Recognition.ANDROID
   }
 
   fun correctsWithAi(context: Context, prefs: SharedPreferences): Boolean =
@@ -177,6 +151,13 @@ object DictationSettings {
     }
     if (chosen == AI_DEVICE) return AI_DEVICE.takeIf { LocalModelManager.get(context).isReady() }
     val provider = AiProvider.of(chosen) ?: return null
+    return provider.id.takeIf { provider != AiProvider.NONE && provider.isReady(prefs) }
+  }
+
+  /** Use the AI configuration shared with automatic image descriptions for text correction. */
+  fun descriptionService(context: Context, prefs: SharedPreferences): String? {
+    if (LocalModelManager.get(context).answersRequests()) return AI_DEVICE
+    val provider = AiProvider.active(prefs)
     return provider.id.takeIf { provider != AiProvider.NONE && provider.isReady(prefs) }
   }
 

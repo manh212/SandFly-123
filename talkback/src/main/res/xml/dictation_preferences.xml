@@ -6,35 +6,54 @@
       android:key="pref_dictation_recognition_choice"
       android:order="0"
       android:persistent="false"
-      android:title="@string/title_pref_dictation_recognition" />
+      android:title="@string/dictation_compact_service" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_dictation_whisper_model_choice"
+      android:order="1"
+      android:persistent="false"
+      android:title="@string/dictation_compact_model" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_dictation_online_route_choice"
+      android:order="2"
+      android:persistent="false"
+      android:title="@string/dictation_compact_route" />
+
   <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
       android:defaultValue="true"
       android:key="pref_dictation_rambler_live"
-      android:order="1"
-      android:title="@string/title_pref_dictation_rambler_live" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
-      android:key="pref_dictation_google_download"
-      android:order="2"
-      android:persistent="false"
-      android:title="@string/dictation_google_download" />
-  <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
-      android:defaultValue="0"
-      android:entries="@array/pref_dictation_auto_stop_entries"
-      android:entryValues="@array/pref_dictation_auto_stop_values"
-      android:key="pref_dictation_auto_stop_ms"
       android:order="3"
-      android:summary="%s"
-      android:title="@string/title_pref_dictation_auto_stop" />
-  <com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference
-      android:key="pref_dictation_speech_threshold"
+      android:title="@string/title_pref_dictation_rambler_live" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+      android:key="pref_dictation_advanced_toggle"
       android:order="4"
-      android:defaultValue="12"
-      android:max="45"
-      android:title="@string/title_pref_dictation_speech_threshold"
-      app:showSeekBarValue="false" />
+      android:persistent="false"
+      android:title="@string/dictation_compact_advanced" />
+
+  <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
+      android:key="pref_dictation_advanced_recording"
+      android:order="5"
+      android:title="@string/dictation_compact_recording">
+    <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
+        android:defaultValue="0"
+        android:entries="@array/pref_dictation_auto_stop_entries"
+        android:entryValues="@array/pref_dictation_auto_stop_values"
+        android:key="pref_dictation_auto_stop_ms"
+        android:summary="%s"
+        android:title="@string/title_pref_dictation_auto_stop" />
+    <com.google.android.accessibility.material.preference.AccessibilitySeekBarPreference
+        android:key="pref_dictation_speech_threshold"
+        android:defaultValue="12"
+        android:max="45"
+        android:title="@string/title_pref_dictation_speech_threshold"
+        app:showSeekBarValue="false" />
+  </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
+
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_dictation_ai"
-      android:order="5"
+      android:order="6"
       android:title="@string/title_pref_category_ai_services">
     <com.google.android.accessibility.material.preference.AccessibilitySuiteSwitchPreference
         android:defaultValue="@bool/pref_ai_dictation_default"
@@ -54,7 +73,7 @@
 
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory
       android:key="pref_dictation_translation"
-      android:order="6"
+      android:order="7"
       android:title="@string/dictation_translation_category">
     <com.google.android.accessibility.material.preference.AccessibilitySuiteListPreference
         android:key="pref_dictation_translation_source"
