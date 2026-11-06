@@ -294,9 +294,12 @@ public class ClipboardHistoryDialog {
         return true;
       }
       CharSequence[] actions = favorites
-          ? new CharSequence[] {context.getString(R.string.text_collection_delete)}
+          ? new CharSequence[] {
+              context.getString(R.string.text_collection_delete),
+              context.getString(R.string.text_collection_edit)}
           : new CharSequence[] {
               context.getString(R.string.text_collection_delete),
+              context.getString(R.string.text_collection_edit),
               context.getString(R.string.favorites_add_from_clipboard),
               context.getString(R.string.clipboard_history_select_multiple)};
       childDialog = new AlertDialog.Builder(context)
@@ -312,10 +315,12 @@ public class ClipboardHistoryDialog {
               speak(context.getString(removed
                   ? R.string.clipboard_history_deleted : R.string.favorites_save_failed), eventId);
             } else if (which == 1) {
+              showEditDialog(entry, eventId);
+            } else if (which == 2 && !favorites) {
               boolean saved = FavoriteTexts.add(entry);
               speak(context.getString(saved
                   ? R.string.favorites_saved : R.string.favorites_save_failed), eventId);
-            } else {
+            } else if (!favorites) {
               startMultipleSelection(entry);
             }
           })
@@ -540,6 +545,45 @@ public class ClipboardHistoryDialog {
         editor.dismiss();
         speak(context.getString(R.string.favorites_saved), eventId);
       } else {
+        speak(context.getString(R.string.favorites_save_failed), eventId);
+      }
+    });
+  }
+
+  /** Edits a saved history or favorite entry without losing its position. */
+  private void showEditDialog(String original, EventId eventId) {
+    EditText input = new EditText(context);
+    input.setHint(R.string.favorites_text);
+    input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+    input.setMinLines(3);
+    input.setText(original);
+    input.setSelection(input.length());
+    AlertDialog editor = new AlertDialog.Builder(context)
+        .setTitle(R.string.text_collection_edit)
+        .setView(input)
+        .setPositiveButton(R.string.favorites_save, null)
+        .setNegativeButton(R.string.text_collection_cancel, null)
+        .create();
+    childDialog = editor;
+    editor.getWindow().setSoftInputMode(
+        WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE
+            | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+    showOverlay(editor);
+    editor.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+      String updated = input.getText().toString();
+      if (updated.trim().isEmpty()) {
+        input.setError(context.getString(R.string.favorites_text_required));
+        return;
+      }
+      boolean saved = favorites
+          ? FavoriteTexts.replace(original, updated)
+          : ClipboardHistory.replace(original, updated);
+      if (saved) {
+        refreshList();
+        editor.dismiss();
+        speak(context.getString(R.string.text_collection_edited), eventId);
+      } else {
+        input.setError(context.getString(R.string.favorites_save_failed));
         speak(context.getString(R.string.favorites_save_failed), eventId);
       }
     });

@@ -46,6 +46,20 @@ public class FavoriteTextsTest {
   }
 
   @Test
+  public void replace_keepsPositionAndPersistsWithoutDuplicates() {
+    FavoriteTexts.add("first");
+    FavoriteTexts.add("second");
+    FavoriteTexts.add("third");
+
+    assertTrue(FavoriteTexts.replace("second", "edited"));
+    assertEquals(Arrays.asList("third", "edited", "first"), FavoriteTexts.getEntries());
+    assertFalse(FavoriteTexts.replace("first", "edited"));
+    assertFalse(FavoriteTexts.replace("third", "\n "));
+    FavoriteTexts.init(directory);
+    assertEquals(Arrays.asList("third", "edited", "first"), FavoriteTexts.getEntries());
+  }
+
+  @Test
   public void deletionAndClearPersist() {
     FavoriteTexts.add("one");
     FavoriteTexts.add("two");

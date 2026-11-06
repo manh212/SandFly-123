@@ -94,6 +94,7 @@ import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.inputmethod.InputMethodManager;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.accessibility.AccessibilityWindowInfo;
 import android.view.ViewConfiguration;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import com.google.android.accessibility.talkback.sandflyai.SandflyAi;
@@ -167,6 +168,7 @@ import com.google.android.accessibility.utils.output.SpeechController.SpeakOptio
 import com.google.android.accessibility.utils.output.SpeechControllerImpl;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import com.google.common.collect.ImmutableMap;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -969,7 +971,11 @@ public class GestureController {
       selectorController.cycleSpeechStream(eventId, true);
     } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
       AccessibilityNodeInfoCompat target =
-          fromCustomMenu && menuTarget != null ? menuTarget : findEditorTarget();
+          fromCustomMenu && menuTarget != null
+                  && Role.getRole(menuTarget) == Role.ROLE_EDIT_TEXT
+                  && menuTarget.isEditable()
+              ? menuTarget
+              : findEditorTarget();
       result = dictation.start(target);
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_selection))) {
       AccessibilityNodeInfoCompat node =
@@ -1006,11 +1012,11 @@ public class GestureController {
         result = pipeline.returnFeedback(eventId, Feedback.edit(node, CUT));
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_paste))) {
-      AccessibilityNodeInfoCompat node = getEditTextFocus();
+      AccessibilityNodeInfoCompat node = findEditorTarget();
       if (node == null) {
+        speak(service.getString(R.string.not_editable));
         result = false;
       } else {
-        // Edit text found.
         result = pipeline.returnFeedback(eventId, Feedback.edit(node, PASTE));
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_toggle_voice_feedback))) {
@@ -1472,23 +1478,52 @@ public class GestureController {
     return target.performAction(AccessibilityNodeInfoCompat.ACTION_PASTE);
   }
 
+  /** Finds a visible editor even when accessibility focus is on a different control. */
   private @Nullable AccessibilityNodeInfoCompat findEditorTarget() {
-    AccessibilityNodeInfoCompat focused =
-        accessibilityFocusMonitor.getAccessibilityFocus(true);
-    AccessibilityNodeInfoCompat root =
+    AccessibilityNodeInfoCompat focused = accessibilityFocusMonitor.getAccessibilityFocus(true);
+    AccessibilityNodeInfoCompat keyboardEditor =
+        accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused);
+    AccessibilityNodeInfoCompat input = accessibilityFocusMonitor.getInputFocus();
+
+    List<AccessibilityNodeInfoCompat> roots = new ArrayList<>();
+    AccessibilityNodeInfo active = service.getRootInActiveWindow();
+    if (active != null) {
+      roots.add(AccessibilityNodeInfoCompat.wrap(active));
+    }
+    AccessibilityNodeInfoCompat focusedRoot =
         focused == null ? null : AccessibilityNodeInfoUtils.getRoot(focused);
-    if (root == null) {
-      AccessibilityNodeInfo active = service.getRootInActiveWindow();
-      if (active != null) {
-        root = AccessibilityNodeInfoCompat.wrap(active);
+    if (focusedRoot != null && (roots.isEmpty()
+        || focusedRoot.getWindowId() != roots.get(0).getWindowId())) {
+      roots.add(focusedRoot);
+    }
+
+    // The active window may be a keyboard or an overlay. Search the other visible app windows
+    // only after checking it, so off-screen and background fields do not steal the action.
+    List<AccessibilityWindowInfo> windows = service.getWindows();
+    if (windows != null) {
+      for (AccessibilityWindowInfo window : windows) {
+        if (window == null || window.getType() != AccessibilityWindowInfo.TYPE_APPLICATION) {
+          continue;
+        }
+        AccessibilityNodeInfo root = window.getRoot();
+        if (root != null) {
+          AccessibilityNodeInfoCompat candidate = AccessibilityNodeInfoCompat.wrap(root);
+          boolean alreadyAdded = false;
+          for (AccessibilityNodeInfoCompat existing : roots) {
+            if (existing.getWindowId() == candidate.getWindowId()) {
+              alreadyAdded = true;
+              break;
+            }
+          }
+          if (!alreadyAdded) {
+            roots.add(candidate);
+          }
+        }
       }
     }
+
     AccessibilityNodeInfoCompat target =
-        EditorTargetResolver.find(
-            focused,
-            accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focused),
-            accessibilityFocusMonitor.getInputFocus(),
-            root);
+        EditorTargetResolver.findInRoots(focused, keyboardEditor, input, roots);
     if (target != null && !target.isFocused()) {
       target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS);
     }

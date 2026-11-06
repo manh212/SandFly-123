@@ -103,6 +103,24 @@ public class ClipboardHistoryTest {
   }
 
   @Test
+  public void replace_editsEntryInPlaceAndSurvivesReload() throws Exception {
+    File dir = folder.newFolder();
+    ClipboardHistory.init(dir);
+    ClipboardHistory.record("one");
+    ClipboardHistory.record("two");
+    ClipboardHistory.record("three");
+
+    assertTrue(ClipboardHistory.replace("two", "two edited"));
+    assertEquals(Arrays.asList("three", "two edited", "one"), ClipboardHistory.getEntries());
+    assertTrue(!ClipboardHistory.replace("one", "three"));
+    assertTrue(!ClipboardHistory.replace("one", "   "));
+    assertEquals(Arrays.asList("three", "two edited", "one"), ClipboardHistory.getEntries());
+
+    ClipboardHistory.init(dir);
+    assertEquals(Arrays.asList("three", "two edited", "one"), ClipboardHistory.getEntries());
+  }
+
+  @Test
   public void init_reloadsStoredEntriesAndRemovals() throws Exception {
     File dir = folder.newFolder();
     ClipboardHistory.init(dir);

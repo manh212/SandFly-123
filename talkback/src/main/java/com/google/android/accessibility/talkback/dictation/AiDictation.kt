@@ -40,6 +40,7 @@ import com.google.android.accessibility.talkback.actor.gemini.local.LocalModelMa
 import com.google.android.accessibility.talkback.actor.gemini.progress.DefaultProgressToneProvider
 import com.google.android.accessibility.talkback.actor.gemini.progress.ProgressTonePlayer
 import com.google.android.accessibility.talkback.dictation.DictationSettings.Recognition
+import com.google.android.accessibility.talkback.gesture.EditorTargetResolver
 import com.google.android.accessibility.talkback.permission.PermissionUtils
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils
 import com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRACKED
@@ -162,12 +163,20 @@ class AiDictation(
       }
       Phase.IDLE -> {}
     }
-    if (node == null || Role.getRole(node) != Role.ROLE_EDIT_TEXT) {
+    // Some callers invoke Dictate from a menu while the editable is visible elsewhere.
+    val target =
+      if (node != null && Role.getRole(node) == Role.ROLE_EDIT_TEXT && node.isEditable) node
+      else EditorTargetResolver.find(
+        null, null, null,
+        service.rootInActiveWindow?.let(AccessibilityNodeInfoCompat::wrap),
+      )
+    if (target == null || !target.isEditable || !target.isEnabled || !target.isVisibleToUser) {
       speak(service.getString(R.string.not_editable))
       return false
     }
+    if (!target.isFocused) target.performAction(AccessibilityNodeInfoCompat.ACTION_FOCUS)
     if (translating) {
-      if (node.isPassword) {
+      if (target.isPassword) {
         speak(service.getString(R.string.dictation_translation_password))
         return false
       }
@@ -184,13 +193,13 @@ class AiDictation(
       return false
     }
     translateMode = translating
-    if (!startRecording(DictationSettings.effectiveRecognition(service, prefs, skip(node)))) {
+    if (!startRecording(DictationSettings.effectiveRecognition(service, prefs, skip(target)))) {
       handler.removeCallbacks(autoStop)
       translateMode = false
       speak(service.getString(R.string.dictation_unavailable))
       return false
     }
-    field = node
+    field = target
     phase = Phase.RECORDING
     pipeline.returnFeedback(EVENT_ID_UNTRACKED, Feedback.sound(R.raw.chime_up))
     // Speech would be recorded with the user's.

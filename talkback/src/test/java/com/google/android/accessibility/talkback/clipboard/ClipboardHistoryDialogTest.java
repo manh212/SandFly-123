@@ -195,7 +195,7 @@ public class ClipboardHistoryDialogTest {
     assertNotNull(list);
     list.getOnItemLongClickListener().onItemLongClick(list, null, 0, 0);
     AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
-    assertEquals(3, actions.getListView().getAdapter().getCount());
+    assertEquals(4, actions.getListView().getAdapter().getCount());
     assertEquals(Arrays.asList("keep this"), ClipboardHistory.getEntries());
     actions.dismiss();
     parent.dismiss();

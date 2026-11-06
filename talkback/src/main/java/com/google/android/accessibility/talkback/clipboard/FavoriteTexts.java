@@ -59,6 +59,24 @@ public final class FavoriteTexts {
     return save(updated);
   }
 
+  /** Updates a favorite without changing its position or duplicating another favorite. */
+  public static synchronized boolean replace(String original, CharSequence replacement) {
+    if (original == null || replacement == null || replacement.toString().trim().isEmpty()) {
+      return false;
+    }
+    String value = replacement.toString();
+    int index = entries.indexOf(original);
+    if (index < 0 || (!original.equals(value) && entries.contains(value))) {
+      return false;
+    }
+    if (original.equals(value)) {
+      return true;
+    }
+    List<String> updated = new ArrayList<>(entries);
+    updated.set(index, value);
+    return save(updated);
+  }
+
   public static synchronized boolean remove(String text) {
     List<String> updated = new ArrayList<>(entries);
     updated.remove(text);

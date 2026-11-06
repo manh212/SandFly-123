@@ -58,6 +58,21 @@ public final class EditorTargetResolver {
     return nearest;
   }
 
+  /** Searches the active screen first, then other visible app windows in display order. */
+  public static @Nullable AccessibilityNodeInfoCompat findInRoots(
+      @Nullable AccessibilityNodeInfoCompat focused,
+      @Nullable AccessibilityNodeInfoCompat keyboardEditor,
+      @Nullable AccessibilityNodeInfoCompat input,
+      Iterable<AccessibilityNodeInfoCompat> roots) {
+    if (editable(focused)) return focused;
+    if (editable(keyboardEditor)) return keyboardEditor;
+    for (AccessibilityNodeInfoCompat root : roots) {
+      AccessibilityNodeInfoCompat target = find(focused, keyboardEditor, input, root);
+      if (target != null) return target;
+    }
+    return null;
+  }
+
   private static boolean editable(@Nullable AccessibilityNodeInfoCompat node) {
     return node != null
         && Role.getRole(node) == Role.ROLE_EDIT_TEXT
