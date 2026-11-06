@@ -120,6 +120,7 @@ public class BrailleKeyboardService extends InputMethodService {
     private boolean autoCapitalize = true;
     private boolean doubleSpacePeriod = true;
     private boolean privacyScreenActive = false;
+    private boolean practiceMode = false;
     private int feedbackMode = FEEDBACK_BOTH;
     @TextEventFilter.KeyboardEchoType private int echoMode = ECHO_CHAR_AND_WORD;
     private long letterDelayMs = DEFAULT_LETTER_DELAY_MS;
@@ -227,6 +228,7 @@ public class BrailleKeyboardService extends InputMethodService {
     public void onCreate() {
         super.onCreate();
         prefs = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        imeInputPolicy.reloadFromPreferences(prefs);
         initFeedbackEngines();
         reloadAllSettings();
     }
@@ -324,6 +326,11 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onFinishInputView(boolean finishingInput) {
         cancelPendingInput();
+        // A hidden input view without finishing the editor is the Android back/hide path.
+        // Be conservative: never let the application immediately re-open it.
+        if (!finishingInput) {
+            imeInputPolicy.onUserDismissed(prefs);
+        }
         super.onFinishInputView(finishingInput);
     }
 
@@ -343,8 +350,19 @@ public class BrailleKeyboardService extends InputMethodService {
 
     @Override
     public boolean onShowInputRequested(int flags, boolean configChange) {
-        return imeInputPolicy.shouldShow(getCurrentInputEditorInfo(), flags)
-                && super.onShowInputRequested(flags, configChange);
+        imeInputPolicy.reloadFromPreferences(prefs);
+        boolean allowed = imeInputPolicy.shouldShow(getCurrentInputEditorInfo(), flags);
+        android.util.Log.i("BrailleImeVisibility", "showRequest flags=" + flags
+                + " configChange=" + configChange + " allowed=" + allowed
+                + " dismissedByUser=" + imeInputPolicy.isUserDismissed());
+        return allowed && super.onShowInputRequested(flags, configChange);
+    }
+
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onBackPressed() {
+        imeInputPolicy.onUserDismissed(prefs);
+        super.onBackPressed();
     }
 
     @Override
@@ -527,6 +545,7 @@ public class BrailleKeyboardService extends InputMethodService {
         autoCapitalize = prefs.getBoolean("auto_capitalize", true);
         doubleSpacePeriod = prefs.getBoolean("double_space_period", true);
         privacyScreenActive = prefs.getBoolean("privacy_screen", false);
+        practiceMode = prefs.getBoolean(BraillePracticeMode.PREF_KEY, false);
         feedbackMode = prefs.getInt("feedback_mode", FEEDBACK_BOTH);
         echoMode = BrailleKeyboardEchoSettings.read(this);
         speakPasswordChars = prefs.getBoolean("speak_password_chars", false);
@@ -580,7 +599,7 @@ public class BrailleKeyboardService extends InputMethodService {
                     if (k != null && k.length() > 0) {
                         String savedDots = prefs.getString("char_dots_" + k, null);
                         if (savedDots != null && savedDots.length() > 0) {
-                            charToDotsMap.put(k, normalizeDotsString(savedDots));
+                            BrailleChordMapValidator.putIfUnique(charToDotsMap, k, savedDots);
                         }
                     }
                 }
@@ -616,7 +635,7 @@ public class BrailleKeyboardService extends InputMethodService {
                         if (savedDots != null && savedDots.length() > 0) {
                             String normalized = normalizeDotsString(savedDots);
                             if (normalized.length() > 0) {
-                                emojiToDotsMap.put(k, normalized);
+                                BrailleChordMapValidator.putIfUnique(emojiToDotsMap, k, normalized);
                             }
                         }
                     }
@@ -848,21 +867,7 @@ public class BrailleKeyboardService extends InputMethodService {
     }
 
     private String normalizeDotsString(String raw) {
-        if (raw == null) return "";
-        boolean[] present = new boolean[7];
-        for (int i = 0; i < raw.length(); i++) {
-            char c = raw.charAt(i);
-            if (c >= '1' && c <= '6') {
-                present[c - '0'] = true;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int d = 1; d <= 6; d++) {
-            if (present[d]) {
-                sb.append(d);
-            }
-        }
-        return sb.toString();
+        return BrailleChordMapValidator.normalizeDots(raw);
     }
 
     private boolean screenReaderEchoesTypedText() {
@@ -904,6 +909,10 @@ public class BrailleKeyboardService extends InputMethodService {
         String dotsKey = sb.toString();
         if (dotsKey.length() == 0) return;
 
+        if (practiceMode) {
+            speak(BraillePracticeMode.describeDots(dotsKey), true);
+            return; // Never write to the editing application during practice.
+        }
         processBrailleChordOnInputConnection(dotsKey);
     }
 
@@ -1657,7 +1666,7 @@ public class BrailleKeyboardService extends InputMethodService {
             triggerFeedback(imeCanvasView, 50L, ToneGenerator.TONE_PROP_BEEP2, 90);
 
             speak("Đã đóng bàn phím", true);
-            imeInputPolicy.onHidden();
+            imeInputPolicy.onUserDismissed(prefs);
             requestHideSelf(0);
         }
     }
@@ -1745,6 +1754,7 @@ public class BrailleKeyboardService extends InputMethodService {
             }
             case 6: {
                 speak("Đã đóng bàn phím", true);
+                imeInputPolicy.onUserDismissed(prefs);
                 requestHideSelf(0);
                 break;
             }
