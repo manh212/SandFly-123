@@ -1418,6 +1418,8 @@ public class NewKeyComboModel implements KeyComboModel {
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_play_pause_media));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_scroll_forward_reading_menu));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_scroll_backward_reading_menu));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_reading_group_previous));
+    addKeyCombo(context.getString(R.string.keycombo_shortcut_reading_group_next));
     addKeyCombo(
         context.getString(R.string.keycombo_shortcut_global_adjust_reading_settings_previous));
     addKeyCombo(context.getString(R.string.keycombo_shortcut_global_adjust_reading_setting_next));

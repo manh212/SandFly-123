@@ -1812,4 +1812,6 @@
   <string name="selector_group_move_last_item_error">Không thể chuyển mục cuối cùng khỏi nhóm.</string>
   <string name="selector_group_item_count">%1$d mục</string>
   <string name="selector_group_item_announcement">%1$s, %2$s</string>
+    <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>
+    <string name="keycombo_shortcut_reading_group_next">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
 </resources>

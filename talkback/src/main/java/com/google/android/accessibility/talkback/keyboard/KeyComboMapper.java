@@ -631,6 +631,8 @@ public class KeyComboMapper {
           selectorController.selectPreviousOrNextSetting(eventId, AnnounceType.DESCRIPTION, true);
       case SELECT_PREVIOUS_READING_MENU ->
           selectorController.selectPreviousOrNextSetting(eventId, AnnounceType.DESCRIPTION, false);
+      case SELECT_PREVIOUS_READING_GROUP -> selectorController.selectPreviousOrNextGroup(eventId, false);
+      case SELECT_NEXT_READING_GROUP -> selectorController.selectPreviousOrNextGroup(eventId, true);
       case ADJUST_READING_MENU_DOWN -> selectorController.adjustSelectedSetting(eventId, true);
       case ADJUST_READING_MENU_UP -> selectorController.adjustSelectedSetting(eventId, false);
       case SPEECH_RATE_INCREASE -> selectorController.changeSpeechRate(eventId, true);

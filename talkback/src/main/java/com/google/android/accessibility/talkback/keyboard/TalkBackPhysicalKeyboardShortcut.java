@@ -619,6 +619,14 @@ public enum TalkBackPhysicalKeyboardShortcut {
       /* KeyboardShortcut.KEYBOARD_SHORTCUT_TOGGLE_BROWSE_MODE */ 142,
       R.string.keycombo_shortcut_other_toggle_browse_mode,
       R.string.keycombo_menu_other_toggle_browse_mode),
+  SELECT_PREVIOUS_READING_GROUP(
+      1035,
+      R.string.keycombo_shortcut_reading_group_previous,
+      R.string.shortcut_select_previous_group),
+  SELECT_NEXT_READING_GROUP(
+      1036,
+      R.string.keycombo_shortcut_reading_group_next,
+      R.string.shortcut_select_next_group),
   NAVIGATE_NEXT_FOCUSABLE(
                                                       1007,
       R.string.keycombo_shortcut_navigate_next_focusable,

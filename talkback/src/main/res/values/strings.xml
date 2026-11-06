@@ -4538,4 +4538,6 @@
     <string name="action_developer_settings_continue">Đồng ý và tiếp tục</string>
     <string name="title_selector_repeat_translate" tools:ignore="MissingTranslation">Nhắc lại và dịch lời đọc</string>
   <string name="clipboard_history_copy" translatable="false">Copy</string>
+    <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>
+    <string name="keycombo_shortcut_reading_group_next">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
 </resources>
