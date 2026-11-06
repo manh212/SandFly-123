@@ -70,6 +70,20 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
       .show()
   }
 
+  /** The inline edit dialog also works when history was opened from Settings. */
+  private fun editEntry(original: String) {
+    askText(getString(R.string.text_collection_edit), text = original) { updated, _, _ ->
+      when {
+        updated.isBlank() -> getString(R.string.favorites_text_required)
+        ClipboardHistory.replace(original, updated) -> {
+          rebuild()
+          null
+        }
+        else -> getString(R.string.favorites_save_failed)
+      }
+    }
+  }
+
   private fun updateDeleteButton() {
     deleteSelected?.apply {
       title = getString(R.string.clipboard_history_delete_selected_count, selected.size)
@@ -150,8 +164,19 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
             override fun onBindViewHolder(holder: PreferenceViewHolder) {
               super.onBindViewHolder(holder)
               holder.itemView.setOnLongClickListener {
-                choose(title, listOf(getString(R.string.clipboard_history_select_multiple))) {
-                  beginSelection(text)
+                choose(
+                  title,
+                  listOf(
+                    getString(R.string.text_collection_edit),
+                    getString(R.string.notification_remove),
+                    getString(R.string.clipboard_history_select_multiple),
+                  )
+                ) { action ->
+                  when (action) {
+                    0 -> editEntry(text)
+                    1 -> ClipboardHistory.remove(text)
+                    2 -> beginSelection(text)
+                  }
                 }
                 true
               }
@@ -167,13 +192,15 @@ class ClipboardHistoryFragment : NotificationCodeFragment(R.string.title_clipboa
                 listOf(
                   getString(R.string.clipboard_history_copy),
                   getString(R.string.notification_remove),
+                  getString(R.string.text_collection_edit),
                   getString(R.string.clipboard_history_select_multiple),
                 )
               ) { choice ->
                 when (choice) {
                   0 -> ClipboardUtils.copyToClipboard(context, text)
                   1 -> ClipboardHistory.remove(text)
-                  2 -> beginSelection(text)
+                  2 -> editEntry(text)
+                  3 -> beginSelection(text)
                 }
               }
               true

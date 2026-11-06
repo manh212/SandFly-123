@@ -48,6 +48,19 @@ public class EditorTargetResolverTest {
   }
 
   @Test
+  public void findsVisibleEditorInAnotherWindowRoot() {
+    AccessibilityNodeInfoCompat frontWindow = node(null, false, 0);
+    node(frontWindow, false, 100);
+    AccessibilityNodeInfoCompat secondWindow = node(null, false, 0);
+    AccessibilityNodeInfoCompat editor = node(secondWindow, true, 250);
+
+    assertEquals(
+        editor,
+        EditorTargetResolver.findInRoots(
+            null, null, null, java.util.Arrays.asList(frontWindow, secondWindow)));
+  }
+
+  @Test
   public void missingEditorsDoNotProduceATarget() {
     AccessibilityNodeInfoCompat root = node(null, false, 0);
     node(root, false, 100);

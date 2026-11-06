@@ -27,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.EditText;
 import android.widget.CheckedTextView;
 import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.utils.Performance;
@@ -195,10 +196,73 @@ public class ClipboardHistoryDialogTest {
     assertNotNull(list);
     list.getOnItemLongClickListener().onItemLongClick(list, null, 0, 0);
     AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
-    assertEquals(3, actions.getListView().getAdapter().getCount());
+    assertEquals(4, actions.getListView().getAdapter().getCount());
+    assertEquals(
+        context.getString(R.string.text_collection_edit),
+        actions.getListView().getAdapter().getItem(1));
     assertEquals(Arrays.asList("keep this"), ClipboardHistory.getEntries());
     actions.dismiss();
     parent.dismiss();
+  }
+
+  @Test
+  public void editHistoryActionUpdatesSavedTextWithoutMovingOtherEntries() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    ClipboardHistory.init(context.getFilesDir());
+    ((android.content.ClipboardManager) context.getSystemService(android.content.Context.CLIPBOARD_SERVICE))
+        .setPrimaryClip(android.content.ClipData.newPlainText("", ""));
+    ClipboardHistory.clear();
+    ClipboardHistory.record("first");
+    ClipboardHistory.record("second");
+
+    new ClipboardHistoryDialog(context, null).show(Performance.EVENT_ID_UNTRACKED, null);
+    AlertDialog parent = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(parent.getWindow().getDecorView());
+    assertNotNull(list);
+    list.getOnItemLongClickListener().onItemLongClick(list, null, 1, 1);
+    AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
+    ListView menu = actions.getListView();
+    menu.performItemClick(menu.getAdapter().getView(1, null, menu), 1, 1);
+
+    AlertDialog editor = ShadowAlertDialog.getLatestAlertDialog();
+    EditText input = findEditText(editor.getWindow().getDecorView());
+    assertNotNull(input);
+    assertEquals("first", input.getText().toString());
+    input.setText("edited first");
+    editor.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+    assertEquals(Arrays.asList("second", "edited first"), ClipboardHistory.getEntries());
+    parent.dismiss();
+  }
+
+  @Test
+  public void editFavoriteActionPersistsAndKeepsEntryPosition() {
+    android.content.Context context = RuntimeEnvironment.getApplication();
+    FavoriteTexts.init(context.getFilesDir());
+    FavoriteTexts.clear();
+    assertTrue(FavoriteTexts.add("first"));
+    assertTrue(FavoriteTexts.add("second"));
+
+    new ClipboardHistoryDialog(context, null, true).show(Performance.EVENT_ID_UNTRACKED, null);
+    AlertDialog parent = ShadowAlertDialog.getLatestAlertDialog();
+    ListView list = findList(parent.getWindow().getDecorView());
+    assertNotNull(list);
+    list.getOnItemLongClickListener().onItemLongClick(list, null, 1, 1);
+    AlertDialog actions = ShadowAlertDialog.getLatestAlertDialog();
+    assertEquals(2, actions.getListView().getAdapter().getCount());
+    ListView menu = actions.getListView();
+    menu.performItemClick(menu.getAdapter().getView(1, null, menu), 1, 1);
+    AlertDialog editor = ShadowAlertDialog.getLatestAlertDialog();
+    EditText input = findEditText(editor.getWindow().getDecorView());
+    assertNotNull(input);
+    assertEquals("first", input.getText().toString());
+    input.setText("edited first");
+    editor.getButton(AlertDialog.BUTTON_POSITIVE).performClick();
+
+    assertEquals(Arrays.asList("second", "edited first"), FavoriteTexts.getEntries());
+    FavoriteTexts.init(context.getFilesDir());
+    assertEquals(Arrays.asList("second", "edited first"), FavoriteTexts.getEntries());
+    parent.dismiss();
+    FavoriteTexts.clear();
   }
 
   @Test
@@ -255,6 +319,19 @@ public class ClipboardHistoryDialogTest {
         context.getString(R.string.clipboard_history_scroll_down)));
     preview.dismiss();
     parent.dismiss();
+  }
+
+  private static EditText findEditText(View view) {
+    if (view instanceof EditText edit) {
+      return edit;
+    }
+    if (view instanceof ViewGroup group) {
+      for (int i = 0; i < group.getChildCount(); i++) {
+        EditText found = findEditText(group.getChildAt(i));
+        if (found != null) return found;
+      }
+    }
+    return null;
   }
 
   private static Button findButton(View view, String text) {

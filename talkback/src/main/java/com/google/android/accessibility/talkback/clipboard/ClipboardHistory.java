@@ -152,6 +152,38 @@ public final class ClipboardHistory {
     }
   }
 
+  /**
+   * Replaces one saved entry in place, preserving its position and every other entry.
+   * Rejects blank text and duplicates, and restores the old value if writing fails.
+   */
+  public static boolean replace(String original, CharSequence replacement) {
+    if (original == null || replacement == null || replacement.toString().trim().isEmpty()) {
+      return false;
+    }
+    String value = replacement.toString();
+    synchronized (entries) {
+      List<String> previous = new ArrayList<>(entries);
+      int position = previous.indexOf(original);
+      if (position < 0 || (!original.equals(value) && previous.contains(value))) {
+        return false;
+      }
+      if (original.equals(value)) {
+        return true;
+      }
+      List<String> updated = new ArrayList<>(previous);
+      updated.set(position, value);
+      entries.clear();
+      entries.addAll(updated);
+      if (!saveLocked()) {
+        entries.clear();
+        entries.addAll(previous);
+        return false;
+      }
+    }
+    notifyListeners();
+    return true;
+  }
+
   /** Removes the selected entries as one saved operation, notifying listeners only once. */
   public static int removeAll(java.util.Collection<String> selected) {
     if (selected == null || selected.isEmpty()) {

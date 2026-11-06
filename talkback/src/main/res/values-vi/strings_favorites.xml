@@ -14,5 +14,7 @@
   <string name="favorites_copied" tools:ignore="MissingTranslation">Đã sao chép</string>
   <string name="text_collection_cancel" tools:ignore="MissingTranslation">Hủy</string>
   <string name="text_collection_delete" tools:ignore="MissingTranslation">Xóa</string>
+  <string name="text_collection_edit" tools:ignore="MissingTranslation">Chỉnh sửa</string>
+  <string name="text_collection_edited" tools:ignore="MissingTranslation">Đã lưu chỉnh sửa</string>
   <string name="text_collection_no_results" tools:ignore="MissingTranslation">Không tìm thấy văn bản</string>
 </resources>
