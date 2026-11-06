@@ -16,6 +16,7 @@
 
 package com.google.android.accessibility.talkback.dictation
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
@@ -90,6 +91,16 @@ object DictationSettings {
 
   fun setOnlineRoute(prefs: SharedPreferences, route: OnlineRoute) =
     prefs.edit { putString(PREF_ONLINE_ROUTE, route.id) }
+
+  /**
+   * Retained for the existing Google language-pack helper. Google on-device speech is no longer
+   * selectable from Dictation; the helper remains available to other consumers.
+   */
+  val GOOGLE_SERVICE =
+    ComponentName(
+      "com.google.android.tts",
+      "com.google.android.apps.speech.tts.googletts.service.GoogleTTSRecognitionService",
+    )
 
   /** The Gemini API key Rambler uses, or empty when there is none. */
   fun ramblerKey(prefs: SharedPreferences): String =
