@@ -52,7 +52,7 @@ import java.util.Map;
 
 public class BrailleKeyboardService extends InputMethodService {
 
-    private static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
+    private static final String PREFS_NAME = BrailleImeInputPolicy.PREFS_NAME;
 
     private static final long CALIBRATION_HOLD_MS = 1500L;
     private static final long DEFAULT_LETTER_DELAY_MS = BrailleSpeedSettings.DEFAULT_LETTER_DELAY_MS;
@@ -326,10 +326,17 @@ public class BrailleKeyboardService extends InputMethodService {
     @Override
     public void onFinishInputView(boolean finishingInput) {
         cancelPendingInput();
-        if (!finishingInput) {
+        super.onFinishInputView(finishingInput);
+    }
+
+    @Override
+    public boolean onKeyUp(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK
+                && isInputViewShown()
+                && !event.isCanceled()) {
             imeInputPolicy.onUserDismissed(prefs);
         }
-        super.onFinishInputView(finishingInput);
+        return super.onKeyUp(keyCode, event);
     }
 
     @Override

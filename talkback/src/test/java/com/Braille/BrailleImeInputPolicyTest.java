@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethod;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -16,6 +17,31 @@ import org.robolectric.annotation.Config;
 @RunWith(RobolectricTestRunner.class)
 @Config(sdk = 34)
 public class BrailleImeInputPolicyTest {
+    @Test
+    public void onlyUserActivatedEditorsPermitReopening() {
+        Context context = RuntimeEnvironment.getApplication();
+        SharedPreferences prefs =
+                context.getSharedPreferences(BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+        prefs.edit().clear().commit();
+        BrailleImeInputPolicy policy = new BrailleImeInputPolicy();
+        policy.onUserDismissed(prefs);
+        AccessibilityNodeInfoCompat plain = AccessibilityNodeInfoCompat.obtain();
+        plain.setClassName("android.widget.TextView");
+        BrailleImeInputPolicy.allowUserReopenForEditor(context, plain);
+        policy.reloadFromPreferences(prefs);
+        assertFalse(policy.shouldShow(new EditorInfo(), InputMethod.SHOW_EXPLICIT));
+
+        AccessibilityNodeInfoCompat editor = AccessibilityNodeInfoCompat.obtain();
+        editor.setClassName("android.widget.EditText");
+        editor.setEditable(true);
+        BrailleImeInputPolicy.allowUserReopenForEditor(context, editor);
+        policy.reloadFromPreferences(prefs);
+        assertTrue(policy.shouldShow(new EditorInfo(), 0));
+        plain.recycle();
+        editor.recycle();
+        prefs.edit().clear().commit();
+    }
+
     @Test
     public void manualDismissalBlocksAllShowFlagsEvenAfterEditorRestarts() {
         SharedPreferences prefs = RuntimeEnvironment.getApplication()

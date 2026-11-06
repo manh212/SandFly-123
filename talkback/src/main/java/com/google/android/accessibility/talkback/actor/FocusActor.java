@@ -25,7 +25,6 @@ import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRAC
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
 import android.accessibilityservice.GestureDescription.StrokeDescription;
-import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.text.style.URLSpan;
@@ -60,7 +59,6 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
-import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.List;
@@ -161,10 +159,7 @@ public class FocusActor implements UserInputEventListener {
   }
 
   private void allowBrailleImeForUserActivatedEditor(AccessibilityNodeInfoCompat node) {
-    if (node != null && (node.isEditable() || Role.getRole(node) == Role.ROLE_EDIT_TEXT)) {
-      BrailleImeInputPolicy.allowUserReopen(
-          service.getSharedPreferences(BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE));
-    }
+    BrailleImeInputPolicy.allowUserReopenForEditor(service, node);
   }
 
   public boolean clickNode(AccessibilityNodeInfoCompat node, EventId eventId) {

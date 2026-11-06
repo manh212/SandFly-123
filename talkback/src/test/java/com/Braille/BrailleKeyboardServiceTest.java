@@ -101,6 +101,15 @@ public class BrailleKeyboardServiceTest {
   }
 
   @Test
+  public void appHidingKeyboardDoesNotCountAsUserDismissal() {
+    Context context = RuntimeEnvironment.getApplication();
+    keyboard.onFinishInputView(false);
+    assertFalse(context.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE)
+        .getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+  }
+
+  @Test
   public void practiceModeReadsChordButNeverWritesIntoTheEditor() {
     Context context = RuntimeEnvironment.getApplication();
     context.getSharedPreferences("BraillePhoneBreakthroughV2Prefs", Context.MODE_PRIVATE)

@@ -1,8 +1,11 @@
 package com.Braille;
 
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
+import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.utils.Role;
 
 public final class BrailleImeInputPolicy {
     public static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
@@ -29,6 +32,14 @@ public final class BrailleImeInputPolicy {
 
     public static void allowUserReopen(SharedPreferences prefs) {
         prefs.edit().putBoolean(PREF_USER_DISMISSED, false).apply();
+    }
+
+    public static void allowUserReopenForEditor(
+            Context context, AccessibilityNodeInfoCompat editor) {
+        if (context != null && editor != null
+                && (editor.isEditable() || Role.getRole(editor) == Role.ROLE_EDIT_TEXT)) {
+            allowUserReopen(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE));
+        }
     }
 
     public void onFinishInput() {

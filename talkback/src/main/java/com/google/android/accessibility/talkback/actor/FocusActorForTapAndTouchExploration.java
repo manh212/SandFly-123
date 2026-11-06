@@ -22,9 +22,11 @@ import static androidx.core.view.accessibility.AccessibilityNodeInfoCompat.Acces
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.Braille.BrailleImeInputPolicy;
 import com.google.android.accessibility.talkback.ActorState;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Pipeline;
+import com.google.android.accessibility.talkback.TalkBackService;
 import com.google.android.accessibility.talkback.focusmanagement.record.FocusActionInfo;
 import com.google.android.accessibility.utils.Performance.EventId;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
@@ -113,6 +115,8 @@ public class FocusActorForTapAndTouchExploration {
     if (WebInterfaceUtils.supportsWebActions(node)) {
       return false;
     }
+
+    BrailleImeInputPolicy.allowUserReopenForEditor(TalkBackService.getInstance(), node);
 
     // The displayed Grab "Đặt xe" label is a sibling of the clickable button.
     // Single-tap activation must use the same safe target as double-tap.
