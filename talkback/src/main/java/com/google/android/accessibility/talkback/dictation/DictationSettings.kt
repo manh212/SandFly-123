@@ -18,7 +18,9 @@ package com.google.android.accessibility.talkback.dictation
 
 import android.content.ComponentName
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.speech.RecognitionService
 import androidx.core.content.edit
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.talkback.R
@@ -101,6 +103,12 @@ object DictationSettings {
       "com.google.android.tts",
       "com.google.android.apps.speech.tts.googletts.service.GoogleTTSRecognitionService",
     )
+
+  /** Whether Google's optional recognition language-pack helper is installed. */
+  fun googleInstalled(context: Context): Boolean =
+    context.packageManager
+      .queryIntentServices(Intent(RecognitionService.SERVICE_INTERFACE).setComponent(GOOGLE_SERVICE), 0)
+      .isNotEmpty()
 
   /** The Gemini API key Rambler uses, or empty when there is none. */
   fun ramblerKey(prefs: SharedPreferences): String =

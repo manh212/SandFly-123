@@ -49,6 +49,10 @@
         android:max="45"
         android:title="@string/title_pref_dictation_speech_threshold"
         app:showSeekBarValue="false" />
+    <com.google.android.accessibility.material.preference.AccessibilitySuitePreference
+        android:key="pref_dictation_google_download"
+        android:persistent="false"
+        android:title="@string/dictation_google_download" />
   </com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory>
 
   <com.google.android.accessibility.material.preference.AccessibilitySuitePreferenceCategory

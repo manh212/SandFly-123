@@ -19,6 +19,7 @@ package com.google.android.accessibility.talkback.dictation
 import android.content.Context
 import android.content.SharedPreferences
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.text.format.Formatter
 import androidx.appcompat.app.AlertDialog
@@ -32,6 +33,7 @@ import com.google.android.accessibility.talkback.dictation.WhisperModels.Model
 import com.google.android.accessibility.talkback.dictation.WhisperModels.State
 import com.google.android.accessibility.talkback.preference.base.TalkbackBaseFragment
 import com.google.android.accessibility.utils.SharedPreferencesUtils
+import java.util.Locale
 
 /**
  * Dictation settings: how speech is recognized, the Whisper models for recognition on the phone,
@@ -44,6 +46,7 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
   private lateinit var aiServicePref: Preference
   private lateinit var modelPref: Preference
   private lateinit var onlineRoutePref: Preference
+  private lateinit var googleDownloadPref: Preference
   private lateinit var advancedPref: Preference
   private var advancedExpanded = false
   private var announcedMilestone = -1
@@ -68,6 +71,8 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
       refresh()
     }
     aiServicePref = onClick("pref_dictation_ai_service_choice") { chooseAiService() }
+    googleDownloadPref =
+      onClick("pref_dictation_google_download") { GoogleSpeechLanguages.download(requireContext()) }
     findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.onPreferenceChangeListener =
       Preference.OnPreferenceChangeListener { preference, value ->
         preference.summary = speechThresholdSummary((value as Int) - 60)
@@ -85,6 +90,7 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
     super.onStart()
     models.addListener(listener)
     refresh()
+    GoogleSpeechLanguages.refresh(requireContext()) { if (isAdded) refresh() }
   }
 
   override fun onStop() {
@@ -125,6 +131,13 @@ class DictationFragment : TalkbackBaseFragment(R.xml.dictation_preferences) {
       "pref_dictation_ai",
       "pref_dictation_translation",
     ).forEach { key -> findPreference<Preference>(key)?.isVisible = advancedExpanded }
+    googleDownloadPref.title =
+      getString(R.string.dictation_google_download, Locale.getDefault().displayLanguage)
+    googleDownloadPref.isVisible =
+      advancedExpanded &&
+        Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
+        DictationSettings.googleInstalled(context) &&
+        GoogleSpeechLanguages.hasPhoneLanguage() == false
 
     findPreference<Preference>(DictationSettings.PREF_SPEECH_THRESHOLD)?.summary =
       speechThresholdSummary(DictationSettings.speechThresholdDbfs(prefs))
