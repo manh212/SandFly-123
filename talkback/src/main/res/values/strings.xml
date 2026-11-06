@@ -152,7 +152,7 @@
     -->
     <string name="title_pref_speech_pitch">Speech pitch</string>
     <!-- Title of the setting, and of the reading control, that chooses which volume speech and sounds play at: accessibility, media, ring or call. [CHAR LIMIT=40] -->
-    <string name="title_pref_speech_stream">Speech volume</string>
+    <string name="title_pref_speech_stream">Kênh giọng nói</string>
     <!-- Summary of the Speech volume reading control in the reading controls settings. [CHAR LIMIT=NONE] -->
     <string name="summary_selector_speech_stream">Switch between the accessibility, media, ring and call volumes</string>
     <!-- Choice of Speech volume: speech plays at the accessibility volume. [CHAR LIMIT=40] -->
@@ -4540,4 +4540,9 @@
   <string name="clipboard_history_copy" translatable="false">Copy</string>
     <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>
     <string name="keycombo_shortcut_reading_group_next">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
+    <string name="shortcut_value_choose_keyboard">choose_keyboard</string>
+    <string name="shortcut_choose_keyboard">Chọn bàn phím</string>
+    <string name="shortcut_value_switch_speech_stream">switch_speech_stream</string>
+    <string name="shortcut_switch_speech_stream">Chuyển kênh giọng nói</string>
+    <string name="keyboard_editing_active">Đang chỉnh sửa</string>
 </resources>

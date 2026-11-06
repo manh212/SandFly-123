@@ -216,6 +216,8 @@ public class KeyComboManager
    * focus leaves the web content.
    */
   private boolean browseModeTurnedOffByUser = false;
+  private boolean inputEditingAnnounced = false;
+  private boolean browseModePausedForInput = false;
 
   /** The app that accessibility focus was last in. */
   private @Nullable String focusedPackage;
@@ -449,6 +451,9 @@ public class KeyComboManager
     if (keyComboMapper != null) keyComboMapper.getScreenReview().onAccessibilityEvent(event);
     if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_FOCUSED
         && event.getEventType() != AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) return;
+    if (event.getEventType() == AccessibilityEvent.TYPE_VIEW_FOCUSED) {
+      handlePhysicalKeyboardEditingFocus(event);
+    }
     if (isBrowseModeSupported()
         && event.getEventType() == AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED) {
       applyRememberedBrowseMode(event);
@@ -524,7 +529,8 @@ public class KeyComboManager
   public boolean isKeyboardInputEditable() {
     if (accessibilityFocusMonitor == null) return false;
     AccessibilityNodeInfoCompat inputFocus = accessibilityFocusMonitor.getInputFocus();
-    return inputFocus != null && inputFocus.isFocused() && inputFocus.isEditable();
+    return inputFocus != null && inputFocus.isFocused()
+        && KeyComboManagerHelper.isTextInputNode(inputFocus);
   }
 
   public void performSchemeShortcut(KeyCombo combo) {
@@ -728,15 +734,7 @@ public class KeyComboManager
   }
 
   private boolean isEditingTextWithAccessibilityFocus() {
-    if (accessibilityFocusMonitor == null) {
-      return false;
-    }
-    AccessibilityNodeInfoCompat inputFocus = accessibilityFocusMonitor.getInputFocus();
-    return inputFocus != null
-        && inputFocus.isFocused()
-        && inputFocus.isEditable()
-        && inputFocus.equals(
-            accessibilityFocusMonitor.getAccessibilityFocus(  false));
+    return isKeyboardInputEditable();
   }
 
   public String getArrowKeyNavKeysStringRepresentation(long keys) {
@@ -1710,6 +1708,33 @@ public class KeyComboManager
   }
 
   // TODO: b/443789728 - Use `eventId` to track the performance of smart browse mode.
+  private void handlePhysicalKeyboardEditingFocus(AccessibilityEvent event) {
+    AccessibilityNodeInfoCompat source = AccessibilityNodeInfoUtils.toCompat(event.getSource());
+    if (source == null) return;
+    boolean editing = source.isFocused() && KeyComboManagerHelper.isTextInputNode(source);
+    if (editing) {
+      if (!inputEditingAnnounced && pipeline != null) {
+        pipeline.returnFeedback(EVENT_ID_UNTRACKED,
+            Feedback.speech(context.getString(R.string.keyboard_editing_active),
+                UNINTERRUPTIBLE_BY_NEW_SPEECH_SPEAK_OPTIONS));
+      }
+      inputEditingAnnounced = true;
+      if (KeyComboManagerHelper.isSmartBrowseModeEnabled(context)
+          && isBrowseModeSupported() && browseModeEnabled) {
+        recordBrowseModeStateWhenOff(BROWSE_MODE_TURNED_OFF_BY_SMART_BROWSE_MODE);
+        browseModeEnabled = false;
+        browseModePausedForInput = true;
+      }
+    } else {
+      inputEditingAnnounced = false;
+      if (browseModePausedForInput && arrowsNavigate() && isBrowseModeSupported()) {
+        browseModeEnabled = true;
+        browseModeEnabledTimeMills = SystemClock.uptimeMillis();
+      }
+      browseModePausedForInput = false;
+    }
+  }
+
   private void handleViewInputFocusedEvent(AccessibilityEvent event, EventId eventId) {
     AccessibilityNodeInfoCompat sourceNode = AccessibilityNodeInfoUtils.toCompat(event.getSource());
     if (sourceNode == null) {

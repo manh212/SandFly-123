@@ -1658,7 +1658,7 @@
     <string name="settings_import_failed">Tệp này không phải là tệp cài đặt, hoặc không đọc được</string>
     <string name="title_selector_vertical_navigation">Điều hướng dọc</string>
     <string name="summary_selector_vertical_navigation">Di chuyển đến mục ở dưới hoặc ở trên, bỏ qua các mục khác trong hàng</string>
-    <string name="title_pref_speech_stream">Âm lượng lời nói</string>
+    <string name="title_pref_speech_stream">Kênh giọng nói</string>
     <string name="summary_selector_speech_stream">Chuyển đổi giữa âm lượng trợ năng, đa phương tiện, chuông và cuộc gọi</string>
     <string name="speech_stream_accessibility">Âm lượng trợ năng</string>
     <string name="speech_stream_media">Âm lượng đa phương tiện</string>
@@ -1814,4 +1814,9 @@
   <string name="selector_group_item_announcement">%1$s, %2$s</string>
     <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>
     <string name="keycombo_shortcut_reading_group_next">Chuyển đến nhóm điều khiển đọc tiếp theo</string>
+    <string name="shortcut_value_choose_keyboard">choose_keyboard</string>
+    <string name="shortcut_choose_keyboard">Chọn bàn phím</string>
+    <string name="shortcut_value_switch_speech_stream">switch_speech_stream</string>
+    <string name="shortcut_switch_speech_stream">Chuyển kênh giọng nói</string>
+    <string name="keyboard_editing_active">Đang chỉnh sửa</string>
 </resources>

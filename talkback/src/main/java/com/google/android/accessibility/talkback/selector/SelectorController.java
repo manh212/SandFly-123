@@ -1067,7 +1067,7 @@ public class SelectorController implements UserInputEventListener {
         hint = getAdjustSelectedSettingGestures();
       }
       case SPEECH_STREAM -> {
-        actionDescription = context.getString(R.string.selector_speech_volume_title);
+        actionDescription = context.getString(R.string.title_pref_speech_stream);
         hint = getAdjustSelectedSettingGestures();
       }
       case VERTICAL_NAVIGATION -> {
@@ -2453,7 +2453,7 @@ public class SelectorController implements UserInputEventListener {
         return;
       }
       case SPEECH_STREAM -> {
-        changeSpeechVolume(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
+        cycleSpeechStream(eventId, NavigationMode.isModeTwo(context) ? isNext : !isNext);
         return;
       }
       case VERTICAL_NAVIGATION -> {
@@ -2711,11 +2711,18 @@ public class SelectorController implements UserInputEventListener {
     verticalNavigator.move(eventId, isNext);
   }
 
-  private void changeSpeechVolume(EventId eventId, boolean increase) {
-    int volume = SpeechVolumeControl.change(context, prefs, increase);
-    String displayText = context.getString(R.string.selector_speech_volume_value, volume);
-    announceSetting(eventId, displayText, getAdjustSelectedSettingGestures());
-    showQuickMenuActionOverlay(eventId, displayText);
+  public void cycleSpeechStream(EventId eventId, boolean forward) {
+    String next = SpeechStreamSelection.next(
+        FailoverTextToSpeech.chosenSpeechStream(prefs), forward);
+    prefs.edit().putString(FailoverTextToSpeech.PREF_SPEECH_STREAM_KEY, next).apply();
+    int label = switch (next) {
+      case FailoverTextToSpeech.STREAM_VALUE_MEDIA -> R.string.speech_stream_media;
+      case FailoverTextToSpeech.STREAM_VALUE_RING -> R.string.speech_stream_ring;
+      default -> R.string.speech_stream_accessibility;
+    };
+    String announcement = context.getString(label);
+    announceSetting(eventId, announcement, getAdjustSelectedSettingGestures());
+    showQuickMenuActionOverlay(eventId, announcement);
   }
 
   private void changeTtsEngine(EventId eventId, boolean isNext) {

@@ -23,6 +23,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import java.util.ArrayDeque
 import android.widget.Toast
 import java.lang.ref.WeakReference
 import java.util.ArrayDeque
@@ -59,14 +60,15 @@ object GranularEditing {
   fun open(context: Context, node: AccessibilityNodeInfoCompat?): Boolean {
     if (node == null) return refuse(context, R.string.granular_editing_no_text)
     if (node.isPassword) return refuse(context, R.string.granular_editing_password)
-    val editable = node.isEditable || Role.getRole(node) == Role.ROLE_EDIT_TEXT
+    val editable = node.isEditable && node.isEnabled && node.isVisibleToUser
     val nodeText =
       when {
         editable && node.isShowingHintText -> ""
         editable -> fieldText(node)
         else -> AccessibilityNodeInfoUtils.getText(node)?.toString().orEmpty()
       }
-    if (!editable && nodeText.isBlank()) return refuse(context, R.string.granular_editing_no_text)
+    val visibleText = if (!editable && nodeText.isBlank()) collectVisibleText(node) else nodeText
+    if (!editable && visibleText.isBlank()) return refuse(context, R.string.granular_editing_no_text)
 
     // The currently displayed editor may have an EditText in its own dialog.
     // A child editor must return to that field, not replace the original app's target.
@@ -82,7 +84,7 @@ object GranularEditing {
     val sessionId = nextSessionId++
     sessions[sessionId] =
       Session(
-        originalText = nodeText,
+        originalText = visibleText,
         target = if (editable) AccessibilityNodeInfoCompat.obtain(node) else null,
         sourceService = (context as? AccessibilityService)?.let { WeakReference(it) },
         parentId = parent?.first,
@@ -109,6 +111,28 @@ object GranularEditing {
       throw exception
     }
     return true
+  }
+
+  internal fun collectVisibleText(root: AccessibilityNodeInfoCompat): String {
+    val pending = ArrayDeque<AccessibilityNodeInfoCompat>()
+    pending.add(root)
+    val parts = ArrayList<String>()
+    var length = 0
+    var visited = 0
+    while (pending.isNotEmpty() && visited++ < 2048 && length < 32768) {
+      val current = pending.removeFirst()
+      if (!current.isVisibleToUser || current.isPassword) continue
+      val value = AccessibilityNodeInfoUtils.getText(current)?.toString().orEmpty()
+      if (value.isNotBlank() && current.childCount == 0) {
+        val available = 32768 - length
+        parts.add(value.take(available))
+        length += value.length.coerceAtMost(available)
+      }
+      for (index in 0 until current.childCount) {
+        current.getChild(index)?.let { pending.addLast(it) }
+      }
+    }
+    return parts.joinToString("\n")
   }
 
   internal fun registerActivity(id: Int, activity: GranularEditingActivity) {

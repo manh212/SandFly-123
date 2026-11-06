@@ -92,6 +92,7 @@ import android.os.Looper;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.view.KeyEvent;
+import android.view.inputmethod.InputMethodManager;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.ViewConfiguration;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -951,7 +952,20 @@ public class GestureController {
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
       AccessibilityNodeInfoCompat editing =
           accessibilityFocusMonitor.getEditingNodeFromFocusedKeyboard(focus);
-      result = GranularEditing.open(service, editing != null ? editing : focus);
+      AccessibilityNodeInfoCompat target = editing != null ? editing : focus;
+      if (target == null && service.getRootInActiveWindow() != null) {
+        target = AccessibilityNodeInfoCompat.wrap(service.getRootInActiveWindow());
+      }
+      result = GranularEditing.open(service, target);
+    } else if (action.equals(service.getString(R.string.shortcut_value_choose_keyboard))) {
+      InputMethodManager manager = service.getSystemService(InputMethodManager.class);
+      if (manager != null) {
+        manager.showInputMethodPicker();
+      } else {
+        result = false;
+      }
+    } else if (action.equals(service.getString(R.string.shortcut_value_switch_speech_stream))) {
+      selectorController.cycleSpeechStream(eventId, true);
     } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
       AccessibilityNodeInfoCompat target = findEditorTarget();
       result = dictation.start(target);

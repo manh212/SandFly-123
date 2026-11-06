@@ -229,7 +229,8 @@ public class KeyComboMapper {
           result =
               pipeline.returnFeedback(
                   eventId,
-                  Feedback.focusDirection(SEARCH_FOCUS_UP)
+                  Feedback.focusDirection(SEARCH_FOCUS_BACKWARD)
+                      .setGranularity(DEFAULT)
                       .setInputMode(INPUT_MODE_KEYBOARD)
                       .setWrap(true)
                       .setScroll(true)
@@ -238,7 +239,8 @@ public class KeyComboMapper {
           result =
               pipeline.returnFeedback(
                   eventId,
-                  Feedback.focusDirection(SEARCH_FOCUS_DOWN)
+                  Feedback.focusDirection(SEARCH_FOCUS_FORWARD)
+                      .setGranularity(DEFAULT)
                       .setInputMode(INPUT_MODE_KEYBOARD)
                       .setWrap(true)
                       .setScroll(true)

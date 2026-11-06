@@ -58,6 +58,12 @@ public class KeyComboManagerHelper {
   private static final ImmutableList<String> CHROME_CONTAINER_ROLES_USING_ARROW_KEYS =
       ImmutableList.of("tree", "treeGrid", "grid", "menu");
 
+  public static boolean isTextInputNode(@Nullable AccessibilityNodeInfoCompat node) {
+    return node != null && node.isEnabled()
+        && (node.isEditable()
+            || (node.getActions() & AccessibilityNodeInfoCompat.ACTION_SET_TEXT) != 0);
+  }
+
   /** Returns true if smart browse mode is enabled. */
   public static boolean isSmartBrowseModeEnabled(Context context) {
     SharedPreferences sharedPreferences = SharedPreferencesUtils.getSharedPreferences(context);
@@ -79,7 +85,7 @@ public class KeyComboManagerHelper {
       @Nullable AccessibilityNodeInfoCompat inputFocusedNode) {
     // Turn off browse mode if the input focus is still in an editable one. In this case, users
     // should be able to keep typing, so browse mode should be turned off.
-    if (inputFocusedNode != null && inputFocusedNode.isFocused() && inputFocusedNode.isEditable()) {
+    if (inputFocusedNode != null && inputFocusedNode.isFocused() && isTextInputNode(inputFocusedNode)) {
       return true;
     }
 
@@ -97,7 +103,8 @@ public class KeyComboManagerHelper {
 
   private static boolean shouldTurnOffBrowseModeHelper(AccessibilityNodeInfoCompat sourceNode) {
     // Turn off browse mode if the focused node is editable so that the user can start typing.
-    if (AccessibilityNodeInfoUtils.isSelfOrAncestorEditable(sourceNode)
+    if (isTextInputNode(sourceNode)
+        || AccessibilityNodeInfoUtils.isSelfOrAncestorEditable(sourceNode)
         || AccessibilityNodeInfoUtils.isSelfOrAncestorRoleEditText(sourceNode)) {
       return true;
     }
