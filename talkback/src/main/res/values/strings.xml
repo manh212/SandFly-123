@@ -2021,7 +2021,6 @@
   <string name="selector_group_minimum_item_error" tools:ignore="MissingTranslation">Each group must have at least one item.</string>
   <string name="selector_group_minimum_group_error" tools:ignore="MissingTranslation">At least one navigation group must remain.</string>
   <string name="selector_group_minimum_enabled_error" tools:ignore="MissingTranslation">At least one navigation group must be enabled.</string>
-  <string name="selector_group_move_last_item_error" tools:ignore="MissingTranslation">The last item cannot be moved out of a group.</string>
   <string name="selector_group_item_count" tools:ignore="MissingTranslation">%1$d items</string>
   <string name="selector_group_item_announcement" tools:ignore="MissingTranslation">%1$s, %2$s</string>
   <!--Label for the shortcut that enables pass-through [CHAR_LIMIT=NONE] -->

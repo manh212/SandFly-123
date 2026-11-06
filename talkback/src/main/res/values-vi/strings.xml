@@ -1809,7 +1809,6 @@
   <string name="selector_group_minimum_item_error">Mỗi nhóm phải có ít nhất một mục.</string>
   <string name="selector_group_minimum_group_error">Phải còn ít nhất một nhóm điều hướng.</string>
   <string name="selector_group_minimum_enabled_error">Phải bật ít nhất một nhóm điều hướng.</string>
-  <string name="selector_group_move_last_item_error">Không thể chuyển mục cuối cùng khỏi nhóm.</string>
   <string name="selector_group_item_count">%1$d mục</string>
   <string name="selector_group_item_announcement">%1$s, %2$s</string>
     <string name="keycombo_shortcut_reading_group_previous">Chuyển đến nhóm điều khiển đọc trước</string>

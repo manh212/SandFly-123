@@ -3,8 +3,10 @@ package com.Braille;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.provider.Settings;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethod;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
@@ -25,16 +27,18 @@ public class BrailleImeInputPolicyTest {
         prefs.edit().clear().commit();
         BrailleImeInputPolicy policy = new BrailleImeInputPolicy();
         policy.onUserDismissed(prefs);
+        Settings.Secure.putString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD,
+                new ComponentName(context, BrailleKeyboardService.class).flattenToShortString());
         AccessibilityNodeInfoCompat plain = AccessibilityNodeInfoCompat.obtain();
         plain.setClassName("android.widget.TextView");
-        BrailleImeInputPolicy.allowUserReopenForEditor(context, plain);
+        BrailleImeInputPolicy.allowUserReopenForActivation(context, plain);
         policy.reloadFromPreferences(prefs);
         assertFalse(policy.shouldShow(new EditorInfo(), InputMethod.SHOW_EXPLICIT));
 
         AccessibilityNodeInfoCompat editor = AccessibilityNodeInfoCompat.obtain();
         editor.setClassName("android.widget.EditText");
         editor.setEditable(true);
-        BrailleImeInputPolicy.allowUserReopenForEditor(context, editor);
+        BrailleImeInputPolicy.allowUserReopenForActivation(context, editor);
         policy.reloadFromPreferences(prefs);
         assertTrue(policy.shouldShow(new EditorInfo(), 0));
         plain.recycle();

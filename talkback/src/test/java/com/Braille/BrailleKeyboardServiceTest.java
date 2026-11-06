@@ -5,10 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.robolectric.Shadows.shadowOf;
 
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.SpannableStringBuilder;
@@ -16,12 +18,14 @@ import android.text.InputType;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityWindowInfo;
 import android.view.inputmethod.BaseInputConnection;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.ExtractedText;
 import android.view.inputmethod.ExtractedTextRequest;
 import android.view.inputmethod.InputConnection;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.google.android.accessibility.talkback.R;
 import com.google.android.accessibility.talkback.keyboardecho.BrailleKeyboardEchoSettings;
 import com.google.android.accessibility.utils.SharedPreferencesUtils;
 import java.time.Duration;
@@ -87,6 +91,8 @@ public class BrailleKeyboardServiceTest {
     context.getSharedPreferences("BraillePhoneBreakthroughV2Prefs", Context.MODE_PRIVATE)
         .edit().clear().putInt("feedback_mode", 3).putBoolean("auto_capitalize", false).commit();
     SharedPreferencesUtils.getSharedPreferences(context).edit().clear().commit();
+    Settings.Secure.putString(context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD,
+        new ComponentName(context, BrailleKeyboardService.class).flattenToShortString());
     keyboard = Robolectric.buildService(Keyboard.class).create().get();
     text = new SpannableStringBuilder();
     Selection.setSelection(text, 0);
@@ -116,7 +122,7 @@ public class BrailleKeyboardServiceTest {
     AccessibilityNodeInfoCompat editor = AccessibilityNodeInfoCompat.obtain();
     editor.setClassName("android.widget.EditText");
     editor.setEditable(true);
-    BrailleImeInputPolicy.allowUserReopenForEditor(keyboard, editor);
+    BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, editor);
     assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
     assertEquals(0, keyboard.userShowRequests);
     shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
@@ -128,7 +134,7 @@ public class BrailleKeyboardServiceTest {
   public void userDismissalCancelsPendingUserShow() {
     SharedPreferences prefs = keyboard.getSharedPreferences(
         BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
-    BrailleKeyboardService.showFromUserActivation();
+    BrailleKeyboardService.showFromUserActivation(keyboard);
     prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
     shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
     assertEquals(0, keyboard.userShowRequests);
@@ -137,7 +143,51 @@ public class BrailleKeyboardServiceTest {
   @Test
   public void noInputConnectionStillRequestsShowAfterUserActivation() {
     keyboard.connection = null;
-    BrailleKeyboardService.showFromUserActivation();
+    BrailleKeyboardService.showFromUserActivation(keyboard);
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(1, keyboard.userShowRequests);
+  }
+
+  @Test
+  public void reselectingBrailleInSystemPickerReopensAfterManualDismissal() {
+    SharedPreferences prefs = keyboard.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+    AccessibilityNodeInfoCompat item = AccessibilityNodeInfoCompat.obtain();
+    AccessibilityWindowInfo window = AccessibilityWindowInfo.obtain();
+    shadowOf(item.unwrap()).setAccessibilityWindowInfo(window);
+    item.setText(keyboard.getString(R.string.meridian_braille_ime_subtype));
+    item.setPackageName("other.app");
+    shadowOf(window).setTitle("IME Switcher Menu");
+    BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, item);
+    assertTrue(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+
+    item.setPackageName("android");
+    shadowOf(window).setTitle("Unrelated system window");
+    BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, item);
+    assertTrue(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+
+    shadowOf(window).setTitle("IME Switcher Menu");
+    BrailleImeInputPolicy.allowUserReopenForActivation(keyboard, item);
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+    shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
+    assertEquals(1, keyboard.userShowRequests);
+    item.recycle();
+    window.recycle();
+  }
+
+  @Test
+  public void selectingBrailleBeforeServiceStartsShowsAfterBinding() {
+    keyboard.onDestroy();
+    Context context = RuntimeEnvironment.getApplication();
+    SharedPreferences prefs = context.getSharedPreferences(
+        BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE);
+    prefs.edit().putBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, true).commit();
+    BrailleKeyboardService.showFromUserActivation(context);
+    assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+
+    keyboard = Robolectric.buildService(Keyboard.class).create().get();
+    keyboard.onStartInput(new EditorInfo(), false);
     shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
     assertEquals(1, keyboard.userShowRequests);
   }

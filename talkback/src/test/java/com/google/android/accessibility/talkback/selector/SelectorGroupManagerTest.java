@@ -99,6 +99,41 @@ public class SelectorGroupManagerTest {
   }
 
   @Test
+  public void speechChannelCanBeAddedToTheUserGroupWithItsSpokenName() {
+    SelectorGroupManager.ensureInitialized(context);
+    String speechChannel =
+        SelectorGroupManager.itemId(context, SelectorController.Setting.SPEECH_STREAM);
+    assertEquals(
+        context.getString(R.string.title_pref_speech_stream),
+        SelectorGroupManager.availableItems(context).stream()
+            .filter(item -> item.id.equals(speechChannel))
+            .findFirst()
+            .orElseThrow()
+            .title.toString());
+
+    assertTrue(SelectorGroupManager.addItem(context, SelectorGroupManager.USER_GROUP_ID,
+        speechChannel));
+    List<SelectorGroupManager.Group> groups = SelectorGroupManager.getGroups(context);
+    assertTrue(groups.stream()
+        .anyMatch(group -> group.id.equals(SelectorGroupManager.USER_GROUP_ID)
+            && group.items.contains(speechChannel)));
+    assertTrue(groups.stream()
+        .anyMatch(group -> group.id.equals("reading") && group.items.contains(speechChannel)));
+  }
+
+  @Test
+  public void defaultGroupsCanShareControlsAlreadyEnabledByTheUser() {
+    String speechChannel =
+        SelectorGroupManager.itemId(context, SelectorController.Setting.SPEECH_STREAM);
+    prefs.edit().putBoolean(speechChannel, true).commit();
+    SelectorGroupManager.ensureInitialized(context);
+
+    assertEquals(2L, SelectorGroupManager.getGroups(context).stream()
+        .filter(group -> group.items.contains(speechChannel))
+        .count());
+  }
+
+  @Test
   public void modeTwoKeepsSelectedGroupWhenStartingFromDefaultNavigation() {
     assertTrue(SelectorGroupManager.isSupported());
     SelectorGroupManager.ensureInitialized(context);

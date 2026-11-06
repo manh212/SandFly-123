@@ -159,7 +159,7 @@ public class FocusActor implements UserInputEventListener {
   }
 
   private void allowBrailleImeForUserActivatedEditor(AccessibilityNodeInfoCompat node) {
-    BrailleImeInputPolicy.allowUserReopenForEditor(service, node);
+    BrailleImeInputPolicy.allowUserReopenForActivation(service, node);
   }
 
   public boolean clickNode(AccessibilityNodeInfoCompat node, EventId eventId) {

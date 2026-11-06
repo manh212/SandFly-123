@@ -3,8 +3,13 @@ package com.Braille;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.InputType;
+import android.text.TextUtils;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.inputmethod.EditorInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
+import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.utils.AccessibilityEventUtils;
 import com.google.android.accessibility.utils.Role;
 
 public final class BrailleImeInputPolicy {
@@ -34,13 +39,75 @@ public final class BrailleImeInputPolicy {
         prefs.edit().putBoolean(PREF_USER_DISMISSED, false).apply();
     }
 
-    public static void allowUserReopenForEditor(
-            Context context, AccessibilityNodeInfoCompat editor) {
-        if (context != null && editor != null
-                && (editor.isEditable() || Role.getRole(editor) == Role.ROLE_EDIT_TEXT)) {
-            allowUserReopen(context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE));
-            BrailleKeyboardService.showFromUserActivation();
+    public static void allowUserReopenForActivation(
+            Context context, AccessibilityNodeInfoCompat node) {
+        if (context != null && node != null
+                && (node.isEditable() || Role.getRole(node) == Role.ROLE_EDIT_TEXT
+                    || isBrailleKeyboardPickerItem(context, node))) {
+            BrailleKeyboardService.showFromUserActivation(context);
         }
+    }
+
+    public static void onKeyboardPickerClick(Context context, AccessibilityEvent event) {
+        if (event.getEventType() != AccessibilityEvent.TYPE_VIEW_CLICKED
+                || !isKeyboardPickerPackage(event.getPackageName())) {
+            return;
+        }
+        AccessibilityNodeInfoCompat source = AccessibilityEventUtils.sourceCompat(event);
+        if (source == null) {
+            return;
+        }
+        try {
+            if (isBrailleKeyboardPickerItem(context, source)) {
+                BrailleKeyboardService.showFromUserActivation(context);
+            }
+        } finally {
+            source.recycle();
+        }
+    }
+
+    private static boolean isBrailleKeyboardPickerItem(
+            Context context, AccessibilityNodeInfoCompat node) {
+        if (!isKeyboardPickerPackage(node.getPackageName())) {
+            return false;
+        }
+        AccessibilityWindowInfoCompat window = node.getWindow();
+        if (window == null) {
+            return false;
+        }
+        CharSequence title = window.getTitle();
+        window.recycle();
+        if (!TextUtils.equals(title, "Select input method")
+                && !TextUtils.equals(title, "IME Switcher Menu")) {
+            return false;
+        }
+        return hasPickerLabel(node, context.getString(R.string.meridian_braille_keyboard_ime))
+                || hasPickerLabel(node, context.getString(R.string.meridian_braille_ime_subtype));
+    }
+
+    private static boolean isKeyboardPickerPackage(CharSequence packageName) {
+        return TextUtils.equals(packageName, "android")
+                || TextUtils.equals(packageName, "com.android.systemui");
+    }
+
+    private static boolean hasPickerLabel(AccessibilityNodeInfoCompat node, String label) {
+        if (matchesPickerLabel(node, label)) {
+            return true;
+        }
+        if (!node.isClickable()) {
+            return false;
+        }
+        boolean found = false;
+        for (AccessibilityNodeInfoCompat child : node.findAccessibilityNodeInfosByText(label)) {
+            found |= matchesPickerLabel(child, label);
+            child.recycle();
+        }
+        return found;
+    }
+
+    private static boolean matchesPickerLabel(AccessibilityNodeInfoCompat node, String label) {
+        return TextUtils.equals(label, node.getText())
+                || TextUtils.equals(label, node.getContentDescription());
     }
 
     public void onFinishInput() {

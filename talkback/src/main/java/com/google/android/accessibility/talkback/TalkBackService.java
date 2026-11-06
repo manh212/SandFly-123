@@ -96,6 +96,7 @@ import androidx.annotation.VisibleForTesting;
 import androidx.core.content.ContextCompat;
 import androidx.core.os.UserManagerCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.Braille.BrailleImeInputPolicy;
 import com.google.android.accessibility.material.flags.MaterialFlags;
 import com.google.android.accessibility.talkback.sandflyai.SandflyAi;
 import com.google.android.accessibility.talkback.Feedback.DeviceInfo.Action;
@@ -1179,6 +1180,7 @@ public class TalkBackService extends AccessibilityServiceCompat
   public void onAccessibilityEvent(AccessibilityEvent event) {
     long receivedAt = SystemClock.uptimeMillis();
     touchVolumeState.onEvent(event.getEventType());
+    BrailleImeInputPolicy.onKeyboardPickerClick(this, event);
     if (directTouchController != null) {
       directTouchController.onRawAccessibilityEvent(event);
     }

@@ -17,6 +17,7 @@
 package com.google.android.accessibility.talkback.monitor;
 
 import android.accessibilityservice.AccessibilityService;
+import android.content.ComponentName;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.ContentObserver;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.annotation.VisibleForTesting;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
+import com.Braille.BrailleKeyboardService;
 import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils;
 import com.google.android.accessibility.utils.AccessibilityServiceCompatUtils.Constants;
@@ -131,7 +133,14 @@ public class InputMethodMonitor {
       new ContentObserver(handler) {
         @Override
         public void onChange(boolean selfChange) {
+          String previousInputMethod = activeInputMethod;
           updateActiveInputMethod();
+          if (!TextUtils.isEmpty(previousInputMethod)
+              && !TextUtils.equals(previousInputMethod, activeInputMethod)
+              && !new ComponentName(service, BrailleKeyboardService.class)
+                  .equals(ComponentName.unflattenFromString(previousInputMethod))) {
+            BrailleKeyboardService.showFromUserActivation(service);
+          }
         }
       };
 

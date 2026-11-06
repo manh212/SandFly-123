@@ -6,8 +6,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.provider.Settings;
-import android.view.inputmethod.InputMethodManager;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,6 +22,7 @@ import android.media.ToneGenerator;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.SystemClock;
 import android.os.Vibrator;
 import android.provider.Settings;
 import android.text.InputType;
@@ -90,6 +89,8 @@ public class BrailleKeyboardService extends InputMethodService {
     private static volatile BrailleKeyboardService activeService;
     private static volatile String lastUserShowOutcome = "not requested";
     private static final long USER_ACTIVATION_SHOW_DELAY_MS = 180L;
+    private static final long USER_ACTIVATION_BIND_TIMEOUT_MS = 2000L;
+    private static long pendingUserShowUntil;
 
     private SharedPreferences prefs;
     private final BrailleImeInputPolicy imeInputPolicy = new BrailleImeInputPolicy();
@@ -174,6 +175,10 @@ public class BrailleKeyboardService extends InputMethodService {
             lastUserShowOutcome = "preferences unavailable";
             return;
         }
+        if (!isBrailleKeyboardSelected(this)) {
+            lastUserShowOutcome = "keyboard selection changed";
+            return;
+        }
         if (isInputViewShown()) {
             lastUserShowOutcome = "already visible";
             return;
@@ -194,16 +199,26 @@ public class BrailleKeyboardService extends InputMethodService {
         showInputForUserActivation();
     };
 
-    public static void showFromUserActivation() {
-        BrailleKeyboardService keyboard = activeService;
-        if (keyboard == null) {
-            lastUserShowOutcome = "keyboard service not running";
+    public static void showFromUserActivation(Context context) {
+        if (!isBrailleKeyboardSelected(context)) {
             return;
         }
+        BrailleImeInputPolicy.allowUserReopen(
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE));
+        BrailleKeyboardService keyboard = activeService;
+        if (keyboard == null) {
+            pendingUserShowUntil = SystemClock.uptimeMillis() + USER_ACTIVATION_BIND_TIMEOUT_MS;
+            lastUserShowOutcome = "waiting for keyboard service";
+            return;
+        }
+        keyboard.queueUserShow();
+    }
+
+    private void queueUserShow() {
+        pendingUserShowUntil = 0L;
         lastUserShowOutcome = "user activation queued";
-        keyboard.mainHandler.removeCallbacks(keyboard.userActivationShowRunnable);
-        keyboard.mainHandler.postDelayed(
-                keyboard.userActivationShowRunnable, USER_ACTIVATION_SHOW_DELAY_MS);
+        mainHandler.removeCallbacks(userActivationShowRunnable);
+        mainHandler.postDelayed(userActivationShowRunnable, USER_ACTIVATION_SHOW_DELAY_MS);
     }
 
     public static String diagnosticStatus(Context context) {
@@ -359,6 +374,15 @@ public class BrailleKeyboardService extends InputMethodService {
             capsLockSticky = false;
         }
         isPasswordInput = isEditorPassword(attribute);
+
+        if (pendingUserShowUntil != 0L) {
+            if (SystemClock.uptimeMillis() <= pendingUserShowUntil) {
+                queueUserShow();
+            } else {
+                pendingUserShowUntil = 0L;
+                lastUserShowOutcome = "keyboard service did not start in time";
+            }
+        }
 
         if (attribute != null) {
             int inputClass = attribute.inputType & InputType.TYPE_MASK_CLASS;

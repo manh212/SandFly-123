@@ -329,7 +329,7 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
                       }
                       if (!SelectorGroupManager.addGroup(
                           context, groupName, new ArrayList<>(selectedItems))) {
-                        showMessage(R.string.selector_group_move_last_item_error);
+                        showMessage(R.string.selector_group_empty_error);
                         return;
                       }
                       dialog.dismiss();
@@ -537,15 +537,13 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
       adapter.notifyDataSetChanged();
       return;
     }
-    if (isChecked) {
-      if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
-        list.setItemChecked(index, false);
-      }
-      adapter.notifyDataSetChanged();
-      return;
-    }
-    if (!SelectorGroupManager.removeItem(context, groupId, itemId)) {
-      list.setItemChecked(index, true);
+    boolean changed =
+        isChecked
+            ? SelectorGroupManager.addItem(context, groupId, itemId)
+            : SelectorGroupManager.removeItem(context, groupId, itemId);
+    boolean previouslyChecked = target.items.contains(itemId);
+    list.setItemChecked(index, changed ? isChecked : previouslyChecked);
+    if (!isChecked && !changed && previouslyChecked) {
       showMessage(R.string.selector_group_minimum_item_error);
     }
     adapter.notifyDataSetChanged();

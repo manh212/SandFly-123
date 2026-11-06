@@ -457,10 +457,6 @@ public final class SelectorGroupManager {
     for (ScriptReadingControl control : Scripts.readingControls()) {
       userItems.add(SCRIPT_ITEM_PREFIX + control.getKey());
     }
-    Set<String> userItemsSet = new HashSet<>(userItems);
-    reading.removeIf(userItemsSet::contains);
-    web.removeIf(userItemsSet::contains);
-    special.removeIf(userItemsSet::contains);
     ArrayList<Group> groups = new ArrayList<>();
     groups.add(new Group(GROUP_READING, context.getString(R.string.selector_group_reading), true, reading));
     groups.add(new Group(GROUP_WEB, context.getString(R.string.selector_group_web), true, web));
@@ -545,6 +541,10 @@ public final class SelectorGroupManager {
   }
 
   private static String groupContaining(List<Group> groups, String itemId) {
+    Group userGroup = findGroup(groups, USER_GROUP_ID);
+    if (userGroup != null && userGroup.items.contains(itemId)) {
+      return USER_GROUP_ID;
+    }
     for (Group group : groups) {
       if (group.items.contains(itemId)) {
         return group.id;

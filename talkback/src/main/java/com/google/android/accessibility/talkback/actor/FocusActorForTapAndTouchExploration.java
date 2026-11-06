@@ -116,7 +116,7 @@ public class FocusActorForTapAndTouchExploration {
       return false;
     }
 
-    BrailleImeInputPolicy.allowUserReopenForEditor(TalkBackService.getInstance(), node);
+    BrailleImeInputPolicy.allowUserReopenForActivation(TalkBackService.getInstance(), node);
 
     // The displayed Grab "Đặt xe" label is a sibling of the clickable button.
     // Single-tap activation must use the same safe target as double-tap.
