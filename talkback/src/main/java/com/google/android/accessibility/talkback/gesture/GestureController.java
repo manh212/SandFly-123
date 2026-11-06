@@ -1493,6 +1493,8 @@ public class GestureController {
     AccessibilityNodeInfoCompat focusedRoot =
         focused == null ? null : AccessibilityNodeInfoUtils.getRoot(focused);
     if (focusedRoot != null && (roots.isEmpty()
+        || focusedRoot.getWindowId() < 0
+        || roots.get(0).getWindowId() < 0
         || focusedRoot.getWindowId() != roots.get(0).getWindowId())) {
       roots.add(focusedRoot);
     }
@@ -1510,7 +1512,8 @@ public class GestureController {
           AccessibilityNodeInfoCompat candidate = AccessibilityNodeInfoCompat.wrap(root);
           boolean alreadyAdded = false;
           for (AccessibilityNodeInfoCompat existing : roots) {
-            if (existing.getWindowId() == candidate.getWindowId()) {
+            if (existing.getWindowId() >= 0
+                && existing.getWindowId() == candidate.getWindowId()) {
               alreadyAdded = true;
               break;
             }
