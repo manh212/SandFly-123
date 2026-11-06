@@ -64,7 +64,7 @@ public class BrailleEditingSupportTest {
     }
 
     @Test
-    public void manualDismissalBlocksBothImplicitAndExplicitReopen() {
+    public void manualDismissalBlocksImplicitReopenButNotExplicitOrNewEditor() {
         android.content.SharedPreferences prefs = RuntimeEnvironment.getApplication()
                 .getSharedPreferences("editing_support_ime", Context.MODE_PRIVATE);
         prefs.edit().clear().commit();
@@ -79,17 +79,19 @@ public class BrailleEditingSupportTest {
         policy.onUserDismissed(prefs);
         policy.onHidden();
         assertFalse(policy.shouldShow(field, 0));
-        assertFalse(policy.shouldShow(field, InputMethod.SHOW_EXPLICIT));
+        assertTrue(policy.shouldShow(field, InputMethod.SHOW_EXPLICIT));
+        assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
+        // Closing this field again must not block a different editor.
+        policy.onUserDismissed(prefs);
+        assertFalse(policy.shouldShow(field, 0));
         EditorInfo another = new EditorInfo();
         another.packageName = "com.example.gemini";
         another.fieldId = 4;
         another.inputType = InputType.TYPE_CLASS_TEXT;
         policy.onFinishInput();
         policy.onStartInput(another);
-        assertFalse(policy.shouldShow(another, 0));
-        BrailleImeInputPolicy.allowUserReopen(prefs);
-        policy.reloadFromPreferences(prefs);
         assertTrue(policy.shouldShow(another, 0));
+        assertFalse(prefs.getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false));
         prefs.edit().clear().commit();
     }
 
