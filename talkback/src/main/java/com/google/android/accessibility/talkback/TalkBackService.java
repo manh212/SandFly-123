@@ -1964,6 +1964,12 @@ public class TalkBackService extends AccessibilityServiceCompat
     }
   }
 
+  public void performEditorAction(String action, AccessibilityNodeInfoCompat editor) {
+    if (gestureController != null) {
+      gestureController.performMenuAction(action, EVENT_ID_UNTRACKED, editor);
+    }
+  }
+
   public boolean performTwoFingerScroll(Path path, long duration) {
     return isServiceActive()
         && !PauseController.isPaused()

@@ -946,7 +946,8 @@ public class GestureController {
         pipeline.returnFeedback(eventId, Feedback.edit(node, SELECT_ALL));
       }
     } else if (action.equals(service.getString(R.string.shortcut_value_correct_text))) {
-      result = com.google.android.accessibility.talkback.textcorrection.TextCorrection.open(service, findEditorTarget());
+      result = com.google.android.accessibility.talkback.textcorrection.TextCorrection.open(
+          service, fromCustomMenu && menuTarget != null ? menuTarget : findEditorTarget());
     } else if (action.equals(service.getString(R.string.shortcut_value_granular_editing))) {
       AccessibilityNodeInfoCompat focus =
           accessibilityFocusMonitor.getAccessibilityFocus(/* useInputFocusIfEmpty= */ true);
@@ -967,7 +968,8 @@ public class GestureController {
     } else if (action.equals(service.getString(R.string.shortcut_value_switch_speech_stream))) {
       selectorController.cycleSpeechStream(eventId, true);
     } else if (action.equals(service.getString(R.string.shortcut_value_dictate))) {
-      AccessibilityNodeInfoCompat target = findEditorTarget();
+      AccessibilityNodeInfoCompat target =
+          fromCustomMenu && menuTarget != null ? menuTarget : findEditorTarget();
       result = dictation.start(target);
     } else if (action.equals(service.getString(R.string.shortcut_value_clear_selection))) {
       AccessibilityNodeInfoCompat node =

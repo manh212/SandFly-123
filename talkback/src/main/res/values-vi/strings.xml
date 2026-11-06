@@ -1819,4 +1819,5 @@
     <string name="shortcut_value_switch_speech_stream">switch_speech_stream</string>
     <string name="shortcut_switch_speech_stream">Chuyển kênh giọng nói</string>
     <string name="keyboard_editing_active">Đang chỉnh sửa</string>
+  <string name="editor_action_correct_text">Hiệu chỉnh văn bản</string>
 </resources>

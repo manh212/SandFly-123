@@ -84,6 +84,7 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
 
   // Every item in the page, contains titles and actions.
   private ImmutableList<ActionItem> items;
+  private final boolean includeKeyboardOnlyActions;
   private String initialValue;
   // Whether the action list is restricted to the actions that make sense on the lock screen.
   private boolean lockScreenActionsOnly = false;
@@ -91,10 +92,26 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
   @Nullable private String summaryWhenDisabled;
 
   public GestureListPreference(Context context, AttributeSet attributeSet) {
+    this(context, attributeSet, true);
+  }
+
+  private GestureListPreference(
+      Context context, AttributeSet attributeSet, boolean includeKeyboardOnlyActions) {
     super(context, attributeSet);
-    // Change preference title to multi-line style.
+    this.includeKeyboardOnlyActions = includeKeyboardOnlyActions;
     setSingleLineTitle(false);
     populateActionItems();
+  }
+
+  public static Map<String, String> getAssignableGestureActions(Context context) {
+    GestureListPreference preference = new GestureListPreference(context, null, false);
+    Map<String, String> actions = new LinkedHashMap<>();
+    for (ActionItem item : preference.getActionItems()) {
+      if (item.viewType == TYPE_ACTION_ITEM && !TextUtils.isEmpty(item.value)) {
+        actions.putIfAbsent(item.value, item.text);
+      }
+    }
+    return actions;
   }
 
   public GestureListPreference(Context context, String key, CharSequence title, String defaultValue) {
@@ -322,13 +339,15 @@ public final class GestureListPreference extends AccessibilitySuiteDialogPrefere
             getContext().getResources().getString(R.string.shortcut_value_unassigned),
             TYPE_ACTION_ITEM));
     addActionItemsToList(builder, createBasicNavigation());
-    for (com.google.android.accessibility.talkback.commands.Commands.Category category :
-        Commands.categories(getContext())) {
-      if (category.getTitleRes() == R.string.commands_category_object_navigation
-          || category.getTitleRes() == R.string.commands_category_screen_review) {
-        builder.add(new ActionItem(getContext().getString(category.getTitleRes()), TYPE_TITLE));
-        for (com.google.android.accessibility.talkback.commands.Commands.Command command : category.getCommands()) {
-          builder.add(new ActionItem(command.getLabel(), command.getValue(), TYPE_ACTION_ITEM));
+    if (includeKeyboardOnlyActions) {
+      for (com.google.android.accessibility.talkback.commands.Commands.Category category :
+          Commands.categories(getContext())) {
+        if (category.getTitleRes() == R.string.commands_category_object_navigation
+            || category.getTitleRes() == R.string.commands_category_screen_review) {
+          builder.add(new ActionItem(getContext().getString(category.getTitleRes()), TYPE_TITLE));
+          for (com.google.android.accessibility.talkback.commands.Commands.Command command : category.getCommands()) {
+            builder.add(new ActionItem(command.getLabel(), command.getValue(), TYPE_ACTION_ITEM));
+          }
         }
       }
     }

@@ -6,6 +6,7 @@ import static org.junit.Assert.assertTrue;
 
 import android.content.Context;
 import com.google.android.accessibility.talkback.R;
+import com.google.android.accessibility.talkback.commands.Commands;
 import com.google.android.accessibility.talkback.gesture.MenuGestureActions;
 import com.google.android.accessibility.utils.FormFactorUtils;
 import java.util.HashMap;
@@ -87,6 +88,23 @@ public class GestureActionCategoryTest {
       }
     }
     assertTrue("Other has " + otherCount + " actions", otherCount <= 4);
+  }
+
+  @Test
+  public void allGestureActionsAreAvailableForKeyboardShortcuts() {
+    Set<String> available = new HashSet<>();
+    for (Commands.Category category : Commands.categories(context)) {
+      for (Commands.Command command : category.getCommands()) {
+        available.add(command.getValue());
+      }
+    }
+    String unassigned = context.getString(R.string.shortcut_value_unassigned);
+    for (GestureListPreference.ActionItem item : actions) {
+      if (item.viewType == GestureListPreference.TYPE_ACTION_ITEM
+          && !item.value.equals(unassigned)) {
+        assertTrue("Missing keyboard command: " + item.value, available.contains(item.value));
+      }
+    }
   }
 
   private void assertCategory(int value, int category) {

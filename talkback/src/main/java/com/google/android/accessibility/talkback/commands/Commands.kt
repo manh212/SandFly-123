@@ -22,6 +22,7 @@ import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.actor.GestureReporter
 import com.google.android.accessibility.talkback.actor.ImageCaptioner
 import com.google.android.accessibility.talkback.actor.gemini.GeminiConfiguration
+import com.google.android.accessibility.talkback.preference.base.GestureListPreference
 import com.google.android.accessibility.talkback.gesture.GestureProfiles
 import com.google.android.accessibility.talkback.flags.FeatureFlagReader
 import com.google.android.accessibility.talkback.gesture.NavigationGestureActions
@@ -234,11 +235,24 @@ object Commands {
       descriptions()
       sandFly()
       developer()
+      missingGestureActions()
       if (withApps) {
         gestureProfiles()
         openApp()
       }
       return categories
+    }
+
+    private fun missingGestureActions() {
+      val alreadyListed = categories.flatMap { it.commands }.map { it.value }.toMutableSet()
+      category(R.string.shortcut_title_special_features) {
+        for ((value, label) in GestureListPreference.getAssignableGestureActions(context)) {
+          if (value != context.getString(R.string.shortcut_value_unassigned)
+              && alreadyListed.add(value)) {
+            commands.add(Command(value, label, null))
+          }
+        }
+      }
     }
 
     private fun category(@StringRes titleRes: Int, add: () -> Unit) {

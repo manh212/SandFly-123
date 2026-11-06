@@ -5,6 +5,7 @@ import android.text.InputType;
 import android.view.inputmethod.EditorInfo;
 
 public final class BrailleImeInputPolicy {
+    public static final String PREFS_NAME = "BraillePhoneBreakthroughV2Prefs";
     public static final String PREF_USER_DISMISSED = "braille_ime_user_dismissed";
 
     private String currentEditor;

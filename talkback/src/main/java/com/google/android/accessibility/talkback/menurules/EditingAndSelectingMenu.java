@@ -229,6 +229,23 @@ public class EditingAndSelectingMenu implements NodeMenu {
               context.getString(R.string.granular_editing_title)));
     }
 
+    if (node.isEditable() && node.isEnabled() && !node.isPassword()) {
+      items.add(
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_correct_text,
+              Menu.NONE,
+              context.getString(R.string.editor_action_correct_text)));
+      items.add(
+          ContextMenu.createMenuItem(
+              context,
+              Menu.NONE,
+              R.id.edittext_breakout_dictate,
+              Menu.NONE,
+              context.getString(R.string.shortcut_dictate)));
+    }
+
     // TODO Use a checkable menu item once supported.
     if (!isAndroidWear) {
       final ContextMenuItem selectionMode;
@@ -314,6 +331,18 @@ public class EditingAndSelectingMenu implements NodeMenu {
         } else if (itemId == R.id.edittext_breakout_granular_editing) {
           TalkBackService service = TalkBackService.getInstance();
           result = service != null && GranularEditing.open(service, node);
+        } else if (itemId == R.id.edittext_breakout_correct_text
+            || itemId == R.id.edittext_breakout_dictate) {
+          TalkBackService service = TalkBackService.getInstance();
+          result = service != null;
+          if (result) {
+            service.performEditorAction(
+                service.getString(
+                    itemId == R.id.edittext_breakout_correct_text
+                        ? R.string.shortcut_value_correct_text
+                        : R.string.shortcut_value_dictate),
+                node);
+          }
         } else if (itemId == R.id.edittext_breakout_start_selection_mode) {
           result = pipeline.returnFeedback(eventId, Feedback.edit(node, START_SELECT));
         } else if (itemId == R.id.edittext_breakout_end_selection_mode) {

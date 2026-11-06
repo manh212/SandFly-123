@@ -25,6 +25,7 @@ import static com.google.android.accessibility.utils.Performance.EVENT_ID_UNTRAC
 import android.accessibilityservice.AccessibilityService;
 import android.accessibilityservice.GestureDescription;
 import android.accessibilityservice.GestureDescription.StrokeDescription;
+import android.content.Context;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.text.style.URLSpan;
@@ -33,6 +34,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityWindowInfo;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.accessibility.AccessibilityWindowInfoCompat;
+import com.Braille.BrailleImeInputPolicy;
 import com.google.android.accessibility.talkback.ActorStateWritable;
 import com.google.android.accessibility.talkback.Feedback;
 import com.google.android.accessibility.talkback.Interpretation;
@@ -58,6 +60,7 @@ import com.google.android.accessibility.utils.AccessibilityNodeInfoUtils;
 import com.google.android.accessibility.utils.FocusFinder;
 import com.google.android.accessibility.utils.PerformActionUtils;
 import com.google.android.accessibility.utils.Performance.EventId;
+import com.google.android.accessibility.utils.Role;
 import com.google.android.accessibility.utils.WebInterfaceUtils;
 import com.google.android.libraries.accessibility.utils.log.LogUtils;
 import java.util.List;
@@ -152,14 +155,23 @@ public class FocusActor implements UserInputEventListener {
 
   private boolean touchFocus(AccessibilityNodeInfoCompat focus, EventId eventId) {
     if (focus == null || pipeline == null || !(service instanceof TalkBackService meridian)) return false;
+    allowBrailleImeForUserActivatedEditor(focus);
     pipeline.returnFeedback(eventId, Feedback.interrupt(Feedback.HINT, 2));
     return meridian.performTouchClick(AccessibilityWindowInfoUtils.getDisplayId(focus.getWindow()));
+  }
+
+  private void allowBrailleImeForUserActivatedEditor(AccessibilityNodeInfoCompat node) {
+    if (node != null && (node.isEditable() || Role.getRole(node) == Role.ROLE_EDIT_TEXT)) {
+      BrailleImeInputPolicy.allowUserReopen(
+          service.getSharedPreferences(BrailleImeInputPolicy.PREFS_NAME, Context.MODE_PRIVATE));
+    }
   }
 
   public boolean clickNode(AccessibilityNodeInfoCompat node, EventId eventId) {
     if (node == null || pipeline == null) {
       return false;
     }
+    allowBrailleImeForUserActivatedEditor(node);
 
     // Grab exposes "Đặt xe" beside the real button. Redirect only an explicit
     // activation of that exact booking control; never initiate a booking on focus.
