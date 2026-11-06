@@ -1980,8 +1980,8 @@
   <string name="shortcut_select_next_setting">Next reading control</string>
   <!--Label for the shortcut that selects the previous setting [CHAR_LIMIT=100]-->
   <string name="shortcut_select_previous_setting">Previous reading control</string>
-  <string name="shortcut_select_next_group" tools:ignore="MissingTranslation">Next navigation group</string>
-  <string name="shortcut_select_previous_group" tools:ignore="MissingTranslation">Previous navigation group</string>
+  <string name="shortcut_select_next_group" tools:ignore="MissingTranslation">Nhóm điều khiển đọc tiếp theo</string>
+  <string name="shortcut_select_previous_group" tools:ignore="MissingTranslation">Nhóm điều khiển đọc trước</string>
   <string name="selector_group_reading" tools:ignore="MissingTranslation">Reading controls</string>
   <string name="selector_group_web" tools:ignore="MissingTranslation">Web navigation</string>
   <string name="selector_group_special" tools:ignore="MissingTranslation">Special features</string>

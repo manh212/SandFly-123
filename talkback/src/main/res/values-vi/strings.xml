@@ -1768,8 +1768,8 @@
     <string name="title_selector_repeat_translate">Nhắc lại và dịch lời đọc</string>
   <string name="typo_correction_typo_example">Chào mừng đên Meridian.</string>
   <string name="clipboard_history_copy">Sao chép</string>
-  <string name="shortcut_select_next_group">Nhóm điều hướng tiếp theo</string>
-  <string name="shortcut_select_previous_group">Nhóm điều hướng trước</string>
+  <string name="shortcut_select_next_group">Nhóm điều khiển đọc tiếp theo</string>
+  <string name="shortcut_select_previous_group">Nhóm điều khiển đọc trước</string>
   <string name="selector_group_reading">Điều khiển đọc</string>
   <string name="selector_group_web">Điều hướng Web</string>
   <string name="selector_group_special">Tính năng đặc biệt</string>
