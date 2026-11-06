@@ -135,11 +135,11 @@ public class BrailleKeyboardServiceTest {
   }
 
   @Test
-  public void noInputConnectionPreventsUserShow() {
+  public void noInputConnectionStillRequestsShowAfterUserActivation() {
     keyboard.connection = null;
     BrailleKeyboardService.showFromUserActivation();
     shadowOf(Looper.getMainLooper()).idleFor(Duration.ofMillis(250));
-    assertEquals(0, keyboard.userShowRequests);
+    assertEquals(1, keyboard.userShowRequests);
   }
 
   @Test

@@ -88,6 +88,7 @@ public class BrailleKeyboardService extends InputMethodService {
     };
 
     private static volatile BrailleKeyboardService activeService;
+    private static volatile String lastUserShowOutcome = "not requested";
     private static final long USER_ACTIVATION_SHOW_DELAY_MS = 180L;
 
     private SharedPreferences prefs;
@@ -169,24 +170,62 @@ public class BrailleKeyboardService extends InputMethodService {
     private final boolean[] pendingChordDots = new boolean[7];
     private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final Runnable userActivationShowRunnable = () -> {
-        if (prefs == null || isInputViewShown() || getCurrentInputConnection() == null
-                || !BrailleMeridianBridge.isAvailable()) {
+        if (prefs == null) {
+            lastUserShowOutcome = "preferences unavailable";
+            return;
+        }
+        if (isInputViewShown()) {
+            lastUserShowOutcome = "already visible";
+            return;
+        }
+        if (!BrailleMeridianBridge.isAvailable()) {
+            lastUserShowOutcome = "screen reader unavailable";
             return;
         }
         imeInputPolicy.reloadFromPreferences(prefs);
-        if (!imeInputPolicy.isUserDismissed()) {
-            showInputForUserActivation();
+        if (imeInputPolicy.isUserDismissed()) {
+            lastUserShowOutcome = "dismissed before request";
+            return;
         }
+        lastUserShowOutcome =
+                getCurrentInputConnection() == null
+                        ? "show requested while input connection unavailable"
+                        : "show requested with input connection";
+        showInputForUserActivation();
     };
 
     public static void showFromUserActivation() {
         BrailleKeyboardService keyboard = activeService;
         if (keyboard == null) {
+            lastUserShowOutcome = "keyboard service not running";
             return;
         }
+        lastUserShowOutcome = "user activation queued";
         keyboard.mainHandler.removeCallbacks(keyboard.userActivationShowRunnable);
         keyboard.mainHandler.postDelayed(
                 keyboard.userActivationShowRunnable, USER_ACTIVATION_SHOW_DELAY_MS);
+    }
+
+    public static String diagnosticStatus(Context context) {
+        String selectedIme =
+                Settings.Secure.getString(
+                        context.getContentResolver(), Settings.Secure.DEFAULT_INPUT_METHOD);
+        ComponentName selectedComponent =
+                selectedIme == null ? null : ComponentName.unflattenFromString(selectedIme);
+        boolean selected =
+                new ComponentName(context, BrailleKeyboardService.class)
+                        .equals(selectedComponent);
+        boolean userDismissed =
+                context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+                        .getBoolean(BrailleImeInputPolicy.PREF_USER_DISMISSED, false);
+        BrailleKeyboardService keyboard = activeService;
+        return "Selected as Android keyboard: " + selected + "\n"
+                + "Keyboard service running: " + (keyboard != null) + "\n"
+                + "Manually dismissed: " + userDismissed + "\n"
+                + "Keyboard view visible: " + (keyboard != null && keyboard.isInputViewShown()) + "\n"
+                + "Input connection available: "
+                + (keyboard != null && keyboard.getCurrentInputConnection() != null) + "\n"
+                + "Last user show: " + lastUserShowOutcome + "\n";
     }
 
     protected void showInputForUserActivation() {

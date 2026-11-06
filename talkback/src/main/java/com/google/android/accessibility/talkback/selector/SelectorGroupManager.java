@@ -121,8 +121,6 @@ public final class SelectorGroupManager {
       if (groups.isEmpty()) {
         groups = defaultGroups(context, prefs);
         prefs.edit().putString(context.getString(GROUPS_KEY_RES), serialize(groups)).apply();
-      } else {
-        migrateDuplicateItems(context, prefs, groups);
       }
       appendNewScriptControls(context, prefs);
       appendGestureProfileControl(context, prefs);
@@ -198,7 +196,6 @@ public final class SelectorGroupManager {
     }
     ArrayList<Group> valid = new ArrayList<>();
     Set<String> ids = new HashSet<>();
-    Set<String> assignedItems = new HashSet<>();
     int enabledCount = 0;
     for (Group group : groups) {
       String name = group.name == null ? "" : group.name.trim();
@@ -211,11 +208,6 @@ public final class SelectorGroupManager {
       }
       if (group.enabled) {
         enabledCount++;
-      }
-      for (String item : distinctItems) {
-        if (!assignedItems.add(item)) {
-          return false;
-        }
       }
       valid.add(new Group(group.id, name, group.enabled, new ArrayList<>(distinctItems)));
     }
@@ -402,14 +394,6 @@ public final class SelectorGroupManager {
     }
     ArrayList<Group> groups = mutableGroups(context);
     Set<String> selected = new LinkedHashSet<>(itemIds);
-    for (String itemId : selected) {
-      for (Group group : groups) {
-        if (group.items.remove(itemId)) {
-          break;
-        }
-      }
-    }
-    groups.removeIf(group -> group.items.isEmpty());
     groups.add(new Group(UUID.randomUUID().toString(), normalizedName, true, new ArrayList<>(selected)));
     return saveGroups(context, groups);
   }
@@ -420,13 +404,7 @@ public final class SelectorGroupManager {
     if (target == null || target.items.contains(itemId)) {
       return false;
     }
-    for (Group group : groups) {
-      if (group != target && group.items.remove(itemId)) {
-        break;
-      }
-    }
     target.items.add(itemId);
-    groups.removeIf(group -> group != target && group.items.isEmpty());
     return saveGroups(context, groups);
   }
 
@@ -598,32 +576,6 @@ public final class SelectorGroupManager {
       }
     }
     editor.apply();
-  }
-
-  private static void migrateDuplicateItems(
-      Context context, SharedPreferences prefs, List<Group> groups) {
-    String stored = prefs.getString(context.getString(GROUPS_KEY_RES), "");
-    boolean changed = !TextUtils.equals(stored, serialize(groups));
-    Set<String> assigned = new HashSet<>();
-    Group userGroup = findGroup(groups, USER_GROUP_ID);
-    if (userGroup != null) {
-      assigned.addAll(userGroup.items);
-    }
-    for (Group group : groups) {
-      if (group == userGroup) continue;
-      if (group.items.removeIf(item -> !assigned.add(item))) {
-        changed = true;
-      }
-    }
-    if (groups.removeIf(group -> group.items.isEmpty())) {
-      changed = true;
-    }
-    if (changed) {
-      if (groups.isEmpty()) {
-        groups = new ArrayList<>(defaultGroups(context, prefs));
-      }
-      saveGroups(context, groups);
-    }
   }
 
   private static void appendSmartContextControl(Context context) {

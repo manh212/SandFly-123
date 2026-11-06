@@ -107,6 +107,17 @@ class DiagnosticsExportTest {
   }
 
   @Test
+  fun snapshot_reportsBrailleKeyboardState() {
+    val snapshot = DiagnosticsExport.buildSnapshotSections(context)
+    assertTrue(snapshot.contains("== Braille keyboard visibility ==\n"))
+    assertTrue(snapshot.contains("Selected as Android keyboard: "))
+    assertTrue(snapshot.contains("Keyboard service running: "))
+    assertTrue(snapshot.contains("Manually dismissed: "))
+    assertTrue(snapshot.contains("Input connection available: "))
+    assertTrue(snapshot.contains("Last user show: "))
+  }
+
+  @Test
   fun snapshot_exposesLatencyControlsAsReadableValues() {
     val prefs = SharedPreferencesUtils.getSharedPreferences(context)
     prefs

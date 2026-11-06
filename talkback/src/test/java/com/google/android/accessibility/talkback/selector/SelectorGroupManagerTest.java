@@ -48,8 +48,8 @@ public class SelectorGroupManagerTest {
   }
 
   @Test
-  public void saveGroupsRejectsAnItemAssignedToMoreThanOneGroup() {
-    assertFalse(
+  public void saveGroupsAllowsAnItemAssignedToMoreThanOneGroup() {
+    assertTrue(
         SelectorGroupManager.saveGroups(
             context,
             List.of(
@@ -57,6 +57,45 @@ public class SelectorGroupManagerTest {
                     "first", "First", true, List.of("one", "shared")),
                 new SelectorGroupManager.Group(
                     "second", "Second", true, List.of("shared", "two")))));
+    assertTrue(SelectorGroupManager.getGroups(context).get(0).items.contains("shared"));
+    assertTrue(SelectorGroupManager.getGroups(context).get(1).items.contains("shared"));
+  }
+
+  @Test
+  public void addingExistingItemToAnotherGroupPreservesOriginalGroup() {
+    assertTrue(SelectorGroupManager.saveGroups(
+        context,
+        List.of(
+            new SelectorGroupManager.Group("first", "First", true, List.of("shared")),
+            new SelectorGroupManager.Group("second", "Second", true, List.of("other")))));
+    assertTrue(SelectorGroupManager.addItem(context, "second", "shared"));
+    assertTrue(SelectorGroupManager.getGroups(context).get(0).items.contains("shared"));
+    assertTrue(SelectorGroupManager.getGroups(context).get(1).items.contains("shared"));
+    assertFalse(SelectorGroupManager.addItem(context, "second", "shared"));
+  }
+
+  @Test
+  public void creatingGroupCopiesItemsInsteadOfMovingThem() {
+    assertTrue(SelectorGroupManager.saveGroups(
+        context, List.of(
+            new SelectorGroupManager.Group("first", "First", true, List.of("shared")))));
+    assertTrue(SelectorGroupManager.addGroup(context, "Another", List.of("shared")));
+    List<SelectorGroupManager.Group> groups = SelectorGroupManager.getGroups(context);
+    assertEquals(2, groups.size());
+    assertTrue(groups.get(0).items.contains("shared"));
+    assertTrue(groups.get(1).items.contains("shared"));
+  }
+
+  @Test
+  public void removingItemFromOneGroupPreservesOtherGroup() {
+    assertTrue(SelectorGroupManager.saveGroups(
+        context,
+        List.of(
+            new SelectorGroupManager.Group("first", "First", true, List.of("shared", "one")),
+            new SelectorGroupManager.Group("second", "Second", true, List.of("shared", "two")))));
+    assertTrue(SelectorGroupManager.removeItem(context, "second", "shared"));
+    assertTrue(SelectorGroupManager.getGroups(context).get(0).items.contains("shared"));
+    assertFalse(SelectorGroupManager.getGroups(context).get(1).items.contains("shared"));
   }
 
   @Test
@@ -81,7 +120,7 @@ public class SelectorGroupManagerTest {
   }
 
   @Test
-  public void migrationKeepsDuplicateItemsInTheUserGroup() {
+  public void initializationPreservesSharedItemsInEveryGroup() {
     assertTrue(SelectorGroupManager.isSupported());
     String item = context.getString(R.string.pref_selector_granularity_characters_key);
     String initializedKey = context.getString(R.string.pref_selector_navigation_groups_initialized_key);
@@ -106,14 +145,14 @@ public class SelectorGroupManagerTest {
             .findFirst()
             .orElseThrow()
             .items.contains(item));
-    assertFalse(
+    assertTrue(
         groups.stream()
             .filter(group -> group.id.equals("reading"))
             .findFirst()
             .orElseThrow()
             .items.contains(item));
     assertEquals(
-        1L,
+        2L,
         groups.stream().flatMap(group -> group.items.stream()).filter(item::equals).count());
   }
 }

@@ -30,6 +30,7 @@ import android.preference.PreferenceManager
 import android.provider.MediaStore
 import androidx.annotation.WorkerThread
 import androidx.core.content.ContextCompat
+import com.Braille.BrailleKeyboardService
 import com.google.android.accessibility.talkback.R
 import com.google.android.accessibility.talkback.BuildConfig
 import com.google.android.accessibility.utils.LatencyExperiments
@@ -120,6 +121,8 @@ object DiagnosticsExport {
     val out = StringBuilder()
     deviceAndApp(appContext, out)
     sandFlyState(appContext, out)
+    out.append("== Braille keyboard visibility ==\n")
+    out.append(BrailleKeyboardService.diagnosticStatus(appContext)).append("\n")
     audioSnapshot(appContext, out)
     out.append("== Last crash ==\n")
     out.append(CrashLog.read(appContext) ?: "None recorded in the last 7 days.")

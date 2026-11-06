@@ -464,8 +464,7 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
       String groupId,
       TextView selectionSummary) {
     ArrayList<String> titles = new ArrayList<>();
-    String[] itemLabels =
-        itemTitles(items, SelectorGroupManager.getGroups(context), groupId);
+    String[] itemLabels = itemTitles(items);
     for (String label : itemLabels) {
       titles.add(label);
     }
@@ -538,44 +537,11 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
       adapter.notifyDataSetChanged();
       return;
     }
-    List<Group> groups = SelectorGroupManager.getGroups(context);
     if (isChecked) {
-      Group source = null;
-      for (Group group : groups) {
-        if (!group.id.equals(groupId) && group.items.contains(itemId)) {
-          source = group;
-          break;
-        }
+      if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
+        list.setItemChecked(index, false);
       }
-      if (source == null) {
-        if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
-          list.setItemChecked(index, false);
-        }
-        adapter.notifyDataSetChanged();
-        return;
-      }
-      new AlertDialog.Builder(context)
-          .setTitle(R.string.selector_group_edit_items)
-          .setMessage(
-              getString(R.string.selector_group_item_move_confirm, source.name, target.name))
-          .setPositiveButton(
-              R.string.selector_group_move_confirm,
-              (confirmDialog, which) -> {
-                if (!SelectorGroupManager.addItem(context, groupId, itemId)) {
-                  list.setItemChecked(index, false);
-                  showMessage(R.string.selector_group_move_last_item_error);
-                } else {
-                  list.setItemChecked(index, true);
-                }
-                adapter.notifyDataSetChanged();
-              })
-          .setNegativeButton(
-              android.R.string.cancel,
-              (confirmDialog, which) -> {
-                list.setItemChecked(index, false);
-                adapter.notifyDataSetChanged();
-              })
-          .show();
+      adapter.notifyDataSetChanged();
       return;
     }
     if (!SelectorGroupManager.removeItem(context, groupId, itemId)) {
@@ -699,20 +665,10 @@ public final class SelectorGroupsFragment extends TalkbackBaseFragment {
         .show();
   }
 
-  private String[] itemTitles(List<ItemInfo> items, List<Group> groups, String targetGroupId) {
+  private String[] itemTitles(List<ItemInfo> items) {
     String[] titles = new String[items.size()];
     for (int index = 0; index < items.size(); index++) {
-      ItemInfo item = items.get(index);
-      Group source = null;
-      if (groups != null) {
-        for (Group group : groups) {
-          if (!group.id.equals(targetGroupId) && group.items.contains(item.id)) {
-            source = group;
-            break;
-          }
-        }
-      }
-      titles[index] = source == null ? item.title.toString() : item.title + " — " + source.name;
+      titles[index] = items.get(index).title.toString();
     }
     return titles;
   }
