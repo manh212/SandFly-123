@@ -208,6 +208,7 @@ public class MainActivity extends Activity {
     private boolean doubleSpacePeriod = true;
     private boolean speakPasswordChars = false;
     private boolean privacyScreenActive = false;
+    private boolean practiceMode = false;
     private int feedbackMode = FEEDBACK_BOTH;
     @TextEventFilter.KeyboardEchoType private int echoMode = ECHO_CHAR_AND_WORD;
 
@@ -381,45 +382,45 @@ toneGenerator.startTone(toneType, toneDurationMs);
     private void initDefaultMaps() {
         gestureNameMap.clear();
 
-        gestureNameMap.put(GES_DOT1_DOWN, "Chấm 1: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT1_UP, "Chấm 1: Vuốt Lên");
-        gestureNameMap.put(GES_DOT1_LEFT, "Chấm 1: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT1_RIGHT, "Chấm 1: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT1_DOWN, "Chấm 1: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT1_UP, "Chấm 1: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT1_LEFT, "Chấm 1: Vuốt Lên");
+        gestureNameMap.put(GES_DOT1_RIGHT, "Chấm 1: Vuốt Xuống");
 
-        gestureNameMap.put(GES_DOT2_DOWN, "Chấm 2: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT2_UP, "Chấm 2: Vuốt Lên");
-        gestureNameMap.put(GES_DOT2_LEFT, "Chấm 2: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT2_RIGHT, "Chấm 2: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT2_DOWN, "Chấm 2: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT2_UP, "Chấm 2: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT2_LEFT, "Chấm 2: Vuốt Lên");
+        gestureNameMap.put(GES_DOT2_RIGHT, "Chấm 2: Vuốt Xuống");
 
-        gestureNameMap.put(GES_DOT3_DOWN, "Chấm 3: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT3_UP, "Chấm 3: Vuốt Lên");
-        gestureNameMap.put(GES_DOT3_LEFT, "Chấm 3: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT3_RIGHT, "Chấm 3: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT3_DOWN, "Chấm 3: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT3_UP, "Chấm 3: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT3_LEFT, "Chấm 3: Vuốt Lên");
+        gestureNameMap.put(GES_DOT3_RIGHT, "Chấm 3: Vuốt Xuống");
 
-        gestureNameMap.put(GES_DOT4_DOWN, "Chấm 4: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT4_UP, "Chấm 4: Vuốt Lên");
-        gestureNameMap.put(GES_DOT4_LEFT, "Chấm 4: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT4_RIGHT, "Chấm 4: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT4_DOWN, "Chấm 4: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT4_UP, "Chấm 4: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT4_LEFT, "Chấm 4: Vuốt Lên");
+        gestureNameMap.put(GES_DOT4_RIGHT, "Chấm 4: Vuốt Xuống");
 
-        gestureNameMap.put(GES_DOT5_DOWN, "Chấm 5: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT5_UP, "Chấm 5: Vuốt Lên");
-        gestureNameMap.put(GES_DOT5_LEFT, "Chấm 5: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT5_RIGHT, "Chấm 5: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT5_DOWN, "Chấm 5: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT5_UP, "Chấm 5: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT5_LEFT, "Chấm 5: Vuốt Lên");
+        gestureNameMap.put(GES_DOT5_RIGHT, "Chấm 5: Vuốt Xuống");
 
-        gestureNameMap.put(GES_DOT6_DOWN, "Chấm 6: Vuốt Xuống");
-        gestureNameMap.put(GES_DOT6_UP, "Chấm 6: Vuốt Lên");
-        gestureNameMap.put(GES_DOT6_LEFT, "Chấm 6: Vuốt Sang trái");
-        gestureNameMap.put(GES_DOT6_RIGHT, "Chấm 6: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT6_DOWN, "Chấm 6: Vuốt Sang phải");
+        gestureNameMap.put(GES_DOT6_UP, "Chấm 6: Vuốt Sang trái");
+        gestureNameMap.put(GES_DOT6_LEFT, "Chấm 6: Vuốt Lên");
+        gestureNameMap.put(GES_DOT6_RIGHT, "Chấm 6: Vuốt Xuống");
 
-        gestureNameMap.put(GES_GLOBAL_DOWN_1, "Toàn màn hình (1 ngón): Vuốt Xuống");
-        gestureNameMap.put(GES_GLOBAL_UP_1, "Toàn màn hình (1 ngón): Vuốt Lên");
-        gestureNameMap.put(GES_GLOBAL_LEFT_1, "Toàn màn hình (1 ngón): Vuốt Sang trái");
-        gestureNameMap.put(GES_GLOBAL_RIGHT_1, "Toàn màn hình (1 ngón): Vuốt Sang phải");
+        gestureNameMap.put(GES_GLOBAL_DOWN_1, "Toàn màn hình (1 ngón): Vuốt Sang phải");
+        gestureNameMap.put(GES_GLOBAL_UP_1, "Toàn màn hình (1 ngón): Vuốt Sang trái");
+        gestureNameMap.put(GES_GLOBAL_LEFT_1, "Toàn màn hình (1 ngón): Vuốt Lên");
+        gestureNameMap.put(GES_GLOBAL_RIGHT_1, "Toàn màn hình (1 ngón): Vuốt Xuống");
 
-        gestureNameMap.put(GES_GLOBAL_DOWN_2, "Vuốt 2 ngón: Xuống Dưới");
-        gestureNameMap.put(GES_GLOBAL_UP_2, "Vuốt 2 ngón: Lên Trên");
-        gestureNameMap.put(GES_GLOBAL_LEFT_2, "Vuốt 2 ngón: Sang Trái");
-        gestureNameMap.put(GES_GLOBAL_RIGHT_2, "Vuốt 2 ngón: Sang Phải");
+        gestureNameMap.put(GES_GLOBAL_DOWN_2, "Vuốt 2 ngón: Sang phải");
+        gestureNameMap.put(GES_GLOBAL_UP_2, "Vuốt 2 ngón: Sang trái");
+        gestureNameMap.put(GES_GLOBAL_LEFT_2, "Vuốt 2 ngón: Lên");
+        gestureNameMap.put(GES_GLOBAL_RIGHT_2, "Vuốt 2 ngón: Xuống");
         for (Map.Entry<String, String> entry : new ArrayList<Map.Entry<String, String>>(gestureNameMap.entrySet())) {
             gestureNameMap.put(entry.getKey() + "_LONG", entry.getValue() + " (dài)");
         }
@@ -593,21 +594,7 @@ toneGenerator.startTone(toneType, toneDurationMs);
     }
 
     private String normalizeDotsString(String raw) {
-        if (raw == null) return "";
-        boolean[] present = new boolean[7];
-        for (int i = 0; i < raw.length(); i++) {
-            char c = raw.charAt(i);
-            if (c >= '1' && c <= '6') {
-                present[c - '0'] = true;
-            }
-        }
-        StringBuilder sb = new StringBuilder();
-        for (int d = 1; d <= 6; d++) {
-            if (present[d]) {
-                sb.append(d);
-            }
-        }
-        return sb.toString();
+        return BrailleChordMapValidator.normalizeDots(raw);
     }
 
     private void loadSavedSettings() {
@@ -618,6 +605,7 @@ toneGenerator.startTone(toneType, toneDurationMs);
         doubleSpacePeriod = prefs.getBoolean("double_space_period", true);
         speakPasswordChars = prefs.getBoolean("speak_password_chars", false);
         privacyScreenActive = prefs.getBoolean("privacy_screen", false);
+        practiceMode = prefs.getBoolean(BraillePracticeMode.PREF_KEY, false);
         feedbackMode = prefs.getInt("feedback_mode", FEEDBACK_BOTH);
         echoMode = BrailleKeyboardEchoSettings.read(this);
         letterDelayMs = BrailleSpeedSettings.letterDelay(prefs);
@@ -666,7 +654,7 @@ calDotY[i] = prefs.getFloat("cal_y_" + i, 0f);
                 if (k != null && k.length() > 0) {
                     String savedDots = prefs.getString("char_dots_" + k, null);
                     if (savedDots != null && savedDots.length() > 0) {
-                        charToDotsMap.put(k, normalizeDotsString(savedDots));
+                        BrailleChordMapValidator.putIfUnique(charToDotsMap, k, savedDots);
                     }
                 }
             }
@@ -685,6 +673,7 @@ calDotY[i] = prefs.getFloat("cal_y_" + i, 0f);
         editor.putBoolean("double_space_period", doubleSpacePeriod);
         editor.putBoolean("speak_password_chars", speakPasswordChars);
         editor.putBoolean("privacy_screen", privacyScreenActive);
+        editor.putBoolean(BraillePracticeMode.PREF_KEY, practiceMode);
         editor.putInt("feedback_mode", feedbackMode);
         editor.putInt("letter_delay_ms", (int) letterDelayMs);
         editor.putInt("gesture_delay_ms", (int) gestureDelayMs);
@@ -755,7 +744,7 @@ editor.apply();
                     if (savedDots != null && savedDots.length() > 0) {
                         String normalized = normalizeDotsString(savedDots);
                         if (normalized.length() > 0) {
-                            emojiToDotsMap.put(k, normalized);
+                            BrailleChordMapValidator.putIfUnique(emojiToDotsMap, k, normalized);
                         }
                     }
                 }
@@ -778,12 +767,7 @@ editor.apply();
     }
 
     private String findEmojiDotsConflict(String normalizedDots, String exceptKey) {
-        for (Map.Entry<String, String> other : emojiToDotsMap.entrySet()) {
-            if (!other.getKey().equals(exceptKey) && normalizedDots.equals(normalizeDotsString(other.getValue()))) {
-                return other.getKey();
-            }
-        }
-        return null;
+        return BrailleChordMapValidator.findConflict(emojiToDotsMap, normalizedDots, exceptKey);
     }
 
     private void ensureEmojiToggleGesture() {
@@ -948,8 +932,8 @@ editor.apply();
                 }
                 String conflictKey = findEmojiDotsConflict(dots, emoji);
                 if (conflictKey != null) {
-                    String errorMessage = "Không thể thêm '" + describeEmoji(emoji) + "': tổ hợp chấm " + dots
-                            + " đã được dùng cho '" + describeEmoji(conflictKey) + "'. Hãy nhập tổ hợp khác.";
+                    String errorMessage = "Hãy đổi một tổ hợp khác vì tổ hợp này đang được sử dụng cho biểu tượng "
+                            + describeEmoji(conflictKey) + ".";
                     speak(errorMessage, true);
                     Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     return;
@@ -992,8 +976,8 @@ editor.apply();
                 }
                 String conflictKey = findEmojiDotsConflict(normalized, emojiKey);
                 if (conflictKey != null) {
-                    String errorMessage = "Không thể dùng: tổ hợp chấm " + normalized
-                            + " đã được dùng cho '" + describeEmoji(conflictKey) + "'. Hãy nhập tổ hợp khác.";
+                    String errorMessage = "Hãy đổi một tổ hợp khác vì tổ hợp này đang được sử dụng cho biểu tượng "
+                            + describeEmoji(conflictKey) + ".";
                     speak(errorMessage, true);
                     Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     return;
@@ -1163,11 +1147,11 @@ editor.apply();
         int added = 0;
         int skipped = 0;
         for (Map.Entry<String, String> entry : imported.entrySet()) {
-            if (findEmojiDotsConflict(entry.getValue(), entry.getKey()) != null) {
+            if (!BrailleChordMapValidator.putIfUnique(emojiToDotsMap,
+                    entry.getKey(), entry.getValue())) {
                 skipped++;
                 continue;
             }
-            emojiToDotsMap.put(entry.getKey(), entry.getValue());
             added++;
         }
         saveEmojiSettings();
@@ -2043,7 +2027,7 @@ sectionEmojiLayout.setVisibility(index == 6 ? View.VISIBLE : View.GONE);
         brailleCanvasView.invalidate();
 
         triggerFeedback(brailleCanvasView, 60L, ToneGenerator.TONE_PROP_ACK, 120);
-        speak("Bàn phím đã sẵn sàng. Đầu loa trên là 1, 2, 3. Cổng sạc dưới là 4, 5, 6. Vuốt chấm 4 xuống để cách, vuốt chấm 4 lên để xóa, vuốt chấm 5 sang phải hoặc bấm nút Quay lại khi viết xong.", true);
+        speak("Bàn phím đã sẵn sàng. Đầu loa trên là 1, 2, 3. Cổng sạc dưới là 4, 5, 6. Vuốt chấm 4 sang phải để cách, vuốt chấm 4 sang trái để xóa, vuốt chấm 5 xuống hoặc bấm nút Quay lại khi viết xong.", true);
     }
 
     private void exitFullScreenKeyboardMode() {
@@ -2111,7 +2095,7 @@ finish();
         layout.setOrientation(LinearLayout.VERTICAL);
 
         TextView tvHint = new TextView(this);
-        tvHint.setText("Vuốt Sang Phải / Vuốt Sang Trái là thao tác chính. Vuốt Lên / Vuốt Xuống là tính năng phụ. Bấm vào cử chỉ để đổi:");
+        tvHint.setText("Vuốt Lên / Vuốt Xuống là thao tác chính. Vuốt Sang Phải / Vuốt Sang Trái là tính năng phụ. Bấm vào cử chỉ để đổi:");
         tvHint.setTextColor(Color.LTGRAY);
         tvHint.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
         tvHint.setPadding(0, 0, 0, dp(4));
@@ -2520,12 +2504,30 @@ finish();
         if (replaceAll) {
             charToDotsMap.clear();
         }
+        int added = 0;
+        int skipped = 0;
+        String firstConflict = null;
         for (Map.Entry<String, String> entry : imported.entrySet()) {
-            charToDotsMap.put(entry.getKey(), entry.getValue());
+            String owner = findDotsConflict(entry.getValue(), entry.getKey());
+            if (!BrailleChordMapValidator.putIfUnique(charToDotsMap, entry.getKey(), entry.getValue())) {
+                skipped++;
+                if (firstConflict == null && owner != null) {
+                    firstConflict = describeCharacterConflict(owner);
+                }
+                continue;
+            }
+            added++;
         }
         saveAlphabetSettings();
         refreshAlphabetListView();
-        speak((replaceAll ? "Đã thay thế bảng chữ cái bằng " : "Đã gộp thêm ") + imported.size() + " ký tự", true);
+        String message = (replaceAll ? "Đã thay thế bảng chữ cái bằng " : "Đã gộp thêm ")
+                + added + " ký tự";
+        if (skipped > 0) {
+            message += ". Bỏ qua " + skipped + " tổ hợp trùng hoặc không hợp lệ";
+            if (firstConflict != null) message += ", đã dùng cho " + firstConflict;
+        }
+        speak(message, true);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void showEditCharacterDotsDialog(final String charKey) {
@@ -2557,8 +2559,8 @@ finish();
                 }
                 String conflictKey = findDotsConflict(normalized, charKey);
                 if (conflictKey != null) {
-                    String errorMessage = "Không thể dùng: tổ hợp chấm " + normalized
-                            + " đã được dùng cho '" + conflictKey + "'. Hãy nhập tổ hợp khác.";
+                    String errorMessage = "Hãy đổi một tổ hợp khác vì tổ hợp này đang được sử dụng cho "
+                            + describeCharacterConflict(conflictKey) + ".";
                     speak(errorMessage, true);
                     Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     return;
@@ -2604,8 +2606,8 @@ finish();
                 }
                 String conflictKey = findDotsConflict(dots, ch);
                 if (conflictKey != null) {
-                    String errorMessage = "Không thể thêm '" + ch + "': tổ hợp chấm " + dots
-                            + " đã được dùng cho '" + conflictKey + "'. Hãy nhập tổ hợp khác.";
+                    String errorMessage = "Hãy đổi một tổ hợp khác vì tổ hợp này đang được sử dụng cho "
+                            + describeCharacterConflict(conflictKey) + ".";
                     speak(errorMessage, true);
                     Toast.makeText(MainActivity.this, errorMessage, Toast.LENGTH_LONG).show();
                     return;
@@ -2620,12 +2622,14 @@ finish();
     }
 
     private String findDotsConflict(String normalizedDots, String exceptKey) {
-        for (Map.Entry<String, String> other : charToDotsMap.entrySet()) {
-            if (!other.getKey().equals(exceptKey) && normalizedDots.equals(normalizeDotsString(other.getValue()))) {
-                return other.getKey();
-            }
+        return BrailleChordMapValidator.findConflict(charToDotsMap, normalizedDots, exceptKey);
+    }
+
+    private String describeCharacterConflict(String key) {
+        if (key.length() == 1 && Character.isLetter(key.charAt(0))) {
+            return "chữ cái " + key.toUpperCase(Locale.ROOT);
         }
-        return null;
+        return "ký tự " + key;
     }
 
     private void fixHyphenDotsConflict() {
@@ -2668,7 +2672,7 @@ finish();
 
         CheckBox cbPerDot = createOptionCheckBox(
 
-                "Vuốt cử chỉ theo từng chấm (Vuốt Sang Phải/Sang Trái cho thao tác chính, Lên/Xuống cho tính năng phụ)",
+                "Vuốt cử chỉ theo từng chấm (Vuốt Lên/Xuống cho thao tác chính, Sang Phải/Sang Trái cho tính năng phụ)",
                 usePerDotGestures,
                 new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -2744,6 +2748,34 @@ finish();
                     }
                 });
         container.addView(cbSpeakPassword);
+
+        CheckBox cbPractice = createOptionCheckBox(
+                "Chế độ luyện tập chữ nổi (đọc tên chấm, không nhập văn bản)",
+                practiceMode,
+                new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean enabled) {
+                        practiceMode = enabled;
+                        clearPendingDots();
+                        savePhoneOptions();
+                        speak(enabled
+                                ? "Đã bật luyện tập. Mỗi tổ hợp sẽ được đọc tên từng chấm, không nhập văn bản."
+                                : "Đã tắt luyện tập. Bàn phím có thể nhập văn bản như bình thường.", true);
+                    }
+                });
+        container.addView(cbPractice);
+
+        Button btnAllowKeyboard = new Button(this);
+        btnAllowKeyboard.setAllCaps(false);
+        btnAllowKeyboard.setText("Cho phép mở lại bàn phím chữ nổi sau khi đã ẩn");
+        btnAllowKeyboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BrailleImeInputPolicy.allowUserReopen(prefs);
+                speak("Đã cho phép mở bàn phím chữ nổi trở lại. Hãy quay lại ô nhập liệu và chạm để mở.", true);
+            }
+        });
+        container.addView(btnAllowKeyboard);
 
         CheckBox cbPrivacy = createOptionCheckBox(
 
@@ -2962,6 +2994,10 @@ return scroll;
         String dotsKey = sb.toString();
         if (dotsKey.length() == 0) return;
 
+        if (practiceMode) {
+            speak(BraillePracticeMode.describeDots(dotsKey), true);
+            return; // Practice must not change the local text buffer.
+        }
         processBrailleChord(dotsKey);
     }
 
@@ -3586,13 +3622,13 @@ return scroll;
         } else if (ACT_SET_MARK.equals(actionCode)) {
             markPos = cursorPos;
             triggerFeedback(brailleCanvasView, 50L, ToneGenerator.TONE_PROP_ACK, 80);
-            speak("Đã cắm mốc chọn văn bản tại vị trí " + markPos + ". Di chuyển con trỏ rồi vuốt chấm 6 xuống để chọn Sao chép hoặc Cắt.", true);
+            speak("Đã cắm mốc chọn văn bản tại vị trí " + markPos + ". Di chuyển con trỏ rồi vuốt chấm 6 sang phải để chọn Sao chép hoặc Cắt.", true);
 
         } else if (ACT_CYCLE_SELECTION_MENU.equals(actionCode)) {
             currentSelectionMenuIndex = (currentSelectionMenuIndex + 1) % selectionMenuOptions.length;
             String optionName = selectionMenuOptions[currentSelectionMenuIndex];
             triggerFeedback(brailleCanvasView, 25L, ToneGenerator.TONE_PROP_BEEP, 45);
-            speak("Menu: " + optionName + ". Vuốt chấm 6 sang trái để thực hiện.", true);
+            speak("Menu: " + optionName + ". Vuốt chấm 6 lên để thực hiện.", true);
 
         } else if (ACT_EXEC_SELECTION_MENU.equals(actionCode)) {
             executeSelectionMenuItem(currentSelectionMenuIndex);
